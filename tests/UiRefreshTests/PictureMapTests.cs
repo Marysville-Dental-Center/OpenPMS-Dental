@@ -4,8 +4,10 @@
 // still has its resource; each recorded conversion (icons/picture-converted.tsv) is in its designer line and, in the built window, the control
 // shows the icon (UI.Button.Icon) or a bitmap of the old picture's size (IconLibrary.GetBitmap), so nothing moves. The gallery G-UI3 slice is
 // opt-in: OPMS_UI9A_PICTURES names the folder for each converted window's picture and each converted control's picture, off screen (UI-0b's
-// builder); OPMS_UI9A_RECORD may name another record (the tool's -Check -Record output, for the before run on the commit before the conversion).
-// No database, no window shown.
+// builder); OPMS_UI9A_RECORD may name another record (the tool's -Check -Record output, for the before run on the commit before the conversion),
+// OPMS_UI9A_SLICE limits the set to the slices that start with its text. UI-9a-6 adds the shared projects (OpenPmsDentalGraph and
+// OpenPmsDentalBusiness, converted by hand to CodeBase's UiIcons.GetBitmap, recorded with how "UiIcons") and the 11 WPF buttons whose
+// BitmapFileName pictures became icons (pictured when the session renders WPF). No database, no window shown.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
@@ -29,6 +31,8 @@ namespace UiRefreshTests {
 	public class PictureMapTests {
 		public const string VARIABLE_PICTURES="OPMS_UI9A_PICTURES";
 		public const string VARIABLE_RECORD="OPMS_UI9A_RECORD";
+		///<summary>Optional for the gallery: only the record rows whose slice starts with this text (UI-9a-6), so a slice's set holds its own windows.</summary>
+		public const string VARIABLE_SLICE="OPMS_UI9A_SLICE";
 
 		///<summary>A row of icons/picture-converted.tsv.</summary>
 		public class ConvertedRow {
@@ -100,6 +104,28 @@ namespace UiRefreshTests {
 			}
 		}
 
+		///<summary>The assembly of a recorded file: its project folder (OpenPmsDental, OpenPmsDentalGraph, OpenPmsDentalBusiness).</summary>
+		private static string GetAssembly(ConvertedRow row) {
+			return row.File.Split('/')[0];
+		}
+
+		///<summary>The picture of a converted control: its BackgroundImage, or the Image of a button, label or picture box.</summary>
+		private static Image GetImage(Control control,string property) {
+			if(property=="BackgroundImage") {
+				return control.BackgroundImage;
+			}
+			if(control is System.Windows.Forms.ButtonBase buttonBase) {
+				return buttonBase.Image;
+			}
+			if(control is System.Windows.Forms.PictureBox pictureBox) {
+				return pictureBox.Image;
+			}
+			if(control is System.Windows.Forms.Label label) {
+				return label.Image;
+			}
+			return null;
+		}
+
 		private static object GetField(object obj,string name) {
 			for(Type type=obj.GetType();type!=null;type=type.BaseType) {
 				FieldInfo fieldInfo=type.GetField(name,BindingFlags.Instance|BindingFlags.NonPublic|BindingFlags.Public|BindingFlags.DeclaredOnly);
@@ -150,7 +176,9 @@ namespace UiRefreshTests {
 						.Select(x => x[1]+" -> "+x[2]+" ("+x[3]+":"+x[4]+")").ToList();
 					Assert.AreEqual(0,listLeft.Count,slice+": pictures still to convert (run the tool with -Apply):\r\n"+string.Join("\r\n",listLeft));
 					Assert.AreEqual(0,exitCode,slice+": the tool's -Check reports changes or unmapped uses:\r\n"+output);
-					Assert.IsTrue(listUses.Any(x => x[0]=="Converted"),slice+": no recorded conversion in icons/picture-converted.tsv.");
+					//A slice converts something, or (UI-9a-6's folders of ImageLists and kept pictures) everything it has is a keep or an ImageList.
+					Assert.IsTrue(listUses.Any(x => x[0]=="Converted") || listUses.All(x => x[2]=="keep" || x[2]=="UI-9b"),
+						slice+": no recorded conversion in icons/picture-converted.tsv.");
 				}
 			}
 			finally {
@@ -178,12 +206,17 @@ namespace UiRefreshTests {
 					Assert.AreEqual(22,row.Height,row.ToString());
 					line="this."+row.Control+".Icon = OpenPmsDental.UI.EnumIcons."+member+";";
 				}
+				else if(row.How=="UiIcons") {
+					//OpenPmsDentalGraph and OpenPmsDentalBusiness cannot reach OpenPmsDental.UI.IconLibrary: CodeBase's renderer by enum and member name.
+					Assert.IsFalse(row.File.StartsWith("OpenPmsDental/"),row+": the program's own files use IconLibrary.GetBitmap.");
+					line="this."+row.Control+"."+row.Property+" = global::CodeBase.UiIcons.GetBitmap(\"EnumIcons\",\""+member+"\","+row.Width+","+row.Height+");";
+				}
 				else {
 					Assert.AreEqual("GetBitmap",row.How,row.ToString());
 					line="this."+row.Control+"."+row.Property+" = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons."+member+","+row.Width+","+row.Height+");";
 				}
 				Assert.IsTrue(text.Contains(line) || text.Contains(line.Substring("this.".Length)),row+": the file has no line "+line);//a code line (FormPayment.cs, FormQueryParser.cs) may omit this.
-				Assert.IsFalse(Regex.IsMatch(text,@"\bthis\."+Regex.Escape(row.Control)+@"\.(Image|BackgroundImage)\s*=\s*(\(\(System\.Drawing\.Image\)|global::OpenPmsDental\.Properties)"),
+				Assert.IsFalse(Regex.IsMatch(text,@"\bthis\."+Regex.Escape(row.Control)+@"\.(Image|BackgroundImage)\s*=\s*(\(\(System\.Drawing\.Image\)|global::OpenPmsDental\w*\.Properties)"),
 					row+": the control still has a picture line.");
 			}
 		}
@@ -191,17 +224,35 @@ namespace UiRefreshTests {
 		[TestMethod]
 		public void Designers_EveryPictureTheyReadIsStillThere() {
 			string root=RepoPaths.Root();
-			string folderProgram=Path.Combine(root,"OpenPmsDental");
-			HashSet<string> hashSetResources=GetResxNames(Path.Combine(folderProgram,"Properties","Resources.resx"));
-			Regex regexResources=new Regex(@"(?<![\w.])(?:global::)?(?:OpenPmsDental\.)?Properties\.Resources\.(?<n>\w+)");
-			Regex regexGetObject=new Regex("resources\\.GetObject\\(\"(?<n>[^\"]+)\"\\)");
 			List<string> listMissing=new List<string>();
 			int countGetObject=0;
-			foreach(string path in Directory.GetFiles(folderProgram,"*.cs",SearchOption.AllDirectories)) {
+			//The program, and since UI-9a-6 the shared projects whose pictures the slice converted or kept, each with its own Resources (the
+			//namespace its code names them by). Their old conversion code (ConvertDatabases) names pictures in comments, so comments are left out there.
+			countGetObject+=CheckPicturesOfProject(root,"OpenPmsDental","OpenPmsDental",false,listMissing);
+			countGetObject+=CheckPicturesOfProject(root,"OpenPmsDentalBusiness","OpenPmsDentalBusiness",true,listMissing);
+			countGetObject+=CheckPicturesOfProject(root,"OpenPmsDentalGraph","OpenPmsDentalGraph",true,listMissing);
+			countGetObject+=CheckPicturesOfProject(root,"SparksToothChart","SparksToothChart",true,listMissing);
+			countGetObject+=CheckPicturesOfProject(root,"WpfControlsOD","WpfControls",true,listMissing);
+			Assert.IsTrue(countGetObject>0,"No designer reads a .resx entry: the scan found nothing.");
+			Assert.AreEqual(0,listMissing.Count,"Pictures the code reads that are gone:\r\n"+string.Join("\r\n",listMissing));
+		}
+
+		///<summary>Adds to the list each Properties.Resources name the project's code reads that its Properties/Resources.resx lacks, and each designer
+		///resources.GetObject entry its window's .resx lacks. Returns the number of GetObject reads.</summary>
+		private static int CheckPicturesOfProject(string root,string project,string namespaceProject,bool isCommentsLeftOut,List<string> listMissing) {
+			string folderProject=Path.Combine(root,project);
+			HashSet<string> hashSetResources=GetResxNames(Path.Combine(folderProject,"Properties","Resources.resx"));
+			Regex regexResources=new Regex(@"(?<![\w.])(?:global::)?(?:"+Regex.Escape(namespaceProject)+@"\.)?Properties\.Resources\.(?<n>\w+)");
+			Regex regexGetObject=new Regex("resources\\.GetObject\\(\"(?<n>[^\"]+)\"\\)");
+			int countGetObject=0;
+			foreach(string path in Directory.GetFiles(folderProject,"*.cs",SearchOption.AllDirectories)) {
 				if(path.Contains("\\bin\\") || path.Contains("\\obj\\")) {
 					continue;
 				}
 				string text=File.ReadAllText(path);
+				if(isCommentsLeftOut) {
+					text=Regex.Replace(text,@"/\*[\s\S]*?\*/|//[^\r\n]*","");
+				}
 				foreach(Match match in regexResources.Matches(text)) {
 					string name=match.Groups["n"].Value;
 					if(name=="ResourceManager" || name=="Culture") {
@@ -224,8 +275,7 @@ namespace UiRefreshTests {
 					}
 				}
 			}
-			Assert.IsTrue(countGetObject>0,"No designer reads a .resx entry: the scan found nothing.");
-			Assert.AreEqual(0,listMissing.Count,"Pictures the code reads that are gone:\r\n"+string.Join("\r\n",listMissing));
+			return countGetObject;
 		}
 
 		[TestMethod]
@@ -262,6 +312,24 @@ namespace UiRefreshTests {
 			using(Bitmap bitmap=IconLibrary.GetBitmap(DentalIcon.Tooth,20,20)) {
 				Assert.IsTrue(CountInk(bitmap)>20,"A dental icon draws.");
 			}
+			//CodeBase's renderer by name (UI-9a-6: OpenPmsDentalGraph and OpenPmsDentalBusiness): the same bitmap as IconLibrary's for the same member.
+			foreach(Size size in new[] { new Size(16,16),new Size(18,18),new Size(10,10),new Size(13,15) }) {
+				using(Bitmap bitmap=UiIcons.GetBitmap("EnumIcons","Preview",size.Width,size.Height))
+				using(Bitmap bitmapProgram=IconLibrary.GetBitmap(EnumIcons.Preview,size.Width,size.Height)) {
+					Assert.AreEqual(size,bitmap.Size);
+					Assert.AreEqual(96f,bitmap.HorizontalResolution,0.01f);
+					Assert.AreEqual(PixelFormat.Format32bppArgb,bitmap.PixelFormat);
+					Assert.IsTrue(CountInk(bitmap)>0,"Preview draws nothing at "+size);
+					for(int y=0;y<size.Height;y++) {
+						for(int x=0;x<size.Width;x++) {
+							Assert.AreEqual(bitmapProgram.GetPixel(x,y).ToArgb(),bitmap.GetPixel(x,y).ToArgb(),"UiIcons.GetBitmap and IconLibrary.GetBitmap differ at "+x+","+y+" ("+size+").");
+						}
+					}
+				}
+			}
+			using(Bitmap bitmap=UiIcons.GetBitmap("EnumIcons","NoSuchMember",16,16)) {
+				Assert.AreEqual(0,CountInk(bitmap),"A name with no manifest row draws nothing.");
+			}
 		}
 
 		///<summary>Windows the off-screen builder cannot make because their constructors need objects it cannot give (an X835 claim); a
@@ -279,7 +347,7 @@ namespace UiRefreshTests {
 				DefaultFontOverride.Set(TextFitFontOption.Today,1f);
 				List<ScanType> listScanTypes=WindowBuilder.GetScanTypes();
 				foreach(IGrouping<string,ConvertedRow> grouping in listRows.GroupBy(x => x.WindowName)) {
-					ScanType scanType=listScanTypes.SingleOrDefault(x => x.Assembly=="OpenPmsDental" && x.Type.Name==grouping.Key);
+					ScanType scanType=listScanTypes.SingleOrDefault(x => x.Assembly==GetAssembly(grouping.First()) && x.Type.Name==grouping.Key);
 					if(scanType==null) {
 						listProblems.Add(grouping.Key+": not a window of the scan.");
 						continue;
@@ -307,7 +375,7 @@ namespace UiRefreshTests {
 								continue;
 							}
 							EnumIcons icon=(EnumIcons)Enum.Parse(typeof(EnumIcons),row.Target.Substring("EnumIcons.".Length));
-							Image image=row.Property=="BackgroundImage" ? control.BackgroundImage : (control as System.Windows.Forms.ButtonBase)?.Image;
+							Image image=GetImage(control,row.Property);
 							if(row.How=="Icon") {
 								OpenPmsDental.UI.Button button=control as OpenPmsDental.UI.Button;
 								if(button==null || button.Icon!=icon || button.Image!=null) {
@@ -344,7 +412,11 @@ namespace UiRefreshTests {
 				pathRecord=Path.Combine(RepoPaths.Root(),"icons","picture-converted.tsv");
 			}
 			List<ConvertedRow> listRows=ReadRecord(pathRecord);
-			Assert.IsTrue(listRows.Count>0,pathRecord+" is empty.");
+			string slicePrefix=Environment.GetEnvironmentVariable(VARIABLE_SLICE);
+			if(!string.IsNullOrWhiteSpace(slicePrefix)) {
+				listRows=listRows.Where(x => x.Slice.StartsWith(slicePrefix.Trim(),StringComparison.Ordinal)).ToList();
+			}
+			Assert.IsTrue(listRows.Count>0,pathRecord+" is empty"+(string.IsNullOrWhiteSpace(slicePrefix) ? "." : " for the slices "+slicePrefix+"."));
 			List<string> listNotes=new List<string>();
 			int countPictures=0;
 			StaRunner.Run(() => {
@@ -352,7 +424,7 @@ namespace UiRefreshTests {
 				DefaultFontOverride.Set(TextFitFontOption.Today,1f);
 				List<ScanType> listScanTypes=WindowBuilder.GetScanTypes();
 				foreach(IGrouping<string,ConvertedRow> grouping in listRows.GroupBy(x => x.WindowName).OrderBy(x => x.Key)) {
-					ScanType scanType=listScanTypes.SingleOrDefault(x => x.Assembly=="OpenPmsDental" && x.Type.Name==grouping.Key);
+					ScanType scanType=listScanTypes.SingleOrDefault(x => x.Assembly==GetAssembly(grouping.First()) && x.Type.Name==grouping.Key);
 					if(scanType==null) {
 						listNotes.Add(grouping.Key+"\tnot a window of the scan");
 						continue;
@@ -385,8 +457,118 @@ namespace UiRefreshTests {
 					}
 				}
 			});
+			//The WPF buttons of UI-9a-6 (their Frms are not built off screen): each button as its XAML sets it, today's picture (BitmapFileName) or the
+			//icon, when this session renders WPF (a locked or disconnected session draws nothing: the port note's steps for the lead).
+			if(string.IsNullOrWhiteSpace(slicePrefix) || "UI-9a-6".StartsWith(slicePrefix.Trim(),StringComparison.Ordinal)
+				|| slicePrefix.Trim().StartsWith("UI-9a-6",StringComparison.Ordinal))
+			{
+				StaRunner.Run(() => {
+					if(!ControlPictures.RendersWpf()) {
+						listNotes.Add("wpf\tnot pictured: this session does not render WPF (locked or disconnected)");
+						return;
+					}
+					_=System.IO.Packaging.PackUriHelper.UriSchemePack;//registers pack:// for BitmapFileName
+					foreach(string[] arrayButton in ArrayWpfButtons) {
+						string name=Path.GetFileNameWithoutExtension(arrayButton[0])+"."+arrayButton[1];
+						try {
+							WpfControls.UI.Button button=MakeWpfButton(arrayButton[0],arrayButton[1],out double width,out double height);
+							using(Bitmap bitmap=ControlPictures.RenderWpf(button,width,height,1f)) {
+								Save(bitmap,Path.Combine(folder,"wpf",name+".png"));
+								countPictures++;
+							}
+						}
+						catch(Exception exception) {
+							listNotes.Add(name+"\tnot pictured: "+exception.GetType().Name+" "+exception.Message.Replace("\r"," ").Replace("\n"," "));
+						}
+					}
+				});
+			}
 			File.WriteAllLines(Path.Combine(folder,"ui9a-notes.tsv"),listNotes);
 			Assert.IsTrue(countPictures>0,"No picture written.");
+		}
+
+		///<summary>The WPF button of a Frm as its XAML sets it (Width, Height, Text, Icon or BitmapFileName, ImageAlign), on its own.</summary>
+		private static WpfControls.UI.Button MakeWpfButton(string fileXaml,string nameButton,out double width,out double height) {
+			string element=GetWpfButtonElement(fileXaml,nameButton);
+			Assert.IsNotNull(element,fileXaml+" has no ui:Button "+nameButton+".");
+			WpfControls.UI.Button button=new WpfControls.UI.Button();
+			width=double.Parse(GetXamlAttribute(element,"Width"),System.Globalization.CultureInfo.InvariantCulture);
+			height=double.Parse(GetXamlAttribute(element,"Height"),System.Globalization.CultureInfo.InvariantCulture);
+			button.Width=width;
+			button.Height=height;
+			button.Text=GetXamlAttribute(element,"Text")??"";
+			string icon=GetXamlAttribute(element,"Icon");
+			if(icon!=null) {
+				button.Icon=(WpfControls.UI.EnumIcons)Enum.Parse(typeof(WpfControls.UI.EnumIcons),icon);
+			}
+			string bitmapFileName=GetXamlAttribute(element,"BitmapFileName");
+			if(bitmapFileName!=null) {
+				button.BitmapFileName=bitmapFileName;
+			}
+			return button;
+		}
+
+		///<summary>The start tag of the ui:Button with the x:Name in the XAML file (repository-relative), or null.</summary>
+		private static string GetWpfButtonElement(string fileXaml,string nameButton) {
+			string text=File.ReadAllText(Path.Combine(RepoPaths.Root(),fileXaml.Replace('/','\\')));
+			Match match=Regex.Match(text,"<ui:Button\\b[^>]*\\bx:Name=\""+Regex.Escape(nameButton)+"\"[^>]*>");
+			return match.Success ? match.Value : null;
+		}
+
+		private static string GetXamlAttribute(string element,string attribute) {
+			Match match=Regex.Match(element,"\\s"+Regex.Escape(attribute)+"=\"(?<v>[^\"]*)\"");
+			return match.Success ? match.Groups["v"].Value : null;
+		}
+
+		///<summary>The 11 WPF buttons whose BitmapFileName pictures UI-9a-6 turned into icons: XAML file, button, WPF EnumIcons member.</summary>
+		public static readonly string[][] ArrayWpfButtons=new string[][] {
+			new[] { "WpfControlsOD/Frms/FrmFriendlyException.xaml","butPrintOD","Print" },
+			new[] { "WpfControlsOD/Frms/FrmMountLayoutEdit.xaml","butUp","Up" },
+			new[] { "WpfControlsOD/Frms/FrmMountLayoutEdit.xaml","butDown","Down" },
+			new[] { "WpfControlsOD/Frms/FrmQuickPaste.xaml","butEditNote","Edit" },
+			new[] { "WpfControlsOD/Frms/FrmQuickPaste.xaml","butUpNote","Up" },
+			new[] { "WpfControlsOD/Frms/FrmQuickPaste.xaml","butDownNote","Down" },
+			new[] { "WpfControlsOD/Frms/FrmQuickPaste.xaml","butUpCat","Up" },
+			new[] { "WpfControlsOD/Frms/FrmQuickPaste.xaml","butDownCat","Down" },
+			new[] { "WpfControlsOD/Frms/FrmReferralsPatient.xaml","butUp","Up" },
+			new[] { "WpfControlsOD/Frms/FrmReferralsPatient.xaml","butDown","Down" },
+			new[] { "WpfControlsOD/Frms/FrmZipSelect.xaml","butEdit","Edit" },
+		};
+
+		[TestMethod]
+		public void Wpf_ConvertedButtonsShowTheirIcons_NoBitmapFileNameLeft() {
+			string root=RepoPaths.Root();
+			HashSet<string> hashSetWpf=new HashSet<string>(Enum.GetNames(typeof(WpfControls.UI.EnumIcons)));
+			foreach(string[] arrayButton in ArrayWpfButtons) {
+				string element=GetWpfButtonElement(arrayButton[0],arrayButton[1]);
+				Assert.IsNotNull(element,arrayButton[0]+" has no ui:Button "+arrayButton[1]+".");
+				Assert.AreEqual(arrayButton[2],GetXamlAttribute(element,"Icon"),arrayButton[0]+" "+arrayButton[1]+": the icon.");
+				Assert.IsNull(GetXamlAttribute(element,"BitmapFileName"),arrayButton[0]+" "+arrayButton[1]+" still has a BitmapFileName.");
+				Assert.IsTrue(hashSetWpf.Contains(arrayButton[2]),"The WPF EnumIcons has no "+arrayButton[2]+".");
+				Assert.IsTrue(WpfControls.UI.IconLibrary.GetDesigns((WpfControls.UI.EnumIcons)Enum.Parse(typeof(WpfControls.UI.EnumIcons),arrayButton[2])).Length>0,
+					arrayButton[2]+": no design.");
+			}
+			//No XAML of the program sets a picture by file any more (the BitmapFileName property stays, for a picture that is not an icon).
+			List<string> listLeft=new List<string>();
+			foreach(string project in new[] { "WpfControlsOD","OpenPmsDental" }) {
+				foreach(string path in Directory.GetFiles(Path.Combine(root,project),"*.xaml",SearchOption.AllDirectories)) {
+					if(path.Contains("\\bin\\") || path.Contains("\\obj\\")) {
+						continue;
+					}
+					foreach(Match match in Regex.Matches(File.ReadAllText(path),"\\bBitmapFileName=\"[^\"]+\"")) {
+						listLeft.Add(path.Substring(root.Length)+": "+match.Value);
+					}
+				}
+			}
+			Assert.AreEqual(0,listLeft.Count,"BitmapFileName pictures left:\r\n"+string.Join("\r\n",listLeft));
+			//WpfConverter writes the date range picker's week buttons with icons the WPF enum has.
+			string textConverter=File.ReadAllText(Path.Combine(root,"OpenPmsDental","UIManagement","WpfConverter.cs"));
+			Assert.IsFalse(textConverter.Contains("BitmapFileName=\\\""),"WpfConverter still writes a BitmapFileName.");
+			MatchCollection matchCollection=Regex.Matches(textConverter,"Icon=\\\\\"(?<m>\\w+)\\\\\"");
+			Assert.IsTrue(matchCollection.Count>=2,"WpfConverter writes the week buttons' icons.");
+			foreach(Match match in matchCollection) {
+				Assert.IsTrue(hashSetWpf.Contains(match.Groups["m"].Value),"WpfConverter writes Icon "+match.Groups["m"].Value+", which the WPF EnumIcons does not have.");
+			}
 		}
 
 		private static void Save(Bitmap bitmap,string path) {

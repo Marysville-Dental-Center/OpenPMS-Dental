@@ -147,7 +147,9 @@ namespace NoHqTests {
 					}
 				}
 			}
-			Assert.IsTrue(listFiles.Count>=5,"Expected the Resource items and the BitmapFileName values.");
+			//Since UI-9a-6 the windows' BitmapFileName pictures are icons (the property stays, unused), so the Resource items are what is left: ExternalLink.png,
+			//Bullets_24x24.png and PracticeBooster.png.
+			Assert.IsTrue(listFiles.Count>=3,"Expected the Resource items and the BitmapFileName values.");
 			foreach(string prefix in listPrefixes.Distinct()) {
 				foreach(string file in listFiles.Distinct(StringComparer.OrdinalIgnoreCase)) {
 					if(!hashSetResources.Contains(ToResourceKey(prefix+file))) {
