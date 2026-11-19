@@ -11,14 +11,14 @@
 	<Grid Background="#FFFCFDFE" >
 		<ui:Grid x:Name="gridMain" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="184,28,12,48" Title="Notes" TranslationName="TableNotes" />
 		<ui:Button x:Name="butDate" HorizontalAlignment="Right" Width="75" VerticalAlignment="Bottom" Height="26" Margin="0,0,174,10" Text="Date" Click="butDate_Click" />
-		<ui:Button x:Name="butEditNote" Width="79" VerticalAlignment="Bottom" Height="26" Margin="269,0,0,10" Text="Edit" Click="butEditNote_Click" BitmapFileName="editPencil.gif" />
+		<ui:Button x:Name="butEditNote" Width="79" VerticalAlignment="Bottom" Height="26" Margin="269,0,0,10" Text="Edit" Click="butEditNote_Click" Icon="Edit" />
 		<ui:Button x:Name="butAddNote" Width="79" VerticalAlignment="Bottom" Height="26" Margin="184,0,0,10" Text="Add" Icon="Add" Click="butAddNote_Click" />
-		<ui:Button x:Name="butDownNote" Width="79" VerticalAlignment="Bottom" Height="26" Margin="439,0,0,10" Text="Down" Click="butDownNote_Click" BitmapFileName="down.gif" />
-		<ui:Button x:Name="butUpNote" Width="79" VerticalAlignment="Bottom" Height="26" Margin="354,0,0,10" Text="Up" Click="butUpNote_Click" BitmapFileName="up.gif" />
+		<ui:Button x:Name="butDownNote" Width="79" VerticalAlignment="Bottom" Height="26" Margin="439,0,0,10" Text="Down" Click="butDownNote_Click" Icon="Down" />
+		<ui:Button x:Name="butUpNote" Width="79" VerticalAlignment="Bottom" Height="26" Margin="354,0,0,10" Text="Up" Click="butUpNote_Click" Icon="Up" />
 		<ui:Button x:Name="butDeleteCat" Width="79" Height="26" Margin="8,386,0,0" Text="Delete" Icon="DeleteX" Click="butDeleteCat_Click" />
 		<ui:Button x:Name="butAddCat" Width="79" Height="26" Margin="8,351,0,0" Text="Add" Icon="Add" Click="butAddCat_Click" />
-		<ui:Button x:Name="butDownCat" Width="79" Height="26" Margin="98,386,0,0" Text="Down" Click="butDownCat_Click" BitmapFileName="down.gif" />
-		<ui:Button x:Name="butUpCat" Width="79" Height="26" Margin="98,351,0,0" Text="Up" Click="butUpCat_Click" BitmapFileName="up.gif" />
+		<ui:Button x:Name="butDownCat" Width="79" Height="26" Margin="98,386,0,0" Text="Down" Click="butDownCat_Click" Icon="Down" />
+		<ui:Button x:Name="butUpCat" Width="79" Height="26" Margin="98,351,0,0" Text="Up" Click="butUpCat_Click" Icon="Up" />
 		<ui:Label x:Name="label2" Width="100" Height="19" Margin="181,5,0,0" Text="Note" VAlign="Bottom" />
 		<ui:Label x:Name="label1" Width="100" Height="19" Margin="6,7,0,0" Text="Category" VAlign="Bottom" />
 		<ui:Label Width="167" Height="36" Margin="4,424,0,0" Text="Categories are saved as changes are made" />

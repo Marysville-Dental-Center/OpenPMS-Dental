@@ -20,8 +20,8 @@
 				<ui:Button x:Name="butReorder" Width="78" Height="24" Margin="9,79,0,0" Text="Reorder All" Click="butReorder_Click" />
 				<ui:Label x:Name="label7" Width="58" Height="18" Margin="76,52,0,0" Text="(higher #)" VAlign="Center" />
 				<ui:Label x:Name="label6" Width="58" Height="18" Margin="76,20,0,0" Text="(lower #)" VAlign="Center" />
-				<ui:Button x:Name="butUp" Width="65" Height="24" Margin="9,19,0,0" Text="_Up" Click="butUp_Click" BitmapFileName="up.gif" />
-				<ui:Button x:Name="butDown" Width="65" Height="24" Margin="9,49,0,0" Text="_Down" Click="butDown_Click" BitmapFileName="down.gif" />
+				<ui:Button x:Name="butUp" Width="65" Height="24" Margin="9,19,0,0" Text="_Up" Click="butUp_Click" Icon="Up" />
+				<ui:Button x:Name="butDown" Width="65" Height="24" Margin="9,49,0,0" Text="_Down" Click="butDown_Click" Icon="Down" />
 			</ui:GroupBox>
 			<ui:Button x:Name="butAdd" HorizontalAlignment="Right" Width="81" Height="24" Margin="0,251,109,0" Text="Add Item" Icon="Add" Click="butAdd_Click" />
 			<ui:Label x:Name="label5" HorizontalAlignment="Right" Width="122" VerticalAlignment="Bottom" Height="65" Margin="0,0,82,13" Text="Items get saved as they are added, not when clicking Save here" VAlign="Center" />

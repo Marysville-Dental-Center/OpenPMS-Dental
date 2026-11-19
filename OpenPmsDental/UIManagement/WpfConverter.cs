@@ -976,7 +976,7 @@ namespace OpenPmsDental {";
 			}
 			s+="Margin=\""+left.ToString()+","+top.ToString()+",0,0\" ";
 			s+="Text=\"W\" ";
-			s+="BitmapFileName=\"Left.gif\" ";
+			s+="Icon=\"ArrowLeft\" ";
 			s+="MarginImageOverride=\"0,0,-4,0\" ";
 			s+="/>\r\n";
 			//ButWeekNext----------------------------------------------------------------------------------------
@@ -993,7 +993,7 @@ namespace OpenPmsDental {";
 			s+="Height=\"24\" ";
 			s+="Margin=\""+left.ToString()+","+top.ToString()+",0,0\" ";
 			s+="Text=\"W\" ";
-			s+="BitmapFileName=\"Right.gif\" ";
+			s+="Icon=\"ArrowRight\" ";
 			s+="ImageAlign=\"Right\" ";
 			s+="MarginImageOverride=\"-4,0,0,0\" ";
 			s+="/>\r\n";

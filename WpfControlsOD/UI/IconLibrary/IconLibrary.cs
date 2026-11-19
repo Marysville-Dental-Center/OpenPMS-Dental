@@ -98,7 +98,16 @@ To add an icon: add the member here (and to the WinForms enum when WinForms draw
 		Backup,
 		Deposit,
 		Insurance,
-		TaskList
+		TaskList,
+		//The pictures of the dashboard (OpenPmsDentalGraph) and of the signature box (OpenPmsDentalBusiness), with their manifest rows.
+		Move,
+		TableDeleteRow,
+		TableDeleteColumn,
+		TableInsertRow,
+		TableInsertColumn,
+		ChartAdd,
+		Pen,
+		Signature
 	}
 
 	///<summary></summary>

@@ -88,7 +88,16 @@ namespace OpenPmsDental.UI{
 		Backup,
 		Deposit,
 		Insurance,
-		TaskList
+		TaskList,
+		//The pictures of the dashboard (OpenPmsDentalGraph) and of the signature box (OpenPmsDentalBusiness), with their manifest rows.
+		Move,
+		TableDeleteRow,
+		TableDeleteColumn,
+		TableInsertRow,
+		TableInsertColumn,
+		ChartAdd,
+		Pen,
+		Signature
 	}
 
 	///<summary></summary>

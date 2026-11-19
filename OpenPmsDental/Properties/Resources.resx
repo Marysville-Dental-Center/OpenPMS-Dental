@@ -139,17 +139,11 @@
   <data name="ClaimForm2006" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ClaimForm.xml;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
-  <data name="up" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\up.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="PdfSharp" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\PdfSharp.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="SshNet" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SshNet.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="Copy" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Copy.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="CursorLineSubtract" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\CursorLineSubtract.cur;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -228,9 +222,6 @@
   </data>
   <data name="editPencil" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\editPencil.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Left" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Left.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="WeCantSpellHunspell" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\WeCantSpellHunspell.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
@@ -355,9 +346,6 @@
   <data name="NoFeeProcCodes" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\NoFeeProcCodes.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
-  <data name="butPrintSmall" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\butPrintsmall.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="ReportAccountingGenLedger" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ReportAccountingGenLedger.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
@@ -369,9 +357,6 @@
   </data>
   <data name="Check_mark_23x20_02" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Check_mark_23x20_02.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="down" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\down.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="TreatPlan32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\TreatPlan32.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

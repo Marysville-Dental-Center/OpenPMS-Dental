@@ -1490,7 +1490,7 @@
 			// 
 			// butEditAutoOrthoPlacement
 			// 
-			this.butEditAutoOrthoPlacement.Image = global::OpenPmsDental.Properties.Resources.Left;
+			this.butEditAutoOrthoPlacement.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.ArrowLeft,22,22);
 			this.butEditAutoOrthoPlacement.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butEditAutoOrthoPlacement.Location = new System.Drawing.Point(6, 41);
 			this.butEditAutoOrthoPlacement.Name = "butEditAutoOrthoPlacement";
@@ -1530,7 +1530,7 @@
 			// 
 			// butAutoOrthoEditMonthsTreat
 			// 
-			this.butAutoOrthoEditMonthsTreat.Image = global::OpenPmsDental.Properties.Resources.Left;
+			this.butAutoOrthoEditMonthsTreat.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.ArrowLeft,22,22);
 			this.butAutoOrthoEditMonthsTreat.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butAutoOrthoEditMonthsTreat.Location = new System.Drawing.Point(6, 41);
 			this.butAutoOrthoEditMonthsTreat.Name = "butAutoOrthoEditMonthsTreat";

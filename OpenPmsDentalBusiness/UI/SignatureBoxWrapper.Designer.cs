@@ -38,7 +38,7 @@ namespace OpenPmsDental.UI {
 			// butTopazSign
 			// 
 			this.butTopazSign.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butTopazSign.Image = global::OpenPmsDentalBusiness.Properties.Resources.topazPen10;
+			this.butTopazSign.Image = global::CodeBase.UiIcons.GetBitmap("EnumIcons","Pen",10,10);
 			this.butTopazSign.Location = new System.Drawing.Point(326, 0);
 			this.butTopazSign.Name = "butTopazSign";
 			this.butTopazSign.Size = new System.Drawing.Size(20, 20);
@@ -49,7 +49,7 @@ namespace OpenPmsDental.UI {
 			// butClearSig
 			// 
 			this.butClearSig.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butClearSig.Image = global::OpenPmsDentalBusiness.Properties.Resources.deleteX10;
+			this.butClearSig.Image = global::CodeBase.UiIcons.GetBitmap("EnumIcons","DeleteX",10,10);
 			this.butClearSig.Location = new System.Drawing.Point(344, 0);
 			this.butClearSig.Margin = new System.Windows.Forms.Padding(0);
 			this.butClearSig.Name = "butClearSig";
@@ -60,7 +60,7 @@ namespace OpenPmsDental.UI {
 			// 
 			// butESign
 			// 
-			this.butESign.Image = global::OpenPmsDentalBusiness.Properties.Resources.eSig;
+			this.butESign.Image = global::CodeBase.UiIcons.GetBitmap("EnumIcons","Signature",10,10);
 			this.butESign.Location = new System.Drawing.Point(0, 0);
 			this.butESign.Name = "butESign";
 			this.butESign.Size = new System.Drawing.Size(20, 20);

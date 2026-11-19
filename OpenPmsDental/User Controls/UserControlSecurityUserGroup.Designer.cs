@@ -381,7 +381,7 @@
 			// butEditGroup
 			// 
 			this.butEditGroup.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butEditGroup.Image = global::OpenPmsDental.Properties.Resources.editPencil;
+			this.butEditGroup.Icon = OpenPmsDental.UI.EnumIcons.Edit;
 			this.butEditGroup.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butEditGroup.Location = new System.Drawing.Point(189, 429);
 			this.butEditGroup.Name = "butEditGroup";

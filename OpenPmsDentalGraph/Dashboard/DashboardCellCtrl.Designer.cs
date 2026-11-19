@@ -70,7 +70,7 @@
 			// 
 			this.butRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butRefresh.BackColor = System.Drawing.SystemColors.Control;
-			this.butRefresh.Image = global::OpenPmsDentalGraph.Properties.Resources.refresh;
+			this.butRefresh.Image = global::CodeBase.UiIcons.GetBitmap("EnumIcons","Sync",16,16);
 			this.butRefresh.Location = new System.Drawing.Point(1, 0);
 			this.butRefresh.Name = "butRefresh";
 			this.butRefresh.Size = new System.Drawing.Size(30, 30);
@@ -84,7 +84,7 @@
 			// 
 			this.butPrintPreview.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butPrintPreview.BackColor = System.Drawing.SystemColors.Control;
-			this.butPrintPreview.Image = global::OpenPmsDentalGraph.Properties.Resources.printpreview;
+			this.butPrintPreview.Image = global::CodeBase.UiIcons.GetBitmap("EnumIcons","Preview",16,16);
 			this.butPrintPreview.Location = new System.Drawing.Point(37, 0);
 			this.butPrintPreview.Name = "butPrintPreview";
 			this.butPrintPreview.Size = new System.Drawing.Size(30, 30);
@@ -99,7 +99,7 @@
 			this.butEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butEdit.BackColor = System.Drawing.SystemColors.Control;
 			this.butEdit.Enabled = false;
-			this.butEdit.Image = global::OpenPmsDentalGraph.Properties.Resources.editPencil;
+			this.butEdit.Image = global::CodeBase.UiIcons.GetBitmap("EnumIcons","Edit",16,16);
 			this.butEdit.Location = new System.Drawing.Point(73, 0);
 			this.butEdit.Name = "butEdit";
 			this.butEdit.Size = new System.Drawing.Size(30, 30);
@@ -129,7 +129,7 @@
 			this.butDrag.BackColor = System.Drawing.SystemColors.Control;
 			this.butDrag.Cursor = System.Windows.Forms.Cursors.SizeAll;
 			this.butDrag.Enabled = false;
-			this.butDrag.Image = global::OpenPmsDentalGraph.Properties.Resources.drag;
+			this.butDrag.Image = global::CodeBase.UiIcons.GetBitmap("EnumIcons","Move",16,16);
 			this.butDrag.Location = new System.Drawing.Point(106, 0);
 			this.butDrag.Name = "butDrag";
 			this.butDrag.Size = new System.Drawing.Size(30, 30);
@@ -146,7 +146,7 @@
 			this.butDeleteCell.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butDeleteCell.BackColor = System.Drawing.SystemColors.Control;
 			this.butDeleteCell.Enabled = false;
-			this.butDeleteCell.Image = global::OpenPmsDentalGraph.Properties.Resources.deleteX18;
+			this.butDeleteCell.Image = global::CodeBase.UiIcons.GetBitmap("EnumIcons","DeleteX",18,18);
 			this.butDeleteCell.Location = new System.Drawing.Point(70, 0);
 			this.butDeleteCell.Name = "butDeleteCell";
 			this.butDeleteCell.Size = new System.Drawing.Size(30, 30);
@@ -162,7 +162,7 @@
 			// 
 			this.butDeleteRow.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butDeleteRow.BackColor = System.Drawing.SystemColors.Control;
-			this.butDeleteRow.Image = global::OpenPmsDentalGraph.Properties.Resources.deleteRow;
+			this.butDeleteRow.Image = global::CodeBase.UiIcons.GetBitmap("EnumIcons","TableDeleteRow",16,16);
 			this.butDeleteRow.Location = new System.Drawing.Point(34, 0);
 			this.butDeleteRow.Name = "butDeleteRow";
 			this.butDeleteRow.Size = new System.Drawing.Size(30, 30);
@@ -178,7 +178,7 @@
 			// 
 			this.butDeleteColumn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butDeleteColumn.BackColor = System.Drawing.SystemColors.Control;
-			this.butDeleteColumn.Image = global::OpenPmsDentalGraph.Properties.Resources.deleteColumn;
+			this.butDeleteColumn.Image = global::CodeBase.UiIcons.GetBitmap("EnumIcons","TableDeleteColumn",16,16);
 			this.butDeleteColumn.Location = new System.Drawing.Point(0, 0);
 			this.butDeleteColumn.Name = "butDeleteColumn";
 			this.butDeleteColumn.Size = new System.Drawing.Size(30, 30);
@@ -193,7 +193,7 @@
 			// pictureBox
 			// 
 			this.pictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.pictureBox.Image = global::OpenPmsDentalGraph.Properties.Resources.addChart;
+			this.pictureBox.Image = global::CodeBase.UiIcons.GetBitmap("EnumIcons","ChartAdd",16,16);
 			this.pictureBox.Location = new System.Drawing.Point(3, 3);
 			this.pictureBox.Name = "pictureBox";
 			this.pictureBox.Size = new System.Drawing.Size(371, 139);

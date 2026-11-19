@@ -121,7 +121,7 @@
 			// 
 			this.pictureAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.pictureAdd.HasBorder = false;
-			this.pictureAdd.Image = global::OpenPmsDental.Properties.Resources.Left;
+			this.pictureAdd.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.ArrowLeft,22,22);
 			this.pictureAdd.Location = new System.Drawing.Point(876, 57);
 			this.pictureAdd.Name = "pictureAdd";
 			this.pictureAdd.Size = new System.Drawing.Size(22, 20);
