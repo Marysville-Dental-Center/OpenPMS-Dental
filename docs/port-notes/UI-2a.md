@@ -646,9 +646,13 @@ Sites that draw a printout or office content with an **inherited** Font (the rev
 
 ### 7. Runs
 
-- The build lane (x64), the whole filter: 0 errors (after the code stage and again at the end).
-- Targeted (x64, `-RequireBuildOutput`), `.git/od-tools/test-results/ui2a5-targeted-1.txt`: see section 7 of the final report (UiRefreshTests,
-  PrintGuardTests, UnitTests, WindowChecksTests, NoHqTests).
+- The build lane (x64), the whole filter: 0 errors, after the last code change (only the port note and the plan changed after it).
+- Targeted (x64, `-RequireBuildOutput`, `.git/od-tools/test-results/ui2a5-targeted-1.txt`): UiRefreshTests 201 passed, 9 opt-in skipped (the
+  three new tests and the scan, literal, scope and report tests among the passed); PrintGuardTests 16 passed, 1 opt-in skipped (the eForm
+  PDF); UnitTests 1,728 passed, 3 skipped; WindowChecksTests 29 passed, 43 skipped (opt-in window checks); NoHqTests 122 passed. The print
+  guard's scratch databases were dropped by the guard; none is left.
+- The report was written by a run with `OPMS_UI_FONT_SITES_WRITE=1` (`ui2a5-explore-2.txt`, all passed); the first run of the new folders
+  (`ui2a5-explore-1.txt`) failed the scan on the 100 sites then without a row, as it should.
 
 ### 8. For the lead
 
