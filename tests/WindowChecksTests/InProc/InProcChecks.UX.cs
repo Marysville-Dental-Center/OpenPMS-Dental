@@ -1,7 +1,7 @@
 // Group U's frame checks UX1 to UX3 (package UI-3 of docs/specs/ui-refresh-plan.md, section 3.6 "Window frame" and section 6 "Misc Colors";
 // docs/port-notes/UI-3.md), the parts of gallery G-UI2 that need a shown window: UX1 a customised office (Misc Colors 11 to 13 changed) on the
 // main window, a FormODBase dialog and a WPF window in FormFrame; UX2 the Imaging module with two floating image windows, one selected and one
-// not; UX3 the trial of Windows 11's rounded corners (FramePainter.ENV_DWM_CORNERS) on a dialog. The frame's look without a shown window is
+// not; UX3 Windows 11's rounded corners (the default; FramePainter.ENV_DWM_CORNERS chooses small or off) on a dialog. The frame's look without a shown window is
 // tested in tests/UiRefreshTests/FrameTests.cs. They run in the in-process session of the window checks on the scratch copy, opt-in, in the
 // owner's connected session (UTests.UX1toUX3). The office's colours are synthetic and are put back as they were.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
@@ -122,22 +122,29 @@ namespace WindowChecksTests.InProc {
 			}
 		}
 
-		///<summary>UX3: the trial of rounded corners. With FramePainter.ENV_DWM_CORNERS set to "round" in this session, Help > About asks Windows for
-		///rounded corners and a border in the outline colour when its handle is made; it is pictured, then the variable is cleared again. Kept in
-		///the program only if this picture is clean (docs/port-notes/UI-3.md).</summary>
+		///<summary>UX3: the rounded corners, the default since the owner kept them (2026-11-18), and FramePainter.ENV_DWM_CORNERS's "small" and "off".
+		///With the variable set to "round", "small" and "off" in turn in this session, Help > About asks Windows for rounded corners and a border
+		///in the outline colour (or nothing, off) when its handle is made; each is pictured, then the variable is put back as it was
+		///(docs/port-notes/UI-3.md).</summary>
 		public static void CheckUX3(Ui ui,CheckResult checkResult) {
 			string valueBefore=Environment.GetEnvironmentVariable(FramePainter.ENV_DWM_CORNERS);
 			try {
 				Environment.SetEnvironmentVariable(FramePainter.ENV_DWM_CORNERS,"round");
 				Ui.Opened opened=OpenMenu(ui,"Help","About");
 				if(opened.IsOpen) {
-					checkResult.AddShot(ui.Shot(opened.Hwnd,"UX3-dwm-round-about.png"),"Help > About with the rounded-corner trial on");
+					checkResult.AddShot(ui.Shot(opened.Hwnd,"UX3-dwm-round-about.png"),"Help > About with rounded corners (the default)");
 					checkResult.Expect(ui.Close(opened.Hwnd),"About closes");
 				}
 				Environment.SetEnvironmentVariable(FramePainter.ENV_DWM_CORNERS,"small");
 				opened=OpenMenu(ui,"Help","About");
 				if(opened.IsOpen) {
-					checkResult.AddShot(ui.Shot(opened.Hwnd,"UX3-dwm-small-about.png"),"Help > About with the small rounded-corner trial on");
+					checkResult.AddShot(ui.Shot(opened.Hwnd,"UX3-dwm-small-about.png"),"Help > About with small rounded corners");
+					checkResult.Expect(ui.Close(opened.Hwnd),"About closes");
+				}
+				Environment.SetEnvironmentVariable(FramePainter.ENV_DWM_CORNERS,"off");
+				opened=OpenMenu(ui,"Help","About");
+				if(opened.IsOpen) {
+					checkResult.AddShot(ui.Shot(opened.Hwnd,"UX3-dwm-off-about.png"),"Help > About with the corners turned off (as before UI-3)");
 					checkResult.Expect(ui.Close(opened.Hwnd),"About closes");
 				}
 			}

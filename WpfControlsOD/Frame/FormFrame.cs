@@ -65,6 +65,8 @@ namespace OpenPmsDental {
 		///<summary>In screen coordinates.  For dragging.</summary>
 		private Point _pointMouseDownScreen;
 		private Rectangle _rectangleButtons;
+		///<summary>Everything the caption buttons paint (FramePaintResult.RectangleButtonsPaint): what a hover change repaints.</summary>
+		private Rectangle _rectangleButtonsPaint;
 		private Rectangle _rectangleButX;
 		private Rectangle _rectangleButMax;
 		protected Rectangle _rectangleButMin;
@@ -228,7 +230,7 @@ namespace OpenPmsDental {
 			}
 			base.OnHandleCreated(e);
 			if(!DesignMode) {
-				//The UI-3 trial of rounded corners and a Windows-drawn border in the outline colour; off unless its environment variable is set.
+				//UI-3: Windows 11's rounded corners and a Windows-drawn border in the outline colour, by default; FramePainter.ENV_DWM_CORNERS=off turns them off.
 				FramePainter.ApplyDwmCorners(Handle,AreBordersMS,FramePainter.GetColors(EnumFrameLook.Window,_colorBorder,_colorBorderOutline,_colorBorderText).Outline);
 			}
 		}
@@ -530,6 +532,13 @@ namespace OpenPmsDental {
 				_rectangleButMin=framePaintResult.RectangleButMin;
 			}
 			_rectangleButtons=framePaintResult.RectangleButtons;
+			_rectangleButtonsPaint=framePaintResult.RectangleButtonsPaint;
+		}
+
+		///<summary>Repaints the caption buttons after a hover change: all they paint, from the title bar's top row (_rectangleButtonsPaint). The hit
+		///rectangle _rectangleButtons starts 5 px lower, and invalidating only it left the top of the hover fill unpainted on screen.</summary>
+		private void InvalidateCaptionButtons(){
+			PanelBorders?.Invalidate(_rectangleButtonsPaint);
 		}
 
 		///<summary>What FramePainter needs to paint this frame, from its UIManager and its title bar state. Null for a frame of no size.</summary>
@@ -566,6 +575,10 @@ namespace OpenPmsDental {
 			framePaintArgs.ScaleF=ScaleF;
 			//Title font: had trouble with the font getting bigger each time drawn. There's bad logic somewhere, so we will ignore Font.
 			framePaintArgs.TitleFonts=FramePainter.GetTitleFonts(this,ScaleFontODZoom,ScaleMS);
+			//What the screen shows of the PanelBorders: where the caption buttons' hover fills start and end.
+			if(PanelBorders!=null){
+				framePaintArgs.RectangleOnScreen=FramePainter.GetRectangleOnScreen(Size,framePaintArgs.IsMaximized,UIManager_.GetScaleMS(),PanelBorders.Bounds);
+			}
 			return framePaintArgs;
 		}
 
@@ -769,7 +782,7 @@ namespace OpenPmsDental {
 					_isHotX=true;
 					_isHotMax=false;
 					_isHotMin=false;
-					PanelBorders.Invalidate(_rectangleButtons);
+					InvalidateCaptionButtons();
 				}
 			}
 			else if(MaximizeBox && _rectangleButMax.Contains(e.Location)){
@@ -784,7 +797,7 @@ namespace OpenPmsDental {
 					_isHotMax=true;
 					_isHotX=false;
 					_isHotMin=false;
-					PanelBorders.Invalidate(_rectangleButtons);
+					InvalidateCaptionButtons();
 				}
 				//timerHoverSnap.Enabled=false;//was already done above
 				timerHoverSnap.Enabled=true;
@@ -796,7 +809,7 @@ namespace OpenPmsDental {
 					_isHotMin=true;
 					_isHotX=false;
 					_isHotMax=false;
-					PanelBorders.Invalidate(_rectangleButtons);
+					InvalidateCaptionButtons();
 				}
 			}
 			else{
@@ -805,7 +818,7 @@ namespace OpenPmsDental {
 					_isHotX=false;
 					_isHotMax=false;
 					_isHotMin=false;
-					PanelBorders.Invalidate(_rectangleButtons);
+					InvalidateCaptionButtons();
 				}
 			}
 			//PanelBorders.Invalidate(false);//this causes flicker for the entire form, especially listbox. Whether true or false.

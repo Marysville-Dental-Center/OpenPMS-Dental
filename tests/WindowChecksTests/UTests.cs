@@ -92,14 +92,14 @@ namespace WindowChecksTests {
 
 		///<summary>UI-3 (docs/specs/ui-refresh-plan.md, section 3.6 "Window frame", section 6 "Misc Colors"; docs/port-notes/UI-3.md): the frame's
 		///pictures that need a shown window, for gallery G-UI2 (InProcChecks.UX.cs). UX1 a customised office's title bar colours on the main window,
-		///a dialog and a Frm; UX2 the Imaging module with two floating image windows, one selected; UX3 the rounded-corner trial on a dialog.</summary>
+		///a dialog and a Frm; UX2 the Imaging module with two floating image windows, one selected; UX3 the rounded corners (default, small, off) on a dialog.</summary>
 		[TestMethod]
 		public void UX1toUX3_WindowFrame() {
 			BeginPart("UX");
 			CTests.RunInProcess(new[] {
 				new[] { "UX1","Frame: a customised office's title bar colours (Misc Colors 11 to 13)" },
 				new[] { "UX2","Frame: the Imaging module with two floating image windows, one selected" },
-				new[] { "UX3","Frame: the trial of Windows 11's rounded corners" }
+				new[] { "UX3","Frame: Windows 11's rounded corners (default, small, off)" }
 			},"chart");
 		}
 

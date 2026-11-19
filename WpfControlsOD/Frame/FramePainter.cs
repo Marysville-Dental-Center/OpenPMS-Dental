@@ -75,6 +75,10 @@ namespace OpenPmsDental {
 		public Func<float,float> ScaleF;
 		///<summary>The title font sizes and heights (GetTitleFonts).</summary>
 		public FrameTitleFonts TitleFonts;
+		///<summary>The part of the Graphics that the screen shows as the window, in the PanelBorders' coordinates (GetRectangleOnScreen): its Top is
+		///the title bar's top pixel row and Right-1 the window's right pixel column. The caption buttons' hover fills reach them. Empty (a frame
+		///painted without its PanelBorders laid out): the whole Width by Height inside MaxInset.</summary>
+		public Rectangle RectangleOnScreen;
 	}
 
 	///<summary>The title font sizes and their heights, from the window's zoom and the screen it is on.</summary>
@@ -90,7 +94,11 @@ namespace OpenPmsDental {
 		public Rectangle RectangleButX;
 		public Rectangle RectangleButMax;
 		public Rectangle RectangleButMin;
+		///<summary>The button area for the hit tests (from y 5, the top resize edge above it). Not for repainting: see RectangleButtonsPaint.</summary>
 		public Rectangle RectangleButtons;
+		///<summary>Everything the caption buttons paint: the button area and the buttons' fills, from the title bar's top row. The frames invalidate
+		///this when a hover changes; RectangleButtons starts 5 px lower and clipped the top of the fill on screen.</summary>
+		public Rectangle RectangleButtonsPaint;
 	}
 
 	///<summary>Paints the window frame of the new look for FormODBase and FormFrame (section 3.6): the title bar in TitleBar (or the office's Misc
@@ -283,36 +291,41 @@ namespace OpenPmsDental {
 				result.RectangleButMin=new Rectangle(xPos,yPos,wEdge,hEdge);
 			}
 			result.RectangleButtons=new Rectangle(xPos,yPos,args.Width-xPos,args.HeightTitleBar);
-			//Each button is drawn flat over the whole height of the title bar, inside the outline (the PanelBorders' row 0 is the window's top
-			//pixel row), with its glyph centred: the hit rectangle above starts 5 px lower, for the top resize edge.
+			result.RectangleButtonsPaint=result.RectangleButtons;
+			//Each button is drawn flat over the whole height of the title bar as the screen shows it, from its top pixel row, and the close button
+			//also to the window's right pixel column (Windows 11's own caption buttons; the rounded corner and Windows' border are drawn over it).
+			//The hit rectangle above starts 5 px lower, for the top resize edge. The glyph stays centred where it always was.
 			int glyphSlot=args.Scale(CAPTION_GLYPH_SLOT);
 			if(args.ControlBox) {
-				Rectangle rectangleShape=GetButtonShape(result.RectangleButX,args,widthLine);
+				Rectangle rectangleShape=GetButtonShape(result.RectangleButX,args,isClose:true);
+				result.RectangleButtonsPaint=Rectangle.Union(result.RectangleButtonsPaint,rectangleShape);
 				Color colorGlyph=colors.TitleBarText;
 				if(args.IsHotX) {
 					FillColor(g,colors.CloseHover,rectangleShape);
 					colorGlyph=colors.CloseHoverGlyph;
 				}
-				UiIcons.Draw(g,UiGlyph.Dismiss,GetGlyphSlot(rectangleShape,glyphSlot),colorGlyph);
+				UiIcons.Draw(g,UiGlyph.Dismiss,GetGlyphSlot(GetGlyphArea(result.RectangleButX,args,widthLine),glyphSlot),colorGlyph);
 			}
 			if(args.ControlBox && args.MaximizeBox) {
-				Rectangle rectangleShape=GetButtonShape(result.RectangleButMax,args,widthLine);
+				Rectangle rectangleShape=GetButtonShape(result.RectangleButMax,args,isClose:false);
+				result.RectangleButtonsPaint=Rectangle.Union(result.RectangleButtonsPaint,rectangleShape);
 				Color colorGlyph=colors.TitleBarText;
 				if(args.IsHotMax) {
 					FillColor(g,colors.CaptionHover,rectangleShape);
 					colorGlyph=colors.CaptionHoverGlyph;
 				}
 				UiGlyph uiGlyph=args.IsMaximized ? UiGlyph.SquareMultiple : UiGlyph.Maximize;
-				UiIcons.Draw(g,uiGlyph,GetGlyphSlot(rectangleShape,glyphSlot),colorGlyph);
+				UiIcons.Draw(g,uiGlyph,GetGlyphSlot(GetGlyphArea(result.RectangleButMax,args,widthLine),glyphSlot),colorGlyph);
 			}
 			if(args.ControlBox && args.MinimizeBox) {
-				Rectangle rectangleShape=GetButtonShape(result.RectangleButMin,args,widthLine);
+				Rectangle rectangleShape=GetButtonShape(result.RectangleButMin,args,isClose:false);
+				result.RectangleButtonsPaint=Rectangle.Union(result.RectangleButtonsPaint,rectangleShape);
 				Color colorGlyph=colors.TitleBarText;
 				if(args.IsHotMin) {
 					FillColor(g,colors.CaptionHover,rectangleShape);
 					colorGlyph=colors.CaptionHoverGlyph;
 				}
-				UiIcons.Draw(g,UiGlyph.Subtract,GetGlyphSlot(rectangleShape,glyphSlot),colorGlyph);
+				UiIcons.Draw(g,UiGlyph.Subtract,GetGlyphSlot(GetGlyphArea(result.RectangleButMin,args,widthLine),glyphSlot),colorGlyph);
 			}
 			if(args.TitleFonts==null) {
 				return result;
@@ -346,11 +359,58 @@ namespace OpenPmsDental {
 			return result;
 		}
 
-		///<summary>The flat shape of a caption button: its hit rectangle's columns, from just inside the outline to the bottom of the title bar.</summary>
-		public static Rectangle GetButtonShape(Rectangle rectangleButton,FramePaintArgs args,int widthLine) {
+		///<summary>The flat shape of a caption button, its hover fill: its hit rectangle's columns (the close button's up to the window's right pixel
+		///column), from the title bar's top pixel row on screen to the bottom of the title bar (args.RectangleOnScreen).</summary>
+		public static Rectangle GetButtonShape(Rectangle rectangleButton,FramePaintArgs args,bool isClose) {
+			Rectangle rectangleOnScreen=GetRectangleOnScreen(args);
+			int top=rectangleOnScreen.Top;
+			int bottom=Math.Max(top,args.MaxInset+args.HeightTitleBar+1);
+			int right=Math.Min(rectangleButton.Right,rectangleOnScreen.Right);
+			if(isClose) {
+				right=rectangleOnScreen.Right;
+			}
+			return Rectangle.FromLTRB(rectangleButton.Left,top,Math.Max(rectangleButton.Left,right),bottom);
+		}
+
+		///<summary>Where a button's glyph is centred: its hit rectangle's columns from just inside the outline to the bottom of the title bar, as
+		///before the fills reached the window's edges, so no glyph moves.</summary>
+		private static Rectangle GetGlyphArea(Rectangle rectangleButton,FramePaintArgs args,int widthLine) {
 			int top=args.MaxInset+widthLine;
 			int right=Math.Min(rectangleButton.Right,args.Width-args.MaxInset-widthLine);
 			return Rectangle.FromLTRB(rectangleButton.Left,top,right,Math.Max(top,args.MaxInset+args.HeightTitleBar+1));
+		}
+
+		///<summary>args.RectangleOnScreen, or the whole Width by Height inside MaxInset when it is empty.</summary>
+		public static Rectangle GetRectangleOnScreen(FramePaintArgs args) {
+			if(!args.RectangleOnScreen.IsEmpty) {
+				return args.RectangleOnScreen;
+			}
+			return new Rectangle(args.MaxInset,args.MaxInset,args.Width-args.MaxInset*2,args.Height-args.MaxInset*2);
+		}
+
+		///<summary>The width of the invisible resize border left, right and below the window's client area at a screen scale (8 at 100%, 9 at 125%,
+		///11 at 150%, 13 at 200%): the frames' WM_NCCALCSIZE and LayoutFormBoundsAndFonts use the same formula.</summary>
+		public static int GetWidthBorderMS(float scaleMS) {
+			return (int)Math.Round(8+(5*(scaleMS-1)),MidpointRounding.AwayFromZero);
+		}
+
+		///<summary>The part of a frame's PanelBorders that the screen shows, in the PanelBorders' coordinates. The window's client area is the window
+		///less the invisible resize borders left, right and below (WM_NCCALCSIZE; its top is the window's top); the PanelBorders sit at (-1,-1) of
+		///it, so their row and column 0 are outside, and their right edge is the client area's. A maximized window reaches past the screen by the
+		///same border on every side, so its client rows above that border are off the screen. Empty when the PanelBorders are not laid out.</summary>
+		public static Rectangle GetRectangleOnScreen(Size sizeWindow,bool isMaximized,float scaleMS,Rectangle boundsPanelBorders) {
+			if(boundsPanelBorders.Width<1 || boundsPanelBorders.Height<1) {
+				return Rectangle.Empty;
+			}
+			int widthBorderMS=GetWidthBorderMS(scaleMS);
+			int top=isMaximized ? widthBorderMS : 0;
+			Rectangle rectangleClient=Rectangle.FromLTRB(0,top,sizeWindow.Width-widthBorderMS*2,sizeWindow.Height-widthBorderMS);
+			Rectangle rectangleOnScreen=Rectangle.Intersect(rectangleClient,boundsPanelBorders);
+			if(rectangleOnScreen.Width<1 || rectangleOnScreen.Height<1) {
+				return Rectangle.Empty;
+			}
+			rectangleOnScreen.Offset(-boundsPanelBorders.X,-boundsPanelBorders.Y);
+			return rectangleOnScreen;
 		}
 
 		///<summary>The glyph slot centred in a button's shape.</summary>
@@ -366,39 +426,49 @@ namespace OpenPmsDental {
 		}
 		#endregion Paint
 
-		#region DWM rounded corners (trial)
-		///<summary>The environment variable that turns on the trial of Windows 11's rounded window corners for the program's own frame (UI-3, "try
-		///DWM rounded corners"): "round" or "small". Unset (the default), nothing is asked of Windows and the frame stays as before: the trial is
-		///kept only if the lead's pictures in a connected session are clean (docs/port-notes/UI-3.md, "For the lead"). While it is on, Windows is
-		///also asked to draw its 1 px window border in the frame's outline colour (DWMWA_BORDER_COLOR): the frame's own outline lies under the
-		///client area everywhere but along the title bar, so the border seen on screen is Windows' own.</summary>
+		#region DWM rounded corners
+		///<summary>The environment variable that chooses the corners of the program's own frame (UI-3; the owner kept Windows 11's rounded corners
+		///on 2026-11-18): unset, empty or "round", rounded corners (the default); "small", small rounded corners; "off" (or "square" or "none"),
+		///nothing is asked of Windows and the frame is as it was before UI-3. Any other value gives the default. While corners are asked for, Windows
+		///is also asked to draw its 1 px window border in the frame's outline colour (DWMWA_BORDER_COLOR): the frame's own outline lies under the
+		///client area or outside the PanelBorders, so the border seen on screen is Windows' own.</summary>
 		public const string ENV_DWM_CORNERS="OPENPMS_UI3_DWM_CORNERS";
 		///<summary>DWMWA_WINDOW_CORNER_PREFERENCE (Windows 11 build 22000 and later).</summary>
 		private const int DWMWA_WINDOW_CORNER_PREFERENCE=33;
 		///<summary>DWMWA_BORDER_COLOR (Windows 11 build 22000 and later): a COLORREF, 0x00BBGGRR.</summary>
 		private const int DWMWA_BORDER_COLOR=34;
-		private const int DWMWCP_ROUND=2;
-		private const int DWMWCP_ROUNDSMALL=3;
+		public const int DWMWCP_ROUND=2;
+		public const int DWMWCP_ROUNDSMALL=3;
 
 		[DllImport("dwmapi.dll")]
 		private static extern int DwmSetWindowAttribute(IntPtr hwnd,int dwAttribute,ref int pvAttribute,int cbAttribute);
 
-		///<summary>The corner preference the trial asks for: 0 (none, the default: nothing is set), DWMWCP_ROUND or DWMWCP_ROUNDSMALL.</summary>
+		///<summary>The corner preference asked of Windows: DWMWCP_ROUND by default, DWMWCP_ROUNDSMALL for "small", 0 (nothing is set) for "off",
+		///"square" or "none" in ENV_DWM_CORNERS.</summary>
 		public static int GetDwmCornerPreference() {
 			string value;
 			try {
 				value=Environment.GetEnvironmentVariable(ENV_DWM_CORNERS);
 			}
 			catch(Exception) {
-				return 0;
+				value=null;//not allowed to read the environment: the default
 			}
-			if(string.Equals(value,"round",StringComparison.OrdinalIgnoreCase)) {
-				return DWMWCP_ROUND;
+			return GetDwmCornerPreference(value);
+		}
+
+		///<summary>GetDwmCornerPreference for a value of ENV_DWM_CORNERS, for the tests.</summary>
+		public static int GetDwmCornerPreference(string value) {
+			value=(value??"").Trim();
+			if(string.Equals(value,"off",StringComparison.OrdinalIgnoreCase)
+				|| string.Equals(value,"square",StringComparison.OrdinalIgnoreCase)
+				|| string.Equals(value,"none",StringComparison.OrdinalIgnoreCase))
+			{
+				return 0;
 			}
 			if(string.Equals(value,"small",StringComparison.OrdinalIgnoreCase)) {
 				return DWMWCP_ROUNDSMALL;
 			}
-			return 0;
+			return DWMWCP_ROUND;
 		}
 
 		///<summary>The COLORREF (0x00BBGGRR) of a colour, as DWMWA_BORDER_COLOR takes it.</summary>
@@ -406,9 +476,9 @@ namespace OpenPmsDental {
 			return color.R | (color.G<<8) | (color.B<<16);
 		}
 
-		///<summary>Asks Windows to round the window's corners and to draw its border in colorOutline when the trial is on
-		///(GetDwmCornerPreference). Does nothing otherwise, and nothing with the Windows frame (AreBordersMS), which Windows 11 rounds by itself.
-		///Windows 10 refuses both attributes; the results are ignored.</summary>
+		///<summary>Asks Windows to round the window's corners and to draw its border in colorOutline (GetDwmCornerPreference: by default; not when
+		///ENV_DWM_CORNERS is "off"). Nothing with the Windows frame (AreBordersMS), which Windows 11 rounds by itself. Windows 10 refuses both
+		///attributes; the results are ignored.</summary>
 		public static void ApplyDwmCorners(IntPtr hwnd,bool areBordersMS,Color colorOutline) {
 			if(areBordersMS || hwnd==IntPtr.Zero) {
 				return;
@@ -426,6 +496,6 @@ namespace OpenPmsDental {
 				//No dwmapi entry point (not expected on Windows 10 or 11): the frame stays as before.
 			}
 		}
-		#endregion DWM rounded corners (trial)
+		#endregion DWM rounded corners
 	}
 }

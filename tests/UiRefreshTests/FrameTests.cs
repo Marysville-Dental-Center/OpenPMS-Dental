@@ -71,32 +71,34 @@ namespace UiRefreshTests {
 						Assert.AreEqual(UiTheme.TitleBarOutline.ToArgb(),bitmap.GetPixel(framePaintArgs.Width/2,0).ToArgb(),"outline");
 						//The close glyph is drawn in the title text colour (white), and nothing of the old red.
 						FramePaintResult framePaintResult=GetResult(testFrameWindow);
-						Rectangle rectangleShapeX=FramePainter.GetButtonShape(framePaintResult.RectangleButX,framePaintArgs,1);
+						Rectangle rectangleShapeX=FramePainter.GetButtonShape(framePaintResult.RectangleButX,framePaintArgs,isClose:true);
 						//Antialiased: count the pixels nearer the glyph colour than the bar colour.
 						Assert.IsTrue(CountNear(bitmap,rectangleShapeX,UiTheme.TitleBarText,UiTheme.TitleBar)>8,"the Dismiss glyph in TitleBarText");
-						Rectangle rectangleShapeMin=FramePainter.GetButtonShape(framePaintResult.RectangleButMin,framePaintArgs,1);
+						Rectangle rectangleShapeMin=FramePainter.GetButtonShape(framePaintResult.RectangleButMin,framePaintArgs,isClose:false);
 						Assert.IsTrue(CountNear(bitmap,rectangleShapeMin,UiTheme.TitleBarText,UiTheme.TitleBar)>=8,"the Subtract glyph");
 						Assert.AreEqual(0,CountColor(bitmap,new Rectangle(0,0,bitmap.Width,bitmap.Height),Color.FromArgb(232,17,35)),"no old red");
 					}
 					SetHot(testFrameWindow,"hotX");
 					using(Bitmap bitmap=Paint(testFrameWindow.PaintFrame,testFrameWindow.Size)) {
 						FramePaintResult framePaintResult=GetResult(testFrameWindow);
-						Rectangle rectangleShapeX=FramePainter.GetButtonShape(framePaintResult.RectangleButX,framePaintArgs,1);
+						Rectangle rectangleShapeX=FramePainter.GetButtonShape(framePaintResult.RectangleButX,framePaintArgs,isClose:true);
 						Assert.AreEqual(UiTheme.Danger.ToArgb(),bitmap.GetPixel(rectangleShapeX.X+1,rectangleShapeX.Y+1).ToArgb(),"close hover Danger");
-						//The hover fills the whole height of the title bar, inside the outline.
+						//The hover fills the whole height of the title bar as the screen shows it: from the PanelBorders' row 1 (the client area's row 0,
+						//the window's top row), and the close button to the window's right column (the client area's last column).
 						Assert.AreEqual(1,rectangleShapeX.Y);
 						Assert.AreEqual(framePaintArgs.HeightTitleBar+1,rectangleShapeX.Bottom);
+						Assert.AreEqual(framePaintArgs.Width-FramePainter.GetWidthBorderMS(1f)*2+1,rectangleShapeX.Right);
 					}
 					SetHot(testFrameWindow,"hotMax");
 					using(Bitmap bitmap=Paint(testFrameWindow.PaintFrame,testFrameWindow.Size)) {
 						FramePaintResult framePaintResult=GetResult(testFrameWindow);
-						Rectangle rectangleShape=FramePainter.GetButtonShape(framePaintResult.RectangleButMax,framePaintArgs,1);
+						Rectangle rectangleShape=FramePainter.GetButtonShape(framePaintResult.RectangleButMax,framePaintArgs,isClose:false);
 						Assert.AreEqual(UiTheme.CaptionHover.ToArgb(),bitmap.GetPixel(rectangleShape.X+1,rectangleShape.Y+1).ToArgb(),"maximise hover CaptionHover");
 					}
 					SetHot(testFrameWindow,"hotMin");
 					using(Bitmap bitmap=Paint(testFrameWindow.PaintFrame,testFrameWindow.Size)) {
 						FramePaintResult framePaintResult=GetResult(testFrameWindow);
-						Rectangle rectangleShape=FramePainter.GetButtonShape(framePaintResult.RectangleButMin,framePaintArgs,1);
+						Rectangle rectangleShape=FramePainter.GetButtonShape(framePaintResult.RectangleButMin,framePaintArgs,isClose:false);
 						Assert.AreEqual(UiTheme.CaptionHover.ToArgb(),bitmap.GetPixel(rectangleShape.X+1,rectangleShape.Y+1).ToArgb(),"minimise hover CaptionHover");
 					}
 				}
@@ -126,6 +128,80 @@ namespace UiRefreshTests {
 					}
 				}
 			});
+		}
+
+		[TestMethod]
+		public void Frame_CaptionHover_FillsTheTitleBarAsTheScreenShowsIt() {
+			//The owner's finding (2026-11-18, Windows 11): the close button's red started 3 px below the top of the title bar on screen, with blue
+			//above it, although the off-screen pictures showed it reaching the top. The frames repainted only the hit rectangle of the buttons on a
+			//hover change, which starts 5 px down, so the top rows kept the title bar colour; and the fill ended at the hit rectangle's right edge,
+			//short of the window's right edge above 100%. Here each frame is laid out as on screen (PanelBorders at (-1,-1) of the client area, or
+			//one border lower maximized; the client area the window less its invisible resize borders), painted whole at rest, then hovered the way
+			//the mouse does it: the frame's own invalidation is caught and only that is repainted, as Windows does. The fill must cover the title bar
+			//from its top row on screen to its bottom row, and the close fill to the client area's last column, at every scale, in FormODBase,
+			//FormFrame and the floating image windows, with the stock colours and an office's own.
+			List<string> listFailures=new List<string>();
+			StaRunner.Run(() => {
+				NoDatabaseGuard.Install();
+				Color colorBorderOffice=Color.FromArgb(32,96,64);
+				Color colorOutlineOffice=Color.FromArgb(120,0,0);
+				Color colorTextOffice=Color.FromArgb(255,230,120);
+				try {
+					foreach(string office in new[] { "stock","office" }) {
+						Color colorBorder=office=="stock" ? _colorStockBorder : colorBorderOffice;
+						Color colorOutline=office=="stock" ? Color.Black : colorOutlineOffice;
+						Color colorText=office=="stock" ? Color.White : colorTextOffice;
+						TestFrameWindow.SetOfficeColors(colorBorder,colorOutline,colorText);
+						SetFormFrameColors(colorBorder,colorOutline,colorText);
+						foreach(float scale in new[] { 1f,1.25f,1.5f,1.75f,2f }) {
+							foreach(bool isMaximized in new[] { false,true }) {
+								string name=office+" "+scale*100+"%"+(isMaximized ? " maximized" : "");
+								using(TestFrameWindow testFrameWindow=new TestFrameWindow()) {
+									Prepare(testFrameWindow,scale,hasMinMax:true);
+									if(isMaximized) {
+										testFrameWindow.WindowState=FormWindowState.Maximized;//never shown: only the state
+										LayOutAsOnLoad(testFrameWindow);
+									}
+									FrameColors frameColors=FramePainter.GetColors(EnumFrameLook.Window,colorBorder,colorOutline,colorText);
+									CheckHoverAsOnScreen(testFrameWindow,testFrameWindow.PanelBorders,testFrameWindow.PanelClient.Top,testFrameWindow.PaintFrame,
+										scale,isMaximized,frameColors,"FormODBase "+name,listFailures);
+								}
+								using(FormFrame formFrame=NewFormFrame()) {
+									PrepareFrame(formFrame,scale,hasMinMax:true);
+									if(isMaximized) {
+										formFrame.WindowState=FormWindowState.Maximized;
+										LayOutAsOnLoad(formFrame);
+									}
+									FrameColors frameColors=FramePainter.GetColors(EnumFrameLook.Window,colorBorder,colorOutline,colorText);
+									CheckHoverAsOnScreen(formFrame,formFrame.PanelBorders,formFrame.ElementHostUI.Top,formFrame.PaintFrame,
+										scale,isMaximized,frameColors,"FormFrame "+name,listFailures);
+								}
+							}
+							if(office!="stock") {
+								continue;//the office's colours do not reach the floating image windows
+							}
+							foreach(bool isSelected in new[] { true,false }) {
+								using(FormImageFloat formImageFloat=new FormImageFloat()) {
+									formImageFloat.Text="Image 1";
+									WindowBuilder.GetLayoutManager(formImageFloat).SetScaleMS(scale);
+									formImageFloat.Size=new Size((int)Math.Round(430*scale),(int)Math.Round(300*scale));
+									IntPtr handle=formImageFloat.Handle;
+									formImageFloat.IsImageFloatSelected=isSelected;
+									LayOutAsOnLoad(formImageFloat);
+									FrameColors frameColors=FramePainter.GetImageFloatColors(isSelected);
+									CheckHoverAsOnScreen(formImageFloat,formImageFloat.PanelBorders,formImageFloat.PanelClient.Top,formImageFloat.PaintFrame,
+										scale,isMaximized:false,frameColors,"FormImageFloat "+(isSelected ? "selected " : "unselected ")+scale*100+"%",listFailures);
+								}
+							}
+						}
+					}
+				}
+				finally {
+					TestFrameWindow.SetOfficeColors(_colorStockBorder,Color.Black,Color.White);
+					SetFormFrameColors(_colorStockBorder,Color.Black,Color.White);
+				}
+			});
+			Assert.AreEqual(0,listFailures.Count,listFailures.Count+" failures:\r\n"+string.Join("\r\n",listFailures.Take(40)));
 		}
 		#endregion Both painters
 
@@ -160,13 +236,13 @@ namespace UiRefreshTests {
 							SetHot(formImageFloat,"hotMax");
 							using(Bitmap bitmap=Paint(formImageFloat.PaintFrame,formImageFloat.Size)) {
 								FramePaintResult framePaintResult=GetResult(formImageFloat);
-								Rectangle rectangleShape=FramePainter.GetButtonShape(framePaintResult.RectangleButMax,framePaintArgs,1);
+								Rectangle rectangleShape=FramePainter.GetButtonShape(framePaintResult.RectangleButMax,framePaintArgs,isClose:false);
 								Assert.AreEqual(colorHover.ToArgb(),bitmap.GetPixel(rectangleShape.X+1,rectangleShape.Y+1).ToArgb(),"maximise hover");
 							}
 							SetHot(formImageFloat,"hotX");
 							using(Bitmap bitmap=Paint(formImageFloat.PaintFrame,formImageFloat.Size)) {
 								FramePaintResult framePaintResult=GetResult(formImageFloat);
-								Rectangle rectangleShape=FramePainter.GetButtonShape(framePaintResult.RectangleButX,framePaintArgs,1);
+								Rectangle rectangleShape=FramePainter.GetButtonShape(framePaintResult.RectangleButX,framePaintArgs,isClose:true);
 								Assert.AreEqual(UiTheme.Danger.ToArgb(),bitmap.GetPixel(rectangleShape.X+1,rectangleShape.Y+1).ToArgb(),"close hover Danger");
 							}
 						}
@@ -299,17 +375,34 @@ namespace UiRefreshTests {
 
 		#region DWM trial
 		[TestMethod]
-		public void DwmCorners_OffByDefault() {
+		public void DwmCorners_RoundByDefault_TheVariableTurnsThemOff() {
+			//The owner kept the rounded corners (2026-11-18): round unless OPENPMS_UI3_DWM_CORNERS says "off" (or "square", "none") or "small".
+			Assert.AreEqual(2,FramePainter.DWMWCP_ROUND,"DWMWCP_ROUND");
+			Assert.AreEqual(3,FramePainter.DWMWCP_ROUNDSMALL,"DWMWCP_ROUNDSMALL");
+			Assert.AreEqual(FramePainter.DWMWCP_ROUND,FramePainter.GetDwmCornerPreference((string)null),"unset: round");
+			Assert.AreEqual(FramePainter.DWMWCP_ROUND,FramePainter.GetDwmCornerPreference(""),"empty: round");
+			Assert.AreEqual(FramePainter.DWMWCP_ROUND,FramePainter.GetDwmCornerPreference("round"));
+			Assert.AreEqual(FramePainter.DWMWCP_ROUND,FramePainter.GetDwmCornerPreference("ROUND"));
+			Assert.AreEqual(FramePainter.DWMWCP_ROUND,FramePainter.GetDwmCornerPreference("yes"),"an unknown value gives the default");
+			Assert.AreEqual(FramePainter.DWMWCP_ROUNDSMALL,FramePainter.GetDwmCornerPreference("small"));
+			Assert.AreEqual(FramePainter.DWMWCP_ROUNDSMALL,FramePainter.GetDwmCornerPreference(" Small "));
+			Assert.AreEqual(0,FramePainter.GetDwmCornerPreference("off"),"off: nothing is asked of Windows");
+			Assert.AreEqual(0,FramePainter.GetDwmCornerPreference("OFF"));
+			Assert.AreEqual(0,FramePainter.GetDwmCornerPreference("square"));
+			Assert.AreEqual(0,FramePainter.GetDwmCornerPreference("none"));
+			//And through the environment, as the program reads it.
 			string valueOld=Environment.GetEnvironmentVariable(FramePainter.ENV_DWM_CORNERS);
 			try {
 				Environment.SetEnvironmentVariable(FramePainter.ENV_DWM_CORNERS,null);
-				Assert.AreEqual(0,FramePainter.GetDwmCornerPreference(),"no corner preference unless the trial is asked for");
-				Environment.SetEnvironmentVariable(FramePainter.ENV_DWM_CORNERS,"round");
-				Assert.AreEqual(2,FramePainter.GetDwmCornerPreference());
-				Environment.SetEnvironmentVariable(FramePainter.ENV_DWM_CORNERS,"small");
-				Assert.AreEqual(3,FramePainter.GetDwmCornerPreference());
-				Environment.SetEnvironmentVariable(FramePainter.ENV_DWM_CORNERS,"yes");
+				Assert.AreEqual(FramePainter.DWMWCP_ROUND,FramePainter.GetDwmCornerPreference(),"rounded corners by default");
+				Environment.SetEnvironmentVariable(FramePainter.ENV_DWM_CORNERS,"off");
+				Assert.AreEqual(0,FramePainter.GetDwmCornerPreference(),"the variable turns them off");
+				Environment.SetEnvironmentVariable(FramePainter.ENV_DWM_CORNERS,"square");
 				Assert.AreEqual(0,FramePainter.GetDwmCornerPreference());
+				Environment.SetEnvironmentVariable(FramePainter.ENV_DWM_CORNERS,"small");
+				Assert.AreEqual(FramePainter.DWMWCP_ROUNDSMALL,FramePainter.GetDwmCornerPreference());
+				Environment.SetEnvironmentVariable(FramePainter.ENV_DWM_CORNERS,"round");
+				Assert.AreEqual(FramePainter.DWMWCP_ROUND,FramePainter.GetDwmCornerPreference());
 			}
 			finally {
 				Environment.SetEnvironmentVariable(FramePainter.ENV_DWM_CORNERS,valueOld);
@@ -326,6 +419,11 @@ namespace UiRefreshTests {
 				Assert.IsFalse(text.Contains("_colorButtonHot"),relative+": _colorButtonHot");
 				Assert.IsFalse(text.Contains("colorFloatBase"),relative+": colorFloatBase");
 				Assert.IsTrue(text.Contains("FramePainter.Paint("),relative+" paints with FramePainter");
+				//A hover change repaints all the caption buttons paint (InvalidateCaptionButtons), not their hit rectangle, which starts 5 px below
+				//the title bar's top and left the top of the hover fill unpainted on screen (the owner's finding, 2026-11-18).
+				string[] arrayCodeLines=text.Split('\n').Select(x => x.Trim()).Where(x => !x.StartsWith("//")).ToArray();
+				Assert.IsFalse(arrayCodeLines.Any(x => x.Contains("Invalidate(_rectangleButtons)")),relative+": a hover repaints only the hit rectangle");
+				Assert.AreEqual(4,arrayCodeLines.Count(x => x=="InvalidateCaptionButtons();"),relative+": the four hover changes repaint the caption buttons");
 			}
 		}
 		#endregion DWM trial
@@ -491,6 +589,7 @@ namespace UiRefreshTests {
 			testFrameWindow.SetScale(scale);
 			testFrameWindow.Size=new Size((int)Math.Round(460*scale),(int)Math.Round(260*scale));
 			IntPtr handle=testFrameWindow.Handle;//the program icon is set when the handle is created (OnHandleCreated)
+			LayOutAsOnLoad(testFrameWindow);
 		}
 
 		private static void PrepareFrame(FormFrame formFrame,float scale,bool hasMinMax) {
@@ -500,6 +599,154 @@ namespace UiRefreshTests {
 			formFrame.UIManager_.SetScaleMS(scale);
 			formFrame.Size=new Size((int)Math.Round(460*scale),(int)Math.Round(260*scale));
 			IntPtr handle=formFrame.Handle;
+			LayOutAsOnLoad(formFrame);
+		}
+
+		///<summary>Lays the window out as FormODBase.OnLoad does (without showing it): PanelClient and PanelBorders made, then
+		///LayoutFormBoundsAndFonts, which puts the PanelBorders at (-1,-1) of the client area (or one border lower, maximized).</summary>
+		private static void LayOutAsOnLoad(FormODBase formODBase) {
+			LayoutManagerForms layoutManager=WindowBuilder.GetLayoutManager(formODBase);
+			if(formODBase.PanelClient==null || formODBase.PanelBorders==null) {
+				layoutManager.SetPanelClient(formODBase);
+			}
+			layoutManager.LayoutFormBoundsAndFonts(formODBase);
+		}
+
+		///<summary>Lays the frame out as FormFrame.OnLoad does (without showing it): the PanelBorders and the ElementHost made, then
+		///UIManager.LayoutFormBoundsAndFonts.</summary>
+		private static void LayOutAsOnLoad(FormFrame formFrame) {
+			if(formFrame.PanelBorders==null) {
+				formFrame.UIManager_.SetElementHost();
+			}
+			formFrame.UIManager_.LayoutFormBoundsAndFonts();
+		}
+
+		///<summary>FormFrame's three Misc Colors (static, read from the definitions cache in its Load, which these frames never run).</summary>
+		private static void SetFormFrameColors(Color colorBorder,Color colorOutline,Color colorText) {
+			foreach((string name,Color color) in new[] { ("_colorBorder",colorBorder),("_colorBorderOutline",colorOutline),("_colorBorderText",colorText) }) {
+				FieldInfo fieldInfo=typeof(FormFrame).GetField(name,BindingFlags.Static|BindingFlags.NonPublic);
+				Assert.IsNotNull(fieldInfo,"FormFrame."+name);
+				fieldInfo.SetValue(null,color);
+			}
+		}
+
+		///<summary>Paints a laid-out frame as the screen shows it into a bitmap of its client area (the window less its invisible resize borders
+		///left, right and below), first whole at rest, then for minimise, maximise and close on hover and back at rest, each time repainting only
+		///what the frame invalidates (its InvalidateCaptionButtons, caught through the PanelBorders' Invalidated event), as Windows does with
+		///the PanelBorders' paint. After each hover the fill's colour must cover exactly the button's columns (the close button's up to the client
+		///area's last column) from the title bar's top row on screen to the row above the client panel; at rest no hover colour is left.</summary>
+		private static void CheckHoverAsOnScreen(Form form,Control panelBorders,int topClientPanel,Action<Graphics> actionPaint,float scale,
+			bool isMaximized,FrameColors frameColors,string name,List<string> listFailures)
+		{
+			if(panelBorders==null) {
+				listFailures.Add(name+": the PanelBorders were not laid out");
+				return;
+			}
+			IntPtr handlePanel=panelBorders.Handle;//Invalidate raises Invalidated only for a control with a handle (never shown: its window is hidden)
+			int widthBorderMS=FramePainter.GetWidthBorderMS(scale);
+			Size sizeClient=new Size(form.Width-widthBorderMS*2,form.Height-widthBorderMS);
+			int topOnScreen=isMaximized ? widthBorderMS : 0;//a maximized window's client rows above its border are off the screen
+			using Bitmap bitmap=new Bitmap(sizeClient.Width,sizeClient.Height,PixelFormat.Format24bppRgb);
+			using Graphics g=Graphics.FromImage(bitmap);
+			g.Clear(Color.Magenta);
+			SetHot(form,"rest");
+			PaintPanelAsOnScreen(g,panelBorders,actionPaint,new Rectangle(Point.Empty,panelBorders.Size));
+			FramePaintResult framePaintResult=GetResult(form);
+			foreach(string state in new[] { "hotMin","hotMax","hotX","rest" }) {
+				SetHot(form,state);
+				List<Rectangle> listInvalidated=new List<Rectangle>();
+				InvalidateEventHandler invalidateEventHandler=(sender,e) => listInvalidated.Add(e.InvalidRect);
+				panelBorders.Invalidated+=invalidateEventHandler;
+				MethodInfo methodInfo=FindMethod(form.GetType(),"InvalidateCaptionButtons");
+				Assert.IsNotNull(methodInfo,"InvalidateCaptionButtons on "+form.GetType().Name);
+				methodInfo.Invoke(form,null);
+				panelBorders.Invalidated-=invalidateEventHandler;
+				if(listInvalidated.Count==0) {
+					listFailures.Add(name+", "+state+": nothing was invalidated");
+					continue;
+				}
+				Rectangle rectangleInvalid=listInvalidated.Aggregate(Rectangle.Union);
+				PaintPanelAsOnScreen(g,panelBorders,actionPaint,rectangleInvalid);
+				//The title bar band on screen, in client coordinates.
+				Rectangle rectangleBand=Rectangle.FromLTRB(0,topOnScreen,sizeClient.Width,topClientPanel);
+				if(state=="rest") {
+					int countLeft=CountColor(bitmap,rectangleBand,frameColors.CloseHover)+CountColor(bitmap,rectangleBand,frameColors.CaptionHover);
+					if(countLeft>0) {
+						listFailures.Add(name+", back at rest: "+countLeft+" pixels of a hover colour are left");
+					}
+					continue;
+				}
+				bool isClose=state=="hotX";
+				Rectangle rectangleHit=state=="hotX" ? framePaintResult.RectangleButX
+					: state=="hotMax" ? framePaintResult.RectangleButMax : framePaintResult.RectangleButMin;
+				rectangleHit.Offset(panelBorders.Location);
+				Color colorHover=isClose ? frameColors.CloseHover : frameColors.CaptionHover;
+				int right=isClose ? sizeClient.Width : Math.Min(rectangleHit.Right,sizeClient.Width);
+				Rectangle rectangleExpected=Rectangle.FromLTRB(rectangleHit.Left,topOnScreen,right,topClientPanel);
+				Rectangle rectangleFill=GetBounds(bitmap,rectangleBand,colorHover);
+				if(rectangleFill!=rectangleExpected) {
+					listFailures.Add(name+", "+state+": the hover fill on screen is "+rectangleFill+", the title bar's extent for the button is "
+						+rectangleExpected+" (invalidated "+rectangleInvalid+" of the PanelBorders at "+panelBorders.Location+")");
+					continue;
+				}
+				//Its edges are whole (the glyph is inside): the top row, the bottom row, the left and the right column.
+				int countEdge=0;
+				for(int x=rectangleExpected.Left;x<rectangleExpected.Right;x++) {
+					countEdge+=bitmap.GetPixel(x,rectangleExpected.Top).ToArgb()==colorHover.ToArgb() ? 0 : 1;
+					countEdge+=bitmap.GetPixel(x,rectangleExpected.Bottom-1).ToArgb()==colorHover.ToArgb() ? 0 : 1;
+				}
+				for(int y=rectangleExpected.Top;y<rectangleExpected.Bottom;y++) {
+					countEdge+=bitmap.GetPixel(rectangleExpected.Left,y).ToArgb()==colorHover.ToArgb() ? 0 : 1;
+					countEdge+=bitmap.GetPixel(rectangleExpected.Right-1,y).ToArgb()==colorHover.ToArgb() ? 0 : 1;
+				}
+				if(countEdge>0) {
+					listFailures.Add(name+", "+state+": "+countEdge+" pixels on the edges of the fill "+rectangleExpected+" are not the hover colour");
+				}
+			}
+		}
+
+		///<summary>Paints the frame into g as the PanelBorders show it in the client area: moved to the PanelBorders' location and clipped to
+		///rectangleClip (in the PanelBorders' coordinates) and to the PanelBorders.</summary>
+		private static void PaintPanelAsOnScreen(Graphics g,Control panelBorders,Action<Graphics> actionPaint,Rectangle rectangleClip) {
+			GraphicsState graphicsState=g.Save();
+			g.TranslateTransform(panelBorders.Left,panelBorders.Top);
+			g.SetClip(Rectangle.Intersect(rectangleClip,new Rectangle(Point.Empty,panelBorders.Size)));
+			actionPaint(g);
+			g.Restore(graphicsState);
+		}
+
+		///<summary>The smallest rectangle that holds every pixel of the colour inside rectangle; empty when there is none.</summary>
+		private static Rectangle GetBounds(Bitmap bitmap,Rectangle rectangle,Color color) {
+			rectangle.Intersect(new Rectangle(0,0,bitmap.Width,bitmap.Height));
+			int left=int.MaxValue;
+			int top=int.MaxValue;
+			int right=int.MinValue;
+			int bottom=int.MinValue;
+			for(int y=rectangle.Top;y<rectangle.Bottom;y++) {
+				for(int x=rectangle.Left;x<rectangle.Right;x++) {
+					if(bitmap.GetPixel(x,y).ToArgb()!=color.ToArgb()) {
+						continue;
+					}
+					left=Math.Min(left,x);
+					top=Math.Min(top,y);
+					right=Math.Max(right,x+1);
+					bottom=Math.Max(bottom,y+1);
+				}
+			}
+			if(left==int.MaxValue) {
+				return Rectangle.Empty;
+			}
+			return Rectangle.FromLTRB(left,top,right,bottom);
+		}
+
+		private static MethodInfo FindMethod(Type type,string name) {
+			for(Type typeCur=type;typeCur!=null;typeCur=typeCur.BaseType) {
+				MethodInfo methodInfo=typeCur.GetMethod(name,BindingFlags.Instance|BindingFlags.NonPublic|BindingFlags.Public|BindingFlags.DeclaredOnly);
+				if(methodInfo!=null) {
+					return methodInfo;
+				}
+			}
+			return null;
 		}
 
 		///<summary>Sets the hover state of the frame's caption buttons (its private fields, as the mouse handlers set them), or maximizes the window.</summary>
