@@ -2973,7 +2973,7 @@ namespace OpenPmsDental {
 			}
 			//labelInsLeft.Text=Lan.g(this,"Ins Left");
 			//labelInsLeftAmt.Text="";//etc. Will be same for everyone
-			Font fontBold=new Font(FontFamily.GenericSansSerif,11,FontStyle.Bold);
+			Font fontBold=new Font(UiTheme.FontFamilyName,11,FontStyle.Bold);//A size no role has: the token family (UI-2a-5), sans serif until UI-2b.
 			//In the new way of doing it, they are all visible and calculated identically,
 			//but the emphasis simply changes by slight renaming of labels
 			//and by font size changes.
@@ -4107,7 +4107,7 @@ namespace OpenPmsDental {
 
 		///<summary>This used to be a layout event, but that was making it get called far too frequently.  Now, this must explicitly and intelligently be called.</summary>
 		public void LayoutPanels() {
-			textUrgFinNote.Font=new Font(FontFamily.GenericSansSerif,LayoutManager.ScaleF(8.25f));
+			textUrgFinNote.Font=new Font(UiTheme.FontBody.FontFamily,LayoutManager.ScaleF(UiTheme.FontBody.SizeInPoints));//The body token (UI-2a-5).
 			//splitContainerParent
 			//  Panel1: splitContainerRepChargesPP
 			//    Panel1: gridRepeat

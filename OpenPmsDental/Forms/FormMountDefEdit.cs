@@ -355,7 +355,7 @@ namespace OpenPmsDental{
 				else{
 					s=_listMountItemDefs[i].TextShowing;
 					point=new Point((int)(_rectangleMount.X+_listMountItemDefs[i].Xpos*_ratio),(int)(_rectangleMount.Y+_listMountItemDefs[i].Ypos*_ratio));
-					using Font font=new Font(Font.FontFamily,LayoutManager.UnscaleMS(_listMountItemDefs[i].FontSize)*_ratio);
+					using Font font=new Font(FontFamily.GenericSansSerif,LayoutManager.UnscaleMS(_listMountItemDefs[i].FontSize)*_ratio);
 					g.DrawString(s,font,Brushes.DarkBlue,point);
 				}
 			}
@@ -384,7 +384,7 @@ namespace OpenPmsDental{
 			else{
 				s=_listMountItemDefs[_selectedIndex].TextShowing;
 				point=new Point((int)(_rectangleMount.X+_listMountItemDefs[_selectedIndex].Xpos*_ratio),(int)(_rectangleMount.Y+_listMountItemDefs[_selectedIndex].Ypos*_ratio));
-				using Font font=new Font(Font.FontFamily,_listMountItemDefs[_selectedIndex].FontSize*_ratio);
+				using Font font=new Font(FontFamily.GenericSansSerif,_listMountItemDefs[_selectedIndex].FontSize*_ratio);
 				g.DrawString(s,font,Brushes.DarkRed,point);
 			}
 		}

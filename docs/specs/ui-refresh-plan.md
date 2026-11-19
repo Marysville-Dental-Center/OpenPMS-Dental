@@ -1184,6 +1184,21 @@ the bounds record must equal the before set.
   the designer code of the plain forms and of the windows without `InitializeLayoutManager`; the designer code of windows and
   UserControls under LayoutManager is exempt, because the mapping covers it); the literal test for the control and form fonts of the
   plain forms and those windows (chart element fonts are not in it, 5.1); the print guard; the scan's report.
+- **Status (2026-11-18).** Slice 1 (`OpenPmsDental/Forms`, `OpenPmsDental/Forms Reports`) done on `ui/ui2a4-1`
+  (`docs/port-notes/UI-2a.md`, section UI-2a-4), not merged yet: the display field editors measure with `FontGridBold`; the mount layout
+  editor's item text names `GenericSansSerif` as the mount draws it; the other 51 Microsoft Sans Serif and `GenericSansSerif` lines
+  (the mount editor's two among them) are print, document or content and are the rows of
+  `tests/UiRefreshTests/Data/font-literal-allow.tsv`; the slice has no plain form or window without `InitializeLayoutManager` with a
+  designer font. The scan and the literal test are `tests/UiRefreshTests/FontLiteralScanTests.cs`; later slices add their folders to
+  `FontLiteralScan.ArrayFolders`. Still open, for a connected session: U0 and the bounds record against the before set.
+- **Status UI-2a-5 (2026-11-18).** Slice 2 (the other OpenPmsDental folders of UI-9a-6, `OpenPmsDentalBusiness`, `OpenPmsDentalGraph`,
+  `SparksToothChart`) done on `ui/ui2a5-1` (`docs/port-notes/UI-2a.md`, section UI-2a-5), not merged yet: 23 screen sites of the scan
+  and `ModuleBar`'s Arial captions (5.1 names the role) take their role's token (`FontBody`, `FontButtonPanel`, `FontModuleCaption`,
+  `FontTitle`, `FontGrid`, `FontGridBold`, or `FontFamilyName` at the site's own size), 72 allow-list rows for the sites that stay, the generated per-site report
+  `tests/UiRefreshTests/Data/font-literal-sites.tsv`; the literal test compares a literal with its parent's font; the five allocator
+  windows have no default font to remove (their nine literals stay for UI-2b); three more inherited-font sites are on the UI-2b checklist
+  (`SignatureBox`'s signature picture, the dashboard legend's print copy, and `SheetEditMobileCtrl` to decide).
+  Still open, for a connected session: U0 and the bounds record against the before set.
 
 **UI-3: the window frame**
 - Owns: `FormODBase.cs` and `FormFrame.cs` (frame drawing). Ideally one shared border painter in a new file both call
@@ -1447,6 +1462,8 @@ own 26.2 overlap check before it starts. The first cut is below; a brief that fi
   "needs the owner" list.
 
 **UI-2b: the flip**
+- Before the flip: pin the inherited-font sites the UI-2a-4..n slices list (docs/port-notes/UI-2a.md, 'the UI-2b checklist'), such as
+  FormEquipment's printed total and FormSheetDefEdit's canvas labels, so printouts and office content keep today's font.
 - Owns: the token values, the 12 exe literals, the remaining literal designer fonts of the plain forms and of the five windows without
   `InitializeLayoutManager` (5.1, UI-2a-4), the tests' expected
   token if any test names it, and the note in

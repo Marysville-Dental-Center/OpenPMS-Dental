@@ -269,7 +269,7 @@ namespace OpenPmsDental {
 			}
 			ToolBarOD.DrawIconTransparent(g,icon,imgRect,colorIcon,isFilled);
 			//Text
-			using Font font=new Font("Arial",LayoutManager.ScaleFontODZoom(8));
+			using Font font=new Font(UiTheme.FontModuleCaption.FontFamily,LayoutManager.ScaleFontODZoom(UiTheme.FontModuleCaption.SizeInPoints));//The module caption token (UI-2a-5): Arial 8 until UI-2b.
 			Rectangle textRect = new Rectangle(button.Bounds.X-1,imgRect.Bottom,button.Bounds.Width+2,button.Bounds.Bottom-imgRect.Bottom);
 			g.DrawString(button.Caption,font,UiTheme.GetBrush(EnumUiColor.Text),textRect,_stringFormat);
 		}
