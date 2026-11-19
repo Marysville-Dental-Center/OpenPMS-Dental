@@ -158,7 +158,7 @@ namespace OpenPmsDental {
 			// 
 			// butRight
 			// 
-			this.butRight.Image = ((System.Drawing.Image)(resources.GetObject("butRight.Image")));
+			this.butRight.Icon = OpenPmsDental.UI.EnumIcons.ArrowRight;
 			this.butRight.Location = new System.Drawing.Point(63, 18);
 			this.butRight.Name = "butRight";
 			this.butRight.Size = new System.Drawing.Size(39, 24);
@@ -167,7 +167,7 @@ namespace OpenPmsDental {
 			// 
 			// butLeft
 			// 
-			this.butLeft.Image = ((System.Drawing.Image)(resources.GetObject("butLeft.Image")));
+			this.butLeft.Icon = OpenPmsDental.UI.EnumIcons.ArrowLeft;
 			this.butLeft.Location = new System.Drawing.Point(13, 18);
 			this.butLeft.Name = "butLeft";
 			this.butLeft.Size = new System.Drawing.Size(39, 24);
@@ -243,7 +243,7 @@ namespace OpenPmsDental {
 			// butPrint
 			// 
 			this.butPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butPrint.Image = ((System.Drawing.Image)(resources.GetObject("butPrint.Image")));
+			this.butPrint.Icon = OpenPmsDental.UI.EnumIcons.Print;
 			this.butPrint.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butPrint.Location = new System.Drawing.Point(779, 662);
 			this.butPrint.Name = "butPrint";
@@ -300,7 +300,7 @@ namespace OpenPmsDental {
 			// 
 			// butPrevEmp
 			// 
-			this.butPrevEmp.Image = ((System.Drawing.Image)(resources.GetObject("butPrevEmp.Image")));
+			this.butPrevEmp.Icon = OpenPmsDental.UI.EnumIcons.ArrowLeft;
 			this.butPrevEmp.Location = new System.Drawing.Point(23, 18);
 			this.butPrevEmp.Name = "butPrevEmp";
 			this.butPrevEmp.Size = new System.Drawing.Size(39, 24);
@@ -309,7 +309,7 @@ namespace OpenPmsDental {
 			// 
 			// butNextEmp
 			// 
-			this.butNextEmp.Image = ((System.Drawing.Image)(resources.GetObject("butNextEmp.Image")));
+			this.butNextEmp.Icon = OpenPmsDental.UI.EnumIcons.ArrowRight;
 			this.butNextEmp.Location = new System.Drawing.Point(74, 18);
 			this.butNextEmp.Name = "butNextEmp";
 			this.butNextEmp.Size = new System.Drawing.Size(39, 24);

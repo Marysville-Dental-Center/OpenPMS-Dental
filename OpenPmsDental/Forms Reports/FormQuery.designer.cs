@@ -131,7 +131,7 @@
 			// 
 			// butExportExcel
 			// 
-			this.butExportExcel.Image = global::OpenPmsDental.Properties.Resources.butExportExcel;
+			this.butExportExcel.Icon = OpenPmsDental.UI.EnumIcons.ExportExcel;
 			this.butExportExcel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butExportExcel.Location = new System.Drawing.Point(159, 71);
 			this.butExportExcel.Name = "butExportExcel";
@@ -143,7 +143,7 @@
 			// 
 			// butPaste
 			// 
-			this.butPaste.Image = global::OpenPmsDental.Properties.Resources.butPaste;
+			this.butPaste.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Paste,22,22);
 			this.butPaste.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butPaste.Location = new System.Drawing.Point(78, 56);
 			this.butPaste.Name = "butPaste";
@@ -154,7 +154,7 @@
 			// 
 			// butCopy
 			// 
-			this.butCopy.Image = global::OpenPmsDental.Properties.Resources.Copy;
+			this.butCopy.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Copy,22,22);
 			this.butCopy.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butCopy.Location = new System.Drawing.Point(3, 56);
 			this.butCopy.Name = "butCopy";
@@ -284,7 +284,7 @@
 			// 
 			// butBack
 			// 
-			this.butBack.Image = global::OpenPmsDental.Properties.Resources.Left;
+			this.butBack.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.ArrowLeft,22,22);
 			this.butBack.Location = new System.Drawing.Point(6, 0);
 			this.butBack.Name = "butBack";
 			this.butBack.Size = new System.Drawing.Size(18, 23);
@@ -294,7 +294,7 @@
 			// butFwd
 			// 
 			this.butFwd.AdjustImageLocation = new System.Drawing.Point(1, 0);
-			this.butFwd.Image = global::OpenPmsDental.Properties.Resources.Right;
+			this.butFwd.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.ArrowRight,22,22);
 			this.butFwd.Location = new System.Drawing.Point(118, 0);
 			this.butFwd.Name = "butFwd";
 			this.butFwd.Size = new System.Drawing.Size(18, 23);
@@ -304,7 +304,7 @@
 			// butPrint
 			// 
 			this.butPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butPrint.Image = global::OpenPmsDental.Properties.Resources.butPrintSmall;
+			this.butPrint.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Print,16,16);
 			this.butPrint.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butPrint.Location = new System.Drawing.Point(1075, 666);
 			this.butPrint.Name = "butPrint";
@@ -316,7 +316,7 @@
 			// butExport
 			// 
 			this.butExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butExport.Image = global::OpenPmsDental.Properties.Resources.butExport;
+			this.butExport.Icon = OpenPmsDental.UI.EnumIcons.Export;
 			this.butExport.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butExport.Location = new System.Drawing.Point(990, 666);
 			this.butExport.Name = "butExport";
@@ -328,7 +328,7 @@
 			// butQView
 			// 
 			this.butQView.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butQView.Image = global::OpenPmsDental.Properties.Resources.butQView;
+			this.butQView.Icon = OpenPmsDental.UI.EnumIcons.QueryView;
 			this.butQView.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butQView.Location = new System.Drawing.Point(792, 666);
 			this.butQView.Name = "butQView";
@@ -340,7 +340,7 @@
 			// butPrintPreview
 			// 
 			this.butPrintPreview.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butPrintPreview.Image = global::OpenPmsDental.Properties.Resources.butPreview;
+			this.butPrintPreview.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Preview,17,16);
 			this.butPrintPreview.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butPrintPreview.Location = new System.Drawing.Point(890, 666);
 			this.butPrintPreview.Name = "butPrintPreview";

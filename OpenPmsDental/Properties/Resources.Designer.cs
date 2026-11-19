@@ -143,79 +143,9 @@ namespace OpenPmsDental.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap butExport {
-            get {
-                object obj = ResourceManager.GetObject("butExport", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap butExportExcel {
-            get {
-                object obj = ResourceManager.GetObject("butExportExcel", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap butLabel {
-            get {
-                object obj = ResourceManager.GetObject("butLabel", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap butPaste {
-            get {
-                object obj = ResourceManager.GetObject("butPaste", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap butPreview {
-            get {
-                object obj = ResourceManager.GetObject("butPreview", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap butPrint {
-            get {
-                object obj = ResourceManager.GetObject("butPrint", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         public static System.Drawing.Bitmap butPrintSmall {
             get {
                 object obj = ResourceManager.GetObject("butPrintSmall", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap butQView {
-            get {
-                object obj = ResourceManager.GetObject("butQView", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -400,16 +330,6 @@ namespace OpenPmsDental.Properties {
         public static System.Drawing.Bitmap Cut_24x24 {
             get {
                 object obj = ResourceManager.GetObject("Cut_24x24", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap DeleteX {
-            get {
-                object obj = ResourceManager.GetObject("DeleteX", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -925,16 +845,6 @@ namespace OpenPmsDental.Properties {
         public static string ReportAccountingGenLedger {
             get {
                 return ResourceManager.GetString("ReportAccountingGenLedger", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap Right {
-            get {
-                object obj = ResourceManager.GetObject("Right", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
             }
         }
         

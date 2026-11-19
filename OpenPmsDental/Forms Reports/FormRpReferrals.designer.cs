@@ -127,7 +127,7 @@ namespace OpenPmsDental {
 			// butDeleteFilter
 			// 
 			this.butDeleteFilter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butDeleteFilter.Image = ((System.Drawing.Image)(resources.GetObject("butDeleteFilter.Image")));
+			this.butDeleteFilter.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDeleteFilter.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butDeleteFilter.Location = new System.Drawing.Point(14, 429);
 			this.butDeleteFilter.Name = "butDeleteFilter";

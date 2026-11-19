@@ -67,7 +67,7 @@ namespace OpenPmsDental{
 			// 
 			// butSet
 			// 
-			this.butSet.Image = global::OpenPmsDental.Properties.Resources.Left;
+			this.butSet.Icon = OpenPmsDental.UI.EnumIcons.ArrowLeft;
 			this.butSet.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butSet.Location = new System.Drawing.Point(414, 228);
 			this.butSet.Name = "butSet";

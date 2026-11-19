@@ -685,7 +685,7 @@ namespace OpenPmsDental {
 			// butCopy
 			// 
 			this.butCopy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butCopy.Image = global::OpenPmsDental.Properties.Resources.Copy;
+			this.butCopy.Icon = OpenPmsDental.UI.EnumIcons.Copy;
 			this.butCopy.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butCopy.Location = new System.Drawing.Point(840, 550);
 			this.butCopy.Name = "butCopy";

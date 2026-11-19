@@ -74,7 +74,14 @@ namespace OpenPmsDental.UI{
 		ZoomIn,
 		ZoomOut,
 		//UI-9a-4 (Forms R-S, docs/port-notes/UI-9a.md): the purpose of the recording picture of FormRecordAudio, with its manifest row.
-		Record
+		Record,
+		//UI-9a-5 (Forms T-Z and Forms Reports, docs/port-notes/UI-9a.md): the copy and paste pictures of FormTaskEdit and FormUserQuery; the manifest
+		//rows and the WPF members exist (Imaging toolbar).
+		Copy,
+		Paste,
+		//The Excel export and query view pictures of FormQuery, with their manifest rows.
+		ExportExcel,
+		QueryView
 	}
 
 	///<summary></summary>

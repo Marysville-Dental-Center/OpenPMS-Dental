@@ -88,7 +88,10 @@ To add an icon: add the member here (and to the WinForms enum when WinForms draw
 		ZoomIn,
 		ZoomOut,
 		//UI-9a-4 (Forms R-S, docs/port-notes/UI-9a.md): the purpose of the recording picture of FormRecordAudio, with its manifest row.
-		Record
+		Record,
+		//UI-9a-5 (Forms T-Z and Forms Reports, docs/port-notes/UI-9a.md): the Excel export and query view pictures of FormQuery, with their manifest rows.
+		ExportExcel,
+		QueryView
 	}
 
 	///<summary></summary>
