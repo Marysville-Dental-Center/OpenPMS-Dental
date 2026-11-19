@@ -318,7 +318,7 @@ namespace OpenPmsDental {
 			// 
 			// butPrint
 			// 
-			this.butPrint.Image = global::OpenPmsDental.Properties.Resources.butPrint;
+			this.butPrint.Icon = OpenPmsDental.UI.EnumIcons.Print;
 			this.butPrint.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butPrint.Location = new System.Drawing.Point(182, 470);
 			this.butPrint.Name = "butPrint";
@@ -340,7 +340,7 @@ namespace OpenPmsDental {
 			// 
 			// butPreview
 			// 
-			this.butPreview.Image = global::OpenPmsDental.Properties.Resources.printPreview20;
+			this.butPreview.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Preview,20,20);
 			this.butPreview.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butPreview.Location = new System.Drawing.Point(435, 470);
 			this.butPreview.Name = "butPreview";

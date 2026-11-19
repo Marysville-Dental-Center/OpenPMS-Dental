@@ -303,3 +303,62 @@ rem after: OPMS_UI9A_RECORD empty, OPMS_UI9A_PICTURES=...\after, same run; keep 
 3. Dictate (FormPerio butListen): Mic. Fine?
 4. Zoom In and Zoom Out (FormPrntScrn): magnifier with a plus or a minus. Fine?
 5. FormOrthoChartSetup add: the plain `Add` plus, as in UI-9a-2. Fine?
+
+## 6. UI-9a-4: Forms R-S
+
+On `ui/ui9a4-1` from `main` at `67ca33835`. Visible change: 66 button pictures in 36 windows (`FormR*`, `FormS*`) are Fluent icons. No schema change, no NuGet
+package, no download beyond UI-7a's approved 1.1.346 SVGs, no program started, no window shown, scratch databases not used.
+
+### 6.1 What the tool found (`OpenPmsDental/Forms`, `FormR*`, `FormS*`: 372 files, 72 picture uses)
+
+| Kind | Uses | What happened |
+|---|---|---|
+| `Resources` | 67 | 66 converted: up, down, Left, Right, butPrint, butPrintSmall, butPreview, butLabel, butExport, deleteX18 (earlier rows) and butPin22, record, printPreview20, Add, DeleteX (new rows); `PracticeByNumbers_100x24` kept (vendor logo, 4.5) |
+| `Resx` | 1 | `keep`: `FormSplash` `$this.BackgroundImage` (the splash picture, branding, 4.5) |
+| `ImageList` | 4 | `UI-9b`: FormRecordAudio, FormSetupWizard, FormSetupWizardProgress, FormSnomeds |
+
+66 lines: 48 as `UI.Button.Icon`, 18 as `IconLibrary.GetBitmap` (16 x 14 print pictures as 16 x 16, label and preview pictures, the 22 px
+pictures whose slot would pass the border, the 18 x 18 remove X, the record picture, and the one code-made button of `FormSheetDefEdit`). 3 vertical nudges
+removed as before. The `Resources` pictures `butPin22`, `printPreview20` and `record` had their last use here and are gone with their files
+(and the `<None Remove>` line of `record.gif` in `OpenPmsDental.csproj`; the lead re-takes `tools/project-baseline/items.txt` as after UI-9a-1 to UI-9a-3).
+Bounds unchanged.
+
+### 6.2 New `EnumIcons` (a "UI-9a-4" block in both enums; 1 manifest row; 5 SVGs; 583 designs in `IconData.g.cs`)
+
+| Picture | Purpose | `EnumIcons` | Fluent |
+|---|---|---|---|
+| record.gif (FormRecordAudio butStart) | start recording | `Record` | Record (a circle with a ring) |
+
+Existing members reused: Pin (butPin22, the recall list's "to pinboard"), Preview (printPreview20), Add, DeleteX, Up, Down, ArrowLeft, ArrowRight, Print,
+Export, Label. Member counts now 56 (WinForms) and 69 (WPF).
+
+### 6.3 Tests (Targeted: UiRefreshTests, WindowChecksTests, UnitTests, NoHqTests)
+
+`PictureMapTests` covers the slice through its row in `icons/picture-slices.tsv`. Its built-window test now skips a window whose build needs the
+preference cache ("is an invalid pref name": `FormRecallList`, `FormSchedule`) like one that needs a database, and `FormSheetDefEdit` joins the windows that need arguments
+(its designer lines are still checked). `IconLibraryTests` and `WpfImagesTests` counts updated. Runs: `.git/od-tools/test-results/ui9a4-before.txt` (before
+pictures; the slice-done check fails there by design), `ui9a4-final.txt` (all passed: UiRefreshTests 193 + 8 opt-in skipped, WindowChecksTests 29 + 43 opt-in skipped,
+UnitTests 1,728 + 3, NoHqTests 122). Full x64 filter build: 0 errors. `Test-NoEolFlips.ps1 -Base main`: no line ends changed.
+
+### 6.4 Gallery G-UI3, the UI-9a-4 slice
+
+**Where:** `.git/od-tools/test-results/G-UI3-ui9a4/` (`index.html`, zip beside it): 85 pictures (33 windows, 52 buttons), all changed, rendered off screen.
+Sources: `.git/od-tools/test-results/ui9a4-pictures/before` and `.../after-slice`. Not pictured: `FormRecallList`, `FormSchedule` (preference cache) and
+`FormSheetDefEdit` (arguments); 14 buttons. The lead can picture them in a connected session on the scratch copy (the synthetic dump) with the harness group U.
+
+**For the lead** (rebuild; `<repo>` is the main checkout; the before set is built on the commit "UI-9a-4: slice row, map rows and the Record icon" with the planned record):
+
+```
+powershell -NoProfile -ExecutionPolicy Bypass -File tools\Convert-PictureUses.ps1 -Slice UI-9a-4 -Check -Record <repo>\.git\od-tools\test-results\ui9a4-pictures\planned-record.tsv
+set OPMS_UI9A_PICTURES=<repo>\.git\od-tools\test-results\ui9a4-pictures\before
+set OPMS_UI9A_RECORD=<repo>\.git\od-tools\test-results\ui9a4-pictures\planned-record.tsv
+run-tests.ps1 -Root <worktree> -Mode Targeted -Platform x64 -RequireBuildOutput -Include UiRefreshTests
+rem after: OPMS_UI9A_RECORD empty, OPMS_UI9A_PICTURES=...\after, same run; keep the before set's names (after-slice); then tools\New-UiGallery.ps1 -Before ...\before -After ...\after-slice -Name G-UI3 -Out ...\G-UI3-ui9a4 -Note "<summary>"
+```
+
+### 6.5 Owner questions (new icon choices, to approve in the gallery)
+
+1. Start recording (FormRecordAudio butStart, red record circle): Record, a circle with a ring (regular). Fine, or Mic (already used for dictate)?
+2. The recall list's "to pinboard" (butPin22) uses the same Pin as the other pinboard buttons, and the 20 x 20 print preview (printPreview20) the same Preview
+   (Document Search) as the 16 px ones. Fine?
+3. The remove X (FormSheetFieldComboBox butRemove, 18 x 18) is `DeleteX` as in UI-9a-2; the sheet field windows' delete buttons use `DeleteX` too. Fine?

@@ -235,7 +235,7 @@
 			// butSchedFam
 			// 
 			this.butSchedFam.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butSchedFam.Image = global::OpenPmsDental.Properties.Resources.butPin22;
+			this.butSchedFam.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Pin,19,22);
 			this.butSchedFam.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butSchedFam.Location = new System.Drawing.Point(639, 639);
 			this.butSchedFam.Name = "butSchedFam";
@@ -248,7 +248,7 @@
 			// butLabelOne
 			// 
 			this.butLabelOne.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butLabelOne.Image = global::OpenPmsDental.Properties.Resources.butLabel;
+			this.butLabelOne.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Label,18,16);
 			this.butLabelOne.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butLabelOne.Location = new System.Drawing.Point(128, 613);
 			this.butLabelOne.Name = "butLabelOne";
@@ -260,7 +260,7 @@
 			// butSchedPat
 			// 
 			this.butSchedPat.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butSchedPat.Image = global::OpenPmsDental.Properties.Resources.butPin22;
+			this.butSchedPat.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Pin,19,22);
 			this.butSchedPat.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butSchedPat.Location = new System.Drawing.Point(639, 613);
 			this.butSchedPat.Name = "butSchedPat";
@@ -307,7 +307,7 @@
 			// butPostcards
 			// 
 			this.butPostcards.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butPostcards.Image = global::OpenPmsDental.Properties.Resources.butPreview;
+			this.butPostcards.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Preview,17,16);
 			this.butPostcards.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butPostcards.Location = new System.Drawing.Point(3, 613);
 			this.butPostcards.Name = "butPostcards";
@@ -319,7 +319,7 @@
 			// butPrint
 			// 
 			this.butPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butPrint.Image = global::OpenPmsDental.Properties.Resources.butPrintSmall;
+			this.butPrint.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Print,16,16);
 			this.butPrint.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butPrint.Location = new System.Drawing.Point(350, 639);
 			this.butPrint.Name = "butPrint";
@@ -374,7 +374,7 @@
 			// butLabels
 			// 
 			this.butLabels.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butLabels.Image = global::OpenPmsDental.Properties.Resources.butLabel;
+			this.butLabels.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Label,18,16);
 			this.butLabels.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butLabels.Location = new System.Drawing.Point(128, 639);
 			this.butLabels.Name = "butLabels";
@@ -703,7 +703,7 @@
 			// butReactSchedFam
 			// 
 			this.butReactSchedFam.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butReactSchedFam.Image = global::OpenPmsDental.Properties.Resources.butPin22;
+			this.butReactSchedFam.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Pin,19,22);
 			this.butReactSchedFam.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butReactSchedFam.Location = new System.Drawing.Point(639, 639);
 			this.butReactSchedFam.Name = "butReactSchedFam";
@@ -716,7 +716,7 @@
 			// butReactSingleLabels
 			// 
 			this.butReactSingleLabels.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butReactSingleLabels.Image = global::OpenPmsDental.Properties.Resources.butLabel;
+			this.butReactSingleLabels.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Label,18,16);
 			this.butReactSingleLabels.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butReactSingleLabels.Location = new System.Drawing.Point(128, 613);
 			this.butReactSingleLabels.Name = "butReactSingleLabels";
@@ -728,7 +728,7 @@
 			// butReactSchedPat
 			// 
 			this.butReactSchedPat.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butReactSchedPat.Image = global::OpenPmsDental.Properties.Resources.butPin22;
+			this.butReactSchedPat.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Pin,19,22);
 			this.butReactSchedPat.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butReactSchedPat.Location = new System.Drawing.Point(639, 613);
 			this.butReactSchedPat.Name = "butReactSchedPat";
@@ -753,7 +753,7 @@
 			// butReactPostcardPreview
 			// 
 			this.butReactPostcardPreview.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butReactPostcardPreview.Image = global::OpenPmsDental.Properties.Resources.butPreview;
+			this.butReactPostcardPreview.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Preview,17,16);
 			this.butReactPostcardPreview.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butReactPostcardPreview.Location = new System.Drawing.Point(3, 613);
 			this.butReactPostcardPreview.Name = "butReactPostcardPreview";
@@ -765,7 +765,7 @@
 			// butReactPrint
 			// 
 			this.butReactPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butReactPrint.Image = global::OpenPmsDental.Properties.Resources.butPrintSmall;
+			this.butReactPrint.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Print,16,16);
 			this.butReactPrint.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butReactPrint.Location = new System.Drawing.Point(350, 639);
 			this.butReactPrint.Name = "butReactPrint";
@@ -777,7 +777,7 @@
 			// butReactLabelPreview
 			// 
 			this.butReactLabelPreview.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butReactLabelPreview.Image = global::OpenPmsDental.Properties.Resources.butLabel;
+			this.butReactLabelPreview.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Label,18,16);
 			this.butReactLabelPreview.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butReactLabelPreview.Location = new System.Drawing.Point(128, 639);
 			this.butReactLabelPreview.Name = "butReactLabelPreview";

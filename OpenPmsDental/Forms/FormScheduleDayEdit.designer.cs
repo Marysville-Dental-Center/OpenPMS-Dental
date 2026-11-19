@@ -64,7 +64,7 @@ namespace OpenPmsDental {
 			// 
 			// butForward
 			// 
-			this.butForward.Image = global::OpenPmsDental.Properties.Resources.Right;
+			this.butForward.Icon = OpenPmsDental.UI.EnumIcons.ArrowRight;
 			this.butForward.Location = new System.Drawing.Point(199, 7);
 			this.butForward.Name = "butForward";
 			this.butForward.Size = new System.Drawing.Size(39, 24);
@@ -73,7 +73,7 @@ namespace OpenPmsDental {
 			// 
 			// butBack
 			// 
-			this.butBack.Image = global::OpenPmsDental.Properties.Resources.Left;
+			this.butBack.Icon = OpenPmsDental.UI.EnumIcons.ArrowLeft;
 			this.butBack.Location = new System.Drawing.Point(12, 6);
 			this.butBack.Name = "butBack";
 			this.butBack.Size = new System.Drawing.Size(39, 24);

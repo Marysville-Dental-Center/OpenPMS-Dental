@@ -86,7 +86,9 @@ To add an icon: add the member here (and to the WinForms enum when WinForms draw
 		CloseDoor,
 		Microphone,
 		ZoomIn,
-		ZoomOut
+		ZoomOut,
+		//UI-9a-4 (Forms R-S, docs/port-notes/UI-9a.md): the purpose of the recording picture of FormRecordAudio, with its manifest row.
+		Record
 	}
 
 	///<summary></summary>

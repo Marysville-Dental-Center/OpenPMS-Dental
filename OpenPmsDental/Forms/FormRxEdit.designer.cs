@@ -173,7 +173,7 @@ namespace OpenPmsDental {
 			// butPrint
 			// 
 			this.butPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butPrint.Image = global::OpenPmsDental.Properties.Resources.butPrint;
+			this.butPrint.Icon = OpenPmsDental.UI.EnumIcons.Print;
 			this.butPrint.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butPrint.Location = new System.Drawing.Point(323, 586);
 			this.butPrint.Name = "butPrint";
@@ -234,7 +234,7 @@ namespace OpenPmsDental {
 			// butView
 			// 
 			this.butView.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butView.Image = global::OpenPmsDental.Properties.Resources.printPreview20;
+			this.butView.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Preview,20,20);
 			this.butView.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butView.Location = new System.Drawing.Point(410, 586);
 			this.butView.Name = "butView";
@@ -439,7 +439,7 @@ namespace OpenPmsDental {
 			// butPrintPatInstructions
 			// 
 			this.butPrintPatInstructions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butPrintPatInstructions.Image = global::OpenPmsDental.Properties.Resources.butPrint;
+			this.butPrintPatInstructions.Icon = OpenPmsDental.UI.EnumIcons.Print;
 			this.butPrintPatInstructions.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butPrintPatInstructions.Location = new System.Drawing.Point(233, 586);
 			this.butPrintPatInstructions.Name = "butPrintPatInstructions";

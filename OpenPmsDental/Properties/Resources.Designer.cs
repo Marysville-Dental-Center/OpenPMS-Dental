@@ -183,16 +183,6 @@ namespace OpenPmsDental.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap butPin22 {
-            get {
-                object obj = ResourceManager.GetObject("butPin22", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         public static System.Drawing.Bitmap butPreview {
             get {
                 object obj = ResourceManager.GetObject("butPreview", resourceCulture);
@@ -845,16 +835,6 @@ namespace OpenPmsDental.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap printPreview20 {
-            get {
-                object obj = ResourceManager.GetObject("printPreview20", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         public static System.Drawing.Bitmap raisehand {
             get {
                 object obj = ResourceManager.GetObject("raisehand", resourceCulture);
@@ -868,16 +848,6 @@ namespace OpenPmsDental.Properties {
         public static System.Drawing.Bitmap raisehanddisabled {
             get {
                 object obj = ResourceManager.GetObject("raisehanddisabled", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap record {
-            get {
-                object obj = ResourceManager.GetObject("record", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

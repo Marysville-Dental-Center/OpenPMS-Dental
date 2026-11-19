@@ -55,3 +55,15 @@ FormOrthoChartSetup:butAdd.Image	EnumIcons.Add	add (blue plus)
 FormMedical:imageListInfoButton.ImageStream	UI-9b	the info button ImageList of the medical grid
 FormProcButtonEdit:imageList.ImageStream	UI-9b	the window's ImageList
 FormProcButtons:imageListProcButtons.ImageStream	UI-9b	the procedure buttons' ImageList
+# UI-9a-4 (Forms R-S)
+Resources:butPin22	EnumIcons.Pin	send to the pinboard (pin, 19 x 22)
+Resources:record	EnumIcons.Record	record (red record circle)
+Resources:printPreview20	EnumIcons.Preview	print preview (page with a magnifier, 20 x 20)
+Resources:Add	EnumIcons.Add	add (blue plus)
+Resources:DeleteX	EnumIcons.DeleteX	delete, remove (red X)
+Resources:PracticeByNumbers_100x24	keep	the Practice By Numbers logo: a vendor partner logo (section 4.5)
+FormSplash:$this.BackgroundImage	keep	the splash picture: branding (section 4.5)
+FormRecordAudio:imageListMain.ImageStream	UI-9b	the window's ImageList
+FormSetupWizard:imageList1.ImageStream	UI-9b	the setup wizard's ImageList
+FormSetupWizardProgress:imageList1.ImageStream	UI-9b	the setup wizard progress ImageList
+FormSnomeds:imageListInfoButton.ImageStream	UI-9b	the info button ImageList of the SNOMED grid

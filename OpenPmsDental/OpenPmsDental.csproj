@@ -5757,7 +5757,6 @@
     <None Remove="Resources\chevright.png" />
     <None Remove="Resources\Complete.gif" />
     <None Remove="Resources\infoIconPressed.png" />
-    <None Remove="Resources\record.gif" />
     <None Remove="Resources\stop.gif" />
     <None Remove="Resources\Text.gif" />
   </ItemGroup>
