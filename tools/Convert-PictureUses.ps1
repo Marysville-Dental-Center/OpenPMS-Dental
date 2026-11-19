@@ -51,7 +51,9 @@ unknown member, or when something would change. Without -Apply or -Check the too
 ASCII only. Windows PowerShell 5.1 or later. Needs no program, no database and no network.
 
 .PARAMETER Root
-The repository root. Default: the folder above this script's folder.
+The repository root. Give it always, as the checkout that holds this script (<checkout>\tools\Convert-PictureUses.ps1
+-Root <checkout>). Without it the tool uses the folder above this script's folder, and only when the current folder is that
+folder; from anywhere else it refuses (exit 2), so a run from another checkout cannot write into this one.
 .PARAMETER Slice
 The slice (a row of icons/picture-slices.tsv), for example UI-9a-1.
 .PARAMETER Folder
@@ -71,9 +73,9 @@ Applies the map.
 Reports what -Apply would change; writes nothing but -Inventory and a -Record path that is not the default.
 
 .EXAMPLE
-powershell -NoProfile -ExecutionPolicy Bypass -File tools\Convert-PictureUses.ps1 -Slice UI-9a-1 -Inventory $env:TEMP\ui9a1.tsv
-powershell -NoProfile -ExecutionPolicy Bypass -File tools\Convert-PictureUses.ps1 -Slice UI-9a-1 -Check
-powershell -NoProfile -ExecutionPolicy Bypass -File tools\Convert-PictureUses.ps1 -Slice UI-9a-1 -Apply
+powershell -NoProfile -ExecutionPolicy Bypass -File <checkout>\tools\Convert-PictureUses.ps1 -Root <checkout> -Slice UI-9a-1 -Inventory $env:TEMP\ui9a1.tsv
+powershell -NoProfile -ExecutionPolicy Bypass -File <checkout>\tools\Convert-PictureUses.ps1 -Root <checkout> -Slice UI-9a-1 -Check
+powershell -NoProfile -ExecutionPolicy Bypass -File <checkout>\tools\Convert-PictureUses.ps1 -Root <checkout> -Slice UI-9a-1 -Apply
 #>
 [CmdletBinding()]
 param(
@@ -92,7 +94,15 @@ Set-StrictMode -Version 2
 Add-Type -AssemblyName System.Drawing
 
 if($Root -eq ''){
-	$Root=Split-Path -Parent $PSScriptRoot
+	#Without -Root the tool runs only from its own repository root, so a call from another checkout's folder cannot write here
+	#(a worktree must call its own copy of the tool with -Root <worktree>).
+	$rootScript=[System.IO.Path]::GetFullPath((Split-Path -Parent $PSScriptRoot)).TrimEnd('\')
+	$rootHere=[System.IO.Path]::GetFullPath((Get-Location).ProviderPath).TrimEnd('\')
+	if($rootHere -ne $rootScript){
+		[Console]::Error.WriteLine("Convert-PictureUses: give -Root <repository>. Without -Root the tool runs only from its own repository root ($rootScript); the current folder is $rootHere. Call the tool of your own checkout: <checkout>\tools\Convert-PictureUses.ps1 -Root <checkout>.")
+		exit 2
+	}
+	$Root=$rootScript
 }
 $Root=(Resolve-Path $Root).Path
 if($Map -eq ''){
@@ -952,7 +962,7 @@ if($Apply){
 		foreach($r in $newRecord){ $all.Add($r) }
 		$linesRec=New-Object System.Collections.Generic.List[string]
 		$linesRec.Add('# The pictures UI-9a turned into icons (tools/Convert-PictureUses.ps1 -Apply writes this file; docs/port-notes/UI-9a.md).')
-		$linesRec.Add('# how: Icon (UI.Button.Icon, the 22 px slot drawn as vectors) or GetBitmap (IconLibrary.GetBitmap at the picture''s 96 DPI size).')
+		$linesRec.Add('# how: Icon (UI.Button.Icon, the 22 px slot drawn as vectors), GetBitmap (IconLibrary.GetBitmap at the picture''s 96 DPI size) or UiIcons (CodeBase.UiIcons.GetBitmap by name, OpenPmsDentalGraph and OpenPmsDentalBusiness, converted by hand).')
 		$linesRec.Add($RecordHeader)
 		foreach($r in ($all | Sort-Object Slice,File,Control,Property)){
 			$linesRec.Add("$($r.Slice)`t$($r.File)`t$($r.Control)`t$($r.Property)`t$($r.Key)`t$($r.Target)`t$($r.How)`t$($r.Width)`t$($r.Height)")

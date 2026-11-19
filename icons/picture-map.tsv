@@ -143,3 +143,7 @@ OpenPmsDentalGraph:loadingAnim	keep	the spinner (section 4.5: a vector progress 
 OpenPmsDentalBusiness:topazPen10	EnumIcons.Pen	sign with the Topaz pen (10 x 10)
 OpenPmsDentalBusiness:deleteX10	EnumIcons.DeleteX	clear the signature (red X, 10 x 10)
 OpenPmsDentalBusiness:eSig	EnumIcons.Signature	digitally sign (the letter E, 10 x 10)
+# The pictures of the shared projects that stay (section 4.5); the tool does not read these projects' own Resources, the port note lists them
+OpenPmsDentalBusiness:Patient_Info	keep	the default Patient Info sheet background, office content (section 4.5)
+OpenPmsDentalBusiness:ApptBackTest	keep	the appointment background test picture, ApptBackTest.gif (section 4.5)
+SparksToothChart:*	keep	the tooth chart's .obj models (tooth1 to toothT, implant; section 4.5)
