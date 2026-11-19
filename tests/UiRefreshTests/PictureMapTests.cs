@@ -109,21 +109,13 @@ namespace UiRefreshTests {
 			return row.File.Split('/')[0];
 		}
 
-		///<summary>The picture of a converted control: its BackgroundImage, or the Image of a button, label or picture box.</summary>
+		///<summary>The picture of a converted control: its BackgroundImage, or its public Image property (a button, label, PictureBox or ODPictureBox).</summary>
 		private static Image GetImage(Control control,string property) {
 			if(property=="BackgroundImage") {
 				return control.BackgroundImage;
 			}
-			if(control is System.Windows.Forms.ButtonBase buttonBase) {
-				return buttonBase.Image;
-			}
-			if(control is System.Windows.Forms.PictureBox pictureBox) {
-				return pictureBox.Image;
-			}
-			if(control is System.Windows.Forms.Label label) {
-				return label.Image;
-			}
-			return null;
+			PropertyInfo propertyInfo=control.GetType().GetProperty("Image",BindingFlags.Instance|BindingFlags.Public,null,typeof(Image),Type.EmptyTypes,null);
+			return propertyInfo?.GetValue(control) as Image;
 		}
 
 		private static object GetField(object obj,string name) {
@@ -335,6 +327,9 @@ namespace UiRefreshTests {
 		///<summary>Windows the off-screen builder cannot make because their constructors need objects it cannot give (an X835 claim); a
 		///NullReferenceException from any other window still fails the test.</summary>
 		private static readonly string[] _arrayWindowsNeedingArguments=new[] { "FormEtrans835ClaimEdit","FormEtrans835ProcEdit","FormMountDefEdit","FormSheetDefEdit" };
+		///<summary>Controls that add child controls in code while they are built, which LayoutManager allows only in their host (the Security window):
+		///the builder cannot make them on their own. Their designer lines are checked by Record_EveryConversionIsInItsDesignerLine.</summary>
+		private static readonly string[] _arrayWindowsAddingControlsInCode=new[] { "UserControlSecurityUserGroup" };
 
 		[TestMethod]
 		public void BuiltWindows_ShowTheIconOrABitmapOfThePicturesSize() {
@@ -362,6 +357,11 @@ namespace UiRefreshTests {
 						}
 						if(exception is NullReferenceException && _arrayWindowsNeedingArguments.Contains(grouping.Key)) {
 							continue;//a window whose constructor arguments the builder cannot give (an X835 claim): the designer lines are checked by Record_EveryConversionIsInItsDesignerLine
+						}
+						if(exception is ApplicationException && exception.Message.StartsWith("Controls cannot be added programmatically.")
+							&& _arrayWindowsAddingControlsInCode.Contains(grouping.Key))
+						{
+							continue;//LayoutManager's rule for controls added in code, outside the host window: the designer lines are checked by Record_EveryConversionIsInItsDesignerLine
 						}
 						listProblems.Add(grouping.Key+": "+exception.GetType().Name+" "+exception.Message);
 						continue;
