@@ -201,6 +201,9 @@ the manifest; G-UI1 part 3 shows them.
 | Add (FormOrthoChartSetup) | blue plus | existing `Add` | Fluent | UI-9a-3 |
 | Record (`Record`) | red record circle (`record.gif`, FormRecordAudio) | Record (regular) | Fluent | UI-9a-4 |
 | Pin, print preview, add, delete (FormRecallList, FormRxEdit, FormStatementOptions, FormSheet*) | `butPin22.gif`, `printPreview20.gif`, `Add`, `DeleteX` | existing `Pin`, `Preview`, `Add`, `DeleteX` | Fluent | UI-9a-4 |
+| Copy, paste (FormTaskEdit, FormUserQuery) | `Copy.gif`, `butPaste.gif` | existing `Copy`, `Paste` (WinForms members added) | Fluent | UI-9a-5 |
+| Excel export, query view (FormQuery) | `butExportExcel.gif`, `butQView.gif` | `ExportExcel` (Document Table), `QueryView` (Table Search) | Fluent | UI-9a-5 |
+| Time card arrows, filter delete, label sheet pictures (FormTimeCard, FormRpReferrals, FormRpPatients, FormRpLaserLabels) | window `.resx` pictures, `DeleteX`, `butLabel` | existing `ArrowLeft`, `ArrowRight`, `Print`, `DeleteX`, `Label` | Fluent | UI-9a-5 |
 
 The window pictures behind these rows, and the pictures that stay, are in `icons/picture-map.tsv` (`tools/Convert-PictureUses.ps1`,
 `docs/port-notes/UI-9a.md`); `icons/picture-converted.tsv` lists every converted control.

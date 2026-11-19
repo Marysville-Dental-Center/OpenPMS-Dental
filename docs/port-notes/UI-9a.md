@@ -362,3 +362,73 @@ rem after: OPMS_UI9A_RECORD empty, OPMS_UI9A_PICTURES=...\after, same run; keep 
 2. The recall list's "to pinboard" (butPin22) uses the same Pin as the other pinboard buttons, and the 20 x 20 print preview (printPreview20) the same Preview
    (Document Search) as the 16 px ones. Fine?
 3. The remove X (FormSheetFieldComboBox butRemove, 18 x 18) is `DeleteX` as in UI-9a-2; the sheet field windows' delete buttons use `DeleteX` too. Fine?
+
+## 7. UI-9a-5: Forms T-Z and Forms Reports
+
+On `ui/ui9a5-1`, which starts from `ui/ui9a4-1` (UI-9a-4 awaits the owner), so the shared map, manifest and enum blocks stay in one line of history. Visible
+change: 77 button pictures in 35 windows (`FormT*` to `FormZ*`, and `OpenPmsDental/Forms Reports`) are Fluent icons. No schema change, no NuGet package, no download
+beyond UI-7a's approved 1.1.346 SVGs, no program started, no window shown, no scratch database used. The slice has two folders, so `icons/picture-slices.tsv`
+names them `UI-9a-5a` (Forms, `FormT*` to `FormZ*`) and `UI-9a-5b` (`Forms Reports`).
+
+### 7.1 What the tool found
+
+| Slice | Kind | Uses | What happened |
+|---|---|---|---|
+| UI-9a-5a | `Resources` | 18 | converted: Left, Right, butPrint, butPrintSmall, butPreview, butExport, editPencil (earlier rows), Copy, butPaste (new rows) |
+| UI-9a-5a | `Resx` | 5 | converted: FormTimeCard butRight, butLeft, butPrint, butPrevEmp, butNextEmp (the `.resx` entries removed) |
+| UI-9a-5a | `ImageList` | 5 | `UI-9b`: FormTPsign, FormWebBrowserPrefs, FormWebView, FormWiki, FormWikiEdit |
+| UI-9a-5b | `Resources` | 50 | converted: Left, Right, butPrintSmall, butPreview, butExport, butLabel, Add, DeleteX (earlier rows), butExportExcel, butQView (new rows) |
+| UI-9a-5b | `Resx` | 2 | converted: FormRpReferrals and FormRpPatients butDeleteFilter (red X, `DeleteX`) |
+| UI-9a-5b | `ImageList` | 3 | `UI-9b`: FormRpDPPOvercharged, FormRpProcNotBilledIns, FormRpProcOverpaid |
+
+`FormRpLaserLabels.cs` builds 30 label cells in code (`PictureBox`, `StretchImage`, 51 x 17): the tool reports them as hand edits, done here as
+`IconLibrary.GetBitmap(DeleteX|Label,51,17)` (the icon in the largest square that fits, so the picture stays undistorted; the 18 x 18 and 18 x 9 pictures were
+stretched). The seven `Resources` pictures butExport, butExportExcel, butPaste, butPreview, butPrint, butQView and butlabel had their last use here and are
+gone with their files (the lead re-takes `tools/project-baseline/items.txt`, as after the earlier slices); `DeleteX`, `Right` and others stay (used by
+`UnitTests` or `OpenPmsDentalBusiness` resources). 77 lines in `icons/picture-converted.tsv`: 44 as `UI.Button.Icon`, 33 as `GetBitmap`. Bounds unchanged.
+
+### 7.2 New `EnumIcons`
+
+A "UI-9a-5" block in both enums, 2 manifest rows, 5 SVGs (SHA-256 lines in `third-party/fluentui-system-icons/SOURCE.txt`), `IconData.g.cs` regenerated
+(588 designs).
+
+| Picture | Purpose | `EnumIcons` | Fluent |
+|---|---|---|---|
+| butExportExcel.gif | export the query to Excel (FormQuery) | `ExportExcel` | Document Table (16, 20, 24 px) |
+| butQView.gif | the query view (FormQuery) | `QueryView` | Table Search (20, 24 px; the 22 px slot draws the 20 px design) |
+
+`Copy` and `Paste` already had manifest rows and WPF members (the imaging toolbar); this slice adds them to the WinForms enum. Member counts: 60 WinForms, 71 WPF
+(`IconLibraryTests`, `WpfImagesTests` updated).
+
+### 7.3 Tests (Targeted: UiRefreshTests, WindowChecksTests, UnitTests, NoHqTests)
+
+`PictureMapTests` covers both slices through their rows in `icons/picture-slices.tsv`. Runs: `.git/od-tools/test-results/ui9a5-before.txt` (before pictures on the commit
+before `-Apply`; the slice-done check fails there by design), `ui9a5-final.txt` (all passed: UiRefreshTests 193 + 8 opt-in skipped, WindowChecksTests 29 + 43 opt-in
+skipped, UnitTests 1,728 + 3, NoHqTests 122). Full x64 build: 0 errors. `Test-NoEolFlips.ps1 -Base ui/ui9a4-1`: no line ends changed. InitSqlTests and
+ForkMigrationTests not run (no schema work).
+
+### 7.4 Gallery G-UI3, the UI-9a-5 slice
+
+**Where:** `.git/od-tools/test-results/G-UI3-ui9a5/` (`index.html`, zip beside it): 112 pictures (35 windows, 77 buttons), rendered off screen. Sources:
+`.git/od-tools/test-results/ui9a5-pictures/before` and `.../after-slice`. Every window of the slice pictured.
+
+**For the lead** (rebuild; `<repo>` is the main checkout; the before set is built on the commit "UI-9a-5: ExportExcel and QueryView icons, the laser label pictures by hand, counts"
+with the planned record, `planned-record.tsv` = the `-Check -Record` output of both slices):
+
+```
+powershell -NoProfile -ExecutionPolicy Bypass -File tools\Convert-PictureUses.ps1 -Slice UI-9a-5a -Check -Record <repo>\.git\od-tools\test-results\ui9a5-pictures\planned-5a.tsv
+powershell -NoProfile -ExecutionPolicy Bypass -File tools\Convert-PictureUses.ps1 -Slice UI-9a-5b -Check -Record <repo>\.git\od-tools\test-results\ui9a5-pictures\planned-5b.tsv
+rem join them (one header) into planned-record.tsv
+set OPMS_UI9A_PICTURES=<repo>\.git\od-tools\test-results\ui9a5-pictures\before
+set OPMS_UI9A_RECORD=<repo>\.git\od-tools\test-results\ui9a5-pictures\planned-record.tsv
+run-tests.ps1 -Root <worktree> -Mode Targeted -Platform x64 -RequireBuildOutput -Include UiRefreshTests
+rem after: OPMS_UI9A_RECORD empty, OPMS_UI9A_PICTURES=...\after, same run; keep the before set's names (after-slice); then tools\New-UiGallery.ps1 -Before ...\before -After ...\after-slice -Name G-UI3 -Out ...\G-UI3-ui9a5 -Note "<summary>"
+```
+
+### 7.5 Owner questions (new icon choices, to approve in the gallery)
+
+1. Excel export (FormQuery butExportExcel): Document Table (a page with a table). Fine, or the plain Export icon?
+2. Query view (FormQuery butQView): Table Search (a table with a magnifier). Fine, or Database Search?
+3. Copy and paste (FormTaskEdit, FormUserQuery): the imaging toolbar's `Copy` and `Paste`. Fine?
+4. The time card's previous and next employee buttons use the same arrows as previous and next period; the filter delete buttons (FormRpReferrals, FormRpPatients) use `DeleteX`. Fine?
+5. The label sheet cells of FormRpLaserLabels (cleared X and label) are 17 px icons in their 51 x 17 boxes, not stretched. Fine?
