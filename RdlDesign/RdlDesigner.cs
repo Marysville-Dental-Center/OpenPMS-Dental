@@ -1031,7 +1031,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// bTable
 			// 
-			this.bTable.Image = ((System.Drawing.Image)(resources.GetObject("bTable.Image")));
+			this.bTable.Image = global::CodeBase.UiIcons.GetBitmap("EnumIcons","Table",16,16);
 			this.bTable.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.bTable.Location = new System.Drawing.Point(608, 32);
 			this.bTable.Name = "bTable";
@@ -1041,7 +1041,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// bLine
 			// 
-			this.bLine.Image = ((System.Drawing.Image)(resources.GetObject("bLine.Image")));
+			this.bLine.Image = global::CodeBase.UiIcons.GetBitmap("EnumIcons","Line",16,16);
 			this.bLine.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.bLine.Location = new System.Drawing.Point(608, 288);
 			this.bLine.Name = "bLine";
@@ -1051,7 +1051,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// bImage
 			// 
-			this.bImage.Image = ((System.Drawing.Image)(resources.GetObject("bImage.Image")));
+			this.bImage.Image = global::CodeBase.UiIcons.GetBitmap("EnumIcons","Image",16,16);
 			this.bImage.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.bImage.Location = new System.Drawing.Point(608, 256);
 			this.bImage.Name = "bImage";
@@ -1061,7 +1061,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// bRectangle
 			// 
-			this.bRectangle.Image = ((System.Drawing.Image)(resources.GetObject("bRectangle.Image")));
+			this.bRectangle.Image = global::CodeBase.UiIcons.GetBitmap("EnumIcons","Rectangle",16,16);
 			this.bRectangle.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.bRectangle.Location = new System.Drawing.Point(608, 224);
 			this.bRectangle.Name = "bRectangle";
@@ -1071,7 +1071,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// bSubreport
 			// 
-			this.bSubreport.Image = ((System.Drawing.Image)(resources.GetObject("bSubreport.Image")));
+			this.bSubreport.Image = global::CodeBase.UiIcons.GetBitmap("EnumIcons","Subreport",16,16);
 			this.bSubreport.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.bSubreport.Location = new System.Drawing.Point(608, 192);
 			this.bSubreport.Name = "bSubreport";
@@ -1081,7 +1081,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// bList
 			// 
-			this.bList.Image = ((System.Drawing.Image)(resources.GetObject("bList.Image")));
+			this.bList.Image = global::CodeBase.UiIcons.GetBitmap("EnumIcons","ListBullets",16,16);
 			this.bList.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.bList.Location = new System.Drawing.Point(608, 160);
 			this.bList.Name = "bList";
@@ -1091,7 +1091,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// bChart
 			// 
-			this.bChart.Image = ((System.Drawing.Image)(resources.GetObject("bChart.Image")));
+			this.bChart.Image = global::CodeBase.UiIcons.GetBitmap("EnumIcons","ChartBar",16,16);
 			this.bChart.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.bChart.Location = new System.Drawing.Point(608, 128);
 			this.bChart.Name = "bChart";
@@ -1101,7 +1101,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// bText
 			// 
-			this.bText.Image = ((System.Drawing.Image)(resources.GetObject("bText.Image")));
+			this.bText.Image = global::CodeBase.UiIcons.GetBitmap("EnumIcons","TextBox",16,16);
 			this.bText.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.bText.Location = new System.Drawing.Point(608, 96);
 			this.bText.Name = "bText";
@@ -1111,7 +1111,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// bMatrix
 			// 
-			this.bMatrix.Image = ((System.Drawing.Image)(resources.GetObject("bMatrix.Image")));
+			this.bMatrix.Image = global::CodeBase.UiIcons.GetBitmap("EnumIcons","Matrix",16,16);
 			this.bMatrix.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.bMatrix.Location = new System.Drawing.Point(608, 64);
 			this.bMatrix.Name = "bMatrix";
@@ -1121,7 +1121,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// bPrint
 			// 
-			this.bPrint.Image = ((System.Drawing.Image)(resources.GetObject("bPrint.Image")));
+			this.bPrint.Image = global::CodeBase.UiIcons.GetBitmap("EnumIcons","Print",16,16);
 			this.bPrint.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.bPrint.Location = new System.Drawing.Point(504, 192);
 			this.bPrint.Name = "bPrint";
@@ -1131,7 +1131,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// bSave
 			// 
-			this.bSave.Image = ((System.Drawing.Image)(resources.GetObject("bSave.Image")));
+			this.bSave.Image = global::CodeBase.UiIcons.GetBitmap("EnumIcons","Save",16,16);
 			this.bSave.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.bSave.Location = new System.Drawing.Point(504, 160);
 			this.bSave.Name = "bSave";
@@ -1141,7 +1141,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// bOpen
 			// 
-			this.bOpen.Image = ((System.Drawing.Image)(resources.GetObject("bOpen.Image")));
+			this.bOpen.Image = global::CodeBase.UiIcons.GetBitmap("EnumIcons","Open",16,16);
 			this.bOpen.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.bOpen.Location = new System.Drawing.Point(504, 128);
 			this.bOpen.Name = "bOpen";
@@ -1151,7 +1151,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// bPaste
 			// 
-			this.bPaste.Image = ((System.Drawing.Image)(resources.GetObject("bPaste.Image")));
+			this.bPaste.Image = global::CodeBase.UiIcons.GetBitmap("EnumIcons","Paste",16,16);
 			this.bPaste.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.bPaste.Location = new System.Drawing.Point(504, 96);
 			this.bPaste.Name = "bPaste";
@@ -1161,7 +1161,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// bCopy
 			// 
-			this.bCopy.Image = ((System.Drawing.Image)(resources.GetObject("bCopy.Image")));
+			this.bCopy.Image = global::CodeBase.UiIcons.GetBitmap("EnumIcons","Copy",16,16);
 			this.bCopy.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.bCopy.Location = new System.Drawing.Point(504, 64);
 			this.bCopy.Name = "bCopy";
@@ -1171,7 +1171,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// bCut
 			// 
-			this.bCut.Image = ((System.Drawing.Image)(resources.GetObject("bCut.Image")));
+			this.bCut.Image = global::CodeBase.UiIcons.GetBitmap("EnumIcons","Cut",16,16);
 			this.bCut.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.bCut.Location = new System.Drawing.Point(504, 32);
 			this.bCut.Name = "bCut";
@@ -1181,7 +1181,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// bNew
 			// 
-			this.bNew.Image = ((System.Drawing.Image)(resources.GetObject("bNew.Image")));
+			this.bNew.Image = global::CodeBase.UiIcons.GetBitmap("EnumIcons","NewDocument",16,16);
 			this.bNew.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.bNew.Location = new System.Drawing.Point(504, 224);
 			this.bNew.Name = "bNew";
@@ -1191,7 +1191,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// bUndo
 			// 
-			this.bUndo.Image = ((System.Drawing.Image)(resources.GetObject("bUndo.Image")));
+			this.bUndo.Image = global::CodeBase.UiIcons.GetBitmap("EnumIcons","Undo",16,16);
 			this.bUndo.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.bUndo.Location = new System.Drawing.Point(504, 256);
 			this.bUndo.Name = "bUndo";
@@ -1201,7 +1201,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// bPdf
 			// 
-			this.bPdf.Image = ((System.Drawing.Image)(resources.GetObject("bPdf.Image")));
+			this.bPdf.Image = global::CodeBase.UiIcons.GetBitmap("EnumIcons","Pdf",18,16);
 			this.bPdf.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.bPdf.Location = new System.Drawing.Point(504, 320);
 			this.bPdf.Name = "bPdf";
@@ -1211,7 +1211,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// bXml
 			// 
-			this.bXml.Image = ((System.Drawing.Image)(resources.GetObject("bXml.Image")));
+			this.bXml.Image = global::CodeBase.UiIcons.GetBitmap("EnumIcons","Xml",20,16);
 			this.bXml.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.bXml.Location = new System.Drawing.Point(504, 288);
 			this.bXml.Name = "bXml";
@@ -1221,7 +1221,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// bHtml
 			// 
-			this.bHtml.Image = ((System.Drawing.Image)(resources.GetObject("bHtml.Image")));
+			this.bHtml.Image = global::CodeBase.UiIcons.GetBitmap("EnumIcons","Html",26,16);
 			this.bHtml.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.bHtml.Location = new System.Drawing.Point(608, 320);
 			this.bHtml.Name = "bHtml";
@@ -1231,7 +1231,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// bMht
 			// 
-			this.bMht.Image = ((System.Drawing.Image)(resources.GetObject("bMht.Image")));
+			this.bMht.Image = global::CodeBase.UiIcons.GetBitmap("EnumIcons","Mht",21,17);
 			this.bMht.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.bMht.Location = new System.Drawing.Point(504, 360);
 			this.bMht.Name = "bMht";

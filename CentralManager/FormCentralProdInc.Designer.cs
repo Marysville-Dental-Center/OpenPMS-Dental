@@ -134,7 +134,7 @@ namespace CentralManager {
 			// 
 			// butRight
 			// 
-			this.butRight.Image = ((System.Drawing.Image)(resources.GetObject("butRight.Image")));
+			this.butRight.Icon = OpenPmsDental.UI.EnumIcons.ArrowRight;
 			this.butRight.Location = new System.Drawing.Point(205, 30);
 			this.butRight.Name = "butRight";
 			this.butRight.Size = new System.Drawing.Size(45, 24);
@@ -184,7 +184,7 @@ namespace CentralManager {
 			// 
 			// butLeft
 			// 
-			this.butLeft.Image = ((System.Drawing.Image)(resources.GetObject("butLeft.Image")));
+			this.butLeft.Icon = OpenPmsDental.UI.EnumIcons.ArrowLeft;
 			this.butLeft.Location = new System.Drawing.Point(41, 30);
 			this.butLeft.Name = "butLeft";
 			this.butLeft.Size = new System.Drawing.Size(45, 24);

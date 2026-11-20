@@ -78,7 +78,7 @@
 			// butDelete
 			// 
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butDelete.Image = ((System.Drawing.Image)(resources.GetObject("butDelete.Image")));
+			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butDelete.Location = new System.Drawing.Point(12, 531);
 			this.butDelete.Name = "butDelete";
@@ -89,7 +89,7 @@
 			// 
 			// butAdd
 			// 
-			this.butAdd.Image = ((System.Drawing.Image)(resources.GetObject("butAdd.Image")));
+			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.ArrowLeft;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butAdd.Location = new System.Drawing.Point(489, 216);
 			this.butAdd.Name = "butAdd";
@@ -100,7 +100,7 @@
 			// 
 			// butRemove
 			// 
-			this.butRemove.Image = ((System.Drawing.Image)(resources.GetObject("butRemove.Image")));
+			this.butRemove.Icon = OpenPmsDental.UI.EnumIcons.ArrowRight;
 			this.butRemove.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.butRemove.Location = new System.Drawing.Point(489, 257);
 			this.butRemove.Name = "butRemove";
