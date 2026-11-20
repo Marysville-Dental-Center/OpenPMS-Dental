@@ -1192,6 +1192,11 @@ the bounds record must equal the before set.
   window check A6 and `PopupHelperTests` stay green.
 - Gallery: **G-UI2** (main window, modules, a few dialogs, the Imaging module with two floating image windows, one selected), with a
   stock and a customised office, and one run each with `NoCustomBorders.txt` and with `NoD2D.txt` beside the exe.
+- **Status (2026-11-19).** Owner: frame OK 2026-11-19; 125/150% desktop look still to check. Follow-ups from the hover-fix review (port
+  note 3.7): each caption button's hit area covers its painted fill (maximized all of it, so the screen's top-right pixel closes the window;
+  normal below the top resize edge, which stays), the glyphs centred in their fills, Windows' border colour re-applied when the Misc Colors
+  change or a floating image window is selected or not; G-UI2's frame part made again laid out as on screen, with 200%:
+  `.git/od-tools/test-results/g-ui2-frame-ui3-2/`.
 - **Status (2026-11-18).** Built on `ui/ui3-1` (`docs/port-notes/UI-3.md`), not merged yet: `WpfControlsOD/Frame/FramePainter.cs` (the one
   project both frames reach that also knows `DefCatMiscColors`) paints both frames; Misc Colors item by item; the floating image windows'
   two frames; window background `Surface`; "(program default)" in the Definitions window; Windows 11's rounded corners with the border in

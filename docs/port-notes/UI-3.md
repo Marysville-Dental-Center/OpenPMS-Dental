@@ -143,6 +143,54 @@ frame invalidates, as Windows does. With the old invalidation and close edge put
 owner's picture: "FormODBase stock 100%, hotX: the hover fill on screen is {X=414,Y=4,Width=30,Height=22}, the title bar's extent for the
 button is {X=414,Y=0,Width=30,Height=26}", and at 125% the close fill 2 columns narrow (`Width=37` for 39). With the fix it passes.
 
+### 3.7 Follow-ups from the hover-fix review (the owner: "frame OK", 2026-11-19)
+
+The owner checked the frame live on 2026-11-19 (rounded corners, the default; the hover fix `e4f6363a6`) and said "frame OK". Still to
+check on the real desktop: the look at 125% and 150%. The review of the hover fix left three small things, done here:
+
+1. **Hit areas cover the fills.** The fills reach the title bar's top row on screen and the close fill the client area's last column, but
+   the hover and the click still used the old hit rectangles (from y 5, the close one ending at `Width - Scale(15)`): above 100% the last
+   columns of the red were dead, and on a maximized window the screen's top rows over the buttons were the top resize edge. Now
+   `FramePainter.GetHitRectangle` gives each button its rectangle and its painted fill (`FramePaintResult.RectangleHitX`, `Max`, `Min`),
+   which both frames use for the hover (`PanelBorders_MouseMove`), the click (`PanelBorders_MouseUp`) and the snap layouts' hit test
+   (`PanelSubclassBorder.RectangleButMax`):
+   - *Maximized*: the whole fill, from the screen's top row; for close also the last column, so the screen's top-right pixel closes the
+     window. A mouse down on a caption button there is on the buttons (no resize edge on a maximized window) and the cursor stays the arrow.
+   - *Normal*: the fill's rows above the rectangle's top (the 5 px top resize edge) stay the top resize edge, and the top-right resize
+     corner stays Windows' own (the invisible border right of the client area), as on Windows 11. Below that edge the close button's hit
+     area reaches the client area's right edge, and the hover stays on anywhere in the fill.
+   Not changed: the button rectangles (`RectangleButX` and the others, `Frame_ButtonRectangles_AreTodays`), every resize region, the title
+   drag, the double click. (Unchanged and noted: above 100% `FormODBase.PanelBorders_MouseDown` takes its top edge as
+   `LayoutManager.WidthBorder()`, 5 px at the window's scale (10 at 200%), while the hover starts at 5 px, so on a normal window a click
+   in the rows between them still starts a top resize, as before. `FormFrame` uses 5 px for both.)
+2. **Glyphs centred in their fills.** `GetGlyphArea` is the painted fill now (`GetButtonShape`), and `GetGlyphRectangle` the slot centred
+   in it. At 100% the fill is the old glyph area, so nothing moves; above 100% the close glyph moves right to the middle of its wider red
+   (half the extra columns) and a glyph by up to a pixel to the middle row.
+3. **Windows' border colour follows the frame.** `DWMWA_BORDER_COLOR` was set once, when the handle was made, in the stock window's
+   outline. Both frames now ask again (`ApplyDwmFrame`, with `GetDwmBorderColor`: the outline the painter uses for the window's look) when
+   the handle is made, when the office's Misc Colors are loaded or changed (`SetBorderColor`, which `FormOpenDental` calls at start-up and
+   `FormDefEdit` when item 11, 12 or 13 is saved; the colours are every window's, so each open window of that kind is asked again) and when
+   a floating image window is selected or not (`IsImageFloatSelected`: `TitleBarOutline` selected, `Stroke` not). Only with the corners on
+   and the program's own frame (`FramePainter.ApplyDwmCorners` asks nothing with `OPENPMS_UI3_DWM_CORNERS=off` or `AreBordersMS`).
+
+Tests (`tests/UiRefreshTests/FrameTests.cs`):
+
+- `Frame_CaptionHitAreas_CoverTheFills_PerPoint`: `FormODBase` and `FormFrame` laid out as on screen at 100, 150 and 200%, normal and
+  maximized; every point of the buttons' part of the title bar that the screen shows goes through the frame's own `PanelBorders_MouseMove`,
+  and the hover must be exactly the area worked out from the geometry; a mouse down on a fill (maximized anywhere, normal below the top
+  edge) is on the buttons; maximized, the screen's top-right pixel is the close button's; normal, the row above the close rectangle at the
+  right edge keeps the top resize cursor and no hover.
+- `Frame_CaptionGlyphs_CentredInTheirFills`: at 100, 125, 150, 175 and 200%, normal and maximized, each glyph slot centred in its fill, at
+  100% where the old glyph area put it, and the close glyph's pixels in the middle of the red.
+- `DwmBorder_ReappliedWhenTheFrameColoursChange`: through `FramePainter.DwmBorderColorApplied`, the colour asked of Windows for the handle:
+  the stock outline when the handle is made, the office's outline after `SetBorderColor` (both frames) and the token again after stock;
+  a floating image window `TitleBarOutline` selected, `Stroke` not, whatever the office's colours; nothing with the corners off or with the
+  Windows frame.
+
+Gallery: G-UI2's frame part made again, the windows laid out as on screen (as `Frame_CaptionHover_FillsTheTitleBarAsTheScreenShowsIt`
+lays them out: the maximized pictures with the PanelBorders one border lower and the rows above the screen cut off), at 100, 150 and 200%:
+see section 5.
+
 ## 4. Tests
 
 `tests/UiRefreshTests/FrameTests.cs` (no window shown, no database; windows built and painted into bitmaps on an STA thread):
@@ -188,6 +236,15 @@ results: `.git/od-tools/test-results/ui3-1-*.txt` (UiRefreshTests, WindowChecksT
   and the client area filled with the window background.
 - To make it again: run `Gallery_FrameParts_RenderOffScreen` (Targeted run of UiRefreshTests) with `OPMS_UI3_FRAME_OUT=<empty folder>`, then
   the command above.
+- **Made again on 2026-11-19 (3.7):** `.git/od-tools/test-results/g-ui2-frame-ui3-2/` (and `g-ui2-frame-ui3-2.zip`), from
+  `.git/od-tools/test-results/ui3-2-frame-pictures/` against the previous gallery's before set
+  (`tools/New-UiGallery.ps1 -Before .git/od-tools/test-results/g-ui2-frame-ui3/before -After <src>\after -Name G-UI2`). The windows are
+  laid out as on screen, as `Frame_CaptionHover_FillsTheTitleBarAsTheScreenShowsIt` lays them out (each picture is the client area with
+  the PanelBorders at their place; maximized, the PanelBorders one border lower and the client rows above the screen cut off, so those
+  pictures are one border shorter than their before), and the scales are 100, 150 and 200% (rest, hotMin, hotMax, hotX, maximized). 99
+  pictures: 69 changed, 30 only after (the 200% ones; the before set has none). Also fixed on the way: the `FormFrame` pictures of the
+  customised offices kept the stock colours (the test set only `FormODBase`'s static Misc Colors, not `FormFrame`'s own copy); they show
+  the office's colours now.
 
 ## 6. For the lead (the pictures that need a shown window)
 
