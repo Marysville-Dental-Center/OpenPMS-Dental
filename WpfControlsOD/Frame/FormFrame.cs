@@ -70,6 +70,11 @@ namespace OpenPmsDental {
 		private Rectangle _rectangleButX;
 		private Rectangle _rectangleButMax;
 		protected Rectangle _rectangleButMin;
+		///<summary>Where the mouse hovers and clicks the caption buttons (FramePaintResult.RectangleHitX, Max and Min): the button rectangles above
+		///and their painted fills, the top resize edge of a normal window left out.</summary>
+		private Rectangle _rectangleHitX;
+		private Rectangle _rectangleHitMax;
+		private Rectangle _rectangleHitMin;
 		///<summary>This tracks when we hover over the maximize button to trigger the snap window. Disposed.</summary>
 		private System.Windows.Forms.Timer timerHoverSnap;
 		private ToolTip _toolTipBorderButtons;
@@ -189,6 +194,7 @@ namespace OpenPmsDental {
 			set{
 				_isImageFloatSelected=value;
 				PanelBorders?.Invalidate();
+				ApplyDwmFrame();//the selected and unselected frames have their own outline colours
 			}
 		}
 
@@ -229,10 +235,8 @@ namespace OpenPmsDental {
 				this.Icon=_lazyIconApp.Value;
 			}
 			base.OnHandleCreated(e);
-			if(!DesignMode) {
-				//UI-3: Windows 11's rounded corners and a Windows-drawn border in the outline colour, by default; FramePainter.ENV_DWM_CORNERS=off turns them off.
-				FramePainter.ApplyDwmCorners(Handle,AreBordersMS,FramePainter.GetColors(EnumFrameLook.Window,_colorBorder,_colorBorderOutline,_colorBorderText).Outline);
-			}
+			//UI-3: Windows 11's rounded corners and a Windows-drawn border in the outline colour, by default; FramePainter.ENV_DWM_CORNERS=off turns them off.
+			ApplyDwmFrame();
 		}
 
 		protected override void OnLoad(EventArgs e){
@@ -522,17 +526,53 @@ namespace OpenPmsDental {
 			FrameColors frameColors=FramePainter.GetColors(framePaintArgs.FrameLook,_colorBorder,_colorBorderOutline,_colorBorderText);
 			FramePaintResult framePaintResult=FramePainter.Paint(g,framePaintArgs,frameColors);
 			_rectangleButX=framePaintResult.RectangleButX;
+			_rectangleHitX=framePaintResult.RectangleHitX;
 			if(ControlBox && MaximizeBox){
 				_rectangleButMax=framePaintResult.RectangleButMax;
+				_rectangleHitMax=framePaintResult.RectangleHitMax;
 				if(PanelBorders!=null){
-					PanelBorders.RectangleButMax=_rectangleButMax;
+					PanelBorders.RectangleButMax=_rectangleHitMax;//the snap layouts' hit test: the same area as the hover
 				}
 			}
 			if(ControlBox && MinimizeBox){
 				_rectangleButMin=framePaintResult.RectangleButMin;
+				_rectangleHitMin=framePaintResult.RectangleHitMin;
 			}
 			_rectangleButtons=framePaintResult.RectangleButtons;
 			_rectangleButtonsPaint=framePaintResult.RectangleButtonsPaint;
+		}
+
+		///<summary>True when the point (PanelBorders coordinates) is on a caption button's hit area (_rectangleHitX, Max or Min).</summary>
+		private bool IsOnCaptionButton(Point point){
+			return _rectangleHitX.Contains(point)
+				|| (MaximizeBox && _rectangleHitMax.Contains(point))
+				|| (MinimizeBox && _rectangleHitMin.Contains(point));
+		}
+
+		///<summary>The frame look this frame paints: the copy of FormODBase's floating image window frames (kept for a WPF floating image
+		///window; no frame is one today), or the ordinary window frame.</summary>
+		private EnumFrameLook GetFrameLook(){
+			//The old test compared the full type name with "FormImageFloat" and was never true either.
+			if(this.GetType().Name=="FormImageFloat"){
+				return IsImageFloatSelected ? EnumFrameLook.ImageFloatSelected : EnumFrameLook.ImageFloatUnselected;
+			}
+			return EnumFrameLook.Window;
+		}
+
+		///<summary>The colour Windows is asked to draw this frame's 1 px border in (DWMWA_BORDER_COLOR): the outline the painter uses for its look
+		///and the office's Misc Colors. Public for the frame tests.</summary>
+		public Color GetDwmBorderColor(){
+			return FramePainter.GetColors(GetFrameLook(),_colorBorder,_colorBorderOutline,_colorBorderText).Outline;
+		}
+
+		///<summary>Asks Windows for the rounded corners and the border in GetDwmBorderColor (FramePainter.ApplyDwmCorners: only with the program's
+		///own frame and the corners on). When the handle is made, and again when the outline colour changes (SetBorderColor,
+		///IsImageFloatSelected). Nothing before the handle is made or from another thread.</summary>
+		private void ApplyDwmFrame(){
+			if(DesignMode || !IsHandleCreated || InvokeRequired){
+				return;
+			}
+			FramePainter.ApplyDwmCorners(Handle,AreBordersMS,GetDwmBorderColor());
 		}
 
 		///<summary>Repaints the caption buttons after a hover change: all they paint, from the title bar's top row (_rectangleButtonsPaint). The hit
@@ -560,12 +600,9 @@ namespace OpenPmsDental {
 			framePaintArgs.IsHotX=_isHotX;
 			framePaintArgs.IsHotMax=_isHotMax;
 			framePaintArgs.IsHotMin=_isHotMin;
-			framePaintArgs.FrameLook=EnumFrameLook.Window;
-			//The copy of FormODBase's floating image window frame. FormImageFloat is a FormODBase, so no frame is one today (the old test compared
-			//the full type name with "FormImageFloat" and was never true either); kept for a WPF floating image window.
-			if(this.GetType().Name=="FormImageFloat"){
-				framePaintArgs.FrameLook=IsImageFloatSelected ? EnumFrameLook.ImageFloatSelected : EnumFrameLook.ImageFloatUnselected;
-			}
+			//The copy of FormODBase's floating image window frame. FormImageFloat is a FormODBase, so no frame is one today; kept for a WPF floating
+			//image window (GetFrameLook).
+			framePaintArgs.FrameLook=GetFrameLook();
 			//this won't be needed until we convert FormOpenDental to WPF, and then it should be hard coded instead of using _fontTitle.
 			framePaintArgs.IsMainWindowTitle=false;
 			framePaintArgs.HeightTitleBar=GetHeightTitleBar();
@@ -595,6 +632,13 @@ namespace OpenPmsDental {
 				_colorBorderText=color;
 			}
 			PanelBorders?.Invalidate();
+			//The colours are every frame's (static): Windows' border of each open frame takes the new outline, this one first.
+			ApplyDwmFrame();
+			foreach(Form form in Application.OpenForms.Cast<Form>().ToList()){
+				if(form is FormFrame formFrame && !ReferenceEquals(formFrame,this)){
+					formFrame.ApplyDwmFrame();
+				}
+			}
 		}
 		#endregion Border Drawing
 
@@ -679,7 +723,11 @@ namespace OpenPmsDental {
 				return;
 			}
 			int widthBorder=5;
-			if(e.X<MaxInset()+widthBorder+2 && e.Y<MaxInset()+widthBorder+2){//UL corner
+			if(WindowState==FormWindowState.Maximized && IsOnCaptionButton(e.Location)){
+				//A maximized window has no resize edges: a caption button's whole fill is the button, from the screen's top row.
+				_enumMouseDownRegion=EnumMouseDownRegion.Buttons;
+			}
+			else if(e.X<MaxInset()+widthBorder+2 && e.Y<MaxInset()+widthBorder+2){//UL corner
 				_enumMouseDownRegion=EnumMouseDownRegion.UL;
 			}
 			else if(e.X>Width-widthBorder-MaxInset()-1 && e.Y<MaxInset()+widthBorder+2){//UR corner
@@ -745,7 +793,10 @@ namespace OpenPmsDental {
 			}
 			#region Cursors
 			int widthBorder=5;
-			if(e.X<MaxInset()+widthBorder+2 && e.Y<MaxInset()+widthBorder+2){//UL corner
+			if(WindowState==FormWindowState.Maximized && IsOnCaptionButton(e.Location)){
+				Cursor=Cursors.Default;//no resize edge on a maximized window's caption buttons
+			}
+			else if(e.X<MaxInset()+widthBorder+2 && e.Y<MaxInset()+widthBorder+2){//UL corner
 				Cursor=Cursors.SizeNWSE;
 			}
 			else if(e.X>Width-widthBorder-MaxInset()-1 && e.Y<MaxInset()+widthBorder+2){//UR corner
@@ -775,7 +826,7 @@ namespace OpenPmsDental {
 			#endregion Cursors
 			#region Button Hover Effects
 			timerHoverSnap.Enabled=false;//we will turn it back on if we are within the max button
-			if(_rectangleButX.Contains(e.Location)){
+			if(_rectangleHitX.Contains(e.Location)){
 				if(!_isHotX){//first time
 					_toolTipBorderButtons.InitialDelay=1000;
 					_toolTipBorderButtons.SetToolTip(this,Lans.g(this,"Close"));
@@ -785,7 +836,7 @@ namespace OpenPmsDental {
 					InvalidateCaptionButtons();
 				}
 			}
-			else if(MaximizeBox && _rectangleButMax.Contains(e.Location)){
+			else if(MaximizeBox && _rectangleHitMax.Contains(e.Location)){
 				if(!_isHotMax){
 					_toolTipBorderButtons.InitialDelay=1000;
 					if(WindowState==FormWindowState.Maximized){
@@ -802,7 +853,7 @@ namespace OpenPmsDental {
 				//timerHoverSnap.Enabled=false;//was already done above
 				timerHoverSnap.Enabled=true;
 			}
-			else if(MinimizeBox && _rectangleButMin.Contains(e.Location)){
+			else if(MinimizeBox && _rectangleHitMin.Contains(e.Location)){
 				if(!_isHotMin){
 					_toolTipBorderButtons.InitialDelay=1000;
 					_toolTipBorderButtons.SetToolTip(this,Lans.g(this,"Minimize"));
@@ -1004,11 +1055,11 @@ Refresh();
 				OnResizeEnd(new EventArgs());
 				return;
 			}
-			if(_rectangleButX.Contains(e.Location)){
+			if(_rectangleHitX.Contains(e.Location)){
 				OnCloseXClicked();
 				return;
 			}
-			if(_rectangleButMax.Contains(e.Location) && MaximizeBox){
+			if(_rectangleHitMax.Contains(e.Location) && MaximizeBox){
 				/*This won't happen because of PanelBorders WndProc
 				if(WindowState==FormWindowState.Maximized){ //restore down
 					WindowState=FormWindowState.Normal;
@@ -1036,7 +1087,7 @@ Refresh();
 				OnResizeEnd(new EventArgs());*/
 				return;
 			}
-			if(_rectangleButMin.Contains(e.Location) && MinimizeBox){
+			if(_rectangleHitMin.Contains(e.Location) && MinimizeBox){
 				if(this.GetType().ToString()=="FormImageFloat" && IsImageFloatLocked){
 					MsgBox.Show(this,"PDFs cannot be undocked.  Double click to open in PDF viewer.");
 					return;

@@ -99,6 +99,11 @@ namespace OpenPmsDental {
 		///<summary>Everything the caption buttons paint: the button area and the buttons' fills, from the title bar's top row. The frames invalidate
 		///this when a hover changes; RectangleButtons starts 5 px lower and clipped the top of the fill on screen.</summary>
 		public Rectangle RectangleButtonsPaint;
+		///<summary>Where the mouse hovers and clicks the close button (GetHitRectangle): its rectangle above and all of its painted fill, the top
+		///resize edge of a normal window left out. The frames' mouse handling and the snap layouts' hit test use these three.</summary>
+		public Rectangle RectangleHitX;
+		public Rectangle RectangleHitMax;
+		public Rectangle RectangleHitMin;
 	}
 
 	///<summary>Paints the window frame of the new look for FormODBase and FormFrame (section 3.6): the title bar in TitleBar (or the office's Misc
@@ -294,38 +299,42 @@ namespace OpenPmsDental {
 			result.RectangleButtonsPaint=result.RectangleButtons;
 			//Each button is drawn flat over the whole height of the title bar as the screen shows it, from its top pixel row, and the close button
 			//also to the window's right pixel column (Windows 11's own caption buttons; the rounded corner and Windows' border are drawn over it).
-			//The hit rectangle above starts 5 px lower, for the top resize edge. The glyph stays centred where it always was.
+			//The hit rectangle above starts 5 px lower, for the top resize edge; the hit areas (GetHitRectangle) add the fill below that edge, and
+			//all of it on a maximized window. The glyph is centred in the fill (GetGlyphArea).
 			int glyphSlot=args.Scale(CAPTION_GLYPH_SLOT);
 			if(args.ControlBox) {
 				Rectangle rectangleShape=GetButtonShape(result.RectangleButX,args,isClose:true);
 				result.RectangleButtonsPaint=Rectangle.Union(result.RectangleButtonsPaint,rectangleShape);
+				result.RectangleHitX=GetHitRectangle(result.RectangleButX,args,isClose:true);
 				Color colorGlyph=colors.TitleBarText;
 				if(args.IsHotX) {
 					FillColor(g,colors.CloseHover,rectangleShape);
 					colorGlyph=colors.CloseHoverGlyph;
 				}
-				UiIcons.Draw(g,UiGlyph.Dismiss,GetGlyphSlot(GetGlyphArea(result.RectangleButX,args,widthLine),glyphSlot),colorGlyph);
+				UiIcons.Draw(g,UiGlyph.Dismiss,GetGlyphSlot(GetGlyphArea(result.RectangleButX,args,isClose:true),glyphSlot),colorGlyph);
 			}
 			if(args.ControlBox && args.MaximizeBox) {
 				Rectangle rectangleShape=GetButtonShape(result.RectangleButMax,args,isClose:false);
 				result.RectangleButtonsPaint=Rectangle.Union(result.RectangleButtonsPaint,rectangleShape);
+				result.RectangleHitMax=GetHitRectangle(result.RectangleButMax,args,isClose:false);
 				Color colorGlyph=colors.TitleBarText;
 				if(args.IsHotMax) {
 					FillColor(g,colors.CaptionHover,rectangleShape);
 					colorGlyph=colors.CaptionHoverGlyph;
 				}
 				UiGlyph uiGlyph=args.IsMaximized ? UiGlyph.SquareMultiple : UiGlyph.Maximize;
-				UiIcons.Draw(g,uiGlyph,GetGlyphSlot(GetGlyphArea(result.RectangleButMax,args,widthLine),glyphSlot),colorGlyph);
+				UiIcons.Draw(g,uiGlyph,GetGlyphSlot(GetGlyphArea(result.RectangleButMax,args,isClose:false),glyphSlot),colorGlyph);
 			}
 			if(args.ControlBox && args.MinimizeBox) {
 				Rectangle rectangleShape=GetButtonShape(result.RectangleButMin,args,isClose:false);
 				result.RectangleButtonsPaint=Rectangle.Union(result.RectangleButtonsPaint,rectangleShape);
+				result.RectangleHitMin=GetHitRectangle(result.RectangleButMin,args,isClose:false);
 				Color colorGlyph=colors.TitleBarText;
 				if(args.IsHotMin) {
 					FillColor(g,colors.CaptionHover,rectangleShape);
 					colorGlyph=colors.CaptionHoverGlyph;
 				}
-				UiIcons.Draw(g,UiGlyph.Subtract,GetGlyphSlot(GetGlyphArea(result.RectangleButMin,args,widthLine),glyphSlot),colorGlyph);
+				UiIcons.Draw(g,UiGlyph.Subtract,GetGlyphSlot(GetGlyphArea(result.RectangleButMin,args,isClose:false),glyphSlot),colorGlyph);
 			}
 			if(args.TitleFonts==null) {
 				return result;
@@ -372,12 +381,37 @@ namespace OpenPmsDental {
 			return Rectangle.FromLTRB(rectangleButton.Left,top,Math.Max(rectangleButton.Left,right),bottom);
 		}
 
-		///<summary>Where a button's glyph is centred: its hit rectangle's columns from just inside the outline to the bottom of the title bar, as
-		///before the fills reached the window's edges, so no glyph moves.</summary>
-		private static Rectangle GetGlyphArea(Rectangle rectangleButton,FramePaintArgs args,int widthLine) {
-			int top=args.MaxInset+widthLine;
-			int right=Math.Min(rectangleButton.Right,args.Width-args.MaxInset-widthLine);
-			return Rectangle.FromLTRB(rectangleButton.Left,top,right,Math.Max(top,args.MaxInset+args.HeightTitleBar+1));
+		///<summary>Where a button's glyph is centred: its painted fill (GetButtonShape), as the screen shows it, at every scale. At 100% the fill is
+		///where the glyph was always centred (the hit rectangle's columns from just inside the outline to the bottom of the title bar), so nothing
+		///moves; above 100% the close glyph moves right to the middle of its wider fill and every glyph by up to a pixel to the fill's middle row.</summary>
+		public static Rectangle GetGlyphArea(Rectangle rectangleButton,FramePaintArgs args,bool isClose) {
+			return GetButtonShape(rectangleButton,args,isClose);
+		}
+
+		///<summary>The glyph slot (CAPTION_GLYPH_SLOT at the window's scale) centred in a button's painted fill: where Paint draws its glyph.</summary>
+		public static Rectangle GetGlyphRectangle(Rectangle rectangleButton,FramePaintArgs args,bool isClose) {
+			return GetGlyphSlot(GetGlyphArea(rectangleButton,args,isClose),args.Scale(CAPTION_GLYPH_SLOT));
+		}
+
+		///<summary>Where the mouse hovers and clicks a caption button: its rectangle (rectangleButton, from y 5) and all of its painted fill
+		///(GetButtonShape) except, on a normal window, the rows above the rectangle's top, which stay the top resize edge (and, with the
+		///columns right of the client area, which belong to Windows, the top-right resize corner), as on Windows 11. So the close button's hit
+		///area reaches the client area's right edge below that edge, and the hover stays on while the pointer is anywhere in the fill below it.
+		///On a maximized window there is no resize edge: the whole fill, from the screen's top row, and for the close button its last column,
+		///so the screen's top-right pixel closes the window.</summary>
+		public static Rectangle GetHitRectangle(Rectangle rectangleButton,FramePaintArgs args,bool isClose) {
+			if(rectangleButton.Width<1 || rectangleButton.Height<1) {
+				return rectangleButton;
+			}
+			Rectangle rectangleShape=GetButtonShape(rectangleButton,args,isClose);
+			if(!args.IsMaximized) {
+				rectangleShape=Rectangle.FromLTRB(rectangleShape.Left,Math.Max(rectangleShape.Top,rectangleButton.Top),
+					rectangleShape.Right,Math.Max(rectangleShape.Bottom,rectangleButton.Top));
+			}
+			if(rectangleShape.Width<1 || rectangleShape.Height<1) {
+				return rectangleButton;
+			}
+			return Rectangle.Union(rectangleButton,rectangleShape);
 		}
 
 		///<summary>args.RectangleOnScreen, or the whole Width by Height inside MaxInset when it is empty.</summary>
@@ -478,13 +512,16 @@ namespace OpenPmsDental {
 
 		///<summary>Asks Windows to round the window's corners and to draw its border in colorOutline (GetDwmCornerPreference: by default; not when
 		///ENV_DWM_CORNERS is "off"). Nothing with the Windows frame (AreBordersMS), which Windows 11 rounds by itself. Windows 10 refuses both
-		///attributes; the results are ignored.</summary>
+		///attributes; the results are ignored. Called again with the same preference when the outline colour changes.</summary>
 		public static void ApplyDwmCorners(IntPtr hwnd,bool areBordersMS,Color colorOutline) {
-			if(areBordersMS || hwnd==IntPtr.Zero) {
-				return;
-			}
-			int preference=GetDwmCornerPreference();
-			if(preference==0) {
+			ApplyDwmCorners(hwnd,areBordersMS,colorOutline,GetDwmCornerPreference());
+		}
+
+		///<summary>ApplyDwmCorners with the corner preference given (0: nothing is asked of Windows), for the tests. The frames call it again, with
+		///the outline colour the painter uses, whenever that colour changes: the office's Misc Colors loaded or changed (SetBorderColor), a
+		///floating image window selected or not (IsImageFloatSelected).</summary>
+		public static void ApplyDwmCorners(IntPtr hwnd,bool areBordersMS,Color colorOutline,int preference) {
+			if(areBordersMS || hwnd==IntPtr.Zero || preference==0) {
 				return;
 			}
 			try {
@@ -495,7 +532,12 @@ namespace OpenPmsDental {
 			catch(Exception) {
 				//No dwmapi entry point (not expected on Windows 10 or 11): the frame stays as before.
 			}
+			DwmBorderColorApplied?.Invoke(hwnd,colorOutline);
 		}
+
+		///<summary>Raised after Windows was asked for the corners and the border colour of a window (the handle and the colour), for the tests,
+		///which never show a window and so cannot read the border off the screen.</summary>
+		public static event Action<IntPtr,Color> DwmBorderColorApplied;
 		#endregion DWM rounded corners
 	}
 }
