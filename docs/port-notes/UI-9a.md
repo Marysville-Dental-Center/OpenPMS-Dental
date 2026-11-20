@@ -432,3 +432,44 @@ rem after: OPMS_UI9A_RECORD empty, OPMS_UI9A_PICTURES=...\after, same run; keep 
 3. Copy and paste (FormTaskEdit, FormUserQuery): the imaging toolbar's `Copy` and `Paste`. Fine?
 4. The time card's previous and next employee buttons use the same arrows as previous and next period; the filter delete buttons (FormRpReferrals, FormRpPatients) use `DeleteX`. Fine?
 5. The label sheet cells of FormRpLaserLabels (cleared X and label) are 17 px icons in their 51 x 17 boxes, not stretched. Fine?
+
+## 8. UI-9a-6: the modules and the shared projects
+
+Slice rows UI-9a-6a to UI-9a-6l in `icons/picture-slices.tsv` (Bridges, Logic, Main Modules, ReportingComplex, ReportingForRdl, UI, User Controls, SetupWizControls,
+OpenPmsDentalBusiness Misc and UI, OpenPmsDentalGraph Dashboard, SparksToothChart). `UIManagement`, `SheetFramework`, `SmartCards` and `Tables Old Grids` had no picture uses.
+
+### 8.1 What was done
+
+- The tool's `-Apply` converted 45 button and box pictures in 18 windows and controls; the 11 WPF `BitmapFileName` uses (five windows) went to icons by hand.
+- `OpenPmsDentalGraph` (10 pictures) and `OpenPmsDentalBusiness` (3) read their own `Resources`, which the tool does not; they were converted by hand through
+  `CodeBase.UiIcons.GetBitmap` and their map rows are marked as hand conversions. The unused resource files were removed.
+- Kept (section 4.5): the TSI and Practice Booster logos, the Med History and Patient Info sheet backgrounds, `ApptBackTest`, the tooth chart's hidden 2D picture box,
+  the Graph spinner, the Sparks `.obj` models. 24 ImageLists go to UI-9b.
+- Tool guard: without `-Root` the tool refuses to run unless the current directory is the script's own repository root (the first run wrote slice rows into another
+  checkout). Always call `<worktree>/tools/Convert-PictureUses.ps1 -Root <worktree>`.
+
+### 8.2 New `EnumIcons` (14, block "UI-9a-6" in both enums; 74 WinForms, 85 WPF)
+
+PinOff, Calculator, Backup, Deposit, Insurance, TaskList, Move, TableDeleteRow, TableDeleteColumn, TableInsertRow, TableInsertColumn, ChartAdd, Pen, Signature. All from the
+same Fluent 1.1.346 download; `IconData.g.cs` regenerated with `tools/New-IconData.ps1`.
+
+### 8.3 Tests (Targeted: UiRefreshTests, WindowChecksTests, UnitTests, NoHqTests)
+
+`PictureMapTests` covers the slices through their rows; `IconLibraryTests`/`WpfImagesTests` counts updated; `RenameGuardTests` after the WPF pictures; layout snapshot and
+bounds record unchanged. Run `.git/od-tools/test-results/ui9a6-final.txt`: all passed (UiRefreshTests 203 + 8 opt-in skipped, WindowChecksTests 29 + 43 opt-in skipped,
+UnitTests 1,728 + 3, NoHqTests 122). InitSqlTests and ForkMigrationTests not run (no schema work).
+
+### 8.4 Gallery G-UI3, the UI-9a-6 slice
+
+**Where:** `.git/od-tools/test-results/G-UI3-ui9a6/` (`index.html`, zip beside it), rendered off screen, the plain-words summary at the top. Not pictured: the security user
+group control (built only inside the Security window); the signature box buttons are shown on their own. WPF pictures that need a shown window: none beyond the
+11 buttons already in the gallery.
+
+**For the lead** (rebuild): same steps as 7.4 with the slices UI-9a-6a to UI-9a-6l, `OPMS_UI9A_PICTURES` before/after and `tools\New-UiGallery.ps1 -Name G-UI3`.
+
+### 8.5 Owner questions (new icon choices, to approve in the gallery)
+
+1. Clear the pinboard (ControlAppt butClearPin): Pin Off. 2. Accounting (ControlManage): Calculator. 3. Backup: Database Arrow Up. 4. Deposit slip: Building Bank.
+5. Send claims: Umbrella (Insurance). 6. Tasks: Clipboard Task List. 7. Dashboard cell move: Arrow Move. 8. Dashboard row/column delete and insert: the four Table icons.
+9. Add a chart: Data Bar Vertical Add. 10. Topaz pen: Pen. 11. Digital signature (the letter E): Signature.
+12. The search and week arrows reuse ArrowLeft/ArrowRight, the search close DeleteX, the Graph refresh Sync, print preview Preview, edit Edit. Fine?

@@ -204,6 +204,8 @@ the manifest; G-UI1 part 3 shows them.
 | Copy, paste (FormTaskEdit, FormUserQuery) | `Copy.gif`, `butPaste.gif` | existing `Copy`, `Paste` (WinForms members added) | Fluent | UI-9a-5 |
 | Excel export, query view (FormQuery) | `butExportExcel.gif`, `butQView.gif` | `ExportExcel` (Document Table), `QueryView` (Table Search) | Fluent | UI-9a-5 |
 | Time card arrows, filter delete, label sheet pictures (FormTimeCard, FormRpReferrals, FormRpPatients, FormRpLaserLabels) | window `.resx` pictures, `DeleteX`, `butLabel` | existing `ArrowLeft`, `ArrowRight`, `Print`, `DeleteX`, `Label` | Fluent | UI-9a-5 |
+| Main modules, date range picker, Graph dashboard, signature box (ControlAppt, ControlManage, OpenPmsDentalGraph, OpenPmsDentalBusiness) | `.resx` and `Resources` pictures | existing arrows, `DeleteX`, `Sync`, `Preview`, `Edit`; new `PinOff`, `Calculator`, `Backup`, `Deposit`, `Insurance`, `TaskList`, `Move`, `TableDeleteRow`, `TableDeleteColumn`, `TableInsertRow`, `TableInsertColumn`, `ChartAdd`, `Pen`, `Signature` | Fluent | UI-9a-6 |
+
 
 The window pictures behind these rows, and the pictures that stay, are in `icons/picture-map.tsv` (`tools/Convert-PictureUses.ps1`,
 `docs/port-notes/UI-9a.md`); `icons/picture-converted.tsv` lists every converted control.
