@@ -129,4 +129,38 @@
       <Link>Utilities\ODNumberTextNetFx.cs</Link>
     </Compile>
   </ItemGroup>
+  <!--
+    The icon renderer for MsgBoxCopyPaste (compiled in from CodeBase as a linked file, above): its print button is drawn by CodeBase.UiIcons.GetBitmap
+    (UI-9a-7, docs/port-notes/UI-9a.md). This project does not reference CodeBase, so the renderer and the UiTheme parts it reads are linked files too,
+    the way RdlDesign links them (ReportDesigner.csproj).
+  -->
+  <ItemGroup>
+    <Compile Include="..\CodeBase\UI\UiTheme.cs">
+      <Link>CodeBase\UI\UiTheme.cs</Link>
+    </Compile>
+    <Compile Include="..\CodeBase\UI\UiTheme.Colors.cs">
+      <Link>CodeBase\UI\UiTheme.Colors.cs</Link>
+    </Compile>
+    <Compile Include="..\CodeBase\UI\UiTheme.Gdi.cs">
+      <Link>CodeBase\UI\UiTheme.Gdi.cs</Link>
+    </Compile>
+    <Compile Include="..\CodeBase\UI\UiTheme.Metrics.cs">
+      <Link>CodeBase\UI\UiTheme.Metrics.cs</Link>
+    </Compile>
+    <Compile Include="..\CodeBase\UI\UiTheme.Fonts.cs">
+      <Link>CodeBase\UI\UiTheme.Fonts.cs</Link>
+    </Compile>
+    <Compile Include="..\CodeBase\UI\UiTheme.Renderer.cs">
+      <Link>CodeBase\UI\UiTheme.Renderer.cs</Link>
+    </Compile>
+    <Compile Include="..\CodeBase\UI\Icons\UiIcons.cs">
+      <Link>CodeBase\UI\Icons\UiIcons.cs</Link>
+    </Compile>
+    <Compile Include="..\CodeBase\UI\Icons\UiIcons.Gdi.cs">
+      <Link>CodeBase\UI\Icons\UiIcons.Gdi.cs</Link>
+    </Compile>
+    <Compile Include="..\CodeBase\UI\Icons\IconData.g.cs">
+      <Link>CodeBase\UI\Icons\IconData.g.cs</Link>
+    </Compile>
+  </ItemGroup>
 </Project>
