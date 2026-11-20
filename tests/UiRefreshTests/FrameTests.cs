@@ -882,6 +882,14 @@ namespace UiRefreshTests {
 			}
 		}
 
+		///<summary>Waits (up to 10 s) until no real mouse button is down, so a frame's MouseMove, which reads Control.MouseButtons, sees the
+		///test's synthetic move and not a click someone is making on the desktop.</summary>
+		private static void WaitForMouseButtonsUp() {
+			for(int i=0;i<200 && Control.MouseButtons!=MouseButtons.None;i++) {
+				System.Threading.Thread.Sleep(50);
+			}
+		}
+
 		///<summary>Moves the mouse over every point of the caption buttons' part of the title bar that the screen shows (the PanelBorders' points in
 		///the client area, above the client panel) through the frame's own PanelBorders_MouseMove, and checks the hover state against the hit
 		///area worked out here: each button's rectangle (from y 5) and its fill (its columns, the close button's to the client area's last column,
@@ -937,9 +945,18 @@ namespace UiRefreshTests {
 						}
 					}
 					MouseEventArgs mouseEventArgs=new MouseEventArgs(MouseButtons.None,0,x,y,0);
-					methodMove.Invoke(form,new object[] { panelBorders,mouseEventArgs });
-					string stateActual=(bool)GetField(form,"_isHotX") ? "hotX" : (bool)GetField(form,"_isHotMax") ? "hotMax"
-						: (bool)GetField(form,"_isHotMin") ? "hotMin" : "rest";
+					//PanelBorders_MouseMove reads the real mouse (Control.MouseButtons): a button held on the desktop during the run (someone
+					//working in a connected session) makes it skip the hover. Wait for the buttons to be up, and check a wrong point once more.
+					string stateActual=null;
+					for(int attempt=0;attempt<2;attempt++) {
+						WaitForMouseButtonsUp();
+						methodMove.Invoke(form,new object[] { panelBorders,mouseEventArgs });
+						stateActual=(bool)GetField(form,"_isHotX") ? "hotX" : (bool)GetField(form,"_isHotMax") ? "hotMax"
+							: (bool)GetField(form,"_isHotMin") ? "hotMin" : "rest";
+						if(stateActual==stateExpected) {
+							break;
+						}
+					}
 					if(stateActual!=stateExpected) {
 						countWrong++;
 						first??=name+": at "+point+" the hover is "+stateActual+", expected "+stateExpected+" (buttons "+string.Join(", ",arrayButtons)
