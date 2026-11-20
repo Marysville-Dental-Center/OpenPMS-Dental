@@ -123,12 +123,8 @@
   </ItemGroup>
   <ItemGroup>
     <!-- WPF resources in WpfControlsOD.g.resources (resources/editpencil.gif, ...), which the pages load by pack URI. -->
-    <Resource Include="Resources\editPencil.gif" />
-    <Resource Include="Resources\up.gif" />
-    <Resource Include="Resources\down.gif" />
     <Resource Include="Resources\ExternalLink.png" />
     <Resource Include="Resources\Bullets_24x24.png" />
-    <Resource Include="Resources\printSmall.gif" />
     <Resource Include="Resources\PracticeBooster.png" />
     <!-- The files above are Resource items only, not None items of the default glob as well. -->
     <None Remove="@(Resource)" />

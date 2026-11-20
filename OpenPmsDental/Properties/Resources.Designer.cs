@@ -141,16 +141,6 @@ namespace OpenPmsDental.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap butPrintSmall {
-            get {
-                object obj = ResourceManager.GetObject("butPrintSmall", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
         public static byte[] canadiancarriers {
@@ -220,16 +210,6 @@ namespace OpenPmsDental.Properties {
         public static System.Drawing.Bitmap CommLog {
             get {
                 object obj = ResourceManager.GetObject("CommLog", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap Copy {
-            get {
-                object obj = ResourceManager.GetObject("Copy", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -357,16 +337,6 @@ namespace OpenPmsDental.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap down {
-            get {
-                object obj = ResourceManager.GetObject("down", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         public static System.Drawing.Bitmap downArrowWinForm {
             get {
                 object obj = ResourceManager.GetObject("downArrowWinForm", resourceCulture);
@@ -480,16 +450,6 @@ namespace OpenPmsDental.Properties {
         public static System.Drawing.Bitmap Imaging32 {
             get {
                 object obj = ResourceManager.GetObject("Imaging32", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap Left {
-            get {
-                object obj = ResourceManager.GetObject("Left", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1017,16 +977,6 @@ namespace OpenPmsDental.Properties {
         public static string Unsched_Treat_Plans {
             get {
                 return ResourceManager.GetString("Unsched_Treat_Plans", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap up {
-            get {
-                object obj = ResourceManager.GetObject("up", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
             }
         }
         

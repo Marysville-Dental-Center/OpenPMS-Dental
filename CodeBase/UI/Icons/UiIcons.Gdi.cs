@@ -92,6 +92,28 @@ namespace CodeBase {
 			return bitmap;
 		}
 
+		///<summary>A new 32-bit ARGB bitmap of width x height at 96 DPI with the icon of a manifest row (enum and member name, as
+		///GetDesigns(string,string)) in its role colour, in the largest square that fits and centred (section 3.5: the largest design that fits,
+		///never stretched up), on a transparent background. For the projects that cannot reach OpenPmsDental.UI.IconLibrary (OpenPmsDentalGraph,
+		///OpenPmsDentalBusiness): a picture of today's size is replaced and nothing moves (UI-9a, docs/port-notes/UI-9a.md). A transparent bitmap
+		///when the row has no design. The caller owns it.</summary>
+		public static Bitmap GetBitmap(string enumName,string name,int width,int height) {
+			width=Math.Max(width,1);
+			height=Math.Max(height,1);
+			Bitmap bitmap=new Bitmap(width,height,PixelFormat.Format32bppArgb);
+			bitmap.SetResolution(96,96);
+			int sizeSlot=Math.Min(width,height);
+			IconDesign iconDesign=GetDesign(GetDesigns(enumName,name),sizeSlot);
+			if(iconDesign==null) {
+				return bitmap;
+			}
+			using(Graphics g=Graphics.FromImage(bitmap)) {
+				g.Clear(Color.Transparent);
+				Draw(g,iconDesign,new Rectangle((width-sizeSlot)/2,(height-sizeSlot)/2,sizeSlot,sizeSlot),GetRoleColor(iconDesign));
+			}
+			return bitmap;
+		}
+
 		///<summary>This thread's path of the design at the drawn size, at (0,0).</summary>
 		private static GraphicsPath GetPathCached(IconDesign iconDesign,int sizeDraw) {
 			if(_dictPaths==null) {

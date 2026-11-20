@@ -398,7 +398,7 @@ namespace OpenPmsDental {
 			// 
 			// butSaveTP
 			// 
-			this.butSaveTP.Image = global::OpenPmsDental.Properties.Resources.Copy;
+			this.butSaveTP.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Copy,22,22);
 			this.butSaveTP.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butSaveTP.Location = new System.Drawing.Point(429, 60);
 			this.butSaveTP.Name = "butSaveTP";

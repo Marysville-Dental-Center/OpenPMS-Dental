@@ -191,9 +191,6 @@
   <ItemGroup>
     <!-- WPF resources in OpenPmsDentalBusiness.g.resources (resources/deletex10.gif, ...), built by the WPF targets of UseWPF (on .NET
          Framework the WinFX targets built them, as for the classic project). -->
-    <Resource Include="Resources\deleteX10.gif" />
-    <Resource Include="Resources\eSig.gif" />
-    <Resource Include="Resources\topazPen10.gif" />
     <!-- Content items, as in the classic project file, not copied to the output folder: Properties\Resources.resx embeds the claim forms, the
          eForms and the payment plan sheet by their paths, and Shared\README.txt says what the Shared folder is for. -->
     <Content Include="Resources\ClaimForms\ClaimForm1500.xml" />

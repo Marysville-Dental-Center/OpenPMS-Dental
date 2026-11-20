@@ -1,5 +1,5 @@
 # The pictures UI-9a turned into icons (tools/Convert-PictureUses.ps1 -Apply writes this file; docs/port-notes/UI-9a.md).
-# how: Icon (UI.Button.Icon, the 22 px slot drawn as vectors) or GetBitmap (IconLibrary.GetBitmap at the picture's 96 DPI size).
+# how: Icon (UI.Button.Icon, the 22 px slot drawn as vectors), GetBitmap (IconLibrary.GetBitmap at the picture's 96 DPI size) or UiIcons (CodeBase.UiIcons.GetBitmap by name, OpenPmsDentalGraph and OpenPmsDentalBusiness, converted by hand).
 slice	file	control	property	key	target	how	width	height
 UI-9a-1	OpenPmsDental/Forms/FormAlertCategorySetup.designer.cs	butCopy	Image	Resources:Right	EnumIcons.ArrowRight	Icon	22	22
 UI-9a-1	OpenPmsDental/Forms/FormApptConflicts.Designer.cs	butPrint	Image	Resources:butPrintSmall	EnumIcons.Print	GetBitmap	16	16
@@ -153,8 +153,8 @@ UI-9a-3	OpenPmsDental/Forms/FormPatFieldDefEdit.designer.cs	butDown	Image	Resour
 UI-9a-3	OpenPmsDental/Forms/FormPatFieldDefEdit.designer.cs	butUp	Image	Resources:up	EnumIcons.Up	Icon	22	22
 UI-9a-3	OpenPmsDental/Forms/FormPatFieldDefs.designer.cs	butDown	Image	Resources:down	EnumIcons.Down	Icon	22	22
 UI-9a-3	OpenPmsDental/Forms/FormPatFieldDefs.designer.cs	butUp	Image	Resources:up	EnumIcons.Up	Icon	22	22
-UI-9a-3	OpenPmsDental/Forms/FormPayment.cs	butShowHide	Image	Resources:arrowDownTriangle	EnumIcons.ChevronDown	GetBitmap	10	10
 UI-9a-3	OpenPmsDental/Forms/FormPayment.cs	butShowHide	Image	Resources:arrowUpTriangle	EnumIcons.ChevronUp	GetBitmap	10	10
+UI-9a-3	OpenPmsDental/Forms/FormPayment.cs	butShowHide	Image	Resources:arrowDownTriangle	EnumIcons.ChevronDown	GetBitmap	10	10
 UI-9a-3	OpenPmsDental/Forms/FormPayment.designer.cs	butPay	Image	Resources:Left	EnumIcons.ArrowLeft	GetBitmap	22	22
 UI-9a-3	OpenPmsDental/Forms/FormPayment.designer.cs	butPrintReceipt	Image	Resources:butPrintSmall	EnumIcons.Print	GetBitmap	16	16
 UI-9a-3	OpenPmsDental/Forms/FormPayment.designer.cs	butShowHide	Image	Resources:arrowDownTriangle	EnumIcons.ChevronDown	GetBitmap	10	10
@@ -181,8 +181,8 @@ UI-9a-3	OpenPmsDental/Forms/FormProgramLinkHideClinics.designer.cs	butRight	Imag
 UI-9a-3	OpenPmsDental/Forms/FormProviderSetup.designer.cs	butDown	Image	Resources:down	EnumIcons.Down	Icon	22	22
 UI-9a-3	OpenPmsDental/Forms/FormProviderSetup.designer.cs	butUp	Image	Resources:up	EnumIcons.Up	Icon	22	22
 UI-9a-3	OpenPmsDental/Forms/FormQueryFavorites.designer.cs	butEdit	Image	Resources:editPencil	EnumIcons.Edit	Icon	22	22
-UI-9a-3	OpenPmsDental/Forms/FormQueryParser.cs	butShowHide	Image	Resources:arrowDownTriangle	EnumIcons.ChevronDown	GetBitmap	10	10
 UI-9a-3	OpenPmsDental/Forms/FormQueryParser.cs	butShowHide	Image	Resources:arrowUpTriangle	EnumIcons.ChevronUp	GetBitmap	10	10
+UI-9a-3	OpenPmsDental/Forms/FormQueryParser.cs	butShowHide	Image	Resources:arrowDownTriangle	EnumIcons.ChevronDown	GetBitmap	10	10
 UI-9a-3	OpenPmsDental/Forms/FormQueryParser.Designer.cs	butShowHide	Image	Resources:arrowDownTriangle	EnumIcons.ChevronDown	GetBitmap	10	10
 UI-9a-3	OpenPmsDental/Forms/FormQuestionDefs.designer.cs	butDown	Image	Resources:down	EnumIcons.Down	Icon	22	22
 UI-9a-3	OpenPmsDental/Forms/FormQuestionDefs.designer.cs	butUp	Image	Resources:up	EnumIcons.Up	Icon	22	22
@@ -335,3 +335,48 @@ UI-9a-5b	OpenPmsDental/Forms Reports/FormRpUdsPlusSetup.designer.cs	butAdd	Image
 UI-9a-5b	OpenPmsDental/Forms Reports/FormRpUdsPlusSetup.designer.cs	butDelete	Image	Resources:DeleteX	EnumIcons.DeleteX	Icon	22	22
 UI-9a-5b	OpenPmsDental/Forms Reports/FormRpUnfinalizedInsPay.designer.cs	butExport	Image	Resources:butExport	EnumIcons.Export	Icon	22	22
 UI-9a-5b	OpenPmsDental/Forms Reports/FormRpUnfinalizedInsPay.designer.cs	butPrint	Image	Resources:butPrintSmall	EnumIcons.Print	GetBitmap	16	16
+UI-9a-6a	OpenPmsDental/Bridges/FormPrintTrojan.designer.cs	butNextPage	Image	Resources:down	EnumIcons.Down	GetBitmap	22	22
+UI-9a-6a	OpenPmsDental/Bridges/FormPrintTrojan.designer.cs	butPreviousPage	Image	Resources:up	EnumIcons.Up	GetBitmap	22	22
+UI-9a-6a	OpenPmsDental/Bridges/FormPrintTrojan.designer.cs	butPrint	Image	Resources:butPrintSmall	EnumIcons.Print	GetBitmap	16	16
+UI-9a-6c	OpenPmsDental/Main Modules/ControlAccount.Designer.cs	butAutoOrthoEditMonthsTreat	Image	Resources:Left	EnumIcons.ArrowLeft	GetBitmap	22	22
+UI-9a-6c	OpenPmsDental/Main Modules/ControlAccount.Designer.cs	butEditAutoOrthoPlacement	Image	Resources:Left	EnumIcons.ArrowLeft	GetBitmap	22	22
+UI-9a-6c	OpenPmsDental/Main Modules/ControlAppt.Designer.cs	butBack	Image	ControlAppt:butBack.Image	EnumIcons.ArrowLeft	GetBitmap	13	15
+UI-9a-6c	OpenPmsDental/Main Modules/ControlAppt.Designer.cs	butClearPin	Image	ControlAppt:butClearPin.Image	EnumIcons.PinOff	Icon	22	22
+UI-9a-6c	OpenPmsDental/Main Modules/ControlAppt.Designer.cs	butFwd	Image	ControlAppt:butFwd.Image	EnumIcons.ArrowRight	GetBitmap	13	15
+UI-9a-6c	OpenPmsDental/Main Modules/ControlAppt.Designer.cs	butSearchCloseX	Image	ControlAppt:butSearchCloseX.Image	EnumIcons.DeleteX	GetBitmap	16	16
+UI-9a-6c	OpenPmsDental/Main Modules/ControlAppt.Designer.cs	butSearchNext	Image	ControlAppt:butSearchNext.Image	EnumIcons.ArrowRight	GetBitmap	13	15
+UI-9a-6c	OpenPmsDental/Main Modules/ControlChart.designer.cs	butChartViewDown	Image	Resources:down	EnumIcons.Down	Icon	22	22
+UI-9a-6c	OpenPmsDental/Main Modules/ControlChart.designer.cs	butChartViewUp	Image	Resources:up	EnumIcons.Up	Icon	22	22
+UI-9a-6c	OpenPmsDental/Main Modules/ControlChart.designer.cs	butDown	Image	Resources:down	EnumIcons.Down	GetBitmap	22	22
+UI-9a-6c	OpenPmsDental/Main Modules/ControlChart.designer.cs	butUp	Image	Resources:up	EnumIcons.Up	GetBitmap	22	22
+UI-9a-6c	OpenPmsDental/Main Modules/ControlManage.designer.cs	butAccounting	Image	ControlManage:butAccounting.Image	EnumIcons.Calculator	Icon	22	22
+UI-9a-6c	OpenPmsDental/Main Modules/ControlManage.designer.cs	butBackup	Image	ControlManage:butBackup.Image	EnumIcons.Backup	Icon	22	22
+UI-9a-6c	OpenPmsDental/Main Modules/ControlManage.designer.cs	butDeposit	Image	ControlManage:butDeposit.Image	EnumIcons.Deposit	Icon	22	22
+UI-9a-6c	OpenPmsDental/Main Modules/ControlManage.designer.cs	butSendClaims	Image	ControlManage:butSendClaims.Image	EnumIcons.Insurance	Icon	22	22
+UI-9a-6c	OpenPmsDental/Main Modules/ControlManage.designer.cs	butTasks	Image	ControlManage:butTasks.Image	EnumIcons.TaskList	Icon	22	22
+UI-9a-6c	OpenPmsDental/Main Modules/ControlTreat.designer.cs	butSaveTP	Image	Resources:Copy	EnumIcons.Copy	GetBitmap	22	22
+UI-9a-6f	OpenPmsDental/UI/ODDateRangePicker.Designer.cs	butWeekNext	Image	ODDateRangePicker:butWeekNext.Image	EnumIcons.ArrowRight	GetBitmap	13	15
+UI-9a-6f	OpenPmsDental/UI/ODDateRangePicker.Designer.cs	butWeekPrevious	Image	ODDateRangePicker:butWeekPrevious.Image	EnumIcons.ArrowLeft	GetBitmap	13	15
+UI-9a-6g	OpenPmsDental/User Controls/UserControlReportSetup.Designer.cs	butDown	Image	Resources:down	EnumIcons.Down	Icon	22	22
+UI-9a-6g	OpenPmsDental/User Controls/UserControlReportSetup.Designer.cs	butUp	Image	Resources:up	EnumIcons.Up	Icon	22	22
+UI-9a-6g	OpenPmsDental/User Controls/UserControlSecurityUserGroup.Designer.cs	butEditGroup	Image	Resources:editPencil	EnumIcons.Edit	Icon	22	22
+UI-9a-6h	OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizClinic.Designer.cs	pictureAdd	Image	Resources:Left	EnumIcons.ArrowLeft	GetBitmap	22	22
+UI-9a-6h	OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizDefinitions.Designer.cs	butDown	Image	Resources:down	EnumIcons.Down	Icon	22	22
+UI-9a-6h	OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizDefinitions.Designer.cs	butUp	Image	Resources:up	EnumIcons.Up	Icon	22	22
+UI-9a-6h	OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizEmployee.Designer.cs	pictureAdd	Image	Resources:Left	EnumIcons.ArrowLeft	GetBitmap	22	22
+UI-9a-6h	OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizOperatory.Designer.cs	pictureAdd	Image	Resources:Left	EnumIcons.ArrowLeft	GetBitmap	22	22
+UI-9a-6h	OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizProvider.Designer.cs	pictureAdd	Image	Resources:Left	EnumIcons.ArrowLeft	GetBitmap	22	22
+UI-9a-6j	OpenPmsDentalGraph/Dashboard/DashboardCellCtrl.Designer.cs	butDeleteCell	Image	OpenPmsDentalGraph:deleteX18	EnumIcons.DeleteX	UiIcons	18	18
+UI-9a-6j	OpenPmsDentalGraph/Dashboard/DashboardCellCtrl.Designer.cs	butDeleteColumn	Image	OpenPmsDentalGraph:deleteColumn	EnumIcons.TableDeleteColumn	UiIcons	16	16
+UI-9a-6j	OpenPmsDentalGraph/Dashboard/DashboardCellCtrl.Designer.cs	butDeleteRow	Image	OpenPmsDentalGraph:deleteRow	EnumIcons.TableDeleteRow	UiIcons	16	16
+UI-9a-6j	OpenPmsDentalGraph/Dashboard/DashboardCellCtrl.Designer.cs	butDrag	Image	OpenPmsDentalGraph:drag	EnumIcons.Move	UiIcons	16	16
+UI-9a-6j	OpenPmsDentalGraph/Dashboard/DashboardCellCtrl.Designer.cs	butEdit	Image	OpenPmsDentalGraph:editPencil	EnumIcons.Edit	UiIcons	16	16
+UI-9a-6j	OpenPmsDentalGraph/Dashboard/DashboardCellCtrl.Designer.cs	butPrintPreview	Image	OpenPmsDentalGraph:printpreview	EnumIcons.Preview	UiIcons	16	16
+UI-9a-6j	OpenPmsDentalGraph/Dashboard/DashboardCellCtrl.Designer.cs	butRefresh	Image	OpenPmsDentalGraph:refresh	EnumIcons.Sync	UiIcons	16	16
+UI-9a-6j	OpenPmsDentalGraph/Dashboard/DashboardCellCtrl.Designer.cs	pictureBox	Image	OpenPmsDentalGraph:addChart	EnumIcons.ChartAdd	UiIcons	16	16
+UI-9a-6j	OpenPmsDentalGraph/Dashboard/DashboardPanelCtrl.Designer.cs	butAddColumn	Image	OpenPmsDentalGraph:addColumn	EnumIcons.TableInsertColumn	UiIcons	16	16
+UI-9a-6j	OpenPmsDentalGraph/Dashboard/DashboardPanelCtrl.Designer.cs	butAddRow	Image	OpenPmsDentalGraph:addRow	EnumIcons.TableInsertRow	UiIcons	16	16
+UI-9a-6j	OpenPmsDentalGraph/Dashboard/FormDashboardEditCell.Designer.cs	butPrintPreview	Image	OpenPmsDentalGraph:printpreview	EnumIcons.Preview	UiIcons	16	16
+UI-9a-6l	OpenPmsDentalBusiness/UI/SignatureBoxWrapper.Designer.cs	butClearSig	Image	OpenPmsDentalBusiness:deleteX10	EnumIcons.DeleteX	UiIcons	10	10
+UI-9a-6l	OpenPmsDentalBusiness/UI/SignatureBoxWrapper.Designer.cs	butESign	Image	OpenPmsDentalBusiness:eSig	EnumIcons.Signature	UiIcons	10	10
+UI-9a-6l	OpenPmsDentalBusiness/UI/SignatureBoxWrapper.Designer.cs	butTopazSign	Image	OpenPmsDentalBusiness:topazPen10	EnumIcons.Pen	UiIcons	10	10

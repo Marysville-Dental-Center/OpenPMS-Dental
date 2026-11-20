@@ -177,7 +177,7 @@ namespace OpenPmsDental {
 			// 
 			// butAccounting
 			// 
-			this.butAccounting.Image = ((System.Drawing.Image)(resources.GetObject("butAccounting.Image")));
+			this.butAccounting.Icon = OpenPmsDental.UI.EnumIcons.Calculator;
 			this.butAccounting.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butAccounting.Location = new System.Drawing.Point(148, 71);
 			this.butAccounting.Name = "butAccounting";
@@ -188,7 +188,7 @@ namespace OpenPmsDental {
 			// 
 			// butBackup
 			// 
-			this.butBackup.Image = ((System.Drawing.Image)(resources.GetObject("butBackup.Image")));
+			this.butBackup.Icon = OpenPmsDental.UI.EnumIcons.Backup;
 			this.butBackup.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butBackup.Location = new System.Drawing.Point(148, 45);
 			this.butBackup.Name = "butBackup";
@@ -199,7 +199,7 @@ namespace OpenPmsDental {
 			// 
 			// butDeposit
 			// 
-			this.butDeposit.Image = ((System.Drawing.Image)(resources.GetObject("butDeposit.Image")));
+			this.butDeposit.Icon = OpenPmsDental.UI.EnumIcons.Deposit;
 			this.butDeposit.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butDeposit.Location = new System.Drawing.Point(16, 97);
 			this.butDeposit.Name = "butDeposit";
@@ -210,7 +210,7 @@ namespace OpenPmsDental {
 			// 
 			// butSendClaims
 			// 
-			this.butSendClaims.Image = ((System.Drawing.Image)(resources.GetObject("butSendClaims.Image")));
+			this.butSendClaims.Icon = OpenPmsDental.UI.EnumIcons.Insurance;
 			this.butSendClaims.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butSendClaims.Location = new System.Drawing.Point(16, 19);
 			this.butSendClaims.Name = "butSendClaims";
@@ -221,8 +221,7 @@ namespace OpenPmsDental {
 			// 
 			// butTasks
 			// 
-			this.butTasks.AdjustImageLocation = new System.Drawing.Point(0, 1);
-			this.butTasks.Image = ((System.Drawing.Image)(resources.GetObject("butTasks.Image")));
+			this.butTasks.Icon = OpenPmsDental.UI.EnumIcons.TaskList;
 			this.butTasks.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butTasks.Location = new System.Drawing.Point(148, 19);
 			this.butTasks.Name = "butTasks";

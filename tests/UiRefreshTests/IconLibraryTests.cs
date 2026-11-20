@@ -54,11 +54,11 @@ namespace UiRefreshTests {
 		#region Manifest
 		[TestMethod]
 		public void Manifest_EveryEnumIconsHasARow_TheModulesAFilledRow_TheRolesOfUq4() {
-			Assert.AreEqual(60,WinIcons().Count(),"The WinForms EnumIcons: UI-7b's 38, UI-9a-1's 10 Sync (owner, 2026-11-18) and UI-9a-3's 6, UI-9a-4's 1 and UI-9a-5's 4 (Copy, Paste, ExportExcel, QueryView).");
-			Assert.AreEqual(71,WpfIcons().Count(),"The WPF EnumIcons: UI-7b's 53, UI-9a-1's 8 Sync (owner, 2026-11-18) and UI-9a-3's 6 and UI-9a-4's 1 and UI-9a-5's 2.");
+			Assert.AreEqual(74,WinIcons().Count(),"The WinForms EnumIcons: UI-7b's 38, UI-9a-1's 10 Sync (owner, 2026-11-18) and UI-9a-3's 6, UI-9a-4's 1 and UI-9a-5's 4 (Copy, Paste, ExportExcel, QueryView) and UI-9a-6's 14 (PinOff, Calculator, Backup, Deposit, Insurance, TaskList, Move, TableDeleteRow, TableDeleteColumn, TableInsertRow, TableInsertColumn, ChartAdd, Pen, Signature).");
+			Assert.AreEqual(85,WpfIcons().Count(),"The WPF EnumIcons: UI-7b's 53, UI-9a-1's 8 Sync (owner, 2026-11-18) and UI-9a-3's 6 and UI-9a-4's 1 and UI-9a-5's 2 and UI-9a-6's 14.");
 			List<IconRendererTests.ManifestRow> listRows=IconRendererTests.ReadManifest().Where(x => x.EnumName=="EnumIcons").ToList();
 			HashSet<string> hashSetMembers=new HashSet<string>(WinIcons().Select(x => x.ToString()).Concat(WpfIcons().Select(x => x.ToString())));
-			Assert.AreEqual(71,hashSetMembers.Count,"Every WinForms member is also a WPF member.");
+			Assert.AreEqual(85,hashSetMembers.Count,"Every WinForms member is also a WPF member.");
 			foreach(string member in hashSetMembers) {
 				IconRendererTests.ManifestRow manifestRow=listRows.SingleOrDefault(x => x.Name==member);
 				if(_dictDentalIcons.ContainsKey(member)) {

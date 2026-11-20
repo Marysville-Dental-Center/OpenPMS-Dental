@@ -64,7 +64,7 @@
 			// 
 			// butPrint
 			// 
-			this.butPrint.Image = global::OpenPmsDental.Properties.Resources.butPrintSmall;
+			this.butPrint.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Print,16,16);
 			this.butPrint.Location = new System.Drawing.Point(101,4);
 			this.butPrint.Name = "butPrint";
 			this.butPrint.Size = new System.Drawing.Size(49,23);
@@ -75,7 +75,7 @@
 			// 
 			// butPreviousPage
 			// 
-			this.butPreviousPage.Image = global::OpenPmsDental.Properties.Resources.up;
+			this.butPreviousPage.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Up,22,22);
 			this.butPreviousPage.Location = new System.Drawing.Point(50,4);
 			this.butPreviousPage.Name = "butPreviousPage";
 			this.butPreviousPage.Size = new System.Drawing.Size(45,23);
@@ -86,7 +86,7 @@
 			// 
 			// butNextPage
 			// 
-			this.butNextPage.Image = global::OpenPmsDental.Properties.Resources.down;
+			this.butNextPage.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Down,22,22);
 			this.butNextPage.Location = new System.Drawing.Point(5,4);
 			this.butNextPage.Name = "butNextPage";
 			this.butNextPage.Size = new System.Drawing.Size(39,23);

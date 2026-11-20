@@ -140,7 +140,7 @@
 			// butAddColumn
 			// 
 			this.butAddColumn.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.butAddColumn.Image = global::OpenPmsDentalGraph.Properties.Resources.addColumn;
+			this.butAddColumn.Image = global::CodeBase.UiIcons.GetBitmap("EnumIcons","TableInsertColumn",16,16);
 			this.butAddColumn.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
 			this.butAddColumn.Location = new System.Drawing.Point(0, 0);
 			this.butAddColumn.Name = "butAddColumn";
@@ -155,7 +155,7 @@
 			// butAddRow
 			// 
 			this.butAddRow.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.butAddRow.Image = global::OpenPmsDentalGraph.Properties.Resources.addRow;
+			this.butAddRow.Image = global::CodeBase.UiIcons.GetBitmap("EnumIcons","TableInsertRow",16,16);
 			this.butAddRow.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butAddRow.Location = new System.Drawing.Point(0, 0);
 			this.butAddRow.Name = "butAddRow";

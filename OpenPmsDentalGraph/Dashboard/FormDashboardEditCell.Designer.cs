@@ -72,7 +72,7 @@
 			// 
 			this.butPrintPreview.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butPrintPreview.BackColor = System.Drawing.SystemColors.Control;
-			this.butPrintPreview.Image = global::OpenPmsDentalGraph.Properties.Resources.printpreview;
+			this.butPrintPreview.Image = global::CodeBase.UiIcons.GetBitmap("EnumIcons","Preview",16,16);
 			this.butPrintPreview.Location = new System.Drawing.Point(3, 0);
 			this.butPrintPreview.Name = "butPrintPreview";
 			this.butPrintPreview.Size = new System.Drawing.Size(28, 28);

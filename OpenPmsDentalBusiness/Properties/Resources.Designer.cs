@@ -534,16 +534,6 @@ namespace OpenPmsDentalBusiness.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap deleteX10 {
-            get {
-                object obj = ResourceManager.GetObject("deleteX10", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
         ///&lt;SheetDef xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot;&gt;
         ///  &lt;IsNew&gt;false&lt;/IsNew&gt;
@@ -792,16 +782,6 @@ namespace OpenPmsDentalBusiness.Properties {
         public static string EraGridHeader {
             get {
                 return ResourceManager.GetString("EraGridHeader", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap eSig {
-            get {
-                object obj = ResourceManager.GetObject("eSig", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -1555,16 +1535,6 @@ namespace OpenPmsDentalBusiness.Properties {
         public static string TooManyDataFieldAttributes {
             get {
                 return ResourceManager.GetString("TooManyDataFieldAttributes", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap topazPen10 {
-            get {
-                object obj = ResourceManager.GetObject("topazPen10", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
             }
         }
         

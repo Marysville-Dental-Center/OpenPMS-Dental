@@ -74,7 +74,7 @@
 			// 
 			this.butWeekPrevious.AdjustImageLocation = new System.Drawing.Point(-3, -1);
 			this.butWeekPrevious.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.butWeekPrevious.Image = ((System.Drawing.Image)(resources.GetObject("butWeekPrevious.Image")));
+			this.butWeekPrevious.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.ArrowLeft,13,15);
 			this.butWeekPrevious.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butWeekPrevious.Location = new System.Drawing.Point(5, 1);
 			this.butWeekPrevious.Name = "butWeekPrevious";
@@ -87,7 +87,7 @@
 			// 
 			this.butWeekNext.AdjustImageLocation = new System.Drawing.Point(5, -1);
 			this.butWeekNext.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.butWeekNext.Image = ((System.Drawing.Image)(resources.GetObject("butWeekNext.Image")));
+			this.butWeekNext.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.ArrowRight,13,15);
 			this.butWeekNext.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.butWeekNext.Location = new System.Drawing.Point(43, 1);
 			this.butWeekNext.Name = "butWeekNext";

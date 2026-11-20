@@ -8,3 +8,15 @@ UI-9a-3	OpenPmsDental/Forms	FormM*,FormN*,FormO*,FormP*,FormQ*
 UI-9a-4	OpenPmsDental/Forms	FormR*,FormS*
 UI-9a-5a	OpenPmsDental/Forms	FormT*,FormU*,FormV*,FormW*,FormX*,FormY*,FormZ*
 UI-9a-5b	OpenPmsDental/Forms Reports	*
+UI-9a-6a	OpenPmsDental/Bridges	*
+UI-9a-6b	OpenPmsDental/Logic	*
+UI-9a-6c	OpenPmsDental/Main Modules	*
+UI-9a-6d	OpenPmsDental/ReportingComplex	*
+UI-9a-6e	OpenPmsDental/ReportingForRdl	*
+UI-9a-6f	OpenPmsDental/UI	*
+UI-9a-6g	OpenPmsDental/User Controls	*
+UI-9a-6h	OpenPmsDental/User Controls/SetupWizControls	*
+UI-9a-6i	OpenPmsDentalBusiness/Misc	*
+UI-9a-6j	OpenPmsDentalGraph/Dashboard	*
+UI-9a-6k	SparksToothChart	*
+UI-9a-6l	OpenPmsDentalBusiness/UI	*

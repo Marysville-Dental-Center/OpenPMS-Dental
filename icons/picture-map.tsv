@@ -87,3 +87,63 @@ Resources:butQView	EnumIcons.QueryView	query view (table with a magnifier)
 FormRpPatients:butDeleteFilter.Image	EnumIcons.DeleteX	delete the filter (red X)
 FormRpDPPOvercharged:imageListCalendar.ImageStream	UI-9b	the window ImageList
 FormRpProcNotBilledIns:imageListCalendar.ImageStream	UI-9b	the window ImageList
+# UI-9a-6 (Main Modules, User Controls, UI, Bridges, Reporting, SetupWizControls, Business, Graph, Sparks)
+ControlAccount:imageListMain.ImageStream	UI-9b	the window ImageList
+ControlAppt:imageListMain.ImageStream	UI-9b	the window ImageList
+ControlAppt:imageListTasks.ImageStream	UI-9b	the window ImageList
+ControlChart:imageListProcButtons.ImageStream	UI-9b	the window ImageList
+ControlChart:imageListMain.ImageStream	UI-9b	the window ImageList
+ControlFamily:imageListToolBar.ImageStream	UI-9b	the window ImageList
+ControlImages:imageListTools2.ImageStream	UI-9b	the window ImageList
+ControlImages:imageListTree.ImageStream	UI-9b	the window ImageList
+ControlTreat:imageListMain.ImageStream	UI-9b	the window ImageList
+FormOpenDental:imageListMain.ImageStream	UI-9b	the window ImageList
+FormReportComplex:imageListMain.ImageStream	UI-9b	the window ImageList
+FormReportCustom:imageListMain.ImageStream	UI-9b	the window ImageList
+FormReportForRdl:imageListMain.ImageStream	UI-9b	the window ImageList
+FormPrintPreview:imageListMain.ImageStream	UI-9b	the window ImageList
+UserControlSecurityTree:imageListPerm.ImageStream	UI-9b	the window ImageList
+UserControlTasks:imageListTree.ImageStream	UI-9b	the window ImageList
+UserControlTasks:imageListMain.ImageStream	UI-9b	the window ImageList
+UserControlSetupWizDefinitions:imageList1.ImageStream	UI-9b	the window ImageList
+UserControlSetupWizFeatures:imageList1.ImageStream	UI-9b	the window ImageList
+UserControlSetupWizFeeSched:imageList1.ImageStream	UI-9b	the window ImageList
+UserControlSetupWizPractice:imageList1.ImageStream	UI-9b	the window ImageList
+UserControlSetupWizPrinter:imageList1.ImageStream	UI-9b	the window ImageList
+UserControlSetupWizSchedule:imageList1.ImageStream	UI-9b	the window ImageList
+DashboardTabCtrl:tabImageList.ImageStream	UI-9b	the window ImageList
+ControlAppt:butSearchCloseX.Image	EnumIcons.DeleteX	close the search (black X, 16 x 16)
+ControlAppt:butSearchNext.Image	EnumIcons.ArrowRight	next search result (blue arrow right, 13 x 15)
+ControlAppt:butFwd.Image	EnumIcons.ArrowRight	forward in the schedule (blue arrow right, 13 x 15)
+ControlAppt:butBack.Image	EnumIcons.ArrowLeft	back in the schedule (blue arrow left, 13 x 15)
+ControlAppt:butClearPin.Image	EnumIcons.PinOff	clear the pinboard (pin, 22 x 22)
+ControlManage:butAccounting.Image	EnumIcons.Calculator	accounting (calculator)
+ControlManage:butBackup.Image	EnumIcons.Backup	backup (documents)
+ControlManage:butDeposit.Image	EnumIcons.Deposit	deposit slip (safe)
+ControlManage:butSendClaims.Image	EnumIcons.Insurance	send claims (umbrella)
+ControlManage:butTasks.Image	EnumIcons.TaskList	tasks (checked clipboard)
+Resources:TSI_Icon	keep	the TSI logo, a partner mark (section 4.5)
+Resources:Practice_Booster_Icon_22x22	keep	the Practice Booster logo, a partner mark (section 4.5)
+Resources:Med_History	keep	the default Med History sheet background, office content (section 4.5)
+ODDateRangePicker:butWeekPrevious.Image	EnumIcons.ArrowLeft	previous week (blue arrow left, 13 x 15)
+ODDateRangePicker:butWeekNext.Image	EnumIcons.ArrowRight	next week (blue arrow right, 13 x 15)
+ToothChart2D:pictBox.Image	keep	the tooth chart's hidden 2D picture box (section 4.5)
+# The hand-converted pictures of OpenPmsDentalGraph and OpenPmsDentalBusiness (their own Resources; CodeBase.UiIcons.GetBitmap by enum and member name, the tool does not read them)
+OpenPmsDentalGraph:refresh	EnumIcons.Sync	refresh the chart (grey circle arrows, 16 x 16)
+OpenPmsDentalGraph:printpreview	EnumIcons.Preview	print preview (page with a magnifier, 16 x 16)
+OpenPmsDentalGraph:editPencil	EnumIcons.Edit	edit the chart (pencil, 16 x 16)
+OpenPmsDentalGraph:drag	EnumIcons.Move	move the cell (four-way arrow, 16 x 16)
+OpenPmsDentalGraph:deleteX18	EnumIcons.DeleteX	delete the cell (red X, 18 x 18)
+OpenPmsDentalGraph:deleteRow	EnumIcons.TableDeleteRow	delete the row (table, 16 x 16)
+OpenPmsDentalGraph:deleteColumn	EnumIcons.TableDeleteColumn	delete the column (table, 16 x 16)
+OpenPmsDentalGraph:addChart	EnumIcons.ChartAdd	add a chart (bars with a plus, 16 x 16)
+OpenPmsDentalGraph:addColumn	EnumIcons.TableInsertColumn	add a column (table, 16 x 16)
+OpenPmsDentalGraph:addRow	EnumIcons.TableInsertRow	add a row (table, 16 x 16)
+OpenPmsDentalGraph:loadingAnim	keep	the spinner (section 4.5: a vector progress ring in UI-11)
+OpenPmsDentalBusiness:topazPen10	EnumIcons.Pen	sign with the Topaz pen (10 x 10)
+OpenPmsDentalBusiness:deleteX10	EnumIcons.DeleteX	clear the signature (red X, 10 x 10)
+OpenPmsDentalBusiness:eSig	EnumIcons.Signature	digitally sign (the letter E, 10 x 10)
+# The pictures of the shared projects that stay (section 4.5); the tool does not read these projects' own Resources, the port note lists them
+OpenPmsDentalBusiness:Patient_Info	keep	the default Patient Info sheet background, office content (section 4.5)
+OpenPmsDentalBusiness:ApptBackTest	keep	the appointment background test picture, ApptBackTest.gif (section 4.5)
+SparksToothChart:*	keep	the tooth chart's .obj models (tooth1 to toothT, implant; section 4.5)

@@ -71,26 +71,6 @@ namespace WpfControls.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap down {
-            get {
-                object obj = ResourceManager.GetObject("down", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap editPencil {
-            get {
-                object obj = ResourceManager.GetObject("editPencil", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
         public static byte[] en_US_aff {
@@ -126,16 +106,6 @@ namespace WpfControls.Properties {
         public static System.Drawing.Bitmap PracticeBooster {
             get {
                 object obj = ResourceManager.GetObject("PracticeBooster", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap printSmall {
-            get {
-                object obj = ResourceManager.GetObject("printSmall", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -1431,7 +1431,7 @@
 			// 
 			// butDown
 			// 
-			this.butDown.Image = global::OpenPmsDental.Properties.Resources.down;
+			this.butDown.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Down,22,22);
 			this.butDown.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butDown.Location = new System.Drawing.Point(283, 1);
 			this.butDown.Name = "butDown";
@@ -1442,7 +1442,7 @@
 			// butUp
 			// 
 			this.butUp.AdjustImageLocation = new System.Drawing.Point(0, 1);
-			this.butUp.Image = global::OpenPmsDental.Properties.Resources.up;
+			this.butUp.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Up,22,22);
 			this.butUp.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butUp.Location = new System.Drawing.Point(244, 1);
 			this.butUp.Name = "butUp";
@@ -1748,7 +1748,7 @@
 			// 
 			// butChartViewDown
 			// 
-			this.butChartViewDown.Image = global::OpenPmsDental.Properties.Resources.down;
+			this.butChartViewDown.Icon = OpenPmsDental.UI.EnumIcons.Down;
 			this.butChartViewDown.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butChartViewDown.Location = new System.Drawing.Point(426, 188);
 			this.butChartViewDown.Name = "butChartViewDown";
@@ -1759,7 +1759,7 @@
 			// 
 			// butChartViewUp
 			// 
-			this.butChartViewUp.Image = global::OpenPmsDental.Properties.Resources.up;
+			this.butChartViewUp.Icon = OpenPmsDental.UI.EnumIcons.Up;
 			this.butChartViewUp.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butChartViewUp.Location = new System.Drawing.Point(367, 188);
 			this.butChartViewUp.Name = "butChartViewUp";

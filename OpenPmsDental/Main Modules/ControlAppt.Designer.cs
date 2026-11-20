@@ -663,7 +663,7 @@
 			// 
 			this.butSearchCloseX.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.butSearchCloseX.ForeColor = System.Drawing.SystemColors.Control;
-			this.butSearchCloseX.Image = ((System.Drawing.Image)(resources.GetObject("butSearchCloseX.Image")));
+			this.butSearchCloseX.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.DeleteX,16,16);
 			this.butSearchCloseX.Location = new System.Drawing.Point(185, 7);
 			this.butSearchCloseX.Name = "butSearchCloseX";
 			this.butSearchCloseX.Size = new System.Drawing.Size(16, 16);
@@ -672,7 +672,7 @@
 			// 
 			// butSearchNext
 			// 
-			this.butSearchNext.Image = ((System.Drawing.Image)(resources.GetObject("butSearchNext.Image")));
+			this.butSearchNext.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.ArrowRight,13,15);
 			this.butSearchNext.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.butSearchNext.Location = new System.Drawing.Point(111, 9);
 			this.butSearchNext.Name = "butSearchNext";
@@ -830,7 +830,7 @@
 			// 
 			this.butFwd.AdjustImageLocation = new System.Drawing.Point(5, -1);
 			this.butFwd.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.butFwd.Image = ((System.Drawing.Image)(resources.GetObject("butFwd.Image")));
+			this.butFwd.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.ArrowRight,13,15);
 			this.butFwd.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.butFwd.Location = new System.Drawing.Point(102, 0);
 			this.butFwd.Name = "butFwd";
@@ -842,7 +842,7 @@
 			// butBack
 			// 
 			this.butBack.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.butBack.Image = ((System.Drawing.Image)(resources.GetObject("butBack.Image")));
+			this.butBack.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.ArrowLeft,13,15);
 			this.butBack.Location = new System.Drawing.Point(39, 0);
 			this.butBack.Name = "butBack";
 			this.butBack.Size = new System.Drawing.Size(19, 22);
@@ -861,7 +861,7 @@
 			// 
 			// butClearPin
 			// 
-			this.butClearPin.Image = ((System.Drawing.Image)(resources.GetObject("butClearPin.Image")));
+			this.butClearPin.Icon = OpenPmsDental.UI.EnumIcons.PinOff;
 			this.butClearPin.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butClearPin.Location = new System.Drawing.Point(42, 71);
 			this.butClearPin.Name = "butClearPin";
