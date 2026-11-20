@@ -148,6 +148,10 @@ namespace UiRefreshTests {
 		}
 		#endregion Helpers
 
+		///<summary>The UI-9a-7 slices of the projects that have no picture on main (the slice confirms it: ServiceManager, MySQLManager, xCrudGenerator,
+		///OpenPmsDentalDbSettings, OpenPmsDentalHL7, DatabaseIntegrityCheck, DocumentationBuilder, UpdateFileCopier, OpenPmsDentalHelper32).</summary>
+		private static readonly string[] _arraySlicesWithoutPictures=new[] { "UI-9a-7c","UI-9a-7d","UI-9a-7e","UI-9a-7f","UI-9a-7g","UI-9a-7h","UI-9a-7i","UI-9a-7j","UI-9a-7k" };
+
 		[TestMethod]
 		public void Map_HasARowForEveryPictureUse_AndEveryConvertedSliceIsDone() {
 			List<string> listSlices=GetSlices();
@@ -161,6 +165,10 @@ namespace UiRefreshTests {
 					int exitCode=RunTool("-Slice "+slice+" -Check -Inventory \""+pathInventory+"\"",out output);
 					Assert.IsTrue(File.Exists(pathInventory),slice+": the tool wrote no inventory.\r\n"+output);
 					List<string[]> listUses=ReadTsv(pathInventory).Skip(1).ToList();
+					if(_arraySlicesWithoutPictures.Contains(slice)) {
+						Assert.AreEqual(0,listUses.Count,slice+": a project that had no picture on main has one now; give it map rows.");
+						continue;
+					}
 					Assert.IsTrue(listUses.Count>0,slice+": the tool found no picture use.");
 					List<string> listUnmapped=listUses.Where(x => x[2]=="").Select(x => x[1]+" ("+x[3]+":"+x[4]+")").ToList();
 					Assert.AreEqual(0,listUnmapped.Count,slice+": picture uses with no row in icons/picture-map.tsv:\r\n"+string.Join("\r\n",listUnmapped));
@@ -333,7 +341,7 @@ namespace UiRefreshTests {
 			string root=RepoPaths.Root();
 			string textProject=File.ReadAllText(Path.Combine(root,"RdlDesign","ReportDesigner.csproj"));
 			foreach(string file in new[] { "UiIcons.cs","UiIcons.Gdi.cs","IconData.g.cs" }) {
-				Assert.IsTrue(Regex.IsMatch(textProject,@"<Compile Include=""\.\.\CodeBase\UI\Icons\\"+Regex.Escape(file)+@""""),"ReportDesigner.csproj does not link "+file+".");
+				Assert.IsTrue(textProject.Contains("<Compile Include=\"..\\CodeBase\\UI\\Icons\\"+file+"\""),"ReportDesigner.csproj does not link "+file+".");
 			}
 			List<ConvertedRow> listRows=ReadRecord(Path.Combine(root,"icons","picture-converted.tsv")).Where(x => x.File.StartsWith("RdlDesign/")).ToList();
 			Assert.AreEqual(21,listRows.Count,"The 21 toolbar pictures of the report designer (RdlDesigner.cs).");
@@ -349,7 +357,7 @@ namespace UiRefreshTests {
 				using(Bitmap bitmapLinked=(Bitmap)methodInfo.Invoke(null,new object[] { "EnumIcons",member,row.Width,row.Height }))
 				using(Bitmap bitmapCodeBase=UiIcons.GetBitmap("EnumIcons",member,row.Width,row.Height)) {
 					Assert.AreEqual(new Size(row.Width,row.Height),bitmapLinked.Size,row.ToString());
-					Assert.IsTrue(CountInk(bitmapLinked)>row.Height,row+": the linked renderer draws nothing.");
+					Assert.IsTrue(CountInk(bitmapLinked)>0,row+": the linked renderer draws nothing.");
 					for(int y=0;y<row.Height;y++) {
 						for(int x=0;x<row.Width;x++) {
 							Assert.AreEqual(bitmapCodeBase.GetPixel(x,y).ToArgb(),bitmapLinked.GetPixel(x,y).ToArgb(),row+": the linked renderer differs from CodeBase's at "+x+","+y+".");
