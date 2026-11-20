@@ -147,3 +147,40 @@ OpenPmsDentalBusiness:eSig	EnumIcons.Signature	digitally sign (the letter E, 10 
 OpenPmsDentalBusiness:Patient_Info	keep	the default Patient Info sheet background, office content (section 4.5)
 OpenPmsDentalBusiness:ApptBackTest	keep	the appointment background test picture, ApptBackTest.gif (section 4.5)
 SparksToothChart:*	keep	the tooth chart's .obj models (tooth1 to toothT, implant; section 4.5)
+# UI-9a-7 (the other projects)
+FormCentralConnectionGroupEdit:butDelete.Image	EnumIcons.DeleteX	delete the group's connection list entry (red X)
+FormCentralConnectionGroupEdit:butAdd.Image	EnumIcons.ArrowLeft	add the selected connections to the group (blue arrow left)
+FormCentralConnectionGroupEdit:butRemove.Image	EnumIcons.ArrowRight	remove the selected connections from the group (blue arrow right)
+FormCentralConnectionGroups:butAdd.Image	EnumIcons.Add	add a connection group (blue plus)
+FormCentralConnections:butUp.Image	EnumIcons.Up	move a connection up (green arrow up)
+FormCentralConnections:butDown.Image	EnumIcons.Down	move a connection down (green arrow down)
+FormCentralConnections:butAdd.Image	EnumIcons.Add	add a connection (blue plus)
+FormCentralProdInc:butRight.Image	EnumIcons.ArrowRight	next period (blue arrow right)
+FormCentralProdInc:butLeft.Image	EnumIcons.ArrowLeft	previous period (blue arrow left)
+FormCentralSecurity:imageListPerm.ImageStream	UI-9b	the window ImageList
+FormCentralUserGroupEdit:butDelete.Image	EnumIcons.DeleteX	delete the user group (red X)
+FormCentralUserGroups:butAddGroup.Image	EnumIcons.Add	add a user group (blue plus)
+MsgBoxCopyPaste:butPrint.Image	EnumIcons.Print	print (printer, 22 x 22): the second copy of the print button, outside OpenPmsDental/UI
+ComboBoxMulti:dropButton.Image	EnumIcons.ChevronDown	the drop-down arrow (17 x 19): drawn in a 17 px square, the box kept
+DialogAbout:pictureBox2.Image	keep	the fyiReporting logo of the report designer's About box: a third-party mark (section 4.5)
+RdlDesigner:bTable.Image	EnumIcons.Table	report designer toolbar: Table (16 x 16)
+RdlDesigner:bLine.Image	EnumIcons.Line	report designer toolbar: Line
+RdlDesigner:bImage.Image	EnumIcons.Image	report designer toolbar: Image
+RdlDesigner:bRectangle.Image	EnumIcons.Rectangle	report designer toolbar: Rectangle
+RdlDesigner:bSubreport.Image	EnumIcons.Subreport	report designer toolbar: Subreport
+RdlDesigner:bList.Image	EnumIcons.ListBullets	report designer toolbar: List
+RdlDesigner:bChart.Image	EnumIcons.ChartBar	report designer toolbar: Chart
+RdlDesigner:bText.Image	EnumIcons.TextBox	report designer toolbar: Textbox
+RdlDesigner:bMatrix.Image	EnumIcons.Matrix	report designer toolbar: Matrix
+RdlDesigner:bPrint.Image	EnumIcons.Print	report designer toolbar: Print
+RdlDesigner:bSave.Image	EnumIcons.Save	report designer toolbar: Save
+RdlDesigner:bOpen.Image	EnumIcons.Open	report designer toolbar: Open
+RdlDesigner:bPaste.Image	EnumIcons.Paste	report designer toolbar: Paste
+RdlDesigner:bCopy.Image	EnumIcons.Copy	report designer toolbar: Copy
+RdlDesigner:bCut.Image	EnumIcons.Cut	report designer toolbar: Cut
+RdlDesigner:bNew.Image	EnumIcons.NewDocument	report designer toolbar: New
+RdlDesigner:bUndo.Image	EnumIcons.Undo	report designer toolbar: Undo
+RdlDesigner:bPdf.Image	EnumIcons.Pdf	report designer toolbar: export to PDF (18 x 16, the width kept)
+RdlDesigner:bXml.Image	EnumIcons.Xml	report designer toolbar: export to XML (20 x 16, the width kept)
+RdlDesigner:bHtml.Image	EnumIcons.Html	report designer toolbar: export to HTML (26 x 16, the width kept)
+RdlDesigner:bMht.Image	EnumIcons.Mht	report designer toolbar: export to MHT (21 x 17, the width kept)

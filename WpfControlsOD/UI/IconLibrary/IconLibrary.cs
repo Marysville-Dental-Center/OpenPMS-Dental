@@ -107,7 +107,26 @@ To add an icon: add the member here (and to the WinForms enum when WinForms draw
 		TableInsertColumn,
 		ChartAdd,
 		Pen,
-		Signature
+		Signature,
+		//UI-9a-7 (the other projects, docs/port-notes/UI-9a.md): the toolbar of the report designer (RdlDesign), each with its manifest row.
+		Table,
+		Line,
+		Image,
+		Rectangle,
+		Subreport,
+		ListBullets,
+		ChartBar,
+		TextBox,
+		Matrix,
+		Save,
+		Open,
+		Cut,
+		NewDocument,
+		Undo,
+		Pdf,
+		Xml,
+		Html,
+		Mht
 	}
 
 	///<summary></summary>

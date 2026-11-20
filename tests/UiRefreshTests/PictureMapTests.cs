@@ -104,9 +104,10 @@ namespace UiRefreshTests {
 			}
 		}
 
-		///<summary>The assembly of a recorded file: its project folder (OpenPmsDental, OpenPmsDentalGraph, OpenPmsDentalBusiness).</summary>
+		///<summary>The assembly of a recorded file: its project folder (OpenPmsDental, OpenPmsDentalGraph, OpenPmsDentalBusiness, CentralManager, CodeBase, ODR; RdlDesign's assembly is RdlDesigner).</summary>
 		private static string GetAssembly(ConvertedRow row) {
-			return row.File.Split('/')[0];
+			string project=row.File.Split('/')[0];
+			return project=="RdlDesign" ? "RdlDesigner" : project;//the report designer's assembly is named RdlDesigner
 		}
 
 		///<summary>The picture of a converted control: its BackgroundImage, or its public Image property (a button, label, PictureBox or ODPictureBox).</summary>
@@ -321,6 +322,40 @@ namespace UiRefreshTests {
 			}
 			using(Bitmap bitmap=UiIcons.GetBitmap("EnumIcons","NoSuchMember",16,16)) {
 				Assert.AreEqual(0,CountInk(bitmap),"A name with no manifest row draws nothing.");
+			}
+		}
+
+		///<summary>RdlDesign references no CodeBase: it compiles in CodeBase's icon table and GDI+ renderer as linked files (ReportDesigner.csproj).
+		///That linked copy draws each toolbar icon of UI-9a-7 at today's picture's pixel size, the same pixels as CodeBase's own renderer, and the
+		///designer's hidden buttons carry those bitmaps.</summary>
+		[TestMethod]
+		public void RdlDesign_LinkedRendererDrawsItsToolbarIcons() {
+			string root=RepoPaths.Root();
+			string textProject=File.ReadAllText(Path.Combine(root,"RdlDesign","ReportDesigner.csproj"));
+			foreach(string file in new[] { "UiIcons.cs","UiIcons.Gdi.cs","IconData.g.cs" }) {
+				Assert.IsTrue(Regex.IsMatch(textProject,@"<Compile Include=""\.\.\CodeBase\UI\Icons\\"+Regex.Escape(file)+@""""),"ReportDesigner.csproj does not link "+file+".");
+			}
+			List<ConvertedRow> listRows=ReadRecord(Path.Combine(root,"icons","picture-converted.tsv")).Where(x => x.File.StartsWith("RdlDesign/")).ToList();
+			Assert.AreEqual(21,listRows.Count,"The 21 toolbar pictures of the report designer (RdlDesigner.cs).");
+			Assert.IsTrue(listRows.All(x => x.How=="UiIcons"),"RdlDesign takes its icons from the linked renderer (UiIcons).");
+			Assembly assembly=WindowBuilder.LoadPlainExe("RdlDesign","RdlDesigner");
+			Type typeIcons=assembly.GetType("CodeBase.UiIcons");
+			Assert.IsNotNull(typeIcons,"RdlDesigner.dll has no CodeBase.UiIcons: the renderer is not linked.");
+			MethodInfo methodInfo=typeIcons.GetMethod("GetBitmap",BindingFlags.Static|BindingFlags.Public|BindingFlags.NonPublic,null,
+				new[] { typeof(string),typeof(string),typeof(int),typeof(int) },null);
+			Assert.IsNotNull(methodInfo,"The linked renderer has no GetBitmap(enum name, member, width, height).");
+			foreach(ConvertedRow row in listRows) {
+				string member=row.Target.Substring("EnumIcons.".Length);
+				using(Bitmap bitmapLinked=(Bitmap)methodInfo.Invoke(null,new object[] { "EnumIcons",member,row.Width,row.Height }))
+				using(Bitmap bitmapCodeBase=UiIcons.GetBitmap("EnumIcons",member,row.Width,row.Height)) {
+					Assert.AreEqual(new Size(row.Width,row.Height),bitmapLinked.Size,row.ToString());
+					Assert.IsTrue(CountInk(bitmapLinked)>row.Height,row+": the linked renderer draws nothing.");
+					for(int y=0;y<row.Height;y++) {
+						for(int x=0;x<row.Width;x++) {
+							Assert.AreEqual(bitmapCodeBase.GetPixel(x,y).ToArgb(),bitmapLinked.GetPixel(x,y).ToArgb(),row+": the linked renderer differs from CodeBase's at "+x+","+y+".");
+						}
+					}
+				}
 			}
 		}
 

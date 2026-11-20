@@ -20,3 +20,16 @@ UI-9a-6i	OpenPmsDentalBusiness/Misc	*
 UI-9a-6j	OpenPmsDentalGraph/Dashboard	*
 UI-9a-6k	SparksToothChart	*
 UI-9a-6l	OpenPmsDentalBusiness/UI	*
+UI-9a-7a	CentralManager	*
+UI-9a-7b	RdlDesign	*
+UI-9a-7c	ServiceManager	*
+UI-9a-7d	MySQLManager	*
+UI-9a-7e	xCrudGenerator	*
+UI-9a-7f	OpenPmsDentalDbSettings	*
+UI-9a-7g	OpenPmsDentalHL7	*
+UI-9a-7h	DatabaseIntegrityCheck	*
+UI-9a-7i	DocumentationBuilder	*
+UI-9a-7j	UpdateFileCopier	*
+UI-9a-7k	OpenPmsDentalHelper32	*
+UI-9a-7l	CodeBase/Utilities	MsgBoxCopyPaste*
+UI-9a-7m	ODR	ComboBoxMulti*
