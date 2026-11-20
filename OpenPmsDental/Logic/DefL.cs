@@ -385,6 +385,14 @@ namespace OpenPmsDental {
 				else if(defCatOptionsSelected.DoShowItemOrderInValue) {
 					row.Cells.Add(listDefs[i].ItemOrder.ToString());
 				}
+				else if(defCatOptionsSelected.DefCat==DefCat.MiscColors && FramePainter.IsTitleBarMiscColor(listDefs[i].ItemOrder)
+					&& FramePainter.IsStockMiscColor((DefCatMiscColors)listDefs[i].ItemOrder,listDefs[i].ItemColor))
+				{
+					//The title bar colours (UI-3): an item that holds Open Dental's stock value gives the new look's own colour, so the swatch and the title
+					//bar differ. The note tells staff why.
+					string programDefault=Lan.g("FormDefinitions","(program default)");
+					row.Cells.Add(string.IsNullOrEmpty(listDefs[i].ItemValue) ? programDefault : listDefs[i].ItemValue+" "+programDefault);
+				}
 				else {
 					row.Cells.Add(listDefs[i].ItemValue);
 				}

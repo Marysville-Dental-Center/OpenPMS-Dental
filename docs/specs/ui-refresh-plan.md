@@ -346,8 +346,8 @@ All values are at 96 DPI.
   - Corner radii are rounded to whole device pixels.
   - `UiTheme` has the helpers (UI-1), so every control does it the same way.
 - **Corners.** Controls (buttons, inputs, combo boxes, tooltips, toolbar and module bar hover shapes): 4 px. Check box box: 2 px.
-  Containers (group boxes): 6 px. Grids, tab pages, menus and the window frame: square (Windows 11 rounds the window itself if UI-3
-  shows that DWM rounding works with the program's own title bar; the surveys could not tell).
+  Containers (group boxes): 6 px. Grids, tab pages, menus and the window frame: square (Windows 11 rounds the window itself: UI-3
+  asks for DWM rounding with the program's own title bar, which the owner kept on 2026-11-18).
 - **Lines.** Borders 1 px. Focus ring 2 px in `Accent`, drawn inside the control's bounds. Selected tab underline 2 px. Module bar
   selection mark 3 px.
 - **Spacing inside controls.** Steps of 2, 4, 8 and 12 px. Icon to text gap 4 px. Button text padding 8 px left and right. Menu items
@@ -1219,6 +1219,21 @@ the bounds record must equal the before set.
   window check A6 and `PopupHelperTests` stay green.
 - Gallery: **G-UI2** (main window, modules, a few dialogs, the Imaging module with two floating image windows, one selected), with a
   stock and a customised office, and one run each with `NoCustomBorders.txt` and with `NoD2D.txt` beside the exe.
+- **Status (2026-11-19).** Owner: frame OK 2026-11-19; 125/150% desktop look still to check. Follow-ups from the hover-fix review (port
+  note 3.7): each caption button's hit area covers its painted fill (maximized all of it, so the screen's top-right pixel closes the window;
+  normal below the top resize edge, which stays), the glyphs centred in their fills, Windows' border colour re-applied when the Misc Colors
+  change or a floating image window is selected or not; G-UI2's frame part made again laid out as on screen, with 200%:
+  `.git/od-tools/test-results/g-ui2-frame-ui3-2/`.
+- **Status (2026-11-18).** Built on `ui/ui3-1` (`docs/port-notes/UI-3.md`), not merged yet: `WpfControlsOD/Frame/FramePainter.cs` (the one
+  project both frames reach that also knows `DefCatMiscColors`) paints both frames; Misc Colors item by item; the floating image windows'
+  two frames; window background `Surface`; "(program default)" in the Definitions window; Windows 11's rounded corners with the border in
+  the outline colour by default (the owner, 2026-11-18: "corners yes"; `OPENPMS_UI3_DWM_CORNERS=off` turns them off, `small` for small
+  ones). The owner's finding on the real desktop, the close button's red starting 3 px below the title bar's top, is fixed: a hover change
+  repainted only the buttons' hit rectangle (5 px down), and above 100% the close fill stopped short of the window's right edge; the fills
+  now cover the title bar from its top row on screen, the close fill to the window's right edge (port note 3.6). Tests in
+  `tests/UiRefreshTests/FrameTests.cs` pass, among them one that lays the frames out and repaints them as the screen does; window checks UX1
+  to UX3 (part `UX` of group U) wait for the lead's connected session with A6 and the `NoD2D.txt` run. G-UI2's off-screen frame part:
+  `.git/od-tools/test-results/g-ui2-frame-ui3/`.
 
 **UI-4a: core controls, part 1**
 - Owns: WinForms `Button.cs`, `CheckBox.cs`, `GroupBox.cs`, `PanelOD.cs`, `ToolTipOD.cs`; WPF `Button`, `CheckBox`, `RadioButton`,

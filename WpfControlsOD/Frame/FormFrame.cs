@@ -41,10 +41,10 @@ namespace OpenPmsDental {
 		#endregion Fields - Private
 
 		#region Fields - Private - Drawing, Border, Dpi
-		private static Color _colorBorder=Color.FromArgb(65,94,154);//the same dark blue color as the grid titles
-		private static Color _colorBorderText=Color.White; //Brushes.White;//new SolidBrush(Color.FromArgb(255,255,255));
-		private static Color _colorRedX=Color.FromArgb(232,17,35);//181,22,35
-		private static Color _colorButtonHot=Color.FromArgb(104,128,163);//slightly lighter blue/gray
+		//The office's three Misc Colors for the title bar (11 to 13), Open Dental's stock values until OnLoad reads them. FramePainter turns
+		//them into the frame's colours item by item: a stock item gives its token (UI-3, section 6 of docs/specs/ui-refresh-plan.md).
+		private static Color _colorBorder=Color.FromArgb(65,94,154);//the stock Main Border, the old title bar blue
+		private static Color _colorBorderText=Color.White;
 		private static Color _colorBorderOutline=Color.Black;
 		///<summary>This is the size and location of the Form when mouse down, based in pixels. If multiple screens, it's coordinates of the entire combined desktop.</summary>
 		private Rectangle _rectangleOnDesktopMouseDown;
@@ -65,9 +65,16 @@ namespace OpenPmsDental {
 		///<summary>In screen coordinates.  For dragging.</summary>
 		private Point _pointMouseDownScreen;
 		private Rectangle _rectangleButtons;
+		///<summary>Everything the caption buttons paint (FramePaintResult.RectangleButtonsPaint): what a hover change repaints.</summary>
+		private Rectangle _rectangleButtonsPaint;
 		private Rectangle _rectangleButX;
 		private Rectangle _rectangleButMax;
 		protected Rectangle _rectangleButMin;
+		///<summary>Where the mouse hovers and clicks the caption buttons (FramePaintResult.RectangleHitX, Max and Min): the button rectangles above
+		///and their painted fills, the top resize edge of a normal window left out.</summary>
+		private Rectangle _rectangleHitX;
+		private Rectangle _rectangleHitMax;
+		private Rectangle _rectangleHitMin;
 		///<summary>This tracks when we hover over the maximize button to trigger the snap window. Disposed.</summary>
 		private System.Windows.Forms.Timer timerHoverSnap;
 		private ToolTip _toolTipBorderButtons;
@@ -100,7 +107,7 @@ namespace OpenPmsDental {
 			this.Name="Form";
 			this.StartPosition=FormStartPosition.CenterScreen;
 			this.Text="Form";
-			this.BackColor=ColorOD.Background;
+			this.BackColor=UiTheme.Surface;//the window background token (UI-3, section 3.6), was ColorOD.Background
 			this.Font=(Font)UiTheme.FontBody.Clone();//fixes a lot of scaling issues. The body token (UI-2a-1): Microsoft Sans Serif 8.25 until UI-2b.
 			#endregion
 			this.FormClosing+=new FormClosingEventHandler(this.ODForm_FormClosing);
@@ -187,6 +194,7 @@ namespace OpenPmsDental {
 			set{
 				_isImageFloatSelected=value;
 				PanelBorders?.Invalidate();
+				ApplyDwmFrame();//the selected and unselected frames have their own outline colours
 			}
 		}
 
@@ -227,6 +235,8 @@ namespace OpenPmsDental {
 				this.Icon=_lazyIconApp.Value;
 			}
 			base.OnHandleCreated(e);
+			//UI-3: Windows 11's rounded corners and a Windows-drawn border in the outline colour, by default; FramePainter.ENV_DWM_CORNERS=off turns them off.
+			ApplyDwmFrame();
 		}
 
 		protected override void OnLoad(EventArgs e){
@@ -503,162 +513,114 @@ namespace OpenPmsDental {
 			if(ElementHostUI==null){
 				return;
 			}
-			Graphics g=e.Graphics;//no dispose ref
-			if(Width<1 || Height<1){
-				return;
-			}
-			Color colorBorder=_colorBorder;
-			Color colorBorderText=_colorBorderText;
-			Color colorButtonHot=_colorButtonHot;
-			if(this.GetType().ToString() == "FormImageFloat"){
-				//They don't get a choice on these colors because that's too hard
-				Color colorFloatBase=Color.FromArgb(65, 94, 154);//This is the default dark blue-gray, same as grid titles
-				if(IsImageFloatSelected){
-					colorBorder=ColorOD.Mix(colorFloatBase,Color.White,3,1);
-					colorBorderText=Color.White;
-					colorButtonHot=ColorOD.Mix(colorBorder,colorBorderText,4,1);					
-				}
-				else{
-					colorBorder=ColorOD.Mix(colorFloatBase,Color.White,1,3);
-					colorBorderText=Color.Black;
-					colorButtonHot=ColorOD.Mix(colorBorder,colorBorderText,10,1);
-				}
-			}
-			using SolidBrush brushBorder=new SolidBrush(colorBorder);
-			using SolidBrush brushText=new SolidBrush(colorBorderText); 
-			using SolidBrush brushRedX=new SolidBrush(_colorRedX);
-			using SolidBrush brushButtonHot=new SolidBrush(colorButtonHot);
-			using Pen penButtons=new Pen(colorBorderText);
-			using Pen penOutline=new Pen(_colorBorderOutline);
-			g.FillRectangle(brushBorder,new Rectangle(0,0,Width,Height));
-			/*
-			//Deprecated
-			//this next rectangle makes the border appear to be 3 pixels instead of 5, while still having a grab handle of 5.
-			int widthRemove=Scale(2);
-			if(UsingUIManager){
-				//no need
-			}
-			else{
-				g.FillRectangle(SystemBrushes.Control,new Rectangle(PanelClient.Left-widthRemove,PanelClient.Top,
-					PanelClient.Width+(widthRemove*2),PanelClient.Height+widthRemove));
-			}*/
-			g.DrawRectangle(penOutline,MaxInset(),MaxInset(),Width-1-MaxInset()*2,Height-1-MaxInset()*2);
-			int wEdge=GetHeightTitleBar()+ScaleI(4);//ours are nearly square instead of default wide
-			int hEdge=GetHeightTitleBar()-1;
-			int xPos=Width-WidthBorder()-MaxInset();
-			int yPos=5+MaxInset();
-				//1+MaxInset();
-			if(ControlBox){//there should always be a controlBox
-				xPos-=wEdge;
-				_rectangleButX=new Rectangle(xPos,yPos,wEdge,hEdge);
-			}
-			if(ControlBox && MaximizeBox){
-				xPos-=wEdge;
-				_rectangleButMax=new Rectangle(xPos,yPos,wEdge,hEdge);
-				PanelBorders.RectangleButMax=_rectangleButMax;
-			}
-			if(ControlBox && MinimizeBox){
-				xPos-=wEdge;
-				_rectangleButMin=new Rectangle(xPos,yPos,wEdge,hEdge);
-			}
-			_rectangleButtons=new Rectangle(xPos,yPos,Width-xPos,GetHeightTitleBar());
-			g.SmoothingMode=SmoothingMode.Default;
-			//button glyphs are all 10x10
-			int indentTop=ScaleI(5);//7
-			int indentLeft=ScaleI(10);
-				//indentTop+Scale(3);
-			//Button X:
-			if(_isHotX){
-				g.FillRectangle(brushRedX,_rectangleButX);
-			}
-			g.SmoothingMode=SmoothingMode.HighQuality;
-			//X is higher quality and thicker line.  Due to GDI+ bug, 1.4 line width is not possible, so drawing 2 lines for each to simulate
-			int whSymbol=ScaleI(9);
-			g.DrawLine(penButtons,_rectangleButX.X+indentLeft-0.2f,_rectangleButX.Y+indentTop,_rectangleButX.X+indentLeft+whSymbol-0.2f,_rectangleButX.Y+indentTop+whSymbol);
-			g.DrawLine(penButtons,_rectangleButX.X+indentLeft+0.2f,_rectangleButX.Y+indentTop,_rectangleButX.X+indentLeft+whSymbol+0.2f,_rectangleButX.Y+indentTop+whSymbol);
-			g.DrawLine(penButtons,_rectangleButX.X+whSymbol+indentLeft-0.2f,_rectangleButX.Y+indentTop,_rectangleButX.X+indentLeft-0.2f,_rectangleButX.Y+indentTop+whSymbol);
-			g.DrawLine(penButtons,_rectangleButX.X+whSymbol+indentLeft+0.2f,_rectangleButX.Y+indentTop,_rectangleButX.X+indentLeft+0.2f,_rectangleButX.Y+indentTop+whSymbol);
-			g.SmoothingMode=SmoothingMode.Default;
-			//Button Max:
-			if(MaximizeBox){
-				if(_isHotMax){
-					g.FillRectangle(brushButtonHot,_rectangleButMax);
-				}
-				if(WindowState==FormWindowState.Maximized){//show the double squares, each 8x8
-					g.DrawRectangle(penButtons,_rectangleButMax.X+indentLeft,_rectangleButMax.Y+indentTop+ScaleI(2),ScaleI(7),ScaleI(7));
-					//second box is behind to the UR of first.  Draw clockwise.
-					g.DrawLine(penButtons,_rectangleButMax.X+indentLeft+ScaleI(2),_rectangleButMax.Y+indentTop+ScaleI(2),
-						_rectangleButMax.X+indentLeft+ScaleI(2),_rectangleButMax.Y+indentTop);//L
-					g.DrawLine(penButtons,_rectangleButMax.X+indentLeft+ScaleI(2),_rectangleButMax.Y+indentTop,
-						_rectangleButMax.X+indentLeft+ScaleI(9),_rectangleButMax.Y+indentTop);//T
-					g.DrawLine(penButtons,_rectangleButMax.X+indentLeft+ScaleI(9),_rectangleButMax.Y+indentTop,
-						_rectangleButMax.X+indentLeft+ScaleI(9),_rectangleButMax.Y+indentTop+ScaleI(7));//R
-					g.DrawLine(penButtons,_rectangleButMax.X+indentLeft+ScaleI(9),_rectangleButMax.Y+indentTop+ScaleI(7),
-						_rectangleButMax.X+indentLeft+ScaleI(7),_rectangleButMax.Y+indentTop+ScaleI(7));//B
-				}
-				else{
-					g.DrawRectangle(penButtons,_rectangleButMax.X+indentLeft,_rectangleButMax.Y+indentTop,whSymbol,whSymbol);
-				}
-			}
-			//Button Min:
-			if(MinimizeBox){
-				if(_isHotMin){
-					g.FillRectangle(brushButtonHot,_rectangleButMin);
-				}
-				g.DrawLine(penButtons,_rectangleButMin.X+indentLeft,_rectangleButMin.Y+indentTop+whSymbol/2,_rectangleButMin.X+indentLeft+whSymbol,_rectangleButMin.Y+indentTop+whSymbol/2);
-			}
-			//Title font:
-			//Had trouble with the font getting bigger each time drawn.  There's bad logic somewhere, so we will ignore Font.
-			float fontSize=ScaleFontODZoom(8.25f);
-			float fontSizeMainWindow=ScaleFontODZoom(13f);
-			System.Windows.Forms.Screen screen=System.Windows.Forms.Screen.FromControl(this);
-			System.Windows.Forms.Screen screenPri=System.Windows.Forms.Screen.PrimaryScreen;
-			float scaleRatio=1;
-			if(screen!=screenPri){//if we are on the secondary screen
-				int dpiScreen=Dpi.GetScreenDpi(screen);//extern DllImport. Example 96
-				int dpiScreenPri=Dpi.GetScreenDpi(screenPri);//Example 144
-				scaleRatio=(float)dpiScreen/dpiScreenPri;//Example .67
-				if(scaleRatio!=1){//example, pri screen is 150%, so it makes the fonts on this screen too big
-					//We need to make them smaller
-					fontSize=fontSize*scaleRatio;
-					fontSizeMainWindow=fontSizeMainWindow*scaleRatio;
-				}
-			}
-			//The window titles' family token (UI-2a-1): Microsoft Sans Serif until UI-2b; the size is computed above.
-			using Font font=new Font(UiTheme.FontFamilyName,fontSize);
-			using Font fontMainWindow=new Font(UiTheme.FontFamilyName,fontSizeMainWindow);
-			float heightFont=ScaleMS(font.Height);
-			float heightFontMainWindow=ScaleMS(fontMainWindow.Height);
-			if(scaleRatio!=1){
-				//special edge case where the font is smaller than what we need to measure
-				//scale it again?
-				heightFont=heightFont/scaleRatio;
-				heightFontMainWindow=heightFontMainWindow/scaleRatio;
-			}
-			Rectangle rectangleIcon=new Rectangle(MaxInset()+5,MaxInset()+4,ScaleI(20),ScaleI(20));
-			if(ShowIcon){
-				//The shared program icon, loaded once (Properties.Resources.Icon makes a new Icon on every call).
-				using Bitmap bitmapIcon=_lazyIconApp.Value.ToBitmap();
-				g.DrawImage(bitmapIcon,rectangleIcon);
-			}
-			//if(_fontTitle==null){
-			RectangleF rectangleText=new RectangleF(MaxInset()+ScaleF(30),MaxInset()+ScaleF(7),
-			_rectangleButtons.Left-ScaleF(30)-MaxInset()+ScaleF(8),heightFont+2);//The 8 is just so we can get closer to the right
-			g.DrawString(this.Text,font,brushText,rectangleText);
-			//}
-			//else{//this won't be needed until we convert FormOpenDental to WPF, 
-			//and then it should be hard coded instead of using _fontTitle.
-			//	//We actually ignore the font size sent in
-			//	RectangleF rectangleText=new RectangleF(
-			//		x:MaxInset()+ScaleF(30),
-			//		y:MaxInset()+ScaleF(3),
-			//		width:_rectangleButtons.Left-ScaleF(30)-MaxInset()+ScaleF(8),//The 8 is just so we can get closer to the right
-			//		height:heightFontMainWindow+2);
-			//	g.DrawString(this.Text,fontMainWindow,brushText,rectangleText);
-			//}
+			PaintFrame(e.Graphics);//no dispose ref
 		}
 
-		///<summary>Takes one of the 3 border colors at a time.</summary>
+		///<summary>Paints the window frame into the PanelBorders' Graphics with the shared FramePainter (UI-3), the same painter FormODBase calls, and
+		///keeps the caption button rectangles for the mouse handling. Public for the frame tests, which paint a frame that is never shown.</summary>
+		public void PaintFrame(Graphics g){
+			FramePaintArgs framePaintArgs=GetFramePaintArgs();
+			if(framePaintArgs==null){
+				return;
+			}
+			FrameColors frameColors=FramePainter.GetColors(framePaintArgs.FrameLook,_colorBorder,_colorBorderOutline,_colorBorderText);
+			FramePaintResult framePaintResult=FramePainter.Paint(g,framePaintArgs,frameColors);
+			_rectangleButX=framePaintResult.RectangleButX;
+			_rectangleHitX=framePaintResult.RectangleHitX;
+			if(ControlBox && MaximizeBox){
+				_rectangleButMax=framePaintResult.RectangleButMax;
+				_rectangleHitMax=framePaintResult.RectangleHitMax;
+				if(PanelBorders!=null){
+					PanelBorders.RectangleButMax=_rectangleHitMax;//the snap layouts' hit test: the same area as the hover
+				}
+			}
+			if(ControlBox && MinimizeBox){
+				_rectangleButMin=framePaintResult.RectangleButMin;
+				_rectangleHitMin=framePaintResult.RectangleHitMin;
+			}
+			_rectangleButtons=framePaintResult.RectangleButtons;
+			_rectangleButtonsPaint=framePaintResult.RectangleButtonsPaint;
+		}
+
+		///<summary>True when the point (PanelBorders coordinates) is on a caption button's hit area (_rectangleHitX, Max or Min).</summary>
+		private bool IsOnCaptionButton(Point point){
+			return _rectangleHitX.Contains(point)
+				|| (MaximizeBox && _rectangleHitMax.Contains(point))
+				|| (MinimizeBox && _rectangleHitMin.Contains(point));
+		}
+
+		///<summary>The frame look this frame paints: the copy of FormODBase's floating image window frames (kept for a WPF floating image
+		///window; no frame is one today), or the ordinary window frame.</summary>
+		private EnumFrameLook GetFrameLook(){
+			//The old test compared the full type name with "FormImageFloat" and was never true either.
+			if(this.GetType().Name=="FormImageFloat"){
+				return IsImageFloatSelected ? EnumFrameLook.ImageFloatSelected : EnumFrameLook.ImageFloatUnselected;
+			}
+			return EnumFrameLook.Window;
+		}
+
+		///<summary>The colour Windows is asked to draw this frame's 1 px border in (DWMWA_BORDER_COLOR): the outline the painter uses for its look
+		///and the office's Misc Colors. Public for the frame tests.</summary>
+		public Color GetDwmBorderColor(){
+			return FramePainter.GetColors(GetFrameLook(),_colorBorder,_colorBorderOutline,_colorBorderText).Outline;
+		}
+
+		///<summary>Asks Windows for the rounded corners and the border in GetDwmBorderColor (FramePainter.ApplyDwmCorners: only with the program's
+		///own frame and the corners on). When the handle is made, and again when the outline colour changes (SetBorderColor,
+		///IsImageFloatSelected). Nothing before the handle is made or from another thread.</summary>
+		private void ApplyDwmFrame(){
+			if(DesignMode || !IsHandleCreated || InvokeRequired){
+				return;
+			}
+			FramePainter.ApplyDwmCorners(Handle,AreBordersMS,GetDwmBorderColor());
+		}
+
+		///<summary>Repaints the caption buttons after a hover change: all they paint, from the title bar's top row (_rectangleButtonsPaint). The hit
+		///rectangle _rectangleButtons starts 5 px lower, and invalidating only it left the top of the hover fill unpainted on screen.</summary>
+		private void InvalidateCaptionButtons(){
+			PanelBorders?.Invalidate(_rectangleButtonsPaint);
+		}
+
+		///<summary>What FramePainter needs to paint this frame, from its UIManager and its title bar state. Null for a frame of no size.</summary>
+		public FramePaintArgs GetFramePaintArgs(){
+			if(Width<1 || Height<1){
+				return null;
+			}
+			FramePaintArgs framePaintArgs=new FramePaintArgs();
+			framePaintArgs.Width=Width;
+			framePaintArgs.Height=Height;
+			framePaintArgs.Text=this.Text;
+			framePaintArgs.ControlBox=ControlBox;
+			framePaintArgs.MaximizeBox=MaximizeBox;
+			framePaintArgs.MinimizeBox=MinimizeBox;
+			framePaintArgs.IsMaximized=WindowState==FormWindowState.Maximized;
+			framePaintArgs.ShowIcon=ShowIcon;
+			//The shared program icon, loaded once (Properties.Resources.Icon makes a new Icon on every call).
+			framePaintArgs.Icon=_lazyIconApp.Value;
+			framePaintArgs.IsHotX=_isHotX;
+			framePaintArgs.IsHotMax=_isHotMax;
+			framePaintArgs.IsHotMin=_isHotMin;
+			//The copy of FormODBase's floating image window frame. FormImageFloat is a FormODBase, so no frame is one today; kept for a WPF floating
+			//image window (GetFrameLook).
+			framePaintArgs.FrameLook=GetFrameLook();
+			//this won't be needed until we convert FormOpenDental to WPF, and then it should be hard coded instead of using _fontTitle.
+			framePaintArgs.IsMainWindowTitle=false;
+			framePaintArgs.HeightTitleBar=GetHeightTitleBar();
+			framePaintArgs.WidthBorder=WidthBorder();
+			framePaintArgs.MaxInset=MaxInset();
+			framePaintArgs.Scale=ScaleI;
+			framePaintArgs.ScaleF=ScaleF;
+			//Title font: had trouble with the font getting bigger each time drawn. There's bad logic somewhere, so we will ignore Font.
+			framePaintArgs.TitleFonts=FramePainter.GetTitleFonts(this,ScaleFontODZoom,ScaleMS);
+			//What the screen shows of the PanelBorders: where the caption buttons' hover fills start and end.
+			if(PanelBorders!=null){
+				framePaintArgs.RectangleOnScreen=FramePainter.GetRectangleOnScreen(Size,framePaintArgs.IsMaximized,UIManager_.GetScaleMS(),PanelBorders.Bounds);
+			}
+			return framePaintArgs;
+		}
+
+		///<summary>Takes one of the 3 border colors at a time: the office's Misc Colors item, kept as it is. FramePainter gives the token for an item
+		///that holds Open Dental's stock value, and the office's colour for one it changed (UI-3, section 6).</summary>
 		protected void SetBorderColor(DefCatMiscColors defCatMiscColors,Color color){
 			if(defCatMiscColors==DefCatMiscColors.MainBorder){
 				_colorBorder=color;
@@ -669,13 +631,14 @@ namespace OpenPmsDental {
 			if(defCatMiscColors==DefCatMiscColors.MainBorderText){
 				_colorBorderText=color;
 			}
-			if(defCatMiscColors==DefCatMiscColors.MainBorder || defCatMiscColors==DefCatMiscColors.MainBorderText){ 
-				_colorButtonHot=Color.FromArgb(
-					(3*_colorBorder.R+_colorBorderText.R)/4,//mostly main border color, with just some of the text color
-					(3*_colorBorder.G+_colorBorderText.G)/4,
-					(3*_colorBorder.B+_colorBorderText.B)/4);
-			}
 			PanelBorders?.Invalidate();
+			//The colours are every frame's (static): Windows' border of each open frame takes the new outline, this one first.
+			ApplyDwmFrame();
+			foreach(Form form in Application.OpenForms.Cast<Form>().ToList()){
+				if(form is FormFrame formFrame && !ReferenceEquals(formFrame,this)){
+					formFrame.ApplyDwmFrame();
+				}
+			}
 		}
 		#endregion Border Drawing
 
@@ -760,7 +723,11 @@ namespace OpenPmsDental {
 				return;
 			}
 			int widthBorder=5;
-			if(e.X<MaxInset()+widthBorder+2 && e.Y<MaxInset()+widthBorder+2){//UL corner
+			if(WindowState==FormWindowState.Maximized && IsOnCaptionButton(e.Location)){
+				//A maximized window has no resize edges: a caption button's whole fill is the button, from the screen's top row.
+				_enumMouseDownRegion=EnumMouseDownRegion.Buttons;
+			}
+			else if(e.X<MaxInset()+widthBorder+2 && e.Y<MaxInset()+widthBorder+2){//UL corner
 				_enumMouseDownRegion=EnumMouseDownRegion.UL;
 			}
 			else if(e.X>Width-widthBorder-MaxInset()-1 && e.Y<MaxInset()+widthBorder+2){//UR corner
@@ -826,7 +793,10 @@ namespace OpenPmsDental {
 			}
 			#region Cursors
 			int widthBorder=5;
-			if(e.X<MaxInset()+widthBorder+2 && e.Y<MaxInset()+widthBorder+2){//UL corner
+			if(WindowState==FormWindowState.Maximized && IsOnCaptionButton(e.Location)){
+				Cursor=Cursors.Default;//no resize edge on a maximized window's caption buttons
+			}
+			else if(e.X<MaxInset()+widthBorder+2 && e.Y<MaxInset()+widthBorder+2){//UL corner
 				Cursor=Cursors.SizeNWSE;
 			}
 			else if(e.X>Width-widthBorder-MaxInset()-1 && e.Y<MaxInset()+widthBorder+2){//UR corner
@@ -856,17 +826,17 @@ namespace OpenPmsDental {
 			#endregion Cursors
 			#region Button Hover Effects
 			timerHoverSnap.Enabled=false;//we will turn it back on if we are within the max button
-			if(_rectangleButX.Contains(e.Location)){
+			if(_rectangleHitX.Contains(e.Location)){
 				if(!_isHotX){//first time
 					_toolTipBorderButtons.InitialDelay=1000;
 					_toolTipBorderButtons.SetToolTip(this,Lans.g(this,"Close"));
 					_isHotX=true;
 					_isHotMax=false;
 					_isHotMin=false;
-					PanelBorders.Invalidate(_rectangleButtons);
+					InvalidateCaptionButtons();
 				}
 			}
-			else if(MaximizeBox && _rectangleButMax.Contains(e.Location)){
+			else if(MaximizeBox && _rectangleHitMax.Contains(e.Location)){
 				if(!_isHotMax){
 					_toolTipBorderButtons.InitialDelay=1000;
 					if(WindowState==FormWindowState.Maximized){
@@ -878,19 +848,19 @@ namespace OpenPmsDental {
 					_isHotMax=true;
 					_isHotX=false;
 					_isHotMin=false;
-					PanelBorders.Invalidate(_rectangleButtons);
+					InvalidateCaptionButtons();
 				}
 				//timerHoverSnap.Enabled=false;//was already done above
 				timerHoverSnap.Enabled=true;
 			}
-			else if(MinimizeBox && _rectangleButMin.Contains(e.Location)){
+			else if(MinimizeBox && _rectangleHitMin.Contains(e.Location)){
 				if(!_isHotMin){
 					_toolTipBorderButtons.InitialDelay=1000;
 					_toolTipBorderButtons.SetToolTip(this,Lans.g(this,"Minimize"));
 					_isHotMin=true;
 					_isHotX=false;
 					_isHotMax=false;
-					PanelBorders.Invalidate(_rectangleButtons);
+					InvalidateCaptionButtons();
 				}
 			}
 			else{
@@ -899,7 +869,7 @@ namespace OpenPmsDental {
 					_isHotX=false;
 					_isHotMax=false;
 					_isHotMin=false;
-					PanelBorders.Invalidate(_rectangleButtons);
+					InvalidateCaptionButtons();
 				}
 			}
 			//PanelBorders.Invalidate(false);//this causes flicker for the entire form, especially listbox. Whether true or false.
@@ -1085,11 +1055,11 @@ Refresh();
 				OnResizeEnd(new EventArgs());
 				return;
 			}
-			if(_rectangleButX.Contains(e.Location)){
+			if(_rectangleHitX.Contains(e.Location)){
 				OnCloseXClicked();
 				return;
 			}
-			if(_rectangleButMax.Contains(e.Location) && MaximizeBox){
+			if(_rectangleHitMax.Contains(e.Location) && MaximizeBox){
 				/*This won't happen because of PanelBorders WndProc
 				if(WindowState==FormWindowState.Maximized){ //restore down
 					WindowState=FormWindowState.Normal;
@@ -1117,7 +1087,7 @@ Refresh();
 				OnResizeEnd(new EventArgs());*/
 				return;
 			}
-			if(_rectangleButMin.Contains(e.Location) && MinimizeBox){
+			if(_rectangleHitMin.Contains(e.Location) && MinimizeBox){
 				if(this.GetType().ToString()=="FormImageFloat" && IsImageFloatLocked){
 					MsgBox.Show(this,"PDFs cannot be undocked.  Double click to open in PDF viewer.");
 					return;

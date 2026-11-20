@@ -26,10 +26,7 @@ OpenPmsDental/UI/Appt/ControlApptPanel.cs	Color.FromArgb(PIn.Int(rgbInt,false))	
 OpenPmsDental/UI/Appt/ControlApptPanel.cs	Color.FromArgb(color.A,newR,newG,newB)	1
 OpenPmsDental/UI/Appt/ControlApptProvSlider.cs	Color.FromArgb(200,220,255)	1
 OpenPmsDental/UI/Appt/ControlApptProvSlider.cs	Color.FromArgb(220,200,255)	1
-OpenPmsDental/UI/BordersDpi/FormODBase.cs	Color.FromArgb((3*_colorBorder.R+_colorBorderText.R)/4,(3*_colorBorder.G+_colorBorderText.G)/4,(3*_colorBorder.B+_colorBorderText.B)/4)	1
-OpenPmsDental/UI/BordersDpi/FormODBase.cs	Color.FromArgb(104,128,163)	1
-OpenPmsDental/UI/BordersDpi/FormODBase.cs	Color.FromArgb(232,17,35)	1
-OpenPmsDental/UI/BordersDpi/FormODBase.cs	Color.FromArgb(65,94,154)	2
+OpenPmsDental/UI/BordersDpi/FormODBase.cs	Color.FromArgb(65,94,154)	1
 OpenPmsDental/UI/Button.cs	Color.FromArgb(0,0,0)	1
 OpenPmsDental/UI/Button.cs	Color.FromArgb(255,255,255)	1
 OpenPmsDental/UI/Button.cs	Color.FromArgb(28,81,128)	1
