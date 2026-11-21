@@ -2589,7 +2589,7 @@ OpenPmsDental/Forms/FormLetterEdit.designer.cs	OpenPmsDental.FormLetterEdit	labe
 OpenPmsDental/Forms/FormMarkupTableEdit.designer.cs	OpenPmsDental.FormMarkupTableEdit	butColumnInsert	size	text needs +2,+0 px; also the pixels missing at the scales 1.25 to 2 (71x24->73x24)
 OpenPmsDental/Forms/FormPatFieldDefs.designer.cs	OpenPmsDental.FormPatFieldDefs	checkDisplayRenamed	size	text needs +0,+3 px; also the pixels missing at the scales 1.25 to 2 (370x15->370x19)
 OpenPmsDental/Forms/FormPayPlanRecalculate.designer.cs	OpenPmsDental.FormPayPlanRecalculate	label1	size	text needs +0,+18 px; also the pixels missing at the scales 1.25 to 2 (349x57->349x60)
-OpenPmsDental/Forms/FormPayPlanRecalculate.designer.cs	OpenPmsDental.FormPayPlanRecalculate	radioPrepayWithoutInterest	autosize-off	text needs +0,+3 px; also the pixels missing at the scales 1.25 to 2 (109x18->109x22)
+OpenPmsDental/Forms/FormPayPlanRecalculate.designer.cs	OpenPmsDental.FormPayPlanRecalculate	radioPrepayWithoutInterest	autosize-off	also the pixels missing at the scales 1.25 to 2 (109x22->109x24)
 OpenPmsDental/Forms/FormPayorTypes.Designer.cs	OpenPmsDental.FormPayorTypes	label7	size	text needs +15,+0 px; also the pixels missing at the scales 1.25 to 2 (473x19->499x19)
 OpenPmsDental/Forms/FormPopupDisplay.designer.cs	OpenPmsDental.FormPopupDisplay	label5	size	text needs +3,+0 px; also the pixels missing at the scales 1.25 to 2 (72x15->72x18)
 OpenPmsDental/Forms/FormPopupDisplay.designer.cs	OpenPmsDental.FormPopupDisplay	label6	size	text needs +1,+0 px; also the pixels missing at the scales 1.25 to 2 (63x15->63x18)

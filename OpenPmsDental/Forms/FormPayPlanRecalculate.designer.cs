@@ -66,7 +66,7 @@ namespace OpenPmsDental{
 			this.radioPrepayWithoutInterest.AutoSize = false;
 			this.radioPrepayWithoutInterest.Location = new System.Drawing.Point(6, 39);
 			this.radioPrepayWithoutInterest.Name = "radioPrepayWithoutInterest";
-			this.radioPrepayWithoutInterest.Size = new System.Drawing.Size(109, 22);
+			this.radioPrepayWithoutInterest.Size = new System.Drawing.Size(109, 24);
 			this.radioPrepayWithoutInterest.TabIndex = 44;
 			this.radioPrepayWithoutInterest.TabStop = true;
 			this.radioPrepayWithoutInterest.Text = "Pay on principal";
