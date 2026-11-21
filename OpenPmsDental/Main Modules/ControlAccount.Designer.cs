@@ -1072,6 +1072,7 @@
 			// textFamSecMax
 			// 
 			this.textFamSecMax.BackColor = System.Drawing.Color.White;
+			this.textFamSecMax.AutoSize = false;
 			this.textFamSecMax.Location = new System.Drawing.Point(140, 35);
 			this.textFamSecMax.Name = "textFamSecMax";
 			this.textFamSecMax.ReadOnly = true;
@@ -1302,6 +1303,7 @@
 			// textSecMax
 			// 
 			this.textSecMax.BackColor = System.Drawing.Color.White;
+			this.textSecMax.AutoSize = false;
 			this.textSecMax.Location = new System.Drawing.Point(140, 35);
 			this.textSecMax.Name = "textSecMax";
 			this.textSecMax.ReadOnly = true;
@@ -1332,6 +1334,7 @@
 			// textSecUsed
 			// 
 			this.textSecUsed.BackColor = System.Drawing.Color.White;
+			this.textSecUsed.AutoSize = false;
 			this.textSecUsed.Location = new System.Drawing.Point(140, 95);
 			this.textSecUsed.Name = "textSecUsed";
 			this.textSecUsed.ReadOnly = true;

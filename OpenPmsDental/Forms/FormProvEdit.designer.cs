@@ -498,6 +498,7 @@ namespace OpenPmsDental {
 			// 
 			// textStateWhereLicensed
 			// 
+			this.textStateWhereLicensed.AutoSize = false;
 			this.textStateWhereLicensed.Location = new System.Drawing.Point(165, 32);
 			this.textStateWhereLicensed.MaxLength = 15;
 			this.textStateWhereLicensed.Name = "textStateWhereLicensed";
@@ -619,6 +620,7 @@ namespace OpenPmsDental {
 			// 
 			// textProviderID
 			// 
+			this.textProviderID.AutoSize = false;
 			this.textProviderID.Location = new System.Drawing.Point(202, 38);
 			this.textProviderID.MaxLength = 255;
 			this.textProviderID.Name = "textProviderID";
@@ -745,7 +747,7 @@ namespace OpenPmsDental {
 			this.radAsstCirc.AutoSize = false;
 			this.radAsstCirc.Location = new System.Drawing.Point(16, 56);
 			this.radAsstCirc.Name = "radAsstCirc";
-			this.radAsstCirc.Size = new System.Drawing.Size(128, 18);
+			this.radAsstCirc.Size = new System.Drawing.Size(128, 21);
 			this.radAsstCirc.TabIndex = 9;
 			this.radAsstCirc.Text = "Assistant/Circulator";
 			this.radAsstCirc.UseVisualStyleBackColor = true;
@@ -755,7 +757,7 @@ namespace OpenPmsDental {
 			this.radAnesthSurg.AutoSize = false;
 			this.radAnesthSurg.Location = new System.Drawing.Point(16, 37);
 			this.radAnesthSurg.Name = "radAnesthSurg";
-			this.radAnesthSurg.Size = new System.Drawing.Size(134, 18);
+			this.radAnesthSurg.Size = new System.Drawing.Size(134, 19);
 			this.radAnesthSurg.TabIndex = 8;
 			this.radAnesthSurg.Text = "Anesthetist/Surgeon";
 			this.radAnesthSurg.UseVisualStyleBackColor = true;
@@ -766,7 +768,7 @@ namespace OpenPmsDental {
 			this.radNone.Checked = true;
 			this.radNone.Location = new System.Drawing.Point(16, 18);
 			this.radNone.Name = "radNone";
-			this.radNone.Size = new System.Drawing.Size(52, 18);
+			this.radNone.Size = new System.Drawing.Size(52, 19);
 			this.radNone.TabIndex = 7;
 			this.radNone.TabStop = true;
 			this.radNone.Text = "None";
@@ -801,6 +803,7 @@ namespace OpenPmsDental {
 			// 
 			// textNationalProvID
 			// 
+			this.textNationalProvID.AutoSize = false;
 			this.textNationalProvID.Location = new System.Drawing.Point(202, 412);
 			this.textNationalProvID.MaxLength = 20;
 			this.textNationalProvID.Name = "textNationalProvID";
@@ -836,6 +839,7 @@ namespace OpenPmsDental {
 			// 
 			// textLName
 			// 
+			this.textLName.AutoSize = false;
 			this.textLName.Location = new System.Drawing.Point(202, 80);
 			this.textLName.MaxLength = 100;
 			this.textLName.Name = "textLName";
@@ -862,6 +866,7 @@ namespace OpenPmsDental {
 			// 
 			// textSuffix
 			// 
+			this.textSuffix.AutoSize = false;
 			this.textSuffix.Location = new System.Drawing.Point(202, 143);
 			this.textSuffix.MaxLength = 100;
 			this.textSuffix.Name = "textSuffix";

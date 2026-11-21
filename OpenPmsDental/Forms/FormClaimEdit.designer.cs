@@ -846,6 +846,7 @@
 			// 
 			// textOrthoTotalM
 			// 
+			this.textOrthoTotalM.AutoSize = false;
 			this.textOrthoTotalM.Location = new System.Drawing.Point(115, 58);
 			this.textOrthoTotalM.Name = "textOrthoTotalM";
 			this.textOrthoTotalM.Size = new System.Drawing.Size(39, 20);
@@ -1185,6 +1186,7 @@
 			// textRadiographs
 			// 
 			this.textRadiographs.ForeColor = System.Drawing.SystemColors.WindowText;
+			this.textRadiographs.AutoSize = false;
 			this.textRadiographs.Location = new System.Drawing.Point(108, 39);
 			this.textRadiographs.Name = "textRadiographs";
 			this.textRadiographs.Size = new System.Drawing.Size(39, 20);
@@ -2405,6 +2407,7 @@
 			// 
 			// textBillType
 			// 
+			this.textBillType.AutoSize = false;
 			this.textBillType.Location = new System.Drawing.Point(162, 12);
 			this.textBillType.Name = "textBillType";
 			this.textBillType.Size = new System.Drawing.Size(47, 20);
@@ -3297,6 +3300,7 @@
 			// 
 			// textDateService
 			// 
+			this.textDateService.AutoSize = false;
 			this.textDateService.Location = new System.Drawing.Point(111, 57);
 			this.textDateService.Name = "textDateService";
 			this.textDateService.Size = new System.Drawing.Size(82, 20);

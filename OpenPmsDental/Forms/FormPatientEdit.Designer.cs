@@ -461,6 +461,7 @@ namespace OpenPmsDental{
 			// 
 			// textHmPhone
 			// 
+			this.textHmPhone.AutoSize = false;
 			this.textHmPhone.Location = new System.Drawing.Point(159, 31);
 			this.textHmPhone.MaxLength = 30;
 			this.textHmPhone.Name = "textHmPhone";
@@ -471,6 +472,7 @@ namespace OpenPmsDental{
 			// 
 			// textWkPhone
 			// 
+			this.textWkPhone.AutoSize = false;
 			this.textWkPhone.Location = new System.Drawing.Point(152, 51);
 			this.textWkPhone.MaxLength = 30;
 			this.textWkPhone.Name = "textWkPhone";
@@ -779,6 +781,7 @@ namespace OpenPmsDental{
 			// 
 			// textPatNum
 			// 
+			this.textPatNum.AutoSize = false;
 			this.textPatNum.Location = new System.Drawing.Point(160, 28);
 			this.textPatNum.MaxLength = 100;
 			this.textPatNum.Name = "textPatNum";
@@ -815,6 +818,7 @@ namespace OpenPmsDental{
 			// 
 			// textMedicaidID
 			// 
+			this.textMedicaidID.AutoSize = false;
 			this.textMedicaidID.Location = new System.Drawing.Point(160, 304);
 			this.textMedicaidID.MaxLength = 20;
 			this.textMedicaidID.Name = "textMedicaidID";
@@ -1164,6 +1168,7 @@ namespace OpenPmsDental{
 			// 
 			// textTitle
 			// 
+			this.textTitle.AutoSize = false;
 			this.textTitle.Location = new System.Drawing.Point(160, 108);
 			this.textTitle.MaxLength = 100;
 			this.textTitle.Name = "textTitle";
@@ -1682,6 +1687,7 @@ namespace OpenPmsDental{
 			// textRace
 			// 
 			this.textRace.AcceptsReturn = true;
+			this.textRace.AutoSize = false;
 			this.textRace.Location = new System.Drawing.Point(155, 8);
 			this.textRace.Name = "textRace";
 			this.textRace.ReadOnly = true;

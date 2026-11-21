@@ -274,6 +274,7 @@
 			// 
 			// textProc
 			// 
+			this.textProc.AutoSize = false;
 			this.textProc.Location = new System.Drawing.Point(106, 61);
 			this.textProc.Name = "textProc";
 			this.textProc.ReadOnly = true;
@@ -724,6 +725,7 @@
 			// 
 			// textDateTP
 			// 
+			this.textDateTP.AutoSize = false;
 			this.textDateTP.Location = new System.Drawing.Point(106, 21);
 			this.textDateTP.Name = "textDateTP";
 			this.textDateTP.Size = new System.Drawing.Size(76, 20);
@@ -917,6 +919,7 @@
 			// 
 			// textRevCode
 			// 
+			this.textRevCode.AutoSize = false;
 			this.textRevCode.Location = new System.Drawing.Point(123, 87);
 			this.textRevCode.MaxLength = 48;
 			this.textRevCode.Name = "textRevCode";
@@ -1035,6 +1038,7 @@
 			// 
 			// textMedicalCode
 			// 
+			this.textMedicalCode.AutoSize = false;
 			this.textMedicalCode.Location = new System.Drawing.Point(123, 6);
 			this.textMedicalCode.Name = "textMedicalCode";
 			this.textMedicalCode.Size = new System.Drawing.Size(76, 20);

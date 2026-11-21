@@ -170,6 +170,9 @@ def plan_window(window, scan, rec_before, rec_after, designer_text):
         if r["window"] == window:
             ss.setdefault(r["control"], []).append(r)
             touch(r["control"], "ss")
+            other = rec_after.get((window, r["other"]))
+            if r["other"] and other is not None and other["sizes_itself"] == "1":
+                touch(r["other"], "ss")
     for r in scan["bd"]:
         if r["window"] == window:
             touch(r["control"], "bd")
