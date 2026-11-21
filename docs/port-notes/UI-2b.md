@@ -195,4 +195,7 @@ Central Manager's main window (plain forms keep their layout and grow only their
 
 ## 7. Final run
 
-Recorded in the plan's status line and the package report.
+The build lane, x64, the whole filter: 0 errors (`odbuild-20261121-104105`). Targeted (x64, `-RequireBuildOutput`,
+`.git/od-tools/test-results/ui2b-final.txt`), all passed: UiRefreshTests 260 (14 opt-in skipped), PrintGuardTests 19 (1 opt-in skipped,
+the eForm PDF), WindowChecksTests 30 (44 opt-in window checks skipped), UnitTests 1,728 (3 skipped), EhrTests 328 (2 skipped), M2INSPLANTests
+31, M2TERMTests 21, NoHqTests 127. `tools/Test-NoEolFlips.ps1 -Base main`: 0 flips. No scratch database left.
