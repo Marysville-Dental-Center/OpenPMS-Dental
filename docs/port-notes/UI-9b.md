@@ -493,6 +493,8 @@ not in the gallery (they need the dashboard control); the tab control draws them
 4. `FormErx`'s Back and Forward buttons have no pictures today (an empty list) and keep none. Give them arrows, or leave?
 5. The unused lists (calendar arrows, permission pictures, account pick, web browser prefs) are kept as arrays only. Fine, as for the email mailboxes?
 
+The 19 new icons (manifest block 'UI-9b-4'), each one to confirm: `DocumentText` (Claims, Get Reports), `Link` (internal link buttons of the email and wiki editors), `LinkExternal` (Ext Link), `Heading1`, `Heading2`, `Heading3`, `Bold`, `Italic`, `TextColor` (Color), `TextFont` (Font), `SaveDraft` (Save as Draft), `Settings` (Setup, master page and styles: the gears), `LockOpen` (wiki Unlock), `LockClosed` (wiki Lock), `Home` (Wiki Home), `Rename` (Wiki Rename), `History` (Wiki Hist), `Stop` (Record audio, stop) and `Archive` (Wiki Archive). They are also listed, with the GridOD sharp-column result and the gallery path, in docs/owner-questions.md (pending final review, entry 2).
+
 ### 5.7 For the lead
 
 Nothing needs a shown window. To rebuild the gallery: `OPMS_UI9B4_OLD_LISTS` = `.git/od-tools/test-results/ui9b4-pictures/old-lists` (extract again from `main`
