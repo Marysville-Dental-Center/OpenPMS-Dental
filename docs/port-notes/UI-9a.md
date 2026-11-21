@@ -473,3 +473,62 @@ group control (built only inside the Security window); the signature box buttons
 5. Send claims: Umbrella (Insurance). 6. Tasks: Clipboard Task List. 7. Dashboard cell move: Arrow Move. 8. Dashboard row/column delete and insert: the four Table icons.
 9. Add a chart: Data Bar Vertical Add. 10. Topaz pen: Pen. 11. Digital signature (the letter E): Signature.
 12. The search and week arrows reuse ArrowLeft/ArrowRight, the search close DeleteX, the Graph refresh Sync, print preview Preview, edit Edit. Fine?
+
+## 9. UI-9a-7: the other projects
+
+Slice rows UI-9a-7a to UI-9a-7m in `icons/picture-slices.tsv`: CentralManager, RdlDesign, ServiceManager, MySQLManager, xCrudGenerator, OpenPmsDentalDbSettings, OpenPmsDentalHL7,
+DatabaseIntegrityCheck, DocumentationBuilder, UpdateFileCopier, OpenPmsDentalHelper32, `CodeBase/Utilities` (`MsgBoxCopyPaste*`) and `ODR` (`ComboBoxMulti*`). The tool found no
+picture use in ServiceManager, MySQLManager, xCrudGenerator, OpenPmsDentalDbSettings, OpenPmsDentalHL7, DatabaseIntegrityCheck, DocumentationBuilder, UpdateFileCopier or
+OpenPmsDentalHelper32 (their slices stay listed so `PictureMapTests` keeps confirming that).
+
+### 9.1 What the tool found and did
+
+| Project | Uses | What happened |
+|---|---|---|
+| CentralManager | 11 `Resx` button pictures (22 x 22) in 6 windows, 1 `ImageList` | 11 as `UI.Button.Icon` (the vertical nudge of `butUp` removed); the 11 `.resx` entries removed; `FormCentralSecurity.imageListPerm` to UI-9b |
+| RdlDesign | 21 `Resx` toolbar pictures (16 x 16, the four export pictures 18 x 16, 20 x 16, 26 x 16 and 21 x 17) on hidden designer buttons, 1 About logo | 21 as `CodeBase.UiIcons.GetBitmap("EnumIcons",member,width,height)` at today's pixel size (XML, HTML, MHT squared to 16 x 16, see below); the 21 `.resx` entries removed; the fyiReporting logo kept (4.5) |
+| CodeBase | `MsgBoxCopyPaste.butPrint` (22 x 22) | `UiIcons.GetBitmap("EnumIcons","Print",22,22)`, the `.resx` entry removed |
+| ODR | `ComboBoxMulti.dropButton` (17 x 19) | `UiIcons.GetBitmap("EnumIcons","ChevronDown",17,19)`, the `.resx` entry removed |
+
+- **Tool change** (generic): a picture line in a project that cannot reach `OpenPmsDental.UI.IconLibrary` (not OpenPmsDental and no reference to it) is written as
+  `global::CodeBase.UiIcons.GetBitmap("EnumIcons","<member>",<w>,<h>)` and recorded with how `UiIcons`; `PictureMapTests` already checks that form.
+- **RdlDesign.** `InitToolbarMenu` and `InitToolbarInsertToogle` copy each hidden button's `Image` to the real toolbar button at run time, and the button's size comes from its
+  picture (`img.Height + 5`, `img.Width + 8`), so the generated bitmap has today's size and no toolbar button moves. `ReportDesigner.csproj` already links `UiIcons.cs`,
+  `UiIcons.Gdi.cs` and `IconData.g.cs` (UI-6); no further link was needed. The export pictures PDF (18 x 16) keeps its width with the icon centred in a 16 px square; XML, HTML and MHT are 16 x 16 since the owner's review of 2026-11-20 ("icon position is off": on the hidden designer buttons the wide picture put the icon against the text). The toolbar buttons InitToolbarMenu builds from them are therefore 4 to 10 px narrower, like the other toolbar buttons.
+- The 21 `.gif` files in the `RdlDesign` folder stay (4.5: no code uses them).
+
+### 9.2 New `EnumIcons` (18, block "UI-9a-7" in both enums; 92 WinForms, 103 WPF; 18 manifest rows, 54 SVGs)
+
+Table (table), Line (line horizontal 1), Image (image), Rectangle (rectangle landscape), Subreport (document multiple), ListBullets (text bullet list), ChartBar (data bar vertical),
+TextBox (textbox), Matrix (grid), Save (save), Open (folder open), Cut (cut), NewDocument (document add), Undo (arrow undo), Pdf (document pdf), Xml (code), Html (globe),
+Mht (document globe). All Regular, sizes 16, 20 and 24, from the same Fluent 1.1.346 download (`SOURCE.txt` lines added); `IconData.g.cs` regenerated with `tools/New-IconData.ps1`.
+Copy, Paste and Print were reused.
+
+### 9.3 Tests (Targeted: UiRefreshTests, WindowChecksTests, UnitTests, NoHqTests)
+
+`PictureMapTests` covers the slices through their rows (map complete, record in the designers, every read picture present, the built windows of CentralManager, CodeBase's
+`MsgBoxCopyPaste`, ODR's `ComboBoxMulti` and the report designer, which the scan builds); new `RdlDesign_LinkedRendererDrawsItsToolbarIcons` (the linked files in
+`ReportDesigner.csproj`, and the linked copy inside `RdlDesigner.dll` draws each of the 21 icons at today's size, pixel for pixel as CodeBase's renderer does);
+`IconLibraryTests` and `WpfImagesTests` counts updated; `RenameGuardTests`, the layout snapshot and the bounds record unchanged. Results: see the end of this section.
+
+### 9.4 Gallery G-UI3, the UI-9a-7 slice
+
+**Where:** `.git/od-tools/test-results/G-UI3-ui9a7/`. Rendered off screen (WinForms `DrawToBitmap`); no WPF in this slice.
+
+**For the lead** (rebuild; same steps as 7.4 with the slices UI-9a-7a, UI-9a-7b, UI-9a-7l and UI-9a-7m; `OPMS_UI9A_SLICE=UI-9a-7`): the before set is built on the commit
+"UI-9a-7: slice rows, tool emits UiIcons.GetBitmap ..." with the planned record (`Convert-PictureUses.ps1 -Root <worktree> -Slice <slice> -Check -Record <path>` per slice, joined
+under one header), `OPMS_UI9A_RECORD` set; after: `OPMS_UI9A_RECORD` empty; both `run-tests.ps1 -Mode Targeted -Platform x64 -RequireBuildOutput -Include UiRefreshTests`
+with `OPMS_UI9A_PICTURES` set; then `tools\New-UiGallery.ps1 -Name G-UI3`. No picture here needs a shown window.
+
+### 9.5 Owner questions (new icon choices, to approve in the gallery)
+
+1. Report designer toolbar: Table (Table), Line (Line Horizontal), Image (Image), Rectangle (Rectangle Landscape), Subreport (Document Multiple), List (Text Bullet List),
+   Chart (Data Bar Vertical), Textbox (Textbox), Matrix (Grid). Fine?
+2. Report designer Save (Save), Open (Folder Open), New (Document Add), Undo (Arrow Undo), Cut (Cut); Copy, Paste and Print reuse the imaging toolbar's. Fine?
+3. Report designer exports: PDF (Document Pdf), XML (Code), HTML (Globe), MHT (Document Globe). The old pictures carried the letters of the format; the icons are square. Fine?
+4. Central Manager: add and remove use the plus, the delete the red X; the connection group window's add and remove keep their left and right arrows (they move connections
+   between two lists); up, down, previous period and next period reuse the program's arrows.
+
+**Results.** `.git/od-tools/test-results/ui9a7-final4.txt`: all passed (UiRefreshTests 203 + 9 opt-in skipped, WindowChecksTests 29 + 43 opt-in skipped, UnitTests 1,728 + 3, NoHqTests 122).
+Full x64 build: 0 errors. UpdateFileCopier compiles `MsgBoxCopyPaste.cs` as a linked file, so it now links the same UiTheme and icon files as RdlDesign (`UpdateFileCopier.csproj`).
+`Test-NoEolFlips.ps1 -Base main`: no line ends changed. InitSqlTests and ForkMigrationTests not run (no schema work). Gallery: `.git/od-tools/test-results/G-UI3-ui9a7/` (43 pictures: 9 windows, 34 controls).

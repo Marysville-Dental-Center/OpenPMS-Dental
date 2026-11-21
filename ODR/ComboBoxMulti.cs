@@ -62,7 +62,7 @@ namespace ODR
 			// dropButton
 			// 
 			this.dropButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.dropButton.Image = ((System.Drawing.Image)(resources.GetObject("dropButton.Image")));
+			this.dropButton.Image = global::CodeBase.UiIcons.GetBitmap("EnumIcons","ChevronDown",17,19);
 			this.dropButton.Location = new System.Drawing.Point(102, 1);
 			this.dropButton.Name = "dropButton";
 			this.dropButton.Size = new System.Drawing.Size(17, 19);

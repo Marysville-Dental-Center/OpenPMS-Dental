@@ -58,7 +58,7 @@
 			// butAdd
 			// 
 			this.butAdd.Anchor = System.Windows.Forms.AnchorStyles.Right;
-			this.butAdd.Image = ((System.Drawing.Image)(resources.GetObject("butAdd.Image")));
+			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butAdd.Location = new System.Drawing.Point(370, 199);
 			this.butAdd.Name = "butAdd";

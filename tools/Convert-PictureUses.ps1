@@ -725,6 +725,22 @@ function Get-RepoFiles([string[]]$extensions){
 	return $list
 }
 
+#True when the file's project is OpenPmsDental or references it (so OpenPmsDental.UI.IconLibrary is reachable). The project is the file's first
+#folder; DatabaseIntegrityCheck-style tools without a reference, CodeBase, ODR and RdlDesign are not.
+function Test-ReachesIconLibrary([string]$relFile){
+	$project=$relFile.Replace('\','/').Split('/')[0]
+	if($project -eq 'OpenPmsDental'){
+		return $true
+	}
+	$dir=Join-Path $Root $project
+	foreach($proj in @(Get-ChildItem -LiteralPath $dir -Filter *.csproj -ErrorAction SilentlyContinue)){
+		if((Get-Content -LiteralPath $proj.FullName -Raw) -match 'ProjectReference\s+Include="[^"]*OpenPmsDental\\OpenPmsDental\.csproj"'){
+			return $true
+		}
+	}
+	return $false
+}
+
 #The uses to convert: a picture line with an icon target.
 $toConvert=@($uses | Where-Object { ($_.Kind -eq 'Resources' -or $_.Kind -eq 'Resx') -and $_.Target -ne '' -and $_.Target -ne 'keep' -and $_.Target -ne 'UI-9b' })
 $handEdits=@($uses | Where-Object { $_.Kind -eq 'ResourcesCode' -and $_.Target -ne '' -and $_.Target -ne 'keep' -and $_.Target -ne 'UI-9b' })
@@ -772,6 +788,12 @@ foreach($u in $toConvert){
 	else{
 		$u.How='GetBitmap'
 		$lineNew=$m.Groups['indent'].Value+$m.Groups['lhs'].Value+' = OpenPmsDental.UI.IconLibrary.GetBitmap('+$iconExpr+','+$u.Width+','+$u.Height+');'+$m.Groups['rest'].Value
+		#A project that cannot reach OpenPmsDental.UI.IconLibrary (UI-9a-7: CodeBase, ODR, RdlDesign; OpenPmsDentalGraph and OpenPmsDentalBusiness before
+		#it, by hand) takes the icon from CodeBase's renderer by enum and member name; RdlDesign compiles that renderer in as linked files.
+		if(-not (Test-ReachesIconLibrary $u.File)){
+			$u.How='UiIcons'
+			$lineNew=$m.Groups['indent'].Value+$m.Groups['lhs'].Value+' = global::CodeBase.UiIcons.GetBitmap("EnumIcons","'+$u.Target.Substring($u.Target.IndexOf('.')+1)+'",'+$u.Width+','+$u.Height+');'+$m.Groups['rest'].Value
+		}
 	}
 	$changes.Add("$($u.File):$($u.Line): $($line.Trim())  ->  $($lineNew.Trim())")
 	$file.Lines[$idx]=$lineNew

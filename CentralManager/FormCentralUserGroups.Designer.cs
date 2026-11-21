@@ -32,7 +32,7 @@
 			// butAddGroup
 			// 
 			this.butAddGroup.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butAddGroup.Image = ((System.Drawing.Image)(resources.GetObject("butAddGroup.Image")));
+			this.butAddGroup.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAddGroup.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butAddGroup.Location = new System.Drawing.Point(204, 12);
 			this.butAddGroup.Name = "butAddGroup";

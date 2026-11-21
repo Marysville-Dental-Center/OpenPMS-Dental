@@ -86,7 +86,7 @@ namespace CodeBase{
 			// butPrint
 			// 
 			this.butPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butPrint.Image = ((System.Drawing.Image)(resources.GetObject("butPrint.Image")));
+			this.butPrint.Image = global::CodeBase.UiIcons.GetBitmap("EnumIcons","Print",22,22);
 			this.butPrint.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butPrint.Location = new System.Drawing.Point(530,606);
 			this.butPrint.Name = "butPrint";
