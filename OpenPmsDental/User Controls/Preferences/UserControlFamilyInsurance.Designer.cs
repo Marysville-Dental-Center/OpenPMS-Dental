@@ -198,7 +198,7 @@ namespace OpenPmsDental {
 			this.checkClaimUseOverrideProcDescript.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkClaimUseOverrideProcDescript.Location = new System.Drawing.Point(40, 15);
 			this.checkClaimUseOverrideProcDescript.Name = "checkClaimUseOverrideProcDescript";
-			this.checkClaimUseOverrideProcDescript.Size = new System.Drawing.Size(400, 17);
+			this.checkClaimUseOverrideProcDescript.Size = new System.Drawing.Size(400, 18);
 			this.checkClaimUseOverrideProcDescript.TabIndex = 263;
 			this.checkClaimUseOverrideProcDescript.Text = "Use the description for the charted procedure code on printed claims";
 			// 
@@ -208,7 +208,7 @@ namespace OpenPmsDental {
 			this.checkClaimTrackingRequireError.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkClaimTrackingRequireError.Location = new System.Drawing.Point(15, 38);
 			this.checkClaimTrackingRequireError.Name = "checkClaimTrackingRequireError";
-			this.checkClaimTrackingRequireError.Size = new System.Drawing.Size(425, 17);
+			this.checkClaimTrackingRequireError.Size = new System.Drawing.Size(425, 18);
 			this.checkClaimTrackingRequireError.TabIndex = 266;
 			this.checkClaimTrackingRequireError.Text = "Require error code when adding claim custom tracking status";
 			// 
@@ -230,7 +230,7 @@ namespace OpenPmsDental {
 			this.checkInsPlanExclusionsUseUCR.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkInsPlanExclusionsUseUCR.Location = new System.Drawing.Point(18, 15);
 			this.checkInsPlanExclusionsUseUCR.Name = "checkInsPlanExclusionsUseUCR";
-			this.checkInsPlanExclusionsUseUCR.Size = new System.Drawing.Size(422, 17);
+			this.checkInsPlanExclusionsUseUCR.Size = new System.Drawing.Size(422, 18);
 			this.checkInsPlanExclusionsUseUCR.TabIndex = 277;
 			this.checkInsPlanExclusionsUseUCR.Text = "Ins plans with exclusions use standard provider fee (no write-offs)";
 			// 
@@ -240,7 +240,7 @@ namespace OpenPmsDental {
 			this.checkEnableZeroWriteoffOnLimitations.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkEnableZeroWriteoffOnLimitations.Location = new System.Drawing.Point(18, 83);
 			this.checkEnableZeroWriteoffOnLimitations.Name = "checkEnableZeroWriteoffOnLimitations";
-			this.checkEnableZeroWriteoffOnLimitations.Size = new System.Drawing.Size(422, 17);
+			this.checkEnableZeroWriteoffOnLimitations.Size = new System.Drawing.Size(432, 18);
 			this.checkEnableZeroWriteoffOnLimitations.TabIndex = 373;
 			this.checkEnableZeroWriteoffOnLimitations.Text = "Ins plans use standard provider fee (no write-offs) at frequency or age limits";
 			// 
@@ -250,7 +250,7 @@ namespace OpenPmsDental {
 			this.checkEnableZeroWriteoffOnAnnualMax.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkEnableZeroWriteoffOnAnnualMax.Location = new System.Drawing.Point(18, 60);
 			this.checkEnableZeroWriteoffOnAnnualMax.Name = "checkEnableZeroWriteoffOnAnnualMax";
-			this.checkEnableZeroWriteoffOnAnnualMax.Size = new System.Drawing.Size(422, 17);
+			this.checkEnableZeroWriteoffOnAnnualMax.Size = new System.Drawing.Size(426, 18);
 			this.checkEnableZeroWriteoffOnAnnualMax.TabIndex = 372;
 			this.checkEnableZeroWriteoffOnAnnualMax.Text = "Ins plans use standard provider fee (no write-offs) when annual max is met";
 			// 
@@ -260,7 +260,7 @@ namespace OpenPmsDental {
 			this.checkInsPlanExclusionsMarkDoNotBill.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkInsPlanExclusionsMarkDoNotBill.Location = new System.Drawing.Point(18, 38);
 			this.checkInsPlanExclusionsMarkDoNotBill.Name = "checkInsPlanExclusionsMarkDoNotBill";
-			this.checkInsPlanExclusionsMarkDoNotBill.Size = new System.Drawing.Size(422, 17);
+			this.checkInsPlanExclusionsMarkDoNotBill.Size = new System.Drawing.Size(422, 18);
 			this.checkInsPlanExclusionsMarkDoNotBill.TabIndex = 276;
 			this.checkInsPlanExclusionsMarkDoNotBill.Text = "Ins plans with exclusions mark as Do Not Bill Ins";
 			// 
@@ -270,7 +270,7 @@ namespace OpenPmsDental {
 			this.checkInsDefaultShowUCRonClaims.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkInsDefaultShowUCRonClaims.Location = new System.Drawing.Point(40, 199);
 			this.checkInsDefaultShowUCRonClaims.Name = "checkInsDefaultShowUCRonClaims";
-			this.checkInsDefaultShowUCRonClaims.Size = new System.Drawing.Size(400, 17);
+			this.checkInsDefaultShowUCRonClaims.Size = new System.Drawing.Size(400, 18);
 			this.checkInsDefaultShowUCRonClaims.TabIndex = 261;
 			this.checkInsDefaultShowUCRonClaims.Text = "Insurance plans default to show standard provider fee on claims";
 			this.checkInsDefaultShowUCRonClaims.Click += new System.EventHandler(this.checkInsDefaultShowUCRonClaims_Click);
@@ -298,7 +298,7 @@ namespace OpenPmsDental {
 			this.checkPatInitBillingTypeFromPriInsPlan.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkPatInitBillingTypeFromPriInsPlan.Location = new System.Drawing.Point(40, 176);
 			this.checkPatInitBillingTypeFromPriInsPlan.Name = "checkPatInitBillingTypeFromPriInsPlan";
-			this.checkPatInitBillingTypeFromPriInsPlan.Size = new System.Drawing.Size(400, 17);
+			this.checkPatInitBillingTypeFromPriInsPlan.Size = new System.Drawing.Size(400, 18);
 			this.checkPatInitBillingTypeFromPriInsPlan.TabIndex = 298;
 			this.checkPatInitBillingTypeFromPriInsPlan.Text = "Adding new primary insurance plan to patient sets billing type";
 			// 
@@ -308,7 +308,7 @@ namespace OpenPmsDental {
 			this.checkInsurancePlansShared.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkInsurancePlansShared.Location = new System.Drawing.Point(40, 15);
 			this.checkInsurancePlansShared.Name = "checkInsurancePlansShared";
-			this.checkInsurancePlansShared.Size = new System.Drawing.Size(400, 17);
+			this.checkInsurancePlansShared.Size = new System.Drawing.Size(400, 18);
 			this.checkInsurancePlansShared.TabIndex = 257;
 			this.checkInsurancePlansShared.Text = "InsPlan option at bottom, \'Change Plan for all subscribers\', is default";
 			// 
@@ -318,7 +318,7 @@ namespace OpenPmsDental {
 			this.checkFixedBenefitBlankLikeZero.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkFixedBenefitBlankLikeZero.Location = new System.Drawing.Point(40, 84);
 			this.checkFixedBenefitBlankLikeZero.Name = "checkFixedBenefitBlankLikeZero";
-			this.checkFixedBenefitBlankLikeZero.Size = new System.Drawing.Size(400, 17);
+			this.checkFixedBenefitBlankLikeZero.Size = new System.Drawing.Size(400, 18);
 			this.checkFixedBenefitBlankLikeZero.TabIndex = 275;
 			this.checkFixedBenefitBlankLikeZero.Text = "Fixed benefit fee schedules treat blank entries as zero";
 			// 
@@ -328,7 +328,7 @@ namespace OpenPmsDental {
 			this.checkCoPayFeeScheduleBlankLikeZero.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkCoPayFeeScheduleBlankLikeZero.Location = new System.Drawing.Point(40, 61);
 			this.checkCoPayFeeScheduleBlankLikeZero.Name = "checkCoPayFeeScheduleBlankLikeZero";
-			this.checkCoPayFeeScheduleBlankLikeZero.Size = new System.Drawing.Size(400, 17);
+			this.checkCoPayFeeScheduleBlankLikeZero.Size = new System.Drawing.Size(400, 18);
 			this.checkCoPayFeeScheduleBlankLikeZero.TabIndex = 260;
 			this.checkCoPayFeeScheduleBlankLikeZero.Text = "Copay fee schedules treat blank entries as zero";
 			// 
@@ -338,7 +338,7 @@ namespace OpenPmsDental {
 			this.checkInsPPOsecWriteoffs.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkInsPPOsecWriteoffs.Location = new System.Drawing.Point(15, 153);
 			this.checkInsPPOsecWriteoffs.Name = "checkInsPPOsecWriteoffs";
-			this.checkInsPPOsecWriteoffs.Size = new System.Drawing.Size(425, 17);
+			this.checkInsPPOsecWriteoffs.Size = new System.Drawing.Size(425, 18);
 			this.checkInsPPOsecWriteoffs.TabIndex = 270;
 			this.checkInsPPOsecWriteoffs.Text = "Calculate secondary insurance PPO write-offs";
 			// 
@@ -348,7 +348,7 @@ namespace OpenPmsDental {
 			this.checkPPOpercentage.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkPPOpercentage.Location = new System.Drawing.Point(40, 38);
 			this.checkPPOpercentage.Name = "checkPPOpercentage";
-			this.checkPPOpercentage.Size = new System.Drawing.Size(400, 17);
+			this.checkPPOpercentage.Size = new System.Drawing.Size(400, 18);
 			this.checkPPOpercentage.TabIndex = 258;
 			this.checkPPOpercentage.Text = "Default new insurance plans to PPO Percentage plan type";
 			// 
@@ -358,7 +358,7 @@ namespace OpenPmsDental {
 			this.checkInsDefaultAssignmentOfBenefits.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkInsDefaultAssignmentOfBenefits.Location = new System.Drawing.Point(40, 130);
 			this.checkInsDefaultAssignmentOfBenefits.Name = "checkInsDefaultAssignmentOfBenefits";
-			this.checkInsDefaultAssignmentOfBenefits.Size = new System.Drawing.Size(400, 17);
+			this.checkInsDefaultAssignmentOfBenefits.Size = new System.Drawing.Size(400, 18);
 			this.checkInsDefaultAssignmentOfBenefits.TabIndex = 267;
 			this.checkInsDefaultAssignmentOfBenefits.Text = "Insurance plans default to assignment of benefits";
 			this.checkInsDefaultAssignmentOfBenefits.Click += new System.EventHandler(this.checkInsDefaultAssignmentOfBenefits_Click);
@@ -369,7 +369,7 @@ namespace OpenPmsDental {
 			this.checkOutOfNetworkBlankLikeZero.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkOutOfNetworkBlankLikeZero.Location = new System.Drawing.Point(40, 107);
 			this.checkOutOfNetworkBlankLikeZero.Name = "checkOutOfNetworkBlankLikeZero";
-			this.checkOutOfNetworkBlankLikeZero.Size = new System.Drawing.Size(400, 17);
+			this.checkOutOfNetworkBlankLikeZero.Size = new System.Drawing.Size(400, 18);
 			this.checkOutOfNetworkBlankLikeZero.TabIndex = 299;
 			this.checkOutOfNetworkBlankLikeZero.Text = "Out of network fee schedules treat blank entries as zero";
 			// 

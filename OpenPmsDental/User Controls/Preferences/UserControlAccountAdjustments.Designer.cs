@@ -211,7 +211,7 @@ namespace OpenPmsDental {
 			this.labelCurrentBadDebtAdjTypes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelCurrentBadDebtAdjTypes.Location = new System.Drawing.Point(172, 13);
 			this.labelCurrentBadDebtAdjTypes.Name = "labelCurrentBadDebtAdjTypes";
-			this.labelCurrentBadDebtAdjTypes.Size = new System.Drawing.Size(147, 17);
+			this.labelCurrentBadDebtAdjTypes.Size = new System.Drawing.Size(148, 17);
 			this.labelCurrentBadDebtAdjTypes.TabIndex = 223;
 			this.labelCurrentBadDebtAdjTypes.Text = "Current Bad Debt adj types:";
 			this.labelCurrentBadDebtAdjTypes.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -276,7 +276,7 @@ namespace OpenPmsDental {
 			this.checkAutomateSalesTax.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkAutomateSalesTax.Location = new System.Drawing.Point(245, 102);
 			this.checkAutomateSalesTax.Name = "checkAutomateSalesTax";
-			this.checkAutomateSalesTax.Size = new System.Drawing.Size(195, 17);
+			this.checkAutomateSalesTax.Size = new System.Drawing.Size(195, 18);
 			this.checkAutomateSalesTax.TabIndex = 305;
 			this.checkAutomateSalesTax.Text = "Automate Sales Tax";
 			// 

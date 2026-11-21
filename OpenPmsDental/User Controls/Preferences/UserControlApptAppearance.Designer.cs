@@ -107,7 +107,7 @@ namespace OpenPmsDental {
 			this.checkApptExclamation.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkApptExclamation.Location = new System.Drawing.Point(15, 52);
 			this.checkApptExclamation.Name = "checkApptExclamation";
-			this.checkApptExclamation.Size = new System.Drawing.Size(425, 17);
+			this.checkApptExclamation.Size = new System.Drawing.Size(435, 18);
 			this.checkApptExclamation.TabIndex = 222;
 			this.checkApptExclamation.Text = "Show ! on appts for ins not sent, if added to Appt View (might cause slowdown)";
 			// 
@@ -125,7 +125,7 @@ namespace OpenPmsDental {
 			this.checkApptModuleDefaultToWeek.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkApptModuleDefaultToWeek.Location = new System.Drawing.Point(15, 71);
 			this.checkApptModuleDefaultToWeek.Name = "checkApptModuleDefaultToWeek";
-			this.checkApptModuleDefaultToWeek.Size = new System.Drawing.Size(425, 17);
+			this.checkApptModuleDefaultToWeek.Size = new System.Drawing.Size(425, 18);
 			this.checkApptModuleDefaultToWeek.TabIndex = 220;
 			this.checkApptModuleDefaultToWeek.Text = "Appointments Module defaults to week view";
 			// 
@@ -135,7 +135,7 @@ namespace OpenPmsDental {
 			this.checkApptSecondaryProviderConsiderOpOnly.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkApptSecondaryProviderConsiderOpOnly.Location = new System.Drawing.Point(90, 10);
 			this.checkApptSecondaryProviderConsiderOpOnly.Name = "checkApptSecondaryProviderConsiderOpOnly";
-			this.checkApptSecondaryProviderConsiderOpOnly.Size = new System.Drawing.Size(350, 17);
+			this.checkApptSecondaryProviderConsiderOpOnly.Size = new System.Drawing.Size(350, 18);
 			this.checkApptSecondaryProviderConsiderOpOnly.TabIndex = 331;
 			this.checkApptSecondaryProviderConsiderOpOnly.Text = "Force op\'s hygiene provider as secondary provider";
 			this.checkApptSecondaryProviderConsiderOpOnly.Click += new System.EventHandler(this.checkApptSecondaryProviderConsiderOpOnly_Click);
@@ -146,7 +146,7 @@ namespace OpenPmsDental {
 			this.checkApptRefreshEveryMinute.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkApptRefreshEveryMinute.Location = new System.Drawing.Point(34, 113);
 			this.checkApptRefreshEveryMinute.Name = "checkApptRefreshEveryMinute";
-			this.checkApptRefreshEveryMinute.Size = new System.Drawing.Size(406, 17);
+			this.checkApptRefreshEveryMinute.Size = new System.Drawing.Size(406, 18);
 			this.checkApptRefreshEveryMinute.TabIndex = 235;
 			this.checkApptRefreshEveryMinute.Text = "Refresh every 60 seconds";
 			// 
@@ -204,7 +204,7 @@ namespace OpenPmsDental {
 			this.checkReplaceBlockouts.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkReplaceBlockouts.Location = new System.Drawing.Point(15, 29);
 			this.checkReplaceBlockouts.Name = "checkReplaceBlockouts";
-			this.checkReplaceBlockouts.Size = new System.Drawing.Size(425, 17);
+			this.checkReplaceBlockouts.Size = new System.Drawing.Size(435, 18);
 			this.checkReplaceBlockouts.TabIndex = 318;
 			this.checkReplaceBlockouts.Text = "Allow \'Block appointment scheduling\' blockouts to replace conflicting blockouts";
 			// 
@@ -214,7 +214,7 @@ namespace OpenPmsDental {
 			this.checkSolidBlockouts.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkSolidBlockouts.Location = new System.Drawing.Point(65, 10);
 			this.checkSolidBlockouts.Name = "checkSolidBlockouts";
-			this.checkSolidBlockouts.Size = new System.Drawing.Size(375, 17);
+			this.checkSolidBlockouts.Size = new System.Drawing.Size(385, 18);
 			this.checkSolidBlockouts.TabIndex = 220;
 			this.checkSolidBlockouts.Text = "Use solid blockouts instead of outlines on the Appointments Module";
 			// 
@@ -233,6 +233,7 @@ namespace OpenPmsDental {
 			// textApptBubNoteLength
 			// 
 			this.textApptBubNoteLength.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.textApptBubNoteLength.AutoSize = false;
 			this.textApptBubNoteLength.Location = new System.Drawing.Point(357, 10);
 			this.textApptBubNoteLength.Name = "textApptBubNoteLength";
 			this.textApptBubNoteLength.Size = new System.Drawing.Size(83, 20);
@@ -254,7 +255,7 @@ namespace OpenPmsDental {
 			this.checkApptBubbleDelay.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkApptBubbleDelay.Location = new System.Drawing.Point(15, 51);
 			this.checkApptBubbleDelay.Name = "checkApptBubbleDelay";
-			this.checkApptBubbleDelay.Size = new System.Drawing.Size(425, 17);
+			this.checkApptBubbleDelay.Size = new System.Drawing.Size(425, 18);
 			this.checkApptBubbleDelay.TabIndex = 221;
 			this.checkApptBubbleDelay.Text = "Appointment bubble popup delay";
 			// 
@@ -264,7 +265,7 @@ namespace OpenPmsDental {
 			this.checkAppointmentBubblesDisabled.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkAppointmentBubblesDisabled.Location = new System.Drawing.Point(40, 32);
 			this.checkAppointmentBubblesDisabled.Name = "checkAppointmentBubblesDisabled";
-			this.checkAppointmentBubblesDisabled.Size = new System.Drawing.Size(400, 17);
+			this.checkAppointmentBubblesDisabled.Size = new System.Drawing.Size(400, 18);
 			this.checkAppointmentBubblesDisabled.TabIndex = 234;
 			this.checkAppointmentBubblesDisabled.Text = "Default appointment bubble to \'disabled\' for new appointment views";
 			// 
@@ -307,6 +308,7 @@ namespace OpenPmsDental {
 			// textApptProvbarWidth
 			// 
 			this.textApptProvbarWidth.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.textApptProvbarWidth.AutoSize = false;
 			this.textApptProvbarWidth.Location = new System.Drawing.Point(390, 55);
 			this.textApptProvbarWidth.MaxVal = 20;
 			this.textApptProvbarWidth.Name = "textApptProvbarWidth";
@@ -326,6 +328,7 @@ namespace OpenPmsDental {
 			// textApptFontSize
 			// 
 			this.textApptFontSize.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.textApptFontSize.AutoSize = false;
 			this.textApptFontSize.Location = new System.Drawing.Point(390, 33);
 			this.textApptFontSize.Name = "textApptFontSize";
 			this.textApptFontSize.Size = new System.Drawing.Size(50, 20);
@@ -427,6 +430,7 @@ namespace OpenPmsDental {
 			// textWaitRoomWarn
 			// 
 			this.textWaitRoomWarn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.textWaitRoomWarn.AutoSize = false;
 			this.textWaitRoomWarn.Location = new System.Drawing.Point(357, 98);
 			this.textWaitRoomWarn.Name = "textWaitRoomWarn";
 			this.textWaitRoomWarn.Size = new System.Drawing.Size(83, 20);
@@ -448,7 +452,7 @@ namespace OpenPmsDental {
 			this.checkWaitingRoomFilterByView.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkWaitingRoomFilterByView.Location = new System.Drawing.Point(34, 79);
 			this.checkWaitingRoomFilterByView.Name = "checkWaitingRoomFilterByView";
-			this.checkWaitingRoomFilterByView.Size = new System.Drawing.Size(406, 17);
+			this.checkWaitingRoomFilterByView.Size = new System.Drawing.Size(406, 18);
 			this.checkWaitingRoomFilterByView.TabIndex = 300;
 			this.checkWaitingRoomFilterByView.Text = "Filter the waiting room based on the selected appointment view";
 			// 
@@ -488,7 +492,7 @@ namespace OpenPmsDental {
 			this.checkProvTimeOnOpBackground.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkProvTimeOnOpBackground.Location = new System.Drawing.Point(15, 10);
 			this.checkProvTimeOnOpBackground.Name = "checkProvTimeOnOpBackground";
-			this.checkProvTimeOnOpBackground.Size = new System.Drawing.Size(425, 17);
+			this.checkProvTimeOnOpBackground.Size = new System.Drawing.Size(425, 18);
 			this.checkProvTimeOnOpBackground.TabIndex = 341;
 			this.checkProvTimeOnOpBackground.Text = "Show provider time on the operatory background in the provider\'s color";
 			//
@@ -498,7 +502,7 @@ namespace OpenPmsDental {
 			this.checkTimeBarSecondaryColor.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkTimeBarSecondaryColor.Location = new System.Drawing.Point(15, 29);
 			this.checkTimeBarSecondaryColor.Name = "checkTimeBarSecondaryColor";
-			this.checkTimeBarSecondaryColor.Size = new System.Drawing.Size(425, 17);
+			this.checkTimeBarSecondaryColor.Size = new System.Drawing.Size(425, 18);
 			this.checkTimeBarSecondaryColor.TabIndex = 342;
 			this.checkTimeBarSecondaryColor.Text = "No provider time set: show the secondary provider color in the time bar";
 			//

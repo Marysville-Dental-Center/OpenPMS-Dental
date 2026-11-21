@@ -59,7 +59,7 @@ namespace OpenPmsDental {
 			this.checkUseReadOnlyServer.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkUseReadOnlyServer.Location = new System.Drawing.Point(60, 10);
 			this.checkUseReadOnlyServer.Name = "checkUseReadOnlyServer";
-			this.checkUseReadOnlyServer.Size = new System.Drawing.Size(400, 17);
+			this.checkUseReadOnlyServer.Size = new System.Drawing.Size(400, 18);
 			this.checkUseReadOnlyServer.TabIndex = 0;
 			this.checkUseReadOnlyServer.Text = "Use Separate Read-Only Server\r\n";
 			this.checkUseReadOnlyServer.CheckedChanged += new System.EventHandler(this.checkReadOnlyServer_CheckChanged);
@@ -80,7 +80,7 @@ namespace OpenPmsDental {
 			// 
 			this.radioReadOnlyServerDirect.Location = new System.Drawing.Point(9, 29);
 			this.radioReadOnlyServerDirect.Name = "radioReadOnlyServerDirect";
-			this.radioReadOnlyServerDirect.Size = new System.Drawing.Size(157, 18);
+			this.radioReadOnlyServerDirect.Size = new System.Drawing.Size(157, 23);
 			this.radioReadOnlyServerDirect.TabIndex = 3;
 			this.radioReadOnlyServerDirect.TabStop = true;
 			this.radioReadOnlyServerDirect.Text = "Direct Connection";
@@ -109,7 +109,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelSslCaPem.Location = new System.Drawing.Point(6, 140);
 			this.labelSslCaPem.Name = "labelSslCaPem";
-			this.labelSslCaPem.Size = new System.Drawing.Size(132, 28);
+			this.labelSslCaPem.Size = new System.Drawing.Size(133, 28);
 			this.labelSslCaPem.TabIndex = 105;
 			this.labelSslCaPem.Text = "SSL CA certificate (.pem) path";
 			this.labelSslCaPem.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -193,7 +193,7 @@ namespace OpenPmsDental {
 			// 
 			this.radioReadOnlyServerMiddleTier.Location = new System.Drawing.Point(9, 241);
 			this.radioReadOnlyServerMiddleTier.Name = "radioReadOnlyServerMiddleTier";
-			this.radioReadOnlyServerMiddleTier.Size = new System.Drawing.Size(137, 18);
+			this.radioReadOnlyServerMiddleTier.Size = new System.Drawing.Size(137, 23);
 			this.radioReadOnlyServerMiddleTier.TabIndex = 8;
 			this.radioReadOnlyServerMiddleTier.TabStop = true;
 			this.radioReadOnlyServerMiddleTier.Text = "Middle Tier";

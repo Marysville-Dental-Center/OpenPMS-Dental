@@ -58,7 +58,7 @@ namespace OpenPmsDental {
 			this.checkAgingCalculateOnBatchClaimReceipt.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkAgingCalculateOnBatchClaimReceipt.Location = new System.Drawing.Point(157, 24);
 			this.checkAgingCalculateOnBatchClaimReceipt.Name = "checkAgingCalculateOnBatchClaimReceipt";
-			this.checkAgingCalculateOnBatchClaimReceipt.Size = new System.Drawing.Size(296, 18);
+			this.checkAgingCalculateOnBatchClaimReceipt.Size = new System.Drawing.Size(307, 18);
 			this.checkAgingCalculateOnBatchClaimReceipt.TabIndex = 303;
 			this.checkAgingCalculateOnBatchClaimReceipt.Text = "Aging calculated on receipt of batch claim payments";
 			// 
@@ -210,7 +210,7 @@ namespace OpenPmsDental {
 			this.radioReceiveAtAnInterval.Location = new System.Drawing.Point(136, 251);
 			this.radioReceiveAtAnInterval.Name = "radioReceiveAtAnInterval";
 			this.radioReceiveAtAnInterval.RightToLeft = System.Windows.Forms.RightToLeft.No;
-			this.radioReceiveAtAnInterval.Size = new System.Drawing.Size(182, 18);
+			this.radioReceiveAtAnInterval.Size = new System.Drawing.Size(182, 22);
 			this.radioReceiveAtAnInterval.TabIndex = 297;
 			this.radioReceiveAtAnInterval.TabStop = true;
 			this.radioReceiveAtAnInterval.Text = "Receive at an interval";
@@ -232,7 +232,7 @@ namespace OpenPmsDental {
 			this.radioReceiveAtASetTime.Location = new System.Drawing.Point(136, 273);
 			this.radioReceiveAtASetTime.Name = "radioReceiveAtASetTime";
 			this.radioReceiveAtASetTime.RightToLeft = System.Windows.Forms.RightToLeft.No;
-			this.radioReceiveAtASetTime.Size = new System.Drawing.Size(182, 18);
+			this.radioReceiveAtASetTime.Size = new System.Drawing.Size(182, 23);
 			this.radioReceiveAtASetTime.TabIndex = 298;
 			this.radioReceiveAtASetTime.Text = "Receive at a set time";
 			this.radioReceiveAtASetTime.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

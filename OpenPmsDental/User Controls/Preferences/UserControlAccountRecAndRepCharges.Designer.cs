@@ -79,7 +79,7 @@ namespace OpenPmsDental {
 			this.checkRecurringChargesShowInactive.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkRecurringChargesShowInactive.Location = new System.Drawing.Point(140, 82);
 			this.checkRecurringChargesShowInactive.Name = "checkRecurringChargesShowInactive";
-			this.checkRecurringChargesShowInactive.Size = new System.Drawing.Size(300, 17);
+			this.checkRecurringChargesShowInactive.Size = new System.Drawing.Size(300, 18);
 			this.checkRecurringChargesShowInactive.TabIndex = 241;
 			this.checkRecurringChargesShowInactive.Text = "Recurring charges show inactive charges by default";
 			// 
@@ -89,7 +89,7 @@ namespace OpenPmsDental {
 			this.checkRecurringChargesInactivateDeclinedCards.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkRecurringChargesInactivateDeclinedCards.Location = new System.Drawing.Point(214, 244);
 			this.checkRecurringChargesInactivateDeclinedCards.Name = "checkRecurringChargesInactivateDeclinedCards";
-			this.checkRecurringChargesInactivateDeclinedCards.Size = new System.Drawing.Size(226, 17);
+			this.checkRecurringChargesInactivateDeclinedCards.Size = new System.Drawing.Size(232, 18);
 			this.checkRecurringChargesInactivateDeclinedCards.TabIndex = 254;
 			this.checkRecurringChargesInactivateDeclinedCards.Text = "Automatically inactivate declined cards";
 			// 
@@ -99,7 +99,7 @@ namespace OpenPmsDental {
 			this.checkRecurPatBal0.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkRecurPatBal0.Location = new System.Drawing.Point(91, 213);
 			this.checkRecurPatBal0.Name = "checkRecurPatBal0";
-			this.checkRecurPatBal0.Size = new System.Drawing.Size(349, 17);
+			this.checkRecurPatBal0.Size = new System.Drawing.Size(359, 18);
 			this.checkRecurPatBal0.TabIndex = 246;
 			this.checkRecurPatBal0.Text = "Allow recurring charges to run even if no family balance present";
 			// 
@@ -147,7 +147,7 @@ namespace OpenPmsDental {
 			this.checkRecurringChargesAutomated.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkRecurringChargesAutomated.Location = new System.Drawing.Point(214, 113);
 			this.checkRecurringChargesAutomated.Name = "checkRecurringChargesAutomated";
-			this.checkRecurringChargesAutomated.Size = new System.Drawing.Size(226, 17);
+			this.checkRecurringChargesAutomated.Size = new System.Drawing.Size(226, 18);
 			this.checkRecurringChargesAutomated.TabIndex = 240;
 			this.checkRecurringChargesAutomated.Text = "Recurring charges run automatically";
 			this.checkRecurringChargesAutomated.Click += new System.EventHandler(this.checkRecurringChargesAutomated_Click);
@@ -158,7 +158,7 @@ namespace OpenPmsDental {
 			this.checkRecurringChargesUseTransDate.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkRecurringChargesUseTransDate.Location = new System.Drawing.Point(214, 51);
 			this.checkRecurringChargesUseTransDate.Name = "checkRecurringChargesUseTransDate";
-			this.checkRecurringChargesUseTransDate.Size = new System.Drawing.Size(226, 17);
+			this.checkRecurringChargesUseTransDate.Size = new System.Drawing.Size(232, 18);
 			this.checkRecurringChargesUseTransDate.TabIndex = 239;
 			this.checkRecurringChargesUseTransDate.Text = "Recurring charges use transaction date";
 			// 
@@ -168,7 +168,7 @@ namespace OpenPmsDental {
 			this.checkRecurChargPriProv.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkRecurChargPriProv.Location = new System.Drawing.Point(102, 20);
 			this.checkRecurChargPriProv.Name = "checkRecurChargPriProv";
-			this.checkRecurChargPriProv.Size = new System.Drawing.Size(338, 17);
+			this.checkRecurChargPriProv.Size = new System.Drawing.Size(338, 18);
 			this.checkRecurChargPriProv.TabIndex = 238;
 			this.checkRecurChargPriProv.Text = "Recurring charges use primary provider instead of FIFO";
 			// 
@@ -178,7 +178,7 @@ namespace OpenPmsDental {
 			this.checkRecurringChargesFailEmailEnabled.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkRecurringChargesFailEmailEnabled.Location = new System.Drawing.Point(140, 275);
 			this.checkRecurringChargesFailEmailEnabled.Name = "checkRecurringChargesFailEmailEnabled";
-			this.checkRecurringChargesFailEmailEnabled.Size = new System.Drawing.Size(300, 17);
+			this.checkRecurringChargesFailEmailEnabled.Size = new System.Drawing.Size(300, 18);
 			this.checkRecurringChargesFailEmailEnabled.TabIndex = 255;
 			this.checkRecurringChargesFailEmailEnabled.Text = "Email patients when a recurring charge fails";
 			// 
@@ -232,7 +232,7 @@ namespace OpenPmsDental {
 			this.checkRepeatingChargesRunAging.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkRepeatingChargesRunAging.Location = new System.Drawing.Point(187, 10);
 			this.checkRepeatingChargesRunAging.Name = "checkRepeatingChargesRunAging";
-			this.checkRepeatingChargesRunAging.Size = new System.Drawing.Size(253, 17);
+			this.checkRepeatingChargesRunAging.Size = new System.Drawing.Size(253, 18);
 			this.checkRepeatingChargesRunAging.TabIndex = 239;
 			this.checkRepeatingChargesRunAging.Text = "Run aging after posting charges";
 			// 
@@ -242,7 +242,7 @@ namespace OpenPmsDental {
 			this.checkRepeatingChargesAutomated.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkRepeatingChargesAutomated.Location = new System.Drawing.Point(214, 41);
 			this.checkRepeatingChargesAutomated.Name = "checkRepeatingChargesAutomated";
-			this.checkRepeatingChargesAutomated.Size = new System.Drawing.Size(226, 17);
+			this.checkRepeatingChargesAutomated.Size = new System.Drawing.Size(226, 18);
 			this.checkRepeatingChargesAutomated.TabIndex = 238;
 			this.checkRepeatingChargesAutomated.Text = "Repeating charges run automatically";
 			this.checkRepeatingChargesAutomated.Click += new System.EventHandler(this.checkRepeatingChargesAutomated_Click);
@@ -253,7 +253,7 @@ namespace OpenPmsDental {
 			this.checkRepeatingChargesAllowBackdating.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkRepeatingChargesAllowBackdating.Location = new System.Drawing.Point(140, 103);
 			this.checkRepeatingChargesAllowBackdating.Name = "checkRepeatingChargesAllowBackdating";
-			this.checkRepeatingChargesAllowBackdating.Size = new System.Drawing.Size(300, 17);
+			this.checkRepeatingChargesAllowBackdating.Size = new System.Drawing.Size(300, 18);
 			this.checkRepeatingChargesAllowBackdating.TabIndex = 244;
 			this.checkRepeatingChargesAllowBackdating.Text = "Allow repeating charges to be backdated";
 			// 

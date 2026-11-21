@@ -72,7 +72,7 @@ namespace OpenPmsDental {
 			this.checkDatabaseGlobalVariablesDontSet.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkDatabaseGlobalVariablesDontSet.Location = new System.Drawing.Point(12, 629);
 			this.checkDatabaseGlobalVariablesDontSet.Name = "checkDatabaseGlobalVariablesDontSet";
-			this.checkDatabaseGlobalVariablesDontSet.Size = new System.Drawing.Size(461, 17);
+			this.checkDatabaseGlobalVariablesDontSet.Size = new System.Drawing.Size(461, 18);
 			this.checkDatabaseGlobalVariablesDontSet.TabIndex = 314;
 			this.checkDatabaseGlobalVariablesDontSet.Text = "Disable setting SQL global variables (Used for hosted databases)";
 			// 
@@ -81,7 +81,7 @@ namespace OpenPmsDental {
 			this.checkEnterpriseCommlogOmitDefaults.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkEnterpriseCommlogOmitDefaults.Location = new System.Drawing.Point(251, 610);
 			this.checkEnterpriseCommlogOmitDefaults.Name = "checkEnterpriseCommlogOmitDefaults";
-			this.checkEnterpriseCommlogOmitDefaults.Size = new System.Drawing.Size(222, 17);
+			this.checkEnterpriseCommlogOmitDefaults.Size = new System.Drawing.Size(222, 18);
 			this.checkEnterpriseCommlogOmitDefaults.TabIndex = 313;
 			this.checkEnterpriseCommlogOmitDefaults.Text = "Commlog fields blank by default";
 			// 
@@ -190,7 +190,7 @@ namespace OpenPmsDental {
 			this.checkPatientPhoneUsePhonenumberTable.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkPatientPhoneUsePhonenumberTable.Location = new System.Drawing.Point(6, 102);
 			this.checkPatientPhoneUsePhonenumberTable.Name = "checkPatientPhoneUsePhonenumberTable";
-			this.checkPatientPhoneUsePhonenumberTable.Size = new System.Drawing.Size(406, 17);
+			this.checkPatientPhoneUsePhonenumberTable.Size = new System.Drawing.Size(406, 18);
 			this.checkPatientPhoneUsePhonenumberTable.TabIndex = 291;
 			this.checkPatientPhoneUsePhonenumberTable.Text = "Store patient phone numbers in a separate table for patient search";
 			this.checkPatientPhoneUsePhonenumberTable.Click += new System.EventHandler(this.checkPatientPhoneUsePhoneNumberTable_Click);
@@ -202,7 +202,7 @@ namespace OpenPmsDental {
 			this.checkPatientSelectSearchWithEmptyParams.CheckState = System.Windows.Forms.CheckState.Indeterminate;
 			this.checkPatientSelectSearchWithEmptyParams.Location = new System.Drawing.Point(6, 79);
 			this.checkPatientSelectSearchWithEmptyParams.Name = "checkPatientSelectSearchWithEmptyParams";
-			this.checkPatientSelectSearchWithEmptyParams.Size = new System.Drawing.Size(461, 17);
+			this.checkPatientSelectSearchWithEmptyParams.Size = new System.Drawing.Size(461, 18);
 			this.checkPatientSelectSearchWithEmptyParams.TabIndex = 290;
 			this.checkPatientSelectSearchWithEmptyParams.Text = "Search and fill grid with all empty search fields";
 			// 
@@ -229,7 +229,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelPatSelectMinChars.Location = new System.Drawing.Point(6, 19);
 			this.labelPatSelectMinChars.Name = "labelPatSelectMinChars";
-			this.labelPatSelectMinChars.Size = new System.Drawing.Size(420, 18);
+			this.labelPatSelectMinChars.Size = new System.Drawing.Size(421, 18);
 			this.labelPatSelectMinChars.TabIndex = 279;
 			this.labelPatSelectMinChars.Text = "The number of characters entered into the search fields before filling the grid";
 			this.labelPatSelectMinChars.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -394,6 +394,7 @@ namespace OpenPmsDental {
 			// 
 			// textSecurityLockDate
 			// 
+			this.textSecurityLockDate.AutoSize = false;
 			this.textSecurityLockDate.Location = new System.Drawing.Point(100, 17);
 			this.textSecurityLockDate.Name = "textSecurityLockDate";
 			this.textSecurityLockDate.ReadOnly = true;

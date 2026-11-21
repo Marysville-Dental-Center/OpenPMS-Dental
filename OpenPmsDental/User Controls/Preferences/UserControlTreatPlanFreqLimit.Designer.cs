@@ -133,7 +133,7 @@ namespace OpenPmsDental {
 			this.labelDiscountPerioFreq.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelDiscountPerioFreq.Location = new System.Drawing.Point(131, 108);
 			this.labelDiscountPerioFreq.Name = "labelDiscountPerioFreq";
-			this.labelDiscountPerioFreq.Size = new System.Drawing.Size(135, 17);
+			this.labelDiscountPerioFreq.Size = new System.Drawing.Size(136, 17);
 			this.labelDiscountPerioFreq.TabIndex = 233;
 			this.labelDiscountPerioFreq.Text = "Perio Maintenance Codes";
 			this.labelDiscountPerioFreq.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -215,7 +215,7 @@ namespace OpenPmsDental {
 			this.checkFrequency.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkFrequency.Location = new System.Drawing.Point(60, 10);
 			this.checkFrequency.Name = "checkFrequency";
-			this.checkFrequency.Size = new System.Drawing.Size(400, 17);
+			this.checkFrequency.Size = new System.Drawing.Size(400, 18);
 			this.checkFrequency.TabIndex = 244;
 			this.checkFrequency.Text = "Enable Insurance Frequency Checking";
 			// 

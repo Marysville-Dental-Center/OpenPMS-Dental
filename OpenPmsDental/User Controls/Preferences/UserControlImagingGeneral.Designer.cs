@@ -69,7 +69,7 @@ namespace OpenPmsDental {
 			this.checkImagingOrderDescending.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkImagingOrderDescending.Location = new System.Drawing.Point(5, 41);
 			this.checkImagingOrderDescending.Name = "checkImagingOrderDescending";
-			this.checkImagingOrderDescending.Size = new System.Drawing.Size(435, 17);
+			this.checkImagingOrderDescending.Size = new System.Drawing.Size(435, 18);
 			this.checkImagingOrderDescending.TabIndex = 317;
 			this.checkImagingOrderDescending.Text = "Sort images by date descending";
 			// 
@@ -78,7 +78,7 @@ namespace OpenPmsDental {
 			this.checkPDFLaunchWindow.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkPDFLaunchWindow.Location = new System.Drawing.Point(90, 10);
 			this.checkPDFLaunchWindow.Name = "checkPDFLaunchWindow";
-			this.checkPDFLaunchWindow.Size = new System.Drawing.Size(350, 17);
+			this.checkPDFLaunchWindow.Size = new System.Drawing.Size(350, 18);
 			this.checkPDFLaunchWindow.TabIndex = 306;
 			this.checkPDFLaunchWindow.Text = "PDF files always launch in a separate window";
 			//
@@ -87,7 +87,7 @@ namespace OpenPmsDental {
 			this.checkImagingAllowPdfJavascript.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkImagingAllowPdfJavascript.Location = new System.Drawing.Point(5, 72);
 			this.checkImagingAllowPdfJavascript.Name = "checkImagingAllowPdfJavascript";
-			this.checkImagingAllowPdfJavascript.Size = new System.Drawing.Size(435, 17);
+			this.checkImagingAllowPdfJavascript.Size = new System.Drawing.Size(435, 18);
 			this.checkImagingAllowPdfJavascript.TabIndex = 318;
 			this.checkImagingAllowPdfJavascript.Text = "Allow JavaScript when viewing PDFs";
 			//
@@ -152,7 +152,7 @@ namespace OpenPmsDental {
 			// 
 			this.label15.Location = new System.Drawing.Point(5, 47);
 			this.label15.Name = "label15";
-			this.label15.Size = new System.Drawing.Size(175, 17);
+			this.label15.Size = new System.Drawing.Size(176, 17);
 			this.label15.TabIndex = 308;
 			this.label15.Text = "Default folder for automatic import";
 			this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

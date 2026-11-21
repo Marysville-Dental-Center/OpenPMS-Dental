@@ -68,7 +68,7 @@ namespace OpenPmsDental {
 			this.checkClaimUpdateFeeForSecondary.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkClaimUpdateFeeForSecondary.Location = new System.Drawing.Point(15, 12);
 			this.checkClaimUpdateFeeForSecondary.Name = "checkClaimUpdateFeeForSecondary";
-			this.checkClaimUpdateFeeForSecondary.Size = new System.Drawing.Size(425, 17);
+			this.checkClaimUpdateFeeForSecondary.Size = new System.Drawing.Size(426, 18);
 			this.checkClaimUpdateFeeForSecondary.TabIndex = 0;
 			this.checkClaimUpdateFeeForSecondary.Text = "Update the fee on unsent secondary claims when a procedure fee changes";
 			// 
@@ -88,7 +88,7 @@ namespace OpenPmsDental {
 			this.checkClaimMedReceivedPromptForPrimaryClaim.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkClaimMedReceivedPromptForPrimaryClaim.Location = new System.Drawing.Point(85, 10);
 			this.checkClaimMedReceivedPromptForPrimaryClaim.Name = "checkClaimMedReceivedPromptForPrimaryClaim";
-			this.checkClaimMedReceivedPromptForPrimaryClaim.Size = new System.Drawing.Size(355, 17);
+			this.checkClaimMedReceivedPromptForPrimaryClaim.Size = new System.Drawing.Size(355, 18);
 			this.checkClaimMedReceivedPromptForPrimaryClaim.TabIndex = 0;
 			this.checkClaimMedReceivedPromptForPrimaryClaim.Text = "Prompt for primary claims";
 			// 
@@ -97,7 +97,7 @@ namespace OpenPmsDental {
 			this.checkClaimMedReceivedForcePrimaryStatus.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkClaimMedReceivedForcePrimaryStatus.Location = new System.Drawing.Point(15, 29);
 			this.checkClaimMedReceivedForcePrimaryStatus.Name = "checkClaimMedReceivedForcePrimaryStatus";
-			this.checkClaimMedReceivedForcePrimaryStatus.Size = new System.Drawing.Size(425, 17);
+			this.checkClaimMedReceivedForcePrimaryStatus.Size = new System.Drawing.Size(435, 18);
 			this.checkClaimMedReceivedForcePrimaryStatus.TabIndex = 1;
 			this.checkClaimMedReceivedForcePrimaryStatus.Text = "Remove \'Do Nothing\' for primary claims with \'Hold Until Pri Received\' or \'Unsent\'" +
     "";
@@ -107,7 +107,7 @@ namespace OpenPmsDental {
 			this.checkClaimMedReceivedPromptForMedicalEob.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkClaimMedReceivedPromptForMedicalEob.Location = new System.Drawing.Point(15, 48);
 			this.checkClaimMedReceivedPromptForMedicalEob.Name = "checkClaimMedReceivedPromptForMedicalEob";
-			this.checkClaimMedReceivedPromptForMedicalEob.Size = new System.Drawing.Size(425, 17);
+			this.checkClaimMedReceivedPromptForMedicalEob.Size = new System.Drawing.Size(425, 18);
 			this.checkClaimMedReceivedPromptForMedicalEob.TabIndex = 2;
 			this.checkClaimMedReceivedPromptForMedicalEob.Text = "Prompt for Medical EOB on primary claims";
 			//
@@ -138,7 +138,7 @@ namespace OpenPmsDental {
 			this.checkClaimPaymentPickStatementType.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkClaimPaymentPickStatementType.Location = new System.Drawing.Point(3, 90);
 			this.checkClaimPaymentPickStatementType.Name = "checkClaimPaymentPickStatementType";
-			this.checkClaimPaymentPickStatementType.Size = new System.Drawing.Size(437, 17);
+			this.checkClaimPaymentPickStatementType.Size = new System.Drawing.Size(437, 18);
 			this.checkClaimPaymentPickStatementType.TabIndex = 291;
 			this.checkClaimPaymentPickStatementType.Text = "Claim payments prompt for Payment Type";
 			// 
@@ -147,7 +147,7 @@ namespace OpenPmsDental {
 			this.checkNoInitialPrimaryInsMoreThanProc.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkNoInitialPrimaryInsMoreThanProc.Location = new System.Drawing.Point(3, 71);
 			this.checkNoInitialPrimaryInsMoreThanProc.Name = "checkNoInitialPrimaryInsMoreThanProc";
-			this.checkNoInitialPrimaryInsMoreThanProc.Size = new System.Drawing.Size(437, 17);
+			this.checkNoInitialPrimaryInsMoreThanProc.Size = new System.Drawing.Size(447, 18);
 			this.checkNoInitialPrimaryInsMoreThanProc.TabIndex = 3;
 			this.checkNoInitialPrimaryInsMoreThanProc.Text = "Initial primary insurance payment and write-off cannot exceed adjusted proc fee";
 			// 
@@ -156,7 +156,7 @@ namespace OpenPmsDental {
 			this.checkAllowProcAdjFromClaim.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkAllowProcAdjFromClaim.Location = new System.Drawing.Point(115, 10);
 			this.checkAllowProcAdjFromClaim.Name = "checkAllowProcAdjFromClaim";
-			this.checkAllowProcAdjFromClaim.Size = new System.Drawing.Size(325, 17);
+			this.checkAllowProcAdjFromClaim.Size = new System.Drawing.Size(325, 18);
 			this.checkAllowProcAdjFromClaim.TabIndex = 0;
 			this.checkAllowProcAdjFromClaim.Text = "Allow procedure adjustments from Edit Claim window";
 			// 
@@ -165,7 +165,7 @@ namespace OpenPmsDental {
 			this.checkInsPayNoWriteoffMoreThanProc.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkInsPayNoWriteoffMoreThanProc.Location = new System.Drawing.Point(73, 52);
 			this.checkInsPayNoWriteoffMoreThanProc.Name = "checkInsPayNoWriteoffMoreThanProc";
-			this.checkInsPayNoWriteoffMoreThanProc.Size = new System.Drawing.Size(367, 17);
+			this.checkInsPayNoWriteoffMoreThanProc.Size = new System.Drawing.Size(367, 18);
 			this.checkInsPayNoWriteoffMoreThanProc.TabIndex = 2;
 			this.checkInsPayNoWriteoffMoreThanProc.Text = "Disallow write-offs greater than the adjusted procedure fee";
 			// 
@@ -202,7 +202,7 @@ namespace OpenPmsDental {
 			this.checkClaimPrimaryReceivedRecalcSecondary.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkClaimPrimaryReceivedRecalcSecondary.Location = new System.Drawing.Point(30, 181);
 			this.checkClaimPrimaryReceivedRecalcSecondary.Name = "checkClaimPrimaryReceivedRecalcSecondary";
-			this.checkClaimPrimaryReceivedRecalcSecondary.Size = new System.Drawing.Size(410, 17);
+			this.checkClaimPrimaryReceivedRecalcSecondary.Size = new System.Drawing.Size(410, 18);
 			this.checkClaimPrimaryReceivedRecalcSecondary.TabIndex = 9;
 			this.checkClaimPrimaryReceivedRecalcSecondary.Text = "Auto update next insurance claim estimates when a claim is received";
 			// 
@@ -211,7 +211,7 @@ namespace OpenPmsDental {
 			this.checkClaimFinalizeWarning.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkClaimFinalizeWarning.Location = new System.Drawing.Point(30, 162);
 			this.checkClaimFinalizeWarning.Name = "checkClaimFinalizeWarning";
-			this.checkClaimFinalizeWarning.Size = new System.Drawing.Size(410, 17);
+			this.checkClaimFinalizeWarning.Size = new System.Drawing.Size(410, 18);
 			this.checkClaimFinalizeWarning.TabIndex = 8;
 			this.checkClaimFinalizeWarning.Text = "Warn users to finalize payments for received claims";
 			// 
@@ -220,7 +220,7 @@ namespace OpenPmsDental {
 			this.checkInsAutoReceiveNoAssign.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkInsAutoReceiveNoAssign.Location = new System.Drawing.Point(30, 143);
 			this.checkInsAutoReceiveNoAssign.Name = "checkInsAutoReceiveNoAssign";
-			this.checkInsAutoReceiveNoAssign.Size = new System.Drawing.Size(410, 17);
+			this.checkInsAutoReceiveNoAssign.Size = new System.Drawing.Size(410, 18);
 			this.checkInsAutoReceiveNoAssign.TabIndex = 7;
 			this.checkInsAutoReceiveNoAssign.Text = "Auto receive claims with no assignment of benefits";
 			// 
@@ -229,7 +229,7 @@ namespace OpenPmsDental {
 			this.checkShowClaimPatResp.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkShowClaimPatResp.Location = new System.Drawing.Point(30, 105);
 			this.checkShowClaimPatResp.Name = "checkShowClaimPatResp";
-			this.checkShowClaimPatResp.Size = new System.Drawing.Size(410, 17);
+			this.checkShowClaimPatResp.Size = new System.Drawing.Size(410, 18);
 			this.checkShowClaimPatResp.TabIndex = 5;
 			this.checkShowClaimPatResp.Text = "Show Patient Responsibility column in the Edit Claim/Payment windows";
 			// 
@@ -238,7 +238,7 @@ namespace OpenPmsDental {
 			this.checkPromptForSecondaryClaim.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkPromptForSecondaryClaim.Location = new System.Drawing.Point(73, 48);
 			this.checkPromptForSecondaryClaim.Name = "checkPromptForSecondaryClaim";
-			this.checkPromptForSecondaryClaim.Size = new System.Drawing.Size(367, 17);
+			this.checkPromptForSecondaryClaim.Size = new System.Drawing.Size(367, 18);
 			this.checkPromptForSecondaryClaim.TabIndex = 2;
 			this.checkPromptForSecondaryClaim.Text = "Prompt for claims of the next insurance";
 			// 
@@ -247,7 +247,7 @@ namespace OpenPmsDental {
 			this.checkClaimPrimaryRecievedForceSecondaryStatus.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkClaimPrimaryRecievedForceSecondaryStatus.Location = new System.Drawing.Point(30, 124);
 			this.checkClaimPrimaryRecievedForceSecondaryStatus.Name = "checkClaimPrimaryRecievedForceSecondaryStatus";
-			this.checkClaimPrimaryRecievedForceSecondaryStatus.Size = new System.Drawing.Size(410, 17);
+			this.checkClaimPrimaryRecievedForceSecondaryStatus.Size = new System.Drawing.Size(410, 18);
 			this.checkClaimPrimaryRecievedForceSecondaryStatus.TabIndex = 6;
 			this.checkClaimPrimaryRecievedForceSecondaryStatus.Text = "Remove \'Do Nothing\' from the next insurance claims prompt";
 			// 
@@ -256,7 +256,7 @@ namespace OpenPmsDental {
 			this.checkProviderIncomeShows.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkProviderIncomeShows.Location = new System.Drawing.Point(30, 29);
 			this.checkProviderIncomeShows.Name = "checkProviderIncomeShows";
-			this.checkProviderIncomeShows.Size = new System.Drawing.Size(410, 17);
+			this.checkProviderIncomeShows.Size = new System.Drawing.Size(418, 18);
 			this.checkProviderIncomeShows.TabIndex = 1;
 			this.checkProviderIncomeShows.Text = "Show provider income transfer window after entering insurance payment";
 			// 
@@ -265,7 +265,7 @@ namespace OpenPmsDental {
 			this.checkShowClaimPayTracking.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkShowClaimPayTracking.Location = new System.Drawing.Point(30, 86);
 			this.checkShowClaimPayTracking.Name = "checkShowClaimPayTracking";
-			this.checkShowClaimPayTracking.Size = new System.Drawing.Size(410, 17);
+			this.checkShowClaimPayTracking.Size = new System.Drawing.Size(410, 18);
 			this.checkShowClaimPayTracking.TabIndex = 4;
 			this.checkShowClaimPayTracking.Text = "Show Payment Tracking column in the Edit Claim/Payment windows";
 			// 
@@ -274,7 +274,7 @@ namespace OpenPmsDental {
 			this.checkInsEstRecalcReceived.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkInsEstRecalcReceived.Location = new System.Drawing.Point(73, 67);
 			this.checkInsEstRecalcReceived.Name = "checkInsEstRecalcReceived";
-			this.checkInsEstRecalcReceived.Size = new System.Drawing.Size(367, 17);
+			this.checkInsEstRecalcReceived.Size = new System.Drawing.Size(367, 18);
 			this.checkInsEstRecalcReceived.TabIndex = 3;
 			this.checkInsEstRecalcReceived.Text = "Recalculate estimates for received claim procedures";
 			// 
@@ -283,7 +283,7 @@ namespace OpenPmsDental {
 			this.checkClaimTrackingExcludeNone.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkClaimTrackingExcludeNone.Location = new System.Drawing.Point(100, 10);
 			this.checkClaimTrackingExcludeNone.Name = "checkClaimTrackingExcludeNone";
-			this.checkClaimTrackingExcludeNone.Size = new System.Drawing.Size(340, 17);
+			this.checkClaimTrackingExcludeNone.Size = new System.Drawing.Size(340, 18);
 			this.checkClaimTrackingExcludeNone.TabIndex = 0;
 			this.checkClaimTrackingExcludeNone.Text = "Exclude \'None\' as an option on Custom Tracking Status";
 			// 

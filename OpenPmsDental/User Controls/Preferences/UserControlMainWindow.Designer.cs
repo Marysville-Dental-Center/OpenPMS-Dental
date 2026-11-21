@@ -73,7 +73,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelTimeSpan.Location = new System.Drawing.Point(123, 38);
 			this.labelTimeSpan.Name = "labelTimeSpan";
-			this.labelTimeSpan.Size = new System.Drawing.Size(234, 19);
+			this.labelTimeSpan.Size = new System.Drawing.Size(235, 19);
 			this.labelTimeSpan.TabIndex = 43;
 			this.labelTimeSpan.Text = "Default timespan (hh:mm:ss) until disabled";
 			this.labelTimeSpan.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -89,7 +89,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelDays.Location = new System.Drawing.Point(187, 12);
 			this.labelDays.Name = "labelDays";
-			this.labelDays.Size = new System.Drawing.Size(197, 17);
+			this.labelDays.Size = new System.Drawing.Size(203, 17);
 			this.labelDays.TabIndex = 41;
 			this.labelDays.Text = "Default number of days until disabled";
 			this.labelDays.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -144,7 +144,7 @@ namespace OpenPmsDental {
 			this.checkRefresh.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkRefresh.Location = new System.Drawing.Point(34, 19);
 			this.checkRefresh.Name = "checkRefresh";
-			this.checkRefresh.Size = new System.Drawing.Size(403, 17);
+			this.checkRefresh.Size = new System.Drawing.Size(416, 17);
 			this.checkRefresh.TabIndex = 202;
 			this.checkRefresh.Text = "New computers default to ‘Refresh while typing’ in Select Patient window";
 			// 
@@ -153,7 +153,7 @@ namespace OpenPmsDental {
 			this.checkPrefFName.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkPrefFName.Location = new System.Drawing.Point(55, 36);
 			this.checkPrefFName.Name = "checkPrefFName";
-			this.checkPrefFName.Size = new System.Drawing.Size(382, 17);
+			this.checkPrefFName.Size = new System.Drawing.Size(395, 18);
 			this.checkPrefFName.TabIndex = 79;
 			this.checkPrefFName.Text = "Search for preferred name in first name field in Select Patient window";
 			// 
@@ -187,7 +187,7 @@ namespace OpenPmsDental {
 			this.checkUseClinicAbbr.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkUseClinicAbbr.Location = new System.Drawing.Point(6, 96);
 			this.checkUseClinicAbbr.Name = "checkUseClinicAbbr";
-			this.checkUseClinicAbbr.Size = new System.Drawing.Size(431, 17);
+			this.checkUseClinicAbbr.Size = new System.Drawing.Size(431, 18);
 			this.checkUseClinicAbbr.TabIndex = 233;
 			this.checkUseClinicAbbr.Text = "Use clinic abbreviation in main title bar (clinics must be turned on)";
 			// 

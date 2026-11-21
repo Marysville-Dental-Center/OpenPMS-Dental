@@ -91,7 +91,7 @@ namespace OpenPmsDental {
 			this.checkApptModuleProductionUsesOps.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkApptModuleProductionUsesOps.Location = new System.Drawing.Point(34, 27);
 			this.checkApptModuleProductionUsesOps.Name = "checkApptModuleProductionUsesOps";
-			this.checkApptModuleProductionUsesOps.Size = new System.Drawing.Size(406, 17);
+			this.checkApptModuleProductionUsesOps.Size = new System.Drawing.Size(406, 18);
 			this.checkApptModuleProductionUsesOps.TabIndex = 309;
 			this.checkApptModuleProductionUsesOps.Text = "Appointments Module production uses operatories";
 			// 
@@ -120,7 +120,7 @@ namespace OpenPmsDental {
 			this.labelApptProvChangePrompt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelApptProvChangePrompt.Location = new System.Drawing.Point(23, 164);
 			this.labelApptProvChangePrompt.Name = "labelApptProvChangePrompt";
-			this.labelApptProvChangePrompt.Size = new System.Drawing.Size(213, 17);
+			this.labelApptProvChangePrompt.Size = new System.Drawing.Size(214, 17);
 			this.labelApptProvChangePrompt.TabIndex = 329;
 			this.labelApptProvChangePrompt.Text = "Appointment provider change behavior";
 			this.labelApptProvChangePrompt.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -173,7 +173,7 @@ namespace OpenPmsDental {
 			this.checkApptAllowFutureComplete.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkApptAllowFutureComplete.Location = new System.Drawing.Point(34, 44);
 			this.checkApptAllowFutureComplete.Name = "checkApptAllowFutureComplete";
-			this.checkApptAllowFutureComplete.Size = new System.Drawing.Size(406, 17);
+			this.checkApptAllowFutureComplete.Size = new System.Drawing.Size(406, 18);
 			this.checkApptAllowFutureComplete.TabIndex = 311;
 			this.checkApptAllowFutureComplete.Text = "Allow setting future appointments complete";
 			// 
@@ -183,7 +183,7 @@ namespace OpenPmsDental {
 			this.checkUnscheduledListNoRecalls.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkUnscheduledListNoRecalls.Location = new System.Drawing.Point(34, 140);
 			this.checkUnscheduledListNoRecalls.Name = "checkUnscheduledListNoRecalls";
-			this.checkUnscheduledListNoRecalls.Size = new System.Drawing.Size(406, 17);
+			this.checkUnscheduledListNoRecalls.Size = new System.Drawing.Size(406, 18);
 			this.checkUnscheduledListNoRecalls.TabIndex = 318;
 			this.checkUnscheduledListNoRecalls.Text = "Do not allow recall appointments on the Unscheduled List";
 			// 
@@ -203,7 +203,7 @@ namespace OpenPmsDental {
 			this.checkApptMirrorSecondary.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkApptMirrorSecondary.Location = new System.Drawing.Point(34, 185);
 			this.checkApptMirrorSecondary.Name = "checkApptMirrorSecondary";
-			this.checkApptMirrorSecondary.Size = new System.Drawing.Size(406, 17);
+			this.checkApptMirrorSecondary.Size = new System.Drawing.Size(406, 18);
 			this.checkApptMirrorSecondary.TabIndex = 330;
 			this.checkApptMirrorSecondary.Text = "New appointments mirror into the secondary provider's operatory";
 			// 
@@ -212,7 +212,7 @@ namespace OpenPmsDental {
 			this.labelApptWithoutProcsDefaultLength.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelApptWithoutProcsDefaultLength.Location = new System.Drawing.Point(80, 68);
 			this.labelApptWithoutProcsDefaultLength.Name = "labelApptWithoutProcsDefaultLength";
-			this.labelApptWithoutProcsDefaultLength.Size = new System.Drawing.Size(319, 17);
+			this.labelApptWithoutProcsDefaultLength.Size = new System.Drawing.Size(320, 17);
 			this.labelApptWithoutProcsDefaultLength.TabIndex = 313;
 			this.labelApptWithoutProcsDefaultLength.Text = "Appointment without procedures default length in minutes";
 			this.labelApptWithoutProcsDefaultLength.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -223,7 +223,7 @@ namespace OpenPmsDental {
 			this.checkPreventChangesToComplAppts.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkPreventChangesToComplAppts.Location = new System.Drawing.Point(34, 106);
 			this.checkPreventChangesToComplAppts.Name = "checkPreventChangesToComplAppts";
-			this.checkPreventChangesToComplAppts.Size = new System.Drawing.Size(406, 17);
+			this.checkPreventChangesToComplAppts.Size = new System.Drawing.Size(416, 17);
 			this.checkPreventChangesToComplAppts.TabIndex = 321;
 			this.checkPreventChangesToComplAppts.Text = "Prevent changes to completed appointments with completed procedures";
 			// 
@@ -274,7 +274,7 @@ namespace OpenPmsDental {
 			this.labelApptAutoRefreshRange.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelApptAutoRefreshRange.Location = new System.Drawing.Point(36, 42);
 			this.labelApptAutoRefreshRange.Name = "labelApptAutoRefreshRange";
-			this.labelApptAutoRefreshRange.Size = new System.Drawing.Size(333, 17);
+			this.labelApptAutoRefreshRange.Size = new System.Drawing.Size(334, 17);
 			this.labelApptAutoRefreshRange.TabIndex = 319;
 			this.labelApptAutoRefreshRange.Text = "Number of days out to automatically refresh Appointments Module";
 			this.labelApptAutoRefreshRange.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -295,7 +295,7 @@ namespace OpenPmsDental {
 			this.checkApptTimeReset.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkApptTimeReset.Location = new System.Drawing.Point(34, 65);
 			this.checkApptTimeReset.Name = "checkApptTimeReset";
-			this.checkApptTimeReset.Size = new System.Drawing.Size(406, 17);
+			this.checkApptTimeReset.Size = new System.Drawing.Size(406, 18);
 			this.checkApptTimeReset.TabIndex = 306;
 			this.checkApptTimeReset.Text = "Reset calendar to today on Clinic select";
 			// 
@@ -357,7 +357,7 @@ namespace OpenPmsDental {
 			this.checkBrokenApptRequiredOnMove.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkBrokenApptRequiredOnMove.Location = new System.Drawing.Point(34, 103);
 			this.checkBrokenApptRequiredOnMove.Name = "checkBrokenApptRequiredOnMove";
-			this.checkBrokenApptRequiredOnMove.Size = new System.Drawing.Size(406, 17);
+			this.checkBrokenApptRequiredOnMove.Size = new System.Drawing.Size(406, 18);
 			this.checkBrokenApptRequiredOnMove.TabIndex = 323;
 			this.checkBrokenApptRequiredOnMove.Text = "Force users to break scheduled appointments before rescheduling";
 			// 
@@ -367,7 +367,7 @@ namespace OpenPmsDental {
 			this.checkBrokenApptAdjustment.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkBrokenApptAdjustment.Location = new System.Drawing.Point(55, 57);
 			this.checkBrokenApptAdjustment.Name = "checkBrokenApptAdjustment";
-			this.checkBrokenApptAdjustment.Size = new System.Drawing.Size(385, 17);
+			this.checkBrokenApptAdjustment.Size = new System.Drawing.Size(385, 18);
 			this.checkBrokenApptAdjustment.TabIndex = 217;
 			this.checkBrokenApptAdjustment.Text = "Make broken appointment adjustment";
 			// 
@@ -398,7 +398,7 @@ namespace OpenPmsDental {
 			this.checkAppointmentMakeRecallSearchesOpenings.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkAppointmentMakeRecallSearchesOpenings.Location = new System.Drawing.Point(34, 10);
 			this.checkAppointmentMakeRecallSearchesOpenings.Name = "checkAppointmentMakeRecallSearchesOpenings";
-			this.checkAppointmentMakeRecallSearchesOpenings.Size = new System.Drawing.Size(406, 17);
+			this.checkAppointmentMakeRecallSearchesOpenings.Size = new System.Drawing.Size(406, 18);
 			this.checkAppointmentMakeRecallSearchesOpenings.TabIndex = 332;
 			this.checkAppointmentMakeRecallSearchesOpenings.Text = "Make Recall automatically searches for openings";
 			//
@@ -407,7 +407,7 @@ namespace OpenPmsDental {
 			this.labelScheduleProvUnassigned.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelScheduleProvUnassigned.Location = new System.Drawing.Point(3, 33);
 			this.labelScheduleProvUnassigned.Name = "labelScheduleProvUnassigned";
-			this.labelScheduleProvUnassigned.Size = new System.Drawing.Size(233, 17);
+			this.labelScheduleProvUnassigned.Size = new System.Drawing.Size(234, 17);
 			this.labelScheduleProvUnassigned.TabIndex = 334;
 			this.labelScheduleProvUnassigned.Text = "Default provider for unassigned operatories";
 			this.labelScheduleProvUnassigned.TextAlign = System.Drawing.ContentAlignment.TopRight;

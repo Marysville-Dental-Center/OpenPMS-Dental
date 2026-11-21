@@ -77,7 +77,7 @@ namespace OpenPmsDental {
 			this.checkShowAllocateUnearnedPaymentPrompt.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkShowAllocateUnearnedPaymentPrompt.Location = new System.Drawing.Point(80, 60);
 			this.checkShowAllocateUnearnedPaymentPrompt.Name = "checkShowAllocateUnearnedPaymentPrompt";
-			this.checkShowAllocateUnearnedPaymentPrompt.Size = new System.Drawing.Size(360, 17);
+			this.checkShowAllocateUnearnedPaymentPrompt.Size = new System.Drawing.Size(364, 18);
 			this.checkShowAllocateUnearnedPaymentPrompt.TabIndex = 307;
 			this.checkShowAllocateUnearnedPaymentPrompt.Text = "Prompt user to allocate unearned income after creating a claim";
 			// 
@@ -87,7 +87,7 @@ namespace OpenPmsDental {
 			this.checkAllowPrepayProvider.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkAllowPrepayProvider.Location = new System.Drawing.Point(135, 10);
 			this.checkAllowPrepayProvider.Name = "checkAllowPrepayProvider";
-			this.checkAllowPrepayProvider.Size = new System.Drawing.Size(305, 17);
+			this.checkAllowPrepayProvider.Size = new System.Drawing.Size(305, 18);
 			this.checkAllowPrepayProvider.TabIndex = 303;
 			this.checkAllowPrepayProvider.Text = "Allow assigning unearned income to providers";
 			// 
@@ -137,7 +137,7 @@ namespace OpenPmsDental {
 			this.checkPayPlanRequireLockForAPR.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkPayPlanRequireLockForAPR.Location = new System.Drawing.Point(13, 210);
 			this.checkPayPlanRequireLockForAPR.Name = "checkPayPlanRequireLockForAPR";
-			this.checkPayPlanRequireLockForAPR.Size = new System.Drawing.Size(427, 17);
+			this.checkPayPlanRequireLockForAPR.Size = new System.Drawing.Size(427, 18);
 			this.checkPayPlanRequireLockForAPR.TabIndex = 322;
 			this.checkPayPlanRequireLockForAPR.Text = "Require permanent lock to save a Payment Plan if there is an APR entered";
 			// checkPayPlansExcludePastActivity
@@ -146,7 +146,7 @@ namespace OpenPmsDental {
 			this.checkPayPlansExcludePastActivity.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkPayPlansExcludePastActivity.Location = new System.Drawing.Point(122, 10);
 			this.checkPayPlansExcludePastActivity.Name = "checkPayPlansExcludePastActivity";
-			this.checkPayPlansExcludePastActivity.Size = new System.Drawing.Size(318, 17);
+			this.checkPayPlansExcludePastActivity.Size = new System.Drawing.Size(318, 18);
 			this.checkPayPlansExcludePastActivity.TabIndex = 310;
 			this.checkPayPlansExcludePastActivity.Text = "Payment Plans exclude past activity by default";
 			// 
@@ -176,7 +176,7 @@ namespace OpenPmsDental {
 			this.checkPayPlansUseSheets.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkPayPlansUseSheets.Location = new System.Drawing.Point(122, 33);
 			this.checkPayPlansUseSheets.Name = "checkPayPlansUseSheets";
-			this.checkPayPlansUseSheets.Size = new System.Drawing.Size(318, 17);
+			this.checkPayPlansUseSheets.Size = new System.Drawing.Size(318, 18);
 			this.checkPayPlansUseSheets.TabIndex = 311;
 			this.checkPayPlansUseSheets.Text = "Pay Plans use Sheets for printing";
 			// 
@@ -186,7 +186,7 @@ namespace OpenPmsDental {
 			this.checkPayPlanSaveSignedPdf.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkPayPlanSaveSignedPdf.Location = new System.Drawing.Point(3, 56);
 			this.checkPayPlanSaveSignedPdf.Name = "checkPayPlanSaveSignedPdf";
-			this.checkPayPlanSaveSignedPdf.Size = new System.Drawing.Size(437, 17);
+			this.checkPayPlanSaveSignedPdf.Size = new System.Drawing.Size(437, 18);
 			this.checkPayPlanSaveSignedPdf.TabIndex = 312;
 			this.checkPayPlanSaveSignedPdf.Text = "In eClipboard and ODTouch, save signed Payment Plans as PDF";
 			// 
@@ -225,7 +225,7 @@ namespace OpenPmsDental {
 			this.checkHideDueNow.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkHideDueNow.Location = new System.Drawing.Point(122, 106);
 			this.checkHideDueNow.Name = "checkHideDueNow";
-			this.checkHideDueNow.Size = new System.Drawing.Size(318, 17);
+			this.checkHideDueNow.Size = new System.Drawing.Size(318, 18);
 			this.checkHideDueNow.TabIndex = 314;
 			this.checkHideDueNow.Text = "Hide \"Due Now\" in Payment Plans Grid";
 			// 
@@ -280,7 +280,7 @@ namespace OpenPmsDental {
 			this.checkOnlinePaymentsMarkAsProcessed.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkOnlinePaymentsMarkAsProcessed.Location = new System.Drawing.Point(80, 152);
 			this.checkOnlinePaymentsMarkAsProcessed.Name = "checkOnlinePaymentsMarkAsProcessed";
-			this.checkOnlinePaymentsMarkAsProcessed.Size = new System.Drawing.Size(360, 17);
+			this.checkOnlinePaymentsMarkAsProcessed.Size = new System.Drawing.Size(360, 18);
 			this.checkOnlinePaymentsMarkAsProcessed.TabIndex = 308;
 			this.checkOnlinePaymentsMarkAsProcessed.Text = "Mark online payments as processed";
 			// 
@@ -290,7 +290,7 @@ namespace OpenPmsDental {
 			this.checkStoreCCTokens.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkStoreCCTokens.Location = new System.Drawing.Point(210, 10);
 			this.checkStoreCCTokens.Name = "checkStoreCCTokens";
-			this.checkStoreCCTokens.Size = new System.Drawing.Size(230, 17);
+			this.checkStoreCCTokens.Size = new System.Drawing.Size(230, 18);
 			this.checkStoreCCTokens.TabIndex = 280;
 			this.checkStoreCCTokens.Text = "Automatically store credit card tokens";
 			// 
@@ -300,7 +300,7 @@ namespace OpenPmsDental {
 			this.checkPaymentCompletedDisableMerchantButtons.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkPaymentCompletedDisableMerchantButtons.Location = new System.Drawing.Point(96, 129);
 			this.checkPaymentCompletedDisableMerchantButtons.Name = "checkPaymentCompletedDisableMerchantButtons";
-			this.checkPaymentCompletedDisableMerchantButtons.Size = new System.Drawing.Size(344, 17);
+			this.checkPaymentCompletedDisableMerchantButtons.Size = new System.Drawing.Size(344, 18);
 			this.checkPaymentCompletedDisableMerchantButtons.TabIndex = 306;
 			this.checkPaymentCompletedDisableMerchantButtons.Text = "Disable merchant buttons for completed payments";
 			// 
@@ -319,7 +319,7 @@ namespace OpenPmsDental {
 			this.checkIncTxfrTreatNegProdAsIncome.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkIncTxfrTreatNegProdAsIncome.Location = new System.Drawing.Point(13, 106);
 			this.checkIncTxfrTreatNegProdAsIncome.Name = "checkIncTxfrTreatNegProdAsIncome";
-			this.checkIncTxfrTreatNegProdAsIncome.Size = new System.Drawing.Size(427, 17);
+			this.checkIncTxfrTreatNegProdAsIncome.Size = new System.Drawing.Size(427, 18);
 			this.checkIncTxfrTreatNegProdAsIncome.TabIndex = 305;
 			this.checkIncTxfrTreatNegProdAsIncome.Text = "Income transfers treat negative production as income";
 			// 
@@ -329,7 +329,7 @@ namespace OpenPmsDental {
 			this.checkIncomeTransfersLimitToPatPayments.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkIncomeTransfersLimitToPatPayments.Location = new System.Drawing.Point(13, 175);
 			this.checkIncomeTransfersLimitToPatPayments.Name = "checkIncomeTransfersLimitToPatPayments";
-			this.checkIncomeTransfersLimitToPatPayments.Size = new System.Drawing.Size(427, 17);
+			this.checkIncomeTransfersLimitToPatPayments.Size = new System.Drawing.Size(427, 18);
 			this.checkIncomeTransfersLimitToPatPayments.TabIndex = 309;
 			this.checkIncomeTransfersLimitToPatPayments.Text = "Limit manual income transfers to the amount of patient payments";
 			// 
@@ -350,7 +350,7 @@ namespace OpenPmsDental {
 			this.checkAllowEmailCCReceipt.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkAllowEmailCCReceipt.Location = new System.Drawing.Point(230, 83);
 			this.checkAllowEmailCCReceipt.Name = "checkAllowEmailCCReceipt";
-			this.checkAllowEmailCCReceipt.Size = new System.Drawing.Size(210, 17);
+			this.checkAllowEmailCCReceipt.Size = new System.Drawing.Size(210, 18);
 			this.checkAllowEmailCCReceipt.TabIndex = 292;
 			this.checkAllowEmailCCReceipt.Text = "Allow emailing credit card receipts";
 			// 
@@ -360,7 +360,7 @@ namespace OpenPmsDental {
 			this.checkPaymentsPromptForPayType.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkPaymentsPromptForPayType.Location = new System.Drawing.Point(170, 60);
 			this.checkPaymentsPromptForPayType.Name = "checkPaymentsPromptForPayType";
-			this.checkPaymentsPromptForPayType.Size = new System.Drawing.Size(270, 17);
+			this.checkPaymentsPromptForPayType.Size = new System.Drawing.Size(270, 18);
 			this.checkPaymentsPromptForPayType.TabIndex = 284;
 			this.checkPaymentsPromptForPayType.Text = "Payments prompt for Payment Type";
 			this.checkPaymentsPromptForPayType.Click += new System.EventHandler(this.checkPaymentsPromptForPayType_Click);
@@ -371,7 +371,7 @@ namespace OpenPmsDental {
 			this.checkPayPlanItemDateShowProc.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkPayPlanItemDateShowProc.Location = new System.Drawing.Point(100, 233);
 			this.checkPayPlanItemDateShowProc.Name = "checkPayPlanItemDateShowProc";
-			this.checkPayPlanItemDateShowProc.Size = new System.Drawing.Size(340, 17);
+			this.checkPayPlanItemDateShowProc.Size = new System.Drawing.Size(340, 18);
 			this.checkPayPlanItemDateShowProc.TabIndex = 331;
 			this.checkPayPlanItemDateShowProc.Text = "Use date of production as date showing";
 			// 

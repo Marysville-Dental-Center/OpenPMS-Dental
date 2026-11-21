@@ -228,7 +228,7 @@
 			this.labelDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.labelDate.Location = new System.Drawing.Point(8, 45);
 			this.labelDate.Name = "labelDate";
-			this.labelDate.Size = new System.Drawing.Size(96, 14);
+			this.labelDate.Size = new System.Drawing.Size(96, 17);
 			this.labelDate.TabIndex = 0;
 			this.labelDate.Text = "Date";
 			this.labelDate.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -274,6 +274,7 @@
 			// 
 			// textProc
 			// 
+			this.textProc.AutoSize = false;
 			this.textProc.Location = new System.Drawing.Point(106, 61);
 			this.textProc.Name = "textProc";
 			this.textProc.ReadOnly = true;
@@ -303,7 +304,7 @@
 			// 
 			this.label6.Location = new System.Drawing.Point(2, 81);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(103, 16);
+			this.label6.Size = new System.Drawing.Size(103, 18);
 			this.label6.TabIndex = 13;
 			this.label6.Text = "Description";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -311,6 +312,7 @@
 			// textDesc
 			// 
 			this.textDesc.BackColor = System.Drawing.SystemColors.Control;
+			this.textDesc.AutoSize = false;
 			this.textDesc.Location = new System.Drawing.Point(106, 81);
 			this.textDesc.Name = "textDesc";
 			this.textDesc.Size = new System.Drawing.Size(284, 20);
@@ -580,7 +582,7 @@
 			this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label9.Location = new System.Drawing.Point(403, 53);
 			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(100, 14);
+			this.label9.Size = new System.Drawing.Size(100, 18);
 			this.label9.TabIndex = 45;
 			this.label9.Text = "Provider";
 			this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -589,7 +591,7 @@
 			// 
 			this.labelDx.Location = new System.Drawing.Point(5, 242);
 			this.labelDx.Name = "labelDx";
-			this.labelDx.Size = new System.Drawing.Size(100, 14);
+			this.labelDx.Size = new System.Drawing.Size(100, 18);
 			this.labelDx.TabIndex = 46;
 			this.labelDx.Text = "Diagnosis";
 			this.labelDx.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -686,6 +688,7 @@
 			// 
 			// textTimeStart
 			// 
+			this.textTimeStart.AutoSize = false;
 			this.textTimeStart.Location = new System.Drawing.Point(236, 41);
 			this.textTimeStart.Name = "textTimeStart";
 			this.textTimeStart.Size = new System.Drawing.Size(55, 20);
@@ -703,6 +706,7 @@
 			// 
 			// textDate
 			// 
+			this.textDate.AutoSize = false;
 			this.textDate.Location = new System.Drawing.Point(106, 41);
 			this.textDate.Name = "textDate";
 			this.textDate.Size = new System.Drawing.Size(76, 20);
@@ -721,6 +725,7 @@
 			// 
 			// textDateTP
 			// 
+			this.textDateTP.AutoSize = false;
 			this.textDateTP.Location = new System.Drawing.Point(106, 21);
 			this.textDateTP.Name = "textDateTP";
 			this.textDateTP.Size = new System.Drawing.Size(76, 20);
@@ -730,7 +735,7 @@
 			// 
 			this.label27.Location = new System.Drawing.Point(34, 25);
 			this.label27.Name = "label27";
-			this.label27.Size = new System.Drawing.Size(70, 14);
+			this.label27.Size = new System.Drawing.Size(70, 18);
 			this.label27.TabIndex = 98;
 			this.label27.Text = "Date TP";
 			this.label27.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -768,6 +773,7 @@
 			// 
 			// textDateEntry
 			// 
+			this.textDateEntry.AutoSize = false;
 			this.textDateEntry.Location = new System.Drawing.Point(106, 1);
 			this.textDateEntry.Name = "textDateEntry";
 			this.textDateEntry.ReadOnly = true;
@@ -785,6 +791,7 @@
 			// 
 			// textProcFee
 			// 
+			this.textProcFee.AutoSize = false;
 			this.textProcFee.Location = new System.Drawing.Point(106, 192);
 			this.textProcFee.MaxVal = 100000000D;
 			this.textProcFee.MinVal = -100000000D;
@@ -797,7 +804,7 @@
 			// 
 			this.labelStartTime.Location = new System.Drawing.Point(181, 44);
 			this.labelStartTime.Name = "labelStartTime";
-			this.labelStartTime.Size = new System.Drawing.Size(56, 14);
+			this.labelStartTime.Size = new System.Drawing.Size(62, 17);
 			this.labelStartTime.TabIndex = 0;
 			this.labelStartTime.Text = "Time Start";
 			this.labelStartTime.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -861,6 +868,7 @@
 			// 
 			// textDrugQty
 			// 
+			this.textDrugQty.AutoSize = false;
 			this.textDrugQty.Location = new System.Drawing.Point(123, 148);
 			this.textDrugQty.Name = "textDrugQty";
 			this.textDrugQty.Size = new System.Drawing.Size(59, 20);
@@ -886,6 +894,7 @@
 			// 
 			// textDrugNDC
 			// 
+			this.textDrugNDC.AutoSize = false;
 			this.textDrugNDC.Location = new System.Drawing.Point(123, 107);
 			this.textDrugNDC.Name = "textDrugNDC";
 			this.textDrugNDC.ReadOnly = true;
@@ -910,6 +919,7 @@
 			// 
 			// textRevCode
 			// 
+			this.textRevCode.AutoSize = false;
 			this.textRevCode.Location = new System.Drawing.Point(123, 87);
 			this.textRevCode.MaxLength = 48;
 			this.textRevCode.Name = "textRevCode";
@@ -927,6 +937,7 @@
 			// 
 			// textUnitQty
 			// 
+			this.textUnitQty.AutoSize = false;
 			this.textUnitQty.Location = new System.Drawing.Point(123, 46);
 			this.textUnitQty.MaxLength = 15;
 			this.textUnitQty.Name = "textUnitQty";
@@ -953,6 +964,7 @@
 			// 
 			// textCodeMod3
 			// 
+			this.textCodeMod3.AutoSize = false;
 			this.textCodeMod3.Location = new System.Drawing.Point(181, 26);
 			this.textCodeMod3.MaxLength = 2;
 			this.textCodeMod3.Name = "textCodeMod3";
@@ -962,6 +974,7 @@
 			// 
 			// textCodeMod2
 			// 
+			this.textCodeMod2.AutoSize = false;
 			this.textCodeMod2.Location = new System.Drawing.Point(152, 26);
 			this.textCodeMod2.MaxLength = 2;
 			this.textCodeMod2.Name = "textCodeMod2";
@@ -980,6 +993,7 @@
 			// 
 			// textCodeMod1
 			// 
+			this.textCodeMod1.AutoSize = false;
 			this.textCodeMod1.Location = new System.Drawing.Point(123, 26);
 			this.textCodeMod1.MaxLength = 2;
 			this.textCodeMod1.Name = "textCodeMod1";
@@ -992,7 +1006,7 @@
 			this.checkIsPrincDiag.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkIsPrincDiag.Location = new System.Drawing.Point(336, 27);
 			this.checkIsPrincDiag.Name = "checkIsPrincDiag";
-			this.checkIsPrincDiag.Size = new System.Drawing.Size(178, 17);
+			this.checkIsPrincDiag.Size = new System.Drawing.Size(178, 18);
 			this.checkIsPrincDiag.TabIndex = 101;
 			this.checkIsPrincDiag.Text = "Princ Diag";
 			// 
@@ -1007,6 +1021,7 @@
 			// 
 			// textDiagnosisCode
 			// 
+			this.textDiagnosisCode.AutoSize = false;
 			this.textDiagnosisCode.Location = new System.Drawing.Point(501, 62);
 			this.textDiagnosisCode.Name = "textDiagnosisCode";
 			this.textDiagnosisCode.Size = new System.Drawing.Size(76, 20);
@@ -1023,6 +1038,7 @@
 			// 
 			// textMedicalCode
 			// 
+			this.textMedicalCode.AutoSize = false;
 			this.textMedicalCode.Location = new System.Drawing.Point(123, 6);
 			this.textMedicalCode.Name = "textMedicalCode";
 			this.textMedicalCode.Size = new System.Drawing.Size(76, 20);
@@ -1061,7 +1077,7 @@
 			// 
 			this.labelPriority.Location = new System.Drawing.Point(32, 263);
 			this.labelPriority.Name = "labelPriority";
-			this.labelPriority.Size = new System.Drawing.Size(72, 16);
+			this.labelPriority.Size = new System.Drawing.Size(72, 18);
 			this.labelPriority.TabIndex = 56;
 			this.labelPriority.Text = "Priority";
 			this.labelPriority.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1070,7 +1086,7 @@
 			// 
 			this.labelSetComplete.Location = new System.Drawing.Point(723, 9);
 			this.labelSetComplete.Name = "labelSetComplete";
-			this.labelSetComplete.Size = new System.Drawing.Size(157, 16);
+			this.labelSetComplete.Size = new System.Drawing.Size(161, 18);
 			this.labelSetComplete.TabIndex = 58;
 			this.labelSetComplete.Text = "changes date and adds note.";
 			// 
@@ -1090,7 +1106,7 @@
 			this.labelIncomplete.ForeColor = System.Drawing.Color.DarkRed;
 			this.labelIncomplete.Location = new System.Drawing.Point(547, 115);
 			this.labelIncomplete.Name = "labelIncomplete";
-			this.labelIncomplete.Size = new System.Drawing.Size(155, 18);
+			this.labelIncomplete.Size = new System.Drawing.Size(155, 19);
 			this.labelIncomplete.TabIndex = 73;
 			this.labelIncomplete.Text = "Incomplete";
 			this.labelIncomplete.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1155,6 +1171,7 @@
 			// 
 			// textUser
 			// 
+			this.textUser.AutoSize = false;
 			this.textUser.Location = new System.Drawing.Point(504, 137);
 			this.textUser.Name = "textUser";
 			this.textUser.ReadOnly = true;
@@ -1172,7 +1189,7 @@
 			// 
 			this.labelBillingTypeTwo.Location = new System.Drawing.Point(15, 35);
 			this.labelBillingTypeTwo.Name = "labelBillingTypeTwo";
-			this.labelBillingTypeTwo.Size = new System.Drawing.Size(102, 16);
+			this.labelBillingTypeTwo.Size = new System.Drawing.Size(102, 18);
 			this.labelBillingTypeTwo.TabIndex = 103;
 			this.labelBillingTypeTwo.Text = "Billing Type 2";
 			this.labelBillingTypeTwo.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1188,7 +1205,7 @@
 			// 
 			this.labelBillingTypeOne.Location = new System.Drawing.Point(13, 14);
 			this.labelBillingTypeOne.Name = "labelBillingTypeOne";
-			this.labelBillingTypeOne.Size = new System.Drawing.Size(104, 16);
+			this.labelBillingTypeOne.Size = new System.Drawing.Size(104, 18);
 			this.labelBillingTypeOne.TabIndex = 105;
 			this.labelBillingTypeOne.Text = "Billing Type 1";
 			this.labelBillingTypeOne.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1196,6 +1213,7 @@
 			// textSite
 			// 
 			this.textSite.AcceptsReturn = true;
+			this.textSite.AutoSize = false;
 			this.textSite.Location = new System.Drawing.Point(119, 77);
 			this.textSite.Name = "textSite";
 			this.textSite.ReadOnly = true;
@@ -1224,7 +1242,7 @@
 			// 
 			this.label3.Location = new System.Drawing.Point(2, 14);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(90, 41);
+			this.label3.Size = new System.Drawing.Size(90, 44);
 			this.label3.TabIndex = 0;
 			this.label3.Text = "Crown, Bridge, Denture, or RPD";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -1233,7 +1251,7 @@
 			// 
 			this.label4.Location = new System.Drawing.Point(5, 61);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(84, 16);
+			this.label4.Size = new System.Drawing.Size(84, 18);
 			this.label4.TabIndex = 4;
 			this.label4.Text = "Original Date";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -1263,12 +1281,13 @@
 			// 
 			this.checkIsDateProsthEst.Location = new System.Drawing.Point(169, 61);
 			this.checkIsDateProsthEst.Name = "checkIsDateProsthEst";
-			this.checkIsDateProsthEst.Size = new System.Drawing.Size(96, 16);
+			this.checkIsDateProsthEst.Size = new System.Drawing.Size(96, 18);
 			this.checkIsDateProsthEst.TabIndex = 181;
 			this.checkIsDateProsthEst.Text = "Is Estimated";
 			// 
 			// textDateOriginalProsth
 			// 
+			this.textDateOriginalProsth.AutoSize = false;
 			this.textDateOriginalProsth.Location = new System.Drawing.Point(91, 58);
 			this.textDateOriginalProsth.Name = "textDateOriginalProsth";
 			this.textDateOriginalProsth.Size = new System.Drawing.Size(73, 20);
@@ -1278,7 +1297,7 @@
 			// 
 			this.checkTypeCodeA.Location = new System.Drawing.Point(10, 16);
 			this.checkTypeCodeA.Name = "checkTypeCodeA";
-			this.checkTypeCodeA.Size = new System.Drawing.Size(268, 17);
+			this.checkTypeCodeA.Size = new System.Drawing.Size(274, 17);
 			this.checkTypeCodeA.TabIndex = 0;
 			this.checkTypeCodeA.Text = "Not initial placement.  Repair of a prior service.";
 			// 
@@ -1318,7 +1337,7 @@
 			// 
 			this.checkTypeCodeX.Location = new System.Drawing.Point(10, 118);
 			this.checkTypeCodeX.Name = "checkTypeCodeX";
-			this.checkTypeCodeX.Size = new System.Drawing.Size(239, 17);
+			this.checkTypeCodeX.Size = new System.Drawing.Size(239, 18);
 			this.checkTypeCodeX.TabIndex = 5;
 			this.checkTypeCodeX.Text = "None of the above are applicable";
 			// 
@@ -1394,7 +1413,7 @@
 			// 
 			this.labelClaimNote.Location = new System.Drawing.Point(0, 364);
 			this.labelClaimNote.Name = "labelClaimNote";
-			this.labelClaimNote.Size = new System.Drawing.Size(104, 41);
+			this.labelClaimNote.Size = new System.Drawing.Size(104, 52);
 			this.labelClaimNote.TabIndex = 174;
 			this.labelClaimNote.Text = "E-claim Note (keep it very short)";
 			this.labelClaimNote.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -1584,7 +1603,7 @@
 			this.checkIsEmergency.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkIsEmergency.Location = new System.Drawing.Point(6, 169);
 			this.checkIsEmergency.Name = "checkIsEmergency";
-			this.checkIsEmergency.Size = new System.Drawing.Size(130, 17);
+			this.checkIsEmergency.Size = new System.Drawing.Size(130, 18);
 			this.checkIsEmergency.TabIndex = 301;
 			this.checkIsEmergency.Text = "Is Emergency";
 			// 
@@ -1652,7 +1671,7 @@
 			this.checkIcdVersion.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkIcdVersion.Location = new System.Drawing.Point(336, 43);
 			this.checkIcdVersion.Name = "checkIcdVersion";
-			this.checkIcdVersion.Size = new System.Drawing.Size(178, 17);
+			this.checkIcdVersion.Size = new System.Drawing.Size(178, 18);
 			this.checkIcdVersion.TabIndex = 287;
 			this.checkIcdVersion.Text = "Use ICD-10 Diagnosis Codes";
 			this.checkIcdVersion.Click += new System.EventHandler(this.checkIcdVersion_Click);
@@ -1731,6 +1750,7 @@
 			// 
 			// textDiagnosisCode2
 			// 
+			this.textDiagnosisCode2.AutoSize = false;
 			this.textDiagnosisCode2.Location = new System.Drawing.Point(501, 82);
 			this.textDiagnosisCode2.Name = "textDiagnosisCode2";
 			this.textDiagnosisCode2.Size = new System.Drawing.Size(76, 20);
@@ -1747,6 +1767,7 @@
 			// 
 			// textDiagnosisCode3
 			// 
+			this.textDiagnosisCode3.AutoSize = false;
 			this.textDiagnosisCode3.Location = new System.Drawing.Point(501, 102);
 			this.textDiagnosisCode3.Name = "textDiagnosisCode3";
 			this.textDiagnosisCode3.Size = new System.Drawing.Size(76, 20);
@@ -1806,6 +1827,7 @@
 			// 
 			// textSnomedBodySite
 			// 
+			this.textSnomedBodySite.AutoSize = false;
 			this.textSnomedBodySite.Location = new System.Drawing.Point(501, 6);
 			this.textSnomedBodySite.Name = "textSnomedBodySite";
 			this.textSnomedBodySite.ReadOnly = true;
@@ -1861,7 +1883,7 @@
 			// 
 			this.label18.Location = new System.Drawing.Point(6, 122);
 			this.label18.Name = "label18";
-			this.label18.Size = new System.Drawing.Size(111, 14);
+			this.label18.Size = new System.Drawing.Size(111, 18);
 			this.label18.TabIndex = 167;
 			this.label18.Text = "Billing Note";
 			this.label18.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1919,6 +1941,7 @@
 			// 
 			// textCanadaLabFee1
 			// 
+			this.textCanadaLabFee1.AutoSize = false;
 			this.textCanadaLabFee1.Location = new System.Drawing.Point(421, 16);
 			this.textCanadaLabFee1.MaxVal = 100000000D;
 			this.textCanadaLabFee1.MinVal = -100000000D;

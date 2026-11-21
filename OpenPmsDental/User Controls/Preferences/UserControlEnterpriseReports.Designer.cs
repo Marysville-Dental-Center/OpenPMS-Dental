@@ -57,7 +57,7 @@ namespace OpenPmsDental {
 			// 
 			this.radioReportServerMiddleTier.Location = new System.Drawing.Point(11, 274);
 			this.radioReportServerMiddleTier.Name = "radioReportServerMiddleTier";
-			this.radioReportServerMiddleTier.Size = new System.Drawing.Size(356, 18);
+			this.radioReportServerMiddleTier.Size = new System.Drawing.Size(356, 20);
 			this.radioReportServerMiddleTier.TabIndex = 237;
 			this.radioReportServerMiddleTier.Text = "Middle Tier";
 			this.radioReportServerMiddleTier.UseVisualStyleBackColor = true;
@@ -67,7 +67,7 @@ namespace OpenPmsDental {
 			this.radioReportServerDirect.Checked = true;
 			this.radioReportServerDirect.Location = new System.Drawing.Point(11, 48);
 			this.radioReportServerDirect.Name = "radioReportServerDirect";
-			this.radioReportServerDirect.Size = new System.Drawing.Size(356, 18);
+			this.radioReportServerDirect.Size = new System.Drawing.Size(356, 20);
 			this.radioReportServerDirect.TabIndex = 236;
 			this.radioReportServerDirect.TabStop = true;
 			this.radioReportServerDirect.Text = "Direct Connection";
@@ -171,6 +171,7 @@ namespace OpenPmsDental {
 			// 
 			// textReportingServerURI
 			// 
+			this.textReportingServerURI.AutoSize = false;
 			this.textReportingServerURI.Location = new System.Drawing.Point(6, 38);
 			this.textReportingServerURI.Name = "textReportingServerURI";
 			this.textReportingServerURI.Size = new System.Drawing.Size(443, 20);
@@ -181,7 +182,7 @@ namespace OpenPmsDental {
 			// 
 			this.label11.Location = new System.Drawing.Point(6, 60);
 			this.label11.Name = "label11";
-			this.label11.Size = new System.Drawing.Size(443, 26);
+			this.label11.Size = new System.Drawing.Size(449, 26);
 			this.label11.TabIndex = 14;
 			this.label11.Text = "The currently logged in user\'s credentials will be used to when accessing the Mid" +
     "dle Tier database.";
