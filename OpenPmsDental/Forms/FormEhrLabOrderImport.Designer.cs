@@ -171,7 +171,7 @@
 			// 
 			this.label9.Location = new System.Drawing.Point(27, 67);
 			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(85, 14);
+			this.label9.Size = new System.Drawing.Size(85, 18);
 			this.label9.TabIndex = 235;
 			this.label9.Text = "Birthdate";
 			this.label9.TextAlign = System.Drawing.ContentAlignment.TopRight;

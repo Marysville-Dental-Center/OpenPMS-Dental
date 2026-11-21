@@ -135,6 +135,7 @@ namespace OpenPmsDental {
 			// 
 			// textWeeks
 			// 
+			this.textWeeks.AutoSize = false;
 			this.textWeeks.Location = new System.Drawing.Point(105, 63);
 			this.textWeeks.MaxVal = 255;
 			this.textWeeks.MinVal = 0;
@@ -153,6 +154,7 @@ namespace OpenPmsDental {
 			// 
 			// textDays
 			// 
+			this.textDays.AutoSize = false;
 			this.textDays.Location = new System.Drawing.Point(105, 85);
 			this.textDays.MaxVal = 255;
 			this.textDays.MinVal = 0;
@@ -358,7 +360,7 @@ namespace OpenPmsDental {
 			this.checkASAP.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkASAP.Location = new System.Drawing.Point(78, 329);
 			this.checkASAP.Name = "checkASAP";
-			this.checkASAP.Size = new System.Drawing.Size(121, 16);
+			this.checkASAP.Size = new System.Drawing.Size(121, 18);
 			this.checkASAP.TabIndex = 185;
 			this.checkASAP.Text = "Schedule ASAP";
 			// 

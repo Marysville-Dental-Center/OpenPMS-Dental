@@ -39,7 +39,7 @@ namespace OpenPmsDental {
 			//
 			this.labelDescription.Location = new System.Drawing.Point(12, 36);
 			this.labelDescription.Name = "labelDescription";
-			this.labelDescription.Size = new System.Drawing.Size(570, 60);
+			this.labelDescription.Size = new System.Drawing.Size(570, 66);
 			this.labelDescription.TabIndex = 1;
 			this.labelDescription.Text = "Sends lab cases from the Edit Lab Case window to Glidewell for a scan from an iTero or Medit scanner, and checks their status, directly with the office\'s own Glidewell account number and API key. Sent: the patient\'s name, patient number, gender and birthdate, the provider\'s number and license number, and the lab case\'s number, instructions and products.";
 			//
@@ -75,7 +75,7 @@ namespace OpenPmsDental {
 			//
 			this.checkBaaOnFile.Location = new System.Drawing.Point(12, 310);
 			this.checkBaaOnFile.Name = "checkBaaOnFile";
-			this.checkBaaOnFile.Size = new System.Drawing.Size(570, 18);
+			this.checkBaaOnFile.Size = new System.Drawing.Size(582, 18);
 			this.checkBaaOnFile.TabIndex = 6;
 			this.checkBaaOnFile.Text = "A signed business associate agreement with Glidewell is on file (required before any patient data is sent)";
 			//

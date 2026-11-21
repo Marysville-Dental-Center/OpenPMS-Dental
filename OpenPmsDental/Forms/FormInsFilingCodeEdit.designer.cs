@@ -147,7 +147,7 @@ namespace OpenPmsDental {
 			this.checkExcludeOtherCoverage.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkExcludeOtherCoverage.Location = new System.Drawing.Point(135, 96);
 			this.checkExcludeOtherCoverage.Name = "checkExcludeOtherCoverage";
-			this.checkExcludeOtherCoverage.Size = new System.Drawing.Size(316, 17);
+			this.checkExcludeOtherCoverage.Size = new System.Drawing.Size(316, 18);
 			this.checkExcludeOtherCoverage.TabIndex = 3;
 			this.checkExcludeOtherCoverage.Text = "Exclude  \'Other Coverage\' on Primary Claims";
 			// 

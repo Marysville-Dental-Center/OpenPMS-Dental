@@ -32,7 +32,7 @@
 			// 
 			this.label7.Location = new System.Drawing.Point(21, 9);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(473, 19);
+			this.label7.Size = new System.Drawing.Size(499, 19);
 			this.label7.TabIndex = 137;
 			this.label7.Text = "This shows the history of the patient\'s payor types and the date ranges that each" +
     " were used.";

@@ -64,6 +64,7 @@ namespace OpenPmsDental {
 			// 
 			this.textEmailAddress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+			this.textEmailAddress.AutoSize = false;
 			this.textEmailAddress.Location = new System.Drawing.Point(109, 33);
 			this.textEmailAddress.MaxLength = 200;
 			this.textEmailAddress.Name = "textEmailAddress";
@@ -98,6 +99,7 @@ namespace OpenPmsDental {
 			// 
 			this.textDescription.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+			this.textDescription.AutoSize = false;
 			this.textDescription.Location = new System.Drawing.Point(109, 12);
 			this.textDescription.MaxLength = 200;
 			this.textDescription.Name = "textDescription";

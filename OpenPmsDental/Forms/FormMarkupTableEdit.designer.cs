@@ -80,7 +80,7 @@ namespace OpenPmsDental{
 			// 
 			this.butColumnInsert.Location = new System.Drawing.Point(8, 79);
 			this.butColumnInsert.Name = "butColumnInsert";
-			this.butColumnInsert.Size = new System.Drawing.Size(71, 24);
+			this.butColumnInsert.Size = new System.Drawing.Size(73, 24);
 			this.butColumnInsert.TabIndex = 33;
 			this.butColumnInsert.Text = "Add Column";
 			this.butColumnInsert.Click += new System.EventHandler(this.butColumnAdd_Click);

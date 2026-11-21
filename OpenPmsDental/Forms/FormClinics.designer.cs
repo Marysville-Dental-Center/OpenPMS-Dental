@@ -94,7 +94,7 @@ namespace OpenPmsDental {
 			this.checkOrderAlphabetical.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkOrderAlphabetical.Location = new System.Drawing.Point(113, 40);
 			this.checkOrderAlphabetical.Name = "checkOrderAlphabetical";
-			this.checkOrderAlphabetical.Size = new System.Drawing.Size(120, 18);
+			this.checkOrderAlphabetical.Size = new System.Drawing.Size(123, 18);
 			this.checkOrderAlphabetical.TabIndex = 16;
 			this.checkOrderAlphabetical.Text = "Order Alphabetical";
 			this.checkOrderAlphabetical.Click += new System.EventHandler(this.checkOrderAlphabetical_Click);

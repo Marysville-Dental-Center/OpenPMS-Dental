@@ -128,7 +128,7 @@
 			// 
 			this.label2.Location = new System.Drawing.Point(6, 45);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(192, 43);
+			this.label2.Size = new System.Drawing.Size(192, 46);
 			this.label2.TabIndex = 23;
 			this.label2.Text = "includes 2 files:\r\nccd.xml - the data\r\nccd.xsl - for human readable viewing";
 			// 

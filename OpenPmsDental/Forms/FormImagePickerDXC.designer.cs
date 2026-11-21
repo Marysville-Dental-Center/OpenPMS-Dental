@@ -83,7 +83,7 @@ namespace OpenPmsDental{
 			this.checkIsXrayMirrored.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkIsXrayMirrored.Location = new System.Drawing.Point(1079, 222);
 			this.checkIsXrayMirrored.Name = "checkIsXrayMirrored";
-			this.checkIsXrayMirrored.Size = new System.Drawing.Size(126, 18);
+			this.checkIsXrayMirrored.Size = new System.Drawing.Size(129, 18);
 			this.checkIsXrayMirrored.TabIndex = 45;
 			this.checkIsXrayMirrored.Text = "Is xray mirror image";
 			// 
@@ -111,7 +111,7 @@ namespace OpenPmsDental{
 			this.labelDateTimeCreate.Location = new System.Drawing.Point(994, 45);
 			this.labelDateTimeCreate.Name = "labelDateTimeCreate";
 			this.labelDateTimeCreate.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-			this.labelDateTimeCreate.Size = new System.Drawing.Size(84, 15);
+			this.labelDateTimeCreate.Size = new System.Drawing.Size(84, 18);
 			this.labelDateTimeCreate.TabIndex = 46;
 			this.labelDateTimeCreate.Text = "Date Created";
 			// 
@@ -129,7 +129,7 @@ namespace OpenPmsDental{
 			this.labelFileName.Location = new System.Drawing.Point(994, 18);
 			this.labelFileName.Name = "labelFileName";
 			this.labelFileName.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-			this.labelFileName.Size = new System.Drawing.Size(84, 15);
+			this.labelFileName.Size = new System.Drawing.Size(84, 18);
 			this.labelFileName.TabIndex = 44;
 			this.labelFileName.Text = "File Name";
 			// 
@@ -139,7 +139,7 @@ namespace OpenPmsDental{
 			this.labelImageType.Location = new System.Drawing.Point(994, 71);
 			this.labelImageType.Name = "labelImageType";
 			this.labelImageType.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-			this.labelImageType.Size = new System.Drawing.Size(84, 15);
+			this.labelImageType.Size = new System.Drawing.Size(84, 18);
 			this.labelImageType.TabIndex = 42;
 			this.labelImageType.Text = "Image Type";
 			// 
@@ -148,7 +148,7 @@ namespace OpenPmsDental{
 			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.label1.Location = new System.Drawing.Point(1021, 268);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(135, 13);
+			this.label1.Size = new System.Drawing.Size(135, 16);
 			this.label1.TabIndex = 48;
 			this.label1.Text = "Claim Validation Status";
 			// 

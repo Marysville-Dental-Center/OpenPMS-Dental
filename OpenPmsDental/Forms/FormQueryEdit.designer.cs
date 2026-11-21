@@ -57,7 +57,7 @@ namespace OpenPmsDental {
 			// 
 			this.label2.Location = new System.Drawing.Point(13, 64);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(103, 15);
+			this.label2.Size = new System.Drawing.Size(103, 18);
 			this.label2.TabIndex = 2;
 			this.label2.Text = "Query Text";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -67,7 +67,7 @@ namespace OpenPmsDental {
 			this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.label3.Location = new System.Drawing.Point(13, 620);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(118, 16);
+			this.label3.Size = new System.Drawing.Size(118, 17);
 			this.label3.TabIndex = 4;
 			this.label3.Text = "Export File Name";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -129,7 +129,7 @@ namespace OpenPmsDental {
 			this.radioHuman.Checked = true;
 			this.radioHuman.Location = new System.Drawing.Point(6, 20);
 			this.radioHuman.Name = "radioHuman";
-			this.radioHuman.Size = new System.Drawing.Size(125, 18);
+			this.radioHuman.Size = new System.Drawing.Size(125, 22);
 			this.radioHuman.TabIndex = 0;
 			this.radioHuman.TabStop = true;
 			this.radioHuman.Text = "Human-readable";
@@ -138,7 +138,7 @@ namespace OpenPmsDental {
 			// 
 			this.radioRaw.Location = new System.Drawing.Point(6, 43);
 			this.radioRaw.Name = "radioRaw";
-			this.radioRaw.Size = new System.Drawing.Size(104, 18);
+			this.radioRaw.Size = new System.Drawing.Size(104, 22);
 			this.radioRaw.TabIndex = 1;
 			this.radioRaw.Text = "Raw";
 			// 

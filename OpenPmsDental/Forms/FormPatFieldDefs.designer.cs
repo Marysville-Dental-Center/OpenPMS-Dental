@@ -102,7 +102,7 @@ namespace OpenPmsDental {
 			this.checkDisplayRenamed.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
 			this.checkDisplayRenamed.Location = new System.Drawing.Point(18, 77);
 			this.checkDisplayRenamed.Name = "checkDisplayRenamed";
-			this.checkDisplayRenamed.Size = new System.Drawing.Size(370, 15);
+			this.checkDisplayRenamed.Size = new System.Drawing.Size(370, 19);
 			this.checkDisplayRenamed.TabIndex = 162;
 			this.checkDisplayRenamed.TabStop = false;
 			this.checkDisplayRenamed.Text = "Display patient fields that have been renamed or hidden";

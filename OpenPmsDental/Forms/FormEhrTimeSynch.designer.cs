@@ -48,7 +48,7 @@ namespace OpenPmsDental{
 			// 
 			this.label2.Location = new System.Drawing.Point(25, 78);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(106, 20);
+			this.label2.Size = new System.Drawing.Size(112, 20);
 			this.label2.TabIndex = 81;
 			this.label2.Text = "NIST server address";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -222,7 +222,7 @@ namespace OpenPmsDental{
 			this.labelTimeSyncWarn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.labelTimeSyncWarn.Location = new System.Drawing.Point(137, 344);
 			this.labelTimeSyncWarn.Name = "labelTimeSyncWarn";
-			this.labelTimeSyncWarn.Size = new System.Drawing.Size(380, 44);
+			this.labelTimeSyncWarn.Size = new System.Drawing.Size(380, 52);
 			this.labelTimeSyncWarn.TabIndex = 96;
 			this.labelTimeSyncWarn.Text = "Runs on the database server's computer and shows an alert when its clock is more than 5 seconds off the tim" +
     "e server. It never sets the clock. Takes effect at the next start.";

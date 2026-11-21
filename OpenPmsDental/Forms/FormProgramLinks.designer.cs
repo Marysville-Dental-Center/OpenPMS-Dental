@@ -44,7 +44,7 @@ namespace OpenPmsDental {
 			// 
 			this.label2.Location = new System.Drawing.Point(15, 8);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(400, 17);
+			this.label2.Size = new System.Drawing.Size(406, 17);
 			this.label2.TabIndex = 43;
 			this.label2.Text = "Double-click a program in the list below to enable it or change its settings.";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -54,7 +54,7 @@ namespace OpenPmsDental {
 			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.label1.Location = new System.Drawing.Point(97, 630);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(144, 29);
+			this.label1.Size = new System.Drawing.Size(253, 29);
 			this.label1.TabIndex = 44;
 			this.label1.Text = "only used for custom bridges not listed above";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;

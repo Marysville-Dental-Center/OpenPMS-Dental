@@ -182,6 +182,7 @@ namespace OpenPmsDental {
 			// textAmountTo
 			// 
 			this.textAmountTo.ForeColor = System.Drawing.SystemColors.WindowText;
+			this.textAmountTo.AutoSize = false;
 			this.textAmountTo.Location = new System.Drawing.Point(656, 32);
 			this.textAmountTo.MaxVal = 100000000D;
 			this.textAmountTo.MinVal = -100000000D;

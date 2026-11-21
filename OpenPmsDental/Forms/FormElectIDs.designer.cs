@@ -80,7 +80,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelCommBridge.Location = new System.Drawing.Point(7, 16);
 			this.labelCommBridge.Name = "labelCommBridge";
-			this.labelCommBridge.Size = new System.Drawing.Size(84, 13);
+			this.labelCommBridge.Size = new System.Drawing.Size(84, 17);
 			this.labelCommBridge.TabIndex = 280;
 			this.labelCommBridge.Text = "CommBridge";
 			this.labelCommBridge.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

@@ -157,7 +157,7 @@ namespace OpenPmsDental {
 			// 
 			this.label21.Location = new System.Drawing.Point(382, 284);
 			this.label21.Name = "label21";
-			this.label21.Size = new System.Drawing.Size(283, 16);
+			this.label21.Size = new System.Drawing.Size(283, 18);
 			this.label21.TabIndex = 130;
 			this.label21.Text = "(custom lab slips may be added in Sheets)";
 			this.label21.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -280,7 +280,7 @@ namespace OpenPmsDental {
 			this.checkIsHidden.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkIsHidden.Location = new System.Drawing.Point(14, 262);
 			this.checkIsHidden.Name = "checkIsHidden";
-			this.checkIsHidden.Size = new System.Drawing.Size(104, 17);
+			this.checkIsHidden.Size = new System.Drawing.Size(104, 18);
 			this.checkIsHidden.TabIndex = 143;
 			this.checkIsHidden.Text = "Is Hidden";
 			// 

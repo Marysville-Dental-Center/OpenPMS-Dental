@@ -43,7 +43,7 @@ namespace OpenPmsDental {
 			//
 			this.labelEnabled.Location = new System.Drawing.Point(38, 34);
 			this.labelEnabled.Name = "labelEnabled";
-			this.labelEnabled.Size = new System.Drawing.Size(400, 58);
+			this.labelEnabled.Size = new System.Drawing.Size(400, 67);
 			this.labelEnabled.TabIndex = 1;
 			this.labelEnabled.Text = "When a procedure whose code has default materials is completed, the Materials used window opens, and what is confirmed" +
     " there is deducted from stock. Low-stock and expiring alerts are raised. While it is off, nothing opens and nothing is deducted.";
@@ -52,7 +52,7 @@ namespace OpenPmsDental {
 			//
 			this.labelExpiryDays.Location = new System.Drawing.Point(20, 102);
 			this.labelExpiryDays.Name = "labelExpiryDays";
-			this.labelExpiryDays.Size = new System.Drawing.Size(220, 18);
+			this.labelExpiryDays.Size = new System.Drawing.Size(224, 18);
 			this.labelExpiryDays.TabIndex = 2;
 			this.labelExpiryDays.Text = "Expiring alert, days before the expiry date";
 			this.labelExpiryDays.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

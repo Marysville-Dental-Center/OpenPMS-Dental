@@ -42,7 +42,7 @@ namespace OpenPmsDental{
 			// 
 			this.label2.Location = new System.Drawing.Point(16, 5);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(393, 33);
+			this.label2.Size = new System.Drawing.Size(689, 33);
 			this.label2.TabIndex = 13;
 			this.label2.Text = "Setup clinic, practice, user, and group email addresses here.\r\nIndividual user in" +
     "boxes can also be setup in File | User Email Address.";
@@ -63,7 +63,7 @@ namespace OpenPmsDental{
 			// 
 			this.label1.Location = new System.Drawing.Point(6, 12);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(90, 91);
+			this.label1.Size = new System.Drawing.Size(90, 94);
 			this.label1.TabIndex = 12;
 			this.label1.Text = "Highlight an email address in the grid, then use one of these buttons.  Not requi" +
     "red.";
@@ -160,7 +160,7 @@ namespace OpenPmsDental{
 			this.checkEmailDisclaimer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.checkEmailDisclaimer.Location = new System.Drawing.Point(158, 504);
 			this.checkEmailDisclaimer.Name = "checkEmailDisclaimer";
-			this.checkEmailDisclaimer.Size = new System.Drawing.Size(185, 17);
+			this.checkEmailDisclaimer.Size = new System.Drawing.Size(185, 18);
 			this.checkEmailDisclaimer.TabIndex = 14;
 			this.checkEmailDisclaimer.Text = "Include Opt-Out Statement";
 			this.checkEmailDisclaimer.CheckedChanged += new System.EventHandler(this.checkEmailDisclaimer_CheckedChanged);

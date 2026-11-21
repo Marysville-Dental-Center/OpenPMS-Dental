@@ -59,7 +59,7 @@ namespace OpenPmsDental{
 			// 
 			this.label1.Location = new System.Drawing.Point(12, 59);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(300, 18);
+			this.label1.Size = new System.Drawing.Size(311, 18);
 			this.label1.TabIndex = 6;
 			this.label1.Text = "Step 1.  Choose the most recent backup of this database.";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -164,7 +164,7 @@ namespace OpenPmsDental{
 			// 
 			this.label7.Location = new System.Drawing.Point(318, 40);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(205, 18);
+			this.label7.Size = new System.Drawing.Size(206, 18);
 			this.label7.TabIndex = 17;
 			this.label7.Text = "Fix duplicate supplemental payments";
 			this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -204,7 +204,7 @@ namespace OpenPmsDental{
 			this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.label5.Location = new System.Drawing.Point(9, 16);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(131, 74);
+			this.label5.Size = new System.Drawing.Size(131, 77);
 			this.label5.TabIndex = 13;
 			this.label5.Text = "Step 5.  Make a backup.  A backup must be made before any of the buttons at the r" +
     "ight will be available.";

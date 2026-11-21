@@ -54,7 +54,7 @@ namespace OpenPmsDental {
 			this.checkPrompt.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkPrompt.Location = new System.Drawing.Point(47, 113);
 			this.checkPrompt.Name = "checkPrompt";
-			this.checkPrompt.Size = new System.Drawing.Size(83, 15);
+			this.checkPrompt.Size = new System.Drawing.Size(83, 19);
 			this.checkPrompt.TabIndex = 24;
 			this.checkPrompt.Text = "Prompt";
 			// 
@@ -79,7 +79,7 @@ namespace OpenPmsDental {
 			this.checkVirtualPrinter.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkVirtualPrinter.Location = new System.Drawing.Point(-3, 144);
 			this.checkVirtualPrinter.Name = "checkVirtualPrinter";
-			this.checkVirtualPrinter.Size = new System.Drawing.Size(133, 15);
+			this.checkVirtualPrinter.Size = new System.Drawing.Size(133, 19);
 			this.checkVirtualPrinter.TabIndex = 171;
 			this.checkVirtualPrinter.Text = "Virtual Printer";
 			// 
@@ -133,7 +133,7 @@ namespace OpenPmsDental {
 			// 
 			this.label11.Location = new System.Drawing.Point(134, 108);
 			this.label11.Name = "label11";
-			this.label11.Size = new System.Drawing.Size(368, 31);
+			this.label11.Size = new System.Drawing.Size(382, 31);
 			this.label11.TabIndex = 177;
 			this.label11.Text = "It is recommended to use the prompt option for most functions.  But if you are us" +
     "ing a default, it is not necessary to check the box";
@@ -150,7 +150,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelExtensionNote.Location = new System.Drawing.Point(186, 166);
 			this.labelExtensionNote.Name = "labelExtensionNote";
-			this.labelExtensionNote.Size = new System.Drawing.Size(233, 33);
+			this.labelExtensionNote.Size = new System.Drawing.Size(329, 33);
 			this.labelExtensionNote.TabIndex = 179;
 			this.labelExtensionNote.Text = "The file extension the selected virtual printer writes to (i.e. pdf, xps, etc.)";
 			//

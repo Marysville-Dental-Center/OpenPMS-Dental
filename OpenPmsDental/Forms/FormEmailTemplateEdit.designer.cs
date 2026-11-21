@@ -256,7 +256,7 @@ namespace OpenPmsDental {
 			// 
 			this.label4.Location = new System.Drawing.Point(2, 2);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(78, 40);
+			this.label4.Size = new System.Drawing.Size(78, 52);
 			this.label4.TabIndex = 44;
 			this.label4.Text = "Add \r\nReplacement \r\nFields";
 			// 
