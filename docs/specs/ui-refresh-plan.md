@@ -1504,6 +1504,7 @@ own 26.2 overlap check before it starts. The first cut is below; a brief that fi
   snapshot and the bounds record.
 - Gallery: G-UI3, the slice's windows drawn in the new font through the token override (5.4), before and after the fixes, and the
   "needs the owner" list.
+- **Status UI-10-1 (2026-11-21).** Done on `ui/ui10-1` (`docs/port-notes/UI-10.md`), not merged yet, waiting for G-UI3 (`.git/od-tools/test-results/G-UI3-ui101`, rendered off screen): FormPatientEdit, FormProvEdit, FormClaimEdit, FormProcEdit, ControlAccount and the 28 preference pages (30 designer files edited, 546 controls in `fit-fixes.tsv`: 399 size, 147 `AutoSize` off with an explicit size). In the slice's windows the scan's new overflows at 100% fall from 392 to 86 (54 of them for the owner, with pictures; 32 are 1-2 px of height with the ink inside) and the self-sizing overlaps from 135 to 10 (controls of other designers: `ODDatePicker`, `DashIndividualDiscount`). The scan's TSVs for every file: `tests/UiRefreshTests/Data/fit-scan.tsv`, `fit-scan-files.tsv`; the tool `tools/UiFit/fit_tools.py`.
 
 **UI-2b: the flip**
 - Before the flip: pin the inherited-font sites the UI-2a-4..n slices list (docs/port-notes/UI-2a.md, 'the UI-2b checklist'), such as
