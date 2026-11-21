@@ -114,7 +114,7 @@ namespace CodeBase {
 			return bitmap;
 		}
 
-		///<summary>This thread's path of the design at the drawn size, at (0,0).</summary>
+		///<summary>This thread's path of the design in a box of the drawn size at (0,0), placed by GetPlacement.</summary>
 		private static GraphicsPath GetPathCached(IconDesign iconDesign,int sizeDraw) {
 			if(_dictPaths==null) {
 				_dictPaths=new Dictionary<PathKey,GraphicsPath>();
@@ -131,7 +131,8 @@ namespace CodeBase {
 				_dictPaths.Clear();
 			}
 			graphicsPath=new GraphicsPath(FillMode.Winding);
-			iconDesign.GetFigures().WriteTo(new GdiPathSink(graphicsPath),0,0,(float)sizeDraw/iconDesign.Size);
+			GetPlacement(iconDesign,sizeDraw,out float offset,out float scale);
+			iconDesign.GetFigures().WriteTo(new GdiPathSink(graphicsPath),offset,offset,scale);
 			_dictPaths.Add(pathKey,graphicsPath);
 			return graphicsPath;
 		}

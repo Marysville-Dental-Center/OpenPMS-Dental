@@ -14,7 +14,8 @@ file byte for byte.
 
 The file holds the UiGlyph enum (the manifest's UiGlyph rows, in manifest order, after None), the DentalIcon enum (the custom
 dental icons of package UI-8, the manifest's DentalIcon rows, likewise) and IconData's table: one row per design with its enum,
-name, colour role, size, file name, the SVG's SHA-256 and the path data. The renderer (CodeBase/UI/Icons/
+name, colour role, size, file name, the SVG's SHA-256 and the path data, and, for a row with an opticalScale (an EnumIcons row whose
+glyph Fluent draws smaller than its neighbours; the UI-9b-4 fix, docs/port-notes/UI-9b.md, section 5.8), that scale. The renderer (CodeBase/UI/Icons/
 UiIcons*.cs) draws the table on GDI+, Direct2D and WPF.
 
 Refused (the script stops with a message): a manifest row with an unknown enum, style, role or size, a duplicate name, a
@@ -57,7 +58,9 @@ $Invariant=[System.Globalization.CultureInfo]::InvariantCulture
 $AllowedEnums=@('UiGlyph','EnumIcons','DentalIcon')
 $AllowedStyles=@('regular','filled')
 $AllowedRoles=@('Text','Accent','Danger','Success','Warning')
-$AllowedSizes=@(12,16,20,24,32,48)
+#28: the Fluent design size that no slot asks for (section 3.5); an EnumIcons row may still name it when its 28 design is the one it draws at
+#every size (the UI-9b-4 fix: Bold, docs/port-notes/UI-9b.md, section 5.8).
+$AllowedSizes=@(12,16,20,24,28,32,48)
 
 function Stop-Generator([string]$message){
 	throw "New-IconData: $message"
@@ -491,6 +494,14 @@ foreach($row in $listRows){
 		if($AllowedSizes -notcontains $sizes[$i]){ Stop-Generator "row '$name': the size $($sizes[$i]) is not one of $($AllowedSizes -join ', ')" }
 		if($i -gt 0 -and $sizes[$i] -le $sizes[$i-1]){ Stop-Generator "row '$name': the sizes are not in rising order" }
 	}
+	#opticalScale (optional; the UI-9b-4 fix): the row's designs are drawn this much larger about their centre. EnumIcons rows only, 1 to 1.5.
+	$opticalScaleText=''
+	if($row.PSObject.Properties.Name -contains 'opticalScale'){
+		$opticalScale=[double]$row.opticalScale
+		if($enum -ne 'EnumIcons'){ Stop-Generator "row '$name': only an EnumIcons row takes an opticalScale" }
+		if($opticalScale -le 1 -or $opticalScale -gt 1.5){ Stop-Generator "row '$name': the opticalScale $opticalScale is not above 1 and at most 1.5" }
+		$opticalScaleText=','+(Format-Number $opticalScale)+'f'
+	}
 	foreach($size in $sizes){
 		if($fluent -ne ''){
 			$fileName=$fluent+'_'+$size+'_'+$style+'.svg'
@@ -506,7 +517,7 @@ foreach($row in $listRows){
 		$filesUsed[$filePath.ToLowerInvariant()]=$true
 		$pathData=Read-SvgPathData $filePath $size
 		$sha256=Get-FileSha256 $filePath
-		[void]$listDesignLines.Add("`t`t`tnew IconDesign(`"$enum`",`"$name`",`"$role`",$size,`"$fileShown`",`"$sha256`",`"$pathData`"),")
+		[void]$listDesignLines.Add("`t`t`tnew IconDesign(`"$enum`",`"$name`",`"$role`",$size,`"$fileShown`",`"$sha256`",`"$pathData`"$opticalScaleText),")
 	}
 	if($enum -eq 'UiGlyph'){
 		if($fluent -ne ''){ $source=$fluent+', '+$style } else { $source='custom '+$custom }
@@ -568,7 +579,7 @@ foreach($line in $listDentalLines){ [void]$lines.Add($line) }
 [void]$lines.Add("`t`tpublic const string MANIFEST_SHA256=`"$manifestSha256`";")
 [void]$lines.Add('')
 [void]$lines.Add("`t`t///<summary>Every design of every manifest row, in manifest order and by rising size: enum, name, colour role, design size, the SVG")
-[void]$lines.Add("`t`t///(under third-party/fluentui-system-icons/icons, or icons/custom), its SHA-256, and its path data.</summary>")
+[void]$lines.Add("`t`t///(under third-party/fluentui-system-icons/icons, or icons/custom), its SHA-256, its path data and, when the row has one, its optical scale.</summary>")
 [void]$lines.Add("`t`tprivate static readonly IconDesign[] _arrayDesigns=new IconDesign[] {")
 foreach($line in $listDesignLines){ [void]$lines.Add($line) }
 [void]$lines.Add("`t`t};")

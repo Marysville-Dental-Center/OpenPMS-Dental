@@ -35,10 +35,19 @@ namespace CodeBase {
 		public readonly string Sha256;
 		///<summary>The path data: M x y, L x y, C x1 y1 x2 y2 x y and Z, separated by spaces, in design pixels.</summary>
 		public readonly string PathData;
+		///<summary>The manifest row's opticalScale (the UI-9b-4 fix, docs/port-notes/UI-9b.md, section 5.8): the design is drawn this much larger about its
+		///centre, so a glyph that Fluent draws smaller than its neighbours (the heading letters: a 14 px cap height in the 24 px design, where the
+		///B and the I have 16) gets the same optical size in a strip. 1 for every other row.</summary>
+		public readonly float OpticalScale;
 		private readonly object _lock=new object();
 		private volatile IconFigures _iconFigures;
 
-		public IconDesign(string enumName,string name,string role,int size,string fileName,string sha256,string pathData) {
+		public IconDesign(string enumName,string name,string role,int size,string fileName,string sha256,string pathData)
+			:this(enumName,name,role,size,fileName,sha256,pathData,1f)
+		{
+		}
+
+		public IconDesign(string enumName,string name,string role,int size,string fileName,string sha256,string pathData,float opticalScale) {
 			EnumName=enumName;
 			Name=name;
 			Role=role;
@@ -46,6 +55,7 @@ namespace CodeBase {
 			FileName=fileName;
 			Sha256=sha256;
 			PathData=pathData;
+			OpticalScale=opticalScale;
 		}
 
 		///<summary>The commands and points of the path data, read once.</summary>
@@ -309,15 +319,28 @@ namespace CodeBase {
 			return arrayDesignsByGlyph[index];
 		}
 
-		///<summary>The design drawn in a square slot of sizeSlot device pixels (section 3.5): the largest design of the icon that is no larger than
-		///UiTheme.GetIconDesignSize(sizeSlot), never stretched up; when every design is larger than that (a slot below the smallest design), the
-		///smallest, which is then drawn shrunk to the slot. Null when the icon has no design (None).</summary>
+		///<summary>The design drawn in a square slot of sizeSlot device pixels (section 3.5). A control glyph (UiGlyph): the largest design of the icon
+		///that is no larger than UiTheme.GetIconDesignSize(sizeSlot), never stretched up; when every design is larger than that (a slot below the
+		///smallest design), the smallest, which is then drawn shrunk to the slot. An icon of the toolbars, buttons and lists (EnumIcons, DentalIcon;
+		///IsBoxFilled): the design of that size when the icon has one, else the nearest in size (by ratio; a tie takes the larger), which is drawn
+		///scaled to fill the same box (GetPlacement), so every icon of a strip has one size. Null when the icon has no design (None).</summary>
 		public static IconDesign GetDesign(IconDesign[] arrayDesigns,int sizeSlot) {
 			if(arrayDesigns==null || arrayDesigns.Length==0) {
 				return null;
 			}
 			int sizeWanted=UiTheme.GetIconDesignSize(Math.Max(sizeSlot,1));
 			IconDesign iconDesign=arrayDesigns[0];
+			if(IsBoxFilled(iconDesign)) {
+				double ratioBest=double.MaxValue;
+				for(int i=0;i<arrayDesigns.Length;i++) {
+					double ratio=Math.Abs(Math.Log((double)arrayDesigns[i].Size/sizeWanted));
+					if(ratio<=ratioBest+1e-9) {//rising sizes: a tie goes to the larger
+						ratioBest=ratio;
+						iconDesign=arrayDesigns[i];
+					}
+				}
+				return iconDesign;
+			}
 			for(int i=0;i<arrayDesigns.Length;i++) {
 				if(arrayDesigns[i].Size<=sizeWanted) {
 					iconDesign=arrayDesigns[i];
@@ -326,16 +349,76 @@ namespace CodeBase {
 			return iconDesign;
 		}
 
+		///<summary>Whether a design fills its box (the UI-9b-4 fix, docs/port-notes/UI-9b.md, section 5.8): the icons of the toolbars, buttons, lists
+		///and the module bar (EnumIcons and the custom DentalIcon rows) are drawn in the box of the slot (UiTheme.GetIconDesignSize) whatever design
+		///sizes the icon has, scaled by the Fluent keylines (GetLiveSize), so a strip's icons have one optical size and stroke weight at every scale.
+		///The control glyphs (UiGlyph) keep section 3.5's rule: drawn at their design's size, never stretched up.</summary>
+		public static bool IsBoxFilled(IconDesign iconDesign) {
+			return iconDesign!=null && iconDesign.EnumName!="UiGlyph";
+		}
+
+		///<summary>The side of the Fluent keyline square of a design size (its live area): 10 of 12, 14 of 16, 16 of 20, 20 of 24, 24 of 28, 28 of
+		///32 and 40 of 48 px (Fluent pads 1 px at 12 and 16, 2 px at 20 to 32 and 4 px at 48; most icons reach these edges). Other sizes: five sixths.</summary>
+		public static float GetLiveSize(int size) {
+			switch(size) {
+				case 12:
+					return 10;
+				case 16:
+					return 14;
+				case 20:
+					return 16;
+				case 24:
+					return 20;
+				case 28:
+					return 24;
+				case 32:
+					return 28;
+				case 48:
+					return 40;
+				default:
+					return size*5f/6f;
+			}
+		}
+
+		///<summary>Where a design goes in its box of sizeBox device pixels (the square GetDrawRectangle gives): the scale from design pixels and the
+		///offset of the design's corner from the box's corner (the same across and down). A design of the box's size with no optical scale, and every
+		///control glyph, fill the box as before (scale sizeBox/Size, offset 0: the design square is the box). A box-filled design of another size is
+		///scaled so its keyline square fills the box's (GetLiveSize(sizeBox)/GetLiveSize(Size); a box below the smallest Fluent size: sizeBox/Size),
+		///times its OpticalScale, centred.</summary>
+		public static void GetPlacement(IconDesign iconDesign,int sizeBox,out float offset,out float scale) {
+			if(!IsBoxFilled(iconDesign) || (sizeBox==iconDesign.Size && iconDesign.OpticalScale==1f)) {
+				scale=(float)sizeBox/iconDesign.Size;
+				offset=0;
+				return;
+			}
+			if(sizeBox==iconDesign.Size) {
+				scale=1f;
+			}
+			else if(Array.IndexOf(UiTheme.ArrayIconDesignSizes,sizeBox)>=0) {
+				scale=GetLiveSize(sizeBox)/GetLiveSize(iconDesign.Size);
+			}
+			else {
+				scale=(float)sizeBox/iconDesign.Size;
+			}
+			scale*=iconDesign.OpticalScale;
+			offset=(sizeBox-iconDesign.Size*scale)/2f;
+		}
+
 		///<summary>The design of a glyph for a square slot of sizeSlot device pixels (GetDesign). Null for None.</summary>
 		public static IconDesign GetDesign(UiGlyph uiGlyph,int sizeSlot) {
 			return GetDesign(GetDesigns(uiGlyph),sizeSlot);
 		}
 
-		///<summary>The square the design is drawn in, in device pixels: the design's size (or the slot's, when the design is larger), centred in the
-		///slot on whole pixels (the left and top get the smaller half of an odd remainder, as UiTheme.GetIconRectangle).</summary>
+		///<summary>The square the design is drawn in (its box), in device pixels, centred in the slot on whole pixels (the left and top get the smaller
+		///half of an odd remainder, as UiTheme.GetIconRectangle). A control glyph: the design's size (or the slot's, when the design is larger). A
+		///box-filled icon (IsBoxFilled): UiTheme.GetIconDesignSize of the slot (or the slot's, when smaller), the same square for every icon of the
+		///slot, whichever design it draws (GetPlacement).</summary>
 		public static Rectangle GetDrawRectangle(IconDesign iconDesign,Rectangle rectangleSlot) {
 			int sizeSlot=Math.Min(rectangleSlot.Width,rectangleSlot.Height);
 			int size=Math.Min(iconDesign.Size,sizeSlot);
+			if(IsBoxFilled(iconDesign)) {
+				size=Math.Min(UiTheme.GetIconDesignSize(Math.Max(sizeSlot,1)),sizeSlot);
+			}
 			return new Rectangle(rectangleSlot.X+(rectangleSlot.Width-size)/2,rectangleSlot.Y+(rectangleSlot.Height-size)/2,size,size);
 		}
 
@@ -345,14 +428,15 @@ namespace CodeBase {
 			WriteFigures(iconPathSink,iconDesign,rectangleSlot);
 		}
 
-		///<summary>Sends a design to the sink, placed in the slot by GetDrawRectangle, in device pixels. Nothing for null or an empty slot.</summary>
+		///<summary>Sends a design to the sink, placed in the slot by GetDrawRectangle and GetPlacement, in device pixels. Nothing for null or an empty
+		///slot.</summary>
 		public static void WriteFigures(IIconPathSink iconPathSink,IconDesign iconDesign,Rectangle rectangleSlot) {
 			if(iconDesign==null || rectangleSlot.Width<=0 || rectangleSlot.Height<=0) {
 				return;
 			}
 			Rectangle rectangleDraw=GetDrawRectangle(iconDesign,rectangleSlot);
-			float scale=(float)rectangleDraw.Width/iconDesign.Size;
-			iconDesign.GetFigures().WriteTo(iconPathSink,rectangleDraw.X,rectangleDraw.Y,scale);
+			GetPlacement(iconDesign,rectangleDraw.Width,out float offset,out float scale);
+			iconDesign.GetFigures().WriteTo(iconPathSink,rectangleDraw.X+offset,rectangleDraw.Y+offset,scale);
 		}
 
 		///<summary>The default colour of a design: its manifest role as a colour token (Text when the role is not a token).</summary>
