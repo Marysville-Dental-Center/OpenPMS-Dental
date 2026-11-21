@@ -161,7 +161,7 @@
     { "enum": "EnumIcons", "name": "Home", "fluent": "home", "style": "regular", "sizes": [ 16, 20, 24, 32, 48 ], "role": "Text", "purpose": "UI-9b-4: Wiki: Home" },
     { "enum": "EnumIcons", "name": "Rename", "fluent": "rename", "style": "regular", "sizes": [ 16, 20, 24 ], "role": "Text", "purpose": "UI-9b-4: Wiki: Rename" },
     { "enum": "EnumIcons", "name": "History", "fluent": "history", "style": "regular", "sizes": [ 16, 20, 24, 32, 48 ], "role": "Text", "purpose": "UI-9b-4: Wiki: Hist, the page history" },
-    { "enum": "EnumIcons", "name": "Stop", "fluent": "stop", "style": "regular", "sizes": [ 16, 20, 24 ], "role": "Danger", "purpose": "UI-9b-4: Record audio: stop (the red square stop.gif)" },
+    { "enum": "EnumIcons", "name": "Stop", "fluent": "stop", "style": "regular", "sizes": [ 16, 20, 24 ], "role": "Text", "purpose": "UI-9b-4: Record audio: stop (the red square stop.gif)" },
     { "enum": "EnumIcons", "name": "Archive", "fluent": "archive", "style": "regular", "sizes": [ 16, 20, 24, 32, 48 ], "role": "Text", "purpose": "UI-9b-4: Wiki: Archive" },
     { "enum": "DentalIcon", "name": "Tooth", "custom": "tooth", "style": "regular", "sizes": [ 16, 20, 24, 32, 48 ], "role": "Text", "purpose": "the Chart module (module bar: Chart32G at rest; the selected module draws ToothFilled, today Chart32W); a tooth" },
     { "enum": "DentalIcon", "name": "ToothFilled", "custom": "tooth_filled", "style": "filled", "sizes": [ 16, 20, 24, 32, 48 ], "role": "Text", "purpose": "the Chart module (module bar: Chart32G at rest; the selected module draws ToothFilled, today Chart32W); a tooth; the Filled twin (on states: the selected module, a toggled button)" },

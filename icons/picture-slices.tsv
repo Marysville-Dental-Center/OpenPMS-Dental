@@ -39,3 +39,10 @@ UI-9b-3	OpenPmsDental/User Controls	UserControlTasks*,UserControlSecurityTree*
 UI-9b-3b	OpenPmsDental/Forms	FormAutoNote*,FormEmailInbox*,FormSetupWizard*
 UI-9b-3c	OpenPmsDental/User Controls/SetupWizControls	*
 UI-9b-3d	OpenPmsDental/Main Modules	ControlAppt*
+UI-9b-4	OpenPmsDental/Forms	FormAccounting*,FormAccountPick*,FormCareCreditWeb*,FormCDSIntervention*,FormClaimsSend*,FormEhrLabOrderEdit2014*,FormEmailEdit*,FormEtrans835s*,FormJournal*,FormMedical*,FormProcButtonEdit*,FormProcButtons*,FormRecordAudio*,FormSnomeds*,FormTPsign*,FormWebBrowserPrefs*,FormWebView*,FormWiki*
+UI-9b-4b	OpenPmsDental/Forms Reports	FormRpProcOverpaid*,FormRpDPPOvercharged*,FormRpProcNotBilledIns*
+UI-9b-4c	OpenPmsDental/ReportingComplex	FormReportComplex*
+UI-9b-4d	OpenPmsDental/ReportingForRdl	FormReportCustom*,FormReportForRdl*
+UI-9b-4e	OpenPmsDental/UI	FormPrintPreview*
+UI-9b-4f	CentralManager	FormCentralSecurity*
+UI-9b-4g	UnitTests/UI Testing	Form4kTests*,FormTestAllControls*
