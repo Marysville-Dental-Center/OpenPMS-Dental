@@ -170,7 +170,7 @@ namespace OpenPmsDental{
 			this.radioWeekDay.AutoSize = false;
 			this.radioWeekDay.Location = new System.Drawing.Point(270, 35);
 			this.radioWeekDay.Name = "radioWeekDay";
-			this.radioWeekDay.Size = new System.Drawing.Size(105, 18);
+			this.radioWeekDay.Size = new System.Drawing.Size(105, 20);
 			this.radioWeekDay.TabIndex = 23;
 			this.radioWeekDay.Text = "Fixed week day";
 			this.radioWeekDay.UseVisualStyleBackColor = true;
@@ -181,7 +181,7 @@ namespace OpenPmsDental{
 			this.radioDayOfMonth.Checked = true;
 			this.radioDayOfMonth.Location = new System.Drawing.Point(65, 35);
 			this.radioDayOfMonth.Name = "radioDayOfMonth";
-			this.radioDayOfMonth.Size = new System.Drawing.Size(141, 18);
+			this.radioDayOfMonth.Size = new System.Drawing.Size(141, 21);
 			this.radioDayOfMonth.TabIndex = 19;
 			this.radioDayOfMonth.TabStop = true;
 			this.radioDayOfMonth.Text = "Fixed day(s) of month";

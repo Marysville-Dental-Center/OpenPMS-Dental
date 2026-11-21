@@ -230,7 +230,7 @@ namespace OpenPmsDental {
 			this.radioOrderEmp.Checked = true;
 			this.radioOrderEmp.Location = new System.Drawing.Point(6, 15);
 			this.radioOrderEmp.Name = "radioOrderEmp";
-			this.radioOrderEmp.Size = new System.Drawing.Size(77, 22);
+			this.radioOrderEmp.Size = new System.Drawing.Size(77, 24);
 			this.radioOrderEmp.TabIndex = 0;
 			this.radioOrderEmp.TabStop = true;
 			this.radioOrderEmp.Text = "Employer";

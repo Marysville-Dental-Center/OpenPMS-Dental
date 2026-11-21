@@ -127,7 +127,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelPathSameForAll.Location = new System.Drawing.Point(7, 4);
 			this.labelPathSameForAll.Name = "labelPathSameForAll";
-			this.labelPathSameForAll.Size = new System.Drawing.Size(579, 51);
+			this.labelPathSameForAll.Size = new System.Drawing.Size(579, 52);
 			this.labelPathSameForAll.TabIndex = 93;
 			this.labelPathSameForAll.Text = resources.GetString("labelPathSameForAll.Text");
 			this.labelPathSameForAll.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -182,7 +182,7 @@ namespace OpenPmsDental {
 			// 
 			this.radioSftp.Location = new System.Drawing.Point(9, 57);
 			this.radioSftp.Name = "radioSftp";
-			this.radioSftp.Size = new System.Drawing.Size(569, 22);
+			this.radioSftp.Size = new System.Drawing.Size(569, 24);
 			this.radioSftp.TabIndex = 103;
 			this.radioSftp.Text = "Store images on a server via SSH File Transfer Protocol (SFTP)";
 			this.radioSftp.UseVisualStyleBackColor = true;

@@ -15,7 +15,6 @@ OpenPmsDental/Forms/FormBillingOptions.designer.cs	OpenPmsDental.FormBillingOpti
 OpenPmsDental/Forms/FormBillingOptions.designer.cs	OpenPmsDental.FormBillingOptions	PanelClient/label4	no free space for the whole text (missing 35,0 px after growing into the free space)
 OpenPmsDental/Forms/FormBillingOptions.designer.cs	OpenPmsDental.FormBillingOptions	PanelClient/gridDunning/#0:VScrollBar	an unnamed control inside another control: that control's own layout
 OpenPmsDental/Forms/FormChooseDatabase.Designer.cs	OpenPmsDental.FormChooseDatabase	PanelClient/checkDynamicMode	no free space for the whole text (missing 72,0 px after growing into the free space)
-OpenPmsDental/Forms/FormChooseDatabase.Designer.cs	OpenPmsDental.FormChooseDatabase	PanelClient/label8	the grown size does not fit the free space
 OpenPmsDental/Forms/FormClaimPayEditOld.designer.cs	OpenPmsDental.FormClaimPayEditOld	PanelClient/gridMain/#0:VScrollBar	an unnamed control inside another control: that control's own layout
 OpenPmsDental/Forms/FormEClinicalWorks.designer.cs	OpenPmsDental.FormEClinicalWorks	PanelClient/label8	no free space for the whole text (missing 90,0 px after growing into the free space)
 OpenPmsDental/Forms/FormEClinicalWorks.designer.cs	OpenPmsDental.FormEClinicalWorks	PanelClient/radioModeStandalone	no free space for the whole text (missing 0,1 px after growing into the free space)
@@ -70,6 +69,7 @@ OpenPmsDental/Forms/FormApptSearchAdvanced.designer.cs	OpenPmsDental.FormApptSea
 OpenPmsDental/Forms/FormApptSearchAdvanced.designer.cs	OpenPmsDental.FormApptSearchAdvanced	PanelClient/groupBox2/panel1/radioAfterPM	no free space for the whole text (missing 0,1 px after growing into the free space)
 OpenPmsDental/Forms/FormApptSearchAdvanced.designer.cs	OpenPmsDental.FormApptSearchAdvanced	PanelClient/gridMain/#0:VScrollBar	an unnamed control inside another control: that control's own layout
 OpenPmsDental/Forms/FormCertifications.designer.cs	OpenPmsDental.FormCertifications	PanelClient/gridMain/#0:VScrollBar	an unnamed control inside another control: that control's own layout
+OpenPmsDental/Forms/FormCreditCardEdit.designer.cs	OpenPmsDental.FormCreditCardEdit	PanelClient/groupChargeFrequency/radioWeekDay	no free space for the whole text (missing 0,1 px after growing into the free space)
 OpenPmsDental/Forms/FormCreditCardEdit.designer.cs	OpenPmsDental.FormCreditCardEdit	PanelClient/groupRecurringCharges/label9	no free space for the whole text (missing 3,0 px after growing into the free space)
 OpenPmsDental/Forms/FormDatabaseMaintenance.designer.cs	OpenPmsDental.FormDatabaseMaintenance	PanelClient/tabControlDBM/tabChecks/gridMain/#0:VScrollBar	an unnamed control inside another control: that control's own layout
 OpenPmsDental/Forms/FormDatabaseMaintenance.designer.cs	OpenPmsDental.FormDatabaseMaintenance	PanelClient/tabControlDBM/tabHidden/gridHidden/#0:VScrollBar	an unnamed control inside another control: that control's own layout
@@ -101,8 +101,8 @@ OpenPmsDental/Forms/FormReplicationSetup.designer.cs	OpenPmsDental.FormReplicati
 OpenPmsDental/Forms/FormReplicationSetup.designer.cs	OpenPmsDental.FormReplicationSetup	PanelClient/gridMain/#0:VScrollBar	an unnamed control inside another control: that control's own layout
 OpenPmsDental/Forms/FormWikiListHeaders.designer.cs	OpenPmsDental.FormWikiListHeaders	PanelClient/gridMain/#0:VScrollBar	an unnamed control inside another control: that control's own layout
 OpenPmsDental/Forms/FormWikiListHeaders.designer.cs	OpenPmsDental.FormWikiListHeaders	PanelClient/gridPickList/#0:VScrollBar	an unnamed control inside another control: that control's own layout
+OpenPmsDentalGraph/Concrete/BrokenApptGraphOptionsCtrl.Designer.cs	OpenPmsDentalGraph.BrokenApptGraphOptionsCtrl	groupBox3/radioRunApts	no free space for the whole text (missing 6,2 px after growing into the free space)
 OpenPmsDentalGraph/Concrete/BrokenApptGraphOptionsCtrl.Designer.cs	OpenPmsDentalGraph.BrokenApptGraphOptionsCtrl	groupBox3/comboBrokenProcType	its height comes from the font (ComboBox); no size edit can keep it; it grows into its neighbour
-OpenPmsDentalGraph/Concrete/BrokenApptGraphOptionsCtrl.Designer.cs	OpenPmsDentalGraph.BrokenApptGraphOptionsCtrl	groupBox3/radioRunApts	the grown size does not fit the free space
 CentralManager/FormCentralConnectionGroupEdit.Designer.cs	CentralManager.FormCentralConnectionGroupEdit	gridAvail/#0:VScrollBar	an unnamed control inside another control: that control's own layout
 CentralManager/FormCentralConnectionGroupEdit.Designer.cs	CentralManager.FormCentralConnectionGroupEdit	gridMain/#0:VScrollBar	an unnamed control inside another control: that control's own layout
 OpenPmsDental/Forms Reports/FormRpPPOwriteoffs.designer.cs	OpenPmsDental.FormRpPPOwriteoffs	PanelClient/groupBox3/label5	no free space for the whole text (missing 4,0 px after growing into the free space)

@@ -102,7 +102,7 @@ namespace OpenPmsDental{
 			this.radioSale.Checked = true;
 			this.radioSale.Location = new System.Drawing.Point(5, 19);
 			this.radioSale.Name = "radioSale";
-			this.radioSale.Size = new System.Drawing.Size(45, 18);
+			this.radioSale.Size = new System.Drawing.Size(45, 22);
 			this.radioSale.TabIndex = 0;
 			this.radioSale.TabStop = true;
 			this.radioSale.Text = "Sale";
@@ -113,7 +113,7 @@ namespace OpenPmsDental{
 			this.radioRefund.AutoSize = false;
 			this.radioRefund.Location = new System.Drawing.Point(156, 19);
 			this.radioRefund.Name = "radioRefund";
-			this.radioRefund.Size = new System.Drawing.Size(61, 18);
+			this.radioRefund.Size = new System.Drawing.Size(61, 22);
 			this.radioRefund.TabIndex = 0;
 			this.radioRefund.Text = "Refund";
 			this.radioRefund.UseVisualStyleBackColor = true;
@@ -124,7 +124,7 @@ namespace OpenPmsDental{
 			this.radioAuthorization.AutoSize = false;
 			this.radioAuthorization.Location = new System.Drawing.Point(55, 19);
 			this.radioAuthorization.Name = "radioAuthorization";
-			this.radioAuthorization.Size = new System.Drawing.Size(49, 18);
+			this.radioAuthorization.Size = new System.Drawing.Size(49, 22);
 			this.radioAuthorization.TabIndex = 0;
 			this.radioAuthorization.Text = "Auth";
 			this.radioAuthorization.UseVisualStyleBackColor = true;
@@ -135,7 +135,7 @@ namespace OpenPmsDental{
 			this.radioVoid.AutoSize = false;
 			this.radioVoid.Location = new System.Drawing.Point(106, 19);
 			this.radioVoid.Name = "radioVoid";
-			this.radioVoid.Size = new System.Drawing.Size(48, 18);
+			this.radioVoid.Size = new System.Drawing.Size(48, 22);
 			this.radioVoid.TabIndex = 0;
 			this.radioVoid.Text = "Void";
 			this.radioVoid.UseVisualStyleBackColor = true;
@@ -166,7 +166,7 @@ namespace OpenPmsDental{
 			this.radioWebService.Checked = true;
 			this.radioWebService.Location = new System.Drawing.Point(5, 19);
 			this.radioWebService.Name = "radioWebService";
-			this.radioWebService.Size = new System.Drawing.Size(90, 18);
+			this.radioWebService.Size = new System.Drawing.Size(90, 22);
 			this.radioWebService.TabIndex = 0;
 			this.radioWebService.TabStop = true;
 			this.radioWebService.Text = "Web Service";

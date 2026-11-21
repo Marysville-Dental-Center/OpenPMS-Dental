@@ -135,7 +135,7 @@ namespace OpenPmsDental{
 			// 
 			this.radioCertification.Location = new System.Drawing.Point(6, 43);
 			this.radioCertification.Name = "radioCertification";
-			this.radioCertification.Size = new System.Drawing.Size(99, 22);
+			this.radioCertification.Size = new System.Drawing.Size(99, 24);
 			this.radioCertification.TabIndex = 2;
 			this.radioCertification.Text = "Cert Complete";
 			this.radioCertification.UseVisualStyleBackColor = true;

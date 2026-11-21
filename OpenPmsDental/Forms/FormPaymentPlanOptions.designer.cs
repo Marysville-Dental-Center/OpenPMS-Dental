@@ -58,7 +58,7 @@ namespace OpenPmsDental{
 			// 
 			this.radioQuarterly.Location = new System.Drawing.Point(42, 160);
 			this.radioQuarterly.Name = "radioQuarterly";
-			this.radioQuarterly.Size = new System.Drawing.Size(104, 22);
+			this.radioQuarterly.Size = new System.Drawing.Size(104, 24);
 			this.radioQuarterly.TabIndex = 22;
 			this.radioQuarterly.TabStop = true;
 			this.radioQuarterly.Text = "Quarterly";

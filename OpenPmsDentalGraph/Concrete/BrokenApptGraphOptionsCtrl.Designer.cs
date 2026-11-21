@@ -109,7 +109,7 @@
 			this.radioRunAdjs.AutoSize = false;
 			this.radioRunAdjs.Location = new System.Drawing.Point(6, 80);
 			this.radioRunAdjs.Name = "radioRunAdjs";
-			this.radioRunAdjs.Size = new System.Drawing.Size(91, 18);
+			this.radioRunAdjs.Size = new System.Drawing.Size(91, 22);
 			this.radioRunAdjs.TabIndex = 4;
 			this.radioRunAdjs.Text = "Adjustments";
 			this.radioRunAdjs.UseVisualStyleBackColor = true;
@@ -120,7 +120,7 @@
 			this.radioRunApts.AutoSize = false;
 			this.radioRunApts.Location = new System.Drawing.Point(6, 59);
 			this.radioRunApts.Name = "radioRunApts";
-			this.radioRunApts.Size = new System.Drawing.Size(94, 18);
+			this.radioRunApts.Size = new System.Drawing.Size(94, 20);
 			this.radioRunApts.TabIndex = 1;
 			this.radioRunApts.Text = "Appointments";
 			this.radioRunApts.UseVisualStyleBackColor = true;

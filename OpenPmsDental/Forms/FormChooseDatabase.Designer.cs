@@ -70,7 +70,7 @@ namespace OpenPmsDental{
 			this.label8.AutoSize = false;
 			this.label8.Location = new System.Drawing.Point(374, 401);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(176, 18);
+			this.label8.Size = new System.Drawing.Size(182, 18);
 			this.label8.TabIndex = 39;
 			this.label8.Text = "Advanced: Use connection string";
 			// 

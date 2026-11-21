@@ -150,7 +150,7 @@ namespace OpenPmsDental {
 			this.radioAuto.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.radioAuto.Location = new System.Drawing.Point(39, 10);
 			this.radioAuto.Name = "radioAuto";
-			this.radioAuto.Size = new System.Drawing.Size(139, 22);
+			this.radioAuto.Size = new System.Drawing.Size(139, 24);
 			this.radioAuto.TabIndex = 1;
 			this.radioAuto.TabStop = true;
 			this.radioAuto.Text = "Automatically entered";

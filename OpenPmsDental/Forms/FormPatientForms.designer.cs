@@ -95,7 +95,7 @@ namespace OpenPmsDental{
 			//
 			this.radioSortByDescDateT.Location = new System.Drawing.Point(24, 38);
 			this.radioSortByDescDateT.Name = "radioSortByDescDateT";
-			this.radioSortByDescDateT.Size = new System.Drawing.Size(236, 22);
+			this.radioSortByDescDateT.Size = new System.Drawing.Size(236, 24);
 			this.radioSortByDescDateT.TabIndex = 251;
 			this.radioSortByDescDateT.Text = "Description, then Date/Time";
 			this.radioSortByDescDateT.UseVisualStyleBackColor = true;
