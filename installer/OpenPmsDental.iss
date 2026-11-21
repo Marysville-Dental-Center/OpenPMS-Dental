@@ -52,7 +52,7 @@
 #define ConfigFileName "FreeDentalConfig.xml"
 #define DbSettingsExeName "OpenPmsDentalDbSettings.exe"
 #define EventLogSource "OpenPMS-Dental"
-#define SourceUrl "https://github.com/Marysville-Dental-Center/opendental"
+#define SourceUrl "https://github.com/Marysville-Dental-Center/OpenPMS-Dental"
 #ifndef StagingDir
   #define StagingDir "bin\staging"
 #endif

@@ -516,7 +516,7 @@ namespace ReleaseFlowTests {
 			foreach(Match match in Regex.Matches(iss,@"https?://[^\s'""]+")) {
 				string url=match.Value.TrimEnd(')',':','.',',',';');
 				bool isMicrosoft=url.StartsWith("https://aka.ms/") || url.StartsWith("https://go.microsoft.com/") || url.StartsWith("https://learn.microsoft.com/");
-				bool isSource=url.StartsWith("https://github.com/Marysville-Dental-Center/opendental");
+				bool isSource=url.StartsWith("https://github.com/Marysville-Dental-Center/OpenPMS-Dental");
 				bool isInnoSetupHelp=url=="https://jrsoftware.org/ishelp/index.php?topic=64bitinstallation";
 				Assert.IsTrue(isMicrosoft || isSource || isInnoSetupHelp,"Unexpected address: "+url);
 			}
@@ -981,7 +981,7 @@ namespace ReleaseFlowTests {
 		public void InfoPage_HasTheAttribution_TheSourceLink_AndNotice() {
 			string info=TestPaths.ReadSource("installer","setup-info.txt");
 			StringAssert.Contains(info,ATTRIBUTION);
-			StringAssert.Contains(info,"https://github.com/Marysville-Dental-Center/opendental/tree/v@VERSION@");
+			StringAssert.Contains(info,"https://github.com/Marysville-Dental-Center/OpenPMS-Dental/tree/v@VERSION@");
 			StringAssert.Contains(info,"@NOTICE@");
 			StringAssert.Contains(TestPaths.ReadSource("NOTICE"),ATTRIBUTION,"NOTICE, shown on the same page, starts with it too.");
 			//"Version 2 or later" is the licence of the program's own source files; the installed program, with PDFsharp and MigraDoc, is GPL 3.
@@ -1021,7 +1021,7 @@ namespace ReleaseFlowTests {
 				Assert.IsFalse(license.Contains("Version 2, June 1991"),"Not the GPL version 2.");
 				string info=File.ReadAllText(Path.Combine(folder,"setup-info.txt"));
 				StringAssert.Contains(info,ATTRIBUTION);
-				StringAssert.Contains(info,"https://github.com/Marysville-Dental-Center/opendental/tree/v"+ReleaseVersion());
+				StringAssert.Contains(info,"https://github.com/Marysville-Dental-Center/OpenPMS-Dental/tree/v"+ReleaseVersion());
 				StringAssert.Contains(info.Replace("\r\n","\n"),TestPaths.ReadSource("NOTICE").Replace("\r\n","\n").TrimEnd());
 			}
 			finally {
@@ -1034,7 +1034,7 @@ namespace ReleaseFlowTests {
 			string version=ReleaseVersion();
 			string notes=TestPaths.ReadSource("docs","release-notes","v"+version+".md");
 			StringAssert.Contains(notes,ATTRIBUTION);
-			StringAssert.Contains(notes,"https://github.com/Marysville-Dental-Center/opendental/tree/v"+version);
+			StringAssert.Contains(notes,"https://github.com/Marysville-Dental-Center/OpenPMS-Dental/tree/v"+version);
 			StringAssert.Contains(notes,"OpenPmsDental-"+version+"-Setup.exe");
 		}
 
