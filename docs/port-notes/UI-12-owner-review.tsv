@@ -1,0 +1,39 @@
+picture	size	sha256	gallery	commit	date	answer	note
+UserControlApptGeneral.png	494x660	4b07f6d726ab51a3814b3a20a59343ccc479ca8816990a505f7a58be5a6c690f	G-UI3	6792a43d9	2026-11-21	Change	Recall and Schedule cut off
+FormClaimEdit.png	1156x696	caf09caea20d27d93ff78eb35d3c9d65ccee2995cec85214bfe498129656ade9	G-UI3	6792a43d9	2026-11-21	Change	bad overlay
+owner/UserControlAccountClaimReceive-checkClaimMedReceivedForcePrimaryStatus.png	494x78	4bf1e2eb5370c06406169147892360c82a9b6e040796f8d7aa0f2d3566d102fe	G-UI3	6792a43d9	2026-11-21	Change	checkbox should be aligned on the left
+owner/UserControlAccountClaimReceive-checkNoInitialPrimaryInsMoreThanProc.png	494x78	bbc2b5893119c2028365c0236d37c84258364e24134611724165e45e36c70f0d	G-UI3	6792a43d9	2026-11-21	Change	checkbox should be aligned on the left
+owner/UserControlAccountClaimSend-checkClaimFormTreatDentSaysSigOnFile.png	494x78	1a98fb4b9a2bb0e4f9f3c8ec7f11b2c8707b592d8fbe2c270f201f3d60f8eeb0	G-UI3	6792a43d9	2026-11-21	Change	checkbox should be aligned on the left
+owner/UserControlAccountClaimSend-checkClaimMedTypeIsInstWhenInsPlanIsMedical.png	449x78	4270b175a4f77abbb924c34675473c905fb1242530927821b61843a54bda9e76	G-UI3	6792a43d9	2026-11-21	Change	checkbox should be aligned on the left
+owner/UserControlAccountClaimSend-checkPpoUseUcr.png	445x68	af8e874f8d87f8e9473cab9ba8952f89d79fef01b2063808b32f02f5ea0e41e2	G-UI3	6792a43d9	2026-11-21	Change	checkbox should be aligned on the left
+owner/UserControlAccountRecAndRepCharges-checkRecurPatBal0.png	443x78	01670091c81a8f2cccbf68042e911678338911138270e8f94d348bac22223d28	G-UI3	6792a43d9	2026-11-21	Change	checkbox should be aligned on the left
+owner/UserControlApptAppearance-checkApptExclamation.png	494x78	eff689cbbe6827c16bf8eecd9588270fc6f7ad9ec76018076aed8d6f11cfc125	G-UI3	6792a43d9	2026-11-21	Change	checkbox should be aligned on the left
+owner/UserControlApptAppearance-checkReplaceBlockouts.png	494x78	dacf1336cc5a36c339e0f4ec4b5b07a8107f5ad70e06a323afdf47cd79ba4913	G-UI3	6792a43d9	2026-11-21	Change
+owner/UserControlApptGeneral-checkPreventChangesToComplAppts.png	494x77	f88cc9a5a93ecd0c7824b6ff0f4501374f9be2f1b85efc39918a74a99a581506	G-UI3	6792a43d9	2026-11-21	Change	checkbox should be aligned on the left
+owner/UserControlChartGeneral-checkChartOrthoTabAutomaticCheckboxes.png	470x91	8e78b0ba926e748b8e89506fe5f3915080d50917dae296377bbda4cd7d029aa8	G-UI3	6792a43d9	2026-11-21	Change	checkbox should be aligned on the left
+owner/UserControlChartGeneral-labelIcdCodeDefault.png	412x77	9367f87e3c681aad85043afa392553dc4d837ce8f463766cc16626e5955c71aa	G-UI3	6792a43d9	2026-11-21	Change	text is cut off
+owner/UserControlChartProcedures-checkProcNoteSigsBlocked.png	494x78	458f7c7a016038937054857936fc482d6a6fff20ccea8cda751a264c96ab1dfb	G-UI3	6792a43d9	2026-11-21	Change	checkbox should be aligned on the left
+owner/UserControlFamilyGeneral-checkAutoFillPatEmail.png	494x78	721ed76c8bf749053e036ab64a445e205e1959d89814ea640e4763e7d153ea9e	G-UI3	6792a43d9	2026-11-21	Change	checkbox should be aligned on the left
+owner/UserControlFamilyGeneral-checkFamPhiAccess.png	484x78	5b3d3996b17918f0f6b8161608f975e674eb38a3010e054b442ca27fae8319f2	G-UI3	6792a43d9	2026-11-21	Change	checkbox should be aligned on the left
+owner/UserControlFamilyGeneral-checkPatientPhoneUsePhonenumberTable.png	471x78	03567ccd73c5d9b2dde78fa2dfd59cfd996aaab929949aeddc4ec7cdde436a9a	G-UI3	6792a43d9	2026-11-21	Change	checkbox should be aligned all text boxes
+owner/UserControlFamilyGeneral-checkSameForFamily.png	494x78	840b282401d02f3f37c30efb76c03d30f316e32fdb5391b0de1f21f1a75023c1	G-UI3	6792a43d9	2026-11-21	Change	checkbox should be aligned on the left
+owner/UserControlFamilyInsurance-checkEnableZeroWriteoffOnLimitations.png	494x78	4f0094827bdc45052cc06e43c805b9c4ccd7ea36be43216f42fb671379e824d9	G-UI3	6792a43d9	2026-11-21	Change	checkbox should be aligned on the left
+owner/UserControlMainWindow-checkPrefFName.png	479x78	dd1dc5c72bc7a48ec92d0d19bb12fedef115fe1e8aecbf15f08dfd8c1415bd84	G-UI3	6792a43d9	2026-11-21	Change	too close to the left edge
+owner/UserControlMainWindow-checkRefresh.png	494x77	c628d397c8f8573c704bf1c4daf27abb7a77f59ab8299cce26009c65b488de9d	G-UI3	6792a43d9	2026-11-21	Change	too close to the left edge
+FormPractice.png	891x578	9cf278739aa5ec9c8990458fdb9768cfbefbc5b5b40626ea48ce8d39486eae37	G-UI3	6792a43d9	2026-11-21	Change	text is cut off
+FormProcCodeEdit.png	1072x696	565d08bfe000b1ffe3d39d8fc47b608a8e9976a69168068291cfca3974be780a	G-UI3	6792a43d9	2026-11-21	Change	Text box too big and no spacing
+FormInsBenefits.png	1159x712	7fbc340283024e17cc1c649416c992f4410b381b97544e54c19faf68cfba7baa	G-UI3	6792a43d9	2026-11-21	Change	text box too big lacking spacing
+FormApptEdit.png	1230x698	0c9df330f207c5b418acbb50cb02975ba9dc0e6f9d0797dd156a93327b4ab63d	G-UI3	6792a43d9	2026-11-21	Change	text is cut off and spcing between fields inconsistent
+FormScreenEdit.png	311x488	6c654613713ed515ca334c766ac5c02d4251f8315888c891ba55b70c25a9309d	G-UI3	6792a43d9	2026-11-21	Change	spcing between fields inconsistent
+FormBackup.png	777x582	ec7006aa8568ca81ab5aa72b1340b9d942aec6f57324c1f818129364c11a2b99	G-UI3	6792a43d9	2026-11-21	Change	text is cut off
+FormPayment.png	1111x696	31848c769eb35d31477c96cc018001c9f256bdc5269d19187b5349ce483b917e	G-UI3	6792a43d9	2026-11-21	Change	drop down sytle inconsistent
+FormStatementOptions.png	720x506	339e1c10c970c17e8a915a0c0708387b19f0d3235c0b01d52adc638cef492591	G-UI3	6792a43d9	2026-11-21		check box not aligned on the left
+FormEmailInbox.png	1230x786	94f2f4e68a78e9d3a09461f48922ac8eaa0b4cf1390fd8216d07baa57e43757f	G-UI3	6792a43d9	2026-11-21	Change	view messages got cut off
+ControlChart.png	939x708	e71e3ec10f94004b9c31a7abf17f23bf609faee4016971eff1c4b2014da9dab2	G-UI3	6792a43d9	2026-11-21	Change	procedure buttons alignment not good. progress notes pagination sytling bad
+owner/FormApptEdit-labelQuickAdd.png	263x78	36f28aeb59c7ab83bfcc30c475962ffde19c7142dc04a4123156113642fbf66d	G-UI3	6792a43d9	2026-11-21		text cut off
+owner/FormApptViewEdit-label5.png	307x80	32fceb378370bbca145d6f74c39bee0f54a0c5dc9f7a49cf1af34c28d948f684	G-UI3	6792a43d9	2026-11-21		text cut off
+owner/FormHL7DefEdit-label17.png	313x86	e7ba1b05bc133d55a33ce0902a887bf38b4b40fdd9b46dfca4cbec02f6c67402	G-UI3	6792a43d9	2026-11-21		too much crowding
+owner/FormInsBenefits-label17.png	260x81	204877a31eaf681940ecb66653792b30d03ecb8f3701095355a4f2254921286a	G-UI3	6792a43d9	2026-11-21		text cut off
+owner/FormInsPlan-checkOrthoWaitDays.png	414x81	498f1cba63e551ffc1427f3727797d80c82e3982e47056181ec5aee271eb4b5f	G-UI3	6792a43d9	2026-11-21	Change	text cut off
+owner/FormMedLabEdit-labelPrint.png	338x68	b3c911b9473f7e9b649246a000ed5ee553d9be1f856839bcb6af302aad75aaef	G-UI3	6792a43d9	2026-11-21	Change	text cut off
+owner/FormPractice-label18.png	443x101	a7ad5d008a46ab306287bea03e01c9232ab574478ac2bf024b63d0ccc7ee05a9	G-UI3	6792a43d9	2026-11-21	Change	text cut off
