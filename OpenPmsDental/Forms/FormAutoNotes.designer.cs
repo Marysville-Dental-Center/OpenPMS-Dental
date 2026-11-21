@@ -31,7 +31,6 @@ namespace OpenPmsDental {
 		{
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormAutoNotes));
-			this.imageListTree = new System.Windows.Forms.ImageList(this.components);
 			this.labelSelection = new System.Windows.Forms.Label();
 			this.treeNotes = new System.Windows.Forms.TreeView();
 			this.butAdd = new OpenPmsDental.UI.Button();
@@ -39,13 +38,6 @@ namespace OpenPmsDental {
 			this.butExport = new OpenPmsDental.UI.Button();
 			this.butImport = new OpenPmsDental.UI.Button();
 			this.SuspendLayout();
-			// 
-			// imageListTree
-			// 
-			this.imageListTree.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListTree.ImageStream")));
-			this.imageListTree.TransparentColor = System.Drawing.Color.Transparent;
-			this.imageListTree.Images.SetKeyName(0, "imageFolder");
-			this.imageListTree.Images.SetKeyName(1, "imageText");
 			// 
 			// labelSelection
 			// 
@@ -64,7 +56,6 @@ namespace OpenPmsDental {
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.treeNotes.HideSelection = false;
 			this.treeNotes.ImageIndex = 1;
-			this.treeNotes.ImageList = this.imageListTree;
 			this.treeNotes.Indent = 12;
 			this.treeNotes.Location = new System.Drawing.Point(18, 21);
 			this.treeNotes.Name = "treeNotes";
@@ -144,7 +135,6 @@ namespace OpenPmsDental {
 		private System.Windows.Forms.TreeView treeNotes;
 		private OpenPmsDental.UI.Button butAdd;
 		private Label labelSelection;
-		private ImageList imageListTree;
 		private OpenPmsDental.UI.CheckBox checkCollapse;
 		private UI.Button butExport;
 		private UI.Button butImport;

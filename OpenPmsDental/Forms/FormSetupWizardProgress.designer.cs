@@ -25,21 +25,12 @@ namespace OpenPmsDental{
 		private void InitializeComponent() {
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormSetupWizardProgress));
-			this.imageList1 = new System.Windows.Forms.ImageList(this.components);
 			this.labelTitle = new System.Windows.Forms.Label();
 			this.butNext = new OpenPmsDental.UI.Button();
 			this.butBack = new OpenPmsDental.UI.Button();
 			this.butSkip = new OpenPmsDental.UI.Button();
 			this.panelContent = new System.Windows.Forms.Panel();
 			this.SuspendLayout();
-			// 
-			// imageList1
-			// 
-			this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
-			this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-			this.imageList1.Images.SetKeyName(0, "chevdoubleright.png");
-			this.imageList1.Images.SetKeyName(1, "chevright.png");
-			this.imageList1.Images.SetKeyName(2, "chevLeft.png");
 			// 
 			// labelTitle
 			// 
@@ -55,8 +46,7 @@ namespace OpenPmsDental{
 			// 
 			this.butNext.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butNext.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.butNext.ImageIndex = 1;
-			this.butNext.ImageList = this.imageList1;
+			this.butNext.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.ChevronRight,16,16);
 			this.butNext.Location = new System.Drawing.Point(654, 555);
 			this.butNext.Name = "butNext";
 			this.butNext.Size = new System.Drawing.Size(75, 23);
@@ -69,8 +59,7 @@ namespace OpenPmsDental{
 			// 
 			this.butBack.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butBack.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butBack.ImageIndex = 2;
-			this.butBack.ImageList = this.imageList1;
+			this.butBack.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.ChevronLeft,16,16);
 			this.butBack.Location = new System.Drawing.Point(12, 555);
 			this.butBack.Name = "butBack";
 			this.butBack.Size = new System.Drawing.Size(75, 23);
@@ -83,8 +72,7 @@ namespace OpenPmsDental{
 			// 
 			this.butSkip.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butSkip.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.butSkip.ImageIndex = 0;
-			this.butSkip.ImageList = this.imageList1;
+			this.butSkip.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.ChevronDoubleRight,16,16);
 			this.butSkip.Location = new System.Drawing.Point(735, 555);
 			this.butSkip.Name = "butSkip";
 			this.butSkip.Size = new System.Drawing.Size(75, 23);
@@ -120,7 +108,6 @@ namespace OpenPmsDental{
 		}
 
 		#endregion
-		private System.Windows.Forms.ImageList imageList1;
 		private UI.Button butSkip;
 		private UI.Button butBack;
 		private UI.Button butNext;

@@ -30,7 +30,6 @@
 			this.butImport = new OpenPmsDental.UI.Button();
 			this.butEditFee = new OpenPmsDental.UI.Button();
 			this.labelEdit = new System.Windows.Forms.Label();
-			this.imageList1 = new System.Windows.Forms.ImageList(this.components);
 			this.labelAdd = new System.Windows.Forms.Label();
 			this.labelImport = new System.Windows.Forms.Label();
 			this.SuspendLayout();
@@ -79,7 +78,6 @@
 			// labelEdit
 			// 
 			this.labelEdit.ImageIndex = 0;
-			this.labelEdit.ImageList = this.imageList1;
 			this.labelEdit.Location = new System.Drawing.Point(485, 79);
 			this.labelEdit.Name = "labelEdit";
 			this.labelEdit.Size = new System.Drawing.Size(20, 20);
@@ -88,16 +86,9 @@
 			this.labelEdit.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.labelEdit.Click += new System.EventHandler(this.labelEdit_Click);
 			// 
-			// imageList1
-			// 
-			this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
-			this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-			this.imageList1.Images.SetKeyName(0, "iButton_Blue.png");
-			// 
 			// labelAdd
 			// 
 			this.labelAdd.ImageIndex = 0;
-			this.labelAdd.ImageList = this.imageList1;
 			this.labelAdd.Location = new System.Drawing.Point(485, 26);
 			this.labelAdd.Name = "labelAdd";
 			this.labelAdd.Size = new System.Drawing.Size(20, 20);
@@ -109,7 +100,6 @@
 			// labelImport
 			// 
 			this.labelImport.ImageIndex = 0;
-			this.labelImport.ImageList = this.imageList1;
 			this.labelImport.Location = new System.Drawing.Point(485, 130);
 			this.labelImport.Name = "labelImport";
 			this.labelImport.Size = new System.Drawing.Size(20, 20);
@@ -141,7 +131,6 @@
 		private UI.Button butImport;
 		private UI.Button butEditFee;
 		private System.Windows.Forms.Label labelEdit;
-		private System.Windows.Forms.ImageList imageList1;
 		private System.Windows.Forms.Label labelAdd;
 		private System.Windows.Forms.Label labelImport;
 	}

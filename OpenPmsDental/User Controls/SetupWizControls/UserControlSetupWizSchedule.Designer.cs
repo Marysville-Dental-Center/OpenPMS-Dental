@@ -25,7 +25,6 @@
 		private void InitializeComponent() {
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UserControlSetupWizSchedule));
-			this.imageList1 = new System.Windows.Forms.ImageList(this.components);
 			this.butPrevProv = new OpenPmsDental.UI.Button();
 			this.label2 = new System.Windows.Forms.Label();
 			this.butNextProv = new OpenPmsDental.UI.Button();
@@ -66,12 +65,6 @@
 			this.groupWed.SuspendLayout();
 			this.groupTue.SuspendLayout();
 			this.SuspendLayout();
-			// 
-			// imageList1
-			// 
-			this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
-			this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-			this.imageList1.Images.SetKeyName(0, "iButton_Blue.png");
 			// 
 			// butPrevProv
 			// 
@@ -432,7 +425,6 @@
 		private UI.GridOD gridWednesday;
 		private UI.GridOD gridThursday;
 		private UI.GridOD gridFriday;
-		private System.Windows.Forms.ImageList imageList1;
 		private UI.Button butAddSunday;
 		private UI.Button butAddMonday;
 		private UI.Button butAddTuesday;

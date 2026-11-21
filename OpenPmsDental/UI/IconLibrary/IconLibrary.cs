@@ -156,7 +156,8 @@ namespace OpenPmsDental.UI{
 		ReplyAll,
 		Forward,
 		Search,
-		Inbox
+		Inbox,
+		InfoSelected
 	}
 
 	///<summary></summary>

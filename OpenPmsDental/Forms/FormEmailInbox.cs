@@ -13,6 +13,16 @@ using OpenPmsDental.UI;
 
 namespace OpenPmsDental {
 	public partial class FormEmailInbox:FormODBase {
+		///<summary>The pictures of the small button list by index (UI-9b-3, docs/port-notes/UI-9b.md, section 4): Compose, Refresh, Reply, Search, Reply All,
+		///Forward, as icons in today's order. The six buttons take their icon as a 16 px Image in the designer (the button draws it at the window's
+		///scale), as the other 16 px button pictures (UI-9a); the order is recorded here for plug-ins and a later list.</summary>
+		public static readonly EnumIcons[] ArrayIconsImageListButtons=new EnumIcons[] {
+			EnumIcons.Edit,EnumIcons.Sync,EnumIcons.Reply,EnumIcons.Search,EnumIcons.ReplyAll,EnumIcons.Forward
+		};
+		///<summary>The pictures of the mailboxes list by index (UI-9b-3): the Inbox and the Sent Messages mailbox, as icons, 32 px in the old list. No
+		///code showed this list; it stays at its indexes (never cut an unused feature) for a later list or a plug-in. Build it with
+		///IconLibrary.GetImageList(ArrayIconsImageListMailboxes,LayoutManager.Scale(32)).</summary>
+		public static readonly EnumIcons[] ArrayIconsImageListMailboxes=new EnumIcons[] { EnumIcons.Inbox,EnumIcons.Send };
 		///<summary>Do not access directly.  Instead use AddressInbox.</summary>
 		private EmailAddress _emailAddress=null;
 		private bool _hasBeenScaledForZoom=false;

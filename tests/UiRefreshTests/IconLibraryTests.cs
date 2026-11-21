@@ -31,13 +31,13 @@ namespace UiRefreshTests {
 		private static readonly string[] _arrayModules=new[] { "Appt32","Family32","Account32","TreatPlan32","TreatPlanMed32","Imaging32","Manage32" };
 		///<summary>The EnumIcons members whose own picture is the Filled style (UI-9b-3: a new task and a task list with new tasks, which must differ from the
 		///read ones without colour). They have no Filled twin; the module bar's Filled rows are separate.</summary>
-		private static readonly string[] _arrayFilledStyle=new[] { "TaskNew","TaskListNew" };
+		private static readonly string[] _arrayFilledStyle=new[] { "TaskNew","TaskListNew","InfoSelected" };
 
 		///<summary>UQ-4: the few role colours; every other icon is Text.</summary>
 		private static readonly Dictionary<string,string> _dictRoles=new Dictionary<string,string> {
 			{ "Add","Accent" },{ "Complete","Success" },{ "DeleteX","Danger" },{ "PatDelete","Danger" },{ "BreakAptX","Danger" },
 			//UI-9b-3: the task and permission states keep the meaning the old pictures' colours had (green check, orange new)
-			{ "CheckBoxChecked","Success" },{ "CheckBoxPartial","Success" },{ "TaskNew","Warning" },{ "TaskListNew","Warning" },
+			{ "CheckBoxChecked","Success" },{ "CheckBoxPartial","Success" },{ "TaskNew","Warning" },{ "TaskListNew","Warning" },{ "InfoSelected","Accent" },
 		};
 
 		private static IEnumerable<WinEnumIcons> WinIcons() {
@@ -61,11 +61,11 @@ namespace UiRefreshTests {
 		#region Manifest
 		[TestMethod]
 		public void Manifest_EveryEnumIconsHasARow_TheModulesAFilledRow_TheRolesOfUq4() {
-			Assert.AreEqual(127,WinIcons().Count(),"The WinForms EnumIcons: UI-7b's 38, UI-9a-1's 10 Sync (owner, 2026-11-18) and UI-9a-3's 6, UI-9a-4's 1 and UI-9a-5's 4 (Copy, Paste, ExportExcel, QueryView) and UI-9a-6's 14 (PinOff, Calculator, Backup, Deposit, Insurance, TaskList, Move, TableDeleteRow, TableDeleteColumn, TableInsertRow, TableInsertColumn, ChartAdd, Pen, Signature), and UI-9a-7's 18 (the report designer's toolbar), and UI-9b-1's 8 (Payment, Adjustment, ApptLists, Call, Unscheduled, Rx, Anesthesia, PerioChart: the module toolbars), and UI-9b-2's 13 (the 11 imaging members the WPF enum already had, and Scan, UsbStick: the imaging lists), and UI-9b-3's 14 (CheckBoxEmpty, CheckBoxChecked, CheckBoxPartial, TaskNew, TaskListNew, TaskListAdd, ChevronLeft, ChevronRight, ChevronDoubleRight, Reply, ReplyAll, Forward, Search, Inbox: the other trees).");
-			Assert.AreEqual(127,WpfIcons().Count(),"The WPF EnumIcons: UI-7b's 53, UI-9a-1's 8 Sync (owner, 2026-11-18) and UI-9a-3's 6 and UI-9a-4's 1 and UI-9a-5's 2 and UI-9a-6's 14 and UI-9a-7's 18 and UI-9b-1's 8 and UI-9b-2's 2 (Scan, UsbStick) and UI-9b-3's 14.");
+			Assert.AreEqual(128,WinIcons().Count(),"The WinForms EnumIcons: UI-7b's 38, UI-9a-1's 10 Sync (owner, 2026-11-18) and UI-9a-3's 6, UI-9a-4's 1 and UI-9a-5's 4 (Copy, Paste, ExportExcel, QueryView) and UI-9a-6's 14 (PinOff, Calculator, Backup, Deposit, Insurance, TaskList, Move, TableDeleteRow, TableDeleteColumn, TableInsertRow, TableInsertColumn, ChartAdd, Pen, Signature), and UI-9a-7's 18 (the report designer's toolbar), and UI-9b-1's 8 (Payment, Adjustment, ApptLists, Call, Unscheduled, Rx, Anesthesia, PerioChart: the module toolbars), and UI-9b-2's 13 (the 11 imaging members the WPF enum already had, and Scan, UsbStick: the imaging lists), and UI-9b-3's 15 (InfoSelected and CheckBoxEmpty, CheckBoxChecked, CheckBoxPartial, TaskNew, TaskListNew, TaskListAdd, ChevronLeft, ChevronRight, ChevronDoubleRight, Reply, ReplyAll, Forward, Search, Inbox: the other trees).");
+			Assert.AreEqual(128,WpfIcons().Count(),"The WPF EnumIcons: UI-7b's 53, UI-9a-1's 8 Sync (owner, 2026-11-18) and UI-9a-3's 6 and UI-9a-4's 1 and UI-9a-5's 2 and UI-9a-6's 14 and UI-9a-7's 18 and UI-9b-1's 8 and UI-9b-2's 2 (Scan, UsbStick) and UI-9b-3's 15.");
 			List<IconRendererTests.ManifestRow> listRows=IconRendererTests.ReadManifest().Where(x => x.EnumName=="EnumIcons").ToList();
 			HashSet<string> hashSetMembers=new HashSet<string>(WinIcons().Select(x => x.ToString()).Concat(WpfIcons().Select(x => x.ToString())));
-			Assert.AreEqual(127,hashSetMembers.Count,"Every WinForms member is also a WPF member.");
+			Assert.AreEqual(128,hashSetMembers.Count,"Every WinForms member is also a WPF member.");
 			foreach(string member in hashSetMembers) {
 				IconRendererTests.ManifestRow manifestRow=listRows.SingleOrDefault(x => x.Name==member);
 				if(_dictDentalIcons.ContainsKey(member)) {

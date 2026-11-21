@@ -154,7 +154,8 @@ To add an icon: add the member here (and to the WinForms enum when WinForms draw
 		ReplyAll,
 		Forward,
 		Search,
-		Inbox
+		Inbox,
+		InfoSelected
 	}
 
 	///<summary></summary>
