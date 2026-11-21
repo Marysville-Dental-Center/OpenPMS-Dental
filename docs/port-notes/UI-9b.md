@@ -42,7 +42,7 @@ A list may take more pictures after it is made, by key or by index (the program 
 
 1. Decide each list: a toolbar list becomes `SetImageListIcons(<the purposes in today's index order>)` in the window's constructor, right
    after `InitializeComponent`; a tree or list view list becomes `IconLibrary.GetImageList(<icons>,<DPI size>)` (UI-9b-2, UI-9b-3), built
-   again when the DPI changes; a list of database pictures or content stays (`keep`, 4.5).
+   again when the DPI changes (`IconLibrary.GetImageListForSize`, section 3.0, keeps one list per size); a list of database pictures or content stays (`keep`, 4.5).
 2. Remove the designer's `ImageList` (its field, its `new`, its `ImageStream`, `TransparentColor` and `SetKeyName` lines, the
    `<toolbar>.ImageList = ...` line) and its `.resx` entries (`<list>.ImageStream`, `<list>.TrayLocation`).
 3. Turn each button's index into its `EnumIcons` member. Reuse members where the purpose matches (`icons/README.md`, "The mapping"); a new
