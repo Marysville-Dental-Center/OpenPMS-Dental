@@ -1469,6 +1469,14 @@ own 26.2 overlap check before it starts. The first cut is below; a brief that fi
   the database still show (a test with a synthetic program row); a test toolbar button set by `ImageIndex` still draws its picture; the
   scan rerun after the last slice.
 - Gallery: G-UI3, the slice's windows.
+- **Status UI-9b-1 (2026-11-20).** Done on `ui/ui9b1-1` (`docs/port-notes/UI-9b.md`), not merged yet, waiting for G-UI3
+  (`.git/od-tools/test-results/G-UI3-ui9b1`, rendered off screen). The shared part: the one icon factory `IconLibrary.GetImageList` (through
+  CodeBase's `UiIcons.GetImageList`, the only place an ImageList is made in code) and `ToolBarOD.SetImageListIcons` (a list of icons at the
+  toolbar's scaled 22 px slot, rebuilt at a scale change with the program link and plug-in pictures kept by key and index; a list set through
+  `ImageList` draws as before). The main toolbar and the module toolbars (Appts, Family, Account, Tx Plan, Chart) lose their designer
+  ImageLists and streams; each window's `ArrayIconsImageList` keeps today's `ImageIndex` order as icons, and every index button takes its
+  `EnumIcons`. 8 new `EnumIcons` (Payment, Adjustment, ApptLists, Call, Unscheduled, Rx, Anesthesia; PerioChart draws UI-8's perio chart
+  icon). The procedure button list is kept (4.5), the reminders' task list goes to UI-9b-3. Bounds unchanged.
 
 **UI-10: text fit**
 - Slices: UI-10-1 FormPatientEdit, FormProvEdit, FormClaimEdit, FormProcEdit, ControlAccount and the preference pages (the largest
