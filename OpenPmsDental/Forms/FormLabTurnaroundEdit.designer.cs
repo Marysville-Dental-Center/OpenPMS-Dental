@@ -101,7 +101,7 @@ namespace OpenPmsDental {
 			// 
 			this.label4.Location = new System.Drawing.Point(213, 68);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(174, 44);
+			this.label4.Size = new System.Drawing.Size(174, 50);
 			this.label4.TabIndex = 9;
 			this.label4.Text = "Might be same as days published, or might include travel time.";
 			// 

@@ -226,6 +226,7 @@ namespace OpenPmsDental{
 			// 
 			// textCodeSystemReason
 			// 
+			this.textCodeSystemReason.AutoSize = false;
 			this.textCodeSystemReason.Location = new System.Drawing.Point(98, 60);
 			this.textCodeSystemReason.Name = "textCodeSystemReason";
 			this.textCodeSystemReason.ReadOnly = true;

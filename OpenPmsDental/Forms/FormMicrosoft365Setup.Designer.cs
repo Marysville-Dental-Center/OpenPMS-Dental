@@ -46,7 +46,7 @@ namespace OpenPmsDental {
 			//
 			this.labelDescription.Location = new System.Drawing.Point(12, 36);
 			this.labelDescription.Name = "labelDescription";
-			this.labelDescription.Size = new System.Drawing.Size(496, 44);
+			this.labelDescription.Size = new System.Drawing.Size(496, 52);
 			this.labelDescription.TabIndex = 1;
 			this.labelDescription.Text = "Sends email through Microsoft Graph for addresses set to Microsoft sign-in in Setup > Email, and downloads their inbox when the address asks for that. It uses an app registration in the office\'s own Microsoft Entra tenant. There is no client secret.";
 			//

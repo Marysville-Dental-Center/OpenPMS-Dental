@@ -85,6 +85,7 @@ namespace OpenPmsDental {
 			// 
 			// textPassword
 			// 
+			this.textPassword.AutoSize = false;
 			this.textPassword.Location = new System.Drawing.Point(291, 38);
 			this.textPassword.Name = "textPassword";
 			this.textPassword.PasswordChar = '*';

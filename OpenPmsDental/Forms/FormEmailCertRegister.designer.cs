@@ -86,7 +86,7 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelAddressNote.Location = new System.Drawing.Point(143, 109);
 			this.labelAddressNote.Name = "labelAddressNote";
-			this.labelAddressNote.Size = new System.Drawing.Size(465, 28);
+			this.labelAddressNote.Size = new System.Drawing.Size(477, 28);
 			this.labelAddressNote.TabIndex = 8;
 			this.labelAddressNote.Text = "The certificate is stored for this user name as typed in Edit Email Address. Sending from the address uses it once Edit Email Address is saved with this user name.";
 			//
@@ -241,7 +241,7 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelAnchorExplanation.Location = new System.Drawing.Point(6, 18);
 			this.labelAnchorExplanation.Name = "labelAnchorExplanation";
-			this.labelAnchorExplanation.Size = new System.Drawing.Size(581, 32);
+			this.labelAnchorExplanation.Size = new System.Drawing.Size(590, 32);
 			this.labelAnchorExplanation.TabIndex = 0;
 			this.labelAnchorExplanation.Text = "Direct messages are trusted when the sender\'s certificate was issued under a trust anchor of this computer. Your provider gives you its anchor as a public certificate file.";
 			//

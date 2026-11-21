@@ -107,7 +107,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelPaymentSource.Location = new System.Drawing.Point(309, 69);
 			this.labelPaymentSource.Name = "labelPaymentSource";
-			this.labelPaymentSource.Size = new System.Drawing.Size(100, 16);
+			this.labelPaymentSource.Size = new System.Drawing.Size(100, 18);
 			this.labelPaymentSource.TabIndex = 57;
 			this.labelPaymentSource.Text = "Payment Source";
 			this.labelPaymentSource.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

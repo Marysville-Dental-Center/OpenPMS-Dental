@@ -56,7 +56,7 @@
 			// 
 			this.label1.Location = new System.Drawing.Point(12, 12);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(230, 57);
+			this.label1.Size = new System.Drawing.Size(230, 75);
 			this.label1.TabIndex = 338;
 			this.label1.Text = "These are the file names of the HL7 message text files associated with the select" +
     "ed MedLab.\r\nSelect one to display the message text in the box below.";

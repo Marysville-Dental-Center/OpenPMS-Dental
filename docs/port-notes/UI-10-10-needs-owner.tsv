@@ -1,0 +1,50 @@
+designer_file	window	control	reason
+OpenPmsDental/Forms/FormEhrNotPerformed.designer.cs	OpenPmsDental.FormEhrNotPerformed	PanelClient/gridMain/#0:VScrollBar	an unnamed control inside another control: that control's own layout
+OpenPmsDental/Forms/FormEhrPatientConfidentialPrefEdit.Designer.cs	OpenPmsDental.FormEhrPatientConfidentialPrefEdit	PanelClient/label3	no free space for the whole text (missing 7,0 px after growing into the free space)
+OpenPmsDental/Forms/FormEhrProviderKeys.designer.cs	OpenPmsDental.FormEhrProviderKeys	PanelClient/gridMain/#0:VScrollBar	an unnamed control inside another control: that control's own layout
+OpenPmsDental/Forms/FormEhrVaccinePatEdit.Designer.cs	OpenPmsDental.FormEhrVaccinePatEdit	PanelClient/gridObservations/#0:VScrollBar	an unnamed control inside another control: that control's own layout
+OpenPmsDental/Forms/FormEhrVaccines.Designer.cs	OpenPmsDental.FormEhrVaccines	PanelClient/gridVaccine/#0:VScrollBar	an unnamed control inside another control: that control's own layout
+OpenPmsDental/Forms/FormEmailCertRegister.designer.cs	OpenPmsDental.FormEmailCertRegister	PanelClient/labelAddressNote	no free space for the whole text (missing 369,0 px after growing into the free space)
+OpenPmsDental/Forms/FormEncounters.designer.cs	OpenPmsDental.FormEncounters	PanelClient/gridMain/#0:VScrollBar	an unnamed control inside another control: that control's own layout
+OpenPmsDental/Forms/FormEtrans834Import.designer.cs	OpenPmsDental.FormEtrans834Import	PanelClient/gridInsPlanFiles/#0:VScrollBar	an unnamed control inside another control: that control's own layout
+OpenPmsDental/Forms/FormEtrans835PickEob.designer.cs	OpenPmsDental.FormEtrans835PickEob	PanelClient/gridEobs/#0:VScrollBar	an unnamed control inside another control: that control's own layout
+OpenPmsDental/Forms/FormEtrans835PickEra.designer.cs	OpenPmsDental.FormEtrans835PickEra	PanelClient/gridEras/#0:VScrollBar	an unnamed control inside another control: that control's own layout
+OpenPmsDental/Forms/FormEvaluationDefEdit.designer.cs	OpenPmsDental.FormEvaluationDefEdit	PanelClient/gridMain/#0:VScrollBar	an unnamed control inside another control: that control's own layout
+OpenPmsDental/Forms/FormEvaluationDefs.designer.cs	OpenPmsDental.FormEvaluationDefs	PanelClient/gridMain/#0:VScrollBar	an unnamed control inside another control: that control's own layout
+OpenPmsDental/Forms/FormExamSheets.designer.cs	OpenPmsDental.FormExamSheets	PanelClient/gridMain/#0:VScrollBar	an unnamed control inside another control: that control's own layout
+OpenPmsDental/Forms/FormFileMonitor.designer.cs	OpenPmsDental.FormFileMonitor	PanelClient/gridFeed/#0:VScrollBar	an unnamed control inside another control: that control's own layout
+OpenPmsDental/Forms/FormFilePicker.designer.cs	OpenPmsDental.FormFilePicker	PanelClient/gridMain/#0:VScrollBar	an unnamed control inside another control: that control's own layout
+OpenPmsDental/Forms/FormFormPatEdit.designer.cs	OpenPmsDental.FormFormPatEdit	PanelClient/gridMain/#0:VScrollBar	an unnamed control inside another control: that control's own layout
+OpenPmsDental/Forms/FormGradingScaleEdit.designer.cs	OpenPmsDental.FormGradingScaleEdit	PanelClient/gridMain/#0:VScrollBar	an unnamed control inside another control: that control's own layout
+OpenPmsDental/Forms/FormGradingScales.designer.cs	OpenPmsDental.FormGradingScales	PanelClient/gridMain/#0:VScrollBar	an unnamed control inside another control: that control's own layout
+OpenPmsDental/Forms/FormGridSelection.designer.cs	OpenPmsDental.FormGridSelection	PanelClient/gridMain/#0:VScrollBar	an unnamed control inside another control: that control's own layout
+OpenPmsDental/Forms/FormHL7DefSegmentEdit.designer.cs	OpenPmsDental.FormHL7DefSegmentEdit	PanelClient/gridMain/#0:VScrollBar	an unnamed control inside another control: that control's own layout
+OpenPmsDental/Forms/FormHcpcs.designer.cs	OpenPmsDental.FormHcpcs	PanelClient/gridMain/#0:VScrollBar	an unnamed control inside another control: that control's own layout
+OpenPmsDental/Forms/FormIcd10s.designer.cs	OpenPmsDental.FormIcd10s	PanelClient/gridMain/#0:VScrollBar	an unnamed control inside another control: that control's own layout
+OpenPmsDental/Forms/FormImagePicker.designer.cs	OpenPmsDental.FormImagePicker	PanelClient/gridMain/#0:VScrollBar	an unnamed control inside another control: that control's own layout
+OpenPmsDental/Forms/FormImageSelect.designer.cs	OpenPmsDental.FormImageSelect	PanelClient/gridMain/#0:VScrollBar	an unnamed control inside another control: that control's own layout
+OpenPmsDental/Forms/FormImageSelectClaimAttach.designer.cs	OpenPmsDental.FormImageSelectClaimAttach	PanelClient/gridMain/#0:VScrollBar	an unnamed control inside another control: that control's own layout
+OpenPmsDental/Forms/FormInsBlueBookRules.designer.cs	OpenPmsDental.FormInsBlueBookRules	PanelClient/groupBlueBookSettings/gridInsBlueBookRules/#0:VScrollBar	an unnamed control inside another control: that control's own layout
+OpenPmsDental/Forms/FormInsCatsSetup.designer.cs	OpenPmsDental.FormInsCatsSetup	PanelClient/gridMain/#0:VScrollBar	an unnamed control inside another control: that control's own layout
+OpenPmsDental/Forms/FormInsEditLogs.designer.cs	OpenPmsDental.FormInsEditLogs	PanelClient/gridMain/#0:VScrollBar	an unnamed control inside another control: that control's own layout
+OpenPmsDental/Forms/FormInsFilingCodes.designer.cs	OpenPmsDental.FormInsFilingCodes	PanelClient/gridMain/#0:VScrollBar	an unnamed control inside another control: that control's own layout
+OpenPmsDental/Forms/FormInsPlanSubstitution.designer.cs	OpenPmsDental.FormInsPlanSubstitution	PanelClient/gridMain/#0:VScrollBar	an unnamed control inside another control: that control's own layout
+OpenPmsDental/Forms/FormInsPlansMerge.designer.cs	OpenPmsDental.FormInsPlansMerge	PanelClient/gridMain/#0:VScrollBar	an unnamed control inside another control: that control's own layout
+OpenPmsDental/Forms/FormInsPlansMergeWarning.designer.cs	OpenPmsDental.FormInsPlansMergeWarning	PanelClient/gridMain/#0:VScrollBar	an unnamed control inside another control: that control's own layout
+OpenPmsDental/Forms/FormInterventionEdit.designer.cs	OpenPmsDental.FormInterventionEdit	PanelClient/gridMain/#0:VScrollBar	an unnamed control inside another control: that control's own layout
+OpenPmsDental/Forms/FormInterventions.designer.cs	OpenPmsDental.FormInterventions	PanelClient/gridMain/#0:VScrollBar	an unnamed control inside another control: that control's own layout
+OpenPmsDental/Forms/FormLabCaseSelect.designer.cs	OpenPmsDental.FormLabCaseSelect	PanelClient/gridMain/#0:VScrollBar	an unnamed control inside another control: that control's own layout
+OpenPmsDental/Forms/FormLabCases.designer.cs	OpenPmsDental.FormLabCases	PanelClient/gridMain/#0:VScrollBar	an unnamed control inside another control: that control's own layout
+OpenPmsDental/Forms/FormLaboratories.designer.cs	OpenPmsDental.FormLaboratories	PanelClient/gridMain/#0:VScrollBar	an unnamed control inside another control: that control's own layout
+OpenPmsDental/Forms/FormLoincs.Designer.cs	OpenPmsDental.FormLoincs	PanelClient/gridMain/#0:VScrollBar	an unnamed control inside another control: that control's own layout
+OpenPmsDental/Forms/FormMaintBoard.Designer.cs	OpenPmsDental.FormMaintBoard	PanelClient/gridMain/#0:VScrollBar	an unnamed control inside another control: that control's own layout
+OpenPmsDental/Forms/FormMaterialsUsed.Designer.cs	OpenPmsDental.FormMaterialsUsed	PanelClient/gridMain/#0:VScrollBar	an unnamed control inside another control: that control's own layout
+OpenPmsDental/Forms/FormMedLabResultHist.Designer.cs	OpenPmsDental.FormMedLabResultHist	PanelClient/gridResultHist/#0:VScrollBar	an unnamed control inside another control: that control's own layout
+OpenPmsDental/Forms/FormMedications.designer.cs	OpenPmsDental.FormMedications	PanelClient/gridAllMedications/#0:VScrollBar	an unnamed control inside another control: that control's own layout
+OpenPmsDental/Forms/FormMountDefGenerate.designer.cs	OpenPmsDental.FormMountDefGenerate	PanelClient/label5	no free space for the whole text (missing 0,13 px after growing into the free space)
+OpenPmsDental/Forms/FormMountDefs.designer.cs	OpenPmsDental.FormMountDefs	PanelClient/label1	no free space for the whole text (missing 0,10 px after growing into the free space)
+OpenPmsDental/Forms/FormMultiVisitGroup.designer.cs	OpenPmsDental.FormMultiVisitGroup	PanelClient/gridGroupedProcs/#0:VScrollBar	an unnamed control inside another control: that control's own layout
+OpenPmsDental/Forms/FormNotePick.designer.cs	OpenPmsDental.FormNotePick	PanelClient/gridMain/#0:VScrollBar	an unnamed control inside another control: that control's own layout
+OpenPmsDental/Forms/FormOIDRegistryInternal.Designer.cs	OpenPmsDental.FormOIDRegistryInternal	PanelClient/gridMain/#0:VScrollBar	an unnamed control inside another control: that control's own layout
+OpenPmsDental/Forms/FormOnlinePayments.designer.cs	OpenPmsDental.FormOnlinePayments	PanelClient/gridMain/#0:VScrollBar	an unnamed control inside another control: that control's own layout
+OpenPmsDental/Forms/FormOperatories.designer.cs	OpenPmsDental.FormOperatories	PanelClient/gridMain/#0:VScrollBar	an unnamed control inside another control: that control's own layout

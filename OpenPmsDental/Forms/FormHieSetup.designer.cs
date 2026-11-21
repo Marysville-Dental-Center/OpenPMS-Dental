@@ -69,7 +69,7 @@ namespace OpenPmsDental{
 			this.checkMedicaidOnly.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkMedicaidOnly.Location = new System.Drawing.Point(62, 66);
 			this.checkMedicaidOnly.Name = "checkMedicaidOnly";
-			this.checkMedicaidOnly.Size = new System.Drawing.Size(104, 20);
+			this.checkMedicaidOnly.Size = new System.Drawing.Size(111, 20);
 			this.checkMedicaidOnly.TabIndex = 16;
 			this.checkMedicaidOnly.Text = "Is Medicaid Only";
 			// 

@@ -190,7 +190,7 @@
 			// 
 			this.labelDocument.Location = new System.Drawing.Point(136, 371);
 			this.labelDocument.Name = "labelDocument";
-			this.labelDocument.Size = new System.Drawing.Size(336, 45);
+			this.labelDocument.Size = new System.Drawing.Size(336, 48);
 			this.labelDocument.TabIndex = 16;
 			this.labelDocument.Text = "Document reason not given below.  Reason can include a specific allergy, adverse " +
     "effect, intollerance, patient declines, specific disease, etc.";

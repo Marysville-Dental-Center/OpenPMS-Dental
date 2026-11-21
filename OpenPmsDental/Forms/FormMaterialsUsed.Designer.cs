@@ -41,7 +41,7 @@ namespace OpenPmsDental {
 			//
 			this.labelInstructions.Location = new System.Drawing.Point(12, 7);
 			this.labelInstructions.Name = "labelInstructions";
-			this.labelInstructions.Size = new System.Drawing.Size(736, 32);
+			this.labelInstructions.Size = new System.Drawing.Size(748, 32);
 			this.labelInstructions.TabIndex = 12;
 			this.labelInstructions.Text = "Confirm the materials used: change a quantity, add items (Add, or scan a barcode), remove a row. OK deducts them, s" +
     "oonest-expiring lot first unless you pick a lot. An implant\'s lot is recorded with the procedure.";
