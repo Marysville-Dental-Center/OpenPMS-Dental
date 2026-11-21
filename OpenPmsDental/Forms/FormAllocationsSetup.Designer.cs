@@ -190,7 +190,7 @@ namespace OpenPmsDental{
 			this.radioPayAuto.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.radioPayAuto.Location = new System.Drawing.Point(7, 58);
 			this.radioPayAuto.Name = "radioPayAuto";
-			this.radioPayAuto.Size = new System.Drawing.Size(76, 22);
+			this.radioPayAuto.Size = new System.Drawing.Size(76, 24);
 			this.radioPayAuto.TabIndex = 296;
 			this.radioPayAuto.TabStop = true;
 			this.radioPayAuto.Text = "Auto-Split";
@@ -202,7 +202,7 @@ namespace OpenPmsDental{
 			this.radioPayEnforce.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.radioPayEnforce.Location = new System.Drawing.Point(7, 21);
 			this.radioPayEnforce.Name = "radioPayEnforce";
-			this.radioPayEnforce.Size = new System.Drawing.Size(76, 22);
+			this.radioPayEnforce.Size = new System.Drawing.Size(76, 24);
 			this.radioPayEnforce.TabIndex = 295;
 			this.radioPayEnforce.TabStop = true;
 			this.radioPayEnforce.Text = "Rigorous";
@@ -268,7 +268,7 @@ namespace OpenPmsDental{
 			this.radioAdjustLink.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.radioAdjustLink.Location = new System.Drawing.Point(7, 54);
 			this.radioAdjustLink.Name = "radioAdjustLink";
-			this.radioAdjustLink.Size = new System.Drawing.Size(76, 22);
+			this.radioAdjustLink.Size = new System.Drawing.Size(76, 24);
 			this.radioAdjustLink.TabIndex = 296;
 			this.radioAdjustLink.TabStop = true;
 			this.radioAdjustLink.Text = "Link Only";
@@ -280,7 +280,7 @@ namespace OpenPmsDental{
 			this.radioAdjustEnforce.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.radioAdjustEnforce.Location = new System.Drawing.Point(7, 21);
 			this.radioAdjustEnforce.Name = "radioAdjustEnforce";
-			this.radioAdjustEnforce.Size = new System.Drawing.Size(76, 22);
+			this.radioAdjustEnforce.Size = new System.Drawing.Size(76, 24);
 			this.radioAdjustEnforce.TabIndex = 295;
 			this.radioAdjustEnforce.TabStop = true;
 			this.radioAdjustEnforce.Text = "Rigorous";

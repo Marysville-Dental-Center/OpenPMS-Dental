@@ -1489,7 +1489,7 @@ namespace OpenPmsDental {
 			// 
 			this.label12.Location = new System.Drawing.Point(228, 116);
 			this.label12.Name = "label12";
-			this.label12.Size = new System.Drawing.Size(152, 18);
+			this.label12.Size = new System.Drawing.Size(153, 18);
 			this.label12.TabIndex = 196;
 			this.label12.Text = "(does not affect billed amt)";
 			this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;

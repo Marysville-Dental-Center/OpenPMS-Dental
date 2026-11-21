@@ -372,7 +372,7 @@ namespace OpenPmsDental {
 			// 
 			this.radioShowOnlyNeg.Location = new System.Drawing.Point(6, 63);
 			this.radioShowOnlyNeg.Name = "radioShowOnlyNeg";
-			this.radioShowOnlyNeg.Size = new System.Drawing.Size(120, 22);
+			this.radioShowOnlyNeg.Size = new System.Drawing.Size(120, 24);
 			this.radioShowOnlyNeg.TabIndex = 6;
 			this.radioShowOnlyNeg.Text = "Show Only";
 			// 
@@ -419,7 +419,7 @@ namespace OpenPmsDental {
 			// 
 			this.radio90.Location = new System.Drawing.Point(6, 85);
 			this.radio90.Name = "radio90";
-			this.radio90.Size = new System.Drawing.Size(120, 22);
+			this.radio90.Size = new System.Drawing.Size(120, 24);
 			this.radio90.TabIndex = 3;
 			this.radio90.Text = "Over 90 Days";
 			// 

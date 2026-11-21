@@ -145,7 +145,7 @@ namespace OpenPmsDental {
             // 
             this.radioUseEmailFalse.Location = new System.Drawing.Point(7, 34);
             this.radioUseEmailFalse.Name = "radioUseEmailFalse";
-            this.radioUseEmailFalse.Size = new System.Drawing.Size(189, 21);
+            this.radioUseEmailFalse.Size = new System.Drawing.Size(192, 23);
             this.radioUseEmailFalse.TabIndex = 1;
             this.radioUseEmailFalse.Text = "Email is preferred recall method";
             this.radioUseEmailFalse.UseVisualStyleBackColor = true;
