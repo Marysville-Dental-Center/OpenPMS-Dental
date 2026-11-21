@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Open PMS - Dental: free, open-source dental practice management software</title>
+<meta name="description" content="Open PMS - Dental is free, open-source practice management software for dental offices on Windows: scheduling, charting, billing, insurance claims, imaging and reports. A GPL fork of Open Dental on .NET 10, 64-bit, that never phones home.">
+<meta name="keywords" content="dental practice management software, open source dental software, free dental software, dental PMS, Open Dental fork, dental charting, dental billing, dental insurance claims, GPL">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Open PMS - Dental">
+<meta property="og:description" content="Free, open-source dental practice management software for Windows. Scheduling, charting, billing, insurance, imaging and reports, with nothing phoning home.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="logo.svg" type="image/svg+xml">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Open PMS - Dental",
+  "applicationCategory": "BusinessApplication",
+  "applicationSubCategory": "Dental practice management software",
+  "operatingSystem": "Windows 11 (64-bit)",
+  "description": "Free, open-source practice management software for dental offices: scheduling, charting, billing, insurance claims, imaging and reports. A GPL fork of Open Dental.",
+  "license": "https://github.com/Marysville-Dental-Center/OpenPMS-Dental/blob/main/LICENSE",
+  "codeRepository": "https://github.com/Marysville-Dental-Center/OpenPMS-Dental",
+  "programmingLanguage": "C#",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+<style>
+:root {
+  --brand: #3C5A96;
+  --brand-ink: #2E4675;
+  --bg: #FFFFFF;
+  --bg-soft: #F4F6FA;
+  --fg: #1B1F27;
+  --fg-muted: #4D5566;
+  --line: #DDE2EC;
+  --card: #FFFFFF;
+  --on-brand: #FFFFFF;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --brand: #7C9BD6;
+    --brand-ink: #A9C0EB;
+    --bg: #12151B;
+    --bg-soft: #1A1F28;
+    --fg: #E7EAF0;
+    --fg-muted: #A6AEBD;
+    --line: #2C3340;
+    --card: #1D232D;
+    --on-brand: #0E1320;
+    color-scheme: dark;
+  }
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font: 16px/1.6 "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+}
+a { color: var(--brand-ink); }
+.wrap { max-width: 1040px; margin: 0 auto; padding: 0 max(20px, env(safe-area-inset-left, 0px)) 0 max(20px, env(safe-area-inset-right, 0px)); }
+header.top { border-bottom: 1px solid var(--line); }
+header.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 14px; }
+.brand { display: flex; align-items: center; gap: 10px; font-weight: 600; color: var(--fg); text-decoration: none; }
+.brand img { width: 28px; height: 28px; }
+nav.top { display: flex; gap: 20px; flex-wrap: wrap; font-size: 15px; }
+nav.top a { color: var(--fg-muted); text-decoration: none; }
+nav.top a:hover { color: var(--fg); }
+.hero { padding-block: 72px 56px; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 48px; align-items: center; }
+.hero-text { min-width: 0; }
+.hero-logo { width: 220px; height: 220px; border-radius: 48px; box-shadow: 0 12px 40px rgba(60, 90, 150, 0.25); }
+.hero h1 { font-size: clamp(32px, 5vw, 46px); line-height: 1.15; margin: 0 0 16px; letter-spacing: -0.01em; text-wrap: balance; }
+.hero p.lead { font-size: 19px; color: var(--fg-muted); max-width: 62ch; margin: 0 0 28px; }
+.actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.btn { display: inline-block; padding: 10px 18px; border-radius: 6px; font-weight: 600; text-decoration: none; border: 1px solid var(--brand); }
+.btn.primary { background: var(--brand); color: var(--on-brand); }
+.btn.secondary { color: var(--brand-ink); background: transparent; }
+.facts { display: flex; flex-wrap: wrap; gap: 8px 22px; margin-top: 28px; font-size: 14px; color: var(--fg-muted); padding: 0; list-style: none; }
+.facts li::before { content: ""; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--brand); margin-right: 8px; vertical-align: middle; }
+section { padding-block: 56px; }
+section.soft { background: var(--bg-soft); border-block: 1px solid var(--line); }
+h2 { font-size: 26px; margin: 0 0 8px; text-wrap: balance; }
+.sub { color: var(--fg-muted); margin: 0 0 28px; max-width: 65ch; }
+.grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 20px; min-width: 0; }
+.card h3 { margin: 0 0 6px; font-size: 17px; }
+.card p { margin: 0; color: var(--fg-muted); font-size: 15px; }
+.steps { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); }
+code { font-family: "Cascadia Mono", Consolas, ui-monospace, monospace; font-size: 0.92em; background: var(--bg-soft); border: 1px solid var(--line); border-radius: 4px; padding: 1px 5px; }
+ul.plain { margin: 0; padding-left: 20px; }
+ul.plain li { margin: 4px 0; }
+footer { border-top: 1px solid var(--line); padding-block: 28px 40px; font-size: 14px; color: var(--fg-muted); }
+footer p { margin: 0 0 8px; max-width: 80ch; }
+@media (max-width: 860px) {
+  .hero { grid-template-columns: minmax(0, 1fr); }
+  .hero-logo { display: none; }
+}
+@media (max-width: 600px) {
+  nav.top { display: none; }
+  .hero { padding-block: 48px 40px; }
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#"><img src="logo.svg" alt="" width="28" height="28">Open PMS - Dental</a>
+    <nav class="top" aria-label="Sections">
+      <a href="#philosophy">Philosophy</a>
+      <a href="#features">Features</a>
+      <a href="#status">Status</a>
+      <a href="#get-started">Get started</a>
+      <a href="https://github.com/Marysville-Dental-Center/OpenPMS-Dental">GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="wrap hero">
+    <div class="hero-text">
+    <h1>Free, open-source practice management for dental offices</h1>
+    <p class="lead">Open PMS - Dental runs a dental practice on Windows: scheduling, charting, billing, insurance, imaging and reports. It grew from the Open Dental source code, rebuilt in the open, on a modern 64-bit .NET, and it never phones home.</p>
+    <div class="actions">
+      <a class="btn primary" href="https://github.com/Marysville-Dental-Center/OpenPMS-Dental/releases">Releases</a>
+      <a class="btn secondary" href="https://github.com/Marysville-Dental-Center/OpenPMS-Dental">Source code</a>
+      <a class="btn secondary" href="https://github.com/Marysville-Dental-Center/OpenPMS-Dental/blob/main/docs/building.md">Build it</a>
+    </div>
+    <ul class="facts">
+      <li>GNU GPL v2 or later</li>
+      <li>Windows 11, 64-bit</li>
+      <li>.NET 10, self-contained</li>
+      <li>MariaDB</li>
+    </ul>
+    </div>
+    <img class="hero-logo" src="logo.svg" alt="" width="220" height="220">
+  </div>
+
+  <section id="philosophy" class="soft">
+    <div class="wrap">
+      <h2>Philosophy</h2>
+      <p class="sub">A practice's software should be open, private and dependable. Everything here follows from that.</p>
+      <div class="grid">
+        <div class="card"><h3>Open, all the way down</h3><p>Every file the setup installs has published source. Closed libraries are rebuilt in the open or removed. Nothing is decompiled.</p></div>
+        <div class="card"><h3>Nothing phones home</h3><p>No vendor servers, no registration keys. Patient data and images stay on the office network. Integrations stay off until the office turns them on, with no advertising.</p></div>
+        <div class="card"><h3>Nothing is cut</h3><p>Every feature and every test is kept and ported, also ones a given office does not use.</p></div>
+        <div class="card"><h3>Familiar to staff</h3><p>The database follows Open Dental's schema, so an office can move over from Open Dental, and the workflows stay where staff expect them.</p></div>
+        <div class="card"><h3>Current and native</h3><p>.NET 10, 64-bit, the newest stable libraries from official sources, and each vendor's native 64-bit interface first.</p></div>
+        <div class="card"><h3>Reviewed and tested</h3><p>Every change is a small package with a plan and its own tests, reviewed independently, merged only after a full build and the test suites pass.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="features">
+    <div class="wrap">
+      <h2>Features</h2>
+      <p class="sub">The full working day of a dental office, from the first call to the insurance payment.</p>
+      <div class="grid">
+        <div class="card"><h3>Scheduling</h3><p>The appointment book with operatories and providers, recall, the ASAP and unscheduled lists, confirmations.</p></div>
+        <div class="card"><h3>Patients</h3><p>Families and guarantors, demographics, medical history, sheets and patient forms.</p></div>
+        <div class="card"><h3>Clinical</h3><p>A 3D tooth chart, the perio chart, procedures and progress notes, treatment plans, prescriptions.</p></div>
+        <div class="card"><h3>Imaging</h3><p>Open-source TWAIN scanning, native sensor capture and an in-house DICOM reader.</p></div>
+        <div class="card"><h3>Billing</h3><p>Accounts, payments, payment plans, adjustments and statements.</p></div>
+        <div class="card"><h3>Insurance</h3><p>Plans and benefits, estimates, printed and electronic claims (X12), electronic remittances.</p></div>
+        <div class="card"><h3>Reports</h3><p>Standard reports, custom RDL reports and dashboards.</p></div>
+        <div class="card"><h3>Running the practice</h3><p>Multiple clinics, users and permissions with an audit trail, task lists, a wiki, email, HL7 interfaces, a Middle Tier server, and, new in this project, inventory and routine maintenance tracking.</p></div>
+        <div class="card"><h3>Secure by default</h3><p>Encrypted database connections with the office's own certificate authority; the database password kept with Windows DPAPI, never in a settings file.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="status" class="soft">
+    <div class="wrap">
+      <h2>Where the project stands</h2>
+      <ul class="plain">
+        <li><strong>Independent:</strong> nothing calls Open Dental Software's servers, and tests check that on every run.</li>
+        <li><strong>Open Dental features up to 26.1</strong>, re-implemented from public documentation, on Open Dental's 26.2 database schema. An Open Dental 24.3.63 or 25.3.48 database can be adopted.</li>
+        <li><strong>Version 0.0</strong> was released; the code now targets .NET 10, 64-bit, self-contained.</li>
+        <li><strong>In progress:</strong> a UI refresh with a clean, consistent look, Fluent icons and Segoe UI, every window laid out on one spacing grid.</li>
+        <li><strong>Next:</strong> the next release and the first office switch-over from Open Dental. See the <a href="https://github.com/Marysville-Dental-Center/OpenPMS-Dental/blob/main/docs/roadmap.md">roadmap</a>.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="get-started">
+    <div class="wrap">
+      <h2>Get started</h2>
+      <div class="steps">
+        <div class="card"><h3>Install in an office</h3><p>A MariaDB 10.11 server, then the setup on each Windows 11 workstation; the program carries its own .NET runtime. <a href="https://github.com/Marysville-Dental-Center/OpenPMS-Dental/blob/main/docs/installing.md">Installing in an office</a></p></div>
+        <div class="card"><h3>Build from source</h3><p>Build Tools for Visual Studio 2026 and the pinned .NET SDK; clone with <code>--recurse-submodules</code> and build <code>OpenDental.Local.slnf</code>. <a href="https://github.com/Marysville-Dental-Center/OpenPMS-Dental/blob/main/docs/building.md">Building</a></p></div>
+        <div class="card"><h3>Report a problem</h3><p>Open an issue with the version (Help &gt; About), what you did and what happened. Never attach patient data. <a href="https://github.com/Marysville-Dental-Center/OpenPMS-Dental/issues">Issues</a></p></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Open PMS - Dental is a fork of Open Dental (c) Open Dental Software, Inc. and contributors, licensed under the GNU GPL v2. It is not affiliated with or endorsed by Open Dental Software, Inc. Open Dental is a trademark of its owner.</p>
+    <p>The program is licensed under the GNU GPL v2 or later; as distributed with PDFsharp and MigraDoc (GNU AGPL v3), under the GNU GPL v3. See the <a href="https://github.com/Marysville-Dental-Center/OpenPMS-Dental/blob/main/NOTICE">NOTICE</a> and <a href="https://github.com/Marysville-Dental-Center/OpenPMS-Dental/blob/main/LICENSE">LICENSE</a>.</p>
+  </div>
+</footer>
+</body>
+</html>

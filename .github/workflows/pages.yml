@@ -1,0 +1,59 @@
+# The project site on GitHub Pages: site/ with the logo, a sitemap and robots.txt, deployed on every push to main that changes them.
+# The site's address comes from GitHub at deploy time, so no file in the repository names it.
+name: Project site
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "site/**"
+      - "branding/logo.svg"
+      - ".github/workflows/pages.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          sparse-checkout: |
+            site
+            branding
+          submodules: false
+      - id: pages
+        uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
+      - name: Assemble the site
+        env:
+          BASE_URL: ${{ steps.pages.outputs.base_url }}
+        run: |
+          mkdir -p _site
+          cp -r site/. _site/
+          cp branding/logo.svg _site/logo.svg
+          today=$(date -u +%Y-%m-%d)
+          printf '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <url><loc>%s/</loc><lastmod>%s</lastmod></url>\n</urlset>\n' "$BASE_URL" "$today" > _site/sitemap.xml
+          printf 'User-agent: *\nAllow: /\nSitemap: %s/sitemap.xml\n' "$BASE_URL" > _site/robots.txt
+          sed -i "s#<meta name=\"color-scheme\"#<link rel=\"canonical\" href=\"$BASE_URL/\">\n<meta property=\"og:url\" content=\"$BASE_URL/\">\n<meta name=\"color-scheme\"#" _site/index.html
+          touch _site/.nojekyll
+      - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1

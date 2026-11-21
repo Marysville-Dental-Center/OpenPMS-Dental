@@ -4,275 +4,94 @@
 
 Open PMS - Dental is a fork of Open Dental (c) Open Dental Software, Inc. and contributors, licensed under the GNU GPL v2. It is not affiliated with or endorsed by Open Dental Software, Inc.
 
-This is a fork of the [Open Dental](https://www.opendental.com) source code, written for one dental practice and published for anyone to use. `main` started from Open Dental **v24.3**, at **24.3.63.0**. Features of later Open Dental versions, up to 26.1, are re-implemented from Open Dental's public documentation, and the database schema follows Open Dental 26.2 (26.2.0, from its published database documents). See [NOTICE](NOTICE) for attribution, [LICENSE](LICENSE) for the GNU General Public License and [THIRD-PARTY-NOTICES.txt](THIRD-PARTY-NOTICES.txt) for the third-party components the program ships. Every copyright line and GPL notice from Open Dental is kept.
+**Free, open-source practice management software for dental offices, for Windows.** It started from the [Open Dental](https://www.opendental.com) source code (v24.3.63) and keeps everything an office relies on: scheduling, charting, billing, insurance, imaging and reports. It is written for one dental practice and published for anyone to use. See [NOTICE](NOTICE) for attribution and [LICENSE](LICENSE) for the GNU General Public License; every Open Dental copyright line and GPL notice is kept.
 
-The source files say "either version 2 of the License, or (at your option) any later version", so the program is licensed under the **GNU GPL v2 or later**. LICENSE holds the version 2 text.
+## Philosophy
 
-The program as distributed includes PDFsharp and MigraDoc 6.5, which are licensed under the **GNU AGPL v3**. The AGPL combines with GPL version 3 but not with version 2, so the program with them is distributed under the **GNU GPL v3** (which "or later" allows), and PDFsharp and MigraDoc keep the AGPL's terms. By section 13 of both licenses, the AGPL's requirements on interaction through a network apply to the combination as a whole. They apply to a modified version, and the PDFsharp built here is itself one (one file replaced, see below), so they cover any version of the program that users reach over a network, not only versions someone else modifies: a hosted Middle Tier, even one without local changes, must prominently offer its users the Corresponding Source of the whole program, such as a link to the release's `OpenPmsDental-<version>-source.zip`. [LICENSE-GPL-3.0.txt](LICENSE-GPL-3.0.txt) and [LICENSE-AGPL-3.0.txt](LICENSE-AGPL-3.0.txt) hold those texts; [NOTICE](NOTICE) explains it.
-
-PDFsharp and MigraDoc 6.5.0 (empira's AGPL source, tag v6.5.0) and WeCantSpell.Hunspell 7.0.1 are built here from their source, git submodules under `third-party/`. The PDFsharp built here replaces one file, empira's wrapper around its closed `PdfSharp.License.dll`, with an open one (a modified version under AGPL section 5a), so every file the setup installs has published source. Each release publishes its complete source, the repository and the submodules at the release commit, as `OpenPmsDental-<version>-source.zip` next to the setup ([docs/third-party-source-builds.md](docs/third-party-source-builds.md)).
-
-The program's namespaces, assemblies and executable carry its code name, `OpenPmsDental` (`OpenPmsDental.exe`, `OpenPmsDentalBusiness.dll`; the mapping from Open Dental's names is in [docs/port-notes/RENAME.md](docs/port-notes/RENAME.md)). The product name, "Open PMS - Dental", appears in the window title, the splash, the About box, the program's messages, the file properties of every shipped assembly (version 0.0), the product identity sent to vendors, and this repository's documents. Names that existing installations and databases depend on keep Open Dental's spelling: the database (tables, columns, preference names, stored enum values), `FreeDentalConfig.xml`, the Middle Tier's web service names and IIS path, and internal type names such as `FormOpenDental`. The solution files keep their names, `OpenDental.sln` and `OpenDental.Local.slnf`.
-
-Open PMS - Dental is a Windows desktop practice management system written in C#: WinForms, with some WPF, on .NET 10 (64-bit, self-contained: the program carries its own .NET runtime), backed by MariaDB. Version 0.0 was the .NET Framework 4.8 build (32-bit); the move is [docs/specs/net10-plan.md](docs/specs/net10-plan.md).
-
-## Where the project stands
-
-November 2026, on `main`:
-
-- **Independent of Open Dental Software, Inc.** Nothing calls Open Dental's servers: eServices, support and registration keys, the update servers and the help browser are gone. `NoHqTests` and `tools/Test-NoHqHosts.ps1` check this on every test run. Open Dental's closed DLLs are removed or rebuilt as open code: the CDT library, ODCrypt, the imaging device manager (open source TWAIN scanning and native sensor capture), EHR and the local REST API (removed). Partner advertising is gone too: an integration shows only after the office turns it on.
-- **Open Dental features up to 26.1**, re-implemented from Open Dental's public documentation, on Open Dental's 26.2.0 database schema, with the 26.2 features the owner chose. An existing Open Dental 24.3.63 or 25.3.48 database can be adopted. The adoption is rehearsed on synthetic data only.
-- **Version 0.0** was released: the last .NET Framework 4.8, 32-bit build.
-- **.NET 10, 64-bit, self-contained** since November 2026: the program, every tool and service, the tests and the Middle Tier, now a small ASP.NET Core server. Integrations use the vendor's 64-bit way. A 32-bit helper process is used only where a vendor has none (32-bit TWAIN drivers, QuickBooks Desktop, Schick, Topaz).
-- **Security:** encrypted database connections (TLS with the office's own CA), the database password stored with Windows DPAPI and never in the settings file, current libraries, and remembered SSH host keys.
-- **Rebuilt in the open:**
-  - EHR: what Open Dental's closed `EHR.dll` did, including the 2027 measure catalog and its data-entry windows ([docs/specs/ehr-rebuild-plan.md](docs/specs/ehr-rebuild-plan.md)).
-  - A WPF 3D tooth chart that replaces the DirectX and OpenGL engines ([docs/specs/wpf-tooth-chart-plan.md](docs/specs/wpf-tooth-chart-plan.md)).
-  - An in-house DICOM reader.
-  - The PDF and spell-check libraries, built from their source.
-- **New in this fork:** inventory tracking and routine maintenance tracking.
-- **In progress: a UI refresh** ([docs/specs/ui-refresh-plan.md](docs/specs/ui-refresh-plan.md)). It gives the program a modern, clean and consistent look and leaves every window's layout as it is. Staff who know Open Dental find every control where it was. Done so far:
-  - Design tokens: colours, sizes and fonts.
-  - The window frame, with rounded corners.
-  - Buttons, text boxes, grids and the other controls.
-  - Toolbars.
-  - Every button picture is now a [Fluent UI System Icon](https://github.com/microsoft/fluentui-system-icons) (MIT), plus a few custom dental icons in the same style.
-  - The main and module toolbars.
+- **Open, all the way down.** Every file the setup installs has published source. Closed libraries are rebuilt in the open or removed. Nothing is decompiled.
+- **Nothing phones home.** The program talks to no vendor server of its own. Patient data, images and the program's services stay on the office network. Integrations talk directly to their vendor, stay off until the office turns them on, and carry no advertising or recommended vendors.
+- **Nothing is cut.** Every feature and every test is kept and ported, also ones a given office does not use, unless the owner deliberately removes one.
+- **Familiar to staff.** The database follows Open Dental's schema, so an office can move over from Open Dental, and the workflows stay where staff expect them.
+- **Current and native.** .NET 10, 64-bit, the newest stable version of every library from official sources, and each vendor's native 64-bit interface first.
 
 ## How we work
 
-- **Open source, and open about where it comes from.** Every Open Dental copyright line and GPL notice is kept. Features of Open Dental versions after 24.3 are written again from Open Dental's public manual, release notes and database documents. Nothing is decompiled, and nothing is merged from upstream. Every file the setup installs has published source.
-- **Nothing is cut.** Every feature and every test is kept and ported, also ones a given office does not use, unless the owner deliberately removes one. Removals so far: Open Dental's own services, the help browser, the local REST API and partner advertising.
-- **Local first.** Patient data, images and the program's own services stay on the office network. Third-party integrations talk directly to the vendor, are off until the office turns them on, and are vendor-neutral: no promotions and no recommended vendors.
-- **Practice-neutral source.** No practice names, server names, addresses or developer-PC paths in tracked files, test data or commit messages. Tests use synthetic data only and never real patient data. Test databases are scratch databases on `127.0.0.1` that each test drops afterwards.
-- **Current and native.** The newest stable version of every library and SDK, from official sources. Each integration uses the vendor's native 64-bit way first, and a 32-bit helper only as a fallback.
-- **Small packages, each tested and reviewed.** Every change is a package with a plan, a port note in `docs/port-notes/` and tests. It gets an independent review and reaches `main` only after a full build and the test suites pass. Line endings and file encodings are checked on every merge.
-- **The owner approves what users will see.** Visible changes, such as the UI refresh and the tooth chart, are shown as before-and-after picture galleries rendered by the tests. They merge only after the owner approves them, and each approved picture is recorded (`tests/WindowChecksTests/UiApproved/approved.tsv`).
-- **Compatible where it matters.** Names that existing databases and installations depend on keep Open Dental's spelling (see below). The database schema follows Open Dental's, so an office can move over from Open Dental.
+- **Re-implemented, not merged.** Open Dental's public source stops at 24.3.63. Features of later versions, up to 26.1, are written again from Open Dental's public manual, release notes and database documents; the schema follows Open Dental 26.2.
+- **Small packages.** Every change is a package with a plan, a port note in [docs/port-notes/](docs/port-notes/) and its own tests. It gets an independent review and reaches `main` only after a full build and the test suites pass.
+- **The owner sees what users will see.** Visible changes are shown as before-and-after picture galleries drawn by the tests, audited before review, and every approved picture is recorded (`tests/WindowChecksTests/UiApproved/approved.tsv`).
+- **Practice-neutral and synthetic.** No practice names, server names or developer paths in tracked files; tests use synthetic data on scratch databases that they drop afterwards. A test checks every tracked file for the names.
 
-## Roadmap
+## Features
 
-The detailed roadmap, with the owner's decisions, is [docs/roadmap.md](docs/roadmap.md).
+- **Scheduling:** the appointment book with operatories and providers, recall, the ASAP and unscheduled lists, confirmations.
+- **Patients:** families and guarantors, demographics, medical history, sheets and patient forms.
+- **Clinical:** a 3D tooth chart (rebuilt in WPF), the perio chart, procedures and progress notes, treatment plans, prescriptions.
+- **Imaging:** the Imaging module with open-source TWAIN scanning, native sensor capture and an in-house DICOM reader.
+- **Billing:** accounts, payments, payment plans, adjustments and statements.
+- **Insurance:** plans and benefits, estimates, printed and electronic claims (X12), electronic remittances.
+- **Reports:** standard reports, custom RDL reports and dashboards.
+- **Running the practice:** multiple clinics, users and permissions with an audit trail, task lists, a wiki, email, HL7 interfaces, a Middle Tier server.
+- **New in this fork:** inventory tracking and routine maintenance tracking.
+- **Under the hood:** .NET 10, 64-bit and self-contained (the program carries its own runtime); MariaDB; encrypted database connections with the office's own CA; the database password kept with Windows DPAPI.
 
-**Now, the UI refresh:**
+## Status and roadmap
 
-1. The pictures in lists and trees (UI-9b), in four parts. The first part, the main and module toolbars, is done.
-2. Text fit (UI-10): every label and button is checked so its text fits at the new font.
-3. Segoe UI 9 pt everywhere (UI-2b).
-4. The last colours and a final sweep (UI-11).
-5. Afterwards, an overflow button (>>) for toolbars too narrow for their buttons, and keyboard focus on the WPF buttons.
+November 2026, on `main`:
 
-**Not scheduled yet:**
+- **Independent of Open Dental Software, Inc.:** no eServices, registration keys, update servers or help browser; `NoHqTests` checks on every run that nothing calls Open Dental's servers.
+- **Open Dental features up to 26.1** on Open Dental's 26.2.0 schema. An Open Dental 24.3.63 or 25.3.48 database can be adopted (rehearsed on synthetic data).
+- **Version 0.0** was released (the last .NET Framework 4.8, 32-bit build). `main` is .NET 10, 64-bit.
+- **In progress: a UI refresh** ([docs/specs/ui-refresh-plan.md](docs/specs/ui-refresh-plan.md)): new colours, controls, window frame and Fluent icons are done; the program font is Segoe UI 9 pt; every window is now being laid out on one spacing grid.
 
-- The next release, and the office switch-over from Open Dental ([docs/adoption-runbook.md](docs/adoption-runbook.md)), after a test of the 64-bit TWAIN drivers on the clinic's own sensor.
-- Compressed DICOM decoders, only if such files turn up.
-- Server components on Linux, with new ones written in Rust. A plan comes first. The Middle Tier stays .NET 10 on Windows until then.
-- A neutral name for the GitHub repository.
-- Open Dental 26.3, once Open Dental marks it stable.
-
-## Installing in an office
-
-A release is a setup program, `OpenPmsDental-<version>-Setup.exe`, with its `SHA256SUMS.txt` and release notes ([docs/release-notes/v0.0.md](docs/release-notes/v0.0.md) for 0.0). `tools/Build-Release.ps1` builds it from a **Release | x64** build ([docs/release-process.md](docs/release-process.md#building-the-installer)). Nothing here contacts Open Dental's servers, and nothing is installed on the database server by this program.
-
-### Database server
-
-The office installs [MariaDB Server](https://mariadb.org/download/) **10.11** itself. These settings go in the `[mysqld]` section of `my.ini` (Windows) or `/etc/mysql/mariadb.conf.d/50-server.cnf` (Debian and Ubuntu):
-
-```ini
-[mysqld]
-sql_mode=
-default-storage-engine=MyISAM
-max_allowed_packet=40M
-```
-
-- `sql_mode` must be blank. If it isn't, the program runs `SET GLOBAL sql_mode=''` at startup, which needs an account with that privilege.
-- The tables are MyISAM; with another default engine, new tables end up in a different engine.
-- `max_allowed_packet` must be at least 40 MB. Smaller values make large inserts (images, releases stored in the database) fail with "Please add the following to your my.ini file: max_allowed_packet=40000000".
-- Give each office its own database account, and back the database up.
-- A server the workstations reach over the network must have TLS with a certificate from the office's own CA, and each workstation needs that CA certificate and the client certificate: see [docs/db-connection-security.md](docs/db-connection-security.md), which also gives the order for an office that runs version 0.0.
-
-**A new office's database:** see [db/README.md](db/README.md) and the script `db/init/new-database.sql`.
-
-**An existing Open Dental database** (Open Dental 24.3.63 or 25.3.48 only) is adopted once, on a restored copy: see [Adopting a database](docs/release-process.md#adopting-a-database) and the office procedure in [docs/adoption-runbook.md](docs/adoption-runbook.md).
-
-### Workstations
-
-Prerequisites:
-
-- **Windows 11, 64-bit** (the baseline). The setup also runs on Windows 10 version 1903 or later, after a warning: Microsoft supports .NET 10 on Windows 10 only in some editions ([its list](https://learn.microsoft.com/en-us/dotnet/core/install/windows)).
-- **No .NET to install.** The program, its tools and the 32-bit helper carry their own .NET 10 runtime (x64 beside the programs, x86 in the `Helper32` sub folder); the setup installs them with the program, also in a silent install.
-- **Microsoft Visual C++ 2015-2022 Redistributable, x64** (`vc_redist.x64.exe`; `Direct2dWrapper.dll` needs it)
-- **Microsoft Edge WebView2 Runtime** (Evergreen; Windows 11 already has it). Every window that shows a page uses it: the wiki, email previews, PDFs in the Imaging module, vendor pages. The program keeps its WebView2 data per Windows user in `%LOCALAPPDATA%\OpenPMS-Dental\WebView2`.
-- For scanners and sensors: the device's own 64-bit TWAIN driver. The setup installs the TWAIN Working Group's 64-bit TWAIN data source manager (`TWAINDSM.dll`, into the Windows system folder) when it is missing or older.
-
-When the Visual C++ runtime is missing, the setup offers to download Microsoft's installer from Microsoft and run it, or to skip it (`/PREREQS=ask|download|skip`). The setup only checks for the WebView2 Runtime: when it is missing, the setup says so and how to install it (Microsoft's Evergreen Bootstrapper or Standalone Installer, Windows Update or device management), and it never downloads it.
-
-Version 0.0, the .NET Framework 4.8 build, needed the **.NET Framework 4.8**, the **Microsoft Visual C++ 2015-2022 Redistributable, x86** (`vc_redist.x86.exe`) and the **Microsoft Edge WebView2 Runtime, x86**, and installed into `C:\Program Files (x86)\Open PMS - Dental\` ([docs/release-notes/v0.0.md](docs/release-notes/v0.0.md)). The .NET 10 setup is a separate 64-bit installation; no office runs 0.0, so nothing moves from it.
-
-Steps:
-
-1. Install the program on the **update server** first: the workstation named in the `WebServiceServerName` preference (Setup > Update Setup).
-2. Check the setup's SHA-256 against `SHA256SUMS.txt`, then run it as an administrator. It installs into `C:\Program Files\Open PMS - Dental\` (64-bit), creates the Start menu shortcut "Open PMS - Dental", and writes `FreeDentalConfig.xml` from its database connection page (server, database, user; never a password). For a database server over the network the next page asks for the office CA certificate and the client certificate (`.pfx`). Setup then opens the connection settings tool, `OpenPmsDentalDbSettings.exe`, which imports the client certificate or stores the database password on this computer with Windows DPAPI; for a database on the same computer it opens in password mode (Cancel when the database user has no password). The setup is not signed, so SmartScreen may warn.
-3. Start the program from the Start menu. It never asks for the database password: to change the connection later, an administrator runs `OpenPmsDentalDbSettings.exe` in the program folder.
-4. On the update server, the program offers to publish the release at that first start, so the other workstations update to it.
-5. On the other workstations repeat steps 2 and 3. A workstation that runs an older build pulls the published one when it starts.
-
-Silent installs, the setup's switches and the uninstall are described in the release notes.
-
-### Updates
-
-A new build reaches the office through the release channel described in [docs/release-process.md](docs/release-process.md): install it on the update server and start it as an administrator; it publishes the release into the database, and every other workstation pulls it at its next start and restarts through `UpdateFileCopier.exe`. Debug builds never publish or pull. A workstation that is not the update server refuses to run a build newer than the published one (exit code 174), so always update the update server first.
+Next, after the UI refresh: the next release and the office switch-over from Open Dental. The full roadmap with the owner's decisions is [docs/roadmap.md](docs/roadmap.md).
 
 ## Building
 
-### Prerequisites
+You need Windows 11 64-bit and:
 
-- Windows 11, 64-bit
-- **Visual Studio 2026** (any edition) or **Build Tools for Visual Studio 2026** (version 18; both install under `Microsoft Visual Studio\18\`), with:
-  - .NET desktop build tools (`Microsoft.VisualStudio.Workload.ManagedDesktopBuildTools`)
-  - Desktop development with C++ (`Microsoft.VisualStudio.Workload.VCTools`) and its MSVC v143 toolset (`Microsoft.VisualStudio.Component.VC.14.44.17.14.x86.x64`, MSVC 14.44), for `Direct2dWrapper` (native, toolset v143; the default toolset of 2026 is v145)
-  - .NET Framework 4.8 SDK and the 4.8 and 4.7.2 targeting packs (`Microsoft.Net.Component.4.8.SDK`, `Microsoft.Net.Component.4.8.TargetingPack`, `Microsoft.Net.Component.4.7.2.TargetingPack`)
-  - Testing tools core (`Microsoft.VisualStudio.Component.TestTools.BuildTools`), for `vstest.console.exe`, which runs the MSTest test projects
-  - NuGet build tools (`Microsoft.VisualStudio.Component.NuGet.BuildTools`) and the Windows 11 SDK 10.0.26100 (`Microsoft.VisualStudio.Component.Windows11SDK.26100`)
-- **The .NET SDK 10.0.115** exactly: `global.json` pins it, for the projects that move to the SDK project format (stage 1 of the .NET 10 move, [docs/specs/net10-plan.md](docs/specs/net10-plan.md)). Install it machine-wide, or per user into `%LOCALAPPDATA%\Microsoft\dotnet` (`dotnet-install.ps1 -Version 10.0.115` does that). Each monthly .NET 10 patch moves the pin by the bump procedure of section 2.4 of the plan. The SDK that Visual Studio installs itself is a later band and is not used.
-- **The offline package folder.** `nuget.config` restores from one local folder only, the one the environment variable `OPMS_NUGET_OFFLINE` names; nothing is downloaded during a build. The project's own build PC keeps it in the git folder (`.git\od-tools\nuget-packages`), which `tools\Initialize-BuildEnvironment.ps1` finds by itself. Elsewhere, put the packages the build restores into a folder of your own and set the variable. Today those are the packages of `Directory.Packages.props`: the libraries, the support assemblies and the WebView2 SDK, whose own files the build and the release take; `Mono.Cecil` 0.10.3 for the test projects that read assemblies; the test packages of MSTest 4 (`MSTest.TestFramework`, `MSTest.TestAdapter` and `MSTest.Analyzers` 4.5.3 and `Microsoft.NET.Test.Sdk` 18.12.0, with the packages they bring: `Microsoft.CodeCoverage`, `Microsoft.TestPlatform.ObjectModel`, `Microsoft.Testing.Platform` and its extensions, `Microsoft.ApplicationInsights`, `System.Reflection.Metadata` and `System.Collections.Immutable`; `docs/port-notes/S4-1.md`); and `System.ValueTuple` 4.6.2, which several libraries depend on and which `Directory.Packages.props` pins for every project, so the test packages' 4.5.0 is not copied into a test output folder (the framework's own copy binds). Every `packages.lock.json` names each package with its version and content hash. No project restores into a `packages` folder any more.
+- **Build Tools for Visual Studio 2026** (or Visual Studio 2026), with the .NET desktop, C++ (MSVC v143) and testing tools; one command installs them, see [docs/building.md](docs/building.md#prerequisites).
+- **The .NET SDK that `global.json` pins** (10.0.115), machine-wide or per user.
+- **The offline package folder.** The build downloads nothing: `nuget.config` restores from the folder that `OPMS_NUGET_OFFLINE` names, with the packages of `Directory.Packages.props`.
 
-One command installs the Build Tools with everything above, from the installer of the Visual Studio 2026 channel (`https://aka.ms/vs/18/stable/vs_buildtools.exe`):
+Get the source with its submodules (PDFsharp/MigraDoc and WeCantSpell.Hunspell are built from their upstream source):
 
 ```bash
-vs_buildtools.exe --passive --wait --norestart --add Microsoft.VisualStudio.Workload.ManagedDesktopBuildTools --add Microsoft.VisualStudio.Workload.VCTools --includeRecommended --add Microsoft.VisualStudio.Component.VC.14.44.17.14.x86.x64 --add Microsoft.Net.Component.4.8.TargetingPack --add Microsoft.Net.Component.4.8.SDK --add Microsoft.Net.Component.4.7.2.TargetingPack --add Microsoft.VisualStudio.Component.NuGet.BuildTools --add Microsoft.VisualStudio.Component.TestTools.BuildTools --add Microsoft.VisualStudio.Component.Windows11SDK.26100
+git clone --recurse-submodules https://github.com/Marysville-Dental-Center/OpenPMS-Dental.git
 ```
 
-### Get the source
-
-PDFsharp/MigraDoc and the WeCantSpell.Hunspell spell checker are built from their upstream source, which this repository references as git submodules instead of copying it (`third-party/PDFsharp`, `third-party/WeCantSpell.Hunspell`; [docs/third-party-source-builds.md](docs/third-party-source-builds.md)). Clone with them, or fetch them after cloning:
-
-```bash
-git clone --recurse-submodules <repository address>
-git submodule update --init
-```
-
-Without them the build stops with "The upstream source is missing".
-
-### Build
-
-Open **`OpenDental.Local.slnf`** in Visual Studio, not `OpenDental.sln`, and build `Debug | x64` (or `Release | x64` for an office). Since stage 3b of the .NET 10 move (package S3b-5) every project of the filter is .NET 10 but one test stand-in that stays .NET Framework on purpose (TopazStandIn, which no .NET 10 project references), so the whole filter restores and builds. From the command line, in PowerShell at the repository root:
+Build `OpenDental.Local.slnf` (the program, its libraries, services and tools, and every test project under `tests/`) in Visual Studio as `Debug | x64`, or from PowerShell at the repository root:
 
 ```powershell
 . .\tools\Initialize-BuildEnvironment.ps1; Initialize-BuildEnvironment -RepoRoot (Get-Location).Path
 & "C:\Program Files (x86)\Microsoft Visual Studio\18\BuildTools\MSBuild\Current\Bin\MSBuild.exe" OpenDental.Local.slnf -restore -p:RestoreLockedMode=true -p:Configuration=Debug -p:Platform=x64 -m -nodeReuse:false
 ```
 
-`Initialize-BuildEnvironment` sets, for that PowerShell window only, what the build needs: with a per-user .NET SDK, `DOTNET_MSBUILD_SDK_RESOLVER_CLI_DIR` and `PATH`, so MSBuild finds that SDK; `OPMS_NUGET_OFFLINE` when it is not set; no .NET telemetry. The tool scripts under `tools/` call it themselves. With a per-user SDK, start Visual Studio from that window, so it finds the SDK too. With Visual Studio installed instead of Build Tools, replace `BuildTools` in the path with your edition, e.g. `Community`. A clean build produces many compiler warnings and no errors. The main program is `OpenPmsDental\bin\Debug\OpenPmsDental.exe` (`OpenPmsDental\bin\Release\` for a Release build). Every program there is its apphost (`.exe`) with its `.dll`, `.runtimeconfig.json` and `.deps.json`, beside the folder's own x64 .NET runtime. The build also copies UpdateFileCopier's four files, the native file the program loads at run time, `WebView2Loader.dll` (x64, from the WebView2 package), and `Direct2dWrapper.dll` (x64) next to it, and the 32-bit helper with its own x86 runtime into `Helper32\`.
+The program is `OpenPmsDental\bin\Debug\OpenPmsDental.exe`. Run the tests (they need MariaDB 10.11 on `127.0.0.1:3306`, user `root`, blank password):
 
-### The solution and the solution filter
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File tools\run-tests.ps1 -Mode Core -Platform x64 -RequireBuildOutput
+```
 
-- **`OpenDental.Local.slnf`** loads the program and its libraries, services and tools, the adoption and synthetic-data tools under `tools/`, and every test project under `tests/`. The older or standalone projects listed under [Repository layout](#repository-layout) are not in it. `OpenDental.sln` lists the same projects, so either one builds the same set. The build scripts read the filter, so add a new project to both.
-- **`Directory.Build.targets`** gives the test projects their binding redirects, keeps the Microsoft Testing Platform's telemetry extension out of every output folder and applies the MSTest analyzer levels of `tests/MSTest.globalconfig` (the test projects use MSTest 4 from its NuGet packages since S4-1 of the .NET 10 move, `docs/port-notes/S4-1.md`). Every project is built from source: a missing project fails the build, and nothing is swapped for a DLL in `Required dlls/`.
-- **`Directory.Build.props`** and **`tests/Directory.Build.props`** hold the settings of the SDK-style projects only (flat `bin\Debug\` and `bin\Release\` output, x64 on .NET 10 and the helper x86, lock files, no generated assembly info); the classic projects ignore them. **`Directory.Packages.props`** names the version of every NuGet package (central package management); a project's `PackageReference` names none. **`global.json`** pins the .NET SDK, **`nuget.config`** the offline package folder. `tools\Get-ProjectBaseline.ps1` records what each project compiles, embeds and outputs, and compares that with the record in `tools/project-baseline/` taken before the change of project format.
-- **Version numbers:** `SharedAssemblyInfo.cs` in the repository root gives every shipped assembly its product name, copyright and release version (`0.0`). Each project's `AssemblyVersion` stays on its own line; for `OpenPmsDental.exe` and `OpenPmsDentalBusiness.dll` that is the compatibility version `24.3.63.0`, which the database checks use ([docs/release-process.md](docs/release-process.md)).
-- **We don't merge from upstream.** Open Dental's public source stops at 24.3.63; later features are re-implemented from public documentation ([docs/decoupling-plan.md](docs/decoupling-plan.md)).
-- **`.gitignore`** ignores build output (`bin/`, `obj/`, `packages/`, `.vs/`). The `ConversionFiles` already tracked under `OpenPmsDental/bin/Debug` remain tracked.
-
-## Running a development copy
-
-`OpenPmsDental.exe` needs a MariaDB database with its schema. `tools/New-DevDatabase.ps1` builds a development database from files in this repository, so you don't need Open Dental's installer or trial version. It is for development only: its seed is Open Dental's demo database, and its only user has a blank password. An office starts from [db/README.md](db/README.md) instead.
-
-### Database server
-
-We test with MariaDB 10.11 on `127.0.0.1:3306`, user `root`, blank password. Those are the script's defaults. Use the server settings from [Database server](#database-server) above:
-
-- `sql_mode=` (blank). The convert scripts need it. If the server is stricter, the tool runs `SET GLOBAL sql_mode=''` and warns, the same thing `OpenPmsDental.exe` does at startup.
-- `default-storage-engine=MyISAM`. The seed tables are MyISAM, and the convert scripts create new tables in the server's default engine. With another default the database ends up with mixed engines, and the tool warns.
-
-### Create the dev database
-
-From the repository root:
+Create a development database (the seed's fictional demo practice; log in as `Admin`, blank password) and point the program at it:
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File tools\New-DevDatabase.ps1 -WithSampleData -WriteConfig
 ```
 
-`-ExecutionPolicy Bypass` applies only to that one process. It's needed because Windows blocks scripts by default. The script builds `tools/DevDbTool`, a small console program, and runs it. The full solution build also builds DevDbTool; its `--export-init-sql` command writes the new office database file (`db/README.md`). Building it also builds `OpenPmsDentalBusiness`, `CodeBase` and `DataConnectionBase` if they're out of date. It:
+The full reference, with the solution layout, version numbers and every option, is [docs/building.md](docs/building.md). The release build and the setup are in [docs/release-process.md](docs/release-process.md).
 
-1. Creates the database `opendental_dev` with the `utf8` character set.
-2. Loads the seed `UnitTests/Resources/dump.txt`, the 21.1.9 database the unit tests start from.
-3. Upgrades it to this build's version by running the convert methods in `OpenPmsDentalBusiness/Misc/ConvertDatabases*.cs`, the same code `OpenPmsDental.exe` runs on an older database.
-4. Applies the default auto codes, procedure buttons and appointment quick-add procedures, as the unit tests' `FreshFromDump` does.
-5. Sets `ProgramVersion`, creates an A to Z images folder at `%USERPROFILE%\OpenDentImagesDev\<name>` and points `DocPath` at it.
-6. With `-WithSampleData`, adds a few fictional providers, operatories, patients, schedules and appointments.
-7. Checks the result: `DataBaseVersion` and `ProgramVersion` match the program version, no conversion is left half-done, and every table and column declared by the code's table types exists. HQ-only tables are skipped.
+## More
 
-It takes about a minute. The database starts as the seed's fictional demo practice, with two providers and six operatories. The only user is **`Admin`, with a blank password**.
+- [Installing in an office](docs/installing.md): the database server, the workstations and updates.
+- [Repository layout](docs/repository-layout.md): what each folder holds, the branches, Open Dental's own resources.
+- [Owner decisions and questions](docs/owner-questions.md) and the [port notes](docs/port-notes/) of every package.
 
-The tool talks only to the database server. It sends all .NET web requests to a dead local proxy, so if anything tries to call out over HTTP, the tool lists the addresses and exits with code 3. By default it refuses servers other than `localhost`/`127.0.0.1`. `-Force` refuses to drop a database that holds more than 200 patients.
+## License
 
-| Option | Meaning |
-|---|---|
-| `-Name <db>` | Database name (default `opendental_dev`) |
-| `-Server`, `-Port`, `-User`, `-Password` | Connection (default `127.0.0.1`, `3306`, `root`, blank) |
-| `-Force` | Drop and recreate the database if it exists |
-| `-WithSampleData` | Add the fictional sample practice data |
-| `-WriteConfig` | Write `OpenPmsDental\bin\Debug\FreeDentalConfig.xml` for this database. An existing file is kept as `.bak` |
-| `-AtoZPath <dir>` / `-NoAtoZ` | Use another images folder, or keep the seed's `C:\OpenDentImages\` |
-| `-VerifyOnly` | Check an existing database without changing it |
-| `-SkipBuild` | Use the already-built `tools\DevDbTool\bin\Debug\DevDbTool.exe` |
+The source files say "either version 2 of the License, or (at your option) any later version", so the program is licensed under the **GNU GPL v2 or later**; [LICENSE](LICENSE) holds the version 2 text. [THIRD-PARTY-NOTICES.txt](THIRD-PARTY-NOTICES.txt) lists the third-party components the program ships.
 
-`Get-Help .\tools\New-DevDatabase.ps1 -Full` lists every option.
+The program as distributed includes PDFsharp and MigraDoc 6.5, which are licensed under the **GNU AGPL v3**. The AGPL combines with GPL version 3 but not with version 2, so the program with them is distributed under the **GNU GPL v3** (which "or later" allows), and PDFsharp and MigraDoc keep the AGPL's terms. By section 13 of both licenses, the AGPL's requirements on interaction through a network apply to the combination as a whole. They apply to a modified version, and the PDFsharp built here is itself one (one file replaced, see below), so they cover any version of the program that users reach over a network, not only versions someone else modifies: a hosted Middle Tier, even one without local changes, must prominently offer its users the Corresponding Source of the whole program, such as a link to the release's `OpenPmsDental-<version>-source.zip`. [LICENSE-GPL-3.0.txt](LICENSE-GPL-3.0.txt) and [LICENSE-AGPL-3.0.txt](LICENSE-AGPL-3.0.txt) hold those texts; [NOTICE](NOTICE) explains it.
 
-### Point OpenPmsDental.exe at it
+PDFsharp and MigraDoc 6.5.0 (empira's AGPL source, tag v6.5.0) and WeCantSpell.Hunspell 7.0.1 are built here from their source, git submodules under `third-party/`. The PDFsharp built here replaces one file, empira's wrapper around its closed `PdfSharp.License.dll`, with an open one (a modified version under AGPL section 5a), so every file the setup installs has published source. Each release publishes its complete source as `OpenPmsDental-<version>-source.zip` next to the setup ([docs/third-party-source-builds.md](docs/third-party-source-builds.md)).
 
-`OpenPmsDental.exe` reads its connection from `FreeDentalConfig.xml` in its own folder, `OpenPmsDental\bin\Debug\`. Use one of these:
-
-- Run the script with `-WriteConfig`. Add `-VerifyOnly` to only write the config for an existing database.
-- Copy `tools/FreeDentalConfig.dev.xml` to `OpenPmsDental\bin\Debug\FreeDentalConfig.xml` and set `<Database>` if you used `-Name`.
-- Pass the connection on the command line: `OpenPmsDental.exe ServerName=127.0.0.1 DatabaseName=opendental_dev MySqlUser=root`.
-
-Then build the solution (see [Build](#build)), start `OpenPmsDental\bin\Debug\OpenPmsDental.exe`, and log in as `Admin` with a blank password.
-
-## Repository layout
-
-| Project | What it is |
-|---|---|
-| `OpenPmsDental/` | The WinForms desktop application (`OpenPmsDental.exe`): forms, modules, UI |
-| `OpenPmsDentalBusiness/` | Business logic and data access: table types, `Crud/` (generated), `Db*/`, eClaims, X12, HL7, bridges, sheets, web services, the fork migrations and the release channel (`Misc/ForkMigrations`, `Misc/ForkRelease`) |
-| `WpfControlsOD/` | WPF controls and newer UI hosted in the WinForms app |
-| `CodeBase/` | Shared utilities with no database dependency, including stored-secret obfuscation and the `SecurityHash` tamper hashes (`CodeBase/Crypto/`, see its README) |
-| `DataConnectionBase/` | Low-level MySQL/MariaDB connection layer |
-| `ImagingDeviceManager/`, `ImagingCapture/` | Open source TWAIN scanning and native image capture for the Imaging module ([docs/imaging-capture-design.md](docs/imaging-capture-design.md)) |
-| `ODCrypt/` | Standard hash, random and compression helpers |
-| `xCrudGenerator/` | Generates `OpenPmsDentalBusiness/Crud/*` from the table types. Run it after changing a table type |
-| `OpenPmsDentalServer/` | Middle-tier server (ASP.NET Core, one HTTPS endpoint, run as a Windows service or in IIS, self-contained x64; S3b-6). Its path stays /OpenDentalServer, so the workstations' saved addresses and logins keep working |
-| `OpenPmsDentalHL7/`, `ServiceManager/`, `CentralManager/`, `DatabaseIntegrityCheck/`, `MySQLManager/`, `UpdateFileCopier/` | Supporting services and tools; `UpdateFileCopier.exe` installs a pulled release |
-| `OpenPmsDentalStorage/`, `OpenPmsDentalGraph/`, `SparksToothChart/`, `Direct2dWrapper/`, `PasswordVaultWrapper/` | SFTP A to Z storage, dashboards, tooth chart rendering, native Direct2D, and Windows Credential Manager libraries |
-| `tests/` | MSTest 4 test projects (run by vstest), one per package, in the solution filter. Tests that need a database create a scratch database with a unique name on `127.0.0.1:3306` and drop it afterwards |
-| `UnitTests/`, `UnitTestsCore/`, `NoHqTests/` | Open Dental's tests (MSTest 4 since S4-1) and their helpers, and the checks that no Open Dental servers are contacted. `tools/run-tests.ps1` runs the legacy `UnitTests` project (`Unit Tests.exe`, named `UnitTests` in `-Include`) with the others. It builds its own database `unittest<version>_<time>_<process>` on `127.0.0.1:3306` from the seed dump and drops it at the end (set `OPENPMS_UNITTESTS_KEEPDB=1` to keep it). Its developer windows under `UI Testing/` are opened by hand, not run as tests |
-| `tools/` | `New-DevDatabase.ps1` and `DevDbTool/` (development database), `New-InitSql.ps1` (regenerates `db/init/new-database.sql`), `AdoptionValidation/` (adopting an Open Dental database), `SyntheticData/` (synthetic test data), `run-tests.ps1` (the test runner), `Initialize-BuildEnvironment.ps1` (finds MSBuild and vstest of the Build Tools 2026 and sets the build's environment, for the other scripts), `Get-ProjectBaseline.ps1` (records and compares what each project compiles, embeds and outputs; the record is `project-baseline/`), `Test-NoHqHosts.ps1` (fails if code still references Open Dental's hosts), `Test-NoOldNames.ps1` (lists the program's old internal names, for the rename), `Build-Release.ps1` (the release: staging, checks, checksums and the setup) and `Test-Installer.ps1` (an elevated test install and uninstall of the setup, for all users; the owner runs it from an elevated PowerShell at a Release dry run) |
-| `installer/` | The Inno Setup 6 script of the workstation setup (`OpenPmsDental.iss`) and its information page |
-| `docs/` | Design notes, the release process, the adoption runbook, the binaries audit and one port note per package (`docs/port-notes/`) |
-| `Required dlls/` | The third-party files the build references that have no NuGet package (the Direct Project, the QuickBooks Desktop and Schick interop); the files of NuGet packages come from the packages (`Directory.Packages.props`). What ships is listed in [THIRD-PARTY-NOTICES.txt](THIRD-PARTY-NOTICES.txt); the rest is reviewed in [docs/third-party-binaries-audit.md](docs/third-party-binaries-audit.md) |
-| `third-party/` | Upstream source the program builds instead of shipping prebuilt files: the git submodules `PDFsharp` (PDFsharp/MigraDoc 6.5.0, empira's AGPL source) and `WeCantSpell.Hunspell` (7.0.1), pinned to their release commits, and `build/`, this project's own project files that compile them in the solution, with the one PDFsharp file the build replaces ([docs/third-party-source-builds.md](docs/third-party-source-builds.md)) |
-| `ODR/`, `RdlEngine/`, `RdlViewer/` | RDL reports: `ODR.dll`, the code module report definitions call, and the fyiReporting RDL engine and viewer (LGPL 2.1), built from source in the solution and copied next to `OpenPmsDental.exe` ([docs/port-notes/RDL-SRC.md](docs/port-notes/RDL-SRC.md)) |
-| `RdlDesign/` | fyiReporting's RDL report designer (`RdlDesigner.exe`), built in the solution against `RdlEngine/` and `RdlViewer/`; a developer tool, not shipped |
-| `DocumentationBuilder/` | Open Dental's documentation tool: the schema documentation (`OpenDentalDocumentation.xml` and the diff against a previous version), the unit test and the preference documentation; built in the solution against the program; a developer tool, not shipped |
-| `PluginExample/` | Older standalone project, not in the solution filter and not built |
-
-## Branches
-
-| Branch | Contents |
-|---|---|
-| `main` | Our development line: Open Dental 24.3.63 and the fork's own work |
-| `24_3` | Upstream Open Dental v24.3 releases (one commit per build, e.g. `version 24.3.63.0`), kept for reference |
-| `21_1` to `24_2` | Older upstream release lines, kept for reference |
-
-The upstream branches are not merged into `main` any more (see [The solution and the solution filter](#the-solution-and-the-solution-filter)).
-
-## Upstream resources
-
-- [Source Code](https://www.opendental.com/site/sourcecode.html): Open Dental's own build notes
-- [Programming Resources](https://www.opendental.com/site/programmingresources.html): database schema documentation
-- [Previous Versions](https://opendentalsoft.com:1943/ODBugTracker/PreviousVersions.aspx): changes per release
-- [Subversion (SVN)](https://opendentalsoft.com:23793/svn/opendental): source before 2022 (username **guest**, password **od123**)
-- [Downloads](https://www.opendental.com/manual/downloads.html): source before 2007
-
-Open Dental does not accept outside code contributions. See [Programming Assistance](https://www.opendental.com/site/programmingassistance.html). This repository is licensed under the GNU GPL v2 or later, and the program as distributed with PDFsharp and MigraDoc under the GNU GPL v3; see [LICENSE](LICENSE), [LICENSE-GPL-3.0.txt](LICENSE-GPL-3.0.txt) and [NOTICE](NOTICE).
+Names that existing installations and databases depend on keep Open Dental's spelling: the database, `FreeDentalConfig.xml`, the Middle Tier's service names, and internal type names. The program's own assemblies carry the code name `OpenPmsDental` ([docs/port-notes/RENAME.md](docs/port-notes/RENAME.md)).

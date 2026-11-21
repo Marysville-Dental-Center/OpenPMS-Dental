@@ -362,13 +362,15 @@ namespace AttributionTests {
 		}
 
 		[TestMethod]
-		public void Readme_HasTheOfficeInstall() {
-			string readme=ReadRepoFile("README.md");
+		public void InstallingDoc_HasTheOfficeInstall() {
+			//The office install moved from README.md to docs/installing.md (2026-11-21, the shorter README); the README links to it.
+			StringAssert.Contains(ReadRepoFile("README.md"),"(docs/installing.md)");
+			string readme=ReadRepoFile("docs","installing.md");
 			foreach(string text in new[] {
-				"## Installing in an office","MariaDB Server","**10.11**","sql_mode=","default-storage-engine=MyISAM","max_allowed_packet=40M",
+				"# Installing in an office","MariaDB Server","**10.11**","sql_mode=","default-storage-engine=MyISAM","max_allowed_packet=40M",
 				"at least 40 MB","Windows 11, 64-bit","No .NET to install","Visual C++ 2015-2022 Redistributable, x64","vc_redist.x64.exe",
-				"(db/README.md)","db/init/new-database.sql","(docs/release-process.md)","C:\\Program Files\\Open PMS - Dental\\","TWAINDSM.dll",
-				"**Release | x64**","(docs/adoption-runbook.md)" })
+				"(../db/README.md)","db/init/new-database.sql","(release-process.md)","C:\\Program Files\\Open PMS - Dental\\","TWAINDSM.dll",
+				"**Release | x64**","(adoption-runbook.md)" })
 			{
 				StringAssert.Contains(readme,text);
 			}

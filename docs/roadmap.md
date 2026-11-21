@@ -4,19 +4,21 @@ Planned work after v0.0, as agreed with the owner. Each item is discussed and sc
 
 ## Next
 
-Status on 2026-11-20. Of the list scheduled with the owner on 2026-11-07, the Open Dental 26.2 features, **.NET 10** (64-bit, merged on
+Status on 2026-11-21. Of the list scheduled with the owner on 2026-11-07, the Open Dental 26.2 features, **.NET 10** (64-bit, merged on
 2026-11-17, `docs/specs/net10-plan.md`), **the tooth chart's 3D drawing** on WPF (TC-0 to TC-10, `docs/specs/wpf-tooth-chart-plan.md`)
 and **EHR again** (EHR-1 to EHR-7, `docs/specs/ehr-rebuild-plan.md`; the CQM reports wait for counsel's answer to E-10) are done. The
 compressed DICOM decoders stay parked until such files turn up.
 
-Now: **the UI refresh** (owner, 2026-11-17: "Modernize icons, buttons, styles. Keep it clean and professional."), restyle only, every
-window keeping its layout; the plan is `docs/specs/ui-refresh-plan.md`. Done and approved: the tokens and design sheet, the window frame, the
-controls, the toolbars, every button picture as a Fluent icon (UI-9a) and the main and module toolbars (UI-9b-1). Left: UI-9b-2 to UI-9b-4
-(the other ImageLists: the imaging module, the trees, the other forms), UI-10 (text fit), UI-2b (Segoe UI 9 pt), UI-11 (the last colours
-and the final sweep), then the toolbar overflow button and keyboard focus on the WPF buttons.
+Now: **the UI refresh** (owner, 2026-11-17: "Modernize icons, buttons, styles. Keep it clean and professional."); the plan is
+`docs/specs/ui-refresh-plan.md`. Done: the tokens and design sheet, the window frame, the controls, the toolbars, every button picture as a
+Fluent icon (UI-9a, UI-9b-1 to UI-9b-4), text fit (UI-10) and Segoe UI 9 pt (UI-2b, merged 2026-11-21). After the owner's review of
+2026-11-21 ("UI lacking consistence. choice of spacing not symetrical") every window is laid out again on one spacing grid, with the
+checkbox on the left of its text (UI-12: a pilot, then every window in slices); this replaces "every window keeping its layout". Then UI-11
+(the last colours and the final sweep), the toolbar overflow button and keyboard focus on the WPF buttons.
 
 Not scheduled yet: the next release, the office switch-over (after the 64-bit TWAIN drivers are tested on the clinic's sensor), the server
-components on Linux, the GitHub repository move, and Open Dental 26.3.
+components on Linux, and Open Dental 26.3. The GitHub repository was renamed to OpenPMS-Dental on 2026-11-21 (the old address redirects)
+and has a project site on GitHub Pages, built from `site/`.
 
 The owner questions of each package are recorded with their answers in `docs/owner-questions.md`.
 
@@ -152,5 +154,4 @@ format of any other compressed file. Background: docs/reviews/2026-11-02-dicom-c
 - Server components on Linux, new ones in Rust: a plan first (image storage, backups on the server, publishing releases from the server,
   scheduled jobs). The Middle Tier is the exception: it moves to .NET 10 on Windows now, and a Linux Middle Tier waits for this plan (owner,
   2026-11-07: "Defer Linux middle tier").
-- The GitHub repository moves to a neutral name.
 - Open Dental 26.3, once Open Dental marks it stable.

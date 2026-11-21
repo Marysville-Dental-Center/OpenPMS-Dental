@@ -211,7 +211,8 @@ namespace ReportTests {
 		[TestMethod]
 		public void Docs_SayTheThreeAreBuiltFromSource() {
 			//M16 integration follow-up: the README, the RDL upgrade comments and the binaries audit no longer describe the prebuilt binaries.
-			string[] arrayReadmeLines=Read("README.md").Replace("\r\n","\n").Split('\n');
+			//The repository layout moved from README.md to docs/repository-layout.md (2026-11-21, the shorter README).
+			string[] arrayReadmeLines=Read(@"docs\repository-layout.md").Replace("\r\n","\n").Split('\n');
 			string readmeNotBuilt=arrayReadmeLines.Single(x => x.StartsWith("| ") && x.Contains("not built"));
 			foreach(string folder in new[] { "`ODR/`","`RdlEngine/`","`RdlViewer/`" }) {
 				Assert.IsFalse(readmeNotBuilt.Contains(folder),"README lists "+folder+" as not built.");
