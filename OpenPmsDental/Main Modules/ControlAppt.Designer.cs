@@ -1005,7 +1005,6 @@
 		private System.Windows.Forms.ContextMenuStrip menuReminderEdit;
 		private System.Windows.Forms.ToolStripMenuItem menuItemReminderDone;
 		private System.Windows.Forms.ToolStripMenuItem menuItemReminderGoto;
-		private System.Windows.Forms.ImageList imageListTasks;
 		private System.Windows.Forms.Panel panelCalendarLower;
 		private System.Windows.Forms.ContextMenuStrip menuRecall;
 		private System.Windows.Forms.Label label1;

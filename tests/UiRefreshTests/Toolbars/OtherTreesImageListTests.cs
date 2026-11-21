@@ -229,7 +229,7 @@ namespace UiRefreshTests.Toolbars {
 		public void Designers_HaveNoStreamLeft_ButtonsAndToolbarTakeTheirIcons() {
 			string root=RepoPaths.Root();
 			string[] arrayDesigners=new[] {
-				"OpenPmsDental\\User Controls\\UserControlTasks.Designer.cs","OpenPmsDental\\Main Modules\\ControlAppt.Designer.cs",
+				"OpenPmsDental\\User Controls\\UserControlTasks.Designer.cs",
 				"OpenPmsDental\\User Controls\\UserControlSecurityTree.Designer.cs","OpenPmsDental\\Forms\\FormAutoNotes.designer.cs","OpenPmsDental\\Forms\\FormAutoNoteExport.Designer.cs",
 				"OpenPmsDental\\Forms\\FormEmailInbox.designer.cs","OpenPmsDental\\Forms\\FormSetupWizard.designer.cs","OpenPmsDental\\Forms\\FormSetupWizardProgress.designer.cs",
 				"OpenPmsDental\\User Controls\\SetupWizControls\\UserControlSetupWizDefinitions.Designer.cs","OpenPmsDental\\User Controls\\SetupWizControls\\UserControlSetupWizFeatures.Designer.cs",
@@ -241,6 +241,7 @@ namespace UiRefreshTests.Toolbars {
 				Assert.IsFalse(text.Contains("ImageListStreamer"),designer+" still loads an ImageList stream.");
 				Assert.IsFalse(text.Contains("System.Windows.Forms.ImageList"),designer+" still has an ImageList.");
 			}
+			Assert.IsFalse(File.ReadAllText(Path.Combine(root,"OpenPmsDental\\Main Modules\\ControlAppt.Designer.cs")).Contains("imageListTasks"),"ControlAppt: the reminders grid's list is gone from the designer.");
 			string textEmail=File.ReadAllText(Path.Combine(root,"OpenPmsDental\\Forms\\FormEmailInbox.designer.cs"));
 			foreach(KeyValuePair<string,string> pair in new Dictionary<string,string> { { "butCompose","Edit" },{ "butRefresh","Sync" },{ "butReply","Reply" },{ "butSearch","Search" },{ "butReplyAll","ReplyAll" },{ "butForward","Forward" } }) {
 				Assert.IsTrue(textEmail.Contains("this."+pair.Key+".Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons."+pair.Value+",16,16);"),pair.Key);
