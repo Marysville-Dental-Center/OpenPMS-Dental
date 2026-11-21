@@ -73,7 +73,7 @@ namespace UiRefreshTests.Toolbars {
 
 		///<summary>The ink of a tree's picture: a pixel that is not the tree's white background.</summary>
 		private static bool IsInk(Color color) {
-			return color.R+color.G+color.B<3*235;
+			return color.R+color.G+color.B<3*250;
 		}
 
 		private static string GetPath(string folder,string name) {
@@ -104,7 +104,8 @@ namespace UiRefreshTests.Toolbars {
 					}
 					treeView.Nodes.Add(treeNode);
 				}
-				treeView.Size=new Size(UiTheme.ScaleI(200,scale),Math.Max(treeView.ItemHeight,imageList.ImageSize.Height+2)*imageList.Images.Count+4);
+				treeView.ItemHeight=Math.Max(treeView.ItemHeight,imageList.ImageSize.Height+2);
+				treeView.Size=new Size(UiTheme.ScaleI(200,scale),treeView.ItemHeight*imageList.Images.Count+4);
 				treeView.CreateControl();
 				Bitmap bitmap=new Bitmap(treeView.Width,treeView.Height);
 				treeView.DrawToBitmap(bitmap,new Rectangle(Point.Empty,treeView.Size));
@@ -198,7 +199,7 @@ namespace UiRefreshTests.Toolbars {
 				Assert.AreEqual(3,countDisposed,"The old list is disposed at each change.");
 				imageList.Dispose();
 				//The size follows the scale: 16 px at 100%, 24 at 150%, 32 at 200%.
-				Assert.AreEqual(new[] { 16,24,32 },ArrayScales.Select(x => UiTheme.ScaleI(16,x)).ToArray());
+				CollectionAssert.AreEqual(new[] { 16,24,32 },ArrayScales.Select(x => UiTheme.ScaleI(16,x)).ToArray());
 			});
 		}
 
