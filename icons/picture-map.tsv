@@ -181,6 +181,6 @@ RdlDesigner:bCut.Image	EnumIcons.Cut	report designer toolbar: Cut
 RdlDesigner:bNew.Image	EnumIcons.NewDocument	report designer toolbar: New
 RdlDesigner:bUndo.Image	EnumIcons.Undo	report designer toolbar: Undo
 RdlDesigner:bPdf.Image	EnumIcons.Pdf	report designer toolbar: export to PDF (18 x 16, the width kept)
-RdlDesigner:bXml.Image	EnumIcons.Xml	report designer toolbar: export to XML (20 x 16, the width kept)
-RdlDesigner:bHtml.Image	EnumIcons.Html	report designer toolbar: export to HTML (26 x 16, the width kept)
-RdlDesigner:bMht.Image	EnumIcons.Mht	report designer toolbar: export to MHT (21 x 17, the width kept)
+RdlDesigner:bXml.Image	EnumIcons.Xml	report designer toolbar: export to XML (16 x 16, square: the owner asked 2026-11-20, the wide picture put the icon against the text)
+RdlDesigner:bHtml.Image	EnumIcons.Html	report designer toolbar: export to HTML (16 x 16, square: the owner asked 2026-11-20, the wide picture put the icon against the text)
+RdlDesigner:bMht.Image	EnumIcons.Mht	report designer toolbar: export to MHT (16 x 16, square: the owner asked 2026-11-20, the wide picture put the icon against the text)

@@ -486,7 +486,7 @@ OpenPmsDentalHelper32 (their slices stay listed so `PictureMapTests` keeps confi
 | Project | Uses | What happened |
 |---|---|---|
 | CentralManager | 11 `Resx` button pictures (22 x 22) in 6 windows, 1 `ImageList` | 11 as `UI.Button.Icon` (the vertical nudge of `butUp` removed); the 11 `.resx` entries removed; `FormCentralSecurity.imageListPerm` to UI-9b |
-| RdlDesign | 21 `Resx` toolbar pictures (16 x 16, the four export pictures 18 x 16, 20 x 16, 26 x 16 and 21 x 17) on hidden designer buttons, 1 About logo | 21 as `CodeBase.UiIcons.GetBitmap("EnumIcons",member,width,height)` at today's pixel size; the 21 `.resx` entries removed; the fyiReporting logo kept (4.5) |
+| RdlDesign | 21 `Resx` toolbar pictures (16 x 16, the four export pictures 18 x 16, 20 x 16, 26 x 16 and 21 x 17) on hidden designer buttons, 1 About logo | 21 as `CodeBase.UiIcons.GetBitmap("EnumIcons",member,width,height)` at today's pixel size (XML, HTML, MHT squared to 16 x 16, see below); the 21 `.resx` entries removed; the fyiReporting logo kept (4.5) |
 | CodeBase | `MsgBoxCopyPaste.butPrint` (22 x 22) | `UiIcons.GetBitmap("EnumIcons","Print",22,22)`, the `.resx` entry removed |
 | ODR | `ComboBoxMulti.dropButton` (17 x 19) | `UiIcons.GetBitmap("EnumIcons","ChevronDown",17,19)`, the `.resx` entry removed |
 
@@ -494,7 +494,7 @@ OpenPmsDentalHelper32 (their slices stay listed so `PictureMapTests` keeps confi
   `global::CodeBase.UiIcons.GetBitmap("EnumIcons","<member>",<w>,<h>)` and recorded with how `UiIcons`; `PictureMapTests` already checks that form.
 - **RdlDesign.** `InitToolbarMenu` and `InitToolbarInsertToogle` copy each hidden button's `Image` to the real toolbar button at run time, and the button's size comes from its
   picture (`img.Height + 5`, `img.Width + 8`), so the generated bitmap has today's size and no toolbar button moves. `ReportDesigner.csproj` already links `UiIcons.cs`,
-  `UiIcons.Gdi.cs` and `IconData.g.cs` (UI-6); no further link was needed. The wide export pictures hold the icon centred in a 16 px square, the width kept.
+  `UiIcons.Gdi.cs` and `IconData.g.cs` (UI-6); no further link was needed. The export pictures PDF (18 x 16) keeps its width with the icon centred in a 16 px square; XML, HTML and MHT are 16 x 16 since the owner's review of 2026-11-20 ("icon position is off": on the hidden designer buttons the wide picture put the icon against the text). The toolbar buttons InitToolbarMenu builds from them are therefore 4 to 10 px narrower, like the other toolbar buttons.
 - The 21 `.gif` files in the `RdlDesign` folder stay (4.5: no code uses them).
 
 ### 9.2 New `EnumIcons` (18, block "UI-9a-7" in both enums; 92 WinForms, 103 WPF; 18 manifest rows, 54 SVGs)

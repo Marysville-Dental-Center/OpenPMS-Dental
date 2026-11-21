@@ -1211,7 +1211,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// bXml
 			// 
-			this.bXml.Image = global::CodeBase.UiIcons.GetBitmap("EnumIcons","Xml",20,16);
+			this.bXml.Image = global::CodeBase.UiIcons.GetBitmap("EnumIcons","Xml",16,16);
 			this.bXml.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.bXml.Location = new System.Drawing.Point(504, 288);
 			this.bXml.Name = "bXml";
@@ -1221,7 +1221,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// bHtml
 			// 
-			this.bHtml.Image = global::CodeBase.UiIcons.GetBitmap("EnumIcons","Html",26,16);
+			this.bHtml.Image = global::CodeBase.UiIcons.GetBitmap("EnumIcons","Html",16,16);
 			this.bHtml.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.bHtml.Location = new System.Drawing.Point(608, 320);
 			this.bHtml.Name = "bHtml";
@@ -1231,7 +1231,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// bMht
 			// 
-			this.bMht.Image = global::CodeBase.UiIcons.GetBitmap("EnumIcons","Mht",21,17);
+			this.bMht.Image = global::CodeBase.UiIcons.GetBitmap("EnumIcons","Mht",16,16);
 			this.bMht.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.bMht.Location = new System.Drawing.Point(504, 360);
 			this.bMht.Name = "bMht";
