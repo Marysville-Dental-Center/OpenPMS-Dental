@@ -230,7 +230,7 @@ namespace OpenPmsDental{
 			// 
 			this.label2.Location = new System.Drawing.Point(56, 73);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(238, 16);
+			this.label2.Size = new System.Drawing.Size(238, 18);
 			this.label2.TabIndex = 110;
 			this.label2.Text = "minutes after patient dismissed.";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -248,7 +248,7 @@ namespace OpenPmsDental{
 			// 
 			this.label1.Location = new System.Drawing.Point(56, 48);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(238, 16);
+			this.label1.Size = new System.Drawing.Size(238, 18);
 			this.label1.TabIndex = 109;
 			this.label1.Text = "minutes after patient arrived.\r\n";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -275,7 +275,7 @@ namespace OpenPmsDental{
 			// 
 			this.label4.Location = new System.Drawing.Point(56, 21);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(238, 16);
+			this.label4.Size = new System.Drawing.Size(238, 18);
 			this.label4.TabIndex = 97;
 			this.label4.Text = "minutes after appointment completed.\r\n";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -304,7 +304,7 @@ namespace OpenPmsDental{
 			this.checkShowCommlogsInChart.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkShowCommlogsInChart.Location = new System.Drawing.Point(1, 132);
 			this.checkShowCommlogsInChart.Name = "checkShowCommlogsInChart";
-			this.checkShowCommlogsInChart.Size = new System.Drawing.Size(224, 18);
+			this.checkShowCommlogsInChart.Size = new System.Drawing.Size(225, 18);
 			this.checkShowCommlogsInChart.TabIndex = 123;
 			this.checkShowCommlogsInChart.Text = "Show commlogs in chart and account";
 			// 

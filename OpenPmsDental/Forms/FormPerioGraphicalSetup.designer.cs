@@ -168,7 +168,7 @@ namespace OpenPmsDental{
 			// 
 			this.label5.Location = new System.Drawing.Point(6, 22);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(136, 18);
+			this.label5.Size = new System.Drawing.Size(138, 18);
 			this.label5.TabIndex = 220;
 			this.label5.Text = "Clinical Attachment Level";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

@@ -56,7 +56,7 @@ namespace OpenPmsDental{
 			// 
 			this.label1.Location = new System.Drawing.Point(6, 14);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(132, 47);
+			this.label1.Size = new System.Drawing.Size(132, 52);
 			this.label1.TabIndex = 5;
 			this.label1.Text = "Roundtrip time for a very small query to the database.";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -119,7 +119,7 @@ namespace OpenPmsDental{
 			// 
 			this.label3.Location = new System.Drawing.Point(6, 19);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(132, 42);
+			this.label3.Size = new System.Drawing.Size(132, 52);
 			this.label3.TabIndex = 5;
 			this.label3.Text = "For a larger database query.  The latency time is already subtracted.";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -156,7 +156,7 @@ namespace OpenPmsDental{
 			// 
 			this.labelAverageExplain.Location = new System.Drawing.Point(6, 16);
 			this.labelAverageExplain.Name = "labelAverageExplain";
-			this.labelAverageExplain.Size = new System.Drawing.Size(194, 30);
+			this.labelAverageExplain.Size = new System.Drawing.Size(200, 30);
 			this.labelAverageExplain.TabIndex = 0;
 			this.labelAverageExplain.Text = "Average of several round trips of the same small query.";
 			// 

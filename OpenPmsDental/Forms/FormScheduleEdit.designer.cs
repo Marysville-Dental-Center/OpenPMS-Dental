@@ -42,7 +42,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelStop.Location = new System.Drawing.Point(6, 39);
 			this.labelStop.Name = "labelStop";
-			this.labelStop.Size = new System.Drawing.Size(89, 16);
+			this.labelStop.Size = new System.Drawing.Size(89, 18);
 			this.labelStop.TabIndex = 9;
 			this.labelStop.Text = "Stop Time";
 			this.labelStop.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -113,7 +113,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelOps.Location = new System.Drawing.Point(348, 2);
 			this.labelOps.Name = "labelOps";
-			this.labelOps.Size = new System.Drawing.Size(243, 28);
+			this.labelOps.Size = new System.Drawing.Size(255, 28);
 			this.labelOps.TabIndex = 26;
 			this.labelOps.Text = "Operatories. Usually, do not select operatories.  Only used to override default o" +
     "peratory provider.";

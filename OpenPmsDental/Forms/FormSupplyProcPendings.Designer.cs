@@ -34,7 +34,7 @@ namespace OpenPmsDental {
 			//
 			this.labelInstructions.Location = new System.Drawing.Point(12, 7);
 			this.labelInstructions.Name = "labelInstructions";
-			this.labelInstructions.Size = new System.Drawing.Size(736, 30);
+			this.labelInstructions.Size = new System.Drawing.Size(748, 30);
 			this.labelInstructions.TabIndex = 0;
 			this.labelInstructions.Text = "Completed procedures whose materials were not confirmed: nothing was deducted for them yet. Select one or more and " +
     "click Materials to confirm what they used.";

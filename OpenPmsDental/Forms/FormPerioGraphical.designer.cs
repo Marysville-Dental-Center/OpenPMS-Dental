@@ -59,7 +59,7 @@
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butSave.Location = new System.Drawing.Point(672, 56);
 			this.butSave.Name = "butSave";
-			this.butSave.Size = new System.Drawing.Size(84, 24);
+			this.butSave.Size = new System.Drawing.Size(88, 24);
 			this.butSave.TabIndex = 219;
 			this.butSave.Text = "Save to Images";
 			this.butSave.Click += new System.EventHandler(this.butSave_Click);

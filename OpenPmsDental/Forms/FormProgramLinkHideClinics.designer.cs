@@ -109,7 +109,7 @@ namespace OpenPmsDental {
 			this.label3.Location = new System.Drawing.Point(12, 4);
 			this.label3.Name = "label3";
 			this.label3.RightToLeft = System.Windows.Forms.RightToLeft.No;
-			this.label3.Size = new System.Drawing.Size(436, 29);
+			this.label3.Size = new System.Drawing.Size(439, 29);
 			this.label3.TabIndex = 78;
 			this.label3.Text = "Program Link button will be hidden for clinics on the left, and visible for clini" +
     "cs on the right.";

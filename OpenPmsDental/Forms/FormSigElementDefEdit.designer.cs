@@ -176,7 +176,7 @@ namespace OpenPmsDental {
 			// 
 			this.butRecord.Location = new System.Drawing.Point(142, 21);
 			this.butRecord.Name = "butRecord";
-			this.butRecord.Size = new System.Drawing.Size(105, 23);
+			this.butRecord.Size = new System.Drawing.Size(108, 23);
 			this.butRecord.TabIndex = 18;
 			this.butRecord.Text = "Windows Recorder";
 			this.butRecord.Click += new System.EventHandler(this.butRecord_Click);

@@ -104,7 +104,7 @@ namespace OpenPmsDental {
 			// 
 			this.label10.Location = new System.Drawing.Point(91, 260);
 			this.label10.Name = "label10";
-			this.label10.Size = new System.Drawing.Size(148, 14);
+			this.label10.Size = new System.Drawing.Size(148, 18);
 			this.label10.TabIndex = 53;
 			this.label10.Text = "Note";
 			this.label10.TextAlign = System.Drawing.ContentAlignment.BottomLeft;

@@ -65,7 +65,7 @@ namespace OpenPmsDental{
 			// 
 			this.label2.Location = new System.Drawing.Point(2, 65);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(174, 16);
+			this.label2.Size = new System.Drawing.Size(174, 18);
 			this.label2.TabIndex = 7;
 			this.label2.Text = "Current Charge Amount";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -74,7 +74,7 @@ namespace OpenPmsDental{
 			// 
 			this.label3.Location = new System.Drawing.Point(2, 151);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(174, 16);
+			this.label3.Size = new System.Drawing.Size(174, 18);
 			this.label3.TabIndex = 8;
 			this.label3.Text = "Super Family Head";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -83,7 +83,7 @@ namespace OpenPmsDental{
 			// 
 			this.label4.Location = new System.Drawing.Point(299, 150);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(333, 31);
+			this.label4.Size = new System.Drawing.Size(346, 31);
 			this.label4.TabIndex = 10;
 			this.label4.Text = "Enter patnum of super family head to only update that super family. Leave blank t" +
     "o update entire database.";
@@ -100,7 +100,7 @@ namespace OpenPmsDental{
 			// 
 			this.label6.Location = new System.Drawing.Point(299, 67);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(333, 20);
+			this.label6.Size = new System.Drawing.Size(346, 20);
 			this.label6.TabIndex = 12;
 			this.label6.Text = "Update repeating charges that currently have this charge amount.";
 			// 
@@ -108,7 +108,7 @@ namespace OpenPmsDental{
 			// 
 			this.label7.Location = new System.Drawing.Point(299, 190);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(333, 33);
+			this.label7.Size = new System.Drawing.Size(346, 33);
 			this.label7.TabIndex = 14;
 			this.label7.Text = "Update repeating charges that are currently enabled or disabled. Select both to u" +
     "pdate enabled and disabled.";
@@ -133,7 +133,7 @@ namespace OpenPmsDental{
 			// 
 			this.label9.Location = new System.Drawing.Point(299, 226);
 			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(333, 33);
+			this.label9.Size = new System.Drawing.Size(346, 33);
 			this.label9.TabIndex = 17;
 			this.label9.Text = "Update repeating charges that have a start date on or after this date. Leave blan" +
     "k to update regardless of start date.";
@@ -150,7 +150,7 @@ namespace OpenPmsDental{
 			// 
 			this.label11.Location = new System.Drawing.Point(2, 107);
 			this.label11.Name = "label11";
-			this.label11.Size = new System.Drawing.Size(174, 16);
+			this.label11.Size = new System.Drawing.Size(174, 18);
 			this.label11.TabIndex = 19;
 			this.label11.Text = "New Charge Amount";
 			this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -196,7 +196,7 @@ namespace OpenPmsDental{
 			// 
 			this.label12.Location = new System.Drawing.Point(2, 190);
 			this.label12.Name = "label12";
-			this.label12.Size = new System.Drawing.Size(174, 16);
+			this.label12.Size = new System.Drawing.Size(174, 18);
 			this.label12.TabIndex = 22;
 			this.label12.Text = "Repeat Charge Status";
 			this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

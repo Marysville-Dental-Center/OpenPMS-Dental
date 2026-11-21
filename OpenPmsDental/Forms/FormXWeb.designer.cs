@@ -85,10 +85,10 @@ namespace OpenPmsDental{
 			// 
 			// radioReturn
 			// 
-			this.radioReturn.AutoSize = true;
+			this.radioReturn.AutoSize = false;
 			this.radioReturn.Location = new System.Drawing.Point(17, 19);
 			this.radioReturn.Name = "radioReturn";
-			this.radioReturn.Size = new System.Drawing.Size(57, 17);
+			this.radioReturn.Size = new System.Drawing.Size(59, 18);
 			this.radioReturn.TabIndex = 0;
 			this.radioReturn.Text = "Return";
 			this.radioReturn.UseVisualStyleBackColor = true;
@@ -104,7 +104,7 @@ namespace OpenPmsDental{
 			// 
 			this.label7.Location = new System.Drawing.Point(263, 111);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(117, 16);
+			this.label7.Size = new System.Drawing.Size(117, 17);
 			this.label7.TabIndex = 25;
 			this.label7.Text = "Zip Code";
 			this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -120,7 +120,7 @@ namespace OpenPmsDental{
 			// 
 			this.label6.Location = new System.Drawing.Point(263, 68);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(117, 16);
+			this.label6.Size = new System.Drawing.Size(117, 17);
 			this.label6.TabIndex = 26;
 			this.label6.Text = "Security Code";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -152,7 +152,7 @@ namespace OpenPmsDental{
 			// 
 			this.label4.Location = new System.Drawing.Point(12, 111);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(150, 16);
+			this.label4.Size = new System.Drawing.Size(150, 17);
 			this.label4.TabIndex = 24;
 			this.label4.Text = "Expiration (MMYY)";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -207,7 +207,7 @@ namespace OpenPmsDental{
 			// 
 			this.label1.Location = new System.Drawing.Point(12, 200);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(150, 16);
+			this.label1.Size = new System.Drawing.Size(150, 18);
 			this.label1.TabIndex = 37;
 			this.label1.Text = "Payment Note";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;

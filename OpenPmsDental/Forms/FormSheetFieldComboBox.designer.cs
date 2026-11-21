@@ -61,13 +61,14 @@ namespace OpenPmsDental{
 			// 
 			this.labelUiLabelMobile.Location = new System.Drawing.Point(8, 114);
 			this.labelUiLabelMobile.Name = "labelUiLabelMobile";
-			this.labelUiLabelMobile.Size = new System.Drawing.Size(89, 16);
+			this.labelUiLabelMobile.Size = new System.Drawing.Size(90, 18);
 			this.labelUiLabelMobile.TabIndex = 126;
 			this.labelUiLabelMobile.Text = "Mobile Caption";
 			this.labelUiLabelMobile.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textReportable
 			// 
+			this.textReportable.AutoSize = false;
 			this.textReportable.Location = new System.Drawing.Point(302, 32);
 			this.textReportable.Name = "textReportable";
 			this.textReportable.Size = new System.Drawing.Size(69, 20);
@@ -101,13 +102,14 @@ namespace OpenPmsDental{
 			// 
 			this.label3.Location = new System.Drawing.Point(175, 34);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(126, 16);
+			this.label3.Size = new System.Drawing.Size(126, 18);
 			this.label3.TabIndex = 121;
 			this.label3.Text = "Reportable Name";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textTabOrder
 			// 
+			this.textTabOrder.AutoSize = false;
 			this.textTabOrder.Location = new System.Drawing.Point(302, 10);
 			this.textTabOrder.MaxVal = 2000;
 			this.textTabOrder.MinVal = -100;
@@ -128,7 +130,7 @@ namespace OpenPmsDental{
 			// 
 			this.label1.Location = new System.Drawing.Point(26, 186);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(71, 16);
+			this.label1.Size = new System.Drawing.Size(71, 18);
 			this.label1.TabIndex = 118;
 			this.label1.Text = "Option";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -206,7 +208,7 @@ namespace OpenPmsDental{
 			// 
 			this.labelHeight.Location = new System.Drawing.Point(26, 88);
 			this.labelHeight.Name = "labelHeight";
-			this.labelHeight.Size = new System.Drawing.Size(71, 16);
+			this.labelHeight.Size = new System.Drawing.Size(71, 18);
 			this.labelHeight.TabIndex = 108;
 			this.labelHeight.Text = "Height";
 			this.labelHeight.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

@@ -223,7 +223,7 @@ namespace OpenPmsDental{
 			// 
 			this.label9.Location = new System.Drawing.Point(322, 192);
 			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(225, 18);
+			this.label9.Size = new System.Drawing.Size(247, 18);
 			this.label9.TabIndex = 20;
 			this.label9.Text = "Optional. Normally use date on parent order.";
 			this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;

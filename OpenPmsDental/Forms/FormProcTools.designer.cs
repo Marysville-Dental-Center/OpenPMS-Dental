@@ -107,7 +107,7 @@ namespace OpenPmsDental {
 			// 
 			this.checkProcButtons.Location = new System.Drawing.Point(16, 302);
 			this.checkProcButtons.Name = "checkProcButtons";
-			this.checkProcButtons.Size = new System.Drawing.Size(646, 36);
+			this.checkProcButtons.Size = new System.Drawing.Size(646, 42);
 			this.checkProcButtons.TabIndex = 49;
 			this.checkProcButtons.Text = resources.GetString("checkProcButtons.Text");
 			// 

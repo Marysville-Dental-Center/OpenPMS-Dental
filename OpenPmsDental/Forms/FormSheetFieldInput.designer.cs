@@ -69,7 +69,7 @@ namespace OpenPmsDental{
 			// 
 			this.labelUiLabelMobile.Location = new System.Drawing.Point(163, 44);
 			this.labelUiLabelMobile.Name = "labelUiLabelMobile";
-			this.labelUiLabelMobile.Size = new System.Drawing.Size(105, 16);
+			this.labelUiLabelMobile.Size = new System.Drawing.Size(105, 18);
 			this.labelUiLabelMobile.TabIndex = 107;
 			this.labelUiLabelMobile.Text = "Mobile Caption";
 			this.labelUiLabelMobile.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -85,7 +85,7 @@ namespace OpenPmsDental{
 			// 
 			this.labelReportableName.Location = new System.Drawing.Point(127, 18);
 			this.labelReportableName.Name = "labelReportableName";
-			this.labelReportableName.Size = new System.Drawing.Size(141, 16);
+			this.labelReportableName.Size = new System.Drawing.Size(141, 18);
 			this.labelReportableName.TabIndex = 105;
 			this.labelReportableName.Text = "Reportable Name";
 			this.labelReportableName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -114,7 +114,7 @@ namespace OpenPmsDental{
 			this.checkRequired.Location = new System.Drawing.Point(196, 303);
 			this.checkRequired.Name = "checkRequired";
 			this.checkRequired.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-			this.checkRequired.Size = new System.Drawing.Size(85, 17);
+			this.checkRequired.Size = new System.Drawing.Size(85, 18);
 			this.checkRequired.TabIndex = 101;
 			this.checkRequired.Text = "Required";
 			// 
@@ -159,7 +159,7 @@ namespace OpenPmsDental{
 			// 
 			this.label8.Location = new System.Drawing.Point(197, 278);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(71, 16);
+			this.label8.Size = new System.Drawing.Size(71, 18);
 			this.label8.TabIndex = 96;
 			this.label8.Text = "Height";
 			this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

@@ -60,6 +60,7 @@ namespace OpenPmsDental{
 			// 
 			// textDaysFuture
 			// 
+			this.textDaysFuture.AutoSize = false;
 			this.textDaysFuture.Location = new System.Drawing.Point(89, 39);
 			this.textDaysFuture.Name = "textDaysFuture";
 			this.textDaysFuture.Size = new System.Drawing.Size(53, 20);
@@ -67,6 +68,7 @@ namespace OpenPmsDental{
 			// 
 			// textDaysPast
 			// 
+			this.textDaysPast.AutoSize = false;
 			this.textDaysPast.Location = new System.Drawing.Point(89, 17);
 			this.textDaysPast.Name = "textDaysPast";
 			this.textDaysPast.Size = new System.Drawing.Size(53, 20);
