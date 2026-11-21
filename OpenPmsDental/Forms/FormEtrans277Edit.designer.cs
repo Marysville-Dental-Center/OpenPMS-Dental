@@ -85,6 +85,7 @@ namespace OpenPmsDental{
 			// 
 			// textQuantityRejected
 			// 
+			this.textQuantityRejected.AutoSize = false;
 			this.textQuantityRejected.Location = new System.Drawing.Point(287,36);
 			this.textQuantityRejected.Name = "textQuantityRejected";
 			this.textQuantityRejected.ReadOnly = true;
@@ -101,6 +102,7 @@ namespace OpenPmsDental{
 			// 
 			// textAmountRejected
 			// 
+			this.textAmountRejected.AutoSize = false;
 			this.textAmountRejected.Location = new System.Drawing.Point(489,36);
 			this.textAmountRejected.Name = "textAmountRejected";
 			this.textAmountRejected.ReadOnly = true;
@@ -126,6 +128,7 @@ namespace OpenPmsDental{
 			// 
 			// textProcessDate
 			// 
+			this.textProcessDate.AutoSize = false;
 			this.textProcessDate.Location = new System.Drawing.Point(89,36);
 			this.textProcessDate.Name = "textProcessDate";
 			this.textProcessDate.ReadOnly = true;

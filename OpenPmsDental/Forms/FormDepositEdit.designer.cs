@@ -131,7 +131,7 @@ namespace OpenPmsDental {
 			// 
 			this.label6.Location = new System.Drawing.Point(184, 94);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(165, 16);
+			this.label6.Size = new System.Drawing.Size(165, 17);
 			this.label6.TabIndex = 0;
 			this.label6.Text = "Insurance Payment Types";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -148,6 +148,7 @@ namespace OpenPmsDental {
 			// 
 			// textDateStart
 			// 
+			this.textDateStart.AutoSize = false;
 			this.textDateStart.Location = new System.Drawing.Point(14, 31);
 			this.textDateStart.Name = "textDateStart";
 			this.textDateStart.Size = new System.Drawing.Size(94, 20);
@@ -195,7 +196,7 @@ namespace OpenPmsDental {
 			// 
 			this.label2.Location = new System.Drawing.Point(14, 94);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(165, 16);
+			this.label2.Size = new System.Drawing.Size(165, 17);
 			this.label2.TabIndex = 0;
 			this.label2.Text = "Patient Payment Types";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -355,7 +356,7 @@ namespace OpenPmsDental {
 			this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.label9.Location = new System.Drawing.Point(802, 8);
 			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(66, 16);
+			this.label9.Size = new System.Drawing.Size(68, 17);
 			this.label9.TabIndex = 0;
 			this.label9.Text = "Item Count";
 			this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;

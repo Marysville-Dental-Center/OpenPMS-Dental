@@ -210,7 +210,7 @@ namespace OpenPmsDental{
 			this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label4.Location = new System.Drawing.Point(6, 73);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(115, 17);
+			this.label4.Size = new System.Drawing.Size(118, 17);
 			this.label4.TabIndex = 110;
 			this.label4.Text = "Recommended Codes";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -299,7 +299,7 @@ namespace OpenPmsDental{
 			this.labelPregWarning.ForeColor = System.Drawing.Color.Red;
 			this.labelPregWarning.Location = new System.Drawing.Point(29, 231);
 			this.labelPregWarning.Name = "labelPregWarning";
-			this.labelPregWarning.Size = new System.Drawing.Size(713, 32);
+			this.labelPregWarning.Size = new System.Drawing.Size(714, 32);
 			this.labelPregWarning.TabIndex = 129;
 			this.labelPregWarning.Text = "Warning: In order for patients to be excluded from certain CQM calculations, you " +
     "will have to manually enter a pregnancy Dx with a qualified code.";
@@ -326,6 +326,7 @@ namespace OpenPmsDental{
 			// 
 			// textPregCodeValue
 			// 
+			this.textPregCodeValue.AutoSize = false;
 			this.textPregCodeValue.Location = new System.Drawing.Point(124, 209);
 			this.textPregCodeValue.Name = "textPregCodeValue";
 			this.textPregCodeValue.ReadOnly = true;
@@ -381,7 +382,7 @@ namespace OpenPmsDental{
 			this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label12.Location = new System.Drawing.Point(6, 73);
 			this.label12.Name = "label12";
-			this.label12.Size = new System.Drawing.Size(115, 17);
+			this.label12.Size = new System.Drawing.Size(118, 17);
 			this.label12.TabIndex = 110;
 			this.label12.Text = "Recommended Codes";
 			this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -413,7 +414,7 @@ namespace OpenPmsDental{
 			this.checkAutoWebmails.Location = new System.Drawing.Point(6, 39);
 			this.checkAutoWebmails.Name = "checkAutoWebmails";
 			this.checkAutoWebmails.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-			this.checkAutoWebmails.Size = new System.Drawing.Size(270, 20);
+			this.checkAutoWebmails.Size = new System.Drawing.Size(276, 20);
 			this.checkAutoWebmails.TabIndex = 7;
 			this.checkAutoWebmails.Text = "Automatically send Summary of Care webmails";
 			// 

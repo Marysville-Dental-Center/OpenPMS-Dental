@@ -201,7 +201,7 @@
 			// 
 			this.labelPaymentType.Location = new System.Drawing.Point(53, 18);
 			this.labelPaymentType.Name = "labelPaymentType";
-			this.labelPaymentType.Size = new System.Drawing.Size(90, 16);
+			this.labelPaymentType.Size = new System.Drawing.Size(90, 18);
 			this.labelPaymentType.TabIndex = 18;
 			this.labelPaymentType.Text = "Payment Type";
 			this.labelPaymentType.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -248,7 +248,7 @@
 			// 
 			this.labelPatFieldType.Location = new System.Drawing.Point(5, 102);
 			this.labelPatFieldType.Name = "labelPatFieldType";
-			this.labelPatFieldType.Size = new System.Drawing.Size(169, 16);
+			this.labelPatFieldType.Size = new System.Drawing.Size(172, 18);
 			this.labelPatFieldType.TabIndex = 270;
 			this.labelPatFieldType.Text = "Pre-Approval Status Patient Field";
 			this.labelPatFieldType.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -285,7 +285,7 @@
 			this.labelMerchantClosedDescription.ForeColor = System.Drawing.Color.Red;
 			this.labelMerchantClosedDescription.Location = new System.Drawing.Point(21, 558);
 			this.labelMerchantClosedDescription.Name = "labelMerchantClosedDescription";
-			this.labelMerchantClosedDescription.Size = new System.Drawing.Size(392, 31);
+			this.labelMerchantClosedDescription.Size = new System.Drawing.Size(634, 31);
 			this.labelMerchantClosedDescription.TabIndex = 275;
 			this.labelMerchantClosedDescription.Text = "The selected Merchant Number has been closed.\r\nPlease enter a new one or refer to" +
     " the manual for more information.";
@@ -303,7 +303,7 @@
 			// 
 			this.labelPreApprvAmt.Location = new System.Drawing.Point(5, 130);
 			this.labelPreApprvAmt.Name = "labelPreApprvAmt";
-			this.labelPreApprvAmt.Size = new System.Drawing.Size(169, 16);
+			this.labelPreApprvAmt.Size = new System.Drawing.Size(172, 17);
 			this.labelPreApprvAmt.TabIndex = 277;
 			this.labelPreApprvAmt.Text = "Pre-Approval Amount Patient Field";
 			this.labelPreApprvAmt.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -430,7 +430,7 @@
 			// 
 			this.labelIhsBaseUrl.Location = new System.Drawing.Point(6, 125);
 			this.labelIhsBaseUrl.Name = "labelIhsBaseUrl";
-			this.labelIhsBaseUrl.Size = new System.Drawing.Size(150, 16);
+			this.labelIhsBaseUrl.Size = new System.Drawing.Size(150, 18);
 			this.labelIhsBaseUrl.TabIndex = 104;
 			this.labelIhsBaseUrl.Text = "Hosted-page base URL";
 			this.labelIhsBaseUrl.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -462,7 +462,7 @@
 			// 
 			this.labelTokenPath.Location = new System.Drawing.Point(6, 177);
 			this.labelTokenPath.Name = "labelTokenPath";
-			this.labelTokenPath.Size = new System.Drawing.Size(150, 16);
+			this.labelTokenPath.Size = new System.Drawing.Size(150, 18);
 			this.labelTokenPath.TabIndex = 106;
 			this.labelTokenPath.Text = "Token path";
 			this.labelTokenPath.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -478,7 +478,7 @@
 			// 
 			this.labelPrefillPath.Location = new System.Drawing.Point(6, 203);
 			this.labelPrefillPath.Name = "labelPrefillPath";
-			this.labelPrefillPath.Size = new System.Drawing.Size(150, 16);
+			this.labelPrefillPath.Size = new System.Drawing.Size(150, 18);
 			this.labelPrefillPath.TabIndex = 107;
 			this.labelPrefillPath.Text = "Prefill path";
 			this.labelPrefillPath.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -494,7 +494,7 @@
 			// 
 			this.labelPullbackPath.Location = new System.Drawing.Point(6, 229);
 			this.labelPullbackPath.Name = "labelPullbackPath";
-			this.labelPullbackPath.Size = new System.Drawing.Size(150, 16);
+			this.labelPullbackPath.Size = new System.Drawing.Size(150, 18);
 			this.labelPullbackPath.TabIndex = 108;
 			this.labelPullbackPath.Text = "Pullback path";
 			this.labelPullbackPath.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -510,7 +510,7 @@
 			// 
 			this.labelBatchPath.Location = new System.Drawing.Point(6, 255);
 			this.labelBatchPath.Name = "labelBatchPath";
-			this.labelBatchPath.Size = new System.Drawing.Size(150, 16);
+			this.labelBatchPath.Size = new System.Drawing.Size(150, 18);
 			this.labelBatchPath.TabIndex = 109;
 			this.labelBatchPath.Text = "Batch path";
 			this.labelBatchPath.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -526,7 +526,7 @@
 			// 
 			this.labelSessionParam.Location = new System.Drawing.Point(6, 281);
 			this.labelSessionParam.Name = "labelSessionParam";
-			this.labelSessionParam.Size = new System.Drawing.Size(150, 16);
+			this.labelSessionParam.Size = new System.Drawing.Size(150, 18);
 			this.labelSessionParam.TabIndex = 110;
 			this.labelSessionParam.Text = "Session parameter";
 			this.labelSessionParam.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -558,7 +558,7 @@
 			// 
 			this.labelScope.Location = new System.Drawing.Point(6, 333);
 			this.labelScope.Name = "labelScope";
-			this.labelScope.Size = new System.Drawing.Size(150, 16);
+			this.labelScope.Size = new System.Drawing.Size(150, 18);
 			this.labelScope.TabIndex = 112;
 			this.labelScope.Text = "Scope (optional)";
 			this.labelScope.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -616,7 +616,7 @@
 			//
 			this.butRunHere.Location = new System.Drawing.Point(275, 23);
 			this.butRunHere.Name = "butRunHere";
-			this.butRunHere.Size = new System.Drawing.Size(114, 24);
+			this.butRunHere.Size = new System.Drawing.Size(120, 24);
 			this.butRunHere.TabIndex = 1;
 			this.butRunHere.Text = "Run on this computer";
 			this.butRunHere.Click += new System.EventHandler(this.butRunHere_Click);
@@ -625,7 +625,7 @@
 			//
 			this.labelProcessTime.Location = new System.Drawing.Point(6, 55);
 			this.labelProcessTime.Name = "labelProcessTime";
-			this.labelProcessTime.Size = new System.Drawing.Size(150, 16);
+			this.labelProcessTime.Size = new System.Drawing.Size(150, 18);
 			this.labelProcessTime.TabIndex = 2;
 			this.labelProcessTime.Text = "Batch process time";
 			this.labelProcessTime.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -657,7 +657,7 @@
 			//
 			this.labelTimeFormat.Location = new System.Drawing.Point(226, 55);
 			this.labelTimeFormat.Name = "labelTimeFormat";
-			this.labelTimeFormat.Size = new System.Drawing.Size(163, 16);
+			this.labelTimeFormat.Size = new System.Drawing.Size(163, 18);
 			this.labelTimeFormat.TabIndex = 6;
 			this.labelTimeFormat.Text = "24-hour time, e.g. 07:20";
 			this.labelTimeFormat.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;

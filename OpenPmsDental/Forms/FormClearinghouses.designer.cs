@@ -156,7 +156,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelGuide.Location = new System.Drawing.Point(6, -1);
 			this.labelGuide.Name = "labelGuide";
-			this.labelGuide.Size = new System.Drawing.Size(595, 36);
+			this.labelGuide.Size = new System.Drawing.Size(595, 40);
 			this.labelGuide.TabIndex = 22;
 			this.labelGuide.Text = resources.GetString("labelGuide.Text");
 			this.labelGuide.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -230,7 +230,7 @@ namespace OpenPmsDental {
 			this.checkReceiveReportsService.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkReceiveReportsService.Location = new System.Drawing.Point(22, 17);
 			this.checkReceiveReportsService.Name = "checkReceiveReportsService";
-			this.checkReceiveReportsService.Size = new System.Drawing.Size(227, 17);
+			this.checkReceiveReportsService.Size = new System.Drawing.Size(227, 18);
 			this.checkReceiveReportsService.TabIndex = 32;
 			this.checkReceiveReportsService.TabStop = false;
 			this.checkReceiveReportsService.Text = "Receive Reports by Service";
@@ -261,7 +261,7 @@ namespace OpenPmsDental {
 			this.labelReportComputerName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.labelReportComputerName.Location = new System.Drawing.Point(6, 39);
 			this.labelReportComputerName.Name = "labelReportComputerName";
-			this.labelReportComputerName.Size = new System.Drawing.Size(228, 20);
+			this.labelReportComputerName.Size = new System.Drawing.Size(231, 20);
 			this.labelReportComputerName.TabIndex = 30;
 			this.labelReportComputerName.Text = "Computer To Receive Reports Automatically";
 			this.labelReportComputerName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -271,7 +271,7 @@ namespace OpenPmsDental {
 			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.label1.Location = new System.Drawing.Point(741, 428);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(146, 37);
+			this.label1.Size = new System.Drawing.Size(146, 46);
 			this.label1.TabIndex = 33;
 			this.label1.Text = "(Clearinghouses get saved as they are changed)";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

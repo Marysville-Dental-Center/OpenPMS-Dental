@@ -216,7 +216,7 @@ namespace OpenPmsDental{
 			//
 			this.checkShowHiddenClinics.Location = new System.Drawing.Point(10, 66);
 			this.checkShowHiddenClinics.Name = "checkShowHiddenClinics";
-			this.checkShowHiddenClinics.Size = new System.Drawing.Size(123, 17);
+			this.checkShowHiddenClinics.Size = new System.Drawing.Size(130, 18);
 			this.checkShowHiddenClinics.TabIndex = 6;
 			this.checkShowHiddenClinics.Text = "Show Hidden Clinics";
 			this.checkShowHiddenClinics.CheckedChanged += new System.EventHandler(this.checkShowHiddenClinics_CheckedChanged);

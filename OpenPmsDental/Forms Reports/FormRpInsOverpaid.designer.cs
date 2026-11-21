@@ -69,7 +69,7 @@ namespace OpenPmsDental {
 			// 
 			this.radioGroupByPat.Location = new System.Drawing.Point(255, 291);
 			this.radioGroupByPat.Name = "radioGroupByPat";
-			this.radioGroupByPat.Size = new System.Drawing.Size(160, 48);
+			this.radioGroupByPat.Size = new System.Drawing.Size(160, 56);
 			this.radioGroupByPat.TabIndex = 21;
 			this.radioGroupByPat.Text = "Filter results by patient and date (will show different results, see manual)";
 			this.radioGroupByPat.UseVisualStyleBackColor = true;
@@ -78,7 +78,7 @@ namespace OpenPmsDental {
 			// 
 			this.checkAllClin.Location = new System.Drawing.Point(82, 249);
 			this.checkAllClin.Name = "checkAllClin";
-			this.checkAllClin.Size = new System.Drawing.Size(154, 16);
+			this.checkAllClin.Size = new System.Drawing.Size(154, 18);
 			this.checkAllClin.TabIndex = 57;
 			this.checkAllClin.Text = "All (Includes hidden)";
 			this.checkAllClin.Click += new System.EventHandler(this.checkAllClin_Click);
@@ -117,7 +117,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelDisclaimer.Location = new System.Drawing.Point(252, 347);
 			this.labelDisclaimer.Name = "labelDisclaimer";
-			this.labelDisclaimer.Size = new System.Drawing.Size(270, 54);
+			this.labelDisclaimer.Size = new System.Drawing.Size(270, 100);
 			this.labelDisclaimer.TabIndex = 60;
 			this.labelDisclaimer.Text = "This report only considers insurance payments and \r\nwrite-offs, not patient payme" +
     "nts and adjustments. \r\nUse the Procedures Overpaid Report to include \r\npatient p" +

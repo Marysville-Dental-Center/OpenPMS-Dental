@@ -109,7 +109,7 @@ namespace OpenPmsDental {
 			this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.label4.Location = new System.Drawing.Point(164, 627);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(108, 29);
+			this.label4.Size = new System.Drawing.Size(190, 29);
 			this.label4.TabIndex = 124;
 			this.label4.Text = "On all unpaid procedure amounts:";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.BottomLeft;

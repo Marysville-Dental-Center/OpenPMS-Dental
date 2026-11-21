@@ -45,20 +45,20 @@
 			// 
 			// radioDesc
 			// 
-			this.radioDesc.AutoSize = true;
+			this.radioDesc.AutoSize = false;
 			this.radioDesc.Location = new System.Drawing.Point(11, 39);
 			this.radioDesc.Name = "radioDesc";
-			this.radioDesc.Size = new System.Drawing.Size(50, 17);
+			this.radioDesc.Size = new System.Drawing.Size(49, 18);
 			this.radioDesc.TabIndex = 20;
 			this.radioDesc.Text = "Desc";
 			this.radioDesc.UseVisualStyleBackColor = true;
 			// 
 			// radioAsc
 			// 
-			this.radioAsc.AutoSize = true;
+			this.radioAsc.AutoSize = false;
 			this.radioAsc.Location = new System.Drawing.Point(11, 19);
 			this.radioAsc.Name = "radioAsc";
-			this.radioAsc.Size = new System.Drawing.Size(43, 17);
+			this.radioAsc.Size = new System.Drawing.Size(41, 18);
 			this.radioAsc.TabIndex = 19;
 			this.radioAsc.Text = "Asc";
 			this.radioAsc.UseVisualStyleBackColor = true;

@@ -50,7 +50,7 @@ namespace OpenPmsDental{
 			this.radioGroup.Enabled = false;
 			this.radioGroup.Location = new System.Drawing.Point(12, 30);
 			this.radioGroup.Name = "radioGroup";
-			this.radioGroup.Size = new System.Drawing.Size(158, 18);
+			this.radioGroup.Size = new System.Drawing.Size(158, 22);
 			this.radioGroup.TabIndex = 62;
 			this.radioGroup.Text = "by Group";
 			this.radioGroup.TextAlign = System.Drawing.ContentAlignment.TopLeft;
@@ -70,7 +70,7 @@ namespace OpenPmsDental{
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butSave.Location = new System.Drawing.Point(647, 493);
 			this.butSave.Name = "butSave";
-			this.butSave.Size = new System.Drawing.Size(75, 24);
+			this.butSave.Size = new System.Drawing.Size(75, 28);
 			this.butSave.TabIndex = 63;
 			this.butSave.Text = "&Save";
 			this.butSave.UseVisualStyleBackColor = true;

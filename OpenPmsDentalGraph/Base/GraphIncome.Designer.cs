@@ -194,13 +194,13 @@
 			// 
 			// checkShowGroupLabels
 			// 
-			this.checkShowGroupLabels.AutoSize = true;
+			this.checkShowGroupLabels.AutoSize = false;
 			this.checkShowGroupLabels.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkShowGroupLabels.Checked = true;
 			this.checkShowGroupLabels.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.checkShowGroupLabels.Location = new System.Drawing.Point(134, 18);
 			this.checkShowGroupLabels.Name = "checkShowGroupLabels";
-			this.checkShowGroupLabels.Size = new System.Drawing.Size(119, 17);
+			this.checkShowGroupLabels.Size = new System.Drawing.Size(125, 18);
 			this.checkShowGroupLabels.TabIndex = 6;
 			this.checkShowGroupLabels.Text = "Show Group Labels";
 			this.checkShowGroupLabels.UseVisualStyleBackColor = true;
@@ -226,10 +226,10 @@
 			// 
 			// label2
 			// 
-			this.label2.AutoSize = true;
+			this.label2.AutoSize = false;
 			this.label2.Location = new System.Drawing.Point(259, 20);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(100, 13);
+			this.label2.Size = new System.Drawing.Size(110, 21);
 			this.label2.TabIndex = 8;
 			this.label2.Text = "Daily Label Density:";
 			// 
@@ -266,10 +266,10 @@
 			// 
 			// label5
 			// 
-			this.label5.AutoSize = true;
+			this.label5.AutoSize = false;
 			this.label5.Location = new System.Drawing.Point(9, 20);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(33, 13);
+			this.label5.Size = new System.Drawing.Size(35, 21);
 			this.label5.TabIndex = 10;
 			this.label5.Text = "From:";
 			// 

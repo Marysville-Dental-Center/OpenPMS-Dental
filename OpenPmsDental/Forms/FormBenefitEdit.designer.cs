@@ -99,7 +99,7 @@ namespace OpenPmsDental {
 			//
 			this.labelType.Location = new System.Drawing.Point(12, 136);
 			this.labelType.Name = "labelType";
-			this.labelType.Size = new System.Drawing.Size(110, 16);
+			this.labelType.Size = new System.Drawing.Size(110, 18);
 			this.labelType.TabIndex = 26;
 			this.labelType.Text = "Type";
 			this.labelType.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -176,7 +176,7 @@ namespace OpenPmsDental {
 			//
 			this.label1.Location = new System.Drawing.Point(12, 288);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(110, 16);
+			this.label1.Size = new System.Drawing.Size(110, 18);
 			this.label1.TabIndex = 32;
 			this.label1.Text = "Coverage Level";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -239,7 +239,7 @@ namespace OpenPmsDental {
 			//
 			this.radioCategory.Location = new System.Drawing.Point(12, 19);
 			this.radioCategory.Name = "radioCategory";
-			this.radioCategory.Size = new System.Drawing.Size(110, 20);
+			this.radioCategory.Size = new System.Drawing.Size(110, 23);
 			this.radioCategory.TabIndex = 0;
 			this.radioCategory.TabStop = true;
 			this.radioCategory.Text = "Category";
@@ -249,7 +249,7 @@ namespace OpenPmsDental {
 			//
 			this.radioProcCode.Location = new System.Drawing.Point(12, 42);
 			this.radioProcCode.Name = "radioProcCode";
-			this.radioProcCode.Size = new System.Drawing.Size(110, 20);
+			this.radioProcCode.Size = new System.Drawing.Size(110, 23);
 			this.radioProcCode.TabIndex = 2;
 			this.radioProcCode.Text = "Procedure code";
 			this.radioProcCode.UseVisualStyleBackColor = true;
@@ -258,7 +258,7 @@ namespace OpenPmsDental {
 			//
 			this.radioCodeGroup.Location = new System.Drawing.Point(12, 65);
 			this.radioCodeGroup.Name = "radioCodeGroup";
-			this.radioCodeGroup.Size = new System.Drawing.Size(110, 20);
+			this.radioCodeGroup.Size = new System.Drawing.Size(110, 23);
 			this.radioCodeGroup.TabIndex = 4;
 			this.radioCodeGroup.Text = "Code group";
 			this.radioCodeGroup.UseVisualStyleBackColor = true;
@@ -307,7 +307,7 @@ namespace OpenPmsDental {
 			//
 			this.labelTeethHint.Location = new System.Drawing.Point(290, 336);
 			this.labelTeethHint.Name = "labelTeethHint";
-			this.labelTeethHint.Size = new System.Drawing.Size(258, 30);
+			this.labelTeethHint.Size = new System.Drawing.Size(270, 30);
 			this.labelTeethHint.TabIndex = 40;
 			this.labelTeethHint.Text = "Exclusions and age limits only. Blank for every tooth. Example: 2,15 or 23-26";
 			//

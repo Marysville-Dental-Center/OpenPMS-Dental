@@ -66,7 +66,7 @@ namespace OpenPmsDental {
 			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.label1.Location = new System.Drawing.Point(261, 589);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(108, 29);
+			this.label1.Size = new System.Drawing.Size(162, 29);
 			this.label1.TabIndex = 24;
 			this.label1.Text = "Delete all unused employees";
 			// 
@@ -103,7 +103,7 @@ namespace OpenPmsDental {
 			this.checkNonFurloughed.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.checkNonFurloughed.Location = new System.Drawing.Point(675, 26);
 			this.checkNonFurloughed.Name = "checkNonFurloughed";
-			this.checkNonFurloughed.Size = new System.Drawing.Size(104, 18);
+			this.checkNonFurloughed.Size = new System.Drawing.Size(112, 18);
 			this.checkNonFurloughed.TabIndex = 26;
 			this.checkNonFurloughed.Text = "Non-Furloughed";
 			this.checkNonFurloughed.CheckedChanged += new System.EventHandler(this.checkNonFurloughed_CheckedChanged);

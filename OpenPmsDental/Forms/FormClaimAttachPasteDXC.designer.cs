@@ -76,7 +76,7 @@ namespace OpenPmsDental {
 			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.label1.Location = new System.Drawing.Point(879, 12);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(135, 13);
+			this.label1.Size = new System.Drawing.Size(135, 16);
 			this.label1.TabIndex = 48;
 			this.label1.Text = "Claim Validation Status";
 			// 
@@ -180,7 +180,7 @@ namespace OpenPmsDental {
 			this.labelClaimAttachWarning.ForeColor = System.Drawing.Color.DarkRed;
 			this.labelClaimAttachWarning.Location = new System.Drawing.Point(1037, 353);
 			this.labelClaimAttachWarning.Name = "labelClaimAttachWarning";
-			this.labelClaimAttachWarning.Size = new System.Drawing.Size(135, 83);
+			this.labelClaimAttachWarning.Size = new System.Drawing.Size(135, 103);
 			this.labelClaimAttachWarning.TabIndex = 50;
 			this.labelClaimAttachWarning.Text = "No claim attachment image category definition found.  Images will be saved using " +
     "the first image category.";

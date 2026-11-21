@@ -107,6 +107,7 @@ namespace OpenPmsDental{
 			// 
 			// textProvNum
 			// 
+			this.textProvNum.AutoSize = false;
 			this.textProvNum.Location = new System.Drawing.Point(101, 64);
 			this.textProvNum.MaxLength = 15;
 			this.textProvNum.Name = "textProvNum";
@@ -135,6 +136,7 @@ namespace OpenPmsDental{
 			// 
 			// textFirstName
 			// 
+			this.textFirstName.AutoSize = false;
 			this.textFirstName.Location = new System.Drawing.Point(101, 42);
 			this.textFirstName.MaxLength = 15;
 			this.textFirstName.Name = "textFirstName";
@@ -152,6 +154,7 @@ namespace OpenPmsDental{
 			// 
 			// textLastName
 			// 
+			this.textLastName.AutoSize = false;
 			this.textLastName.Location = new System.Drawing.Point(101, 20);
 			this.textLastName.MaxLength = 15;
 			this.textLastName.Name = "textLastName";

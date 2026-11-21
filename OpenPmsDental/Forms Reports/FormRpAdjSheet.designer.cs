@@ -98,7 +98,7 @@ namespace OpenPmsDental {
 			// 
 			this.label2.Location = new System.Drawing.Point(29, 209);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(120, 16);
+			this.label2.Size = new System.Drawing.Size(120, 17);
 			this.label2.TabIndex = 38;
 			this.label2.Text = "Adjustment Types";
 			// 
@@ -108,7 +108,7 @@ namespace OpenPmsDental {
 			this.checkAllProv.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.checkAllProv.Location = new System.Drawing.Point(533, 34);
 			this.checkAllProv.Name = "checkAllProv";
-			this.checkAllProv.Size = new System.Drawing.Size(95, 16);
+			this.checkAllProv.Size = new System.Drawing.Size(95, 17);
 			this.checkAllProv.TabIndex = 48;
 			this.checkAllProv.Text = "All";
 			this.checkAllProv.Click += new System.EventHandler(this.checkAllProv_Click);
@@ -117,7 +117,7 @@ namespace OpenPmsDental {
 			// 
 			this.checkAllClin.Location = new System.Drawing.Point(288, 226);
 			this.checkAllClin.Name = "checkAllClin";
-			this.checkAllClin.Size = new System.Drawing.Size(154, 16);
+			this.checkAllClin.Size = new System.Drawing.Size(154, 18);
 			this.checkAllClin.TabIndex = 51;
 			this.checkAllClin.Text = "All (Includes hidden)";
 			this.checkAllClin.Click += new System.EventHandler(this.checkAllClin_Click);
@@ -144,7 +144,7 @@ namespace OpenPmsDental {
 			// 
 			this.checkAllAdjs.Location = new System.Drawing.Point(32, 226);
 			this.checkAllAdjs.Name = "checkAllAdjs";
-			this.checkAllAdjs.Size = new System.Drawing.Size(95, 16);
+			this.checkAllAdjs.Size = new System.Drawing.Size(95, 18);
 			this.checkAllAdjs.TabIndex = 52;
 			this.checkAllAdjs.Text = "All";
 			this.checkAllAdjs.Click += new System.EventHandler(this.checkAllAdjs_Click);

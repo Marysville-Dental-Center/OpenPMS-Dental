@@ -85,6 +85,7 @@ namespace OpenPmsDental {
 			// 
 			// textMedName
 			// 
+			this.textMedName.AutoSize = false;
 			this.textMedName.Location = new System.Drawing.Point(183, 33);
 			this.textMedName.Name = "textMedName";
 			this.textMedName.ReadOnly = true;
@@ -93,6 +94,7 @@ namespace OpenPmsDental {
 			// 
 			// textGenericName
 			// 
+			this.textGenericName.AutoSize = false;
 			this.textGenericName.Location = new System.Drawing.Point(183, 55);
 			this.textGenericName.Name = "textGenericName";
 			this.textGenericName.ReadOnly = true;
@@ -167,6 +169,7 @@ namespace OpenPmsDental {
 			// 
 			// textRxNormDesc
 			// 
+			this.textRxNormDesc.AutoSize = false;
 			this.textRxNormDesc.Location = new System.Drawing.Point(183, 12);
 			this.textRxNormDesc.Name = "textRxNormDesc";
 			this.textRxNormDesc.ReadOnly = true;
@@ -186,7 +189,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelEdit.Location = new System.Drawing.Point(266, 167);
 			this.labelEdit.Name = "labelEdit";
-			this.labelEdit.Size = new System.Drawing.Size(128, 28);
+			this.labelEdit.Size = new System.Drawing.Size(201, 28);
 			this.labelEdit.TabIndex = 11;
 			this.labelEdit.Text = "(edit this medication for all patients)";
 			// 

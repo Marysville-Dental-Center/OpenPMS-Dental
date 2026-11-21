@@ -108,7 +108,7 @@ namespace OpenPmsDental {
 			// 
 			this.label2.Location = new System.Drawing.Point(6, 45);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(93, 16);
+			this.label2.Size = new System.Drawing.Size(93, 18);
 			this.label2.TabIndex = 5;
 			this.label2.Text = "Displayed";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -215,7 +215,7 @@ namespace OpenPmsDental {
 			// 
 			this.label6.Location = new System.Drawing.Point(6, 45);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(93, 16);
+			this.label6.Size = new System.Drawing.Size(93, 18);
 			this.label6.TabIndex = 5;
 			this.label6.Text = "Displayed";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -257,6 +257,7 @@ namespace OpenPmsDental {
 			// 
 			// textClockedTime
 			// 
+			this.textClockedTime.AutoSize = false;
 			this.textClockedTime.Location = new System.Drawing.Point(100, 34);
 			this.textClockedTime.Name = "textClockedTime";
 			this.textClockedTime.ReadOnly = true;
@@ -275,6 +276,7 @@ namespace OpenPmsDental {
 			// 
 			// textRegTime
 			// 
+			this.textRegTime.AutoSize = false;
 			this.textRegTime.Location = new System.Drawing.Point(100, 101);
 			this.textRegTime.Name = "textRegTime";
 			this.textRegTime.ReadOnly = true;
@@ -313,6 +315,7 @@ namespace OpenPmsDental {
 			// 
 			// textOTimeAuto
 			// 
+			this.textOTimeAuto.AutoSize = false;
 			this.textOTimeAuto.Location = new System.Drawing.Point(100, 79);
 			this.textOTimeAuto.Name = "textOTimeAuto";
 			this.textOTimeAuto.ReadOnly = true;
@@ -358,6 +361,7 @@ namespace OpenPmsDental {
 			// 
 			// textAdjustAuto
 			// 
+			this.textAdjustAuto.AutoSize = false;
 			this.textAdjustAuto.Location = new System.Drawing.Point(100, 56);
 			this.textAdjustAuto.Name = "textAdjustAuto";
 			this.textAdjustAuto.ReadOnly = true;
@@ -367,6 +371,7 @@ namespace OpenPmsDental {
 			// 
 			// textRate2Auto
 			// 
+			this.textRate2Auto.AutoSize = false;
 			this.textRate2Auto.Location = new System.Drawing.Point(100, 56);
 			this.textRate2Auto.Name = "textRate2Auto";
 			this.textRate2Auto.ReadOnly = true;
@@ -425,6 +430,7 @@ namespace OpenPmsDental {
 			// 
 			// textTotalHours
 			// 
+			this.textTotalHours.AutoSize = false;
 			this.textTotalHours.Location = new System.Drawing.Point(100, 34);
 			this.textTotalHours.Name = "textTotalHours";
 			this.textTotalHours.ReadOnly = true;
@@ -434,6 +440,7 @@ namespace OpenPmsDental {
 			// 
 			// textRate1Auto
 			// 
+			this.textRate1Auto.AutoSize = false;
 			this.textRate1Auto.Location = new System.Drawing.Point(100, 101);
 			this.textRate1Auto.Name = "textRate1Auto";
 			this.textRate1Auto.ReadOnly = true;
@@ -499,6 +506,7 @@ namespace OpenPmsDental {
 			// 
 			// textRate3Auto
 			// 
+			this.textRate3Auto.AutoSize = false;
 			this.textRate3Auto.Location = new System.Drawing.Point(100, 79);
 			this.textRate3Auto.Name = "textRate3Auto";
 			this.textRate3Auto.ReadOnly = true;

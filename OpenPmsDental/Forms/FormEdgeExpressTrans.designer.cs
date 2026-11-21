@@ -63,7 +63,7 @@ namespace OpenPmsDental{
 			// 
 			this.label1.Location = new System.Drawing.Point(50, 28);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(154, 16);
+			this.label1.Size = new System.Drawing.Size(154, 18);
 			this.label1.TabIndex = 58;
 			this.label1.Text = "Transaction Type";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -106,7 +106,7 @@ namespace OpenPmsDental{
 			// 
 			this.checkPrintReceipt.Location = new System.Drawing.Point(52, 274);
 			this.checkPrintReceipt.Name = "checkPrintReceipt";
-			this.checkPrintReceipt.Size = new System.Drawing.Size(161, 17);
+			this.checkPrintReceipt.Size = new System.Drawing.Size(161, 18);
 			this.checkPrintReceipt.TabIndex = 65;
 			this.checkPrintReceipt.Text = "Print Receipt";
 			// 

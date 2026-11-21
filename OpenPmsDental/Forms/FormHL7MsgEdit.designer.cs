@@ -92,6 +92,7 @@ namespace OpenPmsDental{
 			// 
 			// textPatient
 			// 
+			this.textPatient.AutoSize = false;
 			this.textPatient.Location = new System.Drawing.Point(132,49);
 			this.textPatient.Name = "textPatient";
 			this.textPatient.ReadOnly = true;
@@ -100,6 +101,7 @@ namespace OpenPmsDental{
 			// 
 			// textAptNum
 			// 
+			this.textAptNum.AutoSize = false;
 			this.textAptNum.Location = new System.Drawing.Point(132,93);
 			this.textAptNum.Name = "textAptNum";
 			this.textAptNum.ReadOnly = true;
@@ -137,6 +139,7 @@ namespace OpenPmsDental{
 			// 
 			// textDateTStamp
 			// 
+			this.textDateTStamp.AutoSize = false;
 			this.textDateTStamp.Location = new System.Drawing.Point(132,27);
 			this.textDateTStamp.Name = "textDateTStamp";
 			this.textDateTStamp.ReadOnly = true;
@@ -154,6 +157,7 @@ namespace OpenPmsDental{
 			// 
 			// textHL7Status
 			// 
+			this.textHL7Status.AutoSize = false;
 			this.textHL7Status.Location = new System.Drawing.Point(132,71);
 			this.textHL7Status.Name = "textHL7Status";
 			this.textHL7Status.ReadOnly = true;
@@ -171,6 +175,7 @@ namespace OpenPmsDental{
 			// 
 			// textHL7MsgNum
 			// 
+			this.textHL7MsgNum.AutoSize = false;
 			this.textHL7MsgNum.Location = new System.Drawing.Point(132,5);
 			this.textHL7MsgNum.Name = "textHL7MsgNum";
 			this.textHL7MsgNum.ReadOnly = true;

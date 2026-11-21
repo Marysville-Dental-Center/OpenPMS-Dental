@@ -74,6 +74,7 @@ namespace OpenPmsDental{
 			// 
 			// textDateStop
 			// 
+			this.textDateStop.AutoSize = false;
 			this.textDateStop.Location = new System.Drawing.Point(244, 29);
 			this.textDateStop.Name = "textDateStop";
 			this.textDateStop.ReadOnly = true;
@@ -82,6 +83,7 @@ namespace OpenPmsDental{
 			// 
 			// textDateStart
 			// 
+			this.textDateStart.AutoSize = false;
 			this.textDateStart.Location = new System.Drawing.Point(244, 8);
 			this.textDateStart.Name = "textDateStart";
 			this.textDateStart.ReadOnly = true;
@@ -198,7 +200,7 @@ namespace OpenPmsDental{
 			this.butClearManual.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butClearManual.Location = new System.Drawing.Point(920, 33);
 			this.butClearManual.Name = "butClearManual";
-			this.butClearManual.Size = new System.Drawing.Size(117, 24);
+			this.butClearManual.Size = new System.Drawing.Size(120, 24);
 			this.butClearManual.TabIndex = 123;
 			this.butClearManual.Text = "Clear Manual Adjusts";
 			this.butClearManual.Click += new System.EventHandler(this.butClearManual_Click);

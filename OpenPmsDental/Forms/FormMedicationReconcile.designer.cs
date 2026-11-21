@@ -51,7 +51,7 @@ namespace OpenPmsDental{
 			// 
 			this.label1.Location = new System.Drawing.Point(6, 9);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(126, 16);
+			this.label1.Size = new System.Drawing.Size(126, 18);
 			this.label1.TabIndex = 73;
 			this.label1.Text = "Image to Reconcile";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -115,7 +115,7 @@ namespace OpenPmsDental{
 			// 
 			this.label2.Location = new System.Drawing.Point(601, 429);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(311, 27);
+			this.label2.Size = new System.Drawing.Size(317, 27);
 			this.label2.TabIndex = 66;
 			this.label2.Text = "This is a historical record of medication reconciles for this patient.  Delete an" +
     "y entries that are inaccurate.";
@@ -159,7 +159,7 @@ namespace OpenPmsDental{
 			this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.label3.Location = new System.Drawing.Point(6, 637);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(815, 27);
+			this.label3.Size = new System.Drawing.Size(912, 27);
 			this.label3.TabIndex = 78;
 			this.label3.Text = resources.GetString("label3.Text");
 			this.label3.TextAlign = System.Drawing.ContentAlignment.BottomLeft;

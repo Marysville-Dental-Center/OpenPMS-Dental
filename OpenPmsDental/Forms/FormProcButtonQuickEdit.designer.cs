@@ -40,7 +40,7 @@ namespace OpenPmsDental{
 			this.checkIsLabel.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkIsLabel.Location = new System.Drawing.Point(84, 91);
 			this.checkIsLabel.Name = "checkIsLabel";
-			this.checkIsLabel.Size = new System.Drawing.Size(111, 16);
+			this.checkIsLabel.Size = new System.Drawing.Size(111, 18);
 			this.checkIsLabel.TabIndex = 3;
 			this.checkIsLabel.Text = "Display as Label";
 			this.checkIsLabel.CheckedChanged += new System.EventHandler(this.checkIsLabel_CheckedChanged);
@@ -56,7 +56,7 @@ namespace OpenPmsDental{
 			// 
 			this.label2.Location = new System.Drawing.Point(82, 41);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(98, 14);
+			this.label2.Size = new System.Drawing.Size(98, 18);
 			this.label2.TabIndex = 58;
 			this.label2.Text = "Procedure Code";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -72,7 +72,7 @@ namespace OpenPmsDental{
 			// 
 			this.label3.Location = new System.Drawing.Point(82, 15);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(98, 14);
+			this.label3.Size = new System.Drawing.Size(98, 18);
 			this.label3.TabIndex = 60;
 			this.label3.Text = "Display Text";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -113,7 +113,7 @@ namespace OpenPmsDental{
 			// 
 			this.labelSurfaces.Location = new System.Drawing.Point(82, 67);
 			this.labelSurfaces.Name = "labelSurfaces";
-			this.labelSurfaces.Size = new System.Drawing.Size(98, 14);
+			this.labelSurfaces.Size = new System.Drawing.Size(98, 18);
 			this.labelSurfaces.TabIndex = 55;
 			this.labelSurfaces.Text = "Surfaces";
 			this.labelSurfaces.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
