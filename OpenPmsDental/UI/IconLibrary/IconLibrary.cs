@@ -141,7 +141,22 @@ namespace OpenPmsDental.UI{
 		ScanPhoto,
 		ScanXray,
 		Scan,
-		UsbStick
+		UsbStick,
+		//UI-9b-3 (the other trees: the purposes of the task lists, the setup wizard, the security tree, the auto notes and the email inbox (docs/port-notes/UI-9b.md, section 4), each with its manifest row.)
+		CheckBoxEmpty,
+		CheckBoxChecked,
+		CheckBoxPartial,
+		TaskNew,
+		TaskListNew,
+		TaskListAdd,
+		ChevronLeft,
+		ChevronRight,
+		ChevronDoubleRight,
+		Reply,
+		ReplyAll,
+		Forward,
+		Search,
+		Inbox
 	}
 
 	///<summary></summary>

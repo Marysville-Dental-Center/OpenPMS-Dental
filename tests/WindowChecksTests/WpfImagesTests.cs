@@ -54,7 +54,7 @@ namespace WindowChecksTests {
 					}
 					countIcons++;
 				}
-				Assert.AreEqual(113,countIcons,"The WPF EnumIcons, every one a vector icon: the Fluent icons (UI-7b's and, since UI-9a-1, 8 more UI-9a-3's 6 and UI-9a-4's 1 and UI-9a-5's 2 and UI-9a-6's 14, UI-9a-7's 18, UI-9b-1's 7 and UI-9b-2's 2) and, since UI-8, "
+				Assert.AreEqual(127,countIcons,"The WPF EnumIcons, every one a vector icon: the Fluent icons (UI-7b's and, since UI-9a-1, 8 more UI-9a-3's 6 and UI-9a-4's 1 and UI-9a-5's 2 and UI-9a-6's 14, UI-9a-7's 18, UI-9b-1's 7, UI-9b-2's 2 and UI-9b-3's 14) and, since UI-8, "
 					+"Chart32G, Chart32W and ChartMed32's dental icons (UI-9b-1: and PerioChart's).");
 			});
 		}
