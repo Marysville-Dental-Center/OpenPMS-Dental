@@ -44,7 +44,7 @@ namespace OpenPmsDental {
 			this.lblSearchPharse.AutoSize = false;
 			this.lblSearchPharse.Location = new System.Drawing.Point(8, 8);
 			this.lblSearchPharse.Name = "lblSearchPharse";
-			this.lblSearchPharse.Size = new System.Drawing.Size(152, 20);
+			this.lblSearchPharse.Size = new System.Drawing.Size(157, 20);
 			this.lblSearchPharse.TabIndex = 0;
 			this.lblSearchPharse.Text = "Enter Search word or phrase";
 			// 

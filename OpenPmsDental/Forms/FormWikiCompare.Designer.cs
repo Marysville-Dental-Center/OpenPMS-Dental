@@ -91,7 +91,7 @@
 			this.labelHelpNew.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
 			this.labelHelpNew.Location = new System.Drawing.Point(600, 6);
 			this.labelHelpNew.Name = "labelHelpNew";
-			this.labelHelpNew.Size = new System.Drawing.Size(232, 18);
+			this.labelHelpNew.Size = new System.Drawing.Size(233, 18);
 			this.labelHelpNew.TabIndex = 7;
 			this.labelHelpNew.Text = "Newer version (added or moved changes).";
 			this.labelHelpNew.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;

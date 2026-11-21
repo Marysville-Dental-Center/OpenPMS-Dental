@@ -106,7 +106,7 @@ namespace OpenPmsDental{
 			this.checkIgnore.AutoSize = false;
 			this.checkIgnore.Location = new System.Drawing.Point(563, 9);
 			this.checkIgnore.Name = "checkIgnore";
-			this.checkIgnore.Size = new System.Drawing.Size(101, 17);
+			this.checkIgnore.Size = new System.Drawing.Size(109, 18);
 			this.checkIgnore.TabIndex = 25;
 			this.checkIgnore.Text = "Ignore Numbers";
 			// 
