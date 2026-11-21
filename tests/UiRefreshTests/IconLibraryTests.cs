@@ -55,11 +55,11 @@ namespace UiRefreshTests {
 		#region Manifest
 		[TestMethod]
 		public void Manifest_EveryEnumIconsHasARow_TheModulesAFilledRow_TheRolesOfUq4() {
-			Assert.AreEqual(100,WinIcons().Count(),"The WinForms EnumIcons: UI-7b's 38, UI-9a-1's 10 Sync (owner, 2026-11-18) and UI-9a-3's 6, UI-9a-4's 1 and UI-9a-5's 4 (Copy, Paste, ExportExcel, QueryView) and UI-9a-6's 14 (PinOff, Calculator, Backup, Deposit, Insurance, TaskList, Move, TableDeleteRow, TableDeleteColumn, TableInsertRow, TableInsertColumn, ChartAdd, Pen, Signature), and UI-9a-7's 18 (the report designer's toolbar), and UI-9b-1's 8 (Payment, Adjustment, ApptLists, Call, Unscheduled, Rx, Anesthesia, PerioChart: the module toolbars).");
-			Assert.AreEqual(111,WpfIcons().Count(),"The WPF EnumIcons: UI-7b's 53, UI-9a-1's 8 Sync (owner, 2026-11-18) and UI-9a-3's 6 and UI-9a-4's 1 and UI-9a-5's 2 and UI-9a-6's 14 and UI-9a-7's 18 and UI-9b-1's 8.");
+			Assert.AreEqual(113,WinIcons().Count(),"The WinForms EnumIcons: UI-7b's 38, UI-9a-1's 10 Sync (owner, 2026-11-18) and UI-9a-3's 6, UI-9a-4's 1 and UI-9a-5's 4 (Copy, Paste, ExportExcel, QueryView) and UI-9a-6's 14 (PinOff, Calculator, Backup, Deposit, Insurance, TaskList, Move, TableDeleteRow, TableDeleteColumn, TableInsertRow, TableInsertColumn, ChartAdd, Pen, Signature), and UI-9a-7's 18 (the report designer's toolbar), and UI-9b-1's 8 (Payment, Adjustment, ApptLists, Call, Unscheduled, Rx, Anesthesia, PerioChart: the module toolbars), and UI-9b-2's 13 (the 11 imaging members the WPF enum already had, and Scan, UsbStick: the imaging lists).");
+			Assert.AreEqual(113,WpfIcons().Count(),"The WPF EnumIcons: UI-7b's 53, UI-9a-1's 8 Sync (owner, 2026-11-18) and UI-9a-3's 6 and UI-9a-4's 1 and UI-9a-5's 2 and UI-9a-6's 14 and UI-9a-7's 18 and UI-9b-1's 8 and UI-9b-2's 2 (Scan, UsbStick).");
 			List<IconRendererTests.ManifestRow> listRows=IconRendererTests.ReadManifest().Where(x => x.EnumName=="EnumIcons").ToList();
 			HashSet<string> hashSetMembers=new HashSet<string>(WinIcons().Select(x => x.ToString()).Concat(WpfIcons().Select(x => x.ToString())));
-			Assert.AreEqual(111,hashSetMembers.Count,"Every WinForms member is also a WPF member.");
+			Assert.AreEqual(113,hashSetMembers.Count,"Every WinForms member is also a WPF member.");
 			foreach(string member in hashSetMembers) {
 				IconRendererTests.ManifestRow manifestRow=listRows.SingleOrDefault(x => x.Name==member);
 				if(_dictDentalIcons.ContainsKey(member)) {

@@ -76,12 +76,43 @@ namespace OpenPmsDental{
 		private WpfControls.UI.ToolBar toolBarMain;
 		#endregion Fields - Private
 
+		///<summary>The pictures of the two image toolbars' ImageList by index (UI-9b-2, docs/port-notes/UI-9b.md): the purposes of today's
+		///ImageIndex pictures in their order, as icons (ToolBarOD.SetImageListIcons), so a plug-in's button set by ImageIndex still shows the
+		///same purpose. Index 7 is the Crop picture (its key was empty), 14 the scan document picture (the selector's document page).</summary>
+		public static readonly EnumIcons[] ArrayIconsImageList=new EnumIcons[] {
+			EnumIcons.PatSelect,EnumIcons.Print,EnumIcons.DeleteX,EnumIcons.Info,EnumIcons.Scan,EnumIcons.Import,EnumIcons.Paste,EnumIcons.Crop,
+			EnumIcons.ZoomIn,EnumIcons.ZoomOut,EnumIcons.Hand,EnumIcons.Flip,EnumIcons.RotateL,EnumIcons.RotateR,EnumIcons.ImageSelectorDoc,
+			EnumIcons.ScanPhoto,EnumIcons.ScanXray,EnumIcons.Copy,EnumIcons.ScanMulti,EnumIcons.Export,EnumIcons.ArrowsAll
+		};
+
+		///<summary>The pictures of the document tree's ImageList by index (UI-9b-2): today's eight pictures in their order, as icons. The tree
+		///(WpfControls.UI.ImageSelector) draws its own icons; no code gave this list to a control, so it stays at its indexes for plug-ins and
+		///any later tree. ImageListTree builds it at the current DPI.</summary>
+		public static readonly EnumIcons[] ArrayIconsImageListTree=new EnumIcons[] {
+			EnumIcons.UsbStick,EnumIcons.ImageSelectorFolder,EnumIcons.ImageSelectorDoc,EnumIcons.ImageSelectorXray,EnumIcons.ImageSelectorPhoto,
+			EnumIcons.ImageSelectorFile,EnumIcons.ImageSelectorMount,EnumIcons.ImageSelectorFolderWeb
+		};
+		///<summary>The tree's list, owned here and disposed with the control; built again by ImageListTree when the DPI changes.</summary>
+		private ImageList _imageListTree;
+
+		///<summary>The tree's ImageList (UI-9b-2): ArrayIconsImageListTree at the 16 px slot of the current DPI, 16 at 100%, 24 at 150%, 32 at 200%.
+		///Built again, and the old one disposed, when the scale has changed since the last call.</summary>
+		public ImageList ImageListTree{
+			get{
+				_imageListTree=IconLibrary.GetImageListForSize(_imageListTree,ArrayIconsImageListTree,LayoutManager.Scale(16));
+				return _imageListTree;
+			}
+		}
+
 		#region Constructor
 		public ControlImages(){
 			Logger.LogToPath("Ctor",LogPath.Startup,LogPhase.Start);
 			Logger.LogToPath("InitializeComponent",LogPath.Startup,LogPhase.Start);
 			InitializeComponent();
 			Font=LayoutManagerForms.FontInitial;
+			toolBarPaint.SetImageListIcons(ArrayIconsImageList);//UI-9b-2: the lists of icons, one for each toolbar
+			toolBarDraw.SetImageListIcons(ArrayIconsImageList);
+			Disposed+=(sender,e) => _imageListTree?.Dispose();
 			Logger.LogToPath("InitializeComponent",LogPath.Startup,LogPhase.End);
 			imageSelector=new WpfControls.UI.ImageSelector();
 			elementHostImageSelector.Child=imageSelector;
@@ -321,19 +352,19 @@ namespace OpenPmsDental{
 			ODToolBarButton button;
 			toolBarPaint.Buttons.Add(new ODToolBarButton(Lan.g(this,"Fit 1"),-1,Lan.g(this,"Zoom to fit one image"),TB.ZoomOne));
 			toolBarPaint.Buttons.Add(new ODToolBarButton(ODToolBarButtonStyle.Separator));
-			button=new ODToolBarButton(Lan.g(this,"Crop"),7,"",TB.Crop);
+			button=new ODToolBarButton(Lan.g(this,"Crop"),EnumIcons.Crop,"",TB.Crop);
 			button.Style=ODToolBarButtonStyle.ToggleButton;
 			toolBarPaint.Buttons.Add(button);
 			if(_cropPanAdj==EnumCropPanAdj.Crop){
 				toolBarPaint.Buttons[TB.Crop.ToString()].IsTogglePushed=true;
 			}
-			button=new ODToolBarButton(Lan.g(this,"Pan"),10,"",TB.Pan);
+			button=new ODToolBarButton(Lan.g(this,"Pan"),EnumIcons.Hand,"",TB.Pan);
 			button.Style=ODToolBarButtonStyle.ToggleButton;
 			toolBarPaint.Buttons.Add(button);
 			if(_cropPanAdj==EnumCropPanAdj.Pan){
 				toolBarPaint.Buttons[TB.Pan.ToString()].IsTogglePushed=true;
 			}
-			button=new ODToolBarButton(Lan.g(this,"Adj"),20,Lan.g(this,"Adjust position"),TB.Adj);
+			button=new ODToolBarButton(Lan.g(this,"Adj"),EnumIcons.ArrowsAll,Lan.g(this,"Adjust position"),TB.Adj);
 			button.Style=ODToolBarButtonStyle.ToggleButton;
 			toolBarPaint.Buttons.Add(button);
 			if(_cropPanAdj==EnumCropPanAdj.Adj){
@@ -342,9 +373,9 @@ namespace OpenPmsDental{
 			toolBarPaint.Buttons.Add(new ODToolBarButton(ODToolBarButtonStyle.Separator));
 			toolBarPaint.Buttons.Add(new ODToolBarButton(Lan.g(this,"Size/Rotation"),-1,Lan.g(this,"Set Size and Rotation"),TB.Size));
 			toolBarPaint.Buttons.Add(new ODToolBarButton(ODToolBarButtonStyle.Separator));
-			toolBarPaint.Buttons.Add(new ODToolBarButton(Lan.g(this,"FlipH"),11,Lan.g(this,"Flip Horizontally"),TB.Flip));
-			toolBarPaint.Buttons.Add(new ODToolBarButton(Lan.g(this,"-90"),12,Lan.g(this,"Rotate Left"),TB.RotateL));
-			toolBarPaint.Buttons.Add(new ODToolBarButton(Lan.g(this,"+90"),13,Lan.g(this,"Rotate Right"),TB.RotateR));
+			toolBarPaint.Buttons.Add(new ODToolBarButton(Lan.g(this,"FlipH"),EnumIcons.Flip,Lan.g(this,"Flip Horizontally"),TB.Flip));
+			toolBarPaint.Buttons.Add(new ODToolBarButton(Lan.g(this,"-90"),EnumIcons.RotateL,Lan.g(this,"Rotate Left"),TB.RotateL));
+			toolBarPaint.Buttons.Add(new ODToolBarButton(Lan.g(this,"+90"),EnumIcons.RotateR,Lan.g(this,"Rotate Right"),TB.RotateR));
 			toolBarPaint.Buttons.Add(new ODToolBarButton(Lan.g(this,"180"),-1,Lan.g(this,"Rotate 180"),TB.Rotate180));
 			toolBarPaint.Buttons.Add(new ODToolBarButton(ODToolBarButtonStyle.Separator));
 			toolBarPaint.Buttons.Add(new ODToolBarButton(Lan.g(this,"Draw"),-1,Lan.g(this,"Lines and text"),TB.DrawTool));

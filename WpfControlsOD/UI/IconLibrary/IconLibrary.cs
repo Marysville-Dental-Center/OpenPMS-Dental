@@ -136,7 +136,10 @@ To add an icon: add the member here (and to the WinForms enum when WinForms draw
 		Unscheduled,
 		Rx,
 		Anesthesia,
-		PerioChart
+		PerioChart,
+		//UI-9b-2 (the imaging module and its tree, docs/port-notes/UI-9b.md): the two new purposes of ControlImages' ImageLists, each with its manifest row.
+		Scan,
+		UsbStick
 	}
 
 	///<summary></summary>

@@ -126,7 +126,22 @@ namespace OpenPmsDental.UI{
 		Unscheduled,
 		Rx,
 		Anesthesia,
-		PerioChart
+		PerioChart,
+		//UI-9b-2 (the imaging module and its tree, docs/port-notes/UI-9b.md): the purposes of ControlImages' two ImageLists. The WinForms enum adds the 11
+		//imaging members the WPF enum already has (every WinForms member is also a WPF member), then the two new ones, each with its manifest row.
+		ArrowsAll,
+		Crop,
+		Flip,
+		Hand,
+		Import,
+		Info,
+		RotateL,
+		RotateR,
+		ScanMulti,
+		ScanPhoto,
+		ScanXray,
+		Scan,
+		UsbStick
 	}
 
 	///<summary></summary>
@@ -302,6 +317,19 @@ namespace OpenPmsDental.UI{
 				arrayBitmaps[i]=GetBitmap(arrayIcons[i],sizePixels,sizePixels);
 			}
 			return UiIcons.GetImageList(sizePixels,arrayKeys,arrayBitmaps);
+		}
+
+		///<summary>The list of a tree or list view that must follow the DPI (UI-9b-2, docs/port-notes/UI-9b.md, section 1.3): imageList when it is
+		///already sizePixels square and holds the icons, else a new GetImageList and the old one disposed. Call it where the control is shown or its
+		///scale may have changed, with the real pixel size (LayoutManager.Scale(16)); keep the index order of arrayIcons so every ImageIndex and
+		///ImageKey keeps its picture's purpose. The caller owns the result.</summary>
+		public static System.Windows.Forms.ImageList GetImageListForSize(System.Windows.Forms.ImageList imageList,EnumIcons[] arrayIcons,int sizePixels){
+			sizePixels=Math.Max(sizePixels,1);
+			if(imageList!=null && imageList.ImageSize.Width==sizePixels && imageList.ImageSize.Height==sizePixels && imageList.Images.Count>=arrayIcons.Length){
+				return imageList;
+			}
+			imageList?.Dispose();
+			return GetImageList(arrayIcons,sizePixels);
 		}
 
 		///<summary>GetBitmap for a custom dental icon (UI-8), in its role colour.</summary>

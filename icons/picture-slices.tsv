@@ -34,3 +34,4 @@ UI-9a-7k	OpenPmsDentalHelper32	*
 UI-9a-7l	CodeBase/Utilities	MsgBoxCopyPaste*
 UI-9a-7m	ODR	ComboBoxMulti*
 UI-9b-1	OpenPmsDental/Main Modules	ControlAccount*,ControlAppt*,ControlChart*,ControlFamily*,ControlTreat*,FormOpenDental*
+UI-9b-2	OpenPmsDental/Main Modules	ControlImages*
