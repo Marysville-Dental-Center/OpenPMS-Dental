@@ -556,12 +556,12 @@ WPF
 		}
 	}
 
-	///<summary>WPF treats these fields separately, but we made our own Font object to group these fields together to make it slightly easier. Default font is Microsoft Sans Serif 8.25 because that's always what we used with WinForms. Use ForWpf and/or SizeDip when using with WPF screen.</summary>
+	///<summary>WPF treats these fields separately, but we made our own Font object to group these fields together to make it slightly easier. Default font is the body family (UiTheme.FontFamilyName: Segoe UI from UI-2b on, Microsoft Sans Serif before) at 8.25, the size we always used with WinForms. A printout or a document uses ForDocument, which keeps Microsoft Sans Serif 8.25 (UI-2b). Use ForWpf and/or SizeDip when using with WPF screen.</summary>
 	public class Font{
 		///<summary>Default is 8.25</summary>
 		public double Size=8.25;
-		///<summary>Default is Microsoft Sans Serif. You can change it to whatever you want: Arial for example.</summary>
-		public string Name="Microsoft Sans Serif";
+		///<summary>Default is the body family, UiTheme.FontFamilyName (UI-2b; Microsoft Sans Serif before). You can change it to whatever you want: Arial for example.</summary>
+		public string Name=CodeBase.UiTheme.FontFamilyName;
 		public bool IsBold=false;
 		public bool IsUnderline=false;
 
@@ -569,6 +569,14 @@ WPF
 		public double SizeDip{
 			get=>Size*96/72;
 			set=>Size=value*72/96;
+		}
+
+		///<summary>UI-2b: Microsoft Sans Serif 8.25, the default of this class before the flip, for a printout or a document (a mount's text), which keep the font they drew with (plan 5.2, UQ-5).</summary>
+		public static Font ForDocument(){
+			Font font=new Font();
+			font.Name=CodeBase.UiTheme.FONT_FAMILY_TODAY;
+			font.Size=CodeBase.UiTheme.FONT_SIZE_PINNED;
+			return font;
 		}
 
 		///<summary>This gives you a Segoe UI 11.5, which is our standard in all WPF windows.</summary>

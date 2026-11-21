@@ -158,24 +158,26 @@ namespace CodeBase{
 			//Messages may span multiple pages. We print the header on each page as well as the page number.
 			float baseY=margins.Top;
 			string text="Page "+(pageToPrint+1);
-			Font font=Font;
+			//UI-2b: the printout keeps the fonts it drew with before the flip (the window's Microsoft Sans Serif 8.25 then), not the body font.
+			Font fontPinned=UiTheme.NewFontPinned();
+			Font font=fontPinned;
 			SizeF textSize=g.MeasureString(text,font);
 			g.DrawString(text,font,Brushes.Black,margins.Right-textSize.Width,baseY);
 			baseY+=textSize.Height;
 			text=Text;
-			font=new Font(Font.FontFamily,16,FontStyle.Bold);
+			font=new Font(UiTheme.FONT_FAMILY_TODAY,16,FontStyle.Bold);
 			textSize=g.MeasureString(text,font);
 			g.DrawString(text,font,Brushes.Black,(margins.Width-textSize.Width)/2,baseY);
 			baseY+=textSize.Height;
 			font.Dispose();
-			font=new Font(Font.FontFamily,14,FontStyle.Bold);
+			font=new Font(UiTheme.FONT_FAMILY_TODAY,14,FontStyle.Bold);
 			text=DateTime.Now.ToString();
 			textSize=g.MeasureString(text,font);
 			g.DrawString(text,font,Brushes.Black,(margins.Width-textSize.Width)/2,baseY);
 			baseY+=textSize.Height;
 			font.Dispose();
 			string[] messageLines=textMain.Text.Split(new string[] {Environment.NewLine},StringSplitOptions.None);
-			font=Font;
+			font=fontPinned;
 			bool isLastPage=false;
 			float y=0;
 			for(int curPage=0,msgLine=0;curPage<=pageToPrint;curPage++){
@@ -203,6 +205,7 @@ namespace CodeBase{
 					msgLine++;
 				}
 			}
+			fontPinned.Dispose();
 			return isLastPage;
 		}
 

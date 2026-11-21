@@ -204,6 +204,31 @@ namespace CodeBase {
 		}
 		#endregion The mapping (sections 3.4 and 5.1)
 
+		#region The pins (UI-2b)
+		///<summary>The size of the body font before the flip (Microsoft Sans Serif 8.25, FONT_FAMILY_TODAY). A printout or office content that drew
+		///with the window's inherited font before UI-2b keeps this font (the UI-2b pins, docs/port-notes/UI-2b.md): plan 5.2, UQ-5.</summary>
+		public const float FONT_SIZE_PINNED=8.25f;
+
+		///<summary>A new Microsoft Sans Serif 8.25 Regular: the pinned font of a printout or office content that inherited the body font before
+		///UI-2b (a window's font that LayoutManager does not zoom, the exe's default font). Never a screen font. The caller owns it.</summary>
+		public static Font NewFontPinned() {
+			return new Font(FONT_FAMILY_TODAY,FONT_SIZE_PINNED);
+		}
+
+		///<summary>The pinned font (Microsoft Sans Serif) at the scale of an inherited font, in its style: a control's font is the body token at the
+		///window's zoom (LayoutManager scales it), so the pin keeps that zoom. Its size is fontInherited's size times 8.25 over FontBody's size:
+		///with today's tokens exactly fontInherited's size (8.25 at 100%, 9.9 at 120%); after the flip Segoe UI 9 at 120% (10.8) gives 9.9 again.
+		///The caller owns it.</summary>
+		public static Font NewFontPinned(Font fontInherited) {
+			float size=fontInherited.SizeInPoints;
+			float sizeBody=FontBody.SizeInPoints;
+			if(sizeBody!=FONT_SIZE_PINNED) {
+				size=size*FONT_SIZE_PINNED/sizeBody;
+			}
+			return new Font(FONT_FAMILY_TODAY,size,fontInherited.Style);
+		}
+		#endregion The pins (UI-2b)
+
 		#region The test override (section 5.4)
 		///<summary>Test only: sets every font token to the option's values (null: today's), so a test process runs the product's own font path in
 		///a font option: FormODBase's and FormFrame's font, LayoutManagerForms.FontInitial, the mapping of the designer fonts and the code sites

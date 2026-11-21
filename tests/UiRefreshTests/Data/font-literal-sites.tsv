@@ -161,6 +161,5 @@ SparksToothChart\ToothChart2D.cs:47	content	the tooth chart's pinned font (UI-2a
 SparksToothChart\ToothChartData.cs:87	content	the tooth chart data's font (GenericSansSerif 8.25; plan 5.2: stays)
 SparksToothChart\ToothChartWrapper.cs:113	content	the tooth chart wrapper's pinned font (UI-2a-1; plan 5.2, decision 5)
 UpdateFileCopier\Program.cs:14	exe	the exe's default font literal, the first statement of Main (plan 5.1); NoHqTests' DefaultFontTests checks it against the token, UI-2b changes it to Segoe UI
-WpfControlsOD\UI\Graphics.cs:564	token	the default of the WPF drawing Font (Microsoft Sans Serif 8.25, as WinForms had): the family a drawn text of a WPF window takes unless its site sets one; unsure, listed for the lead: UI-2b gives it the body token or leaves it
 xCrudGenerator\Form1.Designer.cs:92	literal	designer code in scope: this.label2.Font Microsoft Sans Serif 10 Bold; its parent (this) has the default font; stays a literal, the literal test checks it and UI-2b changes it (5.1)
 xCrudGenerator\Program.cs:17	exe	the exe's default font literal, the first statement of Main (plan 5.1); NoHqTests' DefaultFontTests checks it against the token, UI-2b changes it to Segoe UI

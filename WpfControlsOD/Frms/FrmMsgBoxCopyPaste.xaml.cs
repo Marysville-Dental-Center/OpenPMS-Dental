@@ -55,7 +55,7 @@ namespace OpenPmsDental {
 		///<summary>Called for each page to be printed. Returns true if has more pages.</summary>
 		private bool pd_PrintPage(Graphics g){
 			//Messages may span multiple pages. We print the header on each page as well as the page number.
-			Font font=new Font();
+			Font font=Font.ForDocument();//UI-2b: a printout keeps the font it drew with before the flip
 			double yPos=0;
 			string text="Page "+(_pagesPrinted+1);
 			Size sizeText=g.MeasureString(text,font);
@@ -71,7 +71,7 @@ namespace OpenPmsDental {
 			sizeText=g.MeasureString(text,font);
 			g.DrawString(text,font,Colors.Black,(g.Width-sizeText.Width)/2,yPos);
 			yPos+=sizeText.Height+8;
-			font=new Font();
+			font=Font.ForDocument();
 			if(_pagesPrinted==0){
 				text=textMain.Text;
 			}
