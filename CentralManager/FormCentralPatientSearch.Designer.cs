@@ -134,6 +134,7 @@
 			// 
 			// textConn
 			// 
+			this.textConn.AutoSize = false;
 			this.textConn.Location = new System.Drawing.Point(123, 292);
 			this.textConn.Name = "textConn";
 			this.textConn.Size = new System.Drawing.Size(90, 20);
@@ -150,6 +151,7 @@
 			// 
 			// textCountry
 			// 
+			this.textCountry.AutoSize = false;
 			this.textCountry.Location = new System.Drawing.Point(123, 272);
 			this.textCountry.Name = "textCountry";
 			this.textCountry.Size = new System.Drawing.Size(90, 20);
@@ -166,6 +168,7 @@
 			// 
 			// textEmail
 			// 
+			this.textEmail.AutoSize = false;
 			this.textEmail.Location = new System.Drawing.Point(123, 252);
 			this.textEmail.Name = "textEmail";
 			this.textEmail.Size = new System.Drawing.Size(90, 20);
@@ -182,6 +185,7 @@
 			// 
 			// textSubscriberID
 			// 
+			this.textSubscriberID.AutoSize = false;
 			this.textSubscriberID.Location = new System.Drawing.Point(123, 232);
 			this.textSubscriberID.Name = "textSubscriberID";
 			this.textSubscriberID.Size = new System.Drawing.Size(90, 20);
@@ -198,6 +202,7 @@
 			// 
 			// textBirthdate
 			// 
+			this.textBirthdate.AutoSize = false;
 			this.textBirthdate.Location = new System.Drawing.Point(123, 212);
 			this.textBirthdate.Name = "textBirthdate";
 			this.textBirthdate.Size = new System.Drawing.Size(90, 20);
@@ -223,6 +228,7 @@
 			// 
 			// textChartNumber
 			// 
+			this.textChartNumber.AutoSize = false;
 			this.textChartNumber.Location = new System.Drawing.Point(123, 192);
 			this.textChartNumber.Name = "textChartNumber";
 			this.textChartNumber.Size = new System.Drawing.Size(90, 20);
@@ -230,6 +236,7 @@
 			// 
 			// textSSN
 			// 
+			this.textSSN.AutoSize = false;
 			this.textSSN.Location = new System.Drawing.Point(123, 152);
 			this.textSSN.Name = "textSSN";
 			this.textSSN.Size = new System.Drawing.Size(90, 20);
@@ -255,6 +262,7 @@
 			// 
 			// textPatNum
 			// 
+			this.textPatNum.AutoSize = false;
 			this.textPatNum.Location = new System.Drawing.Point(123, 172);
 			this.textPatNum.Name = "textPatNum";
 			this.textPatNum.Size = new System.Drawing.Size(90, 20);
@@ -271,6 +279,7 @@
 			// 
 			// textState
 			// 
+			this.textState.AutoSize = false;
 			this.textState.Location = new System.Drawing.Point(123, 132);
 			this.textState.Name = "textState";
 			this.textState.Size = new System.Drawing.Size(90, 20);
@@ -287,6 +296,7 @@
 			// 
 			// textCity
 			// 
+			this.textCity.AutoSize = false;
 			this.textCity.Location = new System.Drawing.Point(123, 112);
 			this.textCity.Name = "textCity";
 			this.textCity.Size = new System.Drawing.Size(90, 20);
@@ -296,7 +306,7 @@
 			// 
 			this.label7.Location = new System.Drawing.Point(11, 114);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(109, 14);
+			this.label7.Size = new System.Drawing.Size(109, 15);
 			this.label7.TabIndex = 14;
 			this.label7.Text = "City";
 			this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -314,13 +324,14 @@
 			// 
 			this.label6.Location = new System.Drawing.Point(11, 14);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(202, 14);
+			this.label6.Size = new System.Drawing.Size(202, 15);
 			this.label6.TabIndex = 10;
 			this.label6.Text = "Hint: enter values in multiple boxes.";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			// 
 			// textAddress
 			// 
+			this.textAddress.AutoSize = false;
 			this.textAddress.Location = new System.Drawing.Point(123, 92);
 			this.textAddress.Name = "textAddress";
 			this.textAddress.Size = new System.Drawing.Size(90, 20);
@@ -337,6 +348,7 @@
 			// 
 			// textPhone
 			// 
+			this.textPhone.AutoSize = false;
 			this.textPhone.Location = new System.Drawing.Point(123, 72);
 			this.textPhone.Name = "textPhone";
 			this.textPhone.Size = new System.Drawing.Size(90, 20);
@@ -353,6 +365,7 @@
 			// 
 			// textFName
 			// 
+			this.textFName.AutoSize = false;
 			this.textFName.Location = new System.Drawing.Point(123, 52);
 			this.textFName.Name = "textFName";
 			this.textFName.Size = new System.Drawing.Size(90, 20);
@@ -369,6 +382,7 @@
 			// 
 			// textLName
 			// 
+			this.textLName.AutoSize = false;
 			this.textLName.Location = new System.Drawing.Point(123, 32);
 			this.textLName.Name = "textLName";
 			this.textLName.Size = new System.Drawing.Size(90, 20);

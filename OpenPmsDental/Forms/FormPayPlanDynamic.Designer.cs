@@ -142,6 +142,7 @@ namespace OpenPmsDental {
 			// 
 			// textTotalTxAmt
 			// 
+			this.textTotalTxAmt.AutoSize = false;
 			this.textTotalTxAmt.Location = new System.Drawing.Point(148, 528);
 			this.textTotalTxAmt.MaxVal = 100000000D;
 			this.textTotalTxAmt.MinVal = -100000000D;
@@ -161,6 +162,7 @@ namespace OpenPmsDental {
 			// 
 			// textCompletedAmt
 			// 
+			this.textCompletedAmt.AutoSize = false;
 			this.textCompletedAmt.Location = new System.Drawing.Point(148, 508);
 			this.textCompletedAmt.MaxVal = 100000000D;
 			this.textCompletedAmt.MinVal = -100000000D;
@@ -171,6 +173,7 @@ namespace OpenPmsDental {
 			// 
 			// textPrincPaid
 			// 
+			this.textPrincPaid.AutoSize = false;
 			this.textPrincPaid.Location = new System.Drawing.Point(148, 488);
 			this.textPrincPaid.Name = "textPrincPaid";
 			this.textPrincPaid.ReadOnly = true;
@@ -201,6 +204,7 @@ namespace OpenPmsDental {
 			// 
 			// textAccumulatedDue
 			// 
+			this.textAccumulatedDue.AutoSize = false;
 			this.textAccumulatedDue.Location = new System.Drawing.Point(148, 448);
 			this.textAccumulatedDue.Name = "textAccumulatedDue";
 			this.textAccumulatedDue.ReadOnly = true;
@@ -210,6 +214,7 @@ namespace OpenPmsDental {
 			// 
 			// textAmtPaid
 			// 
+			this.textAmtPaid.AutoSize = false;
 			this.textAmtPaid.Location = new System.Drawing.Point(148, 468);
 			this.textAmtPaid.Name = "textAmtPaid";
 			this.textAmtPaid.ReadOnly = true;
@@ -228,6 +233,7 @@ namespace OpenPmsDental {
 			// 
 			// textPatient
 			// 
+			this.textPatient.AutoSize = false;
 			this.textPatient.Location = new System.Drawing.Point(74, 27);
 			this.textPatient.Name = "textPatient";
 			this.textPatient.ReadOnly = true;
@@ -246,6 +252,7 @@ namespace OpenPmsDental {
 			// 
 			// textDate
 			// 
+			this.textDate.AutoSize = false;
 			this.textDate.Location = new System.Drawing.Point(142, 14);
 			this.textDate.Name = "textDate";
 			this.textDate.Size = new System.Drawing.Size(85, 20);
@@ -263,6 +270,7 @@ namespace OpenPmsDental {
 			// 
 			// textGuarantor
 			// 
+			this.textGuarantor.AutoSize = false;
 			this.textGuarantor.Location = new System.Drawing.Point(74, 49);
 			this.textGuarantor.Name = "textGuarantor";
 			this.textGuarantor.ReadOnly = true;
@@ -406,6 +414,7 @@ namespace OpenPmsDental {
 			// textDateInterestStart
 			// 
 			this.textDateInterestStart.Anchor = System.Windows.Forms.AnchorStyles.Top;
+			this.textDateInterestStart.AutoSize = false;
 			this.textDateInterestStart.Location = new System.Drawing.Point(142, 145);
 			this.textDateInterestStart.Name = "textDateInterestStart";
 			this.textDateInterestStart.Size = new System.Drawing.Size(85, 20);
@@ -435,6 +444,7 @@ namespace OpenPmsDental {
 			// textInterestDelay
 			// 
 			this.textInterestDelay.Anchor = System.Windows.Forms.AnchorStyles.Top;
+			this.textInterestDelay.AutoSize = false;
 			this.textInterestDelay.Location = new System.Drawing.Point(142, 123);
 			this.textInterestDelay.MaxVal = 100000000D;
 			this.textInterestDelay.MinVal = 0D;
@@ -463,6 +473,7 @@ namespace OpenPmsDental {
 			// 
 			// textPaymentCount
 			// 
+			this.textPaymentCount.AutoSize = false;
 			this.textPaymentCount.Location = new System.Drawing.Point(142, 189);
 			this.textPaymentCount.MinVal = 1;
 			this.textPaymentCount.Name = "textPaymentCount";
@@ -473,6 +484,7 @@ namespace OpenPmsDental {
 			// 
 			// textPeriodPayment
 			// 
+			this.textPeriodPayment.AutoSize = false;
 			this.textPeriodPayment.Location = new System.Drawing.Point(142, 167);
 			this.textPeriodPayment.MaxVal = 100000000D;
 			this.textPeriodPayment.MinVal = 0.01D;
@@ -498,7 +510,7 @@ namespace OpenPmsDental {
 			// 
 			this.radioQuarterly.Location = new System.Drawing.Point(5, 87);
 			this.radioQuarterly.Name = "radioQuarterly";
-			this.radioQuarterly.Size = new System.Drawing.Size(104, 19);
+			this.radioQuarterly.Size = new System.Drawing.Size(104, 23);
 			this.radioQuarterly.TabIndex = 4;
 			this.radioQuarterly.TabStop = true;
 			this.radioQuarterly.Text = "Quarterly";
@@ -510,7 +522,7 @@ namespace OpenPmsDental {
 			this.radioMonthly.Checked = true;
 			this.radioMonthly.Location = new System.Drawing.Point(5, 69);
 			this.radioMonthly.Name = "radioMonthly";
-			this.radioMonthly.Size = new System.Drawing.Size(104, 19);
+			this.radioMonthly.Size = new System.Drawing.Size(104, 23);
 			this.radioMonthly.TabIndex = 3;
 			this.radioMonthly.TabStop = true;
 			this.radioMonthly.Text = "Monthly";
@@ -521,7 +533,7 @@ namespace OpenPmsDental {
 			// 
 			this.radioOrdinalWeekday.Location = new System.Drawing.Point(5, 51);
 			this.radioOrdinalWeekday.Name = "radioOrdinalWeekday";
-			this.radioOrdinalWeekday.Size = new System.Drawing.Size(142, 19);
+			this.radioOrdinalWeekday.Size = new System.Drawing.Size(142, 23);
 			this.radioOrdinalWeekday.TabIndex = 2;
 			this.radioOrdinalWeekday.TabStop = true;
 			this.radioOrdinalWeekday.Text = "Specific day of month";
@@ -532,7 +544,7 @@ namespace OpenPmsDental {
 			// 
 			this.radioEveryOtherWeek.Location = new System.Drawing.Point(5, 33);
 			this.radioEveryOtherWeek.Name = "radioEveryOtherWeek";
-			this.radioEveryOtherWeek.Size = new System.Drawing.Size(130, 19);
+			this.radioEveryOtherWeek.Size = new System.Drawing.Size(130, 23);
 			this.radioEveryOtherWeek.TabIndex = 1;
 			this.radioEveryOtherWeek.TabStop = true;
 			this.radioEveryOtherWeek.Text = "Every other week";
@@ -543,7 +555,7 @@ namespace OpenPmsDental {
 			// 
 			this.radioWeekly.Location = new System.Drawing.Point(5, 15);
 			this.radioWeekly.Name = "radioWeekly";
-			this.radioWeekly.Size = new System.Drawing.Size(104, 19);
+			this.radioWeekly.Size = new System.Drawing.Size(104, 23);
 			this.radioWeekly.TabIndex = 0;
 			this.radioWeekly.TabStop = true;
 			this.radioWeekly.Text = "Weekly";
@@ -579,6 +591,7 @@ namespace OpenPmsDental {
 			// 
 			// textAPR
 			// 
+			this.textAPR.AutoSize = false;
 			this.textAPR.Location = new System.Drawing.Point(142, 101);
 			this.textAPR.MaxVal = 100000000D;
 			this.textAPR.MinVal = 0D;
@@ -590,6 +603,7 @@ namespace OpenPmsDental {
 			// 
 			// textDownPayment
 			// 
+			this.textDownPayment.AutoSize = false;
 			this.textDownPayment.Location = new System.Drawing.Point(142, 79);
 			this.textDownPayment.MaxVal = 100000000D;
 			this.textDownPayment.MinVal = 0D;
@@ -618,6 +632,7 @@ namespace OpenPmsDental {
 			// 
 			// textDateFirstPay
 			// 
+			this.textDateFirstPay.AutoSize = false;
 			this.textDateFirstPay.Location = new System.Drawing.Point(142, 57);
 			this.textDateFirstPay.Name = "textDateFirstPay";
 			this.textDateFirstPay.Size = new System.Drawing.Size(85, 20);
@@ -644,6 +659,7 @@ namespace OpenPmsDental {
 			// 
 			// textTotalPrincipal
 			// 
+			this.textTotalPrincipal.AutoSize = false;
 			this.textTotalPrincipal.Location = new System.Drawing.Point(142, 36);
 			this.textTotalPrincipal.MaxVal = 100000000D;
 			this.textTotalPrincipal.MinVal = 0.01D;
@@ -692,6 +708,7 @@ namespace OpenPmsDental {
 			// 
 			// textTotalCost
 			// 
+			this.textTotalCost.AutoSize = false;
 			this.textTotalCost.Location = new System.Drawing.Point(148, 428);
 			this.textTotalCost.Name = "textTotalCost";
 			this.textTotalCost.ReadOnly = true;
@@ -865,7 +882,7 @@ namespace OpenPmsDental {
 			this.checkUngrouped.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkUngrouped.Location = new System.Drawing.Point(300, 466);
 			this.checkUngrouped.Name = "checkUngrouped";
-			this.checkUngrouped.Size = new System.Drawing.Size(114, 17);
+			this.checkUngrouped.Size = new System.Drawing.Size(114, 18);
 			this.checkUngrouped.TabIndex = 200;
 			this.checkUngrouped.Text = "Ungrouped";
 			this.checkUngrouped.CheckedChanged += new System.EventHandler(this.checkUngrouped_CheckedChanged);
@@ -888,7 +905,7 @@ namespace OpenPmsDental {
 			this.checkExcludePast.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkExcludePast.Location = new System.Drawing.Point(419, 466);
 			this.checkExcludePast.Name = "checkExcludePast";
-			this.checkExcludePast.Size = new System.Drawing.Size(132, 17);
+			this.checkExcludePast.Size = new System.Drawing.Size(132, 18);
 			this.checkExcludePast.TabIndex = 198;
 			this.checkExcludePast.Text = "Hide past activity";
 			this.checkExcludePast.CheckedChanged += new System.EventHandler(this.checkExcludePast_CheckedChanged);

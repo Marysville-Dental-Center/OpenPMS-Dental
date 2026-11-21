@@ -76,7 +76,7 @@ namespace OpenPmsDental {
 			this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label1.Location = new System.Drawing.Point(808, 178);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(97, 15);
+			this.label1.Size = new System.Drawing.Size(97, 17);
 			this.label1.TabIndex = 4;
 			this.label1.Text = "Set Priority";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -218,7 +218,7 @@ namespace OpenPmsDental {
 			this.checkShowTotals.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.checkShowTotals.Location = new System.Drawing.Point(23, 105);
 			this.checkShowTotals.Name = "checkShowTotals";
-			this.checkShowTotals.Size = new System.Drawing.Size(128, 15);
+			this.checkShowTotals.Size = new System.Drawing.Size(128, 19);
 			this.checkShowTotals.TabIndex = 31;
 			this.checkShowTotals.Text = "Totals";
 			this.checkShowTotals.Click += new System.EventHandler(this.checkShowTotals_Click);
@@ -229,7 +229,7 @@ namespace OpenPmsDental {
 			this.checkShowMaxDed.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.checkShowMaxDed.Location = new System.Drawing.Point(5, 20);
 			this.checkShowMaxDed.Name = "checkShowMaxDed";
-			this.checkShowMaxDed.Size = new System.Drawing.Size(146, 17);
+			this.checkShowMaxDed.Size = new System.Drawing.Size(152, 17);
 			this.checkShowMaxDed.TabIndex = 30;
 			this.checkShowMaxDed.Text = "Use Ins Max and Deduct";
 			this.checkShowMaxDed.Click += new System.EventHandler(this.checkShowMaxDed_Click);
@@ -273,7 +273,7 @@ namespace OpenPmsDental {
 			this.checkShowCompleted.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.checkShowCompleted.Location = new System.Drawing.Point(5, 3);
 			this.checkShowCompleted.Name = "checkShowCompleted";
-			this.checkShowCompleted.Size = new System.Drawing.Size(146, 17);
+			this.checkShowCompleted.Size = new System.Drawing.Size(150, 17);
 			this.checkShowCompleted.TabIndex = 26;
 			this.checkShowCompleted.Text = "Graphical Completed Tx";
 			this.checkShowCompleted.Click += new System.EventHandler(this.checkShowCompleted_Click);
@@ -294,7 +294,7 @@ namespace OpenPmsDental {
 			// 
 			this.label6.Location = new System.Drawing.Point(3, 8);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(146, 33);
+			this.label6.Size = new System.Drawing.Size(159, 33);
 			this.label6.TabIndex = 74;
 			this.label6.Text = "Order procedures by priority, then date, then";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -316,7 +316,7 @@ namespace OpenPmsDental {
 			this.radioTreatPlanSortOrder.Checked = true;
 			this.radioTreatPlanSortOrder.Location = new System.Drawing.Point(18, 59);
 			this.radioTreatPlanSortOrder.Name = "radioTreatPlanSortOrder";
-			this.radioTreatPlanSortOrder.Size = new System.Drawing.Size(126, 19);
+			this.radioTreatPlanSortOrder.Size = new System.Drawing.Size(126, 23);
 			this.radioTreatPlanSortOrder.TabIndex = 72;
 			this.radioTreatPlanSortOrder.TabStop = true;
 			this.radioTreatPlanSortOrder.Text = "Order Entered";
@@ -337,7 +337,7 @@ namespace OpenPmsDental {
 			// 
 			this.checkPrintClassic.Location = new System.Drawing.Point(7, 12);
 			this.checkPrintClassic.Name = "checkPrintClassic";
-			this.checkPrintClassic.Size = new System.Drawing.Size(146, 17);
+			this.checkPrintClassic.Size = new System.Drawing.Size(146, 18);
 			this.checkPrintClassic.TabIndex = 27;
 			this.checkPrintClassic.Text = "Print using classic view";
 			// 
@@ -346,7 +346,7 @@ namespace OpenPmsDental {
 			this.labelCheckInsFrequency.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.labelCheckInsFrequency.Location = new System.Drawing.Point(908, 178);
 			this.labelCheckInsFrequency.Name = "labelCheckInsFrequency";
-			this.labelCheckInsFrequency.Size = new System.Drawing.Size(84, 15);
+			this.labelCheckInsFrequency.Size = new System.Drawing.Size(90, 17);
 			this.labelCheckInsFrequency.TabIndex = 74;
 			this.labelCheckInsFrequency.Text = "Estimates as of:";
 			this.labelCheckInsFrequency.TextAlign = System.Drawing.ContentAlignment.BottomLeft;

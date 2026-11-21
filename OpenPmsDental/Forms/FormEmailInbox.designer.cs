@@ -156,7 +156,7 @@ namespace OpenPmsDental{
 			this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label3.Location = new System.Drawing.Point(12, 56);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(229, 16);
+			this.label3.Size = new System.Drawing.Size(229, 17);
 			this.label3.TabIndex = 0;
 			this.label3.Text = "View messages for address:";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -174,7 +174,7 @@ namespace OpenPmsDental{
 			this.butMarkUnread.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butMarkUnread.Location = new System.Drawing.Point(851, 189);
 			this.butMarkUnread.Name = "butMarkUnread";
-			this.butMarkUnread.Size = new System.Drawing.Size(75, 20);
+			this.butMarkUnread.Size = new System.Drawing.Size(76, 20);
 			this.butMarkUnread.TabIndex = 8;
 			this.butMarkUnread.Text = "Mark Unread";
 			this.butMarkUnread.Click += new System.EventHandler(this.butMarkUnread_Click);
@@ -267,7 +267,7 @@ namespace OpenPmsDental{
 			this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label2.Location = new System.Drawing.Point(80, 56);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(80, 16);
+			this.label2.Size = new System.Drawing.Size(88, 18);
 			this.label2.TabIndex = 166;
 			this.label2.Text = "Date To:";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -307,7 +307,7 @@ namespace OpenPmsDental{
 			this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label6.Location = new System.Drawing.Point(181, 56);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(147, 16);
+			this.label6.Size = new System.Drawing.Size(147, 17);
 			this.label6.TabIndex = 163;
 			this.label6.Text = "Subject/Body:";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -324,13 +324,14 @@ namespace OpenPmsDental{
 			this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label5.Location = new System.Drawing.Point(181, 18);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(173, 16);
+			this.label5.Size = new System.Drawing.Size(88, 17);
 			this.label5.TabIndex = 161;
 			this.label5.Text = "Email Address:";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// textSearchEmail
 			// 
+			this.textSearchEmail.AutoSize = false;
 			this.textSearchEmail.Location = new System.Drawing.Point(181, 35);
 			this.textSearchEmail.Name = "textSearchEmail";
 			this.textSearchEmail.Size = new System.Drawing.Size(223, 20);
@@ -348,7 +349,7 @@ namespace OpenPmsDental{
 			this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label4.Location = new System.Drawing.Point(6, 56);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(71, 16);
+			this.label4.Size = new System.Drawing.Size(88, 18);
 			this.label4.TabIndex = 158;
 			this.label4.Text = "Date From:";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -368,13 +369,14 @@ namespace OpenPmsDental{
 			this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label1.Location = new System.Drawing.Point(1, 18);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(173, 16);
+			this.label1.Size = new System.Drawing.Size(88, 18);
 			this.label1.TabIndex = 156;
 			this.label1.Text = "Patient:";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// textSearchPat
 			// 
+			this.textSearchPat.AutoSize = false;
 			this.textSearchPat.Location = new System.Drawing.Point(6, 35);
 			this.textSearchPat.Name = "textSearchPat";
 			this.textSearchPat.ReadOnly = true;

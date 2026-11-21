@@ -65,7 +65,7 @@ namespace OpenPmsDental {
 			// 
 			this.label1.Location = new System.Drawing.Point(22, 9);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(872, 29);
+			this.label1.Size = new System.Drawing.Size(1027, 29);
 			this.label1.TabIndex = 29;
 			this.label1.Text = resources.GetString("label1.Text");
 			// 
@@ -74,7 +74,7 @@ namespace OpenPmsDental {
 			this.checkIncludeNoIns.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkIncludeNoIns.Location = new System.Drawing.Point(529, 46);
 			this.checkIncludeNoIns.Name = "checkIncludeNoIns";
-			this.checkIncludeNoIns.Size = new System.Drawing.Size(268, 17);
+			this.checkIncludeNoIns.Size = new System.Drawing.Size(271, 18);
 			this.checkIncludeNoIns.TabIndex = 8;
 			this.checkIncludeNoIns.Text = "Include secondary insurance and no insurance";
 			// 
@@ -123,7 +123,7 @@ namespace OpenPmsDental {
 			this.checkUseTreatingProvider.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkUseTreatingProvider.Location = new System.Drawing.Point(558, 8);
 			this.checkUseTreatingProvider.Name = "checkUseTreatingProvider";
-			this.checkUseTreatingProvider.Size = new System.Drawing.Size(239, 17);
+			this.checkUseTreatingProvider.Size = new System.Drawing.Size(239, 18);
 			this.checkUseTreatingProvider.TabIndex = 6;
 			this.checkUseTreatingProvider.Text = "Use Treating Provider";
 			// 
@@ -149,7 +149,7 @@ namespace OpenPmsDental {
 			this.checkBenefitAssumeGeneral.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkBenefitAssumeGeneral.Location = new System.Drawing.Point(558, 27);
 			this.checkBenefitAssumeGeneral.Name = "checkBenefitAssumeGeneral";
-			this.checkBenefitAssumeGeneral.Size = new System.Drawing.Size(239, 17);
+			this.checkBenefitAssumeGeneral.Size = new System.Drawing.Size(239, 18);
 			this.checkBenefitAssumeGeneral.TabIndex = 7;
 			this.checkBenefitAssumeGeneral.Text = "Assume procedures are General";
 			// 
@@ -209,7 +209,7 @@ namespace OpenPmsDental {
 			// 
 			this.label8.Location = new System.Drawing.Point(5, 37);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(130, 16);
+			this.label8.Size = new System.Drawing.Size(133, 18);
 			this.label8.TabIndex = 46;
 			this.label8.Text = "Amount remaining over";
 			this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -218,7 +218,7 @@ namespace OpenPmsDental {
 			// 
 			this.label7.Location = new System.Drawing.Point(265, 61);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(97, 16);
+			this.label7.Size = new System.Drawing.Size(97, 18);
 			this.label7.TabIndex = 43;
 			this.label7.Text = "Billing Type";
 			this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -228,7 +228,7 @@ namespace OpenPmsDental {
 			this.checkIncludePatsWithApts.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkIncludePatsWithApts.Location = new System.Drawing.Point(529, 65);
 			this.checkIncludePatsWithApts.Name = "checkIncludePatsWithApts";
-			this.checkIncludePatsWithApts.Size = new System.Drawing.Size(268, 17);
+			this.checkIncludePatsWithApts.Size = new System.Drawing.Size(271, 18);
 			this.checkIncludePatsWithApts.TabIndex = 9;
 			this.checkIncludePatsWithApts.Text = "Include patients with upcoming appointments";
 			// 
@@ -414,7 +414,7 @@ namespace OpenPmsDental {
 			this.checkIncludeHiddenBillingTypes.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkIncludeHiddenBillingTypes.Location = new System.Drawing.Point(284, 85);
 			this.checkIncludeHiddenBillingTypes.Name = "checkIncludeHiddenBillingTypes";
-			this.checkIncludeHiddenBillingTypes.Size = new System.Drawing.Size(239, 16);
+			this.checkIncludeHiddenBillingTypes.Size = new System.Drawing.Size(239, 18);
 			this.checkIncludeHiddenBillingTypes.TabIndex = 51;
 			this.checkIncludeHiddenBillingTypes.Text = "Include Hidden Billing Types";
 			this.checkIncludeHiddenBillingTypes.CheckedChanged += new System.EventHandler(this.checkIncludeHiddenBillingTypes_CheckedChanged);

@@ -65,7 +65,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelTemplate.Location = new System.Drawing.Point(8, 7);
 			this.labelTemplate.Name = "labelTemplate";
-			this.labelTemplate.Size = new System.Drawing.Size(166, 14);
+			this.labelTemplate.Size = new System.Drawing.Size(166, 18);
 			this.labelTemplate.TabIndex = 18;
 			this.labelTemplate.Text = "E-mail Template";
 			this.labelTemplate.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -213,7 +213,7 @@ namespace OpenPmsDental {
 			// 
 			this.label2.Location = new System.Drawing.Point(8, 7);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(166, 14);
+			this.label2.Size = new System.Drawing.Size(166, 18);
 			this.label2.TabIndex = 18;
 			this.label2.Text = "E-mail Autograph";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.BottomLeft;

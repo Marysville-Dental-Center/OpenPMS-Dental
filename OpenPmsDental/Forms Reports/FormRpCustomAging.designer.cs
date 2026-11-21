@@ -193,7 +193,7 @@ namespace OpenPmsDental {
 			this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.label3.Location = new System.Drawing.Point(881, 27);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(139, 14);
+			this.label3.Size = new System.Drawing.Size(139, 17);
 			this.label3.TabIndex = 113;
 			this.label3.Text = "Billing Types";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -203,7 +203,7 @@ namespace OpenPmsDental {
 			this.labelClinic.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelClinic.Location = new System.Drawing.Point(881, 401);
 			this.labelClinic.Name = "labelClinic";
-			this.labelClinic.Size = new System.Drawing.Size(139, 14);
+			this.labelClinic.Size = new System.Drawing.Size(139, 17);
 			this.labelClinic.TabIndex = 112;
 			this.labelClinic.Text = "Clinics";
 			this.labelClinic.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -272,7 +272,7 @@ namespace OpenPmsDental {
 			// 
 			this.radioWriteoffInsPayDate.Location = new System.Drawing.Point(5, 19);
 			this.radioWriteoffInsPayDate.Name = "radioWriteoffInsPayDate";
-			this.radioWriteoffInsPayDate.Size = new System.Drawing.Size(146, 18);
+			this.radioWriteoffInsPayDate.Size = new System.Drawing.Size(146, 22);
 			this.radioWriteoffInsPayDate.TabIndex = 1;
 			this.radioWriteoffInsPayDate.Text = "Ins Payment Date";
 			this.radioWriteoffInsPayDate.UseVisualStyleBackColor = true;
@@ -282,7 +282,7 @@ namespace OpenPmsDental {
 			this.radioWriteoffProcDate.Checked = true;
 			this.radioWriteoffProcDate.Location = new System.Drawing.Point(5, 41);
 			this.radioWriteoffProcDate.Name = "radioWriteoffProcDate";
-			this.radioWriteoffProcDate.Size = new System.Drawing.Size(146, 18);
+			this.radioWriteoffProcDate.Size = new System.Drawing.Size(146, 20);
 			this.radioWriteoffProcDate.TabIndex = 0;
 			this.radioWriteoffProcDate.TabStop = true;
 			this.radioWriteoffProcDate.Text = "Procedure Date";
@@ -302,7 +302,7 @@ namespace OpenPmsDental {
 			this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.label4.Location = new System.Drawing.Point(881, 214);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(139, 14);
+			this.label4.Size = new System.Drawing.Size(139, 17);
 			this.label4.TabIndex = 106;
 			this.label4.Text = "Providers";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -322,7 +322,7 @@ namespace OpenPmsDental {
 			// 
 			this.radioGroupByPat.Location = new System.Drawing.Point(6, 41);
 			this.radioGroupByPat.Name = "radioGroupByPat";
-			this.radioGroupByPat.Size = new System.Drawing.Size(121, 18);
+			this.radioGroupByPat.Size = new System.Drawing.Size(121, 22);
 			this.radioGroupByPat.TabIndex = 1;
 			this.radioGroupByPat.Text = "Individual";
 			this.radioGroupByPat.UseVisualStyleBackColor = true;
@@ -332,7 +332,7 @@ namespace OpenPmsDental {
 			this.radioGroupByFam.Checked = true;
 			this.radioGroupByFam.Location = new System.Drawing.Point(6, 19);
 			this.radioGroupByFam.Name = "radioGroupByFam";
-			this.radioGroupByFam.Size = new System.Drawing.Size(121, 18);
+			this.radioGroupByFam.Size = new System.Drawing.Size(121, 22);
 			this.radioGroupByFam.TabIndex = 0;
 			this.radioGroupByFam.TabStop = true;
 			this.radioGroupByFam.Text = "Family";
@@ -355,7 +355,7 @@ namespace OpenPmsDental {
 			this.radioExcludeNeg.Checked = true;
 			this.radioExcludeNeg.Location = new System.Drawing.Point(6, 19);
 			this.radioExcludeNeg.Name = "radioExcludeNeg";
-			this.radioExcludeNeg.Size = new System.Drawing.Size(120, 18);
+			this.radioExcludeNeg.Size = new System.Drawing.Size(120, 22);
 			this.radioExcludeNeg.TabIndex = 4;
 			this.radioExcludeNeg.TabStop = true;
 			this.radioExcludeNeg.Text = "Exclude";
@@ -364,7 +364,7 @@ namespace OpenPmsDental {
 			// 
 			this.radioIncludeNeg.Location = new System.Drawing.Point(6, 41);
 			this.radioIncludeNeg.Name = "radioIncludeNeg";
-			this.radioIncludeNeg.Size = new System.Drawing.Size(120, 18);
+			this.radioIncludeNeg.Size = new System.Drawing.Size(120, 22);
 			this.radioIncludeNeg.TabIndex = 5;
 			this.radioIncludeNeg.Text = "Include";
 			// 
@@ -372,7 +372,7 @@ namespace OpenPmsDental {
 			// 
 			this.radioShowOnlyNeg.Location = new System.Drawing.Point(6, 63);
 			this.radioShowOnlyNeg.Name = "radioShowOnlyNeg";
-			this.radioShowOnlyNeg.Size = new System.Drawing.Size(120, 18);
+			this.radioShowOnlyNeg.Size = new System.Drawing.Size(120, 22);
 			this.radioShowOnlyNeg.TabIndex = 6;
 			this.radioShowOnlyNeg.Text = "Show Only";
 			// 
@@ -411,7 +411,7 @@ namespace OpenPmsDental {
 			// 
 			this.radio30.Location = new System.Drawing.Point(6, 41);
 			this.radio30.Name = "radio30";
-			this.radio30.Size = new System.Drawing.Size(120, 18);
+			this.radio30.Size = new System.Drawing.Size(120, 22);
 			this.radio30.TabIndex = 1;
 			this.radio30.Text = "Over 30 Days";
 			// 
@@ -419,7 +419,7 @@ namespace OpenPmsDental {
 			// 
 			this.radio90.Location = new System.Drawing.Point(6, 85);
 			this.radio90.Name = "radio90";
-			this.radio90.Size = new System.Drawing.Size(120, 18);
+			this.radio90.Size = new System.Drawing.Size(120, 22);
 			this.radio90.TabIndex = 3;
 			this.radio90.Text = "Over 90 Days";
 			// 
@@ -427,7 +427,7 @@ namespace OpenPmsDental {
 			// 
 			this.radio60.Location = new System.Drawing.Point(6, 63);
 			this.radio60.Name = "radio60";
-			this.radio60.Size = new System.Drawing.Size(120, 18);
+			this.radio60.Size = new System.Drawing.Size(120, 22);
 			this.radio60.TabIndex = 2;
 			this.radio60.Text = "Over 60 Days";
 			// 
@@ -436,7 +436,7 @@ namespace OpenPmsDental {
 			this.radioAny.Checked = true;
 			this.radioAny.Location = new System.Drawing.Point(6, 19);
 			this.radioAny.Name = "radioAny";
-			this.radioAny.Size = new System.Drawing.Size(120, 18);
+			this.radioAny.Size = new System.Drawing.Size(120, 22);
 			this.radioAny.TabIndex = 0;
 			this.radioAny.TabStop = true;
 			this.radioAny.Text = "Any Balance";

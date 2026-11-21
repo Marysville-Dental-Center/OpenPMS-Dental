@@ -191,13 +191,14 @@
 			// 
 			this.label1.Location = new System.Drawing.Point(33, 6);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(121, 14);
+			this.label1.Size = new System.Drawing.Size(121, 18);
 			this.label1.TabIndex = 0;
 			this.label1.Text = "Ins Plan";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textInsPlan
 			// 
+			this.textInsPlan.AutoSize = false;
 			this.textInsPlan.Location = new System.Drawing.Point(157, 4);
 			this.textInsPlan.Name = "textInsPlan";
 			this.textInsPlan.ReadOnly = true;
@@ -217,6 +218,7 @@
 			// 
 			// textPercentage
 			// 
+			this.textPercentage.AutoSize = false;
 			this.textPercentage.Location = new System.Drawing.Point(168, 218);
 			this.textPercentage.Name = "textPercentage";
 			this.textPercentage.ReadOnly = true;
@@ -247,7 +249,7 @@
 			// 
 			this.labelFee.Location = new System.Drawing.Point(59, 7);
 			this.labelFee.Name = "labelFee";
-			this.labelFee.Size = new System.Drawing.Size(107, 14);
+			this.labelFee.Size = new System.Drawing.Size(107, 18);
 			this.labelFee.TabIndex = 0;
 			this.labelFee.Text = "Fee";
 			this.labelFee.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -255,6 +257,7 @@
 			// textFee
 			// 
 			this.textFee.BorderStyle = System.Windows.Forms.BorderStyle.None;
+			this.textFee.AutoSize = false;
 			this.textFee.Location = new System.Drawing.Point(169, 8);
 			this.textFee.Name = "textFee";
 			this.textFee.ReadOnly = true;
@@ -284,6 +287,7 @@
 			// 
 			// textDescription
 			// 
+			this.textDescription.AutoSize = false;
 			this.textDescription.Location = new System.Drawing.Point(157, 184);
 			this.textDescription.Name = "textDescription";
 			this.textDescription.ReadOnly = true;
@@ -304,13 +308,14 @@
 			// 
 			this.labelCodeSent.Location = new System.Drawing.Point(18, 11);
 			this.labelCodeSent.Name = "labelCodeSent";
-			this.labelCodeSent.Size = new System.Drawing.Size(121, 14);
+			this.labelCodeSent.Size = new System.Drawing.Size(121, 18);
 			this.labelCodeSent.TabIndex = 0;
 			this.labelCodeSent.Text = "Code Sent to Ins";
 			this.labelCodeSent.TextAlign = System.Drawing.ContentAlignment.TopRight;
 			// 
 			// textCodeSent
 			// 
+			this.textCodeSent.AutoSize = false;
 			this.textCodeSent.Location = new System.Drawing.Point(139, 8);
 			this.textCodeSent.Name = "textCodeSent";
 			this.textCodeSent.Size = new System.Drawing.Size(77, 20);
@@ -361,7 +366,7 @@
 			this.labelAttachedToCheck.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.labelAttachedToCheck.Location = new System.Drawing.Point(118, 291);
 			this.labelAttachedToCheck.Name = "labelAttachedToCheck";
-			this.labelAttachedToCheck.Size = new System.Drawing.Size(333, 29);
+			this.labelAttachedToCheck.Size = new System.Drawing.Size(342, 29);
 			this.labelAttachedToCheck.TabIndex = 0;
 			this.labelAttachedToCheck.Text = "This is attached to an insurance check, so certain changes are not allowed.";
 			// 
@@ -370,7 +375,7 @@
 			this.radioClaim.AutoCheck = false;
 			this.radioClaim.Location = new System.Drawing.Point(100, 33);
 			this.radioClaim.Name = "radioClaim";
-			this.radioClaim.Size = new System.Drawing.Size(353, 18);
+			this.radioClaim.Size = new System.Drawing.Size(353, 21);
 			this.radioClaim.TabIndex = 2;
 			this.radioClaim.TabStop = true;
 			this.radioClaim.Text = "This is part of a claim.";
@@ -381,7 +386,7 @@
 			this.radioEstimate.AutoCheck = false;
 			this.radioEstimate.Location = new System.Drawing.Point(100, 10);
 			this.radioEstimate.Name = "radioEstimate";
-			this.radioEstimate.Size = new System.Drawing.Size(352, 22);
+			this.radioEstimate.Size = new System.Drawing.Size(352, 23);
 			this.radioEstimate.TabIndex = 1;
 			this.radioEstimate.TabStop = true;
 			this.radioEstimate.Text = "This is an estimate only. It has not been attached to a claim.";
@@ -412,6 +417,7 @@
 			// 
 			// textClaimAdjReasonCodes
 			// 
+			this.textClaimAdjReasonCodes.AutoSize = false;
 			this.textClaimAdjReasonCodes.Location = new System.Drawing.Point(139, 52);
 			this.textClaimAdjReasonCodes.Name = "textClaimAdjReasonCodes";
 			this.textClaimAdjReasonCodes.ReadOnly = true;
@@ -421,6 +427,7 @@
 			// 
 			// textFeeBilled
 			// 
+			this.textFeeBilled.AutoSize = false;
 			this.textFeeBilled.Location = new System.Drawing.Point(139, 30);
 			this.textFeeBilled.MaxVal = 100000000D;
 			this.textFeeBilled.MinVal = -100000000D;
@@ -477,6 +484,7 @@
 			// 
 			// textWriteOffEstOverride
 			// 
+			this.textWriteOffEstOverride.AutoSize = false;
 			this.textWriteOffEstOverride.Location = new System.Drawing.Point(240, 298);
 			this.textWriteOffEstOverride.MaxVal = 100000000D;
 			this.textWriteOffEstOverride.MinVal = 0D;
@@ -489,6 +497,7 @@
 			// 
 			// textWriteOffEst
 			// 
+			this.textWriteOffEst.AutoSize = false;
 			this.textWriteOffEst.Location = new System.Drawing.Point(168, 298);
 			this.textWriteOffEst.MaxVal = 100000000D;
 			this.textWriteOffEst.MinVal = -100000000D;
@@ -531,6 +540,7 @@
 			// 
 			// textBaseEst
 			// 
+			this.textBaseEst.AutoSize = false;
 			this.textBaseEst.Location = new System.Drawing.Point(168, 258);
 			this.textBaseEst.MaxVal = 100000000D;
 			this.textBaseEst.MinVal = -100000000D;
@@ -552,6 +562,7 @@
 			// 
 			// textPatPortion1
 			// 
+			this.textPatPortion1.AutoSize = false;
 			this.textPatPortion1.Location = new System.Drawing.Point(168, 318);
 			this.textPatPortion1.MaxVal = 100000000D;
 			this.textPatPortion1.MinVal = -100000000D;
@@ -566,13 +577,14 @@
 			// 
 			this.labelPatPortion1.Location = new System.Drawing.Point(28, 320);
 			this.labelPatPortion1.Name = "labelPatPortion1";
-			this.labelPatPortion1.Size = new System.Drawing.Size(138, 17);
+			this.labelPatPortion1.Size = new System.Drawing.Size(140, 17);
 			this.labelPatPortion1.TabIndex = 0;
 			this.labelPatPortion1.Text = "Estimated Patient Portion";
 			this.labelPatPortion1.TextAlign = System.Drawing.ContentAlignment.TopRight;
 			// 
 			// textPaidOtherInsOverride
 			// 
+			this.textPaidOtherInsOverride.AutoSize = false;
 			this.textPaidOtherInsOverride.Location = new System.Drawing.Point(240, 238);
 			this.textPaidOtherInsOverride.MaxVal = 255D;
 			this.textPaidOtherInsOverride.MinVal = 0D;
@@ -584,6 +596,7 @@
 			// 
 			// textInsEstTotalOverride
 			// 
+			this.textInsEstTotalOverride.AutoSize = false;
 			this.textInsEstTotalOverride.Location = new System.Drawing.Point(240, 278);
 			this.textInsEstTotalOverride.MaxVal = 100000000D;
 			this.textInsEstTotalOverride.MinVal = -100000000D;
@@ -595,6 +608,7 @@
 			// 
 			// textInsEstTotal
 			// 
+			this.textInsEstTotal.AutoSize = false;
 			this.textInsEstTotal.Location = new System.Drawing.Point(168, 278);
 			this.textInsEstTotal.MaxVal = 100000000D;
 			this.textInsEstTotal.MinVal = -100000000D;
@@ -654,6 +668,7 @@
 			// 
 			// textAllowedFeeSched
 			// 
+			this.textAllowedFeeSched.AutoSize = false;
 			this.textAllowedFeeSched.Location = new System.Drawing.Point(163, 58);
 			this.textAllowedFeeSched.Name = "textAllowedFeeSched";
 			this.textAllowedFeeSched.ReadOnly = true;
@@ -663,6 +678,7 @@
 			// 
 			// textSubstCode
 			// 
+			this.textSubstCode.AutoSize = false;
 			this.textSubstCode.Location = new System.Drawing.Point(163, 14);
 			this.textSubstCode.Name = "textSubstCode";
 			this.textSubstCode.ReadOnly = true;
@@ -674,7 +690,7 @@
 			// 
 			this.label7.Location = new System.Drawing.Point(34, 40);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(127, 14);
+			this.label7.Size = new System.Drawing.Size(127, 18);
 			this.label7.TabIndex = 0;
 			this.label7.Text = "PPO Fee Schedule";
 			this.label7.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -683,7 +699,7 @@
 			// 
 			this.label8.Location = new System.Drawing.Point(34, 62);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(127, 14);
+			this.label8.Size = new System.Drawing.Size(127, 18);
 			this.label8.TabIndex = 0;
 			this.label8.Text = "Allowed Fee Schedule";
 			this.label8.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -702,7 +718,7 @@
 			// 
 			this.labelCarrierAllowed.Location = new System.Drawing.Point(34, 110);
 			this.labelCarrierAllowed.Name = "labelCarrierAllowed";
-			this.labelCarrierAllowed.Size = new System.Drawing.Size(127, 14);
+			this.labelCarrierAllowed.Size = new System.Drawing.Size(127, 18);
 			this.labelCarrierAllowed.TabIndex = 0;
 			this.labelCarrierAllowed.Text = "Allowed Amt";
 			this.labelCarrierAllowed.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -711,7 +727,7 @@
 			// 
 			this.label2.Location = new System.Drawing.Point(34, 17);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(127, 14);
+			this.label2.Size = new System.Drawing.Size(127, 18);
 			this.label2.TabIndex = 0;
 			this.label2.Text = "Substitution Code";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -728,6 +744,7 @@
 			// 
 			// textPPOFeeSched
 			// 
+			this.textPPOFeeSched.AutoSize = false;
 			this.textPPOFeeSched.Location = new System.Drawing.Point(163, 36);
 			this.textPPOFeeSched.Name = "textPPOFeeSched";
 			this.textPPOFeeSched.ReadOnly = true;
@@ -737,6 +754,7 @@
 			// 
 			// textDedEst
 			// 
+			this.textDedEst.AutoSize = false;
 			this.textDedEst.Location = new System.Drawing.Point(168, 198);
 			this.textDedEst.MaxVal = 100000000D;
 			this.textDedEst.MinVal = -100000000D;
@@ -749,6 +767,7 @@
 			// 
 			// textPaidOtherIns
 			// 
+			this.textPaidOtherIns.AutoSize = false;
 			this.textPaidOtherIns.Location = new System.Drawing.Point(168, 238);
 			this.textPaidOtherIns.MaxVal = 100000000D;
 			this.textPaidOtherIns.MinVal = -100000000D;
@@ -761,6 +780,7 @@
 			// 
 			// textFeeSched
 			// 
+			this.textFeeSched.AutoSize = false;
 			this.textFeeSched.Location = new System.Drawing.Point(168, 23);
 			this.textFeeSched.Name = "textFeeSched";
 			this.textFeeSched.ReadOnly = true;
@@ -772,13 +792,14 @@
 			// 
 			this.labelFeeSched.Location = new System.Drawing.Point(39, 26);
 			this.labelFeeSched.Name = "labelFeeSched";
-			this.labelFeeSched.Size = new System.Drawing.Size(127, 14);
+			this.labelFeeSched.Size = new System.Drawing.Size(127, 16);
 			this.labelFeeSched.TabIndex = 0;
 			this.labelFeeSched.Text = "Fee Schedule";
 			this.labelFeeSched.TextAlign = System.Drawing.ContentAlignment.TopRight;
 			// 
 			// textCopayOverride
 			// 
+			this.textCopayOverride.AutoSize = false;
 			this.textCopayOverride.Location = new System.Drawing.Point(240, 178);
 			this.textCopayOverride.MaxVal = 100000000D;
 			this.textCopayOverride.MinVal = -100000000D;
@@ -800,6 +821,7 @@
 			// 
 			// textCopayAmt
 			// 
+			this.textCopayAmt.AutoSize = false;
 			this.textCopayAmt.Location = new System.Drawing.Point(168, 178);
 			this.textCopayAmt.MaxVal = 100000000D;
 			this.textCopayAmt.MinVal = -100000000D;
@@ -812,6 +834,7 @@
 			// 
 			// textDedEstOverride
 			// 
+			this.textDedEstOverride.AutoSize = false;
 			this.textDedEstOverride.Location = new System.Drawing.Point(240, 198);
 			this.textDedEstOverride.MaxVal = 100000000D;
 			this.textDedEstOverride.MinVal = -100000000D;
@@ -823,6 +846,7 @@
 			// 
 			// textPercentOverride
 			// 
+			this.textPercentOverride.AutoSize = false;
 			this.textPercentOverride.Location = new System.Drawing.Point(240, 218);
 			this.textPercentOverride.Name = "textPercentOverride";
 			this.textPercentOverride.ShowZero = false;
@@ -851,6 +875,7 @@
 			// 
 			// textPatPortion2
 			// 
+			this.textPatPortion2.AutoSize = false;
 			this.textPatPortion2.Location = new System.Drawing.Point(163, 93);
 			this.textPatPortion2.MaxVal = 100000000D;
 			this.textPatPortion2.MinVal = -100000000D;
@@ -865,13 +890,14 @@
 			// 
 			this.labelPatPortion2.Location = new System.Drawing.Point(23, 95);
 			this.labelPatPortion2.Name = "labelPatPortion2";
-			this.labelPatPortion2.Size = new System.Drawing.Size(138, 17);
+			this.labelPatPortion2.Size = new System.Drawing.Size(140, 17);
 			this.labelPatPortion2.TabIndex = 0;
 			this.labelPatPortion2.Text = "Estimated Patient Portion";
 			this.labelPatPortion2.TextAlign = System.Drawing.ContentAlignment.TopRight;
 			// 
 			// textWriteOff
 			// 
+			this.textWriteOff.AutoSize = false;
 			this.textWriteOff.Location = new System.Drawing.Point(163, 73);
 			this.textWriteOff.MaxVal = 100000000D;
 			this.textWriteOff.MinVal = -100000000D;
@@ -884,6 +910,7 @@
 			// 
 			// textInsPayEst
 			// 
+			this.textInsPayEst.AutoSize = false;
 			this.textInsPayEst.Location = new System.Drawing.Point(163, 33);
 			this.textInsPayEst.MaxVal = 100000000D;
 			this.textInsPayEst.MinVal = -100000000D;
@@ -895,6 +922,7 @@
 			// 
 			// textInsPayAmt
 			// 
+			this.textInsPayAmt.AutoSize = false;
 			this.textInsPayAmt.Location = new System.Drawing.Point(163, 53);
 			this.textInsPayAmt.MaxVal = 100000000D;
 			this.textInsPayAmt.MinVal = -100000000D;
@@ -907,6 +935,7 @@
 			// 
 			// textDedApplied
 			// 
+			this.textDedApplied.AutoSize = false;
 			this.textDedApplied.Location = new System.Drawing.Point(163, 13);
 			this.textDedApplied.MaxVal = 100000000D;
 			this.textDedApplied.MinVal = -100000000D;
@@ -936,6 +965,7 @@
 			// 
 			// textClinic
 			// 
+			this.textClinic.AutoSize = false;
 			this.textClinic.Location = new System.Drawing.Point(157, 97);
 			this.textClinic.Name = "textClinic";
 			this.textClinic.ReadOnly = true;
@@ -947,7 +977,7 @@
 			// 
 			this.labelClinic.Location = new System.Drawing.Point(33, 99);
 			this.labelClinic.Name = "labelClinic";
-			this.labelClinic.Size = new System.Drawing.Size(121, 14);
+			this.labelClinic.Size = new System.Drawing.Size(121, 18);
 			this.labelClinic.TabIndex = 0;
 			this.labelClinic.Text = "Clinic";
 			this.labelClinic.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1012,6 +1042,7 @@
 			// 
 			// textDateEntry
 			// 
+			this.textDateEntry.AutoSize = false;
 			this.textDateEntry.Location = new System.Drawing.Point(157, 119);
 			this.textDateEntry.Name = "textDateEntry";
 			this.textDateEntry.ReadOnly = true;
@@ -1021,6 +1052,7 @@
 			// 
 			// textProcDate
 			// 
+			this.textProcDate.AutoSize = false;
 			this.textProcDate.Location = new System.Drawing.Point(157, 162);
 			this.textProcDate.Name = "textProcDate";
 			this.textProcDate.Size = new System.Drawing.Size(83, 20);
@@ -1028,6 +1060,7 @@
 			// 
 			// textDateCP
 			// 
+			this.textDateCP.AutoSize = false;
 			this.textDateCP.Location = new System.Drawing.Point(157, 140);
 			this.textDateCP.Name = "textDateCP";
 			this.textDateCP.Size = new System.Drawing.Size(83, 20);

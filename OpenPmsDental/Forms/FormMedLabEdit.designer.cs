@@ -88,6 +88,7 @@ namespace OpenPmsDental{
 			// 
 			// textTotVol
 			// 
+			this.textTotVol.AutoSize = false;
 			this.textTotVol.Location = new System.Drawing.Point(421, 183);
 			this.textTotVol.MaxLength = 100;
 			this.textTotVol.Name = "textTotVol";
@@ -97,6 +98,7 @@ namespace OpenPmsDental{
 			// 
 			// textDateTCollect
 			// 
+			this.textDateTCollect.AutoSize = false;
 			this.textDateTCollect.Location = new System.Drawing.Point(421, 121);
 			this.textDateTCollect.MaxLength = 100;
 			this.textDateTCollect.Name = "textDateTCollect";
@@ -108,13 +110,14 @@ namespace OpenPmsDental{
 			// 
 			this.labelDateTCollect.Location = new System.Drawing.Point(307, 123);
 			this.labelDateTCollect.Name = "labelDateTCollect";
-			this.labelDateTCollect.Size = new System.Drawing.Size(113, 16);
+			this.labelDateTCollect.Size = new System.Drawing.Size(114, 18);
 			this.labelDateTCollect.TabIndex = 288;
 			this.labelDateTCollect.Text = "Date/Time Collected";
 			this.labelDateTCollect.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textDateTReport
 			// 
+			this.textDateTReport.AutoSize = false;
 			this.textDateTReport.Location = new System.Drawing.Point(421, 142);
 			this.textDateTReport.MaxLength = 100;
 			this.textDateTReport.Name = "textDateTReport";
@@ -126,13 +129,14 @@ namespace OpenPmsDental{
 			// 
 			this.labelDateTReport.Location = new System.Drawing.Point(307, 144);
 			this.labelDateTReport.Name = "labelDateTReport";
-			this.labelDateTReport.Size = new System.Drawing.Size(113, 16);
+			this.labelDateTReport.Size = new System.Drawing.Size(114, 18);
 			this.labelDateTReport.TabIndex = 290;
 			this.labelDateTReport.Text = "Date/Time Reported";
 			this.labelDateTReport.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textDateEntered
 			// 
+			this.textDateEntered.AutoSize = false;
 			this.textDateEntered.Location = new System.Drawing.Point(421, 162);
 			this.textDateEntered.MaxLength = 100;
 			this.textDateEntered.Name = "textDateEntered";
@@ -160,6 +164,7 @@ namespace OpenPmsDental{
 			// 
 			// textPhysicianName
 			// 
+			this.textPhysicianName.AutoSize = false;
 			this.textPhysicianName.Location = new System.Drawing.Point(127, 17);
 			this.textPhysicianName.MaxLength = 100;
 			this.textPhysicianName.Name = "textPhysicianName";
@@ -187,6 +192,7 @@ namespace OpenPmsDental{
 			// 
 			// textPhysicianID
 			// 
+			this.textPhysicianID.AutoSize = false;
 			this.textPhysicianID.Location = new System.Drawing.Point(127, 60);
 			this.textPhysicianID.Name = "textPhysicianID";
 			this.textPhysicianID.ReadOnly = true;
@@ -204,6 +210,7 @@ namespace OpenPmsDental{
 			// 
 			// textPhysicianNPI
 			// 
+			this.textPhysicianNPI.AutoSize = false;
 			this.textPhysicianNPI.Location = new System.Drawing.Point(127, 39);
 			this.textPhysicianNPI.Name = "textPhysicianNPI";
 			this.textPhysicianNPI.ReadOnly = true;
@@ -267,6 +274,7 @@ namespace OpenPmsDental{
 			// 
 			// textFasting
 			// 
+			this.textFasting.AutoSize = false;
 			this.textFasting.Location = new System.Drawing.Point(513, 60);
 			this.textFasting.MaxLength = 100;
 			this.textFasting.Name = "textFasting";
@@ -278,13 +286,14 @@ namespace OpenPmsDental{
 			// 
 			this.labelFasting.Location = new System.Drawing.Point(465, 62);
 			this.labelFasting.Name = "labelFasting";
-			this.labelFasting.Size = new System.Drawing.Size(47, 16);
+			this.labelFasting.Size = new System.Drawing.Size(47, 18);
 			this.labelFasting.TabIndex = 299;
 			this.labelFasting.Text = "Fasting";
 			this.labelFasting.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textGender
 			// 
+			this.textGender.AutoSize = false;
 			this.textGender.Location = new System.Drawing.Point(409, 60);
 			this.textGender.MaxLength = 100;
 			this.textGender.Name = "textGender";
@@ -303,6 +312,7 @@ namespace OpenPmsDental{
 			// 
 			// textBirthdate
 			// 
+			this.textBirthdate.AutoSize = false;
 			this.textBirthdate.Location = new System.Drawing.Point(409, 39);
 			this.textBirthdate.MaxLength = 100;
 			this.textBirthdate.Name = "textBirthdate";
@@ -321,6 +331,7 @@ namespace OpenPmsDental{
 			// 
 			// textPatSSN
 			// 
+			this.textPatSSN.AutoSize = false;
 			this.textPatSSN.Location = new System.Drawing.Point(409, 81);
 			this.textPatSSN.MaxLength = 100;
 			this.textPatSSN.Name = "textPatSSN";
@@ -339,6 +350,7 @@ namespace OpenPmsDental{
 			// 
 			// textPatMiddleI
 			// 
+			this.textPatMiddleI.AutoSize = false;
 			this.textPatMiddleI.Location = new System.Drawing.Point(127, 81);
 			this.textPatMiddleI.MaxLength = 100;
 			this.textPatMiddleI.Name = "textPatMiddleI";
@@ -348,6 +360,7 @@ namespace OpenPmsDental{
 			// 
 			// textPatFName
 			// 
+			this.textPatFName.AutoSize = false;
 			this.textPatFName.Location = new System.Drawing.Point(127, 60);
 			this.textPatFName.MaxLength = 100;
 			this.textPatFName.Name = "textPatFName";
@@ -357,6 +370,7 @@ namespace OpenPmsDental{
 			// 
 			// textPatLName
 			// 
+			this.textPatLName.AutoSize = false;
 			this.textPatLName.Location = new System.Drawing.Point(127, 39);
 			this.textPatLName.MaxLength = 100;
 			this.textPatLName.Name = "textPatLName";
@@ -402,6 +416,7 @@ namespace OpenPmsDental{
 			// 
 			// textPatID
 			// 
+			this.textPatID.AutoSize = false;
 			this.textPatID.Location = new System.Drawing.Point(409, 17);
 			this.textPatID.Name = "textPatID";
 			this.textPatID.ReadOnly = true;
@@ -412,13 +427,14 @@ namespace OpenPmsDental{
 			// 
 			this.labelSpecimenNum.Location = new System.Drawing.Point(6, 19);
 			this.labelSpecimenNum.Name = "labelSpecimenNum";
-			this.labelSpecimenNum.Size = new System.Drawing.Size(120, 16);
+			this.labelSpecimenNum.Size = new System.Drawing.Size(120, 18);
 			this.labelSpecimenNum.TabIndex = 281;
 			this.labelSpecimenNum.Text = "Specimen Number";
 			this.labelSpecimenNum.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textSpecimenNumber
 			// 
+			this.textSpecimenNumber.AutoSize = false;
 			this.textSpecimenNumber.Location = new System.Drawing.Point(127, 17);
 			this.textSpecimenNumber.Name = "textSpecimenNumber";
 			this.textSpecimenNumber.ReadOnly = true;
@@ -455,7 +471,7 @@ namespace OpenPmsDental{
 			this.labelShowHL7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.labelShowHL7.Location = new System.Drawing.Point(552, 664);
 			this.labelShowHL7.Name = "labelShowHL7";
-			this.labelShowHL7.Size = new System.Drawing.Size(228, 16);
+			this.labelShowHL7.Size = new System.Drawing.Size(238, 18);
 			this.labelShowHL7.TabIndex = 329;
 			this.labelShowHL7.Text = "Show the original inbound HL7 message(s).";
 			// 
@@ -464,7 +480,7 @@ namespace OpenPmsDental{
 			this.labelPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.labelPrint.Location = new System.Drawing.Point(258, 658);
 			this.labelPrint.Name = "labelPrint";
-			this.labelPrint.Size = new System.Drawing.Size(193, 28);
+			this.labelPrint.Size = new System.Drawing.Size(218, 28);
 			this.labelPrint.TabIndex = 331;
 			this.labelPrint.Text = "Create results report PDF and\r\nsave it in the patient\'s image folder.";
 			// 

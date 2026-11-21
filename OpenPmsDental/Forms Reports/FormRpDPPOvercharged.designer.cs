@@ -131,6 +131,7 @@
 			// 
 			// textPatient
 			// 
+			this.textPatient.AutoSize = false;
 			this.textPatient.Location = new System.Drawing.Point(698, 11);
 			this.textPatient.Name = "textPatient";
 			this.textPatient.Size = new System.Drawing.Size(206, 20);
@@ -140,7 +141,7 @@
 			// 
 			this.labelPatient.Location = new System.Drawing.Point(631, 15);
 			this.labelPatient.Name = "labelPatient";
-			this.labelPatient.Size = new System.Drawing.Size(65, 13);
+			this.labelPatient.Size = new System.Drawing.Size(65, 17);
 			this.labelPatient.TabIndex = 74;
 			this.labelPatient.Text = "Patient";
 			this.labelPatient.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -149,7 +150,7 @@
 			// 
 			this.labelProv.Location = new System.Drawing.Point(412, 15);
 			this.labelProv.Name = "labelProv";
-			this.labelProv.Size = new System.Drawing.Size(55, 16);
+			this.labelProv.Size = new System.Drawing.Size(57, 18);
 			this.labelProv.TabIndex = 73;
 			this.labelProv.Text = "Providers";
 			this.labelProv.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

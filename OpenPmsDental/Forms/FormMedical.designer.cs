@@ -143,7 +143,7 @@ namespace OpenPmsDental {
 			this.butAddDisease.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butAddDisease.Location = new System.Drawing.Point(6, 6);
 			this.butAddDisease.Name = "butAddDisease";
-			this.butAddDisease.Size = new System.Drawing.Size(98, 23);
+			this.butAddDisease.Size = new System.Drawing.Size(99, 23);
 			this.butAddDisease.TabIndex = 58;
 			this.butAddDisease.Text = "Add Problem";
 			this.butAddDisease.Click += new System.EventHandler(this.butAddProblem_Click);
@@ -426,7 +426,7 @@ namespace OpenPmsDental {
 			// 
 			this.radioMedsDocumentedNo.Location = new System.Drawing.Point(93, 13);
 			this.radioMedsDocumentedNo.Name = "radioMedsDocumentedNo";
-			this.radioMedsDocumentedNo.Size = new System.Drawing.Size(60, 18);
+			this.radioMedsDocumentedNo.Size = new System.Drawing.Size(60, 20);
 			this.radioMedsDocumentedNo.TabIndex = 1;
 			this.radioMedsDocumentedNo.Text = "No";
 			this.radioMedsDocumentedNo.UseVisualStyleBackColor = true;
@@ -436,7 +436,7 @@ namespace OpenPmsDental {
 			this.radioMedsDocumentedYes.Checked = true;
 			this.radioMedsDocumentedYes.Location = new System.Drawing.Point(23, 13);
 			this.radioMedsDocumentedYes.Name = "radioMedsDocumentedYes";
-			this.radioMedsDocumentedYes.Size = new System.Drawing.Size(66, 18);
+			this.radioMedsDocumentedYes.Size = new System.Drawing.Size(66, 20);
 			this.radioMedsDocumentedYes.TabIndex = 0;
 			this.radioMedsDocumentedYes.TabStop = true;
 			this.radioMedsDocumentedYes.Text = "Yes";
@@ -635,7 +635,7 @@ namespace OpenPmsDental {
 			// 
 			this.label9.Location = new System.Drawing.Point(10, 61);
 			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(93, 16);
+			this.label9.Size = new System.Drawing.Size(94, 18);
 			this.label9.TabIndex = 0;
 			this.label9.Text = "Filter Statuses By";
 			this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -736,7 +736,7 @@ namespace OpenPmsDental {
 			// 
 			this.label10.Location = new System.Drawing.Point(10, 35);
 			this.label10.Name = "label10";
-			this.label10.Size = new System.Drawing.Size(93, 16);
+			this.label10.Size = new System.Drawing.Size(94, 18);
 			this.label10.TabIndex = 0;
 			this.label10.Text = "Assessment Type";
 			this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -796,7 +796,7 @@ namespace OpenPmsDental {
 			// 
 			this.label8.Location = new System.Drawing.Point(10, 60);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(93, 16);
+			this.label8.Size = new System.Drawing.Size(94, 18);
 			this.label8.TabIndex = 0;
 			this.label8.Text = "Intervention Code";
 			this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -856,7 +856,7 @@ namespace OpenPmsDental {
 			// 
 			this.label7.Location = new System.Drawing.Point(10, 37);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(93, 16);
+			this.label7.Size = new System.Drawing.Size(93, 18);
 			this.label7.TabIndex = 0;
 			this.label7.Text = "Filter Codes By";
 			this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -884,7 +884,7 @@ namespace OpenPmsDental {
 			// 
 			this.label12.Location = new System.Drawing.Point(378, 27);
 			this.label12.Name = "label12";
-			this.label12.Size = new System.Drawing.Size(383, 16);
+			this.label12.Size = new System.Drawing.Size(383, 18);
 			this.label12.TabIndex = 4;
 			this.label12.Text = "Used for calculating MU measures.";
 			this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -904,7 +904,7 @@ namespace OpenPmsDental {
 			// 
 			this.label13.Location = new System.Drawing.Point(6, 27);
 			this.label13.Name = "label13";
-			this.label13.Size = new System.Drawing.Size(135, 16);
+			this.label13.Size = new System.Drawing.Size(135, 18);
 			this.label13.TabIndex = 5;
 			this.label13.Text = "Current Smoking Status";
 			this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

@@ -249,7 +249,7 @@ namespace OpenPmsDental{
 			this.checkExcludeBadAddress.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkExcludeBadAddress.Location = new System.Drawing.Point(861, 32);
 			this.checkExcludeBadAddress.Name = "checkExcludeBadAddress";
-			this.checkExcludeBadAddress.Size = new System.Drawing.Size(224, 17);
+			this.checkExcludeBadAddress.Size = new System.Drawing.Size(224, 18);
 			this.checkExcludeBadAddress.TabIndex = 9;
 			this.checkExcludeBadAddress.Text = "Exclude bad addresses (missing data)";
 			this.checkExcludeBadAddress.CheckedChanged += new System.EventHandler(this.checkExcludeBadAddress_CheckedChanged);
@@ -259,7 +259,7 @@ namespace OpenPmsDental{
 			this.checkExcludeIfProcs.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkExcludeIfProcs.Location = new System.Drawing.Point(695, 32);
 			this.checkExcludeIfProcs.Name = "checkExcludeIfProcs";
-			this.checkExcludeIfProcs.Size = new System.Drawing.Size(160, 17);
+			this.checkExcludeIfProcs.Size = new System.Drawing.Size(160, 18);
 			this.checkExcludeIfProcs.TabIndex = 8;
 			this.checkExcludeIfProcs.Text = "Exclude if unsent procs";
 			this.checkExcludeIfProcs.CheckedChanged += new System.EventHandler(this.checkExcludeIfProcs_CheckedChanged);
@@ -269,7 +269,7 @@ namespace OpenPmsDental{
 			this.checkExcludeInsPending.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkExcludeInsPending.Location = new System.Drawing.Point(502, 32);
 			this.checkExcludeInsPending.Name = "checkExcludeInsPending";
-			this.checkExcludeInsPending.Size = new System.Drawing.Size(187, 17);
+			this.checkExcludeInsPending.Size = new System.Drawing.Size(187, 18);
 			this.checkExcludeInsPending.TabIndex = 7;
 			this.checkExcludeInsPending.Text = "Exclude if insurance pending";
 			this.checkExcludeInsPending.CheckedChanged += new System.EventHandler(this.checkExcludeInsPending_CheckedChanged);
@@ -345,7 +345,7 @@ namespace OpenPmsDental{
 			// 
 			this.checkUnsentShowPatNums.Location = new System.Drawing.Point(6, 40);
 			this.checkUnsentShowPatNums.Name = "checkUnsentShowPatNums";
-			this.checkUnsentShowPatNums.Size = new System.Drawing.Size(100, 16);
+			this.checkUnsentShowPatNums.Size = new System.Drawing.Size(102, 17);
 			this.checkUnsentShowPatNums.TabIndex = 126;
 			this.checkUnsentShowPatNums.Text = "Show PatNums";
 			this.checkUnsentShowPatNums.CheckedChanged += new System.EventHandler(this.checkUnsentShowPatNums_CheckedChanged);
@@ -718,7 +718,7 @@ namespace OpenPmsDental{
 			// 
 			this.checkSentShowPatNums.Location = new System.Drawing.Point(6, 40);
 			this.checkSentShowPatNums.Name = "checkSentShowPatNums";
-			this.checkSentShowPatNums.Size = new System.Drawing.Size(100, 16);
+			this.checkSentShowPatNums.Size = new System.Drawing.Size(102, 17);
 			this.checkSentShowPatNums.TabIndex = 127;
 			this.checkSentShowPatNums.Text = "Show PatNums";
 			this.checkSentShowPatNums.CheckedChanged += new System.EventHandler(this.checkSentShowPatNums_CheckedChanged);
@@ -1160,7 +1160,7 @@ namespace OpenPmsDental{
 			this.checkExcludedExcludeBadAddress.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkExcludedExcludeBadAddress.Location = new System.Drawing.Point(861, 32);
 			this.checkExcludedExcludeBadAddress.Name = "checkExcludedExcludeBadAddress";
-			this.checkExcludedExcludeBadAddress.Size = new System.Drawing.Size(224, 17);
+			this.checkExcludedExcludeBadAddress.Size = new System.Drawing.Size(224, 18);
 			this.checkExcludedExcludeBadAddress.TabIndex = 9;
 			this.checkExcludedExcludeBadAddress.Text = "Exclude bad addresses (missing data)";
 			this.checkExcludedExcludeBadAddress.CheckedChanged += new System.EventHandler(this.checkExcludeExcludedBadAddress_CheckedChanged);
@@ -1183,7 +1183,7 @@ namespace OpenPmsDental{
 			this.checkExcludedExcludeInsPending.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkExcludedExcludeInsPending.Location = new System.Drawing.Point(502, 32);
 			this.checkExcludedExcludeInsPending.Name = "checkExcludedExcludeInsPending";
-			this.checkExcludedExcludeInsPending.Size = new System.Drawing.Size(187, 17);
+			this.checkExcludedExcludeInsPending.Size = new System.Drawing.Size(187, 18);
 			this.checkExcludedExcludeInsPending.TabIndex = 7;
 			this.checkExcludedExcludeInsPending.Text = "Exclude if insurance pending";
 			this.checkExcludedExcludeInsPending.CheckedChanged += new System.EventHandler(this.checkExcludeExcludedInsPending_CheckedChanged);
@@ -1192,7 +1192,7 @@ namespace OpenPmsDental{
 			// 
 			this.checkExcludedShowPatNums.Location = new System.Drawing.Point(6, 40);
 			this.checkExcludedShowPatNums.Name = "checkExcludedShowPatNums";
-			this.checkExcludedShowPatNums.Size = new System.Drawing.Size(100, 16);
+			this.checkExcludedShowPatNums.Size = new System.Drawing.Size(102, 17);
 			this.checkExcludedShowPatNums.TabIndex = 144;
 			this.checkExcludedShowPatNums.Text = "Show PatNums";
 			this.checkExcludedShowPatNums.CheckedChanged += new System.EventHandler(this.checkExcludedShowPatNums_CheckedChanged);
@@ -1202,7 +1202,7 @@ namespace OpenPmsDental{
 			this.checkExcludedExcludeIfProcs.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkExcludedExcludeIfProcs.Location = new System.Drawing.Point(695, 32);
 			this.checkExcludedExcludeIfProcs.Name = "checkExcludedExcludeIfProcs";
-			this.checkExcludedExcludeIfProcs.Size = new System.Drawing.Size(160, 17);
+			this.checkExcludedExcludeIfProcs.Size = new System.Drawing.Size(160, 18);
 			this.checkExcludedExcludeIfProcs.TabIndex = 8;
 			this.checkExcludedExcludeIfProcs.Text = "Exclude if unsent procs";
 			this.checkExcludedExcludeIfProcs.CheckedChanged += new System.EventHandler(this.checkExcludeExcludedIfProcs_CheckedChanged);

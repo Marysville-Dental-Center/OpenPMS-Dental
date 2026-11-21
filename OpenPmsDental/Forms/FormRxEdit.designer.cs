@@ -90,6 +90,7 @@ namespace OpenPmsDental {
 			// 
 			// textDisp
 			// 
+			this.textDisp.AutoSize = false;
 			this.textDisp.Location = new System.Drawing.Point(138, 203);
 			this.textDisp.Name = "textDisp";
 			this.textDisp.Size = new System.Drawing.Size(114, 20);
@@ -97,6 +98,7 @@ namespace OpenPmsDental {
 			// 
 			// textRefills
 			// 
+			this.textRefills.AutoSize = false;
 			this.textRefills.Location = new System.Drawing.Point(138, 224);
 			this.textRefills.Name = "textRefills";
 			this.textRefills.Size = new System.Drawing.Size(114, 20);
@@ -104,6 +106,7 @@ namespace OpenPmsDental {
 			// 
 			// textDrug
 			// 
+			this.textDrug.AutoSize = false;
 			this.textDrug.Location = new System.Drawing.Point(138, 137);
 			this.textDrug.Name = "textDrug";
 			this.textDrug.Size = new System.Drawing.Size(254, 20);
@@ -113,7 +116,7 @@ namespace OpenPmsDental {
 			// 
 			this.label6.Location = new System.Drawing.Point(49, 162);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(89, 14);
+			this.label6.Size = new System.Drawing.Size(89, 18);
 			this.label6.TabIndex = 0;
 			this.label6.Text = "Sig";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -122,7 +125,7 @@ namespace OpenPmsDental {
 			// 
 			this.label5.Location = new System.Drawing.Point(39, 207);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(99, 14);
+			this.label5.Size = new System.Drawing.Size(99, 18);
 			this.label5.TabIndex = 0;
 			this.label5.Text = "Disp";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -131,7 +134,7 @@ namespace OpenPmsDental {
 			// 
 			this.label4.Location = new System.Drawing.Point(39, 228);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(99, 14);
+			this.label4.Size = new System.Drawing.Size(99, 18);
 			this.label4.TabIndex = 0;
 			this.label4.Text = "Refills";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -149,7 +152,7 @@ namespace OpenPmsDental {
 			// 
 			this.label1.Location = new System.Drawing.Point(45, 139);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(93, 14);
+			this.label1.Size = new System.Drawing.Size(93, 18);
 			this.label1.TabIndex = 0;
 			this.label1.Text = "Drug";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -158,13 +161,14 @@ namespace OpenPmsDental {
 			// 
 			this.label2.Location = new System.Drawing.Point(34, 37);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(105, 14);
+			this.label2.Size = new System.Drawing.Size(105, 16);
 			this.label2.TabIndex = 0;
 			this.label2.Text = "Date";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.TopRight;
 			// 
 			// textDate
 			// 
+			this.textDate.AutoSize = false;
 			this.textDate.Location = new System.Drawing.Point(138, 33);
 			this.textDate.Name = "textDate";
 			this.textDate.Size = new System.Drawing.Size(100, 20);
@@ -198,7 +202,7 @@ namespace OpenPmsDental {
 			// 
 			this.label8.Location = new System.Drawing.Point(39, 510);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(99, 14);
+			this.label8.Size = new System.Drawing.Size(99, 18);
 			this.label8.TabIndex = 0;
 			this.label8.Text = "Pharmacy";
 			this.label8.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -248,7 +252,7 @@ namespace OpenPmsDental {
 			this.labelView.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.labelView.Location = new System.Drawing.Point(335, 613);
 			this.labelView.Name = "labelView";
-			this.labelView.Size = new System.Drawing.Size(199, 14);
+			this.labelView.Size = new System.Drawing.Size(199, 17);
 			this.labelView.TabIndex = 0;
 			this.labelView.Text = "This Rx has already been printed.";
 			// 
@@ -256,7 +260,7 @@ namespace OpenPmsDental {
 			// 
 			this.label9.Location = new System.Drawing.Point(39, 533);
 			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(99, 14);
+			this.label9.Size = new System.Drawing.Size(99, 18);
 			this.label9.TabIndex = 0;
 			this.label9.Text = "Send Status";
 			this.label9.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -270,6 +274,7 @@ namespace OpenPmsDental {
 			// 
 			// textDosageCode
 			// 
+			this.textDosageCode.AutoSize = false;
 			this.textDosageCode.Location = new System.Drawing.Point(138, 267);
 			this.textDosageCode.Name = "textDosageCode";
 			this.textDosageCode.Size = new System.Drawing.Size(114, 20);
@@ -279,7 +284,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelDosageCode.Location = new System.Drawing.Point(44, 271);
 			this.labelDosageCode.Name = "labelDosageCode";
-			this.labelDosageCode.Size = new System.Drawing.Size(94, 14);
+			this.labelDosageCode.Size = new System.Drawing.Size(94, 18);
 			this.labelDosageCode.TabIndex = 0;
 			this.labelDosageCode.Text = "Dosage Code";
 			this.labelDosageCode.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -305,7 +310,7 @@ namespace OpenPmsDental {
 			this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label7.Location = new System.Drawing.Point(37, 249);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(100, 14);
+			this.label7.Size = new System.Drawing.Size(100, 18);
 			this.label7.TabIndex = 0;
 			this.label7.Text = "Provider";
 			this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -349,7 +354,7 @@ namespace OpenPmsDental {
 			// 
 			this.label10.Location = new System.Drawing.Point(12, 456);
 			this.label10.Name = "label10";
-			this.label10.Size = new System.Drawing.Size(125, 14);
+			this.label10.Size = new System.Drawing.Size(125, 18);
 			this.label10.TabIndex = 0;
 			this.label10.Text = "Erx Pharmacy Info";
 			this.label10.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -406,6 +411,7 @@ namespace OpenPmsDental {
 			// 
 			// textDaysOfSupply
 			// 
+			this.textDaysOfSupply.AutoSize = false;
 			this.textDaysOfSupply.Location = new System.Drawing.Point(138, 116);
 			this.textDaysOfSupply.MaxVal = 99999999D;
 			this.textDaysOfSupply.MinVal = 0D;
@@ -431,7 +437,7 @@ namespace OpenPmsDental {
 			// 
 			this.label11.Location = new System.Drawing.Point(12, 375);
 			this.label11.Name = "label11";
-			this.label11.Size = new System.Drawing.Size(126, 14);
+			this.label11.Size = new System.Drawing.Size(126, 18);
 			this.label11.TabIndex = 24;
 			this.label11.Text = "Patient Instructions";
 			this.label11.TextAlign = System.Drawing.ContentAlignment.TopRight;

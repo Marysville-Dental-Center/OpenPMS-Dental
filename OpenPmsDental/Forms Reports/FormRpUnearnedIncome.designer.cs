@@ -127,7 +127,7 @@ namespace OpenPmsDental{
 			// 
 			this.checkUnearnedAcctAllClins.Location = new System.Drawing.Point(21, 114);
 			this.checkUnearnedAcctAllClins.Name = "checkUnearnedAcctAllClins";
-			this.checkUnearnedAcctAllClins.Size = new System.Drawing.Size(154, 16);
+			this.checkUnearnedAcctAllClins.Size = new System.Drawing.Size(154, 17);
 			this.checkUnearnedAcctAllClins.TabIndex = 82;
 			this.checkUnearnedAcctAllClins.Text = "All (Includes hidden)";
 			this.checkUnearnedAcctAllClins.CheckedChanged += new System.EventHandler(this.checkUnearnedAcctAllClins_CheckedChanged);
@@ -190,7 +190,7 @@ namespace OpenPmsDental{
 			this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label4.Location = new System.Drawing.Point(18, 11);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(571, 53);
+			this.label4.Size = new System.Drawing.Size(571, 57);
 			this.label4.TabIndex = 1;
 			this.label4.Text = resources.GetString("label4.Text");
 			// 
@@ -198,7 +198,7 @@ namespace OpenPmsDental{
 			// 
 			this.checkUnearnedAllocationExcludeZero.Location = new System.Drawing.Point(21, 84);
 			this.checkUnearnedAllocationExcludeZero.Name = "checkUnearnedAllocationExcludeZero";
-			this.checkUnearnedAllocationExcludeZero.Size = new System.Drawing.Size(474, 16);
+			this.checkUnearnedAllocationExcludeZero.Size = new System.Drawing.Size(474, 18);
 			this.checkUnearnedAllocationExcludeZero.TabIndex = 76;
 			this.checkUnearnedAllocationExcludeZero.Text = "Exclude families with a net $0.00 unearned income balance";
 			// 
@@ -216,7 +216,7 @@ namespace OpenPmsDental{
 			// 
 			this.checkUnearnedAllocationAllTypes.Location = new System.Drawing.Point(21, 132);
 			this.checkUnearnedAllocationAllTypes.Name = "checkUnearnedAllocationAllTypes";
-			this.checkUnearnedAllocationAllTypes.Size = new System.Drawing.Size(95, 16);
+			this.checkUnearnedAllocationAllTypes.Size = new System.Drawing.Size(95, 17);
 			this.checkUnearnedAllocationAllTypes.TabIndex = 72;
 			this.checkUnearnedAllocationAllTypes.Text = "All";
 			this.checkUnearnedAllocationAllTypes.CheckedChanged += new System.EventHandler(this.checkUnearnedAllocationAllTypes_CheckedChanged);
@@ -237,7 +237,7 @@ namespace OpenPmsDental{
 			// 
 			this.label10.Location = new System.Drawing.Point(18, 114);
 			this.label10.Name = "label10";
-			this.label10.Size = new System.Drawing.Size(104, 16);
+			this.label10.Size = new System.Drawing.Size(104, 17);
 			this.label10.TabIndex = 70;
 			this.label10.Text = "Unearned Types";
 			this.label10.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -246,7 +246,7 @@ namespace OpenPmsDental{
 			// 
 			this.checkUnearnedAllocationAllProvs.Location = new System.Drawing.Point(181, 132);
 			this.checkUnearnedAllocationAllProvs.Name = "checkUnearnedAllocationAllProvs";
-			this.checkUnearnedAllocationAllProvs.Size = new System.Drawing.Size(95, 16);
+			this.checkUnearnedAllocationAllProvs.Size = new System.Drawing.Size(95, 17);
 			this.checkUnearnedAllocationAllProvs.TabIndex = 69;
 			this.checkUnearnedAllocationAllProvs.Text = "All";
 			this.checkUnearnedAllocationAllProvs.CheckedChanged += new System.EventHandler(this.checkUnearnedAllocationAllProvs_CheckedChanged);
@@ -276,7 +276,7 @@ namespace OpenPmsDental{
 			// 
 			this.checkUnearnedAllocationAllClins.Location = new System.Drawing.Point(341, 132);
 			this.checkUnearnedAllocationAllClins.Name = "checkUnearnedAllocationAllClins";
-			this.checkUnearnedAllocationAllClins.Size = new System.Drawing.Size(154, 16);
+			this.checkUnearnedAllocationAllClins.Size = new System.Drawing.Size(154, 17);
 			this.checkUnearnedAllocationAllClins.TabIndex = 66;
 			this.checkUnearnedAllocationAllClins.Text = "All (Includes hidden)";
 			this.checkUnearnedAllocationAllClins.CheckedChanged += new System.EventHandler(this.checkUnearnedAllocationAllClins_CheckedChanged);
@@ -328,7 +328,7 @@ namespace OpenPmsDental{
 			// 
 			this.checkNetUnearnedExcludeZero.Location = new System.Drawing.Point(21, 74);
 			this.checkNetUnearnedExcludeZero.Name = "checkNetUnearnedExcludeZero";
-			this.checkNetUnearnedExcludeZero.Size = new System.Drawing.Size(474, 16);
+			this.checkNetUnearnedExcludeZero.Size = new System.Drawing.Size(474, 18);
 			this.checkNetUnearnedExcludeZero.TabIndex = 78;
 			this.checkNetUnearnedExcludeZero.Text = "Exclude families with a net $0.00 unearned income balance";
 			// 
@@ -356,7 +356,7 @@ namespace OpenPmsDental{
 			// 
 			this.checkNetUnearnedAllTypes.Location = new System.Drawing.Point(21, 114);
 			this.checkNetUnearnedAllTypes.Name = "checkNetUnearnedAllTypes";
-			this.checkNetUnearnedAllTypes.Size = new System.Drawing.Size(95, 16);
+			this.checkNetUnearnedAllTypes.Size = new System.Drawing.Size(95, 17);
 			this.checkNetUnearnedAllTypes.TabIndex = 63;
 			this.checkNetUnearnedAllTypes.Text = "All";
 			this.checkNetUnearnedAllTypes.CheckedChanged += new System.EventHandler(this.checkNetUnearnedAllTypes_CheckedChanged);
@@ -377,7 +377,7 @@ namespace OpenPmsDental{
 			// 
 			this.label9.Location = new System.Drawing.Point(18, 96);
 			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(104, 16);
+			this.label9.Size = new System.Drawing.Size(104, 18);
 			this.label9.TabIndex = 61;
 			this.label9.Text = "Unearned Types";
 			this.label9.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -386,7 +386,7 @@ namespace OpenPmsDental{
 			// 
 			this.checkNetUnearnedAllProvs.Location = new System.Drawing.Point(181, 114);
 			this.checkNetUnearnedAllProvs.Name = "checkNetUnearnedAllProvs";
-			this.checkNetUnearnedAllProvs.Size = new System.Drawing.Size(95, 16);
+			this.checkNetUnearnedAllProvs.Size = new System.Drawing.Size(95, 17);
 			this.checkNetUnearnedAllProvs.TabIndex = 60;
 			this.checkNetUnearnedAllProvs.Text = "All";
 			this.checkNetUnearnedAllProvs.CheckedChanged += new System.EventHandler(this.checkNetUnearnedAllProvs_CheckedChanged);
@@ -416,7 +416,7 @@ namespace OpenPmsDental{
 			// 
 			this.checkNetUnearnedAllClins.Location = new System.Drawing.Point(341, 114);
 			this.checkNetUnearnedAllClins.Name = "checkNetUnearnedAllClins";
-			this.checkNetUnearnedAllClins.Size = new System.Drawing.Size(154, 16);
+			this.checkNetUnearnedAllClins.Size = new System.Drawing.Size(154, 17);
 			this.checkNetUnearnedAllClins.TabIndex = 57;
 			this.checkNetUnearnedAllClins.Text = "All (Includes hidden)";
 			this.checkNetUnearnedAllClins.CheckedChanged += new System.EventHandler(this.checkNetUnearnedAllClins_CheckedChanged);
@@ -466,7 +466,7 @@ namespace OpenPmsDental{
 			// 
 			this.checkLineItemShowProv.Location = new System.Drawing.Point(255, 259);
 			this.checkLineItemShowProv.Name = "checkLineItemShowProv";
-			this.checkLineItemShowProv.Size = new System.Drawing.Size(183, 17);
+			this.checkLineItemShowProv.Size = new System.Drawing.Size(183, 18);
 			this.checkLineItemShowProv.TabIndex = 80;
 			this.checkLineItemShowProv.Text = "Show provider column";
 			// 
@@ -476,7 +476,7 @@ namespace OpenPmsDental{
 			this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label7.Location = new System.Drawing.Point(18, 11);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(525, 39);
+			this.label7.Size = new System.Drawing.Size(525, 48);
 			this.label7.TabIndex = 79;
 			this.label7.Text = "Shows all unearned income transactions for the specified date range.\r\nUseful when" +
     " you want to see a line-by-line representation of transactions relating to unear" +
@@ -528,7 +528,7 @@ namespace OpenPmsDental{
 			// 
 			this.checkLineItemAllClins.Location = new System.Drawing.Point(21, 259);
 			this.checkLineItemAllClins.Name = "checkLineItemAllClins";
-			this.checkLineItemAllClins.Size = new System.Drawing.Size(154, 16);
+			this.checkLineItemAllClins.Size = new System.Drawing.Size(154, 18);
 			this.checkLineItemAllClins.TabIndex = 54;
 			this.checkLineItemAllClins.Text = "All (Includes hidden)";
 			this.checkLineItemAllClins.CheckedChanged += new System.EventHandler(this.checkLineItemAllClins_CheckedChanged);

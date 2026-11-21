@@ -77,7 +77,7 @@ namespace OpenPmsDental{
 			this.checkClaimPayByTotalSplitsAuto.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkClaimPayByTotalSplitsAuto.Location = new System.Drawing.Point(127, 460);
 			this.checkClaimPayByTotalSplitsAuto.Name = "checkClaimPayByTotalSplitsAuto";
-			this.checkClaimPayByTotalSplitsAuto.Size = new System.Drawing.Size(255, 17);
+			this.checkClaimPayByTotalSplitsAuto.Size = new System.Drawing.Size(255, 18);
 			this.checkClaimPayByTotalSplitsAuto.TabIndex = 304;
 			this.checkClaimPayByTotalSplitsAuto.Text = "Claim Pay by Total splits automatically";
 			// 
@@ -86,7 +86,7 @@ namespace OpenPmsDental{
 			this.checkShowIncomeTransferManager.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkShowIncomeTransferManager.Location = new System.Drawing.Point(127, 437);
 			this.checkShowIncomeTransferManager.Name = "checkShowIncomeTransferManager";
-			this.checkShowIncomeTransferManager.Size = new System.Drawing.Size(255, 17);
+			this.checkShowIncomeTransferManager.Size = new System.Drawing.Size(255, 18);
 			this.checkShowIncomeTransferManager.TabIndex = 303;
 			this.checkShowIncomeTransferManager.Text = "Show Income Transfer Manager";
 			// 
@@ -94,7 +94,7 @@ namespace OpenPmsDental{
 			// 
 			this.label40.Location = new System.Drawing.Point(23, 18);
 			this.label40.Name = "label40";
-			this.label40.Size = new System.Drawing.Size(189, 54);
+			this.label40.Size = new System.Drawing.Size(189, 60);
 			this.label40.TabIndex = 302;
 			this.label40.Text = "These buttons set all prefs within this window simultaneously.  Changes don\'t get" +
     " saved until you click Save.";
@@ -122,7 +122,7 @@ namespace OpenPmsDental{
 			this.checkHidePaysplits.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkHidePaysplits.Location = new System.Drawing.Point(70, 415);
 			this.checkHidePaysplits.Name = "checkHidePaysplits";
-			this.checkHidePaysplits.Size = new System.Drawing.Size(312, 17);
+			this.checkHidePaysplits.Size = new System.Drawing.Size(312, 18);
 			this.checkHidePaysplits.TabIndex = 297;
 			this.checkHidePaysplits.Text = "Hide paysplits from Payment window by default";
 			// 
@@ -145,7 +145,7 @@ namespace OpenPmsDental{
 			// 
 			this.label3.Location = new System.Drawing.Point(93, 55);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(405, 30);
+			this.label3.Size = new System.Drawing.Size(453, 39);
 			this.label3.TabIndex = 317;
 			this.label3.Text = "Highlight procedures before entering a payment to automatically split the payment" +
     " to those procedures.  Historical clutter can be reallocated by Transfer Manager" +
@@ -156,7 +156,7 @@ namespace OpenPmsDental{
 			// 
 			this.label2.Location = new System.Drawing.Point(93, 94);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(388, 30);
+			this.label2.Size = new System.Drawing.Size(454, 36);
 			this.label2.TabIndex = 315;
 			this.label2.Text = "Usually no splits, so this looks simpler.  But if the office ever wishes to move " +
     "to payment of providers by collections, staff will need to be retrained.";
@@ -166,7 +166,7 @@ namespace OpenPmsDental{
 			// 
 			this.label1.Location = new System.Drawing.Point(93, 19);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(425, 31);
+			this.label1.Size = new System.Drawing.Size(453, 36);
 			this.label1.TabIndex = 306;
 			this.label1.Text = "Payments are automatically split by procedure and provider validity is enforced. " +
     " Historical clutter must first be reallocated by Transfer Manager using Rigorous" +
@@ -178,7 +178,7 @@ namespace OpenPmsDental{
 			this.radioPayDont.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.radioPayDont.Location = new System.Drawing.Point(7, 95);
 			this.radioPayDont.Name = "radioPayDont";
-			this.radioPayDont.Size = new System.Drawing.Size(76, 18);
+			this.radioPayDont.Size = new System.Drawing.Size(76, 22);
 			this.radioPayDont.TabIndex = 297;
 			this.radioPayDont.TabStop = true;
 			this.radioPayDont.Text = "Manual";
@@ -190,7 +190,7 @@ namespace OpenPmsDental{
 			this.radioPayAuto.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.radioPayAuto.Location = new System.Drawing.Point(7, 58);
 			this.radioPayAuto.Name = "radioPayAuto";
-			this.radioPayAuto.Size = new System.Drawing.Size(76, 18);
+			this.radioPayAuto.Size = new System.Drawing.Size(76, 22);
 			this.radioPayAuto.TabIndex = 296;
 			this.radioPayAuto.TabStop = true;
 			this.radioPayAuto.Text = "Auto-Split";
@@ -202,7 +202,7 @@ namespace OpenPmsDental{
 			this.radioPayEnforce.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.radioPayEnforce.Location = new System.Drawing.Point(7, 21);
 			this.radioPayEnforce.Name = "radioPayEnforce";
-			this.radioPayEnforce.Size = new System.Drawing.Size(76, 18);
+			this.radioPayEnforce.Size = new System.Drawing.Size(76, 22);
 			this.radioPayEnforce.TabIndex = 295;
 			this.radioPayEnforce.TabStop = true;
 			this.radioPayEnforce.Text = "Rigorous";
@@ -237,7 +237,7 @@ namespace OpenPmsDental{
 			// 
 			this.label6.Location = new System.Drawing.Point(93, 55);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(343, 16);
+			this.label6.Size = new System.Drawing.Size(343, 18);
 			this.label6.TabIndex = 316;
 			this.label6.Text = "Adjustment links are made automatically, but can be edited.";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -246,7 +246,7 @@ namespace OpenPmsDental{
 			// 
 			this.label8.Location = new System.Drawing.Point(93, 18);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(343, 30);
+			this.label8.Size = new System.Drawing.Size(370, 30);
 			this.label8.TabIndex = 306;
 			this.label8.Text = "Adjustments are automatically linked to procedures\r\nand validity is enforced.";
 			this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -256,7 +256,7 @@ namespace OpenPmsDental{
 			this.radioAdjustDont.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.radioAdjustDont.Location = new System.Drawing.Point(7, 80);
 			this.radioAdjustDont.Name = "radioAdjustDont";
-			this.radioAdjustDont.Size = new System.Drawing.Size(76, 18);
+			this.radioAdjustDont.Size = new System.Drawing.Size(76, 22);
 			this.radioAdjustDont.TabIndex = 297;
 			this.radioAdjustDont.TabStop = true;
 			this.radioAdjustDont.Text = "Manual";
@@ -268,7 +268,7 @@ namespace OpenPmsDental{
 			this.radioAdjustLink.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.radioAdjustLink.Location = new System.Drawing.Point(7, 54);
 			this.radioAdjustLink.Name = "radioAdjustLink";
-			this.radioAdjustLink.Size = new System.Drawing.Size(76, 18);
+			this.radioAdjustLink.Size = new System.Drawing.Size(76, 22);
 			this.radioAdjustLink.TabIndex = 296;
 			this.radioAdjustLink.TabStop = true;
 			this.radioAdjustLink.Text = "Link Only";
@@ -280,7 +280,7 @@ namespace OpenPmsDental{
 			this.radioAdjustEnforce.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.radioAdjustEnforce.Location = new System.Drawing.Point(7, 21);
 			this.radioAdjustEnforce.Name = "radioAdjustEnforce";
-			this.radioAdjustEnforce.Size = new System.Drawing.Size(76, 18);
+			this.radioAdjustEnforce.Size = new System.Drawing.Size(76, 22);
 			this.radioAdjustEnforce.TabIndex = 295;
 			this.radioAdjustEnforce.TabStop = true;
 			this.radioAdjustEnforce.Text = "Rigorous";
@@ -325,7 +325,7 @@ namespace OpenPmsDental{
 			// 
 			this.labelRefundable.Location = new System.Drawing.Point(362, 40);
 			this.labelRefundable.Name = "labelRefundable";
-			this.labelRefundable.Size = new System.Drawing.Size(343, 58);
+			this.labelRefundable.Size = new System.Drawing.Size(343, 60);
 			this.labelRefundable.TabIndex = 317;
 			this.labelRefundable.Text = resources.GetString("labelRefundable.Text");
 			this.labelRefundable.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -335,7 +335,7 @@ namespace OpenPmsDental{
 			this.checkAllowPrePayToTpProcs.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkAllowPrePayToTpProcs.Location = new System.Drawing.Point(3, 21);
 			this.checkAllowPrePayToTpProcs.Name = "checkAllowPrePayToTpProcs";
-			this.checkAllowPrePayToTpProcs.Size = new System.Drawing.Size(353, 18);
+			this.checkAllowPrePayToTpProcs.Size = new System.Drawing.Size(370, 18);
 			this.checkAllowPrePayToTpProcs.TabIndex = 5;
 			this.checkAllowPrePayToTpProcs.Text = "Allow prepayments to allocate to treatment planned procedures";
 			this.checkAllowPrePayToTpProcs.Click += new System.EventHandler(this.checkAllowPrePayToTpProcs_Click);
@@ -354,7 +354,7 @@ namespace OpenPmsDental{
 			// 
 			this.label57.Location = new System.Drawing.Point(56, 103);
 			this.label57.Name = "label57";
-			this.label57.Size = new System.Drawing.Size(281, 18);
+			this.label57.Size = new System.Drawing.Size(287, 18);
 			this.label57.TabIndex = 253;
 			this.label57.Text = "Default treatment planned procedure unearned type";
 			this.label57.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -370,7 +370,7 @@ namespace OpenPmsDental{
 			// 
 			this.label4.Location = new System.Drawing.Point(387, 415);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(393, 18);
+			this.label4.Size = new System.Drawing.Size(424, 18);
 			this.label4.TabIndex = 323;
 			this.label4.Text = "Not recommended.  It\'s good to see the splits even if you don\'t change them.";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -380,7 +380,7 @@ namespace OpenPmsDental{
 			this.checkIncomeTransfersMadeUponClaimReceived.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkIncomeTransfersMadeUponClaimReceived.Location = new System.Drawing.Point(51, 483);
 			this.checkIncomeTransfersMadeUponClaimReceived.Name = "checkIncomeTransfersMadeUponClaimReceived";
-			this.checkIncomeTransfersMadeUponClaimReceived.Size = new System.Drawing.Size(331, 17);
+			this.checkIncomeTransfersMadeUponClaimReceived.Size = new System.Drawing.Size(331, 18);
 			this.checkIncomeTransfersMadeUponClaimReceived.TabIndex = 318;
 			this.checkIncomeTransfersMadeUponClaimReceived.Text = "Make claim specific income transfers when received";
 			this.checkIncomeTransfersMadeUponClaimReceived.ThreeState = true;
@@ -390,7 +390,7 @@ namespace OpenPmsDental{
 			// 
 			this.labelIncomeTransfersMadeUponClaimReceivedDesc.Location = new System.Drawing.Point(387, 482);
 			this.labelIncomeTransfersMadeUponClaimReceivedDesc.Name = "labelIncomeTransfersMadeUponClaimReceivedDesc";
-			this.labelIncomeTransfersMadeUponClaimReceivedDesc.Size = new System.Drawing.Size(460, 16);
+			this.labelIncomeTransfersMadeUponClaimReceivedDesc.Size = new System.Drawing.Size(460, 18);
 			this.labelIncomeTransfersMadeUponClaimReceivedDesc.TabIndex = 324;
 			this.labelIncomeTransfersMadeUponClaimReceivedDesc.Text = "(Empty, no transfers), (x, automatic transfers), (square, follows paysplits rigor" +
     "ous)";
@@ -401,7 +401,7 @@ namespace OpenPmsDental{
 			this.checkAdjustmentsOffset.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkAdjustmentsOffset.Location = new System.Drawing.Point(127, 506);
 			this.checkAdjustmentsOffset.Name = "checkAdjustmentsOffset";
-			this.checkAdjustmentsOffset.Size = new System.Drawing.Size(255, 17);
+			this.checkAdjustmentsOffset.Size = new System.Drawing.Size(255, 18);
 			this.checkAdjustmentsOffset.TabIndex = 325;
 			this.checkAdjustmentsOffset.Text = "+/- Adjustments offset each other";
 			// 

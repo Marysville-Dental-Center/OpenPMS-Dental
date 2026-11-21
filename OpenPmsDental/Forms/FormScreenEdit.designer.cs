@@ -77,7 +77,7 @@ namespace OpenPmsDental {
 			// 
 			this.label35.Location = new System.Drawing.Point(23, 365);
 			this.label35.Name = "label35";
-			this.label35.Size = new System.Drawing.Size(89, 15);
+			this.label35.Size = new System.Drawing.Size(89, 18);
 			this.label35.TabIndex = 16;
 			this.label35.Text = "Urgency";
 			this.label35.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -104,7 +104,7 @@ namespace OpenPmsDental {
 			// 
 			this.label4.Location = new System.Drawing.Point(47, 89);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(65, 15);
+			this.label4.Size = new System.Drawing.Size(65, 17);
 			this.label4.TabIndex = 108;
 			this.label4.Text = "Age";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -140,7 +140,7 @@ namespace OpenPmsDental {
 			this.checkHasCaries.CheckState = System.Windows.Forms.CheckState.Indeterminate;
 			this.checkHasCaries.Location = new System.Drawing.Point(8, 127);
 			this.checkHasCaries.Name = "checkHasCaries";
-			this.checkHasCaries.Size = new System.Drawing.Size(116, 16);
+			this.checkHasCaries.Size = new System.Drawing.Size(116, 17);
 			this.checkHasCaries.TabIndex = 14;
 			this.checkHasCaries.Text = "Has Caries";
 			this.checkHasCaries.ThreeState = true;
@@ -230,7 +230,7 @@ namespace OpenPmsDental {
 			this.checkMissingAllTeeth.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkMissingAllTeeth.Location = new System.Drawing.Point(-1, 208);
 			this.checkMissingAllTeeth.Name = "checkMissingAllTeeth";
-			this.checkMissingAllTeeth.Size = new System.Drawing.Size(125, 16);
+			this.checkMissingAllTeeth.Size = new System.Drawing.Size(125, 17);
 			this.checkMissingAllTeeth.TabIndex = 19;
 			this.checkMissingAllTeeth.Text = "Missing All Teeth";
 			this.checkMissingAllTeeth.ThreeState = true;
@@ -257,6 +257,7 @@ namespace OpenPmsDental {
 			// 
 			// textAge
 			// 
+			this.textAge.AutoSize = false;
 			this.textAge.Location = new System.Drawing.Point(111, 87);
 			this.textAge.Name = "textAge";
 			this.textAge.Size = new System.Drawing.Size(35, 20);
@@ -282,7 +283,7 @@ namespace OpenPmsDental {
 			// 
 			this.label1.Location = new System.Drawing.Point(73, 18);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(39, 14);
+			this.label1.Size = new System.Drawing.Size(39, 18);
 			this.label1.TabIndex = 143;
 			this.label1.Text = "Row";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

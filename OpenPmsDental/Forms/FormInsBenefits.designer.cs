@@ -151,13 +151,14 @@ namespace OpenPmsDental {
 			// 
 			this.label14.Location = new System.Drawing.Point(212, 6);
 			this.label14.Name = "label14";
-			this.label14.Size = new System.Drawing.Size(62, 15);
+			this.label14.Size = new System.Drawing.Size(62, 16);
 			this.label14.TabIndex = 183;
 			this.label14.Text = "Family";
 			this.label14.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			// 
 			// textAnnualMaxFam
 			// 
+			this.textAnnualMaxFam.AutoSize = false;
 			this.textAnnualMaxFam.Location = new System.Drawing.Point(213, 22);
 			this.textAnnualMaxFam.MaxVal = 100000000D;
 			this.textAnnualMaxFam.MinVal = -100000000D;
@@ -167,6 +168,7 @@ namespace OpenPmsDental {
 			// 
 			// textDeductibleFam
 			// 
+			this.textDeductibleFam.AutoSize = false;
 			this.textDeductibleFam.Location = new System.Drawing.Point(213, 42);
 			this.textDeductibleFam.MaxVal = 100000000D;
 			this.textDeductibleFam.MinVal = -100000000D;
@@ -178,13 +180,14 @@ namespace OpenPmsDental {
 			// 
 			this.label13.Location = new System.Drawing.Point(149, 6);
 			this.label13.Name = "label13";
-			this.label13.Size = new System.Drawing.Size(62, 15);
+			this.label13.Size = new System.Drawing.Size(62, 16);
 			this.label13.TabIndex = 179;
 			this.label13.Text = "Individual";
 			this.label13.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			// 
 			// textAnnualMax
 			// 
+			this.textAnnualMax.AutoSize = false;
 			this.textAnnualMax.Location = new System.Drawing.Point(150, 22);
 			this.textAnnualMax.MaxVal = 100000000D;
 			this.textAnnualMax.MinVal = -100000000D;
@@ -212,6 +215,7 @@ namespace OpenPmsDental {
 			// 
 			// textDeductible
 			// 
+			this.textDeductible.AutoSize = false;
 			this.textDeductible.Location = new System.Drawing.Point(150, 42);
 			this.textDeductible.MaxVal = 100000000D;
 			this.textDeductible.MinVal = -100000000D;
@@ -235,6 +239,7 @@ namespace OpenPmsDental {
 			// 
 			// textOrthoAge
 			// 
+			this.textOrthoAge.AutoSize = false;
 			this.textOrthoAge.Location = new System.Drawing.Point(142, 49);
 			this.textOrthoAge.MinVal = 1;
 			this.textOrthoAge.Name = "textOrthoAge";
@@ -253,6 +258,7 @@ namespace OpenPmsDental {
 			// 
 			// textOrthoPercent
 			// 
+			this.textOrthoPercent.AutoSize = false;
 			this.textOrthoPercent.Location = new System.Drawing.Point(142, 29);
 			this.textOrthoPercent.MaxVal = 100;
 			this.textOrthoPercent.Name = "textOrthoPercent";
@@ -271,6 +277,7 @@ namespace OpenPmsDental {
 			// 
 			// textOrthoMax
 			// 
+			this.textOrthoMax.AutoSize = false;
 			this.textOrthoMax.Location = new System.Drawing.Point(142, 9);
 			this.textOrthoMax.MaxVal = 100000000D;
 			this.textOrthoMax.MinVal = -100000000D;
@@ -282,7 +289,7 @@ namespace OpenPmsDental {
 			// 
 			this.label10.Location = new System.Drawing.Point(47, 13);
 			this.label10.Name = "label10";
-			this.label10.Size = new System.Drawing.Size(94, 14);
+			this.label10.Size = new System.Drawing.Size(94, 16);
 			this.label10.TabIndex = 163;
 			this.label10.Text = "Lifetime Max";
 			this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -312,7 +319,7 @@ namespace OpenPmsDental {
 			// 
 			this.checkCalendarYear.Location = new System.Drawing.Point(5, 16);
 			this.checkCalendarYear.Name = "checkCalendarYear";
-			this.checkCalendarYear.Size = new System.Drawing.Size(82, 17);
+			this.checkCalendarYear.Size = new System.Drawing.Size(82, 18);
 			this.checkCalendarYear.TabIndex = 0;
 			this.checkCalendarYear.Text = "Calendar";
 			this.checkCalendarYear.Click += new System.EventHandler(this.checkCalendarYear_Click);
@@ -331,7 +338,7 @@ namespace OpenPmsDental {
 			// 
 			this.label30.Location = new System.Drawing.Point(82, 15);
 			this.label30.Name = "label30";
-			this.label30.Size = new System.Drawing.Size(41, 16);
+			this.label30.Size = new System.Drawing.Size(41, 18);
 			this.label30.TabIndex = 0;
 			this.label30.Text = "Month";
 			this.label30.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -342,7 +349,7 @@ namespace OpenPmsDental {
 			this.checkSimplified.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.checkSimplified.Location = new System.Drawing.Point(4, 10);
 			this.checkSimplified.Name = "checkSimplified";
-			this.checkSimplified.Size = new System.Drawing.Size(105, 17);
+			this.checkSimplified.Size = new System.Drawing.Size(105, 18);
 			this.checkSimplified.TabIndex = 0;
 			this.checkSimplified.Text = "Simplified View";
 			this.checkSimplified.Click += new System.EventHandler(this.checkSimplified_Click);
@@ -451,13 +458,14 @@ namespace OpenPmsDental {
 			this.labelWaitingPeriod.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.labelWaitingPeriod.Location = new System.Drawing.Point(248, 105);
 			this.labelWaitingPeriod.Name = "labelWaitingPeriod";
-			this.labelWaitingPeriod.Size = new System.Drawing.Size(160, 15);
+			this.labelWaitingPeriod.Size = new System.Drawing.Size(164, 18);
 			this.labelWaitingPeriod.TabIndex = 207;
 			this.labelWaitingPeriod.Text = "Waiting Periods (if applicable)";
 			this.labelWaitingPeriod.TextAlign = System.Drawing.ContentAlignment.BottomRight;
 			// 
 			// textWaitProsth
 			// 
+			this.textWaitProsth.AutoSize = false;
 			this.textWaitProsth.Location = new System.Drawing.Point(274, 252);
 			this.textWaitProsth.Name = "textWaitProsth";
 			this.textWaitProsth.ShowZero = false;
@@ -466,6 +474,7 @@ namespace OpenPmsDental {
 			// 
 			// textWaitCrowns
 			// 
+			this.textWaitCrowns.AutoSize = false;
 			this.textWaitCrowns.Location = new System.Drawing.Point(274, 232);
 			this.textWaitCrowns.Name = "textWaitCrowns";
 			this.textWaitCrowns.ShowZero = false;
@@ -484,6 +493,7 @@ namespace OpenPmsDental {
 			// 
 			// textWaitOralSurg
 			// 
+			this.textWaitOralSurg.AutoSize = false;
 			this.textWaitOralSurg.Location = new System.Drawing.Point(274, 205);
 			this.textWaitOralSurg.Name = "textWaitOralSurg";
 			this.textWaitOralSurg.ShowZero = false;
@@ -492,6 +502,7 @@ namespace OpenPmsDental {
 			// 
 			// textWaitPerio
 			// 
+			this.textWaitPerio.AutoSize = false;
 			this.textWaitPerio.Location = new System.Drawing.Point(274, 185);
 			this.textWaitPerio.Name = "textWaitPerio";
 			this.textWaitPerio.ShowZero = false;
@@ -500,6 +511,7 @@ namespace OpenPmsDental {
 			// 
 			// textWaitEndo
 			// 
+			this.textWaitEndo.AutoSize = false;
 			this.textWaitEndo.Location = new System.Drawing.Point(274, 165);
 			this.textWaitEndo.Name = "textWaitEndo";
 			this.textWaitEndo.ShowZero = false;
@@ -508,6 +520,7 @@ namespace OpenPmsDental {
 			// 
 			// textWaitRestorative
 			// 
+			this.textWaitRestorative.AutoSize = false;
 			this.textWaitRestorative.Location = new System.Drawing.Point(274, 145);
 			this.textWaitRestorative.Name = "textWaitRestorative";
 			this.textWaitRestorative.ShowZero = false;
@@ -516,6 +529,7 @@ namespace OpenPmsDental {
 			// 
 			// textDeductDiagFam
 			// 
+			this.textDeductDiagFam.AutoSize = false;
 			this.textDeductDiagFam.Location = new System.Drawing.Point(342, 38);
 			this.textDeductDiagFam.MaxVal = 100000000D;
 			this.textDeductDiagFam.MinVal = -100000000D;
@@ -525,6 +539,7 @@ namespace OpenPmsDental {
 			// 
 			// textDeductXrayFam
 			// 
+			this.textDeductXrayFam.AutoSize = false;
 			this.textDeductXrayFam.Location = new System.Drawing.Point(342, 58);
 			this.textDeductXrayFam.MaxVal = 100000000D;
 			this.textDeductXrayFam.MinVal = -100000000D;
@@ -534,6 +549,7 @@ namespace OpenPmsDental {
 			// 
 			// textDeductDiag
 			// 
+			this.textDeductDiag.AutoSize = false;
 			this.textDeductDiag.Location = new System.Drawing.Point(274, 38);
 			this.textDeductDiag.MaxVal = 100000000D;
 			this.textDeductDiag.MinVal = -100000000D;
@@ -546,13 +562,14 @@ namespace OpenPmsDental {
 			this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label3.Location = new System.Drawing.Point(269, 3);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(141, 15);
+			this.label3.Size = new System.Drawing.Size(141, 18);
 			this.label3.TabIndex = 206;
 			this.label3.Text = "Deductibles (if different)";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			// 
 			// textDeductXray
 			// 
+			this.textDeductXray.AutoSize = false;
 			this.textDeductXray.Location = new System.Drawing.Point(274, 58);
 			this.textDeductXray.MaxVal = 100000000D;
 			this.textDeductXray.MinVal = -100000000D;
@@ -574,7 +591,7 @@ namespace OpenPmsDental {
 			this.label29.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label29.Location = new System.Drawing.Point(342, 21);
 			this.label29.Name = "label29";
-			this.label29.Size = new System.Drawing.Size(58, 15);
+			this.label29.Size = new System.Drawing.Size(58, 17);
 			this.label29.TabIndex = 204;
 			this.label29.Text = "Family";
 			this.label29.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -584,7 +601,7 @@ namespace OpenPmsDental {
 			this.label27.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label27.Location = new System.Drawing.Point(277, 21);
 			this.label27.Name = "label27";
-			this.label27.Size = new System.Drawing.Size(58, 15);
+			this.label27.Size = new System.Drawing.Size(60, 17);
 			this.label27.TabIndex = 203;
 			this.label27.Text = "Individual";
 			this.label27.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -601,6 +618,7 @@ namespace OpenPmsDental {
 			// 
 			// textDeductPreventFam
 			// 
+			this.textDeductPreventFam.AutoSize = false;
 			this.textDeductPreventFam.Location = new System.Drawing.Point(342, 78);
 			this.textDeductPreventFam.MaxVal = 100000000D;
 			this.textDeductPreventFam.MinVal = -100000000D;
@@ -610,6 +628,7 @@ namespace OpenPmsDental {
 			// 
 			// textXray
 			// 
+			this.textXray.AutoSize = false;
 			this.textXray.Location = new System.Drawing.Point(142, 58);
 			this.textXray.MaxVal = 100;
 			this.textXray.Name = "textXray";
@@ -673,6 +692,7 @@ namespace OpenPmsDental {
 			// 
 			// textAccident
 			// 
+			this.textAccident.AutoSize = false;
 			this.textAccident.Location = new System.Drawing.Point(142, 299);
 			this.textAccident.MaxVal = 100;
 			this.textAccident.Name = "textAccident";
@@ -701,6 +721,7 @@ namespace OpenPmsDental {
 			// 
 			// textMaxProsth
 			// 
+			this.textMaxProsth.AutoSize = false;
 			this.textMaxProsth.Location = new System.Drawing.Point(142, 279);
 			this.textMaxProsth.MaxVal = 100;
 			this.textMaxProsth.Name = "textMaxProsth";
@@ -710,6 +731,7 @@ namespace OpenPmsDental {
 			// 
 			// textDeductPrevent
 			// 
+			this.textDeductPrevent.AutoSize = false;
 			this.textDeductPrevent.Location = new System.Drawing.Point(274, 78);
 			this.textDeductPrevent.MaxVal = 100000000D;
 			this.textDeductPrevent.MinVal = -100000000D;
@@ -738,6 +760,7 @@ namespace OpenPmsDental {
 			// 
 			// textProsth
 			// 
+			this.textProsth.AutoSize = false;
 			this.textProsth.Location = new System.Drawing.Point(142, 252);
 			this.textProsth.MaxVal = 100;
 			this.textProsth.Name = "textProsth";
@@ -748,6 +771,7 @@ namespace OpenPmsDental {
 			// 
 			// textOralSurg
 			// 
+			this.textOralSurg.AutoSize = false;
 			this.textOralSurg.Location = new System.Drawing.Point(142, 205);
 			this.textOralSurg.MaxVal = 100;
 			this.textOralSurg.Name = "textOralSurg";
@@ -767,6 +791,7 @@ namespace OpenPmsDental {
 			// 
 			// textPerio
 			// 
+			this.textPerio.AutoSize = false;
 			this.textPerio.Location = new System.Drawing.Point(142, 185);
 			this.textPerio.MaxVal = 100;
 			this.textPerio.Name = "textPerio";
@@ -786,6 +811,7 @@ namespace OpenPmsDental {
 			// 
 			// textEndo
 			// 
+			this.textEndo.AutoSize = false;
 			this.textEndo.Location = new System.Drawing.Point(142, 165);
 			this.textEndo.MaxVal = 100;
 			this.textEndo.Name = "textEndo";
@@ -805,6 +831,7 @@ namespace OpenPmsDental {
 			// 
 			// textRoutinePrev
 			// 
+			this.textRoutinePrev.AutoSize = false;
 			this.textRoutinePrev.Location = new System.Drawing.Point(142, 78);
 			this.textRoutinePrev.MaxVal = 100;
 			this.textRoutinePrev.Name = "textRoutinePrev";
@@ -824,6 +851,7 @@ namespace OpenPmsDental {
 			// 
 			// textCrowns
 			// 
+			this.textCrowns.AutoSize = false;
 			this.textCrowns.Location = new System.Drawing.Point(142, 232);
 			this.textCrowns.MaxVal = 100;
 			this.textCrowns.Name = "textCrowns";
@@ -843,6 +871,7 @@ namespace OpenPmsDental {
 			// 
 			// textRestorative
 			// 
+			this.textRestorative.AutoSize = false;
 			this.textRestorative.Location = new System.Drawing.Point(142, 145);
 			this.textRestorative.MaxVal = 100;
 			this.textRestorative.Name = "textRestorative";
@@ -862,6 +891,7 @@ namespace OpenPmsDental {
 			// 
 			// textDiagnostic
 			// 
+			this.textDiagnostic.AutoSize = false;
 			this.textDiagnostic.Location = new System.Drawing.Point(142, 38);
 			this.textDiagnostic.MaxVal = 100;
 			this.textDiagnostic.Name = "textDiagnostic";
@@ -874,7 +904,7 @@ namespace OpenPmsDental {
 			// 
 			this.label17.Location = new System.Drawing.Point(2, 37);
 			this.label17.Name = "label17";
-			this.label17.Size = new System.Drawing.Size(138, 21);
+			this.label17.Size = new System.Drawing.Size(140, 21);
 			this.label17.TabIndex = 176;
 			this.label17.Text = "Diagnostic (includes x-ray)";
 			this.label17.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -883,7 +913,7 @@ namespace OpenPmsDental {
 			// 
 			this.checkShowProcCodes.Location = new System.Drawing.Point(721, 582);
 			this.checkShowProcCodes.Name = "checkShowProcCodes";
-			this.checkShowProcCodes.Size = new System.Drawing.Size(164, 17);
+			this.checkShowProcCodes.Size = new System.Drawing.Size(164, 18);
 			this.checkShowProcCodes.TabIndex = 162;
 			this.checkShowProcCodes.Text = "Show Procedure Codes";
 			this.checkShowProcCodes.Click += new System.EventHandler(this.checkShowProcCodes_Click);
