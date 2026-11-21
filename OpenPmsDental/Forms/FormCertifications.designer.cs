@@ -124,7 +124,7 @@ namespace OpenPmsDental{
 			this.radioCategory.Checked = true;
 			this.radioCategory.Location = new System.Drawing.Point(6, 22);
 			this.radioCategory.Name = "radioCategory";
-			this.radioCategory.Size = new System.Drawing.Size(97, 18);
+			this.radioCategory.Size = new System.Drawing.Size(97, 21);
 			this.radioCategory.TabIndex = 1;
 			this.radioCategory.TabStop = true;
 			this.radioCategory.Text = "Category";
@@ -135,7 +135,7 @@ namespace OpenPmsDental{
 			// 
 			this.radioCertification.Location = new System.Drawing.Point(6, 43);
 			this.radioCertification.Name = "radioCertification";
-			this.radioCertification.Size = new System.Drawing.Size(97, 18);
+			this.radioCertification.Size = new System.Drawing.Size(99, 24);
 			this.radioCertification.TabIndex = 2;
 			this.radioCertification.Text = "Cert Complete";
 			this.radioCertification.UseVisualStyleBackColor = true;
@@ -170,6 +170,7 @@ namespace OpenPmsDental{
 			// 
 			// textEmpSearch
 			// 
+			this.textEmpSearch.AutoSize = false;
 			this.textEmpSearch.Location = new System.Drawing.Point(12, 47);
 			this.textEmpSearch.Name = "textEmpSearch";
 			this.textEmpSearch.Size = new System.Drawing.Size(120, 20);
@@ -201,7 +202,7 @@ namespace OpenPmsDental{
 			// 
 			this.checkSortDate.Location = new System.Drawing.Point(444, 7);
 			this.checkSortDate.Name = "checkSortDate";
-			this.checkSortDate.Size = new System.Drawing.Size(150, 18);
+			this.checkSortDate.Size = new System.Drawing.Size(151, 18);
 			this.checkSortDate.TabIndex = 7;
 			this.checkSortDate.Text = "Sort By Date Completed";
 			this.checkSortDate.Click += new System.EventHandler(this.checkSortDate_Click);
@@ -247,7 +248,7 @@ namespace OpenPmsDental{
 			// 
 			this.checkSortDateCertComplete.Location = new System.Drawing.Point(586, 6);
 			this.checkSortDateCertComplete.Name = "checkSortDateCertComplete";
-			this.checkSortDateCertComplete.Size = new System.Drawing.Size(150, 18);
+			this.checkSortDateCertComplete.Size = new System.Drawing.Size(151, 18);
 			this.checkSortDateCertComplete.TabIndex = 54;
 			this.checkSortDateCertComplete.Text = "Sort By Date Completed";
 			this.checkSortDateCertComplete.Click += new System.EventHandler(this.checkSortDateCertComplete_Click);

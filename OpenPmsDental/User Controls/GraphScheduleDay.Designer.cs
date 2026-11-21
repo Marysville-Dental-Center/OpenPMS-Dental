@@ -94,7 +94,7 @@
 			this.label3.Location = new System.Drawing.Point(122, 17);
 			this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(56, 19);
+			this.label3.Size = new System.Drawing.Size(58, 19);
 			this.label3.TabIndex = 9;
 			this.label3.Text = "End Hour";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -153,7 +153,7 @@
 			this.checkBoxNotes.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.checkBoxNotes.Location = new System.Drawing.Point(11, 18);
 			this.checkBoxNotes.Name = "checkBoxNotes";
-			this.checkBoxNotes.Size = new System.Drawing.Size(52, 20);
+			this.checkBoxNotes.Size = new System.Drawing.Size(53, 20);
 			this.checkBoxNotes.TabIndex = 2;
 			this.checkBoxNotes.Text = "Notes";
 			this.checkBoxNotes.CheckedChanged += new System.EventHandler(this.checkBoxNotes_CheckedChanged);

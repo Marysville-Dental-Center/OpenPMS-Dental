@@ -88,7 +88,7 @@ namespace OpenPmsDental {
 			this.radioIndividual.Checked = true;
 			this.radioIndividual.Location = new System.Drawing.Point(33, 227);
 			this.radioIndividual.Name = "radioIndividual";
-			this.radioIndividual.Size = new System.Drawing.Size(200, 19);
+			this.radioIndividual.Size = new System.Drawing.Size(200, 23);
 			this.radioIndividual.TabIndex = 32;
 			this.radioIndividual.TabStop = true;
 			this.radioIndividual.Text = "Individual Claims";
@@ -98,7 +98,7 @@ namespace OpenPmsDental {
 			// 
 			this.radioGroup.Location = new System.Drawing.Point(33, 250);
 			this.radioGroup.Name = "radioGroup";
-			this.radioGroup.Size = new System.Drawing.Size(200, 19);
+			this.radioGroup.Size = new System.Drawing.Size(200, 23);
 			this.radioGroup.TabIndex = 33;
 			this.radioGroup.Text = "Group by Carrier";
 			this.radioGroup.UseVisualStyleBackColor = true;
@@ -136,7 +136,7 @@ namespace OpenPmsDental {
 			this.radioWriteoffClaimDate.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
 			this.radioWriteoffClaimDate.Location = new System.Drawing.Point(9, 62);
 			this.radioWriteoffClaimDate.Name = "radioWriteoffClaimDate";
-			this.radioWriteoffClaimDate.Size = new System.Drawing.Size(270, 35);
+			this.radioWriteoffClaimDate.Size = new System.Drawing.Size(272, 35);
 			this.radioWriteoffClaimDate.TabIndex = 3;
 			this.radioWriteoffClaimDate.Text = "Using initial claim date for write-off estimates, insurance pay date for write-of" +
     "f adjustments";
@@ -147,7 +147,7 @@ namespace OpenPmsDental {
 			// 
 			this.label5.Location = new System.Drawing.Point(6, 103);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(269, 17);
+			this.label5.Size = new System.Drawing.Size(275, 17);
 			this.label5.TabIndex = 2;
 			this.label5.Text = "(This is discussed in the PPO section of the manual)";
 			// 

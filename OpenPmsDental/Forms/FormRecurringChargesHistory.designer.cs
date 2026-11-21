@@ -136,7 +136,7 @@ namespace OpenPmsDental{
 			// 
 			this.label2.Location = new System.Drawing.Point(439, 20);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(65, 16);
+			this.label2.Size = new System.Drawing.Size(67, 18);
 			this.label2.TabIndex = 41;
 			this.label2.Text = "Automated";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

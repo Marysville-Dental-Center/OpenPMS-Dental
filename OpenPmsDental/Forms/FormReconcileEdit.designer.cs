@@ -87,6 +87,7 @@ namespace OpenPmsDental {
 			// textTarget
 			// 
 			this.textTarget.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.textTarget.AutoSize = false;
 			this.textTarget.Location = new System.Drawing.Point(467, 91);
 			this.textTarget.Name = "textTarget";
 			this.textTarget.ReadOnly = true;
@@ -117,6 +118,7 @@ namespace OpenPmsDental {
 			// textSum
 			// 
 			this.textSum.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.textSum.AutoSize = false;
 			this.textSum.Location = new System.Drawing.Point(467, 112);
 			this.textSum.Name = "textSum";
 			this.textSum.ReadOnly = true;
@@ -130,7 +132,7 @@ namespace OpenPmsDental {
 			this.checkLocked.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkLocked.Location = new System.Drawing.Point(350, 29);
 			this.checkLocked.Name = "checkLocked";
-			this.checkLocked.Size = new System.Drawing.Size(130, 17);
+			this.checkLocked.Size = new System.Drawing.Size(130, 18);
 			this.checkLocked.TabIndex = 14;
 			this.checkLocked.Text = "Locked";
 			this.checkLocked.Click += new System.EventHandler(this.checkLocked_Click);
@@ -196,6 +198,7 @@ namespace OpenPmsDental {
 			// textEnd
 			// 
 			this.textEnd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.textEnd.AutoSize = false;
 			this.textEnd.Location = new System.Drawing.Point(467, 70);
 			this.textEnd.MaxVal = 100000000D;
 			this.textEnd.MinVal = -100000000D;
@@ -208,6 +211,7 @@ namespace OpenPmsDental {
 			// textStart
 			// 
 			this.textStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.textStart.AutoSize = false;
 			this.textStart.Location = new System.Drawing.Point(467, 49);
 			this.textStart.MaxVal = 100000000D;
 			this.textStart.MinVal = -100000000D;

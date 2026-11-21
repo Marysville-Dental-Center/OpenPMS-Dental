@@ -50,6 +50,7 @@ namespace OpenPmsDental{
 			// 
 			// textAPR
 			// 
+			this.textAPR.AutoSize = false;
 			this.textAPR.Location = new System.Drawing.Point(131, 92);
 			this.textAPR.MaxVal = 100000000D;
 			this.textAPR.MinVal = -100000000D;
@@ -68,6 +69,7 @@ namespace OpenPmsDental{
 			// 
 			// textDateFirstPay
 			// 
+			this.textDateFirstPay.AutoSize = false;
 			this.textDateFirstPay.Location = new System.Drawing.Point(131, 51);
 			this.textDateFirstPay.Name = "textDateFirstPay";
 			this.textDateFirstPay.Size = new System.Drawing.Size(85, 20);
@@ -93,6 +95,7 @@ namespace OpenPmsDental{
 			// 
 			// textDateAgreement
 			// 
+			this.textDateAgreement.AutoSize = false;
 			this.textDateAgreement.Location = new System.Drawing.Point(131, 30);
 			this.textDateAgreement.Name = "textDateAgreement";
 			this.textDateAgreement.Size = new System.Drawing.Size(85, 20);
@@ -109,6 +112,7 @@ namespace OpenPmsDental{
 			// 
 			// textMonthlyPayment
 			// 
+			this.textMonthlyPayment.AutoSize = false;
 			this.textMonthlyPayment.Location = new System.Drawing.Point(131, 71);
 			this.textMonthlyPayment.MaxVal = 100000000D;
 			this.textMonthlyPayment.MinVal = -100000000D;

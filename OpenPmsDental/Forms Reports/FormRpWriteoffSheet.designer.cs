@@ -95,7 +95,7 @@ namespace OpenPmsDental {
 			this.radioWriteoffClaim.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
 			this.radioWriteoffClaim.Location = new System.Drawing.Point(9, 62);
 			this.radioWriteoffClaim.Name = "radioWriteoffClaim";
-			this.radioWriteoffClaim.Size = new System.Drawing.Size(269, 35);
+			this.radioWriteoffClaim.Size = new System.Drawing.Size(272, 35);
 			this.radioWriteoffClaim.TabIndex = 3;
 			this.radioWriteoffClaim.Text = "Using initial claim date for write-off estimates, insurance pay date for write-of" +
     "f adjustments\r\n";
@@ -106,7 +106,7 @@ namespace OpenPmsDental {
 			// 
 			this.label5.Location = new System.Drawing.Point(6, 108);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(269, 17);
+			this.label5.Size = new System.Drawing.Size(275, 17);
 			this.label5.TabIndex = 2;
 			this.label5.Text = "(This is discussed in the PPO section of the manual)";
 			// 
@@ -150,7 +150,7 @@ namespace OpenPmsDental {
 			this.checkAllProv.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.checkAllProv.Location = new System.Drawing.Point(529, 37);
 			this.checkAllProv.Name = "checkAllProv";
-			this.checkAllProv.Size = new System.Drawing.Size(95, 16);
+			this.checkAllProv.Size = new System.Drawing.Size(95, 18);
 			this.checkAllProv.TabIndex = 48;
 			this.checkAllProv.Text = "All";
 			this.checkAllProv.Click += new System.EventHandler(this.checkAllProv_Click);
@@ -159,7 +159,7 @@ namespace OpenPmsDental {
 			// 
 			this.checkAllClin.Location = new System.Drawing.Point(361, 227);
 			this.checkAllClin.Name = "checkAllClin";
-			this.checkAllClin.Size = new System.Drawing.Size(151, 16);
+			this.checkAllClin.Size = new System.Drawing.Size(151, 18);
 			this.checkAllClin.TabIndex = 54;
 			this.checkAllClin.Text = "All (Includes hidden)";
 			this.checkAllClin.Click += new System.EventHandler(this.checkAllClin_Click);

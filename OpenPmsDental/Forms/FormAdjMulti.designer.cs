@@ -64,7 +64,7 @@ namespace OpenPmsDental {
 			this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.label5.Location = new System.Drawing.Point(30, 514);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(54, 14);
+			this.label5.Size = new System.Drawing.Size(54, 17);
 			this.label5.TabIndex = 51;
 			this.label5.Text = "Note:";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -314,7 +314,7 @@ namespace OpenPmsDental {
 			this.checkOnlyTsiExcludedAdjTypes.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkOnlyTsiExcludedAdjTypes.Location = new System.Drawing.Point(185, 21);
 			this.checkOnlyTsiExcludedAdjTypes.Name = "checkOnlyTsiExcludedAdjTypes";
-			this.checkOnlyTsiExcludedAdjTypes.Size = new System.Drawing.Size(214, 20);
+			this.checkOnlyTsiExcludedAdjTypes.Size = new System.Drawing.Size(215, 20);
 			this.checkOnlyTsiExcludedAdjTypes.TabIndex = 172;
 			this.checkOnlyTsiExcludedAdjTypes.Text = "Only TSI excluded adjustment types";
 			this.checkOnlyTsiExcludedAdjTypes.CheckedChanged += new System.EventHandler(this.checkOnlyTsiExcludedAdjTypes_Checked);
@@ -335,7 +335,7 @@ namespace OpenPmsDental {
 			// 
 			this.radioAllocatedOnly.Location = new System.Drawing.Point(21, 14);
 			this.radioAllocatedOnly.Name = "radioAllocatedOnly";
-			this.radioAllocatedOnly.Size = new System.Drawing.Size(137, 20);
+			this.radioAllocatedOnly.Size = new System.Drawing.Size(137, 23);
 			this.radioAllocatedOnly.TabIndex = 171;
 			this.radioAllocatedOnly.Text = "Only allocated credits";
 			this.radioAllocatedOnly.UseVisualStyleBackColor = true;

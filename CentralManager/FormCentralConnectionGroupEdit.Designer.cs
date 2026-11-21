@@ -40,7 +40,7 @@
 			// 
 			this.label1.Location = new System.Drawing.Point(5, 11);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(99, 20);
+			this.label1.Size = new System.Drawing.Size(103, 20);
 			this.label1.TabIndex = 0;
 			this.label1.Text = "Group Description";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -114,7 +114,7 @@
 			// 
 			this.label2.Location = new System.Drawing.Point(377, 15);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(235, 20);
+			this.label2.Size = new System.Drawing.Size(237, 20);
 			this.label2.TabIndex = 221;
 			this.label2.Text = "Connections can belong to multiple groups";
 			// 

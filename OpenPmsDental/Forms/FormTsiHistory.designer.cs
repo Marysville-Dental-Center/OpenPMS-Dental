@@ -75,7 +75,7 @@ namespace OpenPmsDental{
 			this.checkShowPatNums.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkShowPatNums.Location = new System.Drawing.Point(12, 184);
 			this.checkShowPatNums.Name = "checkShowPatNums";
-			this.checkShowPatNums.Size = new System.Drawing.Size(110, 16);
+			this.checkShowPatNums.Size = new System.Drawing.Size(110, 18);
 			this.checkShowPatNums.TabIndex = 2;
 			this.checkShowPatNums.Text = "Show PatNums";
 			// 
@@ -279,7 +279,7 @@ namespace OpenPmsDental{
 			// 
 			this.labelSelectedFieldDetails.Location = new System.Drawing.Point(511, 14);
 			this.labelSelectedFieldDetails.Name = "labelSelectedFieldDetails";
-			this.labelSelectedFieldDetails.Size = new System.Drawing.Size(117, 17);
+			this.labelSelectedFieldDetails.Size = new System.Drawing.Size(118, 17);
 			this.labelSelectedFieldDetails.TabIndex = 11;
 			this.labelSelectedFieldDetails.Text = "Selected Field Details";
 			this.labelSelectedFieldDetails.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -300,7 +300,7 @@ namespace OpenPmsDental{
 			// 
 			this.labelSelectedFieldName.Location = new System.Drawing.Point(178, 14);
 			this.labelSelectedFieldName.Name = "labelSelectedFieldName";
-			this.labelSelectedFieldName.Size = new System.Drawing.Size(116, 17);
+			this.labelSelectedFieldName.Size = new System.Drawing.Size(117, 17);
 			this.labelSelectedFieldName.TabIndex = 0;
 			this.labelSelectedFieldName.Text = "Selected Field Name";
 			this.labelSelectedFieldName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

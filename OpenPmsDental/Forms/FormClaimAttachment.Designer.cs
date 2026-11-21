@@ -62,7 +62,7 @@
 			// 
 			this.labelNarrative.Location = new System.Drawing.Point(11, 248);
 			this.labelNarrative.Name = "labelNarrative";
-			this.labelNarrative.Size = new System.Drawing.Size(121, 13);
+			this.labelNarrative.Size = new System.Drawing.Size(121, 16);
 			this.labelNarrative.TabIndex = 12;
 			this.labelNarrative.Text = "Narrative (optional)";
 			// 
@@ -92,7 +92,7 @@
 			this.labelCharCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelCharCount.Location = new System.Drawing.Point(184, 248);
 			this.labelCharCount.Name = "labelCharCount";
-			this.labelCharCount.Size = new System.Drawing.Size(76, 13);
+			this.labelCharCount.Size = new System.Drawing.Size(76, 16);
 			this.labelCharCount.TabIndex = 14;
 			this.labelCharCount.Text = "/2000";
 			this.labelCharCount.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -102,7 +102,7 @@
 			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.label1.Location = new System.Drawing.Point(287, 248);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(135, 13);
+			this.label1.Size = new System.Drawing.Size(135, 16);
 			this.label1.TabIndex = 13;
 			this.label1.Text = "Claim Validation Status";
 			// 

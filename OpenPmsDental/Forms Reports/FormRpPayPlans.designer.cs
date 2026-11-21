@@ -67,7 +67,7 @@ namespace OpenPmsDental {
 			// 
 			this.checkAllProv.Location = new System.Drawing.Point(252, 93);
 			this.checkAllProv.Name = "checkAllProv";
-			this.checkAllProv.Size = new System.Drawing.Size(95, 16);
+			this.checkAllProv.Size = new System.Drawing.Size(95, 18);
 			this.checkAllProv.TabIndex = 48;
 			this.checkAllProv.Text = "All";
 			this.checkAllProv.Click += new System.EventHandler(this.checkAllProv_Click);
@@ -107,7 +107,7 @@ namespace OpenPmsDental {
 			this.radioBoth.Checked = true;
 			this.radioBoth.Location = new System.Drawing.Point(8, 58);
 			this.radioBoth.Name = "radioBoth";
-			this.radioBoth.Size = new System.Drawing.Size(159, 18);
+			this.radioBoth.Size = new System.Drawing.Size(159, 22);
 			this.radioBoth.TabIndex = 2;
 			this.radioBoth.TabStop = true;
 			this.radioBoth.Text = "Both";
@@ -117,7 +117,7 @@ namespace OpenPmsDental {
 			// 
 			this.radioPatient.Location = new System.Drawing.Point(8, 38);
 			this.radioPatient.Name = "radioPatient";
-			this.radioPatient.Size = new System.Drawing.Size(159, 18);
+			this.radioPatient.Size = new System.Drawing.Size(159, 20);
 			this.radioPatient.TabIndex = 1;
 			this.radioPatient.Text = "Patient";
 			this.radioPatient.UseVisualStyleBackColor = true;
@@ -126,7 +126,7 @@ namespace OpenPmsDental {
 			// 
 			this.radioInsurance.Location = new System.Drawing.Point(8, 19);
 			this.radioInsurance.Name = "radioInsurance";
-			this.radioInsurance.Size = new System.Drawing.Size(159, 18);
+			this.radioInsurance.Size = new System.Drawing.Size(159, 19);
 			this.radioInsurance.TabIndex = 0;
 			this.radioInsurance.Text = "Insurance";
 			this.radioInsurance.UseVisualStyleBackColor = true;
@@ -143,7 +143,7 @@ namespace OpenPmsDental {
 			// 
 			this.checkAllClin.Location = new System.Drawing.Point(420, 94);
 			this.checkAllClin.Name = "checkAllClin";
-			this.checkAllClin.Size = new System.Drawing.Size(154, 16);
+			this.checkAllClin.Size = new System.Drawing.Size(154, 18);
 			this.checkAllClin.TabIndex = 57;
 			this.checkAllClin.Text = "All (Includes hidden)";
 			this.checkAllClin.Click += new System.EventHandler(this.checkAllClin_Click);
@@ -172,7 +172,7 @@ namespace OpenPmsDental {
 			this.checkHasDateRange.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.checkHasDateRange.Location = new System.Drawing.Point(31, 210);
 			this.checkHasDateRange.Name = "checkHasDateRange";
-			this.checkHasDateRange.Size = new System.Drawing.Size(216, 18);
+			this.checkHasDateRange.Size = new System.Drawing.Size(219, 18);
 			this.checkHasDateRange.TabIndex = 58;
 			this.checkHasDateRange.Text = "Limit to Plans Created in Date Range";
 			this.checkHasDateRange.Click += new System.EventHandler(this.checkHasDateRange_Click);

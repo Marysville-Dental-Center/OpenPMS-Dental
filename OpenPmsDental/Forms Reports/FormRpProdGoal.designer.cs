@@ -57,7 +57,7 @@ namespace OpenPmsDental {
 			// 
 			this.checkClinicBreakdown.Location = new System.Drawing.Point(215, 250);
 			this.checkClinicBreakdown.Name = "checkClinicBreakdown";
-			this.checkClinicBreakdown.Size = new System.Drawing.Size(154, 16);
+			this.checkClinicBreakdown.Size = new System.Drawing.Size(154, 18);
 			this.checkClinicBreakdown.TabIndex = 9;
 			this.checkClinicBreakdown.Text = "Show Clinic Breakdown";
 			// 
@@ -65,7 +65,7 @@ namespace OpenPmsDental {
 			// 
 			this.checkAllClin.Location = new System.Drawing.Point(215, 44);
 			this.checkAllClin.Name = "checkAllClin";
-			this.checkAllClin.Size = new System.Drawing.Size(154, 16);
+			this.checkAllClin.Size = new System.Drawing.Size(154, 18);
 			this.checkAllClin.TabIndex = 5;
 			this.checkAllClin.Text = "All (Includes hidden)";
 			this.checkAllClin.Click += new System.EventHandler(this.checkAllClin_Click);
@@ -76,7 +76,7 @@ namespace OpenPmsDental {
 			this.checkAllProv.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.checkAllProv.Location = new System.Drawing.Point(37, 44);
 			this.checkAllProv.Name = "checkAllProv";
-			this.checkAllProv.Size = new System.Drawing.Size(154, 16);
+			this.checkAllProv.Size = new System.Drawing.Size(154, 18);
 			this.checkAllProv.TabIndex = 3;
 			this.checkAllProv.Text = "All";
 			this.checkAllProv.Click += new System.EventHandler(this.checkAllProv_Click);
@@ -237,7 +237,7 @@ namespace OpenPmsDental {
 			this.radioWriteoffClaim.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
 			this.radioWriteoffClaim.Location = new System.Drawing.Point(9, 71);
 			this.radioWriteoffClaim.Name = "radioWriteoffClaim";
-			this.radioWriteoffClaim.Size = new System.Drawing.Size(256, 35);
+			this.radioWriteoffClaim.Size = new System.Drawing.Size(272, 35);
 			this.radioWriteoffClaim.TabIndex = 4;
 			this.radioWriteoffClaim.Text = "Use initial claim date for write-off estimates, ins pay date for write-off adjust" +
     "ments";
@@ -248,7 +248,7 @@ namespace OpenPmsDental {
 			// 
 			this.label5.Location = new System.Drawing.Point(3, 109);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(275, 24);
+			this.label5.Size = new System.Drawing.Size(278, 24);
 			this.label5.TabIndex = 2;
 			this.label5.Text = "(This is discussed in the PPO section of the manual)";
 			// 

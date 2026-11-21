@@ -88,7 +88,7 @@
 			// 
 			this.label1.Location = new System.Drawing.Point(97, 16);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(280, 18);
+			this.label1.Size = new System.Drawing.Size(294, 18);
 			this.label1.TabIndex = 6;
 			this.label1.Text = "Count completed broken and/or canceled procedures.";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -106,10 +106,10 @@
 			// 
 			// radioRunAdjs
 			// 
-			this.radioRunAdjs.AutoSize = true;
+			this.radioRunAdjs.AutoSize = false;
 			this.radioRunAdjs.Location = new System.Drawing.Point(6, 80);
 			this.radioRunAdjs.Name = "radioRunAdjs";
-			this.radioRunAdjs.Size = new System.Drawing.Size(82, 17);
+			this.radioRunAdjs.Size = new System.Drawing.Size(91, 22);
 			this.radioRunAdjs.TabIndex = 4;
 			this.radioRunAdjs.Text = "Adjustments";
 			this.radioRunAdjs.UseVisualStyleBackColor = true;
@@ -117,10 +117,10 @@
 			// 
 			// radioRunApts
 			// 
-			this.radioRunApts.AutoSize = true;
+			this.radioRunApts.AutoSize = false;
 			this.radioRunApts.Location = new System.Drawing.Point(6, 59);
 			this.radioRunApts.Name = "radioRunApts";
-			this.radioRunApts.Size = new System.Drawing.Size(89, 17);
+			this.radioRunApts.Size = new System.Drawing.Size(94, 20);
 			this.radioRunApts.TabIndex = 1;
 			this.radioRunApts.Text = "Appointments";
 			this.radioRunApts.UseVisualStyleBackColor = true;

@@ -63,7 +63,7 @@ namespace OpenPmsDental {
 			this.checkAllProv.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.checkAllProv.Location = new System.Drawing.Point(13, 74);
 			this.checkAllProv.Name = "checkAllProv";
-			this.checkAllProv.Size = new System.Drawing.Size(159, 16);
+			this.checkAllProv.Size = new System.Drawing.Size(159, 18);
 			this.checkAllProv.TabIndex = 62;
 			this.checkAllProv.Text = "All";
 			this.checkAllProv.Click += new System.EventHandler(this.CheckAllProv_Click);
@@ -122,7 +122,7 @@ namespace OpenPmsDental {
 			this.checkAllUnearnedTypes.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.checkAllUnearnedTypes.Location = new System.Drawing.Point(178, 73);
 			this.checkAllUnearnedTypes.Name = "checkAllUnearnedTypes";
-			this.checkAllUnearnedTypes.Size = new System.Drawing.Size(163, 17);
+			this.checkAllUnearnedTypes.Size = new System.Drawing.Size(163, 18);
 			this.checkAllUnearnedTypes.TabIndex = 64;
 			this.checkAllUnearnedTypes.Text = "All";
 			this.checkAllUnearnedTypes.Click += new System.EventHandler(this.CheckAllUnearnedTypes_Click);
@@ -140,7 +140,7 @@ namespace OpenPmsDental {
 			// 
 			this.label3.Location = new System.Drawing.Point(175, 54);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(104, 16);
+			this.label3.Size = new System.Drawing.Size(104, 18);
 			this.label3.TabIndex = 65;
 			this.label3.Text = "Unearned Types";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.BottomLeft;

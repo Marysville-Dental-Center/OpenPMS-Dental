@@ -51,7 +51,7 @@ namespace OpenPmsDental {
 			this.radioSale.Checked = true;
 			this.radioSale.Location = new System.Drawing.Point(10, 20);
 			this.radioSale.Name = "radioSale";
-			this.radioSale.Size = new System.Drawing.Size(80, 18);
+			this.radioSale.Size = new System.Drawing.Size(80, 22);
 			this.radioSale.TabIndex = 0;
 			this.radioSale.TabStop = true;
 			this.radioSale.Text = "Sale";
@@ -62,7 +62,7 @@ namespace OpenPmsDental {
 			//
 			this.radioRefund.Location = new System.Drawing.Point(100, 20);
 			this.radioRefund.Name = "radioRefund";
-			this.radioRefund.Size = new System.Drawing.Size(80, 18);
+			this.radioRefund.Size = new System.Drawing.Size(80, 22);
 			this.radioRefund.TabIndex = 1;
 			this.radioRefund.Text = "Refund";
 			this.radioRefund.UseVisualStyleBackColor = true;
@@ -72,7 +72,7 @@ namespace OpenPmsDental {
 			//
 			this.radioVoid.Location = new System.Drawing.Point(190, 20);
 			this.radioVoid.Name = "radioVoid";
-			this.radioVoid.Size = new System.Drawing.Size(80, 18);
+			this.radioVoid.Size = new System.Drawing.Size(80, 22);
 			this.radioVoid.TabIndex = 2;
 			this.radioVoid.Text = "Void";
 			this.radioVoid.UseVisualStyleBackColor = true;
@@ -94,7 +94,7 @@ namespace OpenPmsDental {
 			this.radioTerminal.Checked = true;
 			this.radioTerminal.Location = new System.Drawing.Point(10, 20);
 			this.radioTerminal.Name = "radioTerminal";
-			this.radioTerminal.Size = new System.Drawing.Size(130, 18);
+			this.radioTerminal.Size = new System.Drawing.Size(130, 22);
 			this.radioTerminal.TabIndex = 0;
 			this.radioTerminal.TabStop = true;
 			this.radioTerminal.Text = "Card on terminal";
@@ -112,7 +112,7 @@ namespace OpenPmsDental {
 			//
 			this.radioSavedCard.Location = new System.Drawing.Point(10, 46);
 			this.radioSavedCard.Name = "radioSavedCard";
-			this.radioSavedCard.Size = new System.Drawing.Size(394, 18);
+			this.radioSavedCard.Size = new System.Drawing.Size(394, 22);
 			this.radioSavedCard.TabIndex = 2;
 			this.radioSavedCard.Text = "Saved card";
 			this.radioSavedCard.UseVisualStyleBackColor = true;

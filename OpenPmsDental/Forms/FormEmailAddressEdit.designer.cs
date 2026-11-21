@@ -139,7 +139,7 @@ namespace OpenPmsDental {
 			// 
 			this.label3.Location = new System.Drawing.Point(116, 12);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(151, 20);
+			this.label3.Size = new System.Drawing.Size(152, 20);
 			this.label3.TabIndex = 0;
 			this.label3.Text = "Username or email address";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -191,7 +191,7 @@ namespace OpenPmsDental {
 			this.checkSSL.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkSSL.Location = new System.Drawing.Point(165, 35);
 			this.checkSSL.Name = "checkSSL";
-			this.checkSSL.Size = new System.Drawing.Size(122, 17);
+			this.checkSSL.Size = new System.Drawing.Size(122, 18);
 			this.checkSSL.TabIndex = 3;
 			this.checkSSL.Text = "Use SSL";
 			// 
@@ -229,7 +229,7 @@ namespace OpenPmsDental {
 			// 
 			this.label13.Location = new System.Drawing.Point(154, 48);
 			this.label13.Name = "label13";
-			this.label13.Size = new System.Drawing.Size(198, 56);
+			this.label13.Size = new System.Drawing.Size(198, 58);
 			this.label13.TabIndex = 0;
 			this.label13.Text = "smtp.comcast.net\r\nmailhost.mycompany.com \r\nmail.mycompany.com\r\nor similar...";
 			// 
@@ -462,7 +462,7 @@ namespace OpenPmsDental {
 			this.radioPassword.Checked = true;
 			this.radioPassword.Location = new System.Drawing.Point(22, 22);
 			this.radioPassword.Name = "radioPassword";
-			this.radioPassword.Size = new System.Drawing.Size(97, 18);
+			this.radioPassword.Size = new System.Drawing.Size(97, 22);
 			this.radioPassword.TabIndex = 21;
 			this.radioPassword.TabStop = true;
 			this.radioPassword.Text = "Password";
@@ -473,7 +473,7 @@ namespace OpenPmsDental {
 			// 
 			this.radioGmail.Location = new System.Drawing.Point(22, 45);
 			this.radioGmail.Name = "radioGmail";
-			this.radioGmail.Size = new System.Drawing.Size(120, 18);
+			this.radioGmail.Size = new System.Drawing.Size(120, 22);
 			this.radioGmail.TabIndex = 22;
 			this.radioGmail.Text = "Gmail (OAuth)";
 			this.radioGmail.UseVisualStyleBackColor = true;
@@ -483,7 +483,7 @@ namespace OpenPmsDental {
 			// 
 			this.radioMicrosoft.Location = new System.Drawing.Point(22, 68);
 			this.radioMicrosoft.Name = "radioMicrosoft";
-			this.radioMicrosoft.Size = new System.Drawing.Size(120, 18);
+			this.radioMicrosoft.Size = new System.Drawing.Size(120, 22);
 			this.radioMicrosoft.TabIndex = 23;
 			this.radioMicrosoft.Text = "Microsoft 365";
 			this.radioMicrosoft.UseVisualStyleBackColor = true;
@@ -541,7 +541,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelDownloadMicrosoft.Location = new System.Drawing.Point(190, 160);
 			this.labelDownloadMicrosoft.Name = "labelDownloadMicrosoft";
-			this.labelDownloadMicrosoft.Size = new System.Drawing.Size(160, 18);
+			this.labelDownloadMicrosoft.Size = new System.Drawing.Size(168, 18);
 			this.labelDownloadMicrosoft.TabIndex = 31;
 			this.labelDownloadMicrosoft.Text = "Uncheck if sending email only";
 			this.labelDownloadMicrosoft.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;

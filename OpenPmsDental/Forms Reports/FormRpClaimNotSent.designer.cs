@@ -121,7 +121,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelClaimFilter.Location = new System.Drawing.Point(645, 18);
 			this.labelClaimFilter.Name = "labelClaimFilter";
-			this.labelClaimFilter.Size = new System.Drawing.Size(93, 14);
+			this.labelClaimFilter.Size = new System.Drawing.Size(93, 18);
 			this.labelClaimFilter.TabIndex = 64;
 			this.labelClaimFilter.Text = "Claim Filter";
 			this.labelClaimFilter.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

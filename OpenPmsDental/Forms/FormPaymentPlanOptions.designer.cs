@@ -39,7 +39,7 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.label8.Location = new System.Drawing.Point(39, 10);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(426, 62);
+			this.label8.Size = new System.Drawing.Size(426, 68);
 			this.label8.TabIndex = 20;
 			this.label8.Text = resources.GetString("label8.Text");
 			// 
@@ -48,7 +48,7 @@ namespace OpenPmsDental{
 			this.radioMonthly.Checked = true;
 			this.radioMonthly.Location = new System.Drawing.Point(42, 140);
 			this.radioMonthly.Name = "radioMonthly";
-			this.radioMonthly.Size = new System.Drawing.Size(104, 18);
+			this.radioMonthly.Size = new System.Drawing.Size(104, 20);
 			this.radioMonthly.TabIndex = 21;
 			this.radioMonthly.TabStop = true;
 			this.radioMonthly.Text = "Monthly";
@@ -58,7 +58,7 @@ namespace OpenPmsDental{
 			// 
 			this.radioQuarterly.Location = new System.Drawing.Point(42, 160);
 			this.radioQuarterly.Name = "radioQuarterly";
-			this.radioQuarterly.Size = new System.Drawing.Size(104, 18);
+			this.radioQuarterly.Size = new System.Drawing.Size(104, 24);
 			this.radioQuarterly.TabIndex = 22;
 			this.radioQuarterly.TabStop = true;
 			this.radioQuarterly.Text = "Quarterly";
@@ -68,7 +68,7 @@ namespace OpenPmsDental{
 			// 
 			this.radioWeekly.Location = new System.Drawing.Point(42, 78);
 			this.radioWeekly.Name = "radioWeekly";
-			this.radioWeekly.Size = new System.Drawing.Size(104, 18);
+			this.radioWeekly.Size = new System.Drawing.Size(104, 21);
 			this.radioWeekly.TabIndex = 23;
 			this.radioWeekly.TabStop = true;
 			this.radioWeekly.Text = "Weekly";
@@ -78,7 +78,7 @@ namespace OpenPmsDental{
 			// 
 			this.radioEveryOtherWeek.Location = new System.Drawing.Point(42, 99);
 			this.radioEveryOtherWeek.Name = "radioEveryOtherWeek";
-			this.radioEveryOtherWeek.Size = new System.Drawing.Size(156, 18);
+			this.radioEveryOtherWeek.Size = new System.Drawing.Size(156, 20);
 			this.radioEveryOtherWeek.TabIndex = 24;
 			this.radioEveryOtherWeek.TabStop = true;
 			this.radioEveryOtherWeek.Text = "Every other week";
@@ -88,7 +88,7 @@ namespace OpenPmsDental{
 			// 
 			this.radioOrdinalWeekday.Location = new System.Drawing.Point(42, 119);
 			this.radioOrdinalWeekday.Name = "radioOrdinalWeekday";
-			this.radioOrdinalWeekday.Size = new System.Drawing.Size(264, 18);
+			this.radioOrdinalWeekday.Size = new System.Drawing.Size(264, 21);
 			this.radioOrdinalWeekday.TabIndex = 25;
 			this.radioOrdinalWeekday.TabStop = true;
 			this.radioOrdinalWeekday.Text = "First/second/etc Mon/Tue/etc of month";
@@ -100,7 +100,7 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.label1.Location = new System.Drawing.Point(39, 192);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(426, 66);
+			this.label1.Size = new System.Drawing.Size(426, 69);
 			this.label1.TabIndex = 26;
 			this.label1.Text = resources.GetString("label1.Text");
 			// 

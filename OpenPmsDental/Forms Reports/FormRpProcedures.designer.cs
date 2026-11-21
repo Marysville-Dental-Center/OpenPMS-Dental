@@ -62,7 +62,7 @@ namespace OpenPmsDental {
 			//
 			this.labelCode.Location = new System.Drawing.Point(642, 15);
 			this.labelCode.Name = "labelCode";
-			this.labelCode.Size = new System.Drawing.Size(240, 16);
+			this.labelCode.Size = new System.Drawing.Size(240, 18);
 			this.labelCode.TabIndex = 6;
 			this.labelCode.Text = "Only for procedure codes similar to:";
 			this.labelCode.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -78,7 +78,7 @@ namespace OpenPmsDental {
 			//
 			this.labelProv.Location = new System.Drawing.Point(412, 15);
 			this.labelProv.Name = "labelProv";
-			this.labelProv.Size = new System.Drawing.Size(55, 16);
+			this.labelProv.Size = new System.Drawing.Size(57, 18);
 			this.labelProv.TabIndex = 5;
 			this.labelProv.Text = "Providers";
 			this.labelProv.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

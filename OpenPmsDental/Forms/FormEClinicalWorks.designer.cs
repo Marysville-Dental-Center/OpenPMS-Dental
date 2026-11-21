@@ -213,7 +213,7 @@ namespace OpenPmsDental {
 			this.radioModeTight.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.radioModeTight.Location = new System.Drawing.Point(70, 84);
 			this.radioModeTight.Name = "radioModeTight";
-			this.radioModeTight.Size = new System.Drawing.Size(182, 18);
+			this.radioModeTight.Size = new System.Drawing.Size(182, 20);
 			this.radioModeTight.TabIndex = 56;
 			this.radioModeTight.TabStop = true;
 			this.radioModeTight.Text = "Tight Integration";
@@ -226,7 +226,7 @@ namespace OpenPmsDental {
 			this.radioModeStandalone.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.radioModeStandalone.Location = new System.Drawing.Point(70, 104);
 			this.radioModeStandalone.Name = "radioModeStandalone";
-			this.radioModeStandalone.Size = new System.Drawing.Size(182, 18);
+			this.radioModeStandalone.Size = new System.Drawing.Size(182, 20);
 			this.radioModeStandalone.TabIndex = 57;
 			this.radioModeStandalone.TabStop = true;
 			this.radioModeStandalone.Text = "Standalone";
@@ -247,7 +247,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelHL7Warning.Location = new System.Drawing.Point(257, 499);
 			this.labelHL7Warning.Name = "labelHL7Warning";
-			this.labelHL7Warning.Size = new System.Drawing.Size(170, 18);
+			this.labelHL7Warning.Size = new System.Drawing.Size(178, 18);
 			this.labelHL7Warning.TabIndex = 59;
 			this.labelHL7Warning.Text = "(instead of importing from HL7)";
 			this.labelHL7Warning.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -257,7 +257,7 @@ namespace OpenPmsDental {
 			this.radioModeFull.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.radioModeFull.Location = new System.Drawing.Point(70, 124);
 			this.radioModeFull.Name = "radioModeFull";
-			this.radioModeFull.Size = new System.Drawing.Size(182, 18);
+			this.radioModeFull.Size = new System.Drawing.Size(182, 22);
 			this.radioModeFull.TabIndex = 60;
 			this.radioModeFull.TabStop = true;
 			this.radioModeFull.Text = "Full";
@@ -345,7 +345,7 @@ namespace OpenPmsDental {
 			// 
 			this.label8.Location = new System.Drawing.Point(426, 196);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(200, 28);
+			this.label8.Size = new System.Drawing.Size(245, 28);
 			this.label8.TabIndex = 70;
 			this.label8.Text = "The computer name (not IP) where the HL7 Service is running.";
 			this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -400,7 +400,7 @@ namespace OpenPmsDental {
 			this.checkQuadAsToothNum.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkQuadAsToothNum.Location = new System.Drawing.Point(53, 519);
 			this.checkQuadAsToothNum.Name = "checkQuadAsToothNum";
-			this.checkQuadAsToothNum.Size = new System.Drawing.Size(199, 18);
+			this.checkQuadAsToothNum.Size = new System.Drawing.Size(202, 18);
 			this.checkQuadAsToothNum.TabIndex = 76;
 			this.checkQuadAsToothNum.Text = "Send Quadrant as Tooth Number";
 			// 

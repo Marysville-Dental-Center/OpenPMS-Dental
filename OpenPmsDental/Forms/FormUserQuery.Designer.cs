@@ -103,7 +103,7 @@ namespace OpenPmsDental {
 			// 
 			this.label1.Location = new System.Drawing.Point(4, 4);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(54, 13);
+			this.label1.Size = new System.Drawing.Size(54, 17);
 			this.label1.TabIndex = 9;
 			this.label1.Text = "Title";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -163,7 +163,7 @@ namespace OpenPmsDental {
 			this.radioHuman.Checked = true;
 			this.radioHuman.Location = new System.Drawing.Point(6, 20);
 			this.radioHuman.Name = "radioHuman";
-			this.radioHuman.Size = new System.Drawing.Size(125, 18);
+			this.radioHuman.Size = new System.Drawing.Size(125, 19);
 			this.radioHuman.TabIndex = 0;
 			this.radioHuman.TabStop = true;
 			this.radioHuman.Text = "Human-readable";
@@ -183,7 +183,7 @@ namespace OpenPmsDental {
 			// 
 			this.radioRaw.Location = new System.Drawing.Point(6, 43);
 			this.radioRaw.Name = "radioRaw";
-			this.radioRaw.Size = new System.Drawing.Size(104, 18);
+			this.radioRaw.Size = new System.Drawing.Size(104, 22);
 			this.radioRaw.TabIndex = 1;
 			this.radioRaw.Text = "Raw";
 			this.radioRaw.Click += new System.EventHandler(this.radioRaw_Click);
@@ -291,7 +291,7 @@ namespace OpenPmsDental {
 			// 
 			this.radioLandscape.Location = new System.Drawing.Point(273, 108);
 			this.radioLandscape.Name = "radioLandscape";
-			this.radioLandscape.Size = new System.Drawing.Size(90, 20);
+			this.radioLandscape.Size = new System.Drawing.Size(90, 23);
 			this.radioLandscape.TabIndex = 21;
 			this.radioLandscape.Text = "Landscape";
 			this.radioLandscape.UseVisualStyleBackColor = true;
@@ -301,7 +301,7 @@ namespace OpenPmsDental {
 			this.radioPortrait.Checked = true;
 			this.radioPortrait.Location = new System.Drawing.Point(200, 108);
 			this.radioPortrait.Name = "radioPortrait";
-			this.radioPortrait.Size = new System.Drawing.Size(67, 20);
+			this.radioPortrait.Size = new System.Drawing.Size(67, 23);
 			this.radioPortrait.TabIndex = 20;
 			this.radioPortrait.TabStop = true;
 			this.radioPortrait.Text = "Portrait";

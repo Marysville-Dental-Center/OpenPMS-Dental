@@ -129,7 +129,7 @@ namespace OpenPmsDental{
 			this.labelAmtEnd.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.labelAmtEnd.Location = new System.Drawing.Point(104, 118);
 			this.labelAmtEnd.Name = "labelAmtEnd";
-			this.labelAmtEnd.Size = new System.Drawing.Size(67, 13);
+			this.labelAmtEnd.Size = new System.Drawing.Size(67, 17);
 			this.labelAmtEnd.TabIndex = 5;
 			this.labelAmtEnd.Text = "0.00";
 			// 
@@ -138,7 +138,7 @@ namespace OpenPmsDental{
 			this.labelCurSplitAmt.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.labelCurSplitAmt.Location = new System.Drawing.Point(104, 96);
 			this.labelCurSplitAmt.Name = "labelCurSplitAmt";
-			this.labelCurSplitAmt.Size = new System.Drawing.Size(67, 13);
+			this.labelCurSplitAmt.Size = new System.Drawing.Size(67, 17);
 			this.labelCurSplitAmt.TabIndex = 4;
 			this.labelCurSplitAmt.Text = "0.00";
 			// 
@@ -148,7 +148,7 @@ namespace OpenPmsDental{
 			this.labelAmtAvail.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.labelAmtAvail.Location = new System.Drawing.Point(104, 74);
 			this.labelAmtAvail.Name = "labelAmtAvail";
-			this.labelAmtAvail.Size = new System.Drawing.Size(67, 13);
+			this.labelAmtAvail.Size = new System.Drawing.Size(67, 17);
 			this.labelAmtAvail.TabIndex = 3;
 			this.labelAmtAvail.Text = "0.00";
 			// 
@@ -157,7 +157,7 @@ namespace OpenPmsDental{
 			this.labelAmtUsed.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.labelAmtUsed.Location = new System.Drawing.Point(104, 52);
 			this.labelAmtUsed.Name = "labelAmtUsed";
-			this.labelAmtUsed.Size = new System.Drawing.Size(67, 13);
+			this.labelAmtUsed.Size = new System.Drawing.Size(67, 17);
 			this.labelAmtUsed.TabIndex = 2;
 			this.labelAmtUsed.Text = "0.00";
 			// 
@@ -167,7 +167,7 @@ namespace OpenPmsDental{
 			this.labelAmtOriginal.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.labelAmtOriginal.Location = new System.Drawing.Point(104, 30);
 			this.labelAmtOriginal.Name = "labelAmtOriginal";
-			this.labelAmtOriginal.Size = new System.Drawing.Size(67, 13);
+			this.labelAmtOriginal.Size = new System.Drawing.Size(67, 17);
 			this.labelAmtOriginal.TabIndex = 1;
 			this.labelAmtOriginal.Text = "0.00";
 			// 

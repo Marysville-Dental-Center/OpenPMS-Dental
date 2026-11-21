@@ -49,7 +49,7 @@
 			this.checkDone.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.checkDone.Location = new System.Drawing.Point(12, 145);
 			this.checkDone.Name = "checkDone";
-			this.checkDone.Size = new System.Drawing.Size(168, 16);
+			this.checkDone.Size = new System.Drawing.Size(168, 18);
 			this.checkDone.TabIndex = 1;
 			this.checkDone.TabStop = false;
 			this.checkDone.Text = "Planned Appt Done";
@@ -213,7 +213,7 @@
 			this.label3.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.label3.Location = new System.Drawing.Point(542, 81);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(163, 21);
+			this.label3.Size = new System.Drawing.Size(165, 21);
 			this.label3.TabIndex = 64;
 			this.label3.Text = "Family Urgent Financial Notes";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -247,7 +247,7 @@
 			this.checkShowCompletePlanned.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.checkShowCompletePlanned.Location = new System.Drawing.Point(182, 145);
 			this.checkShowCompletePlanned.Name = "checkShowCompletePlanned";
-			this.checkShowCompletePlanned.Size = new System.Drawing.Size(251, 16);
+			this.checkShowCompletePlanned.Size = new System.Drawing.Size(251, 18);
 			this.checkShowCompletePlanned.TabIndex = 68;
 			this.checkShowCompletePlanned.TabStop = false;
 			this.checkShowCompletePlanned.Text = "Show Completed Planned Appts";

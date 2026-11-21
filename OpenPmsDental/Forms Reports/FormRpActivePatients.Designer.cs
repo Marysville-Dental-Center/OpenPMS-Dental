@@ -65,7 +65,7 @@ namespace OpenPmsDental{
 			// 
 			this.checkAllClin.Location = new System.Drawing.Point(519, 221);
 			this.checkAllClin.Name = "checkAllClin";
-			this.checkAllClin.Size = new System.Drawing.Size(154, 16);
+			this.checkAllClin.Size = new System.Drawing.Size(154, 18);
 			this.checkAllClin.TabIndex = 68;
 			this.checkAllClin.Text = "All (Includes hidden)";
 			this.checkAllClin.CheckedChanged += new System.EventHandler(this.checkAllClin_CheckedChanged);
@@ -94,7 +94,7 @@ namespace OpenPmsDental{
 			this.checkAllProv.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.checkAllProv.Location = new System.Drawing.Point(350, 221);
 			this.checkAllProv.Name = "checkAllProv";
-			this.checkAllProv.Size = new System.Drawing.Size(95, 16);
+			this.checkAllProv.Size = new System.Drawing.Size(95, 18);
 			this.checkAllProv.TabIndex = 61;
 			this.checkAllProv.Text = "All";
 			this.checkAllProv.CheckedChanged += new System.EventHandler(this.checkAllProv_CheckedChanged);
@@ -142,7 +142,7 @@ namespace OpenPmsDental{
 			// 
 			this.label2.Location = new System.Drawing.Point(9, 203);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(110, 16);
+			this.label2.Size = new System.Drawing.Size(110, 18);
 			this.label2.TabIndex = 70;
 			this.label2.Text = "Billing Types";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -153,7 +153,7 @@ namespace OpenPmsDental{
 			this.checkAllBilling.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.checkAllBilling.Location = new System.Drawing.Point(12, 222);
 			this.checkAllBilling.Name = "checkAllBilling";
-			this.checkAllBilling.Size = new System.Drawing.Size(95, 16);
+			this.checkAllBilling.Size = new System.Drawing.Size(95, 18);
 			this.checkAllBilling.TabIndex = 71;
 			this.checkAllBilling.Text = "All";
 			this.checkAllBilling.CheckedChanged += new System.EventHandler(this.checkAllBilling_CheckedChanged);
@@ -162,7 +162,7 @@ namespace OpenPmsDental{
 			// 
 			this.label3.Location = new System.Drawing.Point(12, 7);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(492, 16);
+			this.label3.Size = new System.Drawing.Size(499, 18);
 			this.label3.TabIndex = 72;
 			this.label3.Text = "Used to get a list of all patients that have had a completed procedure within the" +
     " date range.";
@@ -174,7 +174,7 @@ namespace OpenPmsDental{
 			this.checkAllPatStatus.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.checkAllPatStatus.Location = new System.Drawing.Point(181, 222);
 			this.checkAllPatStatus.Name = "checkAllPatStatus";
-			this.checkAllPatStatus.Size = new System.Drawing.Size(95, 16);
+			this.checkAllPatStatus.Size = new System.Drawing.Size(95, 18);
 			this.checkAllPatStatus.TabIndex = 75;
 			this.checkAllPatStatus.Text = "All";
 			this.checkAllPatStatus.CheckedChanged += new System.EventHandler(this.checkAllPatStatus_CheckedChanged);
