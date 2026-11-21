@@ -155,7 +155,27 @@ To add an icon: add the member here (and to the WinForms enum when WinForms draw
 		Forward,
 		Search,
 		Inbox,
-		InfoSelected
+		InfoSelected,
+		//UI-9b-4 (the same members as the WinForms enum.)
+		DocumentText,
+		Link,
+		LinkExternal,
+		Heading1,
+		Heading2,
+		Heading3,
+		Bold,
+		Italic,
+		TextColor,
+		TextFont,
+		SaveDraft,
+		Settings,
+		LockOpen,
+		LockClosed,
+		Home,
+		Rename,
+		History,
+		Stop,
+		Archive
 	}
 
 	///<summary></summary>

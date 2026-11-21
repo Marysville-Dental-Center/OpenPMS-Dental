@@ -157,7 +157,27 @@ namespace OpenPmsDental.UI{
 		Forward,
 		Search,
 		Inbox,
-		InfoSelected
+		InfoSelected,
+		//UI-9b-4 (the remaining forms' toolbars and lists: the purposes of the email and wiki editors, the wiki, the claims, the reports and the record window (docs/port-notes/UI-9b.md, section 5), each with its manifest row.)
+		DocumentText,
+		Link,
+		LinkExternal,
+		Heading1,
+		Heading2,
+		Heading3,
+		Bold,
+		Italic,
+		TextColor,
+		TextFont,
+		SaveDraft,
+		Settings,
+		LockOpen,
+		LockClosed,
+		Home,
+		Rename,
+		History,
+		Stop,
+		Archive
 	}
 
 	///<summary></summary>
