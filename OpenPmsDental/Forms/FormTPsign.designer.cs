@@ -30,8 +30,6 @@ namespace OpenPmsDental {
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormTPsign));
-			this.imageListMain = new System.Windows.Forms.ImageList(this.components);
 			this.textTypeSigPractice = new System.Windows.Forms.TextBox();
 			this.labelTypeSigPractice = new System.Windows.Forms.Label();
 			this.signatureBoxWrapperPractice = new OpenPmsDental.UI.SignatureBoxWrapper();
@@ -46,14 +44,6 @@ namespace OpenPmsDental {
 			this.previewContr = new System.Windows.Forms.PrintPreviewControl();
 			this.panelSig.SuspendLayout();
 			this.SuspendLayout();
-			// 
-			// imageListMain
-			// 
-			this.imageListMain.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListMain.ImageStream")));
-			this.imageListMain.TransparentColor = System.Drawing.Color.Transparent;
-			this.imageListMain.Images.SetKeyName(0, "");
-			this.imageListMain.Images.SetKeyName(1, "");
-			this.imageListMain.Images.SetKeyName(2, "");
 			// 
 			// textTypeSigPractice
 			// 
@@ -167,7 +157,6 @@ namespace OpenPmsDental {
 			// 
 			this.ToolBarMain.Dock = System.Windows.Forms.DockStyle.Top;
 			this.ToolBarMain.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-			this.ToolBarMain.ImageList = this.imageListMain;
 			this.ToolBarMain.Location = new System.Drawing.Point(0, 0);
 			this.ToolBarMain.Name = "ToolBarMain";
 			this.ToolBarMain.Size = new System.Drawing.Size(1099, 25);
@@ -206,7 +195,6 @@ namespace OpenPmsDental {
 		///<summary>Currently the size of this control is (331,79). If this is ever changed then eClipboard needs to be considered.</summary>
 		private UI.SignatureBoxWrapper signatureBoxWrapper;
 		private OpenPmsDental.UI.ToolBarOD ToolBarMain;
-		private System.Windows.Forms.ImageList imageListMain;
 		private System.Windows.Forms.PrintPreviewControl previewContr;
 		private Panel panelSig;
 		private Label labelSig;

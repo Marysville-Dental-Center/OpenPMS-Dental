@@ -24,7 +24,6 @@
 		/// </summary>
 		private void InitializeComponent() {
 			this.components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormEhrLabOrderEdit2014));
 			this.butOk = new System.Windows.Forms.Button();
 			this.butDelete = new System.Windows.Forms.Button();
 			this.butAdd = new System.Windows.Forms.Button();
@@ -123,7 +122,6 @@
 			this.label20 = new System.Windows.Forms.Label();
 			this.comboResultStatus = new System.Windows.Forms.ComboBox();
 			this.label26 = new System.Windows.Forms.Label();
-			this.imageListInfoButton = new System.Windows.Forms.ImageList(this.components);
 			this.butManageImages = new System.Windows.Forms.Button();
 			this.labelManageImages = new System.Windows.Forms.Label();
 			this.butViewParent = new OpenPmsDental.UI.Button();
@@ -1151,12 +1149,6 @@
 			this.label26.Text = "Results Status";
 			this.label26.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
-			// imageListInfoButton
-			// 
-			this.imageListInfoButton.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListInfoButton.ImageStream")));
-			this.imageListInfoButton.TransparentColor = System.Drawing.Color.Transparent;
-			this.imageListInfoButton.Images.SetKeyName(0, "iButton_16px.png");
-			// 
 			// butManageImages
 			// 
 			this.butManageImages.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -1430,7 +1422,6 @@
 		private System.Windows.Forms.ComboBox comboResultStatus;
 		private System.Windows.Forms.Label label26;
 		private UI.Button butViewParent;
-		private System.Windows.Forms.ImageList imageListInfoButton;
 		private System.Windows.Forms.Button butManageImages;
 		private System.Windows.Forms.Label labelManageImages;
 		private OpenPmsDental.UI.CheckBox checkAutoID;

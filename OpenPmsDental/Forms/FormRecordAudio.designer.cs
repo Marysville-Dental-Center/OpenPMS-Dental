@@ -24,10 +24,8 @@ namespace OpenPmsDental{
 		/// </summary>
 		private void InitializeComponent() {
 			this.components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormRecordAudio));
 			this.labelTimer = new System.Windows.Forms.Label();
 			this.timerRecord = new System.Windows.Forms.Timer(this.components);
-			this.imageListMain = new System.Windows.Forms.ImageList(this.components);
 			this.butPlay = new OpenPmsDental.UI.Button();
 			this.butStart = new OpenPmsDental.UI.Button();
 			this.butSave = new OpenPmsDental.UI.Button();
@@ -47,13 +45,6 @@ namespace OpenPmsDental{
 			// timerRecord
 			// 
 			this.timerRecord.Tick += new System.EventHandler(this.timerRecord_Tick);
-			// 
-			// imageListMain
-			// 
-			this.imageListMain.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListMain.ImageStream")));
-			this.imageListMain.TransparentColor = System.Drawing.Color.Transparent;
-			this.imageListMain.Images.SetKeyName(0, "record.gif");
-			this.imageListMain.Images.SetKeyName(1, "stop.gif");
 			// 
 			// butPlay
 			// 
@@ -123,6 +114,5 @@ namespace OpenPmsDental{
 		private UI.Button butPlay;
 		private System.Windows.Forms.Label labelTimer;
 		private System.Windows.Forms.Timer timerRecord;
-		private System.Windows.Forms.ImageList imageListMain;
 	}
 }

@@ -25,7 +25,6 @@
 		private void InitializeComponent() {
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormCentralSecurity));
-			this.imageListPerm = new System.Windows.Forms.ImageList(this.components);
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.label1 = new System.Windows.Forms.Label();
 			this.label6 = new System.Windows.Forms.Label();
@@ -55,15 +54,6 @@
 			this.groupBox2.SuspendLayout();
 			this.groupBox3.SuspendLayout();
 			this.SuspendLayout();
-			// 
-			// imageListPerm
-			// 
-			this.imageListPerm.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListPerm.ImageStream")));
-			this.imageListPerm.TransparentColor = System.Drawing.Color.Transparent;
-			this.imageListPerm.Images.SetKeyName(0, "grayBox.gif");
-			this.imageListPerm.Images.SetKeyName(1, "checkBoxUnchecked.gif");
-			this.imageListPerm.Images.SetKeyName(2, "checkBoxChecked.gif");
-			this.imageListPerm.Images.SetKeyName(3, "checkBoxGreen.gif");
 			// 
 			// groupBox1
 			// 
@@ -357,7 +347,6 @@
 
 		#endregion
 		private OpenPmsDental.UI.Button butClose;
-		private System.Windows.Forms.ImageList imageListPerm;
 		private System.Windows.Forms.GroupBox groupBox1;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.CheckBox checkAdmin;

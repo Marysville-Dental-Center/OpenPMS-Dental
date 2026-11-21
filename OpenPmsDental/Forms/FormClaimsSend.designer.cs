@@ -23,10 +23,8 @@ namespace OpenPmsDental {
 
 		private void InitializeComponent(){
 			this.components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormClaimsSend));
 			this.label6 = new System.Windows.Forms.Label();
 			this.contextMenuStatus = new System.Windows.Forms.ContextMenuStrip(this.components);
-			this.imageList1 = new System.Windows.Forms.ImageList(this.components);
 			this.panelSplitter = new System.Windows.Forms.Panel();
 			this.panelHistory = new System.Windows.Forms.Panel();
 			this.dateRangePicker = new OpenPmsDental.UI.ODDateRangePicker();
@@ -64,18 +62,6 @@ namespace OpenPmsDental {
 			this.label6.TabIndex = 21;
 			this.label6.Text = "Insurance Claims";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-			// 
-			// imageList1
-			// 
-			this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
-			this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-			this.imageList1.Images.SetKeyName(0, "");
-			this.imageList1.Images.SetKeyName(1, "");
-			this.imageList1.Images.SetKeyName(2, "");
-			this.imageList1.Images.SetKeyName(3, "");
-			this.imageList1.Images.SetKeyName(4, "");
-			this.imageList1.Images.SetKeyName(5, "");
-			this.imageList1.Images.SetKeyName(6, "");
 			// 
 			// panelSplitter
 			// 
@@ -165,7 +151,6 @@ namespace OpenPmsDental {
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.ToolBarHistory.BackColor = System.Drawing.SystemColors.Control;
-			this.ToolBarHistory.ImageList = this.imageList1;
 			this.ToolBarHistory.Location = new System.Drawing.Point(1, 1);
 			this.ToolBarHistory.Name = "ToolBarHistory";
 			this.ToolBarHistory.Size = new System.Drawing.Size(353, 25);
@@ -235,7 +220,6 @@ namespace OpenPmsDental {
 			// ToolBarMain
 			// 
 			this.ToolBarMain.Dock = System.Windows.Forms.DockStyle.Top;
-			this.ToolBarMain.ImageList = this.imageList1;
 			this.ToolBarMain.Location = new System.Drawing.Point(0, 0);
 			this.ToolBarMain.Name = "ToolBarMain";
 			this.ToolBarMain.Size = new System.Drawing.Size(1230, 25);
@@ -341,7 +325,6 @@ namespace OpenPmsDental {
 		#endregion
 
 		private System.Windows.Forms.Label label6;
-		private System.Windows.Forms.ImageList imageList1;
 		private System.Windows.Forms.ContextMenuStrip contextMenuStatus;
 		private OpenPmsDental.UI.ToolBarOD ToolBarMain;
 		private OpenPmsDental.UI.GridOD gridMain;

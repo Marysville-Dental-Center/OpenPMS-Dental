@@ -69,7 +69,6 @@
 			this.button4 = new OpenPmsDental.UI.Button();
 			this.menuMain = new OpenPmsDental.UI.MenuOD();
 			this.toolBarMain = new OpenPmsDental.UI.ToolBarOD();
-			this.imageList = new System.Windows.Forms.ImageList(this.components);
 			this.textVDateFrom = new OpenPmsDental.ValidDate();
 			this.label4 = new System.Windows.Forms.Label();
 			this.testForWpf1 = new OpenPmsDental.UI.TestForWpf();
@@ -526,12 +525,6 @@
 			this.toolBarMain.Name = "toolBarMain";
 			this.toolBarMain.Size = new System.Drawing.Size(1505, 25);
 			this.toolBarMain.TabIndex = 85;
-			// 
-			// imageList
-			// 
-			this.imageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList.ImageStream")));
-			this.imageList.TransparentColor = System.Drawing.Color.Transparent;
-			this.imageList.Images.SetKeyName(0, "editPencil.gif");
 			// 
 			// textVDateFrom
 			// 
@@ -1251,7 +1244,6 @@
 		private OpenPmsDental.UI.Button button4;
 		private OpenPmsDental.UI.MenuOD menuMain;
 		private OpenPmsDental.UI.ToolBarOD toolBarMain;
-		private System.Windows.Forms.ImageList imageList;
 		private OpenPmsDental.ValidDate textVDateFrom;
 		private System.Windows.Forms.Label label4;
 		private OpenPmsDental.UI.TestForWpf testForWpf1;

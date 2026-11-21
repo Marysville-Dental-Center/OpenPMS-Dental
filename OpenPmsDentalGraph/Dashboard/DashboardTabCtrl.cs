@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using CodeBase;
 
 namespace OpenPmsDentalGraph {
 	public partial class DashboardTabCtrl:UserControl {
@@ -18,7 +19,7 @@ namespace OpenPmsDentalGraph {
 				_isEditMode=value;
 				TabPage tabPage; DashboardPanelCtrl dashboardPanel;
 				if(IsEditMode) { //Insert 'add' tab if it's not already there.
-					tabControl.ImageList=tabImageList;
+					tabControl.ImageList=GetTabImageList();
 					if(tabControl.TabCount==0 || GetDashboardPanel(tabControl.TabCount-1,out tabPage,out dashboardPanel)) {
 						//Last page is a DashboardPanelCtrl so the 'add' tab is not already there, insert it at the end.
 						tabControl.TabPages.Add(new TabPage() { ImageIndex=0,BackColor=SystemColors.Control,Text="Add Tab",});
@@ -103,8 +104,45 @@ namespace OpenPmsDentalGraph {
 			}
 		}
 
+		///<summary>The 'add tab' and 'delete tab' pictures of the tab headers (UI-9b-4): 0 add, 1 delete, 2 delete highlighted (the delete icon with a ring), as icons
+		///(EnumIcons Add and DeleteX through CodeBase's UiIcons) at 11 px for 96 DPI, in a list 30 px tall as the old list was. Built again when the DPI changes.</summary>
+		private ImageList _tabImageList;
+		private const int SIZE_TAB_ICON96=11;
+		private const int HEIGHT_TAB_IMAGE=30;
+
+		///<summary>The tab pictures at the current DPI, built again (and given to the tab control while it shows them) when the DPI changed.</summary>
+		private ImageList GetTabImageList() {
+			int sizePixels=Math.Max(SIZE_TAB_ICON96,(int)Math.Round(SIZE_TAB_ICON96*DeviceDpi/96f));
+			if(_tabImageList!=null && _tabImageList.ImageSize.Width==sizePixels) {
+				return _tabImageList;
+			}
+			Bitmap bitmapAdd=UiIcons.GetBitmap("EnumIcons","Add",sizePixels,HEIGHT_TAB_IMAGE);
+			Bitmap bitmapDelete=UiIcons.GetBitmap("EnumIcons","DeleteX",sizePixels,HEIGHT_TAB_IMAGE);
+			Bitmap bitmapHighlight=UiIcons.GetBitmap("EnumIcons","DeleteX",sizePixels,HEIGHT_TAB_IMAGE);
+			using(Graphics g=Graphics.FromImage(bitmapHighlight))
+			using(Pen pen=new Pen(UiTheme.GetColor(EnumUiColor.Danger))) {
+				int top=(HEIGHT_TAB_IMAGE-sizePixels)/2;
+				g.DrawRectangle(pen,0,top,sizePixels-1,sizePixels-1);
+			}
+			ImageList imageListOld=_tabImageList;
+			_tabImageList=UiIcons.GetImageList(sizePixels,HEIGHT_TAB_IMAGE,new[] { "addTab","deleteTab","deleteTabHighlight" },new[] { bitmapAdd,bitmapDelete,bitmapHighlight });
+			if(imageListOld!=null && tabControl.ImageList==imageListOld) {
+				tabControl.ImageList=_tabImageList;
+			}
+			imageListOld?.Dispose();
+			return _tabImageList;
+		}
+
+		protected override void OnDpiChangedAfterParent(EventArgs e) {
+			base.OnDpiChangedAfterParent(e);
+			if(_tabImageList!=null) {
+				GetTabImageList();
+			}
+		}
+
 		public DashboardTabCtrl() {
 			InitializeComponent();
+			Disposed+=(sender,e) => _tabImageList?.Dispose();
 			AddTabPage();		
 		}
 
@@ -563,7 +601,7 @@ namespace OpenPmsDentalGraph {
 				return false;
 			}
 			Rectangle rectHeader=tabControl.GetTabRect(index);
-			Rectangle rectImage=new Rectangle(new Point(rectHeader.Location.X+6,rectHeader.Location.Y+2),new Size(tabImageList.ImageSize.Width,tabImageList.ImageSize.Width));
+			Rectangle rectImage=new Rectangle(new Point(rectHeader.Location.X+6,rectHeader.Location.Y+2),new Size(GetTabImageList().ImageSize.Width,GetTabImageList().ImageSize.Width));
 			return rectImage.Contains(location);
 		}
 

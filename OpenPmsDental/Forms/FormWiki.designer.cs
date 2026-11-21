@@ -24,8 +24,6 @@ namespace OpenPmsDental{
 		/// </summary>
 		private void InitializeComponent() {
 			this.components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormWiki));
-			this.imageListMain = new System.Windows.Forms.ImageList(this.components);
 			this.labelStatus = new System.Windows.Forms.Label();
 			this.ToolBarMain = new OpenPmsDental.UI.ToolBarOD();
 			this.webViewWiki = new CodeBase.Controls.ODWebView2();
@@ -33,26 +31,6 @@ namespace OpenPmsDental{
 			this.menuItemHomePageSave = new System.Windows.Forms.ToolStripMenuItem();
 			((System.ComponentModel.ISupportInitialize)(this.webViewWiki)).BeginInit();
 			this.SuspendLayout();
-			// 
-			// imageListMain
-			// 
-			this.imageListMain.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListMain.ImageStream")));
-			this.imageListMain.TransparentColor = System.Drawing.Color.Transparent;
-			this.imageListMain.Images.SetKeyName(0, "Left.gif");
-			this.imageListMain.Images.SetKeyName(1, "Right.gif");
-			this.imageListMain.Images.SetKeyName(2, "Manage22.gif");
-			this.imageListMain.Images.SetKeyName(3, "home.gif");
-			this.imageListMain.Images.SetKeyName(4, "editPencil.gif");
-			this.imageListMain.Images.SetKeyName(5, "print.gif");
-			this.imageListMain.Images.SetKeyName(6, "rename.gif");
-			this.imageListMain.Images.SetKeyName(7, "deleteX.gif");
-			this.imageListMain.Images.SetKeyName(8, "history.gif");
-			this.imageListMain.Images.SetKeyName(9, "incoming.gif");
-			this.imageListMain.Images.SetKeyName(10, "Add.gif");
-			this.imageListMain.Images.SetKeyName(11, "allpages.gif");
-			this.imageListMain.Images.SetKeyName(12, "search.gif");
-			this.imageListMain.Images.SetKeyName(13, "WikiLists.png");
-			this.imageListMain.Images.SetKeyName(14, "Drafts_2.png");
 			// 
 			// labelStatus
 			// 
@@ -69,7 +47,6 @@ namespace OpenPmsDental{
 			// 
 			this.ToolBarMain.Dock = System.Windows.Forms.DockStyle.Top;
 			this.ToolBarMain.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-			this.ToolBarMain.ImageList = this.imageListMain;
 			this.ToolBarMain.Location = new System.Drawing.Point(0, 0);
 			this.ToolBarMain.Name = "ToolBarMain";
 			this.ToolBarMain.Size = new System.Drawing.Size(944, 25);
@@ -123,7 +100,6 @@ namespace OpenPmsDental{
 
 		private CodeBase.Controls.ODWebView2 webViewWiki;
 		private UI.ToolBarOD ToolBarMain;
-		private System.Windows.Forms.ImageList imageListMain;
 		private System.Windows.Forms.Label labelStatus;
 		private System.Windows.Forms.ContextMenuStrip menuHomeDropDown;
 		private System.Windows.Forms.ToolStripMenuItem menuItemHomePageSave;

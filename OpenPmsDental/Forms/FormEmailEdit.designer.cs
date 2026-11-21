@@ -24,8 +24,6 @@ namespace OpenPmsDental{
 		/// </summary>
 		private void InitializeComponent() {
 			this.components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormEmailEdit));
-			this.imageListMain = new System.Windows.Forms.ImageList(this.components);
 			this.textContentEmail = new OpenPmsDental.ODcodeBox();
 			this.webViewEmail = new CodeBase.Controls.ODWebView2();
 			this.butSave = new OpenPmsDental.UI.Button();
@@ -36,31 +34,6 @@ namespace OpenPmsDental{
 			this.menuAutographDropdown = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.checkIsRaw = new OpenPmsDental.UI.CheckBox();
 			this.SuspendLayout();
-			// 
-			// imageListMain
-			// 
-			this.imageListMain.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListMain.ImageStream")));
-			this.imageListMain.TransparentColor = System.Drawing.Color.Transparent;
-			this.imageListMain.Images.SetKeyName(0, "refresh.gif");
-			this.imageListMain.Images.SetKeyName(1, "save.gif");
-			this.imageListMain.Images.SetKeyName(2, "cancel.gif");
-			this.imageListMain.Images.SetKeyName(3, "cut.gif");
-			this.imageListMain.Images.SetKeyName(4, "copy.gif");
-			this.imageListMain.Images.SetKeyName(5, "paste.gif");
-			this.imageListMain.Images.SetKeyName(6, "undo.gif");
-			this.imageListMain.Images.SetKeyName(7, "link.gif");
-			this.imageListMain.Images.SetKeyName(8, "linkExternal.gif");
-			this.imageListMain.Images.SetKeyName(9, "h1.gif");
-			this.imageListMain.Images.SetKeyName(10, "h2.gif");
-			this.imageListMain.Images.SetKeyName(11, "h3.gif");
-			this.imageListMain.Images.SetKeyName(12, "bold.gif");
-			this.imageListMain.Images.SetKeyName(13, "italic.gif");
-			this.imageListMain.Images.SetKeyName(14, "color.gif");
-			this.imageListMain.Images.SetKeyName(15, "table.gif");
-			this.imageListMain.Images.SetKeyName(16, "image.gif");
-			this.imageListMain.Images.SetKeyName(17, "fontbutton.gif");
-			this.imageListMain.Images.SetKeyName(18, "SaveDraft_2.png");
-			this.imageListMain.Images.SetKeyName(19, "setupGears.gif");
 			// 
 			// textContentEmail
 			// 
@@ -102,7 +75,6 @@ namespace OpenPmsDental{
 			// 
 			this.toolBarBottom.Dock = System.Windows.Forms.DockStyle.Top;
 			this.toolBarBottom.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-			this.toolBarBottom.ImageList = this.imageListMain;
 			this.toolBarBottom.Location = new System.Drawing.Point(0, 25);
 			this.toolBarBottom.Name = "toolBarBottom";
 			this.toolBarBottom.Size = new System.Drawing.Size(1230, 25);
@@ -113,7 +85,6 @@ namespace OpenPmsDental{
 			// 
 			this.toolBarTop.Dock = System.Windows.Forms.DockStyle.Top;
 			this.toolBarTop.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-			this.toolBarTop.ImageList = this.imageListMain;
 			this.toolBarTop.Location = new System.Drawing.Point(0, 0);
 			this.toolBarTop.Name = "toolBarTop";
 			this.toolBarTop.Size = new System.Drawing.Size(1230, 25);
@@ -175,7 +146,6 @@ namespace OpenPmsDental{
 		#endregion
 		private UI.ToolBarOD toolBarTop;
 		private UI.ToolBarOD toolBarBottom;
-		private System.Windows.Forms.ImageList imageListMain;
 		private UI.Button butSave;
 		private ODcodeBox textContentEmail;
 		private CodeBase.Controls.ODWebView2 webViewEmail;

@@ -6,6 +6,16 @@ using OpenPmsDental.UI;
 
 namespace OpenPmsDental {
 	public partial class FormSnomeds:FormODBase {
+		///<summary>The picture of the grid's info button column (UI-9b-4): 0 Info. The grid takes a list at its own scale (GridColumn.ImageListFactory).</summary>
+		public static readonly EnumIcons[] ArrayIconsImageListInfoButton=new EnumIcons[] { EnumIcons.Info };
+		private ImageList _imageListInfoButton;
+
+		///<summary>The info button list at the grid's pixel size (UI-9b-4): the grid calls it at its scale and again when the scale changes.</summary>
+		private ImageList GetImageListInfoButton(int sizePixels) {
+			_imageListInfoButton=IconLibrary.GetImageListForSize(_imageListInfoButton,ArrayIconsImageListInfoButton,sizePixels);
+			return _imageListInfoButton;
+		}
+
 		public bool IsSelectionMode;
 		public bool IsMultiSelectMode;
 		public Snomed SnomedSelected;
@@ -16,6 +26,7 @@ namespace OpenPmsDental {
 
 		public FormSnomeds() {
 			InitializeComponent();
+			Disposed+=(sender,e) => _imageListInfoButton?.Dispose();//UI-9b-4
 			InitializeLayoutManager();
 			Lan.F(this);
 		}
@@ -54,7 +65,7 @@ namespace OpenPmsDental {
 			GridColumn col;
 			if(_showingInfoButton) {//Security.IsAuthorized(Permissions.EhrInfoButton,true)) {
 				col=new GridColumn("",18);//infoButton
-				col.ImageList=imageListInfoButton;
+				col.ImageListFactory=GetImageListInfoButton;
 				gridMain.Columns.Add(col);
 			}
 			col=new GridColumn(Lan.g(this,"SNOMED CT"),125);//column width of 125 holds the longest Snomed CT code as of 8/7/15 which is 900000000000002006

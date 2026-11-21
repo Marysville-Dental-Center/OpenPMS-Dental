@@ -10,6 +10,16 @@ using CodeBase;
 
 namespace OpenPmsDental {
 	public partial class FormCDSIntervention:FormODBase {
+		///<summary>The picture of the grid's info button column (UI-9b-4): 0 Info. The grid takes a list at its own scale (GridColumn.ImageListFactory).</summary>
+		public static readonly EnumIcons[] ArrayIconsImageListInfoButton=new EnumIcons[] { EnumIcons.Info };
+		private ImageList _imageListInfoButton;
+
+		///<summary>The info button list at the grid's pixel size (UI-9b-4): the grid calls it at its scale and again when the scale changes.</summary>
+		private ImageList GetImageListInfoButton(int sizePixels) {
+			_imageListInfoButton=IconLibrary.GetImageListForSize(_imageListInfoButton,ArrayIconsImageListInfoButton,sizePixels);
+			return _imageListInfoButton;
+		}
+
 		///<summary>This should be set to the result from EhrTriggers.TriggerMatch.</summary>
 		public List<CDSIntervention> ListCDSInterventions;
 		/////<summary>This should be set to the result from EhrTriggers.TriggerMatch.  Key is a string that contains the message to be displayed.  
@@ -20,6 +30,7 @@ namespace OpenPmsDental {
 
 		public FormCDSIntervention() {
 			InitializeComponent();
+			Disposed+=(sender,e) => _imageListInfoButton?.Dispose();//UI-9b-4
 			InitializeLayoutManager();
 			Lan.F(this);
 		}
@@ -34,7 +45,7 @@ namespace OpenPmsDental {
 			GridColumn column;
 			if(CDSPermissions.GetForUser(Security.CurUser.UserNum).ShowInfobutton) {
 				column=new GridColumn("",18);//infobutton
-				column.ImageList=imageListInfoButton;
+				column.ImageListFactory=GetImageListInfoButton;
 				gridMain.Columns.Add(column);
 			}
 			column=new GridColumn("Conditions",300);

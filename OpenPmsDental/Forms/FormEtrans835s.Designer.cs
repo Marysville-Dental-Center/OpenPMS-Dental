@@ -24,8 +24,6 @@
 		/// </summary>
 		private void InitializeComponent() {
 			this.components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormEtrans835s));
-			this.imageListCalendar = new System.Windows.Forms.ImageList(this.components);
 			this.smsService1 = new OpenPmsDental.CallFireService.SMSService();
 			this.listStatus = new OpenPmsDental.UI.ListBox();
 			this.butRefresh = new OpenPmsDental.UI.Button();
@@ -49,13 +47,6 @@
 			this.butAutoProcessedEras = new OpenPmsDental.UI.Button();
 			this.groupBox2.SuspendLayout();
 			this.SuspendLayout();
-			// 
-			// imageListCalendar
-			// 
-			this.imageListCalendar.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListCalendar.ImageStream")));
-			this.imageListCalendar.TransparentColor = System.Drawing.Color.Transparent;
-			this.imageListCalendar.Images.SetKeyName(0, "arrowDownTriangle.gif");
-			this.imageListCalendar.Images.SetKeyName(1, "arrowUpTriangle.gif");
 			// 
 			// smsService1
 			// 
@@ -306,7 +297,6 @@
 
 		#endregion
 		private UI.Button butRefresh;
-		private System.Windows.Forms.ImageList imageListCalendar;
 		private System.Windows.Forms.Label labelCheckTrace;
 		private System.Windows.Forms.Label labelStatus;
 		private System.Windows.Forms.Label labelCarrier;

@@ -88,6 +88,35 @@ namespace WindowChecksTests {
 			Assert.IsTrue(countStream+countDepth>0,"The scan found the designer ImageLists");
 		}
 
+		///<summary>UI-9b-4, the closing check of UI-9b (docs/port-notes/UI-9b.md, section 6): the designers that still load an ImageList stream are only
+		///the lists that hold the office's content, and no toolbar button of the program takes a bitmap picture of a list by number or a bitmap of its own
+		///outside the allow list. The program's other lists are made by the icon factory (the test above) and its toolbars give their buttons an EnumIcons.</summary>
+		[TestMethod]
+		public void DesignerStreams_AreOnlyTheKeptLists_AndToolbarPicturesAreIcons() {
+			//Kept by decision (plan 4.5): the procedure buttons' lists hold database pictures (the stream gave the list its size and depth) and
+			//the procedure button picker holds the seven default pictures an office stores as a button's picture.
+			string[] arrayKeptStreams=new[] { "ControlChart.designer.cs","FormProcButtons.designer.cs","FormProcButtonEdit.designer.cs" };
+			List<string> listStreams=new List<string>();
+			foreach(string path in ProductFiles("*.cs").Where(x => IsDesignerFile(x))) {
+				if(File.ReadAllText(path).Contains("ImageListStreamer")) {
+					listStreams.Add(Path.GetFileName(path));
+				}
+			}
+			CollectionAssert.AreEquivalent(arrayKeptStreams,listStreams.Distinct(StringComparer.OrdinalIgnoreCase).ToList(),"Designers that load an ImageList stream: "+string.Join(", ",listStreams));
+			//A button that takes a picture of its toolbar's list by number: only FormErx (its list is empty, as in the original: the buttons show
+			//no picture) and the example in ToolBarOD's comment. A bitmap button picture: only the imaging module's colour swatch (content).
+			Regex regexIndex=new Regex(@"new\s+ODToolBarButton\((?:[^,()\r\n]|\([^()\r\n]*\))*,\s*\d+\s*,");
+			string[] arrayAllowedIndex=new[] { "FormErx.cs" };
+			List<string> listIndex=new List<string>();
+			foreach(string path in ProductFiles("*.cs")) {
+				string code=string.Join("\n",File.ReadAllText(path).Split('\n').Where(x => !x.TrimStart().StartsWith("//")));
+				if(regexIndex.IsMatch(code) && !arrayAllowedIndex.Contains(Path.GetFileName(path),StringComparer.OrdinalIgnoreCase) && !path.EndsWith("ToolBarOD.cs")) {
+					listIndex.Add(path.Substring(WinChkEnv.RepoRoot.Length+1));
+				}
+			}
+			Assert.AreEqual("",string.Join(", ",listIndex),"Toolbar buttons that take a picture of a list by number outside the allow list: give them an EnumIcons.");
+		}
+
 		///<summary>WpfControls.UI.DatePicker (whose drop-down is WindowMonthCalendar) is used by no production Frm, only by the developer test Frms
 		///FrmTestAllControls and FrmTestCombos. When a Frm gets one, D6 should open the calendar from that Frm's DatePicker.</summary>
 		[TestMethod]

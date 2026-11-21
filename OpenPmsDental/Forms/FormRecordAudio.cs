@@ -1,12 +1,15 @@
 using CodeBase;
 using OpenPmsDentalBusiness;
 using System;
+using OpenPmsDental.UI;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
 namespace OpenPmsDental {
 	public partial class FormRecordAudio:FormODBase {
+		///<summary>The pictures of the window's old list by index (UI-9b-4, docs/port-notes/UI-9b.md, section 5), as icons. The buttons take the pictures by index.</summary>
+		public static readonly EnumIcons[] ArrayIconsImageList=new EnumIcons[] { EnumIcons.Record,EnumIcons.Stop };
 		public string Sound;
 		private DateTime _dateRecordStart;
 		private string _tempPath;
@@ -38,7 +41,7 @@ namespace OpenPmsDental {
 				mciSendString("open new Type waveaudio Alias recsound","",0,IntPtr.Zero);
 				mciSendString("record recsound","",0,IntPtr.Zero);
 				butStart.Text=Lan.g(this,"Stop");
-				butStart.Image=imageListMain.Images[1];
+				butStart.Image=IconLibrary.GetBitmap(EnumIcons.Stop,22,22);//UI-9b-4
 				butPlay.Enabled=false;
 				butSave.Enabled=false;
 				return;
@@ -49,7 +52,7 @@ namespace OpenPmsDental {
 			mciSendString("save recsound "+_tempPath,"",0,IntPtr.Zero);
 			mciSendString("close recsound ","",0,IntPtr.Zero);
 			butStart.Text=Lan.g(this,"Record");
-			butStart.Image=imageListMain.Images[0];
+			butStart.Image=IconLibrary.GetBitmap(EnumIcons.Record,22,22);//UI-9b-4
 			butPlay.Enabled=true;
 			butSave.Enabled=true;
 		}

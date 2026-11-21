@@ -91,8 +91,13 @@ namespace OpenPmsDental {
 		public static readonly EnumIcons[] ArrayIconsImageListMain=new EnumIcons[] { EnumIcons.TaskListAdd,EnumIcons.Add };
 		///<summary>The tree's list: the task state icons at the 16 px slot of the current DPI (16, 24, 32 px), built again when the scale changes.</summary>
 		private ImageList _imageListTree;
-		///<summary>The grid column's list: the same icons at 16 px, as the old list; the grid draws a column's pictures at the scale of the window.</summary>
+		///<summary>The grid column's list: the same icons at the grid's pixel size for 16 px (UI-9b-4: the grid asks for it through GridColumn.ImageListFactory and draws it pixel for pixel).</summary>
 		private ImageList _imageListGrid;
+
+		private ImageList GetImageListGrid(int sizePixels) {
+			_imageListGrid=IconLibrary.GetImageListForSize(_imageListGrid,ArrayIconsImageListTasks,sizePixels);
+			return _imageListGrid;
+		}
 		///<summary>Makes an additional reference pointer to _listTaskLists when at the trunk of the Main or Reminder tab and manual refresh is enabled.</summary>
 		private List<TaskList> _listTaskListsCopy=new List<TaskList>();
 		///<summary>Makes an additional reference pointer to _listTasks when at the trunk of the Main or Reminder tab and manual refresh is enabled.</summary>
@@ -119,7 +124,6 @@ namespace OpenPmsDental {
 			InitializeComponent();
 			Font=LayoutManagerForms.FontInitial;
 			ToolBarMain.SetImageListIcons(ArrayIconsImageListMain);//UI-9b-3: the toolbar's list of icons
-			_imageListGrid=IconLibrary.GetImageList(ArrayIconsImageListTasks,16);
 			SetImageListTree();
 			Disposed+=(sender,e) => {
 				_imageListTree?.Dispose();
@@ -975,7 +979,7 @@ namespace OpenPmsDental {
 			gridMain.BeginUpdate();
 			gridMain.Columns.Clear();
 			GridColumn gridColumn=new GridColumn("",17);
-			gridColumn.ImageList=_imageListGrid;
+			gridColumn.ImageListFactory=GetImageListGrid;//UI-9b-4
 			gridMain.Columns.Add(gridColumn);//Checkbox column
 			if(tabControl.SelectedTab==tabNew && !PrefC.GetBool(PrefName.TasksNewTrackedByUser)) {//The old way
 				gridColumn=new GridColumn(Lan.g("TableTasks","Read"),35,HorizontalAlignment.Center);

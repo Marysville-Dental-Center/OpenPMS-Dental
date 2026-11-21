@@ -14,6 +14,8 @@ using System.Linq;
 namespace OpenPmsDental{
 	/// <summary>By default, shows all active accounts. Can be found at Manage->Accounting.</summary>
 	public partial class FormAccounting:FormODBase {
+		///<summary>The pictures of the window's toolbar ImageList by index (UI-9b-4, docs/port-notes/UI-9b.md, section 5): the purposes of today's ImageIndex pictures in their order, as icons (ToolBarOD.SetImageListIcons), so a plug-in's button set by ImageIndex still shows the same purpose.</summary>
+		public static readonly EnumIcons[] ArrayIconsImageList=new EnumIcons[] { EnumIcons.Add,EnumIcons.Edit,EnumIcons.Export };
 		//private Account[] AccountList;
 		private DataTable _tableAccounts;
 
@@ -21,6 +23,7 @@ namespace OpenPmsDental{
 		public FormAccounting()
 		{
 			InitializeComponent();
+			ToolBarMain.SetImageListIcons(ArrayIconsImageList);//UI-9b-4: the list of icons
 			InitializeLayoutManager();
 			Lan.F(this);
 		}
@@ -77,9 +80,9 @@ namespace OpenPmsDental{
 		public void LayoutToolBar() {
 			ToolBarMain.Buttons.Clear();
 			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Add"),EnumIcons.Add,"","Add"));
-			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Edit"),1,Lan.g(this,"Edit Selected Account"),"Edit"));
-			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Export .txt"),2,Lan.g(this,"Export the Chart of Accounts as a tab delimited .txt file"),"Export .txt"));
-			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Export .csv"),2,Lan.g(this,"Export the Chart of Accounts as a comma delimited .csv file"),"Export .csv"));
+			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Edit"),EnumIcons.Edit,Lan.g(this,"Edit Selected Account"),"Edit"));
+			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Export .txt"),EnumIcons.Export,Lan.g(this,"Export the Chart of Accounts as a tab delimited .txt file"),"Export .txt"));
+			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Export .csv"),EnumIcons.Export,Lan.g(this,"Export the Chart of Accounts as a comma delimited .csv file"),"Export .csv"));
 		}
 		private void menuItemLock_Click(object sender,EventArgs e) {
 			if(!Security.IsAuthorized(EnumPermType.SecurityAdmin)) {

@@ -17,6 +17,8 @@ namespace OpenPmsDental {
 	///browser instead (never a second WebView2 window). With HtmlContent it shows that HTML as a page of its own (ODWebView2.NavigateToHtml):
 	///scripts off, and links open in the default browser.</summary>
 	public partial class FormWebView:FormODBase {
+		///<summary>The pictures of the window's toolbar ImageList by index (UI-9b-4, docs/port-notes/UI-9b.md, section 5): the purposes of today's ImageIndex pictures in their order, as icons (ToolBarOD.SetImageListIcons), so a plug-in's button set by ImageIndex still shows the same purpose.</summary>
+		public static readonly EnumIcons[] ArrayIconsImageList=new EnumIcons[] { EnumIcons.ArrowLeft,EnumIcons.ArrowRight };
 		///<summary>Set to the value passed into the constructor if one was passed in.  Navigates the browser control to this url on load.</summary>
 		public string UrlBrowseTo="";
 		///<summary>Set to the post data to be sent to the browser.</summary>
@@ -39,6 +41,7 @@ namespace OpenPmsDental {
 		///passed in.</summary>
 		public FormWebView(){
 			InitializeComponent();
+			ToolBarMain.SetImageListIcons(ArrayIconsImageList);//UI-9b-4: the list of icons
 			InitializeLayoutManager();
 			Lan.F(this);
 		}
@@ -138,8 +141,8 @@ namespace OpenPmsDental {
 			toolBarButtonSettings.Style=ODToolBarButtonStyle.DropDownButton;
 			toolBarButtonSettings.ContextMenuStripDropDown=contextMenuSettings;
 			ToolBarMain.Buttons.Add(toolBarButtonSettings);
-			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Back"),0,"","Back"));
-			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Forward"),1,"","Forward"));
+			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Back"),EnumIcons.ArrowLeft,"","Back"));
+			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Forward"),EnumIcons.ArrowRight,"","Forward"));
 			if(!IsUrlSingleUse) {
 				ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Refresh"),-1,"","Refresh"));
 			}

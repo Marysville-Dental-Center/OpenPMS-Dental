@@ -23,10 +23,8 @@
 		/// </summary>
 		private void InitializeComponent() {
 			this.components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormRpProcNotBilledIns));
 			this.butPrint = new OpenPmsDental.UI.Button();
 			this.checkMedical = new OpenPmsDental.UI.CheckBox();
-			this.imageListCalendar = new System.Windows.Forms.ImageList(this.components);
 			this.gridMain = new OpenPmsDental.UI.GridOD();
 			this.butNewClaims = new OpenPmsDental.UI.Button();
 			this.contextMenuGrid = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -68,13 +66,6 @@
 			this.checkMedical.TabIndex = 11;
 			this.checkMedical.Text = "Include Medical Procedures";
 			this.checkMedical.Visible = false;
-			// 
-			// imageListCalendar
-			// 
-			this.imageListCalendar.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListCalendar.ImageStream")));
-			this.imageListCalendar.TransparentColor = System.Drawing.Color.Transparent;
-			this.imageListCalendar.Images.SetKeyName(0, "arrowDownTriangle.gif");
-			this.imageListCalendar.Images.SetKeyName(1, "arrowUpTriangle.gif");
 			// 
 			// gridMain
 			// 
@@ -272,7 +263,6 @@
 		private UI.GridOD gridMain;
 		private OpenPmsDental.UI.CheckBox checkAutoGroupProcs;
 		private UI.Button butRefresh;
-		private System.Windows.Forms.ImageList imageListCalendar;
 		private UI.Button butSelectAll;
 		private OpenPmsDental.UI.GroupBox groupBox2;
 		private UI.ODDateRangePicker dateRangePicker;

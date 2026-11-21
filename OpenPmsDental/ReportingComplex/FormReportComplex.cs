@@ -15,6 +15,8 @@ using OpenPmsDentalBusiness;
 namespace OpenPmsDental.ReportingComplex {
 	///<summary></summary>
 	public partial class FormReportComplex : FormODBase {
+		///<summary>The pictures of the window's toolbar ImageList by index (UI-9b-4, docs/port-notes/UI-9b.md, section 5): the purposes of today's ImageIndex pictures in their order, as icons (ToolBarOD.SetImageListIcons), so a plug-in's button set by ImageIndex still shows the same purpose.</summary>
+		public static readonly EnumIcons[] ArrayIconsImageList=new EnumIcons[] { EnumIcons.Print,EnumIcons.ArrowLeft,EnumIcons.ArrowRight,EnumIcons.Export,EnumIcons.ZoomIn,EnumIcons.ZoomOut };
 		///<summary>Used to export and print a report from the retailstore DB since it does not have a Preference or a Computer table. Specifically for the P&I report.</summary>
 		public bool IsRetailStorePAndI=false;
 		///<summary>Used to export and print a report from the retailstore DB since it does not have a Preference or a Computer table. Specifically for the inventory report.</summary>
@@ -46,6 +48,7 @@ namespace OpenPmsDental.ReportingComplex {
 		///<summary></summary>
 		public FormReportComplex(ReportComplex myReport){
 			InitializeComponent();// Required for Windows Form Designer support
+			ToolBarMain.SetImageListIcons(ArrayIconsImageList);//UI-9b-4: the list of icons
 			InitializeLayoutManager();
 			_myReport=myReport;
 		}
@@ -69,21 +72,21 @@ namespace OpenPmsDental.ReportingComplex {
 		///<summary>Causes the toolbar to be laid out again.</summary>
 		public void LayoutToolBar(){
 			ToolBarMain.Buttons.Clear();
-			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Print"),0,"","Print"));
+			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Print"),EnumIcons.Print,"","Print"));
 			ToolBarMain.Buttons.Add(new ODToolBarButton(ODToolBarButtonStyle.Separator));
-			ToolBarMain.Buttons.Add(new ODToolBarButton("",1,Lan.g(this,"Go Back One Page"),"Back"));
+			ToolBarMain.Buttons.Add(new ODToolBarButton("",EnumIcons.ArrowLeft,Lan.g(this,"Go Back One Page"),"Back"));
 			ToolBarMain.Buttons.Add(new ODToolBarButton(ODToolBarButtonStyle.PageNav) {Text="/",Tag="PageNum" });
-			ToolBarMain.Buttons.Add(new ODToolBarButton("",2,Lan.g(this,"Go Forward One Page"),"Fwd"));
+			ToolBarMain.Buttons.Add(new ODToolBarButton("",EnumIcons.ArrowRight,Lan.g(this,"Go Forward One Page"),"Fwd"));
 			ToolBarMain.Buttons.Add(new ODToolBarButton(ODToolBarButtonStyle.Separator));
-			ToolBarMain.Buttons.Add(new ODToolBarButton("",4,"","ZoomIn"));
-			ToolBarMain.Buttons.Add(new ODToolBarButton("",5,"","ZoomOut"));
+			ToolBarMain.Buttons.Add(new ODToolBarButton("",EnumIcons.ZoomIn,"","ZoomIn"));
+			ToolBarMain.Buttons.Add(new ODToolBarButton("",EnumIcons.ZoomOut,"","ZoomOut"));
 			ToolBarMain.Buttons.Add(new ODToolBarButton("100",-1,"","ZoomReset"));
 			ToolBarMain.Buttons.Add(new ODToolBarButton(ODToolBarButtonStyle.Separator));
       ODToolBarButton butWrapText=new ODToolBarButton(Lan.g(this,"Wrap Text"),-1,Lan.g(this,"Wrap Text In Columns"),"WrapText");
       butWrapText.Style=ODToolBarButtonStyle.ToggleButton;
       butWrapText.IsTogglePushed=_isWrappingText;
       ToolBarMain.Buttons.Add(butWrapText);
-			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Export"),3,"","Export"));
+			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Export"),EnumIcons.Export,"","Export"));
 			//ToolBarMain.Invalidate();
 		}
 

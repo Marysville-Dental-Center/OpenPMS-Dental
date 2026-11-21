@@ -32,10 +32,8 @@ namespace OpenPmsDental {
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormReportForRdl));
 			this.viewer = new fyiReporting.RdlViewer.RdlViewer();
 			this.ToolBarMain = new OpenPmsDental.UI.ToolBarOD();
-			this.imageListMain = new System.Windows.Forms.ImageList(this.components);
 			this.menuScrollMode = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.menuItemContinuous = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuItemContinuousFacing = new System.Windows.Forms.ToolStripMenuItem();
@@ -68,24 +66,11 @@ namespace OpenPmsDental {
 			// ToolBarMain
 			// 
 			this.ToolBarMain.Dock = System.Windows.Forms.DockStyle.Top;
-			this.ToolBarMain.ImageList = this.imageListMain;
 			this.ToolBarMain.Location = new System.Drawing.Point(0,0);
 			this.ToolBarMain.Name = "ToolBarMain";
 			this.ToolBarMain.Size = new System.Drawing.Size(987,25);
 			this.ToolBarMain.TabIndex = 5;
 			this.ToolBarMain.ButtonClick += new OpenPmsDental.UI.ODToolBarButtonClickEventHandler(this.ToolBarMain_ButtonClick);
-			// 
-			// imageListMain
-			// 
-			this.imageListMain.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListMain.ImageStream")));
-			this.imageListMain.TransparentColor = System.Drawing.Color.Transparent;
-			this.imageListMain.Images.SetKeyName(0,"");
-			this.imageListMain.Images.SetKeyName(1,"");
-			this.imageListMain.Images.SetKeyName(2,"");
-			this.imageListMain.Images.SetKeyName(3,"");
-			this.imageListMain.Images.SetKeyName(4,"");
-			this.imageListMain.Images.SetKeyName(5,"");
-			this.imageListMain.Images.SetKeyName(6,"");
 			// 
 			// menuScrollMode
 			// 
@@ -135,7 +120,6 @@ namespace OpenPmsDental {
 
 		private fyiReporting.RdlViewer.RdlViewer viewer;
 		private OpenPmsDental.UI.ToolBarOD ToolBarMain;
-		private System.Windows.Forms.ImageList imageListMain;
 		private System.Windows.Forms.ContextMenuStrip menuScrollMode;
 		private System.Windows.Forms.ToolStripMenuItem menuItemContinuous;
 		private System.Windows.Forms.ToolStripMenuItem menuItemContinuousFacing;

@@ -11,6 +11,8 @@ using OpenPmsDentalBusiness;
 
 namespace OpenPmsDental {
 	public partial class FormEmailEdit:FormODBase {
+		///<summary>The pictures of the window's toolbar ImageList by index (UI-9b-4, docs/port-notes/UI-9b.md, section 5): the purposes of today's ImageIndex pictures in their order, as icons (ToolBarOD.SetImageListIcons), so a plug-in's button set by ImageIndex still shows the same purpose.</summary>
+		public static readonly EnumIcons[] ArrayIconsImageList=new EnumIcons[] { EnumIcons.Sync,EnumIcons.Save,EnumIcons.DeleteX,EnumIcons.Cut,EnumIcons.Copy,EnumIcons.Paste,EnumIcons.Undo,EnumIcons.Link,EnumIcons.LinkExternal,EnumIcons.Heading1,EnumIcons.Heading2,EnumIcons.Heading3,EnumIcons.Bold,EnumIcons.Italic,EnumIcons.TextColor,EnumIcons.Table,EnumIcons.Image,EnumIcons.TextFont,EnumIcons.SaveDraft,EnumIcons.Settings };
 		///<summary></summary>
 		private bool _isInvalidPreview;
 		///<summary>The HTML the preview shows: what the window returns in HtmlText (the old browser control's DocumentText).</summary>
@@ -35,6 +37,8 @@ namespace OpenPmsDental {
 
 		public FormEmailEdit() {
 			InitializeComponent();
+			toolBarTop.SetImageListIcons(ArrayIconsImageList);//UI-9b-4: the list of icons
+			toolBarBottom.SetImageListIcons(ArrayIconsImageList);//UI-9b-4: the list of icons
 			InitializeLayoutManager();
 			Lan.F(this);
 			webViewEmail.LinkClicked+=webViewEmail_LinkClicked;
@@ -67,15 +71,15 @@ namespace OpenPmsDental {
 
 		private void LayoutToolBars() {
 			toolBarTop.Buttons.Clear();
-			toolBarTop.Buttons.Add(new ODToolBarButton(Lan.g(this,"Setup"),19,Lan.g(this,"Setup master page and styles."),"Setup"));
+			toolBarTop.Buttons.Add(new ODToolBarButton(Lan.g(this,"Setup"),EnumIcons.Settings,Lan.g(this,"Setup master page and styles."),"Setup"));
 			toolBarTop.Buttons.Add(new ODToolBarButton(ODToolBarButtonStyle.Separator));
-			toolBarTop.Buttons.Add(new ODToolBarButton(Lan.g(this,"Ext Link"),8,"","Ext Link"));
-			toolBarTop.Buttons.Add(new ODToolBarButton(Lan.g(this,"Heading1"),9,"","H1"));
-			toolBarTop.Buttons.Add(new ODToolBarButton(Lan.g(this,"Heading2"),10,"","H2"));
-			toolBarTop.Buttons.Add(new ODToolBarButton(Lan.g(this,"Heading3"),11,"","H3"));
+			toolBarTop.Buttons.Add(new ODToolBarButton(Lan.g(this,"Ext Link"),EnumIcons.LinkExternal,"","Ext Link"));
+			toolBarTop.Buttons.Add(new ODToolBarButton(Lan.g(this,"Heading1"),EnumIcons.Heading1,"","H1"));
+			toolBarTop.Buttons.Add(new ODToolBarButton(Lan.g(this,"Heading2"),EnumIcons.Heading2,"","H2"));
+			toolBarTop.Buttons.Add(new ODToolBarButton(Lan.g(this,"Heading3"),EnumIcons.Heading3,"","H3"));
 			toolBarTop.Buttons.Add(new ODToolBarButton(ODToolBarButtonStyle.Separator));
-			toolBarTop.Buttons.Add(new ODToolBarButton(Lan.g(this,"Table"),15,"","Table"));
-			toolBarTop.Buttons.Add(new ODToolBarButton(Lan.g(this,"Image"),16,"","Image"));
+			toolBarTop.Buttons.Add(new ODToolBarButton(Lan.g(this,"Table"),EnumIcons.Table,"","Table"));
+			toolBarTop.Buttons.Add(new ODToolBarButton(Lan.g(this,"Image"),EnumIcons.Image,"","Image"));
 			//The autograph button and drop down
 			ODToolBarButton toolBarButton=new ODToolBarButton(Lan.g(this,"Autograph"),-1,"","Autograph");
 			toolBarButton.Style=ODToolBarButtonStyle.DropDownButton;
@@ -84,16 +88,16 @@ namespace OpenPmsDental {
 			toolBarTop.Buttons.Add(toolBarButton);
 			//Create the tool bar on the bottom
 			toolBarBottom.Buttons.Clear();
-			toolBarBottom.Buttons.Add(new ODToolBarButton(Lan.g(this,"Cut"),3,"","Cut"));
-			toolBarBottom.Buttons.Add(new ODToolBarButton(Lan.g(this,"Copy"),4,"","Copy"));
-			toolBarBottom.Buttons.Add(new ODToolBarButton(Lan.g(this,"Paste"),5,"","Paste"));
+			toolBarBottom.Buttons.Add(new ODToolBarButton(Lan.g(this,"Cut"),EnumIcons.Cut,"","Cut"));
+			toolBarBottom.Buttons.Add(new ODToolBarButton(Lan.g(this,"Copy"),EnumIcons.Copy,"","Copy"));
+			toolBarBottom.Buttons.Add(new ODToolBarButton(Lan.g(this,"Paste"),EnumIcons.Paste,"","Paste"));
 			toolBarBottom.Buttons.Add(new ODToolBarButton(ODToolBarButtonStyle.Separator));
-			toolBarBottom.Buttons.Add(new ODToolBarButton(Lan.g(this,"Undo"),6,"","Undo"));
+			toolBarBottom.Buttons.Add(new ODToolBarButton(Lan.g(this,"Undo"),EnumIcons.Undo,"","Undo"));
 			toolBarBottom.Buttons.Add(new ODToolBarButton(ODToolBarButtonStyle.Separator));
-			toolBarBottom.Buttons.Add(new ODToolBarButton(Lan.g(this,"Bold"),12,"","Bold"));
-			toolBarBottom.Buttons.Add(new ODToolBarButton(Lan.g(this,"Italic"),13,"","Italic"));
-			toolBarBottom.Buttons.Add(new ODToolBarButton(Lan.g(this,"Color"),14,"","Color"));
-			toolBarBottom.Buttons.Add(new ODToolBarButton(Lan.g(this,"Font"),17,"","Font"));
+			toolBarBottom.Buttons.Add(new ODToolBarButton(Lan.g(this,"Bold"),EnumIcons.Bold,"","Bold"));
+			toolBarBottom.Buttons.Add(new ODToolBarButton(Lan.g(this,"Italic"),EnumIcons.Italic,"","Italic"));
+			toolBarBottom.Buttons.Add(new ODToolBarButton(Lan.g(this,"Color"),EnumIcons.TextColor,"","Color"));
+			toolBarBottom.Buttons.Add(new ODToolBarButton(Lan.g(this,"Font"),EnumIcons.TextFont,"","Font"));
 			if(AreReplacementsAllowed) {
 				toolBarBottom.Buttons.Add(new ODToolBarButton(Lan.g(this,"Body Fields"),-1,"","Body Fields"));
 			}

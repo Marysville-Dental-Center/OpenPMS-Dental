@@ -26,24 +26,14 @@ namespace OpenPmsDental{
 		/// </summary>
 		private void InitializeComponent() {
 			this.components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormCareCreditWeb));
-			this.imageList1 = new System.Windows.Forms.ImageList(this.components);
 			this.ToolBarMain = new OpenPmsDental.UI.ToolBarOD();
 			this.webViewMain = new CodeBase.Controls.ODWebView2();
 			((System.ComponentModel.ISupportInitialize)(this.webViewMain)).BeginInit();
 			this.SuspendLayout();
 			// 
-			// imageList1
-			// 
-			this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
-			this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-			this.imageList1.Images.SetKeyName(0, "arrowLeft22.gif");
-			this.imageList1.Images.SetKeyName(1, "arrowRight22.gif");
-			// 
 			// ToolBarMain
 			// 
 			this.ToolBarMain.Dock = System.Windows.Forms.DockStyle.Top;
-			this.ToolBarMain.ImageList = this.imageList1;
 			this.ToolBarMain.Location = new System.Drawing.Point(0, 0);
 			this.ToolBarMain.Name = "ToolBarMain";
 			this.ToolBarMain.Size = new System.Drawing.Size(974, 25);
@@ -81,7 +71,6 @@ namespace OpenPmsDental{
 
 		#endregion
 		private UI.ToolBarOD ToolBarMain;
-		private System.Windows.Forms.ImageList imageList1;
 		public ODWebView2 webViewMain;
 	}
 }

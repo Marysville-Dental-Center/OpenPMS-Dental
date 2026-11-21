@@ -29,8 +29,6 @@
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form4kTests));
-			this.imageListMain = new System.Windows.Forms.ImageList(this.components);
 			this.ToolBarMain = new OpenPmsDental.UI.ToolBarOD();
 			this.button3 = new OpenPmsDental.UI.Button();
 			this.butDelete = new OpenPmsDental.UI.Button();
@@ -80,18 +78,9 @@
 			this.splitContainer.SuspendLayout();
 			this.SuspendLayout();
 			// 
-			// imageListMain
-			// 
-			this.imageListMain.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListMain.ImageStream")));
-			this.imageListMain.TransparentColor = System.Drawing.Color.Transparent;
-			this.imageListMain.Images.SetKeyName(0, "Add.gif");
-			this.imageListMain.Images.SetKeyName(1, "editPencil.gif");
-			this.imageListMain.Images.SetKeyName(2, "butExport.gif");
-			// 
 			// ToolBarMain
 			// 
 			this.ToolBarMain.Dock = System.Windows.Forms.DockStyle.Top;
-			this.ToolBarMain.ImageList = this.imageListMain;
 			this.ToolBarMain.Location = new System.Drawing.Point(49, 24);
 			this.ToolBarMain.Name = "ToolBarMain";
 			this.ToolBarMain.Size = new System.Drawing.Size(870, 25);
@@ -548,7 +537,6 @@
 		private OpenPmsDental.UI.Button butDelete;
 		private OpenPmsDental.UI.Button button3;
 		private OpenPmsDental.UI.ToolBarOD ToolBarMain;
-		private System.Windows.Forms.ImageList imageListMain;
 		private OpenPmsDental.UI.Button button4;
 		private System.Windows.Forms.ListBox listBox1;
 		private System.Windows.Forms.GroupBox groupBox1;

@@ -14,6 +14,8 @@ using OpenPmsDentalBusiness;
 
 namespace UnitTests{
 	public partial class Form4kTests : FormODBase{
+		///<summary>The pictures of the window's toolbar ImageList by index (UI-9b-4, docs/port-notes/UI-9b.md, section 5): the purposes of today's ImageIndex pictures in their order, as icons (ToolBarOD.SetImageListIcons), so a plug-in's button set by ImageIndex still shows the same purpose.</summary>
+		public static readonly EnumIcons[] ArrayIconsImageList=new EnumIcons[] { EnumIcons.Add,EnumIcons.Edit,EnumIcons.Export };
 		private List<Patient> _listPatients;
 		private MenuItemOD _menuItemMonthly;
 		private Image _imgToothChart;
@@ -22,6 +24,7 @@ namespace UnitTests{
 
 		public Form4kTests(){
 			InitializeComponent();
+			ToolBarMain.SetImageListIcons(ArrayIconsImageList);//UI-9b-4: the list of icons
 			InitializeLayoutManager();
 			//LayoutManager.ZoomTest=20;//10,20,30 fail
 			labelOnTab=new Label();
@@ -115,15 +118,15 @@ namespace UnitTests{
 		///<summary>Causes the toolbar to be laid out again.</summary>
 		public void LayoutToolBar() {
 			ToolBarMain.Buttons.Clear();
-			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Add"),0,"","Add"));
+			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Add"),EnumIcons.Add,"","Add"));
 			ToolBarMain.Buttons.Add(new ODToolBarButton(ODToolBarButtonStyle.Separator));
-			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Edit"),1,Lan.g(this,"Edit Selected Account"),"Edit"));
+			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Edit"),EnumIcons.Edit,Lan.g(this,"Edit Selected Account"),"Edit"));
 			/*ODToolBarButton button=new ODToolBarButton("",-1,"","PageNum");
 			button.Style=ODToolBarButtonStyle.Label;
 			ToolBarMain.Buttons.Add(button);
-			ToolBarMain.Buttons.Add(new ODToolBarButton("",2,"Go Forward One Page","Fwd"));
+			ToolBarMain.Buttons.Add(new ODToolBarButton("",EnumIcons.Export,"Go Forward One Page","Fwd"));
 			ToolBarMain.Buttons.Add(new ODToolBarButton(ODToolBarButtonStyle.Separator));*/
-			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Export"),2,Lan.g(this,"Export the Chart of Accounts"),"Export"){Enabled=false });
+			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Export"),EnumIcons.Export,Lan.g(this,"Export the Chart of Accounts"),"Export"){Enabled=false });
 			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Close"),-1,"Close This Window","Close"));
 		}
 

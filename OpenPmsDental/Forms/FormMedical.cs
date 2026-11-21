@@ -11,6 +11,16 @@ using OpenPmsDentalBusiness;
 namespace OpenPmsDental {
 	///<summary></summary>
 	public partial class FormMedical : FormODBase {
+		///<summary>The picture of the grid's info button column (UI-9b-4): 0 Info. The grid takes a list at its own scale (GridColumn.ImageListFactory).</summary>
+		public static readonly EnumIcons[] ArrayIconsImageListInfoButton=new EnumIcons[] { EnumIcons.Info };
+		private ImageList _imageListInfoButton;
+
+		///<summary>The info button list at the grid's pixel size (UI-9b-4): the grid calls it at its scale and again when the scale changes.</summary>
+		private ImageList GetImageListInfoButton(int sizePixels) {
+			_imageListInfoButton=IconLibrary.GetImageListForSize(_imageListInfoButton,ArrayIconsImageListInfoButton,sizePixels);
+			return _imageListInfoButton;
+		}
+
 		///<summary>In-memory-only ODgrid used for printing.</summary>
 		private GridOD gridMedsPrint;
 		private ToolTip toolTipCombo;
@@ -60,6 +70,7 @@ namespace OpenPmsDental {
 		///<summary></summary>
 		public FormMedical(PatientNote patientNote,Patient patient,string selectedTab=""){
 			InitializeComponent();// Required for Windows Form Designer support
+			Disposed+=(sender,e) => _imageListInfoButton?.Dispose();//UI-9b-4
 			InitializeLayoutManager();
 			_patient=patient;
 			_patientNote=patientNote;
@@ -134,7 +145,7 @@ namespace OpenPmsDental {
 			GridColumn col;
 			if(CDSPermissions.GetForUser(Security.CurUser.UserNum).ShowInfobutton && !isForPrinting) {//Security.IsAuthorized(Permissions.EhrInfoButton,true)) {
 				col=new GridColumn("",18);//infoButton
-				col.ImageList=imageListInfoButton;
+				col.ImageListFactory=GetImageListInfoButton;
 				gridToFill.Columns.Add(col);
 			}
 			col=new GridColumn(Lan.g("TableMedications","Medication"),200);
@@ -473,7 +484,7 @@ namespace OpenPmsDental {
 			GridColumn col;
 			if(CDSPermissions.GetForUser(Security.CurUser.UserNum).ShowInfobutton) {//Security.IsAuthorized(Permissions.EhrInfoButton,true)) {
 				col=new GridColumn("",18);//infoButton
-				col.ImageList=imageListInfoButton;
+				col.ImageListFactory=GetImageListInfoButton;
 				gridDiseases.Columns.Add(col);
 			}
 			col=new GridColumn(Lan.g("TableDiseases","Name"),200);//total is about 325
@@ -598,7 +609,7 @@ namespace OpenPmsDental {
 			GridColumn col;
 			if(CDSPermissions.GetForUser(Security.CurUser.UserNum).ShowInfobutton) {//Security.IsAuthorized(Permissions.EhrInfoButton,true)) {
 				col=new GridColumn("",18);//infoButton
-				col.ImageList=imageListInfoButton;
+				col.ImageListFactory=GetImageListInfoButton;
 				gridAllergies.Columns.Add(col);
 			}
 			col=new GridColumn(Lan.g("TableAllergies","Allergy"),150);

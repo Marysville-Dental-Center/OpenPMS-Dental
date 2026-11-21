@@ -12,6 +12,8 @@ using OpenPmsDentalBusiness;
 namespace OpenPmsDental{
 	/// <summary></summary>
 	public partial class FormJournal:FormODBase {
+		///<summary>The pictures of the window's toolbar ImageList by index (UI-9b-4, docs/port-notes/UI-9b.md, section 5): the purposes of today's ImageIndex pictures in their order, as icons (ToolBarOD.SetImageListIcons), so a plug-in's button set by ImageIndex still shows the same purpose.</summary>
+		public static readonly EnumIcons[] ArrayIconsImageList=new EnumIcons[] { EnumIcons.Add,EnumIcons.Print,EnumIcons.Export };
 		//set this externally so that the ending balances will match what's showing in the Chart of Accounts.
 		public DateTime DateInitialAsOf;
 		private Account _account;
@@ -25,6 +27,7 @@ namespace OpenPmsDental{
 		///<summary></summary>
 		public FormJournal(Account account){
 			InitializeComponent();
+			ToolBarMain.SetImageListIcons(ArrayIconsImageList);//UI-9b-4: the list of icons
 			InitializeLayoutManager();
 			Lan.F(this);
 			_account=account;
@@ -55,19 +58,19 @@ namespace OpenPmsDental{
 		///<summary>Causes the toolbar to be laid out again.</summary>
 		public void LayoutToolBar() {
 			ToolBarMain.Buttons.Clear();
-			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Add Entry"),0,"","Add"));
+			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Add Entry"),EnumIcons.Add,"","Add"));
 			if(_account.AcctType==AccountType.Asset){
 				ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Reconcile"),-1,"","Reconcile"));
 			}
-			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Print"),1,"","Print"));
+			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Print"),EnumIcons.Print,"","Print"));
 			//ToolBarMain.Buttons.Add(new ODToolBarButton(ODToolBarButtonStyle.Separator));
 			//ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Edit"),-1,Lan.g(this,"Edit Selected Account"),"Edit"));
 			//ODToolBarButton button=new ODToolBarButton("",-1,"","PageNum");
 			//button.Style=ODToolBarButtonStyle.Label;
 			//ToolBarMain.Buttons.Add(button);
-			//ToolBarMain.Buttons.Add(new ODToolBarButton("",2,"Go Forward One Page","Fwd"));
-			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Export .txt"),2,Lan.g(this,"Export the transaction history as a tab delimited .txt file"),"Export .txt"));
-			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Export .csv"),2,Lan.g(this,"Export the transaction history as a comma delimited .csv file"),"Export .csv"));
+			//ToolBarMain.Buttons.Add(new ODToolBarButton("",EnumIcons.Export,"Go Forward One Page","Fwd"));
+			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Export .txt"),EnumIcons.Export,Lan.g(this,"Export the transaction history as a tab delimited .txt file"),"Export .txt"));
+			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Export .csv"),EnumIcons.Export,Lan.g(this,"Export the transaction history as a comma delimited .csv file"),"Export .csv"));
 			ToolBarMain.Buttons.Add(new ODToolBarButton(ODToolBarButtonStyle.Separator));
 		}
 
