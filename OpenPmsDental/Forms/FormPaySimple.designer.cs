@@ -115,7 +115,7 @@ namespace OpenPmsDental{
 			this.radioSale.Checked = true;
 			this.radioSale.Location = new System.Drawing.Point(5, 19);
 			this.radioSale.Name = "radioSale";
-			this.radioSale.Size = new System.Drawing.Size(45, 22);
+			this.radioSale.Size = new System.Drawing.Size(46, 22);
 			this.radioSale.TabIndex = 0;
 			this.radioSale.TabStop = true;
 			this.radioSale.Text = "Sale";
@@ -149,7 +149,7 @@ namespace OpenPmsDental{
 			this.radioVoid.AutoSize = false;
 			this.radioVoid.Location = new System.Drawing.Point(106, 19);
 			this.radioVoid.Name = "radioVoid";
-			this.radioVoid.Size = new System.Drawing.Size(48, 22);
+			this.radioVoid.Size = new System.Drawing.Size(50, 23);
 			this.radioVoid.TabIndex = 0;
 			this.radioVoid.Text = "Void";
 			this.radioVoid.UseVisualStyleBackColor = true;

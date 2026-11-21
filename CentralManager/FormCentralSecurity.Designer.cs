@@ -169,7 +169,7 @@
 			// 
 			this.label5.Location = new System.Drawing.Point(15, 16);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(115, 16);
+			this.label5.Size = new System.Drawing.Size(115, 17);
 			this.label5.TabIndex = 111;
 			this.label5.Text = "Sync Code";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
