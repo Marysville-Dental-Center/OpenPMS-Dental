@@ -77,7 +77,7 @@ namespace OpenPmsDental {
 			// 
 			this.label1.Location = new System.Drawing.Point(432, 22);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(124, 16);
+			this.label1.Size = new System.Drawing.Size(124, 18);
 			this.label1.TabIndex = 0;
 			this.label1.Text = "Payment Type";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -174,7 +174,7 @@ namespace OpenPmsDental {
 			// 
 			this.checkPatientPortalPayEnabled.Location = new System.Drawing.Point(106, 19);
 			this.checkPatientPortalPayEnabled.Name = "checkPatientPortalPayEnabled";
-			this.checkPatientPortalPayEnabled.Size = new System.Drawing.Size(127, 17);
+			this.checkPatientPortalPayEnabled.Size = new System.Drawing.Size(127, 18);
 			this.checkPatientPortalPayEnabled.TabIndex = 9;
 			this.checkPatientPortalPayEnabled.Text = "Enabled";
 			this.checkPatientPortalPayEnabled.Click += new System.EventHandler(this.checkPatientPortalPayEnabled_Click);
@@ -184,7 +184,7 @@ namespace OpenPmsDental {
 			this.checkPreventSavingNewCC.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkPreventSavingNewCC.Location = new System.Drawing.Point(175, 119);
 			this.checkPreventSavingNewCC.Name = "checkPreventSavingNewCC";
-			this.checkPreventSavingNewCC.Size = new System.Drawing.Size(218, 17);
+			this.checkPreventSavingNewCC.Size = new System.Drawing.Size(218, 18);
 			this.checkPreventSavingNewCC.TabIndex = 8;
 			this.checkPreventSavingNewCC.Text = "Prevent saving new cards";
 			// 
@@ -199,7 +199,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelDefaultProcMethod.Location = new System.Drawing.Point(432, 43);
 			this.labelDefaultProcMethod.Name = "labelDefaultProcMethod";
-			this.labelDefaultProcMethod.Size = new System.Drawing.Size(124, 26);
+			this.labelDefaultProcMethod.Size = new System.Drawing.Size(125, 26);
 			this.labelDefaultProcMethod.TabIndex = 7;
 			this.labelDefaultProcMethod.Text = "Default Processing Method";
 			this.labelDefaultProcMethod.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -209,7 +209,7 @@ namespace OpenPmsDental {
 			this.checkTerminal.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkTerminal.Location = new System.Drawing.Point(175, 74);
 			this.checkTerminal.Name = "checkTerminal";
-			this.checkTerminal.Size = new System.Drawing.Size(218, 17);
+			this.checkTerminal.Size = new System.Drawing.Size(218, 18);
 			this.checkTerminal.TabIndex = 3;
 			this.checkTerminal.Text = "Enable terminal processing";
 			// 
@@ -217,7 +217,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelClinicEnable.Location = new System.Drawing.Point(77, 55);
 			this.labelClinicEnable.Name = "labelClinicEnable";
-			this.labelClinicEnable.Size = new System.Drawing.Size(246, 28);
+			this.labelClinicEnable.Size = new System.Drawing.Size(267, 28);
 			this.labelClinicEnable.TabIndex = 2;
 			this.labelClinicEnable.Text = "To enable PayConnect for a clinic, set the credentials for that clinic.";
 			this.labelClinicEnable.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -292,7 +292,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelApiKey.Location = new System.Drawing.Point(6, 23);
 			this.labelApiKey.Name = "labelApiKey";
-			this.labelApiKey.Size = new System.Drawing.Size(120, 16);
+			this.labelApiKey.Size = new System.Drawing.Size(120, 18);
 			this.labelApiKey.TabIndex = 0;
 			this.labelApiKey.Text = "API key";
 			this.labelApiKey.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -318,7 +318,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelPracticeWide.Location = new System.Drawing.Point(6, 68);
 			this.labelPracticeWide.Name = "labelPracticeWide";
-			this.labelPracticeWide.Size = new System.Drawing.Size(401, 36);
+			this.labelPracticeWide.Size = new System.Drawing.Size(401, 42);
 			this.labelPracticeWide.TabIndex = 3;
 			this.labelPracticeWide.Text = "The API key and the sandbox setting apply to every clinic. Each clinic enters its own Secret below. In the sandbox, transactions are tests and nothing is charged.";
 			// 

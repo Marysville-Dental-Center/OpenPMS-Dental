@@ -88,7 +88,7 @@ namespace OpenPmsDental {
 			// 
 			this.label1.Location = new System.Drawing.Point(1, 45);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(130, 16);
+			this.label1.Size = new System.Drawing.Size(130, 18);
 			this.label1.TabIndex = 20;
 			this.label1.Text = "Date of new charges";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -108,7 +108,7 @@ namespace OpenPmsDental {
 			// 
 			this.radio30.Location = new System.Drawing.Point(13, 17);
 			this.radio30.Name = "radio30";
-			this.radio30.Size = new System.Drawing.Size(146, 21);
+			this.radio30.Size = new System.Drawing.Size(146, 23);
 			this.radio30.TabIndex = 1;
 			this.radio30.Text = "Over 30 Days";
 			// 
@@ -117,7 +117,7 @@ namespace OpenPmsDental {
 			this.radio90.Checked = true;
 			this.radio90.Location = new System.Drawing.Point(13, 57);
 			this.radio90.Name = "radio90";
-			this.radio90.Size = new System.Drawing.Size(146, 21);
+			this.radio90.Size = new System.Drawing.Size(146, 23);
 			this.radio90.TabIndex = 3;
 			this.radio90.TabStop = true;
 			this.radio90.Text = "Over 90 Days";
@@ -126,7 +126,7 @@ namespace OpenPmsDental {
 			// 
 			this.radio60.Location = new System.Drawing.Point(13, 37);
 			this.radio60.Name = "radio60";
-			this.radio60.Size = new System.Drawing.Size(146, 21);
+			this.radio60.Size = new System.Drawing.Size(146, 23);
 			this.radio60.TabIndex = 2;
 			this.radio60.Text = "Over 60 Days";
 			// 
@@ -153,7 +153,7 @@ namespace OpenPmsDental {
 			// 
 			this.label3.Location = new System.Drawing.Point(189, 46);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(17, 14);
+			this.label3.Size = new System.Drawing.Size(17, 18);
 			this.label3.TabIndex = 23;
 			this.label3.Text = "%";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -162,7 +162,7 @@ namespace OpenPmsDental {
 			// 
 			this.label4.Location = new System.Drawing.Point(207, 46);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(110, 15);
+			this.label4.Size = new System.Drawing.Size(110, 18);
 			this.label4.TabIndex = 24;
 			this.label4.Text = "(For Example: 18)";
 			// 
@@ -185,7 +185,7 @@ namespace OpenPmsDental {
 			// 
 			this.label5.Location = new System.Drawing.Point(8, 20);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(123, 14);
+			this.label5.Size = new System.Drawing.Size(123, 18);
 			this.label5.TabIndex = 28;
 			this.label5.Text = "Date last run";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -222,7 +222,7 @@ namespace OpenPmsDental {
 			// 
 			this.label6.Location = new System.Drawing.Point(2, 22);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(84, 14);
+			this.label6.Size = new System.Drawing.Size(84, 18);
 			this.label6.TabIndex = 32;
 			this.label6.Text = "Date to undo";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -239,7 +239,7 @@ namespace OpenPmsDental {
 			// 
 			this.label7.Location = new System.Drawing.Point(385, 16);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(187, 16);
+			this.label7.Size = new System.Drawing.Size(187, 18);
 			this.label7.TabIndex = 33;
 			this.label7.Text = "Only apply to these Billing Types";
 			this.label7.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -271,7 +271,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelCompound.Location = new System.Drawing.Point(28, 123);
 			this.labelCompound.Name = "labelCompound";
-			this.labelCompound.Size = new System.Drawing.Size(114, 16);
+			this.labelCompound.Size = new System.Drawing.Size(114, 18);
 			this.labelCompound.TabIndex = 39;
 			this.labelCompound.Text = "Compound interest";
 			this.labelCompound.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -329,7 +329,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelOver.Location = new System.Drawing.Point(28, 98);
 			this.labelOver.Name = "labelOver";
-			this.labelOver.Size = new System.Drawing.Size(95, 16);
+			this.labelOver.Size = new System.Drawing.Size(95, 18);
 			this.labelOver.TabIndex = 33;
 			this.labelOver.Text = "Only if over";
 			this.labelOver.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -338,7 +338,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelAtLeast.Location = new System.Drawing.Point(28, 72);
 			this.labelAtLeast.Name = "labelAtLeast";
-			this.labelAtLeast.Size = new System.Drawing.Size(95, 16);
+			this.labelAtLeast.Size = new System.Drawing.Size(95, 18);
 			this.labelAtLeast.TabIndex = 34;
 			this.labelAtLeast.Text = "Charge at least";
 			this.labelAtLeast.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -357,7 +357,7 @@ namespace OpenPmsDental {
 			this.radioFinanceCharge.Checked = true;
 			this.radioFinanceCharge.Location = new System.Drawing.Point(5, 44);
 			this.radioFinanceCharge.Name = "radioFinanceCharge";
-			this.radioFinanceCharge.Size = new System.Drawing.Size(110, 18);
+			this.radioFinanceCharge.Size = new System.Drawing.Size(110, 22);
 			this.radioFinanceCharge.TabIndex = 0;
 			this.radioFinanceCharge.TabStop = true;
 			this.radioFinanceCharge.Text = "Finance Charge";
@@ -379,7 +379,7 @@ namespace OpenPmsDental {
 			// 
 			this.radioBillingCharge.Location = new System.Drawing.Point(5, 10);
 			this.radioBillingCharge.Name = "radioBillingCharge";
-			this.radioBillingCharge.Size = new System.Drawing.Size(115, 21);
+			this.radioBillingCharge.Size = new System.Drawing.Size(115, 23);
 			this.radioBillingCharge.TabIndex = 1;
 			this.radioBillingCharge.TabStop = true;
 			this.radioBillingCharge.Text = "Billing Charge";
@@ -392,7 +392,7 @@ namespace OpenPmsDental {
 			this.checkBadAddress.Location = new System.Drawing.Point(7, 17);
 			this.checkBadAddress.Name = "checkBadAddress";
 			this.checkBadAddress.RightToLeft = System.Windows.Forms.RightToLeft.No;
-			this.checkBadAddress.Size = new System.Drawing.Size(295, 17);
+			this.checkBadAddress.Size = new System.Drawing.Size(295, 18);
 			this.checkBadAddress.TabIndex = 39;
 			this.checkBadAddress.Text = "Exclude bad addresses (no zip code)";
 			// 
@@ -459,7 +459,7 @@ namespace OpenPmsDental {
 			this.checkExcludeAccountNoTil.Location = new System.Drawing.Point(7, 121);
 			this.checkExcludeAccountNoTil.Name = "checkExcludeAccountNoTil";
 			this.checkExcludeAccountNoTil.RightToLeft = System.Windows.Forms.RightToLeft.No;
-			this.checkExcludeAccountNoTil.Size = new System.Drawing.Size(295, 17);
+			this.checkExcludeAccountNoTil.Size = new System.Drawing.Size(316, 18);
 			this.checkExcludeAccountNoTil.TabIndex = 44;
 			this.checkExcludeAccountNoTil.Text = "Exclude accounts (guarantor) without Truth in Lending";
 			// 
@@ -469,7 +469,7 @@ namespace OpenPmsDental {
 			this.checkIgnoreInPerson.Location = new System.Drawing.Point(7, 101);
 			this.checkIgnoreInPerson.Name = "checkIgnoreInPerson";
 			this.checkIgnoreInPerson.RightToLeft = System.Windows.Forms.RightToLeft.No;
-			this.checkIgnoreInPerson.Size = new System.Drawing.Size(295, 17);
+			this.checkIgnoreInPerson.Size = new System.Drawing.Size(295, 18);
 			this.checkIgnoreInPerson.TabIndex = 43;
 			this.checkIgnoreInPerson.Text = "Ignore walkout (In person) Statements";
 			// 
@@ -479,7 +479,7 @@ namespace OpenPmsDental {
 			this.checkExcludeInsPending.Location = new System.Drawing.Point(7, 57);
 			this.checkExcludeInsPending.Name = "checkExcludeInsPending";
 			this.checkExcludeInsPending.RightToLeft = System.Windows.Forms.RightToLeft.No;
-			this.checkExcludeInsPending.Size = new System.Drawing.Size(295, 17);
+			this.checkExcludeInsPending.Size = new System.Drawing.Size(295, 18);
 			this.checkExcludeInsPending.TabIndex = 41;
 			this.checkExcludeInsPending.Text = "Exclude if insurance pending";
 			// 
@@ -489,7 +489,7 @@ namespace OpenPmsDental {
 			this.checkExcludeInactive.Location = new System.Drawing.Point(7, 37);
 			this.checkExcludeInactive.Name = "checkExcludeInactive";
 			this.checkExcludeInactive.RightToLeft = System.Windows.Forms.RightToLeft.No;
-			this.checkExcludeInactive.Size = new System.Drawing.Size(295, 17);
+			this.checkExcludeInactive.Size = new System.Drawing.Size(295, 18);
 			this.checkExcludeInactive.TabIndex = 40;
 			this.checkExcludeInactive.Text = "Exclude inactive families";
 			// 
@@ -515,7 +515,7 @@ namespace OpenPmsDental {
 			// 
 			this.radioSpecificProv.Location = new System.Drawing.Point(13, 45);
 			this.radioSpecificProv.Name = "radioSpecificProv";
-			this.radioSpecificProv.Size = new System.Drawing.Size(126, 21);
+			this.radioSpecificProv.Size = new System.Drawing.Size(126, 23);
 			this.radioSpecificProv.TabIndex = 1;
 			this.radioSpecificProv.Text = "Specific Provider";
 			this.radioSpecificProv.UseVisualStyleBackColor = true;
@@ -524,7 +524,7 @@ namespace OpenPmsDental {
 			// 
 			this.radioPatPriProv.Location = new System.Drawing.Point(13, 23);
 			this.radioPatPriProv.Name = "radioPatPriProv";
-			this.radioPatPriProv.Size = new System.Drawing.Size(200, 21);
+			this.radioPatPriProv.Size = new System.Drawing.Size(200, 22);
 			this.radioPatPriProv.TabIndex = 0;
 			this.radioPatPriProv.Text = "Patient\'s Primary Provider";
 			this.radioPatPriProv.UseVisualStyleBackColor = true;
@@ -544,7 +544,7 @@ namespace OpenPmsDental {
 			this.labelExcludeIfPendingDays.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelExcludeIfPendingDays.Location = new System.Drawing.Point(36, 80);
 			this.labelExcludeIfPendingDays.Name = "labelExcludeIfPendingDays";
-			this.labelExcludeIfPendingDays.Size = new System.Drawing.Size(252, 16);
+			this.labelExcludeIfPendingDays.Size = new System.Drawing.Size(252, 18);
 			this.labelExcludeIfPendingDays.TabIndex = 262;
 			this.labelExcludeIfPendingDays.Text = "Exclude if insurance pending _ days or less";
 			this.labelExcludeIfPendingDays.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

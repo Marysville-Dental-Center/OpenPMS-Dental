@@ -134,6 +134,7 @@ namespace OpenPmsDental {
 			// textDatePaycheck
 			// 
 			this.textDatePaycheck.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.textDatePaycheck.AutoSize = false;
 			this.textDatePaycheck.Location = new System.Drawing.Point(540, 8);
 			this.textDatePaycheck.Name = "textDatePaycheck";
 			this.textDatePaycheck.ReadOnly = true;
@@ -142,6 +143,7 @@ namespace OpenPmsDental {
 			// 
 			// textDateStop
 			// 
+			this.textDateStop.AutoSize = false;
 			this.textDateStop.Location = new System.Drawing.Point(181, 28);
 			this.textDateStop.Name = "textDateStop";
 			this.textDateStop.ReadOnly = true;
@@ -150,6 +152,7 @@ namespace OpenPmsDental {
 			// 
 			// textDateStart
 			// 
+			this.textDateStart.AutoSize = false;
 			this.textDateStart.Location = new System.Drawing.Point(181, 8);
 			this.textDateStart.Name = "textDateStart";
 			this.textDateStart.ReadOnly = true;
@@ -198,7 +201,7 @@ namespace OpenPmsDental {
 			// 
 			this.radioBreaks.Location = new System.Drawing.Point(34, 27);
 			this.radioBreaks.Name = "radioBreaks";
-			this.radioBreaks.Size = new System.Drawing.Size(97, 19);
+			this.radioBreaks.Size = new System.Drawing.Size(97, 23);
 			this.radioBreaks.TabIndex = 1;
 			this.radioBreaks.Text = "Breaks";
 			this.radioBreaks.UseVisualStyleBackColor = true;
@@ -209,7 +212,7 @@ namespace OpenPmsDental {
 			this.radioTimeCard.Checked = true;
 			this.radioTimeCard.Location = new System.Drawing.Point(34, 10);
 			this.radioTimeCard.Name = "radioTimeCard";
-			this.radioTimeCard.Size = new System.Drawing.Size(97, 19);
+			this.radioTimeCard.Size = new System.Drawing.Size(97, 23);
 			this.radioTimeCard.TabIndex = 0;
 			this.radioTimeCard.TabStop = true;
 			this.radioTimeCard.Text = "Time Card";
@@ -270,7 +273,7 @@ namespace OpenPmsDental {
 			this.butAdj.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butAdj.Location = new System.Drawing.Point(18, 662);
 			this.butAdj.Name = "butAdj";
-			this.butAdj.Size = new System.Drawing.Size(115, 24);
+			this.butAdj.Size = new System.Drawing.Size(116, 24);
 			this.butAdj.TabIndex = 15;
 			this.butAdj.Text = "Add Adjustment";
 			this.butAdj.Click += new System.EventHandler(this.butAdj_Click);
@@ -341,7 +344,7 @@ namespace OpenPmsDental {
 			//
 			this.radioTotalsDecimal.Location = new System.Drawing.Point(10, 12);
 			this.radioTotalsDecimal.Name = "radioTotalsDecimal";
-			this.radioTotalsDecimal.Size = new System.Drawing.Size(105, 19);
+			this.radioTotalsDecimal.Size = new System.Drawing.Size(107, 20);
 			this.radioTotalsDecimal.TabIndex = 0;
 			this.radioTotalsDecimal.Text = "Decimal Format";
 			this.radioTotalsDecimal.UseVisualStyleBackColor = true;
@@ -351,7 +354,7 @@ namespace OpenPmsDental {
 			//
 			this.radioTotalsColon.Location = new System.Drawing.Point(10, 32);
 			this.radioTotalsColon.Name = "radioTotalsColon";
-			this.radioTotalsColon.Size = new System.Drawing.Size(105, 19);
+			this.radioTotalsColon.Size = new System.Drawing.Size(105, 23);
 			this.radioTotalsColon.TabIndex = 1;
 			this.radioTotalsColon.Text = "Colon Format";
 			this.radioTotalsColon.UseVisualStyleBackColor = true;

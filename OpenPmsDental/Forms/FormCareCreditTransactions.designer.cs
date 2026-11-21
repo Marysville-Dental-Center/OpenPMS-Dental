@@ -303,7 +303,7 @@ namespace OpenPmsDental{
 			this.checkIncludeAck.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkIncludeAck.Location = new System.Drawing.Point(722, 39);
 			this.checkIncludeAck.Name = "checkIncludeAck";
-			this.checkIncludeAck.Size = new System.Drawing.Size(135, 16);
+			this.checkIncludeAck.Size = new System.Drawing.Size(144, 17);
 			this.checkIncludeAck.TabIndex = 2;
 			this.checkIncludeAck.Text = "Include Acknowledged";
 			// 

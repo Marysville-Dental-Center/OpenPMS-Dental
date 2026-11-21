@@ -173,6 +173,7 @@
 			// textProdGoal
 			// 
 			this.textProdGoal.BackColor = System.Drawing.Color.White;
+			this.textProdGoal.AutoSize = false;
 			this.textProdGoal.Location = new System.Drawing.Point(84, 182);
 			this.textProdGoal.Name = "textProdGoal";
 			this.textProdGoal.ReadOnly = true;
@@ -185,7 +186,7 @@
 			// 
 			this.labelProdGoal.Location = new System.Drawing.Point(4, 186);
 			this.labelProdGoal.Name = "labelProdGoal";
-			this.labelProdGoal.Size = new System.Drawing.Size(79, 15);
+			this.labelProdGoal.Size = new System.Drawing.Size(79, 17);
 			this.labelProdGoal.TabIndex = 94;
 			this.labelProdGoal.Text = "Daily Goal";
 			this.labelProdGoal.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -202,6 +203,7 @@
 			// textProduction
 			// 
 			this.textProduction.BackColor = System.Drawing.Color.White;
+			this.textProduction.AutoSize = false;
 			this.textProduction.Location = new System.Drawing.Point(84, 164);
 			this.textProduction.Name = "textProduction";
 			this.textProduction.ReadOnly = true;
@@ -214,7 +216,7 @@
 			// 
 			this.labelProduction.Location = new System.Drawing.Point(1, 168);
 			this.labelProduction.Name = "labelProduction";
-			this.labelProduction.Size = new System.Drawing.Size(82, 15);
+			this.labelProduction.Size = new System.Drawing.Size(82, 18);
 			this.labelProduction.TabIndex = 39;
 			this.labelProduction.Text = "Daily Prod";
 			this.labelProduction.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -222,6 +224,7 @@
 			// textLab
 			// 
 			this.textLab.BackColor = System.Drawing.Color.White;
+			this.textLab.AutoSize = false;
 			this.textLab.Location = new System.Drawing.Point(84, 144);
 			this.textLab.Name = "textLab";
 			this.textLab.ReadOnly = true;
@@ -244,7 +247,7 @@
 			this.labelDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.labelDate.Location = new System.Drawing.Point(2, 3);
 			this.labelDate.Name = "labelDate";
-			this.labelDate.Size = new System.Drawing.Size(56, 18);
+			this.labelDate.Size = new System.Drawing.Size(56, 19);
 			this.labelDate.TabIndex = 24;
 			this.labelDate.Text = "Wed";
 			// 
@@ -531,6 +534,7 @@
 			// 
 			// textAfter
 			// 
+			this.textAfter.AutoSize = false;
 			this.textAfter.Location = new System.Drawing.Point(57, 60);
 			this.textAfter.Name = "textAfter";
 			this.textAfter.Size = new System.Drawing.Size(44, 20);
@@ -565,6 +569,7 @@
 			// 
 			// textBefore
 			// 
+			this.textBefore.AutoSize = false;
 			this.textBefore.Location = new System.Drawing.Point(57, 38);
 			this.textBefore.Name = "textBefore";
 			this.textBefore.Size = new System.Drawing.Size(44, 20);

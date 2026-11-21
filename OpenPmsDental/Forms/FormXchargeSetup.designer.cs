@@ -70,7 +70,7 @@ namespace OpenPmsDental {
 			// 
 			this.checkEnabled.Location = new System.Drawing.Point(187, 45);
 			this.checkEnabled.Name = "checkEnabled";
-			this.checkEnabled.Size = new System.Drawing.Size(273, 17);
+			this.checkEnabled.Size = new System.Drawing.Size(273, 18);
 			this.checkEnabled.TabIndex = 2;
 			this.checkEnabled.Text = "Enabled (affects all clinics)";
 			this.checkEnabled.CheckedChanged += new System.EventHandler(this.checkEnabled_CheckedChanged);
@@ -88,7 +88,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelPath.Location = new System.Drawing.Point(24, 67);
 			this.labelPath.Name = "labelPath";
-			this.labelPath.Size = new System.Drawing.Size(162, 16);
+			this.labelPath.Size = new System.Drawing.Size(162, 18);
 			this.labelPath.TabIndex = 0;
 			this.labelPath.Text = "Program Path";
 			this.labelPath.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -97,7 +97,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelPaymentType.Location = new System.Drawing.Point(12, 67);
 			this.labelPaymentType.Name = "labelPaymentType";
-			this.labelPaymentType.Size = new System.Drawing.Size(162, 16);
+			this.labelPaymentType.Size = new System.Drawing.Size(162, 18);
 			this.labelPaymentType.TabIndex = 0;
 			this.labelPaymentType.Text = "Payment Type";
 			this.labelPaymentType.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -162,7 +162,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelOverride.Location = new System.Drawing.Point(6, 90);
 			this.labelOverride.Name = "labelOverride";
-			this.labelOverride.Size = new System.Drawing.Size(180, 16);
+			this.labelOverride.Size = new System.Drawing.Size(181, 18);
 			this.labelOverride.TabIndex = 0;
 			this.labelOverride.Text = "Local Path Override (usually blank)";
 			this.labelOverride.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -190,7 +190,7 @@ namespace OpenPmsDental {
 			// 
 			this.checkWebPayEnabled.Location = new System.Drawing.Point(169, 122);
 			this.checkWebPayEnabled.Name = "checkWebPayEnabled";
-			this.checkWebPayEnabled.Size = new System.Drawing.Size(273, 17);
+			this.checkWebPayEnabled.Size = new System.Drawing.Size(273, 18);
 			this.checkWebPayEnabled.TabIndex = 7;
 			this.checkWebPayEnabled.Text = "Enable X-Web for Payment Portal payments";
 			this.checkWebPayEnabled.Click += new System.EventHandler(this.checkWebPayEnabled_Click);
@@ -217,7 +217,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelXwebDesc.Location = new System.Drawing.Point(6, 19);
 			this.labelXwebDesc.Name = "labelXwebDesc";
-			this.labelXwebDesc.Size = new System.Drawing.Size(436, 31);
+			this.labelXwebDesc.Size = new System.Drawing.Size(442, 34);
 			this.labelXwebDesc.TabIndex = 0;
 			this.labelXwebDesc.Text = "The following settings are required to enable receiving online payments via the P" +
     "atient Portal.  These settings are provided by X-Charge when you sign up for X-W" +
@@ -238,7 +238,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelAuthKey.Location = new System.Drawing.Point(6, 78);
 			this.labelAuthKey.Name = "labelAuthKey";
-			this.labelAuthKey.Size = new System.Drawing.Size(162, 16);
+			this.labelAuthKey.Size = new System.Drawing.Size(162, 18);
 			this.labelAuthKey.TabIndex = 0;
 			this.labelAuthKey.Text = "Auth Key";
 			this.labelAuthKey.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -265,7 +265,7 @@ namespace OpenPmsDental {
 			// 
 			this.checkPrintReceipt.Location = new System.Drawing.Point(175, 109);
 			this.checkPrintReceipt.Name = "checkPrintReceipt";
-			this.checkPrintReceipt.Size = new System.Drawing.Size(273, 17);
+			this.checkPrintReceipt.Size = new System.Drawing.Size(273, 18);
 			this.checkPrintReceipt.TabIndex = 5;
 			this.checkPrintReceipt.Text = "Print receipts by default";
 			// 
@@ -273,7 +273,7 @@ namespace OpenPmsDental {
 			// 
 			this.checkPromptSig.Location = new System.Drawing.Point(175, 89);
 			this.checkPromptSig.Name = "checkPromptSig";
-			this.checkPromptSig.Size = new System.Drawing.Size(273, 17);
+			this.checkPromptSig.Size = new System.Drawing.Size(273, 18);
 			this.checkPromptSig.TabIndex = 4;
 			this.checkPromptSig.Text = "Prompt for signature on CC trans by default";
 			// 
@@ -281,7 +281,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelClinicEnable.Location = new System.Drawing.Point(24, 118);
 			this.labelClinicEnable.Name = "labelClinicEnable";
-			this.labelClinicEnable.Size = new System.Drawing.Size(436, 16);
+			this.labelClinicEnable.Size = new System.Drawing.Size(436, 18);
 			this.labelClinicEnable.TabIndex = 0;
 			this.labelClinicEnable.Text = "To enable X-Charge for a clinic, set the User ID and Password for that clinic.";
 			this.labelClinicEnable.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -332,7 +332,7 @@ namespace OpenPmsDental {
 			// 
 			this.checkForceDuplicate.Location = new System.Drawing.Point(175, 128);
 			this.checkForceDuplicate.Name = "checkForceDuplicate";
-			this.checkForceDuplicate.Size = new System.Drawing.Size(273, 17);
+			this.checkForceDuplicate.Size = new System.Drawing.Size(273, 18);
 			this.checkForceDuplicate.TabIndex = 7;
 			this.checkForceDuplicate.Text = "Recurring charges force duplicates by default";
 			// 

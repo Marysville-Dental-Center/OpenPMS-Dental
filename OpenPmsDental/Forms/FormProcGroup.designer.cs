@@ -89,6 +89,7 @@ namespace OpenPmsDental {
 			// 
 			// textUser
 			// 
+			this.textUser.AutoSize = false;
 			this.textUser.Location = new System.Drawing.Point(98, 52);
 			this.textUser.Name = "textUser";
 			this.textUser.ReadOnly = true;
@@ -99,7 +100,7 @@ namespace OpenPmsDental {
 			// 
 			this.label12.Location = new System.Drawing.Point(-25, 34);
 			this.label12.Name = "label12";
-			this.label12.Size = new System.Drawing.Size(125, 14);
+			this.label12.Size = new System.Drawing.Size(125, 18);
 			this.label12.TabIndex = 96;
 			this.label12.Text = "Date Entry";
 			this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -117,13 +118,14 @@ namespace OpenPmsDental {
 			// 
 			this.label2.Location = new System.Drawing.Point(2, 14);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(96, 14);
+			this.label2.Size = new System.Drawing.Size(96, 18);
 			this.label2.TabIndex = 101;
 			this.label2.Text = "Procedure Date";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textProcDate
 			// 
+			this.textProcDate.AutoSize = false;
 			this.textProcDate.Location = new System.Drawing.Point(98, 12);
 			this.textProcDate.Name = "textProcDate";
 			this.textProcDate.Size = new System.Drawing.Size(76, 20);
@@ -156,6 +158,7 @@ namespace OpenPmsDental {
 			// 
 			// textDateEntry
 			// 
+			this.textDateEntry.AutoSize = false;
 			this.textDateEntry.Location = new System.Drawing.Point(98, 32);
 			this.textDateEntry.Name = "textDateEntry";
 			this.textDateEntry.ReadOnly = true;
@@ -290,7 +293,7 @@ namespace OpenPmsDental {
 			// 
 			this.butEditAutoNote.Location = new System.Drawing.Point(245, 50);
 			this.butEditAutoNote.Name = "butEditAutoNote";
-			this.butEditAutoNote.Size = new System.Drawing.Size(82, 22);
+			this.butEditAutoNote.Size = new System.Drawing.Size(84, 22);
 			this.butEditAutoNote.TabIndex = 210;
 			this.butEditAutoNote.Text = "Edit Auto Note";
 			this.butEditAutoNote.Click += new System.EventHandler(this.ButEditAutoNote_Click);
@@ -299,7 +302,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelProv.Location = new System.Drawing.Point(174, 13);
 			this.labelProv.Name = "labelProv";
-			this.labelProv.Size = new System.Drawing.Size(50, 18);
+			this.labelProv.Size = new System.Drawing.Size(51, 18);
 			this.labelProv.TabIndex = 211;
 			this.labelProv.Text = "Provider";
 			this.labelProv.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

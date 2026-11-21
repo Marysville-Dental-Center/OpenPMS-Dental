@@ -52,7 +52,7 @@ namespace OpenPmsDental{
 			this.checkAllUsers.Location = new System.Drawing.Point(17, 203);
 			this.checkAllUsers.Name = "checkAllUsers";
 			this.checkAllUsers.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-			this.checkAllUsers.Size = new System.Drawing.Size(118, 16);
+			this.checkAllUsers.Size = new System.Drawing.Size(118, 18);
 			this.checkAllUsers.TabIndex = 65;
 			this.checkAllUsers.Text = "All";
 			this.checkAllUsers.Click += new System.EventHandler(this.checkAllUsers_Click);
@@ -72,7 +72,7 @@ namespace OpenPmsDental{
 			this.checkAllClinics.Location = new System.Drawing.Point(146, 203);
 			this.checkAllClinics.Name = "checkAllClinics";
 			this.checkAllClinics.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-			this.checkAllClinics.Size = new System.Drawing.Size(132, 16);
+			this.checkAllClinics.Size = new System.Drawing.Size(132, 18);
 			this.checkAllClinics.TabIndex = 63;
 			this.checkAllClinics.Text = "All (Includes hidden)";
 			this.checkAllClinics.Click += new System.EventHandler(this.checkAllClinics_Click);
@@ -120,7 +120,7 @@ namespace OpenPmsDental{
 			this.radioFirstPresented.Checked = true;
 			this.radioFirstPresented.Location = new System.Drawing.Point(6, 16);
 			this.radioFirstPresented.Name = "radioFirstPresented";
-			this.radioFirstPresented.Size = new System.Drawing.Size(174, 20);
+			this.radioFirstPresented.Size = new System.Drawing.Size(174, 23);
 			this.radioFirstPresented.TabIndex = 6;
 			this.radioFirstPresented.TabStop = true;
 			this.radioFirstPresented.Text = "First Presented";
@@ -130,7 +130,7 @@ namespace OpenPmsDental{
 			// 
 			this.radioLastPresented.Location = new System.Drawing.Point(6, 40);
 			this.radioLastPresented.Name = "radioLastPresented";
-			this.radioLastPresented.Size = new System.Drawing.Size(174, 20);
+			this.radioLastPresented.Size = new System.Drawing.Size(174, 23);
 			this.radioLastPresented.TabIndex = 7;
 			this.radioLastPresented.Text = "Last Presented";
 			this.radioLastPresented.UseVisualStyleBackColor = true;
@@ -151,7 +151,7 @@ namespace OpenPmsDental{
 			this.radioDetailed.Checked = true;
 			this.radioDetailed.Location = new System.Drawing.Point(6, 16);
 			this.radioDetailed.Name = "radioDetailed";
-			this.radioDetailed.Size = new System.Drawing.Size(174, 20);
+			this.radioDetailed.Size = new System.Drawing.Size(174, 23);
 			this.radioDetailed.TabIndex = 6;
 			this.radioDetailed.TabStop = true;
 			this.radioDetailed.Text = "Detailed Report";
@@ -161,7 +161,7 @@ namespace OpenPmsDental{
 			// 
 			this.radioTotals.Location = new System.Drawing.Point(6, 40);
 			this.radioTotals.Name = "radioTotals";
-			this.radioTotals.Size = new System.Drawing.Size(174, 20);
+			this.radioTotals.Size = new System.Drawing.Size(174, 23);
 			this.radioTotals.TabIndex = 7;
 			this.radioTotals.Text = "Totals Report";
 			this.radioTotals.UseVisualStyleBackColor = true;
@@ -206,7 +206,7 @@ namespace OpenPmsDental{
 			this.radioPresenter.Checked = true;
 			this.radioPresenter.Location = new System.Drawing.Point(6, 16);
 			this.radioPresenter.Name = "radioPresenter";
-			this.radioPresenter.Size = new System.Drawing.Size(174, 20);
+			this.radioPresenter.Size = new System.Drawing.Size(174, 23);
 			this.radioPresenter.TabIndex = 6;
 			this.radioPresenter.TabStop = true;
 			this.radioPresenter.Text = "Presenter";
@@ -216,7 +216,7 @@ namespace OpenPmsDental{
 			// 
 			this.radioEntryUser.Location = new System.Drawing.Point(6, 40);
 			this.radioEntryUser.Name = "radioEntryUser";
-			this.radioEntryUser.Size = new System.Drawing.Size(174, 20);
+			this.radioEntryUser.Size = new System.Drawing.Size(174, 23);
 			this.radioEntryUser.TabIndex = 7;
 			this.radioEntryUser.Text = "Entry User";
 			this.radioEntryUser.UseVisualStyleBackColor = true;

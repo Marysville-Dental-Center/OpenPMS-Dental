@@ -83,7 +83,7 @@
 			this.groupBox2.Controls.Add(this.labelDaysOldMin);
 			this.groupBox2.Location = new System.Drawing.Point(16, 31);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(240, 42);
+			this.groupBox2.Size = new System.Drawing.Size(242, 42);
 			this.groupBox2.TabIndex = 104;
 			this.groupBox2.Text = "Amount Range (leave both blank to show all)";
 			// 
@@ -163,7 +163,7 @@
 			// 
 			this.labelControlId.Location = new System.Drawing.Point(258, 52);
 			this.labelControlId.Name = "labelControlId";
-			this.labelControlId.Size = new System.Drawing.Size(55, 16);
+			this.labelControlId.Size = new System.Drawing.Size(55, 18);
 			this.labelControlId.TabIndex = 109;
 			this.labelControlId.Text = "Control ID";
 			this.labelControlId.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -242,7 +242,7 @@
 			this.checkAutomatableCarriersOnly.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkAutomatableCarriersOnly.Location = new System.Drawing.Point(761, 66);
 			this.checkAutomatableCarriersOnly.Name = "checkAutomatableCarriersOnly";
-			this.checkAutomatableCarriersOnly.Size = new System.Drawing.Size(162, 17);
+			this.checkAutomatableCarriersOnly.Size = new System.Drawing.Size(165, 17);
 			this.checkAutomatableCarriersOnly.TabIndex = 270;
 			this.checkAutomatableCarriersOnly.Text = "Automatable Carriers Only";
 			// 
@@ -251,7 +251,7 @@
 			this.checkShowFinalizedOnly.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkShowFinalizedOnly.Location = new System.Drawing.Point(761, 27);
 			this.checkShowFinalizedOnly.Name = "checkShowFinalizedOnly";
-			this.checkShowFinalizedOnly.Size = new System.Drawing.Size(162, 17);
+			this.checkShowFinalizedOnly.Size = new System.Drawing.Size(162, 18);
 			this.checkShowFinalizedOnly.TabIndex = 271;
 			this.checkShowFinalizedOnly.Text = "Finalized Only";
 			// 

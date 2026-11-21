@@ -56,7 +56,7 @@ namespace OpenPmsDental {
 			// 
 			this.checkNoNotes.Location = new System.Drawing.Point(16, 18);
 			this.checkNoNotes.Name = "checkNoNotes";
-			this.checkNoNotes.Size = new System.Drawing.Size(376, 21);
+			this.checkNoNotes.Size = new System.Drawing.Size(396, 21);
 			this.checkNoNotes.TabIndex = 0;
 			this.checkNoNotes.Text = "Include procedures with no notes on any procedure for the same day";
 			// 
@@ -127,7 +127,7 @@ namespace OpenPmsDental {
 			// 
 			this.radioProcDate.Location = new System.Drawing.Point(8, 53);
 			this.radioProcDate.Name = "radioProcDate";
-			this.radioProcDate.Size = new System.Drawing.Size(111, 18);
+			this.radioProcDate.Size = new System.Drawing.Size(112, 22);
 			this.radioProcDate.TabIndex = 2;
 			this.radioProcDate.Text = "Date and Patient";
 			this.radioProcDate.UseVisualStyleBackColor = true;

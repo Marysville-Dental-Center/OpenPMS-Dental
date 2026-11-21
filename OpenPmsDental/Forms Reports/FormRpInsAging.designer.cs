@@ -80,7 +80,7 @@ namespace OpenPmsDental {
 			// 
 			this.radio30.Location = new System.Drawing.Point(6, 40);
 			this.radio30.Name = "radio30";
-			this.radio30.Size = new System.Drawing.Size(197, 18);
+			this.radio30.Size = new System.Drawing.Size(197, 22);
 			this.radio30.TabIndex = 1;
 			this.radio30.Text = "Over 30 Days";
 			// 
@@ -88,7 +88,7 @@ namespace OpenPmsDental {
 			// 
 			this.radio90.Location = new System.Drawing.Point(6, 84);
 			this.radio90.Name = "radio90";
-			this.radio90.Size = new System.Drawing.Size(197, 18);
+			this.radio90.Size = new System.Drawing.Size(197, 22);
 			this.radio90.TabIndex = 3;
 			this.radio90.Text = "Over 90 Days";
 			// 
@@ -96,7 +96,7 @@ namespace OpenPmsDental {
 			// 
 			this.radio60.Location = new System.Drawing.Point(6, 62);
 			this.radio60.Name = "radio60";
-			this.radio60.Size = new System.Drawing.Size(197, 18);
+			this.radio60.Size = new System.Drawing.Size(197, 22);
 			this.radio60.TabIndex = 2;
 			this.radio60.Text = "Over 60 Days";
 			// 
@@ -105,7 +105,7 @@ namespace OpenPmsDental {
 			this.radioAny.Checked = true;
 			this.radioAny.Location = new System.Drawing.Point(6, 18);
 			this.radioAny.Name = "radioAny";
-			this.radioAny.Size = new System.Drawing.Size(197, 18);
+			this.radioAny.Size = new System.Drawing.Size(197, 22);
 			this.radioAny.TabIndex = 0;
 			this.radioAny.TabStop = true;
 			this.radioAny.Text = "Any Balance";
@@ -231,7 +231,7 @@ namespace OpenPmsDental {
 			// 
 			this.radioGroupByPat.Location = new System.Drawing.Point(6, 40);
 			this.radioGroupByPat.Name = "radioGroupByPat";
-			this.radioGroupByPat.Size = new System.Drawing.Size(197, 18);
+			this.radioGroupByPat.Size = new System.Drawing.Size(197, 22);
 			this.radioGroupByPat.TabIndex = 1;
 			this.radioGroupByPat.Text = "Individual";
 			this.radioGroupByPat.UseVisualStyleBackColor = true;
@@ -241,7 +241,7 @@ namespace OpenPmsDental {
 			this.radioGroupByFam.Checked = true;
 			this.radioGroupByFam.Location = new System.Drawing.Point(6, 18);
 			this.radioGroupByFam.Name = "radioGroupByFam";
-			this.radioGroupByFam.Size = new System.Drawing.Size(197, 18);
+			this.radioGroupByFam.Size = new System.Drawing.Size(197, 22);
 			this.radioGroupByFam.TabIndex = 0;
 			this.radioGroupByFam.TabStop = true;
 			this.radioGroupByFam.Text = "Family";
@@ -298,7 +298,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelGroupName.Location = new System.Drawing.Point(6, 43);
 			this.labelGroupName.Name = "labelGroupName";
-			this.labelGroupName.Size = new System.Drawing.Size(108, 13);
+			this.labelGroupName.Size = new System.Drawing.Size(108, 17);
 			this.labelGroupName.TabIndex = 5;
 			this.labelGroupName.Text = "Group Name like";
 			this.labelGroupName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -307,7 +307,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelCarrier.Location = new System.Drawing.Point(6, 18);
 			this.labelCarrier.Name = "labelCarrier";
-			this.labelCarrier.Size = new System.Drawing.Size(108, 13);
+			this.labelCarrier.Size = new System.Drawing.Size(108, 17);
 			this.labelCarrier.TabIndex = 4;
 			this.labelCarrier.Text = "Carrier Name like";
 			this.labelCarrier.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

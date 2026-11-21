@@ -113,7 +113,7 @@ namespace OpenPmsDental{
 			// 
 			this.radioY.Location = new System.Drawing.Point(12, 39);
 			this.radioY.Name = "radioY";
-			this.radioY.Size = new System.Drawing.Size(114, 18);
+			this.radioY.Size = new System.Drawing.Size(114, 22);
 			this.radioY.TabIndex = 1;
 			this.radioY.TabStop = true;
 			this.radioY.Text = "Yes";
@@ -123,7 +123,7 @@ namespace OpenPmsDental{
 			// 
 			this.radioN.Location = new System.Drawing.Point(12, 61);
 			this.radioN.Name = "radioN";
-			this.radioN.Size = new System.Drawing.Size(114, 18);
+			this.radioN.Size = new System.Drawing.Size(114, 22);
 			this.radioN.TabIndex = 2;
 			this.radioN.TabStop = true;
 			this.radioN.Text = "No";
@@ -134,7 +134,7 @@ namespace OpenPmsDental{
 			this.radioU.Checked = true;
 			this.radioU.Location = new System.Drawing.Point(12, 17);
 			this.radioU.Name = "radioU";
-			this.radioU.Size = new System.Drawing.Size(114, 18);
+			this.radioU.Size = new System.Drawing.Size(114, 22);
 			this.radioU.TabIndex = 0;
 			this.radioU.TabStop = true;
 			this.radioU.Text = "Doesn\'t Matter";
@@ -178,7 +178,7 @@ namespace OpenPmsDental{
 			// 
 			this.radio30.Location = new System.Drawing.Point(12, 41);
 			this.radio30.Name = "radio30";
-			this.radio30.Size = new System.Drawing.Size(114, 18);
+			this.radio30.Size = new System.Drawing.Size(114, 22);
 			this.radio30.TabIndex = 1;
 			this.radio30.Text = "Over 30 Days";
 			this.radio30.CheckedChanged += new System.EventHandler(this.OnFilterChanged);
@@ -187,7 +187,7 @@ namespace OpenPmsDental{
 			// 
 			this.radio90.Location = new System.Drawing.Point(12, 85);
 			this.radio90.Name = "radio90";
-			this.radio90.Size = new System.Drawing.Size(114, 18);
+			this.radio90.Size = new System.Drawing.Size(114, 22);
 			this.radio90.TabIndex = 3;
 			this.radio90.Text = "Over 90 Days";
 			this.radio90.CheckedChanged += new System.EventHandler(this.OnFilterChanged);
@@ -196,7 +196,7 @@ namespace OpenPmsDental{
 			// 
 			this.radio60.Location = new System.Drawing.Point(12, 63);
 			this.radio60.Name = "radio60";
-			this.radio60.Size = new System.Drawing.Size(114, 18);
+			this.radio60.Size = new System.Drawing.Size(114, 22);
 			this.radio60.TabIndex = 2;
 			this.radio60.Text = "Over 60 Days";
 			this.radio60.CheckedChanged += new System.EventHandler(this.OnFilterChanged);
@@ -206,7 +206,7 @@ namespace OpenPmsDental{
 			this.radioAny.Checked = true;
 			this.radioAny.Location = new System.Drawing.Point(12, 19);
 			this.radioAny.Name = "radioAny";
-			this.radioAny.Size = new System.Drawing.Size(114, 18);
+			this.radioAny.Size = new System.Drawing.Size(114, 22);
 			this.radioAny.TabIndex = 0;
 			this.radioAny.TabStop = true;
 			this.radioAny.Text = "Any Balance";
@@ -225,7 +225,7 @@ namespace OpenPmsDental{
 			// 
 			this.label8.Location = new System.Drawing.Point(6, 29);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(158, 16);
+			this.label8.Size = new System.Drawing.Size(158, 17);
 			this.label8.TabIndex = 258;
 			this.label8.Text = "Billing Type:";
 			this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;

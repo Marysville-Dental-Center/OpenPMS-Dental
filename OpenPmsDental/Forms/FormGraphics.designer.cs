@@ -91,7 +91,7 @@ namespace OpenPmsDental {
 			//
 			this.labelChart3DAll.Location = new System.Drawing.Point(12, 19);
 			this.labelChart3DAll.Name = "labelChart3DAll";
-			this.labelChart3DAll.Size = new System.Drawing.Size(520, 16);
+			this.labelChart3DAll.Size = new System.Drawing.Size(520, 18);
 			this.labelChart3DAll.TabIndex = 0;
 			this.labelChart3DAll.Text = "This option affects all computers in the office.  All other options are specific to this computer.";
 			//
@@ -99,7 +99,7 @@ namespace OpenPmsDental {
 			//
 			this.radioChart3DAllUse.Location = new System.Drawing.Point(15, 38);
 			this.radioChart3DAllUse.Name = "radioChart3DAllUse";
-			this.radioChart3DAllUse.Size = new System.Drawing.Size(520, 19);
+			this.radioChart3DAllUse.Size = new System.Drawing.Size(520, 20);
 			this.radioChart3DAllUse.TabIndex = 1;
 			this.radioChart3DAllUse.TabStop = true;
 			this.radioChart3DAllUse.Text = "Use if available.  Advantage is the detailed 3D tooth chart and the graphical perio chart.";
@@ -110,7 +110,7 @@ namespace OpenPmsDental {
 			//
 			this.radioChart3DAllDontUse.Location = new System.Drawing.Point(15, 58);
 			this.radioChart3DAllDontUse.Name = "radioChart3DAllDontUse";
-			this.radioChart3DAllDontUse.Size = new System.Drawing.Size(520, 31);
+			this.radioChart3DAllDontUse.Size = new System.Drawing.Size(533, 31);
 			this.radioChart3DAllDontUse.TabIndex = 2;
 			this.radioChart3DAllDontUse.TabStop = true;
 			this.radioChart3DAllDontUse.Text = "Do not use.  Advantage is that older or underpowered hardware might work better.  This is an easy first step for troubleshooting certain graphics problems.";
@@ -133,7 +133,7 @@ namespace OpenPmsDental {
 			//
 			this.radioChart3DThisGlobal.Location = new System.Drawing.Point(15, 17);
 			this.radioChart3DThisGlobal.Name = "radioChart3DThisGlobal";
-			this.radioChart3DThisGlobal.Size = new System.Drawing.Size(159, 19);
+			this.radioChart3DThisGlobal.Size = new System.Drawing.Size(159, 23);
 			this.radioChart3DThisGlobal.TabIndex = 0;
 			this.radioChart3DThisGlobal.TabStop = true;
 			this.radioChart3DThisGlobal.Text = "Use the global setting";
@@ -144,7 +144,7 @@ namespace OpenPmsDental {
 			//
 			this.radioChart3DThisUse.Location = new System.Drawing.Point(15, 35);
 			this.radioChart3DThisUse.Name = "radioChart3DThisUse";
-			this.radioChart3DThisUse.Size = new System.Drawing.Size(159, 19);
+			this.radioChart3DThisUse.Size = new System.Drawing.Size(159, 23);
 			this.radioChart3DThisUse.TabIndex = 1;
 			this.radioChart3DThisUse.TabStop = true;
 			this.radioChart3DThisUse.Text = "Use if available";
@@ -155,7 +155,7 @@ namespace OpenPmsDental {
 			//
 			this.radioChart3DThisDontUse.Location = new System.Drawing.Point(15, 52);
 			this.radioChart3DThisDontUse.Name = "radioChart3DThisDontUse";
-			this.radioChart3DThisDontUse.Size = new System.Drawing.Size(159, 19);
+			this.radioChart3DThisDontUse.Size = new System.Drawing.Size(159, 23);
 			this.radioChart3DThisDontUse.TabIndex = 2;
 			this.radioChart3DThisDontUse.TabStop = true;
 			this.radioChart3DThisDontUse.Text = "Do not use";
@@ -189,7 +189,7 @@ namespace OpenPmsDental {
 			this.radioStatusFellBack.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
 			this.radioStatusFellBack.Location = new System.Drawing.Point(12, 35);
 			this.radioStatusFellBack.Name = "radioStatusFellBack";
-			this.radioStatusFellBack.Size = new System.Drawing.Size(340, 36);
+			this.radioStatusFellBack.Size = new System.Drawing.Size(348, 36);
 			this.radioStatusFellBack.TabIndex = 1;
 			this.radioStatusFellBack.Text = "Fell back: the 3D tooth chart could not start on this computer, so the Simple 2D chart is used.";
 			this.radioStatusFellBack.TextAlign = System.Drawing.ContentAlignment.TopLeft;
@@ -210,7 +210,7 @@ namespace OpenPmsDental {
 			//
 			this.radioSimpleChart.Location = new System.Drawing.Point(15, 17);
 			this.radioSimpleChart.Name = "radioSimpleChart";
-			this.radioSimpleChart.Size = new System.Drawing.Size(250, 19);
+			this.radioSimpleChart.Size = new System.Drawing.Size(250, 21);
 			this.radioSimpleChart.TabIndex = 0;
 			this.radioSimpleChart.TabStop = true;
 			this.radioSimpleChart.Text = "Simple 2D (pie shapes)";
@@ -220,7 +220,7 @@ namespace OpenPmsDental {
 			//
 			this.labelOlder.Location = new System.Drawing.Point(15, 38);
 			this.labelOlder.Name = "labelOlder";
-			this.labelOlder.Size = new System.Drawing.Size(256, 32);
+			this.labelOlder.Size = new System.Drawing.Size(262, 32);
 			this.labelOlder.TabIndex = 1;
 			this.labelOlder.Text = "Used when the 3D tooth chart is not used.  The older 3D technologies were retired.";
 			//
@@ -240,7 +240,7 @@ namespace OpenPmsDental {
 			//
 			this.labelOptions.Location = new System.Drawing.Point(9, 18);
 			this.labelOptions.Name = "labelOptions";
-			this.labelOptions.Size = new System.Drawing.Size(378, 30);
+			this.labelOptions.Size = new System.Drawing.Size(386, 30);
 			this.labelOptions.TabIndex = 0;
 			this.labelOptions.Text = "Most users will never need to change any of these options.  These are only used when the 3D tooth chart is not working properly.";
 			//

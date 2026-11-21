@@ -95,6 +95,7 @@
 			// 
 			// textSpecimenTypeCodeSystemNameAlt
 			// 
+			this.textSpecimenTypeCodeSystemNameAlt.AutoSize = false;
 			this.textSpecimenTypeCodeSystemNameAlt.Location = new System.Drawing.Point(134, 80);
 			this.textSpecimenTypeCodeSystemNameAlt.Name = "textSpecimenTypeCodeSystemNameAlt";
 			this.textSpecimenTypeCodeSystemNameAlt.Size = new System.Drawing.Size(135, 20);
@@ -111,6 +112,7 @@
 			// 
 			// textSpecimenTypeCodeSystemName
 			// 
+			this.textSpecimenTypeCodeSystemName.AutoSize = false;
 			this.textSpecimenTypeCodeSystemName.Location = new System.Drawing.Point(134, 17);
 			this.textSpecimenTypeCodeSystemName.Name = "textSpecimenTypeCodeSystemName";
 			this.textSpecimenTypeCodeSystemName.Size = new System.Drawing.Size(135, 20);
@@ -153,6 +155,7 @@
 			// 
 			// textSpecimenTypeID
 			// 
+			this.textSpecimenTypeID.AutoSize = false;
 			this.textSpecimenTypeID.Location = new System.Drawing.Point(134, 38);
 			this.textSpecimenTypeID.Name = "textSpecimenTypeID";
 			this.textSpecimenTypeID.Size = new System.Drawing.Size(135, 20);
@@ -194,6 +197,7 @@
 			// 
 			// textSpecimenTypeIDAlt
 			// 
+			this.textSpecimenTypeIDAlt.AutoSize = false;
 			this.textSpecimenTypeIDAlt.Location = new System.Drawing.Point(134, 101);
 			this.textSpecimenTypeIDAlt.Name = "textSpecimenTypeIDAlt";
 			this.textSpecimenTypeIDAlt.Size = new System.Drawing.Size(135, 20);
@@ -214,6 +218,7 @@
 			// 
 			// textCollectionDateTimeStart
 			// 
+			this.textCollectionDateTimeStart.AutoSize = false;
 			this.textCollectionDateTimeStart.Location = new System.Drawing.Point(134, 13);
 			this.textCollectionDateTimeStart.Name = "textCollectionDateTimeStart";
 			this.textCollectionDateTimeStart.Size = new System.Drawing.Size(135, 20);
@@ -239,6 +244,7 @@
 			// 
 			// textCollectionDateTimeEnd
 			// 
+			this.textCollectionDateTimeEnd.AutoSize = false;
 			this.textCollectionDateTimeEnd.Location = new System.Drawing.Point(134, 34);
 			this.textCollectionDateTimeEnd.Name = "textCollectionDateTimeEnd";
 			this.textCollectionDateTimeEnd.Size = new System.Drawing.Size(135, 20);

@@ -82,7 +82,7 @@ namespace OpenPmsDental {
 			// 
 			this.label8.Location = new System.Drawing.Point(867, 44);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(64, 13);
+			this.label8.Size = new System.Drawing.Size(64, 17);
 			this.label8.TabIndex = 274;
 			this.label8.Text = "To Date";
 			this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -155,7 +155,7 @@ namespace OpenPmsDental {
 			// 
 			this.label5.Location = new System.Drawing.Point(158, 36);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(75, 13);
+			this.label5.Size = new System.Drawing.Size(75, 17);
 			this.label5.TabIndex = 55;
 			this.label5.Text = "User";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -172,7 +172,7 @@ namespace OpenPmsDental {
 			// 
 			this.label4.Location = new System.Drawing.Point(405, 21);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(65, 13);
+			this.label4.Size = new System.Drawing.Size(65, 17);
 			this.label4.TabIndex = 52;
 			this.label4.Text = "Patient";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -181,7 +181,7 @@ namespace OpenPmsDental {
 			// 
 			this.label1.Location = new System.Drawing.Point(158, 13);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(75, 13);
+			this.label1.Size = new System.Drawing.Size(75, 17);
 			this.label1.TabIndex = 51;
 			this.label1.Text = "Permission";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -221,7 +221,7 @@ namespace OpenPmsDental {
 			// 
 			this.label2.Location = new System.Drawing.Point(0, 21);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(75, 14);
+			this.label2.Size = new System.Drawing.Size(75, 18);
 			this.label2.TabIndex = 45;
 			this.label2.Text = "From Date";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -230,7 +230,7 @@ namespace OpenPmsDental {
 			// 
 			this.label3.Location = new System.Drawing.Point(11, 44);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(64, 13);
+			this.label3.Size = new System.Drawing.Size(64, 17);
 			this.label3.TabIndex = 46;
 			this.label3.Text = "To Date";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -262,7 +262,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelLogSource.Location = new System.Drawing.Point(158, 59);
 			this.labelLogSource.Name = "labelLogSource";
-			this.labelLogSource.Size = new System.Drawing.Size(75, 13);
+			this.labelLogSource.Size = new System.Drawing.Size(75, 17);
 			this.labelLogSource.TabIndex = 278;
 			this.labelLogSource.Text = "LogSource";
 			this.labelLogSource.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

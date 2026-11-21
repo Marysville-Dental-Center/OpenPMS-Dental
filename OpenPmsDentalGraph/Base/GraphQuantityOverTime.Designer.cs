@@ -167,7 +167,7 @@
 			// 
 			this.label3.Location = new System.Drawing.Point(8, 48);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(75, 13);
+			this.label3.Size = new System.Drawing.Size(75, 15);
 			this.label3.TabIndex = 10;
 			this.label3.Text = "From:";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -176,7 +176,7 @@
 			// 
 			this.label4.Location = new System.Drawing.Point(8, 72);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(75, 13);
+			this.label4.Size = new System.Drawing.Size(75, 15);
 			this.label4.TabIndex = 12;
 			this.label4.Text = "To:";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -289,7 +289,7 @@
 			// 
 			this.label2.Location = new System.Drawing.Point(9, 23);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(75, 13);
+			this.label2.Size = new System.Drawing.Size(77, 15);
 			this.label2.TabIndex = 13;
 			this.label2.Text = "Quick Range:";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -308,7 +308,7 @@
 			// 
 			this.label1.Location = new System.Drawing.Point(6, 72);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(71, 13);
+			this.label1.Size = new System.Drawing.Size(71, 15);
 			this.label1.TabIndex = 13;
 			this.label1.Text = "Group By:";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -334,7 +334,7 @@
 			// 
 			this.label7.Location = new System.Drawing.Point(26, 99);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(51, 13);
+			this.label7.Size = new System.Drawing.Size(51, 15);
 			this.label7.TabIndex = 17;
 			this.label7.Text = "Legend:";
 			this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -353,7 +353,7 @@
 			// 
 			this.label6.Location = new System.Drawing.Point(6, 48);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(71, 13);
+			this.label6.Size = new System.Drawing.Size(71, 15);
 			this.label6.TabIndex = 15;
 			this.label6.Text = "Series Type:";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -362,7 +362,7 @@
 			// 
 			this.label5.Location = new System.Drawing.Point(6, 23);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(71, 13);
+			this.label5.Size = new System.Drawing.Size(71, 15);
 			this.label5.TabIndex = 14;
 			this.label5.Text = "Display:";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

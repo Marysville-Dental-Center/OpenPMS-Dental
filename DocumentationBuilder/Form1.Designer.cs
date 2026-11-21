@@ -53,7 +53,7 @@ namespace DocumentationBuilder {
 			// 
 			this.butBuild.Location = new System.Drawing.Point(26, 301);
 			this.butBuild.Name = "butBuild";
-			this.butBuild.Size = new System.Drawing.Size(150, 24);
+			this.butBuild.Size = new System.Drawing.Size(151, 28);
 			this.butBuild.TabIndex = 1;
 			this.butBuild.Text = "Build OD Documentation";
 			this.butBuild.UseVisualStyleBackColor = true;
@@ -73,7 +73,7 @@ namespace DocumentationBuilder {
 			// 
 			this.label3.Location = new System.Drawing.Point(23, 129);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(558, 33);
+			this.label3.Size = new System.Drawing.Size(558, 45);
 			this.label3.TabIndex = 3;
 			this.label3.Text = resources.GetString("label3.Text");
 			// 
@@ -119,7 +119,7 @@ namespace DocumentationBuilder {
 			// 
 			this.labelPrevVersion.Location = new System.Drawing.Point(23, 222);
 			this.labelPrevVersion.Name = "labelPrevVersion";
-			this.labelPrevVersion.Size = new System.Drawing.Size(185, 19);
+			this.labelPrevVersion.Size = new System.Drawing.Size(186, 19);
 			this.labelPrevVersion.TabIndex = 11;
 			this.labelPrevVersion.Text = "Step 4: Specify the previous version:";
 			// 
@@ -136,7 +136,7 @@ namespace DocumentationBuilder {
 			// 
 			this.butBuildUnitTest.Location = new System.Drawing.Point(26, 376);
 			this.butBuildUnitTest.Name = "butBuildUnitTest";
-			this.butBuildUnitTest.Size = new System.Drawing.Size(182, 24);
+			this.butBuildUnitTest.Size = new System.Drawing.Size(182, 28);
 			this.butBuildUnitTest.TabIndex = 13;
 			this.butBuildUnitTest.Text = "Build Unit Test Documentation";
 			this.butBuildUnitTest.UseVisualStyleBackColor = true;
@@ -156,7 +156,7 @@ namespace DocumentationBuilder {
 			// 
 			this.labelPrefDocumentation.Location = new System.Drawing.Point(23, 417);
 			this.labelPrefDocumentation.Name = "labelPrefDocumentation";
-			this.labelPrefDocumentation.Size = new System.Drawing.Size(558, 44);
+			this.labelPrefDocumentation.Size = new System.Drawing.Size(558, 45);
 			this.labelPrefDocumentation.TabIndex = 17;
 			this.labelPrefDocumentation.Text = "Approximate time to complete is 3 seconds on a fast computer\r\nThen, manually copy" +
     " Pref(version).html to unversioned\\ODHelpFaqSite\\ODHelpFaqSite\\PreferenceTable\\";
@@ -166,7 +166,7 @@ namespace DocumentationBuilder {
 			// 
 			this.buttonPrefDocumentation.Location = new System.Drawing.Point(26, 464);
 			this.buttonPrefDocumentation.Name = "buttonPrefDocumentation";
-			this.buttonPrefDocumentation.Size = new System.Drawing.Size(161, 24);
+			this.buttonPrefDocumentation.Size = new System.Drawing.Size(161, 28);
 			this.buttonPrefDocumentation.TabIndex = 16;
 			this.buttonPrefDocumentation.Text = "Build Pref Documentation";
 			this.buttonPrefDocumentation.UseVisualStyleBackColor = true;
