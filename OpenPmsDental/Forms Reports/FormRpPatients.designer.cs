@@ -225,7 +225,7 @@ namespace OpenPmsDental {
 			this.butDeleteFilter.Location = new System.Drawing.Point(10, 420);
 			this.butDeleteFilter.Name = "butDeleteFilter";
 			this.butDeleteFilter.RightToLeft = System.Windows.Forms.RightToLeft.No;
-			this.butDeleteFilter.Size = new System.Drawing.Size(108, 26);
+			this.butDeleteFilter.Size = new System.Drawing.Size(110, 26);
 			this.butDeleteFilter.TabIndex = 8;
 			this.butDeleteFilter.Text = "      Delete Row";
 			this.butDeleteFilter.Click += new System.EventHandler(this.butDeleteFilter_Click);

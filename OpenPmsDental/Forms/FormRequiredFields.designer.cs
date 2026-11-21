@@ -52,7 +52,7 @@ namespace OpenPmsDental {
 			this.labelExplanation.ImageAlign = System.Drawing.ContentAlignment.TopRight;
 			this.labelExplanation.Location = new System.Drawing.Point(214, 526);
 			this.labelExplanation.Name = "labelExplanation";
-			this.labelExplanation.Size = new System.Drawing.Size(415, 15);
+			this.labelExplanation.Size = new System.Drawing.Size(415, 18);
 			this.labelExplanation.TabIndex = 61;
 			this.labelExplanation.Text = "Field must not be blank";
 			// 
@@ -61,7 +61,7 @@ namespace OpenPmsDental {
 			this.label1.ImageAlign = System.Drawing.ContentAlignment.TopRight;
 			this.label1.Location = new System.Drawing.Point(12, 56);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(158, 15);
+			this.label1.Size = new System.Drawing.Size(158, 18);
 			this.label1.TabIndex = 63;
 			this.label1.Text = "Available Fields";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -71,7 +71,7 @@ namespace OpenPmsDental {
 			this.labelFieldType.ImageAlign = System.Drawing.ContentAlignment.TopRight;
 			this.labelFieldType.Location = new System.Drawing.Point(12, 14);
 			this.labelFieldType.Name = "labelFieldType";
-			this.labelFieldType.Size = new System.Drawing.Size(158, 15);
+			this.labelFieldType.Size = new System.Drawing.Size(158, 18);
 			this.labelFieldType.TabIndex = 65;
 			this.labelFieldType.Text = "Field Type";
 			this.labelFieldType.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -81,7 +81,7 @@ namespace OpenPmsDental {
 			this.label2.ImageAlign = System.Drawing.ContentAlignment.TopRight;
 			this.label2.Location = new System.Drawing.Point(476, 32);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(393, 15);
+			this.label2.Size = new System.Drawing.Size(393, 18);
 			this.label2.TabIndex = 70;
 			this.label2.Text = "Limit Requirement to only apply if:";
 			// 

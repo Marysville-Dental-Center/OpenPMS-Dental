@@ -127,7 +127,7 @@ namespace OpenPmsDental{
 			this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.label8.Location = new System.Drawing.Point(531, 37);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(61, 16);
+			this.label8.Size = new System.Drawing.Size(61, 18);
 			this.label8.TabIndex = 96;
 			this.label8.Text = "Height";
 			this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -147,7 +147,7 @@ namespace OpenPmsDental{
 			this.checkRequired.Location = new System.Drawing.Point(359, 197);
 			this.checkRequired.Name = "checkRequired";
 			this.checkRequired.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-			this.checkRequired.Size = new System.Drawing.Size(97, 17);
+			this.checkRequired.Size = new System.Drawing.Size(97, 18);
 			this.checkRequired.TabIndex = 5;
 			this.checkRequired.Text = "Required";
 			// 
@@ -360,7 +360,7 @@ namespace OpenPmsDental{
 			this.labelReportableName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelReportableName.Location = new System.Drawing.Point(334, 605);
 			this.labelReportableName.Name = "labelReportableName";
-			this.labelReportableName.Size = new System.Drawing.Size(122, 16);
+			this.labelReportableName.Size = new System.Drawing.Size(122, 18);
 			this.labelReportableName.TabIndex = 108;
 			this.labelReportableName.Text = "Reportable Name";
 			this.labelReportableName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -470,7 +470,7 @@ namespace OpenPmsDental{
 			this.labelUiLabelMobileCheckBoxNonMisc.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelUiLabelMobileCheckBoxNonMisc.Location = new System.Drawing.Point(334, 540);
 			this.labelUiLabelMobileCheckBoxNonMisc.Name = "labelUiLabelMobileCheckBoxNonMisc";
-			this.labelUiLabelMobileCheckBoxNonMisc.Size = new System.Drawing.Size(122, 16);
+			this.labelUiLabelMobileCheckBoxNonMisc.Size = new System.Drawing.Size(122, 18);
 			this.labelUiLabelMobileCheckBoxNonMisc.TabIndex = 120;
 			this.labelUiLabelMobileCheckBoxNonMisc.Text = "Mobile Item Caption";
 			this.labelUiLabelMobileCheckBoxNonMisc.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -522,7 +522,7 @@ namespace OpenPmsDental{
 			// 
 			this.labelMobileMedicalNameOverride.Location = new System.Drawing.Point(337, 336);
 			this.labelMobileMedicalNameOverride.Name = "labelMobileMedicalNameOverride";
-			this.labelMobileMedicalNameOverride.Size = new System.Drawing.Size(122, 13);
+			this.labelMobileMedicalNameOverride.Size = new System.Drawing.Size(122, 17);
 			this.labelMobileMedicalNameOverride.TabIndex = 130;
 			this.labelMobileMedicalNameOverride.Text = "Mobile Group Caption";
 			this.labelMobileMedicalNameOverride.TextAlign = System.Drawing.ContentAlignment.TopRight;

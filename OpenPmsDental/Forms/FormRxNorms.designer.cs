@@ -38,7 +38,7 @@ namespace OpenPmsDental{
 			// 
 			this.labelCodeOrDesc.Location = new System.Drawing.Point(3, 10);
 			this.labelCodeOrDesc.Name = "labelCodeOrDesc";
-			this.labelCodeOrDesc.Size = new System.Drawing.Size(172, 16);
+			this.labelCodeOrDesc.Size = new System.Drawing.Size(172, 18);
 			this.labelCodeOrDesc.TabIndex = 21;
 			this.labelCodeOrDesc.Text = "Code or Description";
 			this.labelCodeOrDesc.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -103,7 +103,7 @@ namespace OpenPmsDental{
 			// 
 			// checkIgnore
 			// 
-			this.checkIgnore.AutoSize = true;
+			this.checkIgnore.AutoSize = false;
 			this.checkIgnore.Location = new System.Drawing.Point(563, 9);
 			this.checkIgnore.Name = "checkIgnore";
 			this.checkIgnore.Size = new System.Drawing.Size(101, 17);

@@ -56,7 +56,7 @@ namespace OpenPmsDental{
 			this.labelTitle.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.labelTitle.Location = new System.Drawing.Point(12, 9);
 			this.labelTitle.Name = "labelTitle";
-			this.labelTitle.Size = new System.Drawing.Size(323, 21);
+			this.labelTitle.Size = new System.Drawing.Size(345, 21);
 			this.labelTitle.TabIndex = 71;
 			this.labelTitle.Text = "Select one or more Procedures to display on the selected sheet";
 			this.labelTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;

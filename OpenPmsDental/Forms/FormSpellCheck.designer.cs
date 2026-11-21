@@ -52,7 +52,7 @@ namespace OpenPmsDental{
 			// 
 			// checkBox1
 			// 
-			this.checkBox1.AutoSize = true;
+			this.checkBox1.AutoSize = false;
 			this.checkBox1.Location = new System.Drawing.Point(12, 12);
 			this.checkBox1.Name = "checkBox1";
 			this.checkBox1.RightToLeft = System.Windows.Forms.RightToLeft.No;

@@ -46,7 +46,7 @@ namespace OpenPmsDental {
 			// 
 			this.label3.Location = new System.Drawing.Point(1, 12);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(99, 15);
+			this.label3.Size = new System.Drawing.Size(99, 17);
 			this.label3.TabIndex = 21;
 			this.label3.Text = "Sheet type filter";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.BottomLeft;

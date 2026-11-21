@@ -174,7 +174,7 @@
 			// 
 			this.label1.Location = new System.Drawing.Point(3, 4);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(54, 13);
+			this.label1.Size = new System.Drawing.Size(54, 17);
 			this.label1.TabIndex = 9;
 			this.label1.Text = "Title";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

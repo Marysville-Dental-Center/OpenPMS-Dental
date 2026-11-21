@@ -81,7 +81,7 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.label2.Location = new System.Drawing.Point(154, 9);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(143, 65);
+			this.label2.Size = new System.Drawing.Size(143, 81);
 			this.label2.TabIndex = 3;
 			this.label2.Text = "This is a UI.SplitContainer along with its 2 SplitterPanels, that you can copy/pa" +
     "ste into any form.";

@@ -36,7 +36,7 @@
 			this.checkAutoLogin.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.checkAutoLogin.Location = new System.Drawing.Point(62, 50);
 			this.checkAutoLogin.Name = "checkAutoLogin";
-			this.checkAutoLogin.Size = new System.Drawing.Size(203, 18);
+			this.checkAutoLogin.Size = new System.Drawing.Size(203, 22);
 			this.checkAutoLogin.TabIndex = 18;
 			this.checkAutoLogin.Text = "Log me in automatically";
 			this.checkAutoLogin.UseVisualStyleBackColor = true;

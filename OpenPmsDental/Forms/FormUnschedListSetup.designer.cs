@@ -58,16 +58,17 @@ namespace OpenPmsDental{
 			// 
 			// label1
 			// 
-			this.label1.AutoSize = true;
+			this.label1.AutoSize = false;
 			this.label1.Location = new System.Drawing.Point(9, 61);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(228, 39);
+			this.label1.Size = new System.Drawing.Size(253, 51);
 			this.label1.TabIndex = 67;
 			this.label1.Text = "Leaving these fields blank will result in the date\r\n filter not being set when th" +
     "e unscheduled list\r\n is first opened.";
 			// 
 			// textDaysFuture
 			// 
+			this.textDaysFuture.AutoSize = false;
 			this.textDaysFuture.Location = new System.Drawing.Point(192, 38);
 			this.textDaysFuture.MaxVal = 10000;
 			this.textDaysFuture.Name = "textDaysFuture";
@@ -77,6 +78,7 @@ namespace OpenPmsDental{
 			// 
 			// textDaysPast
 			// 
+			this.textDaysPast.AutoSize = false;
 			this.textDaysPast.Location = new System.Drawing.Point(192, 16);
 			this.textDaysPast.MaxVal = 10000;
 			this.textDaysPast.Name = "textDaysPast";

@@ -39,7 +39,7 @@
 			// 
 			this.label8.Location = new System.Drawing.Point(20, 28);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(544, 30);
+			this.label8.Size = new System.Drawing.Size(662, 30);
 			this.label8.TabIndex = 27;
 			this.label8.Text = "Here are your currently set up Operatories. Click \'Add\' to add more.\r\nEach operat" +
     "ory must have a name and an abbreviation.";
@@ -61,7 +61,7 @@
 			this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.label2.Location = new System.Drawing.Point(710, 101);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(217, 29);
+			this.label2.Size = new System.Drawing.Size(220, 29);
 			this.label2.TabIndex = 30;
 			this.label2.Text = "Double click a row to edit the specific operatory.\r\n";
 			// 
@@ -123,7 +123,7 @@
 			this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.label4.Location = new System.Drawing.Point(710, 400);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(217, 67);
+			this.label4.Size = new System.Drawing.Size(217, 69);
 			this.label4.TabIndex = 35;
 			this.label4.Text = "Further modifications to this list can be made by going to Setup -> Appointments " +
     "-> Operatories, or clicking \"Advanced\".";

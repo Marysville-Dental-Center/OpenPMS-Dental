@@ -52,7 +52,7 @@ namespace OpenPmsDental{
 			this.butCloseSessions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butCloseSessions.Location = new System.Drawing.Point(529, 401);
 			this.butCloseSessions.Name = "butCloseSessions";
-			this.butCloseSessions.Size = new System.Drawing.Size(107, 24);
+			this.butCloseSessions.Size = new System.Drawing.Size(110, 24);
 			this.butCloseSessions.TabIndex = 8;
 			this.butCloseSessions.Text = "Shutdown Selected";
 			this.butCloseSessions.UseVisualStyleBackColor = true;

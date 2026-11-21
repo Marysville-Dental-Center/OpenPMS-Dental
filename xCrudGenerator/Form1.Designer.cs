@@ -150,7 +150,7 @@ namespace xCrudGenerator {
 			// 
 			this.label6.Location = new System.Drawing.Point(6, 45);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(147, 43);
+			this.label6.Size = new System.Drawing.Size(147, 45);
 			this.label6.TabIndex = 15;
 			this.label6.Text = "A copy of the snippet will automatically be placed on the clipboard";
 			// 
@@ -262,6 +262,7 @@ namespace xCrudGenerator {
 			// 
 			// textPassword
 			// 
+			this.textPassword.AutoSize = false;
 			this.textPassword.Location = new System.Drawing.Point(105, 62);
 			this.textPassword.Name = "textPassword";
 			this.textPassword.PasswordChar = '*';

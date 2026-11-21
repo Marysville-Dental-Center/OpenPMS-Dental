@@ -47,7 +47,7 @@
 			this.checkIncludeInsuranceClaimPayments.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.checkIncludeInsuranceClaimPayments.Location = new System.Drawing.Point(6, 35);
 			this.checkIncludeInsuranceClaimPayments.Name = "checkIncludeInsuranceClaimPayments";
-			this.checkIncludeInsuranceClaimPayments.Size = new System.Drawing.Size(199, 18);
+			this.checkIncludeInsuranceClaimPayments.Size = new System.Drawing.Size(199, 21);
 			this.checkIncludeInsuranceClaimPayments.TabIndex = 3;
 			this.checkIncludeInsuranceClaimPayments.Text = "Insurance Claim Payments";
 			this.checkIncludeInsuranceClaimPayments.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -61,7 +61,7 @@
 			this.checkIncludePaySplits.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.checkIncludePaySplits.Location = new System.Drawing.Point(6, 14);
 			this.checkIncludePaySplits.Name = "checkIncludePaySplits";
-			this.checkIncludePaySplits.Size = new System.Drawing.Size(199, 20);
+			this.checkIncludePaySplits.Size = new System.Drawing.Size(199, 21);
 			this.checkIncludePaySplits.TabIndex = 5;
 			this.checkIncludePaySplits.Text = "Pay Splits";
 			this.checkIncludePaySplits.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

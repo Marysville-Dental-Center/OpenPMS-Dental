@@ -136,7 +136,7 @@ namespace OpenPmsDental {
 			// 
 			this.label4.Location = new System.Drawing.Point(12, 153);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(450, 29);
+			this.label4.Size = new System.Drawing.Size(462, 29);
 			this.label4.TabIndex = 28;
 			this.label4.Text = "If staff notices that an item is running low, it can be temporarily indicated bel" +
     "ow.  But most supply shortages are instead noticed by taking regular inventory.";

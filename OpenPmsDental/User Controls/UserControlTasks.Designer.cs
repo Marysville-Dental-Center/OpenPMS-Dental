@@ -263,6 +263,7 @@ namespace OpenPmsDental {
 			// 
 			// textListFilter
 			// 
+			this.textListFilter.AutoSize = false;
 			this.textListFilter.Location = new System.Drawing.Point(86, 27);
 			this.textListFilter.Name = "textListFilter";
 			this.textListFilter.Size = new System.Drawing.Size(131, 20);

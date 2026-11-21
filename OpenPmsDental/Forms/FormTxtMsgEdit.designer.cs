@@ -52,7 +52,7 @@ namespace OpenPmsDental{
 			// 
 			this.label1.Location = new System.Drawing.Point(216, 68);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(131, 20);
+			this.label1.Size = new System.Drawing.Size(136, 20);
 			this.label1.TabIndex = 6;
 			this.label1.Text = "Wireless Phone Number";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -160,7 +160,7 @@ namespace OpenPmsDental{
 			// 
 			this.labelCharCount.Location = new System.Drawing.Point(190, 135);
 			this.labelCharCount.Name = "labelCharCount";
-			this.labelCharCount.Size = new System.Drawing.Size(115, 13);
+			this.labelCharCount.Size = new System.Drawing.Size(115, 17);
 			this.labelCharCount.TabIndex = 164;
 			this.labelCharCount.Text = "Character Count";
 			this.labelCharCount.TextAlign = System.Drawing.ContentAlignment.TopRight;

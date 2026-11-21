@@ -119,7 +119,7 @@ namespace OpenPmsDental{
 			// 
 			this.labelTreatmentPlan.Location = new System.Drawing.Point(8, 65);
 			this.labelTreatmentPlan.Name = "labelTreatmentPlan";
-			this.labelTreatmentPlan.Size = new System.Drawing.Size(81, 19);
+			this.labelTreatmentPlan.Size = new System.Drawing.Size(85, 19);
 			this.labelTreatmentPlan.TabIndex = 52;
 			this.labelTreatmentPlan.Text = "Treatment Plan";
 			this.labelTreatmentPlan.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -223,7 +223,7 @@ namespace OpenPmsDental{
 			// 
 			this.label4.Location = new System.Drawing.Point(12, 31);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(557, 42);
+			this.label4.Size = new System.Drawing.Size(557, 54);
 			this.label4.TabIndex = 55;
 			this.label4.Text = resources.GetString("label4.Text");
 			// 
@@ -231,7 +231,7 @@ namespace OpenPmsDental{
 			// 
 			this.label5.Location = new System.Drawing.Point(13, 85);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(111, 32);
+			this.label5.Size = new System.Drawing.Size(113, 32);
 			this.label5.TabIndex = 64;
 			this.label5.Text = "Label assigned to \r\npatient button";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

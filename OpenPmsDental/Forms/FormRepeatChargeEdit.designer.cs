@@ -105,7 +105,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelChargeAmount.Location = new System.Drawing.Point(4, 139);
 			this.labelChargeAmount.Name = "labelChargeAmount";
-			this.labelChargeAmount.Size = new System.Drawing.Size(156, 16);
+			this.labelChargeAmount.Size = new System.Drawing.Size(156, 18);
 			this.labelChargeAmount.TabIndex = 4;
 			this.labelChargeAmount.Text = "Charge Amount";
 			this.labelChargeAmount.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -123,7 +123,7 @@ namespace OpenPmsDental {
 			// 
 			this.label4.Location = new System.Drawing.Point(4, 230);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(156, 16);
+			this.label4.Size = new System.Drawing.Size(156, 18);
 			this.label4.TabIndex = 9;
 			this.label4.Text = "Date Stop";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -174,7 +174,7 @@ namespace OpenPmsDental {
 			this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.label7.Location = new System.Drawing.Point(105, 508);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(238, 29);
+			this.label7.Size = new System.Drawing.Size(490, 29);
 			this.label7.TabIndex = 42;
 			this.label7.Text = "It\'s OK to delete an obsolete repeating charge.   It does not affect any charges " +
     "already billed.";
@@ -201,7 +201,7 @@ namespace OpenPmsDental {
 			// 
 			this.label9.Location = new System.Drawing.Point(17, 48);
 			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(136, 16);
+			this.label9.Size = new System.Drawing.Size(136, 18);
 			this.label9.TabIndex = 46;
 			this.label9.Text = "Number of Charges";
 			this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -242,7 +242,7 @@ namespace OpenPmsDental {
 			// 
 			this.label10.Location = new System.Drawing.Point(245, 481);
 			this.label10.Name = "label10";
-			this.label10.Size = new System.Drawing.Size(225, 29);
+			this.label10.Size = new System.Drawing.Size(437, 29);
 			this.label10.TabIndex = 53;
 			this.label10.Text = "This will add a completed procedure of the code listed above to this patient\'s ac" +
     "count.";
@@ -471,7 +471,7 @@ namespace OpenPmsDental {
 			// 
 			this.label2.Location = new System.Drawing.Point(4, 295);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(156, 16);
+			this.label2.Size = new System.Drawing.Size(156, 18);
 			this.label2.TabIndex = 72;
 			this.label2.Text = "Unearned Types";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.TopRight;

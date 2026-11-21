@@ -87,7 +87,7 @@ namespace CentralManager {
 			// 
 			this.label5.Location = new System.Drawing.Point(6, 59);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(269, 17);
+			this.label5.Size = new System.Drawing.Size(275, 17);
 			this.label5.TabIndex = 2;
 			this.label5.Text = "(this is discussed in the PPO section of the manual)";
 			// 

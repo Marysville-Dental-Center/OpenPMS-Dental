@@ -36,7 +36,7 @@ namespace OpenPmsDental{
 			// 
 			this.label1.Location = new System.Drawing.Point(78, 25);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(134, 16);
+			this.label1.Size = new System.Drawing.Size(134, 18);
 			this.label1.TabIndex = 83;
 			this.label1.Text = "Paper copies";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -45,7 +45,7 @@ namespace OpenPmsDental{
 			// 
 			this.checkEmailPat.Location = new System.Drawing.Point(62, 65);
 			this.checkEmailPat.Name = "checkEmailPat";
-			this.checkEmailPat.Size = new System.Drawing.Size(356, 20);
+			this.checkEmailPat.Size = new System.Drawing.Size(361, 20);
 			this.checkEmailPat.TabIndex = 85;
 			this.checkEmailPat.Text = "E-mail to patient (not recommended for sensitive information):";
 			this.checkEmailPat.Click += new System.EventHandler(this.checkEmailPat_Click);
@@ -68,7 +68,7 @@ namespace OpenPmsDental{
 			// 
 			this.checkEmail2.Location = new System.Drawing.Point(62, 121);
 			this.checkEmail2.Name = "checkEmail2";
-			this.checkEmail2.Size = new System.Drawing.Size(356, 20);
+			this.checkEmail2.Size = new System.Drawing.Size(361, 20);
 			this.checkEmail2.TabIndex = 87;
 			this.checkEmail2.Text = "E-mail to referral (not recommended for sensitive information):";
 			this.checkEmail2.Click += new System.EventHandler(this.checkEmail2_Click);

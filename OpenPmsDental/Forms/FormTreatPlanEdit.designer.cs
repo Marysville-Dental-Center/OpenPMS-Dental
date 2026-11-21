@@ -70,6 +70,7 @@ namespace OpenPmsDental {
 			// 
 			// textDateTP
 			// 
+			this.textDateTP.AutoSize = false;
 			this.textDateTP.Location = new System.Drawing.Point(138, 22);
 			this.textDateTP.Name = "textDateTP";
 			this.textDateTP.Size = new System.Drawing.Size(85, 20);
@@ -86,6 +87,7 @@ namespace OpenPmsDental {
 			// 
 			// textHeading
 			// 
+			this.textHeading.AutoSize = false;
 			this.textHeading.Location = new System.Drawing.Point(138, 44);
 			this.textHeading.Name = "textHeading";
 			this.textHeading.Size = new System.Drawing.Size(489, 20);
@@ -95,7 +97,7 @@ namespace OpenPmsDental {
 			// 
 			this.label2.Location = new System.Drawing.Point(47, 46);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(89, 16);
+			this.label2.Size = new System.Drawing.Size(89, 18);
 			this.label2.TabIndex = 6;
 			this.label2.Text = "Heading";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

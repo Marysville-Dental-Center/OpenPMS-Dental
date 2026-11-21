@@ -146,7 +146,7 @@ namespace OpenPmsDental {
 			// 
 			this.checkMemoSame.Location = new System.Drawing.Point(284, 221);
 			this.checkMemoSame.Name = "checkMemoSame";
-			this.checkMemoSame.Size = new System.Drawing.Size(130, 17);
+			this.checkMemoSame.Size = new System.Drawing.Size(130, 18);
 			this.checkMemoSame.TabIndex = 1;
 			this.checkMemoSame.Text = "Memo Same For All";
 			// 
