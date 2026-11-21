@@ -25,7 +25,6 @@
 		private void InitializeComponent() {
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UserControlSetupWizFeatures));
-			this.imageList1 = new System.Windows.Forms.ImageList(this.components);
 			this.groupBox1 = new OpenPmsDental.UI.GroupBox();
 			this.labelExplanation = new System.Windows.Forms.Label();
 			this.panelInfo = new System.Windows.Forms.Panel();
@@ -49,13 +48,6 @@
 			this.groupBox1.SuspendLayout();
 			this.panelInfo.SuspendLayout();
 			this.SuspendLayout();
-			// 
-			// imageList1
-			// 
-			this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
-			this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-			this.imageList1.Images.SetKeyName(0, "iButton_Blue.png");
-			this.imageList1.Images.SetKeyName(1, "iButton_Green.png");
 			// 
 			// groupBox1
 			// 
@@ -96,7 +88,6 @@
 			// labelInfoMedIns
 			// 
 			this.labelInfoMedIns.ImageIndex = 0;
-			this.labelInfoMedIns.ImageList = this.imageList1;
 			this.labelInfoMedIns.Location = new System.Drawing.Point(1, 277);
 			this.labelInfoMedIns.Name = "labelInfoMedIns";
 			this.labelInfoMedIns.Size = new System.Drawing.Size(20, 20);
@@ -108,7 +99,6 @@
 			// labelInfoEHR
 			// 
 			this.labelInfoEHR.ImageIndex = 0;
-			this.labelInfoEHR.ImageList = this.imageList1;
 			this.labelInfoEHR.Location = new System.Drawing.Point(1, 332);
 			this.labelInfoEHR.Name = "labelInfoEHR";
 			this.labelInfoEHR.Size = new System.Drawing.Size(20, 20);
@@ -120,7 +110,6 @@
 			// labelInfoClinical
 			// 
 			this.labelInfoClinical.ImageIndex = 0;
-			this.labelInfoClinical.ImageList = this.imageList1;
 			this.labelInfoClinical.Location = new System.Drawing.Point(1, 167);
 			this.labelInfoClinical.Name = "labelInfoClinical";
 			this.labelInfoClinical.Size = new System.Drawing.Size(20, 20);
@@ -132,7 +121,6 @@
 			// labelInfoClinics
 			// 
 			this.labelInfoClinics.ImageIndex = 0;
-			this.labelInfoClinics.ImageList = this.imageList1;
 			this.labelInfoClinics.Location = new System.Drawing.Point(1, 222);
 			this.labelInfoClinics.Name = "labelInfoClinics";
 			this.labelInfoClinics.Size = new System.Drawing.Size(20, 20);
@@ -146,7 +134,6 @@
 			// labelInfoInsurance
 			// 
 			this.labelInfoInsurance.ImageIndex = 0;
-			this.labelInfoInsurance.ImageList = this.imageList1;
 			this.labelInfoInsurance.Location = new System.Drawing.Point(1, 112);
 			this.labelInfoInsurance.Name = "labelInfoInsurance";
 			this.labelInfoInsurance.Size = new System.Drawing.Size(20, 20);
@@ -159,7 +146,6 @@
 			// labelInfoCapitation
 			// 
 			this.labelInfoCapitation.ImageIndex = 0;
-			this.labelInfoCapitation.ImageList = this.imageList1;
 			this.labelInfoCapitation.Location = new System.Drawing.Point(1, 2);
 			this.labelInfoCapitation.Name = "labelInfoCapitation";
 			this.labelInfoCapitation.Size = new System.Drawing.Size(20, 20);
@@ -171,7 +157,6 @@
 			// labelInfoMedicaid
 			// 
 			this.labelInfoMedicaid.ImageIndex = 0;
-			this.labelInfoMedicaid.ImageList = this.imageList1;
 			this.labelInfoMedicaid.Location = new System.Drawing.Point(1, 57);
 			this.labelInfoMedicaid.Name = "labelInfoMedicaid";
 			this.labelInfoMedicaid.Size = new System.Drawing.Size(20, 20);
@@ -309,7 +294,6 @@
 		private OpenPmsDental.UI.CheckBox checkMedicaid;
 		private OpenPmsDental.UI.CheckBox checkCapitation;
 		private System.Windows.Forms.Label labelFieldType;
-		private System.Windows.Forms.ImageList imageList1;
 		private System.Windows.Forms.Label labelInfoCapitation;
 		private System.Windows.Forms.Label labelInfoMedicaid;
 		private System.Windows.Forms.Label labelExplanation;

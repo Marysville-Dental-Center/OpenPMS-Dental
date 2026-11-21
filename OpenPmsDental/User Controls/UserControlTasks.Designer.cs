@@ -27,8 +27,6 @@ namespace OpenPmsDental {
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UserControlTasks));
 			this.monthCalendar = new System.Windows.Forms.MonthCalendar();
 			this.tree = new System.Windows.Forms.TreeView();
-			this.imageListTree = new System.Windows.Forms.ImageList(this.components);
-			this.imageListMain = new System.Windows.Forms.ImageList(this.components);
 			this.menuEdit = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.menuItemDone = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuItem4 = new System.Windows.Forms.ToolStripSeparator();
@@ -92,7 +90,6 @@ namespace OpenPmsDental {
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.tree.HideSelection = false;
 			this.tree.ImageIndex = 0;
-			this.tree.ImageList = this.imageListTree;
 			this.tree.ItemHeight = 18;
 			this.tree.Location = new System.Drawing.Point(0, 206);
 			this.tree.Name = "tree";
@@ -102,23 +99,6 @@ namespace OpenPmsDental {
 			this.tree.Size = new System.Drawing.Size(941, 98);
 			this.tree.TabIndex = 7;
 			this.tree.MouseDown += new System.Windows.Forms.MouseEventHandler(this.tree_MouseDown);
-			// 
-			// imageListTree
-			// 
-			this.imageListTree.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListTree.ImageStream")));
-			this.imageListTree.TransparentColor = System.Drawing.Color.Transparent;
-			this.imageListTree.Images.SetKeyName(0, "TaskList.gif");
-			this.imageListTree.Images.SetKeyName(1, "checkBoxChecked.gif");
-			this.imageListTree.Images.SetKeyName(2, "checkBoxUnchecked.gif");
-			this.imageListTree.Images.SetKeyName(3, "TaskListHighlight.gif");
-			this.imageListTree.Images.SetKeyName(4, "checkBoxNew.gif");
-			// 
-			// imageListMain
-			// 
-			this.imageListMain.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListMain.ImageStream")));
-			this.imageListMain.TransparentColor = System.Drawing.Color.Transparent;
-			this.imageListMain.Images.SetKeyName(0, "TaskListAdd.gif");
-			this.imageListMain.Images.SetKeyName(1, "Add.gif");
 			// 
 			// menuEdit
 			// 
@@ -429,7 +409,6 @@ namespace OpenPmsDental {
 			// 
 			this.ToolBarMain.Dock = System.Windows.Forms.DockStyle.Top;
 			this.ToolBarMain.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-			this.ToolBarMain.ImageList = this.imageListMain;
 			this.ToolBarMain.Location = new System.Drawing.Point(0, 0);
 			this.ToolBarMain.Name = "ToolBarMain";
 			this.ToolBarMain.Size = new System.Drawing.Size(941, 25);
@@ -470,7 +449,6 @@ namespace OpenPmsDental {
 		private OpenPmsDental.UI.TabPage tabMonth;
 		private System.Windows.Forms.MonthCalendar monthCalendar;
 		private System.Windows.Forms.TreeView tree;
-		private System.Windows.Forms.ImageList imageListMain;
 		private System.Windows.Forms.ContextMenuStrip menuEdit;
 		private System.Windows.Forms.ToolStripMenuItem menuItemEdit;
 		private System.Windows.Forms.ToolStripSeparator menuItem6;
@@ -480,7 +458,6 @@ namespace OpenPmsDental {
 		private System.Windows.Forms.ToolStripMenuItem menuItemDelete;
 		private System.Windows.Forms.ToolStripSeparator menuItem2;
 		private System.Windows.Forms.ToolStripMenuItem menuItemGoto;
-		private System.Windows.Forms.ImageList imageListTree;
 		private OpenPmsDental.UI.TabPage tabUser;
 		private System.Windows.Forms.ToolStripMenuItem menuItemSubscribe;
 		private System.Windows.Forms.ToolStripMenuItem menuItemUnsubscribe;

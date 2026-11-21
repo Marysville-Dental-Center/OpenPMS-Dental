@@ -231,17 +231,22 @@ namespace UiRefreshTests {
 		///<summary>A UI-9b ImageList row: the file's ArrayIconsImageList holds the member at the picture's index (ImageList[i]), the control gives
 		///it to SetImageListIcons, and the window's designer no longer loads the list's stream (the key's list) nor its .resx the entry.</summary>
 		private static void CheckImageListRow(ConvertedRow row,string text,string member) {
-			Match matchIndex=Regex.Match(row.Property,@"^(?<k>ImageList|ImageListTree)\[(?<i>\d+)\]$");
-			Assert.IsTrue(matchIndex.Success,row+": the property is ImageList[<index>] (a toolbar's list) or ImageListTree[<index>] (a tree's, UI-9b-2).");
+			Match matchIndex=Regex.Match(row.Property,@"^(?<k>ImageList|ImageListTree|ArrayIcons\w+)\[(?<i>\d+)\]$");
+			Assert.IsTrue(matchIndex.Success,row+": the property is ImageList[<index>] (a toolbar's list), ImageListTree[<index>] (a tree's, UI-9b-2) or ArrayIcons<Name>[<index>] (UI-9b-3).");
 			int index=int.Parse(matchIndex.Groups["i"].Value);
+			//UI-9b-3: a list the file names itself (ArrayIconsImageListTasks, ...), built by IconLibrary.GetImageList or GetImageListForSize from that array.
+			bool isNamed=matchIndex.Groups["k"].Value.StartsWith("ArrayIcons");
 			bool isTree=matchIndex.Groups["k"].Value=="ImageListTree";
-			string nameArray=isTree?"ArrayIconsImageListTree":"ArrayIconsImageList";
-			Match matchArray=Regex.Match(text,@"public\s+static\s+readonly\s+EnumIcons\[\]\s+"+nameArray+@"\s*=\s*new\s+EnumIcons\[\]\s*\{(?<a>[^}]*)\}");
+			string nameArray=isNamed?matchIndex.Groups["k"].Value:(isTree?"ArrayIconsImageListTree":"ArrayIconsImageList");
+			Match matchArray=Regex.Match(text,@"public\s+static\s+readonly\s+(?:OpenPmsDental\.UI\.)?EnumIcons\[\]\s+"+nameArray+@"\s*=\s*new\s+(?:OpenPmsDental\.UI\.)?EnumIcons\[\]\s*\{(?<a>[^}]*)\}");
 			Assert.IsTrue(matchArray.Success,row+": the file has no "+nameArray+".");
-			string[] arrayMembers=matchArray.Groups["a"].Value.Split(',').Select(x => x.Trim()).Where(x => x!="").Select(x => x.Replace("EnumIcons.","")).ToArray();
+			string[] arrayMembers=matchArray.Groups["a"].Value.Split(',').Select(x => x.Trim()).Where(x => x!="").Select(x => x.Replace("OpenPmsDental.UI.","").Replace("EnumIcons.","")).ToArray();
 			Assert.IsTrue(index<arrayMembers.Length,row+": "+nameArray+" has "+arrayMembers.Length+" icons.");
 			Assert.AreEqual(member,arrayMembers[index],row+": the icon at the picture's index.");
-			if(isTree) {
+			if(isNamed) {
+				//UI-9b-3: the tests of Toolbars/OtherTreesImageListTests build and draw the lists.
+			}
+			else if(isTree) {
 				//A tree's list is built at the current DPI by the factory's size helper (the control's ImageListTree), not given to a toolbar.
 				Assert.IsTrue(text.Contains("IconLibrary.GetImageListForSize(_imageListTree,"+nameArray+","),row+": the file does not build the tree's list from "+nameArray+".");
 			}

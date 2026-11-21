@@ -16,6 +16,11 @@ using System.IO;
 
 namespace OpenPmsDental.User_Controls.SetupWizard {
 	public partial class UserControlSetupWizFeeSched:SetupWizControl {
+		///<summary>The pictures of the information labels' list by index (UI-9b-3, docs/port-notes/UI-9b.md, section 4): 0 an information label as icons, 16 px
+		///as the old list; a label draws its picture at its own size.</summary>
+		public static readonly EnumIcons[] ArrayIconsImageList=new EnumIcons[] { EnumIcons.Info };
+		private ImageList _imageListInfo;
+
 		///<summary>Copy of the cached fee schedules.</summary>
 		private List<FeeSched> _listFeeScheds;
 		///<summary>Stale deep copy of _listFeeScheds to use with sync.</summary>
@@ -23,6 +28,11 @@ namespace OpenPmsDental.User_Controls.SetupWizard {
 
 		public UserControlSetupWizFeeSched() {
 			InitializeComponent();
+			_imageListInfo=IconLibrary.GetImageList(ArrayIconsImageList,16);//UI-9b-3
+			foreach(Label label in new Label[] { labelEdit,labelAdd,labelImport }) {
+				label.ImageList=_imageListInfo;
+			}
+			Disposed+=(sender,e) => _imageListInfo?.Dispose();
 			this.OnControlDone += ControlDone;
 		}
 

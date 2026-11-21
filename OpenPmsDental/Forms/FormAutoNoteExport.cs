@@ -3,16 +3,33 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using CodeBase;
+using OpenPmsDental.UI;
 using OpenPmsDentalBusiness;
 using System.IO;
 
 namespace OpenPmsDental {
 	public partial class FormAutoNoteExport:FormODBase {
 		private UserOdPref _userOdPrefDefNumsExpanded;
+		///<summary>The pictures of the tree's ImageList by index (UI-9b-3, docs/port-notes/UI-9b.md, section 4): 0 a folder, 1 a document (the tree's default
+		///ImageIndex), as icons; the same as FormAutoNotes'.</summary>
+		public static readonly EnumIcons[] ArrayIconsImageListTree=new EnumIcons[] { EnumIcons.ImageSelectorFolder,EnumIcons.ImageSelectorDoc };
+		///<summary>The tree's list at the 16 px slot of the current DPI (UI-9b-3), built again when the scale changes.</summary>
+		private ImageList _imageListTree;
 
 		public FormAutoNoteExport() {
 			InitializeComponent();
 			InitializeLayoutManager();
+			SetImageListTree();
+			treeNotes.SizeChanged+=(sender,e) => SetImageListTree();//the scale may have changed
+			Disposed+=(sender,e) => _imageListTree?.Dispose();
+		}
+
+		///<summary>Gives the tree its list of icons at the 16 px slot of the current DPI (UI-9b-3); a list of the same size is kept.</summary>
+		private void SetImageListTree() {
+			_imageListTree=IconLibrary.GetImageListForSize(_imageListTree,ArrayIconsImageListTree,LayoutManager.Scale(16));
+			if(treeNotes.ImageList!=_imageListTree) {
+				treeNotes.ImageList=_imageListTree;
+			}
 		}
 
 		private void FormAutoNoteExport_Load(object sender,System.EventArgs e) {

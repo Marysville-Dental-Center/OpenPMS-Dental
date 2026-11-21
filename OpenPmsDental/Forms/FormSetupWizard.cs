@@ -14,10 +14,16 @@ using CodeBase;
 namespace OpenPmsDental {
 	public partial class FormSetupWizard:FormODBase {
 		private List<SetupWizard.SetupWizClass> _listSetupWizClassesItems;
+		///<summary>The pictures of the grid's "?" column by index (UI-9b-3, docs/port-notes/UI-9b.md, section 4): 0 the information picture, as an icon, 16 px
+		///as the old list (the grid draws a column's pictures at the scale of the window).</summary>
+		public static readonly EnumIcons[] ArrayIconsImageList=new EnumIcons[] { EnumIcons.Info };
+		private ImageList _imageListInfo;
 
 		public FormSetupWizard() {
 			InitializeComponent();
 			InitializeLayoutManager();
+			_imageListInfo=IconLibrary.GetImageList(ArrayIconsImageList,16);//UI-9b-3
+			Disposed+=(sender,e) => _imageListInfo?.Dispose();
 			Lan.F(this);
 		}
 
@@ -54,8 +60,8 @@ namespace OpenPmsDental {
 			//col = new ODGridColumn("Status",100,HorizontalAlignment.Center);
 			gridMain.Columns.Add(new GridColumn("Status",100,HorizontalAlignment.Center));
 			//col = new ODGridColumn("?",35,HorizontalAlignment.Center);
-			//col.ImageList=imageList1;
-			gridMain.Columns.Add(new GridColumn("?",35,HorizontalAlignment.Center) { ImageList=imageList1 });
+			//col.ImageList=_imageListInfo;
+			gridMain.Columns.Add(new GridColumn("?",35,HorizontalAlignment.Center) { ImageList=_imageListInfo });
 			gridMain.ListGridRows.Clear();
 			//Add the method rows to the grid.
 			List<GridRow> listRows = ConstructGridRows();

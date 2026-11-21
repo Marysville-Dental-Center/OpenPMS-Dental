@@ -25,7 +25,6 @@
 		private void InitializeComponent() {
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UserControlSetupWizPractice));
-			this.imageList1 = new System.Windows.Forms.ImageList(this.components);
 			this.textFax = new OpenPmsDental.ValidPhone();
 			this.textPhone = new OpenPmsDental.ValidPhone();
 			this.label19 = new System.Windows.Forms.Label();
@@ -49,13 +48,6 @@
 			this.label4 = new System.Windows.Forms.Label();
 			this.groupBox2.SuspendLayout();
 			this.SuspendLayout();
-			// 
-			// imageList1
-			// 
-			this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
-			this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-			this.imageList1.Images.SetKeyName(0, "Button-info-icon.png");
-			this.imageList1.Images.SetKeyName(1, "Button-info-icon-pressed.png");
 			// 
 			// textFax
 			// 
@@ -274,7 +266,6 @@
 		}
 
 		#endregion
-		private System.Windows.Forms.ImageList imageList1;
 		private ValidPhone textFax;
 		private ValidPhone textPhone;
 		private System.Windows.Forms.Label label19;

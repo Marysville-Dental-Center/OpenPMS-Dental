@@ -26,7 +26,6 @@
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormAutoNoteExport));
 			this.treeNotes = new System.Windows.Forms.TreeView();
-			this.imageListTree = new System.Windows.Forms.ImageList(this.components);
 			this.labelExportSelect = new System.Windows.Forms.Label();
 			this.checkCollapse = new OpenPmsDental.UI.CheckBox();
 			this.butExport = new OpenPmsDental.UI.Button();
@@ -42,7 +41,6 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.treeNotes.CheckBoxes = true;
 			this.treeNotes.ImageIndex = 1;
-			this.treeNotes.ImageList = this.imageListTree;
 			this.treeNotes.Indent = 12;
 			this.treeNotes.Location = new System.Drawing.Point(18, 21);
 			this.treeNotes.Name = "treeNotes";
@@ -50,13 +48,6 @@
 			this.treeNotes.Size = new System.Drawing.Size(263, 636);
 			this.treeNotes.TabIndex = 0;
 			this.treeNotes.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.node_AfterCheck);
-			// 
-			// imageListTree
-			// 
-			this.imageListTree.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListTree.ImageStream")));
-			this.imageListTree.TransparentColor = System.Drawing.Color.Transparent;
-			this.imageListTree.Images.SetKeyName(0, "imageFolder");
-			this.imageListTree.Images.SetKeyName(1, "imageText");
 			// 
 			// labelExportSelect
 			// 
@@ -130,7 +121,6 @@
 
 		private System.Windows.Forms.TreeView treeNotes;
 		private System.Windows.Forms.Label labelExportSelect;
-		private System.Windows.Forms.ImageList imageListTree;
 		private UI.Button butExport;
 		private OpenPmsDental.UI.CheckBox checkCollapse;
 		private UI.Button butClear;

@@ -75,7 +75,6 @@
 			this.radioScanDocShowOptions = new System.Windows.Forms.RadioButton();
 			this.groupScanningOptions = new OpenPmsDental.UI.GroupBox();
 			this.labelInfoResolution = new System.Windows.Forms.Label();
-			this.imageList1 = new System.Windows.Forms.ImageList(this.components);
 			this.labelInfoDuplex = new System.Windows.Forms.Label();
 			this.checkScanDocDuplex = new OpenPmsDental.UI.CheckBox();
 			this.label18 = new System.Windows.Forms.Label();
@@ -614,7 +613,6 @@
 			// labelInfoResolution
 			// 
 			this.labelInfoResolution.ImageIndex = 0;
-			this.labelInfoResolution.ImageList = this.imageList1;
 			this.labelInfoResolution.Location = new System.Drawing.Point(260, 77);
 			this.labelInfoResolution.Name = "labelInfoResolution";
 			this.labelInfoResolution.Size = new System.Drawing.Size(20, 20);
@@ -623,16 +621,9 @@
 			this.labelInfoResolution.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.labelInfoResolution.Click += new System.EventHandler(this.labelInfoResolution_Click);
 			// 
-			// imageList1
-			// 
-			this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
-			this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-			this.imageList1.Images.SetKeyName(0, "iButton_Blue.png");
-			// 
 			// labelInfoDuplex
 			// 
 			this.labelInfoDuplex.ImageIndex = 0;
-			this.labelInfoDuplex.ImageList = this.imageList1;
 			this.labelInfoDuplex.Location = new System.Drawing.Point(260, 24);
 			this.labelInfoDuplex.Name = "labelInfoDuplex";
 			this.labelInfoDuplex.Size = new System.Drawing.Size(20, 20);
@@ -707,7 +698,6 @@
 			// labelInfoCompression
 			// 
 			this.labelInfoCompression.ImageIndex = 0;
-			this.labelInfoCompression.ImageList = this.imageList1;
 			this.labelInfoCompression.Location = new System.Drawing.Point(314, 133);
 			this.labelInfoCompression.Name = "labelInfoCompression";
 			this.labelInfoCompression.Size = new System.Drawing.Size(20, 20);
@@ -804,7 +794,6 @@
 		private System.Windows.Forms.Label label7;
 		private System.Windows.Forms.Panel panelSimple;
 		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.ImageList imageList1;
 		private UI.Button butAdvanced;
 	}
 }

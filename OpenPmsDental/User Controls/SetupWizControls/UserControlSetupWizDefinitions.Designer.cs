@@ -25,7 +25,6 @@
 		private void InitializeComponent() {
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UserControlSetupWizDefinitions));
-			this.imageList1 = new System.Windows.Forms.ImageList(this.components);
 			this.gridDefs = new OpenPmsDental.UI.GridOD();
 			this.label14 = new System.Windows.Forms.Label();
 			this.textGuide = new System.Windows.Forms.TextBox();
@@ -38,12 +37,6 @@
 			this.label13 = new System.Windows.Forms.Label();
 			this.groupEdit.SuspendLayout();
 			this.SuspendLayout();
-			// 
-			// imageList1
-			// 
-			this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
-			this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-			this.imageList1.Images.SetKeyName(0, "iButton_Blue.png");
 			// 
 			// gridDefs
 			// 
@@ -164,7 +157,6 @@
 		}
 
 		#endregion
-		private System.Windows.Forms.ImageList imageList1;
 		private UI.GridOD gridDefs;
 		private System.Windows.Forms.Label label14;
 		private System.Windows.Forms.TextBox textGuide;

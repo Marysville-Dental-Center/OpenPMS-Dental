@@ -27,8 +27,6 @@ namespace OpenPmsDental{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormEmailInbox));
 			this.gridInbox = new OpenPmsDental.UI.GridOD();
 			this.emailPreviewControlInbox = new OpenPmsDental.EmailPreviewControl();
-			this.imageListButtonSmall = new System.Windows.Forms.ImageList(this.components);
-			this.imageListMailboxesLarge = new System.Windows.Forms.ImageList(this.components);
 			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
 			this.groupShowIn = new OpenPmsDental.UI.GroupBox();
 			this.listShowIn = new OpenPmsDental.UI.ListBox();
@@ -125,24 +123,6 @@ namespace OpenPmsDental{
 			this.emailPreviewControlInbox.TabIndex = 0;
 			this.emailPreviewControlInbox.ToAddress = "";
 			// 
-			// imageListButtonSmall
-			// 
-			this.imageListButtonSmall.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListButtonSmall.ImageStream")));
-			this.imageListButtonSmall.TransparentColor = System.Drawing.Color.Transparent;
-			this.imageListButtonSmall.Images.SetKeyName(0, "Email_Compose.png");
-			this.imageListButtonSmall.Images.SetKeyName(1, "Email_Refresh.png");
-			this.imageListButtonSmall.Images.SetKeyName(2, "Email_Reply.png");
-			this.imageListButtonSmall.Images.SetKeyName(3, "Email_Search.png");
-			this.imageListButtonSmall.Images.SetKeyName(4, "Email_ReplyAll.png");
-			this.imageListButtonSmall.Images.SetKeyName(5, "Email_Forward.png");
-			// 
-			// imageListMailboxesLarge
-			// 
-			this.imageListMailboxesLarge.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListMailboxesLarge.ImageStream")));
-			this.imageListMailboxesLarge.TransparentColor = System.Drawing.Color.Transparent;
-			this.imageListMailboxesLarge.Images.SetKeyName(0, "Email_Inbox.png");
-			this.imageListMailboxesLarge.Images.SetKeyName(1, "Email_SentMsgs.png");
-			// 
 			// groupShowIn
 			// 
 			this.groupShowIn.Controls.Add(this.listShowIn);
@@ -234,8 +214,7 @@ namespace OpenPmsDental{
 			// butCompose
 			// 
 			this.butCompose.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butCompose.ImageKey = "Email_Compose.png";
-			this.butCompose.ImageList = this.imageListButtonSmall;
+			this.butCompose.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Edit,16,16);
 			this.butCompose.Location = new System.Drawing.Point(131, 189);
 			this.butCompose.Name = "butCompose";
 			this.butCompose.Size = new System.Drawing.Size(75, 20);
@@ -246,8 +225,7 @@ namespace OpenPmsDental{
 			// butReply
 			// 
 			this.butReply.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butReply.ImageKey = "Email_Reply.png";
-			this.butReply.ImageList = this.imageListButtonSmall;
+			this.butReply.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Reply,16,16);
 			this.butReply.Location = new System.Drawing.Point(212, 189);
 			this.butReply.Name = "butReply";
 			this.butReply.Size = new System.Drawing.Size(75, 20);
@@ -308,8 +286,7 @@ namespace OpenPmsDental{
 			// butSearch
 			// 
 			this.butSearch.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butSearch.ImageKey = "Email_Search.png";
-			this.butSearch.ImageList = this.imageListButtonSmall;
+			this.butSearch.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Search,16,16);
 			this.butSearch.Location = new System.Drawing.Point(283, 98);
 			this.butSearch.Name = "butSearch";
 			this.butSearch.Size = new System.Drawing.Size(73, 20);
@@ -408,8 +385,7 @@ namespace OpenPmsDental{
 			// 
 			this.butRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butRefresh.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butRefresh.ImageKey = "Email_Refresh.png";
-			this.butRefresh.ImageList = this.imageListButtonSmall;
+			this.butRefresh.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Sync,16,16);
 			this.butRefresh.Location = new System.Drawing.Point(1138, 189);
 			this.butRefresh.Name = "butRefresh";
 			this.butRefresh.Size = new System.Drawing.Size(75, 20);
@@ -451,8 +427,7 @@ namespace OpenPmsDental{
 			// butReplyAll
 			// 
 			this.butReplyAll.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butReplyAll.ImageKey = "Email_ReplyAll.png";
-			this.butReplyAll.ImageList = this.imageListButtonSmall;
+			this.butReplyAll.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.ReplyAll,16,16);
 			this.butReplyAll.Location = new System.Drawing.Point(292, 189);
 			this.butReplyAll.Name = "butReplyAll";
 			this.butReplyAll.Size = new System.Drawing.Size(75, 20);
@@ -463,8 +438,7 @@ namespace OpenPmsDental{
 			// butForward
 			// 
 			this.butForward.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butForward.ImageKey = "Email_Forward.png";
-			this.butForward.ImageList = this.imageListButtonSmall;
+			this.butForward.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Forward,16,16);
 			this.butForward.Location = new System.Drawing.Point(372, 189);
 			this.butForward.Name = "butForward";
 			this.butForward.Size = new System.Drawing.Size(75, 20);
@@ -732,7 +706,6 @@ namespace OpenPmsDental{
     private UI.Button butChangePat;
     private UI.Button butDelete;
     private UI.Button butCompose;
-    private System.Windows.Forms.ImageList imageListButtonSmall;
     private UI.Button butReply;
     private OpenPmsDental.UI.GroupBox groupSearch;
     private UI.Button butClear;
@@ -752,7 +725,6 @@ namespace OpenPmsDental{
     private EmailPreviewControl emailPreviewControlInbox;
     private UI.GridOD gridSent;
     private EmailPreviewControl emailPreviewControlSent;
-    private System.Windows.Forms.ImageList imageListMailboxesLarge;
     private System.Windows.Forms.ToolTip toolTip1;
     private ValidDate textDateTo;
     private System.Windows.Forms.Label label2;
