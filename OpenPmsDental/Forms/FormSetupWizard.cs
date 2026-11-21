@@ -28,7 +28,7 @@ namespace OpenPmsDental {
 		public FormSetupWizard() {
 			InitializeComponent();
 			InitializeLayoutManager();
-Disposed+=(sender,e) => _imageListInfo?.Dispose();
+			Disposed+=(sender,e) => _imageListInfo?.Dispose();
 			Lan.F(this);
 		}
 

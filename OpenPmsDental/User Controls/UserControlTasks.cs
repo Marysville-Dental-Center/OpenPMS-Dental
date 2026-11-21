@@ -124,7 +124,7 @@ namespace OpenPmsDental {
 			InitializeComponent();
 			Font=LayoutManagerForms.FontInitial;
 			ToolBarMain.SetImageListIcons(ArrayIconsImageListMain);//UI-9b-3: the toolbar's list of icons
-SetImageListTree();
+			SetImageListTree();
 			Disposed+=(sender,e) => {
 				_imageListTree?.Dispose();
 				_imageListGrid?.Dispose();
@@ -980,7 +980,7 @@ SetImageListTree();
 			gridMain.Columns.Clear();
 			GridColumn gridColumn=new GridColumn("",17);
 			gridColumn.ImageListFactory=GetImageListGrid;//UI-9b-4
-						gridMain.Columns.Add(gridColumn);//Checkbox column
+			gridMain.Columns.Add(gridColumn);//Checkbox column
 			if(tabControl.SelectedTab==tabNew && !PrefC.GetBool(PrefName.TasksNewTrackedByUser)) {//The old way
 				gridColumn=new GridColumn(Lan.g("TableTasks","Read"),35,HorizontalAlignment.Center);
 				//col.ImageList=_imageListGrid;

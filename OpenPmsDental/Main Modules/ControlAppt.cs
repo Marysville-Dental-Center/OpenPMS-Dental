@@ -73,7 +73,7 @@ namespace OpenPmsDental {
 			Font=LayoutManagerForms.FontInitial;
 			gridReminders.ContextMenuStrip=menuReminderEdit;
 			toolBarMain.SetImageListIcons(ArrayIconsImageList);//UI-9b-1: the list of icons (program links and plug-ins add to it)
-Disposed+=(sender,e) => _imageListTasks?.Dispose();
+			Disposed+=(sender,e) => _imageListTasks?.Dispose();
 			gridReminders.DoAddGridItemsToContextMenuStrip=true;//Copy Cell Text, Copy Rows and the links after the menu's items, as before
 			Logger.LogToPath("Ctor",LogPath.Startup,LogPhase.End);
 		}

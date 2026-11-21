@@ -4130,7 +4130,7 @@ using OpenPmsDental.UI;
 		private void ComputeRows(Graphics g,bool doActualCalc) {
 			RefreshImageListsAtScale();
 			_heightTotal=0;
-if(ListGridRows.Count==0){
+			if(ListGridRows.Count==0){
 				Invalidate();
 				return;
 			}
