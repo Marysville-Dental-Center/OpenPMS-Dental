@@ -30,7 +30,6 @@
 		{
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ControlImages));
-			this.imageListTools2 = new System.Windows.Forms.ImageList(this.components);
 			this.menuForms = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.menuMounts = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.menuTree = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -38,7 +37,6 @@
 			this.menuItem9 = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuItem10 = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuItemTasks = new System.Windows.Forms.ToolStripMenuItem();
-			this.imageListTree = new System.Windows.Forms.ImageList(this.components);
 			this.panelNote = new System.Windows.Forms.Panel();
 			this.labelInvalidSig = new System.Windows.Forms.Label();
 			this.sigBox = new OpenPmsDental.UI.SignatureBox();
@@ -75,32 +73,6 @@
 			this.groupPearl.SuspendLayout();
 			this.SuspendLayout();
 			// 
-			// imageListTools2
-			// 
-			this.imageListTools2.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListTools2.ImageStream")));
-			this.imageListTools2.TransparentColor = System.Drawing.Color.Transparent;
-			this.imageListTools2.Images.SetKeyName(0, "Pat.gif");
-			this.imageListTools2.Images.SetKeyName(1, "print.gif");
-			this.imageListTools2.Images.SetKeyName(2, "deleteX.gif");
-			this.imageListTools2.Images.SetKeyName(3, "info.gif");
-			this.imageListTools2.Images.SetKeyName(4, "scan.gif");
-			this.imageListTools2.Images.SetKeyName(5, "import.gif");
-			this.imageListTools2.Images.SetKeyName(6, "paste.gif");
-			this.imageListTools2.Images.SetKeyName(7, "");
-			this.imageListTools2.Images.SetKeyName(8, "ZoomIn.gif");
-			this.imageListTools2.Images.SetKeyName(9, "ZoomOut.gif");
-			this.imageListTools2.Images.SetKeyName(10, "Hand.gif");
-			this.imageListTools2.Images.SetKeyName(11, "flip.gif");
-			this.imageListTools2.Images.SetKeyName(12, "rotateL.gif");
-			this.imageListTools2.Images.SetKeyName(13, "rotateR.gif");
-			this.imageListTools2.Images.SetKeyName(14, "scanDoc.gif");
-			this.imageListTools2.Images.SetKeyName(15, "scanPhoto.gif");
-			this.imageListTools2.Images.SetKeyName(16, "scanXray.gif");
-			this.imageListTools2.Images.SetKeyName(17, "copy.gif");
-			this.imageListTools2.Images.SetKeyName(18, "ScanMulti.gif");
-			this.imageListTools2.Images.SetKeyName(19, "Export.gif");
-			this.imageListTools2.Images.SetKeyName(20, "arrowsAll.png");
-			// 
 			// menuTree
 			// 
 			this.menuTree.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -128,19 +100,6 @@
 			// 
 			this.menuItemTasks.Text = "Find Tasks";
 			this.menuItemTasks.Click += new System.EventHandler(this.menuTree_Click);
-			// 
-			// imageListTree
-			// 
-			this.imageListTree.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListTree.ImageStream")));
-			this.imageListTree.TransparentColor = System.Drawing.Color.Transparent;
-			this.imageListTree.Images.SetKeyName(0, "");
-			this.imageListTree.Images.SetKeyName(1, "");
-			this.imageListTree.Images.SetKeyName(2, "");
-			this.imageListTree.Images.SetKeyName(3, "");
-			this.imageListTree.Images.SetKeyName(4, "");
-			this.imageListTree.Images.SetKeyName(5, "");
-			this.imageListTree.Images.SetKeyName(6, "");
-			this.imageListTree.Images.SetKeyName(7, "");
 			// 
 			// panelNote
 			// 
@@ -286,7 +245,6 @@
 			// toolBarDraw
 			// 
 			this.toolBarDraw.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-			this.toolBarDraw.ImageList = this.imageListTools2;
 			this.toolBarDraw.Location = new System.Drawing.Point(0, 0);
 			this.toolBarDraw.Name = "toolBarDraw";
 			this.toolBarDraw.Size = new System.Drawing.Size(817, 25);
@@ -336,7 +294,6 @@
 			// toolBarPaint
 			// 
 			this.toolBarPaint.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-			this.toolBarPaint.ImageList = this.imageListTools2;
 			this.toolBarPaint.Location = new System.Drawing.Point(393, 25);
 			this.toolBarPaint.Name = "toolBarPaint";
 			this.toolBarPaint.Size = new System.Drawing.Size(674, 25);
@@ -469,14 +426,12 @@
 		private System.Windows.Forms.ContextMenuStrip menuForms;
 		private UI.ToolBarOD toolBarPaint;
 		private System.Windows.Forms.ContextMenuStrip menuMounts;
-		private System.Windows.Forms.ImageList imageListTools2;
 		private OpenPmsDental.ControlImageDock controlImageDock;
 		private System.Windows.Forms.ContextMenuStrip menuTree;
 		private System.Windows.Forms.ToolStripMenuItem menuItemTreePrint;
 		private System.Windows.Forms.ToolStripMenuItem menuItem9;
 		private System.Windows.Forms.ToolStripMenuItem menuItem10;
 		private System.Windows.Forms.ToolStripMenuItem menuItemTasks;
-		private System.Windows.Forms.ImageList imageListTree;
 		private System.Windows.Forms.Panel panelNote;
 		private System.Windows.Forms.Label labelInvalidSig;
 		private UI.SignatureBox sigBox;

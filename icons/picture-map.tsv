@@ -90,8 +90,6 @@ FormRpProcNotBilledIns:imageListCalendar.ImageStream	UI-9b	the window ImageList
 # UI-9a-6 (Main Modules, User Controls, UI, Bridges, Reporting, SetupWizControls, Business, Graph, Sparks)
 ControlAppt:imageListTasks.ImageStream	UI-9b	the reminders grid's task pictures (a grid column ImageList, not the toolbar's): UI-9b-3, with the task lists' same pictures
 ControlChart:imageListProcButtons.ImageStream	keep	the procedure buttons' pictures come from the database (office content, section 4.5); the stream only gives the list its 20 px size and 32-bit depth, its one picture is cleared before the list is filled (UI-9b-1)
-ControlImages:imageListTools2.ImageStream	UI-9b	the window ImageList
-ControlImages:imageListTree.ImageStream	UI-9b	the window ImageList
 FormReportComplex:imageListMain.ImageStream	UI-9b	the window ImageList
 FormReportCustom:imageListMain.ImageStream	UI-9b	the window ImageList
 FormReportForRdl:imageListMain.ImageStream	UI-9b	the window ImageList
@@ -218,3 +216,34 @@ ControlChart:imageListMain.ImageStream#2	EnumIcons.PerioChart	Perio Chart (probe
 ControlChart:imageListMain.ImageStream#3	EnumIcons.Anesthesia	anesthesia (heart monitor, Anesth.gif), no button shows it
 ControlChart:imageListMain.ImageStream#4	EnumIcons.CommLog	Commlog, eCW tight (globe, commlog.gif)
 ControlChart:imageListMain.ImageStream#5	EnumIcons.Print	Print progress notes (printer, butPrint.gif)
+# UI-9b-2 (the imaging module, docs/port-notes/UI-9b.md): each picture of ControlImages' two ImageLists by its index (<window>:<list>.ImageStream#<index>).
+# The tools list is built by ToolBarOD.SetImageListIcons for toolBarPaint and toolBarDraw (ControlImages.ArrayIconsImageList), the tree list by ImageListTree (ArrayIconsImageListTree), in the same order, so ImageIndex keeps its purpose.
+ControlImages:imageListTools2.ImageStream#0	EnumIcons.PatSelect	select a patient (hand and patient, Pat.gif)
+ControlImages:imageListTools2.ImageStream#1	EnumIcons.Print	print (printer, print.gif)
+ControlImages:imageListTools2.ImageStream#2	EnumIcons.DeleteX	delete (red X, deleteX.gif)
+ControlImages:imageListTools2.ImageStream#3	EnumIcons.Info	info (blue i, info.gif)
+ControlImages:imageListTools2.ImageStream#4	EnumIcons.Scan	scan (flatbed scanner, scan.gif)
+ControlImages:imageListTools2.ImageStream#5	EnumIcons.Import	import (yellow folder with an arrow, import.gif)
+ControlImages:imageListTools2.ImageStream#6	EnumIcons.Paste	paste (clipboard with an arrow, paste.gif)
+ControlImages:imageListTools2.ImageStream#7	EnumIcons.Crop	Crop (framed page, key empty)
+ControlImages:imageListTools2.ImageStream#8	EnumIcons.ZoomIn	zoom in (magnifier, ZoomIn.gif)
+ControlImages:imageListTools2.ImageStream#9	EnumIcons.ZoomOut	zoom out (magnifier, ZoomOut.gif)
+ControlImages:imageListTools2.ImageStream#10	EnumIcons.Hand	pan (hand, Hand.gif)
+ControlImages:imageListTools2.ImageStream#11	EnumIcons.Flip	flip horizontally (flip.gif)
+ControlImages:imageListTools2.ImageStream#12	EnumIcons.RotateL	rotate left (rotateL.gif)
+ControlImages:imageListTools2.ImageStream#13	EnumIcons.RotateR	rotate right (rotateR.gif)
+ControlImages:imageListTools2.ImageStream#14	EnumIcons.ImageSelectorDoc	scan document (page, scanDoc.gif)
+ControlImages:imageListTools2.ImageStream#15	EnumIcons.ScanPhoto	scan photo (photo of teeth, scanPhoto.gif)
+ControlImages:imageListTools2.ImageStream#16	EnumIcons.ScanXray	scan radiograph (radiograph, scanXray.gif)
+ControlImages:imageListTools2.ImageStream#17	EnumIcons.Copy	copy (two pages, copy.gif)
+ControlImages:imageListTools2.ImageStream#18	EnumIcons.ScanMulti	scan multi-page document (stack of pages, ScanMulti.gif)
+ControlImages:imageListTools2.ImageStream#19	EnumIcons.Export	export (yellow folder with an arrow, Export.gif)
+ControlImages:imageListTools2.ImageStream#20	EnumIcons.ArrowsAll	Adj, adjust position (four-way arrows, arrowsAll.png)
+ControlImages:imageListTree.ImageStream#0	EnumIcons.UsbStick	memory stick (no node shows it)
+ControlImages:imageListTree.ImageStream#1	EnumIcons.ImageSelectorFolder	folder
+ControlImages:imageListTree.ImageStream#2	EnumIcons.ImageSelectorDoc	document (page of lines)
+ControlImages:imageListTree.ImageStream#3	EnumIcons.ImageSelectorXray	radiograph
+ControlImages:imageListTree.ImageStream#4	EnumIcons.ImageSelectorPhoto	photo of teeth
+ControlImages:imageListTree.ImageStream#5	EnumIcons.ImageSelectorFile	file that is not an image (window)
+ControlImages:imageListTree.ImageStream#6	EnumIcons.ImageSelectorMount	mount (framed film strip)
+ControlImages:imageListTree.ImageStream#7	EnumIcons.ImageSelectorFolderWeb	folder with a globe
