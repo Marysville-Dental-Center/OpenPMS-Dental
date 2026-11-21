@@ -430,10 +430,18 @@ Boilerplate for the new WpfControls.UI.ToolBar is over in ToolBar.xaml.cs
 		///under their keys and at their indexes. The toolbar owns the list.</summary>
 		public void SetImageListIcons(params EnumIcons[] arrayIcons){
 			ImageList imageListOld=imageList;
+			bool isOwnedOld=_arrayIconsImageList!=null;//a list set through ImageList is the caller's (a designer list, a plug-in's): never disposed here
 			imageList=IconLibrary.GetImageList(arrayIcons,LayoutManager.Scale(SIZE_IMAGE_LIST96));
 			_arrayIconsImageList=arrayIcons;
-			imageListOld?.Dispose();
+			if(isOwnedOld){
+				imageListOld?.Dispose();
+			}
 		}
+
+		///<summary>True when the toolbar's ImageList is its own list of icons (SetImageListIcons), false when a caller set ImageList.</summary>
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public bool IsImageListIcons=>_arrayIconsImageList!=null;
 		#endregion Methods - Public
 
 		#region Methods - Private

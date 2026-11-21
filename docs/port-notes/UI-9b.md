@@ -20,7 +20,9 @@ A list may take more pictures after it is made, by key or by index (the program 
 ### 1.2 Toolbars: `ToolBarOD.SetImageListIcons`
 
 - `toolBar.SetImageListIcons(params EnumIcons[] arrayIcons)` gives a `ToolBarOD` a list of icons from the factory at its scaled 22 px slot
-  (`ToolBarOD.SIZE_IMAGE_LIST96`, `LayoutManager.Scale(22)`: 22 px at 100%, 33 at 150%, 44 at 200%). The toolbar owns it and disposes it.
+  (`ToolBarOD.SIZE_IMAGE_LIST96`, `LayoutManager.Scale(22)`: 22 px at 100%, 33 at 150%, 44 at 200%). The toolbar owns it and disposes it; a list a caller set through `ImageList` is never disposed by the toolbar. `IsImageListIcons` says
+  which one the toolbar holds: `FormOpenDental.LayoutToolBar` gives the main toolbar its own list again when a plug-in set another, as main
+  reset `imageListMain` on every layout.
 - **Scale changes** (DPI, program zoom): before the next paint (`ComputeButtonsizes`) the toolbar builds the list again at the new size when
   it no longer matches, then copies the pictures added after the icons (program links, plug-ins) over, each under its key, so every
   `ImageIndex` and key stays.
@@ -174,6 +176,9 @@ module at 125% and 150% (the icons are drawn at the slot's size; program link pi
 9. Reused: Statement prints, so it takes Print (today's picture is a printer); Update Fees takes Sync (today's circle arrow); New Claim and Add
    Insurance take the umbrella (`Insurance`, approved with UI-9a-6). Fine?
 10. The captions of the converted buttons sit about 2 px further right (centred beside the icon like the other icon buttons). Fine?
+11. (Lead, after the review) At 150% and 200% the icons on one toolbar can differ in size: the 3.5 rule draws the largest Fluent design that
+    fits the slot, and Fluent does not make every icon at every size (Print and Select Patient have a 32 px design, Money, Add Subtract
+    Circle and the umbrella do not, so at 150% they draw 24 px beside 32 px). Keep the rule, or draw every icon on a toolbar at one size?
 
 **Results.** `.git/od-tools/test-results/ui9b1-final.txt`: all passed (UiRefreshTests 229 + 10 opt-in skipped, WindowChecksTests 29 + 44
 opt-in skipped, UnitTests 1,728 + 3, NoHqTests 122). Full x64 filter build: 0 errors. `tools\Test-NoEolFlips.ps1 -Base main`: 34 changed

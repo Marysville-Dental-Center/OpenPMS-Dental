@@ -293,6 +293,7 @@ namespace UiRefreshTests.Toolbars {
 				finally {
 					Programs.FillCacheFromTable(OpenPmsDentalBusiness.Crud.ProgramCrud.ListToTable(new List<Program>()));
 					ToolButItems.FillCacheFromTable(OpenPmsDentalBusiness.Crud.ToolButItemCrud.ListToTable(new List<ToolButItem>()));
+					Prefs.ClearCache();//the one-row cache above must not reach later tests (as ControlStateTests and EFormLookTests do)
 				}
 			});
 		}

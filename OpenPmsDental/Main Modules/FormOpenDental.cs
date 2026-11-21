@@ -1794,6 +1794,9 @@ namespace OpenPmsDental{
 		///<summary>Causes the toolbar to be laid out again.</summary>
 		private void LayoutToolBar() {
 			ToolBarMain.Buttons.Clear();
+			if(!ToolBarMain.IsImageListIcons) {//as before UI-9b-1, every layout starts from the window's own list (a plug-in may have set another)
+				ToolBarMain.SetImageListIcons(ArrayIconsImageList);
+			}
 			ODToolBarButton toolBarButton;
 			toolBarButton=new ODToolBarButton(Lan.g(this,"Select Patient"),EnumIcons.PatSelect,"","Patient");
 			toolBarButton.Style=ODToolBarButtonStyle.DropDownButton;
