@@ -228,7 +228,7 @@
 			this.labelDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.labelDate.Location = new System.Drawing.Point(8, 45);
 			this.labelDate.Name = "labelDate";
-			this.labelDate.Size = new System.Drawing.Size(96, 15);
+			this.labelDate.Size = new System.Drawing.Size(96, 17);
 			this.labelDate.TabIndex = 0;
 			this.labelDate.Text = "Date";
 			this.labelDate.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -304,7 +304,7 @@
 			// 
 			this.label6.Location = new System.Drawing.Point(2, 81);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(103, 16);
+			this.label6.Size = new System.Drawing.Size(103, 18);
 			this.label6.TabIndex = 13;
 			this.label6.Text = "Description";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -582,7 +582,7 @@
 			this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label9.Location = new System.Drawing.Point(403, 53);
 			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(100, 15);
+			this.label9.Size = new System.Drawing.Size(100, 18);
 			this.label9.TabIndex = 45;
 			this.label9.Text = "Provider";
 			this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -591,7 +591,7 @@
 			// 
 			this.labelDx.Location = new System.Drawing.Point(5, 242);
 			this.labelDx.Name = "labelDx";
-			this.labelDx.Size = new System.Drawing.Size(100, 15);
+			this.labelDx.Size = new System.Drawing.Size(100, 18);
 			this.labelDx.TabIndex = 46;
 			this.labelDx.Text = "Diagnosis";
 			this.labelDx.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -735,7 +735,7 @@
 			// 
 			this.label27.Location = new System.Drawing.Point(34, 25);
 			this.label27.Name = "label27";
-			this.label27.Size = new System.Drawing.Size(70, 15);
+			this.label27.Size = new System.Drawing.Size(70, 18);
 			this.label27.TabIndex = 98;
 			this.label27.Text = "Date TP";
 			this.label27.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -804,7 +804,7 @@
 			// 
 			this.labelStartTime.Location = new System.Drawing.Point(181, 44);
 			this.labelStartTime.Name = "labelStartTime";
-			this.labelStartTime.Size = new System.Drawing.Size(61, 15);
+			this.labelStartTime.Size = new System.Drawing.Size(62, 17);
 			this.labelStartTime.TabIndex = 0;
 			this.labelStartTime.Text = "Time Start";
 			this.labelStartTime.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1077,7 +1077,7 @@
 			// 
 			this.labelPriority.Location = new System.Drawing.Point(32, 263);
 			this.labelPriority.Name = "labelPriority";
-			this.labelPriority.Size = new System.Drawing.Size(72, 16);
+			this.labelPriority.Size = new System.Drawing.Size(72, 18);
 			this.labelPriority.TabIndex = 56;
 			this.labelPriority.Text = "Priority";
 			this.labelPriority.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1086,7 +1086,7 @@
 			// 
 			this.labelSetComplete.Location = new System.Drawing.Point(723, 9);
 			this.labelSetComplete.Name = "labelSetComplete";
-			this.labelSetComplete.Size = new System.Drawing.Size(158, 16);
+			this.labelSetComplete.Size = new System.Drawing.Size(161, 18);
 			this.labelSetComplete.TabIndex = 58;
 			this.labelSetComplete.Text = "changes date and adds note.";
 			// 
@@ -1106,7 +1106,7 @@
 			this.labelIncomplete.ForeColor = System.Drawing.Color.DarkRed;
 			this.labelIncomplete.Location = new System.Drawing.Point(547, 115);
 			this.labelIncomplete.Name = "labelIncomplete";
-			this.labelIncomplete.Size = new System.Drawing.Size(155, 18);
+			this.labelIncomplete.Size = new System.Drawing.Size(155, 19);
 			this.labelIncomplete.TabIndex = 73;
 			this.labelIncomplete.Text = "Incomplete";
 			this.labelIncomplete.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1189,7 +1189,7 @@
 			// 
 			this.labelBillingTypeTwo.Location = new System.Drawing.Point(15, 35);
 			this.labelBillingTypeTwo.Name = "labelBillingTypeTwo";
-			this.labelBillingTypeTwo.Size = new System.Drawing.Size(102, 16);
+			this.labelBillingTypeTwo.Size = new System.Drawing.Size(102, 18);
 			this.labelBillingTypeTwo.TabIndex = 103;
 			this.labelBillingTypeTwo.Text = "Billing Type 2";
 			this.labelBillingTypeTwo.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1205,7 +1205,7 @@
 			// 
 			this.labelBillingTypeOne.Location = new System.Drawing.Point(13, 14);
 			this.labelBillingTypeOne.Name = "labelBillingTypeOne";
-			this.labelBillingTypeOne.Size = new System.Drawing.Size(104, 16);
+			this.labelBillingTypeOne.Size = new System.Drawing.Size(104, 18);
 			this.labelBillingTypeOne.TabIndex = 105;
 			this.labelBillingTypeOne.Text = "Billing Type 1";
 			this.labelBillingTypeOne.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1251,7 +1251,7 @@
 			// 
 			this.label4.Location = new System.Drawing.Point(5, 61);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(84, 16);
+			this.label4.Size = new System.Drawing.Size(84, 18);
 			this.label4.TabIndex = 4;
 			this.label4.Text = "Original Date";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -1413,7 +1413,7 @@
 			// 
 			this.labelClaimNote.Location = new System.Drawing.Point(0, 364);
 			this.labelClaimNote.Name = "labelClaimNote";
-			this.labelClaimNote.Size = new System.Drawing.Size(104, 45);
+			this.labelClaimNote.Size = new System.Drawing.Size(104, 52);
 			this.labelClaimNote.TabIndex = 174;
 			this.labelClaimNote.Text = "E-claim Note (keep it very short)";
 			this.labelClaimNote.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -1883,7 +1883,7 @@
 			// 
 			this.label18.Location = new System.Drawing.Point(6, 122);
 			this.label18.Name = "label18";
-			this.label18.Size = new System.Drawing.Size(111, 15);
+			this.label18.Size = new System.Drawing.Size(111, 18);
 			this.label18.TabIndex = 167;
 			this.label18.Text = "Billing Note";
 			this.label18.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

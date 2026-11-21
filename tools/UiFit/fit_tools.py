@@ -65,7 +65,9 @@ def window_files(root, windows):
 
 def load_scan(folder):
     d = {}
-    d["ov"] = [r for r in read_tsv(os.path.join(folder, "overflow-%s.tsv" % RUN)) if r["scale"] == "1"]
+    all_ov = read_tsv(os.path.join(folder, "overflow-%s.tsv" % RUN))
+    d["ov"] = [r for r in all_ov if r["scale"] == "1"]
+    d["ov_scales"] = [r for r in all_ov if r["scale"] != "1" and r["scale"] != "1.2" and r["ink"] != "inside"]
     d["ss"] = [r for r in read_tsv(os.path.join(folder, "selfsizing-%s.tsv" % RUN)) if r["scale"] == "1"]
     d["bd"] = read_tsv(os.path.join(folder, "bounds-%s.tsv" % RUN))
     return d
@@ -166,6 +168,11 @@ def plan_window(window, scan, rec_before, rec_after, designer_text):
         if r["window"] == window:
             ov[r["control"]] = r
             touch(r["control"], "ov")
+    ov_scales = collections.defaultdict(list)
+    for r in scan["ov_scales"]:
+        if r["window"] == window:
+            ov_scales[r["control"]].append(r)
+            touch(r["control"], "ov")
     for r in scan["ss"]:
         if r["window"] == window:
             ss.setdefault(r["control"], []).append(r)
@@ -212,6 +219,16 @@ def plan_window(window, scan, rec_before, rec_after, designer_text):
             why.append("text needs %+d,%+d px" % (nw, nh))
             if gw < nw or gh < nh:
                 reason_owner = "no free space for the whole text (missing %d,%d px after growing into the free space)" % (nw - gw, nh - gh)
+        if not sizing and path in ov_scales:
+            # The other scales (1.25 to 2): LayoutManager multiplies the designer size, so the pixels missing at a scale are the designer pixels
+            # divided by it, rounded up; only into the free space (at that scale), and only what is visibly cut.
+            for r in ov_scales[path]:
+                sc = float(r["scale"])
+                gw = min(int(math.ceil(int(r["need_width"]) / sc)), int(int(r["free_right"]) / sc))
+                gh = min(int(math.ceil(int(r["need_height"]) / sc)), int(int(r["free_below"]) / sc))
+                tw = max(tw, B[2] + min(gw, fr))
+                th = max(th, B[3] + min(gh, fb))
+            why.append("also the pixels missing at the scales 1.25 to 2")
         if sizing or path in ss or (window, path) in {(window, r["control"]) for r in scan["bd"] if r["window"] == window}:
             if ctype in FONT_FIXED_TYPES or (ctype not in TEXT_BOX_TYPES and ctype.endswith(("ComboBox", "DateTimePicker", "UpDown"))):
                 owner.append((path, "its height comes from the font (%s); no size edit can keep it; it grows into its neighbour" % ctype.split(".")[-1]))

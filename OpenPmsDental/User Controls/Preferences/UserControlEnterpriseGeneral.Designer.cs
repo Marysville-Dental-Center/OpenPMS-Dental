@@ -229,7 +229,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelPatSelectMinChars.Location = new System.Drawing.Point(6, 19);
 			this.labelPatSelectMinChars.Name = "labelPatSelectMinChars";
-			this.labelPatSelectMinChars.Size = new System.Drawing.Size(420, 18);
+			this.labelPatSelectMinChars.Size = new System.Drawing.Size(421, 18);
 			this.labelPatSelectMinChars.TabIndex = 279;
 			this.labelPatSelectMinChars.Text = "The number of characters entered into the search fields before filling the grid";
 			this.labelPatSelectMinChars.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

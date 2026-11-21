@@ -243,7 +243,7 @@ namespace OpenPmsDental {
 			this.label29.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.label29.Location = new System.Drawing.Point(31, 14);
 			this.label29.Name = "label29";
-			this.label29.Size = new System.Drawing.Size(209, 31);
+			this.label29.Size = new System.Drawing.Size(210, 31);
 			this.label29.TabIndex = 223;
 			this.label29.Text = "Current Procedures to Consider for Patients\' Date Placement";
 			this.label29.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

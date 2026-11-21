@@ -167,7 +167,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelInsHistCodeGroups.Location = new System.Drawing.Point(10, 13);
 			this.labelInsHistCodeGroups.Name = "labelInsHistCodeGroups";
-			this.labelInsHistCodeGroups.Size = new System.Drawing.Size(430, 34);
+			this.labelInsHistCodeGroups.Size = new System.Drawing.Size(430, 43);
 			this.labelInsHistCodeGroups.TabIndex = 253;
 			this.labelInsHistCodeGroups.Text = "Insurance History rows and their procedure codes are set in Setup, Code Groups: check Show In History on a code group and give it a History Proc Code.";
 			// 
@@ -201,7 +201,7 @@ namespace OpenPmsDental {
 			this.radioTreatPlanSortOrder.Location = new System.Drawing.Point(283, 28);
 			this.radioTreatPlanSortOrder.Name = "radioTreatPlanSortOrder";
 			this.radioTreatPlanSortOrder.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-			this.radioTreatPlanSortOrder.Size = new System.Drawing.Size(157, 21);
+			this.radioTreatPlanSortOrder.Size = new System.Drawing.Size(157, 23);
 			this.radioTreatPlanSortOrder.TabIndex = 53;
 			this.radioTreatPlanSortOrder.TabStop = true;
 			this.radioTreatPlanSortOrder.Text = "Order Entered";

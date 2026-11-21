@@ -326,7 +326,7 @@ namespace OpenPmsDental {
 			// 
 			this.label10.Location = new System.Drawing.Point(51, 110);
 			this.label10.Name = "label10";
-			this.label10.Size = new System.Drawing.Size(337, 17);
+			this.label10.Size = new System.Drawing.Size(338, 17);
 			this.label10.TabIndex = 239;
 			this.label10.Text = "Disable alert interval after this many minutes of user inactivity\r\n";
 			this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

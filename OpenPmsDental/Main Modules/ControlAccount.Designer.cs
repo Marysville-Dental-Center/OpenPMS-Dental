@@ -380,7 +380,7 @@
 			this.labelInsRem.BackColor = System.Drawing.Color.LightGray;
 			this.labelInsRem.Location = new System.Drawing.Point(700, 4);
 			this.labelInsRem.Name = "labelInsRem";
-			this.labelInsRem.Size = new System.Drawing.Size(47, 29);
+			this.labelInsRem.Size = new System.Drawing.Size(49, 29);
 			this.labelInsRem.TabIndex = 0;
 			this.labelInsRem.Text = "Ins\r\nRem";
 			this.labelInsRem.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -394,7 +394,7 @@
 			this.labelUnearnedAmt.ForeColor = System.Drawing.Color.Firebrick;
 			this.labelUnearnedAmt.Location = new System.Drawing.Point(636, 18);
 			this.labelUnearnedAmt.Name = "labelUnearnedAmt";
-			this.labelUnearnedAmt.Size = new System.Drawing.Size(60, 15);
+			this.labelUnearnedAmt.Size = new System.Drawing.Size(60, 18);
 			this.labelUnearnedAmt.TabIndex = 228;
 			this.labelUnearnedAmt.Text = "25000.00";
 			this.labelUnearnedAmt.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -407,7 +407,7 @@
 			this.labelUnearned.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.labelUnearned.Location = new System.Drawing.Point(632, 2);
 			this.labelUnearned.Name = "labelUnearned";
-			this.labelUnearned.Size = new System.Drawing.Size(68, 15);
+			this.labelUnearned.Size = new System.Drawing.Size(68, 16);
 			this.labelUnearned.TabIndex = 227;
 			this.labelUnearned.Text = "Unearned";
 			this.labelUnearned.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -459,7 +459,7 @@
 			this.labelTotalPtOwes.ForeColor = System.Drawing.Color.Firebrick;
 			this.labelTotalPtOwes.Location = new System.Drawing.Point(6, 12);
 			this.labelTotalPtOwes.Name = "labelTotalPtOwes";
-			this.labelTotalPtOwes.Size = new System.Drawing.Size(112, 23);
+			this.labelTotalPtOwes.Size = new System.Drawing.Size(112, 25);
 			this.labelTotalPtOwes.TabIndex = 222;
 			this.labelTotalPtOwes.Text = "2500.00";
 			this.labelTotalPtOwes.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -468,7 +468,7 @@
 			// 
 			this.labelPatEstBalAmt.Location = new System.Drawing.Point(550, 19);
 			this.labelPatEstBalAmt.Name = "labelPatEstBalAmt";
-			this.labelPatEstBalAmt.Size = new System.Drawing.Size(65, 15);
+			this.labelPatEstBalAmt.Size = new System.Drawing.Size(65, 18);
 			this.labelPatEstBalAmt.TabIndex = 89;
 			this.labelPatEstBalAmt.Text = "25000.00";
 			this.labelPatEstBalAmt.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -477,7 +477,7 @@
 			// 
 			this.labelPatEstBal.Location = new System.Drawing.Point(550, 3);
 			this.labelPatEstBal.Name = "labelPatEstBal";
-			this.labelPatEstBal.Size = new System.Drawing.Size(65, 15);
+			this.labelPatEstBal.Size = new System.Drawing.Size(65, 16);
 			this.labelPatEstBal.TabIndex = 88;
 			this.labelPatEstBal.Text = "Pat Est Bal";
 			this.labelPatEstBal.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -510,7 +510,7 @@
 			// 
 			this.labelInsEstAmt.Location = new System.Drawing.Point(387, 18);
 			this.labelInsEstAmt.Name = "labelInsEstAmt";
-			this.labelInsEstAmt.Size = new System.Drawing.Size(65, 15);
+			this.labelInsEstAmt.Size = new System.Drawing.Size(65, 18);
 			this.labelInsEstAmt.TabIndex = 62;
 			this.labelInsEstAmt.Text = "2500.00";
 			this.labelInsEstAmt.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -531,7 +531,7 @@
 			// 
 			this.labelInsEst.Location = new System.Drawing.Point(387, 2);
 			this.labelInsEst.Name = "labelInsEst";
-			this.labelInsEst.Size = new System.Drawing.Size(65, 15);
+			this.labelInsEst.Size = new System.Drawing.Size(65, 16);
 			this.labelInsEst.TabIndex = 57;
 			this.labelInsEst.Text = "- InsEst";
 			this.labelInsEst.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -626,7 +626,7 @@
 			this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label2.Location = new System.Drawing.Point(14, 2);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(50, 33);
+			this.label2.Size = new System.Drawing.Size(52, 33);
 			this.label2.TabIndex = 45;
 			this.label2.Text = "Family\r\nAging";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -805,7 +805,7 @@
 			// 
 			this.labelEndDate.Location = new System.Drawing.Point(2, 34);
 			this.labelEndDate.Name = "labelEndDate";
-			this.labelEndDate.Size = new System.Drawing.Size(91, 15);
+			this.labelEndDate.Size = new System.Drawing.Size(91, 18);
 			this.labelEndDate.TabIndex = 211;
 			this.labelEndDate.Text = "End Date";
 			this.labelEndDate.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -814,7 +814,7 @@
 			// 
 			this.labelStartDate.Location = new System.Drawing.Point(8, 11);
 			this.labelStartDate.Name = "labelStartDate";
-			this.labelStartDate.Size = new System.Drawing.Size(84, 15);
+			this.labelStartDate.Size = new System.Drawing.Size(84, 18);
 			this.labelStartDate.TabIndex = 210;
 			this.labelStartDate.Text = "Start Date";
 			this.labelStartDate.TextAlign = System.Drawing.ContentAlignment.TopRight;

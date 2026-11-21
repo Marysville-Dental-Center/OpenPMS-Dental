@@ -629,7 +629,7 @@
 			// 
 			this.label18.Location = new System.Drawing.Point(6, 60);
 			this.label18.Name = "label18";
-			this.label18.Size = new System.Drawing.Size(258, 18);
+			this.label18.Size = new System.Drawing.Size(263, 18);
 			this.label18.TabIndex = 29;
 			this.label18.Text = "(Might need a note. Might need to attach x-ray)";
 			// 
@@ -690,7 +690,7 @@
 			this.label45.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.label45.Location = new System.Drawing.Point(10, 16);
 			this.label45.Name = "label45";
-			this.label45.Size = new System.Drawing.Size(282, 30);
+			this.label45.Size = new System.Drawing.Size(287, 30);
 			this.label45.TabIndex = 133;
 			this.label45.Text = "Only enter referring provider and referral number if required by your insurance c" +
     "arrier.";
@@ -720,7 +720,7 @@
 			this.label47.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.label47.Location = new System.Drawing.Point(9, 51);
 			this.label47.Name = "label47";
-			this.label47.Size = new System.Drawing.Size(100, 15);
+			this.label47.Size = new System.Drawing.Size(100, 18);
 			this.label47.TabIndex = 131;
 			this.label47.Text = "Referring Provider";
 			this.label47.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -915,7 +915,7 @@
 			// 
 			this.labelNote.Location = new System.Drawing.Point(616, 3);
 			this.labelNote.Name = "labelNote";
-			this.labelNote.Size = new System.Drawing.Size(307, 16);
+			this.labelNote.Size = new System.Drawing.Size(309, 16);
 			this.labelNote.TabIndex = 19;
 			this.labelNote.Text = "Claim Note (this will show on the claim when submitted)";
 			// 
@@ -956,7 +956,7 @@
 			this.label49.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.label49.Location = new System.Drawing.Point(23, 144);
 			this.label49.Name = "label49";
-			this.label49.Size = new System.Drawing.Size(117, 17);
+			this.label49.Size = new System.Drawing.Size(119, 17);
 			this.label49.TabIndex = 137;
 			this.label49.Text = "Employment Related";
 			this.label49.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1086,7 +1086,7 @@
 			// 
 			this.radioAttachElect.Location = new System.Drawing.Point(171, 59);
 			this.radioAttachElect.Name = "radioAttachElect";
-			this.radioAttachElect.Size = new System.Drawing.Size(104, 21);
+			this.radioAttachElect.Size = new System.Drawing.Size(104, 23);
 			this.radioAttachElect.TabIndex = 129;
 			this.radioAttachElect.Text = "Electronically";
 			// 
@@ -1244,7 +1244,7 @@
 			this.labelAttachedImagesWillNotBeSent.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.labelAttachedImagesWillNotBeSent.Location = new System.Drawing.Point(7, 16);
 			this.labelAttachedImagesWillNotBeSent.Name = "labelAttachedImagesWillNotBeSent";
-			this.labelAttachedImagesWillNotBeSent.Size = new System.Drawing.Size(282, 30);
+			this.labelAttachedImagesWillNotBeSent.Size = new System.Drawing.Size(312, 30);
 			this.labelAttachedImagesWillNotBeSent.TabIndex = 151;
 			this.labelAttachedImagesWillNotBeSent.Text = "These images will NOT be automatically sent with an electronic claim.";
 			// 
@@ -1865,7 +1865,7 @@
 			// 
 			this.labelVC41Code.Location = new System.Drawing.Point(287, 16);
 			this.labelVC41Code.Name = "labelVC41Code";
-			this.labelVC41Code.Size = new System.Drawing.Size(33, 17);
+			this.labelVC41Code.Size = new System.Drawing.Size(34, 17);
 			this.labelVC41Code.TabIndex = 0;
 			this.labelVC41Code.Text = "code";
 			this.labelVC41Code.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -2032,7 +2032,7 @@
 			// 
 			this.labelVC41.Location = new System.Drawing.Point(264, 16);
 			this.labelVC41.Name = "labelVC41";
-			this.labelVC41.Size = new System.Drawing.Size(19, 17);
+			this.labelVC41.Size = new System.Drawing.Size(22, 17);
 			this.labelVC41.TabIndex = 0;
 			this.labelVC41.Text = "41";
 			this.labelVC41.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -2041,7 +2041,7 @@
 			// 
 			this.labelVC40.Location = new System.Drawing.Point(135, 16);
 			this.labelVC40.Name = "labelVC40";
-			this.labelVC40.Size = new System.Drawing.Size(19, 17);
+			this.labelVC40.Size = new System.Drawing.Size(22, 17);
 			this.labelVC40.TabIndex = 0;
 			this.labelVC40.Text = "40";
 			this.labelVC40.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -2050,7 +2050,7 @@
 			// 
 			this.labelVC39.Location = new System.Drawing.Point(6, 16);
 			this.labelVC39.Name = "labelVC39";
-			this.labelVC39.Size = new System.Drawing.Size(19, 17);
+			this.labelVC39.Size = new System.Drawing.Size(22, 17);
 			this.labelVC39.TabIndex = 0;
 			this.labelVC39.Text = "39";
 			this.labelVC39.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -2136,7 +2136,7 @@
 			// 
 			this.labelVC39Code.Location = new System.Drawing.Point(29, 16);
 			this.labelVC39Code.Name = "labelVC39Code";
-			this.labelVC39Code.Size = new System.Drawing.Size(33, 17);
+			this.labelVC39Code.Size = new System.Drawing.Size(34, 17);
 			this.labelVC39Code.TabIndex = 0;
 			this.labelVC39Code.Text = "code";
 			this.labelVC39Code.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -2569,7 +2569,7 @@
 			this.label73.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.label73.Location = new System.Drawing.Point(17, 14);
 			this.label73.Name = "label73";
-			this.label73.Size = new System.Drawing.Size(87, 30);
+			this.label73.Size = new System.Drawing.Size(88, 30);
 			this.label73.TabIndex = 2;
 			this.label73.Text = "CDA Number\r\nor Identifier";
 			this.label73.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -2848,7 +2848,7 @@
 			this.label70.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.label70.Location = new System.Drawing.Point(64, 37);
 			this.label70.Name = "label70";
-			this.label70.Size = new System.Drawing.Size(63, 17);
+			this.label70.Size = new System.Drawing.Size(64, 17);
 			this.label70.TabIndex = 3;
 			this.label70.Text = "Initial Date";
 			this.label70.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -2927,7 +2927,7 @@
 			this.label67.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.label67.Location = new System.Drawing.Point(72, 37);
 			this.label67.Name = "label67";
-			this.label67.Size = new System.Drawing.Size(63, 17);
+			this.label67.Size = new System.Drawing.Size(64, 17);
 			this.label67.TabIndex = 3;
 			this.label67.Text = "Initial Date";
 			this.label67.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -3234,7 +3234,7 @@
 			this.label20.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.label20.Location = new System.Drawing.Point(916, 656);
 			this.label20.Name = "label20";
-			this.label20.Size = new System.Drawing.Size(146, 32);
+			this.label20.Size = new System.Drawing.Size(153, 32);
 			this.label20.TabIndex = 92;
 			this.label20.Text = "(payment changes are saved as they are made)";
 			this.label20.TextAlign = System.Drawing.ContentAlignment.BottomRight;
@@ -3545,7 +3545,7 @@
 			// 
 			this.label2.Location = new System.Drawing.Point(8, 18);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(100, 15);
+			this.label2.Size = new System.Drawing.Size(100, 18);
 			this.label2.TabIndex = 104;
 			this.label2.Text = "Claim Status";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -3568,7 +3568,7 @@
 			// 
 			this.label21.Location = new System.Drawing.Point(249, 98);
 			this.label21.Name = "label21";
-			this.label21.Size = new System.Drawing.Size(102, 15);
+			this.label21.Size = new System.Drawing.Size(102, 18);
 			this.label21.TabIndex = 93;
 			this.label21.Text = "Treating Provider";
 			this.label21.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -3595,7 +3595,7 @@
 			// 
 			this.label3.Location = new System.Drawing.Point(256, 78);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(94, 15);
+			this.label3.Size = new System.Drawing.Size(94, 18);
 			this.label3.TabIndex = 2;
 			this.label3.Text = "Billing Provider";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -3605,7 +3605,7 @@
 			this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label1.Location = new System.Drawing.Point(318, 366);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(116, 15);
+			this.label1.Size = new System.Drawing.Size(116, 18);
 			this.label1.TabIndex = 50;
 			this.label1.Text = "Totals";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -3623,7 +3623,7 @@
 			// 
 			this.label8.Location = new System.Drawing.Point(5, 80);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(104, 16);
+			this.label8.Size = new System.Drawing.Size(104, 18);
 			this.label8.TabIndex = 7;
 			this.label8.Text = "Date Orig Sent";
 			this.label8.TextAlign = System.Drawing.ContentAlignment.TopRight;

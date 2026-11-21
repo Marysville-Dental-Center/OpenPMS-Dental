@@ -35,7 +35,7 @@ namespace OpenPmsDental {
 			this.labelCommLogAutoSaveDetails.ForeColor = System.Drawing.Color.MidnightBlue;
 			this.labelCommLogAutoSaveDetails.Location = new System.Drawing.Point(25, 20);
 			this.labelCommLogAutoSaveDetails.Name = "labelCommLogAutoSaveDetails";
-			this.labelCommLogAutoSaveDetails.Size = new System.Drawing.Size(446, 114);
+			this.labelCommLogAutoSaveDetails.Size = new System.Drawing.Size(446, 120);
 			this.labelCommLogAutoSaveDetails.TabIndex = 322;
 			this.labelCommLogAutoSaveDetails.Text = resources.GetString("labelCommLogAutoSaveDetails.Text");
 			// 

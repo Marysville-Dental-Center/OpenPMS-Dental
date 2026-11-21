@@ -210,7 +210,7 @@ namespace OpenPmsDental {
 			this.radioReceiveAtAnInterval.Location = new System.Drawing.Point(136, 251);
 			this.radioReceiveAtAnInterval.Name = "radioReceiveAtAnInterval";
 			this.radioReceiveAtAnInterval.RightToLeft = System.Windows.Forms.RightToLeft.No;
-			this.radioReceiveAtAnInterval.Size = new System.Drawing.Size(182, 21);
+			this.radioReceiveAtAnInterval.Size = new System.Drawing.Size(182, 22);
 			this.radioReceiveAtAnInterval.TabIndex = 297;
 			this.radioReceiveAtAnInterval.TabStop = true;
 			this.radioReceiveAtAnInterval.Text = "Receive at an interval";
@@ -232,7 +232,7 @@ namespace OpenPmsDental {
 			this.radioReceiveAtASetTime.Location = new System.Drawing.Point(136, 273);
 			this.radioReceiveAtASetTime.Name = "radioReceiveAtASetTime";
 			this.radioReceiveAtASetTime.RightToLeft = System.Windows.Forms.RightToLeft.No;
-			this.radioReceiveAtASetTime.Size = new System.Drawing.Size(182, 21);
+			this.radioReceiveAtASetTime.Size = new System.Drawing.Size(182, 23);
 			this.radioReceiveAtASetTime.TabIndex = 298;
 			this.radioReceiveAtASetTime.Text = "Receive at a set time";
 			this.radioReceiveAtASetTime.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

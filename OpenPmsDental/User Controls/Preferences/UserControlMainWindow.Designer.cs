@@ -73,7 +73,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelTimeSpan.Location = new System.Drawing.Point(123, 38);
 			this.labelTimeSpan.Name = "labelTimeSpan";
-			this.labelTimeSpan.Size = new System.Drawing.Size(234, 19);
+			this.labelTimeSpan.Size = new System.Drawing.Size(235, 19);
 			this.labelTimeSpan.TabIndex = 43;
 			this.labelTimeSpan.Text = "Default timespan (hh:mm:ss) until disabled";
 			this.labelTimeSpan.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

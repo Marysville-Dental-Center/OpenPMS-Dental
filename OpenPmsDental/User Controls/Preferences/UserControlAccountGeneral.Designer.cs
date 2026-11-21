@@ -51,7 +51,7 @@ namespace OpenPmsDental {
 			// 
 			this.label62.Location = new System.Drawing.Point(172, 413);
 			this.label62.Name = "label62";
-			this.label62.Size = new System.Drawing.Size(288, 48);
+			this.label62.Size = new System.Drawing.Size(288, 52);
 			this.label62.TabIndex = 306;
 			this.label62.Text = "Allocation options for Line Item Accounting have been moved to a different window" +
     ".\r\nSee Main Menu, Setup, Account, Allocations.";
