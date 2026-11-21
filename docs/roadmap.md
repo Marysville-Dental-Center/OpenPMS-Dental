@@ -4,28 +4,21 @@ Planned work after v0.0, as agreed with the owner. Each item is discussed and sc
 
 ## Next
 
-Scheduled with the owner on 2026-11-07, in this order (the Open Dental 26.2 features, first on that list, are done; see below):
+Status on 2026-11-20. Of the list scheduled with the owner on 2026-11-07, the Open Dental 26.2 features, **.NET 10** (64-bit, merged on
+2026-11-17, `docs/specs/net10-plan.md`), **the tooth chart's 3D drawing** on WPF (TC-0 to TC-10, `docs/specs/wpf-tooth-chart-plan.md`)
+and **EHR again** (EHR-1 to EHR-7, `docs/specs/ehr-rebuild-plan.md`; the CQM reports wait for counsel's answer to E-10) are done. The
+compressed DICOM decoders stay parked until such files turn up.
 
-1. **.NET 10** for everything, the Middle Tier included, now that the 26.2 work has landed, because the move changes every project file. It
-   goes straight to 64-bit (owner, 2026-11-08: "no go directly to 64."): the office installs the last .NET Framework release, then the
-   64-bit .NET 10 setup once on every workstation, after the TWAIN driver project's 64-bit data sources are tested on the clinic's
-   sensor. See below.
-2. **The tooth chart's 3D drawing** on WPF 3D with Helix Toolkit 3.x, after .NET 10, with Open Dental 26.2's extraction graphic and its
-   "text below the chart" paint type. See below.
-3. **Compressed DICOM decoders**, parked until such files turn up. See below.
+Now: **the UI refresh** (owner, 2026-11-17: "Modernize icons, buttons, styles. Keep it clean and professional."), restyle only, every
+window keeping its layout; the plan is `docs/specs/ui-refresh-plan.md`. Done and approved: the tokens and design sheet, the window frame, the
+controls, the toolbars, every button picture as a Fluent icon (UI-9a) and the main and module toolbars (UI-9b-1). Left: UI-9b-2 to UI-9b-4
+(the other ImageLists: the imaging module, the trees, the other forms), UI-10 (text fit), UI-2b (Segoe UI 9 pt), UI-11 (the last colours
+and the final sweep), then the toolbar overflow button and keyboard focus on the WPF buttons.
 
-Added on 2026-11-08, alongside the .NET 10 stages and the tooth chart: **EHR again** (owner: "Allow EHR again. build what EHR.dll would
-provide"). What Open Dental's closed `EHR.dll` gave the program is rebuilt as open code, in seven packages; the plan is
-`docs/specs/ehr-rebuild-plan.md`. Its questions E-1 to E-19 were answered as recommended on 2026-11-08; the CQM reports wait
-for counsel's answer to E-10.
+Not scheduled yet: the next release, the office switch-over (after the 64-bit TWAIN drivers are tested on the clinic's sensor), the server
+components on Linux, the GitHub repository move, and Open Dental 26.3.
 
-Not scheduled yet: the next release, the office switch-over, the server components on Linux, the GitHub repository move, and Open Dental
-26.3.
-
-The owner questions of the work done in the next version (the SSH host key defaults, the server-wide rights the backup needs, and the
-Backup window's backup to another server) were answered on 2026-11-07, and every other open question was accepted at today's behaviour
-("skip the rest"). The questions of the Open Dental 26.2 work were answered the same day ("all as recommended"). `docs/owner-questions.md`
-records the answers.
+The owner questions of each package are recorded with their answers in `docs/owner-questions.md`.
 
 ## Done in the next version
 

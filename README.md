@@ -16,6 +16,60 @@ The program's namespaces, assemblies and executable carry its code name, `OpenPm
 
 Open PMS - Dental is a Windows desktop practice management system written in C#: WinForms, with some WPF, on .NET 10 (64-bit, self-contained: the program carries its own .NET runtime), backed by MariaDB. Version 0.0 was the .NET Framework 4.8 build (32-bit); the move is [docs/specs/net10-plan.md](docs/specs/net10-plan.md).
 
+## Where the project stands
+
+November 2026, on `main`:
+
+- **Independent of Open Dental Software, Inc.** Nothing calls Open Dental's servers: eServices, support and registration keys, the update servers and the help browser are gone. `NoHqTests` and `tools/Test-NoHqHosts.ps1` check this on every test run. Open Dental's closed DLLs are removed or rebuilt as open code: the CDT library, ODCrypt, the imaging device manager (open source TWAIN scanning and native sensor capture), EHR and the local REST API (removed). Partner advertising is gone too: an integration shows only after the office turns it on.
+- **Open Dental features up to 26.1**, re-implemented from Open Dental's public documentation, on Open Dental's 26.2.0 database schema, with the 26.2 features the owner chose. An existing Open Dental 24.3.63 or 25.3.48 database can be adopted. The adoption is rehearsed on synthetic data only.
+- **Version 0.0** was released: the last .NET Framework 4.8, 32-bit build.
+- **.NET 10, 64-bit, self-contained** since November 2026: the program, every tool and service, the tests and the Middle Tier, now a small ASP.NET Core server. Integrations use the vendor's 64-bit way. A 32-bit helper process is used only where a vendor has none (32-bit TWAIN drivers, QuickBooks Desktop, Schick, Topaz).
+- **Security:** encrypted database connections (TLS with the office's own CA), the database password stored with Windows DPAPI and never in the settings file, current libraries, and remembered SSH host keys.
+- **Rebuilt in the open:**
+  - EHR: what Open Dental's closed `EHR.dll` did, including the 2027 measure catalog and its data-entry windows ([docs/specs/ehr-rebuild-plan.md](docs/specs/ehr-rebuild-plan.md)).
+  - A WPF 3D tooth chart that replaces the DirectX and OpenGL engines ([docs/specs/wpf-tooth-chart-plan.md](docs/specs/wpf-tooth-chart-plan.md)).
+  - An in-house DICOM reader.
+  - The PDF and spell-check libraries, built from their source.
+- **New in this fork:** inventory tracking and routine maintenance tracking.
+- **In progress: a UI refresh** ([docs/specs/ui-refresh-plan.md](docs/specs/ui-refresh-plan.md)). It gives the program a modern, clean and consistent look and leaves every window's layout as it is. Staff who know Open Dental find every control where it was. Done so far:
+  - Design tokens: colours, sizes and fonts.
+  - The window frame, with rounded corners.
+  - Buttons, text boxes, grids and the other controls.
+  - Toolbars.
+  - Every button picture is now a [Fluent UI System Icon](https://github.com/microsoft/fluentui-system-icons) (MIT), plus a few custom dental icons in the same style.
+  - The main and module toolbars.
+
+## How we work
+
+- **Open source, and open about where it comes from.** Every Open Dental copyright line and GPL notice is kept. Features of Open Dental versions after 24.3 are written again from Open Dental's public manual, release notes and database documents. Nothing is decompiled, and nothing is merged from upstream. Every file the setup installs has published source.
+- **Nothing is cut.** Every feature and every test is kept and ported, also ones a given office does not use, unless the owner deliberately removes one. Removals so far: Open Dental's own services, the help browser, the local REST API and partner advertising.
+- **Local first.** Patient data, images and the program's own services stay on the office network. Third-party integrations talk directly to the vendor, are off until the office turns them on, and are vendor-neutral: no promotions and no recommended vendors.
+- **Practice-neutral source.** No practice names, server names, addresses or developer-PC paths in tracked files, test data or commit messages. Tests use synthetic data only and never real patient data. Test databases are scratch databases on `127.0.0.1` that each test drops afterwards.
+- **Current and native.** The newest stable version of every library and SDK, from official sources. Each integration uses the vendor's native 64-bit way first, and a 32-bit helper only as a fallback.
+- **Small packages, each tested and reviewed.** Every change is a package with a plan, a port note in `docs/port-notes/` and tests. It gets an independent review and reaches `main` only after a full build and the test suites pass. Line endings and file encodings are checked on every merge.
+- **The owner approves what users will see.** Visible changes, such as the UI refresh and the tooth chart, are shown as before-and-after picture galleries rendered by the tests. They merge only after the owner approves them, and each approved picture is recorded (`tests/WindowChecksTests/UiApproved/approved.tsv`).
+- **Compatible where it matters.** Names that existing databases and installations depend on keep Open Dental's spelling (see below). The database schema follows Open Dental's, so an office can move over from Open Dental.
+
+## Roadmap
+
+The detailed roadmap, with the owner's decisions, is [docs/roadmap.md](docs/roadmap.md).
+
+**Now, the UI refresh:**
+
+1. The pictures in lists and trees (UI-9b), in four parts. The first part, the main and module toolbars, is done.
+2. Text fit (UI-10): every label and button is checked so its text fits at the new font.
+3. Segoe UI 9 pt everywhere (UI-2b).
+4. The last colours and a final sweep (UI-11).
+5. Afterwards, an overflow button (>>) for toolbars too narrow for their buttons, and keyboard focus on the WPF buttons.
+
+**Not scheduled yet:**
+
+- The next release, and the office switch-over from Open Dental ([docs/adoption-runbook.md](docs/adoption-runbook.md)), after a test of the 64-bit TWAIN drivers on the clinic's own sensor.
+- Compressed DICOM decoders, only if such files turn up.
+- Server components on Linux, with new ones written in Rust. A plan comes first. The Middle Tier stays .NET 10 on Windows until then.
+- A neutral name for the GitHub repository.
+- Open Dental 26.3, once Open Dental marks it stable.
+
 ## Installing in an office
 
 A release is a setup program, `OpenPmsDental-<version>-Setup.exe`, with its `SHA256SUMS.txt` and release notes ([docs/release-notes/v0.0.md](docs/release-notes/v0.0.md) for 0.0). `tools/Build-Release.ps1` builds it from a **Release | x64** build ([docs/release-process.md](docs/release-process.md#building-the-installer)). Nothing here contacts Open Dental's servers, and nothing is installed on the database server by this program.
