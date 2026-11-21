@@ -139,7 +139,7 @@ namespace OpenPmsDental {
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelHelp.Location = new System.Drawing.Point(12, 466);
 			this.labelHelp.Name = "labelHelp";
-			this.labelHelp.Size = new System.Drawing.Size(760, 48);
+			this.labelHelp.Size = new System.Drawing.Size(760, 52);
 			this.labelHelp.TabIndex = 10;
 			this.labelHelp.Text = "Tooth: one tooth, a list (3,5) or a range (3-5). Surf/Area: surfaces (MOD), a quadrant (UR, UL, LR, LL), an arch (U, L) or a sextant (1-6). A tooth or surface code typed for several teeth adds one procedure per tooth. The procedures are added as treatment planned with the fees and estimates of Chart entry.";
 			//

@@ -32,7 +32,7 @@
 			this.butAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butAdd.Location = new System.Drawing.Point(299, 380);
 			this.butAdd.Name = "butAdd";
-			this.butAdd.Size = new System.Drawing.Size(75, 24);
+			this.butAdd.Size = new System.Drawing.Size(75, 28);
 			this.butAdd.TabIndex = 1;
 			this.butAdd.Text = "Add";
 			this.butAdd.UseVisualStyleBackColor = true;

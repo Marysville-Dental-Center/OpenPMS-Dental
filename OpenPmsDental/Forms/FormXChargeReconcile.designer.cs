@@ -76,7 +76,7 @@ namespace OpenPmsDental{
 			this.label3.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.label3.Location = new System.Drawing.Point(105, 388);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(272, 20);
+			this.label3.Size = new System.Drawing.Size(284, 20);
 			this.label3.TabIndex = 14;
 			this.label3.Text = "View payments in OD with no X-Charge transaction.";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -132,7 +132,7 @@ namespace OpenPmsDental{
 			// 
 			this.butViewImported.Location = new System.Drawing.Point(18, 268);
 			this.butViewImported.Name = "butViewImported";
-			this.butViewImported.Size = new System.Drawing.Size(81, 24);
+			this.butViewImported.Size = new System.Drawing.Size(85, 24);
 			this.butViewImported.TabIndex = 3;
 			this.butViewImported.Text = "View Imported";
 			this.butViewImported.Click += new System.EventHandler(this.butViewImported_Click);
@@ -160,7 +160,7 @@ namespace OpenPmsDental{
 			// 
 			this.butValidate.Location = new System.Drawing.Point(18, 328);
 			this.butValidate.Name = "butValidate";
-			this.butValidate.Size = new System.Drawing.Size(81, 24);
+			this.butValidate.Size = new System.Drawing.Size(83, 24);
 			this.butValidate.TabIndex = 25;
 			this.butValidate.Text = "Validate Batch";
 			this.butValidate.Click += new System.EventHandler(this.butValidate_Click);

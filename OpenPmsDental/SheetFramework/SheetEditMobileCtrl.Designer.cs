@@ -36,7 +36,7 @@
 			// 
 			this.labelDragToOrder.Location = new System.Drawing.Point(3, 13);
 			this.labelDragToOrder.Name = "labelDragToOrder";
-			this.labelDragToOrder.Size = new System.Drawing.Size(234, 16);
+			this.labelDragToOrder.Size = new System.Drawing.Size(240, 18);
 			this.labelDragToOrder.TabIndex = 0;
 			this.labelDragToOrder.Text = "Mobile order will not affect desktop tab order.";
 			this.labelDragToOrder.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -52,7 +52,7 @@
 			this.checkUseMobileLayout.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkUseMobileLayout.Location = new System.Drawing.Point(243, 14);
 			this.checkUseMobileLayout.Name = "checkUseMobileLayout";
-			this.checkUseMobileLayout.Size = new System.Drawing.Size(133, 16);
+			this.checkUseMobileLayout.Size = new System.Drawing.Size(133, 18);
 			this.checkUseMobileLayout.TabIndex = 88;
 			this.checkUseMobileLayout.Text = "Use Mobile Layout";
 			this.checkUseMobileLayout.CheckedChanged += new System.EventHandler(this.checkUseMobileLayout_CheckedChanged);

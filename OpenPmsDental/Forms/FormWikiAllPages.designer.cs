@@ -110,7 +110,7 @@ namespace OpenPmsDental{
 			// 
 			this.checkIncludeArchived.Location = new System.Drawing.Point(266, 6);
 			this.checkIncludeArchived.Name = "checkIncludeArchived";
-			this.checkIncludeArchived.Size = new System.Drawing.Size(177, 17);
+			this.checkIncludeArchived.Size = new System.Drawing.Size(177, 18);
 			this.checkIncludeArchived.TabIndex = 14;
 			this.checkIncludeArchived.Text = "Include Archived Pages";
 			this.checkIncludeArchived.CheckedChanged += new System.EventHandler(this.checkIncludeArchived_CheckedChanged);

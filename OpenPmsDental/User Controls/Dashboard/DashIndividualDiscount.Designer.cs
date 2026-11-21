@@ -61,6 +61,7 @@
 			// textRemainingAdj
 			// 
 			this.textRemainingAdj.BackColor = System.Drawing.Color.White;
+			this.textRemainingAdj.AutoSize = false;
 			this.textRemainingAdj.Location = new System.Drawing.Point(99, 57);
 			this.textRemainingAdj.Name = "textRemainingAdj";
 			this.textRemainingAdj.ReadOnly = true;
@@ -71,6 +72,7 @@
 			// textMaxAdj
 			// 
 			this.textMaxAdj.BackColor = System.Drawing.Color.White;
+			this.textMaxAdj.AutoSize = false;
 			this.textMaxAdj.Location = new System.Drawing.Point(99, 17);
 			this.textMaxAdj.Name = "textMaxAdj";
 			this.textMaxAdj.ReadOnly = true;
@@ -82,7 +84,7 @@
 			// 
 			this.label11.Location = new System.Drawing.Point(4, 19);
 			this.label11.Name = "label11";
-			this.label11.Size = new System.Drawing.Size(89, 15);
+			this.label11.Size = new System.Drawing.Size(89, 18);
 			this.label11.TabIndex = 32;
 			this.label11.Text = "Annual Max";
 			this.label11.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -91,7 +93,7 @@
 			// 
 			this.label18.Location = new System.Drawing.Point(2, 59);
 			this.label18.Name = "label18";
-			this.label18.Size = new System.Drawing.Size(91, 15);
+			this.label18.Size = new System.Drawing.Size(91, 18);
 			this.label18.TabIndex = 50;
 			this.label18.Text = "Adj Remaining";
 			this.label18.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -100,7 +102,7 @@
 			// 
 			this.label12.Location = new System.Drawing.Point(4, 39);
 			this.label12.Name = "label12";
-			this.label12.Size = new System.Drawing.Size(89, 15);
+			this.label12.Size = new System.Drawing.Size(89, 18);
 			this.label12.TabIndex = 33;
 			this.label12.Text = "Adj Used";
 			this.label12.TextAlign = System.Drawing.ContentAlignment.TopRight;

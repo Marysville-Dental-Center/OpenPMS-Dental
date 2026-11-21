@@ -96,7 +96,7 @@ namespace OpenPmsDental {
 			// 
 			this.label3.Location = new System.Drawing.Point(7, 19);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(295, 13);
+			this.label3.Size = new System.Drawing.Size(299, 17);
 			this.label3.TabIndex = 49;
 			this.label3.Text = "Enter a few letters of the name of the insurance carrier";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

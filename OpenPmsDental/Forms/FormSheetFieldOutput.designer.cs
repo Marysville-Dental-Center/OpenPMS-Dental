@@ -128,7 +128,7 @@ namespace OpenPmsDental{
 			// 
 			this.label10.Location = new System.Drawing.Point(3, 118);
 			this.label10.Name = "label10";
-			this.label10.Size = new System.Drawing.Size(78, 16);
+			this.label10.Size = new System.Drawing.Size(78, 18);
 			this.label10.TabIndex = 110;
 			this.label10.Text = "Align";
 			this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -205,7 +205,7 @@ namespace OpenPmsDental{
 			// 
 			this.label8.Location = new System.Drawing.Point(197, 321);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(71, 16);
+			this.label8.Size = new System.Drawing.Size(71, 18);
 			this.label8.TabIndex = 96;
 			this.label8.Text = "Height";
 			this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -289,12 +289,13 @@ namespace OpenPmsDental{
 			this.checkIsLocked.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkIsLocked.Location = new System.Drawing.Point(172, 346);
 			this.checkIsLocked.Name = "checkIsLocked";
-			this.checkIsLocked.Size = new System.Drawing.Size(109, 20);
+			this.checkIsLocked.Size = new System.Drawing.Size(113, 20);
 			this.checkIsLocked.TabIndex = 238;
 			this.checkIsLocked.Text = "Lock Text Editing";
 			// 
 			// textUiLabelMobile
 			// 
+			this.textUiLabelMobile.AutoSize = false;
 			this.textUiLabelMobile.Location = new System.Drawing.Point(268, 39);
 			this.textUiLabelMobile.MaxLength = 65535;
 			this.textUiLabelMobile.Name = "textUiLabelMobile";
@@ -305,7 +306,7 @@ namespace OpenPmsDental{
 			// 
 			this.labelUiLabelMobile.Location = new System.Drawing.Point(163, 40);
 			this.labelUiLabelMobile.Name = "labelUiLabelMobile";
-			this.labelUiLabelMobile.Size = new System.Drawing.Size(105, 16);
+			this.labelUiLabelMobile.Size = new System.Drawing.Size(105, 18);
 			this.labelUiLabelMobile.TabIndex = 242;
 			this.labelUiLabelMobile.Text = "Mobile Caption";
 			this.labelUiLabelMobile.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

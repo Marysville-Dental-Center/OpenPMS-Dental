@@ -81,7 +81,7 @@
 			this.label3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
 			this.label3.Location = new System.Drawing.Point(26, 6);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(217, 16);
+			this.label3.Size = new System.Drawing.Size(235, 18);
 			this.label3.TabIndex = 6;
 			this.label3.Text = "Older version (deleted or moved changes).";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -91,7 +91,7 @@
 			this.labelHelpNew.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
 			this.labelHelpNew.Location = new System.Drawing.Point(600, 6);
 			this.labelHelpNew.Name = "labelHelpNew";
-			this.labelHelpNew.Size = new System.Drawing.Size(219, 16);
+			this.labelHelpNew.Size = new System.Drawing.Size(233, 18);
 			this.labelHelpNew.TabIndex = 7;
 			this.labelHelpNew.Text = "Newer version (added or moved changes).";
 			this.labelHelpNew.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;

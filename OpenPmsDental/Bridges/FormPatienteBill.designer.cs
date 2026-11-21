@@ -55,7 +55,7 @@ namespace OpenPmsDental
 			this.label4.ForeColor = System.Drawing.Color.Blue;
 			this.label4.Location = new System.Drawing.Point(7, 6);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(66, 14);
+			this.label4.Size = new System.Drawing.Size(68, 17);
 			this.label4.TabIndex = 41;
 			this.label4.Text = "Progress...";
 			// 
@@ -65,7 +65,7 @@ namespace OpenPmsDental
 			this.label1.ForeColor = System.Drawing.Color.Red;
 			this.label1.Location = new System.Drawing.Point(7, 223);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(46, 14);
+			this.label1.Size = new System.Drawing.Size(46, 17);
 			this.label1.TabIndex = 43;
 			this.label1.Text = "Error...";
 			// 

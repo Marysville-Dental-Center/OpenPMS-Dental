@@ -188,7 +188,7 @@ namespace OpenPmsDental{
 			this.labelPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.labelPrint.Location = new System.Drawing.Point(206, 621);
 			this.labelPrint.Name = "labelPrint";
-			this.labelPrint.Size = new System.Drawing.Size(344, 30);
+			this.labelPrint.Size = new System.Drawing.Size(469, 36);
 			this.labelPrint.TabIndex = 33;
 			this.labelPrint.Text = "It\'s common to print a filtered list to use for taking inventory, regardless of w" +
     "hether that order then gets entered back into the software";
@@ -239,7 +239,7 @@ namespace OpenPmsDental{
 			// 
 			this.label3.Location = new System.Drawing.Point(89, 49);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(220, 18);
+			this.label3.Size = new System.Drawing.Size(224, 18);
 			this.label3.TabIndex = 37;
 			this.label3.Text = "from all supplies with Quantities entered";
 			// 

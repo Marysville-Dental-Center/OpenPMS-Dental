@@ -63,7 +63,7 @@ namespace CodeBase {
 			this.labelPercentComplete.Anchor = System.Windows.Forms.AnchorStyles.Right;
 			this.labelPercentComplete.Location = new System.Drawing.Point(396, 26);
 			this.labelPercentComplete.Name = "labelPercentComplete";
-			this.labelPercentComplete.Size = new System.Drawing.Size(71, 13);
+			this.labelPercentComplete.Size = new System.Drawing.Size(71, 15);
 			this.labelPercentComplete.TabIndex = 4;
 			this.labelPercentComplete.Text = "0%";
 			this.labelPercentComplete.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;

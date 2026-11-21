@@ -127,7 +127,7 @@ namespace OpenPmsDental {
 			// 
 			this.label2.Location = new System.Drawing.Point(19, 26);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(492, 27);
+			this.label2.Size = new System.Drawing.Size(496, 27);
 			this.label2.TabIndex = 32;
 			this.label2.Text = "Every time a deposit is created, an accounting transaction will also be automatic" +
     "ally created.";
@@ -195,7 +195,7 @@ namespace OpenPmsDental {
 			// 
 			this.label5.Location = new System.Drawing.Point(19, 26);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(492, 47);
+			this.label5.Size = new System.Drawing.Size(492, 57);
 			this.label5.TabIndex = 32;
 			this.label5.Text = resources.GetString("label5.Text");
 			// 

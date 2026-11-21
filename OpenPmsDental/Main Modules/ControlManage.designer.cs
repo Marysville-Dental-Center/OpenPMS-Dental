@@ -387,7 +387,7 @@ namespace OpenPmsDental {
 			this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.label7.Location = new System.Drawing.Point(6, 377);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(100, 16);
+			this.label7.Size = new System.Drawing.Size(100, 18);
 			this.label7.TabIndex = 12;
 			this.label7.Text = "Message";
 			this.label7.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -396,7 +396,7 @@ namespace OpenPmsDental {
 			// 
 			this.label5.Location = new System.Drawing.Point(250, 16);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(124, 16);
+			this.label5.Size = new System.Drawing.Size(124, 18);
 			this.label5.TabIndex = 9;
 			this.label5.Text = "Message (&& Send)";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.BottomLeft;

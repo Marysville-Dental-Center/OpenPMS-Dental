@@ -53,7 +53,7 @@ namespace OpenPmsDental {
 			//
 			this.labelScanNote.Location = new System.Drawing.Point(246, 8);
 			this.labelScanNote.Name = "labelScanNote";
-			this.labelScanNote.Size = new System.Drawing.Size(500, 28);
+			this.labelScanNote.Size = new System.Drawing.Size(514, 28);
 			this.labelScanNote.TabIndex = 2;
 			this.labelScanNote.Text = "Each scan adds one to the item. Enter the lot number and expiry date of supplies tracked by lot. For a second lot of" +
     " the same item, use Add Lot Row.";

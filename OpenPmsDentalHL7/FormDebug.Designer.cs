@@ -82,6 +82,7 @@
 			// 
 			this.textDatabaseName.Anchor = System.Windows.Forms.AnchorStyles.Top;
 			this.textDatabaseName.Enabled = false;
+			this.textDatabaseName.AutoSize = false;
 			this.textDatabaseName.Location = new System.Drawing.Point(190, 97);
 			this.textDatabaseName.Name = "textDatabaseName";
 			this.textDatabaseName.Size = new System.Drawing.Size(188, 20);
@@ -101,10 +102,10 @@
 			// label3
 			// 
 			this.label3.Anchor = System.Windows.Forms.AnchorStyles.Top;
-			this.label3.AutoSize = true;
+			this.label3.AutoSize = false;
 			this.label3.Location = new System.Drawing.Point(100, 100);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(84, 13);
+			this.label3.Size = new System.Drawing.Size(90, 21);
 			this.label3.TabIndex = 6;
 			this.label3.Text = "Database Name";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -112,10 +113,10 @@
 			// label4
 			// 
 			this.label4.Anchor = System.Windows.Forms.AnchorStyles.Top;
-			this.label4.AutoSize = true;
+			this.label4.AutoSize = false;
 			this.label4.Location = new System.Drawing.Point(87, 48);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(97, 13);
+			this.label4.Size = new System.Drawing.Size(103, 21);
 			this.label4.TabIndex = 8;
 			this.label4.Text = "HL7 Service Name";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -123,6 +124,7 @@
 			// textHL7Name
 			// 
 			this.textHL7Name.Anchor = System.Windows.Forms.AnchorStyles.Top;
+			this.textHL7Name.AutoSize = false;
 			this.textHL7Name.Location = new System.Drawing.Point(190, 45);
 			this.textHL7Name.Name = "textHL7Name";
 			this.textHL7Name.Size = new System.Drawing.Size(188, 20);

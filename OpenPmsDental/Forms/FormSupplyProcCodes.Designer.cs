@@ -36,7 +36,7 @@ namespace OpenPmsDental {
 			//
 			this.labelInstructions.Location = new System.Drawing.Point(12, 7);
 			this.labelInstructions.Name = "labelInstructions";
-			this.labelInstructions.Size = new System.Drawing.Size(760, 30);
+			this.labelInstructions.Size = new System.Drawing.Size(772, 30);
 			this.labelInstructions.TabIndex = 0;
 			this.labelInstructions.Text = "When a procedure with one of these codes is completed, the Materials used window opens filled with its default materi" +
     "als. Changes are saved right away.";

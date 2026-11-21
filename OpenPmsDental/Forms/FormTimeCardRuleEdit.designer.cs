@@ -57,7 +57,7 @@ namespace OpenPmsDental{
 			this.checkIsOvertimeExempt.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkIsOvertimeExempt.Location = new System.Drawing.Point(61, 143);
 			this.checkIsOvertimeExempt.Name = "checkIsOvertimeExempt";
-			this.checkIsOvertimeExempt.Size = new System.Drawing.Size(139, 16);
+			this.checkIsOvertimeExempt.Size = new System.Drawing.Size(139, 18);
 			this.checkIsOvertimeExempt.TabIndex = 4;
 			this.checkIsOvertimeExempt.Text = "Is Overtime Exempt";
 			// 
@@ -205,7 +205,7 @@ namespace OpenPmsDental{
 			this.checkUseRate3.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkUseRate3.Location = new System.Drawing.Point(7, 122);
 			this.checkUseRate3.Name = "checkUseRate3";
-			this.checkUseRate3.Size = new System.Drawing.Size(193, 16);
+			this.checkUseRate3.Size = new System.Drawing.Size(193, 18);
 			this.checkUseRate3.TabIndex = 3;
 			this.checkUseRate3.Text = "Use Rate3 for Weekend Hours";
 			// 

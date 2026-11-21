@@ -52,11 +52,11 @@ namespace OpenPmsDental{
 			// 
 			// checkBox1
 			// 
-			this.checkBox1.AutoSize = true;
+			this.checkBox1.AutoSize = false;
 			this.checkBox1.Location = new System.Drawing.Point(12, 12);
 			this.checkBox1.Name = "checkBox1";
 			this.checkBox1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-			this.checkBox1.Size = new System.Drawing.Size(125, 17);
+			this.checkBox1.Size = new System.Drawing.Size(129, 18);
 			this.checkBox1.TabIndex = 18;
 			this.checkBox1.Text = "Spell Check Enabled";
 			// 

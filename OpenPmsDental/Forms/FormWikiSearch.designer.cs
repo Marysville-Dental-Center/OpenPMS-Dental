@@ -115,7 +115,7 @@ namespace OpenPmsDental{
 			// 
 			this.checkBoxMatchWholeWord.Location = new System.Drawing.Point(656, 14);
 			this.checkBoxMatchWholeWord.Name = "checkBoxMatchWholeWord";
-			this.checkBoxMatchWholeWord.Size = new System.Drawing.Size(102, 17);
+			this.checkBoxMatchWholeWord.Size = new System.Drawing.Size(102, 18);
 			this.checkBoxMatchWholeWord.TabIndex = 18;
 			this.checkBoxMatchWholeWord.Text = "Exact Match";
 			this.checkBoxMatchWholeWord.CheckedChanged += new System.EventHandler(this.checkBoxMatchWholeWord_CheckedChanged);
