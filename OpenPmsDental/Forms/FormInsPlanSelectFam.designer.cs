@@ -82,7 +82,7 @@ namespace OpenPmsDental {
 			// 
 			this.checkShowPlansNotInUse.Location = new System.Drawing.Point(22, 19);
 			this.checkShowPlansNotInUse.Name = "checkShowPlansNotInUse";
-			this.checkShowPlansNotInUse.Size = new System.Drawing.Size(389, 17);
+			this.checkShowPlansNotInUse.Size = new System.Drawing.Size(389, 18);
 			this.checkShowPlansNotInUse.TabIndex = 12;
 			this.checkShowPlansNotInUse.Text = "Show plans for family which are not in use by the current patient.";
 			this.checkShowPlansNotInUse.Click += new System.EventHandler(this.checkPlansNotInUse_Click);

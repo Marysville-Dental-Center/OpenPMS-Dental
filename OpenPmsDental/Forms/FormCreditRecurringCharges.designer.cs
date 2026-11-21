@@ -82,7 +82,7 @@ namespace OpenPmsDental{
 			// 
 			this.labelUpdated.Location = new System.Drawing.Point(6, 73);
 			this.labelUpdated.Name = "labelUpdated";
-			this.labelUpdated.Size = new System.Drawing.Size(84, 16);
+			this.labelUpdated.Size = new System.Drawing.Size(84, 18);
 			this.labelUpdated.TabIndex = 33;
 			this.labelUpdated.Text = "Updated=0";
 			this.labelUpdated.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -100,7 +100,7 @@ namespace OpenPmsDental{
 			// 
 			this.labelCharged.Location = new System.Drawing.Point(6, 54);
 			this.labelCharged.Name = "labelCharged";
-			this.labelCharged.Size = new System.Drawing.Size(84, 16);
+			this.labelCharged.Size = new System.Drawing.Size(84, 18);
 			this.labelCharged.TabIndex = 31;
 			this.labelCharged.Text = "Charged=0";
 			this.labelCharged.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -156,7 +156,7 @@ namespace OpenPmsDental{
 			this.checkAllClin.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.checkAllClin.Location = new System.Drawing.Point(6, 20);
 			this.checkAllClin.Name = "checkAllClin";
-			this.checkAllClin.Size = new System.Drawing.Size(91, 16);
+			this.checkAllClin.Size = new System.Drawing.Size(91, 18);
 			this.checkAllClin.TabIndex = 60;
 			this.checkAllClin.Text = "All";
 			this.checkAllClin.Click += new System.EventHandler(this.checkAllClin_Click);

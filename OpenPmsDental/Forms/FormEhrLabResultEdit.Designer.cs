@@ -50,7 +50,7 @@
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butSave.Location = new System.Drawing.Point(287, 303);
 			this.butSave.Name = "butSave";
-			this.butSave.Size = new System.Drawing.Size(75, 24);
+			this.butSave.Size = new System.Drawing.Size(75, 28);
 			this.butSave.TabIndex = 5;
 			this.butSave.Text = "&Save";
 			this.butSave.UseVisualStyleBackColor = true;
@@ -61,7 +61,7 @@
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Location = new System.Drawing.Point(12, 303);
 			this.butDelete.Name = "butDelete";
-			this.butDelete.Size = new System.Drawing.Size(75, 24);
+			this.butDelete.Size = new System.Drawing.Size(75, 28);
 			this.butDelete.TabIndex = 7;
 			this.butDelete.Text = "Delete";
 			this.butDelete.UseVisualStyleBackColor = true;

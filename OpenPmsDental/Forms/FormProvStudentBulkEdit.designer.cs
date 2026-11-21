@@ -103,7 +103,7 @@ namespace OpenPmsDental{
 			// 
 			this.label14.Location = new System.Drawing.Point(6, 42);
 			this.label14.Name = "label14";
-			this.label14.Size = new System.Drawing.Size(117, 16);
+			this.label14.Size = new System.Drawing.Size(123, 18);
 			this.label14.TabIndex = 49;
 			this.label14.Text = "Highlight Outline Color";
 			this.label14.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -121,7 +121,7 @@ namespace OpenPmsDental{
 			// 
 			this.labelColor.Location = new System.Drawing.Point(6, 22);
 			this.labelColor.Name = "labelColor";
-			this.labelColor.Size = new System.Drawing.Size(117, 16);
+			this.labelColor.Size = new System.Drawing.Size(117, 18);
 			this.labelColor.TabIndex = 46;
 			this.labelColor.Text = "Appointment Color";
 			this.labelColor.TextAlign = System.Drawing.ContentAlignment.TopRight;

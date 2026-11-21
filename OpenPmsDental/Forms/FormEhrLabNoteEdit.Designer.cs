@@ -79,7 +79,7 @@
 			this.label57.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.label57.Location = new System.Drawing.Point(93, 360);
 			this.label57.Name = "label57";
-			this.label57.Size = new System.Drawing.Size(137, 17);
+			this.label57.Size = new System.Drawing.Size(150, 17);
 			this.label57.TabIndex = 259;
 			this.label57.Text = "Deletes the entire lab note";
 			this.label57.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;

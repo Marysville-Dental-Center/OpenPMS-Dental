@@ -48,7 +48,7 @@
 			// 
 			this.label1.Location = new System.Drawing.Point(12, 10);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(679, 16);
+			this.label1.Size = new System.Drawing.Size(679, 18);
 			this.label1.TabIndex = 2;
 			this.label1.Text = "To generate a patient education resource, single click on one of the links below," +
     " then print.";
@@ -71,7 +71,7 @@
 			// 
 			this.label2.Location = new System.Drawing.Point(12, 338);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(679, 16);
+			this.label2.Size = new System.Drawing.Size(679, 18);
 			this.label2.TabIndex = 4;
 			this.label2.Text = "This is a historical record of education resources provided to this patient.  Del" +
     "ete any entries that are inaccurate.";
@@ -92,7 +92,7 @@
 			// 
 			this.label3.Location = new System.Drawing.Point(12, 29);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(798, 16);
+			this.label3.Size = new System.Drawing.Size(799, 18);
 			this.label3.TabIndex = 6;
 			this.label3.Text = "Please note that it will not be possible to enter patient-specific educational re" +
     "sources for patients who have no medications, problems, or lab results.";

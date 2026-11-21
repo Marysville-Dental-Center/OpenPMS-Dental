@@ -57,6 +57,7 @@ namespace OpenPmsDental {
 			// 
 			// textCodeRange
 			// 
+			this.textCodeRange.AutoSize = false;
 			this.textCodeRange.Location = new System.Drawing.Point(136, 20);
 			this.textCodeRange.Name = "textCodeRange";
 			this.textCodeRange.Size = new System.Drawing.Size(200, 20);
@@ -64,10 +65,10 @@ namespace OpenPmsDental {
 			// 
 			// label2
 			// 
-			this.label2.AutoSize = true;
+			this.label2.AutoSize = false;
 			this.label2.Location = new System.Drawing.Point(140, 42);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(92, 13);
+			this.label2.Size = new System.Drawing.Size(94, 20);
 			this.label2.TabIndex = 16;
 			this.label2.Text = "Ex: D1050-D1060";
 			// 
@@ -90,7 +91,7 @@ namespace OpenPmsDental {
 			// 
 			// checkPrevDate
 			// 
-			this.checkPrevDate.AutoSize = true;
+			this.checkPrevDate.AutoSize = false;
 			this.checkPrevDate.Location = new System.Drawing.Point(136, 102);
 			this.checkPrevDate.Name = "checkPrevDate";
 			this.checkPrevDate.Size = new System.Drawing.Size(120, 17);

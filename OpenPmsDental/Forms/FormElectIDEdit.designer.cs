@@ -57,7 +57,7 @@ namespace OpenPmsDental{
 			// 
 			this.label1.Location = new System.Drawing.Point(3, 19);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(82, 16);
+			this.label1.Size = new System.Drawing.Size(82, 18);
 			this.label1.TabIndex = 5;
 			this.label1.Text = "Payer ID";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -82,7 +82,7 @@ namespace OpenPmsDental{
 			// 
 			this.checkIsMedicaid.Location = new System.Drawing.Point(91, 242);
 			this.checkIsMedicaid.Name = "checkIsMedicaid";
-			this.checkIsMedicaid.Size = new System.Drawing.Size(80, 17);
+			this.checkIsMedicaid.Size = new System.Drawing.Size(82, 18);
 			this.checkIsMedicaid.TabIndex = 8;
 			this.checkIsMedicaid.Text = "Is Medicaid";
 			// 
@@ -107,7 +107,7 @@ namespace OpenPmsDental{
 			// 
 			this.labelPayerService.Location = new System.Drawing.Point(494, 19);
 			this.labelPayerService.Name = "labelPayerService";
-			this.labelPayerService.Size = new System.Drawing.Size(82, 16);
+			this.labelPayerService.Size = new System.Drawing.Size(82, 18);
 			this.labelPayerService.TabIndex = 12;
 			this.labelPayerService.Text = "Payer Service";
 			this.labelPayerService.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

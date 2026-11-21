@@ -57,7 +57,7 @@ namespace OpenPmsDental{
 			this.butToMyIsam.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butToMyIsam.Location = new System.Drawing.Point(21,500);
 			this.butToMyIsam.Name = "butToMyIsam";
-			this.butToMyIsam.Size = new System.Drawing.Size(104,24);
+			this.butToMyIsam.Size = new System.Drawing.Size(108,24);
 			this.butToMyIsam.TabIndex = 20;
 			this.butToMyIsam.Text = "Convert to MyIsam";
 			this.butToMyIsam.Click += new System.EventHandler(this.butToMyIsam_Click);
@@ -67,7 +67,7 @@ namespace OpenPmsDental{
 			this.butToInnoDb.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butToInnoDb.Location = new System.Drawing.Point(136,500);
 			this.butToInnoDb.Name = "butToInnoDb";
-			this.butToInnoDb.Size = new System.Drawing.Size(104,24);
+			this.butToInnoDb.Size = new System.Drawing.Size(106,24);
 			this.butToInnoDb.TabIndex = 21;
 			this.butToInnoDb.Text = "Convert to InnoDb";
 			this.butToInnoDb.Click += new System.EventHandler(this.butToInnoDb_Click);

@@ -145,7 +145,7 @@ namespace OpenPmsDental{
 			this.labelConnectQB.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.labelConnectQB.Location = new System.Drawing.Point(32, 71);
 			this.labelConnectQB.Name = "labelConnectQB";
-			this.labelConnectQB.Size = new System.Drawing.Size(397, 46);
+			this.labelConnectQB.Size = new System.Drawing.Size(397, 52);
 			this.labelConnectQB.TabIndex = 73;
 			this.labelConnectQB.Text = "Push the connect button with QuickBooks running in the background if this is your" +
     " first time using QuickBooks with Open PMS - Dental. (Only need to do this once)";
@@ -165,7 +165,7 @@ namespace OpenPmsDental{
 			this.labelWarning.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.labelWarning.Location = new System.Drawing.Point(52, 558);
 			this.labelWarning.Name = "labelWarning";
-			this.labelWarning.Size = new System.Drawing.Size(448, 27);
+			this.labelWarning.Size = new System.Drawing.Size(476, 27);
 			this.labelWarning.TabIndex = 71;
 			this.labelWarning.Text = "Open PMS - Dental will run faster if your QuickBooks company file is open in the backgr" +
     "ound.";
@@ -243,7 +243,7 @@ namespace OpenPmsDental{
 			// 
 			this.labelDepositsQB.Location = new System.Drawing.Point(18, 140);
 			this.labelDepositsQB.Name = "labelDepositsQB";
-			this.labelDepositsQB.Size = new System.Drawing.Size(492, 27);
+			this.labelDepositsQB.Size = new System.Drawing.Size(510, 27);
 			this.labelDepositsQB.TabIndex = 61;
 			this.labelDepositsQB.Text = "Every time a deposit is created, a deposit will be created within QuickBooks usin" +
     "g these settings.\r\n(Commas must be removed from account names within QuickBooks)" +

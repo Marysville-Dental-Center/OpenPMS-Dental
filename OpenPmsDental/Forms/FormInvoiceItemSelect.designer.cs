@@ -37,7 +37,7 @@ namespace OpenPmsDental{
 			// 
 			this.label1.Location = new System.Drawing.Point(12, 7);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(587, 26);
+			this.label1.Size = new System.Drawing.Size(673, 26);
 			this.label1.TabIndex = 3;
 			this.label1.Text = "The list below contains adjustments, completed procedures, and pay plan charges t" +
     "hat have not been attached to an invoice.";

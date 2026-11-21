@@ -63,10 +63,10 @@ namespace OpenPmsDental{
 			// 
 			// radioPrepayWithoutInterest
 			// 
-			this.radioPrepayWithoutInterest.AutoSize = true;
+			this.radioPrepayWithoutInterest.AutoSize = false;
 			this.radioPrepayWithoutInterest.Location = new System.Drawing.Point(6, 39);
 			this.radioPrepayWithoutInterest.Name = "radioPrepayWithoutInterest";
-			this.radioPrepayWithoutInterest.Size = new System.Drawing.Size(100, 17);
+			this.radioPrepayWithoutInterest.Size = new System.Drawing.Size(109, 18);
 			this.radioPrepayWithoutInterest.TabIndex = 44;
 			this.radioPrepayWithoutInterest.TabStop = true;
 			this.radioPrepayWithoutInterest.Text = "Pay on principal";
@@ -87,7 +87,7 @@ namespace OpenPmsDental{
 			// 
 			this.label1.Location = new System.Drawing.Point(18, 13);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(349, 57);
+			this.label1.Size = new System.Drawing.Size(349, 60);
 			this.label1.TabIndex = 46;
 			this.label1.Text = resources.GetString("label1.Text");
 			// 

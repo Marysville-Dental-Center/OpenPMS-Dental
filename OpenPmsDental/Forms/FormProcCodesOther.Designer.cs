@@ -35,7 +35,7 @@ namespace OpenPmsDental {
 			//
 			this.labelInfo.Location = new System.Drawing.Point(12, 9);
 			this.labelInfo.Name = "labelInfo";
-			this.labelInfo.Size = new System.Drawing.Size(496, 58);
+			this.labelInfo.Size = new System.Drawing.Size(496, 63);
 			this.labelInfo.TabIndex = 0;
 			this.labelInfo.Text = "Imports another Canadian code system from a code file that you supply: comma or tab separated text with the columns code, description, abbreviation, treatment area, paint type and time units (a header row is optional). Each code system gets its own procedure code category. Codes that already exist are skipped unless an Advanced Option is checked. Codes are never deleted.";
 			//
@@ -103,7 +103,7 @@ namespace OpenPmsDental {
 			//
 			this.labelAdvanced.Location = new System.Drawing.Point(270, 177);
 			this.labelAdvanced.Name = "labelAdvanced";
-			this.labelAdvanced.Size = new System.Drawing.Size(238, 44);
+			this.labelAdvanced.Size = new System.Drawing.Size(238, 52);
 			this.labelAdvanced.TabIndex = 4;
 			this.labelAdvanced.Text = "Advanced Options change the codes of the file that already exist. They ask you to type a confirmation phrase first.";
 			//

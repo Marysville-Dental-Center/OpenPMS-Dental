@@ -63,7 +63,7 @@ namespace OpenPmsDental {
 			this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.label8.Location = new System.Drawing.Point(487, 552);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(176, 16);
+			this.label8.Size = new System.Drawing.Size(176, 18);
 			this.label8.TabIndex = 19;
 			this.label8.Text = "Postcards per sheet (1,3,or 4)";
 			this.label8.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -121,7 +121,7 @@ namespace OpenPmsDental {
 			this.label25.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.label25.Location = new System.Drawing.Point(45, 473);
 			this.label25.Name = "label25";
-			this.label25.Size = new System.Drawing.Size(157, 16);
+			this.label25.Size = new System.Drawing.Size(159, 18);
 			this.label25.TabIndex = 57;
 			this.label25.Text = "Status for mailed Reactivation";
 			this.label25.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -140,7 +140,7 @@ namespace OpenPmsDental {
 			this.label26.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.label26.Location = new System.Drawing.Point(25, 496);
 			this.label26.Name = "label26";
-			this.label26.Size = new System.Drawing.Size(177, 16);
+			this.label26.Size = new System.Drawing.Size(178, 16);
 			this.label26.TabIndex = 59;
 			this.label26.Text = "Status for e-mailed Reactivation";
 			this.label26.TextAlign = System.Drawing.ContentAlignment.TopRight;

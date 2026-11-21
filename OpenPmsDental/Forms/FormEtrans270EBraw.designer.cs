@@ -32,7 +32,7 @@ namespace OpenPmsDental{
 			// 
 			this.label1.Location = new System.Drawing.Point(14, 13);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(349, 18);
+			this.label1.Size = new System.Drawing.Size(351, 18);
 			this.label1.TabIndex = 4;
 			this.label1.Text = "Raw benefit information as received from the insurance company";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.BottomLeft;

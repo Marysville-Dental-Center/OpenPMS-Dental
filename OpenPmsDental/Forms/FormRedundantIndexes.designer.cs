@@ -92,7 +92,7 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelDescription.Location = new System.Drawing.Point(12, 9);
 			this.labelDescription.Name = "labelDescription";
-			this.labelDescription.Size = new System.Drawing.Size(966, 28);
+			this.labelDescription.Size = new System.Drawing.Size(972, 28);
 			this.labelDescription.TabIndex = 6;
 			this.labelDescription.Text = resources.GetString("labelDescription.Text");
 			this.labelDescription.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;

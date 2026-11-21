@@ -50,6 +50,7 @@
 			// textFName
 			// 
 			this.textFName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.textFName.AutoSize = false;
 			this.textFName.Location = new System.Drawing.Point(646, 135);
 			this.textFName.Name = "textFName";
 			this.textFName.Size = new System.Drawing.Size(124, 20);
@@ -68,6 +69,7 @@
 			// textLName
 			// 
 			this.textLName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.textLName.AutoSize = false;
 			this.textLName.Location = new System.Drawing.Point(646, 115);
 			this.textLName.Name = "textLName";
 			this.textLName.Size = new System.Drawing.Size(124, 20);
