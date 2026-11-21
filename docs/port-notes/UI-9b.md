@@ -175,4 +175,7 @@ module at 125% and 150% (the icons are drawn at the slot's size; program link pi
    Insurance take the umbrella (`Insurance`, approved with UI-9a-6). Fine?
 10. The captions of the converted buttons sit about 2 px further right (centred beside the icon like the other icon buttons). Fine?
 
-**Results.** See below (filled at the end of the package).
+**Results.** `.git/od-tools/test-results/ui9b1-final.txt`: all passed (UiRefreshTests 229 + 10 opt-in skipped, WindowChecksTests 29 + 44
+opt-in skipped, UnitTests 1,728 + 3, NoHqTests 122). Full x64 filter build: 0 errors. `tools\Test-NoEolFlips.ps1 -Base main`: 34 changed
+text files, no line ends changed. `Convert-PictureUses.ps1 -Slice UI-9b-1 -Check` and `-Slice UI-9a-6c -Check`: exit 0. InitSqlTests and
+ForkMigrationTests not run (no schema work).
