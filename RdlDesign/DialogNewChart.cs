@@ -313,7 +313,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.bCategoryUp.Location = new System.Drawing.Point(392, 104);
 			this.bCategoryUp.Name = "bCategoryUp";
-			this.bCategoryUp.Size = new System.Drawing.Size(48, 24);
+			this.bCategoryUp.Size = new System.Drawing.Size(48, 28);
 			this.bCategoryUp.TabIndex = 4;
 			this.bCategoryUp.Text = "Up";
 			this.bCategoryUp.Click += new System.EventHandler(this.bCategoryUp_Click);
@@ -322,7 +322,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.bCategoryDown.Location = new System.Drawing.Point(392, 136);
 			this.bCategoryDown.Name = "bCategoryDown";
-			this.bCategoryDown.Size = new System.Drawing.Size(48, 24);
+			this.bCategoryDown.Size = new System.Drawing.Size(48, 28);
 			this.bCategoryDown.TabIndex = 5;
 			this.bCategoryDown.Text = "Down";
 			this.bCategoryDown.Click += new System.EventHandler(this.bCategoryDown_Click);
@@ -331,7 +331,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.bCategory.Location = new System.Drawing.Point(184, 112);
 			this.bCategory.Name = "bCategory";
-			this.bCategory.Size = new System.Drawing.Size(32, 24);
+			this.bCategory.Size = new System.Drawing.Size(32, 28);
 			this.bCategory.TabIndex = 2;
 			this.bCategory.Text = ">";
 			this.bCategory.Click += new System.EventHandler(this.bCategory_Click);
@@ -340,7 +340,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.bSeries.Location = new System.Drawing.Point(184, 240);
 			this.bSeries.Name = "bSeries";
-			this.bSeries.Size = new System.Drawing.Size(32, 24);
+			this.bSeries.Size = new System.Drawing.Size(32, 28);
 			this.bSeries.TabIndex = 7;
 			this.bSeries.Text = ">";
 			this.bSeries.Click += new System.EventHandler(this.bSeries_Click);
@@ -356,7 +356,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.bCategoryDelete.Location = new System.Drawing.Point(392, 168);
 			this.bCategoryDelete.Name = "bCategoryDelete";
-			this.bCategoryDelete.Size = new System.Drawing.Size(48, 24);
+			this.bCategoryDelete.Size = new System.Drawing.Size(50, 28);
 			this.bCategoryDelete.TabIndex = 6;
 			this.bCategoryDelete.Text = "Delete";
 			this.bCategoryDelete.Click += new System.EventHandler(this.bCategoryDelete_Click);
@@ -365,7 +365,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.bSeriesDelete.Location = new System.Drawing.Point(392, 296);
 			this.bSeriesDelete.Name = "bSeriesDelete";
-			this.bSeriesDelete.Size = new System.Drawing.Size(48, 24);
+			this.bSeriesDelete.Size = new System.Drawing.Size(50, 28);
 			this.bSeriesDelete.TabIndex = 11;
 			this.bSeriesDelete.Text = "Delete";
 			this.bSeriesDelete.Click += new System.EventHandler(this.bSeriesDelete_Click);
@@ -374,7 +374,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.bSeriesDown.Location = new System.Drawing.Point(392, 264);
 			this.bSeriesDown.Name = "bSeriesDown";
-			this.bSeriesDown.Size = new System.Drawing.Size(48, 24);
+			this.bSeriesDown.Size = new System.Drawing.Size(48, 28);
 			this.bSeriesDown.TabIndex = 10;
 			this.bSeriesDown.Text = "Down";
 			this.bSeriesDown.Click += new System.EventHandler(this.bSeriesDown_Click);
@@ -383,7 +383,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.bSeriesUp.Location = new System.Drawing.Point(392, 232);
 			this.bSeriesUp.Name = "bSeriesUp";
-			this.bSeriesUp.Size = new System.Drawing.Size(48, 24);
+			this.bSeriesUp.Size = new System.Drawing.Size(48, 28);
 			this.bSeriesUp.TabIndex = 9;
 			this.bSeriesUp.Text = "Up";
 			this.bSeriesUp.Click += new System.EventHandler(this.bSeriesUp_Click);

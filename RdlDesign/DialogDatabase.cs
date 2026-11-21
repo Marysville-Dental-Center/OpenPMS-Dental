@@ -476,7 +476,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.label6.Location = new System.Drawing.Point(16, 224);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(64, 23);
+			this.label6.Size = new System.Drawing.Size(70, 23);
 			this.label6.TabIndex = 7;
 			this.label6.Text = "Orientation:";
 			// 
@@ -764,7 +764,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.ckbParmAllowBlank.Location = new System.Drawing.Point(288, 232);
 			this.ckbParmAllowBlank.Name = "ckbParmAllowBlank";
-			this.ckbParmAllowBlank.Size = new System.Drawing.Size(152, 24);
+			this.ckbParmAllowBlank.Size = new System.Drawing.Size(160, 24);
 			this.ckbParmAllowBlank.TabIndex = 12;
 			this.ckbParmAllowBlank.Text = "Allow blank (strings only)";
 			this.ckbParmAllowBlank.CheckedChanged += new System.EventHandler(this.ckbParmAllowBlank_CheckedChanged);
@@ -773,7 +773,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.ckbParmAllowNull.Location = new System.Drawing.Point(208, 232);
 			this.ckbParmAllowNull.Name = "ckbParmAllowNull";
-			this.ckbParmAllowNull.Size = new System.Drawing.Size(72, 24);
+			this.ckbParmAllowNull.Size = new System.Drawing.Size(77, 24);
 			this.ckbParmAllowNull.TabIndex = 11;
 			this.ckbParmAllowNull.Text = "Allow null";
 			this.ckbParmAllowNull.CheckedChanged += new System.EventHandler(this.ckbParmAllowNull_CheckedChanged);

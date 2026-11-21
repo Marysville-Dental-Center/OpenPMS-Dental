@@ -191,7 +191,7 @@ namespace fyiReporting.RdlDesign
             // 
             this.label12.Location = new System.Drawing.Point(224, 24);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(32, 16);
+            this.label12.Size = new System.Drawing.Size(35, 16);
             this.label12.TabIndex = 21;
             this.label12.Text = "Right";
             // 
@@ -207,7 +207,7 @@ namespace fyiReporting.RdlDesign
             // 
             this.label14.Location = new System.Drawing.Point(216, 56);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(40, 16);
+            this.label14.Size = new System.Drawing.Size(47, 16);
             this.label14.TabIndex = 23;
             this.label14.Text = "Bottom";
             // 
@@ -399,7 +399,7 @@ namespace fyiReporting.RdlDesign
             // 
             this.label15.Location = new System.Drawing.Point(286, 24);
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(56, 16);
+            this.label15.Size = new System.Drawing.Size(59, 16);
             this.label15.TabIndex = 5;
             this.label15.Text = "End Color";
             // 
@@ -425,7 +425,7 @@ namespace fyiReporting.RdlDesign
             // 
             this.label10.Location = new System.Drawing.Point(161, 24);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(48, 16);
+            this.label10.Size = new System.Drawing.Size(52, 16);
             this.label10.TabIndex = 3;
             this.label10.Text = "Gradient";
             // 
@@ -442,7 +442,7 @@ namespace fyiReporting.RdlDesign
             // 
             this.label3.Location = new System.Drawing.Point(8, 24);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(32, 16);
+            this.label3.Size = new System.Drawing.Size(36, 16);
             this.label3.TabIndex = 0;
             this.label3.Text = "Color";
             // 
@@ -494,7 +494,7 @@ namespace fyiReporting.RdlDesign
             // 
             this.label1.Location = new System.Drawing.Point(10, 25);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(100, 20);
+            this.label1.Size = new System.Drawing.Size(106, 20);
             this.label1.TabIndex = 0;
             this.label1.Text = "DataElementName";
             // 

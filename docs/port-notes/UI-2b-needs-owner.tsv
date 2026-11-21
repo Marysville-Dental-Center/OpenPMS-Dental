@@ -1,0 +1,52 @@
+# UI-2b: what the scan at the program's own font (Segoe UI 9 pt, 100%, no override) still reports that no UI-10 needs-owner list holds, after the size fixes of UI-2b (fit_tools.py --code-files: windows whose designer code is in their own .cs file or whose designer file is named otherwise, the '(no designer file)' row of the ranking). The owner chooses.
+designer_file	window	control	reason
+OpenPmsDental/Forms/FormImagingDevices.designer.cs	OpenDentalImaging.FormImagingDevices	PanelClient/gridMain/#0:VScrollBar	an unnamed control inside another control: that control's own layout
+OpenPmsDental/Forms/FormConfirmationsSetup.designer.cs	OpenPmsDental.FormConfirmationSetup	PanelClient/gridMain/#0:VScrollBar	an unnamed control inside another control: that control's own layout
+OpenPmsDental/Forms/FormCvx.designer.cs	OpenPmsDental.FormCvxs	PanelClient/gridMain/#0:VScrollBar	an unnamed control inside another control: that control's own layout
+OpenPmsDental/Forms/FormProcCodes2.designer.cs	OpenPmsDental.FormProcCodes	PanelClient/gridMain/#0:VScrollBar	an unnamed control inside another control: that control's own layout
+OpenPmsDental/Forms/FormProviderMultiPick.designer.cs	OpenPmsDental.FormProvidersMultiPick	PanelClient/gridMain/#0:VScrollBar	an unnamed control inside another control: that control's own layout
+OpenPmsDentalBusiness/UI/ODGridPageNav.cs	OpenPmsDental.UI.ODGridPageNav	butFirst	no free space for the whole text (missing 4,2 px after growing into the free space)
+OpenPmsDentalBusiness/UI/ODGridPageNav.cs	OpenPmsDental.UI.ODGridPageNav	butLast	no free space for the whole text (missing 4,2 px after growing into the free space)
+OpenPmsDentalBusiness/UI/ODGridPageNav.cs	OpenPmsDental.UI.ODGridPageNav	butLeft	no free space for the whole text (missing 0,2 px after growing into the free space)
+OpenPmsDentalBusiness/UI/ODGridPageNav.cs	OpenPmsDental.UI.ODGridPageNav	butRight	no free space for the whole text (missing 0,2 px after growing into the free space)
+RdlDesign/ChartAxisCtl.cs	fyiReporting.RdlDesign.ChartAxisCtl	groupBox1/label7	no free space for the whole text (missing 4,0 px after growing into the free space)
+RdlDesign/ChartAxisCtl.cs	fyiReporting.RdlDesign.ChartAxisCtl	label11	no free space for the whole text (missing 6,0 px after growing into the free space)
+RdlDesign/ChartAxisCtl.cs	fyiReporting.RdlDesign.ChartAxisCtl	label12	no free space for the whole text (missing 3,0 px after growing into the free space)
+RdlDesign/ChartAxisCtl.cs	fyiReporting.RdlDesign.ChartAxisCtl	groupBox1/bMajorGLColor	designer edit failed: Size line found 2 times
+RdlDesign/ChartAxisCtl.cs	fyiReporting.RdlDesign.ChartAxisCtl	groupBox2/bMinorGLColor	designer edit failed: Size line found 2 times
+RdlDesign/ChartCtl.cs	fyiReporting.RdlDesign.ChartCtl	tbPercentWidth/#0:UpDownButtons	an unnamed control inside another control: that control's own layout
+RdlDesign/ChartCtl.cs	fyiReporting.RdlDesign.ChartCtl	tbPercentWidth/#1:UpDownEdit	an unnamed control inside another control: that control's own layout
+RdlDesign/ChartCtl.cs	fyiReporting.RdlDesign.ChartCtl	label6	designer edit failed: Size line found 0 times
+RdlDesign/DataSetsCtl.cs	fyiReporting.RdlDesign.DataSetsCtl	tbTimeout/#0:UpDownButtons	an unnamed control inside another control: that control's own layout
+RdlDesign/DataSetsCtl.cs	fyiReporting.RdlDesign.DataSetsCtl	tbTimeout/#1:UpDownEdit	an unnamed control inside another control: that control's own layout
+RdlDesign/DialogAbout.cs	fyiReporting.RdlDesign.DialogAbout	label5	no free space for the whole text (missing 4,0 px after growing into the free space)
+RdlDesign/DialogDataSourceRef.cs	fyiReporting.RdlDesign.DialogDataSourceRef	label1	no free space for the whole text (missing 0,5 px after growing into the free space)
+RdlDesign/DialogDatabase.cs	fyiReporting.RdlDesign.DialogDatabase	tcDialog/DBConnection/label7	no free space for the whole text (missing 4,0 px after growing into the free space)
+RdlDesign/DialogDatabase.cs	fyiReporting.RdlDesign.DialogDatabase	tcDialog/TabularGroup/label4	no free space for the whole text (missing 10,0 px after growing into the free space)
+RdlDesign/DialogFilterOperator.cs	fyiReporting.RdlDesign.DialogFilterOperator	lOp	no free space for the whole text (missing 5,0 px after growing into the free space)
+RdlDesign/DialogNewTable.cs	fyiReporting.RdlDesign.DialogNewTable	label3	no free space for the whole text (missing 7,0 px after growing into the free space)
+RdlDesign/DialogNewTable.cs	fyiReporting.RdlDesign.DialogNewTable	label4	no free space for the whole text (missing 10,0 px after growing into the free space)
+RdlDesign/DialogToolOptions.cs	fyiReporting.RdlDesign.DialogToolOptions	tabControl1/tpDesktop/label8	no free space for the whole text (missing 372,0 px after growing into the free space)
+RdlDesign/GroupingCtl.cs	fyiReporting.RdlDesign.GroupingCtl	lParent	no free space for the whole text (missing 1,0 px after growing into the free space)
+RdlDesign/ImageCtl.cs	fyiReporting.RdlDesign.ImageCtl	groupBox1/rbEmbedded	no free space for the whole text (missing 1,0 px after growing into the free space)
+RdlDesign/InteractivityCtl.cs	fyiReporting.RdlDesign.InteractivityCtl	grpBoxVisibility/label3	no free space for the whole text (missing 2,0 px after growing into the free space)
+RdlDesign/ListCtl.cs	fyiReporting.RdlDesign.ListCtl	label1	no free space for the whole text (missing 4,0 px after growing into the free space)
+RdlDesign/MatrixCtl.cs	fyiReporting.RdlDesign.MatrixCtl	label1	no free space for the whole text (missing 4,0 px after growing into the free space)
+RdlDesign/PositionCtl.cs	fyiReporting.RdlDesign.PositionCtl	gbText/label3	no free space for the whole text (missing 1,0 px after growing into the free space)
+RdlDesign/PositionCtl.cs	fyiReporting.RdlDesign.PositionCtl	gbPosition/tbZIndex/#0:UpDownButtons	an unnamed control inside another control: that control's own layout
+RdlDesign/PositionCtl.cs	fyiReporting.RdlDesign.PositionCtl	gbPosition/tbZIndex/#1:UpDownEdit	an unnamed control inside another control: that control's own layout
+RdlDesign/PositionCtl.cs	fyiReporting.RdlDesign.PositionCtl	tbColSpan/#0:UpDownButtons	an unnamed control inside another control: that control's own layout
+RdlDesign/PositionCtl.cs	fyiReporting.RdlDesign.PositionCtl	tbColSpan/#1:UpDownEdit	an unnamed control inside another control: that control's own layout
+RdlDesign/ReportParameterCtl.cs	fyiReporting.RdlDesign.ReportParameterCtl	ckbParmAllowBlank	no free space for the whole text (missing 6,0 px after growing into the free space)
+RdlDesign/ReportParameterCtl.cs	fyiReporting.RdlDesign.ReportParameterCtl	ckbParmAllowNull	no free space for the whole text (missing 5,0 px after growing into the free space)
+RdlDesign/ReportParameterCtl.cs	fyiReporting.RdlDesign.ReportParameterCtl	ckbParmMultiValue	no free space for the whole text (missing 2,0 px after growing into the free space)
+RdlDesign/ReportParameterCtl.cs	fyiReporting.RdlDesign.ReportParameterCtl	groupBox1/label2	no free space for the whole text (missing 1,0 px after growing into the free space)
+RdlDesign/ReportParameterCtl.cs	fyiReporting.RdlDesign.ReportParameterCtl	groupBox1/rbDataSet	no free space for the whole text (missing 1,0 px after growing into the free space)
+RdlDesign/ReportParameterCtl.cs	fyiReporting.RdlDesign.ReportParameterCtl	groupBox2/rbDefaultDataSetName	no free space for the whole text (missing 1,0 px after growing into the free space)
+RdlDesign/StyleBorderCtl.cs	fyiReporting.RdlDesign.StyleBorderCtl	lBottom	no free space for the whole text (missing 7,0 px after growing into the free space)
+RdlDesign/StyleTextCtl.cs	fyiReporting.RdlDesign.StyleTextCtl	groupBox1/label2	no free space for the whole text (missing 1,0 px after growing into the free space)
+RdlDesign/SubreportCtl.cs	fyiReporting.RdlDesign.SubreportCtl	label2	no free space for the whole text (missing 4,0 px after growing into the free space)
+RdlDesign/TableColumnCtl.cs	fyiReporting.RdlDesign.TableColumnCtl	grpBoxVisibility/label3	no free space for the whole text (missing 2,0 px after growing into the free space)
+RdlDesign/TableColumnCtl.cs	fyiReporting.RdlDesign.TableColumnCtl	label1	no free space for the whole text (missing 5,0 px after growing into the free space)
+RdlDesign/TableCtl.cs	fyiReporting.RdlDesign.TableCtl	label1	no free space for the whole text (missing 4,0 px after growing into the free space)
+RdlDesign/TableRowCtl.cs	fyiReporting.RdlDesign.TableRowCtl	grpBoxVisibility/label3	no free space for the whole text (missing 2,0 px after growing into the free space)

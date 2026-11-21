@@ -408,7 +408,7 @@ namespace fyiReporting.RdlDesign
             // 
             this.label6.Location = new System.Drawing.Point(320, 18);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(36, 16);
+            this.label6.Size = new System.Drawing.Size(39, 16);
             this.label6.TabIndex = 6;
             this.label6.Text = "Width";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -505,7 +505,7 @@ namespace fyiReporting.RdlDesign
             // 
             this.label5.Location = new System.Drawing.Point(320, 18);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(36, 16);
+            this.label5.Size = new System.Drawing.Size(39, 16);
             this.label5.TabIndex = 6;
             this.label5.Text = "Width";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -547,7 +547,7 @@ namespace fyiReporting.RdlDesign
             // 
             this.label10.Location = new System.Drawing.Point(217, 154);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(80, 16);
+            this.label10.Size = new System.Drawing.Size(81, 16);
             this.label10.TabIndex = 10;
             this.label10.Text = "Minor Interval";
             // 
@@ -563,7 +563,7 @@ namespace fyiReporting.RdlDesign
             // 
             this.label11.Location = new System.Drawing.Point(216, 184);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(84, 16);
+            this.label11.Size = new System.Drawing.Size(86, 16);
             this.label11.TabIndex = 16;
             this.label11.Text = "Maximum Value";
             // 

@@ -64,7 +64,7 @@ namespace CodeBase{
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butOK.Location = new System.Drawing.Point(615,606);
 			this.butOK.Name = "butOK";
-			this.butOK.Size = new System.Drawing.Size(75,26);
+			this.butOK.Size = new System.Drawing.Size(75,28);
 			this.butOK.TabIndex = 1;
 			this.butOK.Text = "&OK";
 			this.butOK.Click += new System.EventHandler(this.butOK_Click);
@@ -101,7 +101,7 @@ namespace CodeBase{
 			this.butCopyAll.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butCopyAll.Location = new System.Drawing.Point(126,606);
 			this.butCopyAll.Name = "butCopyAll";
-			this.butCopyAll.Size = new System.Drawing.Size(79,26);
+			this.butCopyAll.Size = new System.Drawing.Size(79,28);
 			this.butCopyAll.TabIndex = 4;
 			this.butCopyAll.Text = "Copy All";
 			this.butCopyAll.Click += new System.EventHandler(this.butCopyAll_Click);

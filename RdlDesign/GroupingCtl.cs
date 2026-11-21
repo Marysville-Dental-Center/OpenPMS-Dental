@@ -345,7 +345,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.chkRepeatHeader.Location = new System.Drawing.Point(232, 232);
 			this.chkRepeatHeader.Name = "chkRepeatHeader";
-			this.chkRepeatHeader.Size = new System.Drawing.Size(136, 24);
+			this.chkRepeatHeader.Size = new System.Drawing.Size(139, 24);
 			this.chkRepeatHeader.TabIndex = 13;
 			this.chkRepeatHeader.Text = "Repeat group header";
 			// 
@@ -353,7 +353,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.chkGrpHeader.Location = new System.Drawing.Point(8, 232);
 			this.chkGrpHeader.Name = "chkGrpHeader";
-			this.chkGrpHeader.Size = new System.Drawing.Size(136, 24);
+			this.chkGrpHeader.Size = new System.Drawing.Size(141, 24);
 			this.chkGrpHeader.TabIndex = 12;
 			this.chkGrpHeader.Text = "Include group header";
 			// 

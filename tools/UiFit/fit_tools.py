@@ -56,11 +56,54 @@ def window_files(root, windows):
         simple = w.split(".")[-1].lower()
         asm = w.split(".")[0].lower()
         cand = by_name.get(simple, [])
+        if not cand and ALLOW_CODE_FILES:
+            # UI-2b (--code-files): a window whose designer code sits in its own .cs file (the report designer's dialogs), or whose designer
+            # file is named otherwise than the type (FormProcCodes in FormProcCodes2.designer.cs), "(no designer file)" in the ranking. The
+            # simple name drops a scan key's "@assembly" (a CodeBase window linked into another exe).
+            simple = simple.split("@")[0]
+            cand = by_name.get(simple, []) + code_files_with_designer_code(root).get(simple, [])
+            if not cand:
+                cand = files_declaring(root, files, simple)
         if len(cand) > 1:
             narrowed = [c for c in cand if c.lower().startswith(asm.lower())]
             cand = narrowed or cand
         result[w] = cand
     return result
+
+
+_code_files_cache = {}
+
+
+def code_files_with_designer_code(root):
+    """Simple type name -> .cs files (not .designer.cs) of that base name that define InitializeComponent, for --code-files only."""
+    if not ALLOW_CODE_FILES:
+        return {}
+    if root not in _code_files_cache:
+        out = subprocess.check_output(["git", "ls-files", "-z", "*.cs"], cwd=root).decode("utf-8").split("\0")
+        by_name = collections.defaultdict(list)
+        for f in out:
+            if not f or re.search(r"\.designer\.cs$", f, re.I):
+                continue
+            with open(os.path.join(root, f), "rb") as fh:
+                if re.search(rb"void\s+InitializeComponent\s*\(\s*\)", fh.read()):
+                    by_name[os.path.basename(f)[:-3].lower()].append(f)
+        _code_files_cache[root] = by_name
+    return _code_files_cache[root]
+
+
+def files_declaring(root, files, simple):
+    """The designer files (and, with --code-files, the code files with designer code) that declare the class simple (any case)."""
+    pattern = re.compile(rb"\bclass\s+" + re.escape(simple.encode("utf-8")) + rb"\b", re.I)
+    pool = list(files) + [f for fs in code_files_with_designer_code(root).values() for f in fs]
+    found = []
+    for f in pool:
+        with open(os.path.join(root, f), "rb") as fh:
+            if pattern.search(fh.read()):
+                found.append(f)
+    return found
+
+
+ALLOW_CODE_FILES = False
 
 
 def load_scan(folder):
@@ -372,7 +415,10 @@ def main():
     b.add_argument("--apply", action="store_true")
     b.add_argument("--owner-out")
     b.add_argument("--fixes-out")
+    b.add_argument("--code-files", action="store_true", help="UI-2b: also a window whose designer code is in its own .cs file")
     args = p.parse_args()
+    global ALLOW_CODE_FILES
+    ALLOW_CODE_FILES = getattr(args, "code_files", False)
     if args.cmd == "scan-tsv":
         cmd_scan_tsv(args)
     else:

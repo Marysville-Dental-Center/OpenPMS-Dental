@@ -146,7 +146,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.";
 			// 
 			this.linkLabel3.Location = new System.Drawing.Point(280, 88);
 			this.linkLabel3.Name = "linkLabel3";
-			this.linkLabel3.Size = new System.Drawing.Size(152, 16);
+			this.linkLabel3.Size = new System.Drawing.Size(164, 16);
 			this.linkLabel3.TabIndex = 15;
 			this.linkLabel3.TabStop = true;
 			this.linkLabel3.Tag = "mailto:comments@fyireporting.com";
@@ -157,7 +157,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.";
 			// 
 			this.linkLabel4.Location = new System.Drawing.Point(72, 88);
 			this.linkLabel4.Name = "linkLabel4";
-			this.linkLabel4.Size = new System.Drawing.Size(144, 16);
+			this.linkLabel4.Size = new System.Drawing.Size(161, 16);
 			this.linkLabel4.TabIndex = 14;
 			this.linkLabel4.TabStop = true;
 			this.linkLabel4.Tag = "http://www.fyireporting.com";

@@ -115,7 +115,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.label2.Location = new System.Drawing.Point(16, 50);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(112, 16);
+			this.label2.Size = new System.Drawing.Size(121, 16);
 			this.label2.TabIndex = 1;
 			this.label2.Text = "Layout within Legend";
 			// 
@@ -167,7 +167,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.chkInsidePlotArea.Location = new System.Drawing.Point(16, 112);
 			this.chkInsidePlotArea.Name = "chkInsidePlotArea";
-			this.chkInsidePlotArea.Size = new System.Drawing.Size(136, 24);
+			this.chkInsidePlotArea.Size = new System.Drawing.Size(140, 24);
 			this.chkInsidePlotArea.TabIndex = 15;
 			this.chkInsidePlotArea.Text = "Draw Inside Plot Area";
 			this.chkInsidePlotArea.CheckedChanged += new System.EventHandler(this.chkInsidePlotArea_CheckedChanged);

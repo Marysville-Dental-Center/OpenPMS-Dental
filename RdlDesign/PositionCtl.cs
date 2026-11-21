@@ -321,7 +321,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.lblColSpan.Location = new System.Drawing.Point(232, 16);
 			this.lblColSpan.Name = "lblColSpan";
-			this.lblColSpan.Size = new System.Drawing.Size(112, 23);
+			this.lblColSpan.Size = new System.Drawing.Size(115, 23);
 			this.lblColSpan.TabIndex = 16;
 			this.lblColSpan.Text = "Span Table Columns";
 			// 
@@ -423,7 +423,7 @@ namespace fyiReporting.RdlDesign
 			this.label2.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.label2.Location = new System.Drawing.Point(184, 18);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(88, 22);
+			this.label2.Size = new System.Drawing.Size(90, 22);
 			this.label2.TabIndex = 2;
 			this.label2.Text = "Hide Duplicates";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;

@@ -116,7 +116,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.label3.Location = new System.Drawing.Point(8, 96);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(88, 23);
+			this.label3.Size = new System.Drawing.Size(95, 23);
 			this.label3.TabIndex = 2;
 			this.label3.Text = "Column Spacing";
 			// 

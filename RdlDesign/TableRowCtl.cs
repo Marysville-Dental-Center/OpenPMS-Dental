@@ -179,7 +179,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.label2.Location = new System.Drawing.Point(16, 24);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(120, 23);
+			this.label2.Size = new System.Drawing.Size(132, 23);
 			this.label2.TabIndex = 0;
 			this.label2.Text = "Hidden (initial visibility)";
 			// 

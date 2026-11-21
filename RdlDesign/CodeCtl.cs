@@ -125,7 +125,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.label1.Location = new System.Drawing.Point(98, 6);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(144, 16);
+			this.label1.Size = new System.Drawing.Size(149, 16);
 			this.label1.TabIndex = 0;
 			this.label1.Text = "Visual Basic Function Code";
 			// 

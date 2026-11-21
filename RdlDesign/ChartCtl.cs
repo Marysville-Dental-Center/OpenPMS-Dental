@@ -203,7 +203,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.label4.Location = new System.Drawing.Point(16, 120);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(360, 16);
+			this.label4.Size = new System.Drawing.Size(382, 16);
 			this.label4.TabIndex = 3;
 			this.label4.Text = "Percent width for Bars/Columns (>100% will cause overlap of columns)";
 			// 

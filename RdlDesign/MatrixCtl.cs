@@ -124,7 +124,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.label2.Location = new System.Drawing.Point(24, 16);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(80, 23);
+			this.label2.Size = new System.Drawing.Size(82, 23);
 			this.label2.TabIndex = 0;
 			this.label2.Text = "DataSet Name";
 			// 
@@ -161,7 +161,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.chkPBBefore.Location = new System.Drawing.Point(16, 16);
 			this.chkPBBefore.Name = "chkPBBefore";
-			this.chkPBBefore.Size = new System.Drawing.Size(128, 24);
+			this.chkPBBefore.Size = new System.Drawing.Size(131, 24);
 			this.chkPBBefore.TabIndex = 0;
 			this.chkPBBefore.Text = "Insert before Matrix";
 			this.chkPBBefore.CheckedChanged += new System.EventHandler(this.chkPBBefore_CheckedChanged);

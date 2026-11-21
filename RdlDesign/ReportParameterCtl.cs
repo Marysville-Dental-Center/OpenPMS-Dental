@@ -281,7 +281,7 @@ namespace fyiReporting.RdlDesign
             // 
             this.ckbParmAllowBlank.Location = new System.Drawing.Point(222, 72);
             this.ckbParmAllowBlank.Name = "ckbParmAllowBlank";
-            this.ckbParmAllowBlank.Size = new System.Drawing.Size(148, 24);
+            this.ckbParmAllowBlank.Size = new System.Drawing.Size(154, 24);
             this.ckbParmAllowBlank.TabIndex = 9;
             this.ckbParmAllowBlank.Text = "Allow blank (strings only)";
             this.ckbParmAllowBlank.CheckedChanged += new System.EventHandler(this.ckbParmAllowBlank_CheckedChanged);
@@ -549,7 +549,7 @@ namespace fyiReporting.RdlDesign
             // 
             this.ckbParmMultiValue.Location = new System.Drawing.Point(376, 72);
             this.ckbParmMultiValue.Name = "ckbParmMultiValue";
-            this.ckbParmMultiValue.Size = new System.Drawing.Size(79, 24);
+            this.ckbParmMultiValue.Size = new System.Drawing.Size(80, 24);
             this.ckbParmMultiValue.TabIndex = 24;
             this.ckbParmMultiValue.Text = "MultiValue";
             this.ckbParmMultiValue.CheckedChanged += new System.EventHandler(this.ckbParmMultiValue_CheckedChanged);

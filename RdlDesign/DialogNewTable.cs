@@ -377,7 +377,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.bUp.Location = new System.Drawing.Point(392, 120);
 			this.bUp.Name = "bUp";
-			this.bUp.Size = new System.Drawing.Size(48, 24);
+			this.bUp.Size = new System.Drawing.Size(48, 28);
 			this.bUp.TabIndex = 8;
 			this.bUp.Text = "Up";
 			this.bUp.Click += new System.EventHandler(this.bUp_Click);
@@ -386,7 +386,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.bDown.Location = new System.Drawing.Point(392, 152);
 			this.bDown.Name = "bDown";
-			this.bDown.Size = new System.Drawing.Size(48, 24);
+			this.bDown.Size = new System.Drawing.Size(48, 28);
 			this.bDown.TabIndex = 9;
 			this.bDown.Text = "Down";
 			this.bDown.Click += new System.EventHandler(this.bDown_Click);
@@ -395,7 +395,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.bRight.Location = new System.Drawing.Point(184, 120);
 			this.bRight.Name = "bRight";
-			this.bRight.Size = new System.Drawing.Size(32, 24);
+			this.bRight.Size = new System.Drawing.Size(32, 28);
 			this.bRight.TabIndex = 3;
 			this.bRight.Text = ">";
 			this.bRight.Click += new System.EventHandler(this.bRight_Click);
@@ -404,7 +404,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.bAllRight.Location = new System.Drawing.Point(184, 152);
 			this.bAllRight.Name = "bAllRight";
-			this.bAllRight.Size = new System.Drawing.Size(32, 24);
+			this.bAllRight.Size = new System.Drawing.Size(32, 28);
 			this.bAllRight.TabIndex = 4;
 			this.bAllRight.Text = ">>";
 			this.bAllRight.Click += new System.EventHandler(this.bAllRight_Click);
@@ -413,7 +413,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.bLeft.Location = new System.Drawing.Point(184, 184);
 			this.bLeft.Name = "bLeft";
-			this.bLeft.Size = new System.Drawing.Size(32, 24);
+			this.bLeft.Size = new System.Drawing.Size(32, 28);
 			this.bLeft.TabIndex = 5;
 			this.bLeft.Text = "<";
 			this.bLeft.Click += new System.EventHandler(this.bLeft_Click);
@@ -422,7 +422,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.bAllLeft.Location = new System.Drawing.Point(184, 216);
 			this.bAllLeft.Name = "bAllLeft";
-			this.bAllLeft.Size = new System.Drawing.Size(32, 24);
+			this.bAllLeft.Size = new System.Drawing.Size(32, 28);
 			this.bAllLeft.TabIndex = 6;
 			this.bAllLeft.Text = "<<";
 			this.bAllLeft.Click += new System.EventHandler(this.bAllLeft_Click);
