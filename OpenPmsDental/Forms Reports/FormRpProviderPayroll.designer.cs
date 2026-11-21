@@ -182,7 +182,7 @@ namespace OpenPmsDental {
 			this.radioSimpleReport.Checked = true;
 			this.radioSimpleReport.Location = new System.Drawing.Point(9, 23);
 			this.radioSimpleReport.Name = "radioSimpleReport";
-			this.radioSimpleReport.Size = new System.Drawing.Size(244, 22);
+			this.radioSimpleReport.Size = new System.Drawing.Size(244, 24);
 			this.radioSimpleReport.TabIndex = 2;
 			this.radioSimpleReport.TabStop = true;
 			this.radioSimpleReport.Text = "Summary";

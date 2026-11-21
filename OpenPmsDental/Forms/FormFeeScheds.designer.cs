@@ -185,7 +185,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelHideUnused.Location = new System.Drawing.Point(380, 515);
 			this.labelHideUnused.Name = "labelHideUnused";
-			this.labelHideUnused.Size = new System.Drawing.Size(123, 50);
+			this.labelHideUnused.Size = new System.Drawing.Size(123, 52);
 			this.labelHideUnused.TabIndex = 25;
 			this.labelHideUnused.Text = "Hides any fee schedules that are not in use";
 			// 
@@ -213,7 +213,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelSetOrder.Location = new System.Drawing.Point(460, 219);
 			this.labelSetOrder.Name = "labelSetOrder";
-			this.labelSetOrder.Size = new System.Drawing.Size(132, 50);
+			this.labelSetOrder.Size = new System.Drawing.Size(132, 52);
 			this.labelSetOrder.TabIndex = 27;
 			this.labelSetOrder.Text = "1. Select row to move.\r\n2. Toggle this button.\r\n3. Click new position.";
 			// 

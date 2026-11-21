@@ -187,7 +187,7 @@ namespace OpenPmsDental{
 			// 
 			this.radio90.Location = new System.Drawing.Point(12, 85);
 			this.radio90.Name = "radio90";
-			this.radio90.Size = new System.Drawing.Size(114, 22);
+			this.radio90.Size = new System.Drawing.Size(114, 24);
 			this.radio90.TabIndex = 3;
 			this.radio90.Text = "Over 90 Days";
 			this.radio90.CheckedChanged += new System.EventHandler(this.OnFilterChanged);

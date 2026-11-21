@@ -117,7 +117,7 @@
 			// 
 			this.label4.Location = new System.Drawing.Point(24, 115);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(70, 18);
+			this.label4.Size = new System.Drawing.Size(210, 17);
 			this.label4.TabIndex = 66;
 			this.label4.Text = "Days";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -169,7 +169,7 @@
 			// 
 			this.label5.Location = new System.Drawing.Point(15, 16);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(125, 17);
+			this.label5.Size = new System.Drawing.Size(115, 16);
 			this.label5.TabIndex = 111;
 			this.label5.Text = "Sync Code";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -212,7 +212,7 @@
 			// 
 			this.label7.Location = new System.Drawing.Point(15, 54);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(252, 45);
+			this.label7.Size = new System.Drawing.Size(252, 51);
 			this.label7.TabIndex = 112;
 			this.label7.Text = "All databases that can sync with this one must have this code in their Misc Setup" +
     " window.";

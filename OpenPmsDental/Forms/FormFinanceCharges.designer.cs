@@ -357,7 +357,7 @@ namespace OpenPmsDental {
 			this.radioFinanceCharge.Checked = true;
 			this.radioFinanceCharge.Location = new System.Drawing.Point(5, 44);
 			this.radioFinanceCharge.Name = "radioFinanceCharge";
-			this.radioFinanceCharge.Size = new System.Drawing.Size(110, 22);
+			this.radioFinanceCharge.Size = new System.Drawing.Size(110, 24);
 			this.radioFinanceCharge.TabIndex = 0;
 			this.radioFinanceCharge.TabStop = true;
 			this.radioFinanceCharge.Text = "Finance Charge";

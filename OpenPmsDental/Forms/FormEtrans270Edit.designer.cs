@@ -208,7 +208,7 @@ namespace OpenPmsDental{
 			// 
 			this.radioModeMessage.Location = new System.Drawing.Point(12, 35);
 			this.radioModeMessage.Name = "radioModeMessage";
-			this.radioModeMessage.Size = new System.Drawing.Size(121, 22);
+			this.radioModeMessage.Size = new System.Drawing.Size(121, 23);
 			this.radioModeMessage.TabIndex = 122;
 			this.radioModeMessage.Text = "Message Text";
 			this.radioModeMessage.UseVisualStyleBackColor = true;

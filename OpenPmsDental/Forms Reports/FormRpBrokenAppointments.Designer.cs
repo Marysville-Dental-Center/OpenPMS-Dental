@@ -160,7 +160,7 @@ namespace OpenPmsDental{
 			// 
 			this.radioAptStatus.Location = new System.Drawing.Point(287, 299);
 			this.radioAptStatus.Name = "radioAptStatus";
-			this.radioAptStatus.Size = new System.Drawing.Size(143, 22);
+			this.radioAptStatus.Size = new System.Drawing.Size(143, 24);
 			this.radioAptStatus.TabIndex = 71;
 			this.radioAptStatus.TabStop = true;
 			this.radioAptStatus.Text = "By appointment status";

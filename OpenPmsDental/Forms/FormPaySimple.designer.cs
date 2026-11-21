@@ -115,7 +115,7 @@ namespace OpenPmsDental{
 			this.radioSale.Checked = true;
 			this.radioSale.Location = new System.Drawing.Point(5, 19);
 			this.radioSale.Name = "radioSale";
-			this.radioSale.Size = new System.Drawing.Size(45, 18);
+			this.radioSale.Size = new System.Drawing.Size(45, 22);
 			this.radioSale.TabIndex = 0;
 			this.radioSale.TabStop = true;
 			this.radioSale.Text = "Sale";
@@ -127,7 +127,7 @@ namespace OpenPmsDental{
 			this.radioReturn.AutoSize = false;
 			this.radioReturn.Location = new System.Drawing.Point(156, 19);
 			this.radioReturn.Name = "radioReturn";
-			this.radioReturn.Size = new System.Drawing.Size(59, 18);
+			this.radioReturn.Size = new System.Drawing.Size(59, 22);
 			this.radioReturn.TabIndex = 0;
 			this.radioReturn.Text = "Return";
 			this.radioReturn.UseVisualStyleBackColor = true;
@@ -138,7 +138,7 @@ namespace OpenPmsDental{
 			this.radioAuthorization.AutoSize = false;
 			this.radioAuthorization.Location = new System.Drawing.Point(55, 19);
 			this.radioAuthorization.Name = "radioAuthorization";
-			this.radioAuthorization.Size = new System.Drawing.Size(49, 18);
+			this.radioAuthorization.Size = new System.Drawing.Size(49, 22);
 			this.radioAuthorization.TabIndex = 0;
 			this.radioAuthorization.Text = "Auth";
 			this.radioAuthorization.UseVisualStyleBackColor = true;
@@ -149,7 +149,7 @@ namespace OpenPmsDental{
 			this.radioVoid.AutoSize = false;
 			this.radioVoid.Location = new System.Drawing.Point(106, 19);
 			this.radioVoid.Name = "radioVoid";
-			this.radioVoid.Size = new System.Drawing.Size(48, 18);
+			this.radioVoid.Size = new System.Drawing.Size(48, 22);
 			this.radioVoid.TabIndex = 0;
 			this.radioVoid.Text = "Void";
 			this.radioVoid.UseVisualStyleBackColor = true;

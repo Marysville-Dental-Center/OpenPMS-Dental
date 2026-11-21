@@ -179,7 +179,7 @@ namespace OpenPmsDental {
 			this.checkBrokenAppts.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkBrokenAppts.Location = new System.Drawing.Point(26, 57);
 			this.checkBrokenAppts.Name = "checkBrokenAppts";
-			this.checkBrokenAppts.Size = new System.Drawing.Size(204, 17);
+			this.checkBrokenAppts.Size = new System.Drawing.Size(204, 18);
 			this.checkBrokenAppts.TabIndex = 38;
 			this.checkBrokenAppts.Text = "Include Broken Appointments";
 			// 

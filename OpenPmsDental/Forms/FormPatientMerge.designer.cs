@@ -75,7 +75,7 @@ namespace OpenPmsDental{
 			this.label5.AutoSize = false;
 			this.label5.Location = new System.Drawing.Point(393, 18);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(92, 19);
+			this.label5.Size = new System.Drawing.Size(96, 19);
 			this.label5.TabIndex = 5;
 			this.label5.Text = "Patient Birthdate";
 			// 
@@ -103,7 +103,7 @@ namespace OpenPmsDental{
 			this.label2.AutoSize = false;
 			this.label2.Location = new System.Drawing.Point(150, 18);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(75, 19);
+			this.label2.Size = new System.Drawing.Size(80, 19);
 			this.label2.TabIndex = 2;
 			this.label2.Text = "Patient Name";
 			// 
@@ -112,7 +112,7 @@ namespace OpenPmsDental{
 			this.labelPatNumInto.AutoSize = false;
 			this.labelPatNumInto.Location = new System.Drawing.Point(7, 18);
 			this.labelPatNumInto.Name = "labelPatNumInto";
-			this.labelPatNumInto.Size = new System.Drawing.Size(87, 19);
+			this.labelPatNumInto.Size = new System.Drawing.Size(91, 19);
 			this.labelPatNumInto.TabIndex = 1;
 			this.labelPatNumInto.Text = "Patient Number";
 			// 
@@ -156,7 +156,7 @@ namespace OpenPmsDental{
 			this.label6.AutoSize = false;
 			this.label6.Location = new System.Drawing.Point(396, 20);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(92, 17);
+			this.label6.Size = new System.Drawing.Size(96, 17);
 			this.label6.TabIndex = 10;
 			this.label6.Text = "Patient Birthdate";
 			// 
@@ -184,7 +184,7 @@ namespace OpenPmsDental{
 			this.label3.AutoSize = false;
 			this.label3.Location = new System.Drawing.Point(150, 18);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(75, 19);
+			this.label3.Size = new System.Drawing.Size(80, 19);
 			this.label3.TabIndex = 7;
 			this.label3.Text = "Patient Name";
 			// 
@@ -193,7 +193,7 @@ namespace OpenPmsDental{
 			this.labelPatNumFrom.AutoSize = false;
 			this.labelPatNumFrom.Location = new System.Drawing.Point(7, 18);
 			this.labelPatNumFrom.Name = "labelPatNumFrom";
-			this.labelPatNumFrom.Size = new System.Drawing.Size(87, 19);
+			this.labelPatNumFrom.Size = new System.Drawing.Size(91, 19);
 			this.labelPatNumFrom.TabIndex = 6;
 			this.labelPatNumFrom.Text = "Patient Number";
 			// 
