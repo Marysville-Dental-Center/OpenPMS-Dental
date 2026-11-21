@@ -46,6 +46,7 @@ namespace OpenPmsDental{
 			// 
 			this.textEligibilityFolder.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+			this.textEligibilityFolder.AutoSize=false;
 			this.textEligibilityFolder.Location=new System.Drawing.Point(12,31);
 			this.textEligibilityFolder.Name="textEligibilityFolder";
 			this.textEligibilityFolder.Size=new System.Drawing.Size(607,20);
@@ -54,10 +55,10 @@ namespace OpenPmsDental{
 			// 
 			// label1
 			// 
-			this.label1.AutoSize=true;
+			this.label1.AutoSize=false;
 			this.label1.Location=new System.Drawing.Point(12,12);
 			this.label1.Name="label1";
-			this.label1.Size=new System.Drawing.Size(77,13);
+			this.label1.Size=new System.Drawing.Size(81,19);
 			this.label1.TabIndex=6;
 			this.label1.Text="Save report to:";
 			// 
@@ -76,24 +77,25 @@ namespace OpenPmsDental{
 			// 
 			// label2
 			// 
-			this.label2.AutoSize=true;
+			this.label2.AutoSize=false;
 			this.label2.Location=new System.Drawing.Point(13,176);
 			this.label2.Name="label2";
-			this.label2.Size=new System.Drawing.Size(60,13);
+			this.label2.Size=new System.Drawing.Size(62,18);
 			this.label2.TabIndex=9;
 			this.label2.Text="Report Log";
 			// 
 			// label3
 			// 
-			this.label3.AutoSize=true;
+			this.label3.AutoSize=false;
 			this.label3.Location=new System.Drawing.Point(13,57);
 			this.label3.Name="label3";
-			this.label3.Size=new System.Drawing.Size(89,13);
+			this.label3.Size=new System.Drawing.Size(97,17);
 			this.label3.TabIndex=10;
 			this.label3.Text="Output File Name";
 			// 
 			// textEligibilityFile
 			// 
+			this.textEligibilityFile.AutoSize=false;
 			this.textEligibilityFile.Location=new System.Drawing.Point(12,74);
 			this.textEligibilityFile.Name="textEligibilityFile";
 			this.textEligibilityFile.ReadOnly=true;
@@ -125,10 +127,10 @@ namespace OpenPmsDental{
 			// 
 			// label5
 			// 
-			this.label5.AutoSize=true;
+			this.label5.AutoSize=false;
 			this.label5.Location=new System.Drawing.Point(262,22);
 			this.label5.Name="label5";
-			this.label5.Size=new System.Drawing.Size(20,13);
+			this.label5.Size=new System.Drawing.Size(18,19);
 			this.label5.TabIndex=17;
 			this.label5.Text="To";
 			// 
@@ -141,10 +143,10 @@ namespace OpenPmsDental{
 			// 
 			// label4
 			// 
-			this.label4.AutoSize=true;
+			this.label4.AutoSize=false;
 			this.label4.Location=new System.Drawing.Point(7,23);
 			this.label4.Name="label4";
-			this.label4.Size=new System.Drawing.Size(30,13);
+			this.label4.Size=new System.Drawing.Size(31,19);
 			this.label4.TabIndex=15;
 			this.label4.Text="From";
 			// 
