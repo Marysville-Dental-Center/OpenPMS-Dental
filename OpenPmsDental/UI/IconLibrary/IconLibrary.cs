@@ -126,7 +126,22 @@ namespace OpenPmsDental.UI{
 		Unscheduled,
 		Rx,
 		Anesthesia,
-		PerioChart
+		PerioChart,
+		//UI-9b-2 (the imaging module and its tree, docs/port-notes/UI-9b.md): the purposes of ControlImages' two ImageLists. The WinForms enum adds the 11
+		//imaging members the WPF enum already has (every WinForms member is also a WPF member), then the two new ones, each with its manifest row.
+		ArrowsAll,
+		Crop,
+		Flip,
+		Hand,
+		Import,
+		Info,
+		RotateL,
+		RotateR,
+		ScanMulti,
+		ScanPhoto,
+		ScanXray,
+		Scan,
+		UsbStick
 	}
 
 	///<summary></summary>
