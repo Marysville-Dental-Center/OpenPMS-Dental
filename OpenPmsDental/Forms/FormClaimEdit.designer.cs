@@ -1457,6 +1457,7 @@
 			// 
 			// textShareOfCost
 			// 
+			this.textShareOfCost.AutoSize = false;
 			this.textShareOfCost.Location = new System.Drawing.Point(139, 125);
 			this.textShareOfCost.MaxVal = 100000000D;
 			this.textShareOfCost.MinVal = 0D;
@@ -1786,6 +1787,7 @@
 			// 
 			// textVC41dAmt
 			// 
+			this.textVC41dAmt.AutoSize = false;
 			this.textVC41dAmt.Location = new System.Drawing.Point(321, 91);
 			this.textVC41dAmt.Name = "textVC41dAmt";
 			this.textVC41dAmt.Size = new System.Drawing.Size(66, 20);
@@ -1794,6 +1796,7 @@
 			// 
 			// textVC41cAmt
 			// 
+			this.textVC41cAmt.AutoSize = false;
 			this.textVC41cAmt.Location = new System.Drawing.Point(321, 72);
 			this.textVC41cAmt.Name = "textVC41cAmt";
 			this.textVC41cAmt.Size = new System.Drawing.Size(66, 20);
@@ -1802,6 +1805,7 @@
 			// 
 			// textVC41bAmt
 			// 
+			this.textVC41bAmt.AutoSize = false;
 			this.textVC41bAmt.Location = new System.Drawing.Point(321, 53);
 			this.textVC41bAmt.Name = "textVC41bAmt";
 			this.textVC41bAmt.Size = new System.Drawing.Size(66, 20);
@@ -1810,6 +1814,7 @@
 			// 
 			// textVC41aAmt
 			// 
+			this.textVC41aAmt.AutoSize = false;
 			this.textVC41aAmt.Location = new System.Drawing.Point(321, 34);
 			this.textVC41aAmt.Name = "textVC41aAmt";
 			this.textVC41aAmt.Size = new System.Drawing.Size(66, 20);
@@ -1818,6 +1823,7 @@
 			// 
 			// textVC41dCode
 			// 
+			this.textVC41dCode.AutoSize = false;
 			this.textVC41dCode.Location = new System.Drawing.Point(289, 91);
 			this.textVC41dCode.MaxLength = 2;
 			this.textVC41dCode.Name = "textVC41dCode";
@@ -1827,6 +1833,7 @@
 			// 
 			// textVC41cCode
 			// 
+			this.textVC41cCode.AutoSize = false;
 			this.textVC41cCode.Location = new System.Drawing.Point(289, 72);
 			this.textVC41cCode.MaxLength = 2;
 			this.textVC41cCode.Name = "textVC41cCode";
@@ -1836,6 +1843,7 @@
 			// 
 			// textVC41bCode
 			// 
+			this.textVC41bCode.AutoSize = false;
 			this.textVC41bCode.Location = new System.Drawing.Point(289, 53);
 			this.textVC41bCode.MaxLength = 2;
 			this.textVC41bCode.Name = "textVC41bCode";
@@ -1845,6 +1853,7 @@
 			// 
 			// textVC41aCode
 			// 
+			this.textVC41aCode.AutoSize = false;
 			this.textVC41aCode.Location = new System.Drawing.Point(289, 34);
 			this.textVC41aCode.MaxLength = 2;
 			this.textVC41aCode.Name = "textVC41aCode";
@@ -1908,6 +1917,7 @@
 			// 
 			// textVC40dAmt
 			// 
+			this.textVC40dAmt.AutoSize = false;
 			this.textVC40dAmt.Location = new System.Drawing.Point(192, 91);
 			this.textVC40dAmt.Name = "textVC40dAmt";
 			this.textVC40dAmt.Size = new System.Drawing.Size(66, 20);
@@ -1916,6 +1926,7 @@
 			// 
 			// textVC40cAmt
 			// 
+			this.textVC40cAmt.AutoSize = false;
 			this.textVC40cAmt.Location = new System.Drawing.Point(192, 72);
 			this.textVC40cAmt.Name = "textVC40cAmt";
 			this.textVC40cAmt.Size = new System.Drawing.Size(66, 20);
@@ -1924,6 +1935,7 @@
 			// 
 			// textVC40bAmt
 			// 
+			this.textVC40bAmt.AutoSize = false;
 			this.textVC40bAmt.Location = new System.Drawing.Point(192, 53);
 			this.textVC40bAmt.Name = "textVC40bAmt";
 			this.textVC40bAmt.Size = new System.Drawing.Size(66, 20);
@@ -1932,6 +1944,7 @@
 			// 
 			// textVC40aAmt
 			// 
+			this.textVC40aAmt.AutoSize = false;
 			this.textVC40aAmt.Location = new System.Drawing.Point(192, 34);
 			this.textVC40aAmt.Name = "textVC40aAmt";
 			this.textVC40aAmt.Size = new System.Drawing.Size(66, 20);
@@ -1940,6 +1953,7 @@
 			// 
 			// textVC40dCode
 			// 
+			this.textVC40dCode.AutoSize = false;
 			this.textVC40dCode.Location = new System.Drawing.Point(160, 91);
 			this.textVC40dCode.MaxLength = 2;
 			this.textVC40dCode.Name = "textVC40dCode";
@@ -1949,6 +1963,7 @@
 			// 
 			// textVC40cCode
 			// 
+			this.textVC40cCode.AutoSize = false;
 			this.textVC40cCode.Location = new System.Drawing.Point(160, 72);
 			this.textVC40cCode.MaxLength = 2;
 			this.textVC40cCode.Name = "textVC40cCode";
@@ -1958,6 +1973,7 @@
 			// 
 			// textVC40bCode
 			// 
+			this.textVC40bCode.AutoSize = false;
 			this.textVC40bCode.Location = new System.Drawing.Point(160, 53);
 			this.textVC40bCode.MaxLength = 2;
 			this.textVC40bCode.Name = "textVC40bCode";
@@ -1967,6 +1983,7 @@
 			// 
 			// textVC40aCode
 			// 
+			this.textVC40aCode.AutoSize = false;
 			this.textVC40aCode.Location = new System.Drawing.Point(160, 34);
 			this.textVC40aCode.MaxLength = 2;
 			this.textVC40aCode.Name = "textVC40aCode";
@@ -2057,6 +2074,7 @@
 			// 
 			// textVC39dAmt
 			// 
+			this.textVC39dAmt.AutoSize = false;
 			this.textVC39dAmt.Location = new System.Drawing.Point(63, 91);
 			this.textVC39dAmt.Name = "textVC39dAmt";
 			this.textVC39dAmt.Size = new System.Drawing.Size(66, 20);
@@ -2065,6 +2083,7 @@
 			// 
 			// textVC39cAmt
 			// 
+			this.textVC39cAmt.AutoSize = false;
 			this.textVC39cAmt.Location = new System.Drawing.Point(63, 72);
 			this.textVC39cAmt.Name = "textVC39cAmt";
 			this.textVC39cAmt.Size = new System.Drawing.Size(66, 20);
@@ -2073,6 +2092,7 @@
 			// 
 			// textVC39bAmt
 			// 
+			this.textVC39bAmt.AutoSize = false;
 			this.textVC39bAmt.Location = new System.Drawing.Point(63, 53);
 			this.textVC39bAmt.Name = "textVC39bAmt";
 			this.textVC39bAmt.Size = new System.Drawing.Size(66, 20);
@@ -2081,6 +2101,7 @@
 			// 
 			// textVC39aAmt
 			// 
+			this.textVC39aAmt.AutoSize = false;
 			this.textVC39aAmt.Location = new System.Drawing.Point(63, 34);
 			this.textVC39aAmt.Name = "textVC39aAmt";
 			this.textVC39aAmt.Size = new System.Drawing.Size(66, 20);
@@ -2089,6 +2110,7 @@
 			// 
 			// textVC39dCode
 			// 
+			this.textVC39dCode.AutoSize = false;
 			this.textVC39dCode.Location = new System.Drawing.Point(31, 91);
 			this.textVC39dCode.MaxLength = 2;
 			this.textVC39dCode.Name = "textVC39dCode";
@@ -2098,6 +2120,7 @@
 			// 
 			// textVC39cCode
 			// 
+			this.textVC39cCode.AutoSize = false;
 			this.textVC39cCode.Location = new System.Drawing.Point(31, 72);
 			this.textVC39cCode.MaxLength = 2;
 			this.textVC39cCode.Name = "textVC39cCode";
@@ -2107,6 +2130,7 @@
 			// 
 			// textVC39bCode
 			// 
+			this.textVC39bCode.AutoSize = false;
 			this.textVC39bCode.Location = new System.Drawing.Point(31, 53);
 			this.textVC39bCode.MaxLength = 2;
 			this.textVC39bCode.Name = "textVC39bCode";
@@ -2116,6 +2140,7 @@
 			// 
 			// textVC39aCode
 			// 
+			this.textVC39aCode.AutoSize = false;
 			this.textVC39aCode.Location = new System.Drawing.Point(31, 34);
 			this.textVC39aCode.MaxLength = 2;
 			this.textVC39aCode.Name = "textVC39aCode";
@@ -2600,6 +2625,7 @@
 			// 
 			// textCanadaTransRefNum
 			// 
+			this.textCanadaTransRefNum.AutoSize = false;
 			this.textCanadaTransRefNum.Location = new System.Drawing.Point(96, 122);
 			this.textCanadaTransRefNum.Name = "textCanadaTransRefNum";
 			this.textCanadaTransRefNum.ReadOnly = true;

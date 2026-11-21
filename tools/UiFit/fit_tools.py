@@ -69,6 +69,7 @@ def load_scan(folder):
     d["ov"] = [r for r in all_ov if r["scale"] == "1"]
     d["ov_scales"] = [r for r in all_ov if r["scale"] != "1" and r["scale"] != "1.2" and r["ink"] != "inside"]
     d["ss"] = [r for r in read_tsv(os.path.join(folder, "selfsizing-%s.tsv" % RUN)) if r["scale"] == "1"]
+    d["ss_scales"] = [r for r in read_tsv(os.path.join(folder, "selfsizing-%s.tsv" % RUN)) if r["scale"] not in ("1", "1.2")]
     d["bd"] = read_tsv(os.path.join(folder, "bounds-%s.tsv" % RUN))
     return d
 
@@ -183,6 +184,16 @@ def plan_window(window, scan, rec_before, rec_after, designer_text):
     for r in scan["bd"]:
         if r["window"] == window:
             touch(r["control"], "bd")
+    ss_scale_names = set()
+    for r in scan["ss_scales"]:
+        if r["window"] == window and r["type"] in TEXT_BOX_TYPES:
+            # A text box that grows into a neighbour only at a scale (modelled): AutoSize off keeps today's height at every scale.
+            ss_scale_names.add(r["control"])
+            touch(r["control"], "ss")
+            other = rec_after.get((window, r["other"]))
+            if r["other"] and other is not None and other["sizes_itself"] == "1" and other["type"] in TEXT_BOX_TYPES:
+                ss_scale_names.add(r["other"])
+                touch(r["other"], "ss")
     fixes = collections.OrderedDict()
     owner = []
     for path in controls:
@@ -229,7 +240,7 @@ def plan_window(window, scan, rec_before, rec_after, designer_text):
                 tw = max(tw, B[2] + min(gw, fr))
                 th = max(th, B[3] + min(gh, fb))
             why.append("also the pixels missing at the scales 1.25 to 2")
-        if sizing or path in ss or (window, path) in {(window, r["control"]) for r in scan["bd"] if r["window"] == window}:
+        if sizing or path in ss or path in ss_scale_names or (window, path) in {(window, r["control"]) for r in scan["bd"] if r["window"] == window}:
             if ctype in FONT_FIXED_TYPES or (ctype not in TEXT_BOX_TYPES and ctype.endswith(("ComboBox", "DateTimePicker", "UpDown"))):
                 owner.append((path, "its height comes from the font (%s); no size edit can keep it; it grows into its neighbour" % ctype.split(".")[-1]))
                 continue

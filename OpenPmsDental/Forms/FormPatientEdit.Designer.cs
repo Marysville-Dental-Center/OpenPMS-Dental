@@ -406,6 +406,7 @@ namespace OpenPmsDental{
 			// 
 			// textSSN
 			// 
+			this.textSSN.AutoSize = false;
 			this.textSSN.Location = new System.Drawing.Point(155, 6);
 			this.textSSN.MaxLength = 100;
 			this.textSSN.Name = "textSSN";
