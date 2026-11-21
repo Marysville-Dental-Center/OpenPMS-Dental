@@ -155,7 +155,7 @@ namespace OpenPmsDental.Reporting.Allocators.MyAllocator1
 			this.rbIhaveNotRead.Checked = true;
 			this.rbIhaveNotRead.Location = new System.Drawing.Point(3, 3);
 			this.rbIhaveNotRead.Name = "rbIhaveNotRead";
-			this.rbIhaveNotRead.Size = new System.Drawing.Size(204, 18);
+			this.rbIhaveNotRead.Size = new System.Drawing.Size(204, 19);
 			this.rbIhaveNotRead.TabIndex = 5;
 			this.rbIhaveNotRead.TabStop = true;
 			this.rbIhaveNotRead.Text = "I Have NOT Read The Above Text";
@@ -175,7 +175,7 @@ namespace OpenPmsDental.Reporting.Allocators.MyAllocator1
 			this.rbutIHaveRead.AutoSize = false;
 			this.rbutIHaveRead.Location = new System.Drawing.Point(3, 22);
 			this.rbutIHaveRead.Name = "rbutIHaveRead";
-			this.rbutIHaveRead.Size = new System.Drawing.Size(173, 18);
+			this.rbutIHaveRead.Size = new System.Drawing.Size(173, 22);
 			this.rbutIHaveRead.TabIndex = 6;
 			this.rbutIHaveRead.Text = "I Have Read the Above Text";
 			this.rbutIHaveRead.UseVisualStyleBackColor = true;

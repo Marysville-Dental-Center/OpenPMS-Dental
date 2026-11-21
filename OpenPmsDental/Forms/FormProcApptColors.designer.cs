@@ -67,7 +67,7 @@ namespace OpenPmsDental {
 			// 
 			this.label1.Location = new System.Drawing.Point(16, 9);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(288, 67);
+			this.label1.Size = new System.Drawing.Size(288, 68);
 			this.label1.TabIndex = 16;
 			this.label1.Text = "Changes made here are only applied when saving individual appointments. To sync c" +
     "olors for all existing appointments, run the Appt Procs tool in Database Mainten" +

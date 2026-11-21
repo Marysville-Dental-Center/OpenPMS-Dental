@@ -88,7 +88,7 @@ namespace OpenPmsDental{
 			this.radioReturn.AutoSize = false;
 			this.radioReturn.Location = new System.Drawing.Point(17, 19);
 			this.radioReturn.Name = "radioReturn";
-			this.radioReturn.Size = new System.Drawing.Size(59, 18);
+			this.radioReturn.Size = new System.Drawing.Size(59, 22);
 			this.radioReturn.TabIndex = 0;
 			this.radioReturn.Text = "Return";
 			this.radioReturn.UseVisualStyleBackColor = true;
