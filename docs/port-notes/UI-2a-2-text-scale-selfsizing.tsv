@@ -1,0 +1,70 @@
+window	build	control	type	scale	what	other	bounds_before	bounds_after	verdict
+CentralManager.FormCentralManager	PlainWindow	groupBox1/textClinicSearch	System.Windows.Forms.TextBox	1	overlap	groupBox1/textConnSearch	71,37,157x20	71,37,157x23	fixable
+CentralManager.FormCentralManager	PlainWindow	groupBox1/textClinicSearch	System.Windows.Forms.TextBox	1	overlap	groupBox1/textProviderSearch	71,37,157x20	71,37,157x23	fixable
+CentralManager.FormCentralManager	PlainWindow	groupBox2/textAddress	System.Windows.Forms.TextBox	1	overlap	groupBox2/textCity	123,92,90x20	123,92,90x23	fixable
+CentralManager.FormCentralManager	PlainWindow	groupBox2/textAddress	System.Windows.Forms.TextBox	1	overlap	groupBox2/textPhone	123,92,90x20	123,92,90x23	fixable
+CentralManager.FormCentralManager	PlainWindow	groupBox2/textBirthdate	System.Windows.Forms.TextBox	1	overlap	groupBox2/textSubscriberID	123,212,90x20	123,212,90x23	fixable
+CentralManager.FormCentralManager	PlainWindow	groupBox2/textBirthdate	System.Windows.Forms.TextBox	1	overlap	groupBox2/textChartNumber	123,212,90x20	123,212,90x23	fixable
+CentralManager.FormCentralManager	PlainWindow	groupBox2/textChartNumber	System.Windows.Forms.TextBox	1	overlap	groupBox2/textPatNum	123,192,90x20	123,192,90x23	fixable
+CentralManager.FormCentralManager	PlainWindow	groupBox2/textCity	System.Windows.Forms.TextBox	1	overlap	groupBox2/textState	123,112,90x20	123,112,90x23	fixable
+CentralManager.FormCentralManager	PlainWindow	groupBox2/textClinicPatSearch	System.Windows.Forms.TextBox	1	overlap	groupBox2/textConnPatSearch	123,312,90x20	123,312,90x23	fixable
+CentralManager.FormCentralManager	PlainWindow	groupBox2/textConnPatSearch	System.Windows.Forms.TextBox	1	overlap	groupBox2/label18	123,292,90x20	123,292,90x23	fixable
+CentralManager.FormCentralManager	PlainWindow	groupBox2/textConnPatSearch	System.Windows.Forms.TextBox	1	overlap	groupBox2/textCountry	123,292,90x20	123,292,90x23	fixable
+CentralManager.FormCentralManager	PlainWindow	groupBox2/textCountry	System.Windows.Forms.TextBox	1	overlap	groupBox2/label14	123,272,90x20	123,272,90x23	fixable
+CentralManager.FormCentralManager	PlainWindow	groupBox2/textCountry	System.Windows.Forms.TextBox	1	overlap	groupBox2/textEmail	123,272,90x20	123,272,90x23	fixable
+CentralManager.FormCentralManager	PlainWindow	groupBox2/textEmail	System.Windows.Forms.TextBox	1	overlap	groupBox2/labelCountry	123,252,90x20	123,252,90x23	fixable
+CentralManager.FormCentralManager	PlainWindow	groupBox2/textEmail	System.Windows.Forms.TextBox	1	overlap	groupBox2/textSubscriberID	123,252,90x20	123,252,90x23	fixable
+CentralManager.FormCentralManager	PlainWindow	groupBox2/textFName	System.Windows.Forms.TextBox	1	overlap	groupBox2/textPhone	123,52,90x20	123,52,90x23	fixable
+CentralManager.FormCentralManager	PlainWindow	groupBox2/textFName	System.Windows.Forms.TextBox	1	overlap	groupBox2/textLName	123,52,90x20	123,52,90x23	fixable
+CentralManager.FormCentralManager	PlainWindow	groupBox2/textPatNum	System.Windows.Forms.TextBox	1	overlap	groupBox2/textSSN	123,172,90x20	123,172,90x23	fixable
+CentralManager.FormCentralManager	PlainWindow	groupBox2/textSSN	System.Windows.Forms.TextBox	1	overlap	groupBox2/textState	123,152,90x20	123,152,90x23	fixable
+CentralManager.FormCentralPatientSearch	PlainWindow	groupBox2/textAddress	System.Windows.Forms.TextBox	1	overlap	groupBox2/textCity	123,92,90x20	123,92,90x23	fixable
+CentralManager.FormCentralPatientSearch	PlainWindow	groupBox2/textAddress	System.Windows.Forms.TextBox	1	overlap	groupBox2/textPhone	123,92,90x20	123,92,90x23	fixable
+CentralManager.FormCentralPatientSearch	PlainWindow	groupBox2/textBirthdate	System.Windows.Forms.TextBox	1	overlap	groupBox2/textSubscriberID	123,212,90x20	123,212,90x23	fixable
+CentralManager.FormCentralPatientSearch	PlainWindow	groupBox2/textBirthdate	System.Windows.Forms.TextBox	1	overlap	groupBox2/textChartNumber	123,212,90x20	123,212,90x23	fixable
+CentralManager.FormCentralPatientSearch	PlainWindow	groupBox2/textChartNumber	System.Windows.Forms.TextBox	1	overlap	groupBox2/textPatNum	123,192,90x20	123,192,90x23	fixable
+CentralManager.FormCentralPatientSearch	PlainWindow	groupBox2/textCity	System.Windows.Forms.TextBox	1	overlap	groupBox2/textState	123,112,90x20	123,112,90x23	fixable
+CentralManager.FormCentralPatientSearch	PlainWindow	groupBox2/textConn	System.Windows.Forms.TextBox	1	overlap	groupBox2/textCountry	123,292,90x20	123,292,90x23	fixable
+CentralManager.FormCentralPatientSearch	PlainWindow	groupBox2/textCountry	System.Windows.Forms.TextBox	1	overlap	groupBox2/label14	123,272,90x20	123,272,90x23	fixable
+CentralManager.FormCentralPatientSearch	PlainWindow	groupBox2/textCountry	System.Windows.Forms.TextBox	1	overlap	groupBox2/textEmail	123,272,90x20	123,272,90x23	fixable
+CentralManager.FormCentralPatientSearch	PlainWindow	groupBox2/textEmail	System.Windows.Forms.TextBox	1	overlap	groupBox2/labelCountry	123,252,90x20	123,252,90x23	fixable
+CentralManager.FormCentralPatientSearch	PlainWindow	groupBox2/textEmail	System.Windows.Forms.TextBox	1	overlap	groupBox2/textSubscriberID	123,252,90x20	123,252,90x23	fixable
+CentralManager.FormCentralPatientSearch	PlainWindow	groupBox2/textFName	System.Windows.Forms.TextBox	1	overlap	groupBox2/textPhone	123,52,90x20	123,52,90x23	fixable
+CentralManager.FormCentralPatientSearch	PlainWindow	groupBox2/textFName	System.Windows.Forms.TextBox	1	overlap	groupBox2/textLName	123,52,90x20	123,52,90x23	fixable
+CentralManager.FormCentralPatientSearch	PlainWindow	groupBox2/textPatNum	System.Windows.Forms.TextBox	1	overlap	groupBox2/textSSN	123,172,90x20	123,172,90x23	fixable
+CentralManager.FormCentralPatientSearch	PlainWindow	groupBox2/textSSN	System.Windows.Forms.TextBox	1	overlap	groupBox2/textState	123,152,90x20	123,152,90x23	fixable
+MySQLManager.FormMySQLUserManager	PlainWindow	groupConnection/textUser	System.Windows.Forms.TextBox	1	overlap	groupConnection/label2	307,34,280x20	307,34,280x23	fixable
+OpenPmsDental.FormCentralChooseDatabase	PlainWindow	checkAutoLogin	System.Windows.Forms.CheckBox	1	overlap	butOK	24,205,142x18	24,201,173x22	needs the owner
+OpenPmsDental.FormCentralChooseDatabase	PlainWindow	groupServer/textUser2	System.Windows.Forms.TextBox	1	overlap	groupServer/label10	13,108,309x20	13,108,309x23	fixable
+OpenPmsDentalGraph.BrokenApptGraphOptionsCtrl	UserControlPlain	groupBox3/comboAdjType	System.Windows.Forms.ComboBox	1	overlap	groupBox3/radioRunAdjs	100,100,214x21	100,100,214x25	fixable
+OpenPmsDentalGraph.BrokenApptGraphOptionsCtrl	UserControlPlain	groupBox3/comboBrokenProcType	System.Windows.Forms.ComboBox	1	overlap	groupBox3/label2	100,37,214x21	100,37,214x25	needs the owner
+OpenPmsDentalGraph.BrokenApptGraphOptionsCtrl	UserControlPlain	groupBox3/comboBrokenProcType	System.Windows.Forms.ComboBox	1	overlap	groupBox3/radioRunApts	100,37,214x21	100,37,214x25	needs the owner
+OpenPmsDentalGraph.BrokenApptGraphOptionsCtrl	UserControlPlain	groupBox3/comboBrokenProcType	System.Windows.Forms.ComboBox	1	overlap	groupBox3/radioRunProcs	100,37,214x21	100,37,214x25	needs the owner
+OpenPmsDentalGraph.BrokenApptGraphOptionsCtrl	UserControlPlain	groupBox3/radioRunAdjs	System.Windows.Forms.RadioButton	1	overlap	groupBox3/label3	6,80,85x18	6,80,101x22	needs the owner
+OpenPmsDentalGraph.BrokenApptGraphOptionsCtrl	UserControlPlain	groupBox3/radioRunAdjs	System.Windows.Forms.RadioButton	1	overlap	groupBox3/radioRunApts	6,80,85x18	6,80,101x22	needs the owner
+OpenPmsDentalGraph.BrokenApptGraphOptionsCtrl	UserControlPlain	groupBox3/radioRunApts	System.Windows.Forms.RadioButton	1	overlap	groupBox3/label3	6,59,92x18	6,59,110x22	needs the owner
+OpenPmsDentalGraph.BrokenApptGraphOptionsCtrl	UserControlPlain	groupBox3/radioRunProcs	System.Windows.Forms.RadioButton	1	overlap	groupBox3/label1	6,17,80x18	6,17,95x22	needs the owner
+OpenPmsDentalGraph.FormPrintImage	PlainWindow	splitContainer/#0:SplitterPanel/groupChartPosition/textXPos	System.Windows.Forms.TextBox	1	overlap	splitContainer/#0:SplitterPanel/groupChartPosition/textYPos	76,19,53x20	76,19,53x23	fixable
+OpenPmsDentalGraph.FormPrintImage	PlainWindow	splitContainer/#0:SplitterPanel/groupChartSize/textHeight	System.Windows.Forms.TextBox	1	overlap	splitContainer/#0:SplitterPanel/groupChartSize/textWidth	76,41,53x20	76,41,53x23	fixable
+OpenPmsDentalGraph.FormPrintImage	PlainWindow	splitContainer/#0:SplitterPanel/groupMargins/textMarginHeight	System.Windows.Forms.TextBox	1	overlap	splitContainer/#0:SplitterPanel/groupMargins/textMarginWidth	76,41,53x20	76,41,53x23	fixable
+OpenPmsDentalGraph.FormPrintSettings	PlainWindow	splitContainer/#0:SplitterPanel/groupBox1/textHeight	System.Windows.Forms.TextBox	1	overlap	splitContainer/#0:SplitterPanel/groupBox1/textWidth	76,41,53x20	76,41,53x23	fixable
+OpenPmsDentalGraph.FormPrintSettings	PlainWindow	splitContainer/#0:SplitterPanel/groupBox2/textMarginHeight	System.Windows.Forms.TextBox	1	overlap	splitContainer/#0:SplitterPanel/groupBox2/textMarginWidth	76,41,53x20	76,41,53x23	fixable
+OpenPmsDentalGraph.FormPrintSettings	PlainWindow	splitContainer/#0:SplitterPanel/groupBox3/textXPos	System.Windows.Forms.TextBox	1	overlap	splitContainer/#0:SplitterPanel/groupBox3/textYPos	76,19,53x20	76,19,53x23	fixable
+OpenPmsDentalGraph.GraphIncome	UserControlPlain	groupBox1/checkShowDailyLabels	System.Windows.Forms.CheckBox	1	overlap	groupBox1/checkShowGroupLabels	6,18,116x18	6,18,140x22	needs the owner
+OpenPmsDentalGraph.GraphIncome	UserControlPlain	groupBox1/checkShowGroupLabels	System.Windows.Forms.CheckBox	1	overlap	groupBox1/label2	134,18,122x18	134,18,148x22	needs the owner
+OpenPmsDentalGraph.GraphIncome	UserControlPlain	groupBox1/label2	System.Windows.Forms.Label	1	overlap	groupBox1/numberDailyLabelDensity	259,20,104x17	259,20,130x21	needs the owner
+OpenPmsDentalGraph.GraphIncome	UserControlPlain	groupBox2/dateTimeFrom	System.Windows.Forms.DateTimePicker	1	overlap	groupBox2/label5	48,16,113x20	48,16,113x23	fixable
+OpenPmsDentalGraph.GraphQuantityOverTime	UserControlPlain	splitContainerMain/#0:SplitterPanel/groupBox1/comboChartType	System.Windows.Forms.ComboBox	1	overlap	splitContainerMain/#0:SplitterPanel/groupBox1/comboGroupBy	83,44,137x21	83,44,137x25	needs the owner
+OpenPmsDentalGraph.GraphQuantityOverTimeFilter	UserControlPlain	splitContainer/#1:SplitterPanel/graph/splitContainerMain/#0:SplitterPanel/groupBox1/comboChartType	System.Windows.Forms.ComboBox	1	overlap	splitContainer/#1:SplitterPanel/graph/splitContainerMain/#0:SplitterPanel/groupBox1/comboGroupBy	83,44,137x21	83,44,137x25	needs the owner
+OpenPmsDentalHL7.FormDebug	PlainWindow	label2	System.Windows.Forms.Label	1	overlap	textServerName	115,74,71x17	115,74,88x21	needs the owner
+OpenPmsDentalHL7.FormDebug	PlainWindow	label3	System.Windows.Forms.Label	1	overlap	textDatabaseName	100,100,86x17	100,100,107x21	needs the owner
+OpenPmsDentalHL7.FormDebug	PlainWindow	label4	System.Windows.Forms.Label	1	overlap	textHL7Name	87,48,99x17	87,48,124x21	needs the owner
+fyiReporting.RdlDesign.ChartAxisCtl	UserControlPlain	cbMajorTickMarks	System.Windows.Forms.ComboBox	1	overlap	groupBox1	128,8,80x21	128,8,80x25	needs the owner
+fyiReporting.RdlDesign.ChartAxisCtl	UserControlPlain	cbMinorTickMarks	System.Windows.Forms.ComboBox	1	overlap	groupBox1	336,8,80x21	336,8,80x25	needs the owner
+fyiReporting.RdlDesign.DataSetsCtl	UserControlPlain	cbDataSource	System.Windows.Forms.ComboBox	1	overlap	tbTimeout	296,8,144x21	296,8,144x25	needs the owner
+fyiReporting.RdlDesign.DialogNewTable	PlainWindow	cbDataSets	System.Windows.Forms.ComboBox	1	overlap	groupBox1	80,16,360x21	80,16,360x25	needs the owner
+fyiReporting.RdlDesign.ReportParameterCtl	UserControlPlain	cbParmType	System.Windows.Forms.ComboBox	1	overlap	tbParmPrompt	368,16,80x21	368,16,80x25	needs the owner
+fyiReporting.RdlDesign.ReportParameterCtl	UserControlPlain	groupBox1/cbValidDisplayField	System.Windows.Forms.ComboBox	1	parent-edge		312,72,112x21	312,72,112x25	needs the owner
+fyiReporting.RdlDesign.StyleTextCtl	UserControlPlain	cbValue	System.Windows.Forms.ComboBox	1	overlap	groupBox1	64,16,344x21	64,16,344x25	needs the owner
+fyiReporting.RdlDesign.TableCtl	UserControlPlain	cbDataSet	System.Windows.Forms.ComboBox	1	overlap	tbNoRows	120,16,304x21	120,16,304x25	needs the owner
+xCrudGenerator.Form1	PlainWindow	textPassword	System.Windows.Forms.TextBox	1	overlap	label9	105,62,127x20	105,62,127x23	fixable
