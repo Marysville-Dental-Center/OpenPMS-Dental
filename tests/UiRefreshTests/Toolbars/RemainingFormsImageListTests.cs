@@ -46,6 +46,7 @@ namespace UiRefreshTests.Toolbars {
 
 		private const string F="OpenPmsDental/Forms/";
 		private const string EDIT="Sync,Save,DeleteX,Cut,Copy,Paste,Undo,Link,LinkExternal,Heading1,Heading2,Heading3,Bold,Italic,TextColor,Table,Image,TextFont,SaveDraft,Settings";
+		private const string EDIT_LIST="Sync,Save,DeleteX,Cut,Copy,Paste,Undo,Link,LinkExternal,Heading1,Heading2,Heading3,Bold,Italic,TextColor,Table,Image,TextFont,SaveDraft";
 		private const string RDL="Print,ArrowLeft,ArrowRight,Export,Pdf,ZoomIn,ZoomOut";
 
 		///<summary>Each list's pictures by today's index (the designers' streams before UI-9b-4) as the icon of each picture's purpose.</summary>
@@ -59,7 +60,7 @@ namespace UiRefreshTests.Toolbars {
 			Spec(F+"FormJournal.cs","ArrayIconsImageList","imageListMain",22,new[] { "ToolBarMain" },"Add,Print,Export"),
 			Spec(F+"FormTPsign.cs","ArrayIconsImageList","imageListMain",22,new[] { "ToolBarMain" },"Print,ArrowLeft,ArrowRight"),
 			Spec(F+"FormEmailEdit.cs","ArrayIconsImageList","imageListMain",22,new[] { "toolBarTop","toolBarBottom" },EDIT),
-			Spec(F+"FormWikiEdit.cs","ArrayIconsImageList","imageListMain",22,new[] { "ToolBarMain","toolBar2" },EDIT+",LockOpen,LockClosed"),
+			Spec(F+"FormWikiEdit.cs","ArrayIconsImageList","imageListMain",22,new[] { "ToolBarMain","toolBar2" },EDIT_LIST+",LockOpen,LockClosed"),
 			Spec(F+"FormWiki.cs","ArrayIconsImageList","imageListMain",22,new[] { "ToolBarMain" },"ArrowLeft,ArrowRight,Settings,Home,Edit,Print,Rename,Archive,History,Import,Add,Copy,Search,ListBullets,NewDocument"),
 			Spec(F+"FormRecordAudio.cs","ArrayIconsImageList","imageListMain",22,new string[0],"Record,Stop"),
 			Spec(F+"FormEtrans835s.cs","ArrayIconsImageListCalendar","imageListCalendar",10,new string[0],"ChevronDown,ChevronUp"),

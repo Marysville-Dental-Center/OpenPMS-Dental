@@ -11,7 +11,7 @@ using System.Linq;
 namespace OpenPmsDental {
 	public partial class FormWikiEdit:FormODBase {
 		///<summary>The pictures of the window's toolbar ImageList by index (UI-9b-4, docs/port-notes/UI-9b.md, section 5): the purposes of today's ImageIndex pictures in their order, as icons (ToolBarOD.SetImageListIcons), so a plug-in's button set by ImageIndex still shows the same purpose.</summary>
-		public static readonly EnumIcons[] ArrayIconsImageList=new EnumIcons[] { EnumIcons.Sync,EnumIcons.Save,EnumIcons.DeleteX,EnumIcons.Cut,EnumIcons.Copy,EnumIcons.Paste,EnumIcons.Undo,EnumIcons.Link,EnumIcons.LinkExternal,EnumIcons.Heading1,EnumIcons.Heading2,EnumIcons.Heading3,EnumIcons.Bold,EnumIcons.Italic,EnumIcons.TextColor,EnumIcons.Table,EnumIcons.Image,EnumIcons.TextFont,EnumIcons.SaveDraft,EnumIcons.Settings,EnumIcons.LockOpen,EnumIcons.LockClosed };
+		public static readonly EnumIcons[] ArrayIconsImageList=new EnumIcons[] { EnumIcons.Sync,EnumIcons.Save,EnumIcons.DeleteX,EnumIcons.Cut,EnumIcons.Copy,EnumIcons.Paste,EnumIcons.Undo,EnumIcons.Link,EnumIcons.LinkExternal,EnumIcons.Heading1,EnumIcons.Heading2,EnumIcons.Heading3,EnumIcons.Bold,EnumIcons.Italic,EnumIcons.TextColor,EnumIcons.Table,EnumIcons.Image,EnumIcons.TextFont,EnumIcons.SaveDraft,EnumIcons.LockOpen,EnumIcons.LockClosed };
 		public WikiPage WikiPageCur=new WikiPage();
 		///<summary>Need a reference to the form where this was launched from so that we can tell it to refresh later.</summary>
 		public FormWiki FormWiki_;
@@ -206,10 +206,10 @@ namespace OpenPmsDental {
 			ToolBarMain.Buttons.Add(new ODToolBarButton(ODToolBarButtonStyle.Separator));
 			if(Security.IsAuthorized(EnumPermType.WikiAdmin,true)) {
 				if(WikiPageCur.IsLocked) {
-					ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Unlock"),EnumIcons.Settings,"","Lock"));
+					ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Unlock"),EnumIcons.LockOpen,"","Lock"));
 				}
 				else {
-					ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Lock"),EnumIcons.LockOpen,"","Lock"));
+					ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Lock"),EnumIcons.LockClosed,"","Lock"));
 				}
 			}
 			toolBar2.Buttons.Clear();
@@ -275,12 +275,12 @@ namespace OpenPmsDental {
 					if(WikiPageCur.IsLocked) {
 						//The wiki page is was locked, switch the icon to the unlock symbol because they locked it.
 						e.Button.Text=Lan.g(this,"Unlock");
-						e.Button.Icon=EnumIcons.Settings;
+						e.Button.Icon=EnumIcons.LockOpen;
 					}
 					else {
 						//The wiki page is was unlocked, switch the icon to the lock symbol because they unlocked it.
 						e.Button.Text=Lan.g(this,"Lock");
-						e.Button.Icon=EnumIcons.LockOpen;
+						e.Button.Icon=EnumIcons.LockClosed;
 					}
 					ToolBarMain.Invalidate();
 					break;
