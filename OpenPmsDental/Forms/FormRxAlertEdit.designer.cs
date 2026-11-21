@@ -58,7 +58,7 @@ namespace OpenPmsDental{
 			// 
 			this.labelMessage.Location = new System.Drawing.Point(11, 158);
 			this.labelMessage.Name = "labelMessage";
-			this.labelMessage.Size = new System.Drawing.Size(297, 20);
+			this.labelMessage.Size = new System.Drawing.Size(301, 20);
 			this.labelMessage.TabIndex = 9;
 			this.labelMessage.Text = "Or this alternate custom message may be shown instead";
 			this.labelMessage.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -114,7 +114,7 @@ namespace OpenPmsDental{
 			// 
 			this.label1.Location = new System.Drawing.Point(56, 130);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(252, 20);
+			this.label1.Size = new System.Drawing.Size(254, 20);
 			this.label1.TabIndex = 13;
 			this.label1.Text = "Then the user will see a default alert message.";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

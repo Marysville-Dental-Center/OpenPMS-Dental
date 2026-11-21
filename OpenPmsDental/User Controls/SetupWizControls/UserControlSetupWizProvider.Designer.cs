@@ -75,7 +75,7 @@
 			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.label1.Location = new System.Drawing.Point(794, 401);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(129, 77);
+			this.label1.Size = new System.Drawing.Size(129, 80);
 			this.label1.TabIndex = 29;
 			this.label1.Text = "Further modifications to this list can be made by going from Lists -> Providers o" +
     "r clicking \'Advanced\'.";
@@ -96,7 +96,7 @@
 			// 
 			this.label8.Location = new System.Drawing.Point(20, 7);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(590, 45);
+			this.label8.Size = new System.Drawing.Size(590, 48);
 			this.label8.TabIndex = 27;
 			this.label8.Text = resources.GetString("label8.Text");
 			this.label8.TextAlign = System.Drawing.ContentAlignment.BottomLeft;

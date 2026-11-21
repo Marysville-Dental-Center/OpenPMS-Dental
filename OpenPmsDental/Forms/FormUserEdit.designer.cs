@@ -125,7 +125,7 @@ namespace OpenPmsDental {
 			this.labelBadgeInstruction.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelBadgeInstruction.Location = new System.Drawing.Point(125, 50);
 			this.labelBadgeInstruction.Name = "labelBadgeInstruction";
-			this.labelBadgeInstruction.Size = new System.Drawing.Size(84, 20);
+			this.labelBadgeInstruction.Size = new System.Drawing.Size(85, 20);
 			this.labelBadgeInstruction.TabIndex = 270;
 			this.labelBadgeInstruction.Text = "8 digits or less";
 			this.labelBadgeInstruction.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -160,7 +160,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelAutoLogoff.Location = new System.Drawing.Point(425, 49);
 			this.labelAutoLogoff.Name = "labelAutoLogoff";
-			this.labelAutoLogoff.Size = new System.Drawing.Size(143, 47);
+			this.labelAutoLogoff.Size = new System.Drawing.Size(143, 52);
 			this.labelAutoLogoff.TabIndex = 266;
 			this.labelAutoLogoff.Text = "Automatic logoff time in minutes (0 is disabled, blank is global value)";
 			this.labelAutoLogoff.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -261,7 +261,7 @@ namespace OpenPmsDental {
 			this.checkIsHidden.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkIsHidden.Location = new System.Drawing.Point(493, 31);
 			this.checkIsHidden.Name = "checkIsHidden";
-			this.checkIsHidden.Size = new System.Drawing.Size(104, 16);
+			this.checkIsHidden.Size = new System.Drawing.Size(104, 18);
 			this.checkIsHidden.TabIndex = 163;
 			this.checkIsHidden.Text = "Is Hidden";
 			// 

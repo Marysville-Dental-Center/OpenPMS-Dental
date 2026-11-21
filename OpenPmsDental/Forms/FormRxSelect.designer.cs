@@ -55,7 +55,7 @@ namespace OpenPmsDental {
 			this.labelInstructions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.labelInstructions.Location = new System.Drawing.Point(9, 643);
 			this.labelInstructions.Name = "labelInstructions";
-			this.labelInstructions.Size = new System.Drawing.Size(470, 16);
+			this.labelInstructions.Size = new System.Drawing.Size(470, 18);
 			this.labelInstructions.TabIndex = 15;
 			this.labelInstructions.Text = "Please select a Prescription from the list or click Blank to start with a blank p" +
     "rescription.";
@@ -113,7 +113,7 @@ namespace OpenPmsDental {
 			// 
 			this.label2.Location = new System.Drawing.Point(8, 67);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(100, 16);
+			this.label2.Size = new System.Drawing.Size(100, 17);
 			this.label2.TabIndex = 4;
 			this.label2.Text = "Disp";
 			// 
@@ -121,7 +121,7 @@ namespace OpenPmsDental {
 			// 
 			this.label1.Location = new System.Drawing.Point(8, 25);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(100, 16);
+			this.label1.Size = new System.Drawing.Size(100, 17);
 			this.label1.TabIndex = 3;
 			this.label1.Text = "Drug";
 			// 

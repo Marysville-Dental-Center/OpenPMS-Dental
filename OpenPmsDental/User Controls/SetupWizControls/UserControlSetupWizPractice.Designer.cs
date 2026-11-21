@@ -134,7 +134,7 @@
 			// 
 			this.label2.Location = new System.Drawing.Point(4, 73);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(98, 15);
+			this.label2.Size = new System.Drawing.Size(98, 18);
 			this.label2.TabIndex = 8;
 			this.label2.Text = "City";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -143,7 +143,7 @@
 			// 
 			this.label1.Location = new System.Drawing.Point(4, 100);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(98, 15);
+			this.label1.Size = new System.Drawing.Size(98, 18);
 			this.label1.TabIndex = 7;
 			this.label1.Text = "State";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -152,7 +152,7 @@
 			// 
 			this.label6.Location = new System.Drawing.Point(4, 127);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(98, 15);
+			this.label6.Size = new System.Drawing.Size(98, 18);
 			this.label6.TabIndex = 6;
 			this.label6.Text = "Zip Code";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -205,7 +205,7 @@
 			// 
 			this.label5.Location = new System.Drawing.Point(4, 19);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(98, 14);
+			this.label5.Size = new System.Drawing.Size(98, 18);
 			this.label5.TabIndex = 0;
 			this.label5.Text = "Address";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

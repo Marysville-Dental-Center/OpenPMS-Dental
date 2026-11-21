@@ -44,7 +44,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelLicenseAgree.Location = new System.Drawing.Point(12, 26);
 			this.labelLicenseAgree.Name = "labelLicenseAgree";
-			this.labelLicenseAgree.Size = new System.Drawing.Size(150, 13);
+			this.labelLicenseAgree.Size = new System.Drawing.Size(150, 17);
 			this.labelLicenseAgree.TabIndex = 6;
 			this.labelLicenseAgree.Text = "License Agreement";
 			this.labelLicenseAgree.TextAlign = System.Drawing.ContentAlignment.BottomLeft;

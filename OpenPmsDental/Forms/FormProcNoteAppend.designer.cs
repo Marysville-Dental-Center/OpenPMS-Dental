@@ -76,6 +76,7 @@ namespace OpenPmsDental{
 			// 
 			// textUser
 			// 
+			this.textUser.AutoSize = false;
 			this.textUser.Location = new System.Drawing.Point(112, 18);
 			this.textUser.Name = "textUser";
 			this.textUser.ReadOnly = true;
@@ -110,7 +111,7 @@ namespace OpenPmsDental{
 			// 
 			this.label7.Location = new System.Drawing.Point(24, 42);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(86, 16);
+			this.label7.Size = new System.Drawing.Size(86, 18);
 			this.label7.TabIndex = 109;
 			this.label7.Text = "Original Note";
 			this.label7.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -134,7 +135,7 @@ namespace OpenPmsDental{
 			// 
 			this.label1.Location = new System.Drawing.Point(7, 212);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(103, 16);
+			this.label1.Size = new System.Drawing.Size(103, 18);
 			this.label1.TabIndex = 114;
 			this.label1.Text = "Appended Note";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.TopRight;

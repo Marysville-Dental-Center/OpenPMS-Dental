@@ -52,7 +52,7 @@ namespace OpenPmsDental{
 			// 
 			this.labelWarning.Location = new System.Drawing.Point(9, 17);
 			this.labelWarning.Name = "labelWarning";
-			this.labelWarning.Size = new System.Drawing.Size(704, 63);
+			this.labelWarning.Size = new System.Drawing.Size(704, 65);
 			this.labelWarning.TabIndex = 69;
 			this.labelWarning.Text = resources.GetString("labelWarning.Text");
 			// 

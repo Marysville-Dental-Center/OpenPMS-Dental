@@ -71,7 +71,7 @@ namespace OpenPmsDental {
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butDelete.Location = new System.Drawing.Point(18, 657);
 			this.butDelete.Name = "butDelete";
-			this.butDelete.Size = new System.Drawing.Size(111, 24);
+			this.butDelete.Size = new System.Drawing.Size(112, 24);
 			this.butDelete.TabIndex = 11;
 			this.butDelete.Text = "Delete Selected";
 			this.butDelete.Click += new System.EventHandler(this.butDelete_Click);

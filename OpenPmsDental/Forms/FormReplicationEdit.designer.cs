@@ -49,7 +49,7 @@ namespace OpenPmsDental{
 			// 
 			this.label1.Location = new System.Drawing.Point(340, 49);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(327, 48);
+			this.label1.Size = new System.Drawing.Size(327, 52);
 			this.label1.TabIndex = 60;
 			this.label1.Text = "this also needs to be set in the my.ini file on each server.  If the my.ini file " +
     "gets changed, be sure to restart the server and each workstation client.";
@@ -156,7 +156,7 @@ namespace OpenPmsDental{
 			this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label8.Location = new System.Drawing.Point(418, 141);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(258, 13);
+			this.label8.Size = new System.Drawing.Size(258, 17);
 			this.label8.TabIndex = 101;
 			this.label8.Text = "Range must be at least 1,000,000 numbers.";
 			// 
@@ -194,7 +194,7 @@ namespace OpenPmsDental{
 			// 
 			this.label11.Location = new System.Drawing.Point(258, 248);
 			this.label11.Name = "label11";
-			this.label11.Size = new System.Drawing.Size(368, 62);
+			this.label11.Size = new System.Drawing.Size(368, 65);
 			this.label11.TabIndex = 104;
 			this.label11.Text = resources.GetString("label11.Text");
 			// 

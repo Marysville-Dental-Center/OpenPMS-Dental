@@ -43,7 +43,7 @@ namespace OpenPmsDental {
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelIntro.Location = new System.Drawing.Point(12, 9);
 			this.labelIntro.Name = "labelIntro";
-			this.labelIntro.Size = new System.Drawing.Size(1076, 32);
+			this.labelIntro.Size = new System.Drawing.Size(1088, 32);
 			this.labelIntro.TabIndex = 0;
 			this.labelIntro.Text = "The first successful connection to an SSH server stores its host key. A server that later presents another key is refused before the user name and password are sent, and the key it presented shows under Changed Key Refused.";
 			//

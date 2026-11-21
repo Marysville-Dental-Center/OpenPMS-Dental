@@ -55,7 +55,7 @@ namespace OpenPmsDental {
 			this.checkRunAging.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.checkRunAging.Location = new System.Drawing.Point(12, 210);
 			this.checkRunAging.Name = "checkRunAging";
-			this.checkRunAging.Size = new System.Drawing.Size(290, 17);
+			this.checkRunAging.Size = new System.Drawing.Size(290, 18);
 			this.checkRunAging.TabIndex = 4;
 			this.checkRunAging.Text = "Run aging on accounts after posting charges.";
 			this.checkRunAging.CheckedChanged += new System.EventHandler(this.checkRunAging_CheckedChanged);
@@ -66,7 +66,7 @@ namespace OpenPmsDental {
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelDescription.Location = new System.Drawing.Point(12, 13);
 			this.labelDescription.Name = "labelDescription";
-			this.labelDescription.Size = new System.Drawing.Size(496, 182);
+			this.labelDescription.Size = new System.Drawing.Size(496, 188);
 			this.labelDescription.TabIndex = 5;
 			this.labelDescription.Text = resources.GetString("labelDescription.Text");
 			// 

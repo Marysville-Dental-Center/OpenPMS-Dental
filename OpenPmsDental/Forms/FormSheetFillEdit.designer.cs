@@ -141,7 +141,7 @@ namespace OpenPmsDental{
 			this.labelDescription.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.labelDescription.Location = new System.Drawing.Point(10, 630);
 			this.labelDescription.Name = "labelDescription";
-			this.labelDescription.Size = new System.Drawing.Size(147, 16);
+			this.labelDescription.Size = new System.Drawing.Size(147, 18);
 			this.labelDescription.TabIndex = 85;
 			this.labelDescription.Text = "Description";
 			this.labelDescription.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -159,6 +159,7 @@ namespace OpenPmsDental{
 			// textDateTime
 			// 
 			this.textDateTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.textDateTime.AutoSize = false;
 			this.textDateTime.Location = new System.Drawing.Point(13, 608);
 			this.textDateTime.Name = "textDateTime";
 			this.textDateTime.Size = new System.Drawing.Size(144, 20);

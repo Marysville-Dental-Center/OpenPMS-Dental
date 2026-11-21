@@ -279,6 +279,7 @@
 			// 
 			this.textBeta.AcceptsReturn = true;
 			this.textBeta.BackColor = System.Drawing.SystemColors.Window;
+			this.textBeta.AutoSize = false;
 			this.textBeta.Location = new System.Drawing.Point(6, 47);
 			this.textBeta.Name = "textBeta";
 			this.textBeta.ReadOnly = true;
