@@ -411,6 +411,81 @@ namespace UiRefreshTests.Toolbars {
 			});
 		}
 
+		///<summary>Sets the toolbar's width to its buttons (the UI-9b-4 fix, docs/port-notes/UI-9b.md, section 5.8): the buttons are laid out by a
+		///draw (ToolBarOD measures them when it paints), then the width is the last button's right edge and 10 px at the scale. The first gallery gave
+		///each strip 10 + 40 px per button at 96 DPI, which the two-digit labels outgrow: the wiki's last button was cut and the editors' last one
+		///(20 and 21 buttons) left out of the picture.</summary>
+		public static void FitToButtons(ToolBarOD toolBarOD,float scale) {
+			using(Bitmap bitmap=ToolBarPictureTests.Draw(toolBarOD)) {
+				//laid out
+			}
+			int right=0;
+			for(int i=0;i<toolBarOD.Buttons.Count;i++) {
+				right=Math.Max(right,toolBarOD.Buttons[i].Bounds.Right);
+			}
+			toolBarOD.Width=right+UiTheme.ScaleI(10,scale);
+		}
+
+		///<summary>The gallery's strips hold every button (the UI-9b-4 fix: the first gallery cut the wiki's and the editors' last buttons), and the real
+		///wiki toolbar, with every button its LayoutToolBar adds (the read-only copy included) and today's labels, fits the window's designer width
+		///(944 px at 96 DPI, docked) at 100, 150 and 200%: the cut was the picture's, not the window's.</summary>
+		[TestMethod]
+		public void GalleryStrips_HoldEveryButton_AndTheWikiToolbarFitsItsWindow_At100_150_200() {
+			IconRendererTests.RunSta(() => {
+				NoDatabaseGuard.Install();
+				UiTheme.InitWinForms();
+				foreach(float scale in ArrayScales) {
+					foreach(ListSpec spec in ArrayLists.Where(x => x.Toolbars.Length>0)) {
+						EnumIcons[] arrayIcons=spec.Order.Select(x => (EnumIcons)Enum.Parse(typeof(EnumIcons),x)).ToArray();
+						using(ToolBarOD toolBarOD=new ToolBarOD()) {
+							toolBarOD.LayoutManager.SetScaleMS(scale);
+							toolBarOD.Font=new Font(UiTheme.FONT_FAMILY_TODAY,8.25f*scale);
+							toolBarOD.Size=new Size(UiTheme.ScaleI(10+arrayIcons.Length*40,scale),UiTheme.ScaleI(ToolBarModel.HEIGHT_TOOLBAR,scale));
+							toolBarOD.SetImageListIcons(arrayIcons);
+							for(int i=0;i<arrayIcons.Length;i++) {
+								toolBarOD.Buttons.Add(new ODToolBarButton(i.ToString(),arrayIcons[i],"",i.ToString()));
+							}
+							FitToButtons(toolBarOD,scale);
+							using(Bitmap bitmap=ToolBarPictureTests.Draw(toolBarOD)) {
+								ODToolBarButton buttonLast=toolBarOD.Buttons[toolBarOD.Buttons.Count-1];
+								Assert.IsTrue(buttonLast.Bounds.Right<=bitmap.Width,spec.File+" at "+GetScaleText(scale)+"%: the last button ends at "+buttonLast.Bounds.Right
+									+", the picture at "+bitmap.Width+".");
+							}
+						}
+					}
+					//The wiki's toolbar as FormWiki.LayoutToolBar makes it (Lists and Read-Only Copy are optional: both added here).
+					using(ToolBarOD toolBarOD=new ToolBarOD()) {
+						toolBarOD.LayoutManager.SetScaleMS(scale);
+						toolBarOD.Font=new Font(UiTheme.FONT_FAMILY,UiTheme.FONT_SIZE_BODY*scale);
+						toolBarOD.Size=new Size(UiTheme.ScaleI(944,scale),UiTheme.ScaleI(25,scale));
+						toolBarOD.SetImageListIcons(FormWiki.ArrayIconsImageList);
+						toolBarOD.Buttons.Add(new ODToolBarButton("Back",EnumIcons.ArrowLeft,"","Back"));
+						toolBarOD.Buttons.Add(new ODToolBarButton("Fwd",EnumIcons.ArrowRight,"","Forward"));
+						toolBarOD.Buttons.Add(new ODToolBarButton("Setup",EnumIcons.Settings,"","Setup"));
+						toolBarOD.Buttons.Add(new ODToolBarButton(ODToolBarButtonStyle.Separator));
+						toolBarOD.Buttons.Add(new ODToolBarButton("Home",EnumIcons.Home,"","Home"));
+						toolBarOD.Buttons.Add(new ODToolBarButton("Edit",EnumIcons.Edit,"","Edit"));
+						toolBarOD.Buttons.Add(new ODToolBarButton("Print",EnumIcons.Print,"","Print"));
+						toolBarOD.Buttons.Add(new ODToolBarButton("Rename",EnumIcons.Rename,"","Rename"));
+						toolBarOD.Buttons.Add(new ODToolBarButton("Archive",EnumIcons.Archive,"","Archive"));
+						toolBarOD.Buttons.Add(new ODToolBarButton("Hist",EnumIcons.History,"","History"));
+						toolBarOD.Buttons.Add(new ODToolBarButton("Drafts",EnumIcons.NewDocument,"","Drafts"));
+						toolBarOD.Buttons.Add(new ODToolBarButton("In-Links",EnumIcons.Import,"","Inc Links"));
+						toolBarOD.Buttons.Add(new ODToolBarButton(ODToolBarButtonStyle.Separator));
+						toolBarOD.Buttons.Add(new ODToolBarButton("Add",EnumIcons.Add,"","Add"));
+						toolBarOD.Buttons.Add(new ODToolBarButton("Lists",EnumIcons.ListBullets,"","Lists"));
+						toolBarOD.Buttons.Add(new ODToolBarButton("Search",EnumIcons.Search,"","Search"));
+						toolBarOD.Buttons.Add(new ODToolBarButton("Read-Only Copy",-1,"","ReadOnlyCopy"));
+						using(Bitmap bitmap=ToolBarPictureTests.Draw(toolBarOD)) {
+							ODToolBarButton buttonLast=toolBarOD.Buttons[toolBarOD.Buttons.Count-1];
+							Assert.IsTrue(buttonLast.Bounds.Right<=toolBarOD.Width,"The wiki toolbar at "+GetScaleText(scale)+"% ends at "+buttonLast.Bounds.Right
+								+", its window at "+toolBarOD.Width+".");
+						}
+					}
+				}
+			});
+		}
+
 		///<summary>The G-UI3 slice's pictures (opt-in): each converted toolbar list as a toolbar with one button for each picture, the grid columns that
 		///show a list's pictures (UI-9b-3's task lists, reminders and setup wizard, and UI-9b-4's info buttons), at 100, 150 and 200%, off screen. The
 		///before set draws the extracted pictures of the old streams (OPMS_UI9B4_OLD_LISTS) for the toolbars and the 96 DPI list for the grids.</summary>
@@ -468,6 +543,7 @@ namespace UiRefreshTests.Toolbars {
 									toolBarOD.Buttons.Add(new ODToolBarButton(i.ToString(),arrayIcons[i],"",i.ToString()));
 								}
 							}
+							FitToButtons(toolBarOD,scale);
 							actionSave("toolbars\\"+window+"-"+scaleText+".png",ToolBarPictureTests.Draw(toolBarOD));
 						}
 					}
