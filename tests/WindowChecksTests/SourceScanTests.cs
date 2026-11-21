@@ -28,8 +28,9 @@ namespace WindowChecksTests {
 			return Path.GetFileName(path).EndsWith(".designer.cs",StringComparison.OrdinalIgnoreCase);
 		}
 
-		///<summary>An ImageList made outside a designer's InitializeComponent sets its ColorDepth in the same file right after it is made (the icon
-		///renderer's UiIcons.GetImageList, UI-7a), and every designer ImageList either loads an ImageStream (the stream carries the images at the
+		///<summary>An ImageList made outside a designer's InitializeComponent is made only by the one icon factory (UI-9b, docs/port-notes/UI-9b.md:
+		///CodeBase's UiIcons.GetImageList, which OpenPmsDental's IconLibrary.GetImageList and ToolBarOD.SetImageListIcons call), and sets its
+		///ColorDepth right after it is made; every designer ImageList either loads an ImageStream (the stream carries the images at the
 		///depth they were stored with) or sets ColorDepth itself. So no ImageList of the program takes the default
 		///ColorDepth that .NET 8 changed: the icon edges of the toolbars and trees are as on the .NET Framework (the pairs of the B and C checks show
 		///them).</summary>
@@ -39,6 +40,9 @@ namespace WindowChecksTests {
 			Regex regexField=new Regex(@"this\.(\w+)\s*=\s*new\s+System\.Windows\.Forms\.ImageList\s*\(");
 			Regex regexCode=new Regex(@"(\w+)\s*=\s*new\s+(System\.Windows\.Forms\.)?ImageList\s*\(\s*\)\s*;");
 			List<string> listOutsideDesigners=new List<string>();
+			//The one icon factory (UI-9b): the only file outside the designers that makes an ImageList.
+			string pathFactory=Path.Combine("CodeBase","UI","Icons","UiIcons.ImageList.cs");
+			int countFactory=0;
 			List<string> listWithoutDepth=new List<string>();
 			int countStream=0;
 			int countDepth=0;
@@ -55,8 +59,11 @@ namespace WindowChecksTests {
 					List<Match> listMatches=regexCode.Matches(code).Cast<Match>().ToList();
 					bool isEachSet=listMatches.Count==countNew && listMatches.All(x => Regex.IsMatch(code.Substring(x.Index+x.Length),
 						@"^\s*"+Regex.Escape(x.Groups[1].Value)+@"\.ColorDepth\s*=\s*ColorDepth\.\w+\s*;"));
-					if(!isEachSet) {
+					if(!isEachSet || !pathShown.Equals(pathFactory,StringComparison.OrdinalIgnoreCase)) {
 						listOutsideDesigners.Add(pathShown);
+					}
+					else {
+						countFactory++;
 					}
 					continue;
 				}
@@ -74,7 +81,9 @@ namespace WindowChecksTests {
 				}
 			}
 			Console.WriteLine("Designer ImageLists: "+countStream+" with an ImageStream, "+countDepth+" with an explicit ColorDepth");
-			Assert.AreEqual("",string.Join(", ",listOutsideDesigners),"ImageLists made outside a designer without setting ColorDepth right after (they take .NET 8's Depth32Bit default)");
+			Assert.AreEqual("",string.Join(", ",listOutsideDesigners),"ImageLists made outside a designer by anything but the icon factory "+pathFactory
+				+" (IconLibrary.GetImageList), or without setting ColorDepth right after (they take .NET 8's Depth32Bit default)");
+			Assert.AreEqual(1,countFactory,"The icon factory "+pathFactory+" makes the ImageLists made in code.");
 			Assert.AreEqual("",string.Join(", ",listWithoutDepth),"Designer ImageLists with neither an ImageStream nor a ColorDepth");
 			Assert.IsTrue(countStream+countDepth>0,"The scan found the designer ImageLists");
 		}

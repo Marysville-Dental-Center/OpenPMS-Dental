@@ -36,6 +36,9 @@ using OpenPmsDental.UI;
 		}
 
 Notice that there are 3 ways to add images. Examples of each are above.
+An ImageIndex picks a picture of the toolbar's ImageList. Since UI-9b a module gives its toolbar a list of icons once (toolBarMain.SetImageListIcons,
+made by IconLibrary.GetImageList at the toolbar's scale) and its own buttons take an EnumIcons; the list stays for the program links (ProgramL) and
+plug-ins, which add pictures by key and set ImageIndex.
 Boilerplate for the new WpfControls.UI.ToolBar is over in ToolBar.xaml.cs
 */
 
@@ -45,6 +48,12 @@ Boilerplate for the new WpfControls.UI.ToolBar is over in ToolBar.xaml.cs
 		#region Fields
 		private ODToolBarButtonCollection buttons=new ODToolBarButtonCollection();
 		private ImageList imageList;
+		///<summary>The icons SetImageListIcons built the ImageList from (UI-9b), or null when the ImageList is a 96 DPI list set by ImageList (a
+		///designer stream). With icons the list is at the toolbar's scale (SIZE_IMAGE_LIST96 scaled) and is built again when the scale changes.</summary>
+		private EnumIcons[] _arrayIconsImageList;
+		///<summary>The size of an ImageList picture at 96 DPI: the module toolbars' 22 px pictures, the same slot an Icon button draws in, so a
+		///button keeps its width when its picture becomes an icon.</summary>
+		public const int SIZE_IMAGE_LIST96=22;
 		private bool _isMouseDown;
 		///<summary>Just holds the scaling factor.</summary>
 		public LayoutManagerForms LayoutManager=new LayoutManagerForms();
@@ -97,6 +106,9 @@ Boilerplate for the new WpfControls.UI.ToolBar is over in ToolBar.xaml.cs
 				_stringFormatLeft?.Dispose();
 				for(int i=0;i<Buttons.Count;i++){
 					Buttons[i].Dispose();
+				}
+				if(_arrayIconsImageList!=null){
+					imageList?.Dispose();//the list of icons SetImageListIcons made is the toolbar's own
 				}
 			}
 			base.Dispose( disposing );
@@ -390,7 +402,9 @@ Boilerplate for the new WpfControls.UI.ToolBar is over in ToolBar.xaml.cs
 
 		protected override Size DefaultSize => new Size(300,25);
 
-		///<summary>Gets or sets the collection of images available to the toolbar buttons.</summary>
+		///<summary>Gets or sets the collection of images available to the toolbar buttons (ImageIndex). A list set here is taken as 96 DPI pictures,
+		///drawn scaled as before; SetImageListIcons gives the toolbar a list of icons at its scale instead (UI-9b). Program links
+		///(ProgramL.LoadToolBar) and plug-ins (the LayoutToolBar_end hooks) add their pictures to this list, by key, and set ImageIndex.</summary>
 		[Category("OD")]
 		[Description("Gets or sets the collection of images available to the toolbar buttons.")]
 		[DefaultValue(null)]
@@ -399,13 +413,67 @@ Boilerplate for the new WpfControls.UI.ToolBar is over in ToolBar.xaml.cs
 				return imageList;
 			}
 			set{
+				if(value!=imageList){
+					_arrayIconsImageList=null;//a list of the caller's: 96 DPI pictures
+				}
 				imageList=value;
 			}
 		}
 		#endregion Properties
 
+		#region Methods - Public
+		///<summary>Gives the toolbar an ImageList of icons (UI-9b, docs/port-notes/UI-9b.md), made by the icon factory IconLibrary.GetImageList at
+		///the toolbar's scaled 22 px slot (SIZE_IMAGE_LIST96), each icon under its member's name as the key. A module passes its pictures' purposes
+		///in today's ImageIndex order, so a button that a plug-in sets by ImageIndex (the LayoutToolBar_end hooks) still shows the same picture's
+		///icon. Program links and plug-ins add their own pictures to ImageList after it, by key, as before; the list draws them at the scale too.
+		///When the scale changes (DPI, zoom) the list is built again at the new size before the next paint, with those added pictures copied over
+		///under their keys and at their indexes. The toolbar owns the list.</summary>
+		public void SetImageListIcons(params EnumIcons[] arrayIcons){
+			ImageList imageListOld=imageList;
+			imageList=IconLibrary.GetImageList(arrayIcons,LayoutManager.Scale(SIZE_IMAGE_LIST96));
+			_arrayIconsImageList=arrayIcons;
+			imageListOld?.Dispose();
+		}
+		#endregion Methods - Public
+
 		#region Methods - Private
+		///<summary>The size of the ImageList's pictures at 96 DPI: SIZE_IMAGE_LIST96 for a list of icons (it holds them at the scale), else the
+		///list's own size (a 96 DPI list, scaled when drawn).</summary>
+		private Size GetImageListSize96(){
+			if(_arrayIconsImageList!=null){
+				return new Size(SIZE_IMAGE_LIST96,SIZE_IMAGE_LIST96);
+			}
+			return imageList.ImageSize;
+		}
+
+		///<summary>Builds the list of icons again when the toolbar's scale no longer matches its size (SetImageListIcons): the icons at the new
+		///size, then the pictures added after them (program links, plug-ins) copied over, each under its key, so every ImageIndex and key stays.</summary>
+		private void RescaleImageListIcons(){
+			if(_arrayIconsImageList==null || imageList==null){
+				return;
+			}
+			int sizePixels=Math.Max(LayoutManager.Scale(SIZE_IMAGE_LIST96),1);
+			if(imageList.ImageSize.Width==sizePixels && imageList.ImageSize.Height==sizePixels){
+				return;
+			}
+			ImageList imageListOld=imageList;
+			ImageList imageListNew=IconLibrary.GetImageList(_arrayIconsImageList,sizePixels);
+			for(int i=_arrayIconsImageList.Length;i<imageListOld.Images.Count;i++){
+				Image image=imageListOld.Images[i];//a copy the list makes; the new list keeps it
+				string key=imageListOld.Images.Keys[i];
+				if(string.IsNullOrEmpty(key)){
+					imageListNew.Images.Add(image);
+				}
+				else{
+					imageListNew.Images.Add(key,image);
+				}
+			}
+			imageList=imageListNew;
+			imageListOld.Dispose();
+		}
+
 		private void ComputeButtonsizes(Graphics g){
+			RescaleImageListIcons();
 			_widthDropDown=LayoutManager.Scale(15);//The width of the dropdown rectangle where the triangle shows.
 			int xPos=0;
 			int width;
@@ -440,7 +508,7 @@ Boilerplate for the new WpfControls.UI.ToolBar is over in ToolBar.xaml.cs
 					width=(int)g.MeasureString(buttons[i].Text,Font).Width+LayoutManager.Scale(6);
 				}
 				else {//Image List button (being deprecated)
-					int widthImage=LayoutManager.Scale(imageList.ImageSize.Width);
+					int widthImage=LayoutManager.Scale(GetImageListSize96().Width);
 					if(buttons[i].Text==""){
 						width=widthImage+LayoutManager.Scale(7);//slightly wider than high for better 'feel'
 					}
@@ -564,7 +632,8 @@ Boilerplate for the new WpfControls.UI.ToolBar is over in ToolBar.xaml.cs
 			}
 			else if(imageList!=null && button.ImageIndex!=-1 && button.ImageIndex<imageList.Images.Count){
 				bitmap=(Bitmap)imageList.Images[button.ImageIndex];
-				sizeImage=new Size(LayoutManager.Scale(imageList.ImageSize.Width),LayoutManager.Scale(imageList.ImageSize.Height));
+				Size sizeImage96=GetImageListSize96();//a list of icons is at the scale already: drawn pixel for pixel
+				sizeImage=new Size(LayoutManager.Scale(sizeImage96.Width),LayoutManager.Scale(sizeImage96.Height));
 			}
 			if(button.Icon!=EnumIcons.None || bitmap!=null){//draw image and text
 				//The image keeps its place in every state (no shift when pressed: the flat look shows the press by its colour).

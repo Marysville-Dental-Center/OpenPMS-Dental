@@ -18,8 +18,14 @@ namespace OpenPmsDental{
 	
 	///<summary></summary>
 	public class ProgramL{
-		///<summary>Any changes here should also be made in WpfControls.ProgramL.LoadToolBar.</summary>
+		///<summary>Any changes here should also be made in WpfControls.ProgramL.LoadToolBar. The program link pictures (the program rows' ButtonImage,
+		///office content, section 4.5 of docs/specs/ui-refresh-plan.md) go into the toolbar's ImageList by key (ProgramNum and ProgName) and the
+		///buttons show them by ImageIndex. Since UI-9b-1 the module toolbars' list is a list of icons at the toolbar's scale
+		///(ToolBarOD.SetImageListIcons, docs/port-notes/UI-9b.md), which takes the pictures as before; a toolbar without a list gets an empty one.</summary>
 		public static void LoadToolBar(ToolBarOD toolBar,EnumToolBar toolBarsAvail) {
+			if(toolBar.ImageList==null) {
+				toolBar.SetImageListIcons();//no icons: only the program link pictures, at the toolbar's scale
+			}
 			List<ToolButItem> listToolButItems=ToolButItems.GetForToolBar(toolBarsAvail);
 			for(int i=0;i<listToolButItems.Count;i++){
 				Program program=Programs.GetProgram(listToolButItems[i].ProgramNum);

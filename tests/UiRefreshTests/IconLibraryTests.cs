@@ -22,9 +22,10 @@ namespace UiRefreshTests {
 	[TestClass]
 	public class IconLibraryTests {
 		///<summary>The module bar's chart icons, which have no EnumIcons row and draw a custom dental icon since UI-8 (section 4.4), with the dental
-		///icon each draws.</summary>
+		///icon each draws; since UI-9b-1 also the Chart module's Perio Chart button (PerioChart).</summary>
 		private static readonly Dictionary<string,DentalIcon> _dictDentalIcons=new Dictionary<string,DentalIcon> {
 			{ "Chart32G",DentalIcon.Tooth },{ "Chart32W",DentalIcon.ToothFilled },{ "ChartMed32",DentalIcon.ChartMedical },
+			{ "PerioChart",DentalIcon.PerioChart },//UI-9b-1: the Chart module's Perio Chart button
 		};
 		///<summary>The module bar's icons, which have a Filled row (section 3.6: the selected module).</summary>
 		private static readonly string[] _arrayModules=new[] { "Appt32","Family32","Account32","TreatPlan32","TreatPlanMed32","Imaging32","Manage32" };
@@ -54,11 +55,11 @@ namespace UiRefreshTests {
 		#region Manifest
 		[TestMethod]
 		public void Manifest_EveryEnumIconsHasARow_TheModulesAFilledRow_TheRolesOfUq4() {
-			Assert.AreEqual(92,WinIcons().Count(),"The WinForms EnumIcons: UI-7b's 38, UI-9a-1's 10 Sync (owner, 2026-11-18) and UI-9a-3's 6, UI-9a-4's 1 and UI-9a-5's 4 (Copy, Paste, ExportExcel, QueryView) and UI-9a-6's 14 (PinOff, Calculator, Backup, Deposit, Insurance, TaskList, Move, TableDeleteRow, TableDeleteColumn, TableInsertRow, TableInsertColumn, ChartAdd, Pen, Signature), and UI-9a-7's 18 (the report designer's toolbar).");
-			Assert.AreEqual(103,WpfIcons().Count(),"The WPF EnumIcons: UI-7b's 53, UI-9a-1's 8 Sync (owner, 2026-11-18) and UI-9a-3's 6 and UI-9a-4's 1 and UI-9a-5's 2 and UI-9a-6's 14 and UI-9a-7's 18.");
+			Assert.AreEqual(100,WinIcons().Count(),"The WinForms EnumIcons: UI-7b's 38, UI-9a-1's 10 Sync (owner, 2026-11-18) and UI-9a-3's 6, UI-9a-4's 1 and UI-9a-5's 4 (Copy, Paste, ExportExcel, QueryView) and UI-9a-6's 14 (PinOff, Calculator, Backup, Deposit, Insurance, TaskList, Move, TableDeleteRow, TableDeleteColumn, TableInsertRow, TableInsertColumn, ChartAdd, Pen, Signature), and UI-9a-7's 18 (the report designer's toolbar), and UI-9b-1's 8 (Payment, Adjustment, ApptLists, Call, Unscheduled, Rx, Anesthesia, PerioChart: the module toolbars).");
+			Assert.AreEqual(111,WpfIcons().Count(),"The WPF EnumIcons: UI-7b's 53, UI-9a-1's 8 Sync (owner, 2026-11-18) and UI-9a-3's 6 and UI-9a-4's 1 and UI-9a-5's 2 and UI-9a-6's 14 and UI-9a-7's 18 and UI-9b-1's 8.");
 			List<IconRendererTests.ManifestRow> listRows=IconRendererTests.ReadManifest().Where(x => x.EnumName=="EnumIcons").ToList();
 			HashSet<string> hashSetMembers=new HashSet<string>(WinIcons().Select(x => x.ToString()).Concat(WpfIcons().Select(x => x.ToString())));
-			Assert.AreEqual(103,hashSetMembers.Count,"Every WinForms member is also a WPF member.");
+			Assert.AreEqual(111,hashSetMembers.Count,"Every WinForms member is also a WPF member.");
 			foreach(string member in hashSetMembers) {
 				IconRendererTests.ManifestRow manifestRow=listRows.SingleOrDefault(x => x.Name==member);
 				if(_dictDentalIcons.ContainsKey(member)) {
