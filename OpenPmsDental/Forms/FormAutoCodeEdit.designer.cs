@@ -66,7 +66,7 @@ namespace OpenPmsDental {
 			// 
 			this.label1.Location = new System.Drawing.Point(20, 20);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(122, 16);
+			this.label1.Size = new System.Drawing.Size(122, 18);
 			this.label1.TabIndex = 23;
 			this.label1.Text = "Description";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -76,7 +76,7 @@ namespace OpenPmsDental {
 			this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.label2.Location = new System.Drawing.Point(421, 475);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(246, 37);
+			this.label2.Size = new System.Drawing.Size(246, 48);
 			this.label2.TabIndex = 26;
 			this.label2.Text = "Items are saved as they are changed.\r\nThe Save button is for the 3 fields at the " +
     "top.";
@@ -118,7 +118,7 @@ namespace OpenPmsDental {
 			// 
 			this.checkLessIntrusive.Location = new System.Drawing.Point(390, 34);
 			this.checkLessIntrusive.Name = "checkLessIntrusive";
-			this.checkLessIntrusive.Size = new System.Drawing.Size(354, 30);
+			this.checkLessIntrusive.Size = new System.Drawing.Size(404, 30);
 			this.checkLessIntrusive.TabIndex = 30;
 			this.checkLessIntrusive.Text = "Do not check codes in the procedure edit window, but only use this auto code for " +
     "procedure buttons.";

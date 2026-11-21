@@ -41,7 +41,7 @@ namespace OpenPmsDental{
 			// checkUnattached
 			// 
 			this.checkUnattached.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.checkUnattached.AutoSize = true;
+			this.checkUnattached.AutoSize = false;
 			this.checkUnattached.Location = new System.Drawing.Point(12, 459);
 			this.checkUnattached.Name = "checkUnattached";
 			this.checkUnattached.Size = new System.Drawing.Size(136, 17);

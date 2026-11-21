@@ -91,7 +91,7 @@ namespace OpenPmsDental{
 			// 
 			this.label4.Location = new System.Drawing.Point(88, 492);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(103, 17);
+			this.label4.Size = new System.Drawing.Size(109, 17);
 			this.label4.TabIndex = 113;
 			this.label4.Text = "Reconciliation Date";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -133,7 +133,7 @@ namespace OpenPmsDental{
 			this.checkGetForAllCarriers.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.checkGetForAllCarriers.Location = new System.Drawing.Point(12, 9);
 			this.checkGetForAllCarriers.Name = "checkGetForAllCarriers";
-			this.checkGetForAllCarriers.Size = new System.Drawing.Size(190, 17);
+			this.checkGetForAllCarriers.Size = new System.Drawing.Size(193, 18);
 			this.checkGetForAllCarriers.TabIndex = 116;
 			this.checkGetForAllCarriers.Text = "Get Transactions For All Carriers";
 			this.checkGetForAllCarriers.Click += new System.EventHandler(this.checkGetForAllCarriers_Click);

@@ -102,7 +102,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelProcCodes.Location = new System.Drawing.Point(13, 76);
 			this.labelProcCodes.Name = "labelProcCodes";
-			this.labelProcCodes.Size = new System.Drawing.Size(146, 29);
+			this.labelProcCodes.Size = new System.Drawing.Size(148, 29);
 			this.labelProcCodes.TabIndex = 20;
 			this.labelProcCodes.Text = "Procedure Code(s)\r\n(separated with commas)";
 			this.labelProcCodes.TextAlign = System.Drawing.ContentAlignment.TopRight;

@@ -59,7 +59,7 @@ namespace OpenPmsDental {
 			// 
 			this.label1.Location = new System.Drawing.Point(314, 37);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(230, 16);
+			this.label1.Size = new System.Drawing.Size(230, 18);
 			this.label1.TabIndex = 5;
 			this.label1.Text = "Up to the following date";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -112,7 +112,7 @@ namespace OpenPmsDental {
 			// 
 			this.radioWriteoffProc.Location = new System.Drawing.Point(7, 38);
 			this.radioWriteoffProc.Name = "radioWriteoffProc";
-			this.radioWriteoffProc.Size = new System.Drawing.Size(199, 19);
+			this.radioWriteoffProc.Size = new System.Drawing.Size(199, 23);
 			this.radioWriteoffProc.TabIndex = 1;
 			this.radioWriteoffProc.TabStop = true;
 			this.radioWriteoffProc.Text = "Using procedure date.";
@@ -122,7 +122,7 @@ namespace OpenPmsDental {
 			// 
 			this.radioWriteoffPay.Location = new System.Drawing.Point(7, 20);
 			this.radioWriteoffPay.Name = "radioWriteoffPay";
-			this.radioWriteoffPay.Size = new System.Drawing.Size(240, 19);
+			this.radioWriteoffPay.Size = new System.Drawing.Size(240, 23);
 			this.radioWriteoffPay.TabIndex = 0;
 			this.radioWriteoffPay.TabStop = true;
 			this.radioWriteoffPay.Text = "Using insurance payment date.";
@@ -132,7 +132,7 @@ namespace OpenPmsDental {
 			// 
 			this.label2.Location = new System.Drawing.Point(3, 9);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(597, 20);
+			this.label2.Size = new System.Drawing.Size(598, 20);
 			this.label2.TabIndex = 34;
 			this.label2.Text = "This report only takes payment plans into account when using the default charge l" +
     "ogic (Age Credits and Debits).";

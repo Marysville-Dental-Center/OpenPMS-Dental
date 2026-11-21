@@ -61,7 +61,7 @@ namespace OpenPmsDental{
 			//
 			this.labelDescription.Location = new System.Drawing.Point(12, 9);
 			this.labelDescription.Name = "labelDescription";
-			this.labelDescription.Size = new System.Drawing.Size(536, 44);
+			this.labelDescription.Size = new System.Drawing.Size(536, 49);
 			this.labelDescription.TabIndex = 0;
 			this.labelDescription.Text = "Mails postcards to patients you select, through the office\'s own PostcardMania (P" +
     "CM Integrations) account. Patient names and mailing addresses are sent to the vendor, which prints and mails the cards and bills each order to that account.";
@@ -78,7 +78,7 @@ namespace OpenPmsDental{
 			//
 			this.labelEnableHint.Location = new System.Drawing.Point(30, 77);
 			this.labelEnableHint.Name = "labelEnableHint";
-			this.labelEnableHint.Size = new System.Drawing.Size(518, 30);
+			this.labelEnableHint.Size = new System.Drawing.Size(530, 30);
 			this.labelEnableHint.TabIndex = 2;
 			this.labelEnableHint.Text = "Turning this on needs an API key and secret, and a successful Test connection. Tools, Advertising, Postcards only shows while this is on.";
 			//
@@ -169,12 +169,13 @@ namespace OpenPmsDental{
 			//
 			this.labelSecretHint.Location = new System.Drawing.Point(140, 114);
 			this.labelSecretHint.Name = "labelSecretHint";
-			this.labelSecretHint.Size = new System.Drawing.Size(390, 16);
+			this.labelSecretHint.Size = new System.Drawing.Size(390, 18);
 			this.labelSecretHint.TabIndex = 7;
 			this.labelSecretHint.Text = "A secret is saved. Leave this blank to keep it.";
 			//
 			// textApiSecret
 			//
+			this.textApiSecret.AutoSize = false;
 			this.textApiSecret.Location = new System.Drawing.Point(140, 92);
 			this.textApiSecret.Name = "textApiSecret";
 			this.textApiSecret.Size = new System.Drawing.Size(370, 20);
@@ -201,7 +202,7 @@ namespace OpenPmsDental{
 			//
 			this.labelApiKey.Location = new System.Drawing.Point(6, 70);
 			this.labelApiKey.Name = "labelApiKey";
-			this.labelApiKey.Size = new System.Drawing.Size(133, 16);
+			this.labelApiKey.Size = new System.Drawing.Size(133, 18);
 			this.labelApiKey.TabIndex = 3;
 			this.labelApiKey.Text = "API Key";
 			this.labelApiKey.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

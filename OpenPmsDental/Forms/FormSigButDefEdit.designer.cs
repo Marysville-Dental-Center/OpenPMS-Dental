@@ -76,7 +76,7 @@ namespace OpenPmsDental {
 			this.label3.ImageAlign = System.Drawing.ContentAlignment.TopRight;
 			this.label3.Location = new System.Drawing.Point(261, 104);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(304, 40);
+			this.label3.Size = new System.Drawing.Size(304, 43);
 			this.label3.TabIndex = 6;
 			this.label3.Text = "The cell number (1-9) of the main program icon that should light up whenever this" +
     " button lights up.  0 for none.";
@@ -131,7 +131,7 @@ namespace OpenPmsDental {
 			this.radioAll.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.radioAll.Location = new System.Drawing.Point(2, 10);
 			this.radioAll.Name = "radioAll";
-			this.radioAll.Size = new System.Drawing.Size(214, 20);
+			this.radioAll.Size = new System.Drawing.Size(214, 23);
 			this.radioAll.TabIndex = 15;
 			this.radioAll.TabStop = true;
 			this.radioAll.Text = "Applies to all computers";
@@ -144,7 +144,7 @@ namespace OpenPmsDental {
 			this.radioOne.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.radioOne.Location = new System.Drawing.Point(2, 33);
 			this.radioOne.Name = "radioOne";
-			this.radioOne.Size = new System.Drawing.Size(214, 20);
+			this.radioOne.Size = new System.Drawing.Size(214, 23);
 			this.radioOne.TabIndex = 16;
 			this.radioOne.TabStop = true;
 			this.radioOne.Text = "Only applies to one computer:";

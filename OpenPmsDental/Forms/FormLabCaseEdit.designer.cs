@@ -405,6 +405,7 @@ namespace OpenPmsDental {
 			// 
 			// textLabFee
 			// 
+			this.textLabFee.AutoSize = false;
 			this.textLabFee.Location = new System.Drawing.Point(94, 115);
 			this.textLabFee.MaxVal = 100000000D;
 			this.textLabFee.MinVal = -100000000D;
@@ -423,6 +424,7 @@ namespace OpenPmsDental {
 			// 
 			// textInvoiceNumber
 			// 
+			this.textInvoiceNumber.AutoSize = false;
 			this.textInvoiceNumber.Location = new System.Drawing.Point(375, 115);
 			this.textInvoiceNumber.MaxLength = 255;
 			this.textInvoiceNumber.Name = "textInvoiceNumber";

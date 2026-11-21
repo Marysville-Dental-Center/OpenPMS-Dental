@@ -110,7 +110,7 @@ namespace OpenPmsDental {
 			this.checkAllProv.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.checkAllProv.Location = new System.Drawing.Point(534, 30);
 			this.checkAllProv.Name = "checkAllProv";
-			this.checkAllProv.Size = new System.Drawing.Size(95, 16);
+			this.checkAllProv.Size = new System.Drawing.Size(95, 18);
 			this.checkAllProv.TabIndex = 48;
 			this.checkAllProv.Text = "All";
 			this.checkAllProv.Click += new System.EventHandler(this.checkAllProv_Click);
@@ -119,7 +119,7 @@ namespace OpenPmsDental {
 			// 
 			this.checkAllClin.Location = new System.Drawing.Point(322, 227);
 			this.checkAllClin.Name = "checkAllClin";
-			this.checkAllClin.Size = new System.Drawing.Size(154, 16);
+			this.checkAllClin.Size = new System.Drawing.Size(154, 18);
 			this.checkAllClin.TabIndex = 54;
 			this.checkAllClin.Text = "All (Includes hidden)";
 			this.checkAllClin.Click += new System.EventHandler(this.checkAllClin_Click);

@@ -51,7 +51,7 @@ namespace OpenPmsDental {
 			// 
 			this.label1.Location = new System.Drawing.Point(12, 9);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(445, 159);
+			this.label1.Size = new System.Drawing.Size(445, 167);
 			this.label1.TabIndex = 2;
 			this.label1.Text = resources.GetString("label1.Text");
 			// 
@@ -59,7 +59,7 @@ namespace OpenPmsDental {
 			// 
 			this.checkAdmin.Location = new System.Drawing.Point(15, 232);
 			this.checkAdmin.Name = "checkAdmin";
-			this.checkAdmin.Size = new System.Drawing.Size(224, 16);
+			this.checkAdmin.Size = new System.Drawing.Size(224, 18);
 			this.checkAdmin.TabIndex = 58;
 			this.checkAdmin.Text = "Lock includes administrators";
 			//
@@ -67,7 +67,7 @@ namespace OpenPmsDental {
 			//
 			this.checkPayPlansExcluded.Location = new System.Drawing.Point(15, 254);
 			this.checkPayPlansExcluded.Name = "checkPayPlansExcluded";
-			this.checkPayPlansExcluded.Size = new System.Drawing.Size(330, 16);
+			this.checkPayPlansExcluded.Size = new System.Drawing.Size(330, 18);
 			this.checkPayPlansExcluded.TabIndex = 65;
 			this.checkPayPlansExcluded.Text = "Payment plans are not affected by the global lock";
 			//
@@ -92,7 +92,7 @@ namespace OpenPmsDental {
 			// 
 			this.label4.Location = new System.Drawing.Point(17, 203);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(70, 16);
+			this.label4.Size = new System.Drawing.Size(70, 18);
 			this.label4.TabIndex = 61;
 			this.label4.Text = "Days";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -119,7 +119,7 @@ namespace OpenPmsDental {
 			// 
 			this.label2.Location = new System.Drawing.Point(139, 204);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(234, 16);
+			this.label2.Size = new System.Drawing.Size(234, 18);
 			this.label2.TabIndex = 63;
 			this.label2.Text = "1 means only today, 0 to disable.";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -128,7 +128,7 @@ namespace OpenPmsDental {
 			// 
 			this.label5.Location = new System.Drawing.Point(194, 177);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(234, 16);
+			this.label5.Size = new System.Drawing.Size(234, 18);
 			this.label5.TabIndex = 64;
 			this.label5.Text = "Locks this date and prior dates";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;

@@ -97,7 +97,7 @@ namespace OpenPmsDental{
 			this.butToSupplemental.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butToSupplemental.Location = new System.Drawing.Point(533, 324);
 			this.butToSupplemental.Name = "butToSupplemental";
-			this.butToSupplemental.Size = new System.Drawing.Size(92, 25);
+			this.butToSupplemental.Size = new System.Drawing.Size(97, 25);
 			this.butToSupplemental.TabIndex = 143;
 			this.butToSupplemental.Text = "&To Supplemental";
 			this.butToSupplemental.Click += new System.EventHandler(this.butToSupplemental_Click);

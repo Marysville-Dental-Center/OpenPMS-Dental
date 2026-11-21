@@ -33,7 +33,7 @@ namespace OpenPmsDental{
 			// 
 			this.label1.Location = new System.Drawing.Point(12, 9);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(340, 36);
+			this.label1.Size = new System.Drawing.Size(340, 49);
 			this.label1.TabIndex = 4;
 			this.label1.Text = "The following unpaired folders were found.  Please pick one from the list to assi" +
     "gn to this patient, or click New Patient at the bottom.";

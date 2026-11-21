@@ -59,6 +59,7 @@ namespace OpenPmsDental {
 			// 
 			// textCarrier
 			// 
+			this.textCarrier.AutoSize = false;
 			this.textCarrier.Location = new System.Drawing.Point(236, 49);
 			this.textCarrier.Name = "textCarrier";
 			this.textCarrier.Size = new System.Drawing.Size(180, 20);
@@ -95,7 +96,7 @@ namespace OpenPmsDental {
 			// 
 			this.label3.Location = new System.Drawing.Point(140, 12);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(276, 27);
+			this.label3.Size = new System.Drawing.Size(444, 27);
 			this.label3.TabIndex = 22;
 			this.label3.Text = "You are searching for Insurance Plans that might have the wrong fee schedule atta" +
     "ched.";
@@ -137,6 +138,7 @@ namespace OpenPmsDental {
 			// 
 			// textCarrierNot
 			// 
+			this.textCarrierNot.AutoSize = false;
 			this.textCarrierNot.Location = new System.Drawing.Point(236, 70);
 			this.textCarrierNot.Name = "textCarrierNot";
 			this.textCarrierNot.Size = new System.Drawing.Size(180, 20);

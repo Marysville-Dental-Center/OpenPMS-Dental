@@ -56,7 +56,7 @@ namespace OpenPmsDental{
 			this.radioIn.Location = new System.Drawing.Point(78, 65);
 			this.radioIn.Name = "radioIn";
 			this.radioIn.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-			this.radioIn.Size = new System.Drawing.Size(100, 18);
+			this.radioIn.Size = new System.Drawing.Size(100, 20);
 			this.radioIn.TabIndex = 14;
 			this.radioIn.TabStop = true;
 			this.radioIn.Text = "Incoming";

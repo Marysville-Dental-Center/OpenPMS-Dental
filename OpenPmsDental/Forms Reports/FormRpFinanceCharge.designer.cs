@@ -114,7 +114,7 @@ namespace OpenPmsDental {
 			this.checkAllProv.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.checkAllProv.Location = new System.Drawing.Point(10, 28);
 			this.checkAllProv.Name = "checkAllProv";
-			this.checkAllProv.Size = new System.Drawing.Size(95, 16);
+			this.checkAllProv.Size = new System.Drawing.Size(95, 18);
 			this.checkAllProv.TabIndex = 49;
 			this.checkAllProv.Text = "All";
 			this.checkAllProv.Click += new System.EventHandler(this.checkAllProv_Click);
@@ -125,7 +125,7 @@ namespace OpenPmsDental {
 			this.checkAllBilling.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.checkAllBilling.Location = new System.Drawing.Point(137, 28);
 			this.checkAllBilling.Name = "checkAllBilling";
-			this.checkAllBilling.Size = new System.Drawing.Size(95, 16);
+			this.checkAllBilling.Size = new System.Drawing.Size(95, 18);
 			this.checkAllBilling.TabIndex = 50;
 			this.checkAllBilling.Text = "All";
 			this.checkAllBilling.Click += new System.EventHandler(this.checkAllBilling_Click);
@@ -142,7 +142,7 @@ namespace OpenPmsDental {
 			// 
 			this.label4.Location = new System.Drawing.Point(134, 9);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(104, 16);
+			this.label4.Size = new System.Drawing.Size(104, 18);
 			this.label4.TabIndex = 52;
 			this.label4.Text = "Billing Types";
 			// 

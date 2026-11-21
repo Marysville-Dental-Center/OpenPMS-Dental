@@ -58,7 +58,7 @@ namespace OpenPmsDental {
 			//
 			this.labelDescription.Location = new System.Drawing.Point(12, 36);
 			this.labelDescription.Name = "labelDescription";
-			this.labelDescription.Size = new System.Drawing.Size(616, 44);
+			this.labelDescription.Size = new System.Drawing.Size(616, 48);
 			this.labelDescription.TabIndex = 1;
 			this.labelDescription.Text = "Takes card payments on Global Payments card terminals, and charges cards saved through them, by calling Global Payments directly with the office\'s own API app (App ID and App Key). Only one of X-Charge, Global Payments V1 and Global Payments V2 can be enabled at a time.";
 			//
@@ -116,7 +116,7 @@ namespace OpenPmsDental {
 			//
 			this.labelAppId.Location = new System.Drawing.Point(6, 22);
 			this.labelAppId.Name = "labelAppId";
-			this.labelAppId.Size = new System.Drawing.Size(124, 16);
+			this.labelAppId.Size = new System.Drawing.Size(124, 18);
 			this.labelAppId.TabIndex = 0;
 			this.labelAppId.Text = "App ID";
 			this.labelAppId.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -132,7 +132,7 @@ namespace OpenPmsDental {
 			//
 			this.labelAppKey.Location = new System.Drawing.Point(6, 48);
 			this.labelAppKey.Name = "labelAppKey";
-			this.labelAppKey.Size = new System.Drawing.Size(124, 16);
+			this.labelAppKey.Size = new System.Drawing.Size(124, 18);
 			this.labelAppKey.TabIndex = 2;
 			this.labelAppKey.Text = "App Key";
 			this.labelAppKey.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -173,7 +173,7 @@ namespace OpenPmsDental {
 			//
 			this.labelPaymentType.Location = new System.Drawing.Point(6, 104);
 			this.labelPaymentType.Name = "labelPaymentType";
-			this.labelPaymentType.Size = new System.Drawing.Size(124, 16);
+			this.labelPaymentType.Size = new System.Drawing.Size(124, 18);
 			this.labelPaymentType.TabIndex = 7;
 			this.labelPaymentType.Text = "Payment Type";
 			this.labelPaymentType.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -213,7 +213,7 @@ namespace OpenPmsDental {
 			//
 			this.labelClinicHint.Location = new System.Drawing.Point(134, 196);
 			this.labelClinicHint.Name = "labelClinicHint";
-			this.labelClinicHint.Size = new System.Drawing.Size(476, 18);
+			this.labelClinicHint.Size = new System.Drawing.Size(482, 18);
 			this.labelClinicHint.TabIndex = 12;
 			this.labelClinicHint.Text = "A clinic without its own App ID uses the Headquarters App ID, App Key and account name.";
 			//

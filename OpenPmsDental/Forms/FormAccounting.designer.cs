@@ -50,7 +50,7 @@ namespace OpenPmsDental {
 			// 
 			// checkInactive
 			// 
-			this.checkInactive.AutoSize = true;
+			this.checkInactive.AutoSize = false;
 			this.checkInactive.Location = new System.Drawing.Point(313, 58);
 			this.checkInactive.Name = "checkInactive";
 			this.checkInactive.Size = new System.Drawing.Size(150, 17);

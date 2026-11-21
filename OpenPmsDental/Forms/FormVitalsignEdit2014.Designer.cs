@@ -286,7 +286,7 @@
 			this.checkPregnant.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
 			this.checkPregnant.Location = new System.Drawing.Point(6, 16);
 			this.checkPregnant.Name = "checkPregnant";
-			this.checkPregnant.Size = new System.Drawing.Size(261, 44);
+			this.checkPregnant.Size = new System.Drawing.Size(261, 66);
 			this.checkPregnant.TabIndex = 1;
 			this.checkPregnant.Text = "Height and Weight was not recorded because the patient is pregnant or has been pr" +
     "egnant any time during the measurement period.";
@@ -406,7 +406,7 @@
 			this.checkNotPerf.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
 			this.checkNotPerf.Location = new System.Drawing.Point(6, 108);
 			this.checkNotPerf.Name = "checkNotPerf";
-			this.checkNotPerf.Size = new System.Drawing.Size(261, 31);
+			this.checkNotPerf.Size = new System.Drawing.Size(267, 31);
 			this.checkNotPerf.TabIndex = 2;
 			this.checkNotPerf.Text = "Height and Weight was not recorded for a medical or other reason.";
 			this.checkNotPerf.Click += new System.EventHandler(this.checkNotPerf_Click);

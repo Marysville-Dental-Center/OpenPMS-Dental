@@ -93,7 +93,7 @@ namespace OpenPmsDental{
 			// 
 			this.checkWarn.Location = new System.Drawing.Point(11, 30);
 			this.checkWarn.Name = "checkWarn";
-			this.checkWarn.Size = new System.Drawing.Size(382, 20);
+			this.checkWarn.Size = new System.Drawing.Size(383, 20);
 			this.checkWarn.TabIndex = 161;
 			this.checkWarn.Text = "Warn users before disassociating procedures from an appointment";
 			this.checkWarn.CheckedChanged += new System.EventHandler(this.checkWarn_CheckedChanged);

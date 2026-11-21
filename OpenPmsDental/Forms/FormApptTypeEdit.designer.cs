@@ -275,7 +275,7 @@ namespace OpenPmsDental{
 			// 
 			this.radioButtonAll.Location = new System.Drawing.Point(27, 219);
 			this.radioButtonAll.Name = "radioButtonAll";
-			this.radioButtonAll.Size = new System.Drawing.Size(87, 18);
+			this.radioButtonAll.Size = new System.Drawing.Size(87, 22);
 			this.radioButtonAll.TabIndex = 14;
 			this.radioButtonAll.TabStop = true;
 			this.radioButtonAll.Text = "All";
@@ -285,7 +285,7 @@ namespace OpenPmsDental{
 			// 
 			this.radioButtonAtLeastOne.Location = new System.Drawing.Point(27, 200);
 			this.radioButtonAtLeastOne.Name = "radioButtonAtLeastOne";
-			this.radioButtonAtLeastOne.Size = new System.Drawing.Size(120, 18);
+			this.radioButtonAtLeastOne.Size = new System.Drawing.Size(120, 19);
 			this.radioButtonAtLeastOne.TabIndex = 13;
 			this.radioButtonAtLeastOne.TabStop = true;
 			this.radioButtonAtLeastOne.Text = "At Least One";

@@ -44,7 +44,7 @@
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Location = new System.Drawing.Point(12, 178);
 			this.butDelete.Name = "butDelete";
-			this.butDelete.Size = new System.Drawing.Size(75, 24);
+			this.butDelete.Size = new System.Drawing.Size(75, 28);
 			this.butDelete.TabIndex = 0;
 			this.butDelete.Text = "Delete";
 			this.butDelete.UseVisualStyleBackColor = true;
@@ -55,7 +55,7 @@
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butSave.Location = new System.Drawing.Point(359, 177);
 			this.butSave.Name = "butSave";
-			this.butSave.Size = new System.Drawing.Size(75, 24);
+			this.butSave.Size = new System.Drawing.Size(75, 28);
 			this.butSave.TabIndex = 1;
 			this.butSave.Text = "Save";
 			this.butSave.UseVisualStyleBackColor = true;
@@ -87,7 +87,7 @@
 			// 
 			this.label1.Location = new System.Drawing.Point(5, 29);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(107, 17);
+			this.label1.Size = new System.Drawing.Size(108, 17);
 			this.label1.TabIndex = 6;
 			this.label1.Text = "Reminder Criterion";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -105,7 +105,7 @@
 			// 
 			this.label3.Location = new System.Drawing.Point(5, 134);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(107, 17);
+			this.label3.Size = new System.Drawing.Size(109, 17);
 			this.label3.TabIndex = 8;
 			this.label3.Text = "Reminder Message";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -131,7 +131,7 @@
 			// 
 			this.butSelectFK.Location = new System.Drawing.Point(410, 78);
 			this.butSelectFK.Name = "butSelectFK";
-			this.butSelectFK.Size = new System.Drawing.Size(24, 24);
+			this.butSelectFK.Size = new System.Drawing.Size(24, 28);
 			this.butSelectFK.TabIndex = 11;
 			this.butSelectFK.Text = "...";
 			this.butSelectFK.UseVisualStyleBackColor = true;
