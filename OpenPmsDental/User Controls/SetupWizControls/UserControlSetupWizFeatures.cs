@@ -2,19 +2,18 @@
 using System.Linq;
 using System.Windows.Forms;
 using OpenPmsDentalBusiness;
-using OpenPmsDental.UI;
 
 
 namespace OpenPmsDental.User_Controls.SetupWizard {
 	public partial class UserControlSetupWizFeatures:SetupWizControl {
 		///<summary>The pictures of the information labels' list by index (UI-9b-3, docs/port-notes/UI-9b.md, section 4): 0 an information label, 1 the selected one as icons, 16 px
 		///as the old list; a label draws its picture at its own size.</summary>
-		public static readonly EnumIcons[] ArrayIconsImageList=new EnumIcons[] { EnumIcons.Info,EnumIcons.InfoSelected };
+		public static readonly OpenPmsDental.UI.EnumIcons[] ArrayIconsImageList=new OpenPmsDental.UI.EnumIcons[] { OpenPmsDental.UI.EnumIcons.Info,OpenPmsDental.UI.EnumIcons.InfoSelected };
 		private ImageList _imageListInfo;
 
 		public UserControlSetupWizFeatures() {
 			InitializeComponent();
-			_imageListInfo=IconLibrary.GetImageList(ArrayIconsImageList,16);//UI-9b-3
+			_imageListInfo=OpenPmsDental.UI.IconLibrary.GetImageList(ArrayIconsImageList,16);//UI-9b-3
 			foreach(Label label in new Label[] { labelInfoMedIns,labelInfoEHR,labelInfoClinical,labelInfoClinics,labelInfoInsurance,labelInfoCapitation,labelInfoMedicaid }) {
 				label.ImageList=_imageListInfo;
 			}

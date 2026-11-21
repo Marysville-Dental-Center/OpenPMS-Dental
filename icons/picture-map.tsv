@@ -28,8 +28,6 @@ FormClaimEdit:butSend.Image	EnumIcons.Send	send the claim (red arrow up)
 FormClaimResend:butSend.Image	EnumIcons.Send	resend claims (red arrow up)
 FormAccounting:imageListMain.ImageStream	UI-9b	the accounts tree's ImageList
 FormAccountPick:imageListMain.ImageStream	UI-9b	the accounts tree's ImageList
-FormAutoNoteExport:imageListTree.ImageStream	UI-9b	the auto note tree's ImageList
-FormAutoNotes:imageListTree.ImageStream	UI-9b	the auto note tree's ImageList
 FormCareCreditWeb:imageList1.ImageStream	UI-9b	the window's ImageList
 FormCDSIntervention:imageListInfoButton.ImageStream	UI-9b	the info button ImageList of the CDS grid
 FormClaimsSend:imageList1.ImageStream	UI-9b	the claims toolbar's ImageList
@@ -39,8 +37,6 @@ Resources:butGoto	EnumIcons.ArrowRight	go, run (green circle with an arrow right
 FormFeeSchedGroups:butAdd.Image	EnumIcons.Add	add (blue plus)
 FormEhrLabOrderEdit2014:imageListInfoButton.ImageStream	UI-9b	the info button ImageList of the lab grid
 FormEmailEdit:imageListMain.ImageStream	UI-9b	the window's ImageList
-FormEmailInbox:imageListButtonSmall.ImageStream	UI-9b	the small button ImageList
-FormEmailInbox:imageListMailboxesLarge.ImageStream	UI-9b	the mailboxes ImageList
 FormEtrans835s:imageListCalendar.ImageStream	UI-9b	the calendar ImageList
 FormJournal:imageListMain.ImageStream	UI-9b	the journal's ImageList
 # UI-9a-3 (Forms M-Q)
@@ -64,8 +60,6 @@ Resources:DeleteX	EnumIcons.DeleteX	delete, remove (red X)
 Resources:PracticeByNumbers_100x24	keep	the Practice By Numbers logo: a vendor partner logo (section 4.5)
 FormSplash:$this.BackgroundImage	keep	the splash picture: branding (section 4.5)
 FormRecordAudio:imageListMain.ImageStream	UI-9b	the window's ImageList
-FormSetupWizard:imageList1.ImageStream	UI-9b	the setup wizard's ImageList
-FormSetupWizardProgress:imageList1.ImageStream	UI-9b	the setup wizard progress ImageList
 FormSnomeds:imageListInfoButton.ImageStream	UI-9b	the info button ImageList of the SNOMED grid
 # UI-9a-5 (Forms T-Z and Forms Reports)
 Resources:Copy	EnumIcons.Copy	copy (two sheets)
@@ -88,21 +82,11 @@ FormRpPatients:butDeleteFilter.Image	EnumIcons.DeleteX	delete the filter (red X)
 FormRpDPPOvercharged:imageListCalendar.ImageStream	UI-9b	the window ImageList
 FormRpProcNotBilledIns:imageListCalendar.ImageStream	UI-9b	the window ImageList
 # UI-9a-6 (Main Modules, User Controls, UI, Bridges, Reporting, SetupWizControls, Business, Graph, Sparks)
-ControlAppt:imageListTasks.ImageStream	UI-9b	the reminders grid's task pictures (a grid column ImageList, not the toolbar's): UI-9b-3, with the task lists' same pictures
 ControlChart:imageListProcButtons.ImageStream	keep	the procedure buttons' pictures come from the database (office content, section 4.5); the stream only gives the list its 20 px size and 32-bit depth, its one picture is cleared before the list is filled (UI-9b-1)
 FormReportComplex:imageListMain.ImageStream	UI-9b	the window ImageList
 FormReportCustom:imageListMain.ImageStream	UI-9b	the window ImageList
 FormReportForRdl:imageListMain.ImageStream	UI-9b	the window ImageList
 FormPrintPreview:imageListMain.ImageStream	UI-9b	the window ImageList
-UserControlSecurityTree:imageListPerm.ImageStream	UI-9b	the window ImageList
-UserControlTasks:imageListTree.ImageStream	UI-9b	the window ImageList
-UserControlTasks:imageListMain.ImageStream	UI-9b	the window ImageList
-UserControlSetupWizDefinitions:imageList1.ImageStream	UI-9b	the window ImageList
-UserControlSetupWizFeatures:imageList1.ImageStream	UI-9b	the window ImageList
-UserControlSetupWizFeeSched:imageList1.ImageStream	UI-9b	the window ImageList
-UserControlSetupWizPractice:imageList1.ImageStream	UI-9b	the window ImageList
-UserControlSetupWizPrinter:imageList1.ImageStream	UI-9b	the window ImageList
-UserControlSetupWizSchedule:imageList1.ImageStream	UI-9b	the window ImageList
 DashboardTabCtrl:tabImageList.ImageStream	UI-9b	the window ImageList
 ControlAppt:butSearchCloseX.Image	EnumIcons.DeleteX	close the search (black X, 16 x 16)
 ControlAppt:butSearchNext.Image	EnumIcons.ArrowRight	next search result (blue arrow right, 13 x 15)
@@ -247,3 +231,45 @@ ControlImages:imageListTree.ImageStream#4	EnumIcons.ImageSelectorPhoto	photo of 
 ControlImages:imageListTree.ImageStream#5	EnumIcons.ImageSelectorFile	file that is not an image (window)
 ControlImages:imageListTree.ImageStream#6	EnumIcons.ImageSelectorMount	mount (framed film strip)
 ControlImages:imageListTree.ImageStream#7	EnumIcons.ImageSelectorFolderWeb	folder with a globe
+# UI-9b-3 (the other trees, docs/port-notes/UI-9b.md, section 4): each picture of the lists by its index (<window>:<list>.ImageStream#<index>). Trees and lists are built by
+# IconLibrary.GetImageList / GetImageListForSize from the file's ArrayIcons... array in today's index order; a button's picture is IconLibrary.GetBitmap at 16 px.
+UserControlTasks:imageListTree.ImageStream#0	EnumIcons.TaskList	a task list (clipboard with lines, TaskList.gif)
+UserControlTasks:imageListTree.ImageStream#1	EnumIcons.CheckBoxChecked	a done task (green check in a box, checkBoxChecked.gif): the green check keeps its meaning as the Success role
+UserControlTasks:imageListTree.ImageStream#2	EnumIcons.CheckBoxEmpty	a read task (empty box, checkBoxUnchecked.gif)
+UserControlTasks:imageListTree.ImageStream#3	EnumIcons.TaskListNew	a task list with new tasks (orange list, TaskListHighlight.gif): Filled and Warning orange
+UserControlTasks:imageListTree.ImageStream#4	EnumIcons.TaskNew	a new, unread task (orange square, checkBoxNew.gif): Filled and Warning orange
+UserControlTasks:imageListMain.ImageStream#0	EnumIcons.TaskListAdd	Add Task List (list with a plus, TaskListAdd.gif)
+UserControlTasks:imageListMain.ImageStream#1	EnumIcons.Add	Add Task (plus, Add.gif)
+ControlAppt:imageListTasks.ImageStream#0	EnumIcons.TaskList	a task list (the same pictures as the task lists)
+ControlAppt:imageListTasks.ImageStream#1	EnumIcons.CheckBoxChecked	a done task
+ControlAppt:imageListTasks.ImageStream#2	EnumIcons.CheckBoxEmpty	a read task
+ControlAppt:imageListTasks.ImageStream#3	EnumIcons.TaskListNew	a task list with new tasks
+ControlAppt:imageListTasks.ImageStream#4	EnumIcons.TaskNew	a new, unread task
+UserControlSecurityTree:imageListPerm.ImageStream#0	EnumIcons.ImageSelectorFolder	a heading with no permission of its own (grayBox.gif): a folder, a heading in a tree
+UserControlSecurityTree:imageListPerm.ImageStream#1	EnumIcons.CheckBoxEmpty	a permission not granted (checkBoxUnchecked.gif)
+UserControlSecurityTree:imageListPerm.ImageStream#2	EnumIcons.CheckBoxChecked	a permission granted (checkBoxChecked.gif): the green check as the Success role
+UserControlSecurityTree:imageListPerm.ImageStream#3	EnumIcons.CheckBoxPartial	a permission granted for some items only (checkBoxGreen.gif, a green square): the indeterminate box in Success green
+FormAutoNotes:imageListTree.ImageStream#0	EnumIcons.ImageSelectorFolder	a folder (a category)
+FormAutoNotes:imageListTree.ImageStream#1	EnumIcons.ImageSelectorDoc	a document (an auto note; the tree's default ImageIndex)
+FormAutoNoteExport:imageListTree.ImageStream#0	EnumIcons.ImageSelectorFolder	a folder (a category)
+FormAutoNoteExport:imageListTree.ImageStream#1	EnumIcons.ImageSelectorDoc	a document (an auto note; the tree's default ImageIndex)
+FormEmailInbox:imageListMailboxesLarge.ImageStream#0	EnumIcons.Inbox	the Inbox mailbox (no code showed this list; kept at its index)
+FormEmailInbox:imageListMailboxesLarge.ImageStream#1	EnumIcons.Send	the Sent Messages mailbox (no code showed this list; kept at its index)
+FormSetupWizard:imageList1.ImageStream#0	EnumIcons.Info	the information picture of the "?" column
+UserControlSetupWizFeatures:imageList1.ImageStream#0	EnumIcons.Info	an information label (blue i)
+UserControlSetupWizFeatures:imageList1.ImageStream#1	EnumIcons.InfoSelected	the selected information label (dark i): the Filled info icon, so it differs without colour
+UserControlSetupWizFeeSched:imageList1.ImageStream#0	EnumIcons.Info	an information label (blue i)
+UserControlSetupWizPrinter:imageList1.ImageStream#0	EnumIcons.Info	an information label (blue i)
+FormEmailInbox:imageListButtonSmall.ImageStream#0	EnumIcons.Edit	Compose button (16 px)
+FormEmailInbox:imageListButtonSmall.ImageStream#1	EnumIcons.Sync	Refresh button (16 px)
+FormEmailInbox:imageListButtonSmall.ImageStream#2	EnumIcons.Reply	Reply button (16 px)
+FormEmailInbox:imageListButtonSmall.ImageStream#3	EnumIcons.Search	Search button (16 px)
+FormEmailInbox:imageListButtonSmall.ImageStream#4	EnumIcons.ReplyAll	Reply All button (16 px)
+FormEmailInbox:imageListButtonSmall.ImageStream#5	EnumIcons.Forward	Forward button (16 px)
+FormSetupWizardProgress:imageList1.ImageStream#0	EnumIcons.ChevronDoubleRight	Skip (two chevrons) button (16 px)
+FormSetupWizardProgress:imageList1.ImageStream#1	EnumIcons.ChevronRight	Next (chevron right) button (16 px)
+FormSetupWizardProgress:imageList1.ImageStream#2	EnumIcons.ChevronLeft	Back (chevron left) button (16 px)
+UserControlSetupWizDefinitions:imageList1.ImageStream#0	EnumIcons.Info	unused: no control showed this list
+UserControlSetupWizPractice:imageList1.ImageStream#0	EnumIcons.Info	unused: no control showed this list (index 1 was a green i)
+UserControlSetupWizPractice:imageList1.ImageStream#1	EnumIcons.InfoSelected	unused: no control showed this list (index 1 was a green i)
+UserControlSetupWizSchedule:imageList1.ImageStream#0	EnumIcons.Info	unused: no control showed this list

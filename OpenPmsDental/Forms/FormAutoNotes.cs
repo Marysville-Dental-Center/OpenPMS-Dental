@@ -16,7 +16,7 @@ namespace OpenPmsDental {
 		public AutoNote AutoNoteCur;
 		public bool IsSelectionMode;
 		///<summary>The pictures of the tree's ImageList by index (UI-9b-3, docs/port-notes/UI-9b.md, section 4): 0 a folder, 1 a document (the tree's default
-		///ImageIndex), as icons. FormAutoNoteExport's tree takes the same list.</summary>
+		///ImageIndex), as icons. FormAutoNoteExport's tree has the same list.</summary>
 		public static readonly EnumIcons[] ArrayIconsImageListTree=new EnumIcons[] { EnumIcons.ImageSelectorFolder,EnumIcons.ImageSelectorDoc };
 		///<summary>The tree's list at the 16 px slot of the current DPI (16, 24, 32 px), built again when the scale changes.</summary>
 		private ImageList _imageListTree;

@@ -481,3 +481,40 @@ UI-9b-2	OpenPmsDental/Main Modules/ControlImages.cs	ImageListTree	ImageListTree[
 UI-9b-2	OpenPmsDental/Main Modules/ControlImages.cs	ImageListTree	ImageListTree[5]	ControlImages:imageListTree.ImageStream#5	EnumIcons.ImageSelectorFile	ImageList	16	16
 UI-9b-2	OpenPmsDental/Main Modules/ControlImages.cs	ImageListTree	ImageListTree[6]	ControlImages:imageListTree.ImageStream#6	EnumIcons.ImageSelectorMount	ImageList	16	16
 UI-9b-2	OpenPmsDental/Main Modules/ControlImages.cs	ImageListTree	ImageListTree[7]	ControlImages:imageListTree.ImageStream#7	EnumIcons.ImageSelectorFolderWeb	ImageList	16	16
+# UI-9b-3 (docs/port-notes/UI-9b.md, section 4): property ArrayIcons...[<index>] is the icon at the index of the file's array (a tree or list built by IconLibrary.GetImageList / GetImageListForSize); GetBitmap rows are buttons' 16 px pictures.
+UI-9b-3	OpenPmsDental/User Controls/UserControlTasks.cs	tree	ArrayIconsImageListTasks[0]	UserControlTasks:imageListTree.ImageStream#0	EnumIcons.TaskList	ImageList	16	16
+UI-9b-3	OpenPmsDental/User Controls/UserControlTasks.cs	tree	ArrayIconsImageListTasks[1]	UserControlTasks:imageListTree.ImageStream#1	EnumIcons.CheckBoxChecked	ImageList	16	16
+UI-9b-3	OpenPmsDental/User Controls/UserControlTasks.cs	tree	ArrayIconsImageListTasks[2]	UserControlTasks:imageListTree.ImageStream#2	EnumIcons.CheckBoxEmpty	ImageList	16	16
+UI-9b-3	OpenPmsDental/User Controls/UserControlTasks.cs	tree	ArrayIconsImageListTasks[3]	UserControlTasks:imageListTree.ImageStream#3	EnumIcons.TaskListNew	ImageList	16	16
+UI-9b-3	OpenPmsDental/User Controls/UserControlTasks.cs	tree	ArrayIconsImageListTasks[4]	UserControlTasks:imageListTree.ImageStream#4	EnumIcons.TaskNew	ImageList	16	16
+UI-9b-3	OpenPmsDental/User Controls/UserControlTasks.cs	ToolBarMain	ArrayIconsImageListMain[0]	UserControlTasks:imageListMain.ImageStream#0	EnumIcons.TaskListAdd	ImageList	22	22
+UI-9b-3	OpenPmsDental/User Controls/UserControlTasks.cs	ToolBarMain	ArrayIconsImageListMain[1]	UserControlTasks:imageListMain.ImageStream#1	EnumIcons.Add	ImageList	22	22
+UI-9b-3d	OpenPmsDental/Main Modules/ControlAppt.cs	gridReminders	ArrayIconsImageListTasks[0]	ControlAppt:imageListTasks.ImageStream#0	EnumIcons.TaskList	ImageList	16	16
+UI-9b-3d	OpenPmsDental/Main Modules/ControlAppt.cs	gridReminders	ArrayIconsImageListTasks[1]	ControlAppt:imageListTasks.ImageStream#1	EnumIcons.CheckBoxChecked	ImageList	16	16
+UI-9b-3d	OpenPmsDental/Main Modules/ControlAppt.cs	gridReminders	ArrayIconsImageListTasks[2]	ControlAppt:imageListTasks.ImageStream#2	EnumIcons.CheckBoxEmpty	ImageList	16	16
+UI-9b-3d	OpenPmsDental/Main Modules/ControlAppt.cs	gridReminders	ArrayIconsImageListTasks[3]	ControlAppt:imageListTasks.ImageStream#3	EnumIcons.TaskListNew	ImageList	16	16
+UI-9b-3d	OpenPmsDental/Main Modules/ControlAppt.cs	gridReminders	ArrayIconsImageListTasks[4]	ControlAppt:imageListTasks.ImageStream#4	EnumIcons.TaskNew	ImageList	16	16
+UI-9b-3	OpenPmsDental/User Controls/UserControlSecurityTree.cs	treePermissions	ArrayIconsImageListPerm[0]	UserControlSecurityTree:imageListPerm.ImageStream#0	EnumIcons.ImageSelectorFolder	ImageList	15	15
+UI-9b-3	OpenPmsDental/User Controls/UserControlSecurityTree.cs	treePermissions	ArrayIconsImageListPerm[1]	UserControlSecurityTree:imageListPerm.ImageStream#1	EnumIcons.CheckBoxEmpty	ImageList	15	15
+UI-9b-3	OpenPmsDental/User Controls/UserControlSecurityTree.cs	treePermissions	ArrayIconsImageListPerm[2]	UserControlSecurityTree:imageListPerm.ImageStream#2	EnumIcons.CheckBoxChecked	ImageList	15	15
+UI-9b-3	OpenPmsDental/User Controls/UserControlSecurityTree.cs	treePermissions	ArrayIconsImageListPerm[3]	UserControlSecurityTree:imageListPerm.ImageStream#3	EnumIcons.CheckBoxPartial	ImageList	15	15
+UI-9b-3b	OpenPmsDental/Forms/FormAutoNotes.cs	treeNotes	ArrayIconsImageListTree[0]	FormAutoNotes:imageListTree.ImageStream#0	EnumIcons.ImageSelectorFolder	ImageList	16	16
+UI-9b-3b	OpenPmsDental/Forms/FormAutoNotes.cs	treeNotes	ArrayIconsImageListTree[1]	FormAutoNotes:imageListTree.ImageStream#1	EnumIcons.ImageSelectorDoc	ImageList	16	16
+UI-9b-3b	OpenPmsDental/Forms/FormAutoNoteExport.cs	treeNotes	ArrayIconsImageListTree[0]	FormAutoNoteExport:imageListTree.ImageStream#0	EnumIcons.ImageSelectorFolder	ImageList	16	16
+UI-9b-3b	OpenPmsDental/Forms/FormAutoNoteExport.cs	treeNotes	ArrayIconsImageListTree[1]	FormAutoNoteExport:imageListTree.ImageStream#1	EnumIcons.ImageSelectorDoc	ImageList	16	16
+UI-9b-3b	OpenPmsDental/Forms/FormEmailInbox.cs	(no control)	ArrayIconsImageListMailboxes[0]	FormEmailInbox:imageListMailboxesLarge.ImageStream#0	EnumIcons.Inbox	ImageList	32	32
+UI-9b-3b	OpenPmsDental/Forms/FormEmailInbox.cs	(no control)	ArrayIconsImageListMailboxes[1]	FormEmailInbox:imageListMailboxesLarge.ImageStream#1	EnumIcons.Send	ImageList	32	32
+UI-9b-3b	OpenPmsDental/Forms/FormSetupWizard.cs	gridMain	ArrayIconsImageList[0]	FormSetupWizard:imageList1.ImageStream#0	EnumIcons.Info	ImageList	16	16
+UI-9b-3c	OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizFeatures.cs	panelInfo	ArrayIconsImageList[0]	UserControlSetupWizFeatures:imageList1.ImageStream#0	EnumIcons.Info	ImageList	16	16
+UI-9b-3c	OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizFeatures.cs	panelInfo	ArrayIconsImageList[1]	UserControlSetupWizFeatures:imageList1.ImageStream#1	EnumIcons.InfoSelected	ImageList	16	16
+UI-9b-3c	OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizFeeSched.cs	labelEdit	ArrayIconsImageList[0]	UserControlSetupWizFeeSched:imageList1.ImageStream#0	EnumIcons.Info	ImageList	16	16
+UI-9b-3c	OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizPrinter.cs	labelInfoResolution	ArrayIconsImageList[0]	UserControlSetupWizPrinter:imageList1.ImageStream#0	EnumIcons.Info	ImageList	16	16
+UI-9b-3b	OpenPmsDental/Forms/FormEmailInbox.designer.cs	butCompose	Image	FormEmailInbox:imageListButtonSmall.ImageStream#0	EnumIcons.Edit	GetBitmap	16	16
+UI-9b-3b	OpenPmsDental/Forms/FormEmailInbox.designer.cs	butRefresh	Image	FormEmailInbox:imageListButtonSmall.ImageStream#1	EnumIcons.Sync	GetBitmap	16	16
+UI-9b-3b	OpenPmsDental/Forms/FormEmailInbox.designer.cs	butReply	Image	FormEmailInbox:imageListButtonSmall.ImageStream#2	EnumIcons.Reply	GetBitmap	16	16
+UI-9b-3b	OpenPmsDental/Forms/FormEmailInbox.designer.cs	butSearch	Image	FormEmailInbox:imageListButtonSmall.ImageStream#3	EnumIcons.Search	GetBitmap	16	16
+UI-9b-3b	OpenPmsDental/Forms/FormEmailInbox.designer.cs	butReplyAll	Image	FormEmailInbox:imageListButtonSmall.ImageStream#4	EnumIcons.ReplyAll	GetBitmap	16	16
+UI-9b-3b	OpenPmsDental/Forms/FormEmailInbox.designer.cs	butForward	Image	FormEmailInbox:imageListButtonSmall.ImageStream#5	EnumIcons.Forward	GetBitmap	16	16
+UI-9b-3b	OpenPmsDental/Forms/FormSetupWizardProgress.designer.cs	butSkip	Image	FormSetupWizardProgress:imageList1.ImageStream#0	EnumIcons.ChevronDoubleRight	GetBitmap	16	16
+UI-9b-3b	OpenPmsDental/Forms/FormSetupWizardProgress.designer.cs	butNext	Image	FormSetupWizardProgress:imageList1.ImageStream#1	EnumIcons.ChevronRight	GetBitmap	16	16
+UI-9b-3b	OpenPmsDental/Forms/FormSetupWizardProgress.designer.cs	butBack	Image	FormSetupWizardProgress:imageList1.ImageStream#2	EnumIcons.ChevronLeft	GetBitmap	16	16

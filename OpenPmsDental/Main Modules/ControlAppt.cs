@@ -52,8 +52,13 @@ namespace OpenPmsDental {
 			EnumIcons.Print,EnumIcons.ApptLists,EnumIcons.Call,EnumIcons.Unscheduled,EnumIcons.BreakAptX,EnumIcons.Complete,EnumIcons.DeleteX,EnumIcons.Patient,EnumIcons.Add,EnumIcons.Recall
 		};
 
-		///<summary>The reminders grid's first column draws the task state pictures (UI-9b-3, docs/port-notes/UI-9b.md, section 4) at 16 px, as the old
-		///list did: the grid draws a column's pictures at the scale of the window. The list is UserControlTasks.ArrayIconsImageListTasks.</summary>
+		///<summary>The pictures of the reminders grid's task list by index (UI-9b-3, docs/port-notes/UI-9b.md, section 4), as icons, the same as
+		///UserControlTasks' task list: 0 a task list, 1 a done task, 2 a read task, 3 a task list with new tasks, 4 a new (unread) task.</summary>
+		public static readonly EnumIcons[] ArrayIconsImageListTasks=new EnumIcons[] {
+			EnumIcons.TaskList,EnumIcons.CheckBoxChecked,EnumIcons.CheckBoxEmpty,EnumIcons.TaskListNew,EnumIcons.TaskNew
+		};
+		///<summary>The reminders grid's first column draws the task state pictures at 16 px, as the old list did: the grid draws a column's pictures
+		///at the scale of the window.</summary>
 		private ImageList _imageListTasks;
 
 		#region Constructor
@@ -63,7 +68,7 @@ namespace OpenPmsDental {
 			Font=LayoutManagerForms.FontInitial;
 			gridReminders.ContextMenuStrip=menuReminderEdit;
 			toolBarMain.SetImageListIcons(ArrayIconsImageList);//UI-9b-1: the list of icons (program links and plug-ins add to it)
-			_imageListTasks=IconLibrary.GetImageList(UserControlTasks.ArrayIconsImageListTasks,16);//UI-9b-3
+			_imageListTasks=IconLibrary.GetImageList(ArrayIconsImageListTasks,16);//UI-9b-3
 			Disposed+=(sender,e) => _imageListTasks?.Dispose();
 			gridReminders.DoAddGridItemsToContextMenuStrip=true;//Copy Cell Text, Copy Rows and the links after the menu's items, as before
 			Logger.LogToPath("Ctor",LogPath.Startup,LogPhase.End);
