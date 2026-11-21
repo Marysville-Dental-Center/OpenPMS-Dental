@@ -104,7 +104,7 @@ namespace OpenPmsDental{
 			// 
 			this.label1.Location = new System.Drawing.Point(406, 10);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(263, 57);
+			this.label1.Size = new System.Drawing.Size(263, 60);
 			this.label1.TabIndex = 31;
 			this.label1.Text = "A pick list is only used when you want to restrict user entry in a Wiki List to a" +
     " preset list of options.  The pick list is specific to one item at the left.";
@@ -123,7 +123,7 @@ namespace OpenPmsDental{
 			this.label3.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
 			this.label3.Location = new System.Drawing.Point(12, 9);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(362, 57);
+			this.label3.Size = new System.Drawing.Size(362, 61);
 			this.label3.TabIndex = 33;
 			this.label3.Text = resources.GetString("label3.Text");
 			this.label3.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -134,7 +134,7 @@ namespace OpenPmsDental{
 			this.butHideColumn.Enabled = false;
 			this.butHideColumn.Location = new System.Drawing.Point(12, 438);
 			this.butHideColumn.Name = "butHideColumn";
-			this.butHideColumn.Size = new System.Drawing.Size(75, 24);
+			this.butHideColumn.Size = new System.Drawing.Size(77, 24);
 			this.butHideColumn.TabIndex = 34;
 			this.butHideColumn.Text = "Hide Column";
 			this.butHideColumn.UseVisualStyleBackColor = true;

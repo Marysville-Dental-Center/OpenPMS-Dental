@@ -189,7 +189,7 @@ namespace OpenPmsDental{
 			// 
 			this.radioBeforePM.Location = new System.Drawing.Point(204, 72);
 			this.radioBeforePM.Name = "radioBeforePM";
-			this.radioBeforePM.Size = new System.Drawing.Size(42, 20);
+			this.radioBeforePM.Size = new System.Drawing.Size(42, 23);
 			this.radioBeforePM.TabIndex = 86;
 			this.radioBeforePM.Text = "pm";
 			// 
@@ -206,7 +206,7 @@ namespace OpenPmsDental{
 			this.radioBeforeAM.Checked = true;
 			this.radioBeforeAM.Location = new System.Drawing.Point(155, 72);
 			this.radioBeforeAM.Name = "radioBeforeAM";
-			this.radioBeforeAM.Size = new System.Drawing.Size(42, 20);
+			this.radioBeforeAM.Size = new System.Drawing.Size(42, 23);
 			this.radioBeforeAM.TabIndex = 85;
 			this.radioBeforeAM.TabStop = true;
 			this.radioBeforeAM.Text = "am";
@@ -268,7 +268,7 @@ namespace OpenPmsDental{
 			this.label1.Location = new System.Drawing.Point(10, 73);
 			this.label1.Name = "label1";
 			this.label1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-			this.label1.Size = new System.Drawing.Size(95, 16);
+			this.label1.Size = new System.Drawing.Size(95, 18);
 			this.label1.TabIndex = 92;
 			this.label1.Text = "Starting before";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -278,7 +278,7 @@ namespace OpenPmsDental{
 			this.label11.Location = new System.Drawing.Point(10, 98);
 			this.label11.Name = "label11";
 			this.label11.RightToLeft = System.Windows.Forms.RightToLeft.No;
-			this.label11.Size = new System.Drawing.Size(95, 16);
+			this.label11.Size = new System.Drawing.Size(95, 18);
 			this.label11.TabIndex = 87;
 			this.label11.Text = "Starting after";
 			this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

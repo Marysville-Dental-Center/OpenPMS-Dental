@@ -58,6 +58,7 @@ namespace OpenPmsDental {
 			// 
 			// textPlanNum
 			// 
+			this.textPlanNum.AutoSize = false;
 			this.textPlanNum.Location = new System.Drawing.Point(540, 36);
 			this.textPlanNum.Name = "textPlanNum";
 			this.textPlanNum.Size = new System.Drawing.Size(140, 20);
@@ -94,6 +95,7 @@ namespace OpenPmsDental {
 			// 
 			// textTrojanID
 			// 
+			this.textTrojanID.AutoSize = false;
 			this.textTrojanID.Location = new System.Drawing.Point(540, 15);
 			this.textTrojanID.Name = "textTrojanID";
 			this.textTrojanID.Size = new System.Drawing.Size(140, 20);
@@ -111,6 +113,7 @@ namespace OpenPmsDental {
 			// 
 			// textGroupNum
 			// 
+			this.textGroupNum.AutoSize = false;
 			this.textGroupNum.Location = new System.Drawing.Point(84, 35);
 			this.textGroupNum.Name = "textGroupNum";
 			this.textGroupNum.Size = new System.Drawing.Size(140, 20);
@@ -128,6 +131,7 @@ namespace OpenPmsDental {
 			// 
 			// textGroupName
 			// 
+			this.textGroupName.AutoSize = false;
 			this.textGroupName.Location = new System.Drawing.Point(311, 36);
 			this.textGroupName.Name = "textGroupName";
 			this.textGroupName.Size = new System.Drawing.Size(140, 20);
@@ -158,6 +162,7 @@ namespace OpenPmsDental {
 			// 
 			// textCarrier
 			// 
+			this.textCarrier.AutoSize = false;
 			this.textCarrier.Location = new System.Drawing.Point(311, 15);
 			this.textCarrier.Name = "textCarrier";
 			this.textCarrier.Size = new System.Drawing.Size(140, 20);
@@ -175,6 +180,7 @@ namespace OpenPmsDental {
 			// 
 			// textEmployer
 			// 
+			this.textEmployer.AutoSize = false;
 			this.textEmployer.Location = new System.Drawing.Point(84, 14);
 			this.textEmployer.Name = "textEmployer";
 			this.textEmployer.Size = new System.Drawing.Size(140, 20);
@@ -204,7 +210,7 @@ namespace OpenPmsDental {
 			// 
 			this.radioOrderCarrier.Location = new System.Drawing.Point(83, 15);
 			this.radioOrderCarrier.Name = "radioOrderCarrier";
-			this.radioOrderCarrier.Size = new System.Drawing.Size(66, 20);
+			this.radioOrderCarrier.Size = new System.Drawing.Size(66, 23);
 			this.radioOrderCarrier.TabIndex = 1;
 			this.radioOrderCarrier.Text = "Carrier";
 			this.radioOrderCarrier.Click += new System.EventHandler(this.radioOrderCarrier_Click);
@@ -214,7 +220,7 @@ namespace OpenPmsDental {
 			this.radioOrderEmp.Checked = true;
 			this.radioOrderEmp.Location = new System.Drawing.Point(6, 15);
 			this.radioOrderEmp.Name = "radioOrderEmp";
-			this.radioOrderEmp.Size = new System.Drawing.Size(80, 20);
+			this.radioOrderEmp.Size = new System.Drawing.Size(80, 23);
 			this.radioOrderEmp.TabIndex = 0;
 			this.radioOrderEmp.TabStop = true;
 			this.radioOrderEmp.Text = "Employer";

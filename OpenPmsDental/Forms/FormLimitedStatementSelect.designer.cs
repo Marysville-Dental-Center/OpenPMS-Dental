@@ -91,7 +91,7 @@ namespace OpenPmsDental{
 			// 
 			this.label1.Location = new System.Drawing.Point(12, 3);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(661, 16);
+			this.label1.Size = new System.Drawing.Size(661, 18);
 			this.label1.TabIndex = 145;
 			this.label1.Text = "Select procedures, payments, adjustments, or claim payments" +
     " to include on the limited statement";
@@ -191,7 +191,7 @@ namespace OpenPmsDental{
 			// 
 			this.labelTransTypes.Location = new System.Drawing.Point(6, 64);
 			this.labelTransTypes.Name = "labelTransTypes";
-			this.labelTransTypes.Size = new System.Drawing.Size(96, 16);
+			this.labelTransTypes.Size = new System.Drawing.Size(97, 18);
 			this.labelTransTypes.TabIndex = 151;
 			this.labelTransTypes.Text = "Transaction types";
 			this.labelTransTypes.TextAlign = System.Drawing.ContentAlignment.TopRight;

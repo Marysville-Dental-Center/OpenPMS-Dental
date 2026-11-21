@@ -67,10 +67,10 @@ namespace OpenPmsDental{
 			// 
 			// label8
 			// 
-			this.label8.AutoSize = true;
+			this.label8.AutoSize = false;
 			this.label8.Location = new System.Drawing.Point(374, 401);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(165, 13);
+			this.label8.Size = new System.Drawing.Size(176, 18);
 			this.label8.TabIndex = 39;
 			this.label8.Text = "Advanced: Use connection string";
 			// 
@@ -122,7 +122,7 @@ namespace OpenPmsDental{
 			// 
 			this.checkBoxAutomaticLogin.Location = new System.Drawing.Point(13, 195);
 			this.checkBoxAutomaticLogin.Name = "checkBoxAutomaticLogin";
-			this.checkBoxAutomaticLogin.Size = new System.Drawing.Size(145, 18);
+			this.checkBoxAutomaticLogin.Size = new System.Drawing.Size(153, 18);
 			this.checkBoxAutomaticLogin.TabIndex = 40;
 			this.checkBoxAutomaticLogin.Text = "Log me in automatically.";
 			// 
@@ -143,6 +143,7 @@ namespace OpenPmsDental{
 			// 
 			// textUser2
 			// 
+			this.textUser2.AutoSize = false;
 			this.textUser2.Location = new System.Drawing.Point(13, 106);
 			this.textUser2.Name = "textUser2";
 			this.textUser2.Size = new System.Drawing.Size(309, 20);
@@ -188,7 +189,7 @@ namespace OpenPmsDental{
 			// 
 			this.label6.Location = new System.Drawing.Point(9, 25);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(297, 18);
+			this.label6.Size = new System.Drawing.Size(302, 18);
 			this.label6.TabIndex = 0;
 			this.label6.Text = "Read the manual to learn how to install the middle tier.";
 			// 
@@ -212,6 +213,7 @@ namespace OpenPmsDental{
 			// 
 			// textUser
 			// 
+			this.textUser.AutoSize = false;
 			this.textUser.Location = new System.Drawing.Point(13, 140);
 			this.textUser.Name = "textUser";
 			this.textUser.Size = new System.Drawing.Size(280, 20);
@@ -232,7 +234,7 @@ namespace OpenPmsDental{
 			// 
 			this.checkNoShow.Location = new System.Drawing.Point(13, 211);
 			this.checkNoShow.Name = "checkNoShow";
-			this.checkNoShow.Size = new System.Drawing.Size(317, 18);
+			this.checkNoShow.Size = new System.Drawing.Size(330, 18);
 			this.checkNoShow.TabIndex = 5;
 			this.checkNoShow.Text = "Do not show this window on startup (this computer only)";
 			// 
@@ -309,7 +311,7 @@ namespace OpenPmsDental{
 			// 
 			this.checkDynamicMode.Location = new System.Drawing.Point(376, 552);
 			this.checkDynamicMode.Name = "checkDynamicMode";
-			this.checkDynamicMode.Size = new System.Drawing.Size(312, 29);
+			this.checkDynamicMode.Size = new System.Drawing.Size(347, 29);
 			this.checkDynamicMode.TabIndex = 41;
 			this.checkDynamicMode.Text = "Dynamic Mode: Automatically downgrades or upgrades to server version.";
 			this.checkDynamicMode.CheckedChanged += new System.EventHandler(this.checkDynamicMode_CheckedChanged);

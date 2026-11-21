@@ -156,6 +156,7 @@ namespace OpenPmsDental{
 			// 
 			// textDayOfMonth
 			// 
+			this.textDayOfMonth.AutoSize = false;
 			this.textDayOfMonth.Location = new System.Drawing.Point(63, 56);
 			this.textDayOfMonth.Name = "textDayOfMonth";
 			this.textDayOfMonth.ReadOnly = true;
@@ -166,21 +167,21 @@ namespace OpenPmsDental{
 			// 
 			// radioWeekDay
 			// 
-			this.radioWeekDay.AutoSize = true;
+			this.radioWeekDay.AutoSize = false;
 			this.radioWeekDay.Location = new System.Drawing.Point(270, 35);
 			this.radioWeekDay.Name = "radioWeekDay";
-			this.radioWeekDay.Size = new System.Drawing.Size(99, 17);
+			this.radioWeekDay.Size = new System.Drawing.Size(105, 18);
 			this.radioWeekDay.TabIndex = 23;
 			this.radioWeekDay.Text = "Fixed week day";
 			this.radioWeekDay.UseVisualStyleBackColor = true;
 			// 
 			// radioDayOfMonth
 			// 
-			this.radioDayOfMonth.AutoSize = true;
+			this.radioDayOfMonth.AutoSize = false;
 			this.radioDayOfMonth.Checked = true;
 			this.radioDayOfMonth.Location = new System.Drawing.Point(65, 35);
 			this.radioDayOfMonth.Name = "radioDayOfMonth";
-			this.radioDayOfMonth.Size = new System.Drawing.Size(125, 17);
+			this.radioDayOfMonth.Size = new System.Drawing.Size(141, 18);
 			this.radioDayOfMonth.TabIndex = 19;
 			this.radioDayOfMonth.TabStop = true;
 			this.radioDayOfMonth.Text = "Fixed day(s) of month";
@@ -191,7 +192,7 @@ namespace OpenPmsDental{
 			// 
 			this.labelFrequencyInWords.Location = new System.Drawing.Point(21, 14);
 			this.labelFrequencyInWords.Name = "labelFrequencyInWords";
-			this.labelFrequencyInWords.Size = new System.Drawing.Size(467, 16);
+			this.labelFrequencyInWords.Size = new System.Drawing.Size(467, 18);
 			this.labelFrequencyInWords.TabIndex = 134;
 			this.labelFrequencyInWords.Text = "This will display the frequency in words";
 			this.labelFrequencyInWords.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -200,7 +201,7 @@ namespace OpenPmsDental{
 			// 
 			this.label8.Location = new System.Drawing.Point(414, 59);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(76, 16);
+			this.label8.Size = new System.Drawing.Size(81, 18);
 			this.label8.TabIndex = 144;
 			this.label8.Text = " of the month";
 			this.label8.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -335,7 +336,7 @@ namespace OpenPmsDental{
 			// 
 			this.labelNextChargeDate.Location = new System.Drawing.Point(305, 81);
 			this.labelNextChargeDate.Name = "labelNextChargeDate";
-			this.labelNextChargeDate.Size = new System.Drawing.Size(101, 16);
+			this.labelNextChargeDate.Size = new System.Drawing.Size(101, 18);
 			this.labelNextChargeDate.TabIndex = 145;
 			this.labelNextChargeDate.Text = "Next Charge Date";
 			this.labelNextChargeDate.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -390,7 +391,7 @@ namespace OpenPmsDental{
 			// 
 			this.label9.Location = new System.Drawing.Point(2, 54);
 			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(124, 16);
+			this.label9.Size = new System.Drawing.Size(127, 18);
 			this.label9.TabIndex = 139;
 			this.label9.Text = "Payment Type Override";
 			this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -400,7 +401,7 @@ namespace OpenPmsDental{
 			this.checkChrgWithNoBal.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkChrgWithNoBal.Location = new System.Drawing.Point(302, 17);
 			this.checkChrgWithNoBal.Name = "checkChrgWithNoBal";
-			this.checkChrgWithNoBal.Size = new System.Drawing.Size(148, 26);
+			this.checkChrgWithNoBal.Size = new System.Drawing.Size(193, 26);
 			this.checkChrgWithNoBal.TabIndex = 15;
 			this.checkChrgWithNoBal.Text = "Run charge even if no family balance present";
 			// 
@@ -408,7 +409,7 @@ namespace OpenPmsDental{
 			// 
 			this.labelPayPlan.Location = new System.Drawing.Point(21, 27);
 			this.labelPayPlan.Name = "labelPayPlan";
-			this.labelPayPlan.Size = new System.Drawing.Size(106, 16);
+			this.labelPayPlan.Size = new System.Drawing.Size(106, 18);
 			this.labelPayPlan.TabIndex = 132;
 			this.labelPayPlan.Text = "Payment Plan";
 			this.labelPayPlan.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -479,7 +480,7 @@ namespace OpenPmsDental{
 			// 
 			this.label1.Location = new System.Drawing.Point(21, 137);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(106, 16);
+			this.label1.Size = new System.Drawing.Size(106, 18);
 			this.label1.TabIndex = 72;
 			this.label1.Text = "Date Stop";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -488,7 +489,7 @@ namespace OpenPmsDental{
 			// 
 			this.label5.Location = new System.Drawing.Point(21, 82);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(106, 16);
+			this.label5.Size = new System.Drawing.Size(106, 18);
 			this.label5.TabIndex = 67;
 			this.label5.Text = "Charge Amount";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -544,7 +545,7 @@ namespace OpenPmsDental{
 			// 
 			this.labelZip.Location = new System.Drawing.Point(44, 91);
 			this.labelZip.Name = "labelZip";
-			this.labelZip.Size = new System.Drawing.Size(96, 16);
+			this.labelZip.Size = new System.Drawing.Size(96, 18);
 			this.labelZip.TabIndex = 66;
 			this.labelZip.Text = "Zip";
 			this.labelZip.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -571,7 +572,7 @@ namespace OpenPmsDental{
 			// 
 			this.label4.Location = new System.Drawing.Point(56, 39);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(84, 16);
+			this.label4.Size = new System.Drawing.Size(84, 18);
 			this.label4.TabIndex = 10;
 			this.label4.Text = "Exp (MMYY)";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

@@ -118,7 +118,7 @@ namespace OpenPmsDental {
 			// 
 			this.label1.Location = new System.Drawing.Point(20, 381);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(596, 65);
+			this.label1.Size = new System.Drawing.Size(596, 69);
 			this.label1.TabIndex = 92;
 			this.label1.Text = resources.GetString("label1.Text");
 			this.label1.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -127,7 +127,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelPathSameForAll.Location = new System.Drawing.Point(7, 4);
 			this.labelPathSameForAll.Name = "labelPathSameForAll";
-			this.labelPathSameForAll.Size = new System.Drawing.Size(579, 50);
+			this.labelPathSameForAll.Size = new System.Drawing.Size(579, 51);
 			this.labelPathSameForAll.TabIndex = 93;
 			this.labelPathSameForAll.Text = resources.GetString("labelPathSameForAll.Text");
 			this.labelPathSameForAll.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -136,7 +136,7 @@ namespace OpenPmsDental {
 			// 
 			this.label3.Location = new System.Drawing.Point(20, 476);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(596, 65);
+			this.label3.Size = new System.Drawing.Size(596, 69);
 			this.label3.TabIndex = 96;
 			this.label3.Text = resources.GetString("label3.Text");
 			this.label3.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -162,7 +162,7 @@ namespace OpenPmsDental {
 			this.checkMultiplePaths.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
 			this.checkMultiplePaths.Location = new System.Drawing.Point(7, 86);
 			this.checkMultiplePaths.Name = "checkMultiplePaths";
-			this.checkMultiplePaths.Size = new System.Drawing.Size(580, 44);
+			this.checkMultiplePaths.Size = new System.Drawing.Size(580, 50);
 			this.checkMultiplePaths.TabIndex = 98;
 			this.checkMultiplePaths.Text = resources.GetString("checkMultiplePaths.Text");
 			// 
@@ -182,7 +182,7 @@ namespace OpenPmsDental {
 			// 
 			this.radioSftp.Location = new System.Drawing.Point(9, 57);
 			this.radioSftp.Name = "radioSftp";
-			this.radioSftp.Size = new System.Drawing.Size(569, 18);
+			this.radioSftp.Size = new System.Drawing.Size(569, 22);
 			this.radioSftp.TabIndex = 103;
 			this.radioSftp.Text = "Store images on a server via SSH File Transfer Protocol (SFTP)";
 			this.radioSftp.UseVisualStyleBackColor = true;
@@ -333,7 +333,7 @@ namespace OpenPmsDental {
 			// 
 			this.label11.Location = new System.Drawing.Point(66, 25);
 			this.label11.Name = "label11";
-			this.label11.Size = new System.Drawing.Size(465, 29);
+			this.label11.Size = new System.Drawing.Size(523, 29);
 			this.label11.TabIndex = 137;
 			this.label11.Text = "Any subfolders defined in the AtoZ Path must be separated with the forward slash " +
     "\" / \" character.";
@@ -361,7 +361,7 @@ namespace OpenPmsDental {
 			// 
 			this.label10.Location = new System.Drawing.Point(6, 3);
 			this.label10.Name = "label10";
-			this.label10.Size = new System.Drawing.Size(525, 15);
+			this.label10.Size = new System.Drawing.Size(525, 18);
 			this.label10.TabIndex = 136;
 			this.label10.Text = "Store images on a server via SSH File Transfer Protocol (SFTP). ";
 			this.label10.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -434,7 +434,7 @@ namespace OpenPmsDental {
 			// 
 			this.radioDatabaseStorage.Location = new System.Drawing.Point(9, 38);
 			this.radioDatabaseStorage.Name = "radioDatabaseStorage";
-			this.radioDatabaseStorage.Size = new System.Drawing.Size(537, 18);
+			this.radioDatabaseStorage.Size = new System.Drawing.Size(537, 19);
 			this.radioDatabaseStorage.TabIndex = 101;
 			this.radioDatabaseStorage.Text = "Store images directly in database.  No AtoZ folder. (Some features will be unavai" +
     "lable)";
@@ -446,7 +446,7 @@ namespace OpenPmsDental {
 			this.radioUseFolder.Checked = true;
 			this.radioUseFolder.Location = new System.Drawing.Point(9, 19);
 			this.radioUseFolder.Name = "radioUseFolder";
-			this.radioUseFolder.Size = new System.Drawing.Size(333, 18);
+			this.radioUseFolder.Size = new System.Drawing.Size(333, 19);
 			this.radioUseFolder.TabIndex = 0;
 			this.radioUseFolder.TabStop = true;
 			this.radioUseFolder.Text = "Store images and documents on a local or network folder.";

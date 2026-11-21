@@ -55,7 +55,7 @@
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butSave.Location = new System.Drawing.Point(485, 560);
 			this.butSave.Name = "butSave";
-			this.butSave.Size = new System.Drawing.Size(75, 24);
+			this.butSave.Size = new System.Drawing.Size(75, 28);
 			this.butSave.TabIndex = 2;
 			this.butSave.Text = "&Save";
 			this.butSave.UseVisualStyleBackColor = true;
@@ -66,7 +66,7 @@
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Location = new System.Drawing.Point(12, 560);
 			this.butDelete.Name = "butDelete";
-			this.butDelete.Size = new System.Drawing.Size(75, 24);
+			this.butDelete.Size = new System.Drawing.Size(75, 28);
 			this.butDelete.TabIndex = 3;
 			this.butDelete.Text = "Delete";
 			this.butDelete.UseVisualStyleBackColor = true;
@@ -141,6 +141,7 @@
 			// 
 			// textSpecimenSourceCode
 			// 
+			this.textSpecimenSourceCode.AutoSize = false;
 			this.textSpecimenSourceCode.Location = new System.Drawing.Point(113, 14);
 			this.textSpecimenSourceCode.Name = "textSpecimenSourceCode";
 			this.textSpecimenSourceCode.Size = new System.Drawing.Size(64, 20);
@@ -152,7 +153,7 @@
 			this.butAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butAdd.Location = new System.Drawing.Point(207, 560);
 			this.butAdd.Name = "butAdd";
-			this.butAdd.Size = new System.Drawing.Size(81, 24);
+			this.butAdd.Size = new System.Drawing.Size(81, 28);
 			this.butAdd.TabIndex = 13;
 			this.butAdd.Text = "Add Result";
 			this.butAdd.UseVisualStyleBackColor = true;
@@ -214,6 +215,7 @@
 			// 
 			// textSpecimenLocation
 			// 
+			this.textSpecimenLocation.AutoSize = false;
 			this.textSpecimenLocation.Location = new System.Drawing.Point(113, 34);
 			this.textSpecimenLocation.Name = "textSpecimenLocation";
 			this.textSpecimenLocation.Size = new System.Drawing.Size(302, 20);
@@ -244,6 +246,7 @@
 			// 
 			// textServiceID
 			// 
+			this.textServiceID.AutoSize = false;
 			this.textServiceID.Location = new System.Drawing.Point(113, 14);
 			this.textServiceID.Name = "textServiceID";
 			this.textServiceID.Size = new System.Drawing.Size(106, 20);
@@ -260,6 +263,7 @@
 			// 
 			// textServiceName
 			// 
+			this.textServiceName.AutoSize = false;
 			this.textServiceName.Location = new System.Drawing.Point(113, 34);
 			this.textServiceName.Name = "textServiceName";
 			this.textServiceName.Size = new System.Drawing.Size(302, 20);

@@ -46,6 +46,7 @@ namespace OpenPmsDental {
 			// textAmount
 			// 
 			this.textAmount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.textAmount.AutoSize = false;
 			this.textAmount.Location = new System.Drawing.Point(668, 56);
 			this.textAmount.MaxVal = 100000000D;
 			this.textAmount.MinVal = -100000000D;
@@ -58,6 +59,7 @@ namespace OpenPmsDental {
 			// textDate
 			// 
 			this.textDate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.textDate.AutoSize = false;
 			this.textDate.Location = new System.Drawing.Point(668, 36);
 			this.textDate.Name = "textDate";
 			this.textDate.Size = new System.Drawing.Size(68, 20);
@@ -67,6 +69,7 @@ namespace OpenPmsDental {
 			// textBankBranch
 			// 
 			this.textBankBranch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.textBankBranch.AutoSize = false;
 			this.textBankBranch.Location = new System.Drawing.Point(668, 96);
 			this.textBankBranch.MaxLength = 25;
 			this.textBankBranch.Name = "textBankBranch";
@@ -76,6 +79,7 @@ namespace OpenPmsDental {
 			// textCheckNum
 			// 
 			this.textCheckNum.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.textCheckNum.AutoSize = false;
 			this.textCheckNum.Location = new System.Drawing.Point(668, 76);
 			this.textCheckNum.MaxLength = 25;
 			this.textCheckNum.Name = "textCheckNum";
@@ -97,7 +101,7 @@ namespace OpenPmsDental {
 			this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.label6.Location = new System.Drawing.Point(570, 40);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(96, 16);
+			this.label6.Size = new System.Drawing.Size(96, 18);
 			this.label6.TabIndex = 37;
 			this.label6.Text = "Payment Date";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -196,7 +200,7 @@ namespace OpenPmsDental {
 			this.labelClinic.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelClinic.Location = new System.Drawing.Point(579, 18);
 			this.labelClinic.Name = "labelClinic";
-			this.labelClinic.Size = new System.Drawing.Size(86, 14);
+			this.labelClinic.Size = new System.Drawing.Size(86, 18);
 			this.labelClinic.TabIndex = 91;
 			this.labelClinic.Text = "Clinic";
 			this.labelClinic.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -204,6 +208,7 @@ namespace OpenPmsDental {
 			// textCarrierName
 			// 
 			this.textCarrierName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.textCarrierName.AutoSize = false;
 			this.textCarrierName.Location = new System.Drawing.Point(668, 116);
 			this.textCarrierName.MaxLength = 25;
 			this.textCarrierName.Name = "textCarrierName";

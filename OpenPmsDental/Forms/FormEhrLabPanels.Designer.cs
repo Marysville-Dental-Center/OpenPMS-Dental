@@ -36,7 +36,7 @@
 			// 
 			this.butAdd.Location = new System.Drawing.Point(21, 12);
 			this.butAdd.Name = "butAdd";
-			this.butAdd.Size = new System.Drawing.Size(75, 24);
+			this.butAdd.Size = new System.Drawing.Size(75, 28);
 			this.butAdd.TabIndex = 2;
 			this.butAdd.Text = "Add Panel";
 			this.butAdd.UseVisualStyleBackColor = true;
@@ -61,7 +61,7 @@
 			this.butSubmit.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.butSubmit.Location = new System.Drawing.Point(9, 17);
 			this.butSubmit.Name = "butSubmit";
-			this.butSubmit.Size = new System.Drawing.Size(66, 24);
+			this.butSubmit.Size = new System.Drawing.Size(66, 28);
 			this.butSubmit.TabIndex = 3;
 			this.butSubmit.Text = "Submit";
 			this.butSubmit.UseVisualStyleBackColor = true;
@@ -72,7 +72,7 @@
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butOK.Location = new System.Drawing.Point(327, 293);
 			this.butOK.Name = "butOK";
-			this.butOK.Size = new System.Drawing.Size(75, 24);
+			this.butOK.Size = new System.Drawing.Size(75, 28);
 			this.butOK.TabIndex = 4;
 			this.butOK.Text = "&OK";
 			this.butOK.UseVisualStyleBackColor = true;
@@ -83,7 +83,7 @@
 			this.butShow.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.butShow.Location = new System.Drawing.Point(81, 17);
 			this.butShow.Name = "butShow";
-			this.butShow.Size = new System.Drawing.Size(66, 24);
+			this.butShow.Size = new System.Drawing.Size(66, 28);
 			this.butShow.TabIndex = 5;
 			this.butShow.Text = "Show";
 			this.butShow.UseVisualStyleBackColor = true;

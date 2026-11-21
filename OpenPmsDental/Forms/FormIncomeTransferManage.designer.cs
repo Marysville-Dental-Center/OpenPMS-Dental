@@ -100,7 +100,7 @@ namespace OpenPmsDental{
 			// 
 			this.labelAsOfDate.Location = new System.Drawing.Point(424, 15);
 			this.labelAsOfDate.Name = "labelAsOfDate";
-			this.labelAsOfDate.Size = new System.Drawing.Size(78, 13);
+			this.labelAsOfDate.Size = new System.Drawing.Size(78, 17);
 			this.labelAsOfDate.TabIndex = 159;
 			this.labelAsOfDate.Text = "As of Date";
 			this.labelAsOfDate.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -109,7 +109,7 @@ namespace OpenPmsDental{
 			// 
 			this.label1.Location = new System.Drawing.Point(12, 9);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(395, 84);
+			this.label1.Size = new System.Drawing.Size(395, 90);
 			this.label1.TabIndex = 160;
 			this.label1.Text = resources.GetString("label1.Text");
 			// 
@@ -128,7 +128,7 @@ namespace OpenPmsDental{
 			// 
 			this.label6.Location = new System.Drawing.Point(102, 3);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(308, 43);
+			this.label6.Size = new System.Drawing.Size(308, 48);
 			this.label6.TabIndex = 163;
 			this.label6.Text = "This is only used once to fix historical data. It allocates on a FIFO basis witho" +
     "ut regard for provider or patient.  For ongoing allocations by provider, use the" +
@@ -139,7 +139,7 @@ namespace OpenPmsDental{
 			this.label8.ForeColor = System.Drawing.Color.Black;
 			this.label8.Location = new System.Drawing.Point(626, 15);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(258, 19);
+			this.label8.Size = new System.Drawing.Size(287, 19);
 			this.label8.TabIndex = 164;
 			this.label8.Text = "Will ignore procedures and payments after this date.";
 			// 

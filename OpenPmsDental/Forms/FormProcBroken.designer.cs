@@ -77,7 +77,7 @@ namespace OpenPmsDental{
 			// 
 			this.label8.Location = new System.Drawing.Point(21, 10);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(104, 16);
+			this.label8.Size = new System.Drawing.Size(104, 18);
 			this.label8.TabIndex = 0;
 			this.label8.Text = "Entry Date";
 			this.label8.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -122,7 +122,7 @@ namespace OpenPmsDental{
 			this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label7.Location = new System.Drawing.Point(25, 101);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(100, 14);
+			this.label7.Size = new System.Drawing.Size(100, 18);
 			this.label7.TabIndex = 261;
 			this.label7.Text = "Provider";
 			this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -191,6 +191,7 @@ namespace OpenPmsDental{
 			// 
 			// textDateEntry
 			// 
+			this.textDateEntry.AutoSize = false;
 			this.textDateEntry.Location = new System.Drawing.Point(126, 8);
 			this.textDateEntry.Name = "textDateEntry";
 			this.textDateEntry.ReadOnly = true;
@@ -200,6 +201,7 @@ namespace OpenPmsDental{
 			// 
 			// textProcDate
 			// 
+			this.textProcDate.AutoSize = false;
 			this.textProcDate.Location = new System.Drawing.Point(126, 30);
 			this.textProcDate.Name = "textProcDate";
 			this.textProcDate.Size = new System.Drawing.Size(80, 20);
@@ -222,6 +224,7 @@ namespace OpenPmsDental{
 			// 
 			// textAmount
 			// 
+			this.textAmount.AutoSize = false;
 			this.textAmount.Location = new System.Drawing.Point(126, 52);
 			this.textAmount.MaxVal = 100000000D;
 			this.textAmount.MinVal = -100000000D;
@@ -234,7 +237,7 @@ namespace OpenPmsDental{
 			this.labelAmountDescription.Location = new System.Drawing.Point(195, 53);
 			this.labelAmountDescription.Name = "labelAmountDescription";
 			this.labelAmountDescription.RightToLeft = System.Windows.Forms.RightToLeft.No;
-			this.labelAmountDescription.Size = new System.Drawing.Size(240, 17);
+			this.labelAmountDescription.Size = new System.Drawing.Size(257, 17);
 			this.labelAmountDescription.TabIndex = 266;
 			this.labelAmountDescription.Text = "(Sum of prepayments for attached procedures)";
 			this.labelAmountDescription.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;

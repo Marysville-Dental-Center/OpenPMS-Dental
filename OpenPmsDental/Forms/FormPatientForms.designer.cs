@@ -84,7 +84,7 @@ namespace OpenPmsDental{
 			this.radioSortByDateTime.Checked = true;
 			this.radioSortByDateTime.Location = new System.Drawing.Point(24, 18);
 			this.radioSortByDateTime.Name = "radioSortByDateTime";
-			this.radioSortByDateTime.Size = new System.Drawing.Size(184, 18);
+			this.radioSortByDateTime.Size = new System.Drawing.Size(184, 20);
 			this.radioSortByDateTime.TabIndex = 252;
 			this.radioSortByDateTime.TabStop = true;
 			this.radioSortByDateTime.Text = "Date and Time";
@@ -95,7 +95,7 @@ namespace OpenPmsDental{
 			//
 			this.radioSortByDescDateT.Location = new System.Drawing.Point(24, 38);
 			this.radioSortByDescDateT.Name = "radioSortByDescDateT";
-			this.radioSortByDescDateT.Size = new System.Drawing.Size(236, 18);
+			this.radioSortByDescDateT.Size = new System.Drawing.Size(236, 22);
 			this.radioSortByDescDateT.TabIndex = 251;
 			this.radioSortByDescDateT.Text = "Description, then Date/Time";
 			this.radioSortByDescDateT.UseVisualStyleBackColor = true;
@@ -118,7 +118,7 @@ namespace OpenPmsDental{
 			this.radioShowBoth.Checked = true;
 			this.radioShowBoth.Location = new System.Drawing.Point(16, 18);
 			this.radioShowBoth.Name = "radioShowBoth";
-			this.radioShowBoth.Size = new System.Drawing.Size(110, 18);
+			this.radioShowBoth.Size = new System.Drawing.Size(110, 20);
 			this.radioShowBoth.TabIndex = 254;
 			this.radioShowBoth.TabStop = true;
 			this.radioShowBoth.Text = "Both";
@@ -129,7 +129,7 @@ namespace OpenPmsDental{
 			//
 			this.radioShowSheets.Location = new System.Drawing.Point(16, 38);
 			this.radioShowSheets.Name = "radioShowSheets";
-			this.radioShowSheets.Size = new System.Drawing.Size(110, 18);
+			this.radioShowSheets.Size = new System.Drawing.Size(110, 22);
 			this.radioShowSheets.TabIndex = 255;
 			this.radioShowSheets.Text = "Sheets";
 			this.radioShowSheets.UseVisualStyleBackColor = true;
@@ -139,7 +139,7 @@ namespace OpenPmsDental{
 			//
 			this.radioShowEForms.Location = new System.Drawing.Point(130, 18);
 			this.radioShowEForms.Name = "radioShowEForms";
-			this.radioShowEForms.Size = new System.Drawing.Size(110, 18);
+			this.radioShowEForms.Size = new System.Drawing.Size(110, 22);
 			this.radioShowEForms.TabIndex = 256;
 			this.radioShowEForms.Text = "eForms";
 			this.radioShowEForms.UseVisualStyleBackColor = true;

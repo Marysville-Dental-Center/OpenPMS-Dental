@@ -122,7 +122,7 @@ namespace OpenPmsDental {
 			this.checkExcludeWeekends.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkExcludeWeekends.Location = new System.Drawing.Point(92, 100);
 			this.checkExcludeWeekends.Name = "checkExcludeWeekends";
-			this.checkExcludeWeekends.Size = new System.Drawing.Size(119, 17);
+			this.checkExcludeWeekends.Size = new System.Drawing.Size(122, 18);
 			this.checkExcludeWeekends.TabIndex = 23;
 			this.checkExcludeWeekends.Text = "Exclude Weekends";
 			this.checkExcludeWeekends.CheckedChanged += new System.EventHandler(this.checkExcludeWeekends_CheckedChanged);
@@ -149,7 +149,7 @@ namespace OpenPmsDental {
 			// 
 			this.label4.Location = new System.Drawing.Point(44, 74);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(120, 17);
+			this.label4.Size = new System.Drawing.Size(126, 17);
 			this.label4.TabIndex = 2;
 			this.label4.Text = "# Days After Pay Period";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -211,7 +211,7 @@ namespace OpenPmsDental {
 			this.checkLast.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkLast.Location = new System.Drawing.Point(27, 62);
 			this.checkLast.Name = "checkLast";
-			this.checkLast.Size = new System.Drawing.Size(82, 17);
+			this.checkLast.Size = new System.Drawing.Size(82, 18);
 			this.checkLast.TabIndex = 27;
 			this.checkLast.Text = "Last Day";
 			this.checkLast.Click += new System.EventHandler(this.checkLast_Click);
@@ -227,6 +227,7 @@ namespace OpenPmsDental {
 			// 
 			// textDay2
 			// 
+			this.textDay2.AutoSize = false;
 			this.textDay2.Location = new System.Drawing.Point(83, 37);
 			this.textDay2.MaxVal = 28;
 			this.textDay2.MinVal = 1;
@@ -247,6 +248,7 @@ namespace OpenPmsDental {
 			// 
 			// textDay1
 			// 
+			this.textDay1.AutoSize = false;
 			this.textDay1.Location = new System.Drawing.Point(83, 15);
 			this.textDay1.MaxVal = 28;
 			this.textDay1.MinVal = 1;
@@ -345,7 +347,7 @@ namespace OpenPmsDental {
 			// 
 			this.label5.Location = new System.Drawing.Point(5, 95);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(140, 17);
+			this.label5.Size = new System.Drawing.Size(144, 17);
 			this.label5.TabIndex = 10;
 			this.label5.Text = "# Pay Periods to Generate";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;

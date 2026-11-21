@@ -50,7 +50,7 @@ namespace OpenPmsDental{
 			// 
 			this.checkRandomPrimaryKeys.Location = new System.Drawing.Point(17, 15);
 			this.checkRandomPrimaryKeys.Name = "checkRandomPrimaryKeys";
-			this.checkRandomPrimaryKeys.Size = new System.Drawing.Size(527, 17);
+			this.checkRandomPrimaryKeys.Size = new System.Drawing.Size(527, 18);
 			this.checkRandomPrimaryKeys.TabIndex = 56;
 			this.checkRandomPrimaryKeys.Text = "Use Random Primary Keys (BE VERY CAREFUL.  IRREVERSIBLE)";
 			// 
@@ -59,7 +59,7 @@ namespace OpenPmsDental{
 			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.label1.Location = new System.Drawing.Point(113, 475);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(550, 35);
+			this.label1.Size = new System.Drawing.Size(550, 42);
 			this.label1.TabIndex = 61;
 			this.label1.Text = resources.GetString("label1.Text");
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -79,7 +79,7 @@ namespace OpenPmsDental{
 			// 
 			this.label3.Location = new System.Drawing.Point(103, 16);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(431, 45);
+			this.label3.Size = new System.Drawing.Size(431, 50);
 			this.label3.TabIndex = 65;
 			this.label3.Text = resources.GetString("label3.Text");
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -101,6 +101,7 @@ namespace OpenPmsDental{
 			// 
 			// textPassword
 			// 
+			this.textPassword.AutoSize = false;
 			this.textPassword.Location = new System.Drawing.Point(641, 40);
 			this.textPassword.Name = "textPassword";
 			this.textPassword.PasswordChar = '*';
@@ -118,6 +119,7 @@ namespace OpenPmsDental{
 			// 
 			// textUsername
 			// 
+			this.textUsername.AutoSize = false;
 			this.textUsername.Location = new System.Drawing.Point(641, 18);
 			this.textUsername.Name = "textUsername";
 			this.textUsername.Size = new System.Drawing.Size(125, 20);

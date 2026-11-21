@@ -48,7 +48,7 @@ namespace OpenPmsDental{
 			this.checkShowFinished.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
 			this.checkShowFinished.Location = new System.Drawing.Point(12, 12);
 			this.checkShowFinished.Name = "checkShowFinished";
-			this.checkShowFinished.Size = new System.Drawing.Size(151, 17);
+			this.checkShowFinished.Size = new System.Drawing.Size(151, 18);
 			this.checkShowFinished.TabIndex = 11;
 			this.checkShowFinished.Text = "Show Finished Tasks";
 			this.checkShowFinished.Click += new System.EventHandler(this.checkShowFinished_Click);
@@ -74,7 +74,7 @@ namespace OpenPmsDental{
 			this.checkTaskSortApptDateTime.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
 			this.checkTaskSortApptDateTime.Location = new System.Drawing.Point(12, 55);
 			this.checkTaskSortApptDateTime.Name = "checkTaskSortApptDateTime";
-			this.checkTaskSortApptDateTime.Size = new System.Drawing.Size(299, 17);
+			this.checkTaskSortApptDateTime.Size = new System.Drawing.Size(299, 18);
 			this.checkTaskSortApptDateTime.TabIndex = 15;
 			this.checkTaskSortApptDateTime.Text = "Sort appointment type task lists by AptDateTime";
 			// 
@@ -83,7 +83,7 @@ namespace OpenPmsDental{
 			this.checkCollapsed.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
 			this.checkCollapsed.Location = new System.Drawing.Point(12, 78);
 			this.checkCollapsed.Name = "checkCollapsed";
-			this.checkCollapsed.Size = new System.Drawing.Size(299, 17);
+			this.checkCollapsed.Size = new System.Drawing.Size(299, 18);
 			this.checkCollapsed.TabIndex = 16;
 			this.checkCollapsed.Text = "Default tasks to collapsed state";
 			// 
@@ -92,7 +92,7 @@ namespace OpenPmsDental{
 			this.checkShowArchivedTaskLists.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
 			this.checkShowArchivedTaskLists.Location = new System.Drawing.Point(12, 101);
 			this.checkShowArchivedTaskLists.Name = "checkShowArchivedTaskLists";
-			this.checkShowArchivedTaskLists.Size = new System.Drawing.Size(200, 17);
+			this.checkShowArchivedTaskLists.Size = new System.Drawing.Size(200, 18);
 			this.checkShowArchivedTaskLists.TabIndex = 17;
 			this.checkShowArchivedTaskLists.Text = "Show Archived Task Lists";
 			// 
@@ -101,7 +101,7 @@ namespace OpenPmsDental{
 			this.checkBlockedTaskPlaySound.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
 			this.checkBlockedTaskPlaySound.Location = new System.Drawing.Point(12, 124);
 			this.checkBlockedTaskPlaySound.Name = "checkBlockedTaskPlaySound";
-			this.checkBlockedTaskPlaySound.Size = new System.Drawing.Size(328, 17);
+			this.checkBlockedTaskPlaySound.Size = new System.Drawing.Size(328, 18);
 			this.checkBlockedTaskPlaySound.TabIndex = 19;
 			this.checkBlockedTaskPlaySound.Text = "Blocked task popups still make notification sound";
 			// 

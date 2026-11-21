@@ -103,7 +103,7 @@ namespace OpenPmsDental {
 			this.checkOvertime.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkOvertime.Location = new System.Drawing.Point(39, 103);
 			this.checkOvertime.Name = "checkOvertime";
-			this.checkOvertime.Size = new System.Drawing.Size(139, 17);
+			this.checkOvertime.Size = new System.Drawing.Size(139, 18);
 			this.checkOvertime.TabIndex = 5;
 			this.checkOvertime.Text = "Overtime Adjustment";
 			// 
@@ -118,7 +118,7 @@ namespace OpenPmsDental {
 			// 
 			this.label3.Location = new System.Drawing.Point(179, 101);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(300, 18);
+			this.label3.Size = new System.Drawing.Size(306, 18);
 			this.label3.TabIndex = 0;
 			this.label3.Text = "(the hours will be shifted from regular time to overtime)";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -150,7 +150,7 @@ namespace OpenPmsDental {
 			this.radioAuto.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.radioAuto.Location = new System.Drawing.Point(39, 10);
 			this.radioAuto.Name = "radioAuto";
-			this.radioAuto.Size = new System.Drawing.Size(139, 18);
+			this.radioAuto.Size = new System.Drawing.Size(139, 22);
 			this.radioAuto.TabIndex = 1;
 			this.radioAuto.TabStop = true;
 			this.radioAuto.Text = "Automatically entered";
@@ -162,7 +162,7 @@ namespace OpenPmsDental {
 			this.radioManual.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.radioManual.Location = new System.Drawing.Point(39, 27);
 			this.radioManual.Name = "radioManual";
-			this.radioManual.Size = new System.Drawing.Size(139, 18);
+			this.radioManual.Size = new System.Drawing.Size(139, 22);
 			this.radioManual.TabIndex = 2;
 			this.radioManual.TabStop = true;
 			this.radioManual.Text = "Manually entered";
@@ -173,7 +173,7 @@ namespace OpenPmsDental {
 			// 
 			this.label5.Location = new System.Drawing.Point(179, 27);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(170, 18);
+			this.label5.Size = new System.Drawing.Size(171, 18);
 			this.label5.TabIndex = 0;
 			this.label5.Text = "(protected from auto deletion)";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -199,7 +199,7 @@ namespace OpenPmsDental {
 			this.checkUnpaidProtectedLeave.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkUnpaidProtectedLeave.Location = new System.Drawing.Point(1, 126);
 			this.checkUnpaidProtectedLeave.Name = "checkUnpaidProtectedLeave";
-			this.checkUnpaidProtectedLeave.Size = new System.Drawing.Size(177, 17);
+			this.checkUnpaidProtectedLeave.Size = new System.Drawing.Size(177, 18);
 			this.checkUnpaidProtectedLeave.TabIndex = 100;
 			this.checkUnpaidProtectedLeave.Text = "Protected Leave";
 			this.checkUnpaidProtectedLeave.Click += new System.EventHandler(this.checkUnpaidProtectedLeave_Click);

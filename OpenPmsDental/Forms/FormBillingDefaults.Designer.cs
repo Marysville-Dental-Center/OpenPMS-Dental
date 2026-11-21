@@ -147,7 +147,7 @@ namespace OpenPmsDental{
 			//
 			this.labelStartDate.Location = new System.Drawing.Point(480, 20);
 			this.labelStartDate.Name = "labelStartDate";
-			this.labelStartDate.Size = new System.Drawing.Size(147, 14);
+			this.labelStartDate.Size = new System.Drawing.Size(147, 18);
 			this.labelStartDate.TabIndex = 2;
 			this.labelStartDate.Text = "Start Date Last";
 			this.labelStartDate.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -163,7 +163,7 @@ namespace OpenPmsDental{
 			//
 			this.label1.Location = new System.Drawing.Point(675, 20);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(65, 14);
+			this.label1.Size = new System.Drawing.Size(65, 18);
 			this.label1.TabIndex = 4;
 			this.label1.Text = "Days";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -204,7 +204,7 @@ namespace OpenPmsDental{
 			//
 			this.label4.Location = new System.Drawing.Point(11, 16);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(575, 32);
+			this.label4.Size = new System.Drawing.Size(842, 32);
 			this.label4.TabIndex = 0;
 			this.label4.Text = "General Message (in addition to any dunning messages and appointment messages).\r\n" +
     "You may use the variable [InstallmentPlanTerms] below to show the terms of the i" +
@@ -252,7 +252,7 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.label10.Location = new System.Drawing.Point(11, 15);
 			this.label10.Name = "label10";
-			this.label10.Size = new System.Drawing.Size(814, 29);
+			this.label10.Size = new System.Drawing.Size(830, 29);
 			this.label10.TabIndex = 0;
 			this.label10.Text = resources.GetString("label10.Text");
 			//
@@ -269,6 +269,7 @@ namespace OpenPmsDental{
 			//
 			this.textBillingEmailSubject.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
+			this.textBillingEmailSubject.AutoSize = false;
 			this.textBillingEmailSubject.Location = new System.Drawing.Point(12, 62);
 			this.textBillingEmailSubject.MaxLength = 200;
 			this.textBillingEmailSubject.Name = "textBillingEmailSubject";
@@ -279,7 +280,7 @@ namespace OpenPmsDental{
 			//
 			this.label8.Location = new System.Drawing.Point(11, 83);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(87, 16);
+			this.label8.Size = new System.Drawing.Size(87, 17);
 			this.label8.TabIndex = 3;
 			this.label8.Text = "Body";
 			this.label8.TextAlign = System.Drawing.ContentAlignment.BottomLeft;

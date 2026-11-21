@@ -81,7 +81,7 @@ namespace OpenPmsDental{
 			this.checkChangeEffectiveDates.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.checkChangeEffectiveDates.Location = new System.Drawing.Point(14, 115);
 			this.checkChangeEffectiveDates.Name = "checkChangeEffectiveDates";
-			this.checkChangeEffectiveDates.Size = new System.Drawing.Size(154, 17);
+			this.checkChangeEffectiveDates.Size = new System.Drawing.Size(154, 18);
 			this.checkChangeEffectiveDates.TabIndex = 12;
 			this.checkChangeEffectiveDates.Text = "Change Effective Dates";
 			// 
@@ -90,7 +90,7 @@ namespace OpenPmsDental{
 			this.checkChangeInsHist.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.checkChangeInsHist.Location = new System.Drawing.Point(14, 92);
 			this.checkChangeInsHist.Name = "checkChangeInsHist";
-			this.checkChangeInsHist.Size = new System.Drawing.Size(154, 17);
+			this.checkChangeInsHist.Size = new System.Drawing.Size(154, 18);
 			this.checkChangeInsHist.TabIndex = 11;
 			this.checkChangeInsHist.Text = "Change Ins History";
 			// 
@@ -100,7 +100,7 @@ namespace OpenPmsDental{
 			this.checkCheckDeductable.Location = new System.Drawing.Point(14, 46);
 			this.checkCheckDeductable.Name = "checkCheckDeductable";
 			this.checkCheckDeductable.RightToLeft = System.Windows.Forms.RightToLeft.No;
-			this.checkCheckDeductable.Size = new System.Drawing.Size(154, 17);
+			this.checkCheckDeductable.Size = new System.Drawing.Size(154, 18);
 			this.checkCheckDeductable.TabIndex = 10;
 			this.checkCheckDeductable.Text = "Check Deductible";
 			// 
@@ -109,7 +109,7 @@ namespace OpenPmsDental{
 			this.checkCheckAnnualMax.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.checkCheckAnnualMax.Location = new System.Drawing.Point(14, 69);
 			this.checkCheckAnnualMax.Name = "checkCheckAnnualMax";
-			this.checkCheckAnnualMax.Size = new System.Drawing.Size(154, 17);
+			this.checkCheckAnnualMax.Size = new System.Drawing.Size(154, 18);
 			this.checkCheckAnnualMax.TabIndex = 9;
 			this.checkCheckAnnualMax.Text = "Check Annual Max";
 			// 
@@ -118,7 +118,7 @@ namespace OpenPmsDental{
 			this.checkCreateAdjustments.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.checkCreateAdjustments.Location = new System.Drawing.Point(14, 23);
 			this.checkCreateAdjustments.Name = "checkCreateAdjustments";
-			this.checkCreateAdjustments.Size = new System.Drawing.Size(154, 17);
+			this.checkCreateAdjustments.Size = new System.Drawing.Size(154, 18);
 			this.checkCreateAdjustments.TabIndex = 8;
 			this.checkCreateAdjustments.Text = "Create Adjustments";
 			// 

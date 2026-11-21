@@ -64,7 +64,7 @@ namespace OpenPmsDental{
 			// 
 			this.checkSaveToken.Location = new System.Drawing.Point(23, 236);
 			this.checkSaveToken.Name = "checkSaveToken";
-			this.checkSaveToken.Size = new System.Drawing.Size(150, 17);
+			this.checkSaveToken.Size = new System.Drawing.Size(150, 18);
 			this.checkSaveToken.TabIndex = 38;
 			this.checkSaveToken.Text = "Save Card";
 			// 
@@ -98,11 +98,11 @@ namespace OpenPmsDental{
 			// 
 			// radioSale
 			// 
-			this.radioSale.AutoSize = true;
+			this.radioSale.AutoSize = false;
 			this.radioSale.Checked = true;
 			this.radioSale.Location = new System.Drawing.Point(5, 19);
 			this.radioSale.Name = "radioSale";
-			this.radioSale.Size = new System.Drawing.Size(46, 17);
+			this.radioSale.Size = new System.Drawing.Size(45, 18);
 			this.radioSale.TabIndex = 0;
 			this.radioSale.TabStop = true;
 			this.radioSale.Text = "Sale";
@@ -110,10 +110,10 @@ namespace OpenPmsDental{
 			// 
 			// radioRefund
 			// 
-			this.radioRefund.AutoSize = true;
+			this.radioRefund.AutoSize = false;
 			this.radioRefund.Location = new System.Drawing.Point(156, 19);
 			this.radioRefund.Name = "radioRefund";
-			this.radioRefund.Size = new System.Drawing.Size(60, 17);
+			this.radioRefund.Size = new System.Drawing.Size(61, 18);
 			this.radioRefund.TabIndex = 0;
 			this.radioRefund.Text = "Refund";
 			this.radioRefund.UseVisualStyleBackColor = true;
@@ -121,10 +121,10 @@ namespace OpenPmsDental{
 			// 
 			// radioAuthorization
 			// 
-			this.radioAuthorization.AutoSize = true;
+			this.radioAuthorization.AutoSize = false;
 			this.radioAuthorization.Location = new System.Drawing.Point(55, 19);
 			this.radioAuthorization.Name = "radioAuthorization";
-			this.radioAuthorization.Size = new System.Drawing.Size(47, 17);
+			this.radioAuthorization.Size = new System.Drawing.Size(49, 18);
 			this.radioAuthorization.TabIndex = 0;
 			this.radioAuthorization.Text = "Auth";
 			this.radioAuthorization.UseVisualStyleBackColor = true;
@@ -132,10 +132,10 @@ namespace OpenPmsDental{
 			// 
 			// radioVoid
 			// 
-			this.radioVoid.AutoSize = true;
+			this.radioVoid.AutoSize = false;
 			this.radioVoid.Location = new System.Drawing.Point(106, 19);
 			this.radioVoid.Name = "radioVoid";
-			this.radioVoid.Size = new System.Drawing.Size(46, 17);
+			this.radioVoid.Size = new System.Drawing.Size(48, 18);
 			this.radioVoid.TabIndex = 0;
 			this.radioVoid.Text = "Void";
 			this.radioVoid.UseVisualStyleBackColor = true;
@@ -162,11 +162,11 @@ namespace OpenPmsDental{
 			// 
 			// radioWebService
 			// 
-			this.radioWebService.AutoSize = true;
+			this.radioWebService.AutoSize = false;
 			this.radioWebService.Checked = true;
 			this.radioWebService.Location = new System.Drawing.Point(5, 19);
 			this.radioWebService.Name = "radioWebService";
-			this.radioWebService.Size = new System.Drawing.Size(87, 17);
+			this.radioWebService.Size = new System.Drawing.Size(90, 18);
 			this.radioWebService.TabIndex = 0;
 			this.radioWebService.TabStop = true;
 			this.radioWebService.Text = "Web Service";

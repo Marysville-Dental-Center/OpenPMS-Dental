@@ -60,7 +60,7 @@ namespace OpenPmsDental{
 			// 
 			this.checkAllCourses.Location = new System.Drawing.Point(114, 49);
 			this.checkAllCourses.Name = "checkAllCourses";
-			this.checkAllCourses.Size = new System.Drawing.Size(134, 16);
+			this.checkAllCourses.Size = new System.Drawing.Size(134, 18);
 			this.checkAllCourses.TabIndex = 55;
 			this.checkAllCourses.Text = "All Courses";
 			this.checkAllCourses.CheckedChanged += new System.EventHandler(this.checkAllCourses_CheckedChanged);
@@ -69,7 +69,7 @@ namespace OpenPmsDental{
 			// 
 			this.checkAllInstructors.Location = new System.Drawing.Point(434, 49);
 			this.checkAllInstructors.Name = "checkAllInstructors";
-			this.checkAllInstructors.Size = new System.Drawing.Size(141, 16);
+			this.checkAllInstructors.Size = new System.Drawing.Size(141, 18);
 			this.checkAllInstructors.TabIndex = 56;
 			this.checkAllInstructors.Text = "All Instructors";
 			this.checkAllInstructors.CheckedChanged += new System.EventHandler(this.checkAllInstructors_CheckedChanged);

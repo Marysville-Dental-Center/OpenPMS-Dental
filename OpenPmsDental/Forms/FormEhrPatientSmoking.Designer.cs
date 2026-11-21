@@ -64,7 +64,7 @@
 			// 
 			this.label2.Location = new System.Drawing.Point(12, 26);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(135, 16);
+			this.label2.Size = new System.Drawing.Size(135, 18);
 			this.label2.TabIndex = 0;
 			this.label2.Text = "Current Smoking Status";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -84,7 +84,7 @@
 			// 
 			this.label1.Location = new System.Drawing.Point(384, 26);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(383, 16);
+			this.label1.Size = new System.Drawing.Size(383, 18);
 			this.label1.TabIndex = 0;
 			this.label1.Text = "Used for calculating MU measures.";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -104,7 +104,7 @@
 			// 
 			this.label5.Location = new System.Drawing.Point(6, 51);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(93, 16);
+			this.label5.Size = new System.Drawing.Size(94, 18);
 			this.label5.TabIndex = 0;
 			this.label5.Text = "Assessment Type";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -258,7 +258,7 @@
 			// 
 			this.label7.Location = new System.Drawing.Point(6, 50);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(93, 16);
+			this.label7.Size = new System.Drawing.Size(93, 18);
 			this.label7.TabIndex = 0;
 			this.label7.Text = "Filter Codes By";
 			this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -284,7 +284,7 @@
 			// 
 			this.label3.Location = new System.Drawing.Point(6, 73);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(93, 16);
+			this.label3.Size = new System.Drawing.Size(94, 18);
 			this.label3.TabIndex = 0;
 			this.label3.Text = "Intervention Code";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -339,7 +339,7 @@
 			// 
 			this.label8.Location = new System.Drawing.Point(6, 77);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(93, 16);
+			this.label8.Size = new System.Drawing.Size(94, 18);
 			this.label8.TabIndex = 0;
 			this.label8.Text = "Filter Statuses By";
 			this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
