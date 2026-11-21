@@ -85,7 +85,7 @@ namespace OpenPmsDental {
 			this.checkCollapse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.checkCollapse.Location = new System.Drawing.Point(340, 21);
 			this.checkCollapse.Name = "checkCollapse";
-			this.checkCollapse.Size = new System.Drawing.Size(79, 20);
+			this.checkCollapse.Size = new System.Drawing.Size(83, 20);
 			this.checkCollapse.TabIndex = 227;
 			this.checkCollapse.Text = "Collapse All";
 			this.checkCollapse.CheckedChanged += new System.EventHandler(this.checkCollapse_CheckedChanged);

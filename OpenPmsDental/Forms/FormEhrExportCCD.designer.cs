@@ -162,7 +162,7 @@ namespace OpenPmsDental{
 			// 
 			this.labelSections.Location = new System.Drawing.Point(12, 35);
 			this.labelSections.Name = "labelSections";
-			this.labelSections.Size = new System.Drawing.Size(339, 16);
+			this.labelSections.Size = new System.Drawing.Size(353, 18);
 			this.labelSections.TabIndex = 132;
 			this.labelSections.Text = "Choose the sections to include in the Continuity of Care Document.";
 			// 

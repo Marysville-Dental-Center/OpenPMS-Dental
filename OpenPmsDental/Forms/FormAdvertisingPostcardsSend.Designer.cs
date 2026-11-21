@@ -102,7 +102,7 @@ namespace OpenPmsDental{
 			//
 			this.labelRecipients.Location = new System.Drawing.Point(12, 79);
 			this.labelRecipients.Name = "labelRecipients";
-			this.labelRecipients.Size = new System.Drawing.Size(106, 16);
+			this.labelRecipients.Size = new System.Drawing.Size(106, 18);
 			this.labelRecipients.TabIndex = 4;
 			this.labelRecipients.Text = "Recipients";
 			this.labelRecipients.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -144,7 +144,7 @@ namespace OpenPmsDental{
 			//
 			this.labelDesign.Location = new System.Drawing.Point(12, 158);
 			this.labelDesign.Name = "labelDesign";
-			this.labelDesign.Size = new System.Drawing.Size(106, 16);
+			this.labelDesign.Size = new System.Drawing.Size(106, 18);
 			this.labelDesign.TabIndex = 9;
 			this.labelDesign.Text = "Design";
 			this.labelDesign.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -281,7 +281,7 @@ namespace OpenPmsDental{
 			this.labelBaaBlocked.ForeColor = System.Drawing.Color.Firebrick;
 			this.labelBaaBlocked.Location = new System.Drawing.Point(12, 456);
 			this.labelBaaBlocked.Name = "labelBaaBlocked";
-			this.labelBaaBlocked.Size = new System.Drawing.Size(458, 32);
+			this.labelBaaBlocked.Size = new System.Drawing.Size(546, 32);
 			this.labelBaaBlocked.TabIndex = 25;
 			this.labelBaaBlocked.Text = "Check addresses, Estimate and Place order are blocked: Setup does not record a signed business associate agreement with the vendor.";
 			//
@@ -351,7 +351,7 @@ namespace OpenPmsDental{
 			this.labelCutoff.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.labelCutoff.Location = new System.Drawing.Point(199, 660);
 			this.labelCutoff.Name = "labelCutoff";
-			this.labelCutoff.Size = new System.Drawing.Size(320, 30);
+			this.labelCutoff.Size = new System.Drawing.Size(388, 30);
 			this.labelCutoff.TabIndex = 32;
 			this.labelCutoff.Text = "Pending orders can be canceled until 11:30 PM Eastern on the day they were placed.";
 			//

@@ -222,7 +222,7 @@
 			// 
 			this.label6.Location = new System.Drawing.Point(467, 257);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(334, 32);
+			this.label6.Size = new System.Drawing.Size(428, 32);
 			this.label6.TabIndex = 14;
 			this.label6.Text = "Attach these lab results to a lab order by selecting a patient first, and then se" +
     "lecting one lab order from the list.";

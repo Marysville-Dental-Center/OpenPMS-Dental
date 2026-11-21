@@ -53,7 +53,7 @@
 			// 
 			this.labelExportSelect.Location = new System.Drawing.Point(17, 4);
 			this.labelExportSelect.Name = "labelExportSelect";
-			this.labelExportSelect.Size = new System.Drawing.Size(308, 14);
+			this.labelExportSelect.Size = new System.Drawing.Size(308, 17);
 			this.labelExportSelect.TabIndex = 1;
 			this.labelExportSelect.Text = "Select the Auto Notes you would like to export.";
 			// 

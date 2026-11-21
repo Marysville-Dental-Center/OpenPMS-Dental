@@ -130,6 +130,7 @@ namespace OpenPmsDental{
 			// 
 			// textCertification
 			// 
+			this.textCertification.AutoSize = false;
 			this.textCertification.Location = new System.Drawing.Point(115, 73);
 			this.textCertification.Name = "textCertification";
 			this.textCertification.ReadOnly = true;

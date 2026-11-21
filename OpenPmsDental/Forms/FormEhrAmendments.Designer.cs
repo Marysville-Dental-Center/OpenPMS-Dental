@@ -57,7 +57,7 @@
 			// 
 			this.label3.Location = new System.Drawing.Point(15, 9);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(473, 33);
+			this.label3.Size = new System.Drawing.Size(573, 33);
 			this.label3.TabIndex = 130;
 			this.label3.Text = "Patients can bring in documents and request that they be appended to their record" +
     ".  They can then be scanned or the hardcopy filed.";
