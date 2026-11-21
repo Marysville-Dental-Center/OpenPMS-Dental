@@ -63,7 +63,7 @@ namespace OpenPmsDental {
 			// 
 			this.label1.Location = new System.Drawing.Point(4, 62);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(409, 44);
+			this.label1.Size = new System.Drawing.Size(409, 52);
 			this.label1.TabIndex = 43;
 			this.label1.Text = "Computers are added to this list every time you use Open PMS - Dental.  You can safely " +
     "delete unused computer names from this list to speed up messaging.";
@@ -83,7 +83,7 @@ namespace OpenPmsDental {
 			// 
 			this.label2.Location = new System.Drawing.Point(4, 100);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(294, 15);
+			this.label2.Size = new System.Drawing.Size(294, 18);
 			this.label2.TabIndex = 45;
 			this.label2.Text = "ComputerName";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -92,7 +92,7 @@ namespace OpenPmsDental {
 			// 
 			this.butSetSimpleGraphics.Location = new System.Drawing.Point(40, 136);
 			this.butSetSimpleGraphics.Name = "butSetSimpleGraphics";
-			this.butSetSimpleGraphics.Size = new System.Drawing.Size(115, 24);
+			this.butSetSimpleGraphics.Size = new System.Drawing.Size(116, 24);
 			this.butSetSimpleGraphics.TabIndex = 3;
 			this.butSetSimpleGraphics.Text = "Use Simple Graphics";
 			this.butSetSimpleGraphics.Click += new System.EventHandler(this.butSetSimpleGraphics_Click);
@@ -121,7 +121,7 @@ namespace OpenPmsDental {
 			// 
 			this.label4.Location = new System.Drawing.Point(26, 182);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(152, 57);
+			this.label4.Size = new System.Drawing.Size(152, 60);
 			this.label4.TabIndex = 84;
 			this.label4.Text = "To reset a computer\'s zoom, highlight the desired machine on the left and click t" +
     "he button below.";
@@ -148,7 +148,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelCurComp.Location = new System.Drawing.Point(6, 22);
 			this.labelCurComp.Name = "labelCurComp";
-			this.labelCurComp.Size = new System.Drawing.Size(110, 15);
+			this.labelCurComp.Size = new System.Drawing.Size(110, 18);
 			this.labelCurComp.TabIndex = 86;
 			this.labelCurComp.Text = "Current Computer";
 			this.labelCurComp.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

@@ -86,7 +86,7 @@ namespace OpenPmsDental {
 			// 
 			this.label2.Location = new System.Drawing.Point(12, 16);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(203, 47);
+			this.label2.Size = new System.Drawing.Size(203, 48);
 			this.label2.TabIndex = 14;
 			this.label2.Text = "Reassign all insurance plans that use the selected claim form at the left to the " +
     "claim form below";
@@ -155,7 +155,7 @@ namespace OpenPmsDental {
 			// 
 			this.label1.Location = new System.Drawing.Point(5, 7);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(263, 28);
+			this.label1.Size = new System.Drawing.Size(466, 28);
 			this.label1.TabIndex = 19;
 			this.label1.Text = "Internal forms cannot be edited or printed. \r\nCopy the form over to a custom form" +
     " first.";

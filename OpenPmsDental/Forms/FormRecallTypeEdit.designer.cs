@@ -204,7 +204,7 @@ namespace OpenPmsDental {
 			// 
 			this.label15.Location = new System.Drawing.Point(14, 42);
 			this.label15.Name = "label15";
-			this.label15.Size = new System.Drawing.Size(98, 33);
+			this.label15.Size = new System.Drawing.Size(104, 33);
 			this.label15.TabIndex = 120;
 			this.label15.Text = "Procedures on Appointment";
 			this.label15.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -238,7 +238,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelRestrictToBlockouts.Location = new System.Drawing.Point(18, 151);
 			this.labelRestrictToBlockouts.Name = "labelRestrictToBlockouts";
-			this.labelRestrictToBlockouts.Size = new System.Drawing.Size(96, 29);
+			this.labelRestrictToBlockouts.Size = new System.Drawing.Size(100, 29);
 			this.labelRestrictToBlockouts.TabIndex = 217;
 			this.labelRestrictToBlockouts.Text = "Restrict to Specific Blockouts";
 			this.labelRestrictToBlockouts.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -294,7 +294,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelTriggers.Location = new System.Drawing.Point(39, 90);
 			this.labelTriggers.Name = "labelTriggers";
-			this.labelTriggers.Size = new System.Drawing.Size(115, 41);
+			this.labelTriggers.Size = new System.Drawing.Size(115, 52);
 			this.labelTriggers.TabIndex = 125;
 			this.labelTriggers.Text = "Procedures that trigger this recall type";
 			this.labelTriggers.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -360,7 +360,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelTriggerDisable.Location = new System.Drawing.Point(386, 90);
 			this.labelTriggerDisable.Name = "labelTriggerDisable";
-			this.labelTriggerDisable.Size = new System.Drawing.Size(260, 41);
+			this.labelTriggerDisable.Size = new System.Drawing.Size(260, 52);
 			this.labelTriggerDisable.TabIndex = 132;
 			this.labelTriggerDisable.Text = "A manual recall type will have no triggers.  To disable an automatic recall type," +
     " clear out the triggers.";
@@ -392,7 +392,7 @@ namespace OpenPmsDental {
 			// 
 			this.label5.Location = new System.Drawing.Point(14, 26);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(418, 48);
+			this.label5.Size = new System.Drawing.Size(418, 52);
 			this.label5.TabIndex = 5;
 			this.label5.Text = "Automatically used if a Prophy patient is under the age limit set below.  Does no" +
     "t include triggers or interval since the triggers and interval from the Prophy t" +
@@ -441,7 +441,7 @@ namespace OpenPmsDental {
 			this.checkAppendToSpecial.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkAppendToSpecial.Location = new System.Drawing.Point(9, 65);
 			this.checkAppendToSpecial.Name = "checkAppendToSpecial";
-			this.checkAppendToSpecial.Size = new System.Drawing.Size(163, 17);
+			this.checkAppendToSpecial.Size = new System.Drawing.Size(163, 18);
 			this.checkAppendToSpecial.TabIndex = 2;
 			this.checkAppendToSpecial.TabStop = false;
 			this.checkAppendToSpecial.Text = "Append to Special";
@@ -450,7 +450,7 @@ namespace OpenPmsDental {
 			// 
 			this.label2.Location = new System.Drawing.Point(178, 65);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(528, 16);
+			this.label2.Size = new System.Drawing.Size(528, 18);
 			this.label2.TabIndex = 136;
 			this.label2.Text = "If needed, automatically add this recall type when scheduling a special recall ty" +
     "pe.";

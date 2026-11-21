@@ -59,7 +59,7 @@ namespace OpenPmsDental {
 			// 
 			this.label12.Location = new System.Drawing.Point(17, 42);
 			this.label12.Name = "label12";
-			this.label12.Size = new System.Drawing.Size(254, 15);
+			this.label12.Size = new System.Drawing.Size(254, 18);
 			this.label12.TabIndex = 14;
 			this.label12.Text = "JPEG Compression - Quality After Scanning";
 			this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -86,7 +86,7 @@ namespace OpenPmsDental {
 			this.radioScanDocUseOptionsBelow.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.radioScanDocUseOptionsBelow.Location = new System.Drawing.Point(85, 81);
 			this.radioScanDocUseOptionsBelow.Name = "radioScanDocUseOptionsBelow";
-			this.radioScanDocUseOptionsBelow.Size = new System.Drawing.Size(202, 18);
+			this.radioScanDocUseOptionsBelow.Size = new System.Drawing.Size(202, 19);
 			this.radioScanDocUseOptionsBelow.TabIndex = 26;
 			this.radioScanDocUseOptionsBelow.TabStop = true;
 			this.radioScanDocUseOptionsBelow.Text = "Use the Options Below";
@@ -125,7 +125,7 @@ namespace OpenPmsDental {
 			// 
 			this.label8.Location = new System.Drawing.Point(260, 9);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(260, 34);
+			this.label8.Size = new System.Drawing.Size(260, 52);
 			this.label8.TabIndex = 23;
 			this.label8.Text = "If this setting causes your scanner to malfunction, use the \"Show Scanner Options" +
     " Window\" instead";
@@ -198,7 +198,7 @@ namespace OpenPmsDental {
 			// 
 			this.label7.Location = new System.Drawing.Point(345, 42);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(274, 15);
+			this.label7.Size = new System.Drawing.Size(274, 18);
 			this.label7.TabIndex = 23;
 			this.label7.Text = "0-100. 100=No compression.  Typical setting: 40";
 			this.label7.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -271,7 +271,7 @@ namespace OpenPmsDental {
 			// 
 			this.butSetScanner.Location = new System.Drawing.Point(21, 12);
 			this.butSetScanner.Name = "butSetScanner";
-			this.butSetScanner.Size = new System.Drawing.Size(110, 24);
+			this.butSetScanner.Size = new System.Drawing.Size(112, 24);
 			this.butSetScanner.TabIndex = 22;
 			this.butSetScanner.Text = "Set Default Scanner";
 			this.butSetScanner.Click += new System.EventHandler(this.butSetScanner_Click);

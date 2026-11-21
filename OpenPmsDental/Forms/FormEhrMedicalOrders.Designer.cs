@@ -32,7 +32,7 @@
 			// 
 			this.checkBoxShowDiscontinued.Location = new System.Drawing.Point(12, 12);
 			this.checkBoxShowDiscontinued.Name = "checkBoxShowDiscontinued";
-			this.checkBoxShowDiscontinued.Size = new System.Drawing.Size(532, 17);
+			this.checkBoxShowDiscontinued.Size = new System.Drawing.Size(532, 18);
 			this.checkBoxShowDiscontinued.TabIndex = 10;
 			this.checkBoxShowDiscontinued.Text = "Show discontinued orders";
 			this.checkBoxShowDiscontinued.Click += new System.EventHandler(this.checkBoxShowDiscontinued_Click);
@@ -44,7 +44,7 @@
 			this.label1.ForeColor = System.Drawing.Color.Black;
 			this.label1.Location = new System.Drawing.Point(9, 285);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(619, 28);
+			this.label1.Size = new System.Drawing.Size(712, 28);
 			this.label1.TabIndex = 34;
 			this.label1.Text = "The grid above shows lab and radiology orders entered while using 2011 EHR.  \r\nLa" +
     "bs and radiology orders are now entered via the EHR window.";

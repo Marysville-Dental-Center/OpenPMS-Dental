@@ -77,6 +77,7 @@ namespace OpenDentalImaging{
 			// 
 			// textDescription
 			// 
+			this.textDescription.AutoSize = false;
 			this.textDescription.Location = new System.Drawing.Point(126, 33);
 			this.textDescription.Name = "textDescription";
 			this.textDescription.Size = new System.Drawing.Size(339, 20);
@@ -176,7 +177,7 @@ namespace OpenDentalImaging{
 			// 
 			this.radioTwain.Location = new System.Drawing.Point(5, 4);
 			this.radioTwain.Name = "radioTwain";
-			this.radioTwain.Size = new System.Drawing.Size(134, 18);
+			this.radioTwain.Size = new System.Drawing.Size(134, 19);
 			this.radioTwain.TabIndex = 0;
 			this.radioTwain.TabStop = true;
 			this.radioTwain.Text = "Twain Radiograph";
@@ -186,7 +187,7 @@ namespace OpenDentalImaging{
 			// 
 			this.radioTwainMulti.Location = new System.Drawing.Point(5, 23);
 			this.radioTwainMulti.Name = "radioTwainMulti";
-			this.radioTwainMulti.Size = new System.Drawing.Size(235, 18);
+			this.radioTwainMulti.Size = new System.Drawing.Size(235, 21);
 			this.radioTwainMulti.TabIndex = 1;
 			this.radioTwainMulti.TabStop = true;
 			this.radioTwainMulti.Text = "Twain Multi (example: phosphor plate)";

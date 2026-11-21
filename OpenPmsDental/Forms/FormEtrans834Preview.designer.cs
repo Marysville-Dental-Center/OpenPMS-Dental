@@ -51,7 +51,7 @@ namespace OpenPmsDental{
 			// 
 			this.label1.Location = new System.Drawing.Point(12, 9);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(950, 84);
+			this.label1.Size = new System.Drawing.Size(950, 86);
 			this.label1.TabIndex = 9;
 			this.label1.Text = resources.GetString("label1.Text");
 			// 
@@ -79,7 +79,7 @@ namespace OpenPmsDental{
 			// 
 			this.checkDropExistingIns.Location = new System.Drawing.Point(12, 136);
 			this.checkDropExistingIns.Name = "checkDropExistingIns";
-			this.checkDropExistingIns.Size = new System.Drawing.Size(385, 17);
+			this.checkDropExistingIns.Size = new System.Drawing.Size(385, 18);
 			this.checkDropExistingIns.TabIndex = 11;
 			this.checkDropExistingIns.Text = "Drop all existing patient plans when importing new plans.";
 			// 
@@ -87,7 +87,7 @@ namespace OpenPmsDental{
 			// 
 			this.checkIsEmployerCreate.Location = new System.Drawing.Point(12, 98);
 			this.checkIsEmployerCreate.Name = "checkIsEmployerCreate";
-			this.checkIsEmployerCreate.Size = new System.Drawing.Size(491, 17);
+			this.checkIsEmployerCreate.Size = new System.Drawing.Size(491, 18);
 			this.checkIsEmployerCreate.TabIndex = 12;
 			this.checkIsEmployerCreate.Text = "Automatically create new employers when importing plans for unknown employers.";
 			// 
@@ -95,7 +95,7 @@ namespace OpenPmsDental{
 			// 
 			this.checkIsPatientCreate.Location = new System.Drawing.Point(12, 117);
 			this.checkIsPatientCreate.Name = "checkIsPatientCreate";
-			this.checkIsPatientCreate.Size = new System.Drawing.Size(823, 17);
+			this.checkIsPatientCreate.Size = new System.Drawing.Size(823, 18);
 			this.checkIsPatientCreate.TabIndex = 13;
 			this.checkIsPatientCreate.Text = "Automatically create new patients when importing plans for unknown patients.  If " +
     "unchecked, you can still add patients by selecting manually.";

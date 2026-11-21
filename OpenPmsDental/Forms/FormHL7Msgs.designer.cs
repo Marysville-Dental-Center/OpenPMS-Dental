@@ -123,6 +123,7 @@ namespace OpenPmsDental{
 			// textPatient
 			// 
 			this.textPatient.BackColor = System.Drawing.SystemColors.Window;
+			this.textPatient.AutoSize = false;
 			this.textPatient.Location = new System.Drawing.Point(266, 12);
 			this.textPatient.Name = "textPatient";
 			this.textPatient.ReadOnly = true;

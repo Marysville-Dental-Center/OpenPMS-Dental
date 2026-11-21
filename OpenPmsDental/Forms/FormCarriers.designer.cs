@@ -106,7 +106,7 @@ namespace OpenPmsDental {
 			// 
 			this.checkCDAnet.Location = new System.Drawing.Point(633, 6);
 			this.checkCDAnet.Name = "checkCDAnet";
-			this.checkCDAnet.Size = new System.Drawing.Size(96, 17);
+			this.checkCDAnet.Size = new System.Drawing.Size(96, 18);
 			this.checkCDAnet.TabIndex = 4;
 			this.checkCDAnet.Text = "CDAnet Only";
 			// 
@@ -114,7 +114,7 @@ namespace OpenPmsDental {
 			// 
 			this.checkShowHidden.Location = new System.Drawing.Point(527, 6);
 			this.checkShowHidden.Name = "checkShowHidden";
-			this.checkShowHidden.Size = new System.Drawing.Size(96, 17);
+			this.checkShowHidden.Size = new System.Drawing.Size(96, 18);
 			this.checkShowHidden.TabIndex = 3;
 			this.checkShowHidden.Text = "Show Hidden";
 			// 

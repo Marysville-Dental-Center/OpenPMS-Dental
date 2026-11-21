@@ -117,7 +117,7 @@ namespace OpenPmsDental {
 			// 
 			this.radioFive.Location = new System.Drawing.Point(23, 19);
 			this.radioFive.Name = "radioFive";
-			this.radioFive.Size = new System.Drawing.Size(100, 18);
+			this.radioFive.Size = new System.Drawing.Size(100, 19);
 			this.radioFive.TabIndex = 2;
 			this.radioFive.Text = "5 Min";
 			// 
@@ -125,7 +125,7 @@ namespace OpenPmsDental {
 			// 
 			this.radioFifteen.Location = new System.Drawing.Point(23, 57);
 			this.radioFifteen.Name = "radioFifteen";
-			this.radioFifteen.Size = new System.Drawing.Size(100, 18);
+			this.radioFifteen.Size = new System.Drawing.Size(100, 22);
 			this.radioFifteen.TabIndex = 1;
 			this.radioFifteen.Text = "15 Min";
 			// 
@@ -133,7 +133,7 @@ namespace OpenPmsDental {
 			// 
 			this.radioTen.Location = new System.Drawing.Point(23, 38);
 			this.radioTen.Name = "radioTen";
-			this.radioTen.Size = new System.Drawing.Size(100, 18);
+			this.radioTen.Size = new System.Drawing.Size(100, 19);
 			this.radioTen.TabIndex = 0;
 			this.radioTen.Text = "10 Min";
 			// 

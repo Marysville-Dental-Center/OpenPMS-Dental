@@ -37,7 +37,7 @@
 			// 
 			this.butEncrypt.Location = new System.Drawing.Point(296, 98);
 			this.butEncrypt.Name = "butEncrypt";
-			this.butEncrypt.Size = new System.Drawing.Size(81, 24);
+			this.butEncrypt.Size = new System.Drawing.Size(81, 28);
 			this.butEncrypt.TabIndex = 1;
 			this.butEncrypt.Text = "Encrypt >>";
 			this.butEncrypt.UseVisualStyleBackColor = true;
@@ -47,7 +47,7 @@
 			// 
 			this.butDecrypt.Location = new System.Drawing.Point(296, 160);
 			this.butDecrypt.Name = "butDecrypt";
-			this.butDecrypt.Size = new System.Drawing.Size(81, 24);
+			this.butDecrypt.Size = new System.Drawing.Size(81, 28);
 			this.butDecrypt.TabIndex = 2;
 			this.butDecrypt.Text = "Decrypt >>";
 			this.butDecrypt.UseVisualStyleBackColor = true;
@@ -98,7 +98,7 @@
 			this.butTransmit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butTransmit.Location = new System.Drawing.Point(574, 283);
 			this.butTransmit.Name = "butTransmit";
-			this.butTransmit.Size = new System.Drawing.Size(85, 24);
+			this.butTransmit.Size = new System.Drawing.Size(85, 28);
 			this.butTransmit.TabIndex = 8;
 			this.butTransmit.Text = "Transmit";
 			this.butTransmit.UseVisualStyleBackColor = true;

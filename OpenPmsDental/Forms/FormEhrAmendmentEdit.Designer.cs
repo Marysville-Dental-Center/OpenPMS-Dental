@@ -50,7 +50,7 @@
 			// 
 			this.label5.Location = new System.Drawing.Point(68, 198);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(60, 39);
+			this.label5.Size = new System.Drawing.Size(60, 52);
 			this.label5.TabIndex = 16;
 			this.label5.Text = "Description/Location";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -113,7 +113,7 @@
 			// 
 			this.label3.Location = new System.Drawing.Point(42, 17);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(86, 17);
+			this.label3.Size = new System.Drawing.Size(88, 17);
 			this.label3.TabIndex = 129;
 			this.label3.Text = "Date Requested";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -122,7 +122,7 @@
 			// 
 			this.label4.Location = new System.Drawing.Point(7, 44);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(121, 17);
+			this.label4.Size = new System.Drawing.Size(123, 17);
 			this.label4.TabIndex = 130;
 			this.label4.Text = "Date Accepted/Denied";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

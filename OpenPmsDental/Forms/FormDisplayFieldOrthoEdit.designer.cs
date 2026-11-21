@@ -270,7 +270,7 @@ namespace OpenPmsDental {
 			this.radioProvider.AutoCheck = false;
 			this.radioProvider.Location = new System.Drawing.Point(12, 73);
 			this.radioProvider.Name = "radioProvider";
-			this.radioProvider.Size = new System.Drawing.Size(88, 18);
+			this.radioProvider.Size = new System.Drawing.Size(88, 22);
 			this.radioProvider.TabIndex = 3;
 			this.radioProvider.TabStop = true;
 			this.radioProvider.Text = "Provider";

@@ -93,7 +93,7 @@ namespace OpenPmsDental{
 			this.labelEncWarning.ForeColor = System.Drawing.Color.Red;
 			this.labelEncWarning.Location = new System.Drawing.Point(34, 242);
 			this.labelEncWarning.Name = "labelEncWarning";
-			this.labelEncWarning.Size = new System.Drawing.Size(403, 26);
+			this.labelEncWarning.Size = new System.Drawing.Size(422, 26);
 			this.labelEncWarning.TabIndex = 164;
 			this.labelEncWarning.Text = "Warning: In order for patients to be considered for CQM calculations, you will ha" +
     "ve to manually create encounters with a qualified code specific to each measure." +
@@ -168,7 +168,7 @@ namespace OpenPmsDental{
 			this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label4.Location = new System.Drawing.Point(12, 84);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(115, 17);
+			this.label4.Size = new System.Drawing.Size(118, 17);
 			this.label4.TabIndex = 160;
 			this.label4.Text = "Recommended Codes";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -186,7 +186,7 @@ namespace OpenPmsDental{
 			// 
 			this.label3.Location = new System.Drawing.Point(130, 158);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(276, 26);
+			this.label3.Size = new System.Drawing.Size(326, 26);
 			this.label3.TabIndex = 161;
 			this.label3.Text = "Choosing a code not in the recommended list might make it more difficult to incre" +
     "ase your CQM percentages.";

@@ -44,7 +44,7 @@ namespace DatabaseIntegrityCheck {
 			// 
 			this.butRepair.Location = new System.Drawing.Point(286, 126);
 			this.butRepair.Name = "butRepair";
-			this.butRepair.Size = new System.Drawing.Size(75, 24);
+			this.butRepair.Size = new System.Drawing.Size(75, 28);
 			this.butRepair.TabIndex = 6;
 			this.butRepair.Text = "Repair";
 			this.butRepair.UseVisualStyleBackColor = true;
@@ -120,7 +120,7 @@ namespace DatabaseIntegrityCheck {
 			// 
 			this.butCheck.Location = new System.Drawing.Point(205, 126);
 			this.butCheck.Name = "butCheck";
-			this.butCheck.Size = new System.Drawing.Size(75, 24);
+			this.butCheck.Size = new System.Drawing.Size(75, 28);
 			this.butCheck.TabIndex = 5;
 			this.butCheck.Text = "Check";
 			this.butCheck.UseVisualStyleBackColor = true;
@@ -144,7 +144,7 @@ namespace DatabaseIntegrityCheck {
 			// 
 			this.butCopy.Location = new System.Drawing.Point(29, 461);
 			this.butCopy.Name = "butCopy";
-			this.butCopy.Size = new System.Drawing.Size(75, 24);
+			this.butCopy.Size = new System.Drawing.Size(75, 28);
 			this.butCopy.TabIndex = 8;
 			this.butCopy.Text = "Copy Text";
 			this.butCopy.UseVisualStyleBackColor = true;

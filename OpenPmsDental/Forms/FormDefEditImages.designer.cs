@@ -157,7 +157,7 @@ namespace OpenPmsDental {
 			// 
 			this.checkClaimAttachments.Location = new System.Drawing.Point(8, 178);
 			this.checkClaimAttachments.Name = "checkClaimAttachments";
-			this.checkClaimAttachments.Size = new System.Drawing.Size(190, 18);
+			this.checkClaimAttachments.Size = new System.Drawing.Size(199, 18);
 			this.checkClaimAttachments.TabIndex = 13;
 			this.checkClaimAttachments.Text = "(C) Claim Attachments (only one)";
 			this.checkClaimAttachments.CheckedChanged += new System.EventHandler(this.checkClaimAttachments_CheckedChanged);
@@ -166,7 +166,7 @@ namespace OpenPmsDental {
 			// 
 			this.checkPaymentPlans.Location = new System.Drawing.Point(8, 160);
 			this.checkPaymentPlans.Name = "checkPaymentPlans";
-			this.checkPaymentPlans.Size = new System.Drawing.Size(173, 18);
+			this.checkPaymentPlans.Size = new System.Drawing.Size(176, 18);
 			this.checkPaymentPlans.TabIndex = 12;
 			this.checkPaymentPlans.Text = "(A) Payment Plans (only one)";
 			this.checkPaymentPlans.CheckedChanged += new System.EventHandler(this.checkPaymentPlans_CheckedChanged);
@@ -200,7 +200,7 @@ namespace OpenPmsDental {
 			// 
 			this.checkToothCharts.Location = new System.Drawing.Point(8, 124);
 			this.checkToothCharts.Name = "checkToothCharts";
-			this.checkToothCharts.Size = new System.Drawing.Size(216, 18);
+			this.checkToothCharts.Size = new System.Drawing.Size(220, 18);
 			this.checkToothCharts.TabIndex = 7;
 			this.checkToothCharts.Text = "(T) Graphical Tooth Charts (only one)";
 			this.checkToothCharts.CheckedChanged += new System.EventHandler(this.checkToothCharts_CheckedChanged);

@@ -189,7 +189,7 @@ namespace OpenPmsDental {
 			this.checkAllProv.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.checkAllProv.Location = new System.Drawing.Point(29, 35);
 			this.checkAllProv.Name = "checkAllProv";
-			this.checkAllProv.Size = new System.Drawing.Size(47, 16);
+			this.checkAllProv.Size = new System.Drawing.Size(47, 18);
 			this.checkAllProv.TabIndex = 47;
 			this.checkAllProv.Text = "All";
 			this.checkAllProv.Click += new System.EventHandler(this.checkAllProv_Click);
@@ -198,7 +198,7 @@ namespace OpenPmsDental {
 			// 
 			this.checkAllClin.Location = new System.Drawing.Point(206, 35);
 			this.checkAllClin.Name = "checkAllClin";
-			this.checkAllClin.Size = new System.Drawing.Size(154, 16);
+			this.checkAllClin.Size = new System.Drawing.Size(154, 18);
 			this.checkAllClin.TabIndex = 48;
 			this.checkAllClin.Text = "All (includes hidden)";
 			this.checkAllClin.Click += new System.EventHandler(this.checkAllClin_Click);
@@ -253,7 +253,7 @@ namespace OpenPmsDental {
 			this.labelSpecialReport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.labelSpecialReport.Location = new System.Drawing.Point(26, 287);
 			this.labelSpecialReport.Name = "labelSpecialReport";
-			this.labelSpecialReport.Size = new System.Drawing.Size(645, 27);
+			this.labelSpecialReport.Size = new System.Drawing.Size(669, 27);
 			this.labelSpecialReport.TabIndex = 54;
 			this.labelSpecialReport.Text = "*This is a special report that may not match other reports due to using different" +
     " transaction dates.  See manual for more details.";

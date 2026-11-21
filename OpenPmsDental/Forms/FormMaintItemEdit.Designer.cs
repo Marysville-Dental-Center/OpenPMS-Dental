@@ -356,7 +356,7 @@ namespace OpenPmsDental {
 			//
 			this.labelUnassigned.Location = new System.Drawing.Point(125, 410);
 			this.labelUnassigned.Name = "labelUnassigned";
-			this.labelUnassigned.Size = new System.Drawing.Size(312, 32);
+			this.labelUnassigned.Size = new System.Drawing.Size(327, 32);
 			this.labelUnassigned.TabIndex = 24;
 			this.labelUnassigned.Text = "Nobody is assigned: the reminders go to every user with Maintenance Setup.";
 			//

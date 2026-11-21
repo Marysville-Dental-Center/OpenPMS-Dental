@@ -45,19 +45,20 @@ namespace OpenPmsDental {
 			// labelPage
 			// 
 			this.labelPage.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-			this.labelPage.AutoSize = true;
+			this.labelPage.AutoSize = false;
 			this.labelPage.Location = new System.Drawing.Point(442, 667);
 			this.labelPage.Name = "labelPage";
-			this.labelPage.Size = new System.Drawing.Size(24, 13);
+			this.labelPage.Size = new System.Drawing.Size(22, 20);
 			this.labelPage.TabIndex = 3;
 			this.labelPage.Text = "0/0";
 			// 
 			// butForward
 			// 
 			this.butForward.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+			this.butForward.AutoSize = false;
 			this.butForward.Location = new System.Drawing.Point(472, 662);
 			this.butForward.Name = "butForward";
-			this.butForward.Size = new System.Drawing.Size(75, 23);
+			this.butForward.Size = new System.Drawing.Size(75, 26);
 			this.butForward.TabIndex = 6;
 			this.butForward.Text = "Forward";
 			this.butForward.UseVisualStyleBackColor = true;
@@ -66,9 +67,10 @@ namespace OpenPmsDental {
 			// butBack
 			// 
 			this.butBack.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+			this.butBack.AutoSize = false;
 			this.butBack.Location = new System.Drawing.Point(361, 662);
 			this.butBack.Name = "butBack";
-			this.butBack.Size = new System.Drawing.Size(75, 23);
+			this.butBack.Size = new System.Drawing.Size(75, 27);
 			this.butBack.TabIndex = 5;
 			this.butBack.Text = "Back";
 			this.butBack.UseVisualStyleBackColor = true;

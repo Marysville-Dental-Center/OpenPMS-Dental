@@ -38,7 +38,7 @@ namespace OpenPmsDental{
 			this.checkComplete.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkComplete.Location = new System.Drawing.Point(441, 21);
 			this.checkComplete.Name = "checkComplete";
-			this.checkComplete.Size = new System.Drawing.Size(178, 17);
+			this.checkComplete.Size = new System.Drawing.Size(178, 18);
 			this.checkComplete.TabIndex = 2;
 			this.checkComplete.Text = "Show Completed Procedures";
 			this.checkComplete.Click += new System.EventHandler(this.checkComplete_Click);
@@ -47,7 +47,7 @@ namespace OpenPmsDental{
 			// 
 			this.label1.Location = new System.Drawing.Point(4, 22);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(100, 13);
+			this.label1.Size = new System.Drawing.Size(100, 17);
 			this.label1.TabIndex = 7;
 			this.label1.Text = "Date From";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -56,7 +56,7 @@ namespace OpenPmsDental{
 			// 
 			this.label2.Location = new System.Drawing.Point(216, 22);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(89, 13);
+			this.label2.Size = new System.Drawing.Size(89, 17);
 			this.label2.TabIndex = 7;
 			this.label2.Text = "Date To";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

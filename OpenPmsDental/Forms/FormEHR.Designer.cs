@@ -138,7 +138,7 @@
 			// 
 			this.label1.Location = new System.Drawing.Point(12, 9);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(128, 18);
+			this.label1.Size = new System.Drawing.Size(136, 18);
 			this.label1.TabIndex = 28;
 			this.label1.Text = "Provider for this patient:";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -178,7 +178,7 @@
 			// 
 			this.label3.Location = new System.Drawing.Point(6, 53);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(688, 32);
+			this.label3.Size = new System.Drawing.Size(696, 35);
 			this.label3.TabIndex = 33;
 			this.label3.Text = resources.GetString("label3.Text");
 			// 

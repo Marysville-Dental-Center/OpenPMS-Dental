@@ -114,7 +114,7 @@ namespace OpenPmsDental{
 			// 
 			this.label10.Location = new System.Drawing.Point(16, 108);
 			this.label10.Name = "label10";
-			this.label10.Size = new System.Drawing.Size(132, 14);
+			this.label10.Size = new System.Drawing.Size(132, 18);
 			this.label10.TabIndex = 116;
 			this.label10.Text = "Last Name";
 			this.label10.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -123,7 +123,7 @@ namespace OpenPmsDental{
 			// 
 			this.label8.Location = new System.Drawing.Point(22, 131);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(127, 14);
+			this.label8.Size = new System.Drawing.Size(127, 18);
 			this.label8.TabIndex = 115;
 			this.label8.Text = "First Name";
 			this.label8.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -151,7 +151,7 @@ namespace OpenPmsDental{
 			//
 			this.labelKeyNote.Location = new System.Drawing.Point(316, 178);
 			this.labelKeyNote.Name = "labelKeyNote";
-			this.labelKeyNote.Size = new System.Drawing.Size(120, 18);
+			this.labelKeyNote.Size = new System.Drawing.Size(123, 18);
 			this.labelKeyNote.TabIndex = 118;
 			this.labelKeyNote.Text = "optional, not checked";
 			this.labelKeyNote.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;

@@ -88,6 +88,7 @@ namespace OpenPmsDental {
 			// textClaimNum
 			// 
 			this.textClaimNum.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.textClaimNum.AutoSize = false;
 			this.textClaimNum.Location = new System.Drawing.Point(112, 463);
 			this.textClaimNum.Name = "textClaimNum";
 			this.textClaimNum.ReadOnly = true;
@@ -117,6 +118,7 @@ namespace OpenPmsDental {
 			// textBatchNumber
 			// 
 			this.textBatchNumber.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.textBatchNumber.AutoSize = false;
 			this.textBatchNumber.Location = new System.Drawing.Point(112, 484);
 			this.textBatchNumber.Name = "textBatchNumber";
 			this.textBatchNumber.ReadOnly = true;
@@ -136,6 +138,7 @@ namespace OpenPmsDental {
 			// textTransSetNum
 			// 
 			this.textTransSetNum.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.textTransSetNum.AutoSize = false;
 			this.textTransSetNum.Location = new System.Drawing.Point(112, 505);
 			this.textTransSetNum.Name = "textTransSetNum";
 			this.textTransSetNum.ReadOnly = true;
@@ -155,6 +158,7 @@ namespace OpenPmsDental {
 			// textAckCode
 			// 
 			this.textAckCode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.textAckCode.AutoSize = false;
 			this.textAckCode.Location = new System.Drawing.Point(112, 526);
 			this.textAckCode.Name = "textAckCode";
 			this.textAckCode.ReadOnly = true;
@@ -285,6 +289,7 @@ namespace OpenPmsDental {
 			// textDateTimeTrans
 			// 
 			this.textDateTimeTrans.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.textDateTimeTrans.AutoSize = false;
 			this.textDateTimeTrans.Location = new System.Drawing.Point(112, 442);
 			this.textDateTimeTrans.Name = "textDateTimeTrans";
 			this.textDateTimeTrans.ReadOnly = true;

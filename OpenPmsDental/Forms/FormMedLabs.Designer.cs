@@ -47,7 +47,7 @@
 			// 
 			this.checkIncludeNoPat.Location = new System.Drawing.Point(567, 14);
 			this.checkIncludeNoPat.Name = "checkIncludeNoPat";
-			this.checkIncludeNoPat.Size = new System.Drawing.Size(150, 17);
+			this.checkIncludeNoPat.Size = new System.Drawing.Size(150, 18);
 			this.checkIncludeNoPat.TabIndex = 7;
 			this.checkIncludeNoPat.Text = "Include unattached labs";
 			this.checkIncludeNoPat.Click += new System.EventHandler(this.checkIncludeNoPat_Click);
@@ -101,7 +101,7 @@
 			// 
 			this.checkOnlyNoPat.Location = new System.Drawing.Point(567, 40);
 			this.checkOnlyNoPat.Name = "checkOnlyNoPat";
-			this.checkOnlyNoPat.Size = new System.Drawing.Size(150, 17);
+			this.checkOnlyNoPat.Size = new System.Drawing.Size(150, 18);
 			this.checkOnlyNoPat.TabIndex = 11;
 			this.checkOnlyNoPat.Text = "Only unattached labs";
 			this.checkOnlyNoPat.Click += new System.EventHandler(this.checkOnlyNoPat_Click);
@@ -110,7 +110,7 @@
 			// 
 			this.label1.Location = new System.Drawing.Point(151, 23);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(127, 29);
+			this.label1.Size = new System.Drawing.Size(145, 29);
 			this.label1.TabIndex = 10;
 			this.label1.Text = "Filtered by most recent date and time reported.";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;

@@ -87,7 +87,7 @@ namespace OpenPmsDental{
 			// 
 			this.radioPurchased.Location = new System.Drawing.Point(695, 1);
 			this.radioPurchased.Name = "radioPurchased";
-			this.radioPurchased.Size = new System.Drawing.Size(93, 18);
+			this.radioPurchased.Size = new System.Drawing.Size(93, 22);
 			this.radioPurchased.TabIndex = 23;
 			this.radioPurchased.Text = "Purchased";
 			this.radioPurchased.UseVisualStyleBackColor = true;
@@ -97,7 +97,7 @@ namespace OpenPmsDental{
 			// 
 			this.radioSold.Location = new System.Drawing.Point(695, 17);
 			this.radioSold.Name = "radioSold";
-			this.radioSold.Size = new System.Drawing.Size(93, 18);
+			this.radioSold.Size = new System.Drawing.Size(93, 22);
 			this.radioSold.TabIndex = 24;
 			this.radioSold.Text = "Sold";
 			this.radioSold.UseVisualStyleBackColor = true;
@@ -108,7 +108,7 @@ namespace OpenPmsDental{
 			this.radioAll.Checked = true;
 			this.radioAll.Location = new System.Drawing.Point(695, 33);
 			this.radioAll.Name = "radioAll";
-			this.radioAll.Size = new System.Drawing.Size(93, 18);
+			this.radioAll.Size = new System.Drawing.Size(93, 22);
 			this.radioAll.TabIndex = 25;
 			this.radioAll.TabStop = true;
 			this.radioAll.Text = "All";
