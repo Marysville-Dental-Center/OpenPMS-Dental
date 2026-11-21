@@ -68,7 +68,7 @@ namespace OpenPmsDental {
 			this.label2.AutoSize = false;
 			this.label2.Location = new System.Drawing.Point(140, 42);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(94, 20);
+			this.label2.Size = new System.Drawing.Size(101, 20);
 			this.label2.TabIndex = 16;
 			this.label2.Text = "Ex: D1050-D1060";
 			// 
@@ -94,7 +94,7 @@ namespace OpenPmsDental {
 			this.checkPrevDate.AutoSize = false;
 			this.checkPrevDate.Location = new System.Drawing.Point(136, 102);
 			this.checkPrevDate.Name = "checkPrevDate";
-			this.checkPrevDate.Size = new System.Drawing.Size(120, 17);
+			this.checkPrevDate.Size = new System.Drawing.Size(127, 18);
 			this.checkPrevDate.TabIndex = 3;
 			this.checkPrevDate.Text = "Show previous date";
 			// 

@@ -34,7 +34,7 @@ namespace OpenPmsDental{
 			this.radioClaimOriginal.Checked = true;
 			this.radioClaimOriginal.Location = new System.Drawing.Point(12,12);
 			this.radioClaimOriginal.Name = "radioClaimOriginal";
-			this.radioClaimOriginal.Size = new System.Drawing.Size(390,22);
+			this.radioClaimOriginal.Size = new System.Drawing.Size(390,24);
 			this.radioClaimOriginal.TabIndex = 6;
 			this.radioClaimOriginal.TabStop = true;
 			this.radioClaimOriginal.Text = "The claim has not been accepted yet and I need to resend it.";
@@ -45,7 +45,7 @@ namespace OpenPmsDental{
 			// 
 			this.radioClaimReplacement.Location = new System.Drawing.Point(12,36);
 			this.radioClaimReplacement.Name = "radioClaimReplacement";
-			this.radioClaimReplacement.Size = new System.Drawing.Size(396,22);
+			this.radioClaimReplacement.Size = new System.Drawing.Size(396,24);
 			this.radioClaimReplacement.TabIndex = 7;
 			this.radioClaimReplacement.Text = "The claim was accepted and I need to replace it with updated information.";
 			this.radioClaimReplacement.UseVisualStyleBackColor = true;
