@@ -258,3 +258,130 @@ Nothing needs a shown window: the pictures render off screen. To rebuild the gal
 the Targeted UiRefreshTests, delete the other modules' `toolbars` pictures the UI-9b-1 test also writes, then
 `tools\New-UiGallery.ps1 -Before <before> -After <after> -Out <folder> -Name G-UI3`. A check in a shown window (the toolbar's Crop, Pan and Adj
 buttons and the tree on a connected desktop) waits for the lead's session.
+
+## 4. UI-9b-3: the other trees and lists
+
+On `ui/ui9b3-1` from `main` at `6c9e1853c`. Visible change: the pictures of the task lists and the reminders grid, the security tree, the two auto
+notes trees, the email inbox's six buttons, the setup wizard's grid, labels and three buttons, and the tasks toolbar are Fluent icons; the trees'
+lists are at the DPI size. No schema change, no NuGet package, no download (the SVGs come from UI-7a's approved download), no program started, no
+database, no window shown.
+
+### 4.1 The lists
+
+| Window | List (removed with its stream) | Today's index order, as the file's array | How it is shown now |
+|---|---|---|---|
+| `UserControlTasks` | `imageListTree` (5) | `ArrayIconsImageListTasks`: TaskList, CheckBoxChecked, CheckBoxEmpty, TaskListNew, TaskNew (a task list, done, read, a list with new tasks, a new task) | the tree: `GetImageListForSize` at the 16 px slot, again at each resize; the grid's first column: a 16 px list (below) |
+| `UserControlTasks` | `imageListMain` (2) | `ArrayIconsImageListMain`: TaskListAdd, Add | `ToolBarMain.SetImageListIcons`; the two buttons take their `EnumIcons` |
+| `ControlAppt` | `imageListTasks` (5) | `ArrayIconsImageListTasks`, the same five | the reminders grid's first column: a 16 px list |
+| `UserControlSecurityTree` | `imageListPerm` (4, 15 px) | `ArrayIconsImageListPerm`: ImageSelectorFolder (a heading), CheckBoxEmpty (not granted), CheckBoxChecked (granted), CheckBoxPartial (some items) | the tree: `GetImageListForSize` at the 16 px slot, again at each size change |
+| `FormAutoNotes`, `FormAutoNoteExport` | `imageListTree` (2 each) | `ArrayIconsImageListTree`: ImageSelectorFolder, ImageSelectorDoc | the tree (every node draws the tree's default index 1, the document, as today) |
+| `FormEmailInbox` | `imageListButtonSmall` (6, 16 px) | `ArrayIconsImageListButtons`: Edit, Sync, Reply, Search, ReplyAll, Forward | each of the six `UI.Button`s: `Image = IconLibrary.GetBitmap(icon,16,16)` in the designer (the button draws it at the window's scale, as the UI-9a 16 px buttons) |
+| `FormEmailInbox` | `imageListMailboxesLarge` (2, 32 px) | `ArrayIconsImageListMailboxes`: Inbox, Send | nothing showed this list; kept as an array at its indexes (never cut) |
+| `FormSetupWizard` | `imageList1` (1) | `ArrayIconsImageList`: Info | the grid's "?" column: a 16 px list |
+| `FormSetupWizardProgress` | `imageList1` (3) | Skip `ChevronDoubleRight` (0), Next `ChevronRight` (1), Back `ChevronLeft` (2) | each `UI.Button`: `Image = GetBitmap(icon,16,16)` |
+| `UserControlSetupWizFeatures` | `imageList1` (2) | `ArrayIconsImageList`: Info, InfoSelected | the seven information labels: a 16 px list, `label.ImageList`; the click code keeps switching `ImageIndex` 0 and 1 |
+| `UserControlSetupWizFeeSched`, `UserControlSetupWizPrinter` | `imageList1` (1 each) | `ArrayIconsImageList`: Info | their three information labels each, as Features |
+| `UserControlSetupWizDefinitions`, `...Practice`, `...Schedule` | `imageList1` (1, 2, 1) | map rows only (Info, InfoSelected) | no control showed these lists; removed with their streams |
+
+How each kind of list is made (the shared part, section 1.3, is unchanged):
+- Trees: `IconLibrary.GetImageListForSize(list,array,LayoutManager.Scale(16))`, set in the constructor and again where the scale may have changed
+  (`UserControlTasks_Resize`, `UserControlSecurityTree_SizeChanged`, a `treeNotes.SizeChanged` handler in the two auto note windows); the old list
+  is disposed by the helper, the control disposes the last one.
+- A grid column's list stays a 96 DPI, 16 px list from `IconLibrary.GetImageList(array,16)`: `GridOD` draws a column's pictures at `ScaleI(width)`
+  itself (and sizes the row from `ScaleI(ImageList.ImageSize.Height)`), so a list already at the DPI size would be scaled twice, and the print paths
+  draw a list's pictures at their own size. Like the old bitmaps, the icons are scaled by the grid at 150% and 200% (the trees are crisper, see the
+  owner questions).
+- Labels and buttons that took a picture from a designer list (the wizard's labels, the email and wizard buttons) keep their 16 px picture size:
+  buttons by `Image = IconLibrary.GetBitmap(...,16,16)` as UI-9a does for 16 px buttons, labels through a 16 px list set after
+  `InitializeComponent` (the designer keeps `ImageIndex = 0`).
+- The security tree's `ItemHeight` is set to `LayoutManager.Scale(16)` where it set `Scale(15)` (the old pictures were 15 px): rows are 1 px taller so
+  the 16 px icons show whole. The designer's `ItemHeight = 15` is untouched; no control moved.
+- All lists are disposed with their control (`Disposed` handlers). The streams, the fields and the `.resx` entries are removed.
+
+Not converted, and why: `FormEmailEdit:imageListMain` (the compose window's toolbar and its list) and every other window's list stay `UI-9b` for
+UI-9b-4 (the "remaining forms' toolbars and lists"); the email inbox's grids use no pictures. The task windows (`FormTaskEdit`, `FormTaskListEdit`,
+`FormTaskNoteEdit` and the others) hold no ImageList. `ControlAppt`'s other lists were UI-9b-1's. Office content stays (4.5): none of these lists
+holds any.
+
+### 4.2 New `EnumIcons` (block "UI-9b-3" in both enums; 128 WinForms, 128 WPF)
+
+| Member | Purpose | Fluent | Style | Sizes | Role |
+|---|---|---|---|---|---|
+| `CheckBoxEmpty` | a read task; a permission not granted | Checkbox Unchecked | regular | 12 to 24 | Text |
+| `CheckBoxChecked` | a done task; a permission granted | Checkbox Checked | regular | 16 to 24 | Success (the old green check) |
+| `CheckBoxPartial` | a permission granted for some items (the old green square) | Checkbox Indeterminate | regular | 16 to 24 | Success |
+| `TaskNew` | a new, unread task (the old orange square) | Square | filled | 12 to 48 | Warning (orange) |
+| `TaskListNew` | a task list with new tasks (the old orange list) | Clipboard Task List LTR | filled | 20, 24 | Warning |
+| `TaskListAdd` | tasks toolbar: Add Task List | Clipboard Task Add | regular | 20, 24 | Text |
+| `ChevronLeft`, `ChevronRight` | setup wizard: Back, Next | Chevron Left, Chevron Right | regular | 12 to 48 | Text |
+| `ChevronDoubleRight` | setup wizard: Skip | Chevron Double Right | regular | 16, 20 | Text |
+| `Reply`, `ReplyAll`, `Forward` | email inbox buttons | Arrow Reply, Arrow Reply All, Arrow Forward | regular | 16 to 48 | Text |
+| `Search` | email inbox: Search | Search | regular | 12 to 48 | Text |
+| `Inbox` | email inbox: the Inbox mailbox (unused list) | Mail Inbox | regular | 16 to 48 | Text |
+| `InfoSelected` | setup wizard: the selected information label | Info | filled | 12 to 48 | Accent |
+
+15 manifest rows, the missing SVGs added to `third-party/fluentui-system-icons` (the same 1.1.346 download, SHA-256 lines in `SOURCE.txt`; no 28 px
+design is used, as everywhere: the 24 design serves 24 to 31 px), `IconData.g.cs` regenerated (780 designs). The three new "on" states are Filled so
+they differ from their quiet twin by shape, not only by colour (`TaskNew`, `TaskListNew`, `InfoSelected`); `IconLibraryTests` allows exactly these three
+rows to be Filled (section 4.3 of the plan says Regular for everything and Filled for "on" states). Reused: TaskList, Add, ImageSelectorFolder,
+ImageSelectorDoc, Info, Edit, Sync, Send. `TaskList` and `TaskListNew` have no 16 px design in the download, so at the 16 px slot the 20 px design
+is drawn scaled down (the 3.5 rule when no smaller design exists).
+
+### 4.3 Tests (Targeted: UiRefreshTests, WindowChecksTests, UnitTests, NoHqTests)
+
+- New `Toolbars/OtherTreesImageListTests`: `Lists_KeepTodaysIndexOrder_AsIcons`, `Designers_HaveNoStreamLeft_ButtonsAndToolbarTakeTheirIcons`,
+  `StatePictures_StayDistinguishable_ByShapeAndKeepTheirMeaningColour` (every state picture of the task lists, the security tree and the information
+  labels has a shape of its own at 16, 24 and 32 px; the role colours), `TreeLists_AreAtTheDpiSize_AndBuiltAgainWhenTheDpiChanges` (16, 24, 32, 24 px,
+  keys, the old list disposed), `SecurityTreeControl_BuildsItsListAtTheScale_AndAgainWhenTheScaleChanges` (the real control, scales 1.5, 2, 1),
+  `TreeNode_SetByImageIndexOrImageKey_StillDrawsItsPicture_At100_150_200`, `GridColumnLists_DrawTheirPictureByTheIndexInTheCell_At100_150_200` (a real
+  `GridOD`), `TasksToolbar_DrawsItsIcons_AndAnImageIndexButton_At100_150_200` (a plug-in button set by `ImageIndex` 0 still draws),
+  `InformationLabels_ShowTheirPicture_AndTheSelectedOneDiffers`, `IconButtons_DrawTheirPicture_At100_150_200`, and the opt-in
+  `Gallery_OtherTreesAndLists`.
+- Changed: `PictureMapTests` (a converted row's property may be `ArrayIcons<Name>[<index>]`, the file's own array, with or without the
+  `OpenPmsDental.UI.` prefix), `IconLibraryTests` (128, 128, 128; the three Filled members and the roles), `WpfImagesTests` (128).
+  `SourceScanTests` (only the factory makes ImageLists), `RenameGuardTests`, the layout snapshot and the bounds record: green, unchanged.
+- Records: `icons/picture-slices.tsv` rows UI-9b-3 (User Controls: tasks and security tree), UI-9b-3b (Forms: auto notes, email inbox, setup wizard),
+  UI-9b-3c (SetupWizControls) and UI-9b-3d (ControlAppt), because a slice row names one folder; `icons/picture-map.tsv` one row per index;
+  `icons/picture-converted.tsv` 37 rows (how `ImageList` for the arrays, `GetBitmap` for the buttons). `Convert-PictureUses.ps1 -Root . -Slice <each>
+  -Check` exits 0 for UI-9b-3, 3b, 3c and 3d and, as before, for UI-9b-1 and UI-9a-4.
+- Runs in `.git/od-tools/test-results/`: `ui9b3-ui-wc.txt` (UiRefreshTests 247 passed + 9 opt-in skipped; WindowChecksTests 29 + 44 opt-in
+  skipped; NoHqTests 122), `ui9b3-unit.txt` (UnitTests 1,728 + 3 skipped, NoHqTests 122), `ui9b3-before.txt` (the before pictures). Full x64 filter
+  build: 0 errors. InitSqlTests and ForkMigrationTests not run (no schema work; `db/init/new-database.sql` not regenerated).
+
+### 4.4 Gallery G-UI3, the UI-9b-3 slice
+
+`.git/od-tools/test-results/G-UI3-ui9b3/index.html` (`G-UI3-ui9b3.zip` beside it; plain-words summary at the top; any download link in the page is
+not needed). 24 pictures, all changed, rendered off screen with synthetic nodes: the tasks, security and auto notes trees, the tasks and setup wizard
+grids, the tasks toolbar, the nine email and wizard buttons, the two information labels, each at 100, 150 and 200%. The before set draws the
+extracted pictures of the old streams (`ui9b3-pictures/old-lists`, named `<window>-<list>-NN.png`) with the old sizes, as before the slice.
+
+### 4.5 Owner questions (new icon choices and looks, to approve in the gallery)
+
+1. Tasks: the done task is a green check in a box (Checkbox Checked, Success), the read task an empty box, the new task a solid orange square, the task
+   list with new tasks a solid orange list (the old pictures were all coloured). Orange and green are the role colours (UQ-4); the "new" ones are
+   Filled so they do not depend on colour. Fine?
+2. Security tree: a heading (the old grey box) is a folder; not granted an empty box; granted a green check in a box; granted for some items a
+   green box with a dash (the old green square). Fine, or keep a plain box for the headings?
+3. Security tree rows are 1 px taller (16 where they were 15) so the 16 px icons show whole. Fine?
+4. Setup wizard: the information label is the Fluent info circle (Text colour); the selected one is its solid twin in the accent colour (the old
+   pictures were a bright blue and a dark teal i). Fine?
+5. Setup wizard buttons: Skip two chevrons, Next a chevron, Back a chevron (as today's pictures), instead of arrows. Fine?
+6. Email inbox buttons: Compose is the pencil (Edit), Refresh the circle arrows (Sync, as Update Fees), Reply, Reply All and Forward the curved
+   arrows, Search a magnifier. The old ones were round teal badges. Fine?
+7. The auto notes trees keep one picture for every node (the document), because the code never sets another index; Fluent folder and document.
+   Fine?
+8. A grid column's pictures (the task lists, the reminders, the setup wizard's "?" column) are drawn by `GridOD`, which scales a 96 DPI list, so
+   at 150% and 200% they are scaled up (a little soft), as the old bitmaps were; the trees are drawn at the real size and are sharp. A small change to
+   `GridOD` (an icon list at the DPI size that it does not scale) would make them sharp too. Do it in UI-9b-4 or UI-11, or leave?
+9. The unused list kept only as an array (the email mailboxes, `FormEmailInbox.ArrayIconsImageListMailboxes`) and the three unused wizard lists
+   removed with no code: fine?
+
+### 4.6 For the lead
+
+Nothing needs a shown window; the pictures render off screen. To rebuild the gallery: set `OPMS_UI9B3_OLD_LISTS` to
+`.git/od-tools/test-results/ui9b3-pictures/old-lists` and `OPMS_UI9B_PICTURES` to a folder named `before`, run the Targeted UiRefreshTests, then
+again with `OPMS_UI9B_PICTURES` set to a folder named `after` (no old lists needed). Delete the other slices' pictures the UI-9b-1 and UI-9b-2 gallery
+tests also write there (`toolbars/<module>-*`, `toolbars/imaging-*`, `trees/imaging-tree-*`), then
+`powershell -NoProfile -ExecutionPolicy Bypass -File tools\New-UiGallery.ps1 -Before <before> -After <after> -Out <folder> -Name G-UI3 -Note "<summary>"`.
+A look at the real windows (the setup wizard, the security group window, the auto notes, the email inbox, the Tasks list in the main window) on a
+connected desktop at 125% and 150% waits for the lead's session: they are shown windows and some need the program's database, so no check runs here.

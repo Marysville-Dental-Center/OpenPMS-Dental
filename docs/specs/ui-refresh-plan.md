@@ -1483,6 +1483,13 @@ own 26.2 overlap check before it starts. The first cut is below; a brief that fi
   size) become icons in today's index order, the designer streams are gone, the six index buttons take an `EnumIcons`. 2 new `EnumIcons` (Scan,
   UsbStick) and the 11 imaging members in the WinForms enum (113 each). Owner questions in section 3.5. No window needs showing.
 
+- **Status UI-9b-3 (2026-11-20).** Done on `ui/ui9b3-1` (`docs/port-notes/UI-9b.md`, section 4), not merged yet, waiting for G-UI3
+  (`.git/od-tools/test-results/G-UI3-ui9b3`, rendered off screen). The other trees: the task lists and the reminders grid's five pictures, the tasks
+  toolbar, the security tree, the two auto notes trees, the email inbox's six buttons and the setup wizard's grid, labels and buttons become icons in
+  today's index order (trees through `GetImageListForSize` at the DPI size, grid columns a 96 DPI 16 px list as `GridOD` scales them), the designer
+  streams are gone. 15 new `EnumIcons` (128 each); the new, selected and partial states keep their meaning by shape (Filled) and role colour. Left
+  for UI-9b-4: `FormEmailEdit` and every other window's lists. Owner questions in section 4.5. No window needs showing.
+
 **UI-10: text fit**
 - Slices: UI-10-1 FormPatientEdit, FormProvEdit, FormClaimEdit, FormProcEdit, ControlAccount and the preference pages (the largest
   first); then UI-10-2 to UI-10-n, each the next files of the scan's TSV in order, at most about 40 designer files. With 422 files at
