@@ -1489,6 +1489,13 @@ own 26.2 overlap check before it starts. The first cut is below; a brief that fi
   today's index order (trees through `GetImageListForSize` at the DPI size, grid columns a 96 DPI 16 px list as `GridOD` scales them), the designer
   streams are gone. 15 new `EnumIcons` (128 each); the new, selected and partial states keep their meaning by shape (Filled) and role colour. Left
   for UI-9b-4: `FormEmailEdit` and every other window's lists. Owner questions in section 4.5. No window needs showing.
+- **Status UI-9b-4 (2026-11-21).** Done on `ui/ui9b4-1` (`docs/port-notes/UI-9b.md`, sections 5 and 6), not merged yet, waiting for G-UI3
+  (`.git/od-tools/test-results/G-UI3-ui9b4`, rendered off screen). The remaining forms' lists: 29 designer lists in 29 windows become icons in today's
+  index order (the claims, accounting, journal, web, signing, report and print preview toolbars, the email and wiki editors with the wiki, the record
+  audio buttons, the four info button grids, the dashboard tabs; the lists no control showed are kept as arrays); the designer streams are gone.
+  19 new `EnumIcons` (147 each). `GridOD` takes a column list at its own scale (`GridColumn.ImageListFactory`) and draws it pixel for pixel, so the
+  task, reminder, setup wizard and info button pictures are sharp at 150 and 200%; a 96 DPI list draws as before. UI-9b is complete: kept lists are
+  the procedure button lists (database pictures), `ControlChart`'s and the empty `FormErx` and `ODDateRangePicker` lists. Owner questions in section 5.6.
 
 **UI-10: text fit**
 - Slices: UI-10-1 FormPatientEdit, FormProvEdit, FormClaimEdit, FormProcEdit, ControlAccount and the preference pages (the largest

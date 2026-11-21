@@ -385,3 +385,134 @@ tests also write there (`toolbars/<module>-*`, `toolbars/imaging-*`, `trees/imag
 `powershell -NoProfile -ExecutionPolicy Bypass -File tools\New-UiGallery.ps1 -Before <before> -After <after> -Out <folder> -Name G-UI3 -Note "<summary>"`.
 A look at the real windows (the setup wizard, the security group window, the auto notes, the email inbox, the Tasks list in the main window) on a
 connected desktop at 125% and 150% waits for the lead's session: they are shown windows and some need the program's database, so no check runs here.
+
+## 5. UI-9b-4: the remaining forms' toolbars and lists
+
+On `ui/ui9b4-1` from `main` at `e2ae5465a`. Visible change: the toolbars and lists of 29 more windows draw Fluent icons, and the pictures in grid columns
+(task lists, reminders, the setup wizard's "?" column, the info buttons) are drawn at the real size of the screen, sharp at 150 and 200%. No schema change,
+no NuGet package, no download (the SVGs come from UI-7a's approved download, 1.1.346), no program started, no database, no window shown.
+
+### 5.1 The lists
+
+| Window | List (removed with its stream) | Today's index order (the file's array) | How it is shown now |
+|---|---|---|---|
+| `FormAccounting`, `FormJournal` | `imageListMain` (3) | Add, Edit or Print, Export | `ToolBarMain.SetImageListIcons`; every button takes its `EnumIcons` |
+| `FormClaimsSend` | `imageList1` (7) | Preview, NewDocument (Blank), Print, Complete, Send, DocumentText (Get Reports), Label | both toolbars (`ToolBarMain`, `ToolBarHistory`) |
+| `FormCareCreditWeb`, `FormWebView` | `imageList1` (2) | ArrowLeft, ArrowRight | the toolbar |
+| `FormTPsign`, `FormPrintPreview` | `imageListMain` (3) | Print, ArrowLeft, ArrowRight | the toolbar |
+| `FormReportComplex` | `imageListMain` (6) | Print, ArrowLeft, ArrowRight, Export, ZoomIn, ZoomOut | the toolbar |
+| `FormReportCustom`, `FormReportForRdl` | `imageListMain` (7) | Print, ArrowLeft, ArrowRight, Export, Pdf, ZoomIn, ZoomOut | the toolbar; the Zoom button's two states set `Icon` instead of `ImageIndex` |
+| `FormEmailEdit` | `imageListMain` (20) | Sync, Save, DeleteX, Cut, Copy, Paste, Undo, Link, LinkExternal, Heading1 to 3, Bold, Italic, TextColor, Table, Image, TextFont, SaveDraft, Settings | `toolBarTop` and `toolBarBottom` |
+| `FormWikiEdit` | `imageListMain` (21) | the same first 19, then LockOpen, LockClosed | `ToolBarMain` and `toolBar2`; the Lock button sets `Icon` |
+| `FormWiki` | `imageListMain` (15) | ArrowLeft, ArrowRight, Settings, Home, Edit, Print, Rename, Archive, History, Import, Add, Copy, Search, ListBullets, NewDocument | the toolbar |
+| `FormRecordAudio` | `imageListMain` (2) | Record, Stop | `butStart.Image = IconLibrary.GetBitmap(...,22,22)` where it took `imageListMain.Images[i]` |
+| `FormCDSIntervention`, `FormEhrLabOrderEdit2014`, `FormMedical`, `FormSnomeds` | `imageListInfoButton` (1, 16 px) | Info | the info button column of their grids: `GridColumn.ImageListFactory` (5.2) |
+| `FormEtrans835s`, `FormRpProcOverpaid`, `FormRpDPPOvercharged`, `FormRpProcNotBilledIns` | `imageListCalendar` (2, 10 px) | ChevronDown, ChevronUp | no control showed these lists; kept as an array at its indexes (never cut) |
+| `FormAccountPick`, `FormWebBrowserPrefs`, `FormCentralSecurity` (4, 15 px) | `imageListMain`, `imageList1`, `imageListPerm` | Add, Edit; ArrowLeft, ArrowRight; ImageSelectorFolder, CheckBoxEmpty, CheckBoxChecked, CheckBoxPartial | no control showed them; arrays only |
+| `DashboardTabCtrl` (`OpenPmsDentalGraph`) | `tabImageList` (3, 11 x 30 px) | add tab (`Add`), delete tab (`DeleteX`), delete tab highlighted (`DeleteX` with a ring) | `CodeBase.UiIcons` by name (the project cannot reach `IconLibrary`): 11 px at 96 DPI scaled to the DPI, 30 px tall as the old list, built again when the DPI changes (`OnDpiChangedAfterParent`) |
+| `UnitTests` `Form4kTests`, `FormTestAllControls` | `imageListMain` (3), `imageList` (1) | Add, Edit, Export; Edit | the developer test windows are converted too |
+
+Kept, by decision (the plan's 4.5, office content): `FormProcButtons.imageListProcButtons` (the procedure buttons' pictures come from the database; the stream only
+gave the list its size and depth), `FormProcButtonEdit.imageList` (the seven default procedure button pictures an office stores as a button's picture) and, from
+UI-9b-1, `ControlChart.imageListProcButtons`. `FormErx.imageList1` and `ODDateRangePicker.imageListCalendar` never had a picture (no stream; the designer only sets
+the depth), so there is nothing to convert; `FormErx`'s Back and Forward buttons keep the picture slot of a list without pictures, as in the original.
+`ControlImages` has a colour swatch button whose bitmap is content. The scan (5.4) names these.
+
+The window's own array keeps the old order, so a plug-in that picks a picture by number still gets the same purpose; a list with no toolbar is an array only.
+Where a button took an index and the list gave no better icon: the unused `cancel.gif` of the editors is `DeleteX` (a trash can; no button shows it), the
+wiki's Archive keeps the delete cross as `Archive` (Fluent Archive box, a new icon) and In-Links is `Import`.
+
+### 5.2 `GridOD`: a column list at the grid's scale
+
+`GridColumn` gets three properties (`OpenPmsDentalBusiness/UI/GridColumn.cs`, `GridOD.cs`):
+
+- `ImageListFactory` (`Func<int,ImageList>`): the grid calls it with the pixel size of `ImageListSize96` (default 16) at its scale, zoom included, when it lays out
+  its rows (`ComputeRows`, so also after `SetScaleAndZoom`), and again when that size changes. It sets the column's `ImageList` and `IsImageListAtScale = true`.
+  The caller owns the lists: `IconLibrary.GetImageListForSize(list,array,size)` keeps one list per size and disposes the one it replaces, so a column made again
+  for each fill gets the same list and nothing is rebuilt.
+- `IsImageListAtScale`: the grid draws each picture of the list pixel for pixel (`DrawImage(img,x,y,img.Width,img.Height)`) and takes the row height from the
+  list's own height (`ScaleI(16)` equals the list's size, so the row is as high as with the old 96 DPI list). The print and PDF paths draw it at its 96 DPI size
+  (`UnscaleImage`), as the 96 DPI list prints.
+- A column whose `ImageList` is set by the caller (a 96 DPI list) is untouched: scaled by the grid when drawn, row height from `ScaleI(ImageSize.Height)`.
+
+Converted to the factory: `UserControlTasks` (task lists), `ControlAppt` (reminders), `FormSetupWizard` ("?" column) from UI-9b-3, and the four info button forms.
+Their lists are disposed with the control. At 100% the picture is the same size as before; at 150 and 200% it is 24 and 32 px, sharp.
+
+### 5.3 New `EnumIcons` (block "UI-9b-4" in both enums; 147 each)
+
+| Member | Purpose | Fluent (regular) | Sizes |
+|---|---|---|---|
+| `DocumentText` | Claims: Get Reports (page of text lines) | Document Text | 16 to 48 |
+| `Link`, `LinkExternal` | email and wiki editors: link buttons | Link, Link Square | 16 to 48; 16, 20, 24 |
+| `Heading1`, `Heading2`, `Heading3` | editors: Heading1 to 3 | Text Header 1 to 3 | 20, 24 |
+| `Bold`, `Italic`, `TextColor`, `TextFont` | editors | Text Bold, Text Italic, Text Color, Text Font | 16, 20, 24 |
+| `SaveDraft` | editors: Save as Draft | Save Edit | 20, 24, 32 |
+| `Settings` | email editor and wiki: Setup (gears) | Settings | 16 to 48 |
+| `LockOpen`, `LockClosed` | wiki editor: Unlock, Lock | Lock Open, Lock Closed | 16 to 48 |
+| `Home`, `History`, `Archive` | wiki: Home, Hist, Archive | Home, History, Archive | 16 to 48 |
+| `Rename` | wiki: Rename | Rename | 16, 20, 24 |
+| `Stop` | record audio: stop (Text role, as `Record`) | Stop | 16, 20, 24 |
+
+19 manifest rows, 65 SVGs from the same 1.1.346 download (`SOURCE.txt` lines added), `IconData.g.cs` regenerated (850 designs). Reused: Add, Edit, Export, Print,
+Preview, NewDocument, Complete, Send, Label, ArrowLeft, ArrowRight, Pdf, ZoomIn, ZoomOut, Sync, Save, Cut, Copy, Paste, Undo, Table, Image, Import, Search,
+ListBullets, DeleteX, Info, ChevronDown, ChevronUp, Record and the permission pictures. The larger designs are used where the download has them (the 32 and 48
+designs of Settings, Home, History, Archive and the locks).
+
+### 5.4 Tests (Targeted: UiRefreshTests, WindowChecksTests, UnitTests, NoHqTests)
+
+- New `Toolbars/RemainingFormsImageListTests`: `Lists_KeepTodaysIndexOrder_AsIcons` (the source and the compiled arrays of every list),
+  `Designers_HaveNoStreamLeft_ToolbarsTakeTheListAndButtonsTheirIcons`, `StateAndDirectionPictures_StayDistinguishable_ByShape` (every list's pictures differ in
+  shape at 16, 24 and 32 px), `ToolbarLists_BuildWithTheirIcons_AndAnImageIndexButtonStillDraws_At100_150_200`,
+  `GridColumnFactory_GivesAListAtTheScale_DrawsItPixelForPixel_At100_150_200` (the grid's picture is the list's pixels exactly), `GridColumnFactory_IsAskedAgainWhenTheScaleChanges_AndKeepsTheRowHeight`
+  (16, 24, 32 px; the row height equals the old 96 DPI list's), `GridColumn96DpiList_StillDrawsScaledByTheGrid`, the callers of the factory, the record audio
+  button, the dashboard tab pictures, and the opt-in `Gallery_RemainingFormsAndGridColumns`.
+- `SourceScanTests.DesignerStreams_AreOnlyTheKeptLists_AndToolbarPicturesAreIcons` (WindowChecksTests): the designers that still load an ImageList stream are only
+  `ControlChart`, `FormProcButtons` and `FormProcButtonEdit` (office content); no toolbar button takes a picture by number outside `FormErx`. The earlier
+  `ImageLists_TakeTheirDepthFromAStreamOrSetIt` (only the factory makes an ImageList in code) stays green.
+- Changed: `IconLibraryTests` (147, 147, 147), `WpfImagesTests` (147). `PictureMapTests`, `RenameGuardTests`, the layout snapshot and the bounds record: green,
+  unchanged. `tools\Convert-PictureUses.ps1 -Root . -Slice <id> -Check` exits 0 for UI-9b-4, 4b, 4c, 4d, 4e, 4f and 4g (one row each: Forms, Forms Reports,
+  ReportingComplex, ReportingForRdl, OpenPmsDental/UI, CentralManager, UnitTests/UI Testing; the dashboard's rows are map rows of slice UI-9a-6j, because its
+  project cannot name `EnumIcons`) and for the earlier slices.
+- Runs in `.git/od-tools/test-results/`: `ui9b4-ui-wc.txt` (UiRefreshTests 254 passed + 13 opt-in skipped; WindowChecksTests 30 + 44 opt-in skipped; NoHqTests 122),
+  `ui9b4-unit.txt` (UnitTests 1,728 + 3 skipped), `ui9b4-before.txt` and `ui9b4-after.txt` (the gallery runs). Full x64 filter build: 0 errors. InitSqlTests and
+  ForkMigrationTests not run (no schema work; `db/init/new-database.sql` not regenerated).
+
+### 5.5 Gallery G-UI3, the UI-9b-4 slice
+
+`.git/od-tools/test-results/G-UI3-ui9b4/index.html` (`G-UI3-ui9b4.zip` beside it; plain-words summary at the top; any download link in the page is not needed).
+39 pictures, 35 changed (the four grid pictures at 100% are the same): each converted toolbar list as a toolbar with one button for each picture of the list, and
+the four grid columns (tasks, reminders, setup wizard, info button), before and after at 100, 150 and 200%, off screen, synthetic data. The before set draws the
+extracted pictures of the old streams (`ui9b4-pictures/old-lists`, named `<window>-<list>-NN.png`) and the 96 DPI list scaled by the grid. The dashboard's tab pictures are
+not in the gallery (they need the dashboard control); the tab control draws them at the list's size.
+
+### 5.6 Owner questions
+
+1. The editors' unused "cancel" picture is a trash can (`DeleteX`) and the wiki's Archive keeps no red cross but a new Archive box icon. Fine?
+2. Heading1 to Heading3, Bold, Italic, Color, Font are the Fluent text-format icons (an H1 and an A with a colour bar). Fine?
+3. The dashboard's highlighted delete picture is the delete icon with a ring in the danger colour (the old one was a darker cross with a black border). Fine?
+4. `FormErx`'s Back and Forward buttons have no pictures today (an empty list) and keep none. Give them arrows, or leave?
+5. The unused lists (calendar arrows, permission pictures, account pick, web browser prefs) are kept as arrays only. Fine, as for the email mailboxes?
+
+### 5.7 For the lead
+
+Nothing needs a shown window. To rebuild the gallery: `OPMS_UI9B4_OLD_LISTS` = `.git/od-tools/test-results/ui9b4-pictures/old-lists` (extract again from `main`
+with the streams of the .resx files, one png per picture), `OPMS_UI9B_PICTURES` = a folder named `before`, run the Targeted UiRefreshTests, then again with a folder named
+`after`; delete the other slices' pictures the older gallery tests write there (keep `toolbars/Form*` and `grids/*`), then
+`powershell -NoProfile -ExecutionPolicy Bypass -File tools\New-UiGallery.ps1 -Before <before> -After <after> -Out <folder> -Name G-UI3 -Note "<summary>"`.
+A look at the real windows (the editors, the wiki, the claims window, a task list, the dashboard's edit mode) at 125% and 150% on a connected desktop waits for
+the lead's session.
+
+## 6. UI-9b is complete
+
+With UI-9b-4 every ImageList of the program is made by the one icon factory or is a list of office content:
+
+| Rule | State |
+|---|---|
+| Only the icon factory (`UiIcons.ImageList.cs`) makes an ImageList in code | `SourceScanTests.ImageLists_TakeTheirDepthFromAStreamOrSetIt` |
+| Designers load a stream only for the lists of office content | `SourceScanTests.DesignerStreams_AreOnlyTheKeptLists_AndToolbarPicturesAreIcons` (ControlChart, FormProcButtons, FormProcButtonEdit) |
+| No toolbar button takes a bitmap picture by number | the same test (allow list: `FormErx`, whose list has no pictures) |
+| Every converted list keeps today's index order | `OtherTreesImageListTests`, `RemainingFormsImageListTests`, `ToolBarImageListTests`, `ImagingImageListTests` |
+| Grid column pictures are sharp at 150 and 200% | `GridColumnFactory_*` (5.2) |
+| The scan rerun | `tools\Convert-PictureUses.ps1 -Check` exits 0 for every slice of UI-9a and UI-9b |
+
+What the program-link pictures, plug-in `ImageIndex` buttons and the module toolbars do is unchanged from section 1. The next packages are UI-10 (fit fixes) and UI-2b.
