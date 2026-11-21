@@ -1741,8 +1741,13 @@ using OpenPmsDental.UI;
 					}
 					if(imageIndex != -1) {
 						Image img =Columns[i].ImageList.Images[imageIndex];
-						g.DrawImage(img,-hScroll.Value+Columns[i].State.XPos,top,
-							ScaleI(img.Width),ScaleI(img.Height));
+						if(Columns[i].IsImageListAtScale) {//UI-9b-4: already at the scale, pixel for pixel (sharp)
+							g.DrawImage(img,-hScroll.Value+Columns[i].State.XPos,top,img.Width,img.Height);
+						}
+						else {
+							g.DrawImage(img,-hScroll.Value+Columns[i].State.XPos,top,
+								ScaleI(img.Width),ScaleI(img.Height));
+						}
 					}
 				}
 			}
@@ -2968,7 +2973,12 @@ using OpenPmsDental.UI;
 					}
 					if(imageIndex != -1) {
 						Image img =Columns[i].ImageList.Images[imageIndex];
-						g.DrawImage(img, horizontal, vertical - 1);
+						if(Columns[i].IsImageListAtScale) {//UI-9b-4: a list at the screen's scale prints at its 96 DPI size, as the 96 DPI list does
+							g.DrawImage(img, horizontal, vertical - 1,UnscaleImage(img.Width),UnscaleImage(img.Height));
+						}
+						else {
+							g.DrawImage(img, horizontal, vertical - 1);
+						}
 					}
 				}
 			}
@@ -3183,7 +3193,12 @@ using OpenPmsDental.UI;
 					}
 					if(imageIndex != -1) {
 						XImage img =Columns[i].ImageList.Images[imageIndex];
-						g.DrawImage(img, horizontal, vertical - 1);
+						if(Columns[i].IsImageListAtScale) {//UI-9b-4: see the print path
+							g.DrawImage(img, horizontal, vertical - 1,UnscaleImage(Columns[i].ImageList.Images[imageIndex].Width),UnscaleImage(Columns[i].ImageList.Images[imageIndex].Height));
+						}
+						else {
+							g.DrawImage(img, horizontal, vertical - 1);
+						}
 					}
 				}
 			}
@@ -4113,8 +4128,9 @@ using OpenPmsDental.UI;
 
 		///<summary>Called from PrintPage() and EndUpdate().  After adding rows to the grid, this calculates the height of each row because some rows may have text wrap and will take up more than one row.  Also, rows with notes must be made much larger because notes start on the second line.  If column images are used, rows will be enlarged to make space for the images.  If doActualCalc is true, then each row height will be truly calculated.  Otherwise, each row will be set to single row height, and then calculated properly when first show.</summary>
 		private void ComputeRows(Graphics g,bool doActualCalc) {
+			RefreshImageListsAtScale();
 			_heightTotal=0;
-			if(ListGridRows.Count==0){
+if(ListGridRows.Count==0){
 				Invalidate();
 				return;
 			}
@@ -4133,8 +4149,9 @@ using OpenPmsDental.UI;
 					_hasEditableColumn=true;
 				}
 				if(Columns[i].ImageList!=null) {
-					if(ScaleI(Columns[i].ImageList.ImageSize.Height)> _heightImage) {
-						_heightImage=ScaleI(Columns[i].ImageList.ImageSize.Height)+1;
+					int heightList=Columns[i].IsImageListAtScale ? Columns[i].ImageList.ImageSize.Height : ScaleI(Columns[i].ImageList.ImageSize.Height);//UI-9b-4: a list at the scale is not scaled again
+					if(heightList> _heightImage) {
+						_heightImage=heightList+1;
 					}
 				}
 			}
@@ -4523,6 +4540,26 @@ using OpenPmsDental.UI;
 		///<summary>Scales by just the MS scale.</summary>
 		private float ScaleMS(float val96){
 			return val96*_scaleMS;//1.5
+		}
+
+		///<summary>UI-9b-4: Gives each column that has an ImageListFactory a list at the grid's current scale (ImageListSize96 scaled), and again when the scale or zoom changed. A column whose list was set by ImageList stays a 96 DPI list, scaled when drawn as before.</summary>
+		private void RefreshImageListsAtScale() {
+			for(int i=0;i<Columns.Count;i++) {
+				if(Columns[i].ImageListFactory==null) {
+					continue;
+				}
+				int sizePixels=Math.Max(1,ScaleI(Columns[i].ImageListSize96));
+				if(Columns[i].ImageList!=null && Columns[i].IsImageListAtScale && Columns[i].ImageList.ImageSize.Width==sizePixels) {
+					continue;
+				}
+				Columns[i].ImageList=Columns[i].ImageListFactory(sizePixels);
+				Columns[i].IsImageListAtScale=true;
+			}
+		}
+
+		///<summary>UI-9b-4: A picture of a list at the grid's scale, in 96 DPI units (what the print and PDF paths draw).</summary>
+		private int UnscaleImage(int pixels) {
+			return Math.Max(1,(int)Math.Round(pixels/Math.Max(0.01f,_scaleMS*_zoomLocal)));
 		}
 
 		///<summary>Converts from 96dpi to current total scale.</summary>
