@@ -31,7 +31,6 @@ namespace OpenPmsDental{
 			this.menuSplitter = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.menuItemDockBottom = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuItemDockRight = new System.Windows.Forms.ToolStripMenuItem();
-			this.imageListMain = new System.Windows.Forms.ImageList(this.components);
 			this.menuPatient = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.menuLabel = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.menuEmail = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -83,17 +82,6 @@ namespace OpenPmsDental{
 			// 
 			this.menuItemDockRight.Text = "Dock to Right";
 			this.menuItemDockRight.Click += new System.EventHandler(this.menuItemDockRight_Click);
-			// 
-			// imageListMain
-			// 
-			this.imageListMain.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListMain.ImageStream")));
-			this.imageListMain.TransparentColor = System.Drawing.Color.Transparent;
-			this.imageListMain.Images.SetKeyName(0, "Pat.gif");
-			this.imageListMain.Images.SetKeyName(1, "commlog.gif");
-			this.imageListMain.Images.SetKeyName(2, "email.gif");
-			this.imageListMain.Images.SetKeyName(3, "tasksNicer.gif");
-			this.imageListMain.Images.SetKeyName(4, "label.gif");
-			this.imageListMain.Images.SetKeyName(5, "Text.gif");
 			// 
 			// menuPatient
 			// 
@@ -204,7 +192,6 @@ namespace OpenPmsDental{
 		private ContextMenuStrip menuSplitter;
 		private ToolStripMenuItem menuItemDockBottom;
 		private ToolStripMenuItem menuItemDockRight;
-		private ImageList imageListMain;
 		private ContextMenuStrip menuPatient;
 		private ContextMenuStrip menuLabel;
 		private ContextMenuStrip menuEmail;

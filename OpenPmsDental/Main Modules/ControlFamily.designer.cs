@@ -30,7 +30,6 @@ namespace OpenPmsDental {
 		private void InitializeComponent(){
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ControlFamily));
-			this.imageListToolBar = new System.Windows.Forms.ImageList(this.components);
 			this.contextMenuInsurance = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.menuItemPlansForFam = new System.Windows.Forms.ToolStripMenuItem();
 			this.contextMenuDiscount = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -50,18 +49,6 @@ namespace OpenPmsDental {
 			this.splitterPanel1.SuspendLayout();
 			this.splitterPanel2.SuspendLayout();
 			this.SuspendLayout();
-			// 
-			// imageListToolBar
-			// 
-			this.imageListToolBar.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListToolBar.ImageStream")));
-			this.imageListToolBar.TransparentColor = System.Drawing.Color.Transparent;
-			this.imageListToolBar.Images.SetKeyName(0, "");
-			this.imageListToolBar.Images.SetKeyName(1, "");
-			this.imageListToolBar.Images.SetKeyName(2, "");
-			this.imageListToolBar.Images.SetKeyName(3, "");
-			this.imageListToolBar.Images.SetKeyName(4, "");
-			this.imageListToolBar.Images.SetKeyName(5, "");
-			this.imageListToolBar.Images.SetKeyName(6, "Umbrella.gif");
 			// 
 			// contextMenuInsurance
 			// 
@@ -175,7 +162,6 @@ namespace OpenPmsDental {
 			// 
 			this.toolBarMain.Dock = System.Windows.Forms.DockStyle.Top;
 			this.toolBarMain.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-			this.toolBarMain.ImageList = this.imageListToolBar;
 			this.toolBarMain.Location = new System.Drawing.Point(0, 0);
 			this.toolBarMain.Name = "toolBarMain";
 			this.toolBarMain.Size = new System.Drawing.Size(939, 25);
@@ -244,7 +230,6 @@ namespace OpenPmsDental {
 		private GridOD gridPatientClones;
 		private GridOD gridRecall;
 		private GridOD gridSuperFam;
-		private ImageList imageListToolBar;
 		private ToolStripMenuItem menuItemRemoveDiscount;
 		private ToolStripMenuItem menuItemPlansForFam;
 		private ODPictureBox pictureBoxPat;

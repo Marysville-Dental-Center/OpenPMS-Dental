@@ -28,7 +28,6 @@ namespace OpenPmsDental {
 			this.label1 = new System.Windows.Forms.Label();
 			this.listSetPr = new OpenPmsDental.UI.ListBox();
 			this.pd2 = new System.Drawing.Printing.PrintDocument();
-			this.imageListMain = new System.Windows.Forms.ImageList(this.components);
 			this.gridMain = new OpenPmsDental.UI.GridOD();
 			this.gridPrint = new OpenPmsDental.UI.GridOD();
 			this.gridPreAuth = new OpenPmsDental.UI.GridOD();
@@ -89,15 +88,6 @@ namespace OpenPmsDental {
 			this.listSetPr.Size = new System.Drawing.Size(92, 199);
 			this.listSetPr.TabIndex = 5;
 			this.listSetPr.MouseDown += new System.Windows.Forms.MouseEventHandler(this.listSetPr_MouseDown);
-			// 
-			// imageListMain
-			// 
-			this.imageListMain.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListMain.ImageStream")));
-			this.imageListMain.TransparentColor = System.Drawing.Color.Transparent;
-			this.imageListMain.Images.SetKeyName(0, "");
-			this.imageListMain.Images.SetKeyName(1, "");
-			this.imageListMain.Images.SetKeyName(2, "");
-			this.imageListMain.Images.SetKeyName(3, "Add.gif");
 			// 
 			// gridMain
 			// 
@@ -432,7 +422,6 @@ namespace OpenPmsDental {
 			// 
 			this.ToolBarMain.Dock = System.Windows.Forms.DockStyle.Top;
 			this.ToolBarMain.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-			this.ToolBarMain.ImageList = this.imageListMain;
 			this.ToolBarMain.Location = new System.Drawing.Point(0, 0);
 			this.ToolBarMain.Name = "ToolBarMain";
 			this.ToolBarMain.Size = new System.Drawing.Size(1195, 25);
@@ -538,7 +527,6 @@ namespace OpenPmsDental {
 		private OpenPmsDental.UI.GridOD gridPrint;
 		private OpenPmsDental.UI.GridOD gridPreAuth;
 		private System.Windows.Forms.ContextMenuStrip menuConsent;
-		private System.Windows.Forms.ImageList imageListMain;
 		private OpenPmsDental.UI.ToolBarOD ToolBarMain;
 		private OpenPmsDental.UI.GridOD gridPlans;
 		private System.Windows.Forms.DateTimePicker dateTimeTP;

@@ -38,7 +38,6 @@
 			this.checkAudit = new OpenPmsDental.UI.CheckBox();
 			this.checkShowTeeth = new OpenPmsDental.UI.CheckBox();
 			this.checkNotes = new OpenPmsDental.UI.CheckBox();
-			this.imageListMain = new System.Windows.Forms.ImageList(this.components);
 			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
 			this.menuProgRight = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.menuItemDelete = new System.Windows.Forms.ToolStripMenuItem();
@@ -418,17 +417,6 @@
 			this.checkNotes.TabIndex = 11;
 			this.checkNotes.Text = "Proc Notes";
 			this.checkNotes.Click += new System.EventHandler(this.checkNotes_Click);
-			// 
-			// imageListMain
-			// 
-			this.imageListMain.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListMain.ImageStream")));
-			this.imageListMain.TransparentColor = System.Drawing.Color.Transparent;
-			this.imageListMain.Images.SetKeyName(0, "Pat.gif");
-			this.imageListMain.Images.SetKeyName(1, "Rx.gif");
-			this.imageListMain.Images.SetKeyName(2, "Probe.gif");
-			this.imageListMain.Images.SetKeyName(3, "Anesth.gif");
-			this.imageListMain.Images.SetKeyName(4, "commlog.gif");
-			this.imageListMain.Images.SetKeyName(5, "butPrint.gif");
 			// 
 			// menuProgRight
 			// 
@@ -2593,7 +2581,6 @@
 			// 
 			this.ToolBarMain.Dock = System.Windows.Forms.DockStyle.Top;
 			this.ToolBarMain.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-			this.ToolBarMain.ImageList = this.imageListMain;
 			this.ToolBarMain.Location = new System.Drawing.Point(0, 0);
 			this.ToolBarMain.Name = "ToolBarMain";
 			this.ToolBarMain.Size = new System.Drawing.Size(939, 25);
@@ -2735,7 +2722,6 @@
 		private OpenPmsDental.UI.CheckBox checkShowC;
 		private OpenPmsDental.UI.CheckBox checkShowTP;
 		private OpenPmsDental.UI.CheckBox checkRx;
-		private System.Windows.Forms.ImageList imageListMain;
 		private System.Windows.Forms.TextBox textProcCode;
 		private System.Windows.Forms.Label label14;
 		private OpenPmsDental.UI.Button butOK;

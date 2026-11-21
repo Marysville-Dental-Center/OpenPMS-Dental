@@ -151,11 +151,19 @@ namespace OpenPmsDental {
 		private ToothChartRelay _toothChartRelay;
 		#endregion Fields - Private
 
+		///<summary>The pictures of the toolbar's ImageList by index (UI-9b-1, docs/port-notes/UI-9b.md): the purposes of today's ImageIndex
+		///pictures in their order, as icons (ToolBarOD.SetImageListIcons), so a plug-in's button set by ImageIndex (ContrChart.LayoutToolBar_end)
+		///still shows the same purpose. The module's own buttons take an EnumIcons; program links add their pictures after these by key.</summary>
+		public static readonly EnumIcons[] ArrayIconsImageList=new EnumIcons[] {
+			EnumIcons.PatSelect,EnumIcons.Rx,EnumIcons.PerioChart,EnumIcons.Anesthesia,EnumIcons.CommLog,EnumIcons.Print
+		};
+
 		#region Constructor
 		///<summary></summary>
 		public ControlChart() {
 			Logger.LogToPath("Ctor",LogPath.Startup,LogPhase.Start);
 			InitializeComponent();
+			ToolBarMain.SetImageListIcons(ArrayIconsImageList);//UI-9b-1: the list of icons (program links and plug-ins add to it)
 			Font=LayoutManagerForms.FontInitial;
 			this.toothChartWrapper = new SparksToothChart.ToothChartWrapper();//these lines were causing designer to crash
 			this.toothChartWrapper.ColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(150)))), ((int)(((byte)(145)))), ((int)(((byte)(152)))));
@@ -4591,7 +4599,7 @@ namespace OpenPmsDental {
 		public void LayoutToolBar() {
 			ToolBarMain.Buttons.Clear();
 			ODToolBarButton button;
-			button=new ODToolBarButton(Lan.g(this,"Print"),5,"","Print");
+			button=new ODToolBarButton(Lan.g(this,"Print"),EnumIcons.Print,"","Print");
 			button.ToolTipText=Lan.g(this,"Print Progress Notes");
 			ToolBarMain.Buttons.Add(button);
 			if(HasHideRxButtonsEcw()) {
@@ -4600,8 +4608,8 @@ namespace OpenPmsDental {
 			else {
 				if(UsingEcwTightOrFull()) {
 					if(!Environment.Is64BitOperatingSystem) {
-						//ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"New Rx"),1,"","Rx"));
-						button=new ODToolBarButton(Lan.g(this,"New Rx"),1,"","Rx");
+						//ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"New Rx"),EnumIcons.Rx,"","Rx"));
+						button=new ODToolBarButton(Lan.g(this,"New Rx"),EnumIcons.Rx,"","Rx");
 						button.Style=ODToolBarButtonStyle.DropDownButton;
 						button.ContextMenuStripDropDown=_contextMenuRxManage;
 						ToolBarMain.Buttons.Add(button);
@@ -4609,14 +4617,14 @@ namespace OpenPmsDental {
 					//don't add eRx
 				}
 				else {
-					//ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"New Rx"),1,"","Rx"));
-					button=new ODToolBarButton(Lan.g(this,"New Rx"),1,"","Rx");
+					//ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"New Rx"),EnumIcons.Rx,"","Rx"));
+					button=new ODToolBarButton(Lan.g(this,"New Rx"),EnumIcons.Rx,"","Rx");
 					button.Style=ODToolBarButtonStyle.DropDownButton;
 					button.ContextMenuStripDropDown=_contextMenuRxManage;
 					ToolBarMain.Buttons.Add(button);
 					if(Programs.IsEnabled(ProgramName.eRx)) {//The eRx button only shows once the office has enabled the eRx program link.
 						if(toolBarButtonErx==null) {
-							toolBarButtonErx=new ODToolBarButton(Lan.g(this,"eRx"),1,"","eRx");
+							toolBarButtonErx=new ODToolBarButton(Lan.g(this,"eRx"),EnumIcons.Rx,"","eRx");
 							toolBarButtonErx.Style=ODToolBarButtonStyle.DropDownButton;
 							toolBarButtonErx.ContextMenuStripDropDown=menuErx;
 						}
@@ -4626,7 +4634,7 @@ namespace OpenPmsDental {
 			}
 			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"LabCase"),-1,"","LabCase"));
 			if(!Clinics.IsMedicalPracticeOrClinic(Clinics.ClinicNum)) {
-				ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Perio Chart"),2,"","Perio"));
+				ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Perio Chart"),EnumIcons.PerioChart,"","Perio"));
 			}
 			if(PrefC.GetBool(PrefName.OrthoShowInChart)){
 				button=new ODToolBarButton(OrthoChartTabs.GetFirst(true).TabName,-1,"","Ortho");
@@ -4655,7 +4663,7 @@ namespace OpenPmsDental {
 			button.Style=ODToolBarButtonStyle.NormalButton;
 			ToolBarMain.Buttons.Add(button);
 			if(UsingEcwTight()) {//button will show in this toolbar instead of the usual one.
-				ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Commlog"),4,Lan.g(this,"New Commlog Entry"),"Commlog"));
+				ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Commlog"),EnumIcons.CommLog,Lan.g(this,"New Commlog Entry"),"Commlog"));
 			}
 			if(CultureInfo.CurrentCulture.Name=="en-US") {
 				button=new ODToolBarButton(Lan.g(this,"CCD"),-1,"","CCD");

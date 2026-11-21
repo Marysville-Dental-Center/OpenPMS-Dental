@@ -46,7 +46,6 @@
 			this.tabReminders = new OpenPmsDental.UI.TabPage();
 			this.gridReminders = new OpenPmsDental.UI.GridOD();
 			this.labelNoneView = new System.Windows.Forms.Label();
-			this.imageListMain = new System.Windows.Forms.ImageList(this.components);
 			this.menuBlockout = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this._menuOp = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.menuApt = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -367,21 +366,6 @@
 			this.labelNoneView.Text = "Please select a clinic \r\nor an appointment view.";
 			this.labelNoneView.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
-			// imageListMain
-			// 
-			this.imageListMain.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListMain.ImageStream")));
-			this.imageListMain.TransparentColor = System.Drawing.Color.Transparent;
-			this.imageListMain.Images.SetKeyName(0, "print.gif");
-			this.imageListMain.Images.SetKeyName(1, "apptLists.gif");
-			this.imageListMain.Images.SetKeyName(2, "DT Rapid Call.png");
-			this.imageListMain.Images.SetKeyName(3, "unschedList.gif");
-			this.imageListMain.Images.SetKeyName(4, "breakAptX.gif");
-			this.imageListMain.Images.SetKeyName(5, "Check.gif");
-			this.imageListMain.Images.SetKeyName(6, "deleteX.gif");
-			this.imageListMain.Images.SetKeyName(7, "Patient.gif");
-			this.imageListMain.Images.SetKeyName(8, "Add.gif");
-			this.imageListMain.Images.SetKeyName(9, "Recall.gif");
-			// 
 			// menuBlockout
 			// 
 			this.menuBlockout.Name = "menuBlockout";
@@ -685,7 +669,6 @@
 			// 
 			this.toolBarMain.Dock = System.Windows.Forms.DockStyle.Top;
 			this.toolBarMain.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-			this.toolBarMain.ImageList = this.imageListMain;
 			this.toolBarMain.Location = new System.Drawing.Point(0, 0);
 			this.toolBarMain.Name = "toolBarMain";
 			this.toolBarMain.Size = new System.Drawing.Size(1076, 25);
@@ -1029,7 +1012,6 @@
 		private System.Windows.Forms.ContextMenuStrip _menuOp;
 		private System.Windows.Forms.ContextMenuStrip menuApt;
 		private System.Windows.Forms.ToolTip toolTip1;
-		private System.Windows.Forms.ImageList imageListMain;
 		private System.Windows.Forms.Timer timerWaitingRoom;
 		private System.Windows.Forms.ContextMenuStrip menuReminderEdit;
 		private System.Windows.Forms.ToolStripMenuItem menuItemReminderDone;

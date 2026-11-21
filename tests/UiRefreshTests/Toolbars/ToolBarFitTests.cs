@@ -143,7 +143,7 @@ namespace UiRefreshTests.Toolbars {
 			CollectionAssert.AreEqual(new[] { "Payment","Adjustment","New Claim","|","Payment Plan","Installment Plan","|","Quick Procs","Repeating Charge","|","Statement" },
 				toolBarAccount.ListButtons.Select(x => x.ToString()).ToList(),"The Account module's buttons in their order (ControlAccount.LayoutToolBar).");
 			Assert.AreEqual("DropDownButton",toolBarAccount.ListButtons[0].Style);
-			Assert.AreEqual(1,toolBarAccount.ListButtons[0].ImageIndex);
+			Assert.AreEqual("Payment",toolBarAccount.ListButtons[0].Icon,"An EnumIcons since UI-9b-1 (today's ImageIndex 1).");
 			Assert.IsTrue(toolBarAccount.ListButtons.Single(x => x.Text=="Repeating Charge").IsConditional,"Behind EasyHideRepeatCharges.");
 			ToolBarSource toolBarMain=listToolBars.Single(x => x.Id=="main");
 			Assert.AreEqual("Select Patient",toolBarMain.ListButtons[0].Text);

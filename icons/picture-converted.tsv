@@ -1,5 +1,5 @@
 # The pictures UI-9a turned into icons (tools/Convert-PictureUses.ps1 -Apply writes this file; docs/port-notes/UI-9a.md).
-# how: Icon (UI.Button.Icon, the 22 px slot drawn as vectors), GetBitmap (IconLibrary.GetBitmap at the picture's 96 DPI size) or UiIcons (CodeBase.UiIcons.GetBitmap by name, OpenPmsDentalGraph and OpenPmsDentalBusiness, converted by hand).
+# how: Icon (UI.Button.Icon, the 22 px slot drawn as vectors), GetBitmap (IconLibrary.GetBitmap at the picture's 96 DPI size) or UiIcons (CodeBase.UiIcons.GetBitmap by name, OpenPmsDentalGraph and OpenPmsDentalBusiness, converted by hand); since UI-9b, ImageList (a picture of a toolbar's designer ImageList, now the icon at its index in the list IconLibrary.GetImageList builds: the file's ArrayIconsImageList, given to the control's SetImageListIcons; written by hand).
 slice	file	control	property	key	target	how	width	height
 UI-9a-1	OpenPmsDental/Forms/FormAlertCategorySetup.designer.cs	butCopy	Image	Resources:Right	EnumIcons.ArrowRight	Icon	22	22
 UI-9a-1	OpenPmsDental/Forms/FormApptConflicts.Designer.cs	butPrint	Image	Resources:butPrintSmall	EnumIcons.Print	GetBitmap	16	16
@@ -414,3 +414,41 @@ UI-9a-7b	RdlDesign/RdlDesigner.cs	bUndo	Image	RdlDesigner:bUndo.Image	EnumIcons.
 UI-9a-7b	RdlDesign/RdlDesigner.cs	bXml	Image	RdlDesigner:bXml.Image	EnumIcons.Xml	UiIcons	16	16
 UI-9a-7l	CodeBase/Utilities/MsgBoxCopyPaste.cs	butPrint	Image	MsgBoxCopyPaste:butPrint.Image	EnumIcons.Print	UiIcons	22	22
 UI-9a-7m	ODR/ComboBoxMulti.cs	dropButton	Image	ComboBoxMulti:dropButton.Image	EnumIcons.ChevronDown	UiIcons	17	19
+UI-9b-1	OpenPmsDental/Main Modules/ControlAccount.cs	ToolBarMain	ImageList[0]	ControlAccount:imageListMain.ImageStream#0	EnumIcons.PatSelect	ImageList	22	22
+UI-9b-1	OpenPmsDental/Main Modules/ControlAccount.cs	ToolBarMain	ImageList[1]	ControlAccount:imageListMain.ImageStream#1	EnumIcons.Payment	ImageList	22	22
+UI-9b-1	OpenPmsDental/Main Modules/ControlAccount.cs	ToolBarMain	ImageList[2]	ControlAccount:imageListMain.ImageStream#2	EnumIcons.Adjustment	ImageList	22	22
+UI-9b-1	OpenPmsDental/Main Modules/ControlAccount.cs	ToolBarMain	ImageList[3]	ControlAccount:imageListMain.ImageStream#3	EnumIcons.Insurance	ImageList	22	22
+UI-9b-1	OpenPmsDental/Main Modules/ControlAccount.cs	ToolBarMain	ImageList[4]	ControlAccount:imageListMain.ImageStream#4	EnumIcons.Print	ImageList	22	22
+UI-9b-1	OpenPmsDental/Main Modules/ControlAppt.cs	toolBarMain	ImageList[0]	ControlAppt:imageListMain.ImageStream#0	EnumIcons.Print	ImageList	22	22
+UI-9b-1	OpenPmsDental/Main Modules/ControlAppt.cs	toolBarMain	ImageList[1]	ControlAppt:imageListMain.ImageStream#1	EnumIcons.ApptLists	ImageList	22	22
+UI-9b-1	OpenPmsDental/Main Modules/ControlAppt.cs	toolBarMain	ImageList[2]	ControlAppt:imageListMain.ImageStream#2	EnumIcons.Call	ImageList	22	22
+UI-9b-1	OpenPmsDental/Main Modules/ControlAppt.cs	toolBarMain	ImageList[3]	ControlAppt:imageListMain.ImageStream#3	EnumIcons.Unscheduled	ImageList	22	22
+UI-9b-1	OpenPmsDental/Main Modules/ControlAppt.cs	toolBarMain	ImageList[4]	ControlAppt:imageListMain.ImageStream#4	EnumIcons.BreakAptX	ImageList	22	22
+UI-9b-1	OpenPmsDental/Main Modules/ControlAppt.cs	toolBarMain	ImageList[5]	ControlAppt:imageListMain.ImageStream#5	EnumIcons.Complete	ImageList	22	22
+UI-9b-1	OpenPmsDental/Main Modules/ControlAppt.cs	toolBarMain	ImageList[6]	ControlAppt:imageListMain.ImageStream#6	EnumIcons.DeleteX	ImageList	22	22
+UI-9b-1	OpenPmsDental/Main Modules/ControlAppt.cs	toolBarMain	ImageList[7]	ControlAppt:imageListMain.ImageStream#7	EnumIcons.Patient	ImageList	22	22
+UI-9b-1	OpenPmsDental/Main Modules/ControlAppt.cs	toolBarMain	ImageList[8]	ControlAppt:imageListMain.ImageStream#8	EnumIcons.Add	ImageList	22	22
+UI-9b-1	OpenPmsDental/Main Modules/ControlAppt.cs	toolBarMain	ImageList[9]	ControlAppt:imageListMain.ImageStream#9	EnumIcons.Recall	ImageList	22	22
+UI-9b-1	OpenPmsDental/Main Modules/ControlChart.cs	ToolBarMain	ImageList[0]	ControlChart:imageListMain.ImageStream#0	EnumIcons.PatSelect	ImageList	22	22
+UI-9b-1	OpenPmsDental/Main Modules/ControlChart.cs	ToolBarMain	ImageList[1]	ControlChart:imageListMain.ImageStream#1	EnumIcons.Rx	ImageList	22	22
+UI-9b-1	OpenPmsDental/Main Modules/ControlChart.cs	ToolBarMain	ImageList[2]	ControlChart:imageListMain.ImageStream#2	EnumIcons.PerioChart	ImageList	22	22
+UI-9b-1	OpenPmsDental/Main Modules/ControlChart.cs	ToolBarMain	ImageList[3]	ControlChart:imageListMain.ImageStream#3	EnumIcons.Anesthesia	ImageList	22	22
+UI-9b-1	OpenPmsDental/Main Modules/ControlChart.cs	ToolBarMain	ImageList[4]	ControlChart:imageListMain.ImageStream#4	EnumIcons.CommLog	ImageList	22	22
+UI-9b-1	OpenPmsDental/Main Modules/ControlChart.cs	ToolBarMain	ImageList[5]	ControlChart:imageListMain.ImageStream#5	EnumIcons.Print	ImageList	22	22
+UI-9b-1	OpenPmsDental/Main Modules/ControlFamily.cs	toolBarMain	ImageList[0]	ControlFamily:imageListToolBar.ImageStream#0	EnumIcons.PatSelect	ImageList	22	22
+UI-9b-1	OpenPmsDental/Main Modules/ControlFamily.cs	toolBarMain	ImageList[1]	ControlFamily:imageListToolBar.ImageStream#1	EnumIcons.Recall	ImageList	22	22
+UI-9b-1	OpenPmsDental/Main Modules/ControlFamily.cs	toolBarMain	ImageList[2]	ControlFamily:imageListToolBar.ImageStream#2	EnumIcons.PatAdd	ImageList	22	22
+UI-9b-1	OpenPmsDental/Main Modules/ControlFamily.cs	toolBarMain	ImageList[3]	ControlFamily:imageListToolBar.ImageStream#3	EnumIcons.PatDelete	ImageList	22	22
+UI-9b-1	OpenPmsDental/Main Modules/ControlFamily.cs	toolBarMain	ImageList[4]	ControlFamily:imageListToolBar.ImageStream#4	EnumIcons.PatSetGuarantor	ImageList	22	22
+UI-9b-1	OpenPmsDental/Main Modules/ControlFamily.cs	toolBarMain	ImageList[5]	ControlFamily:imageListToolBar.ImageStream#5	EnumIcons.PatMoveFam	ImageList	22	22
+UI-9b-1	OpenPmsDental/Main Modules/ControlFamily.cs	toolBarMain	ImageList[6]	ControlFamily:imageListToolBar.ImageStream#6	EnumIcons.Insurance	ImageList	22	22
+UI-9b-1	OpenPmsDental/Main Modules/ControlTreat.cs	ToolBarMain	ImageList[0]	ControlTreat:imageListMain.ImageStream#0	EnumIcons.PatSelect	ImageList	22	22
+UI-9b-1	OpenPmsDental/Main Modules/ControlTreat.cs	ToolBarMain	ImageList[1]	ControlTreat:imageListMain.ImageStream#1	EnumIcons.Sync	ImageList	22	22
+UI-9b-1	OpenPmsDental/Main Modules/ControlTreat.cs	ToolBarMain	ImageList[2]	ControlTreat:imageListMain.ImageStream#2	EnumIcons.Print	ImageList	22	22
+UI-9b-1	OpenPmsDental/Main Modules/ControlTreat.cs	ToolBarMain	ImageList[3]	ControlTreat:imageListMain.ImageStream#3	EnumIcons.Add	ImageList	22	22
+UI-9b-1	OpenPmsDental/Main Modules/FormOpenDental.cs	ToolBarMain	ImageList[0]	FormOpenDental:imageListMain.ImageStream#0	EnumIcons.PatSelect	ImageList	22	22
+UI-9b-1	OpenPmsDental/Main Modules/FormOpenDental.cs	ToolBarMain	ImageList[1]	FormOpenDental:imageListMain.ImageStream#1	EnumIcons.CommLog	ImageList	22	22
+UI-9b-1	OpenPmsDental/Main Modules/FormOpenDental.cs	ToolBarMain	ImageList[2]	FormOpenDental:imageListMain.ImageStream#2	EnumIcons.Email	ImageList	22	22
+UI-9b-1	OpenPmsDental/Main Modules/FormOpenDental.cs	ToolBarMain	ImageList[3]	FormOpenDental:imageListMain.ImageStream#3	EnumIcons.TaskList	ImageList	22	22
+UI-9b-1	OpenPmsDental/Main Modules/FormOpenDental.cs	ToolBarMain	ImageList[4]	FormOpenDental:imageListMain.ImageStream#4	EnumIcons.Label	ImageList	22	22
+UI-9b-1	OpenPmsDental/Main Modules/FormOpenDental.cs	ToolBarMain	ImageList[5]	FormOpenDental:imageListMain.ImageStream#5	EnumIcons.Text	ImageList	22	22

@@ -143,6 +143,13 @@ namespace OpenPmsDental{
 		private PatientData _pd=new PatientData();
 		#endregion Fields - Private
 
+		///<summary>The pictures of the main toolbar's ImageList by index (UI-9b-1, docs/port-notes/UI-9b.md): the purposes of today's ImageIndex
+		///pictures in their order, as icons (ToolBarOD.SetImageListIcons), so a plug-in's button set by ImageIndex (FormOpenDental.LayoutToolBar_end)
+		///still shows the same purpose. The window's own buttons take an EnumIcons; program links add their pictures after these by key.</summary>
+		public static readonly EnumIcons[] ArrayIconsImageList=new EnumIcons[] {
+			EnumIcons.PatSelect,EnumIcons.CommLog,EnumIcons.Email,EnumIcons.TaskList,EnumIcons.Label,EnumIcons.Text
+		};
+
 		#region Constructor
 		///<summary></summary>
 		public FormOpenDental(string[] cla){
@@ -174,7 +181,7 @@ namespace OpenPmsDental{
 			ToolBarMain.Location=new Point(51,0);
 			ToolBarMain.Size=new Size(931,25);
 			ToolBarMain.Dock=DockStyle.Top;
-			ToolBarMain.ImageList=imageListMain;
+			ToolBarMain.SetImageListIcons(ArrayIconsImageList);//UI-9b-1: the list of icons (program links and plug-ins add to it)
 			ToolBarMain.ButtonClick+=new ODToolBarButtonClickEventHandler(toolBarMain_ButtonClick);
 			LayoutManager.Add(ToolBarMain,this);
 			//module bar
@@ -1787,7 +1794,6 @@ namespace OpenPmsDental{
 		///<summary>Causes the toolbar to be laid out again.</summary>
 		private void LayoutToolBar() {
 			ToolBarMain.Buttons.Clear();
-			ToolBarMain.ImageList=imageListMain;
 			ODToolBarButton toolBarButton;
 			toolBarButton=new ODToolBarButton(Lan.g(this,"Select Patient"),EnumIcons.PatSelect,"","Patient");
 			toolBarButton.Style=ODToolBarButtonStyle.DropDownButton;
@@ -1814,12 +1820,12 @@ namespace OpenPmsDental{
 				//button.DropDownMenu=menuForm;
 				ToolBarMain.Buttons.Add(toolBarButton);
 				if(_toolBarButtonTask==null) {
-					_toolBarButtonTask=new ODToolBarButton(Lan.g(this,"Tasks"),3,Lan.g(this,"Open Tasks"),"Tasklist");
+					_toolBarButtonTask=new ODToolBarButton(Lan.g(this,"Tasks"),EnumIcons.TaskList,Lan.g(this,"Open Tasks"),"Tasklist");
 					_toolBarButtonTask.Style=ODToolBarButtonStyle.DropDownButton;
 					_toolBarButtonTask.ContextMenuStripDropDown=menuTask;
 				}
 				ToolBarMain.Buttons.Add(_toolBarButtonTask);
-				toolBarButton=new ODToolBarButton(Lan.g(this,"Label"),4,Lan.g(this,"Print Label"),"Label");
+				toolBarButton=new ODToolBarButton(Lan.g(this,"Label"),EnumIcons.Label,Lan.g(this,"Print Label"),"Label");
 				toolBarButton.Style=ODToolBarButtonStyle.DropDownButton;
 				toolBarButton.ContextMenuStripDropDown=menuLabel;
 				ToolBarMain.Buttons.Add(toolBarButton);
