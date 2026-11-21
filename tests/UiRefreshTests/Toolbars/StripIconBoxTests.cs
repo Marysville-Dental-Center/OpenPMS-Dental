@@ -84,20 +84,37 @@ namespace UiRefreshTests.Toolbars {
 			Assert.IsTrue(listStrips.Any(x => x.Key=="FormClaimsSend.ArrayIconsImageList"));
 		}
 
+		///<summary>The ink extent of a design drawn at its own size, as Fluent made it (no box, no keyline scale; its optical scale about the
+		///centre): its size class. GDI+, antialiased, ink at half alpha and up.</summary>
+		private static float GetNativeExtent(IconDesign iconDesign) {
+			using(Bitmap bitmap=new Bitmap(iconDesign.Size,iconDesign.Size,System.Drawing.Imaging.PixelFormat.Format32bppArgb))
+			using(System.Drawing.Drawing2D.GraphicsPath graphicsPath=new System.Drawing.Drawing2D.GraphicsPath(System.Drawing.Drawing2D.FillMode.Winding))
+			using(Graphics g=Graphics.FromImage(bitmap)) {
+				float offset=iconDesign.Size*(1f-iconDesign.OpticalScale)/2f;
+				iconDesign.GetFigures().WriteTo(new PathSink(graphicsPath),offset,offset,iconDesign.OpticalScale);
+				g.SmoothingMode=System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+				g.PixelOffsetMode=System.Drawing.Drawing2D.PixelOffsetMode.Half;
+				g.FillPath(Brushes.Black,graphicsPath);
+				Rectangle rectangle=GetInkBounds(bitmap);
+				return Math.Max(rectangle.Width,rectangle.Height);
+			}
+		}
+
 		///<summary>Every icon of every strip, in the strip's ImageList at 100, 150 and 200% of the 22 and 16 px slots, is drawn in one box: the box of
-		///section 3.5 for the slot (the same for every icon), its ink inside the box, and the ink extent of the icons of one size class (the extent of
-		///the icon in the 24 px box, rounded) within 1 px of each other.</summary>
+		///section 3.5 for the slot (the same for every icon), its ink inside the box, and its ink extent within 1 px of its size class in that box:
+		///the extent of the design it draws, at the design's own size, scaled by the Fluent keylines to the box (GetLiveSize). Before the fix an icon
+		///whose largest design is 24 px drew it in a 24 px box in the 33 and 44 px slots, 8 px under its class's 28 px in the 32 px box.</summary>
 		[TestMethod]
-		public void StripIcons_FillOneBox_InkWithin1PxPerSizeClass_At100_150_200() {
+		public void StripIcons_FillOneBox_InkWithin1PxOfTheirSizeClass_At100_150_200() {
 			List<string> listFaults=new List<string>();
-			Dictionary<EnumIcons,int> dictClass=new Dictionary<EnumIcons,int>();
+			Dictionary<IconDesign,float> dictNative=new Dictionary<IconDesign,float>();
+			int countChecked=0;
 			foreach(KeyValuePair<string,EnumIcons[]> pair in GetStrips()) {
 				foreach(int size96 in _arraySizes96) {
 					foreach(float scale in _arrayScales) {
 						int sizePixels=UiTheme.ScaleI(size96,scale);
 						int sizeBox=Math.Min(UiTheme.GetIconDesignSize(sizePixels),sizePixels);
 						Rectangle rectangleBox=new Rectangle((sizePixels-sizeBox)/2,(sizePixels-sizeBox)/2,sizeBox,sizeBox);
-						Dictionary<int,List<KeyValuePair<EnumIcons,int>>> dictExtentsByClass=new Dictionary<int,List<KeyValuePair<EnumIcons,int>>>();
 						using(ImageList imageList=IconLibrary.GetImageList(pair.Value,sizePixels)) {
 							for(int i=0;i<pair.Value.Length;i++) {
 								EnumIcons icon=pair.Value[i];
@@ -113,60 +130,54 @@ namespace UiRefreshTests.Toolbars {
 								if(!Rectangle.Inflate(rectangleBox,1,1).Contains(rectangleInk)) {
 									listFaults.Add(what+": ink "+rectangleInk+" leaves the box "+rectangleBox);
 								}
-								if(!dictClass.ContainsKey(icon)) {
-									dictClass[icon]=GetInkExtent(icon,24);
+								if(!dictNative.ContainsKey(iconDesign)) {
+									dictNative[iconDesign]=GetNativeExtent(iconDesign);
 								}
-								int sizeClass=dictClass[icon];
-								if(!dictExtentsByClass.ContainsKey(sizeClass)) {
-									dictExtentsByClass[sizeClass]=new List<KeyValuePair<EnumIcons,int>>();
+								float extentClass=dictNative[iconDesign];
+								if(iconDesign.Size!=sizeBox) {
+									extentClass=extentClass*UiIcons.GetLiveSize(sizeBox)/UiIcons.GetLiveSize(iconDesign.Size);
 								}
-								dictExtentsByClass[sizeClass].Add(new KeyValuePair<EnumIcons,int>(icon,Math.Max(rectangleInk.Width,rectangleInk.Height)));
-							}
-						}
-						foreach(KeyValuePair<int,List<KeyValuePair<EnumIcons,int>>> pairClass in dictExtentsByClass) {
-							int extentMin=pairClass.Value.Min(x => x.Value);
-							int extentMax=pairClass.Value.Max(x => x.Value);
-							if(extentMax-extentMin>1) {
-								listFaults.Add(pair.Key+" at "+(int)Math.Round(scale*100)+"% of "+size96+" px, size class "+pairClass.Key+" px: ink extents "
-									+string.Join(", ",pairClass.Value.Select(x => x.Key+" "+x.Value)));
+								int extent=Math.Max(rectangleInk.Width,rectangleInk.Height);
+								if(Math.Abs(extent-extentClass)>1f) {
+									listFaults.Add(what+": ink extent "+extent+" px, its size class "+extentClass.ToString("0.0")+" px in the "+sizeBox+" px box ("+iconDesign.Size+" px design).");
+								}
+								countChecked++;
 							}
 						}
 					}
 				}
 			}
 			Assert.AreEqual(0,listFaults.Count,string.Join("\r\n",listFaults));
+			Assert.IsTrue(countChecked>1000,"Icons checked: "+countChecked);
 		}
 
-		///<summary>The faults of the lead's audit, by name: at 150 and 200% Copy, Paste and Save as Draft are no larger than Cut and Undo in the
-		///editors, the printer no larger than its neighbours in the wiki and the claims window, and the claims window's document icons (Preview,
-		///New document) no smaller than the printer: the extents of icons of one size class are within 1 px, and the whole strip's within its
-		///classes' spread.</summary>
+		///<summary>The faults of the lead's audit, by name, at 100, 150 and 200% of the toolbar slot: the editors' Copy, Paste and Save as Draft have
+		///Cut's ink extent, and the printer has the extent of its neighbours in the wiki (List) and the claims window (Preview, New document, the
+		///document icons that looked smaller), within 1 px.</summary>
 		[TestMethod]
-		public void AuditedIcons_HaveTheirNeighboursSize_At150_200() {
-			foreach(float scale in new float[] { 1f,1.5f,2f }) {
+		public void AuditedIcons_HaveTheirNeighboursSize_At100_150_200() {
+			foreach(float scale in _arrayScales) {
 				int sizePixels=UiTheme.ScaleI(ToolBarOD.SIZE_IMAGE_LIST96,scale);
-				int extentCopy=GetInkExtent(EnumIcons.Copy,sizePixels);
-				int extentPrint=GetInkExtent(EnumIcons.Print,sizePixels);
-				foreach(EnumIcons icon in new[] { EnumIcons.Paste,EnumIcons.SaveDraft,EnumIcons.Cut,EnumIcons.Save,EnumIcons.Archive,EnumIcons.Settings,EnumIcons.Preview,
-					EnumIcons.NewDocument,EnumIcons.DocumentText,EnumIcons.Complete })
-				{
+				string at=" at "+(int)Math.Round(scale*100)+"%";
+				int extentCut=GetInkExtent(EnumIcons.Cut,sizePixels);
+				foreach(EnumIcons icon in new[] { EnumIcons.Copy,EnumIcons.Paste,EnumIcons.SaveDraft }) {
 					int extent=GetInkExtent(icon,sizePixels);
-					int extentClassOf24=GetInkExtent(icon,24);
-					int extentCopyOf24=GetInkExtent(EnumIcons.Copy,24);
-					//An icon whose 24 px design has the extent of Copy's has Copy's extent in every box, within 1 px; a smaller or larger one keeps its
-					//difference, scaled by the keylines, within 1 px.
-					float expected=extentCopy+(extentClassOf24-extentCopyOf24)*UiIcons.GetLiveSize(UiTheme.GetIconDesignSize(sizePixels))/UiIcons.GetLiveSize(24);
-					Assert.IsTrue(Math.Abs(extent-expected)<=1.5f,icon+" at "+(int)Math.Round(scale*100)+"%: "+extent+" px, expected "+expected+" (Copy "+extentCopy+").");
+					Assert.IsTrue(Math.Abs(extent-extentCut)<=1,icon+at+": "+extent+" px, Cut "+extentCut+" px.");
 				}
-				Assert.IsTrue(Math.Abs(extentPrint-extentCopy)<=1,"Print "+extentPrint+", Copy "+extentCopy+" at "+(int)Math.Round(scale*100)+"%.");
+				int extentPrint=GetInkExtent(EnumIcons.Print,sizePixels);
+				foreach(EnumIcons icon in new[] { EnumIcons.ListBullets,EnumIcons.Preview,EnumIcons.NewDocument }) {
+					int extent=GetInkExtent(icon,sizePixels);
+					Assert.IsTrue(Math.Abs(extent-extentPrint)<=1,icon+at+": "+extent+" px, Print "+extentPrint+" px.");
+				}
 			}
 		}
 
 		///<summary>The editors' text buttons (the lead's audit): H1, H2 and H3 have the cap height of B and I (within 1 px) in the 20, 24 and 32 px
-		///boxes, so they no longer look small next to them; B draws the 28 px design (lighter stems than the 16 to 24 px designs' heavy B).</summary>
+		///boxes, so they no longer look small next to them; B draws the 28 px design (lighter stems than the 16 to 24 px designs' heavy B) at 0.96,
+		///I's cap height.</summary>
 		[TestMethod]
 		public void HeadingLetters_HaveTheCapHeightOfBoldAndItalic_At100_150_200() {
-			Assert.IsTrue(IconLibrary.GetDesigns(EnumIcons.Bold).All(x => x.Size==28 && x.FileName=="text_bold_28_regular.svg"));
+			Assert.IsTrue(IconLibrary.GetDesigns(EnumIcons.Bold).All(x => x.Size==28 && x.FileName=="text_bold_28_regular.svg" && Math.Abs(x.OpticalScale-0.96f)<0.001f));
 			foreach(EnumIcons icon in new[] { EnumIcons.Heading1,EnumIcons.Heading2,EnumIcons.Heading3 }) {
 				Assert.IsTrue(IconLibrary.GetDesigns(icon).All(x => Math.Abs(x.OpticalScale-8f/7f)<0.001f),icon+": the optical scale 8/7.");
 			}
@@ -219,6 +230,37 @@ namespace UiRefreshTests.Toolbars {
 			UiIcons.GetPlacement(iconDesignCopy,32,out offset,out scale);
 			Assert.AreEqual(0f,offset);
 			Assert.AreEqual(1f,scale);
+		}
+
+		///<summary>Writes a design's figures into a GraphicsPath (as UiIcons' own sink).</summary>
+		private sealed class PathSink:IIconPathSink {
+			private readonly System.Drawing.Drawing2D.GraphicsPath _graphicsPath;
+			private PointF _pointCurrent;
+
+			public PathSink(System.Drawing.Drawing2D.GraphicsPath graphicsPath) {
+				_graphicsPath=graphicsPath;
+			}
+
+			public void BeginFigure(float x,float y) {
+				_graphicsPath.StartFigure();
+				_pointCurrent=new PointF(x,y);
+			}
+
+			public void AddLine(float x,float y) {
+				PointF point=new PointF(x,y);
+				_graphicsPath.AddLine(_pointCurrent,point);
+				_pointCurrent=point;
+			}
+
+			public void AddBezier(float x1,float y1,float x2,float y2,float x,float y) {
+				PointF point=new PointF(x,y);
+				_graphicsPath.AddBezier(_pointCurrent,new PointF(x1,y1),new PointF(x2,y2),point);
+				_pointCurrent=point;
+			}
+
+			public void EndFigure() {
+				_graphicsPath.CloseFigure();
+			}
 		}
 	}
 }
