@@ -40,7 +40,7 @@ namespace NoHqTests {
 		///Only exactly that prefix is allowed: the same owner in any other text, another of its repositories, or the address without "https://",
 		///is still a hit.</summary>
 		private static readonly string[] _arrayAllowedUrlHashes={
-			"773adf02c67270d8a1776bb5cb2848df3461c83a83669ad3ee70719eb61f9eba",//this repository on GitHub
+			"c997c75eb189a6a171d36f8e3c92d950e9ac1b1fe2323350c61bf501af5a77f6",//this repository on GitHub (renamed 2026-11-21)
 		};
 		///<summary>A GitHub repository address: owner and repository name. The name does not end with a '.', so a full stop after it stays out.</summary>
 		private static readonly Regex _regexGitHubRepositoryUrl=new Regex(@"https://github\.com/[A-Za-z0-9-]+/[A-Za-z0-9_.-]*[A-Za-z0-9_-]",

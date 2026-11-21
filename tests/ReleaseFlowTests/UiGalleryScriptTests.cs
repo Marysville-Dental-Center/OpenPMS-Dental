@@ -291,13 +291,13 @@ namespace ReleaseFlowTests {
 		#endregion The rule: masked pixel SHA-256
 
 		#region approved.tsv
-		///<summary>approved.tsv starts empty: only its header. Its rows parse, the last row of a picture is its approval, and a malformed row is refused.</summary>
+		///<summary>approved.tsv starts with its header and every row of the owner's approvals parses; the last row of a picture is its approval, and a malformed row is refused.</summary>
 		[TestMethod]
-		public void ApprovedTsv_StartsEmpty_AndItsRowsParse() {
+		public void ApprovedTsv_HasItsHeader_AndItsRowsParse() {
 			string path=Path.Combine(TestPaths.RepoRoot,"tests","WindowChecksTests","UiApproved","approved.tsv");
 			string[] arrayLines=File.ReadAllLines(path).Where(x => x!="").ToArray();
-			CollectionAssert.AreEqual(new[] { UiPictureMask.ApprovedHeader },arrayLines);
-			Assert.AreEqual(0,UiPictureMask.ReadApproved(path).Count);
+			Assert.AreEqual(UiPictureMask.ApprovedHeader,arrayLines[0],"The first line is the header.");
+			Assert.AreEqual(arrayLines.Skip(1).Count(x => !x.StartsWith("#",StringComparison.Ordinal)),UiPictureMask.ReadApproved(path).Count,"Every row parses.");
 			string sha1=new string('a',64);
 			string sha2=new string('b',64);
 			List<UiApprovedRow> listApproved=UiPictureMask.ParseApproved(UiPictureMask.ApprovedHeader+"\r\nA2-about.png\t644x444\t"+sha1+"\tG-UI3\tabc1234\t2026-11-20\r\n"
