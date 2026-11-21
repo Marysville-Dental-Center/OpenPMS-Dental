@@ -79,7 +79,7 @@ namespace OpenPmsDental{
 			this.checkUserQuery.Location = new System.Drawing.Point(7, 2);
 			this.checkUserQuery.Name = "checkUserQuery";
 			this.checkUserQuery.RightToLeft = System.Windows.Forms.RightToLeft.No;
-			this.checkUserQuery.Size = new System.Drawing.Size(86, 17);
+			this.checkUserQuery.Size = new System.Drawing.Size(86, 18);
 			this.checkUserQuery.TabIndex = 240;
 			this.checkUserQuery.Text = "User Query";
 			this.checkUserQuery.Click += new System.EventHandler(this.checkUserQuery_Click);
@@ -161,7 +161,7 @@ namespace OpenPmsDental{
 			// 
 			this.checkHidePatientsSeenSince.Location = new System.Drawing.Point(3, 59);
 			this.checkHidePatientsSeenSince.Name = "checkHidePatientsSeenSince";
-			this.checkHidePatientsSeenSince.Size = new System.Drawing.Size(160, 18);
+			this.checkHidePatientsSeenSince.Size = new System.Drawing.Size(167, 18);
 			this.checkHidePatientsSeenSince.TabIndex = 219;
 			this.checkHidePatientsSeenSince.Text = "Exclude patients seen since";
 			// 
@@ -199,7 +199,7 @@ namespace OpenPmsDental{
 			// 
 			this.labelPatBillingType.Location = new System.Drawing.Point(335, 117);
 			this.labelPatBillingType.Name = "labelPatBillingType";
-			this.labelPatBillingType.Size = new System.Drawing.Size(154, 16);
+			this.labelPatBillingType.Size = new System.Drawing.Size(154, 18);
 			this.labelPatBillingType.TabIndex = 221;
 			this.labelPatBillingType.Text = "Patient Billing Type";
 			this.labelPatBillingType.TextAlign = System.Drawing.ContentAlignment.BottomLeft;

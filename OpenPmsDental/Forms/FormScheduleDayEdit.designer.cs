@@ -282,7 +282,7 @@ namespace OpenPmsDental {
 			// 
 			this.label1.Location = new System.Drawing.Point(2, 17);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(170, 30);
+			this.label1.Size = new System.Drawing.Size(177, 30);
 			this.label1.TabIndex = 7;
 			this.label1.Text = "Select One or More Providers or Employees";
 			// 
@@ -325,13 +325,14 @@ namespace OpenPmsDental {
 			this.butOkSchedule.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butOkSchedule.Location = new System.Drawing.Point(636, 680);
 			this.butOkSchedule.Name = "butOkSchedule";
-			this.butOkSchedule.Size = new System.Drawing.Size(119, 24);
+			this.butOkSchedule.Size = new System.Drawing.Size(122, 24);
 			this.butOkSchedule.TabIndex = 40;
 			this.butOkSchedule.Text = "OK + Goto Schedules";
 			this.butOkSchedule.Click += new System.EventHandler(this.butOkSchedule_Click);
 			// 
 			// textSearch
 			// 
+			this.textSearch.AutoSize = false;
 			this.textSearch.Location = new System.Drawing.Point(564, 10);
 			this.textSearch.Name = "textSearch";
 			this.textSearch.Size = new System.Drawing.Size(181, 20);
@@ -342,7 +343,7 @@ namespace OpenPmsDental {
 			this.labelSearch.Location = new System.Drawing.Point(508, 12);
 			this.labelSearch.Name = "labelSearch";
 			this.labelSearch.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-			this.labelSearch.Size = new System.Drawing.Size(55, 13);
+			this.labelSearch.Size = new System.Drawing.Size(55, 17);
 			this.labelSearch.TabIndex = 43;
 			this.labelSearch.Text = "Search";
 			this.labelSearch.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;

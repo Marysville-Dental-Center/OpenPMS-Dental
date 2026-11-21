@@ -78,7 +78,7 @@
 			// 
 			this.label1.Location = new System.Drawing.Point(5, 19);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(383, 66);
+			this.label1.Size = new System.Drawing.Size(383, 69);
 			this.label1.TabIndex = 100;
 			this.label1.Text = resources.GetString("label1.Text");
 			// 
@@ -86,7 +86,7 @@
 			// 
 			this.label6.Location = new System.Drawing.Point(196, 144);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(163, 39);
+			this.label6.Size = new System.Drawing.Size(258, 17);
 			this.label6.TabIndex = 105;
 			this.label6.Text = "(these settings are only editable from Central Manager)";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -96,7 +96,7 @@
 			this.checkAdmin.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkAdmin.Location = new System.Drawing.Point(5, 144);
 			this.checkAdmin.Name = "checkAdmin";
-			this.checkAdmin.Size = new System.Drawing.Size(185, 20);
+			this.checkAdmin.Size = new System.Drawing.Size(185, 23);
 			this.checkAdmin.TabIndex = 3;
 			this.checkAdmin.Text = "Lock Includes Admins";
 			this.checkAdmin.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -107,7 +107,7 @@
 			this.checkEnable.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkEnable.Location = new System.Drawing.Point(5, 167);
 			this.checkEnable.Name = "checkEnable";
-			this.checkEnable.Size = new System.Drawing.Size(185, 20);
+			this.checkEnable.Size = new System.Drawing.Size(191, 24);
 			this.checkEnable.TabIndex = 104;
 			this.checkEnable.Text = "Central Manager Security Lock";
 			this.checkEnable.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -117,7 +117,7 @@
 			// 
 			this.label4.Location = new System.Drawing.Point(24, 115);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(70, 16);
+			this.label4.Size = new System.Drawing.Size(210, 17);
 			this.label4.TabIndex = 66;
 			this.label4.Text = "Days";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -126,7 +126,7 @@
 			// 
 			this.label3.Location = new System.Drawing.Point(28, 88);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(65, 18);
+			this.label3.Size = new System.Drawing.Size(225, 17);
 			this.label3.TabIndex = 65;
 			this.label3.Text = "Date";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -151,13 +151,14 @@
 			// 
 			this.label2.Location = new System.Drawing.Point(146, 116);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(123, 16);
+			this.label2.Size = new System.Drawing.Size(123, 18);
 			this.label2.TabIndex = 68;
 			this.label2.Text = "1 means only today";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// textSyncCode
 			// 
+			this.textSyncCode.AutoSize = false;
 			this.textSyncCode.Location = new System.Drawing.Point(18, 33);
 			this.textSyncCode.Name = "textSyncCode";
 			this.textSyncCode.ReadOnly = true;
@@ -168,7 +169,7 @@
 			// 
 			this.label5.Location = new System.Drawing.Point(15, 16);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(125, 16);
+			this.label5.Size = new System.Drawing.Size(115, 16);
 			this.label5.TabIndex = 111;
 			this.label5.Text = "Sync Code";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -203,7 +204,7 @@
 			// 
 			this.label8.Location = new System.Drawing.Point(99, 133);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(167, 31);
+			this.label8.Size = new System.Drawing.Size(168, 31);
 			this.label8.TabIndex = 113;
 			this.label8.Text = "Window will come up to allow selecting databases to push to";
 			// 
@@ -211,7 +212,7 @@
 			// 
 			this.label7.Location = new System.Drawing.Point(15, 54);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(245, 31);
+			this.label7.Size = new System.Drawing.Size(252, 51);
 			this.label7.TabIndex = 112;
 			this.label7.Text = "All databases that can sync with this one must have this code in their Misc Setup" +
     " window.";

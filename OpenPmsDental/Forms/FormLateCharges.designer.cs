@@ -82,7 +82,7 @@ namespace OpenPmsDental{
 			// 
 			this.labelDateLastRun.Location = new System.Drawing.Point(53, 10);
 			this.labelDateLastRun.Name = "labelDateLastRun";
-			this.labelDateLastRun.Size = new System.Drawing.Size(70, 14);
+			this.labelDateLastRun.Size = new System.Drawing.Size(71, 18);
 			this.labelDateLastRun.TabIndex = 32;
 			this.labelDateLastRun.Text = "Date last run";
 			this.labelDateLastRun.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -98,7 +98,7 @@ namespace OpenPmsDental{
 			// 
 			this.labelDateNewCharges.Location = new System.Drawing.Point(3, 37);
 			this.labelDateNewCharges.Name = "labelDateNewCharges";
-			this.labelDateNewCharges.Size = new System.Drawing.Size(120, 14);
+			this.labelDateNewCharges.Size = new System.Drawing.Size(120, 18);
 			this.labelDateNewCharges.TabIndex = 30;
 			this.labelDateNewCharges.Text = "Date of new charges";
 			this.labelDateNewCharges.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -107,7 +107,7 @@ namespace OpenPmsDental{
 			// 
 			this.labelBillType.Location = new System.Drawing.Point(399, 37);
 			this.labelBillType.Name = "labelBillType";
-			this.labelBillType.Size = new System.Drawing.Size(176, 16);
+			this.labelBillType.Size = new System.Drawing.Size(179, 16);
 			this.labelBillType.TabIndex = 34;
 			this.labelBillType.Text = "Only apply to these Billing Types";
 			this.labelBillType.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -137,7 +137,7 @@ namespace OpenPmsDental{
 			// 
 			this.labelDateUndo.Location = new System.Drawing.Point(3, 21);
 			this.labelDateUndo.Name = "labelDateUndo";
-			this.labelDateUndo.Size = new System.Drawing.Size(76, 16);
+			this.labelDateUndo.Size = new System.Drawing.Size(77, 18);
 			this.labelDateUndo.TabIndex = 32;
 			this.labelDateUndo.Text = "Date to undo";
 			this.labelDateUndo.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -156,7 +156,7 @@ namespace OpenPmsDental{
 			this.checkExcludeAccountNoTil.Location = new System.Drawing.Point(7, 27);
 			this.checkExcludeAccountNoTil.Name = "checkExcludeAccountNoTil";
 			this.checkExcludeAccountNoTil.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-			this.checkExcludeAccountNoTil.Size = new System.Drawing.Size(303, 16);
+			this.checkExcludeAccountNoTil.Size = new System.Drawing.Size(315, 18);
 			this.checkExcludeAccountNoTil.TabIndex = 0;
 			this.checkExcludeAccountNoTil.Text = "Exclude accounts (guarantor) without Truth in Lending";
 			// 
@@ -204,7 +204,7 @@ namespace OpenPmsDental{
 			this.labelMinCharge.Location = new System.Drawing.Point(203, 129);
 			this.labelMinCharge.Name = "labelMinCharge";
 			this.labelMinCharge.RightToLeft = System.Windows.Forms.RightToLeft.No;
-			this.labelMinCharge.Size = new System.Drawing.Size(93, 16);
+			this.labelMinCharge.Size = new System.Drawing.Size(94, 18);
 			this.labelMinCharge.TabIndex = 57;
 			this.labelMinCharge.Text = "Minimum charge";
 			this.labelMinCharge.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -224,7 +224,7 @@ namespace OpenPmsDental{
 			this.labelMaxCharge.Location = new System.Drawing.Point(200, 156);
 			this.labelMaxCharge.Name = "labelMaxCharge";
 			this.labelMaxCharge.RightToLeft = System.Windows.Forms.RightToLeft.No;
-			this.labelMaxCharge.Size = new System.Drawing.Size(96, 16);
+			this.labelMaxCharge.Size = new System.Drawing.Size(97, 18);
 			this.labelMaxCharge.TabIndex = 59;
 			this.labelMaxCharge.Text = "Maximum charge";
 			this.labelMaxCharge.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -233,7 +233,7 @@ namespace OpenPmsDental{
 			// 
 			this.labelChargePercent.Location = new System.Drawing.Point(123, 102);
 			this.labelChargePercent.Name = "labelChargePercent";
-			this.labelChargePercent.Size = new System.Drawing.Size(173, 14);
+			this.labelChargePercent.Size = new System.Drawing.Size(173, 18);
 			this.labelChargePercent.TabIndex = 61;
 			this.labelChargePercent.Text = "Percentage (% fee on amt due)";
 			this.labelChargePercent.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -252,7 +252,7 @@ namespace OpenPmsDental{
 			this.labelDateRange1.Location = new System.Drawing.Point(33, 183);
 			this.labelDateRange1.Name = "labelDateRange1";
 			this.labelDateRange1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-			this.labelDateRange1.Size = new System.Drawing.Size(191, 16);
+			this.labelDateRange1.Size = new System.Drawing.Size(191, 18);
 			this.labelDateRange1.TabIndex = 63;
 			this.labelDateRange1.Text = "Apply to statements sent between";
 			this.labelDateRange1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -288,7 +288,7 @@ namespace OpenPmsDental{
 			this.labelDateRange3.Location = new System.Drawing.Point(340, 183);
 			this.labelDateRange3.Name = "labelDateRange3";
 			this.labelDateRange3.RightToLeft = System.Windows.Forms.RightToLeft.No;
-			this.labelDateRange3.Size = new System.Drawing.Size(57, 16);
+			this.labelDateRange3.Size = new System.Drawing.Size(57, 18);
 			this.labelDateRange3.TabIndex = 67;
 			this.labelDateRange3.Text = "days ago";
 			this.labelDateRange3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -335,7 +335,7 @@ namespace OpenPmsDental{
 			this.checkExcludeExistingLateCharges.Location = new System.Drawing.Point(7, 50);
 			this.checkExcludeExistingLateCharges.Name = "checkExcludeExistingLateCharges";
 			this.checkExcludeExistingLateCharges.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-			this.checkExcludeExistingLateCharges.Size = new System.Drawing.Size(303, 16);
+			this.checkExcludeExistingLateCharges.Size = new System.Drawing.Size(303, 18);
 			this.checkExcludeExistingLateCharges.TabIndex = 1;
 			this.checkExcludeExistingLateCharges.Text = "Exclude existing late charges";
 			// 

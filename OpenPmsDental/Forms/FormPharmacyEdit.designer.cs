@@ -78,6 +78,7 @@ namespace OpenPmsDental {
 			// 
 			// textStoreName
 			// 
+			this.textStoreName.AutoSize = false;
 			this.textStoreName.Location = new System.Drawing.Point(160, 20);
 			this.textStoreName.Name = "textStoreName";
 			this.textStoreName.Size = new System.Drawing.Size(291, 20);
@@ -97,6 +98,7 @@ namespace OpenPmsDental {
 			// 
 			// textCity
 			// 
+			this.textCity.AutoSize = false;
 			this.textCity.Location = new System.Drawing.Point(160, 125);
 			this.textCity.MaxLength = 255;
 			this.textCity.Name = "textCity";
@@ -105,6 +107,7 @@ namespace OpenPmsDental {
 			// 
 			// textState
 			// 
+			this.textState.AutoSize = false;
 			this.textState.Location = new System.Drawing.Point(315, 125);
 			this.textState.MaxLength = 255;
 			this.textState.Name = "textState";
@@ -113,6 +116,7 @@ namespace OpenPmsDental {
 			// 
 			// textZip
 			// 
+			this.textZip.AutoSize = false;
 			this.textZip.Location = new System.Drawing.Point(380, 125);
 			this.textZip.MaxLength = 255;
 			this.textZip.Name = "textZip";
@@ -121,6 +125,7 @@ namespace OpenPmsDental {
 			// 
 			// textAddress2
 			// 
+			this.textAddress2.AutoSize = false;
 			this.textAddress2.Location = new System.Drawing.Point(160, 104);
 			this.textAddress2.MaxLength = 255;
 			this.textAddress2.Name = "textAddress2";
@@ -129,6 +134,7 @@ namespace OpenPmsDental {
 			// 
 			// textAddress
 			// 
+			this.textAddress.AutoSize = false;
 			this.textAddress.Location = new System.Drawing.Point(160, 83);
 			this.textAddress.MaxLength = 255;
 			this.textAddress.Name = "textAddress";
@@ -137,6 +143,7 @@ namespace OpenPmsDental {
 			// 
 			// textPhone
 			// 
+			this.textPhone.AutoSize = false;
 			this.textPhone.Location = new System.Drawing.Point(160, 41);
 			this.textPhone.MaxLength = 255;
 			this.textPhone.Name = "textPhone";
@@ -147,7 +154,7 @@ namespace OpenPmsDental {
 			// 
 			this.label11.Location = new System.Drawing.Point(-5, 129);
 			this.label11.Name = "label11";
-			this.label11.Size = new System.Drawing.Size(163, 15);
+			this.label11.Size = new System.Drawing.Size(163, 17);
 			this.label11.TabIndex = 105;
 			this.label11.Text = "City, ST, Zip";
 			this.label11.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -190,6 +197,7 @@ namespace OpenPmsDental {
 			// 
 			// textFax
 			// 
+			this.textFax.AutoSize = false;
 			this.textFax.Location = new System.Drawing.Point(160, 62);
 			this.textFax.MaxLength = 255;
 			this.textFax.Name = "textFax";

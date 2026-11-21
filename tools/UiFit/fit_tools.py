@@ -267,23 +267,23 @@ def plan_window(window, scan, rec_before, rec_after, designer_text):
 
 def apply_fix_to_text(text, name, fix):
     """Returns (new text, error or None). Byte-exact: only digits of the Size line and the AutoSize word change, or one line is inserted."""
-    pat = re.compile(r"((?:this\.)?%s\.Size = new System\.Drawing\.Size\()(\d+)(, ?)(\d+)(\))" % re.escape(name))
+    pat = re.compile(r"((?:this\.)?%s\.Size ?= ?new System\.Drawing\.Size\()(\d+)(, ?)(\d+)(\))" % re.escape(name))
     matches = list(pat.finditer(text))
     if len(matches) != 1:
         return text, "Size line found %d times" % len(matches)
     m = matches[0]
     text = text[:m.start(2)] + str(fix["width"]) + m.group(3) + str(fix["height"]) + text[m.end(4):]
     if fix["autosize_off"]:
-        pat_a = re.compile(r"((?:this\.)?%s\.AutoSize = )(true|false)(;)" % re.escape(name))
+        pat_a = re.compile(r"((?:this\.)?%s\.AutoSize ?= ?)(true|false)(;)" % re.escape(name))
         ma = pat_a.search(text)
         if ma:
             text = text[:ma.start(2)] + "false" + text[ma.end(2):]
         else:
-            pat_l = re.compile(r"^([ \t]*)((?:this\.)?)%s\.Location = [^\r\n]*?(\r\n|\n)" % re.escape(name), re.M)
+            pat_l = re.compile(r"^([ \t]*)((?:this\.)?)%s\.Location( ?)= ?[^\r\n]*?(\r\n|\n)" % re.escape(name), re.M)
             ml = pat_l.search(text)
             if not ml:
                 return text, "no Location line to put AutoSize before"
-            line = ml.group(1) + ml.group(2) + name + ".AutoSize = false;" + ml.group(3)
+            line = ml.group(1) + ml.group(2) + name + (".AutoSize = false;" if ml.group(3) else ".AutoSize=false;") + ml.group(4)
             text = text[:ml.start()] + line + text[ml.start():]
     return text, None
 

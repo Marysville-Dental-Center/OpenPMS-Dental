@@ -202,7 +202,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelDateAdvice.Location = new System.Drawing.Point(166, 0);
 			this.labelDateAdvice.Name = "labelDateAdvice";
-			this.labelDateAdvice.Size = new System.Drawing.Size(175, 32);
+			this.labelDateAdvice.Size = new System.Drawing.Size(207, 48);
 			this.labelDateAdvice.TabIndex = 6;
 			this.labelDateAdvice.Text = "Leave blank unless you want this task to show on a dated list";
 			// 
@@ -253,6 +253,7 @@ namespace OpenPmsDental {
 			// 
 			// textReminderRepeatFrequency
 			// 
+			this.textReminderRepeatFrequency.AutoSize = false;
 			this.textReminderRepeatFrequency.Location = new System.Drawing.Point(92, 1);
 			this.textReminderRepeatFrequency.MaxVal = 999999999;
 			this.textReminderRepeatFrequency.MinVal = 1;
@@ -452,7 +453,7 @@ namespace OpenPmsDental {
 			this.checkDone.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkDone.Location = new System.Drawing.Point(59, 3);
 			this.checkDone.Name = "checkDone";
-			this.checkDone.Size = new System.Drawing.Size(62, 17);
+			this.checkDone.Size = new System.Drawing.Size(62, 18);
 			this.checkDone.TabIndex = 153;
 			this.checkDone.Text = "Done";
 			this.checkDone.Click += new System.EventHandler(this.checkDone_Click);
@@ -471,7 +472,7 @@ namespace OpenPmsDental {
 			this.checkNew.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkNew.Location = new System.Drawing.Point(2, 3);
 			this.checkNew.Name = "checkNew";
-			this.checkNew.Size = new System.Drawing.Size(47, 17);
+			this.checkNew.Size = new System.Drawing.Size(47, 18);
 			this.checkNew.TabIndex = 152;
 			this.checkNew.Text = "New";
 			this.checkNew.Click += new System.EventHandler(this.checkNew_Click);
@@ -564,7 +565,7 @@ namespace OpenPmsDental {
 			// 
 			this.label7.Location = new System.Drawing.Point(1, 69);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(105, 20);
+			this.label7.Size = new System.Drawing.Size(106, 20);
 			this.label7.TabIndex = 130;
 			this.label7.Text = "Date/Time Finished";
 			this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -728,7 +729,7 @@ namespace OpenPmsDental {
 			// 
 			this.butEditAutoNote.Location = new System.Drawing.Point(0, 58);
 			this.butEditAutoNote.Name = "butEditAutoNote";
-			this.butEditAutoNote.Size = new System.Drawing.Size(85, 24);
+			this.butEditAutoNote.Size = new System.Drawing.Size(86, 24);
 			this.butEditAutoNote.TabIndex = 158;
 			this.butEditAutoNote.Text = "Edit Auto Note";
 			this.butEditAutoNote.UseVisualStyleBackColor = true;
@@ -841,7 +842,7 @@ namespace OpenPmsDental {
 			// 
 			this.label3.Location = new System.Drawing.Point(1, 22);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(105, 20);
+			this.label3.Size = new System.Drawing.Size(106, 20);
 			this.label3.TabIndex = 176;
 			this.label3.Text = "Date/Time Created";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -881,7 +882,7 @@ namespace OpenPmsDental {
 			this.checkIsReadOnly.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkIsReadOnly.Location = new System.Drawing.Point(213, 3);
 			this.checkIsReadOnly.Name = "checkIsReadOnly";
-			this.checkIsReadOnly.Size = new System.Drawing.Size(88, 17);
+			this.checkIsReadOnly.Size = new System.Drawing.Size(88, 18);
 			this.checkIsReadOnly.TabIndex = 180;
 			this.checkIsReadOnly.Text = "Read Only";
 			this.checkIsReadOnly.CheckedChanged += new System.EventHandler(this.checkIsReadOnly_CheckedChanged);

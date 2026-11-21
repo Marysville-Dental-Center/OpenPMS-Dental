@@ -345,13 +345,14 @@ namespace OpenPmsDental {
 			// 
 			this.label13.Location = new System.Drawing.Point(452, 86);
 			this.label13.Name = "label13";
-			this.label13.Size = new System.Drawing.Size(81, 16);
+			this.label13.Size = new System.Drawing.Size(81, 18);
 			this.label13.TabIndex = 101;
 			this.label13.Text = "Group";
 			this.label13.TextAlign = System.Drawing.ContentAlignment.TopRight;
 			// 
 			// textPayGroup
 			// 
+			this.textPayGroup.AutoSize = false;
 			this.textPayGroup.Location = new System.Drawing.Point(537, 83);
 			this.textPayGroup.MaxLength = 25;
 			this.textPayGroup.Name = "textPayGroup";
@@ -363,13 +364,14 @@ namespace OpenPmsDental {
 			// 
 			this.label10.Location = new System.Drawing.Point(452, 65);
 			this.label10.Name = "label10";
-			this.label10.Size = new System.Drawing.Size(81, 16);
+			this.label10.Size = new System.Drawing.Size(81, 18);
 			this.label10.TabIndex = 99;
 			this.label10.Text = "Type";
 			this.label10.TextAlign = System.Drawing.ContentAlignment.TopRight;
 			// 
 			// textPayType
 			// 
+			this.textPayType.AutoSize = false;
 			this.textPayType.Location = new System.Drawing.Point(537, 62);
 			this.textPayType.MaxLength = 25;
 			this.textPayType.Name = "textPayType";
@@ -381,13 +383,14 @@ namespace OpenPmsDental {
 			// 
 			this.labelClinic.Location = new System.Drawing.Point(21, 22);
 			this.labelClinic.Name = "labelClinic";
-			this.labelClinic.Size = new System.Drawing.Size(86, 14);
+			this.labelClinic.Size = new System.Drawing.Size(86, 18);
 			this.labelClinic.TabIndex = 91;
 			this.labelClinic.Text = "Clinic";
 			this.labelClinic.TextAlign = System.Drawing.ContentAlignment.TopRight;
 			// 
 			// textDateIssued
 			// 
+			this.textDateIssued.AutoSize = false;
 			this.textDateIssued.Location = new System.Drawing.Point(110, 61);
 			this.textDateIssued.Name = "textDateIssued";
 			this.textDateIssued.ReadOnly = true;
@@ -442,6 +445,7 @@ namespace OpenPmsDental {
 			// 
 			// textClinic
 			// 
+			this.textClinic.AutoSize = false;
 			this.textClinic.Location = new System.Drawing.Point(110, 19);
 			this.textClinic.MaxLength = 25;
 			this.textClinic.Name = "textClinic";
@@ -460,6 +464,7 @@ namespace OpenPmsDental {
 			// 
 			// textCarrierName
 			// 
+			this.textCarrierName.AutoSize = false;
 			this.textCarrierName.Location = new System.Drawing.Point(346, 19);
 			this.textCarrierName.MaxLength = 25;
 			this.textCarrierName.Name = "textCarrierName";
@@ -471,7 +476,7 @@ namespace OpenPmsDental {
 			// 
 			this.label6.Location = new System.Drawing.Point(12, 44);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(96, 16);
+			this.label6.Size = new System.Drawing.Size(96, 18);
 			this.label6.TabIndex = 37;
 			this.label6.Text = "Payment Date";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -497,6 +502,7 @@ namespace OpenPmsDental {
 			// 
 			// textCheckNum
 			// 
+			this.textCheckNum.AutoSize = false;
 			this.textCheckNum.Location = new System.Drawing.Point(346, 61);
 			this.textCheckNum.MaxLength = 25;
 			this.textCheckNum.Name = "textCheckNum";
@@ -506,6 +512,7 @@ namespace OpenPmsDental {
 			// 
 			// textBankBranch
 			// 
+			this.textBankBranch.AutoSize = false;
 			this.textBankBranch.Location = new System.Drawing.Point(346, 82);
 			this.textBankBranch.MaxLength = 25;
 			this.textBankBranch.Name = "textBankBranch";
@@ -515,6 +522,7 @@ namespace OpenPmsDental {
 			// 
 			// textAmount
 			// 
+			this.textAmount.AutoSize = false;
 			this.textAmount.Location = new System.Drawing.Point(110, 82);
 			this.textAmount.MaxVal = 100000000D;
 			this.textAmount.MinVal = -100000000D;
@@ -526,6 +534,7 @@ namespace OpenPmsDental {
 			// 
 			// textDate
 			// 
+			this.textDate.AutoSize = false;
 			this.textDate.Location = new System.Drawing.Point(110, 40);
 			this.textDate.Name = "textDate";
 			this.textDate.ReadOnly = true;
@@ -560,7 +569,7 @@ namespace OpenPmsDental {
 			// 
 			this.label8.Location = new System.Drawing.Point(772, 347);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(92, 16);
+			this.label8.Size = new System.Drawing.Size(92, 18);
 			this.label8.TabIndex = 36;
 			this.label8.Text = "Total Payments";
 			this.label8.TextAlign = System.Drawing.ContentAlignment.TopRight;

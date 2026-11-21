@@ -124,6 +124,7 @@
 			// 
 			// textXPos
 			// 
+			this.textXPos.AutoSize = false;
 			this.textXPos.Location = new System.Drawing.Point(76, 19);
 			this.textXPos.Name = "textXPos";
 			this.textXPos.Size = new System.Drawing.Size(53, 20);
@@ -133,6 +134,7 @@
 			// 
 			// textYPos
 			// 
+			this.textYPos.AutoSize = false;
 			this.textYPos.Location = new System.Drawing.Point(76, 41);
 			this.textYPos.Name = "textYPos";
 			this.textYPos.Size = new System.Drawing.Size(53, 20);
@@ -144,7 +146,7 @@
 			// 
 			this.label1.Location = new System.Drawing.Point(7, 44);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(68, 13);
+			this.label1.Size = new System.Drawing.Size(68, 15);
 			this.label1.TabIndex = 3;
 			this.label1.Text = "y:";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -153,7 +155,7 @@
 			// 
 			this.label2.Location = new System.Drawing.Point(7, 22);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(68, 13);
+			this.label2.Size = new System.Drawing.Size(68, 15);
 			this.label2.TabIndex = 4;
 			this.label2.Text = "x:";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -185,6 +187,7 @@
 			// 
 			// textMarginWidth
 			// 
+			this.textMarginWidth.AutoSize = false;
 			this.textMarginWidth.Location = new System.Drawing.Point(76, 19);
 			this.textMarginWidth.Name = "textMarginWidth";
 			this.textMarginWidth.Size = new System.Drawing.Size(53, 20);
@@ -194,6 +197,7 @@
 			// 
 			// textMarginHeight
 			// 
+			this.textMarginHeight.AutoSize = false;
 			this.textMarginHeight.Location = new System.Drawing.Point(76, 41);
 			this.textMarginHeight.Name = "textMarginHeight";
 			this.textMarginHeight.Size = new System.Drawing.Size(53, 20);
@@ -205,7 +209,7 @@
 			// 
 			this.label4.Location = new System.Drawing.Point(7, 44);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(68, 13);
+			this.label4.Size = new System.Drawing.Size(68, 15);
 			this.label4.TabIndex = 3;
 			this.label4.Text = "Height:";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -214,7 +218,7 @@
 			// 
 			this.label5.Location = new System.Drawing.Point(7, 22);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(68, 13);
+			this.label5.Size = new System.Drawing.Size(68, 15);
 			this.label5.TabIndex = 4;
 			this.label5.Text = "Width:";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -234,6 +238,7 @@
 			// 
 			// textWidth
 			// 
+			this.textWidth.AutoSize = false;
 			this.textWidth.Location = new System.Drawing.Point(76, 19);
 			this.textWidth.Name = "textWidth";
 			this.textWidth.Size = new System.Drawing.Size(53, 20);
@@ -242,6 +247,7 @@
 			// 
 			// textHeight
 			// 
+			this.textHeight.AutoSize = false;
 			this.textHeight.Location = new System.Drawing.Point(76, 41);
 			this.textHeight.Name = "textHeight";
 			this.textHeight.Size = new System.Drawing.Size(53, 20);
@@ -252,7 +258,7 @@
 			// 
 			this.labelHeight.Location = new System.Drawing.Point(7, 44);
 			this.labelHeight.Name = "labelHeight";
-			this.labelHeight.Size = new System.Drawing.Size(68, 13);
+			this.labelHeight.Size = new System.Drawing.Size(68, 15);
 			this.labelHeight.TabIndex = 1;
 			this.labelHeight.Text = "Height:";
 			this.labelHeight.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -261,7 +267,7 @@
 			// 
 			this.labelWidth.Location = new System.Drawing.Point(7, 22);
 			this.labelWidth.Name = "labelWidth";
-			this.labelWidth.Size = new System.Drawing.Size(68, 13);
+			this.labelWidth.Size = new System.Drawing.Size(68, 15);
 			this.labelWidth.TabIndex = 0;
 			this.labelWidth.Text = "Width:";
 			this.labelWidth.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

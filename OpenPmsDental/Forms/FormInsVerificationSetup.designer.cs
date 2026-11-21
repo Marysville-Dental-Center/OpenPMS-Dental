@@ -66,7 +66,7 @@ namespace OpenPmsDental{
 			this.checkExcludePatientClones.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkExcludePatientClones.Location = new System.Drawing.Point(1, 243);
 			this.checkExcludePatientClones.Name = "checkExcludePatientClones";
-			this.checkExcludePatientClones.Size = new System.Drawing.Size(346, 16);
+			this.checkExcludePatientClones.Size = new System.Drawing.Size(346, 18);
 			this.checkExcludePatientClones.TabIndex = 233;
 			this.checkExcludePatientClones.Text = "Exclude patient clones";
 			// 
@@ -75,7 +75,7 @@ namespace OpenPmsDental{
 			this.checkInsVerifyExcludePatVerify.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkInsVerifyExcludePatVerify.Location = new System.Drawing.Point(1, 189);
 			this.checkInsVerifyExcludePatVerify.Name = "checkInsVerifyExcludePatVerify";
-			this.checkInsVerifyExcludePatVerify.Size = new System.Drawing.Size(346, 16);
+			this.checkInsVerifyExcludePatVerify.Size = new System.Drawing.Size(360, 18);
 			this.checkInsVerifyExcludePatVerify.TabIndex = 232;
 			this.checkInsVerifyExcludePatVerify.Text = "Exclude patients with insurance plans marked as Do Not Verify";
 			// 
@@ -191,7 +191,7 @@ namespace OpenPmsDental{
 			// 
 			this.labelPatientEligibilityStandard.Location = new System.Drawing.Point(2, 68);
 			this.labelPatientEligibilityStandard.Name = "labelPatientEligibilityStandard";
-			this.labelPatientEligibilityStandard.Size = new System.Drawing.Size(212, 20);
+			this.labelPatientEligibilityStandard.Size = new System.Drawing.Size(214, 20);
 			this.labelPatientEligibilityStandard.TabIndex = 83;
 			this.labelPatientEligibilityStandard.Text = "Patient eligibility hasn\'t been verified in";
 			this.labelPatientEligibilityStandard.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -221,7 +221,7 @@ namespace OpenPmsDental{
 			this.checkInsVerifyUseCurrentUser.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkInsVerifyUseCurrentUser.Location = new System.Drawing.Point(1, 171);
 			this.checkInsVerifyUseCurrentUser.Name = "checkInsVerifyUseCurrentUser";
-			this.checkInsVerifyUseCurrentUser.Size = new System.Drawing.Size(346, 16);
+			this.checkInsVerifyUseCurrentUser.Size = new System.Drawing.Size(346, 18);
 			this.checkInsVerifyUseCurrentUser.TabIndex = 226;
 			this.checkInsVerifyUseCurrentUser.Text = "Insurance Verification List defaults to the current user";
 			// 
@@ -240,7 +240,7 @@ namespace OpenPmsDental{
 			this.checkFutureDateBenefitYear.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkFutureDateBenefitYear.Location = new System.Drawing.Point(1, 207);
 			this.checkFutureDateBenefitYear.Name = "checkFutureDateBenefitYear";
-			this.checkFutureDateBenefitYear.Size = new System.Drawing.Size(346, 16);
+			this.checkFutureDateBenefitYear.Size = new System.Drawing.Size(346, 18);
 			this.checkFutureDateBenefitYear.TabIndex = 234;
 			this.checkFutureDateBenefitYear.Text = "Always reverify service year insurance benefits";
 			// 
@@ -249,7 +249,7 @@ namespace OpenPmsDental{
 			this.checkFutureDatePatEnrollmentYear.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkFutureDatePatEnrollmentYear.Location = new System.Drawing.Point(1, 225);
 			this.checkFutureDatePatEnrollmentYear.Name = "checkFutureDatePatEnrollmentYear";
-			this.checkFutureDatePatEnrollmentYear.Size = new System.Drawing.Size(346, 16);
+			this.checkFutureDatePatEnrollmentYear.Size = new System.Drawing.Size(346, 18);
 			this.checkFutureDatePatEnrollmentYear.TabIndex = 235;
 			this.checkFutureDatePatEnrollmentYear.Text = "Always reverify service year patient eligibility";
 			// 
@@ -385,7 +385,7 @@ namespace OpenPmsDental{
 			// 
 			this.labelPatientEligibilityMedicaid.Location = new System.Drawing.Point(50, 68);
 			this.labelPatientEligibilityMedicaid.Name = "labelPatientEligibilityMedicaid";
-			this.labelPatientEligibilityMedicaid.Size = new System.Drawing.Size(211, 20);
+			this.labelPatientEligibilityMedicaid.Size = new System.Drawing.Size(212, 20);
 			this.labelPatientEligibilityMedicaid.TabIndex = 83;
 			this.labelPatientEligibilityMedicaid.Text = "Patient eligibility hasn\'t been verified in";
 			this.labelPatientEligibilityMedicaid.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

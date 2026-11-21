@@ -80,7 +80,7 @@ namespace OpenPmsDental {
 			// 
 			this.label13.Location = new System.Drawing.Point(1, 92);
 			this.label13.Name = "label13";
-			this.label13.Size = new System.Drawing.Size(101, 15);
+			this.label13.Size = new System.Drawing.Size(101, 18);
 			this.label13.TabIndex = 11;
 			this.label13.Text = "County";
 			this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -105,6 +105,7 @@ namespace OpenPmsDental {
 			// 
 			// textScreenDate
 			// 
+			this.textScreenDate.AutoSize = false;
 			this.textScreenDate.Location = new System.Drawing.Point(102, 9);
 			this.textScreenDate.Name = "textScreenDate";
 			this.textScreenDate.Size = new System.Drawing.Size(64, 20);
@@ -113,6 +114,7 @@ namespace OpenPmsDental {
 			// 
 			// textDescription
 			// 
+			this.textDescription.AutoSize = false;
 			this.textDescription.Location = new System.Drawing.Point(102, 29);
 			this.textDescription.Name = "textDescription";
 			this.textDescription.Size = new System.Drawing.Size(173, 20);
@@ -149,7 +151,7 @@ namespace OpenPmsDental {
 			// 
 			this.label3.Location = new System.Drawing.Point(2, 30);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(100, 16);
+			this.label3.Size = new System.Drawing.Size(100, 18);
 			this.label3.TabIndex = 128;
 			this.label3.Text = "Description";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -172,6 +174,7 @@ namespace OpenPmsDental {
 			// 
 			// textProvName
 			// 
+			this.textProvName.AutoSize = false;
 			this.textProvName.Location = new System.Drawing.Point(102, 49);
 			this.textProvName.Name = "textProvName";
 			this.textProvName.Size = new System.Drawing.Size(173, 20);
@@ -264,7 +267,7 @@ namespace OpenPmsDental {
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butAdd.Location = new System.Drawing.Point(173, 613);
 			this.butAdd.Name = "butAdd";
-			this.butAdd.Size = new System.Drawing.Size(114, 24);
+			this.butAdd.Size = new System.Drawing.Size(119, 24);
 			this.butAdd.TabIndex = 10;
 			this.butAdd.Text = "Add Anonymous";
 			this.butAdd.Click += new System.EventHandler(this.butAddAnonymous_Click);

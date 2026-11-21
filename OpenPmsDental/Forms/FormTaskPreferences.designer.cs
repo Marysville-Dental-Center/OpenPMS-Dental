@@ -68,7 +68,7 @@ namespace OpenPmsDental{
 			this.checkTaskSortApptDateTime.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkTaskSortApptDateTime.Location = new System.Drawing.Point(12, 126);
 			this.checkTaskSortApptDateTime.Name = "checkTaskSortApptDateTime";
-			this.checkTaskSortApptDateTime.Size = new System.Drawing.Size(342, 14);
+			this.checkTaskSortApptDateTime.Size = new System.Drawing.Size(348, 18);
 			this.checkTaskSortApptDateTime.TabIndex = 6;
 			this.checkTaskSortApptDateTime.Text = "Default to sorting appointment type task lists by AptDateTime";
 			// 
@@ -78,7 +78,7 @@ namespace OpenPmsDental{
 			this.checkShowOpenTickets.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkShowOpenTickets.Location = new System.Drawing.Point(12, 108);
 			this.checkShowOpenTickets.Name = "checkShowOpenTickets";
-			this.checkShowOpenTickets.Size = new System.Drawing.Size(342, 14);
+			this.checkShowOpenTickets.Size = new System.Drawing.Size(342, 18);
 			this.checkShowOpenTickets.TabIndex = 5;
 			this.checkShowOpenTickets.Text = "Show open tasks for user";
 			// 
@@ -88,7 +88,7 @@ namespace OpenPmsDental{
 			this.checkTasksNewTrackedByUser.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkTasksNewTrackedByUser.Location = new System.Drawing.Point(54, 90);
 			this.checkTasksNewTrackedByUser.Name = "checkTasksNewTrackedByUser";
-			this.checkTasksNewTrackedByUser.Size = new System.Drawing.Size(300, 14);
+			this.checkTasksNewTrackedByUser.Size = new System.Drawing.Size(300, 18);
 			this.checkTasksNewTrackedByUser.TabIndex = 4;
 			this.checkTasksNewTrackedByUser.Text = "New/Viewed status tracked by individual user";
 			// 
@@ -199,7 +199,7 @@ namespace OpenPmsDental{
 			this.checkTaskListAlwaysShow.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkTaskListAlwaysShow.Location = new System.Drawing.Point(164, 72);
 			this.checkTaskListAlwaysShow.Name = "checkTaskListAlwaysShow";
-			this.checkTaskListAlwaysShow.Size = new System.Drawing.Size(190, 14);
+			this.checkTaskListAlwaysShow.Size = new System.Drawing.Size(190, 18);
 			this.checkTaskListAlwaysShow.TabIndex = 3;
 			this.checkTaskListAlwaysShow.Text = "Always show task list";
 			this.checkTaskListAlwaysShow.CheckedChanged += new System.EventHandler(this.checkTaskListAlwaysShow_CheckedChanged);
@@ -210,7 +210,7 @@ namespace OpenPmsDental{
 			this.checkShowLegacyRepeatingTasks.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkShowLegacyRepeatingTasks.Location = new System.Drawing.Point(124, 54);
 			this.checkShowLegacyRepeatingTasks.Name = "checkShowLegacyRepeatingTasks";
-			this.checkShowLegacyRepeatingTasks.Size = new System.Drawing.Size(230, 14);
+			this.checkShowLegacyRepeatingTasks.Size = new System.Drawing.Size(230, 18);
 			this.checkShowLegacyRepeatingTasks.TabIndex = 2;
 			this.checkShowLegacyRepeatingTasks.Text = "Show legacy repeating tasks";
 			// 
@@ -240,7 +240,7 @@ namespace OpenPmsDental{
 			this.checkTaskToApptOneToOne.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkTaskToApptOneToOne.Location = new System.Drawing.Point(12, 144);
 			this.checkTaskToApptOneToOne.Name = "checkTaskToApptOneToOne";
-			this.checkTaskToApptOneToOne.Size = new System.Drawing.Size(342, 14);
+			this.checkTaskToApptOneToOne.Size = new System.Drawing.Size(342, 18);
 			this.checkTaskToApptOneToOne.TabIndex = 143;
 			this.checkTaskToApptOneToOne.Text = "Allow multiple Tasks attached to one Appointment";
 			// 
@@ -250,7 +250,7 @@ namespace OpenPmsDental{
 			this.checkTaskCategoryShow.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkTaskCategoryShow.Location = new System.Drawing.Point(12, 162);
 			this.checkTaskCategoryShow.Name = "checkTaskCategoryShow";
-			this.checkTaskCategoryShow.Size = new System.Drawing.Size(342, 14);
+			this.checkTaskCategoryShow.Size = new System.Drawing.Size(342, 18);
 			this.checkTaskCategoryShow.TabIndex = 144;
 			this.checkTaskCategoryShow.Text = "Show task category";
 			// 

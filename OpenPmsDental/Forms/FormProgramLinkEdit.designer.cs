@@ -114,6 +114,7 @@ namespace OpenPmsDental {
 			// 
 			// textProgName
 			// 
+			this.textProgName.AutoSize = false;
 			this.textProgName.Location = new System.Drawing.Point(338, 16);
 			this.textProgName.Name = "textProgName";
 			this.textProgName.ReadOnly = true;
@@ -122,6 +123,7 @@ namespace OpenPmsDental {
 			// 
 			// textProgDesc
 			// 
+			this.textProgDesc.AutoSize = false;
 			this.textProgDesc.Location = new System.Drawing.Point(338, 37);
 			this.textProgDesc.Name = "textProgDesc";
 			this.textProgDesc.Size = new System.Drawing.Size(275, 20);
@@ -138,6 +140,7 @@ namespace OpenPmsDental {
 			// 
 			// textPath
 			// 
+			this.textPath.AutoSize = false;
 			this.textPath.Location = new System.Drawing.Point(338, 101);
 			this.textPath.Name = "textPath";
 			this.textPath.Size = new System.Drawing.Size(410, 20);
@@ -154,6 +157,7 @@ namespace OpenPmsDental {
 			// 
 			// textCommandLine
 			// 
+			this.textCommandLine.AutoSize = false;
 			this.textCommandLine.Location = new System.Drawing.Point(338, 143);
 			this.textCommandLine.Name = "textCommandLine";
 			this.textCommandLine.Size = new System.Drawing.Size(410, 20);
@@ -180,13 +184,14 @@ namespace OpenPmsDental {
 			// 
 			this.label6.Location = new System.Drawing.Point(19, 80);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(157, 18);
+			this.label6.Size = new System.Drawing.Size(173, 18);
 			this.label6.TabIndex = 56;
 			this.label6.Text = "Add a button to these toolbars";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// textButtonText
 			// 
+			this.textButtonText.AutoSize = false;
 			this.textButtonText.Location = new System.Drawing.Point(338, 224);
 			this.textButtonText.Name = "textButtonText";
 			this.textButtonText.Size = new System.Drawing.Size(195, 20);
@@ -196,7 +201,7 @@ namespace OpenPmsDental {
 			// 
 			this.label7.Location = new System.Drawing.Point(253, 225);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(84, 18);
+			this.label7.Size = new System.Drawing.Size(85, 18);
 			this.label7.TabIndex = 57;
 			this.label7.Text = "Text on button";
 			this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -223,7 +228,7 @@ namespace OpenPmsDental {
 			// 
 			this.label9.Location = new System.Drawing.Point(336, 166);
 			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(410, 55);
+			this.label9.Size = new System.Drawing.Size(410, 58);
 			this.label9.TabIndex = 61;
 			this.label9.Text = resources.GetString("label9.Text");
 			// 
@@ -239,6 +244,7 @@ namespace OpenPmsDental {
 			// 
 			// textPluginDllName
 			// 
+			this.textPluginDllName.AutoSize = false;
 			this.textPluginDllName.Location = new System.Drawing.Point(338, 245);
 			this.textPluginDllName.Name = "textPluginDllName";
 			this.textPluginDllName.Size = new System.Drawing.Size(195, 20);
@@ -248,13 +254,14 @@ namespace OpenPmsDental {
 			// 
 			this.label5.Location = new System.Drawing.Point(253, 246);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(84, 18);
+			this.label5.Size = new System.Drawing.Size(85, 18);
 			this.label5.TabIndex = 63;
 			this.label5.Text = "Plug-in dll name";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textOverride
 			// 
+			this.textOverride.AutoSize = false;
 			this.textOverride.Location = new System.Drawing.Point(338, 122);
 			this.textOverride.Name = "textOverride";
 			this.textOverride.Size = new System.Drawing.Size(410, 20);
@@ -323,7 +330,7 @@ namespace OpenPmsDental {
 			this.butClinicLink.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butClinicLink.Location = new System.Drawing.Point(19, 17);
 			this.butClinicLink.Name = "butClinicLink";
-			this.butClinicLink.Size = new System.Drawing.Size(121, 26);
+			this.butClinicLink.Size = new System.Drawing.Size(127, 26);
 			this.butClinicLink.TabIndex = 76;
 			this.butClinicLink.Text = "Hide Button for Clinics";
 			this.butClinicLink.Click += new System.EventHandler(this.butClinicLink_Click);

@@ -133,7 +133,7 @@ namespace OpenPmsDental {
 			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.label1.Location = new System.Drawing.Point(787, 520);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(99, 99);
+			this.label1.Size = new System.Drawing.Size(99, 121);
 			this.label1.TabIndex = 30;
 			this.label1.Text = "Immediately compiles selected bills into a PDF, sends them electronically, or ema" +
     "ils them";
@@ -144,7 +144,7 @@ namespace OpenPmsDental {
 			this.radioUnsent.Checked = true;
 			this.radioUnsent.Location = new System.Drawing.Point(31, 7);
 			this.radioUnsent.Name = "radioUnsent";
-			this.radioUnsent.Size = new System.Drawing.Size(75, 20);
+			this.radioUnsent.Size = new System.Drawing.Size(75, 22);
 			this.radioUnsent.TabIndex = 31;
 			this.radioUnsent.TabStop = true;
 			this.radioUnsent.Text = "Unsent";
@@ -155,7 +155,7 @@ namespace OpenPmsDental {
 			// 
 			this.radioSent.Location = new System.Drawing.Point(31, 29);
 			this.radioSent.Name = "radioSent";
-			this.radioSent.Size = new System.Drawing.Size(75, 20);
+			this.radioSent.Size = new System.Drawing.Size(75, 23);
 			this.radioSent.TabIndex = 32;
 			this.radioSent.Text = "Sent";
 			this.radioSent.UseVisualStyleBackColor = true;
@@ -242,7 +242,7 @@ namespace OpenPmsDental {
 			this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.label2.Location = new System.Drawing.Point(628, 35);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(64, 14);
+			this.label2.Size = new System.Drawing.Size(64, 18);
 			this.label2.TabIndex = 36;
 			this.label2.Text = "End Date";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -252,7 +252,7 @@ namespace OpenPmsDental {
 			this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.label3.Location = new System.Drawing.Point(622, 11);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(70, 14);
+			this.label3.Size = new System.Drawing.Size(70, 18);
 			this.label3.TabIndex = 35;
 			this.label3.Text = "Start Date";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -279,7 +279,7 @@ namespace OpenPmsDental {
 			// 
 			this.label4.Location = new System.Drawing.Point(112, 12);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(82, 14);
+			this.label4.Size = new System.Drawing.Size(82, 18);
 			this.label4.TabIndex = 40;
 			this.label4.Text = "Order by";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -301,7 +301,7 @@ namespace OpenPmsDental {
 			this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.label5.Location = new System.Drawing.Point(288, 651);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(165, 29);
+			this.label5.Size = new System.Drawing.Size(309, 29);
 			this.label5.TabIndex = 43;
 			this.label5.Text = "Does not print individual bills.  Just prints the list of bills.";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -330,7 +330,7 @@ namespace OpenPmsDental {
 			// 
 			this.label6.Location = new System.Drawing.Point(112, 36);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(82, 14);
+			this.label6.Size = new System.Drawing.Size(82, 18);
 			this.label6.TabIndex = 46;
 			this.label6.Text = "Email From";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

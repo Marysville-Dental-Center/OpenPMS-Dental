@@ -127,7 +127,7 @@ namespace OpenPmsDental {
 			// 
 			this.label1.Location = new System.Drawing.Point(23, 34);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(72, 14);
+			this.label1.Size = new System.Drawing.Size(72, 18);
 			this.label1.TabIndex = 34;
 			this.label1.Text = "Order by";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -143,7 +143,7 @@ namespace OpenPmsDental {
 			// 
 			this.label4.Location = new System.Drawing.Point(248, 34);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(69, 14);
+			this.label4.Size = new System.Drawing.Size(69, 18);
 			this.label4.TabIndex = 32;
 			this.label4.Text = "Provider";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -168,18 +168,18 @@ namespace OpenPmsDental {
 			// 
 			this.labelSite.Location = new System.Drawing.Point(241, 58);
 			this.labelSite.Name = "labelSite";
-			this.labelSite.Size = new System.Drawing.Size(77, 14);
+			this.labelSite.Size = new System.Drawing.Size(77, 18);
 			this.labelSite.TabIndex = 36;
 			this.labelSite.Text = "Site";
 			this.labelSite.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// checkBrokenAppts
 			// 
-			this.checkBrokenAppts.AutoSize = true;
+			this.checkBrokenAppts.AutoSize = false;
 			this.checkBrokenAppts.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkBrokenAppts.Location = new System.Drawing.Point(26, 57);
 			this.checkBrokenAppts.Name = "checkBrokenAppts";
-			this.checkBrokenAppts.Size = new System.Drawing.Size(204, 17);
+			this.checkBrokenAppts.Size = new System.Drawing.Size(204, 18);
 			this.checkBrokenAppts.TabIndex = 38;
 			this.checkBrokenAppts.Text = "Include Broken Appointments";
 			// 

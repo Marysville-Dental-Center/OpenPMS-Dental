@@ -165,7 +165,7 @@ namespace OpenPmsDental{
 			this.radioInNetwork.Checked = true;
 			this.radioInNetwork.Location = new System.Drawing.Point(12, 16);
 			this.radioInNetwork.Name = "radioInNetwork";
-			this.radioInNetwork.Size = new System.Drawing.Size(121, 18);
+			this.radioInNetwork.Size = new System.Drawing.Size(121, 19);
 			this.radioInNetwork.TabIndex = 121;
 			this.radioInNetwork.TabStop = true;
 			this.radioInNetwork.Text = "In network";
@@ -176,7 +176,7 @@ namespace OpenPmsDental{
 			// 
 			this.radioOutNetwork.Location = new System.Drawing.Point(12, 35);
 			this.radioOutNetwork.Name = "radioOutNetwork";
-			this.radioOutNetwork.Size = new System.Drawing.Size(121, 18);
+			this.radioOutNetwork.Size = new System.Drawing.Size(121, 22);
 			this.radioOutNetwork.TabIndex = 122;
 			this.radioOutNetwork.Text = "Out of network";
 			this.radioOutNetwork.UseVisualStyleBackColor = true;
@@ -197,7 +197,7 @@ namespace OpenPmsDental{
 			this.radioModeElect.Checked = true;
 			this.radioModeElect.Location = new System.Drawing.Point(12, 16);
 			this.radioModeElect.Name = "radioModeElect";
-			this.radioModeElect.Size = new System.Drawing.Size(121, 18);
+			this.radioModeElect.Size = new System.Drawing.Size(121, 19);
 			this.radioModeElect.TabIndex = 121;
 			this.radioModeElect.TabStop = true;
 			this.radioModeElect.Text = "Electronic Import";
@@ -208,7 +208,7 @@ namespace OpenPmsDental{
 			// 
 			this.radioModeMessage.Location = new System.Drawing.Point(12, 35);
 			this.radioModeMessage.Name = "radioModeMessage";
-			this.radioModeMessage.Size = new System.Drawing.Size(121, 18);
+			this.radioModeMessage.Size = new System.Drawing.Size(121, 23);
 			this.radioModeMessage.TabIndex = 122;
 			this.radioModeMessage.Text = "Message Text";
 			this.radioModeMessage.UseVisualStyleBackColor = true;

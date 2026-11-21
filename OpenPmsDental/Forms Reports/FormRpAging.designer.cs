@@ -92,7 +92,7 @@ namespace OpenPmsDental {
 			// 
 			this.radio30.Location = new System.Drawing.Point(6, 40);
 			this.radio30.Name = "radio30";
-			this.radio30.Size = new System.Drawing.Size(197, 18);
+			this.radio30.Size = new System.Drawing.Size(197, 22);
 			this.radio30.TabIndex = 1;
 			this.radio30.Text = "Over 30 Days";
 			// 
@@ -100,7 +100,7 @@ namespace OpenPmsDental {
 			// 
 			this.radio90.Location = new System.Drawing.Point(6, 84);
 			this.radio90.Name = "radio90";
-			this.radio90.Size = new System.Drawing.Size(197, 18);
+			this.radio90.Size = new System.Drawing.Size(197, 24);
 			this.radio90.TabIndex = 3;
 			this.radio90.Text = "Over 90 Days";
 			// 
@@ -108,7 +108,7 @@ namespace OpenPmsDental {
 			// 
 			this.radio60.Location = new System.Drawing.Point(6, 62);
 			this.radio60.Name = "radio60";
-			this.radio60.Size = new System.Drawing.Size(197, 18);
+			this.radio60.Size = new System.Drawing.Size(197, 22);
 			this.radio60.TabIndex = 2;
 			this.radio60.Text = "Over 60 Days";
 			// 
@@ -117,7 +117,7 @@ namespace OpenPmsDental {
 			this.radioAny.Checked = true;
 			this.radioAny.Location = new System.Drawing.Point(6, 18);
 			this.radioAny.Name = "radioAny";
-			this.radioAny.Size = new System.Drawing.Size(197, 18);
+			this.radioAny.Size = new System.Drawing.Size(197, 22);
 			this.radioAny.TabIndex = 0;
 			this.radioAny.TabStop = true;
 			this.radioAny.Text = "Any Balance";
@@ -290,7 +290,7 @@ namespace OpenPmsDental {
 			// 
 			this.checkHasDateLastPay.Location = new System.Drawing.Point(18, 251);
 			this.checkHasDateLastPay.Name = "checkHasDateLastPay";
-			this.checkHasDateLastPay.Size = new System.Drawing.Size(203, 18);
+			this.checkHasDateLastPay.Size = new System.Drawing.Size(209, 18);
 			this.checkHasDateLastPay.TabIndex = 6;
 			this.checkHasDateLastPay.Text = "Show last payment date (landscape)";
 			// 
@@ -308,7 +308,7 @@ namespace OpenPmsDental {
 			// 
 			this.radioGroupByPat.Location = new System.Drawing.Point(6, 40);
 			this.radioGroupByPat.Name = "radioGroupByPat";
-			this.radioGroupByPat.Size = new System.Drawing.Size(197, 18);
+			this.radioGroupByPat.Size = new System.Drawing.Size(197, 22);
 			this.radioGroupByPat.TabIndex = 1;
 			this.radioGroupByPat.Text = "Individual";
 			this.radioGroupByPat.UseVisualStyleBackColor = true;
@@ -318,7 +318,7 @@ namespace OpenPmsDental {
 			this.radioGroupByFam.Checked = true;
 			this.radioGroupByFam.Location = new System.Drawing.Point(6, 18);
 			this.radioGroupByFam.Name = "radioGroupByFam";
-			this.radioGroupByFam.Size = new System.Drawing.Size(197, 18);
+			this.radioGroupByFam.Size = new System.Drawing.Size(197, 22);
 			this.radioGroupByFam.TabIndex = 0;
 			this.radioGroupByFam.TabStop = true;
 			this.radioGroupByFam.Text = "Family";
@@ -346,7 +346,7 @@ namespace OpenPmsDental {
 			this.butQuery.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butQuery.Location = new System.Drawing.Point(12, 325);
 			this.butQuery.Name = "butQuery";
-			this.butQuery.Size = new System.Drawing.Size(90, 26);
+			this.butQuery.Size = new System.Drawing.Size(91, 26);
 			this.butQuery.TabIndex = 17;
 			this.butQuery.Text = "Generate Query";
 			this.butQuery.Click += new System.EventHandler(this.butGenerateQuery_Click);
@@ -406,7 +406,7 @@ namespace OpenPmsDental {
 			// 
 			this.checkBoxExcludeIncomeTransfers.Location = new System.Drawing.Point(18, 274);
 			this.checkBoxExcludeIncomeTransfers.Name = "checkBoxExcludeIncomeTransfers";
-			this.checkBoxExcludeIncomeTransfers.Size = new System.Drawing.Size(196, 17);
+			this.checkBoxExcludeIncomeTransfers.Size = new System.Drawing.Size(196, 18);
 			this.checkBoxExcludeIncomeTransfers.TabIndex = 220;
 			this.checkBoxExcludeIncomeTransfers.Text = "Exclude income transfers";
 			this.checkBoxExcludeIncomeTransfers.CheckedChanged += new System.EventHandler(this.checkBoxExcludeIncomeTransfers_CheckedChanged);

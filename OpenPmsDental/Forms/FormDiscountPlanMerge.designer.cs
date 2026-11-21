@@ -63,6 +63,7 @@ namespace OpenPmsDental{
 			// 
 			// textAdjTypeInto
 			// 
+			this.textAdjTypeInto.AutoSize = false;
 			this.textAdjTypeInto.Location = new System.Drawing.Point(396, 37);
 			this.textAdjTypeInto.Name = "textAdjTypeInto";
 			this.textAdjTypeInto.ReadOnly = true;
@@ -71,10 +72,10 @@ namespace OpenPmsDental{
 			// 
 			// label5
 			// 
-			this.label5.AutoSize = true;
+			this.label5.AutoSize = false;
 			this.label5.Location = new System.Drawing.Point(393, 18);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(86, 13);
+			this.label5.Size = new System.Drawing.Size(98, 19);
 			this.label5.TabIndex = 5;
 			this.label5.Text = "Adjustment Type";
 			// 
@@ -90,6 +91,7 @@ namespace OpenPmsDental{
 			// 
 			// textFeeSchedInto
 			// 
+			this.textFeeSchedInto.AutoSize = false;
 			this.textFeeSchedInto.Location = new System.Drawing.Point(153, 37);
 			this.textFeeSchedInto.Name = "textFeeSchedInto";
 			this.textFeeSchedInto.ReadOnly = true;
@@ -98,24 +100,25 @@ namespace OpenPmsDental{
 			// 
 			// label2
 			// 
-			this.label2.AutoSize = true;
+			this.label2.AutoSize = false;
 			this.label2.Location = new System.Drawing.Point(150, 18);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(73, 13);
+			this.label2.Size = new System.Drawing.Size(79, 19);
 			this.label2.TabIndex = 2;
 			this.label2.Text = "Fee Schedule";
 			// 
 			// label1
 			// 
-			this.label1.AutoSize = true;
+			this.label1.AutoSize = false;
 			this.label1.Location = new System.Drawing.Point(7, 18);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(60, 13);
+			this.label1.Size = new System.Drawing.Size(68, 19);
 			this.label1.TabIndex = 1;
 			this.label1.Text = "Description";
 			// 
 			// textDescriptionInto
 			// 
+			this.textDescriptionInto.AutoSize = false;
 			this.textDescriptionInto.Location = new System.Drawing.Point(6, 37);
 			this.textDescriptionInto.Name = "textDescriptionInto";
 			this.textDescriptionInto.ReadOnly = true;
@@ -141,6 +144,7 @@ namespace OpenPmsDental{
 			// 
 			// textAdjTypeFrom
 			// 
+			this.textAdjTypeFrom.AutoSize = false;
 			this.textAdjTypeFrom.Location = new System.Drawing.Point(396, 37);
 			this.textAdjTypeFrom.Name = "textAdjTypeFrom";
 			this.textAdjTypeFrom.ReadOnly = true;
@@ -149,10 +153,10 @@ namespace OpenPmsDental{
 			// 
 			// label6
 			// 
-			this.label6.AutoSize = true;
+			this.label6.AutoSize = false;
 			this.label6.Location = new System.Drawing.Point(396, 20);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(86, 13);
+			this.label6.Size = new System.Drawing.Size(98, 17);
 			this.label6.TabIndex = 10;
 			this.label6.Text = "Adjustment Type";
 			// 
@@ -168,6 +172,7 @@ namespace OpenPmsDental{
 			// 
 			// textFeeSchedFrom
 			// 
+			this.textFeeSchedFrom.AutoSize = false;
 			this.textFeeSchedFrom.Location = new System.Drawing.Point(153, 37);
 			this.textFeeSchedFrom.Name = "textFeeSchedFrom";
 			this.textFeeSchedFrom.ReadOnly = true;
@@ -176,24 +181,25 @@ namespace OpenPmsDental{
 			// 
 			// label3
 			// 
-			this.label3.AutoSize = true;
+			this.label3.AutoSize = false;
 			this.label3.Location = new System.Drawing.Point(150, 18);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(73, 13);
+			this.label3.Size = new System.Drawing.Size(79, 19);
 			this.label3.TabIndex = 7;
 			this.label3.Text = "Fee Schedule";
 			// 
 			// label4
 			// 
-			this.label4.AutoSize = true;
+			this.label4.AutoSize = false;
 			this.label4.Location = new System.Drawing.Point(7, 18);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(60, 13);
+			this.label4.Size = new System.Drawing.Size(68, 19);
 			this.label4.TabIndex = 6;
 			this.label4.Text = "Description";
 			// 
 			// textDescriptionFrom
 			// 
+			this.textDescriptionFrom.AutoSize = false;
 			this.textDescriptionFrom.Location = new System.Drawing.Point(6, 37);
 			this.textDescriptionFrom.Name = "textDescriptionFrom";
 			this.textDescriptionFrom.ReadOnly = true;

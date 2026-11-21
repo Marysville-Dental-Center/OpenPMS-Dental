@@ -170,7 +170,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelClinic.Location = new System.Drawing.Point(7, 29);
 			this.labelClinic.Name = "labelClinic";
-			this.labelClinic.Size = new System.Drawing.Size(65, 14);
+			this.labelClinic.Size = new System.Drawing.Size(66, 18);
 			this.labelClinic.TabIndex = 52;
 			this.labelClinic.Text = "Clinic Filter";
 			this.labelClinic.TextAlign = System.Drawing.ContentAlignment.BottomRight;
@@ -187,7 +187,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelCustomTracking.Location = new System.Drawing.Point(370, 29);
 			this.labelCustomTracking.Name = "labelCustomTracking";
-			this.labelCustomTracking.Size = new System.Drawing.Size(142, 14);
+			this.labelCustomTracking.Size = new System.Drawing.Size(142, 18);
 			this.labelCustomTracking.TabIndex = 54;
 			this.labelCustomTracking.Text = "Custom Tracking Filter";
 			this.labelCustomTracking.TextAlign = System.Drawing.ContentAlignment.BottomRight;

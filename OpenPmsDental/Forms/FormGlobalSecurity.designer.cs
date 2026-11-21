@@ -89,7 +89,7 @@ namespace OpenPmsDental{
 			this.checkDomainLoginEnabled.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkDomainLoginEnabled.Location = new System.Drawing.Point(34, 19);
 			this.checkDomainLoginEnabled.Name = "checkDomainLoginEnabled";
-			this.checkDomainLoginEnabled.Size = new System.Drawing.Size(224, 16);
+			this.checkDomainLoginEnabled.Size = new System.Drawing.Size(224, 18);
 			this.checkDomainLoginEnabled.TabIndex = 270;
 			this.checkDomainLoginEnabled.Text = "Domain Login Enabled";
 			this.checkDomainLoginEnabled.MouseUp += new System.Windows.Forms.MouseEventHandler(this.checkDomainLoginEnabled_MouseUp);
@@ -126,7 +126,7 @@ namespace OpenPmsDental{
 			this.checkDisableBackupReminder.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkDisableBackupReminder.Location = new System.Drawing.Point(74, 83);
 			this.checkDisableBackupReminder.Name = "checkDisableBackupReminder";
-			this.checkDisableBackupReminder.Size = new System.Drawing.Size(275, 17);
+			this.checkDisableBackupReminder.Size = new System.Drawing.Size(275, 18);
 			this.checkDisableBackupReminder.TabIndex = 267;
 			this.checkDisableBackupReminder.Text = "Disable monthly backup reminder";
 			this.checkDisableBackupReminder.Click += new System.EventHandler(this.checkDisableBackupReminder_Click);
@@ -162,7 +162,7 @@ namespace OpenPmsDental{
 			// 
 			this.label3.Location = new System.Drawing.Point(76, 284);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(245, 18);
+			this.label3.Size = new System.Drawing.Size(260, 18);
 			this.label3.TabIndex = 263;
 			this.label3.Text = "Automatic logoff time in minutes (0 to disable):";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -178,6 +178,7 @@ namespace OpenPmsDental{
 			// 
 			// textDaysLock
 			// 
+			this.textDaysLock.AutoSize = false;
 			this.textDaysLock.Location = new System.Drawing.Point(83, 40);
 			this.textDaysLock.Name = "textDaysLock";
 			this.textDaysLock.ReadOnly = true;
@@ -214,6 +215,7 @@ namespace OpenPmsDental{
 			// 
 			// textDateLock
 			// 
+			this.textDateLock.AutoSize = false;
 			this.textDateLock.Location = new System.Drawing.Point(83, 19);
 			this.textDateLock.Name = "textDateLock";
 			this.textDateLock.ReadOnly = true;
@@ -298,7 +300,7 @@ namespace OpenPmsDental{
 			this.checkAllowLogoffOverride.Location = new System.Drawing.Point(94, 310);
 			this.checkAllowLogoffOverride.Name = "checkAllowLogoffOverride";
 			this.checkAllowLogoffOverride.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-			this.checkAllowLogoffOverride.Size = new System.Drawing.Size(255, 17);
+			this.checkAllowLogoffOverride.Size = new System.Drawing.Size(255, 18);
 			this.checkAllowLogoffOverride.TabIndex = 277;
 			this.checkAllowLogoffOverride.Text = "Allow user override for automatic logoff";
 			// 
@@ -307,7 +309,7 @@ namespace OpenPmsDental{
 			this.checkCannotEditPastPayPeriods.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkCannotEditPastPayPeriods.Location = new System.Drawing.Point(1, 56);
 			this.checkCannotEditPastPayPeriods.Name = "checkCannotEditPastPayPeriods";
-			this.checkCannotEditPastPayPeriods.Size = new System.Drawing.Size(348, 26);
+			this.checkCannotEditPastPayPeriods.Size = new System.Drawing.Size(368, 26);
 			this.checkCannotEditPastPayPeriods.TabIndex = 278;
 			this.checkCannotEditPastPayPeriods.Text = "Users cannot edit their own time card except current pay period\r\n";
 			this.checkCannotEditPastPayPeriods.Click += new System.EventHandler(this.checkCanEditOwnCur_Click);
@@ -317,7 +319,7 @@ namespace OpenPmsDental{
 			this.checkMaintainPatient.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkMaintainPatient.Location = new System.Drawing.Point(1, 228);
 			this.checkMaintainPatient.Name = "checkMaintainPatient";
-			this.checkMaintainPatient.Size = new System.Drawing.Size(348, 17);
+			this.checkMaintainPatient.Size = new System.Drawing.Size(348, 18);
 			this.checkMaintainPatient.TabIndex = 279;
 			this.checkMaintainPatient.Text = "Maintain selected patient when changing users";
 			// 

@@ -56,7 +56,7 @@ namespace OpenPmsDental{
 			this.checkShowAcknowledged.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkShowAcknowledged.Location = new System.Drawing.Point(901, 64);
 			this.checkShowAcknowledged.Name = "checkShowAcknowledged";
-			this.checkShowAcknowledged.Size = new System.Drawing.Size(162, 17);
+			this.checkShowAcknowledged.Size = new System.Drawing.Size(162, 18);
 			this.checkShowAcknowledged.TabIndex = 5;
 			this.checkShowAcknowledged.Text = "Show Acknowledged";
 			// 
@@ -215,7 +215,7 @@ namespace OpenPmsDental{
 			this.checkShowPreAuths.Checked = true;
 			this.checkShowPreAuths.Location = new System.Drawing.Point(1070, 7);
 			this.checkShowPreAuths.Name = "checkShowPreAuths";
-			this.checkShowPreAuths.Size = new System.Drawing.Size(142, 17);
+			this.checkShowPreAuths.Size = new System.Drawing.Size(142, 18);
 			this.checkShowPreAuths.TabIndex = 12;
 			this.checkShowPreAuths.Text = "Show PreAuths";
 			//
@@ -225,7 +225,7 @@ namespace OpenPmsDental{
 			this.checkShowZeroPayments.Checked = true;
 			this.checkShowZeroPayments.Location = new System.Drawing.Point(1070, 28);
 			this.checkShowZeroPayments.Name = "checkShowZeroPayments";
-			this.checkShowZeroPayments.Size = new System.Drawing.Size(142, 17);
+			this.checkShowZeroPayments.Size = new System.Drawing.Size(142, 18);
 			this.checkShowZeroPayments.TabIndex = 13;
 			this.checkShowZeroPayments.Text = "Show $0 Payments";
 			//

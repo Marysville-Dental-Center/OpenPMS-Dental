@@ -118,6 +118,7 @@ namespace OpenPmsDental{
 			// 
 			// textExcluding
 			// 
+			this.textExcluding.AutoSize = false;
 			this.textExcluding.Location = new System.Drawing.Point(78, 32);
 			this.textExcluding.Name = "textExcluding";
 			this.textExcluding.Size = new System.Drawing.Size(90, 20);
@@ -134,6 +135,7 @@ namespace OpenPmsDental{
 			// 
 			// textIncluding
 			// 
+			this.textIncluding.AutoSize = false;
 			this.textIncluding.Location = new System.Drawing.Point(78, 14);
 			this.textIncluding.Name = "textIncluding";
 			this.textIncluding.Size = new System.Drawing.Size(90, 20);
@@ -146,7 +148,7 @@ namespace OpenPmsDental{
 			this.checkIncludeAttachments.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.checkIncludeAttachments.Location = new System.Drawing.Point(19, 461);
 			this.checkIncludeAttachments.Name = "checkIncludeAttachments";
-			this.checkIncludeAttachments.Size = new System.Drawing.Size(179, 17);
+			this.checkIncludeAttachments.Size = new System.Drawing.Size(179, 18);
 			this.checkIncludeAttachments.TabIndex = 34;
 			this.checkIncludeAttachments.Text = "Include Attachments";
 			// 
@@ -205,7 +207,7 @@ namespace OpenPmsDental{
 			this.checkBoxIncludeCompleted.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.checkBoxIncludeCompleted.Location = new System.Drawing.Point(19, 439);
 			this.checkBoxIncludeCompleted.Name = "checkBoxIncludeCompleted";
-			this.checkBoxIncludeCompleted.Size = new System.Drawing.Size(179, 17);
+			this.checkBoxIncludeCompleted.Size = new System.Drawing.Size(179, 18);
 			this.checkBoxIncludeCompleted.TabIndex = 10;
 			this.checkBoxIncludeCompleted.Text = "Include Completed";
 			// 
@@ -216,7 +218,7 @@ namespace OpenPmsDental{
 			this.checkBoxIncludesTaskNotes.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.checkBoxIncludesTaskNotes.Location = new System.Drawing.Point(19, 417);
 			this.checkBoxIncludesTaskNotes.Name = "checkBoxIncludesTaskNotes";
-			this.checkBoxIncludesTaskNotes.Size = new System.Drawing.Size(179, 17);
+			this.checkBoxIncludesTaskNotes.Size = new System.Drawing.Size(179, 18);
 			this.checkBoxIncludesTaskNotes.TabIndex = 9;
 			this.checkBoxIncludesTaskNotes.Text = "Include Task Notes";
 			// 
@@ -283,7 +285,7 @@ namespace OpenPmsDental{
 			// 
 			this.label6.Location = new System.Drawing.Point(30, 38);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(36, 15);
+			this.label6.Size = new System.Drawing.Size(36, 18);
 			this.label6.TabIndex = 5;
 			this.label6.Text = "To";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -292,7 +294,7 @@ namespace OpenPmsDental{
 			// 
 			this.label7.Location = new System.Drawing.Point(24, 18);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(42, 15);
+			this.label7.Size = new System.Drawing.Size(42, 18);
 			this.label7.TabIndex = 4;
 			this.label7.Text = "From";
 			this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -344,7 +346,7 @@ namespace OpenPmsDental{
 			// 
 			this.label5.Location = new System.Drawing.Point(30, 38);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(36, 15);
+			this.label5.Size = new System.Drawing.Size(36, 18);
 			this.label5.TabIndex = 1;
 			this.label5.Text = "To";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -353,7 +355,7 @@ namespace OpenPmsDental{
 			// 
 			this.label2.Location = new System.Drawing.Point(24, 18);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(42, 15);
+			this.label2.Size = new System.Drawing.Size(42, 18);
 			this.label2.TabIndex = 0;
 			this.label2.Text = "From";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -370,6 +372,7 @@ namespace OpenPmsDental{
 			// 
 			// textPatNum
 			// 
+			this.textPatNum.AutoSize = false;
 			this.textPatNum.Location = new System.Drawing.Point(90, 131);
 			this.textPatNum.Name = "textPatNum";
 			this.textPatNum.Size = new System.Drawing.Size(90, 20);
@@ -386,6 +389,7 @@ namespace OpenPmsDental{
 			// 
 			// textTaskNum
 			// 
+			this.textTaskNum.AutoSize = false;
 			this.textTaskNum.Location = new System.Drawing.Point(90, 112);
 			this.textTaskNum.Name = "textTaskNum";
 			this.textTaskNum.Size = new System.Drawing.Size(90, 20);
@@ -403,6 +407,7 @@ namespace OpenPmsDental{
 			// 
 			// textTaskList
 			// 
+			this.textTaskList.AutoSize = false;
 			this.textTaskList.Location = new System.Drawing.Point(90, 93);
 			this.textTaskList.Name = "textTaskList";
 			this.textTaskList.Size = new System.Drawing.Size(90, 20);
