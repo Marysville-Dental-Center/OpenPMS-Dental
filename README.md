@@ -18,7 +18,6 @@ Open PMS - Dental is a fork of Open Dental (c) Open Dental Software, Inc. and co
 
 - **Re-implemented, not merged.** Open Dental's public source stops at 24.3.63. Features of later versions, up to 26.1, are written again from Open Dental's public manual, release notes and database documents; the schema follows Open Dental 26.2.
 - **Small packages.** Every change is a package with a plan, a port note in [docs/port-notes/](docs/port-notes/) and its own tests. It gets an independent review and reaches `main` only after a full build and the test suites pass.
-- **The owner sees what users will see.** Visible changes are shown as before-and-after picture galleries drawn by the tests, audited before review, and every approved picture is recorded (`tests/WindowChecksTests/UiApproved/approved.tsv`).
 - **Practice-neutral and synthetic.** No practice names, server names or developer paths in tracked files; tests use synthetic data on scratch databases that they drop afterwards. A test checks every tracked file for the names.
 
 ## Features
