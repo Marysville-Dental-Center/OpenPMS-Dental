@@ -1477,6 +1477,11 @@ own 26.2 overlap check before it starts. The first cut is below; a brief that fi
   ImageLists and streams; each window's `ArrayIconsImageList` keeps today's `ImageIndex` order as icons, and every index button takes its
   `EnumIcons`. 8 new `EnumIcons` (Payment, Adjustment, ApptLists, Call, Unscheduled, Rx, Anesthesia; PerioChart draws UI-8's perio chart
   icon). The procedure button list is kept (4.5), the reminders' task list goes to UI-9b-3. Bounds unchanged.
+- **Status UI-9b-2 (2026-11-20).** Done on `ui/ui9b2-1` (`docs/port-notes/UI-9b.md`, section 3), not merged yet, waiting for G-UI3
+  (`.git/od-tools/test-results/G-UI3-ui9b2`, rendered off screen). The imaging module: `ControlImages`' two ImageLists (the tools list of 21
+  pictures for `toolBarPaint` and `toolBarDraw` through `SetImageListIcons`, the tree list of 8 through `IconLibrary.GetImageListForSize` at the DPI
+  size) become icons in today's index order, the designer streams are gone, the six index buttons take an `EnumIcons`. 2 new `EnumIcons` (Scan,
+  UsbStick) and the 11 imaging members in the WinForms enum (113 each). Owner questions in section 3.5. No window needs showing.
 
 **UI-10: text fit**
 - Slices: UI-10-1 FormPatientEdit, FormProvEdit, FormClaimEdit, FormProcEdit, ControlAccount and the preference pages (the largest

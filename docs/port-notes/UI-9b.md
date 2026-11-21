@@ -184,3 +184,77 @@ module at 125% and 150% (the icons are drawn at the slot's size; program link pi
 opt-in skipped, UnitTests 1,728 + 3, NoHqTests 122). Full x64 filter build: 0 errors. `tools\Test-NoEolFlips.ps1 -Base main`: 34 changed
 text files, no line ends changed. `Convert-PictureUses.ps1 -Slice UI-9b-1 -Check` and `-Slice UI-9a-6c -Check`: exit 0. InitSqlTests and
 ForkMigrationTests not run (no schema work).
+
+## 3. UI-9b-2: the imaging module and its tree
+
+On `ui/ui9b2-1` from `main` at `30b8637ac`. Visible change: the two image toolbars' pictures (Crop, Pan, Adj, FlipH, -90, +90) are Fluent
+icons, and the document tree's list is a list of icons at the DPI size. No schema change, no NuGet package, no download (the SVGs come from
+UI-7a's approved download), no program started, no database, no window shown.
+
+### 3.0 The tree helper (the one addition to section 1.3)
+
+`IconLibrary.GetImageListForSize(ImageList imageList,EnumIcons[] arrayIcons,int sizePixels)` is the one small addition to the shared part
+for trees and list views: it returns `imageList` when it is already `sizePixels` square and holds the icons, else it disposes the old list
+and returns a new `GetImageList(arrayIcons,sizePixels)`. A window keeps the list in a field and calls it where it is shown or its scale may
+have changed (`ControlImages.ImageListTree` calls it with `LayoutManager.Scale(16)`), and disposes the last list with the control. The
+index order and the keys of `arrayIcons` are today's, so `ImageIndex` and `ImageKey` keep their pictures. Behaviour of the toolbar part is unchanged.
+
+### 3.1 The lists
+
+Only `ControlImages` holds ImageLists in the imaging module (the windows `FormImageFloat`, the mount and document windows, `FormImagingScan*`
+and the TWAIN windows hold none). Included: `ControlImages:imageListTools2` (21 pictures, used by `toolBarPaint` and `toolBarDraw`) and
+`ControlImages:imageListTree` (8 pictures). Left out, and why: the WPF `ImageSelector` tree draws its own `EnumIcons` (UI-9a-6), thumbnails
+and document pictures come from the database or the image store (office content, 4.5, kept).
+
+- Tools list: `ControlImages.ArrayIconsImageList` in today's `ImageIndex` order, given to both toolbars with `SetImageListIcons` right after
+  `InitializeComponent`. The six buttons that took an index now take their `EnumIcons` (Crop 7, Pan 10 = Hand, Adj 20 = ArrowsAll, FlipH 11,
+  -90 12, +90 13); a plug-in button set by `ImageIndex` still draws the same purpose.
+- Tree list: `ControlImages.ArrayIconsImageListTree` (UsbStick, folder, document, radiograph, photo, file, mount, web folder) and
+  `ControlImages.ImageListTree` (built at the DPI size, rebuilt when the scale changes, disposed with the control). No code gave the old
+  list to a control (the WPF tree draws its own icons), so it stays at its indexes for plug-ins and a later tree.
+- The designer's two `ImageList` fields, their streams and the `.resx` entries are removed (`ControlImages.Designer.cs` keeps its mixed line ends).
+
+### 3.2 New `EnumIcons` (block "UI-9b-2" in both enums; 113 WinForms, 113 WPF)
+
+| Member | Purpose | Fluent (regular) | Sizes |
+|---|---|---|---|
+| `Scan` | tools list index 4: the flatbed scanner picture, kept for plug-ins | Scan (a viewfinder frame) | 16, 20, 24 |
+| `UsbStick` | tree list index 0: the memory stick, no node shows it | Usb Stick | 20, 24 |
+
+The WinForms enum also gets the 11 imaging members the WPF enum already had (ArrowsAll, Crop, Flip, Hand, Import, Info, RotateL, RotateR,
+ScanMulti, ScanPhoto, ScanXray). The download has no 28, 32 or 48 px design of Scan or UsbStick, so at 150% and 200% they draw the 24 px design
+(the 3.5 rule). The reused members: PatSelect, Print, DeleteX, Paste, ZoomIn, ZoomOut, Copy, Export, ImageSelectorFolder, ImageSelectorDoc,
+ImageSelectorXray, ImageSelectorPhoto, ImageSelectorFile, ImageSelectorMount and ImageSelectorFolderWeb keep their approved choices.
+
+### 3.3 Tests (Targeted: UiRefreshTests, WindowChecksTests, UnitTests, NoHqTests)
+
+- New `ImagingImageListTests`: `ImagingLists_KeepTodaysIndexOrder_AsIcons`, `ImagingToolbars_HaveNoImageIndexButtonLeft_TheirButtonsTakeAnIcon`,
+  `ImagingToolbars_DrawTheirIcons_AndAnImageIndexButton_At100_150_200` (a plug-in button set by ImageIndex 7 draws Crop),
+  `TreeList_IsAtTheDpiSize_AndBuiltAgainWhenTheDpiChanges` (16, 24, 32 px, the old list disposed, the same size gives the same list),
+  `TreeNode_SetByImageIndexOrImageKey_StillDrawsItsPicture_At100_150_200` and the opt-in `Gallery_ImagingToolbarsAndTree`.
+- Changed: `PictureMapTests`, `IconLibraryTests` (113, 113, 113), `WpfImagesTests` (113). `SourceScanTests` green (only the factory makes
+  ImageLists). `RenameGuardTests`, layout snapshot and bounds: unchanged and green.
+- Runs: `.git/od-tools/test-results/ui9b2-targeted.txt` (first run) and `ui9b2-targeted2.txt` (UiRefreshTests after two test fixes:
+  all passed). Full x64 filter build: 0 errors. `Convert-PictureUses.ps1 -Root . -Slice UI-9b-2 -Check`: exit 0 (29 picture uses).
+
+### 3.4 Gallery G-UI3, the UI-9b-2 slice
+
+`.git/od-tools/test-results/G-UI3-ui9b2/index.html` (plain-words summary at the top; any download link in the page is not needed). 9 pictures
+rendered off screen: both image toolbars and the tree (synthetic nodes, no patient data) at 100, 150 and 200%. Sources: `ui9b2-gallery-src/before`
+(the old streams' pictures, extracted to `ui9b2-pictures/old-lists`) and `.../after`.
+
+### 3.5 Owner questions (new icon choices)
+
+1. The scanner picture (tools list index 4, no button shows it today): Fluent has no flatbed scanner; the new `Scan` is the viewfinder frame. Fine?
+2. The memory stick (tree list index 0, no node shows it): Usb Stick. Fine?
+3. The scan document, photo, radiograph and multi-page pictures reuse the icons already chosen for the tree (document, photo, radiograph) and
+   Document Multiple. Fine?
+4. Keep the unused `ControlImages.ImageListTree` (nothing gives it to a control today), or delete it?
+
+### 3.6 For the lead
+
+Nothing needs a shown window: the pictures render off screen. To rebuild the gallery: set `OPMS_UI9B2_OLD_LISTS` to
+`.git/od-tools/test-results/ui9b2-pictures/old-lists` and `OPMS_UI9B_PICTURES` to a folder named `before` (then `after`, no old lists needed), run
+the Targeted UiRefreshTests, delete the other modules' `toolbars` pictures the UI-9b-1 test also writes, then
+`tools\New-UiGallery.ps1 -Before <before> -After <after> -Out <folder> -Name G-UI3`. A check in a shown window (the toolbar's Crop, Pan and Adj
+buttons and the tree on a connected desktop) waits for the lead's session.
