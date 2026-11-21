@@ -70,7 +70,7 @@ namespace OpenPmsDental {
 			this.butBack.AutoSize = false;
 			this.butBack.Location = new System.Drawing.Point(361, 662);
 			this.butBack.Name = "butBack";
-			this.butBack.Size = new System.Drawing.Size(75, 26);
+			this.butBack.Size = new System.Drawing.Size(75, 27);
 			this.butBack.TabIndex = 5;
 			this.butBack.Text = "Back";
 			this.butBack.UseVisualStyleBackColor = true;

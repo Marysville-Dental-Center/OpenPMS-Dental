@@ -117,7 +117,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelDisclaimer.Location = new System.Drawing.Point(252, 347);
 			this.labelDisclaimer.Name = "labelDisclaimer";
-			this.labelDisclaimer.Size = new System.Drawing.Size(270, 100);
+			this.labelDisclaimer.Size = new System.Drawing.Size(270, 103);
 			this.labelDisclaimer.TabIndex = 60;
 			this.labelDisclaimer.Text = "This report only considers insurance payments and \r\nwrite-offs, not patient payme" +
     "nts and adjustments. \r\nUse the Procedures Overpaid Report to include \r\npatient p" +

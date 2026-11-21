@@ -200,7 +200,7 @@
 			this.checkShowGroupLabels.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.checkShowGroupLabels.Location = new System.Drawing.Point(134, 18);
 			this.checkShowGroupLabels.Name = "checkShowGroupLabels";
-			this.checkShowGroupLabels.Size = new System.Drawing.Size(125, 18);
+			this.checkShowGroupLabels.Size = new System.Drawing.Size(125, 22);
 			this.checkShowGroupLabels.TabIndex = 6;
 			this.checkShowGroupLabels.Text = "Show Group Labels";
 			this.checkShowGroupLabels.UseVisualStyleBackColor = true;
@@ -269,7 +269,7 @@
 			this.label5.AutoSize = false;
 			this.label5.Location = new System.Drawing.Point(9, 20);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(35, 21);
+			this.label5.Size = new System.Drawing.Size(38, 21);
 			this.label5.TabIndex = 10;
 			this.label5.Text = "From:";
 			// 

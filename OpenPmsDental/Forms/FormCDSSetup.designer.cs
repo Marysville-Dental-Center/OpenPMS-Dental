@@ -50,7 +50,7 @@ namespace OpenPmsDental{
 			this.radioGroup.Enabled = false;
 			this.radioGroup.Location = new System.Drawing.Point(12, 30);
 			this.radioGroup.Name = "radioGroup";
-			this.radioGroup.Size = new System.Drawing.Size(158, 22);
+			this.radioGroup.Size = new System.Drawing.Size(158, 24);
 			this.radioGroup.TabIndex = 62;
 			this.radioGroup.Text = "by Group";
 			this.radioGroup.TextAlign = System.Drawing.ContentAlignment.TopLeft;
