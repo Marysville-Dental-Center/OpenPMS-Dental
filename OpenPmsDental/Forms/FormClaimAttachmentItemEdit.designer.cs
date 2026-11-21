@@ -42,7 +42,7 @@ namespace OpenPmsDental{
 			this.labelImageType.Location = new System.Drawing.Point(54, 97);
 			this.labelImageType.Name = "labelImageType";
 			this.labelImageType.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-			this.labelImageType.Size = new System.Drawing.Size(84, 15);
+			this.labelImageType.Size = new System.Drawing.Size(84, 18);
 			this.labelImageType.TabIndex = 1;
 			this.labelImageType.Text = "Image Type";
 			// 
@@ -51,7 +51,7 @@ namespace OpenPmsDental{
 			this.label1.Location = new System.Drawing.Point(54, 44);
 			this.label1.Name = "label1";
 			this.label1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-			this.label1.Size = new System.Drawing.Size(84, 15);
+			this.label1.Size = new System.Drawing.Size(84, 18);
 			this.label1.TabIndex = 2;
 			this.label1.Text = "File Name";
 			// 
@@ -67,7 +67,7 @@ namespace OpenPmsDental{
 			this.labelDateTimeCreate.Location = new System.Drawing.Point(54, 71);
 			this.labelDateTimeCreate.Name = "labelDateTimeCreate";
 			this.labelDateTimeCreate.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-			this.labelDateTimeCreate.Size = new System.Drawing.Size(84, 15);
+			this.labelDateTimeCreate.Size = new System.Drawing.Size(84, 18);
 			this.labelDateTimeCreate.TabIndex = 6;
 			this.labelDateTimeCreate.Text = "Date Created";
 			// 
@@ -103,7 +103,7 @@ namespace OpenPmsDental{
 			this.checkIsXrayMirrored.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkIsXrayMirrored.Location = new System.Drawing.Point(27, 237);
 			this.checkIsXrayMirrored.Name = "checkIsXrayMirrored";
-			this.checkIsXrayMirrored.Size = new System.Drawing.Size(126, 18);
+			this.checkIsXrayMirrored.Size = new System.Drawing.Size(129, 18);
 			this.checkIsXrayMirrored.TabIndex = 3;
 			this.checkIsXrayMirrored.Text = "Is xray mirror image";
 			// 
@@ -134,7 +134,7 @@ namespace OpenPmsDental{
 			this.labelNewSnip.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelNewSnip.Location = new System.Drawing.Point(469, 265);
 			this.labelNewSnip.Name = "labelNewSnip";
-			this.labelNewSnip.Size = new System.Drawing.Size(116, 15);
+			this.labelNewSnip.Size = new System.Drawing.Size(116, 18);
 			this.labelNewSnip.TabIndex = 10;
 			this.labelNewSnip.Text = "(and Snip Another)";
 			this.labelNewSnip.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;

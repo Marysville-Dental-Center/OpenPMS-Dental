@@ -133,7 +133,7 @@ namespace OpenPmsDental {
 			this.butClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butClear.Location = new System.Drawing.Point(534, 174);
 			this.butClear.Name = "butClear";
-			this.butClear.Size = new System.Drawing.Size(99, 24);
+			this.butClear.Size = new System.Drawing.Size(100, 24);
 			this.butClear.TabIndex = 57;
 			this.butClear.Text = "Clear Attachment";
 			this.butClear.Click += new System.EventHandler(this.butClear_Click);
@@ -153,7 +153,7 @@ namespace OpenPmsDental {
 			this.labelRemoveAttachment.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.labelRemoveAttachment.Location = new System.Drawing.Point(11, 489);
 			this.labelRemoveAttachment.Name = "labelRemoveAttachment";
-			this.labelRemoveAttachment.Size = new System.Drawing.Size(356, 32);
+			this.labelRemoveAttachment.Size = new System.Drawing.Size(376, 32);
 			this.labelRemoveAttachment.TabIndex = 61;
 			this.labelRemoveAttachment.Text = "Images are unable to be removed from a sent attachment. Use the Clear Attachment " +
     "button to start a new attachment.";

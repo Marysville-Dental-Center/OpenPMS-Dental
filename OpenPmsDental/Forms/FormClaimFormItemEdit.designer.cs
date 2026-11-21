@@ -75,7 +75,7 @@ namespace OpenPmsDental {
 			// 
 			this.label2.Location = new System.Drawing.Point(12, 54);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(236, 45);
+			this.label2.Size = new System.Drawing.Size(236, 52);
 			this.label2.TabIndex = 4;
 			this.label2.Text = "This file must be present in the A to Z folder.  \r\nIt should be a gif, jpg, or em" +
     "f.";
@@ -112,7 +112,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelFormatString.Location = new System.Drawing.Point(12, 106);
 			this.labelFormatString.Name = "labelFormatString";
-			this.labelFormatString.Size = new System.Drawing.Size(236, 52);
+			this.labelFormatString.Size = new System.Drawing.Size(236, 55);
 			this.labelFormatString.TabIndex = 7;
 			this.labelFormatString.Text = "Format String.  All dates must have a format.  Valid entries would include MM/dd/" +
     "yyyy, MM-dd-yy, and M d y as examples.";

@@ -34,7 +34,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelTitle.Location = new System.Drawing.Point(14, 15);
 			this.labelTitle.Name = "labelTitle";
-			this.labelTitle.Size = new System.Drawing.Size(259, 43);
+			this.labelTitle.Size = new System.Drawing.Size(259, 46);
 			this.labelTitle.TabIndex = 0;
 			this.labelTitle.Text = "A Continuity of Care Document (CCD) is used to share a patient health summary ele" +
     "ctronically.";

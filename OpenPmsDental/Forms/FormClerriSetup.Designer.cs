@@ -74,7 +74,7 @@ namespace OpenPmsDental {
 			//
 			this.labelProgDesc.Location = new System.Drawing.Point(12, 128);
 			this.labelProgDesc.Name = "labelProgDesc";
-			this.labelProgDesc.Size = new System.Drawing.Size(136, 16);
+			this.labelProgDesc.Size = new System.Drawing.Size(136, 18);
 			this.labelProgDesc.TabIndex = 4;
 			this.labelProgDesc.Text = "Description";
 			this.labelProgDesc.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -100,7 +100,7 @@ namespace OpenPmsDental {
 			//
 			this.labelToolbarNote.Location = new System.Drawing.Point(150, 174);
 			this.labelToolbarNote.Name = "labelToolbarNote";
-			this.labelToolbarNote.Size = new System.Drawing.Size(372, 16);
+			this.labelToolbarNote.Size = new System.Drawing.Size(372, 18);
 			this.labelToolbarNote.TabIndex = 7;
 			this.labelToolbarNote.Text = "The Family module button. Can\'t be changed while Clerri is enabled.";
 			//
@@ -115,6 +115,7 @@ namespace OpenPmsDental {
 			//
 			// textDashboardAddress
 			//
+			this.textDashboardAddress.AutoSize = false;
 			this.textDashboardAddress.Location = new System.Drawing.Point(150, 200);
 			this.textDashboardAddress.Name = "textDashboardAddress";
 			this.textDashboardAddress.Size = new System.Drawing.Size(372, 20);
@@ -124,7 +125,7 @@ namespace OpenPmsDental {
 			//
 			this.labelDashboardHint.Location = new System.Drawing.Point(150, 222);
 			this.labelDashboardHint.Name = "labelDashboardHint";
-			this.labelDashboardHint.Size = new System.Drawing.Size(372, 30);
+			this.labelDashboardHint.Size = new System.Drawing.Size(384, 30);
 			this.labelDashboardHint.TabIndex = 10;
 			this.labelDashboardHint.Text = "From Clerri. Must start with https://. [ClientKey] and [PatNum] are replaced; nothing else is.";
 			//
@@ -151,7 +152,7 @@ namespace OpenPmsDental {
 			//
 			this.labelClientKey.Location = new System.Drawing.Point(12, 289);
 			this.labelClientKey.Name = "labelClientKey";
-			this.labelClientKey.Size = new System.Drawing.Size(136, 16);
+			this.labelClientKey.Size = new System.Drawing.Size(136, 18);
 			this.labelClientKey.TabIndex = 13;
 			this.labelClientKey.Text = "Client Key";
 			this.labelClientKey.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

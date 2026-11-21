@@ -87,6 +87,7 @@ namespace OpenPmsDental{
 			// 
 			// textDate
 			// 
+			this.textDate.AutoSize = false;
 			this.textDate.Location = new System.Drawing.Point(144, 133);
 			this.textDate.Name = "textDate";
 			this.textDate.Size = new System.Drawing.Size(100, 20);

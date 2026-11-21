@@ -69,7 +69,7 @@ namespace OpenPmsDental{
 			// 
 			this.labelSubNote.Location = new System.Drawing.Point(1, 73);
 			this.labelSubNote.Name = "labelSubNote";
-			this.labelSubNote.Size = new System.Drawing.Size(109, 15);
+			this.labelSubNote.Size = new System.Drawing.Size(109, 18);
 			this.labelSubNote.TabIndex = 47;
 			this.labelSubNote.Text = "Subscriber Note";
 			this.labelSubNote.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -123,6 +123,7 @@ namespace OpenPmsDental{
 			// 
 			// textDateEffective
 			// 
+			this.textDateEffective.AutoSize = false;
 			this.textDateEffective.Location = new System.Drawing.Point(110, 45);
 			this.textDateEffective.Name = "textDateEffective";
 			this.textDateEffective.Size = new System.Drawing.Size(114, 20);
@@ -130,10 +131,10 @@ namespace OpenPmsDental{
 			// 
 			// label5
 			// 
-			this.label5.AutoSize = true;
+			this.label5.AutoSize = false;
 			this.label5.Location = new System.Drawing.Point(30, 48);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(80, 13);
+			this.label5.Size = new System.Drawing.Size(80, 20);
 			this.label5.TabIndex = 0;
 			this.label5.Text = "Effective Dates";
 			// 

@@ -117,7 +117,7 @@ namespace OpenPmsDental {
 			this.labelMerchantClosedDescription.ForeColor = System.Drawing.Color.Red;
 			this.labelMerchantClosedDescription.Location = new System.Drawing.Point(74, 170);
 			this.labelMerchantClosedDescription.Name = "labelMerchantClosedDescription";
-			this.labelMerchantClosedDescription.Size = new System.Drawing.Size(308, 40);
+			this.labelMerchantClosedDescription.Size = new System.Drawing.Size(308, 52);
 			this.labelMerchantClosedDescription.TabIndex = 274;
 			this.labelMerchantClosedDescription.Text = "The Merchant Number you are using has been closed.\r\nPlease refer to the manual on" +
     " how to change your settings.";

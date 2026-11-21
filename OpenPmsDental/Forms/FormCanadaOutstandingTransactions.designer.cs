@@ -54,11 +54,11 @@ namespace OpenPmsDental{
             // 
             // radioVersion4Itrans
             // 
-            this.radioVersion4Itrans.AutoSize = true;
+            this.radioVersion4Itrans.AutoSize = false;
             this.radioVersion4Itrans.Checked = true;
             this.radioVersion4Itrans.Location = new System.Drawing.Point(12, 12);
             this.radioVersion4Itrans.Name = "radioVersion4Itrans";
-            this.radioVersion4Itrans.Size = new System.Drawing.Size(69, 17);
+            this.radioVersion4Itrans.Size = new System.Drawing.Size(73, 18);
             this.radioVersion4Itrans.TabIndex = 111;
             this.radioVersion4Itrans.TabStop = true;
             this.radioVersion4Itrans.Text = "Version 4";

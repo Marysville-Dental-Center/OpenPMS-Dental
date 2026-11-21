@@ -270,7 +270,7 @@ namespace OpenPmsDental {
 			this.labelAlphabetize.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelAlphabetize.Location = new System.Drawing.Point(561, 209);
 			this.labelAlphabetize.Name = "labelAlphabetize";
-			this.labelAlphabetize.Size = new System.Drawing.Size(118, 33);
+			this.labelAlphabetize.Size = new System.Drawing.Size(119, 33);
 			this.labelAlphabetize.TabIndex = 29;
 			this.labelAlphabetize.Text = "Orders the problem list alphabetically";
 			this.labelAlphabetize.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
