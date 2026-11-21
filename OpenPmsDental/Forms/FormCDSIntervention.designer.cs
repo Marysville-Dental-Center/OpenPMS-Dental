@@ -24,17 +24,9 @@ namespace OpenPmsDental{
 		/// </summary>
 		private void InitializeComponent() {
 			this.components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormCDSIntervention));
-			this.imageListInfoButton = new System.Windows.Forms.ImageList(this.components);
 			this.gridMain = new OpenPmsDental.UI.GridOD();
 			this.butOK = new OpenPmsDental.UI.Button();
 			this.SuspendLayout();
-			// 
-			// imageListInfoButton
-			// 
-			this.imageListInfoButton.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListInfoButton.ImageStream")));
-			this.imageListInfoButton.TransparentColor = System.Drawing.Color.Transparent;
-			this.imageListInfoButton.Images.SetKeyName(0, "iButton_16px.png");
 			// 
 			// gridMain
 			// 
@@ -77,6 +69,5 @@ namespace OpenPmsDental{
 
 		private OpenPmsDental.UI.Button butOK;
 		private UI.GridOD gridMain;
-		private System.Windows.Forms.ImageList imageListInfoButton;
 	}
 }

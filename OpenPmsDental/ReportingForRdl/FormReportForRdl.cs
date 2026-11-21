@@ -18,6 +18,8 @@ using CodeBase;
 namespace OpenPmsDental{
 	/// <summary></summary>
 	public partial class FormReportForRdl:FormODBase {
+		///<summary>The pictures of the window's toolbar ImageList by index (UI-9b-4, docs/port-notes/UI-9b.md, section 5): the purposes of today's ImageIndex pictures in their order, as icons (ToolBarOD.SetImageListIcons), so a plug-in's button set by ImageIndex still shows the same purpose.</summary>
+		public static readonly EnumIcons[] ArrayIconsImageList=new EnumIcons[] { EnumIcons.Print,EnumIcons.ArrowLeft,EnumIcons.ArrowRight,EnumIcons.Export,EnumIcons.Pdf,EnumIcons.ZoomIn,EnumIcons.ZoomOut };
 
 		///<summary></summary>
 		public FormReportForRdl()
@@ -30,6 +32,7 @@ namespace OpenPmsDental{
 			// Required for Windows Form Designer support
 			//
 			InitializeComponent();
+			ToolBarMain.SetImageListIcons(ArrayIconsImageList);//UI-9b-4: the list of icons
 			InitializeLayoutManager();
 			SourceFilePath=null;
 			SourceRdlString=null;
@@ -69,16 +72,16 @@ namespace OpenPmsDental{
 		///<summary>Causes the toolbar to be laid out again.</summary>
 		public void LayoutToolBar(){
 			ToolBarMain.Buttons.Clear();
-			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Print"),0,"","Print"));
-//ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Save PDF"),4,"Save as Adobe PDF","PDF"));
-//ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Export"),3,"","Export"));
+			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Print"),EnumIcons.Print,"","Print"));
+//ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Save PDF"),EnumIcons.Pdf,"Save as Adobe PDF","PDF"));
+//ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Export"),EnumIcons.Export,"","Export"));
 			ToolBarMain.Buttons.Add(new ODToolBarButton(ODToolBarButtonStyle.Separator));
-			//ToolBarMain.Buttons.Add(new ODToolBarButton("",1,"Go Back One Page","Back"));
+			//ToolBarMain.Buttons.Add(new ODToolBarButton("",EnumIcons.ArrowLeft,"Go Back One Page","Back"));
 			//ODToolBarButton button=new ODToolBarButton("",-1,"","PageNum");
 			//button.Style=ODToolBarButtonStyle.Label;
 			//ToolBarMain.Buttons.Add(button);
-			//ToolBarMain.Buttons.Add(new ODToolBarButton("",2,"Go Forward One Page","Fwd"));
-			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Zoom In"),6,"","Zoom"));
+			//ToolBarMain.Buttons.Add(new ODToolBarButton("",EnumIcons.ArrowRight,"Go Forward One Page","Fwd"));
+			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Zoom In"),EnumIcons.ZoomOut,"","Zoom"));
 			//ODToolBarButton button=new ODToolBarButton("Scroll Mode",-1,"","");
 			//button.Style=ODToolBarButtonStyle.DropDownButton;
 			//button.ContextMenuStripDropDown=menuScrollMode;
@@ -226,13 +229,13 @@ namespace OpenPmsDental{
 				//then zoom in
 				viewer.ZoomMode=fyiReporting.RdlViewer.ZoomEnum.FitWidth;
 				ToolBarMain.Buttons["Zoom"].Text=Lan.g(this,"Zoom Out");
-				ToolBarMain.Buttons["Zoom"].ImageIndex=6;
+				ToolBarMain.Buttons["Zoom"].Icon=EnumIcons.ZoomOut;
 			}
 			else{
 				//zoom out
 				viewer.ZoomMode=fyiReporting.RdlViewer.ZoomEnum.FitPage;
 				ToolBarMain.Buttons["Zoom"].Text=Lan.g(this,"Zoom In");
-				ToolBarMain.Buttons["Zoom"].ImageIndex=5;
+				ToolBarMain.Buttons["Zoom"].Icon=EnumIcons.ZoomIn;
 			}
 			ToolBarMain.Invalidate();
 		}

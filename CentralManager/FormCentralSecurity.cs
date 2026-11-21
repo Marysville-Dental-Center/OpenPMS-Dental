@@ -9,6 +9,8 @@ using OpenPmsDentalBusiness;
 
 namespace CentralManager {
 	public partial class FormCentralSecurity:FormODBase {
+		///<summary>The pictures of the window's old list by index (UI-9b-4, docs/port-notes/UI-9b.md, section 5), as icons. Nothing showed this list; kept at its indexes (never cut).</summary>
+		public static readonly OpenPmsDental.UI.EnumIcons[] ArrayIconsImageListPerm=new OpenPmsDental.UI.EnumIcons[] { OpenPmsDental.UI.EnumIcons.ImageSelectorFolder,OpenPmsDental.UI.EnumIcons.CheckBoxEmpty,OpenPmsDental.UI.EnumIcons.CheckBoxChecked,OpenPmsDental.UI.EnumIcons.CheckBoxPartial };
 		public List<CentralConnection> ListConns;
 		private string _domainObjectGuid;
 

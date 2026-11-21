@@ -33,6 +33,8 @@ namespace OpenPmsDental {
 	}
 
 	public partial class FormWiki:FormODBase {
+		///<summary>The pictures of the window's toolbar ImageList by index (UI-9b-4, docs/port-notes/UI-9b.md, section 5): the purposes of today's ImageIndex pictures in their order, as icons (ToolBarOD.SetImageListIcons), so a plug-in's button set by ImageIndex still shows the same purpose.</summary>
+		public static readonly EnumIcons[] ArrayIconsImageList=new EnumIcons[] { EnumIcons.ArrowLeft,EnumIcons.ArrowRight,EnumIcons.Settings,EnumIcons.Home,EnumIcons.Edit,EnumIcons.Print,EnumIcons.Rename,EnumIcons.Archive,EnumIcons.History,EnumIcons.Import,EnumIcons.Add,EnumIcons.Copy,EnumIcons.Search,EnumIcons.ListBullets,EnumIcons.NewDocument };
 		public WikiPage WikiPageCur;
 		private List<string> _listHistoryNav;
 		///<summary>Number of pages back that you are browsing. Current page == 0, Oldest page == _listHistoryNav.Length. </summary>
@@ -41,6 +43,7 @@ namespace OpenPmsDental {
 
 		public FormWiki() {
 			InitializeComponent();
+			ToolBarMain.SetImageListIcons(ArrayIconsImageList);//UI-9b-4: the list of icons
 			InitializeLayoutManager();
 			Lan.F(this);
 		}
@@ -153,28 +156,28 @@ namespace OpenPmsDental {
 
 		private void LayoutToolBar() {
 			ToolBarMain.Buttons.Clear();
-			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Back"),0,"","Back"));
-			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Fwd"),1,"","Forward"));
-			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Setup"),2,Lan.g(this,"Setup master page and styles."),"Setup"));
+			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Back"),EnumIcons.ArrowLeft,"","Back"));
+			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Fwd"),EnumIcons.ArrowRight,"","Forward"));
+			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Setup"),EnumIcons.Settings,Lan.g(this,"Setup master page and styles."),"Setup"));
 			ToolBarMain.Buttons.Add(new ODToolBarButton(ODToolBarButtonStyle.Separator));
-			ODToolBarButton odToolBarButtonHome=new ODToolBarButton(Lan.g(this,"Home"),3,"","Home");
+			ODToolBarButton odToolBarButtonHome=new ODToolBarButton(Lan.g(this,"Home"),EnumIcons.Home,"","Home");
 			odToolBarButtonHome.Style=ODToolBarButtonStyle.DropDownButton;
 			odToolBarButtonHome.ContextMenuStripDropDown=menuHomeDropDown; 
 			ToolBarMain.Buttons.Add(odToolBarButtonHome);
-			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Edit"),4,"","Edit"));
-			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Print"),5,"","Print"));
-			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Rename"),6,"","Rename"));
-			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Archive"),7,"","Archive"));
-			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Hist"),8,"","History"));
-			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Drafts"),14,"","Drafts"));
-			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"In-Links"),9,"","Inc Links"));
+			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Edit"),EnumIcons.Edit,"","Edit"));
+			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Print"),EnumIcons.Print,"","Print"));
+			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Rename"),EnumIcons.Rename,"","Rename"));
+			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Archive"),EnumIcons.Archive,"","Archive"));
+			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Hist"),EnumIcons.History,"","History"));
+			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Drafts"),EnumIcons.NewDocument,"","Drafts"));
+			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"In-Links"),EnumIcons.Import,"","Inc Links"));
 			ToolBarMain.Buttons.Add(new ODToolBarButton(ODToolBarButtonStyle.Separator));
-			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Add"),10,"","Add"));
+			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Add"),EnumIcons.Add,"","Add"));
 			if(DataConnection.DBtype==DatabaseType.MySql) {//not supported in oracle.
-				ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Lists"),13,"","Lists"));
+				ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Lists"),EnumIcons.ListBullets,"","Lists"));
 			}
-			//ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"All Pages"),11,"","All Pages"));
-			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Search"),12,"","Search"));
+			//ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"All Pages"),EnumIcons.Copy,"","All Pages"));
+			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Search"),EnumIcons.Search,"","Search"));
 			if(WikiStaticExport.IsEnabled()) {//v25_2-wiki-readonly-offline: only when the office keeps a read-only copy.
 				ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Read-Only Copy"),-1,
 					Lan.g(this,"Open the read-only copy of the wiki in a web browser. It also opens while this program is closed."),"ReadOnlyCopy"));

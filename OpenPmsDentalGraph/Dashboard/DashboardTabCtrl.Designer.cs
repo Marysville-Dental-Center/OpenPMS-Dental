@@ -24,16 +24,13 @@
 		/// </summary>
 		private void InitializeComponent() {
 			this.components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DashboardTabCtrl));
 			this.tabControl = new System.Windows.Forms.TabControl();
-			this.tabImageList = new System.Windows.Forms.ImageList(this.components);
 			this.butPrintPage = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// tabControl
 			// 
 			this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tabControl.ImageList = this.tabImageList;
 			this.tabControl.Location = new System.Drawing.Point(0, 0);
 			this.tabControl.Name = "tabControl";
 			this.tabControl.SelectedIndex = 0;
@@ -43,14 +40,6 @@
 			this.tabControl.MouseClick += new System.Windows.Forms.MouseEventHandler(this.tabControl_MouseClick);
 			this.tabControl.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.tabControl_MouseDoubleClick);
 			this.tabControl.MouseMove += new System.Windows.Forms.MouseEventHandler(this.tabControl_MouseMove);
-			// 
-			// tabImageList
-			// 
-			this.tabImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("tabImageList.ImageStream")));
-			this.tabImageList.TransparentColor = System.Drawing.Color.Transparent;
-			this.tabImageList.Images.SetKeyName(0, "addTab11.png");
-			this.tabImageList.Images.SetKeyName(1, "deleteTab11.png");
-			this.tabImageList.Images.SetKeyName(2, "deleteTabHighlight11.png");
 			// 
 			// butPrintPage
 			// 
@@ -79,7 +68,6 @@
 
 		#endregion
 		private System.Windows.Forms.TabControl tabControl;
-		private System.Windows.Forms.ImageList tabImageList;
 		private System.Windows.Forms.Button butPrintPage;
 	}
 }

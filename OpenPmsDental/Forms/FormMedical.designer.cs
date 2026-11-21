@@ -31,7 +31,6 @@ namespace OpenPmsDental {
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMedical));
 			this.butSave = new OpenPmsDental.UI.Button();
 			this.butAdd = new OpenPmsDental.UI.Button();
 			this.butAddDisease = new OpenPmsDental.UI.Button();
@@ -43,7 +42,6 @@ namespace OpenPmsDental {
 			this.checkShowInactiveAllergies = new OpenPmsDental.UI.CheckBox();
 			this.butPrint = new OpenPmsDental.UI.Button();
 			this.checkShowInactiveProblems = new OpenPmsDental.UI.CheckBox();
-			this.imageListInfoButton = new System.Windows.Forms.ImageList(this.components);
 			this.gridFamilyHealth = new OpenPmsDental.UI.GridOD();
 			this.butAddFamilyHistory = new OpenPmsDental.UI.Button();
 			this.tabControlFormMedical = new OpenPmsDental.UI.TabControl();
@@ -245,12 +243,6 @@ namespace OpenPmsDental {
 			this.checkShowInactiveProblems.Tag = "";
 			this.checkShowInactiveProblems.Text = "Show Inactive Problems";
 			this.checkShowInactiveProblems.CheckedChanged += new System.EventHandler(this.checkShowInactiveProblems_CheckedChanged);
-			// 
-			// imageListInfoButton
-			// 
-			this.imageListInfoButton.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListInfoButton.ImageStream")));
-			this.imageListInfoButton.TransparentColor = System.Drawing.Color.Transparent;
-			this.imageListInfoButton.Images.SetKeyName(0, "iButton_16px.png");
 			// 
 			// gridFamilyHealth
 			// 
@@ -960,7 +952,6 @@ namespace OpenPmsDental {
 		private OpenPmsDental.UI.CheckBox checkShowInactiveAllergies;
 		private UI.Button butPrint;
 		private OpenPmsDental.UI.CheckBox checkShowInactiveProblems;
-		private ImageList imageListInfoButton;
 		private UI.GridOD gridFamilyHealth;
 		private UI.Button butAddFamilyHistory;
 		private OpenPmsDental.UI.TabControl tabControlFormMedical;

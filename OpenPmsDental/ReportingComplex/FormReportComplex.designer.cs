@@ -30,23 +30,10 @@ namespace OpenPmsDental.ReportingComplex {
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormReportComplex));
 			this.setupDialog2 = new System.Windows.Forms.PageSetupDialog();
-			this.imageListMain = new System.Windows.Forms.ImageList(this.components);
 			this.printPreviewControl2 = new OpenPmsDental.UI.ODPrintPreviewControl();
 			this.ToolBarMain = new OpenPmsDental.UI.ToolBarOD();
 			this.SuspendLayout();
-			// 
-			// imageListMain
-			// 
-			this.imageListMain.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListMain.ImageStream")));
-			this.imageListMain.TransparentColor = System.Drawing.Color.Transparent;
-			this.imageListMain.Images.SetKeyName(0, "");
-			this.imageListMain.Images.SetKeyName(1, "");
-			this.imageListMain.Images.SetKeyName(2, "");
-			this.imageListMain.Images.SetKeyName(3, "");
-			this.imageListMain.Images.SetKeyName(4, "butZoomIn.gif");
-			this.imageListMain.Images.SetKeyName(5, "butZoomOut.gif");
 			// 
 			// printPreviewControl2
 			// 
@@ -60,7 +47,6 @@ namespace OpenPmsDental.ReportingComplex {
 			// 
 			this.ToolBarMain.Dock = System.Windows.Forms.DockStyle.Top;
 			this.ToolBarMain.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-			this.ToolBarMain.ImageList = this.imageListMain;
 			this.ToolBarMain.Location = new System.Drawing.Point(0, 0);
 			this.ToolBarMain.Name = "ToolBarMain";
 			this.ToolBarMain.Size = new System.Drawing.Size(831, 25);
@@ -85,7 +71,6 @@ namespace OpenPmsDental.ReportingComplex {
 
 		private System.Windows.Forms.PageSetupDialog setupDialog2;
 		private OpenPmsDental.UI.ToolBarOD ToolBarMain;
-		private System.Windows.Forms.ImageList imageListMain;
 		private OpenPmsDental.UI.ODPrintPreviewControl printPreviewControl2;
 	}
 }

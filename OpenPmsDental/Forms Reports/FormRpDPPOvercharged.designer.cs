@@ -16,9 +16,7 @@
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormRpDPPOvercharged));
 			this.butPrint = new OpenPmsDental.UI.Button();
-			this.imageListCalendar = new System.Windows.Forms.ImageList(this.components);
 			this.gridMain = new OpenPmsDental.UI.GridOD();
 			this.contextMenuGrid = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.menuItemGoToAccount = new System.Windows.Forms.ToolStripMenuItem();
@@ -48,13 +46,6 @@
 			this.butPrint.TabIndex = 3;
 			this.butPrint.Text = "Print";
 			this.butPrint.Click += new System.EventHandler(this.butPrint_Click);
-			// 
-			// imageListCalendar
-			// 
-			this.imageListCalendar.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListCalendar.ImageStream")));
-			this.imageListCalendar.TransparentColor = System.Drawing.Color.Transparent;
-			this.imageListCalendar.Images.SetKeyName(0, "arrowDownTriangle.gif");
-			this.imageListCalendar.Images.SetKeyName(1, "arrowUpTriangle.gif");
 			// 
 			// gridMain
 			// 
@@ -228,7 +219,6 @@
 
 		private System.Windows.Forms.ContextMenuStrip contextMenuGrid;
 		private System.Windows.Forms.ToolStripMenuItem menuItemGoToAccount;
-		private System.Windows.Forms.ImageList imageListCalendar;
 		private UI.Button butRefresh;
 		private UI.Button butPrint;
 		private UI.GridOD gridMain;

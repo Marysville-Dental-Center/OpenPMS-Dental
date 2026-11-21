@@ -57,9 +57,14 @@ namespace OpenPmsDental {
 		public static readonly EnumIcons[] ArrayIconsImageListTasks=new EnumIcons[] {
 			EnumIcons.TaskList,EnumIcons.CheckBoxChecked,EnumIcons.CheckBoxEmpty,EnumIcons.TaskListNew,EnumIcons.TaskNew
 		};
-		///<summary>The reminders grid's first column draws the task state pictures at 16 px, as the old list did: the grid draws a column's pictures
-		///at the scale of the window.</summary>
+		///<summary>The reminders grid's first column draws the task state pictures from a list at the grid's pixel size for 16 px (UI-9b-4:
+		///GridColumn.ImageListFactory; the grid draws it pixel for pixel, sharp).</summary>
 		private ImageList _imageListTasks;
+
+		private ImageList GetImageListTasks(int sizePixels) {
+			_imageListTasks=IconLibrary.GetImageListForSize(_imageListTasks,ArrayIconsImageListTasks,sizePixels);
+			return _imageListTasks;
+		}
 
 		#region Constructor
 		public ControlAppt() {
@@ -68,8 +73,7 @@ namespace OpenPmsDental {
 			Font=LayoutManagerForms.FontInitial;
 			gridReminders.ContextMenuStrip=menuReminderEdit;
 			toolBarMain.SetImageListIcons(ArrayIconsImageList);//UI-9b-1: the list of icons (program links and plug-ins add to it)
-			_imageListTasks=IconLibrary.GetImageList(ArrayIconsImageListTasks,16);//UI-9b-3
-			Disposed+=(sender,e) => _imageListTasks?.Dispose();
+Disposed+=(sender,e) => _imageListTasks?.Dispose();
 			gridReminders.DoAddGridItemsToContextMenuStrip=true;//Copy Cell Text, Copy Rows and the links after the menu's items, as before
 			Logger.LogToPath("Ctor",LogPath.Startup,LogPhase.End);
 		}
@@ -2949,7 +2953,7 @@ namespace OpenPmsDental {
 			if(gridReminders.Columns.Count==0) {
 				gridReminders.Columns.Clear();
 				GridColumn col=new GridColumn("",17);//The status column showing new/viewed in a checkbox.
-				col.ImageList=_imageListTasks;
+				col.ImageListFactory=GetImageListTasks;//UI-9b-4
 				gridReminders.Columns.Add(col);
 				col=new GridColumn(Lan.g("TableTasks","Description"),200);//any width
 				gridReminders.Columns.Add(col);

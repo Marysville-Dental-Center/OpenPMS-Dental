@@ -24,18 +24,9 @@ namespace OpenPmsDental{
 		/// </summary>
 		private void InitializeComponent() {
 			this.components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormWebBrowserPrefs));
-			this.imageList1 = new System.Windows.Forms.ImageList(this.components);
 			this.webView = new CodeBase.Controls.ODWebView2();
 			((System.ComponentModel.ISupportInitialize)(this.webView)).BeginInit();
 			this.SuspendLayout();
-			// 
-			// imageList1
-			// 
-			this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
-			this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-			this.imageList1.Images.SetKeyName(0, "arrowLeft22.gif");
-			this.imageList1.Images.SetKeyName(1, "arrowRight22.gif");
 			// 
 			// webView
 			// 
@@ -66,7 +57,6 @@ namespace OpenPmsDental{
 		}
 
 		#endregion
-		private System.Windows.Forms.ImageList imageList1;
 		private CodeBase.Controls.ODWebView2 webView;
 	}
 }

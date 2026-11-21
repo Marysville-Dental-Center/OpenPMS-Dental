@@ -1,4 +1,5 @@
 using System;
+using OpenPmsDental.UI;
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
@@ -7,6 +8,8 @@ using CodeBase;
 namespace OpenPmsDental {
 
 	public partial class FormWebBrowserPrefs:FormODBase {
+		///<summary>The pictures of the window's old list by index (UI-9b-4, docs/port-notes/UI-9b.md, section 5), as icons. Nothing showed this list; kept at its indexes (never cut).</summary>
+		public static readonly EnumIcons[] ArrayIconsImageList1=new EnumIcons[] { EnumIcons.ArrowLeft,EnumIcons.ArrowRight };
 		public LayoutManagerForms LayoutManager=new LayoutManagerForms();
 		public string HtmlContent;
 		///<summary>Set this to the location where the window should start.  If this makes it fall outside the screen, it will be fixed automatically.</summary>

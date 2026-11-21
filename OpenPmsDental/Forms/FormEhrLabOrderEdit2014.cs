@@ -10,6 +10,16 @@ using CodeBase;
 
 namespace OpenPmsDental {
 	public partial class FormEhrLabOrderEdit2014:FormODBase {
+		///<summary>The picture of the grid's info button column (UI-9b-4): 0 Info. The grid takes a list at its own scale (GridColumn.ImageListFactory).</summary>
+		public static readonly EnumIcons[] ArrayIconsImageListInfoButton=new EnumIcons[] { EnumIcons.Info };
+		private ImageList _imageListInfoButton;
+
+		///<summary>The info button list at the grid's pixel size (UI-9b-4): the grid calls it at its scale and again when the scale changes.</summary>
+		private ImageList GetImageListInfoButton(int sizePixels) {
+			_imageListInfoButton=IconLibrary.GetImageListForSize(_imageListInfoButton,ArrayIconsImageListInfoButton,sizePixels);
+			return _imageListInfoButton;
+		}
+
 		//long PatCurNum;//this was always just defaulted to 0, but referenced from whithin this file and used in case EhrLabCur.PatNum==0
 		public EhrLab EhrLabCur;
 		public bool IsNew;
@@ -18,6 +28,7 @@ namespace OpenPmsDental {
 
 		public FormEhrLabOrderEdit2014() {
 			InitializeComponent();
+			Disposed+=(sender,e) => _imageListInfoButton?.Dispose();//UI-9b-4
 			InitializeLayoutManager();
 		}
 
@@ -185,7 +196,7 @@ namespace OpenPmsDental {
 			GridColumn col;
 			if(CDSPermissions.GetForUser(Security.CurUser.UserNum).ShowInfobutton) {//Security.IsAuthorized(Permissions.EhrInfoButton,true)) {
 				col=new GridColumn("",18);//infoButton
-				col.ImageList=imageListInfoButton;
+				col.ImageListFactory=GetImageListInfoButton;
 				gridMain.Columns.Add(col);
 			}
 			col=new GridColumn("Test Date",70);

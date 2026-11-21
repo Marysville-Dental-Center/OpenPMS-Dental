@@ -38,8 +38,6 @@ namespace OpenPmsDental {
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormAccounting));
-			this.imageListMain = new System.Windows.Forms.ImageList(this.components);
 			this.checkInactive = new OpenPmsDental.UI.CheckBox();
 			this.labelDate = new System.Windows.Forms.Label();
 			this.butToday = new OpenPmsDental.UI.Button();
@@ -49,14 +47,6 @@ namespace OpenPmsDental {
 			this.ToolBarMain = new OpenPmsDental.UI.ToolBarOD();
 			this.menuMain = new OpenPmsDental.UI.MenuOD();
 			this.SuspendLayout();
-			// 
-			// imageListMain
-			// 
-			this.imageListMain.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListMain.ImageStream")));
-			this.imageListMain.TransparentColor = System.Drawing.Color.Transparent;
-			this.imageListMain.Images.SetKeyName(0, "Add.gif");
-			this.imageListMain.Images.SetKeyName(1, "editPencil.gif");
-			this.imageListMain.Images.SetKeyName(2, "butExport.gif");
 			// 
 			// checkInactive
 			// 
@@ -120,7 +110,6 @@ namespace OpenPmsDental {
 			// ToolBarMain
 			// 
 			this.ToolBarMain.Dock = System.Windows.Forms.DockStyle.Top;
-			this.ToolBarMain.ImageList = this.imageListMain;
 			this.ToolBarMain.Location = new System.Drawing.Point(0, 24);
 			this.ToolBarMain.Name = "ToolBarMain";
 			this.ToolBarMain.Size = new System.Drawing.Size(492, 25);
@@ -158,7 +147,6 @@ namespace OpenPmsDental {
 		private OpenPmsDental.UI.ToolBarOD ToolBarMain;
 		private OpenPmsDental.UI.GridOD gridMain;
 		private OpenPmsDental.UI.CheckBox checkInactive;
-		private ImageList imageListMain;
 		private OpenPmsDental.UI.Button butRefresh;
 		private ValidDate textDate;
 		private Label labelDate;

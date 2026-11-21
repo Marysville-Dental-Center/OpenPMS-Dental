@@ -9,6 +9,8 @@ using CodeBase;
 
 namespace OpenPmsDental {
 	public partial class FormEtrans835s:FormODBase {
+		///<summary>The pictures of the window's old list by index (UI-9b-4, docs/port-notes/UI-9b.md, section 5), as icons. Nothing showed this list; kept at its indexes (never cut).</summary>
+		public static readonly EnumIcons[] ArrayIconsImageListCalendar=new EnumIcons[] { EnumIcons.ChevronDown,EnumIcons.ChevronUp };
 	
 		///<summary>Start date used to populate _listEtranss.</summary>
 		private DateTime _dateFrom=DateTime.MaxValue;

@@ -13,6 +13,8 @@ namespace OpenPmsDental {
 	///Only the hosted-page host set in CareCredit Setup is shown here; links to anything else open in the default browser, and Open Dental hosts
 	///are never opened.</summary>
 	public partial class FormCareCreditWeb:FormODBase {
+		///<summary>The pictures of the window's toolbar ImageList by index (UI-9b-4, docs/port-notes/UI-9b.md, section 5): the purposes of today's ImageIndex pictures in their order, as icons (ToolBarOD.SetImageListIcons), so a plug-in's button set by ImageIndex still shows the same purpose.</summary>
+		public static readonly EnumIcons[] ArrayIconsImageList=new EnumIcons[] { EnumIcons.ArrowLeft,EnumIcons.ArrowRight };
 		///<summary>Set to the value passed into the constructor if one was passed in.  Navigates the browser control to this url on load.</summary>
 		private string _urlBrowseTo="";
 		///<summary>The patient CareCredit was opened for.</summary>
@@ -31,6 +33,7 @@ namespace OpenPmsDental {
 		///<summary>Used when opening a new browser window via a link.</summary>
 		public FormCareCreditWeb(string url,Patient patient) {
 			InitializeComponent();
+			ToolBarMain.SetImageListIcons(ArrayIconsImageList);//UI-9b-4: the list of icons
 			InitializeLayoutManager();
 			Lan.F(this);
 			_urlBrowseTo=url;
@@ -96,8 +99,8 @@ namespace OpenPmsDental {
 			buttonSettings.Style=ODToolBarButtonStyle.DropDownButton;
 			buttonSettings.ContextMenuStripDropDown=contextMenuSettings;
 			ToolBarMain.Buttons.Add(buttonSettings);
-			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Back"),0,"","Back"));
-			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Forward"),1,"","Forward"));
+			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Back"),EnumIcons.ArrowLeft,"","Back"));
+			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Forward"),EnumIcons.ArrowRight,"","Forward"));
 			if(!IsUrlSingleUse) {
 				ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Refresh"),-1,"","Refresh"));
 			}

@@ -24,7 +24,6 @@ namespace OpenPmsDental{
 		/// </summary>
 		private void InitializeComponent() {
 			this.components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormSnomeds));
 			this.butOK = new OpenPmsDental.UI.Button();
 			this.textCode = new System.Windows.Forms.TextBox();
 			this.label1 = new System.Windows.Forms.Label();
@@ -32,7 +31,6 @@ namespace OpenPmsDental{
 			this.gridMain = new OpenPmsDental.UI.GridOD();
 			this.butMapICD9 = new OpenPmsDental.UI.Button();
 			this.groupBox1 = new OpenPmsDental.UI.GroupBox();
-			this.imageListInfoButton = new System.Windows.Forms.ImageList(this.components);
 			this.groupBox1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -112,12 +110,6 @@ namespace OpenPmsDental{
 			this.groupBox1.Text = "One-Time Tools";
 			this.groupBox1.Visible = false;
 			// 
-			// imageListInfoButton
-			// 
-			this.imageListInfoButton.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListInfoButton.ImageStream")));
-			this.imageListInfoButton.TransparentColor = System.Drawing.Color.Transparent;
-			this.imageListInfoButton.Images.SetKeyName(0, "iButton_16px.png");
-			// 
 			// FormSnomeds
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -147,6 +139,5 @@ namespace OpenPmsDental{
 		private UI.GridOD gridMain;
 		private UI.Button butMapICD9;
 		private OpenPmsDental.UI.GroupBox groupBox1;
-		private System.Windows.Forms.ImageList imageListInfoButton;
 	}
 }

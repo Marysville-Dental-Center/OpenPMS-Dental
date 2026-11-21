@@ -10,6 +10,8 @@ using System.Linq;
 
 namespace OpenPmsDental {
 	public partial class FormWikiEdit:FormODBase {
+		///<summary>The pictures of the window's toolbar ImageList by index (UI-9b-4, docs/port-notes/UI-9b.md, section 5): the purposes of today's ImageIndex pictures in their order, as icons (ToolBarOD.SetImageListIcons), so a plug-in's button set by ImageIndex still shows the same purpose.</summary>
+		public static readonly EnumIcons[] ArrayIconsImageList=new EnumIcons[] { EnumIcons.Sync,EnumIcons.Save,EnumIcons.DeleteX,EnumIcons.Cut,EnumIcons.Copy,EnumIcons.Paste,EnumIcons.Undo,EnumIcons.Link,EnumIcons.LinkExternal,EnumIcons.Heading1,EnumIcons.Heading2,EnumIcons.Heading3,EnumIcons.Bold,EnumIcons.Italic,EnumIcons.TextColor,EnumIcons.Table,EnumIcons.Image,EnumIcons.TextFont,EnumIcons.SaveDraft,EnumIcons.Settings,EnumIcons.LockOpen,EnumIcons.LockClosed };
 		public WikiPage WikiPageCur=new WikiPage();
 		///<summary>Need a reference to the form where this was launched from so that we can tell it to refresh later.</summary>
 		public FormWiki FormWiki_;
@@ -24,6 +26,8 @@ namespace OpenPmsDental {
 
 		public FormWikiEdit(Action<string> actionWikiSaved=null) {
 			InitializeComponent();
+			ToolBarMain.SetImageListIcons(ArrayIconsImageList);//UI-9b-4: the list of icons
+			toolBar2.SetImageListIcons(ArrayIconsImageList);//UI-9b-4: the list of icons
 			InitializeLayoutManager();
 			Lan.F(this);
 			ODEvent.Fired+=WikiSaveEvent_Fired;
@@ -184,41 +188,41 @@ namespace OpenPmsDental {
 		private void LayoutToolBars() {
 			ToolBarMain.Buttons.Clear();
 			//Refresh no longer needed.
-			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Save"),1,"","Save"));
-			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Save as Draft"),18,"","SaveDraft"));
+			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Save"),EnumIcons.Save,"","Save"));
+			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Save as Draft"),EnumIcons.SaveDraft,"","SaveDraft"));
 			ToolBarMain.Buttons.Add(new ODToolBarButton(ODToolBarButtonStyle.Separator));
-			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Int Link"),7,"","Int Link"));
-			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Bookmark"),7,"","Bookmark"));
-			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"File"),7,"","File Link"));
-			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Folder"),7,"","Folder Link"));
-			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Ext Link"),8,"","Ext Link"));
+			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Int Link"),EnumIcons.Link,"","Int Link"));
+			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Bookmark"),EnumIcons.Link,"","Bookmark"));
+			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"File"),EnumIcons.Link,"","File Link"));
+			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Folder"),EnumIcons.Link,"","Folder Link"));
+			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Ext Link"),EnumIcons.LinkExternal,"","Ext Link"));
 			ToolBarMain.Buttons.Add(new ODToolBarButton(ODToolBarButtonStyle.Separator));
-			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Heading1"),9,"","H1"));
-			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Heading2"),10,"","H2"));
-			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Heading3"),11,"","H3"));
+			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Heading1"),EnumIcons.Heading1,"","H1"));
+			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Heading2"),EnumIcons.Heading2,"","H2"));
+			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Heading3"),EnumIcons.Heading3,"","H3"));
 			ToolBarMain.Buttons.Add(new ODToolBarButton(ODToolBarButtonStyle.Separator));
-			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Table"),15,"","Table"));
-			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Image"),16,"","Image"));
+			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Table"),EnumIcons.Table,"","Table"));
+			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Image"),EnumIcons.Image,"","Image"));
 			ToolBarMain.Buttons.Add(new ODToolBarButton(ODToolBarButtonStyle.Separator));
 			if(Security.IsAuthorized(EnumPermType.WikiAdmin,true)) {
 				if(WikiPageCur.IsLocked) {
-					ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Unlock"),19,"","Lock"));
+					ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Unlock"),EnumIcons.Settings,"","Lock"));
 				}
 				else {
-					ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Lock"),20,"","Lock"));
+					ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Lock"),EnumIcons.LockOpen,"","Lock"));
 				}
 			}
 			toolBar2.Buttons.Clear();
-			toolBar2.Buttons.Add(new ODToolBarButton(Lan.g(this,"Cut"),3,"","Cut"));
-			toolBar2.Buttons.Add(new ODToolBarButton(Lan.g(this,"Copy"),4,"","Copy"));
-			toolBar2.Buttons.Add(new ODToolBarButton(Lan.g(this,"Paste"),5,"","Paste"));
+			toolBar2.Buttons.Add(new ODToolBarButton(Lan.g(this,"Cut"),EnumIcons.Cut,"","Cut"));
+			toolBar2.Buttons.Add(new ODToolBarButton(Lan.g(this,"Copy"),EnumIcons.Copy,"","Copy"));
+			toolBar2.Buttons.Add(new ODToolBarButton(Lan.g(this,"Paste"),EnumIcons.Paste,"","Paste"));
 			toolBar2.Buttons.Add(new ODToolBarButton(ODToolBarButtonStyle.Separator));
-			toolBar2.Buttons.Add(new ODToolBarButton(Lan.g(this,"Undo"),6,"","Undo"));
+			toolBar2.Buttons.Add(new ODToolBarButton(Lan.g(this,"Undo"),EnumIcons.Undo,"","Undo"));
 			toolBar2.Buttons.Add(new ODToolBarButton(ODToolBarButtonStyle.Separator));
-			toolBar2.Buttons.Add(new ODToolBarButton(Lan.g(this,"Bold"),12,"","Bold"));
-			toolBar2.Buttons.Add(new ODToolBarButton(Lan.g(this,"Italic"),13,"","Italic"));
-			toolBar2.Buttons.Add(new ODToolBarButton(Lan.g(this,"Color"),14,"","Color"));
-			toolBar2.Buttons.Add(new ODToolBarButton(Lan.g(this,"Font"),17,"","Font"));
+			toolBar2.Buttons.Add(new ODToolBarButton(Lan.g(this,"Bold"),EnumIcons.Bold,"","Bold"));
+			toolBar2.Buttons.Add(new ODToolBarButton(Lan.g(this,"Italic"),EnumIcons.Italic,"","Italic"));
+			toolBar2.Buttons.Add(new ODToolBarButton(Lan.g(this,"Color"),EnumIcons.TextColor,"","Color"));
+			toolBar2.Buttons.Add(new ODToolBarButton(Lan.g(this,"Font"),EnumIcons.TextFont,"","Font"));
 			//There was a bug where if the window was resized from the bottom it would make the toolbars unclickable even though
 			//Enabled for both was returning true.  By using Refresh() it has fixed the problem.
 			ToolBarMain.Refresh();
@@ -271,12 +275,12 @@ namespace OpenPmsDental {
 					if(WikiPageCur.IsLocked) {
 						//The wiki page is was locked, switch the icon to the unlock symbol because they locked it.
 						e.Button.Text=Lan.g(this,"Unlock");
-						e.Button.ImageIndex=19;
+						e.Button.Icon=EnumIcons.Settings;
 					}
 					else {
 						//The wiki page is was unlocked, switch the icon to the lock symbol because they unlocked it.
 						e.Button.Text=Lan.g(this,"Lock");
-						e.Button.ImageIndex=20;
+						e.Button.Icon=EnumIcons.LockOpen;
 					}
 					ToolBarMain.Invalidate();
 					break;

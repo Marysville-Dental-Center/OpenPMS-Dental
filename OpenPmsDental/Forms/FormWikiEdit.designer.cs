@@ -24,8 +24,6 @@ namespace OpenPmsDental{
 		/// </summary>
 		private void InitializeComponent() {
 			this.components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormWikiEdit));
-			this.imageListMain = new System.Windows.Forms.ImageList(this.components);
 			this.contextMenuMain = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.menuItemCut = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuItemCopy = new System.Windows.Forms.ToolStripMenuItem();
@@ -38,32 +36,6 @@ namespace OpenPmsDental{
 			this.textContent = new OpenPmsDental.ODcodeBox();
 			this.contextMenuMain.SuspendLayout();
 			this.SuspendLayout();
-			// 
-			// imageListMain
-			// 
-			this.imageListMain.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListMain.ImageStream")));
-			this.imageListMain.TransparentColor = System.Drawing.Color.Transparent;
-			this.imageListMain.Images.SetKeyName(0, "refresh.gif");
-			this.imageListMain.Images.SetKeyName(1, "save.gif");
-			this.imageListMain.Images.SetKeyName(2, "cancel.gif");
-			this.imageListMain.Images.SetKeyName(3, "cut.gif");
-			this.imageListMain.Images.SetKeyName(4, "copy.gif");
-			this.imageListMain.Images.SetKeyName(5, "paste.gif");
-			this.imageListMain.Images.SetKeyName(6, "undo.gif");
-			this.imageListMain.Images.SetKeyName(7, "link.gif");
-			this.imageListMain.Images.SetKeyName(8, "linkExternal.gif");
-			this.imageListMain.Images.SetKeyName(9, "h1.gif");
-			this.imageListMain.Images.SetKeyName(10, "h2.gif");
-			this.imageListMain.Images.SetKeyName(11, "h3.gif");
-			this.imageListMain.Images.SetKeyName(12, "bold.gif");
-			this.imageListMain.Images.SetKeyName(13, "italic.gif");
-			this.imageListMain.Images.SetKeyName(14, "color.gif");
-			this.imageListMain.Images.SetKeyName(15, "table.gif");
-			this.imageListMain.Images.SetKeyName(16, "image.gif");
-			this.imageListMain.Images.SetKeyName(17, "fontbutton.gif");
-			this.imageListMain.Images.SetKeyName(18, "SaveDraft_2.png");
-			this.imageListMain.Images.SetKeyName(19, "padlock_open.png");
-			this.imageListMain.Images.SetKeyName(20, "padlock_closed.png");
 			// 
 			// contextMenuMain
 			// 
@@ -112,7 +84,6 @@ namespace OpenPmsDental{
 			// toolBar2
 			// 
 			this.toolBar2.Dock = System.Windows.Forms.DockStyle.Top;
-			this.toolBar2.ImageList = this.imageListMain;
 			this.toolBar2.Location = new System.Drawing.Point(0, 25);
 			this.toolBar2.Name = "toolBar2";
 			this.toolBar2.Size = new System.Drawing.Size(944, 25);
@@ -130,7 +101,6 @@ namespace OpenPmsDental{
 			// ToolBarMain
 			// 
 			this.ToolBarMain.Dock = System.Windows.Forms.DockStyle.Top;
-			this.ToolBarMain.ImageList = this.imageListMain;
 			this.ToolBarMain.Location = new System.Drawing.Point(0, 0);
 			this.ToolBarMain.Name = "ToolBarMain";
 			this.ToolBarMain.Size = new System.Drawing.Size(944, 25);
@@ -171,7 +141,6 @@ namespace OpenPmsDental{
 
 		private UI.ToolBarOD ToolBarMain;
 		private CodeBase.Controls.ODWebView2 webViewWiki;
-		private System.Windows.Forms.ImageList imageListMain;
 		private System.Windows.Forms.ContextMenuStrip contextMenuMain;
 		private System.Windows.Forms.ToolStripMenuItem menuItemCut;
 		private System.Windows.Forms.ToolStripMenuItem menuItemCopy;

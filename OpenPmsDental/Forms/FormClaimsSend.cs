@@ -17,6 +17,8 @@ using OpenPmsDentalBusiness.VendorDirect.DentalXChange;
 namespace OpenPmsDental{
 ///<summary></summary>
 	public partial class FormClaimsSend:FormODBase {
+		///<summary>The pictures of the window's toolbar ImageList by index (UI-9b-4, docs/port-notes/UI-9b.md, section 5): the purposes of today's ImageIndex pictures in their order, as icons (ToolBarOD.SetImageListIcons), so a plug-in's button set by ImageIndex still shows the same purpose.</summary>
+		public static readonly EnumIcons[] ArrayIconsImageList=new EnumIcons[] { EnumIcons.Preview,EnumIcons.NewDocument,EnumIcons.Print,EnumIcons.Complete,EnumIcons.Send,EnumIcons.DocumentText,EnumIcons.Label };
 		///<summary>Open Dental 25.2: the latest XConnect validation of each claim validated in this window, by ClaimNum.</summary>
 		private Dictionary<long,XConnectValidationResult> _dictXConnectResults=new Dictionary<long,XConnectValidationResult>();
 		///<summary>The text ValidateClaims added to a claim's Missing Info for XConnect errors, so it can come off again when the problems are
@@ -50,6 +52,8 @@ namespace OpenPmsDental{
 		///<summary></summary>
 		public FormClaimsSend(){
 			InitializeComponent();
+			ToolBarMain.SetImageListIcons(ArrayIconsImageList);//UI-9b-4: the list of icons
+			ToolBarHistory.SetImageListIcons(ArrayIconsImageList);//UI-9b-4: the list of icons
 			InitializeLayoutManager();
 			//tbQueue.CellDoubleClicked += new OpenPmsDental.ContrTable.CellEventHandler(tbQueue_CellDoubleClicked);
 			Lan.F(this);
@@ -194,17 +198,17 @@ namespace OpenPmsDental{
 		///<summary></summary>
 		public void LayoutToolBars(){
 			ToolBarMain.Buttons.Clear();
-			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Preview"),0,Lan.g(this,"Preview the Selected Claim"),"Preview"));
-			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Blank"),1,Lan.g(this,"Print a Blank Claim Form"),"Blank"));
-			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Print"),2,Lan.g(this,"Print Selected Claims"),"Print"));
-			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Labels"),6,Lan.g(this,"Print Single Labels"),"Labels"));
+			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Preview"),EnumIcons.Preview,Lan.g(this,"Preview the Selected Claim"),"Preview"));
+			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Blank"),EnumIcons.NewDocument,Lan.g(this,"Print a Blank Claim Form"),"Blank"));
+			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Print"),EnumIcons.Print,Lan.g(this,"Print Selected Claims"),"Print"));
+			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Labels"),EnumIcons.Label,Lan.g(this,"Print Single Labels"),"Labels"));
 			/*ToolBarMain.Buttons.Add(new ODToolBarButton(ODToolBarButtonStyle.Separator));
 			ODToolBarButton button=new ODToolBarButton(Lan.g(this,"Change Status"),-1,Lan.g(this,"Changes Status of Selected Claims"),"Status");
 			button.Style=ODToolBarButtonStyle.DropDownButton;
 			button.ContextMenuStripDropDown=contextMenuStatus;
 			ToolBarMain.Buttons.Add(button);*/
 			ToolBarMain.Buttons.Add(new ODToolBarButton(ODToolBarButtonStyle.Separator));
-			ODToolBarButton button=new ODToolBarButton(Lan.g(this,"Send E-Claims"),4,Lan.g(this,"Send claims Electronically"),"Eclaims");
+			ODToolBarButton button=new ODToolBarButton(Lan.g(this,"Send E-Claims"),EnumIcons.Send,Lan.g(this,"Send claims Electronically"),"Eclaims");
 			button.Style=ODToolBarButtonStyle.DropDownButton;
 			button.ContextMenuStripDropDown=contextMenuEclaims;
 			ToolBarMain.Buttons.Add(button);
@@ -215,7 +219,7 @@ namespace OpenPmsDental{
 				//ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Summary Rec"),-1,Lan.g(this,"Get Summary Reconciliation Transactions"),"SummaryRec"));
 			}
 			else {
-				ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Get Reports"),5,Lan.g(this,"Get Reports from Other Clearinghouses"),"Reports"));
+				ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Get Reports"),EnumIcons.DocumentText,Lan.g(this,"Get Reports from Other Clearinghouses"),"Reports"));
 			}
 			ToolBarMain.Buttons.Add(new ODToolBarButton(ODToolBarButtonStyle.Separator));
 			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Refresh"),-1,Lan.g(this,"Refresh the Grid"),"Refresh"));
@@ -235,15 +239,15 @@ namespace OpenPmsDental{
 			ToolBarHistory.Buttons.Add(new ODToolBarButton(Lan.g(this,"Undo"),-1,
 				Lan.g(this,"Change the status of claims back to 'Waiting'."),"Undo"));
 			ToolBarHistory.Buttons.Add(new ODToolBarButton(ODToolBarButtonStyle.Separator));
-			ToolBarHistory.Buttons.Add(new ODToolBarButton(Lan.g(this,"Print List"),2,
+			ToolBarHistory.Buttons.Add(new ODToolBarButton(Lan.g(this,"Print List"),EnumIcons.Print,
 				Lan.g(this,"Print history list."),"PrintList"));
 			ToolBarHistory.Buttons.Add(new ODToolBarButton(Lan.g(this,"Outstanding Claims"),-1,"","OutstandingClaims"));
 			//if(ODBuild.IsDebug()) {
-			//	ToolBarHistory.Buttons.Add(new ODToolBarButton(Lan.g(this,"Print Item"),2,
+			//	ToolBarHistory.Buttons.Add(new ODToolBarButton(Lan.g(this,"Print Item"),EnumIcons.Print,
 			//		Lan.g(this,"For debugging, this will simply display the first item in the list."),"PrintItem"));
 			//}
 			//else {
-			//	ToolBarHistory.Buttons.Add(new ODToolBarButton(Lan.g(this,"Print Item"),2,
+			//	ToolBarHistory.Buttons.Add(new ODToolBarButton(Lan.g(this,"Print Item"),EnumIcons.Print,
 			//		Lan.g(this,"Print one item from the list."),"PrintItem"));
 			//}
 			ToolBarHistory.Invalidate();

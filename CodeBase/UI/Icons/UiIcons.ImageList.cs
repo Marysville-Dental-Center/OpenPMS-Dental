@@ -25,10 +25,16 @@ namespace CodeBase {
 		///bitmaps in order, each under its key (arrayKeys null, or a null key: no key). The list takes the bitmaps (they go with it); the caller owns
 		///the list. OpenPmsDental's IconLibrary.GetImageList fills it with EnumIcons icons at the toolbar's DPI size.</summary>
 		public static ImageList GetImageList(int sizePixels,string[] arrayKeys,Bitmap[] arrayBitmaps) {
-			sizePixels=Math.Max(sizePixels,1);
+			return GetImageList(sizePixels,sizePixels,arrayKeys,arrayBitmaps);
+		}
+
+		///<summary>GetImageList for a list whose pictures are not square (UI-9b-4: the dashboard's tab pictures, 30 px tall): width by height pixels.</summary>
+		public static ImageList GetImageList(int widthPixels,int heightPixels,string[] arrayKeys,Bitmap[] arrayBitmaps) {
+			widthPixels=Math.Max(widthPixels,1);
+			heightPixels=Math.Max(heightPixels,1);
 			ImageList imageList=new ImageList();
 			imageList.ColorDepth=ColorDepth.Depth32Bit;
-			imageList.ImageSize=new Size(sizePixels,sizePixels);
+			imageList.ImageSize=new Size(widthPixels,heightPixels);
 			for(int i=0;i<arrayBitmaps.Length;i++) {
 				//Not disposed: the list keeps the bitmap itself and reads it again whenever it (re)creates its handle, so a disposed bitmap
 				//throws "Parameter is not valid" there. The bitmaps go with the list.

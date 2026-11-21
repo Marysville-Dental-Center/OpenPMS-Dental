@@ -35,19 +35,10 @@ namespace OpenPmsDental {
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormAccountPick));
-			this.imageListMain = new System.Windows.Forms.ImageList(this.components);
 			this.checkInactive = new OpenPmsDental.UI.CheckBox();
 			this.gridMain = new OpenPmsDental.UI.GridOD();
 			this.butOK = new OpenPmsDental.UI.Button();
 			this.SuspendLayout();
-			// 
-			// imageListMain
-			// 
-			this.imageListMain.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListMain.ImageStream")));
-			this.imageListMain.TransparentColor = System.Drawing.Color.Transparent;
-			this.imageListMain.Images.SetKeyName(0, "Add.gif");
-			this.imageListMain.Images.SetKeyName(1, "editPencil.gif");
 			// 
 			// checkInactive
 			// 
@@ -101,6 +92,5 @@ namespace OpenPmsDental {
 		private OpenPmsDental.UI.GridOD gridMain;
 		private OpenPmsDental.UI.CheckBox checkInactive;
 		private OpenPmsDental.UI.Button butOK;
-		private ImageList imageListMain;
 	}
 }

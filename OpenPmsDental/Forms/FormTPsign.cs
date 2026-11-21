@@ -20,6 +20,8 @@ namespace OpenPmsDental{
 
 	///<summary></summary>
 	public partial class FormTPsign : FormODBase {
+		///<summary>The pictures of the window's toolbar ImageList by index (UI-9b-4, docs/port-notes/UI-9b.md, section 5): the purposes of today's ImageIndex pictures in their order, as icons (ToolBarOD.SetImageListIcons), so a plug-in's button set by ImageIndex still shows the same purpose.</summary>
+		public static readonly EnumIcons[] ArrayIconsImageList=new EnumIcons[] { EnumIcons.Print,EnumIcons.ArrowLeft,EnumIcons.ArrowRight };
 		///<summary></summary>
 		public int TotalPages;
 		///<summary></summary>
@@ -44,6 +46,7 @@ namespace OpenPmsDental{
 		///<summary></summary>
 		public FormTPsign(){
 			InitializeComponent();//Required for Windows Form Designer support
+			ToolBarMain.SetImageListIcons(ArrayIconsImageList);//UI-9b-4: the list of icons
 			InitializeLayoutManager();
 		}
 
@@ -237,13 +240,13 @@ namespace OpenPmsDental{
 		///<summary>Causes the toolbar to be laid out again.</summary>
 		public void LayoutToolBar(){
 			ToolBarMain.Buttons.Clear();
-			//ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Print"),0,"","Print"));
+			//ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Print"),EnumIcons.Print,"","Print"));
 			//ToolBarMain.Buttons.Add(new ODToolBarButton(ODToolBarButtonStyle.Separator));
-			ToolBarMain.Buttons.Add(new ODToolBarButton("",1,"Go Back One Page","Back"));
+			ToolBarMain.Buttons.Add(new ODToolBarButton("",EnumIcons.ArrowLeft,"Go Back One Page","Back"));
 			ODToolBarButton toolBarButton=new ODToolBarButton("",-1,"","PageNum");
 			toolBarButton.Style=ODToolBarButtonStyle.Label;
 			ToolBarMain.Buttons.Add(toolBarButton);
-			ToolBarMain.Buttons.Add(new ODToolBarButton("",2,"Go Forward One Page","Fwd"));
+			ToolBarMain.Buttons.Add(new ODToolBarButton("",EnumIcons.ArrowRight,"Go Forward One Page","Fwd"));
 			toolBarButton=new ODToolBarButton(Lan.g(this,"FullPage"),-1,Lan.g(this,"FullPage"),"FullPage");
 			toolBarButton.Style=ODToolBarButtonStyle.ToggleButton;
 			ToolBarMain.Buttons.Add(toolBarButton);

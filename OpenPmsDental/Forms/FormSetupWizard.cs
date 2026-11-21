@@ -14,16 +14,21 @@ using CodeBase;
 namespace OpenPmsDental {
 	public partial class FormSetupWizard:FormODBase {
 		private List<SetupWizard.SetupWizClass> _listSetupWizClassesItems;
-		///<summary>The pictures of the grid's "?" column by index (UI-9b-3, docs/port-notes/UI-9b.md, section 4): 0 the information picture, as an icon, 16 px
-		///as the old list (the grid draws a column's pictures at the scale of the window).</summary>
+		///<summary>The pictures of the grid's "?" column by index (UI-9b-3, docs/port-notes/UI-9b.md, section 4): 0 the information picture, as an icon. Since
+		///UI-9b-4 the grid asks for the list at its own scale (GridColumn.ImageListFactory) and draws the pictures pixel for pixel, sharp.</summary>
 		public static readonly EnumIcons[] ArrayIconsImageList=new EnumIcons[] { EnumIcons.Info };
 		private ImageList _imageListInfo;
+
+		///<summary>The "?" column's list at the grid's pixel size (UI-9b-4); the factory keeps one list per size.</summary>
+		private ImageList GetImageListInfo(int sizePixels) {
+			_imageListInfo=IconLibrary.GetImageListForSize(_imageListInfo,ArrayIconsImageList,sizePixels);
+			return _imageListInfo;
+		}
 
 		public FormSetupWizard() {
 			InitializeComponent();
 			InitializeLayoutManager();
-			_imageListInfo=IconLibrary.GetImageList(ArrayIconsImageList,16);//UI-9b-3
-			Disposed+=(sender,e) => _imageListInfo?.Dispose();
+Disposed+=(sender,e) => _imageListInfo?.Dispose();
 			Lan.F(this);
 		}
 
@@ -61,7 +66,7 @@ namespace OpenPmsDental {
 			gridMain.Columns.Add(new GridColumn("Status",100,HorizontalAlignment.Center));
 			//col = new ODGridColumn("?",35,HorizontalAlignment.Center);
 			//col.ImageList=_imageListInfo;
-			gridMain.Columns.Add(new GridColumn("?",35,HorizontalAlignment.Center) { ImageList=_imageListInfo });
+			gridMain.Columns.Add(new GridColumn("?",35,HorizontalAlignment.Center) { ImageListFactory=GetImageListInfo });
 			gridMain.ListGridRows.Clear();
 			//Add the method rows to the grid.
 			List<GridRow> listRows = ConstructGridRows();
