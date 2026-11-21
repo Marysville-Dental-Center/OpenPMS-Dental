@@ -128,7 +128,7 @@
 			// 
 			this.radioLow.Location = new System.Drawing.Point(29, 42);
 			this.radioLow.Name = "radioLow";
-			this.radioLow.Size = new System.Drawing.Size(86, 20);
+			this.radioLow.Size = new System.Drawing.Size(86, 22);
 			this.radioLow.TabIndex = 45;
 			this.radioLow.Text = "Low";
 			this.radioLow.UseVisualStyleBackColor = true;
@@ -138,7 +138,7 @@
 			this.radioFull.Checked = true;
 			this.radioFull.Location = new System.Drawing.Point(29, 19);
 			this.radioFull.Name = "radioFull";
-			this.radioFull.Size = new System.Drawing.Size(86, 20);
+			this.radioFull.Size = new System.Drawing.Size(86, 22);
 			this.radioFull.TabIndex = 44;
 			this.radioFull.TabStop = true;
 			this.radioFull.Text = "Full";

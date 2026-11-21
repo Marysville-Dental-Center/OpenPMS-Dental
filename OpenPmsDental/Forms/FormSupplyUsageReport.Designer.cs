@@ -72,7 +72,7 @@ namespace OpenPmsDental {
 			//
 			this.radioByItem.Location = new System.Drawing.Point(262, 12);
 			this.radioByItem.Name = "radioByItem";
-			this.radioByItem.Size = new System.Drawing.Size(80, 18);
+			this.radioByItem.Size = new System.Drawing.Size(80, 24);
 			this.radioByItem.TabIndex = 4;
 			this.radioByItem.Text = "By item";
 			this.radioByItem.Click += new System.EventHandler(this.radio_Click);
@@ -81,7 +81,7 @@ namespace OpenPmsDental {
 			//
 			this.radioByCode.Location = new System.Drawing.Point(346, 12);
 			this.radioByCode.Name = "radioByCode";
-			this.radioByCode.Size = new System.Drawing.Size(140, 18);
+			this.radioByCode.Size = new System.Drawing.Size(140, 24);
 			this.radioByCode.TabIndex = 5;
 			this.radioByCode.Text = "By procedure code";
 			this.radioByCode.Click += new System.EventHandler(this.radio_Click);

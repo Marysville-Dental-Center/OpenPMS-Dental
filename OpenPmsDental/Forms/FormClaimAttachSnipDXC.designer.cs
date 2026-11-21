@@ -50,7 +50,7 @@ namespace OpenPmsDental {
 			this.labelImageType.Location = new System.Drawing.Point(45, 97);
 			this.labelImageType.Name = "labelImageType";
 			this.labelImageType.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-			this.labelImageType.Size = new System.Drawing.Size(84, 15);
+			this.labelImageType.Size = new System.Drawing.Size(84, 18);
 			this.labelImageType.TabIndex = 1;
 			this.labelImageType.Text = "Image Type";
 			// 
@@ -59,7 +59,7 @@ namespace OpenPmsDental {
 			this.label1.Location = new System.Drawing.Point(45, 44);
 			this.label1.Name = "label1";
 			this.label1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-			this.label1.Size = new System.Drawing.Size(84, 15);
+			this.label1.Size = new System.Drawing.Size(84, 18);
 			this.label1.TabIndex = 2;
 			this.label1.Text = "File Name";
 			// 
@@ -75,7 +75,7 @@ namespace OpenPmsDental {
 			this.labelDateTimeCreate.Location = new System.Drawing.Point(45, 71);
 			this.labelDateTimeCreate.Name = "labelDateTimeCreate";
 			this.labelDateTimeCreate.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-			this.labelDateTimeCreate.Size = new System.Drawing.Size(84, 15);
+			this.labelDateTimeCreate.Size = new System.Drawing.Size(84, 18);
 			this.labelDateTimeCreate.TabIndex = 6;
 			this.labelDateTimeCreate.Text = "Date Created";
 			// 
@@ -129,7 +129,7 @@ namespace OpenPmsDental {
 			// 
 			this.butSendAndAgain.Location = new System.Drawing.Point(436, 413);
 			this.butSendAndAgain.Name = "butSendAndAgain";
-			this.butSendAndAgain.Size = new System.Drawing.Size(129, 24);
+			this.butSendAndAgain.Size = new System.Drawing.Size(131, 24);
 			this.butSendAndAgain.TabIndex = 6;
 			this.butSendAndAgain.Text = "Send and Snip &Another";
 			this.butSendAndAgain.UseVisualStyleBackColor = true;
@@ -140,7 +140,7 @@ namespace OpenPmsDental {
 			this.labelClaimAttachWarning.ForeColor = System.Drawing.Color.DarkRed;
 			this.labelClaimAttachWarning.Location = new System.Drawing.Point(19, 9);
 			this.labelClaimAttachWarning.Name = "labelClaimAttachWarning";
-			this.labelClaimAttachWarning.Size = new System.Drawing.Size(546, 33);
+			this.labelClaimAttachWarning.Size = new System.Drawing.Size(570, 33);
 			this.labelClaimAttachWarning.TabIndex = 16;
 			this.labelClaimAttachWarning.Text = "No claim attachment image category definition found.  Images will be saved using " +
     "the first image category.";

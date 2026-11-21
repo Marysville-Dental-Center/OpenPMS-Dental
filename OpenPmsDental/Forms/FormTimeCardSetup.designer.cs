@@ -84,7 +84,7 @@ namespace OpenPmsDental {
 			// 
 			this.checkAdjOverBreaks.Location = new System.Drawing.Point(12, 35);
 			this.checkAdjOverBreaks.Name = "checkAdjOverBreaks";
-			this.checkAdjOverBreaks.Size = new System.Drawing.Size(362, 18);
+			this.checkAdjOverBreaks.Size = new System.Drawing.Size(364, 18);
 			this.checkAdjOverBreaks.TabIndex = 13;
 			this.checkAdjOverBreaks.Text = "Calc Daily button makes adjustments if breaks over 30 minutes.";
 			this.checkAdjOverBreaks.Click += new System.EventHandler(this.checkAdjOverBreaks_Click);
@@ -148,7 +148,7 @@ namespace OpenPmsDental {
 			this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.label2.Location = new System.Drawing.Point(13, 668);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(119, 16);
+			this.label2.Size = new System.Drawing.Size(119, 18);
 			this.label2.TabIndex = 17;
 			this.label2.Text = "ADP Company Code";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -181,7 +181,7 @@ namespace OpenPmsDental {
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butDelete.Location = new System.Drawing.Point(180, 554);
 			this.butDelete.Name = "butDelete";
-			this.butDelete.Size = new System.Drawing.Size(111, 24);
+			this.butDelete.Size = new System.Drawing.Size(112, 24);
 			this.butDelete.TabIndex = 19;
 			this.butDelete.Text = "Delete Selected";
 			this.butDelete.Click += new System.EventHandler(this.butDelete_Click);
@@ -204,7 +204,7 @@ namespace OpenPmsDental {
 			this.butDeleteRules.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butDeleteRules.Location = new System.Drawing.Point(881, 556);
 			this.butDeleteRules.Name = "butDeleteRules";
-			this.butDeleteRules.Size = new System.Drawing.Size(111, 24);
+			this.butDeleteRules.Size = new System.Drawing.Size(112, 24);
 			this.butDeleteRules.TabIndex = 21;
 			this.butDeleteRules.Text = "Delete Selected";
 			this.butDeleteRules.Click += new System.EventHandler(this.butDeleteRules_Click);

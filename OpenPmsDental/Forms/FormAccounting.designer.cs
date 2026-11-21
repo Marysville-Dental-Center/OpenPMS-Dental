@@ -50,10 +50,10 @@ namespace OpenPmsDental {
 			// 
 			// checkInactive
 			// 
-			this.checkInactive.AutoSize = true;
+			this.checkInactive.AutoSize = false;
 			this.checkInactive.Location = new System.Drawing.Point(313, 58);
 			this.checkInactive.Name = "checkInactive";
-			this.checkInactive.Size = new System.Drawing.Size(150, 17);
+			this.checkInactive.Size = new System.Drawing.Size(158, 18);
 			this.checkInactive.TabIndex = 2;
 			this.checkInactive.Text = "Include Inactive Accounts";
 			this.checkInactive.Click += new System.EventHandler(this.checkInactive_Click);

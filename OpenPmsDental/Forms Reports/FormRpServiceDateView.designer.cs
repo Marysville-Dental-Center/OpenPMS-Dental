@@ -88,7 +88,7 @@ namespace OpenPmsDental{
 			this.checkDetailedView.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.checkDetailedView.Location = new System.Drawing.Point(4, 15);
 			this.checkDetailedView.Name = "checkDetailedView";
-			this.checkDetailedView.Size = new System.Drawing.Size(142, 17);
+			this.checkDetailedView.Size = new System.Drawing.Size(142, 18);
 			this.checkDetailedView.TabIndex = 62;
 			this.checkDetailedView.Text = "Show detailed view";
 			// 

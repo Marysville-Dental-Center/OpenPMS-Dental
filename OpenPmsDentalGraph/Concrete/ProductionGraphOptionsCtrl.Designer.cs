@@ -49,7 +49,7 @@
 			this.checkIncludeAdjustments.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.checkIncludeAdjustments.Location = new System.Drawing.Point(124, 13);
 			this.checkIncludeAdjustments.Name = "checkIncludeAdjustments";
-			this.checkIncludeAdjustments.Size = new System.Drawing.Size(87, 24);
+			this.checkIncludeAdjustments.Size = new System.Drawing.Size(92, 24);
 			this.checkIncludeAdjustments.TabIndex = 3;
 			this.checkIncludeAdjustments.Text = "Adjustments";
 			this.checkIncludeAdjustments.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -63,7 +63,7 @@
 			this.checkIncludeCompletedProcs.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.checkIncludeCompletedProcs.Location = new System.Drawing.Point(6, 13);
 			this.checkIncludeCompletedProcs.Name = "checkIncludeCompletedProcs";
-			this.checkIncludeCompletedProcs.Size = new System.Drawing.Size(112, 24);
+			this.checkIncludeCompletedProcs.Size = new System.Drawing.Size(116, 24);
 			this.checkIncludeCompletedProcs.TabIndex = 5;
 			this.checkIncludeCompletedProcs.Text = "Completed Procs";
 			this.checkIncludeCompletedProcs.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -77,7 +77,7 @@
 			this.checkIncludeWriteoffs.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.checkIncludeWriteoffs.Location = new System.Drawing.Point(217, 13);
 			this.checkIncludeWriteoffs.Name = "checkIncludeWriteoffs";
-			this.checkIncludeWriteoffs.Size = new System.Drawing.Size(70, 24);
+			this.checkIncludeWriteoffs.Size = new System.Drawing.Size(73, 24);
 			this.checkIncludeWriteoffs.TabIndex = 4;
 			this.checkIncludeWriteoffs.Text = "Writeoffs";
 			this.checkIncludeWriteoffs.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

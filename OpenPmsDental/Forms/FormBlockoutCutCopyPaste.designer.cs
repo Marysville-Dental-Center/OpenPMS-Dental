@@ -87,7 +87,7 @@ namespace OpenPmsDental {
 			// 
 			this.label3.Location = new System.Drawing.Point(3, 96);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(146, 14);
+			this.label3.Size = new System.Drawing.Size(146, 17);
 			this.label3.TabIndex = 29;
 			this.label3.Text = "Clipboard Contents";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -137,7 +137,7 @@ namespace OpenPmsDental {
 			// 
 			this.label4.Location = new System.Drawing.Point(70, 70);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(37, 14);
+			this.label4.Size = new System.Drawing.Size(37, 18);
 			this.label4.TabIndex = 32;
 			this.label4.Text = "#";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.BottomRight;

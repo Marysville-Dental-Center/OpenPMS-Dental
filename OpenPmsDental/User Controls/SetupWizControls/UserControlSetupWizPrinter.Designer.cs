@@ -330,7 +330,7 @@
 			// 
 			this.label11.Location = new System.Drawing.Point(6, 16);
 			this.label11.Name = "label11";
-			this.label11.Size = new System.Drawing.Size(382, 31);
+			this.label11.Size = new System.Drawing.Size(531, 31);
 			this.label11.TabIndex = 28;
 			this.label11.Text = "It is recommended to use the prompt option for most functions.  \r\nBut if you are " +
     "using a default, it is not necessary to check the box.";
@@ -525,7 +525,7 @@
 			// 
 			this.butSetScanner.Location = new System.Drawing.Point(17, 74);
 			this.butSetScanner.Name = "butSetScanner";
-			this.butSetScanner.Size = new System.Drawing.Size(110, 24);
+			this.butSetScanner.Size = new System.Drawing.Size(112, 24);
 			this.butSetScanner.TabIndex = 49;
 			this.butSetScanner.Text = "Set Default Scanner";
 			this.butSetScanner.Click += new System.EventHandler(this.butSetScanner_Click);
@@ -575,7 +575,7 @@
 			this.radioScanDocUseOptionsBelow.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.radioScanDocUseOptionsBelow.Location = new System.Drawing.Point(33, 179);
 			this.radioScanDocUseOptionsBelow.Name = "radioScanDocUseOptionsBelow";
-			this.radioScanDocUseOptionsBelow.Size = new System.Drawing.Size(251, 18);
+			this.radioScanDocUseOptionsBelow.Size = new System.Drawing.Size(251, 20);
 			this.radioScanDocUseOptionsBelow.TabIndex = 26;
 			this.radioScanDocUseOptionsBelow.TabStop = true;
 			this.radioScanDocUseOptionsBelow.Text = "Use the Options Below";
@@ -690,7 +690,7 @@
 			// 
 			this.label21.Location = new System.Drawing.Point(33, 136);
 			this.label21.Name = "label21";
-			this.label21.Size = new System.Drawing.Size(235, 15);
+			this.label21.Size = new System.Drawing.Size(237, 18);
 			this.label21.TabIndex = 14;
 			this.label21.Text = "JPEG Compression - Quality After Scanning";
 			this.label21.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -710,7 +710,7 @@
 			// 
 			this.label2.Location = new System.Drawing.Point(6, 0);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(534, 31);
+			this.label2.Size = new System.Drawing.Size(719, 31);
 			this.label2.TabIndex = 45;
 			this.label2.Text = "These settings only apply to this workstation.\r\nHowever, clicking \'Simple Interfa" +
     "ce\' will clear out the Printer settings for all workstations.";

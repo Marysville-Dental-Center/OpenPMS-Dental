@@ -116,7 +116,7 @@ namespace OpenPmsDental{
 			// 
 			this.checkShowReceived.Location = new System.Drawing.Point(360, 12);
 			this.checkShowReceived.Name = "checkShowReceived";
-			this.checkShowReceived.Size = new System.Drawing.Size(97, 17);
+			this.checkShowReceived.Size = new System.Drawing.Size(98, 18);
 			this.checkShowReceived.TabIndex = 27;
 			this.checkShowReceived.Text = "Show received";
 			this.checkShowReceived.MouseClick += new System.Windows.Forms.MouseEventHandler(this.checkShowReceived_MouseClick);

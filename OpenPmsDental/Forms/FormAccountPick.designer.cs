@@ -45,7 +45,7 @@ namespace OpenPmsDental {
 			this.checkInactive.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.checkInactive.Location = new System.Drawing.Point(20, 525);
 			this.checkInactive.Name = "checkInactive";
-			this.checkInactive.Size = new System.Drawing.Size(150, 17);
+			this.checkInactive.Size = new System.Drawing.Size(158, 18);
 			this.checkInactive.TabIndex = 2;
 			this.checkInactive.Text = "Include Inactive Accounts";
 			this.checkInactive.Click += new System.EventHandler(this.checkInactive_Click);

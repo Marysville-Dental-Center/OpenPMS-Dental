@@ -54,7 +54,7 @@ namespace OpenPmsDental{
 			// 
 			this.labelUiLabelMobile.Location = new System.Drawing.Point(76, 151);
 			this.labelUiLabelMobile.Name = "labelUiLabelMobile";
-			this.labelUiLabelMobile.Size = new System.Drawing.Size(105, 16);
+			this.labelUiLabelMobile.Size = new System.Drawing.Size(105, 18);
 			this.labelUiLabelMobile.TabIndex = 109;
 			this.labelUiLabelMobile.Text = "Mobile Caption";
 			this.labelUiLabelMobile.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -65,7 +65,7 @@ namespace OpenPmsDental{
 			this.checkRequired.Location = new System.Drawing.Point(126, 176);
 			this.checkRequired.Name = "checkRequired";
 			this.checkRequired.RightToLeft = System.Windows.Forms.RightToLeft.No;
-			this.checkRequired.Size = new System.Drawing.Size(69, 17);
+			this.checkRequired.Size = new System.Drawing.Size(70, 18);
 			this.checkRequired.TabIndex = 101;
 			this.checkRequired.Text = "Required";
 			// 
@@ -94,7 +94,7 @@ namespace OpenPmsDental{
 			// 
 			this.label8.Location = new System.Drawing.Point(110, 125);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(71, 16);
+			this.label8.Size = new System.Drawing.Size(71, 18);
 			this.label8.TabIndex = 96;
 			this.label8.Text = "Height";
 			this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -185,7 +185,7 @@ namespace OpenPmsDental{
 			this.checkAllowElectronicSig.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkAllowElectronicSig.Location = new System.Drawing.Point(20, 199);
 			this.checkAllowElectronicSig.Name = "checkAllowElectronicSig";
-			this.checkAllowElectronicSig.Size = new System.Drawing.Size(175, 17);
+			this.checkAllowElectronicSig.Size = new System.Drawing.Size(175, 18);
 			this.checkAllowElectronicSig.TabIndex = 306;
 			this.checkAllowElectronicSig.Text = "Allow Electronic Signatures";
 			// 
@@ -194,7 +194,7 @@ namespace OpenPmsDental{
 			this.checkRestrictSigProvider.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkRestrictSigProvider.Location = new System.Drawing.Point(1, 222);
 			this.checkRestrictSigProvider.Name = "checkRestrictSigProvider";
-			this.checkRestrictSigProvider.Size = new System.Drawing.Size(194, 17);
+			this.checkRestrictSigProvider.Size = new System.Drawing.Size(194, 18);
 			this.checkRestrictSigProvider.TabIndex = 307;
 			this.checkRestrictSigProvider.Text = "Restrict Signatures to Providers";
 			// 

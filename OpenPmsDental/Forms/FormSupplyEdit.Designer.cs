@@ -145,7 +145,7 @@ namespace OpenPmsDental{
 			// 
 			this.label12.Location = new System.Drawing.Point(231, 116);
 			this.label12.Name = "label12";
-			this.label12.Size = new System.Drawing.Size(286, 28);
+			this.label12.Size = new System.Drawing.Size(368, 28);
 			this.label12.TabIndex = 20;
 			this.label12.Text = "Decimals allowed.  This is the level to bring the supply back up to when placing " +
     "an order.";
@@ -215,7 +215,7 @@ namespace OpenPmsDental{
 			// 
 			this.label7.Location = new System.Drawing.Point(231, 186);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(282, 30);
+			this.label7.Size = new System.Drawing.Size(368, 30);
 			this.label7.TabIndex = 21;
 			this.label7.Text = "The quantity to include on the next order.  Creating an order will zero this out," +
     " so it\'s just temporary.";
@@ -256,6 +256,7 @@ namespace OpenPmsDental{
 			//
 			// textBarcode
 			//
+			this.textBarcode.AutoSize = false;
 			this.textBarcode.Location = new System.Drawing.Point(166, 279);
 			this.textBarcode.MaxLength = 255;
 			this.textBarcode.Name = "textBarcode";
@@ -284,7 +285,7 @@ namespace OpenPmsDental{
 			//
 			this.labelReorderNote.Location = new System.Drawing.Point(231, 301);
 			this.labelReorderNote.Name = "labelReorderNote";
-			this.labelReorderNote.Size = new System.Drawing.Size(282, 28);
+			this.labelReorderNote.Size = new System.Drawing.Size(368, 28);
 			this.labelReorderNote.TabIndex = 26;
 			this.labelReorderNote.Text = "Low-stock alert when on hand is at or below this level. Blank: no alert.";
 			this.labelReorderNote.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;

@@ -130,7 +130,7 @@ namespace OpenPmsDental {
 			this.checkEnableClinics.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkEnableClinics.Location = new System.Drawing.Point(39, 14);
 			this.checkEnableClinics.Name = "checkEnableClinics";
-			this.checkEnableClinics.Size = new System.Drawing.Size(189, 19);
+			this.checkEnableClinics.Size = new System.Drawing.Size(196, 19);
 			this.checkEnableClinics.TabIndex = 3;
 			this.checkEnableClinics.Text = "Clinics (multiple office locations)";
 			this.checkEnableClinics.Click += new System.EventHandler(this.checkEnableClinics_Click);
@@ -339,7 +339,7 @@ namespace OpenPmsDental {
 			this.radioBillingFinance.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.radioBillingFinance.Location = new System.Drawing.Point(31, 5);
 			this.radioBillingFinance.Name = "radioBillingFinance";
-			this.radioBillingFinance.Size = new System.Drawing.Size(150, 19);
+			this.radioBillingFinance.Size = new System.Drawing.Size(150, 20);
 			this.radioBillingFinance.TabIndex = 0;
 			this.radioBillingFinance.TabStop = true;
 			this.radioBillingFinance.Text = "Billing/Finance Charges";
@@ -352,7 +352,7 @@ namespace OpenPmsDental {
 			this.radioLateCharges.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.radioLateCharges.Location = new System.Drawing.Point(51, 25);
 			this.radioLateCharges.Name = "radioLateCharges";
-			this.radioLateCharges.Size = new System.Drawing.Size(130, 19);
+			this.radioLateCharges.Size = new System.Drawing.Size(130, 22);
 			this.radioLateCharges.TabIndex = 1;
 			this.radioLateCharges.TabStop = true;
 			this.radioLateCharges.Text = "Late Charges";

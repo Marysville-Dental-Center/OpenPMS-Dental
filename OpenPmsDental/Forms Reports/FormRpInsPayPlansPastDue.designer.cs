@@ -76,6 +76,7 @@ namespace OpenPmsDental{
 			// 
 			// textDaysPastDue
 			// 
+			this.textDaysPastDue.AutoSize = false;
 			this.textDaysPastDue.Location = new System.Drawing.Point(83, 19);
 			this.textDaysPastDue.Name = "textDaysPastDue";
 			this.textDaysPastDue.Size = new System.Drawing.Size(52, 20);

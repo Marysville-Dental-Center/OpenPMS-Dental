@@ -65,7 +65,7 @@ namespace OpenPmsDental {
 			// 
 			this.label1.Location = new System.Drawing.Point(14, 14);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(124, 14);
+			this.label1.Size = new System.Drawing.Size(124, 18);
 			this.label1.TabIndex = 3;
 			this.label1.Text = "Categories";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -95,7 +95,7 @@ namespace OpenPmsDental {
 			// 
 			this.label3.Location = new System.Drawing.Point(205, 14);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(124, 14);
+			this.label3.Size = new System.Drawing.Size(124, 18);
 			this.label3.TabIndex = 19;
 			this.label3.Text = "Letters";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -166,7 +166,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelImageCategory.Location = new System.Drawing.Point(13, 147);
 			this.labelImageCategory.Name = "labelImageCategory";
-			this.labelImageCategory.Size = new System.Drawing.Size(124, 14);
+			this.labelImageCategory.Size = new System.Drawing.Size(124, 17);
 			this.labelImageCategory.TabIndex = 38;
 			this.labelImageCategory.Text = "Image Folder";
 			this.labelImageCategory.TextAlign = System.Drawing.ContentAlignment.BottomLeft;

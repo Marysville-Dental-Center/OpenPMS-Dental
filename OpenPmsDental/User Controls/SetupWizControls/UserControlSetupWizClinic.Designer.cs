@@ -61,7 +61,7 @@
 			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.label1.Location = new System.Drawing.Point(790, 394);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(132, 70);
+			this.label1.Size = new System.Drawing.Size(132, 73);
 			this.label1.TabIndex = 29;
 			this.label1.Text = "Further modifications to this list can be made by going to Lists -> Clinics, or c" +
     "licking \"Advanced\".";
@@ -71,7 +71,7 @@
 			this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.label2.Location = new System.Drawing.Point(790, 121);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(132, 29);
+			this.label2.Size = new System.Drawing.Size(140, 29);
 			this.label2.TabIndex = 30;
 			this.label2.Text = "Double click a row to edit the specific clinic.\r\n";
 			// 

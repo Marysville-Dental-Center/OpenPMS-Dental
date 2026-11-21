@@ -53,7 +53,7 @@
 			this.butOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butOk.Location = new System.Drawing.Point(328, 324);
 			this.butOk.Name = "butOk";
-			this.butOk.Size = new System.Drawing.Size(75, 24);
+			this.butOk.Size = new System.Drawing.Size(75, 28);
 			this.butOk.TabIndex = 5;
 			this.butOk.Text = "&OK";
 			this.butOk.UseVisualStyleBackColor = true;
@@ -64,7 +64,7 @@
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Location = new System.Drawing.Point(12, 324);
 			this.butDelete.Name = "butDelete";
-			this.butDelete.Size = new System.Drawing.Size(75, 24);
+			this.butDelete.Size = new System.Drawing.Size(75, 28);
 			this.butDelete.TabIndex = 7;
 			this.butDelete.Text = "Delete";
 			this.butDelete.UseVisualStyleBackColor = true;

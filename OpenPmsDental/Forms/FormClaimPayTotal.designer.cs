@@ -77,7 +77,7 @@
 			this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.label4.Location = new System.Drawing.Point(155, 289);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(108, 29);
+			this.label4.Size = new System.Drawing.Size(132, 29);
 			this.label4.TabIndex = 124;
 			this.label4.Text = "On all unpaid amounts:";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
