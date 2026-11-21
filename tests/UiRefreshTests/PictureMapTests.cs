@@ -7,7 +7,9 @@
 // builder); OPMS_UI9A_RECORD may name another record (the tool's -Check -Record output, for the before run on the commit before the conversion),
 // OPMS_UI9A_SLICE limits the set to the slices that start with its text. UI-9a-6 adds the shared projects (OpenPmsDentalGraph and
 // OpenPmsDentalBusiness, converted by hand to CodeBase's UiIcons.GetBitmap, recorded with how "UiIcons") and the 11 WPF buttons whose
-// BitmapFileName pictures became icons (pictured when the session renders WPF). No database, no window shown.
+// BitmapFileName pictures became icons (pictured when the session renders WPF). UI-9b-1 adds the module toolbars' ImageList pictures (how
+// "ImageList": the icon at the picture's index in the file's ArrayIconsImageList, ToolBarOD.SetImageListIcons; the toolbars are checked and
+// pictured by Toolbars/ToolBarImageListTests). No database, no window shown.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
@@ -200,6 +202,10 @@ namespace UiRefreshTests {
 				string member=matchTarget.Groups["m"].Value;
 				Assert.IsTrue(Enum.IsDefined(typeof(EnumIcons),member),row+": EnumIcons has no "+member+".");
 				Assert.IsTrue(IconLibrary.GetDesigns((EnumIcons)Enum.Parse(typeof(EnumIcons),member)).Length>0,row+": no design.");
+				if(row.How=="ImageList") {
+					CheckImageListRow(row,text,member);
+					continue;
+				}
 				string line;
 				if(row.How=="Icon") {
 					Assert.AreEqual("Image",row.Property,row.ToString());
@@ -220,6 +226,28 @@ namespace UiRefreshTests {
 				Assert.IsFalse(Regex.IsMatch(text,@"\bthis\."+Regex.Escape(row.Control)+@"\.(Image|BackgroundImage)\s*=\s*(\(\(System\.Drawing\.Image\)|global::OpenPmsDental\w*\.Properties)"),
 					row+": the control still has a picture line.");
 			}
+		}
+
+		///<summary>A UI-9b ImageList row: the file's ArrayIconsImageList holds the member at the picture's index (ImageList[i]), the control gives
+		///it to SetImageListIcons, and the window's designer no longer loads the list's stream (the key's list) nor its .resx the entry.</summary>
+		private static void CheckImageListRow(ConvertedRow row,string text,string member) {
+			Match matchIndex=Regex.Match(row.Property,@"^ImageList\[(?<i>\d+)\]$");
+			Assert.IsTrue(matchIndex.Success,row+": the property is ImageList[<index>].");
+			int index=int.Parse(matchIndex.Groups["i"].Value);
+			Match matchArray=Regex.Match(text,@"public\s+static\s+readonly\s+EnumIcons\[\]\s+ArrayIconsImageList\s*=\s*new\s+EnumIcons\[\]\s*\{(?<a>[^}]*)\}");
+			Assert.IsTrue(matchArray.Success,row+": the file has no ArrayIconsImageList.");
+			string[] arrayMembers=matchArray.Groups["a"].Value.Split(',').Select(x => x.Trim()).Where(x => x!="").Select(x => x.Replace("EnumIcons.","")).ToArray();
+			Assert.IsTrue(index<arrayMembers.Length,row+": ArrayIconsImageList has "+arrayMembers.Length+" icons.");
+			Assert.AreEqual(member,arrayMembers[index],row+": the icon at the picture's index.");
+			Assert.IsTrue(text.Contains(row.Control+".SetImageListIcons(ArrayIconsImageList);"),row+": "+row.Control+" does not take the list.");
+			Match matchKey=Regex.Match(row.Key,@"^(?<w>\w+):(?<l>\w+)\.ImageStream#\d+$");
+			Assert.IsTrue(matchKey.Success,row+": the key is <window>:<list>.ImageStream#<index>.");
+			string folder=Path.GetDirectoryName(Path.Combine(RepoPaths.Root(),row.File.Replace('/',Path.DirectorySeparatorChar)));
+			foreach(string pathDesigner in Directory.GetFiles(folder,matchKey.Groups["w"].Value+".*.cs")) {
+				Assert.IsFalse(File.ReadAllText(pathDesigner).Contains("\""+matchKey.Groups["l"].Value+".ImageStream\""),row+": "+Path.GetFileName(pathDesigner)+" still loads the stream.");
+			}
+			string pathResx=Path.Combine(folder,matchKey.Groups["w"].Value+".resx");
+			Assert.IsFalse(GetResxNames(pathResx).Contains(matchKey.Groups["l"].Value+".ImageStream"),row+": the .resx still has the stream.");
 		}
 
 		[TestMethod]
@@ -376,7 +404,8 @@ namespace UiRefreshTests {
 
 		[TestMethod]
 		public void BuiltWindows_ShowTheIconOrABitmapOfThePicturesSize() {
-			List<ConvertedRow> listRows=ReadRecord(Path.Combine(RepoPaths.Root(),"icons","picture-converted.tsv"));
+			//UI-9b's ImageList rows are toolbar lists (the modules need a database to build): Toolbars/ToolBarImageListTests builds and draws them.
+			List<ConvertedRow> listRows=ReadRecord(Path.Combine(RepoPaths.Root(),"icons","picture-converted.tsv")).Where(x => x.How!="ImageList").ToList();
 			Assert.IsTrue(listRows.Count>0,"icons/picture-converted.tsv is empty.");
 			List<string> listProblems=new List<string>();
 			int countBuilt=0;
@@ -454,7 +483,7 @@ namespace UiRefreshTests {
 			if(string.IsNullOrWhiteSpace(pathRecord)) {
 				pathRecord=Path.Combine(RepoPaths.Root(),"icons","picture-converted.tsv");
 			}
-			List<ConvertedRow> listRows=ReadRecord(pathRecord);
+			List<ConvertedRow> listRows=ReadRecord(pathRecord).Where(x => x.How!="ImageList").ToList();//UI-9b's toolbars: ToolBarImageListTests.Gallery_ModuleToolbars
 			string slicePrefix=Environment.GetEnvironmentVariable(VARIABLE_SLICE);
 			if(!string.IsNullOrWhiteSpace(slicePrefix)) {
 				listRows=listRows.Where(x => x.Slice.StartsWith(slicePrefix.Trim(),StringComparison.Ordinal)).ToList();

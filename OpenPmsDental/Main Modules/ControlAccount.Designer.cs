@@ -26,7 +26,6 @@
 			this.menuInsSec = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuInsMedical = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuInsOther = new System.Windows.Forms.ToolStripMenuItem();
-			this.imageListMain = new System.Windows.Forms.ImageList(this.components);
 			this.contextMenuStatement = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.menuItemStatementWalkout = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuItemStatementEmail = new System.Windows.Forms.ToolStripMenuItem();
@@ -261,16 +260,6 @@
 			// 
 			this.menuInsOther.Text = "Other";
 			this.menuInsOther.Click += new System.EventHandler(this.menuInsOther_Click);
-			// 
-			// imageListMain
-			// 
-			this.imageListMain.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListMain.ImageStream")));
-			this.imageListMain.TransparentColor = System.Drawing.Color.Transparent;
-			this.imageListMain.Images.SetKeyName(0, "Pat.gif");
-			this.imageListMain.Images.SetKeyName(1, "");
-			this.imageListMain.Images.SetKeyName(2, "");
-			this.imageListMain.Images.SetKeyName(3, "Umbrella.gif");
-			this.imageListMain.Images.SetKeyName(4, "");
 			// 
 			// contextMenuStatement
 			// 
@@ -1673,7 +1662,6 @@
 			// 
 			this.ToolBarMain.Dock = System.Windows.Forms.DockStyle.Top;
 			this.ToolBarMain.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-			this.ToolBarMain.ImageList = this.imageListMain;
 			this.ToolBarMain.Location = new System.Drawing.Point(0, 0);
 			this.ToolBarMain.Name = "ToolBarMain";
 			this.ToolBarMain.Size = new System.Drawing.Size(1123, 25);
@@ -1855,7 +1843,6 @@
 		private OpenPmsDental.UI.GroupBox groupBox2;
 		private OpenPmsDental.UI.GroupBox groupBoxFamilyIns;
 		private OpenPmsDental.UI.GroupBox groupBoxIndIns;
-		private System.Windows.Forms.ImageList imageListMain;
 		private System.Windows.Forms.Label label10;
 		private System.Windows.Forms.Label label11;
 		private System.Windows.Forms.Label label12;

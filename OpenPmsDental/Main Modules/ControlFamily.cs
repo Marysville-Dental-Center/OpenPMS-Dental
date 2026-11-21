@@ -49,11 +49,19 @@ namespace OpenPmsDental{
 		private ToolBarOD toolBarMain;
 		#endregion Fields - Private
 
+		///<summary>The pictures of the toolbar's ImageList by index (UI-9b-1, docs/port-notes/UI-9b.md): the purposes of today's ImageIndex
+		///pictures in their order, as icons (ToolBarOD.SetImageListIcons), so a plug-in's button set by ImageIndex (ContrFamily.LayoutToolBar_end)
+		///still shows the same purpose. The module's own buttons take an EnumIcons; program links add their pictures after these by key.</summary>
+		public static readonly EnumIcons[] ArrayIconsImageList=new EnumIcons[] {
+			EnumIcons.PatSelect,EnumIcons.Recall,EnumIcons.PatAdd,EnumIcons.PatDelete,EnumIcons.PatSetGuarantor,EnumIcons.PatMoveFam,EnumIcons.Insurance
+		};
+
 		#region Constructor
 		///<summary></summary>
 		public ControlFamily(){
 			Logger.LogToPath("Ctor",LogPath.Startup,LogPhase.Start);
 			InitializeComponent();// This call is required by the Windows.Forms Form Designer.
+			toolBarMain.SetImageListIcons(ArrayIconsImageList);//UI-9b-1: the list of icons (program links and plug-ins add to it)
 			Font=LayoutManagerForms.FontInitial;
 			Logger.LogToPath("Ctor",LogPath.Startup,LogPhase.End);
 		}
@@ -568,7 +576,7 @@ namespace OpenPmsDental{
 			}
 			if(!PrefC.GetBool(PrefName.EasyHideInsurance)) {
 				toolBarMain.Buttons.Add(new ODToolBarButton(ODToolBarButtonStyle.Separator));
-				toolBarButton=new ODToolBarButton(Lan.g(this,"Add Insurance"),6,"","Ins");
+				toolBarButton=new ODToolBarButton(Lan.g(this,"Add Insurance"),EnumIcons.Insurance,"","Ins");
 				toolBarButton.Style=ODToolBarButtonStyle.DropDownButton;
 				toolBarButton.ContextMenuStripDropDown=contextMenuInsurance;
 				toolBarMain.Buttons.Add(toolBarButton);

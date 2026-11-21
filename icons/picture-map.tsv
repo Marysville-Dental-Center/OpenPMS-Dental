@@ -88,16 +88,10 @@ FormRpPatients:butDeleteFilter.Image	EnumIcons.DeleteX	delete the filter (red X)
 FormRpDPPOvercharged:imageListCalendar.ImageStream	UI-9b	the window ImageList
 FormRpProcNotBilledIns:imageListCalendar.ImageStream	UI-9b	the window ImageList
 # UI-9a-6 (Main Modules, User Controls, UI, Bridges, Reporting, SetupWizControls, Business, Graph, Sparks)
-ControlAccount:imageListMain.ImageStream	UI-9b	the window ImageList
-ControlAppt:imageListMain.ImageStream	UI-9b	the window ImageList
-ControlAppt:imageListTasks.ImageStream	UI-9b	the window ImageList
-ControlChart:imageListProcButtons.ImageStream	UI-9b	the window ImageList
-ControlChart:imageListMain.ImageStream	UI-9b	the window ImageList
-ControlFamily:imageListToolBar.ImageStream	UI-9b	the window ImageList
+ControlAppt:imageListTasks.ImageStream	UI-9b	the reminders grid's task pictures (a grid column ImageList, not the toolbar's): UI-9b-3, with the task lists' same pictures
+ControlChart:imageListProcButtons.ImageStream	keep	the procedure buttons' pictures come from the database (office content, section 4.5); the stream only gives the list its 20 px size and 32-bit depth, its one picture is cleared before the list is filled (UI-9b-1)
 ControlImages:imageListTools2.ImageStream	UI-9b	the window ImageList
 ControlImages:imageListTree.ImageStream	UI-9b	the window ImageList
-ControlTreat:imageListMain.ImageStream	UI-9b	the window ImageList
-FormOpenDental:imageListMain.ImageStream	UI-9b	the window ImageList
 FormReportComplex:imageListMain.ImageStream	UI-9b	the window ImageList
 FormReportCustom:imageListMain.ImageStream	UI-9b	the window ImageList
 FormReportForRdl:imageListMain.ImageStream	UI-9b	the window ImageList
@@ -184,3 +178,43 @@ RdlDesigner:bPdf.Image	EnumIcons.Pdf	report designer toolbar: export to PDF (18 
 RdlDesigner:bXml.Image	EnumIcons.Xml	report designer toolbar: export to XML (16 x 16, square: the owner asked 2026-11-20, the wide picture put the icon against the text)
 RdlDesigner:bHtml.Image	EnumIcons.Html	report designer toolbar: export to HTML (16 x 16, square: the owner asked 2026-11-20, the wide picture put the icon against the text)
 RdlDesigner:bMht.Image	EnumIcons.Mht	report designer toolbar: export to MHT (16 x 16, square: the owner asked 2026-11-20, the wide picture put the icon against the text)
+# UI-9b-1 (the main window and the module toolbars, docs/port-notes/UI-9b.md): each picture of the toolbars' ImageLists by its index (<window>:<list>.ImageStream#<index>).
+# The list is now built by IconLibrary.GetImageList (ToolBarOD.SetImageListIcons, the module's ArrayIconsImageList) in the same order, so ImageIndex keeps its purpose.
+FormOpenDental:imageListMain.ImageStream#0	EnumIcons.PatSelect	select a patient (hand and patient, Pat.gif)
+FormOpenDental:imageListMain.ImageStream#1	EnumIcons.CommLog	commlog (globe, commlog.gif)
+FormOpenDental:imageListMain.ImageStream#2	EnumIcons.Email	e-mail (envelope, email.gif)
+FormOpenDental:imageListMain.ImageStream#3	EnumIcons.TaskList	Tasks (checked clipboard, tasksNicer.gif)
+FormOpenDental:imageListMain.ImageStream#4	EnumIcons.Label	Label (label, label.gif)
+FormOpenDental:imageListMain.ImageStream#5	EnumIcons.Text	text message (speech bubble, Text.gif)
+ControlAppt:imageListMain.ImageStream#0	EnumIcons.Print	Print (printer, print.gif)
+ControlAppt:imageListMain.ImageStream#1	EnumIcons.ApptLists	Lists, the appointment lists (page of lines, apptLists.gif)
+ControlAppt:imageListMain.ImageStream#2	EnumIcons.Call	Rapid Call (telephone, DT Rapid Call.png)
+ControlAppt:imageListMain.ImageStream#3	EnumIcons.Unscheduled	Unsched, to the Unscheduled List (list with a U, unschedList.gif)
+ControlAppt:imageListMain.ImageStream#4	EnumIcons.BreakAptX	break appointment (breakAptX.gif)
+ControlAppt:imageListMain.ImageStream#5	EnumIcons.Complete	complete (check mark, Check.gif)
+ControlAppt:imageListMain.ImageStream#6	EnumIcons.DeleteX	delete (red X, deleteX.gif)
+ControlAppt:imageListMain.ImageStream#7	EnumIcons.Patient	patient appointments (patient, Patient.gif)
+ControlAppt:imageListMain.ImageStream#8	EnumIcons.Add	make appointment (plus, Add.gif)
+ControlAppt:imageListMain.ImageStream#9	EnumIcons.Recall	recall (Recall.gif)
+ControlFamily:imageListToolBar.ImageStream#0	EnumIcons.PatSelect	select a patient (hand and patient)
+ControlFamily:imageListToolBar.ImageStream#1	EnumIcons.Recall	recall
+ControlFamily:imageListToolBar.ImageStream#2	EnumIcons.PatAdd	add family member (patient with a plus)
+ControlFamily:imageListToolBar.ImageStream#3	EnumIcons.PatDelete	delete family member (patient with an X)
+ControlFamily:imageListToolBar.ImageStream#4	EnumIcons.PatSetGuarantor	set guarantor (patient with an arrow up)
+ControlFamily:imageListToolBar.ImageStream#5	EnumIcons.PatMoveFam	move to another family (patient with an arrow)
+ControlFamily:imageListToolBar.ImageStream#6	EnumIcons.Insurance	Add Insurance (umbrella, Umbrella.gif)
+ControlAccount:imageListMain.ImageStream#0	EnumIcons.PatSelect	select a patient (hand and patient, Pat.gif)
+ControlAccount:imageListMain.ImageStream#1	EnumIcons.Payment	Payment (banknote)
+ControlAccount:imageListMain.ImageStream#2	EnumIcons.Adjustment	Adjustment (plus and minus)
+ControlAccount:imageListMain.ImageStream#3	EnumIcons.Insurance	New Claim (umbrella, Umbrella.gif)
+ControlAccount:imageListMain.ImageStream#4	EnumIcons.Print	Statement (printer)
+ControlTreat:imageListMain.ImageStream#0	EnumIcons.PatSelect	select a patient (hand and patient)
+ControlTreat:imageListMain.ImageStream#1	EnumIcons.Sync	Update Fees (blue circle arrow)
+ControlTreat:imageListMain.ImageStream#2	EnumIcons.Print	Print TP (printer)
+ControlTreat:imageListMain.ImageStream#3	EnumIcons.Add	add (plus, Add.gif)
+ControlChart:imageListMain.ImageStream#0	EnumIcons.PatSelect	select a patient (hand and patient, Pat.gif)
+ControlChart:imageListMain.ImageStream#1	EnumIcons.Rx	New Rx and eRx (Rx, Rx.gif)
+ControlChart:imageListMain.ImageStream#2	EnumIcons.PerioChart	Perio Chart (probe in a pocket, Probe.gif): UI-8's custom perio chart icon
+ControlChart:imageListMain.ImageStream#3	EnumIcons.Anesthesia	anesthesia (heart monitor, Anesth.gif), no button shows it
+ControlChart:imageListMain.ImageStream#4	EnumIcons.CommLog	Commlog, eCW tight (globe, commlog.gif)
+ControlChart:imageListMain.ImageStream#5	EnumIcons.Print	Print progress notes (printer, butPrint.gif)

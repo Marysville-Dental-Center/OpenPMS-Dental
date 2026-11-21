@@ -45,12 +45,20 @@ namespace OpenPmsDental {
 		private Schedule _scheduleBlockoutClipboard;
 		#endregion Fields - Private
 
+		///<summary>The pictures of the toolbar's ImageList by index (UI-9b-1, docs/port-notes/UI-9b.md): the purposes of today's ImageIndex
+		///pictures in their order, as icons (ToolBarOD.SetImageListIcons), so a plug-in's button set by ImageIndex (ContrAppt.LayoutToolBar_end)
+		///still shows the same purpose. The module's own buttons take an EnumIcons; program links add their pictures after these by key.</summary>
+		public static readonly EnumIcons[] ArrayIconsImageList=new EnumIcons[] {
+			EnumIcons.Print,EnumIcons.ApptLists,EnumIcons.Call,EnumIcons.Unscheduled,EnumIcons.BreakAptX,EnumIcons.Complete,EnumIcons.DeleteX,EnumIcons.Patient,EnumIcons.Add,EnumIcons.Recall
+		};
+
 		#region Constructor
 		public ControlAppt() {
 			Logger.LogToPath("Ctor",LogPath.Startup,LogPhase.Start);
 			InitializeComponent();
 			Font=LayoutManagerForms.FontInitial;
 			gridReminders.ContextMenuStrip=menuReminderEdit;
+			toolBarMain.SetImageListIcons(ArrayIconsImageList);//UI-9b-1: the list of icons (program links and plug-ins add to it)
 			gridReminders.DoAddGridItemsToContextMenuStrip=true;//Copy Cell Text, Copy Rows and the links after the menu's items, as before
 			Logger.LogToPath("Ctor",LogPath.Startup,LogPhase.End);
 		}
@@ -2708,8 +2716,8 @@ namespace OpenPmsDental {
 		///<summary></summary>
 		public void LayoutToolBar(){
 			toolBarMain.Buttons.Clear();
-			toolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Print"),0,"","Print"));
-			toolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Lists"),1,Lan.g(this,"Appointment Lists"),"Lists"));
+			toolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Print"),EnumIcons.Print,"","Print"));
+			toolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Lists"),EnumIcons.ApptLists,Lan.g(this,"Appointment Lists"),"Lists"));
 			toolBarMain.Buttons.Add(new ODToolBarButton(ODToolBarButtonStyle.Separator));
 			toolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Pat Appts"),EnumIcons.Patient,Lan.g(this,"Patient Appointments"),"PatAppts"));
 			toolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Make Appt"),EnumIcons.Add,Lan.g(this,"Make Appointment"),"Make"));
@@ -2718,7 +2726,7 @@ namespace OpenPmsDental {
 			toolBarButton.ContextMenuStripDropDown=menuRecall;
 			toolBarMain.Buttons.Add(toolBarButton);
 			toolBarMain.Buttons.Add(new ODToolBarButton(ODToolBarButtonStyle.Separator));
-			toolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Unsched"),3,Lan.g(this,"Send to Unscheduled List"),"Unsched"));
+			toolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Unsched"),EnumIcons.Unscheduled,Lan.g(this,"Send to Unscheduled List"),"Unsched"));
 			toolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Break"),EnumIcons.BreakAptX,Lan.g(this,"Break Appointment"),"Break"));
 			//asap?
 			toolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Complete"),EnumIcons.Complete,"","Complete"));
@@ -2726,7 +2734,7 @@ namespace OpenPmsDental {
 			AddToolBarButtonWaitingRoom();//25.2 Waiting Room window, ControlAppt.WaitingRoom.cs
 			if(Programs.IsEnabled(ProgramName.RapidCall)) {
 				toolBarMain.Buttons.Add(new ODToolBarButton(ODToolBarButtonStyle.Separator));
-				toolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Rapid Call"),2,"","RapidCall"));
+				toolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Rapid Call"),EnumIcons.Call,"","RapidCall"));
 			}
 			ProgramL.LoadToolBar(toolBarMain,EnumToolBar.ApptModule);
 			toolBarMain.Invalidate();

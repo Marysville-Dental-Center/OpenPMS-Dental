@@ -79,11 +79,19 @@ namespace OpenPmsDental{
 		private LoadActiveTPData _loadActiveTPData;
 		#endregion Fields - Private
 
+		///<summary>The pictures of the toolbar's ImageList by index (UI-9b-1, docs/port-notes/UI-9b.md): the purposes of today's ImageIndex
+		///pictures in their order, as icons (ToolBarOD.SetImageListIcons), so a plug-in's button set by ImageIndex (ContrTreat.LayoutToolBar_end)
+		///still shows the same purpose. The module's own buttons take an EnumIcons; program links add their pictures after these by key.</summary>
+		public static readonly EnumIcons[] ArrayIconsImageList=new EnumIcons[] {
+			EnumIcons.PatSelect,EnumIcons.Sync,EnumIcons.Print,EnumIcons.Add
+		};
+
 		#region Constructor
 		///<summary></summary>
 		public ControlTreat(){
 			Logger.LogToPath("Ctor",LogPath.Startup,LogPhase.Start);
 			InitializeComponent();// This call is required by the Windows.Forms Form Designer.
+			ToolBarMain.SetImageListIcons(ArrayIconsImageList);//UI-9b-1: the list of icons (program links and plug-ins add to it)
 			Font=LayoutManagerForms.FontInitial;
 			Logger.LogToPath("Ctor",LogPath.Startup,LogPhase.End);
 		}
@@ -170,7 +178,7 @@ namespace OpenPmsDental{
 			//ODToolBarButton button;
 			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"PreAuthorization"),-1,"","PreAuth"));
 			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Discount"),-1,"","Discount"));
-			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Update Fees"),1,"","Update"));
+			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Update Fees"),EnumIcons.Sync,"","Update"));
 			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"LabCase"),-1,"","LabCase"));
 			ODToolBarButton button=new ODToolBarButton(Lan.g(this,"Consent"),-1,"","Consent");
 			if(SheetDefs.GetCustomForType(SheetTypeEnum.Consent).Count>0) {
@@ -179,7 +187,7 @@ namespace OpenPmsDental{
 			}
 			ToolBarMain.Buttons.Add(button);
 			//ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Save TP"),3,"","Create"));
-			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Print TP"),2,"","Print"));
+			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Print TP"),EnumIcons.Print,"","Print"));
 			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Email TP"),-1,"","Email"));
 			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Sign TP"),-1,"","Sign"));
 			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Add Procs"),-1,Lan.g(this,"Add procedures to the Active treatment plan"),"AddProcs"));

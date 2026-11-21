@@ -78,11 +78,19 @@ namespace OpenPmsDental {
 		private bool _superFamPrefEnabled;
 		#endregion Fields - Private
 
+		///<summary>The pictures of the toolbar's ImageList by index (UI-9b-1, docs/port-notes/UI-9b.md): the purposes of today's ImageIndex
+		///pictures in their order, as icons (ToolBarOD.SetImageListIcons), so a plug-in's button set by ImageIndex (ContrAccount.LayoutToolBar_end)
+		///still shows the same purpose. The module's own buttons take an EnumIcons; program links add their pictures after these by key.</summary>
+		public static readonly EnumIcons[] ArrayIconsImageList=new EnumIcons[] {
+			EnumIcons.PatSelect,EnumIcons.Payment,EnumIcons.Adjustment,EnumIcons.Insurance,EnumIcons.Print
+		};
+
 		#region Constructor
 		///<summary></summary>
 		public ControlAccount() {
 			Logger.LogToPath("Ctor",LogPath.Startup,LogPhase.Start);
 			InitializeComponent();// This call is required by the Windows.Forms Form Designer.
+			ToolBarMain.SetImageListIcons(ArrayIconsImageList);//UI-9b-1: the list of icons (program links and plug-ins add to it)
 			Font=LayoutManagerForms.FontInitial;
 			LayoutManager.Add(gridUnearnedBreakdown,this);
 			LayoutManager.Add(gridInsEstOpenClaims,this);
@@ -2293,15 +2301,15 @@ namespace OpenPmsDental {
 		public void LayoutToolBar() {
 			ToolBarMain.Buttons.Clear();
 			ODToolBarButton toolBarButton;
-			_butPayment=new ODToolBarButton(Lan.g(this,"Payment"),1,"","Payment");
+			_butPayment=new ODToolBarButton(Lan.g(this,"Payment"),EnumIcons.Payment,"","Payment");
 			_butPayment.Style=ODToolBarButtonStyle.DropDownButton;
 			_butPayment.ContextMenuStripDropDown=contextMenuPayment;
 			ToolBarMain.Buttons.Add(_butPayment);
-			toolBarButton=new ODToolBarButton(Lan.g(this,"Adjustment"),2,"","Adjustment");
+			toolBarButton=new ODToolBarButton(Lan.g(this,"Adjustment"),EnumIcons.Adjustment,"","Adjustment");
 			toolBarButton.Style=ODToolBarButtonStyle.DropDownButton;
 			toolBarButton.ContextMenuStripDropDown=contextMenuAdjust;
 			ToolBarMain.Buttons.Add(toolBarButton);
-			toolBarButton=new ODToolBarButton(Lan.g(this,"New Claim"),3,"","Insurance");
+			toolBarButton=new ODToolBarButton(Lan.g(this,"New Claim"),EnumIcons.Insurance,"","Insurance");
 			toolBarButton.Style=ODToolBarButtonStyle.DropDownButton;
 			toolBarButton.ContextMenuStripDropDown=contextMenuIns;
 			ToolBarMain.Buttons.Add(toolBarButton);
@@ -2323,7 +2331,7 @@ namespace OpenPmsDental {
 				ToolBarMain.Buttons.Add(toolBarButton);
 			}
 			ToolBarMain.Buttons.Add(new ODToolBarButton(ODToolBarButtonStyle.Separator));
-			toolBarButton=new ODToolBarButton(Lan.g(this,"Statement"),4,"","Statement");
+			toolBarButton=new ODToolBarButton(Lan.g(this,"Statement"),EnumIcons.Print,"","Statement");
 			toolBarButton.Style=ODToolBarButtonStyle.DropDownButton;
 			//No DropDownMenu since Open Dental 26.2: the arrow opens the Statement Options window, which lists the entries of contextMenuStatement
 			//(ToolBarMain_ButtonDropDownClick, ControlAccount.StatementOptions.cs, P262-BILLING).

@@ -116,7 +116,17 @@ namespace OpenPmsDental.UI{
 		Pdf,
 		Xml,
 		Html,
-		Mht
+		Mht,
+		//UI-9b-1 (the main window and the module toolbars, docs/port-notes/UI-9b.md): the purposes of the module toolbars' ImageList pictures, each
+		//with its manifest row; PerioChart draws UI-8's custom perio chart icon (GetDentalIcon), as Chart32G draws the tooth.
+		Payment,
+		Adjustment,
+		ApptLists,
+		Call,
+		Unscheduled,
+		Rx,
+		Anesthesia,
+		PerioChart
 	}
 
 	///<summary></summary>
@@ -135,8 +145,8 @@ namespace OpenPmsDental.UI{
 
 		#region Designs
 		///<summary>The custom dental icon (UI-8, section 4.4) an icon draws instead of an EnumIcons row: the module bar's chart icons, Chart32G the Tooth
-		///(at rest), Chart32W the ToothFilled (the selected module) and ChartMed32 the ChartMedical (the medical layout). DentalIcon.None for every
-		///other icon. Their Filled style is the dental icon's Filled twin.</summary>
+		///(at rest), Chart32W the ToothFilled (the selected module) and ChartMed32 the ChartMedical (the medical layout); since UI-9b-1 the Chart
+		///module's Perio Chart button, PerioChart the PerioChart. DentalIcon.None for every other icon. Their Filled style is the dental icon's Filled twin.</summary>
 		public static DentalIcon GetDentalIcon(EnumIcons icon){
 			switch(icon){
 				case EnumIcons.Chart32G:
@@ -145,6 +155,8 @@ namespace OpenPmsDental.UI{
 					return DentalIcon.ToothFilled;
 				case EnumIcons.ChartMed32:
 					return DentalIcon.ChartMedical;
+				case EnumIcons.PerioChart:
+					return DentalIcon.PerioChart;
 				default:
 					return DentalIcon.None;
 			}
@@ -273,6 +285,23 @@ namespace OpenPmsDental.UI{
 		///bitmap. Filled with GDI+, so it works in design mode, with OnlyGDI and before any window exists. The caller (the control) owns it.</summary>
 		public static Bitmap GetBitmap(EnumIcons icon,int width,int height){
 			return GetBitmap(GetDesign(icon,Math.Min(width,height)),width,height,GetColor(icon));
+		}
+
+		///<summary>The icon factory of the toolbars and lists (UI-9b, docs/port-notes/UI-9b.md; section 4.2, item 5): a new 32-bit ImageList of
+		///sizePixels square holding one image per icon, in the order given, each under its member's name as the key (Images.IndexOfKey("Print")),
+		///each the icon's design for the size (section 3.5: the largest that fits, centred, never stretched up) in its role colour on transparent
+		///(GetBitmap). Pass the real pixel size at the current DPI (ToolBarOD.SetImageListIcons passes its scaled 22 px slot) and build a new list
+		///when it changes. A list may take more images after it is made (program links, ProgramL.LoadToolBar; plug-ins), by key or by index. The
+		///caller owns the list. CodeBase's UiIcons.GetImageList makes it: the one place the program makes an ImageList in code.</summary>
+		public static System.Windows.Forms.ImageList GetImageList(EnumIcons[] arrayIcons,int sizePixels){
+			sizePixels=Math.Max(sizePixels,1);
+			string[] arrayKeys=new string[arrayIcons.Length];
+			Bitmap[] arrayBitmaps=new Bitmap[arrayIcons.Length];
+			for(int i=0;i<arrayIcons.Length;i++){
+				arrayKeys[i]=arrayIcons[i].ToString();
+				arrayBitmaps[i]=GetBitmap(arrayIcons[i],sizePixels,sizePixels);
+			}
+			return UiIcons.GetImageList(sizePixels,arrayKeys,arrayBitmaps);
 		}
 
 		///<summary>GetBitmap for a custom dental icon (UI-8), in its role colour.</summary>

@@ -26,10 +26,41 @@ namespace UiRefreshTests.Toolbars {
 		///<summary>A toolbar's height in the program (the designers' 25 px).</summary>
 		public const int HEIGHT_TOOLBAR=25;
 
-		///<summary>The ImageList a designer gives the toolbar, read from the type's resources (its ImageStream), or null.</summary>
+		///<summary>The name of the public static EnumIcons[] field of a module whose toolbar takes its ImageList from the icon factory (UI-9b-1,
+		///docs/port-notes/UI-9b.md): the pictures' purposes in today's ImageIndex order, given to ToolBarOD.SetImageListIcons.</summary>
+		public const string FIELD_ICONS_IMAGE_LIST="ArrayIconsImageList";
+
+		///<summary>The icons of the module's toolbar ImageList (UI-9b-1: the type's ArrayIconsImageList), or null when the module has none (its
+		///designer still gives the toolbar an ImageList from a stream, or no list at all).</summary>
+		public static EnumIcons[] GetIconsImageList(ToolBarSource toolBarSource) {
+			if(toolBarSource.TypeImageList==null) {
+				return null;
+			}
+			Type type=typeof(ToolBarOD).Assembly.GetType(toolBarSource.TypeImageList,throwOnError:true);
+			FieldInfo fieldInfo=type.GetField(FIELD_ICONS_IMAGE_LIST,BindingFlags.Public|BindingFlags.Static);
+			return fieldInfo?.GetValue(null) as EnumIcons[];
+		}
+
+		///<summary>Gives the toolbar the list the module gives it: its icons through SetImageListIcons (at the toolbar's scale, UI-9b-1), or the
+		///designer's ImageList from its stream (96 DPI pictures, scaled when drawn), or none.</summary>
+		public static void SetImageList(ToolBarOD toolBarOD,ToolBarSource toolBarSource) {
+			EnumIcons[] arrayIcons=GetIconsImageList(toolBarSource);
+			if(arrayIcons!=null) {
+				toolBarOD.SetImageListIcons(arrayIcons);
+				return;
+			}
+			toolBarOD.ImageList=GetImageList(toolBarSource);
+		}
+
+		///<summary>The ImageList the toolbar has at 100%: the module's icons from the icon factory at 22 px (UI-9b-1), or the list a designer gives
+		///the toolbar, read from the type's resources (its ImageStream), or null.</summary>
 		public static ImageList GetImageList(ToolBarSource toolBarSource) {
 			if(toolBarSource.TypeImageList==null) {
 				return null;
+			}
+			EnumIcons[] arrayIcons=GetIconsImageList(toolBarSource);
+			if(arrayIcons!=null) {
+				return IconLibrary.GetImageList(arrayIcons,ToolBarOD.SIZE_IMAGE_LIST96);
 			}
 			Type type=typeof(ToolBarOD).Assembly.GetType(toolBarSource.TypeImageList,throwOnError:true);
 			ComponentResourceManager componentResourceManager=new ComponentResourceManager(type);

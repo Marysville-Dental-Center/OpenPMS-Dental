@@ -984,7 +984,7 @@ if($Apply){
 		foreach($r in $newRecord){ $all.Add($r) }
 		$linesRec=New-Object System.Collections.Generic.List[string]
 		$linesRec.Add('# The pictures UI-9a turned into icons (tools/Convert-PictureUses.ps1 -Apply writes this file; docs/port-notes/UI-9a.md).')
-		$linesRec.Add('# how: Icon (UI.Button.Icon, the 22 px slot drawn as vectors), GetBitmap (IconLibrary.GetBitmap at the picture''s 96 DPI size) or UiIcons (CodeBase.UiIcons.GetBitmap by name, OpenPmsDentalGraph and OpenPmsDentalBusiness, converted by hand).')
+		$linesRec.Add('# how: Icon (UI.Button.Icon, the 22 px slot drawn as vectors), GetBitmap (IconLibrary.GetBitmap at the picture''s 96 DPI size) or UiIcons (CodeBase.UiIcons.GetBitmap by name, OpenPmsDentalGraph and OpenPmsDentalBusiness, converted by hand); since UI-9b, ImageList (a picture of a toolbar''s designer ImageList, now the icon at its index in the list IconLibrary.GetImageList builds: the file''s ArrayIconsImageList, given to the control''s SetImageListIcons; written by hand).')
 		$linesRec.Add($RecordHeader)
 		foreach($r in ($all | Sort-Object Slice,File,Control,Property)){
 			$linesRec.Add("$($r.Slice)`t$($r.File)`t$($r.Control)`t$($r.Property)`t$($r.Key)`t$($r.Target)`t$($r.How)`t$($r.Width)`t$($r.Height)")

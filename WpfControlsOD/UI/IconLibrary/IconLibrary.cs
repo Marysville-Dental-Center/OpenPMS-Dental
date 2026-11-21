@@ -126,7 +126,17 @@ To add an icon: add the member here (and to the WinForms enum when WinForms draw
 		Pdf,
 		Xml,
 		Html,
-		Mht
+		Mht,
+		//UI-9b-1 (the main window and the module toolbars, docs/port-notes/UI-9b.md): the members the WinForms enum adds for the module toolbars, so
+		//every WinForms member is also a WPF member; PerioChart draws UI-8's custom perio chart icon (GetDentalIcon).
+		Payment,
+		Adjustment,
+		ApptLists,
+		Call,
+		Unscheduled,
+		Rx,
+		Anesthesia,
+		PerioChart
 	}
 
 	///<summary></summary>
@@ -172,7 +182,7 @@ To add an icon: add the member here (and to the WinForms enum when WinForms draw
 		}
 
 		///<summary>The custom dental icon (UI-8, section 4.4) an icon draws instead of an EnumIcons row, as in the WinForms library: Chart32G the Tooth,
-		///Chart32W the ToothFilled and ChartMed32 the ChartMedical. DentalIcon.None for every other icon. Their Filled style is the dental icon's
+		///Chart32W the ToothFilled, ChartMed32 the ChartMedical and PerioChart (UI-9b-1) the PerioChart. DentalIcon.None for every other icon. Their Filled style is the dental icon's
 		///Filled twin.</summary>
 		public static DentalIcon GetDentalIcon(EnumIcons icon){
 			switch(icon){
@@ -182,6 +192,8 @@ To add an icon: add the member here (and to the WinForms enum when WinForms draw
 					return DentalIcon.ToothFilled;
 				case EnumIcons.ChartMed32:
 					return DentalIcon.ChartMedical;
+				case EnumIcons.PerioChart:
+					return DentalIcon.PerioChart;
 				default:
 					return DentalIcon.None;
 			}

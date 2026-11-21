@@ -208,9 +208,20 @@ the manifest; G-UI1 part 3 shows them.
 
 | Report designer toolbar (RdlDesign: Table, Line, Image, Rectangle, Subreport, List, Chart, Textbox, Matrix, Save, Open, Cut, New, Undo, PDF, XML, HTML, MHT) | 21 `.resx` pictures of hidden designer buttons (16 x 16; the export pictures 18 x 16 to 26 x 16) | new `Table`, `Line`, `Image`, `Rectangle`, `Subreport` (Document Multiple), `ListBullets` (Text Bullet List), `ChartBar` (Data Bar Vertical), `TextBox`, `Matrix` (Grid), `Save`, `Open` (Folder Open), `Cut`, `NewDocument` (Document Add), `Undo` (Arrow Undo), `Pdf` (Document Pdf), `Xml` (Code), `Html` (Globe), `Mht` (Document Globe); existing `Print`, `Copy`, `Paste` | Fluent | UI-9a-7 |
 | Central Manager buttons (11 `.resx` pictures), the print button of `MsgBoxCopyPaste`, the drop-down arrow of `ComboBoxMulti` | window `.resx` pictures | existing `Add`, `DeleteX`, `ArrowLeft`, `ArrowRight`, `Up`, `Down`, `Print`, `ChevronDown` | Fluent | UI-9a-7 |
+| Account toolbar: Payment (`Payment`) | banknote (module ImageList) | Money (regular) | Fluent | UI-9b-1 |
+| Account toolbar: Adjustment (`Adjustment`) | plus and minus (module ImageList) | Add Subtract Circle (regular) | Fluent | UI-9b-1 |
+| Appts toolbar: Lists, the appointment lists (`ApptLists`) | page of lines (`apptLists.gif`) | Document Bullet List (regular) | Fluent | UI-9b-1 |
+| Appts toolbar: Rapid Call (`Call`) | telephone (`DT Rapid Call.png`) | Call (regular) | Fluent | UI-9b-1 |
+| Appts toolbar: Unsched, to the Unscheduled List (`Unscheduled`) | list with a U (`unschedList.gif`) | Calendar Arrow Right (regular) | Fluent | UI-9b-1 |
+| Chart toolbar: New Rx, eRx (`Rx`) | the letters Rx (`Rx.gif`) | Pill (regular) | Fluent | UI-9b-1 |
+| Chart toolbar: Perio Chart (`PerioChart`) | probe in a pocket (`Probe.gif`) | `PerioChart` (custom dental icon) | UI-8 | UI-9b-1 |
+| Chart ImageList: anesthesia, no button shows it (`Anesthesia`, kept at its index for plug-ins) | heart monitor (`Anesth.gif`) | Pulse (regular) | Fluent | UI-9b-1 |
+| Main and module toolbars: select patient, commlog, e-mail, tasks, label, text, print, statement, new claim, add insurance, update fees, break, complete, delete, patient, add, recall, family members (the toolbars' ImageList pictures) | module ImageList pictures (`Pat.gif`, `commlog.gif`, `email.gif`, `tasksNicer.gif`, `label.gif`, `Text.gif`, `print.gif`, `butPrint.gif`, `Umbrella.gif` and others) | existing `PatSelect`, `CommLog`, `Email`, `TaskList`, `Label`, `Text`, `Print`, `Insurance`, `Sync`, `BreakAptX`, `Complete`, `DeleteX`, `Patient`, `Add`, `Recall`, `PatAdd`, `PatDelete`, `PatSetGuarantor`, `PatMoveFam` | Fluent | UI-9b-1 |
 
 The window pictures behind these rows, and the pictures that stay, are in `icons/picture-map.tsv` (`tools/Convert-PictureUses.ps1`,
-`docs/port-notes/UI-9a.md`); `icons/picture-converted.tsv` lists every converted control.
+`docs/port-notes/UI-9a.md`); `icons/picture-converted.tsv` lists every converted control. The toolbars' ImageList pictures (UI-9b) have
+one row per picture index (`<window>:<list>.ImageStream#<index>`); the list is built by `IconLibrary.GetImageList` in the same order
+(`ToolBarOD.SetImageListIcons`, `docs/port-notes/UI-9b.md`).
 
 ## Drawing an `EnumIcons` icon
 
