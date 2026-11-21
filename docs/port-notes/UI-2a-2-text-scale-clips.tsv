@@ -1,0 +1,339 @@
+window	build	control	type	scale	kind	need_width	need_height	ink	available	text_line	free_right	free_below	verdict
+CentralManager.FormCentralConnectionEdit	PlainWindow	butCancel	System.Windows.Forms.Button	1	height	0	4		51x13	51x17	12	12	fixable
+CentralManager.FormCentralConnectionEdit	PlainWindow	butDelete	System.Windows.Forms.Button	1	height	0	4		49x13	49x17	432	12	fixable
+CentralManager.FormCentralConnectionEdit	PlainWindow	butOK	System.Windows.Forms.Button	1	height	0	4		28x13	28x17	6	12	fixable
+CentralManager.FormCentralConnectionEdit	PlainWindow	label10	System.Windows.Forms.Label	1	width	8	0		111x17	119x17	562	4	fixable
+CentralManager.FormCentralConnectionGroupEdit	PlainWindow	butRemove	OpenPmsDental.UI.Button	1	width	7	0		51x24	58x18	14	285	fixable
+CentralManager.FormCentralConnectionGroupEdit	PlainWindow	label1	System.Windows.Forms.Label	1	width	24	0		99x20	123x17	6	16	needs the owner
+CentralManager.FormCentralConnectionGroupEdit	PlainWindow	label2	System.Windows.Forms.Label	1	width	41	0		235x20	276x17	494	12	fixable
+CentralManager.FormCentralConnectionGroups	PlainWindow	label1	System.Windows.Forms.Label	1	height	0	2	cut	244x15	167x17	26	9	fixable
+CentralManager.FormCentralConnections	PlainWindow	groupOrdering/butAlphabetize	OpenPmsDental.UI.Button	1	width	2	0		77x24	79x18	5	11	fixable
+CentralManager.FormCentralConnections	PlainWindow	groupOrdering/label2	System.Windows.Forms.Label	1	width	26	0		83x17	109x17	29	13	fixable
+CentralManager.FormCentralConnections	PlainWindow	groupPrefs/label4	System.Windows.Forms.Label	1	width	7	0		165x17	172x17	25	0	fixable
+CentralManager.FormCentralGroupPermEdit	PlainWindow	groupBox1/label2	System.Windows.Forms.Label	1	height	0	1	cut	126x16	40x17	1	15	fixable
+CentralManager.FormCentralGroupPermEdit	PlainWindow	groupBox1/label3	System.Windows.Forms.Label	1	line	0	11		320x40	630x17	26	9	needs the owner
+CentralManager.FormCentralGroupPermEdit	PlainWindow	label10	System.Windows.Forms.Label	1	height	0	3		95x14	40x17	2	16	fixable
+CentralManager.FormCentralManager	PlainWindow	butRefreshStatuses	OpenPmsDental.UI.Button	1	width	9	0		105x24	114x18	25	29	fixable
+CentralManager.FormCentralManager	PlainWindow	groupBox1/label4	System.Windows.Forms.Label	1	height	0	2	inside	60x15	41x17	5	7	fixable
+CentralManager.FormCentralManager	PlainWindow	groupBox1/label6	System.Windows.Forms.Label	1	width	1	2		60x15	61x17	5	7	fixable
+CentralManager.FormCentralManager	PlainWindow	groupBox2/label15	System.Windows.Forms.Label	1	height	0	1	cut	112x16	86x17	0	5	fixable
+CentralManager.FormCentralManager	PlainWindow	groupBox2/label3	System.Windows.Forms.Label	1	width	29	3		202x14	231x17	16	4	needs the owner
+CentralManager.FormCentralManager	PlainWindow	groupBox2/label7	System.Windows.Forms.Label	1	height	0	3		109x14	31x17	3	8	fixable
+CentralManager.FormCentralManager	PlainWindow	label1	System.Windows.Forms.Label	1	width	10	2		82x15	92x17	4	49	needs the owner
+CentralManager.FormCentralPasswordChange	PlainWindow	butCancel	System.Windows.Forms.Button	1	height	0	4		51x13	51x17	12	12	fixable
+CentralManager.FormCentralPasswordChange	PlainWindow	butOK	System.Windows.Forms.Button	1	height	0	4		28x13	28x17	6	12	fixable
+CentralManager.FormCentralPasswordChange	PlainWindow	label1	System.Windows.Forms.Label	1	line	0	24		380x44	1181x17	38	18	needs the owner
+CentralManager.FormCentralPasswordCheck	PlainWindow	butCancel	System.Windows.Forms.Button	1	height	0	4		51x13	51x17	12	12	fixable
+CentralManager.FormCentralPasswordCheck	PlainWindow	butOK	System.Windows.Forms.Button	1	height	0	4		28x13	28x17	6	12	fixable
+CentralManager.FormCentralPatientSearch	PlainWindow	groupBox2/label4	System.Windows.Forms.Label	1	height	0	1	cut	112x16	86x17	0	5	fixable
+CentralManager.FormCentralPatientSearch	PlainWindow	groupBox2/label6	System.Windows.Forms.Label	1	width	29	3		202x14	231x17	7	4	needs the owner
+CentralManager.FormCentralPatientSearch	PlainWindow	groupBox2/label7	System.Windows.Forms.Label	1	height	0	3		109x14	31x17	3	8	fixable
+CentralManager.FormCentralProdInc	PlainWindow	groupBox3/label5	System.Windows.Forms.Label	1	width	63	0		269x17	332x17	6	3	needs the owner
+CentralManager.FormCentralUserEdit	PlainWindow	butPassword	OpenPmsDental.UI.Button	1	width	18	0		103x24	121x18	21	14	fixable
+CentralManager.FormCentralUserGroupEdit	PlainWindow	label1	System.Windows.Forms.Label	1	height	0	1	cut	96x16	79x17	6	59	fixable
+CentralManager.FormCentralUserPasswordEdit	PlainWindow	checkShow	System.Windows.Forms.CheckBox	1	height	0	4		86x13	42x17	254	58	fixable
+CentralManager.FormCentralUserSettings	PlainWindow	checkAutoLogin	System.Windows.Forms.CheckBox	1	height	0	4		186x13	156x17	29	39	fixable
+CodeBase.MsgBoxCopyPaste@CodeBase	PlainWindow	butCopyAll	System.Windows.Forms.Button	1	height	0	2	cut	59x15	59x17	325	12	fixable
+CodeBase.MsgBoxCopyPaste@CodeBase	PlainWindow	butOK	System.Windows.Forms.Button	1	height	0	2	cut	28x15	28x17	12	12	fixable
+CodeBase.MsgBoxCopyPaste@UpdateFileCopier	PlainWindow	butCopyAll	System.Windows.Forms.Button	1	height	0	2	cut	59x15	59x17	325	12	fixable
+CodeBase.MsgBoxCopyPaste@UpdateFileCopier	PlainWindow	butOK	System.Windows.Forms.Button	1	height	0	2	cut	28x15	28x17	12	12	fixable
+CodeBase.ODProgressBar	UserControlPlain	labelPercentComplete	System.Windows.Forms.Label	1	height	0	4		71x13	28x17	3	12	fixable
+CodeBase.ODProgressBar	UserControlPlain	labelTopText	System.Windows.Forms.Label	1	height	0	1	cut	461x16	55x17	3	0	needs the owner
+DatabaseIntegrityCheck.FormDatabaseCheck	PlainWindow	butCheck	System.Windows.Forms.Button	1	height	0	4		47x13	47x17	6	6	fixable
+DatabaseIntegrityCheck.FormDatabaseCheck	PlainWindow	butCopy	System.Windows.Forms.Button	1	width	4	4		67x13	71x17	374	10	fixable
+DatabaseIntegrityCheck.FormDatabaseCheck	PlainWindow	butRepair	System.Windows.Forms.Button	1	height	0	4		50x13	50x17	117	6	fixable
+DocumentationBuilder.Form1	PlainWindow	butBuild	System.Windows.Forms.Button	1	width	21	4		142x13	163x17	436	17	fixable
+DocumentationBuilder.Form1	PlainWindow	butBuildUnitTest	System.Windows.Forms.Button	1	width	24	4		175x13	199x17	404	17	fixable
+DocumentationBuilder.Form1	PlainWindow	buttonPrefDocumentation	System.Windows.Forms.Button	1	width	15	4		153x13	168x17	425	20	fixable
+DocumentationBuilder.Form1	PlainWindow	label1	System.Windows.Forms.Label	1	line	0	10		558x41	1270x17	31	18	fixable
+DocumentationBuilder.Form1	PlainWindow	label2	System.Windows.Forms.Label	1	line	0	10		558x41	1094x17	31	4	needs the owner
+DocumentationBuilder.Form1	PlainWindow	label3	System.Windows.Forms.Label	1	width	832	0		558x33	1390x17	31	29	needs the owner
+DocumentationBuilder.Form1	PlainWindow	label5	System.Windows.Forms.Label	1	width	275	0		558x33	833x17	31	1	needs the owner
+DocumentationBuilder.Form1	PlainWindow	label7	System.Windows.Forms.Label	1	width	617	0		558x33	1175x17	31	40	needs the owner
+DocumentationBuilder.Form1	PlainWindow	labelPrefDocumentation	System.Windows.Forms.Label	1	line	0	7		558x44	1061x17	31	3	needs the owner
+DocumentationBuilder.Form1	PlainWindow	labelPrevVersion	System.Windows.Forms.Label	1	width	54	0		185x19	239x17	1	5	needs the owner
+MySQLManager.FormMySQLUserEdit	PlainWindow	groupBox1	System.Windows.Forms.GroupBox	1	width	1	0		114x17	115x17	159	24	fixable
+MySQLManager.FormMySQLUserEdit	PlainWindow	groupBox1/radioFull	System.Windows.Forms.RadioButton	1	height	0	2	inside	70x15	30x17	15	3	fixable
+MySQLManager.FormMySQLUserEdit	PlainWindow	groupBox1/radioLow	System.Windows.Forms.RadioButton	1	height	0	2	inside	70x15	33x17	15	8	fixable
+MySQLManager.FormMySQLUserEdit	PlainWindow	label3	System.Windows.Forms.Label	1	width	10	0		113x18	123x17	6	8	needs the owner
+MySQLManager.FormMySQLUserEdit	PlainWindow	label6	System.Windows.Forms.Label	1	width	5	0		113x18	118x17	3	17	needs the owner
+MySQLManager.FormMySQLUserManager	PlainWindow	groupConnection/label1	System.Windows.Forms.Label	1	height	0	1	inside	282x16	91x17	12	3	fixable
+MySQLManager.FormMySQLUserManager	PlainWindow	groupConnection/label5	System.Windows.Forms.Label	1	height	0	1	inside	282x16	249x17	12	3	fixable
+ODR.FormParameterInput	PlainWindow	butCancel	System.Windows.Forms.Button	1	height	0	2	cut	51x15	51x17	28	14	fixable
+ODR.FormParameterInput	PlainWindow	butOK	System.Windows.Forms.Button	1	height	0	2	cut	28x15	28x17	15	14	fixable
+OpenPmsDental.FormCentralChooseDatabase	PlainWindow	groupServer/label6	System.Windows.Forms.Label	1	width	53	0		297x18	350x17	30	1	needs the owner
+OpenPmsDental.MsgBoxCopyPaste	PlainWindow	butCopyAll	System.Windows.Forms.Button	1	height	0	2	cut	59x15	59x17	325	12	fixable
+OpenPmsDental.MsgBoxCopyPaste	PlainWindow	butOK	System.Windows.Forms.Button	1	height	0	2	cut	28x15	28x17	12	12	fixable
+OpenPmsDentalGraph.BrokenApptGraphOptionsCtrl	UserControlPlain	groupBox3/label1	System.Windows.Forms.Label	1	width	68	0		280x18	348x17	14	3	needs the owner
+OpenPmsDentalGraph.BrokenApptGraphOptionsCtrl	UserControlPlain	groupBox3/label2	System.Windows.Forms.Label	1	width	34	0		280x18	314x17	14	3	needs the owner
+OpenPmsDentalGraph.FormDashboardEditTab	PlainWindow	splitContainer1/#0:SplitterPanel/label2	System.Windows.Forms.Label	1	height	0	4		134x13	95x17	3	3	needs the owner
+OpenPmsDentalGraph.FormPrintImage	PlainWindow	splitContainer/#0:SplitterPanel/groupChartPosition/label1	System.Windows.Forms.Label	1	height	0	4		68x13	19x17	1	15	fixable
+OpenPmsDentalGraph.FormPrintImage	PlainWindow	splitContainer/#0:SplitterPanel/groupChartPosition/label2	System.Windows.Forms.Label	1	height	0	4		68x13	18x17	1	9	fixable
+OpenPmsDentalGraph.FormPrintImage	PlainWindow	splitContainer/#0:SplitterPanel/groupChartSize/labelHeight	System.Windows.Forms.Label	1	height	0	4		68x13	53x17	1	15	fixable
+OpenPmsDentalGraph.FormPrintImage	PlainWindow	splitContainer/#0:SplitterPanel/groupChartSize/labelWidth	System.Windows.Forms.Label	1	height	0	4		68x13	48x17	1	9	fixable
+OpenPmsDentalGraph.FormPrintImage	PlainWindow	splitContainer/#0:SplitterPanel/groupMargins/label4	System.Windows.Forms.Label	1	height	0	4		68x13	53x17	1	15	fixable
+OpenPmsDentalGraph.FormPrintImage	PlainWindow	splitContainer/#0:SplitterPanel/groupMargins/label5	System.Windows.Forms.Label	1	height	0	4		68x13	48x17	1	9	fixable
+OpenPmsDentalGraph.FormPrintSettings	PlainWindow	splitContainer/#0:SplitterPanel/groupBox1/labelHeight	System.Windows.Forms.Label	1	height	0	4		68x13	53x17	1	15	fixable
+OpenPmsDentalGraph.FormPrintSettings	PlainWindow	splitContainer/#0:SplitterPanel/groupBox1/labelWidth	System.Windows.Forms.Label	1	height	0	4		68x13	48x17	1	9	fixable
+OpenPmsDentalGraph.FormPrintSettings	PlainWindow	splitContainer/#0:SplitterPanel/groupBox2/label4	System.Windows.Forms.Label	1	height	0	4		68x13	53x17	1	15	fixable
+OpenPmsDentalGraph.FormPrintSettings	PlainWindow	splitContainer/#0:SplitterPanel/groupBox2/label5	System.Windows.Forms.Label	1	height	0	4		68x13	48x17	1	9	fixable
+OpenPmsDentalGraph.FormPrintSettings	PlainWindow	splitContainer/#0:SplitterPanel/groupBox3/label1	System.Windows.Forms.Label	1	height	0	4		68x13	19x17	1	15	fixable
+OpenPmsDentalGraph.FormPrintSettings	PlainWindow	splitContainer/#0:SplitterPanel/groupBox3/label2	System.Windows.Forms.Label	1	height	0	4		68x13	18x17	1	9	fixable
+OpenPmsDentalGraph.GraphIncome	UserControlPlain	groupBox1/label2	System.Windows.Forms.Label	1	width	3	0		130x21	133x17	28	3	fixable
+OpenPmsDentalGraph.GraphIncome	UserControlPlain	groupBox2/label5	System.Windows.Forms.Label	1	width	2	0		42x21	44x17	120	3	fixable
+OpenPmsDentalGraph.GraphQuantityOverTime	UserControlPlain	splitContainerMain/#0:SplitterPanel/groupBox1/label1	System.Windows.Forms.Label	1	width	1	4		71x13	72x17	6	14	fixable
+OpenPmsDentalGraph.GraphQuantityOverTime	UserControlPlain	splitContainerMain/#0:SplitterPanel/groupBox1/label5	System.Windows.Forms.Label	1	height	0	4		71x13	58x17	6	12	fixable
+OpenPmsDentalGraph.GraphQuantityOverTime	UserControlPlain	splitContainerMain/#0:SplitterPanel/groupBox1/label6	System.Windows.Forms.Label	1	width	17	4		71x13	88x17	6	11	needs the owner
+OpenPmsDentalGraph.GraphQuantityOverTime	UserControlPlain	splitContainerMain/#0:SplitterPanel/groupBox1/label7	System.Windows.Forms.Label	1	width	9	4		51x13	60x17	6	11	needs the owner
+OpenPmsDentalGraph.GraphQuantityOverTime	UserControlPlain	splitContainerMain/#0:SplitterPanel/groupBox2/label2	System.Windows.Forms.Label	1	width	19	4		75x13	94x17	6	12	needs the owner
+OpenPmsDentalGraph.GraphQuantityOverTime	UserControlPlain	splitContainerMain/#0:SplitterPanel/groupBox2/label3	System.Windows.Forms.Label	1	height	0	4		75x13	44x17	7	11	fixable
+OpenPmsDentalGraph.GraphQuantityOverTime	UserControlPlain	splitContainerMain/#0:SplitterPanel/groupBox2/label4	System.Windows.Forms.Label	1	height	0	4		75x13	29x17	7	38	fixable
+OpenPmsDentalGraph.GraphQuantityOverTimeFilter	UserControlPlain	splitContainer/#1:SplitterPanel/graph/splitContainerMain/#0:SplitterPanel/groupBox1/label1	System.Windows.Forms.Label	1	width	1	4		71x13	72x17	6	14	fixable
+OpenPmsDentalGraph.GraphQuantityOverTimeFilter	UserControlPlain	splitContainer/#1:SplitterPanel/graph/splitContainerMain/#0:SplitterPanel/groupBox1/label5	System.Windows.Forms.Label	1	height	0	4		71x13	58x17	6	12	fixable
+OpenPmsDentalGraph.GraphQuantityOverTimeFilter	UserControlPlain	splitContainer/#1:SplitterPanel/graph/splitContainerMain/#0:SplitterPanel/groupBox1/label6	System.Windows.Forms.Label	1	width	17	4		71x13	88x17	6	11	needs the owner
+OpenPmsDentalGraph.GraphQuantityOverTimeFilter	UserControlPlain	splitContainer/#1:SplitterPanel/graph/splitContainerMain/#0:SplitterPanel/groupBox1/label7	System.Windows.Forms.Label	1	width	9	4		51x13	60x17	6	11	needs the owner
+OpenPmsDentalGraph.GraphQuantityOverTimeFilter	UserControlPlain	splitContainer/#1:SplitterPanel/graph/splitContainerMain/#0:SplitterPanel/groupBox2/label2	System.Windows.Forms.Label	1	width	19	4		75x13	94x17	6	12	needs the owner
+OpenPmsDentalGraph.GraphQuantityOverTimeFilter	UserControlPlain	splitContainer/#1:SplitterPanel/graph/splitContainerMain/#0:SplitterPanel/groupBox2/label3	System.Windows.Forms.Label	1	height	0	4		75x13	44x17	7	11	fixable
+OpenPmsDentalGraph.GraphQuantityOverTimeFilter	UserControlPlain	splitContainer/#1:SplitterPanel/graph/splitContainerMain/#0:SplitterPanel/groupBox2/label4	System.Windows.Forms.Label	1	height	0	4		75x13	29x17	7	38	fixable
+OpenPmsDentalGraph.IncomeGraphOptionsCtrl	UserControlPlain	groupBox2/checkIncludeInsuranceClaimPayments	System.Windows.Forms.CheckBox	1	height	0	4		180x13	174x17	9	3	needs the owner
+OpenPmsDentalGraph.IncomeGraphOptionsCtrl	UserControlPlain	groupBox2/checkIncludePaySplits	System.Windows.Forms.CheckBox	1	height	0	2	cut	182x15	70x17	9	1	needs the owner
+OpenPmsDentalGraph.ProductionGraphOptionsCtrl	UserControlPlain	groupBox1/checkIncludeAdjustments	System.Windows.Forms.CheckBox	1	width	15	0		70x19	85x17	6	5	needs the owner
+OpenPmsDentalGraph.ProductionGraphOptionsCtrl	UserControlPlain	groupBox1/checkIncludeCompletedProcs	System.Windows.Forms.CheckBox	1	width	21	0		94x19	115x17	6	5	needs the owner
+OpenPmsDentalGraph.ProductionGraphOptionsCtrl	UserControlPlain	groupBox1/checkIncludeWriteoffs	System.Windows.Forms.CheckBox	1	width	10	0		54x19	64x17	13	5	fixable
+OpenPmsDentalHL7.FormDebug	PlainWindow	label1	System.Windows.Forms.Label	1	width	1	0		410x21	411x17	3	4	fixable
+OpenPmsDentalHL7.FormDebug	PlainWindow	label2	System.Windows.Forms.Label	1	width	3	0		88x21	91x17	311	2	fixable
+OpenPmsDentalHL7.FormDebug	PlainWindow	label3	System.Windows.Forms.Label	1	width	3	0		107x21	110x17	307	20	fixable
+OpenPmsDentalHL7.FormDebug	PlainWindow	label4	System.Windows.Forms.Label	1	width	2	0		124x21	126x17	303	2	fixable
+fyiReporting.RdlDesign.BodyCtl	UserControlPlain	label2	System.Windows.Forms.Label	1	width	6	0		56x23	62x17	8	13	fixable
+fyiReporting.RdlDesign.BodyCtl	UserControlPlain	label3	System.Windows.Forms.Label	1	width	22	0		88x23	110x17	8	169	needs the owner
+fyiReporting.RdlDesign.ChartAxisCtl	UserControlPlain	chkReverse	System.Windows.Forms.CheckBox	1	width	17	0		104x19	121x17	32	16	fixable
+fyiReporting.RdlDesign.ChartAxisCtl	UserControlPlain	groupBox1/bMajorGLColor	System.Windows.Forms.Button	1	width	3	4		17x13	20x17	8	10	fixable
+fyiReporting.RdlDesign.ChartAxisCtl	UserControlPlain	groupBox1/chkMajorGLShow	System.Windows.Forms.CheckBox	1	width	4	0		38x19	42x17	0	10	needs the owner
+fyiReporting.RdlDesign.ChartAxisCtl	UserControlPlain	groupBox1/label3	System.Windows.Forms.Label	1	width	3	1		36x16	39x17	76	14	fixable
+fyiReporting.RdlDesign.ChartAxisCtl	UserControlPlain	groupBox1/label6	System.Windows.Forms.Label	1	width	8	1		36x16	44x17	44	14	fixable
+fyiReporting.RdlDesign.ChartAxisCtl	UserControlPlain	groupBox1/label7	System.Windows.Forms.Label	1	width	9	1		32x16	41x17	0	14	needs the owner
+fyiReporting.RdlDesign.ChartAxisCtl	UserControlPlain	groupBox2/bMinorGLColor	System.Windows.Forms.Button	1	width	3	4		17x13	20x17	8	10	fixable
+fyiReporting.RdlDesign.ChartAxisCtl	UserControlPlain	groupBox2/chkMinorGLShow	System.Windows.Forms.CheckBox	1	width	4	0		38x19	42x17	0	10	needs the owner
+fyiReporting.RdlDesign.ChartAxisCtl	UserControlPlain	groupBox2/label4	System.Windows.Forms.Label	1	width	1	1		40x16	41x17	72	14	fixable
+fyiReporting.RdlDesign.ChartAxisCtl	UserControlPlain	groupBox2/label5	System.Windows.Forms.Label	1	width	8	1		36x16	44x17	44	14	fixable
+fyiReporting.RdlDesign.ChartAxisCtl	UserControlPlain	groupBox2/label8	System.Windows.Forms.Label	1	height	0	1	cut	40x16	39x17	72	14	fixable
+fyiReporting.RdlDesign.ChartAxisCtl	UserControlPlain	label1	System.Windows.Forms.Label	1	width	11	1		104x16	115x17	8	8	needs the owner
+fyiReporting.RdlDesign.ChartAxisCtl	UserControlPlain	label10	System.Windows.Forms.Label	1	width	13	1		80x16	93x17	5	14	needs the owner
+fyiReporting.RdlDesign.ChartAxisCtl	UserControlPlain	label11	System.Windows.Forms.Label	1	width	22	1		84x16	106x17	2	24	needs the owner
+fyiReporting.RdlDesign.ChartAxisCtl	UserControlPlain	label12	System.Windows.Forms.Label	1	width	15	1		88x16	103x17	0	24	needs the owner
+fyiReporting.RdlDesign.ChartAxisCtl	UserControlPlain	label2	System.Windows.Forms.Label	1	width	3	1		112x16	115x17	0	8	needs the owner
+fyiReporting.RdlDesign.ChartAxisCtl	UserControlPlain	label9	System.Windows.Forms.Label	1	width	13	1		80x16	93x17	8	14	needs the owner
+fyiReporting.RdlDesign.ChartCtl	UserControlPlain	chkPageBreakEnd	System.Windows.Forms.CheckBox	1	width	6	0		121x19	127x17	24	8	fixable
+fyiReporting.RdlDesign.ChartCtl	UserControlPlain	chkPageBreakStart	System.Windows.Forms.CheckBox	1	width	11	0		121x19	132x17	128	8	fixable
+fyiReporting.RdlDesign.ChartCtl	UserControlPlain	label1	System.Windows.Forms.Label	1	width	6	1		72x16	78x17	48	16	fixable
+fyiReporting.RdlDesign.ChartCtl	UserControlPlain	label2	System.Windows.Forms.Label	1	height	0	1	inside	72x16	52x17	48	22	fixable
+fyiReporting.RdlDesign.ChartCtl	UserControlPlain	label3	System.Windows.Forms.Label	1	width	14	1		128x16	142x17	296	16	fixable
+fyiReporting.RdlDesign.ChartCtl	UserControlPlain	label4	System.Windows.Forms.Label	1	width	90	1		360x16	450x17	64	16	needs the owner
+fyiReporting.RdlDesign.ChartCtl	UserControlPlain	label5	System.Windows.Forms.Label	1	width	1	0		64x23	65x17	0	82	needs the owner
+fyiReporting.RdlDesign.ChartCtl	UserControlPlain	label6	System.Windows.Forms.Label	1	width	25	0		100x23	125x17	28	9	fixable
+fyiReporting.RdlDesign.ChartCtl	UserControlPlain	label7	System.Windows.Forms.Label	1	width	4	0		100x23	104x17	28	9	fixable
+fyiReporting.RdlDesign.ChartLegendCtl	UserControlPlain	chkInsidePlotArea	System.Windows.Forms.CheckBox	1	width	25	0		118x19	143x17	288	152	fixable
+fyiReporting.RdlDesign.ChartLegendCtl	UserControlPlain	label1	System.Windows.Forms.Label	1	width	7	1		104x16	111x17	24	16	fixable
+fyiReporting.RdlDesign.ChartLegendCtl	UserControlPlain	label2	System.Windows.Forms.Label	1	width	30	1		112x16	142x17	16	14	needs the owner
+fyiReporting.RdlDesign.CodeCtl	UserControlPlain	label1	System.Windows.Forms.Label	1	width	35	1		144x16	179x17	123	9	fixable
+fyiReporting.RdlDesign.CodeCtl	UserControlPlain	label2	System.Windows.Forms.Label	1	height	0	2	cut	69x15	41x17	14	9	fixable
+fyiReporting.RdlDesign.DataSetsCtl	UserControlPlain	lDataSetName	System.Windows.Forms.Label	1	height	0	1	inside	48x16	45x17	8	16	fixable
+fyiReporting.RdlDesign.DataSetsCtl	UserControlPlain	lDataSource	System.Windows.Forms.Label	1	width	15	0		72x23	87x17	0	9	needs the owner
+fyiReporting.RdlDesign.DataSetsCtl	UserControlPlain	label1	System.Windows.Forms.Label	1	height	0	1	inside	100x16	79x17	116	0	needs the owner
+fyiReporting.RdlDesign.DataSetsCtl	UserControlPlain	label2	System.Windows.Forms.Label	1	height	0	1	inside	100x16	45x17	340	0	needs the owner
+fyiReporting.RdlDesign.DataSetsCtl	UserControlPlain	label3	System.Windows.Forms.Label	1	width	3	1		56x16	59x17	16	0	needs the owner
+fyiReporting.RdlDesign.DialogAbout	PlainWindow	lVMVersion	System.Windows.Forms.Label	1	height	0	1	inside	144x16	116x17	66	8	fixable
+fyiReporting.RdlDesign.DialogAbout	PlainWindow	lVersion	System.Windows.Forms.Label	1	height	0	1	inside	136x16	86x17	66	8	fixable
+fyiReporting.RdlDesign.DialogAbout	PlainWindow	label5	System.Windows.Forms.Label	1	width	11	0		40x23	51x17	0	9	needs the owner
+fyiReporting.RdlDesign.DialogAbout	PlainWindow	label6	System.Windows.Forms.Label	1	width	7	0		56x23	63x17	0	9	needs the owner
+fyiReporting.RdlDesign.DialogAbout	PlainWindow	linkLabel3	System.Windows.Forms.LinkLabel	1	width	35	1		152x16	187x17	34	16	needs the owner
+fyiReporting.RdlDesign.DialogAbout	PlainWindow	linkLabel4	System.Windows.Forms.LinkLabel	1	width	32	1		144x16	176x17	24	16	needs the owner
+fyiReporting.RdlDesign.DialogDataSourceRef	PlainWindow	ckbIntSecurity	System.Windows.Forms.CheckBox	1	width	25	0		129x19	154x17	16	8	needs the owner
+fyiReporting.RdlDesign.DialogDataSourceRef	PlainWindow	lODBC	System.Windows.Forms.Label	1	width	25	0		112x23	137x17	0	41	needs the owner
+fyiReporting.RdlDesign.DialogDataSourceRef	PlainWindow	label1	System.Windows.Forms.Label	1	width	667	0		440x32	1107x17	8	8	needs the owner
+fyiReporting.RdlDesign.DialogDataSourceRef	PlainWindow	label2	System.Windows.Forms.Label	1	width	44	1		408x16	452x17	40	8	needs the owner
+fyiReporting.RdlDesign.DialogDataSourceRef	PlainWindow	label3	System.Windows.Forms.Label	1	width	14	0		80x23	94x17	96	17	fixable
+fyiReporting.RdlDesign.DialogDataSourceRef	PlainWindow	label4	System.Windows.Forms.Label	1	width	18	1		100x16	118x17	188	8	fixable
+fyiReporting.RdlDesign.DialogDataSourceRef	PlainWindow	label5	System.Windows.Forms.Label	1	width	56	1		432x16	488x17	16	8	needs the owner
+fyiReporting.RdlDesign.DialogDataSourceRef	PlainWindow	label6	System.Windows.Forms.Label	1	width	6	0		48x23	54x17	0	1	needs the owner
+fyiReporting.RdlDesign.DialogDataSources	PlainWindow	ckbIntSecurity	System.Windows.Forms.CheckBox	1	width	25	0		129x19	154x17	32	16	fixable
+fyiReporting.RdlDesign.DialogDataSources	PlainWindow	lConnectionString	System.Windows.Forms.Label	1	width	18	1		100x16	118x17	308	8	fixable
+fyiReporting.RdlDesign.DialogDataSources	PlainWindow	lDataProvider	System.Windows.Forms.Label	1	width	14	0		80x23	94x17	8	17	needs the owner
+fyiReporting.RdlDesign.DialogDataSources	PlainWindow	lPrompt	System.Windows.Forms.Label	1	width	56	1		432x16	488x17	16	8	needs the owner
+fyiReporting.RdlDesign.DialogDataSources	PlainWindow	label1	System.Windows.Forms.Label	1	width	24	0		104x23	128x17	136	81	fixable
+fyiReporting.RdlDesign.DialogDatabase	PlainWindow	tcDialog/DBConnection/lConnection	System.Windows.Forms.Label	1	height	0	1	inside	184x16	83x17	16	8	fixable
+fyiReporting.RdlDesign.DialogDatabase	PlainWindow	tcDialog/DBConnection/lODBC	System.Windows.Forms.Label	1	width	25	0		112x23	137x17	0	33	needs the owner
+fyiReporting.RdlDesign.DialogDatabase	PlainWindow	tcDialog/DBConnection/label7	System.Windows.Forms.Label	1	width	23	0		96x23	119x17	0	9	needs the owner
+fyiReporting.RdlDesign.DialogDatabase	PlainWindow	tcDialog/ReportParameters/ckbParmAllowBlank	System.Windows.Forms.CheckBox	1	width	29	0		135x19	164x17	80	44	fixable
+fyiReporting.RdlDesign.DialogDatabase	PlainWindow	tcDialog/ReportParameters/ckbParmAllowNull	System.Windows.Forms.CheckBox	1	width	12	0		54x19	66x17	8	44	needs the owner
+fyiReporting.RdlDesign.DialogDatabase	PlainWindow	tcDialog/ReportParameters/lDefaultValue	System.Windows.Forms.Label	1	height	0	1	inside	100x16	93x17	212	0	needs the owner
+fyiReporting.RdlDesign.DialogDatabase	PlainWindow	tcDialog/ReportParameters/lParmName	System.Windows.Forms.Label	1	height	0	1	inside	48x16	45x17	32	16	fixable
+fyiReporting.RdlDesign.DialogDatabase	PlainWindow	tcDialog/ReportParameters/lParmPrompt	System.Windows.Forms.Label	1	width	5	1		48x16	53x17	264	0	needs the owner
+fyiReporting.RdlDesign.DialogDatabase	PlainWindow	tcDialog/ReportParameters/lParmType	System.Windows.Forms.Label	1	width	9	0		56x23	65x17	24	9	fixable
+fyiReporting.RdlDesign.DialogDatabase	PlainWindow	tcDialog/ReportParameters/lbParmValidValues	System.Windows.Forms.Label	1	height	0	1	inside	100x16	86x17	212	0	needs the owner
+fyiReporting.RdlDesign.DialogDatabase	PlainWindow	tcDialog/ReportType/label2	System.Windows.Forms.Label	1	width	11	0		72x23	83x17	8	9	needs the owner
+fyiReporting.RdlDesign.DialogDatabase	PlainWindow	tcDialog/ReportType/label6	System.Windows.Forms.Label	1	width	18	0		64x23	82x17	16	9	needs the owner
+fyiReporting.RdlDesign.DialogDatabase	PlainWindow	tcDialog/TabularGroup/ckbGrandTotal	System.Windows.Forms.CheckBox	1	width	1	0		144x19	145x17	56	188	fixable
+fyiReporting.RdlDesign.DialogDatabase	PlainWindow	tcDialog/TabularGroup/label4	System.Windows.Forms.Label	1	width	53	1		216x16	269x17	0	0	needs the owner
+fyiReporting.RdlDesign.DialogDatabase	PlainWindow	tcDialog/TabularGroup/label5	System.Windows.Forms.Label	1	width	25	0		208x23	233x17	80	261	fixable
+fyiReporting.RdlDesign.DialogEmbeddedImages	PlainWindow	lDataProvider	System.Windows.Forms.Label	1	width	10	0		72x23	82x17	8	25	needs the owner
+fyiReporting.RdlDesign.DialogEmbeddedImages	PlainWindow	label1	System.Windows.Forms.Label	1	width	23	0		136x23	159x17	104	41	fixable
+fyiReporting.RdlDesign.DialogExprEditor	PlainWindow	lExpr	System.Windows.Forms.Label	1	height	0	1	cut	208x16	162x17	16	8	fixable
+fyiReporting.RdlDesign.DialogExprEditor	PlainWindow	lOp	System.Windows.Forms.Label	1	height	0	1	inside	136x16	120x17	72	8	fixable
+fyiReporting.RdlDesign.DialogFilterOperator	PlainWindow	lOp	System.Windows.Forms.Label	1	width	31	1		112x16	143x17	0	144	needs the owner
+fyiReporting.RdlDesign.DialogListOfStrings	PlainWindow	label1	System.Windows.Forms.Label	1	width	52	0		240x23	292x17	34	9	needs the owner
+fyiReporting.RdlDesign.DialogNewChart	PlainWindow	bCategory	System.Windows.Forms.Button	1	height	0	4		16x13	16x17	16	104	fixable
+fyiReporting.RdlDesign.DialogNewChart	PlainWindow	bCategoryDelete	System.Windows.Forms.Button	1	width	8	4		41x13	49x17	16	16	fixable
+fyiReporting.RdlDesign.DialogNewChart	PlainWindow	bCategoryDown	System.Windows.Forms.Button	1	width	3	4		40x13	43x17	16	8	fixable
+fyiReporting.RdlDesign.DialogNewChart	PlainWindow	bCategoryUp	System.Windows.Forms.Button	1	height	0	4		26x13	26x17	16	8	fixable
+fyiReporting.RdlDesign.DialogNewChart	PlainWindow	bSeries	System.Windows.Forms.Button	1	height	0	4		16x13	16x17	16	96	fixable
+fyiReporting.RdlDesign.DialogNewChart	PlainWindow	bSeriesDelete	System.Windows.Forms.Button	1	width	8	4		41x13	49x17	16	72	fixable
+fyiReporting.RdlDesign.DialogNewChart	PlainWindow	bSeriesDown	System.Windows.Forms.Button	1	width	3	4		40x13	43x17	16	8	fixable
+fyiReporting.RdlDesign.DialogNewChart	PlainWindow	bSeriesUp	System.Windows.Forms.Button	1	height	0	4		26x13	26x17	16	8	fixable
+fyiReporting.RdlDesign.DialogNewChart	PlainWindow	label1	System.Windows.Forms.Label	1	width	11	0		48x23	59x17	16	9	fixable
+fyiReporting.RdlDesign.DialogNewChart	PlainWindow	label3	System.Windows.Forms.Label	1	width	23	0		184x23	207x17	48	1	fixable
+fyiReporting.RdlDesign.DialogNewChart	PlainWindow	label5	System.Windows.Forms.Label	1	width	22	0		120x23	142x17	320	57	fixable
+fyiReporting.RdlDesign.DialogNewChart	PlainWindow	label6	System.Windows.Forms.Label	1	width	1	0		64x23	65x17	16	9	fixable
+fyiReporting.RdlDesign.DialogNewChart	PlainWindow	label7	System.Windows.Forms.Label	1	width	6	1		72x16	78x17	8	16	fixable
+fyiReporting.RdlDesign.DialogNewMatrix	PlainWindow	bColumn	System.Windows.Forms.Button	1	height	0	4		16x13	16x17	16	104	fixable
+fyiReporting.RdlDesign.DialogNewMatrix	PlainWindow	bColumnDelete	System.Windows.Forms.Button	1	width	8	4		41x13	49x17	16	16	fixable
+fyiReporting.RdlDesign.DialogNewMatrix	PlainWindow	bColumnDown	System.Windows.Forms.Button	1	width	3	4		40x13	43x17	16	8	fixable
+fyiReporting.RdlDesign.DialogNewMatrix	PlainWindow	bColumnUp	System.Windows.Forms.Button	1	height	0	4		26x13	26x17	16	8	fixable
+fyiReporting.RdlDesign.DialogNewMatrix	PlainWindow	bRowDelete	System.Windows.Forms.Button	1	width	8	4		41x13	49x17	16	72	fixable
+fyiReporting.RdlDesign.DialogNewMatrix	PlainWindow	bRowDown	System.Windows.Forms.Button	1	width	3	4		40x13	43x17	16	8	fixable
+fyiReporting.RdlDesign.DialogNewMatrix	PlainWindow	bRowSelect	System.Windows.Forms.Button	1	height	0	4		16x13	16x17	16	96	fixable
+fyiReporting.RdlDesign.DialogNewMatrix	PlainWindow	bRowUp	System.Windows.Forms.Button	1	height	0	4		26x13	26x17	16	8	fixable
+fyiReporting.RdlDesign.DialogNewMatrix	PlainWindow	label1	System.Windows.Forms.Label	1	width	11	0		48x23	59x17	16	17	fixable
+fyiReporting.RdlDesign.DialogNewMatrix	PlainWindow	label3	System.Windows.Forms.Label	1	width	40	0		184x23	224x17	48	1	fixable
+fyiReporting.RdlDesign.DialogNewMatrix	PlainWindow	label4	System.Windows.Forms.Label	1	width	20	0		184x23	204x17	48	1	fixable
+fyiReporting.RdlDesign.DialogNewMatrix	PlainWindow	label5	System.Windows.Forms.Label	1	width	25	0		120x23	145x17	320	57	fixable
+fyiReporting.RdlDesign.DialogNewTable	PlainWindow	bAllLeft	System.Windows.Forms.Button	1	height	0	4		24x13	24x17	16	24	fixable
+fyiReporting.RdlDesign.DialogNewTable	PlainWindow	bAllRight	System.Windows.Forms.Button	1	height	0	4		24x13	24x17	16	8	fixable
+fyiReporting.RdlDesign.DialogNewTable	PlainWindow	bDown	System.Windows.Forms.Button	1	width	3	4		40x13	43x17	16	104	fixable
+fyiReporting.RdlDesign.DialogNewTable	PlainWindow	bLeft	System.Windows.Forms.Button	1	height	0	4		16x13	16x17	16	8	fixable
+fyiReporting.RdlDesign.DialogNewTable	PlainWindow	bRight	System.Windows.Forms.Button	1	height	0	4		16x13	16x17	16	8	fixable
+fyiReporting.RdlDesign.DialogNewTable	PlainWindow	bUp	System.Windows.Forms.Button	1	height	0	4		26x13	26x17	16	8	fixable
+fyiReporting.RdlDesign.DialogNewTable	PlainWindow	label1	System.Windows.Forms.Label	1	width	11	0		48x23	59x17	16	1	fixable
+fyiReporting.RdlDesign.DialogNewTable	PlainWindow	label3	System.Windows.Forms.Label	1	width	51	0		240x23	291x17	0	1	needs the owner
+fyiReporting.RdlDesign.DialogNewTable	PlainWindow	label4	System.Windows.Forms.Label	1	width	53	0		216x23	269x17	0	49	needs the owner
+fyiReporting.RdlDesign.DialogToolOptions	PlainWindow	tabControl1/tpDesktop/ckLocal	System.Windows.Forms.CheckBox	1	width	36	0		174x19	210x17	253	1	fixable
+fyiReporting.RdlDesign.DialogToolOptions	PlainWindow	tabControl1/tpDesktop/label6	System.Windows.Forms.Label	1	width	1	0		33x23	34x17	1	10	fixable
+fyiReporting.RdlDesign.DialogToolOptions	PlainWindow	tabControl1/tpDesktop/label7	System.Windows.Forms.Label	1	line	0	28		435x57	1944x17	13	3	needs the owner
+fyiReporting.RdlDesign.DialogToolOptions	PlainWindow	tabControl1/tpDesktop/label8	System.Windows.Forms.Label	1	width	553	0		414x26	967x17	11	61	needs the owner
+fyiReporting.RdlDesign.DialogToolOptions	PlainWindow	tabControl1/tpDesktop/label9	System.Windows.Forms.Label	1	width	13	0		56x23	69x17	342	7	fixable
+fyiReporting.RdlDesign.DialogToolOptions	PlainWindow	tabControl1/tpGeneral/label1	System.Windows.Forms.Label	1	width	9	0		45x23	54x17	2	4	needs the owner
+fyiReporting.RdlDesign.DialogToolOptions	PlainWindow	tabControl1/tpGeneral/label2	System.Windows.Forms.Label	1	width	37	0		174x23	211x17	184	2	fixable
+fyiReporting.RdlDesign.DialogToolOptions	PlainWindow	tabControl1/tpToolbar/label4	System.Windows.Forms.Label	1	width	20	0		112x23	132x17	86	2	fixable
+fyiReporting.RdlDesign.DialogToolOptions	PlainWindow	tabControl1/tpToolbar/label5	System.Windows.Forms.Label	1	width	4	0		100x23	104x17	145	2	fixable
+fyiReporting.RdlDesign.DrillParametersDialog	PlainWindow	label1	System.Windows.Forms.Label	1	width	2	0		88x23	90x17	8	9	fixable
+fyiReporting.RdlDesign.FindTab	PlainWindow	tcFRG/tabFind/chkCase	System.Windows.Forms.CheckBox	1	width	11	0		71x19	82x17	128	70	fixable
+fyiReporting.RdlDesign.FindTab	PlainWindow	tcFRG/tabFind/groupBox1/radioDown	System.Windows.Forms.RadioButton	1	width	3	0		40x19	43x17	16	16	fixable
+fyiReporting.RdlDesign.FindTab	PlainWindow	tcFRG/tabReplace/label2	System.Windows.Forms.Label	1	width	16	0		76x23	92x17	6	9	needs the owner
+fyiReporting.RdlDesign.GroupingCtl	UserControlPlain	chkGrpFooter	System.Windows.Forms.CheckBox	1	width	14	0		121x19	135x17	88	24	fixable
+fyiReporting.RdlDesign.GroupingCtl	UserControlPlain	chkGrpHeader	System.Windows.Forms.CheckBox	1	width	22	0		121x19	143x17	88	0	fixable
+fyiReporting.RdlDesign.GroupingCtl	UserControlPlain	chkPBE	System.Windows.Forms.CheckBox	1	width	6	0		121x19	127x17	120	0	fixable
+fyiReporting.RdlDesign.GroupingCtl	UserControlPlain	chkPBS	System.Windows.Forms.CheckBox	1	width	11	0		121x19	132x17	88	0	fixable
+fyiReporting.RdlDesign.GroupingCtl	UserControlPlain	chkRepeatFooter	System.Windows.Forms.CheckBox	1	width	14	0		122x19	136x17	120	24	fixable
+fyiReporting.RdlDesign.GroupingCtl	UserControlPlain	chkRepeatHeader	System.Windows.Forms.CheckBox	1	width	22	0		122x19	144x17	120	0	fixable
+fyiReporting.RdlDesign.GroupingCtl	UserControlPlain	lParent	System.Windows.Forms.Label	1	width	10	0		40x23	50x17	0	9	needs the owner
+fyiReporting.RdlDesign.GroupingCtl	UserControlPlain	label2	System.Windows.Forms.Label	1	width	3	0		40x23	43x17	0	9	needs the owner
+fyiReporting.RdlDesign.GroupingCtl	UserControlPlain	label3	System.Windows.Forms.Label	1	width	12	1		56x16	68x17	424	0	needs the owner
+fyiReporting.RdlDesign.ImageCtl	UserControlPlain	groupBox1/rbDatabase	System.Windows.Forms.RadioButton	1	width	4	0		65x19	69x17	0	40	needs the owner
+fyiReporting.RdlDesign.ImageCtl	UserControlPlain	groupBox1/rbEmbedded	System.Windows.Forms.RadioButton	1	width	12	0		64x19	76x17	0	8	needs the owner
+fyiReporting.RdlDesign.ImageCtl	UserControlPlain	label1	System.Windows.Forms.Label	1	width	6	0		40x23	46x17	8	81	fixable
+fyiReporting.RdlDesign.InteractivityCtl	UserControlPlain	groupBox1/rbBookmarkLink	System.Windows.Forms.RadioButton	1	width	13	0		88x19	101x17	8	4	needs the owner
+fyiReporting.RdlDesign.InteractivityCtl	UserControlPlain	grpBoxVisibility/label2	System.Windows.Forms.Label	1	width	31	0		120x23	151x17	32	1	fixable
+fyiReporting.RdlDesign.InteractivityCtl	UserControlPlain	grpBoxVisibility/label3	System.Windows.Forms.Label	1	width	32	0		152x23	184x17	0	9	needs the owner
+fyiReporting.RdlDesign.InteractivityCtl	UserControlPlain	label1	System.Windows.Forms.Label	1	width	15	1		56x16	71x17	24	16	fixable
+fyiReporting.RdlDesign.ListCtl	UserControlPlain	groupBox1/chkPBBefore	System.Windows.Forms.CheckBox	1	width	1	0		113x19	114x17	48	8	fixable
+fyiReporting.RdlDesign.ListCtl	UserControlPlain	groupBox2/label3	System.Windows.Forms.Label	1	width	24	1		112x16	136x17	18	8	needs the owner
+fyiReporting.RdlDesign.ListCtl	UserControlPlain	label1	System.Windows.Forms.Label	1	width	24	0		96x23	120x17	0	17	needs the owner
+fyiReporting.RdlDesign.ListCtl	UserControlPlain	label2	System.Windows.Forms.Label	1	width	20	0		80x23	100x17	16	9	needs the owner
+fyiReporting.RdlDesign.MatrixCtl	UserControlPlain	groupBox1/chkPBAfter	System.Windows.Forms.CheckBox	1	width	6	0		111x19	117x17	80	8	fixable
+fyiReporting.RdlDesign.MatrixCtl	UserControlPlain	groupBox1/chkPBBefore	System.Windows.Forms.CheckBox	1	width	18	0		111x19	129x17	48	8	fixable
+fyiReporting.RdlDesign.MatrixCtl	UserControlPlain	groupBox2/label3	System.Windows.Forms.Label	1	width	15	1		112x16	127x17	5	8	needs the owner
+fyiReporting.RdlDesign.MatrixCtl	UserControlPlain	label1	System.Windows.Forms.Label	1	width	24	0		96x23	120x17	0	17	needs the owner
+fyiReporting.RdlDesign.MatrixCtl	UserControlPlain	label2	System.Windows.Forms.Label	1	width	20	0		80x23	100x17	16	9	needs the owner
+fyiReporting.RdlDesign.ModulesClassesCtl	UserControlPlain	label1	System.Windows.Forms.Label	1	width	65	0		448x23	513x17	16	1	needs the owner
+fyiReporting.RdlDesign.ModulesClassesCtl	UserControlPlain	label2	System.Windows.Forms.Label	1	width	32	0		448x23	480x17	16	1	needs the owner
+fyiReporting.RdlDesign.PositionCtl	UserControlPlain	gbPosition/label5	System.Windows.Forms.Label	1	height	0	1	inside	48x16	32x17	8	16	fixable
+fyiReporting.RdlDesign.PositionCtl	UserControlPlain	gbPosition/label6	System.Windows.Forms.Label	1	height	0	1	cut	48x16	33x17	8	16	fixable
+fyiReporting.RdlDesign.PositionCtl	UserControlPlain	gbPosition/label7	System.Windows.Forms.Label	1	width	1	1		48x16	49x17	8	48	fixable
+fyiReporting.RdlDesign.PositionCtl	UserControlPlain	gbPosition/label8	System.Windows.Forms.Label	1	height	0	1	inside	48x16	44x17	8	16	fixable
+fyiReporting.RdlDesign.PositionCtl	UserControlPlain	gbPosition/label9	System.Windows.Forms.Label	1	width	6	0		48x23	54x17	8	9	fixable
+fyiReporting.RdlDesign.PositionCtl	UserControlPlain	gbText/chkCanGrow	System.Windows.Forms.CheckBox	1	width	8	0		62x19	70x17	0	8	needs the owner
+fyiReporting.RdlDesign.PositionCtl	UserControlPlain	gbText/label2	System.Windows.Forms.Label	1	width	19	0		88x22	107x17	112	8	fixable
+fyiReporting.RdlDesign.PositionCtl	UserControlPlain	gbText/label3	System.Windows.Forms.Label	1	width	22	0		104x23	126x17	0	9	needs the owner
+fyiReporting.RdlDesign.PositionCtl	UserControlPlain	lblColSpan	System.Windows.Forms.Label	1	width	27	0		112x23	139x17	16	9	needs the owner
+fyiReporting.RdlDesign.ReportCtl	UserControlPlain	groupBox1/label1	System.Windows.Forms.Label	1	height	0	1	inside	48x16	44x17	8	16	fixable
+fyiReporting.RdlDesign.ReportCtl	UserControlPlain	groupBox1/label4	System.Windows.Forms.Label	1	width	1	1		48x16	49x17	12	16	fixable
+fyiReporting.RdlDesign.ReportCtl	UserControlPlain	groupBox2/label5	System.Windows.Forms.Label	1	height	0	1	inside	48x16	32x17	8	8	fixable
+fyiReporting.RdlDesign.ReportCtl	UserControlPlain	groupBox2/label6	System.Windows.Forms.Label	1	height	0	1	cut	48x16	41x17	8	8	fixable
+fyiReporting.RdlDesign.ReportCtl	UserControlPlain	groupBox2/label7	System.Windows.Forms.Label	1	width	4	1		48x16	52x17	8	16	fixable
+fyiReporting.RdlDesign.ReportCtl	UserControlPlain	groupBox2/label8	System.Windows.Forms.Label	1	height	0	1	cut	48x16	33x17	8	16	fixable
+fyiReporting.RdlDesign.ReportCtl	UserControlPlain	label2	System.Windows.Forms.Label	1	width	11	0		72x23	83x17	8	1	needs the owner
+fyiReporting.RdlDesign.ReportParameterCtl	UserControlPlain	ckbParmAllowBlank	System.Windows.Forms.CheckBox	1	width	33	0		131x19	164x17	6	8	needs the owner
+fyiReporting.RdlDesign.ReportParameterCtl	UserControlPlain	ckbParmAllowNull	System.Windows.Forms.CheckBox	1	width	12	0		54x19	66x17	0	8	needs the owner
+fyiReporting.RdlDesign.ReportParameterCtl	UserControlPlain	ckbParmMultiValue	System.Windows.Forms.CheckBox	1	width	11	0		62x19	73x17	1	8	needs the owner
+fyiReporting.RdlDesign.ReportParameterCtl	UserControlPlain	groupBox1/label1	System.Windows.Forms.Label	1	width	14	1		64x16	78x17	8	10	needs the owner
+fyiReporting.RdlDesign.ReportParameterCtl	UserControlPlain	groupBox1/label2	System.Windows.Forms.Label	1	width	16	1		72x16	88x17	0	8	needs the owner
+fyiReporting.RdlDesign.ReportParameterCtl	UserControlPlain	groupBox1/rbDataSet	System.Windows.Forms.RadioButton	1	width	16	0		88x19	104x17	0	32	needs the owner
+fyiReporting.RdlDesign.ReportParameterCtl	UserControlPlain	groupBox1/rbValues	System.Windows.Forms.RadioButton	1	width	2	0		49x19	51x17	0	0	needs the owner
+fyiReporting.RdlDesign.ReportParameterCtl	UserControlPlain	groupBox2/label4	System.Windows.Forms.Label	1	width	14	0		64x23	78x17	8	3	needs the owner
+fyiReporting.RdlDesign.ReportParameterCtl	UserControlPlain	groupBox2/rbDefaultDataSetName	System.Windows.Forms.RadioButton	1	width	16	0		88x19	104x17	0	8	needs the owner
+fyiReporting.RdlDesign.ReportParameterCtl	UserControlPlain	groupBox2/rbDefaultValues	System.Windows.Forms.RadioButton	1	width	2	0		49x19	51x17	0	0	needs the owner
+fyiReporting.RdlDesign.ReportParameterCtl	UserControlPlain	lParmName	System.Windows.Forms.Label	1	width	5	1		40x16	45x17	8	8	fixable
+fyiReporting.RdlDesign.ReportParameterCtl	UserControlPlain	lParmPrompt	System.Windows.Forms.Label	1	width	5	1		48x16	53x17	0	16	needs the owner
+fyiReporting.RdlDesign.ReportParameterCtl	UserControlPlain	lParmType	System.Windows.Forms.Label	1	width	9	0		56x23	65x17	8	1	needs the owner
+fyiReporting.RdlDesign.ReportXmlCtl	UserControlPlain	label1	System.Windows.Forms.Label	1	width	25	0		112x23	137x17	8	17	needs the owner
+fyiReporting.RdlDesign.ReportXmlCtl	UserControlPlain	label2	System.Windows.Forms.Label	1	width	5	0		88x23	93x17	32	17	fixable
+fyiReporting.RdlDesign.ReportXmlCtl	UserControlPlain	label3	System.Windows.Forms.Label	1	width	25	0		104x23	129x17	16	17	needs the owner
+fyiReporting.RdlDesign.ReportXmlCtl	UserControlPlain	label4	System.Windows.Forms.Label	1	width	6	0		88x23	94x17	32	113	fixable
+fyiReporting.RdlDesign.StyleBorderCtl	UserControlPlain	lBottom	System.Windows.Forms.Label	1	width	12	1		40x16	52x17	0	126	needs the owner
+fyiReporting.RdlDesign.StyleBorderCtl	UserControlPlain	lLeft	System.Windows.Forms.Label	1	height	0	1	inside	40x16	32x17	0	16	fixable
+fyiReporting.RdlDesign.StyleBorderCtl	UserControlPlain	lRight	System.Windows.Forms.Label	1	width	1	1		40x16	41x17	0	16	needs the owner
+fyiReporting.RdlDesign.StyleBorderCtl	UserControlPlain	lTop	System.Windows.Forms.Label	1	height	0	1	cut	40x16	33x17	0	16	fixable
+fyiReporting.RdlDesign.StyleBorderCtl	UserControlPlain	label2	System.Windows.Forms.Label	1	height	0	1	cut	56x16	39x17	64	8	fixable
+fyiReporting.RdlDesign.StyleBorderCtl	UserControlPlain	label6	System.Windows.Forms.Label	1	height	0	1	inside	56x16	44x17	73	8	fixable
+fyiReporting.RdlDesign.StyleBorderCtl	UserControlPlain	label7	System.Windows.Forms.Label	1	height	0	1	inside	56x16	41x17	95	8	fixable
+fyiReporting.RdlDesign.StyleCtl	UserControlPlain	gbXML/label1	System.Windows.Forms.Label	1	width	26	0		100x20	126x17	27	3	fixable
+fyiReporting.RdlDesign.StyleCtl	UserControlPlain	gbXML/label2	System.Windows.Forms.Label	1	width	16	0		116x20	132x17	11	12	needs the owner
+fyiReporting.RdlDesign.StyleCtl	UserControlPlain	groupBox1/label10	System.Windows.Forms.Label	1	width	15	1		48x16	63x17	77	0	needs the owner
+fyiReporting.RdlDesign.StyleCtl	UserControlPlain	groupBox1/label15	System.Windows.Forms.Label	1	width	14	1		56x16	70x17	90	0	needs the owner
+fyiReporting.RdlDesign.StyleCtl	UserControlPlain	groupBox1/label3	System.Windows.Forms.Label	1	width	9	1		32x16	41x17	121	0	needs the owner
+fyiReporting.RdlDesign.StyleCtl	UserControlPlain	grpBoxPadding/label11	System.Windows.Forms.Label	1	height	0	1	inside	32x16	32x17	8	16	fixable
+fyiReporting.RdlDesign.StyleCtl	UserControlPlain	grpBoxPadding/label12	System.Windows.Forms.Label	1	width	9	1		32x16	41x17	8	16	needs the owner
+fyiReporting.RdlDesign.StyleCtl	UserControlPlain	grpBoxPadding/label13	System.Windows.Forms.Label	1	width	1	1		32x16	33x17	8	16	fixable
+fyiReporting.RdlDesign.StyleCtl	UserControlPlain	grpBoxPadding/label14	System.Windows.Forms.Label	1	width	12	1		40x16	52x17	8	16	needs the owner
+fyiReporting.RdlDesign.StyleTextCtl	UserControlPlain	groupBox1/lFont	System.Windows.Forms.Label	1	width	8	1		40x16	48x17	16	16	fixable
+fyiReporting.RdlDesign.StyleTextCtl	UserControlPlain	groupBox1/label11	System.Windows.Forms.Label	1	height	0	1	inside	40x16	35x17	0	16	fixable
+fyiReporting.RdlDesign.StyleTextCtl	UserControlPlain	groupBox1/label2	System.Windows.Forms.Label	1	width	13	0		64x23	77x17	0	9	needs the owner
+fyiReporting.RdlDesign.StyleTextCtl	UserControlPlain	groupBox1/label3	System.Windows.Forms.Label	1	height	0	1	cut	40x16	39x17	16	16	fixable
+fyiReporting.RdlDesign.StyleTextCtl	UserControlPlain	groupBox1/label9	System.Windows.Forms.Label	1	height	0	1	inside	48x16	41x17	8	16	fixable
+fyiReporting.RdlDesign.StyleTextCtl	UserControlPlain	label4	System.Windows.Forms.Label	1	width	4	1		48x16	52x17	16	32	fixable
+fyiReporting.RdlDesign.StyleTextCtl	UserControlPlain	label5	System.Windows.Forms.Label	1	width	7	1		48x16	55x17	40	16	fixable
+fyiReporting.RdlDesign.StyleTextCtl	UserControlPlain	label6	System.Windows.Forms.Label	1	width	14	1		56x16	70x17	8	16	needs the owner
+fyiReporting.RdlDesign.StyleTextCtl	UserControlPlain	label7	System.Windows.Forms.Label	1	width	8	1		56x16	64x17	8	16	fixable
+fyiReporting.RdlDesign.StyleTextCtl	UserControlPlain	label8	System.Windows.Forms.Label	1	width	11	1		80x16	91x17	8	16	needs the owner
+fyiReporting.RdlDesign.SubreportCtl	UserControlPlain	chkMergeTrans	System.Windows.Forms.CheckBox	1	width	70	0		363x19	433x17	80	16	fixable
+fyiReporting.RdlDesign.SubreportCtl	UserControlPlain	label1	System.Windows.Forms.Label	1	width	22	0		88x23	110x17	8	9	needs the owner
+fyiReporting.RdlDesign.SubreportCtl	UserControlPlain	label2	System.Windows.Forms.Label	1	width	24	0		96x23	120x17	0	9	needs the owner
+fyiReporting.RdlDesign.TableColumnCtl	UserControlPlain	chkFixedHeader	System.Windows.Forms.CheckBox	1	width	13	0		79x19	92x17	8	128	needs the owner
+fyiReporting.RdlDesign.TableColumnCtl	UserControlPlain	grpBoxVisibility/label2	System.Windows.Forms.Label	1	width	31	0		120x23	151x17	32	1	fixable
+fyiReporting.RdlDesign.TableColumnCtl	UserControlPlain	grpBoxVisibility/label3	System.Windows.Forms.Label	1	width	32	0		152x23	184x17	0	9	needs the owner
+fyiReporting.RdlDesign.TableColumnCtl	UserControlPlain	label1	System.Windows.Forms.Label	1	width	15	1		80x16	95x17	0	16	needs the owner
+fyiReporting.RdlDesign.TableCtl	UserControlPlain	groupBox1/chkPBAfter	System.Windows.Forms.CheckBox	1	width	3	0		113x19	116x17	80	8	fixable
+fyiReporting.RdlDesign.TableCtl	UserControlPlain	groupBox1/chkPBBefore	System.Windows.Forms.CheckBox	1	width	15	0		113x19	128x17	48	8	fixable
+fyiReporting.RdlDesign.TableCtl	UserControlPlain	groupBox2/chkRenderDetails	System.Windows.Forms.CheckBox	1	width	19	0		145x19	164x17	224	0	fixable
+fyiReporting.RdlDesign.TableCtl	UserControlPlain	groupBox2/label3	System.Windows.Forms.Label	1	width	28	1		112x16	140x17	32	8	fixable
+fyiReporting.RdlDesign.TableCtl	UserControlPlain	groupBox2/label4	System.Windows.Forms.Label	1	width	30	1		120x16	150x17	24	16	needs the owner
+fyiReporting.RdlDesign.TableCtl	UserControlPlain	groupBox3/chkHeaderRows	System.Windows.Forms.CheckBox	1	width	6	0		87x19	93x17	24	8	fixable
+fyiReporting.RdlDesign.TableCtl	UserControlPlain	label1	System.Windows.Forms.Label	1	width	24	0		96x23	120x17	0	1	needs the owner
+fyiReporting.RdlDesign.TableCtl	UserControlPlain	label2	System.Windows.Forms.Label	1	width	20	0		80x23	100x17	16	1	needs the owner
+fyiReporting.RdlDesign.TableRowCtl	UserControlPlain	grpBoxVisibility/label2	System.Windows.Forms.Label	1	width	31	0		120x23	151x17	32	1	fixable
+fyiReporting.RdlDesign.TableRowCtl	UserControlPlain	grpBoxVisibility/label3	System.Windows.Forms.Label	1	width	32	0		152x23	184x17	0	9	needs the owner
+fyiReporting.RdlDesign.TableRowCtl	UserControlPlain	label1	System.Windows.Forms.Label	1	height	0	1	cut	80x16	80x17	0	168	fixable
+fyiReporting.RdlViewer.DataSourcePassword	PlainWindow	label1	System.Windows.Forms.Label	1	width	69	0		280x23	349x17	10	1	needs the owner
+xCrudGenerator.Form1	PlainWindow	groupBox1/label6	System.Windows.Forms.Label	1	line	0	25		147x43	421x17	12	3	needs the owner
+xCrudGenerator.Form1	PlainWindow	label1	System.Windows.Forms.Label	1	line	0	14		421x54	1412x17	328	8	needs the owner
+xCrudGenerator.Form1	PlainWindow	labelPortNum	System.Windows.Forms.Label	1	width	1	0		87x17	88x17	1	8	fixable
