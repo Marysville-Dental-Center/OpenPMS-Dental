@@ -78,7 +78,7 @@ namespace OpenPmsDental {
 			this.checkHidden.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkHidden.Location = new System.Drawing.Point(118,79);
 			this.checkHidden.Name = "checkHidden";
-			this.checkHidden.Size = new System.Drawing.Size(105,16);
+			this.checkHidden.Size = new System.Drawing.Size(105,18);
 			this.checkHidden.TabIndex = 3;
 			this.checkHidden.Text = "Is Hidden";
 			// 

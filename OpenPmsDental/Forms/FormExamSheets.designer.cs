@@ -45,7 +45,7 @@ namespace OpenPmsDental{
 			// 
 			this.labelFilterTypes.Location = new System.Drawing.Point(4, 34);
 			this.labelFilterTypes.Name = "labelFilterTypes";
-			this.labelFilterTypes.Size = new System.Drawing.Size(156, 16);
+			this.labelFilterTypes.Size = new System.Drawing.Size(156, 17);
 			this.labelFilterTypes.TabIndex = 49;
 			this.labelFilterTypes.Text = "Show Types Filter";
 			this.labelFilterTypes.TextAlign = System.Drawing.ContentAlignment.BottomLeft;

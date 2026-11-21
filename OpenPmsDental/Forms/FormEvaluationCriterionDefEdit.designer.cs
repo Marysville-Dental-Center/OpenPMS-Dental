@@ -50,7 +50,7 @@ namespace OpenPmsDental{
 			// 
 			this.checkIsCategoryName.Location = new System.Drawing.Point(153, 103);
 			this.checkIsCategoryName.Name = "checkIsCategoryName";
-			this.checkIsCategoryName.Size = new System.Drawing.Size(190, 17);
+			this.checkIsCategoryName.Size = new System.Drawing.Size(190, 18);
 			this.checkIsCategoryName.TabIndex = 4;
 			this.checkIsCategoryName.Text = "This will not show a grade";
 			// 
