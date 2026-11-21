@@ -107,7 +107,7 @@
 			this.checkAutoGroupProcs.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkAutoGroupProcs.Location = new System.Drawing.Point(734, 33);
 			this.checkAutoGroupProcs.Name = "checkAutoGroupProcs";
-			this.checkAutoGroupProcs.Size = new System.Drawing.Size(211, 17);
+			this.checkAutoGroupProcs.Size = new System.Drawing.Size(211, 18);
 			this.checkAutoGroupProcs.TabIndex = 72;
 			this.checkAutoGroupProcs.Text = "Automatically Group Procedures";
 			// 
@@ -165,7 +165,7 @@
 			this.checkExcludeProcCodes.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkExcludeProcCodes.Location = new System.Drawing.Point(472, 76);
 			this.checkExcludeProcCodes.Name = "checkExcludeProcCodes";
-			this.checkExcludeProcCodes.Size = new System.Drawing.Size(108, 17);
+			this.checkExcludeProcCodes.Size = new System.Drawing.Size(108, 18);
 			this.checkExcludeProcCodes.TabIndex = 79;
 			this.checkExcludeProcCodes.Text = "Exclude";
 			this.checkExcludeProcCodes.Click += new System.EventHandler(this.checkExclude_Click);
@@ -175,7 +175,7 @@
 			this.checkOnlyProcCodes.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkOnlyProcCodes.Location = new System.Drawing.Point(472, 57);
 			this.checkOnlyProcCodes.Name = "checkOnlyProcCodes";
-			this.checkOnlyProcCodes.Size = new System.Drawing.Size(108, 17);
+			this.checkOnlyProcCodes.Size = new System.Drawing.Size(108, 18);
 			this.checkOnlyProcCodes.TabIndex = 78;
 			this.checkOnlyProcCodes.Text = "Only";
 			this.checkOnlyProcCodes.Click += new System.EventHandler(this.checkOnly_Click);
@@ -184,12 +184,13 @@
 			// 
 			this.label2.Location = new System.Drawing.Point(602, 55);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(98, 34);
+			this.label2.Size = new System.Drawing.Size(98, 52);
 			this.label2.TabIndex = 82;
 			this.label2.Text = "separate multiple by commas";
 			// 
 			// textProcedureCodes
 			// 
+			this.textProcedureCodes.AutoSize = false;
 			this.textProcedureCodes.Location = new System.Drawing.Point(569, 35);
 			this.textProcedureCodes.Name = "textProcedureCodes";
 			this.textProcedureCodes.Size = new System.Drawing.Size(163, 20);
@@ -220,7 +221,7 @@
 			this.checkShowProcsInProcess.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkShowProcsInProcess.Location = new System.Drawing.Point(748, 54);
 			this.checkShowProcsInProcess.Name = "checkShowProcsInProcess";
-			this.checkShowProcsInProcess.Size = new System.Drawing.Size(197, 17);
+			this.checkShowProcsInProcess.Size = new System.Drawing.Size(197, 18);
 			this.checkShowProcsInProcess.TabIndex = 76;
 			this.checkShowProcsInProcess.Text = "Show Procedures In Process";
 			// 

@@ -125,6 +125,7 @@ namespace OpenPmsDental{
 			// textVisitPercent
 			// 
 			this.textVisitPercent.Enabled = false;
+			this.textVisitPercent.AutoSize = false;
 			this.textVisitPercent.Location = new System.Drawing.Point(127, 21);
 			this.textVisitPercent.MaxVal = 100D;
 			this.textVisitPercent.MinVal = 0D;
@@ -146,6 +147,7 @@ namespace OpenPmsDental{
 			// TextVisitCountComplete
 			// 
 			this.TextVisitCountComplete.Enabled = false;
+			this.TextVisitCountComplete.AutoSize = false;
 			this.TextVisitCountComplete.Location = new System.Drawing.Point(127, 87);
 			this.TextVisitCountComplete.MaxLength = 4;
 			this.TextVisitCountComplete.MaxVal = 9999;
@@ -175,6 +177,7 @@ namespace OpenPmsDental{
 			// textVisitAmount
 			// 
 			this.textVisitAmount.Enabled = false;
+			this.textVisitAmount.AutoSize = false;
 			this.textVisitAmount.Location = new System.Drawing.Point(127, 43);
 			this.textVisitAmount.MaxVal = 100000000D;
 			this.textVisitAmount.MinVal = 0D;
@@ -196,6 +199,7 @@ namespace OpenPmsDental{
 			// textVisitCountPlanned
 			// 
 			this.textVisitCountPlanned.Enabled = false;
+			this.textVisitCountPlanned.AutoSize = false;
 			this.textVisitCountPlanned.Location = new System.Drawing.Point(127, 65);
 			this.textVisitCountPlanned.MaxLength = 4;
 			this.textVisitCountPlanned.MaxVal = 9999;
@@ -209,6 +213,7 @@ namespace OpenPmsDental{
 			// textAllVisitsPercent
 			// 
 			this.textAllVisitsPercent.Enabled = false;
+			this.textAllVisitsPercent.AutoSize = false;
 			this.textAllVisitsPercent.Location = new System.Drawing.Point(138, 70);
 			this.textAllVisitsPercent.MaxVal = 100D;
 			this.textAllVisitsPercent.MinVal = 0D;
@@ -221,6 +226,7 @@ namespace OpenPmsDental{
 			// textDebondPercent
 			// 
 			this.textDebondPercent.Enabled = false;
+			this.textDebondPercent.AutoSize = false;
 			this.textDebondPercent.Location = new System.Drawing.Point(138, 48);
 			this.textDebondPercent.MaxVal = 100D;
 			this.textDebondPercent.MinVal = 0D;
@@ -233,6 +239,7 @@ namespace OpenPmsDental{
 			// textBandingPercent
 			// 
 			this.textBandingPercent.Enabled = false;
+			this.textBandingPercent.AutoSize = false;
 			this.textBandingPercent.Location = new System.Drawing.Point(138, 26);
 			this.textBandingPercent.MaxVal = 100D;
 			this.textBandingPercent.MinVal = 0D;
@@ -247,7 +254,7 @@ namespace OpenPmsDental{
 			this.labelFeesAmount.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.labelFeesAmount.Location = new System.Drawing.Point(202, 10);
 			this.labelFeesAmount.Name = "labelFeesAmount";
-			this.labelFeesAmount.Size = new System.Drawing.Size(85, 15);
+			this.labelFeesAmount.Size = new System.Drawing.Size(85, 16);
 			this.labelFeesAmount.TabIndex = 207;
 			this.labelFeesAmount.Text = "$";
 			this.labelFeesAmount.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -255,6 +262,7 @@ namespace OpenPmsDental{
 			// textAllVisitsAmount
 			// 
 			this.textAllVisitsAmount.Enabled = false;
+			this.textAllVisitsAmount.AutoSize = false;
 			this.textAllVisitsAmount.Location = new System.Drawing.Point(202, 70);
 			this.textAllVisitsAmount.MaxVal = 100000000D;
 			this.textAllVisitsAmount.MinVal = 0D;
@@ -267,6 +275,7 @@ namespace OpenPmsDental{
 			// textDebondAmount
 			// 
 			this.textDebondAmount.Enabled = false;
+			this.textDebondAmount.AutoSize = false;
 			this.textDebondAmount.Location = new System.Drawing.Point(202, 48);
 			this.textDebondAmount.MaxVal = 100000000D;
 			this.textDebondAmount.MinVal = 0D;
@@ -279,6 +288,7 @@ namespace OpenPmsDental{
 			// textBandingAmount
 			// 
 			this.textBandingAmount.Enabled = false;
+			this.textBandingAmount.AutoSize = false;
 			this.textBandingAmount.Location = new System.Drawing.Point(202, 26);
 			this.textBandingAmount.MaxVal = 100000000D;
 			this.textBandingAmount.MinVal = 0D;
@@ -293,7 +303,7 @@ namespace OpenPmsDental{
 			this.labelFeesPercent.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.labelFeesPercent.Location = new System.Drawing.Point(138, 10);
 			this.labelFeesPercent.Name = "labelFeesPercent";
-			this.labelFeesPercent.Size = new System.Drawing.Size(62, 15);
+			this.labelFeesPercent.Size = new System.Drawing.Size(62, 16);
 			this.labelFeesPercent.TabIndex = 203;
 			this.labelFeesPercent.Text = "%";
 			this.labelFeesPercent.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -337,6 +347,7 @@ namespace OpenPmsDental{
 			// textTreatmentLength
 			// 
 			this.textTreatmentLength.Enabled = false;
+			this.textTreatmentLength.AutoSize = false;
 			this.textTreatmentLength.Location = new System.Drawing.Point(202, 55);
 			this.textTreatmentLength.MaxLength = 4;
 			this.textTreatmentLength.MaxVal = 9999;
@@ -348,6 +359,7 @@ namespace OpenPmsDental{
 			// textPatAR
 			// 
 			this.textPatAR.Enabled = false;
+			this.textPatAR.AutoSize = false;
 			this.textPatAR.Location = new System.Drawing.Point(399, 48);
 			this.textPatAR.MaxVal = 100000000D;
 			this.textPatAR.MinVal = 0D;
@@ -358,6 +370,7 @@ namespace OpenPmsDental{
 			// textPrimaryInsAR
 			// 
 			this.textPrimaryInsAR.Enabled = false;
+			this.textPrimaryInsAR.AutoSize = false;
 			this.textPrimaryInsAR.Location = new System.Drawing.Point(399, 70);
 			this.textPrimaryInsAR.MaxVal = 100000000D;
 			this.textPrimaryInsAR.MinVal = 0D;
@@ -368,6 +381,7 @@ namespace OpenPmsDental{
 			// textTotalAR
 			// 
 			this.textTotalAR.Enabled = false;
+			this.textTotalAR.AutoSize = false;
 			this.textTotalAR.Location = new System.Drawing.Point(399, 26);
 			this.textTotalAR.MaxVal = 100000000D;
 			this.textTotalAR.MinVal = 0D;
@@ -380,7 +394,7 @@ namespace OpenPmsDental{
 			this.labelAR.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.labelAR.Location = new System.Drawing.Point(399, 10);
 			this.labelAR.Name = "labelAR";
-			this.labelAR.Size = new System.Drawing.Size(85, 15);
+			this.labelAR.Size = new System.Drawing.Size(85, 16);
 			this.labelAR.TabIndex = 235;
 			this.labelAR.Text = "AR";
 			this.labelAR.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -409,7 +423,7 @@ namespace OpenPmsDental{
 			// 
 			this.checkIsTransfer.Location = new System.Drawing.Point(475, 9);
 			this.checkIsTransfer.Name = "checkIsTransfer";
-			this.checkIsTransfer.Size = new System.Drawing.Size(167, 30);
+			this.checkIsTransfer.Size = new System.Drawing.Size(222, 30);
 			this.checkIsTransfer.TabIndex = 1;
 			this.checkIsTransfer.Text = "Is Transfer from another orthodontist";
 			this.checkIsTransfer.CheckedChanged += new System.EventHandler(this.CheckIsTransfer_CheckedChanged);
@@ -419,7 +433,7 @@ namespace OpenPmsDental{
 			this.labelRemaining.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.labelRemaining.Location = new System.Drawing.Point(312, 10);
 			this.labelRemaining.Name = "labelRemaining";
-			this.labelRemaining.Size = new System.Drawing.Size(85, 15);
+			this.labelRemaining.Size = new System.Drawing.Size(85, 16);
 			this.labelRemaining.TabIndex = 225;
 			this.labelRemaining.Text = "Remaining";
 			this.labelRemaining.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -429,7 +443,7 @@ namespace OpenPmsDental{
 			this.labelCompleted.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.labelCompleted.Location = new System.Drawing.Point(225, 10);
 			this.labelCompleted.Name = "labelCompleted";
-			this.labelCompleted.Size = new System.Drawing.Size(85, 15);
+			this.labelCompleted.Size = new System.Drawing.Size(85, 16);
 			this.labelCompleted.TabIndex = 224;
 			this.labelCompleted.Text = "Completed";
 			this.labelCompleted.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -439,7 +453,7 @@ namespace OpenPmsDental{
 			this.labelTotal.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.labelTotal.Location = new System.Drawing.Point(138, 10);
 			this.labelTotal.Name = "labelTotal";
-			this.labelTotal.Size = new System.Drawing.Size(85, 15);
+			this.labelTotal.Size = new System.Drawing.Size(85, 16);
 			this.labelTotal.TabIndex = 223;
 			this.labelTotal.Text = "Total";
 			this.labelTotal.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -447,6 +461,7 @@ namespace OpenPmsDental{
 			// textPatRemaining
 			// 
 			this.textPatRemaining.Enabled = false;
+			this.textPatRemaining.AutoSize = false;
 			this.textPatRemaining.Location = new System.Drawing.Point(312, 48);
 			this.textPatRemaining.MaxVal = 100000000D;
 			this.textPatRemaining.MinVal = 0D;
@@ -466,6 +481,7 @@ namespace OpenPmsDental{
 			// textPatCompleted
 			// 
 			this.textPatCompleted.Enabled = false;
+			this.textPatCompleted.AutoSize = false;
 			this.textPatCompleted.Location = new System.Drawing.Point(225, 48);
 			this.textPatCompleted.MaxVal = 100000000D;
 			this.textPatCompleted.MinVal = 0D;
@@ -476,6 +492,7 @@ namespace OpenPmsDental{
 			// textPatientFee
 			// 
 			this.textPatientFee.Enabled = false;
+			this.textPatientFee.AutoSize = false;
 			this.textPatientFee.Location = new System.Drawing.Point(138, 48);
 			this.textPatientFee.MaxVal = 100000000D;
 			this.textPatientFee.MinVal = 0D;
@@ -488,6 +505,7 @@ namespace OpenPmsDental{
 			// textPrimaryInsRemaining
 			// 
 			this.textPrimaryInsRemaining.Enabled = false;
+			this.textPrimaryInsRemaining.AutoSize = false;
 			this.textPrimaryInsRemaining.Location = new System.Drawing.Point(312, 70);
 			this.textPrimaryInsRemaining.MaxVal = 100000000D;
 			this.textPrimaryInsRemaining.MinVal = 0D;
@@ -507,6 +525,7 @@ namespace OpenPmsDental{
 			// textPrimaryInsCompleted
 			// 
 			this.textPrimaryInsCompleted.Enabled = false;
+			this.textPrimaryInsCompleted.AutoSize = false;
 			this.textPrimaryInsCompleted.Location = new System.Drawing.Point(225, 70);
 			this.textPrimaryInsCompleted.MaxVal = 100000000D;
 			this.textPrimaryInsCompleted.MinVal = 0D;
@@ -517,6 +536,7 @@ namespace OpenPmsDental{
 			// textPrimaryInsuranceFee
 			// 
 			this.textPrimaryInsuranceFee.Enabled = false;
+			this.textPrimaryInsuranceFee.AutoSize = false;
 			this.textPrimaryInsuranceFee.Location = new System.Drawing.Point(138, 70);
 			this.textPrimaryInsuranceFee.MaxVal = 100000000D;
 			this.textPrimaryInsuranceFee.MinVal = 0D;
@@ -529,6 +549,7 @@ namespace OpenPmsDental{
 			// textTotalRemaining
 			// 
 			this.textTotalRemaining.Enabled = false;
+			this.textTotalRemaining.AutoSize = false;
 			this.textTotalRemaining.Location = new System.Drawing.Point(312, 26);
 			this.textTotalRemaining.MaxVal = 100000000D;
 			this.textTotalRemaining.MinVal = 0D;
@@ -538,6 +559,7 @@ namespace OpenPmsDental{
 			// 
 			// textExpectedDebondDate
 			// 
+			this.textExpectedDebondDate.AutoSize = false;
 			this.textExpectedDebondDate.Location = new System.Drawing.Point(202, 33);
 			this.textExpectedDebondDate.Name = "textExpectedDebondDate";
 			this.textExpectedDebondDate.Size = new System.Drawing.Size(85, 20);
@@ -547,6 +569,7 @@ namespace OpenPmsDental{
 			// textTotalCompleted
 			// 
 			this.textTotalCompleted.Enabled = false;
+			this.textTotalCompleted.AutoSize = false;
 			this.textTotalCompleted.Location = new System.Drawing.Point(225, 26);
 			this.textTotalCompleted.MaxVal = 100000000D;
 			this.textTotalCompleted.MinVal = 0D;
@@ -565,6 +588,7 @@ namespace OpenPmsDental{
 			// 
 			// textBandingDate
 			// 
+			this.textBandingDate.AutoSize = false;
 			this.textBandingDate.Location = new System.Drawing.Point(202, 11);
 			this.textBandingDate.Name = "textBandingDate";
 			this.textBandingDate.Size = new System.Drawing.Size(85, 20);
@@ -592,6 +616,7 @@ namespace OpenPmsDental{
 			// textTotalFee
 			// 
 			this.textTotalFee.Enabled = false;
+			this.textTotalFee.AutoSize = false;
 			this.textTotalFee.Location = new System.Drawing.Point(138, 26);
 			this.textTotalFee.MaxVal = 100000000D;
 			this.textTotalFee.MinVal = 0.01D;
@@ -684,6 +709,7 @@ namespace OpenPmsDental{
 			// textSecondaryInsuranceFee
 			// 
 			this.textSecondaryInsuranceFee.Enabled = false;
+			this.textSecondaryInsuranceFee.AutoSize = false;
 			this.textSecondaryInsuranceFee.Location = new System.Drawing.Point(138, 92);
 			this.textSecondaryInsuranceFee.MaxVal = 100000000D;
 			this.textSecondaryInsuranceFee.MinVal = 0D;
@@ -696,6 +722,7 @@ namespace OpenPmsDental{
 			// textSecondaryInsCompleted
 			// 
 			this.textSecondaryInsCompleted.Enabled = false;
+			this.textSecondaryInsCompleted.AutoSize = false;
 			this.textSecondaryInsCompleted.Location = new System.Drawing.Point(225, 92);
 			this.textSecondaryInsCompleted.MaxVal = 100000000D;
 			this.textSecondaryInsCompleted.MinVal = 0D;
@@ -706,6 +733,7 @@ namespace OpenPmsDental{
 			// textSecondaryInsAR
 			// 
 			this.textSecondaryInsAR.Enabled = false;
+			this.textSecondaryInsAR.AutoSize = false;
 			this.textSecondaryInsAR.Location = new System.Drawing.Point(399, 92);
 			this.textSecondaryInsAR.MaxVal = 100000000D;
 			this.textSecondaryInsAR.MinVal = 0D;
@@ -725,6 +753,7 @@ namespace OpenPmsDental{
 			// textSecondaryInsRemaining
 			// 
 			this.textSecondaryInsRemaining.Enabled = false;
+			this.textSecondaryInsRemaining.AutoSize = false;
 			this.textSecondaryInsRemaining.Location = new System.Drawing.Point(312, 92);
 			this.textSecondaryInsRemaining.MaxVal = 100000000D;
 			this.textSecondaryInsRemaining.MinVal = 0D;
@@ -770,7 +799,7 @@ namespace OpenPmsDental{
 			// 
 			this.label3.Location = new System.Drawing.Point(7, 96);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(280, 18);
+			this.label3.Size = new System.Drawing.Size(285, 18);
 			this.label3.TabIndex = 208;
 			this.label3.Text = "Codes for banding, visit, and debond get set in Prefs";
 			// 
@@ -799,7 +828,7 @@ namespace OpenPmsDental{
 			this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label1.Location = new System.Drawing.Point(431, 16);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(39, 15);
+			this.label1.Size = new System.Drawing.Size(39, 18);
 			this.label1.TabIndex = 241;
 			this.label1.Text = "or";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.BottomCenter;

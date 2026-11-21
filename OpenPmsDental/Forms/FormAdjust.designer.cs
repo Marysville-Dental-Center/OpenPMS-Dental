@@ -84,7 +84,7 @@
 			// 
 			this.label1.Location = new System.Drawing.Point(4, 54);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(104, 16);
+			this.label1.Size = new System.Drawing.Size(104, 18);
 			this.label1.TabIndex = 0;
 			this.label1.Text = "Adjustment Date";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -199,7 +199,7 @@
 			// 
 			this.label7.Location = new System.Drawing.Point(4, 78);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(104, 16);
+			this.label7.Size = new System.Drawing.Size(104, 18);
 			this.label7.TabIndex = 18;
 			this.label7.Text = "(procedure date)";
 			this.label7.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -216,7 +216,7 @@
 			// 
 			this.label8.Location = new System.Drawing.Point(4, 30);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(104, 16);
+			this.label8.Size = new System.Drawing.Size(104, 18);
 			this.label8.TabIndex = 20;
 			this.label8.Text = "Entry Date";
 			this.label8.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -321,6 +321,7 @@
 			// 
 			// textProcWriteoff
 			// 
+			this.textProcWriteoff.AutoSize = false;
 			this.textProcWriteoff.Location = new System.Drawing.Point(513, 39);
 			this.textProcWriteoff.Name = "textProcWriteoff";
 			this.textProcWriteoff.ReadOnly = true;
@@ -349,6 +350,7 @@
 			// 
 			// textProcTooth
 			// 
+			this.textProcTooth.AutoSize = false;
 			this.textProcTooth.Location = new System.Drawing.Point(115, 95);
 			this.textProcTooth.Name = "textProcTooth";
 			this.textProcTooth.ReadOnly = true;
@@ -366,6 +368,7 @@
 			// 
 			// textProcProv
 			// 
+			this.textProcProv.AutoSize = false;
 			this.textProcProv.Location = new System.Drawing.Point(115, 75);
 			this.textProcProv.Name = "textProcProv";
 			this.textProcProv.ReadOnly = true;
@@ -374,6 +377,7 @@
 			// 
 			// textProcDescription
 			// 
+			this.textProcDescription.AutoSize = false;
 			this.textProcDescription.Location = new System.Drawing.Point(115, 115);
 			this.textProcDescription.Name = "textProcDescription";
 			this.textProcDescription.ReadOnly = true;
@@ -382,6 +386,7 @@
 			// 
 			// textProcDate2
 			// 
+			this.textProcDate2.AutoSize = false;
 			this.textProcDate2.Location = new System.Drawing.Point(115, 55);
 			this.textProcDate2.Name = "textProcDate2";
 			this.textProcDate2.ReadOnly = true;
@@ -400,6 +405,7 @@
 			// 
 			// textProcAdjCur
 			// 
+			this.textProcAdjCur.AutoSize = false;
 			this.textProcAdjCur.Location = new System.Drawing.Point(513, 139);
 			this.textProcAdjCur.Name = "textProcAdjCur";
 			this.textProcAdjCur.ReadOnly = true;
@@ -409,6 +415,7 @@
 			// 
 			// textProcPatPaid
 			// 
+			this.textProcPatPaid.AutoSize = false;
 			this.textProcPatPaid.Location = new System.Drawing.Point(513, 119);
 			this.textProcPatPaid.Name = "textProcPatPaid";
 			this.textProcPatPaid.ReadOnly = true;
@@ -418,6 +425,7 @@
 			// 
 			// textProcAdj
 			// 
+			this.textProcAdj.AutoSize = false;
 			this.textProcAdj.Location = new System.Drawing.Point(513, 99);
 			this.textProcAdj.Name = "textProcAdj";
 			this.textProcAdj.ReadOnly = true;
@@ -427,6 +435,7 @@
 			// 
 			// textProcInsEst
 			// 
+			this.textProcInsEst.AutoSize = false;
 			this.textProcInsEst.Location = new System.Drawing.Point(513, 79);
 			this.textProcInsEst.Name = "textProcInsEst";
 			this.textProcInsEst.ReadOnly = true;
@@ -436,6 +445,7 @@
 			// 
 			// textProcInsPaid
 			// 
+			this.textProcInsPaid.AutoSize = false;
 			this.textProcInsPaid.Location = new System.Drawing.Point(513, 59);
 			this.textProcInsPaid.Name = "textProcInsPaid";
 			this.textProcInsPaid.ReadOnly = true;
@@ -445,6 +455,7 @@
 			// 
 			// textProcFee
 			// 
+			this.textProcFee.AutoSize = false;
 			this.textProcFee.Location = new System.Drawing.Point(513, 19);
 			this.textProcFee.Name = "textProcFee";
 			this.textProcFee.ReadOnly = true;
@@ -456,7 +467,7 @@
 			// 
 			this.label13.Location = new System.Drawing.Point(405, 141);
 			this.label13.Name = "label13";
-			this.label13.Size = new System.Drawing.Size(104, 16);
+			this.label13.Size = new System.Drawing.Size(104, 18);
 			this.label13.TabIndex = 34;
 			this.label13.Text = "This Adjustment";
 			this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -465,7 +476,7 @@
 			// 
 			this.label12.Location = new System.Drawing.Point(405, 167);
 			this.label12.Name = "label12";
-			this.label12.Size = new System.Drawing.Size(104, 16);
+			this.label12.Size = new System.Drawing.Size(104, 18);
 			this.label12.TabIndex = 33;
 			this.label12.Text = "Remaining";
 			this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -483,7 +494,7 @@
 			// 
 			this.label10.Location = new System.Drawing.Point(405, 101);
 			this.label10.Name = "label10";
-			this.label10.Size = new System.Drawing.Size(104, 16);
+			this.label10.Size = new System.Drawing.Size(104, 18);
 			this.label10.TabIndex = 31;
 			this.label10.Text = "Adjustments";
 			this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -528,7 +539,7 @@
 			// 
 			this.label18.Location = new System.Drawing.Point(9, 118);
 			this.label18.Name = "label18";
-			this.label18.Size = new System.Drawing.Size(104, 16);
+			this.label18.Size = new System.Drawing.Size(104, 18);
 			this.label18.TabIndex = 26;
 			this.label18.Text = "Description";
 			this.label18.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -565,7 +576,7 @@
 			this.checkOnlyTsiExcludedAdjTypes.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkOnlyTsiExcludedAdjTypes.Location = new System.Drawing.Point(72, 174);
 			this.checkOnlyTsiExcludedAdjTypes.Name = "checkOnlyTsiExcludedAdjTypes";
-			this.checkOnlyTsiExcludedAdjTypes.Size = new System.Drawing.Size(214, 20);
+			this.checkOnlyTsiExcludedAdjTypes.Size = new System.Drawing.Size(215, 20);
 			this.checkOnlyTsiExcludedAdjTypes.TabIndex = 171;
 			this.checkOnlyTsiExcludedAdjTypes.Text = "Only TSI excluded adjustment types";
 			this.checkOnlyTsiExcludedAdjTypes.CheckedChanged += new System.EventHandler(this.checkOnlyTsiExcludedAdjTypes_Checked);

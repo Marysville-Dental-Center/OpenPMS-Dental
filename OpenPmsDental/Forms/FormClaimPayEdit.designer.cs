@@ -71,6 +71,7 @@ namespace OpenPmsDental {
 			// 
 			// textAmount
 			// 
+			this.textAmount.AutoSize = false;
 			this.textAmount.Location = new System.Drawing.Point(159, 135);
 			this.textAmount.MaxVal = 100000000D;
 			this.textAmount.MinVal = -100000000D;
@@ -82,6 +83,7 @@ namespace OpenPmsDental {
 			// 
 			// textDate
 			// 
+			this.textDate.AutoSize = false;
 			this.textDate.Location = new System.Drawing.Point(159, 93);
 			this.textDate.Name = "textDate";
 			this.textDate.Size = new System.Drawing.Size(68, 20);
@@ -90,6 +92,7 @@ namespace OpenPmsDental {
 			// 
 			// textBankBranch
 			// 
+			this.textBankBranch.AutoSize = false;
 			this.textBankBranch.Location = new System.Drawing.Point(159, 177);
 			this.textBankBranch.MaxLength = 25;
 			this.textBankBranch.Name = "textBankBranch";
@@ -98,6 +101,7 @@ namespace OpenPmsDental {
 			// 
 			// textCheckNum
 			// 
+			this.textCheckNum.AutoSize = false;
 			this.textCheckNum.Location = new System.Drawing.Point(159, 156);
 			this.textCheckNum.MaxLength = 25;
 			this.textCheckNum.Name = "textCheckNum";
@@ -119,7 +123,7 @@ namespace OpenPmsDental {
 			// 
 			this.label6.Location = new System.Drawing.Point(12, 97);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(144, 16);
+			this.label6.Size = new System.Drawing.Size(144, 18);
 			this.label6.TabIndex = 37;
 			this.label6.Text = "Payment Posting Date";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -185,13 +189,14 @@ namespace OpenPmsDental {
 			// 
 			this.labelClinic.Location = new System.Drawing.Point(37, 25);
 			this.labelClinic.Name = "labelClinic";
-			this.labelClinic.Size = new System.Drawing.Size(118, 14);
+			this.labelClinic.Size = new System.Drawing.Size(118, 18);
 			this.labelClinic.TabIndex = 91;
 			this.labelClinic.Text = "Clinic";
 			this.labelClinic.TextAlign = System.Drawing.ContentAlignment.TopRight;
 			// 
 			// textCarrierName
 			// 
+			this.textCarrierName.AutoSize = false;
 			this.textCarrierName.Location = new System.Drawing.Point(159, 198);
 			this.textCarrierName.MaxLength = 25;
 			this.textCarrierName.Name = "textCarrierName";
@@ -218,6 +223,7 @@ namespace OpenPmsDental {
 			// 
 			// textDateIssued
 			// 
+			this.textDateIssued.AutoSize = false;
 			this.textDateIssued.Location = new System.Drawing.Point(159, 114);
 			this.textDateIssued.Name = "textDateIssued";
 			this.textDateIssued.Size = new System.Drawing.Size(68, 20);
@@ -228,7 +234,7 @@ namespace OpenPmsDental {
 			// 
 			this.label1.Location = new System.Drawing.Point(228, 115);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(94, 16);
+			this.label1.Size = new System.Drawing.Size(94, 18);
 			this.label1.TabIndex = 95;
 			this.label1.Text = "(optional)";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -254,7 +260,7 @@ namespace OpenPmsDental {
 			// 
 			this.label9.Location = new System.Drawing.Point(262, 178);
 			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(94, 16);
+			this.label9.Size = new System.Drawing.Size(94, 18);
 			this.label9.TabIndex = 97;
 			this.label9.Text = "(optional)";
 			this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -263,7 +269,7 @@ namespace OpenPmsDental {
 			// 
 			this.label10.Location = new System.Drawing.Point(262, 157);
 			this.label10.Name = "label10";
-			this.label10.Size = new System.Drawing.Size(94, 16);
+			this.label10.Size = new System.Drawing.Size(94, 18);
 			this.label10.TabIndex = 98;
 			this.label10.Text = "(optional)";
 			this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -279,7 +285,7 @@ namespace OpenPmsDental {
 			// 
 			this.label11.Location = new System.Drawing.Point(32, 47);
 			this.label11.Name = "label11";
-			this.label11.Size = new System.Drawing.Size(118, 14);
+			this.label11.Size = new System.Drawing.Size(118, 18);
 			this.label11.TabIndex = 100;
 			this.label11.Text = "Payment Type";
 			this.label11.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -304,7 +310,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelClaimPaymentGroup.Location = new System.Drawing.Point(12, 70);
 			this.labelClaimPaymentGroup.Name = "labelClaimPaymentGroup";
-			this.labelClaimPaymentGroup.Size = new System.Drawing.Size(143, 14);
+			this.labelClaimPaymentGroup.Size = new System.Drawing.Size(143, 18);
 			this.labelClaimPaymentGroup.TabIndex = 101;
 			this.labelClaimPaymentGroup.Text = "Claim Payment Group";
 			this.labelClaimPaymentGroup.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -362,7 +368,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelDepositAccountNum.Location = new System.Drawing.Point(6, 89);
 			this.labelDepositAccountNum.Name = "labelDepositAccountNum";
-			this.labelDepositAccountNum.Size = new System.Drawing.Size(137, 14);
+			this.labelDepositAccountNum.Size = new System.Drawing.Size(137, 18);
 			this.labelDepositAccountNum.TabIndex = 111;
 			this.labelDepositAccountNum.Text = "Auto Deposit Account";
 			this.labelDepositAccountNum.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -376,6 +382,7 @@ namespace OpenPmsDental {
 			// 
 			// textBoxBatchNum
 			// 
+			this.textBoxBatchNum.AutoSize = false;
 			this.textBoxBatchNum.Location = new System.Drawing.Point(144, 62);
 			this.textBoxBatchNum.MaxLength = 25;
 			this.textBoxBatchNum.Name = "textBoxBatchNum";
@@ -413,6 +420,7 @@ namespace OpenPmsDental {
 			// 
 			// validDepositDate
 			// 
+			this.validDepositDate.AutoSize = false;
 			this.validDepositDate.Location = new System.Drawing.Point(144, 20);
 			this.validDepositDate.Name = "validDepositDate";
 			this.validDepositDate.Size = new System.Drawing.Size(68, 20);
@@ -431,6 +439,7 @@ namespace OpenPmsDental {
 			// validDoubleDepositAmt
 			// 
 			this.validDoubleDepositAmt.Enabled = false;
+			this.validDoubleDepositAmt.AutoSize = false;
 			this.validDoubleDepositAmt.Location = new System.Drawing.Point(144, 41);
 			this.validDoubleDepositAmt.MaxVal = 100000000D;
 			this.validDoubleDepositAmt.MinVal = -100000000D;

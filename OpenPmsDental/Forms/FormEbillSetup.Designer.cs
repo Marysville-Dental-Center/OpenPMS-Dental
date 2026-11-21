@@ -102,7 +102,7 @@ namespace OpenPmsDental{
 			// 
 			this.checkIncludeAdjust.Location = new System.Drawing.Point(12, 94);
 			this.checkIncludeAdjust.Name = "checkIncludeAdjust";
-			this.checkIncludeAdjust.Size = new System.Drawing.Size(270, 18);
+			this.checkIncludeAdjust.Size = new System.Drawing.Size(273, 18);
 			this.checkIncludeAdjust.TabIndex = 264;
 			this.checkIncludeAdjust.Text = "Include \'Adjust\' in the description for adjustments";
 			// 
@@ -131,6 +131,7 @@ namespace OpenPmsDental{
 			// 
 			this.textStatementURL.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+			this.textStatementURL.AutoSize = false;
 			this.textStatementURL.Location = new System.Drawing.Point(417, 113);
 			this.textStatementURL.Name = "textStatementURL";
 			this.textStatementURL.Size = new System.Drawing.Size(271, 20);
@@ -206,6 +207,7 @@ namespace OpenPmsDental{
 			// 
 			// textPassword
 			// 
+			this.textPassword.AutoSize = false;
 			this.textPassword.Location = new System.Drawing.Point(417, 93);
 			this.textPassword.Name = "textPassword";
 			this.textPassword.PasswordChar = '*';
@@ -223,6 +225,7 @@ namespace OpenPmsDental{
 			// 
 			// textUserName
 			// 
+			this.textUserName.AutoSize = false;
 			this.textUserName.Location = new System.Drawing.Point(417, 73);
 			this.textUserName.Name = "textUserName";
 			this.textUserName.Size = new System.Drawing.Size(100, 20);
@@ -253,7 +256,7 @@ namespace OpenPmsDental{
 			// 
 			this.checkAmEx.Location = new System.Drawing.Point(9, 58);
 			this.checkAmEx.Name = "checkAmEx";
-			this.checkAmEx.Size = new System.Drawing.Size(132, 16);
+			this.checkAmEx.Size = new System.Drawing.Size(132, 18);
 			this.checkAmEx.TabIndex = 3;
 			this.checkAmEx.Text = "American Express";
 			// 
@@ -261,7 +264,7 @@ namespace OpenPmsDental{
 			// 
 			this.checkD.Location = new System.Drawing.Point(9, 43);
 			this.checkD.Name = "checkD";
-			this.checkD.Size = new System.Drawing.Size(132, 16);
+			this.checkD.Size = new System.Drawing.Size(132, 18);
 			this.checkD.TabIndex = 2;
 			this.checkD.Text = "Discover";
 			// 
@@ -269,7 +272,7 @@ namespace OpenPmsDental{
 			// 
 			this.checkV.Location = new System.Drawing.Point(9, 28);
 			this.checkV.Name = "checkV";
-			this.checkV.Size = new System.Drawing.Size(132, 16);
+			this.checkV.Size = new System.Drawing.Size(132, 18);
 			this.checkV.TabIndex = 1;
 			this.checkV.Text = "Visa";
 			// 
@@ -277,12 +280,13 @@ namespace OpenPmsDental{
 			// 
 			this.checkMC.Location = new System.Drawing.Point(9, 13);
 			this.checkMC.Name = "checkMC";
-			this.checkMC.Size = new System.Drawing.Size(132, 16);
+			this.checkMC.Size = new System.Drawing.Size(132, 18);
 			this.checkMC.TabIndex = 0;
 			this.checkMC.Text = "Master Card";
 			// 
 			// textClientAcctNumber
 			// 
+			this.textClientAcctNumber.AutoSize = false;
 			this.textClientAcctNumber.Location = new System.Drawing.Point(417, 53);
 			this.textClientAcctNumber.Name = "textClientAcctNumber";
 			this.textClientAcctNumber.Size = new System.Drawing.Size(100, 20);
@@ -299,6 +303,7 @@ namespace OpenPmsDental{
 			// 
 			// textVendorPMScode
 			// 
+			this.textVendorPMScode.AutoSize = false;
 			this.textVendorPMScode.Location = new System.Drawing.Point(417, 33);
 			this.textVendorPMScode.Name = "textVendorPMScode";
 			this.textVendorPMScode.Size = new System.Drawing.Size(100, 20);
@@ -315,6 +320,7 @@ namespace OpenPmsDental{
 			// 
 			// textVendorId
 			// 
+			this.textVendorId.AutoSize = false;
 			this.textVendorId.Location = new System.Drawing.Point(417, 13);
 			this.textVendorId.Name = "textVendorId";
 			this.textVendorId.Size = new System.Drawing.Size(100, 20);

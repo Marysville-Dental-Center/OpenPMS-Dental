@@ -107,7 +107,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelOps.Location = new System.Drawing.Point(32, 160);
 			this.labelOps.Name = "labelOps";
-			this.labelOps.Size = new System.Drawing.Size(182, 16);
+			this.labelOps.Size = new System.Drawing.Size(182, 17);
 			this.labelOps.TabIndex = 39;
 			this.labelOps.Text = "View Operatories";
 			this.labelOps.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -148,6 +148,7 @@ namespace OpenPmsDental {
 			// 
 			// textDescription
 			// 
+			this.textDescription.AutoSize = false;
 			this.textDescription.Location = new System.Drawing.Point(247, 4);
 			this.textDescription.Name = "textDescription";
 			this.textDescription.Size = new System.Drawing.Size(160, 20);
@@ -207,6 +208,7 @@ namespace OpenPmsDental {
 			// 
 			// textRowsPerIncr
 			// 
+			this.textRowsPerIncr.AutoSize = false;
 			this.textRowsPerIncr.Location = new System.Drawing.Point(247, 25);
 			this.textRowsPerIncr.Name = "textRowsPerIncr";
 			this.textRowsPerIncr.Size = new System.Drawing.Size(46, 20);
@@ -219,7 +221,7 @@ namespace OpenPmsDental {
 			this.checkOnlyScheduledProvs.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkOnlyScheduledProvs.Location = new System.Drawing.Point(21, 20);
 			this.checkOnlyScheduledProvs.Name = "checkOnlyScheduledProvs";
-			this.checkOnlyScheduledProvs.Size = new System.Drawing.Size(208, 20);
+			this.checkOnlyScheduledProvs.Size = new System.Drawing.Size(212, 20);
 			this.checkOnlyScheduledProvs.TabIndex = 56;
 			this.checkOnlyScheduledProvs.Text = "Only show ops for scheduled provs";
 			this.checkOnlyScheduledProvs.Click += new System.EventHandler(this.checkOnlyScheduledProvs_Click);
@@ -387,6 +389,7 @@ namespace OpenPmsDental {
 			// 
 			// textScrollTime
 			// 
+			this.textScrollTime.AutoSize = false;
 			this.textScrollTime.Location = new System.Drawing.Point(247, 67);
 			this.textScrollTime.Name = "textScrollTime";
 			this.textScrollTime.Size = new System.Drawing.Size(56, 20);
@@ -424,12 +427,13 @@ namespace OpenPmsDental {
 			this.checkShowMirroredAppts.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkShowMirroredAppts.Location = new System.Drawing.Point(30, 124);
 			this.checkShowMirroredAppts.Name = "checkShowMirroredAppts";
-			this.checkShowMirroredAppts.Size = new System.Drawing.Size(175, 17);
+			this.checkShowMirroredAppts.Size = new System.Drawing.Size(180, 18);
 			this.checkShowMirroredAppts.TabIndex = 137;
 			this.checkShowMirroredAppts.Text = "Show mirrored appointments";
 			// 
 			// textWidthOpMinimum
 			// 
+			this.textWidthOpMinimum.AutoSize = false;
 			this.textWidthOpMinimum.Location = new System.Drawing.Point(247, 46);
 			this.textWidthOpMinimum.Name = "textWidthOpMinimum";
 			this.textWidthOpMinimum.Size = new System.Drawing.Size(46, 20);
@@ -455,7 +459,7 @@ namespace OpenPmsDental {
 			// 
 			this.label7.Location = new System.Drawing.Point(429, 1);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(148, 18);
+			this.label7.Size = new System.Drawing.Size(149, 18);
 			this.label7.TabIndex = 140;
 			this.label7.Text = "Waiting Room Name Format";
 			this.label7.TextAlign = System.Drawing.ContentAlignment.BottomLeft;

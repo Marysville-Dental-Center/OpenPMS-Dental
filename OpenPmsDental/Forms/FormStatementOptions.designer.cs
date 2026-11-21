@@ -95,7 +95,7 @@ namespace OpenPmsDental {
 			this.checkHidePayment.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkHidePayment.Location = new System.Drawing.Point(6, 18);
 			this.checkHidePayment.Name = "checkHidePayment";
-			this.checkHidePayment.Size = new System.Drawing.Size(165, 17);
+			this.checkHidePayment.Size = new System.Drawing.Size(165, 18);
 			this.checkHidePayment.TabIndex = 3;
 			this.checkHidePayment.Text = "Hide payment options";
 			// 
@@ -162,7 +162,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelEndDate.Location = new System.Drawing.Point(5, 44);
 			this.labelEndDate.Name = "labelEndDate";
-			this.labelEndDate.Size = new System.Drawing.Size(69, 14);
+			this.labelEndDate.Size = new System.Drawing.Size(69, 18);
 			this.labelEndDate.TabIndex = 0;
 			this.labelEndDate.Text = "End Date";
 			this.labelEndDate.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -171,7 +171,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelStartDate.Location = new System.Drawing.Point(5, 21);
 			this.labelStartDate.Name = "labelStartDate";
-			this.labelStartDate.Size = new System.Drawing.Size(69, 14);
+			this.labelStartDate.Size = new System.Drawing.Size(69, 18);
 			this.labelStartDate.TabIndex = 0;
 			this.labelStartDate.Text = "Start Date";
 			this.labelStartDate.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -205,7 +205,7 @@ namespace OpenPmsDental {
 			// 
 			this.label2.Location = new System.Drawing.Point(6, 42);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(110, 14);
+			this.label2.Size = new System.Drawing.Size(110, 18);
 			this.label2.TabIndex = 0;
 			this.label2.Text = "Mode";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -223,7 +223,7 @@ namespace OpenPmsDental {
 			this.checkIntermingled.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkIntermingled.Location = new System.Drawing.Point(6, 56);
 			this.checkIntermingled.Name = "checkIntermingled";
-			this.checkIntermingled.Size = new System.Drawing.Size(165, 17);
+			this.checkIntermingled.Size = new System.Drawing.Size(174, 18);
 			this.checkIntermingled.TabIndex = 5;
 			this.checkIntermingled.Text = "Intermingle family members";
 			this.checkIntermingled.Click += new System.EventHandler(this.checkIntermingled_Click);
@@ -233,7 +233,7 @@ namespace OpenPmsDental {
 			this.checkSinglePatient.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkSinglePatient.Location = new System.Drawing.Point(6, 37);
 			this.checkSinglePatient.Name = "checkSinglePatient";
-			this.checkSinglePatient.Size = new System.Drawing.Size(165, 17);
+			this.checkSinglePatient.Size = new System.Drawing.Size(165, 18);
 			this.checkSinglePatient.TabIndex = 4;
 			this.checkSinglePatient.Text = "Single patient only";
 			this.checkSinglePatient.Click += new System.EventHandler(this.checkSinglePatient_Click);
@@ -289,7 +289,7 @@ namespace OpenPmsDental {
 			// 
 			this.label4.Location = new System.Drawing.Point(6, 19);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(110, 14);
+			this.label4.Size = new System.Drawing.Size(110, 18);
 			this.label4.TabIndex = 0;
 			this.label4.Text = "Date";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -299,7 +299,7 @@ namespace OpenPmsDental {
 			this.checkIsSent.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkIsSent.Location = new System.Drawing.Point(6, 100);
 			this.checkIsSent.Name = "checkIsSent";
-			this.checkIsSent.Size = new System.Drawing.Size(126, 17);
+			this.checkIsSent.Size = new System.Drawing.Size(126, 18);
 			this.checkIsSent.TabIndex = 1;
 			this.checkIsSent.Text = "Sent";
 			this.checkIsSent.Click += new System.EventHandler(this.checkIsSent_Click);
@@ -364,7 +364,7 @@ namespace OpenPmsDental {
 			this.checkIsReceipt.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkIsReceipt.Location = new System.Drawing.Point(6, 119);
 			this.checkIsReceipt.Name = "checkIsReceipt";
-			this.checkIsReceipt.Size = new System.Drawing.Size(126, 17);
+			this.checkIsReceipt.Size = new System.Drawing.Size(126, 18);
 			this.checkIsReceipt.TabIndex = 6;
 			this.checkIsReceipt.Text = "Receipt";
 			// 
@@ -392,7 +392,7 @@ namespace OpenPmsDental {
 			// 
 			this.label5.Location = new System.Drawing.Point(13, 57);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(120, 14);
+			this.label5.Size = new System.Drawing.Size(120, 18);
 			this.label5.TabIndex = 0;
 			this.label5.Text = "Invoice Number";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -402,7 +402,7 @@ namespace OpenPmsDental {
 			this.checkIsInvoiceCopy.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkIsInvoiceCopy.Location = new System.Drawing.Point(5, 34);
 			this.checkIsInvoiceCopy.Name = "checkIsInvoiceCopy";
-			this.checkIsInvoiceCopy.Size = new System.Drawing.Size(142, 17);
+			this.checkIsInvoiceCopy.Size = new System.Drawing.Size(142, 18);
 			this.checkIsInvoiceCopy.TabIndex = 1;
 			this.checkIsInvoiceCopy.Text = "Invoice Copy";
 			// 
@@ -411,7 +411,7 @@ namespace OpenPmsDental {
 			this.checkIsInvoice.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkIsInvoice.Location = new System.Drawing.Point(5, 15);
 			this.checkIsInvoice.Name = "checkIsInvoice";
-			this.checkIsInvoice.Size = new System.Drawing.Size(142, 17);
+			this.checkIsInvoice.Size = new System.Drawing.Size(142, 18);
 			this.checkIsInvoice.TabIndex = 0;
 			this.checkIsInvoice.Text = "Invoice";
 			this.checkIsInvoice.Click += new System.EventHandler(this.checkIsInvoice_Click);
@@ -422,7 +422,7 @@ namespace OpenPmsDental {
 			this.checkSuperStatement.Enabled = false;
 			this.checkSuperStatement.Location = new System.Drawing.Point(6, 75);
 			this.checkSuperStatement.Name = "checkSuperStatement";
-			this.checkSuperStatement.Size = new System.Drawing.Size(165, 17);
+			this.checkSuperStatement.Size = new System.Drawing.Size(165, 18);
 			this.checkSuperStatement.TabIndex = 7;
 			this.checkSuperStatement.Text = "Send to super family";
 			this.checkSuperStatement.CheckedChanged += new System.EventHandler(this.checkSuperStatement_CheckedChanged);
@@ -443,7 +443,7 @@ namespace OpenPmsDental {
 			this.checkShowLName.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkShowLName.Location = new System.Drawing.Point(174, 18);
 			this.checkShowLName.Name = "checkShowLName";
-			this.checkShowLName.Size = new System.Drawing.Size(164, 17);
+			this.checkShowLName.Size = new System.Drawing.Size(164, 18);
 			this.checkShowLName.TabIndex = 254;
 			this.checkShowLName.Text = "Include patient last name";
 			// 
@@ -472,7 +472,7 @@ namespace OpenPmsDental {
 			this.checkServiceDateView.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkServiceDateView.Location = new System.Drawing.Point(6, 94);
 			this.checkServiceDateView.Name = "checkServiceDateView";
-			this.checkServiceDateView.Size = new System.Drawing.Size(165, 17);
+			this.checkServiceDateView.Size = new System.Drawing.Size(165, 18);
 			this.checkServiceDateView.TabIndex = 259;
 			this.checkServiceDateView.Text = "Service Date View";
 			// 

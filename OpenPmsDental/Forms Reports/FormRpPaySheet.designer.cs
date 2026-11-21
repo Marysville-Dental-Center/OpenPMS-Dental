@@ -88,7 +88,7 @@ namespace OpenPmsDental {
 			this.checkAllProv.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.checkAllProv.Location = new System.Drawing.Point(494, 35);
 			this.checkAllProv.Name = "checkAllProv";
-			this.checkAllProv.Size = new System.Drawing.Size(40, 16);
+			this.checkAllProv.Size = new System.Drawing.Size(40, 18);
 			this.checkAllProv.TabIndex = 43;
 			this.checkAllProv.Text = "All";
 			this.checkAllProv.Click += new System.EventHandler(this.checkAllProv_Click);
@@ -118,7 +118,7 @@ namespace OpenPmsDental {
 			// 
 			this.radioPatient.Location = new System.Drawing.Point(8, 37);
 			this.radioPatient.Name = "radioPatient";
-			this.radioPatient.Size = new System.Drawing.Size(104, 18);
+			this.radioPatient.Size = new System.Drawing.Size(104, 22);
 			this.radioPatient.TabIndex = 1;
 			this.radioPatient.Text = "Patient";
 			this.radioPatient.UseVisualStyleBackColor = true;
@@ -128,7 +128,7 @@ namespace OpenPmsDental {
 			this.radioCheck.Checked = true;
 			this.radioCheck.Location = new System.Drawing.Point(8, 18);
 			this.radioCheck.Name = "radioCheck";
-			this.radioCheck.Size = new System.Drawing.Size(104, 18);
+			this.radioCheck.Size = new System.Drawing.Size(104, 19);
 			this.radioCheck.TabIndex = 0;
 			this.radioCheck.TabStop = true;
 			this.radioCheck.Text = "Check";
@@ -140,7 +140,7 @@ namespace OpenPmsDental {
 			this.checkPatientTypes.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.checkPatientTypes.Location = new System.Drawing.Point(382, 263);
 			this.checkPatientTypes.Name = "checkPatientTypes";
-			this.checkPatientTypes.Size = new System.Drawing.Size(166, 16);
+			this.checkPatientTypes.Size = new System.Drawing.Size(166, 18);
 			this.checkPatientTypes.TabIndex = 47;
 			this.checkPatientTypes.Text = "All patient payment types";
 			this.checkPatientTypes.Click += new System.EventHandler(this.checkAllTypes_Click);
@@ -159,7 +159,7 @@ namespace OpenPmsDental {
 			this.checkInsuranceTypes.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.checkInsuranceTypes.Location = new System.Drawing.Point(210, 263);
 			this.checkInsuranceTypes.Name = "checkInsuranceTypes";
-			this.checkInsuranceTypes.Size = new System.Drawing.Size(166, 16);
+			this.checkInsuranceTypes.Size = new System.Drawing.Size(172, 18);
 			this.checkInsuranceTypes.TabIndex = 48;
 			this.checkInsuranceTypes.Text = "All insurance payment types";
 			this.checkInsuranceTypes.Click += new System.EventHandler(this.checkIns_Click);
@@ -168,7 +168,7 @@ namespace OpenPmsDental {
 			// 
 			this.checkAllClin.Location = new System.Drawing.Point(662, 35);
 			this.checkAllClin.Name = "checkAllClin";
-			this.checkAllClin.Size = new System.Drawing.Size(160, 16);
+			this.checkAllClin.Size = new System.Drawing.Size(160, 18);
 			this.checkAllClin.TabIndex = 54;
 			this.checkAllClin.Text = "All (Includes hidden)";
 			this.checkAllClin.Click += new System.EventHandler(this.checkAllClin_Click);
@@ -215,7 +215,7 @@ namespace OpenPmsDental {
 			this.checkAllClaimPayGroups.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.checkAllClaimPayGroups.Location = new System.Drawing.Point(551, 263);
 			this.checkAllClaimPayGroups.Name = "checkAllClaimPayGroups";
-			this.checkAllClaimPayGroups.Size = new System.Drawing.Size(166, 16);
+			this.checkAllClaimPayGroups.Size = new System.Drawing.Size(166, 18);
 			this.checkAllClaimPayGroups.TabIndex = 58;
 			this.checkAllClaimPayGroups.Text = "All claim payment groups";
 			this.checkAllClaimPayGroups.Click += new System.EventHandler(this.checkAllClaimPayGroups_Click);
@@ -234,7 +234,7 @@ namespace OpenPmsDental {
 			this.checkUnearned.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.checkUnearned.Location = new System.Drawing.Point(535, 35);
 			this.checkUnearned.Name = "checkUnearned";
-			this.checkUnearned.Size = new System.Drawing.Size(118, 16);
+			this.checkUnearned.Size = new System.Drawing.Size(118, 18);
 			this.checkUnearned.TabIndex = 59;
 			this.checkUnearned.Text = "Include Unearned";
 			// 
@@ -243,7 +243,7 @@ namespace OpenPmsDental {
 			this.checkReportDisplayUnearnedTP.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
 			this.checkReportDisplayUnearnedTP.Location = new System.Drawing.Point(26, 370);
 			this.checkReportDisplayUnearnedTP.Name = "checkReportDisplayUnearnedTP";
-			this.checkReportDisplayUnearnedTP.Size = new System.Drawing.Size(159, 30);
+			this.checkReportDisplayUnearnedTP.Size = new System.Drawing.Size(184, 30);
 			this.checkReportDisplayUnearnedTP.TabIndex = 60;
 			this.checkReportDisplayUnearnedTP.Text = "Include hidden treatment planned prepayments";
 			// 
@@ -252,7 +252,7 @@ namespace OpenPmsDental {
 			this.checkShowOnlinePatientPaymentsSeparately.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
 			this.checkShowOnlinePatientPaymentsSeparately.Location = new System.Drawing.Point(26, 406);
 			this.checkShowOnlinePatientPaymentsSeparately.Name = "checkShowOnlinePatientPaymentsSeparately";
-			this.checkShowOnlinePatientPaymentsSeparately.Size = new System.Drawing.Size(159, 30);
+			this.checkShowOnlinePatientPaymentsSeparately.Size = new System.Drawing.Size(184, 30);
 			this.checkShowOnlinePatientPaymentsSeparately.TabIndex = 61;
 			this.checkShowOnlinePatientPaymentsSeparately.Text = "Show online patient payments separately";
 			// 

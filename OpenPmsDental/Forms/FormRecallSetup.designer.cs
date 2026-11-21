@@ -93,7 +93,7 @@ namespace OpenPmsDental {
             this.radioExcludeFutureYes.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.radioExcludeFutureYes.Location = new System.Drawing.Point(408, 570);
             this.radioExcludeFutureYes.Name = "radioExcludeFutureYes";
-            this.radioExcludeFutureYes.Size = new System.Drawing.Size(213, 18);
+            this.radioExcludeFutureYes.Size = new System.Drawing.Size(213, 20);
             this.radioExcludeFutureYes.TabIndex = 72;
             this.radioExcludeFutureYes.Text = "Exclude from list if any future appt";
             this.radioExcludeFutureYes.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -104,7 +104,7 @@ namespace OpenPmsDental {
             this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label8.Location = new System.Drawing.Point(24, 567);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(176, 16);
+            this.label8.Size = new System.Drawing.Size(176, 17);
             this.label8.TabIndex = 19;
             this.label8.Text = "Postcards per sheet (1,3,or 4)";
             this.label8.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -124,6 +124,7 @@ namespace OpenPmsDental {
             // textPostcardsPerSheet
             // 
             this.textPostcardsPerSheet.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.textPostcardsPerSheet.AutoSize = false;
             this.textPostcardsPerSheet.Location = new System.Drawing.Point(200, 564);
             this.textPostcardsPerSheet.Name = "textPostcardsPerSheet";
             this.textPostcardsPerSheet.Size = new System.Drawing.Size(34, 20);
@@ -144,7 +145,7 @@ namespace OpenPmsDental {
             // 
             this.radioUseEmailFalse.Location = new System.Drawing.Point(7, 34);
             this.radioUseEmailFalse.Name = "radioUseEmailFalse";
-            this.radioUseEmailFalse.Size = new System.Drawing.Size(181, 18);
+            this.radioUseEmailFalse.Size = new System.Drawing.Size(192, 23);
             this.radioUseEmailFalse.TabIndex = 1;
             this.radioUseEmailFalse.Text = "Email is preferred recall method";
             this.radioUseEmailFalse.UseVisualStyleBackColor = true;
@@ -153,7 +154,7 @@ namespace OpenPmsDental {
             // 
             this.radioUseEmailTrue.Location = new System.Drawing.Point(7, 17);
             this.radioUseEmailTrue.Name = "radioUseEmailTrue";
-            this.radioUseEmailTrue.Size = new System.Drawing.Size(181, 18);
+            this.radioUseEmailTrue.Size = new System.Drawing.Size(181, 22);
             this.radioUseEmailTrue.TabIndex = 0;
             this.radioUseEmailTrue.Text = "Has email address";
             this.radioUseEmailTrue.UseVisualStyleBackColor = true;
@@ -173,6 +174,7 @@ namespace OpenPmsDental {
             // 
             // textDown
             // 
+            this.textDown.AutoSize = false;
             this.textDown.Location = new System.Drawing.Point(110, 40);
             this.textDown.MaxVal = 100000000D;
             this.textDown.MinVal = -100000000D;
@@ -191,6 +193,7 @@ namespace OpenPmsDental {
             // 
             // textRight
             // 
+            this.textRight.AutoSize = false;
             this.textRight.Location = new System.Drawing.Point(110, 18);
             this.textRight.MaxVal = 100000000D;
             this.textRight.MinVal = -100000000D;
@@ -223,6 +226,7 @@ namespace OpenPmsDental {
             // 
             // textDaysFuture
             // 
+            this.textDaysFuture.AutoSize = false;
             this.textDaysFuture.Location = new System.Drawing.Point(192, 54);
             this.textDaysFuture.MaxVal = 10000;
             this.textDaysFuture.Name = "textDaysFuture";
@@ -232,6 +236,7 @@ namespace OpenPmsDental {
             // 
             // textDaysPast
             // 
+            this.textDaysPast.AutoSize = false;
             this.textDaysPast.Location = new System.Drawing.Point(192, 32);
             this.textDaysPast.MaxVal = 10000;
             this.textDaysPast.Name = "textDaysPast";
@@ -310,6 +315,7 @@ namespace OpenPmsDental {
             // 
             // textDaysSecondReminder
             // 
+            this.textDaysSecondReminder.AutoSize = false;
             this.textDaysSecondReminder.Location = new System.Drawing.Point(192, 38);
             this.textDaysSecondReminder.MaxVal = 10000;
             this.textDaysSecondReminder.Name = "textDaysSecondReminder";
@@ -319,6 +325,7 @@ namespace OpenPmsDental {
             // 
             // textDaysFirstReminder
             // 
+            this.textDaysFirstReminder.AutoSize = false;
             this.textDaysFirstReminder.Location = new System.Drawing.Point(192, 16);
             this.textDaysFirstReminder.MaxVal = 10000;
             this.textDaysFirstReminder.Name = "textDaysFirstReminder";
@@ -339,7 +346,7 @@ namespace OpenPmsDental {
             // 
             this.label3.Location = new System.Drawing.Point(44, 37);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(146, 20);
+            this.label3.Size = new System.Drawing.Size(148, 20);
             this.label3.TabIndex = 52;
             this.label3.Text = "Second (or more) Reminder";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -347,6 +354,7 @@ namespace OpenPmsDental {
             // textMaxReminders
             // 
             this.textMaxReminders.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.textMaxReminders.AutoSize = false;
             this.textMaxReminders.Location = new System.Drawing.Point(819, 625);
             this.textMaxReminders.MaxVal = 10000;
             this.textMaxReminders.Name = "textMaxReminders";
@@ -359,7 +367,7 @@ namespace OpenPmsDental {
             this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label4.Location = new System.Drawing.Point(679, 624);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(138, 20);
+            this.label4.Size = new System.Drawing.Size(139, 20);
             this.label4.TabIndex = 67;
             this.label4.Text = "Max # Reminders (e.g. 4)";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -454,6 +462,7 @@ namespace OpenPmsDental {
             // textMaxAutoReminders
             // 
             this.textMaxAutoReminders.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.textMaxAutoReminders.AutoSize = false;
             this.textMaxAutoReminders.Location = new System.Drawing.Point(819, 603);
             this.textMaxAutoReminders.MaxVal = 10000;
             this.textMaxAutoReminders.Name = "textMaxAutoReminders";

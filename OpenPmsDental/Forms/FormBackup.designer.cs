@@ -110,7 +110,7 @@
 			// 
 			this.label1.Location = new System.Drawing.Point(19, 12);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(713, 28);
+			this.label1.Size = new System.Drawing.Size(757, 28);
 			this.label1.TabIndex = 2;
 			this.label1.Text = "BACKUPS ARE USELESS UNLESS YOU REGULARLY VERIFY THEIR QUALITY BY RESTORING THEM O" +
     "N A SEPARATE SECURE DEVICE. We suggest an encrypted USB flash drive for this pur" +
@@ -121,7 +121,7 @@
 			// 
 			this.checkExcludeImages.Location = new System.Drawing.Point(13, 49);
 			this.checkExcludeImages.Name = "checkExcludeImages";
-			this.checkExcludeImages.Size = new System.Drawing.Size(314, 17);
+			this.checkExcludeImages.Size = new System.Drawing.Size(314, 18);
 			this.checkExcludeImages.TabIndex = 15;
 			this.checkExcludeImages.Text = "Exclude image folder in backup or restore";
 			this.checkExcludeImages.Click += new System.EventHandler(this.checkExcludeImages_Click);
@@ -360,7 +360,7 @@
 			// 
 			this.checkTaskHist.Location = new System.Drawing.Point(139, 172);
 			this.checkTaskHist.Name = "checkTaskHist";
-			this.checkTaskHist.Size = new System.Drawing.Size(247, 17);
+			this.checkTaskHist.Size = new System.Drawing.Size(247, 18);
 			this.checkTaskHist.TabIndex = 20;
 			this.checkTaskHist.Text = "TaskHist";
 			// 
@@ -368,7 +368,7 @@
 			// 
 			this.checkWikiPageHist.Location = new System.Drawing.Point(139, 149);
 			this.checkWikiPageHist.Name = "checkWikiPageHist";
-			this.checkWikiPageHist.Size = new System.Drawing.Size(247, 17);
+			this.checkWikiPageHist.Size = new System.Drawing.Size(247, 18);
 			this.checkWikiPageHist.TabIndex = 19;
 			this.checkWikiPageHist.Text = "WikiPageHist";
 			// 
@@ -376,7 +376,7 @@
 			// 
 			this.checkWikiListHist.Location = new System.Drawing.Point(139, 126);
 			this.checkWikiListHist.Name = "checkWikiListHist";
-			this.checkWikiListHist.Size = new System.Drawing.Size(247, 17);
+			this.checkWikiListHist.Size = new System.Drawing.Size(247, 18);
 			this.checkWikiListHist.TabIndex = 18;
 			this.checkWikiListHist.Text = "WikiListHist";
 			// 
@@ -394,7 +394,7 @@
 			// 
 			this.checkEmailMessage.Location = new System.Drawing.Point(139, 103);
 			this.checkEmailMessage.Name = "checkEmailMessage";
-			this.checkEmailMessage.Size = new System.Drawing.Size(247, 17);
+			this.checkEmailMessage.Size = new System.Drawing.Size(247, 18);
 			this.checkEmailMessage.TabIndex = 16;
 			this.checkEmailMessage.Text = "EmailMessage";
 			// 
@@ -402,7 +402,7 @@
 			// 
 			this.checkSecurityLog.Location = new System.Drawing.Point(139, 80);
 			this.checkSecurityLog.Name = "checkSecurityLog";
-			this.checkSecurityLog.Size = new System.Drawing.Size(247, 17);
+			this.checkSecurityLog.Size = new System.Drawing.Size(247, 18);
 			this.checkSecurityLog.TabIndex = 0;
 			this.checkSecurityLog.Text = "SecurityLog/SecurityLogHash";
 			// 
@@ -410,7 +410,7 @@
 			// 
 			this.checkArchiveDoBackupFirst.Location = new System.Drawing.Point(139, 253);
 			this.checkArchiveDoBackupFirst.Name = "checkArchiveDoBackupFirst";
-			this.checkArchiveDoBackupFirst.Size = new System.Drawing.Size(206, 17);
+			this.checkArchiveDoBackupFirst.Size = new System.Drawing.Size(206, 18);
 			this.checkArchiveDoBackupFirst.TabIndex = 14;
 			this.checkArchiveDoBackupFirst.Text = "Backup before removing data";
 			this.checkArchiveDoBackupFirst.CheckedChanged += new System.EventHandler(this.checkMakeBackup_CheckedChanged);
@@ -486,7 +486,7 @@
 			// 
 			this.label3.Location = new System.Drawing.Point(6, 16);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(481, 36);
+			this.label3.Size = new System.Drawing.Size(481, 39);
 			this.label3.TabIndex = 35;
 			this.label3.Text = "Server Name: The name of the computer where the backup server and database are lo" +
     "cated.\r\nIf running on a single computer only, Server Name may be localhost.";
@@ -519,7 +519,7 @@
 			this.butArchive.Anchor = System.Windows.Forms.AnchorStyles.Top;
 			this.butArchive.Location = new System.Drawing.Point(139, 514);
 			this.butArchive.Name = "butArchive";
-			this.butArchive.Size = new System.Drawing.Size(99, 26);
+			this.butArchive.Size = new System.Drawing.Size(101, 26);
 			this.butArchive.TabIndex = 2;
 			this.butArchive.Text = "Remove Old Data";
 			this.butArchive.UseVisualStyleBackColor = true;

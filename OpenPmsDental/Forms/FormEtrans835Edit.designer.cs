@@ -90,6 +90,7 @@ namespace OpenPmsDental{
 			// 
 			// textTransHandlingDesc
 			// 
+			this.textTransHandlingDesc.AutoSize = false;
 			this.textTransHandlingDesc.Location = new System.Drawing.Point(626, 51);
 			this.textTransHandlingDesc.Name = "textTransHandlingDesc";
 			this.textTransHandlingDesc.ReadOnly = true;
@@ -98,6 +99,7 @@ namespace OpenPmsDental{
 			// 
 			// textPaymentMethod
 			// 
+			this.textPaymentMethod.AutoSize = false;
 			this.textPaymentMethod.Location = new System.Drawing.Point(626, 71);
 			this.textPaymentMethod.Name = "textPaymentMethod";
 			this.textPaymentMethod.ReadOnly = true;
@@ -135,6 +137,7 @@ namespace OpenPmsDental{
 			// 
 			// textAcctNumEndingIn
 			// 
+			this.textAcctNumEndingIn.AutoSize = false;
 			this.textAcctNumEndingIn.Location = new System.Drawing.Point(626, 90);
 			this.textAcctNumEndingIn.Name = "textAcctNumEndingIn";
 			this.textAcctNumEndingIn.ReadOnly = true;
@@ -152,6 +155,7 @@ namespace OpenPmsDental{
 			// 
 			// textDateEffective
 			// 
+			this.textDateEffective.AutoSize = false;
 			this.textDateEffective.Location = new System.Drawing.Point(626, 130);
 			this.textDateEffective.Name = "textDateEffective";
 			this.textDateEffective.ReadOnly = true;
@@ -169,6 +173,7 @@ namespace OpenPmsDental{
 			// 
 			// textCheckNumOrRefNum
 			// 
+			this.textCheckNumOrRefNum.AutoSize = false;
 			this.textCheckNumOrRefNum.Location = new System.Drawing.Point(626, 110);
 			this.textCheckNumOrRefNum.Name = "textCheckNumOrRefNum";
 			this.textCheckNumOrRefNum.ReadOnly = true;
@@ -186,6 +191,7 @@ namespace OpenPmsDental{
 			// 
 			// textPayerName
 			// 
+			this.textPayerName.AutoSize = false;
 			this.textPayerName.Location = new System.Drawing.Point(140, 11);
 			this.textPayerName.Name = "textPayerName";
 			this.textPayerName.ReadOnly = true;
@@ -203,6 +209,7 @@ namespace OpenPmsDental{
 			// 
 			// textPayerID
 			// 
+			this.textPayerID.AutoSize = false;
 			this.textPayerID.Location = new System.Drawing.Point(140, 31);
 			this.textPayerID.Name = "textPayerID";
 			this.textPayerID.ReadOnly = true;
@@ -220,6 +227,7 @@ namespace OpenPmsDental{
 			// 
 			// textPayerAddress1
 			// 
+			this.textPayerAddress1.AutoSize = false;
 			this.textPayerAddress1.Location = new System.Drawing.Point(140, 51);
 			this.textPayerAddress1.Name = "textPayerAddress1";
 			this.textPayerAddress1.ReadOnly = true;
@@ -237,6 +245,7 @@ namespace OpenPmsDental{
 			// 
 			// textPayerCity
 			// 
+			this.textPayerCity.AutoSize = false;
 			this.textPayerCity.Location = new System.Drawing.Point(140, 71);
 			this.textPayerCity.Name = "textPayerCity";
 			this.textPayerCity.ReadOnly = true;
@@ -254,6 +263,7 @@ namespace OpenPmsDental{
 			// 
 			// textPayerState
 			// 
+			this.textPayerState.AutoSize = false;
 			this.textPayerState.Location = new System.Drawing.Point(140, 91);
 			this.textPayerState.Name = "textPayerState";
 			this.textPayerState.ReadOnly = true;
@@ -271,6 +281,7 @@ namespace OpenPmsDental{
 			// 
 			// textPayerZip
 			// 
+			this.textPayerZip.AutoSize = false;
 			this.textPayerZip.Location = new System.Drawing.Point(140, 111);
 			this.textPayerZip.Name = "textPayerZip";
 			this.textPayerZip.ReadOnly = true;
@@ -288,6 +299,7 @@ namespace OpenPmsDental{
 			// 
 			// textPayerContactInfo
 			// 
+			this.textPayerContactInfo.AutoSize = false;
 			this.textPayerContactInfo.Location = new System.Drawing.Point(140, 131);
 			this.textPayerContactInfo.Name = "textPayerContactInfo";
 			this.textPayerContactInfo.ReadOnly = true;
@@ -305,6 +317,7 @@ namespace OpenPmsDental{
 			// 
 			// textPayeeName
 			// 
+			this.textPayeeName.AutoSize = false;
 			this.textPayeeName.Location = new System.Drawing.Point(626, 11);
 			this.textPayeeName.Name = "textPayeeName";
 			this.textPayeeName.ReadOnly = true;
@@ -331,6 +344,7 @@ namespace OpenPmsDental{
 			// 
 			// textPayeeID
 			// 
+			this.textPayeeID.AutoSize = false;
 			this.textPayeeID.Location = new System.Drawing.Point(626, 31);
 			this.textPayeeID.Name = "textPayeeID";
 			this.textPayeeID.ReadOnly = true;
@@ -360,7 +374,7 @@ namespace OpenPmsDental{
 			this.label18.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.label18.Location = new System.Drawing.Point(118, 37);
 			this.label18.Name = "label18";
-			this.label18.Size = new System.Drawing.Size(12, 20);
+			this.label18.Size = new System.Drawing.Size(13, 20);
 			this.label18.TabIndex = 180;
 			this.label18.Text = "-";
 			this.label18.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -370,7 +384,7 @@ namespace OpenPmsDental{
 			this.label20.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.label20.Location = new System.Drawing.Point(251, 37);
 			this.label20.Name = "label20";
-			this.label20.Size = new System.Drawing.Size(12, 20);
+			this.label20.Size = new System.Drawing.Size(14, 20);
 			this.label20.TabIndex = 182;
 			this.label20.Text = "=";
 			this.label20.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -525,7 +539,7 @@ namespace OpenPmsDental{
 			this.buttonFindClaimMatch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.buttonFindClaimMatch.Location = new System.Drawing.Point(105, 630);
 			this.buttonFindClaimMatch.Name = "buttonFindClaimMatch";
-			this.buttonFindClaimMatch.Size = new System.Drawing.Size(181, 26);
+			this.buttonFindClaimMatch.Size = new System.Drawing.Size(188, 26);
 			this.buttonFindClaimMatch.TabIndex = 222;
 			this.buttonFindClaimMatch.Text = "Find Claim Matches For Detached";
 			this.buttonFindClaimMatch.Click += new System.EventHandler(this.buttonFindClaimMatch_Click);

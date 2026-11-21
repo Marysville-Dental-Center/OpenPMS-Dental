@@ -95,6 +95,7 @@ namespace OpenPmsDental{
 			// 
 			// textLName
 			// 
+			this.textLName.AutoSize = false;
 			this.textLName.Location = new System.Drawing.Point(76, 40);
 			this.textLName.MaxLength = 15;
 			this.textLName.Name = "textLName";
@@ -112,6 +113,7 @@ namespace OpenPmsDental{
 			// 
 			// textFName
 			// 
+			this.textFName.AutoSize = false;
 			this.textFName.Location = new System.Drawing.Point(76, 61);
 			this.textFName.MaxLength = 15;
 			this.textFName.Name = "textFName";
@@ -129,6 +131,7 @@ namespace OpenPmsDental{
 			// 
 			// textProvNum
 			// 
+			this.textProvNum.AutoSize = false;
 			this.textProvNum.Location = new System.Drawing.Point(76, 19);
 			this.textProvNum.MaxLength = 15;
 			this.textProvNum.Name = "textProvNum";
@@ -163,6 +166,7 @@ namespace OpenPmsDental{
 			// 
 			// textBox1
 			// 
+			this.textBox1.AutoSize = false;
 			this.textBox1.Location = new System.Drawing.Point(76, 40);
 			this.textBox1.MaxLength = 15;
 			this.textBox1.Name = "textBox1";
@@ -180,6 +184,7 @@ namespace OpenPmsDental{
 			// 
 			// textBox2
 			// 
+			this.textBox2.AutoSize = false;
 			this.textBox2.Location = new System.Drawing.Point(76, 61);
 			this.textBox2.MaxLength = 15;
 			this.textBox2.Name = "textBox2";
@@ -197,6 +202,7 @@ namespace OpenPmsDental{
 			// 
 			// textBox3
 			// 
+			this.textBox3.AutoSize = false;
 			this.textBox3.Location = new System.Drawing.Point(76, 19);
 			this.textBox3.MaxLength = 15;
 			this.textBox3.Name = "textBox3";
@@ -247,6 +253,7 @@ namespace OpenPmsDental{
 			// 
 			// textSupplier
 			// 
+			this.textSupplier.AutoSize = false;
 			this.textSupplier.Location = new System.Drawing.Point(98, 61);
 			this.textSupplier.MaxLength = 15;
 			this.textSupplier.Name = "textSupplier";
@@ -264,6 +271,7 @@ namespace OpenPmsDental{
 			// 
 			// textSupplyDescript
 			// 
+			this.textSupplyDescript.AutoSize = false;
 			this.textSupplyDescript.Location = new System.Drawing.Point(98, 82);
 			this.textSupplyDescript.MaxLength = 15;
 			this.textSupplyDescript.Name = "textSupplyDescript";
@@ -281,6 +289,7 @@ namespace OpenPmsDental{
 			// 
 			// textSupplyNum
 			// 
+			this.textSupplyNum.AutoSize = false;
 			this.textSupplyNum.Location = new System.Drawing.Point(98, 40);
 			this.textSupplyNum.MaxLength = 15;
 			this.textSupplyNum.Name = "textSupplyNum";

@@ -166,7 +166,7 @@ namespace OpenPmsDental{
 			// 
 			this.radioReportServerMiddleTier.Location = new System.Drawing.Point(38, 368);
 			this.radioReportServerMiddleTier.Name = "radioReportServerMiddleTier";
-			this.radioReportServerMiddleTier.Size = new System.Drawing.Size(219, 20);
+			this.radioReportServerMiddleTier.Size = new System.Drawing.Size(219, 23);
 			this.radioReportServerMiddleTier.TabIndex = 228;
 			this.radioReportServerMiddleTier.TabStop = true;
 			this.radioReportServerMiddleTier.Text = "Middle Tier";
@@ -177,7 +177,7 @@ namespace OpenPmsDental{
 			// 
 			this.radioReportServerDirect.Location = new System.Drawing.Point(38, 74);
 			this.radioReportServerDirect.Name = "radioReportServerDirect";
-			this.radioReportServerDirect.Size = new System.Drawing.Size(219, 20);
+			this.radioReportServerDirect.Size = new System.Drawing.Size(219, 21);
 			this.radioReportServerDirect.TabIndex = 227;
 			this.radioReportServerDirect.TabStop = true;
 			this.radioReportServerDirect.Text = "Direct Connection";
@@ -289,7 +289,7 @@ namespace OpenPmsDental{
 			// 
 			this.label11.Location = new System.Drawing.Point(6, 56);
 			this.label11.Name = "label11";
-			this.label11.Size = new System.Drawing.Size(386, 33);
+			this.label11.Size = new System.Drawing.Size(399, 33);
 			this.label11.TabIndex = 14;
 			this.label11.Text = "The currently logged in user\'s credentials will be used to when accessing the Mid" +
     "dle Tier database.";
@@ -347,7 +347,7 @@ namespace OpenPmsDental{
 			// 
 			this.checkUserQueryDefaultRaw.Location = new System.Drawing.Point(20, 261);
 			this.checkUserQueryDefaultRaw.Name = "checkUserQueryDefaultRaw";
-			this.checkUserQueryDefaultRaw.Size = new System.Drawing.Size(511, 17);
+			this.checkUserQueryDefaultRaw.Size = new System.Drawing.Size(511, 18);
 			this.checkUserQueryDefaultRaw.TabIndex = 221;
 			this.checkUserQueryDefaultRaw.Text = "Default to \'Raw\' format  in User Query window";
 			// 
@@ -365,7 +365,7 @@ namespace OpenPmsDental{
 			// 
 			this.label7.Location = new System.Drawing.Point(17, 320);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(478, 13);
+			this.label7.Size = new System.Drawing.Size(478, 16);
 			this.label7.TabIndex = 219;
 			this.label7.Text = "Excluded Codes for Incomplete Procedure Notes Report";
 			// 
@@ -411,7 +411,7 @@ namespace OpenPmsDental{
 			// 
 			this.checkBenefitAssumeGeneral.Location = new System.Drawing.Point(20, 210);
 			this.checkBenefitAssumeGeneral.Name = "checkBenefitAssumeGeneral";
-			this.checkBenefitAssumeGeneral.Size = new System.Drawing.Size(511, 17);
+			this.checkBenefitAssumeGeneral.Size = new System.Drawing.Size(521, 17);
 			this.checkBenefitAssumeGeneral.TabIndex = 213;
 			this.checkBenefitAssumeGeneral.Text = "Assume all procedures are in the General benefit category by default in Treatment" +
     " Finder report";

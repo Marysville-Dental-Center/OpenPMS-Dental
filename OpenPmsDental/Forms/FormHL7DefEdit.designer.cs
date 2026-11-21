@@ -175,6 +175,7 @@ namespace OpenPmsDental{
 			// 
 			// textInternalTypeVersion
 			// 
+			this.textInternalTypeVersion.AutoSize = false;
 			this.textInternalTypeVersion.Location = new System.Drawing.Point(155, 112);
 			this.textInternalTypeVersion.Name = "textInternalTypeVersion";
 			this.textInternalTypeVersion.ReadOnly = true;
@@ -192,6 +193,7 @@ namespace OpenPmsDental{
 			// 
 			// textInternalType
 			// 
+			this.textInternalType.AutoSize = false;
 			this.textInternalType.Location = new System.Drawing.Point(155, 92);
 			this.textInternalType.Name = "textInternalType";
 			this.textInternalType.ReadOnly = true;
@@ -223,6 +225,7 @@ namespace OpenPmsDental{
 			// textEscChar
 			// 
 			this.textEscChar.Anchor = System.Windows.Forms.AnchorStyles.Right;
+			this.textEscChar.AutoSize = false;
 			this.textEscChar.Location = new System.Drawing.Point(138, 92);
 			this.textEscChar.Name = "textEscChar";
 			this.textEscChar.Size = new System.Drawing.Size(27, 20);
@@ -261,6 +264,7 @@ namespace OpenPmsDental{
 			// textSubcompSep
 			// 
 			this.textSubcompSep.Anchor = System.Windows.Forms.AnchorStyles.Right;
+			this.textSubcompSep.AutoSize = false;
 			this.textSubcompSep.Location = new System.Drawing.Point(138, 72);
 			this.textSubcompSep.Name = "textSubcompSep";
 			this.textSubcompSep.Size = new System.Drawing.Size(27, 20);
@@ -279,6 +283,7 @@ namespace OpenPmsDental{
 			// textRepSep
 			// 
 			this.textRepSep.Anchor = System.Windows.Forms.AnchorStyles.Right;
+			this.textRepSep.AutoSize = false;
 			this.textRepSep.Location = new System.Drawing.Point(138, 32);
 			this.textRepSep.Name = "textRepSep";
 			this.textRepSep.Size = new System.Drawing.Size(27, 20);
@@ -297,6 +302,7 @@ namespace OpenPmsDental{
 			// textCompSep
 			// 
 			this.textCompSep.Anchor = System.Windows.Forms.AnchorStyles.Right;
+			this.textCompSep.AutoSize = false;
 			this.textCompSep.Location = new System.Drawing.Point(138, 52);
 			this.textCompSep.Name = "textCompSep";
 			this.textCompSep.Size = new System.Drawing.Size(27, 20);
@@ -315,6 +321,7 @@ namespace OpenPmsDental{
 			// textFieldSep
 			// 
 			this.textFieldSep.Anchor = System.Windows.Forms.AnchorStyles.Right;
+			this.textFieldSep.AutoSize = false;
 			this.textFieldSep.Location = new System.Drawing.Point(138, 12);
 			this.textFieldSep.Name = "textFieldSep";
 			this.textFieldSep.Size = new System.Drawing.Size(27, 20);
@@ -340,6 +347,7 @@ namespace OpenPmsDental{
 			// 
 			// textSftpPassword
 			// 
+			this.textSftpPassword.AutoSize = false;
 			this.textSftpPassword.Location = new System.Drawing.Point(157, 78);
 			this.textSftpPassword.Name = "textSftpPassword";
 			this.textSftpPassword.PasswordChar = '*';
@@ -357,6 +365,7 @@ namespace OpenPmsDental{
 			// 
 			// textSftpUsername
 			// 
+			this.textSftpUsername.AutoSize = false;
 			this.textSftpUsername.Location = new System.Drawing.Point(157, 58);
 			this.textSftpUsername.Name = "textSftpUsername";
 			this.textSftpUsername.Size = new System.Drawing.Size(125, 20);
@@ -373,6 +382,7 @@ namespace OpenPmsDental{
 			// 
 			// textOutPathSocketOrDir
 			// 
+			this.textOutPathSocketOrDir.AutoSize = false;
 			this.textOutPathSocketOrDir.Location = new System.Drawing.Point(157, 38);
 			this.textOutPathSocketOrDir.Name = "textOutPathSocketOrDir";
 			this.textOutPathSocketOrDir.Size = new System.Drawing.Size(177, 20);
@@ -389,6 +399,7 @@ namespace OpenPmsDental{
 			// 
 			// textInPathOrSocket
 			// 
+			this.textInPathOrSocket.AutoSize = false;
 			this.textInPathOrSocket.Location = new System.Drawing.Point(157, 16);
 			this.textInPathOrSocket.Name = "textInPathOrSocket";
 			this.textInPathOrSocket.Size = new System.Drawing.Size(177, 20);
@@ -423,6 +434,7 @@ namespace OpenPmsDental{
 			// 
 			// textDescription
 			// 
+			this.textDescription.AutoSize = false;
 			this.textDescription.Location = new System.Drawing.Point(155, 50);
 			this.textDescription.Name = "textDescription";
 			this.textDescription.Size = new System.Drawing.Size(125, 20);
@@ -454,13 +466,14 @@ namespace OpenPmsDental{
 			// 
 			this.label17.Location = new System.Drawing.Point(570, 143);
 			this.label17.Name = "label17";
-			this.label17.Size = new System.Drawing.Size(205, 26);
+			this.label17.Size = new System.Drawing.Size(253, 26);
 			this.label17.TabIndex = 0;
 			this.label17.Text = "--The computer name (not IP) where\r\n     the HL7 Service is running.";
 			this.label17.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// textHL7ServiceName
 			// 
+			this.textHL7ServiceName.AutoSize = false;
 			this.textHL7ServiceName.Location = new System.Drawing.Point(443, 164);
 			this.textHL7ServiceName.Name = "textHL7ServiceName";
 			this.textHL7ServiceName.Size = new System.Drawing.Size(125, 20);
@@ -477,6 +490,7 @@ namespace OpenPmsDental{
 			// 
 			// textHL7Server
 			// 
+			this.textHL7Server.AutoSize = false;
 			this.textHL7Server.Location = new System.Drawing.Point(443, 144);
 			this.textHL7Server.Name = "textHL7Server";
 			this.textHL7Server.Size = new System.Drawing.Size(125, 20);
@@ -486,7 +500,7 @@ namespace OpenPmsDental{
 			// 
 			this.label19.Location = new System.Drawing.Point(282, 145);
 			this.label19.Name = "label19";
-			this.label19.Size = new System.Drawing.Size(160, 18);
+			this.label19.Size = new System.Drawing.Size(161, 18);
 			this.label19.TabIndex = 0;
 			this.label19.Text = "Open PMS - Dental HL7 Server";
 			this.label19.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -509,7 +523,7 @@ namespace OpenPmsDental{
 			// 
 			this.label20.Location = new System.Drawing.Point(172, 50);
 			this.label20.Name = "label20";
-			this.label20.Size = new System.Drawing.Size(295, 31);
+			this.label20.Size = new System.Drawing.Size(353, 31);
 			this.label20.TabIndex = 0;
 			this.label20.Text = "Changes to patient demographic information might get overwritten by incoming HL7 " +
     "messages.";

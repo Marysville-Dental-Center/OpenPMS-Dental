@@ -126,6 +126,7 @@ namespace OpenPmsDental {
 			// 
 			// textTotalTxAmt
 			// 
+			this.textTotalTxAmt.AutoSize = false;
 			this.textTotalTxAmt.Location = new System.Drawing.Point(146, 503);
 			this.textTotalTxAmt.MaxVal = 100000000D;
 			this.textTotalTxAmt.MinVal = -100000000D;
@@ -262,7 +263,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelTxAmtInfo.Location = new System.Drawing.Point(57, 524);
 			this.labelTxAmtInfo.Name = "labelTxAmtInfo";
-			this.labelTxAmtInfo.Size = new System.Drawing.Size(310, 18);
+			this.labelTxAmtInfo.Size = new System.Drawing.Size(322, 18);
 			this.labelTxAmtInfo.TabIndex = 0;
 			this.labelTxAmtInfo.Text = "This should usually match the total amount of the pay plan.";
 			this.labelTxAmtInfo.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -278,6 +279,7 @@ namespace OpenPmsDental {
 			// 
 			// textCompletedAmt
 			// 
+			this.textCompletedAmt.AutoSize = false;
 			this.textCompletedAmt.Location = new System.Drawing.Point(146, 481);
 			this.textCompletedAmt.MaxVal = 100000000D;
 			this.textCompletedAmt.MinVal = -100000000D;
@@ -288,6 +290,7 @@ namespace OpenPmsDental {
 			// 
 			// textPrincPaid
 			// 
+			this.textPrincPaid.AutoSize = false;
 			this.textPrincPaid.Location = new System.Drawing.Point(146, 459);
 			this.textPrincPaid.Name = "textPrincPaid";
 			this.textPrincPaid.ReadOnly = true;
@@ -337,6 +340,7 @@ namespace OpenPmsDental {
 			// 
 			// textInsPlan
 			// 
+			this.textInsPlan.AutoSize = false;
 			this.textInsPlan.Location = new System.Drawing.Point(123, 139);
 			this.textInsPlan.Name = "textInsPlan";
 			this.textInsPlan.ReadOnly = true;
@@ -367,6 +371,7 @@ namespace OpenPmsDental {
 			// 
 			// textAccumulatedDue
 			// 
+			this.textAccumulatedDue.AutoSize = false;
 			this.textAccumulatedDue.Location = new System.Drawing.Point(146, 415);
 			this.textAccumulatedDue.Name = "textAccumulatedDue";
 			this.textAccumulatedDue.ReadOnly = true;
@@ -376,6 +381,7 @@ namespace OpenPmsDental {
 			// 
 			// textAmtPaid
 			// 
+			this.textAmtPaid.AutoSize = false;
 			this.textAmtPaid.Location = new System.Drawing.Point(146, 437);
 			this.textAmtPaid.Name = "textAmtPaid";
 			this.textAmtPaid.ReadOnly = true;
@@ -394,6 +400,7 @@ namespace OpenPmsDental {
 			// 
 			// textPatient
 			// 
+			this.textPatient.AutoSize = false;
 			this.textPatient.Location = new System.Drawing.Point(75, 27);
 			this.textPatient.Name = "textPatient";
 			this.textPatient.ReadOnly = true;
@@ -412,6 +419,7 @@ namespace OpenPmsDental {
 			// 
 			// textDate
 			// 
+			this.textDate.AutoSize = false;
 			this.textDate.Location = new System.Drawing.Point(123, 161);
 			this.textDate.Name = "textDate";
 			this.textDate.Size = new System.Drawing.Size(85, 20);
@@ -428,6 +436,7 @@ namespace OpenPmsDental {
 			// 
 			// textGuarantor
 			// 
+			this.textGuarantor.AutoSize = false;
 			this.textGuarantor.Location = new System.Drawing.Point(75, 49);
 			this.textGuarantor.Name = "textGuarantor";
 			this.textGuarantor.ReadOnly = true;
@@ -519,6 +528,7 @@ namespace OpenPmsDental {
 			// 
 			// textDateInterestStart
 			// 
+			this.textDateInterestStart.AutoSize = false;
 			this.textDateInterestStart.Location = new System.Drawing.Point(142, 121);
 			this.textDateInterestStart.Name = "textDateInterestStart";
 			this.textDateInterestStart.Size = new System.Drawing.Size(85, 20);
@@ -527,6 +537,7 @@ namespace OpenPmsDental {
 			// 
 			// textInterestDelay
 			// 
+			this.textInterestDelay.AutoSize = false;
 			this.textInterestDelay.Location = new System.Drawing.Point(142, 99);
 			this.textInterestDelay.MaxVal = 100000000D;
 			this.textInterestDelay.MinVal = 0D;
@@ -574,6 +585,7 @@ namespace OpenPmsDental {
 			// 
 			// textAPR
 			// 
+			this.textAPR.AutoSize = false;
 			this.textAPR.Location = new System.Drawing.Point(142, 77);
 			this.textAPR.MaxVal = 100000000D;
 			this.textAPR.MinVal = 0D;
@@ -597,6 +609,7 @@ namespace OpenPmsDental {
 			// 
 			// textPaymentCount
 			// 
+			this.textPaymentCount.AutoSize = false;
 			this.textPaymentCount.Location = new System.Drawing.Point(133, 12);
 			this.textPaymentCount.MinVal = 1;
 			this.textPaymentCount.Name = "textPaymentCount";
@@ -616,6 +629,7 @@ namespace OpenPmsDental {
 			// 
 			// textPeriodPayment
 			// 
+			this.textPeriodPayment.AutoSize = false;
 			this.textPeriodPayment.Location = new System.Drawing.Point(133, 33);
 			this.textPeriodPayment.MaxVal = 100000000D;
 			this.textPeriodPayment.MinVal = 0.01D;
@@ -635,6 +649,7 @@ namespace OpenPmsDental {
 			// 
 			// textDownPayment
 			// 
+			this.textDownPayment.AutoSize = false;
 			this.textDownPayment.Location = new System.Drawing.Point(142, 55);
 			this.textDownPayment.MaxVal = 100000000D;
 			this.textDownPayment.MinVal = 0D;
@@ -655,13 +670,14 @@ namespace OpenPmsDental {
 			// 
 			this.label6.Location = new System.Drawing.Point(3, 79);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(138, 17);
+			this.label6.Size = new System.Drawing.Size(139, 17);
 			this.label6.TabIndex = 0;
 			this.label6.Text = "APR (for example 0 or 18)";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textDateFirstPay
 			// 
+			this.textDateFirstPay.AutoSize = false;
 			this.textDateFirstPay.Location = new System.Drawing.Point(142, 33);
 			this.textDateFirstPay.Name = "textDateFirstPay";
 			this.textDateFirstPay.Size = new System.Drawing.Size(85, 20);
@@ -687,6 +703,7 @@ namespace OpenPmsDental {
 			// 
 			// textAmount
 			// 
+			this.textAmount.AutoSize = false;
 			this.textAmount.Location = new System.Drawing.Point(142, 12);
 			this.textAmount.MaxVal = 100000000D;
 			this.textAmount.MinVal = 0.01D;
@@ -724,6 +741,7 @@ namespace OpenPmsDental {
 			// 
 			// textTotalCost
 			// 
+			this.textTotalCost.AutoSize = false;
 			this.textTotalCost.Location = new System.Drawing.Point(146, 393);
 			this.textTotalCost.Name = "textTotalCost";
 			this.textTotalCost.ReadOnly = true;
@@ -795,7 +813,7 @@ namespace OpenPmsDental {
 			this.checkExcludePast.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkExcludePast.Location = new System.Drawing.Point(379, 510);
 			this.checkExcludePast.Name = "checkExcludePast";
-			this.checkExcludePast.Size = new System.Drawing.Size(134, 17);
+			this.checkExcludePast.Size = new System.Drawing.Size(134, 18);
 			this.checkExcludePast.TabIndex = 186;
 			this.checkExcludePast.Text = "Exclude past activity";
 			this.checkExcludePast.CheckedChanged += new System.EventHandler(this.checkExcludePast_CheckedChanged);
@@ -840,7 +858,7 @@ namespace OpenPmsDental {
 			this.butAdj.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butAdj.Location = new System.Drawing.Point(371, 661);
 			this.butAdj.Name = "butAdj";
-			this.butAdj.Size = new System.Drawing.Size(111, 24);
+			this.butAdj.Size = new System.Drawing.Size(116, 24);
 			this.butAdj.TabIndex = 189;
 			this.butAdj.Text = "Add Adjustment";
 			this.butAdj.Click += new System.EventHandler(this.butAdj_Click);

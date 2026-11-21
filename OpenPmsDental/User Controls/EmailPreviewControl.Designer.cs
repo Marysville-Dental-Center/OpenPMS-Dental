@@ -67,7 +67,7 @@
 			// 
 			this.labelSignedBy.Location = new System.Drawing.Point(0, 139);
 			this.labelSignedBy.Name = "labelSignedBy";
-			this.labelSignedBy.Size = new System.Drawing.Size(88, 14);
+			this.labelSignedBy.Size = new System.Drawing.Size(88, 18);
 			this.labelSignedBy.TabIndex = 0;
 			this.labelSignedBy.Text = "Signed By:";
 			this.labelSignedBy.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -89,7 +89,7 @@
 			// 
 			this.labelSent.Location = new System.Drawing.Point(0, 34);
 			this.labelSent.Name = "labelSent";
-			this.labelSent.Size = new System.Drawing.Size(88, 14);
+			this.labelSent.Size = new System.Drawing.Size(88, 18);
 			this.labelSent.TabIndex = 0;
 			this.labelSent.Text = "Date / Time:";
 			this.labelSent.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -98,7 +98,7 @@
 			// 
 			this.label3.Location = new System.Drawing.Point(0, 55);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(88, 14);
+			this.label3.Size = new System.Drawing.Size(88, 18);
 			this.label3.TabIndex = 0;
 			this.label3.Text = "From:";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -107,7 +107,7 @@
 			// 
 			this.label1.Location = new System.Drawing.Point(0, 76);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(88, 14);
+			this.label1.Size = new System.Drawing.Size(88, 18);
 			this.label1.TabIndex = 0;
 			this.label1.Text = "To:";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -116,7 +116,7 @@
 			// 
 			this.label2.Location = new System.Drawing.Point(0, 158);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(88, 14);
+			this.label2.Size = new System.Drawing.Size(88, 18);
 			this.label2.TabIndex = 0;
 			this.label2.Text = "Subject:";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -148,6 +148,7 @@
 			// 
 			this.textSentOrReceived.BackColor = System.Drawing.SystemColors.Window;
 			this.textSentOrReceived.BorderStyle = System.Windows.Forms.BorderStyle.None;
+			this.textSentOrReceived.AutoSize = false;
 			this.textSentOrReceived.Location = new System.Drawing.Point(89, 18);
 			this.textSentOrReceived.Name = "textSentOrReceived";
 			this.textSentOrReceived.ReadOnly = true;
@@ -159,7 +160,7 @@
 			// 
 			this.label5.Location = new System.Drawing.Point(0, 17);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(88, 14);
+			this.label5.Size = new System.Drawing.Size(88, 17);
 			this.label5.TabIndex = 0;
 			this.label5.Text = "Sent/Received:";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -168,7 +169,7 @@
 			// 
 			this.label4.Location = new System.Drawing.Point(0, 97);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(88, 14);
+			this.label4.Size = new System.Drawing.Size(88, 18);
 			this.label4.TabIndex = 8;
 			this.label4.Text = "CC:";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -177,7 +178,7 @@
 			// 
 			this.label6.Location = new System.Drawing.Point(0, 117);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(88, 14);
+			this.label6.Size = new System.Drawing.Size(88, 18);
 			this.label6.TabIndex = 0;
 			this.label6.Text = "BCC:";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -186,7 +187,7 @@
 			// 
 			this.lableUserName.Location = new System.Drawing.Point(0, 0);
 			this.lableUserName.Name = "lableUserName";
-			this.lableUserName.Size = new System.Drawing.Size(88, 14);
+			this.lableUserName.Size = new System.Drawing.Size(88, 17);
 			this.lableUserName.TabIndex = 11;
 			this.lableUserName.Text = "Username:";
 			this.lableUserName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -195,6 +196,7 @@
 			// 
 			this.textUserName.BackColor = System.Drawing.SystemColors.Window;
 			this.textUserName.BorderStyle = System.Windows.Forms.BorderStyle.None;
+			this.textUserName.AutoSize = false;
 			this.textUserName.Location = new System.Drawing.Point(89, 3);
 			this.textUserName.Name = "textUserName";
 			this.textUserName.ReadOnly = true;

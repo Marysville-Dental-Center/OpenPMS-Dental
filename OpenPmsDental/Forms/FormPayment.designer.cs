@@ -269,7 +269,7 @@
 			this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.label9.Location = new System.Drawing.Point(100, 658);
 			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(165, 30);
+			this.label9.Size = new System.Drawing.Size(203, 30);
 			this.label9.TabIndex = 141;
 			this.label9.Text = "Deletes entire payment \r\nand all splits";
 			this.label9.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -398,7 +398,7 @@
 			this.labelDeposit.ForeColor = System.Drawing.Color.Firebrick;
 			this.labelDeposit.Location = new System.Drawing.Point(777, 146);
 			this.labelDeposit.Name = "labelDeposit";
-			this.labelDeposit.Size = new System.Drawing.Size(199, 16);
+			this.labelDeposit.Size = new System.Drawing.Size(199, 18);
 			this.labelDeposit.TabIndex = 126;
 			this.labelDeposit.Text = "Attached to deposit";
 			this.labelDeposit.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -422,7 +422,7 @@
 			// 
 			this.label1.Location = new System.Drawing.Point(489, 12);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(154, 16);
+			this.label1.Size = new System.Drawing.Size(154, 18);
 			this.label1.TabIndex = 7;
 			this.label1.Text = "Payment Type";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -492,6 +492,7 @@
 			// 
 			// textDateEntry
 			// 
+			this.textDateEntry.AutoSize = false;
 			this.textDateEntry.Location = new System.Drawing.Point(104, 54);
 			this.textDateEntry.Name = "textDateEntry";
 			this.textDateEntry.ReadOnly = true;
@@ -521,7 +522,7 @@
 			// 
 			this.label12.Location = new System.Drawing.Point(2, 58);
 			this.label12.Name = "label12";
-			this.label12.Size = new System.Drawing.Size(100, 16);
+			this.label12.Size = new System.Drawing.Size(100, 18);
 			this.label12.TabIndex = 94;
 			this.label12.Text = "Entry Date";
 			this.label12.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -575,13 +576,14 @@
 			// 
 			this.label6.Location = new System.Drawing.Point(2, 78);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(100, 16);
+			this.label6.Size = new System.Drawing.Size(100, 18);
 			this.label6.TabIndex = 12;
 			this.label6.Text = "Payment Date";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.TopRight;
 			// 
 			// textPaidBy
 			// 
+			this.textPaidBy.AutoSize = false;
 			this.textPaidBy.Location = new System.Drawing.Point(104, 34);
 			this.textPaidBy.Name = "textPaidBy";
 			this.textPaidBy.ReadOnly = true;
@@ -592,7 +594,7 @@
 			// 
 			this.label11.Location = new System.Drawing.Point(2, 36);
 			this.label11.Name = "label11";
-			this.label11.Size = new System.Drawing.Size(100, 16);
+			this.label11.Size = new System.Drawing.Size(100, 18);
 			this.label11.TabIndex = 33;
 			this.label11.Text = "Paid By";
 			this.label11.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -624,6 +626,7 @@
 			// 
 			// textAmount
 			// 
+			this.textAmount.AutoSize = false;
 			this.textAmount.Location = new System.Drawing.Point(104, 94);
 			this.textAmount.MaxVal = 100000000D;
 			this.textAmount.MinVal = -100000000D;
@@ -633,6 +636,7 @@
 			// 
 			// textCheckNum
 			// 
+			this.textCheckNum.AutoSize = false;
 			this.textCheckNum.Location = new System.Drawing.Point(104, 114);
 			this.textCheckNum.Name = "textCheckNum";
 			this.textCheckNum.Size = new System.Drawing.Size(100, 20);
@@ -640,6 +644,7 @@
 			// 
 			// textDate
 			// 
+			this.textDate.AutoSize = false;
 			this.textDate.Location = new System.Drawing.Point(104, 74);
 			this.textDate.Name = "textDate";
 			this.textDate.Size = new System.Drawing.Size(100, 20);
@@ -647,6 +652,7 @@
 			// 
 			// textBankBranch
 			// 
+			this.textBankBranch.AutoSize = false;
 			this.textBankBranch.Location = new System.Drawing.Point(104, 134);
 			this.textBankBranch.Name = "textBankBranch";
 			this.textBankBranch.Size = new System.Drawing.Size(100, 20);
@@ -1240,7 +1246,7 @@
 			// 
 			this.labelIncludesNegativeEntries.Location = new System.Drawing.Point(163, 58);
 			this.labelIncludesNegativeEntries.Name = "labelIncludesNegativeEntries";
-			this.labelIncludesNegativeEntries.Size = new System.Drawing.Size(246, 16);
+			this.labelIncludesNegativeEntries.Size = new System.Drawing.Size(247, 18);
 			this.labelIncludesNegativeEntries.TabIndex = 1001;
 			this.labelIncludesNegativeEntries.Text = "(Includes negative entries in the same range)";
 			this.labelIncludesNegativeEntries.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

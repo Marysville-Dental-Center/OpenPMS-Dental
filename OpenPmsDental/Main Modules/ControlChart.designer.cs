@@ -287,6 +287,7 @@
 			// textSurf
 			// 
 			this.textSurf.BackColor = System.Drawing.SystemColors.Window;
+			this.textSurf.AutoSize = false;
 			this.textSurf.Location = new System.Drawing.Point(8, 2);
 			this.textSurf.Name = "textSurf";
 			this.textSurf.ReadOnly = true;
@@ -306,7 +307,7 @@
 			// 
 			this.checkDone.Location = new System.Drawing.Point(324, 5);
 			this.checkDone.Name = "checkDone";
-			this.checkDone.Size = new System.Drawing.Size(67, 16);
+			this.checkDone.Size = new System.Drawing.Size(67, 18);
 			this.checkDone.TabIndex = 0;
 			this.checkDone.Text = "Done";
 			this.checkDone.Click += new System.EventHandler(this.checkDone_Click);
@@ -361,6 +362,7 @@
 			// 
 			// textProcCode
 			// 
+			this.textProcCode.AutoSize = false;
 			this.textProcCode.Location = new System.Drawing.Point(330, 3);
 			this.textProcCode.Name = "textProcCode";
 			this.textProcCode.Size = new System.Drawing.Size(108, 20);
@@ -637,7 +639,7 @@
 			// 
 			this.checkTreatPlans.Location = new System.Drawing.Point(192, 213);
 			this.checkTreatPlans.Name = "checkTreatPlans";
-			this.checkTreatPlans.Size = new System.Drawing.Size(112, 17);
+			this.checkTreatPlans.Size = new System.Drawing.Size(112, 18);
 			this.checkTreatPlans.TabIndex = 203;
 			this.checkTreatPlans.Text = "Treatment Plans";
 			this.checkTreatPlans.Click += new System.EventHandler(this.checkTreatPlans_Click);
@@ -889,7 +891,7 @@
 			// 
 			this.butMixed.Location = new System.Drawing.Point(286, 167);
 			this.butMixed.Name = "butMixed";
-			this.butMixed.Size = new System.Drawing.Size(107, 23);
+			this.butMixed.Size = new System.Drawing.Size(113, 23);
 			this.butMixed.TabIndex = 25;
 			this.butMixed.Text = "Set Mixed Dentition";
 			this.butMixed.Click += new System.EventHandler(this.butMixed_Click);
@@ -1099,7 +1101,7 @@
 			this.butTipBplus.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.butTipBplus.Location = new System.Drawing.Point(159, 76);
 			this.butTipBplus.Name = "butTipBplus";
-			this.butTipBplus.Size = new System.Drawing.Size(31, 23);
+			this.butTipBplus.Size = new System.Drawing.Size(31, 24);
 			this.butTipBplus.TabIndex = 34;
 			this.butTipBplus.Text = "+";
 			this.butTipBplus.Click += new System.EventHandler(this.butTipBplus_Click);
@@ -1120,7 +1122,7 @@
 			this.butTipMplus.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.butTipMplus.Location = new System.Drawing.Point(159, 47);
 			this.butTipMplus.Name = "butTipMplus";
-			this.butTipMplus.Size = new System.Drawing.Size(31, 23);
+			this.butTipMplus.Size = new System.Drawing.Size(31, 24);
 			this.butTipMplus.TabIndex = 32;
 			this.butTipMplus.Text = "+";
 			this.butTipMplus.Click += new System.EventHandler(this.butTipMplus_Click);
@@ -1141,7 +1143,7 @@
 			this.butRotatePlus.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.butRotatePlus.Location = new System.Drawing.Point(159, 18);
 			this.butRotatePlus.Name = "butRotatePlus";
-			this.butRotatePlus.Size = new System.Drawing.Size(31, 23);
+			this.butRotatePlus.Size = new System.Drawing.Size(31, 24);
 			this.butRotatePlus.TabIndex = 30;
 			this.butRotatePlus.Text = "+";
 			this.butRotatePlus.Click += new System.EventHandler(this.butRotatePlus_Click);
@@ -1237,7 +1239,7 @@
 			this.butShiftBplus.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.butShiftBplus.Location = new System.Drawing.Point(158, 76);
 			this.butShiftBplus.Name = "butShiftBplus";
-			this.butShiftBplus.Size = new System.Drawing.Size(31, 23);
+			this.butShiftBplus.Size = new System.Drawing.Size(31, 24);
 			this.butShiftBplus.TabIndex = 40;
 			this.butShiftBplus.Text = "+";
 			this.butShiftBplus.Click += new System.EventHandler(this.butShiftBplus_Click);
@@ -1258,7 +1260,7 @@
 			this.butShiftOplus.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.butShiftOplus.Location = new System.Drawing.Point(158, 47);
 			this.butShiftOplus.Name = "butShiftOplus";
-			this.butShiftOplus.Size = new System.Drawing.Size(31, 23);
+			this.butShiftOplus.Size = new System.Drawing.Size(31, 24);
 			this.butShiftOplus.TabIndex = 38;
 			this.butShiftOplus.Text = "+";
 			this.butShiftOplus.Click += new System.EventHandler(this.butShiftOplus_Click);
@@ -1279,7 +1281,7 @@
 			this.butShiftMplus.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.butShiftMplus.Location = new System.Drawing.Point(158, 18);
 			this.butShiftMplus.Name = "butShiftMplus";
-			this.butShiftMplus.Size = new System.Drawing.Size(31, 23);
+			this.butShiftMplus.Size = new System.Drawing.Size(31, 24);
 			this.butShiftMplus.TabIndex = 36;
 			this.butShiftMplus.Text = "+";
 			this.butShiftMplus.Click += new System.EventHandler(this.butShiftMplus_Click);
@@ -1380,7 +1382,7 @@
 			// 
 			this.checkShowCompleted.Location = new System.Drawing.Point(381, 5);
 			this.checkShowCompleted.Name = "checkShowCompleted";
-			this.checkShowCompleted.Size = new System.Drawing.Size(132, 16);
+			this.checkShowCompleted.Size = new System.Drawing.Size(132, 18);
 			this.checkShowCompleted.TabIndex = 196;
 			this.checkShowCompleted.Text = "Show Completed";
 			this.checkShowCompleted.CheckedChanged += new System.EventHandler(this.checkShowCompleted_CheckedChanged);
@@ -1837,7 +1839,7 @@
 			// 
 			this.label24.Location = new System.Drawing.Point(176, 149);
 			this.label24.Name = "label24";
-			this.label24.Size = new System.Drawing.Size(150, 71);
+			this.label24.Size = new System.Drawing.Size(150, 87);
 			this.label24.TabIndex = 26;
 			this.label24.Text = "(the text feature here is completely different from the text that shows automatic" +
     "ally for procedures with a PaintType of Text)";
@@ -2252,7 +2254,7 @@
 			// 
 			this.label26.Location = new System.Drawing.Point(94, 151);
 			this.label26.Name = "label26";
-			this.label26.Size = new System.Drawing.Size(104, 17);
+			this.label26.Size = new System.Drawing.Size(108, 17);
 			this.label26.TabIndex = 206;
 			this.label26.Text = "from selected date";
 			this.label26.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -2313,7 +2315,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelECWerror.Location = new System.Drawing.Point(25, 22);
 			this.labelECWerror.Name = "labelECWerror";
-			this.labelECWerror.Size = new System.Drawing.Size(314, 14);
+			this.labelECWerror.Size = new System.Drawing.Size(314, 17);
 			this.labelECWerror.TabIndex = 199;
 			this.labelECWerror.Text = "Error:";
 			this.labelECWerror.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -2393,7 +2395,7 @@
 			this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label4.Location = new System.Drawing.Point(0, 0);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(71, 15);
+			this.label4.Size = new System.Drawing.Size(71, 16);
 			this.label4.TabIndex = 211;
 			this.label4.Text = "Set Priority";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.BottomLeft;

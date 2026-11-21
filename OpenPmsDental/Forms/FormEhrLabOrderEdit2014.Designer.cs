@@ -147,7 +147,7 @@
 			this.butOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butOk.Location = new System.Drawing.Point(881, 661);
 			this.butOk.Name = "butOk";
-			this.butOk.Size = new System.Drawing.Size(75, 24);
+			this.butOk.Size = new System.Drawing.Size(75, 28);
 			this.butOk.TabIndex = 9;
 			this.butOk.Text = "Save";
 			this.butOk.UseVisualStyleBackColor = true;
@@ -158,7 +158,7 @@
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Location = new System.Drawing.Point(12, 661);
 			this.butDelete.Name = "butDelete";
-			this.butDelete.Size = new System.Drawing.Size(75, 24);
+			this.butDelete.Size = new System.Drawing.Size(75, 28);
 			this.butDelete.TabIndex = 3;
 			this.butDelete.Text = "Delete";
 			this.butDelete.UseVisualStyleBackColor = true;
@@ -169,7 +169,7 @@
 			this.butAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butAdd.Location = new System.Drawing.Point(881, 466);
 			this.butAdd.Name = "butAdd";
-			this.butAdd.Size = new System.Drawing.Size(81, 24);
+			this.butAdd.Size = new System.Drawing.Size(81, 28);
 			this.butAdd.TabIndex = 13;
 			this.butAdd.Text = "Add Result";
 			this.butAdd.UseVisualStyleBackColor = true;
@@ -200,7 +200,7 @@
 			this.butAddNote.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butAddNote.Location = new System.Drawing.Point(881, 359);
 			this.butAddNote.Name = "butAddNote";
-			this.butAddNote.Size = new System.Drawing.Size(81, 24);
+			this.butAddNote.Size = new System.Drawing.Size(81, 28);
 			this.butAddNote.TabIndex = 166;
 			this.butAddNote.Text = "Add Notes";
 			this.butAddNote.UseVisualStyleBackColor = true;
@@ -212,7 +212,7 @@
 			this.butAddCopyTo.Enabled = false;
 			this.butAddCopyTo.Location = new System.Drawing.Point(881, 389);
 			this.butAddCopyTo.Name = "butAddCopyTo";
-			this.butAddCopyTo.Size = new System.Drawing.Size(81, 24);
+			this.butAddCopyTo.Size = new System.Drawing.Size(86, 28);
 			this.butAddCopyTo.TabIndex = 167;
 			this.butAddCopyTo.Text = "Add Copy To";
 			this.butAddCopyTo.UseVisualStyleBackColor = true;
@@ -222,7 +222,7 @@
 			this.butAddSpecimens.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butAddSpecimens.Location = new System.Drawing.Point(881, 496);
 			this.butAddSpecimens.Name = "butAddSpecimens";
-			this.butAddSpecimens.Size = new System.Drawing.Size(81, 24);
+			this.butAddSpecimens.Size = new System.Drawing.Size(81, 28);
 			this.butAddSpecimens.TabIndex = 168;
 			this.butAddSpecimens.Text = "Add Spec";
 			this.butAddSpecimens.UseVisualStyleBackColor = true;
@@ -514,6 +514,7 @@
 			// 
 			this.textOrderingProvPrefix.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+			this.textOrderingProvPrefix.AutoSize = false;
 			this.textOrderingProvPrefix.Location = new System.Drawing.Point(119, 161);
 			this.textOrderingProvPrefix.Name = "textOrderingProvPrefix";
 			this.textOrderingProvPrefix.Size = new System.Drawing.Size(203, 20);
@@ -532,6 +533,7 @@
 			// 
 			this.textOrderingProvSuffix.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+			this.textOrderingProvSuffix.AutoSize = false;
 			this.textOrderingProvSuffix.Location = new System.Drawing.Point(119, 140);
 			this.textOrderingProvSuffix.Name = "textOrderingProvSuffix";
 			this.textOrderingProvSuffix.Size = new System.Drawing.Size(203, 20);
@@ -550,6 +552,7 @@
 			// 
 			this.textOrderingProvMiddleName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+			this.textOrderingProvMiddleName.AutoSize = false;
 			this.textOrderingProvMiddleName.Location = new System.Drawing.Point(119, 119);
 			this.textOrderingProvMiddleName.Name = "textOrderingProvMiddleName";
 			this.textOrderingProvMiddleName.Size = new System.Drawing.Size(203, 20);
@@ -568,6 +571,7 @@
 			// 
 			this.textOrderingProvFirstName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+			this.textOrderingProvFirstName.AutoSize = false;
 			this.textOrderingProvFirstName.Location = new System.Drawing.Point(119, 98);
 			this.textOrderingProvFirstName.Name = "textOrderingProvFirstName";
 			this.textOrderingProvFirstName.Size = new System.Drawing.Size(203, 20);
@@ -586,6 +590,7 @@
 			// 
 			this.textOrderingProvLastName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+			this.textOrderingProvLastName.AutoSize = false;
 			this.textOrderingProvLastName.Location = new System.Drawing.Point(119, 77);
 			this.textOrderingProvLastName.Name = "textOrderingProvLastName";
 			this.textOrderingProvLastName.Size = new System.Drawing.Size(203, 20);
@@ -604,6 +609,7 @@
 			// 
 			this.textOrderingProvIdentifier.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+			this.textOrderingProvIdentifier.AutoSize = false;
 			this.textOrderingProvIdentifier.Location = new System.Drawing.Point(119, 34);
 			this.textOrderingProvIdentifier.Name = "textOrderingProvIdentifier";
 			this.textOrderingProvIdentifier.Size = new System.Drawing.Size(203, 20);
@@ -810,6 +816,7 @@
 			// 
 			this.textObservationDateTimeStart.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+			this.textObservationDateTimeStart.AutoSize = false;
 			this.textObservationDateTimeStart.Location = new System.Drawing.Point(134, 164);
 			this.textObservationDateTimeStart.Name = "textObservationDateTimeStart";
 			this.textObservationDateTimeStart.Size = new System.Drawing.Size(151, 20);
@@ -837,6 +844,7 @@
 			// 
 			this.textObservationDateTimeEnd.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+			this.textObservationDateTimeEnd.AutoSize = false;
 			this.textObservationDateTimeEnd.Location = new System.Drawing.Point(134, 185);
 			this.textObservationDateTimeEnd.Name = "textObservationDateTimeEnd";
 			this.textObservationDateTimeEnd.Size = new System.Drawing.Size(151, 20);
@@ -865,6 +873,7 @@
 			// 
 			this.textUsiCodeSystemNameAlt.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+			this.textUsiCodeSystemNameAlt.AutoSize = false;
 			this.textUsiCodeSystemNameAlt.Location = new System.Drawing.Point(134, 80);
 			this.textUsiCodeSystemNameAlt.Name = "textUsiCodeSystemNameAlt";
 			this.textUsiCodeSystemNameAlt.Size = new System.Drawing.Size(151, 20);
@@ -883,6 +892,7 @@
 			// 
 			this.textUsiCodeSystemName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+			this.textUsiCodeSystemName.AutoSize = false;
 			this.textUsiCodeSystemName.Location = new System.Drawing.Point(134, 17);
 			this.textUsiCodeSystemName.Name = "textUsiCodeSystemName";
 			this.textUsiCodeSystemName.Size = new System.Drawing.Size(151, 20);
@@ -929,6 +939,7 @@
 			// 
 			this.textUsiID.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+			this.textUsiID.AutoSize = false;
 			this.textUsiID.Location = new System.Drawing.Point(134, 38);
 			this.textUsiID.Name = "textUsiID";
 			this.textUsiID.Size = new System.Drawing.Size(151, 20);
@@ -976,6 +987,7 @@
 			// 
 			this.textUsiIDAlt.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+			this.textUsiIDAlt.AutoSize = false;
 			this.textUsiIDAlt.Location = new System.Drawing.Point(134, 101);
 			this.textUsiIDAlt.Name = "textUsiIDAlt";
 			this.textUsiIDAlt.Size = new System.Drawing.Size(151, 20);
@@ -987,7 +999,7 @@
 			this.butAddClinicalInfo.Enabled = false;
 			this.butAddClinicalInfo.Location = new System.Drawing.Point(881, 419);
 			this.butAddClinicalInfo.Name = "butAddClinicalInfo";
-			this.butAddClinicalInfo.Size = new System.Drawing.Size(81, 24);
+			this.butAddClinicalInfo.Size = new System.Drawing.Size(81, 28);
 			this.butAddClinicalInfo.TabIndex = 256;
 			this.butAddClinicalInfo.Text = "Add C. Info";
 			this.butAddClinicalInfo.UseVisualStyleBackColor = true;
@@ -1003,6 +1015,7 @@
 			// 
 			// textParentOrderNum
 			// 
+			this.textParentOrderNum.AutoSize = false;
 			this.textParentOrderNum.Location = new System.Drawing.Point(452, 13);
 			this.textParentOrderNum.Name = "textParentOrderNum";
 			this.textParentOrderNum.ReadOnly = true;
@@ -1026,7 +1039,7 @@
 			this.checkResultsHandlingF.Location = new System.Drawing.Point(6, 13);
 			this.checkResultsHandlingF.Name = "checkResultsHandlingF";
 			this.checkResultsHandlingF.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-			this.checkResultsHandlingF.Size = new System.Drawing.Size(143, 20);
+			this.checkResultsHandlingF.Size = new System.Drawing.Size(149, 20);
 			this.checkResultsHandlingF.TabIndex = 0;
 			this.checkResultsHandlingF.Text = "Film results with patient";
 			// 
@@ -1054,6 +1067,7 @@
 			// 
 			this.textTQ1Stop.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+			this.textTQ1Stop.AutoSize = false;
 			this.textTQ1Stop.Location = new System.Drawing.Point(134, 34);
 			this.textTQ1Stop.Name = "textTQ1Stop";
 			this.textTQ1Stop.Size = new System.Drawing.Size(151, 20);
@@ -1072,6 +1086,7 @@
 			// 
 			this.textTQ1Start.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+			this.textTQ1Start.AutoSize = false;
 			this.textTQ1Start.Location = new System.Drawing.Point(134, 13);
 			this.textTQ1Start.Name = "textTQ1Start";
 			this.textTQ1Start.Size = new System.Drawing.Size(151, 20);

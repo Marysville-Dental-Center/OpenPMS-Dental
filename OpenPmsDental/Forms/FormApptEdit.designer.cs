@@ -128,7 +128,7 @@
 			this.label4.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.label4.Location = new System.Drawing.Point(-3, 46);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(106, 16);
+			this.label4.Size = new System.Drawing.Size(108, 18);
 			this.label4.TabIndex = 82;
 			this.label4.Text = "Unscheduled Status";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -172,7 +172,7 @@
 			this.checkIsHygiene.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkIsHygiene.Location = new System.Drawing.Point(-3, 170);
 			this.checkIsHygiene.Name = "checkIsHygiene";
-			this.checkIsHygiene.Size = new System.Drawing.Size(121, 16);
+			this.checkIsHygiene.Size = new System.Drawing.Size(121, 17);
 			this.checkIsHygiene.TabIndex = 137;
 			this.checkIsHygiene.Text = "Is Hygiene";
 			this.checkIsHygiene.Click += new System.EventHandler(this.checkIsHygiene_Click);
@@ -224,7 +224,7 @@
 			this.checkIsNewPatient.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkIsNewPatient.Location = new System.Drawing.Point(-3, 88);
 			this.checkIsNewPatient.Name = "checkIsNewPatient";
-			this.checkIsNewPatient.Size = new System.Drawing.Size(121, 16);
+			this.checkIsNewPatient.Size = new System.Drawing.Size(121, 17);
 			this.checkIsNewPatient.TabIndex = 128;
 			this.checkIsNewPatient.Text = "New Patient";
 			// 
@@ -232,7 +232,7 @@
 			// 
 			this.label3.Location = new System.Drawing.Point(-3, 149);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(106, 16);
+			this.label3.Size = new System.Drawing.Size(106, 18);
 			this.label3.TabIndex = 127;
 			this.label3.Text = "Hygienist";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -250,7 +250,7 @@
 			// 
 			this.labelApptNote.Location = new System.Drawing.Point(301, 568);
 			this.labelApptNote.Name = "labelApptNote";
-			this.labelApptNote.Size = new System.Drawing.Size(197, 16);
+			this.labelApptNote.Size = new System.Drawing.Size(197, 18);
 			this.labelApptNote.TabIndex = 141;
 			this.labelApptNote.Text = "Appointment Note";
 			this.labelApptNote.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -269,7 +269,7 @@
 			this.checkTimeLocked.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkTimeLocked.Location = new System.Drawing.Point(-3, 210);
 			this.checkTimeLocked.Name = "checkTimeLocked";
-			this.checkTimeLocked.Size = new System.Drawing.Size(121, 16);
+			this.checkTimeLocked.Size = new System.Drawing.Size(121, 17);
 			this.checkTimeLocked.TabIndex = 148;
 			this.checkTimeLocked.Text = "Time Locked";
 			this.checkTimeLocked.Click += new System.EventHandler(this.checkTimeLocked_Click);
@@ -314,6 +314,7 @@
 			// 
 			// textTimeAskedToArrive
 			// 
+			this.textTimeAskedToArrive.AutoSize = false;
 			this.textTimeAskedToArrive.Location = new System.Drawing.Point(105, 271);
 			this.textTimeAskedToArrive.Name = "textTimeAskedToArrive";
 			this.textTimeAskedToArrive.Size = new System.Drawing.Size(126, 20);
@@ -341,7 +342,7 @@
 			// 
 			this.labelQuickAdd.Location = new System.Drawing.Point(540, 6);
 			this.labelQuickAdd.Name = "labelQuickAdd";
-			this.labelQuickAdd.Size = new System.Drawing.Size(143, 39);
+			this.labelQuickAdd.Size = new System.Drawing.Size(143, 42);
 			this.labelQuickAdd.TabIndex = 162;
 			this.labelQuickAdd.Text = "Single click on items in the list below to add them to this appointment.";
 			// 
@@ -412,7 +413,7 @@
 			this.checkASAP.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.checkASAP.Location = new System.Drawing.Point(-3, 27);
 			this.checkASAP.Name = "checkASAP";
-			this.checkASAP.Size = new System.Drawing.Size(121, 16);
+			this.checkASAP.Size = new System.Drawing.Size(121, 17);
 			this.checkASAP.TabIndex = 184;
 			this.checkASAP.Text = "ASAP";
 			this.checkASAP.CheckedChanged += new System.EventHandler(this.checkASAP_CheckedChanged);
@@ -429,7 +430,7 @@
 			// 
 			this.label10.Location = new System.Drawing.Point(-3, 250);
 			this.label10.Name = "label10";
-			this.label10.Size = new System.Drawing.Size(106, 16);
+			this.label10.Size = new System.Drawing.Size(107, 18);
 			this.label10.TabIndex = 182;
 			this.label10.Text = "Appointment Type";
 			this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -521,6 +522,7 @@
 			// 
 			// textInsPlan2
 			// 
+			this.textInsPlan2.AutoSize = false;
 			this.textInsPlan2.Location = new System.Drawing.Point(54, 411);
 			this.textInsPlan2.Name = "textInsPlan2";
 			this.textInsPlan2.ReadOnly = true;
@@ -531,13 +533,14 @@
 			// 
 			this.labelInsPlan2.Location = new System.Drawing.Point(-3, 413);
 			this.labelInsPlan2.Name = "labelInsPlan2";
-			this.labelInsPlan2.Size = new System.Drawing.Size(55, 16);
+			this.labelInsPlan2.Size = new System.Drawing.Size(56, 18);
 			this.labelInsPlan2.TabIndex = 173;
 			this.labelInsPlan2.Text = "InsPlan 2";
 			this.labelInsPlan2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textInsPlan1
 			// 
+			this.textInsPlan1.AutoSize = false;
 			this.textInsPlan1.Location = new System.Drawing.Point(54, 390);
 			this.textInsPlan1.Name = "textInsPlan1";
 			this.textInsPlan1.ReadOnly = true;
@@ -548,13 +551,14 @@
 			// 
 			this.labelInsPlan1.Location = new System.Drawing.Point(-3, 392);
 			this.labelInsPlan1.Name = "labelInsPlan1";
-			this.labelInsPlan1.Size = new System.Drawing.Size(55, 16);
+			this.labelInsPlan1.Size = new System.Drawing.Size(56, 18);
 			this.labelInsPlan1.TabIndex = 171;
 			this.labelInsPlan1.Text = "InsPlan 1";
 			this.labelInsPlan1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textTimeDismissed
 			// 
+			this.textTimeDismissed.AutoSize = false;
 			this.textTimeDismissed.Location = new System.Drawing.Point(105, 331);
 			this.textTimeDismissed.Name = "textTimeDismissed";
 			this.textTimeDismissed.Size = new System.Drawing.Size(126, 20);
@@ -571,6 +575,7 @@
 			// 
 			// textTimeSeated
 			// 
+			this.textTimeSeated.AutoSize = false;
 			this.textTimeSeated.Location = new System.Drawing.Point(105, 311);
 			this.textTimeSeated.Name = "textTimeSeated";
 			this.textTimeSeated.Size = new System.Drawing.Size(126, 20);
@@ -587,6 +592,7 @@
 			// 
 			// textTimeArrived
 			// 
+			this.textTimeArrived.AutoSize = false;
 			this.textTimeArrived.Location = new System.Drawing.Point(105, 291);
 			this.textTimeArrived.Name = "textTimeArrived";
 			this.textTimeArrived.Size = new System.Drawing.Size(126, 20);
@@ -881,7 +887,7 @@
 			this.checkShowCommAuto.Location = new System.Drawing.Point(692, 406);
 			this.checkShowCommAuto.Margin = new System.Windows.Forms.Padding(0);
 			this.checkShowCommAuto.Name = "checkShowCommAuto";
-			this.checkShowCommAuto.Size = new System.Drawing.Size(163, 17);
+			this.checkShowCommAuto.Size = new System.Drawing.Size(176, 18);
 			this.checkShowCommAuto.TabIndex = 189;
 			this.checkShowCommAuto.Text = "Show Automated Commlogs";
 			this.checkShowCommAuto.Click += new System.EventHandler(this.checkShowCommAuto_Click);

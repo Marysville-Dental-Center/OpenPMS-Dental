@@ -140,7 +140,7 @@
 			// 
 			this.label1.Location = new System.Drawing.Point(0, 48);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(127, 16);
+			this.label1.Size = new System.Drawing.Size(127, 18);
 			this.label1.TabIndex = 23;
 			this.label1.Text = "Payment Date";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -156,7 +156,7 @@
 			// 
 			this.checkPatOtherFam.Location = new System.Drawing.Point(11, 15);
 			this.checkPatOtherFam.Name = "checkPatOtherFam";
-			this.checkPatOtherFam.Size = new System.Drawing.Size(192, 17);
+			this.checkPatOtherFam.Size = new System.Drawing.Size(192, 18);
 			this.checkPatOtherFam.TabIndex = 110;
 			this.checkPatOtherFam.TabStop = false;
 			this.checkPatOtherFam.Text = "Is from another family";
@@ -177,7 +177,7 @@
 			// 
 			this.label15.Location = new System.Drawing.Point(1, 24);
 			this.label15.Name = "label15";
-			this.label15.Size = new System.Drawing.Size(127, 16);
+			this.label15.Size = new System.Drawing.Size(127, 18);
 			this.label15.TabIndex = 115;
 			this.label15.Text = "Entry Date";
 			this.label15.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -186,7 +186,7 @@
 			// 
 			this.label17.Location = new System.Drawing.Point(3, 121);
 			this.label17.Name = "label17";
-			this.label17.Size = new System.Drawing.Size(124, 16);
+			this.label17.Size = new System.Drawing.Size(124, 18);
 			this.label17.TabIndex = 116;
 			this.label17.Text = "Unearned Type";
 			this.label17.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -352,6 +352,7 @@
 			// 
 			// textProcWriteoff
 			// 
+			this.textProcWriteoff.AutoSize = false;
 			this.textProcWriteoff.Location = new System.Drawing.Point(513, 39);
 			this.textProcWriteoff.Name = "textProcWriteoff";
 			this.textProcWriteoff.ReadOnly = true;
@@ -370,6 +371,7 @@
 			// 
 			// textProcTooth
 			// 
+			this.textProcTooth.AutoSize = false;
 			this.textProcTooth.Location = new System.Drawing.Point(115, 119);
 			this.textProcTooth.Name = "textProcTooth";
 			this.textProcTooth.ReadOnly = true;
@@ -387,6 +389,7 @@
 			// 
 			// textProcProv
 			// 
+			this.textProcProv.AutoSize = false;
 			this.textProcProv.Location = new System.Drawing.Point(115, 99);
 			this.textProcProv.Name = "textProcProv";
 			this.textProcProv.ReadOnly = true;
@@ -395,6 +398,7 @@
 			// 
 			// textProcDescription
 			// 
+			this.textProcDescription.AutoSize = false;
 			this.textProcDescription.Location = new System.Drawing.Point(115, 139);
 			this.textProcDescription.Name = "textProcDescription";
 			this.textProcDescription.ReadOnly = true;
@@ -403,6 +407,7 @@
 			// 
 			// textProcDate
 			// 
+			this.textProcDate.AutoSize = false;
 			this.textProcDate.Location = new System.Drawing.Point(115, 79);
 			this.textProcDate.Name = "textProcDate";
 			this.textProcDate.ReadOnly = true;
@@ -421,6 +426,7 @@
 			// 
 			// textProcPaidHere
 			// 
+			this.textProcPaidHere.AutoSize = false;
 			this.textProcPaidHere.Location = new System.Drawing.Point(513, 139);
 			this.textProcPaidHere.Name = "textProcPaidHere";
 			this.textProcPaidHere.ReadOnly = true;
@@ -430,6 +436,7 @@
 			// 
 			// textProcPrevPaid
 			// 
+			this.textProcPrevPaid.AutoSize = false;
 			this.textProcPrevPaid.Location = new System.Drawing.Point(513, 119);
 			this.textProcPrevPaid.Name = "textProcPrevPaid";
 			this.textProcPrevPaid.ReadOnly = true;
@@ -439,6 +446,7 @@
 			// 
 			// textProcAdj
 			// 
+			this.textProcAdj.AutoSize = false;
 			this.textProcAdj.Location = new System.Drawing.Point(513, 99);
 			this.textProcAdj.Name = "textProcAdj";
 			this.textProcAdj.ReadOnly = true;
@@ -448,6 +456,7 @@
 			// 
 			// textProcInsEst
 			// 
+			this.textProcInsEst.AutoSize = false;
 			this.textProcInsEst.Location = new System.Drawing.Point(513, 79);
 			this.textProcInsEst.Name = "textProcInsEst";
 			this.textProcInsEst.ReadOnly = true;
@@ -457,6 +466,7 @@
 			// 
 			// textProcInsPaid
 			// 
+			this.textProcInsPaid.AutoSize = false;
 			this.textProcInsPaid.Location = new System.Drawing.Point(513, 59);
 			this.textProcInsPaid.Name = "textProcInsPaid";
 			this.textProcInsPaid.ReadOnly = true;
@@ -466,6 +476,7 @@
 			// 
 			// textProcFee
 			// 
+			this.textProcFee.AutoSize = false;
 			this.textProcFee.Location = new System.Drawing.Point(513, 19);
 			this.textProcFee.Name = "textProcFee";
 			this.textProcFee.ReadOnly = true;
@@ -477,7 +488,7 @@
 			// 
 			this.label13.Location = new System.Drawing.Point(405, 141);
 			this.label13.Name = "label13";
-			this.label13.Size = new System.Drawing.Size(104, 16);
+			this.label13.Size = new System.Drawing.Size(105, 18);
 			this.label13.TabIndex = 62;
 			this.label13.Text = "This Payment Split";
 			this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -486,7 +497,7 @@
 			// 
 			this.label12.Location = new System.Drawing.Point(405, 167);
 			this.label12.Name = "label12";
-			this.label12.Size = new System.Drawing.Size(104, 16);
+			this.label12.Size = new System.Drawing.Size(104, 18);
 			this.label12.TabIndex = 61;
 			this.label12.Text = "Remaining";
 			this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -504,7 +515,7 @@
 			// 
 			this.label10.Location = new System.Drawing.Point(405, 101);
 			this.label10.Name = "label10";
-			this.label10.Size = new System.Drawing.Size(104, 16);
+			this.label10.Size = new System.Drawing.Size(104, 18);
 			this.label10.TabIndex = 59;
 			this.label10.Text = "Adjustments";
 			this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -549,7 +560,7 @@
 			// 
 			this.label3.Location = new System.Drawing.Point(9, 142);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(104, 16);
+			this.label3.Size = new System.Drawing.Size(104, 18);
 			this.label3.TabIndex = 54;
 			this.label3.Text = "Description";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -607,6 +618,7 @@
 			// 
 			// textAdjProv
 			// 
+			this.textAdjProv.AutoSize = false;
 			this.textAdjProv.Location = new System.Drawing.Point(115, 99);
 			this.textAdjProv.Name = "textAdjProv";
 			this.textAdjProv.ReadOnly = true;
@@ -615,6 +627,7 @@
 			// 
 			// textAdjDate
 			// 
+			this.textAdjDate.AutoSize = false;
 			this.textAdjDate.Location = new System.Drawing.Point(115, 79);
 			this.textAdjDate.Name = "textAdjDate";
 			this.textAdjDate.ReadOnly = true;
@@ -633,6 +646,7 @@
 			// 
 			// textAdjPaidHere
 			// 
+			this.textAdjPaidHere.AutoSize = false;
 			this.textAdjPaidHere.Location = new System.Drawing.Point(513, 99);
 			this.textAdjPaidHere.Name = "textAdjPaidHere";
 			this.textAdjPaidHere.ReadOnly = true;
@@ -642,6 +656,7 @@
 			// 
 			// textAdjPrevUsed
 			// 
+			this.textAdjPrevUsed.AutoSize = false;
 			this.textAdjPrevUsed.Location = new System.Drawing.Point(513, 79);
 			this.textAdjPrevUsed.Name = "textAdjPrevUsed";
 			this.textAdjPrevUsed.ReadOnly = true;
@@ -651,6 +666,7 @@
 			// 
 			// textAdjAmt
 			// 
+			this.textAdjAmt.AutoSize = false;
 			this.textAdjAmt.Location = new System.Drawing.Point(513, 59);
 			this.textAdjAmt.Name = "textAdjAmt";
 			this.textAdjAmt.ReadOnly = true;
@@ -662,7 +678,7 @@
 			// 
 			this.label26.Location = new System.Drawing.Point(405, 101);
 			this.label26.Name = "label26";
-			this.label26.Size = new System.Drawing.Size(104, 16);
+			this.label26.Size = new System.Drawing.Size(105, 18);
 			this.label26.TabIndex = 52;
 			this.label26.Text = "This Payment Split";
 			this.label26.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -671,7 +687,7 @@
 			// 
 			this.label27.Location = new System.Drawing.Point(405, 127);
 			this.label27.Name = "label27";
-			this.label27.Size = new System.Drawing.Size(104, 16);
+			this.label27.Size = new System.Drawing.Size(104, 18);
 			this.label27.TabIndex = 51;
 			this.label27.Text = "Remaining";
 			this.label27.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -680,7 +696,7 @@
 			// 
 			this.label28.Location = new System.Drawing.Point(382, 81);
 			this.label28.Name = "label28";
-			this.label28.Size = new System.Drawing.Size(127, 16);
+			this.label28.Size = new System.Drawing.Size(127, 18);
 			this.label28.TabIndex = 50;
 			this.label28.Text = "Paid Previously";
 			this.label28.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -689,7 +705,7 @@
 			// 
 			this.label29.Location = new System.Drawing.Point(405, 61);
 			this.label29.Name = "label29";
-			this.label29.Size = new System.Drawing.Size(104, 16);
+			this.label29.Size = new System.Drawing.Size(104, 18);
 			this.label29.TabIndex = 49;
 			this.label29.Text = "Adjust Amount";
 			this.label29.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

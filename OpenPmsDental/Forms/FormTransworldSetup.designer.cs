@@ -91,6 +91,7 @@ namespace OpenPmsDental{
 			// 
 			this.textSftpPassword.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+			this.textSftpPassword.AutoSize = false;
 			this.textSftpPassword.Location = new System.Drawing.Point(162, 76);
 			this.textSftpPassword.Name = "textSftpPassword";
 			this.textSftpPassword.PasswordChar = '*';
@@ -101,6 +102,7 @@ namespace OpenPmsDental{
 			// 
 			this.textSftpUsername.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+			this.textSftpUsername.AutoSize = false;
 			this.textSftpUsername.Location = new System.Drawing.Point(162, 56);
 			this.textSftpUsername.Name = "textSftpUsername";
 			this.textSftpUsername.Size = new System.Drawing.Size(220, 20);
@@ -128,6 +130,7 @@ namespace OpenPmsDental{
 			// 
 			this.textSftpAddress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+			this.textSftpAddress.AutoSize = false;
 			this.textSftpAddress.Location = new System.Drawing.Point(162, 16);
 			this.textSftpAddress.Name = "textSftpAddress";
 			this.textSftpAddress.Size = new System.Drawing.Size(220, 20);
@@ -146,6 +149,7 @@ namespace OpenPmsDental{
 			// 
 			this.textClientIdAccelerator.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+			this.textClientIdAccelerator.AutoSize = false;
 			this.textClientIdAccelerator.Location = new System.Drawing.Point(162, 16);
 			this.textClientIdAccelerator.Name = "textClientIdAccelerator";
 			this.textClientIdAccelerator.Size = new System.Drawing.Size(220, 20);
@@ -239,7 +243,7 @@ namespace OpenPmsDental{
 			this.checkThankYouLetter.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkThankYouLetter.Location = new System.Drawing.Point(6, 240);
 			this.checkThankYouLetter.Name = "checkThankYouLetter";
-			this.checkThankYouLetter.Size = new System.Drawing.Size(175, 18);
+			this.checkThankYouLetter.Size = new System.Drawing.Size(179, 18);
 			this.checkThankYouLetter.TabIndex = 6;
 			this.checkThankYouLetter.Text = "\"Paid in Full\" thank you letter";
 			// 
@@ -325,6 +329,7 @@ namespace OpenPmsDental{
 			// 
 			this.textSftpPort.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+			this.textSftpPort.AutoSize = false;
 			this.textSftpPort.Location = new System.Drawing.Point(162, 36);
 			this.textSftpPort.MaxLength = 5;
 			this.textSftpPort.MaxVal = 65535;
@@ -352,6 +357,7 @@ namespace OpenPmsDental{
 			// 
 			this.textClientIdCollection.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+			this.textClientIdCollection.AutoSize = false;
 			this.textClientIdCollection.Location = new System.Drawing.Point(162, 36);
 			this.textClientIdCollection.Name = "textClientIdCollection";
 			this.textClientIdCollection.Size = new System.Drawing.Size(220, 20);
@@ -372,7 +378,7 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelClinicEnable.Location = new System.Drawing.Point(12, 37);
 			this.labelClinicEnable.Name = "labelClinicEnable";
-			this.labelClinicEnable.Size = new System.Drawing.Size(400, 30);
+			this.labelClinicEnable.Size = new System.Drawing.Size(412, 30);
 			this.labelClinicEnable.TabIndex = 0;
 			this.labelClinicEnable.Text = "To enable Transworld Systems for a clinic, set the ID(s),\r\nSFTP address and port," +
     " and login credentials for that clinic.";
@@ -382,13 +388,14 @@ namespace OpenPmsDental{
 			// 
 			this.labelSendTimeOfDay.Location = new System.Drawing.Point(6, 17);
 			this.labelSendTimeOfDay.Name = "labelSendTimeOfDay";
-			this.labelSendTimeOfDay.Size = new System.Drawing.Size(161, 18);
+			this.labelSendTimeOfDay.Size = new System.Drawing.Size(162, 18);
 			this.labelSendTimeOfDay.TabIndex = 233;
 			this.labelSendTimeOfDay.Text = "OpenDentalService Send Time";
 			this.labelSendTimeOfDay.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textUpdatesTimeOfDay
 			// 
+			this.textUpdatesTimeOfDay.AutoSize = false;
 			this.textUpdatesTimeOfDay.Location = new System.Drawing.Point(168, 16);
 			this.textUpdatesTimeOfDay.Name = "textUpdatesTimeOfDay";
 			this.textUpdatesTimeOfDay.Size = new System.Drawing.Size(58, 20);
@@ -399,7 +406,7 @@ namespace OpenPmsDental{
 			// 
 			this.labelODService.Location = new System.Drawing.Point(227, 17);
 			this.labelODService.Name = "labelODService";
-			this.labelODService.Size = new System.Drawing.Size(122, 18);
+			this.labelODService.Size = new System.Drawing.Size(133, 18);
 			this.labelODService.TabIndex = 2;
 			this.labelODService.Text = "(by OpenDentalService)";
 			this.labelODService.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;

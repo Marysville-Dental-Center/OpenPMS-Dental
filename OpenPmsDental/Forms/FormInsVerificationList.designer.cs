@@ -312,6 +312,7 @@ namespace OpenPmsDental{
 			//
 			// textSubscriberID
 			// 
+			this.textSubscriberID.AutoSize = false;
 			this.textSubscriberID.Location = new System.Drawing.Point(111, 79);
 			this.textSubscriberID.Name = "textSubscriberID";
 			this.textSubscriberID.ReadOnly = true;
@@ -320,6 +321,7 @@ namespace OpenPmsDental{
 			// 
 			// textSubscriberSSN
 			// 
+			this.textSubscriberSSN.AutoSize = false;
 			this.textSubscriberSSN.Location = new System.Drawing.Point(111, 57);
 			this.textSubscriberSSN.Name = "textSubscriberSSN";
 			this.textSubscriberSSN.ReadOnly = true;
@@ -328,6 +330,7 @@ namespace OpenPmsDental{
 			// 
 			// textSubscriberBirthdate
 			// 
+			this.textSubscriberBirthdate.AutoSize = false;
 			this.textSubscriberBirthdate.Location = new System.Drawing.Point(111, 35);
 			this.textSubscriberBirthdate.Name = "textSubscriberBirthdate";
 			this.textSubscriberBirthdate.ReadOnly = true;
@@ -336,6 +339,7 @@ namespace OpenPmsDental{
 			// 
 			// textSubscriberName
 			// 
+			this.textSubscriberName.AutoSize = false;
 			this.textSubscriberName.Location = new System.Drawing.Point(111, 13);
 			this.textSubscriberName.Name = "textSubscriberName";
 			this.textSubscriberName.ReadOnly = true;
@@ -410,6 +414,7 @@ namespace OpenPmsDental{
 			// 
 			// textCarrierPhoneNumber
 			// 
+			this.textCarrierPhoneNumber.AutoSize = false;
 			this.textCarrierPhoneNumber.Location = new System.Drawing.Point(127, 37);
 			this.textCarrierPhoneNumber.Name = "textCarrierPhoneNumber";
 			this.textCarrierPhoneNumber.ReadOnly = true;
@@ -418,6 +423,7 @@ namespace OpenPmsDental{
 			// 
 			// textInsPlanGroupNumber
 			// 
+			this.textInsPlanGroupNumber.AutoSize = false;
 			this.textInsPlanGroupNumber.Location = new System.Drawing.Point(127, 103);
 			this.textInsPlanGroupNumber.Name = "textInsPlanGroupNumber";
 			this.textInsPlanGroupNumber.ReadOnly = true;
@@ -426,6 +432,7 @@ namespace OpenPmsDental{
 			// 
 			// textInsPlanGroupName
 			// 
+			this.textInsPlanGroupName.AutoSize = false;
 			this.textInsPlanGroupName.Location = new System.Drawing.Point(127, 81);
 			this.textInsPlanGroupName.Name = "textInsPlanGroupName";
 			this.textInsPlanGroupName.ReadOnly = true;
@@ -434,6 +441,7 @@ namespace OpenPmsDental{
 			// 
 			// textInsPlanEmployer
 			// 
+			this.textInsPlanEmployer.AutoSize = false;
 			this.textInsPlanEmployer.Location = new System.Drawing.Point(127, 59);
 			this.textInsPlanEmployer.Name = "textInsPlanEmployer";
 			this.textInsPlanEmployer.ReadOnly = true;
@@ -442,6 +450,7 @@ namespace OpenPmsDental{
 			// 
 			// textCarrierName
 			// 
+			this.textCarrierName.AutoSize = false;
 			this.textCarrierName.Location = new System.Drawing.Point(127, 15);
 			this.textCarrierName.Name = "textCarrierName";
 			this.textCarrierName.ReadOnly = true;
@@ -737,6 +746,7 @@ namespace OpenPmsDental{
 			// 
 			// textAppointmentScheduledDaysMedicaid
 			// 
+			this.textAppointmentScheduledDaysMedicaid.AutoSize = false;
 			this.textAppointmentScheduledDaysMedicaid.Location = new System.Drawing.Point(252, 53);
 			this.textAppointmentScheduledDaysMedicaid.MaxVal = 99999;
 			this.textAppointmentScheduledDaysMedicaid.Name = "textAppointmentScheduledDaysMedicaid";
@@ -747,6 +757,7 @@ namespace OpenPmsDental{
 			// 
 			// textPatientEnrollmentDaysMedicaid
 			// 
+			this.textPatientEnrollmentDaysMedicaid.AutoSize = false;
 			this.textPatientEnrollmentDaysMedicaid.Location = new System.Drawing.Point(252, 97);
 			this.textPatientEnrollmentDaysMedicaid.MaxVal = 99999;
 			this.textPatientEnrollmentDaysMedicaid.Name = "textPatientEnrollmentDaysMedicaid";
@@ -757,6 +768,7 @@ namespace OpenPmsDental{
 			// 
 			// textInsBenefitEligibilityDaysMedicaid
 			// 
+			this.textInsBenefitEligibilityDaysMedicaid.AutoSize = false;
 			this.textInsBenefitEligibilityDaysMedicaid.Location = new System.Drawing.Point(252, 75);
 			this.textInsBenefitEligibilityDaysMedicaid.MaxVal = 99999;
 			this.textInsBenefitEligibilityDaysMedicaid.Name = "textInsBenefitEligibilityDaysMedicaid";
@@ -920,6 +932,7 @@ namespace OpenPmsDental{
 			//
 			// textAppointmentScheduledDaysMinStandard
 			//
+			this.textAppointmentScheduledDaysMinStandard.AutoSize = false;
 			this.textAppointmentScheduledDaysMinStandard.Location = new System.Drawing.Point(195, 31);
 			this.textAppointmentScheduledDaysMinStandard.MaxVal = 99999;
 			this.textAppointmentScheduledDaysMinStandard.Name = "textAppointmentScheduledDaysMinStandard";
@@ -930,6 +943,7 @@ namespace OpenPmsDental{
 			//
 			// textAppointmentScheduledDaysMinMedicaid
 			//
+			this.textAppointmentScheduledDaysMinMedicaid.AutoSize = false;
 			this.textAppointmentScheduledDaysMinMedicaid.Location = new System.Drawing.Point(252, 31);
 			this.textAppointmentScheduledDaysMinMedicaid.MaxVal = 99999;
 			this.textAppointmentScheduledDaysMinMedicaid.Name = "textAppointmentScheduledDaysMinMedicaid";
@@ -949,6 +963,7 @@ namespace OpenPmsDental{
 			// 
 			// textAppointmentScheduledDaysStandard
 			// 
+			this.textAppointmentScheduledDaysStandard.AutoSize = false;
 			this.textAppointmentScheduledDaysStandard.Location = new System.Drawing.Point(195, 53);
 			this.textAppointmentScheduledDaysStandard.MaxVal = 99999;
 			this.textAppointmentScheduledDaysStandard.Name = "textAppointmentScheduledDaysStandard";
@@ -959,6 +974,7 @@ namespace OpenPmsDental{
 			// 
 			// textPatientEnrollmentDaysStandard
 			// 
+			this.textPatientEnrollmentDaysStandard.AutoSize = false;
 			this.textPatientEnrollmentDaysStandard.Location = new System.Drawing.Point(195, 97);
 			this.textPatientEnrollmentDaysStandard.MaxVal = 99999;
 			this.textPatientEnrollmentDaysStandard.Name = "textPatientEnrollmentDaysStandard";
@@ -969,6 +985,7 @@ namespace OpenPmsDental{
 			// 
 			// textInsBenefitEligibilityDaysStandard
 			// 
+			this.textInsBenefitEligibilityDaysStandard.AutoSize = false;
 			this.textInsBenefitEligibilityDaysStandard.Location = new System.Drawing.Point(195, 75);
 			this.textInsBenefitEligibilityDaysStandard.MaxVal = 99999;
 			this.textInsBenefitEligibilityDaysStandard.Name = "textInsBenefitEligibilityDaysStandard";

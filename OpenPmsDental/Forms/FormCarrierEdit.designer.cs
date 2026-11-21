@@ -112,6 +112,7 @@ namespace OpenPmsDental {
 			// 
 			// textCarrierName
 			// 
+			this.textCarrierName.AutoSize = false;
 			this.textCarrierName.Location = new System.Drawing.Point(204, 30);
 			this.textCarrierName.MaxLength = 255;
 			this.textCarrierName.Name = "textCarrierName";
@@ -130,6 +131,7 @@ namespace OpenPmsDental {
 			// 
 			// textPhone
 			// 
+			this.textPhone.AutoSize = false;
 			this.textPhone.Location = new System.Drawing.Point(204, 50);
 			this.textPhone.MaxLength = 255;
 			this.textPhone.Name = "textPhone";
@@ -147,6 +149,7 @@ namespace OpenPmsDental {
 			// 
 			// textAddress
 			// 
+			this.textAddress.AutoSize = false;
 			this.textAddress.Location = new System.Drawing.Point(204, 70);
 			this.textAddress.MaxLength = 255;
 			this.textAddress.Name = "textAddress";
@@ -165,6 +168,7 @@ namespace OpenPmsDental {
 			// 
 			// textAddress2
 			// 
+			this.textAddress2.AutoSize = false;
 			this.textAddress2.Location = new System.Drawing.Point(204, 90);
 			this.textAddress2.MaxLength = 255;
 			this.textAddress2.Name = "textAddress2";
@@ -192,6 +196,7 @@ namespace OpenPmsDental {
 			// 
 			// textElectID
 			// 
+			this.textElectID.AutoSize = false;
 			this.textElectID.Location = new System.Drawing.Point(204, 130);
 			this.textElectID.Name = "textElectID";
 			this.textElectID.Size = new System.Drawing.Size(59, 20);
@@ -235,6 +240,7 @@ namespace OpenPmsDental {
 			// 
 			// textCity
 			// 
+			this.textCity.AutoSize = false;
 			this.textCity.Location = new System.Drawing.Point(204, 110);
 			this.textCity.MaxLength = 255;
 			this.textCity.Name = "textCity";
@@ -244,6 +250,7 @@ namespace OpenPmsDental {
 			// 
 			// textState
 			// 
+			this.textState.AutoSize = false;
 			this.textState.Location = new System.Drawing.Point(359, 110);
 			this.textState.MaxLength = 255;
 			this.textState.Name = "textState";
@@ -253,6 +260,7 @@ namespace OpenPmsDental {
 			// 
 			// textZip
 			// 
+			this.textZip.AutoSize = false;
 			this.textZip.Location = new System.Drawing.Point(424, 110);
 			this.textZip.MaxLength = 255;
 			this.textZip.Name = "textZip";
@@ -272,7 +280,7 @@ namespace OpenPmsDental {
 			// 
 			this.checkIsCDAnet.Location = new System.Drawing.Point(12, 418);
 			this.checkIsCDAnet.Name = "checkIsCDAnet";
-			this.checkIsCDAnet.Size = new System.Drawing.Size(168, 17);
+			this.checkIsCDAnet.Size = new System.Drawing.Size(168, 18);
 			this.checkIsCDAnet.TabIndex = 18;
 			this.checkIsCDAnet.Text = "Is CDAnet Carrier";
 			this.checkIsCDAnet.Click += new System.EventHandler(this.checkIsCDAnet_Click);
@@ -599,6 +607,7 @@ namespace OpenPmsDental {
 			// textCarrierNum
 			// 
 			this.textCarrierNum.BackColor = System.Drawing.SystemColors.Control;
+			this.textCarrierNum.AutoSize = false;
 			this.textCarrierNum.Location = new System.Drawing.Point(204, 10);
 			this.textCarrierNum.Name = "textCarrierNum";
 			this.textCarrierNum.ReadOnly = true;
@@ -629,7 +638,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelColor.Location = new System.Drawing.Point(22, 310);
 			this.labelColor.Name = "labelColor";
-			this.labelColor.Size = new System.Drawing.Size(182, 18);
+			this.labelColor.Size = new System.Drawing.Size(192, 18);
 			this.labelColor.TabIndex = 0;
 			this.labelColor.Text = "Appt Text Back Color (black=none)";
 			this.labelColor.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -693,7 +702,7 @@ namespace OpenPmsDental {
 			this.checkRealTimeEligibility.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkRealTimeEligibility.Location = new System.Drawing.Point(1, 290);
 			this.checkRealTimeEligibility.Name = "checkRealTimeEligibility";
-			this.checkRealTimeEligibility.Size = new System.Drawing.Size(216, 17);
+			this.checkRealTimeEligibility.Size = new System.Drawing.Size(216, 18);
 			this.checkRealTimeEligibility.TabIndex = 14;
 			this.checkRealTimeEligibility.Text = "Is trusted for real-time eligibility";
 			// 
@@ -716,7 +725,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelCobSendPaidByOtherInsAt.Location = new System.Drawing.Point(31, 176);
 			this.labelCobSendPaidByOtherInsAt.Name = "labelCobSendPaidByOtherInsAt";
-			this.labelCobSendPaidByOtherInsAt.Size = new System.Drawing.Size(171, 18);
+			this.labelCobSendPaidByOtherInsAt.Size = new System.Drawing.Size(173, 18);
 			this.labelCobSendPaidByOtherInsAt.TabIndex = 272;
 			this.labelCobSendPaidByOtherInsAt.Text = "Send Paid By Other Insurance At";
 			this.labelCobSendPaidByOtherInsAt.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -748,7 +757,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelOrthoConsolidate.Location = new System.Drawing.Point(31, 221);
 			this.labelOrthoConsolidate.Name = "labelOrthoConsolidate";
-			this.labelOrthoConsolidate.Size = new System.Drawing.Size(171, 18);
+			this.labelOrthoConsolidate.Size = new System.Drawing.Size(173, 18);
 			this.labelOrthoConsolidate.TabIndex = 276;
 			this.labelOrthoConsolidate.Text = "Consolidate Ortho Ins Payments";
 			this.labelOrthoConsolidate.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
