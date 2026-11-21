@@ -53,18 +53,26 @@ namespace UiRefreshTests {
 		public static List<string> Render(string folderBefore,string folderAfter,List<string> listNotes) {
 			List<string> listFiles=new List<string>();
 			NoDatabaseGuard.Install();
+			//UI-2b: the program's tokens are UI-2b's since the flip; the sheet draws today's windows with today's tokens and swaps them to an
+			//option, as when G-UI1 part 1 was approved.
+			UiTheme.SetFontForTest(UiFontOption.Today);
 			if(!IsGdiTextSmoothed()) {
 				listNotes.Add("This session draws Windows' own (GDI) text without smoothing (a disconnected or remote session), so the real windows' text "
 					+"looks heavier and more jagged than on a desktop with ClearType. Their sizes and line breaks are right; for the final look of the font, "
 					+"run this test again in a connected session.");
 			}
-			foreach(SheetWindowOption option in new[] { OptionChosen,OptionOther }) {
-				foreach(Shot shot in RenderAll(OptionToday,listNotes)) {
-					listFiles.Add(SaveShot(shot,Path.Combine(folderBefore,option.Folder)));
+			try {
+				foreach(SheetWindowOption option in new[] { OptionChosen,OptionOther }) {
+					foreach(Shot shot in RenderAll(OptionToday,listNotes)) {
+						listFiles.Add(SaveShot(shot,Path.Combine(folderBefore,option.Folder)));
+					}
+					foreach(Shot shot in RenderAll(option,listNotes)) {
+						listFiles.Add(SaveShot(shot,Path.Combine(folderAfter,option.Folder)));
+					}
 				}
-				foreach(Shot shot in RenderAll(option,listNotes)) {
-					listFiles.Add(SaveShot(shot,Path.Combine(folderAfter,option.Folder)));
-				}
+			}
+			finally {
+				UiTheme.SetFontForTest(null);
 			}
 			DefaultFontOverride.Set(TextFitFontOption.Today,1f);
 			return listFiles;

@@ -73,7 +73,7 @@ namespace OpenPmsDental.Reporting.Allocators.MyAllocator1
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(229)))), ((int)(((byte)(222)))), ((int)(((byte)(222)))));
 			this.ClientSize = new System.Drawing.Size(821, 520);
 			this.Controls.Add(this.panel1);
-			this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.ForeColor = System.Drawing.Color.Maroon;
 			this.Name = "FormReport_ProviderIncomeReport";
 			this.Text = "Provider Income Report";

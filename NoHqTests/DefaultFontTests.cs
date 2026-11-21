@@ -6,8 +6,9 @@
 // font a plain Form gets after those two calls: Microsoft Sans Serif at 8.25 pt times the Windows text scale factor (decision 9), so the test
 // also holds on a PC with "Make text bigger". It shows no window (the Form's handle is never created) and needs no database.
 // UI-2a-1 (docs/specs/ui-refresh-plan.md, section 9): each Main keeps a literal font, so an exe needs no CodeBase before its first window, and
-// the tests check that the literal equals the body token UiTheme.FontBody (Microsoft Sans Serif 8.25 until UI-2b, which changes the literals and
-// the token together), so the flip changes no test.
+// the tests check that the literal equals the body token UiTheme.FontBody (Microsoft Sans Serif 8.25 until UI-2b, which changed the literals and
+// the token together to Segoe UI 9), so the flip changed no test. Since UI-2b the body font, Segoe UI 9, is also .NET's own default; the
+// call stays first, as it applies the text scale factor and keeps each exe on the token.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
@@ -37,7 +38,7 @@ namespace NoHqTests {
 			}
 		}
 
-		///<summary>The literal of UiTheme.FontBody as each Main writes it: new System.Drawing.Font("Microsoft Sans Serif",8.25f) today,
+		///<summary>The literal of UiTheme.FontBody as each Main writes it: new System.Drawing.Font("Microsoft Sans Serif",8.25f) before UI-2b,
 		///new System.Drawing.Font("Segoe UI",9f) from UI-2b on.</summary>
 		public static string GetFontLiteral() {
 			return "new System.Drawing.Font(\""+CodeBase.UiTheme.FontBody.Name+"\","
@@ -85,10 +86,10 @@ namespace NoHqTests {
 		}
 
 		///<summary>The font a plain Form gets after the two calls, in a process with no window yet (TestProbeHost, run once): the body token's font
-		///(Microsoft Sans Serif 8.25 until UI-2b) at its size times the text scale factor of HKCU\Software\Microsoft\Accessibility (100 when absent),
+		///(Microsoft Sans Serif 8.25 until UI-2b, Segoe UI 9 since) at its size times the text scale factor of HKCU\Software\Microsoft\Accessibility (100 when absent),
 		///as .NET applies it.</summary>
 		[TestMethod]
-		public void APlainForm_AfterTheStartUpCalls_HasMicrosoftSansSerif825_TimesTheTextScaleFactor() {
+		public void APlainForm_AfterTheStartUpCalls_HasTheBodyFont_TimesTheTextScaleFactor() {
 			string folder=Path.GetDirectoryName(typeof(DefaultFontTests).Assembly.Location);
 			ProbeRunResult probeRunResult=ProbeProcess.RunOnce(folder,null,typeof(DefaultFontProbe),new string[0],TimeSpan.FromMinutes(2));
 			Assert.AreEqual(0,probeRunResult.ExitCode,probeRunResult.Output);

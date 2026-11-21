@@ -698,10 +698,10 @@ namespace EhrTests {
 			Assert.IsTrue(heightMax>0);
 		}
 
-		///<summary>The size of word-wrapped text in the window's font (FormODBase: Microsoft Sans Serif 8.25 at 96 dpi; the layout manager scales
-		///the font and the control together).</summary>
+		///<summary>The size of word-wrapped text in the window's font (FormODBase: the body token UiTheme.FontBody, Segoe UI 9 since UI-2b, at 96 dpi;
+		///the layout manager scales the font and the control together).</summary>
 		private static System.Drawing.Size MeasureNotes(string text,int width) {
-			using(System.Drawing.Font font=new System.Drawing.Font("Microsoft Sans Serif",8.25f)) {
+			using(System.Drawing.Font font=new System.Drawing.Font(CodeBase.UiTheme.FontBody.FontFamily,CodeBase.UiTheme.FontBody.SizeInPoints)) {
 				return TextRenderer.MeasureText(text,font,new System.Drawing.Size(width,int.MaxValue),TextFormatFlags.WordBreak|TextFormatFlags.TextBoxControl);
 			}
 		}

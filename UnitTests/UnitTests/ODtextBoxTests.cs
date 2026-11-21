@@ -331,6 +331,9 @@ Normal Fontz\par
 
 		private ODtextBox GetTextBox(string text="",int width=300,int height=300,bool multiline=true,bool isSpellCheckEnabled=true,string rtf="") {
 			ODtextBox textBox=new ODtextBox();
+			//UI-2b: the counts and the wavy line geometry below are written for 13 px lines, Microsoft Sans Serif 8.25 (the default font before
+			//the flip; Segoe UI 9 since). The spell check does not depend on the family, so the text box keeps that font here.
+			textBox.Font=new Font(CodeBase.UiTheme.FONT_FAMILY_TODAY,8.25f);
 			if(!string.IsNullOrEmpty(text)) {
 				textBox.Text=text;
 			}

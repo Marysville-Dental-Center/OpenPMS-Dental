@@ -61,19 +61,26 @@ namespace UiRefreshTests.Toolbars {
 					if(toolBarSource.IsWpf && tupleFont.Item2!=null) {
 						continue;//The WPF toolbar draws in WPF's own Segoe UI 9 (12 DIP) already; the flip does not change it.
 					}
-					foreach(int widthWindow in ToolBarSources.ArrayWindowWidths) {
-						int widthAvailable=toolBarSource.FuncWidth(ToolBarSources.GetModuleWidth(widthWindow));
-						List<LaidOutItem> listItems;
-						if(toolBarSource.IsWpf) {
-							listItems=ToolBarModel.LayOutWpf(toolBarSource);
-						}
-						else {
-							using(ToolBarOD toolBarOD=ToolBarModel.BuildToolBarOD(toolBarSource,imageList,widthAvailable,tupleFont.Item2)) {
-								listItems=ToolBarModel.LayOut(toolBarOD,toolBarSource);
+					//Today's: the toolbar's own font from today's tokens (the program's tokens are UI-2b's since the flip).
+					UiTheme.SetFontForTest(tupleFont.Item2==null ? UiFontOption.Today : null);
+					try {
+						foreach(int widthWindow in ToolBarSources.ArrayWindowWidths) {
+							int widthAvailable=toolBarSource.FuncWidth(ToolBarSources.GetModuleWidth(widthWindow));
+							List<LaidOutItem> listItems;
+							if(toolBarSource.IsWpf) {
+								listItems=ToolBarModel.LayOutWpf(toolBarSource);
 							}
+							else {
+								using(ToolBarOD toolBarOD=ToolBarModel.BuildToolBarOD(toolBarSource,imageList,widthAvailable,tupleFont.Item2)) {
+									listItems=ToolBarModel.LayOut(toolBarOD,toolBarSource);
+								}
+							}
+							listRows.Add(new FitRow { Id=toolBarSource.Id,Font=tupleFont.Item1,WidthWindow=widthWindow,WidthAvailable=widthAvailable,
+								WidthNeeded=listItems.Count==0 ? 0 : listItems.Max(x => x.Right),ListOverflow=ToolBarModel.GetOverflow(listItems,widthAvailable),ListItems=listItems });
 						}
-						listRows.Add(new FitRow { Id=toolBarSource.Id,Font=tupleFont.Item1,WidthWindow=widthWindow,WidthAvailable=widthAvailable,
-							WidthNeeded=listItems.Count==0 ? 0 : listItems.Max(x => x.Right),ListOverflow=ToolBarModel.GetOverflow(listItems,widthAvailable),ListItems=listItems });
+					}
+					finally {
+						UiTheme.SetFontForTest(null);
 					}
 				}
 			}

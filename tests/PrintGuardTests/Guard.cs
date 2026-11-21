@@ -24,18 +24,18 @@ using PdfSharp.Pdf.IO;
 
 namespace PrintGuardTests {
 	public static class Guard {
-		///<summary>UI-2b's default font, as each exe's Main will set it (section 5.1 of the plan).</summary>
+		///<summary>UI-2b's default font, as each exe's Main sets it since the flip (section 5.1 of the plan).</summary>
 		public static Font NewFontDefaultUi2b() {
 			return new Font("Segoe UI",9f);
 		}
 
-		///<summary>Today's default font, as each exe's Main sets it (Microsoft Sans Serif 8.25; a .NET 10 test process starts with Segoe UI 9).</summary>
+		///<summary>Today's default font, as each exe's Main set it before the flip (Microsoft Sans Serif 8.25; a .NET 10 test process starts with Segoe UI 9).</summary>
 		public static Font NewFontDefaultToday() {
 			return new Font(UiTheme.FONT_FAMILY_TODAY,8.25f);
 		}
 
 		///<summary>Runs funcRender on its own STA thread with today's fonts, then with UI-2b's, puts today's back, and asserts the two outputs are
-		///the same bytes. beforeEach runs on that thread before each render (the database connection, for one). Returns today's output.</summary>
+		///the same bytes (UiTheme.SetFontForTest(null) gives the program's fonts, UI-2b's since the flip, so today's are named). beforeEach runs on that thread before each render (the database connection, for one). Returns today's output.</summary>
 		public static byte[] AssertSameWithUi2bFonts(string name,Func<byte[]> funcRender,Action beforeEach=null) {
 			byte[][] arrayOutputs=RenderTodayAndUi2b(funcRender,beforeEach);
 			byte[] arrayToday=arrayOutputs[0];
@@ -68,7 +68,7 @@ namespace PrintGuardTests {
 				Thread.CurrentThread.CurrentUICulture=new CultureInfo("en-US");
 				Font fontDefaultBefore=Control.DefaultFont;
 				try {
-					UiTheme.SetFontForTest(null);
+					UiTheme.SetFontForTest(UiFontOption.Today);
 					DefaultFont.Set(NewFontDefaultToday());
 					beforeEach?.Invoke();
 					arrayToday=funcRender();
@@ -76,7 +76,7 @@ namespace PrintGuardTests {
 					DefaultFont.Set(NewFontDefaultUi2b());
 					beforeEach?.Invoke();
 					arrayUi2b=funcRender();
-					UiTheme.SetFontForTest(null);
+					UiTheme.SetFontForTest(UiFontOption.Today);
 					DefaultFont.Set(NewFontDefaultToday());
 					beforeEach?.Invoke();
 					arrayTodayAgain=funcRender();

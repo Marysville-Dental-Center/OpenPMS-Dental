@@ -306,7 +306,7 @@
 			// labelVersion
 			// 
 			this.labelVersion.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.labelVersion.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.labelVersion.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.labelVersion.Location = new System.Drawing.Point(3, 95);
 			this.labelVersion.Name = "labelVersion";
 			this.labelVersion.Size = new System.Drawing.Size(110, 12);
@@ -358,7 +358,7 @@
 			// 
 			this.labelFetch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelFetch.BackColor = System.Drawing.Color.Transparent;
-			this.labelFetch.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.labelFetch.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.labelFetch.ForeColor = System.Drawing.Color.Red;
 			this.labelFetch.Location = new System.Drawing.Point(1589, 554);
 			this.labelFetch.Name = "labelFetch";

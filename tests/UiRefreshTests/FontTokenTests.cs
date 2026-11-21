@@ -35,7 +35,24 @@ namespace UiRefreshTests {
 
 		#region Tokens
 		[TestMethod]
-		public void Tokens_HoldTodaysFonts() {
+		public void Tokens_HoldTheProgramsFonts_UI2bSinceTheFlip_AndTodayStillHoldsTodaysFonts() {
+			//UI-2b: the program's tokens are UI-2b's (section 3.4), with no override.
+			Assert.AreSame(UiFontOption.UI2b,UiTheme.FontOptionProgram);
+			Assert.AreSame(UiFontOption.UI2b,UiTheme.FontOption);
+			Assert.IsFalse(UiTheme.IsFontMappingIdentity);
+			AssertFont(UiTheme.FontBody,"Segoe UI",9f,FontStyle.Regular);
+			AssertFont(UiTheme.FontGrid,"Segoe UI",9f,FontStyle.Regular);
+			AssertFont(UiTheme.FontGridBold,"Segoe UI",9f,FontStyle.Bold);
+			AssertFont(UiTheme.FontButtonPanel,"Segoe UI",9f,FontStyle.Regular);
+			AssertFont(UiTheme.FontTitle,"Segoe UI Semibold",10f,FontStyle.Regular);
+			AssertFont(UiTheme.FontModuleCaption,"Segoe UI",8f,FontStyle.Regular);
+			Assert.AreEqual("Segoe UI",UiTheme.FontFamilyName);
+			Assert.AreSame(UiTheme.FontBody,LayoutManagerForms.FontInitial);
+			using(Font fontNew=new Font("Segoe UI",9f)) {
+				Assert.AreEqual(fontNew,UiTheme.FontBody,"The body token equals the literal every exe's Main sets (UI-2b).");
+			}
+			//Today's option still holds today's fonts: the before set of the scan, the galleries and the print guard.
+			UiTheme.SetFontForTest(UiFontOption.Today);
 			Assert.AreSame(UiFontOption.Today,UiTheme.FontOption);
 			Assert.IsTrue(UiTheme.IsFontMappingIdentity);
 			AssertFont(UiTheme.FontBody,"Microsoft Sans Serif",8.25f,FontStyle.Regular);
@@ -74,7 +91,11 @@ namespace UiRefreshTests {
 		}
 
 		[TestMethod]
-		public void SetFontForTest_SetsEveryToken_AndNullGivesTodaysBack() {
+		public void SetFontForTest_SetsEveryToken_AndNullGivesTheProgramsBack() {
+			UiTheme.SetFontForTest(UiFontOption.Today);
+			Assert.AreSame(UiFontOption.Today,UiTheme.FontOption);
+			AssertFont(UiTheme.FontBody,"Microsoft Sans Serif",8.25f,FontStyle.Regular);
+			Assert.AreEqual("Microsoft Sans Serif",UiTheme.FontFamilyName);
 			UiTheme.SetFontForTest(UiFontOption.UI2b);
 			Assert.AreSame(UiFontOption.UI2b,UiTheme.FontOption);
 			Assert.IsFalse(UiTheme.IsFontMappingIdentity);
@@ -91,8 +112,8 @@ namespace UiRefreshTests {
 			UiTheme.SetFontForTest(UiFontOption.Compact);
 			AssertFont(UiTheme.FontBody,"Segoe UI",8.25f,FontStyle.Regular);
 			UiTheme.SetFontForTest(null);
-			Assert.AreSame(UiFontOption.Today,UiTheme.FontOption);
-			AssertFont(UiTheme.FontBody,"Microsoft Sans Serif",8.25f,FontStyle.Regular);
+			Assert.AreSame(UiTheme.FontOptionProgram,UiTheme.FontOption,"null gives the program's tokens back: UI-2b's since the flip.");
+			AssertFont(UiTheme.FontBody,"Segoe UI",9f,FontStyle.Regular);
 			Assert.IsTrue(UiTheme.IsTestProcess(),"This process is a test process.");
 		}
 
@@ -128,6 +149,7 @@ namespace UiRefreshTests {
 		#region The rule
 		[TestMethod]
 		public void MapFont_TodaysTokens_ReturnsEveryDesignerFontUnchanged() {
+			UiTheme.SetFontForTest(UiFontOption.Today);//the program's tokens are UI-2b's since the flip
 			List<Font> listFonts=ReadDesignerFontsOfTheProgram();
 			Assert.IsTrue(listFonts.Count>20,"Distinct designer fonts: "+listFonts.Count);
 			Assert.IsTrue(listFonts.Any(x => x.Name=="Microsoft Sans Serif" && x.SizeInPoints==8f),"The designer fonts at 8 pt are among them.");
@@ -194,6 +216,7 @@ namespace UiRefreshTests {
 		public void Mapping_TodaysTokens_AWindowsDesignerFonts_AreUnchanged() {
 			StaRunner.Run(() => {
 				NoDatabaseGuard.Install();
+				UiTheme.SetFontForTest(UiFontOption.Today);//the program's tokens are UI-2b's since the flip
 				using(TestWindowContent window=new TestWindowContent()) {
 					AssertFont(window.labelBold.Font,"Microsoft Sans Serif",8.25f,FontStyle.Bold);
 					AssertFont(window.label8.Font,"Microsoft Sans Serif",8f,FontStyle.Regular);
@@ -401,6 +424,36 @@ namespace UiRefreshTests {
 		#endregion The three recording places
 
 		#region Content
+		///<summary>UI-2b: the mapping in InitializeLayoutManager gives FormClaimPrint's and FormTPsign's Microsoft Sans Serif 9 Bold labels Segoe UI,
+		///which lays the window out before LayoutManager is set; their Layout handlers wait for it. Both windows build with today's fonts and with the
+		///program's (the scan listed them as throwing in Segoe UI since UI-0b).</summary>
+		[TestMethod]
+		public void Windows_ThatLayOutDuringTheMapping_BuildWithTheProgramsFonts() {
+			StaRunner.Run(() => {
+				NoDatabaseGuard.Install();
+				List<ScanType> listScanTypes=WindowBuilder.GetScanTypes();
+				try {
+					foreach(Tuple<UiFontOption,TextFitFontOption> tuple in new[] { Tuple.Create(UiFontOption.Today,TextFitFontOption.Today),
+						Tuple.Create(UiTheme.FontOptionProgram,TextFitFontOption.Segoe9) })
+					{
+						UiTheme.SetFontForTest(tuple.Item1);
+						DefaultFontOverride.Set(tuple.Item2,1f);
+						foreach(string name in new[] { "OpenPmsDental.FormClaimPrint","OpenPmsDental.FormTPsign" }) {
+							ScanType scanType=listScanTypes.Single(x => x.Type.FullName==name);
+							using(BuiltWindow builtWindow=WindowBuilder.Build(scanType)) {
+								builtWindow.LayOutAt(1f);
+								Assert.AreEqual(tuple.Item1.FamilyBody,builtWindow.Form.Font.Name,name);
+							}
+						}
+					}
+				}
+				finally {
+					UiTheme.SetFontForTest(null);
+					DefaultFontOverride.Set(TextFitFontOption.Today,1f);
+				}
+			});
+		}
+
 		[TestMethod]
 		public void MarkContent_AfterInitializeLayoutManager_Throws() {
 			StaRunner.Run(() => {
@@ -547,6 +600,9 @@ namespace UiRefreshTests {
 				Thread.CurrentThread.CurrentCulture=new CultureInfo("en-US");
 				Thread.CurrentThread.CurrentUICulture=new CultureInfo("en-US");
 				FillPerioPrefs();
+				//Today's tokens and default font named (the program's tokens are UI-2b's since the flip).
+				UiTheme.SetFontForTest(UiFontOption.Today);
+				DefaultFontOverride.Set(TextFitFontOption.Today,1f);
 				arrayToday=DrawPerioChart(null);
 				UiTheme.SetFontForTest(UiFontOption.UI2b);
 				DefaultFontOverride.Set(new Font("Segoe UI",9f),1f);
@@ -624,6 +680,7 @@ namespace UiRefreshTests {
 				NoDatabaseGuard.Install();
 				Thread.CurrentThread.CurrentCulture=new CultureInfo("en-US");
 				Thread.CurrentThread.CurrentUICulture=new CultureInfo("en-US");
+				UiTheme.SetFontForTest(UiFontOption.Today);//today's tokens named (the program's are UI-2b's since the flip)
 				dictToday=GetDashboardFonts();
 				UiTheme.SetFontForTest(UiFontOption.UI2b);
 				try {

@@ -70,6 +70,9 @@ namespace OpenPmsDental{
 		}
 
 		private void FormClaimPrint_Layout(object sender, System.Windows.Forms.LayoutEventArgs e) {
+			if(LayoutManager==null) {
+				return;//UI-2b: InitializeLayoutManager maps the designer fonts to Segoe UI, which lays the window out before LayoutManager is set
+			}
 			LayoutManager.MoveHeight(Preview2,ClientRectangle.Height);
 			LayoutManager.MoveWidth(Preview2,ClientRectangle.Width-160);
 			//butClose.Location=new Point(ClientRectangle.Width-100,ClientRectangle.Height-70);

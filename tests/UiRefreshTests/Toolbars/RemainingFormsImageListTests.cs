@@ -332,10 +332,12 @@ namespace UiRefreshTests.Toolbars {
 						Assert.AreEqual(UiTheme.ScaleI(16,arrayScales[i]),grid.Columns[0].ImageList.ImageSize.Width,"the list follows the scale "+arrayScales[i]);
 					}
 					CollectionAssert.AreEqual(new[] { 16,24,32 },listSizes.Distinct().ToArray(),"asked at each new scale, not at every layout");
-					//The old way (a 96 DPI list scaled by the grid) gives the same row height at each scale.
+					//The old way (a 96 DPI list scaled by the grid) gives the same row height at each scale. The grid is made and scaled as the one
+					//above (UI-2b: in Segoe UI 9 a grid filled at a scale and one scaled after filling can differ by a pixel until their rows are measured).
 					for(int i=0;i<arrayScales.Length;i++) {
 						using(ImageList imageListOld=IconLibrary.GetImageList(arrayIcons,16))
-						using(OpenPmsDental.UI.GridOD gridOld=NewGrid(arrayScales[i],arrayIcons.Length,column => column.ImageList=imageListOld)) {
+						using(OpenPmsDental.UI.GridOD gridOld=NewGrid(1f,arrayIcons.Length,column => column.ImageList=imageListOld)) {
+							gridOld.SetScaleAndZoom(1,arrayScales[i]);
 							Assert.IsFalse(gridOld.Columns[0].IsImageListAtScale,"a 96 DPI list stays a 96 DPI list");
 							Assert.AreSame(imageListOld,gridOld.Columns[0].ImageList);
 							Assert.AreEqual(gridOld.ListGridRows[0].State.HeightMain,arrayHeightsList[i],"row height at "+arrayScales[i]);

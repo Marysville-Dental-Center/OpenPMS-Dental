@@ -4,18 +4,9 @@
 # designer code, which the literal test checks). The screen sites that take a token no longer name the family and are not here.
 # The test compares the sites per file and sort, not the line numbers, so an edit above a site needs no new report.
 site	sort	reason
-CentralManager\FormCentralManager.Designer.cs:306	literal	designer code in scope: this.labelVersion.Font Microsoft Sans Serif 8.25 Bold; its parent (this) has the default font; stays a literal, the literal test checks it and UI-2b changes it (5.1)
-CentralManager\FormCentralManager.Designer.cs:358	literal	designer code in scope: this.labelFetch.Font Microsoft Sans Serif 8.25 Bold; its parent (this) has the default font; stays a literal, the literal test checks it and UI-2b changes it (5.1)
-CentralManager\FormCentralPatientSearch.Designer.cs:412	literal	designer code in scope: this.labelFetch.Font Microsoft Sans Serif 8.25 Bold; its parent (this) has the default font; stays a literal, the literal test checks it and UI-2b changes it (5.1)
-CentralManager\FormCentralPatientTransfer.Designer.cs:66	literal	designer code in scope: this.labelSourceDb.Font Microsoft Sans Serif 8.25 Bold; its parent (this) has the default font; stays a literal, the literal test checks it and UI-2b changes it (5.1)
-CentralManager\Program.cs:16	exe	the exe's default font literal, the first statement of Main (plan 5.1); NoHqTests' DefaultFontTests checks it against the token, UI-2b changes it to Segoe UI
-CodeBase\Progress\FormProgressStatus.designer.cs:107	literal	designer code in scope: this.labelMinimize.Font Microsoft Sans Serif 8.25 Bold; its parent (this.panelMinimize) has the default font; stays a literal, the literal test checks it and UI-2b changes it (5.1)
-CodeBase\UI\UiTheme.Fonts.cs:62	token	the token's own definition (UiTheme: today's family and sizes, the font option 'Today'); UI-2b sets the Segoe UI option, the token holds the value (plan 3.4, 5.1)
-CodeBase\UI\UiTheme.Fonts.cs:63	token	the token's own definition (UiTheme: today's family and sizes, the font option 'Today'); UI-2b sets the Segoe UI option, the token holds the value (plan 3.4, 5.1)
+CodeBase\UI\UiTheme.Fonts.cs:64	token	the token's own definition (UiTheme: today's family and sizes, the font option 'Today'); UI-2b sets the Segoe UI option, the token holds the value (plan 3.4, 5.1)
+CodeBase\UI\UiTheme.Fonts.cs:65	token	the token's own definition (UiTheme: today's family and sizes, the font option 'Today'); UI-2b sets the Segoe UI option, the token holds the value (plan 3.4, 5.1)
 CodeBase\UI\UiTheme.Metrics.cs:19	token	the name of today's family, which the font option 'Today' and the mapping (3.4) compare with; the tokens hold it until UI-2b
-DatabaseIntegrityCheck\Program.cs:15	exe	the exe's default font literal, the first statement of Main (plan 5.1); NoHqTests' DefaultFontTests checks it against the token, UI-2b changes it to Segoe UI
-DocumentationBuilder\Program.cs:15	exe	the exe's default font literal, the first statement of Main (plan 5.1); NoHqTests' DefaultFontTests checks it against the token, UI-2b changes it to Segoe UI
-MySQLManager\Program.cs:17	exe	the exe's default font literal, the first statement of Main (plan 5.1); NoHqTests' DefaultFontTests checks it against the token, UI-2b changes it to Segoe UI
 OpenPmsDentalBusiness\Data Interface\Documents.cs:495	document	the placeholder thumbnail picture of a document (NoAvailablePhoto, Graphics.FromImage), shown in the document's place; unsure, listed for the lead (UI-2a-5)
 OpenPmsDentalBusiness\Imaging\ImageHelper.cs:431	document	an image's text annotations drawn into the saved and exported image (ImageHelper.DrawDrawings)
 OpenPmsDentalBusiness\Imaging\MountHelper.cs:53	document	a mount item's text in the saved and exported mount picture (plan 5.2; the layout editor and ControlImageDisplay draw it the same way)
@@ -33,25 +24,22 @@ OpenPmsDentalBusiness\SheetFramework\SheetTextDrawing.cs:122	print	a sheet field
 OpenPmsDentalBusiness\SheetFramework\SheetUtil.cs:806	content	the replacement font name stored in a sheet whose font PDFsharp cannot use (sheet content)
 OpenPmsDentalBusiness\SheetFramework\SheetUtil.cs:821	content	the replacement font name stored in a sheet field whose font PDFsharp cannot use (sheet content)
 OpenPmsDentalBusiness\SheetFramework\ToothChartHelper.cs:207	document	the tooth chart picture's 'not available' text, drawn into the image that sheets and PDFs print (GetImageNotAvailable)
-OpenPmsDentalBusiness\UI\GridOD.cs:3646	print	GridOD's print and sheet fonts, pinned to today's (UI-2a-3, plan 5.2)
-OpenPmsDentalBusiness\UI\GridOD.cs:3647	print	GridOD's print and sheet fonts, pinned to today's (UI-2a-3, plan 5.2)
-OpenPmsDentalBusiness\UI\GridOD.cs:3648	print	GridOD's print and sheet fonts, pinned to today's (UI-2a-3, plan 5.2)
-OpenPmsDentalBusiness\UI\GridOD.cs:3649	print	GridOD's print and sheet fonts, pinned to today's (UI-2a-3, plan 5.2)
+OpenPmsDentalBusiness\UI\GridOD.cs:3661	print	GridOD's print and sheet fonts, pinned to today's (UI-2a-3, plan 5.2)
+OpenPmsDentalBusiness\UI\GridOD.cs:3662	print	GridOD's print and sheet fonts, pinned to today's (UI-2a-3, plan 5.2)
+OpenPmsDentalBusiness\UI\GridOD.cs:3663	print	GridOD's print and sheet fonts, pinned to today's (UI-2a-3, plan 5.2)
+OpenPmsDentalBusiness\UI\GridOD.cs:3664	print	GridOD's print and sheet fonts, pinned to today's (UI-2a-3, plan 5.2)
 OpenPmsDentalBusiness\UI\GridOld.cs:2887	print	GridOld's print fonts, pinned to today's (UI-2a-3: the Chart module's progress notes printout)
 OpenPmsDentalBusiness\UI\GridOld.cs:2888	print	GridOld's print fonts, pinned to today's (UI-2a-3: the Chart module's progress notes printout)
 OpenPmsDentalBusiness\UI\GridOld.cs:2889	print	GridOld's print fonts, pinned to today's (UI-2a-3: the Chart module's progress notes printout)
 OpenPmsDentalBusiness\UI\GridOld.cs:2890	print	GridOld's print fonts, pinned to today's (UI-2a-3: the Chart module's progress notes printout)
 OpenPmsDentalBusiness\VendorDirect\DentalXChange\DxcPdfAttachment.cs:277	document	the preview picture of a PDF attachment (CreatePreviewBitmap), its 'PDF' band in pixels at the picture's scale; unsure, listed for the lead (UI-2a-5)
 OpenPmsDentalBusiness\VendorDirect\DentalXChange\DxcPdfAttachment.cs:278	document	the preview picture of a PDF attachment (CreatePreviewBitmap), its caption in pixels at the picture's scale; unsure, listed for the lead (UI-2a-5)
-OpenPmsDentalDbSettings\Program.cs:20	exe	the exe's default font literal, the first statement of Main (plan 5.1); NoHqTests' DefaultFontTests checks it against the token, UI-2b changes it to Segoe UI
 OpenPmsDentalGraph\Base\GraphIncome.Designer.cs:86	content	an MS Chart element font (axis label), report content that the dashboard prints (plan 5.1)
 OpenPmsDentalGraph\Base\GraphIncome.Designer.cs:116	content	an MS Chart element font (axis label), report content that the dashboard prints (plan 5.1)
 OpenPmsDentalGraph\Base\GraphIncome.Designer.cs:165	content	an MS Chart element font (title), report content that the dashboard prints (plan 5.1)
 OpenPmsDentalGraph\Base\GraphQuantityOverTime.Designer.cs:111	content	an MS Chart element font (axis label), report content that the dashboard prints (plan 5.1)
 OpenPmsDentalGraph\Base\GraphQuantityOverTime.Designer.cs:134	content	an MS Chart element font (title), report content that the dashboard prints (plan 5.1)
 OpenPmsDentalGraph\Concrete\GraphQuantityOverTimeFilter.Designer.cs:108	content	an MS Chart element font (GraphQuantityOverTime.TitleFont, the chart title), report content that the dashboard prints (plan 5.1)
-OpenPmsDentalHL7\Program.cs:20	exe	the exe's default font literal, the first statement of Main (plan 5.1); NoHqTests' DefaultFontTests checks it against the token, UI-2b changes it to Segoe UI
-OpenPmsDentalHelper32\Program.cs:25	exe	the exe's default font literal, the first statement of Main (plan 5.1); NoHqTests' DefaultFontTests checks it against the token, UI-2b changes it to Segoe UI
 OpenPmsDental\Forms Reports\FormRpBirthday.cs:169	print	birthday postcards (pdCards_PrintPage)
 OpenPmsDental\Forms Reports\FormRpBirthday.cs:182	print	birthday postcards (pdCards_PrintPage)
 OpenPmsDental\Forms Reports\FormRpBirthday.cs:197	print	birthday postcards (pdCards_PrintPage)
@@ -68,7 +56,7 @@ OpenPmsDental\Forms\FormConfirmList.cs:580	print	labels and postcards (pdLabels_
 OpenPmsDental\Forms\FormConfirmList.cs:602	print	labels and postcards (pdLabels_PrintPage, pdCards_PrintPage)
 OpenPmsDental\Forms\FormConfirmList.cs:622	print	labels and postcards (pdLabels_PrintPage, pdCards_PrintPage)
 OpenPmsDental\Forms\FormDashboardWidgetSetup.cs:190	content	the default font of a new patient dashboard widget definition (plan 5.1)
-OpenPmsDental\Forms\FormMedical.cs:356	print	the medical history printout (pd_PrintPageMedical)
+OpenPmsDental\Forms\FormMedical.cs:367	print	the medical history printout (pd_PrintPageMedical)
 OpenPmsDental\Forms\FormMountDefEdit.cs:358	document	the mount layout editor's preview of a mount item's text, drawn as MountHelper draws it
 OpenPmsDental\Forms\FormMountDefEdit.cs:387	document	the mount layout editor's preview of a mount item's text, drawn as MountHelper draws it
 OpenPmsDental\Forms\FormPerio.cs:1199	print	the perio chart printout's font (SetUpForPrint; plan 5.2)
@@ -92,7 +80,7 @@ OpenPmsDental\Forms\FormSheetDefEdit.cs:3242	document	the sheet design canvas (D
 OpenPmsDental\Forms\FormSheetDefEdit.cs:3320	document	the sheet design canvas (DrawComboBox, DrawGrid, DrawPatImage)
 OpenPmsDental\Forms\FormSheetDefEdit.cs:3328	document	the sheet design canvas (DrawComboBox, DrawGrid, DrawPatImage)
 OpenPmsDental\Forms\FormSheetDefEdit.cs:3331	document	the sheet design canvas (DrawComboBox, DrawGrid, DrawPatImage)
-OpenPmsDental\Forms\FormSheetDefEdit.cs:3415	document	the sheet design canvas (DrawComboBox, DrawGrid, DrawPatImage)
+OpenPmsDental\Forms\FormSheetDefEdit.cs:3418	document	the sheet design canvas (DrawComboBox, DrawGrid, DrawPatImage)
 OpenPmsDental\Forms\FormSheetDefs.cs:128	content	the default font of a new sheet definition (plan 5.1)
 OpenPmsDental\Forms\FormSheetFieldGrid.cs:72	document	a sheet grid's stored height, measured in the sheet grid's font (GridOD's print cell font)
 OpenPmsDental\Forms\FormSheetFillEdit.cs:1018	document	the filled sheet (panelMain_Paint), a document on screen
@@ -103,21 +91,11 @@ OpenPmsDental\Forms\FormTimeCard.cs:780	print	the time card printout (pd_PrintPa
 OpenPmsDental\Forms\FormTimeCardManage.cs:619	print	the time card printouts (PrintTimeCard)
 OpenPmsDental\Forms\FormTimeCardManage.cs:620	print	the time card printouts (PrintTimeCard)
 OpenPmsDental\Forms\FormTimeCardManage.cs:621	print	the time card printouts (PrintTimeCard)
-OpenPmsDental\Main Modules\ControlAppt.cs:4288	print	the appointment card printout (pd2_PrintApptCard)
-OpenPmsDental\Main Modules\ControlAppt.cs:4298	print	the appointment card printout (pd2_PrintApptCard)
-OpenPmsDental\Main Modules\ControlAppt.cs:4314	print	the appointment card printout (pd2_PrintApptCard)
-OpenPmsDental\Main Modules\ControlAppt.cs:4340	print	the appointment card printout (pd2_PrintApptCard)
-OpenPmsDental\Main Modules\ControlAppt.cs:4355	print	the appointment card printout (pd2_PrintApptCard)
-OpenPmsDental\Main Modules\ProgramEntry.cs:28	exe	the exe's default font literal, the first statement of Main (plan 5.1); NoHqTests' DefaultFontTests checks it against the token, UI-2b changes it to Segoe UI
-OpenPmsDental\ReportingForRdl\Allocators\MyAllocator1\FormInstallAllocator_Provider.Designer.cs:52	literal	designer code in scope: this.label1.Font Microsoft Sans Serif 8.25 Bold; its parent (this) has the default font; stays a literal, the literal test checks it and UI-2b changes it (5.1)
-OpenPmsDental\ReportingForRdl\Allocators\MyAllocator1\FormInstallAllocator_Provider.Designer.cs:87	literal	designer code in scope: this.button4.Font Microsoft Sans Serif 8.25 Bold; its parent (this.panel1) has the default font; stays a literal, the literal test checks it and UI-2b changes it (5.1)
-OpenPmsDental\ReportingForRdl\Allocators\MyAllocator1\FormInstallAllocator_Provider.Designer.cs:101	literal	designer code in scope: this.butProviderIncomeReport.Font Microsoft Sans Serif 8.25 Bold; its parent (this.panel1) has the default font; stays a literal, the literal test checks it and UI-2b changes it (5.1)
-OpenPmsDental\ReportingForRdl\Allocators\MyAllocator1\FormInstallAllocator_Provider.Designer.cs:115	literal	designer code in scope: this.butGuarnDetailReport.Font Microsoft Sans Serif 8.25 Bold; its parent (this.panel1) has the default font; stays a literal, the literal test checks it and UI-2b changes it (5.1)
-OpenPmsDental\ReportingForRdl\Allocators\MyAllocator1\FormInstallAllocator_Provider.Designer.cs:129	literal	designer code in scope: this.butUneardedIncomeReport.Font Microsoft Sans Serif 8.25 Bold; its parent (this.panel1) has the default font; stays a literal, the literal test checks it and UI-2b changes it (5.1)
-OpenPmsDental\ReportingForRdl\Allocators\MyAllocator1\FormInstallAllocator_Provider.Designer.cs:142	literal	designer code in scope: this.butRunAllocatorTool.Font Microsoft Sans Serif 8.25 Bold; its parent (this) has the default font; stays a literal, the literal test checks it and UI-2b changes it (5.1)
-OpenPmsDental\ReportingForRdl\Allocators\MyAllocator1\FormInstallAllocator_Provider.Designer.cs:187	literal	designer code in scope: this.lblAllocatorStatus.Font Microsoft Sans Serif 8.25 Bold; its parent (this) has the default font; stays a literal, the literal test checks it and UI-2b changes it (5.1)
-OpenPmsDental\ReportingForRdl\Allocators\MyAllocator1\FormReport_GuarantorAllocationCheck.designer.cs:130	literal	designer code in scope: this.lblTitle.Font Microsoft Sans Serif 14.25 Regular; its parent (this.panel1) has the default font; stays a literal, the literal test checks it and UI-2b changes it (5.1)
-OpenPmsDental\ReportingForRdl\Allocators\MyAllocator1\FormReport_ProviderIncomeReport.Designer.cs:76	literal	designer code in scope: this.Font Microsoft Sans Serif 8.25 Bold; the form's or UserControl's own font; stays a literal, the literal test checks it and UI-2b changes it (5.1)
+OpenPmsDental\Main Modules\ControlAppt.cs:4311	print	the appointment card printout (pd2_PrintApptCard)
+OpenPmsDental\Main Modules\ControlAppt.cs:4321	print	the appointment card printout (pd2_PrintApptCard)
+OpenPmsDental\Main Modules\ControlAppt.cs:4337	print	the appointment card printout (pd2_PrintApptCard)
+OpenPmsDental\Main Modules\ControlAppt.cs:4363	print	the appointment card printout (pd2_PrintApptCard)
+OpenPmsDental\Main Modules\ControlAppt.cs:4378	print	the appointment card printout (pd2_PrintApptCard)
 OpenPmsDental\SheetFramework\SheetComboBox.cs:91	document	a sheet combo box field drawn on the filled sheet (a document on screen, plan 5.2)
 OpenPmsDental\UI\Appt\ControlApptPanel.cs:142	content	the appointment book's fonts (appointment boxes, time bars, operatory headers; the same panel prints the schedule): they stay (plan 5.2, UQ-8)
 OpenPmsDental\UI\Appt\ControlApptPanel.cs:144	content	the appointment book's fonts (appointment boxes, time bars, operatory headers; the same panel prints the schedule): they stay (plan 5.2, UQ-8)
@@ -152,14 +130,7 @@ OpenPmsDental\User Controls\Dashboard\DashFamilyInsurance.cs:70	content	a patien
 OpenPmsDental\User Controls\Dashboard\DashIndividualInsurance.cs:59	content	a patient dashboard widget's field font (GenericSansSerif 8.25; plan 5.1)
 OpenPmsDental\User Controls\Dashboard\DashLabel.cs:32	content	a dashboard label field's fallback font name, when the sheet field names none (DashLabel.cs:32; plan 5.1)
 OpenPmsDental\User Controls\Dashboard\UserControlDashboard.cs:68	content	the patient dashboard's pinned font (UI-2a-1; plan 5.1): its widgets and fields inherit it
-RdlDesign\DataSetRowsCtl.cs:246	literal	designer code in scope: this.label1.Font Microsoft Sans Serif 6 Regular; its parent (this) has the default font; stays a literal, the literal test checks it and UI-2b changes it (5.1)
-RdlDesign\DialogAbout.cs:194	literal	designer code in scope: this.label8.Font Microsoft Sans Serif 12 Bold; its parent (this) has the default font; stays a literal, the literal test checks it and UI-2b changes it (5.1)
-RdlDesign\RdlDesigner.cs:1284	exe	the exe's default font literal, the first statement of Main (plan 5.1); NoHqTests' DefaultFontTests checks it against the token, UI-2b changes it to Segoe UI
-ServiceManager\Program.cs:16	exe	the exe's default font literal, the first statement of Main (plan 5.1); NoHqTests' DefaultFontTests checks it against the token, UI-2b changes it to Segoe UI
 SparksToothChart\ToothChart2D.cs:44	content	the tooth chart's pinned font (UI-2a-1; plan 5.2, decision 5): the check that the pin holds
 SparksToothChart\ToothChart2D.cs:47	content	the tooth chart's pinned font (UI-2a-1; plan 5.2, decision 5): tooth numbers and 'W'
 SparksToothChart\ToothChartData.cs:87	content	the tooth chart data's font (GenericSansSerif 8.25; plan 5.2: stays)
 SparksToothChart\ToothChartWrapper.cs:113	content	the tooth chart wrapper's pinned font (UI-2a-1; plan 5.2, decision 5)
-UpdateFileCopier\Program.cs:14	exe	the exe's default font literal, the first statement of Main (plan 5.1); NoHqTests' DefaultFontTests checks it against the token, UI-2b changes it to Segoe UI
-xCrudGenerator\Form1.Designer.cs:92	literal	designer code in scope: this.label2.Font Microsoft Sans Serif 10 Bold; its parent (this) has the default font; stays a literal, the literal test checks it and UI-2b changes it (5.1)
-xCrudGenerator\Program.cs:17	exe	the exe's default font literal, the first statement of Main (plan 5.1); NoHqTests' DefaultFontTests checks it against the token, UI-2b changes it to Segoe UI

@@ -63,10 +63,10 @@ namespace UiRefreshTests {
 		}
 
 		#region Measuring
-		///<summary>The two fonts: today's and UI-2b's Segoe UI 9 (null: today's tokens).</summary>
+		///<summary>The two fonts: today's and UI-2b's Segoe UI 9 (UiFontOption.Today named: the program's tokens are UI-2b's since the flip).</summary>
 		public static List<Tuple<string,UiFontOption,TextFitFontOption>> GetFonts() {
 			return new List<Tuple<string,UiFontOption,TextFitFontOption>> {
-				Tuple.Create("today",(UiFontOption)null,TextFitFontOption.Today),
+				Tuple.Create("today",UiFontOption.Today,TextFitFontOption.Today),
 				Tuple.Create("segoe9",UiFontOption.UI2b,TextFitFontOption.Segoe9),
 			};
 		}

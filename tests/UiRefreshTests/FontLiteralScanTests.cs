@@ -654,6 +654,8 @@ namespace UiRefreshTests {
 
 		[TestMethod]
 		public void ScanFile_SkipsComments_ExemptsLayoutManagerDesignerCode_AndFindsTheRest() {
+			//The rule with today's tokens first (the program held them until UI-2b; the program's own are UI-2b's since the flip).
+			UiTheme.SetFontForTest(UiFontOption.Today);
 			string text=string.Join("\r\n",new string[] {
 				"namespace OpenPmsDental {",
 				"	partial class FormUnder {",
@@ -703,6 +705,8 @@ namespace UiRefreshTests {
 
 		[TestMethod]
 		public void CheckLiteral_TheRuleOf34() {
+			//The rule with today's tokens first (the program held them until UI-2b; the program's own are UI-2b's since the flip).
+			UiTheme.SetFontForTest(UiFontOption.Today);
 			Assert.IsNull(FontLiteralScan.CheckLiteral(Literal("Microsoft Sans Serif",8.25f,FontStyle.Bold)));
 			Assert.IsNull(FontLiteralScan.CheckLiteral(Literal("Microsoft Sans Serif",14.25f,FontStyle.Regular)));
 			Assert.IsNull(FontLiteralScan.CheckLiteral(Literal("Microsoft Sans Serif",8f,FontStyle.Regular)),"8 pt is not the default font.");
@@ -721,6 +725,8 @@ namespace UiRefreshTests {
 		///font (FormReport_ProviderIncomeReport sets one) a Regular 8.25 literal keeps the control Regular and stays.</summary>
 		[TestMethod]
 		public void CheckLiteral_ComparesWithTheParentsFont() {
+			//The rule with today's tokens first (the program held them until UI-2b; the program's own are UI-2b's since the flip).
+			UiTheme.SetFontForTest(UiFontOption.Today);
 			FontLiteral fontLiteralBoldForm=Literal("Microsoft Sans Serif",8.25f,FontStyle.Bold);
 			fontLiteralBoldForm.Target="this";
 			FontLiteral fontLiteral=Literal("Microsoft Sans Serif",8.25f,FontStyle.Regular);
@@ -736,6 +742,8 @@ namespace UiRefreshTests {
 
 		[TestMethod]
 		public void ScanFile_FindsEachLiteralsParentFont() {
+			//The rule with today's tokens first (the program held them until UI-2b; the program's own are UI-2b's since the flip).
+			UiTheme.SetFontForTest(UiFontOption.Today);
 			string text=string.Join("\r\n",new string[] {
 				"namespace OpenPmsDental {",
 				"	partial class FormPlain {",
