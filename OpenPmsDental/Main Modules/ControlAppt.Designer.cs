@@ -54,7 +54,6 @@
 			this.menuReminderEdit = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.menuItemReminderDone = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuItemReminderGoto = new System.Windows.Forms.ToolStripMenuItem();
-			this.imageListTasks = new System.Windows.Forms.ImageList(this.components);
 			this.menuRecall = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.groupSearch = new OpenPmsDental.UI.GroupBox();
 			this.groupBox1 = new OpenPmsDental.UI.GroupBox();
@@ -409,16 +408,6 @@
 			// 
 			this.menuItemReminderGoto.Text = "Go To";
 			this.menuItemReminderGoto.Click += new System.EventHandler(this.menuItemReminderGoto_Click);
-			// 
-			// imageListTasks
-			// 
-			this.imageListTasks.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListTasks.ImageStream")));
-			this.imageListTasks.TransparentColor = System.Drawing.Color.Transparent;
-			this.imageListTasks.Images.SetKeyName(0, "TaskList.gif");
-			this.imageListTasks.Images.SetKeyName(1, "checkBoxChecked.gif");
-			this.imageListTasks.Images.SetKeyName(2, "checkBoxUnchecked.gif");
-			this.imageListTasks.Images.SetKeyName(3, "TaskListHighlight.gif");
-			this.imageListTasks.Images.SetKeyName(4, "checkBoxNew.gif");
 			// 
 			// groupSearch
 			// 

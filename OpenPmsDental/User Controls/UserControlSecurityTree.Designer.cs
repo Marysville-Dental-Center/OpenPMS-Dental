@@ -26,7 +26,6 @@
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UserControlSecurityTree));
 			this.treePermissions = new System.Windows.Forms.TreeView();
-			this.imageListPerm = new System.Windows.Forms.ImageList(this.components);
 			this.textXpos = new System.Windows.Forms.TextBox();
 			this.SuspendLayout();
 			// 
@@ -35,7 +34,6 @@
 			this.treePermissions.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.treePermissions.HideSelection = false;
 			this.treePermissions.ImageIndex = 0;
-			this.treePermissions.ImageList = this.imageListPerm;
 			this.treePermissions.ItemHeight = 15;
 			this.treePermissions.Location = new System.Drawing.Point(0, 0);
 			this.treePermissions.Name = "treePermissions";
@@ -46,15 +44,6 @@
 			this.treePermissions.DoubleClick += new System.EventHandler(this.treePermissions_DoubleClick);
 			this.treePermissions.MouseDown += new System.Windows.Forms.MouseEventHandler(this.treePermissions_MouseDown);
 			this.treePermissions.MouseMove += new System.Windows.Forms.MouseEventHandler(this.treePermissions_MouseMove);
-			// 
-			// imageListPerm
-			// 
-			this.imageListPerm.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListPerm.ImageStream")));
-			this.imageListPerm.TransparentColor = System.Drawing.Color.Transparent;
-			this.imageListPerm.Images.SetKeyName(0, "grayBox.gif");
-			this.imageListPerm.Images.SetKeyName(1, "checkBoxUnchecked.gif");
-			this.imageListPerm.Images.SetKeyName(2, "checkBoxChecked.gif");
-			this.imageListPerm.Images.SetKeyName(3, "checkBoxGreen.gif");
 			// 
 			// textXpos
 			// 
@@ -81,7 +70,6 @@
 		#endregion
 
 		private System.Windows.Forms.TreeView treePermissions;
-		private System.Windows.Forms.ImageList imageListPerm;
 		private System.Windows.Forms.TextBox textXpos;
 	}
 }

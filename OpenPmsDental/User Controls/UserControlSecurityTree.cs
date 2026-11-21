@@ -36,9 +36,28 @@ namespace OpenPmsDental {
 			get;set;
 		}
 
+		///<summary>The pictures of the permission tree by ImageIndex (UI-9b-3, docs/port-notes/UI-9b.md, section 4): today's four pictures in their order,
+		///as icons. 0 a heading (no permission of its own), 1 a permission not granted, 2 granted, 3 granted for some items only (Reports, adjustment
+		///types denied). The checked states keep their green, the others are the text colour.</summary>
+		public static readonly EnumIcons[] ArrayIconsImageListPerm=new EnumIcons[] {
+			EnumIcons.ImageSelectorFolder,EnumIcons.CheckBoxEmpty,EnumIcons.CheckBoxChecked,EnumIcons.CheckBoxPartial
+		};
+		///<summary>The tree's list at the 16 px slot of the current DPI (16, 24, 32 px), built again when the scale changes.</summary>
+		private ImageList _imageListPerm;
+
 		public UserControlSecurityTree() {
 			InitializeComponent();
 			Font=LayoutManagerForms.FontInitial;
+			SetImageListPerm(16);
+			Disposed+=(sender,e) => _imageListPerm?.Dispose();
+		}
+
+		///<summary>Gives the tree its list of icons at the slot's pixel size (UI-9b-3); a list of the same size is kept.</summary>
+		private void SetImageListPerm(int sizePixels) {
+			_imageListPerm=IconLibrary.GetImageListForSize(_imageListPerm,ArrayIconsImageListPerm,sizePixels);
+			if(treePermissions.ImageList!=_imageListPerm) {
+				treePermissions.ImageList=_imageListPerm;
+			}
 		}
 
 		private void UserControlSecurityTree_Load(object sender,EventArgs e) {
@@ -985,7 +1004,8 @@ namespace OpenPmsDental {
 
 		private void UserControlSecurityTree_SizeChanged(object sender,EventArgs e) {
 			if(LayoutManager!=null){
-				treePermissions.ItemHeight=LayoutManager.Scale(15);
+				treePermissions.ItemHeight=LayoutManager.Scale(16);//UI-9b-3: 1 px taller rows (was 15) so the 16 px icons show whole
+				SetImageListPerm(LayoutManager.Scale(16));
 			}
 		}
 

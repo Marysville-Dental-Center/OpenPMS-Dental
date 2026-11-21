@@ -80,6 +80,19 @@ namespace OpenPmsDental {
 		private List<TaskAttachment> _listTaskAttachments=new List<TaskAttachment>();
 		///<summary></summary>
 		public LayoutManagerForms LayoutManager=new LayoutManagerForms();
+		///<summary>The pictures of the task states by index (UI-9b-3, docs/port-notes/UI-9b.md, section 4): today's five pictures in their order, as
+		///icons. 0 a task list, 1 a done task, 2 a read task, 3 a task list with new tasks, 4 a new (unread) task. The grid's first column shows them
+		///by the index in its cells (ControlAppt's reminders grid too), the tree by ImageIndex.</summary>
+		public static readonly EnumIcons[] ArrayIconsImageListTasks=new EnumIcons[] {
+			EnumIcons.TaskList,EnumIcons.CheckBoxChecked,EnumIcons.CheckBoxEmpty,EnumIcons.TaskListNew,EnumIcons.TaskNew
+		};
+		///<summary>The pictures of the toolbar's ImageList by index (UI-9b-3): 0 Add Task List, 1 Add. A plug-in's button set by ImageIndex still shows
+		///the same purpose.</summary>
+		public static readonly EnumIcons[] ArrayIconsImageListMain=new EnumIcons[] { EnumIcons.TaskListAdd,EnumIcons.Add };
+		///<summary>The tree's list: the task state icons at the 16 px slot of the current DPI (16, 24, 32 px), built again when the scale changes.</summary>
+		private ImageList _imageListTree;
+		///<summary>The grid column's list: the same icons at 16 px, as the old list; the grid draws a column's pictures at the scale of the window.</summary>
+		private ImageList _imageListGrid;
 		///<summary>Makes an additional reference pointer to _listTaskLists when at the trunk of the Main or Reminder tab and manual refresh is enabled.</summary>
 		private List<TaskList> _listTaskListsCopy=new List<TaskList>();
 		///<summary>Makes an additional reference pointer to _listTasks when at the trunk of the Main or Reminder tab and manual refresh is enabled.</summary>
@@ -105,12 +118,28 @@ namespace OpenPmsDental {
 		public UserControlTasks() {
 			InitializeComponent();
 			Font=LayoutManagerForms.FontInitial;
+			ToolBarMain.SetImageListIcons(ArrayIconsImageListMain);//UI-9b-3: the toolbar's list of icons
+			_imageListGrid=IconLibrary.GetImageList(ArrayIconsImageListTasks,16);
+			SetImageListTree();
+			Disposed+=(sender,e) => {
+				_imageListTree?.Dispose();
+				_imageListGrid?.Dispose();
+			};
 			//this.listMain.ContextMenu = this.menuEdit;
 			//Lan.F(this);
 			Lan.C(this,menuEdit);
 			gridMain.ContextMenuStrip=menuEdit;
 			gridMain.DoAddGridItemsToContextMenuStrip=true;//Copy Cell Text, Copy Rows and the links after the menu's items, as before
 			_listUserControlTaskss.Add(this);
+		}
+
+		///<summary>Gives the tree its list of task icons at the 16 px slot of the current DPI (UI-9b-3). Called again when the scale may have
+		///changed (the resize); a list of the same size is kept. ImageIndex keeps its picture: the order is today's.</summary>
+		private void SetImageListTree() {
+			_imageListTree=IconLibrary.GetImageListForSize(_imageListTree,ArrayIconsImageListTasks,LayoutManager.Scale(16));
+			if(tree.ImageList!=_imageListTree) {
+				tree.ImageList=_imageListTree;
+			}
 		}
 
 		///<summary>Destructor.  Removes this instance from the private list of instances.</summary>
@@ -120,6 +149,7 @@ namespace OpenPmsDental {
 
 		private void UserControlTasks_Resize(object sender,EventArgs e) {
 			//ToolBarMain is docked, h=25
+			SetImageListTree();
 			//Filter area always show
 			LayoutManager.Move(tabControl,new Rectangle(0,LayoutManager.Scale(49),Width,LayoutManager.Scale(20)));
 			LayoutManager.Move(monthCalendar,new Rectangle(0,LayoutManager.Scale(70),LayoutManager.Scale(227),LayoutManager.Scale(162)));
@@ -371,8 +401,8 @@ namespace OpenPmsDental {
 			odToolBarButtonOptions.ToolTipText=Lan.g(this,"Set session specific task options.");
 			odToolBarButtonOptions.Tag="Options";
 			ToolBarMain.Buttons.Add(odToolBarButtonOptions);
-			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Add Task List"),0,"","AddList"));
-			ODToolBarButton odToolBarButtonTask=new ODToolBarButton(Lan.g(this,"Add Task"),1,"","AddTask");
+			ToolBarMain.Buttons.Add(new ODToolBarButton(Lan.g(this,"Add Task List"),EnumIcons.TaskListAdd,"","AddList"));
+			ODToolBarButton odToolBarButtonTask=new ODToolBarButton(Lan.g(this,"Add Task"),EnumIcons.Add,"","AddTask");
 			odToolBarButtonTask.Style=ODToolBarButtonStyle.DropDownButton;
 			odToolBarButtonTask.ContextMenuStripDropDown=menuTask;
 			ToolBarMain.Buttons.Add(odToolBarButtonTask);
@@ -945,11 +975,11 @@ namespace OpenPmsDental {
 			gridMain.BeginUpdate();
 			gridMain.Columns.Clear();
 			GridColumn gridColumn=new GridColumn("",17);
-			gridColumn.ImageList=imageListTree;
+			gridColumn.ImageList=_imageListGrid;
 			gridMain.Columns.Add(gridColumn);//Checkbox column
 			if(tabControl.SelectedTab==tabNew && !PrefC.GetBool(PrefName.TasksNewTrackedByUser)) {//The old way
 				gridColumn=new GridColumn(Lan.g("TableTasks","Read"),35,HorizontalAlignment.Center);
-				//col.ImageList=imageListTree;
+				//col.ImageList=_imageListGrid;
 				gridMain.Columns.Add(gridColumn);
 			}
 			if(tabControl.SelectedTab==tabNew || tabControl.SelectedTab==tabOpenTickets || tabControl.SelectedTab==tabPatientTickets) {
