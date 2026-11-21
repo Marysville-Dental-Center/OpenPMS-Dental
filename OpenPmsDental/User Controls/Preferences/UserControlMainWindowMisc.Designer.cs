@@ -212,7 +212,7 @@ namespace OpenPmsDental {
 			this.checkImeCompositionCompatibility.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkImeCompositionCompatibility.Location = new System.Drawing.Point(67, 73);
 			this.checkImeCompositionCompatibility.Name = "checkImeCompositionCompatibility";
-			this.checkImeCompositionCompatibility.Size = new System.Drawing.Size(396, 17);
+			this.checkImeCompositionCompatibility.Size = new System.Drawing.Size(408, 18);
 			this.checkImeCompositionCompatibility.TabIndex = 203;
 			this.checkImeCompositionCompatibility.Text = "Text boxes use foreign language Input Method Editor (IME) composition";
 			// 
@@ -308,7 +308,7 @@ namespace OpenPmsDental {
 			// 
 			this.label5.Location = new System.Drawing.Point(51, 52);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(337, 17);
+			this.label5.Size = new System.Drawing.Size(338, 17);
 			this.label5.TabIndex = 200;
 			this.label5.Text = "Disable signal interval after this many minutes of user inactivity\r\n";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -345,7 +345,7 @@ namespace OpenPmsDental {
 			this.checkSubmitExceptions.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkSubmitExceptions.Location = new System.Drawing.Point(46, 459);
 			this.checkSubmitExceptions.Name = "checkSubmitExceptions";
-			this.checkSubmitExceptions.Size = new System.Drawing.Size(426, 17);
+			this.checkSubmitExceptions.Size = new System.Drawing.Size(426, 18);
 			this.checkSubmitExceptions.TabIndex = 261;
 			this.checkSubmitExceptions.Text = "Automatically submit unhandled exceptions";
 			// 

@@ -104,7 +104,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelAgingBeginDateT.Location = new System.Drawing.Point(10, 135);
 			this.labelAgingBeginDateT.Name = "labelAgingBeginDateT";
-			this.labelAgingBeginDateT.Size = new System.Drawing.Size(230, 27);
+			this.labelAgingBeginDateT.Size = new System.Drawing.Size(231, 27);
 			this.labelAgingBeginDateT.TabIndex = 314;
 			this.labelAgingBeginDateT.Text = "DateTime the currently running aging started\r\nUsually blank";
 			this.labelAgingBeginDateT.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -124,7 +124,7 @@ namespace OpenPmsDental {
 			this.checkBalancesDontSubtractIns.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkBalancesDontSubtractIns.Location = new System.Drawing.Point(90, 10);
 			this.checkBalancesDontSubtractIns.Name = "checkBalancesDontSubtractIns";
-			this.checkBalancesDontSubtractIns.Size = new System.Drawing.Size(350, 17);
+			this.checkBalancesDontSubtractIns.Size = new System.Drawing.Size(350, 18);
 			this.checkBalancesDontSubtractIns.TabIndex = 12;
 			this.checkBalancesDontSubtractIns.Text = "Balances don\'t subtract insurance estimates";
 			// 
@@ -134,7 +134,7 @@ namespace OpenPmsDental {
 			this.checkAccountShowPaymentNums.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkAccountShowPaymentNums.Location = new System.Drawing.Point(89, 41);
 			this.checkAccountShowPaymentNums.Name = "checkAccountShowPaymentNums";
-			this.checkAccountShowPaymentNums.Size = new System.Drawing.Size(351, 17);
+			this.checkAccountShowPaymentNums.Size = new System.Drawing.Size(351, 18);
 			this.checkAccountShowPaymentNums.TabIndex = 14;
 			this.checkAccountShowPaymentNums.Text = "Show payment numbers in Account Module";
 			// 
@@ -144,7 +144,7 @@ namespace OpenPmsDental {
 			this.checkStatementInvoiceGridShowWriteoffs.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkStatementInvoiceGridShowWriteoffs.Location = new System.Drawing.Point(89, 72);
 			this.checkStatementInvoiceGridShowWriteoffs.Name = "checkStatementInvoiceGridShowWriteoffs";
-			this.checkStatementInvoiceGridShowWriteoffs.Size = new System.Drawing.Size(351, 17);
+			this.checkStatementInvoiceGridShowWriteoffs.Size = new System.Drawing.Size(351, 18);
 			this.checkStatementInvoiceGridShowWriteoffs.TabIndex = 16;
 			this.checkStatementInvoiceGridShowWriteoffs.Text = "Invoice payments grid shows write-offs\r\n";
 			// 
@@ -154,7 +154,7 @@ namespace OpenPmsDental {
 			this.checkAllowFutureTrans.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkAllowFutureTrans.Location = new System.Drawing.Point(142, 10);
 			this.checkAllowFutureTrans.Name = "checkAllowFutureTrans";
-			this.checkAllowFutureTrans.Size = new System.Drawing.Size(298, 15);
+			this.checkAllowFutureTrans.Size = new System.Drawing.Size(298, 18);
 			this.checkAllowFutureTrans.TabIndex = 18;
 			this.checkAllowFutureTrans.Text = "Allow future dated transactions";
 			// 
@@ -175,7 +175,7 @@ namespace OpenPmsDental {
 			this.checkCommLogAutoSave.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkCommLogAutoSave.Location = new System.Drawing.Point(235, 10);
 			this.checkCommLogAutoSave.Name = "checkCommLogAutoSave";
-			this.checkCommLogAutoSave.Size = new System.Drawing.Size(205, 17);
+			this.checkCommLogAutoSave.Size = new System.Drawing.Size(205, 18);
 			this.checkCommLogAutoSave.TabIndex = 225;
 			this.checkCommLogAutoSave.Text = "Commlogs auto save";
 			// 
@@ -185,7 +185,7 @@ namespace OpenPmsDental {
 			this.checkShowFamilyCommByDefault.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkShowFamilyCommByDefault.Location = new System.Drawing.Point(210, 41);
 			this.checkShowFamilyCommByDefault.Name = "checkShowFamilyCommByDefault";
-			this.checkShowFamilyCommByDefault.Size = new System.Drawing.Size(230, 17);
+			this.checkShowFamilyCommByDefault.Size = new System.Drawing.Size(240, 18);
 			this.checkShowFamilyCommByDefault.TabIndex = 75;
 			this.checkShowFamilyCommByDefault.Text = "Show family commlog entries by default";
 			this.checkShowFamilyCommByDefault.Click += new System.EventHandler(this.checkShowFamilyCommByDefault_Click);
@@ -218,7 +218,7 @@ namespace OpenPmsDental {
 			this.checkAllowFutureDebits.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkAllowFutureDebits.Location = new System.Drawing.Point(100, 71);
 			this.checkAllowFutureDebits.Name = "checkAllowFutureDebits";
-			this.checkAllowFutureDebits.Size = new System.Drawing.Size(340, 17);
+			this.checkAllowFutureDebits.Size = new System.Drawing.Size(340, 18);
 			this.checkAllowFutureDebits.TabIndex = 290;
 			this.checkAllowFutureDebits.Text = "Allow future dated patient payments";
 			// 
@@ -227,7 +227,7 @@ namespace OpenPmsDental {
 			this.checkAllowFuturePayments.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkAllowFuturePayments.Location = new System.Drawing.Point(73, 48);
 			this.checkAllowFuturePayments.Name = "checkAllowFuturePayments";
-			this.checkAllowFuturePayments.Size = new System.Drawing.Size(367, 17);
+			this.checkAllowFuturePayments.Size = new System.Drawing.Size(367, 18);
 			this.checkAllowFuturePayments.TabIndex = 289;
 			this.checkAllowFuturePayments.Text = "Allow future dated insurance payments";
 			// 

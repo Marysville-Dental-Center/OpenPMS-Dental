@@ -74,7 +74,7 @@ namespace OpenPmsDental {
 			this.checkScheduleProvEmpSelectAll.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkScheduleProvEmpSelectAll.Location = new System.Drawing.Point(39, 632);
 			this.checkScheduleProvEmpSelectAll.Name = "checkScheduleProvEmpSelectAll";
-			this.checkScheduleProvEmpSelectAll.Size = new System.Drawing.Size(421, 17);
+			this.checkScheduleProvEmpSelectAll.Size = new System.Drawing.Size(421, 18);
 			this.checkScheduleProvEmpSelectAll.TabIndex = 201;
 			this.checkScheduleProvEmpSelectAll.Text = "Automatically select all providers/employees when loading schedules";
 			// 
@@ -83,7 +83,7 @@ namespace OpenPmsDental {
 			this.checkAccountingInvoiceAttachmentsSaveInDatabase.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkAccountingInvoiceAttachmentsSaveInDatabase.Location = new System.Drawing.Point(25, 654);
 			this.checkAccountingInvoiceAttachmentsSaveInDatabase.Name = "checkAccountingInvoiceAttachmentsSaveInDatabase";
-			this.checkAccountingInvoiceAttachmentsSaveInDatabase.Size = new System.Drawing.Size(435, 17);
+			this.checkAccountingInvoiceAttachmentsSaveInDatabase.Size = new System.Drawing.Size(435, 18);
 			this.checkAccountingInvoiceAttachmentsSaveInDatabase.TabIndex = 308;
 			this.checkAccountingInvoiceAttachmentsSaveInDatabase.Text = "Save accounting invoice attachments in database";
 			// 
@@ -122,7 +122,7 @@ namespace OpenPmsDental {
 			this.label16.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.label16.Location = new System.Drawing.Point(51, 15);
 			this.label16.Name = "label16";
-			this.label16.Size = new System.Drawing.Size(218, 17);
+			this.label16.Size = new System.Drawing.Size(219, 17);
 			this.label16.TabIndex = 202;
 			this.label16.Text = "Time Card first day of week for overtime";
 			this.label16.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -133,7 +133,7 @@ namespace OpenPmsDental {
 			this.checkTimeCardADP.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkTimeCardADP.Location = new System.Drawing.Point(81, 35);
 			this.checkTimeCardADP.Name = "checkTimeCardADP";
-			this.checkTimeCardADP.Size = new System.Drawing.Size(359, 17);
+			this.checkTimeCardADP.Size = new System.Drawing.Size(359, 18);
 			this.checkTimeCardADP.TabIndex = 199;
 			this.checkTimeCardADP.Text = "ADP export includes employee name";
 			// 
@@ -143,7 +143,7 @@ namespace OpenPmsDental {
 			this.checkClockEventAllowBreak.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkClockEventAllowBreak.Location = new System.Drawing.Point(19, 56);
 			this.checkClockEventAllowBreak.Name = "checkClockEventAllowBreak";
-			this.checkClockEventAllowBreak.Size = new System.Drawing.Size(421, 17);
+			this.checkClockEventAllowBreak.Size = new System.Drawing.Size(421, 18);
 			this.checkClockEventAllowBreak.TabIndex = 295;
 			this.checkClockEventAllowBreak.Text = "Allow paid 30 minute breaks";
 			// 
@@ -173,7 +173,7 @@ namespace OpenPmsDental {
 			this.checkShowAutoDeposit.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkShowAutoDeposit.Location = new System.Drawing.Point(90, 10);
 			this.checkShowAutoDeposit.Name = "checkShowAutoDeposit";
-			this.checkShowAutoDeposit.Size = new System.Drawing.Size(350, 17);
+			this.checkShowAutoDeposit.Size = new System.Drawing.Size(350, 18);
 			this.checkShowAutoDeposit.TabIndex = 294;
 			this.checkShowAutoDeposit.Text = "Insurance payments create auto deposit";
 			// 
@@ -202,7 +202,7 @@ namespace OpenPmsDental {
 			this.checkRxHideProvsWithoutDEA.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkRxHideProvsWithoutDEA.Location = new System.Drawing.Point(20, 33);
 			this.checkRxHideProvsWithoutDEA.Name = "checkRxHideProvsWithoutDEA";
-			this.checkRxHideProvsWithoutDEA.Size = new System.Drawing.Size(420, 17);
+			this.checkRxHideProvsWithoutDEA.Size = new System.Drawing.Size(430, 18);
 			this.checkRxHideProvsWithoutDEA.TabIndex = 302;
 			this.checkRxHideProvsWithoutDEA.Text = "Hide providers without DEA number from making (non-electronic)  prescriptions";
 			// 
@@ -236,7 +236,7 @@ namespace OpenPmsDental {
 			this.checkClaimsSendWindowValidateOnLoad.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkClaimsSendWindowValidateOnLoad.Location = new System.Drawing.Point(60, 10);
 			this.checkClaimsSendWindowValidateOnLoad.Name = "checkClaimsSendWindowValidateOnLoad";
-			this.checkClaimsSendWindowValidateOnLoad.Size = new System.Drawing.Size(380, 17);
+			this.checkClaimsSendWindowValidateOnLoad.Size = new System.Drawing.Size(380, 18);
 			this.checkClaimsSendWindowValidateOnLoad.TabIndex = 200;
 			this.checkClaimsSendWindowValidateOnLoad.Text = "Claims Send window validate on load (can cause slowness)";
 			// 
@@ -257,7 +257,7 @@ namespace OpenPmsDental {
 			this.checkClaimPaymentBatchOnly.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkClaimPaymentBatchOnly.Location = new System.Drawing.Point(19, 59);
 			this.checkClaimPaymentBatchOnly.Name = "checkClaimPaymentBatchOnly";
-			this.checkClaimPaymentBatchOnly.Size = new System.Drawing.Size(421, 17);
+			this.checkClaimPaymentBatchOnly.Size = new System.Drawing.Size(421, 18);
 			this.checkClaimPaymentBatchOnly.TabIndex = 291;
 			this.checkClaimPaymentBatchOnly.Text = "Finalize claim payments in Batch Insurance window only";
 			// 
@@ -348,7 +348,7 @@ namespace OpenPmsDental {
 			this.labelWriteOffs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelWriteOffs.Location = new System.Drawing.Point(21, 76);
 			this.labelWriteOffs.Name = "labelWriteOffs";
-			this.labelWriteOffs.Size = new System.Drawing.Size(288, 17);
+			this.labelWriteOffs.Size = new System.Drawing.Size(289, 17);
 			this.labelWriteOffs.TabIndex = 312;
 			this.labelWriteOffs.Text = "Auto-processing posts write-offs on non-primary claims";
 			this.labelWriteOffs.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -409,7 +409,7 @@ namespace OpenPmsDental {
 			this.checkEraOneClaimPerPage.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkEraOneClaimPerPage.Location = new System.Drawing.Point(40, 10);
 			this.checkEraOneClaimPerPage.Name = "checkEraOneClaimPerPage";
-			this.checkEraOneClaimPerPage.Size = new System.Drawing.Size(400, 17);
+			this.checkEraOneClaimPerPage.Size = new System.Drawing.Size(400, 18);
 			this.checkEraOneClaimPerPage.TabIndex = 292;
 			this.checkEraOneClaimPerPage.Text = "ERA prints one page per claim";
 			// 
@@ -419,7 +419,7 @@ namespace OpenPmsDental {
 			this.checkIncludeEraWOPercCoPay.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkIncludeEraWOPercCoPay.Location = new System.Drawing.Point(40, 32);
 			this.checkIncludeEraWOPercCoPay.Name = "checkIncludeEraWOPercCoPay";
-			this.checkIncludeEraWOPercCoPay.Size = new System.Drawing.Size(400, 17);
+			this.checkIncludeEraWOPercCoPay.Size = new System.Drawing.Size(406, 18);
 			this.checkIncludeEraWOPercCoPay.TabIndex = 293;
 			this.checkIncludeEraWOPercCoPay.Text = "ERA posts write-offs for Category Percentage and Medicaid/Flat Copay";
 			// 
@@ -439,7 +439,7 @@ namespace OpenPmsDental {
 			this.checkEraAllowTotalPayment.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkEraAllowTotalPayment.Location = new System.Drawing.Point(19, 54);
 			this.checkEraAllowTotalPayment.Name = "checkEraAllowTotalPayment";
-			this.checkEraAllowTotalPayment.Size = new System.Drawing.Size(421, 17);
+			this.checkEraAllowTotalPayment.Size = new System.Drawing.Size(421, 18);
 			this.checkEraAllowTotalPayment.TabIndex = 296;
 			this.checkEraAllowTotalPayment.Text = "ERA allow total payments";
 			// 
@@ -449,7 +449,7 @@ namespace OpenPmsDental {
 			this.checkEraAutoSplitCarcDenials.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkEraAutoSplitCarcDenials.Location = new System.Drawing.Point(19, 260);
 			this.checkEraAutoSplitCarcDenials.Name = "checkEraAutoSplitCarcDenials";
-			this.checkEraAutoSplitCarcDenials.Size = new System.Drawing.Size(421, 17);
+			this.checkEraAutoSplitCarcDenials.Size = new System.Drawing.Size(421, 18);
 			this.checkEraAutoSplitCarcDenials.TabIndex = 313;
 			this.checkEraAutoSplitCarcDenials.Text = "Auto split ERAs with CARC denial codes listed above";
 			//

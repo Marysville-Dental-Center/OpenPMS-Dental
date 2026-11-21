@@ -73,7 +73,7 @@ namespace OpenPmsDental {
 			this.checkTreatPlanShowCompleted.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkTreatPlanShowCompleted.Location = new System.Drawing.Point(90, 10);
 			this.checkTreatPlanShowCompleted.Name = "checkTreatPlanShowCompleted";
-			this.checkTreatPlanShowCompleted.Size = new System.Drawing.Size(350, 17);
+			this.checkTreatPlanShowCompleted.Size = new System.Drawing.Size(350, 18);
 			this.checkTreatPlanShowCompleted.TabIndex = 243;
 			this.checkTreatPlanShowCompleted.Text = "Show completed work on graphical tooth chart";
 			// 
@@ -82,7 +82,7 @@ namespace OpenPmsDental {
 			this.checkTreatPlanItemized.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkTreatPlanItemized.Location = new System.Drawing.Point(152, 29);
 			this.checkTreatPlanItemized.Name = "checkTreatPlanItemized";
-			this.checkTreatPlanItemized.Size = new System.Drawing.Size(288, 17);
+			this.checkTreatPlanItemized.Size = new System.Drawing.Size(288, 18);
 			this.checkTreatPlanItemized.TabIndex = 246;
 			this.checkTreatPlanItemized.Text = "Show itemized fees";
 			// 
@@ -91,7 +91,7 @@ namespace OpenPmsDental {
 			this.checkTPSaveSigned.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkTPSaveSigned.Location = new System.Drawing.Point(138, 48);
 			this.checkTPSaveSigned.Name = "checkTPSaveSigned";
-			this.checkTPSaveSigned.Size = new System.Drawing.Size(302, 17);
+			this.checkTPSaveSigned.Size = new System.Drawing.Size(302, 18);
 			this.checkTPSaveSigned.TabIndex = 247;
 			this.checkTPSaveSigned.Text = "Save signed Treatment Plans to PDF";
 			// 
@@ -100,7 +100,7 @@ namespace OpenPmsDental {
 			this.checkPromptSaveTP.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkPromptSaveTP.Location = new System.Drawing.Point(62, 67);
 			this.checkPromptSaveTP.Name = "checkPromptSaveTP";
-			this.checkPromptSaveTP.Size = new System.Drawing.Size(378, 17);
+			this.checkPromptSaveTP.Size = new System.Drawing.Size(378, 18);
 			this.checkPromptSaveTP.TabIndex = 252;
 			this.checkPromptSaveTP.Text = "When saving Treatment Plans, prompt for name change";
 			// 
@@ -188,7 +188,7 @@ namespace OpenPmsDental {
 			this.radioTreatPlanSortTooth.Location = new System.Drawing.Point(283, 9);
 			this.radioTreatPlanSortTooth.Name = "radioTreatPlanSortTooth";
 			this.radioTreatPlanSortTooth.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-			this.radioTreatPlanSortTooth.Size = new System.Drawing.Size(157, 18);
+			this.radioTreatPlanSortTooth.Size = new System.Drawing.Size(157, 19);
 			this.radioTreatPlanSortTooth.TabIndex = 54;
 			this.radioTreatPlanSortTooth.Text = "Tooth";
 			this.radioTreatPlanSortTooth.UseVisualStyleBackColor = true;
@@ -201,7 +201,7 @@ namespace OpenPmsDental {
 			this.radioTreatPlanSortOrder.Location = new System.Drawing.Point(283, 28);
 			this.radioTreatPlanSortOrder.Name = "radioTreatPlanSortOrder";
 			this.radioTreatPlanSortOrder.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-			this.radioTreatPlanSortOrder.Size = new System.Drawing.Size(157, 18);
+			this.radioTreatPlanSortOrder.Size = new System.Drawing.Size(157, 21);
 			this.radioTreatPlanSortOrder.TabIndex = 53;
 			this.radioTreatPlanSortOrder.TabStop = true;
 			this.radioTreatPlanSortOrder.Text = "Order Entered";

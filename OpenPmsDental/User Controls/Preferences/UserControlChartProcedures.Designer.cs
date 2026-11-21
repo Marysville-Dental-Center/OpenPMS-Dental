@@ -64,7 +64,7 @@ namespace OpenPmsDental {
 			this.checkProcProvChangesCp.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkProcProvChangesCp.Location = new System.Drawing.Point(5, 174);
 			this.checkProcProvChangesCp.Name = "checkProcProvChangesCp";
-			this.checkProcProvChangesCp.Size = new System.Drawing.Size(435, 17);
+			this.checkProcProvChangesCp.Size = new System.Drawing.Size(435, 18);
 			this.checkProcProvChangesCp.TabIndex = 241;
 			this.checkProcProvChangesCp.Text = "Changing treating provider updates Claim Proc provider";
 			// 
@@ -74,7 +74,7 @@ namespace OpenPmsDental {
 			this.checkAllowSettingProcsComplete.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkAllowSettingProcsComplete.Location = new System.Drawing.Point(15, 15);
 			this.checkAllowSettingProcsComplete.Name = "checkAllowSettingProcsComplete";
-			this.checkAllowSettingProcsComplete.Size = new System.Drawing.Size(425, 17);
+			this.checkAllowSettingProcsComplete.Size = new System.Drawing.Size(425, 18);
 			this.checkAllowSettingProcsComplete.TabIndex = 75;
 			this.checkAllowSettingProcsComplete.Text = "Allow setting procedures complete";
 			// 
@@ -84,7 +84,7 @@ namespace OpenPmsDental {
 			this.checkProcEditRequireAutoCode.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkProcEditRequireAutoCode.Location = new System.Drawing.Point(40, 77);
 			this.checkProcEditRequireAutoCode.Name = "checkProcEditRequireAutoCode";
-			this.checkProcEditRequireAutoCode.Size = new System.Drawing.Size(400, 17);
+			this.checkProcEditRequireAutoCode.Size = new System.Drawing.Size(400, 18);
 			this.checkProcEditRequireAutoCode.TabIndex = 222;
 			this.checkProcEditRequireAutoCode.Text = "Require use of suggested auto codes";
 			// 
@@ -105,7 +105,7 @@ namespace OpenPmsDental {
 			this.checkClaimProcsAllowEstimatesOnCompl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
 			this.checkClaimProcsAllowEstimatesOnCompl.Location = new System.Drawing.Point(40, 108);
 			this.checkClaimProcsAllowEstimatesOnCompl.Name = "checkClaimProcsAllowEstimatesOnCompl";
-			this.checkClaimProcsAllowEstimatesOnCompl.Size = new System.Drawing.Size(400, 17);
+			this.checkClaimProcsAllowEstimatesOnCompl.Size = new System.Drawing.Size(400, 18);
 			this.checkClaimProcsAllowEstimatesOnCompl.TabIndex = 223;
 			this.checkClaimProcsAllowEstimatesOnCompl.Text = "Allow estimates to be created for backdated completed procedures";
 			this.checkClaimProcsAllowEstimatesOnCompl.Click += new System.EventHandler(this.checkClaimProcsAllowEstimatesOnCompl_Click);
@@ -126,7 +126,7 @@ namespace OpenPmsDental {
 			this.checkProcLockingIsAllowed.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkProcLockingIsAllowed.Location = new System.Drawing.Point(40, 46);
 			this.checkProcLockingIsAllowed.Name = "checkProcLockingIsAllowed";
-			this.checkProcLockingIsAllowed.Size = new System.Drawing.Size(400, 17);
+			this.checkProcLockingIsAllowed.Size = new System.Drawing.Size(400, 18);
 			this.checkProcLockingIsAllowed.TabIndex = 224;
 			this.checkProcLockingIsAllowed.Text = "Procedure locking is allowed";
 			this.checkProcLockingIsAllowed.Click += new System.EventHandler(this.checkProcLockingIsAllowed_Click);
@@ -151,7 +151,7 @@ namespace OpenPmsDental {
 			this.checkProcNoteSigsBlocked.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkProcNoteSigsBlocked.Location = new System.Drawing.Point(5, 164);
 			this.checkProcNoteSigsBlocked.Name = "checkProcNoteSigsBlocked";
-			this.checkProcNoteSigsBlocked.Size = new System.Drawing.Size(435, 17);
+			this.checkProcNoteSigsBlocked.Size = new System.Drawing.Size(445, 18);
 			this.checkProcNoteSigsBlocked.TabIndex = 249;
 			this.checkProcNoteSigsBlocked.Text = "Block procedure note signatures when there are uncompleted auto note prompts";
 			// 
@@ -161,7 +161,7 @@ namespace OpenPmsDental {
 			this.checkProcsPromptForAutoNote.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkProcsPromptForAutoNote.Location = new System.Drawing.Point(40, 15);
 			this.checkProcsPromptForAutoNote.Name = "checkProcsPromptForAutoNote";
-			this.checkProcsPromptForAutoNote.Size = new System.Drawing.Size(400, 17);
+			this.checkProcsPromptForAutoNote.Size = new System.Drawing.Size(400, 18);
 			this.checkProcsPromptForAutoNote.TabIndex = 234;
 			this.checkProcsPromptForAutoNote.Text = "Procedures Prompt For Auto Note";
 			// 
@@ -171,7 +171,7 @@ namespace OpenPmsDental {
 			this.checkSignatureAllowDigital.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkSignatureAllowDigital.Location = new System.Drawing.Point(15, 46);
 			this.checkSignatureAllowDigital.Name = "checkSignatureAllowDigital";
-			this.checkSignatureAllowDigital.Size = new System.Drawing.Size(425, 17);
+			this.checkSignatureAllowDigital.Size = new System.Drawing.Size(425, 18);
 			this.checkSignatureAllowDigital.TabIndex = 238;
 			this.checkSignatureAllowDigital.Text = "Allow digital signatures";
 			// 
@@ -181,7 +181,7 @@ namespace OpenPmsDental {
 			this.checkProcGroupNoteDoesAggregate.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkProcGroupNoteDoesAggregate.Location = new System.Drawing.Point(15, 77);
 			this.checkProcGroupNoteDoesAggregate.Name = "checkProcGroupNoteDoesAggregate";
-			this.checkProcGroupNoteDoesAggregate.Size = new System.Drawing.Size(425, 17);
+			this.checkProcGroupNoteDoesAggregate.Size = new System.Drawing.Size(425, 18);
 			this.checkProcGroupNoteDoesAggregate.TabIndex = 235;
 			this.checkProcGroupNoteDoesAggregate.Text = "When creating a Group Note, aggregate procedure notes";
 			// 
@@ -191,7 +191,7 @@ namespace OpenPmsDental {
 			this.checkNotesProviderSigOnly.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkNotesProviderSigOnly.Location = new System.Drawing.Point(15, 135);
 			this.checkNotesProviderSigOnly.Name = "checkNotesProviderSigOnly";
-			this.checkNotesProviderSigOnly.Size = new System.Drawing.Size(425, 17);
+			this.checkNotesProviderSigOnly.Size = new System.Drawing.Size(425, 18);
 			this.checkNotesProviderSigOnly.TabIndex = 237;
 			this.checkNotesProviderSigOnly.Text = "Notes can only be signed by providers";
 			// 
@@ -201,7 +201,7 @@ namespace OpenPmsDental {
 			this.checkProcNoteConcurrencyMerge.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkProcNoteConcurrencyMerge.Location = new System.Drawing.Point(40, 106);
 			this.checkProcNoteConcurrencyMerge.Name = "checkProcNoteConcurrencyMerge";
-			this.checkProcNoteConcurrencyMerge.Size = new System.Drawing.Size(400, 17);
+			this.checkProcNoteConcurrencyMerge.Size = new System.Drawing.Size(400, 18);
 			this.checkProcNoteConcurrencyMerge.TabIndex = 236;
 			this.checkProcNoteConcurrencyMerge.Text = "Procedure notes merge together when concurrency issues occur";
 			// 

@@ -50,7 +50,7 @@ namespace OpenPmsDental {
 			this.checkStatementsAlphabetically.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkStatementsAlphabetically.Location = new System.Drawing.Point(63, 74);
 			this.checkStatementsAlphabetically.Name = "checkStatementsAlphabetically";
-			this.checkStatementsAlphabetically.Size = new System.Drawing.Size(377, 17);
+			this.checkStatementsAlphabetically.Size = new System.Drawing.Size(377, 18);
 			this.checkStatementsAlphabetically.TabIndex = 10;
 			this.checkStatementsAlphabetically.Text = "Print statements alphabetically";
 			// 
@@ -80,7 +80,7 @@ namespace OpenPmsDental {
 			this.checkStatementShowAdjNotes.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkStatementShowAdjNotes.Location = new System.Drawing.Point(72, 72);
 			this.checkStatementShowAdjNotes.Name = "checkStatementShowAdjNotes";
-			this.checkStatementShowAdjNotes.Size = new System.Drawing.Size(368, 17);
+			this.checkStatementShowAdjNotes.Size = new System.Drawing.Size(368, 18);
 			this.checkStatementShowAdjNotes.TabIndex = 2;
 			this.checkStatementShowAdjNotes.Text = "Show notes for adjustments";
 			// 
@@ -90,7 +90,7 @@ namespace OpenPmsDental {
 			this.checkIntermingleDefault.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkIntermingleDefault.Location = new System.Drawing.Point(63, 10);
 			this.checkIntermingleDefault.Name = "checkIntermingleDefault";
-			this.checkIntermingleDefault.Size = new System.Drawing.Size(377, 17);
+			this.checkIntermingleDefault.Size = new System.Drawing.Size(377, 18);
 			this.checkIntermingleDefault.TabIndex = 7;
 			this.checkIntermingleDefault.Text = "Account Module statements default to intermingled mode";
 			// 
@@ -100,7 +100,7 @@ namespace OpenPmsDental {
 			this.checkStatementShowReturnAddress.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkStatementShowReturnAddress.Location = new System.Drawing.Point(165, 10);
 			this.checkStatementShowReturnAddress.Name = "checkStatementShowReturnAddress";
-			this.checkStatementShowReturnAddress.Size = new System.Drawing.Size(275, 17);
+			this.checkStatementShowReturnAddress.Size = new System.Drawing.Size(275, 18);
 			this.checkStatementShowReturnAddress.TabIndex = 0;
 			this.checkStatementShowReturnAddress.Text = "Show return address";
 			// 
@@ -110,7 +110,7 @@ namespace OpenPmsDental {
 			this.checkStatementShowProcBreakdown.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkStatementShowProcBreakdown.Location = new System.Drawing.Point(72, 103);
 			this.checkStatementShowProcBreakdown.Name = "checkStatementShowProcBreakdown";
-			this.checkStatementShowProcBreakdown.Size = new System.Drawing.Size(368, 17);
+			this.checkStatementShowProcBreakdown.Size = new System.Drawing.Size(368, 18);
 			this.checkStatementShowProcBreakdown.TabIndex = 3;
 			this.checkStatementShowProcBreakdown.Text = "Show procedure breakdown";
 			// 
@@ -120,7 +120,7 @@ namespace OpenPmsDental {
 			this.checkStatementShowNotes.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkStatementShowNotes.Location = new System.Drawing.Point(72, 41);
 			this.checkStatementShowNotes.Name = "checkStatementShowNotes";
-			this.checkStatementShowNotes.Size = new System.Drawing.Size(368, 17);
+			this.checkStatementShowNotes.Size = new System.Drawing.Size(368, 18);
 			this.checkStatementShowNotes.TabIndex = 1;
 			this.checkStatementShowNotes.Text = "Show notes for payments";
 			// 

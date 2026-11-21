@@ -75,7 +75,7 @@ namespace OpenPmsDental {
 			this.checkFamPhiAccess.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkFamPhiAccess.Location = new System.Drawing.Point(50, 10);
 			this.checkFamPhiAccess.Name = "checkFamPhiAccess";
-			this.checkFamPhiAccess.Size = new System.Drawing.Size(390, 17);
+			this.checkFamPhiAccess.Size = new System.Drawing.Size(400, 18);
 			this.checkFamPhiAccess.TabIndex = 298;
 			this.checkFamPhiAccess.Text = "Allow guarantor access to family health information in the Patient Portal";
 			// 
@@ -85,7 +85,7 @@ namespace OpenPmsDental {
 			this.checkPatientSSNMasked.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkPatientSSNMasked.Location = new System.Drawing.Point(15, 30);
 			this.checkPatientSSNMasked.Name = "checkPatientSSNMasked";
-			this.checkPatientSSNMasked.Size = new System.Drawing.Size(425, 17);
+			this.checkPatientSSNMasked.Size = new System.Drawing.Size(425, 18);
 			this.checkPatientSSNMasked.TabIndex = 303;
 			this.checkPatientSSNMasked.Text = "Mask patient Social Security Numbers";
 			// 
@@ -95,7 +95,7 @@ namespace OpenPmsDental {
 			this.checkPatientDOBMasked.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkPatientDOBMasked.Location = new System.Drawing.Point(15, 50);
 			this.checkPatientDOBMasked.Name = "checkPatientDOBMasked";
-			this.checkPatientDOBMasked.Size = new System.Drawing.Size(425, 17);
+			this.checkPatientDOBMasked.Size = new System.Drawing.Size(425, 18);
 			this.checkPatientDOBMasked.TabIndex = 304;
 			this.checkPatientDOBMasked.Text = "Mask patient date of birth";
 			// 
@@ -125,7 +125,7 @@ namespace OpenPmsDental {
 			this.checkAddressVerifyWithUSPS.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkAddressVerifyWithUSPS.Location = new System.Drawing.Point(18, 217);
 			this.checkAddressVerifyWithUSPS.Name = "checkAddressVerifyWithUSPS";
-			this.checkAddressVerifyWithUSPS.Size = new System.Drawing.Size(422, 17);
+			this.checkAddressVerifyWithUSPS.Size = new System.Drawing.Size(422, 18);
 			this.checkAddressVerifyWithUSPS.TabIndex = 309;
 			this.checkAddressVerifyWithUSPS.Text = "Verify Addresses with USPS";
 			// 
@@ -135,7 +135,7 @@ namespace OpenPmsDental {
 			this.checkTextMsgOkStatusTreatAsNo.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkTextMsgOkStatusTreatAsNo.Location = new System.Drawing.Point(65, 10);
 			this.checkTextMsgOkStatusTreatAsNo.Name = "checkTextMsgOkStatusTreatAsNo";
-			this.checkTextMsgOkStatusTreatAsNo.Size = new System.Drawing.Size(375, 17);
+			this.checkTextMsgOkStatusTreatAsNo.Size = new System.Drawing.Size(377, 18);
 			this.checkTextMsgOkStatusTreatAsNo.TabIndex = 296;
 			this.checkTextMsgOkStatusTreatAsNo.Text = "Text Msg OK, assume default is \'No\' for patients with no selection";
 			// 
@@ -145,7 +145,7 @@ namespace OpenPmsDental {
 			this.checkDoSendOptOutText.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkDoSendOptOutText.Location = new System.Drawing.Point(5, 30);
 			this.checkDoSendOptOutText.Name = "checkDoSendOptOutText";
-			this.checkDoSendOptOutText.Size = new System.Drawing.Size(435, 17);
+			this.checkDoSendOptOutText.Size = new System.Drawing.Size(435, 18);
 			this.checkDoSendOptOutText.TabIndex = 310;
 			this.checkDoSendOptOutText.Text = "Send opt-out msg when changing \'Text OK\' status from \'Yes\' to \'No\'";
 			// 
@@ -155,7 +155,7 @@ namespace OpenPmsDental {
 			this.checkAutoFillPatEmail.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkAutoFillPatEmail.Location = new System.Drawing.Point(15, 110);
 			this.checkAutoFillPatEmail.Name = "checkAutoFillPatEmail";
-			this.checkAutoFillPatEmail.Size = new System.Drawing.Size(425, 17);
+			this.checkAutoFillPatEmail.Size = new System.Drawing.Size(435, 18);
 			this.checkAutoFillPatEmail.TabIndex = 301;
 			this.checkAutoFillPatEmail.Text = "Autofill patient\'s email with the guarantor\'s when adding many new patients";
 			// 
@@ -165,7 +165,7 @@ namespace OpenPmsDental {
 			this.checkPreferredPronouns.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkPreferredPronouns.Location = new System.Drawing.Point(18, 170);
 			this.checkPreferredPronouns.Name = "checkPreferredPronouns";
-			this.checkPreferredPronouns.Size = new System.Drawing.Size(422, 17);
+			this.checkPreferredPronouns.Size = new System.Drawing.Size(422, 18);
 			this.checkPreferredPronouns.TabIndex = 308;
 			this.checkPreferredPronouns.Text = "Show Preferred Pronouns for Patients";
 			// 
@@ -175,7 +175,7 @@ namespace OpenPmsDental {
 			this.checkSameForFamily.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkSameForFamily.Location = new System.Drawing.Point(1, 150);
 			this.checkSameForFamily.Name = "checkSameForFamily";
-			this.checkSameForFamily.Size = new System.Drawing.Size(439, 17);
+			this.checkSameForFamily.Size = new System.Drawing.Size(449, 18);
 			this.checkSameForFamily.TabIndex = 305;
 			this.checkSameForFamily.Text = "In Patient Edit window, checks for \"Same for Entire Family\" default to unchecked";
 			// 
@@ -185,7 +185,7 @@ namespace OpenPmsDental {
 			this.checkPatientPhoneUsePhonenumberTable.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkPatientPhoneUsePhonenumberTable.Location = new System.Drawing.Point(25, 193);
 			this.checkPatientPhoneUsePhonenumberTable.Name = "checkPatientPhoneUsePhonenumberTable";
-			this.checkPatientPhoneUsePhonenumberTable.Size = new System.Drawing.Size(360, 17);
+			this.checkPatientPhoneUsePhonenumberTable.Size = new System.Drawing.Size(366, 18);
 			this.checkPatientPhoneUsePhonenumberTable.TabIndex = 306;
 			this.checkPatientPhoneUsePhonenumberTable.Text = "Store patient phone numbers in a separate table for patient search";
 			this.checkPatientPhoneUsePhonenumberTable.Click += new System.EventHandler(this.checkPatientPhoneUsePhoneNumberTable_Click);
@@ -205,7 +205,7 @@ namespace OpenPmsDental {
 			this.checkPreferredReferrals.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkPreferredReferrals.Location = new System.Drawing.Point(15, 90);
 			this.checkPreferredReferrals.Name = "checkPreferredReferrals";
-			this.checkPreferredReferrals.Size = new System.Drawing.Size(425, 17);
+			this.checkPreferredReferrals.Size = new System.Drawing.Size(425, 18);
 			this.checkPreferredReferrals.TabIndex = 300;
 			this.checkPreferredReferrals.Text = "In Select Referral window, only show preferred referrals by default";
 			// 
@@ -215,7 +215,7 @@ namespace OpenPmsDental {
 			this.checkAllowPatsAtHQ.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkAllowPatsAtHQ.Location = new System.Drawing.Point(15, 130);
 			this.checkAllowPatsAtHQ.Name = "checkAllowPatsAtHQ";
-			this.checkAllowPatsAtHQ.Size = new System.Drawing.Size(425, 17);
+			this.checkAllowPatsAtHQ.Size = new System.Drawing.Size(425, 18);
 			this.checkAllowPatsAtHQ.TabIndex = 302;
 			this.checkAllowPatsAtHQ.Text = "Allow new patients to be added with an unassigned clinic";
 			// 
@@ -225,7 +225,7 @@ namespace OpenPmsDental {
 			this.checkSelectProv.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkSelectProv.Location = new System.Drawing.Point(1, 70);
 			this.checkSelectProv.Name = "checkSelectProv";
-			this.checkSelectProv.Size = new System.Drawing.Size(439, 17);
+			this.checkSelectProv.Size = new System.Drawing.Size(439, 18);
 			this.checkSelectProv.TabIndex = 295;
 			this.checkSelectProv.Text = "Pri Prov defaults to \'Select Provider\' in Patient Edit and Add Family windows";
 			// 
@@ -235,7 +235,7 @@ namespace OpenPmsDental {
 			this.checkGoogleAddress.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkGoogleAddress.Location = new System.Drawing.Point(15, 50);
 			this.checkGoogleAddress.Name = "checkGoogleAddress";
-			this.checkGoogleAddress.Size = new System.Drawing.Size(425, 17);
+			this.checkGoogleAddress.Size = new System.Drawing.Size(425, 18);
 			this.checkGoogleAddress.TabIndex = 299;
 			this.checkGoogleAddress.Text = "Show Google Maps in Patient Edit window";
 			// 
@@ -285,7 +285,7 @@ namespace OpenPmsDental {
 			this.label31.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.label31.Location = new System.Drawing.Point(164, 13);
 			this.label31.Name = "label31";
-			this.label31.Size = new System.Drawing.Size(127, 17);
+			this.label31.Size = new System.Drawing.Size(128, 17);
 			this.label31.TabIndex = 224;
 			this.label31.Text = "Claim Snapshot Trigger";
 			this.label31.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -317,7 +317,7 @@ namespace OpenPmsDental {
 			this.labelSuperFamSort.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelSuperFamSort.Location = new System.Drawing.Point(157, 13);
 			this.labelSuperFamSort.Name = "labelSuperFamSort";
-			this.labelSuperFamSort.Size = new System.Drawing.Size(154, 17);
+			this.labelSuperFamSort.Size = new System.Drawing.Size(155, 17);
 			this.labelSuperFamSort.TabIndex = 218;
 			this.labelSuperFamSort.Text = "Super family sorting strategy";
 			this.labelSuperFamSort.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -328,7 +328,7 @@ namespace OpenPmsDental {
 			this.checkSuperFamSync.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkSuperFamSync.Location = new System.Drawing.Point(15, 34);
 			this.checkSuperFamSync.Name = "checkSuperFamSync";
-			this.checkSuperFamSync.Size = new System.Drawing.Size(425, 17);
+			this.checkSuperFamSync.Size = new System.Drawing.Size(425, 18);
 			this.checkSuperFamSync.TabIndex = 219;
 			this.checkSuperFamSync.Text = "Allow syncing patient information to all super family members";
 			// 
@@ -338,7 +338,7 @@ namespace OpenPmsDental {
 			this.checkSuperFamAddIns.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkSuperFamAddIns.Location = new System.Drawing.Point(2, 54);
 			this.checkSuperFamAddIns.Name = "checkSuperFamAddIns";
-			this.checkSuperFamAddIns.Size = new System.Drawing.Size(438, 17);
+			this.checkSuperFamAddIns.Size = new System.Drawing.Size(438, 18);
 			this.checkSuperFamAddIns.TabIndex = 221;
 			this.checkSuperFamAddIns.Text = "Copy super guarantor\'s primary insurance to all new super family members";
 			// 
@@ -348,7 +348,7 @@ namespace OpenPmsDental {
 			this.checkCloneCreateSuperFamily.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkCloneCreateSuperFamily.Location = new System.Drawing.Point(15, 74);
 			this.checkCloneCreateSuperFamily.Name = "checkCloneCreateSuperFamily";
-			this.checkCloneCreateSuperFamily.Size = new System.Drawing.Size(425, 17);
+			this.checkCloneCreateSuperFamily.Size = new System.Drawing.Size(425, 18);
 			this.checkCloneCreateSuperFamily.TabIndex = 227;
 			this.checkCloneCreateSuperFamily.Text = "New patient clones use super family instead of regular family";
 			this.checkCloneCreateSuperFamily.Click += new System.EventHandler(this.checkCloneCreateSuperFamily_Click);

@@ -72,7 +72,7 @@ namespace OpenPmsDental {
 			this.checkBoxRxClinicUseSelected.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkBoxRxClinicUseSelected.Location = new System.Drawing.Point(3, 487);
 			this.checkBoxRxClinicUseSelected.Name = "checkBoxRxClinicUseSelected";
-			this.checkBoxRxClinicUseSelected.Size = new System.Drawing.Size(457, 17);
+			this.checkBoxRxClinicUseSelected.Size = new System.Drawing.Size(464, 18);
 			this.checkBoxRxClinicUseSelected.TabIndex = 237;
 			this.checkBoxRxClinicUseSelected.Text = "Rx use selected clinic from Clinics menu instead of selected patient\'s default cl" +
     "inic";
@@ -82,7 +82,7 @@ namespace OpenPmsDental {
 			this.checkChartOrthoTabAutomaticCheckboxes.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkChartOrthoTabAutomaticCheckboxes.Location = new System.Drawing.Point(84, 506);
 			this.checkChartOrthoTabAutomaticCheckboxes.Name = "checkChartOrthoTabAutomaticCheckboxes";
-			this.checkChartOrthoTabAutomaticCheckboxes.Size = new System.Drawing.Size(376, 31);
+			this.checkChartOrthoTabAutomaticCheckboxes.Size = new System.Drawing.Size(410, 31);
 			this.checkChartOrthoTabAutomaticCheckboxes.TabIndex = 253;
 			this.checkChartOrthoTabAutomaticCheckboxes.Text = "Automatically check and uncheck ortho mode and show grid checkboxes based on sele" +
     "ction of Ortho tab ";
@@ -92,7 +92,7 @@ namespace OpenPmsDental {
 			this.checkToothChartShowCompletedExtractions.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkToothChartShowCompletedExtractions.Location = new System.Drawing.Point(84, 541);
 			this.checkToothChartShowCompletedExtractions.Name = "checkToothChartShowCompletedExtractions";
-			this.checkToothChartShowCompletedExtractions.Size = new System.Drawing.Size(376, 17);
+			this.checkToothChartShowCompletedExtractions.Size = new System.Drawing.Size(376, 18);
 			this.checkToothChartShowCompletedExtractions.TabIndex = 254;
 			this.checkToothChartShowCompletedExtractions.Text = "Show completed extractions with an X on the tooth chart";
 			//
@@ -144,7 +144,7 @@ namespace OpenPmsDental {
 			this.checkAutoClearEntryStatus.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkAutoClearEntryStatus.Location = new System.Drawing.Point(15, 76);
 			this.checkAutoClearEntryStatus.Name = "checkAutoClearEntryStatus";
-			this.checkAutoClearEntryStatus.Size = new System.Drawing.Size(425, 17);
+			this.checkAutoClearEntryStatus.Size = new System.Drawing.Size(425, 18);
 			this.checkAutoClearEntryStatus.TabIndex = 240;
 			this.checkAutoClearEntryStatus.Text = "Reset entry status to \'TreatPlan\' when switching patients";
 			// 
@@ -154,7 +154,7 @@ namespace OpenPmsDental {
 			this.checkProvColorChart.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkProvColorChart.Location = new System.Drawing.Point(145, 120);
 			this.checkProvColorChart.Name = "checkProvColorChart";
-			this.checkProvColorChart.Size = new System.Drawing.Size(295, 17);
+			this.checkProvColorChart.Size = new System.Drawing.Size(295, 18);
 			this.checkProvColorChart.TabIndex = 243;
 			this.checkProvColorChart.Text = "Use provider color in chart";
 			// 
@@ -163,7 +163,7 @@ namespace OpenPmsDental {
 			this.label32.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.label32.Location = new System.Drawing.Point(50, 142);
 			this.label32.Name = "label32";
-			this.label32.Size = new System.Drawing.Size(134, 17);
+			this.label32.Size = new System.Drawing.Size(135, 17);
 			this.label32.TabIndex = 247;
 			this.label32.Text = "Procedure Code List sort";
 			this.label32.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -173,7 +173,7 @@ namespace OpenPmsDental {
 			this.labelToothNomenclature.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelToothNomenclature.Location = new System.Drawing.Point(72, 97);
 			this.labelToothNomenclature.Name = "labelToothNomenclature";
-			this.labelToothNomenclature.Size = new System.Drawing.Size(112, 17);
+			this.labelToothNomenclature.Size = new System.Drawing.Size(113, 17);
 			this.labelToothNomenclature.TabIndex = 242;
 			this.labelToothNomenclature.Text = "Tooth Nomenclature";
 			this.labelToothNomenclature.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -184,7 +184,7 @@ namespace OpenPmsDental {
 			this.checkIsAlertRadiologyProcsEnabled.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkIsAlertRadiologyProcsEnabled.Location = new System.Drawing.Point(6, 55);
 			this.checkIsAlertRadiologyProcsEnabled.Name = "checkIsAlertRadiologyProcsEnabled";
-			this.checkIsAlertRadiologyProcsEnabled.Size = new System.Drawing.Size(434, 17);
+			this.checkIsAlertRadiologyProcsEnabled.Size = new System.Drawing.Size(434, 18);
 			this.checkIsAlertRadiologyProcsEnabled.TabIndex = 238;
 			this.checkIsAlertRadiologyProcsEnabled.Text = "OpenDentalService alerts for scheduled non-CPOE radiology procedures";
 			// 
@@ -204,7 +204,7 @@ namespace OpenPmsDental {
 			this.checkScreeningsUseSheets.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkScreeningsUseSheets.Location = new System.Drawing.Point(140, 10);
 			this.checkScreeningsUseSheets.Name = "checkScreeningsUseSheets";
-			this.checkScreeningsUseSheets.Size = new System.Drawing.Size(300, 17);
+			this.checkScreeningsUseSheets.Size = new System.Drawing.Size(300, 18);
 			this.checkScreeningsUseSheets.TabIndex = 235;
 			this.checkScreeningsUseSheets.Text = "Screenings use Sheets";
 			// 
@@ -224,7 +224,7 @@ namespace OpenPmsDental {
 			this.checkPerioSkipMissingTeeth.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkPerioSkipMissingTeeth.Location = new System.Drawing.Point(145, 10);
 			this.checkPerioSkipMissingTeeth.Name = "checkPerioSkipMissingTeeth";
-			this.checkPerioSkipMissingTeeth.Size = new System.Drawing.Size(295, 17);
+			this.checkPerioSkipMissingTeeth.Size = new System.Drawing.Size(295, 18);
 			this.checkPerioSkipMissingTeeth.TabIndex = 244;
 			this.checkPerioSkipMissingTeeth.Text = "Perio exams always skip missing teeth";
 			// 
@@ -234,7 +234,7 @@ namespace OpenPmsDental {
 			this.checkPerioTreatImplantsAsNotMissing.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkPerioTreatImplantsAsNotMissing.Location = new System.Drawing.Point(145, 31);
 			this.checkPerioTreatImplantsAsNotMissing.Name = "checkPerioTreatImplantsAsNotMissing";
-			this.checkPerioTreatImplantsAsNotMissing.Size = new System.Drawing.Size(295, 17);
+			this.checkPerioTreatImplantsAsNotMissing.Size = new System.Drawing.Size(295, 18);
 			this.checkPerioTreatImplantsAsNotMissing.TabIndex = 245;
 			this.checkPerioTreatImplantsAsNotMissing.Text = "Perio exams treat implants as not missing";
 			// 
@@ -254,7 +254,7 @@ namespace OpenPmsDental {
 			this.checkChartNonPatientWarn.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkChartNonPatientWarn.Location = new System.Drawing.Point(105, 10);
 			this.checkChartNonPatientWarn.Name = "checkChartNonPatientWarn";
-			this.checkChartNonPatientWarn.Size = new System.Drawing.Size(335, 17);
+			this.checkChartNonPatientWarn.Size = new System.Drawing.Size(335, 18);
 			this.checkChartNonPatientWarn.TabIndex = 230;
 			this.checkChartNonPatientWarn.Text = "Non-Patient warning";
 			// 
@@ -264,7 +264,7 @@ namespace OpenPmsDental {
 			this.checkShowPlannedApptPrompt.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkShowPlannedApptPrompt.Location = new System.Drawing.Point(104, 31);
 			this.checkShowPlannedApptPrompt.Name = "checkShowPlannedApptPrompt";
-			this.checkShowPlannedApptPrompt.Size = new System.Drawing.Size(336, 17);
+			this.checkShowPlannedApptPrompt.Size = new System.Drawing.Size(336, 18);
 			this.checkShowPlannedApptPrompt.TabIndex = 239;
 			this.checkShowPlannedApptPrompt.Text = "Prompt for Planned Appointment";
 			// 
@@ -396,7 +396,7 @@ namespace OpenPmsDental {
 			this.checkMedicalFeeUsedForNewProcs.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkMedicalFeeUsedForNewProcs.Location = new System.Drawing.Point(140, 10);
 			this.checkMedicalFeeUsedForNewProcs.Name = "checkMedicalFeeUsedForNewProcs";
-			this.checkMedicalFeeUsedForNewProcs.Size = new System.Drawing.Size(300, 17);
+			this.checkMedicalFeeUsedForNewProcs.Size = new System.Drawing.Size(300, 18);
 			this.checkMedicalFeeUsedForNewProcs.TabIndex = 228;
 			this.checkMedicalFeeUsedForNewProcs.Text = "Use medical fee for new procedures";
 			// 
@@ -406,7 +406,7 @@ namespace OpenPmsDental {
 			this.checkDxIcdVersion.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkDxIcdVersion.Location = new System.Drawing.Point(104, 31);
 			this.checkDxIcdVersion.Name = "checkDxIcdVersion";
-			this.checkDxIcdVersion.Size = new System.Drawing.Size(336, 17);
+			this.checkDxIcdVersion.Size = new System.Drawing.Size(336, 18);
 			this.checkDxIcdVersion.TabIndex = 231;
 			this.checkDxIcdVersion.Text = "Use ICD-10 Diagnosis Codes";
 			this.checkDxIcdVersion.Click += new System.EventHandler(this.checkDxIcdVersion_Click);
@@ -416,7 +416,7 @@ namespace OpenPmsDental {
 			this.labelIcdCodeDefault.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelIcdCodeDefault.Location = new System.Drawing.Point(3, 55);
 			this.labelIcdCodeDefault.Name = "labelIcdCodeDefault";
-			this.labelIcdCodeDefault.Size = new System.Drawing.Size(328, 17);
+			this.labelIcdCodeDefault.Size = new System.Drawing.Size(329, 17);
 			this.labelIcdCodeDefault.TabIndex = 224;
 			this.labelIcdCodeDefault.Text = "Default ICD-10 code for new procedures and when set complete";
 			this.labelIcdCodeDefault.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

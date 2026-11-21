@@ -112,7 +112,7 @@ namespace OpenPmsDental {
 			this.checkOrthoShowInChart.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkOrthoShowInChart.Location = new System.Drawing.Point(127, 24);
 			this.checkOrthoShowInChart.Name = "checkOrthoShowInChart";
-			this.checkOrthoShowInChart.Size = new System.Drawing.Size(327, 17);
+			this.checkOrthoShowInChart.Size = new System.Drawing.Size(327, 18);
 			this.checkOrthoShowInChart.TabIndex = 266;
 			this.checkOrthoShowInChart.Text = "Show Ortho button and tab in Chart Module";
 			// 
@@ -121,7 +121,7 @@ namespace OpenPmsDental {
 			this.checkDebondOverridesMonthsTreat.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkDebondOverridesMonthsTreat.Location = new System.Drawing.Point(127, 136);
 			this.checkDebondOverridesMonthsTreat.Name = "checkDebondOverridesMonthsTreat";
-			this.checkDebondOverridesMonthsTreat.Size = new System.Drawing.Size(327, 19);
+			this.checkDebondOverridesMonthsTreat.Size = new System.Drawing.Size(346, 19);
 			this.checkDebondOverridesMonthsTreat.TabIndex = 252;
 			this.checkDebondOverridesMonthsTreat.Text = "Completing Debond procedure overrides months treatment";
 			// 
@@ -317,7 +317,7 @@ namespace OpenPmsDental {
 			this.checkOrthoEnabled.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkOrthoEnabled.Location = new System.Drawing.Point(127, 47);
 			this.checkOrthoEnabled.Name = "checkOrthoEnabled";
-			this.checkOrthoEnabled.Size = new System.Drawing.Size(327, 17);
+			this.checkOrthoEnabled.Size = new System.Drawing.Size(327, 18);
 			this.checkOrthoEnabled.TabIndex = 248;
 			this.checkOrthoEnabled.Text = "Show Auto Ortho in Account Module";
 			// 
@@ -335,7 +335,7 @@ namespace OpenPmsDental {
 			this.checkOrthoClaimUseDatePlacement.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkOrthoClaimUseDatePlacement.Location = new System.Drawing.Point(127, 116);
 			this.checkOrthoClaimUseDatePlacement.Name = "checkOrthoClaimUseDatePlacement";
-			this.checkOrthoClaimUseDatePlacement.Size = new System.Drawing.Size(327, 17);
+			this.checkOrthoClaimUseDatePlacement.Size = new System.Drawing.Size(327, 18);
 			this.checkOrthoClaimUseDatePlacement.TabIndex = 251;
 			this.checkOrthoClaimUseDatePlacement.Text = "Use the first ortho procedure date as Date of Placement";
 			// 
@@ -344,7 +344,7 @@ namespace OpenPmsDental {
 			this.checkOrthoClaimMarkAsOrtho.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkOrthoClaimMarkAsOrtho.Location = new System.Drawing.Point(127, 93);
 			this.checkOrthoClaimMarkAsOrtho.Name = "checkOrthoClaimMarkAsOrtho";
-			this.checkOrthoClaimMarkAsOrtho.Size = new System.Drawing.Size(327, 17);
+			this.checkOrthoClaimMarkAsOrtho.Size = new System.Drawing.Size(327, 18);
 			this.checkOrthoClaimMarkAsOrtho.TabIndex = 250;
 			this.checkOrthoClaimMarkAsOrtho.Text = "Mark claims as Ortho if they have Ortho procedures";
 			// 
@@ -353,7 +353,7 @@ namespace OpenPmsDental {
 			this.checkOrthoFinancialInfoInChart.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkOrthoFinancialInfoInChart.Location = new System.Drawing.Point(127, 70);
 			this.checkOrthoFinancialInfoInChart.Name = "checkOrthoFinancialInfoInChart";
-			this.checkOrthoFinancialInfoInChart.Size = new System.Drawing.Size(327, 17);
+			this.checkOrthoFinancialInfoInChart.Size = new System.Drawing.Size(327, 18);
 			this.checkOrthoFinancialInfoInChart.TabIndex = 249;
 			this.checkOrthoFinancialInfoInChart.Text = "Show Auto Ortho information in the Ortho Chart";
 			// 
@@ -371,7 +371,7 @@ namespace OpenPmsDental {
 			this.checkApptModuleShowOrthoChartItem.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkApptModuleShowOrthoChartItem.Location = new System.Drawing.Point(127, 186);
 			this.checkApptModuleShowOrthoChartItem.Name = "checkApptModuleShowOrthoChartItem";
-			this.checkApptModuleShowOrthoChartItem.Size = new System.Drawing.Size(327, 17);
+			this.checkApptModuleShowOrthoChartItem.Size = new System.Drawing.Size(327, 18);
 			this.checkApptModuleShowOrthoChartItem.TabIndex = 254;
 			this.checkApptModuleShowOrthoChartItem.Text = "Show Ortho Chart in appointment options";
 			// 
