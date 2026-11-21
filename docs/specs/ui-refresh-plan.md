@@ -1538,6 +1538,13 @@ own 26.2 overlap check before it starts. The first cut is below; a brief that fi
   the tooth chart baselines; the content-exclusion and signature tests.
 - Gallery: **G-UI2, font pass** (main window and modules) with the scan's counts, and the owner's desktop check at 125% and 150%
   (section 8).
+- **Status UI-2b (2026-11-21).** Done on `ui/ui2b-1` (`docs/port-notes/UI-2b.md`), not merged yet; the owner reviews G-UI2 at the end
+  (`.git/od-tools/test-results/G-UI2-ui2b`, rendered off screen). The pins of the UI-2b checklist (printouts and office content keep
+  Microsoft Sans Serif 8.25, `UiTheme.NewFontPinned`, the WPF `Font.ForDocument`), then the flip: the tokens hold `UiFontOption.UI2b`
+  (Segoe UI 9, 17 px grid rows, Segoe UI Semibold 10 titles, Segoe UI 8 module captions), the 12 exe literals and 17 literal designer
+  fonts follow. The scan at the program's own font reports nothing beyond the needs-owner lists: 90 more size fixes in 33 files whose
+  designer code the UI-10 ranking had as "(no designer file)", 50 items in `docs/port-notes/UI-2b-needs-owner.tsv`. The decisions
+  taken for the owner's review are in the port note.
 
 **UI-11: the rest and the final pass**
 - Slices: UI-11-1 to UI-11-n, the designer `BackColor` values that mean chrome rather than data (228 files set one; each brief
