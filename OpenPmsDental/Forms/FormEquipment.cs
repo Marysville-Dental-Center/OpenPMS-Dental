@@ -207,7 +207,9 @@ namespace OpenPmsDental {
 				for(int i=0;i<_listEquipments.Count;i++){
 					total+=_listEquipments[i].MarketValue;
 				}
-				g.DrawString(Lan.g(this,"Total Est Value:")+" "+total.ToStringNetFx("c"),Font,Brushes.Black,550,yPos);
+				//UI-2b: the printout keeps the font it drew with before the flip (the window's inherited font then), not the window's body font.
+				using Font fontTotal=UiTheme.NewFontPinned();
+				g.DrawString(Lan.g(this,"Total Est Value:")+" "+total.ToStringNetFx("c"),fontTotal,Brushes.Black,550,yPos);
 			}
 			g.Dispose();
 		}

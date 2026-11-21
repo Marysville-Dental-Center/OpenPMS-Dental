@@ -436,7 +436,7 @@ namespace OpenPmsDental {
 				else{
 					s=_listMountItems[i].TextShowing;
 					point=new Point((int)(_rectMount.X+_listMountItems[i].Xpos*_ratio),(int)(_rectMount.Y+_listMountItems[i].Ypos*_ratio));
-					Font font=new Font();
+					Font font=Font.ForDocument();//UI-2b: the mount's own text keeps its font, as MountHelper draws it
 					font.Size=_listMountItems[i].FontSize*_ratio;
 					g.DrawString(s,font,Colors.DarkBlue,point);
 				}
@@ -467,7 +467,7 @@ namespace OpenPmsDental {
 			else{
 				s=_listMountItems[_selectedIndex].TextShowing;
 				point=new Point((int)(_rectMount.X+_listMountItems[_selectedIndex].Xpos*_ratio),(int)(_rectMount.Y+_listMountItems[_selectedIndex].Ypos*_ratio));
-				Font font=new Font();
+				Font font=Font.ForDocument();//UI-2b: the mount's own text keeps its font, as MountHelper draws it
 				font.Size=_listMountItems[_selectedIndex].FontSize*_ratio;
 				g.DrawString(s,font,Colors.DarkRed,point);
 			}

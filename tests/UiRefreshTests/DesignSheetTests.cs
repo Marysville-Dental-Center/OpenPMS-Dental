@@ -107,24 +107,30 @@ namespace UiRefreshTests {
 		[TestMethod]
 		public void GridFonts_RowsFollowTheOption() {
 			StaRunner.Run(() => {
-				using(Form form=new Form())
-				using(GridOD gridOD=new GridOD()) {
-					form.ClientSize=new Size(400,300);
-					gridOD.Bounds=new Rectangle(0,0,400,300);
-					gridOD.WrapText=false;
-					form.Controls.Add(gridOD);
-					DesignSheetWindows.CreateHandles(form);
-					gridOD.BeginUpdate();
-					gridOD.Columns.Add(new GridColumn("Description",200));
-					gridOD.ListGridRows.Add(new GridRow("Periodic oral evaluation"));
-					gridOD.ListGridRows.Add(new GridRow("Prophylaxis, adult"));
-					gridOD.EndUpdate();
-					Assert.AreEqual(14,DesignSheetWindows.GetFirstRowHeight(gridOD),"Today: sans serif 8.5, 14 px rows (section 5.3).");
-					DesignSheetWindows.SetGridFonts(gridOD,UiTheme.FONT_FAMILY,UiTheme.FONT_SIZE_BODY);
-					Assert.AreEqual(UiTheme.GRID_ROW_HEIGHT,DesignSheetWindows.GetFirstRowHeight(gridOD),"UQ-2 (a): 17 px rows at Segoe UI 9.");
-					DesignSheetWindows.SetGridFonts(gridOD,UiTheme.FONT_FAMILY,UiTheme.FONT_SIZE_BODY_COMPACT);
-					Assert.AreEqual(UiTheme.GRID_ROW_HEIGHT_COMPACT,DesignSheetWindows.GetFirstRowHeight(gridOD),"UQ-2 (b): 16 px rows at Segoe UI 8.25.");
-					Assert.IsFalse(form.Visible,"Never shown.");
+				UiTheme.SetFontForTest(UiFontOption.Today);//today's grid (14 px rows); the program's tokens are UI-2b's since the flip
+				try {
+					using(Form form=new Form())
+					using(GridOD gridOD=new GridOD()) {
+						form.ClientSize=new Size(400,300);
+						gridOD.Bounds=new Rectangle(0,0,400,300);
+						gridOD.WrapText=false;
+						form.Controls.Add(gridOD);
+						DesignSheetWindows.CreateHandles(form);
+						gridOD.BeginUpdate();
+						gridOD.Columns.Add(new GridColumn("Description",200));
+						gridOD.ListGridRows.Add(new GridRow("Periodic oral evaluation"));
+						gridOD.ListGridRows.Add(new GridRow("Prophylaxis, adult"));
+						gridOD.EndUpdate();
+						Assert.AreEqual(14,DesignSheetWindows.GetFirstRowHeight(gridOD),"Today: sans serif 8.5, 14 px rows (section 5.3).");
+						DesignSheetWindows.SetGridFonts(gridOD,UiTheme.FONT_FAMILY,UiTheme.FONT_SIZE_BODY);
+						Assert.AreEqual(UiTheme.GRID_ROW_HEIGHT,DesignSheetWindows.GetFirstRowHeight(gridOD),"UQ-2 (a): 17 px rows at Segoe UI 9.");
+						DesignSheetWindows.SetGridFonts(gridOD,UiTheme.FONT_FAMILY,UiTheme.FONT_SIZE_BODY_COMPACT);
+						Assert.AreEqual(UiTheme.GRID_ROW_HEIGHT_COMPACT,DesignSheetWindows.GetFirstRowHeight(gridOD),"UQ-2 (b): 16 px rows at Segoe UI 8.25.");
+						Assert.IsFalse(form.Visible,"Never shown.");
+					}
+				}
+				finally {
+					UiTheme.SetFontForTest(null);
 				}
 			});
 		}

@@ -56,6 +56,11 @@ namespace OpenPmsDental {
 		public SheetEditMobileCtrl() {
 			InitializeComponent();
 			Font=LayoutManagerForms.FontInitial;
+			//UI-2b: the previews of the mobile layout are sheet design content: they keep the font they drew with before the flip (Microsoft
+			//Sans Serif 8.25, the body font then), while the editor's own label, check box and buttons follow the body font. The mark keeps the
+			//font mapping away from them if a LayoutManager ever hosts this control (the editor floats in a plain Form today).
+			panelPreview.Font=UiTheme.NewFontPinned();
+			LayoutManagerForms.MarkContent(panelPreview);
 			Name="sheetEditMobileCtrl";
 		}
 		#endregion Constructor

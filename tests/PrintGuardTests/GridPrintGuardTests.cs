@@ -112,8 +112,14 @@ namespace PrintGuardTests {
 			string fontsToday=null;
 			string fontsUi2b=null;
 			StaRunner.Run(() => {
-				using(GridOD grid=new GridOD()) {
-					fontsToday=DescribeFonts(grid);
+				UiTheme.SetFontForTest(UiFontOption.Today);
+				try {
+					using(GridOD grid=new GridOD()) {
+						fontsToday=DescribeFonts(grid);
+					}
+				}
+				finally {
+					UiTheme.SetFontForTest(null);
 				}
 				UiTheme.SetFontForTest(UiFontOption.UI2b);
 				try {

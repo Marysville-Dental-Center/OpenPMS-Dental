@@ -49,7 +49,7 @@ namespace OpenPmsDental.Reporting.Allocators.MyAllocator1
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label1.ForeColor = System.Drawing.Color.Maroon;
 			this.label1.Location = new System.Drawing.Point(9, 23);
 			this.label1.Name = "label1";
@@ -84,7 +84,7 @@ namespace OpenPmsDental.Reporting.Allocators.MyAllocator1
 			this.button4.BackColor = System.Drawing.Color.Maroon;
 			this.button4.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.button4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.button4.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.button4.ForeColor = System.Drawing.Color.White;
 			this.button4.Location = new System.Drawing.Point(0, 0);
 			this.button4.Name = "button4";
@@ -98,7 +98,7 @@ namespace OpenPmsDental.Reporting.Allocators.MyAllocator1
 			this.butProviderIncomeReport.BackColor = System.Drawing.Color.White;
 			this.butProviderIncomeReport.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.butProviderIncomeReport.Enabled = false;
-			this.butProviderIncomeReport.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.butProviderIncomeReport.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.butProviderIncomeReport.ForeColor = System.Drawing.Color.Maroon;
 			this.butProviderIncomeReport.Location = new System.Drawing.Point(0, 23);
 			this.butProviderIncomeReport.Name = "butProviderIncomeReport";
@@ -112,7 +112,7 @@ namespace OpenPmsDental.Reporting.Allocators.MyAllocator1
 			// 
 			this.butGuarnDetailReport.BackColor = System.Drawing.Color.White;
 			this.butGuarnDetailReport.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.butGuarnDetailReport.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.butGuarnDetailReport.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.butGuarnDetailReport.ForeColor = System.Drawing.Color.Maroon;
 			this.butGuarnDetailReport.Location = new System.Drawing.Point(0, 46);
 			this.butGuarnDetailReport.Name = "butGuarnDetailReport";
@@ -126,7 +126,7 @@ namespace OpenPmsDental.Reporting.Allocators.MyAllocator1
 			// 
 			this.butUneardedIncomeReport.BackColor = System.Drawing.Color.White;
 			this.butUneardedIncomeReport.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.butUneardedIncomeReport.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.butUneardedIncomeReport.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.butUneardedIncomeReport.ForeColor = System.Drawing.Color.Maroon;
 			this.butUneardedIncomeReport.Location = new System.Drawing.Point(0, 69);
 			this.butUneardedIncomeReport.Name = "butUneardedIncomeReport";
@@ -139,7 +139,7 @@ namespace OpenPmsDental.Reporting.Allocators.MyAllocator1
 			// butRunAllocatorTool
 			// 
 			this.butRunAllocatorTool.Enabled = false;
-			this.butRunAllocatorTool.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.butRunAllocatorTool.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.butRunAllocatorTool.ForeColor = System.Drawing.Color.Maroon;
 			this.butRunAllocatorTool.Location = new System.Drawing.Point(252, 239);
 			this.butRunAllocatorTool.Name = "butRunAllocatorTool";
@@ -184,7 +184,7 @@ namespace OpenPmsDental.Reporting.Allocators.MyAllocator1
 			// lblAllocatorStatus
 			// 
 			this.lblAllocatorStatus.AutoSize = true;
-			this.lblAllocatorStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.lblAllocatorStatus.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.lblAllocatorStatus.ForeColor = System.Drawing.Color.Maroon;
 			this.lblAllocatorStatus.Location = new System.Drawing.Point(253, 269);
 			this.lblAllocatorStatus.Name = "lblAllocatorStatus";

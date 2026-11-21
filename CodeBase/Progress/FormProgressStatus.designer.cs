@@ -104,7 +104,7 @@ namespace CodeBase {
 			// labelMinimize
 			// 
 			this.labelMinimize.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.labelMinimize.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.labelMinimize.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.labelMinimize.Location = new System.Drawing.Point(0, 0);
 			this.labelMinimize.Name = "labelMinimize";
 			this.labelMinimize.Size = new System.Drawing.Size(22, 22);

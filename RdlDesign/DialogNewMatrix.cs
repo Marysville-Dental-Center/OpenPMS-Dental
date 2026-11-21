@@ -245,7 +245,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.label3.Location = new System.Drawing.Point(224, 56);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(184, 23);
+			this.label3.Size = new System.Drawing.Size(193, 23);
 			this.label3.TabIndex = 14;
 			this.label3.Text = "Matrix Columns (check to subtotal)";
 			// 
@@ -268,7 +268,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.bColumnUp.Location = new System.Drawing.Point(392, 80);
 			this.bColumnUp.Name = "bColumnUp";
-			this.bColumnUp.Size = new System.Drawing.Size(48, 24);
+			this.bColumnUp.Size = new System.Drawing.Size(48, 28);
 			this.bColumnUp.TabIndex = 4;
 			this.bColumnUp.Text = "Up";
 			this.bColumnUp.Click += new System.EventHandler(this.bColumnUp_Click);
@@ -277,7 +277,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.bColumnDown.Location = new System.Drawing.Point(392, 112);
 			this.bColumnDown.Name = "bColumnDown";
-			this.bColumnDown.Size = new System.Drawing.Size(48, 24);
+			this.bColumnDown.Size = new System.Drawing.Size(48, 28);
 			this.bColumnDown.TabIndex = 5;
 			this.bColumnDown.Text = "Down";
 			this.bColumnDown.Click += new System.EventHandler(this.bColumnDown_Click);
@@ -286,7 +286,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.bColumn.Location = new System.Drawing.Point(184, 88);
 			this.bColumn.Name = "bColumn";
-			this.bColumn.Size = new System.Drawing.Size(32, 24);
+			this.bColumn.Size = new System.Drawing.Size(32, 28);
 			this.bColumn.TabIndex = 2;
 			this.bColumn.Text = ">";
 			this.bColumn.Click += new System.EventHandler(this.bColumn_Click);
@@ -295,7 +295,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.bRowSelect.Location = new System.Drawing.Point(184, 216);
 			this.bRowSelect.Name = "bRowSelect";
-			this.bRowSelect.Size = new System.Drawing.Size(32, 24);
+			this.bRowSelect.Size = new System.Drawing.Size(32, 28);
 			this.bRowSelect.TabIndex = 7;
 			this.bRowSelect.Text = ">";
 			this.bRowSelect.Click += new System.EventHandler(this.bRow_Click);
@@ -311,7 +311,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.bColumnDelete.Location = new System.Drawing.Point(392, 144);
 			this.bColumnDelete.Name = "bColumnDelete";
-			this.bColumnDelete.Size = new System.Drawing.Size(48, 24);
+			this.bColumnDelete.Size = new System.Drawing.Size(50, 28);
 			this.bColumnDelete.TabIndex = 6;
 			this.bColumnDelete.Text = "Delete";
 			this.bColumnDelete.Click += new System.EventHandler(this.bColumnDelete_Click);
@@ -320,7 +320,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.bRowDelete.Location = new System.Drawing.Point(392, 272);
 			this.bRowDelete.Name = "bRowDelete";
-			this.bRowDelete.Size = new System.Drawing.Size(48, 24);
+			this.bRowDelete.Size = new System.Drawing.Size(50, 28);
 			this.bRowDelete.TabIndex = 11;
 			this.bRowDelete.Text = "Delete";
 			this.bRowDelete.Click += new System.EventHandler(this.bRowDelete_Click);
@@ -329,7 +329,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.bRowDown.Location = new System.Drawing.Point(392, 240);
 			this.bRowDown.Name = "bRowDown";
-			this.bRowDown.Size = new System.Drawing.Size(48, 24);
+			this.bRowDown.Size = new System.Drawing.Size(48, 28);
 			this.bRowDown.TabIndex = 10;
 			this.bRowDown.Text = "Down";
 			this.bRowDown.Click += new System.EventHandler(this.bRowDown_Click);
@@ -338,7 +338,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.bRowUp.Location = new System.Drawing.Point(392, 208);
 			this.bRowUp.Name = "bRowUp";
-			this.bRowUp.Size = new System.Drawing.Size(48, 24);
+			this.bRowUp.Size = new System.Drawing.Size(48, 28);
 			this.bRowUp.TabIndex = 9;
 			this.bRowUp.Text = "Up";
 			this.bRowUp.Click += new System.EventHandler(this.bRowUp_Click);
@@ -355,7 +355,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.label5.Location = new System.Drawing.Point(16, 320);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(120, 23);
+			this.label5.Size = new System.Drawing.Size(121, 23);
 			this.label5.TabIndex = 32;
 			this.label5.Text = "Matrix Cell Expression";
 			// 

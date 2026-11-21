@@ -126,7 +126,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.label2.Location = new System.Drawing.Point(24, 16);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(80, 23);
+			this.label2.Size = new System.Drawing.Size(82, 23);
 			this.label2.TabIndex = 0;
 			this.label2.Text = "DataSet Name";
 			// 
@@ -216,7 +216,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.label3.Location = new System.Drawing.Point(16, 48);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(112, 16);
+			this.label3.Size = new System.Drawing.Size(113, 16);
 			this.label3.TabIndex = 1;
 			this.label3.Text = "Data Instance Name";
 			// 

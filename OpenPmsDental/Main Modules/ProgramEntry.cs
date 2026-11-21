@@ -21,11 +21,11 @@ namespace OpenPmsDental {
 			//The stylesheet child of EhrStylesheetStarter (docs/port-notes/EHR-3.md): first, with no window, database, ODInitialize or Application call.
 			if(args.Length==2 && args[0]=="/ehr-render") { Environment.Exit(EhrRenderChild.Run(args[1])); }
 			//Then, before anything creates a window (S3b-4 of docs/specs/net10-plan.md; before the splash screen and the NoDpi handling below):
-			//the .NET Framework's default font, which about 72 plain forms rely on (.NET's is Segoe UI 9; SetDefaultFont throws once a window
+			//the body font (UiTheme.FontBody, Segoe UI 9 since UI-2b), which about 72 plain forms take (SetDefaultFont throws once a window
 			//exists, and it applies the Windows text scale factor, decision 9), then per-monitor DPI awareness, which the .NET Framework build read
 			//from its app.config (.NET does not read that section). Dpi.SetUnaware below still makes the thread DPI unaware where asked.
 			//ODInitialize.Initialize registers the code pages.
-			Application.SetDefaultFont(new System.Drawing.Font("Microsoft Sans Serif",8.25f));
+			Application.SetDefaultFont(new System.Drawing.Font("Segoe UI",9f));
 			Application.SetHighDpiMode(HighDpiMode.PerMonitorV2);
 			System.Windows.Media.RenderOptions.ProcessRenderMode=System.Windows.Interop.RenderMode.SoftwareOnly;
 			//The UI refresh's token renderer (UI-6, docs/specs/ui-refresh-plan.md section 3.6) for every stock menu and tool strip of this thread

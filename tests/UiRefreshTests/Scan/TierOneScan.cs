@@ -45,6 +45,9 @@ namespace UiRefreshTests.Scan {
 		///<summary>False (the default from UI-2a-1 on): a font option is put through the token override UiTheme.SetFontForTest before each window
 		///is built (section 5.4). True: UI-0b's test-side font swap after the build, as before UI-2a-1, for comparing with UI-0b's counts.</summary>
 		public bool IsFontSwap;
+		///<summary>From UI-2b on: a font option whose token values are the program's own (UiTheme.FontOptionProgram, Segoe UI 9 since the flip) runs
+		///with no token override at all (UiTheme.SetFontForTest(null)), the font path the program ships with. False: through the override.</summary>
+		public bool IsProgramFont;
 	}
 
 	///<summary>Why a type was not scanned.</summary>
@@ -194,21 +197,21 @@ namespace UiRefreshTests.Scan {
 			scanTypeResult.CountMeasured=listBefore[0].DictResults.Count;
 			boundsRecordFiles.Write("before",listBefore[0].ListRows);
 			foreach(TextFitFontOption fontOption in scanOptions.ListFontOptions) {
-				CompareRun(scanType,fontOption.Name,fontOption,1f,arrayScales,listBefore,scanReport,setFitFixes,boundsRecordFiles,scanOptions.IsFontSwap);
+				CompareRun(scanType,fontOption.Name,fontOption,1f,arrayScales,listBefore,scanReport,setFitFixes,boundsRecordFiles,scanOptions.IsFontSwap,scanOptions.IsProgramFont);
 			}
 			bool takesDefaultFont=scanType.Kind==BuildKind.PlainWindow || scanType.Kind==BuildKind.UserControlPlain;
 			if(scanOptions.IsTextScaleRun && takesDefaultFont) {
 				CompareRun(scanType,TextFitFontOption.Today.Name+RUN_TEXT_SCALE_SUFFIX,TextFitFontOption.Today,scanOptions.TextScale,new float[] { 1f },
-					listBefore,scanReport,setFitFixes,boundsRecordFiles,scanOptions.IsFontSwap);
+					listBefore,scanReport,setFitFixes,boundsRecordFiles,scanOptions.IsFontSwap,scanOptions.IsProgramFont);
 				foreach(TextFitFontOption fontOption in scanOptions.ListFontOptions.Where(x => !x.IsToday)) {
 					CompareRun(scanType,fontOption.Name+RUN_TEXT_SCALE_SUFFIX,fontOption,scanOptions.TextScale,new float[] { 1f },listBefore,scanReport,
-						setFitFixes,boundsRecordFiles,scanOptions.IsFontSwap);
+						setFitFixes,boundsRecordFiles,scanOptions.IsFontSwap,scanOptions.IsProgramFont);
 				}
 			}
 		}
 
 		private static void CompareRun(ScanType scanType,string run,TextFitFontOption fontOption,float textScale,float[] arrayScales,
-			List<ScanSnapshot> listBefore,ScanReport scanReport,HashSet<string> setFitFixes,BoundsRecordFiles boundsRecordFiles,bool isFontSwap)
+			List<ScanSnapshot> listBefore,ScanReport scanReport,HashSet<string> setFitFixes,BoundsRecordFiles boundsRecordFiles,bool isFontSwap,bool isProgramFont)
 		{
 			List<ScanSnapshot> listAfter;
 			try {
@@ -216,7 +219,8 @@ namespace UiRefreshTests.Scan {
 					listAfter=BuildAndSnapshot(scanType,fontOption,textScale,fontOption.IsToday ? null : fontOption,arrayScales);
 				}
 				else {
-					listAfter=BuildAndSnapshot(scanType,fontOption,textScale,null,arrayScales,GetUiFontOption(fontOption));
+					UiFontOption uiFontOption=GetUiFontOption(fontOption);
+					listAfter=BuildAndSnapshot(scanType,fontOption,textScale,null,arrayScales,uiFontOption,isProgramFont && uiFontOption==UiTheme.FontOptionProgram);
 				}
 			}
 			catch(Exception exception) {
@@ -326,14 +330,15 @@ namespace UiRefreshTests.Scan {
 
 		///<summary>Builds the type with the default font of fontOption (times textScale), swaps its fonts to fontSwap when given, and snapshots it
 		///at each scale. With uiFontOptionOverride the tokens hold its values while the window is built and measured (UiTheme.SetFontForTest), and
-		///today's again afterwards.</summary>
+		///the program's again afterwards (UiTheme.SetFontForTest(null)). Without it the tokens hold today's (UiFontOption.Today: the before set and
+		///today's run, also since the flip); isProgramFont runs with no override at all, the program's own tokens.</summary>
 		public static List<ScanSnapshot> BuildAndSnapshot(ScanType scanType,TextFitFontOption fontOption,float textScale,TextFitFontOption fontSwap,
-			float[] arrayScales,UiFontOption uiFontOptionOverride=null)
+			float[] arrayScales,UiFontOption uiFontOptionOverride=null,bool isProgramFont=false)
 		{
 			DefaultFontOverride.Set(fontOption,textScale);
 			StaRunner.TakeExceptionInCallback();
 			List<ScanSnapshot> listSnapshots=new List<ScanSnapshot>();
-			UiTheme.SetFontForTest(uiFontOptionOverride);
+			UiTheme.SetFontForTest(isProgramFont ? null : (uiFontOptionOverride??UiFontOption.Today));
 			try {
 				BuildAndSnapshotInto(scanType,fontSwap,arrayScales,listSnapshots);
 			}

@@ -218,7 +218,11 @@ namespace OpenPmsDental.UI {
 			if(IsDigitalSignature()) {
 				StringFormat stringFormat = StringFormat.GenericDefault;
 				stringFormat.Alignment=StringAlignment.Center;
-				g.DrawString(_strDigitalSig,Font,Brushes.Black,Width/2,Height/2,stringFormat);
+				//UI-2b: the signature picture is a document (sheets print and save it, the treatment plan and the PayConnect receipt keep it): its
+				//text keeps the font it drew with before the flip, Microsoft Sans Serif at the box's zoom. The screen (OnPaint) follows the window.
+				using(Font fontSig=UiTheme.NewFontPinned(Font)) {
+					g.DrawString(_strDigitalSig,fontSig,Brushes.Black,Width/2,Height/2,stringFormat);
+				}
 				stringFormat?.Dispose();
 			}
 			else {

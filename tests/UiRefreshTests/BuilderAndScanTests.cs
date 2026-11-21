@@ -4,7 +4,8 @@
 // The full scan with the font options (Segoe UI 9 and 8.25), every scale and the text-scale run is opt-in (OPMS_UI_SCAN=1, files in
 // OPMS_UI_SCAN_OUT): it writes the counts of docs/port-notes/UI-0b.md. From UI-2a-1 on it puts the options through the token override
 // UiTheme.SetFontForTest (the product's own font path, section 5.4; docs/port-notes/UI-2a.md has its counts); OPMS_UI_SCAN_SWAP=1 runs UI-0b's
-// test-side font swap instead, for comparing. No database, no window shown.
+// test-side font swap instead, for comparing. From UI-2b on Segoe UI 9 is the program's own font, so the scan runs it
+// with no override at all (ScanOptions.IsProgramFont); OPMS_UI_SCAN_OVERRIDE=1 puts it through the override as before. No database, no window shown.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
@@ -25,6 +26,7 @@ namespace UiRefreshTests {
 		public const string VARIABLE_SCAN="OPMS_UI_SCAN";
 		public const string VARIABLE_SCAN_OUT="OPMS_UI_SCAN_OUT";
 		public const string VARIABLE_SCAN_SWAP="OPMS_UI_SCAN_SWAP";
+		public const string VARIABLE_SCAN_OVERRIDE="OPMS_UI_SCAN_OVERRIDE";
 		///<summary>The five FormODBase windows whose constructor never calls InitializeLayoutManager on main (section 5.1).</summary>
 		private static readonly string[] _arrayWindowsWithoutLayoutManager=new string[] { "FormProgressViewer","FormInstallAllocator_Provider",
 			"FormReport_GuarantorAllocationCheck","FormReport_ProviderIncomeReport","FormWarnToCloseComputers" };
@@ -143,6 +145,8 @@ namespace UiRefreshTests {
 			scanOptions.ArrayScales=new float[] { 1f,1.2f,1.25f,1.5f,1.75f,2f };
 			scanOptions.IsTextScaleRun=true;
 			scanOptions.IsFontSwap=BuildOutput.IsRequiredValue(Environment.GetEnvironmentVariable(VARIABLE_SCAN_SWAP));
+			//UI-2b: Segoe UI 9 is the program's font, so it runs without the override (the product as it ships), unless asked.
+			scanOptions.IsProgramFont=!scanOptions.IsFontSwap && !BuildOutput.IsRequiredValue(Environment.GetEnvironmentVariable(VARIABLE_SCAN_OVERRIDE));
 			scanOptions.FolderOut=GetFolderOut(scanOptions.IsFontSwap ? "options-swap" : "options");
 			ScanReport scanReport=TierOneScan.Run(scanOptions);
 			Assert.IsTrue(File.Exists(Path.Combine(scanOptions.FolderOut,"summary.txt")));

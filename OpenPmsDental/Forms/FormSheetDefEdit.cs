@@ -3367,8 +3367,11 @@ namespace OpenPmsDental {
 					controlIns=new DashFamilyInsurance();
 					break;
 				default:
-					g.DrawString("("+sheetFieldDef.FieldName+")",Font,solidBrush,sheetFieldDef.XPos
-						,sheetFieldDef.YPos);
+					//UI-2b: the sheet design canvas is a document: its label keeps the font it drew with before the flip (the window's font then).
+					using(Font fontLabel=UiTheme.NewFontPinned()) {
+						g.DrawString("("+sheetFieldDef.FieldName+")",fontLabel,solidBrush,sheetFieldDef.XPos
+							,sheetFieldDef.YPos);
+					}
 					//draw rectangle on top of special so that user can see how big the field actually is.
 					g.DrawRectangle(pen,sheetFieldDef.XPos,sheetFieldDef.YPos,sheetFieldDef.Width
 						,sheetFieldDef.Height);
@@ -3671,7 +3674,10 @@ namespace OpenPmsDental {
 					DrawInserterBarcode(sheetFieldDef,g);
 					break;
 				default:
-					g.DrawString("(Special:Tooth Grid)",Font,solidBrush,sheetFieldDef.XPos,sheetFieldDef.YPos);
+					//UI-2b: the sheet design canvas is a document: its label keeps the font it drew with before the flip (the window's font then).
+					using(Font fontLabel=UiTheme.NewFontPinned()) {
+						g.DrawString("(Special:Tooth Grid)",fontLabel,solidBrush,sheetFieldDef.XPos,sheetFieldDef.YPos);
+					}
 					break;
 			} //end switch
 			//draw rectangle on top of special so that user can see how big the field actually is.

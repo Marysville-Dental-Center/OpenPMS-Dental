@@ -306,6 +306,9 @@ namespace OpenPmsDentalGraph {
 				LegendDock=LegendDockType.Bottom,
 				BorderStyle=BorderStyle.Fixed3D,
 				Dock=DockStyle.None,
+				//UI-2b: the copy is printed and exported as PDF (FormPrintSettings.MakePage): it keeps the font it drew with before the flip (the exe's
+				//default font then), Microsoft Sans Serif 8.25. The legend on screen follows its window.
+				Font=UiTheme.NewFontPinned(),
 			};
 			retVal.SetLegendItems(_legendItems);
 			retVal.tableLayoutPanel1.ColumnStyles[0].SizeType=SizeType.Absolute;

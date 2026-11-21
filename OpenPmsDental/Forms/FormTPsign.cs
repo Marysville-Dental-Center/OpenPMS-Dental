@@ -258,6 +258,9 @@ namespace OpenPmsDental{
 		}
 
 		private void FormReport_Layout(object sender, System.Windows.Forms.LayoutEventArgs e) {
+			if(LayoutManager==null) {
+				return;//UI-2b: InitializeLayoutManager maps the designer fonts to Segoe UI, which lays the window out before LayoutManager is set
+			}
 			LayoutManager.MoveWidth(previewContr,ClientSize.Width);
 			LayoutManager.MoveHeight(previewContr,ClientSize.Height-panelSig.Height-ToolBarMain.Height);
 		}

@@ -100,7 +100,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.label1.Location = new System.Drawing.Point(8, 16);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(440, 32);
+			this.label1.Size = new System.Drawing.Size(440, 40);
 			this.label1.TabIndex = 0;
 			this.label1.Text = "Enter (twice) a pass phrase used to encrypt the data source reference file.   You" +
 				" should use the same password you\'ve used to create previous files, as only one " +
@@ -163,7 +163,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.label4.Location = new System.Drawing.Point(8, 192);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(100, 16);
+			this.label4.Size = new System.Drawing.Size(102, 16);
 			this.label4.TabIndex = 10;
 			this.label4.Text = "Connection string";
 			// 
@@ -181,7 +181,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.ckbIntSecurity.Location = new System.Drawing.Point(296, 184);
 			this.ckbIntSecurity.Name = "ckbIntSecurity";
-			this.ckbIntSecurity.Size = new System.Drawing.Size(144, 24);
+			this.ckbIntSecurity.Size = new System.Drawing.Size(149, 24);
 			this.ckbIntSecurity.TabIndex = 6;
 			this.ckbIntSecurity.Text = "Use integrated security";
 			// 

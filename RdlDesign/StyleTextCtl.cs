@@ -318,7 +318,7 @@ namespace fyiReporting.RdlDesign
             // 
             this.label6.Location = new System.Drawing.Point(16, 168);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(56, 16);
+            this.label6.Size = new System.Drawing.Size(63, 16);
             this.label6.TabIndex = 5;
             this.label6.Text = "Alignment";
             // 
@@ -342,7 +342,7 @@ namespace fyiReporting.RdlDesign
             // 
             this.lFont.Location = new System.Drawing.Point(16, 16);
             this.lFont.Name = "lFont";
-            this.lFont.Size = new System.Drawing.Size(40, 16);
+            this.lFont.Size = new System.Drawing.Size(42, 16);
             this.lFont.TabIndex = 8;
             this.lFont.Text = "Family";
             // 

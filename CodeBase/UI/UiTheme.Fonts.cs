@@ -1,19 +1,21 @@
 // The font role tokens of the UI refresh (docs/specs/ui-refresh-plan.md, sections 3.4 and 5.1; package UI-2a-1, docs/port-notes/UI-2a.md).
 // Every screen font the program sets goes through the token of its role: FontBody, FontGrid (and its bold and underline styles),
 // FontButtonPanel, FontTitle, FontModuleCaption, and FontFamilyName for the window titles, whose size the frame computes. Until the flip
-// (UI-2b) each token holds exactly today's font, so routing a site through its token changes nothing on screen; UI-2b sets them to the values
-// of UiFontOption.UI2b. MapFont is the rule of 3.4 that LayoutManagerForms applies to the designer fonts it records: the identity while
-// FontBody is Microsoft Sans Serif.
-// The test-only override SetFontForTest sets every token to an option's values (section 5.4: the scan, the galleries and the bounds compare
-// run the product's own font path in a font option). It refuses outside a test process.
+// (UI-2b) each token held exactly today's font (UiFontOption.Today), so routing a site through its token changed nothing on screen; since the
+// flip (UI-2b, docs/port-notes/UI-2b.md) they hold the values of UiFontOption.UI2b, the program's fonts. MapFont is the rule of 3.4 that
+// LayoutManagerForms applies to the designer fonts it records: the identity while FontBody is Microsoft Sans Serif (only with the test
+// override set to Today since the flip).
+// The test-only override SetFontForTest sets every token to an option's values (section 5.4: the scan, the galleries, the print guard and the
+// bounds compare run the product's own font path in a font option, Today among them for the before set). It refuses outside a test process.
 // System.Drawing only, C# 7.3: RdlDesign can compile this file in as a linked file (section 3.6); a NoHq test checks it.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Drawing;
 
 namespace CodeBase {
-	///<summary>A set of values for the font role tokens (section 3.4): Today (what the program shows until UI-2b), UI2b (the values the flip
-	///sets, the owner's UQ-1 and UQ-2 answers of 2026-11-17), or Compact (UQ-1's other option, kept for the galleries). Immutable.</summary>
+	///<summary>A set of values for the font role tokens (section 3.4): Today (what the program showed until UI-2b; the before set of the scan,
+	///the galleries and the print guard), UI2b (the program's fonts since the flip, the owner's UQ-1 and UQ-2 answers of 2026-11-17), or Compact
+	///(UQ-1's other option, kept for the galleries). Immutable.</summary>
 	public sealed class UiFontOption {
 		///<summary>Short name for files and reports: today, segoe9, segoe825.</summary>
 		public readonly string Name;
@@ -56,13 +58,13 @@ namespace CodeBase {
 		}
 
 		///<summary>Today's fonts (section 3.4, "Today"): Microsoft Sans Serif 8.25 (body); sans serif 8.5 (grid, button panel); sans serif 10 Bold
-		///(titles); Arial 8 (module captions); Microsoft Sans Serif (window titles). "sans serif" is FontFamily.GenericSansSerif, as the sites use it
-		///today. The program holds these until UI-2b.</summary>
+		///(titles); Arial 8 (module captions); Microsoft Sans Serif (window titles). "sans serif" is FontFamily.GenericSansSerif, as the sites used
+		///it. The program held these until UI-2b; since the flip only a test sets them (the before set).</summary>
 		public static readonly UiFontOption Today=new UiFontOption("today",UiTheme.FONT_FAMILY_TODAY,8.25f,
 			FontFamily.GenericSansSerif.Name,8.5f,FontFamily.GenericSansSerif.Name,8.5f,
 			FontFamily.GenericSansSerif.Name,10f,FontStyle.Bold,"Arial",8f,UiTheme.FONT_FAMILY_TODAY);
-		///<summary>The values UI-2b sets (section 3.4's table): Segoe UI 9 (body, UQ-1; grid and button panel at the body size, UQ-2); Segoe UI
-		///Semibold 10 (titles); Segoe UI 8 (module captions); Segoe UI (window titles).</summary>
+		///<summary>The program's fonts since the flip (UI-2b, section 3.4's table): Segoe UI 9 (body, UQ-1; grid and button panel at the body
+		///size, UQ-2); Segoe UI Semibold 10 (titles); Segoe UI 8 (module captions); Segoe UI (window titles).</summary>
 		public static readonly UiFontOption UI2b=new UiFontOption("segoe9",UiTheme.FONT_FAMILY,UiTheme.FONT_SIZE_BODY,
 			UiTheme.FONT_FAMILY,UiTheme.FONT_SIZE_BODY,UiTheme.FONT_FAMILY,UiTheme.FONT_SIZE_BODY,
 			UiTheme.FONT_FAMILY_SEMIBOLD,UiTheme.FONT_SIZE_TITLE,FontStyle.Regular,UiTheme.FONT_FAMILY,UiTheme.FONT_SIZE_MODULE_CAPTION,UiTheme.FONT_FAMILY);
@@ -102,12 +104,17 @@ namespace CodeBase {
 			}
 		}
 
-		///<summary>The current token fonts: today's, unless a test set an option. Never disposed: windows and controls hold them (a replaced set is
-		///left to the garbage collector).</summary>
-		private static volatile FontSet _fontSet=new FontSet(UiFontOption.Today);
+		///<summary>The program's font option: UI2b since the flip (UI-2b). SetFontForTest(null) gives it back.</summary>
+		public static UiFontOption FontOptionProgram {
+			get { return UiFontOption.UI2b; }
+		}
+
+		///<summary>The current token fonts: the program's (FontOptionProgram), unless a test set an option. Never disposed: windows and controls
+		///hold them (a replaced set is left to the garbage collector).</summary>
+		private static volatile FontSet _fontSet=new FontSet(FontOptionProgram);
 
 		#region Font tokens (section 3.4)
-		///<summary>The option the tokens hold: UiFontOption.Today in the program until UI-2b.</summary>
+		///<summary>The option the tokens hold: FontOptionProgram (UiFontOption.UI2b since the flip) in the program, unless a test set another.</summary>
 		public static UiFontOption FontOption {
 			get { return _fontSet.Option; }
 		}
@@ -162,8 +169,8 @@ namespace CodeBase {
 		#endregion Font tokens (section 3.4)
 
 		#region The mapping (sections 3.4 and 5.1)
-		///<summary>True while the mapping changes nothing: FontBody's family is still today's (Microsoft Sans Serif), as in the program until
-		///UI-2b.</summary>
+		///<summary>True while the mapping changes nothing: FontBody's family is today's (Microsoft Sans Serif): in the program until
+		///UI-2b, since then only with the test override set to UiFontOption.Today.</summary>
 		public static bool IsFontMappingIdentity {
 			get { return string.Equals(_fontSet.Option.FamilyBody,FONT_FAMILY_TODAY,StringComparison.OrdinalIgnoreCase); }
 		}
@@ -194,7 +201,7 @@ namespace CodeBase {
 
 		///<summary>The mapping of section 5.1, by the rule of 3.4: a Microsoft Sans Serif font becomes FontBody's family, at FontBody's size for
 		///8, 8.25 and 8.5 pt and at its own size otherwise, with its style kept in full (Bold, Italic, Underline, Strikeout). Returns the same
-		///instance when nothing changes: always while FontBody is Microsoft Sans Serif (until UI-2b), and for every other family. The caller owns a
+		///instance when nothing changes: always while FontBody is Microsoft Sans Serif (Today), and for every other family. The caller owns a
 		///new font it gets back.</summary>
 		public static Font MapFont(Font font) {
 			if(!IsFontMapped(font)) {
@@ -204,8 +211,33 @@ namespace CodeBase {
 		}
 		#endregion The mapping (sections 3.4 and 5.1)
 
+		#region The pins (UI-2b)
+		///<summary>The size of the body font before the flip (Microsoft Sans Serif 8.25, FONT_FAMILY_TODAY). A printout or office content that drew
+		///with the window's inherited font before UI-2b keeps this font (the UI-2b pins, docs/port-notes/UI-2b.md): plan 5.2, UQ-5.</summary>
+		public const float FONT_SIZE_PINNED=8.25f;
+
+		///<summary>A new Microsoft Sans Serif 8.25 Regular: the pinned font of a printout or office content that inherited the body font before
+		///UI-2b (a window's font that LayoutManager does not zoom, the exe's default font). Never a screen font. The caller owns it.</summary>
+		public static Font NewFontPinned() {
+			return new Font(FONT_FAMILY_TODAY,FONT_SIZE_PINNED);
+		}
+
+		///<summary>The pinned font (Microsoft Sans Serif) at the scale of an inherited font, in its style: a control's font is the body token at the
+		///window's zoom (LayoutManager scales it), so the pin keeps that zoom. Its size is fontInherited's size times 8.25 over FontBody's size:
+		///with today's tokens exactly fontInherited's size (8.25 at 100%, 9.9 at 120%); after the flip Segoe UI 9 at 120% (10.8) gives 9.9 again.
+		///The caller owns it.</summary>
+		public static Font NewFontPinned(Font fontInherited) {
+			float size=fontInherited.SizeInPoints;
+			float sizeBody=FontBody.SizeInPoints;
+			if(sizeBody!=FONT_SIZE_PINNED) {
+				size=size*FONT_SIZE_PINNED/sizeBody;
+			}
+			return new Font(FONT_FAMILY_TODAY,size,fontInherited.Style);
+		}
+		#endregion The pins (UI-2b)
+
 		#region The test override (section 5.4)
-		///<summary>Test only: sets every font token to the option's values (null: today's), so a test process runs the product's own font path in
+		///<summary>Test only: sets every font token to the option's values (null: the program's, FontOptionProgram), so a test process runs the product's own font path in
 		///a font option: FormODBase's and FormFrame's font, LayoutManagerForms.FontInitial, the mapping of the designer fonts and the code sites
 		///that go through the tokens. Set it before any window is built; windows built before keep the fonts they took. Refuses (throws) outside
 		///a test process, so the program can never change its fonts this way. The default font (Application.SetDefaultFont) is the test's own
@@ -214,7 +246,7 @@ namespace CodeBase {
 			if(!IsTestProcess()) {
 				throw new InvalidOperationException("UiTheme.SetFontForTest is for test processes only.");
 			}
-			_fontSet=new FontSet(fontOption??UiFontOption.Today);
+			_fontSet=new FontSet(fontOption??FontOptionProgram);
 		}
 
 		///<summary>True in a test process: one that has loaded the MSTest framework, or whose entry assembly is a test host or a test project's

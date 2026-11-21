@@ -103,6 +103,7 @@ namespace OpenPmsDental {
 			// 
 			// textUser2
 			// 
+			this.textUser2.AutoSize = false;
 			this.textUser2.Location = new System.Drawing.Point(13,108);
 			this.textUser2.Name = "textUser2";
 			this.textUser2.Size = new System.Drawing.Size(309,20);

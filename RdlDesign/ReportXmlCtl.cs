@@ -148,7 +148,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.label3.Location = new System.Drawing.Point(16, 112);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(104, 23);
+			this.label3.Size = new System.Drawing.Size(108, 23);
 			this.label3.TabIndex = 4;
 			this.label3.Text = "Top Element Name";
 			// 

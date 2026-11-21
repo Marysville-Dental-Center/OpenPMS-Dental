@@ -340,7 +340,7 @@ namespace OpenPmsDental{
 					_listMountItemDefs[i].Height*_ratio);
 				g.DrawRectangle(Pens.Blue,Rectangle.Round(rectangleFItem));
 				if(_listMountItemDefs[i].TextShowing.IsNullOrEmpty()){
-					using Font font2=new Font(Font.FontFamily,LayoutManager.ScaleFontODZoom(8.25f));
+					using Font font2=new Font(UiTheme.FontBody.FontFamily,LayoutManager.ScaleFontODZoom(UiTheme.FontBody.SizeInPoints));//the editor's own label: the body font (UI-2b)
 					s="#"+_listMountItemDefs[i].ItemOrder.ToString()
 						+"\r\nPos: "+_listMountItemDefs[i].Xpos.ToString()+", "+_listMountItemDefs[i].Ypos.ToString()
 						+"\r\nSize: "+_listMountItemDefs[i].Width.ToString()+" x "+_listMountItemDefs[i].Height.ToString()

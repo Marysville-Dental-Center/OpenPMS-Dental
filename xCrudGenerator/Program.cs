@@ -11,10 +11,10 @@ namespace xCrudGenerator {
 		/// </summary>
 		[STAThread]
 		static void Main(string[] args) {
-			//Before anything creates a window (S3b-4 of docs/specs/net10-plan.md): the .NET Framework's default font, which the forms were laid out
-			//with (.NET's is Segoe UI 9; SetDefaultFont throws once a window exists), then per-monitor DPI awareness, the program's mode (the
+			//Before anything creates a window (S3b-4 of docs/specs/net10-plan.md): the body font (UiTheme.FontBody, Segoe UI 9 since UI-2b,
+			//section 5.1 of docs/specs/ui-refresh-plan.md; SetDefaultFont throws once a window exists), then per-monitor DPI awareness, the program's mode (the
 			//.NET Framework build of the program set it in its app.config, which .NET does not read).
-			Application.SetDefaultFont(new System.Drawing.Font("Microsoft Sans Serif",8.25f));
+			Application.SetDefaultFont(new System.Drawing.Font("Segoe UI",9f));
 			Application.SetHighDpiMode(HighDpiMode.PerMonitorV2);
 			//The UI refresh's token renderer (UI-6, docs/specs/ui-refresh-plan.md section 3.6) for every stock menu and tool strip of this thread.
 			CodeBase.UiTheme.InitWinForms();

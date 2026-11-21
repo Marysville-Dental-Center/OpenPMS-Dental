@@ -63,7 +63,7 @@
 			// labelSourceDb
 			// 
 			this.labelSourceDb.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.labelSourceDb.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.labelSourceDb.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.labelSourceDb.Location = new System.Drawing.Point(12, 36);
 			this.labelSourceDb.Name = "labelSourceDb";
 			this.labelSourceDb.Size = new System.Drawing.Size(453, 12);

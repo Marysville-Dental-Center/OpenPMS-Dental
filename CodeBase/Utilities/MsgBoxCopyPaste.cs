@@ -64,7 +64,7 @@ namespace CodeBase{
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butOK.Location = new System.Drawing.Point(615,606);
 			this.butOK.Name = "butOK";
-			this.butOK.Size = new System.Drawing.Size(75,26);
+			this.butOK.Size = new System.Drawing.Size(75,28);
 			this.butOK.TabIndex = 1;
 			this.butOK.Text = "&OK";
 			this.butOK.Click += new System.EventHandler(this.butOK_Click);
@@ -101,7 +101,7 @@ namespace CodeBase{
 			this.butCopyAll.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butCopyAll.Location = new System.Drawing.Point(126,606);
 			this.butCopyAll.Name = "butCopyAll";
-			this.butCopyAll.Size = new System.Drawing.Size(79,26);
+			this.butCopyAll.Size = new System.Drawing.Size(79,28);
 			this.butCopyAll.TabIndex = 4;
 			this.butCopyAll.Text = "Copy All";
 			this.butCopyAll.Click += new System.EventHandler(this.butCopyAll_Click);
@@ -158,24 +158,26 @@ namespace CodeBase{
 			//Messages may span multiple pages. We print the header on each page as well as the page number.
 			float baseY=margins.Top;
 			string text="Page "+(pageToPrint+1);
-			Font font=Font;
+			//UI-2b: the printout keeps the fonts it drew with before the flip (the window's Microsoft Sans Serif 8.25 then), not the body font.
+			Font fontPinned=UiTheme.NewFontPinned();
+			Font font=fontPinned;
 			SizeF textSize=g.MeasureString(text,font);
 			g.DrawString(text,font,Brushes.Black,margins.Right-textSize.Width,baseY);
 			baseY+=textSize.Height;
 			text=Text;
-			font=new Font(Font.FontFamily,16,FontStyle.Bold);
+			font=new Font(UiTheme.FONT_FAMILY_TODAY,16,FontStyle.Bold);
 			textSize=g.MeasureString(text,font);
 			g.DrawString(text,font,Brushes.Black,(margins.Width-textSize.Width)/2,baseY);
 			baseY+=textSize.Height;
 			font.Dispose();
-			font=new Font(Font.FontFamily,14,FontStyle.Bold);
+			font=new Font(UiTheme.FONT_FAMILY_TODAY,14,FontStyle.Bold);
 			text=DateTime.Now.ToString();
 			textSize=g.MeasureString(text,font);
 			g.DrawString(text,font,Brushes.Black,(margins.Width-textSize.Width)/2,baseY);
 			baseY+=textSize.Height;
 			font.Dispose();
 			string[] messageLines=textMain.Text.Split(new string[] {Environment.NewLine},StringSplitOptions.None);
-			font=Font;
+			font=fontPinned;
 			bool isLastPage=false;
 			float y=0;
 			for(int curPage=0,msgLine=0;curPage<=pageToPrint;curPage++){
@@ -203,6 +205,7 @@ namespace CodeBase{
 					msgLine++;
 				}
 			}
+			fontPinned.Dispose();
 			return isLastPage;
 		}
 

@@ -98,11 +98,17 @@ namespace UiRefreshTests {
 		public void WinForms_GridOD_TodaysFont_EveryState_InTheTokens() {
 			List<string> listFailures=new List<string>();
 			IconRendererTests.RunSta(() => {
-				foreach(bool hasFocus in new[] { true,false }) {
-					using(Bitmap bitmap=RenderGridOD(hasFocus,isFocusedRowShown:hasFocus,1f,out Size sizeBefore,out Size sizeAfter)) {
-						Assert.AreEqual(sizeBefore,sizeAfter,"The grid's bounds changed.");
-						CheckWinForms(listFailures,"GridOD "+(hasFocus ? "with focus" : "without focus"),bitmap,hasFocus,hasFocus,18,15,14,isHover:true);
+				UiTheme.SetFontForTest(UiFontOption.Today);//today's heights (18, 15, 14); the program's since the flip are UI-2b's, the next test
+				try {
+					foreach(bool hasFocus in new[] { true,false }) {
+						using(Bitmap bitmap=RenderGridOD(hasFocus,isFocusedRowShown:hasFocus,1f,out Size sizeBefore,out Size sizeAfter)) {
+							Assert.AreEqual(sizeBefore,sizeAfter,"The grid's bounds changed.");
+							CheckWinForms(listFailures,"GridOD "+(hasFocus ? "with focus" : "without focus"),bitmap,hasFocus,hasFocus,18,15,14,isHover:true);
+						}
 					}
+				}
+				finally {
+					UiTheme.SetFontForTest(null);
 				}
 			});
 			AssertNoFailures(listFailures);
@@ -135,7 +141,7 @@ namespace UiRefreshTests {
 					grid.ColorSelectedRow=Color.DarkSalmon;
 					grid.SetSelected(INDEX_SELECTED,true);
 					using(Bitmap bitmap=Draw(grid)) {
-						int yRow=GetRowMiddleY(bitmap,INDEX_SELECTED,18,15,14);
+						int yRow=GetRowMiddleY(bitmap,INDEX_SELECTED,20,18,17);//the program's heights since the flip (UQ-2)
 						AssertNear(Color.DarkSalmon,bitmap.GetPixel(X_PROBE,yRow),0,"the window's selection colour");
 						AssertNear(UiTheme.GetColor(EnumUiColor.SelectionBarNoFocus),bitmap.GetPixel(1,yRow),0,"the bar on the window's colour");
 					}
@@ -209,20 +215,26 @@ namespace UiRefreshTests {
 			//GridOld (the Chart module's progress notes) has no hover; everything else as GridOD.
 			List<string> listFailures=new List<string>();
 			IconRendererTests.RunSta(() => {
-				foreach(bool hasFocus in new[] { true,false }) {
-					using(StateGridOld grid=new StateGridOld()) {
-						grid.TranslationName="";
-						grid.Size=new Size(WIDTH_GRID,HEIGHT_GRID);
-						Size sizeBefore=grid.Size;
-						Fill(grid);
-						grid.IsFocusForced=hasFocus;
-						grid.IsFocusedRowForced=hasFocus;
-						grid.SetSelected(INDEX_SELECTED,true);
-						using(Bitmap bitmap=Draw(grid)) {
-							Assert.AreEqual(sizeBefore,grid.Size,"The grid's bounds changed.");
-							CheckWinForms(listFailures,"GridOld "+(hasFocus ? "with focus" : "without focus"),bitmap,hasFocus,hasFocus,18,15,14,isHover:false);
+				UiTheme.SetFontForTest(UiFontOption.Today);//today's heights (18, 15, 14); the program's since the flip are UI-2b's
+				try {
+					foreach(bool hasFocus in new[] { true,false }) {
+						using(StateGridOld grid=new StateGridOld()) {
+							grid.TranslationName="";
+							grid.Size=new Size(WIDTH_GRID,HEIGHT_GRID);
+							Size sizeBefore=grid.Size;
+							Fill(grid);
+							grid.IsFocusForced=hasFocus;
+							grid.IsFocusedRowForced=hasFocus;
+							grid.SetSelected(INDEX_SELECTED,true);
+							using(Bitmap bitmap=Draw(grid)) {
+								Assert.AreEqual(sizeBefore,grid.Size,"The grid's bounds changed.");
+								CheckWinForms(listFailures,"GridOld "+(hasFocus ? "with focus" : "without focus"),bitmap,hasFocus,hasFocus,18,15,14,isHover:false);
+							}
 						}
 					}
+				}
+				finally {
+					UiTheme.SetFontForTest(null);
 				}
 			});
 			AssertNoFailures(listFailures);
@@ -363,6 +375,7 @@ namespace UiRefreshTests {
 				}
 				//G-UI2: the WinForms grid with today's font, then with UI-2b's (rows 14 and 17 px); the WPF grid (its fonts do not change).
 				List<Bitmap> listFonts=new List<Bitmap>();
+				UiTheme.SetFontForTest(UiFontOption.Today);
 				listFonts.Add(RenderGridOD(true,false,1f,out Size size1,out Size size2));
 				UiTheme.SetFontForTest(UiFontOption.UI2b);
 				try {

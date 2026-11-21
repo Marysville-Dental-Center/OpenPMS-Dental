@@ -4,6 +4,9 @@
 // Opt-in: OPMS_UI_FIT_GALLERY names the folder, OPMS_UI_FIT_GALLERY_WINDOWS the window types (full names, comma separated; default: the slice 1
 // list below), OPMS_UI_FIT_GALLERY_OWNER a TSV (designer_file, window, control, reason) of the "needs the owner" controls: each is drawn outlined
 // in red on the window's picture and cropped into owner\ . Nothing is shown; no database.
+// OPMS_UI_FIT_GALLERY_FONT (UI-2b, gallery G-UI2): "program" draws in the font the build holds, with no token override (the tokens' own values
+// and the default font set to the body token, as each exe's Main sets it), so a build of main draws today's font and a build after the flip
+// draws Segoe UI 9; "today" puts today's font through the override. Unset: Segoe UI 9 through the override, as the UI-10 slices drew.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
@@ -24,6 +27,7 @@ namespace UiRefreshTests {
 		public const string VARIABLE_FOLDER="OPMS_UI_FIT_GALLERY";
 		public const string VARIABLE_WINDOWS="OPMS_UI_FIT_GALLERY_WINDOWS";
 		public const string VARIABLE_OWNER="OPMS_UI_FIT_GALLERY_OWNER";
+		public const string VARIABLE_FONT="OPMS_UI_FIT_GALLERY_FONT";
 
 		///<summary>Slice 1 (UI-10-1): FormPatientEdit, FormProvEdit, FormClaimEdit, FormProcEdit, ControlAccount and the preference pages.</summary>
 		public static readonly string[] ArraySlice1Windows=new string[] {
@@ -54,6 +58,7 @@ namespace UiRefreshTests {
 				listOwner=File.ReadAllLines(fileOwner).Skip(1).Select(x => x.Split('\t')).Where(x => x.Length>=4).ToList();
 			}
 			Directory.CreateDirectory(folder);
+			string font=(Environment.GetEnvironmentVariable(VARIABLE_FONT)??"").Trim().ToLowerInvariant();
 			int countPictures=0;
 			List<string> listFailed=new List<string>();
 			StaRunner.Run(() => {
@@ -65,8 +70,7 @@ namespace UiRefreshTests {
 						listFailed.Add(window+": not a scanned type");
 						continue;
 					}
-					DefaultFontOverride.Set(TextFitFontOption.Segoe9,1f);
-					UiTheme.SetFontForTest(UiFontOption.UI2b);
+					SetGalleryFont(font);
 					try {
 						using(BuiltWindow builtWindow=WindowBuilder.Build(scanType)) {
 							Control root=builtWindow.Root;
@@ -112,6 +116,22 @@ namespace UiRefreshTests {
 			});
 			File.WriteAllLines(Path.Combine(folder,"gallery-failed.txt"),listFailed);
 			Assert.IsTrue(countPictures>0,"No picture made: "+string.Join("; ",listFailed));
+		}
+
+		///<summary>The font of the gallery's pictures (VARIABLE_FONT): "program" sets no token override and the default font to the body token's
+		///family and size; "today" today's font through the override; anything else Segoe UI 9 through the override.</summary>
+		public static void SetGalleryFont(string font) {
+			if(font=="program") {
+				DefaultFontOverride.Set(UiTheme.FontBody.FontFamily.Name==TextFitFontOption.Today.Family ? TextFitFontOption.Today : TextFitFontOption.Segoe9,1f);
+				return;
+			}
+			if(font=="today") {
+				DefaultFontOverride.Set(TextFitFontOption.Today,1f);
+				UiTheme.SetFontForTest(UiFontOption.Today);
+				return;
+			}
+			DefaultFontOverride.Set(TextFitFontOption.Segoe9,1f);
+			UiTheme.SetFontForTest(UiFontOption.UI2b);
 		}
 
 		private static Control FindByName(Control root,string name) {

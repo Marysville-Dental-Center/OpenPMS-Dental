@@ -100,6 +100,7 @@
 			// 
 			// textUser
 			// 
+			this.textUser.AutoSize = false;
 			this.textUser.Location = new System.Drawing.Point(307, 34);
 			this.textUser.Name = "textUser";
 			this.textUser.Size = new System.Drawing.Size(280, 20);

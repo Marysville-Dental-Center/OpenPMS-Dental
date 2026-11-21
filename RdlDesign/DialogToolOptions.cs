@@ -351,7 +351,7 @@ namespace fyiReporting.RdlDesign
             // 
             this.label2.Location = new System.Drawing.Point(100, 15);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(174, 23);
+            this.label2.Size = new System.Drawing.Size(178, 23);
             this.label2.TabIndex = 2;
             this.label2.Text = "items in most recently used lists.";
             // 
@@ -502,7 +502,7 @@ namespace fyiReporting.RdlDesign
             // 
             this.label9.Location = new System.Drawing.Point(13, 101);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(56, 23);
+            this.label9.Size = new System.Drawing.Size(58, 23);
             this.label9.TabIndex = 5;
             this.label9.Text = "Directory:";
             // 
@@ -510,7 +510,7 @@ namespace fyiReporting.RdlDesign
             // 
             this.label8.Location = new System.Drawing.Point(33, 156);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(414, 26);
+            this.label8.Size = new System.Drawing.Size(425, 26);
             this.label8.TabIndex = 4;
             this.label8.Text = "Important: Desktop server is not intended to be used as a production web server. " +
                 " Use an ASP enabled server for anything other than local desktop use.";
@@ -519,7 +519,7 @@ namespace fyiReporting.RdlDesign
             // 
             this.label7.Location = new System.Drawing.Point(10, 6);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(435, 57);
+            this.label7.Size = new System.Drawing.Size(435, 60);
             this.label7.TabIndex = 3;
             this.label7.Text = resources.GetString("label7.Text");
             // 
@@ -527,7 +527,7 @@ namespace fyiReporting.RdlDesign
             // 
             this.ckLocal.Location = new System.Drawing.Point(15, 131);
             this.ckLocal.Name = "ckLocal";
-            this.ckLocal.Size = new System.Drawing.Size(190, 24);
+            this.ckLocal.Size = new System.Drawing.Size(195, 24);
             this.ckLocal.TabIndex = 3;
             this.ckLocal.Text = "Restrict access to local machine";
             this.ckLocal.CheckedChanged += new System.EventHandler(this.Desktop_Changed);

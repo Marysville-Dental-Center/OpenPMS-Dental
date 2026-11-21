@@ -424,7 +424,9 @@ namespace UiRefreshTests {
 			int countBuilt=0;
 			StaRunner.Run(() => {
 				NoDatabaseGuard.Install();
-				DefaultFontOverride.Set(TextFitFontOption.Today,1f);
+				//The default font the program's Main sets, which matches the program's tokens (UI-2b: Segoe UI 9; a window built with a default font
+				//that is not the tokens' can differ, FormPayment's tab strip selects a tab during InitializeComponent then).
+				DefaultFontOverride.Set(TextFitFontOption.Segoe9,1f);
 				List<ScanType> listScanTypes=WindowBuilder.GetScanTypes();
 				foreach(IGrouping<string,ConvertedRow> grouping in listRows.GroupBy(x => x.WindowName)) {
 					ScanType scanType=listScanTypes.SingleOrDefault(x => x.Assembly==GetAssembly(grouping.First()) && x.Type.Name==grouping.Key);
@@ -506,7 +508,9 @@ namespace UiRefreshTests {
 			int countPictures=0;
 			StaRunner.Run(() => {
 				NoDatabaseGuard.Install();
-				DefaultFontOverride.Set(TextFitFontOption.Today,1f);
+				//The default font the program's Main sets, which matches the program's tokens (UI-2b: Segoe UI 9; a window built with a default font
+				//that is not the tokens' can differ, FormPayment's tab strip selects a tab during InitializeComponent then).
+				DefaultFontOverride.Set(TextFitFontOption.Segoe9,1f);
 				List<ScanType> listScanTypes=WindowBuilder.GetScanTypes();
 				foreach(IGrouping<string,ConvertedRow> grouping in listRows.GroupBy(x => x.WindowName).OrderBy(x => x.Key)) {
 					ScanType scanType=listScanTypes.SingleOrDefault(x => x.Assembly==GetAssembly(grouping.First()) && x.Type.Name==grouping.Key);

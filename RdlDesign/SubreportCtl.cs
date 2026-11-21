@@ -181,7 +181,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.label1.Location = new System.Drawing.Point(8, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(88, 23);
+			this.label1.Size = new System.Drawing.Size(92, 23);
 			this.label1.TabIndex = 3;
 			this.label1.Text = "Subreport name";
 			// 
@@ -222,7 +222,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.chkMergeTrans.Location = new System.Drawing.Point(8, 72);
 			this.chkMergeTrans.Name = "chkMergeTrans";
-			this.chkMergeTrans.Size = new System.Drawing.Size(376, 24);
+			this.chkMergeTrans.Size = new System.Drawing.Size(386, 24);
 			this.chkMergeTrans.TabIndex = 9;
 			this.chkMergeTrans.Text = "Use same Data Source connections as parent report when possible";
 			// 

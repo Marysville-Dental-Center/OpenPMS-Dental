@@ -11,6 +11,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using CodeBase;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenPmsDental;
 using UiRefreshTests.Scan;
@@ -43,42 +44,48 @@ namespace UiRefreshTests {
 		[TestMethod]
 		public void Swap_OnATestWindow_GivesTheFontsOfTheRuleWithTheLabelFactor() {
 			StaRunner.Run(() => {
-				DefaultFontOverride.Set(TextFitFontOption.Today,1f);
-				using(TestWindowFonts window=new TestWindowFonts()) {
-					using(BuiltWindow builtWindow=WindowBuilder.LoadWithoutShow(window,window.GetLayoutManager())) {
-						//Today: the rebuild already gave labels and radio buttons 0.96 and kept only Bold.
-						AssertFont(window.labelUnderline.Font,"Microsoft Sans Serif",8.25f*0.96f,FontStyle.Regular);
-						int countChanged=TextFitFontSwap.Swap(window,TextFitFontOption.Segoe9);
-						Assert.IsTrue(countChanged>0,"Fonts changed: "+countChanged);
-						AssertFont(window.Font,"Segoe UI",9f,FontStyle.Regular);
-						AssertFont(window.labelUnderline.Font,"Segoe UI",9f*0.96f,FontStyle.Regular);
-						AssertFont(window.labelBold10.Font,"Segoe UI",10f*0.96f,FontStyle.Bold);
-						AssertFont(window.labelArial.Font,"Arial",8.25f*0.96f,FontStyle.Bold);
-						AssertFont(window.labelItalic85.Font,"Segoe UI",9f*0.96f,FontStyle.Regular);
-						AssertFont(window.radioButton.Font,"Segoe UI",9f*0.96f,FontStyle.Regular);
-						AssertFont(window.checkBox8.Font,"Segoe UI",9f,FontStyle.Regular);
-						AssertFont(window.textBox.Font,"Segoe UI",9f,FontStyle.Regular);
-						AssertFont(window.buttonBold.Font,"Segoe UI",9f,FontStyle.Bold);
-						AssertFont(window.panel.Font,"Segoe UI",9f,FontStyle.Regular);
-						AssertFont(window.labelInPanel.Font,"Segoe UI",9f*0.96f,FontStyle.Regular);
-						//The records LayoutManager keeps now hold the mapped size, so a zoom or DPI change keeps the new font.
-						Dictionary<Control,object> dictInfos=TextFitFontSwap.GetControl96Infos(window.GetLayoutManager());
-						Assert.AreEqual(9f,(float)dictInfos[window.labelUnderline].GetType().GetField("FontSize96").GetValue(dictInfos[window.labelUnderline]));
-						builtWindow.LayOutAt(1.5f);
-						AssertFont(window.labelUnderline.Font,"Segoe UI",9f*0.96f,FontStyle.Regular);
-						AssertFont(window.textBox.Font,"Segoe UI",9f*1.5f,FontStyle.Regular);
-						//Swapping again changes nothing.
-						builtWindow.LayOutAt(1f);
-						Assert.AreEqual(0,TextFitFontSwap.Swap(window,TextFitFontOption.Segoe9));
+				UiTheme.SetFontForTest(UiFontOption.Today);//UI-0b's swap starts from today's tokens (the program's are UI-2b's since the flip)
+				try {
+					DefaultFontOverride.Set(TextFitFontOption.Today,1f);
+					using(TestWindowFonts window=new TestWindowFonts()) {
+						using(BuiltWindow builtWindow=WindowBuilder.LoadWithoutShow(window,window.GetLayoutManager())) {
+							//Today: the rebuild already gave labels and radio buttons 0.96 and kept only Bold.
+							AssertFont(window.labelUnderline.Font,"Microsoft Sans Serif",8.25f*0.96f,FontStyle.Regular);
+							int countChanged=TextFitFontSwap.Swap(window,TextFitFontOption.Segoe9);
+							Assert.IsTrue(countChanged>0,"Fonts changed: "+countChanged);
+							AssertFont(window.Font,"Segoe UI",9f,FontStyle.Regular);
+							AssertFont(window.labelUnderline.Font,"Segoe UI",9f*0.96f,FontStyle.Regular);
+							AssertFont(window.labelBold10.Font,"Segoe UI",10f*0.96f,FontStyle.Bold);
+							AssertFont(window.labelArial.Font,"Arial",8.25f*0.96f,FontStyle.Bold);
+							AssertFont(window.labelItalic85.Font,"Segoe UI",9f*0.96f,FontStyle.Regular);
+							AssertFont(window.radioButton.Font,"Segoe UI",9f*0.96f,FontStyle.Regular);
+							AssertFont(window.checkBox8.Font,"Segoe UI",9f,FontStyle.Regular);
+							AssertFont(window.textBox.Font,"Segoe UI",9f,FontStyle.Regular);
+							AssertFont(window.buttonBold.Font,"Segoe UI",9f,FontStyle.Bold);
+							AssertFont(window.panel.Font,"Segoe UI",9f,FontStyle.Regular);
+							AssertFont(window.labelInPanel.Font,"Segoe UI",9f*0.96f,FontStyle.Regular);
+							//The records LayoutManager keeps now hold the mapped size, so a zoom or DPI change keeps the new font.
+							Dictionary<Control,object> dictInfos=TextFitFontSwap.GetControl96Infos(window.GetLayoutManager());
+							Assert.AreEqual(9f,(float)dictInfos[window.labelUnderline].GetType().GetField("FontSize96").GetValue(dictInfos[window.labelUnderline]));
+							builtWindow.LayOutAt(1.5f);
+							AssertFont(window.labelUnderline.Font,"Segoe UI",9f*0.96f,FontStyle.Regular);
+							AssertFont(window.textBox.Font,"Segoe UI",9f*1.5f,FontStyle.Regular);
+							//Swapping again changes nothing.
+							builtWindow.LayOutAt(1f);
+							Assert.AreEqual(0,TextFitFontSwap.Swap(window,TextFitFontOption.Segoe9));
+						}
+					}
+					using(TestWindowFonts window=new TestWindowFonts()) {
+						using(BuiltWindow builtWindow=WindowBuilder.LoadWithoutShow(window,window.GetLayoutManager())) {
+							TextFitFontSwap.Swap(window,TextFitFontOption.Segoe825);
+							AssertFont(window.labelUnderline.Font,"Segoe UI",8.25f*0.96f,FontStyle.Regular);
+							AssertFont(window.checkBox8.Font,"Segoe UI",8.25f,FontStyle.Regular);
+							AssertFont(window.labelBold10.Font,"Segoe UI",10f*0.96f,FontStyle.Bold);
+						}
 					}
 				}
-				using(TestWindowFonts window=new TestWindowFonts()) {
-					using(BuiltWindow builtWindow=WindowBuilder.LoadWithoutShow(window,window.GetLayoutManager())) {
-						TextFitFontSwap.Swap(window,TextFitFontOption.Segoe825);
-						AssertFont(window.labelUnderline.Font,"Segoe UI",8.25f*0.96f,FontStyle.Regular);
-						AssertFont(window.checkBox8.Font,"Segoe UI",8.25f,FontStyle.Regular);
-						AssertFont(window.labelBold10.Font,"Segoe UI",10f*0.96f,FontStyle.Bold);
-					}
+				finally {
+					UiTheme.SetFontForTest(null);
 				}
 			});
 		}

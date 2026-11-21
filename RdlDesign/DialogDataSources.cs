@@ -193,7 +193,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.lConnectionString.Location = new System.Drawing.Point(8, 192);
 			this.lConnectionString.Name = "lConnectionString";
-			this.lConnectionString.Size = new System.Drawing.Size(100, 16);
+			this.lConnectionString.Size = new System.Drawing.Size(102, 16);
 			this.lConnectionString.TabIndex = 10;
 			this.lConnectionString.Text = "Connection string";
 			// 
@@ -211,7 +211,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.ckbIntSecurity.Location = new System.Drawing.Point(280, 152);
 			this.ckbIntSecurity.Name = "ckbIntSecurity";
-			this.ckbIntSecurity.Size = new System.Drawing.Size(144, 24);
+			this.ckbIntSecurity.Size = new System.Drawing.Size(149, 24);
 			this.ckbIntSecurity.TabIndex = 5;
 			this.ckbIntSecurity.Text = "Use integrated security";
 			this.ckbIntSecurity.CheckedChanged += new System.EventHandler(this.ckbIntSecurity_CheckedChanged);
@@ -298,7 +298,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.label1.Location = new System.Drawing.Point(216, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(104, 23);
+			this.label1.Size = new System.Drawing.Size(105, 23);
 			this.label1.TabIndex = 22;
 			this.label1.Text = "Data Source Name";
 			// 

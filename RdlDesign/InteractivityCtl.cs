@@ -255,7 +255,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.label2.Location = new System.Drawing.Point(16, 24);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(120, 23);
+			this.label2.Size = new System.Drawing.Size(132, 23);
 			this.label2.TabIndex = 0;
 			this.label2.Text = "Hidden (initial visibility)";
 			// 
@@ -384,7 +384,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.label1.Location = new System.Drawing.Point(8, 256);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(56, 16);
+			this.label1.Size = new System.Drawing.Size(61, 16);
 			this.label1.TabIndex = 2;
 			this.label1.Text = "Bookmark";
 			// 

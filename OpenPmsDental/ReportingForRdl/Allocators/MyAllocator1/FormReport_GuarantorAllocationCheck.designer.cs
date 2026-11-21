@@ -127,7 +127,7 @@ namespace OpenPmsDental.Reporting.Allocators.MyAllocator1
 			// lblTitle
 			// 
 			this.lblTitle.BackColor = System.Drawing.Color.LightCyan;
-			this.lblTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.lblTitle.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.lblTitle.Location = new System.Drawing.Point(2, 28);
 			this.lblTitle.Name = "lblTitle";
 			this.lblTitle.Size = new System.Drawing.Size(838, 85);

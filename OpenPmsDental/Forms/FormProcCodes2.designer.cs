@@ -185,7 +185,7 @@ namespace OpenPmsDental {
 			this.checkShowHidden.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.checkShowHidden.Location = new System.Drawing.Point(4, 531);
 			this.checkShowHidden.Name = "checkShowHidden";
-			this.checkShowHidden.Size = new System.Drawing.Size(102, 17);
+			this.checkShowHidden.Size = new System.Drawing.Size(102, 18);
 			this.checkShowHidden.TabIndex = 24;
 			this.checkShowHidden.Text = "Show Hidden";
 			this.checkShowHidden.Click += new System.EventHandler(this.checkShowHidden_Click);
@@ -404,7 +404,7 @@ namespace OpenPmsDental {
 			// 
 			this.checkGroups1.Location = new System.Drawing.Point(14, 16);
 			this.checkGroups1.Name = "checkGroups1";
-			this.checkGroups1.Size = new System.Drawing.Size(183, 17);
+			this.checkGroups1.Size = new System.Drawing.Size(183, 18);
 			this.checkGroups1.TabIndex = 40;
 			this.checkGroups1.Text = "Show Fee Schedule Groups";
 			this.checkGroups1.CheckedChanged += new System.EventHandler(this.checkGroups1_CheckedChanged);
@@ -525,7 +525,7 @@ namespace OpenPmsDental {
 			// 
 			this.checkGroups2.Location = new System.Drawing.Point(14, 16);
 			this.checkGroups2.Name = "checkGroups2";
-			this.checkGroups2.Size = new System.Drawing.Size(183, 17);
+			this.checkGroups2.Size = new System.Drawing.Size(183, 18);
 			this.checkGroups2.TabIndex = 39;
 			this.checkGroups2.Text = "Show Fee Schedule Groups";
 			this.checkGroups2.CheckedChanged += new System.EventHandler(this.checkGroups2_CheckedChanged);
@@ -646,7 +646,7 @@ namespace OpenPmsDental {
 			// 
 			this.checkGroups3.Location = new System.Drawing.Point(14, 16);
 			this.checkGroups3.Name = "checkGroups3";
-			this.checkGroups3.Size = new System.Drawing.Size(183, 17);
+			this.checkGroups3.Size = new System.Drawing.Size(183, 18);
 			this.checkGroups3.TabIndex = 40;
 			this.checkGroups3.Text = "Show Fee Schedule Groups";
 			this.checkGroups3.CheckedChanged += new System.EventHandler(this.checkGroups3_CheckedChanged);
@@ -799,7 +799,7 @@ namespace OpenPmsDental {
 			this.label20.BackColor = System.Drawing.Color.Transparent;
 			this.label20.Location = new System.Drawing.Point(106, 46);
 			this.label20.Name = "label20";
-			this.label20.Size = new System.Drawing.Size(95, 17);
+			this.label20.Size = new System.Drawing.Size(100, 17);
 			this.label20.TabIndex = 44;
 			this.label20.Text = "= Provider+Clinic";
 			this.label20.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
