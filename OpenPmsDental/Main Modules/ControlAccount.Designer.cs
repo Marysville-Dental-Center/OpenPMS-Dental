@@ -218,7 +218,7 @@
 			this.labelFamFinancial.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.labelFamFinancial.Location = new System.Drawing.Point(-1, 375);
 			this.labelFamFinancial.Name = "labelFamFinancial";
-			this.labelFamFinancial.Size = new System.Drawing.Size(170, 16);
+			this.labelFamFinancial.Size = new System.Drawing.Size(170, 17);
 			this.labelFamFinancial.TabIndex = 9;
 			this.labelFamFinancial.Text = "Family Financial Notes";
 			this.labelFamFinancial.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -380,7 +380,7 @@
 			this.labelInsRem.BackColor = System.Drawing.Color.LightGray;
 			this.labelInsRem.Location = new System.Drawing.Point(700, 4);
 			this.labelInsRem.Name = "labelInsRem";
-			this.labelInsRem.Size = new System.Drawing.Size(45, 29);
+			this.labelInsRem.Size = new System.Drawing.Size(47, 29);
 			this.labelInsRem.TabIndex = 0;
 			this.labelInsRem.Text = "Ins\r\nRem";
 			this.labelInsRem.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -394,7 +394,7 @@
 			this.labelUnearnedAmt.ForeColor = System.Drawing.Color.Firebrick;
 			this.labelUnearnedAmt.Location = new System.Drawing.Point(636, 18);
 			this.labelUnearnedAmt.Name = "labelUnearnedAmt";
-			this.labelUnearnedAmt.Size = new System.Drawing.Size(60, 13);
+			this.labelUnearnedAmt.Size = new System.Drawing.Size(60, 15);
 			this.labelUnearnedAmt.TabIndex = 228;
 			this.labelUnearnedAmt.Text = "25000.00";
 			this.labelUnearnedAmt.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -407,7 +407,7 @@
 			this.labelUnearned.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.labelUnearned.Location = new System.Drawing.Point(632, 2);
 			this.labelUnearned.Name = "labelUnearned";
-			this.labelUnearned.Size = new System.Drawing.Size(68, 13);
+			this.labelUnearned.Size = new System.Drawing.Size(68, 15);
 			this.labelUnearned.TabIndex = 227;
 			this.labelUnearned.Text = "Unearned";
 			this.labelUnearned.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -418,7 +418,7 @@
 			this.labelBalanceAmt.ForeColor = System.Drawing.Color.Firebrick;
 			this.labelBalanceAmt.Location = new System.Drawing.Point(456, 16);
 			this.labelBalanceAmt.Name = "labelBalanceAmt";
-			this.labelBalanceAmt.Size = new System.Drawing.Size(80, 19);
+			this.labelBalanceAmt.Size = new System.Drawing.Size(80, 20);
 			this.labelBalanceAmt.TabIndex = 60;
 			this.labelBalanceAmt.Text = "25000.00";
 			this.labelBalanceAmt.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -429,7 +429,7 @@
 			this.labelTotalAmt.ForeColor = System.Drawing.Color.Firebrick;
 			this.labelTotalAmt.Location = new System.Drawing.Point(294, 16);
 			this.labelTotalAmt.Name = "labelTotalAmt";
-			this.labelTotalAmt.Size = new System.Drawing.Size(80, 19);
+			this.labelTotalAmt.Size = new System.Drawing.Size(80, 20);
 			this.labelTotalAmt.TabIndex = 61;
 			this.labelTotalAmt.Text = "25000.00";
 			this.labelTotalAmt.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -468,7 +468,7 @@
 			// 
 			this.labelPatEstBalAmt.Location = new System.Drawing.Point(550, 19);
 			this.labelPatEstBalAmt.Name = "labelPatEstBalAmt";
-			this.labelPatEstBalAmt.Size = new System.Drawing.Size(65, 13);
+			this.labelPatEstBalAmt.Size = new System.Drawing.Size(65, 15);
 			this.labelPatEstBalAmt.TabIndex = 89;
 			this.labelPatEstBalAmt.Text = "25000.00";
 			this.labelPatEstBalAmt.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -477,7 +477,7 @@
 			// 
 			this.labelPatEstBal.Location = new System.Drawing.Point(550, 3);
 			this.labelPatEstBal.Name = "labelPatEstBal";
-			this.labelPatEstBal.Size = new System.Drawing.Size(65, 13);
+			this.labelPatEstBal.Size = new System.Drawing.Size(65, 15);
 			this.labelPatEstBal.TabIndex = 88;
 			this.labelPatEstBal.Text = "Pat Est Bal";
 			this.labelPatEstBal.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -510,7 +510,7 @@
 			// 
 			this.labelInsEstAmt.Location = new System.Drawing.Point(387, 18);
 			this.labelInsEstAmt.Name = "labelInsEstAmt";
-			this.labelInsEstAmt.Size = new System.Drawing.Size(65, 13);
+			this.labelInsEstAmt.Size = new System.Drawing.Size(65, 15);
 			this.labelInsEstAmt.TabIndex = 62;
 			this.labelInsEstAmt.Text = "2500.00";
 			this.labelInsEstAmt.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -522,7 +522,7 @@
 			this.labelBalance.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.labelBalance.Location = new System.Drawing.Point(454, 2);
 			this.labelBalance.Name = "labelBalance";
-			this.labelBalance.Size = new System.Drawing.Size(80, 13);
+			this.labelBalance.Size = new System.Drawing.Size(80, 14);
 			this.labelBalance.TabIndex = 59;
 			this.labelBalance.Text = "= Balance";
 			this.labelBalance.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -531,7 +531,7 @@
 			// 
 			this.labelInsEst.Location = new System.Drawing.Point(387, 2);
 			this.labelInsEst.Name = "labelInsEst";
-			this.labelInsEst.Size = new System.Drawing.Size(65, 13);
+			this.labelInsEst.Size = new System.Drawing.Size(65, 15);
 			this.labelInsEst.TabIndex = 57;
 			this.labelInsEst.Text = "- InsEst";
 			this.labelInsEst.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -540,7 +540,7 @@
 			// 
 			this.labelTotal.Location = new System.Drawing.Point(294, 2);
 			this.labelTotal.Name = "labelTotal";
-			this.labelTotal.Size = new System.Drawing.Size(80, 13);
+			this.labelTotal.Size = new System.Drawing.Size(80, 14);
 			this.labelTotal.TabIndex = 55;
 			this.labelTotal.Text = "Total";
 			this.labelTotal.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -556,6 +556,7 @@
 			// 
 			// text0_30
 			// 
+			this.text0_30.AutoSize = false;
 			this.text0_30.Location = new System.Drawing.Point(67, 15);
 			this.text0_30.Name = "text0_30";
 			this.text0_30.ReadOnly = true;
@@ -574,6 +575,7 @@
 			// 
 			// text31_60
 			// 
+			this.text31_60.AutoSize = false;
 			this.text31_60.Location = new System.Drawing.Point(122, 15);
 			this.text31_60.Name = "text31_60";
 			this.text31_60.ReadOnly = true;
@@ -592,6 +594,7 @@
 			// 
 			// text61_90
 			// 
+			this.text61_90.AutoSize = false;
 			this.text61_90.Location = new System.Drawing.Point(177, 15);
 			this.text61_90.Name = "text61_90";
 			this.text61_90.ReadOnly = true;
@@ -610,6 +613,7 @@
 			// 
 			// textOver90
 			// 
+			this.textOver90.AutoSize = false;
 			this.textOver90.Location = new System.Drawing.Point(232, 15);
 			this.textOver90.Name = "textOver90";
 			this.textOver90.ReadOnly = true;
@@ -671,7 +675,7 @@
 			this.butCreditCard.Location = new System.Drawing.Point(38, 133);
 			this.butCreditCard.MinimumSize = new System.Drawing.Size(108, 24);
 			this.butCreditCard.Name = "butCreditCard";
-			this.butCreditCard.Size = new System.Drawing.Size(108, 24);
+			this.butCreditCard.Size = new System.Drawing.Size(114, 24);
 			this.butCreditCard.TabIndex = 216;
 			this.butCreditCard.Text = "Credit Card Manage";
 			this.butCreditCard.UseVisualStyleBackColor = true;
@@ -727,7 +731,7 @@
 			this.checkUseSuperFam.BackColor = System.Drawing.SystemColors.Window;
 			this.checkUseSuperFam.Location = new System.Drawing.Point(7, 349);
 			this.checkUseSuperFam.Name = "checkUseSuperFam";
-			this.checkUseSuperFam.Size = new System.Drawing.Size(135, 17);
+			this.checkUseSuperFam.Size = new System.Drawing.Size(135, 18);
 			this.checkUseSuperFam.TabIndex = 74;
 			this.checkUseSuperFam.Text = "Show SuperFamily";
 			this.checkUseSuperFam.CheckedChanged += new System.EventHandler(this.checkUseSuperFam_CheckedChanged);
@@ -760,7 +764,7 @@
 			this.checkShowCommAuto.BackColor = System.Drawing.SystemColors.Window;
 			this.checkShowCommAuto.Location = new System.Drawing.Point(6, 242);
 			this.checkShowCommAuto.Name = "checkShowCommAuto";
-			this.checkShowCommAuto.Size = new System.Drawing.Size(168, 18);
+			this.checkShowCommAuto.Size = new System.Drawing.Size(176, 18);
 			this.checkShowCommAuto.TabIndex = 223;
 			this.checkShowCommAuto.Text = "Show Automated Commlogs";
 			this.checkShowCommAuto.Click += new System.EventHandler(this.checkShowAutoComm_Click);
@@ -801,7 +805,7 @@
 			// 
 			this.labelEndDate.Location = new System.Drawing.Point(2, 34);
 			this.labelEndDate.Name = "labelEndDate";
-			this.labelEndDate.Size = new System.Drawing.Size(91, 14);
+			this.labelEndDate.Size = new System.Drawing.Size(91, 15);
 			this.labelEndDate.TabIndex = 211;
 			this.labelEndDate.Text = "End Date";
 			this.labelEndDate.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -810,7 +814,7 @@
 			// 
 			this.labelStartDate.Location = new System.Drawing.Point(8, 11);
 			this.labelStartDate.Name = "labelStartDate";
-			this.labelStartDate.Size = new System.Drawing.Size(84, 14);
+			this.labelStartDate.Size = new System.Drawing.Size(84, 15);
 			this.labelStartDate.TabIndex = 210;
 			this.labelStartDate.Text = "Start Date";
 			this.labelStartDate.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -1028,6 +1032,7 @@
 			// textFamPriMax
 			// 
 			this.textFamPriMax.BackColor = System.Drawing.Color.White;
+			this.textFamPriMax.AutoSize = false;
 			this.textFamPriMax.Location = new System.Drawing.Point(81, 35);
 			this.textFamPriMax.Name = "textFamPriMax";
 			this.textFamPriMax.ReadOnly = true;
@@ -1038,6 +1043,7 @@
 			// textFamPriDed
 			// 
 			this.textFamPriDed.BackColor = System.Drawing.Color.White;
+			this.textFamPriDed.AutoSize = false;
 			this.textFamPriDed.Location = new System.Drawing.Point(81, 55);
 			this.textFamPriDed.Name = "textFamPriDed";
 			this.textFamPriDed.ReadOnly = true;
@@ -1085,6 +1091,7 @@
 			// textFamSecDed
 			// 
 			this.textFamSecDed.BackColor = System.Drawing.Color.White;
+			this.textFamSecDed.AutoSize = false;
 			this.textFamSecDed.Location = new System.Drawing.Point(140, 55);
 			this.textFamSecDed.Name = "textFamSecDed";
 			this.textFamSecDed.ReadOnly = true;
@@ -1134,6 +1141,7 @@
 			// textPriDed
 			// 
 			this.textPriDed.BackColor = System.Drawing.Color.White;
+			this.textPriDed.AutoSize = false;
 			this.textPriDed.Location = new System.Drawing.Point(81, 55);
 			this.textPriDed.Name = "textPriDed";
 			this.textPriDed.ReadOnly = true;
@@ -1144,6 +1152,7 @@
 			// textPriUsed
 			// 
 			this.textPriUsed.BackColor = System.Drawing.Color.White;
+			this.textPriUsed.AutoSize = false;
 			this.textPriUsed.Location = new System.Drawing.Point(81, 95);
 			this.textPriUsed.Name = "textPriUsed";
 			this.textPriUsed.ReadOnly = true;
@@ -1154,6 +1163,7 @@
 			// textPriDedRem
 			// 
 			this.textPriDedRem.BackColor = System.Drawing.Color.White;
+			this.textPriDedRem.AutoSize = false;
 			this.textPriDedRem.Location = new System.Drawing.Point(81, 75);
 			this.textPriDedRem.Name = "textPriDedRem";
 			this.textPriDedRem.ReadOnly = true;
@@ -1164,6 +1174,7 @@
 			// textPriPend
 			// 
 			this.textPriPend.BackColor = System.Drawing.Color.White;
+			this.textPriPend.AutoSize = false;
 			this.textPriPend.Location = new System.Drawing.Point(81, 115);
 			this.textPriPend.Name = "textPriPend";
 			this.textPriPend.ReadOnly = true;
@@ -1174,6 +1185,7 @@
 			// textPriRem
 			// 
 			this.textPriRem.BackColor = System.Drawing.Color.White;
+			this.textPriRem.AutoSize = false;
 			this.textPriRem.Location = new System.Drawing.Point(81, 135);
 			this.textPriRem.Name = "textPriRem";
 			this.textPriRem.ReadOnly = true;
@@ -1184,6 +1196,7 @@
 			// textPriMax
 			// 
 			this.textPriMax.BackColor = System.Drawing.Color.White;
+			this.textPriMax.AutoSize = false;
 			this.textPriMax.Location = new System.Drawing.Point(81, 35);
 			this.textPriMax.Name = "textPriMax";
 			this.textPriMax.ReadOnly = true;
@@ -1213,6 +1226,7 @@
 			// textSecPend
 			// 
 			this.textSecPend.BackColor = System.Drawing.Color.White;
+			this.textSecPend.AutoSize = false;
 			this.textSecPend.Location = new System.Drawing.Point(140, 115);
 			this.textSecPend.Name = "textSecPend";
 			this.textSecPend.ReadOnly = true;
@@ -1259,6 +1273,7 @@
 			// textSecDedRem
 			// 
 			this.textSecDedRem.BackColor = System.Drawing.Color.White;
+			this.textSecDedRem.AutoSize = false;
 			this.textSecDedRem.Location = new System.Drawing.Point(140, 75);
 			this.textSecDedRem.Name = "textSecDedRem";
 			this.textSecDedRem.ReadOnly = true;
@@ -1306,6 +1321,7 @@
 			// textSecDed
 			// 
 			this.textSecDed.BackColor = System.Drawing.Color.White;
+			this.textSecDed.AutoSize = false;
 			this.textSecDed.Location = new System.Drawing.Point(140, 55);
 			this.textSecDed.Name = "textSecDed";
 			this.textSecDed.ReadOnly = true;
@@ -1502,6 +1518,7 @@
 			// 
 			// textAutoOrthoMonthsTreat
 			// 
+			this.textAutoOrthoMonthsTreat.AutoSize = false;
 			this.textAutoOrthoMonthsTreat.Location = new System.Drawing.Point(6, 19);
 			this.textAutoOrthoMonthsTreat.Name = "textAutoOrthoMonthsTreat";
 			this.textAutoOrthoMonthsTreat.Size = new System.Drawing.Size(78, 20);
@@ -1609,7 +1626,7 @@
 			// 
 			this.checkHideInactiveOrthoCases.Location = new System.Drawing.Point(3, 55);
 			this.checkHideInactiveOrthoCases.Name = "checkHideInactiveOrthoCases";
-			this.checkHideInactiveOrthoCases.Size = new System.Drawing.Size(215, 16);
+			this.checkHideInactiveOrthoCases.Size = new System.Drawing.Size(215, 18);
 			this.checkHideInactiveOrthoCases.TabIndex = 219;
 			this.checkHideInactiveOrthoCases.Text = "Hide Inactive Ortho Cases";
 			this.checkHideInactiveOrthoCases.CheckedChanged += new System.EventHandler(this.CheckHideInactiveOrthoCases_CheckedChanged);
