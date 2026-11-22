@@ -165,6 +165,11 @@ Scrollable Control: For example, a panel that's set to AutoScroll=true.  These c
 			//We don't do this because programmers will always forget to scale it first.
 			//We must prompt them and track for quality.
 			//Adding controls programmatically must be a very intentional and controlled action.
+			//UI-12: the inputs of an added control (a module, a page) draw the combo box's frame like the window's own.
+			if(UiInputFrame.IsFramed(control)){
+				UiInputFrame.Attach(control);
+			}
+			UiInputFrame.AttachTree(control);
 			if(_listControl96Infos is null){
 				//This gets hit when adding ControlChart because we have not yet passed LayoutManager to chart.
 				parent.Controls.Add(control);
@@ -213,6 +218,7 @@ Scrollable Control: For example, a panel that's set to AutoScroll=true.  These c
 			//This makes some assumptions.
 			//In our particular scenario, it's always a new control, not an existing control.
 			AddToList96Unscaled(control,parent);//and children
+			UiInputFrame.AttachTree(control);//UI-12: the frame of the inputs
 			parent.Controls.Add(control);//only this control gets added.  The children are already part of it.
 		}
 
