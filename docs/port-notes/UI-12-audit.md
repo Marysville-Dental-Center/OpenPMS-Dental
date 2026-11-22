@@ -287,3 +287,45 @@ and the Chart's hidden button (known: other designers / kept as on main).
 
 The pass finds nothing beyond the known rows (each with its reason in `grid-known.tsv`) and the 123 re-run rows of the hand-row windows
 (UI-12.md section 5).
+
+## Round 5 (2026-11-22: the second fix round, the lead's 13 review findings of round 4)
+
+The findings and what changed: UI-12.md section 4, "Round 5". Pictures from the build of each pass (`G-UI3-ui12p-src/r5a` to `r5d`); a
+picture byte-identical to round 4's final gallery (`r4e`) was audited there (round 4, pass 3) and is listed as such.
+
+### Pass 1 (gallery r5a and r5b)
+
+| Picture | Checked | Found |
+|---|---|---|
+| FormPayment (owner row 28), -inputs-100, -inputs-150, -hidesplits-100, -hidesplits-150 | captions over their boxes, the second filter row's columns, Invoice's edge, 150% heights | Every caption on its box's left edge, the dates and Proc Codes/Refresh on the first row's columns, Invoice to Refresh's edge, the splits filter's Refresh on Amt Max; the same at 150%; the hidden state unchanged. Good. |
+| FormInsPlan | the adjustments list, the top-right gaps, the verified row | r5a: list 340 px and the request group at 1043 put its date 11 px off the subscriber's To-date column (GridRulesTests `column`); fixed: the request group back on the To-date column, the list to 8 px before it (329 px, the sample line whole with room to spare), import 8 px after, the verified date clear of the column. r5b good. |
+| FormApptViewEdit (owner row 33) | the grids' bottoms, Up/Down, the left margin | One bottom for both grids, Up/Down 8 px under them and 8 px over the group's edge, the left column at 8, the bottom bar 8 px under the content. Good. |
+| FormHL7DefEdit (owner row 34, crop label17) | content box, grid, Browse padding, rows under the group | 8..884 for every edge, the grid to 8 px over the bar, the Browse buttons on the group's content edge, one pitch under the group, the notes centred on their rows. Good. |
+| FormProcCodeEdit (owner row 23) | the top-right lists, Paint Text, the check box pitch, the fee notes | One top (25) and one bottom (380), Paint Text in the Paint Type column, the six boxes 24 px apart, the notes 4 px under the grid. Good. |
+| FormInsBenefits (owner rows 24, 35, crop label17) | Benefit Year's gap, the left column's right edge | 8 px to Categories; the grid, the Ortho group and the Family column end on 291. Good. |
+| FormEmailInbox (owner row 30) | the three groups' gutters, the window's edges | 8 and 8 px. The left edge 12 against the groups' 8 px right margin, the tab control and Refresh 10-14 px short of the groups' edge (fixed in pass 2: one content box). |
+| FormMedLabEdit (owner row 37) | the gaps under Patient and Ordering Physician, the grids | 8 px each, the grids 8 px apart, the bar in place. GridRulesTests `column`: the Patient group moved 4 px left and its second field column (429) no longer met the Date/Time column (433) (fixed: the Date/Time column on 429). |
+| UserControlEnterpriseGeneral | Patient Select's first label | 32 px, centred on its box, one pitch; the check boxes under the group 8 px under it. Good. |
+| UserControlMainWindowMisc | the gaps between the groups and fields | r5a: the measured wrap read the trailing line end of two labels as a third line (GridRulesTests `gap`; fixed: a line end after the text draws nothing). r5b: 8 px between the groups, 4 px between the fields. Good. |
+| UserControlManageGeneral, UserControlAccountClaimSend | hyphen breaks | "Auto-processing posts write-offs on / non-primary claims", "PPO write-off description (blank for / "Write-off")". Good. |
+| UserControlAccountGeneral | the Future Dated note, the aging label | The note left-aligned at the check box text, the aging label's third line ("Usually blank") shown, the allocation note 8 px under the group. Good. |
+| UserControlApptGeneral | the provider change row | One line, one pitch. Good. |
+| FormApptEdit, FormPatientEdit, FormProcEdit, FormClaimEdit (the clinic picker) | the picker label's ink against its neighbours (pixels) | FormApptEdit: ends at 423 against 422, 1 px lower than Provider's; FormPatientEdit: 178 against 177, 1 px lower; within the 1 px asked (it was 2 px right and 2 px low). The boxes stand on one x (431). Good. |
+| FormPatientEdit | the Public Health tab, the window's bottom | The tab's last row at the pitch (the 12 px gap closed), the window 8 px shorter, the tab control's bottom 34 px over Save as before. Good. |
+| FormPractice | the bottom bar | 4 px higher, 8 px under the content. Good. |
+
+### Pass 2 (galleries r5c and r5d, the final build; G-UI3-ui12p's after pictures)
+
+| Picture | Checked | Found |
+|---|---|---|
+| FormEmailInbox | the content box | r5c: the hand rows took the drawn window's values for the bottom-anchored tab control and Delete (9 px less than the designer's: the menu), which moved Delete 9 px up (fixed). r5d: one content box 8..1227, Delete 8 px over the bottom. Good. |
+| FormInsPlan, FormMedLabEdit, UserControlMainWindowMisc | the pass 1 fixes | As in pass 1's last build (r5b): good. |
+| The other 21 pictures that changed since round 4 | changes since pass 1 | Byte-identical to r5b; audited in pass 1. |
+| ControlAccount, ControlChart, ControlChart-pagebar-100/150, ControlChart-procbuttons-100/150, FormBackup, FormProvEdit, FormScreenEdit, FormStatementOptions and 22 preference pages; 24 of the 26 owner crops | unchanged | Byte-identical to round 4's final pictures (r4e), audited in round 4, pass 3. |
+
+GridRulesTests (r5d): no findings beyond `grid-known.tsv` (two rows removed this round: FormProcCodeEdit's Is Radiology gap and
+FormHL7DefEdit's server row gap no longer happen). The pass finds nothing new.
+
+Open, outside this round's findings (seen while auditing, for the lead): FormPractice's groups stand at x = 19 (labels outside them start at 8) against the
+bottom bar's 8 px (their fields share the window's field column at 132); FormProcCodeEdit's tab control starts at 75 (the label column's
+edge) and leaves an empty corner at the bottom right; both as in round 4.

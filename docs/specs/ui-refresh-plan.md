@@ -1587,6 +1587,11 @@ own 26.2 overlap check before it starts. The first cut is below; a brief that fi
   listed by the planner and FormInsBenefits' and FormPayment's sizes follow the designer; one input height per row at 150%; the harness
   draws windows at their designer size after their handles; GridRulesTests checks hidden controls inside their container; gallery
   G-UI3-ui12p redrawn from round 4 (UI-12.md section 4, "Round 4").
+  Round 5 (branch `ui/ui12p-3`, the lead's 13 review findings of round 4): the planner keeps a wider gap only where a hidden row or a
+  separator line explains it, sizes a wrapped label beside its field to its measured lines and never lets a line start with a hyphen;
+  FormPayment's filter captions and second row on the field columns; one content box in FormHL7DefEdit, FormMedLabEdit and FormEmailInbox;
+  FormInsPlan's adjustments list holds its lines; the clinic picker's label drawn as a Label draws; gallery G-UI3-ui12p redrawn from
+  round 5 (UI-12.md section 4, "Round 5").
 - Gallery: G-UI3 per slice, the owner's rows first.
 
 ---
