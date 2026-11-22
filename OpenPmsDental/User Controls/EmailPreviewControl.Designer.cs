@@ -65,7 +65,7 @@
 			// 
 			// labelSignedBy
 			// 
-			this.labelSignedBy.Location = new System.Drawing.Point(0, 162);
+			this.labelSignedBy.Location = new System.Drawing.Point(0, 167);
 			this.labelSignedBy.Name = "labelSignedBy";
 			this.labelSignedBy.Size = new System.Drawing.Size(83, 18);
 			this.labelSignedBy.TabIndex = 0;
@@ -77,7 +77,7 @@
 			this.textMsgDateTime.BackColor = System.Drawing.SystemColors.Window;
 			this.textMsgDateTime.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			this.textMsgDateTime.ForeColor = System.Drawing.Color.Red;
-			this.textMsgDateTime.Location = new System.Drawing.Point(89, 35);
+			this.textMsgDateTime.Location = new System.Drawing.Point(89, 37);
 			this.textMsgDateTime.Name = "textMsgDateTime";
 			this.textMsgDateTime.ReadOnly = true;
 			this.textMsgDateTime.Size = new System.Drawing.Size(234, 13);
@@ -87,7 +87,7 @@
 			// 
 			// labelSent
 			// 
-			this.labelSent.Location = new System.Drawing.Point(0, 34);
+			this.labelSent.Location = new System.Drawing.Point(0, 36);
 			this.labelSent.Name = "labelSent";
 			this.labelSent.Size = new System.Drawing.Size(83, 18);
 			this.labelSent.TabIndex = 0;
@@ -96,7 +96,7 @@
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(0, 54);
+			this.label3.Location = new System.Drawing.Point(0, 59);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(83, 18);
 			this.label3.TabIndex = 0;
@@ -105,7 +105,7 @@
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(0, 81);
+			this.label1.Location = new System.Drawing.Point(0, 86);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(83, 18);
 			this.label1.TabIndex = 0;
@@ -114,7 +114,7 @@
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(0, 189);
+			this.label2.Location = new System.Drawing.Point(0, 194);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(83, 18);
 			this.label2.TabIndex = 0;
@@ -149,7 +149,7 @@
 			this.textSentOrReceived.BackColor = System.Drawing.SystemColors.Window;
 			this.textSentOrReceived.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			this.textSentOrReceived.AutoSize = false;
-			this.textSentOrReceived.Location = new System.Drawing.Point(89, 18);
+			this.textSentOrReceived.Location = new System.Drawing.Point(89, 20);
 			this.textSentOrReceived.Name = "textSentOrReceived";
 			this.textSentOrReceived.ReadOnly = true;
 			this.textSentOrReceived.Size = new System.Drawing.Size(119, 13);
@@ -158,7 +158,7 @@
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(0, 16);
+			this.label5.Location = new System.Drawing.Point(0, 18);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(83, 17);
 			this.label5.TabIndex = 0;
@@ -167,7 +167,7 @@
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(0, 108);
+			this.label4.Location = new System.Drawing.Point(0, 113);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(83, 18);
 			this.label4.TabIndex = 8;
@@ -176,7 +176,7 @@
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(0, 135);
+			this.label6.Location = new System.Drawing.Point(0, 140);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(83, 18);
 			this.label6.TabIndex = 0;
@@ -221,7 +221,7 @@
 			// butAccountPicker
 			// 
 			this.butAccountPicker.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butAccountPicker.Location = new System.Drawing.Point(707, 52);
+			this.butAccountPicker.Location = new System.Drawing.Point(707, 57);
 			this.butAccountPicker.Name = "butAccountPicker";
 			this.butAccountPicker.Size = new System.Drawing.Size(33, 23);
 			this.butAccountPicker.TabIndex = 14;
@@ -288,7 +288,7 @@
 			this.textBccAddress.BackColor = System.Drawing.SystemColors.Window;
 			this.textBccAddress.DetectLinksEnabled = false;
 			this.textBccAddress.DetectUrls = false;
-			this.textBccAddress.Location = new System.Drawing.Point(89, 133);
+			this.textBccAddress.Location = new System.Drawing.Point(89, 138);
 			this.textBccAddress.Multiline = false;
 			this.textBccAddress.Name = "textBccAddress";
 			this.textBccAddress.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Email;
@@ -309,7 +309,7 @@
 			this.textCcAddress.BackColor = System.Drawing.SystemColors.Window;
 			this.textCcAddress.DetectLinksEnabled = false;
 			this.textCcAddress.DetectUrls = false;
-			this.textCcAddress.Location = new System.Drawing.Point(89, 106);
+			this.textCcAddress.Location = new System.Drawing.Point(89, 111);
 			this.textCcAddress.Multiline = false;
 			this.textCcAddress.Name = "textCcAddress";
 			this.textCcAddress.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Email;
@@ -324,7 +324,7 @@
 			// 
 			// butShowImages
 			// 
-			this.butShowImages.Location = new System.Drawing.Point(8, 214);
+			this.butShowImages.Location = new System.Drawing.Point(8, 219);
 			this.butShowImages.Name = "butShowImages";
 			this.butShowImages.Size = new System.Drawing.Size(78, 22);
 			this.butShowImages.TabIndex = 9;
@@ -340,7 +340,7 @@
 			this.textSubject.BackColor = System.Drawing.SystemColors.Window;
 			this.textSubject.DetectLinksEnabled = false;
 			this.textSubject.DetectUrls = false;
-			this.textSubject.Location = new System.Drawing.Point(89, 187);
+			this.textSubject.Location = new System.Drawing.Point(89, 192);
 			this.textSubject.Multiline = false;
 			this.textSubject.Name = "textSubject";
 			this.textSubject.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Email;
@@ -358,7 +358,7 @@
 			this.textSignedBy.BackColor = System.Drawing.SystemColors.Control;
 			this.textSignedBy.DetectLinksEnabled = false;
 			this.textSignedBy.DetectUrls = false;
-			this.textSignedBy.Location = new System.Drawing.Point(89, 160);
+			this.textSignedBy.Location = new System.Drawing.Point(89, 165);
 			this.textSignedBy.Multiline = false;
 			this.textSignedBy.Name = "textSignedBy";
 			this.textSignedBy.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Email;
@@ -379,7 +379,7 @@
 			this.textToAddress.BackColor = System.Drawing.SystemColors.Window;
 			this.textToAddress.DetectLinksEnabled = false;
 			this.textToAddress.DetectUrls = false;
-			this.textToAddress.Location = new System.Drawing.Point(89, 79);
+			this.textToAddress.Location = new System.Drawing.Point(89, 84);
 			this.textToAddress.Multiline = false;
 			this.textToAddress.Name = "textToAddress";
 			this.textToAddress.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Email;
@@ -400,7 +400,7 @@
 			this.textFromAddress.BackColor = System.Drawing.SystemColors.Window;
 			this.textFromAddress.DetectLinksEnabled = false;
 			this.textFromAddress.DetectUrls = false;
-			this.textFromAddress.Location = new System.Drawing.Point(89, 52);
+			this.textFromAddress.Location = new System.Drawing.Point(89, 57);
 			this.textFromAddress.Multiline = false;
 			this.textFromAddress.Name = "textFromAddress";
 			this.textFromAddress.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Email;
@@ -414,7 +414,7 @@
 			// butSig
 			// 
 			this.butSig.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSig.Location = new System.Drawing.Point(707, 160);
+			this.butSig.Location = new System.Drawing.Point(707, 165);
 			this.butSig.Name = "butSig";
 			this.butSig.Size = new System.Drawing.Size(33, 23);
 			this.butSig.TabIndex = 6;
@@ -443,11 +443,11 @@
 			this.textBodyText.BackColor = System.Drawing.SystemColors.Window;
 			this.textBodyText.DetectLinksEnabled = false;
 			this.textBodyText.DetectUrls = false;
-			this.textBodyText.Location = new System.Drawing.Point(89, 214);
+			this.textBodyText.Location = new System.Drawing.Point(89, 219);
 			this.textBodyText.Name = "textBodyText";
 			this.textBodyText.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Email;
 			this.textBodyText.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textBodyText.Size = new System.Drawing.Size(884, 205);
+			this.textBodyText.Size = new System.Drawing.Size(884, 200);
 			this.textBodyText.TabIndex = 8;
 			this.textBodyText.Text = "";
 			this.textBodyText.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBodyText_KeyDown);
