@@ -164,7 +164,7 @@ namespace OpenPmsDental{
 			this.tabControlVerificationList.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
 			this.tabControlVerificationList.Location = new System.Drawing.Point(8, 8);
 			this.tabControlVerificationList.Name = "tabControlVerificationList";
-			this.tabControlVerificationList.Size = new System.Drawing.Size(966, 351);
+			this.tabControlVerificationList.Size = new System.Drawing.Size(990, 351);
 			this.tabControlVerificationList.TabIndex = 231;
 			this.tabControlVerificationList.Selected += new System.EventHandler(this.tabControlVerificationList_Selected);
 			// 
@@ -175,7 +175,7 @@ namespace OpenPmsDental{
 			this.tabCurrent.Location = new System.Drawing.Point(2, 21);
 			this.tabCurrent.Name = "tabCurrent";
 			this.tabCurrent.Padding = new System.Windows.Forms.Padding(3);
-			this.tabCurrent.Size = new System.Drawing.Size(962, 328);
+			this.tabCurrent.Size = new System.Drawing.Size(986, 328);
 			this.tabCurrent.TabIndex = 0;
 			this.tabCurrent.Text = "Current";
 			// 
@@ -184,7 +184,7 @@ namespace OpenPmsDental{
 			this.gridMain.AllowSortingByColumn = true;
 			this.gridMain.Location = new System.Drawing.Point(8, 8);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(946, 312);
+			this.gridMain.Size = new System.Drawing.Size(970, 312);
 			this.gridMain.TabIndex = 4;
 			this.gridMain.Title = "Insurance Verify List";
 			this.gridMain.TranslationName = "TableInsVerify";
@@ -197,7 +197,7 @@ namespace OpenPmsDental{
 			this.tabPastDue.Location = new System.Drawing.Point(2, 21);
 			this.tabPastDue.Name = "tabPastDue";
 			this.tabPastDue.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPastDue.Size = new System.Drawing.Size(962, 328);
+			this.tabPastDue.Size = new System.Drawing.Size(986, 328);
 			this.tabPastDue.TabIndex = 1;
 			this.tabPastDue.Text = "Past Due";
 			// 
@@ -206,7 +206,7 @@ namespace OpenPmsDental{
 			this.gridPastDue.AllowSortingByColumn = true;
 			this.gridPastDue.Location = new System.Drawing.Point(8, 8);
 			this.gridPastDue.Name = "gridPastDue";
-			this.gridPastDue.Size = new System.Drawing.Size(946, 312);
+			this.gridPastDue.Size = new System.Drawing.Size(970, 312);
 			this.gridPastDue.TabIndex = 5;
 			this.gridPastDue.Title = "Insurance Verify List";
 			this.gridPastDue.TranslationName = "TableInsVerify";

@@ -2617,3 +2617,13 @@ OpenPmsDental/Forms Reports/FormRpOutstandingIns.designer.cs	OpenPmsDental.FormR
 OpenPmsDental/Forms Reports/FormRpOutstandingIns.designer.cs	OpenPmsDental.FormRpOutstandingIns	comboErrorDef	Size	141,21	90,23	by hand (layout script): on the grid
 OpenPmsDental/Forms Reports/FormRpOutstandingIns.designer.cs	OpenPmsDental.FormRpOutstandingIns	label3	Location	850,60	878,77	by hand (layout script): on the grid
 OpenPmsDental/Forms Reports/FormRpOutstandingIns.designer.cs	OpenPmsDental.FormRpOutstandingIns	label3	Size	102,18	116,23	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormPayPlanDynamic.Designer.cs	OpenPmsDental.FormPayPlanDynamic	butChangeGuar	Location	298,48	390,62	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormPayPlanDynamic.Designer.cs	OpenPmsDental.FormPayPlanDynamic	butChangeGuar	Size	65,22	65,23	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormInsVerificationList.designer.cs	OpenPmsDental.FormInsVerificationList	tabControlVerificationList	Location	3,3	8,8	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormInsVerificationList.designer.cs	OpenPmsDental.FormInsVerificationList	tabControlVerificationList	Size	957,340	990,351	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormInsVerificationList.designer.cs	OpenPmsDental.FormInsVerificationList	tabCurrent	Size	953,317	986,328	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormInsVerificationList.designer.cs	OpenPmsDental.FormInsVerificationList	gridMain	Location	1,1	8,8	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormInsVerificationList.designer.cs	OpenPmsDental.FormInsVerificationList	gridMain	Size	946,312	970,312	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormInsVerificationList.designer.cs	OpenPmsDental.FormInsVerificationList	tabPastDue	Size	953,317	986,328	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormInsVerificationList.designer.cs	OpenPmsDental.FormInsVerificationList	gridPastDue	Location	1,1	8,8	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormInsVerificationList.designer.cs	OpenPmsDental.FormInsVerificationList	gridPastDue	Size	946,312	970,312	by hand (layout script): on the grid

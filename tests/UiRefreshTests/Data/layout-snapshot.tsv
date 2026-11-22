@@ -8168,11 +8168,11 @@ OpenPmsDental/Forms/FormInsSpanEdit.designer.cs	butDelete	12,82	86,26
 OpenPmsDental/Forms/FormInsSpanEdit.designer.cs	.			246,120
 OpenPmsDental/Forms/FormInsVerificationList.designer.cs	tabControl1	8,173	1010,597	
 OpenPmsDental/Forms/FormInsVerificationList.designer.cs	tabVerify	2,21	1006,574	
-OpenPmsDental/Forms/FormInsVerificationList.designer.cs	tabControlVerificationList	8,8	966,351	
-OpenPmsDental/Forms/FormInsVerificationList.designer.cs	tabCurrent	2,21	962,328	
-OpenPmsDental/Forms/FormInsVerificationList.designer.cs	gridMain	8,8	946,312	
-OpenPmsDental/Forms/FormInsVerificationList.designer.cs	tabPastDue	2,21	962,328	
-OpenPmsDental/Forms/FormInsVerificationList.designer.cs	gridPastDue	8,8	946,312	
+OpenPmsDental/Forms/FormInsVerificationList.designer.cs	tabControlVerificationList	8,8	990,351	
+OpenPmsDental/Forms/FormInsVerificationList.designer.cs	tabCurrent	2,21	986,328	
+OpenPmsDental/Forms/FormInsVerificationList.designer.cs	gridMain	8,8	970,312	
+OpenPmsDental/Forms/FormInsVerificationList.designer.cs	tabPastDue	2,21	986,328	
+OpenPmsDental/Forms/FormInsVerificationList.designer.cs	gridPastDue	8,8	970,312	
 OpenPmsDental/Forms/FormInsVerificationList.designer.cs	butVerifyPat	294,542	174,24	
 OpenPmsDental/Forms/FormInsVerificationList.designer.cs	textPatBirthdate	605,510	116,20	
 OpenPmsDental/Forms/FormInsVerificationList.designer.cs	labelPatBirthdate	519,510	80,23	
@@ -9989,7 +9989,7 @@ OpenPmsDental/Forms/FormPayPlanDynamic.Designer.cs	butGoToPat	340,35	44,23
 OpenPmsDental/Forms/FormPayPlanDynamic.Designer.cs	textPatient	158,35	176,23	
 OpenPmsDental/Forms/FormPayPlanDynamic.Designer.cs	butGoToGuar	340,62	44,23	
 OpenPmsDental/Forms/FormPayPlanDynamic.Designer.cs	textDate	150,23	84,23	
-OpenPmsDental/Forms/FormPayPlanDynamic.Designer.cs	butChangeGuar	392,64	65,23	
+OpenPmsDental/Forms/FormPayPlanDynamic.Designer.cs	butChangeGuar	390,62	65,23	
 OpenPmsDental/Forms/FormPayPlanDynamic.Designer.cs	textGuarantor	158,62	176,23	
 OpenPmsDental/Forms/FormPayPlanDynamic.Designer.cs	butSave	1069,869	75,24	
 OpenPmsDental/Forms/FormPayPlanDynamic.Designer.cs	label10	461,537	92,17	

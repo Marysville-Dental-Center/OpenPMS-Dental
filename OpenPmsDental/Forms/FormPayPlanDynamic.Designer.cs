@@ -261,7 +261,7 @@ namespace OpenPmsDental {
 			// 
 			// butChangeGuar
 			// 
-			this.butChangeGuar.Location = new System.Drawing.Point(392, 64);
+			this.butChangeGuar.Location = new System.Drawing.Point(390, 62);
 			this.butChangeGuar.Name = "butChangeGuar";
 			this.butChangeGuar.Size = new System.Drawing.Size(65, 23);
 			this.butChangeGuar.TabIndex = 12;
