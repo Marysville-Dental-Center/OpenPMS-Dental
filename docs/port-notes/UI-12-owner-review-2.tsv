@@ -1,0 +1,6 @@
+picture	size	sha256	gallery	commit	date	answer	note
+1-owner-rows/31-ControlChart.png	939x708	e3ebd921b9adad590c780412e3cbfa9ac927ad98b07bbd87308b959e37730c1c	G-UI3	58ae8331b	2026-11-22	Change	Modernize horizontal sliding bar
+2-pilot-windows/FormProcCodeEdit.png	1153x893	ef55cf606624f9150264e9de7dbafff11683659e904d531d7e2efecff6308627	G-UI3	58ae8331b	2026-11-22	Change	Time pattern on the left looks odd
+2-pilot-windows/FormProvEdit.png	895x830	4570658adeec42ffec73830d691c70ec843693b2577054533cd3c8cee0684d8c	G-UI3	58ae8331b	2026-11-22	Change	Scrolling still using old style
+2-pilot-windows/ControlAccount.png	1123x732	c1db918864da7a1c9fbbb098223383263e8141e62d5de112aa5044680e799ab4	G-UI3	58ae8331b	2026-11-22	Change	Check spacing top left. Scrolling bar style is old
+# Overall (owner, 2026-11-22): "Overall make sure you modernize all element types."
