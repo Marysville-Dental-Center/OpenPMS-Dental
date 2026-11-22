@@ -539,7 +539,7 @@ The owner approved the icon choices of G-UI3-ui9b4 "as fixed" (2026-11-21). The 
    `EnumIcons` rows, 0.8 to 1.5; `IconDesign.OpticalScale`, the generator writes it) scales a row's designs about their centre. H1 to H3 are
    15/14 larger, B draws Fluent's 28 px design at every size (stems 3 of 20, lighter; the generator now accepts the 28 size, which no slot asks
    for) at 0.92, and I is 15/16 as large: the five text buttons have one cap height, 15 of the 24 px design's 20 px keyline square (21 px in the
-   32 px box; within 1 px at 100, 150 and 200%), and the strokes of H and I stay those of the regular icons beside them (about 1 px at 100%
+   32 px box at 150 and 200%; at 100% H1 to H3 and I draw their own 20 px designs pixel for pixel, with no optical scale, see 5.8.1), and the strokes of H and I stay those of the regular icons beside them (about 1 px at 100%
    and 2 px at 150 and 200%; B stays bold, with stems of 3.2 px at 200%, where Fluent's 24 px B in the same box would have 4.2). 8/7 for the headings was tried first: H2 and H3 then filled the box edge to edge and crowded their
    labels at 150%, so the five meet at 15 instead of 16. The colour and font buttons (an A) are unchanged.
 4. **Wiki icon 6 was hard to read.** It is Rename: the button renames the current wiki page (its title; `FormWiki.ToolBarMain_ButtonClick`,
@@ -583,6 +583,57 @@ Runs (`.git/od-tools/test-results/`), after the full x64 build (0 errors): `ui9b
 skipped; UiRefreshTests 267 + 14 opt-in skipped; UnitTests 1,727, with `Billing_StatementOrder_ClinicsYES` failing once: it asserts that random
 synthetic statements leave the grid's order, which they sometimes do not, and no billing code changed here) and `ui9b4fix-unit2.txt` (UnitTests
 1,728 + 3 skipped, the same build). InitSqlTests and ForkMigrationTests not run (no schema; `db/init/new-database.sql` not regenerated).
+
+#### 5.8.1 Round 2: the second review (`ui/ui9b4fix-2`)
+
+1. **The optical scale blurred the text buttons at 100%.** `GetPlacement` applied a row's `OpticalScale` in the box of the design's own size
+   too: at 100% the toolbars' 22 px slot has the 20 px box, which draws the 20 px designs, and H1 to H3 were drawn at 15/14 (offset -0.71 px) and
+   I at 15/16, so their 1 px stems and serifs fell on fractions of a pixel: each H's left stem a 2 px grey column, the foot of the 2 and the
+   bottom of the 3 grey, I's serifs grey; the headings read lighter and blurrier than Link or B beside them (audit item 3's complaint, made by
+   the fix). Fix: a design in a box of its own size is drawn pixel for pixel, as before the fix (scale 1, offset 0), whatever its optical scale;
+   the scale applies only where the design is scaled anyway (another box: the 32 px box at 150 and 200%, where the 24 px designs are scaled by
+   the keylines). At 100% this changes only H1 to H3 and I, which are now exactly the pictures of `main` (pixel for pixel; only B, the 28 px
+   design, differs from `main` there). Cap heights at 100%: H 12 px, B 12.3 px (the 28 px design at 0.613), I 14 px (Fluent's own 20 px
+   design: 1.7 px taller than B, as it was on `main`, which the lead's audit did not mention; drawing I smaller there would put its serifs on
+   fractions of a pixel again). At 150 and 200% the five still meet within 1 px. New test `StripIconBoxTests.TextButtons_AreCrisp_At100`: in the
+   editors' list at 100% of the 22 px slot, the two most inked columns of each H (its stems) and the most inked of I's top and bottom two rows
+   (its serifs) each have a pixel of at least 0.9 ink (the first v2 had about 0.3 to 0.5). `HeadingLetters_HaveTheCapHeightOfBoldAndItalic`
+   checks at 100% that H1 to H3 and I draw their 20 px design unscaled, H1 within 1 px of B and I at 14 px; at 150 and 200% as before.
+2. **The box rule changes approved pictures outside the UI-9b galleries.** `IsBoxFilled` is every `EnumIcons` and `DentalIcon` drawing, so
+   every approved picture set was drawn on `main`'s icon code and on this branch, by the same tests of this branch (UiRefreshTests with
+   `OPMS_UI_SHEET_OUT`, `OPMS_UI7B_ICON_PICTURES`, `OPMS_UI8_ICON_PICTURES`, `OPMS_UI_STATES_GALLERY`, `OPMS_UI_LISTS_GALLERY`,
+   `OPMS_UI_TABS_GALLERY`, `OPMS_UI_TEXT_GALLERY`, `OPMS_UI_DIALOG_GALLERY`, `OPMS_UI_IMAGING_GALLERY`, `OPMS_UI_GRID_GALLERY`,
+   `OPMS_UI6_PICTURES`, `OPMS_UI3_FRAME_OUT`, `OPMS_UI9A_PICTURES` and `OPMS_UI9B_PICTURES`; the WPF pictures were drawn too), and the masked
+   hashes compared (`tools\New-UiGallery.ps1`, one gallery per set). All 1,890 rows of `approved.tsv` were drawn; 119 change, every one by
+   the box fault (an icon without a design of the slot's box, now scaled into its neighbours' box), checked picture by picture:
+   - G-UI2: `states/modulebar-150`, `-200`, `-chart-150`, `-chart-200`, `-hover-150`, `-hover-200`, `-pressed-150`, `-pressed-200` (8). Only
+     Tx Plan (`TreatPlan32`: 16 to 32 px, no 48) changes: in the 48 px box it was the 32 px design, visibly smaller than Appts, Family and
+     Chart; now their size (the diff marks nothing else). `states/toolbar-150` and `-200` and every other G-UI2 picture are the same.
+   - G-UI3 `toolbars/`, `trees/`, `lists/` (24): the module toolbars at 150 and 200% (account, appts, chart, family, imaging-paint, main,
+     tasks, txplan), `trees/security-tree-200`, `tasks-tree-100`, `tasks-tree-200`, `imaging-tree-100`, `imaging-tree-200` and
+     `lists/tasks-grid-100`, `-150`, `-200`: the changes of item 1 of 5.8. The G-UI3 `buttons/` and `wpf/` pictures are the same.
+   - G-UI3 `windows/DashboardCellCtrl`, `windows/DashboardPanelCtrl`, `controls/DashboardCellCtrl.butDrag`, `controls/DashboardCellCtrl.pictureBox`
+     (4): Move and Add Chart (`Move`, `ChartAdd`: 20 and 24 px, no 16) in their 16 px buttons were the 20 px design shrunk to 16 (a 12.8 px
+     keyline square); now the 14 px of their neighbours (Refresh, Edit, Preview). Nothing else in the windows changes. Every other G-UI3
+     window and control picture is the same.
+   - G-UI1 part 3, the icon library (`icons/<name>/<slot>px-<scale>.png`, 79, and `sheet-100` to `sheet-200`, 4): Acquire, ArrowsAll,
+     BreakAptX, Chart32, Export, Hand, ImageSelectorFolderWeb, ImageSelectorMount, ImageSelectorXray, Import, Paste, PatDelete, PatMoveFam,
+     PatSelect, PatSetGuarantor, ScanMulti, ScanXray, Text, TreatPlan32 (with its filled twins), TreatPlanMed32 and WebMail, each only at the
+     slots whose box has no design of the icon. A check over all 1,816 pictures of the set (an icon has a design of the slot's box: the same;
+     it has none: changed) holds for every picture but Rename's, which is Rename A since item 4 of 5.8 and is not approved yet.
+   - Not approved, also changed: the before set of G-UI1 part 4 (`before/icons/XrayPeriapical`: the old ImageSelectorXray, no 32 or 48 px
+     design) and this slice's own strips. G-UI1's design sheet, control strips and frame pictures (G-UI2-frame), procedure buttons and module
+     bar icons are the same.
+   No change is anything but the box fault, so `IsBoxFilled` stays as it is. The 119 pictures, before (`main`) and after: companion gallery
+   **G-UI3-ui9b4-v2-approved** (`.git/od-tools/test-results/G-UI3-ui9b4-v2-approved/index.html`, its zip beside it), for the owner's final
+   review with G-UI3-ui9b4-v2. The sets: `.git/od-tools/test-results/ui9b4fix2-pictures/main` and `.../branch`; the comparison, one gallery per
+   set and `changed-and-approved.tsv` (every changed or approved picture with its approved row and whether `main` and the branch match it):
+   `.git/od-tools/test-results/ui9b4fix2-compare`. The picture runs: `ui9b4fix2-main-pictures.txt` (its two failures are the generator tests,
+   `main`'s manifest beside this branch's SVGs, as in round 1) and `ui9b4fix2-branch-pictures.txt` (green).
+
+Gallery G-UI3-ui9b4-v2 drawn again from the round 2 pictures (the same 39 pictures and before set): only `toolbars/FormEmailEdit-100` and
+`toolbars/FormWikiEdit-100` differ from the first v2 (H1 to H3 and I); the audit's 100% lines redone (`docs/port-notes/UI-9b-4-audit.md`,
+round 4).
 
 ## 6. UI-9b is complete
 
