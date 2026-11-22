@@ -1,3 +1,22 @@
-# UI-12: the grid findings GridRulesTests allows on the grid windows, each with why (the planner lists them in its run; docs/port-notes/UI-12.md section 4).
+# UI-12: the grid findings GridRulesTests allows on the grid windows, each with why (the planner lists them in its run; UI-12.md section 4).
 # The test fails on a finding not listed here and on a row that no longer happens, so this list only shrinks.
 window	rule	key	why
+OpenPmsDental.FormPatientEdit	overlap	label20 textAge	the Age label and box sit in the Family Relationships header row, drawn over the list header; kept for the rollout
+OpenPmsDental.FormPatientEdit	overlap	labelBirthdate odDatePickerBirthDate	a label over an ODDatePicker, whose width comes from its own layout (UI-4b), kept as drawn
+OpenPmsDental.FormPatientEdit	label-gap	label20 textAge	the Age label and box sit in the Family Relationships header row, drawn over the list header; kept for the rollout
+OpenPmsDental.FormPatientEdit	overlap	monthCalendarOD textDate	ODDatePicker's own parts (its text box and calendar; UI-4b's control)
+OpenPmsDental.FormPatientEdit	overlap	labelDateFirstVisit odDatePickerDateFirstVisit	a label over an ODDatePicker, whose width comes from its own layout (UI-4b), kept as drawn
+OpenPmsDental.FormProcCodeEdit	overlap	butSlider label6	the time bar column (the slider placed by code on the bar) is kept as drawn; its 'Time Pattern' caption reaches over it
+OpenPmsDental.FormProcCodeEdit	overlap	label6 tbTime	the time bar column (the slider placed by code on the bar) is kept as drawn; its 'Time Pattern' caption reaches over it
+OpenPmsDental.FormInsBenefits	overlap	gridBenefits panelSimple	the grid is placed under the simplified panel by Load at run time (the harness does not run Load)
+OpenPmsDental.FormInsBenefits	overlap	gridBenefits groupCategories	the grid is placed under the simplified panel by Load at run time (the harness does not run Load)
+OpenPmsDental.FormInsBenefits	overlap	labelMonths labelWaitingPeriod	two labels the designer stacks over one another (waiting period header), kept as drawn by the planner
+OpenPmsDental.FormEmailInbox	label-gap	lableUserName textUserName	the preview pane's labels: EmailPreviewControl is another designer (its own rollout slice)
+OpenPmsDental.FormEmailInbox	label-gap	label6 textBccAddress	the preview pane's labels: EmailPreviewControl is another designer (its own rollout slice)
+OpenPmsDental.FormEmailInbox	label-gap	label4 textCcAddress	the preview pane's labels: EmailPreviewControl is another designer (its own rollout slice)
+OpenPmsDental.FormEmailInbox	label-gap	label5 textSentOrReceived	the preview pane's labels: EmailPreviewControl is another designer (its own rollout slice)
+OpenPmsDental.FormEmailInbox	label-gap	labelSignedBy textSignedBy	the preview pane's labels: EmailPreviewControl is another designer (its own rollout slice)
+OpenPmsDental.FormEmailInbox	label-gap	labelSent textMsgDateTime	the preview pane's labels: EmailPreviewControl is another designer (its own rollout slice)
+OpenPmsDental.FormEmailInbox	label-gap	label3 textFromAddress	the preview pane's labels: EmailPreviewControl is another designer (its own rollout slice)
+OpenPmsDental.FormEmailInbox	label-gap	label1 textToAddress	the preview pane's labels: EmailPreviewControl is another designer (its own rollout slice)
+OpenPmsDental.FormEmailInbox	label-gap	label2 textSubject	the preview pane's labels: EmailPreviewControl is another designer (its own rollout slice)

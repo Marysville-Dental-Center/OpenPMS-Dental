@@ -45,8 +45,8 @@ namespace UiRefreshTests {
 		///<summary>The known findings: window, rule, the finding's key, and why.</summary>
 		private static HashSet<string> ReadKnown() {
 			HashSet<string> hashSetKnown=new HashSet<string>();
-			foreach(string line in File.ReadAllLines(RepoPaths.DataFile("grid-known.tsv")).Skip(1)) {
-				if(line.Trim()=="" || line.StartsWith("#")) {
+			foreach(string line in File.ReadAllLines(RepoPaths.DataFile("grid-known.tsv"))) {
+				if(line.Trim()=="" || line.StartsWith("#") || line.StartsWith("window\t")) {
 					continue;
 				}
 				string[] arrayFields=line.Split('\t');
