@@ -63,6 +63,7 @@ namespace UiRefreshTests {
 			List<string> listFailed=new List<string>();
 			StaRunner.Run(() => {
 				NoDatabaseGuard.Install();
+				DesignSheetWindows.IsPrintingWithoutChildren=true;
 				List<ScanType> listScanTypes=WindowBuilder.GetScanTypes();
 				foreach(string window in arrayWindows) {
 					ScanType scanType=listScanTypes.FirstOrDefault(x => x.WindowKey==window);
@@ -77,6 +78,8 @@ namespace UiRefreshTests {
 							if(root is FormODBase formODBase && formODBase.PanelClient!=null) {
 								root=formODBase.PanelClient;
 							}
+							SettleAfterHandles(builtWindow);
+							HideDatePickerCalendars(root);
 							List<string[]> listOwnerHere=listOwner.Where(x => x[1]==window).ToList();
 							using(Bitmap bitmap=DesignSheetWindows.Capture(root,Rectangle.Empty)) {
 								string name=window.Substring(window.LastIndexOf('.')+1);
@@ -114,8 +117,37 @@ namespace UiRefreshTests {
 					}
 				}
 			});
+			DesignSheetWindows.IsPrintingWithoutChildren=false;
 			File.WriteAllLines(Path.Combine(folder,"gallery-failed.txt"),listFailed);
 			Assert.IsTrue(countPictures>0,"No picture made: "+string.Join("; ",listFailed));
+		}
+
+		///<summary>UI-12 fix round: creates the window's handles, then lays the window out again at its scale before it is drawn. Creating the
+		///handles resizes the window once more (Windows' own anchoring runs on the way, and a control with a minimum size, FormClaimEdit's
+		///procedure grid, keeps the difference), which left the right and bottom edges of FormClaimEdit past its picture: its grid ran to the
+		///picture's edge and its bottom bar was cut. The second layout puts every control where LayoutManager puts it in the designer's client
+		///area, as the window's Load does when it sets the client area (DoCalculateClientArea).</summary>
+		public static void SettleAfterHandles(BuiltWindow builtWindow) {
+			if(builtWindow.ScanType==null || builtWindow.ScanType.Kind!=BuildKind.LayoutManagerWindow || builtWindow.Form==null) {
+				return;
+			}
+			//A window the designer opens maximized (FormEmailInbox) would take the screen's size with its handle: the picture shows the designer's
+			//client area.
+			builtWindow.Form.WindowState=FormWindowState.Normal;
+			DesignSheetWindows.CreateHandles(builtWindow.Form);
+			builtWindow.LayOutAt(builtWindow.Scale);
+		}
+
+		///<summary>Hides the calendar of every ODDatePicker as the picker's Load does (the harness builds windows without Load): a calendar left
+		///visible shows its top edge as a line under the date box.</summary>
+		public static void HideDatePickerCalendars(Control control) {
+			foreach(Control child in control.Controls) {
+				if(child is OpenPmsDental.UI.ODDatePicker odDatePicker) {
+					odDatePicker.HideCalendar();
+					continue;
+				}
+				HideDatePickerCalendars(child);
+			}
 		}
 
 		///<summary>The font of the gallery's pictures (VARIABLE_FONT): "program" sets no token override and the default font to the body token's

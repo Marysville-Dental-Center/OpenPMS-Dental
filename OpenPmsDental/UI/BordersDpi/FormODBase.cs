@@ -661,6 +661,8 @@ namespace OpenPmsDental {
 		protected void InitializeLayoutManager(bool isLayoutMS=false,bool is96dpi=false){
 			IsLayoutMS=isLayoutMS;
 			LayoutManager=new LayoutManagerForms(this,isLayoutMS,is96dpi);
+			//UI-12: every single-line input draws the combo box's frame.
+			UiInputFrame.AttachTree(this);
 			if(LayoutManager!=null){
 				if(WindowState==FormWindowState.Maximized){
 					LayoutManager.SetPanelClient(this);

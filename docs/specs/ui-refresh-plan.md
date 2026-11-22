@@ -66,6 +66,12 @@ font, and one icon family. Staff who switch from Open Dental find every control 
 
 **The owner's decisions (2026-11-17).**
 1. **Restyle only.** Every window keeps its layout and its control positions. Staff switch from Open Dental and know where things are.
+   **Replaced on 2026-11-21 for the layouts** (the owner's G-UI3 review: "overall not good. UI lacking consistence. choice of spacing not
+   symetrical"): "every window is laid out again on one spacing grid by a tool, same controls, same window sizes where they fit; a pilot
+   first, then every window in slices", and "the checkbox box on the left of its text, everywhere". The owner's standard for it: "apply
+   general styling sense. Looking for symmetry, consistency, right balance between too much crowding and too much spacing". The rules
+   are in [UI-12.md](../port-notes/UI-12.md) section 1; package UI-12 in section 7. The controls, their order, names, texts and events
+   still stay; what follows about positions holds until a window's UI-12 slice lays it out.
    - Allowed: colours, borders, corner radii, fonts, icons, and how a control draws inside its own bounds.
    - Not allowed: moving a control, changing a window's layout, new windows in place of old ones.
    - The one exception, needed by decision 3: a control whose text no longer fits may get a little wider or taller, in place, when the
@@ -1557,6 +1563,46 @@ own 26.2 overlap check before it starts. The first cut is below; a brief that fi
 - Work: the sweep of every window (G-UI4), fixes it finds, the notes: the classic look is gone; no conversion; Misc Colors still work.
 - Tests: the whole Full run; the source scans' allow lists at their final size.
 - Gallery: G-UI3 slices for the `BackColor` slices; **G-UI4** for UI-11-final, including the files that still use `ColorOD`.
+
+**UI-12: the layout grid (the owner's decision of 2026-11-21, section 1)**
+- Rules: [UI-12.md](../port-notes/UI-12.md) section 1 (8 px container padding, labels 6 px before their fields and right-aligned, one
+  field height and one row pitch per container, check boxes with the box on the left, dialog buttons bottom right). Tool:
+  `tools/UiFit/grid_tools.py` (planner and applier) with the `GridDump` control tree of `tests/UiRefreshTests`; `GridRulesTests` checks
+  the rules on the windows of `tests/UiRefreshTests/Data/grid-windows.tsv`.
+- Slices: **UI-12 pilot** (branch `ui/ui12p-1`): the 33 windows of UI-10 slice 1 and the 14 windows of the owner's G-UI3 review, the
+  shared input frame (`UiInputFrame`) and the Progress Notes page bar. Then **UI-12-1 to UI-12-n** over the UI-10 ranking order
+  (`fit-scan-files.tsv`), about 40 designer files each, then the rest (the windows the ranking does not hold).
+- Status of the pilot (2026-11-21, round 2): the owner's answers (row pitch 27: fields 23 px, 4 px apart; a 1920 x 1080 screen, a client
+  area up to about 1000 x 1880; FormPreferences grows to show its pages) and the lead's audit applied. 42 of the 47 windows laid out by
+  the tool (the 40 of round 1, FormApptEdit and FormPayment laid out in parts through `grid-scope.tsv`), the Preferences pages in the
+  Preferences style (one field column per page, labels where the check box text starts); a re-run of the planner on the build plans
+  nothing. Round 3 (2026-11-21): all 47 windows laid out: FormInsPlan, FormClaimEdit and FormProcEdit (their tabs by the planner in
+  keep-width parts) and the two modules' designer-placed parts (the Chart's Enter Treatment page and button rows, the Account's aging strip
+  and side panel) by layout scripts (`tools/UiFit/grid_hand.py`, `tools/UiFit/hand/`); the lead's audit of round 2 fixed; the stock radio
+  button drawn like the check box (`UiRadioLook`); `GridRulesTests` in every grid window with the owner's addition (no text past its
+  container, equal gaps between consecutive fields, check boxes and buttons); kept as on main with reasons: the Chart's Missing, Movements,
+  Show and Ortho pages and the Account's hidden summary groups (UI-12.md section 5); gallery G-UI3-ui12p redrawn from round 3.
+  Round 4 (branch `ui/ui12p-2`, the lead's 27 review findings): the Preferences field column at 50% of the page; the clinic picker, one-line
+  multi-line boxes and wrapped notes on the grid; groups whose hidden last row the code shows grow in code; code that sizes a window is
+  listed by the planner and FormInsBenefits' and FormPayment's sizes follow the designer; one input height per row at 150%; the harness
+  draws windows at their designer size after their handles; GridRulesTests checks hidden controls inside their container; gallery
+  G-UI3-ui12p redrawn from round 4 (UI-12.md section 4, "Round 4").
+  Round 5 (branch `ui/ui12p-3`, the lead's 13 review findings of round 4): the planner keeps a wider gap only where a hidden row or a
+  separator line explains it, sizes a wrapped label beside its field to its measured lines and never lets a line start with a hyphen;
+  FormPayment's filter captions and second row on the field columns; one content box in FormHL7DefEdit, FormMedLabEdit and FormEmailInbox;
+  FormInsPlan's adjustments list holds its lines; the clinic picker's label drawn as a Label draws; gallery G-UI3-ui12p redrawn from
+  round 5 (UI-12.md section 4, "Round 5").
+  Round 6 (branch `ui/ui12p-4-1`, the polish round: the lead's non-blocking list of round 5): every multi-line text box draws the
+  inputs' frame and the up-down boxes' arrows draw in the theme (`UiUpDownLook`); lists hold their items (FormProvEdit's Specialty,
+  FormProcCodeEdit's Treatment Area); the message preview's label gaps; the edges and gaps of FormClaimEdit, FormMedLabEdit,
+  FormPractice, FormProvEdit, FormProcCodeEdit (its tab control to the content edge), FormScreenEdit, FormPatientEdit and the recurring
+  charges page; the planner grows a wide field to its column's edge and stands a Preferences label on a multi-line box's first line;
+  gallery G-UI3-ui12p redrawn from round 6 (UI-12.md section 4, "Round 6").
+  Round 7 (branch `ui/ui12p-4-2`, the fix round of round 6): every bordered rich text box (ODtextBox) draws the inputs' frame, single-line
+  ones too (FormEmailInbox's address and subject boxes, ControlChart's search box); the message preview's address rows on the grid (23 px
+  at a 27 px pitch, 8 px before the Attachments tab control); GridRulesTests' `unframed` rule; gallery G-UI3-ui12p redrawn from round 7
+  (UI-12.md section 4, "Round 7").
+- Gallery: G-UI3 per slice, the owner's rows first.
 
 ---
 

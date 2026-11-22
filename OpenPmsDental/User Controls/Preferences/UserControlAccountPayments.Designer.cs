@@ -65,49 +65,49 @@ namespace OpenPmsDental {
 			this.groupBoxUnearnedIncome.Controls.Add(this.checkShowAllocateUnearnedPaymentPrompt);
 			this.groupBoxUnearnedIncome.Controls.Add(this.checkAllowPrepayProvider);
 			this.groupBoxUnearnedIncome.Controls.Add(this.label28);
-			this.groupBoxUnearnedIncome.Location = new System.Drawing.Point(20, 490);
+			this.groupBoxUnearnedIncome.Location = new System.Drawing.Point(8, 523);
 			this.groupBoxUnearnedIncome.Name = "groupBoxUnearnedIncome";
-			this.groupBoxUnearnedIncome.Size = new System.Drawing.Size(450, 87);
+			this.groupBoxUnearnedIncome.Size = new System.Drawing.Size(478, 111);
 			this.groupBoxUnearnedIncome.TabIndex = 323;
 			this.groupBoxUnearnedIncome.Text = "Unearned Income";
 			// 
 			// checkShowAllocateUnearnedPaymentPrompt
 			// 
 			this.checkShowAllocateUnearnedPaymentPrompt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkShowAllocateUnearnedPaymentPrompt.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkShowAllocateUnearnedPaymentPrompt.Location = new System.Drawing.Point(80, 60);
+			this.checkShowAllocateUnearnedPaymentPrompt.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkShowAllocateUnearnedPaymentPrompt.Location = new System.Drawing.Point(8, 83);
 			this.checkShowAllocateUnearnedPaymentPrompt.Name = "checkShowAllocateUnearnedPaymentPrompt";
-			this.checkShowAllocateUnearnedPaymentPrompt.Size = new System.Drawing.Size(364, 18);
+			this.checkShowAllocateUnearnedPaymentPrompt.Size = new System.Drawing.Size(366, 20);
 			this.checkShowAllocateUnearnedPaymentPrompt.TabIndex = 307;
 			this.checkShowAllocateUnearnedPaymentPrompt.Text = "Prompt user to allocate unearned income after creating a claim";
 			// 
 			// checkAllowPrepayProvider
 			// 
 			this.checkAllowPrepayProvider.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkAllowPrepayProvider.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkAllowPrepayProvider.Location = new System.Drawing.Point(135, 10);
+			this.checkAllowPrepayProvider.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkAllowPrepayProvider.Location = new System.Drawing.Point(8, 23);
 			this.checkAllowPrepayProvider.Name = "checkAllowPrepayProvider";
-			this.checkAllowPrepayProvider.Size = new System.Drawing.Size(305, 18);
+			this.checkAllowPrepayProvider.Size = new System.Drawing.Size(275, 20);
 			this.checkAllowPrepayProvider.TabIndex = 303;
 			this.checkAllowPrepayProvider.Text = "Allow assigning unearned income to providers";
 			// 
 			// comboUnallocatedSplits
 			// 
 			this.comboUnallocatedSplits.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.comboUnallocatedSplits.Location = new System.Drawing.Point(315, 33);
+			this.comboUnallocatedSplits.Location = new System.Drawing.Point(248, 51);
 			this.comboUnallocatedSplits.Name = "comboUnallocatedSplits";
-			this.comboUnallocatedSplits.Size = new System.Drawing.Size(125, 21);
+			this.comboUnallocatedSplits.Size = new System.Drawing.Size(222, 23);
 			this.comboUnallocatedSplits.TabIndex = 281;
 			// 
 			// label28
 			// 
 			this.label28.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.label28.Location = new System.Drawing.Point(53, 36);
+			this.label28.Location = new System.Drawing.Point(24, 47);
 			this.label28.Name = "label28";
-			this.label28.Size = new System.Drawing.Size(261, 17);
+			this.label28.Size = new System.Drawing.Size(218, 32);
 			this.label28.TabIndex = 282;
 			this.label28.Text = "Default unearned type for unallocated paysplits";
-			this.label28.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.label28.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// groupBoxPayPlans
 			// 
@@ -125,47 +125,47 @@ namespace OpenPmsDental {
 			this.groupBoxPayPlans.Controls.Add(this.checkHideDueNow);
 			this.groupBoxPayPlans.Controls.Add(this.label59);
 			this.groupBoxPayPlans.Controls.Add(this.label27);
-			this.groupBoxPayPlans.Location = new System.Drawing.Point(20, 228);
+			this.groupBoxPayPlans.Location = new System.Drawing.Point(8, 238);
 			this.groupBoxPayPlans.Name = "groupBoxPayPlans";
-			this.groupBoxPayPlans.Size = new System.Drawing.Size(450, 256);
+			this.groupBoxPayPlans.Size = new System.Drawing.Size(478, 277);
 			this.groupBoxPayPlans.TabIndex = 322;
 			this.groupBoxPayPlans.Text = "Pay Plans";
 			// 
 			// checkPayPlanRequireLockForAPR
 			// 
 			this.checkPayPlanRequireLockForAPR.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkPayPlanRequireLockForAPR.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkPayPlanRequireLockForAPR.Location = new System.Drawing.Point(13, 210);
+			this.checkPayPlanRequireLockForAPR.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkPayPlanRequireLockForAPR.Location = new System.Drawing.Point(8, 225);
 			this.checkPayPlanRequireLockForAPR.Name = "checkPayPlanRequireLockForAPR";
-			this.checkPayPlanRequireLockForAPR.Size = new System.Drawing.Size(427, 18);
+			this.checkPayPlanRequireLockForAPR.Size = new System.Drawing.Size(424, 20);
 			this.checkPayPlanRequireLockForAPR.TabIndex = 322;
 			this.checkPayPlanRequireLockForAPR.Text = "Require permanent lock to save a Payment Plan if there is an APR entered";
 			// checkPayPlansExcludePastActivity
 			// 
 			this.checkPayPlansExcludePastActivity.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkPayPlansExcludePastActivity.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkPayPlansExcludePastActivity.Location = new System.Drawing.Point(122, 10);
+			this.checkPayPlansExcludePastActivity.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkPayPlansExcludePastActivity.Location = new System.Drawing.Point(8, 23);
 			this.checkPayPlansExcludePastActivity.Name = "checkPayPlansExcludePastActivity";
-			this.checkPayPlansExcludePastActivity.Size = new System.Drawing.Size(318, 18);
+			this.checkPayPlansExcludePastActivity.Size = new System.Drawing.Size(273, 20);
 			this.checkPayPlansExcludePastActivity.TabIndex = 310;
 			this.checkPayPlansExcludePastActivity.Text = "Payment Plans exclude past activity by default";
 			// 
 			// labelTermsAndConditions
 			// 
 			this.labelTermsAndConditions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelTermsAndConditions.Location = new System.Drawing.Point(146, 185);
+			this.labelTermsAndConditions.Location = new System.Drawing.Point(24, 198);
 			this.labelTermsAndConditions.Name = "labelTermsAndConditions";
-			this.labelTermsAndConditions.Size = new System.Drawing.Size(223, 17);
+			this.labelTermsAndConditions.Size = new System.Drawing.Size(218, 23);
 			this.labelTermsAndConditions.TabIndex = 321;
 			this.labelTermsAndConditions.Text = "Payment Plan Terms and Conditions";
-			this.labelTermsAndConditions.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.labelTermsAndConditions.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// butPayPlanTermsAndConditions
 			// 
 			this.butPayPlanTermsAndConditions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butPayPlanTermsAndConditions.Location = new System.Drawing.Point(372, 182);
+			this.butPayPlanTermsAndConditions.Location = new System.Drawing.Point(248, 198);
 			this.butPayPlanTermsAndConditions.Name = "butPayPlanTermsAndConditions";
-			this.butPayPlanTermsAndConditions.Size = new System.Drawing.Size(68, 22);
+			this.butPayPlanTermsAndConditions.Size = new System.Drawing.Size(68, 23);
 			this.butPayPlanTermsAndConditions.TabIndex = 317;
 			this.butPayPlanTermsAndConditions.Text = "Edit";
 			this.butPayPlanTermsAndConditions.Click += new System.EventHandler(this.butPayPlanTermsAndConditions_Click);
@@ -173,37 +173,37 @@ namespace OpenPmsDental {
 			// checkPayPlansUseSheets
 			// 
 			this.checkPayPlansUseSheets.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkPayPlansUseSheets.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkPayPlansUseSheets.Location = new System.Drawing.Point(122, 33);
+			this.checkPayPlansUseSheets.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkPayPlansUseSheets.Location = new System.Drawing.Point(8, 47);
 			this.checkPayPlansUseSheets.Name = "checkPayPlansUseSheets";
-			this.checkPayPlansUseSheets.Size = new System.Drawing.Size(318, 18);
+			this.checkPayPlansUseSheets.Size = new System.Drawing.Size(200, 20);
 			this.checkPayPlansUseSheets.TabIndex = 311;
 			this.checkPayPlansUseSheets.Text = "Pay Plans use Sheets for printing";
 			// 
 			// checkPayPlanSaveSignedPdf
 			// 
 			this.checkPayPlanSaveSignedPdf.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkPayPlanSaveSignedPdf.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkPayPlanSaveSignedPdf.Location = new System.Drawing.Point(3, 56);
+			this.checkPayPlanSaveSignedPdf.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkPayPlanSaveSignedPdf.Location = new System.Drawing.Point(8, 71);
 			this.checkPayPlanSaveSignedPdf.Name = "checkPayPlanSaveSignedPdf";
-			this.checkPayPlanSaveSignedPdf.Size = new System.Drawing.Size(437, 18);
+			this.checkPayPlanSaveSignedPdf.Size = new System.Drawing.Size(367, 20);
 			this.checkPayPlanSaveSignedPdf.TabIndex = 312;
 			this.checkPayPlanSaveSignedPdf.Text = "In eClipboard and ODTouch, save signed Payment Plans as PDF";
 			// 
 			// label39
 			// 
 			this.label39.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.label39.Location = new System.Drawing.Point(30, 158);
+			this.label39.Location = new System.Drawing.Point(24, 171);
 			this.label39.Name = "label39";
-			this.label39.Size = new System.Drawing.Size(215, 17);
+			this.label39.Size = new System.Drawing.Size(218, 23);
 			this.label39.TabIndex = 320;
 			this.label39.Text = "Payment plan unearned type";
-			this.label39.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.label39.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// comboPayPlansVersion
 			// 
 			this.comboPayPlansVersion.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.comboPayPlansVersion.Location = new System.Drawing.Point(246, 79);
+			this.comboPayPlansVersion.Location = new System.Drawing.Point(246, 95);
 			this.comboPayPlansVersion.Name = "comboPayPlansVersion";
 			this.comboPayPlansVersion.Size = new System.Drawing.Size(194, 21);
 			this.comboPayPlansVersion.TabIndex = 313;
@@ -213,46 +213,46 @@ namespace OpenPmsDental {
 			// comboDppUnearnedType
 			// 
 			this.comboDppUnearnedType.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.comboDppUnearnedType.Location = new System.Drawing.Point(246, 155);
+			this.comboDppUnearnedType.Location = new System.Drawing.Point(248, 171);
 			this.comboDppUnearnedType.Name = "comboDppUnearnedType";
-			this.comboDppUnearnedType.Size = new System.Drawing.Size(194, 21);
+			this.comboDppUnearnedType.Size = new System.Drawing.Size(222, 23);
 			this.comboDppUnearnedType.TabIndex = 316;
 			this.comboDppUnearnedType.Text = "comboBoxOD1";
 			// 
 			// checkHideDueNow
 			// 
 			this.checkHideDueNow.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkHideDueNow.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkHideDueNow.Location = new System.Drawing.Point(122, 106);
+			this.checkHideDueNow.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkHideDueNow.Location = new System.Drawing.Point(8, 120);
 			this.checkHideDueNow.Name = "checkHideDueNow";
-			this.checkHideDueNow.Size = new System.Drawing.Size(318, 18);
+			this.checkHideDueNow.Size = new System.Drawing.Size(235, 20);
 			this.checkHideDueNow.TabIndex = 314;
 			this.checkHideDueNow.Text = "Hide \"Due Now\" in Payment Plans Grid";
 			// 
 			// label59
 			// 
 			this.label59.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.label59.Location = new System.Drawing.Point(201, 132);
+			this.label59.Location = new System.Drawing.Point(24, 144);
 			this.label59.Name = "label59";
-			this.label59.Size = new System.Drawing.Size(170, 17);
+			this.label59.Size = new System.Drawing.Size(218, 23);
 			this.label59.TabIndex = 319;
 			this.label59.Text = "Pay Plan run time";
-			this.label59.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.label59.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// label27
 			// 
 			this.label27.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.label27.Location = new System.Drawing.Point(13, 82);
+			this.label27.Location = new System.Drawing.Point(24, 98);
 			this.label27.Name = "label27";
-			this.label27.Size = new System.Drawing.Size(427, 17);
+			this.label27.Size = new System.Drawing.Size(446, 17);
 			this.label27.TabIndex = 318;
 			this.label27.Text = "Pay Plan charge logic";
-			this.label27.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.label27.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// textDynamicPayPlan
 			// 
 			this.textDynamicPayPlan.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.textDynamicPayPlan.Location = new System.Drawing.Point(372, 129);
+			this.textDynamicPayPlan.Location = new System.Drawing.Point(248, 144);
 			this.textDynamicPayPlan.Name = "textDynamicPayPlan";
 			this.textDynamicPayPlan.Size = new System.Drawing.Size(68, 20);
 			this.textDynamicPayPlan.TabIndex = 315;
@@ -268,99 +268,99 @@ namespace OpenPmsDental {
 			this.groupBoxPayments.Controls.Add(this.label38);
 			this.groupBoxPayments.Controls.Add(this.checkAllowEmailCCReceipt);
 			this.groupBoxPayments.Controls.Add(this.checkPaymentsPromptForPayType);
-			this.groupBoxPayments.Location = new System.Drawing.Point(20, 20);
+			this.groupBoxPayments.Location = new System.Drawing.Point(8, 8);
 			this.groupBoxPayments.Name = "groupBoxPayments";
-			this.groupBoxPayments.Size = new System.Drawing.Size(450, 202);
+			this.groupBoxPayments.Size = new System.Drawing.Size(478, 222);
 			this.groupBoxPayments.TabIndex = 307;
 			this.groupBoxPayments.Text = "Payments";
 			// 
 			// checkOnlinePaymentsMarkAsProcessed
 			// 
 			this.checkOnlinePaymentsMarkAsProcessed.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkOnlinePaymentsMarkAsProcessed.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkOnlinePaymentsMarkAsProcessed.Location = new System.Drawing.Point(80, 152);
+			this.checkOnlinePaymentsMarkAsProcessed.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkOnlinePaymentsMarkAsProcessed.Location = new System.Drawing.Point(8, 170);
 			this.checkOnlinePaymentsMarkAsProcessed.Name = "checkOnlinePaymentsMarkAsProcessed";
-			this.checkOnlinePaymentsMarkAsProcessed.Size = new System.Drawing.Size(360, 18);
+			this.checkOnlinePaymentsMarkAsProcessed.Size = new System.Drawing.Size(217, 20);
 			this.checkOnlinePaymentsMarkAsProcessed.TabIndex = 308;
 			this.checkOnlinePaymentsMarkAsProcessed.Text = "Mark online payments as processed";
 			// 
 			// checkStoreCCTokens
 			// 
 			this.checkStoreCCTokens.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkStoreCCTokens.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkStoreCCTokens.Location = new System.Drawing.Point(210, 10);
+			this.checkStoreCCTokens.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkStoreCCTokens.Location = new System.Drawing.Point(8, 23);
 			this.checkStoreCCTokens.Name = "checkStoreCCTokens";
-			this.checkStoreCCTokens.Size = new System.Drawing.Size(230, 18);
+			this.checkStoreCCTokens.Size = new System.Drawing.Size(229, 20);
 			this.checkStoreCCTokens.TabIndex = 280;
 			this.checkStoreCCTokens.Text = "Automatically store credit card tokens";
 			// 
 			// checkPaymentCompletedDisableMerchantButtons
 			// 
 			this.checkPaymentCompletedDisableMerchantButtons.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkPaymentCompletedDisableMerchantButtons.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkPaymentCompletedDisableMerchantButtons.Location = new System.Drawing.Point(96, 129);
+			this.checkPaymentCompletedDisableMerchantButtons.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkPaymentCompletedDisableMerchantButtons.Location = new System.Drawing.Point(8, 146);
 			this.checkPaymentCompletedDisableMerchantButtons.Name = "checkPaymentCompletedDisableMerchantButtons";
-			this.checkPaymentCompletedDisableMerchantButtons.Size = new System.Drawing.Size(344, 18);
+			this.checkPaymentCompletedDisableMerchantButtons.Size = new System.Drawing.Size(300, 20);
 			this.checkPaymentCompletedDisableMerchantButtons.TabIndex = 306;
 			this.checkPaymentCompletedDisableMerchantButtons.Text = "Disable merchant buttons for completed payments";
 			// 
 			// comboPaymentClinicSetting
 			// 
 			this.comboPaymentClinicSetting.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.comboPaymentClinicSetting.Location = new System.Drawing.Point(277, 33);
+			this.comboPaymentClinicSetting.Location = new System.Drawing.Point(248, 47);
 			this.comboPaymentClinicSetting.Name = "comboPaymentClinicSetting";
-			this.comboPaymentClinicSetting.Size = new System.Drawing.Size(163, 21);
+			this.comboPaymentClinicSetting.Size = new System.Drawing.Size(222, 23);
 			this.comboPaymentClinicSetting.TabIndex = 290;
 			this.comboPaymentClinicSetting.SelectionChangeCommitted += new System.EventHandler(this.comboPaymentClinicSetting_ChangeCommitted);
 			// 
 			// checkIncTxfrTreatNegProdAsIncome
 			// 
 			this.checkIncTxfrTreatNegProdAsIncome.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkIncTxfrTreatNegProdAsIncome.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkIncTxfrTreatNegProdAsIncome.Location = new System.Drawing.Point(13, 106);
+			this.checkIncTxfrTreatNegProdAsIncome.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkIncTxfrTreatNegProdAsIncome.Location = new System.Drawing.Point(8, 122);
 			this.checkIncTxfrTreatNegProdAsIncome.Name = "checkIncTxfrTreatNegProdAsIncome";
-			this.checkIncTxfrTreatNegProdAsIncome.Size = new System.Drawing.Size(427, 18);
+			this.checkIncTxfrTreatNegProdAsIncome.Size = new System.Drawing.Size(314, 20);
 			this.checkIncTxfrTreatNegProdAsIncome.TabIndex = 305;
 			this.checkIncTxfrTreatNegProdAsIncome.Text = "Income transfers treat negative production as income";
 			// 
 			// checkIncomeTransfersLimitToPatPayments
 			// 
 			this.checkIncomeTransfersLimitToPatPayments.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkIncomeTransfersLimitToPatPayments.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkIncomeTransfersLimitToPatPayments.Location = new System.Drawing.Point(13, 175);
+			this.checkIncomeTransfersLimitToPatPayments.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkIncomeTransfersLimitToPatPayments.Location = new System.Drawing.Point(8, 194);
 			this.checkIncomeTransfersLimitToPatPayments.Name = "checkIncomeTransfersLimitToPatPayments";
-			this.checkIncomeTransfersLimitToPatPayments.Size = new System.Drawing.Size(427, 18);
+			this.checkIncomeTransfersLimitToPatPayments.Size = new System.Drawing.Size(381, 20);
 			this.checkIncomeTransfersLimitToPatPayments.TabIndex = 309;
 			this.checkIncomeTransfersLimitToPatPayments.Text = "Limit manual income transfers to the amount of patient payments";
 			// 
 			// label38
 			// 
 			this.label38.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.label38.Location = new System.Drawing.Point(75, 36);
+			this.label38.Location = new System.Drawing.Point(24, 47);
 			this.label38.Margin = new System.Windows.Forms.Padding(0);
 			this.label38.Name = "label38";
-			this.label38.Size = new System.Drawing.Size(201, 17);
+			this.label38.Size = new System.Drawing.Size(218, 23);
 			this.label38.TabIndex = 291;
 			this.label38.Text = "Default Clinic for patient payments";
-			this.label38.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.label38.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// checkAllowEmailCCReceipt
 			// 
 			this.checkAllowEmailCCReceipt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkAllowEmailCCReceipt.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkAllowEmailCCReceipt.Location = new System.Drawing.Point(230, 83);
+			this.checkAllowEmailCCReceipt.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkAllowEmailCCReceipt.Location = new System.Drawing.Point(8, 98);
 			this.checkAllowEmailCCReceipt.Name = "checkAllowEmailCCReceipt";
-			this.checkAllowEmailCCReceipt.Size = new System.Drawing.Size(210, 18);
+			this.checkAllowEmailCCReceipt.Size = new System.Drawing.Size(210, 20);
 			this.checkAllowEmailCCReceipt.TabIndex = 292;
 			this.checkAllowEmailCCReceipt.Text = "Allow emailing credit card receipts";
 			// 
 			// checkPaymentsPromptForPayType
 			// 
 			this.checkPaymentsPromptForPayType.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkPaymentsPromptForPayType.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkPaymentsPromptForPayType.Location = new System.Drawing.Point(170, 60);
+			this.checkPaymentsPromptForPayType.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkPaymentsPromptForPayType.Location = new System.Drawing.Point(8, 74);
 			this.checkPaymentsPromptForPayType.Name = "checkPaymentsPromptForPayType";
-			this.checkPaymentsPromptForPayType.Size = new System.Drawing.Size(270, 18);
+			this.checkPaymentsPromptForPayType.Size = new System.Drawing.Size(219, 20);
 			this.checkPaymentsPromptForPayType.TabIndex = 284;
 			this.checkPaymentsPromptForPayType.Text = "Payments prompt for Payment Type";
 			this.checkPaymentsPromptForPayType.Click += new System.EventHandler(this.checkPaymentsPromptForPayType_Click);
@@ -368,10 +368,10 @@ namespace OpenPmsDental {
 			// checkPayPlanItemDateShowProc
 			// 
 			this.checkPayPlanItemDateShowProc.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkPayPlanItemDateShowProc.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkPayPlanItemDateShowProc.Location = new System.Drawing.Point(100, 233);
+			this.checkPayPlanItemDateShowProc.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkPayPlanItemDateShowProc.Location = new System.Drawing.Point(8, 249);
 			this.checkPayPlanItemDateShowProc.Name = "checkPayPlanItemDateShowProc";
-			this.checkPayPlanItemDateShowProc.Size = new System.Drawing.Size(340, 18);
+			this.checkPayPlanItemDateShowProc.Size = new System.Drawing.Size(240, 20);
 			this.checkPayPlanItemDateShowProc.TabIndex = 331;
 			this.checkPayPlanItemDateShowProc.Text = "Use date of production as date showing";
 			// 

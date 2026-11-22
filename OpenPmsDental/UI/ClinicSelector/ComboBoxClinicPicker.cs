@@ -601,14 +601,21 @@ namespace OpenPmsDental.UI {
 			int widthMax=rectangleCombo.Width-15;
 			//"label" always shows the same, whether enabled or not. Token brushes: cached per thread by UiTheme, never disposed here.
 			if(ShowLabel){
-				if(IsMultiSelect){//"Clinics" is a tight fit
-					//float widthText=g.MeasureString(labelFake.Text,Font).Width;//the only two possibilities are Clinic and Clinics.  
-					//Lang trans would mess things up unless short, and it's not currently supported
-					g.DrawString(labelFake.Text,Font,UiTheme.GetBrush(EnumUiColor.Text),-2,LayoutManager.Scale(4));
+				//UI-12 (the layout grid, docs/port-notes/UI-12.md): the label as the grid places a label before its field: right-aligned, ending 6 px
+				//before the box and centred on it, like the labels of the rows around it (it was drawn from x=2 at a fixed top, touching the box).
+				//"Clinics" (multi select) is a tight fit: when the text is wider than the room, it keeps 2 px from the box and ends where it fits.
+				//UI-12 fix round 2: drawn as a WinForms Label draws a right-aligned, vertically centred text (TextRenderer with the Label's flags and
+				//its default padding, in the bounds a sibling label has), so its ink stands on the x and baseline of the labels around it (GDI+
+				//typographic text centred on the full height came out 2 px lower and 2 px further right).
+				TextFormatFlags textFormatFlags=TextFormatFlags.Right|TextFormatFlags.VerticalCenter|TextFormatFlags.WordBreak|TextFormatFlags.TextBoxControl
+					|TextFormatFlags.NoPrefix;
+				int widthText=TextRenderer.MeasureText(g,labelFake.Text,Font,new Size(int.MaxValue,Height),textFormatFlags).Width;
+				int xRight=rectangleCombo.X-LayoutManager.Scale(6);
+				if(widthText>xRight) {
+					xRight=Math.Min(rectangleCombo.X-LayoutManager.Scale(2),widthText);
+					textFormatFlags=TextFormatFlags.Right|TextFormatFlags.VerticalCenter|TextFormatFlags.SingleLine|TextFormatFlags.NoClipping|TextFormatFlags.NoPrefix;
 				}
-				else{
-					g.DrawString(labelFake.Text,Font,UiTheme.GetBrush(EnumUiColor.Text),2,LayoutManager.Scale(4));
-				}
+				TextRenderer.DrawText(g,labelFake.Text,Font,new Rectangle(0,0,xRight,Height),UiTheme.GetColor(EnumUiColor.Text),textFormatFlags);
 			}
 			StringFormat stringFormat=new StringFormat(StringFormatFlags.NoWrap);
 			stringFormat.LineAlignment=StringAlignment.Center;

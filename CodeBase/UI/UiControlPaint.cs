@@ -161,6 +161,39 @@ namespace CodeBase {
 			UiIcons.Draw(g,uiGlyph,rectangleBox,EnumUiColor.TextOnAccent);
 		}
 
+		///<summary>A radio button's circle (UI-12, the owner's G-UI3 rows: radio buttons laid out and drawn like the check boxes): the check box's
+		///box as a circle of the same size, white with a 1 px StrokeStrong ring (StrokeStrongHover on hover), Accent with a white dot when checked,
+		///TextDisabled when disabled.</summary>
+		public static void DrawRadioCircle(Graphics g,Rectangle rectangleCircle,bool isChecked,bool isHover,bool isEnabled,float scale,Color colorBack) {
+			GraphicsState graphicsState=g.Save();
+			try {
+				g.SmoothingMode=SmoothingMode.AntiAlias;
+				g.PixelOffsetMode=PixelOffsetMode.Half;
+				RectangleF rectangleF=new RectangleF(rectangleCircle.X,rectangleCircle.Y,rectangleCircle.Width,rectangleCircle.Height);
+				if(!isChecked) {
+					using(SolidBrush brush=new SolidBrush(colorBack.IsEmpty ? UiTheme.GetColor(EnumUiColor.SurfaceRaised) : colorBack)) {
+						g.FillEllipse(brush,rectangleF);
+					}
+					EnumUiColor uiColorBorder=!isEnabled ? EnumUiColor.TextDisabled : (isHover ? EnumUiColor.StrokeStrongHover : EnumUiColor.StrokeStrong);
+					float widthLine=UiTheme.GetLineWidth(scale);
+					using(Pen pen=new Pen(UiTheme.GetColor(uiColorBorder),widthLine)) {
+						g.DrawEllipse(pen,rectangleF.X+widthLine/2f,rectangleF.Y+widthLine/2f,rectangleF.Width-widthLine,rectangleF.Height-widthLine);
+					}
+					return;
+				}
+				using(SolidBrush brush=new SolidBrush(UiTheme.GetColor(isEnabled ? EnumUiColor.Accent : EnumUiColor.TextDisabled))) {
+					g.FillEllipse(brush,rectangleF);
+				}
+				float sizeDot=(float)Math.Round(rectangleF.Width*0.4f);
+				using(SolidBrush brush=new SolidBrush(UiTheme.GetColor(EnumUiColor.TextOnAccent))) {
+					g.FillEllipse(brush,rectangleF.X+(rectangleF.Width-sizeDot)/2f,rectangleF.Y+(rectangleF.Height-sizeDot)/2f,sizeDot,sizeDot);
+				}
+			}
+			finally {
+				g.Restore(graphicsState);
+			}
+		}
+
 		///<summary>The ring of a focused check box or radio button (section 3.6): around the box and its text, 4 px outside them at 96 DPI, kept
 		///inside the control's bounds.</summary>
 		public static Rectangle GetCheckFocusRectangle(Rectangle rectangleBox,Rectangle rectangleTextUsed,Rectangle rectangleBounds,float scale) {

@@ -1,0 +1,57 @@
+# UI-12: the grid findings GridRulesTests allows on the grid windows, each with why (the planner lists them in its run; UI-12.md section 4).
+# The test fails on a finding not listed here and on a row that no longer happens, so this list only shrinks.
+window	rule	key	why
+OpenPmsDental.FormInsBenefits	overlap	labelMonths labelWaitingPeriod	two labels the designer stacks over one another (waiting period header), kept as drawn by the planner
+OpenPmsDental.FormProcCodeEdit	overlap	butSlider tbTime	the time bar column: the slider is placed on the bar by the window's code (FormProcCodeEdit's FillTime); the planner keeps the column as drawn
+OpenPmsDental.FormBackup	overlap	groupBox2 textBox2	the Backup group's controls stand over the group box in the tab page (they are not its children, as on main): the group is drawn behind them; hand rows put them on the Restore group's content edges
+OpenPmsDental.FormBackup	overlap	butBrowseFrom groupBox2	the Backup group's controls stand over the group box in the tab page (they are not its children, as on main): the group is drawn behind them; hand rows put them on the Restore group's content edges
+OpenPmsDental.FormBackup	overlap	butBackup groupBox2	the Backup group's controls stand over the group box in the tab page (they are not its children, as on main): the group is drawn behind them; hand rows put them on the Restore group's content edges
+OpenPmsDental.FormBackup	overlap	groupBox2 textBackupFromPath	the Backup group's controls stand over the group box in the tab page (they are not its children, as on main): the group is drawn behind them; hand rows put them on the Restore group's content edges
+OpenPmsDental.FormBackup	overlap	groupBox2 textBackupToPath	the Backup group's controls stand over the group box in the tab page (they are not its children, as on main): the group is drawn behind them; hand rows put them on the Restore group's content edges
+OpenPmsDental.FormBackup	overlap	groupBox2 textBox1	the Backup group's controls stand over the group box in the tab page (they are not its children, as on main): the group is drawn behind them; hand rows put them on the Restore group's content edges
+OpenPmsDental.FormBackup	overlap	butBrowseTo groupBox2	the Backup group's controls stand over the group box in the tab page (they are not its children, as on main): the group is drawn behind them; hand rows put them on the Restore group's content edges
+OpenPmsDental.FormProcEdit	overlap	butClearSig signatureBox	the signature box's own buttons over its box: SignatureBoxWrapper is another designer (its own rollout slice)
+OpenPmsDental.FormProcEdit	overlap	butTopazSign signatureBox	the signature box's own buttons over its box: SignatureBoxWrapper is another designer (its own rollout slice)
+OpenPmsDental.ControlAccount	label-gap	label11 textPriMax	the insurance and discount summary groups are kept as on main: hidden in the designer, the module's code shows them over its grids
+OpenPmsDental.ControlAccount	label-gap	label12 textPriDed	the insurance and discount summary groups are kept as on main: hidden in the designer, the module's code shows them over its grids
+OpenPmsDental.ControlAccount	label-gap	label13 textPriUsed	the insurance and discount summary groups are kept as on main: hidden in the designer, the module's code shows them over its grids
+OpenPmsDental.ControlAccount	label-gap	label14 textPriRem	the insurance and discount summary groups are kept as on main: hidden in the designer, the module's code shows them over its grids
+OpenPmsDental.ControlAccount	label-gap	label15 textPriPend	the insurance and discount summary groups are kept as on main: hidden in the designer, the module's code shows them over its grids
+OpenPmsDental.ControlAccount	label-gap	label17 textFamPriDed	the insurance and discount summary groups are kept as on main: hidden in the designer, the module's code shows them over its grids
+OpenPmsDental.ControlAccount	label-gap	label18 textPriDedRem	the insurance and discount summary groups are kept as on main: hidden in the designer, the module's code shows them over its grids
+OpenPmsDental.ControlAccount	label-gap	label8 textFamPriMax	the insurance and discount summary groups are kept as on main: hidden in the designer, the module's code shows them over its grids
+OpenPmsDental.ControlAccount	overlap	textAccumulatedAdj textRemainingAdj	the insurance and discount summary groups are kept as on main: hidden in the designer, the module's code shows them over its grids
+OpenPmsDental.ControlAccount	title	groupBox2 textDateAutoOrthoPlacement	the Auto Ortho tab page under the aging strip is kept as on main (the module lays its pages out with its grids; a rollout slice)
+OpenPmsDental.ControlAccount	title	groupBoxFamilyIns label4	the insurance and discount summary groups are kept as on main: hidden in the designer, the module's code shows them over its grids
+OpenPmsDental.ControlAccount	title	groupBoxFamilyIns label9	the insurance and discount summary groups are kept as on main: hidden in the designer, the module's code shows them over its grids
+OpenPmsDental.ControlAccount	title	groupBoxIndIns label10	the insurance and discount summary groups are kept as on main: hidden in the designer, the module's code shows them over its grids
+OpenPmsDental.ControlAccount	title	groupBoxIndIns label16	the insurance and discount summary groups are kept as on main: hidden in the designer, the module's code shows them over its grids
+OpenPmsDental.ControlChart	label-gap	label10 textShiftB	the Movements, Missing, Show and Ortho tab pages are kept as on main (the Chart layout sheet fixes the tab pages' size; a rollout slice)
+OpenPmsDental.ControlChart	label-gap	label11 textTipB	the Movements, Missing, Show and Ortho tab pages are kept as on main (the Chart layout sheet fixes the tab pages' size; a rollout slice)
+OpenPmsDental.ControlChart	label-gap	label12 textTipM	the Movements, Missing, Show and Ortho tab pages are kept as on main (the Chart layout sheet fixes the tab pages' size; a rollout slice)
+OpenPmsDental.ControlChart	label-gap	label15 textRotate	the Movements, Missing, Show and Ortho tab pages are kept as on main (the Chart layout sheet fixes the tab pages' size; a rollout slice)
+OpenPmsDental.ControlChart	label-gap	label23 textSearch	the Movements, Missing, Show and Ortho tab pages are kept as on main (the Chart layout sheet fixes the tab pages' size; a rollout slice)
+OpenPmsDental.ControlChart	label-gap	label25 comboOrthoDate	the Movements, Missing, Show and Ortho tab pages are kept as on main (the Chart layout sheet fixes the tab pages' size; a rollout slice)
+OpenPmsDental.ControlChart	label-gap	label8 textShiftM	the Movements, Missing, Show and Ortho tab pages are kept as on main (the Chart layout sheet fixes the tab pages' size; a rollout slice)
+OpenPmsDental.ControlChart	label-gap	label9 textShiftO	the Movements, Missing, Show and Ortho tab pages are kept as on main (the Chart layout sheet fixes the tab pages' size; a rollout slice)
+OpenPmsDental.ControlChart	overlap	gridPtInfo tabControlImages	placed at run time by the Chart layout sheet and the module's code (the eCW panel, the images tab control): the designer stacks them
+OpenPmsDental.ControlChart	overlap	labelECWerror webViewEcw	placed at run time by the Chart layout sheet and the module's code (the eCW panel, the images tab control): the designer stacks them
+OpenPmsDental.ControlChart	padding	groupBox1 label7	the Movements, Missing, Show and Ortho tab pages are kept as on main (the Chart layout sheet fixes the tab pages' size; a rollout slice)
+OpenPmsDental.ControlChart	title	groupBox7 checkAppt	the Movements, Missing, Show and Ortho tab pages are kept as on main (the Chart layout sheet fixes the tab pages' size; a rollout slice)
+OpenPmsDental.ControlChart	title	groupBoxOD1 label27	the Movements, Missing, Show and Ortho tab pages are kept as on main (the Chart layout sheet fixes the tab pages' size; a rollout slice)
+OpenPmsDental.FormClaimEdit	gap	comboMandProsth textDateInitialLower	the stock combo box (comboMandProsth, a System.Windows.Forms.ComboBox) takes its height from its font (21 px), 2 px under the grid's field height: the gap under it is 2 px more
+OpenPmsDental.FormClaimEdit	gap	radioAttachMail radioAttachElect	the attachment radio buttons stand in rows with the attachment fields (a field's height) and in a list: two pitches in one column
+OpenPmsDental.FormPatientEdit	gap	comboBoxMultiRace comboEthnicity	the race boxes are stacked and switched by the race setting (a combo box or a text box with its button): the column holds both heights
+OpenPmsDental.FormPatientEdit	gap	textRace comboEthnicity	the race boxes are stacked and switched by the race setting (a combo box or a text box with its button): the column holds both heights
+OpenPmsDental.FormPractice	gap	textPracticeTitle textPhone	a label wrapped onto two lines makes its row taller (the Preferences style caps the label column at half the page; the field stands centred on the label)
+OpenPmsDental.UserControlEnterpriseAccount	gap	radioReceiveAtAnInterval radioReceiveAtASetTime	the receive radio buttons stand in rows with their fields (a field's height)
+OpenPmsDental.UserControlManageBillingStatements	gap	textStatementsCalcDueDate textPayPlansBillInAdvanceDays	a label wrapped onto two lines makes its row taller (the Preferences style caps the label column at half the page; the field stands centred on the label)
+OpenPmsDental.UserControlManageGeneral	gap	comboEraWriteoff comboEraAutomation	a label wrapped onto two lines makes its row taller (the Preferences style caps the label column at half the page; the field stands centred on the label)
+OpenPmsDental.FormPatientEdit	hidden-frame	groupBox1 checkAddressSameForSuperFam	the super family row shows only with super families: the group ends under its last shown row and FormPatientEdit's Load grows it by this row when it shows (GrowAddressGroupForSuperFamily)
+OpenPmsDental.UserControlMainWindow	hidden-frame	groupSelectPatient checkPatientSelectFilterRestrictedClinics	the restricted clinics row shows only with clinics: the group ends under its last shown row and FormPreferences grows it by this row when it shows (UserControlMainWindow.LayOutShownRows)
+OpenPmsDental.FormScreenEdit	overlap	textAge updownAgeArrows	the age arrows stand borderless inside the Age box's right end: one box with its arrows, like a number field
+OpenPmsDental.FormProcCodeEdit	hidden-frame	tbTime panelHead	the time bar's own hidden head panel: TableTimeBar is another designer (its own rollout slice)
+OpenPmsDental.ControlChart	hidden-frame	ControlChart button1	the module's hidden button stands outside the module as on main (the module is laid out by the Chart layout sheet; a rollout slice)
+OpenPmsDental.UserControlImagingGeneral	gap	textImageCategoryDefault textVideoImageCategoryDefault	a label wrapped onto two lines makes its row taller (the Preferences style caps the label column at half the page; the field stands centred on the label)
+OpenPmsDental.UserControlImagingGeneral	gap	butBrowseImageCategoryDefault butVideoImageCategoryDefault	a label wrapped onto two lines makes its row taller (the Preferences style caps the label column at half the page; the field and its button stand centred on the label)
+OpenPmsDental.UserControlManageGeneral	gap	comboEraDefaultPaymentType textEraNoAutoProcessCarcCodes	a label wrapped onto two lines makes its row taller (the Preferences style caps the label column at half the page; the field stands centred on the label)

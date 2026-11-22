@@ -57,18 +57,18 @@ namespace OpenPmsDental {
 			// groupBoxClaimsSecondary
 			// 
 			this.groupBoxClaimsSecondary.Controls.Add(this.checkClaimUpdateFeeForSecondary);
-			this.groupBoxClaimsSecondary.Location = new System.Drawing.Point(20, 416);
+			this.groupBoxClaimsSecondary.Location = new System.Drawing.Point(8, 548);
 			this.groupBoxClaimsSecondary.Name = "groupBoxClaimsSecondary";
-			this.groupBoxClaimsSecondary.Size = new System.Drawing.Size(450, 35);
+			this.groupBoxClaimsSecondary.Size = new System.Drawing.Size(478, 51);
 			this.groupBoxClaimsSecondary.TabIndex = 5;
 			this.groupBoxClaimsSecondary.Text = "Secondary Claims";
 			// 
 			// checkClaimUpdateFeeForSecondary
 			// 
-			this.checkClaimUpdateFeeForSecondary.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkClaimUpdateFeeForSecondary.Location = new System.Drawing.Point(15, 12);
+			this.checkClaimUpdateFeeForSecondary.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkClaimUpdateFeeForSecondary.Location = new System.Drawing.Point(8, 23);
 			this.checkClaimUpdateFeeForSecondary.Name = "checkClaimUpdateFeeForSecondary";
-			this.checkClaimUpdateFeeForSecondary.Size = new System.Drawing.Size(426, 18);
+			this.checkClaimUpdateFeeForSecondary.Size = new System.Drawing.Size(428, 20);
 			this.checkClaimUpdateFeeForSecondary.TabIndex = 0;
 			this.checkClaimUpdateFeeForSecondary.Text = "Update the fee on unsent secondary claims when a procedure fee changes";
 			// 
@@ -77,37 +77,37 @@ namespace OpenPmsDental {
 			this.groupBoxClaimsMedical.Controls.Add(this.checkClaimMedReceivedPromptForPrimaryClaim);
 			this.groupBoxClaimsMedical.Controls.Add(this.checkClaimMedReceivedForcePrimaryStatus);
 			this.groupBoxClaimsMedical.Controls.Add(this.checkClaimMedReceivedPromptForMedicalEob);
-			this.groupBoxClaimsMedical.Location = new System.Drawing.Point(20, 339);
+			this.groupBoxClaimsMedical.Location = new System.Drawing.Point(8, 441);
 			this.groupBoxClaimsMedical.Name = "groupBoxClaimsMedical";
-			this.groupBoxClaimsMedical.Size = new System.Drawing.Size(450, 70);
+			this.groupBoxClaimsMedical.Size = new System.Drawing.Size(478, 99);
 			this.groupBoxClaimsMedical.TabIndex = 4;
 			this.groupBoxClaimsMedical.Text = "Claims Medical";
 			// 
 			// checkClaimMedReceivedPromptForPrimaryClaim
 			// 
-			this.checkClaimMedReceivedPromptForPrimaryClaim.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkClaimMedReceivedPromptForPrimaryClaim.Location = new System.Drawing.Point(85, 10);
+			this.checkClaimMedReceivedPromptForPrimaryClaim.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkClaimMedReceivedPromptForPrimaryClaim.Location = new System.Drawing.Point(8, 23);
 			this.checkClaimMedReceivedPromptForPrimaryClaim.Name = "checkClaimMedReceivedPromptForPrimaryClaim";
-			this.checkClaimMedReceivedPromptForPrimaryClaim.Size = new System.Drawing.Size(355, 18);
+			this.checkClaimMedReceivedPromptForPrimaryClaim.Size = new System.Drawing.Size(164, 20);
 			this.checkClaimMedReceivedPromptForPrimaryClaim.TabIndex = 0;
 			this.checkClaimMedReceivedPromptForPrimaryClaim.Text = "Prompt for primary claims";
 			// 
 			// checkClaimMedReceivedForcePrimaryStatus
 			// 
-			this.checkClaimMedReceivedForcePrimaryStatus.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkClaimMedReceivedForcePrimaryStatus.Location = new System.Drawing.Point(15, 29);
+			this.checkClaimMedReceivedForcePrimaryStatus.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkClaimMedReceivedForcePrimaryStatus.Location = new System.Drawing.Point(8, 47);
 			this.checkClaimMedReceivedForcePrimaryStatus.Name = "checkClaimMedReceivedForcePrimaryStatus";
-			this.checkClaimMedReceivedForcePrimaryStatus.Size = new System.Drawing.Size(435, 18);
+			this.checkClaimMedReceivedForcePrimaryStatus.Size = new System.Drawing.Size(462, 20);
 			this.checkClaimMedReceivedForcePrimaryStatus.TabIndex = 1;
 			this.checkClaimMedReceivedForcePrimaryStatus.Text = "Remove \'Do Nothing\' for primary claims with \'Hold Until Pri Received\' or \'Unsent\'" +
     "";
 			//
 			// checkClaimMedReceivedPromptForMedicalEob
 			//
-			this.checkClaimMedReceivedPromptForMedicalEob.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkClaimMedReceivedPromptForMedicalEob.Location = new System.Drawing.Point(15, 48);
+			this.checkClaimMedReceivedPromptForMedicalEob.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkClaimMedReceivedPromptForMedicalEob.Location = new System.Drawing.Point(8, 71);
 			this.checkClaimMedReceivedPromptForMedicalEob.Name = "checkClaimMedReceivedPromptForMedicalEob";
-			this.checkClaimMedReceivedPromptForMedicalEob.Size = new System.Drawing.Size(425, 18);
+			this.checkClaimMedReceivedPromptForMedicalEob.Size = new System.Drawing.Size(254, 20);
 			this.checkClaimMedReceivedPromptForMedicalEob.TabIndex = 2;
 			this.checkClaimMedReceivedPromptForMedicalEob.Text = "Prompt for Medical EOB on primary claims";
 			//
@@ -119,65 +119,65 @@ namespace OpenPmsDental {
 			this.groupBoxClaimsPayments.Controls.Add(this.checkAllowProcAdjFromClaim);
 			this.groupBoxClaimsPayments.Controls.Add(this.checkInsPayNoWriteoffMoreThanProc);
 			this.groupBoxClaimsPayments.Controls.Add(this.labelClaimCredit);
-			this.groupBoxClaimsPayments.Location = new System.Drawing.Point(20, 220);
+			this.groupBoxClaimsPayments.Location = new System.Drawing.Point(8, 283);
 			this.groupBoxClaimsPayments.Name = "groupBoxClaimsPayments";
-			this.groupBoxClaimsPayments.Size = new System.Drawing.Size(450, 112);
+			this.groupBoxClaimsPayments.Size = new System.Drawing.Size(478, 150);
 			this.groupBoxClaimsPayments.TabIndex = 2;
 			this.groupBoxClaimsPayments.Text = "Claims Payments";
 			// 
 			// comboClaimCredit
 			// 
 			this.comboClaimCredit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.comboClaimCredit.Location = new System.Drawing.Point(272, 29);
+			this.comboClaimCredit.Location = new System.Drawing.Point(236, 47);
 			this.comboClaimCredit.Name = "comboClaimCredit";
-			this.comboClaimCredit.Size = new System.Drawing.Size(168, 21);
+			this.comboClaimCredit.Size = new System.Drawing.Size(234, 23);
 			this.comboClaimCredit.TabIndex = 1;
 			// 
 			// checkClaimPaymentPickStatementType
 			// 
-			this.checkClaimPaymentPickStatementType.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkClaimPaymentPickStatementType.Location = new System.Drawing.Point(3, 90);
+			this.checkClaimPaymentPickStatementType.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkClaimPaymentPickStatementType.Location = new System.Drawing.Point(8, 122);
 			this.checkClaimPaymentPickStatementType.Name = "checkClaimPaymentPickStatementType";
-			this.checkClaimPaymentPickStatementType.Size = new System.Drawing.Size(437, 18);
+			this.checkClaimPaymentPickStatementType.Size = new System.Drawing.Size(253, 20);
 			this.checkClaimPaymentPickStatementType.TabIndex = 291;
 			this.checkClaimPaymentPickStatementType.Text = "Claim payments prompt for Payment Type";
 			// 
 			// checkNoInitialPrimaryInsMoreThanProc
 			// 
-			this.checkNoInitialPrimaryInsMoreThanProc.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkNoInitialPrimaryInsMoreThanProc.Location = new System.Drawing.Point(3, 71);
+			this.checkNoInitialPrimaryInsMoreThanProc.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkNoInitialPrimaryInsMoreThanProc.Location = new System.Drawing.Point(8, 98);
 			this.checkNoInitialPrimaryInsMoreThanProc.Name = "checkNoInitialPrimaryInsMoreThanProc";
-			this.checkNoInitialPrimaryInsMoreThanProc.Size = new System.Drawing.Size(447, 18);
+			this.checkNoInitialPrimaryInsMoreThanProc.Size = new System.Drawing.Size(459, 20);
 			this.checkNoInitialPrimaryInsMoreThanProc.TabIndex = 3;
 			this.checkNoInitialPrimaryInsMoreThanProc.Text = "Initial primary insurance payment and write-off cannot exceed adjusted proc fee";
 			// 
 			// checkAllowProcAdjFromClaim
 			// 
-			this.checkAllowProcAdjFromClaim.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkAllowProcAdjFromClaim.Location = new System.Drawing.Point(115, 10);
+			this.checkAllowProcAdjFromClaim.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkAllowProcAdjFromClaim.Location = new System.Drawing.Point(8, 23);
 			this.checkAllowProcAdjFromClaim.Name = "checkAllowProcAdjFromClaim";
-			this.checkAllowProcAdjFromClaim.Size = new System.Drawing.Size(325, 18);
+			this.checkAllowProcAdjFromClaim.Size = new System.Drawing.Size(315, 20);
 			this.checkAllowProcAdjFromClaim.TabIndex = 0;
 			this.checkAllowProcAdjFromClaim.Text = "Allow procedure adjustments from Edit Claim window";
 			// 
 			// checkInsPayNoWriteoffMoreThanProc
 			// 
-			this.checkInsPayNoWriteoffMoreThanProc.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkInsPayNoWriteoffMoreThanProc.Location = new System.Drawing.Point(73, 52);
+			this.checkInsPayNoWriteoffMoreThanProc.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkInsPayNoWriteoffMoreThanProc.Location = new System.Drawing.Point(8, 74);
 			this.checkInsPayNoWriteoffMoreThanProc.Name = "checkInsPayNoWriteoffMoreThanProc";
-			this.checkInsPayNoWriteoffMoreThanProc.Size = new System.Drawing.Size(367, 18);
+			this.checkInsPayNoWriteoffMoreThanProc.Size = new System.Drawing.Size(345, 20);
 			this.checkInsPayNoWriteoffMoreThanProc.TabIndex = 2;
 			this.checkInsPayNoWriteoffMoreThanProc.Text = "Disallow write-offs greater than the adjusted procedure fee";
 			// 
 			// labelClaimCredit
 			// 
 			this.labelClaimCredit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelClaimCredit.Location = new System.Drawing.Point(32, 32);
+			this.labelClaimCredit.Location = new System.Drawing.Point(24, 47);
 			this.labelClaimCredit.Name = "labelClaimCredit";
-			this.labelClaimCredit.Size = new System.Drawing.Size(239, 17);
+			this.labelClaimCredit.Size = new System.Drawing.Size(206, 23);
 			this.labelClaimCredit.TabIndex = 290;
 			this.labelClaimCredit.Text = "Payment exceeds procedure balance";
-			this.labelClaimCredit.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.labelClaimCredit.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// groupBoxOD2
 			// 
@@ -191,99 +191,99 @@ namespace OpenPmsDental {
 			this.groupBoxOD2.Controls.Add(this.checkShowClaimPayTracking);
 			this.groupBoxOD2.Controls.Add(this.checkInsEstRecalcReceived);
 			this.groupBoxOD2.Controls.Add(this.checkClaimTrackingExcludeNone);
-			this.groupBoxOD2.Location = new System.Drawing.Point(20, 10);
+			this.groupBoxOD2.Location = new System.Drawing.Point(8, 8);
 			this.groupBoxOD2.Name = "groupBoxOD2";
-			this.groupBoxOD2.Size = new System.Drawing.Size(450, 203);
+			this.groupBoxOD2.Size = new System.Drawing.Size(478, 267);
 			this.groupBoxOD2.TabIndex = 1;
 			this.groupBoxOD2.Text = "Claims Receive";
 			// 
 			// checkClaimPrimaryReceivedRecalcSecondary
 			// 
-			this.checkClaimPrimaryReceivedRecalcSecondary.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkClaimPrimaryReceivedRecalcSecondary.Location = new System.Drawing.Point(30, 181);
+			this.checkClaimPrimaryReceivedRecalcSecondary.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkClaimPrimaryReceivedRecalcSecondary.Location = new System.Drawing.Point(8, 239);
 			this.checkClaimPrimaryReceivedRecalcSecondary.Name = "checkClaimPrimaryReceivedRecalcSecondary";
-			this.checkClaimPrimaryReceivedRecalcSecondary.Size = new System.Drawing.Size(410, 18);
+			this.checkClaimPrimaryReceivedRecalcSecondary.Size = new System.Drawing.Size(395, 20);
 			this.checkClaimPrimaryReceivedRecalcSecondary.TabIndex = 9;
 			this.checkClaimPrimaryReceivedRecalcSecondary.Text = "Auto update next insurance claim estimates when a claim is received";
 			// 
 			// checkClaimFinalizeWarning
 			// 
-			this.checkClaimFinalizeWarning.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkClaimFinalizeWarning.Location = new System.Drawing.Point(30, 162);
+			this.checkClaimFinalizeWarning.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkClaimFinalizeWarning.Location = new System.Drawing.Point(8, 215);
 			this.checkClaimFinalizeWarning.Name = "checkClaimFinalizeWarning";
-			this.checkClaimFinalizeWarning.Size = new System.Drawing.Size(410, 18);
+			this.checkClaimFinalizeWarning.Size = new System.Drawing.Size(301, 20);
 			this.checkClaimFinalizeWarning.TabIndex = 8;
 			this.checkClaimFinalizeWarning.Text = "Warn users to finalize payments for received claims";
 			// 
 			// checkInsAutoReceiveNoAssign
 			// 
-			this.checkInsAutoReceiveNoAssign.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkInsAutoReceiveNoAssign.Location = new System.Drawing.Point(30, 143);
+			this.checkInsAutoReceiveNoAssign.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkInsAutoReceiveNoAssign.Location = new System.Drawing.Point(8, 191);
 			this.checkInsAutoReceiveNoAssign.Name = "checkInsAutoReceiveNoAssign";
-			this.checkInsAutoReceiveNoAssign.Size = new System.Drawing.Size(410, 18);
+			this.checkInsAutoReceiveNoAssign.Size = new System.Drawing.Size(299, 20);
 			this.checkInsAutoReceiveNoAssign.TabIndex = 7;
 			this.checkInsAutoReceiveNoAssign.Text = "Auto receive claims with no assignment of benefits";
 			// 
 			// checkShowClaimPatResp
 			// 
-			this.checkShowClaimPatResp.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkShowClaimPatResp.Location = new System.Drawing.Point(30, 105);
+			this.checkShowClaimPatResp.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkShowClaimPatResp.Location = new System.Drawing.Point(8, 143);
 			this.checkShowClaimPatResp.Name = "checkShowClaimPatResp";
-			this.checkShowClaimPatResp.Size = new System.Drawing.Size(410, 18);
+			this.checkShowClaimPatResp.Size = new System.Drawing.Size(412, 20);
 			this.checkShowClaimPatResp.TabIndex = 5;
 			this.checkShowClaimPatResp.Text = "Show Patient Responsibility column in the Edit Claim/Payment windows";
 			// 
 			// checkPromptForSecondaryClaim
 			// 
-			this.checkPromptForSecondaryClaim.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkPromptForSecondaryClaim.Location = new System.Drawing.Point(73, 48);
+			this.checkPromptForSecondaryClaim.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkPromptForSecondaryClaim.Location = new System.Drawing.Point(8, 71);
 			this.checkPromptForSecondaryClaim.Name = "checkPromptForSecondaryClaim";
-			this.checkPromptForSecondaryClaim.Size = new System.Drawing.Size(367, 18);
+			this.checkPromptForSecondaryClaim.Size = new System.Drawing.Size(237, 20);
 			this.checkPromptForSecondaryClaim.TabIndex = 2;
 			this.checkPromptForSecondaryClaim.Text = "Prompt for claims of the next insurance";
 			// 
 			// checkClaimPrimaryRecievedForceSecondaryStatus
 			// 
-			this.checkClaimPrimaryRecievedForceSecondaryStatus.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkClaimPrimaryRecievedForceSecondaryStatus.Location = new System.Drawing.Point(30, 124);
+			this.checkClaimPrimaryRecievedForceSecondaryStatus.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkClaimPrimaryRecievedForceSecondaryStatus.Location = new System.Drawing.Point(8, 167);
 			this.checkClaimPrimaryRecievedForceSecondaryStatus.Name = "checkClaimPrimaryRecievedForceSecondaryStatus";
-			this.checkClaimPrimaryRecievedForceSecondaryStatus.Size = new System.Drawing.Size(410, 18);
+			this.checkClaimPrimaryRecievedForceSecondaryStatus.Size = new System.Drawing.Size(354, 20);
 			this.checkClaimPrimaryRecievedForceSecondaryStatus.TabIndex = 6;
 			this.checkClaimPrimaryRecievedForceSecondaryStatus.Text = "Remove \'Do Nothing\' from the next insurance claims prompt";
 			// 
 			// checkProviderIncomeShows
 			// 
-			this.checkProviderIncomeShows.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkProviderIncomeShows.Location = new System.Drawing.Point(30, 29);
+			this.checkProviderIncomeShows.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkProviderIncomeShows.Location = new System.Drawing.Point(8, 47);
 			this.checkProviderIncomeShows.Name = "checkProviderIncomeShows";
-			this.checkProviderIncomeShows.Size = new System.Drawing.Size(418, 18);
+			this.checkProviderIncomeShows.Size = new System.Drawing.Size(420, 20);
 			this.checkProviderIncomeShows.TabIndex = 1;
 			this.checkProviderIncomeShows.Text = "Show provider income transfer window after entering insurance payment";
 			// 
 			// checkShowClaimPayTracking
 			// 
-			this.checkShowClaimPayTracking.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkShowClaimPayTracking.Location = new System.Drawing.Point(30, 86);
+			this.checkShowClaimPayTracking.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkShowClaimPayTracking.Location = new System.Drawing.Point(8, 119);
 			this.checkShowClaimPayTracking.Name = "checkShowClaimPayTracking";
-			this.checkShowClaimPayTracking.Size = new System.Drawing.Size(410, 18);
+			this.checkShowClaimPayTracking.Size = new System.Drawing.Size(392, 20);
 			this.checkShowClaimPayTracking.TabIndex = 4;
 			this.checkShowClaimPayTracking.Text = "Show Payment Tracking column in the Edit Claim/Payment windows";
 			// 
 			// checkInsEstRecalcReceived
 			// 
-			this.checkInsEstRecalcReceived.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkInsEstRecalcReceived.Location = new System.Drawing.Point(73, 67);
+			this.checkInsEstRecalcReceived.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkInsEstRecalcReceived.Location = new System.Drawing.Point(8, 95);
 			this.checkInsEstRecalcReceived.Name = "checkInsEstRecalcReceived";
-			this.checkInsEstRecalcReceived.Size = new System.Drawing.Size(367, 18);
+			this.checkInsEstRecalcReceived.Size = new System.Drawing.Size(303, 20);
 			this.checkInsEstRecalcReceived.TabIndex = 3;
 			this.checkInsEstRecalcReceived.Text = "Recalculate estimates for received claim procedures";
 			// 
 			// checkClaimTrackingExcludeNone
 			// 
-			this.checkClaimTrackingExcludeNone.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkClaimTrackingExcludeNone.Location = new System.Drawing.Point(100, 10);
+			this.checkClaimTrackingExcludeNone.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkClaimTrackingExcludeNone.Location = new System.Drawing.Point(8, 23);
 			this.checkClaimTrackingExcludeNone.Name = "checkClaimTrackingExcludeNone";
-			this.checkClaimTrackingExcludeNone.Size = new System.Drawing.Size(340, 18);
+			this.checkClaimTrackingExcludeNone.Size = new System.Drawing.Size(323, 20);
 			this.checkClaimTrackingExcludeNone.TabIndex = 0;
 			this.checkClaimTrackingExcludeNone.Text = "Exclude \'None\' as an option on Custom Tracking Status";
 			// 

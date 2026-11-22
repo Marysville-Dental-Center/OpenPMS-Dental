@@ -65,9 +65,9 @@
 			// 
 			// labelSignedBy
 			// 
-			this.labelSignedBy.Location = new System.Drawing.Point(0, 139);
+			this.labelSignedBy.Location = new System.Drawing.Point(0, 167);
 			this.labelSignedBy.Name = "labelSignedBy";
-			this.labelSignedBy.Size = new System.Drawing.Size(88, 18);
+			this.labelSignedBy.Size = new System.Drawing.Size(83, 18);
 			this.labelSignedBy.TabIndex = 0;
 			this.labelSignedBy.Text = "Signed By:";
 			this.labelSignedBy.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -77,7 +77,7 @@
 			this.textMsgDateTime.BackColor = System.Drawing.SystemColors.Window;
 			this.textMsgDateTime.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			this.textMsgDateTime.ForeColor = System.Drawing.Color.Red;
-			this.textMsgDateTime.Location = new System.Drawing.Point(89, 35);
+			this.textMsgDateTime.Location = new System.Drawing.Point(89, 37);
 			this.textMsgDateTime.Name = "textMsgDateTime";
 			this.textMsgDateTime.ReadOnly = true;
 			this.textMsgDateTime.Size = new System.Drawing.Size(234, 13);
@@ -87,36 +87,36 @@
 			// 
 			// labelSent
 			// 
-			this.labelSent.Location = new System.Drawing.Point(0, 34);
+			this.labelSent.Location = new System.Drawing.Point(0, 36);
 			this.labelSent.Name = "labelSent";
-			this.labelSent.Size = new System.Drawing.Size(88, 18);
+			this.labelSent.Size = new System.Drawing.Size(83, 18);
 			this.labelSent.TabIndex = 0;
 			this.labelSent.Text = "Date / Time:";
 			this.labelSent.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(0, 55);
+			this.label3.Location = new System.Drawing.Point(0, 59);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(88, 18);
+			this.label3.Size = new System.Drawing.Size(83, 18);
 			this.label3.TabIndex = 0;
 			this.label3.Text = "From:";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(0, 76);
+			this.label1.Location = new System.Drawing.Point(0, 86);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(88, 18);
+			this.label1.Size = new System.Drawing.Size(83, 18);
 			this.label1.TabIndex = 0;
 			this.label1.Text = "To:";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(0, 158);
+			this.label2.Location = new System.Drawing.Point(0, 194);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(88, 18);
+			this.label2.Size = new System.Drawing.Size(83, 18);
 			this.label2.TabIndex = 0;
 			this.label2.Text = "Subject:";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -149,7 +149,7 @@
 			this.textSentOrReceived.BackColor = System.Drawing.SystemColors.Window;
 			this.textSentOrReceived.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			this.textSentOrReceived.AutoSize = false;
-			this.textSentOrReceived.Location = new System.Drawing.Point(89, 18);
+			this.textSentOrReceived.Location = new System.Drawing.Point(89, 20);
 			this.textSentOrReceived.Name = "textSentOrReceived";
 			this.textSentOrReceived.ReadOnly = true;
 			this.textSentOrReceived.Size = new System.Drawing.Size(119, 13);
@@ -158,36 +158,36 @@
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(0, 17);
+			this.label5.Location = new System.Drawing.Point(0, 18);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(88, 17);
+			this.label5.Size = new System.Drawing.Size(83, 17);
 			this.label5.TabIndex = 0;
 			this.label5.Text = "Sent/Received:";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(0, 97);
+			this.label4.Location = new System.Drawing.Point(0, 113);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(88, 18);
+			this.label4.Size = new System.Drawing.Size(83, 18);
 			this.label4.TabIndex = 8;
 			this.label4.Text = "CC:";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(0, 117);
+			this.label6.Location = new System.Drawing.Point(0, 140);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(88, 18);
+			this.label6.Size = new System.Drawing.Size(83, 18);
 			this.label6.TabIndex = 0;
 			this.label6.Text = "BCC:";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// lableUserName
 			// 
-			this.lableUserName.Location = new System.Drawing.Point(0, 0);
+			this.lableUserName.Location = new System.Drawing.Point(0, 1);
 			this.lableUserName.Name = "lableUserName";
-			this.lableUserName.Size = new System.Drawing.Size(88, 17);
+			this.lableUserName.Size = new System.Drawing.Size(83, 17);
 			this.lableUserName.TabIndex = 11;
 			this.lableUserName.Text = "Username:";
 			this.lableUserName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -211,7 +211,7 @@
 			this.butAddFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butAddFile.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAddFile.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAddFile.Location = new System.Drawing.Point(654, 1);
+			this.butAddFile.Location = new System.Drawing.Point(647, 1);
 			this.butAddFile.Name = "butAddFile";
 			this.butAddFile.Size = new System.Drawing.Size(93, 24);
 			this.butAddFile.TabIndex = 15;
@@ -221,9 +221,9 @@
 			// butAccountPicker
 			// 
 			this.butAccountPicker.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butAccountPicker.Location = new System.Drawing.Point(714, 50);
+			this.butAccountPicker.Location = new System.Drawing.Point(707, 57);
 			this.butAccountPicker.Name = "butAccountPicker";
-			this.butAccountPicker.Size = new System.Drawing.Size(33, 20);
+			this.butAccountPicker.Size = new System.Drawing.Size(33, 23);
 			this.butAccountPicker.TabIndex = 14;
 			this.butAccountPicker.Text = "...";
 			this.butAccountPicker.Click += new System.EventHandler(this.butAccountPicker_Click);
@@ -288,12 +288,12 @@
 			this.textBccAddress.BackColor = System.Drawing.SystemColors.Window;
 			this.textBccAddress.DetectLinksEnabled = false;
 			this.textBccAddress.DetectUrls = false;
-			this.textBccAddress.Location = new System.Drawing.Point(89, 114);
+			this.textBccAddress.Location = new System.Drawing.Point(89, 138);
 			this.textBccAddress.Multiline = false;
 			this.textBccAddress.Name = "textBccAddress";
 			this.textBccAddress.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Email;
 			this.textBccAddress.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
-			this.textBccAddress.Size = new System.Drawing.Size(658, 20);
+			this.textBccAddress.Size = new System.Drawing.Size(651, 23);
 			this.textBccAddress.SpellCheckIsEnabled = false;
 			this.textBccAddress.TabIndex = 5;
 			this.textBccAddress.Text = "";
@@ -309,12 +309,12 @@
 			this.textCcAddress.BackColor = System.Drawing.SystemColors.Window;
 			this.textCcAddress.DetectLinksEnabled = false;
 			this.textCcAddress.DetectUrls = false;
-			this.textCcAddress.Location = new System.Drawing.Point(89, 93);
+			this.textCcAddress.Location = new System.Drawing.Point(89, 111);
 			this.textCcAddress.Multiline = false;
 			this.textCcAddress.Name = "textCcAddress";
 			this.textCcAddress.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Email;
 			this.textCcAddress.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
-			this.textCcAddress.Size = new System.Drawing.Size(658, 20);
+			this.textCcAddress.Size = new System.Drawing.Size(651, 23);
 			this.textCcAddress.SpellCheckIsEnabled = false;
 			this.textCcAddress.TabIndex = 4;
 			this.textCcAddress.Text = "";
@@ -324,7 +324,7 @@
 			// 
 			// butShowImages
 			// 
-			this.butShowImages.Location = new System.Drawing.Point(8, 177);
+			this.butShowImages.Location = new System.Drawing.Point(8, 219);
 			this.butShowImages.Name = "butShowImages";
 			this.butShowImages.Size = new System.Drawing.Size(78, 22);
 			this.butShowImages.TabIndex = 9;
@@ -340,12 +340,12 @@
 			this.textSubject.BackColor = System.Drawing.SystemColors.Window;
 			this.textSubject.DetectLinksEnabled = false;
 			this.textSubject.DetectUrls = false;
-			this.textSubject.Location = new System.Drawing.Point(89, 156);
+			this.textSubject.Location = new System.Drawing.Point(89, 192);
 			this.textSubject.Multiline = false;
 			this.textSubject.Name = "textSubject";
 			this.textSubject.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Email;
 			this.textSubject.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
-			this.textSubject.Size = new System.Drawing.Size(658, 20);
+			this.textSubject.Size = new System.Drawing.Size(651, 23);
 			this.textSubject.TabIndex = 7;
 			this.textSubject.Text = "";
 			this.textSubject.WordWrap = false;
@@ -358,13 +358,13 @@
 			this.textSignedBy.BackColor = System.Drawing.SystemColors.Control;
 			this.textSignedBy.DetectLinksEnabled = false;
 			this.textSignedBy.DetectUrls = false;
-			this.textSignedBy.Location = new System.Drawing.Point(89, 135);
+			this.textSignedBy.Location = new System.Drawing.Point(89, 165);
 			this.textSignedBy.Multiline = false;
 			this.textSignedBy.Name = "textSignedBy";
 			this.textSignedBy.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Email;
 			this.textSignedBy.ReadOnly = true;
 			this.textSignedBy.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
-			this.textSignedBy.Size = new System.Drawing.Size(622, 20);
+			this.textSignedBy.Size = new System.Drawing.Size(612, 23);
 			this.textSignedBy.SpellCheckIsEnabled = false;
 			this.textSignedBy.TabIndex = 0;
 			this.textSignedBy.TabStop = false;
@@ -379,12 +379,12 @@
 			this.textToAddress.BackColor = System.Drawing.SystemColors.Window;
 			this.textToAddress.DetectLinksEnabled = false;
 			this.textToAddress.DetectUrls = false;
-			this.textToAddress.Location = new System.Drawing.Point(89, 72);
+			this.textToAddress.Location = new System.Drawing.Point(89, 84);
 			this.textToAddress.Multiline = false;
 			this.textToAddress.Name = "textToAddress";
 			this.textToAddress.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Email;
 			this.textToAddress.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
-			this.textToAddress.Size = new System.Drawing.Size(658, 20);
+			this.textToAddress.Size = new System.Drawing.Size(651, 23);
 			this.textToAddress.SpellCheckIsEnabled = false;
 			this.textToAddress.TabIndex = 3;
 			this.textToAddress.Text = "";
@@ -400,12 +400,12 @@
 			this.textFromAddress.BackColor = System.Drawing.SystemColors.Window;
 			this.textFromAddress.DetectLinksEnabled = false;
 			this.textFromAddress.DetectUrls = false;
-			this.textFromAddress.Location = new System.Drawing.Point(89, 51);
+			this.textFromAddress.Location = new System.Drawing.Point(89, 57);
 			this.textFromAddress.Multiline = false;
 			this.textFromAddress.Name = "textFromAddress";
 			this.textFromAddress.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Email;
 			this.textFromAddress.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
-			this.textFromAddress.Size = new System.Drawing.Size(622, 20);
+			this.textFromAddress.Size = new System.Drawing.Size(612, 23);
 			this.textFromAddress.SpellCheckIsEnabled = false;
 			this.textFromAddress.TabIndex = 1;
 			this.textFromAddress.Text = "";
@@ -414,9 +414,9 @@
 			// butSig
 			// 
 			this.butSig.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSig.Location = new System.Drawing.Point(714, 135);
+			this.butSig.Location = new System.Drawing.Point(707, 165);
 			this.butSig.Name = "butSig";
-			this.butSig.Size = new System.Drawing.Size(33, 20);
+			this.butSig.Size = new System.Drawing.Size(33, 23);
 			this.butSig.TabIndex = 6;
 			this.butSig.Text = "Sig";
 			this.butSig.Click += new System.EventHandler(this.butSig_Click);
@@ -443,11 +443,11 @@
 			this.textBodyText.BackColor = System.Drawing.SystemColors.Window;
 			this.textBodyText.DetectLinksEnabled = false;
 			this.textBodyText.DetectUrls = false;
-			this.textBodyText.Location = new System.Drawing.Point(89, 177);
+			this.textBodyText.Location = new System.Drawing.Point(89, 219);
 			this.textBodyText.Name = "textBodyText";
 			this.textBodyText.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Email;
 			this.textBodyText.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textBodyText.Size = new System.Drawing.Size(884, 242);
+			this.textBodyText.Size = new System.Drawing.Size(884, 200);
 			this.textBodyText.TabIndex = 8;
 			this.textBodyText.Text = "";
 			this.textBodyText.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBodyText_KeyDown);
@@ -458,7 +458,7 @@
 			this.butAddImage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butAddImage.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAddImage.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAddImage.Location = new System.Drawing.Point(654, 25);
+			this.butAddImage.Location = new System.Drawing.Point(546, 1);
 			this.butAddImage.Name = "butAddImage";
 			this.butAddImage.Size = new System.Drawing.Size(93, 24);
 			this.butAddImage.TabIndex = 16;

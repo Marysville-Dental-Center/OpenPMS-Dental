@@ -297,7 +297,12 @@ namespace UiRefreshTests {
 				return;
 			}
 			using(Bitmap bitmap=new Bitmap(control.Width,control.Height,PixelFormat.Format24bppRgb)) {
-				control.DrawToBitmap(bitmap,new Rectangle(0,0,control.Width,control.Height));
+				if(IsPrintingWithoutChildren) {
+					PrintWithoutChildren(control,bitmap);
+				}
+				else {
+					control.DrawToBitmap(bitmap,new Rectangle(0,0,control.Width,control.Height));
+				}
 				g.DrawImage(bitmap,new Rectangle(pointOffset,control.Size));
 			}
 			Point pointClient=GetClientOrigin(control);
@@ -332,7 +337,11 @@ namespace UiRefreshTests {
 			using(SolidBrush brush=new SolidBrush(colorBack)) {
 				g.FillRectangle(brush,rectangleWindow);
 			}
-			if(textBoxBase.BorderStyle!=BorderStyle.None) {
+			if(UiInputFrame.IsAttached(textBoxBase)) {
+				//UI-12: the frame the program paints over the Windows border.
+				UiInputFrame.PaintFrame(g,rectangleWindow,textBoxBase,false);
+			}
+			else if(textBoxBase.BorderStyle!=BorderStyle.None) {
 				using(Pen pen=new Pen(textBoxBase.BorderStyle==BorderStyle.FixedSingle ? SystemColors.WindowFrame : _colorEditBorder)) {
 					g.DrawRectangle(pen,rectangleWindow.X,rectangleWindow.Y,rectangleWindow.Width-1,rectangleWindow.Height-1);
 				}
@@ -360,6 +369,33 @@ namespace UiRefreshTests {
 
 		[DllImport("user32.dll")]
 		private static extern bool GetWindowRect(IntPtr hWnd,out RECT rect);
+
+		[DllImport("user32.dll")]
+		private static extern IntPtr SendMessage(IntPtr hWnd,int msg,IntPtr wParam,IntPtr lParam);
+
+		///<summary>UI-12 (the G-UI3 "bad overlay" of FormClaimEdit): DrawToBitmap prints a control with PRF_CHILDREN, so a child window that
+		///Windows does print is drawn twice, once by its parent's print where its window sits and once by DrawTree at its Bounds, and the two
+		///differ where the window was moved after its handle was made. The galleries print each control without its children; DrawTree draws
+		///them.</summary>
+		public static bool IsPrintingWithoutChildren;
+
+		private const int WM_PRINT=0x0317;
+		private const int PRF_NONCLIENT=0x02;
+		private const int PRF_CLIENT=0x04;
+		private const int PRF_ERASEBKGND=0x08;
+
+		private static void PrintWithoutChildren(Control control,Bitmap bitmap) {
+			using(Graphics g=Graphics.FromImage(bitmap)) {
+				g.Clear(SystemColors.Control);
+				IntPtr hdc=g.GetHdc();
+				try {
+					SendMessage(control.Handle,WM_PRINT,hdc,(IntPtr)(PRF_NONCLIENT|PRF_CLIENT|PRF_ERASEBKGND));
+				}
+				finally {
+					g.ReleaseHdc(hdc);
+				}
+			}
+		}
 
 		///<summary>Where the control's client area starts inside its window (its border and title before it), from the window's handle.</summary>
 		private static Point GetClientOrigin(Control control) {
