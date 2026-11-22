@@ -49,10 +49,14 @@ namespace OpenPmsDental {
 		///<summary>Columns of the Age Limits grid that are read back: Age, and Teeth (Open Dental 26.1).</summary>
 		private const int COL_AGE_LIMIT_AGE=2;
 		private const int COL_AGE_LIMIT_TEETH=3;
+		///<summary>The designer's client width at 96 dpi: the simplified view's layout (UI-12, the layout grid). Turning the simplified view on again
+		///sizes the window to it, so the window follows the designer instead of a width written for main's layout (it was Scale(1175)).</summary>
+		private int _widthClientSimplified;
 
 		///<summary></summary>
 		public FormInsBenefits(long planNum,long patPlanNum) {
 			InitializeComponent();
+			_widthClientSimplified=ClientSize.Width;
 			InitializeLayoutManager();
 			Lan.F(this);
 			_patPlanNum=patPlanNum;
@@ -137,7 +141,7 @@ namespace OpenPmsDental {
 				LayoutManager.MoveHeight(gridBenefits,textSubscNote.Top-gridBenefits.Top-5);
 				//LayoutManager.MoveLocation(butAddBenefit,new Point(gridBenefits.Right-78,gridBenefits.Bottom+6));
 				//LayoutManager.MoveLocation(butDelete,new Point(butAddBenefit.Left,butAddBenefit.Bottom+6));
-				Width=LayoutManager.Scale(1175);
+				Width=LayoutManager.Scale(_widthClientSimplified+16);//the designer's client width and the 16 px border at 96 dpi (main: 1159+16=1175)
 				//FillSimple handles all further logic.
 				FillSimple();
 				FillGridAgeLimits();

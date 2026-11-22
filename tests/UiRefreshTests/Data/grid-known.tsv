@@ -3,8 +3,6 @@
 window	rule	key	why
 OpenPmsDental.FormProcCodeEdit	overlap	butSlider label6	the time bar column (the slider placed by code on the bar) is kept as drawn; its 'Time Pattern' caption reaches over it
 OpenPmsDental.FormProcCodeEdit	overlap	label6 tbTime	the time bar column (the slider placed by code on the bar) is kept as drawn; its 'Time Pattern' caption reaches over it
-OpenPmsDental.FormInsBenefits	overlap	gridBenefits panelSimple	the grid is placed under the simplified panel by Load at run time (the harness does not run Load)
-OpenPmsDental.FormInsBenefits	overlap	gridBenefits groupCategories	the grid is placed under the simplified panel by Load at run time (the harness does not run Load)
 OpenPmsDental.FormInsBenefits	overlap	labelMonths labelWaitingPeriod	two labels the designer stacks over one another (waiting period header), kept as drawn by the planner
 OpenPmsDental.FormEmailInbox	label-gap	lableUserName textUserName	the preview pane's labels: EmailPreviewControl is another designer (its own rollout slice)
 OpenPmsDental.FormEmailInbox	label-gap	label6 textBccAddress	the preview pane's labels: EmailPreviewControl is another designer (its own rollout slice)

@@ -186,6 +186,17 @@ namespace UiRefreshTests {
 						}
 					}
 				}
+				//UI-12 fix round: a control hidden in the designer (the window's code shows it in some setups) stays inside its container's client
+				//area too, or it is cut or never seen once shown (FormProcEdit's End time box and Now button past panel1's edge).
+				if(!(container is ScrollableControl scrollableControlHidden && scrollableControlHidden.AutoScroll)) {
+					foreach(Control control in container.Controls.Cast<Control>().Where(x => x.Dock==DockStyle.None && !TextFitBoundsRecord.IsDesignedVisible(x)
+						&& x.Width>0 && x.Height>0))
+					{
+						if(control.Left<0 || control.Top<0 || control.Right>container.ClientSize.Width || control.Bottom>container.ClientSize.Height) {
+							listFindings.Add(window+"\thidden-frame\t"+container.Name+" "+control.Name);
+						}
+					}
+				}
 				//Equal gaps (the owner's addition: "Spacing between items should be the same"): consecutive items of one kind stacked in one column of
 				//a container (single-line fields, check boxes and radio buttons, buttons) stand one distance apart; a pair closer than a section gap
 				//(12 px) whose gap differs from the container's usual one for that kind by more than 1 px is a finding.

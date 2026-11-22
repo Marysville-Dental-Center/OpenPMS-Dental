@@ -54,7 +54,11 @@ namespace OpenPmsDental.UI {
 		///<summary>True for the inputs that get the frame: a single-line text box with a border (the program's Valid* boxes are text boxes), an
 		///up-down box, a date picker. Not the text inside an up-down box (its box has the frame), not a multi-line or borderless box.</summary>
 		public static bool IsFramed(Control control) {
-			if(control is UpDownBase || control is DateTimePicker) {
+			if(control is UpDownBase upDownBase) {
+				//Not a borderless up-down box: FormScreenEdit's age arrows stand inside the age box's frame (UI-12 fix round).
+				return upDownBase.BorderStyle!=BorderStyle.None;
+			}
+			if(control is DateTimePicker) {
 				return true;
 			}
 			if(control.GetType()==typeof(System.Windows.Forms.ComboBox)) {
@@ -62,9 +66,15 @@ namespace OpenPmsDental.UI {
 				return ((System.Windows.Forms.ComboBox)control).DropDownStyle!=ComboBoxStyle.Simple;
 			}
 			if(control is TextBox textBox) {
-				return !textBox.Multiline && textBox.BorderStyle==BorderStyle.Fixed3D && !(textBox.Parent is UpDownBase);
+				return (!textBox.Multiline || IsOneLineTall(textBox)) && textBox.BorderStyle==BorderStyle.Fixed3D && !(textBox.Parent is UpDownBase);
 			}
 			return false;
+		}
+
+		///<summary>UI-12 fix round: a multi-line text box drawn one line tall (FormPatientEdit's Referred From, FormScreenEdit's Birthdate) is a
+		///single-line field to the eye, so it gets the single-line look: shorter than two lines of its font with the border.</summary>
+		public static bool IsOneLineTall(TextBox textBox) {
+			return textBox.Height<2*textBox.Font.Height+4;
 		}
 
 		///<summary>Attaches the frame to every framed input under root.</summary>

@@ -74,6 +74,10 @@ namespace OpenPmsDental {
 		///<summary>Holds most all the data needed to load the form.</summary>
 		private PaymentEdit.LoadData _loadData;
 		private int _originalHeight;
+		///<summary>The splits panel's height when the window opens (scaled). Hiding the splits takes this much off the window's height, so the
+		///bottom row keeps its place under the note at any layout and scale (UI-12, the layout grid: the height was Scale(251+100), written for
+		///main's layout, which put the bottom buttons over Show Splits and the note once the grid moved the panel down).</summary>
+		private int _heightSplitsShown;
 		private Patient _patient;
 		private PayConnectResponseWeb _payConnectResponseWeb;
 		private PaySimple.ApiResponse _apiResponsePaySimple;
@@ -367,6 +371,7 @@ namespace OpenPmsDental {
 			}
 			CheckUIState();
 			_originalHeight=Height;
+			_heightSplitsShown=panelSplits.Height;
 			if(PrefC.GetBool(PrefName.PaymentWindowDefaultHideSplits)) {
 				ToggleShowHideSplits();//set hidden
 			}
@@ -3204,7 +3209,7 @@ namespace OpenPmsDental {
 			if(panelSplits.Visible) {
 				panelSplits.Visible=false;
 				butShowHide.Text=Lan.g(this,"Show Splits");
-				Height = LayoutManager.Scale(251+100);//Plus 100 to give room for the buttons
+				Height=_originalHeight-_heightSplitsShown;//the window without the splits panel: the bottom row moves up by the panel's height
 				this.butShowHide.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.ChevronDown,10,10);
 				return;
 			}

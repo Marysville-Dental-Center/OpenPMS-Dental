@@ -601,13 +601,20 @@ namespace OpenPmsDental.UI {
 			int widthMax=rectangleCombo.Width-15;
 			//"label" always shows the same, whether enabled or not. Token brushes: cached per thread by UiTheme, never disposed here.
 			if(ShowLabel){
-				if(IsMultiSelect){//"Clinics" is a tight fit
-					//float widthText=g.MeasureString(labelFake.Text,Font).Width;//the only two possibilities are Clinic and Clinics.  
-					//Lang trans would mess things up unless short, and it's not currently supported
-					g.DrawString(labelFake.Text,Font,UiTheme.GetBrush(EnumUiColor.Text),-2,LayoutManager.Scale(4));
-				}
-				else{
-					g.DrawString(labelFake.Text,Font,UiTheme.GetBrush(EnumUiColor.Text),2,LayoutManager.Scale(4));
+				//UI-12 (the layout grid, docs/port-notes/UI-12.md): the label as the grid places a label before its field: right-aligned, ending 6 px
+				//before the box and centred on it, like the labels of the rows around it (it was drawn from x=2 at a fixed top, touching the box).
+				//"Clinics" (multi select) is a tight fit: when the text is wider than the room, it keeps 2 px from the box and ends where it fits.
+				using(StringFormat stringFormatLabel=new StringFormat(StringFormat.GenericTypographic)) {
+					stringFormatLabel.FormatFlags|=StringFormatFlags.NoWrap|StringFormatFlags.NoClip;
+					stringFormatLabel.Alignment=StringAlignment.Far;
+					stringFormatLabel.LineAlignment=StringAlignment.Center;
+					float widthText=g.MeasureString(labelFake.Text,Font,PointF.Empty,stringFormatLabel).Width;
+					float xRight=rectangleCombo.X-LayoutManager.Scale(6);
+					if(widthText>xRight) {
+						xRight=Math.Min(rectangleCombo.X-LayoutManager.Scale(2),widthText);
+					}
+					RectangleF rectangleFLabel=new RectangleF(0,0,xRight,Height);
+					g.DrawString(labelFake.Text,Font,UiTheme.GetBrush(EnumUiColor.Text),rectangleFLabel,stringFormatLabel);
 				}
 			}
 			StringFormat stringFormat=new StringFormat(StringFormatFlags.NoWrap);

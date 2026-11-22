@@ -170,7 +170,9 @@ class Node:
         if t in TABPAGE_TYPES:
             return "tabpage"
         short = t.split(".")[-1]
-        if any(h in short for h in SINGLE_LINE_HINTS) and not self.multiline and self.h <= 30:
+        # A multi-line text box drawn one line tall (FormPatientEdit's Referred From, FormScreenEdit's Birthdate) is a single-line field: the
+        # standard height and the shared single-line look (UiInputFrame frames a multi-line box of one line too; UI-12 fix round).
+        if any(h in short for h in SINGLE_LINE_HINTS) and (not self.multiline or self.h <= 24) and self.h <= 30:
             return "field"
         if t in PANEL_TYPES:
             return "panel"
@@ -336,6 +338,31 @@ def wrapped_lines(text_w, room):
     if room <= 0:
         return 99
     return max(1, int(math.ceil(text_w * 1.06 / room))) if text_w > room else 1
+
+
+def note_lines(text, text_w, room):
+    """The lines a wrapped note draws in room px: a greedy word wrap of its text with the average character width of its measured one-line
+    width (4% wider, for the words that break early), paragraph by paragraph (UI-12 fix round: a note keeps no empty lines under its text)."""
+    text = (text or "").replace("\r", "")
+    flat = text.replace("\n", " ")
+    if not flat.strip() or not text_w or room <= 0:
+        return wrapped_lines(text_w, room)
+    avg = text_w * 1.04 / max(1, len(flat))
+    lines = 0
+    for para in text.split("\n"):
+        cur = 0.0
+        n = 1
+        for wd in para.split(" "):
+            ww = len(wd) * avg
+            if cur > 0 and cur + avg + ww > room:
+                n += 1
+                cur = ww
+            else:
+                cur = cur + (avg if cur > 0 else 0) + ww
+        lines += n
+    if "\n" in text:
+        return lines
+    return max(lines, 1)
 
 
 def is_single_line(n):
@@ -605,7 +632,9 @@ class Layout:
         if n.fixed:
             return n.nh
         if k == "field":
-            if "ODDatePicker" in n.type or "ComboBoxClinicPicker" in n.type:
+            # The clinic picker draws its box over its whole height: the standard field height like every combo box (UI-12 fix round; it
+            # kept the designer's 21 px). The date picker lays its own box out inside its bounds.
+            if "ODDatePicker" in n.type:
                 return n.nh
             return H
         if k == "button" and in_field_row and n.h <= H + 6:
@@ -613,7 +642,12 @@ class Layout:
         if k in ("check", "radio"):
             return max(n.nh if n.h > self.p.check_height + 6 else 0, self.p.check_height)
         if k == "label" and n.text_w and n.text_h and n.text_w + 4 > n.nw and n.nh >= 1.6 * n.text_h:
-            return n.nh  # a wrapped label keeps the height of its lines
+            # A wrapped label keeps the height of its lines, and no more (UI-12 fix round: no empty lines under a note's text).
+            room = max(20, n.nw - 4)
+            need = max(note_lines(n.text, n.text_w, room), wrapped_lines(n.text_w, room)) * n.text_h + 2
+            if need + 4 < n.nh and n.editable and not getattr(n, "keep_size", False):
+                return need
+            return n.nh
         if k == "label" and in_field_row and n.h <= H + 4:
             return H
         return n.nh
@@ -1214,12 +1248,17 @@ class Layout:
             elif m.kind == "button" and field_row and not m.fixed:
                 self.set_size(m, m.nw, self.item_height(m, True), "button in a field row: the field height")
             elif m.kind == "label" and not m.fixed and u.label is None and m.text_w and m.text_w + 4 > m.nw and m.nh > (m.text_h or 16) + 6:
-                # A note that wraps: as tall as its lines (a label whose last line was cut under the next row).
+                # A note that wraps: as tall as its lines (a label whose last line was cut under the next row); UI-12 fix round: and no
+                # taller, so the group's bottom padding under it is the 8 px of every group (a designer height kept empty lines under it).
                 lines = wrapped_lines(m.text_w, max(20, m.nw - 4))
                 need = lines * (m.text_h or 16) + 2
+                # Shrinking takes the larger of the two estimates (the word wrap and the measured width over the room).
+                fit = max(lines, note_lines(m.text, m.text_w, max(20, m.nw - 4))) * (m.text_h or 16) + 2
                 if need > m.nh:
                     self.set_size(m, m.nw, need, "label: as tall as its wrapped lines")
                     h_row = max(h_row, need)
+                elif fit + 4 < m.nh and m.editable and not getattr(m, "keep_size", False):
+                    self.set_size(m, m.nw, fit, "label: as tall as its wrapped lines (no empty lines under the text)")
             elif m.kind == "label" and not m.fixed:
                 if m.text_w and m.text_w + 4 > m.nw and m.nw < right - x:
                     self.set_size(m, min(label_width(m), right - x), max(m.nh, self.item_height(m, field_row)), "label: its text fits")

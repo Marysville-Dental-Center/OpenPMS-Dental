@@ -80,6 +80,8 @@ Scrollable Control: For example, a panel that's set to AutoScroll=true.  These c
 		*/
 
 		#region Fields
+		///<summary>UI-12: the single-line text box height by font size (points), for the inputs scaled with their bounds.</summary>
+		private static Dictionary<float,int> _dictTextBoxHeights=new Dictionary<float,int>();
 		///<summary>"Microsoft Sans Serif",8.25f. Every single form and UserControl must have this set, or MS will use its own default font, which is different for each computer based on Windows version and dpi. This is already present in FormODBase so that inherited forms do not also need it, so UserControls is where you have to watch out for it.
 		///UI-2a-1: the body token UiTheme.FontBody (Microsoft Sans Serif 8.25 until UI-2b), one shared instance as before; never dispose it.</summary>
 		public static Font FontInitial=>UiTheme.FontBody;
@@ -1076,7 +1078,14 @@ Scrollable Control: For example, a panel that's set to AutoScroll=true.  These c
 					height=0;
 				}
 				//Now, we apply the newly calculated positions to the control, converting to new scale
-				control.Controls[i].Bounds=new Rectangle(Scale(x),Scale(y),Scale(width),Scale(height));
+				Rectangle rectangleBounds=new Rectangle(Scale(x),Scale(y),Scale(width),Scale(height));
+				if(IsBoundsScaledInput(control.Controls[i]) && Math.Abs(height-23)<=2 && Scale(23)!=23){
+					//UI-12 (the layout grid): a combo box the program draws itself takes its height from its bounds, while the Windows inputs beside it
+					//(text boxes, number fields, date pickers) take theirs from their font. Scaled, they parted (150%: 34 against 31), so a single-line
+					//combo box gets the height of a single-line text box at the font text boxes get here, and one row of inputs has one height.
+					rectangleBounds.Height=GetTextBoxHeight(ScaleF(control96Info.FontSize96));
+				}
+				control.Controls[i].Bounds=rectangleBounds;
 				if(control.Controls[i].Bounds.Height<0 || control.Controls[i].Bounds.Width<0){
 					throw new Exception();
 				}
@@ -1177,6 +1186,26 @@ Scrollable Control: For example, a panel that's set to AutoScroll=true.  These c
 				Debug.WriteLine("");
 				//throw new ApplicationException("Controls cannot be moved or resized programmatically.  Use one of the LayoutManager.Move() methods. Control: "+control.Name);
 			}
+		}
+
+		///<summary>UI-12: the single-line inputs whose height LayoutManager scales with their bounds (the program's own combo box and the clinic
+		///picker draw themselves); the Windows inputs take their height from their font.</summary>
+		private static bool IsBoundsScaledInput(Control control){
+			return control is UI.ComboBox || control is UI.ComboBoxClinicPicker;
+		}
+
+		///<summary>UI-12: the height of a bordered single-line text box at this font size (points), as Windows sizes it (its PreferredHeight).</summary>
+		private static int GetTextBoxHeight(float fontSize){
+			if(_dictTextBoxHeights.TryGetValue(fontSize,out int height)){
+				return height;
+			}
+			using(Font font=new Font(UiTheme.FontBody.FontFamily,fontSize))
+			using(System.Windows.Forms.TextBox textBox=new System.Windows.Forms.TextBox()){
+				textBox.Font=font;
+				height=textBox.PreferredHeight;
+			}
+			_dictTextBoxHeights[fontSize]=height;
+			return height;
 		}
 
 		///<summary>Returns true to indicate that we skip layout of children.</summary>

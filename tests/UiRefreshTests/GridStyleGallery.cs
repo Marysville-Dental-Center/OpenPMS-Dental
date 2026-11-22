@@ -2,6 +2,9 @@
 // at 100% and 150% for gallery G-UI3-ui12p: FormPayment's single-line inputs (text boxes, combo boxes, the number fields and the date pickers),
 // and ControlChart's procedure buttons (B/F, V, M, O/I, D, L and the box above them) and the Progress Notes page bar. Opt-in:
 // OPMS_UI_GRID_STYLES names the folder. Nothing is shown; no database.
+// UI-12 fix round: FormPayment with its splits hidden (FormPayment-hidesplits, the window ToggleShowHideSplits makes), and at 150% the date
+// pickers' and up-down boxes' fonts scaled as Windows scales them at 144 dpi (LayoutManager gives them the zoom only and leaves the dpi to
+// Windows; this harness's windows are at 96 dpi, so without it they kept their 100% height in the 150% picture).
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
@@ -26,6 +29,7 @@ namespace UiRefreshTests {
 			new string[] { "FormPayment-inputs","OpenPmsDental.FormPayment" },
 			new string[] { "ControlChart-procbuttons","OpenPmsDental.ControlChart","textSurf","butBF","butV","butM","butOI","butD","butL" },
 			new string[] { "ControlChart-pagebar","OpenPmsDental.ControlChart","gridProgPageNav" },
+			new string[] { "FormPayment-hidesplits","OpenPmsDental.FormPayment" },
 		};
 
 		[TestMethod]
@@ -54,9 +58,16 @@ namespace UiRefreshTests {
 								if(scale!=1f) {
 									builtWindow.LayOutAt(scale);
 								}
+								FitGallery.SettleAfterHandles(builtWindow);
 								Control root=builtWindow.Root;
 								if(root is FormODBase formODBase && formODBase.PanelClient!=null) {
 									root=formODBase.PanelClient;
+								}
+								if(picture[0]=="FormPayment-hidesplits") {
+									HideSplits((FormODBase)builtWindow.Form,builtWindow);
+								}
+								if(scale!=1f) {
+									ScaleFontsAsWindowsDoes(root,scale);
 								}
 								FitGallery.HideDatePickerCalendars(root);
 								//The page bar with four pages, the second current, as the Progress Notes grid shows it with paging on.
@@ -94,6 +105,30 @@ namespace UiRefreshTests {
 			DesignSheetWindows.IsPrintingWithoutChildren=false;
 			File.WriteAllLines(Path.Combine(folder,"styles-failed.txt"),listFailed);
 			Assert.IsTrue(countPictures>0,"No picture made: "+string.Join("; ",listFailed));
+		}
+
+		///<summary>The date pickers and up-down boxes get the zoom only from LayoutManager and their dpi scaling from Windows; at 96 dpi this harness
+		///scales their fonts by the scale, so they take the height Windows gives them at that dpi.</summary>
+		private static void ScaleFontsAsWindowsDoes(Control control,float scale) {
+			foreach(Control child in control.Controls) {
+				if(child is DateTimePicker || child is UpDownBase) {
+					child.Font=new Font(child.Font.FontFamily,child.Font.Size*scale,child.Font.Style);
+				}
+				else {
+					ScaleFontsAsWindowsDoes(child,scale);
+				}
+			}
+		}
+
+		///<summary>FormPayment as Hide Splits leaves it (the harness builds windows without Load): the fields Load sets for the toggle, then the
+		///toggle, then the layout of the new height.</summary>
+		private static void HideSplits(FormODBase formODBase,BuiltWindow builtWindow) {
+			System.Reflection.BindingFlags bindingFlags=System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.NonPublic;
+			Control panelSplits=FindByName(formODBase,"panelSplits");
+			formODBase.GetType().GetField("_originalHeight",bindingFlags).SetValue(formODBase,formODBase.Height);
+			formODBase.GetType().GetField("_heightSplitsShown",bindingFlags).SetValue(formODBase,panelSplits.Height);
+			formODBase.GetType().GetMethod("ToggleShowHideSplits",bindingFlags).Invoke(formODBase,null);
+			builtWindow.LayoutManager.LayoutFormBoundsAndFonts(formODBase);
 		}
 
 		private static Control FindByName(Control root,string name) {
