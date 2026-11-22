@@ -79,7 +79,7 @@ namespace OpenPmsDental{
 			// 
 			// labelTotalVol
 			// 
-			this.labelTotalVol.Location = new System.Drawing.Point(347, 232);
+			this.labelTotalVol.Location = new System.Drawing.Point(343, 232);
 			this.labelTotalVol.Name = "labelTotalVol";
 			this.labelTotalVol.Size = new System.Drawing.Size(80, 23);
 			this.labelTotalVol.TabIndex = 270;
@@ -89,7 +89,7 @@ namespace OpenPmsDental{
 			// textTotVol
 			// 
 			this.textTotVol.AutoSize = false;
-			this.textTotVol.Location = new System.Drawing.Point(433, 232);
+			this.textTotVol.Location = new System.Drawing.Point(429, 232);
 			this.textTotVol.MaxLength = 100;
 			this.textTotVol.Name = "textTotVol";
 			this.textTotVol.ReadOnly = true;
@@ -99,7 +99,7 @@ namespace OpenPmsDental{
 			// textDateTCollect
 			// 
 			this.textDateTCollect.AutoSize = false;
-			this.textDateTCollect.Location = new System.Drawing.Point(433, 151);
+			this.textDateTCollect.Location = new System.Drawing.Point(429, 151);
 			this.textDateTCollect.MaxLength = 100;
 			this.textDateTCollect.Name = "textDateTCollect";
 			this.textDateTCollect.ReadOnly = true;
@@ -108,7 +108,7 @@ namespace OpenPmsDental{
 			// 
 			// labelDateTCollect
 			// 
-			this.labelDateTCollect.Location = new System.Drawing.Point(307, 151);
+			this.labelDateTCollect.Location = new System.Drawing.Point(303, 151);
 			this.labelDateTCollect.Name = "labelDateTCollect";
 			this.labelDateTCollect.Size = new System.Drawing.Size(120, 23);
 			this.labelDateTCollect.TabIndex = 288;
@@ -118,7 +118,7 @@ namespace OpenPmsDental{
 			// textDateTReport
 			// 
 			this.textDateTReport.AutoSize = false;
-			this.textDateTReport.Location = new System.Drawing.Point(433, 178);
+			this.textDateTReport.Location = new System.Drawing.Point(429, 178);
 			this.textDateTReport.MaxLength = 100;
 			this.textDateTReport.Name = "textDateTReport";
 			this.textDateTReport.ReadOnly = true;
@@ -127,7 +127,7 @@ namespace OpenPmsDental{
 			// 
 			// labelDateTReport
 			// 
-			this.labelDateTReport.Location = new System.Drawing.Point(307, 178);
+			this.labelDateTReport.Location = new System.Drawing.Point(303, 178);
 			this.labelDateTReport.Name = "labelDateTReport";
 			this.labelDateTReport.Size = new System.Drawing.Size(120, 23);
 			this.labelDateTReport.TabIndex = 290;
@@ -137,7 +137,7 @@ namespace OpenPmsDental{
 			// textDateEntered
 			// 
 			this.textDateEntered.AutoSize = false;
-			this.textDateEntered.Location = new System.Drawing.Point(433, 205);
+			this.textDateEntered.Location = new System.Drawing.Point(429, 205);
 			this.textDateEntered.MaxLength = 100;
 			this.textDateEntered.Name = "textDateEntered";
 			this.textDateEntered.ReadOnly = true;
@@ -146,7 +146,7 @@ namespace OpenPmsDental{
 			// 
 			// labelDateEntered
 			// 
-			this.labelDateEntered.Location = new System.Drawing.Point(347, 205);
+			this.labelDateEntered.Location = new System.Drawing.Point(343, 205);
 			this.labelDateEntered.Name = "labelDateEntered";
 			this.labelDateEntered.Size = new System.Drawing.Size(80, 23);
 			this.labelDateEntered.TabIndex = 292;

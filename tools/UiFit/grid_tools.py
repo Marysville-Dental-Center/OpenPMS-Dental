@@ -382,8 +382,9 @@ def _adv(s):
 def measured_wrap(text, text_w, room):
     """The lines a label draws when its text wraps in room px (UI-12 fix round 2: measured, word by word): a greedy word wrap with the
     width of each word from the character table above, scaled to the measured one-line width. A word with a hyphen that does not fit
-    breaks before the hyphen when its first part fits (as the label draws it: "non" / "-primary"). Paragraph by paragraph."""
-    text = (text or "").replace("\r", "")
+    breaks before the hyphen when its first part fits (as the label draws it: "non" / "-primary"). Paragraph by paragraph; a line end
+    after the text draws nothing (UserControlMainWindowMisc's labels end in one)."""
+    text = (text or "").replace("\r", "").rstrip()
     flat = text.replace("\n", " ")
     base = _adv(flat)
     if not flat.strip() or not text_w or text_w <= 12 or room <= 0 or base <= 0:
@@ -433,8 +434,8 @@ def hyphen_safe_width(text, text_w, lw, pad=0):
         lines = measured_wrap(text, text_w, lw - pad + 2)
         if not lines or not any(ln.startswith("-") for ln in lines[1:]):
             return lw
-        flat = (text or "").replace("\r", "").replace("\n", " ")
-        k = text_w / float(_adv(flat))
+        flat = (text or "").replace("\r", "").rstrip().replace("\n", " ")
+        k = (text_w - 6) / float(_adv(flat))
         i = next(j for j in range(1, len(lines)) if lines[j].startswith("-"))
         prev = lines[i - 1]
         cut = prev.rfind(" ")

@@ -16,10 +16,16 @@ def layout(h):
     pitch = H + 4
 
     # ---- The patient band (panelPat) -----------------------------------------------------------------------------------------------------
-    # The band ends 8 px after the adjustments list, which is as wide as its longest line (WL_ADJ); the request and import groups follow
-    # it 8 px apart to the window's content edge (fix round 2: the band ended where the request group's date met the subscriber's To-date
-    # column, which narrowed the list to 289 px and cut its lines, and left 48 and 22 px between the list and the two groups).
-    p = h.box("panelPat", 0, 0, 0, TOP)
+    # The band reaches the request group at the top right; the request group's date stands on the subscriber group's second date column
+    # (the To date): one column from the top of the window to the subscriber's dates. The adjustments list fills the band to 8 px before
+    # the request group, and the import group follows the request group 8 px apart to the window's content edge (fix round 2: the band
+    # also kept room for the Benefits Last Verified label, which narrowed the list to 289 px and cut its lines, and left 48 and 22 px
+    # between the list and the two groups).
+    xs_ = 8 + max(h.lw(n) for n in ("label25", "label2", "label5", "label28", "label22", "label9")) + 6
+    T = W1 + W2 + 8 + xs_ + 72 + 6 + h.lw("label6") + 6
+    xgr = T - 6 - h.lw("labelHistElect") - 8
+    wp = xgr
+    p = h.box("panelPat", 0, 0, wp, TOP)
     fa = 168  # the plan column's field column (X1): the band's fields stand on it
     p.row(("label33", 8, h.lw("label33") + 8), ("butAuditPat", fa, None))
     h.text_align("label33", "MiddleLeft")
@@ -40,9 +46,8 @@ def layout(h):
     p.field("label30", "textDateLastVerifiedPatPlan", fb, 72, after=[("butVerifyPatPlan", None, None)])
     # Adjustments to insurance benefits: a caption, its Add button at the list's right edge, the list under them.
     xc = max(hist_x + h.n("butHistory").nw, h.n("labelDrop").nx + h.n("labelDrop").nw) + GRID_BAND
-    wl = WL_ADJ
-    wp = xc + wl + 8
-    h.set("panelPat", 0, 0, wp, TOP)
+    wl = (wp - 8) - xc
+    assert wl >= WL_ADJ, "the adjustments list is narrower than its lines"
     p.y = p.top
     p.row(("label35", xc, wl - h.n("butAdjAdd").nw - 6), ("butAdjAdd", xc + wl - h.n("butAdjAdd").nw, None))
     h.text_align("label35", "MiddleLeft")
@@ -206,11 +211,11 @@ def layout(h):
     for c in (c1, c2):
         c.end(h=bottom3 + 8 - c.node.ny)
 
-    # ---- The top right: the request group 8 px after the patient band, the import group 8 px after it to the window's content edge ------
+    # ---- The top right: the request group at the patient band's edge, the import group 8 px after it to the window's content edge -------
     # Both groups take an equal share of what the row has over their content (fix round 2). The Benefits Last Verified row under them
-    # starts at the request group's left edge (its label right-aligned in its own width, its ink under the groups' titles).
+    # starts at the request group's left edge (its label right-aligned 6 px before its date); the date stands clear of the To-date column
+    # (more than 40 px: 32 px off a column reads as a column missed, and the list leaves no room for the label before T).
     xr = x3 + W3
-    xgr = wp
     bw = 64
     lr = h.lw("labelHistElect")
     wgr0 = 8 + lr + 6 + 80 + 8
@@ -236,10 +241,10 @@ def layout(h):
     wdv = h.cw("checkDontVerify")
     h.check_left("checkDontVerify")
     lv = h.lw("label34")
-    xd = xgr + lv + 6
+    xd = max(xgr + lv + 6, T + 41)
     xnow = xd + 80 + 6
     xdv = xnow + h.n("butVerifyBenefits").nw + 16
-    h.set("label34", xgr, yv, lv, H)
+    h.set("label34", xgr, yv, xd - 6 - xgr, H)
     h.text_align("label34", "MiddleRight")
     h.set("textDateLastVerifiedBenefits", xd, yv, 80, H)
     h.set("butVerifyBenefits", xnow, yv, None, H)
@@ -265,5 +270,5 @@ def layout(h):
 
 
 GRID_BAND = 16
-WL_ADJ = 340  # the adjustments list: its longest line ("03/05/2001       Ins Used:  $124.00       Ded Used:  $50.00", Microsoft Sans Serif
-#               8.25) and its scroll bar
+WL_ADJ = 320  # the adjustments list's least width: its longest line ("03/05/2001       Ins Used:  124.00       Ded Used:  50.00", about 300 px
+#               at the program's font) and its border

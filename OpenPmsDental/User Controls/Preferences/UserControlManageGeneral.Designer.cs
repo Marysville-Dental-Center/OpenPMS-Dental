@@ -348,7 +348,7 @@ namespace OpenPmsDental {
 			this.labelWriteOffs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelWriteOffs.Location = new System.Drawing.Point(24, 95);
 			this.labelWriteOffs.Name = "labelWriteOffs";
-			this.labelWriteOffs.Size = new System.Drawing.Size(207, 32);
+			this.labelWriteOffs.Size = new System.Drawing.Size(203, 32);
 			this.labelWriteOffs.TabIndex = 312;
 			this.labelWriteOffs.Text = "Auto-processing posts write-offs on non-primary claims";
 			this.labelWriteOffs.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;

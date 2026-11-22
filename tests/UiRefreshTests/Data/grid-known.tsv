@@ -51,7 +51,6 @@ OpenPmsDental.ControlChart	title	groupBoxOD1 label27	the Movements, Missing, Sho
 OpenPmsDental.FormClaimEdit	gap	comboMandProsth textDateInitialLower	the stock combo box (comboMandProsth, a System.Windows.Forms.ComboBox) takes its height from its font (21 px), 2 px under the grid's field height: the gap under it is 2 px more
 OpenPmsDental.FormClaimEdit	gap	radioAttachMail radioAttachElect	the attachment radio buttons stand in rows with the attachment fields (a field's height) and in a list: two pitches in one column
 OpenPmsDental.FormEmailInbox	gap	textSentOrReceived textMsgDateTime	the preview pane: EmailPreviewControl is another designer (its own rollout slice)
-OpenPmsDental.FormHL7DefEdit	gap	textHL7Server textHL7ServiceName	a label wrapped onto two lines makes its row taller (the Preferences style caps the label column at half the page; the field stands centred on the label)
 OpenPmsDental.FormPatientEdit	gap	comboBoxMultiRace comboEthnicity	the race boxes are stacked and switched by the race setting (a combo box or a text box with its button): the column holds both heights
 OpenPmsDental.FormPatientEdit	gap	textRace comboEthnicity	the race boxes are stacked and switched by the race setting (a combo box or a text box with its button): the column holds both heights
 OpenPmsDental.FormPractice	gap	textPracticeTitle textPhone	a label wrapped onto two lines makes its row taller (the Preferences style caps the label column at half the page; the field stands centred on the label)
