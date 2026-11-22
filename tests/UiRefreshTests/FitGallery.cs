@@ -61,8 +61,12 @@ namespace UiRefreshTests {
 			string font=(Environment.GetEnvironmentVariable(VARIABLE_FONT)??"").Trim().ToLowerInvariant();
 			int countPictures=0;
 			List<string> listFailed=new List<string>();
+			//UI-13: OPMS_UI_FIT_GALLERY_LOOKS_OFF=1 draws the windows without the UI-13 looks (the before pictures of windows outside the
+			//UI-12 pilot, whose designer files UI-13 does not change).
+			bool isLooksOff=Environment.GetEnvironmentVariable("OPMS_UI_FIT_GALLERY_LOOKS_OFF")=="1";
 			StaRunner.Run(() => {
 				NoDatabaseGuard.Install();
+				OpenPmsDental.UI.UiLooks.IsOffForGallery=isLooksOff;
 				DesignSheetWindows.IsPrintingWithoutChildren=true;
 				List<ScanType> listScanTypes=WindowBuilder.GetScanTypes();
 				foreach(string window in arrayWindows) {
@@ -118,6 +122,7 @@ namespace UiRefreshTests {
 				}
 			});
 			DesignSheetWindows.IsPrintingWithoutChildren=false;
+			OpenPmsDental.UI.UiLooks.IsOffForGallery=false;
 			File.WriteAllLines(Path.Combine(folder,"gallery-failed.txt"),listFailed);
 			Assert.IsTrue(countPictures>0,"No picture made: "+string.Join("; ",listFailed));
 		}

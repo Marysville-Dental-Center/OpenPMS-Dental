@@ -26,10 +26,13 @@ namespace OpenPmsDental.UI {
 	///<summary>Attaches UI-13's shared looks of the stock element types to one control.</summary>
 	public static class UiLooks {
 		private static readonly LayoutManagerForms _layoutManager=new LayoutManagerForms();
+		///<summary>True leaves the stock types as Windows draws them (no UI-13 look is attached): only the gallery harness sets it, for the before
+		///pictures of windows outside the UI-12 pilot (G-UI3-ui13). The program never sets it.</summary>
+		public static bool IsOffForGallery;
 
 		///<summary>Every UI-13 look that applies to the one control (not its children).</summary>
 		public static void AttachOne(Control control) {
-			if(control==null) {
+			if(control==null || IsOffForGallery) {
 				return;
 			}
 			if(UiScrollLook.IsScrolled(control)) {

@@ -212,8 +212,17 @@ namespace OpenPmsDental.UI {
 						PaintOnWindow();
 						break;
 					case WM_PRINT:
-						using(Graphics g=Graphics.FromHdc(m.WParam)) {
-							PaintFrame(g,new Rectangle(0,0,_control.Width,_control.Height),_control,false);
+						//UI-13: Windows leaves the clip of its own printing on the device context (the edge without its corners), which kept the
+						//frame's corners from being painted: Windows' dark corner pixel stayed under each rounded corner. The frame paints with no clip.
+						int saved=SaveDC(m.WParam);
+						try {
+							SelectClipRgn(m.WParam,IntPtr.Zero);
+							using(Graphics g=Graphics.FromHdc(m.WParam)) {
+								PaintFrame(g,new Rectangle(0,0,_control.Width,_control.Height),_control,false);
+							}
+						}
+						finally {
+							RestoreDC(m.WParam,saved);
 						}
 						break;
 				}
@@ -243,6 +252,15 @@ namespace OpenPmsDental.UI {
 
 		[DllImport("user32.dll")]
 		private static extern int ReleaseDC(IntPtr hWnd,IntPtr hDC);
+
+		[DllImport("gdi32.dll")]
+		private static extern int SaveDC(IntPtr hdc);
+
+		[DllImport("gdi32.dll")]
+		private static extern bool RestoreDC(IntPtr hdc,int nSavedDC);
+
+		[DllImport("gdi32.dll")]
+		private static extern int SelectClipRgn(IntPtr hdc,IntPtr hrgn);
 
 		[DllImport("user32.dll")]
 		private static extern bool RedrawWindow(IntPtr hWnd,IntPtr lprcUpdate,IntPtr hrgnUpdate,int flags);
