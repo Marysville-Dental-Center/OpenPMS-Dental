@@ -51,6 +51,7 @@ GRID = {
     "label_cap": 0.6,         # Preferences style: the field column stays within this share of the content width; a longer label wraps
     "wide_field": 120,        # Preferences style: a text field this wide or wider ends at the content's right edge, like the combo boxes
     "hint_snap": 40,          # field columns of different containers within this (window coordinates) share one left edge
+    "check_slack": 3,         # a check box whose one line needs at most this much more than its row has stays one line (GDI+ measures 2-3 px wide)
 }
 
 LABEL_TYPES = ("System.Windows.Forms.Label", "System.Windows.Forms.LinkLabel")
@@ -304,7 +305,8 @@ def pair_label_width(lb):
 
 def check_width(n, text_room=None):
     """The width a check box or radio button needs for its box and its text on one line."""
-    lead = GRID["check_box"] + GRID["check_text"] if n.type == "OpenPmsDental.UI.CheckBox" else 18
+    # UI.CheckBox and, from round 3, the stock radio button (UiRadioLook) put the text 16 px from the left; the stock check box 18 px.
+    lead = GRID["check_box"] + GRID["check_text"] if n.type in ("OpenPmsDental.UI.CheckBox",) + RADIO_TYPES else 18
     return lead + n.text_w + 2 if n.text_w else n.w
 
 
@@ -411,13 +413,17 @@ def split(items, axis, tol=2, merge_pairs=True):
     groups = []
     cur = []
     cur_hi = None
+    tall_hi = None  # rows: the bottom of a tall list or grid in the group; a row that starts above it is beside it (no tolerance)
     for i in key:
-        if cur and lo(i) >= cur_hi - tol:
+        if cur and lo(i) >= cur_hi - tol and (tall_hi is None or lo(i) >= tall_hi):
             groups.append(cur)
             cur = []
             cur_hi = None
+            tall_hi = None
         cur.append(i)
         cur_hi = hi(i) if cur_hi is None else max(cur_hi, hi(i))
+        if axis == "y" and getattr(i, "kind", "") == "other" and i.h >= 120:
+            tall_hi = hi(i) if tall_hi is None else max(tall_hi, hi(i))
     if cur:
         groups.append(cur)
     if axis == "x" and len(groups) > 1 and merge_pairs:
@@ -439,7 +445,7 @@ def cut(items):
         # Columns that hold containers (a column of fields and group boxes beside a column of group boxes) are laid out as columns: cut
         # into rows first, a tall box on one side would make each row as tall as it and open a band of empty space on the other side.
         cols = split(items, "x")
-        if (len(cols) > 1 and any(i.kind in ("group", "panel", "tabs") for i in items)
+        if (len(cols) > 1 and any(i.kind in ("group", "panel", "tabs") or (i.kind == "other" and i.h >= 240) for i in items)
                 and sum(1 for c in cols if len(split(c, "y", tol=5)) > 1) >= 1
                 and all(not (len(c) == 1 and c[0].kind == "label") for c in cols)):
             return Block("h", items, [cut(g) for g in cols])
@@ -695,6 +701,21 @@ class Layout:
 
     def place_v(self, block, x0, y0, right):
         kids = sorted(block.children, key=lambda c: c.y)
+        # A check box or radio button hidden in the designer on a row of shown controls, taller than they are (FormPatientEdit's "Same
+        # for entire super family" beside "Same for entire family", two lines tall), leaves its row and goes to the end of the column like
+        # a hidden row (round 3: it left a band under the shown box).
+        extra = []
+        for idx, k in enumerate(kids):
+            if k.kind != "h" or not is_row(k):
+                continue
+            its = row_items(k)
+            shown_h = max([i.h for i in its if getattr(i, "visible", True)] + [0])
+            hid = [i for i in its if not getattr(i, "visible", True) and getattr(i, "kind", "") in ("check", "radio") and i.h > shown_h + 4]
+            if hid and shown_h:
+                rest = [c for c in sorted(k.children, key=lambda c: c.x) if c.items[0] not in hid]
+                kids[idx] = rest[0] if len(rest) == 1 else Block("h", [c.items[0] for c in rest], rest)
+                extra.extend(Block("leaf", [i]) for i in hid)
+        kids = kids + extra
         # A row of controls hidden in the designer (shown at run time in some setups only, such as Canada's Time Units) goes to the end of
         # its column: where it stays hidden it leaves no gap between the rows that show.
         hidden = [k for k in kids if is_row(k) and all(not getattr(i, "visible", True) for i in row_items(k))]
@@ -776,6 +797,95 @@ class Layout:
                 if (g.kind == "other" and g.nw >= 300 and g.editable and not g.fixed and not getattr(g, "members", None)
                         and not g.anchored_right_only and 0 < edge - (g.nx + g.nw) <= 48):
                     self.set_size(g, edge - g.nx, g.nh, "wide list: reaches the column's right edge")
+        # A row of buttons only right under a row of lists ends where the last list ends (FormPatientEdit's Add and Defaults under the
+        # Family Relationships list).
+        for i in range(1, len(kids)):
+            if not (is_row(kids[i]) and is_row(kids[i - 1])):
+                continue
+            bts = row_items(kids[i])
+            above = row_items(kids[i - 1])
+            if (len(above) >= 2 and all(a.kind == "other" and a.nh > 2 * self.p.field_height for a in above)
+                    and all(b.kind == "button" and b.editable and not b.fixed for b in bts)):
+                edge = max(a.nx + a.nw for a in above)
+                dx = edge - max(b.nx + b.nw for b in bts)
+                if dx and min(b.nx for b in bts) + dx >= min(a.nx for a in above):
+                    for b in bts:
+                        self.set_loc(b, b.nx + dx, b.ny, "buttons under a row of lists: end where the last list ends")
+        # A row of captions right over a row of lists (as many): each caption starts where its list starts (FormPatientEdit's Position and
+        # Family Relationships stood 19 px right of their lists).
+        for i in range(1, len(kids)):
+            if not (is_row(kids[i]) and is_row(kids[i - 1])):
+                continue
+            caps = sorted(row_items(kids[i - 1]), key=lambda n: n.nx)
+            lsts = sorted(row_items(kids[i]), key=lambda n: n.nx)
+            if (len(caps) >= 2 and len(caps) == len(lsts) and all(c.kind == "label" and c.editable and not c.fixed for c in caps)
+                    and all(n.kind == "other" and n.nh > 2 * self.p.field_height for n in lsts)
+                    and all(not (c.text_align or "").endswith(("Right", "Center")) for c in caps)):
+                for c, n in zip(caps, lsts):
+                    self.set_loc(c, n.nx, c.ny, "caption over its list: starts where the list starts")
+                    w = max(n.nw, label_width(c))
+                    if w != c.nw:
+                        self.set_size(c, w, c.nh, "caption over its list: as wide as the list")
+        # Rows of one column that end in a field end at one right edge (round 3: FormPractice's City, ST, Zip rows ended 10 px right of the
+        # Address fields above them): the last field of a row within edge_snap of the column's most common right edge takes it.
+        lasts = []
+        for k in kids:
+            if is_row(k):
+                its = [i for i in row_items(k) if getattr(i, "visible", True)]
+                f = its[-1] if its else None
+                if (f is not None and (f.kind == "field" or (f.kind == "other" and "TextBox" in f.type and f.nw >= GRID["wide_field"]))
+                        and f.editable and not f.fixed and not getattr(f, "members", None)
+                        and not has_date_box(f) and not getattr(f, "keep_size", False)):
+                    lasts.append(f)
+        if len(lasts) >= 2:
+            edges = collections.Counter(f.nx + f.nw for f in lasts)
+            # The column's edges: its most common one and its widest (no chains of near edges).
+            targets = {max(edges, key=lambda e: (edges[e], e)), max(edges)}
+            for f in lasts:
+                fe = f.nx + f.nw
+                near = [e for e in targets if abs(e - fe) <= GRID["edge_snap"]]
+                if not near:
+                    continue
+                edge = max(near, key=lambda e: (edges[e], e))
+                d = edge - fe
+                if d and f.nw + d >= 24:
+                    self.set_size(f, f.nw + d, f.nh, "fields of one column: one right edge")
+                    rmax = max(rmax, edge)
+        # Rows of a stack that are a list and a part beside it (FormPractice's right column: the Default Provider box beside one list,
+        # the Billing Provider group beside the next): the parts beside the lists start at one x, the leftmost one's.
+        seconds = []
+        for k in kids:
+            if k.kind == "h" and len(k.children) == 2:
+                first, second = sorted(k.children, key=lambda c: c.x)
+                if (first.kind == "leaf" and first.items[0].kind == "other" and first.items[0].nh > 2 * self.p.field_height
+                        and all(i.editable and not i.fixed and not getattr(i, "members", None) for i in second.items)):
+                    seconds.append(second)
+        if len(seconds) >= 2:
+            x_min = min(min(i.nx for i in sb.items) for sb in seconds)
+            for sb in seconds:
+                dx = x_min - min(i.nx for i in sb.items)
+                if 0 > dx >= -GRID["edge_snap"]:
+                    for i in sb.items:
+                        self.set_loc(i, i.nx + dx, i.ny, "parts beside the lists of a column: one left edge")
+        # The rightmost container or wide field of each row of a stack ends at the stack's right edge when it is within edge_snap of it
+        # (FormPractice's Default Provider box, Billing Provider group and Switzerland group ended at three x values).
+        ends = []
+        for k in kids:
+            its = [i for i in k.items if getattr(i, "visible", True)]
+            if not its:
+                continue
+            m = max(its, key=lambda i: i.nx + i.nw)
+            # A field counts when a caption above names it (no label beside it on its row).
+            captioned = m.kind == "field" and not any(i is not m and abs(i.ny - m.ny) <= 4 and i.nx < m.nx for i in its)
+            if m.kind in ("group", "panel") or (captioned and m.nw >= GRID["wide_field"] and not has_date_box(m)):
+                if m.editable and not m.fixed and not getattr(m, "members", None) and not m.anchored_right_only:
+                    ends.append(m)
+        if len(ends) >= 3 and any(m.kind in ("group", "panel") for m in ends):
+            edge = max(m.nx + m.nw for m in ends)
+            for m in ends:
+                d = edge - (m.nx + m.nw)
+                if 0 < d <= 2 * GRID["edge_snap"]:
+                    self.set_size(m, m.nw + d, m.nh, "the rightmost box of each row of a column: one right edge")
         # Containers stacked in one column (one left edge) share one right edge: the widest one's.
         conts = []
         for k in kids:
@@ -972,7 +1082,7 @@ class Layout:
                     # A control hidden in the designer beside shown ones (shown in some setups) does not make the row taller.
                     h_row = max(h_row, min(self.item_height(it, field_row), H))
                     continue
-                if it.kind in ("check", "radio") and it.text_w and not it.fixed and not getattr(it, "members", None) and check_width(it) <= right - min(it.nx, u.col["x"] if u.col else it.nx):
+                if it.kind in ("check", "radio") and it.text_w and not it.fixed and not getattr(it, "members", None) and check_width(it) <= right - min(it.nx, u.col["x"] if u.col else it.nx) + GRID["check_slack"]:
                     h_row = max(h_row, self.p.check_height)  # a check box whose text fits on one line is one line tall
                     continue
                 h_row = max(h_row, it.nh if (u.label is it and id(u) in prefs_lx) else self.item_height(it, field_row))
@@ -1026,6 +1136,8 @@ class Layout:
                     m.add_rule("CheckAlign", "check box: the box on the left of its text")
                 width = check_width(m)
                 room = right - x
+                if room < width <= room + GRID["check_slack"]:
+                    width = room  # one line: the text fits as the box draws it
                 hh = self.item_height(m, field_row) if width > room else self.p.check_height
                 if width > room and room >= 0.55 * width and room > 60:
                     lines = min(3, wrapped_lines(m.text_w, room - 20))
@@ -1142,6 +1254,15 @@ class Layout:
             for n in conts:
                 if not (n.anchor & 2 and n.anchor & 1):
                     self.set_size(n, n.nw, hmax, "containers side by side: one height")
+        # Lists side by side in a row (FormPatientEdit's Status, Gender, Position and Family Relationships) get one top and one height.
+        lists = [u.main for u in units if u.label is None and u.main.kind == "other" and u.main.nh > 2 * H and u.main.editable
+                 and not u.main.fixed and not getattr(u.main, "members", None)]
+        if len(lists) >= 2 and len(lists) == len(units):
+            hmax = max(n.nh for n in lists)
+            for n in lists:
+                if not (n.anchor & 2 and n.anchor & 1):
+                    self.set_size(n, n.nw, hmax, "lists side by side: one height")
+                self.set_loc(n, n.nx, y, "lists side by side: one top")
         kind = "fields"
         if all(u.label is None for u in units):
             if kinds <= {"check", "radio"}:
@@ -2005,6 +2126,15 @@ def apply_row(text, control, prop, new):
         if m:
             return text[:m.start(2)] + new + text[m.end(2):], None
         return text, "no RightToLeft line"
+    if prop == "BorderStyle":
+        # A hand row only (FormPatientEdit's Zip text box drawn borderless inside its combo box).
+        pat = re.compile(r"(%sBorderStyle ?= ?System\.Windows\.Forms\.BorderStyle\.)(\w+)(;)" % re.escape(target))
+        m = pat.search(text)
+        if m:
+            return text[:m.start(2)] + new + text[m.end(2):], None
+        if new == "Fixed3D":
+            return text, None  # the default
+        return insert_before_name_line(text, control, "this.%s.BorderStyle = System.Windows.Forms.BorderStyle.%s;" % (control, new))
     if prop in ("CheckAlign", "TextAlign"):
         pat = re.compile(r"(%s%s ?= ?System\.Drawing\.ContentAlignment\.)(\w+)(;)" % (re.escape(target), prop))
         m = pat.search(text)

@@ -76,6 +76,10 @@ namespace OpenPmsDental.UI {
 				if(IsFramed(control)) {
 					Attach(control);
 				}
+				else if(control is RadioButton) {
+					//Round 3: the stock radio button drawn like the program's check box (UiRadioLook).
+					UiRadioLook.Attach(control);
+				}
 				AttachTree(control);
 			}
 		}
