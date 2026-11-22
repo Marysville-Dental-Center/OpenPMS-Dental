@@ -1598,6 +1598,10 @@ own 26.2 overlap check before it starts. The first cut is below; a brief that fi
   FormPractice, FormProvEdit, FormProcCodeEdit (its tab control to the content edge), FormScreenEdit, FormPatientEdit and the recurring
   charges page; the planner grows a wide field to its column's edge and stands a Preferences label on a multi-line box's first line;
   gallery G-UI3-ui12p redrawn from round 6 (UI-12.md section 4, "Round 6").
+  Round 7 (branch `ui/ui12p-4-2`, the fix round of round 6): every bordered rich text box (ODtextBox) draws the inputs' frame, single-line
+  ones too (FormEmailInbox's address and subject boxes, ControlChart's search box); the message preview's address rows on the grid (23 px
+  at a 27 px pitch, 8 px before the Attachments tab control); GridRulesTests' `unframed` rule; gallery G-UI3-ui12p redrawn from round 7
+  (UI-12.md section 4, "Round 7").
 - Gallery: G-UI3 per slice, the owner's rows first.
 
 ---

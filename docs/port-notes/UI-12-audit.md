@@ -375,3 +375,25 @@ pass finds nothing new.
 Seen and kept, for the lead (not in this round's list, as audited before): FormApptEdit's grids and buttons on the right stand 1 px from the
 window's right edge as on main (the window is laid out in parts, `grid-scope.tsv`, and they are outside them); FormProvEdit's hidden Allow
 NewCrop eRx Option box ends at 787 past the column's 760 when the code shows it (it stands 6 px after Use Electronic Prescriptions, as on main).
+
+## Round 7 (2026-11-22: the fix round of round 6, the lead's finding on the single-line ODtextBoxes)
+
+### Pass 1 (the first round 7 build, gallery r7a)
+
+GridRulesTests on the build found two new gaps in the message preview (FormEmailInbox): Username to Sent/Received 2 px and Date / Time to
+From 1 px, against the column's 4 px once the address rows were on the 27 px pitch. Fixed (the three display lines 4 px apart and 4 px over
+From); the pictures were redrawn before they were audited.
+
+### Pass 2 (gallery r7b, the final build; G-UI3-ui12p's after pictures)
+
+| Picture | Checked | Found |
+|---|---|---|
+| FormEmailInbox, 30-FormEmailInbox (owner row 30) | the preview pane's address rows, labels, buttons, the body box, the Attachments tab control | From, To, CC, BCC, Signed By (read-only fill) and Subject framed like the Search group's boxes and the body box, 4 px apart, one left edge (89) and one right edge 8 px before the Attachments tab control; the labels 6 px before their fields and centred on them; `...` and Sig 6 px after their fields at the field height; Add Image and Add File on the fields' edge, 8 px apart; the Username, Sent/Received and Date / Time lines 4 px apart; the body box 4 px under Subject. Good. |
+| The other 92 pictures | byte compare against round 6's (r6b) | Identical (ControlChart's search box stands on the Show page, which its picture does not show). Audited in round 6, pass 2. |
+
+GridRulesTests (r7b and the final run): no findings beyond `grid-known.tsv` (the Sent/Received to Date / Time row removed), no `unframed`
+text box in any grid window. The pass finds nothing new.
+
+Seen and kept, for the lead (as since round 4, not this round's finding): the gallery's framed inputs that print themselves (rich text
+boxes, up-down boxes, date pickers) keep the Windows border's dark pixel in each outer corner under the rounded frame (UI-12.md section 5,
+round 7).
