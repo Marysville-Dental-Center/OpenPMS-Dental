@@ -106,3 +106,74 @@ their pass 2 lines stand). The owner's check box crops are parts of the preferen
 
 The open items are for the rollout's first slice to fold into the planner or fix by hand; none hides a control or cuts the text of an
 owner's row.
+
+## Round 2 (2026-11-21: the owner's answers, the lead's audit)
+
+Every round 2 picture was opened: the windows whole, the Preference pages in montages of four to six whole pages at full size, the owner's
+26 crops in two montages, the style pictures with crops of the inputs at 150%. Small details were checked in 2x crops (`work2/crop.py`).
+
+### Pass 1 (gallery r2a and r2b: the new rules from main's tree)
+
+- UserControlApptGeneral: the Preferences style works (labels at the check box text, one field column, combo boxes to the right edge, long
+  labels on two lines). Fine.
+- FormPatientEdit: columns shared across the groups; the band under Employer is gone; found: the right column's groups of three widths
+  (rule added: group boxes stacked in one column share one right edge), an empty row at the top of Address and Phone (the hidden "Same for
+  entire super family" box, two lines tall: kept, it is that box's room when it shows), the Age box (fixed: relative move), the date
+  pickers' stray line (fixed in the gallery: the hidden calendar).
+- FormApptEdit: fields narrowed before the panel grew (rule added: a field narrowed in one pass widens again), the check boxes on a minor
+  column (rule: the dominant field column), Lab and Req (rule: a button before its box stands where a label would), the fields' right edges
+  ragged (rule: in a part laid out alone the fields end at one right edge), the quick-add note's third line cut (scope and hand row), the
+  appointment note narrower than the panel and list above it (hand row).
+- FormProcCodeEdit: Is Radiology in the column; the empty area below Assign To Prov (rule: hidden rows go to the end); the fee notes
+  ragged (rule: notes and their buttons centred on their column).
+- FormStatementOptions: Receipt off the column (rule: stacked check boxes are a check box), Save on its own line (rule: the bar's buttons on
+  one line), the note boxes past the groups (rule: a wide box keeps its right edge).
+- FormHL7DefEdit: the Messages grid short of the groups' edge (rule: a wide grid reaches its column's edge); Warn if Procs off its list
+  (hand row); the bottom buttons on two lines (rule).
+- FormBackup: the Backup controls 3-11 px off the Restore group's edges (hand rows; they stand over the group, not in it).
+- FormInsBenefits: the benefit grid over the Categories group (the harness does not run Load; at run time the grid went under the
+  simplified panel, which ended 37 px above the group: hand row, the panel as tall as the group).
+- FormPayment (laid out in parts): Hide Splits on the Note label (hand row).
+- UserControlMainWindowMisc, UserControlServerConnections: fine.
+
+### Pass 2 (gallery r2c and r2d)
+
+- UserControlEnterpriseAccount: the "Receive at an interval" radio button's text covered by the "minutes (5 to 60)" label (rule: a
+  Preferences label after another control on its row follows it); the Claim Identification Prefix group in the right half with a blank
+  half beside it (rule: a Preferences group box alone on its rows spans the page); the pay plan note right-aligned at the far right (hand
+  rows, also on UserControlAccountPayments).
+- UserControlAccountClaimReceive: Claims Medical rows 34 px apart (rule: a one-line check box keeps a one-line row).
+- UserControlTreatPlanGeneral: the Default Note box past the page's right edge (rule: Preferences note boxes end at the content's edge).
+- FormPayment: the two filter groups of two heights (rule: scoped group boxes side by side get one height); the tab controls under them
+  overlapped the left group by 3 px and stood 5 px apart (hand rows); the buttons and totals under the grids on four lines (hand rows); the
+  totals' labels touching their boxes (hand rows).
+- Pages UserControlMainWindow, -ApptAppearance, -FamilyGeneral, -FamilyInsurance, -AccountGeneral, -AccountAdjustments, -AccountClaimSend,
+  -AccountPayments, -AccountRecAndRepCharges, -TreatPlanFreqLimit, -ChartGeneral, -ChartProcedures, -ImagingGeneral, -ManageGeneral,
+  -ManageBillingStatements, -Ortho, -EnterpriseGeneral, -EnterpriseAppts, -EnterpriseFamily, -EnterpriseManage, -EnterpriseReports,
+  -ExperimentalPrefs: one field column per page, boxes left, groups spanning, no cut text, no overlap.
+
+### Pass 3 (gallery r2f, the final build; G-UI3-ui12p's after pictures)
+
+| Picture | Checked | Found |
+|---|---|---|
+| FormPatientEdit | rows, columns, groups, tab page | Good. Accepted: the empty row under "Same for entire family" in Address and Phone is the hidden super family box's place. |
+| FormProvEdit | rows, columns, groups | Good: one field column on the left (also in Clinic Overrides), the check boxes on the right at one x. |
+| FormProcCodeEdit | rows, check boxes, lists, notes | Good but one nit open: the row of Is Radiology is 8 px further from Is Prosthesis than the other check box rows (the Paint Text field on that row stands under the Category list, and the row goes under the list's bottom). |
+| FormPractice | everything | Good. Nit open: the City/ST/Zip rows end 10 px right of the Address fields; the right column's Default Provider combo, Billing Provider group and Switzerland group end at three x values (as drawn). |
+| FormInsBenefits | groups, rows | Good on the grid; the benefit grid drawn over the Categories group is the harness (Load moves it; at run time it now goes under the group). |
+| FormApptViewEdit, FormMedLabEdit | groups, rows | Good. |
+| FormScreenEdit | rows, lists | Good. |
+| FormStatementOptions | groups, check boxes, notes | Good. |
+| FormBackup | groups | Good. |
+| FormEmailInbox | search bar, the owner's label | Good; the preview pane's labels touch their boxes (EmailPreviewControl, another designer: its own slice, a known grid finding). |
+| FormHL7DefEdit | rows, groups, grid, bar | Good. |
+| FormApptEdit | the fields panel, the list, the note | Good (the owner's row 25). Accepted: the band under Req is the hidden Syndromic Observations row's place. |
+| FormPayment | parts, groups, tab controls, bar | Good. |
+| FormInsPlan, FormClaimEdit, FormProcEdit, ControlAccount, ControlChart | as on main but their hand rows | **Not laid out (open, UI-12.md section 5).** |
+| Preference pages (28) | whole pages in montages | Good: the Preferences style everywhere. Nits open: UserControlAccountAdjustments' Bad Debt list stands right of the page column; UserControlChartProcedures has an extra gap above the last check box (a hidden row's place); the stock radio buttons' text stands 3 px further from the circle than the check boxes' text. |
+| Owner crops (26) | each crop | Each control whole, boxes left, labels whole. |
+| FormPayment-inputs 100/150 | frames, text | Every input with the combo box's frame; the up-down boxes' text whole at 150% (fixed). |
+| UserControlServerConnections (crop) | the stock combo boxes | The program's frame and chevron (fixed). |
+| ControlChart-procbuttons, -pagebar 100/150 | sizes, gaps | As in round 1: equal buttons and gaps; the page bar flat with chevrons. |
+
+The pass still finds the open items above, so the audit is not clean: round 2 is reported partial.

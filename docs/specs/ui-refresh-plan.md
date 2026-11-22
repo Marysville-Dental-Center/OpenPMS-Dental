@@ -1572,10 +1572,12 @@ own 26.2 overlap check before it starts. The first cut is below; a brief that fi
 - Slices: **UI-12 pilot** (branch `ui/ui12p-1`): the 33 windows of UI-10 slice 1 and the 14 windows of the owner's G-UI3 review, the
   shared input frame (`UiInputFrame`) and the Progress Notes page bar. Then **UI-12-1 to UI-12-n** over the UI-10 ranking order
   (`fit-scan-files.tsv`), about 40 designer files each, then the rest (the windows the ranking does not hold).
-- Status of the pilot (2026-11-21): 40 of the 47 windows laid out by the tool (the plan from the build of an applied plan is empty),
-  7 kept as on `main` with hand rows (`grid-hand.tsv`: ControlChart's procedure buttons, FormApptEdit's quick-add note, FormInsPlan's
-  ortho check box) because the tool cannot yet place them (run-time layout, stacked panels, growth past the screen); the owner's rows
-  in UI-12.md section 3; gallery G-UI3-ui12p.
+- Status of the pilot (2026-11-21, round 2): the owner's answers (row pitch 27: fields 23 px, 4 px apart; a 1920 x 1080 screen, a client
+  area up to about 1000 x 1880; FormPreferences grows to show its pages) and the lead's audit applied. 42 of the 47 windows laid out by
+  the tool (the 40 of round 1, FormApptEdit and FormPayment laid out in parts through `grid-scope.tsv`), the Preferences pages in the
+  Preferences style (one field column per page, labels where the check box text starts); a re-run of the planner on the build plans
+  nothing. Open: FormInsPlan, FormClaimEdit, FormProcEdit, ControlAccount and ControlChart are still as on `main` but for their hand rows
+  (UI-12.md section 4 and 5); gallery G-UI3-ui12p redrawn from round 2.
 - Gallery: G-UI3 per slice, the owner's rows first.
 
 ---
