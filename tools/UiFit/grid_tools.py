@@ -48,7 +48,7 @@ GRID = {
     "dialog_gap": 8,          # between dialog buttons
     "scroll_bar": 17,         # a vertical scroll bar at 96 dpi (SystemInformation.VerticalScrollBarWidth)
     "label_lead": 16,         # Preferences style: a label starts where the check box text beside it starts (UI.CheckBox: 13 px box + 3)
-    "label_cap": 0.6,         # Preferences style: the field column stays within this share of the content width; a longer label wraps
+    "label_cap": 0.5,         # Preferences style: the field column stays within this share of the content width; a longer label wraps
     "wide_field": 120,        # Preferences style: a text field this wide or wider ends at the content's right edge, like the combo boxes
     "hint_snap": 40,          # field columns of different containers within this (window coordinates) share one left edge
     "check_slack": 3,         # a check box whose one line needs at most this much more than its row has stays one line (GDI+ measures 2-3 px wide)
@@ -285,6 +285,28 @@ def runtime_positioned(root, simple, names):
                 found[n] = line[:120]
                 break
     return found
+
+
+def runtime_window_sized(root, simple):
+    """The lines of the window's code that size the window itself at run time (Width, Height, Size, ClientSize or Bounds set on the form, or
+    LayoutManager.MoveSize/MoveWidth/MoveHeight on this): the sizes they set were chosen for the layout on main, so a rollout slice lists the
+    window and checks each one against the new layout (UI-12 fix round: FormInsBenefits' simplified view width, FormPayment's hidden splits
+    height)."""
+    texts = []
+    for f in code_files_for(root, simple):
+        with open(os.path.join(root, f), "rb") as fh:
+            texts.append(fh.read().decode("latin-1"))
+    code = "\n".join(texts)
+    code = re.sub(r'(?m)^((?:[^"\n/]|"(?:[^"\\\n]|\\.)*"|/(?!/))*)//[^\n]*', r"\1", code)
+    out = []
+    pats = [r"(?m)^[ \t]*(?:this\s*\.\s*)?(Width|Height|Size|ClientSize|Bounds)\s*(\+|-)?=(?!=)",
+            r"LayoutManager\s*\.\s*Move(Size|Width|Height)\s*\(\s*this\s*,"]
+    for p in pats:
+        for m in re.finditer(p, code):
+            line = code[code.rfind("\n", 0, m.start()) + 1:code.find("\n", m.start())].strip()
+            if line not in out:
+                out.append(line[:120])
+    return out
 
 
 # ---------------------------------------------------------------------------------------------------------------------------------------
@@ -2054,6 +2076,11 @@ def cmd_plan(args):
             planner.scopes.setdefault(r["window"], []).append((r["container"], names or None, (r.get("keep") or "") == "width"))
     for w, tree in trees.items():
         mode, note = modes.get(w, ("tool", ""))
+        # The window's code sizes the window itself (Width, Height, Size, ClientSize set on the form): listed, tool and hand windows alike,
+        # so the slice checks each size against the new layout (the planner does not change code).
+        if not SIMULATE:
+            for line in runtime_window_sized(root, w.split(".")[-1]):
+                planner.unplaced.append((w, ".", "the code sizes the window at run time (check the size against the new layout): " + line))
         if mode != "tool":
             planner.unplaced.append((w, ".", "by hand: " + note))
             continue
