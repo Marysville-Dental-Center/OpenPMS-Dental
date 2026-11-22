@@ -145,9 +145,9 @@
 			// butOk
 			// 
 			this.butOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOk.Location = new System.Drawing.Point(881, 661);
+			this.butOk.Location = new System.Drawing.Point(891, 794);
 			this.butOk.Name = "butOk";
-			this.butOk.Size = new System.Drawing.Size(75, 28);
+			this.butOk.Size = new System.Drawing.Size(75, 24);
 			this.butOk.TabIndex = 9;
 			this.butOk.Text = "Save";
 			this.butOk.UseVisualStyleBackColor = true;
@@ -156,9 +156,9 @@
 			// butDelete
 			// 
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butDelete.Location = new System.Drawing.Point(12, 661);
+			this.butDelete.Location = new System.Drawing.Point(8, 794);
 			this.butDelete.Name = "butDelete";
-			this.butDelete.Size = new System.Drawing.Size(75, 28);
+			this.butDelete.Size = new System.Drawing.Size(75, 24);
 			this.butDelete.TabIndex = 3;
 			this.butDelete.Text = "Delete";
 			this.butDelete.UseVisualStyleBackColor = true;
@@ -167,9 +167,9 @@
 			// butAdd
 			// 
 			this.butAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butAdd.Location = new System.Drawing.Point(881, 466);
+			this.butAdd.Location = new System.Drawing.Point(880, 594);
 			this.butAdd.Name = "butAdd";
-			this.butAdd.Size = new System.Drawing.Size(81, 28);
+			this.butAdd.Size = new System.Drawing.Size(86, 24);
 			this.butAdd.TabIndex = 13;
 			this.butAdd.Text = "Add Result";
 			this.butAdd.UseVisualStyleBackColor = true;
@@ -198,9 +198,9 @@
 			// butAddNote
 			// 
 			this.butAddNote.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butAddNote.Location = new System.Drawing.Point(881, 359);
+			this.butAddNote.Location = new System.Drawing.Point(880, 485);
 			this.butAddNote.Name = "butAddNote";
-			this.butAddNote.Size = new System.Drawing.Size(81, 28);
+			this.butAddNote.Size = new System.Drawing.Size(86, 24);
 			this.butAddNote.TabIndex = 166;
 			this.butAddNote.Text = "Add Notes";
 			this.butAddNote.UseVisualStyleBackColor = true;
@@ -210,9 +210,9 @@
 			// 
 			this.butAddCopyTo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butAddCopyTo.Enabled = false;
-			this.butAddCopyTo.Location = new System.Drawing.Point(881, 389);
+			this.butAddCopyTo.Location = new System.Drawing.Point(880, 513);
 			this.butAddCopyTo.Name = "butAddCopyTo";
-			this.butAddCopyTo.Size = new System.Drawing.Size(86, 28);
+			this.butAddCopyTo.Size = new System.Drawing.Size(86, 24);
 			this.butAddCopyTo.TabIndex = 167;
 			this.butAddCopyTo.Text = "Add Copy To";
 			this.butAddCopyTo.UseVisualStyleBackColor = true;
@@ -220,9 +220,9 @@
 			// butAddSpecimens
 			// 
 			this.butAddSpecimens.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butAddSpecimens.Location = new System.Drawing.Point(881, 496);
+			this.butAddSpecimens.Location = new System.Drawing.Point(880, 622);
 			this.butAddSpecimens.Name = "butAddSpecimens";
-			this.butAddSpecimens.Size = new System.Drawing.Size(81, 28);
+			this.butAddSpecimens.Size = new System.Drawing.Size(86, 24);
 			this.butAddSpecimens.TabIndex = 168;
 			this.butAddSpecimens.Text = "Add Spec";
 			this.butAddSpecimens.UseVisualStyleBackColor = true;
@@ -238,20 +238,20 @@
 			this.groupBox4.Controls.Add(this.textPlacerOrderNamespace);
 			this.groupBox4.Controls.Add(this.label22);
 			this.groupBox4.Controls.Add(this.textPlacerOrderUniversalID);
-			this.groupBox4.Location = new System.Drawing.Point(12, 35);
+			this.groupBox4.Location = new System.Drawing.Point(8, 39);
 			this.groupBox4.Name = "groupBox4";
-			this.groupBox4.Size = new System.Drawing.Size(309, 103);
+			this.groupBox4.Size = new System.Drawing.Size(314, 135);
 			this.groupBox4.TabIndex = 0;
 			this.groupBox4.TabStop = false;
 			this.groupBox4.Text = "Placer Order Number";
 			// 
 			// checkAutoID
 			// 
-			this.checkAutoID.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkAutoID.Location = new System.Drawing.Point(6, 14);
+			this.checkAutoID.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkAutoID.Location = new System.Drawing.Point(8, 24);
 			this.checkAutoID.Name = "checkAutoID";
-			this.checkAutoID.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-			this.checkAutoID.Size = new System.Drawing.Size(69, 20);
+			this.checkAutoID.RightToLeft = System.Windows.Forms.RightToLeft.No;
+			this.checkAutoID.Size = new System.Drawing.Size(49, 20);
 			this.checkAutoID.TabIndex = 2;
 			this.checkAutoID.Text = "Auto";
 			this.checkAutoID.Visible = false;
@@ -259,9 +259,9 @@
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(52, 16);
+			this.label4.Location = new System.Drawing.Point(8, 23);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(67, 17);
+			this.label4.Size = new System.Drawing.Size(88, 23);
 			this.label4.TabIndex = 245;
 			this.label4.Text = "ID";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -270,36 +270,36 @@
 			// 
 			this.textPlacerOrderNum.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textPlacerOrderNum.Location = new System.Drawing.Point(119, 14);
+			this.textPlacerOrderNum.Location = new System.Drawing.Point(102, 23);
 			this.textPlacerOrderNum.Multiline = true;
 			this.textPlacerOrderNum.Name = "textPlacerOrderNum";
-			this.textPlacerOrderNum.Size = new System.Drawing.Size(184, 20);
+			this.textPlacerOrderNum.Size = new System.Drawing.Size(204, 23);
 			this.textPlacerOrderNum.TabIndex = 0;
 			// 
 			// textPlacerOrderUniversalIDType
 			// 
 			this.textPlacerOrderUniversalIDType.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textPlacerOrderUniversalIDType.Location = new System.Drawing.Point(119, 35);
+			this.textPlacerOrderUniversalIDType.Location = new System.Drawing.Point(102, 50);
 			this.textPlacerOrderUniversalIDType.Multiline = true;
 			this.textPlacerOrderUniversalIDType.Name = "textPlacerOrderUniversalIDType";
-			this.textPlacerOrderUniversalIDType.Size = new System.Drawing.Size(184, 20);
+			this.textPlacerOrderUniversalIDType.Size = new System.Drawing.Size(204, 23);
 			this.textPlacerOrderUniversalIDType.TabIndex = 1;
 			// 
 			// label42
 			// 
-			this.label42.Location = new System.Drawing.Point(13, 37);
+			this.label42.Location = new System.Drawing.Point(8, 50);
 			this.label42.Name = "label42";
-			this.label42.Size = new System.Drawing.Size(106, 17);
+			this.label42.Size = new System.Drawing.Size(88, 23);
 			this.label42.TabIndex = 242;
 			this.label42.Text = "Identifier Type";
 			this.label42.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label21
 			// 
-			this.label21.Location = new System.Drawing.Point(13, 58);
+			this.label21.Location = new System.Drawing.Point(8, 77);
 			this.label21.Name = "label21";
-			this.label21.Size = new System.Drawing.Size(106, 17);
+			this.label21.Size = new System.Drawing.Size(88, 23);
 			this.label21.TabIndex = 236;
 			this.label21.Text = "Namespace ID";
 			this.label21.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -308,17 +308,17 @@
 			// 
 			this.textPlacerOrderNamespace.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textPlacerOrderNamespace.Location = new System.Drawing.Point(119, 56);
+			this.textPlacerOrderNamespace.Location = new System.Drawing.Point(102, 77);
 			this.textPlacerOrderNamespace.Multiline = true;
 			this.textPlacerOrderNamespace.Name = "textPlacerOrderNamespace";
-			this.textPlacerOrderNamespace.Size = new System.Drawing.Size(184, 20);
+			this.textPlacerOrderNamespace.Size = new System.Drawing.Size(204, 23);
 			this.textPlacerOrderNamespace.TabIndex = 2;
 			// 
 			// label22
 			// 
-			this.label22.Location = new System.Drawing.Point(13, 79);
+			this.label22.Location = new System.Drawing.Point(8, 104);
 			this.label22.Name = "label22";
-			this.label22.Size = new System.Drawing.Size(106, 17);
+			this.label22.Size = new System.Drawing.Size(88, 23);
 			this.label22.TabIndex = 238;
 			this.label22.Text = "Universal ID";
 			this.label22.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -327,10 +327,10 @@
 			// 
 			this.textPlacerOrderUniversalID.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textPlacerOrderUniversalID.Location = new System.Drawing.Point(119, 77);
+			this.textPlacerOrderUniversalID.Location = new System.Drawing.Point(102, 104);
 			this.textPlacerOrderUniversalID.Multiline = true;
 			this.textPlacerOrderUniversalID.Name = "textPlacerOrderUniversalID";
-			this.textPlacerOrderUniversalID.Size = new System.Drawing.Size(184, 20);
+			this.textPlacerOrderUniversalID.Size = new System.Drawing.Size(204, 23);
 			this.textPlacerOrderUniversalID.TabIndex = 3;
 			// 
 			// groupBox2
@@ -343,18 +343,18 @@
 			this.groupBox2.Controls.Add(this.textPlacerGroupNamespace);
 			this.groupBox2.Controls.Add(this.label10);
 			this.groupBox2.Controls.Add(this.textPlacerGroupUniversalID);
-			this.groupBox2.Location = new System.Drawing.Point(12, 144);
+			this.groupBox2.Location = new System.Drawing.Point(8, 182);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(309, 103);
+			this.groupBox2.Size = new System.Drawing.Size(314, 135);
 			this.groupBox2.TabIndex = 1;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Placer Order Group Number";
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(13, 15);
+			this.label2.Location = new System.Drawing.Point(8, 23);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(106, 17);
+			this.label2.Size = new System.Drawing.Size(88, 23);
 			this.label2.TabIndex = 245;
 			this.label2.Text = "ID";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -363,36 +363,36 @@
 			// 
 			this.textPlacerGroupNum.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textPlacerGroupNum.Location = new System.Drawing.Point(119, 13);
+			this.textPlacerGroupNum.Location = new System.Drawing.Point(102, 23);
 			this.textPlacerGroupNum.Multiline = true;
 			this.textPlacerGroupNum.Name = "textPlacerGroupNum";
-			this.textPlacerGroupNum.Size = new System.Drawing.Size(184, 20);
+			this.textPlacerGroupNum.Size = new System.Drawing.Size(204, 23);
 			this.textPlacerGroupNum.TabIndex = 0;
 			// 
 			// textPlacerGroupUniversalIDType
 			// 
 			this.textPlacerGroupUniversalIDType.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textPlacerGroupUniversalIDType.Location = new System.Drawing.Point(119, 34);
+			this.textPlacerGroupUniversalIDType.Location = new System.Drawing.Point(102, 50);
 			this.textPlacerGroupUniversalIDType.Multiline = true;
 			this.textPlacerGroupUniversalIDType.Name = "textPlacerGroupUniversalIDType";
-			this.textPlacerGroupUniversalIDType.Size = new System.Drawing.Size(184, 20);
+			this.textPlacerGroupUniversalIDType.Size = new System.Drawing.Size(204, 23);
 			this.textPlacerGroupUniversalIDType.TabIndex = 1;
 			// 
 			// label8
 			// 
-			this.label8.Location = new System.Drawing.Point(13, 36);
+			this.label8.Location = new System.Drawing.Point(8, 50);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(106, 17);
+			this.label8.Size = new System.Drawing.Size(88, 23);
 			this.label8.TabIndex = 242;
 			this.label8.Text = "Identifier Type";
 			this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label9
 			// 
-			this.label9.Location = new System.Drawing.Point(13, 57);
+			this.label9.Location = new System.Drawing.Point(8, 77);
 			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(106, 17);
+			this.label9.Size = new System.Drawing.Size(88, 23);
 			this.label9.TabIndex = 236;
 			this.label9.Text = "Namespace ID";
 			this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -401,17 +401,17 @@
 			// 
 			this.textPlacerGroupNamespace.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textPlacerGroupNamespace.Location = new System.Drawing.Point(119, 55);
+			this.textPlacerGroupNamespace.Location = new System.Drawing.Point(102, 77);
 			this.textPlacerGroupNamespace.Multiline = true;
 			this.textPlacerGroupNamespace.Name = "textPlacerGroupNamespace";
-			this.textPlacerGroupNamespace.Size = new System.Drawing.Size(184, 20);
+			this.textPlacerGroupNamespace.Size = new System.Drawing.Size(204, 23);
 			this.textPlacerGroupNamespace.TabIndex = 2;
 			// 
 			// label10
 			// 
-			this.label10.Location = new System.Drawing.Point(13, 78);
+			this.label10.Location = new System.Drawing.Point(8, 104);
 			this.label10.Name = "label10";
-			this.label10.Size = new System.Drawing.Size(106, 17);
+			this.label10.Size = new System.Drawing.Size(88, 23);
 			this.label10.TabIndex = 238;
 			this.label10.Text = "Universal ID";
 			this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -420,10 +420,10 @@
 			// 
 			this.textPlacerGroupUniversalID.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textPlacerGroupUniversalID.Location = new System.Drawing.Point(119, 76);
+			this.textPlacerGroupUniversalID.Location = new System.Drawing.Point(102, 104);
 			this.textPlacerGroupUniversalID.Multiline = true;
 			this.textPlacerGroupUniversalID.Name = "textPlacerGroupUniversalID";
-			this.textPlacerGroupUniversalID.Size = new System.Drawing.Size(184, 20);
+			this.textPlacerGroupUniversalID.Size = new System.Drawing.Size(204, 23);
 			this.textPlacerGroupUniversalID.TabIndex = 3;
 			// 
 			// groupBox5
@@ -446,9 +446,9 @@
 			this.groupBox5.Controls.Add(this.label31);
 			this.groupBox5.Controls.Add(this.textOrderingProvIdentifier);
 			this.groupBox5.Controls.Add(this.groupBox1);
-			this.groupBox5.Location = new System.Drawing.Point(327, 35);
+			this.groupBox5.Location = new System.Drawing.Point(330, 39);
 			this.groupBox5.Name = "groupBox5";
-			this.groupBox5.Size = new System.Drawing.Size(336, 267);
+			this.groupBox5.Size = new System.Drawing.Size(314, 355);
 			this.groupBox5.TabIndex = 3;
 			this.groupBox5.TabStop = false;
 			this.groupBox5.Text = "Ordering Provider";
@@ -456,9 +456,9 @@
 			// butProvPicker
 			// 
 			this.butProvPicker.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butProvPicker.Location = new System.Drawing.Point(10, 15);
+			this.butProvPicker.Location = new System.Drawing.Point(8, 23);
 			this.butProvPicker.Name = "butProvPicker";
-			this.butProvPicker.Size = new System.Drawing.Size(29, 25);
+			this.butProvPicker.Size = new System.Drawing.Size(24, 23);
 			this.butProvPicker.TabIndex = 249;
 			this.butProvPicker.Text = "...";
 			this.butProvPicker.Click += new System.EventHandler(this.butProvPicker_Click);
@@ -468,16 +468,16 @@
 			this.comboOrderingProvIdType.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.comboOrderingProvIdType.FormattingEnabled = true;
-			this.comboOrderingProvIdType.Location = new System.Drawing.Point(119, 12);
+			this.comboOrderingProvIdType.Location = new System.Drawing.Point(132, 23);
 			this.comboOrderingProvIdType.Name = "comboOrderingProvIdType";
-			this.comboOrderingProvIdType.Size = new System.Drawing.Size(203, 21);
+			this.comboOrderingProvIdType.Size = new System.Drawing.Size(174, 23);
 			this.comboOrderingProvIdType.TabIndex = 0;
 			// 
 			// label33
 			// 
-			this.label33.Location = new System.Drawing.Point(48, 14);
+			this.label33.Location = new System.Drawing.Point(38, 23);
 			this.label33.Name = "label33";
-			this.label33.Size = new System.Drawing.Size(70, 17);
+			this.label33.Size = new System.Drawing.Size(88, 23);
 			this.label33.TabIndex = 260;
 			this.label33.Text = "Identifier Type";
 			this.label33.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -487,25 +487,25 @@
 			this.comboOrderingProvNameType.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.comboOrderingProvNameType.FormattingEnabled = true;
-			this.comboOrderingProvNameType.Location = new System.Drawing.Point(119, 55);
+			this.comboOrderingProvNameType.Location = new System.Drawing.Point(132, 77);
 			this.comboOrderingProvNameType.Name = "comboOrderingProvNameType";
-			this.comboOrderingProvNameType.Size = new System.Drawing.Size(203, 21);
+			this.comboOrderingProvNameType.Size = new System.Drawing.Size(174, 23);
 			this.comboOrderingProvNameType.TabIndex = 2;
 			// 
 			// label32
 			// 
-			this.label32.Location = new System.Drawing.Point(28, 57);
+			this.label32.Location = new System.Drawing.Point(38, 77);
 			this.label32.Name = "label32";
-			this.label32.Size = new System.Drawing.Size(90, 17);
+			this.label32.Size = new System.Drawing.Size(88, 23);
 			this.label32.TabIndex = 258;
 			this.label32.Text = "Name Type";
 			this.label32.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label23
 			// 
-			this.label23.Location = new System.Drawing.Point(28, 163);
+			this.label23.Location = new System.Drawing.Point(38, 212);
 			this.label23.Name = "label23";
-			this.label23.Size = new System.Drawing.Size(90, 17);
+			this.label23.Size = new System.Drawing.Size(88, 23);
 			this.label23.TabIndex = 257;
 			this.label23.Text = "Prefix";
 			this.label23.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -515,16 +515,16 @@
 			this.textOrderingProvPrefix.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.textOrderingProvPrefix.AutoSize = false;
-			this.textOrderingProvPrefix.Location = new System.Drawing.Point(119, 161);
+			this.textOrderingProvPrefix.Location = new System.Drawing.Point(132, 212);
 			this.textOrderingProvPrefix.Name = "textOrderingProvPrefix";
-			this.textOrderingProvPrefix.Size = new System.Drawing.Size(203, 20);
+			this.textOrderingProvPrefix.Size = new System.Drawing.Size(174, 23);
 			this.textOrderingProvPrefix.TabIndex = 7;
 			// 
 			// label24
 			// 
-			this.label24.Location = new System.Drawing.Point(28, 142);
+			this.label24.Location = new System.Drawing.Point(38, 185);
 			this.label24.Name = "label24";
-			this.label24.Size = new System.Drawing.Size(90, 17);
+			this.label24.Size = new System.Drawing.Size(88, 23);
 			this.label24.TabIndex = 255;
 			this.label24.Text = "Suffix";
 			this.label24.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -534,16 +534,16 @@
 			this.textOrderingProvSuffix.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.textOrderingProvSuffix.AutoSize = false;
-			this.textOrderingProvSuffix.Location = new System.Drawing.Point(119, 140);
+			this.textOrderingProvSuffix.Location = new System.Drawing.Point(132, 185);
 			this.textOrderingProvSuffix.Name = "textOrderingProvSuffix";
-			this.textOrderingProvSuffix.Size = new System.Drawing.Size(203, 20);
+			this.textOrderingProvSuffix.Size = new System.Drawing.Size(174, 23);
 			this.textOrderingProvSuffix.TabIndex = 6;
 			// 
 			// label25
 			// 
-			this.label25.Location = new System.Drawing.Point(28, 121);
+			this.label25.Location = new System.Drawing.Point(38, 158);
 			this.label25.Name = "label25";
-			this.label25.Size = new System.Drawing.Size(90, 17);
+			this.label25.Size = new System.Drawing.Size(88, 23);
 			this.label25.TabIndex = 253;
 			this.label25.Text = "Middle Name";
 			this.label25.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -553,16 +553,16 @@
 			this.textOrderingProvMiddleName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.textOrderingProvMiddleName.AutoSize = false;
-			this.textOrderingProvMiddleName.Location = new System.Drawing.Point(119, 119);
+			this.textOrderingProvMiddleName.Location = new System.Drawing.Point(132, 158);
 			this.textOrderingProvMiddleName.Name = "textOrderingProvMiddleName";
-			this.textOrderingProvMiddleName.Size = new System.Drawing.Size(203, 20);
+			this.textOrderingProvMiddleName.Size = new System.Drawing.Size(174, 23);
 			this.textOrderingProvMiddleName.TabIndex = 5;
 			// 
 			// label29
 			// 
-			this.label29.Location = new System.Drawing.Point(28, 100);
+			this.label29.Location = new System.Drawing.Point(38, 131);
 			this.label29.Name = "label29";
-			this.label29.Size = new System.Drawing.Size(90, 17);
+			this.label29.Size = new System.Drawing.Size(88, 23);
 			this.label29.TabIndex = 251;
 			this.label29.Text = "First Name";
 			this.label29.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -572,16 +572,16 @@
 			this.textOrderingProvFirstName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.textOrderingProvFirstName.AutoSize = false;
-			this.textOrderingProvFirstName.Location = new System.Drawing.Point(119, 98);
+			this.textOrderingProvFirstName.Location = new System.Drawing.Point(132, 131);
 			this.textOrderingProvFirstName.Name = "textOrderingProvFirstName";
-			this.textOrderingProvFirstName.Size = new System.Drawing.Size(203, 20);
+			this.textOrderingProvFirstName.Size = new System.Drawing.Size(174, 23);
 			this.textOrderingProvFirstName.TabIndex = 4;
 			// 
 			// label30
 			// 
-			this.label30.Location = new System.Drawing.Point(28, 79);
+			this.label30.Location = new System.Drawing.Point(38, 104);
 			this.label30.Name = "label30";
-			this.label30.Size = new System.Drawing.Size(90, 17);
+			this.label30.Size = new System.Drawing.Size(88, 23);
 			this.label30.TabIndex = 249;
 			this.label30.Text = "Last Name";
 			this.label30.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -591,16 +591,16 @@
 			this.textOrderingProvLastName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.textOrderingProvLastName.AutoSize = false;
-			this.textOrderingProvLastName.Location = new System.Drawing.Point(119, 77);
+			this.textOrderingProvLastName.Location = new System.Drawing.Point(132, 104);
 			this.textOrderingProvLastName.Name = "textOrderingProvLastName";
-			this.textOrderingProvLastName.Size = new System.Drawing.Size(203, 20);
+			this.textOrderingProvLastName.Size = new System.Drawing.Size(174, 23);
 			this.textOrderingProvLastName.TabIndex = 3;
 			// 
 			// label31
 			// 
-			this.label31.Location = new System.Drawing.Point(28, 36);
+			this.label31.Location = new System.Drawing.Point(38, 50);
 			this.label31.Name = "label31";
-			this.label31.Size = new System.Drawing.Size(90, 17);
+			this.label31.Size = new System.Drawing.Size(88, 23);
 			this.label31.TabIndex = 247;
 			this.label31.Text = "ID";
 			this.label31.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -610,9 +610,9 @@
 			this.textOrderingProvIdentifier.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.textOrderingProvIdentifier.AutoSize = false;
-			this.textOrderingProvIdentifier.Location = new System.Drawing.Point(119, 34);
+			this.textOrderingProvIdentifier.Location = new System.Drawing.Point(132, 50);
 			this.textOrderingProvIdentifier.Name = "textOrderingProvIdentifier";
-			this.textOrderingProvIdentifier.Size = new System.Drawing.Size(203, 20);
+			this.textOrderingProvIdentifier.Size = new System.Drawing.Size(174, 23);
 			this.textOrderingProvIdentifier.TabIndex = 1;
 			// 
 			// groupBox1
@@ -625,9 +625,9 @@
 			this.groupBox1.Controls.Add(this.textOrderingProvAANID);
 			this.groupBox1.Controls.Add(this.label6);
 			this.groupBox1.Controls.Add(this.textOrderingProvAAUID);
-			this.groupBox1.Location = new System.Drawing.Point(4, 178);
+			this.groupBox1.Location = new System.Drawing.Point(8, 239);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(324, 84);
+			this.groupBox1.Size = new System.Drawing.Size(298, 108);
 			this.groupBox1.TabIndex = 245;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Assigning Authority";
@@ -636,26 +636,26 @@
 			// 
 			this.textOrderingProvAAUIDType.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textOrderingProvAAUIDType.Location = new System.Drawing.Point(115, 15);
+			this.textOrderingProvAAUIDType.Location = new System.Drawing.Point(124, 23);
 			this.textOrderingProvAAUIDType.Multiline = true;
 			this.textOrderingProvAAUIDType.Name = "textOrderingProvAAUIDType";
-			this.textOrderingProvAAUIDType.Size = new System.Drawing.Size(203, 20);
+			this.textOrderingProvAAUIDType.Size = new System.Drawing.Size(166, 23);
 			this.textOrderingProvAAUIDType.TabIndex = 0;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(8, 16);
+			this.label1.Location = new System.Drawing.Point(30, 23);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(106, 17);
+			this.label1.Size = new System.Drawing.Size(88, 23);
 			this.label1.TabIndex = 242;
 			this.label1.Text = "Identifier Type";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(8, 37);
+			this.label3.Location = new System.Drawing.Point(30, 50);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(106, 17);
+			this.label3.Size = new System.Drawing.Size(88, 23);
 			this.label3.TabIndex = 236;
 			this.label3.Text = "Namespace ID";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -664,17 +664,17 @@
 			// 
 			this.textOrderingProvAANID.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textOrderingProvAANID.Location = new System.Drawing.Point(115, 36);
+			this.textOrderingProvAANID.Location = new System.Drawing.Point(124, 50);
 			this.textOrderingProvAANID.Multiline = true;
 			this.textOrderingProvAANID.Name = "textOrderingProvAANID";
-			this.textOrderingProvAANID.Size = new System.Drawing.Size(203, 20);
+			this.textOrderingProvAANID.Size = new System.Drawing.Size(166, 23);
 			this.textOrderingProvAANID.TabIndex = 1;
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(8, 58);
+			this.label6.Location = new System.Drawing.Point(30, 77);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(106, 17);
+			this.label6.Size = new System.Drawing.Size(88, 23);
 			this.label6.TabIndex = 238;
 			this.label6.Text = "Universal ID";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -683,10 +683,10 @@
 			// 
 			this.textOrderingProvAAUID.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textOrderingProvAAUID.Location = new System.Drawing.Point(115, 57);
+			this.textOrderingProvAAUID.Location = new System.Drawing.Point(124, 77);
 			this.textOrderingProvAAUID.Multiline = true;
 			this.textOrderingProvAAUID.Name = "textOrderingProvAAUID";
-			this.textOrderingProvAAUID.Size = new System.Drawing.Size(203, 20);
+			this.textOrderingProvAAUID.Size = new System.Drawing.Size(166, 23);
 			this.textOrderingProvAAUID.TabIndex = 2;
 			// 
 			// groupBox3
@@ -699,18 +699,18 @@
 			this.groupBox3.Controls.Add(this.textFillerOrderNamespace);
 			this.groupBox3.Controls.Add(this.label13);
 			this.groupBox3.Controls.Add(this.textFillerOrderUniversalID);
-			this.groupBox3.Location = new System.Drawing.Point(12, 253);
+			this.groupBox3.Location = new System.Drawing.Point(8, 325);
 			this.groupBox3.Name = "groupBox3";
-			this.groupBox3.Size = new System.Drawing.Size(309, 103);
+			this.groupBox3.Size = new System.Drawing.Size(314, 135);
 			this.groupBox3.TabIndex = 2;
 			this.groupBox3.TabStop = false;
 			this.groupBox3.Text = "Filler Order Number";
 			// 
 			// label7
 			// 
-			this.label7.Location = new System.Drawing.Point(13, 16);
+			this.label7.Location = new System.Drawing.Point(8, 23);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(106, 17);
+			this.label7.Size = new System.Drawing.Size(88, 23);
 			this.label7.TabIndex = 245;
 			this.label7.Text = "ID";
 			this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -719,36 +719,36 @@
 			// 
 			this.textFillerOrderNum.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textFillerOrderNum.Location = new System.Drawing.Point(119, 14);
+			this.textFillerOrderNum.Location = new System.Drawing.Point(102, 23);
 			this.textFillerOrderNum.Multiline = true;
 			this.textFillerOrderNum.Name = "textFillerOrderNum";
-			this.textFillerOrderNum.Size = new System.Drawing.Size(184, 20);
+			this.textFillerOrderNum.Size = new System.Drawing.Size(204, 23);
 			this.textFillerOrderNum.TabIndex = 0;
 			// 
 			// textFillerOrderUniversalIDType
 			// 
 			this.textFillerOrderUniversalIDType.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textFillerOrderUniversalIDType.Location = new System.Drawing.Point(119, 35);
+			this.textFillerOrderUniversalIDType.Location = new System.Drawing.Point(102, 50);
 			this.textFillerOrderUniversalIDType.Multiline = true;
 			this.textFillerOrderUniversalIDType.Name = "textFillerOrderUniversalIDType";
-			this.textFillerOrderUniversalIDType.Size = new System.Drawing.Size(184, 20);
+			this.textFillerOrderUniversalIDType.Size = new System.Drawing.Size(204, 23);
 			this.textFillerOrderUniversalIDType.TabIndex = 1;
 			// 
 			// label11
 			// 
-			this.label11.Location = new System.Drawing.Point(13, 37);
+			this.label11.Location = new System.Drawing.Point(8, 50);
 			this.label11.Name = "label11";
-			this.label11.Size = new System.Drawing.Size(106, 17);
+			this.label11.Size = new System.Drawing.Size(88, 23);
 			this.label11.TabIndex = 242;
 			this.label11.Text = "Identifier Type";
 			this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label12
 			// 
-			this.label12.Location = new System.Drawing.Point(13, 58);
+			this.label12.Location = new System.Drawing.Point(8, 77);
 			this.label12.Name = "label12";
-			this.label12.Size = new System.Drawing.Size(106, 17);
+			this.label12.Size = new System.Drawing.Size(88, 23);
 			this.label12.TabIndex = 236;
 			this.label12.Text = "Namespace ID";
 			this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -757,17 +757,17 @@
 			// 
 			this.textFillerOrderNamespace.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textFillerOrderNamespace.Location = new System.Drawing.Point(119, 56);
+			this.textFillerOrderNamespace.Location = new System.Drawing.Point(102, 77);
 			this.textFillerOrderNamespace.Multiline = true;
 			this.textFillerOrderNamespace.Name = "textFillerOrderNamespace";
-			this.textFillerOrderNamespace.Size = new System.Drawing.Size(184, 20);
+			this.textFillerOrderNamespace.Size = new System.Drawing.Size(204, 23);
 			this.textFillerOrderNamespace.TabIndex = 2;
 			// 
 			// label13
 			// 
-			this.label13.Location = new System.Drawing.Point(13, 79);
+			this.label13.Location = new System.Drawing.Point(8, 104);
 			this.label13.Name = "label13";
-			this.label13.Size = new System.Drawing.Size(106, 17);
+			this.label13.Size = new System.Drawing.Size(88, 23);
 			this.label13.TabIndex = 238;
 			this.label13.Text = "Universal ID";
 			this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -776,10 +776,10 @@
 			// 
 			this.textFillerOrderUniversalID.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textFillerOrderUniversalID.Location = new System.Drawing.Point(119, 77);
+			this.textFillerOrderUniversalID.Location = new System.Drawing.Point(102, 104);
 			this.textFillerOrderUniversalID.Multiline = true;
 			this.textFillerOrderUniversalID.Name = "textFillerOrderUniversalID";
-			this.textFillerOrderUniversalID.Size = new System.Drawing.Size(184, 20);
+			this.textFillerOrderUniversalID.Size = new System.Drawing.Size(204, 23);
 			this.textFillerOrderUniversalID.TabIndex = 3;
 			// 
 			// groupBox6
@@ -805,9 +805,9 @@
 			this.groupBox6.Controls.Add(this.label34);
 			this.groupBox6.Controls.Add(this.label35);
 			this.groupBox6.Controls.Add(this.textUsiIDAlt);
-			this.groupBox6.Location = new System.Drawing.Point(672, 35);
+			this.groupBox6.Location = new System.Drawing.Point(652, 39);
 			this.groupBox6.Name = "groupBox6";
-			this.groupBox6.Size = new System.Drawing.Size(290, 212);
+			this.groupBox6.Size = new System.Drawing.Size(314, 270);
 			this.groupBox6.TabIndex = 5;
 			this.groupBox6.TabStop = false;
 			this.groupBox6.Text = "Service Identifier (LOINC Codes)";
@@ -817,25 +817,25 @@
 			this.textObservationDateTimeStart.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.textObservationDateTimeStart.AutoSize = false;
-			this.textObservationDateTimeStart.Location = new System.Drawing.Point(134, 164);
+			this.textObservationDateTimeStart.Location = new System.Drawing.Point(164, 212);
 			this.textObservationDateTimeStart.Name = "textObservationDateTimeStart";
-			this.textObservationDateTimeStart.Size = new System.Drawing.Size(151, 20);
+			this.textObservationDateTimeStart.Size = new System.Drawing.Size(142, 23);
 			this.textObservationDateTimeStart.TabIndex = 264;
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(6, 166);
+			this.label5.Location = new System.Drawing.Point(38, 212);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(127, 17);
+			this.label5.Size = new System.Drawing.Size(120, 23);
 			this.label5.TabIndex = 267;
 			this.label5.Text = "Date/Time Start";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label27
 			// 
-			this.label27.Location = new System.Drawing.Point(6, 187);
+			this.label27.Location = new System.Drawing.Point(38, 239);
 			this.label27.Name = "label27";
-			this.label27.Size = new System.Drawing.Size(127, 17);
+			this.label27.Size = new System.Drawing.Size(120, 23);
 			this.label27.TabIndex = 266;
 			this.label27.Text = "Date/Time Stop";
 			this.label27.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -845,26 +845,26 @@
 			this.textObservationDateTimeEnd.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.textObservationDateTimeEnd.AutoSize = false;
-			this.textObservationDateTimeEnd.Location = new System.Drawing.Point(134, 185);
+			this.textObservationDateTimeEnd.Location = new System.Drawing.Point(164, 239);
 			this.textObservationDateTimeEnd.Name = "textObservationDateTimeEnd";
-			this.textObservationDateTimeEnd.Size = new System.Drawing.Size(151, 20);
+			this.textObservationDateTimeEnd.Size = new System.Drawing.Size(142, 23);
 			this.textObservationDateTimeEnd.TabIndex = 265;
 			// 
 			// butServicePicker
 			// 
 			this.butServicePicker.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butServicePicker.Location = new System.Drawing.Point(6, 14);
+			this.butServicePicker.Location = new System.Drawing.Point(8, 23);
 			this.butServicePicker.Name = "butServicePicker";
-			this.butServicePicker.Size = new System.Drawing.Size(29, 25);
+			this.butServicePicker.Size = new System.Drawing.Size(24, 23);
 			this.butServicePicker.TabIndex = 255;
 			this.butServicePicker.Text = "...";
 			this.butServicePicker.Click += new System.EventHandler(this.butServicePicker_Click);
 			// 
 			// label44
 			// 
-			this.label44.Location = new System.Drawing.Point(6, 81);
+			this.label44.Location = new System.Drawing.Point(38, 104);
 			this.label44.Name = "label44";
-			this.label44.Size = new System.Drawing.Size(127, 17);
+			this.label44.Size = new System.Drawing.Size(120, 23);
 			this.label44.TabIndex = 256;
 			this.label44.Text = "Alt Code System";
 			this.label44.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -874,16 +874,16 @@
 			this.textUsiCodeSystemNameAlt.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.textUsiCodeSystemNameAlt.AutoSize = false;
-			this.textUsiCodeSystemNameAlt.Location = new System.Drawing.Point(134, 80);
+			this.textUsiCodeSystemNameAlt.Location = new System.Drawing.Point(164, 104);
 			this.textUsiCodeSystemNameAlt.Name = "textUsiCodeSystemNameAlt";
-			this.textUsiCodeSystemNameAlt.Size = new System.Drawing.Size(151, 20);
+			this.textUsiCodeSystemNameAlt.Size = new System.Drawing.Size(142, 23);
 			this.textUsiCodeSystemNameAlt.TabIndex = 3;
 			// 
 			// label43
 			// 
-			this.label43.Location = new System.Drawing.Point(6, 18);
+			this.label43.Location = new System.Drawing.Point(38, 23);
 			this.label43.Name = "label43";
-			this.label43.Size = new System.Drawing.Size(127, 17);
+			this.label43.Size = new System.Drawing.Size(120, 23);
 			this.label43.TabIndex = 254;
 			this.label43.Text = "Code System";
 			this.label43.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -893,16 +893,16 @@
 			this.textUsiCodeSystemName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.textUsiCodeSystemName.AutoSize = false;
-			this.textUsiCodeSystemName.Location = new System.Drawing.Point(134, 17);
+			this.textUsiCodeSystemName.Location = new System.Drawing.Point(164, 23);
 			this.textUsiCodeSystemName.Name = "textUsiCodeSystemName";
-			this.textUsiCodeSystemName.Size = new System.Drawing.Size(151, 20);
+			this.textUsiCodeSystemName.Size = new System.Drawing.Size(142, 23);
 			this.textUsiCodeSystemName.TabIndex = 0;
 			// 
 			// label14
 			// 
-			this.label14.Location = new System.Drawing.Point(6, 39);
+			this.label14.Location = new System.Drawing.Point(38, 50);
 			this.label14.Name = "label14";
-			this.label14.Size = new System.Drawing.Size(127, 17);
+			this.label14.Size = new System.Drawing.Size(120, 23);
 			this.label14.TabIndex = 2;
 			this.label14.Text = "Observation ID";
 			this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -911,26 +911,26 @@
 			// 
 			this.textUsiText.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textUsiText.Location = new System.Drawing.Point(134, 59);
+			this.textUsiText.Location = new System.Drawing.Point(164, 77);
 			this.textUsiText.Multiline = true;
 			this.textUsiText.Name = "textUsiText";
-			this.textUsiText.Size = new System.Drawing.Size(151, 20);
+			this.textUsiText.Size = new System.Drawing.Size(142, 23);
 			this.textUsiText.TabIndex = 2;
 			// 
 			// label15
 			// 
-			this.label15.Location = new System.Drawing.Point(5, 60);
+			this.label15.Location = new System.Drawing.Point(38, 77);
 			this.label15.Name = "label15";
-			this.label15.Size = new System.Drawing.Size(128, 17);
+			this.label15.Size = new System.Drawing.Size(120, 23);
 			this.label15.TabIndex = 228;
 			this.label15.Text = "Observation Text";
 			this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label36
 			// 
-			this.label36.Location = new System.Drawing.Point(5, 145);
+			this.label36.Location = new System.Drawing.Point(38, 185);
 			this.label36.Name = "label36";
-			this.label36.Size = new System.Drawing.Size(128, 17);
+			this.label36.Size = new System.Drawing.Size(120, 23);
 			this.label36.TabIndex = 250;
 			this.label36.Text = "Original Text";
 			this.label36.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -940,45 +940,45 @@
 			this.textUsiID.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.textUsiID.AutoSize = false;
-			this.textUsiID.Location = new System.Drawing.Point(134, 38);
+			this.textUsiID.Location = new System.Drawing.Point(164, 50);
 			this.textUsiID.Name = "textUsiID";
-			this.textUsiID.Size = new System.Drawing.Size(151, 20);
+			this.textUsiID.Size = new System.Drawing.Size(142, 23);
 			this.textUsiID.TabIndex = 1;
 			// 
 			// textUsiTextOriginal
 			// 
 			this.textUsiTextOriginal.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textUsiTextOriginal.Location = new System.Drawing.Point(134, 143);
+			this.textUsiTextOriginal.Location = new System.Drawing.Point(164, 185);
 			this.textUsiTextOriginal.Multiline = true;
 			this.textUsiTextOriginal.Name = "textUsiTextOriginal";
-			this.textUsiTextOriginal.Size = new System.Drawing.Size(151, 20);
+			this.textUsiTextOriginal.Size = new System.Drawing.Size(142, 23);
 			this.textUsiTextOriginal.TabIndex = 6;
 			// 
 			// textUsiTextAlt
 			// 
 			this.textUsiTextAlt.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textUsiTextAlt.Location = new System.Drawing.Point(134, 122);
+			this.textUsiTextAlt.Location = new System.Drawing.Point(164, 158);
 			this.textUsiTextAlt.Multiline = true;
 			this.textUsiTextAlt.Name = "textUsiTextAlt";
-			this.textUsiTextAlt.Size = new System.Drawing.Size(151, 20);
+			this.textUsiTextAlt.Size = new System.Drawing.Size(142, 23);
 			this.textUsiTextAlt.TabIndex = 5;
 			// 
 			// label34
 			// 
-			this.label34.Location = new System.Drawing.Point(6, 102);
+			this.label34.Location = new System.Drawing.Point(38, 131);
 			this.label34.Name = "label34";
-			this.label34.Size = new System.Drawing.Size(127, 17);
+			this.label34.Size = new System.Drawing.Size(120, 23);
 			this.label34.TabIndex = 246;
 			this.label34.Text = "Alt Observation ID";
 			this.label34.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label35
 			// 
-			this.label35.Location = new System.Drawing.Point(5, 123);
+			this.label35.Location = new System.Drawing.Point(38, 158);
 			this.label35.Name = "label35";
-			this.label35.Size = new System.Drawing.Size(128, 17);
+			this.label35.Size = new System.Drawing.Size(120, 23);
 			this.label35.TabIndex = 248;
 			this.label35.Text = "Alt Observation Text";
 			this.label35.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -988,27 +988,27 @@
 			this.textUsiIDAlt.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.textUsiIDAlt.AutoSize = false;
-			this.textUsiIDAlt.Location = new System.Drawing.Point(134, 101);
+			this.textUsiIDAlt.Location = new System.Drawing.Point(164, 131);
 			this.textUsiIDAlt.Name = "textUsiIDAlt";
-			this.textUsiIDAlt.Size = new System.Drawing.Size(151, 20);
+			this.textUsiIDAlt.Size = new System.Drawing.Size(142, 23);
 			this.textUsiIDAlt.TabIndex = 4;
 			// 
 			// butAddClinicalInfo
 			// 
 			this.butAddClinicalInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butAddClinicalInfo.Enabled = false;
-			this.butAddClinicalInfo.Location = new System.Drawing.Point(881, 419);
+			this.butAddClinicalInfo.Location = new System.Drawing.Point(880, 541);
 			this.butAddClinicalInfo.Name = "butAddClinicalInfo";
-			this.butAddClinicalInfo.Size = new System.Drawing.Size(81, 28);
+			this.butAddClinicalInfo.Size = new System.Drawing.Size(86, 24);
 			this.butAddClinicalInfo.TabIndex = 256;
 			this.butAddClinicalInfo.Text = "Add C. Info";
 			this.butAddClinicalInfo.UseVisualStyleBackColor = true;
 			// 
 			// label16
 			// 
-			this.label16.Location = new System.Drawing.Point(356, 14);
+			this.label16.Location = new System.Drawing.Point(382, 8);
 			this.label16.Name = "label16";
-			this.label16.Size = new System.Drawing.Size(96, 17);
+			this.label16.Size = new System.Drawing.Size(80, 23);
 			this.label16.TabIndex = 258;
 			this.label16.Text = "Parent Result";
 			this.label16.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1016,30 +1016,30 @@
 			// textParentOrderNum
 			// 
 			this.textParentOrderNum.AutoSize = false;
-			this.textParentOrderNum.Location = new System.Drawing.Point(452, 13);
+			this.textParentOrderNum.Location = new System.Drawing.Point(468, 8);
 			this.textParentOrderNum.Name = "textParentOrderNum";
 			this.textParentOrderNum.ReadOnly = true;
-			this.textParentOrderNum.Size = new System.Drawing.Size(157, 20);
+			this.textParentOrderNum.Size = new System.Drawing.Size(156, 23);
 			this.textParentOrderNum.TabIndex = 257;
 			this.textParentOrderNum.WordWrap = false;
 			// 
 			// checkResultsHandlingN
 			// 
-			this.checkResultsHandlingN.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkResultsHandlingN.Location = new System.Drawing.Point(155, 13);
+			this.checkResultsHandlingN.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkResultsHandlingN.Location = new System.Drawing.Point(8, 47);
 			this.checkResultsHandlingN.Name = "checkResultsHandlingN";
-			this.checkResultsHandlingN.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-			this.checkResultsHandlingN.Size = new System.Drawing.Size(173, 20);
+			this.checkResultsHandlingN.RightToLeft = System.Windows.Forms.RightToLeft.No;
+			this.checkResultsHandlingN.Size = new System.Drawing.Size(172, 20);
 			this.checkResultsHandlingN.TabIndex = 1;
 			this.checkResultsHandlingN.Text = "Notify provider when ready";
 			// 
 			// checkResultsHandlingF
 			// 
-			this.checkResultsHandlingF.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkResultsHandlingF.Location = new System.Drawing.Point(6, 13);
+			this.checkResultsHandlingF.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkResultsHandlingF.Location = new System.Drawing.Point(8, 23);
 			this.checkResultsHandlingF.Name = "checkResultsHandlingF";
-			this.checkResultsHandlingF.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-			this.checkResultsHandlingF.Size = new System.Drawing.Size(149, 20);
+			this.checkResultsHandlingF.RightToLeft = System.Windows.Forms.RightToLeft.No;
+			this.checkResultsHandlingF.Size = new System.Drawing.Size(152, 20);
 			this.checkResultsHandlingF.TabIndex = 0;
 			this.checkResultsHandlingF.Text = "Film results with patient";
 			// 
@@ -1047,18 +1047,18 @@
 			// 
 			this.groupBox7.Controls.Add(this.checkResultsHandlingF);
 			this.groupBox7.Controls.Add(this.checkResultsHandlingN);
-			this.groupBox7.Location = new System.Drawing.Point(327, 308);
+			this.groupBox7.Location = new System.Drawing.Point(330, 402);
 			this.groupBox7.Name = "groupBox7";
-			this.groupBox7.Size = new System.Drawing.Size(336, 38);
+			this.groupBox7.Size = new System.Drawing.Size(314, 75);
 			this.groupBox7.TabIndex = 4;
 			this.groupBox7.TabStop = false;
 			this.groupBox7.Text = "Results Handling";
 			// 
 			// label17
 			// 
-			this.label17.Location = new System.Drawing.Point(6, 15);
+			this.label17.Location = new System.Drawing.Point(62, 23);
 			this.label17.Name = "label17";
-			this.label17.Size = new System.Drawing.Size(127, 17);
+			this.label17.Size = new System.Drawing.Size(96, 23);
 			this.label17.TabIndex = 263;
 			this.label17.Text = "Date/Time Start";
 			this.label17.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1068,16 +1068,16 @@
 			this.textTQ1Stop.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.textTQ1Stop.AutoSize = false;
-			this.textTQ1Stop.Location = new System.Drawing.Point(134, 34);
+			this.textTQ1Stop.Location = new System.Drawing.Point(164, 50);
 			this.textTQ1Stop.Name = "textTQ1Stop";
-			this.textTQ1Stop.Size = new System.Drawing.Size(151, 20);
+			this.textTQ1Stop.Size = new System.Drawing.Size(142, 23);
 			this.textTQ1Stop.TabIndex = 1;
 			// 
 			// label18
 			// 
-			this.label18.Location = new System.Drawing.Point(6, 36);
+			this.label18.Location = new System.Drawing.Point(62, 50);
 			this.label18.Name = "label18";
-			this.label18.Size = new System.Drawing.Size(127, 17);
+			this.label18.Size = new System.Drawing.Size(96, 23);
 			this.label18.TabIndex = 261;
 			this.label18.Text = "Date/Time Stop";
 			this.label18.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1087,9 +1087,9 @@
 			this.textTQ1Start.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.textTQ1Start.AutoSize = false;
-			this.textTQ1Start.Location = new System.Drawing.Point(134, 13);
+			this.textTQ1Start.Location = new System.Drawing.Point(164, 23);
 			this.textTQ1Start.Name = "textTQ1Start";
-			this.textTQ1Start.Size = new System.Drawing.Size(151, 20);
+			this.textTQ1Start.Size = new System.Drawing.Size(142, 23);
 			this.textTQ1Start.TabIndex = 0;
 			// 
 			// groupBox8
@@ -1100,9 +1100,9 @@
 			this.groupBox8.Controls.Add(this.label17);
 			this.groupBox8.Controls.Add(this.label18);
 			this.groupBox8.Controls.Add(this.textTQ1Stop);
-			this.groupBox8.Location = new System.Drawing.Point(672, 252);
+			this.groupBox8.Location = new System.Drawing.Point(652, 317);
 			this.groupBox8.Name = "groupBox8";
-			this.groupBox8.Size = new System.Drawing.Size(290, 59);
+			this.groupBox8.Size = new System.Drawing.Size(314, 81);
 			this.groupBox8.TabIndex = 262;
 			this.groupBox8.TabStop = false;
 			this.groupBox8.Text = "TQ1";
@@ -1111,17 +1111,17 @@
 			// 
 			this.comboSpecimenActionCode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.comboSpecimenActionCode.FormattingEnabled = true;
-			this.comboSpecimenActionCode.Location = new System.Drawing.Point(669, 634);
+			this.comboSpecimenActionCode.Location = new System.Drawing.Point(652, 763);
 			this.comboSpecimenActionCode.Name = "comboSpecimenActionCode";
-			this.comboSpecimenActionCode.Size = new System.Drawing.Size(288, 21);
+			this.comboSpecimenActionCode.Size = new System.Drawing.Size(314, 23);
 			this.comboSpecimenActionCode.TabIndex = 8;
 			// 
 			// label19
 			// 
 			this.label19.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.label19.Location = new System.Drawing.Point(669, 614);
+			this.label19.Location = new System.Drawing.Point(652, 743);
 			this.label19.Name = "label19";
-			this.label19.Size = new System.Drawing.Size(164, 17);
+			this.label19.Size = new System.Drawing.Size(222, 18);
 			this.label19.TabIndex = 262;
 			this.label19.Text = "Specimen Action Code:";
 			this.label19.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1130,16 +1130,16 @@
 			// 
 			this.textResultDateTime.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textResultDateTime.Location = new System.Drawing.Point(822, 7);
+			this.textResultDateTime.Location = new System.Drawing.Point(830, 8);
 			this.textResultDateTime.Name = "textResultDateTime";
-			this.textResultDateTime.Size = new System.Drawing.Size(135, 20);
+			this.textResultDateTime.Size = new System.Drawing.Size(136, 23);
 			this.textResultDateTime.TabIndex = 6;
 			// 
 			// label20
 			// 
-			this.label20.Location = new System.Drawing.Point(721, 9);
+			this.label20.Location = new System.Drawing.Point(748, 8);
 			this.label20.Name = "label20";
-			this.label20.Size = new System.Drawing.Size(95, 17);
+			this.label20.Size = new System.Drawing.Size(76, 23);
 			this.label20.TabIndex = 265;
 			this.label20.Text = "Last Update";
 			this.label20.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1149,17 +1149,17 @@
 			this.comboResultStatus.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.comboResultStatus.FormattingEnabled = true;
-			this.comboResultStatus.Location = new System.Drawing.Point(131, 634);
+			this.comboResultStatus.Location = new System.Drawing.Point(98, 763);
 			this.comboResultStatus.Name = "comboResultStatus";
-			this.comboResultStatus.Size = new System.Drawing.Size(532, 21);
+			this.comboResultStatus.Size = new System.Drawing.Size(546, 23);
 			this.comboResultStatus.TabIndex = 7;
 			// 
 			// label26
 			// 
 			this.label26.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label26.Location = new System.Drawing.Point(12, 635);
+			this.label26.Location = new System.Drawing.Point(8, 763);
 			this.label26.Name = "label26";
-			this.label26.Size = new System.Drawing.Size(119, 17);
+			this.label26.Size = new System.Drawing.Size(84, 23);
 			this.label26.TabIndex = 266;
 			this.label26.Text = "Results Status";
 			this.label26.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1167,7 +1167,7 @@
 			// butManageImages
 			// 
 			this.butManageImages.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butManageImages.Location = new System.Drawing.Point(327, 661);
+			this.butManageImages.Location = new System.Drawing.Point(330, 794);
 			this.butManageImages.Name = "butManageImages";
 			this.butManageImages.Size = new System.Drawing.Size(93, 24);
 			this.butManageImages.TabIndex = 264;
@@ -1178,9 +1178,9 @@
 			// labelManageImages
 			// 
 			this.labelManageImages.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.labelManageImages.Location = new System.Drawing.Point(426, 665);
+			this.labelManageImages.Location = new System.Drawing.Point(429, 794);
 			this.labelManageImages.Name = "labelManageImages";
-			this.labelManageImages.Size = new System.Drawing.Size(374, 17);
+			this.labelManageImages.Size = new System.Drawing.Size(300, 24);
 			this.labelManageImages.TabIndex = 269;
 			this.labelManageImages.Text = "Must save lab order one time before managing images";
 			this.labelManageImages.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1188,9 +1188,9 @@
 			// butViewParent
 			// 
 			this.butViewParent.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butViewParent.Location = new System.Drawing.Point(333, 10);
+			this.butViewParent.Location = new System.Drawing.Point(330, 8);
 			this.butViewParent.Name = "butViewParent";
-			this.butViewParent.Size = new System.Drawing.Size(46, 25);
+			this.butViewParent.Size = new System.Drawing.Size(46, 23);
 			this.butViewParent.TabIndex = 268;
 			this.butViewParent.Text = "View";
 			this.butViewParent.Click += new System.EventHandler(this.butViewParent_Click);
@@ -1198,9 +1198,9 @@
 			// butParentPicker
 			// 
 			this.butParentPicker.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butParentPicker.Location = new System.Drawing.Point(615, 10);
+			this.butParentPicker.Location = new System.Drawing.Point(630, 8);
 			this.butParentPicker.Name = "butParentPicker";
-			this.butParentPicker.Size = new System.Drawing.Size(29, 25);
+			this.butParentPicker.Size = new System.Drawing.Size(24, 23);
 			this.butParentPicker.TabIndex = 259;
 			this.butParentPicker.Text = "...";
 			this.butParentPicker.Visible = false;
@@ -1208,9 +1208,9 @@
 			// gridResultsCopyTo
 			// 
 			this.gridResultsCopyTo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridResultsCopyTo.Location = new System.Drawing.Point(446, 359);
+			this.gridResultsCopyTo.Location = new System.Drawing.Point(450, 485);
 			this.gridResultsCopyTo.Name = "gridResultsCopyTo";
-			this.gridResultsCopyTo.Size = new System.Drawing.Size(217, 101);
+			this.gridResultsCopyTo.Size = new System.Drawing.Size(194, 101);
 			this.gridResultsCopyTo.TabIndex = 255;
 			this.gridResultsCopyTo.Title = "Results Copy To";
 			this.gridResultsCopyTo.TranslationName = "TableResultsCopyTo";
@@ -1228,9 +1228,9 @@
 			// gridClinicalInformation
 			// 
 			this.gridClinicalInformation.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridClinicalInformation.Location = new System.Drawing.Point(669, 359);
+			this.gridClinicalInformation.Location = new System.Drawing.Point(652, 485);
 			this.gridClinicalInformation.Name = "gridClinicalInformation";
-			this.gridClinicalInformation.Size = new System.Drawing.Size(206, 101);
+			this.gridClinicalInformation.Size = new System.Drawing.Size(222, 101);
 			this.gridClinicalInformation.TabIndex = 11;
 			this.gridClinicalInformation.Title = "Clinical Information";
 			this.gridClinicalInformation.TranslationName = "TableClinicalInformation";
@@ -1239,9 +1239,9 @@
 			// 
 			this.gridNotes.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridNotes.Location = new System.Drawing.Point(12, 359);
+			this.gridNotes.Location = new System.Drawing.Point(8, 485);
 			this.gridNotes.Name = "gridNotes";
-			this.gridNotes.Size = new System.Drawing.Size(428, 101);
+			this.gridNotes.Size = new System.Drawing.Size(434, 101);
 			this.gridNotes.TabIndex = 20;
 			this.gridNotes.Title = "Notes";
 			this.gridNotes.TranslationName = "TableNotes";
@@ -1251,9 +1251,9 @@
 			// 
 			this.gridSpecimen.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridSpecimen.Location = new System.Drawing.Point(669, 466);
+			this.gridSpecimen.Location = new System.Drawing.Point(652, 594);
 			this.gridSpecimen.Name = "gridSpecimen";
-			this.gridSpecimen.Size = new System.Drawing.Size(206, 145);
+			this.gridSpecimen.Size = new System.Drawing.Size(222, 145);
 			this.gridSpecimen.TabIndex = 19;
 			this.gridSpecimen.Title = "Specimens";
 			this.gridSpecimen.TranslationName = "TaleSpecimens";
@@ -1264,9 +1264,9 @@
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(12, 466);
+			this.gridMain.Location = new System.Drawing.Point(8, 594);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(651, 165);
+			this.gridMain.Size = new System.Drawing.Size(636, 165);
 			this.gridMain.TabIndex = 0;
 			this.gridMain.Title = "Lab Results";
 			this.gridMain.TranslationName = "TableLabResults";
@@ -1276,7 +1276,7 @@
 			// FormEhrLabOrderEdit2014
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(974, 696);
+			this.ClientSize = new System.Drawing.Size(974, 826);
 			this.Controls.Add(this.labelManageImages);
 			this.Controls.Add(this.butManageImages);
 			this.Controls.Add(this.butViewParent);

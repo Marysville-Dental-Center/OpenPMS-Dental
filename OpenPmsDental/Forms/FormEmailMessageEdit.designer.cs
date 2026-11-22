@@ -63,7 +63,7 @@ namespace OpenPmsDental {
 			// 
 			// labelTemplate
 			// 
-			this.labelTemplate.Location = new System.Drawing.Point(8, 7);
+			this.labelTemplate.Location = new System.Drawing.Point(8, 8);
 			this.labelTemplate.Name = "labelTemplate";
 			this.labelTemplate.Size = new System.Drawing.Size(166, 18);
 			this.labelTemplate.TabIndex = 18;
@@ -73,7 +73,7 @@ namespace OpenPmsDental {
 			// listTemplates
 			// 
 			this.listTemplates.HorizontalScrollbar = true;
-			this.listTemplates.Location = new System.Drawing.Point(10, 26);
+			this.listTemplates.Location = new System.Drawing.Point(8, 28);
 			this.listTemplates.Name = "listTemplates";
 			this.listTemplates.Size = new System.Drawing.Size(164, 173);
 			this.listTemplates.TabIndex = 0;
@@ -89,16 +89,16 @@ namespace OpenPmsDental {
 			this.panelTemplates.Controls.Add(this.butAddTemplate);
 			this.panelTemplates.Controls.Add(this.labelTemplate);
 			this.panelTemplates.Controls.Add(this.listTemplates);
-			this.panelTemplates.Location = new System.Drawing.Point(8, 9);
+			this.panelTemplates.Location = new System.Drawing.Point(8, 8);
 			this.panelTemplates.Name = "panelTemplates";
-			this.panelTemplates.Size = new System.Drawing.Size(180, 268);
+			this.panelTemplates.Size = new System.Drawing.Size(182, 269);
 			this.panelTemplates.TabIndex = 0;
 			// 
 			// butEditTemplate
 			// 
 			this.butEditTemplate.Icon = OpenPmsDental.UI.EnumIcons.Edit;
 			this.butEditTemplate.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butEditTemplate.Location = new System.Drawing.Point(102, 236);
+			this.butEditTemplate.Location = new System.Drawing.Point(89, 235);
 			this.butEditTemplate.Name = "butEditTemplate";
 			this.butEditTemplate.Size = new System.Drawing.Size(75, 26);
 			this.butEditTemplate.TabIndex = 19;
@@ -110,7 +110,7 @@ namespace OpenPmsDental {
 			this.butInsertTemplate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butInsertTemplate.Icon = OpenPmsDental.UI.EnumIcons.ArrowRight;
 			this.butInsertTemplate.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butInsertTemplate.Location = new System.Drawing.Point(102, 202);
+			this.butInsertTemplate.Location = new System.Drawing.Point(89, 205);
 			this.butInsertTemplate.Name = "butInsertTemplate";
 			this.butInsertTemplate.Size = new System.Drawing.Size(74, 26);
 			this.butInsertTemplate.TabIndex = 2;
@@ -121,7 +121,7 @@ namespace OpenPmsDental {
 			// 
 			this.butDeleteTemplate.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDeleteTemplate.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDeleteTemplate.Location = new System.Drawing.Point(7, 236);
+			this.butDeleteTemplate.Location = new System.Drawing.Point(8, 235);
 			this.butDeleteTemplate.Name = "butDeleteTemplate";
 			this.butDeleteTemplate.Size = new System.Drawing.Size(75, 26);
 			this.butDeleteTemplate.TabIndex = 3;
@@ -132,7 +132,7 @@ namespace OpenPmsDental {
 			// 
 			this.butAddTemplate.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAddTemplate.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAddTemplate.Location = new System.Drawing.Point(7, 202);
+			this.butAddTemplate.Location = new System.Drawing.Point(8, 205);
 			this.butAddTemplate.Name = "butAddTemplate";
 			this.butAddTemplate.Size = new System.Drawing.Size(75, 26);
 			this.butAddTemplate.TabIndex = 1;
@@ -141,7 +141,7 @@ namespace OpenPmsDental {
 			// 
 			// labelDecrypt
 			// 
-			this.labelDecrypt.Location = new System.Drawing.Point(5, 548);
+			this.labelDecrypt.Location = new System.Drawing.Point(8, 545);
 			this.labelDecrypt.Name = "labelDecrypt";
 			this.labelDecrypt.Size = new System.Drawing.Size(267, 59);
 			this.labelDecrypt.TabIndex = 31;
@@ -159,16 +159,16 @@ namespace OpenPmsDental {
 			this.panelAutographs.Controls.Add(this.butAddAutograph);
 			this.panelAutographs.Controls.Add(this.label2);
 			this.panelAutographs.Controls.Add(this.listAutographs);
-			this.panelAutographs.Location = new System.Drawing.Point(8, 279);
+			this.panelAutographs.Location = new System.Drawing.Point(8, 276);
 			this.panelAutographs.Name = "panelAutographs";
-			this.panelAutographs.Size = new System.Drawing.Size(180, 268);
+			this.panelAutographs.Size = new System.Drawing.Size(182, 269);
 			this.panelAutographs.TabIndex = 19;
 			// 
 			// butEditAutograph
 			// 
 			this.butEditAutograph.Icon = OpenPmsDental.UI.EnumIcons.Edit;
 			this.butEditAutograph.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butEditAutograph.Location = new System.Drawing.Point(101, 236);
+			this.butEditAutograph.Location = new System.Drawing.Point(89, 235);
 			this.butEditAutograph.Name = "butEditAutograph";
 			this.butEditAutograph.Size = new System.Drawing.Size(75, 26);
 			this.butEditAutograph.TabIndex = 20;
@@ -180,7 +180,7 @@ namespace OpenPmsDental {
 			this.butInsertAutograph.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butInsertAutograph.Icon = OpenPmsDental.UI.EnumIcons.ArrowRight;
 			this.butInsertAutograph.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butInsertAutograph.Location = new System.Drawing.Point(102, 202);
+			this.butInsertAutograph.Location = new System.Drawing.Point(89, 205);
 			this.butInsertAutograph.Name = "butInsertAutograph";
 			this.butInsertAutograph.Size = new System.Drawing.Size(74, 26);
 			this.butInsertAutograph.TabIndex = 2;
@@ -191,7 +191,7 @@ namespace OpenPmsDental {
 			// 
 			this.butDeleteAutograph.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDeleteAutograph.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDeleteAutograph.Location = new System.Drawing.Point(7, 236);
+			this.butDeleteAutograph.Location = new System.Drawing.Point(8, 235);
 			this.butDeleteAutograph.Name = "butDeleteAutograph";
 			this.butDeleteAutograph.Size = new System.Drawing.Size(75, 26);
 			this.butDeleteAutograph.TabIndex = 3;
@@ -202,7 +202,7 @@ namespace OpenPmsDental {
 			// 
 			this.butAddAutograph.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAddAutograph.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAddAutograph.Location = new System.Drawing.Point(7, 202);
+			this.butAddAutograph.Location = new System.Drawing.Point(8, 205);
 			this.butAddAutograph.Name = "butAddAutograph";
 			this.butAddAutograph.Size = new System.Drawing.Size(75, 26);
 			this.butAddAutograph.TabIndex = 1;
@@ -211,7 +211,7 @@ namespace OpenPmsDental {
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(8, 7);
+			this.label2.Location = new System.Drawing.Point(8, 8);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(166, 18);
 			this.label2.TabIndex = 18;
@@ -220,7 +220,7 @@ namespace OpenPmsDental {
 			// 
 			// listAutographs
 			// 
-			this.listAutographs.Location = new System.Drawing.Point(10, 26);
+			this.listAutographs.Location = new System.Drawing.Point(8, 28);
 			this.listAutographs.Name = "listAutographs";
 			this.listAutographs.Size = new System.Drawing.Size(164, 173);
 			this.listAutographs.TabIndex = 0;
@@ -230,7 +230,7 @@ namespace OpenPmsDental {
 			// butRefresh
 			// 
 			this.butRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butRefresh.Location = new System.Drawing.Point(358, 660);
+			this.butRefresh.Location = new System.Drawing.Point(358, 698);
 			this.butRefresh.Name = "butRefresh";
 			this.butRefresh.Size = new System.Drawing.Size(75, 25);
 			this.butRefresh.TabIndex = 37;
@@ -241,7 +241,7 @@ namespace OpenPmsDental {
 			// butRawMessage
 			// 
 			this.butRawMessage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butRawMessage.Location = new System.Drawing.Point(138, 659);
+			this.butRawMessage.Location = new System.Drawing.Point(138, 697);
 			this.butRawMessage.Name = "butRawMessage";
 			this.butRawMessage.Size = new System.Drawing.Size(89, 26);
 			this.butRawMessage.TabIndex = 36;
@@ -251,7 +251,7 @@ namespace OpenPmsDental {
 			// 
 			// butDecrypt
 			// 
-			this.butDecrypt.Location = new System.Drawing.Point(8, 610);
+			this.butDecrypt.Location = new System.Drawing.Point(8, 608);
 			this.butDecrypt.Name = "butDecrypt";
 			this.butDecrypt.Size = new System.Drawing.Size(75, 25);
 			this.butDecrypt.TabIndex = 7;
@@ -264,7 +264,7 @@ namespace OpenPmsDental {
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(8, 659);
+			this.butDelete.Location = new System.Drawing.Point(8, 697);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(75, 26);
 			this.butDelete.TabIndex = 11;
@@ -274,7 +274,7 @@ namespace OpenPmsDental {
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butSave.Location = new System.Drawing.Point(278, 660);
+			this.butSave.Location = new System.Drawing.Point(278, 698);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 25);
 			this.butSave.TabIndex = 6;
@@ -290,7 +290,7 @@ namespace OpenPmsDental {
 			this.emailPreview.BodyText = "";
 			this.emailPreview.CcAddress = "";
 			this.emailPreview.IsPreview = false;
-			this.emailPreview.Location = new System.Drawing.Point(189, 11);
+			this.emailPreview.Location = new System.Drawing.Point(192, 8);
 			this.emailPreview.Name = "emailPreview";
 			this.emailPreview.Size = new System.Drawing.Size(771, 642);
 			this.emailPreview.Subject = "";
@@ -306,7 +306,7 @@ namespace OpenPmsDental {
 			// butEditHtml
 			// 
 			this.butEditHtml.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butEditHtml.Location = new System.Drawing.Point(520, 660);
+			this.butEditHtml.Location = new System.Drawing.Point(520, 698);
 			this.butEditHtml.Name = "butEditHtml";
 			this.butEditHtml.Size = new System.Drawing.Size(75, 25);
 			this.butEditHtml.TabIndex = 39;
@@ -316,7 +316,7 @@ namespace OpenPmsDental {
 			// butEditText
 			// 
 			this.butEditText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butEditText.Location = new System.Drawing.Point(439, 660);
+			this.butEditText.Location = new System.Drawing.Point(439, 698);
 			this.butEditText.Name = "butEditText";
 			this.butEditText.Size = new System.Drawing.Size(75, 25);
 			this.butEditText.TabIndex = 40;
@@ -334,7 +334,7 @@ namespace OpenPmsDental {
 			// 
 			// FormEmailMessageEdit
 			// 
-			this.ClientSize = new System.Drawing.Size(974, 696);
+			this.ClientSize = new System.Drawing.Size(974, 731);
 			this.Controls.Add(this.butEditText);
 			this.Controls.Add(this.butEditHtml);
 			this.Controls.Add(this.toolBarSend);

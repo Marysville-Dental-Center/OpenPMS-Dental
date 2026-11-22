@@ -40,7 +40,7 @@
 			this.butPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butPrint.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Print,16,16);
 			this.butPrint.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butPrint.Location = new System.Drawing.Point(12, 658);
+			this.butPrint.Location = new System.Drawing.Point(12, 678);
 			this.butPrint.Name = "butPrint";
 			this.butPrint.Size = new System.Drawing.Size(75, 26);
 			this.butPrint.TabIndex = 3;
@@ -55,7 +55,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridMain.HasAutoWrappedHeaders = true;
 			this.gridMain.HasMultilineHeaders = true;
-			this.gridMain.Location = new System.Drawing.Point(12, 71);
+			this.gridMain.Location = new System.Drawing.Point(12, 93);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
 			this.gridMain.Size = new System.Drawing.Size(1165, 581);
@@ -76,7 +76,7 @@
 			// butRefresh
 			// 
 			this.butRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butRefresh.Location = new System.Drawing.Point(1102, 39);
+			this.butRefresh.Location = new System.Drawing.Point(1102, 8);
 			this.butRefresh.Name = "butRefresh";
 			this.butRefresh.Size = new System.Drawing.Size(75, 26);
 			this.butRefresh.TabIndex = 73;
@@ -96,35 +96,35 @@
 			this.groupBox2.Controls.Add(this.comboBoxMultiProv);
 			this.groupBox2.Controls.Add(this.comboBoxMultiClinics);
 			this.groupBox2.Controls.Add(this.dateRangePicker);
-			this.groupBox2.Location = new System.Drawing.Point(12, 4);
+			this.groupBox2.Location = new System.Drawing.Point(12, 8);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(910, 61);
+			this.groupBox2.Size = new System.Drawing.Size(917, 81);
 			this.groupBox2.TabIndex = 77;
 			this.groupBox2.Text = "Filters";
 			// 
 			// butCurrent
 			// 
-			this.butCurrent.Location = new System.Drawing.Point(698, 31);
+			this.butCurrent.Location = new System.Drawing.Point(708, 50);
 			this.butCurrent.Name = "butCurrent";
-			this.butCurrent.Size = new System.Drawing.Size(63, 24);
+			this.butCurrent.Size = new System.Drawing.Size(63, 23);
 			this.butCurrent.TabIndex = 78;
 			this.butCurrent.Text = "Current";
 			this.butCurrent.Click += new System.EventHandler(this.butCurrent_Click);
 			// 
 			// butAll
 			// 
-			this.butAll.Location = new System.Drawing.Point(841, 31);
+			this.butAll.Location = new System.Drawing.Point(846, 50);
 			this.butAll.Name = "butAll";
-			this.butAll.Size = new System.Drawing.Size(63, 24);
+			this.butAll.Size = new System.Drawing.Size(63, 23);
 			this.butAll.TabIndex = 77;
 			this.butAll.Text = "All";
 			this.butAll.Click += new System.EventHandler(this.butAll_Click);
 			// 
 			// butFind
 			// 
-			this.butFind.Location = new System.Drawing.Point(770, 31);
+			this.butFind.Location = new System.Drawing.Point(777, 50);
 			this.butFind.Name = "butFind";
-			this.butFind.Size = new System.Drawing.Size(63, 24);
+			this.butFind.Size = new System.Drawing.Size(63, 23);
 			this.butFind.TabIndex = 76;
 			this.butFind.Text = "Find";
 			this.butFind.Click += new System.EventHandler(this.butFind_Click);
@@ -132,23 +132,23 @@
 			// textPatient
 			// 
 			this.textPatient.AutoSize = false;
-			this.textPatient.Location = new System.Drawing.Point(698, 11);
+			this.textPatient.Location = new System.Drawing.Point(708, 23);
 			this.textPatient.Name = "textPatient";
-			this.textPatient.Size = new System.Drawing.Size(206, 20);
+			this.textPatient.Size = new System.Drawing.Size(201, 23);
 			this.textPatient.TabIndex = 75;
 			// 
 			// labelPatient
 			// 
-			this.labelPatient.Location = new System.Drawing.Point(631, 15);
+			this.labelPatient.Location = new System.Drawing.Point(654, 23);
 			this.labelPatient.Name = "labelPatient";
-			this.labelPatient.Size = new System.Drawing.Size(65, 17);
+			this.labelPatient.Size = new System.Drawing.Size(48, 23);
 			this.labelPatient.TabIndex = 74;
 			this.labelPatient.Text = "Patient";
 			this.labelPatient.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// labelProv
 			// 
-			this.labelProv.Location = new System.Drawing.Point(412, 15);
+			this.labelProv.Location = new System.Drawing.Point(415, 27);
 			this.labelProv.Name = "labelProv";
 			this.labelProv.Size = new System.Drawing.Size(57, 18);
 			this.labelProv.TabIndex = 73;
@@ -158,10 +158,10 @@
 			// comboBoxMultiProv
 			// 
 			this.comboBoxMultiProv.BackColor = System.Drawing.SystemColors.Window;
-			this.comboBoxMultiProv.Location = new System.Drawing.Point(469, 12);
+			this.comboBoxMultiProv.Location = new System.Drawing.Point(478, 23);
 			this.comboBoxMultiProv.Name = "comboBoxMultiProv";
 			this.comboBoxMultiProv.SelectionModeMulti = true;
-			this.comboBoxMultiProv.Size = new System.Drawing.Size(160, 21);
+			this.comboBoxMultiProv.Size = new System.Drawing.Size(160, 23);
 			this.comboBoxMultiProv.TabIndex = 72;
 			this.comboBoxMultiProv.SelectionChangeCommitted += new System.EventHandler(this.comboBoxMultiProv_SelectionChangeCommitted);
 			// 
@@ -170,17 +170,17 @@
 			this.comboBoxMultiClinics.IncludeAll = true;
 			this.comboBoxMultiClinics.IncludeHiddenInAll = true;
 			this.comboBoxMultiClinics.IncludeUnassigned = true;
-			this.comboBoxMultiClinics.Location = new System.Drawing.Point(432, 34);
+			this.comboBoxMultiClinics.Location = new System.Drawing.Point(432, 50);
 			this.comboBoxMultiClinics.Name = "comboBoxMultiClinics";
 			this.comboBoxMultiClinics.IsMultiSelect = true;
-			this.comboBoxMultiClinics.Size = new System.Drawing.Size(197, 21);
+			this.comboBoxMultiClinics.Size = new System.Drawing.Size(197, 23);
 			this.comboBoxMultiClinics.TabIndex = 71;
 			// 
 			// dateRangePicker
 			// 
 			this.dateRangePicker.BackColor = System.Drawing.Color.Transparent;
 			this.dateRangePicker.EnableWeekButtons = false;
-			this.dateRangePicker.Location = new System.Drawing.Point(5, 11);
+			this.dateRangePicker.Location = new System.Drawing.Point(8, 23);
 			this.dateRangePicker.MaximumSize = new System.Drawing.Size(0, 185);
 			this.dateRangePicker.MinimumSize = new System.Drawing.Size(453, 22);
 			this.dateRangePicker.Name = "dateRangePicker";
@@ -190,7 +190,7 @@
 			// butFix
 			// 
 			this.butFix.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-			this.butFix.Location = new System.Drawing.Point(548, 658);
+			this.butFix.Location = new System.Drawing.Point(548, 678);
 			this.butFix.Name = "butFix";
 			this.butFix.Size = new System.Drawing.Size(75, 26);
 			this.butFix.TabIndex = 78;
@@ -201,7 +201,7 @@
 			// FormRpDPPOvercharged
 			// 
 			this.AcceptButton = this.butPrint;
-			this.ClientSize = new System.Drawing.Size(1189, 696);
+			this.ClientSize = new System.Drawing.Size(1189, 712);
 			this.Controls.Add(this.butFix);
 			this.Controls.Add(this.butRefresh);
 			this.Controls.Add(this.butPrint);

@@ -125,54 +125,54 @@
 			// 
 			// labelInsPayAmt
 			// 
-			this.labelInsPayAmt.Location = new System.Drawing.Point(31, 55);
+			this.labelInsPayAmt.Location = new System.Drawing.Point(69, 77);
 			this.labelInsPayAmt.Name = "labelInsPayAmt";
-			this.labelInsPayAmt.Size = new System.Drawing.Size(129, 17);
+			this.labelInsPayAmt.Size = new System.Drawing.Size(88, 23);
 			this.labelInsPayAmt.TabIndex = 0;
 			this.labelInsPayAmt.Text = "Insurance Paid";
 			this.labelInsPayAmt.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// labelRemarks
 			// 
-			this.labelRemarks.Location = new System.Drawing.Point(24, 73);
+			this.labelRemarks.Location = new System.Drawing.Point(38, 89);
 			this.labelRemarks.Name = "labelRemarks";
-			this.labelRemarks.Size = new System.Drawing.Size(113, 37);
+			this.labelRemarks.Size = new System.Drawing.Size(112, 37);
 			this.labelRemarks.TabIndex = 0;
 			this.labelRemarks.Text = "Remarks from EOB";
-			this.labelRemarks.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.labelRemarks.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textRemarks
 			// 
-			this.textRemarks.Location = new System.Drawing.Point(139, 74);
+			this.textRemarks.Location = new System.Drawing.Point(156, 89);
 			this.textRemarks.MaxLength = 255;
 			this.textRemarks.Multiline = true;
 			this.textRemarks.Name = "textRemarks";
-			this.textRemarks.Size = new System.Drawing.Size(290, 129);
+			this.textRemarks.Size = new System.Drawing.Size(288, 129);
 			this.textRemarks.TabIndex = 3;
 			// 
 			// label9
 			// 
-			this.label9.Location = new System.Drawing.Point(75, 29);
+			this.label9.Location = new System.Drawing.Point(122, 35);
 			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(80, 17);
+			this.label9.Size = new System.Drawing.Size(44, 23);
 			this.label9.TabIndex = 0;
 			this.label9.Text = "Status";
 			this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// labelWriteOff
 			// 
-			this.labelWriteOff.Location = new System.Drawing.Point(31, 75);
+			this.labelWriteOff.Location = new System.Drawing.Point(97, 104);
 			this.labelWriteOff.Name = "labelWriteOff";
-			this.labelWriteOff.Size = new System.Drawing.Size(129, 17);
+			this.labelWriteOff.Size = new System.Drawing.Size(60, 23);
 			this.labelWriteOff.TabIndex = 0;
 			this.labelWriteOff.Text = "Write-off";
 			this.labelWriteOff.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// labelInsPayEst
 			// 
-			this.labelInsPayEst.Location = new System.Drawing.Point(31, 36);
+			this.labelInsPayEst.Location = new System.Drawing.Point(45, 50);
 			this.labelInsPayEst.Name = "labelInsPayEst";
-			this.labelInsPayEst.Size = new System.Drawing.Size(129, 17);
+			this.labelInsPayEst.Size = new System.Drawing.Size(112, 23);
 			this.labelInsPayEst.TabIndex = 0;
 			this.labelInsPayEst.Text = "Insurance Estimate";
 			this.labelInsPayEst.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -180,7 +180,7 @@
 			// labelNotInClaim
 			// 
 			this.labelNotInClaim.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.labelNotInClaim.Location = new System.Drawing.Point(118, 267);
+			this.labelNotInClaim.Location = new System.Drawing.Point(118, 309);
 			this.labelNotInClaim.Name = "labelNotInClaim";
 			this.labelNotInClaim.Size = new System.Drawing.Size(331, 17);
 			this.labelNotInClaim.TabIndex = 0;
@@ -189,9 +189,9 @@
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(33, 6);
+			this.label1.Location = new System.Drawing.Point(114, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(121, 18);
+			this.label1.Size = new System.Drawing.Size(52, 23);
 			this.label1.TabIndex = 0;
 			this.label1.Text = "Ins Plan";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -199,19 +199,19 @@
 			// textInsPlan
 			// 
 			this.textInsPlan.AutoSize = false;
-			this.textInsPlan.Location = new System.Drawing.Point(157, 4);
+			this.textInsPlan.Location = new System.Drawing.Point(172, 8);
 			this.textInsPlan.Name = "textInsPlan";
 			this.textInsPlan.ReadOnly = true;
-			this.textInsPlan.Size = new System.Drawing.Size(341, 20);
+			this.textInsPlan.Size = new System.Drawing.Size(340, 23);
 			this.textInsPlan.TabIndex = 0;
 			this.textInsPlan.TabStop = false;
 			this.textInsPlan.Text = "An insurance plan";
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(28, 219);
+			this.label4.Location = new System.Drawing.Point(81, 289);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(138, 17);
+			this.label4.Size = new System.Drawing.Size(84, 23);
 			this.label4.TabIndex = 0;
 			this.label4.Text = "Percentage %";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -219,49 +219,49 @@
 			// textPercentage
 			// 
 			this.textPercentage.AutoSize = false;
-			this.textPercentage.Location = new System.Drawing.Point(168, 218);
+			this.textPercentage.Location = new System.Drawing.Point(171, 289);
 			this.textPercentage.Name = "textPercentage";
 			this.textPercentage.ReadOnly = true;
-			this.textPercentage.Size = new System.Drawing.Size(70, 20);
+			this.textPercentage.Size = new System.Drawing.Size(72, 23);
 			this.textPercentage.TabIndex = 0;
 			this.textPercentage.TabStop = false;
 			this.textPercentage.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			// 
 			// labelCopayAmt
 			// 
-			this.labelCopayAmt.Location = new System.Drawing.Point(28, 179);
+			this.labelCopayAmt.Location = new System.Drawing.Point(77, 235);
 			this.labelCopayAmt.Name = "labelCopayAmt";
-			this.labelCopayAmt.Size = new System.Drawing.Size(138, 17);
+			this.labelCopayAmt.Size = new System.Drawing.Size(88, 23);
 			this.labelCopayAmt.TabIndex = 0;
 			this.labelCopayAmt.Text = "Patient Copay";
 			this.labelCopayAmt.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// checkNoBillIns
 			// 
-			this.checkNoBillIns.Location = new System.Drawing.Point(616, 3);
+			this.checkNoBillIns.Location = new System.Drawing.Point(518, 8);
 			this.checkNoBillIns.Name = "checkNoBillIns";
-			this.checkNoBillIns.Size = new System.Drawing.Size(270, 22);
+			this.checkNoBillIns.Size = new System.Drawing.Size(177, 20);
 			this.checkNoBillIns.TabIndex = 8;
 			this.checkNoBillIns.Text = "Do Not Bill to This Insurance";
 			this.checkNoBillIns.Click += new System.EventHandler(this.checkNoBillIns_Click);
 			// 
 			// labelFee
 			// 
-			this.labelFee.Location = new System.Drawing.Point(59, 7);
+			this.labelFee.Location = new System.Drawing.Point(133, 8);
 			this.labelFee.Name = "labelFee";
-			this.labelFee.Size = new System.Drawing.Size(107, 18);
+			this.labelFee.Size = new System.Drawing.Size(32, 23);
 			this.labelFee.TabIndex = 0;
 			this.labelFee.Text = "Fee";
-			this.labelFee.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.labelFee.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textFee
 			// 
 			this.textFee.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			this.textFee.AutoSize = false;
-			this.textFee.Location = new System.Drawing.Point(169, 8);
+			this.textFee.Location = new System.Drawing.Point(171, 8);
 			this.textFee.Name = "textFee";
 			this.textFee.ReadOnly = true;
-			this.textFee.Size = new System.Drawing.Size(58, 13);
+			this.textFee.Size = new System.Drawing.Size(56, 23);
 			this.textFee.TabIndex = 0;
 			this.textFee.TabStop = false;
 			this.textFee.Text = "520.00";
@@ -269,81 +269,81 @@
 			// 
 			// label28
 			// 
-			this.label28.Location = new System.Drawing.Point(30, 144);
+			this.label28.Location = new System.Drawing.Point(78, 170);
 			this.label28.Name = "label28";
-			this.label28.Size = new System.Drawing.Size(125, 17);
+			this.label28.Size = new System.Drawing.Size(88, 23);
 			this.label28.TabIndex = 0;
 			this.label28.Text = "Payment Date";
-			this.label28.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label28.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label29
 			// 
-			this.label29.Location = new System.Drawing.Point(33, 188);
+			this.label29.Location = new System.Drawing.Point(94, 224);
 			this.label29.Name = "label29";
-			this.label29.Size = new System.Drawing.Size(121, 17);
+			this.label29.Size = new System.Drawing.Size(72, 23);
 			this.label29.TabIndex = 67;
 			this.label29.Text = "Description";
-			this.label29.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label29.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textDescription
 			// 
 			this.textDescription.AutoSize = false;
-			this.textDescription.Location = new System.Drawing.Point(157, 184);
+			this.textDescription.Location = new System.Drawing.Point(172, 224);
 			this.textDescription.Name = "textDescription";
 			this.textDescription.ReadOnly = true;
-			this.textDescription.Size = new System.Drawing.Size(203, 20);
+			this.textDescription.Size = new System.Drawing.Size(204, 23);
 			this.textDescription.TabIndex = 0;
 			this.textDescription.TabStop = false;
 			// 
 			// label30
 			// 
-			this.label30.Location = new System.Drawing.Point(82, 77);
+			this.label30.Location = new System.Drawing.Point(110, 89);
 			this.label30.Name = "label30";
-			this.label30.Size = new System.Drawing.Size(73, 17);
+			this.label30.Size = new System.Drawing.Size(56, 23);
 			this.label30.TabIndex = 0;
 			this.label30.Text = "Provider";
 			this.label30.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// labelCodeSent
 			// 
-			this.labelCodeSent.Location = new System.Drawing.Point(18, 11);
+			this.labelCodeSent.Location = new System.Drawing.Point(50, 8);
 			this.labelCodeSent.Name = "labelCodeSent";
-			this.labelCodeSent.Size = new System.Drawing.Size(121, 18);
+			this.labelCodeSent.Size = new System.Drawing.Size(100, 23);
 			this.labelCodeSent.TabIndex = 0;
 			this.labelCodeSent.Text = "Code Sent to Ins";
-			this.labelCodeSent.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.labelCodeSent.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textCodeSent
 			// 
 			this.textCodeSent.AutoSize = false;
-			this.textCodeSent.Location = new System.Drawing.Point(139, 8);
+			this.textCodeSent.Location = new System.Drawing.Point(156, 8);
 			this.textCodeSent.Name = "textCodeSent";
-			this.textCodeSent.Size = new System.Drawing.Size(77, 20);
+			this.textCodeSent.Size = new System.Drawing.Size(76, 23);
 			this.textCodeSent.TabIndex = 1;
 			// 
 			// labelFeeBilled
 			// 
-			this.labelFeeBilled.Location = new System.Drawing.Point(17, 32);
+			this.labelFeeBilled.Location = new System.Drawing.Point(54, 35);
 			this.labelFeeBilled.Name = "labelFeeBilled";
-			this.labelFeeBilled.Size = new System.Drawing.Size(121, 17);
+			this.labelFeeBilled.Size = new System.Drawing.Size(96, 23);
 			this.labelFeeBilled.TabIndex = 0;
 			this.labelFeeBilled.Text = "Fee Billed to Ins";
-			this.labelFeeBilled.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.labelFeeBilled.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// labelDedApplied
 			// 
-			this.labelDedApplied.Location = new System.Drawing.Point(31, 16);
+			this.labelDedApplied.Location = new System.Drawing.Point(89, 23);
 			this.labelDedApplied.Name = "labelDedApplied";
-			this.labelDedApplied.Size = new System.Drawing.Size(129, 17);
+			this.labelDedApplied.Size = new System.Drawing.Size(68, 23);
 			this.labelDedApplied.TabIndex = 0;
 			this.labelDedApplied.Text = "Deductible";
 			this.labelDedApplied.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// labelPaidOtherIns
 			// 
-			this.labelPaidOtherIns.Location = new System.Drawing.Point(28, 240);
+			this.labelPaidOtherIns.Location = new System.Drawing.Point(61, 316);
 			this.labelPaidOtherIns.Name = "labelPaidOtherIns";
-			this.labelPaidOtherIns.Size = new System.Drawing.Size(138, 17);
+			this.labelPaidOtherIns.Size = new System.Drawing.Size(104, 23);
 			this.labelPaidOtherIns.TabIndex = 0;
 			this.labelPaidOtherIns.Text = "Paid By Other Ins";
 			this.labelPaidOtherIns.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -355,27 +355,27 @@
 			this.groupClaim.Controls.Add(this.radioClaim);
 			this.groupClaim.Controls.Add(this.radioEstimate);
 			this.groupClaim.Controls.Add(this.panelClaimExtras);
-			this.groupClaim.Location = new System.Drawing.Point(14, 212);
+			this.groupClaim.Location = new System.Drawing.Point(8, 255);
 			this.groupClaim.Name = "groupClaim";
-			this.groupClaim.Size = new System.Drawing.Size(460, 326);
+			this.groupClaim.Size = new System.Drawing.Size(468, 368);
 			this.groupClaim.TabIndex = 7;
 			this.groupClaim.Text = "Claim";
 			// 
 			// labelAttachedToCheck
 			// 
 			this.labelAttachedToCheck.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.labelAttachedToCheck.Location = new System.Drawing.Point(118, 291);
+			this.labelAttachedToCheck.Location = new System.Drawing.Point(118, 328);
 			this.labelAttachedToCheck.Name = "labelAttachedToCheck";
-			this.labelAttachedToCheck.Size = new System.Drawing.Size(342, 29);
+			this.labelAttachedToCheck.Size = new System.Drawing.Size(342, 32);
 			this.labelAttachedToCheck.TabIndex = 0;
 			this.labelAttachedToCheck.Text = "This is attached to an insurance check, so certain changes are not allowed.";
 			// 
 			// radioClaim
 			// 
 			this.radioClaim.AutoCheck = false;
-			this.radioClaim.Location = new System.Drawing.Point(100, 33);
+			this.radioClaim.Location = new System.Drawing.Point(100, 47);
 			this.radioClaim.Name = "radioClaim";
-			this.radioClaim.Size = new System.Drawing.Size(353, 21);
+			this.radioClaim.Size = new System.Drawing.Size(140, 20);
 			this.radioClaim.TabIndex = 2;
 			this.radioClaim.TabStop = true;
 			this.radioClaim.Text = "This is part of a claim.";
@@ -384,9 +384,9 @@
 			// radioEstimate
 			// 
 			this.radioEstimate.AutoCheck = false;
-			this.radioEstimate.Location = new System.Drawing.Point(100, 10);
+			this.radioEstimate.Location = new System.Drawing.Point(100, 23);
 			this.radioEstimate.Name = "radioEstimate";
-			this.radioEstimate.Size = new System.Drawing.Size(352, 23);
+			this.radioEstimate.Size = new System.Drawing.Size(339, 20);
 			this.radioEstimate.TabIndex = 1;
 			this.radioEstimate.TabStop = true;
 			this.radioEstimate.Text = "This is an estimate only. It has not been attached to a claim.";
@@ -401,16 +401,16 @@
 			this.panelClaimExtras.Controls.Add(this.textCodeSent);
 			this.panelClaimExtras.Controls.Add(this.labelFeeBilled);
 			this.panelClaimExtras.Controls.Add(this.textFeeBilled);
-			this.panelClaimExtras.Location = new System.Drawing.Point(4, 54);
+			this.panelClaimExtras.Location = new System.Drawing.Point(8, 75);
 			this.panelClaimExtras.Name = "panelClaimExtras";
-			this.panelClaimExtras.Size = new System.Drawing.Size(452, 212);
+			this.panelClaimExtras.Size = new System.Drawing.Size(452, 226);
 			this.panelClaimExtras.TabIndex = 3;
 			// 
 			// labelClaimAdjReasonCodes
 			// 
-			this.labelClaimAdjReasonCodes.Location = new System.Drawing.Point(2, 53);
+			this.labelClaimAdjReasonCodes.Location = new System.Drawing.Point(14, 62);
 			this.labelClaimAdjReasonCodes.Name = "labelClaimAdjReasonCodes";
-			this.labelClaimAdjReasonCodes.Size = new System.Drawing.Size(136, 17);
+			this.labelClaimAdjReasonCodes.Size = new System.Drawing.Size(136, 23);
 			this.labelClaimAdjReasonCodes.TabIndex = 69;
 			this.labelClaimAdjReasonCodes.Text = "Claim Adj Reason Code";
 			this.labelClaimAdjReasonCodes.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -418,21 +418,21 @@
 			// textClaimAdjReasonCodes
 			// 
 			this.textClaimAdjReasonCodes.AutoSize = false;
-			this.textClaimAdjReasonCodes.Location = new System.Drawing.Point(139, 52);
+			this.textClaimAdjReasonCodes.Location = new System.Drawing.Point(156, 62);
 			this.textClaimAdjReasonCodes.Name = "textClaimAdjReasonCodes";
 			this.textClaimAdjReasonCodes.ReadOnly = true;
-			this.textClaimAdjReasonCodes.Size = new System.Drawing.Size(290, 20);
+			this.textClaimAdjReasonCodes.Size = new System.Drawing.Size(288, 23);
 			this.textClaimAdjReasonCodes.TabIndex = 68;
 			this.textClaimAdjReasonCodes.TabStop = false;
 			// 
 			// textFeeBilled
 			// 
 			this.textFeeBilled.AutoSize = false;
-			this.textFeeBilled.Location = new System.Drawing.Point(139, 30);
+			this.textFeeBilled.Location = new System.Drawing.Point(156, 35);
 			this.textFeeBilled.MaxVal = 100000000D;
 			this.textFeeBilled.MinVal = -100000000D;
 			this.textFeeBilled.Name = "textFeeBilled";
-			this.textFeeBilled.Size = new System.Drawing.Size(77, 20);
+			this.textFeeBilled.Size = new System.Drawing.Size(76, 23);
 			this.textFeeBilled.TabIndex = 2;
 			// 
 			// panelEstimateInfo
@@ -467,16 +467,16 @@
 			this.panelEstimateInfo.Controls.Add(this.textDedEstOverride);
 			this.panelEstimateInfo.Controls.Add(this.textFee);
 			this.panelEstimateInfo.Controls.Add(this.textPercentOverride);
-			this.panelEstimateInfo.Location = new System.Drawing.Point(512, 25);
+			this.panelEstimateInfo.Location = new System.Drawing.Point(518, 36);
 			this.panelEstimateInfo.Name = "panelEstimateInfo";
-			this.panelEstimateInfo.Size = new System.Drawing.Size(411, 403);
+			this.panelEstimateInfo.Size = new System.Drawing.Size(415, 517);
 			this.panelEstimateInfo.TabIndex = 9;
 			// 
 			// butBlueBookLog
 			// 
-			this.butBlueBookLog.Location = new System.Drawing.Point(316, 278);
+			this.butBlueBookLog.Location = new System.Drawing.Point(327, 370);
 			this.butBlueBookLog.Name = "butBlueBookLog";
-			this.butBlueBookLog.Size = new System.Drawing.Size(85, 22);
+			this.butBlueBookLog.Size = new System.Drawing.Size(85, 23);
 			this.butBlueBookLog.TabIndex = 3;
 			this.butBlueBookLog.Text = "Blue Book Log";
 			this.toolTip1.SetToolTip(this.butBlueBookLog, "Edit the fee schedule that holds the fee showing in the Carrier Allowed Amt box.");
@@ -485,11 +485,11 @@
 			// textWriteOffEstOverride
 			// 
 			this.textWriteOffEstOverride.AutoSize = false;
-			this.textWriteOffEstOverride.Location = new System.Drawing.Point(240, 298);
+			this.textWriteOffEstOverride.Location = new System.Drawing.Point(249, 397);
 			this.textWriteOffEstOverride.MaxVal = 100000000D;
 			this.textWriteOffEstOverride.MinVal = 0D;
 			this.textWriteOffEstOverride.Name = "textWriteOffEstOverride";
-			this.textWriteOffEstOverride.Size = new System.Drawing.Size(70, 20);
+			this.textWriteOffEstOverride.Size = new System.Drawing.Size(72, 23);
 			this.textWriteOffEstOverride.TabIndex = 7;
 			this.textWriteOffEstOverride.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			this.textWriteOffEstOverride.Enter += new System.EventHandler(this.textWriteOffEstOverride_Enter);
@@ -498,98 +498,98 @@
 			// textWriteOffEst
 			// 
 			this.textWriteOffEst.AutoSize = false;
-			this.textWriteOffEst.Location = new System.Drawing.Point(168, 298);
+			this.textWriteOffEst.Location = new System.Drawing.Point(171, 397);
 			this.textWriteOffEst.MaxVal = 100000000D;
 			this.textWriteOffEst.MinVal = -100000000D;
 			this.textWriteOffEst.Name = "textWriteOffEst";
 			this.textWriteOffEst.ReadOnly = true;
-			this.textWriteOffEst.Size = new System.Drawing.Size(70, 20);
+			this.textWriteOffEst.Size = new System.Drawing.Size(72, 23);
 			this.textWriteOffEst.TabIndex = 0;
 			this.textWriteOffEst.TabStop = false;
 			this.textWriteOffEst.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			// 
 			// labelWriteOffEst
 			// 
-			this.labelWriteOffEst.Location = new System.Drawing.Point(28, 301);
+			this.labelWriteOffEst.Location = new System.Drawing.Point(57, 397);
 			this.labelWriteOffEst.Name = "labelWriteOffEst";
-			this.labelWriteOffEst.Size = new System.Drawing.Size(138, 17);
+			this.labelWriteOffEst.Size = new System.Drawing.Size(108, 23);
 			this.labelWriteOffEst.TabIndex = 0;
 			this.labelWriteOffEst.Text = "Write-off Estimate";
-			this.labelWriteOffEst.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.labelWriteOffEst.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textEstimateNote
 			// 
-			this.textEstimateNote.Location = new System.Drawing.Point(168, 338);
+			this.textEstimateNote.Location = new System.Drawing.Point(171, 451);
 			this.textEstimateNote.MaxLength = 255;
 			this.textEstimateNote.Multiline = true;
 			this.textEstimateNote.Name = "textEstimateNote";
 			this.textEstimateNote.ReadOnly = true;
-			this.textEstimateNote.Size = new System.Drawing.Size(239, 58);
+			this.textEstimateNote.Size = new System.Drawing.Size(236, 58);
 			this.textEstimateNote.TabIndex = 0;
 			this.textEstimateNote.TabStop = false;
 			this.textEstimateNote.Text = "Over annual max\r\nExclusions\r\nLimitations";
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(27, 341);
+			this.label5.Location = new System.Drawing.Point(77, 451);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(138, 17);
+			this.label5.Size = new System.Drawing.Size(88, 23);
 			this.label5.TabIndex = 0;
 			this.label5.Text = "Estimate Note";
-			this.label5.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textBaseEst
 			// 
 			this.textBaseEst.AutoSize = false;
-			this.textBaseEst.Location = new System.Drawing.Point(168, 258);
+			this.textBaseEst.Location = new System.Drawing.Point(171, 343);
 			this.textBaseEst.MaxVal = 100000000D;
 			this.textBaseEst.MinVal = -100000000D;
 			this.textBaseEst.Name = "textBaseEst";
 			this.textBaseEst.ReadOnly = true;
-			this.textBaseEst.Size = new System.Drawing.Size(70, 20);
+			this.textBaseEst.Size = new System.Drawing.Size(72, 23);
 			this.textBaseEst.TabIndex = 0;
 			this.textBaseEst.TabStop = false;
 			this.textBaseEst.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(5, 260);
+			this.label3.Location = new System.Drawing.Point(9, 343);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(161, 17);
+			this.label3.Size = new System.Drawing.Size(156, 23);
 			this.label3.TabIndex = 0;
 			this.label3.Text = "BaseEst (no max or deduct)";
-			this.label3.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textPatPortion1
 			// 
 			this.textPatPortion1.AutoSize = false;
-			this.textPatPortion1.Location = new System.Drawing.Point(168, 318);
+			this.textPatPortion1.Location = new System.Drawing.Point(171, 424);
 			this.textPatPortion1.MaxVal = 100000000D;
 			this.textPatPortion1.MinVal = -100000000D;
 			this.textPatPortion1.Name = "textPatPortion1";
 			this.textPatPortion1.ReadOnly = true;
-			this.textPatPortion1.Size = new System.Drawing.Size(70, 20);
+			this.textPatPortion1.Size = new System.Drawing.Size(72, 23);
 			this.textPatPortion1.TabIndex = 0;
 			this.textPatPortion1.TabStop = false;
 			this.textPatPortion1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			// 
 			// labelPatPortion1
 			// 
-			this.labelPatPortion1.Location = new System.Drawing.Point(28, 320);
+			this.labelPatPortion1.Location = new System.Drawing.Point(17, 424);
 			this.labelPatPortion1.Name = "labelPatPortion1";
-			this.labelPatPortion1.Size = new System.Drawing.Size(140, 17);
+			this.labelPatPortion1.Size = new System.Drawing.Size(148, 23);
 			this.labelPatPortion1.TabIndex = 0;
 			this.labelPatPortion1.Text = "Estimated Patient Portion";
-			this.labelPatPortion1.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.labelPatPortion1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textPaidOtherInsOverride
 			// 
 			this.textPaidOtherInsOverride.AutoSize = false;
-			this.textPaidOtherInsOverride.Location = new System.Drawing.Point(240, 238);
+			this.textPaidOtherInsOverride.Location = new System.Drawing.Point(249, 316);
 			this.textPaidOtherInsOverride.MaxVal = 255D;
 			this.textPaidOtherInsOverride.MinVal = 0D;
 			this.textPaidOtherInsOverride.Name = "textPaidOtherInsOverride";
-			this.textPaidOtherInsOverride.Size = new System.Drawing.Size(70, 20);
+			this.textPaidOtherInsOverride.Size = new System.Drawing.Size(72, 23);
 			this.textPaidOtherInsOverride.TabIndex = 5;
 			this.textPaidOtherInsOverride.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			this.textPaidOtherInsOverride.Leave += new System.EventHandler(this.textPaidOtherInsOverride_Leave);
@@ -597,11 +597,11 @@
 			// textInsEstTotalOverride
 			// 
 			this.textInsEstTotalOverride.AutoSize = false;
-			this.textInsEstTotalOverride.Location = new System.Drawing.Point(240, 278);
+			this.textInsEstTotalOverride.Location = new System.Drawing.Point(249, 370);
 			this.textInsEstTotalOverride.MaxVal = 100000000D;
 			this.textInsEstTotalOverride.MinVal = -100000000D;
 			this.textInsEstTotalOverride.Name = "textInsEstTotalOverride";
-			this.textInsEstTotalOverride.Size = new System.Drawing.Size(70, 20);
+			this.textInsEstTotalOverride.Size = new System.Drawing.Size(72, 23);
 			this.textInsEstTotalOverride.TabIndex = 6;
 			this.textInsEstTotalOverride.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			this.textInsEstTotalOverride.Leave += new System.EventHandler(this.textInsEstTotalOverride_Leave);
@@ -609,24 +609,24 @@
 			// textInsEstTotal
 			// 
 			this.textInsEstTotal.AutoSize = false;
-			this.textInsEstTotal.Location = new System.Drawing.Point(168, 278);
+			this.textInsEstTotal.Location = new System.Drawing.Point(171, 370);
 			this.textInsEstTotal.MaxVal = 100000000D;
 			this.textInsEstTotal.MinVal = -100000000D;
 			this.textInsEstTotal.Name = "textInsEstTotal";
 			this.textInsEstTotal.ReadOnly = true;
-			this.textInsEstTotal.Size = new System.Drawing.Size(70, 20);
+			this.textInsEstTotal.Size = new System.Drawing.Size(72, 23);
 			this.textInsEstTotal.TabIndex = 0;
 			this.textInsEstTotal.TabStop = false;
 			this.textInsEstTotal.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			// 
 			// label17
 			// 
-			this.label17.Location = new System.Drawing.Point(28, 281);
+			this.label17.Location = new System.Drawing.Point(53, 370);
 			this.label17.Name = "label17";
-			this.label17.Size = new System.Drawing.Size(138, 17);
+			this.label17.Size = new System.Drawing.Size(112, 23);
 			this.label17.TabIndex = 0;
 			this.label17.Text = "Insurance Estimate";
-			this.label17.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label17.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// groupAllowed
 			// 
@@ -641,26 +641,26 @@
 			this.groupAllowed.Controls.Add(this.label2);
 			this.groupAllowed.Controls.Add(this.textCarrierAllowed);
 			this.groupAllowed.Controls.Add(this.textPPOFeeSched);
-			this.groupAllowed.Location = new System.Drawing.Point(5, 43);
+			this.groupAllowed.Location = new System.Drawing.Point(8, 66);
 			this.groupAllowed.Name = "groupAllowed";
-			this.groupAllowed.Size = new System.Drawing.Size(388, 132);
+			this.groupAllowed.Size = new System.Drawing.Size(399, 161);
 			this.groupAllowed.TabIndex = 1;
 			this.groupAllowed.Text = "Carrier Allowed Amount";
 			// 
 			// textAllowedOverride
 			// 
-			this.textAllowedOverride.Location = new System.Drawing.Point(235, 107);
+			this.textAllowedOverride.Location = new System.Drawing.Point(241, 130);
 			this.textAllowedOverride.MaxVal = 100000000D;
 			this.textAllowedOverride.MinVal = -100000000D;
 			this.textAllowedOverride.Name = "textAllowedOverride";
-			this.textAllowedOverride.Size = new System.Drawing.Size(70, 20);
+			this.textAllowedOverride.Size = new System.Drawing.Size(72, 23);
 			this.textAllowedOverride.TabIndex = 2;
 			this.textAllowedOverride.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			this.textAllowedOverride.Leave += new System.EventHandler(this.textAllowedOverride_Leave);
 			// 
 			// label10
 			// 
-			this.label10.Location = new System.Drawing.Point(123, 85);
+			this.label10.Location = new System.Drawing.Point(120, 107);
 			this.label10.Name = "label10";
 			this.label10.Size = new System.Drawing.Size(254, 16);
 			this.label10.TabIndex = 0;
@@ -669,44 +669,44 @@
 			// textAllowedFeeSched
 			// 
 			this.textAllowedFeeSched.AutoSize = false;
-			this.textAllowedFeeSched.Location = new System.Drawing.Point(163, 58);
+			this.textAllowedFeeSched.Location = new System.Drawing.Point(163, 77);
 			this.textAllowedFeeSched.Name = "textAllowedFeeSched";
 			this.textAllowedFeeSched.ReadOnly = true;
-			this.textAllowedFeeSched.Size = new System.Drawing.Size(219, 20);
+			this.textAllowedFeeSched.Size = new System.Drawing.Size(220, 23);
 			this.textAllowedFeeSched.TabIndex = 0;
 			this.textAllowedFeeSched.TabStop = false;
 			// 
 			// textSubstCode
 			// 
 			this.textSubstCode.AutoSize = false;
-			this.textSubstCode.Location = new System.Drawing.Point(163, 14);
+			this.textSubstCode.Location = new System.Drawing.Point(163, 23);
 			this.textSubstCode.Name = "textSubstCode";
 			this.textSubstCode.ReadOnly = true;
-			this.textSubstCode.Size = new System.Drawing.Size(78, 20);
+			this.textSubstCode.Size = new System.Drawing.Size(80, 23);
 			this.textSubstCode.TabIndex = 0;
 			this.textSubstCode.TabStop = false;
 			// 
 			// label7
 			// 
-			this.label7.Location = new System.Drawing.Point(34, 40);
+			this.label7.Location = new System.Drawing.Point(49, 50);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(127, 18);
+			this.label7.Size = new System.Drawing.Size(108, 23);
 			this.label7.TabIndex = 0;
 			this.label7.Text = "PPO Fee Schedule";
-			this.label7.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label8
 			// 
-			this.label8.Location = new System.Drawing.Point(34, 62);
+			this.label8.Location = new System.Drawing.Point(29, 77);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(127, 18);
+			this.label8.Size = new System.Drawing.Size(128, 23);
 			this.label8.TabIndex = 0;
 			this.label8.Text = "Allowed Fee Schedule";
-			this.label8.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// butUpdateAllowed
 			// 
-			this.butUpdateAllowed.Location = new System.Drawing.Point(13, 81);
+			this.butUpdateAllowed.Location = new System.Drawing.Point(13, 104);
 			this.butUpdateAllowed.Name = "butUpdateAllowed";
 			this.butUpdateAllowed.Size = new System.Drawing.Size(101, 22);
 			this.butUpdateAllowed.TabIndex = 1;
@@ -716,28 +716,28 @@
 			// 
 			// labelCarrierAllowed
 			// 
-			this.labelCarrierAllowed.Location = new System.Drawing.Point(34, 110);
+			this.labelCarrierAllowed.Location = new System.Drawing.Point(77, 130);
 			this.labelCarrierAllowed.Name = "labelCarrierAllowed";
-			this.labelCarrierAllowed.Size = new System.Drawing.Size(127, 18);
+			this.labelCarrierAllowed.Size = new System.Drawing.Size(80, 23);
 			this.labelCarrierAllowed.TabIndex = 0;
 			this.labelCarrierAllowed.Text = "Allowed Amt";
-			this.labelCarrierAllowed.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.labelCarrierAllowed.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(34, 17);
+			this.label2.Location = new System.Drawing.Point(49, 23);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(127, 18);
+			this.label2.Size = new System.Drawing.Size(108, 23);
 			this.label2.TabIndex = 0;
 			this.label2.Text = "Substitution Code";
-			this.label2.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textCarrierAllowed
 			// 
-			this.textCarrierAllowed.Location = new System.Drawing.Point(163, 107);
+			this.textCarrierAllowed.Location = new System.Drawing.Point(163, 130);
 			this.textCarrierAllowed.Name = "textCarrierAllowed";
 			this.textCarrierAllowed.ReadOnly = true;
-			this.textCarrierAllowed.Size = new System.Drawing.Size(70, 20);
+			this.textCarrierAllowed.Size = new System.Drawing.Size(72, 23);
 			this.textCarrierAllowed.TabIndex = 0;
 			this.textCarrierAllowed.TabStop = false;
 			this.textCarrierAllowed.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -745,22 +745,22 @@
 			// textPPOFeeSched
 			// 
 			this.textPPOFeeSched.AutoSize = false;
-			this.textPPOFeeSched.Location = new System.Drawing.Point(163, 36);
+			this.textPPOFeeSched.Location = new System.Drawing.Point(163, 50);
 			this.textPPOFeeSched.Name = "textPPOFeeSched";
 			this.textPPOFeeSched.ReadOnly = true;
-			this.textPPOFeeSched.Size = new System.Drawing.Size(219, 20);
+			this.textPPOFeeSched.Size = new System.Drawing.Size(220, 23);
 			this.textPPOFeeSched.TabIndex = 0;
 			this.textPPOFeeSched.TabStop = false;
 			// 
 			// textDedEst
 			// 
 			this.textDedEst.AutoSize = false;
-			this.textDedEst.Location = new System.Drawing.Point(168, 198);
+			this.textDedEst.Location = new System.Drawing.Point(171, 262);
 			this.textDedEst.MaxVal = 100000000D;
 			this.textDedEst.MinVal = -100000000D;
 			this.textDedEst.Name = "textDedEst";
 			this.textDedEst.ReadOnly = true;
-			this.textDedEst.Size = new System.Drawing.Size(70, 20);
+			this.textDedEst.Size = new System.Drawing.Size(72, 23);
 			this.textDedEst.TabIndex = 0;
 			this.textDedEst.TabStop = false;
 			this.textDedEst.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -768,12 +768,12 @@
 			// textPaidOtherIns
 			// 
 			this.textPaidOtherIns.AutoSize = false;
-			this.textPaidOtherIns.Location = new System.Drawing.Point(168, 238);
+			this.textPaidOtherIns.Location = new System.Drawing.Point(171, 316);
 			this.textPaidOtherIns.MaxVal = 100000000D;
 			this.textPaidOtherIns.MinVal = -100000000D;
 			this.textPaidOtherIns.Name = "textPaidOtherIns";
 			this.textPaidOtherIns.ReadOnly = true;
-			this.textPaidOtherIns.Size = new System.Drawing.Size(70, 20);
+			this.textPaidOtherIns.Size = new System.Drawing.Size(72, 23);
 			this.textPaidOtherIns.TabIndex = 0;
 			this.textPaidOtherIns.TabStop = false;
 			this.textPaidOtherIns.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -781,30 +781,30 @@
 			// textFeeSched
 			// 
 			this.textFeeSched.AutoSize = false;
-			this.textFeeSched.Location = new System.Drawing.Point(168, 23);
+			this.textFeeSched.Location = new System.Drawing.Point(171, 35);
 			this.textFeeSched.Name = "textFeeSched";
 			this.textFeeSched.ReadOnly = true;
-			this.textFeeSched.Size = new System.Drawing.Size(219, 20);
+			this.textFeeSched.Size = new System.Drawing.Size(236, 23);
 			this.textFeeSched.TabIndex = 0;
 			this.textFeeSched.TabStop = false;
 			// 
 			// labelFeeSched
 			// 
-			this.labelFeeSched.Location = new System.Drawing.Point(39, 26);
+			this.labelFeeSched.Location = new System.Drawing.Point(85, 35);
 			this.labelFeeSched.Name = "labelFeeSched";
-			this.labelFeeSched.Size = new System.Drawing.Size(127, 16);
+			this.labelFeeSched.Size = new System.Drawing.Size(80, 23);
 			this.labelFeeSched.TabIndex = 0;
 			this.labelFeeSched.Text = "Fee Schedule";
-			this.labelFeeSched.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.labelFeeSched.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textCopayOverride
 			// 
 			this.textCopayOverride.AutoSize = false;
-			this.textCopayOverride.Location = new System.Drawing.Point(240, 178);
+			this.textCopayOverride.Location = new System.Drawing.Point(249, 235);
 			this.textCopayOverride.MaxVal = 100000000D;
 			this.textCopayOverride.MinVal = -100000000D;
 			this.textCopayOverride.Name = "textCopayOverride";
-			this.textCopayOverride.Size = new System.Drawing.Size(70, 20);
+			this.textCopayOverride.Size = new System.Drawing.Size(72, 23);
 			this.textCopayOverride.TabIndex = 2;
 			this.textCopayOverride.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			this.textCopayOverride.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textCopayOverride_KeyUp);
@@ -812,9 +812,9 @@
 			// 
 			// label11
 			// 
-			this.label11.Location = new System.Drawing.Point(28, 199);
+			this.label11.Location = new System.Drawing.Point(97, 262);
 			this.label11.Name = "label11";
-			this.label11.Size = new System.Drawing.Size(138, 17);
+			this.label11.Size = new System.Drawing.Size(68, 23);
 			this.label11.TabIndex = 0;
 			this.label11.Text = "Deductible";
 			this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -822,12 +822,12 @@
 			// textCopayAmt
 			// 
 			this.textCopayAmt.AutoSize = false;
-			this.textCopayAmt.Location = new System.Drawing.Point(168, 178);
+			this.textCopayAmt.Location = new System.Drawing.Point(171, 235);
 			this.textCopayAmt.MaxVal = 100000000D;
 			this.textCopayAmt.MinVal = -100000000D;
 			this.textCopayAmt.Name = "textCopayAmt";
 			this.textCopayAmt.ReadOnly = true;
-			this.textCopayAmt.Size = new System.Drawing.Size(70, 20);
+			this.textCopayAmt.Size = new System.Drawing.Size(72, 23);
 			this.textCopayAmt.TabIndex = 0;
 			this.textCopayAmt.TabStop = false;
 			this.textCopayAmt.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -835,11 +835,11 @@
 			// textDedEstOverride
 			// 
 			this.textDedEstOverride.AutoSize = false;
-			this.textDedEstOverride.Location = new System.Drawing.Point(240, 198);
+			this.textDedEstOverride.Location = new System.Drawing.Point(249, 262);
 			this.textDedEstOverride.MaxVal = 100000000D;
 			this.textDedEstOverride.MinVal = -100000000D;
 			this.textDedEstOverride.Name = "textDedEstOverride";
-			this.textDedEstOverride.Size = new System.Drawing.Size(70, 20);
+			this.textDedEstOverride.Size = new System.Drawing.Size(72, 23);
 			this.textDedEstOverride.TabIndex = 3;
 			this.textDedEstOverride.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			this.textDedEstOverride.Leave += new System.EventHandler(this.textDedEstOverride_Leave);
@@ -847,10 +847,10 @@
 			// textPercentOverride
 			// 
 			this.textPercentOverride.AutoSize = false;
-			this.textPercentOverride.Location = new System.Drawing.Point(240, 218);
+			this.textPercentOverride.Location = new System.Drawing.Point(249, 289);
 			this.textPercentOverride.Name = "textPercentOverride";
 			this.textPercentOverride.ShowZero = false;
-			this.textPercentOverride.Size = new System.Drawing.Size(70, 20);
+			this.textPercentOverride.Size = new System.Drawing.Size(72, 23);
 			this.textPercentOverride.TabIndex = 4;
 			this.textPercentOverride.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			this.textPercentOverride.Leave += new System.EventHandler(this.textPercentOverride_Leave);
@@ -867,42 +867,42 @@
 			this.groupClaimInfo.Controls.Add(this.textDedApplied);
 			this.groupClaimInfo.Controls.Add(this.labelDedApplied);
 			this.groupClaimInfo.Controls.Add(this.labelWriteOff);
-			this.groupClaimInfo.Location = new System.Drawing.Point(517, 473);
+			this.groupClaimInfo.Location = new System.Drawing.Point(526, 586);
 			this.groupClaimInfo.Name = "groupClaimInfo";
-			this.groupClaimInfo.Size = new System.Drawing.Size(388, 120);
+			this.groupClaimInfo.Size = new System.Drawing.Size(399, 162);
 			this.groupClaimInfo.TabIndex = 10;
 			this.groupClaimInfo.Text = "Claim Info";
 			// 
 			// textPatPortion2
 			// 
 			this.textPatPortion2.AutoSize = false;
-			this.textPatPortion2.Location = new System.Drawing.Point(163, 93);
+			this.textPatPortion2.Location = new System.Drawing.Point(163, 131);
 			this.textPatPortion2.MaxVal = 100000000D;
 			this.textPatPortion2.MinVal = -100000000D;
 			this.textPatPortion2.Name = "textPatPortion2";
 			this.textPatPortion2.ReadOnly = true;
-			this.textPatPortion2.Size = new System.Drawing.Size(70, 20);
+			this.textPatPortion2.Size = new System.Drawing.Size(72, 23);
 			this.textPatPortion2.TabIndex = 0;
 			this.textPatPortion2.TabStop = false;
 			this.textPatPortion2.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			// 
 			// labelPatPortion2
 			// 
-			this.labelPatPortion2.Location = new System.Drawing.Point(23, 95);
+			this.labelPatPortion2.Location = new System.Drawing.Point(9, 131);
 			this.labelPatPortion2.Name = "labelPatPortion2";
-			this.labelPatPortion2.Size = new System.Drawing.Size(140, 17);
+			this.labelPatPortion2.Size = new System.Drawing.Size(148, 23);
 			this.labelPatPortion2.TabIndex = 0;
 			this.labelPatPortion2.Text = "Estimated Patient Portion";
-			this.labelPatPortion2.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.labelPatPortion2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textWriteOff
 			// 
 			this.textWriteOff.AutoSize = false;
-			this.textWriteOff.Location = new System.Drawing.Point(163, 73);
+			this.textWriteOff.Location = new System.Drawing.Point(163, 104);
 			this.textWriteOff.MaxVal = 100000000D;
 			this.textWriteOff.MinVal = -100000000D;
 			this.textWriteOff.Name = "textWriteOff";
-			this.textWriteOff.Size = new System.Drawing.Size(70, 20);
+			this.textWriteOff.Size = new System.Drawing.Size(72, 23);
 			this.textWriteOff.TabIndex = 4;
 			this.textWriteOff.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			this.textWriteOff.Enter += new System.EventHandler(this.textWriteOff_Enter);
@@ -911,11 +911,11 @@
 			// textInsPayEst
 			// 
 			this.textInsPayEst.AutoSize = false;
-			this.textInsPayEst.Location = new System.Drawing.Point(163, 33);
+			this.textInsPayEst.Location = new System.Drawing.Point(163, 50);
 			this.textInsPayEst.MaxVal = 100000000D;
 			this.textInsPayEst.MinVal = -100000000D;
 			this.textInsPayEst.Name = "textInsPayEst";
-			this.textInsPayEst.Size = new System.Drawing.Size(70, 20);
+			this.textInsPayEst.Size = new System.Drawing.Size(72, 23);
 			this.textInsPayEst.TabIndex = 2;
 			this.textInsPayEst.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			this.textInsPayEst.Leave += new System.EventHandler(this.textInsPayEst_Leave);
@@ -923,11 +923,11 @@
 			// textInsPayAmt
 			// 
 			this.textInsPayAmt.AutoSize = false;
-			this.textInsPayAmt.Location = new System.Drawing.Point(163, 53);
+			this.textInsPayAmt.Location = new System.Drawing.Point(163, 77);
 			this.textInsPayAmt.MaxVal = 100000000D;
 			this.textInsPayAmt.MinVal = -100000000D;
 			this.textInsPayAmt.Name = "textInsPayAmt";
-			this.textInsPayAmt.Size = new System.Drawing.Size(70, 20);
+			this.textInsPayAmt.Size = new System.Drawing.Size(72, 23);
 			this.textInsPayAmt.TabIndex = 3;
 			this.textInsPayAmt.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			this.textInsPayAmt.Enter += new System.EventHandler(this.textInsPayAmt_Enter);
@@ -936,70 +936,70 @@
 			// textDedApplied
 			// 
 			this.textDedApplied.AutoSize = false;
-			this.textDedApplied.Location = new System.Drawing.Point(163, 13);
+			this.textDedApplied.Location = new System.Drawing.Point(163, 23);
 			this.textDedApplied.MaxVal = 100000000D;
 			this.textDedApplied.MinVal = -100000000D;
 			this.textDedApplied.Name = "textDedApplied";
-			this.textDedApplied.Size = new System.Drawing.Size(70, 20);
+			this.textDedApplied.Size = new System.Drawing.Size(72, 23);
 			this.textDedApplied.TabIndex = 1;
 			this.textDedApplied.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			this.textDedApplied.Leave += new System.EventHandler(this.textDedApplied_Leave);
 			// 
 			// labelProcDate
 			// 
-			this.labelProcDate.Location = new System.Drawing.Point(30, 166);
+			this.labelProcDate.Location = new System.Drawing.Point(74, 197);
 			this.labelProcDate.Name = "labelProcDate";
-			this.labelProcDate.Size = new System.Drawing.Size(126, 17);
+			this.labelProcDate.Size = new System.Drawing.Size(92, 23);
 			this.labelProcDate.TabIndex = 0;
 			this.labelProcDate.Text = "Procedure Date";
-			this.labelProcDate.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.labelProcDate.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// labelDateEntry
 			// 
-			this.labelDateEntry.Location = new System.Drawing.Point(30, 123);
+			this.labelDateEntry.Location = new System.Drawing.Point(78, 143);
 			this.labelDateEntry.Name = "labelDateEntry";
-			this.labelDateEntry.Size = new System.Drawing.Size(125, 17);
+			this.labelDateEntry.Size = new System.Drawing.Size(88, 23);
 			this.labelDateEntry.TabIndex = 0;
 			this.labelDateEntry.Text = "Pay Entry Date";
-			this.labelDateEntry.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.labelDateEntry.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textClinic
 			// 
 			this.textClinic.AutoSize = false;
-			this.textClinic.Location = new System.Drawing.Point(157, 97);
+			this.textClinic.Location = new System.Drawing.Point(172, 116);
 			this.textClinic.Name = "textClinic";
 			this.textClinic.ReadOnly = true;
-			this.textClinic.Size = new System.Drawing.Size(148, 20);
+			this.textClinic.Size = new System.Drawing.Size(148, 23);
 			this.textClinic.TabIndex = 0;
 			this.textClinic.TabStop = false;
 			// 
 			// labelClinic
 			// 
-			this.labelClinic.Location = new System.Drawing.Point(33, 99);
+			this.labelClinic.Location = new System.Drawing.Point(122, 116);
 			this.labelClinic.Name = "labelClinic";
-			this.labelClinic.Size = new System.Drawing.Size(121, 18);
+			this.labelClinic.Size = new System.Drawing.Size(44, 23);
 			this.labelClinic.TabIndex = 0;
 			this.labelClinic.Text = "Clinic";
 			this.labelClinic.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// comboProvider
 			// 
-			this.comboProvider.Location = new System.Drawing.Point(157, 74);
+			this.comboProvider.Location = new System.Drawing.Point(172, 89);
 			this.comboProvider.Name = "comboProvider";
-			this.comboProvider.Size = new System.Drawing.Size(145, 21);
+			this.comboProvider.Size = new System.Drawing.Size(144, 23);
 			this.comboProvider.TabIndex = 3;
 			// 
 			// comboStatus
 			// 
-			this.comboStatus.Location = new System.Drawing.Point(157, 26);
+			this.comboStatus.Location = new System.Drawing.Point(172, 35);
 			this.comboStatus.Name = "comboStatus";
-			this.comboStatus.Size = new System.Drawing.Size(145, 21);
+			this.comboStatus.Size = new System.Drawing.Size(144, 23);
 			this.comboStatus.TabIndex = 1;
 			this.comboStatus.SelectionChangeCommitted += new System.EventHandler(this.comboStatus_SelectionChangeCommitted);
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(517, 435);
+			this.label6.Location = new System.Drawing.Point(518, 561);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(388, 17);
 			this.label6.TabIndex = 0;
@@ -1008,34 +1008,34 @@
 			// 
 			// checkPayPlan
 			// 
-			this.checkPayPlan.Location = new System.Drawing.Point(375, 600);
+			this.checkPayPlan.Location = new System.Drawing.Point(518, 756);
 			this.checkPayPlan.Name = "checkPayPlan";
-			this.checkPayPlan.Size = new System.Drawing.Size(346, 18);
+			this.checkPayPlan.Size = new System.Drawing.Size(220, 20);
 			this.checkPayPlan.TabIndex = 12;
 			this.checkPayPlan.Text = "Attached to Insurance Payment Plan";
 			this.checkPayPlan.Click += new System.EventHandler(this.checkPayPlan_Click);
 			// 
 			// comboPayTracker
 			// 
-			this.comboPayTracker.Location = new System.Drawing.Point(157, 50);
+			this.comboPayTracker.Location = new System.Drawing.Point(172, 62);
 			this.comboPayTracker.Name = "comboPayTracker";
-			this.comboPayTracker.Size = new System.Drawing.Size(145, 21);
+			this.comboPayTracker.Size = new System.Drawing.Size(144, 23);
 			this.comboPayTracker.TabIndex = 2;
 			// 
 			// label12
 			// 
-			this.label12.Location = new System.Drawing.Point(36, 53);
+			this.label12.Location = new System.Drawing.Point(58, 62);
 			this.label12.Name = "label12";
-			this.label12.Size = new System.Drawing.Size(119, 17);
+			this.label12.Size = new System.Drawing.Size(108, 23);
 			this.label12.TabIndex = 0;
 			this.label12.Text = "Payment Tracking";
 			this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// butPickProv
 			// 
-			this.butPickProv.Location = new System.Drawing.Point(304, 74);
+			this.butPickProv.Location = new System.Drawing.Point(322, 89);
 			this.butPickProv.Name = "butPickProv";
-			this.butPickProv.Size = new System.Drawing.Size(18, 20);
+			this.butPickProv.Size = new System.Drawing.Size(18, 23);
 			this.butPickProv.TabIndex = 4;
 			this.butPickProv.Text = "...";
 			this.butPickProv.Click += new System.EventHandler(this.butPickProv_Click);
@@ -1043,27 +1043,27 @@
 			// textDateEntry
 			// 
 			this.textDateEntry.AutoSize = false;
-			this.textDateEntry.Location = new System.Drawing.Point(157, 119);
+			this.textDateEntry.Location = new System.Drawing.Point(172, 143);
 			this.textDateEntry.Name = "textDateEntry";
 			this.textDateEntry.ReadOnly = true;
-			this.textDateEntry.Size = new System.Drawing.Size(83, 20);
+			this.textDateEntry.Size = new System.Drawing.Size(84, 23);
 			this.textDateEntry.TabIndex = 0;
 			this.textDateEntry.TabStop = false;
 			// 
 			// textProcDate
 			// 
 			this.textProcDate.AutoSize = false;
-			this.textProcDate.Location = new System.Drawing.Point(157, 162);
+			this.textProcDate.Location = new System.Drawing.Point(172, 197);
 			this.textProcDate.Name = "textProcDate";
-			this.textProcDate.Size = new System.Drawing.Size(83, 20);
+			this.textProcDate.Size = new System.Drawing.Size(84, 23);
 			this.textProcDate.TabIndex = 6;
 			// 
 			// textDateCP
 			// 
 			this.textDateCP.AutoSize = false;
-			this.textDateCP.Location = new System.Drawing.Point(157, 140);
+			this.textDateCP.Location = new System.Drawing.Point(172, 170);
 			this.textDateCP.Name = "textDateCP";
-			this.textDateCP.Size = new System.Drawing.Size(83, 20);
+			this.textDateCP.Size = new System.Drawing.Size(84, 23);
 			this.textDateCP.TabIndex = 5;
 			// 
 			// butDelete
@@ -1071,7 +1071,7 @@
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(18, 625);
+			this.butDelete.Location = new System.Drawing.Point(8, 788);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(80, 24);
 			this.butDelete.TabIndex = 11;
@@ -1081,7 +1081,7 @@
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(848, 625);
+			this.butSave.Location = new System.Drawing.Point(858, 788);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 13;
@@ -1090,14 +1090,14 @@
 			// 
 			// warningIntegrity
 			// 
-			this.warningIntegrity.Location = new System.Drawing.Point(1, 1);
+			this.warningIntegrity.Location = new System.Drawing.Point(8, 10);
 			this.warningIntegrity.Name = "warningIntegrity";
 			this.warningIntegrity.Size = new System.Drawing.Size(18, 18);
 			this.warningIntegrity.TabIndex = 193;
 			// 
 			// FormClaimProc
 			// 
-			this.ClientSize = new System.Drawing.Size(941, 658);
+			this.ClientSize = new System.Drawing.Size(941, 820);
 			this.Controls.Add(this.warningIntegrity);
 			this.Controls.Add(this.comboPayTracker);
 			this.Controls.Add(this.label12);

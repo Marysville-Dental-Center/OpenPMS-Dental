@@ -49,7 +49,7 @@ namespace OpenPmsDental {
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(584, 294);
+			this.butSave.Location = new System.Drawing.Point(588, 298);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 99;
@@ -58,44 +58,44 @@ namespace OpenPmsDental {
 			// 
 			// textGroupName
 			// 
-			this.textGroupName.Location = new System.Drawing.Point(149, 77);
+			this.textGroupName.Location = new System.Drawing.Point(122, 56);
 			this.textGroupName.MaxLength = 50;
 			this.textGroupName.Name = "textGroupName";
-			this.textGroupName.Size = new System.Drawing.Size(167, 20);
+			this.textGroupName.Size = new System.Drawing.Size(168, 23);
 			this.textGroupName.TabIndex = 1;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(12, 81);
+			this.label1.Location = new System.Drawing.Point(8, 56);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(136, 18);
+			this.label1.Size = new System.Drawing.Size(108, 23);
 			this.label1.TabIndex = 0;
 			this.label1.Text = "Group Name";
-			this.label1.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textProcCodes
 			// 
-			this.textProcCodes.Location = new System.Drawing.Point(149, 162);
+			this.textProcCodes.Location = new System.Drawing.Point(122, 155);
 			this.textProcCodes.Multiline = true;
 			this.textProcCodes.Name = "textProcCodes";
-			this.textProcCodes.Size = new System.Drawing.Size(410, 49);
+			this.textProcCodes.Size = new System.Drawing.Size(455, 49);
 			this.textProcCodes.TabIndex = 3;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(12, 166);
+			this.label2.Location = new System.Drawing.Point(8, 155);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(136, 18);
+			this.label2.Size = new System.Drawing.Size(108, 23);
 			this.label2.TabIndex = 0;
 			this.label2.Text = "Proc Codes";
-			this.label2.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// checkShowInFreq
 			// 
-			this.checkShowInFreq.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkShowInFreq.Location = new System.Drawing.Point(29, 51);
+			this.checkShowInFreq.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkShowInFreq.Location = new System.Drawing.Point(122, 30);
 			this.checkShowInFreq.Name = "checkShowInFreq";
-			this.checkShowInFreq.Size = new System.Drawing.Size(137, 24);
+			this.checkShowInFreq.Size = new System.Drawing.Size(135, 18);
 			this.checkShowInFreq.TabIndex = 6;
 			this.checkShowInFreq.Text = "Show In Frequencies";
 			this.checkShowInFreq.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -103,54 +103,54 @@ namespace OpenPmsDental {
 			// 
 			// comboCodeGroupFixed
 			// 
-			this.comboCodeGroupFixed.Location = new System.Drawing.Point(149, 109);
+			this.comboCodeGroupFixed.Location = new System.Drawing.Point(122, 83);
 			this.comboCodeGroupFixed.Name = "comboCodeGroupFixed";
-			this.comboCodeGroupFixed.Size = new System.Drawing.Size(167, 21);
+			this.comboCodeGroupFixed.Size = new System.Drawing.Size(168, 23);
 			this.comboCodeGroupFixed.TabIndex = 2;
 			this.comboCodeGroupFixed.Text = "Code Group Fixed";
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(12, 113);
+			this.label3.Location = new System.Drawing.Point(8, 83);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(136, 18);
+			this.label3.Size = new System.Drawing.Size(108, 23);
 			this.label3.TabIndex = 0;
 			this.label3.Text = "Fixed Group";
-			this.label3.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// butProcCodesAdd
 			// 
 			this.butProcCodesAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butProcCodesAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butProcCodesAdd.Location = new System.Drawing.Point(565, 162);
+			this.butProcCodesAdd.Location = new System.Drawing.Point(583, 155);
 			this.butProcCodesAdd.Name = "butProcCodesAdd";
-			this.butProcCodesAdd.Size = new System.Drawing.Size(75, 24);
+			this.butProcCodesAdd.Size = new System.Drawing.Size(80, 23);
 			this.butProcCodesAdd.TabIndex = 4;
 			this.butProcCodesAdd.Text = "&Add";
 			this.butProcCodesAdd.Click += new System.EventHandler(this.butProcCodesAdd_Click);
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(146, 214);
+			this.label4.Location = new System.Drawing.Point(122, 206);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(410, 18);
+			this.label4.Size = new System.Drawing.Size(455, 18);
 			this.label4.TabIndex = 0;
 			this.label4.Text = "Codes and ranges separated by commas (e.g. D2391-D2394,D2740)";
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(322, 97);
+			this.label5.Location = new System.Drawing.Point(296, 83);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(325, 65);
+			this.label5.Size = new System.Drawing.Size(367, 68);
 			this.label5.TabIndex = 0;
 			this.label5.Text = resources.GetString("label5.Text");
 			// 
 			// checkShowInAgeLim
 			// 
-			this.checkShowInAgeLim.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkShowInAgeLim.Location = new System.Drawing.Point(29, 28);
+			this.checkShowInAgeLim.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkShowInAgeLim.Location = new System.Drawing.Point(122, 8);
 			this.checkShowInAgeLim.Name = "checkShowInAgeLim";
-			this.checkShowInAgeLim.Size = new System.Drawing.Size(134, 23);
+			this.checkShowInAgeLim.Size = new System.Drawing.Size(128, 18);
 			this.checkShowInAgeLim.TabIndex = 5;
 			this.checkShowInAgeLim.Text = "Show In Age Limits";
 			this.checkShowInAgeLim.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -158,10 +158,10 @@ namespace OpenPmsDental {
 			// 
 			// checkShowInOther
 			// 
-			this.checkShowInOther.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkShowInOther.Location = new System.Drawing.Point(169, 28);
+			this.checkShowInOther.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkShowInOther.Location = new System.Drawing.Point(273, 8);
 			this.checkShowInOther.Name = "checkShowInOther";
-			this.checkShowInOther.Size = new System.Drawing.Size(160, 23);
+			this.checkShowInOther.Size = new System.Drawing.Size(147, 18);
 			this.checkShowInOther.TabIndex = 7;
 			this.checkShowInOther.Text = "Show In Other Benefits";
 			this.checkShowInOther.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -169,10 +169,10 @@ namespace OpenPmsDental {
 			// 
 			// checkHidden
 			// 
-			this.checkHidden.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkHidden.Location = new System.Drawing.Point(169, 51);
+			this.checkHidden.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkHidden.Location = new System.Drawing.Point(273, 30);
 			this.checkHidden.Name = "checkHidden";
-			this.checkHidden.Size = new System.Drawing.Size(160, 24);
+			this.checkHidden.Size = new System.Drawing.Size(111, 18);
 			this.checkHidden.TabIndex = 8;
 			this.checkHidden.Text = "Hidden (retired)";
 			this.checkHidden.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -182,7 +182,7 @@ namespace OpenPmsDental {
 			// 
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
-			this.butDelete.Location = new System.Drawing.Point(12, 294);
+			this.butDelete.Location = new System.Drawing.Point(8, 298);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(75, 24);
 			this.butDelete.TabIndex = 98;
@@ -191,10 +191,10 @@ namespace OpenPmsDental {
 			// 
 			// checkShowInHistory
 			// 
-			this.checkShowInHistory.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkShowInHistory.Location = new System.Drawing.Point(335, 28);
+			this.checkShowInHistory.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkShowInHistory.Location = new System.Drawing.Point(436, 8);
 			this.checkShowInHistory.Name = "checkShowInHistory";
-			this.checkShowInHistory.Size = new System.Drawing.Size(160, 23);
+			this.checkShowInHistory.Size = new System.Drawing.Size(110, 18);
 			this.checkShowInHistory.TabIndex = 9;
 			this.checkShowInHistory.Text = "Show In History";
 			this.checkShowInHistory.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -203,10 +203,10 @@ namespace OpenPmsDental {
 			// 
 			// checkPerioFourQuads
 			// 
-			this.checkPerioFourQuads.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkPerioFourQuads.Location = new System.Drawing.Point(335, 51);
+			this.checkPerioFourQuads.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkPerioFourQuads.Location = new System.Drawing.Point(436, 30);
 			this.checkPerioFourQuads.Name = "checkPerioFourQuads";
-			this.checkPerioFourQuads.Size = new System.Drawing.Size(160, 24);
+			this.checkPerioFourQuads.Size = new System.Drawing.Size(139, 18);
 			this.checkPerioFourQuads.TabIndex = 10;
 			this.checkPerioFourQuads.Text = "Perio Four Quadrants";
 			this.checkPerioFourQuads.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -214,26 +214,26 @@ namespace OpenPmsDental {
 			// 
 			// labelHistProcCode
 			// 
-			this.labelHistProcCode.Location = new System.Drawing.Point(12, 240);
+			this.labelHistProcCode.Location = new System.Drawing.Point(8, 228);
 			this.labelHistProcCode.Name = "labelHistProcCode";
-			this.labelHistProcCode.Size = new System.Drawing.Size(136, 18);
+			this.labelHistProcCode.Size = new System.Drawing.Size(108, 23);
 			this.labelHistProcCode.TabIndex = 0;
 			this.labelHistProcCode.Text = "History Proc Code";
-			this.labelHistProcCode.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.labelHistProcCode.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textHistProcCode
 			// 
-			this.textHistProcCode.Location = new System.Drawing.Point(149, 236);
+			this.textHistProcCode.Location = new System.Drawing.Point(122, 228);
 			this.textHistProcCode.MaxLength = 255;
 			this.textHistProcCode.Name = "textHistProcCode";
-			this.textHistProcCode.Size = new System.Drawing.Size(100, 20);
+			this.textHistProcCode.Size = new System.Drawing.Size(100, 23);
 			this.textHistProcCode.TabIndex = 11;
 			// 
 			// butHistProcCode
 			// 
-			this.butHistProcCode.Location = new System.Drawing.Point(252, 235);
+			this.butHistProcCode.Location = new System.Drawing.Point(228, 228);
 			this.butHistProcCode.Name = "butHistProcCode";
-			this.butHistProcCode.Size = new System.Drawing.Size(24, 22);
+			this.butHistProcCode.Size = new System.Drawing.Size(24, 23);
 			this.butHistProcCode.TabIndex = 12;
 			this.butHistProcCode.Text = "...";
 			this.butHistProcCode.Click += new System.EventHandler(this.butHistProcCode_Click);

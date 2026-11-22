@@ -91,6 +91,29 @@ class Hand:
         n = self.n(name)
         return g.check_width(n) if n.text_w else 16
 
+    def group_rows(self, gname, x, y, w, button=None, align=None, hidden_first=None):
+        """UI-12 slice 1: lays out a group box of label + field rows in their drawn order: one field column, a picker button (24 px) on the
+        first row at the content edge before the labels, the labels right-aligned 6 px before the column, the fields to the content edge.
+        align: the field column's x in the group (to line up with another group); hidden_first: a control hidden in the designer that stands
+        at the content edge of the first row. Returns the Box and the field column's x."""
+        H = self.H
+        g = self.n(gname)
+        kids = [k for k in g.children if k.visible or k.name == hidden_first]
+        labels = sorted([k for k in kids if k.kind == "label"], key=lambda k: k.y)
+        fields = sorted([k for k in kids if k.kind == "field"], key=lambda k: k.y)
+        lw = max(self.lw(k.name) for k in labels)
+        b = self.box(gname, x, y, w)
+        F = align if align is not None else b.left + (24 + 6 if button else 0) + lw + 6
+        for i, (lb, fd) in enumerate(zip(labels, fields)):
+            yy = b.y
+            b.field(lb.name, fd.name, F, "R", lw=lw)
+            if i == 0 and button:
+                self.set(button, b.left, yy, 24, H)
+            if i == 0 and hidden_first:
+                self.check_left(hidden_first)
+                self.set(hidden_first, b.left, yy + (H - self.CH) // 2, self.cw(hidden_first), self.CH)
+        return b, F
+
     def watch(self, *names):
         """Containers the script laid out without a Box: the check reads them too."""
         for name in names:
