@@ -24,7 +24,7 @@ namespace UiRefreshTests {
 		///<summary>Picture name, window type, and the controls whose union (with a margin) is cropped; no controls: the whole window.</summary>
 		private static readonly string[][] _arrayPictures=new string[][] {
 			new string[] { "FormPayment-inputs","OpenPmsDental.FormPayment" },
-			new string[] { "ControlChart-procbuttons","OpenPmsDental.ControlChart","butBF","butV","butM","butOI","butD","butL","panelQuickButtons","groupBox2" },
+			new string[] { "ControlChart-procbuttons","OpenPmsDental.ControlChart","textSurf","butBF","butV","butM","butOI","butD","butL" },
 			new string[] { "ControlChart-pagebar","OpenPmsDental.ControlChart","gridProgPageNav" },
 		};
 
@@ -39,6 +39,7 @@ namespace UiRefreshTests {
 			List<string> listFailed=new List<string>();
 			StaRunner.Run(() => {
 				NoDatabaseGuard.Install();
+				DesignSheetWindows.IsPrintingWithoutChildren=true;
 				List<ScanType> listScanTypes=WindowBuilder.GetScanTypes();
 				foreach(string[] picture in _arrayPictures) {
 					ScanType scanType=listScanTypes.FirstOrDefault(x => x.WindowKey==picture[1]);
@@ -56,6 +57,10 @@ namespace UiRefreshTests {
 								Control root=builtWindow.Root;
 								if(root is FormODBase formODBase && formODBase.PanelClient!=null) {
 									root=formODBase.PanelClient;
+								}
+								//The page bar with four pages, the second current, as the Progress Notes grid shows it with paging on.
+								if(FindByName(root,"gridProgPageNav") is OpenPmsDental.UI.ODGridPageNav odGridPageNav) {
+									odGridPageNav.PagingChangeEventHandler(null,new OpenPmsDental.UI.ODGridPageEventArgs(2,new List<int> { 1,2,3,4 }));
 								}
 								Rectangle rectangleCrop=Rectangle.Empty;
 								for(int i=2;i<picture.Length;i++) {
@@ -85,6 +90,7 @@ namespace UiRefreshTests {
 					}
 				}
 			});
+			DesignSheetWindows.IsPrintingWithoutChildren=false;
 			File.WriteAllLines(Path.Combine(folder,"styles-failed.txt"),listFailed);
 			Assert.IsTrue(countPictures>0,"No picture made: "+string.Join("; ",listFailed));
 		}
@@ -102,12 +108,13 @@ namespace UiRefreshTests {
 			return null;
 		}
 
+		///<summary>The control's bounds in the ancestor's picture: mapped through the windows (hidden windows map too), so a tab control's or
+		///group box's client origin is counted.</summary>
 		private static Rectangle GetBoundsIn(Control control,Control ancestor) {
-			Rectangle rectangle=control.Bounds;
-			for(Control parent=control.Parent;parent!=null && parent!=ancestor;parent=parent.Parent) {
-				rectangle.Offset(parent.Left,parent.Top);
-			}
-			return rectangle;
+			Rectangle rectangleScreen=control.Parent.RectangleToScreen(control.Bounds);
+			Point pointAncestor=ancestor.PointToScreen(Point.Empty);
+			rectangleScreen.Offset(-pointAncestor.X,-pointAncestor.Y);
+			return rectangleScreen;
 		}
 	}
 }

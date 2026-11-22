@@ -63,6 +63,7 @@ namespace UiRefreshTests {
 			List<string> listFailed=new List<string>();
 			StaRunner.Run(() => {
 				NoDatabaseGuard.Install();
+				DesignSheetWindows.IsPrintingWithoutChildren=true;
 				List<ScanType> listScanTypes=WindowBuilder.GetScanTypes();
 				foreach(string window in arrayWindows) {
 					ScanType scanType=listScanTypes.FirstOrDefault(x => x.WindowKey==window);
@@ -114,6 +115,7 @@ namespace UiRefreshTests {
 					}
 				}
 			});
+			DesignSheetWindows.IsPrintingWithoutChildren=false;
 			File.WriteAllLines(Path.Combine(folder,"gallery-failed.txt"),listFailed);
 			Assert.IsTrue(countPictures>0,"No picture made: "+string.Join("; ",listFailed));
 		}
