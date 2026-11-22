@@ -635,6 +635,10 @@ Gallery G-UI3-ui9b4-v2 drawn again from the round 2 pictures (the same 39 pictur
 `toolbars/FormWikiEdit-100` differ from the first v2 (H1 to H3 and I); the audit's 100% lines redone (`docs/port-notes/UI-9b-4-audit.md`,
 round 4).
 
+Runs of round 2 (`.git/od-tools/test-results/`), after the full x64 build (0 errors): `ui9b4fix2-final.txt` (NoHqTests 127; WindowChecksTests
+30 + 44 opt-in skipped; UnitTests 1,728 + 3 skipped; UiRefreshTests 268 + 14 opt-in skipped, the new crispness test among them). InitSqlTests
+and ForkMigrationTests not run (no schema).
+
 ## 6. UI-9b is complete
 
 With UI-9b-4 every ImageList of the program is made by the one icon factory or is a list of office content:
