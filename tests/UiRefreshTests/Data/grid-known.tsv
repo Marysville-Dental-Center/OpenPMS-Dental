@@ -1,0 +1,3 @@
+# UI-12: the grid findings GridRulesTests allows on the grid windows, each with why (the planner lists them in its run; docs/port-notes/UI-12.md section 4).
+# The test fails on a finding not listed here and on a row that no longer happens, so this list only shrinks.
+window	rule	key	why
