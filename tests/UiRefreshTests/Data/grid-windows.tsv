@@ -1,7 +1,7 @@
 window	slice	mode	note
 OpenPmsDental.FormPatientEdit	pilot	tool	UI-10 slice 1
 OpenPmsDental.FormProvEdit	pilot	tool	UI-10 slice 1
-OpenPmsDental.FormClaimEdit	pilot	tool	UI-10 slice 1; round 3: its General, Misc and Attachments tabs laid out in parts by the planner (grid-scope.tsv), the rest of the window by its layout script (tools/UiFit/hand/FormClaimEdit.py); the UB04 and Canadian tabs as on main (the planner does not settle them)
+OpenPmsDental.FormClaimEdit	pilot	tool	UI-10 slice 1; round 3: its General, Misc and Attachments tabs laid out in parts by the planner (grid-scope.tsv), the rest of the window, the UB04 and Canadian tabs too (the planner does not settle their nested groups), by its layout script (tools/UiFit/hand/FormClaimEdit.py)
 OpenPmsDental.FormProcEdit	pilot	tool	UI-10 slice 1; round 3: its four tabs laid out in parts by the planner (grid-scope.tsv), the rest (the switched tooth, surface and area fields as one block each) by its layout script (tools/UiFit/hand/FormProcEdit.py)
 OpenPmsDental.ControlAccount	pilot	hand	UI-10 slice 1; a module laid out by its own code at run time: the aging strip and the side panel's pages by its layout script (tools/UiFit/hand/ControlAccount.py)
 OpenPmsDental.UserControlMainWindow	pilot	tool	UI-10 slice 1

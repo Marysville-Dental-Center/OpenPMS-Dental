@@ -234,6 +234,9 @@ namespace UiRefreshTests {
 		///is within 40 px of theirs (window coordinates): the grid's field columns. A Preferences page has one field column.</summary>
 		private static void CheckColumns(GridWindow gridWindow,Control root,List<string> listFindings) {
 			List<Tuple<string,int>> listFields=new List<Tuple<string,int>>();
+			//Round 3: the tab pages a field stands in (their names from the window down). Fields of two tab pages of one tab control are never on
+			//screen together, so they need not share a column: a field is compared with the fields of its own page and of the pages around it.
+			Dictionary<string,string> dictionaryPages=new Dictionary<string,string>();
 			foreach(Control container in Walk(root)) {
 				if(container is FlowLayoutPanel || container is TableLayoutPanel || container is SplitContainer) {
 					continue;
@@ -251,6 +254,13 @@ namespace UiRefreshTests {
 						x+=controlUp.Left;
 					}
 					listFields.Add(Tuple.Create(field.Name,x));
+					string pages="";
+					for(Control controlUp=container;controlUp!=null && controlUp!=root;controlUp=controlUp.Parent) {
+						if(controlUp is System.Windows.Forms.TabPage || TextFitMeasurer.IsOfType(controlUp,"OpenPmsDental.UI.TabPage")) {
+							pages="/"+controlUp.Name+pages;
+						}
+					}
+					dictionaryPages[field.Name]=pages;
 				}
 			}
 			bool isPreferencesPage=gridWindow.Window.Substring(gridWindow.Window.LastIndexOf('.')+1).StartsWith("UserControl");
@@ -261,15 +271,22 @@ namespace UiRefreshTests {
 				}
 				return;
 			}
-			List<Tuple<string,int>> listSorted=listFields.OrderBy(x => x.Item2).ToList();
-			int i=0;
-			while(i<listSorted.Count) {
-				List<Tuple<string,int>> listCluster=listSorted.Skip(i).TakeWhile(x => x.Item2-listSorted[i].Item2<=40).ToList();
-				int xMax=listCluster.Max(x => x.Item2);
-				foreach(Tuple<string,int> tuple in listCluster.Where(x => xMax-x.Item2>1)) {
-					listFindings.Add(gridWindow.Window+"	column	"+tuple.Item1);
+			HashSet<string> hashSetFound=new HashSet<string>();
+			foreach(string pagesContext in dictionaryPages.Values.Distinct()) {
+				//The fields on screen with this page: its own and those of the pages around it (a prefix of its path).
+				List<Tuple<string,int>> listSorted=listFields.Where(x => (pagesContext+"/").StartsWith(dictionaryPages[x.Item1]+"/"))
+					.OrderBy(x => x.Item2).ToList();
+				int i=0;
+				while(i<listSorted.Count) {
+					List<Tuple<string,int>> listCluster=listSorted.Skip(i).TakeWhile(x => x.Item2-listSorted[i].Item2<=40).ToList();
+					int xMax=listCluster.Max(x => x.Item2);
+					foreach(Tuple<string,int> tuple in listCluster.Where(x => xMax-x.Item2>1)) {
+						if(hashSetFound.Add(tuple.Item1)) {
+							listFindings.Add(gridWindow.Window+"	column	"+tuple.Item1);
+						}
+					}
+					i+=listCluster.Count;
 				}
-				i+=listCluster.Count;
 			}
 		}
 
