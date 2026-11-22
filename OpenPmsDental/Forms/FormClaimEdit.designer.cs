@@ -496,7 +496,7 @@
 			// butViewEob
 			// 
 			this.butViewEob.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butViewEob.Location = new System.Drawing.Point(106, 422);
+			this.butViewEob.Location = new System.Drawing.Point(100, 364);
 			this.butViewEob.Name = "butViewEob";
 			this.butViewEob.Size = new System.Drawing.Size(94, 24);
 			this.butViewEob.TabIndex = 266;
@@ -508,9 +508,9 @@
 			this.groupFinalizePayment.Controls.Add(this.butBatch);
 			this.groupFinalizePayment.Controls.Add(this.butThisClaimOnly);
 			this.groupFinalizePayment.Controls.Add(this.labelBatch);
-			this.groupFinalizePayment.Location = new System.Drawing.Point(583, 452);
+			this.groupFinalizePayment.Location = new System.Drawing.Point(577, 383);
 			this.groupFinalizePayment.Name = "groupFinalizePayment";
-			this.groupFinalizePayment.Size = new System.Drawing.Size(185, 115);
+			this.groupFinalizePayment.Size = new System.Drawing.Size(170, 92);
 			this.groupFinalizePayment.TabIndex = 265;
 			this.groupFinalizePayment.Text = "Finalize Payment";
 			// 
@@ -518,7 +518,7 @@
 			// 
 			this.butBatch.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butBatch.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butBatch.Location = new System.Drawing.Point(8, 23);
+			this.butBatch.Location = new System.Drawing.Point(3, 14);
 			this.butBatch.Name = "butBatch";
 			this.butBatch.Size = new System.Drawing.Size(96, 24);
 			this.butBatch.TabIndex = 150;
@@ -529,7 +529,7 @@
 			// 
 			this.butThisClaimOnly.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butThisClaimOnly.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butThisClaimOnly.Location = new System.Drawing.Point(8, 83);
+			this.butThisClaimOnly.Location = new System.Drawing.Point(3, 66);
 			this.butThisClaimOnly.Name = "butThisClaimOnly";
 			this.butThisClaimOnly.Size = new System.Drawing.Size(96, 24);
 			this.butThisClaimOnly.TabIndex = 264;
@@ -538,7 +538,7 @@
 			// 
 			// labelBatch
 			// 
-			this.labelBatch.Location = new System.Drawing.Point(8, 53);
+			this.labelBatch.Location = new System.Drawing.Point(1, 37);
 			this.labelBatch.Name = "labelBatch";
 			this.labelBatch.Size = new System.Drawing.Size(169, 28);
 			this.labelBatch.TabIndex = 151;
@@ -557,9 +557,9 @@
 			this.tabControlMain.Controls.Add(this.tabUB04);
 			this.tabControlMain.Controls.Add(this.tabCanadian);
 			this.tabControlMain.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-			this.tabControlMain.Location = new System.Drawing.Point(8, 575);
+			this.tabControlMain.Location = new System.Drawing.Point(2, 478);
 			this.tabControlMain.Name = "tabControlMain";
-			this.tabControlMain.Size = new System.Drawing.Size(1148, 177);
+			this.tabControlMain.Size = new System.Drawing.Size(1148, 164);
 			this.tabControlMain.TabIndex = 133;
 			this.tabControlMain.SelectedIndexChanged += new System.EventHandler(this.tabControlMain_SelectedIndexChanged);
 			// 
@@ -3051,7 +3051,7 @@
 			// 
 			// labelHistoryNone
 			// 
-			this.labelHistoryNone.Location = new System.Drawing.Point(98, 11);
+			this.labelHistoryNone.Location = new System.Drawing.Point(92, 8);
 			this.labelHistoryNone.Name = "labelHistoryNone";
 			this.labelHistoryNone.Size = new System.Drawing.Size(332, 18);
 			this.labelHistoryNone.TabIndex = 158;
@@ -3062,7 +3062,7 @@
 			// 
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdd.Location = new System.Drawing.Point(8, 8);
+			this.butAdd.Location = new System.Drawing.Point(6, 6);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(84, 24);
 			this.butAdd.TabIndex = 157;
@@ -3084,7 +3084,7 @@
 			// 
 			// butViewEra
 			// 
-			this.butViewEra.Location = new System.Drawing.Point(8, 422);
+			this.butViewEra.Location = new System.Drawing.Point(2, 364);
 			this.butViewEra.Name = "butViewEra";
 			this.butViewEra.Size = new System.Drawing.Size(94, 24);
 			this.butViewEra.TabIndex = 263;
@@ -3093,7 +3093,7 @@
 			// 
 			// butPickProvTreat
 			// 
-			this.butPickProvTreat.Location = new System.Drawing.Point(516, 124);
+			this.butPickProvTreat.Location = new System.Drawing.Point(501, 95);
 			this.butPickProvTreat.Name = "butPickProvTreat";
 			this.butPickProvTreat.Size = new System.Drawing.Size(20, 21);
 			this.butPickProvTreat.TabIndex = 262;
@@ -3102,7 +3102,7 @@
 			// 
 			// butPickProvBill
 			// 
-			this.butPickProvBill.Location = new System.Drawing.Point(510, 95);
+			this.butPickProvBill.Location = new System.Drawing.Point(501, 74);
 			this.butPickProvBill.Name = "butPickProvBill";
 			this.butPickProvBill.Size = new System.Drawing.Size(20, 21);
 			this.butPickProvBill.TabIndex = 261;
@@ -3111,7 +3111,7 @@
 			// 
 			// butResend
 			// 
-			this.butResend.Location = new System.Drawing.Point(195, 124);
+			this.butResend.Location = new System.Drawing.Point(195, 97);
 			this.butResend.Name = "butResend";
 			this.butResend.Size = new System.Drawing.Size(51, 20);
 			this.butResend.TabIndex = 154;
@@ -3121,65 +3121,65 @@
 			// textDateSent
 			// 
 			this.textDateSent.AutoSize = false;
-			this.textDateSent.Location = new System.Drawing.Point(111, 124);
+			this.textDateSent.Location = new System.Drawing.Point(111, 97);
 			this.textDateSent.Name = "textDateSent";
-			this.textDateSent.Size = new System.Drawing.Size(80, 23);
+			this.textDateSent.Size = new System.Drawing.Size(82, 20);
 			this.textDateSent.TabIndex = 152;
 			// 
 			// labelDateSent
 			// 
-			this.labelDateSent.Location = new System.Drawing.Point(41, 124);
+			this.labelDateSent.Location = new System.Drawing.Point(5, 100);
 			this.labelDateSent.Name = "labelDateSent";
-			this.labelDateSent.Size = new System.Drawing.Size(64, 23);
+			this.labelDateSent.Size = new System.Drawing.Size(104, 16);
 			this.labelDateSent.TabIndex = 153;
 			this.labelDateSent.Text = "Date Sent";
-			this.labelDateSent.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.labelDateSent.TextAlign = System.Drawing.ContentAlignment.TopRight;
 			// 
 			// comboClaimForm
 			// 
-			this.comboClaimForm.Location = new System.Drawing.Point(351, 66);
+			this.comboClaimForm.Location = new System.Drawing.Point(351, 53);
 			this.comboClaimForm.Name = "comboClaimForm";
-			this.comboClaimForm.Size = new System.Drawing.Size(128, 23);
+			this.comboClaimForm.Size = new System.Drawing.Size(126, 21);
 			this.comboClaimForm.TabIndex = 148;
 			// 
 			// label87
 			// 
-			this.label87.Location = new System.Drawing.Point(273, 66);
+			this.label87.Location = new System.Drawing.Point(254, 56);
 			this.label87.Name = "label87";
-			this.label87.Size = new System.Drawing.Size(72, 23);
+			this.label87.Size = new System.Drawing.Size(95, 17);
 			this.label87.TabIndex = 147;
 			this.label87.Text = "ClaimForm";
-			this.label87.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.label87.TextAlign = System.Drawing.ContentAlignment.TopRight;
 			// 
 			// comboMedType
 			// 
-			this.comboMedType.Location = new System.Drawing.Point(351, 37);
+			this.comboMedType.Location = new System.Drawing.Point(351, 32);
 			this.comboMedType.Name = "comboMedType";
-			this.comboMedType.Size = new System.Drawing.Size(128, 23);
+			this.comboMedType.Size = new System.Drawing.Size(126, 21);
 			this.comboMedType.TabIndex = 146;
 			// 
 			// label86
 			// 
-			this.label86.Location = new System.Drawing.Point(277, 37);
+			this.label86.Location = new System.Drawing.Point(254, 35);
 			this.label86.Name = "label86";
-			this.label86.Size = new System.Drawing.Size(68, 23);
+			this.label86.Size = new System.Drawing.Size(95, 17);
 			this.label86.TabIndex = 145;
 			this.label86.Text = "Med/Dent";
-			this.label86.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.label86.TextAlign = System.Drawing.ContentAlignment.TopRight;
 			// 
 			// comboClaimType
 			// 
 			this.comboClaimType.Enabled = false;
-			this.comboClaimType.Location = new System.Drawing.Point(111, 37);
+			this.comboClaimType.Location = new System.Drawing.Point(111, 36);
 			this.comboClaimType.Name = "comboClaimType";
-			this.comboClaimType.Size = new System.Drawing.Size(108, 23);
+			this.comboClaimType.Size = new System.Drawing.Size(109, 21);
 			this.comboClaimType.TabIndex = 140;
 			// 
 			// butHistory
 			// 
 			this.butHistory.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butHistory.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butHistory.Location = new System.Drawing.Point(595, 764);
+			this.butHistory.Location = new System.Drawing.Point(595, 665);
 			this.butHistory.Name = "butHistory";
 			this.butHistory.Size = new System.Drawing.Size(86, 24);
 			this.butHistory.TabIndex = 136;
@@ -3190,7 +3190,7 @@
 			// 
 			this.textReasonUnder.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textReasonUnder.Location = new System.Drawing.Point(773, 480);
+			this.textReasonUnder.Location = new System.Drawing.Point(753, 418);
 			this.textReasonUnder.MaxLength = 255;
 			this.textReasonUnder.Multiline = true;
 			this.textReasonUnder.Name = "textReasonUnder";
@@ -3199,7 +3199,7 @@
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(773, 452);
+			this.label4.Location = new System.Drawing.Point(752, 389);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(280, 26);
 			this.label4.TabIndex = 131;
@@ -3208,7 +3208,7 @@
 			// 
 			// gridPay
 			// 
-			this.gridPay.Location = new System.Drawing.Point(8, 452);
+			this.gridPay.Location = new System.Drawing.Point(2, 389);
 			this.gridPay.Name = "gridPay";
 			this.gridPay.Size = new System.Drawing.Size(569, 86);
 			this.gridPay.TabIndex = 135;
@@ -3222,15 +3222,15 @@
 			this.groupEnterPayment.Controls.Add(this.butPaySupp);
 			this.groupEnterPayment.Controls.Add(this.butPayTotal);
 			this.groupEnterPayment.Controls.Add(this.butPayProc);
-			this.groupEnterPayment.Location = new System.Drawing.Point(828, 8);
+			this.groupEnterPayment.Location = new System.Drawing.Point(809, 12);
 			this.groupEnterPayment.Name = "groupEnterPayment";
-			this.groupEnterPayment.Size = new System.Drawing.Size(119, 115);
+			this.groupEnterPayment.Size = new System.Drawing.Size(119, 107);
 			this.groupEnterPayment.TabIndex = 132;
 			this.groupEnterPayment.Text = "Enter Payment";
 			// 
 			// butPaySupp
 			// 
-			this.butPaySupp.Location = new System.Drawing.Point(17, 83);
+			this.butPaySupp.Location = new System.Drawing.Point(17, 78);
 			this.butPaySupp.Name = "butPaySupp";
 			this.butPaySupp.Size = new System.Drawing.Size(85, 24);
 			this.butPaySupp.TabIndex = 102;
@@ -3239,7 +3239,7 @@
 			// 
 			// butPayTotal
 			// 
-			this.butPayTotal.Location = new System.Drawing.Point(17, 23);
+			this.butPayTotal.Location = new System.Drawing.Point(17, 16);
 			this.butPayTotal.Name = "butPayTotal";
 			this.butPayTotal.Size = new System.Drawing.Size(85, 24);
 			this.butPayTotal.TabIndex = 100;
@@ -3248,7 +3248,7 @@
 			// 
 			// butPayProc
 			// 
-			this.butPayProc.Location = new System.Drawing.Point(17, 53);
+			this.butPayProc.Location = new System.Drawing.Point(17, 42);
 			this.butPayProc.Name = "butPayProc";
 			this.butPayProc.Size = new System.Drawing.Size(85, 24);
 			this.butPayProc.TabIndex = 101;
@@ -3258,19 +3258,19 @@
 			// label20
 			// 
 			this.label20.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.label20.Location = new System.Drawing.Point(916, 764);
+			this.label20.Location = new System.Drawing.Point(916, 656);
 			this.label20.Name = "label20";
-			this.label20.Size = new System.Drawing.Size(260, 32);
+			this.label20.Size = new System.Drawing.Size(153, 32);
 			this.label20.TabIndex = 92;
 			this.label20.Text = "(payment changes are saved as they are made)";
-			this.label20.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.label20.TextAlign = System.Drawing.ContentAlignment.BottomRight;
 			// 
 			// butSend
 			// 
 			this.butSend.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butSend.Icon = OpenPmsDental.UI.EnumIcons.Send;
 			this.butSend.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butSend.Location = new System.Drawing.Point(503, 764);
+			this.butSend.Location = new System.Drawing.Point(503, 665);
 			this.butSend.Name = "butSend";
 			this.butSend.Size = new System.Drawing.Size(86, 24);
 			this.butSend.TabIndex = 130;
@@ -3281,7 +3281,7 @@
 			// 
 			this.gridProc.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridProc.Location = new System.Drawing.Point(8, 216);
+			this.gridProc.Location = new System.Drawing.Point(2, 159);
 			this.gridProc.MinimumSize = new System.Drawing.Size(1149, 200);
 			this.gridProc.Name = "gridProc";
 			this.gridProc.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
@@ -3294,7 +3294,7 @@
 			// 
 			// butSplit
 			// 
-			this.butSplit.Location = new System.Drawing.Point(828, 131);
+			this.butSplit.Location = new System.Drawing.Point(826, 128);
 			this.butSplit.Name = "butSplit";
 			this.butSplit.Size = new System.Drawing.Size(85, 24);
 			this.butSplit.TabIndex = 127;
@@ -3306,7 +3306,7 @@
 			this.butLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butLabel.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Label,18,16);
 			this.butLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butLabel.Location = new System.Drawing.Point(163, 764);
+			this.butLabel.Location = new System.Drawing.Point(163, 665);
 			this.butLabel.Name = "butLabel";
 			this.butLabel.Size = new System.Drawing.Size(81, 24);
 			this.butLabel.TabIndex = 126;
@@ -3318,29 +3318,29 @@
 			this.comboClinic.Enabled = false;
 			this.comboClinic.HqDescription = "None";
 			this.comboClinic.IncludeUnassigned = true;
-			this.comboClinic.Location = new System.Drawing.Point(314, 8);
+			this.comboClinic.Location = new System.Drawing.Point(314, 11);
 			this.comboClinic.Name = "comboClinic";
-			this.comboClinic.Size = new System.Drawing.Size(208, 21);
+			this.comboClinic.Size = new System.Drawing.Size(207, 21);
 			this.comboClinic.TabIndex = 121;
 			this.comboClinic.SelectionChangeCommitted += new System.EventHandler(this.ComboClinic_SelectionChangeCommitted);
 			// 
 			// textDateService
 			// 
 			this.textDateService.AutoSize = false;
-			this.textDateService.Location = new System.Drawing.Point(128, 66);
+			this.textDateService.Location = new System.Drawing.Point(111, 57);
 			this.textDateService.Name = "textDateService";
-			this.textDateService.Size = new System.Drawing.Size(80, 23);
+			this.textDateService.Size = new System.Drawing.Size(82, 20);
 			this.textDateService.TabIndex = 119;
 			// 
 			// textWriteOff
 			// 
 			this.textWriteOff.AutoSize = false;
-			this.textWriteOff.Location = new System.Drawing.Point(708, 422);
+			this.textWriteOff.Location = new System.Drawing.Point(684, 363);
 			this.textWriteOff.MaxVal = 100000000D;
 			this.textWriteOff.MinVal = -100000000D;
 			this.textWriteOff.Name = "textWriteOff";
 			this.textWriteOff.ReadOnly = true;
-			this.textWriteOff.Size = new System.Drawing.Size(64, 23);
+			this.textWriteOff.Size = new System.Drawing.Size(63, 20);
 			this.textWriteOff.TabIndex = 113;
 			this.textWriteOff.TabStop = false;
 			this.textWriteOff.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -3348,10 +3348,10 @@
 			// textInsPayEst
 			// 
 			this.textInsPayEst.AutoSize = false;
-			this.textInsPayEst.Location = new System.Drawing.Point(572, 422);
+			this.textInsPayEst.Location = new System.Drawing.Point(560, 363);
 			this.textInsPayEst.Name = "textInsPayEst";
 			this.textInsPayEst.ReadOnly = true;
-			this.textInsPayEst.Size = new System.Drawing.Size(64, 23);
+			this.textInsPayEst.Size = new System.Drawing.Size(63, 20);
 			this.textInsPayEst.TabIndex = 40;
 			this.textInsPayEst.TabStop = false;
 			this.textInsPayEst.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -3359,60 +3359,60 @@
 			// textInsPayAmt
 			// 
 			this.textInsPayAmt.AutoSize = false;
-			this.textInsPayAmt.Location = new System.Drawing.Point(640, 422);
+			this.textInsPayAmt.Location = new System.Drawing.Point(622, 363);
 			this.textInsPayAmt.MaxVal = 100000000D;
 			this.textInsPayAmt.MinVal = -100000000D;
 			this.textInsPayAmt.Name = "textInsPayAmt";
 			this.textInsPayAmt.ReadOnly = true;
-			this.textInsPayAmt.Size = new System.Drawing.Size(64, 23);
+			this.textInsPayAmt.Size = new System.Drawing.Size(63, 20);
 			this.textInsPayAmt.TabIndex = 6;
 			this.textInsPayAmt.TabStop = false;
 			this.textInsPayAmt.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			// 
 			// textClaimFee
 			// 
-			this.textClaimFee.Location = new System.Drawing.Point(436, 422);
+			this.textClaimFee.Location = new System.Drawing.Point(436, 363);
 			this.textClaimFee.Name = "textClaimFee";
 			this.textClaimFee.ReadOnly = true;
-			this.textClaimFee.Size = new System.Drawing.Size(64, 23);
+			this.textClaimFee.Size = new System.Drawing.Size(63, 20);
 			this.textClaimFee.TabIndex = 51;
 			this.textClaimFee.TabStop = false;
 			this.textClaimFee.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			// 
 			// textDedApplied
 			// 
-			this.textDedApplied.Location = new System.Drawing.Point(504, 422);
+			this.textDedApplied.Location = new System.Drawing.Point(498, 363);
 			this.textDedApplied.MaxVal = 100000000D;
 			this.textDedApplied.MinVal = -100000000D;
 			this.textDedApplied.Name = "textDedApplied";
 			this.textDedApplied.ReadOnly = true;
-			this.textDedApplied.Size = new System.Drawing.Size(64, 23);
+			this.textDedApplied.Size = new System.Drawing.Size(63, 20);
 			this.textDedApplied.TabIndex = 4;
 			this.textDedApplied.TabStop = false;
 			this.textDedApplied.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			// 
 			// textPredeterm
 			// 
-			this.textPredeterm.Location = new System.Drawing.Point(351, 153);
+			this.textPredeterm.Location = new System.Drawing.Point(351, 116);
 			this.textPredeterm.Name = "textPredeterm";
-			this.textPredeterm.Size = new System.Drawing.Size(168, 23);
+			this.textPredeterm.Size = new System.Drawing.Size(170, 20);
 			this.textPredeterm.TabIndex = 1;
 			// 
 			// textDateSentOrig
 			// 
 			this.textDateSentOrig.AutoSize = false;
-			this.textDateSentOrig.Location = new System.Drawing.Point(124, 95);
+			this.textDateSentOrig.Location = new System.Drawing.Point(111, 77);
 			this.textDateSentOrig.Name = "textDateSentOrig";
 			this.textDateSentOrig.ReadOnly = true;
-			this.textDateSentOrig.Size = new System.Drawing.Size(80, 23);
+			this.textDateSentOrig.Size = new System.Drawing.Size(82, 20);
 			this.textDateSentOrig.TabIndex = 6;
 			// 
 			// textDateRec
 			// 
 			this.textDateRec.AutoSize = false;
-			this.textDateRec.Location = new System.Drawing.Point(124, 153);
+			this.textDateRec.Location = new System.Drawing.Point(111, 117);
 			this.textDateRec.Name = "textDateRec";
-			this.textDateRec.Size = new System.Drawing.Size(80, 23);
+			this.textDateRec.Size = new System.Drawing.Size(82, 20);
 			this.textDateRec.TabIndex = 7;
 			// 
 			// butPreview
@@ -3420,7 +3420,7 @@
 			this.butPreview.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butPreview.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Preview,17,16);
 			this.butPreview.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butPreview.Location = new System.Drawing.Point(250, 764);
+			this.butPreview.Location = new System.Drawing.Point(250, 665);
 			this.butPreview.Name = "butPreview";
 			this.butPreview.Size = new System.Drawing.Size(92, 24);
 			this.butPreview.TabIndex = 115;
@@ -3432,7 +3432,7 @@
 			this.butPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butPrint.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Print,16,16);
 			this.butPrint.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butPrint.Location = new System.Drawing.Point(347, 764);
+			this.butPrint.Location = new System.Drawing.Point(347, 665);
 			this.butPrint.Name = "butPrint";
 			this.butPrint.Size = new System.Drawing.Size(86, 24);
 			this.butPrint.TabIndex = 114;
@@ -3441,7 +3441,7 @@
 			// 
 			// butRecalc
 			// 
-			this.butRecalc.Location = new System.Drawing.Point(855, 422);
+			this.butRecalc.Location = new System.Drawing.Point(824, 361);
 			this.butRecalc.Name = "butRecalc";
 			this.butRecalc.Size = new System.Drawing.Size(148, 24);
 			this.butRecalc.TabIndex = 112;
@@ -3453,7 +3453,7 @@
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(8, 764);
+			this.butDelete.Location = new System.Drawing.Point(5, 665);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(91, 24);
 			this.butDelete.TabIndex = 106;
@@ -3463,9 +3463,9 @@
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(1182, 768);
+			this.butSave.Location = new System.Drawing.Point(1069, 665);
 			this.butSave.Name = "butSave";
-			this.butSave.Size = new System.Drawing.Size(75, 23);
+			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 14;
 			this.butSave.Text = "&Save";
 			this.butSave.Click += new System.EventHandler(this.butSave_Click);
@@ -3477,15 +3477,15 @@
 			this.groupBox3.Controls.Add(this.comboPatRelat2);
 			this.groupBox3.Controls.Add(this.label10);
 			this.groupBox3.Controls.Add(this.textPlan2);
-			this.groupBox3.Location = new System.Drawing.Point(546, 99);
+			this.groupBox3.Location = new System.Drawing.Point(531, 73);
 			this.groupBox3.Name = "groupBox3";
-			this.groupBox3.Size = new System.Drawing.Size(273, 111);
+			this.groupBox3.Size = new System.Drawing.Size(269, 85);
 			this.groupBox3.TabIndex = 111;
 			this.groupBox3.Text = "Other Coverage";
 			// 
 			// butOtherNone
 			// 
-			this.butOtherNone.Location = new System.Drawing.Point(200, 23);
+			this.butOtherNone.Location = new System.Drawing.Point(196, 9);
 			this.butOtherNone.Name = "butOtherNone";
 			this.butOtherNone.Size = new System.Drawing.Size(65, 22);
 			this.butOtherNone.TabIndex = 5;
@@ -3494,7 +3494,7 @@
 			// 
 			// butOtherCovChange
 			// 
-			this.butOtherCovChange.Location = new System.Drawing.Point(129, 23);
+			this.butOtherCovChange.Location = new System.Drawing.Point(129, 9);
 			this.butOtherCovChange.Name = "butOtherCovChange";
 			this.butOtherCovChange.Size = new System.Drawing.Size(65, 22);
 			this.butOtherCovChange.TabIndex = 4;
@@ -3503,26 +3503,25 @@
 			// 
 			// comboPatRelat2
 			// 
-			this.comboPatRelat2.Location = new System.Drawing.Point(90, 80);
+			this.comboPatRelat2.Location = new System.Drawing.Point(90, 57);
 			this.comboPatRelat2.Name = "comboPatRelat2";
-			this.comboPatRelat2.Size = new System.Drawing.Size(172, 23);
+			this.comboPatRelat2.Size = new System.Drawing.Size(173, 21);
 			this.comboPatRelat2.TabIndex = 3;
 			// 
 			// label10
 			// 
-			this.label10.Location = new System.Drawing.Point(8, 80);
-			this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.label10.Location = new System.Drawing.Point(6, 60);
 			this.label10.Name = "label10";
-			this.label10.Size = new System.Drawing.Size(76, 23);
+			this.label10.Size = new System.Drawing.Size(84, 17);
 			this.label10.TabIndex = 2;
 			this.label10.Text = "Relationship";
 			// 
 			// textPlan2
 			// 
-			this.textPlan2.Location = new System.Drawing.Point(8, 51);
+			this.textPlan2.Location = new System.Drawing.Point(8, 34);
 			this.textPlan2.Name = "textPlan2";
 			this.textPlan2.ReadOnly = true;
-			this.textPlan2.Size = new System.Drawing.Size(252, 23);
+			this.textPlan2.Size = new System.Drawing.Size(253, 20);
 			this.textPlan2.TabIndex = 1;
 			// 
 			// groupBox2
@@ -3530,131 +3529,130 @@
 			this.groupBox2.Controls.Add(this.comboPatRelat);
 			this.groupBox2.Controls.Add(this.label5);
 			this.groupBox2.Controls.Add(this.textPlan);
-			this.groupBox2.Location = new System.Drawing.Point(546, 8);
+			this.groupBox2.Location = new System.Drawing.Point(531, 2);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(270, 83);
+			this.groupBox2.Size = new System.Drawing.Size(269, 70);
 			this.groupBox2.TabIndex = 110;
 			this.groupBox2.Text = "Insurance Plan";
 			// 
 			// comboPatRelat
 			// 
-			this.comboPatRelat.Location = new System.Drawing.Point(90, 52);
+			this.comboPatRelat.Location = new System.Drawing.Point(90, 43);
 			this.comboPatRelat.Name = "comboPatRelat";
-			this.comboPatRelat.Size = new System.Drawing.Size(172, 23);
+			this.comboPatRelat.Size = new System.Drawing.Size(171, 21);
 			this.comboPatRelat.TabIndex = 3;
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(8, 52);
-			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.label5.Location = new System.Drawing.Point(6, 46);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(76, 23);
+			this.label5.Size = new System.Drawing.Size(85, 17);
 			this.label5.TabIndex = 2;
 			this.label5.Text = "Relationship";
 			// 
 			// textPlan
 			// 
-			this.textPlan.Location = new System.Drawing.Point(8, 23);
+			this.textPlan.Location = new System.Drawing.Point(8, 20);
 			this.textPlan.Name = "textPlan";
 			this.textPlan.ReadOnly = true;
-			this.textPlan.Size = new System.Drawing.Size(252, 23);
+			this.textPlan.Size = new System.Drawing.Size(253, 20);
 			this.textPlan.TabIndex = 1;
 			// 
 			// label9
 			// 
-			this.label9.Location = new System.Drawing.Point(33, 37);
+			this.label9.Location = new System.Drawing.Point(14, 39);
 			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(72, 23);
+			this.label9.Size = new System.Drawing.Size(95, 17);
 			this.label9.TabIndex = 109;
 			this.label9.Text = "Claim Type";
-			this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.label9.TextAlign = System.Drawing.ContentAlignment.TopRight;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(30, 8);
+			this.label2.Location = new System.Drawing.Point(8, 18);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(80, 23);
+			this.label2.Size = new System.Drawing.Size(100, 18);
 			this.label2.TabIndex = 104;
 			this.label2.Text = "Claim Status";
-			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.label2.TextAlign = System.Drawing.ContentAlignment.TopRight;
 			// 
 			// comboProvTreat
 			// 
-			this.comboProvTreat.Location = new System.Drawing.Point(360, 124);
+			this.comboProvTreat.Location = new System.Drawing.Point(351, 95);
 			this.comboProvTreat.Name = "comboProvTreat";
-			this.comboProvTreat.Size = new System.Drawing.Size(152, 23);
+			this.comboProvTreat.Size = new System.Drawing.Size(150, 21);
 			this.comboProvTreat.TabIndex = 99;
 			// 
 			// comboProvBill
 			// 
-			this.comboProvBill.Location = new System.Drawing.Point(354, 95);
+			this.comboProvBill.Location = new System.Drawing.Point(351, 74);
 			this.comboProvBill.Name = "comboProvBill";
-			this.comboProvBill.Size = new System.Drawing.Size(152, 23);
+			this.comboProvBill.Size = new System.Drawing.Size(150, 21);
 			this.comboProvBill.TabIndex = 97;
 			// 
 			// label21
 			// 
-			this.label21.Location = new System.Drawing.Point(250, 124);
+			this.label21.Location = new System.Drawing.Point(249, 98);
 			this.label21.Name = "label21";
-			this.label21.Size = new System.Drawing.Size(104, 23);
+			this.label21.Size = new System.Drawing.Size(102, 18);
 			this.label21.TabIndex = 93;
 			this.label21.Text = "Treating Provider";
-			this.label21.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.label21.TextAlign = System.Drawing.ContentAlignment.TopRight;
 			// 
 			// labelPredeterm
 			// 
-			this.labelPredeterm.Location = new System.Drawing.Point(233, 153);
+			this.labelPredeterm.Location = new System.Drawing.Point(214, 120);
 			this.labelPredeterm.Name = "labelPredeterm";
-			this.labelPredeterm.Size = new System.Drawing.Size(112, 23);
+			this.labelPredeterm.Size = new System.Drawing.Size(138, 16);
 			this.labelPredeterm.TabIndex = 11;
 			this.labelPredeterm.Text = "Predeterm Benefits";
-			this.labelPredeterm.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.labelPredeterm.TextAlign = System.Drawing.ContentAlignment.TopRight;
 			// 
 			// labelDateService
 			// 
-			this.labelDateService.Location = new System.Drawing.Point(30, 66);
+			this.labelDateService.Location = new System.Drawing.Point(3, 61);
 			this.labelDateService.Name = "labelDateService";
-			this.labelDateService.Size = new System.Drawing.Size(92, 23);
+			this.labelDateService.Size = new System.Drawing.Size(107, 16);
 			this.labelDateService.TabIndex = 8;
 			this.labelDateService.Text = "Date of Service";
-			this.labelDateService.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.labelDateService.TextAlign = System.Drawing.ContentAlignment.TopRight;
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(256, 95);
+			this.label3.Location = new System.Drawing.Point(256, 78);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(92, 23);
+			this.label3.Size = new System.Drawing.Size(94, 18);
 			this.label3.TabIndex = 2;
 			this.label3.Text = "Billing Provider";
-			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.label3.TextAlign = System.Drawing.ContentAlignment.TopRight;
 			// 
 			// label1
 			// 
 			this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label1.Location = new System.Drawing.Point(386, 422);
+			this.label1.Location = new System.Drawing.Point(318, 366);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(44, 23);
+			this.label1.Size = new System.Drawing.Size(116, 18);
 			this.label1.TabIndex = 50;
 			this.label1.Text = "Totals";
-			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.label1.TextAlign = System.Drawing.ContentAlignment.TopRight;
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(30, 153);
+			this.label6.Location = new System.Drawing.Point(2, 120);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(88, 23);
+			this.label6.Size = new System.Drawing.Size(108, 16);
 			this.label6.TabIndex = 5;
 			this.label6.Text = "Date Received";
-			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.label6.TextAlign = System.Drawing.ContentAlignment.TopRight;
 			// 
 			// label8
 			// 
-			this.label8.Location = new System.Drawing.Point(30, 95);
+			this.label8.Location = new System.Drawing.Point(5, 80);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(88, 23);
+			this.label8.Size = new System.Drawing.Size(104, 18);
 			this.label8.TabIndex = 7;
 			this.label8.Text = "Date Orig Sent";
-			this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.label8.TextAlign = System.Drawing.ContentAlignment.TopRight;
 			// 
 			// _recalcErrorProvider
 			// 
@@ -3662,21 +3660,21 @@
 			// 
 			// comboClaimStatus
 			// 
-			this.comboClaimStatus.Location = new System.Drawing.Point(116, 8);
+			this.comboClaimStatus.Location = new System.Drawing.Point(111, 15);
 			this.comboClaimStatus.Name = "comboClaimStatus";
-			this.comboClaimStatus.Size = new System.Drawing.Size(152, 23);
+			this.comboClaimStatus.Size = new System.Drawing.Size(150, 21);
 			this.comboClaimStatus.TabIndex = 267;
 			this.comboClaimStatus.SelectionChangeCommitted += new System.EventHandler(this.comboClaimStatus_SelectionChangeCommitted);
 			// 
 			// textPatResp
 			// 
 			this.textPatResp.AutoSize = false;
-			this.textPatResp.Location = new System.Drawing.Point(776, 422);
+			this.textPatResp.Location = new System.Drawing.Point(746, 363);
 			this.textPatResp.MaxVal = 100000000D;
 			this.textPatResp.MinVal = -100000000D;
 			this.textPatResp.Name = "textPatResp";
 			this.textPatResp.ReadOnly = true;
-			this.textPatResp.Size = new System.Drawing.Size(64, 23);
+			this.textPatResp.Size = new System.Drawing.Size(63, 20);
 			this.textPatResp.TabIndex = 268;
 			this.textPatResp.TabStop = false;
 			this.textPatResp.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -3685,15 +3683,15 @@
 			// 
 			this.groupBoxPendingPayment.Controls.Add(this.butInsuranceOverpaid);
 			this.groupBoxPendingPayment.Controls.Add(this.butInsuranceUnderpaid);
-			this.groupBoxPendingPayment.Location = new System.Drawing.Point(955, 8);
+			this.groupBoxPendingPayment.Location = new System.Drawing.Point(944, 12);
 			this.groupBoxPendingPayment.Name = "groupBoxPendingPayment";
-			this.groupBoxPendingPayment.Size = new System.Drawing.Size(117, 85);
+			this.groupBoxPendingPayment.Size = new System.Drawing.Size(117, 81);
 			this.groupBoxPendingPayment.TabIndex = 133;
 			this.groupBoxPendingPayment.Text = "Pending Payment";
 			// 
 			// butInsuranceOverpaid
 			// 
-			this.butInsuranceOverpaid.Location = new System.Drawing.Point(17, 23);
+			this.butInsuranceOverpaid.Location = new System.Drawing.Point(17, 16);
 			this.butInsuranceOverpaid.Name = "butInsuranceOverpaid";
 			this.butInsuranceOverpaid.Size = new System.Drawing.Size(85, 24);
 			this.butInsuranceOverpaid.TabIndex = 100;
@@ -3702,7 +3700,7 @@
 			// 
 			// butInsuranceUnderpaid
 			// 
-			this.butInsuranceUnderpaid.Location = new System.Drawing.Point(17, 53);
+			this.butInsuranceUnderpaid.Location = new System.Drawing.Point(17, 42);
 			this.butInsuranceUnderpaid.Name = "butInsuranceUnderpaid";
 			this.butInsuranceUnderpaid.Size = new System.Drawing.Size(85, 24);
 			this.butInsuranceUnderpaid.TabIndex = 101;
@@ -3711,7 +3709,7 @@
 			// 
 			// warningIntegrity
 			// 
-			this.warningIntegrity.Location = new System.Drawing.Point(8, 8);
+			this.warningIntegrity.Location = new System.Drawing.Point(2, 2);
 			this.warningIntegrity.Name = "warningIntegrity";
 			this.warningIntegrity.Size = new System.Drawing.Size(18, 18);
 			this.warningIntegrity.TabIndex = 269;
@@ -3719,7 +3717,7 @@
 			// FormClaimEdit
 			// 
 			this.AutoScroll = true;
-			this.ClientSize = new System.Drawing.Size(1265, 804);
+			this.ClientSize = new System.Drawing.Size(1156, 696);
 			this.Controls.Add(this.warningIntegrity);
 			this.Controls.Add(this.groupBoxPendingPayment);
 			this.Controls.Add(this.textPatResp);

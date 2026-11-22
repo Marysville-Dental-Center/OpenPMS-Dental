@@ -69,30 +69,30 @@ namespace OpenPmsDental {
 			// 
 			// checkBoxRxClinicUseSelected
 			// 
-			this.checkBoxRxClinicUseSelected.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkBoxRxClinicUseSelected.Location = new System.Drawing.Point(8, 628);
+			this.checkBoxRxClinicUseSelected.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkBoxRxClinicUseSelected.Location = new System.Drawing.Point(3, 487);
 			this.checkBoxRxClinicUseSelected.Name = "checkBoxRxClinicUseSelected";
-			this.checkBoxRxClinicUseSelected.Size = new System.Drawing.Size(466, 20);
+			this.checkBoxRxClinicUseSelected.Size = new System.Drawing.Size(464, 18);
 			this.checkBoxRxClinicUseSelected.TabIndex = 237;
 			this.checkBoxRxClinicUseSelected.Text = "Rx use selected clinic from Clinics menu instead of selected patient\'s default cl" +
     "inic";
 			// 
 			// checkChartOrthoTabAutomaticCheckboxes
 			// 
-			this.checkChartOrthoTabAutomaticCheckboxes.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkChartOrthoTabAutomaticCheckboxes.Location = new System.Drawing.Point(8, 652);
+			this.checkChartOrthoTabAutomaticCheckboxes.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkChartOrthoTabAutomaticCheckboxes.Location = new System.Drawing.Point(84, 506);
 			this.checkChartOrthoTabAutomaticCheckboxes.Name = "checkChartOrthoTabAutomaticCheckboxes";
-			this.checkChartOrthoTabAutomaticCheckboxes.Size = new System.Drawing.Size(478, 40);
+			this.checkChartOrthoTabAutomaticCheckboxes.Size = new System.Drawing.Size(410, 31);
 			this.checkChartOrthoTabAutomaticCheckboxes.TabIndex = 253;
 			this.checkChartOrthoTabAutomaticCheckboxes.Text = "Automatically check and uncheck ortho mode and show grid checkboxes based on sele" +
     "ction of Ortho tab ";
 			//
 			// checkToothChartShowCompletedExtractions
 			//
-			this.checkToothChartShowCompletedExtractions.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkToothChartShowCompletedExtractions.Location = new System.Drawing.Point(8, 696);
+			this.checkToothChartShowCompletedExtractions.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkToothChartShowCompletedExtractions.Location = new System.Drawing.Point(84, 541);
 			this.checkToothChartShowCompletedExtractions.Name = "checkToothChartShowCompletedExtractions";
-			this.checkToothChartShowCompletedExtractions.Size = new System.Drawing.Size(333, 20);
+			this.checkToothChartShowCompletedExtractions.Size = new System.Drawing.Size(376, 18);
 			this.checkToothChartShowCompletedExtractions.TabIndex = 254;
 			this.checkToothChartShowCompletedExtractions.Text = "Show completed extractions with an X on the tooth chart";
 			//
@@ -108,62 +108,62 @@ namespace OpenPmsDental {
 			this.groupBoxFunctionality.Controls.Add(this.checkIsAlertRadiologyProcsEnabled);
 			this.groupBoxFunctionality.Controls.Add(this.label11);
 			this.groupBoxFunctionality.Controls.Add(this.checkScreeningsUseSheets);
-			this.groupBoxFunctionality.Location = new System.Drawing.Point(8, 406);
+			this.groupBoxFunctionality.Location = new System.Drawing.Point(20, 313);
 			this.groupBoxFunctionality.Name = "groupBoxFunctionality";
-			this.groupBoxFunctionality.Size = new System.Drawing.Size(478, 214);
+			this.groupBoxFunctionality.Size = new System.Drawing.Size(450, 170);
 			this.groupBoxFunctionality.TabIndex = 252;
 			this.groupBoxFunctionality.Text = "Functionality";
 			// 
 			// comboProcCodeListSort
 			// 
 			this.comboProcCodeListSort.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.comboProcCodeListSort.Location = new System.Drawing.Point(185, 183);
+			this.comboProcCodeListSort.Location = new System.Drawing.Point(185, 139);
 			this.comboProcCodeListSort.Name = "comboProcCodeListSort";
-			this.comboProcCodeListSort.Size = new System.Drawing.Size(256, 23);
+			this.comboProcCodeListSort.Size = new System.Drawing.Size(255, 21);
 			this.comboProcCodeListSort.TabIndex = 246;
 			// 
 			// comboToothNomenclature
 			// 
 			this.comboToothNomenclature.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.comboToothNomenclature.Location = new System.Drawing.Point(185, 128);
+			this.comboToothNomenclature.Location = new System.Drawing.Point(185, 95);
 			this.comboToothNomenclature.Name = "comboToothNomenclature";
-			this.comboToothNomenclature.Size = new System.Drawing.Size(256, 23);
+			this.comboToothNomenclature.Size = new System.Drawing.Size(255, 21);
 			this.comboToothNomenclature.TabIndex = 241;
 			// 
 			// textMedDefaultStopDays
 			// 
 			this.textMedDefaultStopDays.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.textMedDefaultStopDays.Location = new System.Drawing.Point(401, 49);
+			this.textMedDefaultStopDays.Location = new System.Drawing.Point(401, 31);
 			this.textMedDefaultStopDays.Name = "textMedDefaultStopDays";
-			this.textMedDefaultStopDays.Size = new System.Drawing.Size(40, 23);
+			this.textMedDefaultStopDays.Size = new System.Drawing.Size(39, 20);
 			this.textMedDefaultStopDays.TabIndex = 232;
 			// 
 			// checkAutoClearEntryStatus
 			// 
 			this.checkAutoClearEntryStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkAutoClearEntryStatus.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkAutoClearEntryStatus.Location = new System.Drawing.Point(8, 102);
+			this.checkAutoClearEntryStatus.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkAutoClearEntryStatus.Location = new System.Drawing.Point(15, 76);
 			this.checkAutoClearEntryStatus.Name = "checkAutoClearEntryStatus";
-			this.checkAutoClearEntryStatus.Size = new System.Drawing.Size(328, 20);
+			this.checkAutoClearEntryStatus.Size = new System.Drawing.Size(425, 18);
 			this.checkAutoClearEntryStatus.TabIndex = 240;
 			this.checkAutoClearEntryStatus.Text = "Reset entry status to \'TreatPlan\' when switching patients";
 			// 
 			// checkProvColorChart
 			// 
 			this.checkProvColorChart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkProvColorChart.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkProvColorChart.Location = new System.Drawing.Point(8, 157);
+			this.checkProvColorChart.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkProvColorChart.Location = new System.Drawing.Point(145, 120);
 			this.checkProvColorChart.Name = "checkProvColorChart";
-			this.checkProvColorChart.Size = new System.Drawing.Size(167, 20);
+			this.checkProvColorChart.Size = new System.Drawing.Size(295, 18);
 			this.checkProvColorChart.TabIndex = 243;
 			this.checkProvColorChart.Text = "Use provider color in chart";
 			// 
 			// label32
 			// 
 			this.label32.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.label32.Location = new System.Drawing.Point(39, 183);
+			this.label32.Location = new System.Drawing.Point(50, 142);
 			this.label32.Name = "label32";
-			this.label32.Size = new System.Drawing.Size(140, 23);
+			this.label32.Size = new System.Drawing.Size(135, 17);
 			this.label32.TabIndex = 247;
 			this.label32.Text = "Procedure Code List sort";
 			this.label32.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -171,9 +171,9 @@ namespace OpenPmsDental {
 			// labelToothNomenclature
 			// 
 			this.labelToothNomenclature.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelToothNomenclature.Location = new System.Drawing.Point(55, 128);
+			this.labelToothNomenclature.Location = new System.Drawing.Point(72, 97);
 			this.labelToothNomenclature.Name = "labelToothNomenclature";
-			this.labelToothNomenclature.Size = new System.Drawing.Size(124, 23);
+			this.labelToothNomenclature.Size = new System.Drawing.Size(113, 17);
 			this.labelToothNomenclature.TabIndex = 242;
 			this.labelToothNomenclature.Text = "Tooth Nomenclature";
 			this.labelToothNomenclature.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -181,19 +181,19 @@ namespace OpenPmsDental {
 			// checkIsAlertRadiologyProcsEnabled
 			// 
 			this.checkIsAlertRadiologyProcsEnabled.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkIsAlertRadiologyProcsEnabled.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkIsAlertRadiologyProcsEnabled.Location = new System.Drawing.Point(8, 78);
+			this.checkIsAlertRadiologyProcsEnabled.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkIsAlertRadiologyProcsEnabled.Location = new System.Drawing.Point(6, 55);
 			this.checkIsAlertRadiologyProcsEnabled.Name = "checkIsAlertRadiologyProcsEnabled";
-			this.checkIsAlertRadiologyProcsEnabled.Size = new System.Drawing.Size(416, 20);
+			this.checkIsAlertRadiologyProcsEnabled.Size = new System.Drawing.Size(434, 18);
 			this.checkIsAlertRadiologyProcsEnabled.TabIndex = 238;
 			this.checkIsAlertRadiologyProcsEnabled.Text = "OpenDentalService alerts for scheduled non-CPOE radiology procedures";
 			// 
 			// label11
 			// 
 			this.label11.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.label11.Location = new System.Drawing.Point(143, 49);
+			this.label11.Location = new System.Drawing.Point(39, 33);
 			this.label11.Name = "label11";
-			this.label11.Size = new System.Drawing.Size(252, 23);
+			this.label11.Size = new System.Drawing.Size(361, 17);
 			this.label11.TabIndex = 234;
 			this.label11.Text = "Medication Order default days until stop date";
 			this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -201,10 +201,10 @@ namespace OpenPmsDental {
 			// checkScreeningsUseSheets
 			// 
 			this.checkScreeningsUseSheets.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkScreeningsUseSheets.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkScreeningsUseSheets.Location = new System.Drawing.Point(8, 23);
+			this.checkScreeningsUseSheets.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkScreeningsUseSheets.Location = new System.Drawing.Point(140, 10);
 			this.checkScreeningsUseSheets.Name = "checkScreeningsUseSheets";
-			this.checkScreeningsUseSheets.Size = new System.Drawing.Size(143, 20);
+			this.checkScreeningsUseSheets.Size = new System.Drawing.Size(300, 18);
 			this.checkScreeningsUseSheets.TabIndex = 235;
 			this.checkScreeningsUseSheets.Text = "Screenings use Sheets";
 			// 
@@ -212,29 +212,29 @@ namespace OpenPmsDental {
 			// 
 			this.groupBoxPerio.Controls.Add(this.checkPerioSkipMissingTeeth);
 			this.groupBoxPerio.Controls.Add(this.checkPerioTreatImplantsAsNotMissing);
-			this.groupBoxPerio.Location = new System.Drawing.Point(8, 323);
+			this.groupBoxPerio.Location = new System.Drawing.Point(20, 255);
 			this.groupBoxPerio.Name = "groupBoxPerio";
-			this.groupBoxPerio.Size = new System.Drawing.Size(478, 75);
+			this.groupBoxPerio.Size = new System.Drawing.Size(450, 54);
 			this.groupBoxPerio.TabIndex = 251;
 			this.groupBoxPerio.Text = "Perio";
 			// 
 			// checkPerioSkipMissingTeeth
 			// 
 			this.checkPerioSkipMissingTeeth.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkPerioSkipMissingTeeth.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkPerioSkipMissingTeeth.Location = new System.Drawing.Point(8, 23);
+			this.checkPerioSkipMissingTeeth.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkPerioSkipMissingTeeth.Location = new System.Drawing.Point(145, 10);
 			this.checkPerioSkipMissingTeeth.Name = "checkPerioSkipMissingTeeth";
-			this.checkPerioSkipMissingTeeth.Size = new System.Drawing.Size(229, 20);
+			this.checkPerioSkipMissingTeeth.Size = new System.Drawing.Size(295, 18);
 			this.checkPerioSkipMissingTeeth.TabIndex = 244;
 			this.checkPerioSkipMissingTeeth.Text = "Perio exams always skip missing teeth";
 			// 
 			// checkPerioTreatImplantsAsNotMissing
 			// 
 			this.checkPerioTreatImplantsAsNotMissing.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkPerioTreatImplantsAsNotMissing.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkPerioTreatImplantsAsNotMissing.Location = new System.Drawing.Point(8, 47);
+			this.checkPerioTreatImplantsAsNotMissing.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkPerioTreatImplantsAsNotMissing.Location = new System.Drawing.Point(145, 31);
 			this.checkPerioTreatImplantsAsNotMissing.Name = "checkPerioTreatImplantsAsNotMissing";
-			this.checkPerioTreatImplantsAsNotMissing.Size = new System.Drawing.Size(248, 20);
+			this.checkPerioTreatImplantsAsNotMissing.Size = new System.Drawing.Size(295, 18);
 			this.checkPerioTreatImplantsAsNotMissing.TabIndex = 245;
 			this.checkPerioTreatImplantsAsNotMissing.Text = "Perio exams treat implants as not missing";
 			// 
@@ -242,29 +242,29 @@ namespace OpenPmsDental {
 			// 
 			this.groupBoxAppointments.Controls.Add(this.checkChartNonPatientWarn);
 			this.groupBoxAppointments.Controls.Add(this.checkShowPlannedApptPrompt);
-			this.groupBoxAppointments.Location = new System.Drawing.Point(8, 240);
+			this.groupBoxAppointments.Location = new System.Drawing.Point(20, 193);
 			this.groupBoxAppointments.Name = "groupBoxAppointments";
-			this.groupBoxAppointments.Size = new System.Drawing.Size(478, 75);
+			this.groupBoxAppointments.Size = new System.Drawing.Size(450, 58);
 			this.groupBoxAppointments.TabIndex = 250;
 			this.groupBoxAppointments.Text = "Appointments";
 			// 
 			// checkChartNonPatientWarn
 			// 
 			this.checkChartNonPatientWarn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkChartNonPatientWarn.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkChartNonPatientWarn.Location = new System.Drawing.Point(8, 23);
+			this.checkChartNonPatientWarn.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkChartNonPatientWarn.Location = new System.Drawing.Point(105, 10);
 			this.checkChartNonPatientWarn.Name = "checkChartNonPatientWarn";
-			this.checkChartNonPatientWarn.Size = new System.Drawing.Size(136, 20);
+			this.checkChartNonPatientWarn.Size = new System.Drawing.Size(335, 18);
 			this.checkChartNonPatientWarn.TabIndex = 230;
 			this.checkChartNonPatientWarn.Text = "Non-Patient warning";
 			// 
 			// checkShowPlannedApptPrompt
 			// 
 			this.checkShowPlannedApptPrompt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkShowPlannedApptPrompt.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkShowPlannedApptPrompt.Location = new System.Drawing.Point(8, 47);
+			this.checkShowPlannedApptPrompt.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkShowPlannedApptPrompt.Location = new System.Drawing.Point(104, 31);
 			this.checkShowPlannedApptPrompt.Name = "checkShowPlannedApptPrompt";
-			this.checkShowPlannedApptPrompt.Size = new System.Drawing.Size(205, 20);
+			this.checkShowPlannedApptPrompt.Size = new System.Drawing.Size(336, 18);
 			this.checkShowPlannedApptPrompt.TabIndex = 239;
 			this.checkShowPlannedApptPrompt.Text = "Prompt for Planned Appointment";
 			// 
@@ -279,45 +279,45 @@ namespace OpenPmsDental {
 			this.groupBoxMedicalHistory.Controls.Add(this.butProblemsIndicateNone);
 			this.groupBoxMedicalHistory.Controls.Add(this.butAllergiesIndicateNone);
 			this.groupBoxMedicalHistory.Controls.Add(this.butMedicationsIndicateNone);
-			this.groupBoxMedicalHistory.Location = new System.Drawing.Point(8, 8);
+			this.groupBoxMedicalHistory.Location = new System.Drawing.Point(20, 10);
 			this.groupBoxMedicalHistory.Name = "groupBoxMedicalHistory";
-			this.groupBoxMedicalHistory.Size = new System.Drawing.Size(478, 112);
+			this.groupBoxMedicalHistory.Size = new System.Drawing.Size(450, 93);
 			this.groupBoxMedicalHistory.TabIndex = 232;
 			this.groupBoxMedicalHistory.Text = "EHR Medical History";
 			// 
 			// textProblemsIndicateNone
 			// 
 			this.textProblemsIndicateNone.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.textProblemsIndicateNone.Location = new System.Drawing.Point(265, 23);
+			this.textProblemsIndicateNone.Location = new System.Drawing.Point(265, 15);
 			this.textProblemsIndicateNone.Name = "textProblemsIndicateNone";
 			this.textProblemsIndicateNone.ReadOnly = true;
-			this.textProblemsIndicateNone.Size = new System.Drawing.Size(144, 23);
+			this.textProblemsIndicateNone.Size = new System.Drawing.Size(146, 20);
 			this.textProblemsIndicateNone.TabIndex = 219;
 			// 
 			// textMedicationsIndicateNone
 			// 
 			this.textMedicationsIndicateNone.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.textMedicationsIndicateNone.Location = new System.Drawing.Point(265, 52);
+			this.textMedicationsIndicateNone.Location = new System.Drawing.Point(265, 39);
 			this.textMedicationsIndicateNone.Name = "textMedicationsIndicateNone";
 			this.textMedicationsIndicateNone.ReadOnly = true;
-			this.textMedicationsIndicateNone.Size = new System.Drawing.Size(144, 23);
+			this.textMedicationsIndicateNone.Size = new System.Drawing.Size(146, 20);
 			this.textMedicationsIndicateNone.TabIndex = 222;
 			// 
 			// textAllergiesIndicateNone
 			// 
 			this.textAllergiesIndicateNone.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.textAllergiesIndicateNone.Location = new System.Drawing.Point(265, 81);
+			this.textAllergiesIndicateNone.Location = new System.Drawing.Point(265, 63);
 			this.textAllergiesIndicateNone.Name = "textAllergiesIndicateNone";
 			this.textAllergiesIndicateNone.ReadOnly = true;
-			this.textAllergiesIndicateNone.Size = new System.Drawing.Size(144, 23);
+			this.textAllergiesIndicateNone.Size = new System.Drawing.Size(146, 20);
 			this.textAllergiesIndicateNone.TabIndex = 226;
 			// 
 			// label8
 			// 
 			this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.label8.Location = new System.Drawing.Point(67, 23);
+			this.label8.Location = new System.Drawing.Point(64, 18);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(192, 23);
+			this.label8.Size = new System.Drawing.Size(200, 17);
 			this.label8.TabIndex = 218;
 			this.label8.Text = "Indicator patient has no problems";
 			this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -325,9 +325,9 @@ namespace OpenPmsDental {
 			// label9
 			// 
 			this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.label9.Location = new System.Drawing.Point(55, 52);
+			this.label9.Location = new System.Drawing.Point(55, 42);
 			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(204, 23);
+			this.label9.Size = new System.Drawing.Size(209, 17);
 			this.label9.TabIndex = 221;
 			this.label9.Text = "Indicator patient has no medications";
 			this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -335,16 +335,16 @@ namespace OpenPmsDental {
 			// label14
 			// 
 			this.label14.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.label14.Location = new System.Drawing.Point(75, 81);
+			this.label14.Location = new System.Drawing.Point(55, 66);
 			this.label14.Name = "label14";
-			this.label14.Size = new System.Drawing.Size(184, 23);
+			this.label14.Size = new System.Drawing.Size(209, 17);
 			this.label14.TabIndex = 225;
 			this.label14.Text = "Indicator patient has no allergies";
 			this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// butProblemsIndicateNone
 			// 
-			this.butProblemsIndicateNone.Location = new System.Drawing.Point(419, 23);
+			this.butProblemsIndicateNone.Location = new System.Drawing.Point(419, 15);
 			this.butProblemsIndicateNone.Name = "butProblemsIndicateNone";
 			this.butProblemsIndicateNone.Size = new System.Drawing.Size(21, 21);
 			this.butProblemsIndicateNone.TabIndex = 220;
@@ -353,7 +353,7 @@ namespace OpenPmsDental {
 			// 
 			// butAllergiesIndicateNone
 			// 
-			this.butAllergiesIndicateNone.Location = new System.Drawing.Point(419, 81);
+			this.butAllergiesIndicateNone.Location = new System.Drawing.Point(419, 63);
 			this.butAllergiesIndicateNone.Name = "butAllergiesIndicateNone";
 			this.butAllergiesIndicateNone.Size = new System.Drawing.Size(21, 21);
 			this.butAllergiesIndicateNone.TabIndex = 227;
@@ -362,7 +362,7 @@ namespace OpenPmsDental {
 			// 
 			// butMedicationsIndicateNone
 			// 
-			this.butMedicationsIndicateNone.Location = new System.Drawing.Point(419, 52);
+			this.butMedicationsIndicateNone.Location = new System.Drawing.Point(419, 39);
 			this.butMedicationsIndicateNone.Name = "butMedicationsIndicateNone";
 			this.butMedicationsIndicateNone.Size = new System.Drawing.Size(21, 21);
 			this.butMedicationsIndicateNone.TabIndex = 223;
@@ -376,37 +376,37 @@ namespace OpenPmsDental {
 			this.groupBoxMedicalCodes.Controls.Add(this.checkDxIcdVersion);
 			this.groupBoxMedicalCodes.Controls.Add(this.labelIcdCodeDefault);
 			this.groupBoxMedicalCodes.Controls.Add(this.butDiagnosisCode);
-			this.groupBoxMedicalCodes.Location = new System.Drawing.Point(8, 128);
+			this.groupBoxMedicalCodes.Location = new System.Drawing.Point(20, 107);
 			this.groupBoxMedicalCodes.Name = "groupBoxMedicalCodes";
-			this.groupBoxMedicalCodes.Size = new System.Drawing.Size(479, 104);
+			this.groupBoxMedicalCodes.Size = new System.Drawing.Size(450, 82);
 			this.groupBoxMedicalCodes.TabIndex = 249;
 			this.groupBoxMedicalCodes.Text = "Medical Codes";
 			// 
 			// textICD9DefaultForNewProcs
 			// 
 			this.textICD9DefaultForNewProcs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.textICD9DefaultForNewProcs.Location = new System.Drawing.Point(362, 73);
+			this.textICD9DefaultForNewProcs.Location = new System.Drawing.Point(332, 52);
 			this.textICD9DefaultForNewProcs.Name = "textICD9DefaultForNewProcs";
-			this.textICD9DefaultForNewProcs.Size = new System.Drawing.Size(84, 23);
+			this.textICD9DefaultForNewProcs.Size = new System.Drawing.Size(85, 20);
 			this.textICD9DefaultForNewProcs.TabIndex = 229;
 			// 
 			// checkMedicalFeeUsedForNewProcs
 			// 
 			this.checkMedicalFeeUsedForNewProcs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkMedicalFeeUsedForNewProcs.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkMedicalFeeUsedForNewProcs.Location = new System.Drawing.Point(8, 23);
+			this.checkMedicalFeeUsedForNewProcs.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkMedicalFeeUsedForNewProcs.Location = new System.Drawing.Point(140, 10);
 			this.checkMedicalFeeUsedForNewProcs.Name = "checkMedicalFeeUsedForNewProcs";
-			this.checkMedicalFeeUsedForNewProcs.Size = new System.Drawing.Size(218, 20);
+			this.checkMedicalFeeUsedForNewProcs.Size = new System.Drawing.Size(300, 18);
 			this.checkMedicalFeeUsedForNewProcs.TabIndex = 228;
 			this.checkMedicalFeeUsedForNewProcs.Text = "Use medical fee for new procedures";
 			// 
 			// checkDxIcdVersion
 			// 
 			this.checkDxIcdVersion.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkDxIcdVersion.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkDxIcdVersion.Location = new System.Drawing.Point(8, 47);
+			this.checkDxIcdVersion.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkDxIcdVersion.Location = new System.Drawing.Point(104, 31);
 			this.checkDxIcdVersion.Name = "checkDxIcdVersion";
-			this.checkDxIcdVersion.Size = new System.Drawing.Size(178, 20);
+			this.checkDxIcdVersion.Size = new System.Drawing.Size(336, 18);
 			this.checkDxIcdVersion.TabIndex = 231;
 			this.checkDxIcdVersion.Text = "Use ICD-10 Diagnosis Codes";
 			this.checkDxIcdVersion.Click += new System.EventHandler(this.checkDxIcdVersion_Click);
@@ -414,16 +414,16 @@ namespace OpenPmsDental {
 			// labelIcdCodeDefault
 			// 
 			this.labelIcdCodeDefault.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelIcdCodeDefault.Location = new System.Drawing.Point(8, 73);
+			this.labelIcdCodeDefault.Location = new System.Drawing.Point(3, 55);
 			this.labelIcdCodeDefault.Name = "labelIcdCodeDefault";
-			this.labelIcdCodeDefault.Size = new System.Drawing.Size(348, 23);
+			this.labelIcdCodeDefault.Size = new System.Drawing.Size(329, 17);
 			this.labelIcdCodeDefault.TabIndex = 224;
 			this.labelIcdCodeDefault.Text = "Default ICD-10 code for new procedures and when set complete";
 			this.labelIcdCodeDefault.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// butDiagnosisCode
 			// 
-			this.butDiagnosisCode.Location = new System.Drawing.Point(450, 73);
+			this.butDiagnosisCode.Location = new System.Drawing.Point(420, 52);
 			this.butDiagnosisCode.Name = "butDiagnosisCode";
 			this.butDiagnosisCode.Size = new System.Drawing.Size(21, 21);
 			this.butDiagnosisCode.TabIndex = 233;
@@ -443,7 +443,7 @@ namespace OpenPmsDental {
 			this.Controls.Add(this.groupBoxMedicalCodes);
 			this.Controls.Add(this.checkBoxRxClinicUseSelected);
 			this.Name = "UserControlChartGeneral";
-			this.Size = new System.Drawing.Size(494, 724);
+			this.Size = new System.Drawing.Size(494, 660);
 			this.groupBoxFunctionality.ResumeLayout(false);
 			this.groupBoxFunctionality.PerformLayout();
 			this.groupBoxPerio.ResumeLayout(false);

@@ -32,7 +32,7 @@ GRID = {
     "list_gap": 4,            # between consecutive check boxes or radio buttons
     "caption_gap": 2,         # a caption label above the control it names
     "section_gap": 12,        # rows that were clearly apart (a gap of section_from or more) stay apart by this
-    "section_from": 14,
+    "section_from": 12,       # not above section_gap: a gap the grid made stays what it is on the next run
     "sibling_gap": 8,         # between containers side by side or stacked
     "item_gap": 6,            # between items of one row (a field and its button or its unit label)
     "band_gap": 16,           # between two label + field bands of one row
@@ -584,6 +584,23 @@ class Layout:
             cursor = r + GRID["sibling_gap"] + GRID["band_gap"]
             rights.append(r)
             bottoms.append(b)
+        # Columns of containers only, the same number in each: the i-th containers of the columns form a row, with one top and one height.
+        cols = []
+        for k in kids:
+            its = sorted(k.items, key=lambda i: i.ny)
+            if not its or any(getattr(i, "kind", "") not in ("group", "panel") or i.fixed or not i.editable for i in its):
+                cols = []
+                break
+            cols.append(its)
+        if len(cols) >= 2 and len({len(c) for c in cols}) == 1:
+            top = min(c[0].ny for c in cols)
+            for row in zip(*cols):
+                hmax = max(n.nh for n in row)
+                for n in row:
+                    self.set_loc(n, n.nx, top, "containers in a row across columns: one top")
+                    self.set_size(n, n.nw, hmax, "containers in a row across columns: one height")
+                top += hmax + GRID["sibling_gap"]
+            return max(rights), top - GRID["sibling_gap"]
         # Containers side by side in a row get one height.
         if len(containers) >= 2 and len(containers) == len(kids):
             nodes = [k.items[0] for k in containers]
@@ -767,6 +784,13 @@ class Layout:
                 self.set_size(m, w, self.item_height(m, True), "single-line field: the standard height, width on the 4 px grid")
             elif m.kind == "button" and field_row and not m.fixed:
                 self.set_size(m, m.nw, self.item_height(m, True), "button in a field row: the field height")
+            elif m.kind == "label" and not m.fixed and u.label is None and m.text_w and m.text_w + 4 > m.nw and m.nh > (m.text_h or 16) + 6:
+                # A note that wraps: as tall as its lines (a label whose last line was cut under the next row).
+                lines = wrapped_lines(m.text_w, max(20, m.nw - 4))
+                need = lines * (m.text_h or 16) + 2
+                if need > m.nh:
+                    self.set_size(m, m.nw, need, "label: as tall as its wrapped lines")
+                    h_row = max(h_row, need)
             elif m.kind == "label" and not m.fixed:
                 if m.text_w and m.text_w + 4 > m.nw and m.nw < right - x:
                     self.set_size(m, min(label_width(m), right - x), max(m.nh, self.item_height(m, field_row)), "label: its text fits")
@@ -823,7 +847,8 @@ class Planner:
         self.unplaced = []
 
     def measure(self, tree):
-        hs = [n.pref_h for n in walk(tree) if n.type == "System.Windows.Forms.TextBox" and n.pref_h > 0 and not n.multiline]
+        # A bordered single-line text box's own height at the program's font (a borderless box, 16 px, is not a field's height).
+        hs = [n.pref_h for n in walk(tree) if n.type == "System.Windows.Forms.TextBox" and n.pref_h >= 20 and not n.multiline]
         if hs:
             self.field_height = collections.Counter(hs).most_common(1)[0][0]
         ths = [n.text_h for n in walk(tree) if n.kind == "check" and n.text_h]
@@ -858,12 +883,75 @@ class Planner:
                 compared += 1
                 if loc != (n.x, n.y):
                     mismatched += 1
+        if SIMULATE:
+            compared = mismatched = 0
         if compared and mismatched > 0.3 * compared:
             self.unplaced.append((window, ".", "the control tree is not the build of the designer file (%d of %d locations differ): dump again" % (mismatched, compared)))
             for n in walk(tree):
                 n.editable = False
             return
-        self.layout_tree(tree, is_root=True, window=window)
+        # The rules run again on their own result until a pass changes nothing (at most MAX_PASSES): a cut of the laid-out window can
+        # find other rows than the cut of the drawn one, so one pass is not yet a fixed point. The plan is the last pass against the drawn
+        # window, so a plan made from the build of an applied plan is empty.
+        nodes = list(walk(tree))
+        orig = {id(n): (n.x, n.y, n.w, n.h, n.check_align, n.text_align, n.autosize) for n in nodes}
+        rules = {id(n): collections.OrderedDict() for n in nodes}
+        flags = {id(n): [None, None, False] for n in nodes}
+        for npass in range(MAX_PASSES):
+            unplaced_before = len(self.unplaced)
+            self.layout_tree(tree, is_root=True, window=window)
+            changed = False
+            for n in nodes:
+                for k, v in n.rule.items():
+                    rules[id(n)].setdefault(k, v)
+                fl = flags[id(n)]
+                if n.new_check_align:
+                    fl[0] = n.new_check_align
+                if n.new_text_align:
+                    fl[1] = n.new_text_align
+                fl[2] = fl[2] or n.autosize_off
+                new_state = (n.nx, n.ny, n.nw, n.nh, n.new_check_align or n.check_align, n.new_text_align or n.text_align)
+                if new_state != (n.x, n.y, n.w, n.h, n.check_align, n.text_align):
+                    changed = True
+                n.x, n.y, n.w, n.h = n.nx, n.ny, n.nw, n.nh
+                n.check_align = new_state[4]
+                n.text_align = new_state[5]
+                n.new_check_align = None
+                n.new_text_align = None
+                n.autosize = n.autosize and not n.autosize_off
+                n.rule = collections.OrderedDict()
+                n.spanned = False
+            if not changed:
+                break
+            if npass < MAX_PASSES - 1:
+                del self.unplaced[unplaced_before:]
+        else:
+            self.unplaced.append((window, ".", "no fixed point after %d passes: the last pass is planned" % MAX_PASSES))
+        for n in nodes:
+            ox, oy, ow, oh, ocheck, otext, oauto = orig[id(n)]
+            n.x, n.y, n.w, n.h = ox, oy, ow, oh
+            n.new_check_align = flags[id(n)][0] if flags[id(n)][0] and flags[id(n)][0] != ocheck else None
+            n.new_text_align = flags[id(n)][1] if flags[id(n)][1] and flags[id(n)][1] != otext else None
+            n.check_align, n.text_align, n.autosize = ocheck, otext, oauto
+            n.autosize_off = flags[id(n)][2]
+            n.rule = rules[id(n)]
+            if (n.nx, n.ny) != (n.x, n.y):
+                n.rule.setdefault("Location", "row: on the grid")
+            if (n.nw, n.nh) != (n.w, n.h):
+                n.rule.setdefault("Size", "container: its content and padding")
+            if n.new_check_align:
+                n.rule.setdefault("CheckAlign", "check box: the box on the left of its text")
+            if n.new_text_align:
+                n.rule.setdefault("TextAlign", "label: right-aligned, centred on its field")
+        # Every check box of a laid-out window has its box on the left, also where the grid keeps the container or the control as drawn
+        # (its bounds stay; the text follows the box inside them).
+        for n in walk(tree):
+            if (n.kind in ("check", "radio") and n.editable and n.text_w and n.check_align == "MiddleRight" and not n.new_check_align
+                    and n.dock in ("None", "")):
+                n.new_check_align = "MiddleLeft"
+                n.rule.setdefault("CheckAlign", "check box: the box on the left of its text (its bounds kept)")
+                if n.fixed:
+                    self.add(designer, window, n.name, "CheckAlign", n.check_align, "MiddleLeft", n.rule["CheckAlign"])
         # Rows of the plan.
         for n in walk(tree):
             if not n.editable or n.fixed:
@@ -875,7 +963,7 @@ class Planner:
                     prop = "ClientSize" if designer.size(".", "ClientSize") else "Size"
                     self.add(designer, window, ".", prop, "%d,%d" % (n.w, n.h), "%d,%d" % (n.nw, n.nh), n.rule.get("Size", "window grows"))
                 continue
-            loc = designer.point(n.name)
+            loc = designer.point(n.name) if not SIMULATE else (n.x, n.y)
             if "Location" in n.rule and (n.nx, n.ny) != (n.x, n.y):
                 old = "%d,%d" % loc if loc else "(none)"
                 if loc and loc != (n.x, n.y):
@@ -969,7 +1057,8 @@ class Planner:
         lay = Layout(self, n, (left, top, right, bottom))
         bottom_items = []
         if is_root:
-            bottom_items = [i for i in items if i.anchored_bottom_only and i.y + i.h > n.h - 60]
+            bottom_items = [i for i in items if (i.anchored_bottom_only or (i.name in DIALOG_NAMES and i.kind == "button"))
+                            and i.y + i.h > n.h - 60]
             items = [i for i in items if i not in bottom_items]
         if items:
             block = cut(items)
@@ -1065,7 +1154,7 @@ class Planner:
         pad = GRID["pad"]
         b_orig = max(i.y + i.h for i in items)
         dy = (n.nh - pad) - b_orig
-        dialog = sorted([i for i in items if i.name in DIALOG_NAMES and i.anchor & 8], key=lambda i: i.x)
+        dialog = sorted([i for i in items if i.name in DIALOG_NAMES and (i.anchor & 8 or not i.anchor & 4 or i.x > n.w // 2)], key=lambda i: i.x)
         others = [i for i in items if i not in dialog]
         for i in others:
             lay.move_by(i, 0, dy, "bottom bar: 8 px from the window's bottom")
@@ -1165,7 +1254,32 @@ def walk(n):
             yield x
 
 
+SIMULATE = False
+MAX_PASSES = 6
+
+
+def write_tree(path, trees):
+    """The planned trees in GridDump's format (bounds and alignments as planned): the input of a simulated second run (--simulate)."""
+    cols = ["window", "path", "name", "type", "index", "x", "y", "width", "height", "client_x", "client_y", "client_width", "client_height", "visible",
+            "dock", "anchor", "auto_size", "sizes_itself", "layout_panel_child", "check_align", "text_align", "multiline", "font_height",
+            "text_width", "text_height", "title_bottom", "preferred_height", "text"]
+
+    def clean(v):
+        return v.replace("\\", "\\\\").replace("\t", "\\t").replace("\n", "\\n")
+    with open(path, "w", encoding="utf-8", newline="\n") as f:
+        f.write("\t".join(cols) + "\n")
+        for w, t in trees.items():
+            for n in walk(t):
+                vals = [n.window, clean(n.path), clean(n.name), n.type, n.index, n.nx, n.ny, n.nw, n.nh, n.cx, n.cy, n.cw, n.ch, int(n.visible), n.dock,
+                        n.anchor, int(n.autosize and not n.autosize_off), int(n.sizes_itself), int(n.in_layout_panel),
+                        n.new_check_align or n.check_align, n.new_text_align or n.text_align, int(n.multiline), n.font_h, n.text_w, n.text_h,
+                        n.title_bottom, n.pref_h, clean(n.text)]
+                f.write("\t".join(str(v) for v in vals) + "\n")
+
+
 def cmd_plan(args):
+    global SIMULATE
+    SIMULATE = args.simulate
     root = fit_tools.repo_root()
     # The windows and their mode: tool (the planner lays it out) or hand (listed; its edits are in grid-hand.tsv).
     modes = collections.OrderedDict()
@@ -1193,6 +1307,8 @@ def cmd_plan(args):
         planner.unplaced.extend(problems)
         if problems:
             print("%-45s %d planned-layout problems" % (w, len(problems)))
+    if args.tree_out:
+        write_tree(args.tree_out, trees)
     with open(args.out, "w", encoding="utf-8", newline="\n") as f:
         f.write("designer_file\twindow\tcontrol\tproperty\told\tnew\trule\n")
         for r in planner.rows:
@@ -1299,6 +1415,8 @@ def main():
     a.add_argument("--windows-file", default="tests/UiRefreshTests/Data/grid-windows.tsv")
     a.add_argument("--out", required=True)
     a.add_argument("--unplaced")
+    a.add_argument("--tree-out", help="write the planned trees (the input of --simulate)")
+    a.add_argument("--simulate", action="store_true", help="plan a --tree-out file without designer checks: the idempotence check")
     b = sub.add_parser("apply")
     b.add_argument("--plan", required=True)
     args = p.parse_args()
