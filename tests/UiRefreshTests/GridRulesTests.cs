@@ -119,6 +119,9 @@ namespace UiRefreshTests {
 		private static void CheckWindow(GridWindow gridWindow,Control root,List<string> listFindings) {
 			string window=gridWindow.Window;
 			foreach(Control container in Walk(root)) {
+				if(container is OpenPmsDental.UI.ODDatePicker || container is OpenPmsDental.UI.ComboBoxClinicPicker) {
+					continue;//they lay out their own parts
+				}
 				List<Control> listKids=container.Controls.Cast<Control>()
 					.Where(x => x.Dock==DockStyle.None && TextFitBoundsRecord.IsDesignedVisible(x) && !(container is FlowLayoutPanel) && !(container is TableLayoutPanel))
 					.ToList();
@@ -207,8 +210,12 @@ namespace UiRefreshTests {
 					if(field==null) {
 						continue;
 					}
-					Point point=root.PointToClient(container.PointToScreen(new Point(GetInk(field).Left,0)));
-					listFields.Add(Tuple.Create(field.Name,point.X));
+					//The x in the window: the control's Left and its containers' (the designer's coordinates, as the planner sums them).
+					int x=GetInk(field).Left;
+					for(Control controlUp=container;controlUp!=null && controlUp!=root;controlUp=controlUp.Parent) {
+						x+=controlUp.Left;
+					}
+					listFields.Add(Tuple.Create(field.Name,x));
 				}
 			}
 			bool isPreferencesPage=gridWindow.Window.Substring(gridWindow.Window.LastIndexOf('.')+1).StartsWith("UserControl");

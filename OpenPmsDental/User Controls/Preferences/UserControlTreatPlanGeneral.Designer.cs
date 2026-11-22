@@ -219,7 +219,7 @@ namespace OpenPmsDental {
 			this.textTreatNote.Name = "textTreatNote";
 			this.textTreatNote.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.TreatPlan;
 			this.textTreatNote.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textTreatNote.Size = new System.Drawing.Size(363, 66);
+			this.textTreatNote.Size = new System.Drawing.Size(230, 66);
 			this.textTreatNote.TabIndex = 248;
 			this.textTreatNote.Text = "";
 			// 

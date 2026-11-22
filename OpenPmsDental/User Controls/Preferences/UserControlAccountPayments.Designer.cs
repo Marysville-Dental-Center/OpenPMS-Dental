@@ -242,12 +242,12 @@ namespace OpenPmsDental {
 			// label27
 			// 
 			this.label27.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.label27.Location = new System.Drawing.Point(13, 98);
+			this.label27.Location = new System.Drawing.Point(24, 98);
 			this.label27.Name = "label27";
-			this.label27.Size = new System.Drawing.Size(427, 17);
+			this.label27.Size = new System.Drawing.Size(446, 17);
 			this.label27.TabIndex = 318;
 			this.label27.Text = "Pay Plan charge logic";
-			this.label27.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.label27.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// textDynamicPayPlan
 			// 

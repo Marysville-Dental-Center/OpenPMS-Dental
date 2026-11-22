@@ -972,7 +972,7 @@ class Layout:
                     # A control hidden in the designer beside shown ones (shown in some setups) does not make the row taller.
                     h_row = max(h_row, min(self.item_height(it, field_row), H))
                     continue
-                if it.kind in ("check", "radio") and it.text_w and not it.fixed and not getattr(it, "members", None) and check_width(it) <= right - it.nx:
+                if it.kind in ("check", "radio") and it.text_w and not it.fixed and not getattr(it, "members", None) and check_width(it) <= right - min(it.nx, u.col["x"] if u.col else it.nx):
                     h_row = max(h_row, self.p.check_height)  # a check box whose text fits on one line is one line tall
                     continue
                 h_row = max(h_row, it.nh if (u.label is it and id(u) in prefs_lx) else self.item_height(it, field_row))
@@ -1060,6 +1060,10 @@ class Layout:
                     # (the container keeps its width).
                     w = right - tails[idx] - x
                 self.set_size(m, w + off_box, self.item_height(m, True), "single-line field: the standard height, width on the 4 px grid")
+            elif (m.kind == "other" and u.col and u.col.get("prefs") and not m.fixed and m.editable and not getattr(m, "members", None)
+                  and right - tails[idx] - x >= 60 and (m.nw >= GRID["wide_field"] or x + m.nw + tails[idx] > right)):
+                # Preferences style: a note box beside its label ends at the content's right edge like the combo boxes.
+                self.set_size(m, right - tails[idx] - x, m.nh, "box beside its label: Preferences style, ends at the content's right edge")
             elif (m.kind == "other" and u.label is not None and u.label.kind == "label" and m.nh > 30 and m.nw >= 200
                   and x > m.x and not m.fixed and m.editable and not getattr(m, "members", None) and x - m.x < m.nw // 3):
                 # A wide box (a note) whose field column moved right keeps its right edge: it lines up with what stands above it.
@@ -1398,6 +1402,13 @@ class Planner:
             finally:
                 self.keep_width = False
                 self.in_scope = False
+        # Group boxes laid out as scopes that stand side by side (one top, one parent) get one height.
+        scoped = [by_path[path] for path, names, keep in scopes if names is None and path in by_path and by_path[path].kind == "group"]
+        for c in scoped:
+            row = [d for d in scoped if d.parent is c.parent and d.ny == c.ny]
+            hmax = max(d.nh for d in row)
+            if len(row) > 1 and c.nh < hmax and not (c.anchor & 1 and c.anchor & 2):
+                Layout(self, c.parent, (0, 0, c.parent.nw, c.parent.nh)).set_size(c, c.nw, hmax, "containers side by side: one height")
         self.settle_bottom_edge(tree)
 
     def push_right(self, tree, p, y0, y1, old_r, dw, moved):

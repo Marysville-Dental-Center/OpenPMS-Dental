@@ -676,9 +676,9 @@
 			this.tabControlCharges.Controls.Add(this.tabPageOutstanding);
 			this.tabControlCharges.Controls.Add(this.tabPageTreatPlan);
 			this.tabControlCharges.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-			this.tabControlCharges.Location = new System.Drawing.Point(498, 134);
+			this.tabControlCharges.Location = new System.Drawing.Point(498, 136);
 			this.tabControlCharges.Name = "tabControlCharges";
-			this.tabControlCharges.Size = new System.Drawing.Size(608, 273);
+			this.tabControlCharges.Size = new System.Drawing.Size(608, 267);
 			this.tabControlCharges.TabIndex = 1;
 			this.tabControlCharges.SelectedIndexChanged += new System.EventHandler(this.TabControlCharges_SelectedIndexChanged);
 			// 
@@ -784,7 +784,7 @@
 			this.butPay.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butPay.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.ArrowLeft,22,22);
 			this.butPay.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butPay.Location = new System.Drawing.Point(504, 412);
+			this.butPay.Location = new System.Drawing.Point(504, 407);
 			this.butPay.Name = "butPay";
 			this.butPay.Size = new System.Drawing.Size(79, 23);
 			this.butPay.TabIndex = 146;
@@ -808,9 +808,9 @@
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.tabControlSplits.Controls.Add(this.tabPageSplits);
 			this.tabControlSplits.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-			this.tabControlSplits.Location = new System.Drawing.Point(9, 129);
+			this.tabControlSplits.Location = new System.Drawing.Point(9, 136);
 			this.tabControlSplits.Name = "tabControlSplits";
-			this.tabControlSplits.Size = new System.Drawing.Size(487, 274);
+			this.tabControlSplits.Size = new System.Drawing.Size(487, 267);
 			this.tabControlSplits.TabIndex = 5;
 			// 
 			// tabPageSplits
@@ -841,7 +841,7 @@
 			// textChargeTotal
 			// 
 			this.textChargeTotal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.textChargeTotal.Location = new System.Drawing.Point(1051, 413);
+			this.textChargeTotal.Location = new System.Drawing.Point(1051, 407);
 			this.textChargeTotal.Name = "textChargeTotal";
 			this.textChargeTotal.ReadOnly = true;
 			this.textChargeTotal.Size = new System.Drawing.Size(51, 20);
@@ -853,7 +853,7 @@
 			this.butCreatePartial.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butCreatePartial.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butCreatePartial.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butCreatePartial.Location = new System.Drawing.Point(593, 412);
+			this.butCreatePartial.Location = new System.Drawing.Point(593, 407);
 			this.butCreatePartial.Name = "butCreatePartial";
 			this.butCreatePartial.Size = new System.Drawing.Size(114, 23);
 			this.butCreatePartial.TabIndex = 150;
@@ -864,7 +864,7 @@
 			// label8
 			// 
 			this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.label8.Location = new System.Drawing.Point(992, 414);
+			this.label8.Location = new System.Drawing.Point(987, 410);
 			this.label8.Name = "label8";
 			this.label8.Size = new System.Drawing.Size(58, 18);
 			this.label8.TabIndex = 155;
@@ -887,7 +887,7 @@
 			// comboGroupBy
 			// 
 			this.comboGroupBy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.comboGroupBy.Location = new System.Drawing.Point(795, 413);
+			this.comboGroupBy.Location = new System.Drawing.Point(795, 408);
 			this.comboGroupBy.Name = "comboGroupBy";
 			this.comboGroupBy.Size = new System.Drawing.Size(111, 21);
 			this.comboGroupBy.TabIndex = 153;
@@ -896,7 +896,7 @@
 			// labelGroupBy
 			// 
 			this.labelGroupBy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.labelGroupBy.Location = new System.Drawing.Point(717, 414);
+			this.labelGroupBy.Location = new System.Drawing.Point(712, 410);
 			this.labelGroupBy.Name = "labelGroupBy";
 			this.labelGroupBy.Size = new System.Drawing.Size(77, 18);
 			this.labelGroupBy.TabIndex = 154;
@@ -1149,7 +1149,7 @@
 			// label13
 			// 
 			this.label13.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label13.Location = new System.Drawing.Point(382, 410);
+			this.label13.Location = new System.Drawing.Point(377, 410);
 			this.label13.Name = "label13";
 			this.label13.Size = new System.Drawing.Size(58, 18);
 			this.label13.TabIndex = 148;
@@ -1159,7 +1159,7 @@
 			// textSplitTotal
 			// 
 			this.textSplitTotal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.textSplitTotal.Location = new System.Drawing.Point(441, 409);
+			this.textSplitTotal.Location = new System.Drawing.Point(441, 407);
 			this.textSplitTotal.Name = "textSplitTotal";
 			this.textSplitTotal.ReadOnly = true;
 			this.textSplitTotal.Size = new System.Drawing.Size(51, 20);
@@ -1238,7 +1238,7 @@
 			this.groupBoxFilteringPaySplits.Controls.Add(this.labelProvPaySplitsFilter);
 			this.groupBoxFilteringPaySplits.Location = new System.Drawing.Point(3, 2);
 			this.groupBoxFilteringPaySplits.Name = "groupBoxFilteringPaySplits";
-			this.groupBoxFilteringPaySplits.Size = new System.Drawing.Size(493, 103);
+			this.groupBoxFilteringPaySplits.Size = new System.Drawing.Size(493, 130);
 			this.groupBoxFilteringPaySplits.TabIndex = 208;
 			this.groupBoxFilteringPaySplits.Text = "Filtering Current Payment Splits";
 			// 
