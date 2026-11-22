@@ -17,7 +17,6 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Windows.Forms;
 using CodeBase;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -67,10 +66,13 @@ namespace UiRefreshTests {
 									listOffsets.Add(control.Location);
 									//The font as Windows scales a point size at the monitor's dpi.
 									control.Font=new Font(UiTheme.FONT_FAMILY,UiTheme.FONT_SIZE_BODY*scale);
-									//The program's own controls get the window's LayoutManager, as LayoutManagerForms passes it to them.
-									FieldInfo fieldInfo=control.GetType().GetField("LayoutManager",BindingFlags.Instance|BindingFlags.Public);
-									if(fieldInfo!=null && fieldInfo.FieldType==typeof(LayoutManagerForms)) {
-										fieldInfo.SetValue(control,form.GetLayoutManager());
+									//The program's own button and check box draw at their LayoutManager's scale: they get the window's, as LayoutManagerForms
+									//passes it to them (the program's list lays its parts out through a full LayoutManager layout, which the sheet does not run).
+									if(control is OpenPmsDental.UI.CheckBox checkBoxOD) {
+										checkBoxOD.LayoutManager=form.GetLayoutManager();
+									}
+									if(control is OpenPmsDental.UI.Button buttonOD) {
+										buttonOD.LayoutManager=form.GetLayoutManager();
 									}
 									panel.Controls.Add(control);
 								}
