@@ -1002,12 +1002,21 @@ class Layout:
                 # beside a container keeps the sibling gap.
                 both = u.main.kind in ("group", "panel", "tabs") and ordered[idx - 1].main.kind in ("group", "panel", "tabs")
                 x = cursor + (GRID["sibling_gap"] if both else GRID["item_gap"])
+            elif cursor is not None and id(u) in prefs_lx:
+                # Preferences style, a label after another control on its row (a radio button's text): it follows that control, and its
+                # field moves right only when the label does not fit before the page's field column.
+                lb = u.label
+                lx = max(prefs_lx[id(u)], cursor + GRID["item_gap"])
+                if x - GRID["label_gap"] - lx < lb.text_w + 4:
+                    x = lx + lb.text_w + 4 + GRID["label_gap"]
+                self.set_size(lb, x - GRID["label_gap"] - lx, self.p.field_height, "label: Preferences style, after the control before it")
+                prefs_lx[id(u)] = lx
             elif cursor is not None:
                 gap = GRID["item_gap"] if u.label is None else GRID["band_gap"]
                 need = cursor + gap + (pair_label_width(u.label) + GRID["label_gap"] if u.label is not None else 0)
                 if need > x:
                     x = need
-                    if u.col:
+                    if u.col and not u.col.get("prefs"):
                         u.col["x"] = max(u.col["x"], x)
             m = u.main
             # Check boxes: the box on the left.
@@ -1553,8 +1562,14 @@ class Planner:
         if self.lays_out(n) and n.kind not in ("tabs",):
             left, top, right, bottom = self.content_rect(n, is_root)
             for c in n.children:
-                if (c.kind in ("group", "panel") and c.editable and not c.fixed and c.dock in ("None", "") and abs(c.x - left) <= GRID["span_snap"]
-                        and abs(c.x + c.w - right) <= GRID["span_snap"] and not (c.anchor & 8 and not c.anchor & 4)):
+                # On a Preferences page a group box alone on its rows spans the page too (the Claim Identification Prefix group stood in
+                # the right half of the page, a blank half beside it).
+                alone = (self.is_prefs_page() and is_root and c.kind == "group" and c.visible
+                         and not any(o is not c and o.visible and o.dock in ("None", "") and min(o.y + o.h, c.y + c.h) - max(o.y, c.y) > 2
+                                     for o in n.children))
+                if (c.kind in ("group", "panel") and c.editable and not c.fixed and c.dock in ("None", "")
+                        and (alone or (abs(c.x - left) <= GRID["span_snap"] and abs(c.x + c.w - right) <= GRID["span_snap"]))
+                        and not (c.anchor & 8 and not c.anchor & 4)):
                     if (c.nx, c.nw) != (left, right - left):
                         c.nw = right - left
                         c.add_rule("Size", "container: spans its parent's content, 8 px from each side")

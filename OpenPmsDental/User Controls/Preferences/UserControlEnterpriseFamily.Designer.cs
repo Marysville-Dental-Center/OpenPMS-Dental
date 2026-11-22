@@ -52,15 +52,15 @@ namespace OpenPmsDental {
 			this.groupClaimSnapshot.Controls.Add(this.comboClaimSnapshotTriggerType);
 			this.groupClaimSnapshot.Controls.Add(this.labelClaimSnapshotTrigger);
 			this.groupClaimSnapshot.Controls.Add(this.labelClaimSnapshotRunTime);
-			this.groupClaimSnapshot.Location = new System.Drawing.Point(158, 132);
+			this.groupClaimSnapshot.Location = new System.Drawing.Point(8, 132);
 			this.groupClaimSnapshot.Name = "groupClaimSnapshot";
-			this.groupClaimSnapshot.Size = new System.Drawing.Size(296, 81);
+			this.groupClaimSnapshot.Size = new System.Drawing.Size(478, 81);
 			this.groupClaimSnapshot.TabIndex = 286;
 			this.groupClaimSnapshot.Text = "Claim Snapshot";
 			// 
 			// textClaimSnapshotRunTime
 			// 
-			this.textClaimSnapshotRunTime.Location = new System.Drawing.Point(134, 50);
+			this.textClaimSnapshotRunTime.Location = new System.Drawing.Point(132, 50);
 			this.textClaimSnapshotRunTime.Name = "textClaimSnapshotRunTime";
 			this.textClaimSnapshotRunTime.Size = new System.Drawing.Size(96, 20);
 			this.textClaimSnapshotRunTime.TabIndex = 270;
@@ -68,9 +68,9 @@ namespace OpenPmsDental {
 			// 
 			// comboClaimSnapshotTriggerType
 			// 
-			this.comboClaimSnapshotTriggerType.Location = new System.Drawing.Point(134, 23);
+			this.comboClaimSnapshotTriggerType.Location = new System.Drawing.Point(132, 23);
 			this.comboClaimSnapshotTriggerType.Name = "comboClaimSnapshotTriggerType";
-			this.comboClaimSnapshotTriggerType.Size = new System.Drawing.Size(154, 23);
+			this.comboClaimSnapshotTriggerType.Size = new System.Drawing.Size(338, 23);
 			this.comboClaimSnapshotTriggerType.TabIndex = 269;
 			this.comboClaimSnapshotTriggerType.SelectionChangeCommitted += new System.EventHandler(this.comboClaimSnapshotTriggerType_ChangeCommitted);
 			// 
@@ -78,7 +78,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelClaimSnapshotTrigger.Location = new System.Drawing.Point(24, 23);
 			this.labelClaimSnapshotTrigger.Name = "labelClaimSnapshotTrigger";
-			this.labelClaimSnapshotTrigger.Size = new System.Drawing.Size(104, 23);
+			this.labelClaimSnapshotTrigger.Size = new System.Drawing.Size(102, 23);
 			this.labelClaimSnapshotTrigger.TabIndex = 272;
 			this.labelClaimSnapshotTrigger.Text = "Snapshot Trigger";
 			this.labelClaimSnapshotTrigger.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -87,7 +87,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelClaimSnapshotRunTime.Location = new System.Drawing.Point(24, 50);
 			this.labelClaimSnapshotRunTime.Name = "labelClaimSnapshotRunTime";
-			this.labelClaimSnapshotRunTime.Size = new System.Drawing.Size(104, 23);
+			this.labelClaimSnapshotRunTime.Size = new System.Drawing.Size(102, 23);
 			this.labelClaimSnapshotRunTime.TabIndex = 271;
 			this.labelClaimSnapshotRunTime.Text = "Service Run Time";
 			this.labelClaimSnapshotRunTime.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;

@@ -73,12 +73,12 @@ namespace OpenPmsDental {
 			// 
 			// label27
 			// 
-			this.label27.Location = new System.Drawing.Point(8, 407);
+			this.label27.Location = new System.Drawing.Point(24, 407);
 			this.label27.Name = "label27";
-			this.label27.Size = new System.Drawing.Size(444, 18);
+			this.label27.Size = new System.Drawing.Size(462, 18);
 			this.label27.TabIndex = 293;
 			this.label27.Text = "Pay Plan charge logic";
-			this.label27.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.label27.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// checkAgingReportShowAgePatPayplanPayments
 			// 
@@ -188,9 +188,9 @@ namespace OpenPmsDental {
 			// 
 			// labelReportheckUnits
 			// 
-			this.labelReportheckUnits.Location = new System.Drawing.Point(24, 275);
+			this.labelReportheckUnits.Location = new System.Drawing.Point(152, 275);
 			this.labelReportheckUnits.Name = "labelReportheckUnits";
-			this.labelReportheckUnits.Size = new System.Drawing.Size(274, 23);
+			this.labelReportheckUnits.Size = new System.Drawing.Size(146, 23);
 			this.labelReportheckUnits.TabIndex = 300;
 			this.labelReportheckUnits.Text = "minutes (5 to 60)";
 			this.labelReportheckUnits.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -269,9 +269,9 @@ namespace OpenPmsDental {
 			// 
 			this.groupBoxClaimIdPrefix.Controls.Add(this.butReplacements);
 			this.groupBoxClaimIdPrefix.Controls.Add(this.textClaimIdPrefix);
-			this.groupBoxClaimIdPrefix.Location = new System.Drawing.Point(271, 162);
+			this.groupBoxClaimIdPrefix.Location = new System.Drawing.Point(8, 162);
 			this.groupBoxClaimIdPrefix.Name = "groupBoxClaimIdPrefix";
-			this.groupBoxClaimIdPrefix.Size = new System.Drawing.Size(197, 81);
+			this.groupBoxClaimIdPrefix.Size = new System.Drawing.Size(478, 81);
 			this.groupBoxClaimIdPrefix.TabIndex = 291;
 			this.groupBoxClaimIdPrefix.Text = "Claim Identification Prefix";
 			// 
