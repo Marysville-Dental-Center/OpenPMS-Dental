@@ -33,7 +33,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelCommLogAutoSaveDetails.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.labelCommLogAutoSaveDetails.ForeColor = System.Drawing.Color.MidnightBlue;
-			this.labelCommLogAutoSaveDetails.Location = new System.Drawing.Point(25, 20);
+			this.labelCommLogAutoSaveDetails.Location = new System.Drawing.Point(25, 8);
 			this.labelCommLogAutoSaveDetails.Name = "labelCommLogAutoSaveDetails";
 			this.labelCommLogAutoSaveDetails.Size = new System.Drawing.Size(446, 120);
 			this.labelCommLogAutoSaveDetails.TabIndex = 322;
@@ -41,10 +41,10 @@ namespace OpenPmsDental {
 			// 
 			// checkAgingProcLifo
 			// 
-			this.checkAgingProcLifo.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkAgingProcLifo.Location = new System.Drawing.Point(97, 163);
+			this.checkAgingProcLifo.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkAgingProcLifo.Location = new System.Drawing.Point(8, 130);
 			this.checkAgingProcLifo.Name = "checkAgingProcLifo";
-			this.checkAgingProcLifo.Size = new System.Drawing.Size(271, 92);
+			this.checkAgingProcLifo.Size = new System.Drawing.Size(394, 92);
 			this.checkAgingProcLifo.TabIndex = 323;
 			this.checkAgingProcLifo.Text = "Transactions attached to a procedure offset each other before aging";
 			this.checkAgingProcLifo.ThreeState = true;

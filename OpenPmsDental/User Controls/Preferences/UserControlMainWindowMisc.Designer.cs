@@ -62,109 +62,109 @@ namespace OpenPmsDental {
 			// 
 			// textWebServiceServerName
 			// 
-			this.textWebServiceServerName.Location = new System.Drawing.Point(307, 370);
+			this.textWebServiceServerName.Location = new System.Drawing.Point(307, 336);
 			this.textWebServiceServerName.Name = "textWebServiceServerName";
-			this.textWebServiceServerName.Size = new System.Drawing.Size(165, 20);
+			this.textWebServiceServerName.Size = new System.Drawing.Size(164, 23);
 			this.textWebServiceServerName.TabIndex = 248;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(156, 373);
+			this.label2.Location = new System.Drawing.Point(217, 336);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(150, 17);
+			this.label2.Size = new System.Drawing.Size(84, 23);
 			this.label2.TabIndex = 249;
 			this.label2.Text = "Update Server";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label9
 			// 
-			this.label9.Location = new System.Drawing.Point(47, 488);
+			this.label9.Location = new System.Drawing.Point(81, 426);
 			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(350, 17);
+			this.label9.Size = new System.Drawing.Size(220, 23);
 			this.label9.TabIndex = 259;
 			this.label9.Text = "Number of Audit Trail entries displayed";
 			this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label8
 			// 
-			this.label8.Location = new System.Drawing.Point(91, 307);
+			this.label8.Location = new System.Drawing.Point(223, 278);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(257, 17);
+			this.label8.Size = new System.Drawing.Size(120, 23);
 			this.label8.TabIndex = 257;
 			this.label8.Text = "Sync code for CEMT";
 			this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textSyncCode
 			// 
-			this.textSyncCode.Location = new System.Drawing.Point(349, 304);
+			this.textSyncCode.Location = new System.Drawing.Point(349, 278);
 			this.textSyncCode.Name = "textSyncCode";
 			this.textSyncCode.ReadOnly = true;
-			this.textSyncCode.Size = new System.Drawing.Size(74, 20);
+			this.textSyncCode.Size = new System.Drawing.Size(72, 23);
 			this.textSyncCode.TabIndex = 256;
 			// 
 			// textNumDecimals
 			// 
-			this.textNumDecimals.Location = new System.Drawing.Point(396, 337);
+			this.textNumDecimals.Location = new System.Drawing.Point(396, 307);
 			this.textNumDecimals.Name = "textNumDecimals";
 			this.textNumDecimals.ReadOnly = true;
-			this.textNumDecimals.Size = new System.Drawing.Size(47, 20);
+			this.textNumDecimals.Size = new System.Drawing.Size(48, 23);
 			this.textNumDecimals.TabIndex = 253;
 			this.textNumDecimals.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			// 
 			// label7
 			// 
-			this.label7.Location = new System.Drawing.Point(31, 340);
+			this.label7.Location = new System.Drawing.Point(166, 307);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(364, 17);
+			this.label7.Size = new System.Drawing.Size(224, 23);
 			this.label7.TabIndex = 254;
 			this.label7.Text = "Currency number of digits after decimal";
 			this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// labelTrackClinic
 			// 
-			this.labelTrackClinic.Location = new System.Drawing.Point(48, 433);
+			this.labelTrackClinic.Location = new System.Drawing.Point(189, 371);
 			this.labelTrackClinic.Name = "labelTrackClinic";
-			this.labelTrackClinic.Size = new System.Drawing.Size(294, 17);
+			this.labelTrackClinic.Size = new System.Drawing.Size(112, 23);
 			this.labelTrackClinic.TabIndex = 252;
 			this.labelTrackClinic.Text = "Track Last Clinic By";
 			this.labelTrackClinic.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// checkBackupIndexesDisabled
 			// 
-			this.checkBackupIndexesDisabled.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkBackupIndexesDisabled.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.checkBackupIndexesDisabled.Checked = true;
 			this.checkBackupIndexesDisabled.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkBackupIndexesDisabled.Location = new System.Drawing.Point(15, 537);
+			this.checkBackupIndexesDisabled.Location = new System.Drawing.Point(8, 479);
 			this.checkBackupIndexesDisabled.Name = "checkBackupIndexesDisabled";
-			this.checkBackupIndexesDisabled.Size = new System.Drawing.Size(457, 18);
+			this.checkBackupIndexesDisabled.Size = new System.Drawing.Size(282, 20);
 			this.checkBackupIndexesDisabled.TabIndex = 267;
 			this.checkBackupIndexesDisabled.Text = "Disable indexes to speed up automatic backups";
 			//
 			// checkModuleSwitchBlur
 			//
-			this.checkModuleSwitchBlur.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkModuleSwitchBlur.Location = new System.Drawing.Point(15, 561);
+			this.checkModuleSwitchBlur.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkModuleSwitchBlur.Location = new System.Drawing.Point(8, 503);
 			this.checkModuleSwitchBlur.Name = "checkModuleSwitchBlur";
-			this.checkModuleSwitchBlur.Size = new System.Drawing.Size(457, 18);
+			this.checkModuleSwitchBlur.Size = new System.Drawing.Size(394, 20);
 			this.checkModuleSwitchBlur.TabIndex = 268;
 			this.checkModuleSwitchBlur.Text = "Blur when switching between modules to prevent accidental clicking";
 			// 
 			// textAuditEntries
 			// 
-			this.textAuditEntries.Location = new System.Drawing.Point(398, 485);
+			this.textAuditEntries.Location = new System.Drawing.Point(307, 426);
 			this.textAuditEntries.MaxLength = 5;
 			this.textAuditEntries.MaxVal = 10000;
 			this.textAuditEntries.MinVal = 1;
 			this.textAuditEntries.Name = "textAuditEntries";
-			this.textAuditEntries.Size = new System.Drawing.Size(74, 20);
+			this.textAuditEntries.Size = new System.Drawing.Size(72, 23);
 			this.textAuditEntries.TabIndex = 260;
 			this.textAuditEntries.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			// 
 			// comboTrackClinic
 			// 
-			this.comboTrackClinic.Location = new System.Drawing.Point(343, 430);
+			this.comboTrackClinic.Location = new System.Drawing.Point(307, 371);
 			this.comboTrackClinic.Name = "comboTrackClinic";
-			this.comboTrackClinic.Size = new System.Drawing.Size(130, 21);
+			this.comboTrackClinic.Size = new System.Drawing.Size(128, 23);
 			this.comboTrackClinic.TabIndex = 251;
 			// 
 			// groupBox2
@@ -175,59 +175,59 @@ namespace OpenPmsDental {
 			this.groupBox2.Controls.Add(this.checkImeCompositionCompatibility);
 			this.groupBox2.Controls.Add(this.label6);
 			this.groupBox2.Controls.Add(this.butPickLanguageAndRegion);
-			this.groupBox2.Location = new System.Drawing.Point(10, 192);
+			this.groupBox2.Location = new System.Drawing.Point(8, 161);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(475, 99);
+			this.groupBox2.Size = new System.Drawing.Size(478, 109);
 			this.groupBox2.TabIndex = 266;
 			this.groupBox2.Text = "Language";
 			// 
 			// textLanguageAndRegion
 			// 
-			this.textLanguageAndRegion.Location = new System.Drawing.Point(269, 47);
+			this.textLanguageAndRegion.Location = new System.Drawing.Point(272, 52);
 			this.textLanguageAndRegion.Name = "textLanguageAndRegion";
 			this.textLanguageAndRegion.ReadOnly = true;
-			this.textLanguageAndRegion.Size = new System.Drawing.Size(165, 20);
+			this.textLanguageAndRegion.Size = new System.Drawing.Size(164, 23);
 			this.textLanguageAndRegion.TabIndex = 204;
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(52, 20);
+			this.label4.Location = new System.Drawing.Point(209, 23);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(322, 17);
+			this.label4.Size = new System.Drawing.Size(160, 23);
 			this.label4.TabIndex = 64;
 			this.label4.Text = "Languages used by patients";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// butLanguages
 			// 
-			this.butLanguages.Location = new System.Drawing.Point(375, 17);
+			this.butLanguages.Location = new System.Drawing.Point(375, 23);
 			this.butLanguages.Name = "butLanguages";
-			this.butLanguages.Size = new System.Drawing.Size(88, 24);
+			this.butLanguages.Size = new System.Drawing.Size(88, 23);
 			this.butLanguages.TabIndex = 63;
 			this.butLanguages.Text = "Edit Languages";
 			this.butLanguages.Click += new System.EventHandler(this.butLanguages_Click);
 			// 
 			// checkImeCompositionCompatibility
 			// 
-			this.checkImeCompositionCompatibility.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkImeCompositionCompatibility.Location = new System.Drawing.Point(67, 73);
+			this.checkImeCompositionCompatibility.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkImeCompositionCompatibility.Location = new System.Drawing.Point(8, 81);
 			this.checkImeCompositionCompatibility.Name = "checkImeCompositionCompatibility";
-			this.checkImeCompositionCompatibility.Size = new System.Drawing.Size(408, 18);
+			this.checkImeCompositionCompatibility.Size = new System.Drawing.Size(416, 20);
 			this.checkImeCompositionCompatibility.TabIndex = 203;
 			this.checkImeCompositionCompatibility.Text = "Text boxes use foreign language Input Method Editor (IME) composition";
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(50, 50);
+			this.label6.Location = new System.Drawing.Point(50, 52);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(218, 17);
+			this.label6.Size = new System.Drawing.Size(216, 23);
 			this.label6.TabIndex = 205;
 			this.label6.Text = "Language and region used by program";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// butPickLanguageAndRegion
 			// 
-			this.butPickLanguageAndRegion.Location = new System.Drawing.Point(441, 46);
+			this.butPickLanguageAndRegion.Location = new System.Drawing.Point(443, 52);
 			this.butPickLanguageAndRegion.Name = "butPickLanguageAndRegion";
 			this.butPickLanguageAndRegion.Size = new System.Drawing.Size(23, 21);
 			this.butPickLanguageAndRegion.TabIndex = 206;
@@ -244,114 +244,114 @@ namespace OpenPmsDental {
 			this.groupBox1.Controls.Add(this.label5);
 			this.groupBox1.Controls.Add(this.label11);
 			this.groupBox1.Controls.Add(this.label10);
-			this.groupBox1.Location = new System.Drawing.Point(10, 40);
+			this.groupBox1.Location = new System.Drawing.Point(8, 8);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(475, 137);
+			this.groupBox1.Size = new System.Drawing.Size(478, 141);
 			this.groupBox1.TabIndex = 265;
 			this.groupBox1.Text = "Signal Interval";
 			// 
 			// textProcessSigsIntervalInSecs
 			// 
-			this.textProcessSigsIntervalInSecs.Location = new System.Drawing.Point(389, 20);
+			this.textProcessSigsIntervalInSecs.Location = new System.Drawing.Point(389, 23);
 			this.textProcessSigsIntervalInSecs.MaxVal = 1000000;
 			this.textProcessSigsIntervalInSecs.MinVal = 1;
 			this.textProcessSigsIntervalInSecs.Name = "textProcessSigsIntervalInSecs";
 			this.textProcessSigsIntervalInSecs.ShowZero = false;
-			this.textProcessSigsIntervalInSecs.Size = new System.Drawing.Size(74, 20);
+			this.textProcessSigsIntervalInSecs.Size = new System.Drawing.Size(72, 23);
 			this.textProcessSigsIntervalInSecs.TabIndex = 57;
 			this.textProcessSigsIntervalInSecs.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			this.textProcessSigsIntervalInSecs.Validating += new System.ComponentModel.CancelEventHandler(this.textProcessSigsIntervalInSecs_Validating);
 			// 
 			// textSignalInactiveMinutes
 			// 
-			this.textSignalInactiveMinutes.Location = new System.Drawing.Point(389, 49);
+			this.textSignalInactiveMinutes.Location = new System.Drawing.Point(389, 52);
 			this.textSignalInactiveMinutes.MaxVal = 1000000;
 			this.textSignalInactiveMinutes.Name = "textSignalInactiveMinutes";
 			this.textSignalInactiveMinutes.ShowZero = false;
-			this.textSignalInactiveMinutes.Size = new System.Drawing.Size(74, 20);
+			this.textSignalInactiveMinutes.Size = new System.Drawing.Size(72, 23);
 			this.textSignalInactiveMinutes.TabIndex = 201;
 			this.textSignalInactiveMinutes.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			this.textSignalInactiveMinutes.Validating += new System.ComponentModel.CancelEventHandler(this.textSignalInactiveMinutes_Validating);
 			// 
 			// textInactiveAlert
 			// 
-			this.textInactiveAlert.Location = new System.Drawing.Point(389, 107);
+			this.textInactiveAlert.Location = new System.Drawing.Point(389, 110);
 			this.textInactiveAlert.MaxVal = 1000000;
 			this.textInactiveAlert.MinVal = 1;
 			this.textInactiveAlert.Name = "textInactiveAlert";
 			this.textInactiveAlert.ShowZero = false;
-			this.textInactiveAlert.Size = new System.Drawing.Size(74, 20);
+			this.textInactiveAlert.Size = new System.Drawing.Size(72, 23);
 			this.textInactiveAlert.TabIndex = 240;
 			this.textInactiveAlert.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			// 
 			// textAlertInterval
 			// 
-			this.textAlertInterval.Location = new System.Drawing.Point(389, 78);
+			this.textAlertInterval.Location = new System.Drawing.Point(389, 81);
 			this.textAlertInterval.MaxVal = 1000000;
 			this.textAlertInterval.MinVal = 1;
 			this.textAlertInterval.Name = "textAlertInterval";
 			this.textAlertInterval.ShowZero = false;
-			this.textAlertInterval.Size = new System.Drawing.Size(74, 20);
+			this.textAlertInterval.Size = new System.Drawing.Size(72, 23);
 			this.textAlertInterval.TabIndex = 238;
 			this.textAlertInterval.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(2, 23);
+			this.label3.Location = new System.Drawing.Point(71, 23);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(386, 17);
+			this.label3.Size = new System.Drawing.Size(312, 23);
 			this.label3.TabIndex = 56;
 			this.label3.Text = "Process signal interval in seconds.  Leave blank to disable";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(51, 52);
+			this.label5.Location = new System.Drawing.Point(39, 52);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(338, 17);
+			this.label5.Size = new System.Drawing.Size(344, 23);
 			this.label5.TabIndex = 200;
 			this.label5.Text = "Disable signal interval after this many minutes of user inactivity\r\n";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label11
 			// 
-			this.label11.Location = new System.Drawing.Point(51, 81);
+			this.label11.Location = new System.Drawing.Point(211, 81);
 			this.label11.Name = "label11";
-			this.label11.Size = new System.Drawing.Size(337, 17);
+			this.label11.Size = new System.Drawing.Size(172, 23);
 			this.label11.TabIndex = 237;
 			this.label11.Text = "Check alert interval in seconds";
 			this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label10
 			// 
-			this.label10.Location = new System.Drawing.Point(51, 110);
+			this.label10.Location = new System.Drawing.Point(47, 110);
 			this.label10.Name = "label10";
-			this.label10.Size = new System.Drawing.Size(338, 17);
+			this.label10.Size = new System.Drawing.Size(336, 23);
 			this.label10.TabIndex = 239;
 			this.label10.Text = "Disable alert interval after this many minutes of user inactivity\r\n";
 			this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// checkAuditTrailUseReportingServer
 			// 
-			this.checkAuditTrailUseReportingServer.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkAuditTrailUseReportingServer.Location = new System.Drawing.Point(243, 509);
+			this.checkAuditTrailUseReportingServer.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkAuditTrailUseReportingServer.Location = new System.Drawing.Point(8, 455);
 			this.checkAuditTrailUseReportingServer.Name = "checkAuditTrailUseReportingServer";
-			this.checkAuditTrailUseReportingServer.Size = new System.Drawing.Size(229, 24);
+			this.checkAuditTrailUseReportingServer.Size = new System.Drawing.Size(201, 20);
 			this.checkAuditTrailUseReportingServer.TabIndex = 264;
 			this.checkAuditTrailUseReportingServer.Text = "Audit Trail uses Reporting Server";
 			// 
 			// checkSubmitExceptions
 			// 
-			this.checkSubmitExceptions.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkSubmitExceptions.Location = new System.Drawing.Point(46, 459);
+			this.checkSubmitExceptions.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkSubmitExceptions.Location = new System.Drawing.Point(8, 400);
 			this.checkSubmitExceptions.Name = "checkSubmitExceptions";
-			this.checkSubmitExceptions.Size = new System.Drawing.Size(426, 18);
+			this.checkSubmitExceptions.Size = new System.Drawing.Size(261, 20);
 			this.checkSubmitExceptions.TabIndex = 261;
 			this.checkSubmitExceptions.Text = "Automatically submit unhandled exceptions";
 			// 
 			// butClearCode
 			// 
-			this.butClearCode.Location = new System.Drawing.Point(430, 303);
+			this.butClearCode.Location = new System.Drawing.Point(430, 278);
 			this.butClearCode.Name = "butClearCode";
 			this.butClearCode.Size = new System.Drawing.Size(43, 21);
 			this.butClearCode.TabIndex = 258;
@@ -360,7 +360,7 @@ namespace OpenPmsDental {
 			// 
 			// butDecimal
 			// 
-			this.butDecimal.Location = new System.Drawing.Point(450, 336);
+			this.butDecimal.Location = new System.Drawing.Point(451, 307);
 			this.butDecimal.Name = "butDecimal";
 			this.butDecimal.Size = new System.Drawing.Size(23, 21);
 			this.butDecimal.TabIndex = 255;
