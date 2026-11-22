@@ -3,7 +3,9 @@
 // line inside the bottom edge. The program's own ComboBox paints itself; the stock single-line text box (and the program's Valid* boxes),
 // the up-down boxes and the date picker keep their Windows behaviour and get the frame painted over their Windows border, so the thick
 // black or 3-D edges and the date picker's drop button look like the combo box's. FormODBase attaches it to its controls when it makes its
-// LayoutManager (AttachTree). Round 2: the stock (editable) ComboBox too, its Windows drop button covered by the program's chevron.
+// LayoutManager (AttachTree). Round 2: the stock (editable) ComboBox too, its Windows drop button covered by the program's chevron. Polish
+// round: every multi-line text box and rich text box with a border too (one framed look for every text box), and the up-down boxes' arrow
+// buttons drawn in the theme (UiUpDownLook).
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
@@ -51,8 +53,9 @@ namespace OpenPmsDental.UI {
 		}
 
 		#region Methods - Public
-		///<summary>True for the inputs that get the frame: a single-line text box with a border (the program's Valid* boxes are text boxes), an
-		///up-down box, a date picker. Not the text inside an up-down box (its box has the frame), not a multi-line or borderless box.</summary>
+		///<summary>True for the inputs that get the frame: a single-line text box with a border (the program's Valid* boxes are text boxes), a
+		///multi-line text box or rich text box with a border (polish round), an up-down box, a date picker. Not the text inside an up-down box
+		///(its box has the frame), not a borderless box.</summary>
 		public static bool IsFramed(Control control) {
 			if(control is UpDownBase upDownBase) {
 				//Not a borderless up-down box: FormScreenEdit's age arrows stand inside the age box's frame (UI-12 fix round).
@@ -65,8 +68,16 @@ namespace OpenPmsDental.UI {
 				//The stock combo box (the program's own ComboBox paints itself): not the list-only Simple style.
 				return ((System.Windows.Forms.ComboBox)control).DropDownStyle!=ComboBoxStyle.Simple;
 			}
-			if(control is TextBox textBox) {
-				return (!textBox.Multiline || IsOneLineTall(textBox)) && textBox.BorderStyle==BorderStyle.Fixed3D && !(textBox.Parent is UpDownBase);
+			if(control is TextBoxBase textBoxBase) {
+				if(textBoxBase.Parent is UpDownBase || textBoxBase.BorderStyle==BorderStyle.None) {
+					return false;
+				}
+				if(textBoxBase is TextBox textBox && (!textBox.Multiline || IsOneLineTall(textBox))) {
+					return textBox.BorderStyle==BorderStyle.Fixed3D;
+				}
+				//UI-12 polish round: every multi-line box with a border (the stock TextBox's square grey line, the RichTextBox's and ODtextBox's 3-D
+				//edge) gets the one framed look of the single-line inputs.
+				return textBoxBase.Multiline;
 			}
 			return false;
 		}
@@ -89,6 +100,10 @@ namespace OpenPmsDental.UI {
 				else if(control is RadioButton) {
 					//Round 3: the stock radio button drawn like the program's check box (UiRadioLook).
 					UiRadioLook.Attach(control);
+				}
+				else if(UiUpDownLook.IsButtons(control)) {
+					//Polish round: the up-down box's arrow buttons drawn like the combo box's drop area (UiUpDownLook).
+					UiUpDownLook.Attach(control);
 				}
 				AttachTree(control);
 			}
@@ -155,7 +170,7 @@ namespace OpenPmsDental.UI {
 		#region Methods - Private
 		///<summary>The width of the Windows border the frame covers: 2 px for a 3-D edge, 1 px for a single line, at least the frame's line.</summary>
 		private static int GetEdgeWidth(Control control) {
-			if(control is TextBox textBox && textBox.BorderStyle==BorderStyle.FixedSingle) {
+			if(control is TextBoxBase textBoxBase && textBoxBase.BorderStyle==BorderStyle.FixedSingle) {
 				return 1;
 			}
 			return 2;
