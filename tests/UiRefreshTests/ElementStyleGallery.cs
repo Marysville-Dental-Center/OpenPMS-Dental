@@ -204,7 +204,8 @@ namespace UiRefreshTests {
 			});
 			add("11-monthcalendar",s => new Control[] { new MonthCalendar { MaxSelectionCount=1 } });
 			add("12-datagridview",s => {
-				DataGridView dataGridView=new DataGridView { Size=new Size(S(260,s),S(120,s)),AllowUserToAddRows=false,RowHeadersVisible=false };
+				DataGridView dataGridView=new DataGridView { Size=new Size(S(260,s),S(120,s)),AllowUserToAddRows=false,RowHeadersVisible=false,
+					ColumnHeadersHeightSizeMode=DataGridViewColumnHeadersHeightSizeMode.AutoSize };
 				dataGridView.Columns.Add("colName","Name");
 				dataGridView.Columns.Add("colValue","Value");
 				for(int i=1;i<=8;i++) {
@@ -215,6 +216,10 @@ namespace UiRefreshTests {
 			add("13-linklabel",s => new Control[] { new LinkLabel { Text="View provider and clinic specific fees",AutoSize=true } });
 			add("14-timepattern",s => {
 				TableTimeBar tableTimeBar=new TableTimeBar();
+				//No scaling by the sheet's font (a user control scales its panels on a font change; the windows' LayoutManager does not).
+				tableTimeBar.AutoScaleMode=AutoScaleMode.None;
+				//The size every window's designer gives it (its own layout leaves the width of its designer's panels).
+				tableTimeBar.Size=new Size(15,561);
 				string pattern="//XXXX//XX//";
 				for(int i=0;i<pattern.Length;i++) {
 					tableTimeBar.Cell[0,i]=pattern.Substring(i,1);

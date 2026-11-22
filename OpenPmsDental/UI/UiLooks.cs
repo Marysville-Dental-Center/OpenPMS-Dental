@@ -43,6 +43,11 @@ namespace OpenPmsDental.UI {
 			if(control is TrackBar) {
 				UiTrackBarLook.Attach(control);
 			}
+			if(IsPartOfOwnControl(control)) {
+				//A stock button, check box or panel inside one of the program's own controls (the colour picker's swatch, the date picker's button,
+				//UI-4) is drawn by that control: only its scroll bars take a look here.
+				return;
+			}
 			if(UiButtonLook.IsDrawn(control)) {
 				UiButtonLook.Attach(control);
 			}
@@ -113,6 +118,16 @@ namespace OpenPmsDental.UI {
 			if(dateTimePicker.CalendarForeColor==SystemColors.WindowText) {
 				dateTimePicker.CalendarForeColor=UiTheme.GetColor(EnumUiColor.Text);
 			}
+		}
+
+		///<summary>True for a control whose parent is one of the program's own user controls (OpenPmsDental.UI: ODColorPicker, ODDatePicker,
+		///ODDateRangePicker, ComboBoxClinicPicker and the others UI-4 restyled), which draws its parts itself.</summary>
+		public static bool IsPartOfOwnControl(Control control) {
+			if(!(control.Parent is UserControl)) {
+				return false;//not a window (the print preview) nor a container (UI.GroupBox, UI.TabPage, UI.PanelOD hold any control)
+			}
+			string nameSpace=control.Parent.GetType().Namespace;
+			return nameSpace!=null && (nameSpace=="OpenPmsDental.UI" || nameSpace.StartsWith("OpenPmsDental.UI."));
 		}
 
 		///<summary>The scale of the looks: the program's dpi and zoom.</summary>
@@ -247,10 +262,14 @@ namespace OpenPmsDental.UI {
 			return control!=null && _table.TryGetValue(control,out _);
 		}
 
-		///<summary>True when the button shows its own colour (a colour swatch, a handle): not the visual-style back colour and an opaque colour other
-		///than the control colours.</summary>
+		///<summary>True when the button shows its own colour (a colour swatch, a handle): no icon or text, not the visual-style back colour, and an
+		///opaque colour other than the control colours.</summary>
 		public static bool IsSwatch(System.Windows.Forms.Button button) {
 			if(button.UseVisualStyleBackColor) {
+				return false;
+			}
+			if(button.Image!=null || button.BackgroundImage!=null || !string.IsNullOrEmpty(button.Text)) {
+				//A button with an icon or a text on a colour (FormProcEdit's small edit and delete buttons) is a button, not a swatch.
 				return false;
 			}
 			Color color=button.BackColor;

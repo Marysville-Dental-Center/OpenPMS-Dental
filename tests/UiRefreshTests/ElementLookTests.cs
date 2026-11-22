@@ -215,6 +215,17 @@ namespace UiRefreshTests {
 			Assert.IsFalse(UiButtonLook.IsDrawn(new System.Windows.Forms.Button { FlatStyle=FlatStyle.System }),"Windows draws a System button.");
 			Assert.IsFalse(UiButtonLook.IsSwatch(new System.Windows.Forms.Button { UseVisualStyleBackColor=true }));
 			Assert.IsTrue(UiButtonLook.IsSwatch(new System.Windows.Forms.Button { BackColor=Color.RoyalBlue,UseVisualStyleBackColor=false }));
+			Assert.IsFalse(UiButtonLook.IsSwatch(new System.Windows.Forms.Button { BackColor=Color.Silver,UseVisualStyleBackColor=false,Text="Edit" }),
+				"A button with a text on a colour is a button.");
+			using(OpenPmsDental.UI.ODColorPicker odColorPicker=new OpenPmsDental.UI.ODColorPicker()) {
+				Control controlSwatch=odColorPicker.Controls[0];
+				Assert.IsTrue(UiLooks.IsPartOfOwnControl(controlSwatch),"The colour picker draws its own swatch.");
+			}
+			using(OpenPmsDental.UI.GroupBox groupBox=new OpenPmsDental.UI.GroupBox())
+			using(System.Windows.Forms.Button button=new System.Windows.Forms.Button()) {
+				groupBox.Controls.Add(button);
+				Assert.IsFalse(UiLooks.IsPartOfOwnControl(button),"A group box holds any control.");
+			}
 			Assert.IsTrue(UiButtonLook.IsSwatch(new System.Windows.Forms.Button { BackColor=SystemColors.ControlDark,UseVisualStyleBackColor=false }),"The time pattern's handle.");
 			Assert.IsFalse(UiButtonLook.IsSwatch(new System.Windows.Forms.Button { BackColor=SystemColors.Control,UseVisualStyleBackColor=false }));
 			Assert.IsTrue(UiBlockLook.IsDrawn(new Label { BackColor=Color.LightGray }));
@@ -337,7 +348,7 @@ namespace UiRefreshTests {
 					form.Controls.Add(numericUpDown);
 					UiInputFrame.Attach(numericUpDown);
 					IntPtr handle=numericUpDown.Handle;
-					using(Bitmap bitmap=new Bitmap(90,23,PixelFormat.Format24bppRgb)) {
+					using(Bitmap bitmap=new Bitmap(numericUpDown.Width,numericUpDown.Height,PixelFormat.Format24bppRgb)) {
 						using(Graphics g=Graphics.FromImage(bitmap)) {
 							g.Clear(Color.Magenta);
 							IntPtr hdc=g.GetHdc();
@@ -356,7 +367,7 @@ namespace UiRefreshTests {
 							}
 						}
 						AssertColour(Color.White,bitmap.GetPixel(0,0),"the printed top left corner:"+pixels);
-						AssertColour(Color.White,bitmap.GetPixel(89,22),"the printed bottom right corner");
+						AssertColour(Color.White,bitmap.GetPixel(bitmap.Width-1,bitmap.Height-1),"the printed bottom right corner");
 					}
 				}
 			});
