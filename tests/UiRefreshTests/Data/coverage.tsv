@@ -13,7 +13,7 @@ OpenPmsDental/UI/GroupBox	UI-4a	the group box
 OpenPmsDental/UI/PanelOD	UI-4a	the panel
 OpenPmsDental/UI/ToolTipOD	UI-4a	the tooltip
 OpenPmsDental/UI/ComboBox	UI-4b	the combo box
-OpenPmsDental/UI/UiInputFrame	UI-12,UI-13	the combo box's frame over the stock single-line inputs (text box, up-down box, date picker) and, polish round, every multi-line text box; fix round, every bordered rich text box (ODtextBox), single-line ones too; UI-13: the corners in the parent's colour on whole pixels, and the other shared looks attached with it (AttachOne)
+OpenPmsDental/UI/UiInputFrame	UI-12,UI-13	the combo box's frame over the stock single-line inputs (text box, up-down box, date picker) and, polish round, every multi-line text box; fix round, every bordered rich text box (ODtextBox), single-line ones too; UI-13: the corners in the parent's colour on whole pixels, and the other shared looks attached with it (AttachOne); fix round 2: the themed date picker's whole drop button covered (DTM_GETDATETIMEPICKERINFO), its value in the Text token, a disabled picker's box in the disabled grey
 OpenPmsDental/UI/UiRadioLook	UI-12,UI-13	the stock radio button drawn like the program's check box (round 3: the circle where the box is, the text 16 px from the left); UI-13: a circle on the right drawn there in the same look
 OpenPmsDental/UI/UiUpDownLook	UI-12	the stock up-down box's arrow buttons drawn like the combo box's drop area (polish round: the box's fill, the Fluent chevrons)
 OpenPmsDental/UI/UiScrollLook	UI-13	every scroll bar (the stock scroll bar controls of the grids, lists and pickers, and the frame scroll bars of text boxes, lists, tree and list views, scrolling panels) painted over in UiScrollPaint's Fluent look
