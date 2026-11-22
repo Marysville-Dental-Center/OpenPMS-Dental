@@ -177,3 +177,58 @@ Every round 2 picture was opened: the windows whole, the Preference pages in mon
 | ControlChart-procbuttons, -pagebar 100/150 | sizes, gaps | As in round 1: equal buttons and gaps; the page bar flat with chevrons. |
 
 The pass still finds the open items above, so the audit is not clean: round 2 is reported partial.
+
+## Round 3 (2026-11-21: the lead's audit of round 2, the owner's addition, the five windows)
+
+Every round 3 picture was opened: the forms whole, the Preference pages in ten montages of three whole pages at full size, the owner's 26
+crops in two montages, the style pictures (the procedure buttons and the page bar at 100% and 150% in one montage, FormPayment's inputs at
+150% whole), and the parts the gallery cannot show (FormClaimEdit's UB04 and Canadian tabs) drawn from the tree with `render.py`.
+
+### Pass 1 (galleries r3a and r3b: the round 3 rules, the five windows' first layouts)
+
+- FormInsPlan: laid out (three columns, the patient band); found: the Note label centred on its box (moved to the box's top), the
+  subscriber and Canadian groups on two field columns (one now), the patient band's fields 6 px left of the plan column (on it now).
+- FormProcEdit: laid out; found: Original Date Comp's label over the Date Entry box (the left column 432 wide now), the Financial tab's grids
+  past the page's edge (8 px from the edges now), the left column 6 px off the tabs' field column (on it now).
+- FormClaimEdit: laid out; found: the window 758 px tall (the script took the planned tree's size as the designer's; fixed in grid_hand),
+  the General tab's claim note past the tab (8 px from its edge now).
+- ControlChart: the Enter Treatment page in four columns; found: "Type Proc Code" cut in its box, "Procedure Buttons:" 0 px wider than its
+  text, the ExstCurProv radio button on the entry status group's edge (the columns re-balanced: 96, 122, 112, 168 px).
+- ControlAccount: the aging strip and the side panel; found: the bold amounts 8 px wider than their columns (80 px columns for them now).
+- FormPatientEdit: the four lists, Add and Defaults, the Zip box fixed; found: the band under "Same for entire family" still there (the
+  gap under the row was measured to the row without its hidden box: fixed in the planner).
+
+### Pass 2 (galleries r3c to r3f: GridRulesTests in every window, the owner's addition)
+
+- The new checks (text past its container, equal gaps) found: FormInsPlan's check list rows of two heights (one height now), the
+  Benefits Last Verified label over the patient band (the band ends before it), the top right's dates and the subscriber's To date at three
+  x values within 40 px (one column now); ControlChart's entry status radio button on the group's edge (fixed above); the zero-size tooltip
+  label of UserControlAccountRecAndRepCharges (not a text: the check skips it).
+- Preference pages: UserControlAccountClaimSend's and UserControlEnterpriseAccount's Claim Identification Prefix boxes off the page's field
+  column, the receive time box after its radio button's text, UserControlOrtho's placement list off the column with its buttons centred,
+  UserControlAccountGeneral's allocation note right-aligned at the far right: hand rows (the re-run stays empty).
+- Known findings with their reasons (`grid-known.tsv`): the parts kept as on main (ControlChart's Missing, Movements, Show and Ortho pages,
+  ControlAccount's hidden summary groups and Auto Ortho page, what the Chart layout sheet places), another designer's controls
+  (EmailPreviewControl, SignatureBoxWrapper), rows a two-line label makes taller, stacked switched controls, radio buttons in field rows.
+
+### Pass 3 (gallery r3i, the final build; G-UI3-ui12p's after pictures)
+
+| Picture | Checked | Found |
+|---|---|---|
+| FormPatientEdit | rows, columns, groups, lists, the Zip box | Good: no band under "Same for entire family" (the hidden super family box at the end of its group), the Zip box one box with its chevron, the four lists one top and height with Add and Defaults under the last one's edge. |
+| FormProvEdit | rows, columns, groups, radio buttons | Good. |
+| FormProcCodeEdit | rows, check boxes, lists, notes | Good: Is Radiology 1 px off the list's pitch (its row holds the Paint Text field; a known gap). |
+| FormPractice | everything | Good: City, ST, Zip end with the Address fields; the right column one left and one right edge; the radio buttons drawn like check boxes. |
+| FormInsBenefits, FormApptViewEdit, FormMedLabEdit, FormScreenEdit, FormBackup, FormStatementOptions, FormHL7DefEdit | groups, rows | Good (FormInsBenefits' benefit grid is drawn where the designer has it: Load moves it). |
+| FormEmailInbox | search bar, the owner's label | Good; the preview pane is another designer (known). |
+| FormApptEdit, FormPayment | the parts, the inputs | Good. |
+| FormInsPlan | the band, three columns, the top right, the bottom bar | Good: one field column per column, the subscriber and Canadian groups on one, the top right's dates on the To-date column, check list one pitch, the radio buttons at the bottom drawn like check boxes. |
+| FormProcEdit | panel1, the right column, the tabs | Good. The tooth, surface and area rows are empty in the picture (hidden in the designer; FillControls shows the treatment area's ones). |
+| FormClaimEdit | the bands, the groups, the grids, the tabs (General drawn; UB04 and Canadian from the tree) | Good. The harness draws the bottom bar 21 px lower than the designer puts it (FormClaimEdit computes its client area in Load, which the harness does not run; on main the same): the bar is cut at the picture's bottom edge. |
+| ControlChart | the Enter Treatment page, the procedure buttons, the Planned button row | Good: four columns 6 px apart, captions and lists on one line, the bottom row on one line, "Type Proc Code" whole. |
+| ControlAccount | the aging strip, the side panel | Good: the aging boxes 4 px apart under centred captions, the amount columns even, the side panel's buttons one width. |
+| Preference pages (28) | whole pages in montages | Good: the Preferences style everywhere, the prefix boxes, the receive time box and the placement list on their pages' field columns, the allocation note at the content's edge, the procedures page's last check box on one line. |
+| Owner crops (26) | each crop | Each control whole and outlined, boxes left, labels whole. |
+| FormPayment-inputs 100/150, ControlChart-procbuttons and -pagebar 100/150 | frames, sizes, gaps | Good: one frame for every input, the procedure buttons 30 x 19 px 3 px apart, the page bar flat. |
+
+The pass finds nothing beyond the known rows (each with its reason in `grid-known.tsv`) and the harness's FormClaimEdit bottom bar.

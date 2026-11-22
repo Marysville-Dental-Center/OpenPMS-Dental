@@ -1576,8 +1576,12 @@ own 26.2 overlap check before it starts. The first cut is below; a brief that fi
   area up to about 1000 x 1880; FormPreferences grows to show its pages) and the lead's audit applied. 42 of the 47 windows laid out by
   the tool (the 40 of round 1, FormApptEdit and FormPayment laid out in parts through `grid-scope.tsv`), the Preferences pages in the
   Preferences style (one field column per page, labels where the check box text starts); a re-run of the planner on the build plans
-  nothing. Open: FormInsPlan, FormClaimEdit, FormProcEdit, ControlAccount and ControlChart are still as on `main` but for their hand rows
-  (UI-12.md section 4 and 5); gallery G-UI3-ui12p redrawn from round 2.
+  nothing. Round 3 (2026-11-21): all 47 windows laid out: FormInsPlan, FormClaimEdit and FormProcEdit (their tabs by the planner in
+  keep-width parts) and the two modules' designer-placed parts (the Chart's Enter Treatment page and button rows, the Account's aging strip
+  and side panel) by layout scripts (`tools/UiFit/grid_hand.py`, `tools/UiFit/hand/`); the lead's audit of round 2 fixed; the stock radio
+  button drawn like the check box (`UiRadioLook`); `GridRulesTests` in every grid window with the owner's addition (no text past its
+  container, equal gaps between consecutive fields, check boxes and buttons); kept as on main with reasons: the Chart's Missing, Movements,
+  Show and Ortho pages and the Account's hidden summary groups (UI-12.md section 5); gallery G-UI3-ui12p redrawn from round 3.
 - Gallery: G-UI3 per slice, the owner's rows first.
 
 ---
