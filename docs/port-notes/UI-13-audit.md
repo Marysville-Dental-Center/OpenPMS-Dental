@@ -73,3 +73,20 @@ Windows (`a1`, the 47 pilot windows; 22 changed against main's pictures, all loo
   designer gives it 15 x 561). Fixed in the sheet (the designer's size). 12-datagridview at 150%: Finding: the header text cut (the sheet's
   font at 150% without the header's height). Fixed in the sheet (header height from its font).
 
+## Pass 3 (builds of d6bc083e1 to 99fbf774b, pictures `a7` to `a9`, `xa9`, `ya9`; the gallery G-UI3-ui13 is drawn from `a9`)
+
+- FormProvEdit: the colour pickers' own swatches with their "no colour" diagonal (pass 2's fix narrowed: a stock button its owner paints keeps
+  its owner's picture; a stock button inside any other control takes the look). FormProcEdit: the signature box's two icon buttons in the
+  program's button look. Nothing wrong.
+- 14-timepattern (100%, 150%): Finding (a7): the letters stood a row off and part of them were missing (GDI text drawn by the inner panels
+  ignored their move of the picture; the cells were placed by the panels' place, which a window lays out only on Load). Fixed: the cells from
+  the time bar's own layout rule, the letters in GDI+ after every fill. In `a9` every cell shows its letter (X white on Accent, / on
+  AccentSubtle), the handle under the last cell. Nothing wrong.
+- The 47 pilot windows: `a9` against `a8`: identical but FormProcCodeEdit's empty column (its lines one pixel up, on the cells' laid-out
+  place). Opened again: ControlAccount, ControlChart, FormProcCodeEdit, FormProvEdit (the owner's rows), FormProcEdit, FormApptEdit. Nothing
+  wrong.
+- The 14 windows outside the pilot (`xa9`): identical to `xa7`, opened in pass 2. Nothing wrong.
+- The style sheet at 100% and 150% (`a9/styles`, 28 pictures): opened (01 to 14). Nothing wrong; the tree view's lines and the list view's
+  missing header are the harness's classic picture (no visual styles in the test process; Windows 11's Explorer theme in the program).
+
+This pass finds nothing beyond the recorded limits (UI-13.md section 4).
