@@ -1949,10 +1949,10 @@ namespace OpenPmsDental {
 			// checkOrthoWaitDays
 			// 
 			this.checkOrthoWaitDays.Enabled = false;
-			this.checkOrthoWaitDays.Location = new System.Drawing.Point(0, 69);
+			this.checkOrthoWaitDays.Location = new System.Drawing.Point(102, 69);
 			this.checkOrthoWaitDays.Name = "checkOrthoWaitDays";
 			this.checkOrthoWaitDays.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-			this.checkOrthoWaitDays.Size = new System.Drawing.Size(396, 21);
+			this.checkOrthoWaitDays.Size = new System.Drawing.Size(294, 21);
 			this.checkOrthoWaitDays.TabIndex = 6;
 			this.checkOrthoWaitDays.Text = "Wait 30 days before creating the first automatic claim";
 			// 

@@ -340,9 +340,9 @@
 			// 
 			// labelQuickAdd
 			// 
-			this.labelQuickAdd.Location = new System.Drawing.Point(539, 0);
+			this.labelQuickAdd.Location = new System.Drawing.Point(540, 6);
 			this.labelQuickAdd.Name = "labelQuickAdd";
-			this.labelQuickAdd.Size = new System.Drawing.Size(150, 48);
+			this.labelQuickAdd.Size = new System.Drawing.Size(143, 42);
 			this.labelQuickAdd.TabIndex = 162;
 			this.labelQuickAdd.Text = "Single click on items in the list below to add them to this appointment.";
 			// 

@@ -208,6 +208,8 @@ class Designer:
             self.text = f.read().decode("latin-1")
         self.declared = {m.group(1): m.group(2) for m in re.finditer(r"this\.(\w+) ?= ?new ([\w.]+)\(", self.text)}
         self.docked = {m.group(1): m.group(2) for m in re.finditer(r"this\.(\w+)\.Dock ?= ?System\.Windows\.Forms\.DockStyle\.(\w+);", self.text)}
+        # A control whose Name differs from its field (this.checkLong.Name = "checkShort"): the tree has the Name, the designer the field.
+        self.name_to_field = {m.group(2): m.group(1) for m in re.finditer(r'this\.(\w+)\.Name ?= ?"(\w+)";', self.text) if m.group(1) != m.group(2)}
         self.adds = {}
         for m in re.finditer(r"this\.(?:(\w+)\.)?Controls\.Add\(this\.(\w+)\)", self.text):
             self.adds[m.group(2)] = m.group(1) or "."
@@ -511,6 +513,8 @@ class Layout:
             return H
         if k in ("check", "radio"):
             return max(n.nh if n.h > self.p.check_height + 6 else 0, self.p.check_height)
+        if k == "label" and n.text_w and n.text_h and n.text_w + 4 > n.nw and n.nh >= 1.6 * n.text_h:
+            return n.nh  # a wrapped label keeps the height of its lines
         if k == "label" and in_field_row and n.h <= H + 4:
             return H
         return n.nh
@@ -634,11 +638,15 @@ class Layout:
         y = y0
         prev = None
         prev_kind = None
+        # The stack's usual gap: a gap is a section break only when it is clearly larger than that (a form drawn loose all over is not
+        # made of sections).
+        gaps = sorted(kids[i + 1].y - kids[i].b for i in range(len(kids) - 1))
+        typical = gaps[len(gaps) // 2] if gaps else 0
         bottom = y0
         rmax = x0
         for ri, k in enumerate(kids):
             if prev is not None:
-                y += self.gap(prev, k, prev_kind)
+                y += self.gap(prev, k, prev_kind, typical)
             if any(i.fixed for i in k.items):
                 y = max(y, k.y) if k.y >= y else y
             if is_row(k):
@@ -655,11 +663,11 @@ class Layout:
             prev_kind = kind
         return rmax, bottom
 
-    def gap(self, prev, cur, prev_kind):
+    def gap(self, prev, cur, prev_kind, typical=0):
         orig = cur.y - prev.b
         pk = prev_kind
         ck = self.row_kind(cur)
-        if orig >= GRID["section_from"]:
+        if orig >= GRID["section_from"] and orig >= typical + 6:
             return GRID["section_gap"]
         if pk == "caption" and orig <= 6:
             return GRID["caption_gap"]
@@ -905,6 +913,9 @@ class Planner:
         if tree is None:
             self.unplaced.append((window, "", "no control tree"))
             return
+        for n in walk(tree):
+            if n is not tree and n.name in designer.name_to_field and n.name not in designer.declared:
+                n.name = designer.name_to_field[n.name]
         names = [n.name for n in walk(tree) if n.name]
         fixed = runtime_positioned(self.root, simple, [x for x in names if x in designer.declared])
         for n in walk(tree):
@@ -1007,7 +1018,13 @@ class Planner:
             if n is tree:
                 if (n.nw, n.nh) != (n.w, n.h):
                     prop = "ClientSize" if designer.size(".", "ClientSize") else "Size"
-                    self.add(designer, window, ".", prop, "%d,%d" % (n.w, n.h), "%d,%d" % (n.nw, n.nh), n.rule.get("Size", "window grows"))
+                    # The designer's size less the built root's (a window's menu bar takes its height from the client area).
+                    sz = designer.size(".", prop) if not SIMULATE else None
+                    dw, dh = (sz[0] - n.w, sz[1] - n.h) if sz else (0, 0)
+                    if sz and (n.nw + dw, n.nh + dh) == sz:
+                        continue
+                    self.add(designer, window, ".", prop, "%d,%d" % ((sz[0], sz[1]) if sz else (n.w, n.h)), "%d,%d" % (n.nw + dw, n.nh + dh),
+                             n.rule.get("Size", "window grows"))
                 continue
             loc = designer.point(n.name) if not SIMULATE else (n.x, n.y)
             if "Location" in n.rule and (n.nx, n.ny) != (n.x, n.y):
@@ -1100,7 +1117,8 @@ class Planner:
             need_w = max([p.nw for p in n.children] + [0])
             need_h = max([p.nh for p in n.children] + [0])
             return
-        movable = [c for c in n.children if c.dock in ("None", "") and not c.in_layout_panel]
+        # Controls with no size (a label kept only for its tooltip text) take no row: they stay as drawn.
+        movable = [c for c in n.children if c.dock in ("None", "") and not c.in_layout_panel and c.w > 0 and c.h > 0]
         if not movable:
             return
         items = merge_stacked(movable)
