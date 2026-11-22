@@ -66,6 +66,12 @@ font, and one icon family. Staff who switch from Open Dental find every control 
 
 **The owner's decisions (2026-11-17).**
 1. **Restyle only.** Every window keeps its layout and its control positions. Staff switch from Open Dental and know where things are.
+   **Replaced on 2026-11-21 for the layouts** (the owner's G-UI3 review: "overall not good. UI lacking consistence. choice of spacing not
+   symetrical"): "every window is laid out again on one spacing grid by a tool, same controls, same window sizes where they fit; a pilot
+   first, then every window in slices", and "the checkbox box on the left of its text, everywhere". The owner's standard for it: "apply
+   general styling sense. Looking for symmetry, consistency, right balance between too much crowding and too much spacing". The rules
+   are in [UI-12.md](../port-notes/UI-12.md) section 1; package UI-12 in section 7. The controls, their order, names, texts and events
+   still stay; what follows about positions holds until a window's UI-12 slice lays it out.
    - Allowed: colours, borders, corner radii, fonts, icons, and how a control draws inside its own bounds.
    - Not allowed: moving a control, changing a window's layout, new windows in place of old ones.
    - The one exception, needed by decision 3: a control whose text no longer fits may get a little wider or taller, in place, when the
@@ -1557,6 +1563,20 @@ own 26.2 overlap check before it starts. The first cut is below; a brief that fi
 - Work: the sweep of every window (G-UI4), fixes it finds, the notes: the classic look is gone; no conversion; Misc Colors still work.
 - Tests: the whole Full run; the source scans' allow lists at their final size.
 - Gallery: G-UI3 slices for the `BackColor` slices; **G-UI4** for UI-11-final, including the files that still use `ColorOD`.
+
+**UI-12: the layout grid (the owner's decision of 2026-11-21, section 1)**
+- Rules: [UI-12.md](../port-notes/UI-12.md) section 1 (8 px container padding, labels 6 px before their fields and right-aligned, one
+  field height and one row pitch per container, check boxes with the box on the left, dialog buttons bottom right). Tool:
+  `tools/UiFit/grid_tools.py` (planner and applier) with the `GridDump` control tree of `tests/UiRefreshTests`; `GridRulesTests` checks
+  the rules on the windows of `tests/UiRefreshTests/Data/grid-windows.tsv`.
+- Slices: **UI-12 pilot** (branch `ui/ui12p-1`): the 33 windows of UI-10 slice 1 and the 14 windows of the owner's G-UI3 review, the
+  shared input frame (`UiInputFrame`) and the Progress Notes page bar. Then **UI-12-1 to UI-12-n** over the UI-10 ranking order
+  (`fit-scan-files.tsv`), about 40 designer files each, then the rest (the windows the ranking does not hold).
+- Status of the pilot (2026-11-21): 41 of the 47 windows laid out by the tool (the plan from the build of an applied plan is empty),
+  6 kept as on `main` with hand rows (`grid-hand.tsv`: ControlChart's procedure buttons, FormApptEdit's quick-add note, FormInsPlan's
+  ortho check box) because the tool cannot yet place them (run-time layout, stacked panels, growth past the screen); the owner's rows
+  in UI-12.md section 3; gallery G-UI3-ui12p.
+- Gallery: G-UI3 per slice, the owner's rows first.
 
 ---
 
