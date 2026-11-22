@@ -3,7 +3,7 @@
 // line inside the bottom edge. The program's own ComboBox paints itself; the stock single-line text box (and the program's Valid* boxes),
 // the up-down boxes and the date picker keep their Windows behaviour and get the frame painted over their Windows border, so the thick
 // black or 3-D edges and the date picker's drop button look like the combo box's. FormODBase attaches it to its controls when it makes its
-// LayoutManager (AttachTree).
+// LayoutManager (AttachTree). Round 2: the stock (editable) ComboBox too, its Windows drop button covered by the program's chevron.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
@@ -15,7 +15,7 @@ using System.Windows.Forms;
 using CodeBase;
 
 namespace OpenPmsDental.UI {
-	///<summary>Paints the combo box's frame over a stock single-line input (TextBox, NumericUpDown, DateTimePicker).</summary>
+	///<summary>Paints the combo box's frame over a stock single-line input (TextBox, NumericUpDown, DateTimePicker, ComboBox).</summary>
 	public class UiInputFrame : NativeWindow {
 		#region Fields
 		private const int WM_PAINT=0x000F;
@@ -57,6 +57,10 @@ namespace OpenPmsDental.UI {
 			if(control is UpDownBase || control is DateTimePicker) {
 				return true;
 			}
+			if(control.GetType()==typeof(System.Windows.Forms.ComboBox)) {
+				//The stock combo box (the program's own ComboBox paints itself): not the list-only Simple style.
+				return ((System.Windows.Forms.ComboBox)control).DropDownStyle!=ComboBoxStyle.Simple;
+			}
 			if(control is TextBox textBox) {
 				return !textBox.Multiline && textBox.BorderStyle==BorderStyle.Fixed3D && !(textBox.Parent is UpDownBase);
 			}
@@ -94,7 +98,7 @@ namespace OpenPmsDental.UI {
 			float scale=GetScale(control);
 			int edge=GetEdgeWidth(control);
 			Color colorBack=control.Enabled ? control.BackColor : SystemColors.Control;
-			if(control is DateTimePicker) {
+			if(control is DateTimePicker || control is System.Windows.Forms.ComboBox) {
 				colorBack=control.Enabled ? SystemColors.Window : SystemColors.Control;
 			}
 			Color colorParent=control.Parent?.BackColor ?? SystemColors.Control;
@@ -107,7 +111,7 @@ namespace OpenPmsDental.UI {
 				Region region=new Region(rectangle);
 				Rectangle rectangleInner=Rectangle.Inflate(rectangle,-edge,-edge);
 				Rectangle rectangleButton=Rectangle.Empty;
-				if(control is DateTimePicker) {
+				if(control is DateTimePicker || control is System.Windows.Forms.ComboBox) {
 					//The drop button: the width of a scroll bar inside the edge, at the right.
 					int widthButton=SystemInformation.VerticalScrollBarWidth+2;
 					rectangleButton=new Rectangle(rectangleInner.Right-widthButton,rectangleInner.Y,widthButton,rectangleInner.Height);
@@ -120,7 +124,7 @@ namespace OpenPmsDental.UI {
 				}
 				Rectangle rectangleBox=new Rectangle(rectangle.X,rectangle.Y,rectangle.Width,rectangle.Height);
 				UiListPaint.DrawComboBoxBox(g,rectangleBox,false,control.Enabled,scale,colorBack);
-				if(control is DateTimePicker) {
+				if(control is DateTimePicker || control is System.Windows.Forms.ComboBox) {
 					UiListPaint.DrawChevron(g,rectangleBox,control.Enabled ? EnumUiColor.Text : EnumUiColor.TextDisabled,scale);
 				}
 				if(isFocused && control.Enabled) {

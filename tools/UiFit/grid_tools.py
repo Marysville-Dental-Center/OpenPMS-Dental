@@ -97,7 +97,7 @@ class Node:
     __slots__ = ("window", "path", "name", "type", "index", "x", "y", "w", "h", "cx", "cy", "cw", "ch", "visible", "dock", "anchor", "autosize",
                  "sizes_itself", "in_layout_panel", "check_align", "text_align", "multiline", "font_h", "text_w", "text_h", "title_bottom", "pref_h",
                  "text", "children", "parent", "nx", "ny", "nw", "nh", "editable", "fixed", "why_fixed", "new_check_align", "new_text_align",
-                 "autosize_off", "rule", "members", "spanned", "rtl")
+                 "autosize_off", "rule", "members", "spanned", "rtl", "w0")
 
     def __init__(self, r):
         self.window = r["window"]
@@ -136,6 +136,7 @@ class Node:
         self.members = None
         self.spanned = False
         self.rtl = False
+        self.w0 = self.w  # the width as the tree has it: a field narrowed in one pass widens again when its container grew in a later one
 
     # anchor bits: Top 1, Bottom 2, Left 4, Right 8
     @property
@@ -283,6 +284,11 @@ def label_width(n):
     if n.text_w and n.text_h and n.h >= 1.6 * n.text_h and n.w > 40 and n.text_w + 4 > n.w:
         return n.w
     return snap_up(n.text_w + 4) if n.text_w else n.w
+
+
+def pair_label_width(lb):
+    """The width of what names a field: a label's text, or a button's own width."""
+    return lb.nw if lb.kind == "button" else label_width(lb)
 
 
 def check_width(n, text_room=None):
@@ -532,6 +538,11 @@ def make_units(items, row_index):
             units.append(Unit([it, nxt], row_index))
             i += 2
             continue
+        if (it.kind == "button" and nxt is not None and nxt.kind == "other" and 0 <= nxt.x - (it.x + it.w) <= 40 and abs(it.y - nxt.y) <= 4
+                and it.h <= GRID["field_height"] + 4 and nxt.h > it.h + 6 and not it.fixed and not nxt.fixed):
+            units.append(Unit([it, nxt], row_index))  # a button that names the box beside it (FormApptEdit's Lab and Req)
+            i += 2
+            continue
         if (it.kind == "label" and nxt is not None and nxt.kind == "check" and not nxt.text_w and nxt.x - (it.x + it.w) <= 40):
             units.append(Unit([it, nxt], row_index))
             i += 2
@@ -673,6 +684,21 @@ class Layout:
 
     def place_v(self, block, x0, y0, right):
         kids = sorted(block.children, key=lambda c: c.y)
+        # A row of controls hidden in the designer (shown at run time in some setups only, such as Canada's Time Units) goes to the end of
+        # its column: where it stays hidden it leaves no gap between the rows that show.
+        hidden = [k for k in kids if is_row(k) and all(not getattr(i, "visible", True) for i in row_items(k))]
+        gap_over = {}
+        if hidden and len(hidden) < len(kids):
+            # The rows around a hidden row keep the gap they had to it, not the gap across it.
+            for i in range(1, len(kids)):
+                if kids[i] in hidden or kids[i - 1] not in hidden:
+                    continue
+                j = i - 1
+                while j > 0 and kids[j] in hidden:
+                    j -= 1
+                if kids[j] not in hidden:
+                    gap_over[id(kids[i])] = min(kids[j + 1].y - kids[j].b, kids[i].y - kids[i - 1].b)
+            kids = [k for k in kids if k not in hidden] + hidden
         rows = [k for k in kids if is_row(k)]
         # Units and columns of the rows.
         units_by_row = {}
@@ -695,7 +721,7 @@ class Layout:
         rmax = x0
         for ri, k in enumerate(kids):
             if prev is not None:
-                y += self.gap(prev, k, prev_kind, typical)
+                y += self.gap(prev, k, prev_kind, typical, gap_over.get(id(k)))
             if any(i.fixed for i in k.items):
                 y = max(y, k.y) if k.y >= y else y
             if is_row(k):
@@ -710,10 +736,46 @@ class Layout:
             y = b
             prev = k
             prev_kind = kind
+        # Notes and their buttons standing one per row in a column (under a list: "View all fee changes" over its Audit Trail button) are
+        # centred on the column: a note over its button, not ragged against it.
+        singles = [row_items(k)[0] if is_row(k) and len(row_items(k)) == 1 else None for k in kids]
+        i = 0
+        while i < len(singles):
+            j = i
+            while j < len(singles) and singles[j] is not None and singles[j].kind in ("label", "button") and singles[j].editable and not singles[j].fixed:
+                j += 1
+            run = singles[i:j]
+            if len(run) >= 3 and any(n.kind == "label" for n in run) and sum(1 for n in run if n.kind == "button") >= 2:
+                lo = min(min(n.nx for n in run), min((k.x for k in kids), default=x0))
+                hi = max(max(n.nx + n.nw for n in run), rmax)
+                axis = (lo + hi) // 2
+                for n in run:
+                    self.set_loc(n, axis - n.nw // 2, n.ny, "notes and their buttons: centred on their column")
+                    if n.kind == "label" and not (n.text_align or "").endswith("Center"):
+                        n.new_text_align = ("Top" if (n.text_align or "").startswith("Top") else "Middle") + "Center"
+                        n.add_rule("TextAlign", "notes and their buttons: centred on their column")
+            i = max(j, i + 1)
+        # Containers stacked in one column (one left edge) share one right edge: the widest one's.
+        conts = []
+        for k in kids:
+            if is_row(k):
+                its = row_items(k)
+                if (len(its) == 1 and its[0].kind in ("group", "panel", "tabs") and its[0].editable and not its[0].fixed
+                        and not getattr(its[0], "members", None) and not (its[0].anchor & 8 and its[0].anchor & 4)):
+                    conts.append(its[0])
+        for c0 in conts:
+            col = [c for c in conts if abs(c.nx - c0.nx) <= 8]
+            if len(col) < 2:
+                continue
+            r = max(c.nx + c.nw for c in col)
+            for c in col:
+                if c.nx + c.nw < r and c.nx == c0.nx:
+                    self.set_size(c, r - c.nx, c.nh, "containers stacked in one column: one right edge")
+            rmax = max(rmax, r)
         return rmax, bottom
 
-    def gap(self, prev, cur, prev_kind, typical=0):
-        orig = cur.y - prev.b
+    def gap(self, prev, cur, prev_kind, typical=0, over=None):
+        orig = cur.y - prev.b if over is None else over
         pk = prev_kind
         ck = self.row_kind(cur)
         if orig >= GRID["section_from"] and orig >= typical + 6:
@@ -759,7 +821,7 @@ class Layout:
         merged = True
         while merged:
             merged = False
-            pair_cols = [c for c in cols if all(u.label is not None for u in c)]
+            pair_cols = [c for c in cols if any(u.label is not None for u in c)]
             for i in range(len(pair_cols)):
                 for j in range(i + 1, len(pair_cols)):
                     a, b = pair_cols[i], pair_cols[j]
@@ -787,7 +849,7 @@ class Layout:
         elif checks:
             target = None
             if stack_has_pairs and field_cols:
-                fc = field_cols[0]
+                fc = max(field_cols, key=lambda c: (sum(1 for u in c if u.label is not None), -min(u.anchor for u in c)))
                 fx = self.hinted_x(fc, self.column_x(fc, x0))
                 if all(fx + check_width(u.main) <= right for u in checks):
                     target = fc
@@ -842,7 +904,7 @@ class Layout:
         need = x0
         for u in c:
             if u.label is not None:
-                need = max(need, x0 + label_width(u.label) + GRID["label_gap"])
+                need = max(need, x0 + pair_label_width(u.label) + GRID["label_gap"])
         # Check boxes that join a field column do not pull it left (their box goes where the fields are).
         anchors = [u.anchor for u in c if u.main.kind not in ("check", "radio")]
         if not anchors:
@@ -878,6 +940,9 @@ class Layout:
         h_row = 0
         for u in units:
             for it in u.items:
+                if it.kind in ("check", "radio") and it.text_w and not it.fixed and not getattr(it, "members", None) and check_width(it) <= right - it.nx:
+                    h_row = max(h_row, self.p.check_height)  # a check box whose text fits on one line is one line tall
+                    continue
                 h_row = max(h_row, it.nh if (u.label is it and id(u) in prefs_lx) else self.item_height(it, field_row))
         if not units:
             return right, y, "fields"
@@ -907,7 +972,7 @@ class Layout:
                 x = cursor + (GRID["sibling_gap"] if both else GRID["item_gap"])
             elif cursor is not None:
                 gap = GRID["item_gap"] if u.label is None else GRID["band_gap"]
-                need = cursor + gap + (label_width(u.label) + GRID["label_gap"] if u.label is not None else 0)
+                need = cursor + gap + (pair_label_width(u.label) + GRID["label_gap"] if u.label is not None else 0)
                 if need > x:
                     x = need
                     if u.col:
@@ -920,7 +985,7 @@ class Layout:
                     m.add_rule("CheckAlign", "check box: the box on the left of its text")
                 width = check_width(m)
                 room = right - x
-                hh = self.item_height(m, field_row)
+                hh = self.item_height(m, field_row) if width > room else self.p.check_height
                 if width > room and room >= 0.55 * width and room > 60:
                     lines = min(3, wrapped_lines(m.text_w, room - 20))
                     hh = max(hh, lines * (m.text_h or 16) + 4)
@@ -939,9 +1004,13 @@ class Layout:
                     self.set_size(m, DATE_BOX_X + DATE_BOX_W, m.nh, "date picker: its bounds end with its date box")
             elif m.kind == "field" and not m.fixed:
                 off_box = ink_x(m)[0] - m.x  # a clinic picker's box starts after its own label
-                w = (snap(m.nw - off_box) if m.nw - off_box > 8 else m.nw - off_box)
-                if (u.col and u.col.get("prefs") and ("ComboBox" in m.type or w >= GRID["wide_field"]) and "ODDatePicker" not in m.type
-                        and right - tails[idx] - x >= 60):
+                w0 = getattr(m, "w0", m.nw)
+                w = (snap(w0 - off_box) if w0 - off_box > 8 else w0 - off_box)
+                if abs(x + (w0 - off_box) + tails[idx] - right) <= 2:
+                    w = right - tails[idx] - x  # a field that ends at the content's edge stays there (no snap away from it)
+                if (((u.col and u.col.get("prefs") and ("ComboBox" in m.type or w >= GRID["wide_field"]))
+                     or (self.p.in_scope and (u.label is not None or "ComboBoxClinicPicker" in m.type) and not self.p.keep_width))
+                        and "ODDatePicker" not in m.type and right - tails[idx] - x >= 60):
                     # Preferences style: combo boxes and wide fields end at the content's right edge (one right edge for the page).
                     w = right - tails[idx] - x
                     u.at_edge = True
@@ -950,6 +1019,10 @@ class Layout:
                     # (the container keeps its width).
                     w = right - tails[idx] - x
                 self.set_size(m, w + off_box, self.item_height(m, True), "single-line field: the standard height, width on the 4 px grid")
+            elif (m.kind == "other" and u.label is not None and u.label.kind == "button" and self.p.in_scope and not self.p.keep_width
+                  and not m.fixed and right - tails[idx] - x >= 60):
+                # A box named by a button (Lab, Req) in a part laid out alone: it ends where the fields end.
+                self.set_size(m, right - tails[idx] - x, m.nh, "box beside its button: ends where the fields end")
             elif m.kind == "button" and field_row and not m.fixed:
                 self.set_size(m, m.nw, self.item_height(m, True), "button in a field row: the field height")
             elif m.kind == "label" and not m.fixed and u.label is None and m.text_w and m.text_w + 4 > m.nw and m.nh > (m.text_h or 16) + 6:
@@ -967,6 +1040,10 @@ class Layout:
             if u.label is not None and id(u) in prefs_lx:
                 lb = u.label
                 self.set_loc(lb, prefs_lx[id(u)], y + (h_row - lb.nh) // 2, "label: Preferences style, centred on its field")
+            elif u.label is not None and u.label.kind == "button":
+                # A button that names the box beside it (Lab, Req): it stands where a label would, keeping its size, at the box's top.
+                lb = u.label
+                self.set_loc(lb, x - GRID["label_gap"] - lb.nw, y, "button before its box: 6 px before it, at its top")
             elif u.label is not None:
                 lb = u.label
                 lw = label_width(lb)
@@ -991,6 +1068,23 @@ class Layout:
                 cursor = m.nx + min(m.nw, check_width(m))
             prev_orig_right = max(sum(ink_x(i)) for i in u.items)
             rmax = max(rmax, m.nx + m.nw)
+        if self.p.keep_width and rmax > right:
+            # A scope that keeps its width: the row's widest field gives up the overflow and what follows it moves left.
+            over = rmax - right
+            fields = sorted([u.main for u in units if u.main.kind == "field" and not u.main.fixed and not has_date_box(u.main)
+                             and u.main.editable and not getattr(u.main, "members", None)], key=lambda n: -n.nw)
+            if fields and fields[0].nw - over >= 48:
+                f = fields[0]
+                fx = f.nx
+                self.set_size(f, f.nw - over, f.nh, "single-line field: shrinks to the room its row has (the part keeps its width)")
+                for u in units:
+                    for it in u.items:
+                        if it is not f and it.nx > fx:
+                            if getattr(it, "members", None):
+                                self.move_by(it, -over, 0, "row: on the grid")
+                            else:
+                                self.set_loc(it, it.nx - over, it.ny, "row: on the grid")
+                rmax -= over
         kinds = {u.main.kind for u in units}
         # Containers side by side in a row get one height.
         conts = [u.main for u in units if u.label is None and u.main.kind in ("group", "panel", "tabs")]
@@ -1241,10 +1335,11 @@ class Planner:
                     for k, old_r, dw in widened:
                         self.push_right(tree, c, k.ny, k.ny + k.nh, old_r, dw, {id(m) for m in members})
                     items = merge_stacked([k for k in members if k.dock in ("None", "") and k.w > 0 and k.h > 0])
-                    ink = [ink_x(i) for i in items]
+                    # Where the scope stands now (a part laid out before it may have pushed it down or right).
+                    ink = [ink_x_new(i) if not getattr(i, "members", None) else (i.nx + ink_x(i)[0] - i.x, ink_x(i)[1]) for i in items]
                     x0 = min(q[0] for q in ink)
                     x1 = max(q[0] + q[1] for q in ink)
-                    y0 = min(i.y for i in items)
+                    y0 = min(i.ny for i in items)  # the cut reads the drawn places; the scope is placed where it stands now
                     old_b = max(self.orig[id(k)][1] + self.orig[id(k)][3] for k in members)
                     lay = Layout(self, c, (x0, y0, x1, max(i.y + i.h for i in items)))
                     lay.place(cut(items), x0, y0, x1)
@@ -1748,7 +1843,7 @@ def cmd_plan(args):
     trees = load_tree(args.tree, windows)
     wf = fit_tools.window_files(root, list(trees.keys()))
     planner = Planner(root)
-    scope_file = os.path.join(root, "tests/UiRefreshTests/Data/grid-scope.tsv")
+    scope_file = os.path.join(root, args.scope_file)
     if os.path.exists(scope_file):
         for r in fit_tools.read_tsv(scope_file):
             names = [x.strip() for x in (r.get("controls") or "").split(",") if x.strip()]
@@ -1881,6 +1976,7 @@ def main():
     a.add_argument("--tree", required=True)
     a.add_argument("--windows")
     a.add_argument("--windows-file", default="tests/UiRefreshTests/Data/grid-windows.tsv")
+    a.add_argument("--scope-file", default="tests/UiRefreshTests/Data/grid-scope.tsv")
     a.add_argument("--out", required=True)
     a.add_argument("--unplaced")
     a.add_argument("--tree-out", help="write the planned trees (the input of --simulate)")

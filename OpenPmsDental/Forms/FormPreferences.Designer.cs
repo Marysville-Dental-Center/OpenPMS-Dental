@@ -34,7 +34,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(663, 669);
+			this.butSave.Location = new System.Drawing.Point(663, 845);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 3;
@@ -49,7 +49,7 @@ namespace OpenPmsDental{
 			this.treeMain.Location = new System.Drawing.Point(12, 52);
 			this.treeMain.Name = "treeMain";
 			this.treeMain.ShowPlusMinus = false;
-			this.treeMain.Size = new System.Drawing.Size(225, 612);
+			this.treeMain.Size = new System.Drawing.Size(225, 788);
 			this.treeMain.TabIndex = 0;
 			this.treeMain.BeforeCollapse += new System.Windows.Forms.TreeViewCancelEventHandler(this.treeMain_BeforeCollapse);
 			this.treeMain.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeMain_AfterSelect);
@@ -60,7 +60,7 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.panelMain.Location = new System.Drawing.Point(244, 4);
 			this.panelMain.Name = "panelMain";
-			this.panelMain.Size = new System.Drawing.Size(494, 660);
+			this.panelMain.Size = new System.Drawing.Size(494, 836);
 			this.panelMain.TabIndex = 5;
 			// 
 			// labelCategories
@@ -92,7 +92,7 @@ namespace OpenPmsDental{
 			// 
 			// FormPreferences
 			// 
-			this.ClientSize = new System.Drawing.Size(750, 696);
+			this.ClientSize = new System.Drawing.Size(750, 872);
 			this.Controls.Add(this.textSearch);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.labelCategories);

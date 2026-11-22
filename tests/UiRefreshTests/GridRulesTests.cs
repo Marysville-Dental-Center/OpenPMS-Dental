@@ -94,6 +94,9 @@ namespace UiRefreshTests {
 								root=formODBase.PanelClient;
 							}
 							CheckWindow(gridWindow,root,listFindings);
+							if(gridWindow.Mode=="tool") {
+								CheckColumns(gridWindow,root,listFindings);
+							}
 						}
 					}
 					catch(Exception exception) {
@@ -122,10 +125,12 @@ namespace UiRefreshTests {
 				if(container is System.Windows.Forms.TabControl || container is SplitContainer || TextFitMeasurer.IsOfType(container,"OpenPmsDental.UI.TabControl")) {
 					continue;
 				}
-				//Check boxes: the box on the left, in every grid window (the owner's decision of 2026-11-21).
+				//Check boxes and radio buttons: the box on the left, in every grid window (the owner's decision of 2026-11-21); right to left
+				//(RightToLeft.Yes) puts it on the right too.
 				foreach(Control control in listKids) {
 					if(control.GetType().GetProperty("CheckAlign",typeof(ContentAlignment)) is System.Reflection.PropertyInfo propertyInfo
-						&& (ContentAlignment)propertyInfo.GetValue(control)==ContentAlignment.MiddleRight && !string.IsNullOrWhiteSpace(control.Text))
+						&& ((ContentAlignment)propertyInfo.GetValue(control)==ContentAlignment.MiddleRight || control.RightToLeft==RightToLeft.Yes)
+						&& !string.IsNullOrWhiteSpace(control.Text))
 					{
 						if(gridWindow.Mode=="tool") {
 							listFindings.Add(window+"\tcheck-right\t"+control.Name);
@@ -144,7 +149,7 @@ namespace UiRefreshTests {
 						if(rectangleCross.Width<=2 || rectangleCross.Height<=2) {
 							continue;
 						}
-						if(IsStacked(listKids[i].Bounds,listKids[j].Bounds)) {
+						if(IsStacked(a,b)) {
 							continue;
 						}
 						string[] arrayNames=new string[] { listKids[i].Name,listKids[j].Name }.OrderBy(x => x,StringComparer.Ordinal).ToArray();
@@ -157,6 +162,15 @@ namespace UiRefreshTests {
 					foreach(Control control in listKids) {
 						if(control.Top<titleBottom-2) {
 							listFindings.Add(window+"\ttitle\t"+container.Name+" "+control.Name);
+						}
+					}
+				}
+				//A group box's content keeps the padding: nothing runs past its sides or its bottom.
+				if(container is System.Windows.Forms.GroupBox || TextFitMeasurer.IsOfType(container,"OpenPmsDental.UI.GroupBox")) {
+					foreach(Control control in listKids) {
+						Rectangle rectangleInk=GetInk(control);
+						if(rectangleInk.Left<4 || rectangleInk.Right>container.Width-4 || control.Bottom>container.Height-2) {
+							listFindings.Add(window+"\tpadding\t"+container.Name+" "+control.Name);
 						}
 					}
 				}
@@ -175,6 +189,45 @@ namespace UiRefreshTests {
 						listFindings.Add(window+"\tlabel-gap\t"+label.Name+" "+field.Name);
 					}
 				}
+			}
+		}
+
+		///<summary>Fields named by a label on their row share one left edge with the fields of other rows, group boxes and tab pages whose left edge
+		///is within 40 px of theirs (window coordinates): the grid's field columns. A Preferences page has one field column.</summary>
+		private static void CheckColumns(GridWindow gridWindow,Control root,List<string> listFindings) {
+			List<Tuple<string,int>> listFields=new List<Tuple<string,int>>();
+			foreach(Control container in Walk(root)) {
+				if(container is FlowLayoutPanel || container is TableLayoutPanel || container is SplitContainer) {
+					continue;
+				}
+				List<Control> listKids=container.Controls.Cast<Control>().Where(x => x.Dock==DockStyle.None && TextFitBoundsRecord.IsDesignedVisible(x)).ToList();
+				foreach(Control label in listKids.Where(x => x is Label && !string.IsNullOrWhiteSpace(x.Text))) {
+					Control field=listKids.Where(x => IsSingleLineField(x) && Math.Abs(CenterY(x)-CenterY(label))<=4 && GetInk(x).Left>=label.Right-8
+						&& GetInk(x).Left-label.Right<=40).OrderBy(x => GetInk(x).Left).FirstOrDefault();
+					if(field==null) {
+						continue;
+					}
+					Point point=root.PointToClient(container.PointToScreen(new Point(GetInk(field).Left,0)));
+					listFields.Add(Tuple.Create(field.Name,point.X));
+				}
+			}
+			bool isPreferencesPage=gridWindow.Window.Substring(gridWindow.Window.LastIndexOf('.')+1).StartsWith("UserControl");
+			if(isPreferencesPage && listFields.Count>1) {
+				int xPage=listFields.GroupBy(x => x.Item2).OrderByDescending(x => x.Count()).ThenByDescending(x => x.Key).First().Key;
+				foreach(Tuple<string,int> tuple in listFields.Where(x => x.Item2!=xPage)) {
+					listFindings.Add(gridWindow.Window+"	column	"+tuple.Item1);
+				}
+				return;
+			}
+			List<Tuple<string,int>> listSorted=listFields.OrderBy(x => x.Item2).ToList();
+			int i=0;
+			while(i<listSorted.Count) {
+				List<Tuple<string,int>> listCluster=listSorted.Skip(i).TakeWhile(x => x.Item2-listSorted[i].Item2<=40).ToList();
+				int xMax=listCluster.Max(x => x.Item2);
+				foreach(Tuple<string,int> tuple in listCluster.Where(x => x.Item2!=xMax)) {
+					listFindings.Add(gridWindow.Window+"	column	"+tuple.Item1);
+				}
+				i+=listCluster.Count;
 			}
 		}
 
@@ -204,12 +257,23 @@ namespace UiRefreshTests {
 		private static bool IsStacked(Rectangle a,Rectangle b) {
 			Rectangle rectangleCross=Rectangle.Intersect(a,b);
 			long areaSmall=Math.Min((long)a.Width*a.Height,(long)b.Width*b.Height);
-			return areaSmall>0 && (long)rectangleCross.Width*rectangleCross.Height>=0.6*areaSmall;
+			long areaLarge=Math.Max((long)a.Width*a.Height,(long)b.Width*b.Height);
+			//Controls switched at run time stand on about the same bounds; a small box inside a large list is an overlap (round 2: the Age box in
+			//FormPatientEdit's Family Relationships list passed as stacked).
+			return areaSmall>0 && (long)rectangleCross.Width*rectangleCross.Height>=0.6*areaSmall && areaSmall>=0.4*areaLarge;
 		}
 
 		///<summary>The part of the bounds the control draws in: a label's or check box's text extent on the side it is aligned to.</summary>
 		private static Rectangle GetInk(Control control) {
 			Rectangle rectangle=control.Bounds;
+			//A date picker's box sits inside its bounds (its own layout); a clinic picker draws its own label before its box.
+			if(control is OpenPmsDental.UI.ODDatePicker odDatePicker && odDatePicker.Controls.Find("textDate",false).FirstOrDefault() is Control controlDate) {
+				return new Rectangle(rectangle.X+controlDate.Left,rectangle.Y,controlDate.Width,rectangle.Height);
+			}
+			if(control is OpenPmsDental.UI.ComboBoxClinicPicker comboBoxClinicPicker && comboBoxClinicPicker.ShowLabel) {
+				int widthLabel=(int)Math.Round(37*comboBoxClinicPicker.DeviceDpi/96f);
+				return new Rectangle(rectangle.X+widthLabel,rectangle.Y,rectangle.Width-widthLabel,rectangle.Height);
+			}
 			if(string.IsNullOrWhiteSpace(control.Text)) {
 				return rectangle;
 			}

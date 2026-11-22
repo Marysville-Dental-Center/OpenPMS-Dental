@@ -56,43 +56,43 @@ namespace OpenPmsDental {
 			this.groupBoxPopups.Controls.Add(this.labelTimeSpan);
 			this.groupBoxPopups.Controls.Add(this.textPopupsDisableDays);
 			this.groupBoxPopups.Controls.Add(this.labelDays);
-			this.groupBoxPopups.Location = new System.Drawing.Point(20, 308);
+			this.groupBoxPopups.Location = new System.Drawing.Point(8, 348);
 			this.groupBoxPopups.Name = "groupBoxPopups";
-			this.groupBoxPopups.Size = new System.Drawing.Size(450, 66);
+			this.groupBoxPopups.Size = new System.Drawing.Size(478, 81);
 			this.groupBoxPopups.TabIndex = 247;
 			this.groupBoxPopups.Text = "Popups Disable Timespan";
 			// 
 			// textPopupsDisableTimeSpan
 			// 
-			this.textPopupsDisableTimeSpan.Location = new System.Drawing.Point(362, 38);
+			this.textPopupsDisableTimeSpan.Location = new System.Drawing.Point(268, 50);
 			this.textPopupsDisableTimeSpan.Name = "textPopupsDisableTimeSpan";
-			this.textPopupsDisableTimeSpan.Size = new System.Drawing.Size(75, 20);
+			this.textPopupsDisableTimeSpan.Size = new System.Drawing.Size(76, 23);
 			this.textPopupsDisableTimeSpan.TabIndex = 42;
 			// 
 			// labelTimeSpan
 			// 
-			this.labelTimeSpan.Location = new System.Drawing.Point(123, 38);
+			this.labelTimeSpan.Location = new System.Drawing.Point(24, 50);
 			this.labelTimeSpan.Name = "labelTimeSpan";
-			this.labelTimeSpan.Size = new System.Drawing.Size(235, 19);
+			this.labelTimeSpan.Size = new System.Drawing.Size(238, 23);
 			this.labelTimeSpan.TabIndex = 43;
 			this.labelTimeSpan.Text = "Default timespan (hh:mm:ss) until disabled";
-			this.labelTimeSpan.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.labelTimeSpan.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// textPopupsDisableDays
 			// 
-			this.textPopupsDisableDays.Location = new System.Drawing.Point(390, 12);
+			this.textPopupsDisableDays.Location = new System.Drawing.Point(268, 23);
 			this.textPopupsDisableDays.Name = "textPopupsDisableDays";
-			this.textPopupsDisableDays.Size = new System.Drawing.Size(47, 20);
+			this.textPopupsDisableDays.Size = new System.Drawing.Size(48, 23);
 			this.textPopupsDisableDays.TabIndex = 40;
 			// 
 			// labelDays
 			// 
-			this.labelDays.Location = new System.Drawing.Point(187, 12);
+			this.labelDays.Location = new System.Drawing.Point(24, 23);
 			this.labelDays.Name = "labelDays";
-			this.labelDays.Size = new System.Drawing.Size(203, 17);
+			this.labelDays.Size = new System.Drawing.Size(238, 23);
 			this.labelDays.TabIndex = 41;
 			this.labelDays.Text = "Default number of days until disabled";
-			this.labelDays.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.labelDays.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// groupSelectPatient
 			// 
@@ -103,37 +103,37 @@ namespace OpenPmsDental {
 			this.groupSelectPatient.Controls.Add(this.checkPatientSelectFilterRestrictedClinics);
 			this.groupSelectPatient.Controls.Add(this.checkRefresh);
 			this.groupSelectPatient.Controls.Add(this.checkPrefFName);
-			this.groupSelectPatient.Location = new System.Drawing.Point(20, 172);
+			this.groupSelectPatient.Location = new System.Drawing.Point(8, 169);
 			this.groupSelectPatient.Name = "groupSelectPatient";
-			this.groupSelectPatient.Size = new System.Drawing.Size(450, 130);
+			this.groupSelectPatient.Size = new System.Drawing.Size(478, 171);
 			this.groupSelectPatient.TabIndex = 246;
 			this.groupSelectPatient.Text = "Select Patient Window";
 			// 
 			// checkEnterpriseAllowRefreshWhileTyping
 			// 
-			this.checkEnterpriseAllowRefreshWhileTyping.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkEnterpriseAllowRefreshWhileTyping.Location = new System.Drawing.Point(55, 87);
+			this.checkEnterpriseAllowRefreshWhileTyping.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkEnterpriseAllowRefreshWhileTyping.Location = new System.Drawing.Point(8, 95);
 			this.checkEnterpriseAllowRefreshWhileTyping.Name = "checkEnterpriseAllowRefreshWhileTyping";
-			this.checkEnterpriseAllowRefreshWhileTyping.Size = new System.Drawing.Size(382, 18);
+			this.checkEnterpriseAllowRefreshWhileTyping.Size = new System.Drawing.Size(309, 20);
 			this.checkEnterpriseAllowRefreshWhileTyping.TabIndex = 293;
 			this.checkEnterpriseAllowRefreshWhileTyping.Text = "Allow ‘Refresh while typing’ in Select Patient window";
 			this.checkEnterpriseAllowRefreshWhileTyping.Click += new System.EventHandler(this.checkEnterpriseAllowRefreshWhileTyping_Click);
 			// 
 			// checkShowInactivePatientsDefault
 			// 
-			this.checkShowInactivePatientsDefault.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkShowInactivePatientsDefault.Location = new System.Drawing.Point(55, 70);
+			this.checkShowInactivePatientsDefault.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkShowInactivePatientsDefault.Location = new System.Drawing.Point(8, 71);
 			this.checkShowInactivePatientsDefault.Name = "checkShowInactivePatientsDefault";
-			this.checkShowInactivePatientsDefault.Size = new System.Drawing.Size(382, 18);
+			this.checkShowInactivePatientsDefault.Size = new System.Drawing.Size(203, 20);
 			this.checkShowInactivePatientsDefault.TabIndex = 292;
 			this.checkShowInactivePatientsDefault.Text = "Show Inactive patients by default";
 			// 
 			// checkPatientSelectFilterRestrictedClinics
 			// 
-			this.checkPatientSelectFilterRestrictedClinics.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkPatientSelectFilterRestrictedClinics.Location = new System.Drawing.Point(55, 53);
+			this.checkPatientSelectFilterRestrictedClinics.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkPatientSelectFilterRestrictedClinics.Location = new System.Drawing.Point(8, 143);
 			this.checkPatientSelectFilterRestrictedClinics.Name = "checkPatientSelectFilterRestrictedClinics";
-			this.checkPatientSelectFilterRestrictedClinics.Size = new System.Drawing.Size(382, 18);
+			this.checkPatientSelectFilterRestrictedClinics.Size = new System.Drawing.Size(356, 20);
 			this.checkPatientSelectFilterRestrictedClinics.TabIndex = 291;
 			this.checkPatientSelectFilterRestrictedClinics.Text = "Hide patients from restricted clinics when viewing \"All\" clinics";
 			this.checkPatientSelectFilterRestrictedClinics.Visible = false;
@@ -141,19 +141,19 @@ namespace OpenPmsDental {
 			// 
 			// checkRefresh
 			// 
-			this.checkRefresh.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkRefresh.Location = new System.Drawing.Point(34, 19);
+			this.checkRefresh.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkRefresh.Location = new System.Drawing.Point(8, 23);
 			this.checkRefresh.Name = "checkRefresh";
-			this.checkRefresh.Size = new System.Drawing.Size(416, 17);
+			this.checkRefresh.Size = new System.Drawing.Size(421, 20);
 			this.checkRefresh.TabIndex = 202;
 			this.checkRefresh.Text = "New computers default to ‘Refresh while typing’ in Select Patient window";
 			// 
 			// checkPrefFName
 			// 
-			this.checkPrefFName.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkPrefFName.Location = new System.Drawing.Point(55, 36);
+			this.checkPrefFName.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkPrefFName.Location = new System.Drawing.Point(8, 47);
 			this.checkPrefFName.Name = "checkPrefFName";
-			this.checkPrefFName.Size = new System.Drawing.Size(395, 18);
+			this.checkPrefFName.Size = new System.Drawing.Size(400, 20);
 			this.checkPrefFName.TabIndex = 79;
 			this.checkPrefFName.Text = "Search for preferred name in first name field in Select Patient window";
 			// 
@@ -167,77 +167,77 @@ namespace OpenPmsDental {
 			this.groupBox6.Controls.Add(this.label15);
 			this.groupBox6.Controls.Add(this.comboShowID);
 			this.groupBox6.Controls.Add(this.label17);
-			this.groupBox6.Location = new System.Drawing.Point(20, 40);
+			this.groupBox6.Location = new System.Drawing.Point(8, 8);
 			this.groupBox6.Name = "groupBox6";
-			this.groupBox6.Size = new System.Drawing.Size(450, 119);
+			this.groupBox6.Size = new System.Drawing.Size(478, 153);
 			this.groupBox6.TabIndex = 245;
 			this.groupBox6.Text = "Main Window Title";
 			// 
 			// checkTitleBarShowSpecialty
 			// 
-			this.checkTitleBarShowSpecialty.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkTitleBarShowSpecialty.Location = new System.Drawing.Point(6, 62);
+			this.checkTitleBarShowSpecialty.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkTitleBarShowSpecialty.Location = new System.Drawing.Point(8, 77);
 			this.checkTitleBarShowSpecialty.Name = "checkTitleBarShowSpecialty";
-			this.checkTitleBarShowSpecialty.Size = new System.Drawing.Size(431, 17);
+			this.checkTitleBarShowSpecialty.Size = new System.Drawing.Size(412, 20);
 			this.checkTitleBarShowSpecialty.TabIndex = 234;
 			this.checkTitleBarShowSpecialty.Text = "Show patient specialty in main title bar and Account, Select Patient area";
 			// 
 			// checkUseClinicAbbr
 			// 
-			this.checkUseClinicAbbr.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkUseClinicAbbr.Location = new System.Drawing.Point(6, 96);
+			this.checkUseClinicAbbr.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkUseClinicAbbr.Location = new System.Drawing.Point(8, 125);
 			this.checkUseClinicAbbr.Name = "checkUseClinicAbbr";
-			this.checkUseClinicAbbr.Size = new System.Drawing.Size(431, 18);
+			this.checkUseClinicAbbr.Size = new System.Drawing.Size(382, 20);
 			this.checkUseClinicAbbr.TabIndex = 233;
 			this.checkUseClinicAbbr.Text = "Use clinic abbreviation in main title bar (clinics must be turned on)";
 			// 
 			// textMainWindowTitle
 			// 
-			this.textMainWindowTitle.Location = new System.Drawing.Point(170, 13);
+			this.textMainWindowTitle.Location = new System.Drawing.Point(268, 23);
 			this.textMainWindowTitle.Name = "textMainWindowTitle";
-			this.textMainWindowTitle.Size = new System.Drawing.Size(267, 20);
+			this.textMainWindowTitle.Size = new System.Drawing.Size(202, 23);
 			this.textMainWindowTitle.TabIndex = 38;
 			// 
 			// checkTitleBarShowSite
 			// 
-			this.checkTitleBarShowSite.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkTitleBarShowSite.Location = new System.Drawing.Point(6, 79);
+			this.checkTitleBarShowSite.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkTitleBarShowSite.Location = new System.Drawing.Point(8, 101);
 			this.checkTitleBarShowSite.Name = "checkTitleBarShowSite";
-			this.checkTitleBarShowSite.Size = new System.Drawing.Size(431, 17);
+			this.checkTitleBarShowSite.Size = new System.Drawing.Size(287, 20);
 			this.checkTitleBarShowSite.TabIndex = 74;
 			this.checkTitleBarShowSite.Text = "Show Site (public health must also be turned on)";
 			// 
 			// label15
 			// 
-			this.label15.Location = new System.Drawing.Point(6, 14);
+			this.label15.Location = new System.Drawing.Point(24, 23);
 			this.label15.Name = "label15";
-			this.label15.Size = new System.Drawing.Size(163, 17);
+			this.label15.Size = new System.Drawing.Size(238, 23);
 			this.label15.TabIndex = 39;
 			this.label15.Text = "Title Text";
-			this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// comboShowID
 			// 
-			this.comboShowID.Location = new System.Drawing.Point(307, 37);
+			this.comboShowID.Location = new System.Drawing.Point(268, 50);
 			this.comboShowID.Name = "comboShowID";
-			this.comboShowID.Size = new System.Drawing.Size(130, 21);
+			this.comboShowID.Size = new System.Drawing.Size(202, 23);
 			this.comboShowID.TabIndex = 72;
 			// 
 			// label17
 			// 
-			this.label17.Location = new System.Drawing.Point(6, 39);
+			this.label17.Location = new System.Drawing.Point(24, 50);
 			this.label17.Name = "label17";
-			this.label17.Size = new System.Drawing.Size(299, 17);
+			this.label17.Size = new System.Drawing.Size(238, 23);
 			this.label17.TabIndex = 73;
 			this.label17.Text = "Show ID in title bar";
-			this.label17.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.label17.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// checkPatientSelectWindowShowGetAll
 			// 
-			this.checkPatientSelectWindowShowGetAll.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkPatientSelectWindowShowGetAll.Location = new System.Drawing.Point(55, 104);
+			this.checkPatientSelectWindowShowGetAll.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkPatientSelectWindowShowGetAll.Location = new System.Drawing.Point(8, 119);
 			this.checkPatientSelectWindowShowGetAll.Name = "checkPatientSelectWindowShowGetAll";
-			this.checkPatientSelectWindowShowGetAll.Size = new System.Drawing.Size(382, 18);
+			this.checkPatientSelectWindowShowGetAll.Size = new System.Drawing.Size(269, 20);
 			this.checkPatientSelectWindowShowGetAll.TabIndex = 294;
 			this.checkPatientSelectWindowShowGetAll.Text = "Show Get All button in Select Patient window";
 			// 

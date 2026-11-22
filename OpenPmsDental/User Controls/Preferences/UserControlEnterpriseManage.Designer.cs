@@ -32,37 +32,37 @@ namespace OpenPmsDental {
 			// 
 			// checkRefresh
 			// 
-			this.checkEnterpriseManualRefreshMainTaskLists.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkEnterpriseManualRefreshMainTaskLists.Location = new System.Drawing.Point(76, 78);
+			this.checkEnterpriseManualRefreshMainTaskLists.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkEnterpriseManualRefreshMainTaskLists.Location = new System.Drawing.Point(8, 80);
 			this.checkEnterpriseManualRefreshMainTaskLists.Name = "checkRefresh";
-			this.checkEnterpriseManualRefreshMainTaskLists.Size = new System.Drawing.Size(380, 18);
+			this.checkEnterpriseManualRefreshMainTaskLists.Size = new System.Drawing.Size(335, 20);
 			this.checkEnterpriseManualRefreshMainTaskLists.TabIndex = 279;
 			this.checkEnterpriseManualRefreshMainTaskLists.Text = "Tasks, \'Main\' and \'Reminders\' tabs require manual refresh";
 			// 
 			// checkEra835sStrictClaimMatching
 			// 
-			this.checkEraStrictClaimMatching.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkEraStrictClaimMatching.Location = new System.Drawing.Point(137, 42);
+			this.checkEraStrictClaimMatching.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkEraStrictClaimMatching.Location = new System.Drawing.Point(8, 32);
 			this.checkEraStrictClaimMatching.Name = "checkEra835sStrictClaimMatching";
-			this.checkEraStrictClaimMatching.Size = new System.Drawing.Size(319, 18);
+			this.checkEraStrictClaimMatching.Size = new System.Drawing.Size(239, 20);
 			this.checkEraStrictClaimMatching.TabIndex = 277;
 			this.checkEraStrictClaimMatching.Text = "ERA 835s use strict claim date matching";
 			// 
 			// checkEra835sRefreshOnLoad
 			// 
-			this.checkEraRefreshOnLoad.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkEraRefreshOnLoad.Location = new System.Drawing.Point(137, 24);
+			this.checkEraRefreshOnLoad.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkEraRefreshOnLoad.Location = new System.Drawing.Point(8, 8);
 			this.checkEraRefreshOnLoad.Name = "checkEra835sRefreshOnLoad";
-			this.checkEraRefreshOnLoad.Size = new System.Drawing.Size(319, 18);
+			this.checkEraRefreshOnLoad.Size = new System.Drawing.Size(232, 20);
 			this.checkEraRefreshOnLoad.TabIndex = 276;
 			this.checkEraRefreshOnLoad.Text = "ERA 835s window refresh data on load";
 			// 
 			// checkEra835sShowStatusAndClinic
 			// 
-			this.checkEraShowStatusAndClinic.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkEraShowStatusAndClinic.Location = new System.Drawing.Point(137, 60);
+			this.checkEraShowStatusAndClinic.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkEraShowStatusAndClinic.Location = new System.Drawing.Point(8, 56);
 			this.checkEraShowStatusAndClinic.Name = "checkEra835sShowStatusAndClinic";
-			this.checkEraShowStatusAndClinic.Size = new System.Drawing.Size(319, 18);
+			this.checkEraShowStatusAndClinic.Size = new System.Drawing.Size(308, 20);
 			this.checkEraShowStatusAndClinic.TabIndex = 278;
 			this.checkEraShowStatusAndClinic.Text = "ERA 835s window show status and clinic information";
 			// 

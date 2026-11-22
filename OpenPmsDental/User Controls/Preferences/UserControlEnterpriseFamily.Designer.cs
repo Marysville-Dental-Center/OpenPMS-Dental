@@ -39,10 +39,10 @@ namespace OpenPmsDental {
 			// 
 			// checkShowFeeSchedGroups
 			// 
-			this.checkShowFeeSchedGroups.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkShowFeeSchedGroups.Location = new System.Drawing.Point(135, 96);
+			this.checkShowFeeSchedGroups.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkShowFeeSchedGroups.Location = new System.Drawing.Point(8, 104);
 			this.checkShowFeeSchedGroups.Name = "checkShowFeeSchedGroups";
-			this.checkShowFeeSchedGroups.Size = new System.Drawing.Size(319, 18);
+			this.checkShowFeeSchedGroups.Size = new System.Drawing.Size(170, 20);
 			this.checkShowFeeSchedGroups.TabIndex = 287;
 			this.checkShowFeeSchedGroups.Text = "Show Fee Schedule Groups";
 			// 
@@ -52,15 +52,15 @@ namespace OpenPmsDental {
 			this.groupClaimSnapshot.Controls.Add(this.comboClaimSnapshotTriggerType);
 			this.groupClaimSnapshot.Controls.Add(this.labelClaimSnapshotTrigger);
 			this.groupClaimSnapshot.Controls.Add(this.labelClaimSnapshotRunTime);
-			this.groupClaimSnapshot.Location = new System.Drawing.Point(158, 120);
+			this.groupClaimSnapshot.Location = new System.Drawing.Point(158, 132);
 			this.groupClaimSnapshot.Name = "groupClaimSnapshot";
-			this.groupClaimSnapshot.Size = new System.Drawing.Size(296, 73);
+			this.groupClaimSnapshot.Size = new System.Drawing.Size(296, 81);
 			this.groupClaimSnapshot.TabIndex = 286;
 			this.groupClaimSnapshot.Text = "Claim Snapshot";
 			// 
 			// textClaimSnapshotRunTime
 			// 
-			this.textClaimSnapshotRunTime.Location = new System.Drawing.Point(194, 42);
+			this.textClaimSnapshotRunTime.Location = new System.Drawing.Point(134, 50);
 			this.textClaimSnapshotRunTime.Name = "textClaimSnapshotRunTime";
 			this.textClaimSnapshotRunTime.Size = new System.Drawing.Size(96, 20);
 			this.textClaimSnapshotRunTime.TabIndex = 270;
@@ -68,66 +68,66 @@ namespace OpenPmsDental {
 			// 
 			// comboClaimSnapshotTriggerType
 			// 
-			this.comboClaimSnapshotTriggerType.Location = new System.Drawing.Point(118, 17);
+			this.comboClaimSnapshotTriggerType.Location = new System.Drawing.Point(134, 23);
 			this.comboClaimSnapshotTriggerType.Name = "comboClaimSnapshotTriggerType";
-			this.comboClaimSnapshotTriggerType.Size = new System.Drawing.Size(172, 21);
+			this.comboClaimSnapshotTriggerType.Size = new System.Drawing.Size(154, 23);
 			this.comboClaimSnapshotTriggerType.TabIndex = 269;
 			this.comboClaimSnapshotTriggerType.SelectionChangeCommitted += new System.EventHandler(this.comboClaimSnapshotTriggerType_ChangeCommitted);
 			// 
 			// labelClaimSnapshotTrigger
 			// 
-			this.labelClaimSnapshotTrigger.Location = new System.Drawing.Point(17, 18);
+			this.labelClaimSnapshotTrigger.Location = new System.Drawing.Point(24, 23);
 			this.labelClaimSnapshotTrigger.Name = "labelClaimSnapshotTrigger";
-			this.labelClaimSnapshotTrigger.Size = new System.Drawing.Size(100, 18);
+			this.labelClaimSnapshotTrigger.Size = new System.Drawing.Size(104, 23);
 			this.labelClaimSnapshotTrigger.TabIndex = 272;
 			this.labelClaimSnapshotTrigger.Text = "Snapshot Trigger";
-			this.labelClaimSnapshotTrigger.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.labelClaimSnapshotTrigger.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// labelClaimSnapshotRunTime
 			// 
-			this.labelClaimSnapshotRunTime.Location = new System.Drawing.Point(93, 43);
+			this.labelClaimSnapshotRunTime.Location = new System.Drawing.Point(24, 50);
 			this.labelClaimSnapshotRunTime.Name = "labelClaimSnapshotRunTime";
-			this.labelClaimSnapshotRunTime.Size = new System.Drawing.Size(100, 18);
+			this.labelClaimSnapshotRunTime.Size = new System.Drawing.Size(104, 23);
 			this.labelClaimSnapshotRunTime.TabIndex = 271;
 			this.labelClaimSnapshotRunTime.Text = "Service Run Time";
-			this.labelClaimSnapshotRunTime.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.labelClaimSnapshotRunTime.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// checkShowFeaturePatientClone
 			// 
-			this.checkShowFeaturePatientClone.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkShowFeaturePatientClone.Location = new System.Drawing.Point(135, 42);
+			this.checkShowFeaturePatientClone.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkShowFeaturePatientClone.Location = new System.Drawing.Point(8, 32);
 			this.checkShowFeaturePatientClone.Name = "checkShowFeaturePatientClone";
-			this.checkShowFeaturePatientClone.Size = new System.Drawing.Size(319, 18);
+			this.checkShowFeaturePatientClone.Size = new System.Drawing.Size(95, 20);
 			this.checkShowFeaturePatientClone.TabIndex = 285;
 			this.checkShowFeaturePatientClone.Text = "Patient Clone";
 			this.checkShowFeaturePatientClone.Click += new System.EventHandler(this.checkShowFeaturePatientClone_Click);
 			// 
 			// checkShowFeatureSuperfamilies
 			// 
-			this.checkShowFeatureSuperfamilies.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkShowFeatureSuperfamilies.Location = new System.Drawing.Point(135, 24);
+			this.checkShowFeatureSuperfamilies.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkShowFeatureSuperfamilies.Location = new System.Drawing.Point(8, 8);
 			this.checkShowFeatureSuperfamilies.Name = "checkShowFeatureSuperfamilies";
-			this.checkShowFeatureSuperfamilies.Size = new System.Drawing.Size(319, 18);
+			this.checkShowFeatureSuperfamilies.Size = new System.Drawing.Size(101, 20);
 			this.checkShowFeatureSuperfamilies.TabIndex = 284;
 			this.checkShowFeatureSuperfamilies.Text = "Super Families";
 			this.checkShowFeatureSuperfamilies.Click += new System.EventHandler(this.checkShowFeatureSuperFamilies_Click);
 			// 
 			// checkClaimSnapshotEnabled
 			// 
-			this.checkClaimSnapshotEnabled.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkClaimSnapshotEnabled.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.checkClaimSnapshotEnabled.Enabled = false;
-			this.checkClaimSnapshotEnabled.Location = new System.Drawing.Point(135, 78);
+			this.checkClaimSnapshotEnabled.Location = new System.Drawing.Point(8, 80);
 			this.checkClaimSnapshotEnabled.Name = "checkClaimSnapshotEnabled";
-			this.checkClaimSnapshotEnabled.Size = new System.Drawing.Size(319, 18);
+			this.checkClaimSnapshotEnabled.Size = new System.Drawing.Size(154, 20);
 			this.checkClaimSnapshotEnabled.TabIndex = 282;
 			this.checkClaimSnapshotEnabled.Text = "Claim Snapshot Enabled";
 			// 
 			// checkCloneCreateSuperFamily
 			// 
-			this.checkCloneCreateSuperFamily.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkCloneCreateSuperFamily.Location = new System.Drawing.Point(77, 60);
+			this.checkCloneCreateSuperFamily.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkCloneCreateSuperFamily.Location = new System.Drawing.Point(8, 56);
 			this.checkCloneCreateSuperFamily.Name = "checkCloneCreateSuperFamily";
-			this.checkCloneCreateSuperFamily.Size = new System.Drawing.Size(377, 18);
+			this.checkCloneCreateSuperFamily.Size = new System.Drawing.Size(354, 20);
 			this.checkCloneCreateSuperFamily.TabIndex = 283;
 			this.checkCloneCreateSuperFamily.Text = "New patient clones use super family instead of regular family";
 			this.checkCloneCreateSuperFamily.Click += new System.EventHandler(this.checkCloneCreateSuperFamily_Click);

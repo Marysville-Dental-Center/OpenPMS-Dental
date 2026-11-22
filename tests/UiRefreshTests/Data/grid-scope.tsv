@@ -1,2 +1,3 @@
 window	container	controls	keep	note
 OpenPmsDental.FormApptEdit	.	panel1,labelApptNote,textNote		the appointment fields and the note under them; the lists and grids beside them move right, the grids on the bottom edge grow with the window
+OpenPmsDental.FormApptEdit	.	labelQuickAdd,listQuickAdd	width	the quick-add list and the note above it

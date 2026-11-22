@@ -79,9 +79,9 @@
 			this.tabControl1.Controls.Add(this.tabPageBackup);
 			this.tabControl1.Controls.Add(this.tabPageArchive);
 			this.tabControl1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-			this.tabControl1.Location = new System.Drawing.Point(0, 2);
+			this.tabControl1.Location = new System.Drawing.Point(8, 8);
 			this.tabControl1.Name = "tabControl1";
-			this.tabControl1.Size = new System.Drawing.Size(780, 577);
+			this.tabControl1.Size = new System.Drawing.Size(780, 594);
 			this.tabControl1.TabIndex = 1;
 			// 
 			// tabPageBackup
@@ -108,9 +108,9 @@
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(19, 12);
+			this.label1.Location = new System.Drawing.Point(8, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(757, 28);
+			this.label1.Size = new System.Drawing.Size(757, 32);
 			this.label1.TabIndex = 2;
 			this.label1.Text = "BACKUPS ARE USELESS UNLESS YOU REGULARLY VERIFY THEIR QUALITY BY RESTORING THEM O" +
     "N A SEPARATE SECURE DEVICE. We suggest an encrypted USB flash drive for this pur" +
@@ -119,9 +119,9 @@
 			// 
 			// checkExcludeImages
 			// 
-			this.checkExcludeImages.Location = new System.Drawing.Point(13, 49);
+			this.checkExcludeImages.Location = new System.Drawing.Point(8, 42);
 			this.checkExcludeImages.Name = "checkExcludeImages";
-			this.checkExcludeImages.Size = new System.Drawing.Size(314, 18);
+			this.checkExcludeImages.Size = new System.Drawing.Size(249, 20);
 			this.checkExcludeImages.TabIndex = 15;
 			this.checkExcludeImages.Text = "Exclude image folder in backup or restore";
 			this.checkExcludeImages.Click += new System.EventHandler(this.checkExcludeImages_Click);
@@ -129,7 +129,7 @@
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(674, 516);
+			this.butSave.Location = new System.Drawing.Point(674, 469);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(86, 26);
 			this.butSave.TabIndex = 13;
@@ -148,9 +148,9 @@
 			this.groupBox1.Controls.Add(this.butBrowseRestoreFrom);
 			this.groupBox1.Controls.Add(this.textBackupRestoreFromPath);
 			this.groupBox1.Controls.Add(this.butRestore);
-			this.groupBox1.Location = new System.Drawing.Point(13, 262);
+			this.groupBox1.Location = new System.Drawing.Point(8, 258);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(747, 213);
+			this.groupBox1.Size = new System.Drawing.Size(760, 203);
 			this.groupBox1.TabIndex = 8;
 			this.groupBox1.Text = "Restore";
 			// 
@@ -158,7 +158,7 @@
 			// 
 			this.textBox5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.textBox5.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			this.textBox5.Location = new System.Drawing.Point(7, 142);
+			this.textBox5.Location = new System.Drawing.Point(8, 141);
 			this.textBox5.Multiline = true;
 			this.textBox5.Name = "textBox5";
 			this.textBox5.ReadOnly = true;
@@ -168,25 +168,25 @@
 			// 
 			// butBrowseRestoreAtoZTo
 			// 
-			this.butBrowseRestoreAtoZTo.Location = new System.Drawing.Point(500, 170);
+			this.butBrowseRestoreAtoZTo.Location = new System.Drawing.Point(494, 172);
 			this.butBrowseRestoreAtoZTo.Name = "butBrowseRestoreAtoZTo";
-			this.butBrowseRestoreAtoZTo.Size = new System.Drawing.Size(86, 26);
+			this.butBrowseRestoreAtoZTo.Size = new System.Drawing.Size(86, 23);
 			this.butBrowseRestoreAtoZTo.TabIndex = 20;
 			this.butBrowseRestoreAtoZTo.Text = "Browse";
 			this.butBrowseRestoreAtoZTo.Click += new System.EventHandler(this.butBrowseRestoreAtoZTo_Click);
 			// 
 			// textBackupRestoreAtoZToPath
 			// 
-			this.textBackupRestoreAtoZToPath.Location = new System.Drawing.Point(6, 173);
+			this.textBackupRestoreAtoZToPath.Location = new System.Drawing.Point(8, 172);
 			this.textBackupRestoreAtoZToPath.Name = "textBackupRestoreAtoZToPath";
-			this.textBackupRestoreAtoZToPath.Size = new System.Drawing.Size(481, 20);
+			this.textBackupRestoreAtoZToPath.Size = new System.Drawing.Size(480, 23);
 			this.textBackupRestoreAtoZToPath.TabIndex = 19;
 			// 
 			// textBox3
 			// 
 			this.textBox3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.textBox3.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			this.textBox3.Location = new System.Drawing.Point(7, 81);
+			this.textBox3.Location = new System.Drawing.Point(8, 83);
 			this.textBox3.Multiline = true;
 			this.textBox3.Name = "textBox3";
 			this.textBox3.ReadOnly = true;
@@ -196,25 +196,25 @@
 			// 
 			// butBrowseRestoreTo
 			// 
-			this.butBrowseRestoreTo.Location = new System.Drawing.Point(500, 109);
+			this.butBrowseRestoreTo.Location = new System.Drawing.Point(494, 114);
 			this.butBrowseRestoreTo.Name = "butBrowseRestoreTo";
-			this.butBrowseRestoreTo.Size = new System.Drawing.Size(86, 26);
+			this.butBrowseRestoreTo.Size = new System.Drawing.Size(86, 23);
 			this.butBrowseRestoreTo.TabIndex = 17;
 			this.butBrowseRestoreTo.Text = "Browse";
 			this.butBrowseRestoreTo.Click += new System.EventHandler(this.butBrowseRestoreTo_Click);
 			// 
 			// textBackupRestoreToPath
 			// 
-			this.textBackupRestoreToPath.Location = new System.Drawing.Point(6, 112);
+			this.textBackupRestoreToPath.Location = new System.Drawing.Point(8, 114);
 			this.textBackupRestoreToPath.Name = "textBackupRestoreToPath";
-			this.textBackupRestoreToPath.Size = new System.Drawing.Size(481, 20);
+			this.textBackupRestoreToPath.Size = new System.Drawing.Size(480, 23);
 			this.textBackupRestoreToPath.TabIndex = 16;
 			// 
 			// textBox4
 			// 
 			this.textBox4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.textBox4.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			this.textBox4.Location = new System.Drawing.Point(7, 20);
+			this.textBox4.Location = new System.Drawing.Point(8, 23);
 			this.textBox4.Multiline = true;
 			this.textBox4.Name = "textBox4";
 			this.textBox4.ReadOnly = true;
@@ -224,26 +224,26 @@
 			// 
 			// butBrowseRestoreFrom
 			// 
-			this.butBrowseRestoreFrom.Location = new System.Drawing.Point(500, 47);
+			this.butBrowseRestoreFrom.Location = new System.Drawing.Point(494, 56);
 			this.butBrowseRestoreFrom.Name = "butBrowseRestoreFrom";
-			this.butBrowseRestoreFrom.Size = new System.Drawing.Size(86, 26);
+			this.butBrowseRestoreFrom.Size = new System.Drawing.Size(86, 23);
 			this.butBrowseRestoreFrom.TabIndex = 14;
 			this.butBrowseRestoreFrom.Text = "Browse";
 			this.butBrowseRestoreFrom.Click += new System.EventHandler(this.butBrowseRestoreFrom_Click);
 			// 
 			// textBackupRestoreFromPath
 			// 
-			this.textBackupRestoreFromPath.Location = new System.Drawing.Point(6, 50);
+			this.textBackupRestoreFromPath.Location = new System.Drawing.Point(8, 56);
 			this.textBackupRestoreFromPath.Name = "textBackupRestoreFromPath";
-			this.textBackupRestoreFromPath.Size = new System.Drawing.Size(481, 20);
+			this.textBackupRestoreFromPath.Size = new System.Drawing.Size(480, 23);
 			this.textBackupRestoreFromPath.TabIndex = 13;
 			// 
 			// butRestore
 			// 
 			this.butRestore.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butRestore.Location = new System.Drawing.Point(648, 170);
+			this.butRestore.Location = new System.Drawing.Point(648, 172);
 			this.butRestore.Name = "butRestore";
-			this.butRestore.Size = new System.Drawing.Size(86, 26);
+			this.butRestore.Size = new System.Drawing.Size(86, 23);
 			this.butRestore.TabIndex = 6;
 			this.butRestore.Text = "Restore";
 			this.butRestore.Click += new System.EventHandler(this.butRestore_Click);
@@ -252,7 +252,7 @@
 			// 
 			this.textBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			this.textBox2.Location = new System.Drawing.Point(20, 88);
+			this.textBox2.Location = new System.Drawing.Point(20, 82);
 			this.textBox2.Multiline = true;
 			this.textBox2.Name = "textBox2";
 			this.textBox2.ReadOnly = true;
@@ -263,7 +263,7 @@
 			// 
 			// butBrowseFrom
 			// 
-			this.butBrowseFrom.Location = new System.Drawing.Point(513, 130);
+			this.butBrowseFrom.Location = new System.Drawing.Point(513, 124);
 			this.butBrowseFrom.Name = "butBrowseFrom";
 			this.butBrowseFrom.Size = new System.Drawing.Size(86, 26);
 			this.butBrowseFrom.TabIndex = 11;
@@ -272,7 +272,7 @@
 			// 
 			// butBackup
 			// 
-			this.butBackup.Location = new System.Drawing.Point(666, 216);
+			this.butBackup.Location = new System.Drawing.Point(666, 210);
 			this.butBackup.Name = "butBackup";
 			this.butBackup.Size = new System.Drawing.Size(86, 26);
 			this.butBackup.TabIndex = 1;
@@ -281,14 +281,14 @@
 			// 
 			// textBackupFromPath
 			// 
-			this.textBackupFromPath.Location = new System.Drawing.Point(19, 133);
+			this.textBackupFromPath.Location = new System.Drawing.Point(19, 127);
 			this.textBackupFromPath.Name = "textBackupFromPath";
 			this.textBackupFromPath.Size = new System.Drawing.Size(481, 20);
 			this.textBackupFromPath.TabIndex = 10;
 			// 
 			// textBackupToPath
 			// 
-			this.textBackupToPath.Location = new System.Drawing.Point(19, 219);
+			this.textBackupToPath.Location = new System.Drawing.Point(19, 213);
 			this.textBackupToPath.Name = "textBackupToPath";
 			this.textBackupToPath.Size = new System.Drawing.Size(481, 20);
 			this.textBackupToPath.TabIndex = 4;
@@ -297,7 +297,7 @@
 			// 
 			this.textBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			this.textBox1.Location = new System.Drawing.Point(20, 162);
+			this.textBox1.Location = new System.Drawing.Point(20, 156);
 			this.textBox1.Multiline = true;
 			this.textBox1.Name = "textBox1";
 			this.textBox1.ReadOnly = true;
@@ -307,7 +307,7 @@
 			// 
 			// butBrowseTo
 			// 
-			this.butBrowseTo.Location = new System.Drawing.Point(513, 216);
+			this.butBrowseTo.Location = new System.Drawing.Point(513, 210);
 			this.butBrowseTo.Name = "butBrowseTo";
 			this.butBrowseTo.Size = new System.Drawing.Size(86, 26);
 			this.butBrowseTo.TabIndex = 5;
@@ -316,9 +316,9 @@
 			// 
 			// groupBox2
 			// 
-			this.groupBox2.Location = new System.Drawing.Point(13, 72);
+			this.groupBox2.Location = new System.Drawing.Point(8, 66);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(747, 184);
+			this.groupBox2.Size = new System.Drawing.Size(760, 184);
 			this.groupBox2.TabIndex = 14;
 			this.groupBox2.Text = "Backup";
 			// 
@@ -343,40 +343,40 @@
 			this.tabPageArchive.Location = new System.Drawing.Point(2, 21);
 			this.tabPageArchive.Name = "tabPageArchive";
 			this.tabPageArchive.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPageArchive.Size = new System.Drawing.Size(776, 554);
+			this.tabPageArchive.Size = new System.Drawing.Size(776, 571);
 			this.tabPageArchive.TabIndex = 1;
 			this.tabPageArchive.Text = "Remove Old Data";
 			// 
 			// checkOptimize
 			// 
-			this.checkOptimize.Location = new System.Drawing.Point(139, 274);
+			this.checkOptimize.Location = new System.Drawing.Point(131, 267);
 			this.checkOptimize.Name = "checkOptimize";
-			this.checkOptimize.Size = new System.Drawing.Size(247, 20);
+			this.checkOptimize.Size = new System.Drawing.Size(224, 20);
 			this.checkOptimize.TabIndex = 21;
 			this.checkOptimize.Text = "Optimize Database (requires backup)";
 			this.checkOptimize.Click += new System.EventHandler(this.checkOptimize_Click);
 			// 
 			// checkTaskHist
 			// 
-			this.checkTaskHist.Location = new System.Drawing.Point(139, 172);
+			this.checkTaskHist.Location = new System.Drawing.Point(131, 173);
 			this.checkTaskHist.Name = "checkTaskHist";
-			this.checkTaskHist.Size = new System.Drawing.Size(247, 18);
+			this.checkTaskHist.Size = new System.Drawing.Size(68, 20);
 			this.checkTaskHist.TabIndex = 20;
 			this.checkTaskHist.Text = "TaskHist";
 			// 
 			// checkWikiPageHist
 			// 
-			this.checkWikiPageHist.Location = new System.Drawing.Point(139, 149);
+			this.checkWikiPageHist.Location = new System.Drawing.Point(131, 149);
 			this.checkWikiPageHist.Name = "checkWikiPageHist";
-			this.checkWikiPageHist.Size = new System.Drawing.Size(247, 18);
+			this.checkWikiPageHist.Size = new System.Drawing.Size(94, 20);
 			this.checkWikiPageHist.TabIndex = 19;
 			this.checkWikiPageHist.Text = "WikiPageHist";
 			// 
 			// checkWikiListHist
 			// 
-			this.checkWikiListHist.Location = new System.Drawing.Point(139, 126);
+			this.checkWikiListHist.Location = new System.Drawing.Point(131, 125);
 			this.checkWikiListHist.Name = "checkWikiListHist";
-			this.checkWikiListHist.Size = new System.Drawing.Size(247, 18);
+			this.checkWikiListHist.Size = new System.Drawing.Size(86, 20);
 			this.checkWikiListHist.TabIndex = 18;
 			this.checkWikiListHist.Text = "WikiListHist";
 			// 
@@ -384,7 +384,7 @@
 			// 
 			this.labelSelectTables.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelSelectTables.Location = new System.Drawing.Point(136, 59);
+			this.labelSelectTables.Location = new System.Drawing.Point(131, 57);
 			this.labelSelectTables.Name = "labelSelectTables";
 			this.labelSelectTables.Size = new System.Drawing.Size(341, 18);
 			this.labelSelectTables.TabIndex = 17;
@@ -392,25 +392,25 @@
 			// 
 			// checkEmailMessage
 			// 
-			this.checkEmailMessage.Location = new System.Drawing.Point(139, 103);
+			this.checkEmailMessage.Location = new System.Drawing.Point(131, 101);
 			this.checkEmailMessage.Name = "checkEmailMessage";
-			this.checkEmailMessage.Size = new System.Drawing.Size(247, 18);
+			this.checkEmailMessage.Size = new System.Drawing.Size(100, 20);
 			this.checkEmailMessage.TabIndex = 16;
 			this.checkEmailMessage.Text = "EmailMessage";
 			// 
 			// checkSecurityLog
 			// 
-			this.checkSecurityLog.Location = new System.Drawing.Point(139, 80);
+			this.checkSecurityLog.Location = new System.Drawing.Point(131, 77);
 			this.checkSecurityLog.Name = "checkSecurityLog";
-			this.checkSecurityLog.Size = new System.Drawing.Size(247, 18);
+			this.checkSecurityLog.Size = new System.Drawing.Size(182, 20);
 			this.checkSecurityLog.TabIndex = 0;
 			this.checkSecurityLog.Text = "SecurityLog/SecurityLogHash";
 			// 
 			// checkArchiveDoBackupFirst
 			// 
-			this.checkArchiveDoBackupFirst.Location = new System.Drawing.Point(139, 253);
+			this.checkArchiveDoBackupFirst.Location = new System.Drawing.Point(131, 243);
 			this.checkArchiveDoBackupFirst.Name = "checkArchiveDoBackupFirst";
-			this.checkArchiveDoBackupFirst.Size = new System.Drawing.Size(206, 18);
+			this.checkArchiveDoBackupFirst.Size = new System.Drawing.Size(184, 20);
 			this.checkArchiveDoBackupFirst.TabIndex = 14;
 			this.checkArchiveDoBackupFirst.Text = "Backup before removing data";
 			this.checkArchiveDoBackupFirst.CheckedChanged += new System.EventHandler(this.checkMakeBackup_CheckedChanged);
@@ -420,7 +420,7 @@
 			this.labelWarning.Anchor = System.Windows.Forms.AnchorStyles.Top;
 			this.labelWarning.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.labelWarning.ForeColor = System.Drawing.Color.Red;
-			this.labelWarning.Location = new System.Drawing.Point(244, 499);
+			this.labelWarning.Location = new System.Drawing.Point(244, 508);
 			this.labelWarning.Name = "labelWarning";
 			this.labelWarning.Size = new System.Drawing.Size(509, 55);
 			this.labelWarning.TabIndex = 13;
@@ -433,7 +433,7 @@
 			// 
 			this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.label7.Location = new System.Drawing.Point(19, 12);
+			this.label7.Location = new System.Drawing.Point(19, 8);
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(738, 47);
 			this.label7.TabIndex = 12;
@@ -441,7 +441,7 @@
 			// 
 			// butSaveArchiveData
 			// 
-			this.butSaveArchiveData.Location = new System.Drawing.Point(139, 482);
+			this.butSaveArchiveData.Location = new System.Drawing.Point(139, 492);
 			this.butSaveArchiveData.Name = "butSaveArchiveData";
 			this.butSaveArchiveData.Size = new System.Drawing.Size(86, 26);
 			this.butSaveArchiveData.TabIndex = 4;
@@ -458,15 +458,15 @@
 			this.groupBoxBackupConnection.Controls.Add(this.textArchiveServerName);
 			this.groupBoxBackupConnection.Controls.Add(this.textArchivePass);
 			this.groupBoxBackupConnection.Controls.Add(this.textArchiveUser);
-			this.groupBoxBackupConnection.Location = new System.Drawing.Point(131, 300);
+			this.groupBoxBackupConnection.Location = new System.Drawing.Point(131, 295);
 			this.groupBoxBackupConnection.Name = "groupBoxBackupConnection";
-			this.groupBoxBackupConnection.Size = new System.Drawing.Size(493, 176);
+			this.groupBoxBackupConnection.Size = new System.Drawing.Size(497, 189);
 			this.groupBoxBackupConnection.TabIndex = 0;
 			this.groupBoxBackupConnection.Text = "Backup Connection Settings";
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(7, 122);
+			this.label5.Location = new System.Drawing.Point(8, 138);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(480, 18);
 			this.label5.TabIndex = 37;
@@ -475,7 +475,7 @@
 			// 
 			// label8
 			// 
-			this.label8.Location = new System.Drawing.Point(7, 78);
+			this.label8.Location = new System.Drawing.Point(8, 91);
 			this.label8.Name = "label8";
 			this.label8.Size = new System.Drawing.Size(480, 18);
 			this.label8.TabIndex = 36;
@@ -484,7 +484,7 @@
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(6, 16);
+			this.label3.Location = new System.Drawing.Point(8, 23);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(481, 39);
 			this.label3.TabIndex = 35;
@@ -494,30 +494,30 @@
 			// 
 			// textArchiveServerName
 			// 
-			this.textArchiveServerName.Location = new System.Drawing.Point(9, 55);
+			this.textArchiveServerName.Location = new System.Drawing.Point(8, 64);
 			this.textArchiveServerName.Name = "textArchiveServerName";
-			this.textArchiveServerName.Size = new System.Drawing.Size(283, 20);
+			this.textArchiveServerName.Size = new System.Drawing.Size(284, 23);
 			this.textArchiveServerName.TabIndex = 0;
 			// 
 			// textArchivePass
 			// 
-			this.textArchivePass.Location = new System.Drawing.Point(10, 143);
+			this.textArchivePass.Location = new System.Drawing.Point(8, 158);
 			this.textArchivePass.Name = "textArchivePass";
 			this.textArchivePass.PasswordChar = '*';
-			this.textArchivePass.Size = new System.Drawing.Size(283, 20);
+			this.textArchivePass.Size = new System.Drawing.Size(284, 23);
 			this.textArchivePass.TabIndex = 3;
 			// 
 			// textArchiveUser
 			// 
-			this.textArchiveUser.Location = new System.Drawing.Point(10, 99);
+			this.textArchiveUser.Location = new System.Drawing.Point(8, 111);
 			this.textArchiveUser.Name = "textArchiveUser";
-			this.textArchiveUser.Size = new System.Drawing.Size(283, 20);
+			this.textArchiveUser.Size = new System.Drawing.Size(284, 23);
 			this.textArchiveUser.TabIndex = 2;
 			// 
 			// butArchive
 			// 
 			this.butArchive.Anchor = System.Windows.Forms.AnchorStyles.Top;
-			this.butArchive.Location = new System.Drawing.Point(139, 514);
+			this.butArchive.Location = new System.Drawing.Point(139, 522);
 			this.butArchive.Name = "butArchive";
 			this.butArchive.Size = new System.Drawing.Size(101, 26);
 			this.butArchive.TabIndex = 2;
@@ -528,7 +528,7 @@
 			// label2
 			// 
 			this.label2.Anchor = System.Windows.Forms.AnchorStyles.Top;
-			this.label2.Location = new System.Drawing.Point(150, 201);
+			this.label2.Location = new System.Drawing.Point(131, 197);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(272, 17);
 			this.label2.TabIndex = 1;
@@ -538,14 +538,14 @@
 			// dateTimeArchive
 			// 
 			this.dateTimeArchive.Anchor = System.Windows.Forms.AnchorStyles.Top;
-			this.dateTimeArchive.Location = new System.Drawing.Point(151, 221);
+			this.dateTimeArchive.Location = new System.Drawing.Point(131, 216);
 			this.dateTimeArchive.Name = "dateTimeArchive";
-			this.dateTimeArchive.Size = new System.Drawing.Size(237, 20);
+			this.dateTimeArchive.Size = new System.Drawing.Size(236, 23);
 			this.dateTimeArchive.TabIndex = 1;
 			// 
 			// FormBackup
 			// 
-			this.ClientSize = new System.Drawing.Size(777, 582);
+			this.ClientSize = new System.Drawing.Size(796, 610);
 			this.Controls.Add(this.tabControl1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.MaximizeBox = false;

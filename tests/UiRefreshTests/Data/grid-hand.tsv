@@ -15,3 +15,5 @@ OpenPmsDental/Main Modules/ControlChart.designer.cs	OpenPmsDental.ControlChart	b
 OpenPmsDental/Main Modules/ControlChart.designer.cs	OpenPmsDental.ControlChart	butL	Size	24,20	26,19	by hand: procedure buttons on a 3 x 3 grid, 26 x 19, 2 px apart
 OpenPmsDental/Forms/FormInsPlan.designer.cs	OpenPmsDental.FormInsPlan	checkOrthoWaitDays	Location	102,69	0,69	by hand: the text does not fit at the field column; the box at the content edge, its text on one line
 OpenPmsDental/Forms/FormInsPlan.designer.cs	OpenPmsDental.FormInsPlan	checkOrthoWaitDays	Size	294,21	396,21	by hand: the text does not fit at the field column; the box at the content edge, its text on one line
+OpenPmsDental/Forms/FormApptEdit.designer.cs	OpenPmsDental.FormApptEdit	labelQuickAdd	Size	143,47	150,47	by hand: the note above the quick-add list as wide as the list
+OpenPmsDental/Forms/FormApptEdit.designer.cs	OpenPmsDental.FormApptEdit	textNote	Size	387,109	490,109	by hand: the appointment note as wide as the fields and the quick-add list above it

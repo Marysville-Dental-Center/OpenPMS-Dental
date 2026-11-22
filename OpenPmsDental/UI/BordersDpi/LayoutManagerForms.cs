@@ -1192,6 +1192,11 @@ Scrollable Control: For example, a panel that's set to AutoScroll=true.  These c
 				//the child textbox has negative height because we made it so short
 				return true;
 			}
+			if(control is UpDownBase){
+				//UI-12: a NumericUpDown lays out its own text box and arrows (PositionControls) for its font; scaled 96 dpi bounds put the text box
+				//lower than the box and cut its text.
+				return true;
+			}
 			if(control is UI.GridOD gridOD){
 				gridOD.SetScaleAndZoom(_scaleMS,_zoomLocal);//grids are over in OpenPmsDentalBusiness, so this is instead of a ref to LayoutManager.
 				return true;//grids handle their own layout of scrollbars, etc.
