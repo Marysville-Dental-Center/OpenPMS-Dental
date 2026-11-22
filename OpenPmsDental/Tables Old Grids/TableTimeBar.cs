@@ -94,18 +94,26 @@ namespace OpenPmsDental{
 					bool isFilled=text!="";
 					bool isFilledBefore=i>0 && !string.IsNullOrEmpty(Cell[0,i-1]);
 					if(isFilled){
-						EnumUiColor uiColorFill=text=="X" ? EnumUiColor.Accent : EnumUiColor.AccentSubtle;
-						g.FillRectangle(UiTheme.GetBrush(uiColorFill),rectangleCell);
-						Color colorText=UiTheme.GetColor(text=="X" ? EnumUiColor.TextOnAccent : EnumUiColor.Text);
-						TextRenderer.DrawText(g,text,UiTheme.FontGrid,rectangleCell,colorText,
-							TextFormatFlags.HorizontalCenter|TextFormatFlags.VerticalCenter|TextFormatFlags.NoPadding|TextFormatFlags.NoPrefix|TextFormatFlags.SingleLine
-							|TextFormatFlags.PreserveGraphicsTranslateTransform|TextFormatFlags.PreserveGraphicsClipping);//each panel paints this picture moved to its place
+						g.FillRectangle(UiTheme.GetBrush(text=="X" ? EnumUiColor.Accent : EnumUiColor.AccentSubtle),rectangleCell);
 					}
 					if(i>0){
 						//The line over the cell: white between two filled cells, Gridline otherwise.
 						EnumUiColor uiColorLine=isFilled && isFilledBefore ? EnumUiColor.SurfaceRaised : EnumUiColor.Gridline;
 						g.FillRectangle(UiTheme.GetBrush(uiColorLine),new Rectangle(rectangleCell.X,rectangleCell.Y,rectangleCell.Width,1));
 					}
+				}
+				//The letters after every fill (a letter a little taller than its 14 px cell is not covered by the next cell's fill).
+				for(int i=0;i<MaxRows;i++){
+					string text=Cell[0,i]??"";
+					if(text==""){
+						continue;
+					}
+					Rectangle rectangleCell=GetCellRectangleLaidOut(0,i);
+					rectangleCell=new Rectangle(1,rectangleCell.Y,Width-2,rectangleCell.Height);
+					Color colorText=UiTheme.GetColor(text=="X" ? EnumUiColor.TextOnAccent : EnumUiColor.Text);
+					TextRenderer.DrawText(g,text,UiTheme.FontGrid,rectangleCell,colorText,
+						TextFormatFlags.HorizontalCenter|TextFormatFlags.VerticalCenter|TextFormatFlags.NoPadding|TextFormatFlags.NoPrefix|TextFormatFlags.SingleLine
+						|TextFormatFlags.PreserveGraphicsTranslateTransform|TextFormatFlags.PreserveGraphicsClipping);//each panel paints this picture moved to its place
 				}
 			}
 			g.Restore(graphicsState);

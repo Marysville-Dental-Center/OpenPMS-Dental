@@ -988,6 +988,10 @@ namespace OpenPmsDental{
 		///<summary>UI-13: a cell's rectangle in this control's coordinates where LayoutTables puts it for a table without a scroll bar (panelTable at
 		///y -1 in panelScroll), whatever the inner panel's place before the first layout (a designer's ScrollValue moves it until Load).</summary>
 		protected Rectangle GetCellRectangleLaidOut(int col,int row){
+			if(!FieldsArePresent){
+				//No head: LayoutTables puts panelScroll at (1,0) under a 1 px hidden head, and panelTable at y -1 in it.
+				return new Rectangle(1+colPos[col],-1+rowPos[row],ColWidth[col],RowHeight[row]);
+			}
 			return new Rectangle(panelScroll.Left+colPos[col],panelScroll.Top-1+rowPos[row],ColWidth[col],RowHeight[row]);
 		}
 
