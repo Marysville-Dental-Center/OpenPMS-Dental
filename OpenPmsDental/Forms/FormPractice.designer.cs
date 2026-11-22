@@ -121,7 +121,7 @@ namespace OpenPmsDental {
 			this.textBankNumber.Location = new System.Drawing.Point(132, 632);
 			this.textBankNumber.Multiline = true;
 			this.textBankNumber.Name = "textBankNumber";
-			this.textBankNumber.Size = new System.Drawing.Size(317, 49);
+			this.textBankNumber.Size = new System.Drawing.Size(307, 49);
 			this.textBankNumber.TabIndex = 7;
 			// 
 			// label4
@@ -302,7 +302,7 @@ namespace OpenPmsDental {
 			this.groupSwiss.Controls.Add(this.label1);
 			this.groupSwiss.Location = new System.Drawing.Point(482, 366);
 			this.groupSwiss.Name = "groupSwiss";
-			this.groupSwiss.Size = new System.Drawing.Size(403, 153);
+			this.groupSwiss.Size = new System.Drawing.Size(394, 153);
 			this.groupSwiss.TabIndex = 8;
 			this.groupSwiss.Text = "Switzerland";
 			// 
@@ -312,7 +312,7 @@ namespace OpenPmsDental {
 			this.textBankAddress.Location = new System.Drawing.Point(112, 50);
 			this.textBankAddress.Multiline = true;
 			this.textBankAddress.Name = "textBankAddress";
-			this.textBankAddress.Size = new System.Drawing.Size(283, 95);
+			this.textBankAddress.Size = new System.Drawing.Size(274, 95);
 			this.textBankAddress.TabIndex = 2;
 			// 
 			// label2
@@ -328,7 +328,7 @@ namespace OpenPmsDental {
 			// 
 			this.textBankRouting.Location = new System.Drawing.Point(112, 23);
 			this.textBankRouting.Name = "textBankRouting";
-			this.textBankRouting.Size = new System.Drawing.Size(283, 20);
+			this.textBankRouting.Size = new System.Drawing.Size(274, 23);
 			this.textBankRouting.TabIndex = 1;
 			// 
 			// label1
@@ -623,7 +623,7 @@ namespace OpenPmsDental {
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(810, 697);
+			this.butSave.Location = new System.Drawing.Point(808, 697);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 26);
 			this.butSave.TabIndex = 9;
@@ -639,7 +639,7 @@ namespace OpenPmsDental {
 			// 
 			// FormPractice
 			// 
-			this.ClientSize = new System.Drawing.Size(893, 731);
+			this.ClientSize = new System.Drawing.Size(891, 731);
 			this.Controls.Add(this.comboProv);
 			this.Controls.Add(this.textFax);
 			this.Controls.Add(this.textPhone);

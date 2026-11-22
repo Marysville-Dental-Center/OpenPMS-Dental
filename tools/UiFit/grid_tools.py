@@ -97,7 +97,7 @@ class Node:
     __slots__ = ("window", "path", "name", "type", "index", "x", "y", "w", "h", "cx", "cy", "cw", "ch", "visible", "dock", "anchor", "autosize",
                  "sizes_itself", "in_layout_panel", "check_align", "text_align", "multiline", "font_h", "text_w", "text_h", "title_bottom", "pref_h",
                  "text", "children", "parent", "nx", "ny", "nw", "nh", "editable", "fixed", "why_fixed", "new_check_align", "new_text_align",
-                 "autosize_off", "rule", "members", "spanned", "rtl", "w0")
+                 "autosize_off", "rule", "members", "spanned", "rtl", "w0", "keep_size")
 
     def __init__(self, r):
         self.window = r["window"]
@@ -136,6 +136,7 @@ class Node:
         self.members = None
         self.spanned = False
         self.rtl = False
+        self.keep_size = False
         self.w0 = self.w  # the width as the tree has it: a field narrowed in one pass widens again when its container grew in a later one
 
     # anchor bits: Top 1, Bottom 2, Left 4, Right 8
@@ -261,6 +262,16 @@ def runtime_positioned(root, simple, names):
                 r"\b%s\s*\.\s*SetBounds\s*\(" % e,
                 r"LayoutManager\s*\.\s*Move\w*\(\s*%s\b" % e,
                 r"\b%s\s*\.\s*(Location|Size)\s*=\s*new" % e]
+        all_ms = []
+        for p in pats:
+            all_ms.extend(re.finditer(p, code))
+        all_ms = [m for m in all_ms if not re.match(r"LayoutManager\s*\.\s*Move\w*\(\s*%s\s*,\s*new\s+Point\(\s*%s\.Location\.X[^;]*%s\.Location\.Y\s*\)\s*\)" % (e, e, e),
+                                                      code[m.start():])]
+        if all_ms and all(re.match(r"(LayoutManager\s*\.\s*Move(Height|Width|Size)\b|\b%s\s*\.\s*(Width|Height|Size)\b)" % e, code[m.start():]) for m in all_ms):
+            # Only sized in code (MoveHeight, Width =): the control moves with its row and keeps its size.
+            m = all_ms[0]
+            found[n] = "size: " + code[code.rfind("\n", 0, m.start()) + 1:code.find("\n", m.start())].strip()[:110]
+            continue
         for p in pats:
             ms = list(re.finditer(p, code))
             # A move relative to the control's own place (LayoutManager.MoveLocation(x,new Point(x.Location.X-...,x.Location.Y))) moves it
@@ -580,7 +591,7 @@ class Layout:
         return n.nh
 
     def set_size(self, n, w, h, rule):
-        if n.fixed or not n.editable:
+        if n.fixed or not n.editable or getattr(n, "keep_size", False):
             return
         if (w, h) != (n.nw, n.nh):
             n.nw, n.nh = w, h
@@ -755,13 +766,23 @@ class Layout:
                         n.new_text_align = ("Top" if (n.text_align or "").startswith("Top") else "Middle") + "Center"
                         n.add_rule("TextAlign", "notes and their buttons: centred on their column")
             i = max(j, i + 1)
+        # A wide list or grid alone on its row that ends a little short of the column's right edge reaches it (the grid under two columns of
+        # fields and groups ends where the groups end).
+        for k in kids:
+            if is_row(k) and len(row_items(k)) == 1:
+                g = row_items(k)[0]
+                edges = [i.nx + i.nw for i in block.items if i is not g and i.kind in ("group", "panel", "tabs", "other", "field")]
+                edge = max(edges) if edges else 0
+                if (g.kind == "other" and g.nw >= 300 and g.editable and not g.fixed and not getattr(g, "members", None)
+                        and not g.anchored_right_only and 0 < edge - (g.nx + g.nw) <= 48):
+                    self.set_size(g, edge - g.nx, g.nh, "wide list: reaches the column's right edge")
         # Containers stacked in one column (one left edge) share one right edge: the widest one's.
         conts = []
         for k in kids:
             if is_row(k):
                 its = row_items(k)
                 if (len(its) == 1 and its[0].kind in ("group", "panel", "tabs") and its[0].editable and not its[0].fixed
-                        and not getattr(its[0], "members", None) and not (its[0].anchor & 8 and its[0].anchor & 4)):
+                        and not getattr(its[0], "members", None) and not its[0].anchored_right_only):
                     conts.append(its[0])
         for c0 in conts:
             col = [c for c in conts if abs(c.nx - c0.nx) <= 8]
@@ -778,6 +799,12 @@ class Layout:
         orig = cur.y - prev.b if over is None else over
         pk = prev_kind
         ck = self.row_kind(cur)
+        # Rows that both start with a check box in one column are one list of check boxes (a field or note further along a row does
+        # not make a section): the list's gap.
+        if is_row(prev) and is_row(cur) and orig < 3 * GRID["section_gap"]:
+            a, b = row_items(prev)[0], row_items(cur)[0]
+            if a.kind in ("check", "radio") and b.kind in ("check", "radio") and abs(a.x - b.x) <= 4:
+                return GRID["list_gap"]
         if orig >= GRID["section_from"] and orig >= typical + 6:
             return GRID["section_gap"]
         if pk == "caption" and orig <= 6:
@@ -938,8 +965,13 @@ class Layout:
             if u.label is not None and u.col and u.col.get("prefs") and not u.label.fixed:
                 prefs_lx[id(u)] = self.prefs_label(u)
         h_row = 0
+        any_shown = any(getattr(it, "visible", True) for u in units for it in u.items)
         for u in units:
             for it in u.items:
+                if not getattr(it, "visible", True) and any_shown:
+                    # A control hidden in the designer beside shown ones (shown in some setups) does not make the row taller.
+                    h_row = max(h_row, min(self.item_height(it, field_row), H))
+                    continue
                 if it.kind in ("check", "radio") and it.text_w and not it.fixed and not getattr(it, "members", None) and check_width(it) <= right - it.nx:
                     h_row = max(h_row, self.p.check_height)  # a check box whose text fits on one line is one line tall
                     continue
@@ -1019,6 +1051,10 @@ class Layout:
                     # (the container keeps its width).
                     w = right - tails[idx] - x
                 self.set_size(m, w + off_box, self.item_height(m, True), "single-line field: the standard height, width on the 4 px grid")
+            elif (m.kind == "other" and u.label is not None and u.label.kind == "label" and m.nh > 30 and m.nw >= 200
+                  and x > m.x and not m.fixed and m.editable and not getattr(m, "members", None) and x - m.x < m.nw // 3):
+                # A wide box (a note) whose field column moved right keeps its right edge: it lines up with what stands above it.
+                self.set_size(m, m.nw - (x - m.x), m.nh, "wide box: keeps its right edge when its column moves right")
             elif (m.kind == "other" and u.label is not None and u.label.kind == "button" and self.p.in_scope and not self.p.keep_width
                   and not m.fixed and right - tails[idx] - x >= 60):
                 # A box named by a button (Lab, Req) in a part laid out alone: it ends where the fields end.
@@ -1155,7 +1191,9 @@ class Planner:
             n.editable = n is tree or n.name in designer.declared
             if n is not tree and designer.docked.get(n.name, "None") != "None":
                 n.dock = designer.docked[n.name]  # LayoutManager lays docked controls out itself; the designer says what they are
-            if n.name in fixed:
+            if n.name in fixed and fixed[n.name].startswith("size: "):
+                n.keep_size = True
+            elif n.name in fixed:
                 n.fixed = True
                 n.why_fixed = "positioned in code: " + fixed[n.name]
             if any(h in n.type for h in OWNER_DRAWN_HINTS):
@@ -1539,6 +1577,13 @@ class Planner:
         movable = [c for c in n.children if c.dock in ("None", "") and not c.in_layout_panel and c.w > 0 and c.h > 0]
         if not movable:
             return
+        # A check box drawn taller than its one line of text (its text fits its width) is one line tall: it takes one row.
+        lay0 = Layout(self, n, (0, 0, n.nw, n.nh))
+        for c in movable:
+            if (c.kind in ("check", "radio") and c.text_w and c.editable and not c.fixed and c.nh > self.check_height + 6
+                    and check_width(c) <= c.nw and chr(10) not in c.text):
+                lay0.set_size(c, c.nw, self.check_height, "check box: one line tall, its text fits")
+                c.h = c.nh  # the cut reads it at its one-line height
         items = merge_stacked(movable)
         left, top, right, bottom = self.content_rect(n, is_root)
         lay = Layout(self, n, (left, top, right, bottom))
@@ -1655,6 +1700,10 @@ class Planner:
         if left and pad < min(i.x for i in left) <= pad + 16:
             dx = pad - min(i.x for i in left)
         for i in others:
+            if i.kind == "button" and not getattr(i, "members", None):
+                # Buttons of the bar stand on one bottom line with the dialog buttons.
+                lay.set_loc(i, i.nx + (dx if i in left else 0), n.nh - pad - i.nh, "bottom bar: its buttons 8 px from the window's bottom")
+                continue
             lay.move_by(i, dx if i in left else 0, dy, "bottom bar: 8 px from the window's bottom")
         x = n.nw - pad
         for i in reversed(dialog):

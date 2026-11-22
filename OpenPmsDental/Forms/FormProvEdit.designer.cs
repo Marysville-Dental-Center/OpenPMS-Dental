@@ -202,7 +202,7 @@ namespace OpenPmsDental {
 			// 
 			// comboSchoolClass
 			// 
-			this.comboSchoolClass.Location = new System.Drawing.Point(126, 140);
+			this.comboSchoolClass.Location = new System.Drawing.Point(126, 128);
 			this.comboSchoolClass.Name = "comboSchoolClass";
 			this.comboSchoolClass.Size = new System.Drawing.Size(160, 23);
 			this.comboSchoolClass.TabIndex = 0;
@@ -210,7 +210,7 @@ namespace OpenPmsDental {
 			// 
 			// labelSchoolClass
 			// 
-			this.labelSchoolClass.Location = new System.Drawing.Point(80, 140);
+			this.labelSchoolClass.Location = new System.Drawing.Point(80, 128);
 			this.labelSchoolClass.Name = "labelSchoolClass";
 			this.labelSchoolClass.Size = new System.Drawing.Size(40, 23);
 			this.labelSchoolClass.TabIndex = 89;
@@ -222,7 +222,7 @@ namespace OpenPmsDental {
 			// 
 			this.checkIsInstructor.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.checkIsInstructor.Enabled = false;
-			this.checkIsInstructor.Location = new System.Drawing.Point(126, 89);
+			this.checkIsInstructor.Location = new System.Drawing.Point(126, 90);
 			this.checkIsInstructor.Name = "checkIsInstructor";
 			this.checkIsInstructor.Size = new System.Drawing.Size(87, 20);
 			this.checkIsInstructor.TabIndex = 4;
@@ -230,7 +230,7 @@ namespace OpenPmsDental {
 			// 
 			// labelPassDescription
 			// 
-			this.labelPassDescription.Location = new System.Drawing.Point(219, 89);
+			this.labelPassDescription.Location = new System.Drawing.Point(219, 77);
 			this.labelPassDescription.Name = "labelPassDescription";
 			this.labelPassDescription.Size = new System.Drawing.Size(138, 47);
 			this.labelPassDescription.TabIndex = 248;
@@ -564,7 +564,7 @@ namespace OpenPmsDental {
 			this.textSchedRules.Location = new System.Drawing.Point(407, 238);
 			this.textSchedRules.Multiline = true;
 			this.textSchedRules.Name = "textSchedRules";
-			this.textSchedRules.Size = new System.Drawing.Size(330, 60);
+			this.textSchedRules.Size = new System.Drawing.Size(354, 60);
 			this.textSchedRules.TabIndex = 300;
 			// 
 			// labelSchedRules

@@ -729,7 +729,7 @@ namespace OpenPmsDental{
 			// 
 			// checkAddressSame
 			// 
-			this.checkAddressSame.Location = new System.Drawing.Point(180, 33);
+			this.checkAddressSame.Location = new System.Drawing.Point(180, 24);
 			this.checkAddressSame.Name = "checkAddressSame";
 			this.checkAddressSame.Size = new System.Drawing.Size(142, 20);
 			this.checkAddressSame.TabIndex = 0;

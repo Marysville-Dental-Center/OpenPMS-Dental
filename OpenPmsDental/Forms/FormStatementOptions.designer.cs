@@ -83,7 +83,7 @@ namespace OpenPmsDental {
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(674, 543);
+			this.butSave.Location = new System.Drawing.Point(637, 543);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 17;
@@ -118,7 +118,7 @@ namespace OpenPmsDental {
 			this.textNote.Name = "textNote";
 			this.textNote.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Statement;
 			this.textNote.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textNote.Size = new System.Drawing.Size(603, 120);
+			this.textNote.Size = new System.Drawing.Size(562, 120);
 			this.textNote.TabIndex = 12;
 			this.textNote.Text = "";
 			// 
@@ -188,7 +188,7 @@ namespace OpenPmsDental {
 			this.textNoteBold.Name = "textNoteBold";
 			this.textNoteBold.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Statement;
 			this.textNoteBold.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textNoteBold.Size = new System.Drawing.Size(603, 74);
+			this.textNoteBold.Size = new System.Drawing.Size(562, 74);
 			this.textNoteBold.TabIndex = 13;
 			this.textNoteBold.Text = "";
 			// 
@@ -510,7 +510,7 @@ namespace OpenPmsDental {
 			// FormStatementOptions
 			// 
 			this.AcceptButton = this.butSave;
-			this.ClientSize = new System.Drawing.Size(757, 575);
+			this.ClientSize = new System.Drawing.Size(720, 575);
 			this.Controls.Add(this.groupContents);
 			this.Controls.Add(this.groupStatement);
 			this.Controls.Add(this.groupInvoice);

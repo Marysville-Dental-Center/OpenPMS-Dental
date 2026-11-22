@@ -150,7 +150,7 @@ namespace OpenPmsDental{
 			this.textNote.Multiline = true;
 			this.textNote.Name = "textNote";
 			this.textNote.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.textNote.Size = new System.Drawing.Size(368, 56);
+			this.textNote.Size = new System.Drawing.Size(310, 56);
 			this.textNote.TabIndex = 62;
 			// 
 			// labelOutSocketOrDirEx
@@ -700,7 +700,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(809, 821);
+			this.butSave.Location = new System.Drawing.Point(809, 817);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 69;
@@ -726,7 +726,7 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridMain.Location = new System.Drawing.Point(17, 466);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(796, 303);
+			this.gridMain.Size = new System.Drawing.Size(839, 303);
 			this.gridMain.TabIndex = 0;
 			this.gridMain.Title = "Messages / Segments";
 			this.gridMain.TranslationName = "TableMessages";
@@ -744,7 +744,7 @@ namespace OpenPmsDental{
 			// 
 			// checkProcsAppt
 			// 
-			this.checkProcsAppt.Location = new System.Drawing.Point(17, 442);
+			this.checkProcsAppt.Location = new System.Drawing.Point(155, 442);
 			this.checkProcsAppt.Name = "checkProcsAppt";
 			this.checkProcsAppt.RightToLeft = System.Windows.Forms.RightToLeft.No;
 			this.checkProcsAppt.Size = new System.Drawing.Size(212, 20);
@@ -754,7 +754,7 @@ namespace OpenPmsDental{
 			// FormHL7DefEdit
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
-			this.ClientSize = new System.Drawing.Size(892, 853);
+			this.ClientSize = new System.Drawing.Size(892, 849);
 			this.Controls.Add(this.checkProcsAppt);
 			this.Controls.Add(this.checkLongDCodes);
 			this.Controls.Add(this.groupHL7Comm);

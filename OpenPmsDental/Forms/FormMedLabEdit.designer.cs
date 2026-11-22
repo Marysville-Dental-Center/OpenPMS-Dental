@@ -511,7 +511,7 @@ namespace OpenPmsDental{
 			// butShowHL7
 			// 
 			this.butShowHL7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butShowHL7.Location = new System.Drawing.Point(472, 754);
+			this.butShowHL7.Location = new System.Drawing.Point(472, 758);
 			this.butShowHL7.Name = "butShowHL7";
 			this.butShowHL7.Size = new System.Drawing.Size(75, 24);
 			this.butShowHL7.TabIndex = 336;
@@ -521,7 +521,7 @@ namespace OpenPmsDental{
 			// butPDF
 			// 
 			this.butPDF.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butPDF.Location = new System.Drawing.Point(178, 754);
+			this.butPDF.Location = new System.Drawing.Point(178, 758);
 			this.butPDF.Name = "butPDF";
 			this.butPDF.Size = new System.Drawing.Size(75, 24);
 			this.butPDF.TabIndex = 335;
@@ -531,7 +531,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(929, 758);
+			this.butSave.Location = new System.Drawing.Point(891, 758);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 333;
@@ -543,7 +543,7 @@ namespace OpenPmsDental{
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(8, 754);
+			this.butDelete.Location = new System.Drawing.Point(8, 758);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(85, 24);
 			this.butDelete.TabIndex = 332;
@@ -561,7 +561,7 @@ namespace OpenPmsDental{
 			this.textGenComments.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Lab;
 			this.textGenComments.ReadOnly = true;
 			this.textGenComments.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textGenComments.Size = new System.Drawing.Size(270, 58);
+			this.textGenComments.Size = new System.Drawing.Size(228, 58);
 			this.textGenComments.TabIndex = 320;
 			this.textGenComments.Text = "";
 			// 
@@ -576,7 +576,7 @@ namespace OpenPmsDental{
 			this.textTestsOrd.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Lab;
 			this.textTestsOrd.ReadOnly = true;
 			this.textTestsOrd.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textTestsOrd.Size = new System.Drawing.Size(270, 58);
+			this.textTestsOrd.Size = new System.Drawing.Size(228, 58);
 			this.textTestsOrd.TabIndex = 312;
 			this.textTestsOrd.Text = "";
 			// 
@@ -591,13 +591,13 @@ namespace OpenPmsDental{
 			this.textAddlInfo.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Lab;
 			this.textAddlInfo.ReadOnly = true;
 			this.textAddlInfo.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textAddlInfo.Size = new System.Drawing.Size(270, 58);
+			this.textAddlInfo.Size = new System.Drawing.Size(228, 58);
 			this.textAddlInfo.TabIndex = 0;
 			this.textAddlInfo.Text = "";
 			// 
 			// FormMedLabEdit
 			// 
-			this.ClientSize = new System.Drawing.Size(1012, 790);
+			this.ClientSize = new System.Drawing.Size(974, 790);
 			this.Controls.Add(this.butShowHL7);
 			this.Controls.Add(this.butPDF);
 			this.Controls.Add(this.butSave);

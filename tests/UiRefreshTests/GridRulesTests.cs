@@ -214,7 +214,7 @@ namespace UiRefreshTests {
 			bool isPreferencesPage=gridWindow.Window.Substring(gridWindow.Window.LastIndexOf('.')+1).StartsWith("UserControl");
 			if(isPreferencesPage && listFields.Count>1) {
 				int xPage=listFields.GroupBy(x => x.Item2).OrderByDescending(x => x.Count()).ThenByDescending(x => x.Key).First().Key;
-				foreach(Tuple<string,int> tuple in listFields.Where(x => x.Item2!=xPage)) {
+				foreach(Tuple<string,int> tuple in listFields.Where(x => Math.Abs(x.Item2-xPage)>1)) {//1 px: rounding of nested group boxes
 					listFindings.Add(gridWindow.Window+"	column	"+tuple.Item1);
 				}
 				return;
@@ -224,7 +224,7 @@ namespace UiRefreshTests {
 			while(i<listSorted.Count) {
 				List<Tuple<string,int>> listCluster=listSorted.Skip(i).TakeWhile(x => x.Item2-listSorted[i].Item2<=40).ToList();
 				int xMax=listCluster.Max(x => x.Item2);
-				foreach(Tuple<string,int> tuple in listCluster.Where(x => x.Item2!=xMax)) {
+				foreach(Tuple<string,int> tuple in listCluster.Where(x => xMax-x.Item2>1)) {
 					listFindings.Add(gridWindow.Window+"	column	"+tuple.Item1);
 				}
 				i+=listCluster.Count;
@@ -233,6 +233,10 @@ namespace UiRefreshTests {
 
 		private static IEnumerable<Control> Walk(Control control) {
 			yield return control;
+			//The date picker and the clinic picker lay out their own parts.
+			if(control is OpenPmsDental.UI.ODDatePicker || control is OpenPmsDental.UI.ComboBoxClinicPicker) {
+				yield break;
+			}
 			foreach(Control child in control.Controls) {
 				foreach(Control control2 in Walk(child)) {
 					yield return control2;

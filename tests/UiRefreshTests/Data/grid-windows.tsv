@@ -38,7 +38,7 @@ OpenPmsDental.FormInsBenefits	pilot	tool	owner review 2026-11-21
 OpenPmsDental.FormApptEdit	pilot	tool	owner review 2026-11-21; laid out in parts (grid-scope.tsv): the fields panel and the note under it; the lists and grids beside them move with them
 OpenPmsDental.FormScreenEdit	pilot	tool	owner review 2026-11-21
 OpenPmsDental.FormBackup	pilot	tool	owner review 2026-11-21
-OpenPmsDental.FormPayment	pilot	hand	owner review 2026-11-21; by hand: the input styles (UiInputFrame) are the owner's row; the tool parts its labels from its fields and widens the window (section 4)
+OpenPmsDental.FormPayment	pilot	tool	owner review 2026-11-21; laid out in parts (grid-scope.tsv): the payment fields, payment type and account, credit card and deposit, the two filter groups; the input styles (UiInputFrame) are the owner's row
 OpenPmsDental.FormStatementOptions	pilot	tool	owner review 2026-11-21
 OpenPmsDental.FormEmailInbox	pilot	tool	owner review 2026-11-21
 OpenPmsDental.ControlChart	pilot	hand	owner review 2026-11-21; a module laid out by its own code at run time: the procedure buttons by hand (grid-hand.tsv)

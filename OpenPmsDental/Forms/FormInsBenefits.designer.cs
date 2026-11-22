@@ -134,7 +134,7 @@ namespace OpenPmsDental {
 			this.panelSimple.Controls.Add(this.groupBox3);
 			this.panelSimple.Location = new System.Drawing.Point(8, 70);
 			this.panelSimple.Name = "panelSimple";
-			this.panelSimple.Size = new System.Drawing.Size(291, 344);
+			this.panelSimple.Size = new System.Drawing.Size(291, 385);
 			this.panelSimple.TabIndex = 2;
 			// 
 			// gridAgeLimits
@@ -381,7 +381,7 @@ namespace OpenPmsDental {
 			// butEditBenefit
 			//
 			this.butEditBenefit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butEditBenefit.Location = new System.Drawing.Point(614, 833);
+			this.butEditBenefit.Location = new System.Drawing.Point(614, 840);
 			this.butEditBenefit.Name = "butEditBenefit";
 			this.butEditBenefit.Size = new System.Drawing.Size(78, 24);
 			this.butEditBenefit.TabIndex = 6;
