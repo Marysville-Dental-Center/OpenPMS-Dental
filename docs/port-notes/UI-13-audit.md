@@ -90,3 +90,42 @@ Windows (`a1`, the 47 pilot windows; 22 changed against main's pictures, all loo
   missing header are the harness's classic picture (no visual styles in the test process; Windows 11's Explorer theme in the program).
 
 This pass finds nothing beyond the recorded limits (UI-13.md section 4).
+
+## Pass 4, fix round (the review's eight findings; pictures `f2` (pilot windows), `xf4`/`yf4` (windows outside the pilot, after and before,
+## with Windows' visual styles), `sf3`/`sb3` = `xf4/styles`/`yf4/styles` (style sheets); the gallery G-UI3-ui13 is redrawn from them)
+
+The review's findings and what the pictures show now:
+- 1 (the looks drawn at 96 dpi size on a 150% monitor): 05-trackbar, 06-buttons, 07-checkboxes, 08-block-label, 09-progressbar at 150%
+  are drawn through a FormODBase set to 1.5 (SetScaleMS, the program's dpi path) with no test zoom: the slider's thumb, track and ticks, the
+  buttons' corners and padding, the check boxes' 18 px box and gap, the blocks and the progress bar's radius are 1.5 times, the same pixels
+  the test zoom gave (05, 08 and 09 identical to pass 3), now from the window's scale. The program's check box (UI.CheckBox) in 07 gets the
+  window's LayoutManager as LayoutManagerForms passes it, and matches the stock one. Nothing wrong.
+- 2 (the data grid view's classic header bevel and black frame): 12-datagridview at 100% and 150%: the header SurfaceSubtle with 1 px
+  Gridline separators and no bevel, the frame StrokeStrong. FormQuery (now with sample columns and rows): the same. Nothing wrong; the row
+  header's current-row arrow is the grid's own marker (behaviour).
+- 3 (button captions cut on a second line): FormEHR: "Measure Calc", "Quality Meas", "Not Performed", "Clinical Summ." on one line, centred,
+  inside their frames. 06-buttons: one line. Nothing wrong. Seen, kept: FormEHR's top text ("Provider for this patien", the paragraph's third
+  line under the grid title) is cut in the before picture too: the window's designer layout, outside the pilot (UI-13 changes none of its
+  designer files).
+- 4 (the time pattern at 150%): 14-timepattern-150 is FormProcCodeEdit at 1.5 by its LayoutManager: cells 21 px, the column 20 px, the
+  letters and the frame scaled, the handle 18 x 22 a rounded swatch (not an oval) under the last cell; the caption over the column and the
+  Minutes box under it scaled with the window. 14-timepattern-100: unchanged cells (14 px), the window's crop. Nothing wrong.
+- 5 (the tree and list views in the classic picture): 04-treeview-listview and FormAutoNotes (sample groups and notes) and FormProcButtons
+  (sample category and buttons) drawn with visual styles: no dotted lines, the Explorer theme's flat glyph, the Explorer selection (light
+  grey) on the selected note and button. The list view's column header is not printed by the harness (a native child; before and after
+  alike, clip note). Nothing wrong.
+- 6 (the month calendar's bevelled arrows and red ring): 11-monthcalendar and FormRpAdjSheet with visual styles: Windows' themed calendar
+  (flat arrows, today in a blue frame, no red ring); in FormRpAdjSheet the Today line clears "Adjustment Types" below it. The 150% sheet
+  shows the calendar at 96 dpi (clip note, UI-13.md section 4). Nothing wrong.
+- 7 (FormInsPlan's black rule): a 1 px Stroke line at y 128 on the window's colour (y 129 the window's colour). ControlAccount's aging strip
+  separators and FormInsBenefits' dividers (the same kind of panel) are now the same 1 px Stroke line. Nothing wrong.
+- 8 (FormQuery's ActiveCaption caption): "Query results" in Accent with TextOnAccent in the title font, as the grids' titles. Nothing wrong.
+
+Every after picture against pass 3: the 47 pilot windows identical but ControlAccount, FormInsBenefits, FormInsPlan (the dividers) and
+ControlChart-pagebar-150 (the page bar at the window's scale); each opened. The windows outside the pilot: FormAutoNotes, FormEHR,
+FormFamilyBalancer (date pickers and output box themed by the visual styles; its cut "Deletes all transfers ..." text is in the before
+picture too, the window's own layout), FormProcButtons, FormQuery, FormRpAdjSheet changed; each opened; the other eight identical to pass 3.
+The style sheets: 03 (the stock list themed; the program's list at 150% keeps its own scale in the sheet, which lays it out without a full
+LayoutManager layout, as in pass 3), 04, 06, 07, 11, 12, 14 changed; each opened; 01, 02, 05, 08, 09, 10, 13 identical to pass 3.
+
+This pass finds nothing beyond the recorded limits (UI-13.md section 4).

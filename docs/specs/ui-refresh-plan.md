@@ -1616,6 +1616,11 @@ own 26.2 overlap check before it starts. The first cut is below; a brief that fi
   (169 types: 125 in the new look, 27 kept with a reason, 17 drawing nothing) and its test; gallery G-UI3-ui13 with the audit
   (`UI-13-audit.md`). Kept with reasons (UI-13.md section 4): Windows' dialogs and message boxes, the stock calendars' inside (Windows 11's
   themed calendar), the ToolTip component, the stock combo box's drop-down list, content.
+- Fix round (2026-11-22, branch `ui/ui13-2`): the painted looks scale from the painted control's window (dpi times zoom), the data grid
+  view's header flat with Gridline lines and its frame StrokeStrong, stock button captions on one line unless the button holds two, the time
+  pattern's cells, letters and slider steps at the window's scale, the ActiveCaption grid title and thin dark divider panels in the look,
+  trees without dotted lines; the style sheets and the windows outside the pilot drawn with Windows' visual styles (171 inventory rows: 127
+  in the new look).
 - Gallery: G-UI3-ui13 (the owner's four rows, a style sheet per element type at 100% and 150%, the 47 UI-12 windows, one window per type
   outside the pilot).
 
