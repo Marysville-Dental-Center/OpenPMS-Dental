@@ -110,10 +110,12 @@ namespace OpenPmsDental{
 					}
 					Rectangle rectangleCell=GetCellRectangleLaidOut(0,i);
 					rectangleCell=new Rectangle(1,rectangleCell.Y,Width-2,rectangleCell.Height);
-					Color colorText=UiTheme.GetColor(text=="X" ? EnumUiColor.TextOnAccent : EnumUiColor.Text);
-					TextRenderer.DrawText(g,text,UiTheme.FontGrid,rectangleCell,colorText,
-						TextFormatFlags.HorizontalCenter|TextFormatFlags.VerticalCenter|TextFormatFlags.NoPadding|TextFormatFlags.NoPrefix|TextFormatFlags.SingleLine
-						|TextFormatFlags.PreserveGraphicsTranslateTransform|TextFormatFlags.PreserveGraphicsClipping);//each panel paints this picture moved to its place
+					//GDI+ text: it follows the move each panel's paint applies to the picture (GDI text drew some letters where the panel was not).
+					using(StringFormat stringFormat=new StringFormat()){
+						stringFormat.Alignment=StringAlignment.Center;
+						stringFormat.LineAlignment=StringAlignment.Center;
+						g.DrawString(text,UiTheme.FontGrid,UiTheme.GetBrush(text=="X" ? EnumUiColor.TextOnAccent : EnumUiColor.Text),rectangleCell,stringFormat);
+					}
 				}
 			}
 			g.Restore(graphicsState);
