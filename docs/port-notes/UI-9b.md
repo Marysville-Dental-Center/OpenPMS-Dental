@@ -563,8 +563,21 @@ I have B's cap height within 1 px and H2 and H3 stay 1 px inside the box; Rename
 `RemainingFormsImageListTests`: `GalleryStrips_HoldEveryButton_AndTheWikiToolbarFitsItsWindow_At100_150_200`. Every earlier test is unchanged
 and green.
 
-Gallery G-UI3-ui9b4-v2: `.git/od-tools/test-results/G-UI3-ui9b4-v2/index.html`, the same 39 pictures and layout as G-UI3-ui9b4 (each strip now
-whole); the before set is the old bitmaps, as in the first gallery. The audit of every after picture: `docs/port-notes/UI-9b-4-audit.md`.
+Gallery G-UI3-ui9b4-v2: `.git/od-tools/test-results/G-UI3-ui9b4-v2/index.html` (`G-UI3-ui9b4-v2.zip` beside it), the same 39 pictures and
+layout as G-UI3-ui9b4: 37 changed, 2 the same (the wizard's and the info buttons' grids at 100%). Each strip is now whole, and each grid picture
+grows until it no longer scrolls (`RemainingFormsImageListTests.FitGridToRows`: the first gallery's grid height was measured at the old font,
+and at UI-2b's Segoe UI 9 pt the last row was cut; found by this package's audit). The before set is the old bitmaps, as in the first gallery,
+drawn by the gallery test of this branch with `main`'s icon code (the before grids use the icon factory's 96 DPI list); the after set with
+this branch's. The audit of every after picture, in three passes: `docs/port-notes/UI-9b-4-audit.md`.
+
+To draw it again: build `OpenPmsDental` and `UiRefreshTests` (the `OpenPmsDental.dll` of both bins the same), set `OPMS_UI9B4_OLD_LISTS` to
+`.git/od-tools/test-results/ui9b4-pictures/old-lists` and `OPMS_UI9B_PICTURES` to a folder named `before` (with `main`'s `CodeBase/UI/Icons`,
+`icons`, `tools/New-IconData.ps1` and the vendored SVGs checked out, and `StripIconBoxTests.cs` set aside, as it needs this branch's icon
+code), run the Targeted UiRefreshTests; then on this branch with a folder named `after`; keep `toolbars/Form*` and `grids/*`, and run
+`tools\New-UiGallery.ps1 -Before <before> -After <after> -Out <folder> -Name G-UI3 -Note "<summary>"`. The picture runs:
+`.git/od-tools/test-results/ui9b4fix-before2.txt` (its two manifest test failures are the checked-out `main` files beside this branch's SVGs)
+and `ui9b4fix-after6.txt`; the pictures in `.git/od-tools/test-results/ui9b4fix-pictures/v3`. The comparison with `main`'s pictures of every
+UI-9b gallery test (item 1 above): `ui9b4fix-pictures/base` (main) against `v2/after`.
 
 ## 6. UI-9b is complete
 
