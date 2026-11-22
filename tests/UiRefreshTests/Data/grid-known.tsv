@@ -1,11 +1,6 @@
 # UI-12: the grid findings GridRulesTests allows on the grid windows, each with why (the planner lists them in its run; UI-12.md section 4).
 # The test fails on a finding not listed here and on a row that no longer happens, so this list only shrinks.
 window	rule	key	why
-OpenPmsDental.FormPatientEdit	overlap	label20 textAge	the Age label and box sit in the Family Relationships header row, drawn over the list header; kept for the rollout
-OpenPmsDental.FormPatientEdit	overlap	labelBirthdate odDatePickerBirthDate	a label over an ODDatePicker, whose width comes from its own layout (UI-4b), kept as drawn
-OpenPmsDental.FormPatientEdit	label-gap	label20 textAge	the Age label and box sit in the Family Relationships header row, drawn over the list header; kept for the rollout
-OpenPmsDental.FormPatientEdit	overlap	monthCalendarOD textDate	ODDatePicker's own parts (its text box and calendar; UI-4b's control)
-OpenPmsDental.FormPatientEdit	overlap	labelDateFirstVisit odDatePickerDateFirstVisit	a label over an ODDatePicker, whose width comes from its own layout (UI-4b), kept as drawn
 OpenPmsDental.FormProcCodeEdit	overlap	butSlider label6	the time bar column (the slider placed by code on the bar) is kept as drawn; its 'Time Pattern' caption reaches over it
 OpenPmsDental.FormProcCodeEdit	overlap	label6 tbTime	the time bar column (the slider placed by code on the bar) is kept as drawn; its 'Time Pattern' caption reaches over it
 OpenPmsDental.FormInsBenefits	overlap	gridBenefits panelSimple	the grid is placed under the simplified panel by Load at run time (the harness does not run Load)

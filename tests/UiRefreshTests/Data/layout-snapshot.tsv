@@ -9594,9 +9594,9 @@ OpenPmsDental/Forms/FormPatientEdit.Designer.cs	listPosition	230,240	105,69
 OpenPmsDental/Forms/FormPatientEdit.Designer.cs	textEmployer	186,448	228,20	
 OpenPmsDental/Forms/FormPatientEdit.Designer.cs	labelEmployer	116,448	64,23	
 OpenPmsDental/Forms/FormPatientEdit.Designer.cs	labelEthnicity	112,35	60,23	
-OpenPmsDental/Forms/FormPatientEdit.Designer.cs	butClearResponsParty	428,170	25,23	
-OpenPmsDental/Forms/FormPatientEdit.Designer.cs	butPickResponsParty	399,170	23,23	
-OpenPmsDental/Forms/FormPatientEdit.Designer.cs	textResponsParty	178,170	215,23	
+OpenPmsDental/Forms/FormPatientEdit.Designer.cs	butClearResponsParty	429,170	25,23	
+OpenPmsDental/Forms/FormPatientEdit.Designer.cs	butPickResponsParty	400,170	23,23	
+OpenPmsDental/Forms/FormPatientEdit.Designer.cs	textResponsParty	178,170	216,23	
 OpenPmsDental/Forms/FormPatientEdit.Designer.cs	labelResponsParty	68,170	104,23	
 OpenPmsDental/Forms/FormPatientEdit.Designer.cs	butPickSite	412,89	23,23	
 OpenPmsDental/Forms/FormPatientEdit.Designer.cs	comboUrgency	178,143	228,23	
@@ -15934,11 +15934,11 @@ OpenPmsDental/User Controls/Preferences/UserControlChartProcedures.Designer.cs	c
 OpenPmsDental/User Controls/Preferences/UserControlChartProcedures.Designer.cs	checkProcNoteConcurrencyMerge	8,95	372,20	
 OpenPmsDental/User Controls/Preferences/UserControlChartProcedures.Designer.cs	.		494,660	
 OpenPmsDental/User Controls/Preferences/UserControlEnterpriseAccount.Designer.cs	checkAgingCalculateOnBatchClaimReceipt	8,8	309,20	
-OpenPmsDental/User Controls/Preferences/UserControlEnterpriseAccount.Designer.cs	label13	24,432	274,32	
-OpenPmsDental/User Controls/Preferences/UserControlEnterpriseAccount.Designer.cs	label27	24,407	462,18	
+OpenPmsDental/User Controls/Preferences/UserControlEnterpriseAccount.Designer.cs	label13	24,434	274,32	
+OpenPmsDental/User Controls/Preferences/UserControlEnterpriseAccount.Designer.cs	label27	24,407	274,23	
 OpenPmsDental/User Controls/Preferences/UserControlEnterpriseAccount.Designer.cs	checkAgingReportShowAgePatPayplanPayments	8,32	276,20	
-OpenPmsDental/User Controls/Preferences/UserControlEnterpriseAccount.Designer.cs	textBillingElectBatchMax	304,436	60,20	
-OpenPmsDental/User Controls/Preferences/UserControlEnterpriseAccount.Designer.cs	comboPayPlansVersion	247,407	205,21	
+OpenPmsDental/User Controls/Preferences/UserControlEnterpriseAccount.Designer.cs	textBillingElectBatchMax	304,438	60,20	
+OpenPmsDental/User Controls/Preferences/UserControlEnterpriseAccount.Designer.cs	comboPayPlansVersion	304,407	182,23	
 OpenPmsDental/User Controls/Preferences/UserControlEnterpriseAccount.Designer.cs	checkClaimReportReceivedByService	8,251	168,20	
 OpenPmsDental/User Controls/Preferences/UserControlEnterpriseAccount.Designer.cs	comboRigorousAdjustments	304,356	182,23	
 OpenPmsDental/User Controls/Preferences/UserControlEnterpriseAccount.Designer.cs	checkPaymentWindowDefaultHideSplits	8,383	283,20	
