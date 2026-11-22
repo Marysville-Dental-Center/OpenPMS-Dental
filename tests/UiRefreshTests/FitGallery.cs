@@ -152,7 +152,8 @@ namespace UiRefreshTests {
 		}
 
 		///<summary>UI-13 fix round: synthetic content for the windows that show a type only with items (their Load fills them from the database,
-		///which the harness does not run): FormAutoNotes' tree (groups with notes, one expanded, one selected) and FormProcButtons' list of buttons
+		///which the harness does not run): FormAutoNotes' tree (groups with notes, one expanded, one selected), FormQuery's result grid (columns,
+		///rows and its caption) and FormProcButtons' list of buttons
 		///(a category selected, as SetVisibility shows a category other than the quick buttons).</summary>
 		public static void FillSampleContent(Control root,string window) {
 			if(window=="OpenPmsDental.FormAutoNotes" && FindByName(root,"treeNotes") is TreeView treeView) {
@@ -168,6 +169,20 @@ namespace UiRefreshTests {
 					}
 				}
 				treeView.SelectedNode=treeView.Nodes[0].Nodes[1];
+			}
+			if(window=="OpenPmsDental.FormQuery" && FindByName(root,"grid2") is DataGridView dataGridView) {
+				//A result as the window shows it after a query: its caption over the grid, columns and rows.
+				if(FindByName(root,"labelGridCaption") is Label labelCaption) {
+					labelCaption.Text="Query results";
+				}
+				dataGridView.Columns.Clear();
+				foreach(string column in new string[] { "PatNum","LName","FName","Balance" }) {
+					dataGridView.Columns.Add("col"+column,column);
+				}
+				string[] arrayNames=new string[] { "Able","Baker","Carter","Dixon","Ellis","Foster" };
+				for(int i=0;i<arrayNames.Length;i++) {
+					dataGridView.Rows.Add((i+1).ToString(),arrayNames[i],"Sample",(i*37.5).ToString("F2"));
+				}
 			}
 			if(window=="OpenPmsDental.FormProcButtons") {
 				if(FindByName(root,"listCategories") is OpenPmsDental.UI.ListBox listBox) {
