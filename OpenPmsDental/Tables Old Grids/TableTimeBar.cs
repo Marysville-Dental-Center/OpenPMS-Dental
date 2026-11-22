@@ -88,7 +88,7 @@ namespace OpenPmsDental{
 			using(System.Drawing.Drawing2D.GraphicsPath graphicsPath=UiTheme.GetRoundedRectanglePath(Rectangle.Inflate(rectangleFrame,-1,-1),UiTheme.CORNER_CHECKBOX)){
 				g.SetClip(graphicsPath,System.Drawing.Drawing2D.CombineMode.Intersect);
 				for(int i=0;i<MaxRows;i++){
-					Rectangle rectangleCell=GetCellRectangle(0,i);
+					Rectangle rectangleCell=GetCellRectangleLaidOut(0,i);
 					rectangleCell=new Rectangle(1,rectangleCell.Y,Width-2,rectangleCell.Height);
 					string text=Cell[0,i]??"";
 					bool isFilled=text!="";

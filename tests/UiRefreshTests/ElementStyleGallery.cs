@@ -47,30 +47,39 @@ namespace UiRefreshTests {
 								form.Font=new Font(UiTheme.FONT_FAMILY,UiTheme.FONT_SIZE_BODY*scale);
 								Panel panel=new Panel { BackColor=SystemColors.Control,Location=Point.Empty };
 								form.Controls.Add(panel);
+								List<Control> listControls=new List<Control>(pair.Value(scale));
+								List<Point> listOffsets=new List<Point>();
+								foreach(Control control in listControls) {
+									listOffsets.Add(control.Location);
+									if(!(control is TableTimeBar)) {
+										//Not the time pattern: its cells are 14 px in code, as in the windows (a font would rescale its panels).
+										control.Font=new Font(UiTheme.FONT_FAMILY,UiTheme.FONT_SIZE_BODY*scale);
+									}
+									panel.Controls.Add(control);
+								}
+								if(!isBefore) {
+									UiInputFrame.AttachTree(panel);
+								}
+								DesignSheetWindows.CreateHandles(form);
+								//Laid out after the handles: a month calendar takes its size from its font then.
 								int x=S(8,scale);
 								int bottom=0;
 								int xPrevious=x;
-								foreach(Control control in pair.Value(scale)) {
-									control.Font=new Font(UiTheme.FONT_FAMILY,UiTheme.FONT_SIZE_BODY*scale);
+								for(int i=0;i<listControls.Count;i++) {
+									Control control=listControls[i];
 									if(control.Tag as string=="onPrevious") {
 										//Placed on the control before it (the time pattern's slider on its column).
-										control.Location=new Point(xPrevious+control.Left,S(8,scale)+control.Top);
-										panel.Controls.Add(control);
+										control.Location=new Point(xPrevious+listOffsets[i].X,S(8,scale)+listOffsets[i].Y);
 										control.BringToFront();
 										continue;
 									}
-									control.Location=new Point(x,S(8,scale)+control.Top);
-									panel.Controls.Add(control);
+									control.Location=new Point(x,S(8,scale)+listOffsets[i].Y);
 									xPrevious=x;
 									x=control.Right+S(12,scale);
 									bottom=Math.Max(bottom,control.Bottom);
 								}
 								panel.Size=new Size(x-S(4,scale),bottom+S(8,scale));
 								form.ClientSize=panel.Size;
-								if(!isBefore) {
-									UiInputFrame.AttachTree(panel);
-								}
-								DesignSheetWindows.CreateHandles(form);
 								foreach(Control control in panel.Controls) {
 									Fill(control);
 								}
@@ -215,7 +224,6 @@ namespace UiRefreshTests {
 					tableTimeBar.Cell[0,i]="";
 					tableTimeBar.BackGColor[0,i]=SystemColors.Control;
 				}
-				tableTimeBar.Size=new Size(tableTimeBar.Width,S(300,s));
 				return new Control[] { tableTimeBar,
 					new System.Windows.Forms.Button { Size=new Size(12,15),BackColor=SystemColors.ControlDark,UseVisualStyleBackColor=false,Left=2,Top=pattern.Length*14+1,Tag="onPrevious" } };
 			});

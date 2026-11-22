@@ -985,6 +985,12 @@ namespace OpenPmsDental{
 			return new Rectangle(panelScroll.Left+panelTable.Left+colPos[col],panelScroll.Top+panelTable.Top+rowPos[row],ColWidth[col],RowHeight[row]);
 		}
 
+		///<summary>UI-13: a cell's rectangle in this control's coordinates where LayoutTables puts it for a table without a scroll bar (panelTable at
+		///y -1 in panelScroll), whatever the inner panel's place before the first layout (a designer's ScrollValue moves it until Load).</summary>
+		protected Rectangle GetCellRectangleLaidOut(int col,int row){
+			return new Rectangle(panelScroll.Left+colPos[col],panelScroll.Top-1+rowPos[row],ColWidth[col],RowHeight[row]);
+		}
+
 		///<summary>UI-13: PaintModern in the coordinates of this control or one of its inner panels.</summary>
 		private void PaintModernIn(Graphics g,Control controlPainted){
 			Point pointOffset=Point.Empty;

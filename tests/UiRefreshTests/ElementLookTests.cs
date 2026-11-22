@@ -77,7 +77,7 @@ namespace UiRefreshTests {
 					AssertColour(UiTheme.GetColor(EnumUiColor.Surface),bitmap.GetPixel(1,thickness+10),"the track at "+thickness);
 					AssertColour(UiTheme.GetColor(EnumUiColor.StrokeStrong),bitmap.GetPixel(thickness/2,90),"the thumb at "+thickness);
 					AssertColour(UiTheme.GetColor(EnumUiColor.Surface),bitmap.GetPixel(1,90),"the track beside the thumb at "+thickness);
-					Assert.IsTrue(HasColour(bitmap,new Rectangle(0,0,thickness,thickness),UiTheme.GetColor(EnumUiColor.StrokeStrong)),"No chevron in the start arrow at "+thickness);
+					Assert.IsTrue(HasDarker(bitmap,new Rectangle(0,0,thickness,thickness),200),"No chevron in the start arrow at "+thickness);
 					Assert.IsFalse(HasColour(bitmap,new Rectangle(0,0,thickness,200),Color.Magenta),"Not every pixel painted at "+thickness);
 				}
 			}
@@ -322,15 +322,66 @@ namespace UiRefreshTests {
 			}
 
 			public Rectangle GetCellForTest(int row) {
-				return GetCellRectangle(0,row);
+				return GetCellRectangleLaidOut(0,row);
 			}
 		}
 		#endregion Other stock types
+
+		[TestMethod]
+		public void InputFrame_PrintedCorners_InTheParentColour() {
+			//UI-13: an input printed through WM_PRINT (an up-down box, a date picker, a rich text box) showed Windows' dark corner pixel under the
+			//frame's rounded corner (UI-12.md section 5). The printed corner is the parent's colour.
+			StaRunnerHelpers.RunSta(() => {
+				using(Form form=new Form { BackColor=Color.White })
+				using(NumericUpDown numericUpDown=new NumericUpDown { Bounds=new Rectangle(10,10,90,23) }) {
+					form.Controls.Add(numericUpDown);
+					UiInputFrame.Attach(numericUpDown);
+					IntPtr handle=numericUpDown.Handle;
+					using(Bitmap bitmap=new Bitmap(90,23,PixelFormat.Format24bppRgb)) {
+						using(Graphics g=Graphics.FromImage(bitmap)) {
+							g.Clear(Color.Magenta);
+							IntPtr hdc=g.GetHdc();
+							try {
+								SendMessage(handle,0x0317,hdc,(IntPtr)(0x2|0x4|0x8));
+							}
+							finally {
+								g.ReleaseHdc(hdc);
+							}
+						}
+						string pixels="";
+						for(int y=0;y<3;y++) {
+							for(int x=0;x<4;x++) {
+								Color color=bitmap.GetPixel(x,y);
+								pixels+=" ("+x+","+y+")="+color.R+","+color.G+","+color.B;
+							}
+						}
+						AssertColour(Color.White,bitmap.GetPixel(0,0),"the printed top left corner:"+pixels);
+						AssertColour(Color.White,bitmap.GetPixel(89,22),"the printed bottom right corner");
+					}
+				}
+			});
+		}
+
+		[System.Runtime.InteropServices.DllImport("user32.dll")]
+		private static extern IntPtr SendMessage(IntPtr hWnd,int msg,IntPtr wParam,IntPtr lParam);
 
 		#region Helpers
 		private static void AssertColour(Color colorExpected,Color colorActual,string what) {
 			Assert.AreEqual(colorExpected.ToArgb() & 0xFFFFFF,colorActual.ToArgb() & 0xFFFFFF,
 				what+": expected "+colorExpected.Name+", found "+colorActual.Name);
+		}
+
+		///<summary>True when a pixel in the rectangle is darker than the level (an antialiased glyph's pixels reach their token only in part).</summary>
+		private static bool HasDarker(Bitmap bitmap,Rectangle rectangle,int level) {
+			rectangle.Intersect(new Rectangle(0,0,bitmap.Width,bitmap.Height));
+			for(int y=rectangle.Top;y<rectangle.Bottom;y++) {
+				for(int x=rectangle.Left;x<rectangle.Right;x++) {
+					if(bitmap.GetPixel(x,y).R<level) {
+						return true;
+					}
+				}
+			}
+			return false;
 		}
 
 		private static bool HasColour(Bitmap bitmap,Rectangle rectangle,Color color) {

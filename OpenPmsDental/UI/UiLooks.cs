@@ -9,7 +9,9 @@
 // - the stock check box: the program's check box (UiCheckLook, as UiRadioLook draws the stock radio button);
 // - a label used as a grey block (BackColor LightGray, ControlAccount's "Ins Rem" and "DPlan Rem"): the program's button look (UiBlockLook);
 // - the stock progress bar: a rounded Stroke track with the Accent fill (UiProgressLook);
-// - a 3-D or black single-line border of a panel, picture box or user control: one flat 1 px StrokeStrong line (UiBorderLook);
+// - a 3-D or black single-line border of a panel, picture box, user control, stock list, tree or list view: one flat 1 px StrokeStrong line
+//   (UiBorderLook);
+// - the stock month calendar and the date picker's drop-down calendar: the token colours where Windows draws them without a theme;
 // - the tree view and list view: Windows 11's Explorer theme (SetWindowTheme), the hover and selection Windows 11's own file lists use;
 // - the stock data grid view: the grid's tokens (header SurfaceSubtle, lines Gridline, selection AccentSubtle) where it has Windows' defaults;
 // - the link label: Accent links where it has Windows' default blue.
@@ -152,10 +154,10 @@ namespace OpenPmsDental.UI {
 		///<summary>A stock data grid view in the grid's tokens where it has Windows' defaults: its lines Gridline, the header SurfaceSubtle with Text,
 		///the selection AccentSubtle with TextSelected, the background Surface. A colour the window sets itself stays.</summary>
 		public static void SetDataGridViewLook(DataGridView dataGridView) {
-			if(dataGridView.GridColor==SystemColors.ControlDark) {
+			if(dataGridView.GridColor==SystemColors.ControlDark || dataGridView.GridColor==SystemColors.WindowFrame) {
 				dataGridView.GridColor=UiTheme.GetColor(EnumUiColor.Gridline);
 			}
-			if(dataGridView.BackgroundColor==SystemColors.AppWorkspace) {
+			if(dataGridView.BackgroundColor==SystemColors.AppWorkspace || dataGridView.BackgroundColor==SystemColors.ControlDark) {
 				dataGridView.BackgroundColor=UiTheme.GetColor(EnumUiColor.Surface);
 			}
 			dataGridView.EnableHeadersVisualStyles=false;
@@ -219,8 +221,15 @@ namespace OpenPmsDental.UI {
 		///<summary>True for a stock button drawn by Windows Forms (not FlatStyle.System, which Windows draws) and not the program's own UI.Button.
 		///</summary>
 		public static bool IsDrawn(Control control) {
-			return control!=null && control.GetType()==typeof(System.Windows.Forms.Button)
-				&& ((System.Windows.Forms.Button)control).FlatStyle!=FlatStyle.System;
+			if(control==null || control.GetType()!=typeof(System.Windows.Forms.Button)) {
+				return false;
+			}
+			System.Windows.Forms.Button button=(System.Windows.Forms.Button)control;
+			if(button.FlatStyle==FlatStyle.System) {
+				return false;
+			}
+			//A flat borderless button is a part of the control that owns it (the date picker's calendar button, UI-4b): that control styles it.
+			return !(button.FlatStyle==FlatStyle.Flat && button.FlatAppearance.BorderSize==0);
 		}
 
 		public static void Attach(Control control) {
@@ -297,6 +306,21 @@ namespace OpenPmsDental.UI {
 				colorText=(isDefaultFore || buttonState==EnumUiButtonState.Disabled) ? UiTheme.GetColor(uiColorText) : button.ForeColor;
 			}
 			Rectangle rectangleContent=Rectangle.Inflate(rectangle,-UiTheme.ScaleI(UiTheme.SPACE_4,scale),-UiTheme.ScaleI(UiTheme.SPACE_2,scale));
+			if(button.BackgroundImage!=null) {
+				//The background picture as Windows Forms lays it out, inside the frame.
+				Rectangle rectangleBack=Rectangle.Inflate(rectangle,-UiTheme.GetLineWidth(scale),-UiTheme.GetLineWidth(scale));
+				if(button.BackgroundImageLayout==ImageLayout.Stretch) {
+					g.DrawImage(button.BackgroundImage,rectangleBack);
+				}
+				else {
+					Size sizeImage=button.BackgroundImage.Size;
+					if(button.BackgroundImageLayout==ImageLayout.Zoom) {
+						float ratio=Math.Min(rectangleBack.Width/(float)sizeImage.Width,rectangleBack.Height/(float)sizeImage.Height);
+						sizeImage=new Size((int)(sizeImage.Width*ratio),(int)(sizeImage.Height*ratio));
+					}
+					g.DrawImage(button.BackgroundImage,GetAligned(rectangleBack,sizeImage,ContentAlignment.MiddleCenter));
+				}
+			}
 			if(button.Image!=null) {
 				Rectangle rectangleImage=GetAligned(rectangleContent,button.Image.Size,button.ImageAlign);
 				if(button.Enabled) {
@@ -623,8 +647,8 @@ namespace OpenPmsDental.UI {
 		}
 	}
 
-	///<summary>The border Windows draws around a panel, picture box or user control (BorderStyle Fixed3D, a sunken 3-D edge, or FixedSingle, a
-	///black line) painted over as one flat 1 px StrokeStrong line with the control's colour inside it.</summary>
+	///<summary>The border Windows draws around a panel, picture box, user control, stock list box, tree view or list view (BorderStyle Fixed3D, a
+	///sunken 3-D edge, or FixedSingle, a black line) painted over as one flat 1 px StrokeStrong line with the control's colour inside it.</summary>
 	public class UiBorderLook : NativeWindow {
 		private const int WM_NCPAINT=0x0085;
 		private const int WM_PRINT=0x0317;
@@ -644,6 +668,15 @@ namespace OpenPmsDental.UI {
 
 		///<summary>The border style of a control that has one (a stock Panel, PictureBox or UserControl), None otherwise.</summary>
 		public static BorderStyle GetBorderStyle(Control control) {
+			if(control is System.Windows.Forms.ListBox listBox) {
+				return listBox.BorderStyle;
+			}
+			if(control is TreeView treeView) {
+				return treeView.BorderStyle;
+			}
+			if(control is ListView listView) {
+				return listView.BorderStyle;
+			}
 			if(control is Panel panel && control.GetType()==typeof(Panel)) {
 				return panel.BorderStyle;
 			}

@@ -127,7 +127,7 @@ namespace OpenPmsDental.UI {
 			try {
 				g.TranslateTransform(pointWindowOrigin.X,pointWindowOrigin.Y);
 				foreach(BarInfo barInfo in GetBars(control.Handle,isScrollBarControl,control is VScrollBar)) {
-					DrawBar(g,barInfo,EnumUiScrollPart.None,EnumUiScrollPart.None,control.Enabled);
+					DrawBar(g,barInfo,EnumUiScrollPart.None,EnumUiScrollPart.None,control.Enabled,GetTrackColor(control));
 				}
 			}
 			finally {
@@ -310,14 +310,14 @@ namespace OpenPmsDental.UI {
 			foreach(BarInfo barInfo in arrayBarInfos) {
 				EnumUiScrollPart partHot=isForPrint ? EnumUiScrollPart.None : GetHotPart(barInfo,pointCursor);
 				EnumUiScrollPart partPressed=(!isForPrint && _objectIdPressed==barInfo.ObjectId) ? _partPressed : EnumUiScrollPart.None;
-				DrawBar(g,barInfo,partHot,partPressed,_control.Enabled);
+				DrawBar(g,barInfo,partHot,partPressed,_control.Enabled,GetTrackColor(_control));
 			}
 			if(!_isScrollBarControl && arrayBarInfos.Length==2) {
 				//The square between two frame bars (the size box): the track's colour.
 				Rectangle rectangleV=arrayBarInfos[0].IsVertical ? arrayBarInfos[0].RectangleWindow : arrayBarInfos[1].RectangleWindow;
 				Rectangle rectangleH=arrayBarInfos[0].IsVertical ? arrayBarInfos[1].RectangleWindow : arrayBarInfos[0].RectangleWindow;
 				Rectangle rectangleCorner=new Rectangle(rectangleV.X,rectangleH.Y,rectangleV.Width,rectangleH.Height);
-				using(SolidBrush brush=new SolidBrush(UiTheme.GetColor(UiScrollPaint.GetTrackColor()))) {
+				using(SolidBrush brush=new SolidBrush(GetTrackColor(_control))) {
 					g.FillRectangle(brush,rectangleCorner);
 				}
 			}
@@ -330,10 +330,26 @@ namespace OpenPmsDental.UI {
 			return UiScrollPaint.GetPart(pointCursor,barInfo.RectangleScreen,barInfo.IsVertical,barInfo.LengthArrow,barInfo.ThumbStart,barInfo.ThumbEnd);
 		}
 
-		private static void DrawBar(Graphics g,BarInfo barInfo,EnumUiScrollPart partHot,EnumUiScrollPart partPressed,bool isControlEnabled) {
+		///<summary>The track's colour: Surface for a scroll bar control (it stands on its container), the control's own colour for the bars in a
+		///window's frame (a text box's, a list's), so the track is the box's surface: white, or the grey of a disabled box.</summary>
+		private static Color GetTrackColor(Control control) {
+			if(control is ScrollBar) {
+				return UiTheme.GetColor(UiScrollPaint.GetTrackColor());
+			}
+			Color color=control.BackColor;
+			if(control is TextBoxBase && !control.Enabled) {
+				color=SystemColors.Control;
+			}
+			if(color.A<255) {
+				return UiTheme.GetColor(UiScrollPaint.GetTrackColor());
+			}
+			return color;
+		}
+
+		private static void DrawBar(Graphics g,BarInfo barInfo,EnumUiScrollPart partHot,EnumUiScrollPart partPressed,bool isControlEnabled,Color colorTrack) {
 			bool isEnabled=isControlEnabled && !barInfo.IsDisabled;
 			UiScrollPaint.Draw(g,barInfo.RectangleWindow,barInfo.IsVertical,isEnabled,barInfo.LengthArrow,barInfo.ThumbStart,barInfo.ThumbEnd,
-				partHot,partPressed,Color.Empty);
+				partHot,partPressed,colorTrack);
 		}
 
 		///<summary>The visible bars of a window: the client bar of a scroll bar control, or the frame's vertical and horizontal bars (vertical
