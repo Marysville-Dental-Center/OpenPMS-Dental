@@ -22,8 +22,6 @@ namespace OpenPmsDental.UI {
 		///<summary>The radio buttons that have the look: a control is attached once.</summary>
 		private static readonly ConditionalWeakTable<Control,UiRadioLook> _table=new ConditionalWeakTable<Control,UiRadioLook>();
 		private readonly RadioButton _radioButton;
-		///<summary>The scale of the circle, as UI.CheckBox scales its box (the dpi and the program's zoom).</summary>
-		private readonly LayoutManagerForms _layoutManager=new LayoutManagerForms();
 		private bool _isHovering;
 		///<summary>The circle's size at 96 DPI, before its 1 px line (UI.CheckBox's _sqrSize96).</summary>
 		private const int SIZE_CIRCLE_96=12;
@@ -127,13 +125,13 @@ namespace OpenPmsDental.UI {
 				switch(m.Msg) {
 					case WM_PAINT:
 						using(Graphics g=_radioButton.CreateGraphics()) {
-							PaintRadio(g,_radioButton.ClientRectangle,_radioButton,_layoutManager.ScaleMy(),_isHovering);
+							PaintRadio(g,_radioButton.ClientRectangle,_radioButton,UiLooks.GetScale(_radioButton),_isHovering);
 						}
 						break;
 					case WM_PRINT:
 					case WM_PRINTCLIENT:
 						using(Graphics g=Graphics.FromHdc(m.WParam)) {
-							PaintRadio(g,_radioButton.ClientRectangle,_radioButton,_layoutManager.ScaleMy(),false);
+							PaintRadio(g,_radioButton.ClientRectangle,_radioButton,UiLooks.GetScale(_radioButton),false);
 						}
 						break;
 				}

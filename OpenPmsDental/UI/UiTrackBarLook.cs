@@ -108,9 +108,9 @@ namespace OpenPmsDental.UI {
 		#endregion Methods - Public
 
 		#region Methods - Private
-		///<summary>The scale of the look: the program's dpi and zoom, as the radio button's look takes it.</summary>
+		///<summary>The scale of the look: the track bar's window's dpi and zoom (UiLooks.GetScale).</summary>
 		private static float GetScale(Control control) {
-			return UiLooks.GetScale();
+			return UiLooks.GetScale(control);
 		}
 
 		protected override void WndProc(ref Message m) {

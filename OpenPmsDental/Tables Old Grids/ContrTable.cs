@@ -403,6 +403,7 @@ namespace OpenPmsDental{
 		///<param name="preserveScroll">Set to true to preserve the scroll position, or omit to not.</param>
 		public void LayoutTables(bool preserveScroll){
 			int scroll=ScrollValue;//use this to preserveScroll
+			SetCellSizesForScale();//UI-13: a table whose cells follow the window's scale sets them here
 			if(ShowScroll)
 				scrollWidth=17;
 			else 
@@ -973,6 +974,11 @@ namespace OpenPmsDental{
 		///<summary>UI-13: the whole table in this control's coordinates (its frame and its cells; GetCellRectangle places a cell). Called by the
 		///paint of this control and of its two inner panels, each clipped to what it covers.</summary>
 		protected virtual void PaintModern(Graphics g){
+		}
+
+		///<summary>UI-13: called at the start of every LayoutTables. A table whose row heights and column widths are given at 96 dpi sets them
+		///here from its LayoutManager's scale (the time pattern bar); the others keep the sizes their window gives them.</summary>
+		protected virtual void SetCellSizesForScale(){
 		}
 
 		///<summary>UI-13: for a table in the modern look, the inner panel's border goes (the look draws one frame around the whole table).</summary>

@@ -28,6 +28,8 @@ namespace OpenPmsDental.UI {
 	///<summary>Attaches UI-13's shared looks of the stock element types to one control.</summary>
 	public static class UiLooks {
 		private static readonly LayoutManagerForms _layoutManager=new LayoutManagerForms();
+		///<summary>The data grid views whose frame the look paints (its Paint handler is attached once).</summary>
+		private static readonly ConditionalWeakTable<DataGridView,object> _tableDataGridViews=new ConditionalWeakTable<DataGridView,object>();
 		///<summary>True leaves the stock types as Windows draws them (no UI-13 look is attached): only the gallery harness sets it, for the before
 		///pictures of windows outside the UI-12 pilot (G-UI3-ui13). The program never sets it.</summary>
 		public static bool IsOffForGallery;
@@ -51,6 +53,12 @@ namespace OpenPmsDental.UI {
 			}
 			if(UiBlockLook.IsDrawn(control)) {
 				UiBlockLook.Attach(control);
+			}
+			if(UiCaptionLook.IsDrawn(control)) {
+				UiCaptionLook.Attach(control);
+			}
+			if(UiSeparatorLook.IsDrawn(control)) {
+				UiSeparatorLook.Attach(control);
 			}
 			if(control is ProgressBar) {
 				UiProgressLook.Attach(control);
@@ -115,9 +123,32 @@ namespace OpenPmsDental.UI {
 			}
 		}
 
-		///<summary>The scale of the looks: the program's dpi and zoom.</summary>
-		public static float GetScale() {
-			return Math.Max(1f,_layoutManager.ScaleMy());
+		///<summary>The scale of the looks for the control being painted: its window's scale when the window is a FormODBase (FormODBase sets its
+		///LayoutManager from the monitor's dpi, SetScaleMS, and LayoutManager.ScaleMy multiplies the program's zoom), else the control's own dpi
+		///(DeviceDpi/96) times the zoom. Never under 1.</summary>
+		public static float GetScale(Control control) {
+			float scaleWindow=0;
+			int deviceDpi=96;
+			if(control!=null) {
+				deviceDpi=control.DeviceDpi;
+				if(control.FindForm() is FormODBase formODBase) {
+					scaleWindow=formODBase.GetScaleMy();
+				}
+			}
+			//The parameterless LayoutManager has no dpi of its own (its MS scale is 1): its ScaleMy is the program's zoom alone.
+			return GetScale(scaleWindow,deviceDpi,_layoutManager.ScaleMy());
+		}
+
+		///<summary>The scale from its parts: the window's scale (dpi times zoom) when there is one (above 0), else deviceDpi/96 times zoom. Never
+		///under 1.</summary>
+		public static float GetScale(float scaleWindow,int deviceDpi,float zoom) {
+			if(scaleWindow>0) {
+				return Math.Max(1f,scaleWindow);
+			}
+			if(zoom<=0) {
+				zoom=1f;
+			}
+			return Math.Max(1f,Math.Max(1f,deviceDpi/96f)*zoom);
 		}
 
 		///<summary>The colour behind a control: its own when opaque, else its parent's, else the window colour.</summary>
@@ -136,6 +167,10 @@ namespace OpenPmsDental.UI {
 		///<summary>Windows 11's Explorer theme on a tree view or list view (its hover and selection, its chevrons), now and on every new handle.
 		///</summary>
 		public static void AttachExplorerTheme(Control control) {
+			if(control is TreeView treeView && treeView.ShowLines) {
+				//Windows 11's trees (Explorer's) have no dotted lines between the items: the chevrons and the indent show the levels.
+				treeView.ShowLines=false;
+			}
 			if(control.IsHandleCreated) {
 				SetExplorerTheme(control);
 			}
@@ -165,6 +200,26 @@ namespace OpenPmsDental.UI {
 				dataGridView.BackgroundColor=UiTheme.GetColor(EnumUiColor.Surface);
 			}
 			dataGridView.EnableHeadersVisualStyles=false;
+			//Without the visual styles a Raised header (the default) draws Windows' classic 3-D bevel: a single line instead, in GridColor
+			//(Gridline), as the grid's header lines.
+			if(dataGridView.ColumnHeadersBorderStyle==DataGridViewHeaderBorderStyle.Raised) {
+				dataGridView.ColumnHeadersBorderStyle=DataGridViewHeaderBorderStyle.Single;
+			}
+			if(dataGridView.RowHeadersBorderStyle==DataGridViewHeaderBorderStyle.Raised) {
+				dataGridView.RowHeadersBorderStyle=DataGridViewHeaderBorderStyle.Single;
+			}
+			//The frame the grid draws itself (a black line, or a 3-D edge) painted over in StrokeStrong, as UiBorderLook draws the panels' borders.
+			if(!_tableDataGridViews.TryGetValue(dataGridView,out _)) {
+				_tableDataGridViews.Add(dataGridView,new object());
+				dataGridView.Paint+=(sender,e) => {
+					try {
+						PaintDataGridViewBorder(e.Graphics,(DataGridView)sender);
+					}
+					catch(Exception) {
+						//The look is only a picture.
+					}
+				};
+			}
 			foreach(DataGridViewCellStyle dataGridViewCellStyle in new DataGridViewCellStyle[] {
 				dataGridView.ColumnHeadersDefaultCellStyle,dataGridView.RowHeadersDefaultCellStyle })
 			{
@@ -180,6 +235,21 @@ namespace OpenPmsDental.UI {
 				dataGridView.DefaultCellStyle.SelectionBackColor=UiTheme.GetColor(EnumUiColor.AccentSubtle);
 				dataGridView.DefaultCellStyle.SelectionForeColor=UiTheme.GetColor(EnumUiColor.TextSelected);
 			}
+		}
+
+		///<summary>The border a data grid view draws inside its client area (BorderStyle FixedSingle: a black line; Fixed3D: a sunken 2 px edge)
+		///painted over as one flat 1 px StrokeStrong line, the rest of a 3-D edge in the grid's background colour.</summary>
+		public static void PaintDataGridViewBorder(Graphics g,DataGridView dataGridView) {
+			if(dataGridView.BorderStyle==BorderStyle.None) {
+				return;
+			}
+			Rectangle rectangle=new Rectangle(0,0,dataGridView.ClientSize.Width,dataGridView.ClientSize.Height);
+			if(dataGridView.BorderStyle==BorderStyle.Fixed3D) {
+				using(Pen pen=new Pen(dataGridView.BackgroundColor)) {
+					g.DrawRectangle(pen,1,1,rectangle.Width-3,rectangle.Height-3);
+				}
+			}
+			UiControlPaint.Outline(g,EnumUiColor.StrokeStrong,rectangle,1,UiTheme.CORNER_SQUARE,1f);
 		}
 
 		///<summary>A link label's links in Accent (AccentPressed while clicked) where it has Windows' default blue and red.</summary>
@@ -311,7 +381,7 @@ namespace OpenPmsDental.UI {
 		///<summary>The whole button in g (origin at its top left): the parent's colour behind the rounded corners, the chrome (the button look or
 		///the swatch), its image and its text.</summary>
 		public static void PaintButton(Graphics g,System.Windows.Forms.Button button,EnumUiButtonState buttonState,bool isFocused) {
-			float scale=UiLooks.GetScale();
+			float scale=UiLooks.GetScale(button);
 			Rectangle rectangle=new Rectangle(0,0,button.Width,button.Height);
 			Color colorParent=button.Parent==null ? SystemColors.Control : UiLooks.GetBackColor(button.Parent);
 			using(SolidBrush brush=new SolidBrush(colorParent)) {
@@ -366,11 +436,33 @@ namespace OpenPmsDental.UI {
 			if(string.IsNullOrEmpty(button.Text)) {
 				return;
 			}
-			TextFormatFlags textFormatFlags=GetTextFlags(button.TextAlign)|TextFormatFlags.WordBreak;
+			TextFormatFlags textFormatFlags=GetButtonTextFlags(button,rectangleContent);
+			if((textFormatFlags & TextFormatFlags.SingleLine)!=0) {
+				//One line, as Windows draws it: only the frame's line is kept clear at the sides, so a caption that fit before still fits.
+				//A text after a left image keeps its start after the image.
+				int widthLine=UiTheme.GetLineWidth(scale);
+				bool isAfterImage=rectangleContent.X>rectangle.X+UiTheme.ScaleI(UiTheme.SPACE_4,scale);
+				int xLeft=isAfterImage ? rectangleContent.X : rectangle.X+widthLine;
+				rectangleContent=new Rectangle(xLeft,rectangleContent.Y,Math.Max(0,rectangle.Right-widthLine-xLeft),rectangleContent.Height);
+			}
+			TextRenderer.DrawText(g,button.Text,button.Font,rectangleContent,colorText,textFormatFlags);
+		}
+
+		///<summary>The text flags of a stock button's caption in its content rectangle: wrapped (WordBreak) only when the rectangle holds two lines
+		///of its font, else one line (SingleLine), so a caption wider than a one-line button is never broken onto a line its bottom edge cuts.
+		///</summary>
+		public static TextFormatFlags GetButtonTextFlags(System.Windows.Forms.Button button,Rectangle rectangleContent) {
+			TextFormatFlags textFormatFlags=GetTextFlags(button.TextAlign);
+			if(rectangleContent.Height>=2*button.Font.Height) {
+				textFormatFlags|=TextFormatFlags.WordBreak;
+			}
+			else {
+				textFormatFlags|=TextFormatFlags.SingleLine;
+			}
 			if(!button.UseMnemonic) {
 				textFormatFlags|=TextFormatFlags.NoPrefix;
 			}
-			TextRenderer.DrawText(g,button.Text,button.Font,rectangleContent,colorText,textFormatFlags);
+			return textFormatFlags;
 		}
 
 		private static Rectangle GetAligned(Rectangle rectangle,Size size,ContentAlignment contentAlignment) {
@@ -466,7 +558,7 @@ namespace OpenPmsDental.UI {
 		}
 
 		public static void PaintBlock(Graphics g,Label label,EnumUiButtonState buttonState) {
-			float scale=UiLooks.GetScale();
+			float scale=UiLooks.GetScale(label);
 			Rectangle rectangle=new Rectangle(0,0,label.Width,label.Height);
 			using(SolidBrush brush=new SolidBrush(label.Parent==null ? SystemColors.Control : UiLooks.GetBackColor(label.Parent))) {
 				g.FillRectangle(brush,rectangle);
@@ -477,6 +569,134 @@ namespace OpenPmsDental.UI {
 				textFormatFlags|=TextFormatFlags.NoPrefix;
 			}
 			TextRenderer.DrawText(g,label.Text,label.Font,rectangle,UiTheme.GetColor(uiColorText),textFormatFlags);
+		}
+	}
+
+	///<summary>A label used as a grid title (BackColor ActiveCaption, Windows' title-bar blue: FormQuery's labelGridCaption over its result
+	///grid) drawn as the program's grid title (GridOD's, GridScreenLook.DrawTitle): Accent with the text in TextOnAccent, in the title font token
+	///at the program's zoom, where the label puts its text. Painted in the label's Paint event.</summary>
+	public class UiCaptionLook {
+		private static readonly ConditionalWeakTable<Control,UiCaptionLook> _table=new ConditionalWeakTable<Control,UiCaptionLook>();
+		private static readonly LayoutManagerForms _layoutManager=new LayoutManagerForms();
+
+		private UiCaptionLook(Label label) {
+			label.Paint+=(sender,e) => {
+				try {
+					PaintCaption(e.Graphics,(Label)sender);
+				}
+				catch(Exception) {
+					//The look is only a picture.
+				}
+			};
+		}
+
+		///<summary>True for a label (not a link label) whose colour is ActiveCaption and that its owner does not paint.</summary>
+		public static bool IsDrawn(Control control) {
+			return control!=null && control.GetType()==typeof(Label) && control.BackColor.ToArgb()==SystemColors.ActiveCaption.ToArgb()
+				&& !UiButtonLook.IsPaintedByOwner(control);
+		}
+
+		public static void Attach(Control control) {
+			if(!IsDrawn(control) || _table.TryGetValue(control,out _)) {
+				return;
+			}
+			_table.Add(control,new UiCaptionLook((Label)control));
+		}
+
+		public static bool IsAttached(Control control) {
+			return control!=null && _table.TryGetValue(control,out _);
+		}
+
+		///<summary>The title font: UiTheme.FontTitle at the program's zoom, as GridOD makes its title font (the dpi is Windows').</summary>
+		public static Font GetFontTitle() {
+			float zoom=_layoutManager.ScaleMyFont();
+			if(zoom<=0) {
+				zoom=1f;
+			}
+			return new Font(UiTheme.FontTitle.FontFamily,UiTheme.FontTitle.SizeInPoints*zoom,UiTheme.FontTitle.Style);
+		}
+
+		public static void PaintCaption(Graphics g,Label label) {
+			Rectangle rectangle=new Rectangle(0,0,label.Width,label.Height);
+			g.FillRectangle(UiTheme.GetBrush(EnumUiColor.Accent),rectangle);
+			if(string.IsNullOrEmpty(label.Text)) {
+				return;
+			}
+			TextFormatFlags textFormatFlags=UiButtonLook.GetTextFlags(label.TextAlign)|TextFormatFlags.SingleLine|TextFormatFlags.EndEllipsis;
+			if(!label.UseMnemonic) {
+				textFormatFlags|=TextFormatFlags.NoPrefix;
+			}
+			using(Font font=GetFontTitle()) {
+				TextRenderer.DrawText(g,label.Text,font,Rectangle.Inflate(rectangle,-UiTheme.ScaleI(UiTheme.SPACE_4,UiLooks.GetScale(label)),0),UiTheme.GetColor(EnumUiColor.TextOnAccent),
+					textFormatFlags);
+			}
+		}
+	}
+
+	///<summary>A thin childless panel in a dark colour used as a divider (FormInsPlan's panel1: 2 px of ControlText across the window) drawn as one
+	///1 px Stroke line in its middle on the parent's colour, the dividers of the new look. Its size and place stay. Painted in its Paint event.
+	///</summary>
+	public class UiSeparatorLook {
+		private static readonly ConditionalWeakTable<Control,UiSeparatorLook> _table=new ConditionalWeakTable<Control,UiSeparatorLook>();
+		///<summary>The thickest divider at 96 dpi.</summary>
+		private const int THICKNESS_MAX_96=3;
+
+		private UiSeparatorLook(Panel panel) {
+			panel.Paint+=(sender,e) => {
+				try {
+					Panel panelSender=(Panel)sender;
+					if(IsDrawn(panelSender)) {
+						PaintSeparator(e.Graphics,panelSender);
+					}
+				}
+				catch(Exception) {
+					//The look is only a picture.
+				}
+			};
+		}
+
+		///<summary>True for a stock Panel with no children and no border, 3 px or less thick (scaled) and longer than thick, whose colour is
+		///ControlText, WindowText, Black, ControlDark or ControlDarkDark.</summary>
+		public static bool IsDrawn(Control control) {
+			if(control==null || control.GetType()!=typeof(Panel) || control.HasChildren || ((Panel)control).BorderStyle!=BorderStyle.None) {
+				return false;
+			}
+			int thickness=Math.Min(control.Width,control.Height);
+			int length=Math.Max(control.Width,control.Height);
+			if(thickness<1 || thickness>Math.Max(THICKNESS_MAX_96,(int)Math.Round(THICKNESS_MAX_96*UiLooks.GetScale(control))) || length<=thickness*2) {
+				return false;
+			}
+			int argb=control.BackColor.ToArgb();
+			return argb==SystemColors.ControlText.ToArgb() || argb==SystemColors.WindowText.ToArgb() || argb==Color.Black.ToArgb()
+				|| argb==SystemColors.ControlDark.ToArgb() || argb==SystemColors.ControlDarkDark.ToArgb();
+		}
+
+		public static void Attach(Control control) {
+			if(!IsDrawn(control) || UiButtonLook.IsPaintedByOwner(control) || _table.TryGetValue(control,out _)) {
+				return;
+			}
+			_table.Add(control,new UiSeparatorLook((Panel)control));
+		}
+
+		public static bool IsAttached(Control control) {
+			return control!=null && _table.TryGetValue(control,out _);
+		}
+
+		///<summary>The parent's colour over the panel and one Stroke line (the line width of the scale) along its middle.</summary>
+		public static void PaintSeparator(Graphics g,Panel panel) {
+			Rectangle rectangle=new Rectangle(0,0,panel.Width,panel.Height);
+			using(SolidBrush brush=new SolidBrush(panel.Parent==null ? SystemColors.Control : UiLooks.GetBackColor(panel.Parent))) {
+				g.FillRectangle(brush,rectangle);
+			}
+			int widthLine=UiTheme.GetLineWidth(UiLooks.GetScale(panel));
+			if(panel.Width>=panel.Height) {
+				int heightLine=Math.Min(widthLine,panel.Height);
+				g.FillRectangle(UiTheme.GetBrush(EnumUiColor.Stroke),new Rectangle(0,(panel.Height-heightLine)/2,panel.Width,heightLine));
+			}
+			else {
+				int widthLineV=Math.Min(widthLine,panel.Width);
+				g.FillRectangle(UiTheme.GetBrush(EnumUiColor.Stroke),new Rectangle((panel.Width-widthLineV)/2,0,widthLineV,panel.Height));
+			}
 		}
 	}
 
@@ -574,13 +794,13 @@ namespace OpenPmsDental.UI {
 				switch(m.Msg) {
 					case WM_PAINT:
 						using(Graphics g=_checkBox.CreateGraphics()) {
-							PaintCheck(g,_checkBox.ClientRectangle,_checkBox,UiLooks.GetScale(),_isHovering);
+							PaintCheck(g,_checkBox.ClientRectangle,_checkBox,UiLooks.GetScale(_checkBox),_isHovering);
 						}
 						break;
 					case WM_PRINT:
 					case WM_PRINTCLIENT:
 						using(Graphics g=Graphics.FromHdc(m.WParam)) {
-							PaintCheck(g,_checkBox.ClientRectangle,_checkBox,UiLooks.GetScale(),false);
+							PaintCheck(g,_checkBox.ClientRectangle,_checkBox,UiLooks.GetScale(_checkBox),false);
 						}
 						break;
 				}
@@ -627,7 +847,7 @@ namespace OpenPmsDental.UI {
 		///<summary>The bar in g (origin at its top left): the parent's colour, a rounded Stroke track the bar's height, the value's part in Accent
 		///(TextDisabled when disabled); a marquee bar shows a third of the track filled from the left.</summary>
 		public static void PaintProgress(Graphics g,ProgressBar progressBar) {
-			float scale=UiLooks.GetScale();
+			float scale=UiLooks.GetScale(progressBar);
 			Rectangle rectangle=new Rectangle(0,0,progressBar.Width,progressBar.Height);
 			using(SolidBrush brush=new SolidBrush(progressBar.Parent==null ? SystemColors.Control : UiLooks.GetBackColor(progressBar.Parent))) {
 				g.FillRectangle(brush,rectangle);
