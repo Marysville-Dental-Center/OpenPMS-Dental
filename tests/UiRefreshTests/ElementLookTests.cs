@@ -507,6 +507,142 @@ namespace UiRefreshTests {
 			});
 		}
 
+		[TestMethod]
+		public void InputFrame_ThemedDatePicker_WholeButtonCoveredAndTextInTheToken() {
+			//UI-13 fix round 2 (review of G-UI3-ui13, FormFamilyBalancer): with Windows' visual styles the date picker's calendar button is wider
+			//than the scroll bar width the frame covered, so a clipped Windows glyph (a brown outline, a blue gradient) showed beside the chevron,
+			//and the value was pure black. Printed through the frame, the button's area holds only the frame's neutral greys (the fill, the
+			//border, the chevron in Text and their blends), and the value's darkest channel is the Text token.
+			Assert.AreEqual(UiTheme.GetColor(EnumUiColor.Text).R,UiInputFrame.RecolorChannel(0,255,UiTheme.GetColor(EnumUiColor.Text).R));
+			Assert.AreEqual(255,UiInputFrame.RecolorChannel(255,255,31));
+			Assert.AreEqual(143,UiInputFrame.RecolorChannel(128,255,31));
+			StaRunnerHelpers.RunSta(() => {
+				using VisualStylesScope visualStylesScope=new VisualStylesScope();
+				Assert.IsTrue(visualStylesScope.IsActive,"Windows' visual styles could not be activated for the themed date picker.");
+				using(Form form=new Form { BackColor=SystemColors.Control })
+				using(DateTimePicker dateTimePicker=new DateTimePicker { Bounds=new Rectangle(10,10,132,23),Format=DateTimePickerFormat.Short,
+					Value=new DateTime(2026,11,22) })
+				{
+					form.Controls.Add(dateTimePicker);
+					UiInputFrame.Attach(dateTimePicker);
+					IntPtr handle=dateTimePicker.Handle;
+					Rectangle rectangleButton=UiInputFrame.GetDropButtonRectangle(dateTimePicker);
+					Assert.IsFalse(rectangleButton.IsEmpty,"The themed date picker reports no drop button.");
+					Assert.IsTrue(rectangleButton.Right<=dateTimePicker.Width && rectangleButton.Left>dateTimePicker.Width/2,
+						"The drop button is not at the right: "+rectangleButton);
+					Rectangle rectangleInner=UiInputFrame.GetInnerRectangle(new Rectangle(0,0,dateTimePicker.Width,dateTimePicker.Height),dateTimePicker);
+					Assert.AreEqual(rectangleButton.Left-1,rectangleInner.Right,"The frame leaves Windows' drawing up to 1 px left of the button.");
+					using(Bitmap bitmap=new Bitmap(dateTimePicker.Width,dateTimePicker.Height,PixelFormat.Format24bppRgb)) {
+						using(Graphics g=Graphics.FromImage(bitmap)) {
+							g.Clear(SystemColors.Control);
+							IntPtr hdc=g.GetHdc();
+							try {
+								SendMessage(handle,0x0317,hdc,(IntPtr)(0x2|0x4|0x8));
+							}
+							finally {
+								g.ReleaseHdc(hdc);
+							}
+						}
+						string offending="";
+						int countOffending=0;
+						Rectangle rectangleArea=Rectangle.FromLTRB(rectangleButton.Left-1,0,bitmap.Width,bitmap.Height);
+						for(int y=rectangleArea.Top;y<rectangleArea.Bottom;y++) {
+							for(int x=rectangleArea.Left;x<rectangleArea.Right;x++) {
+								Color color=bitmap.GetPixel(x,y);
+								int spread=Math.Max(color.R,Math.Max(color.G,color.B))-Math.Min(color.R,Math.Min(color.G,color.B));
+								if(spread>4) {
+									countOffending++;
+									if(countOffending<=8) {
+										offending+=" ("+x+","+y+")="+color.R+","+color.G+","+color.B;
+									}
+								}
+							}
+						}
+						Assert.AreEqual(0,countOffending,"Pixels outside the frame's tokens in the drop button "+rectangleArea+":"+offending);
+						Assert.IsTrue(HasDarker(bitmap,rectangleArea,128),"No chevron in the drop button.");
+						//The value: drawn (dark pixels), and none darker than the Text token.
+						Rectangle rectangleText=Rectangle.Inflate(rectangleInner,0,-1);
+						int darkest=255;
+						for(int y=rectangleText.Top;y<rectangleText.Bottom;y++) {
+							for(int x=rectangleText.Left;x<rectangleText.Right;x++) {
+								Color color=bitmap.GetPixel(x,y);
+								darkest=Math.Min(darkest,Math.Min(color.R,Math.Min(color.G,color.B)));
+							}
+						}
+						Assert.IsTrue(darkest<120,"No value drawn in the date picker (darkest channel "+darkest+").");
+						Assert.IsTrue(darkest>=UiTheme.GetColor(EnumUiColor.Text).R-1,"The value is darker than the Text token: darkest channel "+darkest+".");
+					}
+				}
+			});
+		}
+
+		[TestMethod]
+		public void ScrollLook_Sizes_FromTheBarRectangle() {
+			//UI-13 fix round 2: UiScrollLook draws from the bar Windows reports (GetScrollBarInfo), so a wider bar (25 px, as a 150% monitor's
+			//metric gives) gets the thumb and chevrons of its scale, without the 96 dpi metric of the test process.
+			int[] arrayThickness=new int[] { 17,25 };
+			int[] arrayThumbWidths=new int[2];
+			int[] arrayChevronWidths=new int[2];
+			StaRunnerHelpers.RunSta(() => {
+				for(int t=0;t<arrayThickness.Length;t++) {
+					int thickness=arrayThickness[t];
+					using(Form form=new Form())
+					using(VScrollBar vScrollBar=new VScrollBar { Bounds=new Rectangle(0,0,thickness,200),Minimum=0,Maximum=100,LargeChange=20,Value=40 }) {
+						form.Controls.Add(vScrollBar);
+						UiScrollLook.Attach(vScrollBar);
+						IntPtr handle=vScrollBar.Handle;
+						using(Bitmap bitmap=new Bitmap(thickness,200,PixelFormat.Format24bppRgb)) {
+							vScrollBar.DrawToBitmap(bitmap,new Rectangle(0,0,thickness,200));
+							Color colorThumb=UiTheme.GetColor(EnumUiColor.StrokeStrong);
+							Color colorTrack=UiTheme.GetColor(EnumUiColor.Surface);
+							int level=(colorThumb.R+colorTrack.R)/2;
+							//The thumb's middle row: the middle of the run of thumb pixels down the bar's centre line.
+							int yFirst=-1;
+							int yLast=-1;
+							for(int y=thickness;y<200-thickness;y++) {
+								if(bitmap.GetPixel(thickness/2,y).R<level) {
+									if(yFirst<0) {
+										yFirst=y;
+									}
+									yLast=y;
+								}
+							}
+							Assert.IsTrue(yFirst>=0,"No thumb in the "+thickness+" px bar.");
+							int yMiddle=(yFirst+yLast)/2;
+							int width=0;
+							for(int x=0;x<thickness;x++) {
+								if(bitmap.GetPixel(x,yMiddle).R<level) {
+									width++;
+								}
+							}
+							arrayThumbWidths[t]=width;
+							//The start arrow's chevron: the width of its dark pixels in the bar's first square.
+							int xMin=thickness;
+							int xMax=-1;
+							for(int y=0;y<Math.Min(thickness,17);y++) {
+								for(int x=0;x<thickness;x++) {
+									if(bitmap.GetPixel(x,y).R<200) {
+										xMin=Math.Min(xMin,x);
+										xMax=Math.Max(xMax,x);
+									}
+								}
+							}
+							Assert.IsTrue(xMax>=0,"No chevron in the "+thickness+" px bar.");
+							arrayChevronWidths[t]=xMax-xMin+1;
+						}
+					}
+				}
+			});
+			for(int t=0;t<arrayThickness.Length;t++) {
+				int thickness=arrayThickness[t];
+				int expected=UiScrollPaint.GetThumbShape(new Rectangle(0,0,thickness,200),isVertical:true,UiScrollPaint.GetScale(thickness)).Width;
+				Assert.IsTrue(Math.Abs(arrayThumbWidths[t]-expected)<=1,"The "+thickness+" px bar's thumb is "+arrayThumbWidths[t]+" px wide, expected "+expected+".");
+			}
+			Assert.IsTrue(arrayThumbWidths[1]>arrayThumbWidths[0],"The 25 px bar's thumb is not wider than the 17 px bar's.");
+			Assert.IsTrue(arrayChevronWidths[1]>arrayChevronWidths[0],
+				"The 25 px bar's chevron ("+arrayChevronWidths[1]+" px) is not wider than the 17 px bar's ("+arrayChevronWidths[0]+" px).");
+		}
+
 		[System.Runtime.InteropServices.DllImport("user32.dll")]
 		private static extern IntPtr SendMessage(IntPtr hWnd,int msg,IntPtr wParam,IntPtr lParam);
 

@@ -10,6 +10,9 @@
 // to Windows (tree and list views, the month calendar) show the picture the program shows; the time pattern is FormProcCodeEdit's own,
 // laid out at the scale by its LayoutManager (WindowBuilder, as the window gallery draws windows at 150%) and cropped to the bar, its handle,
 // its caption and its Minutes box.
+// UI-13 fix round 2: the program's list is added through the window's LayoutManager (its rows and scroll bar at the scale) and painted at
+// the scale's dpi (PaintAtDpi: its text, as Windows scales it); the stock frame scroll bars keep the 96 dpi process's metric (UI-13.md
+// section 4); sheet 15 is the themed date picker.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
@@ -17,6 +20,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Windows.Forms;
 using CodeBase;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -59,7 +63,10 @@ namespace UiRefreshTests {
 								form.BackColor=SystemColors.Control;
 								form.Font=new Font(UiTheme.FONT_FAMILY,UiTheme.FONT_SIZE_BODY*scale);
 								Panel panel=new Panel { BackColor=SystemColors.Control,Location=Point.Empty };
-								form.Controls.Add(panel);
+								//Fix round 2: the panel is one of the window's controls in its LayoutManager, as a window's own panels are, so a control added
+								//through the LayoutManager (the program's list) moves its parts through it (LayoutManager.Move).
+								LayoutManagerForms layoutManager=form.GetLayoutManager();
+								layoutManager.Add(panel,form);
 								List<Control> listControls=new List<Control>(pair.Value(scale));
 								List<Point> listOffsets=new List<Point>();
 								foreach(Control control in listControls) {
@@ -67,12 +74,18 @@ namespace UiRefreshTests {
 									//The font as Windows scales a point size at the monitor's dpi.
 									control.Font=new Font(UiTheme.FONT_FAMILY,UiTheme.FONT_SIZE_BODY*scale);
 									//The program's own button and check box draw at their LayoutManager's scale: they get the window's, as LayoutManagerForms
-									//passes it to them (the program's list lays its parts out through a full LayoutManager layout, which the sheet does not run).
+									//passes it to them (the program's list is added through the LayoutManager below).
 									if(control is OpenPmsDental.UI.CheckBox checkBoxOD) {
 										checkBoxOD.LayoutManager=form.GetLayoutManager();
 									}
 									if(control is OpenPmsDental.UI.Button buttonOD) {
 										buttonOD.LayoutManager=form.GetLayoutManager();
+									}
+									if(control is OpenPmsDental.UI.ListBox) {
+										//Fix round 2: the program's list added through the window's LayoutManager, as LayoutManagerForms adds a window's controls:
+										//it gets the LayoutManager, its rows are ScaleMS of its font's height and its scroll bar is moved to Scale(17) wide.
+										layoutManager.Add(control,panel);
+										continue;
 									}
 									panel.Controls.Add(control);
 								}
@@ -95,6 +108,11 @@ namespace UiRefreshTests {
 									Fill(control);
 								}
 								using(Bitmap bitmap=DesignSheetWindows.Capture(panel,Rectangle.Empty)) {
+									foreach(Control control in panel.Controls) {
+										if(control is OpenPmsDental.UI.ListBox && scale!=1f) {
+											PaintAtDpi(bitmap,control,scale);
+										}
+									}
 									bitmap.Save(Path.Combine(folder,pair.Key+"-"+(int)Math.Round(scale*100)+".png"),ImageFormat.Png);
 									countPictures++;
 								}
@@ -201,6 +219,30 @@ namespace UiRefreshTests {
 			return rectangle;
 		}
 
+		///<summary>Fix round 2: the program's list painted again as a monitor at the scale's dpi paints it. The list draws its text with a font in
+		///points in the Graphics its paint message hands it, which Windows scales by the monitor's dpi (LayoutManagerForms, "Fonts": only the zoom
+		///is ours, Windows adds its scale), and measures its rows with the font's unscaled height times ScaleMS. The harness is a 96 dpi process, so
+		///its paint Graphics is at 96 dpi and the text came out at 100% in rows 1.5 times apart. Here the list paints into a Graphics at
+		///96 times the scale dpi (a bitmap at that resolution: GDI+ scales a point size by it, as Windows does), then its scroll bar is printed
+		///over it as the harness prints every control, and the picture replaces the list's place in the sheet.</summary>
+		private static void PaintAtDpi(Bitmap bitmapSheet,Control control,float scale) {
+			using(Bitmap bitmap=new Bitmap(control.Width,control.Height,PixelFormat.Format24bppRgb)) {
+				bitmap.SetResolution(96*scale,96*scale);
+				using(Graphics g=Graphics.FromImage(bitmap)) {
+					MethodInfo methodInfo=typeof(Control).GetMethod("OnPaint",BindingFlags.Instance|BindingFlags.NonPublic);
+					methodInfo.Invoke(control,new object[] { new PaintEventArgs(g,new Rectangle(Point.Empty,control.ClientSize)) });
+					foreach(Control child in control.Controls) {
+						if(child.Visible) {
+							DesignSheetWindows.DrawTree(g,child,child.Location);
+						}
+					}
+				}
+				using(Graphics g=Graphics.FromImage(bitmapSheet)) {
+					g.DrawImage(bitmap,new Rectangle(control.Location,control.Size));
+				}
+			}
+		}
+
 		///<summary>Content the controls show once they have handles (items Windows needs a handle for, a value that makes a thumb).</summary>
 		private static void Fill(Control control) {
 			if(control is TextBox textBox && textBox.Multiline) {
@@ -302,6 +344,19 @@ namespace UiRefreshTests {
 				return new Control[] { dataGridView };
 			});
 			add("13-linklabel",s => new Control[] { new LinkLabel { Text="View provider and clinic specific fees",AutoSize=true } });
+			//Fix round 2: the date picker as the program shows it (Windows' themed picker, its calendar button wider than a scroll bar), beside a
+			//stock combo box for the chevron's place: a value, a check box, disabled.
+			add("15-datepicker",s => {
+				System.Windows.Forms.ComboBox comboBox=new System.Windows.Forms.ComboBox { DropDownStyle=ComboBoxStyle.DropDownList,Width=S(132,s) };
+				comboBox.Items.Add("Stock combo box");
+				comboBox.SelectedIndex=0;
+				return new Control[] {
+					new DateTimePicker { Format=DateTimePickerFormat.Short,Width=S(132,s),Value=new DateTime(2026,11,22) },
+					new DateTimePicker { Format=DateTimePickerFormat.Short,Width=S(132,s),Value=new DateTime(2026,11,22),ShowCheckBox=true },
+					new DateTimePicker { Format=DateTimePickerFormat.Short,Width=S(132,s),Value=new DateTime(2026,11,22),Enabled=false },
+					comboBox,
+				};
+			});
 			return list;
 		}
 	}

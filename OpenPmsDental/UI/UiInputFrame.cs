@@ -249,45 +249,52 @@ namespace OpenPmsDental.UI {
 			}
 			Color colorBack=SystemColors.Window;
 			Color colorText=UiTheme.GetColor(EnumUiColor.Text);
-			using(Bitmap bitmap=new Bitmap(rectangleText.Width,rectangleText.Height,System.Drawing.Imaging.PixelFormat.Format32bppRgb)) {
-				using(Graphics g=Graphics.FromImage(bitmap)) {
-					IntPtr hdcBitmap=g.GetHdc();
-					try {
-						BitBlt(hdcBitmap,0,0,rectangleText.Width,rectangleText.Height,hdc,rectangleText.X,rectangleText.Y,SRCCOPY);
-					}
-					finally {
-						g.ReleaseHdc(hdcBitmap);
-					}
+			//A 32 bpp top-down DIB in a memory DC (GDI only: the hdc can be a GDI+ bitmap's, as when the harness prints).
+			int width=rectangleText.Width;
+			int height=rectangleText.Height;
+			IntPtr hdcMemory=CreateCompatibleDC(hdc);
+			if(hdcMemory==IntPtr.Zero) {
+				return;
+			}
+			IntPtr hBitmap=IntPtr.Zero;
+			IntPtr hBitmapOld=IntPtr.Zero;
+			try {
+				BITMAPINFOHEADER bitmapInfoHeader=new BITMAPINFOHEADER();
+				bitmapInfoHeader.biSize=Marshal.SizeOf(typeof(BITMAPINFOHEADER));
+				bitmapInfoHeader.biWidth=width;
+				bitmapInfoHeader.biHeight=-height;//top-down
+				bitmapInfoHeader.biPlanes=1;
+				bitmapInfoHeader.biBitCount=32;
+				hBitmap=CreateDIBSection(hdc,ref bitmapInfoHeader,0,out IntPtr pBits,IntPtr.Zero,0);
+				if(hBitmap==IntPtr.Zero || pBits==IntPtr.Zero) {
+					return;
 				}
-				System.Drawing.Imaging.BitmapData bitmapData=bitmap.LockBits(new Rectangle(0,0,bitmap.Width,bitmap.Height),
-					System.Drawing.Imaging.ImageLockMode.ReadWrite,System.Drawing.Imaging.PixelFormat.Format32bppRgb);
-				try {
-					int count=bitmapData.Stride*bitmap.Height;
-					byte[] arrayBytes=new byte[count];
-					Marshal.Copy(bitmapData.Scan0,arrayBytes,0,count);
-					//Blue, green, red in each 4 byte pixel.
-					for(int y=0;y<bitmap.Height;y++) {
-						for(int x=0;x<bitmap.Width;x++) {
-							int i=y*bitmapData.Stride+x*4;
-							arrayBytes[i]=RecolorChannel(arrayBytes[i],colorBack.B,colorText.B);
-							arrayBytes[i+1]=RecolorChannel(arrayBytes[i+1],colorBack.G,colorText.G);
-							arrayBytes[i+2]=RecolorChannel(arrayBytes[i+2],colorBack.R,colorText.R);
-						}
-					}
-					Marshal.Copy(arrayBytes,0,bitmapData.Scan0,count);
+				hBitmapOld=SelectObject(hdcMemory,hBitmap);
+				if(!BitBlt(hdcMemory,0,0,width,height,hdc,rectangleText.X,rectangleText.Y,SRCCOPY)) {
+					return;
 				}
-				finally {
-					bitmap.UnlockBits(bitmapData);
+				GdiFlush();
+				int count=width*height*4;
+				byte[] arrayBytes=new byte[count];
+				Marshal.Copy(pBits,arrayBytes,0,count);
+				//Blue, green, red and an unused byte in each pixel.
+				for(int i=0;i<count;i+=4) {
+					arrayBytes[i]=RecolorChannel(arrayBytes[i],colorBack.B,colorText.B);
+					arrayBytes[i+1]=RecolorChannel(arrayBytes[i+1],colorBack.G,colorText.G);
+					arrayBytes[i+2]=RecolorChannel(arrayBytes[i+2],colorBack.R,colorText.R);
 				}
-				using(Graphics g=Graphics.FromImage(bitmap)) {
-					IntPtr hdcBitmap=g.GetHdc();
-					try {
-						BitBlt(hdc,rectangleText.X,rectangleText.Y,rectangleText.Width,rectangleText.Height,hdcBitmap,0,0,SRCCOPY);
-					}
-					finally {
-						g.ReleaseHdc(hdcBitmap);
-					}
+				Marshal.Copy(arrayBytes,0,pBits,count);
+				BitBlt(hdc,rectangleText.X,rectangleText.Y,width,height,hdcMemory,0,0,SRCCOPY);
+				GdiFlush();
+			}
+			finally {
+				if(hBitmapOld!=IntPtr.Zero) {
+					SelectObject(hdcMemory,hBitmapOld);
 				}
+				if(hBitmap!=IntPtr.Zero) {
+					DeleteObject(hBitmap);
+				}
+				DeleteDC(hdcMemory);
 			}
 		}
 
@@ -478,6 +485,36 @@ namespace OpenPmsDental.UI {
 
 		[DllImport("gdi32.dll")]
 		private static extern bool DeleteObject(IntPtr hObject);
+
+		[StructLayout(LayoutKind.Sequential)]
+		private struct BITMAPINFOHEADER {
+			public int biSize;
+			public int biWidth;
+			public int biHeight;
+			public short biPlanes;
+			public short biBitCount;
+			public int biCompression;
+			public int biSizeImage;
+			public int biXPelsPerMeter;
+			public int biYPelsPerMeter;
+			public int biClrUsed;
+			public int biClrImportant;
+		}
+
+		[DllImport("gdi32.dll")]
+		private static extern IntPtr CreateCompatibleDC(IntPtr hdc);
+
+		[DllImport("gdi32.dll")]
+		private static extern bool DeleteDC(IntPtr hdc);
+
+		[DllImport("gdi32.dll")]
+		private static extern IntPtr CreateDIBSection(IntPtr hdc,ref BITMAPINFOHEADER bitmapInfoHeader,int usage,out IntPtr pBits,IntPtr hSection,int offset);
+
+		[DllImport("gdi32.dll")]
+		private static extern IntPtr SelectObject(IntPtr hdc,IntPtr hObject);
+
+		[DllImport("gdi32.dll")]
+		private static extern bool GdiFlush();
 
 		[DllImport("gdi32.dll")]
 		private static extern bool BitBlt(IntPtr hdcDest,int xDest,int yDest,int width,int height,IntPtr hdcSource,int xSource,int ySource,int rop);
