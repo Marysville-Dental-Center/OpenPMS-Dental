@@ -267,7 +267,7 @@
 			// label9
 			// 
 			this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label9.Location = new System.Drawing.Point(100, 658);
+			this.label9.Location = new System.Drawing.Point(98, 837);
 			this.label9.Name = "label9";
 			this.label9.Size = new System.Drawing.Size(203, 30);
 			this.label9.TabIndex = 141;
@@ -277,7 +277,7 @@
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(1031, 664);
+			this.butSave.Location = new System.Drawing.Point(1031, 840);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 998;
@@ -289,7 +289,7 @@
 			this.butDeletePayment.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDeletePayment.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDeletePayment.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDeletePayment.Location = new System.Drawing.Point(11, 664);
+			this.butDeletePayment.Location = new System.Drawing.Point(8, 840);
 			this.butDeletePayment.Name = "butDeletePayment";
 			this.butDeletePayment.Size = new System.Drawing.Size(84, 24);
 			this.butDeletePayment.TabIndex = 997;
@@ -301,7 +301,7 @@
 			this.butPrintReceipt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butPrintReceipt.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Print,16,16);
 			this.butPrintReceipt.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butPrintReceipt.Location = new System.Drawing.Point(389, 664);
+			this.butPrintReceipt.Location = new System.Drawing.Point(389, 840);
 			this.butPrintReceipt.Name = "butPrintReceipt";
 			this.butPrintReceipt.Size = new System.Drawing.Size(101, 24);
 			this.butPrintReceipt.TabIndex = 135;
@@ -315,7 +315,7 @@
 			this.butEmailReceipt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butEmailReceipt.Icon = OpenPmsDental.UI.EnumIcons.Email;
 			this.butEmailReceipt.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butEmailReceipt.Location = new System.Drawing.Point(499, 664);
+			this.butEmailReceipt.Location = new System.Drawing.Point(496, 840);
 			this.butEmailReceipt.Name = "butEmailReceipt";
 			this.butEmailReceipt.Size = new System.Drawing.Size(113, 24);
 			this.butEmailReceipt.TabIndex = 140;
@@ -325,7 +325,7 @@
 			// 
 			// butCareCredit
 			// 
-			this.butCareCredit.Location = new System.Drawing.Point(650, 17);
+			this.butCareCredit.Location = new System.Drawing.Point(650, 32);
 			this.butCareCredit.Name = "butCareCredit";
 			this.butCareCredit.Size = new System.Drawing.Size(75, 26);
 			this.butCareCredit.TabIndex = 143;
@@ -335,7 +335,7 @@
 			// 
 			// butPaySimple
 			// 
-			this.butPaySimple.Location = new System.Drawing.Point(877, 17);
+			this.butPaySimple.Location = new System.Drawing.Point(877, 32);
 			this.butPaySimple.Name = "butPaySimple";
 			this.butPaySimple.Size = new System.Drawing.Size(75, 26);
 			this.butPaySimple.TabIndex = 140;
@@ -345,7 +345,7 @@
 			//
 			// labelPaySimpleAchStatus
 			//
-			this.labelPaySimpleAchStatus.Location = new System.Drawing.Point(984, 49);
+			this.labelPaySimpleAchStatus.Location = new System.Drawing.Point(1307, 88);
 			this.labelPaySimpleAchStatus.Name = "labelPaySimpleAchStatus";
 			this.labelPaySimpleAchStatus.Size = new System.Drawing.Size(124, 17);
 			this.labelPaySimpleAchStatus.TabIndex = 1005;
@@ -357,7 +357,7 @@
 			// 
 			this.butShowHide.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.ChevronDown,10,10);
 			this.butShowHide.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.butShowHide.Location = new System.Drawing.Point(1, 215);
+			this.butShowHide.Location = new System.Drawing.Point(8, 210);
 			this.butShowHide.Name = "butShowHide";
 			this.butShowHide.Size = new System.Drawing.Size(91, 24);
 			this.butShowHide.TabIndex = 139;
@@ -370,15 +370,15 @@
 			this.comboClinic.ForceShowUnassigned = true;
 			this.comboClinic.HqDescription = "None";
 			this.comboClinic.IncludeUnassigned = true;
-			this.comboClinic.Location = new System.Drawing.Point(67, 12);
+			this.comboClinic.Location = new System.Drawing.Point(67, 32);
 			this.comboClinic.Name = "comboClinic";
-			this.comboClinic.Size = new System.Drawing.Size(235, 21);
+			this.comboClinic.Size = new System.Drawing.Size(236, 21);
 			this.comboClinic.TabIndex = 92;
 			this.comboClinic.SelectionChangeCommitted += new System.EventHandler(this.comboClinic_SelectionChangeCommitted);
 			// 
 			// textDeposit
 			// 
-			this.textDeposit.Location = new System.Drawing.Point(780, 165);
+			this.textDeposit.Location = new System.Drawing.Point(1103, 225);
 			this.textDeposit.Name = "textDeposit";
 			this.textDeposit.ReadOnly = true;
 			this.textDeposit.Size = new System.Drawing.Size(100, 20);
@@ -386,7 +386,7 @@
 			// 
 			// labelDepositAccount
 			// 
-			this.labelDepositAccount.Location = new System.Drawing.Point(492, 148);
+			this.labelDepositAccount.Location = new System.Drawing.Point(827, 189);
 			this.labelDepositAccount.Name = "labelDepositAccount";
 			this.labelDepositAccount.Size = new System.Drawing.Size(260, 17);
 			this.labelDepositAccount.TabIndex = 114;
@@ -396,7 +396,7 @@
 			// labelDeposit
 			// 
 			this.labelDeposit.ForeColor = System.Drawing.Color.Firebrick;
-			this.labelDeposit.Location = new System.Drawing.Point(777, 146);
+			this.labelDeposit.Location = new System.Drawing.Point(1103, 205);
 			this.labelDeposit.Name = "labelDeposit";
 			this.labelDeposit.Size = new System.Drawing.Size(199, 18);
 			this.labelDeposit.TabIndex = 126;
@@ -405,7 +405,7 @@
 			// 
 			// textDepositAccount
 			// 
-			this.textDepositAccount.Location = new System.Drawing.Point(492, 187);
+			this.textDepositAccount.Location = new System.Drawing.Point(827, 237);
 			this.textDepositAccount.Name = "textDepositAccount";
 			this.textDepositAccount.ReadOnly = true;
 			this.textDepositAccount.Size = new System.Drawing.Size(260, 20);
@@ -413,14 +413,14 @@
 			// 
 			// comboCreditCards
 			// 
-			this.comboCreditCards.Location = new System.Drawing.Point(780, 69);
+			this.comboCreditCards.Location = new System.Drawing.Point(1103, 111);
 			this.comboCreditCards.Name = "comboCreditCards";
-			this.comboCreditCards.Size = new System.Drawing.Size(270, 21);
+			this.comboCreditCards.Size = new System.Drawing.Size(272, 23);
 			this.comboCreditCards.TabIndex = 130;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(489, 12);
+			this.label1.Location = new System.Drawing.Point(489, 32);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(154, 18);
 			this.label1.TabIndex = 7;
@@ -429,7 +429,7 @@
 			// 
 			// panelXcharge
 			// 
-			this.panelXcharge.Location = new System.Drawing.Point(812, 17);
+			this.panelXcharge.Location = new System.Drawing.Point(812, 32);
 			this.panelXcharge.Name = "panelXcharge";
 			this.panelXcharge.Size = new System.Drawing.Size(59, 26);
 			this.panelXcharge.TabIndex = 118;
@@ -439,7 +439,7 @@
 			// 
 			// panelEdgeExpress
 			// 
-			this.panelEdgeExpress.Location = new System.Drawing.Point(731, 17);
+			this.panelEdgeExpress.Location = new System.Drawing.Point(731, 32);
 			this.panelEdgeExpress.Name = "panelEdgeExpress";
 			this.panelEdgeExpress.Size = new System.Drawing.Size(75, 26);
 			this.panelEdgeExpress.TabIndex = 119;
@@ -449,7 +449,7 @@
 			// 
 			// labelCreditCards
 			// 
-			this.labelCreditCards.Location = new System.Drawing.Point(780, 49);
+			this.labelCreditCards.Location = new System.Drawing.Point(1103, 88);
 			this.labelCreditCards.Name = "labelCreditCards";
 			this.labelCreditCards.Size = new System.Drawing.Size(198, 17);
 			this.labelCreditCards.TabIndex = 131;
@@ -458,7 +458,7 @@
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(10, 156);
+			this.label2.Location = new System.Drawing.Point(8, 182);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(92, 16);
 			this.label2.TabIndex = 8;
@@ -467,23 +467,23 @@
 			// 
 			// comboDepositAccount
 			// 
-			this.comboDepositAccount.Location = new System.Drawing.Point(492, 165);
+			this.comboDepositAccount.Location = new System.Drawing.Point(827, 208);
 			this.comboDepositAccount.Name = "comboDepositAccount";
-			this.comboDepositAccount.Size = new System.Drawing.Size(260, 21);
+			this.comboDepositAccount.Size = new System.Drawing.Size(260, 23);
 			this.comboDepositAccount.TabIndex = 113;
 			// 
 			// checkRecurring
 			// 
-			this.checkRecurring.Location = new System.Drawing.Point(780, 108);
+			this.checkRecurring.Location = new System.Drawing.Point(1103, 155);
 			this.checkRecurring.Name = "checkRecurring";
-			this.checkRecurring.Size = new System.Drawing.Size(196, 18);
+			this.checkRecurring.Size = new System.Drawing.Size(167, 20);
 			this.checkRecurring.TabIndex = 132;
 			this.checkRecurring.Text = "Apply to Recurring Charge";
 			this.checkRecurring.Click += new System.EventHandler(this.checkRecurring_Click);
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(2, 138);
+			this.label3.Location = new System.Drawing.Point(8, 164);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(100, 16);
 			this.label3.TabIndex = 9;
@@ -493,16 +493,16 @@
 			// textDateEntry
 			// 
 			this.textDateEntry.AutoSize = false;
-			this.textDateEntry.Location = new System.Drawing.Point(104, 54);
+			this.textDateEntry.Location = new System.Drawing.Point(112, 88);
 			this.textDateEntry.Name = "textDateEntry";
 			this.textDateEntry.ReadOnly = true;
-			this.textDateEntry.Size = new System.Drawing.Size(100, 20);
+			this.textDateEntry.Size = new System.Drawing.Size(100, 23);
 			this.textDateEntry.TabIndex = 93;
 			// 
 			// butPrePay
 			// 
 			this.butPrePay.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butPrePay.Location = new System.Drawing.Point(205, 94);
+			this.butPrePay.Location = new System.Drawing.Point(216, 146);
 			this.butPrePay.Name = "butPrePay";
 			this.butPrePay.Size = new System.Drawing.Size(61, 20);
 			this.butPrePay.TabIndex = 136;
@@ -511,7 +511,7 @@
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(2, 118);
+			this.label4.Location = new System.Drawing.Point(8, 146);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(100, 16);
 			this.label4.TabIndex = 10;
@@ -520,7 +520,7 @@
 			// 
 			// label12
 			// 
-			this.label12.Location = new System.Drawing.Point(2, 58);
+			this.label12.Location = new System.Drawing.Point(8, 88);
 			this.label12.Name = "label12";
 			this.label12.Size = new System.Drawing.Size(100, 18);
 			this.label12.TabIndex = 94;
@@ -529,15 +529,15 @@
 			// 
 			// checkProcessed
 			// 
-			this.checkProcessed.Location = new System.Drawing.Point(780, 127);
+			this.checkProcessed.Location = new System.Drawing.Point(1103, 179);
 			this.checkProcessed.Name = "checkProcessed";
-			this.checkProcessed.Size = new System.Drawing.Size(196, 18);
+			this.checkProcessed.Size = new System.Drawing.Size(123, 20);
 			this.checkProcessed.TabIndex = 137;
 			this.checkProcessed.Text = "Mark as Processed";
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(2, 98);
+			this.label5.Location = new System.Drawing.Point(8, 128);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(100, 16);
 			this.label5.TabIndex = 11;
@@ -574,7 +574,7 @@
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(2, 78);
+			this.label6.Location = new System.Drawing.Point(8, 108);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(100, 18);
 			this.label6.TabIndex = 12;
@@ -584,24 +584,24 @@
 			// textPaidBy
 			// 
 			this.textPaidBy.AutoSize = false;
-			this.textPaidBy.Location = new System.Drawing.Point(104, 34);
+			this.textPaidBy.Location = new System.Drawing.Point(104, 59);
 			this.textPaidBy.Name = "textPaidBy";
 			this.textPaidBy.ReadOnly = true;
-			this.textPaidBy.Size = new System.Drawing.Size(242, 20);
+			this.textPaidBy.Size = new System.Drawing.Size(240, 23);
 			this.textPaidBy.TabIndex = 32;
 			// 
 			// label11
 			// 
-			this.label11.Location = new System.Drawing.Point(2, 36);
+			this.label11.Location = new System.Drawing.Point(46, 59);
 			this.label11.Name = "label11";
-			this.label11.Size = new System.Drawing.Size(100, 18);
+			this.label11.Size = new System.Drawing.Size(52, 23);
 			this.label11.TabIndex = 33;
 			this.label11.Text = "Paid By";
-			this.label11.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// listPayType
 			// 
-			this.listPayType.Location = new System.Drawing.Point(492, 49);
+			this.listPayType.Location = new System.Drawing.Point(827, 88);
 			this.listPayType.Name = "listPayType";
 			this.listPayType.Size = new System.Drawing.Size(120, 95);
 			this.listPayType.TabIndex = 4;
@@ -613,7 +613,7 @@
 			this.textNote.BackColor = System.Drawing.SystemColors.Window;
 			this.textNote.DetectLinksEnabled = false;
 			this.textNote.DetectUrls = false;
-			this.textNote.Location = new System.Drawing.Point(104, 156);
+			this.textNote.Location = new System.Drawing.Point(112, 233);
 			this.textNote.MaxLength = 4000;
 			this.textNote.Name = "textNote";
 			this.textNote.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Payment;
@@ -627,42 +627,42 @@
 			// textAmount
 			// 
 			this.textAmount.AutoSize = false;
-			this.textAmount.Location = new System.Drawing.Point(104, 94);
+			this.textAmount.Location = new System.Drawing.Point(112, 146);
 			this.textAmount.MaxVal = 100000000D;
 			this.textAmount.MinVal = -100000000D;
 			this.textAmount.Name = "textAmount";
-			this.textAmount.Size = new System.Drawing.Size(100, 20);
+			this.textAmount.Size = new System.Drawing.Size(100, 23);
 			this.textAmount.TabIndex = 2;
 			// 
 			// textCheckNum
 			// 
 			this.textCheckNum.AutoSize = false;
-			this.textCheckNum.Location = new System.Drawing.Point(104, 114);
+			this.textCheckNum.Location = new System.Drawing.Point(112, 175);
 			this.textCheckNum.Name = "textCheckNum";
-			this.textCheckNum.Size = new System.Drawing.Size(100, 20);
+			this.textCheckNum.Size = new System.Drawing.Size(100, 23);
 			this.textCheckNum.TabIndex = 0;
 			// 
 			// textDate
 			// 
 			this.textDate.AutoSize = false;
-			this.textDate.Location = new System.Drawing.Point(104, 74);
+			this.textDate.Location = new System.Drawing.Point(112, 117);
 			this.textDate.Name = "textDate";
-			this.textDate.Size = new System.Drawing.Size(100, 20);
+			this.textDate.Size = new System.Drawing.Size(100, 23);
 			this.textDate.TabIndex = 4;
 			// 
 			// textBankBranch
 			// 
 			this.textBankBranch.AutoSize = false;
-			this.textBankBranch.Location = new System.Drawing.Point(104, 134);
+			this.textBankBranch.Location = new System.Drawing.Point(112, 204);
 			this.textBankBranch.Name = "textBankBranch";
-			this.textBankBranch.Size = new System.Drawing.Size(100, 20);
+			this.textBankBranch.Size = new System.Drawing.Size(100, 23);
 			this.textBankBranch.TabIndex = 1;
 			// 
 			// checkPayTypeNone
 			// 
-			this.checkPayTypeNone.Location = new System.Drawing.Point(492, 31);
+			this.checkPayTypeNone.Location = new System.Drawing.Point(489, 52);
 			this.checkPayTypeNone.Name = "checkPayTypeNone";
-			this.checkPayTypeNone.Size = new System.Drawing.Size(155, 18);
+			this.checkPayTypeNone.Size = new System.Drawing.Size(151, 20);
 			this.checkPayTypeNone.TabIndex = 128;
 			this.checkPayTypeNone.Text = "None (Income Transfer)";
 			this.checkPayTypeNone.CheckedChanged += new System.EventHandler(this.checkPayTypeNone_CheckedChanged);
@@ -676,9 +676,9 @@
 			this.tabControlCharges.Controls.Add(this.tabPageOutstanding);
 			this.tabControlCharges.Controls.Add(this.tabPageTreatPlan);
 			this.tabControlCharges.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-			this.tabControlCharges.Location = new System.Drawing.Point(498, 107);
+			this.tabControlCharges.Location = new System.Drawing.Point(501, 153);
 			this.tabControlCharges.Name = "tabControlCharges";
-			this.tabControlCharges.Size = new System.Drawing.Size(608, 273);
+			this.tabControlCharges.Size = new System.Drawing.Size(616, 314);
 			this.tabControlCharges.TabIndex = 1;
 			this.tabControlCharges.SelectedIndexChanged += new System.EventHandler(this.TabControlCharges_SelectedIndexChanged);
 			// 
@@ -697,10 +697,10 @@
 			// 
 			// checkShowSuperfamily
 			// 
-			this.checkShowSuperfamily.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkShowSuperfamily.Location = new System.Drawing.Point(230, 2);
+			this.checkShowSuperfamily.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkShowSuperfamily.Location = new System.Drawing.Point(191, 8);
 			this.checkShowSuperfamily.Name = "checkShowSuperfamily";
-			this.checkShowSuperfamily.Size = new System.Drawing.Size(193, 20);
+			this.checkShowSuperfamily.Size = new System.Drawing.Size(173, 20);
 			this.checkShowSuperfamily.TabIndex = 204;
 			this.checkShowSuperfamily.Text = "Show Super Family Charges";
 			this.checkShowSuperfamily.Click += new System.EventHandler(this.checkShowSuperfamily_Click);
@@ -722,10 +722,10 @@
 			// 
 			// checkIncludeExplicitCreditsOnly
 			// 
-			this.checkIncludeExplicitCreditsOnly.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkIncludeExplicitCreditsOnly.Location = new System.Drawing.Point(4, 2);
+			this.checkIncludeExplicitCreditsOnly.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkIncludeExplicitCreditsOnly.Location = new System.Drawing.Point(8, 8);
 			this.checkIncludeExplicitCreditsOnly.Name = "checkIncludeExplicitCreditsOnly";
-			this.checkIncludeExplicitCreditsOnly.Size = new System.Drawing.Size(218, 20);
+			this.checkIncludeExplicitCreditsOnly.Size = new System.Drawing.Size(177, 20);
 			this.checkIncludeExplicitCreditsOnly.TabIndex = 205;
 			this.checkIncludeExplicitCreditsOnly.Text = "Show Only Allocated Credits";
 			this.checkIncludeExplicitCreditsOnly.Click += new System.EventHandler(this.CheckIncludeExplicitCreditsOnly_Click);
@@ -733,10 +733,10 @@
 			// checkShowAll
 			// 
 			this.checkShowAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkShowAll.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkShowAll.Location = new System.Drawing.Point(435, 2);
+			this.checkShowAll.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkShowAll.Location = new System.Drawing.Point(370, 8);
 			this.checkShowAll.Name = "checkShowAll";
-			this.checkShowAll.Size = new System.Drawing.Size(148, 20);
+			this.checkShowAll.Size = new System.Drawing.Size(117, 20);
 			this.checkShowAll.TabIndex = 147;
 			this.checkShowAll.Text = "Show All Charges";
 			this.checkShowAll.Click += new System.EventHandler(this.checkShowAll_Clicked);
@@ -755,7 +755,7 @@
 			// labelTPProcWarning
 			// 
 			this.labelTPProcWarning.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-			this.labelTPProcWarning.Location = new System.Drawing.Point(2, 4);
+			this.labelTPProcWarning.Location = new System.Drawing.Point(8, 8);
 			this.labelTPProcWarning.Name = "labelTPProcWarning";
 			this.labelTPProcWarning.Size = new System.Drawing.Size(596, 17);
 			this.labelTPProcWarning.TabIndex = 146;
@@ -784,7 +784,7 @@
 			this.butPay.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butPay.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.ArrowLeft,22,22);
 			this.butPay.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butPay.Location = new System.Drawing.Point(504, 385);
+			this.butPay.Location = new System.Drawing.Point(505, 473);
 			this.butPay.Name = "butPay";
 			this.butPay.Size = new System.Drawing.Size(79, 23);
 			this.butPay.TabIndex = 146;
@@ -794,7 +794,7 @@
 			// 
 			// labelPayPlan
 			// 
-			this.labelPayPlan.Location = new System.Drawing.Point(258, 104);
+			this.labelPayPlan.Location = new System.Drawing.Point(257, 153);
 			this.labelPayPlan.Name = "labelPayPlan";
 			this.labelPayPlan.Size = new System.Drawing.Size(231, 17);
 			this.labelPayPlan.TabIndex = 141;
@@ -808,9 +808,9 @@
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.tabControlSplits.Controls.Add(this.tabPageSplits);
 			this.tabControlSplits.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-			this.tabControlSplits.Location = new System.Drawing.Point(9, 106);
+			this.tabControlSplits.Location = new System.Drawing.Point(8, 155);
 			this.tabControlSplits.Name = "tabControlSplits";
-			this.tabControlSplits.Size = new System.Drawing.Size(487, 274);
+			this.tabControlSplits.Size = new System.Drawing.Size(503, 288);
 			this.tabControlSplits.TabIndex = 5;
 			// 
 			// tabPageSplits
@@ -828,7 +828,7 @@
 			this.gridSplits.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridSplits.Location = new System.Drawing.Point(0, 0);
+			this.gridSplits.Location = new System.Drawing.Point(8, 8);
 			this.gridSplits.Name = "gridSplits";
 			this.gridSplits.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
 			this.gridSplits.Size = new System.Drawing.Size(483, 249);
@@ -841,10 +841,10 @@
 			// textChargeTotal
 			// 
 			this.textChargeTotal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.textChargeTotal.Location = new System.Drawing.Point(1051, 386);
+			this.textChargeTotal.Location = new System.Drawing.Point(1051, 473);
 			this.textChargeTotal.Name = "textChargeTotal";
 			this.textChargeTotal.ReadOnly = true;
-			this.textChargeTotal.Size = new System.Drawing.Size(51, 20);
+			this.textChargeTotal.Size = new System.Drawing.Size(52, 23);
 			this.textChargeTotal.TabIndex = 156;
 			this.textChargeTotal.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			// 
@@ -853,7 +853,7 @@
 			this.butCreatePartial.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butCreatePartial.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butCreatePartial.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butCreatePartial.Location = new System.Drawing.Point(593, 385);
+			this.butCreatePartial.Location = new System.Drawing.Point(594, 473);
 			this.butCreatePartial.Name = "butCreatePartial";
 			this.butCreatePartial.Size = new System.Drawing.Size(114, 23);
 			this.butCreatePartial.TabIndex = 150;
@@ -864,9 +864,9 @@
 			// label8
 			// 
 			this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.label8.Location = new System.Drawing.Point(992, 387);
+			this.label8.Location = new System.Drawing.Point(1005, 473);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(58, 18);
+			this.label8.Size = new System.Drawing.Size(40, 23);
 			this.label8.TabIndex = 155;
 			this.label8.Text = "Total";
 			this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -876,7 +876,7 @@
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(11, 384);
+			this.butDelete.Location = new System.Drawing.Point(11, 473);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(100, 24);
 			this.butDelete.TabIndex = 144;
@@ -887,18 +887,18 @@
 			// comboGroupBy
 			// 
 			this.comboGroupBy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.comboGroupBy.Location = new System.Drawing.Point(795, 386);
+			this.comboGroupBy.Location = new System.Drawing.Point(795, 473);
 			this.comboGroupBy.Name = "comboGroupBy";
-			this.comboGroupBy.Size = new System.Drawing.Size(111, 21);
+			this.comboGroupBy.Size = new System.Drawing.Size(112, 23);
 			this.comboGroupBy.TabIndex = 153;
 			this.comboGroupBy.SelectionChangeCommitted += new System.EventHandler(this.comboGroupBy_SelectionChangeCommitted);
 			// 
 			// labelGroupBy
 			// 
 			this.labelGroupBy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.labelGroupBy.Location = new System.Drawing.Point(717, 387);
+			this.labelGroupBy.Location = new System.Drawing.Point(729, 473);
 			this.labelGroupBy.Name = "labelGroupBy";
-			this.labelGroupBy.Size = new System.Drawing.Size(77, 18);
+			this.labelGroupBy.Size = new System.Drawing.Size(60, 23);
 			this.labelGroupBy.TabIndex = 154;
 			this.labelGroupBy.Text = "Group By";
 			this.labelGroupBy.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -925,60 +925,60 @@
 			this.groupBoxFilteringOutstanding.Controls.Add(this.labelProvOutstandingFilter);
 			this.groupBoxFilteringOutstanding.Controls.Add(this.labelInvoiceOutstandingFilter);
 			this.groupBoxFilteringOutstanding.Controls.Add(this.comboInvoiceOutstandingFilter);
-			this.groupBoxFilteringOutstanding.Location = new System.Drawing.Point(498, 2);
+			this.groupBoxFilteringOutstanding.Location = new System.Drawing.Point(511, 8);
 			this.groupBoxFilteringOutstanding.Name = "groupBoxFilteringOutstanding";
-			this.groupBoxFilteringOutstanding.Size = new System.Drawing.Size(603, 103);
+			this.groupBoxFilteringOutstanding.Size = new System.Drawing.Size(603, 137);
 			this.groupBoxFilteringOutstanding.TabIndex = 203;
 			this.groupBoxFilteringOutstanding.Text = "Filtering";
 			// 
 			// comboProviderOutstandingFilter
 			// 
 			this.comboProviderOutstandingFilter.BackColor = System.Drawing.SystemColors.Window;
-			this.comboProviderOutstandingFilter.Location = new System.Drawing.Point(106, 33);
+			this.comboProviderOutstandingFilter.Location = new System.Drawing.Point(107, 47);
 			this.comboProviderOutstandingFilter.Name = "comboProviderOutstandingFilter";
 			this.comboProviderOutstandingFilter.SelectionModeMulti = true;
-			this.comboProviderOutstandingFilter.Size = new System.Drawing.Size(90, 21);
+			this.comboProviderOutstandingFilter.Size = new System.Drawing.Size(88, 23);
 			this.comboProviderOutstandingFilter.TabIndex = 207;
 			this.comboProviderOutstandingFilter.SelectionChangeCommitted += new System.EventHandler(this.FilterChangeCommittedChargesTreatPlan);
 			// 
 			// datePickTo
 			// 
 			this.datePickTo.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-			this.datePickTo.Location = new System.Drawing.Point(199, 56);
+			this.datePickTo.Location = new System.Drawing.Point(205, 76);
 			this.datePickTo.Name = "datePickTo";
-			this.datePickTo.Size = new System.Drawing.Size(90, 20);
+			this.datePickTo.Size = new System.Drawing.Size(88, 23);
 			this.datePickTo.TabIndex = 204;
 			this.datePickTo.ValueChanged += new System.EventHandler(this.FilterChangeCommittedChargesTreatPlan);
 			// 
 			// labelDateFrom
 			// 
-			this.labelDateFrom.Location = new System.Drawing.Point(15, 58);
+			this.labelDateFrom.Location = new System.Drawing.Point(15, 76);
 			this.labelDateFrom.Name = "labelDateFrom";
-			this.labelDateFrom.Size = new System.Drawing.Size(90, 16);
+			this.labelDateFrom.Size = new System.Drawing.Size(92, 23);
 			this.labelDateFrom.TabIndex = 206;
 			this.labelDateFrom.Text = "From/To Dates:";
-			this.labelDateFrom.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.labelDateFrom.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// datePickFrom
 			// 
 			this.datePickFrom.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-			this.datePickFrom.Location = new System.Drawing.Point(106, 56);
+			this.datePickFrom.Location = new System.Drawing.Point(113, 76);
 			this.datePickFrom.Name = "datePickFrom";
-			this.datePickFrom.Size = new System.Drawing.Size(90, 20);
+			this.datePickFrom.Size = new System.Drawing.Size(88, 23);
 			this.datePickFrom.TabIndex = 203;
 			this.datePickFrom.ValueChanged += new System.EventHandler(this.FilterChangeCommittedChargesTreatPlan);
 			// 
 			// textFilterProcCodes
 			// 
-			this.textFilterProcCodes.Location = new System.Drawing.Point(395, 56);
+			this.textFilterProcCodes.Location = new System.Drawing.Point(395, 76);
 			this.textFilterProcCodes.Name = "textFilterProcCodes";
-			this.textFilterProcCodes.Size = new System.Drawing.Size(90, 20);
+			this.textFilterProcCodes.Size = new System.Drawing.Size(88, 23);
 			this.textFilterProcCodes.TabIndex = 187;
 			this.textFilterProcCodes.TextChanged += new System.EventHandler(this.FilterChangeCommittedChargesTreatPlan);
 			// 
 			// labelMaxOutstandingFilter
 			// 
-			this.labelMaxOutstandingFilter.Location = new System.Drawing.Point(488, 14);
+			this.labelMaxOutstandingFilter.Location = new System.Drawing.Point(488, 23);
 			this.labelMaxOutstandingFilter.Name = "labelMaxOutstandingFilter";
 			this.labelMaxOutstandingFilter.Size = new System.Drawing.Size(89, 18);
 			this.labelMaxOutstandingFilter.TabIndex = 198;
@@ -987,7 +987,7 @@
 			// 
 			// labelMinOutstandingFilter
 			// 
-			this.labelMinOutstandingFilter.Location = new System.Drawing.Point(395, 14);
+			this.labelMinOutstandingFilter.Location = new System.Drawing.Point(395, 23);
 			this.labelMinOutstandingFilter.Name = "labelMinOutstandingFilter";
 			this.labelMinOutstandingFilter.Size = new System.Drawing.Size(87, 18);
 			this.labelMinOutstandingFilter.TabIndex = 200;
@@ -996,7 +996,7 @@
 			// 
 			// labelTypeOutstandingFilter
 			// 
-			this.labelTypeOutstandingFilter.Location = new System.Drawing.Point(295, 14);
+			this.labelTypeOutstandingFilter.Location = new System.Drawing.Point(292, 23);
 			this.labelTypeOutstandingFilter.Name = "labelTypeOutstandingFilter";
 			this.labelTypeOutstandingFilter.Size = new System.Drawing.Size(60, 18);
 			this.labelTypeOutstandingFilter.TabIndex = 202;
@@ -1006,7 +1006,7 @@
 			// amtMinEndOutstanding
 			// 
 			this.amtMinEndOutstanding.DecimalPlaces = 2;
-			this.amtMinEndOutstanding.Location = new System.Drawing.Point(395, 33);
+			this.amtMinEndOutstanding.Location = new System.Drawing.Point(401, 47);
 			this.amtMinEndOutstanding.Maximum = new decimal(new int[] {
             9999999,
             0,
@@ -1018,7 +1018,7 @@
             0,
             -2147483648});
 			this.amtMinEndOutstanding.Name = "amtMinEndOutstanding";
-			this.amtMinEndOutstanding.Size = new System.Drawing.Size(90, 20);
+			this.amtMinEndOutstanding.Size = new System.Drawing.Size(88, 23);
 			this.amtMinEndOutstanding.TabIndex = 199;
 			this.amtMinEndOutstanding.ThousandsSeparator = true;
 			this.amtMinEndOutstanding.ValueChanged += new System.EventHandler(this.FilterChangeCommittedChargesTreatPlan);
@@ -1026,7 +1026,7 @@
 			// amtMaxEndOutstanding
 			// 
 			this.amtMaxEndOutstanding.DecimalPlaces = 2;
-			this.amtMaxEndOutstanding.Location = new System.Drawing.Point(488, 33);
+			this.amtMaxEndOutstanding.Location = new System.Drawing.Point(495, 47);
 			this.amtMaxEndOutstanding.Maximum = new decimal(new int[] {
             999999,
             0,
@@ -1038,14 +1038,14 @@
             0,
             -2147483648});
 			this.amtMaxEndOutstanding.Name = "amtMaxEndOutstanding";
-			this.amtMaxEndOutstanding.Size = new System.Drawing.Size(90, 20);
+			this.amtMaxEndOutstanding.Size = new System.Drawing.Size(88, 23);
 			this.amtMaxEndOutstanding.TabIndex = 197;
 			this.amtMaxEndOutstanding.ThousandsSeparator = true;
 			this.amtMaxEndOutstanding.ValueChanged += new System.EventHandler(this.FilterChangeCommittedChargesTreatPlan);
 			// 
 			// butRefreshOutstanding
 			// 
-			this.butRefreshOutstanding.Location = new System.Drawing.Point(503, 55);
+			this.butRefreshOutstanding.Location = new System.Drawing.Point(503, 76);
 			this.butRefreshOutstanding.Name = "butRefreshOutstanding";
 			this.butRefreshOutstanding.Size = new System.Drawing.Size(75, 24);
 			this.butRefreshOutstanding.TabIndex = 141;
@@ -1055,18 +1055,18 @@
 			// comboPatientOutstandingFilter
 			// 
 			this.comboPatientOutstandingFilter.BackColor = System.Drawing.SystemColors.Window;
-			this.comboPatientOutstandingFilter.Location = new System.Drawing.Point(13, 33);
+			this.comboPatientOutstandingFilter.Location = new System.Drawing.Point(13, 47);
 			this.comboPatientOutstandingFilter.Name = "comboPatientOutstandingFilter";
 			this.comboPatientOutstandingFilter.SelectionModeMulti = true;
-			this.comboPatientOutstandingFilter.Size = new System.Drawing.Size(90, 21);
+			this.comboPatientOutstandingFilter.Size = new System.Drawing.Size(88, 23);
 			this.comboPatientOutstandingFilter.TabIndex = 195;
 			this.comboPatientOutstandingFilter.SelectionChangeCommitted += new System.EventHandler(this.FilterChangeCommittedChargesTreatPlan);
 			// 
 			// labelProcCodes
 			// 
-			this.labelProcCodes.Location = new System.Drawing.Point(301, 56);
+			this.labelProcCodes.Location = new System.Drawing.Point(313, 76);
 			this.labelProcCodes.Name = "labelProcCodes";
-			this.labelProcCodes.Size = new System.Drawing.Size(93, 18);
+			this.labelProcCodes.Size = new System.Drawing.Size(76, 23);
 			this.labelProcCodes.TabIndex = 188;
 			this.labelProcCodes.Text = "Proc Codes:";
 			this.labelProcCodes.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1074,26 +1074,26 @@
 			// comboTypeOutstandingFilter
 			// 
 			this.comboTypeOutstandingFilter.BackColor = System.Drawing.SystemColors.Window;
-			this.comboTypeOutstandingFilter.Location = new System.Drawing.Point(292, 33);
+			this.comboTypeOutstandingFilter.Location = new System.Drawing.Point(295, 47);
 			this.comboTypeOutstandingFilter.Name = "comboTypeOutstandingFilter";
 			this.comboTypeOutstandingFilter.SelectionModeMulti = true;
-			this.comboTypeOutstandingFilter.Size = new System.Drawing.Size(100, 21);
+			this.comboTypeOutstandingFilter.Size = new System.Drawing.Size(100, 23);
 			this.comboTypeOutstandingFilter.TabIndex = 201;
 			this.comboTypeOutstandingFilter.SelectionChangeCommitted += new System.EventHandler(this.FilterChangeCommittedChargesTreatPlan);
 			// 
 			// comboClinicOutstandingFilter
 			// 
 			this.comboClinicOutstandingFilter.BackColor = System.Drawing.SystemColors.Window;
-			this.comboClinicOutstandingFilter.Location = new System.Drawing.Point(199, 33);
+			this.comboClinicOutstandingFilter.Location = new System.Drawing.Point(201, 47);
 			this.comboClinicOutstandingFilter.Name = "comboClinicOutstandingFilter";
 			this.comboClinicOutstandingFilter.SelectionModeMulti = true;
-			this.comboClinicOutstandingFilter.Size = new System.Drawing.Size(90, 21);
+			this.comboClinicOutstandingFilter.Size = new System.Drawing.Size(88, 23);
 			this.comboClinicOutstandingFilter.TabIndex = 193;
 			this.comboClinicOutstandingFilter.SelectionChangeCommitted += new System.EventHandler(this.FilterChangeCommittedChargesTreatPlan);
 			// 
 			// labelPatOutstandingFilter
 			// 
-			this.labelPatOutstandingFilter.Location = new System.Drawing.Point(13, 14);
+			this.labelPatOutstandingFilter.Location = new System.Drawing.Point(13, 23);
 			this.labelPatOutstandingFilter.Name = "labelPatOutstandingFilter";
 			this.labelPatOutstandingFilter.Size = new System.Drawing.Size(67, 18);
 			this.labelPatOutstandingFilter.TabIndex = 196;
@@ -1102,7 +1102,7 @@
 			// 
 			// labelClinicOutstandingFilter
 			// 
-			this.labelClinicOutstandingFilter.Location = new System.Drawing.Point(198, 14);
+			this.labelClinicOutstandingFilter.Location = new System.Drawing.Point(159, 23);
 			this.labelClinicOutstandingFilter.Name = "labelClinicOutstandingFilter";
 			this.labelClinicOutstandingFilter.Size = new System.Drawing.Size(60, 18);
 			this.labelClinicOutstandingFilter.TabIndex = 194;
@@ -1111,7 +1111,7 @@
 			// 
 			// labelProvOutstandingFilter
 			// 
-			this.labelProvOutstandingFilter.Location = new System.Drawing.Point(106, 14);
+			this.labelProvOutstandingFilter.Location = new System.Drawing.Point(86, 23);
 			this.labelProvOutstandingFilter.Name = "labelProvOutstandingFilter";
 			this.labelProvOutstandingFilter.Size = new System.Drawing.Size(67, 18);
 			this.labelProvOutstandingFilter.TabIndex = 192;
@@ -1120,26 +1120,26 @@
 			// 
 			// labelInvoiceOutstandingFilter
 			// 
-			this.labelInvoiceOutstandingFilter.Location = new System.Drawing.Point(15, 81);
+			this.labelInvoiceOutstandingFilter.Location = new System.Drawing.Point(48, 106);
 			this.labelInvoiceOutstandingFilter.Name = "labelInvoiceOutstandingFilter";
-			this.labelInvoiceOutstandingFilter.Size = new System.Drawing.Size(90, 16);
+			this.labelInvoiceOutstandingFilter.Size = new System.Drawing.Size(52, 23);
 			this.labelInvoiceOutstandingFilter.TabIndex = 208;
 			this.labelInvoiceOutstandingFilter.Text = "Invoice:";
-			this.labelInvoiceOutstandingFilter.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.labelInvoiceOutstandingFilter.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// comboInvoiceOutstandingFilter
 			// 
 			this.comboInvoiceOutstandingFilter.BackColor = System.Drawing.SystemColors.Window;
-			this.comboInvoiceOutstandingFilter.Location = new System.Drawing.Point(106, 79);
+			this.comboInvoiceOutstandingFilter.Location = new System.Drawing.Point(106, 106);
 			this.comboInvoiceOutstandingFilter.Name = "comboInvoiceOutstandingFilter";
-			this.comboInvoiceOutstandingFilter.Size = new System.Drawing.Size(379, 21);
+			this.comboInvoiceOutstandingFilter.Size = new System.Drawing.Size(380, 23);
 			this.comboInvoiceOutstandingFilter.TabIndex = 209;
 			this.comboInvoiceOutstandingFilter.SelectionChangeCommitted += new System.EventHandler(this.FilterChangeCommittedChargesTreatPlan);
 			// 
 			// butClear
 			// 
 			this.butClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butClear.Location = new System.Drawing.Point(117, 384);
+			this.butClear.Location = new System.Drawing.Point(117, 473);
 			this.butClear.Name = "butClear";
 			this.butClear.Size = new System.Drawing.Size(89, 24);
 			this.butClear.TabIndex = 145;
@@ -1149,9 +1149,9 @@
 			// label13
 			// 
 			this.label13.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label13.Location = new System.Drawing.Point(382, 387);
+			this.label13.Location = new System.Drawing.Point(395, 473);
 			this.label13.Name = "label13";
-			this.label13.Size = new System.Drawing.Size(58, 18);
+			this.label13.Size = new System.Drawing.Size(40, 23);
 			this.label13.TabIndex = 148;
 			this.label13.Text = "Total";
 			this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1159,10 +1159,10 @@
 			// textSplitTotal
 			// 
 			this.textSplitTotal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.textSplitTotal.Location = new System.Drawing.Point(441, 386);
+			this.textSplitTotal.Location = new System.Drawing.Point(441, 473);
 			this.textSplitTotal.Name = "textSplitTotal";
 			this.textSplitTotal.ReadOnly = true;
-			this.textSplitTotal.Size = new System.Drawing.Size(51, 20);
+			this.textSplitTotal.Size = new System.Drawing.Size(52, 23);
 			this.textSplitTotal.TabIndex = 149;
 			this.textSplitTotal.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			// 
@@ -1171,7 +1171,7 @@
 			this.butAddManual.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butAddManual.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAddManual.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAddManual.Location = new System.Drawing.Point(212, 384);
+			this.butAddManual.Location = new System.Drawing.Point(212, 473);
 			this.butAddManual.Name = "butAddManual";
 			this.butAddManual.Size = new System.Drawing.Size(92, 24);
 			this.butAddManual.TabIndex = 151;
@@ -1217,9 +1217,9 @@
 			this.panelSplits.Controls.Add(this.label8);
 			this.panelSplits.Controls.Add(this.comboGroupBy);
 			this.panelSplits.Controls.Add(this.butDelete);
-			this.panelSplits.Location = new System.Drawing.Point(0, 245);
+			this.panelSplits.Location = new System.Drawing.Point(8, 324);
 			this.panelSplits.Name = "panelSplits";
-			this.panelSplits.Size = new System.Drawing.Size(1111, 410);
+			this.panelSplits.Size = new System.Drawing.Size(1125, 505);
 			this.panelSplits.TabIndex = 206;
 			// 
 			// groupBoxFilteringPaySplits
@@ -1236,17 +1236,17 @@
 			this.groupBoxFilteringPaySplits.Controls.Add(this.comboClinicsPaySplitsFilter);
 			this.groupBoxFilteringPaySplits.Controls.Add(this.labelPatPaySplitsFilter);
 			this.groupBoxFilteringPaySplits.Controls.Add(this.labelProvPaySplitsFilter);
-			this.groupBoxFilteringPaySplits.Location = new System.Drawing.Point(3, 2);
+			this.groupBoxFilteringPaySplits.Location = new System.Drawing.Point(8, 8);
 			this.groupBoxFilteringPaySplits.Name = "groupBoxFilteringPaySplits";
-			this.groupBoxFilteringPaySplits.Size = new System.Drawing.Size(493, 80);
+			this.groupBoxFilteringPaySplits.Size = new System.Drawing.Size(497, 107);
 			this.groupBoxFilteringPaySplits.TabIndex = 208;
 			this.groupBoxFilteringPaySplits.Text = "Filtering Current Payment Splits";
 			// 
 			// labelIncludesNegativeEntries
 			// 
-			this.labelIncludesNegativeEntries.Location = new System.Drawing.Point(163, 58);
+			this.labelIncludesNegativeEntries.Location = new System.Drawing.Point(147, 76);
 			this.labelIncludesNegativeEntries.Name = "labelIncludesNegativeEntries";
-			this.labelIncludesNegativeEntries.Size = new System.Drawing.Size(247, 18);
+			this.labelIncludesNegativeEntries.Size = new System.Drawing.Size(248, 23);
 			this.labelIncludesNegativeEntries.TabIndex = 1001;
 			this.labelIncludesNegativeEntries.Text = "(Includes negative entries in the same range)";
 			this.labelIncludesNegativeEntries.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1254,16 +1254,16 @@
 			// comboProviderPaySplitsFilter
 			// 
 			this.comboProviderPaySplitsFilter.BackColor = System.Drawing.SystemColors.Window;
-			this.comboProviderPaySplitsFilter.Location = new System.Drawing.Point(106, 33);
+			this.comboProviderPaySplitsFilter.Location = new System.Drawing.Point(107, 47);
 			this.comboProviderPaySplitsFilter.Name = "comboProviderPaySplitsFilter";
 			this.comboProviderPaySplitsFilter.SelectionModeMulti = true;
-			this.comboProviderPaySplitsFilter.Size = new System.Drawing.Size(90, 21);
+			this.comboProviderPaySplitsFilter.Size = new System.Drawing.Size(88, 23);
 			this.comboProviderPaySplitsFilter.TabIndex = 207;
 			this.comboProviderPaySplitsFilter.SelectionChangeCommitted += new System.EventHandler(this.FilterChangeCommittedPaySplits);
 			// 
 			// labelMaxPaySplitsFilter
 			// 
-			this.labelMaxPaySplitsFilter.Location = new System.Drawing.Point(401, 12);
+			this.labelMaxPaySplitsFilter.Location = new System.Drawing.Point(398, 23);
 			this.labelMaxPaySplitsFilter.Name = "labelMaxPaySplitsFilter";
 			this.labelMaxPaySplitsFilter.Size = new System.Drawing.Size(89, 18);
 			this.labelMaxPaySplitsFilter.TabIndex = 198;
@@ -1272,7 +1272,7 @@
 			// 
 			// labelMinPaySplitsFilter
 			// 
-			this.labelMinPaySplitsFilter.Location = new System.Drawing.Point(308, 12);
+			this.labelMinPaySplitsFilter.Location = new System.Drawing.Point(305, 23);
 			this.labelMinPaySplitsFilter.Name = "labelMinPaySplitsFilter";
 			this.labelMinPaySplitsFilter.Size = new System.Drawing.Size(87, 18);
 			this.labelMinPaySplitsFilter.TabIndex = 200;
@@ -1281,7 +1281,7 @@
 			// 
 			// labelClinicsPaySplitsFilter
 			// 
-			this.labelClinicsPaySplitsFilter.Location = new System.Drawing.Point(199, 14);
+			this.labelClinicsPaySplitsFilter.Location = new System.Drawing.Point(159, 23);
 			this.labelClinicsPaySplitsFilter.Name = "labelClinicsPaySplitsFilter";
 			this.labelClinicsPaySplitsFilter.Size = new System.Drawing.Size(60, 18);
 			this.labelClinicsPaySplitsFilter.TabIndex = 202;
@@ -1291,7 +1291,7 @@
 			// amtMinPaySplits
 			// 
 			this.amtMinPaySplits.DecimalPlaces = 2;
-			this.amtMinPaySplits.Location = new System.Drawing.Point(305, 33);
+			this.amtMinPaySplits.Location = new System.Drawing.Point(307, 47);
 			this.amtMinPaySplits.Maximum = new decimal(new int[] {
             9999999,
             0,
@@ -1303,7 +1303,7 @@
             0,
             -2147483648});
 			this.amtMinPaySplits.Name = "amtMinPaySplits";
-			this.amtMinPaySplits.Size = new System.Drawing.Size(90, 20);
+			this.amtMinPaySplits.Size = new System.Drawing.Size(88, 23);
 			this.amtMinPaySplits.TabIndex = 199;
 			this.amtMinPaySplits.ThousandsSeparator = true;
 			this.amtMinPaySplits.ValueChanged += new System.EventHandler(this.FilterChangeCommittedPaySplits);
@@ -1311,7 +1311,7 @@
 			// amtMaxPaySplits
 			// 
 			this.amtMaxPaySplits.DecimalPlaces = 2;
-			this.amtMaxPaySplits.Location = new System.Drawing.Point(401, 33);
+			this.amtMaxPaySplits.Location = new System.Drawing.Point(401, 47);
 			this.amtMaxPaySplits.Maximum = new decimal(new int[] {
             999999,
             0,
@@ -1323,16 +1323,16 @@
             0,
             -2147483648});
 			this.amtMaxPaySplits.Name = "amtMaxPaySplits";
-			this.amtMaxPaySplits.Size = new System.Drawing.Size(90, 20);
+			this.amtMaxPaySplits.Size = new System.Drawing.Size(88, 23);
 			this.amtMaxPaySplits.TabIndex = 197;
 			this.amtMaxPaySplits.ThousandsSeparator = true;
 			this.amtMaxPaySplits.ValueChanged += new System.EventHandler(this.FilterChangeCommittedPaySplits);
 			// 
 			// butRefreshPaySplits
 			// 
-			this.butRefreshPaySplits.Location = new System.Drawing.Point(415, 55);
+			this.butRefreshPaySplits.Location = new System.Drawing.Point(401, 76);
 			this.butRefreshPaySplits.Name = "butRefreshPaySplits";
-			this.butRefreshPaySplits.Size = new System.Drawing.Size(75, 24);
+			this.butRefreshPaySplits.Size = new System.Drawing.Size(75, 23);
 			this.butRefreshPaySplits.TabIndex = 141;
 			this.butRefreshPaySplits.Text = "Refresh";
 			this.butRefreshPaySplits.Click += new System.EventHandler(this.FilterChangeCommittedPaySplits);
@@ -1340,26 +1340,26 @@
 			// comboPatientPaySplitsFilter
 			// 
 			this.comboPatientPaySplitsFilter.BackColor = System.Drawing.SystemColors.Window;
-			this.comboPatientPaySplitsFilter.Location = new System.Drawing.Point(13, 33);
+			this.comboPatientPaySplitsFilter.Location = new System.Drawing.Point(13, 47);
 			this.comboPatientPaySplitsFilter.Name = "comboPatientPaySplitsFilter";
 			this.comboPatientPaySplitsFilter.SelectionModeMulti = true;
-			this.comboPatientPaySplitsFilter.Size = new System.Drawing.Size(90, 21);
+			this.comboPatientPaySplitsFilter.Size = new System.Drawing.Size(88, 23);
 			this.comboPatientPaySplitsFilter.TabIndex = 195;
 			this.comboPatientPaySplitsFilter.SelectionChangeCommitted += new System.EventHandler(this.FilterChangeCommittedPaySplits);
 			// 
 			// comboClinicsPaySplitsFilter
 			// 
 			this.comboClinicsPaySplitsFilter.BackColor = System.Drawing.SystemColors.Window;
-			this.comboClinicsPaySplitsFilter.Location = new System.Drawing.Point(199, 33);
+			this.comboClinicsPaySplitsFilter.Location = new System.Drawing.Point(201, 47);
 			this.comboClinicsPaySplitsFilter.Name = "comboClinicsPaySplitsFilter";
 			this.comboClinicsPaySplitsFilter.SelectionModeMulti = true;
-			this.comboClinicsPaySplitsFilter.Size = new System.Drawing.Size(100, 21);
+			this.comboClinicsPaySplitsFilter.Size = new System.Drawing.Size(100, 23);
 			this.comboClinicsPaySplitsFilter.TabIndex = 201;
 			this.comboClinicsPaySplitsFilter.SelectionChangeCommitted += new System.EventHandler(this.FilterChangeCommittedPaySplits);
 			// 
 			// labelPatPaySplitsFilter
 			// 
-			this.labelPatPaySplitsFilter.Location = new System.Drawing.Point(13, 14);
+			this.labelPatPaySplitsFilter.Location = new System.Drawing.Point(13, 23);
 			this.labelPatPaySplitsFilter.Name = "labelPatPaySplitsFilter";
 			this.labelPatPaySplitsFilter.Size = new System.Drawing.Size(67, 18);
 			this.labelPatPaySplitsFilter.TabIndex = 196;
@@ -1368,7 +1368,7 @@
 			// 
 			// labelProvPaySplitsFilter
 			// 
-			this.labelProvPaySplitsFilter.Location = new System.Drawing.Point(106, 14);
+			this.labelProvPaySplitsFilter.Location = new System.Drawing.Point(86, 23);
 			this.labelProvPaySplitsFilter.Name = "labelProvPaySplitsFilter";
 			this.labelProvPaySplitsFilter.Size = new System.Drawing.Size(67, 18);
 			this.labelProvPaySplitsFilter.TabIndex = 192;
@@ -1377,7 +1377,7 @@
 			// 
 			// labelRecurringChargeWarning
 			// 
-			this.labelRecurringChargeWarning.Location = new System.Drawing.Point(780, 92);
+			this.labelRecurringChargeWarning.Location = new System.Drawing.Point(1103, 140);
 			this.labelRecurringChargeWarning.Name = "labelRecurringChargeWarning";
 			this.labelRecurringChargeWarning.Size = new System.Drawing.Size(280, 13);
 			this.labelRecurringChargeWarning.TabIndex = 1000;
@@ -1386,7 +1386,7 @@
 			// 
 			// warningIntegrity1
 			// 
-			this.warningIntegrity1.Location = new System.Drawing.Point(1, -1);
+			this.warningIntegrity1.Location = new System.Drawing.Point(8, 8);
 			this.warningIntegrity1.Name = "warningIntegrity1";
 			this.warningIntegrity1.Size = new System.Drawing.Size(18, 18);
 			this.warningIntegrity1.TabIndex = 1001;
@@ -1394,9 +1394,9 @@
 			// labelTransactionCompleted
 			// 
 			this.labelTransactionCompleted.ForeColor = System.Drawing.Color.Firebrick;
-			this.labelTransactionCompleted.Location = new System.Drawing.Point(272, 94);
+			this.labelTransactionCompleted.Location = new System.Drawing.Point(283, 146);
 			this.labelTransactionCompleted.Name = "labelTransactionCompleted";
-			this.labelTransactionCompleted.Size = new System.Drawing.Size(190, 57);
+			this.labelTransactionCompleted.Size = new System.Drawing.Size(528, 57);
 			this.labelTransactionCompleted.TabIndex = 1002;
 			this.labelTransactionCompleted.Text = "This transaction is already complete, you must make a new payment to process a ne" +
     "w transaction.";
@@ -1405,17 +1405,17 @@
 			// 
 			// labelSurchargeFee
 			// 
-			this.labelSurchargeFee.Location = new System.Drawing.Point(259, 62);
+			this.labelSurchargeFee.Location = new System.Drawing.Point(268, 88);
 			this.labelSurchargeFee.Name = "labelSurchargeFee";
-			this.labelSurchargeFee.Size = new System.Drawing.Size(100, 16);
+			this.labelSurchargeFee.Size = new System.Drawing.Size(88, 23);
 			this.labelSurchargeFee.TabIndex = 1004;
 			this.labelSurchargeFee.Text = "Surcharge Fee";
-			this.labelSurchargeFee.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.labelSurchargeFee.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.labelSurchargeFee.Visible = false;
 			// 
 			// textSurcharge
 			// 
-			this.textSurcharge.Location = new System.Drawing.Point(362, 59);
+			this.textSurcharge.Location = new System.Drawing.Point(362, 88);
 			this.textSurcharge.Name = "textSurcharge";
 			this.textSurcharge.Size = new System.Drawing.Size(100, 20);
 			this.textSurcharge.TabIndex = 1005;
@@ -1423,7 +1423,7 @@
 			// 
 			// butPayConnect
 			// 
-			this.butPayConnect.Location = new System.Drawing.Point(958, 17);
+			this.butPayConnect.Location = new System.Drawing.Point(958, 32);
 			this.butPayConnect.Name = "butPayConnect";
 			this.butPayConnect.Size = new System.Drawing.Size(75, 26);
 			this.butPayConnect.TabIndex = 141;
@@ -1433,7 +1433,7 @@
 			// 
 			// FormPayment
 			// 
-			this.ClientSize = new System.Drawing.Size(1111, 696);
+			this.ClientSize = new System.Drawing.Size(1439, 875);
 			this.Controls.Add(this.butPayConnect);
 			this.Controls.Add(this.textSurcharge);
 			this.Controls.Add(this.labelSurchargeFee);

@@ -46,18 +46,18 @@ namespace OpenPmsDental {
 			// 
 			// checkReportingServerCompNameOrURI
 			// 
-			this.checkReportingServerCompNameOrURI.Location = new System.Drawing.Point(11, 24);
+			this.checkReportingServerCompNameOrURI.Location = new System.Drawing.Point(8, 8);
 			this.checkReportingServerCompNameOrURI.Name = "checkReportingServerCompNameOrURI";
-			this.checkReportingServerCompNameOrURI.Size = new System.Drawing.Size(356, 18);
+			this.checkReportingServerCompNameOrURI.Size = new System.Drawing.Size(183, 20);
 			this.checkReportingServerCompNameOrURI.TabIndex = 238;
 			this.checkReportingServerCompNameOrURI.Text = "Use separate reporting server";
 			this.checkReportingServerCompNameOrURI.CheckStateChanged += new System.EventHandler(this.checkUseReportServer_CheckedChanged);
 			// 
 			// radioReportServerMiddleTier
 			// 
-			this.radioReportServerMiddleTier.Location = new System.Drawing.Point(11, 274);
+			this.radioReportServerMiddleTier.Location = new System.Drawing.Point(8, 289);
 			this.radioReportServerMiddleTier.Name = "radioReportServerMiddleTier";
-			this.radioReportServerMiddleTier.Size = new System.Drawing.Size(356, 20);
+			this.radioReportServerMiddleTier.Size = new System.Drawing.Size(87, 20);
 			this.radioReportServerMiddleTier.TabIndex = 237;
 			this.radioReportServerMiddleTier.Text = "Middle Tier";
 			this.radioReportServerMiddleTier.UseVisualStyleBackColor = true;
@@ -65,9 +65,9 @@ namespace OpenPmsDental {
 			// radioReportServerDirect
 			// 
 			this.radioReportServerDirect.Checked = true;
-			this.radioReportServerDirect.Location = new System.Drawing.Point(11, 48);
+			this.radioReportServerDirect.Location = new System.Drawing.Point(8, 32);
 			this.radioReportServerDirect.Name = "radioReportServerDirect";
-			this.radioReportServerDirect.Size = new System.Drawing.Size(356, 20);
+			this.radioReportServerDirect.Size = new System.Drawing.Size(123, 20);
 			this.radioReportServerDirect.TabIndex = 236;
 			this.radioReportServerDirect.TabStop = true;
 			this.radioReportServerDirect.Text = "Direct Connection";
@@ -84,31 +84,31 @@ namespace OpenPmsDental {
 			this.groupConnectionSettings.Controls.Add(this.comboReportingServerDbName);
 			this.groupConnectionSettings.Controls.Add(this.label5);
 			this.groupConnectionSettings.Controls.Add(this.label4);
-			this.groupConnectionSettings.Location = new System.Drawing.Point(29, 68);
+			this.groupConnectionSettings.Location = new System.Drawing.Point(8, 60);
 			this.groupConnectionSettings.Name = "groupConnectionSettings";
-			this.groupConnectionSettings.Size = new System.Drawing.Size(455, 200);
+			this.groupConnectionSettings.Size = new System.Drawing.Size(478, 221);
 			this.groupConnectionSettings.TabIndex = 235;
 			this.groupConnectionSettings.Text = "Connection Settings";
 			// 
 			// textReportingServerCompName
 			// 
-			this.textReportingServerCompName.Location = new System.Drawing.Point(6, 38);
+			this.textReportingServerCompName.Location = new System.Drawing.Point(8, 43);
 			this.textReportingServerCompName.Name = "textReportingServerCompName";
-			this.textReportingServerCompName.Size = new System.Drawing.Size(443, 20);
+			this.textReportingServerCompName.Size = new System.Drawing.Size(444, 23);
 			this.textReportingServerCompName.TabIndex = 15;
 			this.textReportingServerCompName.Validating += new System.ComponentModel.CancelEventHandler(this.textReportingServerCompName_Validating);
 			// 
 			// textMysqlPass
 			// 
-			this.textMysqlPass.Location = new System.Drawing.Point(6, 174);
+			this.textMysqlPass.Location = new System.Drawing.Point(8, 190);
 			this.textMysqlPass.Name = "textMysqlPass";
 			this.textMysqlPass.PasswordChar = '*';
-			this.textMysqlPass.Size = new System.Drawing.Size(443, 20);
+			this.textMysqlPass.Size = new System.Drawing.Size(444, 23);
 			this.textMysqlPass.TabIndex = 223;
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(6, 155);
+			this.label6.Location = new System.Drawing.Point(8, 170);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(443, 18);
 			this.label6.TabIndex = 221;
@@ -117,14 +117,14 @@ namespace OpenPmsDental {
 			// 
 			// textReportingServerMySqlUser
 			// 
-			this.textReportingServerMySqlUser.Location = new System.Drawing.Point(6, 129);
+			this.textReportingServerMySqlUser.Location = new System.Drawing.Point(8, 141);
 			this.textReportingServerMySqlUser.Name = "textReportingServerMySqlUser";
-			this.textReportingServerMySqlUser.Size = new System.Drawing.Size(443, 20);
+			this.textReportingServerMySqlUser.Size = new System.Drawing.Size(444, 23);
 			this.textReportingServerMySqlUser.TabIndex = 222;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(6, 19);
+			this.label1.Location = new System.Drawing.Point(8, 23);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(443, 18);
 			this.label1.TabIndex = 215;
@@ -134,15 +134,15 @@ namespace OpenPmsDental {
 			// comboReportingServerDbName
 			// 
 			this.comboReportingServerDbName.FormattingEnabled = true;
-			this.comboReportingServerDbName.Location = new System.Drawing.Point(6, 83);
+			this.comboReportingServerDbName.Location = new System.Drawing.Point(8, 92);
 			this.comboReportingServerDbName.Name = "comboReportingServerDbName";
-			this.comboReportingServerDbName.Size = new System.Drawing.Size(443, 21);
+			this.comboReportingServerDbName.Size = new System.Drawing.Size(444, 23);
 			this.comboReportingServerDbName.TabIndex = 216;
 			this.comboReportingServerDbName.Click += new System.EventHandler(this.ComboDatabase_DropDown);
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(6, 110);
+			this.label5.Location = new System.Drawing.Point(8, 121);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(443, 18);
 			this.label5.TabIndex = 219;
@@ -151,7 +151,7 @@ namespace OpenPmsDental {
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(6, 64);
+			this.label4.Location = new System.Drawing.Point(8, 72);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(443, 18);
 			this.label4.TabIndex = 217;
@@ -163,26 +163,26 @@ namespace OpenPmsDental {
 			this.groupMiddleTier.Controls.Add(this.textReportingServerURI);
 			this.groupMiddleTier.Controls.Add(this.label11);
 			this.groupMiddleTier.Controls.Add(this.label9);
-			this.groupMiddleTier.Location = new System.Drawing.Point(29, 294);
+			this.groupMiddleTier.Location = new System.Drawing.Point(8, 317);
 			this.groupMiddleTier.Name = "groupMiddleTier";
-			this.groupMiddleTier.Size = new System.Drawing.Size(455, 92);
+			this.groupMiddleTier.Size = new System.Drawing.Size(478, 106);
 			this.groupMiddleTier.TabIndex = 234;
 			this.groupMiddleTier.Text = "Middle Tier";
 			// 
 			// textReportingServerURI
 			// 
 			this.textReportingServerURI.AutoSize = false;
-			this.textReportingServerURI.Location = new System.Drawing.Point(6, 38);
+			this.textReportingServerURI.Location = new System.Drawing.Point(8, 43);
 			this.textReportingServerURI.Name = "textReportingServerURI";
-			this.textReportingServerURI.Size = new System.Drawing.Size(443, 20);
+			this.textReportingServerURI.Size = new System.Drawing.Size(444, 23);
 			this.textReportingServerURI.TabIndex = 7;
 			this.textReportingServerURI.Validating += new System.ComponentModel.CancelEventHandler(this.textReportingServerURI_Validating);
 			// 
 			// label11
 			// 
-			this.label11.Location = new System.Drawing.Point(6, 60);
+			this.label11.Location = new System.Drawing.Point(8, 72);
 			this.label11.Name = "label11";
-			this.label11.Size = new System.Drawing.Size(449, 26);
+			this.label11.Size = new System.Drawing.Size(462, 26);
 			this.label11.TabIndex = 14;
 			this.label11.Text = "The currently logged in user\'s credentials will be used to when accessing the Mid" +
     "dle Tier database.";
@@ -190,7 +190,7 @@ namespace OpenPmsDental {
 			// 
 			// label9
 			// 
-			this.label9.Location = new System.Drawing.Point(6, 19);
+			this.label9.Location = new System.Drawing.Point(8, 23);
 			this.label9.Name = "label9";
 			this.label9.Size = new System.Drawing.Size(443, 18);
 			this.label9.TabIndex = 9;

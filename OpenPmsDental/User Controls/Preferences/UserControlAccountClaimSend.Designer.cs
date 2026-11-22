@@ -53,16 +53,16 @@ namespace OpenPmsDental {
 			// textInsWriteoffDescript
 			// 
 			this.textInsWriteoffDescript.AutoSize = false;
-			this.textInsWriteoffDescript.Location = new System.Drawing.Point(330, 324);
+			this.textInsWriteoffDescript.Location = new System.Drawing.Point(330, 447);
 			this.textInsWriteoffDescript.Name = "textInsWriteoffDescript";
-			this.textInsWriteoffDescript.Size = new System.Drawing.Size(130, 20);
+			this.textInsWriteoffDescript.Size = new System.Drawing.Size(128, 23);
 			this.textInsWriteoffDescript.TabIndex = 4;
 			// 
 			// label17
 			// 
-			this.label17.Location = new System.Drawing.Point(75, 326);
+			this.label17.Location = new System.Drawing.Point(60, 447);
 			this.label17.Name = "label17";
-			this.label17.Size = new System.Drawing.Size(255, 17);
+			this.label17.Size = new System.Drawing.Size(264, 23);
 			this.label17.TabIndex = 284;
 			this.label17.Text = "PPO write-off description (blank for \"Write-off\")";
 			this.label17.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -71,27 +71,27 @@ namespace OpenPmsDental {
 			// 
 			this.groupBoxClaimsMedical.Controls.Add(this.checkClaimMedTypeIsInstWhenInsPlanIsMedical);
 			this.groupBoxClaimsMedical.Controls.Add(this.checkEclaimsMedicalProvTreatmentAsOrdering);
-			this.groupBoxClaimsMedical.Location = new System.Drawing.Point(20, 266);
+			this.groupBoxClaimsMedical.Location = new System.Drawing.Point(8, 364);
 			this.groupBoxClaimsMedical.Name = "groupBoxClaimsMedical";
-			this.groupBoxClaimsMedical.Size = new System.Drawing.Size(450, 51);
+			this.groupBoxClaimsMedical.Size = new System.Drawing.Size(478, 75);
 			this.groupBoxClaimsMedical.TabIndex = 3;
 			this.groupBoxClaimsMedical.Text = "Claims Medical";
 			// 
 			// checkClaimMedTypeIsInstWhenInsPlanIsMedical
 			// 
-			this.checkClaimMedTypeIsInstWhenInsPlanIsMedical.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkClaimMedTypeIsInstWhenInsPlanIsMedical.Location = new System.Drawing.Point(85, 10);
+			this.checkClaimMedTypeIsInstWhenInsPlanIsMedical.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkClaimMedTypeIsInstWhenInsPlanIsMedical.Location = new System.Drawing.Point(8, 23);
 			this.checkClaimMedTypeIsInstWhenInsPlanIsMedical.Name = "checkClaimMedTypeIsInstWhenInsPlanIsMedical";
-			this.checkClaimMedTypeIsInstWhenInsPlanIsMedical.Size = new System.Drawing.Size(365, 18);
+			this.checkClaimMedTypeIsInstWhenInsPlanIsMedical.Size = new System.Drawing.Size(372, 20);
 			this.checkClaimMedTypeIsInstWhenInsPlanIsMedical.TabIndex = 0;
 			this.checkClaimMedTypeIsInstWhenInsPlanIsMedical.Text = "Set medical claims to institutional when using medical insurance";
 			// 
 			// checkEclaimsMedicalProvTreatmentAsOrdering
 			// 
-			this.checkEclaimsMedicalProvTreatmentAsOrdering.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkEclaimsMedicalProvTreatmentAsOrdering.Location = new System.Drawing.Point(15, 29);
+			this.checkEclaimsMedicalProvTreatmentAsOrdering.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkEclaimsMedicalProvTreatmentAsOrdering.Location = new System.Drawing.Point(8, 47);
 			this.checkEclaimsMedicalProvTreatmentAsOrdering.Name = "checkEclaimsMedicalProvTreatmentAsOrdering";
-			this.checkEclaimsMedicalProvTreatmentAsOrdering.Size = new System.Drawing.Size(431, 18);
+			this.checkEclaimsMedicalProvTreatmentAsOrdering.Size = new System.Drawing.Size(433, 20);
 			this.checkEclaimsMedicalProvTreatmentAsOrdering.TabIndex = 1;
 			this.checkEclaimsMedicalProvTreatmentAsOrdering.Text = "On medical e-claims, send treating provider as ordering provider by default";
 			// 
@@ -109,9 +109,9 @@ namespace OpenPmsDental {
 			this.groupBoxOD1.Controls.Add(this.checkPriClaimAllowSetToHoldUntilPriReceived);
 			this.groupBoxOD1.Controls.Add(this.groupBoxClaimIdPrefix);
 			this.groupBoxOD1.Controls.Add(this.checkClaimsValidateACN);
-			this.groupBoxOD1.Location = new System.Drawing.Point(20, 10);
+			this.groupBoxOD1.Location = new System.Drawing.Point(8, 8);
 			this.groupBoxOD1.Name = "groupBoxOD1";
-			this.groupBoxOD1.Size = new System.Drawing.Size(450, 251);
+			this.groupBoxOD1.Size = new System.Drawing.Size(478, 348);
 			this.groupBoxOD1.TabIndex = 0;
 			this.groupBoxOD1.Text = "Claims Send";
 			// 
@@ -119,82 +119,82 @@ namespace OpenPmsDental {
 			// 
 			this.textClaimAttachPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.textClaimAttachPath.AutoSize = false;
-			this.textClaimAttachPath.Location = new System.Drawing.Point(243, 29);
+			this.textClaimAttachPath.Location = new System.Drawing.Point(243, 49);
 			this.textClaimAttachPath.Name = "textClaimAttachPath";
-			this.textClaimAttachPath.Size = new System.Drawing.Size(197, 20);
+			this.textClaimAttachPath.Size = new System.Drawing.Size(196, 23);
 			this.textClaimAttachPath.TabIndex = 1;
 			// 
 			// comboZeroDollarProcClaimBehavior
 			// 
 			this.comboZeroDollarProcClaimBehavior.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.comboZeroDollarProcClaimBehavior.Location = new System.Drawing.Point(272, 89);
+			this.comboZeroDollarProcClaimBehavior.Location = new System.Drawing.Point(243, 128);
 			this.comboZeroDollarProcClaimBehavior.Name = "comboZeroDollarProcClaimBehavior";
-			this.comboZeroDollarProcClaimBehavior.Size = new System.Drawing.Size(168, 21);
+			this.comboZeroDollarProcClaimBehavior.Size = new System.Drawing.Size(168, 23);
 			this.comboZeroDollarProcClaimBehavior.TabIndex = 3;
 			// 
 			// checkEclaimsSubscIDUsesPatID
 			// 
-			this.checkEclaimsSubscIDUsesPatID.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkEclaimsSubscIDUsesPatID.Location = new System.Drawing.Point(50, 70);
+			this.checkEclaimsSubscIDUsesPatID.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkEclaimsSubscIDUsesPatID.Location = new System.Drawing.Point(8, 102);
 			this.checkEclaimsSubscIDUsesPatID.Name = "checkEclaimsSubscIDUsesPatID";
-			this.checkEclaimsSubscIDUsesPatID.Size = new System.Drawing.Size(390, 18);
+			this.checkEclaimsSubscIDUsesPatID.Size = new System.Drawing.Size(353, 20);
 			this.checkEclaimsSubscIDUsesPatID.TabIndex = 293;
 			this.checkEclaimsSubscIDUsesPatID.Text = "On e-claims, use Optional Patient ID instead of Subscriber ID";
 			// 
 			// checkPpoUseUcr
 			// 
 			this.checkPpoUseUcr.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkPpoUseUcr.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkPpoUseUcr.Location = new System.Drawing.Point(89, 10);
+			this.checkPpoUseUcr.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkPpoUseUcr.Location = new System.Drawing.Point(8, 23);
 			this.checkPpoUseUcr.Name = "checkPpoUseUcr";
-			this.checkPpoUseUcr.Size = new System.Drawing.Size(361, 18);
+			this.checkPpoUseUcr.Size = new System.Drawing.Size(372, 20);
 			this.checkPpoUseUcr.TabIndex = 0;
 			this.checkPpoUseUcr.Text = "Use standard provider fee for billed fee even if PPO fee is higher";
 			// 
 			// checkClaimFormTreatDentSaysSigOnFile
 			// 
-			this.checkClaimFormTreatDentSaysSigOnFile.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkClaimFormTreatDentSaysSigOnFile.Location = new System.Drawing.Point(40, 112);
+			this.checkClaimFormTreatDentSaysSigOnFile.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkClaimFormTreatDentSaysSigOnFile.Location = new System.Drawing.Point(8, 157);
 			this.checkClaimFormTreatDentSaysSigOnFile.Name = "checkClaimFormTreatDentSaysSigOnFile";
-			this.checkClaimFormTreatDentSaysSigOnFile.Size = new System.Drawing.Size(410, 18);
+			this.checkClaimFormTreatDentSaysSigOnFile.Size = new System.Drawing.Size(415, 20);
 			this.checkClaimFormTreatDentSaysSigOnFile.TabIndex = 4;
 			this.checkClaimFormTreatDentSaysSigOnFile.Text = "Claim form treating provider shows \'Signature On File\' rather than name";
 			// 
 			// labelClaimAttachmentExportPath
 			// 
 			this.labelClaimAttachmentExportPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelClaimAttachmentExportPath.Location = new System.Drawing.Point(58, 32);
+			this.labelClaimAttachmentExportPath.Location = new System.Drawing.Point(65, 49);
 			this.labelClaimAttachmentExportPath.Name = "labelClaimAttachmentExportPath";
-			this.labelClaimAttachmentExportPath.Size = new System.Drawing.Size(184, 17);
+			this.labelClaimAttachmentExportPath.Size = new System.Drawing.Size(172, 23);
 			this.labelClaimAttachmentExportPath.TabIndex = 279;
 			this.labelClaimAttachmentExportPath.Text = "Claim attachment export path";
 			this.labelClaimAttachmentExportPath.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// checkEclaimsSeparateTreatProv
 			// 
-			this.checkEclaimsSeparateTreatProv.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkEclaimsSeparateTreatProv.Location = new System.Drawing.Point(50, 51);
+			this.checkEclaimsSeparateTreatProv.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkEclaimsSeparateTreatProv.Location = new System.Drawing.Point(8, 78);
 			this.checkEclaimsSeparateTreatProv.Name = "checkEclaimsSeparateTreatProv";
-			this.checkEclaimsSeparateTreatProv.Size = new System.Drawing.Size(394, 18);
+			this.checkEclaimsSeparateTreatProv.Size = new System.Drawing.Size(396, 20);
 			this.checkEclaimsSeparateTreatProv.TabIndex = 2;
 			this.checkEclaimsSeparateTreatProv.Text = "On e-claims, send treating provider info for each separate procedure";
 			// 
 			// labelCreatingClaimsZeroProcedures
 			// 
 			this.labelCreatingClaimsZeroProcedures.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelCreatingClaimsZeroProcedures.Location = new System.Drawing.Point(58, 91);
+			this.labelCreatingClaimsZeroProcedures.Location = new System.Drawing.Point(41, 128);
 			this.labelCreatingClaimsZeroProcedures.Name = "labelCreatingClaimsZeroProcedures";
-			this.labelCreatingClaimsZeroProcedures.Size = new System.Drawing.Size(213, 17);
+			this.labelCreatingClaimsZeroProcedures.Size = new System.Drawing.Size(196, 23);
 			this.labelCreatingClaimsZeroProcedures.TabIndex = 292;
 			this.labelCreatingClaimsZeroProcedures.Text = "Creating claims with $0 procedures";
 			this.labelCreatingClaimsZeroProcedures.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// checkPriClaimAllowSetToHoldUntilPriReceived
 			// 
-			this.checkPriClaimAllowSetToHoldUntilPriReceived.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkPriClaimAllowSetToHoldUntilPriReceived.Location = new System.Drawing.Point(73, 150);
+			this.checkPriClaimAllowSetToHoldUntilPriReceived.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkPriClaimAllowSetToHoldUntilPriReceived.Location = new System.Drawing.Point(8, 205);
 			this.checkPriClaimAllowSetToHoldUntilPriReceived.Name = "checkPriClaimAllowSetToHoldUntilPriReceived";
-			this.checkPriClaimAllowSetToHoldUntilPriReceived.Size = new System.Drawing.Size(367, 18);
+			this.checkPriClaimAllowSetToHoldUntilPriReceived.Size = new System.Drawing.Size(331, 20);
 			this.checkPriClaimAllowSetToHoldUntilPriReceived.TabIndex = 6;
 			this.checkPriClaimAllowSetToHoldUntilPriReceived.Text = "Allow primary claim status to be \'Hold Until Pri Received\'";
 			// 
@@ -204,16 +204,16 @@ namespace OpenPmsDental {
 			this.groupBoxClaimIdPrefix.BackColor = System.Drawing.Color.White;
 			this.groupBoxClaimIdPrefix.Controls.Add(this.butReplacements);
 			this.groupBoxClaimIdPrefix.Controls.Add(this.textClaimIdPrefix);
-			this.groupBoxClaimIdPrefix.Location = new System.Drawing.Point(40, 191);
+			this.groupBoxClaimIdPrefix.Location = new System.Drawing.Point(8, 257);
 			this.groupBoxClaimIdPrefix.Name = "groupBoxClaimIdPrefix";
-			this.groupBoxClaimIdPrefix.Size = new System.Drawing.Size(407, 55);
+			this.groupBoxClaimIdPrefix.Size = new System.Drawing.Size(462, 83);
 			this.groupBoxClaimIdPrefix.TabIndex = 7;
 			this.groupBoxClaimIdPrefix.Text = "Claim Identification Prefix";
 			// 
 			// butReplacements
 			// 
 			this.butReplacements.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butReplacements.Location = new System.Drawing.Point(309, 27);
+			this.butReplacements.Location = new System.Drawing.Point(309, 52);
 			this.butReplacements.Name = "butReplacements";
 			this.butReplacements.Size = new System.Drawing.Size(91, 23);
 			this.butReplacements.TabIndex = 1;
@@ -225,36 +225,36 @@ namespace OpenPmsDental {
 			// 
 			this.textClaimIdPrefix.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.textClaimIdPrefix.AutoSize = false;
-			this.textClaimIdPrefix.Location = new System.Drawing.Point(229, 5);
+			this.textClaimIdPrefix.Location = new System.Drawing.Point(229, 23);
 			this.textClaimIdPrefix.Name = "textClaimIdPrefix";
-			this.textClaimIdPrefix.Size = new System.Drawing.Size(171, 20);
+			this.textClaimIdPrefix.Size = new System.Drawing.Size(172, 23);
 			this.textClaimIdPrefix.TabIndex = 0;
 			this.textClaimIdPrefix.Validating += new System.ComponentModel.CancelEventHandler(this.textClaimIdPrefix_Validating);
 			// 
 			// checkClaimsValidateACN
 			// 
-			this.checkClaimsValidateACN.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkClaimsValidateACN.Location = new System.Drawing.Point(73, 131);
+			this.checkClaimsValidateACN.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkClaimsValidateACN.Location = new System.Drawing.Point(8, 181);
 			this.checkClaimsValidateACN.Name = "checkClaimsValidateACN";
-			this.checkClaimsValidateACN.Size = new System.Drawing.Size(367, 18);
+			this.checkClaimsValidateACN.Size = new System.Drawing.Size(347, 20);
 			this.checkClaimsValidateACN.TabIndex = 5;
 			this.checkClaimsValidateACN.Text = "Require ACN# in remarks on claims with ADDP group name";
 			// 
 			// checkCanadianPpoLabEst
 			// 
-			this.checkCanadianPpoLabEst.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkCanadianPpoLabEst.Location = new System.Drawing.Point(93, 346);
+			this.checkCanadianPpoLabEst.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkCanadianPpoLabEst.Location = new System.Drawing.Point(8, 476);
 			this.checkCanadianPpoLabEst.Name = "checkCanadianPpoLabEst";
-			this.checkCanadianPpoLabEst.Size = new System.Drawing.Size(367, 18);
+			this.checkCanadianPpoLabEst.Size = new System.Drawing.Size(299, 20);
 			this.checkCanadianPpoLabEst.TabIndex = 5;
 			this.checkCanadianPpoLabEst.Text = "Canadian PPO insurance plans create lab estimates";
 			// 
 			// checkClaimEditRequireNoMissingData
 			// 
-			this.checkClaimEditRequireNoMissingData.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkClaimEditRequireNoMissingData.Location = new System.Drawing.Point(30, 169);
+			this.checkClaimEditRequireNoMissingData.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkClaimEditRequireNoMissingData.Location = new System.Drawing.Point(8, 229);
 			this.checkClaimEditRequireNoMissingData.Name = "checkClaimEditRequireNoMissingData";
-			this.checkClaimEditRequireNoMissingData.Size = new System.Drawing.Size(410, 18);
+			this.checkClaimEditRequireNoMissingData.Size = new System.Drawing.Size(235, 20);
 			this.checkClaimEditRequireNoMissingData.TabIndex = 285;
 			this.checkClaimEditRequireNoMissingData.Text = "Require claims to have no missing data";
 			// 
