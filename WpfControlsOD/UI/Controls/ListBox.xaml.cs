@@ -87,6 +87,7 @@ adjustment.ObjNum=listObj.GetSelectedKey<ObjType>(x=>x.ObjNum);
 		#region Constructor
 		public ListBox(){
 			InitializeComponent();
+			UiLookScroll.AddTo(this);//UI-13: the scroll bars in the Fluent look
 			//Width=150;
 			//Height=200;
 			scrollViewer.CanContentScroll=false;//results in physical(pixel) scrolling instead of logical(Item) scrolling.

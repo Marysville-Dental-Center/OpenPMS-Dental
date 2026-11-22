@@ -135,6 +135,7 @@ using WpfControls.UI;
 		#region Constructor
 		public Grid() {
 			InitializeComponent();
+			UiLookScroll.AddTo(this);//UI-13: the scroll bars in the Fluent look
 			//Width=300;
 			//Height=300;
 			Columns=new GridColumnCollection(this);

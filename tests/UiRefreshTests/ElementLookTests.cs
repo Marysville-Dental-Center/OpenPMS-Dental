@@ -1,0 +1,349 @@
+// UI-13 (docs/port-notes/UI-13.md, step 3): the unit tests of the shared looks every element type now draws with: the scroll bar
+// (UiScrollPaint, UiScrollLook, WPF's UiLookScroll), the slider (UiSliderPaint's track bar part, UiTrackBarLook), the stock button, check box,
+// grey block, progress bar, border, calendar, data grid view and link label looks (UiLooks) and the time pattern (TableTimeBar): the colours
+// come from the tokens, the sizes scale with the bar or the scale, and the drawing puts the tokens where the shape is. No window is shown.
+// Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
+using System;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.Windows.Forms;
+using CodeBase;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenPmsDental;
+using OpenPmsDental.UI;
+
+namespace UiRefreshTests {
+	[TestClass]
+	public class ElementLookTests {
+		#region Scroll bar
+		[TestMethod]
+		public void ScrollPaint_Tokens_AsChosen() {
+			Assert.AreEqual(EnumUiColor.Surface,UiScrollPaint.GetTrackColor());
+			Assert.AreEqual(EnumUiColor.StrokeStrong,UiScrollPaint.GetThumbColor(EnumUiButtonState.Normal));
+			Assert.AreEqual(EnumUiColor.TextSecondary,UiScrollPaint.GetThumbColor(EnumUiButtonState.Hover));
+			Assert.AreEqual(EnumUiColor.Text,UiScrollPaint.GetThumbColor(EnumUiButtonState.Pressed));
+			Assert.AreEqual(EnumUiColor.StrokeStrong,UiScrollPaint.GetArrowColor(EnumUiButtonState.Normal));
+			Assert.AreEqual(EnumUiColor.TextSecondary,UiScrollPaint.GetArrowColor(EnumUiButtonState.Hover));
+			Assert.AreEqual(EnumUiColor.Text,UiScrollPaint.GetArrowColor(EnumUiButtonState.Pressed));
+			Assert.AreEqual(EnumUiColor.TextDisabled,UiScrollPaint.GetArrowColor(EnumUiButtonState.Disabled));
+			Assert.IsNull(UiScrollPaint.GetArrowFill(EnumUiButtonState.Normal));
+			Assert.AreEqual(EnumUiColor.SubtleHover,UiScrollPaint.GetArrowFill(EnumUiButtonState.Hover));
+			Assert.AreEqual(EnumUiColor.SubtlePressed,UiScrollPaint.GetArrowFill(EnumUiButtonState.Pressed));
+		}
+
+		[TestMethod]
+		public void ScrollPaint_Sizes_ScaleWithTheBar() {
+			Assert.AreEqual(1f,UiScrollPaint.GetScale(17));
+			Assert.AreEqual(25/17f,UiScrollPaint.GetScale(25),0.0001f);
+			Assert.AreEqual(1f,UiScrollPaint.GetScale(10),"Never under 1.");
+			//A 17 px bar (100%): the thumb 7 px thick (5 px each side), 2 px from each end of its hit rectangle.
+			Rectangle rectangleThumb=UiScrollPaint.GetThumbShape(new Rectangle(0,40,17,60),isVertical:true,1f);
+			Assert.AreEqual(new Rectangle(5,42,7,56),rectangleThumb);
+			//A 26 px bar (150%): the insets scale (8 and 3 px), the thumb 10 px thick.
+			float scale=UiScrollPaint.GetScale(26);
+			rectangleThumb=UiScrollPaint.GetThumbShape(new Rectangle(0,60,26,90),isVertical:true,scale);
+			Assert.AreEqual(10,rectangleThumb.Width);
+			Assert.AreEqual(63,rectangleThumb.Y);
+			//Horizontal: the same across the height.
+			rectangleThumb=UiScrollPaint.GetThumbShape(new Rectangle(40,0,60,17),isVertical:false,1f);
+			Assert.AreEqual(new Rectangle(42,5,56,7),rectangleThumb);
+			//The chevron's square scales and stays centred.
+			Assert.AreEqual(new Rectangle(4,4,8,8),UiScrollPaint.GetArrowGlyphRectangle(new Rectangle(0,0,17,17),1f));
+			Assert.AreEqual(12,UiScrollPaint.GetArrowGlyphRectangle(new Rectangle(0,0,26,26),scale).Width);
+		}
+
+		[TestMethod]
+		public void ScrollPaint_GetPart_FollowsWindowsGeometry() {
+			Rectangle rectangleBar=new Rectangle(0,0,17,200);
+			Assert.AreEqual(EnumUiScrollPart.ArrowStart,UiScrollPaint.GetPart(new Point(8,5),rectangleBar,true,17,40,80));
+			Assert.AreEqual(EnumUiScrollPart.TrackStart,UiScrollPaint.GetPart(new Point(8,30),rectangleBar,true,17,40,80));
+			Assert.AreEqual(EnumUiScrollPart.Thumb,UiScrollPaint.GetPart(new Point(8,60),rectangleBar,true,17,40,80));
+			Assert.AreEqual(EnumUiScrollPart.TrackEnd,UiScrollPaint.GetPart(new Point(8,120),rectangleBar,true,17,40,80));
+			Assert.AreEqual(EnumUiScrollPart.ArrowEnd,UiScrollPaint.GetPart(new Point(8,195),rectangleBar,true,17,40,80));
+			Assert.AreEqual(EnumUiScrollPart.None,UiScrollPaint.GetPart(new Point(30,60),rectangleBar,true,17,40,80));
+			Assert.AreEqual(EnumUiButtonState.Pressed,UiScrollPaint.GetPartState(EnumUiScrollPart.Thumb,true,EnumUiScrollPart.ArrowEnd,EnumUiScrollPart.Thumb));
+			Assert.AreEqual(EnumUiButtonState.Normal,UiScrollPaint.GetPartState(EnumUiScrollPart.ArrowEnd,true,EnumUiScrollPart.ArrowEnd,EnumUiScrollPart.Thumb));
+			Assert.AreEqual(EnumUiButtonState.Hover,UiScrollPaint.GetPartState(EnumUiScrollPart.ArrowEnd,true,EnumUiScrollPart.ArrowEnd,EnumUiScrollPart.None));
+			Assert.AreEqual(EnumUiButtonState.Disabled,UiScrollPaint.GetPartState(EnumUiScrollPart.Thumb,false,EnumUiScrollPart.Thumb,EnumUiScrollPart.None));
+		}
+
+		[TestMethod]
+		public void ScrollPaint_Draw_TrackThumbAndChevronsInTheTokens() {
+			foreach(int thickness in new int[] { 17,26 }) {
+				using(Bitmap bitmap=new Bitmap(thickness,200,PixelFormat.Format24bppRgb))
+				using(Graphics g=Graphics.FromImage(bitmap)) {
+					g.Clear(Color.Magenta);
+					UiScrollPaint.Draw(g,new Rectangle(0,0,thickness,200),true,true,thickness,60,120,EnumUiScrollPart.None,EnumUiScrollPart.None,Color.Empty);
+					AssertColour(UiTheme.GetColor(EnumUiColor.Surface),bitmap.GetPixel(1,thickness+10),"the track at "+thickness);
+					AssertColour(UiTheme.GetColor(EnumUiColor.StrokeStrong),bitmap.GetPixel(thickness/2,90),"the thumb at "+thickness);
+					AssertColour(UiTheme.GetColor(EnumUiColor.Surface),bitmap.GetPixel(1,90),"the track beside the thumb at "+thickness);
+					Assert.IsTrue(HasColour(bitmap,new Rectangle(0,0,thickness,thickness),UiTheme.GetColor(EnumUiColor.StrokeStrong)),"No chevron in the start arrow at "+thickness);
+					Assert.IsFalse(HasColour(bitmap,new Rectangle(0,0,thickness,200),Color.Magenta),"Not every pixel painted at "+thickness);
+				}
+			}
+			//Disabled: no thumb.
+			using(Bitmap bitmap=new Bitmap(17,200,PixelFormat.Format24bppRgb))
+			using(Graphics g=Graphics.FromImage(bitmap)) {
+				UiScrollPaint.Draw(g,new Rectangle(0,0,17,200),true,false,17,60,120,EnumUiScrollPart.None,EnumUiScrollPart.None,Color.Empty);
+				AssertColour(UiTheme.GetColor(EnumUiColor.Surface),bitmap.GetPixel(8,90),"a disabled bar's track where the thumb was");
+			}
+		}
+
+		[TestMethod]
+		public void ScrollLook_IsScrolled_TheScrollingTypes() {
+			Assert.IsTrue(UiScrollLook.IsScrolled(new VScrollBar()));
+			Assert.IsTrue(UiScrollLook.IsScrolled(new HScrollBar()));
+			Assert.IsTrue(UiScrollLook.IsScrolled(new TextBox { Multiline=true }));
+			Assert.IsFalse(UiScrollLook.IsScrolled(new TextBox()));
+			Assert.IsTrue(UiScrollLook.IsScrolled(new RichTextBox()));
+			Assert.IsTrue(UiScrollLook.IsScrolled(new System.Windows.Forms.ListBox()));
+			Assert.IsTrue(UiScrollLook.IsScrolled(new TreeView()));
+			Assert.IsTrue(UiScrollLook.IsScrolled(new ListView()));
+			Assert.IsTrue(UiScrollLook.IsScrolled(new Panel { AutoScroll=true }));
+			Assert.IsFalse(UiScrollLook.IsScrolled(new Panel()));
+			Assert.IsFalse(UiScrollLook.IsScrolled(new Form { AutoScroll=true }),"A window draws its own frame.");
+		}
+
+		[TestMethod]
+		public void ScrollLook_PaintsAStockScrollBarInTheTokens() {
+			StaRunnerHelpers.RunSta(() => {
+				using(Form form=new Form())
+				using(VScrollBar vScrollBar=new VScrollBar { Bounds=new Rectangle(0,0,17,200),Minimum=0,Maximum=100,LargeChange=20,Value=40 }) {
+					form.Controls.Add(vScrollBar);
+					UiScrollLook.Attach(vScrollBar);
+					IntPtr handle=vScrollBar.Handle;
+					Assert.IsTrue(UiScrollLook.IsAttached(vScrollBar));
+					using(Bitmap bitmap=new Bitmap(17,200,PixelFormat.Format24bppRgb)) {
+						vScrollBar.DrawToBitmap(bitmap,new Rectangle(0,0,17,200));
+						//No hatching: every track pixel is Surface, and the thumb has StrokeStrong.
+						Assert.IsTrue(HasColour(bitmap,new Rectangle(0,17,17,166),UiTheme.GetColor(EnumUiColor.StrokeStrong)),"No thumb in the token.");
+						AssertColour(UiTheme.GetColor(EnumUiColor.Surface),bitmap.GetPixel(1,30),"the track");
+						AssertColour(UiTheme.GetColor(EnumUiColor.Surface),bitmap.GetPixel(1,170),"the track");
+					}
+				}
+			});
+		}
+
+		[TestMethod]
+		public void LookScroll_Wpf_DictionaryHasTheImplicitScrollBarStyle() {
+			StaRunnerHelpers.RunSta(() => {
+				System.Windows.ResourceDictionary resourceDictionary=WpfControls.UI.UiLookScroll.GetDictionary();
+				Assert.IsNotNull(resourceDictionary,"The dictionary's XAML did not parse.");
+				object style=resourceDictionary[typeof(System.Windows.Controls.Primitives.ScrollBar)];
+				Assert.IsInstanceOfType(style,typeof(System.Windows.Style));
+				StringAssert.Contains(WpfControls.UI.UiLookScroll.GetXaml(),UiTheme.GetHex(EnumUiColor.StrokeStrong));
+				StringAssert.Contains(WpfControls.UI.UiLookScroll.GetXaml(),UiTheme.GetHex(EnumUiColor.Surface));
+				//A ScrollBar under an element with the dictionary takes the template.
+				System.Windows.Controls.Grid grid=new System.Windows.Controls.Grid();
+				WpfControls.UI.UiLookScroll.AddTo(grid);
+				WpfControls.UI.UiLookScroll.AddTo(grid);
+				Assert.AreEqual(1,grid.Resources.MergedDictionaries.Count,"Merged once.");
+				System.Windows.Controls.Primitives.ScrollBar scrollBar=new System.Windows.Controls.Primitives.ScrollBar();
+				grid.Children.Add(scrollBar);
+				grid.Measure(new System.Windows.Size(17,200));
+				grid.Arrange(new System.Windows.Rect(0,0,17,200));
+				Assert.AreSame(style,scrollBar.Style);
+			});
+		}
+		#endregion Scroll bar
+
+		#region Slider
+		[TestMethod]
+		public void SliderPaint_TrackBarTokens_AsChosen() {
+			Assert.AreEqual(EnumUiColor.Stroke,UiSliderPaint.GetSliderTrackColor());
+			Assert.AreEqual(EnumUiColor.Accent,UiSliderPaint.GetSliderFillColor(true));
+			Assert.AreEqual(EnumUiColor.TextDisabled,UiSliderPaint.GetSliderFillColor(false));
+			Assert.AreEqual(EnumUiColor.Accent,UiSliderPaint.GetSliderDotColor(EnumUiButtonState.Normal));
+			Assert.AreEqual(EnumUiColor.AccentHover,UiSliderPaint.GetSliderDotColor(EnumUiButtonState.Hover));
+			Assert.AreEqual(EnumUiColor.AccentPressed,UiSliderPaint.GetSliderDotColor(EnumUiButtonState.Pressed));
+			Assert.AreEqual(EnumUiColor.TextDisabled,UiSliderPaint.GetSliderDotColor(EnumUiButtonState.Disabled));
+			Assert.AreEqual(EnumUiColor.StrokeStrong,UiSliderPaint.GetSliderTickColor(true));
+		}
+
+		[TestMethod]
+		public void SliderPaint_TrackBarSizes_Scale() {
+			Assert.AreEqual(4,UiSliderPaint.GetSliderRingWidth(EnumUiButtonState.Normal,1f));
+			Assert.AreEqual(3,UiSliderPaint.GetSliderRingWidth(EnumUiButtonState.Hover,1f));
+			Assert.AreEqual(5,UiSliderPaint.GetSliderRingWidth(EnumUiButtonState.Pressed,1f));
+			Assert.AreEqual(6,UiSliderPaint.GetSliderRingWidth(EnumUiButtonState.Normal,1.5f));
+			Assert.AreEqual(new Rectangle(42,2,16,16),UiSliderPaint.GetSliderThumbRectangle(new Point(50,10),1f));
+			Assert.AreEqual(24,UiSliderPaint.GetSliderThumbRectangle(new Point(50,10),1.5f).Width);
+			Assert.AreEqual(new Rectangle(8,8,104,4),UiSliderPaint.GetSliderTrackRectangle(new Point(10,10),new Point(110,10),false,1f));
+			Assert.AreEqual(6,UiSliderPaint.GetSliderTrackRectangle(new Point(10,10),new Point(110,10),false,1.5f).Height);
+		}
+
+		[TestMethod]
+		public void SliderPaint_Draw_TrackFillAndThumbInTheTokens() {
+			foreach(float scale in new float[] { 1f,1.5f }) {
+				using(Bitmap bitmap=new Bitmap(200,40,PixelFormat.Format24bppRgb))
+				using(Graphics g=Graphics.FromImage(bitmap)) {
+					g.Clear(Color.White);
+					UiSliderPaint.DrawSliderTrack(g,new Point(10,20),new Point(190,20),new Point(100,20),false,true,scale);
+					UiSliderPaint.DrawSliderThumb(g,new Point(100,20),EnumUiButtonState.Normal,false,scale);
+					AssertColour(UiTheme.GetColor(EnumUiColor.Accent),bitmap.GetPixel(50,20),"the filled track at "+scale);
+					AssertColour(UiTheme.GetColor(EnumUiColor.Stroke),bitmap.GetPixel(150,20),"the track at "+scale);
+					AssertColour(UiTheme.GetColor(EnumUiColor.Accent),bitmap.GetPixel(100,20),"the thumb's dot at "+scale);
+					AssertColour(UiTheme.GetColor(EnumUiColor.SurfaceRaised),bitmap.GetPixel(100,20-UiTheme.ScaleI(6,scale)),"the thumb's ring at "+scale);
+				}
+			}
+		}
+
+		[TestMethod]
+		public void TrackBarLook_PaintsTheSliderInTheTokens() {
+			StaRunnerHelpers.RunSta(() => {
+				using(Form form=new Form())
+				using(TrackBar trackBar=new TrackBar { AutoSize=false,Bounds=new Rectangle(0,0,300,27),Minimum=0,Maximum=10,Value=5 }) {
+					form.Controls.Add(trackBar);
+					UiTrackBarLook.Attach(trackBar);
+					IntPtr handle=trackBar.Handle;
+					using(Bitmap bitmap=new Bitmap(300,27,PixelFormat.Format24bppRgb)) {
+						trackBar.DrawToBitmap(bitmap,new Rectangle(0,0,300,27));
+						Assert.IsTrue(HasColour(bitmap,new Rectangle(0,0,140,27),UiTheme.GetColor(EnumUiColor.Accent)),"No Accent fill left of the thumb.");
+						Assert.IsTrue(HasColour(bitmap,new Rectangle(170,0,130,27),UiTheme.GetColor(EnumUiColor.Stroke)),"No Stroke track right of the thumb.");
+						Assert.IsFalse(HasColour(bitmap,new Rectangle(0,0,300,27),Color.Black),"Windows' black ticks or channel remain.");
+					}
+				}
+			});
+		}
+		#endregion Slider
+
+		#region Other stock types
+		[TestMethod]
+		public void ButtonLook_SwatchAndDrawnTypes() {
+			Assert.IsTrue(UiButtonLook.IsDrawn(new System.Windows.Forms.Button()));
+			Assert.IsFalse(UiButtonLook.IsDrawn(new OpenPmsDental.UI.Button()),"The program's own button draws itself.");
+			Assert.IsFalse(UiButtonLook.IsDrawn(new System.Windows.Forms.Button { FlatStyle=FlatStyle.System }),"Windows draws a System button.");
+			Assert.IsFalse(UiButtonLook.IsSwatch(new System.Windows.Forms.Button { UseVisualStyleBackColor=true }));
+			Assert.IsTrue(UiButtonLook.IsSwatch(new System.Windows.Forms.Button { BackColor=Color.RoyalBlue,UseVisualStyleBackColor=false }));
+			Assert.IsTrue(UiButtonLook.IsSwatch(new System.Windows.Forms.Button { BackColor=SystemColors.ControlDark,UseVisualStyleBackColor=false }),"The time pattern's handle.");
+			Assert.IsFalse(UiButtonLook.IsSwatch(new System.Windows.Forms.Button { BackColor=SystemColors.Control,UseVisualStyleBackColor=false }));
+			Assert.IsTrue(UiBlockLook.IsDrawn(new Label { BackColor=Color.LightGray }));
+			Assert.IsFalse(UiBlockLook.IsDrawn(new Label()));
+			Assert.IsTrue(UiCheckLook.IsDrawn(new System.Windows.Forms.CheckBox()));
+			Assert.IsFalse(UiCheckLook.IsDrawn(new OpenPmsDental.UI.CheckBox()));
+			Assert.IsTrue(UiBorderLook.IsDrawn(new Panel { BorderStyle=BorderStyle.Fixed3D }));
+			Assert.IsFalse(UiBorderLook.IsDrawn(new Panel()));
+		}
+
+		[TestMethod]
+		public void ButtonLook_PaintsTheButtonLookAndTheSwatch() {
+			{
+				using(System.Windows.Forms.Button button=new System.Windows.Forms.Button { Bounds=new Rectangle(0,0,80,24),Text="OK" })
+				using(Bitmap bitmap=new Bitmap(80,24,PixelFormat.Format24bppRgb))
+				using(Graphics g=Graphics.FromImage(bitmap)) {
+					UiButtonLook.PaintButton(g,button,EnumUiButtonState.Normal,false);
+					AssertColour(UiTheme.GetColor(EnumUiColor.SurfaceRaised),bitmap.GetPixel(6,4),"the button's fill");
+					AssertColour(UiTheme.GetColor(EnumUiColor.Stroke),bitmap.GetPixel(40,0),"the button's edge");
+				}
+				using(System.Windows.Forms.Button button=new System.Windows.Forms.Button { Bounds=new Rectangle(0,0,24,24),BackColor=Color.RoyalBlue,UseVisualStyleBackColor=false })
+				using(Bitmap bitmap=new Bitmap(24,24,PixelFormat.Format24bppRgb))
+				using(Graphics g=Graphics.FromImage(bitmap)) {
+					UiButtonLook.PaintButton(g,button,EnumUiButtonState.Normal,false);
+					AssertColour(Color.RoyalBlue,bitmap.GetPixel(12,12),"the swatch's colour");
+					AssertColour(UiTheme.GetColor(EnumUiColor.StrokeStrong),bitmap.GetPixel(12,0),"the swatch's edge");
+				}
+			}
+		}
+
+		[TestMethod]
+		public void Looks_CalendarGridAndLinkColours_FromTheTokens() {
+			using(MonthCalendar monthCalendar=new MonthCalendar()) {
+				UiLooks.SetMonthCalendarLook(monthCalendar);
+				Assert.AreEqual(UiTheme.GetColor(EnumUiColor.Accent),monthCalendar.TitleBackColor);
+				Assert.AreEqual(UiTheme.GetColor(EnumUiColor.TextOnAccent),monthCalendar.TitleForeColor);
+				Assert.AreEqual(UiTheme.GetColor(EnumUiColor.TextDisabled),monthCalendar.TrailingForeColor);
+			}
+			using(MonthCalendar monthCalendar=new MonthCalendar { TitleBackColor=Color.Green }) {
+				UiLooks.SetMonthCalendarLook(monthCalendar);
+				Assert.AreEqual(Color.Green,monthCalendar.TitleBackColor,"A colour the window sets stays.");
+			}
+			using(DateTimePicker dateTimePicker=new DateTimePicker()) {
+				UiLooks.SetDateTimePickerLook(dateTimePicker);
+				Assert.AreEqual(UiTheme.GetColor(EnumUiColor.Accent),dateTimePicker.CalendarTitleBackColor);
+			}
+			using(DataGridView dataGridView=new DataGridView()) {
+				UiLooks.SetDataGridViewLook(dataGridView);
+				Assert.AreEqual(UiTheme.GetColor(EnumUiColor.Gridline),dataGridView.GridColor);
+				Assert.AreEqual(UiTheme.GetColor(EnumUiColor.SurfaceSubtle),dataGridView.ColumnHeadersDefaultCellStyle.BackColor);
+				Assert.AreEqual(UiTheme.GetColor(EnumUiColor.AccentSubtle),dataGridView.DefaultCellStyle.SelectionBackColor);
+				Assert.IsFalse(dataGridView.EnableHeadersVisualStyles);
+			}
+			using(LinkLabel linkLabel=new LinkLabel()) {
+				UiLooks.SetLinkLabelLook(linkLabel);
+				Assert.AreEqual(UiTheme.GetColor(EnumUiColor.Accent),linkLabel.LinkColor);
+			}
+		}
+
+		[TestMethod]
+		public void ProgressAndBorderLooks_DrawInTheTokens() {
+			using(ProgressBar progressBar=new ProgressBar { Bounds=new Rectangle(0,0,100,12),Value=50 })
+			using(Bitmap bitmap=new Bitmap(100,12,PixelFormat.Format24bppRgb))
+			using(Graphics g=Graphics.FromImage(bitmap)) {
+				UiProgressLook.PaintProgress(g,progressBar);
+				AssertColour(UiTheme.GetColor(EnumUiColor.Accent),bitmap.GetPixel(25,6),"the value's part");
+				AssertColour(UiTheme.GetColor(EnumUiColor.Stroke),bitmap.GetPixel(75,6),"the track");
+			}
+			using(Panel panel=new Panel { Bounds=new Rectangle(0,0,40,40),BorderStyle=BorderStyle.Fixed3D,BackColor=Color.White })
+			using(Bitmap bitmap=new Bitmap(40,40,PixelFormat.Format24bppRgb))
+			using(Graphics g=Graphics.FromImage(bitmap)) {
+				g.Clear(Color.Magenta);
+				UiBorderLook.PaintBorder(g,panel,new Rectangle(0,0,40,40));
+				AssertColour(UiTheme.GetColor(EnumUiColor.StrokeStrong),bitmap.GetPixel(20,0),"the flat edge");
+				AssertColour(Color.White,bitmap.GetPixel(20,1),"the second pixel of the 3-D edge in the panel's colour");
+			}
+		}
+
+		[TestMethod]
+		public void TimeBar_ModernLook_FilledCellsInAccent() {
+			StaRunnerHelpers.RunSta(() => {
+				using(TimeBarProbe timeBarProbe=new TimeBarProbe()) {
+					timeBarProbe.Cell[0,0]="X";
+					timeBarProbe.Cell[0,1]="X";
+					timeBarProbe.Cell[0,2]="/";
+					using(Bitmap bitmap=new Bitmap(timeBarProbe.Width,timeBarProbe.Height,PixelFormat.Format24bppRgb))
+					using(Graphics g=Graphics.FromImage(bitmap)) {
+						timeBarProbe.PaintForTest(g);
+						Rectangle rectangleCell1=timeBarProbe.GetCellForTest(1);
+						Rectangle rectangleCell2=timeBarProbe.GetCellForTest(2);
+						Rectangle rectangleCell5=timeBarProbe.GetCellForTest(5);
+						AssertColour(UiTheme.GetColor(EnumUiColor.Accent),bitmap.GetPixel(2,rectangleCell1.Y+3),"a provider cell");
+						AssertColour(UiTheme.GetColor(EnumUiColor.AccentSubtle),bitmap.GetPixel(2,rectangleCell2.Y+3),"an assistant cell");
+						AssertColour(UiTheme.GetColor(EnumUiColor.SurfaceRaised),bitmap.GetPixel(2,rectangleCell5.Y+3),"an empty cell");
+						AssertColour(UiTheme.GetColor(EnumUiColor.StrokeStrong),bitmap.GetPixel(0,timeBarProbe.Height/2),"the frame");
+					}
+				}
+			});
+		}
+
+		///<summary>TableTimeBar with its look's drawing and cells reachable from the test.</summary>
+		private class TimeBarProbe : TableTimeBar {
+			public void PaintForTest(Graphics g) {
+				PaintModern(g);
+			}
+
+			public Rectangle GetCellForTest(int row) {
+				return GetCellRectangle(0,row);
+			}
+		}
+		#endregion Other stock types
+
+		#region Helpers
+		private static void AssertColour(Color colorExpected,Color colorActual,string what) {
+			Assert.AreEqual(colorExpected.ToArgb() & 0xFFFFFF,colorActual.ToArgb() & 0xFFFFFF,
+				what+": expected "+colorExpected.Name+", found "+colorActual.Name);
+		}
+
+		private static bool HasColour(Bitmap bitmap,Rectangle rectangle,Color color) {
+			rectangle.Intersect(new Rectangle(0,0,bitmap.Width,bitmap.Height));
+			for(int y=rectangle.Top;y<rectangle.Bottom;y++) {
+				for(int x=rectangle.Left;x<rectangle.Right;x++) {
+					if((bitmap.GetPixel(x,y).ToArgb() & 0xFFFFFF)==(color.ToArgb() & 0xFFFFFF)) {
+						return true;
+					}
+				}
+			}
+			return false;
+		}
+		#endregion Helpers
+	}
+}

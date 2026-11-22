@@ -45,6 +45,7 @@ How to use the TreeView control:
 		#region Constructor
 		public TreeView(){
 			InitializeComponent();
+			UiLookScroll.AddTo(this);//UI-13: the scroll bars in the Fluent look
 			//Width=200;
 			//Height=400;
 			Items=new TreeViewItemCollection(this);

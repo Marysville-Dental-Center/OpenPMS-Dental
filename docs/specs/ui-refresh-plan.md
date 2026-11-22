@@ -1604,6 +1604,15 @@ own 26.2 overlap check before it starts. The first cut is below; a brief that fi
   (UI-12.md section 4, "Round 7").
 - Gallery: G-UI3 per slice, the owner's rows first.
 
+**UI-13: every element type in the new look (the owner, 2026-11-22: "Overall make sure you modernize all element types")**
+- Why: the owner's review of G-UI3-ui12p (`docs/port-notes/UI-12-owner-review-2.tsv`): the Chart's sliding bar, FormProcCodeEdit's time
+  pattern, the old scroll bars (FormProvEdit, ControlAccount) and the Account's aging strip. Restyle only, in shared code, plus the layout
+  fixes of the four rows. Note: [UI-13.md](../port-notes/UI-13.md); inventory: `docs/port-notes/UI-13-inventory.tsv`
+  (`tools/UiFit/element_inventory.py`).
+- Status: see UI-13.md section 6 (branch `ui/ui13-1`).
+- Gallery: G-UI3-ui13 (the owner's four rows, a style sheet per element type at 100% and 150%, the 47 UI-12 windows, one window per type
+  outside the pilot).
+
 ---
 
 ## 8. Galleries and the owner's approval

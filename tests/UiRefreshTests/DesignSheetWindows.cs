@@ -309,6 +309,10 @@ namespace UiRefreshTests {
 			if(control is TextBoxBase textBoxBase && !(control is RichTextBox)) {
 				DrawEdit(g,textBoxBase,new Rectangle(pointOffset,control.Size),
 					new Rectangle(pointOffset.X+pointClient.X,pointOffset.Y+pointClient.Y,control.ClientSize.Width,control.ClientSize.Height));
+				if(UiScrollLook.IsAttached(textBoxBase)) {
+					//UI-13: the text box's scroll bars as the program paints them over Windows' (DrawEdit paints the box itself).
+					UiScrollLook.PaintOver(g,textBoxBase,pointOffset);
+				}
 			}
 			System.Drawing.Drawing2D.GraphicsState graphicsState=g.Save();
 			g.IntersectClip(new Rectangle(pointOffset.X+pointClient.X,pointOffset.Y+pointClient.Y,control.ClientSize.Width,control.ClientSize.Height));

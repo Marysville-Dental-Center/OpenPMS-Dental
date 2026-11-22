@@ -31,13 +31,15 @@ namespace OpenPmsDental.UI {
 		private const int TBM_GETTHUMBRECT=WM_USER+25;
 		private const int TBM_GETCHANNELRECT=WM_USER+26;
 		private const int TME_LEAVE=0x0002;
-		private static readonly LayoutManagerForms _layoutManager=new LayoutManagerForms();
 		private static readonly ConditionalWeakTable<Control,UiTrackBarLook> _table=new ConditionalWeakTable<Control,UiTrackBarLook>();
 		private readonly TrackBar _trackBar;
 		private bool _isHover;
 		private bool _isPressed;
 		private bool _isMouseTracked;
 		private string _stateLast="";
+		///<summary>True while the look reads the geometry or paints: the messages it sends itself (TBM_GETCHANNELRECT, TBM_GETTHUMBRECT) pass
+		///straight to Windows.</summary>
+		private bool _isBusy;
 		#endregion Fields
 
 		private UiTrackBarLook(TrackBar trackBar) {
@@ -108,12 +110,17 @@ namespace OpenPmsDental.UI {
 		#region Methods - Private
 		///<summary>The scale of the look: the program's dpi and zoom, as the radio button's look takes it.</summary>
 		private static float GetScale(Control control) {
-			return Math.Max(1f,_layoutManager.ScaleMy());
+			return UiLooks.GetScale();
 		}
 
 		protected override void WndProc(ref Message m) {
+			if(_isBusy) {
+				base.WndProc(ref m);
+				return;
+			}
 			int msg=m.Msg;
 			base.WndProc(ref m);
+			_isBusy=true;
 			try {
 				switch(msg) {
 					case WM_NCDESTROY:
@@ -151,6 +158,9 @@ namespace OpenPmsDental.UI {
 			}
 			catch(Exception) {
 				//The look is only a picture: Windows' own drawing stays when it cannot be painted.
+			}
+			finally {
+				_isBusy=false;
 			}
 		}
 

@@ -49,6 +49,7 @@ Only supports a single selected index.
 		#region Constructor
 		public ListView(){
 			InitializeComponent();
+			UiLookScroll.AddTo(this);//UI-13: the scroll bars in the Fluent look
 			//The selection bar is Accent while the list has keyboard focus (section 3.2).
 			IsKeyboardFocusWithinChanged+=(sender,e)=>SetColors();
 			IsEnabledChanged+=(sender,e)=>SetColors();

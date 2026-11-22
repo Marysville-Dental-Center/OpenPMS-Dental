@@ -51,7 +51,7 @@ namespace OpenPmsDental {
 			g.FillRectangle(brushBack,ClientRectangle);
 			using Pen penOutline=new Pen(ColorOD.Outline);
 			Rectangle rectangle=new Rectangle(0,0,Width-1,Height-1);
-			GraphicsHelper.DrawRoundedRectangle(g,Pens.Silver,rectangle,4);
+			GraphicsHelper.DrawRoundedRectangle(g,UiTheme.GetPen(EnumUiColor.Stroke),rectangle,4);//UI-13: the outline in Stroke (was Silver)
 			//We must ignore the Font and do our own.
 			float scaledFontSize=LayoutManager.ScaleFontODZoom(8.25f);
 			//scaledFontSize*=0.97f;//layout manager uses .92

@@ -1,0 +1,174 @@
+# UI-13 (docs/port-notes/UI-13.md): every element type the program shows and its look. Written by tools/UiFit/element_inventory.py
+# (do not edit by hand: change the tool's tables and run it). drawn: stock (Windows Forms), own control, owner-drawn part, wpf.
+# designer/code: uses in designer files / 'new' in code (by name). styled: yes (in the new look, by the code named), keeps (Windows'
+# own or content, the reason given), n/a (draws nothing). coverage: the row of tests/UiRefreshTests/Data/coverage.tsv, or why none.
+type	drawn	designer	code	styled	by	coverage	fix_or_reason
+CodeBase.Controls.ODWebView2	own control	19	3	keeps		(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	web content (section 1)
+CodeBase.PrintPanel	own control	1	0	n/a		(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	a print surface: documents
+ODWebView2	own control	2	3	keeps		(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	web content (section 1)
+OpenPmsDental.CallFireService.SMSService	own control	1	1	n/a		(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	draws nothing (a component, a data holder or a part of another row's control)
+OpenPmsDental.ContrPerio	own control	1	1	keeps		(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	the perio chart: clinical content (section 1)
+OpenPmsDental.ControlImageDock	own control	1	0	yes	ControlImageDock (UI-4c, the image dock's header)	(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	
+OpenPmsDental.DashFamilyInsurance	own control	1	1	yes	ColorOD (UI-11) and its outline in Stroke (UI-13)	(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	a patient dashboard widget: its fill from ColorOD, its rounded outline Stroke (was Silver)
+OpenPmsDental.DashIndividualDiscount	own control	2	0	n/a		(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	draws nothing of its own: a user control whose children are rows of this list
+OpenPmsDental.DashIndividualInsurance	own control	1	1	yes	ColorOD (UI-11) and its outline in Stroke (UI-13)	(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	a patient dashboard widget: its fill from ColorOD, its rounded outline Stroke (was Silver)
+OpenPmsDental.EmailPreviewControl	own control	3	0	n/a		(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	draws nothing of its own: a user control whose children are rows of this list
+OpenPmsDental.FolderBrowserDialog	own control	2	20	keeps		OpenPmsDental/UI/FolderBrowserDialog	keeps Windows' own look (docs/specs/ui-refresh-plan.md section 1: the Windows dialogs and message boxes)
+OpenPmsDental.GraphScheduleDay	own control	1	0	keeps		(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	a schedule graph: content
+OpenPmsDental.ODcodeBox	own control	6	0	yes	UiInputFrame (UI-12); UiScrollLook (UI-13)	OpenPmsDental/UI/UiInputFrame	a rich text box: framed; scroll bars in the Fluent look
+OpenPmsDental.ODtextBox	own control	130	1	yes	UiInputFrame (UI-12); UiScrollLook (UI-13)	OpenPmsDental/UI/UiInputFrame	a rich text box: framed; scroll bars in the Fluent look
+OpenPmsDental.PanelScrollManual	own control	1	0	yes	UiScrollLook (UI-13) when it scrolls	(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	a sheet's scrolling panel: its scroll bars in the Fluent look
+OpenPmsDental.Reporting.Allocators.MyAllocator1.Images.ImageAnimator	own control	1	0	n/a		(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	draws nothing (a component, a data holder or a part of another row's control)
+OpenPmsDental.SheetComboBox	own control	3	0	keeps		(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	a sheet field's combo box: sheet content (section 1)
+OpenPmsDental.SheetEditMobilePreviewPanel	own control	1	0	keeps		(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	a sheet preview: content
+OpenPmsDental.TableTimeBar	own control	3	0	yes	TableTimeBar.PaintModern (UI-13)	(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	a framed column of 5-minute cells, filled cells Accent/AccentSubtle (owner row 'Time pattern on the left looks odd')
+OpenPmsDental.TextBoxWiki	own control	1	0	yes	UiInputFrame (UI-12); UiScrollLook (UI-13)	OpenPmsDental/UI/UiInputFrame	a rich text box: framed; scroll bars in the Fluent look
+OpenPmsDental.ToothChartTextBelowStrip	own control	1	0	yes	ToothChartTextBelowStrip (UI-4c)	(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	
+OpenPmsDental.UI.Button	own control	2834	7	yes	UI.Button (UI-4a)	OpenPmsDental/UI/Button	
+OpenPmsDental.UI.CheckBox	own control	1250	2	yes	UI.CheckBox (UI-4a)	OpenPmsDental/UI/CheckBox	
+OpenPmsDental.UI.ComboBox	own control	553	0	yes	UI.ComboBox (UI-4b)	OpenPmsDental/UI/ComboBox	
+OpenPmsDental.UI.ComboBoxClinicPicker	own control	84	0	yes	ComboBoxClinicPicker (UI-4b)	OpenPmsDental/UI/ClinicSelector/ComboBoxClinicPicker	
+OpenPmsDental.UI.ControlApptPanel	own control	1	0	keeps		OpenPmsDental/UI/Appt/ControlApptPanel*	appointment-book content (UQ-8); its two scroll bars in the Fluent look (UiScrollLook, UI-13)
+OpenPmsDental.UI.ControlApptProvSlider	own control	1	0	yes	ControlApptProvSlider (UI-4c)	OpenPmsDental/UI/Appt/ControlApptProvSlider	the appointment edit window's time pattern
+OpenPmsDental.UI.ControlDoubleBuffered	own control	4	0	n/a		OpenPmsDental/UI/ControlDoubleBuffered	a double-buffered base control: its owner draws on it
+OpenPmsDental.UI.GridOD	own control	546	1	yes	GridOD and GridScreenLook (UI-5); its scroll bars UiScrollLook (UI-13)	(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	the grid's parts are the owner-drawn rows below
+OpenPmsDental.UI.GridOld	own control	1	0	yes	GridOld's scroll bars UiScrollLook (UI-13)	(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	the old grid (one use) keeps its cell drawing; its scroll bars in the Fluent look
+OpenPmsDental.UI.GroupBox	own control	737	0	yes	UI.GroupBox (UI-4a)	OpenPmsDental/UI/GroupBox	
+OpenPmsDental.UI.LightSignalGrid	own control	1	0	yes	LightSignalGrid (UI-6)	OpenPmsDental/UI/LightSignalGrid	
+OpenPmsDental.UI.ListBox	own control	358	8	yes	UI.ListBox (UI-4b); its scroll bar UiScrollLook (UI-13)	OpenPmsDental/UI/ListBox	the list's own VScrollBar in the Fluent look (owner row 'Scrolling still using old style')
+OpenPmsDental.UI.MenuOD	own control	24	0	yes	MenuOD (UI-6)	OpenPmsDental/UI/MenuOD	
+OpenPmsDental.UI.MonthCalendarOD	own control	7	0	yes	MonthCalendarOD (UI-4b)	OpenPmsDental/UI/MonthCalendarOD	
+OpenPmsDental.UI.ODButtonPanel	own control	2	0	yes	ODButtonPanel (UI-6)	OpenPmsDental/UI/ODButtonPanel	
+OpenPmsDental.UI.ODCodeRangeFilter	own control	4	0	yes	ODCodeRangeFilter (UI-4c)	OpenPmsDental/UI/ODCodeRangeFilter	
+OpenPmsDental.UI.ODColorPicker	own control	3	0	yes	ODColorPicker (UI-4c)	OpenPmsDental/UI/ODColorPicker	
+OpenPmsDental.UI.ODDatePicker	own control	15	0	yes	ODDatePicker (UI-4b)	OpenPmsDental/UI/ODDatePicker	
+OpenPmsDental.UI.ODDateRangePicker	own control	23	0	yes	ODDateRangePicker (UI-4b)	OpenPmsDental/UI/ODDateRangePicker	
+OpenPmsDental.UI.ODGridPageNav	own control	1	0	yes	ODGridPageNav (UI-12 pilot: flat page buttons, the current page in Accent, chevrons)	(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	
+OpenPmsDental.UI.ODPictureBox	own control	12	0	yes	ODPictureBox (UI-4c)	OpenPmsDental/UI/ODPictureBox	border only; the picture is content
+OpenPmsDental.UI.ODPrintPreviewControl	own control	5	0	yes	ODPrintPreviewControl (UI-4c)	OpenPmsDental/UI/ODPrintPreviewControl	
+OpenPmsDental.UI.PanelOD	own control	14	1	yes	PanelOD (UI-4a)	OpenPmsDental/UI/PanelOD	
+OpenPmsDental.UI.PinBoard	own control	1	0	yes	PinBoard (UI-4c)	OpenPmsDental/UI/Appt/PinBoard	
+OpenPmsDental.UI.SignatureBox	own control	2	0	keeps		(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	the signature pad: content
+OpenPmsDental.UI.SignatureBoxWrapper	own control	10	1	yes	SignatureBoxWrapper (UI-4c)	(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	border only; the signature is content
+OpenPmsDental.UI.SplitContainer	own control	18	0	yes	UI.SplitContainer (UI-4b)	OpenPmsDental/UI/Splitters/*	
+OpenPmsDental.UI.SplitterPanel	own control	36	0	yes	UI.SplitterPanel (UI-4b)	OpenPmsDental/UI/Splitters/*	
+OpenPmsDental.UI.TabControl	own control	49	1	yes	UI.TabControl (UI-4b)	OpenPmsDental/UI/TabControl/*	
+OpenPmsDental.UI.TabPage	own control	157	6	yes	UI.TabPage (UI-4b)	OpenPmsDental/UI/TabControl/*	
+OpenPmsDental.UI.ToggleDayWeek	own control	1	0	yes	ToggleDayWeek (UI-4c)	OpenPmsDental/UI/Appt/ToggleDayWeek	
+OpenPmsDental.UI.ToolBarOD	own control	27	0	yes	ToolBarOD (UI-6)	OpenPmsDental/UI/ToolBarOD	
+OpenPmsDental.UI.WarningIntegrity	own control	8	0	yes	WarningIntegrity (UI-4c)	OpenPmsDental/UI/DatabaseIntegrity/WarningIntegrity	
+OpenPmsDental.UI.WindowingSlider	own control	1	0	yes	WindowingSlider (UI-4c)	OpenPmsDental/UI/ImagesModule/WindowingSlider	
+OpenPmsDental.UserControlScreenTooth	own control	20	0	n/a		(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	draws nothing of its own: a user control whose children are rows of this list
+OpenPmsDental.UserControlSecurityTree	own control	3	0	n/a		(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	draws nothing of its own: a user control whose children are rows of this list
+OpenPmsDental.UserControlSecurityUserGroup	own control	1	0	n/a		(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	draws nothing of its own: a user control whose children are rows of this list
+OpenPmsDental.UserControlTasks	own control	1	1	n/a		(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	draws nothing of its own: a user control whose children are rows of this list
+OpenPmsDental.User_Controls.UserControlReportSetup	own control	1	0	n/a		(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	draws nothing of its own: a user control whose children are rows of this list
+OpenPmsDental.ValidDate	own control	210	0	yes	UiInputFrame (UI-12)	OpenPmsDental/UI/UiInputFrame	a text box: framed like the combo box
+OpenPmsDental.ValidDouble	own control	213	0	yes	UiInputFrame (UI-12)	OpenPmsDental/UI/UiInputFrame	a text box: framed like the combo box
+OpenPmsDental.ValidNum	own control	244	1	yes	UiInputFrame (UI-12)	OpenPmsDental/UI/UiInputFrame	a text box: framed like the combo box
+OpenPmsDental.ValidPhone	own control	27	0	yes	UiInputFrame (UI-12)	OpenPmsDental/UI/UiInputFrame	a text box: framed like the combo box
+OpenPmsDental.ValidTime	own control	6	0	yes	UiInputFrame (UI-12)	OpenPmsDental/UI/UiInputFrame	a text box: framed like the combo box
+SparksToothChart.ToothChart2D	own control	1	2	keeps		(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	the tooth chart's 2-D drawing: clinical content (Open Dental's newest release's look)
+SparksToothChart.ToothChartWrapper	own control	3	4	keeps		(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	the tooth chart: clinical content (its look follows Open Dental's newest release)
+System.ComponentModel.BackgroundWorker	stock	2	3	n/a		(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	draws nothing (a component, a data holder or a part of another row's control)
+System.ComponentModel.Container	stock	138	1	n/a		(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	draws nothing (a component, a data holder or a part of another row's control)
+System.Drawing.Printing.PrintDocument	stock	6	12	n/a		(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	draws nothing (a component, a data holder or a part of another row's control)
+System.Windows.Forms.Button	stock	196	12	yes	UiButtonLook (UI-13)	OpenPmsDental/UI/UiLooks	the program's button look (flat SurfaceRaised, Stroke, 4 px corners); a button with its own colour as a rounded swatch
+System.Windows.Forms.CheckBox	stock	8	1	yes	UiCheckLook (UI-13)	OpenPmsDental/UI/UiLooks	the program's check box (box left, the tokens)
+System.Windows.Forms.ColorDialog	stock	9	17	keeps		(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	keeps Windows' own look (docs/specs/ui-refresh-plan.md section 1: the Windows dialogs and message boxes)
+System.Windows.Forms.ComboBox	stock	83	2	yes	UiInputFrame (UI-12)	OpenPmsDental/UI/UiInputFrame	the combo box's frame and chevron over the stock combo
+System.Windows.Forms.ContextMenuStrip	stock	0	37	yes	UiToolStripRenderer (UI-6)	(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	the token renderer every tool strip of the UI thread uses (ToolStripManager.Renderer)
+System.Windows.Forms.DataGridView	stock	5	0	yes	UiLooks.SetDataGridViewLook (UI-13); its scroll bars UiScrollLook	OpenPmsDental/UI/UiLooks	header SurfaceSubtle, lines Gridline, selection AccentSubtle
+System.Windows.Forms.DateTimePicker	stock	33	0	yes	UiInputFrame (UI-12)	OpenPmsDental/UI/UiInputFrame	framed with the combo box's chevron; its drop-down calendar is the next row
+System.Windows.Forms.DateTimePicker (drop-down calendar)	stock	0	0	yes	UiLooks.SetDateTimePickerLook (UI-13): the token colours	OpenPmsDental/UI/UiLooks	Windows' own calendar pop-up (a window the picker owns; no paint hook): with Windows 11's theme Windows draws its themed calendar, without a theme (the gallery's harness) the token colours (title Accent, days Text on SurfaceRaised, other months TextDisabled); the program's ODDatePicker (UI-4b) is the date picker drawn in the tokens
+System.Windows.Forms.DomainUpDown	stock	8	0	yes	UiInputFrame and UiUpDownLook (UI-12)	OpenPmsDental/UI/UiUpDownLook	framed; its arrows as the combo box's chevrons
+System.Windows.Forms.FlowLayoutPanel	stock	1	0	n/a		(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	draws nothing: a layout container
+System.Windows.Forms.FolderBrowserDialog	stock	1	20	keeps		(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	keeps Windows' own look (docs/specs/ui-refresh-plan.md section 1: the Windows dialogs and message boxes)
+System.Windows.Forms.FontDialog	stock	1	0	keeps		(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	keeps Windows' own look (docs/specs/ui-refresh-plan.md section 1: the Windows dialogs and message boxes)
+System.Windows.Forms.GroupBox	stock	1	0	keeps		(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	one use (a hidden legacy group); Windows' themed group frame. Its windows use UI.GroupBox (UI-4a)
+System.Windows.Forms.HScrollBar	stock	1	2	yes	UiScrollLook (UI-13)	OpenPmsDental/UI/UiScrollLook	flat Surface track, StrokeStrong pill thumb, Fluent chevrons
+System.Windows.Forms.Integration.ElementHost	stock	10	0	n/a		(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	hosts a WPF control: the WPF rows below
+System.Windows.Forms.Label	stock	4671	15	yes	UI-2a fonts; plain text in Text on the container	(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	a label draws its text only: the font tokens (UI-2a/UI-2b) and the grid (UI-12); a LightGray block label gets UiBlockLook (UI-13)
+System.Windows.Forms.LinkLabel	stock	2	4	yes	UiLooks.SetLinkLabelLook (UI-13)	OpenPmsDental/UI/UiLooks	links in Accent
+System.Windows.Forms.ListBox	stock	5	0	yes	UiScrollLook (UI-13) scroll bars; UiBorderLook-free (Windows' flat list border)	OpenPmsDental/UI/UiScrollLook	its scroll bars in the Fluent look; the items keep Windows' list (the program's own list is UI.ListBox)
+System.Windows.Forms.ListView	stock	5	0	yes	UiLooks.AttachExplorerTheme and UiScrollLook (UI-13)	OpenPmsDental/UI/UiLooks	Windows 11's Explorer theme; scroll bars in the Fluent look
+System.Windows.Forms.MessageBox	stock	0	1724	keeps		OpenPmsDental/UI/MessageBox	keeps Windows' own look (docs/specs/ui-refresh-plan.md section 1: the Windows dialogs and message boxes)
+System.Windows.Forms.MonthCalendar	stock	33	0	yes	UiLooks.SetMonthCalendarLook (UI-13): the token colours	OpenPmsDental/UI/UiLooks	Windows' month calendar control (no owner drawing: Windows draws the days, header and hot tracking in one window): Windows 11's themed calendar, and the token colours where Windows draws it without a theme; the program's own calendar is MonthCalendarOD (UI-4b), but swapping the 33 stock ones is a behaviour change (their events and selection ranges differ)
+System.Windows.Forms.NumericUpDown	stock	9	0	yes	UiInputFrame and UiUpDownLook (UI-12)	OpenPmsDental/UI/UiUpDownLook	framed; its arrows as the combo box's chevrons
+System.Windows.Forms.OpenFileDialog	stock	4	38	keeps		(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	keeps Windows' own look (docs/specs/ui-refresh-plan.md section 1: the Windows dialogs and message boxes)
+System.Windows.Forms.PageSetupDialog	stock	1	0	keeps		(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	keeps Windows' own look (docs/specs/ui-refresh-plan.md section 1: the Windows dialogs and message boxes)
+System.Windows.Forms.Panel	stock	95	8	yes	UiBorderLook (UI-13) for bordered panels; UiScrollLook (UI-13) for scrolling ones	OpenPmsDental/UI/UiLooks	a 3-D or black border flat StrokeStrong; AutoScroll bars in the Fluent look; a plain panel draws only its colour
+System.Windows.Forms.PictureBox	stock	17	1	yes	UiBorderLook (UI-13)	OpenPmsDental/UI/UiLooks	a 3-D or black border flat StrokeStrong; the picture is content
+System.Windows.Forms.PrintDialog	stock	1	1	keeps		(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	keeps Windows' own look (docs/specs/ui-refresh-plan.md section 1: the Windows dialogs and message boxes)
+System.Windows.Forms.PrintPreviewControl	stock	4	1	yes	UiScrollLook (UI-13) scroll bars	OpenPmsDental/UI/UiScrollLook	the pages are documents; the scroll bars in the Fluent look (the program's own is ODPrintPreviewControl, UI-4c)
+System.Windows.Forms.PrintPreviewDialog	stock	3	1	keeps		(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	keeps Windows' own look (docs/specs/ui-refresh-plan.md section 1: the Windows dialogs and message boxes)
+System.Windows.Forms.ProgressBar	stock	4	0	yes	UiProgressLook (UI-13)	OpenPmsDental/UI/UiLooks	a rounded Stroke track with the Accent fill
+System.Windows.Forms.RadioButton	stock	425	1	yes	UiRadioLook (UI-12)	OpenPmsDental/UI/UiRadioLook	drawn like the program's check box
+System.Windows.Forms.RichTextBox	stock	8	9	yes	UiInputFrame (UI-12) frame; UiScrollLook (UI-13) scroll bars	OpenPmsDental/UI/UiInputFrame	framed; scroll bars in the Fluent look
+System.Windows.Forms.SaveFileDialog	stock	4	30	keeps		(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	keeps Windows' own look (docs/specs/ui-refresh-plan.md section 1: the Windows dialogs and message boxes)
+System.Windows.Forms.SplitContainer	stock	1	0	keeps		(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	one use; Windows Forms draws its splitter flat in the container's colour (no bevel); the program's own is UI.SplitContainer (UI-4b)
+System.Windows.Forms.TabControl	stock	0	1	keeps		(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	the program's windows use UI.TabControl (UI-4b); a stock one made in code keeps Windows' themed tabs
+System.Windows.Forms.TableLayoutPanel	stock	2	0	n/a		(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	draws nothing: a layout container
+System.Windows.Forms.TextBox	stock	1892	12	yes	UiInputFrame (UI-12) frame; UiScrollLook (UI-13) scroll bars	OpenPmsDental/UI/UiInputFrame	single- and multi-line boxes framed like the combo box; their scroll bars in the Fluent look
+System.Windows.Forms.ToolStripMenuItem	stock	211	145	yes	UiToolStripRenderer (UI-6)	(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	a menu item: the token renderer draws it
+System.Windows.Forms.ToolStripSeparator	stock	6	21	yes	UiToolStripRenderer (UI-6)	(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	a menu separator: the token renderer draws it
+System.Windows.Forms.ToolTip	stock	0	14	keeps		(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	a component, not a control: Windows 11 draws its themed tooltip (rounded, flat); the program's own is ToolTipOD (UI-4a)
+System.Windows.Forms.TrackBar	stock	1	1	yes	UiTrackBarLook (UI-13)	OpenPmsDental/UI/UiTrackBarLook	the Fluent slider: thin Stroke track, Accent fill, round thumb, StrokeStrong ticks
+System.Windows.Forms.TreeView	stock	6	0	yes	UiLooks.AttachExplorerTheme and UiScrollLook (UI-13)	OpenPmsDental/UI/UiLooks	Windows 11's Explorer theme (hover, selection, chevrons); scroll bars in the Fluent look
+System.Windows.Forms.VScrollBar	stock	2	5	yes	UiScrollLook (UI-13)	OpenPmsDental/UI/UiScrollLook	flat Surface track, StrokeStrong pill thumb, Fluent chevrons
+fyiReporting.RdlViewer.RdlViewer	own control	2	0	keeps		(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	the report viewer: reports are documents
+part: GridOD header and title	owner-drawn part	546	1	yes	GridScreenLook (UI-5)	(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	
+part: GridOD rows, selection and lines	owner-drawn part	546	1	yes	GridScreenLook (UI-5)	(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	
+part: GridOD scroll bars	owner-drawn part	546	1	yes	UiScrollLook (UI-13); the corner square in the track colour	OpenPmsDental/UI/UiScrollLook	owner rows 'Scrolling still using old style', 'Scrolling bar style is old'
+part: GridOD page bar (ODGridPageNav)	owner-drawn part	1	0	yes	ODGridPageNav (UI-12 pilot)	(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	
+part: tab strips	owner-drawn part	49	1	yes	UI.TabControl (UI-4b)	OpenPmsDental/UI/TabControl/*	
+part: menus and context menus	owner-drawn part	24	0	yes	MenuOD and UiToolStripRenderer (UI-6)	OpenPmsDental/UI/MenuOD	
+part: toolbars	owner-drawn part	27	0	yes	ToolBarOD (UI-6)	OpenPmsDental/UI/ToolBarOD	
+part: the module bar	owner-drawn part	0	0	yes	ModuleBar (UI-6)	OpenPmsDental/UI/ModuleBar	
+part: the date picker's calendar drop-down (ODDatePicker)	owner-drawn part	15	0	yes	MonthCalendarOD (UI-4b)	OpenPmsDental/UI/MonthCalendarOD	
+part: tooltips (ToolTipOD)	owner-drawn part	0	0	yes	ToolTipOD (UI-4a)	OpenPmsDental/UI/ToolTipOD	
+part: splitters (UI.SplitContainer)	owner-drawn part	18	0	yes	UI.SplitContainer (UI-4b)	OpenPmsDental/UI/Splitters/*	
+part: progress bars (OdProgressBar)	owner-drawn part	0	0	yes	OdProgressBar (UI-4c)	OpenPmsDental/UI/OdProgressBar	
+part: the time pattern bar	owner-drawn part	3	0	yes	TableTimeBar.PaintModern (UI-13)	(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	owner row 'Time pattern on the left looks odd'
+part: the time pattern's slider handle (a stock button)	owner-drawn part	3	0	yes	UiButtonLook swatch (UI-13)	OpenPmsDental/UI/UiLooks	
+part: colour buttons (stock buttons showing a colour)	owner-drawn part	0	0	yes	UiButtonLook swatch (UI-13)	OpenPmsDental/UI/UiLooks	a rounded swatch with a StrokeStrong edge
+part: the status strip	owner-drawn part	0	0	yes	UiToolStripRenderer (UI-6)	(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	
+part: message boxes	owner-drawn part	0	0	keeps		OpenPmsDental/UI/MessageBox	keeps Windows' own look (docs/specs/ui-refresh-plan.md section 1: the Windows dialogs and message boxes); the copyable one is MsgBoxCopyPaste (UI-4c)
+part: the aging strip's grey blocks (Ins Rem, DPlan Rem)	owner-drawn part	0	0	yes	UiBlockLook (UI-13)	OpenPmsDental/UI/UiLooks	owner row 'Check spacing top left'
+part: frame scroll bars of text boxes, lists, tree and list views, scrolling panels	owner-drawn part	0	0	yes	UiScrollLook (UI-13)	OpenPmsDental/UI/UiScrollLook	
+part: the input frame's corners printed through WM_PRINT	owner-drawn part	0	0	yes	UiInputFrame (UI-12; UI-13 clears Windows' corner pixel)	OpenPmsDental/UI/UiInputFrame	the dark pixel the Windows border left in each outer corner
+WPF ScrollBar	wpf	4	0	yes	UiLookScroll (UI-13)	WpfControlsOD/UI/Controls/UiLookScroll	the Fluent scroll bar in the WPF grid, lists, tree, rich text and pickers
+WPF ScrollViewer	wpf	15	0	yes	UiLookScroll (UI-13)	WpfControlsOD/UI/Controls/UiLookScroll	its scroll bars in the Fluent look
+WPF ui:Button	wpf	446	0	yes	WpfControlsOD's Button (UI-4a)	WpfControlsOD/UI/Controls/Button	
+WPF ui:CheckBox	wpf	167	0	yes	WpfControlsOD's CheckBox (UI-4a)	WpfControlsOD/UI/Controls/CheckBox	
+WPF ui:ComboBox	wpf	64	0	yes	WpfControlsOD's ComboBox (UI-4b)	WpfControlsOD/UI/Controls/ComboBox	
+WPF ui:ComboClinic	wpf	10	0	yes	WpfControlsOD's ComboClinic (UI-4b)	WpfControlsOD/UI/Controls/ComboClinic	
+WPF ui:DatePicker	wpf	3	0	yes	WpfControlsOD's DatePicker (UI-4b)	WpfControlsOD/UI/Controls/DatePicker	
+WPF ui:Grid	wpf	40	0	yes	WpfControlsOD's Grid (UI-5)	WpfControlsOD/UI/Controls/Grid	
+WPF ui:GroupBox	wpf	69	0	yes	WpfControlsOD's GroupBox (UI-4a)	WpfControlsOD/UI/Controls/GroupBox	
+WPF ui:Label	wpf	739	0	yes	WpfControlsOD's Label (UI-4a)	WpfControlsOD/UI/Controls/Label	
+WPF ui:LinkLabel	wpf	2	0	yes	WpfControlsOD's LinkLabel (UI-4a)	WpfControlsOD/UI/Controls/LinkLabel	
+WPF ui:ListBox	wpf	60	0	yes	WpfControlsOD's ListBox (UI-4b)	WpfControlsOD/UI/Controls/ListBox	
+WPF ui:ListView	wpf	1	0	yes	WpfControlsOD's ListView (UI-4b)	WpfControlsOD/UI/Controls/ListView	
+WPF ui:Menu	wpf	2	0	yes	WpfControlsOD's Menu (UI-6)	WpfControlsOD/UI/Controls/Menu	
+WPF ui:MonthCalendar	wpf	2	0	yes	WpfControlsOD's MonthCalendar (UI-4b)	WpfControlsOD/UI/Controls/MonthCalendar	
+WPF ui:Panel	wpf	28	0	yes	WpfControlsOD's Panel (UI-4a)	WpfControlsOD/UI/Controls/Panel	
+WPF ui:PanelAutoScroll	wpf	1	0	yes	WpfControlsOD's PanelAutoScroll (UI-4a)	WpfControlsOD/UI/Controls/PanelAutoScroll	
+WPF ui:PictureBox	wpf	1	0	yes	WpfControlsOD's PictureBox (UI-4a)	WpfControlsOD/UI/Controls/PictureBox	
+WPF ui:ProgressBarFlat	wpf	1	0	yes	WpfControlsOD's ProgressBarFlat (UI-4c)	WpfControlsOD/UI/Progress/*	
+WPF ui:RadioButton	wpf	36	0	yes	WpfControlsOD's RadioButton (UI-4a)	WpfControlsOD/UI/Controls/RadioButton	
+WPF ui:SignatureBoxWrapper	wpf	2	0	yes	WpfControlsOD's SignatureBoxWrapper (UI-4c)	WpfControlsOD/UI/Controls/SignatureBoxWrapper	
+WPF ui:SplitContainer	wpf	4	0	yes	WpfControlsOD's SplitContainer (UI-4b)	WpfControlsOD/UI/Controls/SplitContainer	
+WPF ui:TabControl	wpf	1	0	yes	WpfControlsOD's TabControl (UI-4b)	WpfControlsOD/UI/Controls/TabControl	
+WPF ui:TabPage	wpf	5	0	yes	WpfControlsOD's TabPage (UI-4b)	WpfControlsOD/UI/Controls/TabPage	
+WPF ui:TextBox	wpf	375	0	yes	WpfControlsOD's TextBox (UI-4b)	WpfControlsOD/UI/Controls/TextBox	
+WPF ui:TextPassword	wpf	1	0	yes	WpfControlsOD's TextPassword (UI-4b)	WpfControlsOD/UI/Controls/TextPassword	
+WPF ui:TextRich	wpf	23	0	yes	WpfControlsOD's TextRich (UI-4b)	WpfControlsOD/UI/Controls/TextRich	
+WPF ui:TextVDate	wpf	24	0	yes	WpfControlsOD's TextVDate (UI-4b)	WpfControlsOD/UI/Controls/TextVDate	
+WPF ui:TextVDouble	wpf	5	0	yes	WpfControlsOD's TextVDouble (UI-4b)	WpfControlsOD/UI/Controls/TextVDouble	
+WPF ui:TextVInt	wpf	45	0	yes	WpfControlsOD's TextVInt (UI-4b)	WpfControlsOD/UI/Controls/TextVInt	
+WPF ui:TextVTime	wpf	2	0	yes	WpfControlsOD's TextVTime (UI-4b)	WpfControlsOD/UI/Controls/TextVTime	
+WPF ui:ToolBar	wpf	2	0	yes	WpfControlsOD's ToolBar (UI-6)	WpfControlsOD/UI/Controls/ToolBar	
+WPF ui:TreeView	wpf	3	0	yes	WpfControlsOD's TreeView (UI-4b)	WpfControlsOD/UI/Controls/TreeView	
+WPF ui:WarningIntegrity	wpf	1	0	yes	WpfControlsOD's WarningIntegrity (UI-4c)	WpfControlsOD/UI/DatabaseIntegrity/WarningIntegrity	
+WPF ui:WebView2	wpf	2	0	keeps		WpfControlsOD/UI/Controls/WebView2	its coverage row: keeps

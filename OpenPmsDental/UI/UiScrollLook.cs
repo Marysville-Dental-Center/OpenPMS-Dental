@@ -67,6 +67,9 @@ namespace OpenPmsDental.UI {
 		private EnumUiScrollPart _partPressed=EnumUiScrollPart.None;
 		///<summary>What was painted last (both bars' geometry and states), to paint again only when it changed.</summary>
 		private string _stateLast="";
+		///<summary>True while the look reads the bars or paints: the messages it sends itself (SBM_GETSCROLLBARINFO to a scroll bar control) pass
+		///straight to Windows.</summary>
+		private bool _isBusy;
 		#endregion Fields
 
 		private UiScrollLook(Control control) {
@@ -135,6 +138,10 @@ namespace OpenPmsDental.UI {
 
 		#region Methods - Private
 		protected override void WndProc(ref Message m) {
+			if(_isBusy) {
+				base.WndProc(ref m);
+				return;
+			}
 			int msg=m.Msg;
 			bool isPress=false;
 			try {
@@ -152,17 +159,20 @@ namespace OpenPmsDental.UI {
 					_partPressed=GetPartAt(_objectIdPressed,Cursor.Position);
 				}
 				if(isPress) {
+					_isBusy=true;
 					PaintOnWindow(force:true);
 				}
 			}
 			catch(Exception) {
 				//The look is only a picture: Windows' own drawing stays when it cannot be painted.
 			}
+			_isBusy=false;
 			base.WndProc(ref m);
 			try {
 				if(msg==WM_NCDESTROY) {
 					return;
 				}
+				_isBusy=true;
 				if(isPress) {
 					_objectIdPressed=0;
 					_partPressed=EnumUiScrollPart.None;
@@ -198,6 +208,9 @@ namespace OpenPmsDental.UI {
 			}
 			catch(Exception) {
 				//As above.
+			}
+			finally {
+				_isBusy=false;
 			}
 		}
 

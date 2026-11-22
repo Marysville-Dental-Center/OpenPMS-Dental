@@ -62,6 +62,52 @@ namespace OpenPmsDental.UI {
 			if(control is LinkLabel linkLabel) {
 				SetLinkLabelLook(linkLabel);
 			}
+			if(control is MonthCalendar monthCalendar) {
+				SetMonthCalendarLook(monthCalendar);
+			}
+			if(control is DateTimePicker dateTimePicker) {
+				SetDateTimePickerLook(dateTimePicker);
+			}
+		}
+
+		///<summary>A stock month calendar's colours in the tokens where it has Windows' defaults: the title Accent with TextOnAccent, the days Text
+		///on SurfaceRaised, the other months' days TextDisabled. Windows uses them where it draws the calendar without a theme; with Windows 11's
+		///theme it draws its own themed calendar.</summary>
+		public static void SetMonthCalendarLook(MonthCalendar monthCalendar) {
+			if(monthCalendar.TitleBackColor==SystemColors.ActiveCaption) {
+				monthCalendar.TitleBackColor=UiTheme.GetColor(EnumUiColor.Accent);
+			}
+			if(monthCalendar.TitleForeColor==SystemColors.ActiveCaptionText) {
+				monthCalendar.TitleForeColor=UiTheme.GetColor(EnumUiColor.TextOnAccent);
+			}
+			if(monthCalendar.TrailingForeColor==SystemColors.GrayText) {
+				monthCalendar.TrailingForeColor=UiTheme.GetColor(EnumUiColor.TextDisabled);
+			}
+			if(monthCalendar.BackColor==SystemColors.Window) {
+				monthCalendar.BackColor=UiTheme.GetColor(EnumUiColor.SurfaceRaised);
+			}
+			if(monthCalendar.ForeColor==SystemColors.WindowText) {
+				monthCalendar.ForeColor=UiTheme.GetColor(EnumUiColor.Text);
+			}
+		}
+
+		///<summary>A stock date picker's drop-down calendar in the same token colours as SetMonthCalendarLook.</summary>
+		public static void SetDateTimePickerLook(DateTimePicker dateTimePicker) {
+			if(dateTimePicker.CalendarTitleBackColor==SystemColors.ActiveCaption) {
+				dateTimePicker.CalendarTitleBackColor=UiTheme.GetColor(EnumUiColor.Accent);
+			}
+			if(dateTimePicker.CalendarTitleForeColor==SystemColors.ActiveCaptionText) {
+				dateTimePicker.CalendarTitleForeColor=UiTheme.GetColor(EnumUiColor.TextOnAccent);
+			}
+			if(dateTimePicker.CalendarTrailingForeColor==SystemColors.GrayText) {
+				dateTimePicker.CalendarTrailingForeColor=UiTheme.GetColor(EnumUiColor.TextDisabled);
+			}
+			if(dateTimePicker.CalendarMonthBackground==SystemColors.Window) {
+				dateTimePicker.CalendarMonthBackground=UiTheme.GetColor(EnumUiColor.SurfaceRaised);
+			}
+			if(dateTimePicker.CalendarForeColor==SystemColors.WindowText) {
+				dateTimePicker.CalendarForeColor=UiTheme.GetColor(EnumUiColor.Text);
+			}
 		}
 
 		///<summary>The scale of the looks: the program's dpi and zoom.</summary>
@@ -129,7 +175,7 @@ namespace OpenPmsDental.UI {
 
 		///<summary>A link label's links in Accent (AccentPressed while clicked) where it has Windows' default blue and red.</summary>
 		public static void SetLinkLabelLook(LinkLabel linkLabel) {
-			if(linkLabel.LinkColor.ToArgb()==Color.FromArgb(0,0,255).ToArgb()) {
+			if(linkLabel.LinkColor.ToArgb()==Color.Blue.ToArgb()) {
 				linkLabel.LinkColor=UiTheme.GetColor(EnumUiColor.Accent);
 			}
 			if(linkLabel.ActiveLinkColor.ToArgb()==Color.Red.ToArgb()) {
@@ -489,6 +535,8 @@ namespace OpenPmsDental.UI {
 		private const int WM_NCDESTROY=0x0082;
 		private static readonly ConditionalWeakTable<Control,UiProgressLook> _table=new ConditionalWeakTable<Control,UiProgressLook>();
 		private readonly ProgressBar _progressBar;
+		///<summary>True while painting: the messages the paint sends itself (the value's PBM_GETPOS) pass straight to Windows.</summary>
+		private bool _isBusy;
 
 		private UiProgressLook(ProgressBar progressBar) {
 			_progressBar=progressBar;
@@ -534,8 +582,13 @@ namespace OpenPmsDental.UI {
 		}
 
 		protected override void WndProc(ref Message m) {
+			if(_isBusy) {
+				base.WndProc(ref m);
+				return;
+			}
 			int msg=m.Msg;
 			base.WndProc(ref m);
+			_isBusy=true;
 			try {
 				switch(msg) {
 					case WM_NCDESTROY:
@@ -560,6 +613,9 @@ namespace OpenPmsDental.UI {
 			}
 			catch(Exception) {
 				//The look is only a picture.
+			}
+			finally {
+				_isBusy=false;
 			}
 		}
 	}
