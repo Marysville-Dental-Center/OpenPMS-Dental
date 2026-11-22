@@ -43,15 +43,16 @@ namespace UiRefreshTests.Toolbars {
 			return listStrips;
 		}
 
-		///<summary>The bounds of the pixels with at least half ink (alpha 128) of a picture on transparent; empty when there are none.</summary>
-		public static Rectangle GetInkBounds(Bitmap bitmap) {
+		///<summary>The bounds of the pixels with at least inkMin of ink (alpha; 128: half ink) of a picture on transparent; empty when there are
+		///none.</summary>
+		public static Rectangle GetInkBounds(Bitmap bitmap,int inkMin=128) {
 			int[] arrayInk=IconRendererTests.GetInk(bitmap,isOnWhite:false);
 			int xMin=int.MaxValue;
 			int yMin=int.MaxValue;
 			int xMax=-1;
 			int yMax=-1;
 			for(int i=0;i<arrayInk.Length;i++) {
-				if(arrayInk[i]<128) {
+				if(arrayInk[i]<inkMin) {
 					continue;
 				}
 				int x=i%bitmap.Width;
@@ -76,10 +77,12 @@ namespace UiRefreshTests.Toolbars {
 			Assert.IsTrue(listStrips.Any(x => x.Key=="FormClaimsSend.ArrayIconsImageList"));
 		}
 
-		///<summary>The exact bounds of a design's figures in its own design pixels (GDI+ flattens the curves), with no box and no scale.</summary>
+		///<summary>The exact bounds of a design's figures in its own design pixels (the curves flattened, so no control point counts), with no box
+		///and no scale.</summary>
 		private static RectangleF GetDesignBounds(IconDesign iconDesign) {
 			using(System.Drawing.Drawing2D.GraphicsPath graphicsPath=new System.Drawing.Drawing2D.GraphicsPath(System.Drawing.Drawing2D.FillMode.Winding)) {
 				iconDesign.GetFigures().WriteTo(new PathSink(graphicsPath),0,0,1);
+				graphicsPath.Flatten(null,0.01f);
 				return graphicsPath.GetBounds();
 			}
 		}
@@ -103,8 +106,8 @@ namespace UiRefreshTests.Toolbars {
 		}
 
 		///<summary>Every icon of every strip, in the strip's ImageList at 100, 150 and 200% of the 22 and 16 px slots, is drawn in one box: the box of
-		///section 3.5 for the slot (the same for every icon), its ink inside the box, and its ink extent (pixels of half ink and up) within 1 px of
-		///its size class in that box (GetExtentClass). Before the fix an icon whose largest design is 24 px drew it in a 24 px box in the 33 and
+		///section 3.5 for the slot (the same for every icon), its ink inside the box, and its ink extent (any ink) within 1 px of its size class in
+		///that box (GetExtentClass) rounded out to whole pixels. Before the fix an icon whose largest design is 24 px drew it in a 24 px box in the 33 and
 		///44 px slots: 20 px of ink where its class has 28 in the 32 px box of its neighbours.</summary>
 		[TestMethod]
 		public void StripIcons_FillOneBox_InkWithin1PxOfTheirSizeClass_At100_150_200() {
@@ -125,7 +128,7 @@ namespace UiRefreshTests.Toolbars {
 								Assert.AreEqual(rectangleBox,UiIcons.GetDrawRectangle(iconDesign,new Rectangle(0,0,sizePixels,sizePixels)),what+": the box.");
 								Rectangle rectangleInk;
 								using(Bitmap bitmap=(Bitmap)imageList.Images[i]) {
-									rectangleInk=GetInkBounds(bitmap);
+									rectangleInk=GetInkBounds(bitmap,inkMin:1);
 								}
 								Assert.IsFalse(rectangleInk.IsEmpty,what+": no ink.");
 								if(!Rectangle.Inflate(rectangleBox,1,1).Contains(rectangleInk)) {
@@ -133,7 +136,9 @@ namespace UiRefreshTests.Toolbars {
 								}
 								float extentClass=GetExtentClass(iconDesign,sizeBox);
 								int extent=Math.Max(rectangleInk.Width,rectangleInk.Height);
-								if(Math.Abs(extent-extentClass)>1f) {
+								//Any ink counts (a round tip may cover less than half a pixel), so the ink is the class rounded out to whole pixels, within
+								//1 px: an edge on a fraction of a pixel inks that pixel.
+								if(extent<Math.Floor(extentClass)-1 || extent>Math.Ceiling(extentClass)+1) {
 									listFaults.Add(what+": ink extent "+extent+" px, its size class "+extentClass.ToString("0.0")+" px in the "+sizeBox+" px box ("+iconDesign.Size+" px design).");
 								}
 								countChecked++;
