@@ -87,14 +87,14 @@ namespace UiRefreshTests.Toolbars {
 			}
 		}
 
-		///<summary>The size class of a design in a box of sizeBox: its extent (the larger side of its figures' bounds) as Fluent drew it, times its
-		///optical scale, and, when the box is not its own size, times the ratio of the Fluent keyline squares (GetLiveSize). Every icon of one class
-		///has this extent in the box, whichever of its designs it draws.</summary>
+		///<summary>The size class of a design in a box of sizeBox: its extent (the larger side of its figures' bounds) as Fluent drew it, and, when the
+		///box is not its own size, times the ratio of the Fluent keyline squares (GetLiveSize) and its optical scale (a design in a box of its own size
+		///is drawn pixel for pixel). Every icon of one class has this extent in the box, whichever of its designs it draws.</summary>
 		private static float GetExtentClass(IconDesign iconDesign,int sizeBox) {
 			RectangleF rectangleF=GetDesignBounds(iconDesign);
-			float extent=Math.Max(rectangleF.Width,rectangleF.Height)*iconDesign.OpticalScale;
+			float extent=Math.Max(rectangleF.Width,rectangleF.Height);
 			if(iconDesign.Size!=sizeBox) {
-				extent=extent*UiIcons.GetLiveSize(sizeBox)/UiIcons.GetLiveSize(iconDesign.Size);
+				extent=extent*UiIcons.GetLiveSize(sizeBox)/UiIcons.GetLiveSize(iconDesign.Size)*iconDesign.OpticalScale;
 			}
 			return extent;
 		}
@@ -181,10 +181,13 @@ namespace UiRefreshTests.Toolbars {
 			return GetDesignBounds(iconDesign).Height*scaleDesign;
 		}
 
-		///<summary>The editors' text buttons (the lead's audit): H1 has the cap height of B and I (within 1 px) in the 20, 24 and 32 px boxes (H2 and
-		///H3 take H1's optical scale, 15/14; their digits overshoot as Fluent drew them), so the headings no longer look small next to them; B draws
-		///the 28 px design (lighter stems than the 16 to 24 px designs' heavy B) at 0.92 and I at 15/16: one cap height, 15 of the 24 px design's
-		///20 px keyline square. H2 and H3, the widest, stay inside the box with 1 px to spare, so they keep their gap to the label.</summary>
+		///<summary>The editors' text buttons (the lead's audit): at 150 and 200% (the 32 px box, where the 24 px designs are scaled) H1 has the cap
+		///height of B and I within 1 px (H2 and H3 take H1's optical scale, 15/14; their digits overshoot as Fluent drew them), so the headings no
+		///longer look small next to them; B draws the 28 px design (lighter stems than the 16 to 24 px designs' heavy B) at 0.92 and I at 15/16: one
+		///cap height, 15 of the 24 px design's 20 px keyline square. At 100% (the 20 px box) H1 to H3 and I draw their own 20 px designs pixel for
+		///pixel, with no optical scale (the second review: a scale there blurred their stems, StripIconBoxTests.TextButtons_AreCrisp_At100); H1 is
+		///then within 1 px of B (12 of 20 against 12.3) and I is Fluent's 14 of 20. H2 and H3, the widest, stay inside the box with 1 px to spare at
+		///every scale, so they keep their gap to the label.</summary>
 		[TestMethod]
 		public void HeadingLetters_HaveTheCapHeightOfBoldAndItalic_At100_150_200() {
 			Assert.IsTrue(IconLibrary.GetDesigns(EnumIcons.Bold).All(x => x.Size==28 && x.FileName=="text_bold_28_regular.svg" && Math.Abs(x.OpticalScale-0.92f)<0.001f));
@@ -195,12 +198,27 @@ namespace UiRefreshTests.Toolbars {
 			foreach(float scale in _arrayScales) {
 				int sizePixels=UiTheme.ScaleI(ToolBarOD.SIZE_IMAGE_LIST96,scale);
 				float heightBold=GetDrawnHeight(EnumIcons.Bold,sizePixels);
-				foreach(EnumIcons icon in new[] { EnumIcons.Heading1,EnumIcons.Italic }) {
-					float height=GetDrawnHeight(icon,sizePixels);
-					Assert.IsTrue(Math.Abs(height-heightBold)<=1,icon+" at "+(int)Math.Round(scale*100)+"%: cap height "+height+" px, Bold "+heightBold+" px.");
+				if(scale==1f) {
+					//The 20 px box: H1 and I draw their own designs pixel for pixel.
+					foreach(EnumIcons icon in new[] { EnumIcons.Heading1,EnumIcons.Heading2,EnumIcons.Heading3,EnumIcons.Italic }) {
+						IconDesign iconDesign=IconLibrary.GetDesign(icon,sizePixels);
+						Assert.AreEqual(20,iconDesign.Size,icon+" at 100%: the 20 px design.");
+						UiIcons.GetPlacement(iconDesign,20,out float offset100,out float scale100);
+						Assert.AreEqual(0f,offset100,icon+" at 100%: no offset.");
+						Assert.AreEqual(1f,scale100,icon+" at 100%: no scale.");
+					}
+					float heightHeading=GetDrawnHeight(EnumIcons.Heading1,sizePixels);
+					Assert.IsTrue(Math.Abs(heightHeading-heightBold)<=1,"Heading1 at 100%: cap height "+heightHeading+" px, Bold "+heightBold+" px.");
+					Assert.AreEqual(14f,GetDrawnHeight(EnumIcons.Italic,sizePixels),0.01f,"Italic at 100%: Fluent's 20 px design, 14 px.");
 				}
-				//Before the fix H1 was 2 design px shorter than B and I at every size (14 of 24 against 16).
-				Assert.IsTrue(GetDrawnHeight(EnumIcons.Heading1,sizePixels)>=GetDrawnHeight(EnumIcons.Italic,sizePixels)-0.5f);
+				else {
+					foreach(EnumIcons icon in new[] { EnumIcons.Heading1,EnumIcons.Italic }) {
+						float height=GetDrawnHeight(icon,sizePixels);
+						Assert.IsTrue(Math.Abs(height-heightBold)<=1,icon+" at "+(int)Math.Round(scale*100)+"%: cap height "+height+" px, Bold "+heightBold+" px.");
+					}
+					//Before the fix H1 was 2 design px shorter than B and I at every size (14 of 24 against 16).
+					Assert.IsTrue(GetDrawnHeight(EnumIcons.Heading1,sizePixels)>=GetDrawnHeight(EnumIcons.Italic,sizePixels)-0.5f);
+				}
 				//H2 and H3 leave at least 1 px of the box on each side.
 				foreach(EnumIcons icon in new[] { EnumIcons.Heading2,EnumIcons.Heading3 }) {
 					IconDesign iconDesign=IconLibrary.GetDesign(icon,sizePixels);
@@ -211,6 +229,55 @@ namespace UiRefreshTests.Toolbars {
 						icon+" at "+(int)Math.Round(scale*100)+"%: "+(offset+rectangleF.Left*scaleDesign)+" to "+(offset+rectangleF.Right*scaleDesign)+" of "+sizeBox+" px.");
 				}
 			}
+		}
+
+		///<summary>The second review of the UI-9b-4 fix: at 100% (the 22 px toolbar slot, its 20 px box) an optical scale put the 1 px stems of H1 to
+		///H3 and the serifs of I on fractions of a pixel (15/14 and 15/16 of the 20 px designs), so they were drawn as 2 px grey columns and rows and
+		///the headings read lighter and blurrier than Link or B beside them. Now a design in a box of its own size is drawn pixel for pixel: in the
+		///editors' ImageList at 100%, the two most inked columns of each H (its stems) and the most inked of I's top and bottom two rows (its serifs)
+		///each have a pixel of at least 0.9 ink.</summary>
+		[TestMethod]
+		public void TextButtons_AreCrisp_At100() {
+			int sizePixels=ToolBarOD.SIZE_IMAGE_LIST96;
+			EnumIcons[] arrayIcons=FormEmailEdit.ArrayIconsImageList;
+			const int inkCrisp=230;//0.9 of 255
+			List<string> listFaults=new List<string>();
+			using(ImageList imageList=IconLibrary.GetImageList(arrayIcons,sizePixels)) {
+				foreach(EnumIcons icon in new[] { EnumIcons.Heading1,EnumIcons.Heading2,EnumIcons.Heading3,EnumIcons.Italic }) {
+					int index=Array.IndexOf(arrayIcons,icon);
+					Assert.IsTrue(index>=0,icon+" is in the editors' list.");
+					int width;
+					int[] arrayInk;
+					Rectangle rectangleInk;
+					using(Bitmap bitmap=(Bitmap)imageList.Images[index]) {
+						width=bitmap.Width;
+						arrayInk=IconRendererTests.GetInk(bitmap,isOnWhite:false);
+						rectangleInk=GetInkBounds(bitmap,inkMin:1);
+					}
+					Assert.IsFalse(rectangleInk.IsEmpty,icon+": no ink.");
+					if(icon==EnumIcons.Italic) {
+						foreach(int[] arrayRows in new[] { new[] { rectangleInk.Top,rectangleInk.Top+1 },new[] { rectangleInk.Bottom-2,rectangleInk.Bottom-1 } }) {
+							int row=arrayRows.OrderByDescending(y => Enumerable.Range(rectangleInk.Left,rectangleInk.Width).Sum(x => arrayInk[y*width+x])).First();
+							int inkMax=Enumerable.Range(rectangleInk.Left,rectangleInk.Width).Max(x => arrayInk[row*width+x]);
+							if(inkMax<inkCrisp) {
+								listFaults.Add(icon+": the serif row "+row+" has at most "+inkMax+" of 255 ink.");
+							}
+						}
+						continue;
+					}
+					//The H's stems: the two most inked columns of the left 60% of the ink.
+					int xEnd=rectangleInk.Left+(int)Math.Ceiling(rectangleInk.Width*0.6);
+					List<int> listColumns=Enumerable.Range(rectangleInk.Left,xEnd-rectangleInk.Left)
+						.OrderByDescending(x => Enumerable.Range(rectangleInk.Top,rectangleInk.Height).Sum(y => arrayInk[y*width+x])).Take(2).ToList();
+					foreach(int column in listColumns) {
+						int inkMax=Enumerable.Range(rectangleInk.Top,rectangleInk.Height).Max(y => arrayInk[y*width+column]);
+						if(inkMax<inkCrisp) {
+							listFaults.Add(icon+": the stem column "+column+" has at most "+inkMax+" of 255 ink.");
+						}
+					}
+				}
+			}
+			Assert.AreEqual(0,listFaults.Count,string.Join("\r\n",listFaults));
 		}
 
 		///<summary>The wiki's Rename (index 6 of its list; the lead's audit: the split box of Fluent Rename was hard to read) draws Fluent Rename A, a

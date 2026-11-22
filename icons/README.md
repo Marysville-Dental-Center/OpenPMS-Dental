@@ -46,7 +46,9 @@ packages. The approved download is `.git/od-tools/downloads/ui7a-fluentui-svg-ic
   docs/port-notes/UI-9b.md, section 5.8).
 - `opticalScale` (optional, `EnumIcons` only, 0.8 to 1.5, not 1): the row's designs are drawn that much larger or smaller about their
   centre, so glyphs of one kind that Fluent draws at different sizes match: the editors' text buttons H1 to H3 (15/14), B (0.92) and I
-  (15/16) have one cap height, 15 of the 24 px design's keyline square.
+  (15/16) have one cap height, 15 of the 24 px design's keyline square. Only where a design is scaled anyway (a box of another size): a
+  design in a box of its own size (the 20 px designs in the toolbars' 20 px box at 100%) is drawn pixel for pixel, so its 1 px stems stay
+  crisp.
 - `role`: the default colour token (`Text`, `Accent`, `Danger`, `Success`, `Warning`). The drawing call may pass its own colour: a white
   check mark on the accent, the title bar's text colour on a caption button, `TextDisabled` for a disabled icon.
 - `purpose`: where it is drawn.

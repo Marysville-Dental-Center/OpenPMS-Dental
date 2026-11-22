@@ -37,7 +37,8 @@ namespace CodeBase {
 		public readonly string PathData;
 		///<summary>The manifest row's opticalScale (the UI-9b-4 fix, docs/port-notes/UI-9b.md, section 5.8): the design is drawn this much larger about its
 		///centre, so a glyph that Fluent draws smaller than its neighbours (the heading letters: a 14 px cap height in the 24 px design, where the
-		///B and the I have 16) gets the same optical size in a strip. 1 for every other row.</summary>
+		///B and the I have 16) gets the same optical size in a strip. Only where the design is scaled anyway (a box of another size than the design,
+		///UiIcons.GetPlacement); a design in a box of its own size is drawn pixel for pixel. 1 for every other row.</summary>
 		public readonly float OpticalScale;
 		private readonly object _lock=new object();
 		private volatile IconFigures _iconFigures;
@@ -381,20 +382,19 @@ namespace CodeBase {
 		}
 
 		///<summary>Where a design goes in its box of sizeBox device pixels (the square GetDrawRectangle gives): the scale from design pixels and the
-		///offset of the design's corner from the box's corner (the same across and down). A design of the box's size with no optical scale, and every
-		///control glyph, fill the box as before (scale sizeBox/Size, offset 0: the design square is the box). A box-filled design of another size is
-		///scaled so its keyline square fills the box's (GetLiveSize(sizeBox)/GetLiveSize(Size); a box below the smallest Fluent size: sizeBox/Size),
-		///times its OpticalScale, centred.</summary>
+		///offset of the design's corner from the box's corner (the same across and down). A design of the box's size, and every control glyph, fill
+		///the box as before (scale sizeBox/Size, offset 0: the design square is the box), so the design is drawn pixel for pixel and its 1 px stems
+		///stay on whole pixels; its OpticalScale is not applied there (an optical scale of the design's own size would put every stem and serif on a
+		///fraction of a pixel and draw it grey: the UI-9b-4 fix's second review, docs/port-notes/UI-9b.md, section 5.8). A box-filled design of
+		///another size, which is scaled anyway, is scaled so its keyline square fills the box's (GetLiveSize(sizeBox)/GetLiveSize(Size); a box below
+		///the smallest Fluent size: sizeBox/Size), times its OpticalScale, centred.</summary>
 		public static void GetPlacement(IconDesign iconDesign,int sizeBox,out float offset,out float scale) {
-			if(!IsBoxFilled(iconDesign) || (sizeBox==iconDesign.Size && iconDesign.OpticalScale==1f)) {
+			if(!IsBoxFilled(iconDesign) || sizeBox==iconDesign.Size) {
 				scale=(float)sizeBox/iconDesign.Size;
 				offset=0;
 				return;
 			}
-			if(sizeBox==iconDesign.Size) {
-				scale=1f;
-			}
-			else if(Array.IndexOf(UiTheme.ArrayIconDesignSizes,sizeBox)>=0) {
+			if(Array.IndexOf(UiTheme.ArrayIconDesignSizes,sizeBox)>=0) {
 				scale=GetLiveSize(sizeBox)/GetLiveSize(iconDesign.Size);
 			}
 			else {
