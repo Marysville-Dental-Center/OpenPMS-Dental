@@ -28,6 +28,7 @@ namespace UiRefreshTests {
 		public const string VARIABLE_WINDOWS="OPMS_UI_FIT_GALLERY_WINDOWS";
 		public const string VARIABLE_OWNER="OPMS_UI_FIT_GALLERY_OWNER";
 		public const string VARIABLE_FONT="OPMS_UI_FIT_GALLERY_FONT";
+		public const string VARIABLE_SCALE="OPMS_UI_FIT_GALLERY_SCALE";
 
 		///<summary>Slice 1 (UI-10-1): FormPatientEdit, FormProvEdit, FormClaimEdit, FormProcEdit, ControlAccount and the preference pages.</summary>
 		public static readonly string[] ArraySlice1Windows=new string[] {
@@ -67,6 +68,13 @@ namespace UiRefreshTests {
 			//UI-13 fix round: OPMS_UI_FIT_GALLERY_VISUAL_STYLES=1 draws the windows with Windows' visual styles (comctl32 version 6, as the program
 			//runs; VisualStylesScope), for the windows that show a native type the looks leave to Windows (tree and list views, month calendars).
 			bool isVisualStyles=Environment.GetEnvironmentVariable("OPMS_UI_FIT_GALLERY_VISUAL_STYLES")=="1";
+			//UI-12 slice 1: OPMS_UI_FIT_GALLERY_SCALE (for example 1.5) draws the windows at that scale, as the style pictures do (LayoutManager's
+			//scale, the date pickers' and up-down boxes' fonts as Windows scales them); the pictures are named <window>-<percent>.png.
+			float scale=1f;
+			string textScale=Environment.GetEnvironmentVariable(VARIABLE_SCALE);
+			if(!string.IsNullOrWhiteSpace(textScale)) {
+				scale=float.Parse(textScale.Trim(),System.Globalization.CultureInfo.InvariantCulture);
+			}
 			StaRunner.Run(() => {
 				NoDatabaseGuard.Install();
 				using VisualStylesScope visualStylesScope=isVisualStyles ? new VisualStylesScope() : null;
@@ -89,12 +97,21 @@ namespace UiRefreshTests {
 							if(root is FormODBase formODBase && formODBase.PanelClient!=null) {
 								root=formODBase.PanelClient;
 							}
+							if(scale!=1f) {
+								builtWindow.LayOutAt(scale);
+							}
 							SettleAfterHandles(builtWindow);
+							if(scale!=1f) {
+								GridStyleGallery.ScaleFontsAsWindowsDoes(root,scale);
+							}
 							HideDatePickerCalendars(root);
 							FillSampleContent(root,window);
 							List<string[]> listOwnerHere=listOwner.Where(x => x[1]==window).ToList();
 							using(Bitmap bitmap=DesignSheetWindows.Capture(root,Rectangle.Empty)) {
 								string name=window.Substring(window.LastIndexOf('.')+1);
+								if(scale!=1f) {
+									name+="-"+(int)Math.Round(scale*100);
+								}
 								bitmap.Save(Path.Combine(folder,name+".png"),ImageFormat.Png);
 								countPictures++;
 								foreach(string[] owner in listOwnerHere) {
