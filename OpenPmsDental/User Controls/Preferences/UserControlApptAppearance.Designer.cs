@@ -96,7 +96,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelApptSchedEnforceSpecialty.Location = new System.Drawing.Point(24, 47);
 			this.labelApptSchedEnforceSpecialty.Name = "labelApptSchedEnforceSpecialty";
-			this.labelApptSchedEnforceSpecialty.Size = new System.Drawing.Size(266, 23);
+			this.labelApptSchedEnforceSpecialty.Size = new System.Drawing.Size(218, 23);
 			this.labelApptSchedEnforceSpecialty.TabIndex = 333;
 			this.labelApptSchedEnforceSpecialty.Text = "Enforce clinic specialties";
 			this.labelApptSchedEnforceSpecialty.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -114,9 +114,9 @@ namespace OpenPmsDental {
 			// comboApptSchedEnforceSpecialty
 			// 
 			this.comboApptSchedEnforceSpecialty.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.comboApptSchedEnforceSpecialty.Location = new System.Drawing.Point(296, 47);
+			this.comboApptSchedEnforceSpecialty.Location = new System.Drawing.Point(248, 47);
 			this.comboApptSchedEnforceSpecialty.Name = "comboApptSchedEnforceSpecialty";
-			this.comboApptSchedEnforceSpecialty.Size = new System.Drawing.Size(174, 23);
+			this.comboApptSchedEnforceSpecialty.Size = new System.Drawing.Size(222, 23);
 			this.comboApptSchedEnforceSpecialty.TabIndex = 332;
 			// 
 			// checkApptModuleDefaultToWeek
@@ -154,9 +154,9 @@ namespace OpenPmsDental {
 			// 
 			this.comboDelay.AllowDrop = true;
 			this.comboDelay.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.comboDelay.Location = new System.Drawing.Point(296, 122);
+			this.comboDelay.Location = new System.Drawing.Point(248, 122);
 			this.comboDelay.Name = "comboDelay";
-			this.comboDelay.Size = new System.Drawing.Size(174, 23);
+			this.comboDelay.Size = new System.Drawing.Size(222, 23);
 			this.comboDelay.TabIndex = 232;
 			// 
 			// apptClickDelay
@@ -164,7 +164,7 @@ namespace OpenPmsDental {
 			this.apptClickDelay.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.apptClickDelay.Location = new System.Drawing.Point(24, 122);
 			this.apptClickDelay.Name = "apptClickDelay";
-			this.apptClickDelay.Size = new System.Drawing.Size(266, 23);
+			this.apptClickDelay.Size = new System.Drawing.Size(218, 23);
 			this.apptClickDelay.TabIndex = 233;
 			this.apptClickDelay.Text = "Click delay after opening Appt Edit";
 			this.apptClickDelay.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -174,7 +174,7 @@ namespace OpenPmsDental {
 			this.label45.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.label45.Location = new System.Drawing.Point(24, 173);
 			this.label45.Name = "label45";
-			this.label45.Size = new System.Drawing.Size(266, 23);
+			this.label45.Size = new System.Drawing.Size(218, 23);
 			this.label45.TabIndex = 290;
 			this.label45.Text = "Week View start day";
 			this.label45.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -183,9 +183,9 @@ namespace OpenPmsDental {
 			// 
 			this.comboWeekViewStartDay.AllowDrop = true;
 			this.comboWeekViewStartDay.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.comboWeekViewStartDay.Location = new System.Drawing.Point(296, 173);
+			this.comboWeekViewStartDay.Location = new System.Drawing.Point(248, 173);
 			this.comboWeekViewStartDay.Name = "comboWeekViewStartDay";
-			this.comboWeekViewStartDay.Size = new System.Drawing.Size(174, 23);
+			this.comboWeekViewStartDay.Size = new System.Drawing.Size(222, 23);
 			this.comboWeekViewStartDay.TabIndex = 289;
 			// 
 			// groupBoxBlockouts
@@ -234,7 +234,7 @@ namespace OpenPmsDental {
 			// 
 			this.textApptBubNoteLength.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.textApptBubNoteLength.AutoSize = false;
-			this.textApptBubNoteLength.Location = new System.Drawing.Point(296, 23);
+			this.textApptBubNoteLength.Location = new System.Drawing.Point(248, 23);
 			this.textApptBubNoteLength.Name = "textApptBubNoteLength";
 			this.textApptBubNoteLength.Size = new System.Drawing.Size(84, 23);
 			this.textApptBubNoteLength.TabIndex = 304;
@@ -244,7 +244,7 @@ namespace OpenPmsDental {
 			this.label21.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.label21.Location = new System.Drawing.Point(24, 23);
 			this.label21.Name = "label21";
-			this.label21.Size = new System.Drawing.Size(266, 23);
+			this.label21.Size = new System.Drawing.Size(218, 23);
 			this.label21.TabIndex = 303;
 			this.label21.Text = "Appointment bubble max note length";
 			this.label21.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -289,7 +289,7 @@ namespace OpenPmsDental {
 			this.label58.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.label58.Location = new System.Drawing.Point(24, 77);
 			this.label58.Name = "label58";
-			this.label58.Size = new System.Drawing.Size(266, 32);
+			this.label58.Size = new System.Drawing.Size(218, 32);
 			this.label58.TabIndex = 286;
 			this.label58.Text = "Width of provider time bar on left of each appointment";
 			this.label58.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -309,7 +309,7 @@ namespace OpenPmsDental {
 			// 
 			this.textApptProvbarWidth.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.textApptProvbarWidth.AutoSize = false;
-			this.textApptProvbarWidth.Location = new System.Drawing.Point(296, 81);
+			this.textApptProvbarWidth.Location = new System.Drawing.Point(248, 81);
 			this.textApptProvbarWidth.MaxVal = 20;
 			this.textApptProvbarWidth.Name = "textApptProvbarWidth";
 			this.textApptProvbarWidth.Size = new System.Drawing.Size(48, 23);
@@ -320,7 +320,7 @@ namespace OpenPmsDental {
 			this.label54.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.label54.Location = new System.Drawing.Point(24, 50);
 			this.label54.Name = "label54";
-			this.label54.Size = new System.Drawing.Size(266, 23);
+			this.label54.Size = new System.Drawing.Size(218, 23);
 			this.label54.TabIndex = 251;
 			this.label54.Text = "Appointment font size";
 			this.label54.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -329,7 +329,7 @@ namespace OpenPmsDental {
 			// 
 			this.textApptFontSize.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.textApptFontSize.AutoSize = false;
-			this.textApptFontSize.Location = new System.Drawing.Point(296, 50);
+			this.textApptFontSize.Location = new System.Drawing.Point(248, 50);
 			this.textApptFontSize.Name = "textApptFontSize";
 			this.textApptFontSize.Size = new System.Drawing.Size(48, 23);
 			this.textApptFontSize.TabIndex = 285;
@@ -338,7 +338,7 @@ namespace OpenPmsDental {
 			// 
 			this.butApptLineColor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butApptLineColor.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-			this.butApptLineColor.Location = new System.Drawing.Point(296, 23);
+			this.butApptLineColor.Location = new System.Drawing.Point(248, 23);
 			this.butApptLineColor.Name = "butApptLineColor";
 			this.butApptLineColor.Size = new System.Drawing.Size(24, 23);
 			this.butApptLineColor.TabIndex = 226;
@@ -349,7 +349,7 @@ namespace OpenPmsDental {
 			this.label25.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.label25.Location = new System.Drawing.Point(24, 23);
 			this.label25.Name = "label25";
-			this.label25.Size = new System.Drawing.Size(266, 23);
+			this.label25.Size = new System.Drawing.Size(218, 23);
 			this.label25.TabIndex = 224;
 			this.label25.Text = "Appointment time line color";
 			this.label25.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -378,7 +378,7 @@ namespace OpenPmsDental {
 			this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.label3.Location = new System.Drawing.Point(24, 23);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(266, 23);
+			this.label3.Size = new System.Drawing.Size(218, 23);
 			this.label3.TabIndex = 292;
 			this.label3.Text = "Time Arrived trigger";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -386,17 +386,17 @@ namespace OpenPmsDental {
 			// comboTimeArrived
 			// 
 			this.comboTimeArrived.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.comboTimeArrived.Location = new System.Drawing.Point(296, 23);
+			this.comboTimeArrived.Location = new System.Drawing.Point(248, 23);
 			this.comboTimeArrived.Name = "comboTimeArrived";
-			this.comboTimeArrived.Size = new System.Drawing.Size(174, 23);
+			this.comboTimeArrived.Size = new System.Drawing.Size(222, 23);
 			this.comboTimeArrived.TabIndex = 291;
 			// 
 			// comboTimeSeated
 			// 
 			this.comboTimeSeated.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.comboTimeSeated.Location = new System.Drawing.Point(296, 50);
+			this.comboTimeSeated.Location = new System.Drawing.Point(248, 50);
 			this.comboTimeSeated.Name = "comboTimeSeated";
-			this.comboTimeSeated.Size = new System.Drawing.Size(174, 23);
+			this.comboTimeSeated.Size = new System.Drawing.Size(222, 23);
 			this.comboTimeSeated.TabIndex = 293;
 			// 
 			// label5
@@ -404,7 +404,7 @@ namespace OpenPmsDental {
 			this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.label5.Location = new System.Drawing.Point(24, 50);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(266, 23);
+			this.label5.Size = new System.Drawing.Size(218, 23);
 			this.label5.TabIndex = 294;
 			this.label5.Text = "Time Seated (in op) trigger";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -412,9 +412,9 @@ namespace OpenPmsDental {
 			// comboTimeDismissed
 			// 
 			this.comboTimeDismissed.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.comboTimeDismissed.Location = new System.Drawing.Point(296, 77);
+			this.comboTimeDismissed.Location = new System.Drawing.Point(248, 77);
 			this.comboTimeDismissed.Name = "comboTimeDismissed";
-			this.comboTimeDismissed.Size = new System.Drawing.Size(174, 23);
+			this.comboTimeDismissed.Size = new System.Drawing.Size(222, 23);
 			this.comboTimeDismissed.TabIndex = 295;
 			// 
 			// label6
@@ -422,7 +422,7 @@ namespace OpenPmsDental {
 			this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.label6.Location = new System.Drawing.Point(24, 77);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(266, 23);
+			this.label6.Size = new System.Drawing.Size(218, 23);
 			this.label6.TabIndex = 296;
 			this.label6.Text = "Time Dismissed trigger";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -431,7 +431,7 @@ namespace OpenPmsDental {
 			// 
 			this.textWaitRoomWarn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.textWaitRoomWarn.AutoSize = false;
-			this.textWaitRoomWarn.Location = new System.Drawing.Point(296, 128);
+			this.textWaitRoomWarn.Location = new System.Drawing.Point(248, 128);
 			this.textWaitRoomWarn.Name = "textWaitRoomWarn";
 			this.textWaitRoomWarn.Size = new System.Drawing.Size(84, 23);
 			this.textWaitRoomWarn.TabIndex = 304;
@@ -441,7 +441,7 @@ namespace OpenPmsDental {
 			this.label22.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.label22.Location = new System.Drawing.Point(24, 128);
 			this.label22.Name = "label22";
-			this.label22.Size = new System.Drawing.Size(266, 23);
+			this.label22.Size = new System.Drawing.Size(218, 23);
 			this.label22.TabIndex = 303;
 			this.label22.Text = "Waiting room alert time";
 			this.label22.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -460,7 +460,7 @@ namespace OpenPmsDental {
 			// 
 			this.butColor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butColor.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-			this.butColor.Location = new System.Drawing.Point(296, 155);
+			this.butColor.Location = new System.Drawing.Point(248, 155);
 			this.butColor.Name = "butColor";
 			this.butColor.Size = new System.Drawing.Size(24, 23);
 			this.butColor.TabIndex = 225;
@@ -471,7 +471,7 @@ namespace OpenPmsDental {
 			this.label23.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.label23.Location = new System.Drawing.Point(24, 155);
 			this.label23.Name = "label23";
-			this.label23.Size = new System.Drawing.Size(266, 23);
+			this.label23.Size = new System.Drawing.Size(218, 23);
 			this.label23.TabIndex = 223;
 			this.label23.Text = "Waiting room alert color";
 			this.label23.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;

@@ -67,7 +67,7 @@ namespace OpenPmsDental {
 			this.groupBoxUnearnedIncome.Controls.Add(this.label28);
 			this.groupBoxUnearnedIncome.Location = new System.Drawing.Point(8, 523);
 			this.groupBoxUnearnedIncome.Name = "groupBoxUnearnedIncome";
-			this.groupBoxUnearnedIncome.Size = new System.Drawing.Size(478, 102);
+			this.groupBoxUnearnedIncome.Size = new System.Drawing.Size(478, 111);
 			this.groupBoxUnearnedIncome.TabIndex = 323;
 			this.groupBoxUnearnedIncome.Text = "Unearned Income";
 			// 
@@ -75,7 +75,7 @@ namespace OpenPmsDental {
 			// 
 			this.checkShowAllocateUnearnedPaymentPrompt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.checkShowAllocateUnearnedPaymentPrompt.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkShowAllocateUnearnedPaymentPrompt.Location = new System.Drawing.Point(8, 74);
+			this.checkShowAllocateUnearnedPaymentPrompt.Location = new System.Drawing.Point(8, 83);
 			this.checkShowAllocateUnearnedPaymentPrompt.Name = "checkShowAllocateUnearnedPaymentPrompt";
 			this.checkShowAllocateUnearnedPaymentPrompt.Size = new System.Drawing.Size(366, 20);
 			this.checkShowAllocateUnearnedPaymentPrompt.TabIndex = 307;
@@ -94,9 +94,9 @@ namespace OpenPmsDental {
 			// comboUnallocatedSplits
 			// 
 			this.comboUnallocatedSplits.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.comboUnallocatedSplits.Location = new System.Drawing.Point(292, 47);
+			this.comboUnallocatedSplits.Location = new System.Drawing.Point(248, 51);
 			this.comboUnallocatedSplits.Name = "comboUnallocatedSplits";
-			this.comboUnallocatedSplits.Size = new System.Drawing.Size(178, 23);
+			this.comboUnallocatedSplits.Size = new System.Drawing.Size(222, 23);
 			this.comboUnallocatedSplits.TabIndex = 281;
 			// 
 			// label28
@@ -104,7 +104,7 @@ namespace OpenPmsDental {
 			this.label28.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.label28.Location = new System.Drawing.Point(24, 47);
 			this.label28.Name = "label28";
-			this.label28.Size = new System.Drawing.Size(262, 23);
+			this.label28.Size = new System.Drawing.Size(218, 32);
 			this.label28.TabIndex = 282;
 			this.label28.Text = "Default unearned type for unallocated paysplits";
 			this.label28.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -155,7 +155,7 @@ namespace OpenPmsDental {
 			this.labelTermsAndConditions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelTermsAndConditions.Location = new System.Drawing.Point(24, 198);
 			this.labelTermsAndConditions.Name = "labelTermsAndConditions";
-			this.labelTermsAndConditions.Size = new System.Drawing.Size(262, 23);
+			this.labelTermsAndConditions.Size = new System.Drawing.Size(218, 23);
 			this.labelTermsAndConditions.TabIndex = 321;
 			this.labelTermsAndConditions.Text = "Payment Plan Terms and Conditions";
 			this.labelTermsAndConditions.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -163,7 +163,7 @@ namespace OpenPmsDental {
 			// butPayPlanTermsAndConditions
 			// 
 			this.butPayPlanTermsAndConditions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butPayPlanTermsAndConditions.Location = new System.Drawing.Point(292, 198);
+			this.butPayPlanTermsAndConditions.Location = new System.Drawing.Point(248, 198);
 			this.butPayPlanTermsAndConditions.Name = "butPayPlanTermsAndConditions";
 			this.butPayPlanTermsAndConditions.Size = new System.Drawing.Size(68, 23);
 			this.butPayPlanTermsAndConditions.TabIndex = 317;
@@ -195,7 +195,7 @@ namespace OpenPmsDental {
 			this.label39.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.label39.Location = new System.Drawing.Point(24, 171);
 			this.label39.Name = "label39";
-			this.label39.Size = new System.Drawing.Size(262, 23);
+			this.label39.Size = new System.Drawing.Size(218, 23);
 			this.label39.TabIndex = 320;
 			this.label39.Text = "Payment plan unearned type";
 			this.label39.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -213,9 +213,9 @@ namespace OpenPmsDental {
 			// comboDppUnearnedType
 			// 
 			this.comboDppUnearnedType.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.comboDppUnearnedType.Location = new System.Drawing.Point(292, 171);
+			this.comboDppUnearnedType.Location = new System.Drawing.Point(248, 171);
 			this.comboDppUnearnedType.Name = "comboDppUnearnedType";
-			this.comboDppUnearnedType.Size = new System.Drawing.Size(178, 23);
+			this.comboDppUnearnedType.Size = new System.Drawing.Size(222, 23);
 			this.comboDppUnearnedType.TabIndex = 316;
 			this.comboDppUnearnedType.Text = "comboBoxOD1";
 			// 
@@ -234,7 +234,7 @@ namespace OpenPmsDental {
 			this.label59.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.label59.Location = new System.Drawing.Point(24, 144);
 			this.label59.Name = "label59";
-			this.label59.Size = new System.Drawing.Size(262, 23);
+			this.label59.Size = new System.Drawing.Size(218, 23);
 			this.label59.TabIndex = 319;
 			this.label59.Text = "Pay Plan run time";
 			this.label59.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -252,7 +252,7 @@ namespace OpenPmsDental {
 			// textDynamicPayPlan
 			// 
 			this.textDynamicPayPlan.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.textDynamicPayPlan.Location = new System.Drawing.Point(292, 144);
+			this.textDynamicPayPlan.Location = new System.Drawing.Point(248, 144);
 			this.textDynamicPayPlan.Name = "textDynamicPayPlan";
 			this.textDynamicPayPlan.Size = new System.Drawing.Size(68, 20);
 			this.textDynamicPayPlan.TabIndex = 315;
@@ -307,9 +307,9 @@ namespace OpenPmsDental {
 			// comboPaymentClinicSetting
 			// 
 			this.comboPaymentClinicSetting.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.comboPaymentClinicSetting.Location = new System.Drawing.Point(292, 47);
+			this.comboPaymentClinicSetting.Location = new System.Drawing.Point(248, 47);
 			this.comboPaymentClinicSetting.Name = "comboPaymentClinicSetting";
-			this.comboPaymentClinicSetting.Size = new System.Drawing.Size(178, 23);
+			this.comboPaymentClinicSetting.Size = new System.Drawing.Size(222, 23);
 			this.comboPaymentClinicSetting.TabIndex = 290;
 			this.comboPaymentClinicSetting.SelectionChangeCommitted += new System.EventHandler(this.comboPaymentClinicSetting_ChangeCommitted);
 			// 
@@ -339,7 +339,7 @@ namespace OpenPmsDental {
 			this.label38.Location = new System.Drawing.Point(24, 47);
 			this.label38.Margin = new System.Windows.Forms.Padding(0);
 			this.label38.Name = "label38";
-			this.label38.Size = new System.Drawing.Size(262, 23);
+			this.label38.Size = new System.Drawing.Size(218, 23);
 			this.label38.TabIndex = 291;
 			this.label38.Text = "Default Clinic for patient payments";
 			this.label38.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;

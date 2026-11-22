@@ -75,14 +75,14 @@ namespace OpenPmsDental {
 			// 
 			this.label5.Location = new System.Drawing.Point(24, 332);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(274, 23);
+			this.label5.Size = new System.Drawing.Size(226, 23);
 			this.label5.TabIndex = 270;
 			this.label5.Text = "Ortho Prescriptions";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// butOrthoPrescriptions
 			// 
-			this.butOrthoPrescriptions.Location = new System.Drawing.Point(304, 332);
+			this.butOrthoPrescriptions.Location = new System.Drawing.Point(256, 332);
 			this.butOrthoPrescriptions.Name = "butOrthoPrescriptions";
 			this.butOrthoPrescriptions.Size = new System.Drawing.Size(75, 23);
 			this.butOrthoPrescriptions.TabIndex = 269;
@@ -93,14 +93,14 @@ namespace OpenPmsDental {
 			// 
 			this.label4.Location = new System.Drawing.Point(24, 305);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(274, 23);
+			this.label4.Size = new System.Drawing.Size(226, 23);
 			this.label4.TabIndex = 268;
 			this.label4.Text = "Ortho Hardware Specs";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// butOrthoHardwareSpecs
 			// 
-			this.butOrthoHardwareSpecs.Location = new System.Drawing.Point(304, 305);
+			this.butOrthoHardwareSpecs.Location = new System.Drawing.Point(256, 305);
 			this.butOrthoHardwareSpecs.Name = "butOrthoHardwareSpecs";
 			this.butOrthoHardwareSpecs.Size = new System.Drawing.Size(75, 23);
 			this.butOrthoHardwareSpecs.TabIndex = 267;
@@ -153,9 +153,9 @@ namespace OpenPmsDental {
 			// textDebondCodes
 			// 
 			this.textDebondCodes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.textDebondCodes.Location = new System.Drawing.Point(296, 96);
+			this.textDebondCodes.Location = new System.Drawing.Point(248, 96);
 			this.textDebondCodes.Name = "textDebondCodes";
-			this.textDebondCodes.Size = new System.Drawing.Size(174, 23);
+			this.textDebondCodes.Size = new System.Drawing.Size(222, 23);
 			this.textDebondCodes.TabIndex = 16;
 			// 
 			// labelVisitCodes
@@ -163,7 +163,7 @@ namespace OpenPmsDental {
 			this.labelVisitCodes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelVisitCodes.Location = new System.Drawing.Point(24, 69);
 			this.labelVisitCodes.Name = "labelVisitCodes";
-			this.labelVisitCodes.Size = new System.Drawing.Size(266, 23);
+			this.labelVisitCodes.Size = new System.Drawing.Size(218, 23);
 			this.labelVisitCodes.TabIndex = 229;
 			this.labelVisitCodes.Text = "Visit Codes";
 			this.labelVisitCodes.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -171,9 +171,9 @@ namespace OpenPmsDental {
 			// textBandingCodes
 			// 
 			this.textBandingCodes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.textBandingCodes.Location = new System.Drawing.Point(296, 42);
+			this.textBandingCodes.Location = new System.Drawing.Point(248, 42);
 			this.textBandingCodes.Name = "textBandingCodes";
-			this.textBandingCodes.Size = new System.Drawing.Size(174, 23);
+			this.textBandingCodes.Size = new System.Drawing.Size(222, 23);
 			this.textBandingCodes.TabIndex = 14;
 			// 
 			// labelDebondCodes
@@ -181,7 +181,7 @@ namespace OpenPmsDental {
 			this.labelDebondCodes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelDebondCodes.Location = new System.Drawing.Point(24, 96);
 			this.labelDebondCodes.Name = "labelDebondCodes";
-			this.labelDebondCodes.Size = new System.Drawing.Size(266, 23);
+			this.labelDebondCodes.Size = new System.Drawing.Size(218, 23);
 			this.labelDebondCodes.TabIndex = 228;
 			this.labelDebondCodes.Text = "Debond Codes";
 			this.labelDebondCodes.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -189,9 +189,9 @@ namespace OpenPmsDental {
 			// textVisitCodes
 			// 
 			this.textVisitCodes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.textVisitCodes.Location = new System.Drawing.Point(296, 69);
+			this.textVisitCodes.Location = new System.Drawing.Point(248, 69);
 			this.textVisitCodes.Name = "textVisitCodes";
-			this.textVisitCodes.Size = new System.Drawing.Size(174, 23);
+			this.textVisitCodes.Size = new System.Drawing.Size(222, 23);
 			this.textVisitCodes.TabIndex = 15;
 			// 
 			// labelBandingCodes
@@ -199,7 +199,7 @@ namespace OpenPmsDental {
 			this.labelBandingCodes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelBandingCodes.Location = new System.Drawing.Point(24, 42);
 			this.labelBandingCodes.Name = "labelBandingCodes";
-			this.labelBandingCodes.Size = new System.Drawing.Size(266, 23);
+			this.labelBandingCodes.Size = new System.Drawing.Size(218, 23);
 			this.labelBandingCodes.TabIndex = 227;
 			this.labelBandingCodes.Text = "Banding Codes";
 			this.labelBandingCodes.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -232,7 +232,7 @@ namespace OpenPmsDental {
 			// 
 			this.listboxOrthoPlacementProcs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.listboxOrthoPlacementProcs.IntegralHeight = false;
-			this.listboxOrthoPlacementProcs.Location = new System.Drawing.Point(296, 23);
+			this.listboxOrthoPlacementProcs.Location = new System.Drawing.Point(248, 23);
 			this.listboxOrthoPlacementProcs.Name = "listboxOrthoPlacementProcs";
 			this.listboxOrthoPlacementProcs.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
 			this.listboxOrthoPlacementProcs.Size = new System.Drawing.Size(93, 84);
@@ -243,7 +243,7 @@ namespace OpenPmsDental {
 			this.label29.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.label29.Location = new System.Drawing.Point(24, 23);
 			this.label29.Name = "label29";
-			this.label29.Size = new System.Drawing.Size(266, 36);
+			this.label29.Size = new System.Drawing.Size(218, 36);
 			this.label29.TabIndex = 223;
 			this.label29.Text = "Current Procedures to Consider for Patients\' Date Placement";
 			this.label29.TextAlign = System.Drawing.ContentAlignment.TopLeft;
@@ -262,7 +262,7 @@ namespace OpenPmsDental {
 			// 
 			// textOrthoMonthsTreat
 			// 
-			this.textOrthoMonthsTreat.Location = new System.Drawing.Point(304, 152);
+			this.textOrthoMonthsTreat.Location = new System.Drawing.Point(256, 152);
 			this.textOrthoMonthsTreat.Name = "textOrthoMonthsTreat";
 			this.textOrthoMonthsTreat.ShowZero = false;
 			this.textOrthoMonthsTreat.Size = new System.Drawing.Size(52, 23);
@@ -279,7 +279,7 @@ namespace OpenPmsDental {
 			// 
 			// butPickOrthoProc
 			// 
-			this.butPickOrthoProc.Location = new System.Drawing.Point(390, 227);
+			this.butPickOrthoProc.Location = new System.Drawing.Point(342, 227);
 			this.butPickOrthoProc.Name = "butPickOrthoProc";
 			this.butPickOrthoProc.Size = new System.Drawing.Size(23, 23);
 			this.butPickOrthoProc.TabIndex = 257;
@@ -288,7 +288,7 @@ namespace OpenPmsDental {
 			// 
 			// textOrthoAutoProc
 			// 
-			this.textOrthoAutoProc.Location = new System.Drawing.Point(304, 227);
+			this.textOrthoAutoProc.Location = new System.Drawing.Point(256, 227);
 			this.textOrthoAutoProc.Name = "textOrthoAutoProc";
 			this.textOrthoAutoProc.ReadOnly = true;
 			this.textOrthoAutoProc.Size = new System.Drawing.Size(80, 23);
@@ -298,7 +298,7 @@ namespace OpenPmsDental {
 			// 
 			this.label3.Location = new System.Drawing.Point(24, 227);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(274, 23);
+			this.label3.Size = new System.Drawing.Size(226, 23);
 			this.label3.TabIndex = 263;
 			this.label3.Text = "Default Ortho Auto Proc";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -307,7 +307,7 @@ namespace OpenPmsDental {
 			// 
 			this.label2.Location = new System.Drawing.Point(24, 278);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(274, 23);
+			this.label2.Size = new System.Drawing.Size(226, 23);
 			this.label2.TabIndex = 262;
 			this.label2.Text = "Ortho Chart Display Fields";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -325,7 +325,7 @@ namespace OpenPmsDental {
 			// 
 			this.label1.Location = new System.Drawing.Point(24, 152);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(274, 23);
+			this.label1.Size = new System.Drawing.Size(226, 23);
 			this.label1.TabIndex = 261;
 			this.label1.Text = "Default months treatment";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -359,7 +359,7 @@ namespace OpenPmsDental {
 			// 
 			// butOrthoDisplayFields
 			// 
-			this.butOrthoDisplayFields.Location = new System.Drawing.Point(304, 278);
+			this.butOrthoDisplayFields.Location = new System.Drawing.Point(256, 278);
 			this.butOrthoDisplayFields.Name = "butOrthoDisplayFields";
 			this.butOrthoDisplayFields.Size = new System.Drawing.Size(75, 23);
 			this.butOrthoDisplayFields.TabIndex = 259;

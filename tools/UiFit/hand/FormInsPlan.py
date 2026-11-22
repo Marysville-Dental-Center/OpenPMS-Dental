@@ -151,8 +151,9 @@ def layout(h):
     po.field("label37", "textOrthoAutoProc", xo, 120, after=[("butPickOrthoProc", None, H), ("butDefaultAutoOrthoProc", None, None)])
     po.field("labelOrthoAutoFee", "textOrthoAutoFee", xo, 80)
     po.field("labelAutoOrthoProcPeriod", "comboOrthoAutoProcPeriod", xo, 160)
-    # Its text does not fit at the field column: a check box alone under the fields starts at the content's left edge.
-    po.row(("checkOrthoWaitDays", 0, None))
+    # Fix round: the check box on the field column like the fields above it (the rule for a check box in a column of label + field rows; the
+    # owner's note on row 17), its text wrapped onto two lines that end at the group's content edge (it stood at the content's left edge).
+    po.row(("checkOrthoWaitDays", xo, "R", 36))
     po.end()
     gor.y = po.node.ny + po.node.nh
     gor.bottom_used = gor.y

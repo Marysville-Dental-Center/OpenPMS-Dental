@@ -143,7 +143,7 @@ namespace OpenPmsDental {
 			// 
 			this.label6.Location = new System.Drawing.Point(8, 8);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(53, 39);
+			this.label6.Size = new System.Drawing.Size(53, 32);
 			this.label6.TabIndex = 0;
 			this.label6.Text = "Time Pattern";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -265,14 +265,14 @@ namespace OpenPmsDental {
 			// textTime2
 			// 
 			this.textTime2.Enabled = false;
-			this.textTime2.Location = new System.Drawing.Point(8, 624);
+			this.textTime2.Location = new System.Drawing.Point(8, 617);
 			this.textTime2.Name = "textTime2";
 			this.textTime2.Size = new System.Drawing.Size(60, 20);
 			this.textTime2.TabIndex = 19;
 			// 
 			// label11
 			// 
-			this.label11.Location = new System.Drawing.Point(8, 651);
+			this.label11.Location = new System.Drawing.Point(8, 644);
 			this.label11.Name = "label11";
 			this.label11.Size = new System.Drawing.Size(63, 16);
 			this.label11.TabIndex = 0;

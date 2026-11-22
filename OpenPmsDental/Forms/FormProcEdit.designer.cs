@@ -689,7 +689,7 @@
 			// textTimeStart
 			// 
 			this.textTimeStart.AutoSize = false;
-			this.textTimeStart.Location = new System.Drawing.Point(286, 62);
+			this.textTimeStart.Location = new System.Drawing.Point(344, 62);
 			this.textTimeStart.Name = "textTimeStart";
 			this.textTimeStart.Size = new System.Drawing.Size(56, 23);
 			this.textTimeStart.TabIndex = 102;
@@ -697,7 +697,7 @@
 			// 
 			// textTimeEnd
 			// 
-			this.textTimeEnd.Location = new System.Drawing.Point(386, 62);
+			this.textTimeEnd.Location = new System.Drawing.Point(320, 35);
 			this.textTimeEnd.Name = "textTimeEnd";
 			this.textTimeEnd.Size = new System.Drawing.Size(56, 23);
 			this.textTimeEnd.TabIndex = 102;
@@ -714,9 +714,9 @@
 			// 
 			// butNow
 			// 
-			this.butNow.Location = new System.Drawing.Point(448, 62);
+			this.butNow.Location = new System.Drawing.Point(382, 35);
 			this.butNow.Name = "butNow";
-			this.butNow.Size = new System.Drawing.Size(27, 23);
+			this.butNow.Size = new System.Drawing.Size(42, 23);
 			this.butNow.TabIndex = 101;
 			this.butNow.Text = "Now";
 			this.butNow.UseVisualStyleBackColor = true;
@@ -802,7 +802,7 @@
 			// 
 			// labelStartTime
 			// 
-			this.labelStartTime.Location = new System.Drawing.Point(212, 62);
+			this.labelStartTime.Location = new System.Drawing.Point(270, 62);
 			this.labelStartTime.Name = "labelStartTime";
 			this.labelStartTime.Size = new System.Drawing.Size(68, 23);
 			this.labelStartTime.TabIndex = 0;
@@ -811,7 +811,7 @@
 			// 
 			// labelEndTime
 			// 
-			this.labelEndTime.Location = new System.Drawing.Point(348, 62);
+			this.labelEndTime.Location = new System.Drawing.Point(282, 35);
 			this.labelEndTime.Name = "labelEndTime";
 			this.labelEndTime.Size = new System.Drawing.Size(32, 23);
 			this.labelEndTime.TabIndex = 0;

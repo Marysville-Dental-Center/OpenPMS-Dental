@@ -160,15 +160,16 @@ namespace OpenPmsDental {
 			// updownAgeArrows
 			// 
 			this.updownAgeArrows.InterceptArrowKeys = false;
-			this.updownAgeArrows.Location = new System.Drawing.Point(153, 89);
+			this.updownAgeArrows.Location = new System.Drawing.Point(148, 91);
+			this.updownAgeArrows.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			this.updownAgeArrows.Name = "updownAgeArrows";
-			this.updownAgeArrows.Size = new System.Drawing.Size(20, 20);
+			this.updownAgeArrows.Size = new System.Drawing.Size(17, 19);
 			this.updownAgeArrows.TabIndex = 7;
 			this.updownAgeArrows.MouseDown += new System.Windows.Forms.MouseEventHandler(this.updownAgeArrows_MouseDown);
 			// 
 			// radioM
 			// 
-			this.radioM.Location = new System.Drawing.Point(127, 412);
+			this.radioM.Location = new System.Drawing.Point(111, 412);
 			this.radioM.Name = "radioM";
 			this.radioM.Size = new System.Drawing.Size(36, 20);
 			this.radioM.TabIndex = 11;
@@ -176,7 +177,7 @@ namespace OpenPmsDental {
 			// 
 			// radioF
 			// 
-			this.radioF.Location = new System.Drawing.Point(169, 412);
+			this.radioF.Location = new System.Drawing.Point(153, 412);
 			this.radioF.Name = "radioF";
 			this.radioF.Size = new System.Drawing.Size(31, 20);
 			this.radioF.TabIndex = 12;
@@ -185,7 +186,7 @@ namespace OpenPmsDental {
 			// radioUnknown
 			// 
 			this.radioUnknown.Checked = true;
-			this.radioUnknown.Location = new System.Drawing.Point(206, 412);
+			this.radioUnknown.Location = new System.Drawing.Point(190, 412);
 			this.radioUnknown.Name = "radioUnknown";
 			this.radioUnknown.Size = new System.Drawing.Size(30, 20);
 			this.radioUnknown.TabIndex = 13;
@@ -248,10 +249,10 @@ namespace OpenPmsDental {
 			// textBirthdate
 			// 
 			this.textBirthdate.AcceptsReturn = true;
-			this.textBirthdate.Location = new System.Drawing.Point(111, 117);
+			this.textBirthdate.Location = new System.Drawing.Point(111, 116);
 			this.textBirthdate.Multiline = true;
 			this.textBirthdate.Name = "textBirthdate";
-			this.textBirthdate.Size = new System.Drawing.Size(81, 20);
+			this.textBirthdate.Size = new System.Drawing.Size(80, 23);
 			this.textBirthdate.TabIndex = 8;
 			this.textBirthdate.Validating += new System.ComponentModel.CancelEventHandler(this.textBirthdate_Validating);
 			// 
@@ -260,7 +261,7 @@ namespace OpenPmsDental {
 			this.textAge.AutoSize = false;
 			this.textAge.Location = new System.Drawing.Point(111, 89);
 			this.textAge.Name = "textAge";
-			this.textAge.Size = new System.Drawing.Size(36, 23);
+			this.textAge.Size = new System.Drawing.Size(56, 23);
 			this.textAge.TabIndex = 141;
 			this.textAge.Validating += new System.ComponentModel.CancelEventHandler(this.textAge_Validating);
 			// 
@@ -290,9 +291,9 @@ namespace OpenPmsDental {
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(8, 413);
+			this.label2.Location = new System.Drawing.Point(53, 411);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(113, 17);
+			this.label2.Size = new System.Drawing.Size(52, 23);
 			this.label2.TabIndex = 10;
 			this.label2.Text = "Gender";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

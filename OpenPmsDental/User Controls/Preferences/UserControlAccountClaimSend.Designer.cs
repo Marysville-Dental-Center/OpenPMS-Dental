@@ -53,16 +53,16 @@ namespace OpenPmsDental {
 			// textInsWriteoffDescript
 			// 
 			this.textInsWriteoffDescript.AutoSize = false;
-			this.textInsWriteoffDescript.Location = new System.Drawing.Point(296, 437);
+			this.textInsWriteoffDescript.Location = new System.Drawing.Point(256, 441);
 			this.textInsWriteoffDescript.Name = "textInsWriteoffDescript";
-			this.textInsWriteoffDescript.Size = new System.Drawing.Size(190, 23);
+			this.textInsWriteoffDescript.Size = new System.Drawing.Size(230, 23);
 			this.textInsWriteoffDescript.TabIndex = 4;
 			// 
 			// label17
 			// 
 			this.label17.Location = new System.Drawing.Point(24, 437);
 			this.label17.Name = "label17";
-			this.label17.Size = new System.Drawing.Size(266, 23);
+			this.label17.Size = new System.Drawing.Size(226, 32);
 			this.label17.TabIndex = 284;
 			this.label17.Text = "PPO write-off description (blank for \"Write-off\")";
 			this.label17.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -119,17 +119,17 @@ namespace OpenPmsDental {
 			// 
 			this.textClaimAttachPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.textClaimAttachPath.AutoSize = false;
-			this.textClaimAttachPath.Location = new System.Drawing.Point(288, 47);
+			this.textClaimAttachPath.Location = new System.Drawing.Point(248, 47);
 			this.textClaimAttachPath.Name = "textClaimAttachPath";
-			this.textClaimAttachPath.Size = new System.Drawing.Size(182, 23);
+			this.textClaimAttachPath.Size = new System.Drawing.Size(222, 23);
 			this.textClaimAttachPath.TabIndex = 1;
 			// 
 			// comboZeroDollarProcClaimBehavior
 			// 
 			this.comboZeroDollarProcClaimBehavior.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.comboZeroDollarProcClaimBehavior.Location = new System.Drawing.Point(288, 122);
+			this.comboZeroDollarProcClaimBehavior.Location = new System.Drawing.Point(248, 122);
 			this.comboZeroDollarProcClaimBehavior.Name = "comboZeroDollarProcClaimBehavior";
-			this.comboZeroDollarProcClaimBehavior.Size = new System.Drawing.Size(182, 23);
+			this.comboZeroDollarProcClaimBehavior.Size = new System.Drawing.Size(222, 23);
 			this.comboZeroDollarProcClaimBehavior.TabIndex = 3;
 			// 
 			// checkEclaimsSubscIDUsesPatID
@@ -165,7 +165,7 @@ namespace OpenPmsDental {
 			this.labelClaimAttachmentExportPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelClaimAttachmentExportPath.Location = new System.Drawing.Point(24, 47);
 			this.labelClaimAttachmentExportPath.Name = "labelClaimAttachmentExportPath";
-			this.labelClaimAttachmentExportPath.Size = new System.Drawing.Size(258, 23);
+			this.labelClaimAttachmentExportPath.Size = new System.Drawing.Size(218, 23);
 			this.labelClaimAttachmentExportPath.TabIndex = 279;
 			this.labelClaimAttachmentExportPath.Text = "Claim attachment export path";
 			this.labelClaimAttachmentExportPath.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -184,7 +184,7 @@ namespace OpenPmsDental {
 			this.labelCreatingClaimsZeroProcedures.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelCreatingClaimsZeroProcedures.Location = new System.Drawing.Point(24, 122);
 			this.labelCreatingClaimsZeroProcedures.Name = "labelCreatingClaimsZeroProcedures";
-			this.labelCreatingClaimsZeroProcedures.Size = new System.Drawing.Size(258, 23);
+			this.labelCreatingClaimsZeroProcedures.Size = new System.Drawing.Size(218, 23);
 			this.labelCreatingClaimsZeroProcedures.TabIndex = 292;
 			this.labelCreatingClaimsZeroProcedures.Text = "Creating claims with $0 procedures";
 			this.labelCreatingClaimsZeroProcedures.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -225,9 +225,9 @@ namespace OpenPmsDental {
 			// 
 			this.textClaimIdPrefix.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.textClaimIdPrefix.AutoSize = false;
-			this.textClaimIdPrefix.Location = new System.Drawing.Point(280, 23);
+			this.textClaimIdPrefix.Location = new System.Drawing.Point(240, 23);
 			this.textClaimIdPrefix.Name = "textClaimIdPrefix";
-			this.textClaimIdPrefix.Size = new System.Drawing.Size(174, 23);
+			this.textClaimIdPrefix.Size = new System.Drawing.Size(214, 23);
 			this.textClaimIdPrefix.TabIndex = 0;
 			this.textClaimIdPrefix.Validating += new System.ComponentModel.CancelEventHandler(this.textClaimIdPrefix_Validating);
 			// 
@@ -243,7 +243,7 @@ namespace OpenPmsDental {
 			// checkCanadianPpoLabEst
 			// 
 			this.checkCanadianPpoLabEst.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkCanadianPpoLabEst.Location = new System.Drawing.Point(8, 464);
+			this.checkCanadianPpoLabEst.Location = new System.Drawing.Point(8, 473);
 			this.checkCanadianPpoLabEst.Name = "checkCanadianPpoLabEst";
 			this.checkCanadianPpoLabEst.Size = new System.Drawing.Size(299, 20);
 			this.checkCanadianPpoLabEst.TabIndex = 5;

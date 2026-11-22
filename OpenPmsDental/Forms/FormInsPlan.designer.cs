@@ -757,7 +757,7 @@ namespace OpenPmsDental {
 			// 
 			// label18
 			// 
-			this.label18.Location = new System.Drawing.Point(904, 654);
+			this.label18.Location = new System.Drawing.Point(904, 670);
 			this.label18.Name = "label18";
 			this.label18.Size = new System.Drawing.Size(64, 23);
 			this.label18.TabIndex = 156;
@@ -777,7 +777,7 @@ namespace OpenPmsDental {
 			// 
 			this.groupChanges.Controls.Add(this.radioCreateNew);
 			this.groupChanges.Controls.Add(this.radioChangeAll);
-			this.groupChanges.Location = new System.Drawing.Point(992, 853);
+			this.groupChanges.Location = new System.Drawing.Point(992, 869);
 			this.groupChanges.Name = "groupChanges";
 			this.groupChanges.Size = new System.Drawing.Size(381, 26);
 			this.groupChanges.TabIndex = 13;
@@ -866,7 +866,7 @@ namespace OpenPmsDental {
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(1381, 854);
+			this.butSave.Location = new System.Drawing.Point(1381, 870);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 14;
@@ -878,7 +878,7 @@ namespace OpenPmsDental {
 			this.butLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butLabel.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Label,18,16);
 			this.butLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butLabel.Location = new System.Drawing.Point(97, 854);
+			this.butLabel.Location = new System.Drawing.Point(97, 870);
 			this.butLabel.Name = "butLabel";
 			this.butLabel.Size = new System.Drawing.Size(81, 24);
 			this.butLabel.TabIndex = 15;
@@ -890,7 +890,7 @@ namespace OpenPmsDental {
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(8, 854);
+			this.butDelete.Location = new System.Drawing.Point(8, 870);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(81, 24);
 			this.butDelete.TabIndex = 16;
@@ -913,7 +913,7 @@ namespace OpenPmsDental {
 			this.panelPlan.Controls.Add(this.butPick);
 			this.panelPlan.Location = new System.Drawing.Point(0, 130);
 			this.panelPlan.Name = "panelPlan";
-			this.panelPlan.Size = new System.Drawing.Size(448, 720);
+			this.panelPlan.Size = new System.Drawing.Size(448, 736);
 			this.panelPlan.TabIndex = 2;
 			// 
 			// checkUseBlueBook
@@ -1370,11 +1370,11 @@ namespace OpenPmsDental {
 			// textLinkedNum
 			// 
 			this.textLinkedNum.BackColor = System.Drawing.Color.White;
-			this.textLinkedNum.Location = new System.Drawing.Point(160, 341);
+			this.textLinkedNum.Location = new System.Drawing.Point(160, 340);
 			this.textLinkedNum.Multiline = true;
 			this.textLinkedNum.Name = "textLinkedNum";
 			this.textLinkedNum.ReadOnly = true;
-			this.textLinkedNum.Size = new System.Drawing.Size(40, 21);
+			this.textLinkedNum.Size = new System.Drawing.Size(40, 23);
 			this.textLinkedNum.TabIndex = 6;
 			// 
 			// label16
@@ -1467,7 +1467,7 @@ namespace OpenPmsDental {
 			this.panelOrthInfo.Controls.Add(this.groupOrtho);
 			this.panelOrthInfo.Location = new System.Drawing.Point(448, 130);
 			this.panelOrthInfo.Name = "panelOrthInfo";
-			this.panelOrthInfo.Size = new System.Drawing.Size(448, 720);
+			this.panelOrthInfo.Size = new System.Drawing.Size(448, 736);
 			this.panelOrthInfo.TabIndex = 3;
 			// 
 			// label41
@@ -1767,7 +1767,7 @@ namespace OpenPmsDental {
 			this.groupCanadian.Controls.Add(this.label24);
 			this.groupCanadian.Controls.Add(this.label22);
 			this.groupCanadian.Controls.Add(this.textPlanFlag);
-			this.groupCanadian.Location = new System.Drawing.Point(904, 761);
+			this.groupCanadian.Location = new System.Drawing.Point(904, 777);
 			this.groupCanadian.Name = "groupCanadian";
 			this.groupCanadian.Size = new System.Drawing.Size(552, 81);
 			this.groupCanadian.TabIndex = 7;
@@ -1860,7 +1860,7 @@ namespace OpenPmsDental {
 			this.panelOrtho.Controls.Add(this.checkOrthoWaitDays);
 			this.panelOrtho.Location = new System.Drawing.Point(8, 23);
 			this.panelOrtho.Name = "panelOrtho";
-			this.panelOrtho.Size = new System.Drawing.Size(416, 128);
+			this.panelOrtho.Size = new System.Drawing.Size(416, 144);
 			this.panelOrtho.TabIndex = 0;
 			// 
 			// textOrthoAutoFee
@@ -1952,10 +1952,10 @@ namespace OpenPmsDental {
 			// checkOrthoWaitDays
 			// 
 			this.checkOrthoWaitDays.Enabled = false;
-			this.checkOrthoWaitDays.Location = new System.Drawing.Point(0, 108);
+			this.checkOrthoWaitDays.Location = new System.Drawing.Point(144, 108);
 			this.checkOrthoWaitDays.Name = "checkOrthoWaitDays";
 			this.checkOrthoWaitDays.RightToLeft = System.Windows.Forms.RightToLeft.No;
-			this.checkOrthoWaitDays.Size = new System.Drawing.Size(314, 20);
+			this.checkOrthoWaitDays.Size = new System.Drawing.Size(272, 36);
 			this.checkOrthoWaitDays.TabIndex = 6;
 			this.checkOrthoWaitDays.Text = "Wait 30 days before creating the first automatic claim";
 			// 
@@ -1964,7 +1964,7 @@ namespace OpenPmsDental {
 			this.gridBenefits.Location = new System.Drawing.Point(904, 330);
 			this.gridBenefits.Name = "gridBenefits";
 			this.gridBenefits.SelectionMode = OpenPmsDental.UI.GridSelectionMode.None;
-			this.gridBenefits.Size = new System.Drawing.Size(552, 316);
+			this.gridBenefits.Size = new System.Drawing.Size(552, 332);
 			this.gridBenefits.TabIndex = 4;
 			this.gridBenefits.Title = "Benefit Information";
 			this.gridBenefits.TranslationName = "TableBenefits";
@@ -1976,7 +1976,7 @@ namespace OpenPmsDental {
 			this.textPlanNote.BackColor = System.Drawing.SystemColors.Window;
 			this.textPlanNote.DetectLinksEnabled = false;
 			this.textPlanNote.DetectUrls = false;
-			this.textPlanNote.Location = new System.Drawing.Point(904, 681);
+			this.textPlanNote.Location = new System.Drawing.Point(904, 697);
 			this.textPlanNote.Name = "textPlanNote";
 			this.textPlanNote.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.InsPlan;
 			this.textPlanNote.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
@@ -2000,13 +2000,13 @@ namespace OpenPmsDental {
 			this.groupOrtho.Controls.Add(this.panelOrtho);
 			this.groupOrtho.Location = new System.Drawing.Point(8, 553);
 			this.groupOrtho.Name = "groupOrtho";
-			this.groupOrtho.Size = new System.Drawing.Size(432, 159);
+			this.groupOrtho.Size = new System.Drawing.Size(432, 175);
 			this.groupOrtho.TabIndex = 14;
 			this.groupOrtho.Text = "Ortho";
 			// 
 			// butBenefits
 			// 
-			this.butBenefits.Location = new System.Drawing.Point(1366, 654);
+			this.butBenefits.Location = new System.Drawing.Point(1366, 670);
 			this.butBenefits.Name = "butBenefits";
 			this.butBenefits.Size = new System.Drawing.Size(90, 23);
 			this.butBenefits.TabIndex = 5;
@@ -2015,7 +2015,7 @@ namespace OpenPmsDental {
 			// 
 			// FormInsPlan
 			// 
-			this.ClientSize = new System.Drawing.Size(1464, 886);
+			this.ClientSize = new System.Drawing.Size(1464, 902);
 			this.Controls.Add(this.panelPlan);
 			this.Controls.Add(this.panelOrthInfo);
 			this.Controls.Add(this.groupCanadian);

@@ -35,14 +35,14 @@ namespace OpenPmsDental {
 			this.labelCommLogAutoSaveDetails.ForeColor = System.Drawing.Color.MidnightBlue;
 			this.labelCommLogAutoSaveDetails.Location = new System.Drawing.Point(25, 8);
 			this.labelCommLogAutoSaveDetails.Name = "labelCommLogAutoSaveDetails";
-			this.labelCommLogAutoSaveDetails.Size = new System.Drawing.Size(446, 120);
+			this.labelCommLogAutoSaveDetails.Size = new System.Drawing.Size(446, 107);
 			this.labelCommLogAutoSaveDetails.TabIndex = 322;
 			this.labelCommLogAutoSaveDetails.Text = resources.GetString("labelCommLogAutoSaveDetails.Text");
 			// 
 			// checkAgingProcLifo
 			// 
 			this.checkAgingProcLifo.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkAgingProcLifo.Location = new System.Drawing.Point(8, 130);
+			this.checkAgingProcLifo.Location = new System.Drawing.Point(8, 117);
 			this.checkAgingProcLifo.Name = "checkAgingProcLifo";
 			this.checkAgingProcLifo.Size = new System.Drawing.Size(394, 20);
 			this.checkAgingProcLifo.TabIndex = 323;

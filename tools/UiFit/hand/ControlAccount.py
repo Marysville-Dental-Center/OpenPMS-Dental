@@ -42,26 +42,30 @@ def layout(h):
     h.set("labelDisRem", x + 6, 2, 49, 33)
 
     # ---- The side panel, Main page (182 wide) ------------------------------------------------------------------------------------------
-    w = 182
-    y = 0
-    h.set("labelUrgFinNote", 0, y, w, 17)
+    # Fix round: the page's content 4 px in from the page's frame on every side, as the Show page (the owner: "text shouldn't be touched by a
+    # border"; the captions and the check box stood on the frame), the check box 8 px in as on main.
+    x0 = 4
+    wm = 182 - 2 * x0
+    y = x0
+    h.set("labelUrgFinNote", x0, y, wm, 17)
     h.text_align("labelUrgFinNote", "BottomLeft")
     y += 17 + 2
-    h.set("textUrgFinNote", 0, y, w, 80)
+    h.set("textUrgFinNote", x0, y, wm, 80)
     y += 80 + 4
     wbut = 120
     for name in ("butServiceDateView", "butCreditCard"):
-        h.set(name, (w - wbut) // 2, y, wbut, H)
+        h.set(name, x0 + (wm - wbut) // 2, y, wbut, H)
         y += H + 4
-    h.set("gridAcctPat", 0, y, w, 180)
+    h.set("gridAcctPat", x0, y, wm, 180)
     y += 180 + 4
-    h.set("checkUseSuperFam", 0, y, h.cw("checkUseSuperFam"), h.CH)
+    h.set("checkUseSuperFam", 8, y, h.cw("checkUseSuperFam"), h.CH)
     h.check_left("checkUseSuperFam")
     y += h.CH + 12
-    h.set("labelFamFinancial", 0, y, w, 17)
+    h.set("labelFamFinancial", x0, y, wm, 17)
     h.text_align("labelFamFinancial", "BottomLeft")
     y += 17 + 2
-    h.set("textFinNote", 0, y, w, 110)
+    h.set("textFinNote", x0, y, wm, 110)
+    w = 182
 
     # ---- The side panel, Show page: dates, the buttons under them, the check boxes ---------------------------------------------------------
     pad = 4

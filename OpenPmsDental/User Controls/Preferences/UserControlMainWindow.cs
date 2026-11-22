@@ -130,6 +130,22 @@ namespace OpenPmsDental {
 			prefValSync=ListPrefValSyncs.Find(x=>x.PrefName_==PrefName.EnterpriseAllowRefreshWhileTyping);
 			checkEnterpriseAllowRefreshWhileTyping.Checked=PIn.Bool(prefValSync.PrefVal);
 		}
+
+		///<summary>UI-12 (the layout grid): the Select Patient Window group ends 8 px under its last row shown in every office; the restricted
+		///clinics row under it shows only with clinics (FillSynced). FormPreferences calls this with its LayoutManager after FillSynced: the group
+		///grows to hold that row and the group under it moves down by as much. Runs once; later calls change nothing.</summary>
+		public void LayOutShownRows(LayoutManagerForms layoutManager) {
+			if(!checkPatientSelectFilterRestrictedClinics.Visible) {
+				return;
+			}
+			int heightNeeded=checkPatientSelectFilterRestrictedClinics.Bottom+layoutManager.Scale(8);
+			int heightAdded=heightNeeded-groupSelectPatient.Height;
+			if(heightAdded<=0) {
+				return;
+			}
+			layoutManager.MoveHeight(groupSelectPatient,heightNeeded);
+			layoutManager.MoveLocation(groupBoxPopups,new Point(groupBoxPopups.Left,groupBoxPopups.Top+heightAdded));
+		}
 		#endregion Methods - Public
 	}
 }

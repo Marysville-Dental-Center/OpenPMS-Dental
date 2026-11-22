@@ -56,15 +56,15 @@ namespace OpenPmsDental {
 			this.groupBoxPopups.Controls.Add(this.labelTimeSpan);
 			this.groupBoxPopups.Controls.Add(this.textPopupsDisableDays);
 			this.groupBoxPopups.Controls.Add(this.labelDays);
-			this.groupBoxPopups.Location = new System.Drawing.Point(8, 348);
+			this.groupBoxPopups.Location = new System.Drawing.Point(8, 324);
 			this.groupBoxPopups.Name = "groupBoxPopups";
-			this.groupBoxPopups.Size = new System.Drawing.Size(478, 81);
+			this.groupBoxPopups.Size = new System.Drawing.Size(478, 90);
 			this.groupBoxPopups.TabIndex = 247;
 			this.groupBoxPopups.Text = "Popups Disable Timespan";
 			// 
 			// textPopupsDisableTimeSpan
 			// 
-			this.textPopupsDisableTimeSpan.Location = new System.Drawing.Point(268, 50);
+			this.textPopupsDisableTimeSpan.Location = new System.Drawing.Point(248, 54);
 			this.textPopupsDisableTimeSpan.Name = "textPopupsDisableTimeSpan";
 			this.textPopupsDisableTimeSpan.Size = new System.Drawing.Size(76, 23);
 			this.textPopupsDisableTimeSpan.TabIndex = 42;
@@ -73,14 +73,14 @@ namespace OpenPmsDental {
 			// 
 			this.labelTimeSpan.Location = new System.Drawing.Point(24, 50);
 			this.labelTimeSpan.Name = "labelTimeSpan";
-			this.labelTimeSpan.Size = new System.Drawing.Size(238, 23);
+			this.labelTimeSpan.Size = new System.Drawing.Size(218, 32);
 			this.labelTimeSpan.TabIndex = 43;
 			this.labelTimeSpan.Text = "Default timespan (hh:mm:ss) until disabled";
 			this.labelTimeSpan.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// textPopupsDisableDays
 			// 
-			this.textPopupsDisableDays.Location = new System.Drawing.Point(268, 23);
+			this.textPopupsDisableDays.Location = new System.Drawing.Point(248, 23);
 			this.textPopupsDisableDays.Name = "textPopupsDisableDays";
 			this.textPopupsDisableDays.Size = new System.Drawing.Size(48, 23);
 			this.textPopupsDisableDays.TabIndex = 40;
@@ -89,7 +89,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelDays.Location = new System.Drawing.Point(24, 23);
 			this.labelDays.Name = "labelDays";
-			this.labelDays.Size = new System.Drawing.Size(238, 23);
+			this.labelDays.Size = new System.Drawing.Size(218, 23);
 			this.labelDays.TabIndex = 41;
 			this.labelDays.Text = "Default number of days until disabled";
 			this.labelDays.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -105,7 +105,7 @@ namespace OpenPmsDental {
 			this.groupSelectPatient.Controls.Add(this.checkPrefFName);
 			this.groupSelectPatient.Location = new System.Drawing.Point(8, 169);
 			this.groupSelectPatient.Name = "groupSelectPatient";
-			this.groupSelectPatient.Size = new System.Drawing.Size(478, 171);
+			this.groupSelectPatient.Size = new System.Drawing.Size(478, 147);
 			this.groupSelectPatient.TabIndex = 246;
 			this.groupSelectPatient.Text = "Select Patient Window";
 			// 
@@ -193,9 +193,9 @@ namespace OpenPmsDental {
 			// 
 			// textMainWindowTitle
 			// 
-			this.textMainWindowTitle.Location = new System.Drawing.Point(268, 23);
+			this.textMainWindowTitle.Location = new System.Drawing.Point(248, 23);
 			this.textMainWindowTitle.Name = "textMainWindowTitle";
-			this.textMainWindowTitle.Size = new System.Drawing.Size(202, 23);
+			this.textMainWindowTitle.Size = new System.Drawing.Size(222, 23);
 			this.textMainWindowTitle.TabIndex = 38;
 			// 
 			// checkTitleBarShowSite
@@ -211,23 +211,23 @@ namespace OpenPmsDental {
 			// 
 			this.label15.Location = new System.Drawing.Point(24, 23);
 			this.label15.Name = "label15";
-			this.label15.Size = new System.Drawing.Size(238, 23);
+			this.label15.Size = new System.Drawing.Size(218, 23);
 			this.label15.TabIndex = 39;
 			this.label15.Text = "Title Text";
 			this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// comboShowID
 			// 
-			this.comboShowID.Location = new System.Drawing.Point(268, 50);
+			this.comboShowID.Location = new System.Drawing.Point(248, 50);
 			this.comboShowID.Name = "comboShowID";
-			this.comboShowID.Size = new System.Drawing.Size(202, 23);
+			this.comboShowID.Size = new System.Drawing.Size(222, 23);
 			this.comboShowID.TabIndex = 72;
 			// 
 			// label17
 			// 
 			this.label17.Location = new System.Drawing.Point(24, 50);
 			this.label17.Name = "label17";
-			this.label17.Size = new System.Drawing.Size(238, 23);
+			this.label17.Size = new System.Drawing.Size(218, 23);
 			this.label17.TabIndex = 73;
 			this.label17.Text = "Show ID in title bar";
 			this.label17.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;

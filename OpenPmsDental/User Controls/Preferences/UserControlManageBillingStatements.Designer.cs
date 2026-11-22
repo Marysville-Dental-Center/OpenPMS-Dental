@@ -59,7 +59,7 @@ namespace OpenPmsDental {
 			this.label24.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.label24.Location = new System.Drawing.Point(24, 47);
 			this.label24.Name = "label24";
-			this.label24.Size = new System.Drawing.Size(266, 23);
+			this.label24.Size = new System.Drawing.Size(218, 23);
 			this.label24.TabIndex = 217;
 			this.label24.Text = "Max number of statements per batch";
 			this.label24.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -67,7 +67,7 @@ namespace OpenPmsDental {
 			// textBillingElectBatchMax
 			// 
 			this.textBillingElectBatchMax.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.textBillingElectBatchMax.Location = new System.Drawing.Point(296, 47);
+			this.textBillingElectBatchMax.Location = new System.Drawing.Point(248, 47);
 			this.textBillingElectBatchMax.Name = "textBillingElectBatchMax";
 			this.textBillingElectBatchMax.Size = new System.Drawing.Size(60, 20);
 			this.textBillingElectBatchMax.TabIndex = 8;
@@ -129,7 +129,7 @@ namespace OpenPmsDental {
 			this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.label2.Location = new System.Drawing.Point(24, 146);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(266, 23);
+			this.label2.Size = new System.Drawing.Size(218, 23);
 			this.label2.TabIndex = 204;
 			this.label2.Text = "Days to calculate due date";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -137,9 +137,9 @@ namespace OpenPmsDental {
 			// comboUseChartNum
 			// 
 			this.comboUseChartNum.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.comboUseChartNum.Location = new System.Drawing.Point(296, 119);
+			this.comboUseChartNum.Location = new System.Drawing.Point(248, 119);
 			this.comboUseChartNum.Name = "comboUseChartNum";
-			this.comboUseChartNum.Size = new System.Drawing.Size(174, 23);
+			this.comboUseChartNum.Size = new System.Drawing.Size(222, 23);
 			this.comboUseChartNum.TabIndex = 4;
 			// 
 			// label10
@@ -147,7 +147,7 @@ namespace OpenPmsDental {
 			this.label10.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.label10.Location = new System.Drawing.Point(24, 119);
 			this.label10.Name = "label10";
-			this.label10.Size = new System.Drawing.Size(266, 23);
+			this.label10.Size = new System.Drawing.Size(218, 23);
 			this.label10.TabIndex = 208;
 			this.label10.Text = "Account Numbers use";
 			this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -157,7 +157,7 @@ namespace OpenPmsDental {
 			this.label18.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.label18.Location = new System.Drawing.Point(24, 173);
 			this.label18.Name = "label18";
-			this.label18.Size = new System.Drawing.Size(266, 32);
+			this.label18.Size = new System.Drawing.Size(218, 32);
 			this.label18.TabIndex = 209;
 			this.label18.Text = "Days in advance to bill payment plan amounts due";
 			this.label18.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -165,7 +165,7 @@ namespace OpenPmsDental {
 			// textStatementsCalcDueDate
 			// 
 			this.textStatementsCalcDueDate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.textStatementsCalcDueDate.Location = new System.Drawing.Point(296, 146);
+			this.textStatementsCalcDueDate.Location = new System.Drawing.Point(248, 146);
 			this.textStatementsCalcDueDate.Name = "textStatementsCalcDueDate";
 			this.textStatementsCalcDueDate.ShowZero = false;
 			this.textStatementsCalcDueDate.Size = new System.Drawing.Size(60, 20);
@@ -175,7 +175,7 @@ namespace OpenPmsDental {
 			// textPayPlansBillInAdvanceDays
 			// 
 			this.textPayPlansBillInAdvanceDays.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.textPayPlansBillInAdvanceDays.Location = new System.Drawing.Point(296, 177);
+			this.textPayPlansBillInAdvanceDays.Location = new System.Drawing.Point(248, 177);
 			this.textPayPlansBillInAdvanceDays.Name = "textPayPlansBillInAdvanceDays";
 			this.textPayPlansBillInAdvanceDays.Size = new System.Drawing.Size(60, 20);
 			this.textPayPlansBillInAdvanceDays.TabIndex = 6;

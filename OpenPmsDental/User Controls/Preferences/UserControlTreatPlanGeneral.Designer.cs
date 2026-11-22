@@ -159,7 +159,7 @@ namespace OpenPmsDental {
 			this.groupBoxInsuranceHistory.Controls.Add(this.labelInsHistCodeGroups);
 			this.groupBoxInsuranceHistory.Location = new System.Drawing.Point(8, 385);
 			this.groupBoxInsuranceHistory.Name = "groupBoxInsuranceHistory";
-			this.groupBoxInsuranceHistory.Size = new System.Drawing.Size(478, 78);
+			this.groupBoxInsuranceHistory.Size = new System.Drawing.Size(478, 63);
 			this.groupBoxInsuranceHistory.TabIndex = 273;
 			this.groupBoxInsuranceHistory.Text = "Insurance History";
 			// 
@@ -167,7 +167,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelInsHistCodeGroups.Location = new System.Drawing.Point(8, 23);
 			this.labelInsHistCodeGroups.Name = "labelInsHistCodeGroups";
-			this.labelInsHistCodeGroups.Size = new System.Drawing.Size(430, 47);
+			this.labelInsHistCodeGroups.Size = new System.Drawing.Size(462, 32);
 			this.labelInsHistCodeGroups.TabIndex = 253;
 			this.labelInsHistCodeGroups.Text = "Insurance History rows and their procedure codes are set in Setup, Code Groups: check Show In History on a code group and give it a History Proc Code.";
 			// 

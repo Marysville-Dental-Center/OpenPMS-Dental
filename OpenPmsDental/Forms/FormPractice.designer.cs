@@ -145,7 +145,7 @@ namespace OpenPmsDental {
 			this.groupBox2.Controls.Add(this.label6);
 			this.groupBox2.Location = new System.Drawing.Point(19, 122);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(447, 108);
+			this.groupBox2.Size = new System.Drawing.Size(437, 108);
 			this.groupBox2.TabIndex = 4;
 			this.groupBox2.Text = "Physical Treating Address";
 			// 
@@ -263,14 +263,14 @@ namespace OpenPmsDental {
 			// 
 			// comboInsBillingProv
 			// 
-			this.comboInsBillingProv.Location = new System.Drawing.Point(17, 95);
+			this.comboInsBillingProv.Location = new System.Drawing.Point(8, 95);
 			this.comboInsBillingProv.Name = "comboInsBillingProv";
-			this.comboInsBillingProv.Size = new System.Drawing.Size(212, 23);
+			this.comboInsBillingProv.Size = new System.Drawing.Size(228, 23);
 			this.comboInsBillingProv.TabIndex = 4;
 			// 
 			// radioInsBillingProvSpecific
 			// 
-			this.radioInsBillingProvSpecific.Location = new System.Drawing.Point(17, 71);
+			this.radioInsBillingProvSpecific.Location = new System.Drawing.Point(8, 71);
 			this.radioInsBillingProvSpecific.Name = "radioInsBillingProvSpecific";
 			this.radioInsBillingProvSpecific.Size = new System.Drawing.Size(116, 20);
 			this.radioInsBillingProvSpecific.TabIndex = 3;
@@ -278,7 +278,7 @@ namespace OpenPmsDental {
 			// 
 			// radioInsBillingProvTreat
 			// 
-			this.radioInsBillingProvTreat.Location = new System.Drawing.Point(17, 47);
+			this.radioInsBillingProvTreat.Location = new System.Drawing.Point(8, 47);
 			this.radioInsBillingProvTreat.Name = "radioInsBillingProvTreat";
 			this.radioInsBillingProvTreat.Size = new System.Drawing.Size(115, 20);
 			this.radioInsBillingProvTreat.TabIndex = 2;
@@ -287,7 +287,7 @@ namespace OpenPmsDental {
 			// radioInsBillingProvDefault
 			// 
 			this.radioInsBillingProvDefault.Checked = true;
-			this.radioInsBillingProvDefault.Location = new System.Drawing.Point(17, 23);
+			this.radioInsBillingProvDefault.Location = new System.Drawing.Point(8, 23);
 			this.radioInsBillingProvDefault.Name = "radioInsBillingProvDefault";
 			this.radioInsBillingProvDefault.Size = new System.Drawing.Size(155, 20);
 			this.radioInsBillingProvDefault.TabIndex = 1;
@@ -319,7 +319,7 @@ namespace OpenPmsDental {
 			// 
 			this.label2.Location = new System.Drawing.Point(8, 50);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(98, 40);
+			this.label2.Size = new System.Drawing.Size(98, 32);
 			this.label2.TabIndex = 0;
 			this.label2.Text = "Bank Name and Address";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -356,7 +356,7 @@ namespace OpenPmsDental {
 			this.groupBox1.Controls.Add(this.label11);
 			this.groupBox1.Location = new System.Drawing.Point(19, 238);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(447, 208);
+			this.groupBox1.Size = new System.Drawing.Size(437, 208);
 			this.groupBox1.TabIndex = 5;
 			this.groupBox1.Text = "Billing Address";
 			// 
@@ -479,7 +479,7 @@ namespace OpenPmsDental {
 			this.groupBox3.Controls.Add(this.label15);
 			this.groupBox3.Location = new System.Drawing.Point(19, 454);
 			this.groupBox3.Name = "groupBox3";
-			this.groupBox3.Size = new System.Drawing.Size(447, 170);
+			this.groupBox3.Size = new System.Drawing.Size(437, 170);
 			this.groupBox3.TabIndex = 6;
 			this.groupBox3.Text = "Pay To Address";
 			// 

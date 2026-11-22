@@ -605,7 +605,7 @@
 			this.groupProsth.Controls.Add(this.label16);
 			this.groupProsth.Location = new System.Drawing.Point(8, 8);
 			this.groupProsth.Name = "groupProsth";
-			this.groupProsth.Size = new System.Drawing.Size(377, 149);
+			this.groupProsth.Size = new System.Drawing.Size(377, 134);
 			this.groupProsth.TabIndex = 9;
 			this.groupProsth.Text = "Crown, Bridge, or Denture";
 			// 
@@ -613,7 +613,7 @@
 			// 
 			this.labelMissingTeeth.Location = new System.Drawing.Point(8, 94);
 			this.labelMissingTeeth.Name = "labelMissingTeeth";
-			this.labelMissingTeeth.Size = new System.Drawing.Size(290, 47);
+			this.labelMissingTeeth.Size = new System.Drawing.Size(290, 32);
 			this.labelMissingTeeth.TabIndex = 28;
 			this.labelMissingTeeth.Text = "For bridges, dentures, and partials, missing teeth must have been correctly enter" +
     "ed in the Chart module. ";
@@ -679,7 +679,7 @@
 			this.groupReferral.Controls.Add(this.butReferralSelect);
 			this.groupReferral.Controls.Add(this.textRefNum);
 			this.groupReferral.Controls.Add(this.label46);
-			this.groupReferral.Location = new System.Drawing.Point(394, 148);
+			this.groupReferral.Location = new System.Drawing.Point(394, 150);
 			this.groupReferral.Name = "groupReferral";
 			this.groupReferral.Size = new System.Drawing.Size(317, 143);
 			this.groupReferral.TabIndex = 118;
@@ -702,7 +702,7 @@
 			this.textRefProv.Location = new System.Drawing.Point(126, 57);
 			this.textRefProv.Name = "textRefProv";
 			this.textRefProv.ReadOnly = true;
-			this.textRefProv.Size = new System.Drawing.Size(176, 23);
+			this.textRefProv.Size = new System.Drawing.Size(183, 23);
 			this.textRefProv.TabIndex = 139;
 			// 
 			// butReferralEdit
@@ -749,7 +749,7 @@
 			// 
 			this.textRefNum.Location = new System.Drawing.Point(126, 112);
 			this.textRefNum.Name = "textRefNum";
-			this.textRefNum.Size = new System.Drawing.Size(176, 23);
+			this.textRefNum.Size = new System.Drawing.Size(183, 23);
 			this.textRefNum.TabIndex = 127;
 			// 
 			// label46
@@ -770,7 +770,7 @@
 			this.groupAccident.Controls.Add(this.label42);
 			this.groupAccident.Controls.Add(this.textAccidentST);
 			this.groupAccident.Controls.Add(this.labelAccidentST);
-			this.groupAccident.Location = new System.Drawing.Point(8, 223);
+			this.groupAccident.Location = new System.Drawing.Point(8, 208);
 			this.groupAccident.Name = "groupAccident";
 			this.groupAccident.Size = new System.Drawing.Size(377, 108);
 			this.groupAccident.TabIndex = 149;
@@ -840,7 +840,7 @@
 			this.groupOrtho.Controls.Add(this.labelOrthoRemainM);
 			this.groupOrtho.Location = new System.Drawing.Point(394, 8);
 			this.groupOrtho.Name = "groupOrtho";
-			this.groupOrtho.Size = new System.Drawing.Size(317, 132);
+			this.groupOrtho.Size = new System.Drawing.Size(317, 134);
 			this.groupOrtho.TabIndex = 11;
 			this.groupOrtho.Text = "Ortho";
 			// 
@@ -906,7 +906,7 @@
 			// 
 			// comboEmployRelated
 			// 
-			this.comboEmployRelated.Location = new System.Drawing.Point(176, 192);
+			this.comboEmployRelated.Location = new System.Drawing.Point(176, 177);
 			this.comboEmployRelated.Name = "comboEmployRelated";
 			this.comboEmployRelated.Size = new System.Drawing.Size(156, 23);
 			this.comboEmployRelated.TabIndex = 141;
@@ -921,7 +921,7 @@
 			// 
 			// comboPlaceService
 			// 
-			this.comboPlaceService.Location = new System.Drawing.Point(176, 165);
+			this.comboPlaceService.Location = new System.Drawing.Point(176, 150);
 			this.comboPlaceService.Name = "comboPlaceService";
 			this.comboPlaceService.Size = new System.Drawing.Size(156, 23);
 			this.comboPlaceService.TabIndex = 140;
@@ -944,7 +944,7 @@
 			// label48
 			// 
 			this.label48.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.label48.Location = new System.Drawing.Point(74, 165);
+			this.label48.Location = new System.Drawing.Point(74, 150);
 			this.label48.Name = "label48";
 			this.label48.Size = new System.Drawing.Size(96, 23);
 			this.label48.TabIndex = 136;
@@ -954,7 +954,7 @@
 			// label49
 			// 
 			this.label49.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.label49.Location = new System.Drawing.Point(46, 192);
+			this.label49.Location = new System.Drawing.Point(46, 177);
 			this.label49.Name = "label49";
 			this.label49.Size = new System.Drawing.Size(124, 23);
 			this.label49.TabIndex = 137;

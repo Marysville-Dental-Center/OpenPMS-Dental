@@ -84,16 +84,16 @@ namespace OpenPmsDental {
 			// 
 			// textAgingBeginDateT
 			// 
-			this.textAgingBeginDateT.Location = new System.Drawing.Point(296, 135);
+			this.textAgingBeginDateT.Location = new System.Drawing.Point(248, 135);
 			this.textAgingBeginDateT.Name = "textAgingBeginDateT";
 			this.textAgingBeginDateT.ReadOnly = true;
-			this.textAgingBeginDateT.Size = new System.Drawing.Size(125, 23);
+			this.textAgingBeginDateT.Size = new System.Drawing.Size(173, 23);
 			this.textAgingBeginDateT.TabIndex = 313;
 			this.textAgingBeginDateT.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			// 
 			// textAgingServiceTimeDue
 			// 
-			this.textAgingServiceTimeDue.Location = new System.Drawing.Point(296, 99);
+			this.textAgingServiceTimeDue.Location = new System.Drawing.Point(248, 99);
 			this.textAgingServiceTimeDue.Name = "textAgingServiceTimeDue";
 			this.textAgingServiceTimeDue.Size = new System.Drawing.Size(72, 23);
 			this.textAgingServiceTimeDue.TabIndex = 21;
@@ -104,7 +104,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelAgingBeginDateT.Location = new System.Drawing.Point(24, 131);
 			this.labelAgingBeginDateT.Name = "labelAgingBeginDateT";
-			this.labelAgingBeginDateT.Size = new System.Drawing.Size(266, 32);
+			this.labelAgingBeginDateT.Size = new System.Drawing.Size(218, 32);
 			this.labelAgingBeginDateT.TabIndex = 314;
 			this.labelAgingBeginDateT.Text = "DateTime the currently running aging started\r\nUsually blank";
 			this.labelAgingBeginDateT.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -113,7 +113,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelAutoAgingRunTime.Location = new System.Drawing.Point(24, 95);
 			this.labelAutoAgingRunTime.Name = "labelAutoAgingRunTime";
-			this.labelAutoAgingRunTime.Size = new System.Drawing.Size(266, 32);
+			this.labelAutoAgingRunTime.Size = new System.Drawing.Size(218, 32);
 			this.labelAutoAgingRunTime.TabIndex = 312;
 			this.labelAutoAgingRunTime.Text = "Automated aging run time, Leave blank to disable";
 			this.labelAutoAgingRunTime.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;

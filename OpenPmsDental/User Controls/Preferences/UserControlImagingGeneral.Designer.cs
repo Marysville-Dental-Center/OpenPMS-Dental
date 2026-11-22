@@ -58,7 +58,7 @@ namespace OpenPmsDental {
 			this.groupBoxFunctionality.Controls.Add(this.checkImagingOrderDescending);
 			this.groupBoxFunctionality.Controls.Add(this.checkPDFLaunchWindow);
 			this.groupBoxFunctionality.Controls.Add(this.checkImagingAllowPdfJavascript);
-			this.groupBoxFunctionality.Location = new System.Drawing.Point(8, 151);
+			this.groupBoxFunctionality.Location = new System.Drawing.Point(8, 160);
 			this.groupBoxFunctionality.Name = "groupBoxFunctionality";
 			this.groupBoxFunctionality.Size = new System.Drawing.Size(478, 99);
 			this.groupBoxFunctionality.TabIndex = 320;
@@ -107,43 +107,43 @@ namespace OpenPmsDental {
 			this.groupImport.Controls.Add(this.butBrowseImageCategoryDefault);
 			this.groupImport.Location = new System.Drawing.Point(8, 8);
 			this.groupImport.Name = "groupImport";
-			this.groupImport.Size = new System.Drawing.Size(478, 135);
+			this.groupImport.Size = new System.Drawing.Size(478, 144);
 			this.groupImport.TabIndex = 319;
 			this.groupImport.Text = "Imports";
 			// 
 			// textAutoImportFolder
 			// 
-			this.textAutoImportFolder.Location = new System.Drawing.Point(260, 50);
+			this.textAutoImportFolder.Location = new System.Drawing.Point(248, 50);
 			this.textAutoImportFolder.Name = "textAutoImportFolder";
-			this.textAutoImportFolder.Size = new System.Drawing.Size(181, 23);
+			this.textAutoImportFolder.Size = new System.Drawing.Size(193, 23);
 			this.textAutoImportFolder.TabIndex = 302;
 			// 
 			// textDefaultImageImportFolder
 			// 
-			this.textDefaultImageImportFolder.Location = new System.Drawing.Point(260, 23);
+			this.textDefaultImageImportFolder.Location = new System.Drawing.Point(248, 23);
 			this.textDefaultImageImportFolder.Name = "textDefaultImageImportFolder";
-			this.textDefaultImageImportFolder.Size = new System.Drawing.Size(181, 23);
+			this.textDefaultImageImportFolder.Size = new System.Drawing.Size(193, 23);
 			this.textDefaultImageImportFolder.TabIndex = 300;
 			// 
 			// textImageCategoryDefault
 			// 
-			this.textImageCategoryDefault.Location = new System.Drawing.Point(260, 77);
+			this.textImageCategoryDefault.Location = new System.Drawing.Point(248, 77);
 			this.textImageCategoryDefault.Name = "textImageCategoryDefault";
-			this.textImageCategoryDefault.Size = new System.Drawing.Size(181, 23);
+			this.textImageCategoryDefault.Size = new System.Drawing.Size(193, 23);
 			this.textImageCategoryDefault.TabIndex = 304;
 			// 
 			// textVideoImageCategoryDefault
 			// 
-			this.textVideoImageCategoryDefault.Location = new System.Drawing.Point(260, 104);
+			this.textVideoImageCategoryDefault.Location = new System.Drawing.Point(248, 108);
 			this.textVideoImageCategoryDefault.Name = "textVideoImageCategoryDefault";
-			this.textVideoImageCategoryDefault.Size = new System.Drawing.Size(181, 23);
+			this.textVideoImageCategoryDefault.Size = new System.Drawing.Size(193, 23);
 			this.textVideoImageCategoryDefault.TabIndex = 311;
 			// 
 			// label61
 			// 
 			this.label61.Location = new System.Drawing.Point(24, 23);
 			this.label61.Name = "label61";
-			this.label61.Size = new System.Drawing.Size(230, 23);
+			this.label61.Size = new System.Drawing.Size(218, 23);
 			this.label61.TabIndex = 309;
 			this.label61.Text = "Default import folder";
 			this.label61.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -152,7 +152,7 @@ namespace OpenPmsDental {
 			// 
 			this.label15.Location = new System.Drawing.Point(24, 50);
 			this.label15.Name = "label15";
-			this.label15.Size = new System.Drawing.Size(230, 23);
+			this.label15.Size = new System.Drawing.Size(218, 23);
 			this.label15.TabIndex = 308;
 			this.label15.Text = "Default folder for automatic import";
 			this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -182,7 +182,7 @@ namespace OpenPmsDental {
 			// butVideoImageCategoryDefault
 			// 
 			this.butVideoImageCategoryDefault.BackColor = System.Drawing.SystemColors.Control;
-			this.butVideoImageCategoryDefault.Location = new System.Drawing.Point(447, 104);
+			this.butVideoImageCategoryDefault.Location = new System.Drawing.Point(447, 108);
 			this.butVideoImageCategoryDefault.Name = "butVideoImageCategoryDefault";
 			this.butVideoImageCategoryDefault.Size = new System.Drawing.Size(23, 23);
 			this.butVideoImageCategoryDefault.TabIndex = 312;
@@ -194,7 +194,7 @@ namespace OpenPmsDental {
 			// 
 			this.label41.Location = new System.Drawing.Point(24, 104);
 			this.label41.Name = "label41";
-			this.label41.Size = new System.Drawing.Size(230, 23);
+			this.label41.Size = new System.Drawing.Size(218, 32);
 			this.label41.TabIndex = 313;
 			this.label41.Text = "Default Image Category for video capture";
 			this.label41.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -203,7 +203,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelDefaultImageCategory.Location = new System.Drawing.Point(24, 77);
 			this.labelDefaultImageCategory.Name = "labelDefaultImageCategory";
-			this.labelDefaultImageCategory.Size = new System.Drawing.Size(230, 23);
+			this.labelDefaultImageCategory.Size = new System.Drawing.Size(218, 23);
 			this.labelDefaultImageCategory.TabIndex = 310;
 			this.labelDefaultImageCategory.Text = "Default Image Category";
 			this.labelDefaultImageCategory.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -228,7 +228,7 @@ namespace OpenPmsDental {
 			this.groupBoxOD2.Controls.Add(this.label34);
 			this.groupBoxOD2.Controls.Add(this.label35);
 			this.groupBoxOD2.Controls.Add(this.label36);
-			this.groupBoxOD2.Location = new System.Drawing.Point(8, 258);
+			this.groupBoxOD2.Location = new System.Drawing.Point(8, 267);
 			this.groupBoxOD2.Name = "groupBoxOD2";
 			this.groupBoxOD2.Size = new System.Drawing.Size(478, 108);
 			this.groupBoxOD2.TabIndex = 307;
@@ -237,7 +237,7 @@ namespace OpenPmsDental {
 			// textDecimals
 			// 
 			this.textDecimals.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.textDecimals.Location = new System.Drawing.Point(260, 77);
+			this.textDecimals.Location = new System.Drawing.Point(248, 77);
 			this.textDecimals.MaxVal = 20;
 			this.textDecimals.Name = "textDecimals";
 			this.textDecimals.Size = new System.Drawing.Size(48, 20);
@@ -246,7 +246,7 @@ namespace OpenPmsDental {
 			// textScale
 			// 
 			this.textScale.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.textScale.Location = new System.Drawing.Point(260, 50);
+			this.textScale.Location = new System.Drawing.Point(248, 50);
 			this.textScale.MaxVal = 100000000D;
 			this.textScale.MinVal = -100000000D;
 			this.textScale.Name = "textScale";
@@ -256,7 +256,7 @@ namespace OpenPmsDental {
 			// textUnits
 			// 
 			this.textUnits.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.textUnits.Location = new System.Drawing.Point(260, 23);
+			this.textUnits.Location = new System.Drawing.Point(248, 23);
 			this.textUnits.Name = "textUnits";
 			this.textUnits.Size = new System.Drawing.Size(48, 20);
 			this.textUnits.TabIndex = 0;
@@ -267,7 +267,7 @@ namespace OpenPmsDental {
 			this.label34.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.label34.Location = new System.Drawing.Point(24, 50);
 			this.label34.Name = "label34";
-			this.label34.Size = new System.Drawing.Size(230, 23);
+			this.label34.Size = new System.Drawing.Size(218, 23);
 			this.label34.TabIndex = 46;
 			this.label34.Text = "Scale, pixels per unit";
 			this.label34.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -277,7 +277,7 @@ namespace OpenPmsDental {
 			this.label35.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.label35.Location = new System.Drawing.Point(24, 23);
 			this.label35.Name = "label35";
-			this.label35.Size = new System.Drawing.Size(230, 23);
+			this.label35.Size = new System.Drawing.Size(218, 23);
 			this.label35.TabIndex = 45;
 			this.label35.Text = "Optional Units (mm)";
 			this.label35.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -287,7 +287,7 @@ namespace OpenPmsDental {
 			this.label36.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.label36.Location = new System.Drawing.Point(24, 77);
 			this.label36.Name = "label36";
-			this.label36.Size = new System.Drawing.Size(230, 23);
+			this.label36.Size = new System.Drawing.Size(218, 23);
 			this.label36.TabIndex = 44;
 			this.label36.Text = "Decimal Places";
 			this.label36.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;

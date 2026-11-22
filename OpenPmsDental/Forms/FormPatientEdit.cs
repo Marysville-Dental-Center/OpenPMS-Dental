@@ -187,6 +187,22 @@ End of Checklist================================================================
 			listBoxStates.BringToFront();
 		}
 
+		///<summary>UI-12 (the layout grid): the Address and Phone group ends 8 px under its last row shown in every office (Zip); the super family
+		///row under it shows only with super families. Then the group grows to hold that row, and the groups and tabs under it in the right
+		///column (and the lists that drop down from the Public Health tab) move down by as much.</summary>
+		private void GrowAddressGroupForSuperFamily() {
+			int heightNeeded=checkAddressSameForSuperFam.Bottom+LayoutManager.Scale(8);
+			int heightAdded=heightNeeded-groupBox1.Height;
+			if(heightAdded<=0) {
+				return;
+			}
+			LayoutManager.MoveHeight(groupBox1,heightNeeded);
+			List<Control> listControlsUnder=new List<Control>() { groupNotes,groupBillProv,tabControlPatInfo,listBoxCounties,listBoxSites };
+			for(int i=0;i<listControlsUnder.Count;i++) {
+				LayoutManager.MoveLocation(listControlsUnder[i],new Point(listControlsUnder[i].Left,listControlsUnder[i].Top+heightAdded));
+			}
+		}
+
 		private void FormPatientEdit_Load(object sender, System.EventArgs e) {
 			_isLoad=true;
 			_patientNote=PatientNotes.Refresh(Patient.PatNum,Patient.Guarantor);
@@ -219,6 +235,9 @@ End of Checklist================================================================
 			checkArriveEarlySame.Checked=patientEditSameForFamily.ArriveEarlySameForFamily;
 			checkAddressSameForSuperFam.Checked=patientEditSameForFamily.AddressSameForSuperFamily;
 			checkAddressSameForSuperFam.Visible=patientEditSameForFamily.AddressSameForSuperFamilyVisible;
+			if(checkAddressSameForSuperFam.Visible) {
+				GrowAddressGroupForSuperFamily();
+			}
 			#endregion SameForFamily
 			if(IsNew) {
 				Patient.PatStatus=PatientStatus.Patient;

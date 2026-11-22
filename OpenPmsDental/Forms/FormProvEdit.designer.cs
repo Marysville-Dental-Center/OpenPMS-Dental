@@ -419,7 +419,7 @@ namespace OpenPmsDental {
 			this.groupClinicOverrides.Controls.Add(this.textStateWhereLicensed);
 			this.groupClinicOverrides.Location = new System.Drawing.Point(37, 365);
 			this.groupClinicOverrides.Name = "groupClinicOverrides";
-			this.groupClinicOverrides.Size = new System.Drawing.Size(340, 135);
+			this.groupClinicOverrides.Size = new System.Drawing.Size(333, 135);
 			this.groupClinicOverrides.TabIndex = 341;
 			this.groupClinicOverrides.Text = "Clinic Overrides";
 			// 
@@ -435,7 +435,7 @@ namespace OpenPmsDental {
 			// butClinicOverrides
 			// 
 			this.butClinicOverrides.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butClinicOverrides.Location = new System.Drawing.Point(275, 104);
+			this.butClinicOverrides.Location = new System.Drawing.Point(278, 104);
 			this.butClinicOverrides.Name = "butClinicOverrides";
 			this.butClinicOverrides.Size = new System.Drawing.Size(47, 23);
 			this.butClinicOverrides.TabIndex = 329;
@@ -906,7 +906,7 @@ namespace OpenPmsDental {
 			this.groupBox1.Controls.Add(this.textSSN);
 			this.groupBox1.Location = new System.Drawing.Point(202, 255);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(156, 102);
+			this.groupBox1.Size = new System.Drawing.Size(168, 102);
 			this.groupBox1.TabIndex = 275;
 			this.groupBox1.Text = "SSN or TIN (no dashes)";
 			// 

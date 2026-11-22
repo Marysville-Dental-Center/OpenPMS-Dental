@@ -62,16 +62,16 @@ namespace OpenPmsDental {
 			// 
 			// textWebServiceServerName
 			// 
-			this.textWebServiceServerName.Location = new System.Drawing.Point(304, 349);
+			this.textWebServiceServerName.Location = new System.Drawing.Point(256, 349);
 			this.textWebServiceServerName.Name = "textWebServiceServerName";
-			this.textWebServiceServerName.Size = new System.Drawing.Size(182, 23);
+			this.textWebServiceServerName.Size = new System.Drawing.Size(230, 23);
 			this.textWebServiceServerName.TabIndex = 248;
 			// 
 			// label2
 			// 
 			this.label2.Location = new System.Drawing.Point(24, 349);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(274, 23);
+			this.label2.Size = new System.Drawing.Size(226, 23);
 			this.label2.TabIndex = 249;
 			this.label2.Text = "Update Server";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -80,7 +80,7 @@ namespace OpenPmsDental {
 			// 
 			this.label9.Location = new System.Drawing.Point(24, 435);
 			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(274, 23);
+			this.label9.Size = new System.Drawing.Size(226, 23);
 			this.label9.TabIndex = 259;
 			this.label9.Text = "Number of Audit Trail entries displayed";
 			this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -89,14 +89,14 @@ namespace OpenPmsDental {
 			// 
 			this.label8.Location = new System.Drawing.Point(24, 295);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(274, 23);
+			this.label8.Size = new System.Drawing.Size(226, 23);
 			this.label8.TabIndex = 257;
 			this.label8.Text = "Sync code for CEMT";
 			this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// textSyncCode
 			// 
-			this.textSyncCode.Location = new System.Drawing.Point(304, 295);
+			this.textSyncCode.Location = new System.Drawing.Point(256, 295);
 			this.textSyncCode.Name = "textSyncCode";
 			this.textSyncCode.ReadOnly = true;
 			this.textSyncCode.Size = new System.Drawing.Size(72, 23);
@@ -104,7 +104,7 @@ namespace OpenPmsDental {
 			// 
 			// textNumDecimals
 			// 
-			this.textNumDecimals.Location = new System.Drawing.Point(304, 322);
+			this.textNumDecimals.Location = new System.Drawing.Point(256, 322);
 			this.textNumDecimals.Name = "textNumDecimals";
 			this.textNumDecimals.ReadOnly = true;
 			this.textNumDecimals.Size = new System.Drawing.Size(48, 23);
@@ -115,7 +115,7 @@ namespace OpenPmsDental {
 			// 
 			this.label7.Location = new System.Drawing.Point(24, 322);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(274, 23);
+			this.label7.Size = new System.Drawing.Size(226, 23);
 			this.label7.TabIndex = 254;
 			this.label7.Text = "Currency number of digits after decimal";
 			this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -124,7 +124,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelTrackClinic.Location = new System.Drawing.Point(24, 384);
 			this.labelTrackClinic.Name = "labelTrackClinic";
-			this.labelTrackClinic.Size = new System.Drawing.Size(274, 23);
+			this.labelTrackClinic.Size = new System.Drawing.Size(226, 23);
 			this.labelTrackClinic.TabIndex = 252;
 			this.labelTrackClinic.Text = "Track Last Clinic By";
 			this.labelTrackClinic.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -151,7 +151,7 @@ namespace OpenPmsDental {
 			// 
 			// textAuditEntries
 			// 
-			this.textAuditEntries.Location = new System.Drawing.Point(304, 435);
+			this.textAuditEntries.Location = new System.Drawing.Point(256, 435);
 			this.textAuditEntries.MaxLength = 5;
 			this.textAuditEntries.MaxVal = 10000;
 			this.textAuditEntries.MinVal = 1;
@@ -162,9 +162,9 @@ namespace OpenPmsDental {
 			// 
 			// comboTrackClinic
 			// 
-			this.comboTrackClinic.Location = new System.Drawing.Point(304, 384);
+			this.comboTrackClinic.Location = new System.Drawing.Point(256, 384);
 			this.comboTrackClinic.Name = "comboTrackClinic";
-			this.comboTrackClinic.Size = new System.Drawing.Size(182, 23);
+			this.comboTrackClinic.Size = new System.Drawing.Size(230, 23);
 			this.comboTrackClinic.TabIndex = 251;
 			// 
 			// groupBox2
@@ -183,24 +183,24 @@ namespace OpenPmsDental {
 			// 
 			// textLanguageAndRegion
 			// 
-			this.textLanguageAndRegion.Location = new System.Drawing.Point(296, 50);
+			this.textLanguageAndRegion.Location = new System.Drawing.Point(248, 50);
 			this.textLanguageAndRegion.Name = "textLanguageAndRegion";
 			this.textLanguageAndRegion.ReadOnly = true;
-			this.textLanguageAndRegion.Size = new System.Drawing.Size(145, 23);
+			this.textLanguageAndRegion.Size = new System.Drawing.Size(193, 23);
 			this.textLanguageAndRegion.TabIndex = 204;
 			// 
 			// label4
 			// 
 			this.label4.Location = new System.Drawing.Point(24, 23);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(266, 23);
+			this.label4.Size = new System.Drawing.Size(218, 23);
 			this.label4.TabIndex = 64;
 			this.label4.Text = "Languages used by patients";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// butLanguages
 			// 
-			this.butLanguages.Location = new System.Drawing.Point(296, 23);
+			this.butLanguages.Location = new System.Drawing.Point(248, 23);
 			this.butLanguages.Name = "butLanguages";
 			this.butLanguages.Size = new System.Drawing.Size(88, 23);
 			this.butLanguages.TabIndex = 63;
@@ -220,7 +220,7 @@ namespace OpenPmsDental {
 			// 
 			this.label6.Location = new System.Drawing.Point(24, 50);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(266, 23);
+			this.label6.Size = new System.Drawing.Size(218, 23);
 			this.label6.TabIndex = 205;
 			this.label6.Text = "Language and region used by program";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -252,7 +252,7 @@ namespace OpenPmsDental {
 			// 
 			// textProcessSigsIntervalInSecs
 			// 
-			this.textProcessSigsIntervalInSecs.Location = new System.Drawing.Point(296, 27);
+			this.textProcessSigsIntervalInSecs.Location = new System.Drawing.Point(248, 27);
 			this.textProcessSigsIntervalInSecs.MaxVal = 1000000;
 			this.textProcessSigsIntervalInSecs.MinVal = 1;
 			this.textProcessSigsIntervalInSecs.Name = "textProcessSigsIntervalInSecs";
@@ -264,7 +264,7 @@ namespace OpenPmsDental {
 			// 
 			// textSignalInactiveMinutes
 			// 
-			this.textSignalInactiveMinutes.Location = new System.Drawing.Point(296, 63);
+			this.textSignalInactiveMinutes.Location = new System.Drawing.Point(248, 63);
 			this.textSignalInactiveMinutes.MaxVal = 1000000;
 			this.textSignalInactiveMinutes.Name = "textSignalInactiveMinutes";
 			this.textSignalInactiveMinutes.ShowZero = false;
@@ -275,7 +275,7 @@ namespace OpenPmsDental {
 			// 
 			// textInactiveAlert
 			// 
-			this.textInactiveAlert.Location = new System.Drawing.Point(296, 126);
+			this.textInactiveAlert.Location = new System.Drawing.Point(248, 126);
 			this.textInactiveAlert.MaxVal = 1000000;
 			this.textInactiveAlert.MinVal = 1;
 			this.textInactiveAlert.Name = "textInactiveAlert";
@@ -286,7 +286,7 @@ namespace OpenPmsDental {
 			// 
 			// textAlertInterval
 			// 
-			this.textAlertInterval.Location = new System.Drawing.Point(296, 95);
+			this.textAlertInterval.Location = new System.Drawing.Point(248, 95);
 			this.textAlertInterval.MaxVal = 1000000;
 			this.textAlertInterval.MinVal = 1;
 			this.textAlertInterval.Name = "textAlertInterval";
@@ -299,7 +299,7 @@ namespace OpenPmsDental {
 			// 
 			this.label3.Location = new System.Drawing.Point(24, 23);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(266, 32);
+			this.label3.Size = new System.Drawing.Size(218, 32);
 			this.label3.TabIndex = 56;
 			this.label3.Text = "Process signal interval in seconds.  Leave blank to disable";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -308,7 +308,7 @@ namespace OpenPmsDental {
 			// 
 			this.label5.Location = new System.Drawing.Point(24, 59);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(266, 32);
+			this.label5.Size = new System.Drawing.Size(218, 32);
 			this.label5.TabIndex = 200;
 			this.label5.Text = "Disable signal interval after this many minutes of user inactivity\r\n";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -317,7 +317,7 @@ namespace OpenPmsDental {
 			// 
 			this.label11.Location = new System.Drawing.Point(24, 95);
 			this.label11.Name = "label11";
-			this.label11.Size = new System.Drawing.Size(266, 23);
+			this.label11.Size = new System.Drawing.Size(218, 23);
 			this.label11.TabIndex = 237;
 			this.label11.Text = "Check alert interval in seconds";
 			this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -326,7 +326,7 @@ namespace OpenPmsDental {
 			// 
 			this.label10.Location = new System.Drawing.Point(24, 122);
 			this.label10.Name = "label10";
-			this.label10.Size = new System.Drawing.Size(266, 32);
+			this.label10.Size = new System.Drawing.Size(218, 32);
 			this.label10.TabIndex = 239;
 			this.label10.Text = "Disable alert interval after this many minutes of user inactivity\r\n";
 			this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -351,7 +351,7 @@ namespace OpenPmsDental {
 			// 
 			// butClearCode
 			// 
-			this.butClearCode.Location = new System.Drawing.Point(382, 295);
+			this.butClearCode.Location = new System.Drawing.Point(334, 295);
 			this.butClearCode.Name = "butClearCode";
 			this.butClearCode.Size = new System.Drawing.Size(43, 23);
 			this.butClearCode.TabIndex = 258;
@@ -360,7 +360,7 @@ namespace OpenPmsDental {
 			// 
 			// butDecimal
 			// 
-			this.butDecimal.Location = new System.Drawing.Point(358, 322);
+			this.butDecimal.Location = new System.Drawing.Point(310, 322);
 			this.butDecimal.Name = "butDecimal";
 			this.butDecimal.Size = new System.Drawing.Size(23, 23);
 			this.butDecimal.TabIndex = 255;

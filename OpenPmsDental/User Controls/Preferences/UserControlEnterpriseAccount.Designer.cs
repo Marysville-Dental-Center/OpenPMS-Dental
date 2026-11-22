@@ -66,7 +66,7 @@ namespace OpenPmsDental {
 			// 
 			this.label13.Location = new System.Drawing.Point(24, 434);
 			this.label13.Name = "label13";
-			this.label13.Size = new System.Drawing.Size(274, 32);
+			this.label13.Size = new System.Drawing.Size(226, 32);
 			this.label13.TabIndex = 302;
 			this.label13.Text = "Max number of statements per batch (0 for no limit)";
 			this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -75,7 +75,7 @@ namespace OpenPmsDental {
 			// 
 			this.label27.Location = new System.Drawing.Point(24, 407);
 			this.label27.Name = "label27";
-			this.label27.Size = new System.Drawing.Size(274, 23);
+			this.label27.Size = new System.Drawing.Size(226, 23);
 			this.label27.TabIndex = 293;
 			this.label27.Text = "Pay Plan charge logic";
 			this.label27.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -92,7 +92,7 @@ namespace OpenPmsDental {
 			// 
 			// textBillingElectBatchMax
 			// 
-			this.textBillingElectBatchMax.Location = new System.Drawing.Point(304, 438);
+			this.textBillingElectBatchMax.Location = new System.Drawing.Point(256, 438);
 			this.textBillingElectBatchMax.Name = "textBillingElectBatchMax";
 			this.textBillingElectBatchMax.Size = new System.Drawing.Size(60, 20);
 			this.textBillingElectBatchMax.TabIndex = 283;
@@ -102,9 +102,9 @@ namespace OpenPmsDental {
 			// 
 			// comboPayPlansVersion
 			// 
-			this.comboPayPlansVersion.Location = new System.Drawing.Point(304, 407);
+			this.comboPayPlansVersion.Location = new System.Drawing.Point(256, 407);
 			this.comboPayPlansVersion.Name = "comboPayPlansVersion";
-			this.comboPayPlansVersion.Size = new System.Drawing.Size(182, 23);
+			this.comboPayPlansVersion.Size = new System.Drawing.Size(230, 23);
 			this.comboPayPlansVersion.TabIndex = 292;
 			this.comboPayPlansVersion.Visible = false;
 			this.comboPayPlansVersion.SelectionChangeCommitted += new System.EventHandler(this.comboPayPlansVersion_ChangeCommitted);
@@ -121,9 +121,9 @@ namespace OpenPmsDental {
 			// 
 			// comboRigorousAdjustments
 			// 
-			this.comboRigorousAdjustments.Location = new System.Drawing.Point(304, 356);
+			this.comboRigorousAdjustments.Location = new System.Drawing.Point(256, 356);
 			this.comboRigorousAdjustments.Name = "comboRigorousAdjustments";
-			this.comboRigorousAdjustments.Size = new System.Drawing.Size(182, 23);
+			this.comboRigorousAdjustments.Size = new System.Drawing.Size(230, 23);
 			this.comboRigorousAdjustments.TabIndex = 289;
 			// 
 			// checkPaymentWindowDefaultHideSplits
@@ -137,7 +137,7 @@ namespace OpenPmsDental {
 			// 
 			// textClaimReportReceiveInterval
 			// 
-			this.textClaimReportReceiveInterval.Location = new System.Drawing.Point(304, 275);
+			this.textClaimReportReceiveInterval.Location = new System.Drawing.Point(256, 275);
 			this.textClaimReportReceiveInterval.MaxLength = 2147483647;
 			this.textClaimReportReceiveInterval.Name = "textClaimReportReceiveInterval";
 			this.textClaimReportReceiveInterval.Size = new System.Drawing.Size(28, 23);
@@ -147,7 +147,7 @@ namespace OpenPmsDental {
 			// 
 			this.label41.Location = new System.Drawing.Point(24, 356);
 			this.label41.Name = "label41";
-			this.label41.Size = new System.Drawing.Size(274, 23);
+			this.label41.Size = new System.Drawing.Size(226, 23);
 			this.label41.TabIndex = 288;
 			this.label41.Text = "Adjustments Allocation";
 			this.label41.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -156,23 +156,23 @@ namespace OpenPmsDental {
 			// 
 			this.labelAgingServiceTimeDue.Location = new System.Drawing.Point(24, 56);
 			this.labelAgingServiceTimeDue.Name = "labelAgingServiceTimeDue";
-			this.labelAgingServiceTimeDue.Size = new System.Drawing.Size(274, 23);
+			this.labelAgingServiceTimeDue.Size = new System.Drawing.Size(226, 23);
 			this.labelAgingServiceTimeDue.TabIndex = 294;
 			this.labelAgingServiceTimeDue.Text = "Aging Service Time Due";
 			this.labelAgingServiceTimeDue.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// comboRigorousAccounting
 			// 
-			this.comboRigorousAccounting.Location = new System.Drawing.Point(304, 329);
+			this.comboRigorousAccounting.Location = new System.Drawing.Point(256, 329);
 			this.comboRigorousAccounting.Name = "comboRigorousAccounting";
-			this.comboRigorousAccounting.Size = new System.Drawing.Size(182, 23);
+			this.comboRigorousAccounting.Size = new System.Drawing.Size(230, 23);
 			this.comboRigorousAccounting.TabIndex = 287;
 			// 
 			// label39
 			// 
 			this.label39.Location = new System.Drawing.Point(24, 329);
 			this.label39.Name = "label39";
-			this.label39.Size = new System.Drawing.Size(274, 23);
+			this.label39.Size = new System.Drawing.Size(226, 23);
 			this.label39.TabIndex = 285;
 			this.label39.Text = "Paysplits Allocation";
 			this.label39.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -190,17 +190,17 @@ namespace OpenPmsDental {
 			// 
 			this.labelReportheckUnits.Location = new System.Drawing.Point(150, 275);
 			this.labelReportheckUnits.Name = "labelReportheckUnits";
-			this.labelReportheckUnits.Size = new System.Drawing.Size(148, 23);
+			this.labelReportheckUnits.Size = new System.Drawing.Size(100, 23);
 			this.labelReportheckUnits.TabIndex = 300;
 			this.labelReportheckUnits.Text = "minutes (5 to 60)";
 			this.labelReportheckUnits.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// textAgingServiceTimeDue
 			// 
-			this.textAgingServiceTimeDue.Location = new System.Drawing.Point(304, 56);
+			this.textAgingServiceTimeDue.Location = new System.Drawing.Point(256, 56);
 			this.textAgingServiceTimeDue.Name = "textAgingServiceTimeDue";
 			this.textAgingServiceTimeDue.ReadOnly = true;
-			this.textAgingServiceTimeDue.Size = new System.Drawing.Size(182, 23);
+			this.textAgingServiceTimeDue.Size = new System.Drawing.Size(230, 23);
 			this.textAgingServiceTimeDue.TabIndex = 295;
 			// 
 			// radioReceiveAtAnInterval
@@ -220,9 +220,9 @@ namespace OpenPmsDental {
 			// 
 			// comboPaymentClinicSetting
 			// 
-			this.comboPaymentClinicSetting.Location = new System.Drawing.Point(304, 83);
+			this.comboPaymentClinicSetting.Location = new System.Drawing.Point(256, 83);
 			this.comboPaymentClinicSetting.Name = "comboPaymentClinicSetting";
-			this.comboPaymentClinicSetting.Size = new System.Drawing.Size(182, 23);
+			this.comboPaymentClinicSetting.Size = new System.Drawing.Size(230, 23);
 			this.comboPaymentClinicSetting.TabIndex = 281;
 			this.comboPaymentClinicSetting.SelectionChangeCommitted += new System.EventHandler(this.comboPaymentClinicSetting_ChangeCommitted);
 			// 
@@ -251,16 +251,16 @@ namespace OpenPmsDental {
 			// textClaimReportReceiveTime
 			// 
 			this.textClaimReportReceiveTime.Enabled = false;
-			this.textClaimReportReceiveTime.Location = new System.Drawing.Point(304, 302);
+			this.textClaimReportReceiveTime.Location = new System.Drawing.Point(256, 302);
 			this.textClaimReportReceiveTime.Name = "textClaimReportReceiveTime";
-			this.textClaimReportReceiveTime.Size = new System.Drawing.Size(182, 23);
+			this.textClaimReportReceiveTime.Size = new System.Drawing.Size(230, 23);
 			this.textClaimReportReceiveTime.TabIndex = 296;
 			// 
 			// label38
 			// 
 			this.label38.Location = new System.Drawing.Point(24, 83);
 			this.label38.Name = "label38";
-			this.label38.Size = new System.Drawing.Size(274, 23);
+			this.label38.Size = new System.Drawing.Size(226, 23);
 			this.label38.TabIndex = 282;
 			this.label38.Text = "Patient Payments Use";
 			this.label38.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -287,9 +287,9 @@ namespace OpenPmsDental {
 			// 
 			// textClaimIdPrefix
 			// 
-			this.textClaimIdPrefix.Location = new System.Drawing.Point(296, 23);
+			this.textClaimIdPrefix.Location = new System.Drawing.Point(248, 23);
 			this.textClaimIdPrefix.Name = "textClaimIdPrefix";
-			this.textClaimIdPrefix.Size = new System.Drawing.Size(174, 23);
+			this.textClaimIdPrefix.Size = new System.Drawing.Size(222, 23);
 			this.textClaimIdPrefix.TabIndex = 238;
 			this.textClaimIdPrefix.Validating += new System.ComponentModel.CancelEventHandler(this.textClaimIdPrefix_Validating);
 			// 

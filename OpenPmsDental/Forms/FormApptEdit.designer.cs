@@ -161,7 +161,7 @@
 			// 
 			// label24
 			// 
-			this.label24.Location = new System.Drawing.Point(215, 218);
+			this.label24.Location = new System.Drawing.Point(215, 220);
 			this.label24.Name = "label24";
 			this.label24.Size = new System.Drawing.Size(113, 16);
 			this.label24.TabIndex = 138;
@@ -170,7 +170,7 @@
 			// checkIsHygiene
 			// 
 			this.checkIsHygiene.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkIsHygiene.Location = new System.Drawing.Point(130, 216);
+			this.checkIsHygiene.Location = new System.Drawing.Point(130, 218);
 			this.checkIsHygiene.Name = "checkIsHygiene";
 			this.checkIsHygiene.Size = new System.Drawing.Size(79, 20);
 			this.checkIsHygiene.TabIndex = 137;
@@ -183,20 +183,20 @@
 			this.comboClinic.IncludeUnassigned = true;
 			this.comboClinic.Location = new System.Drawing.Point(93, 137);
 			this.comboClinic.Name = "comboClinic";
-			this.comboClinic.Size = new System.Drawing.Size(235, 21);
+			this.comboClinic.Size = new System.Drawing.Size(235, 23);
 			this.comboClinic.TabIndex = 136;
 			this.comboClinic.SelectionChangeCommitted += new System.EventHandler(this.ComboClinic_SelectionChangeCommitted);
 			// 
 			// comboAssistant
 			// 
-			this.comboAssistant.Location = new System.Drawing.Point(130, 240);
+			this.comboAssistant.Location = new System.Drawing.Point(130, 242);
 			this.comboAssistant.Name = "comboAssistant";
 			this.comboAssistant.Size = new System.Drawing.Size(198, 23);
 			this.comboAssistant.TabIndex = 133;
 			// 
 			// comboProvHyg
 			// 
-			this.comboProvHyg.Location = new System.Drawing.Point(130, 189);
+			this.comboProvHyg.Location = new System.Drawing.Point(130, 191);
 			this.comboProvHyg.Name = "comboProvHyg";
 			this.comboProvHyg.Size = new System.Drawing.Size(174, 23);
 			this.comboProvHyg.TabIndex = 132;
@@ -204,7 +204,7 @@
 			// 
 			// comboProv
 			// 
-			this.comboProv.Location = new System.Drawing.Point(130, 162);
+			this.comboProv.Location = new System.Drawing.Point(130, 164);
 			this.comboProv.Name = "comboProv";
 			this.comboProv.Size = new System.Drawing.Size(174, 23);
 			this.comboProv.TabIndex = 131;
@@ -212,7 +212,7 @@
 			// 
 			// label12
 			// 
-			this.label12.Location = new System.Drawing.Point(64, 240);
+			this.label12.Location = new System.Drawing.Point(64, 242);
 			this.label12.Name = "label12";
 			this.label12.Size = new System.Drawing.Size(60, 23);
 			this.label12.TabIndex = 129;
@@ -230,7 +230,7 @@
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(60, 189);
+			this.label3.Location = new System.Drawing.Point(60, 191);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(64, 23);
 			this.label3.TabIndex = 127;
@@ -239,7 +239,7 @@
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(68, 162);
+			this.label2.Location = new System.Drawing.Point(68, 164);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(56, 23);
 			this.label2.TabIndex = 126;
@@ -248,7 +248,7 @@
 			// 
 			// labelApptNote
 			// 
-			this.labelApptNote.Location = new System.Drawing.Point(301, 640);
+			this.labelApptNote.Location = new System.Drawing.Point(301, 642);
 			this.labelApptNote.Name = "labelApptNote";
 			this.labelApptNote.Size = new System.Drawing.Size(197, 18);
 			this.labelApptNote.TabIndex = 141;
@@ -267,7 +267,7 @@
 			// checkTimeLocked
 			// 
 			this.checkTimeLocked.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkTimeLocked.Location = new System.Drawing.Point(130, 267);
+			this.checkTimeLocked.Location = new System.Drawing.Point(130, 269);
 			this.checkTimeLocked.Name = "checkTimeLocked";
 			this.checkTimeLocked.Size = new System.Drawing.Size(91, 20);
 			this.checkTimeLocked.TabIndex = 148;
@@ -276,7 +276,7 @@
 			// 
 			// checkIsMirrored
 			// 
-			this.checkIsMirrored.Location = new System.Drawing.Point(227, 267);
+			this.checkIsMirrored.Location = new System.Drawing.Point(227, 269);
 			this.checkIsMirrored.Name = "checkIsMirrored";
 			this.checkIsMirrored.Size = new System.Drawing.Size(57, 20);
 			this.checkIsMirrored.TabIndex = 149;
@@ -315,14 +315,14 @@
 			// textTimeAskedToArrive
 			// 
 			this.textTimeAskedToArrive.AutoSize = false;
-			this.textTimeAskedToArrive.Location = new System.Drawing.Point(130, 345);
+			this.textTimeAskedToArrive.Location = new System.Drawing.Point(130, 347);
 			this.textTimeAskedToArrive.Name = "textTimeAskedToArrive";
 			this.textTimeAskedToArrive.Size = new System.Drawing.Size(198, 23);
 			this.textTimeAskedToArrive.TabIndex = 146;
 			// 
 			// label8
 			// 
-			this.label8.Location = new System.Drawing.Point(12, 345);
+			this.label8.Location = new System.Drawing.Point(12, 347);
 			this.label8.Name = "label8";
 			this.label8.Size = new System.Drawing.Size(112, 23);
 			this.label8.TabIndex = 160;
@@ -397,7 +397,7 @@
 			this.panel1.Controls.Add(this.checkIsMirrored);
 			this.panel1.Location = new System.Drawing.Point(301, 2);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(336, 630);
+			this.panel1.Size = new System.Drawing.Size(336, 632);
 			this.panel1.TabIndex = 164;
 			// 
 			// warningIntegrity1
@@ -420,7 +420,7 @@
 			// 
 			// comboApptType
 			// 
-			this.comboApptType.Location = new System.Drawing.Point(130, 318);
+			this.comboApptType.Location = new System.Drawing.Point(130, 320);
 			this.comboApptType.Name = "comboApptType";
 			this.comboApptType.Size = new System.Drawing.Size(198, 23);
 			this.comboApptType.TabIndex = 183;
@@ -428,7 +428,7 @@
 			// 
 			// label10
 			// 
-			this.label10.Location = new System.Drawing.Point(12, 318);
+			this.label10.Location = new System.Drawing.Point(12, 320);
 			this.label10.Name = "label10";
 			this.label10.Size = new System.Drawing.Size(112, 23);
 			this.label10.TabIndex = 182;
@@ -437,7 +437,7 @@
 			// 
 			// labelSyndromicObservations
 			// 
-			this.labelSyndromicObservations.Location = new System.Drawing.Point(60, 604);
+			this.labelSyndromicObservations.Location = new System.Drawing.Point(60, 606);
 			this.labelSyndromicObservations.Name = "labelSyndromicObservations";
 			this.labelSyndromicObservations.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
 			this.labelSyndromicObservations.Size = new System.Drawing.Size(148, 16);
@@ -448,7 +448,7 @@
 			// 
 			// butSyndromicObservations
 			// 
-			this.butSyndromicObservations.Location = new System.Drawing.Point(8, 602);
+			this.butSyndromicObservations.Location = new System.Drawing.Point(8, 604);
 			this.butSyndromicObservations.Name = "butSyndromicObservations";
 			this.butSyndromicObservations.Size = new System.Drawing.Size(46, 20);
 			this.butSyndromicObservations.TabIndex = 180;
@@ -458,7 +458,7 @@
 			// 
 			// label9
 			// 
-			this.label9.Location = new System.Drawing.Point(84, 291);
+			this.label9.Location = new System.Drawing.Point(84, 293);
 			this.label9.Name = "label9";
 			this.label9.Size = new System.Drawing.Size(40, 23);
 			this.label9.TabIndex = 179;
@@ -467,7 +467,7 @@
 			// 
 			// butColorClear
 			// 
-			this.butColorClear.Location = new System.Drawing.Point(157, 291);
+			this.butColorClear.Location = new System.Drawing.Point(157, 293);
 			this.butColorClear.Name = "butColorClear";
 			this.butColorClear.Size = new System.Drawing.Size(39, 23);
 			this.butColorClear.TabIndex = 178;
@@ -477,7 +477,7 @@
 			// butColor
 			// 
 			this.butColor.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-			this.butColor.Location = new System.Drawing.Point(130, 291);
+			this.butColor.Location = new System.Drawing.Point(130, 293);
 			this.butColor.Name = "butColor";
 			this.butColor.Size = new System.Drawing.Size(21, 23);
 			this.butColor.TabIndex = 177;
@@ -485,7 +485,7 @@
 			// 
 			// textRequirement
 			// 
-			this.textRequirement.Location = new System.Drawing.Point(130, 545);
+			this.textRequirement.Location = new System.Drawing.Point(130, 547);
 			this.textRequirement.Multiline = true;
 			this.textRequirement.Name = "textRequirement";
 			this.textRequirement.ReadOnly = true;
@@ -495,7 +495,7 @@
 			// 
 			// butRequirement
 			// 
-			this.butRequirement.Location = new System.Drawing.Point(78, 545);
+			this.butRequirement.Location = new System.Drawing.Point(78, 547);
 			this.butRequirement.Name = "butRequirement";
 			this.butRequirement.Size = new System.Drawing.Size(46, 20);
 			this.butRequirement.TabIndex = 163;
@@ -504,7 +504,7 @@
 			// 
 			// butInsPlan2
 			// 
-			this.butInsPlan2.Location = new System.Drawing.Point(310, 518);
+			this.butInsPlan2.Location = new System.Drawing.Point(310, 520);
 			this.butInsPlan2.Name = "butInsPlan2";
 			this.butInsPlan2.Size = new System.Drawing.Size(18, 23);
 			this.butInsPlan2.TabIndex = 176;
@@ -513,7 +513,7 @@
 			// 
 			// butInsPlan1
 			// 
-			this.butInsPlan1.Location = new System.Drawing.Point(310, 491);
+			this.butInsPlan1.Location = new System.Drawing.Point(310, 493);
 			this.butInsPlan1.Name = "butInsPlan1";
 			this.butInsPlan1.Size = new System.Drawing.Size(18, 23);
 			this.butInsPlan1.TabIndex = 175;
@@ -523,7 +523,7 @@
 			// textInsPlan2
 			// 
 			this.textInsPlan2.AutoSize = false;
-			this.textInsPlan2.Location = new System.Drawing.Point(130, 518);
+			this.textInsPlan2.Location = new System.Drawing.Point(130, 520);
 			this.textInsPlan2.Name = "textInsPlan2";
 			this.textInsPlan2.ReadOnly = true;
 			this.textInsPlan2.Size = new System.Drawing.Size(174, 23);
@@ -531,7 +531,7 @@
 			// 
 			// labelInsPlan2
 			// 
-			this.labelInsPlan2.Location = new System.Drawing.Point(64, 518);
+			this.labelInsPlan2.Location = new System.Drawing.Point(64, 520);
 			this.labelInsPlan2.Name = "labelInsPlan2";
 			this.labelInsPlan2.Size = new System.Drawing.Size(60, 23);
 			this.labelInsPlan2.TabIndex = 173;
@@ -541,7 +541,7 @@
 			// textInsPlan1
 			// 
 			this.textInsPlan1.AutoSize = false;
-			this.textInsPlan1.Location = new System.Drawing.Point(130, 491);
+			this.textInsPlan1.Location = new System.Drawing.Point(130, 493);
 			this.textInsPlan1.Name = "textInsPlan1";
 			this.textInsPlan1.ReadOnly = true;
 			this.textInsPlan1.Size = new System.Drawing.Size(174, 23);
@@ -549,7 +549,7 @@
 			// 
 			// labelInsPlan1
 			// 
-			this.labelInsPlan1.Location = new System.Drawing.Point(64, 491);
+			this.labelInsPlan1.Location = new System.Drawing.Point(64, 493);
 			this.labelInsPlan1.Name = "labelInsPlan1";
 			this.labelInsPlan1.Size = new System.Drawing.Size(60, 23);
 			this.labelInsPlan1.TabIndex = 171;
@@ -559,14 +559,14 @@
 			// textTimeDismissed
 			// 
 			this.textTimeDismissed.AutoSize = false;
-			this.textTimeDismissed.Location = new System.Drawing.Point(130, 426);
+			this.textTimeDismissed.Location = new System.Drawing.Point(130, 428);
 			this.textTimeDismissed.Name = "textTimeDismissed";
 			this.textTimeDismissed.Size = new System.Drawing.Size(198, 23);
 			this.textTimeDismissed.TabIndex = 170;
 			// 
 			// label7
 			// 
-			this.label7.Location = new System.Drawing.Point(28, 426);
+			this.label7.Location = new System.Drawing.Point(28, 428);
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(96, 23);
 			this.label7.TabIndex = 169;
@@ -576,14 +576,14 @@
 			// textTimeSeated
 			// 
 			this.textTimeSeated.AutoSize = false;
-			this.textTimeSeated.Location = new System.Drawing.Point(130, 399);
+			this.textTimeSeated.Location = new System.Drawing.Point(130, 401);
 			this.textTimeSeated.Name = "textTimeSeated";
 			this.textTimeSeated.Size = new System.Drawing.Size(198, 23);
 			this.textTimeSeated.TabIndex = 168;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(48, 399);
+			this.label1.Location = new System.Drawing.Point(48, 401);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(76, 23);
 			this.label1.TabIndex = 166;
@@ -593,14 +593,14 @@
 			// textTimeArrived
 			// 
 			this.textTimeArrived.AutoSize = false;
-			this.textTimeArrived.Location = new System.Drawing.Point(130, 372);
+			this.textTimeArrived.Location = new System.Drawing.Point(130, 374);
 			this.textTimeArrived.Name = "textTimeArrived";
 			this.textTimeArrived.Size = new System.Drawing.Size(198, 23);
 			this.textTimeArrived.TabIndex = 167;
 			// 
 			// labelTimeArrived
 			// 
-			this.labelTimeArrived.Location = new System.Drawing.Point(44, 372);
+			this.labelTimeArrived.Location = new System.Drawing.Point(44, 374);
 			this.labelTimeArrived.Name = "labelTimeArrived";
 			this.labelTimeArrived.Size = new System.Drawing.Size(80, 23);
 			this.labelTimeArrived.TabIndex = 165;
@@ -610,7 +610,7 @@
 			// textLabCase
 			// 
 			this.textLabCase.AcceptsReturn = true;
-			this.textLabCase.Location = new System.Drawing.Point(130, 453);
+			this.textLabCase.Location = new System.Drawing.Point(130, 455);
 			this.textLabCase.Multiline = true;
 			this.textLabCase.Name = "textLabCase";
 			this.textLabCase.ReadOnly = true;
@@ -620,7 +620,7 @@
 			// 
 			// butLab
 			// 
-			this.butLab.Location = new System.Drawing.Point(78, 453);
+			this.butLab.Location = new System.Drawing.Point(78, 455);
 			this.butLab.Name = "butLab";
 			this.butLab.Size = new System.Drawing.Size(46, 20);
 			this.butLab.TabIndex = 161;
@@ -629,7 +629,7 @@
 			// 
 			// butPickHyg
 			// 
-			this.butPickHyg.Location = new System.Drawing.Point(310, 189);
+			this.butPickHyg.Location = new System.Drawing.Point(310, 191);
 			this.butPickHyg.Name = "butPickHyg";
 			this.butPickHyg.Size = new System.Drawing.Size(18, 23);
 			this.butPickHyg.TabIndex = 158;
@@ -638,7 +638,7 @@
 			// 
 			// butPickDentist
 			// 
-			this.butPickDentist.Location = new System.Drawing.Point(310, 162);
+			this.butPickDentist.Location = new System.Drawing.Point(310, 164);
 			this.butPickDentist.Name = "butPickDentist";
 			this.butPickDentist.Size = new System.Drawing.Size(18, 23);
 			this.butPickDentist.TabIndex = 157;
@@ -651,7 +651,7 @@
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.gridFields.Location = new System.Drawing.Point(48, 293);
 			this.gridFields.Name = "gridFields";
-			this.gridFields.Size = new System.Drawing.Size(252, 476);
+			this.gridFields.Size = new System.Drawing.Size(252, 478);
 			this.gridFields.TabIndex = 159;
 			this.gridFields.Title = "Appt Fields";
 			this.gridFields.TranslationName = "FormApptEdit";
@@ -674,7 +674,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridComm.Location = new System.Drawing.Point(793, 425);
 			this.gridComm.Name = "gridComm";
-			this.gridComm.Size = new System.Drawing.Size(443, 344);
+			this.gridComm.Size = new System.Drawing.Size(443, 346);
 			this.gridComm.TabIndex = 1;
 			this.gridComm.Title = "Communications Log - Appointment Scheduling";
 			this.gridComm.TranslationName = "TableCommLog";
@@ -760,7 +760,7 @@
 			this.textNote.DetectLinksEnabled = false;
 			this.textNote.DetectUrls = false;
 			this.textNote.HasAutoNotes = true;
-			this.textNote.Location = new System.Drawing.Point(301, 660);
+			this.textNote.Location = new System.Drawing.Point(301, 662);
 			this.textNote.Name = "textNote";
 			this.textNote.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Appointment;
 			this.textNote.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
@@ -839,7 +839,7 @@
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(1240, 735);
+			this.butSave.Location = new System.Drawing.Point(1240, 737);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(91, 24);
 			this.butSave.TabIndex = 1;
@@ -860,7 +860,7 @@
 			// 
 			this.contrApptProvSlider.Location = new System.Drawing.Point(1, 16);
 			this.contrApptProvSlider.Name = "contrApptProvSlider";
-			this.contrApptProvSlider.Size = new System.Drawing.Size(45, 750);
+			this.contrApptProvSlider.Size = new System.Drawing.Size(45, 752);
 			this.contrApptProvSlider.TabIndex = 187;
 			this.contrApptProvSlider.Text = "contrApptProvSlider1";
 			// 
@@ -894,7 +894,7 @@
 			// 
 			// FormApptEdit
 			// 
-			this.ClientSize = new System.Drawing.Size(1332, 771);
+			this.ClientSize = new System.Drawing.Size(1332, 773);
 			this.Controls.Add(this.checkShowCommAuto);
 			this.Controls.Add(this.label11);
 			this.Controls.Add(this.label6);

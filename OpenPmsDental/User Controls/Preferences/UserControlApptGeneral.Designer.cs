@@ -69,7 +69,7 @@ namespace OpenPmsDental {
 			// 
 			this.groupBoxProduction.Controls.Add(this.checkApptModuleAdjInProd);
 			this.groupBoxProduction.Controls.Add(this.checkApptModuleProductionUsesOps);
-			this.groupBoxProduction.Location = new System.Drawing.Point(8, 581);
+			this.groupBoxProduction.Location = new System.Drawing.Point(8, 590);
 			this.groupBoxProduction.Name = "groupBoxProduction";
 			this.groupBoxProduction.Size = new System.Drawing.Size(478, 75);
 			this.groupBoxProduction.TabIndex = 327;
@@ -111,7 +111,7 @@ namespace OpenPmsDental {
 			this.groupBoxOD2.Controls.Add(this.checkApptMirrorSecondary);
 			this.groupBoxOD2.Location = new System.Drawing.Point(8, 291);
 			this.groupBoxOD2.Name = "groupBoxOD2";
-			this.groupBoxOD2.Size = new System.Drawing.Size(478, 282);
+			this.groupBoxOD2.Size = new System.Drawing.Size(478, 291);
 			this.groupBoxOD2.TabIndex = 325;
 			this.groupBoxOD2.Text = "Appointment Behavior";
 			// 
@@ -120,7 +120,7 @@ namespace OpenPmsDental {
 			this.labelApptProvChangePrompt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelApptProvChangePrompt.Location = new System.Drawing.Point(24, 227);
 			this.labelApptProvChangePrompt.Name = "labelApptProvChangePrompt";
-			this.labelApptProvChangePrompt.Size = new System.Drawing.Size(266, 23);
+			this.labelApptProvChangePrompt.Size = new System.Drawing.Size(218, 32);
 			this.labelApptProvChangePrompt.TabIndex = 329;
 			this.labelApptProvChangePrompt.Text = "Appointment provider change behavior";
 			this.labelApptProvChangePrompt.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -128,15 +128,15 @@ namespace OpenPmsDental {
 			// comboApptProvChangePrompt
 			// 
 			this.comboApptProvChangePrompt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.comboApptProvChangePrompt.Location = new System.Drawing.Point(296, 227);
+			this.comboApptProvChangePrompt.Location = new System.Drawing.Point(248, 231);
 			this.comboApptProvChangePrompt.Name = "comboApptProvChangePrompt";
-			this.comboApptProvChangePrompt.Size = new System.Drawing.Size(174, 23);
+			this.comboApptProvChangePrompt.Size = new System.Drawing.Size(222, 23);
 			this.comboApptProvChangePrompt.TabIndex = 328;
 			// 
 			// textApptWithoutProcsDefaultLength
 			// 
 			this.textApptWithoutProcsDefaultLength.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.textApptWithoutProcsDefaultLength.Location = new System.Drawing.Point(296, 99);
+			this.textApptWithoutProcsDefaultLength.Location = new System.Drawing.Point(248, 99);
 			this.textApptWithoutProcsDefaultLength.MaxVal = 600;
 			this.textApptWithoutProcsDefaultLength.MinVal = 5;
 			this.textApptWithoutProcsDefaultLength.Name = "textApptWithoutProcsDefaultLength";
@@ -201,7 +201,7 @@ namespace OpenPmsDental {
 			//
 			this.checkApptMirrorSecondary.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.checkApptMirrorSecondary.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkApptMirrorSecondary.Location = new System.Drawing.Point(8, 254);
+			this.checkApptMirrorSecondary.Location = new System.Drawing.Point(8, 263);
 			this.checkApptMirrorSecondary.Name = "checkApptMirrorSecondary";
 			this.checkApptMirrorSecondary.Size = new System.Drawing.Size(382, 20);
 			this.checkApptMirrorSecondary.TabIndex = 330;
@@ -212,7 +212,7 @@ namespace OpenPmsDental {
 			this.labelApptWithoutProcsDefaultLength.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelApptWithoutProcsDefaultLength.Location = new System.Drawing.Point(24, 95);
 			this.labelApptWithoutProcsDefaultLength.Name = "labelApptWithoutProcsDefaultLength";
-			this.labelApptWithoutProcsDefaultLength.Size = new System.Drawing.Size(266, 32);
+			this.labelApptWithoutProcsDefaultLength.Size = new System.Drawing.Size(218, 32);
 			this.labelApptWithoutProcsDefaultLength.TabIndex = 313;
 			this.labelApptWithoutProcsDefaultLength.Text = "Appointment without procedures default length in minutes";
 			this.labelApptWithoutProcsDefaultLength.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -253,7 +253,7 @@ namespace OpenPmsDental {
 			// textApptAutoRefreshRange
 			// 
 			this.textApptAutoRefreshRange.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.textApptAutoRefreshRange.Location = new System.Drawing.Point(296, 54);
+			this.textApptAutoRefreshRange.Location = new System.Drawing.Point(248, 54);
 			this.textApptAutoRefreshRange.MaxVal = 600;
 			this.textApptAutoRefreshRange.MinVal = -1;
 			this.textApptAutoRefreshRange.Name = "textApptAutoRefreshRange";
@@ -264,9 +264,9 @@ namespace OpenPmsDental {
 			// comboSearchBehavior
 			// 
 			this.comboSearchBehavior.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.comboSearchBehavior.Location = new System.Drawing.Point(296, 23);
+			this.comboSearchBehavior.Location = new System.Drawing.Point(248, 23);
 			this.comboSearchBehavior.Name = "comboSearchBehavior";
-			this.comboSearchBehavior.Size = new System.Drawing.Size(174, 23);
+			this.comboSearchBehavior.Size = new System.Drawing.Size(222, 23);
 			this.comboSearchBehavior.TabIndex = 298;
 			// 
 			// labelApptAutoRefreshRange
@@ -274,7 +274,7 @@ namespace OpenPmsDental {
 			this.labelApptAutoRefreshRange.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelApptAutoRefreshRange.Location = new System.Drawing.Point(24, 50);
 			this.labelApptAutoRefreshRange.Name = "labelApptAutoRefreshRange";
-			this.labelApptAutoRefreshRange.Size = new System.Drawing.Size(266, 32);
+			this.labelApptAutoRefreshRange.Size = new System.Drawing.Size(218, 32);
 			this.labelApptAutoRefreshRange.TabIndex = 319;
 			this.labelApptAutoRefreshRange.Text = "Number of days out to automatically refresh Appointments Module";
 			this.labelApptAutoRefreshRange.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -284,7 +284,7 @@ namespace OpenPmsDental {
 			this.label13.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.label13.Location = new System.Drawing.Point(24, 23);
 			this.label13.Name = "label13";
-			this.label13.Size = new System.Drawing.Size(266, 23);
+			this.label13.Size = new System.Drawing.Size(218, 23);
 			this.label13.TabIndex = 299;
 			this.label13.Text = "Search Behavior";
 			this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -318,17 +318,17 @@ namespace OpenPmsDental {
 			// comboBrokenApptProc
 			// 
 			this.comboBrokenApptProc.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.comboBrokenApptProc.Location = new System.Drawing.Point(296, 23);
+			this.comboBrokenApptProc.Location = new System.Drawing.Point(248, 23);
 			this.comboBrokenApptProc.Name = "comboBrokenApptProc";
-			this.comboBrokenApptProc.Size = new System.Drawing.Size(174, 23);
+			this.comboBrokenApptProc.Size = new System.Drawing.Size(222, 23);
 			this.comboBrokenApptProc.TabIndex = 234;
 			// 
 			// comboBrokenApptAdjType
 			// 
 			this.comboBrokenApptAdjType.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.comboBrokenApptAdjType.Location = new System.Drawing.Point(296, 98);
+			this.comboBrokenApptAdjType.Location = new System.Drawing.Point(248, 98);
 			this.comboBrokenApptAdjType.Name = "comboBrokenApptAdjType";
-			this.comboBrokenApptAdjType.Size = new System.Drawing.Size(174, 23);
+			this.comboBrokenApptAdjType.Size = new System.Drawing.Size(222, 23);
 			this.comboBrokenApptAdjType.TabIndex = 70;
 			// 
 			// label37
@@ -336,7 +336,7 @@ namespace OpenPmsDental {
 			this.label37.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.label37.Location = new System.Drawing.Point(24, 23);
 			this.label37.Name = "label37";
-			this.label37.Size = new System.Drawing.Size(266, 23);
+			this.label37.Size = new System.Drawing.Size(218, 23);
 			this.label37.TabIndex = 235;
 			this.label37.Text = "Broken appointment procedure type";
 			this.label37.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -376,7 +376,7 @@ namespace OpenPmsDental {
 			this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.label7.Location = new System.Drawing.Point(24, 98);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(266, 23);
+			this.label7.Size = new System.Drawing.Size(218, 23);
 			this.label7.TabIndex = 71;
 			this.label7.Text = "Broken appt default adj type";
 			this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -386,9 +386,9 @@ namespace OpenPmsDental {
 			this.groupBoxScheduling.Controls.Add(this.checkAppointmentMakeRecallSearchesOpenings);
 			this.groupBoxScheduling.Controls.Add(this.labelScheduleProvUnassigned);
 			this.groupBoxScheduling.Controls.Add(this.comboScheduleProvUnassigned);
-			this.groupBoxScheduling.Location = new System.Drawing.Point(8, 664);
+			this.groupBoxScheduling.Location = new System.Drawing.Point(8, 673);
 			this.groupBoxScheduling.Name = "groupBoxScheduling";
-			this.groupBoxScheduling.Size = new System.Drawing.Size(478, 78);
+			this.groupBoxScheduling.Size = new System.Drawing.Size(478, 87);
 			this.groupBoxScheduling.TabIndex = 331;
 			this.groupBoxScheduling.Text = "Recall and Schedules";
 			//
@@ -407,7 +407,7 @@ namespace OpenPmsDental {
 			this.labelScheduleProvUnassigned.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelScheduleProvUnassigned.Location = new System.Drawing.Point(24, 47);
 			this.labelScheduleProvUnassigned.Name = "labelScheduleProvUnassigned";
-			this.labelScheduleProvUnassigned.Size = new System.Drawing.Size(266, 23);
+			this.labelScheduleProvUnassigned.Size = new System.Drawing.Size(218, 32);
 			this.labelScheduleProvUnassigned.TabIndex = 334;
 			this.labelScheduleProvUnassigned.Text = "Default provider for unassigned operatories";
 			this.labelScheduleProvUnassigned.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -415,9 +415,9 @@ namespace OpenPmsDental {
 			// comboScheduleProvUnassigned
 			//
 			this.comboScheduleProvUnassigned.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.comboScheduleProvUnassigned.Location = new System.Drawing.Point(296, 47);
+			this.comboScheduleProvUnassigned.Location = new System.Drawing.Point(248, 51);
 			this.comboScheduleProvUnassigned.Name = "comboScheduleProvUnassigned";
-			this.comboScheduleProvUnassigned.Size = new System.Drawing.Size(174, 23);
+			this.comboScheduleProvUnassigned.Size = new System.Drawing.Size(222, 23);
 			this.comboScheduleProvUnassigned.TabIndex = 333;
 			//
 			// UserControlApptGeneral
@@ -430,7 +430,7 @@ namespace OpenPmsDental {
 			this.Controls.Add(this.groupBoxCalendarBehavior);
 			this.Controls.Add(this.groupBox2);
 			this.Name = "UserControlApptGeneral";
-			this.Size = new System.Drawing.Size(494, 750);
+			this.Size = new System.Drawing.Size(494, 768);
 			this.groupBoxScheduling.ResumeLayout(false);
 			this.groupBoxProduction.ResumeLayout(false);
 			this.groupBoxOD2.ResumeLayout(false);

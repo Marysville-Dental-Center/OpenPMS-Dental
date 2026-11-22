@@ -70,7 +70,7 @@ namespace OpenPmsDental {
 			// checkDatabaseGlobalVariablesDontSet
 			// 
 			this.checkDatabaseGlobalVariablesDontSet.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkDatabaseGlobalVariablesDontSet.Location = new System.Drawing.Point(8, 769);
+			this.checkDatabaseGlobalVariablesDontSet.Location = new System.Drawing.Point(8, 771);
 			this.checkDatabaseGlobalVariablesDontSet.Name = "checkDatabaseGlobalVariablesDontSet";
 			this.checkDatabaseGlobalVariablesDontSet.Size = new System.Drawing.Size(373, 20);
 			this.checkDatabaseGlobalVariablesDontSet.TabIndex = 314;
@@ -79,7 +79,7 @@ namespace OpenPmsDental {
 			// checkEnterpriseCommlogOmitDefaults
 			// 
 			this.checkEnterpriseCommlogOmitDefaults.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkEnterpriseCommlogOmitDefaults.Location = new System.Drawing.Point(8, 745);
+			this.checkEnterpriseCommlogOmitDefaults.Location = new System.Drawing.Point(8, 747);
 			this.checkEnterpriseCommlogOmitDefaults.Name = "checkEnterpriseCommlogOmitDefaults";
 			this.checkEnterpriseCommlogOmitDefaults.Size = new System.Drawing.Size(200, 20);
 			this.checkEnterpriseCommlogOmitDefaults.TabIndex = 313;
@@ -88,7 +88,7 @@ namespace OpenPmsDental {
 			// checkEnableEmailAddressAutoComplete
 			// 
 			this.checkEnableEmailAddressAutoComplete.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkEnableEmailAddressAutoComplete.Location = new System.Drawing.Point(8, 721);
+			this.checkEnableEmailAddressAutoComplete.Location = new System.Drawing.Point(8, 723);
 			this.checkEnableEmailAddressAutoComplete.Name = "checkEnableEmailAddressAutoComplete";
 			this.checkEnableEmailAddressAutoComplete.Size = new System.Drawing.Size(221, 20);
 			this.checkEnableEmailAddressAutoComplete.TabIndex = 312;
@@ -98,7 +98,7 @@ namespace OpenPmsDental {
 			// 
 			this.checkUpdateAlterLargeTablesDirectly.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.checkUpdateAlterLargeTablesDirectly.Enabled = false;
-			this.checkUpdateAlterLargeTablesDirectly.Location = new System.Drawing.Point(8, 366);
+			this.checkUpdateAlterLargeTablesDirectly.Location = new System.Drawing.Point(8, 353);
 			this.checkUpdateAlterLargeTablesDirectly.Name = "checkUpdateAlterLargeTablesDirectly";
 			this.checkUpdateAlterLargeTablesDirectly.Size = new System.Drawing.Size(200, 20);
 			this.checkUpdateAlterLargeTablesDirectly.TabIndex = 311;
@@ -118,16 +118,16 @@ namespace OpenPmsDental {
 			this.groupPatientSelect.Controls.Add(this.textPatientSelectSearchPauseMs);
 			this.groupPatientSelect.Controls.Add(this.labelPatSelectMinChars);
 			this.groupPatientSelect.Controls.Add(this.textPatientSelectSearchMinChars);
-			this.groupPatientSelect.Location = new System.Drawing.Point(8, 466);
+			this.groupPatientSelect.Location = new System.Drawing.Point(8, 453);
 			this.groupPatientSelect.Name = "groupPatientSelect";
-			this.groupPatientSelect.Size = new System.Drawing.Size(478, 247);
+			this.groupPatientSelect.Size = new System.Drawing.Size(478, 262);
 			this.groupPatientSelect.TabIndex = 310;
 			this.groupPatientSelect.Text = "Patient Select";
 			// 
 			// checkEnterpriseAllowRefreshWhileTyping
 			// 
 			this.checkEnterpriseAllowRefreshWhileTyping.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkEnterpriseAllowRefreshWhileTyping.Location = new System.Drawing.Point(8, 219);
+			this.checkEnterpriseAllowRefreshWhileTyping.Location = new System.Drawing.Point(8, 234);
 			this.checkEnterpriseAllowRefreshWhileTyping.Name = "checkEnterpriseAllowRefreshWhileTyping";
 			this.checkEnterpriseAllowRefreshWhileTyping.RightToLeft = System.Windows.Forms.RightToLeft.No;
 			this.checkEnterpriseAllowRefreshWhileTyping.Size = new System.Drawing.Size(310, 20);
@@ -137,9 +137,9 @@ namespace OpenPmsDental {
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(24, 192);
+			this.label2.Location = new System.Drawing.Point(24, 207);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(266, 23);
+			this.label2.Size = new System.Drawing.Size(218, 23);
 			this.label2.TabIndex = 294;
 			this.label2.Text = "# of digits";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -147,7 +147,7 @@ namespace OpenPmsDental {
 			// textEnterpriseExactMatchPhoneNumDigits
 			// 
 			this.textEnterpriseExactMatchPhoneNumDigits.Enabled = false;
-			this.textEnterpriseExactMatchPhoneNumDigits.Location = new System.Drawing.Point(296, 192);
+			this.textEnterpriseExactMatchPhoneNumDigits.Location = new System.Drawing.Point(248, 207);
 			this.textEnterpriseExactMatchPhoneNumDigits.MaxVal = 25;
 			this.textEnterpriseExactMatchPhoneNumDigits.MinVal = 1;
 			this.textEnterpriseExactMatchPhoneNumDigits.Name = "textEnterpriseExactMatchPhoneNumDigits";
@@ -158,7 +158,7 @@ namespace OpenPmsDental {
 			// checkEnterpriseExactMatchPhone
 			// 
 			this.checkEnterpriseExactMatchPhone.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkEnterpriseExactMatchPhone.Location = new System.Drawing.Point(8, 168);
+			this.checkEnterpriseExactMatchPhone.Location = new System.Drawing.Point(8, 183);
 			this.checkEnterpriseExactMatchPhone.Name = "checkEnterpriseExactMatchPhone";
 			this.checkEnterpriseExactMatchPhone.RightToLeft = System.Windows.Forms.RightToLeft.No;
 			this.checkEnterpriseExactMatchPhone.Size = new System.Drawing.Size(265, 20);
@@ -169,7 +169,7 @@ namespace OpenPmsDental {
 			// checkPatientSelectFilterRestrictedClinics
 			// 
 			this.checkPatientSelectFilterRestrictedClinics.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkPatientSelectFilterRestrictedClinics.Location = new System.Drawing.Point(8, 144);
+			this.checkPatientSelectFilterRestrictedClinics.Location = new System.Drawing.Point(8, 159);
 			this.checkPatientSelectFilterRestrictedClinics.Name = "checkPatientSelectFilterRestrictedClinics";
 			this.checkPatientSelectFilterRestrictedClinics.Size = new System.Drawing.Size(356, 20);
 			this.checkPatientSelectFilterRestrictedClinics.TabIndex = 290;
@@ -178,7 +178,7 @@ namespace OpenPmsDental {
 			// 
 			// butSyncPhNums
 			// 
-			this.butSyncPhNums.Location = new System.Drawing.Point(399, 119);
+			this.butSyncPhNums.Location = new System.Drawing.Point(399, 134);
 			this.butSyncPhNums.Name = "butSyncPhNums";
 			this.butSyncPhNums.Size = new System.Drawing.Size(49, 21);
 			this.butSyncPhNums.TabIndex = 292;
@@ -188,7 +188,7 @@ namespace OpenPmsDental {
 			// checkPatientPhoneUsePhonenumberTable
 			// 
 			this.checkPatientPhoneUsePhonenumberTable.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkPatientPhoneUsePhonenumberTable.Location = new System.Drawing.Point(8, 119);
+			this.checkPatientPhoneUsePhonenumberTable.Location = new System.Drawing.Point(8, 134);
 			this.checkPatientPhoneUsePhonenumberTable.Name = "checkPatientPhoneUsePhonenumberTable";
 			this.checkPatientPhoneUsePhonenumberTable.Size = new System.Drawing.Size(385, 20);
 			this.checkPatientPhoneUsePhonenumberTable.TabIndex = 291;
@@ -200,7 +200,7 @@ namespace OpenPmsDental {
 			this.checkPatientSelectSearchWithEmptyParams.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.checkPatientSelectSearchWithEmptyParams.Checked = true;
 			this.checkPatientSelectSearchWithEmptyParams.CheckState = System.Windows.Forms.CheckState.Indeterminate;
-			this.checkPatientSelectSearchWithEmptyParams.Location = new System.Drawing.Point(8, 95);
+			this.checkPatientSelectSearchWithEmptyParams.Location = new System.Drawing.Point(8, 110);
 			this.checkPatientSelectSearchWithEmptyParams.Name = "checkPatientSelectSearchWithEmptyParams";
 			this.checkPatientSelectSearchWithEmptyParams.Size = new System.Drawing.Size(275, 20);
 			this.checkPatientSelectSearchWithEmptyParams.TabIndex = 290;
@@ -208,16 +208,16 @@ namespace OpenPmsDental {
 			// 
 			// labelPatSelectPauseMs
 			// 
-			this.labelPatSelectPauseMs.Location = new System.Drawing.Point(24, 59);
+			this.labelPatSelectPauseMs.Location = new System.Drawing.Point(24, 74);
 			this.labelPatSelectPauseMs.Name = "labelPatSelectPauseMs";
-			this.labelPatSelectPauseMs.Size = new System.Drawing.Size(266, 32);
+			this.labelPatSelectPauseMs.Size = new System.Drawing.Size(218, 32);
 			this.labelPatSelectPauseMs.TabIndex = 281;
 			this.labelPatSelectPauseMs.Text = "Wait time in milliseconds after a character is entered before grid is filled";
 			this.labelPatSelectPauseMs.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// textPatientSelectSearchPauseMs
 			// 
-			this.textPatientSelectSearchPauseMs.Location = new System.Drawing.Point(296, 63);
+			this.textPatientSelectSearchPauseMs.Location = new System.Drawing.Point(248, 78);
 			this.textPatientSelectSearchPauseMs.MaxVal = 10000;
 			this.textPatientSelectSearchPauseMs.MinVal = 1;
 			this.textPatientSelectSearchPauseMs.Name = "textPatientSelectSearchPauseMs";
@@ -229,14 +229,14 @@ namespace OpenPmsDental {
 			// 
 			this.labelPatSelectMinChars.Location = new System.Drawing.Point(24, 23);
 			this.labelPatSelectMinChars.Name = "labelPatSelectMinChars";
-			this.labelPatSelectMinChars.Size = new System.Drawing.Size(266, 32);
+			this.labelPatSelectMinChars.Size = new System.Drawing.Size(218, 47);
 			this.labelPatSelectMinChars.TabIndex = 279;
 			this.labelPatSelectMinChars.Text = "The number of characters entered into the search fields before filling the grid";
 			this.labelPatSelectMinChars.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// textPatientSelectSearchMinChars
 			// 
-			this.textPatientSelectSearchMinChars.Location = new System.Drawing.Point(296, 27);
+			this.textPatientSelectSearchMinChars.Location = new System.Drawing.Point(248, 23);
 			this.textPatientSelectSearchMinChars.MaxVal = 10;
 			this.textPatientSelectSearchMinChars.MinVal = 1;
 			this.textPatientSelectSearchMinChars.Name = "textPatientSelectSearchMinChars";
@@ -247,7 +247,7 @@ namespace OpenPmsDental {
 			// checkUserNameManualEntry
 			// 
 			this.checkUserNameManualEntry.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkUserNameManualEntry.Location = new System.Drawing.Point(8, 131);
+			this.checkUserNameManualEntry.Location = new System.Drawing.Point(8, 140);
 			this.checkUserNameManualEntry.Name = "checkUserNameManualEntry";
 			this.checkUserNameManualEntry.Size = new System.Drawing.Size(205, 20);
 			this.checkUserNameManualEntry.TabIndex = 309;
@@ -255,9 +255,9 @@ namespace OpenPmsDental {
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(24, 426);
+			this.label3.Location = new System.Drawing.Point(24, 413);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(274, 32);
+			this.label3.Size = new System.Drawing.Size(226, 32);
 			this.label3.TabIndex = 298;
 			this.label3.Text = "Process signal interval in seconds.  Leave blank to disable autorefresh";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -266,7 +266,7 @@ namespace OpenPmsDental {
 			// 
 			this.checkUpdateStreamlinePassword.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.checkUpdateStreamlinePassword.Enabled = false;
-			this.checkUpdateStreamlinePassword.Location = new System.Drawing.Point(8, 342);
+			this.checkUpdateStreamlinePassword.Location = new System.Drawing.Point(8, 329);
 			this.checkUpdateStreamlinePassword.Name = "checkUpdateStreamlinePassword";
 			this.checkUpdateStreamlinePassword.Size = new System.Drawing.Size(179, 20);
 			this.checkUpdateStreamlinePassword.TabIndex = 307;
@@ -274,7 +274,7 @@ namespace OpenPmsDental {
 			// 
 			// textProcessSigsIntervalInSecs
 			// 
-			this.textProcessSigsIntervalInSecs.Location = new System.Drawing.Point(304, 430);
+			this.textProcessSigsIntervalInSecs.Location = new System.Drawing.Point(256, 417);
 			this.textProcessSigsIntervalInSecs.MaxVal = 1000000;
 			this.textProcessSigsIntervalInSecs.MinVal = 1;
 			this.textProcessSigsIntervalInSecs.Name = "textProcessSigsIntervalInSecs";
@@ -286,7 +286,7 @@ namespace OpenPmsDental {
 			// 
 			// textSecurityLogOffAfterMinutes
 			// 
-			this.textSecurityLogOffAfterMinutes.Location = new System.Drawing.Point(304, 104);
+			this.textSecurityLogOffAfterMinutes.Location = new System.Drawing.Point(256, 108);
 			this.textSecurityLogOffAfterMinutes.Name = "textSecurityLogOffAfterMinutes";
 			this.textSecurityLogOffAfterMinutes.Size = new System.Drawing.Size(28, 23);
 			this.textSecurityLogOffAfterMinutes.TabIndex = 306;
@@ -296,7 +296,7 @@ namespace OpenPmsDental {
 			// 
 			this.checkDatabaseMaintenanceSkipCheckTable.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.checkDatabaseMaintenanceSkipCheckTable.Enabled = false;
-			this.checkDatabaseMaintenanceSkipCheckTable.Location = new System.Drawing.Point(8, 294);
+			this.checkDatabaseMaintenanceSkipCheckTable.Location = new System.Drawing.Point(8, 281);
 			this.checkDatabaseMaintenanceSkipCheckTable.Name = "checkDatabaseMaintenanceSkipCheckTable";
 			this.checkDatabaseMaintenanceSkipCheckTable.Size = new System.Drawing.Size(145, 20);
 			this.checkDatabaseMaintenanceSkipCheckTable.TabIndex = 295;
@@ -306,7 +306,7 @@ namespace OpenPmsDental {
 			// 
 			this.checkDatabaseMaintenanceDisableOptimize.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.checkDatabaseMaintenanceDisableOptimize.Enabled = false;
-			this.checkDatabaseMaintenanceDisableOptimize.Location = new System.Drawing.Point(8, 270);
+			this.checkDatabaseMaintenanceDisableOptimize.Location = new System.Drawing.Point(8, 257);
 			this.checkDatabaseMaintenanceDisableOptimize.Name = "checkDatabaseMaintenanceDisableOptimize";
 			this.checkDatabaseMaintenanceDisableOptimize.Size = new System.Drawing.Size(145, 20);
 			this.checkDatabaseMaintenanceDisableOptimize.TabIndex = 294;
@@ -316,7 +316,7 @@ namespace OpenPmsDental {
 			// 
 			this.label10.Location = new System.Drawing.Point(24, 104);
 			this.label10.Name = "label10";
-			this.label10.Size = new System.Drawing.Size(274, 23);
+			this.label10.Size = new System.Drawing.Size(226, 32);
 			this.label10.TabIndex = 308;
 			this.label10.Text = "Automatic logoff time in minutes (0 to disable)";
 			this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -332,7 +332,7 @@ namespace OpenPmsDental {
 			// 
 			// textSignalInactiveMinutes
 			// 
-			this.textSignalInactiveMinutes.Location = new System.Drawing.Point(304, 394);
+			this.textSignalInactiveMinutes.Location = new System.Drawing.Point(256, 381);
 			this.textSignalInactiveMinutes.MaxVal = 1000000;
 			this.textSignalInactiveMinutes.MinVal = 1;
 			this.textSignalInactiveMinutes.Name = "textSignalInactiveMinutes";
@@ -344,9 +344,9 @@ namespace OpenPmsDental {
 			// 
 			// label12
 			// 
-			this.label12.Location = new System.Drawing.Point(24, 390);
+			this.label12.Location = new System.Drawing.Point(24, 377);
 			this.label12.Name = "label12";
-			this.label12.Size = new System.Drawing.Size(274, 32);
+			this.label12.Size = new System.Drawing.Size(226, 32);
 			this.label12.TabIndex = 303;
 			this.label12.Text = "Disable signal interval after this many minutes of user inactivity";
 			this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -386,16 +386,16 @@ namespace OpenPmsDental {
 			this.groupBox2.Controls.Add(this.label8);
 			this.groupBox2.Controls.Add(this.textSecurityLockDays);
 			this.groupBox2.Controls.Add(this.labelGlobalDateLockDisabled);
-			this.groupBox2.Location = new System.Drawing.Point(8, 159);
+			this.groupBox2.Location = new System.Drawing.Point(8, 168);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(478, 103);
+			this.groupBox2.Size = new System.Drawing.Size(478, 81);
 			this.groupBox2.TabIndex = 302;
 			this.groupBox2.Text = "Global Lock";
 			// 
 			// textSecurityLockDate
 			// 
 			this.textSecurityLockDate.AutoSize = false;
-			this.textSecurityLockDate.Location = new System.Drawing.Point(296, 23);
+			this.textSecurityLockDate.Location = new System.Drawing.Point(248, 23);
 			this.textSecurityLockDate.Name = "textSecurityLockDate";
 			this.textSecurityLockDate.ReadOnly = true;
 			this.textSecurityLockDate.Size = new System.Drawing.Size(80, 23);
@@ -405,14 +405,14 @@ namespace OpenPmsDental {
 			// 
 			this.label7.Location = new System.Drawing.Point(24, 23);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(266, 23);
+			this.label7.Size = new System.Drawing.Size(218, 23);
 			this.label7.TabIndex = 259;
 			this.label7.Text = "Lock Date";
 			this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// butChange
 			// 
-			this.butChange.Location = new System.Drawing.Point(382, 23);
+			this.butChange.Location = new System.Drawing.Point(334, 23);
 			this.butChange.Name = "butChange";
 			this.butChange.Size = new System.Drawing.Size(70, 23);
 			this.butChange.TabIndex = 258;
@@ -423,14 +423,14 @@ namespace OpenPmsDental {
 			// 
 			this.label8.Location = new System.Drawing.Point(24, 50);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(266, 23);
+			this.label8.Size = new System.Drawing.Size(218, 23);
 			this.label8.TabIndex = 261;
 			this.label8.Text = "Lock Days";
 			this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// textSecurityLockDays
 			// 
-			this.textSecurityLockDays.Location = new System.Drawing.Point(296, 50);
+			this.textSecurityLockDays.Location = new System.Drawing.Point(248, 50);
 			this.textSecurityLockDays.Name = "textSecurityLockDays";
 			this.textSecurityLockDays.ReadOnly = true;
 			this.textSecurityLockDays.Size = new System.Drawing.Size(80, 23);
@@ -439,19 +439,19 @@ namespace OpenPmsDental {
 			// 
 			// labelGlobalDateLockDisabled
 			// 
-			this.labelGlobalDateLockDisabled.Location = new System.Drawing.Point(8, 77);
+			this.labelGlobalDateLockDisabled.Location = new System.Drawing.Point(334, 47);
 			this.labelGlobalDateLockDisabled.Name = "labelGlobalDateLockDisabled";
-			this.labelGlobalDateLockDisabled.Size = new System.Drawing.Size(252, 18);
+			this.labelGlobalDateLockDisabled.Size = new System.Drawing.Size(136, 32);
 			this.labelGlobalDateLockDisabled.TabIndex = 266;
 			this.labelGlobalDateLockDisabled.Text = "(Disabled from Central Management Tool)";
-			this.labelGlobalDateLockDisabled.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.labelGlobalDateLockDisabled.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.labelGlobalDateLockDisabled.Visible = false;
 			// 
 			// checkHasClinicsEnabled
 			// 
 			this.checkHasClinicsEnabled.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.checkHasClinicsEnabled.Enabled = false;
-			this.checkHasClinicsEnabled.Location = new System.Drawing.Point(8, 318);
+			this.checkHasClinicsEnabled.Location = new System.Drawing.Point(8, 305);
 			this.checkHasClinicsEnabled.Name = "checkHasClinicsEnabled";
 			this.checkHasClinicsEnabled.Size = new System.Drawing.Size(198, 20);
 			this.checkHasClinicsEnabled.TabIndex = 296;
@@ -483,7 +483,7 @@ namespace OpenPmsDental {
 			this.Controls.Add(this.groupBox2);
 			this.Controls.Add(this.checkHasClinicsEnabled);
 			this.Name = "UserControlEnterpriseGeneral";
-			this.Size = new System.Drawing.Size(494, 797);
+			this.Size = new System.Drawing.Size(494, 799);
 			this.groupPatientSelect.ResumeLayout(false);
 			this.groupPatientSelect.PerformLayout();
 			this.groupBox2.ResumeLayout(false);

@@ -190,7 +190,8 @@ class Box:
             return h
         k = n.kind
         if k == "field":
-            if "ODDatePicker" in n.type or "ComboBoxClinicPicker" in n.type:
+            # The clinic picker at the field height like every combo box (fix round); the date picker lays its own box out.
+            if "ODDatePicker" in n.type:
                 return n.nh
             return self.h.H
         if k == "button" and n.h <= self.h.H + 6:

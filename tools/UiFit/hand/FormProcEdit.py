@@ -14,14 +14,25 @@ def layout(h):
     wd = 80
     p.field("label12", "textDateEntry", F, wd)
     p.field("label27", "textDateTP", F, wd)
-    p.field("labelDate", "textDate", F, wd, after=[("labelStartTime", None, h.lw("labelStartTime")), ("textTimeStart", None, 56),
-                                                     ("labelEndTime", None, h.lw("labelEndTime")), ("textTimeEnd", None, 56), ("butNow", None, None)])
-    for lb in ("labelStartTime", "labelEndTime"):
-        h.text_align(lb, "MiddleRight")
+    p.field("labelDate", "textDate", F, wd)
     p.field("label2", "textProc", F, wd, after=[("butChange", None, None)])
     # Original Date Comp and Final time: a second band on the first and the fourth rows, right-aligned to the panel's content edge.
     wb = 80
     xb = p.right - wb
+    # Fix round: the time fields in the second band, inside panel1 (shown with medical insurance, FormProcEdit_Load): Time Start on the Date
+    # row at the band's x, End and Now on the Date TP row ending at the panel's content edge (chained after Time Start on the Date row they
+    # ran past the panel's edge: End cut, Now never seen).
+    ls = h.lw("labelStartTime")
+    h.set("labelStartTime", xb - 6 - ls, h.n("textDate").ny, ls, H)
+    h.set("textTimeStart", xb, h.n("textDate").ny, 56, H)
+    wn = max(40, h.n("butNow").text_w + 12)
+    xn = p.right - wn
+    h.set("butNow", xn, h.n("textDateTP").ny, wn, H)
+    h.set("textTimeEnd", xn - 6 - 56, h.n("textDateTP").ny, 56, H)
+    le = h.lw("labelEndTime")
+    h.set("labelEndTime", xn - 6 - 56 - 6 - le, h.n("textDateTP").ny, le, H)
+    for lb in ("labelStartTime", "labelEndTime"):
+        h.text_align(lb, "MiddleRight")
     lo = h.lw("labelOrigDateComp")
     h.set("labelOrigDateComp", xb - 6 - lo, h.n("textDateEntry").ny, lo, H)
     h.text_align("labelOrigDateComp", "MiddleRight")

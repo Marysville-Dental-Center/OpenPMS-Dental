@@ -235,7 +235,7 @@ namespace OpenPmsDental {
 			this.groupReplication.Controls.Add(this.labelReplicationInfo);
 			this.groupReplication.Location = new System.Drawing.Point(8, 340);
 			this.groupReplication.Name = "groupReplication";
-			this.groupReplication.Size = new System.Drawing.Size(478, 163);
+			this.groupReplication.Size = new System.Drawing.Size(478, 147);
 			this.groupReplication.TabIndex = 110;
 			this.groupReplication.Text = "Replication";
 			// 
@@ -281,7 +281,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelReplicationInfo.Location = new System.Drawing.Point(8, 77);
 			this.labelReplicationInfo.Name = "labelReplicationInfo";
-			this.labelReplicationInfo.Size = new System.Drawing.Size(438, 78);
+			this.labelReplicationInfo.Size = new System.Drawing.Size(462, 62);
 			this.labelReplicationInfo.TabIndex = 115;
 			this.labelReplicationInfo.Text = "Read delay: after this workstation saves, reads meant for the read-only server use the main server for this long. Write delay: signal checks look back this much further, so signals that reach a replica late are not missed. 0 (off) to 60000. Used only with a read-only server or replication servers.";
 			// 

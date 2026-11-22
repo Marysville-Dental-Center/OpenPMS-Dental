@@ -118,7 +118,7 @@ namespace OpenPmsDental {
 			this.textNote.Name = "textNote";
 			this.textNote.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Statement;
 			this.textNote.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textNote.Size = new System.Drawing.Size(562, 120);
+			this.textNote.Size = new System.Drawing.Size(566, 120);
 			this.textNote.TabIndex = 12;
 			this.textNote.Text = "";
 			// 
@@ -188,7 +188,7 @@ namespace OpenPmsDental {
 			this.textNoteBold.Name = "textNoteBold";
 			this.textNoteBold.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Statement;
 			this.textNoteBold.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textNoteBold.Size = new System.Drawing.Size(562, 74);
+			this.textNoteBold.Size = new System.Drawing.Size(566, 74);
 			this.textNoteBold.TabIndex = 13;
 			this.textNoteBold.Text = "";
 			// 
@@ -249,9 +249,9 @@ namespace OpenPmsDental {
 			this.groupDateRange.Controls.Add(this.but90days);
 			this.groupDateRange.Controls.Add(this.butDatesAll);
 			this.groupDateRange.Controls.Add(this.butToday);
-			this.groupDateRange.Location = new System.Drawing.Point(360, 8);
+			this.groupDateRange.Location = new System.Drawing.Point(364, 8);
 			this.groupDateRange.Name = "groupDateRange";
-			this.groupDateRange.Size = new System.Drawing.Size(344, 162);
+			this.groupDateRange.Size = new System.Drawing.Size(348, 162);
 			this.groupDateRange.TabIndex = 11;
 			this.groupDateRange.Text = "Date Range";
 			// 
@@ -374,9 +374,9 @@ namespace OpenPmsDental {
 			this.groupInvoice.Controls.Add(this.label5);
 			this.groupInvoice.Controls.Add(this.checkIsInvoiceCopy);
 			this.groupInvoice.Controls.Add(this.checkIsInvoice);
-			this.groupInvoice.Location = new System.Drawing.Point(12, 178);
+			this.groupInvoice.Location = new System.Drawing.Point(8, 178);
 			this.groupInvoice.Name = "groupInvoice";
-			this.groupInvoice.Size = new System.Drawing.Size(340, 147);
+			this.groupInvoice.Size = new System.Drawing.Size(348, 147);
 			this.groupInvoice.TabIndex = 9;
 			this.groupInvoice.Text = "Invoice";
 			// 
@@ -485,9 +485,9 @@ namespace OpenPmsDental {
 			this.groupStatement.Controls.Add(this.checkIsSent);
 			this.groupStatement.Controls.Add(this.checkIsReceipt);
 			this.groupStatement.Controls.Add(this.checkLimited);
-			this.groupStatement.Location = new System.Drawing.Point(12, 8);
+			this.groupStatement.Location = new System.Drawing.Point(8, 8);
 			this.groupStatement.Name = "groupStatement";
-			this.groupStatement.Size = new System.Drawing.Size(340, 162);
+			this.groupStatement.Size = new System.Drawing.Size(348, 162);
 			this.groupStatement.TabIndex = 0;
 			this.groupStatement.Text = "Statement";
 			// 
@@ -501,9 +501,9 @@ namespace OpenPmsDental {
 			this.groupContents.Controls.Add(this.checkShowLName);
 			this.groupContents.Controls.Add(this.checkExcludeTxfr);
 			this.groupContents.Controls.Add(this.checkExportCSV);
-			this.groupContents.Location = new System.Drawing.Point(360, 178);
+			this.groupContents.Location = new System.Drawing.Point(364, 178);
 			this.groupContents.Name = "groupContents";
-			this.groupContents.Size = new System.Drawing.Size(344, 147);
+			this.groupContents.Size = new System.Drawing.Size(348, 147);
 			this.groupContents.TabIndex = 10;
 			this.groupContents.Text = "Contents";
 			// 

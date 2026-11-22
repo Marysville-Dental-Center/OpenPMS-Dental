@@ -81,7 +81,7 @@
 			this.tabControl1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
 			this.tabControl1.Location = new System.Drawing.Point(8, 8);
 			this.tabControl1.Name = "tabControl1";
-			this.tabControl1.Size = new System.Drawing.Size(780, 594);
+			this.tabControl1.Size = new System.Drawing.Size(780, 579);
 			this.tabControl1.TabIndex = 1;
 			// 
 			// tabPageBackup
@@ -241,7 +241,7 @@
 			// butRestore
 			// 
 			this.butRestore.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butRestore.Location = new System.Drawing.Point(648, 172);
+			this.butRestore.Location = new System.Drawing.Point(666, 172);
 			this.butRestore.Name = "butRestore";
 			this.butRestore.Size = new System.Drawing.Size(86, 23);
 			this.butRestore.TabIndex = 6;
@@ -272,7 +272,7 @@
 			// 
 			// butBackup
 			// 
-			this.butBackup.Location = new System.Drawing.Point(656, 213);
+			this.butBackup.Location = new System.Drawing.Point(674, 213);
 			this.butBackup.Name = "butBackup";
 			this.butBackup.Size = new System.Drawing.Size(86, 23);
 			this.butBackup.TabIndex = 1;
@@ -343,7 +343,7 @@
 			this.tabPageArchive.Location = new System.Drawing.Point(2, 21);
 			this.tabPageArchive.Name = "tabPageArchive";
 			this.tabPageArchive.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPageArchive.Size = new System.Drawing.Size(776, 571);
+			this.tabPageArchive.Size = new System.Drawing.Size(776, 556);
 			this.tabPageArchive.TabIndex = 1;
 			this.tabPageArchive.Text = "Remove Old Data";
 			// 
@@ -422,7 +422,7 @@
 			this.labelWarning.ForeColor = System.Drawing.Color.Red;
 			this.labelWarning.Location = new System.Drawing.Point(244, 508);
 			this.labelWarning.Name = "labelWarning";
-			this.labelWarning.Size = new System.Drawing.Size(509, 55);
+			this.labelWarning.Size = new System.Drawing.Size(509, 32);
 			this.labelWarning.TabIndex = 13;
 			this.labelWarning.Text = "Not available when using a Middle Tier connection. You may only remove old data w" +
     "hen directly connected to the server.";
@@ -545,7 +545,7 @@
 			// 
 			// FormBackup
 			// 
-			this.ClientSize = new System.Drawing.Size(796, 610);
+			this.ClientSize = new System.Drawing.Size(796, 595);
 			this.Controls.Add(this.tabControl1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.MaximizeBox = false;

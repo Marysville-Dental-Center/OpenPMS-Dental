@@ -845,6 +845,7 @@ namespace OpenPmsDental {
 
 		private void FillSynced(){
 			userControlMainWindow.FillSynced();
+			userControlMainWindow.LayOutShownRows(LayoutManager);//UI-12: the restricted clinics row, shown with clinics, grows its group
 			userControlMainWindowMisc.FillSynced();
 			userControlApptGeneral.FillSynced();
 			userControlApptAppearance.FillSynced();
