@@ -71,119 +71,119 @@ namespace OpenPmsDental {
 			this.groupBoxAdjustments.Controls.Add(this.labelBillingChargeAdjustmentType);
 			this.groupBoxAdjustments.Controls.Add(this.labelLateChargeAdjType);
 			this.groupBoxAdjustments.Controls.Add(this.labelPaymentPlanAdjType);
-			this.groupBoxAdjustments.Location = new System.Drawing.Point(8, 8);
+			this.groupBoxAdjustments.Location = new System.Drawing.Point(20, 20);
 			this.groupBoxAdjustments.Name = "groupBoxAdjustments";
-			this.groupBoxAdjustments.Size = new System.Drawing.Size(478, 199);
+			this.groupBoxAdjustments.Size = new System.Drawing.Size(450, 197);
 			this.groupBoxAdjustments.TabIndex = 307;
 			this.groupBoxAdjustments.Text = "Adjustments";
 			// 
 			// comboNegativeAdjustments
 			// 
 			this.comboNegativeAdjustments.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.comboNegativeAdjustments.Location = new System.Drawing.Point(315, 139);
+			this.comboNegativeAdjustments.Location = new System.Drawing.Point(315, 134);
 			this.comboNegativeAdjustments.Name = "comboNegativeAdjustments";
-			this.comboNegativeAdjustments.Size = new System.Drawing.Size(124, 23);
+			this.comboNegativeAdjustments.Size = new System.Drawing.Size(125, 21);
 			this.comboNegativeAdjustments.TabIndex = 307;
 			// 
 			// comboRefundAdjustmentType
 			// 
 			this.comboRefundAdjustmentType.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.comboRefundAdjustmentType.Location = new System.Drawing.Point(315, 168);
+			this.comboRefundAdjustmentType.Location = new System.Drawing.Point(315, 165);
 			this.comboRefundAdjustmentType.Name = "comboRefundAdjustmentType";
-			this.comboRefundAdjustmentType.Size = new System.Drawing.Size(124, 23);
+			this.comboRefundAdjustmentType.Size = new System.Drawing.Size(125, 21);
 			this.comboRefundAdjustmentType.TabIndex = 306;
 			// 
 			// comboFinanceChargeAdjType
 			// 
 			this.comboFinanceChargeAdjType.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.comboFinanceChargeAdjType.Location = new System.Drawing.Point(315, 23);
+			this.comboFinanceChargeAdjType.Location = new System.Drawing.Point(315, 10);
 			this.comboFinanceChargeAdjType.Name = "comboFinanceChargeAdjType";
-			this.comboFinanceChargeAdjType.Size = new System.Drawing.Size(124, 23);
+			this.comboFinanceChargeAdjType.Size = new System.Drawing.Size(125, 21);
 			this.comboFinanceChargeAdjType.TabIndex = 276;
 			// 
 			// comboBillingChargeAdjType
 			// 
 			this.comboBillingChargeAdjType.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.comboBillingChargeAdjType.Location = new System.Drawing.Point(315, 52);
+			this.comboBillingChargeAdjType.Location = new System.Drawing.Point(315, 41);
 			this.comboBillingChargeAdjType.Name = "comboBillingChargeAdjType";
-			this.comboBillingChargeAdjType.Size = new System.Drawing.Size(124, 23);
+			this.comboBillingChargeAdjType.Size = new System.Drawing.Size(125, 21);
 			this.comboBillingChargeAdjType.TabIndex = 279;
 			// 
 			// comboLateChargeAdjType
 			// 
 			this.comboLateChargeAdjType.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.comboLateChargeAdjType.Location = new System.Drawing.Point(315, 81);
+			this.comboLateChargeAdjType.Location = new System.Drawing.Point(315, 72);
 			this.comboLateChargeAdjType.Name = "comboLateChargeAdjType";
-			this.comboLateChargeAdjType.Size = new System.Drawing.Size(124, 23);
+			this.comboLateChargeAdjType.Size = new System.Drawing.Size(125, 21);
 			this.comboLateChargeAdjType.TabIndex = 304;
 			// 
 			// comboPayPlanAdj
 			// 
 			this.comboPayPlanAdj.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.comboPayPlanAdj.Location = new System.Drawing.Point(315, 110);
+			this.comboPayPlanAdj.Location = new System.Drawing.Point(315, 103);
 			this.comboPayPlanAdj.Name = "comboPayPlanAdj";
-			this.comboPayPlanAdj.Size = new System.Drawing.Size(124, 23);
+			this.comboPayPlanAdj.Size = new System.Drawing.Size(125, 21);
 			this.comboPayPlanAdj.TabIndex = 302;
 			// 
 			// labelNegativeAdjustments
 			// 
 			this.labelNegativeAdjustments.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelNegativeAdjustments.Location = new System.Drawing.Point(181, 139);
+			this.labelNegativeAdjustments.Location = new System.Drawing.Point(156, 137);
 			this.labelNegativeAdjustments.Name = "labelNegativeAdjustments";
-			this.labelNegativeAdjustments.Size = new System.Drawing.Size(128, 23);
+			this.labelNegativeAdjustments.Size = new System.Drawing.Size(158, 17);
 			this.labelNegativeAdjustments.TabIndex = 325;
 			this.labelNegativeAdjustments.Text = "Negative Adjustments";
-			this.labelNegativeAdjustments.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.labelNegativeAdjustments.TextAlign = System.Drawing.ContentAlignment.TopRight;
 			// 
 			// labelFinanceChargeAdjustmentType
 			// 
 			this.labelFinanceChargeAdjustmentType.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelFinanceChargeAdjustmentType.Location = new System.Drawing.Point(173, 23);
+			this.labelFinanceChargeAdjustmentType.Location = new System.Drawing.Point(156, 13);
 			this.labelFinanceChargeAdjustmentType.Name = "labelFinanceChargeAdjustmentType";
-			this.labelFinanceChargeAdjustmentType.Size = new System.Drawing.Size(136, 23);
+			this.labelFinanceChargeAdjustmentType.Size = new System.Drawing.Size(158, 17);
 			this.labelFinanceChargeAdjustmentType.TabIndex = 278;
 			this.labelFinanceChargeAdjustmentType.Text = "Finance charge adj type";
-			this.labelFinanceChargeAdjustmentType.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.labelFinanceChargeAdjustmentType.TextAlign = System.Drawing.ContentAlignment.TopRight;
 			// 
 			// labelRefundAdjustmentType
 			// 
 			this.labelRefundAdjustmentType.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelRefundAdjustmentType.Location = new System.Drawing.Point(213, 168);
+			this.labelRefundAdjustmentType.Location = new System.Drawing.Point(156, 168);
 			this.labelRefundAdjustmentType.Name = "labelRefundAdjustmentType";
-			this.labelRefundAdjustmentType.Size = new System.Drawing.Size(96, 23);
+			this.labelRefundAdjustmentType.Size = new System.Drawing.Size(158, 17);
 			this.labelRefundAdjustmentType.TabIndex = 305;
 			this.labelRefundAdjustmentType.Text = "Refund adj type";
-			this.labelRefundAdjustmentType.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.labelRefundAdjustmentType.TextAlign = System.Drawing.ContentAlignment.TopRight;
 			// 
 			// labelBillingChargeAdjustmentType
 			// 
 			this.labelBillingChargeAdjustmentType.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelBillingChargeAdjustmentType.Location = new System.Drawing.Point(181, 52);
+			this.labelBillingChargeAdjustmentType.Location = new System.Drawing.Point(156, 44);
 			this.labelBillingChargeAdjustmentType.Name = "labelBillingChargeAdjustmentType";
-			this.labelBillingChargeAdjustmentType.Size = new System.Drawing.Size(128, 23);
+			this.labelBillingChargeAdjustmentType.Size = new System.Drawing.Size(158, 17);
 			this.labelBillingChargeAdjustmentType.TabIndex = 277;
 			this.labelBillingChargeAdjustmentType.Text = "Billing charge adj type";
-			this.labelBillingChargeAdjustmentType.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.labelBillingChargeAdjustmentType.TextAlign = System.Drawing.ContentAlignment.TopRight;
 			// 
 			// labelLateChargeAdjType
 			// 
 			this.labelLateChargeAdjType.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelLateChargeAdjType.Location = new System.Drawing.Point(189, 81);
+			this.labelLateChargeAdjType.Location = new System.Drawing.Point(156, 75);
 			this.labelLateChargeAdjType.Name = "labelLateChargeAdjType";
-			this.labelLateChargeAdjType.Size = new System.Drawing.Size(120, 23);
+			this.labelLateChargeAdjType.Size = new System.Drawing.Size(158, 17);
 			this.labelLateChargeAdjType.TabIndex = 303;
 			this.labelLateChargeAdjType.Text = "Late charge adj type";
-			this.labelLateChargeAdjType.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.labelLateChargeAdjType.TextAlign = System.Drawing.ContentAlignment.TopRight;
 			// 
 			// labelPaymentPlanAdjType
 			// 
 			this.labelPaymentPlanAdjType.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelPaymentPlanAdjType.Location = new System.Drawing.Point(177, 110);
+			this.labelPaymentPlanAdjType.Location = new System.Drawing.Point(156, 106);
 			this.labelPaymentPlanAdjType.Name = "labelPaymentPlanAdjType";
-			this.labelPaymentPlanAdjType.Size = new System.Drawing.Size(132, 23);
+			this.labelPaymentPlanAdjType.Size = new System.Drawing.Size(158, 17);
 			this.labelPaymentPlanAdjType.TabIndex = 301;
 			this.labelPaymentPlanAdjType.Text = "Payment Plan adj type";
-			this.labelPaymentPlanAdjType.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.labelPaymentPlanAdjType.TextAlign = System.Drawing.ContentAlignment.TopRight;
 			// 
 			// groupBox4
 			// 
@@ -191,9 +191,9 @@ namespace OpenPmsDental {
 			this.groupBox4.Controls.Add(this.listboxBadDebtAdjs);
 			this.groupBox4.Controls.Add(this.labelCurrentBadDebtAdjTypes);
 			this.groupBox4.Controls.Add(this.butBadDebt);
-			this.groupBox4.Location = new System.Drawing.Point(8, 390);
+			this.groupBox4.Location = new System.Drawing.Point(20, 389);
 			this.groupBox4.Name = "groupBox4";
-			this.groupBox4.Size = new System.Drawing.Size(478, 80);
+			this.groupBox4.Size = new System.Drawing.Size(450, 69);
 			this.groupBox4.TabIndex = 283;
 			this.groupBox4.Text = "Bad Debt Adjustments";
 			// 
@@ -201,7 +201,7 @@ namespace OpenPmsDental {
 			// 
 			this.listboxBadDebtAdjs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.listboxBadDebtAdjs.IntegralHeight = false;
-			this.listboxBadDebtAdjs.Location = new System.Drawing.Point(332, 23);
+			this.listboxBadDebtAdjs.Location = new System.Drawing.Point(320, 10);
 			this.listboxBadDebtAdjs.Name = "listboxBadDebtAdjs";
 			this.listboxBadDebtAdjs.Size = new System.Drawing.Size(120, 49);
 			this.listboxBadDebtAdjs.TabIndex = 197;
@@ -209,9 +209,9 @@ namespace OpenPmsDental {
 			// labelCurrentBadDebtAdjTypes
 			// 
 			this.labelCurrentBadDebtAdjTypes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelCurrentBadDebtAdjTypes.Location = new System.Drawing.Point(172, 23);
+			this.labelCurrentBadDebtAdjTypes.Location = new System.Drawing.Point(172, 13);
 			this.labelCurrentBadDebtAdjTypes.Name = "labelCurrentBadDebtAdjTypes";
-			this.labelCurrentBadDebtAdjTypes.Size = new System.Drawing.Size(156, 17);
+			this.labelCurrentBadDebtAdjTypes.Size = new System.Drawing.Size(148, 17);
 			this.labelCurrentBadDebtAdjTypes.TabIndex = 223;
 			this.labelCurrentBadDebtAdjTypes.Text = "Current Bad Debt adj types:";
 			this.labelCurrentBadDebtAdjTypes.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -219,7 +219,7 @@ namespace OpenPmsDental {
 			// butBadDebt
 			// 
 			this.butBadDebt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butBadDebt.Location = new System.Drawing.Point(246, 42);
+			this.butBadDebt.Location = new System.Drawing.Point(246, 38);
 			this.butBadDebt.Name = "butBadDebt";
 			this.butBadDebt.Size = new System.Drawing.Size(68, 21);
 			this.butBadDebt.TabIndex = 197;
@@ -239,63 +239,63 @@ namespace OpenPmsDental {
 			this.groupBoxOD3.Controls.Add(this.labelSalesTaxProcCode);
 			this.groupBoxOD3.Controls.Add(this.textSalesTaxProcCode);
 			this.groupBoxOD3.Controls.Add(this.butPickSalesTaxProcCode);
-			this.groupBoxOD3.Location = new System.Drawing.Point(8, 215);
+			this.groupBoxOD3.Location = new System.Drawing.Point(20, 223);
 			this.groupBoxOD3.Name = "groupBoxOD3";
-			this.groupBoxOD3.Size = new System.Drawing.Size(478, 167);
+			this.groupBoxOD3.Size = new System.Drawing.Size(450, 160);
 			this.groupBoxOD3.TabIndex = 301;
 			this.groupBoxOD3.Text = "Sales Tax";
 			// 
 			// comboSalesTaxAdjType
 			// 
 			this.comboSalesTaxAdjType.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.comboSalesTaxAdjType.Location = new System.Drawing.Point(315, 52);
+			this.comboSalesTaxAdjType.Location = new System.Drawing.Point(315, 40);
 			this.comboSalesTaxAdjType.Name = "comboSalesTaxAdjType";
-			this.comboSalesTaxAdjType.Size = new System.Drawing.Size(124, 23);
+			this.comboSalesTaxAdjType.Size = new System.Drawing.Size(125, 21);
 			this.comboSalesTaxAdjType.TabIndex = 288;
 			// 
 			// textTaxPercent
 			// 
 			this.textTaxPercent.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.textTaxPercent.Location = new System.Drawing.Point(315, 23);
+			this.textTaxPercent.Location = new System.Drawing.Point(387, 10);
 			this.textTaxPercent.Name = "textTaxPercent";
-			this.textTaxPercent.Size = new System.Drawing.Size(52, 23);
+			this.textTaxPercent.Size = new System.Drawing.Size(53, 20);
 			this.textTaxPercent.TabIndex = 285;
 			// 
 			// comboSalesTaxDefaultProvider
 			// 
 			this.comboSalesTaxDefaultProvider.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.comboSalesTaxDefaultProvider.Location = new System.Drawing.Point(315, 81);
+			this.comboSalesTaxDefaultProvider.Location = new System.Drawing.Point(315, 71);
 			this.comboSalesTaxDefaultProvider.Name = "comboSalesTaxDefaultProvider";
-			this.comboSalesTaxDefaultProvider.Size = new System.Drawing.Size(124, 23);
+			this.comboSalesTaxDefaultProvider.Size = new System.Drawing.Size(125, 21);
 			this.comboSalesTaxDefaultProvider.TabIndex = 303;
 			this.comboSalesTaxDefaultProvider.Text = "comboBoxOD1";
 			// 
 			// checkAutomateSalesTax
 			// 
 			this.checkAutomateSalesTax.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkAutomateSalesTax.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkAutomateSalesTax.Location = new System.Drawing.Point(315, 110);
+			this.checkAutomateSalesTax.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkAutomateSalesTax.Location = new System.Drawing.Point(245, 102);
 			this.checkAutomateSalesTax.Name = "checkAutomateSalesTax";
-			this.checkAutomateSalesTax.Size = new System.Drawing.Size(129, 20);
+			this.checkAutomateSalesTax.Size = new System.Drawing.Size(195, 18);
 			this.checkAutomateSalesTax.TabIndex = 305;
 			this.checkAutomateSalesTax.Text = "Automate Sales Tax";
 			// 
 			// labelSalesTaxDefaultProvider
 			// 
 			this.labelSalesTaxDefaultProvider.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelSalesTaxDefaultProvider.Location = new System.Drawing.Point(165, 81);
+			this.labelSalesTaxDefaultProvider.Location = new System.Drawing.Point(153, 74);
 			this.labelSalesTaxDefaultProvider.Name = "labelSalesTaxDefaultProvider";
-			this.labelSalesTaxDefaultProvider.Size = new System.Drawing.Size(144, 23);
+			this.labelSalesTaxDefaultProvider.Size = new System.Drawing.Size(161, 17);
 			this.labelSalesTaxDefaultProvider.TabIndex = 306;
 			this.labelSalesTaxDefaultProvider.Text = "Sales Tax default provider";
-			this.labelSalesTaxDefaultProvider.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.labelSalesTaxDefaultProvider.TextAlign = System.Drawing.ContentAlignment.TopRight;
 			// 
 			// labelSalesTaxPercentage
 			// 
 			this.labelSalesTaxPercentage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelSalesTaxPercentage.Location = new System.Drawing.Point(189, 23);
+			this.labelSalesTaxPercentage.Location = new System.Drawing.Point(231, 13);
 			this.labelSalesTaxPercentage.Name = "labelSalesTaxPercentage";
-			this.labelSalesTaxPercentage.Size = new System.Drawing.Size(120, 23);
+			this.labelSalesTaxPercentage.Size = new System.Drawing.Size(155, 17);
 			this.labelSalesTaxPercentage.TabIndex = 286;
 			this.labelSalesTaxPercentage.Text = "Sales Tax percentage";
 			this.labelSalesTaxPercentage.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -303,35 +303,35 @@ namespace OpenPmsDental {
 			// labelSalesTaxAdjType
 			// 
 			this.labelSalesTaxAdjType.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelSalesTaxAdjType.Location = new System.Drawing.Point(205, 52);
+			this.labelSalesTaxAdjType.Location = new System.Drawing.Point(206, 43);
 			this.labelSalesTaxAdjType.Name = "labelSalesTaxAdjType";
-			this.labelSalesTaxAdjType.Size = new System.Drawing.Size(104, 23);
+			this.labelSalesTaxAdjType.Size = new System.Drawing.Size(108, 17);
 			this.labelSalesTaxAdjType.TabIndex = 287;
 			this.labelSalesTaxAdjType.Text = "Sales Tax adj type";
-			this.labelSalesTaxAdjType.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.labelSalesTaxAdjType.TextAlign = System.Drawing.ContentAlignment.TopRight;
 			// 
 			// labelSalesTaxProcCode
 			// 
 			this.labelSalesTaxProcCode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelSalesTaxProcCode.Location = new System.Drawing.Point(165, 136);
+			this.labelSalesTaxProcCode.Location = new System.Drawing.Point(133, 136);
 			this.labelSalesTaxProcCode.Name = "labelSalesTaxProcCode";
-			this.labelSalesTaxProcCode.Size = new System.Drawing.Size(144, 23);
+			this.labelSalesTaxProcCode.Size = new System.Drawing.Size(181, 17);
 			this.labelSalesTaxProcCode.TabIndex = 307;
 			this.labelSalesTaxProcCode.Text = "Sales Tax procedure code";
-			this.labelSalesTaxProcCode.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.labelSalesTaxProcCode.TextAlign = System.Drawing.ContentAlignment.TopRight;
 			// 
 			// textSalesTaxProcCode
 			// 
 			this.textSalesTaxProcCode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.textSalesTaxProcCode.Location = new System.Drawing.Point(315, 136);
+			this.textSalesTaxProcCode.Location = new System.Drawing.Point(315, 133);
 			this.textSalesTaxProcCode.Name = "textSalesTaxProcCode";
-			this.textSalesTaxProcCode.Size = new System.Drawing.Size(96, 23);
+			this.textSalesTaxProcCode.Size = new System.Drawing.Size(98, 20);
 			this.textSalesTaxProcCode.TabIndex = 308;
 			// 
 			// butPickSalesTaxProcCode
 			// 
 			this.butPickSalesTaxProcCode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butPickSalesTaxProcCode.Location = new System.Drawing.Point(417, 136);
+			this.butPickSalesTaxProcCode.Location = new System.Drawing.Point(417, 132);
 			this.butPickSalesTaxProcCode.Name = "butPickSalesTaxProcCode";
 			this.butPickSalesTaxProcCode.Size = new System.Drawing.Size(23, 21);
 			this.butPickSalesTaxProcCode.TabIndex = 309;

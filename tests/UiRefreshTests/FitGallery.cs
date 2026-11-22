@@ -78,6 +78,7 @@ namespace UiRefreshTests {
 							if(root is FormODBase formODBase && formODBase.PanelClient!=null) {
 								root=formODBase.PanelClient;
 							}
+							HideDatePickerCalendars(root);
 							List<string[]> listOwnerHere=listOwner.Where(x => x[1]==window).ToList();
 							using(Bitmap bitmap=DesignSheetWindows.Capture(root,Rectangle.Empty)) {
 								string name=window.Substring(window.LastIndexOf('.')+1);
@@ -118,6 +119,18 @@ namespace UiRefreshTests {
 			DesignSheetWindows.IsPrintingWithoutChildren=false;
 			File.WriteAllLines(Path.Combine(folder,"gallery-failed.txt"),listFailed);
 			Assert.IsTrue(countPictures>0,"No picture made: "+string.Join("; ",listFailed));
+		}
+
+		///<summary>Hides the calendar of every ODDatePicker as the picker's Load does (the harness builds windows without Load): a calendar left
+		///visible shows its top edge as a line under the date box.</summary>
+		public static void HideDatePickerCalendars(Control control) {
+			foreach(Control child in control.Controls) {
+				if(child is OpenPmsDental.UI.ODDatePicker odDatePicker) {
+					odDatePicker.HideCalendar();
+					continue;
+				}
+				HideDatePickerCalendars(child);
+			}
 		}
 
 		///<summary>The font of the gallery's pictures (VARIABLE_FONT): "program" sets no token override and the default font to the body token's

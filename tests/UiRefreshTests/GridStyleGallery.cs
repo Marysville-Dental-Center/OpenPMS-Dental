@@ -58,6 +58,7 @@ namespace UiRefreshTests {
 								if(root is FormODBase formODBase && formODBase.PanelClient!=null) {
 									root=formODBase.PanelClient;
 								}
+								FitGallery.HideDatePickerCalendars(root);
 								//The page bar with four pages, the second current, as the Progress Notes grid shows it with paging on.
 								if(FindByName(root,"gridProgPageNav") is OpenPmsDental.UI.ODGridPageNav odGridPageNav) {
 									odGridPageNav.PagingChangeEventHandler(null,new OpenPmsDental.UI.ODGridPageEventArgs(2,new List<int> { 1,2,3,4 }));

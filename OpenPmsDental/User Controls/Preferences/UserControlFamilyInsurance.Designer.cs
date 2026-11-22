@@ -70,15 +70,15 @@ namespace OpenPmsDental {
 			this.groupBoxPerVisitProcedureCodes.Controls.Add(this.butPickPerVisitPatAmountProcCode);
 			this.groupBoxPerVisitProcedureCodes.Controls.Add(this.labelPerVisitInsAmount);
 			this.groupBoxPerVisitProcedureCodes.Controls.Add(this.labelPerVisitPatCopay);
-			this.groupBoxPerVisitProcedureCodes.Location = new System.Drawing.Point(8, 564);
+			this.groupBoxPerVisitProcedureCodes.Location = new System.Drawing.Point(20, 517);
 			this.groupBoxPerVisitProcedureCodes.Name = "groupBoxPerVisitProcedureCodes";
-			this.groupBoxPerVisitProcedureCodes.Size = new System.Drawing.Size(478, 83);
+			this.groupBoxPerVisitProcedureCodes.Size = new System.Drawing.Size(450, 78);
 			this.groupBoxPerVisitProcedureCodes.TabIndex = 379;
 			this.groupBoxPerVisitProcedureCodes.Text = "Per Visit";
 			// 
 			// butPickPerVisitInsAmountProcCode
 			// 
-			this.butPickPerVisitInsAmountProcCode.Location = new System.Drawing.Point(417, 52);
+			this.butPickPerVisitInsAmountProcCode.Location = new System.Drawing.Point(417, 45);
 			this.butPickPerVisitInsAmountProcCode.Name = "butPickPerVisitInsAmountProcCode";
 			this.butPickPerVisitInsAmountProcCode.Size = new System.Drawing.Size(23, 21);
 			this.butPickPerVisitInsAmountProcCode.TabIndex = 291;
@@ -87,7 +87,7 @@ namespace OpenPmsDental {
 			// 
 			// butPickPerVisitPatAmountProcCode
 			// 
-			this.butPickPerVisitPatAmountProcCode.Location = new System.Drawing.Point(417, 23);
+			this.butPickPerVisitPatAmountProcCode.Location = new System.Drawing.Point(417, 14);
 			this.butPickPerVisitPatAmountProcCode.Name = "butPickPerVisitPatAmountProcCode";
 			this.butPickPerVisitPatAmountProcCode.Size = new System.Drawing.Size(23, 21);
 			this.butPickPerVisitPatAmountProcCode.TabIndex = 290;
@@ -97,27 +97,27 @@ namespace OpenPmsDental {
 			// textPerVisitInsAmountProcCode
 			// 
 			this.textPerVisitInsAmountProcCode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.textPerVisitInsAmountProcCode.Location = new System.Drawing.Point(312, 52);
+			this.textPerVisitInsAmountProcCode.Location = new System.Drawing.Point(312, 45);
 			this.textPerVisitInsAmountProcCode.Name = "textPerVisitInsAmountProcCode";
-			this.textPerVisitInsAmountProcCode.Size = new System.Drawing.Size(96, 23);
+			this.textPerVisitInsAmountProcCode.Size = new System.Drawing.Size(98, 20);
 			this.textPerVisitInsAmountProcCode.TabIndex = 289;
 			this.textPerVisitInsAmountProcCode.TabStop = false;
 			// 
 			// textPerVisitPatAmountProcCode
 			// 
 			this.textPerVisitPatAmountProcCode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.textPerVisitPatAmountProcCode.Location = new System.Drawing.Point(312, 23);
+			this.textPerVisitPatAmountProcCode.Location = new System.Drawing.Point(312, 15);
 			this.textPerVisitPatAmountProcCode.Name = "textPerVisitPatAmountProcCode";
-			this.textPerVisitPatAmountProcCode.Size = new System.Drawing.Size(96, 23);
+			this.textPerVisitPatAmountProcCode.Size = new System.Drawing.Size(98, 20);
 			this.textPerVisitPatAmountProcCode.TabIndex = 288;
 			this.textPerVisitPatAmountProcCode.TabStop = false;
 			// 
 			// labelPerVisitInsAmount
 			// 
 			this.labelPerVisitInsAmount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelPerVisitInsAmount.Location = new System.Drawing.Point(158, 52);
+			this.labelPerVisitInsAmount.Location = new System.Drawing.Point(69, 45);
 			this.labelPerVisitInsAmount.Name = "labelPerVisitInsAmount";
-			this.labelPerVisitInsAmount.Size = new System.Drawing.Size(148, 23);
+			this.labelPerVisitInsAmount.Size = new System.Drawing.Size(242, 17);
 			this.labelPerVisitInsAmount.TabIndex = 286;
 			this.labelPerVisitInsAmount.Text = "Insurance procedure code";
 			this.labelPerVisitInsAmount.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -125,9 +125,9 @@ namespace OpenPmsDental {
 			// labelPerVisitPatCopay
 			// 
 			this.labelPerVisitPatCopay.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelPerVisitPatCopay.Location = new System.Drawing.Point(134, 23);
+			this.labelPerVisitPatCopay.Location = new System.Drawing.Point(69, 18);
 			this.labelPerVisitPatCopay.Name = "labelPerVisitPatCopay";
-			this.labelPerVisitPatCopay.Size = new System.Drawing.Size(172, 23);
+			this.labelPerVisitPatCopay.Size = new System.Drawing.Size(242, 17);
 			this.labelPerVisitPatCopay.TabIndex = 264;
 			this.labelPerVisitPatCopay.Text = "Patient copay procedure code";
 			this.labelPerVisitPatCopay.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -139,26 +139,26 @@ namespace OpenPmsDental {
 			this.groupBoxCOB.Controls.Add(this.comboCobRule);
 			this.groupBoxCOB.Controls.Add(this.labelCobSendPaidByOtherInsAt);
 			this.groupBoxCOB.Controls.Add(this.labelCobRule);
-			this.groupBoxCOB.Location = new System.Drawing.Point(8, 473);
+			this.groupBoxCOB.Location = new System.Drawing.Point(20, 433);
 			this.groupBoxCOB.Name = "groupBoxCOB";
-			this.groupBoxCOB.Size = new System.Drawing.Size(478, 83);
+			this.groupBoxCOB.Size = new System.Drawing.Size(450, 78);
 			this.groupBoxCOB.TabIndex = 376;
 			this.groupBoxCOB.Text = "Coordination of Benefits (COB)";
 			// 
 			// comboCobSendPaidByInsAt
 			// 
 			this.comboCobSendPaidByInsAt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.comboCobSendPaidByInsAt.Location = new System.Drawing.Point(312, 52);
+			this.comboCobSendPaidByInsAt.Location = new System.Drawing.Point(312, 42);
 			this.comboCobSendPaidByInsAt.Name = "comboCobSendPaidByInsAt";
-			this.comboCobSendPaidByInsAt.Size = new System.Drawing.Size(128, 23);
+			this.comboCobSendPaidByInsAt.Size = new System.Drawing.Size(128, 21);
 			this.comboCobSendPaidByInsAt.TabIndex = 287;
 			// 
 			// labelCobSendPaidByOtherInsAt
 			// 
 			this.labelCobSendPaidByOtherInsAt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelCobSendPaidByOtherInsAt.Location = new System.Drawing.Point(122, 52);
+			this.labelCobSendPaidByOtherInsAt.Location = new System.Drawing.Point(69, 45);
 			this.labelCobSendPaidByOtherInsAt.Name = "labelCobSendPaidByOtherInsAt";
-			this.labelCobSendPaidByOtherInsAt.Size = new System.Drawing.Size(184, 23);
+			this.labelCobSendPaidByOtherInsAt.Size = new System.Drawing.Size(242, 17);
 			this.labelCobSendPaidByOtherInsAt.TabIndex = 286;
 			this.labelCobSendPaidByOtherInsAt.Text = "Send Paid By Other Insurance At";
 			this.labelCobSendPaidByOtherInsAt.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -166,18 +166,18 @@ namespace OpenPmsDental {
 			// comboCobRule
 			// 
 			this.comboCobRule.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.comboCobRule.Location = new System.Drawing.Point(312, 23);
+			this.comboCobRule.Location = new System.Drawing.Point(312, 15);
 			this.comboCobRule.Name = "comboCobRule";
-			this.comboCobRule.Size = new System.Drawing.Size(128, 23);
+			this.comboCobRule.Size = new System.Drawing.Size(128, 21);
 			this.comboCobRule.TabIndex = 262;
 			this.comboCobRule.SelectionChangeCommitted += new System.EventHandler(this.comboCobRule_SelectionChangeCommitted);
 			// 
 			// labelCobRule
 			// 
 			this.labelCobRule.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelCobRule.Location = new System.Drawing.Point(106, 23);
+			this.labelCobRule.Location = new System.Drawing.Point(69, 18);
 			this.labelCobRule.Name = "labelCobRule";
-			this.labelCobRule.Size = new System.Drawing.Size(200, 23);
+			this.labelCobRule.Size = new System.Drawing.Size(242, 17);
 			this.labelCobRule.TabIndex = 264;
 			this.labelCobRule.Text = "Coordination of Benefits (COB) rule";
 			this.labelCobRule.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -186,29 +186,29 @@ namespace OpenPmsDental {
 			// 
 			this.groupBoxClaims.Controls.Add(this.checkClaimUseOverrideProcDescript);
 			this.groupBoxClaims.Controls.Add(this.checkClaimTrackingRequireError);
-			this.groupBoxClaims.Location = new System.Drawing.Point(8, 390);
+			this.groupBoxClaims.Location = new System.Drawing.Point(20, 362);
 			this.groupBoxClaims.Name = "groupBoxClaims";
-			this.groupBoxClaims.Size = new System.Drawing.Size(478, 75);
+			this.groupBoxClaims.Size = new System.Drawing.Size(450, 65);
 			this.groupBoxClaims.TabIndex = 280;
 			this.groupBoxClaims.Text = "Claims";
 			// 
 			// checkClaimUseOverrideProcDescript
 			// 
 			this.checkClaimUseOverrideProcDescript.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkClaimUseOverrideProcDescript.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkClaimUseOverrideProcDescript.Location = new System.Drawing.Point(8, 23);
+			this.checkClaimUseOverrideProcDescript.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkClaimUseOverrideProcDescript.Location = new System.Drawing.Point(40, 15);
 			this.checkClaimUseOverrideProcDescript.Name = "checkClaimUseOverrideProcDescript";
-			this.checkClaimUseOverrideProcDescript.Size = new System.Drawing.Size(399, 20);
+			this.checkClaimUseOverrideProcDescript.Size = new System.Drawing.Size(400, 18);
 			this.checkClaimUseOverrideProcDescript.TabIndex = 263;
 			this.checkClaimUseOverrideProcDescript.Text = "Use the description for the charted procedure code on printed claims";
 			// 
 			// checkClaimTrackingRequireError
 			// 
 			this.checkClaimTrackingRequireError.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkClaimTrackingRequireError.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkClaimTrackingRequireError.Location = new System.Drawing.Point(8, 47);
+			this.checkClaimTrackingRequireError.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkClaimTrackingRequireError.Location = new System.Drawing.Point(15, 38);
 			this.checkClaimTrackingRequireError.Name = "checkClaimTrackingRequireError";
-			this.checkClaimTrackingRequireError.Size = new System.Drawing.Size(357, 20);
+			this.checkClaimTrackingRequireError.Size = new System.Drawing.Size(425, 18);
 			this.checkClaimTrackingRequireError.TabIndex = 266;
 			this.checkClaimTrackingRequireError.Text = "Require error code when adding claim custom tracking status";
 			// 
@@ -218,59 +218,59 @@ namespace OpenPmsDental {
 			this.groupBoxOtherInsInfo.Controls.Add(this.checkEnableZeroWriteoffOnLimitations);
 			this.groupBoxOtherInsInfo.Controls.Add(this.checkEnableZeroWriteoffOnAnnualMax);
 			this.groupBoxOtherInsInfo.Controls.Add(this.checkInsPlanExclusionsMarkDoNotBill);
-			this.groupBoxOtherInsInfo.Location = new System.Drawing.Point(8, 259);
+			this.groupBoxOtherInsInfo.Location = new System.Drawing.Point(20, 242);
 			this.groupBoxOtherInsInfo.Name = "groupBoxOtherInsInfo";
-			this.groupBoxOtherInsInfo.Size = new System.Drawing.Size(478, 123);
+			this.groupBoxOtherInsInfo.Size = new System.Drawing.Size(450, 114);
 			this.groupBoxOtherInsInfo.TabIndex = 279;
 			this.groupBoxOtherInsInfo.Text = "Write-Offs for Non-Covered Services";
 			// 
 			// checkInsPlanExclusionsUseUCR
 			// 
 			this.checkInsPlanExclusionsUseUCR.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkInsPlanExclusionsUseUCR.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkInsPlanExclusionsUseUCR.Location = new System.Drawing.Point(8, 23);
+			this.checkInsPlanExclusionsUseUCR.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkInsPlanExclusionsUseUCR.Location = new System.Drawing.Point(18, 15);
 			this.checkInsPlanExclusionsUseUCR.Name = "checkInsPlanExclusionsUseUCR";
-			this.checkInsPlanExclusionsUseUCR.Size = new System.Drawing.Size(379, 20);
+			this.checkInsPlanExclusionsUseUCR.Size = new System.Drawing.Size(422, 18);
 			this.checkInsPlanExclusionsUseUCR.TabIndex = 277;
 			this.checkInsPlanExclusionsUseUCR.Text = "Ins plans with exclusions use standard provider fee (no write-offs)";
 			// 
 			// checkEnableZeroWriteoffOnLimitations
 			// 
 			this.checkEnableZeroWriteoffOnLimitations.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkEnableZeroWriteoffOnLimitations.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkEnableZeroWriteoffOnLimitations.Location = new System.Drawing.Point(8, 95);
+			this.checkEnableZeroWriteoffOnLimitations.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkEnableZeroWriteoffOnLimitations.Location = new System.Drawing.Point(18, 83);
 			this.checkEnableZeroWriteoffOnLimitations.Name = "checkEnableZeroWriteoffOnLimitations";
-			this.checkEnableZeroWriteoffOnLimitations.Size = new System.Drawing.Size(435, 20);
+			this.checkEnableZeroWriteoffOnLimitations.Size = new System.Drawing.Size(432, 18);
 			this.checkEnableZeroWriteoffOnLimitations.TabIndex = 373;
 			this.checkEnableZeroWriteoffOnLimitations.Text = "Ins plans use standard provider fee (no write-offs) at frequency or age limits";
 			// 
 			// checkEnableZeroWriteoffOnAnnualMax
 			// 
 			this.checkEnableZeroWriteoffOnAnnualMax.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkEnableZeroWriteoffOnAnnualMax.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkEnableZeroWriteoffOnAnnualMax.Location = new System.Drawing.Point(8, 71);
+			this.checkEnableZeroWriteoffOnAnnualMax.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkEnableZeroWriteoffOnAnnualMax.Location = new System.Drawing.Point(18, 60);
 			this.checkEnableZeroWriteoffOnAnnualMax.Name = "checkEnableZeroWriteoffOnAnnualMax";
-			this.checkEnableZeroWriteoffOnAnnualMax.Size = new System.Drawing.Size(428, 20);
+			this.checkEnableZeroWriteoffOnAnnualMax.Size = new System.Drawing.Size(426, 18);
 			this.checkEnableZeroWriteoffOnAnnualMax.TabIndex = 372;
 			this.checkEnableZeroWriteoffOnAnnualMax.Text = "Ins plans use standard provider fee (no write-offs) when annual max is met";
 			// 
 			// checkInsPlanExclusionsMarkDoNotBill
 			// 
 			this.checkInsPlanExclusionsMarkDoNotBill.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkInsPlanExclusionsMarkDoNotBill.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkInsPlanExclusionsMarkDoNotBill.Location = new System.Drawing.Point(8, 47);
+			this.checkInsPlanExclusionsMarkDoNotBill.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkInsPlanExclusionsMarkDoNotBill.Location = new System.Drawing.Point(18, 38);
 			this.checkInsPlanExclusionsMarkDoNotBill.Name = "checkInsPlanExclusionsMarkDoNotBill";
-			this.checkInsPlanExclusionsMarkDoNotBill.Size = new System.Drawing.Size(283, 20);
+			this.checkInsPlanExclusionsMarkDoNotBill.Size = new System.Drawing.Size(422, 18);
 			this.checkInsPlanExclusionsMarkDoNotBill.TabIndex = 276;
 			this.checkInsPlanExclusionsMarkDoNotBill.Text = "Ins plans with exclusions mark as Do Not Bill Ins";
 			// 
 			// checkInsDefaultShowUCRonClaims
 			// 
 			this.checkInsDefaultShowUCRonClaims.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkInsDefaultShowUCRonClaims.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkInsDefaultShowUCRonClaims.Location = new System.Drawing.Point(8, 215);
+			this.checkInsDefaultShowUCRonClaims.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkInsDefaultShowUCRonClaims.Location = new System.Drawing.Point(40, 199);
 			this.checkInsDefaultShowUCRonClaims.Name = "checkInsDefaultShowUCRonClaims";
-			this.checkInsDefaultShowUCRonClaims.Size = new System.Drawing.Size(370, 20);
+			this.checkInsDefaultShowUCRonClaims.Size = new System.Drawing.Size(400, 18);
 			this.checkInsDefaultShowUCRonClaims.TabIndex = 261;
 			this.checkInsDefaultShowUCRonClaims.Text = "Insurance plans default to show standard provider fee on claims";
 			this.checkInsDefaultShowUCRonClaims.Click += new System.EventHandler(this.checkInsDefaultShowUCRonClaims_Click);
@@ -286,79 +286,79 @@ namespace OpenPmsDental {
 			this.groupBoxInsuranceGeneral.Controls.Add(this.checkInsPPOsecWriteoffs);
 			this.groupBoxInsuranceGeneral.Controls.Add(this.checkPPOpercentage);
 			this.groupBoxInsuranceGeneral.Controls.Add(this.checkInsDefaultAssignmentOfBenefits);
-			this.groupBoxInsuranceGeneral.Location = new System.Drawing.Point(8, 8);
+			this.groupBoxInsuranceGeneral.Location = new System.Drawing.Point(20, 10);
 			this.groupBoxInsuranceGeneral.Name = "groupBoxInsuranceGeneral";
-			this.groupBoxInsuranceGeneral.Size = new System.Drawing.Size(478, 243);
+			this.groupBoxInsuranceGeneral.Size = new System.Drawing.Size(450, 226);
 			this.groupBoxInsuranceGeneral.TabIndex = 278;
 			this.groupBoxInsuranceGeneral.Text = "Insurance General";
 			// 
 			// checkPatInitBillingTypeFromPriInsPlan
 			// 
 			this.checkPatInitBillingTypeFromPriInsPlan.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkPatInitBillingTypeFromPriInsPlan.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkPatInitBillingTypeFromPriInsPlan.Location = new System.Drawing.Point(8, 191);
+			this.checkPatInitBillingTypeFromPriInsPlan.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkPatInitBillingTypeFromPriInsPlan.Location = new System.Drawing.Point(40, 176);
 			this.checkPatInitBillingTypeFromPriInsPlan.Name = "checkPatInitBillingTypeFromPriInsPlan";
-			this.checkPatInitBillingTypeFromPriInsPlan.Size = new System.Drawing.Size(361, 20);
+			this.checkPatInitBillingTypeFromPriInsPlan.Size = new System.Drawing.Size(400, 18);
 			this.checkPatInitBillingTypeFromPriInsPlan.TabIndex = 298;
 			this.checkPatInitBillingTypeFromPriInsPlan.Text = "Adding new primary insurance plan to patient sets billing type";
 			// 
 			// checkInsurancePlansShared
 			// 
 			this.checkInsurancePlansShared.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkInsurancePlansShared.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkInsurancePlansShared.Location = new System.Drawing.Point(8, 23);
+			this.checkInsurancePlansShared.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkInsurancePlansShared.Location = new System.Drawing.Point(40, 15);
 			this.checkInsurancePlansShared.Name = "checkInsurancePlansShared";
-			this.checkInsurancePlansShared.Size = new System.Drawing.Size(393, 20);
+			this.checkInsurancePlansShared.Size = new System.Drawing.Size(400, 18);
 			this.checkInsurancePlansShared.TabIndex = 257;
 			this.checkInsurancePlansShared.Text = "InsPlan option at bottom, \'Change Plan for all subscribers\', is default";
 			// 
 			// checkFixedBenefitBlankLikeZero
 			// 
 			this.checkFixedBenefitBlankLikeZero.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkFixedBenefitBlankLikeZero.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkFixedBenefitBlankLikeZero.Location = new System.Drawing.Point(8, 95);
+			this.checkFixedBenefitBlankLikeZero.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkFixedBenefitBlankLikeZero.Location = new System.Drawing.Point(40, 84);
 			this.checkFixedBenefitBlankLikeZero.Name = "checkFixedBenefitBlankLikeZero";
-			this.checkFixedBenefitBlankLikeZero.Size = new System.Drawing.Size(313, 20);
+			this.checkFixedBenefitBlankLikeZero.Size = new System.Drawing.Size(400, 18);
 			this.checkFixedBenefitBlankLikeZero.TabIndex = 275;
 			this.checkFixedBenefitBlankLikeZero.Text = "Fixed benefit fee schedules treat blank entries as zero";
 			// 
 			// checkCoPayFeeScheduleBlankLikeZero
 			// 
 			this.checkCoPayFeeScheduleBlankLikeZero.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkCoPayFeeScheduleBlankLikeZero.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkCoPayFeeScheduleBlankLikeZero.Location = new System.Drawing.Point(8, 71);
+			this.checkCoPayFeeScheduleBlankLikeZero.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkCoPayFeeScheduleBlankLikeZero.Location = new System.Drawing.Point(40, 61);
 			this.checkCoPayFeeScheduleBlankLikeZero.Name = "checkCoPayFeeScheduleBlankLikeZero";
-			this.checkCoPayFeeScheduleBlankLikeZero.Size = new System.Drawing.Size(278, 20);
+			this.checkCoPayFeeScheduleBlankLikeZero.Size = new System.Drawing.Size(400, 18);
 			this.checkCoPayFeeScheduleBlankLikeZero.TabIndex = 260;
 			this.checkCoPayFeeScheduleBlankLikeZero.Text = "Copay fee schedules treat blank entries as zero";
 			// 
 			// checkInsPPOsecWriteoffs
 			// 
 			this.checkInsPPOsecWriteoffs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkInsPPOsecWriteoffs.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkInsPPOsecWriteoffs.Location = new System.Drawing.Point(8, 167);
+			this.checkInsPPOsecWriteoffs.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkInsPPOsecWriteoffs.Location = new System.Drawing.Point(15, 153);
 			this.checkInsPPOsecWriteoffs.Name = "checkInsPPOsecWriteoffs";
-			this.checkInsPPOsecWriteoffs.Size = new System.Drawing.Size(268, 20);
+			this.checkInsPPOsecWriteoffs.Size = new System.Drawing.Size(425, 18);
 			this.checkInsPPOsecWriteoffs.TabIndex = 270;
 			this.checkInsPPOsecWriteoffs.Text = "Calculate secondary insurance PPO write-offs";
 			// 
 			// checkPPOpercentage
 			// 
 			this.checkPPOpercentage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkPPOpercentage.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkPPOpercentage.Location = new System.Drawing.Point(8, 47);
+			this.checkPPOpercentage.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkPPOpercentage.Location = new System.Drawing.Point(40, 38);
 			this.checkPPOpercentage.Name = "checkPPOpercentage";
-			this.checkPPOpercentage.Size = new System.Drawing.Size(335, 20);
+			this.checkPPOpercentage.Size = new System.Drawing.Size(400, 18);
 			this.checkPPOpercentage.TabIndex = 258;
 			this.checkPPOpercentage.Text = "Default new insurance plans to PPO Percentage plan type";
 			// 
 			// checkInsDefaultAssignmentOfBenefits
 			// 
 			this.checkInsDefaultAssignmentOfBenefits.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkInsDefaultAssignmentOfBenefits.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkInsDefaultAssignmentOfBenefits.Location = new System.Drawing.Point(8, 143);
+			this.checkInsDefaultAssignmentOfBenefits.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkInsDefaultAssignmentOfBenefits.Location = new System.Drawing.Point(40, 130);
 			this.checkInsDefaultAssignmentOfBenefits.Name = "checkInsDefaultAssignmentOfBenefits";
-			this.checkInsDefaultAssignmentOfBenefits.Size = new System.Drawing.Size(290, 20);
+			this.checkInsDefaultAssignmentOfBenefits.Size = new System.Drawing.Size(400, 18);
 			this.checkInsDefaultAssignmentOfBenefits.TabIndex = 267;
 			this.checkInsDefaultAssignmentOfBenefits.Text = "Insurance plans default to assignment of benefits";
 			this.checkInsDefaultAssignmentOfBenefits.Click += new System.EventHandler(this.checkInsDefaultAssignmentOfBenefits_Click);
@@ -366,10 +366,10 @@ namespace OpenPmsDental {
 			// checkOutOfNetworkBlankLikeZero
 			// 
 			this.checkOutOfNetworkBlankLikeZero.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkOutOfNetworkBlankLikeZero.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkOutOfNetworkBlankLikeZero.Location = new System.Drawing.Point(8, 119);
+			this.checkOutOfNetworkBlankLikeZero.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkOutOfNetworkBlankLikeZero.Location = new System.Drawing.Point(40, 107);
 			this.checkOutOfNetworkBlankLikeZero.Name = "checkOutOfNetworkBlankLikeZero";
-			this.checkOutOfNetworkBlankLikeZero.Size = new System.Drawing.Size(326, 20);
+			this.checkOutOfNetworkBlankLikeZero.Size = new System.Drawing.Size(400, 18);
 			this.checkOutOfNetworkBlankLikeZero.TabIndex = 299;
 			this.checkOutOfNetworkBlankLikeZero.Text = "Out of network fee schedules treat blank entries as zero";
 			// 

@@ -35,7 +35,7 @@ OpenPmsDental.UserControlExperimentalPrefs	pilot	tool	UI-10 slice 1
 OpenPmsDental.FormPractice	pilot	tool	owner review 2026-11-21
 OpenPmsDental.FormProcCodeEdit	pilot	tool	owner review 2026-11-21
 OpenPmsDental.FormInsBenefits	pilot	tool	owner review 2026-11-21
-OpenPmsDental.FormApptEdit	pilot	hand	owner review 2026-11-21; by hand: the note above the quick-add list; the tool widens its fields column past the quick-add list (section 4)
+OpenPmsDental.FormApptEdit	pilot	tool	owner review 2026-11-21; laid out in parts (grid-scope.tsv): the fields panel and the note under it; the lists and grids beside them move with them
 OpenPmsDental.FormScreenEdit	pilot	tool	owner review 2026-11-21
 OpenPmsDental.FormBackup	pilot	tool	owner review 2026-11-21
 OpenPmsDental.FormPayment	pilot	hand	owner review 2026-11-21; by hand: the input styles (UiInputFrame) are the owner's row; the tool parts its labels from its fields and widens the window (section 4)

@@ -55,25 +55,25 @@ namespace OpenPmsDental {
 			// 
 			// checkAgingCalculateOnBatchClaimReceipt
 			// 
-			this.checkAgingCalculateOnBatchClaimReceipt.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkAgingCalculateOnBatchClaimReceipt.Location = new System.Drawing.Point(8, 8);
+			this.checkAgingCalculateOnBatchClaimReceipt.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkAgingCalculateOnBatchClaimReceipt.Location = new System.Drawing.Point(157, 24);
 			this.checkAgingCalculateOnBatchClaimReceipt.Name = "checkAgingCalculateOnBatchClaimReceipt";
-			this.checkAgingCalculateOnBatchClaimReceipt.Size = new System.Drawing.Size(309, 20);
+			this.checkAgingCalculateOnBatchClaimReceipt.Size = new System.Drawing.Size(307, 18);
 			this.checkAgingCalculateOnBatchClaimReceipt.TabIndex = 303;
 			this.checkAgingCalculateOnBatchClaimReceipt.Text = "Aging calculated on receipt of batch claim payments";
 			// 
 			// label13
 			// 
-			this.label13.Location = new System.Drawing.Point(8, 454);
+			this.label13.Location = new System.Drawing.Point(76, 396);
 			this.label13.Name = "label13";
-			this.label13.Size = new System.Drawing.Size(288, 23);
+			this.label13.Size = new System.Drawing.Size(316, 18);
 			this.label13.TabIndex = 302;
 			this.label13.Text = "Max number of statements per batch (0 for no limit)";
 			this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label27
 			// 
-			this.label27.Location = new System.Drawing.Point(8, 427);
+			this.label27.Location = new System.Drawing.Point(11, 369);
 			this.label27.Name = "label27";
 			this.label27.Size = new System.Drawing.Size(444, 18);
 			this.label27.TabIndex = 293;
@@ -82,17 +82,17 @@ namespace OpenPmsDental {
 			// 
 			// checkAgingReportShowAgePatPayplanPayments
 			// 
-			this.checkAgingReportShowAgePatPayplanPayments.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkAgingReportShowAgePatPayplanPayments.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkAgingReportShowAgePatPayplanPayments.Enabled = false;
-			this.checkAgingReportShowAgePatPayplanPayments.Location = new System.Drawing.Point(8, 32);
+			this.checkAgingReportShowAgePatPayplanPayments.Location = new System.Drawing.Point(157, 43);
 			this.checkAgingReportShowAgePatPayplanPayments.Name = "checkAgingReportShowAgePatPayplanPayments";
-			this.checkAgingReportShowAgePatPayplanPayments.Size = new System.Drawing.Size(276, 20);
+			this.checkAgingReportShowAgePatPayplanPayments.Size = new System.Drawing.Size(296, 18);
 			this.checkAgingReportShowAgePatPayplanPayments.TabIndex = 279;
 			this.checkAgingReportShowAgePatPayplanPayments.Text = "Aging Report Show Age Pat Payplan Payments";
 			// 
 			// textBillingElectBatchMax
 			// 
-			this.textBillingElectBatchMax.Location = new System.Drawing.Point(302, 454);
+			this.textBillingElectBatchMax.Location = new System.Drawing.Point(393, 395);
 			this.textBillingElectBatchMax.Name = "textBillingElectBatchMax";
 			this.textBillingElectBatchMax.Size = new System.Drawing.Size(60, 20);
 			this.textBillingElectBatchMax.TabIndex = 283;
@@ -102,7 +102,7 @@ namespace OpenPmsDental {
 			// 
 			// comboPayPlansVersion
 			// 
-			this.comboPayPlansVersion.Location = new System.Drawing.Point(247, 427);
+			this.comboPayPlansVersion.Location = new System.Drawing.Point(250, 369);
 			this.comboPayPlansVersion.Name = "comboPayPlansVersion";
 			this.comboPayPlansVersion.Size = new System.Drawing.Size(205, 21);
 			this.comboPayPlansVersion.TabIndex = 292;
@@ -111,106 +111,106 @@ namespace OpenPmsDental {
 			// 
 			// checkClaimReportReceivedByService
 			// 
-			this.checkClaimReportReceivedByService.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkClaimReportReceivedByService.Location = new System.Drawing.Point(8, 259);
+			this.checkClaimReportReceivedByService.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkClaimReportReceivedByService.Location = new System.Drawing.Point(157, 228);
 			this.checkClaimReportReceivedByService.Name = "checkClaimReportReceivedByService";
-			this.checkClaimReportReceivedByService.Size = new System.Drawing.Size(168, 20);
+			this.checkClaimReportReceivedByService.Size = new System.Drawing.Size(296, 18);
 			this.checkClaimReportReceivedByService.TabIndex = 301;
 			this.checkClaimReportReceivedByService.TabStop = false;
 			this.checkClaimReportReceivedByService.Text = "Receive Reports by Service";
 			// 
 			// comboRigorousAdjustments
 			// 
-			this.comboRigorousAdjustments.Location = new System.Drawing.Point(302, 372);
+			this.comboRigorousAdjustments.Location = new System.Drawing.Point(290, 324);
 			this.comboRigorousAdjustments.Name = "comboRigorousAdjustments";
-			this.comboRigorousAdjustments.Size = new System.Drawing.Size(164, 23);
+			this.comboRigorousAdjustments.Size = new System.Drawing.Size(163, 21);
 			this.comboRigorousAdjustments.TabIndex = 289;
 			// 
 			// checkPaymentWindowDefaultHideSplits
 			// 
-			this.checkPaymentWindowDefaultHideSplits.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkPaymentWindowDefaultHideSplits.Location = new System.Drawing.Point(8, 401);
+			this.checkPaymentWindowDefaultHideSplits.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkPaymentWindowDefaultHideSplits.Location = new System.Drawing.Point(157, 348);
 			this.checkPaymentWindowDefaultHideSplits.Name = "checkPaymentWindowDefaultHideSplits";
-			this.checkPaymentWindowDefaultHideSplits.Size = new System.Drawing.Size(283, 20);
+			this.checkPaymentWindowDefaultHideSplits.Size = new System.Drawing.Size(296, 18);
 			this.checkPaymentWindowDefaultHideSplits.TabIndex = 284;
 			this.checkPaymentWindowDefaultHideSplits.Text = "Hide paysplits from payment window by default";
 			// 
 			// textClaimReportReceiveInterval
 			// 
-			this.textClaimReportReceiveInterval.Location = new System.Drawing.Point(429, 285);
+			this.textClaimReportReceiveInterval.Location = new System.Drawing.Point(424, 248);
 			this.textClaimReportReceiveInterval.MaxLength = 2147483647;
 			this.textClaimReportReceiveInterval.Name = "textClaimReportReceiveInterval";
-			this.textClaimReportReceiveInterval.Size = new System.Drawing.Size(28, 23);
+			this.textClaimReportReceiveInterval.Size = new System.Drawing.Size(29, 20);
 			this.textClaimReportReceiveInterval.TabIndex = 299;
 			// 
 			// label41
 			// 
-			this.label41.Location = new System.Drawing.Point(160, 372);
+			this.label41.Location = new System.Drawing.Point(55, 324);
 			this.label41.Name = "label41";
-			this.label41.Size = new System.Drawing.Size(136, 23);
+			this.label41.Size = new System.Drawing.Size(234, 18);
 			this.label41.TabIndex = 288;
 			this.label41.Text = "Adjustments Allocation";
 			this.label41.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// labelAgingServiceTimeDue
 			// 
-			this.labelAgingServiceTimeDue.Location = new System.Drawing.Point(156, 58);
+			this.labelAgingServiceTimeDue.Location = new System.Drawing.Point(55, 64);
 			this.labelAgingServiceTimeDue.Name = "labelAgingServiceTimeDue";
-			this.labelAgingServiceTimeDue.Size = new System.Drawing.Size(140, 23);
+			this.labelAgingServiceTimeDue.Size = new System.Drawing.Size(234, 18);
 			this.labelAgingServiceTimeDue.TabIndex = 294;
 			this.labelAgingServiceTimeDue.Text = "Aging Service Time Due";
 			this.labelAgingServiceTimeDue.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// comboRigorousAccounting
 			// 
-			this.comboRigorousAccounting.Location = new System.Drawing.Point(302, 343);
+			this.comboRigorousAccounting.Location = new System.Drawing.Point(290, 298);
 			this.comboRigorousAccounting.Name = "comboRigorousAccounting";
-			this.comboRigorousAccounting.Size = new System.Drawing.Size(164, 23);
+			this.comboRigorousAccounting.Size = new System.Drawing.Size(163, 21);
 			this.comboRigorousAccounting.TabIndex = 287;
 			// 
 			// label39
 			// 
-			this.label39.Location = new System.Drawing.Point(180, 343);
+			this.label39.Location = new System.Drawing.Point(55, 298);
 			this.label39.Name = "label39";
-			this.label39.Size = new System.Drawing.Size(116, 23);
+			this.label39.Size = new System.Drawing.Size(234, 18);
 			this.label39.TabIndex = 285;
 			this.label39.Text = "Paysplits Allocation";
 			this.label39.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// checkBillingShowTransSinceBalZero
 			// 
-			this.checkBillingShowTransSinceBalZero.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkBillingShowTransSinceBalZero.Location = new System.Drawing.Point(8, 140);
+			this.checkBillingShowTransSinceBalZero.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkBillingShowTransSinceBalZero.Location = new System.Drawing.Point(157, 129);
 			this.checkBillingShowTransSinceBalZero.Name = "checkBillingShowTransSinceBalZero";
-			this.checkBillingShowTransSinceBalZero.Size = new System.Drawing.Size(240, 20);
+			this.checkBillingShowTransSinceBalZero.Size = new System.Drawing.Size(296, 18);
 			this.checkBillingShowTransSinceBalZero.TabIndex = 290;
 			this.checkBillingShowTransSinceBalZero.Text = "Show all transactions since zero balance";
 			// 
 			// labelReportheckUnits
 			// 
-			this.labelReportheckUnits.Location = new System.Drawing.Point(323, 285);
+			this.labelReportheckUnits.Location = new System.Drawing.Point(323, 249);
 			this.labelReportheckUnits.Name = "labelReportheckUnits";
-			this.labelReportheckUnits.Size = new System.Drawing.Size(100, 23);
+			this.labelReportheckUnits.Size = new System.Drawing.Size(100, 18);
 			this.labelReportheckUnits.TabIndex = 300;
 			this.labelReportheckUnits.Text = "minutes (5 to 60)";
 			this.labelReportheckUnits.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textAgingServiceTimeDue
 			// 
-			this.textAgingServiceTimeDue.Location = new System.Drawing.Point(302, 58);
+			this.textAgingServiceTimeDue.Location = new System.Drawing.Point(290, 63);
 			this.textAgingServiceTimeDue.Name = "textAgingServiceTimeDue";
 			this.textAgingServiceTimeDue.ReadOnly = true;
-			this.textAgingServiceTimeDue.Size = new System.Drawing.Size(164, 23);
+			this.textAgingServiceTimeDue.Size = new System.Drawing.Size(163, 20);
 			this.textAgingServiceTimeDue.TabIndex = 295;
 			// 
 			// radioReceiveAtAnInterval
 			// 
-			this.radioReceiveAtAnInterval.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.radioReceiveAtAnInterval.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.radioReceiveAtAnInterval.Checked = true;
-			this.radioReceiveAtAnInterval.Location = new System.Drawing.Point(136, 285);
+			this.radioReceiveAtAnInterval.Location = new System.Drawing.Point(136, 251);
 			this.radioReceiveAtAnInterval.Name = "radioReceiveAtAnInterval";
 			this.radioReceiveAtAnInterval.RightToLeft = System.Windows.Forms.RightToLeft.No;
-			this.radioReceiveAtAnInterval.Size = new System.Drawing.Size(138, 20);
+			this.radioReceiveAtAnInterval.Size = new System.Drawing.Size(182, 22);
 			this.radioReceiveAtAnInterval.TabIndex = 297;
 			this.radioReceiveAtAnInterval.TabStop = true;
 			this.radioReceiveAtAnInterval.Text = "Receive at an interval";
@@ -220,19 +220,19 @@ namespace OpenPmsDental {
 			// 
 			// comboPaymentClinicSetting
 			// 
-			this.comboPaymentClinicSetting.Location = new System.Drawing.Point(302, 87);
+			this.comboPaymentClinicSetting.Location = new System.Drawing.Point(290, 87);
 			this.comboPaymentClinicSetting.Name = "comboPaymentClinicSetting";
-			this.comboPaymentClinicSetting.Size = new System.Drawing.Size(164, 23);
+			this.comboPaymentClinicSetting.Size = new System.Drawing.Size(163, 21);
 			this.comboPaymentClinicSetting.TabIndex = 281;
 			this.comboPaymentClinicSetting.SelectionChangeCommitted += new System.EventHandler(this.comboPaymentClinicSetting_ChangeCommitted);
 			// 
 			// radioReceiveAtASetTime
 			// 
-			this.radioReceiveAtASetTime.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.radioReceiveAtASetTime.Location = new System.Drawing.Point(8, 315);
+			this.radioReceiveAtASetTime.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.radioReceiveAtASetTime.Location = new System.Drawing.Point(136, 273);
 			this.radioReceiveAtASetTime.Name = "radioReceiveAtASetTime";
 			this.radioReceiveAtASetTime.RightToLeft = System.Windows.Forms.RightToLeft.No;
-			this.radioReceiveAtASetTime.Size = new System.Drawing.Size(134, 20);
+			this.radioReceiveAtASetTime.Size = new System.Drawing.Size(182, 23);
 			this.radioReceiveAtASetTime.TabIndex = 298;
 			this.radioReceiveAtASetTime.Text = "Receive at a set time";
 			this.radioReceiveAtASetTime.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -240,10 +240,10 @@ namespace OpenPmsDental {
 			// 
 			// checkPaymentsPromptForPayType
 			// 
-			this.checkPaymentsPromptForPayType.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkPaymentsPromptForPayType.Location = new System.Drawing.Point(8, 116);
+			this.checkPaymentsPromptForPayType.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkPaymentsPromptForPayType.Location = new System.Drawing.Point(157, 111);
 			this.checkPaymentsPromptForPayType.Name = "checkPaymentsPromptForPayType";
-			this.checkPaymentsPromptForPayType.Size = new System.Drawing.Size(219, 20);
+			this.checkPaymentsPromptForPayType.Size = new System.Drawing.Size(296, 18);
 			this.checkPaymentsPromptForPayType.TabIndex = 280;
 			this.checkPaymentsPromptForPayType.Text = "Payments prompt for Payment Type";
 			this.checkPaymentsPromptForPayType.Click += new System.EventHandler(this.checkPaymentsPromptForPayType_Click);
@@ -251,16 +251,16 @@ namespace OpenPmsDental {
 			// textClaimReportReceiveTime
 			// 
 			this.textClaimReportReceiveTime.Enabled = false;
-			this.textClaimReportReceiveTime.Location = new System.Drawing.Point(148, 314);
+			this.textClaimReportReceiveTime.Location = new System.Drawing.Point(326, 273);
 			this.textClaimReportReceiveTime.Name = "textClaimReportReceiveTime";
-			this.textClaimReportReceiveTime.Size = new System.Drawing.Size(128, 23);
+			this.textClaimReportReceiveTime.Size = new System.Drawing.Size(127, 20);
 			this.textClaimReportReceiveTime.TabIndex = 296;
 			// 
 			// label38
 			// 
-			this.label38.Location = new System.Drawing.Point(168, 87);
+			this.label38.Location = new System.Drawing.Point(55, 88);
 			this.label38.Name = "label38";
-			this.label38.Size = new System.Drawing.Size(128, 23);
+			this.label38.Size = new System.Drawing.Size(234, 18);
 			this.label38.TabIndex = 282;
 			this.label38.Text = "Patient Payments Use";
 			this.label38.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -269,15 +269,15 @@ namespace OpenPmsDental {
 			// 
 			this.groupBoxClaimIdPrefix.Controls.Add(this.butReplacements);
 			this.groupBoxClaimIdPrefix.Controls.Add(this.textClaimIdPrefix);
-			this.groupBoxClaimIdPrefix.Location = new System.Drawing.Point(271, 168);
+			this.groupBoxClaimIdPrefix.Location = new System.Drawing.Point(271, 153);
 			this.groupBoxClaimIdPrefix.Name = "groupBoxClaimIdPrefix";
-			this.groupBoxClaimIdPrefix.Size = new System.Drawing.Size(197, 83);
+			this.groupBoxClaimIdPrefix.Size = new System.Drawing.Size(197, 71);
 			this.groupBoxClaimIdPrefix.TabIndex = 291;
 			this.groupBoxClaimIdPrefix.Text = "Claim Identification Prefix";
 			// 
 			// butReplacements
 			// 
-			this.butReplacements.Location = new System.Drawing.Point(89, 52);
+			this.butReplacements.Location = new System.Drawing.Point(89, 42);
 			this.butReplacements.Name = "butReplacements";
 			this.butReplacements.Size = new System.Drawing.Size(93, 23);
 			this.butReplacements.TabIndex = 240;
@@ -287,9 +287,9 @@ namespace OpenPmsDental {
 			// 
 			// textClaimIdPrefix
 			// 
-			this.textClaimIdPrefix.Location = new System.Drawing.Point(15, 23);
+			this.textClaimIdPrefix.Location = new System.Drawing.Point(15, 19);
 			this.textClaimIdPrefix.Name = "textClaimIdPrefix";
-			this.textClaimIdPrefix.Size = new System.Drawing.Size(168, 23);
+			this.textClaimIdPrefix.Size = new System.Drawing.Size(167, 20);
 			this.textClaimIdPrefix.TabIndex = 238;
 			this.textClaimIdPrefix.Validating += new System.ComponentModel.CancelEventHandler(this.textClaimIdPrefix_Validating);
 			// 
