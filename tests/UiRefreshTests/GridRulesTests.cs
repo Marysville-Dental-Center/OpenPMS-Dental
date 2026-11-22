@@ -188,9 +188,13 @@ namespace UiRefreshTests {
 				}
 				//UI-12 fix round: a control hidden in the designer (the window's code shows it in some setups) stays inside its container's client
 				//area too, or it is cut or never seen once shown (FormProcEdit's End time box and Now button past panel1's edge).
-				if(!(container is ScrollableControl scrollableControlHidden && scrollableControlHidden.AutoScroll)) {
+				//Layout containers only (the window, panels, group boxes, tab pages, UserControls): a list box's or grid's own hidden scroll bars are
+				//theirs to place.
+				bool isLayoutContainer=container==root || container is Form || container is UserControl || container is Panel || container is System.Windows.Forms.TabPage
+					|| container is System.Windows.Forms.GroupBox || TextFitMeasurer.IsOfType(container,"OpenPmsDental.UI.GroupBox") || TextFitMeasurer.IsOfType(container,"OpenPmsDental.UI.TabPage");
+				if(isLayoutContainer && !(container is ScrollableControl scrollableControlHidden && scrollableControlHidden.AutoScroll)) {
 					foreach(Control control in container.Controls.Cast<Control>().Where(x => x.Dock==DockStyle.None && !TextFitBoundsRecord.IsDesignedVisible(x)
-						&& x.Width>0 && x.Height>0))
+						&& x.Width>0 && x.Height>0 && x.Name!=""))//an unnamed control is a custom control's own part
 					{
 						if(control.Left<0 || control.Top<0 || control.Right>container.ClientSize.Width || control.Bottom>container.ClientSize.Height) {
 							listFindings.Add(window+"\thidden-frame\t"+container.Name+" "+control.Name);
@@ -254,13 +258,13 @@ namespace UiRefreshTests {
 				}
 				List<Control> listKids=container.Controls.Cast<Control>().Where(x => x.Dock==DockStyle.None && TextFitBoundsRecord.IsDesignedVisible(x)).ToList();
 				foreach(Control label in listKids.Where(x => x is Label && !string.IsNullOrWhiteSpace(x.Text))) {
-					Control field=listKids.Where(x => IsSingleLineField(x) && Math.Abs(CenterY(x)-CenterY(label))<=4 && GetInk(x).Left>=label.Right-8
-						&& GetInk(x).Left-label.Right<=40).OrderBy(x => GetInk(x).Left).FirstOrDefault();
+					Control field=listKids.Where(x => IsSingleLineField(x) && Math.Abs(CenterY(x)-CenterY(label))<=4 && GetBox(x).Left>=label.Right-8
+						&& GetBox(x).Left-label.Right<=40).OrderBy(x => GetBox(x).Left).FirstOrDefault();
 					if(field==null) {
 						continue;
 					}
 					//The x in the window: the control's Left and its containers' (the designer's coordinates, as the planner sums them).
-					int x=GetInk(field).Left;
+					int x=GetBox(field).Left;
 					for(Control controlUp=container;controlUp!=null && controlUp!=root;controlUp=controlUp.Parent) {
 						x+=controlUp.Left;
 					}
@@ -345,6 +349,15 @@ namespace UiRefreshTests {
 			return areaSmall>0 && (long)rectangleCross.Width*rectangleCross.Height>=0.6*areaSmall && areaSmall>=0.4*areaLarge;
 		}
 
+		///<summary>The input box a field column aligns: a clinic picker's box after its label area; otherwise the ink.</summary>
+		private static Rectangle GetBox(Control control) {
+			if(control is OpenPmsDental.UI.ComboBoxClinicPicker comboBoxClinicPicker && comboBoxClinicPicker.ShowLabel) {
+				int widthLabel=(int)Math.Round(37*comboBoxClinicPicker.DeviceDpi/96f);
+				return new Rectangle(control.Left+widthLabel,control.Top,control.Width-widthLabel,control.Height);
+			}
+			return GetInk(control);
+		}
+
 		///<summary>The part of the bounds the control draws in: a label's or check box's text extent on the side it is aligned to.</summary>
 		private static Rectangle GetInk(Control control) {
 			Rectangle rectangle=control.Bounds;
@@ -353,8 +366,14 @@ namespace UiRefreshTests {
 				return new Rectangle(rectangle.X+controlDate.Left,rectangle.Y,controlDate.Width,rectangle.Height);
 			}
 			if(control is OpenPmsDental.UI.ComboBoxClinicPicker comboBoxClinicPicker && comboBoxClinicPicker.ShowLabel) {
+				//Fix round: its box and its own label, which it draws right-aligned 6 px before the box (another control over the label covers it).
 				int widthLabel=(int)Math.Round(37*comboBoxClinicPicker.DeviceDpi/96f);
-				return new Rectangle(rectangle.X+widthLabel,rectangle.Y,rectangle.Width-widthLabel,rectangle.Height);
+				int widthText;
+				using(StringFormat stringFormat=new StringFormat(StringFormat.GenericTypographic)) {
+					widthText=TextFitMeasurer.MeasureLineGdiPlus(comboBoxClinicPicker.IsMultiSelect ? "Clinics" : "Clinic",comboBoxClinicPicker.Font,stringFormat).Width;
+				}
+				int xText=Math.Max(0,widthLabel-(int)Math.Round(6*comboBoxClinicPicker.DeviceDpi/96f)-widthText);
+				return new Rectangle(rectangle.X+xText,rectangle.Y,rectangle.Width-xText,rectangle.Height);
 			}
 			if(string.IsNullOrWhiteSpace(control.Text)) {
 				return rectangle;

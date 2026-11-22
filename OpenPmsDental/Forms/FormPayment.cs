@@ -3206,7 +3206,13 @@ namespace OpenPmsDental {
 		}
 
 		private void ToggleShowHideSplits() {
-			if(panelSplits.Visible) {
+			SetSplitsShown(!panelSplits.Visible);
+		}
+
+		///<summary>Shows or hides the splits panel and sizes the window to match. UI-12: split out of ToggleShowHideSplits so the style gallery can
+		///draw the hidden state (a window that is never shown reads Visible false for every control).</summary>
+		private void SetSplitsShown(bool isShown) {
+			if(!isShown) {
 				panelSplits.Visible=false;
 				butShowHide.Text=Lan.g(this,"Show Splits");
 				Height=_originalHeight-_heightSplitsShown;//the window without the splits panel: the bottom row moves up by the panel's height

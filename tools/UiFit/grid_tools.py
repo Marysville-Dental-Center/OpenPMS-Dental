@@ -2209,6 +2209,24 @@ def apply_row(text, control, prop, new):
         if new == "Fixed3D":
             return text, None  # the default
         return insert_before_name_line(text, control, "this.%s.BorderStyle = System.Windows.Forms.BorderStyle.%s;" % (control, new))
+    if prop == "AddBefore":
+        # A hand row only (fix round: FormScreenEdit's age arrows in front of the Age box they stand in): the control's Controls.Add line moves
+        # to just before the named sibling's, so it is added first and drawn in front of it. A second run finds it there and changes nothing.
+        pat_c = re.compile(r"^([ \t]*)this\.(?:(\w+)\.)?Controls\.Add\(this\.%s\);(\r\n|\n)" % re.escape(control), re.M)
+        mc = pat_c.search(text)
+        if not mc:
+            return text, "no Controls.Add line"
+        parent = mc.group(2)
+        pat_s = re.compile(r"^[ \t]*this\.%sControls\.Add\(this\.%s\);(\r\n|\n)" % (re.escape(parent + ".") if parent else "", re.escape(new)), re.M)
+        ms = pat_s.search(text)
+        if not ms:
+            return text, "no Controls.Add line for " + new
+        if mc.start() < ms.start():
+            return text, None
+        line = text[mc.start():mc.end()]
+        text = text[:mc.start()] + text[mc.end():]
+        ms = pat_s.search(text)
+        return text[:ms.start()] + line + text[ms.start():], None
     if prop in ("CheckAlign", "TextAlign"):
         pat = re.compile(r"(%s%s ?= ?System\.Drawing\.ContentAlignment\.)(\w+)(;)" % (re.escape(target), prop))
         m = pat.search(text)

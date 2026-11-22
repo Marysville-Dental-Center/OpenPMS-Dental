@@ -267,7 +267,7 @@ namespace OpenPmsDental{
 			this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label2.Location = new System.Drawing.Point(86, 72);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(88, 18);
+			this.label2.Size = new System.Drawing.Size(72, 18);
 			this.label2.TabIndex = 166;
 			this.label2.Text = "Date To:";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -349,7 +349,7 @@ namespace OpenPmsDental{
 			this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label4.Location = new System.Drawing.Point(8, 72);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(88, 18);
+			this.label4.Size = new System.Drawing.Size(72, 18);
 			this.label4.TabIndex = 158;
 			this.label4.Text = "Date From:";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;

@@ -121,13 +121,14 @@ namespace UiRefreshTests {
 		}
 
 		///<summary>FormPayment as Hide Splits leaves it (the harness builds windows without Load): the fields Load sets for the toggle, then the
-		///toggle, then the layout of the new height.</summary>
+		///hidden state the toggle sets (SetSplitsShown(false); the toggle itself reads Visible, false in a window never shown), then the layout of
+		///the new height.</summary>
 		private static void HideSplits(FormODBase formODBase,BuiltWindow builtWindow) {
 			System.Reflection.BindingFlags bindingFlags=System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.NonPublic;
 			Control panelSplits=FindByName(formODBase,"panelSplits");
 			formODBase.GetType().GetField("_originalHeight",bindingFlags).SetValue(formODBase,formODBase.Height);
 			formODBase.GetType().GetField("_heightSplitsShown",bindingFlags).SetValue(formODBase,panelSplits.Height);
-			formODBase.GetType().GetMethod("ToggleShowHideSplits",bindingFlags).Invoke(formODBase,null);
+			formODBase.GetType().GetMethod("SetSplitsShown",bindingFlags).Invoke(formODBase,new object[] { false });
 			builtWindow.LayoutManager.LayoutFormBoundsAndFonts(formODBase);
 		}
 

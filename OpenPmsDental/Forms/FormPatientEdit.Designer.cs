@@ -1616,7 +1616,7 @@ namespace OpenPmsDental{
 			this.tabControlPatInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
 			this.tabControlPatInfo.Location = new System.Drawing.Point(488, 532);
 			this.tabControlPatInfo.Name = "tabControlPatInfo";
-			this.tabControlPatInfo.Size = new System.Drawing.Size(502, 340);
+			this.tabControlPatInfo.Size = new System.Drawing.Size(502, 364);
 			this.tabControlPatInfo.TabIndex = 17;
 			// 
 			// tabPublicHealth

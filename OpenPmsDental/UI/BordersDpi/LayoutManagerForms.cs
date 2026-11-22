@@ -1188,10 +1188,11 @@ Scrollable Control: For example, a panel that's set to AutoScroll=true.  These c
 			}
 		}
 
-		///<summary>UI-12: the single-line inputs whose height LayoutManager scales with their bounds (the program's own combo box and the clinic
-		///picker draw themselves); the Windows inputs take their height from their font.</summary>
+		///<summary>UI-12: the single-line inputs whose height LayoutManager scales with their bounds: the program's own combo box and the clinic
+		///picker (they draw themselves) and a text box whose height its bounds set (AutoSize off, or multi-line one line tall); the other Windows
+		///inputs take their height from their font. An AutoSize text box keeps its own height whatever its bounds say.</summary>
 		private static bool IsBoundsScaledInput(Control control){
-			return control is UI.ComboBox || control is UI.ComboBoxClinicPicker;
+			return control is UI.ComboBox || control is UI.ComboBoxClinicPicker || control is System.Windows.Forms.TextBox;
 		}
 
 		///<summary>UI-12: the height of a bordered single-line text box at this font size (points), as Windows sizes it (its PreferredHeight).</summary>

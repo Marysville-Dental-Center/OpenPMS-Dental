@@ -382,7 +382,7 @@ namespace OpenPmsDental {
 			this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F);
 			this.label18.Location = new System.Drawing.Point(113, 23);
 			this.label18.Name = "label18";
-			this.label18.Size = new System.Drawing.Size(323, 47);
+			this.label18.Size = new System.Drawing.Size(316, 47);
 			this.label18.TabIndex = 0;
 			this.label18.Text = "Optional. Cannot be a PO Box if Use on Claims is checked. Also overrides the pr" +
     "actice address on DentalXChange statements.";
@@ -504,7 +504,7 @@ namespace OpenPmsDental {
 			// 
 			this.label17.Location = new System.Drawing.Point(113, 23);
 			this.label17.Name = "label17";
-			this.label17.Size = new System.Drawing.Size(326, 33);
+			this.label17.Size = new System.Drawing.Size(316, 33);
 			this.label17.TabIndex = 0;
 			this.label17.Text = "Optional for claims. Can be a PO Box. Sent in addition to treating or billing a" +
     "ddress.";

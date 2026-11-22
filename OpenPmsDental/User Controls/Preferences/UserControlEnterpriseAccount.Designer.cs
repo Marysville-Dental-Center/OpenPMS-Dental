@@ -188,9 +188,9 @@ namespace OpenPmsDental {
 			// 
 			// labelReportheckUnits
 			// 
-			this.labelReportheckUnits.Location = new System.Drawing.Point(150, 275);
+			this.labelReportheckUnits.Location = new System.Drawing.Point(290, 275);
 			this.labelReportheckUnits.Name = "labelReportheckUnits";
-			this.labelReportheckUnits.Size = new System.Drawing.Size(100, 23);
+			this.labelReportheckUnits.Size = new System.Drawing.Size(104, 23);
 			this.labelReportheckUnits.TabIndex = 300;
 			this.labelReportheckUnits.Text = "minutes (5 to 60)";
 			this.labelReportheckUnits.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;

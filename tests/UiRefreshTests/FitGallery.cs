@@ -131,6 +131,9 @@ namespace UiRefreshTests {
 			if(builtWindow.ScanType==null || builtWindow.ScanType.Kind!=BuildKind.LayoutManagerWindow || builtWindow.Form==null) {
 				return;
 			}
+			//A window the designer opens maximized (FormEmailInbox) would take the screen's size with its handle: the picture shows the designer's
+			//client area.
+			builtWindow.Form.WindowState=FormWindowState.Normal;
 			DesignSheetWindows.CreateHandles(builtWindow.Form);
 			builtWindow.LayOutAt(builtWindow.Scale);
 		}

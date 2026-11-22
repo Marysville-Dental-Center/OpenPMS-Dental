@@ -299,7 +299,7 @@ namespace OpenPmsDental {
 			this.labelSubscNote.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.labelSubscNote.Location = new System.Drawing.Point(45, 734);
 			this.labelSubscNote.Name = "labelSubscNote";
-			this.labelSubscNote.Size = new System.Drawing.Size(44, 41);
+			this.labelSubscNote.Size = new System.Drawing.Size(44, 23);
 			this.labelSubscNote.TabIndex = 160;
 			this.labelSubscNote.Text = "Notes";
 			this.labelSubscNote.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

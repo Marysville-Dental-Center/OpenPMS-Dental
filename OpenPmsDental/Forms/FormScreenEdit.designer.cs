@@ -160,7 +160,7 @@ namespace OpenPmsDental {
 			// updownAgeArrows
 			// 
 			this.updownAgeArrows.InterceptArrowKeys = false;
-			this.updownAgeArrows.Location = new System.Drawing.Point(148, 91);
+			this.updownAgeArrows.Location = new System.Drawing.Point(147, 91);
 			this.updownAgeArrows.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			this.updownAgeArrows.Name = "updownAgeArrows";
 			this.updownAgeArrows.Size = new System.Drawing.Size(17, 19);
@@ -348,10 +348,10 @@ namespace OpenPmsDental {
 			this.Controls.Add(this.textScreenGroupOrder);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.listRace);
+			this.Controls.Add(this.updownAgeArrows);
 			this.Controls.Add(this.textAge);
 			this.Controls.Add(this.checkNeedsSealants);
 			this.Controls.Add(this.comboGradeLevel);
-			this.Controls.Add(this.updownAgeArrows);
 			this.Controls.Add(this.label4);
 			this.Controls.Add(this.textBirthdate);
 			this.Controls.Add(this.label5);

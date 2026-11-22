@@ -757,7 +757,7 @@
 			this.labelTPProcWarning.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
 			this.labelTPProcWarning.Location = new System.Drawing.Point(2, 4);
 			this.labelTPProcWarning.Name = "labelTPProcWarning";
-			this.labelTPProcWarning.Size = new System.Drawing.Size(596, 17);
+			this.labelTPProcWarning.Size = new System.Drawing.Size(591, 17);
 			this.labelTPProcWarning.TabIndex = 146;
 			this.labelTPProcWarning.Text = "Treatment Planned Procedures will not be reflected in the total for this account." +
     "";
@@ -952,9 +952,9 @@
 			// 
 			// labelDateFrom
 			// 
-			this.labelDateFrom.Location = new System.Drawing.Point(3, 72);
+			this.labelDateFrom.Location = new System.Drawing.Point(8, 72);
 			this.labelDateFrom.Name = "labelDateFrom";
-			this.labelDateFrom.Size = new System.Drawing.Size(92, 23);
+			this.labelDateFrom.Size = new System.Drawing.Size(87, 23);
 			this.labelDateFrom.TabIndex = 206;
 			this.labelDateFrom.Text = "From/To Dates:";
 			this.labelDateFrom.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

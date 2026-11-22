@@ -492,7 +492,7 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridFacilities.Location = new System.Drawing.Point(12, 618);
 			this.gridFacilities.Name = "gridFacilities";
-			this.gridFacilities.Size = new System.Drawing.Size(950, 85);
+			this.gridFacilities.Size = new System.Drawing.Size(950, 132);
 			this.gridFacilities.TabIndex = 324;
 			this.gridFacilities.Title = "Lab Facilities";
 			this.gridFacilities.TranslationName = "TableFacilities";
