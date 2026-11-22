@@ -73,6 +73,38 @@ namespace UiRefreshTests {
 			}
 		}
 
+		///<summary>UI-12 fix round: the input frame's choice per text box. A rich text box (ODtextBox) with a border is framed whether it is
+		///single-line or multi-line (FormEmailInbox's address and subject boxes, ControlChart's search box); a single-line stock TextBox keeps the
+		///one-line rule (framed with a 3-D border, not with a single line); a borderless box and the text inside an up-down box are not.</summary>
+		[TestMethod]
+		public void InputFrame_SingleLineODtextBox_IsFramed() {
+			StaRunner.Run(() => {
+				NoDatabaseGuard.Install();
+				using(ODtextBox odTextBoxSingle=new ODtextBox { Multiline=false })
+				using(ODtextBox odTextBoxMulti=new ODtextBox { Multiline=true })
+				using(ODtextBox odTextBoxBorderless=new ODtextBox { Multiline=false,BorderStyle=BorderStyle.None })
+				using(RichTextBox richTextBoxSingle=new RichTextBox { Multiline=false,BorderStyle=BorderStyle.FixedSingle })
+				using(TextBox textBox3D=new TextBox { BorderStyle=BorderStyle.Fixed3D })
+				using(TextBox textBoxSingleLine=new TextBox { BorderStyle=BorderStyle.FixedSingle })
+				using(TextBox textBoxMulti=new TextBox { Multiline=true,BorderStyle=BorderStyle.FixedSingle,Height=80 })
+				using(NumericUpDown numericUpDown=new NumericUpDown())
+				{
+					Assert.AreEqual(BorderStyle.Fixed3D,odTextBoxSingle.BorderStyle,"An ODtextBox's border is the RichTextBox's 3-D one.");
+					Assert.IsTrue(OpenPmsDental.UI.UiInputFrame.IsFramed(odTextBoxSingle),"A single-line ODtextBox with a border draws the input frame.");
+					Assert.IsTrue(OpenPmsDental.UI.UiInputFrame.IsFramed(odTextBoxMulti),"A multi-line ODtextBox draws the input frame.");
+					Assert.IsFalse(OpenPmsDental.UI.UiInputFrame.IsFramed(odTextBoxBorderless),"A borderless ODtextBox has no frame.");
+					Assert.IsTrue(OpenPmsDental.UI.UiInputFrame.IsFramed(richTextBoxSingle),"A single-line RichTextBox with a border draws the input frame.");
+					Assert.IsTrue(OpenPmsDental.UI.UiInputFrame.IsFramed(textBox3D),"A single-line TextBox with a 3-D border draws the input frame.");
+					Assert.IsFalse(OpenPmsDental.UI.UiInputFrame.IsFramed(textBoxSingleLine),"A single-line TextBox with a single line keeps the one-line rule.");
+					Assert.IsTrue(OpenPmsDental.UI.UiInputFrame.IsFramed(textBoxMulti),"A multi-line TextBox with a border draws the input frame.");
+					Assert.IsTrue(OpenPmsDental.UI.UiInputFrame.IsFramed(numericUpDown),"An up-down box draws the input frame.");
+					foreach(Control control in numericUpDown.Controls) {
+						Assert.IsFalse(OpenPmsDental.UI.UiInputFrame.IsFramed(control),"The parts of an up-down box have their box's frame.");
+					}
+				}
+			});
+		}
+
 		[TestMethod]
 		public void GridWindows_FollowTheRules() {
 			List<GridWindow> listWindows=ReadGridWindows();
@@ -225,6 +257,18 @@ namespace UiRefreshTests {
 					int gapUsual=listPairs.GroupBy(x => x.Item3).OrderByDescending(x => x.Count()).ThenBy(x => x.Key).First().Key;
 					foreach(Tuple<Control,Control,int> tuple in listPairs.Where(x => Math.Abs(x.Item3-gapUsual)>1)) {
 						listFindings.Add(window+"	gap	"+tuple.Item1.Name+" "+tuple.Item2.Name);
+					}
+				}
+				//UI-12 fix round: every text box with a border draws the one input frame (the owner's addition, "text also"), the single-line
+				//rich text boxes too (FormEmailInbox's address boxes and ControlChart's search box are single-line ODtextBoxes and drew plain
+				//white bars). A single-line stock TextBox keeps the one-line rule (framed with a 3-D border), and the text inside an up-down box
+				//has its box's frame. In a window the harness builds as a form, the frame is attached too.
+				foreach(Control control in listKids.Where(x => x is TextBoxBase && !(x.Parent is UpDownBase) && ((TextBoxBase)x).BorderStyle!=BorderStyle.None)) {
+					if(control is TextBox textBox && (!textBox.Multiline || OpenPmsDental.UI.UiInputFrame.IsOneLineTall(textBox)) && textBox.BorderStyle!=BorderStyle.Fixed3D) {
+						continue;
+					}
+					if(!OpenPmsDental.UI.UiInputFrame.IsFramed(control) || (root.FindForm()!=null && !OpenPmsDental.UI.UiInputFrame.IsAttached(control))) {
+						listFindings.Add(window+"\tunframed\t"+control.Name);
 					}
 				}
 				//A label right-aligned before a single-line field on its row: 4 to 8 px before it.

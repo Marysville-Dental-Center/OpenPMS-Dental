@@ -53,9 +53,9 @@ namespace OpenPmsDental.UI {
 		}
 
 		#region Methods - Public
-		///<summary>True for the inputs that get the frame: a single-line text box with a border (the program's Valid* boxes are text boxes), a
-		///multi-line text box or rich text box with a border (polish round), an up-down box, a date picker. Not the text inside an up-down box
-		///(its box has the frame), not a borderless box.</summary>
+		///<summary>True for the inputs that get the frame: a single-line text box with a 3-D border (the program's Valid* boxes are text boxes),
+		///a multi-line text box with a border (polish round), a rich text box (ODtextBox) with a border, single-line or multi-line (fix round), an
+		///up-down box, a date picker. Not the text inside an up-down box (its box has the frame), not a borderless box.</summary>
 		public static bool IsFramed(Control control) {
 			if(control is UpDownBase upDownBase) {
 				//Not a borderless up-down box: FormScreenEdit's age arrows stand inside the age box's frame (UI-12 fix round).
@@ -76,8 +76,9 @@ namespace OpenPmsDental.UI {
 					return textBox.BorderStyle==BorderStyle.Fixed3D;
 				}
 				//UI-12 polish round: every multi-line box with a border (the stock TextBox's square grey line, the RichTextBox's and ODtextBox's 3-D
-				//edge) gets the one framed look of the single-line inputs.
-				return textBoxBase.Multiline;
+				//edge) gets the one framed look of the single-line inputs. Fix round: a RichTextBox (ODtextBox) with a border is framed one-line or
+				//multi-line (FormEmailInbox's address and subject boxes, ControlChart's search box are single-line ODtextBoxes).
+				return true;
 			}
 			return false;
 		}
