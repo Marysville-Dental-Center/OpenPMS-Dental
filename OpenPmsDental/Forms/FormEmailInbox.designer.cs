@@ -127,7 +127,7 @@ namespace OpenPmsDental{
 			// 
 			this.groupShowIn.Controls.Add(this.listShowIn);
 			this.groupShowIn.Controls.Add(this.checkShowHiddenEmails);
-			this.groupShowIn.Location = new System.Drawing.Point(674, 32);
+			this.groupShowIn.Location = new System.Drawing.Point(673, 32);
 			this.groupShowIn.Name = "groupShowIn";
 			this.groupShowIn.Size = new System.Drawing.Size(202, 149);
 			this.groupShowIn.TabIndex = 171;
@@ -467,9 +467,9 @@ namespace OpenPmsDental{
 			this.groupSentMessageSource.Controls.Add(this.listAutomatedMessageSource);
 			this.groupSentMessageSource.Controls.Add(this.listManualMessageSource);
 			this.groupSentMessageSource.Controls.Add(this.checkShowFailedSent);
-			this.groupSentMessageSource.Location = new System.Drawing.Point(881, 32);
+			this.groupSentMessageSource.Location = new System.Drawing.Point(883, 32);
 			this.groupSentMessageSource.Name = "groupSentMessageSource";
-			this.groupSentMessageSource.Size = new System.Drawing.Size(346, 149);
+			this.groupSentMessageSource.Size = new System.Drawing.Size(344, 149);
 			this.groupSentMessageSource.TabIndex = 175;
 			this.groupSentMessageSource.Text = "Sent Message Sources";
 			// 
@@ -660,7 +660,7 @@ namespace OpenPmsDental{
 			// 
 			// FormEmailInbox
 			// 
-			this.ClientSize = new System.Drawing.Size(1235, 814);
+			this.ClientSize = new System.Drawing.Size(1235, 810);
 			this.Controls.Add(this.tabControl);
 			this.Controls.Add(this.groupSentMessageSource);
 			this.Controls.Add(this.groupShowIn);

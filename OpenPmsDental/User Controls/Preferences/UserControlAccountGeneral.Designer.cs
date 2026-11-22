@@ -49,7 +49,7 @@ namespace OpenPmsDental {
 			// 
 			// label62
 			// 
-			this.label62.Location = new System.Drawing.Point(8, 396);
+			this.label62.Location = new System.Drawing.Point(8, 411);
 			this.label62.Name = "label62";
 			this.label62.Size = new System.Drawing.Size(470, 52);
 			this.label62.TabIndex = 306;
@@ -59,7 +59,7 @@ namespace OpenPmsDental {
 			// 
 			// butClearAgingBeginDateT
 			// 
-			this.butClearAgingBeginDateT.Location = new System.Drawing.Point(427, 135);
+			this.butClearAgingBeginDateT.Location = new System.Drawing.Point(427, 131);
 			this.butClearAgingBeginDateT.Name = "butClearAgingBeginDateT";
 			this.butClearAgingBeginDateT.Size = new System.Drawing.Size(43, 23);
 			this.butClearAgingBeginDateT.TabIndex = 328;
@@ -78,13 +78,13 @@ namespace OpenPmsDental {
 			this.groupBoxFunctionality.Controls.Add(this.checkStatementInvoiceGridShowWriteoffs);
 			this.groupBoxFunctionality.Location = new System.Drawing.Point(8, 91);
 			this.groupBoxFunctionality.Name = "groupBoxFunctionality";
-			this.groupBoxFunctionality.Size = new System.Drawing.Size(478, 171);
+			this.groupBoxFunctionality.Size = new System.Drawing.Size(478, 186);
 			this.groupBoxFunctionality.TabIndex = 307;
 			this.groupBoxFunctionality.Text = "Functionality";
 			// 
 			// textAgingBeginDateT
 			// 
-			this.textAgingBeginDateT.Location = new System.Drawing.Point(248, 135);
+			this.textAgingBeginDateT.Location = new System.Drawing.Point(248, 131);
 			this.textAgingBeginDateT.Name = "textAgingBeginDateT";
 			this.textAgingBeginDateT.ReadOnly = true;
 			this.textAgingBeginDateT.Size = new System.Drawing.Size(173, 23);
@@ -104,7 +104,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelAgingBeginDateT.Location = new System.Drawing.Point(24, 131);
 			this.labelAgingBeginDateT.Name = "labelAgingBeginDateT";
-			this.labelAgingBeginDateT.Size = new System.Drawing.Size(218, 32);
+			this.labelAgingBeginDateT.Size = new System.Drawing.Size(218, 47);
 			this.labelAgingBeginDateT.TabIndex = 314;
 			this.labelAgingBeginDateT.Text = "DateTime the currently running aging started\r\nUsually blank";
 			this.labelAgingBeginDateT.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -196,7 +196,7 @@ namespace OpenPmsDental {
 			this.groupBoxFutureDatedTransactions.Controls.Add(this.checkAllowFutureDebits);
 			this.groupBoxFutureDatedTransactions.Controls.Add(this.checkAllowFuturePayments);
 			this.groupBoxFutureDatedTransactions.Controls.Add(this.checkAllowFutureTrans);
-			this.groupBoxFutureDatedTransactions.Location = new System.Drawing.Point(8, 270);
+			this.groupBoxFutureDatedTransactions.Location = new System.Drawing.Point(8, 285);
 			this.groupBoxFutureDatedTransactions.Name = "groupBoxFutureDatedTransactions";
 			this.groupBoxFutureDatedTransactions.Size = new System.Drawing.Size(478, 118);
 			this.groupBoxFutureDatedTransactions.TabIndex = 372;
@@ -205,12 +205,12 @@ namespace OpenPmsDental {
 			// labelFutureDatedOptions
 			// 
 			this.labelFutureDatedOptions.ForeColor = System.Drawing.Color.MidnightBlue;
-			this.labelFutureDatedOptions.Location = new System.Drawing.Point(93, 47);
+			this.labelFutureDatedOptions.Location = new System.Drawing.Point(24, 47);
 			this.labelFutureDatedOptions.Name = "labelFutureDatedOptions";
-			this.labelFutureDatedOptions.Size = new System.Drawing.Size(350, 17);
+			this.labelFutureDatedOptions.Size = new System.Drawing.Size(446, 17);
 			this.labelFutureDatedOptions.TabIndex = 329;
 			this.labelFutureDatedOptions.Text = "(or enable one of the two options below)";
-			this.labelFutureDatedOptions.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.labelFutureDatedOptions.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// checkAllowFutureDebits
 			// 

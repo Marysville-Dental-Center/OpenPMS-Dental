@@ -623,7 +623,7 @@ namespace OpenPmsDental {
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(808, 697);
+			this.butSave.Location = new System.Drawing.Point(808, 693);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 26);
 			this.butSave.TabIndex = 9;
@@ -639,7 +639,7 @@ namespace OpenPmsDental {
 			// 
 			// FormPractice
 			// 
-			this.ClientSize = new System.Drawing.Size(891, 731);
+			this.ClientSize = new System.Drawing.Size(891, 727);
 			this.Controls.Add(this.comboProv);
 			this.Controls.Add(this.textFax);
 			this.Controls.Add(this.textPhone);

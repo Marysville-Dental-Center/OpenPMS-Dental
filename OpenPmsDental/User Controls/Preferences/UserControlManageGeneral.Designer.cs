@@ -72,7 +72,7 @@ namespace OpenPmsDental {
 			// checkScheduleProvEmpSelectAll
 			// 
 			this.checkScheduleProvEmpSelectAll.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkScheduleProvEmpSelectAll.Location = new System.Drawing.Point(8, 753);
+			this.checkScheduleProvEmpSelectAll.Location = new System.Drawing.Point(8, 744);
 			this.checkScheduleProvEmpSelectAll.Name = "checkScheduleProvEmpSelectAll";
 			this.checkScheduleProvEmpSelectAll.Size = new System.Drawing.Size(399, 20);
 			this.checkScheduleProvEmpSelectAll.TabIndex = 201;
@@ -81,7 +81,7 @@ namespace OpenPmsDental {
 			// checkAccountingInvoiceAttachmentsSaveInDatabase
 			// 
 			this.checkAccountingInvoiceAttachmentsSaveInDatabase.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkAccountingInvoiceAttachmentsSaveInDatabase.Location = new System.Drawing.Point(8, 777);
+			this.checkAccountingInvoiceAttachmentsSaveInDatabase.Location = new System.Drawing.Point(8, 768);
 			this.checkAccountingInvoiceAttachmentsSaveInDatabase.Name = "checkAccountingInvoiceAttachmentsSaveInDatabase";
 			this.checkAccountingInvoiceAttachmentsSaveInDatabase.Size = new System.Drawing.Size(290, 20);
 			this.checkAccountingInvoiceAttachmentsSaveInDatabase.TabIndex = 308;
@@ -96,14 +96,14 @@ namespace OpenPmsDental {
 			this.groupBoxTimeCards.Controls.Add(this.checkClockEventAllowBreak);
 			this.groupBoxTimeCards.Location = new System.Drawing.Point(8, 610);
 			this.groupBoxTimeCards.Name = "groupBoxTimeCards";
-			this.groupBoxTimeCards.Size = new System.Drawing.Size(478, 135);
+			this.groupBoxTimeCards.Size = new System.Drawing.Size(478, 126);
 			this.groupBoxTimeCards.TabIndex = 307;
 			this.groupBoxTimeCards.Text = "Time Cards";
 			// 
 			// comboTimeCardOvertimeFirstDayOfWeek
 			// 
 			this.comboTimeCardOvertimeFirstDayOfWeek.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.comboTimeCardOvertimeFirstDayOfWeek.Location = new System.Drawing.Point(248, 27);
+			this.comboTimeCardOvertimeFirstDayOfWeek.Location = new System.Drawing.Point(248, 23);
 			this.comboTimeCardOvertimeFirstDayOfWeek.Name = "comboTimeCardOvertimeFirstDayOfWeek";
 			this.comboTimeCardOvertimeFirstDayOfWeek.Size = new System.Drawing.Size(222, 23);
 			this.comboTimeCardOvertimeFirstDayOfWeek.TabIndex = 198;
@@ -111,7 +111,7 @@ namespace OpenPmsDental {
 			// checkTimeCardUseLocal
 			// 
 			this.checkTimeCardUseLocal.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkTimeCardUseLocal.Location = new System.Drawing.Point(8, 107);
+			this.checkTimeCardUseLocal.Location = new System.Drawing.Point(8, 98);
 			this.checkTimeCardUseLocal.Name = "checkTimeCardUseLocal";
 			this.checkTimeCardUseLocal.Size = new System.Drawing.Size(162, 20);
 			this.checkTimeCardUseLocal.TabIndex = 296;
@@ -122,7 +122,7 @@ namespace OpenPmsDental {
 			this.label16.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.label16.Location = new System.Drawing.Point(24, 23);
 			this.label16.Name = "label16";
-			this.label16.Size = new System.Drawing.Size(218, 32);
+			this.label16.Size = new System.Drawing.Size(218, 23);
 			this.label16.TabIndex = 202;
 			this.label16.Text = "Time Card first day of week for overtime";
 			this.label16.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -131,7 +131,7 @@ namespace OpenPmsDental {
 			// 
 			this.checkTimeCardADP.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.checkTimeCardADP.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkTimeCardADP.Location = new System.Drawing.Point(8, 59);
+			this.checkTimeCardADP.Location = new System.Drawing.Point(8, 50);
 			this.checkTimeCardADP.Name = "checkTimeCardADP";
 			this.checkTimeCardADP.Size = new System.Drawing.Size(223, 20);
 			this.checkTimeCardADP.TabIndex = 199;
@@ -141,7 +141,7 @@ namespace OpenPmsDental {
 			// 
 			this.checkClockEventAllowBreak.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.checkClockEventAllowBreak.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkClockEventAllowBreak.Location = new System.Drawing.Point(8, 83);
+			this.checkClockEventAllowBreak.Location = new System.Drawing.Point(8, 74);
 			this.checkClockEventAllowBreak.Name = "checkClockEventAllowBreak";
 			this.checkClockEventAllowBreak.Size = new System.Drawing.Size(177, 20);
 			this.checkClockEventAllowBreak.TabIndex = 295;
@@ -348,7 +348,7 @@ namespace OpenPmsDental {
 			this.labelWriteOffs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelWriteOffs.Location = new System.Drawing.Point(24, 95);
 			this.labelWriteOffs.Name = "labelWriteOffs";
-			this.labelWriteOffs.Size = new System.Drawing.Size(218, 32);
+			this.labelWriteOffs.Size = new System.Drawing.Size(207, 32);
 			this.labelWriteOffs.TabIndex = 312;
 			this.labelWriteOffs.Text = "Auto-processing posts write-offs on non-primary claims";
 			this.labelWriteOffs.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -465,7 +465,7 @@ namespace OpenPmsDental {
 			this.Controls.Add(this.groupBoxERA);
 			this.Controls.Add(this.checkScheduleProvEmpSelectAll);
 			this.Name = "UserControlManageGeneral";
-			this.Size = new System.Drawing.Size(494, 805);
+			this.Size = new System.Drawing.Size(494, 796);
 			this.groupBoxTimeCards.ResumeLayout(false);
 			this.groupBoxDeposits.ResumeLayout(false);
 			this.groupBoxPrescriptions.ResumeLayout(false);

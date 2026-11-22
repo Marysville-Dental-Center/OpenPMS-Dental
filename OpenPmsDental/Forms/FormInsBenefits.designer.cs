@@ -142,7 +142,7 @@ namespace OpenPmsDental {
 			this.gridAgeLimits.Location = new System.Drawing.Point(8, 82);
 			this.gridAgeLimits.Name = "gridAgeLimits";
 			this.gridAgeLimits.SelectionMode = OpenPmsDental.UI.GridSelectionMode.OneCell;
-			this.gridAgeLimits.Size = new System.Drawing.Size(268, 138);
+			this.gridAgeLimits.Size = new System.Drawing.Size(275, 138);
 			this.gridAgeLimits.TabIndex = 164;
 			this.gridAgeLimits.Title = "Age Limits";
 			this.gridAgeLimits.TranslationName = "TableAgeLimits";
@@ -233,7 +233,7 @@ namespace OpenPmsDental {
 			this.groupBox3.Controls.Add(this.label10);
 			this.groupBox3.Location = new System.Drawing.Point(8, 228);
 			this.groupBox3.Name = "groupBox3";
-			this.groupBox3.Size = new System.Drawing.Size(230, 108);
+			this.groupBox3.Size = new System.Drawing.Size(275, 108);
 			this.groupBox3.TabIndex = 7;
 			this.groupBox3.Text = "Ortho";
 			// 
@@ -263,7 +263,7 @@ namespace OpenPmsDental {
 			this.textOrthoPercent.MaxVal = 100;
 			this.textOrthoPercent.Name = "textOrthoPercent";
 			this.textOrthoPercent.ShowZero = false;
-			this.textOrthoPercent.Size = new System.Drawing.Size(72, 23);
+			this.textOrthoPercent.Size = new System.Drawing.Size(63, 23);
 			this.textOrthoPercent.TabIndex = 1;
 			// 
 			// label11
@@ -282,7 +282,7 @@ namespace OpenPmsDental {
 			this.textOrthoMax.MaxVal = 100000000D;
 			this.textOrthoMax.MinVal = -100000000D;
 			this.textOrthoMax.Name = "textOrthoMax";
-			this.textOrthoMax.Size = new System.Drawing.Size(72, 23);
+			this.textOrthoMax.Size = new System.Drawing.Size(63, 23);
 			this.textOrthoMax.TabIndex = 0;
 			// 
 			// label10
@@ -311,7 +311,7 @@ namespace OpenPmsDental {
 			this.groupYear.Controls.Add(this.label30);
 			this.groupYear.Location = new System.Drawing.Point(120, 8);
 			this.groupYear.Name = "groupYear";
-			this.groupYear.Size = new System.Drawing.Size(185, 54);
+			this.groupYear.Size = new System.Drawing.Size(179, 54);
 			this.groupYear.TabIndex = 1;
 			this.groupYear.Text = "Benefit Year";
 			// 
@@ -326,7 +326,7 @@ namespace OpenPmsDental {
 			// 
 			// textMonth
 			// 
-			this.textMonth.Location = new System.Drawing.Point(149, 23);
+			this.textMonth.Location = new System.Drawing.Point(143, 23);
 			this.textMonth.MaxVal = 12;
 			this.textMonth.MinVal = 1;
 			this.textMonth.Name = "textMonth";
@@ -336,7 +336,7 @@ namespace OpenPmsDental {
 			// 
 			// label30
 			// 
-			this.label30.Location = new System.Drawing.Point(95, 23);
+			this.label30.Location = new System.Drawing.Point(89, 23);
 			this.label30.Name = "label30";
 			this.label30.Size = new System.Drawing.Size(48, 23);
 			this.label30.TabIndex = 0;

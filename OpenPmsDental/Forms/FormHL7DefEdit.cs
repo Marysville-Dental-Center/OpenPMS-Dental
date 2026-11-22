@@ -205,6 +205,18 @@ namespace OpenPmsDental {
 					break;
 			}
 			#endregion Set Tx Mode Controls
+			#region Path Box Widths
+			//UI-12 (the layout grid): in File mode each path box reaches its Browse button, which ends on the group's content edge. In the TcpIp and
+			//Sftp modes the example beside each box (wider than the button) stands where the button is, and the box ends 6 px before it.
+			int rightIn=butBrowseIn.Left;
+			int rightOut=butBrowseOut.Left;
+			if(comboModeTx.SelectedIndex==(int)ModeTxHL7.TcpIp || comboModeTx.SelectedIndex==(int)ModeTxHL7.Sftp) {
+				rightIn=labelInSocketEx.Left;
+				rightOut=labelOutSocketOrDirEx.Left;
+			}
+			LayoutManager.MoveWidth(textInPathOrSocket,rightIn-LayoutManager.Scale(6)-textInPathOrSocket.Left);
+			LayoutManager.MoveWidth(textOutPathSocketOrDir,rightOut-LayoutManager.Scale(6)-textOutPathSocketOrDir.Left);
+			#endregion Path Box Widths
 		}
 
 		private void FillGrid() {

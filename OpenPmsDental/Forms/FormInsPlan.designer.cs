@@ -405,7 +405,7 @@ namespace OpenPmsDental {
 			// 
 			this.butBenefitNotes.Location = new System.Drawing.Point(148, 23);
 			this.butBenefitNotes.Name = "butBenefitNotes";
-			this.butBenefitNotes.Size = new System.Drawing.Size(64, 23);
+			this.butBenefitNotes.Size = new System.Drawing.Size(66, 23);
 			this.butBenefitNotes.TabIndex = 2;
 			this.butBenefitNotes.Text = "Notes";
 			this.toolTip1.SetToolTip(this.butBenefitNotes, "Edit all the similar plans at once");
@@ -415,7 +415,7 @@ namespace OpenPmsDental {
 			// 
 			this.butHistoryElect.Location = new System.Drawing.Point(94, 50);
 			this.butHistoryElect.Name = "butHistoryElect";
-			this.butHistoryElect.Size = new System.Drawing.Size(80, 23);
+			this.butHistoryElect.Size = new System.Drawing.Size(81, 23);
 			this.butHistoryElect.TabIndex = 120;
 			this.butHistoryElect.Text = "History";
 			this.toolTip1.SetToolTip(this.butHistoryElect, "Edit all the similar plans at once");
@@ -458,9 +458,9 @@ namespace OpenPmsDental {
 			this.groupRequestBen.Controls.Add(this.labelHistElect);
 			this.groupRequestBen.Controls.Add(this.textElectBenLastDate);
 			this.groupRequestBen.Controls.Add(this.butGetElectronic);
-			this.groupRequestBen.Location = new System.Drawing.Point(1032, 8);
+			this.groupRequestBen.Location = new System.Drawing.Point(1043, 8);
 			this.groupRequestBen.Name = "groupRequestBen";
-			this.groupRequestBen.Size = new System.Drawing.Size(182, 81);
+			this.groupRequestBen.Size = new System.Drawing.Size(183, 81);
 			this.groupRequestBen.TabIndex = 8;
 			this.groupRequestBen.Text = "Request Electronic Benefits";
 			// 
@@ -479,7 +479,7 @@ namespace OpenPmsDental {
 			this.textElectBenLastDate.Location = new System.Drawing.Point(94, 23);
 			this.textElectBenLastDate.MaxLength = 30;
 			this.textElectBenLastDate.Name = "textElectBenLastDate";
-			this.textElectBenLastDate.Size = new System.Drawing.Size(80, 23);
+			this.textElectBenLastDate.Size = new System.Drawing.Size(81, 23);
 			this.textElectBenLastDate.TabIndex = 118;
 			// 
 			// labelTrojanID
@@ -496,7 +496,7 @@ namespace OpenPmsDental {
 			this.textTrojanID.Location = new System.Drawing.Point(38, 50);
 			this.textTrojanID.MaxLength = 30;
 			this.textTrojanID.Name = "textTrojanID";
-			this.textTrojanID.Size = new System.Drawing.Size(174, 23);
+			this.textTrojanID.Size = new System.Drawing.Size(176, 23);
 			this.textTrojanID.TabIndex = 8;
 			// 
 			// label26
@@ -570,7 +570,7 @@ namespace OpenPmsDental {
         "03/05/2002       Ins Used:  $0.00       Ded Used:  $50.00"};
 			this.listAdj.Location = new System.Drawing.Point(695, 35);
 			this.listAdj.Name = "listAdj";
-			this.listAdj.Size = new System.Drawing.Size(289, 77);
+			this.listAdj.Size = new System.Drawing.Size(340, 77);
 			this.listAdj.TabIndex = 137;
 			this.listAdj.DoubleClick += new System.EventHandler(this.listAdj_DoubleClick);
 			// 
@@ -579,7 +579,7 @@ namespace OpenPmsDental {
 			this.label35.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label35.Location = new System.Drawing.Point(695, 8);
 			this.label35.Name = "label35";
-			this.label35.Size = new System.Drawing.Size(224, 23);
+			this.label35.Size = new System.Drawing.Size(275, 23);
 			this.label35.TabIndex = 138;
 			this.label35.Text = "Adjustments to Insurance Benefits: ";
 			this.label35.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -629,7 +629,7 @@ namespace OpenPmsDental {
 			this.panelPat.Controls.Add(this.checkIsPending);
 			this.panelPat.Location = new System.Drawing.Point(0, 0);
 			this.panelPat.Name = "panelPat";
-			this.panelPat.Size = new System.Drawing.Size(992, 128);
+			this.panelPat.Size = new System.Drawing.Size(1043, 128);
 			this.panelPat.TabIndex = 0;
 			// 
 			// labelPending
@@ -738,7 +738,7 @@ namespace OpenPmsDental {
 			// 
 			this.butAdjAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butAdjAdd.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.butAdjAdd.Location = new System.Drawing.Point(925, 8);
+			this.butAdjAdd.Location = new System.Drawing.Point(976, 8);
 			this.butAdjAdd.Name = "butAdjAdd";
 			this.butAdjAdd.Size = new System.Drawing.Size(59, 23);
 			this.butAdjAdd.TabIndex = 4;
@@ -800,16 +800,16 @@ namespace OpenPmsDental {
 			this.groupBox1.Controls.Add(this.butBenefitNotes);
 			this.groupBox1.Controls.Add(this.textTrojanID);
 			this.groupBox1.Controls.Add(this.labelTrojanID);
-			this.groupBox1.Location = new System.Drawing.Point(1236, 8);
+			this.groupBox1.Location = new System.Drawing.Point(1234, 8);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(220, 81);
+			this.groupBox1.Size = new System.Drawing.Size(222, 81);
 			this.groupBox1.TabIndex = 9;
 			this.groupBox1.Text = "Import Benefits";
 			// 
 			// label34
 			// 
 			this.label34.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label34.Location = new System.Drawing.Point(1000, 97);
+			this.label34.Location = new System.Drawing.Point(1043, 97);
 			this.label34.Name = "label34";
 			this.label34.Size = new System.Drawing.Size(120, 23);
 			this.label34.TabIndex = 149;
@@ -819,7 +819,7 @@ namespace OpenPmsDental {
 			// checkDontVerify
 			// 
 			this.checkDontVerify.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkDontVerify.Location = new System.Drawing.Point(1260, 98);
+			this.checkDontVerify.Location = new System.Drawing.Point(1303, 98);
 			this.checkDontVerify.Name = "checkDontVerify";
 			this.checkDontVerify.Size = new System.Drawing.Size(87, 20);
 			this.checkDontVerify.TabIndex = 12;
@@ -827,7 +827,7 @@ namespace OpenPmsDental {
 			// 
 			// butVerifyBenefits
 			// 
-			this.butVerifyBenefits.Location = new System.Drawing.Point(1212, 97);
+			this.butVerifyBenefits.Location = new System.Drawing.Point(1255, 97);
 			this.butVerifyBenefits.Name = "butVerifyBenefits";
 			this.butVerifyBenefits.Size = new System.Drawing.Size(32, 23);
 			this.butVerifyBenefits.TabIndex = 11;
@@ -838,7 +838,7 @@ namespace OpenPmsDental {
 			// textDateLastVerifiedBenefits
 			// 
 			this.textDateLastVerifiedBenefits.AutoSize = false;
-			this.textDateLastVerifiedBenefits.Location = new System.Drawing.Point(1126, 97);
+			this.textDateLastVerifiedBenefits.Location = new System.Drawing.Point(1169, 97);
 			this.textDateLastVerifiedBenefits.Name = "textDateLastVerifiedBenefits";
 			this.textDateLastVerifiedBenefits.Size = new System.Drawing.Size(80, 23);
 			this.textDateLastVerifiedBenefits.TabIndex = 10;

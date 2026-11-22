@@ -79,7 +79,7 @@ namespace OpenPmsDental{
 			// 
 			// labelTotalVol
 			// 
-			this.labelTotalVol.Location = new System.Drawing.Point(347, 229);
+			this.labelTotalVol.Location = new System.Drawing.Point(347, 232);
 			this.labelTotalVol.Name = "labelTotalVol";
 			this.labelTotalVol.Size = new System.Drawing.Size(80, 23);
 			this.labelTotalVol.TabIndex = 270;
@@ -89,7 +89,7 @@ namespace OpenPmsDental{
 			// textTotVol
 			// 
 			this.textTotVol.AutoSize = false;
-			this.textTotVol.Location = new System.Drawing.Point(433, 229);
+			this.textTotVol.Location = new System.Drawing.Point(433, 232);
 			this.textTotVol.MaxLength = 100;
 			this.textTotVol.Name = "textTotVol";
 			this.textTotVol.ReadOnly = true;
@@ -99,7 +99,7 @@ namespace OpenPmsDental{
 			// textDateTCollect
 			// 
 			this.textDateTCollect.AutoSize = false;
-			this.textDateTCollect.Location = new System.Drawing.Point(433, 148);
+			this.textDateTCollect.Location = new System.Drawing.Point(433, 151);
 			this.textDateTCollect.MaxLength = 100;
 			this.textDateTCollect.Name = "textDateTCollect";
 			this.textDateTCollect.ReadOnly = true;
@@ -108,7 +108,7 @@ namespace OpenPmsDental{
 			// 
 			// labelDateTCollect
 			// 
-			this.labelDateTCollect.Location = new System.Drawing.Point(307, 148);
+			this.labelDateTCollect.Location = new System.Drawing.Point(307, 151);
 			this.labelDateTCollect.Name = "labelDateTCollect";
 			this.labelDateTCollect.Size = new System.Drawing.Size(120, 23);
 			this.labelDateTCollect.TabIndex = 288;
@@ -118,7 +118,7 @@ namespace OpenPmsDental{
 			// textDateTReport
 			// 
 			this.textDateTReport.AutoSize = false;
-			this.textDateTReport.Location = new System.Drawing.Point(433, 175);
+			this.textDateTReport.Location = new System.Drawing.Point(433, 178);
 			this.textDateTReport.MaxLength = 100;
 			this.textDateTReport.Name = "textDateTReport";
 			this.textDateTReport.ReadOnly = true;
@@ -127,7 +127,7 @@ namespace OpenPmsDental{
 			// 
 			// labelDateTReport
 			// 
-			this.labelDateTReport.Location = new System.Drawing.Point(307, 175);
+			this.labelDateTReport.Location = new System.Drawing.Point(307, 178);
 			this.labelDateTReport.Name = "labelDateTReport";
 			this.labelDateTReport.Size = new System.Drawing.Size(120, 23);
 			this.labelDateTReport.TabIndex = 290;
@@ -137,7 +137,7 @@ namespace OpenPmsDental{
 			// textDateEntered
 			// 
 			this.textDateEntered.AutoSize = false;
-			this.textDateEntered.Location = new System.Drawing.Point(433, 202);
+			this.textDateEntered.Location = new System.Drawing.Point(433, 205);
 			this.textDateEntered.MaxLength = 100;
 			this.textDateEntered.Name = "textDateEntered";
 			this.textDateEntered.ReadOnly = true;
@@ -146,7 +146,7 @@ namespace OpenPmsDental{
 			// 
 			// labelDateEntered
 			// 
-			this.labelDateEntered.Location = new System.Drawing.Point(347, 202);
+			this.labelDateEntered.Location = new System.Drawing.Point(347, 205);
 			this.labelDateEntered.Name = "labelDateEntered";
 			this.labelDateEntered.Size = new System.Drawing.Size(80, 23);
 			this.labelDateEntered.TabIndex = 292;
@@ -256,7 +256,7 @@ namespace OpenPmsDental{
 			this.groupPat.Controls.Add(this.textPatID);
 			this.groupPat.Controls.Add(this.labelSpecimenNum);
 			this.groupPat.Controls.Add(this.textSpecimenNumber);
-			this.groupPat.Location = new System.Drawing.Point(12, 8);
+			this.groupPat.Location = new System.Drawing.Point(8, 8);
 			this.groupPat.Name = "groupPat";
 			this.groupPat.Size = new System.Drawing.Size(579, 135);
 			this.groupPat.TabIndex = 326;
@@ -450,7 +450,7 @@ namespace OpenPmsDental{
 			this.groupOrderingPhys.Controls.Add(this.labelPhysicianNPI);
 			this.groupOrderingPhys.Controls.Add(this.textPhysicianID);
 			this.groupOrderingPhys.Controls.Add(this.labelPhysicianID);
-			this.groupOrderingPhys.Location = new System.Drawing.Point(12, 148);
+			this.groupOrderingPhys.Location = new System.Drawing.Point(8, 151);
 			this.groupOrderingPhys.Name = "groupOrderingPhys";
 			this.groupOrderingPhys.Size = new System.Drawing.Size(290, 108);
 			this.groupOrderingPhys.TabIndex = 327;
@@ -490,9 +490,9 @@ namespace OpenPmsDental{
 			// 
 			this.gridFacilities.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridFacilities.Location = new System.Drawing.Point(12, 618);
+			this.gridFacilities.Location = new System.Drawing.Point(8, 618);
 			this.gridFacilities.Name = "gridFacilities";
-			this.gridFacilities.Size = new System.Drawing.Size(950, 132);
+			this.gridFacilities.Size = new System.Drawing.Size(958, 132);
 			this.gridFacilities.TabIndex = 324;
 			this.gridFacilities.Title = "Lab Facilities";
 			this.gridFacilities.TranslationName = "TableFacilities";
@@ -502,9 +502,9 @@ namespace OpenPmsDental{
 			this.gridResults.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridResults.Location = new System.Drawing.Point(12, 260);
+			this.gridResults.Location = new System.Drawing.Point(8, 267);
 			this.gridResults.Name = "gridResults";
-			this.gridResults.Size = new System.Drawing.Size(950, 354);
+			this.gridResults.Size = new System.Drawing.Size(958, 343);
 			this.gridResults.TabIndex = 315;
 			this.gridResults.Title = "Test Results";
 			this.gridResults.TranslationName = "TableTestResults";
@@ -563,7 +563,7 @@ namespace OpenPmsDental{
 			this.textGenComments.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Lab;
 			this.textGenComments.ReadOnly = true;
 			this.textGenComments.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textGenComments.Size = new System.Drawing.Size(228, 58);
+			this.textGenComments.Size = new System.Drawing.Size(232, 58);
 			this.textGenComments.TabIndex = 320;
 			this.textGenComments.Text = "";
 			// 
@@ -578,7 +578,7 @@ namespace OpenPmsDental{
 			this.textTestsOrd.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Lab;
 			this.textTestsOrd.ReadOnly = true;
 			this.textTestsOrd.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textTestsOrd.Size = new System.Drawing.Size(228, 58);
+			this.textTestsOrd.Size = new System.Drawing.Size(232, 58);
 			this.textTestsOrd.TabIndex = 312;
 			this.textTestsOrd.Text = "";
 			// 
@@ -593,7 +593,7 @@ namespace OpenPmsDental{
 			this.textAddlInfo.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Lab;
 			this.textAddlInfo.ReadOnly = true;
 			this.textAddlInfo.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textAddlInfo.Size = new System.Drawing.Size(228, 58);
+			this.textAddlInfo.Size = new System.Drawing.Size(232, 58);
 			this.textAddlInfo.TabIndex = 0;
 			this.textAddlInfo.Text = "";
 			// 

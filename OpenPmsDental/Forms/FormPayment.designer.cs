@@ -378,7 +378,7 @@
 			// 
 			// textDeposit
 			// 
-			this.textDeposit.Location = new System.Drawing.Point(777, 171);
+			this.textDeposit.Location = new System.Drawing.Point(777, 163);
 			this.textDeposit.Name = "textDeposit";
 			this.textDeposit.ReadOnly = true;
 			this.textDeposit.Size = new System.Drawing.Size(100, 20);
@@ -396,7 +396,7 @@
 			// labelDeposit
 			// 
 			this.labelDeposit.ForeColor = System.Drawing.Color.Firebrick;
-			this.labelDeposit.Location = new System.Drawing.Point(777, 151);
+			this.labelDeposit.Location = new System.Drawing.Point(777, 143);
 			this.labelDeposit.Name = "labelDeposit";
 			this.labelDeposit.Size = new System.Drawing.Size(199, 18);
 			this.labelDeposit.TabIndex = 126;
@@ -474,7 +474,7 @@
 			// 
 			// checkRecurring
 			// 
-			this.checkRecurring.Location = new System.Drawing.Point(777, 103);
+			this.checkRecurring.Location = new System.Drawing.Point(777, 95);
 			this.checkRecurring.Name = "checkRecurring";
 			this.checkRecurring.Size = new System.Drawing.Size(167, 20);
 			this.checkRecurring.TabIndex = 132;
@@ -529,7 +529,7 @@
 			// 
 			// checkProcessed
 			// 
-			this.checkProcessed.Location = new System.Drawing.Point(777, 127);
+			this.checkProcessed.Location = new System.Drawing.Point(777, 119);
 			this.checkProcessed.Name = "checkProcessed";
 			this.checkProcessed.Size = new System.Drawing.Size(123, 20);
 			this.checkProcessed.TabIndex = 137;
@@ -944,9 +944,9 @@
 			// datePickTo
 			// 
 			this.datePickTo.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-			this.datePickTo.Location = new System.Drawing.Point(195, 72);
+			this.datePickTo.Location = new System.Drawing.Point(202, 72);
 			this.datePickTo.Name = "datePickTo";
-			this.datePickTo.Size = new System.Drawing.Size(88, 23);
+			this.datePickTo.Size = new System.Drawing.Size(90, 23);
 			this.datePickTo.TabIndex = 204;
 			this.datePickTo.ValueChanged += new System.EventHandler(this.FilterChangeCommittedChargesTreatPlan);
 			// 
@@ -954,7 +954,7 @@
 			// 
 			this.labelDateFrom.Location = new System.Drawing.Point(8, 72);
 			this.labelDateFrom.Name = "labelDateFrom";
-			this.labelDateFrom.Size = new System.Drawing.Size(87, 23);
+			this.labelDateFrom.Size = new System.Drawing.Size(92, 23);
 			this.labelDateFrom.TabIndex = 206;
 			this.labelDateFrom.Text = "From/To Dates:";
 			this.labelDateFrom.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -962,23 +962,23 @@
 			// datePickFrom
 			// 
 			this.datePickFrom.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-			this.datePickFrom.Location = new System.Drawing.Point(101, 72);
+			this.datePickFrom.Location = new System.Drawing.Point(106, 72);
 			this.datePickFrom.Name = "datePickFrom";
-			this.datePickFrom.Size = new System.Drawing.Size(88, 23);
+			this.datePickFrom.Size = new System.Drawing.Size(90, 23);
 			this.datePickFrom.TabIndex = 203;
 			this.datePickFrom.ValueChanged += new System.EventHandler(this.FilterChangeCommittedChargesTreatPlan);
 			// 
 			// textFilterProcCodes
 			// 
-			this.textFilterProcCodes.Location = new System.Drawing.Point(390, 72);
+			this.textFilterProcCodes.Location = new System.Drawing.Point(404, 72);
 			this.textFilterProcCodes.Name = "textFilterProcCodes";
-			this.textFilterProcCodes.Size = new System.Drawing.Size(88, 23);
+			this.textFilterProcCodes.Size = new System.Drawing.Size(90, 23);
 			this.textFilterProcCodes.TabIndex = 187;
 			this.textFilterProcCodes.TextChanged += new System.EventHandler(this.FilterChangeCommittedChargesTreatPlan);
 			// 
 			// labelMaxOutstandingFilter
 			// 
-			this.labelMaxOutstandingFilter.Location = new System.Drawing.Point(483, 23);
+			this.labelMaxOutstandingFilter.Location = new System.Drawing.Point(500, 23);
 			this.labelMaxOutstandingFilter.Name = "labelMaxOutstandingFilter";
 			this.labelMaxOutstandingFilter.Size = new System.Drawing.Size(89, 18);
 			this.labelMaxOutstandingFilter.TabIndex = 198;
@@ -987,7 +987,7 @@
 			// 
 			// labelMinOutstandingFilter
 			// 
-			this.labelMinOutstandingFilter.Location = new System.Drawing.Point(390, 23);
+			this.labelMinOutstandingFilter.Location = new System.Drawing.Point(404, 23);
 			this.labelMinOutstandingFilter.Name = "labelMinOutstandingFilter";
 			this.labelMinOutstandingFilter.Size = new System.Drawing.Size(87, 18);
 			this.labelMinOutstandingFilter.TabIndex = 200;
@@ -996,7 +996,7 @@
 			// 
 			// labelTypeOutstandingFilter
 			// 
-			this.labelTypeOutstandingFilter.Location = new System.Drawing.Point(287, 23);
+			this.labelTypeOutstandingFilter.Location = new System.Drawing.Point(298, 23);
 			this.labelTypeOutstandingFilter.Name = "labelTypeOutstandingFilter";
 			this.labelTypeOutstandingFilter.Size = new System.Drawing.Size(60, 18);
 			this.labelTypeOutstandingFilter.TabIndex = 202;
@@ -1045,9 +1045,9 @@
 			// 
 			// butRefreshOutstanding
 			// 
-			this.butRefreshOutstanding.Location = new System.Drawing.Point(484, 72);
+			this.butRefreshOutstanding.Location = new System.Drawing.Point(500, 72);
 			this.butRefreshOutstanding.Name = "butRefreshOutstanding";
-			this.butRefreshOutstanding.Size = new System.Drawing.Size(75, 23);
+			this.butRefreshOutstanding.Size = new System.Drawing.Size(90, 23);
 			this.butRefreshOutstanding.TabIndex = 141;
 			this.butRefreshOutstanding.Text = "Refresh";
 			this.butRefreshOutstanding.Click += new System.EventHandler(this.FilterChangeCommittedChargesTreatPlan);
@@ -1064,7 +1064,7 @@
 			// 
 			// labelProcCodes
 			// 
-			this.labelProcCodes.Location = new System.Drawing.Point(308, 72);
+			this.labelProcCodes.Location = new System.Drawing.Point(322, 72);
 			this.labelProcCodes.Name = "labelProcCodes";
 			this.labelProcCodes.Size = new System.Drawing.Size(76, 23);
 			this.labelProcCodes.TabIndex = 188;
@@ -1102,7 +1102,7 @@
 			// 
 			// labelClinicOutstandingFilter
 			// 
-			this.labelClinicOutstandingFilter.Location = new System.Drawing.Point(154, 23);
+			this.labelClinicOutstandingFilter.Location = new System.Drawing.Point(202, 23);
 			this.labelClinicOutstandingFilter.Name = "labelClinicOutstandingFilter";
 			this.labelClinicOutstandingFilter.Size = new System.Drawing.Size(60, 18);
 			this.labelClinicOutstandingFilter.TabIndex = 194;
@@ -1111,7 +1111,7 @@
 			// 
 			// labelProvOutstandingFilter
 			// 
-			this.labelProvOutstandingFilter.Location = new System.Drawing.Point(81, 23);
+			this.labelProvOutstandingFilter.Location = new System.Drawing.Point(106, 23);
 			this.labelProvOutstandingFilter.Name = "labelProvOutstandingFilter";
 			this.labelProvOutstandingFilter.Size = new System.Drawing.Size(67, 18);
 			this.labelProvOutstandingFilter.TabIndex = 192;
@@ -1120,7 +1120,7 @@
 			// 
 			// labelInvoiceOutstandingFilter
 			// 
-			this.labelInvoiceOutstandingFilter.Location = new System.Drawing.Point(43, 99);
+			this.labelInvoiceOutstandingFilter.Location = new System.Drawing.Point(48, 99);
 			this.labelInvoiceOutstandingFilter.Name = "labelInvoiceOutstandingFilter";
 			this.labelInvoiceOutstandingFilter.Size = new System.Drawing.Size(52, 23);
 			this.labelInvoiceOutstandingFilter.TabIndex = 208;
@@ -1130,9 +1130,9 @@
 			// comboInvoiceOutstandingFilter
 			// 
 			this.comboInvoiceOutstandingFilter.BackColor = System.Drawing.SystemColors.Window;
-			this.comboInvoiceOutstandingFilter.Location = new System.Drawing.Point(101, 99);
+			this.comboInvoiceOutstandingFilter.Location = new System.Drawing.Point(106, 99);
 			this.comboInvoiceOutstandingFilter.Name = "comboInvoiceOutstandingFilter";
-			this.comboInvoiceOutstandingFilter.Size = new System.Drawing.Size(380, 23);
+			this.comboInvoiceOutstandingFilter.Size = new System.Drawing.Size(484, 23);
 			this.comboInvoiceOutstandingFilter.TabIndex = 209;
 			this.comboInvoiceOutstandingFilter.SelectionChangeCommitted += new System.EventHandler(this.FilterChangeCommittedChargesTreatPlan);
 			// 
@@ -1244,7 +1244,7 @@
 			// 
 			// labelIncludesNegativeEntries
 			// 
-			this.labelIncludesNegativeEntries.Location = new System.Drawing.Point(133, 72);
+			this.labelIncludesNegativeEntries.Location = new System.Drawing.Point(136, 72);
 			this.labelIncludesNegativeEntries.Name = "labelIncludesNegativeEntries";
 			this.labelIncludesNegativeEntries.Size = new System.Drawing.Size(248, 23);
 			this.labelIncludesNegativeEntries.TabIndex = 1001;
@@ -1263,7 +1263,7 @@
 			// 
 			// labelMaxPaySplitsFilter
 			// 
-			this.labelMaxPaySplitsFilter.Location = new System.Drawing.Point(387, 23);
+			this.labelMaxPaySplitsFilter.Location = new System.Drawing.Point(390, 23);
 			this.labelMaxPaySplitsFilter.Name = "labelMaxPaySplitsFilter";
 			this.labelMaxPaySplitsFilter.Size = new System.Drawing.Size(89, 18);
 			this.labelMaxPaySplitsFilter.TabIndex = 198;
@@ -1281,7 +1281,7 @@
 			// 
 			// labelClinicsPaySplitsFilter
 			// 
-			this.labelClinicsPaySplitsFilter.Location = new System.Drawing.Point(154, 23);
+			this.labelClinicsPaySplitsFilter.Location = new System.Drawing.Point(188, 23);
 			this.labelClinicsPaySplitsFilter.Name = "labelClinicsPaySplitsFilter";
 			this.labelClinicsPaySplitsFilter.Size = new System.Drawing.Size(60, 18);
 			this.labelClinicsPaySplitsFilter.TabIndex = 202;
@@ -1330,9 +1330,9 @@
 			// 
 			// butRefreshPaySplits
 			// 
-			this.butRefreshPaySplits.Location = new System.Drawing.Point(387, 72);
+			this.butRefreshPaySplits.Location = new System.Drawing.Point(390, 72);
 			this.butRefreshPaySplits.Name = "butRefreshPaySplits";
-			this.butRefreshPaySplits.Size = new System.Drawing.Size(75, 23);
+			this.butRefreshPaySplits.Size = new System.Drawing.Size(90, 23);
 			this.butRefreshPaySplits.TabIndex = 141;
 			this.butRefreshPaySplits.Text = "Refresh";
 			this.butRefreshPaySplits.Click += new System.EventHandler(this.FilterChangeCommittedPaySplits);
@@ -1368,7 +1368,7 @@
 			// 
 			// labelProvPaySplitsFilter
 			// 
-			this.labelProvPaySplitsFilter.Location = new System.Drawing.Point(81, 23);
+			this.labelProvPaySplitsFilter.Location = new System.Drawing.Point(92, 23);
 			this.labelProvPaySplitsFilter.Name = "labelProvPaySplitsFilter";
 			this.labelProvPaySplitsFilter.Size = new System.Drawing.Size(67, 18);
 			this.labelProvPaySplitsFilter.TabIndex = 192;

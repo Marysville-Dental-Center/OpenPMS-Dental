@@ -62,7 +62,7 @@ namespace OpenPmsDental {
 			// 
 			this.label17.Location = new System.Drawing.Point(24, 437);
 			this.label17.Name = "label17";
-			this.label17.Size = new System.Drawing.Size(226, 32);
+			this.label17.Size = new System.Drawing.Size(212, 32);
 			this.label17.TabIndex = 284;
 			this.label17.Text = "PPO write-off description (blank for \"Write-off\")";
 			this.label17.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;

@@ -69,7 +69,7 @@ namespace OpenPmsDental {
 			// 
 			this.groupBoxProduction.Controls.Add(this.checkApptModuleAdjInProd);
 			this.groupBoxProduction.Controls.Add(this.checkApptModuleProductionUsesOps);
-			this.groupBoxProduction.Location = new System.Drawing.Point(8, 590);
+			this.groupBoxProduction.Location = new System.Drawing.Point(8, 581);
 			this.groupBoxProduction.Name = "groupBoxProduction";
 			this.groupBoxProduction.Size = new System.Drawing.Size(478, 75);
 			this.groupBoxProduction.TabIndex = 327;
@@ -111,7 +111,7 @@ namespace OpenPmsDental {
 			this.groupBoxOD2.Controls.Add(this.checkApptMirrorSecondary);
 			this.groupBoxOD2.Location = new System.Drawing.Point(8, 291);
 			this.groupBoxOD2.Name = "groupBoxOD2";
-			this.groupBoxOD2.Size = new System.Drawing.Size(478, 291);
+			this.groupBoxOD2.Size = new System.Drawing.Size(478, 282);
 			this.groupBoxOD2.TabIndex = 325;
 			this.groupBoxOD2.Text = "Appointment Behavior";
 			// 
@@ -120,7 +120,7 @@ namespace OpenPmsDental {
 			this.labelApptProvChangePrompt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelApptProvChangePrompt.Location = new System.Drawing.Point(24, 227);
 			this.labelApptProvChangePrompt.Name = "labelApptProvChangePrompt";
-			this.labelApptProvChangePrompt.Size = new System.Drawing.Size(218, 32);
+			this.labelApptProvChangePrompt.Size = new System.Drawing.Size(218, 23);
 			this.labelApptProvChangePrompt.TabIndex = 329;
 			this.labelApptProvChangePrompt.Text = "Appointment provider change behavior";
 			this.labelApptProvChangePrompt.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -128,7 +128,7 @@ namespace OpenPmsDental {
 			// comboApptProvChangePrompt
 			// 
 			this.comboApptProvChangePrompt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.comboApptProvChangePrompt.Location = new System.Drawing.Point(248, 231);
+			this.comboApptProvChangePrompt.Location = new System.Drawing.Point(248, 227);
 			this.comboApptProvChangePrompt.Name = "comboApptProvChangePrompt";
 			this.comboApptProvChangePrompt.Size = new System.Drawing.Size(222, 23);
 			this.comboApptProvChangePrompt.TabIndex = 328;
@@ -201,7 +201,7 @@ namespace OpenPmsDental {
 			//
 			this.checkApptMirrorSecondary.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.checkApptMirrorSecondary.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkApptMirrorSecondary.Location = new System.Drawing.Point(8, 263);
+			this.checkApptMirrorSecondary.Location = new System.Drawing.Point(8, 254);
 			this.checkApptMirrorSecondary.Name = "checkApptMirrorSecondary";
 			this.checkApptMirrorSecondary.Size = new System.Drawing.Size(382, 20);
 			this.checkApptMirrorSecondary.TabIndex = 330;
@@ -386,7 +386,7 @@ namespace OpenPmsDental {
 			this.groupBoxScheduling.Controls.Add(this.checkAppointmentMakeRecallSearchesOpenings);
 			this.groupBoxScheduling.Controls.Add(this.labelScheduleProvUnassigned);
 			this.groupBoxScheduling.Controls.Add(this.comboScheduleProvUnassigned);
-			this.groupBoxScheduling.Location = new System.Drawing.Point(8, 673);
+			this.groupBoxScheduling.Location = new System.Drawing.Point(8, 664);
 			this.groupBoxScheduling.Name = "groupBoxScheduling";
 			this.groupBoxScheduling.Size = new System.Drawing.Size(478, 87);
 			this.groupBoxScheduling.TabIndex = 331;
@@ -430,7 +430,7 @@ namespace OpenPmsDental {
 			this.Controls.Add(this.groupBoxCalendarBehavior);
 			this.Controls.Add(this.groupBox2);
 			this.Name = "UserControlApptGeneral";
-			this.Size = new System.Drawing.Size(494, 768);
+			this.Size = new System.Drawing.Size(494, 759);
 			this.groupBoxScheduling.ResumeLayout(false);
 			this.groupBoxProduction.ResumeLayout(false);
 			this.groupBoxOD2.ResumeLayout(false);

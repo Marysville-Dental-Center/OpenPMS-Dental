@@ -16,14 +16,10 @@ def layout(h):
     pitch = H + 4
 
     # ---- The patient band (panelPat) -----------------------------------------------------------------------------------------------------
-    # The band reaches the request and import groups at the top right (laid out below, right-aligned to the window's content edge).
-    # The date fields at the top right (Last Request, Benefits Last Verified) stand on the subscriber group's second date column (the To
-    # date): one column from the top of the window to the subscriber's dates.
-    xs_ = 8 + max(h.lw(n) for n in ("label25", "label2", "label5", "label28", "label22", "label9")) + 6
-    T = W1 + W2 + 8 + xs_ + 72 + 6 + h.lw("label6") + 6
-    xgr = T - 6 - h.lw("labelHistElect") - 8
-    wp = min(xgr, T - 6 - h.lw("label34")) - 8  # the band ends 8 px before the request group and the Benefits Last Verified label
-    p = h.box("panelPat", 0, 0, wp, TOP)
+    # The band ends 8 px after the adjustments list, which is as wide as its longest line (WL_ADJ); the request and import groups follow
+    # it 8 px apart to the window's content edge (fix round 2: the band ended where the request group's date met the subscriber's To-date
+    # column, which narrowed the list to 289 px and cut its lines, and left 48 and 22 px between the list and the two groups).
+    p = h.box("panelPat", 0, 0, 0, TOP)
     fa = 168  # the plan column's field column (X1): the band's fields stand on it
     p.row(("label33", 8, h.lw("label33") + 8), ("butAuditPat", fa, None))
     h.text_align("label33", "MiddleLeft")
@@ -44,7 +40,9 @@ def layout(h):
     p.field("label30", "textDateLastVerifiedPatPlan", fb, 72, after=[("butVerifyPatPlan", None, None)])
     # Adjustments to insurance benefits: a caption, its Add button at the list's right edge, the list under them.
     xc = max(hist_x + h.n("butHistory").nw, h.n("labelDrop").nx + h.n("labelDrop").nw) + GRID_BAND
-    wl = (wp - 8) - xc
+    wl = WL_ADJ
+    wp = xc + wl + 8
+    h.set("panelPat", 0, 0, wp, TOP)
     p.y = p.top
     p.row(("label35", xc, wl - h.n("butAdjAdd").nw - 6), ("butAdjAdd", xc + wl - h.n("butAdjAdd").nw, None))
     h.text_align("label35", "MiddleLeft")
@@ -208,33 +206,40 @@ def layout(h):
     for c in (c1, c2):
         c.end(h=bottom3 + 8 - c.node.ny)
 
-    # ---- The top right: imports at the window's content edge; the request group's date and the verified date on the To-date column --
+    # ---- The top right: the request group 8 px after the patient band, the import group 8 px after it to the window's content edge ------
+    # Both groups take an equal share of what the row has over their content (fix round 2). The Benefits Last Verified row under them
+    # starts at the request group's left edge (its label right-aligned in its own width, its ink under the groups' titles).
     xr = x3 + W3
-    gi = h.box("groupBox1", 0, 8, None)
+    xgr = wp
     bw = 64
-    gi.row(("butImportTrojan", 8, bw), ("butIapFind", None, bw), ("butBenefitNotes", None, bw))
-    gi.field("labelTrojanID", "textTrojanID", 8 + h.lw("labelTrojanID") + 6, 8 + 3 * bw + 12 - (8 + h.lw("labelTrojanID") + 6))
-    wgi = 8 + 3 * bw + 12 + 8
+    lr = h.lw("labelHistElect")
+    wgr0 = 8 + lr + 6 + 80 + 8
+    wgi0 = 8 + 3 * bw + 12 + 8
+    extra = xr - (xgr + wgr0 + 8 + wgi0)
+    assert extra >= 0, "the request and import groups do not fit beside the patient band"
+    wgr = wgr0 + extra // 2
+    wgi = wgi0 + extra - extra // 2
+    gi = h.box("groupBox1", 0, 8, None)
+    bwi = (wgi - 16 - 12) // 3
+    gi.row(("butImportTrojan", 8, bwi), ("butIapFind", None, bwi), ("butBenefitNotes", None, wgi - 16 - 12 - 2 * bwi))
+    gi.field("labelTrojanID", "textTrojanID", 8 + h.lw("labelTrojanID") + 6, wgi - 8 - (8 + h.lw("labelTrojanID") + 6))
     gi.end(w=wgi)
     h.set("groupBox1", xr - wgi, 8)
     gr = h.box("groupRequestBen", 0, 8, None)
-    lr = h.lw("labelHistElect")
     xrq = 8 + lr + 6
-    gr.field("labelHistElect", "textElectBenLastDate", xrq, 80)
-    bw2 = (80 + lr + 6 - 6) // 2
-    gr.row(("butGetElectronic", 8, bw2), ("butHistoryElect", None, bw2))
-    wgr = 8 + lr + 6 + 80 + 8
+    gr.field("labelHistElect", "textElectBenLastDate", xrq, wgr - 8 - xrq)
+    bw2 = (wgr - 16 - 6) // 2
+    gr.row(("butGetElectronic", 8, bw2), ("butHistoryElect", None, wgr - 16 - 6 - bw2))
     gr.end(w=wgr)
     h.set("groupRequestBen", xgr, 8)
-    assert xgr + wgr <= xr - wgi - 8, "the request group reaches the import group"
     yv = 8 + max(gi.node.nh, gr.node.nh) + 8
     wdv = h.cw("checkDontVerify")
     h.check_left("checkDontVerify")
-    xd = T
+    lv = h.lw("label34")
+    xd = xgr + lv + 6
     xnow = xd + 80 + 6
     xdv = xnow + h.n("butVerifyBenefits").nw + 16
-    lv = h.lw("label34")
-    h.set("label34", xd - 6 - lv, yv, lv, H)
+    h.set("label34", xgr, yv, lv, H)
     h.text_align("label34", "MiddleRight")
     h.set("textDateLastVerifiedBenefits", xd, yv, 80, H)
     h.set("butVerifyBenefits", xnow, yv, None, H)
@@ -260,3 +265,5 @@ def layout(h):
 
 
 GRID_BAND = 16
+WL_ADJ = 340  # the adjustments list: its longest line ("03/05/2001       Ins Used:  $124.00       Ded Used:  $50.00", Microsoft Sans Serif
+#               8.25) and its scroll bar

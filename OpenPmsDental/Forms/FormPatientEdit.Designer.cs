@@ -496,7 +496,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(915, 930);
+			this.butSave.Location = new System.Drawing.Point(915, 922);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 26);
 			this.butSave.TabIndex = 34;
@@ -1589,7 +1589,7 @@ namespace OpenPmsDental{
 			// 
 			// labelRequiredField
 			// 
-			this.labelRequiredField.Location = new System.Drawing.Point(682, 904);
+			this.labelRequiredField.Location = new System.Drawing.Point(682, 896);
 			this.labelRequiredField.Name = "labelRequiredField";
 			this.labelRequiredField.Size = new System.Drawing.Size(180, 14);
 			this.labelRequiredField.TabIndex = 9;
@@ -1616,7 +1616,7 @@ namespace OpenPmsDental{
 			this.tabControlPatInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
 			this.tabControlPatInfo.Location = new System.Drawing.Point(488, 532);
 			this.tabControlPatInfo.Name = "tabControlPatInfo";
-			this.tabControlPatInfo.Size = new System.Drawing.Size(502, 364);
+			this.tabControlPatInfo.Size = new System.Drawing.Size(502, 356);
 			this.tabControlPatInfo.TabIndex = 17;
 			// 
 			// tabPublicHealth
@@ -1653,7 +1653,7 @@ namespace OpenPmsDental{
 			this.tabPublicHealth.Location = new System.Drawing.Point(2, 21);
 			this.tabPublicHealth.Name = "tabPublicHealth";
 			this.tabPublicHealth.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPublicHealth.Size = new System.Drawing.Size(461, 317);
+			this.tabPublicHealth.Size = new System.Drawing.Size(461, 309);
 			this.tabPublicHealth.TabIndex = 0;
 			this.tabPublicHealth.Text = "Public Health";
 			// 
@@ -1736,7 +1736,7 @@ namespace OpenPmsDental{
 			// 
 			// labelSpecifyGender
 			// 
-			this.labelSpecifyGender.Location = new System.Drawing.Point(84, 286);
+			this.labelSpecifyGender.Location = new System.Drawing.Point(84, 278);
 			this.labelSpecifyGender.Name = "labelSpecifyGender";
 			this.labelSpecifyGender.Size = new System.Drawing.Size(88, 23);
 			this.labelSpecifyGender.TabIndex = 14;
@@ -1747,7 +1747,7 @@ namespace OpenPmsDental{
 			// textSpecifyGender
 			// 
 			this.textSpecifyGender.AcceptsReturn = true;
-			this.textSpecifyGender.Location = new System.Drawing.Point(178, 286);
+			this.textSpecifyGender.Location = new System.Drawing.Point(178, 278);
 			this.textSpecifyGender.Name = "textSpecifyGender";
 			this.textSpecifyGender.Size = new System.Drawing.Size(228, 23);
 			this.textSpecifyGender.TabIndex = 13;
@@ -2071,7 +2071,7 @@ namespace OpenPmsDental{
 			// 
 			// FormPatientEdit
 			// 
-			this.ClientSize = new System.Drawing.Size(998, 964);
+			this.ClientSize = new System.Drawing.Size(998, 956);
 			this.Controls.Add(this.labelPreferredPronouns);
 			this.Controls.Add(this.comboPreferredPronouns);
 			this.Controls.Add(this.warningIntegrity1);

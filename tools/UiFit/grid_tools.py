@@ -365,8 +365,97 @@ def note_lines(text, text_w, room):
     return max(lines, 1)
 
 
+# Segoe UI 9 pt at 96 dpi: the advance of each printable ASCII character (32-126) as a label draws it (GDI+, typographic; measured with
+# Graphics.MeasureString, 20 of each). The program's labels draw about 6 px narrower than the dump's one-line width (TextRenderer, with its
+# padding): measured_wrap scales the table to that width less 6, so a label in another font or size wraps with its own proportions.
+_SEGOE9 = [3.29, 3.41, 4.71, 7.09, 6.47, 9.82, 9.6, 2.76, 3.62, 3.62, 5, 8.21, 2.6, 4.8, 2.6, 4.68, 6.47, 6.47, 6.47, 6.47, 6.47, 6.47,
+           6.47, 6.47, 6.47, 6.47, 2.6, 2.6, 8.21, 8.21, 8.21, 5.38, 11.46, 7.74, 6.88, 7.43, 8.41, 6.07, 5.86, 8.23, 8.52, 3.19, 4.28,
+           6.96, 5.65, 10.78, 8.98, 9.05, 6.72, 9.05, 7.18, 6.37, 6.29, 8.24, 7.45, 11.21, 7.08, 6.63, 6.84, 3.62, 4.55, 3.62, 8.21, 4.98,
+           3.22, 6.11, 7.05, 5.54, 7.07, 6.28, 3.76, 7.07, 6.79, 2.91, 2.91, 5.96, 2.91, 10.34, 6.79, 7.03, 7.05, 7.07, 4.17, 5.09, 4.07,
+           6.79, 5.75, 8.67, 5.51, 5.81, 5.43, 3.62, 2.87, 3.62, 8.21]
+
+
+def _adv(s):
+    return sum(_SEGOE9[ord(ch) - 32] if 32 <= ord(ch) <= 126 else 7 for ch in s)
+
+
+def measured_wrap(text, text_w, room):
+    """The lines a label draws when its text wraps in room px (UI-12 fix round 2: measured, word by word): a greedy word wrap with the
+    width of each word from the character table above, scaled to the measured one-line width. A word with a hyphen that does not fit
+    breaks before the hyphen when its first part fits (as the label draws it: "non" / "-primary"). Paragraph by paragraph."""
+    text = (text or "").replace("\r", "")
+    flat = text.replace("\n", " ")
+    base = _adv(flat)
+    if not flat.strip() or not text_w or text_w <= 12 or room <= 0 or base <= 0:
+        return None
+    k = (text_w - 6) / float(base)
+
+    def w(s):
+        return _adv(s) * k
+
+    lines = []
+    for para in text.split("\n"):
+        cur = ""
+        for wd in para.split(" "):
+            cand = (cur + " " + wd) if cur else wd
+            if not cur or w(cand) <= room:
+                cur = cand
+                continue
+            parts = re.split(r"(?=-)", wd)
+            fit = 0
+            for i in range(1, len(parts)):
+                if parts[i - 1] and w(cur + " " + "".join(parts[:i])) <= room:
+                    fit = i
+            if fit:
+                lines.append(cur + " " + "".join(parts[:fit]))
+                cur = "".join(parts[fit:])
+            else:
+                lines.append(cur)
+                cur = wd
+        lines.append(cur)
+    return lines
+
+
+def measured_lines(text, text_w, room):
+    """The number of lines of measured_wrap in room px less 2 of slack; the word-wrap estimate where the text is not measurable."""
+    lines = measured_wrap(text, text_w, room - 2)
+    if lines is None:
+        return note_lines(text, text_w, room)
+    return max(1, len(lines))
+
+
+def hyphen_safe_width(text, text_w, lw, pad=0):
+    """A wrap width at which no line starts with a hyphen (UI-12 fix round 2: "non" / "-primary" read as broken): when a line of the
+    wrap at lw would start with '-', the width narrows to halfway between the line without the hyphenated word and the line with its
+    first part, so the whole word moves to the next line. Returns lw when nothing starts with a hyphen. The check wraps at 2 px more than
+    the width (a line the estimate puts just over the edge may still fit when drawn: PPO write-off description (blank for "Write)."""
+    for _ in range(4):
+        lines = measured_wrap(text, text_w, lw - pad + 2)
+        if not lines or not any(ln.startswith("-") for ln in lines[1:]):
+            return lw
+        flat = (text or "").replace("\r", "").replace("\n", " ")
+        k = text_w / float(_adv(flat))
+        i = next(j for j in range(1, len(lines)) if lines[j].startswith("-"))
+        prev = lines[i - 1]
+        cut = prev.rfind(" ")
+        if cut <= 0:
+            return lw
+        short = _adv(prev[:cut]) * k
+        long_ = _adv(prev) * k
+        lw = int(math.floor((short + long_) / 2.0)) + pad
+    return lw
+
+
 def is_single_line(n):
     return n.kind == "field"
+
+
+def is_separator(block):
+    """A row that is only a visible separator line (a panel or label 1-3 px tall, FormInsBenefits' category rules)."""
+    if not is_row(block):
+        return False
+    its = row_items(block)
+    return bool(its) and all(i.h <= 3 and i.w >= 20 and getattr(i, "visible", True) for i in its)
 
 
 def is_caption_like(n):
@@ -976,7 +1065,10 @@ class Layout:
             a, b = row_items(prev)[0], row_items(cur)[0]
             if a.kind in ("check", "radio") and b.kind in ("check", "radio") and abs(a.x - b.x) <= 4:
                 return GRID["list_gap"]
-        if orig >= GRID["section_from"] and orig >= typical + 6:
+        if orig >= GRID["section_from"] and orig >= typical + 6 and (over is not None or is_separator(prev) or is_separator(cur)):
+            # UI-12 fix round 2: a wider gap stays only where something explains it: a row hidden in the designer stood in it (its rows
+            # keep the gap they had to it), or a visible separator line is one of the two rows. Otherwise it was main's loose spacing
+            # (UserControlMainWindowMisc's 12 px between two groups and between two fields), and the rows take the gap of their kind.
             return GRID["section_gap"]
         if pk == "caption" and orig <= 6:
             return GRID["caption_gap"]
@@ -1118,7 +1210,15 @@ class Layout:
         lb = u.label
         lx = self.left + GRID["label_lead"]
         lw = max(24, u.col["x"] - GRID["label_gap"] - lx)
-        lines = 1 if lb.text_w + 4 <= lw else wrapped_lines(lb.text_w, lw - 4)
+        # UI-12 fix round 2: a label that wraps beside its field is as tall as its measured lines (measured_lines: word by word, as
+        # the label draws them; the width estimate made UserControlEnterpriseGeneral's two-line label three lines tall, 12 px off its
+        # field's centre), and no line starts with a hyphen (the label narrows until the hyphenated word moves down whole).
+        lines = 1 if lb.text_w + 4 <= lw else measured_lines(lb.text, lb.text_w, lw - 2)
+        if lines > 1:
+            lw2 = hyphen_safe_width(lb.text, lb.text_w, lw)
+            if lw2 < lw:
+                lw = lw2
+                lines = measured_lines(lb.text, lb.text_w, lw - 2)
         lh = self.p.field_height if lines == 1 else lines * (lb.text_h or 16) + 2
         self.set_size(lb, lw, lh, "label: Preferences style, from the check box text to 6 px before its field")
         if lb.autosize:

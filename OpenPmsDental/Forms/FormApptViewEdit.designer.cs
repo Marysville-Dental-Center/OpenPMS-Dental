@@ -84,7 +84,7 @@ namespace OpenPmsDental {
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(1009, 708);
+			this.butSave.Location = new System.Drawing.Point(1009, 693);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 7;
@@ -96,7 +96,7 @@ namespace OpenPmsDental {
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(8, 708);
+			this.butDelete.Location = new System.Drawing.Point(8, 693);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(87, 24);
 			this.butDelete.TabIndex = 6;
@@ -105,7 +105,7 @@ namespace OpenPmsDental {
 			// 
 			// labelOps
 			// 
-			this.labelOps.Location = new System.Drawing.Point(32, 199);
+			this.labelOps.Location = new System.Drawing.Point(8, 191);
 			this.labelOps.Name = "labelOps";
 			this.labelOps.Size = new System.Drawing.Size(182, 17);
 			this.labelOps.TabIndex = 39;
@@ -114,7 +114,7 @@ namespace OpenPmsDental {
 			// 
 			// listOps
 			// 
-			this.listOps.Location = new System.Drawing.Point(32, 218);
+			this.listOps.Location = new System.Drawing.Point(8, 210);
 			this.listOps.Name = "listOps";
 			this.listOps.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
 			this.listOps.Size = new System.Drawing.Size(120, 225);
@@ -122,15 +122,15 @@ namespace OpenPmsDental {
 			// 
 			// listProv
 			// 
-			this.listProv.Location = new System.Drawing.Point(32, 467);
+			this.listProv.Location = new System.Drawing.Point(8, 459);
 			this.listProv.Name = "listProv";
 			this.listProv.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
-			this.listProv.Size = new System.Drawing.Size(120, 225);
+			this.listProv.Size = new System.Drawing.Size(120, 226);
 			this.listProv.TabIndex = 42;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(32, 447);
+			this.label2.Location = new System.Drawing.Point(8, 439);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(128, 18);
 			this.label2.TabIndex = 41;
@@ -159,7 +159,7 @@ namespace OpenPmsDental {
 			this.butDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDown.Icon = OpenPmsDental.UI.EnumIcons.Down;
 			this.butDown.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDown.Location = new System.Drawing.Point(367, 500);
+			this.butDown.Location = new System.Drawing.Point(367, 509);
 			this.butDown.Name = "butDown";
 			this.butDown.Size = new System.Drawing.Size(71, 23);
 			this.butDown.TabIndex = 50;
@@ -171,7 +171,7 @@ namespace OpenPmsDental {
 			this.butUp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butUp.Icon = OpenPmsDental.UI.EnumIcons.Up;
 			this.butUp.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butUp.Location = new System.Drawing.Point(290, 500);
+			this.butUp.Location = new System.Drawing.Point(290, 509);
 			this.butUp.Name = "butUp";
 			this.butUp.Size = new System.Drawing.Size(71, 23);
 			this.butUp.TabIndex = 51;
@@ -182,7 +182,7 @@ namespace OpenPmsDental {
 			// 
 			this.butLeft.AdjustImageLocation = new System.Drawing.Point(-1, 0);
 			this.butLeft.Icon = OpenPmsDental.UI.EnumIcons.ArrowLeft;
-			this.butLeft.Location = new System.Drawing.Point(389, 364);
+			this.butLeft.Location = new System.Drawing.Point(365, 356);
 			this.butLeft.Name = "butLeft";
 			this.butLeft.Size = new System.Drawing.Size(35, 26);
 			this.butLeft.TabIndex = 52;
@@ -191,7 +191,7 @@ namespace OpenPmsDental {
 			// butRight
 			// 
 			this.butRight.Icon = OpenPmsDental.UI.EnumIcons.ArrowRight;
-			this.butRight.Location = new System.Drawing.Point(389, 334);
+			this.butRight.Location = new System.Drawing.Point(365, 326);
 			this.butRight.Name = "butRight";
 			this.butRight.Size = new System.Drawing.Size(35, 26);
 			this.butRight.TabIndex = 53;
@@ -299,7 +299,7 @@ namespace OpenPmsDental {
 			this.groupBox2.Controls.Add(this.butDown);
 			this.groupBox2.Location = new System.Drawing.Point(638, 145);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(446, 531);
+			this.groupBox2.Size = new System.Drawing.Size(446, 540);
 			this.groupBox2.TabIndex = 59;
 			this.groupBox2.Text = "Rows Displayed (double click to edit or to move to another corner)";
 			// 
@@ -339,7 +339,7 @@ namespace OpenPmsDental {
 			// 
 			this.gridLR.Location = new System.Drawing.Point(226, 315);
 			this.gridLR.Name = "gridLR";
-			this.gridLR.Size = new System.Drawing.Size(212, 174);
+			this.gridLR.Size = new System.Drawing.Size(212, 186);
 			this.gridLR.TabIndex = 62;
 			this.gridLR.Title = "Lower Right Corner";
 			this.gridLR.TranslationName = "TableLowerRight";
@@ -361,7 +361,7 @@ namespace OpenPmsDental {
 			// 
 			this.gridMain.Location = new System.Drawing.Point(8, 23);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(212, 473);
+			this.gridMain.Size = new System.Drawing.Size(212, 478);
 			this.gridMain.TabIndex = 60;
 			this.gridMain.Title = "Main List";
 			this.gridMain.TranslationName = "TableMainList";
@@ -371,7 +371,7 @@ namespace OpenPmsDental {
 			// label8
 			// 
 			this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label8.Location = new System.Drawing.Point(96, 500);
+			this.label8.Location = new System.Drawing.Point(96, 509);
 			this.label8.Name = "label8";
 			this.label8.Size = new System.Drawing.Size(188, 23);
 			this.label8.TabIndex = 59;
@@ -466,7 +466,7 @@ namespace OpenPmsDental {
 			// 
 			// gridPatFieldDefs
 			// 
-			this.gridPatFieldDefs.Location = new System.Drawing.Point(207, 587);
+			this.gridPatFieldDefs.Location = new System.Drawing.Point(183, 579);
 			this.gridPatFieldDefs.Name = "gridPatFieldDefs";
 			this.gridPatFieldDefs.Size = new System.Drawing.Size(175, 106);
 			this.gridPatFieldDefs.TabIndex = 63;
@@ -476,7 +476,7 @@ namespace OpenPmsDental {
 			// 
 			// gridApptFieldDefs
 			// 
-			this.gridApptFieldDefs.Location = new System.Drawing.Point(207, 477);
+			this.gridApptFieldDefs.Location = new System.Drawing.Point(183, 469);
 			this.gridApptFieldDefs.Name = "gridApptFieldDefs";
 			this.gridApptFieldDefs.Size = new System.Drawing.Size(175, 106);
 			this.gridApptFieldDefs.TabIndex = 62;
@@ -486,7 +486,7 @@ namespace OpenPmsDental {
 			// 
 			// gridAvailable
 			// 
-			this.gridAvailable.Location = new System.Drawing.Point(207, 218);
+			this.gridAvailable.Location = new System.Drawing.Point(183, 210);
 			this.gridAvailable.Name = "gridAvailable";
 			this.gridAvailable.Size = new System.Drawing.Size(175, 255);
 			this.gridAvailable.TabIndex = 61;
@@ -497,7 +497,7 @@ namespace OpenPmsDental {
 			// FormApptViewEdit
 			// 
 			this.AcceptButton = this.butSave;
-			this.ClientSize = new System.Drawing.Size(1092, 740);
+			this.ClientSize = new System.Drawing.Size(1092, 725);
 			this.Controls.Add(this.label7);
 			this.Controls.Add(this.listWaitingRmNameFormat);
 			this.Controls.Add(this.butSave);
