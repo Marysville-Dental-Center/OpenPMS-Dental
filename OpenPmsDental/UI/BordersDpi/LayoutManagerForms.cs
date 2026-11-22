@@ -168,9 +168,7 @@ Scrollable Control: For example, a panel that's set to AutoScroll=true.  These c
 			//We must prompt them and track for quality.
 			//Adding controls programmatically must be a very intentional and controlled action.
 			//UI-12: the inputs of an added control (a module, a page) draw the combo box's frame like the window's own.
-			if(UiInputFrame.IsFramed(control)){
-				UiInputFrame.Attach(control);
-			}
+			UiInputFrame.AttachOne(control);//UI-13: with the other shared looks (scroll bars, slider, stock buttons)
 			UiInputFrame.AttachTree(control);
 			if(_listControl96Infos is null){
 				//This gets hit when adding ControlChart because we have not yet passed LayoutManager to chart.

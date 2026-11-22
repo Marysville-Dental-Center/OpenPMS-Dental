@@ -249,6 +249,7 @@ How to:
 			//KeyboardNavigation.SetTabNavigation(this,KeyboardNavigationMode.Local);//See notes in FrmTestFocusTabbing.xaml.cs
 			//I don't think the above line makes sense here. We use it instead in specific controls like GroupBox.
 			Unloaded+=FrmODBase_Unloaded;
+			WpfControls.UI.UiLookScroll.AddTo(this);//UI-13: every scroll bar of the window in the Fluent look
 		}
 
 		private void FrmODBase_Unloaded(object sender,RoutedEventArgs e) {

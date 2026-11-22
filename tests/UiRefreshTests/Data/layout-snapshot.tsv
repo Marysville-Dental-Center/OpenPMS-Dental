@@ -10812,7 +10812,7 @@ OpenPmsDental/Forms/FormProcButtons.designer.cs	.			580,475
 OpenPmsDental/Forms/FormProcCodeEdit.designer.cs	label1	135,8	68,23	
 OpenPmsDental/Forms/FormProcCodeEdit.designer.cs	labelTreatArea	700,8	100,15	
 OpenPmsDental/Forms/FormProcCodeEdit.designer.cs	label5	822,8	100,15	
-OpenPmsDental/Forms/FormProcCodeEdit.designer.cs	label6	8,8	53,32	
+OpenPmsDental/Forms/FormProcCodeEdit.designer.cs	label6	8,8	76,15	
 OpenPmsDental/Forms/FormProcCodeEdit.designer.cs	label7	119,143	84,23	
 OpenPmsDental/Forms/FormProcCodeEdit.designer.cs	label8	127,116	76,23	
 OpenPmsDental/Forms/FormProcCodeEdit.designer.cs	label10	8,8	162,17	
@@ -10823,9 +10823,9 @@ OpenPmsDental/Forms/FormProcCodeEdit.designer.cs	listTreatArea	700,25	118,140
 OpenPmsDental/Forms/FormProcCodeEdit.designer.cs	checkNoBillIns	209,305	164,20	
 OpenPmsDental/Forms/FormProcCodeEdit.designer.cs	listCategory	822,25	120,355	
 OpenPmsDental/Forms/FormProcCodeEdit.designer.cs	label9	985,491	121,32	
-OpenPmsDental/Forms/FormProcCodeEdit.designer.cs	butSlider	10,42	12,15	
-OpenPmsDental/Forms/FormProcCodeEdit.designer.cs	textTime2	8,609	60,20	
-OpenPmsDental/Forms/FormProcCodeEdit.designer.cs	label11	8,636	63,16	
+OpenPmsDental/Forms/FormProcCodeEdit.designer.cs	butSlider	10,26	12,15	
+OpenPmsDental/Forms/FormProcCodeEdit.designer.cs	textTime2	8,611	59,23	
+OpenPmsDental/Forms/FormProcCodeEdit.designer.cs	label11	8,594	59,15	
 OpenPmsDental/Forms/FormProcCodeEdit.designer.cs	checkIsHygiene	209,329	146,20	
 OpenPmsDental/Forms/FormProcCodeEdit.designer.cs	textAlternateCode1	209,35	100,23	
 OpenPmsDental/Forms/FormProcCodeEdit.designer.cs	label12	143,35	60,23	
@@ -10863,7 +10863,7 @@ OpenPmsDental/Forms/FormProcCodeEdit.designer.cs	checkIsRadiology	209,377	94,20
 OpenPmsDental/Forms/FormProcCodeEdit.designer.cs	label24	309,378	181,17	
 OpenPmsDental/Forms/FormProcCodeEdit.designer.cs	butMore	1008,417	75,26	
 OpenPmsDental/Forms/FormProcCodeEdit.designer.cs	butAddNote	970,112	88,26	
-OpenPmsDental/Forms/FormProcCodeEdit.designer.cs	tbTime	8,44	15,561	
+OpenPmsDental/Forms/FormProcCodeEdit.designer.cs	tbTime	8,25	15,561	
 OpenPmsDental/Forms/FormProcCodeEdit.designer.cs	butColorClear	236,278	50,23	
 OpenPmsDental/Forms/FormProcCodeEdit.designer.cs	butAuditTrail	1008,463	75,26	
 OpenPmsDental/Forms/FormProcCodeEdit.designer.cs	butSave	1070,859	75,26	
@@ -14893,33 +14893,33 @@ OpenPmsDental/Forms/FormXchargeTrans.designer.cs	.			345,282
 OpenPmsDental/Main Modules/ControlAccount.Designer.cs	labelFamFinancial	4,377	174,17	
 OpenPmsDental/Main Modules/ControlAccount.Designer.cs	labelUrgFinNote	4,4	174,17	
 OpenPmsDental/Main Modules/ControlAccount.Designer.cs	panelAging	0,25	749,37	
-OpenPmsDental/Main Modules/ControlAccount.Designer.cs	labelDisRem	700,2	49,33	
-OpenPmsDental/Main Modules/ControlAccount.Designer.cs	labelInsRem	700,2	49,33	
-OpenPmsDental/Main Modules/ControlAccount.Designer.cs	labelUnearnedAmt	622,17	72,18	
-OpenPmsDental/Main Modules/ControlAccount.Designer.cs	labelUnearned	622,2	72,14	
-OpenPmsDental/Main Modules/ControlAccount.Designer.cs	labelBalanceAmt	450,17	80,18	
-OpenPmsDental/Main Modules/ControlAccount.Designer.cs	labelTotalAmt	284,17	80,18	
+OpenPmsDental/Main Modules/ControlAccount.Designer.cs	labelDisRem	704,2	45,33	
+OpenPmsDental/Main Modules/ControlAccount.Designer.cs	labelInsRem	704,2	45,33	
+OpenPmsDental/Main Modules/ControlAccount.Designer.cs	labelUnearnedAmt	622,17	76,18	
+OpenPmsDental/Main Modules/ControlAccount.Designer.cs	labelUnearned	622,2	76,14	
+OpenPmsDental/Main Modules/ControlAccount.Designer.cs	labelBalanceAmt	450,17	76,18	
+OpenPmsDental/Main Modules/ControlAccount.Designer.cs	labelTotalAmt	284,17	76,18	
 OpenPmsDental/Main Modules/ControlAccount.Designer.cs	panelTotalOwes	560,-38	126,37	
 OpenPmsDental/Main Modules/ControlAccount.Designer.cs	label21	3,0	123,12	
 OpenPmsDental/Main Modules/ControlAccount.Designer.cs	labelTotalPtOwes	6,12	112,25	
-OpenPmsDental/Main Modules/ControlAccount.Designer.cs	labelPatEstBalAmt	540,17	72,18	
-OpenPmsDental/Main Modules/ControlAccount.Designer.cs	labelPatEstBal	540,2	72,14	
+OpenPmsDental/Main Modules/ControlAccount.Designer.cs	labelPatEstBalAmt	536,17	76,18	
+OpenPmsDental/Main Modules/ControlAccount.Designer.cs	labelPatEstBal	536,2	76,14	
 OpenPmsDental/Main Modules/ControlAccount.Designer.cs	panel2	616,3	2,32	
-OpenPmsDental/Main Modules/ControlAccount.Designer.cs	panel1	534,3	2,32	
-OpenPmsDental/Main Modules/ControlAccount.Designer.cs	panelAgeLine	368,3	2,32	
-OpenPmsDental/Main Modules/ControlAccount.Designer.cs	labelInsEstAmt	374,17	72,18	
-OpenPmsDental/Main Modules/ControlAccount.Designer.cs	labelBalance	450,2	80,14	
-OpenPmsDental/Main Modules/ControlAccount.Designer.cs	labelInsEst	374,2	72,14	
-OpenPmsDental/Main Modules/ControlAccount.Designer.cs	labelTotal	284,2	80,14	
+OpenPmsDental/Main Modules/ControlAccount.Designer.cs	panel1	530,3	2,32	
+OpenPmsDental/Main Modules/ControlAccount.Designer.cs	panelAgeLine	364,3	2,32	
+OpenPmsDental/Main Modules/ControlAccount.Designer.cs	labelInsEstAmt	370,17	76,18	
+OpenPmsDental/Main Modules/ControlAccount.Designer.cs	labelBalance	450,2	76,14	
+OpenPmsDental/Main Modules/ControlAccount.Designer.cs	labelInsEst	370,2	76,14	
+OpenPmsDental/Main Modules/ControlAccount.Designer.cs	labelTotal	284,2	76,14	
 OpenPmsDental/Main Modules/ControlAccount.Designer.cs	label7	66,2	50,14	
-OpenPmsDental/Main Modules/ControlAccount.Designer.cs	text0_30	66,15	50,20	
+OpenPmsDental/Main Modules/ControlAccount.Designer.cs	text0_30	66,17	50,18	
 OpenPmsDental/Main Modules/ControlAccount.Designer.cs	label6	120,2	50,14	
-OpenPmsDental/Main Modules/ControlAccount.Designer.cs	text31_60	120,15	50,20	
+OpenPmsDental/Main Modules/ControlAccount.Designer.cs	text31_60	120,17	50,18	
 OpenPmsDental/Main Modules/ControlAccount.Designer.cs	label5	174,2	50,14	
-OpenPmsDental/Main Modules/ControlAccount.Designer.cs	text61_90	174,15	50,20	
+OpenPmsDental/Main Modules/ControlAccount.Designer.cs	text61_90	174,17	50,18	
 OpenPmsDental/Main Modules/ControlAccount.Designer.cs	label3	228,2	50,14	
-OpenPmsDental/Main Modules/ControlAccount.Designer.cs	textOver90	228,15	50,20	
-OpenPmsDental/Main Modules/ControlAccount.Designer.cs	label2	4,2	56,33	
+OpenPmsDental/Main Modules/ControlAccount.Designer.cs	textOver90	228,17	50,18	
+OpenPmsDental/Main Modules/ControlAccount.Designer.cs	label2	8,2	52,33	
 OpenPmsDental/Main Modules/ControlAccount.Designer.cs	tabControlShow	750,27	186,702	
 OpenPmsDental/Main Modules/ControlAccount.Designer.cs	tabMain	2,21	182,679	
 OpenPmsDental/Main Modules/ControlAccount.Designer.cs	gridAcctPat	4,161	174,180	

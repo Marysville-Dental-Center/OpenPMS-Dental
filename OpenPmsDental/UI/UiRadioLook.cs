@@ -22,8 +22,6 @@ namespace OpenPmsDental.UI {
 		///<summary>The radio buttons that have the look: a control is attached once.</summary>
 		private static readonly ConditionalWeakTable<Control,UiRadioLook> _table=new ConditionalWeakTable<Control,UiRadioLook>();
 		private readonly RadioButton _radioButton;
-		///<summary>The scale of the circle, as UI.CheckBox scales its box (the dpi and the program's zoom).</summary>
-		private readonly LayoutManagerForms _layoutManager=new LayoutManagerForms();
 		private bool _isHovering;
 		///<summary>The circle's size at 96 DPI, before its 1 px line (UI.CheckBox's _sqrSize96).</summary>
 		private const int SIZE_CIRCLE_96=12;
@@ -47,7 +45,9 @@ namespace OpenPmsDental.UI {
 				return false;
 			}
 			return radioButton.Appearance==Appearance.Normal
-				&& (radioButton.CheckAlign==ContentAlignment.MiddleLeft || radioButton.CheckAlign==ContentAlignment.TopLeft)
+				&& (radioButton.CheckAlign==ContentAlignment.MiddleLeft || radioButton.CheckAlign==ContentAlignment.TopLeft
+					//UI-13: a circle the window puts on the right is drawn there in the same look (FormPerio's sequence choices).
+					|| radioButton.CheckAlign==ContentAlignment.MiddleRight || radioButton.CheckAlign==ContentAlignment.TopRight)
 				&& radioButton.RightToLeft!=RightToLeft.Yes;
 		}
 
@@ -79,7 +79,11 @@ namespace OpenPmsDental.UI {
 			int top=rectangle.Y;
 			StringFormat stringFormat=new StringFormat();
 			stringFormat.Alignment=StringAlignment.Near;
-			if(radioButton.CheckAlign==ContentAlignment.TopLeft) {
+			bool isCircleRight=radioButton.CheckAlign==ContentAlignment.MiddleRight || radioButton.CheckAlign==ContentAlignment.TopRight;
+			if(isCircleRight) {
+				stringFormat.Alignment=StringAlignment.Far;
+			}
+			if(radioButton.CheckAlign==ContentAlignment.TopLeft || radioButton.CheckAlign==ContentAlignment.TopRight) {
 				stringFormat.LineAlignment=StringAlignment.Near;
 			}
 			else {
@@ -88,8 +92,12 @@ namespace OpenPmsDental.UI {
 			}
 			int sizeDrawn=sizeCircle+UiTheme.GetLineWidth(scale);
 			Rectangle rectangleCircle=new Rectangle(rectangle.X,top,sizeDrawn,sizeDrawn);
-			UiControlPaint.DrawRadioCircle(g,rectangleCircle,radioButton.Checked,isHovering,radioButton.Enabled,scale,Color.Empty);
 			Rectangle rectangleText=new Rectangle(rectangle.X+sizeCircle+gap,rectangle.Y,Math.Max(0,rectangle.Width-sizeCircle-gap),rectangle.Height);
+			if(isCircleRight) {
+				rectangleCircle=new Rectangle(rectangle.Right-sizeDrawn,top,sizeDrawn,sizeDrawn);
+				rectangleText=new Rectangle(rectangle.X,rectangle.Y,Math.Max(0,rectangle.Width-sizeCircle-gap),rectangle.Height);
+			}
+			UiControlPaint.DrawRadioCircle(g,rectangleCircle,radioButton.Checked,isHovering,radioButton.Enabled,scale,Color.Empty);
 			//A token brush: cached per thread by UiTheme, never disposed here.
 			SolidBrush solidBrushText=UiTheme.GetBrush(radioButton.Enabled ? EnumUiColor.Text : EnumUiColor.TextDisabled);
 			g.DrawString(radioButton.Text,radioButton.Font,solidBrushText,rectangleText,stringFormat);
@@ -117,13 +125,13 @@ namespace OpenPmsDental.UI {
 				switch(m.Msg) {
 					case WM_PAINT:
 						using(Graphics g=_radioButton.CreateGraphics()) {
-							PaintRadio(g,_radioButton.ClientRectangle,_radioButton,_layoutManager.ScaleMy(),_isHovering);
+							PaintRadio(g,_radioButton.ClientRectangle,_radioButton,UiLooks.GetScale(_radioButton),_isHovering);
 						}
 						break;
 					case WM_PRINT:
 					case WM_PRINTCLIENT:
 						using(Graphics g=Graphics.FromHdc(m.WParam)) {
-							PaintRadio(g,_radioButton.ClientRectangle,_radioButton,_layoutManager.ScaleMy(),false);
+							PaintRadio(g,_radioButton.ClientRectangle,_radioButton,UiLooks.GetScale(_radioButton),false);
 						}
 						break;
 				}

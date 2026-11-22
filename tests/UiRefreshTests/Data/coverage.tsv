@@ -13,9 +13,12 @@ OpenPmsDental/UI/GroupBox	UI-4a	the group box
 OpenPmsDental/UI/PanelOD	UI-4a	the panel
 OpenPmsDental/UI/ToolTipOD	UI-4a	the tooltip
 OpenPmsDental/UI/ComboBox	UI-4b	the combo box
-OpenPmsDental/UI/UiInputFrame	UI-12	the combo box's frame over the stock single-line inputs (text box, up-down box, date picker) and, polish round, every multi-line text box; fix round, every bordered rich text box (ODtextBox), single-line ones too
-OpenPmsDental/UI/UiRadioLook	UI-12	the stock radio button drawn like the program's check box (round 3: the circle where the box is, the text 16 px from the left)
+OpenPmsDental/UI/UiInputFrame	UI-12,UI-13	the combo box's frame over the stock single-line inputs (text box, up-down box, date picker) and, polish round, every multi-line text box; fix round, every bordered rich text box (ODtextBox), single-line ones too; UI-13: the corners in the parent's colour on whole pixels, and the other shared looks attached with it (AttachOne); fix round 2: the themed date picker's whole drop button covered (DTM_GETDATETIMEPICKERINFO), its value in the Text token, a disabled picker's box in the disabled grey
+OpenPmsDental/UI/UiRadioLook	UI-12,UI-13	the stock radio button drawn like the program's check box (round 3: the circle where the box is, the text 16 px from the left); UI-13: a circle on the right drawn there in the same look
 OpenPmsDental/UI/UiUpDownLook	UI-12	the stock up-down box's arrow buttons drawn like the combo box's drop area (polish round: the box's fill, the Fluent chevrons)
+OpenPmsDental/UI/UiScrollLook	UI-13	every scroll bar (the stock scroll bar controls of the grids, lists and pickers, and the frame scroll bars of text boxes, lists, tree and list views, scrolling panels) painted over in UiScrollPaint's Fluent look
+OpenPmsDental/UI/UiTrackBarLook	UI-13	the stock track bar painted over in UiSliderPaint's Fluent slider look (ControlChart's procedure date slider)
+OpenPmsDental/UI/UiLooks	UI-13	the shared looks of the other stock element types: stock buttons and colour swatches, stock check boxes, grey label blocks, grid-title labels, divider panels, progress bars, flat panel and picture borders, tree and list views (Explorer theme), data grid views, link labels
 OpenPmsDental/UI/ListBox	UI-4b	the list box
 OpenPmsDental/UI/TabControl/*	UI-4b	the tab control, its pages and designers
 OpenPmsDental/UI/Splitters/*	UI-4b	the split container, its panels and designers
@@ -65,6 +68,7 @@ WpfControlsOD/UI/Controls/Button	UI-4a	the button
 WpfControlsOD/UI/Controls/UiLook	UI-4a	the new look's WPF token brushes, the shared focus visual styles and the content pin (ContentLook)
 WpfControlsOD/UI/Controls/UiLookLists	UI-4b	the new look's WPF brushes, chevrons, item colours and combo box focus style for the combo boxes and lists
 WpfControlsOD/UI/Controls/UiLookText	UI-4b	the new look's WPF text box templates (their keys), the validation error flag, brushes, chevrons and the calendar glyph
+WpfControlsOD/UI/Controls/UiLookScroll	UI-13	the implicit WPF scroll bar style of the Fluent look (UiScrollPaint's tokens), merged by FrmODBase and the WPF controls that scroll
 WpfControlsOD/UI/Controls/CheckBox	UI-4a	the check box
 WpfControlsOD/UI/Controls/RadioButton	UI-4a	self-templated: drawn like the Windows 11 radio button in the tokens (section 2.1)
 WpfControlsOD/UI/Controls/GroupBox	UI-4a	the group box

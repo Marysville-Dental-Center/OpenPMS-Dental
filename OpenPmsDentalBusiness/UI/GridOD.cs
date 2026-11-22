@@ -1842,7 +1842,8 @@ using OpenPmsDental.UI;
 		///<summary>Draws outline around entire control: 1 px Stroke (UI-5).</summary>
 		private void DrawOutline(Graphics g) {
 			if(hScroll.Visible) {//for the little square at the lower right between the two scrollbars
-				using(SolidBrush brushCorner=new SolidBrush(Color.FromKnownColor(KnownColor.Control))) {
+				//UI-13: the square in the scroll bars' track colour (UiScrollPaint), so the two bars read as one frame (was the grey of Windows' bars).
+				using(SolidBrush brushCorner=new SolidBrush(UiTheme.GetColor(UiScrollPaint.GetTrackColor()))) {
 					g.FillRectangle(brushCorner,Width-vScroll.Width-1,Height-hScroll.Height-1,vScroll.Width,hScroll.Height);
 				}
 			}

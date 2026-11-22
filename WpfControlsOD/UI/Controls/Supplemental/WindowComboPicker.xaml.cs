@@ -57,6 +57,7 @@ Jordan is the only one allowed to edit this file.
 		#region Constructor
 		public WindowComboPicker() {
 			InitializeComponent();
+			UiLookScroll.AddTo(this);//UI-13: the scroll bars in the Fluent look
 			SetZoom();
 			Closing+=WindowComboPicker_Closing;
 			Loaded+=WindowComboPicker_Loaded;

@@ -1604,6 +1604,30 @@ own 26.2 overlap check before it starts. The first cut is below; a brief that fi
   (UI-12.md section 4, "Round 7").
 - Gallery: G-UI3 per slice, the owner's rows first.
 
+**UI-13: every element type in the new look (the owner, 2026-11-22: "Overall make sure you modernize all element types")**
+- Why: the owner's review of G-UI3-ui12p (`docs/port-notes/UI-12-owner-review-2.tsv`): the Chart's sliding bar, FormProcCodeEdit's time
+  pattern, the old scroll bars (FormProvEdit, ControlAccount) and the Account's aging strip. Restyle only, in shared code, plus the layout
+  fixes of the four rows. Note: [UI-13.md](../port-notes/UI-13.md); inventory: `docs/port-notes/UI-13-inventory.tsv`
+  (`tools/UiFit/element_inventory.py`).
+- Status (2026-11-22, branch `ui/ui13-1`): every scroll bar (WinForms controls, frame scroll bars, WPF) in one Fluent look; the track bar a
+  Fluent slider; the time pattern a framed column of cells on the grid with its caption and Minutes box; the Account's aging strip on the
+  grid; the stock buttons, check boxes, radio circles on the right, grey label blocks, progress bars, borders, tree and list views, data grid
+  views, link labels and calendars in the tokens; the inputs' dark corner pixel gone; the WPF scroll bar style; the element inventory
+  (169 types: 125 in the new look, 27 kept with a reason, 17 drawing nothing) and its test; gallery G-UI3-ui13 with the audit
+  (`UI-13-audit.md`). Kept with reasons (UI-13.md section 4): Windows' dialogs and message boxes, the stock calendars' inside (Windows 11's
+  themed calendar), the ToolTip component, the stock combo box's drop-down list, content.
+- Fix round (2026-11-22, branch `ui/ui13-2`): the painted looks scale from the painted control's window (dpi times zoom), the data grid
+  view's header flat with Gridline lines and its frame StrokeStrong, stock button captions on one line unless the button holds two, the time
+  pattern's cells, letters and slider steps at the window's scale, the ActiveCaption grid title and thin dark divider panels in the look,
+  trees without dotted lines; the style sheets and the windows outside the pilot drawn with Windows' visual styles (171 inventory rows: 127
+  in the new look).
+- Fix round 2 (2026-11-22, branch `ui/ui13-3`): the themed date picker's whole calendar button under the chevron
+  (DTM_GETDATETIMEPICKERINFO), its value in the Text token and a disabled picker's box in the disabled grey; the style sheet's program list
+  laid out by the window's LayoutManager and painted at the scale's dpi (its rows, text and 26 px scroll bar at 150%), a date picker sheet;
+  the 150% frame scroll bar limit recorded (UI-13.md section 4) with a test that the scroll look scales with the bar Windows reports.
+- Gallery: G-UI3-ui13 (the owner's four rows, a style sheet per element type at 100% and 150%, the 47 UI-12 windows, one window per type
+  outside the pilot).
+
 ---
 
 ## 8. Galleries and the owner's approval

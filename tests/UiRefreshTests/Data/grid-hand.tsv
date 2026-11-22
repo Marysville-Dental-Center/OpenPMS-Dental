@@ -577,6 +577,14 @@ OpenPmsDental/Forms/FormProvEdit.designer.cs	OpenPmsDental.FormProvEdit	comboCla
 OpenPmsDental/Forms/FormProvEdit.designer.cs	OpenPmsDental.FormProvEdit	checkIsCDAnet	Location	407,632	407,648	by hand (polish round, pass 1): Not a Person's text wraps at the right column's edge (760; it ran to 847), two lines like the other wrapped check boxes (36 px); the rows under it 16 px lower
 OpenPmsDental/Forms/FormProcCodeEdit.designer.cs	OpenPmsDental.FormProcCodeEdit	listTreatArea	Size	118,118	118,140	by hand (polish round): the Treatment Area list tall enough for its eight items (it showed six and a half, Arch cut and Tooth Range out of sight; its width holds the longest item), & Tooth Range 4 px under it
 OpenPmsDental/Forms/FormProcCodeEdit.designer.cs	OpenPmsDental.FormProcCodeEdit	checkToothRange	Location	700,147	700,169	by hand (polish round): the Treatment Area list tall enough for its eight items (it showed six and a half, Arch cut and Tooth Range out of sight; its width holds the longest item), & Tooth Range 4 px under it
+OpenPmsDental/Forms/FormProcCodeEdit.designer.cs	OpenPmsDental.FormProcCodeEdit	label6	Size	53,32	76,15	by hand (UI-13, the owner's G-UI3-ui12p row "Time pattern on the left looks odd"): the time pattern as one control on the grid: its caption on one line over the column like the lists' captions (8), the column under it at the lists' top (25), the slider on the column's first cell where FillTime puts it for an empty pattern
+OpenPmsDental/Forms/FormProcCodeEdit.designer.cs	OpenPmsDental.FormProcCodeEdit	tbTime	Location	8,44	8,25	by hand (UI-13, the owner's G-UI3-ui12p row "Time pattern on the left looks odd"): the time pattern as one control on the grid: its caption on one line over the column like the lists' captions (8), the column under it at the lists' top (25), the slider on the column's first cell where FillTime puts it for an empty pattern
+OpenPmsDental/Forms/FormProcCodeEdit.designer.cs	OpenPmsDental.FormProcCodeEdit	butSlider	Location	10,42	10,26	by hand (UI-13, the owner's G-UI3-ui12p row "Time pattern on the left looks odd"): the time pattern as one control on the grid: its caption on one line over the column like the lists' captions (8), the column under it at the lists' top (25), the slider on the column's first cell where FillTime puts it for an empty pattern
+OpenPmsDental/Forms/FormProcCodeEdit.designer.cs	OpenPmsDental.FormProcCodeEdit	label11	Location	8,636	8,594	by hand (UI-13, the owner's G-UI3-ui12p row "Time pattern on the left looks odd"): the Minutes box under the column with its caption over it like the window's other captions (8 px under the column, the box 2 px under its caption at the field height), on the column's left edge (8), 8 px clear of the tab control
+OpenPmsDental/Forms/FormProcCodeEdit.designer.cs	OpenPmsDental.FormProcCodeEdit	label11	Size	63,16	59,15	by hand (UI-13, the owner's G-UI3-ui12p row "Time pattern on the left looks odd"): the Minutes box under the column with its caption over it like the window's other captions (8 px under the column, the box 2 px under its caption at the field height), on the column's left edge (8), 8 px clear of the tab control
+OpenPmsDental/Forms/FormProcCodeEdit.designer.cs	OpenPmsDental.FormProcCodeEdit	label11	TextAlign	TopLeft	BottomLeft	by hand (UI-13, the owner's G-UI3-ui12p row "Time pattern on the left looks odd"): the Minutes box under the column with its caption over it like the window's other captions (8 px under the column, the box 2 px under its caption at the field height), on the column's left edge (8), 8 px clear of the tab control
+OpenPmsDental/Forms/FormProcCodeEdit.designer.cs	OpenPmsDental.FormProcCodeEdit	textTime2	Location	8,609	8,611	by hand (UI-13, the owner's G-UI3-ui12p row "Time pattern on the left looks odd"): the Minutes box under the column with its caption over it like the window's other captions (8 px under the column, the box 2 px under its caption at the field height), on the column's left edge (8), 8 px clear of the tab control
+OpenPmsDental/Forms/FormProcCodeEdit.designer.cs	OpenPmsDental.FormProcCodeEdit	textTime2	Size	60,20	59,23	by hand (UI-13, the owner's G-UI3-ui12p row "Time pattern on the left looks odd"): the Minutes box under the column with its caption over it like the window's other captions (8 px under the column, the box 2 px under its caption at the field height), on the column's left edge (8), 8 px clear of the tab control
 OpenPmsDental/Forms/FormPractice.designer.cs	OpenPmsDental.FormPractice	comboProv	Size	243,23	249,23	by hand (polish round, pass 1): the right column to 8 px from the window's right edge (883, Save's edge; it ended at 877)
 OpenPmsDental/Forms/FormPractice.designer.cs	OpenPmsDental.FormPractice	groupBox4	Size	243,126	249,126	by hand (polish round, pass 1): the right column to 8 px from the window's right edge (883, Save's edge; it ended at 877)
 OpenPmsDental/Forms/FormPractice.designer.cs	OpenPmsDental.FormPractice	comboInsBillingProv	Size	212,23	233,23	by hand (polish round, pass 1): the right column to 8 px from the window's right edge (883, Save's edge; it ended at 877)
@@ -1052,62 +1060,62 @@ OpenPmsDental/Main Modules/ControlChart.designer.cs	OpenPmsDental.ControlChart	b
 OpenPmsDental/Main Modules/ControlChart.designer.cs	OpenPmsDental.ControlChart	butAddText	Size	71,22	71,23	by hand (layout script): on the grid
 OpenPmsDental/Main Modules/ControlChart.designer.cs	OpenPmsDental.ControlChart	butDeleteText	Location	425,195	425,193	by hand (layout script): on the grid
 OpenPmsDental/Main Modules/ControlChart.designer.cs	OpenPmsDental.ControlChart	butDeleteText	Size	71,22	71,23	by hand (layout script): on the grid
-OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	label2	Location	14,2	4,2	by hand (layout script): on the grid
-OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	label2	Size	53,33	56,33	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	label2	Location	14,2	8,2	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	label2	Size	53,33	52,33	by hand (layout script): on the grid
 OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	label2	TextAlign	TopRight	MiddleRight	by hand (layout script): on the grid
 OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	label7	Location	69,2	66,2	by hand (layout script): on the grid
 OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	label7	Size	55,13	50,14	by hand (layout script): on the grid
 OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	label7	TextAlign	TopCenter	BottomCenter	by hand (layout script): on the grid
-OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	text0_30	Location	67,15	66,15	by hand (layout script): the aging boxes: one width, 4 px apart (the strip is 37 px tall: the module's code places the grids under it)
-OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	text0_30	Size	55,20	50,20	by hand (layout script): the aging boxes: one width, 4 px apart (the strip is 37 px tall: the module's code places the grids under it)
+OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	text0_30	Location	67,15	66,17	by hand (layout script): the aging boxes: one width, 4 px apart, under their captions (the strip is 37 px tall: the module's code places the grids under it)
+OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	text0_30	Size	55,20	50,18	by hand (layout script): the aging boxes: one width, 4 px apart, under their captions (the strip is 37 px tall: the module's code places the grids under it)
 OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	label6	Location	122,2	120,2	by hand (layout script): on the grid
 OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	label6	Size	55,13	50,14	by hand (layout script): on the grid
 OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	label6	TextAlign	TopCenter	BottomCenter	by hand (layout script): on the grid
-OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	text31_60	Location	122,15	120,15	by hand (layout script): the aging boxes: one width, 4 px apart (the strip is 37 px tall: the module's code places the grids under it)
-OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	text31_60	Size	55,20	50,20	by hand (layout script): the aging boxes: one width, 4 px apart (the strip is 37 px tall: the module's code places the grids under it)
+OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	text31_60	Location	122,15	120,17	by hand (layout script): the aging boxes: one width, 4 px apart, under their captions (the strip is 37 px tall: the module's code places the grids under it)
+OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	text31_60	Size	55,20	50,18	by hand (layout script): the aging boxes: one width, 4 px apart, under their captions (the strip is 37 px tall: the module's code places the grids under it)
 OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	label5	Location	177,2	174,2	by hand (layout script): on the grid
 OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	label5	Size	55,13	50,14	by hand (layout script): on the grid
 OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	label5	TextAlign	TopCenter	BottomCenter	by hand (layout script): on the grid
-OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	text61_90	Location	177,15	174,15	by hand (layout script): the aging boxes: one width, 4 px apart (the strip is 37 px tall: the module's code places the grids under it)
-OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	text61_90	Size	55,20	50,20	by hand (layout script): the aging boxes: one width, 4 px apart (the strip is 37 px tall: the module's code places the grids under it)
+OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	text61_90	Location	177,15	174,17	by hand (layout script): the aging boxes: one width, 4 px apart, under their captions (the strip is 37 px tall: the module's code places the grids under it)
+OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	text61_90	Size	55,20	50,18	by hand (layout script): the aging boxes: one width, 4 px apart, under their captions (the strip is 37 px tall: the module's code places the grids under it)
 OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	label3	Location	232,2	228,2	by hand (layout script): on the grid
 OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	label3	Size	55,13	50,14	by hand (layout script): on the grid
 OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	label3	TextAlign	TopCenter	BottomCenter	by hand (layout script): on the grid
-OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	textOver90	Location	232,15	228,15	by hand (layout script): the aging boxes: one width, 4 px apart (the strip is 37 px tall: the module's code places the grids under it)
-OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	textOver90	Size	55,20	50,20	by hand (layout script): the aging boxes: one width, 4 px apart (the strip is 37 px tall: the module's code places the grids under it)
+OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	textOver90	Location	232,15	228,17	by hand (layout script): the aging boxes: one width, 4 px apart, under their captions (the strip is 37 px tall: the module's code places the grids under it)
+OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	textOver90	Size	55,20	50,18	by hand (layout script): the aging boxes: one width, 4 px apart, under their captions (the strip is 37 px tall: the module's code places the grids under it)
 OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	labelTotal	Location	294,2	284,2	by hand (layout script): on the grid
 OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	labelTotal	TextAlign	TopCenter	BottomCenter	by hand (layout script): on the grid
 OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	labelTotalAmt	Location	294,16	284,17	by hand (layout script): on the grid
-OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	labelTotalAmt	Size	80,20	80,18	by hand (layout script): on the grid
-OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	panelAgeLine	Location	379,2	368,3	by hand (layout script): on the grid
-OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	labelInsEst	Location	387,2	374,2	by hand (layout script): on the grid
-OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	labelInsEst	Size	65,16	72,14	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	labelTotalAmt	Size	80,20	76,18	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	panelAgeLine	Location	379,2	364,3	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	labelInsEst	Location	387,2	370,2	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	labelInsEst	Size	65,16	76,14	by hand (layout script): on the grid
 OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	labelInsEst	TextAlign	TopCenter	BottomCenter	by hand (layout script): on the grid
-OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	labelInsEstAmt	Location	387,18	374,17	by hand (layout script): on the grid
-OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	labelInsEstAmt	Size	65,18	72,18	by hand (layout script): on the grid
-OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	labelInsEstAmt	TextAlign	TopCenter	MiddleCenter	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	labelInsEstAmt	Location	387,18	370,17	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	labelInsEstAmt	Size	65,18	76,18	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	labelInsEstAmt	TextAlign	TopCenter	BottomCenter	by hand (layout script): on the grid
 OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	labelBalance	Location	454,2	450,2	by hand (layout script): on the grid
 OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	labelBalance	TextAlign	TopCenter	BottomCenter	by hand (layout script): on the grid
 OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	labelBalanceAmt	Location	456,16	450,17	by hand (layout script): on the grid
-OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	labelBalanceAmt	Size	80,20	80,18	by hand (layout script): on the grid
-OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	panel1	Location	541,3	534,3	by hand (layout script): on the grid
-OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	labelPatEstBal	Location	550,3	540,2	by hand (layout script): on the grid
-OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	labelPatEstBal	Size	65,16	72,14	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	labelBalanceAmt	Size	80,20	76,18	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	panel1	Location	541,3	530,3	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	labelPatEstBal	Location	550,3	536,2	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	labelPatEstBal	Size	65,16	76,14	by hand (layout script): on the grid
 OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	labelPatEstBal	TextAlign	TopCenter	BottomCenter	by hand (layout script): on the grid
-OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	labelPatEstBalAmt	Location	550,19	540,17	by hand (layout script): on the grid
-OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	labelPatEstBalAmt	Size	65,18	72,18	by hand (layout script): on the grid
-OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	labelPatEstBalAmt	TextAlign	TopCenter	MiddleCenter	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	labelPatEstBalAmt	Location	550,19	536,17	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	labelPatEstBalAmt	Size	65,18	76,18	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	labelPatEstBalAmt	TextAlign	TopCenter	BottomCenter	by hand (layout script): on the grid
 OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	panel2	Location	624,3	616,3	by hand (layout script): on the grid
 OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	labelUnearned	Location	632,2	622,2	by hand (layout script): on the grid
-OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	labelUnearned	Size	68,16	72,14	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	labelUnearned	Size	68,16	76,14	by hand (layout script): on the grid
 OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	labelUnearned	TextAlign	TopCenter	BottomCenter	by hand (layout script): on the grid
 OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	labelUnearnedAmt	Location	636,18	622,17	by hand (layout script): on the grid
-OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	labelUnearnedAmt	Size	60,18	72,18	by hand (layout script): on the grid
-OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	labelUnearnedAmt	TextAlign	TopCenter	MiddleCenter	by hand (layout script): on the grid
-OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	labelInsRem	Location	700,4	700,2	by hand (layout script): on the grid
-OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	labelInsRem	Size	49,29	49,33	by hand (layout script): on the grid
-OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	labelDisRem	Location	700,4	700,2	by hand (layout script): on the grid
-OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	labelDisRem	Size	45,29	49,33	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	labelUnearnedAmt	Size	60,18	76,18	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	labelUnearnedAmt	TextAlign	TopCenter	BottomCenter	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	labelInsRem	Location	700,4	704,2	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	labelInsRem	Size	49,29	45,33	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	labelDisRem	Location	700,4	704,2	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	labelDisRem	Size	45,29	45,33	by hand (layout script): on the grid
 OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	labelUrgFinNote	Location	-1,1	4,4	by hand (layout script): on the grid
 OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	labelUrgFinNote	Size	170,17	174,17	by hand (layout script): on the grid
 OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	textUrgFinNote	Location	0,20	4,23	by hand (layout script): on the grid
@@ -1152,6 +1160,10 @@ OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccou
 OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	checkShowCommAuto	Size	176,18	178,20	by hand (layout script): on the grid
 OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	checkShowCompletePayPlans	Location	6,265	4,273	by hand (layout script): on the grid
 OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	checkShowCompletePayPlans	Size	168,18	170,20	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	labelTotal	Size	80,14	76,14	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	labelTotalAmt	TextAlign	MiddleCenter	BottomCenter	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	labelBalance	Size	80,14	76,14	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlAccount.Designer.cs	OpenPmsDental.ControlAccount	labelBalanceAmt	TextAlign	MiddleCenter	BottomCenter	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormProcEdit.designer.cs	OpenPmsDental.FormProcEdit	panel1	Size	397,214	432,270	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormProcEdit.designer.cs	OpenPmsDental.FormProcEdit	label12	Location	3,3	52,8	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormProcEdit.designer.cs	OpenPmsDental.FormProcEdit	label12	Size	103,18	68,23	by hand (layout script): on the grid

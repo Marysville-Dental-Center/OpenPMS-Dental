@@ -365,9 +365,9 @@
 			// 
 			this.labelDisRem.BackColor = System.Drawing.Color.LightGray;
 			this.labelDisRem.Enabled = false;
-			this.labelDisRem.Location = new System.Drawing.Point(700, 2);
+			this.labelDisRem.Location = new System.Drawing.Point(704, 2);
 			this.labelDisRem.Name = "labelDisRem";
-			this.labelDisRem.Size = new System.Drawing.Size(49, 33);
+			this.labelDisRem.Size = new System.Drawing.Size(45, 33);
 			this.labelDisRem.TabIndex = 223;
 			this.labelDisRem.Text = "DPlan Rem";
 			this.labelDisRem.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -378,9 +378,9 @@
 			// labelInsRem
 			// 
 			this.labelInsRem.BackColor = System.Drawing.Color.LightGray;
-			this.labelInsRem.Location = new System.Drawing.Point(700, 2);
+			this.labelInsRem.Location = new System.Drawing.Point(704, 2);
 			this.labelInsRem.Name = "labelInsRem";
-			this.labelInsRem.Size = new System.Drawing.Size(49, 33);
+			this.labelInsRem.Size = new System.Drawing.Size(45, 33);
 			this.labelInsRem.TabIndex = 0;
 			this.labelInsRem.Text = "Ins\r\nRem";
 			this.labelInsRem.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -394,10 +394,10 @@
 			this.labelUnearnedAmt.ForeColor = System.Drawing.Color.Firebrick;
 			this.labelUnearnedAmt.Location = new System.Drawing.Point(622, 17);
 			this.labelUnearnedAmt.Name = "labelUnearnedAmt";
-			this.labelUnearnedAmt.Size = new System.Drawing.Size(72, 18);
+			this.labelUnearnedAmt.Size = new System.Drawing.Size(76, 18);
 			this.labelUnearnedAmt.TabIndex = 228;
 			this.labelUnearnedAmt.Text = "25000.00";
-			this.labelUnearnedAmt.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.labelUnearnedAmt.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.labelUnearnedAmt.MouseEnter += new System.EventHandler(this.labelUnearnedAmt_MouseEnter);
 			this.labelUnearnedAmt.MouseLeave += new System.EventHandler(this.labelUnearnedAmt_MouseLeave);
 			// 
@@ -407,7 +407,7 @@
 			this.labelUnearned.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.labelUnearned.Location = new System.Drawing.Point(622, 2);
 			this.labelUnearned.Name = "labelUnearned";
-			this.labelUnearned.Size = new System.Drawing.Size(72, 14);
+			this.labelUnearned.Size = new System.Drawing.Size(76, 14);
 			this.labelUnearned.TabIndex = 227;
 			this.labelUnearned.Text = "Unearned";
 			this.labelUnearned.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -418,10 +418,10 @@
 			this.labelBalanceAmt.ForeColor = System.Drawing.Color.Firebrick;
 			this.labelBalanceAmt.Location = new System.Drawing.Point(450, 17);
 			this.labelBalanceAmt.Name = "labelBalanceAmt";
-			this.labelBalanceAmt.Size = new System.Drawing.Size(80, 18);
+			this.labelBalanceAmt.Size = new System.Drawing.Size(76, 18);
 			this.labelBalanceAmt.TabIndex = 60;
 			this.labelBalanceAmt.Text = "25000.00";
-			this.labelBalanceAmt.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.labelBalanceAmt.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			// 
 			// labelTotalAmt
 			// 
@@ -429,10 +429,10 @@
 			this.labelTotalAmt.ForeColor = System.Drawing.Color.Firebrick;
 			this.labelTotalAmt.Location = new System.Drawing.Point(284, 17);
 			this.labelTotalAmt.Name = "labelTotalAmt";
-			this.labelTotalAmt.Size = new System.Drawing.Size(80, 18);
+			this.labelTotalAmt.Size = new System.Drawing.Size(76, 18);
 			this.labelTotalAmt.TabIndex = 61;
 			this.labelTotalAmt.Text = "25000.00";
-			this.labelTotalAmt.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.labelTotalAmt.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			// 
 			// panelTotalOwes
 			// 
@@ -466,18 +466,18 @@
 			// 
 			// labelPatEstBalAmt
 			// 
-			this.labelPatEstBalAmt.Location = new System.Drawing.Point(540, 17);
+			this.labelPatEstBalAmt.Location = new System.Drawing.Point(536, 17);
 			this.labelPatEstBalAmt.Name = "labelPatEstBalAmt";
-			this.labelPatEstBalAmt.Size = new System.Drawing.Size(72, 18);
+			this.labelPatEstBalAmt.Size = new System.Drawing.Size(76, 18);
 			this.labelPatEstBalAmt.TabIndex = 89;
 			this.labelPatEstBalAmt.Text = "25000.00";
-			this.labelPatEstBalAmt.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.labelPatEstBalAmt.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			// 
 			// labelPatEstBal
 			// 
-			this.labelPatEstBal.Location = new System.Drawing.Point(540, 2);
+			this.labelPatEstBal.Location = new System.Drawing.Point(536, 2);
 			this.labelPatEstBal.Name = "labelPatEstBal";
-			this.labelPatEstBal.Size = new System.Drawing.Size(72, 14);
+			this.labelPatEstBal.Size = new System.Drawing.Size(76, 14);
 			this.labelPatEstBal.TabIndex = 88;
 			this.labelPatEstBal.Text = "Pat Est Bal";
 			this.labelPatEstBal.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -493,7 +493,7 @@
 			// panel1
 			// 
 			this.panel1.BackColor = System.Drawing.SystemColors.ControlDark;
-			this.panel1.Location = new System.Drawing.Point(534, 3);
+			this.panel1.Location = new System.Drawing.Point(530, 3);
 			this.panel1.Name = "panel1";
 			this.panel1.Size = new System.Drawing.Size(2, 32);
 			this.panel1.TabIndex = 86;
@@ -501,19 +501,19 @@
 			// panelAgeLine
 			// 
 			this.panelAgeLine.BackColor = System.Drawing.SystemColors.ControlDark;
-			this.panelAgeLine.Location = new System.Drawing.Point(368, 3);
+			this.panelAgeLine.Location = new System.Drawing.Point(364, 3);
 			this.panelAgeLine.Name = "panelAgeLine";
 			this.panelAgeLine.Size = new System.Drawing.Size(2, 32);
 			this.panelAgeLine.TabIndex = 63;
 			// 
 			// labelInsEstAmt
 			// 
-			this.labelInsEstAmt.Location = new System.Drawing.Point(374, 17);
+			this.labelInsEstAmt.Location = new System.Drawing.Point(370, 17);
 			this.labelInsEstAmt.Name = "labelInsEstAmt";
-			this.labelInsEstAmt.Size = new System.Drawing.Size(72, 18);
+			this.labelInsEstAmt.Size = new System.Drawing.Size(76, 18);
 			this.labelInsEstAmt.TabIndex = 62;
 			this.labelInsEstAmt.Text = "2500.00";
-			this.labelInsEstAmt.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.labelInsEstAmt.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.labelInsEstAmt.MouseEnter += new System.EventHandler(this.labelInsEstAmt_MouseEnter);
 			this.labelInsEstAmt.MouseLeave += new System.EventHandler(this.labelInsEstAmt_MouseLeave);
 			// 
@@ -522,16 +522,16 @@
 			this.labelBalance.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.labelBalance.Location = new System.Drawing.Point(450, 2);
 			this.labelBalance.Name = "labelBalance";
-			this.labelBalance.Size = new System.Drawing.Size(80, 14);
+			this.labelBalance.Size = new System.Drawing.Size(76, 14);
 			this.labelBalance.TabIndex = 59;
 			this.labelBalance.Text = "= Balance";
 			this.labelBalance.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			// 
 			// labelInsEst
 			// 
-			this.labelInsEst.Location = new System.Drawing.Point(374, 2);
+			this.labelInsEst.Location = new System.Drawing.Point(370, 2);
 			this.labelInsEst.Name = "labelInsEst";
-			this.labelInsEst.Size = new System.Drawing.Size(72, 14);
+			this.labelInsEst.Size = new System.Drawing.Size(76, 14);
 			this.labelInsEst.TabIndex = 57;
 			this.labelInsEst.Text = "- InsEst";
 			this.labelInsEst.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -540,7 +540,7 @@
 			// 
 			this.labelTotal.Location = new System.Drawing.Point(284, 2);
 			this.labelTotal.Name = "labelTotal";
-			this.labelTotal.Size = new System.Drawing.Size(80, 14);
+			this.labelTotal.Size = new System.Drawing.Size(76, 14);
 			this.labelTotal.TabIndex = 55;
 			this.labelTotal.Text = "Total";
 			this.labelTotal.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -557,10 +557,10 @@
 			// text0_30
 			// 
 			this.text0_30.AutoSize = false;
-			this.text0_30.Location = new System.Drawing.Point(66, 15);
+			this.text0_30.Location = new System.Drawing.Point(66, 17);
 			this.text0_30.Name = "text0_30";
 			this.text0_30.ReadOnly = true;
-			this.text0_30.Size = new System.Drawing.Size(50, 20);
+			this.text0_30.Size = new System.Drawing.Size(50, 18);
 			this.text0_30.TabIndex = 52;
 			this.text0_30.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			// 
@@ -576,10 +576,10 @@
 			// text31_60
 			// 
 			this.text31_60.AutoSize = false;
-			this.text31_60.Location = new System.Drawing.Point(120, 15);
+			this.text31_60.Location = new System.Drawing.Point(120, 17);
 			this.text31_60.Name = "text31_60";
 			this.text31_60.ReadOnly = true;
-			this.text31_60.Size = new System.Drawing.Size(50, 20);
+			this.text31_60.Size = new System.Drawing.Size(50, 18);
 			this.text31_60.TabIndex = 50;
 			this.text31_60.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			// 
@@ -595,10 +595,10 @@
 			// text61_90
 			// 
 			this.text61_90.AutoSize = false;
-			this.text61_90.Location = new System.Drawing.Point(174, 15);
+			this.text61_90.Location = new System.Drawing.Point(174, 17);
 			this.text61_90.Name = "text61_90";
 			this.text61_90.ReadOnly = true;
-			this.text61_90.Size = new System.Drawing.Size(50, 20);
+			this.text61_90.Size = new System.Drawing.Size(50, 18);
 			this.text61_90.TabIndex = 48;
 			this.text61_90.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			// 
@@ -614,19 +614,19 @@
 			// textOver90
 			// 
 			this.textOver90.AutoSize = false;
-			this.textOver90.Location = new System.Drawing.Point(228, 15);
+			this.textOver90.Location = new System.Drawing.Point(228, 17);
 			this.textOver90.Name = "textOver90";
 			this.textOver90.ReadOnly = true;
-			this.textOver90.Size = new System.Drawing.Size(50, 20);
+			this.textOver90.Size = new System.Drawing.Size(50, 18);
 			this.textOver90.TabIndex = 46;
 			this.textOver90.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			// 
 			// label2
 			// 
 			this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label2.Location = new System.Drawing.Point(4, 2);
+			this.label2.Location = new System.Drawing.Point(8, 2);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(56, 33);
+			this.label2.Size = new System.Drawing.Size(52, 33);
 			this.label2.TabIndex = 45;
 			this.label2.Text = "Family\r\nAging";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

@@ -5,7 +5,9 @@
 // black or 3-D edges and the date picker's drop button look like the combo box's. FormODBase attaches it to its controls when it makes its
 // LayoutManager (AttachTree). Round 2: the stock (editable) ComboBox too, its Windows drop button covered by the program's chevron. Polish
 // round: every multi-line text box and rich text box with a border too (one framed look for every text box), and the up-down boxes' arrow
-// buttons drawn in the theme (UiUpDownLook).
+// buttons drawn in the theme (UiUpDownLook). UI-13 fix round: the themed date picker's whole drop button is covered (its rectangle from
+// DTM_GETDATETIMEPICKERINFO; Windows 11's calendar button is wider than the scroll bar width the frame covered), and its value is recoloured
+// from Windows' black to the Text token.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
@@ -95,19 +97,29 @@ namespace OpenPmsDental.UI {
 				return;
 			}
 			foreach(Control control in root.Controls) {
-				if(IsFramed(control)) {
-					Attach(control);
-				}
-				else if(control is RadioButton) {
-					//Round 3: the stock radio button drawn like the program's check box (UiRadioLook).
-					UiRadioLook.Attach(control);
-				}
-				else if(UiUpDownLook.IsButtons(control)) {
-					//Polish round: the up-down box's arrow buttons drawn like the combo box's drop area (UiUpDownLook).
-					UiUpDownLook.Attach(control);
-				}
+				AttachOne(control);
 				AttachTree(control);
 			}
+		}
+
+		///<summary>Attaches every shared look that applies to the one control (not its children): the frame, the radio button's and the up-down
+		///box's looks (UI-12), and UI-13's looks (UiLooks.AttachOne: scroll bars, slider, stock buttons, grey label blocks and the rest).</summary>
+		public static void AttachOne(Control control) {
+			if(control==null) {
+				return;
+			}
+			if(IsFramed(control)) {
+				Attach(control);
+			}
+			else if(control is RadioButton) {
+				//Round 3: the stock radio button drawn like the program's check box (UiRadioLook).
+				UiRadioLook.Attach(control);
+			}
+			else if(UiUpDownLook.IsButtons(control)) {
+				//Polish round: the up-down box's arrow buttons drawn like the combo box's drop area (UiUpDownLook).
+				UiUpDownLook.Attach(control);
+			}
+			UiLooks.AttachOne(control);
 		}
 
 		public static void Attach(Control control) {
@@ -139,23 +151,33 @@ namespace OpenPmsDental.UI {
 			try {
 				g.SmoothingMode=SmoothingMode.AntiAlias;
 				Region region=new Region(rectangle);
-				Rectangle rectangleInner=Rectangle.Inflate(rectangle,-edge,-edge);
-				Rectangle rectangleButton=Rectangle.Empty;
-				if(control is DateTimePicker || control is System.Windows.Forms.ComboBox) {
-					//The drop button: the width of a scroll bar inside the edge, at the right.
-					int widthButton=SystemInformation.VerticalScrollBarWidth+2;
-					rectangleButton=new Rectangle(rectangleInner.Right-widthButton,rectangleInner.Y,widthButton,rectangleInner.Height);
-					rectangleInner.Width-=widthButton;
-				}
+				Rectangle rectangleInner=GetInnerRectangle(rectangle,control);
 				region.Exclude(rectangleInner);
 				g.Clip=region;
+				//UI-13: the parent's colour on whole pixels. With antialiasing and the default pixel offset the fill covered the edge pixels by half
+				//and the corner pixel by a quarter, so Windows' dark border showed through under each rounded corner (UI-12.md section 5).
+				g.SmoothingMode=SmoothingMode.None;
 				using(SolidBrush brushParent=new SolidBrush(colorParent)) {
 					g.FillRectangle(brushParent,rectangle);
 				}
+				g.SmoothingMode=SmoothingMode.AntiAlias;
 				Rectangle rectangleBox=new Rectangle(rectangle.X,rectangle.Y,rectangle.Width,rectangle.Height);
 				UiListPaint.DrawComboBoxBox(g,rectangleBox,false,control.Enabled,scale,colorBack);
-				if(control is DateTimePicker || control is System.Windows.Forms.ComboBox) {
-					UiListPaint.DrawChevron(g,rectangleBox,control.Enabled ? EnumUiColor.Text : EnumUiColor.TextDisabled,scale);
+				EnumUiColor uiColorChevron=control.Enabled ? EnumUiColor.Text : EnumUiColor.TextDisabled;
+				Rectangle rectangleButton=GetDropButtonRectangle(control);
+				if(control is DateTimePicker && !rectangleButton.IsEmpty) {
+					//UI-13 fix round: the themed date picker's whole drop button is covered (rectangleInner stops 1 px left of it). The chevron is at the
+					//combo box's place, so a date picker over a combo box keeps one chevron column; centred in the covered area when the button is too
+					//narrow for that place.
+					int left=rectangle.X+rectangleButton.Left-1;
+					Rectangle rectangleChevron=UiListPaint.GetChevronRectangle(rectangleBox,scale);
+					if(rectangleChevron.Left<left) {
+						rectangleChevron.X=left+(rectangle.Right-1-left-rectangleChevron.Width)/2;
+					}
+					UiIcons.Draw(g,UiGlyph.ChevronDown,rectangleChevron,uiColorChevron);
+				}
+				else if(control is DateTimePicker || control is System.Windows.Forms.ComboBox) {
+					UiListPaint.DrawChevron(g,rectangleBox,uiColorChevron,scale);
 				}
 				if(isFocused && control.Enabled) {
 					UiListPaint.DrawComboFocusLine(g,rectangleBox,scale);
@@ -166,6 +188,155 @@ namespace OpenPmsDental.UI {
 				g.Restore(graphicsState);
 			}
 		}
+		///<summary>The part of the control the frame leaves as Windows drew it: inside the edge, less a date picker's or combo box's drop button,
+		///which the frame covers with the chevron. A date picker's button is the one Windows reports (DTM_GETDATETIMEPICKERINFO: with Windows'
+		///visual styles it is wider than a scroll bar), covered from 1 px left of it; otherwise (a combo box, or a picker that does not answer the
+		///message, as without visual styles) the width of a scroll bar inside the edge, at the right.</summary>
+		public static Rectangle GetInnerRectangle(Rectangle rectangle,Control control) {
+			Rectangle rectangleInner=Rectangle.Inflate(rectangle,-GetEdgeWidth(control),-GetEdgeWidth(control));
+			Rectangle rectangleButton=GetDropButtonRectangle(control);
+			if(control is DateTimePicker && !rectangleButton.IsEmpty) {
+				int left=rectangle.X+rectangleButton.Left-1;
+				rectangleInner.Width=Math.Max(0,Math.Min(rectangleInner.Width,left-rectangleInner.X));
+			}
+			else if(control is DateTimePicker || control is System.Windows.Forms.ComboBox) {
+				rectangleInner.Width-=SystemInformation.VerticalScrollBarWidth+2;
+			}
+			return rectangleInner;
+		}
+
+		///<summary>UI-13 fix round: a date picker's drop button in the coordinates of its window (its top left corner, as the frame paints), from
+		///DTM_GETDATETIMEPICKERINFO (rcButton is in client coordinates). Empty when the control is not a date picker with a handle, when Windows
+		///does not answer the message (comctl32 before version 6) or the picker has no drop button (ShowUpDown).</summary>
+		public static Rectangle GetDropButtonRectangle(Control control) {
+			if(!(control is DateTimePicker) || !control.IsHandleCreated) {
+				return Rectangle.Empty;
+			}
+			DATETIMEPICKERINFO dateTimePickerInfo=new DATETIMEPICKERINFO();
+			dateTimePickerInfo.cbSize=Marshal.SizeOf(typeof(DATETIMEPICKERINFO));
+			SendMessage(control.Handle,DTM_GETDATETIMEPICKERINFO,IntPtr.Zero,ref dateTimePickerInfo);
+			RECT rect=dateTimePickerInfo.rcButton;
+			if(rect.Right<=rect.Left || rect.Bottom<=rect.Top) {
+				return Rectangle.Empty;
+			}
+			Point pointClient=GetClientOffset(control.Handle);
+			return Rectangle.FromLTRB(rect.Left+pointClient.X,rect.Top+pointClient.Y,rect.Right+pointClient.X,rect.Bottom+pointClient.Y);
+		}
+
+		///<summary>UI-13 fix round: the date picker's value as Windows drew it (pure black, its theme's text colour, which no property of the stock
+		///picker changes) recoloured to the Text token, in the part of the window the frame leaves (left of the drop button, right of the check
+		///box), inside rectangleUpdate (window coordinates). Every channel darker than the box's colour is moved linearly from black to the
+		///token, so antialiased and ClearType pixels keep their shape. A disabled picker: Windows fills it nearly white, so its box (the lightest
+		///value of each channel) is moved to the disabled inputs' grey (SystemColors.Control, the frame's fill) with its grey text kept, the
+		///check box included. Not a focused picker (it shows its selected field in Windows' highlight) and not in high contrast (its own
+		///colours). The caller passes pixels Windows has just drawn, so none is recoloured twice.</summary>
+		public static void RecolorDateText(IntPtr hdc,Control control,Rectangle rectangleUpdate) {
+			if(!(control is DateTimePicker dateTimePicker) || control.ContainsFocus || SystemInformation.HighContrast) {
+				return;
+			}
+			bool isEnabled=control.Enabled;
+			Rectangle rectangleText=GetInnerRectangle(new Rectangle(0,0,control.Width,control.Height),control);
+			if(isEnabled && dateTimePicker.ShowCheckBox && control.IsHandleCreated) {
+				DATETIMEPICKERINFO dateTimePickerInfo=new DATETIMEPICKERINFO();
+				dateTimePickerInfo.cbSize=Marshal.SizeOf(typeof(DATETIMEPICKERINFO));
+				SendMessage(control.Handle,DTM_GETDATETIMEPICKERINFO,IntPtr.Zero,ref dateTimePickerInfo);
+				int rightCheck=dateTimePickerInfo.rcCheck.Right+GetClientOffset(control.Handle).X;
+				if(rightCheck>rectangleText.Left) {
+					rectangleText=Rectangle.FromLTRB(rightCheck,rectangleText.Top,rectangleText.Right,rectangleText.Bottom);
+				}
+			}
+			rectangleText.Intersect(rectangleUpdate);
+			if(rectangleText.Width<=0 || rectangleText.Height<=0) {
+				return;
+			}
+			Color colorBack=SystemColors.Window;
+			Color colorText=UiTheme.GetColor(EnumUiColor.Text);
+			//A 32 bpp top-down DIB in a memory DC (GDI only: the hdc can be a GDI+ bitmap's, as when the harness prints).
+			int width=rectangleText.Width;
+			int height=rectangleText.Height;
+			IntPtr hdcMemory=CreateCompatibleDC(hdc);
+			if(hdcMemory==IntPtr.Zero) {
+				return;
+			}
+			IntPtr hBitmap=IntPtr.Zero;
+			IntPtr hBitmapOld=IntPtr.Zero;
+			try {
+				BITMAPINFOHEADER bitmapInfoHeader=new BITMAPINFOHEADER();
+				bitmapInfoHeader.biSize=Marshal.SizeOf(typeof(BITMAPINFOHEADER));
+				bitmapInfoHeader.biWidth=width;
+				bitmapInfoHeader.biHeight=-height;//top-down
+				bitmapInfoHeader.biPlanes=1;
+				bitmapInfoHeader.biBitCount=32;
+				hBitmap=CreateDIBSection(hdc,ref bitmapInfoHeader,0,out IntPtr pBits,IntPtr.Zero,0);
+				if(hBitmap==IntPtr.Zero || pBits==IntPtr.Zero) {
+					return;
+				}
+				hBitmapOld=SelectObject(hdcMemory,hBitmap);
+				if(!BitBlt(hdcMemory,0,0,width,height,hdc,rectangleText.X,rectangleText.Y,SRCCOPY)) {
+					return;
+				}
+				GdiFlush();
+				int count=width*height*4;
+				byte[] arrayBytes=new byte[count];
+				Marshal.Copy(pBits,arrayBytes,0,count);
+				//Blue, green, red and an unused byte in each pixel.
+				if(isEnabled) {
+					for(int i=0;i<count;i+=4) {
+						arrayBytes[i]=RecolorChannel(arrayBytes[i],colorBack.B,colorText.B);
+						arrayBytes[i+1]=RecolorChannel(arrayBytes[i+1],colorBack.G,colorText.G);
+						arrayBytes[i+2]=RecolorChannel(arrayBytes[i+2],colorBack.R,colorText.R);
+					}
+				}
+				else {
+					byte[] arrayLightest=new byte[3];
+					for(int i=0;i<count;i+=4) {
+						for(int c=0;c<3;c++) {
+							arrayLightest[c]=Math.Max(arrayLightest[c],arrayBytes[i+c]);
+						}
+					}
+					Color colorInk=SystemColors.GrayText;
+					Color colorDisabled=SystemColors.Control;
+					byte[] arrayInk=new byte[] { colorInk.B,colorInk.G,colorInk.R };
+					byte[] arrayDisabled=new byte[] { colorDisabled.B,colorDisabled.G,colorDisabled.R };
+					for(int i=0;i<count;i+=4) {
+						for(int c=0;c<3;c++) {
+							arrayBytes[i+c]=RecolorDisabledChannel(arrayBytes[i+c],arrayInk[c],arrayLightest[c],arrayDisabled[c]);
+						}
+					}
+				}
+				Marshal.Copy(arrayBytes,0,pBits,count);
+				BitBlt(hdc,rectangleText.X,rectangleText.Y,width,height,hdcMemory,0,0,SRCCOPY);
+				GdiFlush();
+			}
+			finally {
+				if(hBitmapOld!=IntPtr.Zero) {
+					SelectObject(hdcMemory,hBitmapOld);
+				}
+				if(hBitmap!=IntPtr.Zero) {
+					DeleteObject(hBitmap);
+				}
+				DeleteDC(hdcMemory);
+			}
+		}
+
+		///<summary>One channel of a disabled picker's pixel: the ink stays, the box's colour (valueBack) becomes valueTarget, the blends in
+		///between in proportion. A channel at or below the ink is left.</summary>
+		public static byte RecolorDisabledChannel(byte value,byte valueInk,byte valueBack,byte valueTarget) {
+			if(value<=valueInk || valueBack<=valueInk) {
+				return value;
+			}
+			return (byte)Math.Round(valueInk+(value-valueInk)*(double)(valueTarget-valueInk)/(valueBack-valueInk));
+		}
+
+		///<summary>One channel of a pixel of black ink on the box's colour, moved to the token's ink: black becomes the token, the box's colour
+		///stays, the blends in between in proportion. A channel at or above the box's colour is left.</summary>
+		public static byte RecolorChannel(byte value,byte valueBack,byte valueText) {
+			if(value>=valueBack || valueBack==0) {
+				return value;
+			}
+			return (byte)Math.Round(valueBack-(valueBack-value)*(double)(valueBack-valueText)/valueBack);
+		}
+
 		#endregion Methods - Public
 
 		#region Methods - Private
@@ -194,14 +365,26 @@ namespace OpenPmsDental.UI {
 		}
 
 		protected override void WndProc(ref Message m) {
+			//UI-13 fix round: the part of a date picker Windows is about to paint on screen (its update region, in window coordinates), so only the
+			//pixels it paints now get the Text token's colour (RecolorDateText).
+			Rectangle[] arrayRectanglesUpdate=null;
+			if(m.Msg==WM_PAINT && m.WParam==IntPtr.Zero && _control is DateTimePicker) {
+				arrayRectanglesUpdate=GetUpdateRectangles();
+			}
 			base.WndProc(ref m);
 			try {
 				switch(m.Msg) {
 					case WM_NCPAINT:
 					case WM_PAINT:
+						if(arrayRectanglesUpdate!=null) {
+							RecolorOnWindow(arrayRectanglesUpdate);
+						}
 						PaintOnWindow();
 						break;
 					case WM_PRINT:
+						if(((int)m.LParam & PRF_CLIENT)!=0) {
+							RecolorDateText(m.WParam,_control,new Rectangle(0,0,_control.Width,_control.Height));
+						}
 						using(Graphics g=Graphics.FromHdc(m.WParam)) {
 							PaintFrame(g,new Rectangle(0,0,_control.Width,_control.Height),_control,false);
 						}
@@ -227,6 +410,144 @@ namespace OpenPmsDental.UI {
 				ReleaseDC(Handle,hdc);
 			}
 		}
+
+		///<summary>The window's update region as rectangles in window coordinates (before WM_PAINT's BeginPaint validates it); empty when there
+		///is none.</summary>
+		private Rectangle[] GetUpdateRectangles() {
+			IntPtr hRgn=CreateRectRgn(0,0,0,0);
+			try {
+				if(GetUpdateRgn(Handle,hRgn,false)<=NULLREGION) {
+					return new Rectangle[0];
+				}
+				Point pointClient=GetClientOffset(Handle);
+				using(Region region=Region.FromHrgn(hRgn))
+				using(Matrix matrix=new Matrix()) {
+					RectangleF[] arrayRectangleFs=region.GetRegionScans(matrix);
+					Rectangle[] arrayRectangles=new Rectangle[arrayRectangleFs.Length];
+					for(int i=0;i<arrayRectangleFs.Length;i++) {
+						Rectangle rectangle=Rectangle.Round(arrayRectangleFs[i]);
+						rectangle.Offset(pointClient);
+						arrayRectangles[i]=rectangle;
+					}
+					return arrayRectangles;
+				}
+			}
+			finally {
+				DeleteObject(hRgn);
+			}
+		}
+
+		private void RecolorOnWindow(Rectangle[] arrayRectanglesUpdate) {
+			if(arrayRectanglesUpdate.Length==0) {
+				return;
+			}
+			IntPtr hdc=GetWindowDC(Handle);
+			if(hdc==IntPtr.Zero) {
+				return;
+			}
+			try {
+				foreach(Rectangle rectangle in arrayRectanglesUpdate) {
+					RecolorDateText(hdc,_control,rectangle);
+				}
+			}
+			finally {
+				ReleaseDC(Handle,hdc);
+			}
+		}
+
+		///<summary>Where the window's client area starts, from its top left corner (the width of its border).</summary>
+		private static Point GetClientOffset(IntPtr hWnd) {
+			if(!GetWindowRect(hWnd,out RECT rectWindow)) {
+				return Point.Empty;
+			}
+			POINT point=new POINT();
+			if(!ClientToScreen(hWnd,ref point)) {
+				return Point.Empty;
+			}
+			return new Point(point.X-rectWindow.Left,point.Y-rectWindow.Top);
+		}
+
+		private const int DTM_GETDATETIMEPICKERINFO=0x1000+14;
+		private const int PRF_CLIENT=0x0004;
+		private const int NULLREGION=1;
+		private const int SRCCOPY=0x00CC0020;
+
+		[StructLayout(LayoutKind.Sequential)]
+		private struct RECT {
+			public int Left;
+			public int Top;
+			public int Right;
+			public int Bottom;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		private struct POINT {
+			public int X;
+			public int Y;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		private struct DATETIMEPICKERINFO {
+			public int cbSize;
+			public RECT rcCheck;
+			public int stateCheck;
+			public RECT rcButton;
+			public int stateButton;
+			public IntPtr hwndEdit;
+			public IntPtr hwndUD;
+			public IntPtr hwndDropDown;
+		}
+
+		[DllImport("user32.dll")]
+		private static extern IntPtr SendMessage(IntPtr hWnd,int msg,IntPtr wParam,ref DATETIMEPICKERINFO lParam);
+
+		[DllImport("user32.dll")]
+		private static extern bool GetWindowRect(IntPtr hWnd,out RECT rect);
+
+		[DllImport("user32.dll")]
+		private static extern bool ClientToScreen(IntPtr hWnd,ref POINT point);
+
+		[DllImport("user32.dll")]
+		private static extern int GetUpdateRgn(IntPtr hWnd,IntPtr hRgn,bool erase);
+
+		[DllImport("gdi32.dll")]
+		private static extern IntPtr CreateRectRgn(int left,int top,int right,int bottom);
+
+		[DllImport("gdi32.dll")]
+		private static extern bool DeleteObject(IntPtr hObject);
+
+		[StructLayout(LayoutKind.Sequential)]
+		private struct BITMAPINFOHEADER {
+			public int biSize;
+			public int biWidth;
+			public int biHeight;
+			public short biPlanes;
+			public short biBitCount;
+			public int biCompression;
+			public int biSizeImage;
+			public int biXPelsPerMeter;
+			public int biYPelsPerMeter;
+			public int biClrUsed;
+			public int biClrImportant;
+		}
+
+		[DllImport("gdi32.dll")]
+		private static extern IntPtr CreateCompatibleDC(IntPtr hdc);
+
+		[DllImport("gdi32.dll")]
+		private static extern bool DeleteDC(IntPtr hdc);
+
+		[DllImport("gdi32.dll")]
+		private static extern IntPtr CreateDIBSection(IntPtr hdc,ref BITMAPINFOHEADER bitmapInfoHeader,int usage,out IntPtr pBits,IntPtr hSection,int offset);
+
+		[DllImport("gdi32.dll")]
+		private static extern IntPtr SelectObject(IntPtr hdc,IntPtr hObject);
+
+		[DllImport("gdi32.dll")]
+		private static extern bool GdiFlush();
+
+		[DllImport("gdi32.dll")]
+		private static extern bool BitBlt(IntPtr hdcDest,int xDest,int yDest,int width,int height,IntPtr hdcSource,int xSource,int ySource,int rop);
 
 		[DllImport("user32.dll")]
 		private static extern IntPtr GetWindowDC(IntPtr hWnd);

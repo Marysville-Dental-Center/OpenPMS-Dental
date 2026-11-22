@@ -403,6 +403,7 @@ namespace OpenPmsDental{
 		///<param name="preserveScroll">Set to true to preserve the scroll position, or omit to not.</param>
 		public void LayoutTables(bool preserveScroll){
 			int scroll=ScrollValue;//use this to preserveScroll
+			SetCellSizesForScale();//UI-13: a table whose cells follow the window's scale sets them here
 			if(ShowScroll)
 				scrollWidth=17;
 			else 
@@ -499,6 +500,14 @@ namespace OpenPmsDental{
 		public void ColorRow(int row, Color myColor){
 			if(row>MaxRows-1)
 				return;
+			if(IsModernLook){
+				//UI-13: a table in the modern look draws only in its paint (PaintModern).
+				for(int j=0;j<MaxCols;j++){
+					BackGColor[j,row]=myColor;
+				}
+				panelTable.Invalidate();
+				return;
+			}
 			//float Foffset=0;
 			Graphics grfx = panelTable.CreateGraphics();
 			int i=row;
@@ -634,6 +643,10 @@ namespace OpenPmsDental{
 		}//end PanelHead_Paint
 
 		private void panelTable_Paint(object sender, System.Windows.Forms.PaintEventArgs pea) {
+			if(IsModernLook){
+				PaintModernIn(pea.Graphics,panelTable);
+				return;
+			}
 			Graphics grfx = pea.Graphics;
 			Pen penB = new Pen(Color.Black);
 			Pen penGr = new Pen(Color.LightGray);
@@ -711,6 +724,10 @@ namespace OpenPmsDental{
 		}//end panelTable_Paint
 
 		private void panelScroll_Paint(object sender, System.Windows.Forms.PaintEventArgs e) {
+			if(IsModernLook){
+				PaintModernIn(e.Graphics,panelScroll);
+				return;
+			}
 			Graphics grfx = e.Graphics;
 			Pen penB = new Pen(Color.Black);
 			//grfx.DrawLine(penB,0,0,0,panelScroll.Height);
@@ -720,6 +737,10 @@ namespace OpenPmsDental{
 		}
 
 		private void ContrTable_Paint(object sender, System.Windows.Forms.PaintEventArgs e) {
+			if(IsModernLook){
+				PaintModernIn(e.Graphics,this);
+				return;
+			}
 			//This draws the blue border around each table
 			Graphics grfx = e.Graphics;
 			//Pen penB = new Pen(Color.Black);//bottom, right
@@ -939,6 +960,66 @@ namespace OpenPmsDental{
 		//if (mouseDownPosition.Y>this.rowPos[i]) myRow=i;
 
 
+
+		#region UI-13 modern look
+		///<summary>UI-13 (docs/port-notes/UI-13.md): true for a table drawn in the modern look by PaintModern (the time pattern bar). Its inner
+		///panels then draw nothing of their own: the table, its two panels and the cells paint one picture, PaintModern's, each the part it covers.
+		///</summary>
+		protected virtual bool IsModernLook{
+			get{
+				return false;
+			}
+		}
+
+		///<summary>UI-13: the whole table in this control's coordinates (its frame and its cells; GetCellRectangle places a cell). Called by the
+		///paint of this control and of its two inner panels, each clipped to what it covers.</summary>
+		protected virtual void PaintModern(Graphics g){
+		}
+
+		///<summary>UI-13: called at the start of every LayoutTables. A table whose row heights and column widths are given at 96 dpi sets them
+		///here from its LayoutManager's scale (the time pattern bar); the others keep the sizes their window gives them.</summary>
+		protected virtual void SetCellSizesForScale(){
+		}
+
+		///<summary>UI-13: for a table in the modern look, the inner panel's border goes (the look draws one frame around the whole table).</summary>
+		protected void SetModernFrame(){
+			panelScroll.BorderStyle=BorderStyle.None;
+		}
+
+		///<summary>UI-13: a cell's rectangle in this control's coordinates: where panelTable draws it.</summary>
+		protected Rectangle GetCellRectangle(int col,int row){
+			return new Rectangle(panelScroll.Left+panelTable.Left+colPos[col],panelScroll.Top+panelTable.Top+rowPos[row],ColWidth[col],RowHeight[row]);
+		}
+
+		///<summary>UI-13: a cell's rectangle in this control's coordinates where LayoutTables puts it for a table without a scroll bar (panelTable at
+		///y -1 in panelScroll), whatever the inner panel's place before the first layout (a designer's ScrollValue moves it until Load).</summary>
+		protected Rectangle GetCellRectangleLaidOut(int col,int row){
+			if(!FieldsArePresent){
+				//No head: LayoutTables puts panelScroll at (1,0) under a 1 px hidden head, and panelTable at y -1 in it.
+				return new Rectangle(1+colPos[col],-1+rowPos[row],ColWidth[col],RowHeight[row]);
+			}
+			return new Rectangle(panelScroll.Left+colPos[col],panelScroll.Top-1+rowPos[row],ColWidth[col],RowHeight[row]);
+		}
+
+		///<summary>UI-13: PaintModern in the coordinates of this control or one of its inner panels.</summary>
+		private void PaintModernIn(Graphics g,Control controlPainted){
+			Point pointOffset=Point.Empty;
+			for(Control control=controlPainted;control!=null && control!=this;control=control.Parent){
+				pointOffset.Offset(control.Left,control.Top);
+			}
+			System.Drawing.Drawing2D.GraphicsState graphicsState=g.Save();
+			try{
+				g.TranslateTransform(-pointOffset.X,-pointOffset.Y);
+				PaintModern(g);
+			}
+			catch{
+				//design time
+			}
+			finally{
+				g.Restore(graphicsState);
+			}
+		}
+		#endregion UI-13 modern look
 
 	}//end class ContrTable
 

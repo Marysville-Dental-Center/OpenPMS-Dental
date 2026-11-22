@@ -523,6 +523,15 @@ namespace OpenPmsDental {
 		#endregion Methods - Event Handlers
 
 		#region Methods - Public
+		///<summary>UI-13: the scale of this window and its controls (its monitor's dpi times the program's zoom, LayoutManager.ScaleMy), for the
+		///shared looks that paint the stock controls (UiLooks.GetScale). 0 before the window has its LayoutManager.</summary>
+		public float GetScaleMy(){
+			if(LayoutManager==null){
+				return 0;
+			}
+			return LayoutManager.ScaleMy();
+		}
+
 		public void CenterFormOnMonitor(){
 			Rectangle rectangleWorkingArea=System.Windows.Forms.Screen.FromHandle(this.Handle).WorkingArea;
 			this.Location=new Point(

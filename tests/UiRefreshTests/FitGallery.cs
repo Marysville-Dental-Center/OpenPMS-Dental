@@ -61,8 +61,19 @@ namespace UiRefreshTests {
 			string font=(Environment.GetEnvironmentVariable(VARIABLE_FONT)??"").Trim().ToLowerInvariant();
 			int countPictures=0;
 			List<string> listFailed=new List<string>();
+			//UI-13: OPMS_UI_FIT_GALLERY_LOOKS_OFF=1 draws the windows without the UI-13 looks (the before pictures of windows outside the
+			//UI-12 pilot, whose designer files UI-13 does not change).
+			bool isLooksOff=Environment.GetEnvironmentVariable("OPMS_UI_FIT_GALLERY_LOOKS_OFF")=="1";
+			//UI-13 fix round: OPMS_UI_FIT_GALLERY_VISUAL_STYLES=1 draws the windows with Windows' visual styles (comctl32 version 6, as the program
+			//runs; VisualStylesScope), for the windows that show a native type the looks leave to Windows (tree and list views, month calendars).
+			bool isVisualStyles=Environment.GetEnvironmentVariable("OPMS_UI_FIT_GALLERY_VISUAL_STYLES")=="1";
 			StaRunner.Run(() => {
 				NoDatabaseGuard.Install();
+				using VisualStylesScope visualStylesScope=isVisualStyles ? new VisualStylesScope() : null;
+				if(isVisualStyles && !visualStylesScope.IsActive) {
+					listFailed.Add("Windows' visual styles could not be activated.");
+				}
+				OpenPmsDental.UI.UiLooks.IsOffForGallery=isLooksOff;
 				DesignSheetWindows.IsPrintingWithoutChildren=true;
 				List<ScanType> listScanTypes=WindowBuilder.GetScanTypes();
 				foreach(string window in arrayWindows) {
@@ -80,6 +91,7 @@ namespace UiRefreshTests {
 							}
 							SettleAfterHandles(builtWindow);
 							HideDatePickerCalendars(root);
+							FillSampleContent(root,window);
 							List<string[]> listOwnerHere=listOwner.Where(x => x[1]==window).ToList();
 							using(Bitmap bitmap=DesignSheetWindows.Capture(root,Rectangle.Empty)) {
 								string name=window.Substring(window.LastIndexOf('.')+1);
@@ -118,6 +130,7 @@ namespace UiRefreshTests {
 				}
 			});
 			DesignSheetWindows.IsPrintingWithoutChildren=false;
+			OpenPmsDental.UI.UiLooks.IsOffForGallery=false;
 			File.WriteAllLines(Path.Combine(folder,"gallery-failed.txt"),listFailed);
 			Assert.IsTrue(countPictures>0,"No picture made: "+string.Join("; ",listFailed));
 		}
@@ -136,6 +149,71 @@ namespace UiRefreshTests {
 			builtWindow.Form.WindowState=FormWindowState.Normal;
 			DesignSheetWindows.CreateHandles(builtWindow.Form);
 			builtWindow.LayOutAt(builtWindow.Scale);
+		}
+
+		///<summary>UI-13 fix round: synthetic content for the windows that show a type only with items (their Load fills them from the database,
+		///which the harness does not run): FormAutoNotes' tree (groups with notes, one expanded, one selected), FormQuery's result grid (columns,
+		///rows and its caption) and FormProcButtons' list of buttons
+		///(a category selected, as SetVisibility shows a category other than the quick buttons).</summary>
+		public static void FillSampleContent(Control root,string window) {
+			if(window=="OpenPmsDental.FormAutoNotes" && FindByName(root,"treeNotes") is TreeView treeView) {
+				treeView.Nodes.Clear();
+				string[] arrayGroups=new string[] { "Exams","Fillings","Crowns","Endo","Hygiene" };
+				for(int i=0;i<arrayGroups.Length;i++) {
+					TreeNode treeNode=treeView.Nodes.Add(arrayGroups[i]);
+					for(int j=1;j<=3;j++) {
+						treeNode.Nodes.Add(arrayGroups[i]+" note "+j);
+					}
+					if(i<2) {
+						treeNode.Expand();
+					}
+				}
+				treeView.SelectedNode=treeView.Nodes[0].Nodes[1];
+			}
+			if(window=="OpenPmsDental.FormQuery" && FindByName(root,"grid2") is DataGridView dataGridView) {
+				//A result as the window shows it after a query: its caption over the grid, columns and rows.
+				if(FindByName(root,"labelGridCaption") is Label labelCaption) {
+					labelCaption.Text="Query results";
+				}
+				dataGridView.Columns.Clear();
+				foreach(string column in new string[] { "PatNum","LName","FName","Balance" }) {
+					dataGridView.Columns.Add("col"+column,column);
+				}
+				string[] arrayNames=new string[] { "Able","Baker","Carter","Dixon","Ellis","Foster" };
+				for(int i=0;i<arrayNames.Length;i++) {
+					dataGridView.Rows.Add((i+1).ToString(),arrayNames[i],"Sample",(i*37.5).ToString("F2"));
+				}
+			}
+			if(window=="OpenPmsDental.FormProcButtons") {
+				if(FindByName(root,"listCategories") is OpenPmsDental.UI.ListBox listBox) {
+					listBox.Items.Clear();
+					foreach(string category in new string[] { "Quick Buttons","Exams","Restorative","Hygiene" }) {
+						listBox.Items.Add(category);
+					}
+					listBox.SelectedIndex=1;
+				}
+				foreach(string name in new string[] { "panelQuickButtons","labelEdit" }) {
+					Control control=FindByName(root,name);
+					if(control!=null) {
+						control.Visible=false;
+					}
+				}
+				if(FindByName(root,"listViewButtons") is ListView listView) {
+					listView.Items.Clear();
+					string[] arrayButtons=new string[] { "Periodic exam","Comprehensive exam","Limited exam","Bitewings","Panoramic","Prophy" };
+					for(int i=0;i<arrayButtons.Length;i++) {
+						ListViewItem listViewItem=new ListViewItem(arrayButtons[i]);
+						if(listView.SmallImageList!=null && listView.SmallImageList.Images.Count>0) {
+							listViewItem.ImageIndex=i % listView.SmallImageList.Images.Count;
+						}
+						listView.Items.Add(listViewItem);
+					}
+					if(listView.Columns.Count>0) {
+						listView.Columns[0].Width=listView.ClientSize.Width-10;
+					}
+					listView.Items[1].Selected=true;
+				}
+			}
 		}
 
 		///<summary>Hides the calendar of every ODDatePicker as the picker's Load does (the harness builds windows without Load): a calendar left

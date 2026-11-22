@@ -121,6 +121,7 @@ How to use the TextRich control:
 		#region Constructor
 		public TextRich(){
 			InitializeComponent();
+			UiLookScroll.AddTo(this);//UI-13: the scroll bars in the Fluent look
 			//Width=75;
 			//Height=20;
 			Focusable=true;//so that .Focus() will work, but then we manually change focus to textBox

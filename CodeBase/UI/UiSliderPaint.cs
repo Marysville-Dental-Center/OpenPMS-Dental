@@ -60,6 +60,141 @@ namespace CodeBase {
 		}
 		#endregion Tokens
 
+		#region Track bar (UI-13)
+		//UI-13 (docs/port-notes/UI-13.md, the owner's G-UI3-ui12p row "Modernize horizontal sliding bar"): the stock track bar (ControlChart's
+		//procedure date slider, any other) in the Windows 11 Fluent slider look: a thin rounded track in Stroke, the part from the minimum to the
+		//thumb in Accent, a round thumb (an Accent dot inside a white ring with a 1 px Stroke edge; the dot grows under the mouse and shrinks while
+		//dragged, as Windows 11's does) and quiet tick marks in StrokeStrong. Disabled: the track Stroke, the fill and the dot TextDisabled.
+		///<summary>The track's thickness at 96 DPI.</summary>
+		public const int THICKNESS_SLIDER_TRACK=4;
+		///<summary>The thumb's diameter at 96 DPI (the white ring included).</summary>
+		public const int SIZE_SLIDER_THUMB=16;
+		///<summary>The white ring's width at rest at 96 DPI; 3 under the mouse (a larger dot), 5 while dragged (a smaller dot).</summary>
+		public const int WIDTH_SLIDER_RING=4;
+		///<summary>A tick mark's length at 96 DPI.</summary>
+		public const int LENGTH_SLIDER_TICK=4;
+
+		///<summary>The track: Stroke.</summary>
+		public static EnumUiColor GetSliderTrackColor() {
+			return EnumUiColor.Stroke;
+		}
+
+		///<summary>The track from the minimum to the thumb: Accent, TextDisabled when disabled.</summary>
+		public static EnumUiColor GetSliderFillColor(bool isEnabled) {
+			return isEnabled ? EnumUiColor.Accent : EnumUiColor.TextDisabled;
+		}
+
+		///<summary>The thumb's dot: Accent, AccentHover under the mouse, AccentPressed while dragged, TextDisabled when disabled.</summary>
+		public static EnumUiColor GetSliderDotColor(EnumUiButtonState buttonState) {
+			switch(buttonState) {
+				case EnumUiButtonState.Hover:
+					return EnumUiColor.AccentHover;
+				case EnumUiButtonState.Pressed:
+					return EnumUiColor.AccentPressed;
+				case EnumUiButtonState.Disabled:
+					return EnumUiColor.TextDisabled;
+				default:
+					return EnumUiColor.Accent;
+			}
+		}
+
+		///<summary>The tick marks: StrokeStrong, Stroke when disabled.</summary>
+		public static EnumUiColor GetSliderTickColor(bool isEnabled) {
+			return isEnabled ? EnumUiColor.StrokeStrong : EnumUiColor.Stroke;
+		}
+
+		///<summary>The white ring's width in device pixels in a state: WIDTH_SLIDER_RING at rest and disabled, one less under the mouse, one more
+		///while dragged, at the scale.</summary>
+		public static int GetSliderRingWidth(EnumUiButtonState buttonState,float scale) {
+			int width96=WIDTH_SLIDER_RING;
+			if(buttonState==EnumUiButtonState.Hover) {
+				width96--;
+			}
+			else if(buttonState==EnumUiButtonState.Pressed) {
+				width96++;
+			}
+			return Math.Max(1,UiTheme.ScaleI(width96,scale));
+		}
+
+		///<summary>The thumb's square (SIZE_SLIDER_THUMB at the scale) centred on a point, on whole pixels.</summary>
+		public static Rectangle GetSliderThumbRectangle(Point pointCentre,float scale) {
+			int size=UiTheme.ScaleI(SIZE_SLIDER_THUMB,scale);
+			return new Rectangle(pointCentre.X-size/2,pointCentre.Y-size/2,size,size);
+		}
+
+		///<summary>The track's rectangle along the line from pointStart to pointEnd (both on the track's centre line, start at the minimum):
+		///THICKNESS_SLIDER_TRACK thick at the scale, running half a thickness past each end so the rounded ends sit on the points.</summary>
+		public static Rectangle GetSliderTrackRectangle(Point pointStart,Point pointEnd,bool isVertical,float scale) {
+			int thickness=Math.Max(2,UiTheme.ScaleI(THICKNESS_SLIDER_TRACK,scale));
+			int half=thickness/2;
+			if(isVertical) {
+				int top=Math.Min(pointStart.Y,pointEnd.Y);
+				int bottom=Math.Max(pointStart.Y,pointEnd.Y);
+				return Rectangle.FromLTRB(pointStart.X-half,top-half,pointStart.X-half+thickness,bottom+half);
+			}
+			int left=Math.Min(pointStart.X,pointEnd.X);
+			int right=Math.Max(pointStart.X,pointEnd.X);
+			return Rectangle.FromLTRB(left-half,pointStart.Y-half,right+half,pointStart.Y-half+thickness);
+		}
+
+		///<summary>The track (pointStart at the minimum to pointEnd at the maximum) and its filled part up to pointThumb, as pills.</summary>
+		public static void DrawSliderTrack(Graphics g,Point pointStart,Point pointEnd,Point pointThumb,bool isVertical,bool isEnabled,float scale) {
+			Rectangle rectangleTrack=GetSliderTrackRectangle(pointStart,pointEnd,isVertical,scale);
+			int thickness=isVertical ? rectangleTrack.Width : rectangleTrack.Height;
+			UiControlPaint.Fill(g,GetSliderTrackColor(),rectangleTrack,thickness/2,1f);
+			Rectangle rectangleFill=GetSliderTrackRectangle(pointStart,pointThumb,isVertical,scale);
+			UiControlPaint.Fill(g,GetSliderFillColor(isEnabled),rectangleFill,thickness/2,1f);
+		}
+
+		///<summary>The thumb centred on a point: the white (SurfaceRaised) disc with a 1 px Stroke edge, the dot inside the ring (GetSliderDotColor,
+		///GetSliderRingWidth), and the focus ring around it when isFocused.</summary>
+		public static void DrawSliderThumb(Graphics g,Point pointCentre,EnumUiButtonState buttonState,bool isFocused,float scale) {
+			Rectangle rectangleThumb=GetSliderThumbRectangle(pointCentre,scale);
+			System.Drawing.Drawing2D.GraphicsState graphicsState=g.Save();
+			try {
+				g.SmoothingMode=System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+				g.PixelOffsetMode=System.Drawing.Drawing2D.PixelOffsetMode.Half;
+				using(SolidBrush brush=new SolidBrush(UiTheme.GetColor(EnumUiColor.SurfaceRaised))) {
+					g.FillEllipse(brush,rectangleThumb);
+				}
+				float widthLine=UiTheme.GetLineWidth(scale);
+				using(Pen pen=new Pen(UiTheme.GetColor(EnumUiColor.Stroke),widthLine)) {
+					g.DrawEllipse(pen,rectangleThumb.X+widthLine/2f,rectangleThumb.Y+widthLine/2f,rectangleThumb.Width-widthLine,rectangleThumb.Height-widthLine);
+				}
+				int ring=GetSliderRingWidth(buttonState,scale);
+				Rectangle rectangleDot=Rectangle.Inflate(rectangleThumb,-ring,-ring);
+				if(rectangleDot.Width>0) {
+					using(SolidBrush brush=new SolidBrush(UiTheme.GetColor(GetSliderDotColor(buttonState)))) {
+						g.FillEllipse(brush,rectangleDot);
+					}
+				}
+			}
+			finally {
+				g.Restore(graphicsState);
+			}
+			if(isFocused) {
+				int gap=UiTheme.ScaleI(UiTheme.SPACE_2,scale);
+				UiControlPaint.FocusRing(g,Rectangle.Inflate(rectangleThumb,gap+UiTheme.GetFocusWidth(scale),gap+UiTheme.GetFocusWidth(scale)),
+					SIZE_SLIDER_THUMB,scale);
+			}
+		}
+
+		///<summary>A tick mark from a point on the track's side, LENGTH_SLIDER_TICK long away from the track (across it: down or right when
+		///isAfter, up or left otherwise), 1 px wide at 100%.</summary>
+		public static void DrawSliderTick(Graphics g,Point point,bool isVertical,bool isAfter,bool isEnabled,float scale) {
+			int length=UiTheme.ScaleI(LENGTH_SLIDER_TICK,scale);
+			int width=UiTheme.GetLineWidth(scale);
+			Rectangle rectangleTick;
+			if(isVertical) {
+				rectangleTick=new Rectangle(isAfter ? point.X : point.X-length,point.Y-width/2,length,width);
+			}
+			else {
+				rectangleTick=new Rectangle(point.X-width/2,isAfter ? point.Y : point.Y-length,width,length);
+			}
+			UiControlPaint.Fill(g,GetSliderTickColor(isEnabled),rectangleTick,UiTheme.CORNER_SQUARE,scale);
+		}
+		#endregion Track bar (UI-13)
+
 		#region Glyphs
 		///<summary>The square of a glyph of SIZE_GLYPH at the scale, centred in the rectangle on whole pixels.</summary>
 		public static Rectangle GetGlyphRectangle(Rectangle rectangle,float scale) {

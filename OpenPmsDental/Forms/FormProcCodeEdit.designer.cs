@@ -143,7 +143,7 @@ namespace OpenPmsDental {
 			// 
 			this.label6.Location = new System.Drawing.Point(8, 8);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(53, 32);
+			this.label6.Size = new System.Drawing.Size(76, 15);
 			this.label6.TabIndex = 0;
 			this.label6.Text = "Time Pattern";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -253,7 +253,7 @@ namespace OpenPmsDental {
 			// butSlider
 			// 
 			this.butSlider.BackColor = System.Drawing.SystemColors.ControlDark;
-			this.butSlider.Location = new System.Drawing.Point(10, 42);
+			this.butSlider.Location = new System.Drawing.Point(10, 26);
 			this.butSlider.Name = "butSlider";
 			this.butSlider.Size = new System.Drawing.Size(12, 15);
 			this.butSlider.TabIndex = 31;
@@ -265,16 +265,17 @@ namespace OpenPmsDental {
 			// textTime2
 			// 
 			this.textTime2.Enabled = false;
-			this.textTime2.Location = new System.Drawing.Point(8, 609);
+			this.textTime2.Location = new System.Drawing.Point(8, 611);
 			this.textTime2.Name = "textTime2";
-			this.textTime2.Size = new System.Drawing.Size(60, 20);
+			this.textTime2.Size = new System.Drawing.Size(59, 23);
 			this.textTime2.TabIndex = 19;
 			// 
 			// label11
 			// 
-			this.label11.Location = new System.Drawing.Point(8, 636);
+			this.label11.Location = new System.Drawing.Point(8, 594);
+			this.label11.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			this.label11.Name = "label11";
-			this.label11.Size = new System.Drawing.Size(63, 16);
+			this.label11.Size = new System.Drawing.Size(59, 15);
 			this.label11.TabIndex = 0;
 			this.label11.Text = "Minutes";
 			// 
@@ -616,7 +617,7 @@ namespace OpenPmsDental {
 			// tbTime
 			// 
 			this.tbTime.BackColor = System.Drawing.SystemColors.Window;
-			this.tbTime.Location = new System.Drawing.Point(8, 44);
+			this.tbTime.Location = new System.Drawing.Point(8, 25);
 			this.tbTime.Name = "tbTime";
 			this.tbTime.ScrollValue = 150;
 			this.tbTime.SelectedIndices = new int[0];

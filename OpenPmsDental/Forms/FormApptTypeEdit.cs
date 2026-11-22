@@ -108,7 +108,7 @@ namespace OpenPmsDental {
 			}
 			//point represents the new location of button of smooth dragging.
 			Point point=new Point(_pointSliderOrigin.X,_pointSliderOrigin.Y+(e.Y+butSlider.Location.Y)-_pointMouseOrigin.Y);
-			int step=(int)(Math.Round((Decimal)(point.Y-tbTime.Location.Y)/14));
+			int step=tbTime.GetSliderStep(point.Y);//UI-13: the cell's height at the window's scale
 			if(step==_stringBuilderTime.Length) {
 				return;
 			}
@@ -138,8 +138,7 @@ namespace OpenPmsDental {
 				tbTime.BackGColor[0,i]=Color.FromName("Control");
 			}
 			tbTime.Refresh();
-			LayoutManager.MoveLocation(butSlider,new Point(tbTime.Location.X+2
-				,(tbTime.Location.Y+_stringBuilderTime.Length*14+1)));
+			LayoutManager.MoveLocation(butSlider,tbTime.GetSliderLocation(_stringBuilderTime.Length));
 			if(_stringBuilderTime.Length>0) {
 				textTime.Text=(_stringBuilderTime.Length*PrefC.GetInt(PrefName.AppointmentTimeIncrement)).ToString();
 			}
