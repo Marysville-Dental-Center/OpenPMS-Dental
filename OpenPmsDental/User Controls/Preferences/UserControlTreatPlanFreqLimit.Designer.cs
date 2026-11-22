@@ -68,16 +68,16 @@ namespace OpenPmsDental {
 			this.groupBoxDiscountPlanFreqLimit.Controls.Add(this.labelDiscountProphyFreq);
 			this.groupBoxDiscountPlanFreqLimit.Controls.Add(this.labelDiscountFluorideFreq);
 			this.groupBoxDiscountPlanFreqLimit.Controls.Add(this.labelDiscountExamFreq);
-			this.groupBoxDiscountPlanFreqLimit.Location = new System.Drawing.Point(20, 386);
+			this.groupBoxDiscountPlanFreqLimit.Location = new System.Drawing.Point(8, 129);
 			this.groupBoxDiscountPlanFreqLimit.Name = "groupBoxDiscountPlanFreqLimit";
-			this.groupBoxDiscountPlanFreqLimit.Size = new System.Drawing.Size(450, 207);
+			this.groupBoxDiscountPlanFreqLimit.Size = new System.Drawing.Size(478, 247);
 			this.groupBoxDiscountPlanFreqLimit.TabIndex = 246;
 			this.groupBoxDiscountPlanFreqLimit.Text = "Discount Plan Frequency Limitations";
 			// 
 			// label63
 			// 
 			this.label63.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.label63.Location = new System.Drawing.Point(194, 15);
+			this.label63.Location = new System.Drawing.Point(194, 23);
 			this.label63.Name = "label63";
 			this.label63.Size = new System.Drawing.Size(246, 17);
 			this.label63.TabIndex = 248;
@@ -87,17 +87,17 @@ namespace OpenPmsDental {
 			// textDiscountPACodes
 			// 
 			this.textDiscountPACodes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.textDiscountPACodes.Location = new System.Drawing.Point(267, 177);
+			this.textDiscountPACodes.Location = new System.Drawing.Point(267, 216);
 			this.textDiscountPACodes.Name = "textDiscountPACodes";
-			this.textDiscountPACodes.Size = new System.Drawing.Size(173, 20);
+			this.textDiscountPACodes.Size = new System.Drawing.Size(172, 23);
 			this.textDiscountPACodes.TabIndex = 15;
 			// 
 			// labelDiscountPAFreq
 			// 
 			this.labelDiscountPAFreq.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelDiscountPAFreq.Location = new System.Drawing.Point(131, 180);
+			this.labelDiscountPAFreq.Location = new System.Drawing.Point(129, 216);
 			this.labelDiscountPAFreq.Name = "labelDiscountPAFreq";
-			this.labelDiscountPAFreq.Size = new System.Drawing.Size(135, 17);
+			this.labelDiscountPAFreq.Size = new System.Drawing.Size(132, 23);
 			this.labelDiscountPAFreq.TabIndex = 241;
 			this.labelDiscountPAFreq.Text = "Periapical X-Ray Codes";
 			this.labelDiscountPAFreq.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -105,17 +105,17 @@ namespace OpenPmsDental {
 			// textDiscountXrayCodes
 			// 
 			this.textDiscountXrayCodes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.textDiscountXrayCodes.Location = new System.Drawing.Point(267, 153);
+			this.textDiscountXrayCodes.Location = new System.Drawing.Point(267, 187);
 			this.textDiscountXrayCodes.Name = "textDiscountXrayCodes";
-			this.textDiscountXrayCodes.Size = new System.Drawing.Size(173, 20);
+			this.textDiscountXrayCodes.Size = new System.Drawing.Size(172, 23);
 			this.textDiscountXrayCodes.TabIndex = 13;
 			// 
 			// labelDiscountXrayFreq
 			// 
 			this.labelDiscountXrayFreq.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelDiscountXrayFreq.Location = new System.Drawing.Point(131, 156);
+			this.labelDiscountXrayFreq.Location = new System.Drawing.Point(181, 187);
 			this.labelDiscountXrayFreq.Name = "labelDiscountXrayFreq";
-			this.labelDiscountXrayFreq.Size = new System.Drawing.Size(135, 17);
+			this.labelDiscountXrayFreq.Size = new System.Drawing.Size(80, 23);
 			this.labelDiscountXrayFreq.TabIndex = 239;
 			this.labelDiscountXrayFreq.Text = "X-Ray Codes";
 			this.labelDiscountXrayFreq.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -123,17 +123,17 @@ namespace OpenPmsDental {
 			// textDiscountPerioCodes
 			// 
 			this.textDiscountPerioCodes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.textDiscountPerioCodes.Location = new System.Drawing.Point(267, 105);
+			this.textDiscountPerioCodes.Location = new System.Drawing.Point(267, 129);
 			this.textDiscountPerioCodes.Name = "textDiscountPerioCodes";
-			this.textDiscountPerioCodes.Size = new System.Drawing.Size(173, 20);
+			this.textDiscountPerioCodes.Size = new System.Drawing.Size(172, 23);
 			this.textDiscountPerioCodes.TabIndex = 9;
 			// 
 			// labelDiscountPerioFreq
 			// 
 			this.labelDiscountPerioFreq.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelDiscountPerioFreq.Location = new System.Drawing.Point(131, 108);
+			this.labelDiscountPerioFreq.Location = new System.Drawing.Point(113, 129);
 			this.labelDiscountPerioFreq.Name = "labelDiscountPerioFreq";
-			this.labelDiscountPerioFreq.Size = new System.Drawing.Size(136, 17);
+			this.labelDiscountPerioFreq.Size = new System.Drawing.Size(148, 23);
 			this.labelDiscountPerioFreq.TabIndex = 233;
 			this.labelDiscountPerioFreq.Text = "Perio Maintenance Codes";
 			this.labelDiscountPerioFreq.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -141,17 +141,17 @@ namespace OpenPmsDental {
 			// textDiscountLimitedCodes
 			// 
 			this.textDiscountLimitedCodes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.textDiscountLimitedCodes.Location = new System.Drawing.Point(267, 129);
+			this.textDiscountLimitedCodes.Location = new System.Drawing.Point(267, 158);
 			this.textDiscountLimitedCodes.Name = "textDiscountLimitedCodes";
-			this.textDiscountLimitedCodes.Size = new System.Drawing.Size(173, 20);
+			this.textDiscountLimitedCodes.Size = new System.Drawing.Size(172, 23);
 			this.textDiscountLimitedCodes.TabIndex = 11;
 			// 
 			// labelDiscountLimitedFreq
 			// 
 			this.labelDiscountLimitedFreq.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelDiscountLimitedFreq.Location = new System.Drawing.Point(131, 132);
+			this.labelDiscountLimitedFreq.Location = new System.Drawing.Point(141, 158);
 			this.labelDiscountLimitedFreq.Name = "labelDiscountLimitedFreq";
-			this.labelDiscountLimitedFreq.Size = new System.Drawing.Size(135, 17);
+			this.labelDiscountLimitedFreq.Size = new System.Drawing.Size(120, 23);
 			this.labelDiscountLimitedFreq.TabIndex = 231;
 			this.labelDiscountLimitedFreq.Text = "Limited Exam Codes";
 			this.labelDiscountLimitedFreq.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -159,17 +159,17 @@ namespace OpenPmsDental {
 			// textDiscountFluorideCodes
 			// 
 			this.textDiscountFluorideCodes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.textDiscountFluorideCodes.Location = new System.Drawing.Point(267, 81);
+			this.textDiscountFluorideCodes.Location = new System.Drawing.Point(267, 100);
 			this.textDiscountFluorideCodes.Name = "textDiscountFluorideCodes";
-			this.textDiscountFluorideCodes.Size = new System.Drawing.Size(173, 20);
+			this.textDiscountFluorideCodes.Size = new System.Drawing.Size(172, 23);
 			this.textDiscountFluorideCodes.TabIndex = 7;
 			// 
 			// labelDiscountProphyFreq
 			// 
 			this.labelDiscountProphyFreq.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelDiscountProphyFreq.Location = new System.Drawing.Point(131, 60);
+			this.labelDiscountProphyFreq.Location = new System.Drawing.Point(153, 71);
 			this.labelDiscountProphyFreq.Name = "labelDiscountProphyFreq";
-			this.labelDiscountProphyFreq.Size = new System.Drawing.Size(135, 17);
+			this.labelDiscountProphyFreq.Size = new System.Drawing.Size(108, 23);
 			this.labelDiscountProphyFreq.TabIndex = 229;
 			this.labelDiscountProphyFreq.Text = "Prophylaxis Codes";
 			this.labelDiscountProphyFreq.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -177,17 +177,17 @@ namespace OpenPmsDental {
 			// textDiscountExamCodes
 			// 
 			this.textDiscountExamCodes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.textDiscountExamCodes.Location = new System.Drawing.Point(267, 33);
+			this.textDiscountExamCodes.Location = new System.Drawing.Point(267, 42);
 			this.textDiscountExamCodes.Name = "textDiscountExamCodes";
-			this.textDiscountExamCodes.Size = new System.Drawing.Size(173, 20);
+			this.textDiscountExamCodes.Size = new System.Drawing.Size(172, 23);
 			this.textDiscountExamCodes.TabIndex = 3;
 			// 
 			// labelDiscountFluorideFreq
 			// 
 			this.labelDiscountFluorideFreq.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelDiscountFluorideFreq.Location = new System.Drawing.Point(131, 84);
+			this.labelDiscountFluorideFreq.Location = new System.Drawing.Point(169, 100);
 			this.labelDiscountFluorideFreq.Name = "labelDiscountFluorideFreq";
-			this.labelDiscountFluorideFreq.Size = new System.Drawing.Size(135, 17);
+			this.labelDiscountFluorideFreq.Size = new System.Drawing.Size(92, 23);
 			this.labelDiscountFluorideFreq.TabIndex = 228;
 			this.labelDiscountFluorideFreq.Text = "Fluoride Codes";
 			this.labelDiscountFluorideFreq.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -195,27 +195,27 @@ namespace OpenPmsDental {
 			// textDiscountProphyCodes
 			// 
 			this.textDiscountProphyCodes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.textDiscountProphyCodes.Location = new System.Drawing.Point(267, 57);
+			this.textDiscountProphyCodes.Location = new System.Drawing.Point(267, 71);
 			this.textDiscountProphyCodes.Name = "textDiscountProphyCodes";
-			this.textDiscountProphyCodes.Size = new System.Drawing.Size(173, 20);
+			this.textDiscountProphyCodes.Size = new System.Drawing.Size(172, 23);
 			this.textDiscountProphyCodes.TabIndex = 5;
 			// 
 			// labelDiscountExamFreq
 			// 
 			this.labelDiscountExamFreq.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelDiscountExamFreq.Location = new System.Drawing.Point(131, 36);
+			this.labelDiscountExamFreq.Location = new System.Drawing.Point(185, 42);
 			this.labelDiscountExamFreq.Name = "labelDiscountExamFreq";
-			this.labelDiscountExamFreq.Size = new System.Drawing.Size(135, 17);
+			this.labelDiscountExamFreq.Size = new System.Drawing.Size(76, 23);
 			this.labelDiscountExamFreq.TabIndex = 227;
 			this.labelDiscountExamFreq.Text = "Exam Codes";
 			this.labelDiscountExamFreq.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// checkFrequency
 			// 
-			this.checkFrequency.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkFrequency.Location = new System.Drawing.Point(60, 10);
+			this.checkFrequency.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkFrequency.Location = new System.Drawing.Point(8, 8);
 			this.checkFrequency.Name = "checkFrequency";
-			this.checkFrequency.Size = new System.Drawing.Size(400, 18);
+			this.checkFrequency.Size = new System.Drawing.Size(228, 20);
 			this.checkFrequency.TabIndex = 244;
 			this.checkFrequency.Text = "Enable Insurance Frequency Checking";
 			// 
@@ -226,32 +226,32 @@ namespace OpenPmsDental {
 			this.groupBoxInsHist.Controls.Add(this.textInsHistPerioScalingCode);
 			this.groupBoxInsHist.Controls.Add(this.butInsHistPerioScalingCode);
 			this.groupBoxInsHist.Controls.Add(this.labelInsHistPerioScalingBlank);
-			this.groupBoxInsHist.Location = new System.Drawing.Point(20, 40);
+			this.groupBoxInsHist.Location = new System.Drawing.Point(8, 40);
 			this.groupBoxInsHist.Name = "groupBoxInsHist";
-			this.groupBoxInsHist.Size = new System.Drawing.Size(450, 62);
+			this.groupBoxInsHist.Size = new System.Drawing.Size(478, 77);
 			this.groupBoxInsHist.TabIndex = 245;
 			this.groupBoxInsHist.Text = "Insurance History";
 			// 
 			// labelInsHistPerioScalingCode
 			// 
-			this.labelInsHistPerioScalingCode.Location = new System.Drawing.Point(41, 15);
+			this.labelInsHistPerioScalingCode.Location = new System.Drawing.Point(97, 23);
 			this.labelInsHistPerioScalingCode.Name = "labelInsHistPerioScalingCode";
-			this.labelInsHistPerioScalingCode.Size = new System.Drawing.Size(225, 17);
+			this.labelInsHistPerioScalingCode.Size = new System.Drawing.Size(164, 23);
 			this.labelInsHistPerioScalingCode.TabIndex = 0;
 			this.labelInsHistPerioScalingCode.Text = "Perio scaling procedure code";
 			this.labelInsHistPerioScalingCode.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textInsHistPerioScalingCode
 			// 
-			this.textInsHistPerioScalingCode.Location = new System.Drawing.Point(267, 13);
+			this.textInsHistPerioScalingCode.Location = new System.Drawing.Point(267, 23);
 			this.textInsHistPerioScalingCode.MaxLength = 15;
 			this.textInsHistPerioScalingCode.Name = "textInsHistPerioScalingCode";
-			this.textInsHistPerioScalingCode.Size = new System.Drawing.Size(146, 20);
+			this.textInsHistPerioScalingCode.Size = new System.Drawing.Size(144, 23);
 			this.textInsHistPerioScalingCode.TabIndex = 1;
 			// 
 			// butInsHistPerioScalingCode
 			// 
-			this.butInsHistPerioScalingCode.Location = new System.Drawing.Point(416, 12);
+			this.butInsHistPerioScalingCode.Location = new System.Drawing.Point(416, 23);
 			this.butInsHistPerioScalingCode.Name = "butInsHistPerioScalingCode";
 			this.butInsHistPerioScalingCode.Size = new System.Drawing.Size(24, 22);
 			this.butInsHistPerioScalingCode.TabIndex = 2;
@@ -260,7 +260,7 @@ namespace OpenPmsDental {
 			// 
 			// labelInsHistPerioScalingBlank
 			// 
-			this.labelInsHistPerioScalingBlank.Location = new System.Drawing.Point(41, 37);
+			this.labelInsHistPerioScalingBlank.Location = new System.Drawing.Point(41, 52);
 			this.labelInsHistPerioScalingBlank.Name = "labelInsHistPerioScalingBlank";
 			this.labelInsHistPerioScalingBlank.Size = new System.Drawing.Size(399, 17);
 			this.labelInsHistPerioScalingBlank.TabIndex = 3;

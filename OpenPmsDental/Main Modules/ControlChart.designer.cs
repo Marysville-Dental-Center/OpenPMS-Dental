@@ -288,10 +288,10 @@
 			// 
 			this.textSurf.BackColor = System.Drawing.SystemColors.Window;
 			this.textSurf.AutoSize = false;
-			this.textSurf.Location = new System.Drawing.Point(8, 2);
+			this.textSurf.Location = new System.Drawing.Point(3, 2);
 			this.textSurf.Name = "textSurf";
 			this.textSurf.ReadOnly = true;
-			this.textSurf.Size = new System.Drawing.Size(72, 20);
+			this.textSurf.Size = new System.Drawing.Size(82, 19);
 			this.textSurf.TabIndex = 25;
 			// 
 			// labelDx
@@ -761,9 +761,9 @@
 			// butD
 			// 
 			this.butD.BackColor = System.Drawing.SystemColors.Control;
-			this.butD.Location = new System.Drawing.Point(61, 43);
+			this.butD.Location = new System.Drawing.Point(59, 44);
 			this.butD.Name = "butD";
-			this.butD.Size = new System.Drawing.Size(24, 20);
+			this.butD.Size = new System.Drawing.Size(26, 19);
 			this.butD.TabIndex = 20;
 			this.butD.Text = "D";
 			this.butD.UseVisualStyleBackColor = false;
@@ -788,9 +788,9 @@
 			// butBF
 			// 
 			this.butBF.BackColor = System.Drawing.SystemColors.Control;
-			this.butBF.Location = new System.Drawing.Point(22, 23);
+			this.butBF.Location = new System.Drawing.Point(31, 23);
 			this.butBF.Name = "butBF";
-			this.butBF.Size = new System.Drawing.Size(28, 20);
+			this.butBF.Size = new System.Drawing.Size(26, 19);
 			this.butBF.TabIndex = 21;
 			this.butBF.Text = "B/F";
 			this.butBF.UseVisualStyleBackColor = false;
@@ -799,9 +799,9 @@
 			// butL
 			// 
 			this.butL.BackColor = System.Drawing.SystemColors.Control;
-			this.butL.Location = new System.Drawing.Point(32, 63);
+			this.butL.Location = new System.Drawing.Point(31, 65);
 			this.butL.Name = "butL";
-			this.butL.Size = new System.Drawing.Size(24, 20);
+			this.butL.Size = new System.Drawing.Size(26, 19);
 			this.butL.TabIndex = 22;
 			this.butL.Text = "L";
 			this.butL.UseVisualStyleBackColor = false;
@@ -810,9 +810,9 @@
 			// butM
 			// 
 			this.butM.BackColor = System.Drawing.SystemColors.Control;
-			this.butM.Location = new System.Drawing.Point(3, 43);
+			this.butM.Location = new System.Drawing.Point(3, 44);
 			this.butM.Name = "butM";
-			this.butM.Size = new System.Drawing.Size(24, 20);
+			this.butM.Size = new System.Drawing.Size(26, 19);
 			this.butM.TabIndex = 18;
 			this.butM.Text = "M";
 			this.butM.UseVisualStyleBackColor = false;
@@ -841,9 +841,9 @@
 			// butV
 			// 
 			this.butV.BackColor = System.Drawing.SystemColors.Control;
-			this.butV.Location = new System.Drawing.Point(50, 23);
+			this.butV.Location = new System.Drawing.Point(59, 23);
 			this.butV.Name = "butV";
-			this.butV.Size = new System.Drawing.Size(17, 20);
+			this.butV.Size = new System.Drawing.Size(26, 19);
 			this.butV.TabIndex = 24;
 			this.butV.Text = "V";
 			this.butV.UseVisualStyleBackColor = false;
@@ -852,9 +852,9 @@
 			// butOI
 			// 
 			this.butOI.BackColor = System.Drawing.SystemColors.Control;
-			this.butOI.Location = new System.Drawing.Point(27, 43);
+			this.butOI.Location = new System.Drawing.Point(31, 44);
 			this.butOI.Name = "butOI";
-			this.butOI.Size = new System.Drawing.Size(34, 20);
+			this.butOI.Size = new System.Drawing.Size(26, 19);
 			this.butOI.TabIndex = 19;
 			this.butOI.Text = "O/I";
 			this.butOI.UseVisualStyleBackColor = false;

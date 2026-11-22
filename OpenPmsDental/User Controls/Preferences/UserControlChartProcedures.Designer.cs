@@ -52,60 +52,60 @@ namespace OpenPmsDental {
 			this.groupBoxProcedures.Controls.Add(this.checkClaimProcsAllowEstimatesOnCompl);
 			this.groupBoxProcedures.Controls.Add(this.labelProcFeeUpdatePrompt);
 			this.groupBoxProcedures.Controls.Add(this.checkProcLockingIsAllowed);
-			this.groupBoxProcedures.Location = new System.Drawing.Point(20, 40);
+			this.groupBoxProcedures.Location = new System.Drawing.Point(8, 8);
 			this.groupBoxProcedures.Name = "groupBoxProcedures";
-			this.groupBoxProcedures.Size = new System.Drawing.Size(450, 201);
+			this.groupBoxProcedures.Size = new System.Drawing.Size(478, 214);
 			this.groupBoxProcedures.TabIndex = 240;
 			this.groupBoxProcedures.Text = "Procedures";
 			// 
 			// checkProcProvChangesCp
 			// 
 			this.checkProcProvChangesCp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkProcProvChangesCp.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkProcProvChangesCp.Location = new System.Drawing.Point(5, 174);
+			this.checkProcProvChangesCp.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkProcProvChangesCp.Location = new System.Drawing.Point(8, 186);
 			this.checkProcProvChangesCp.Name = "checkProcProvChangesCp";
-			this.checkProcProvChangesCp.Size = new System.Drawing.Size(435, 18);
+			this.checkProcProvChangesCp.Size = new System.Drawing.Size(328, 20);
 			this.checkProcProvChangesCp.TabIndex = 241;
 			this.checkProcProvChangesCp.Text = "Changing treating provider updates Claim Proc provider";
 			// 
 			// checkAllowSettingProcsComplete
 			// 
 			this.checkAllowSettingProcsComplete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkAllowSettingProcsComplete.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkAllowSettingProcsComplete.Location = new System.Drawing.Point(15, 15);
+			this.checkAllowSettingProcsComplete.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkAllowSettingProcsComplete.Location = new System.Drawing.Point(8, 23);
 			this.checkAllowSettingProcsComplete.Name = "checkAllowSettingProcsComplete";
-			this.checkAllowSettingProcsComplete.Size = new System.Drawing.Size(425, 18);
+			this.checkAllowSettingProcsComplete.Size = new System.Drawing.Size(212, 20);
 			this.checkAllowSettingProcsComplete.TabIndex = 75;
 			this.checkAllowSettingProcsComplete.Text = "Allow setting procedures complete";
 			// 
 			// checkProcEditRequireAutoCode
 			// 
 			this.checkProcEditRequireAutoCode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkProcEditRequireAutoCode.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkProcEditRequireAutoCode.Location = new System.Drawing.Point(40, 77);
+			this.checkProcEditRequireAutoCode.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkProcEditRequireAutoCode.Location = new System.Drawing.Point(8, 87);
 			this.checkProcEditRequireAutoCode.Name = "checkProcEditRequireAutoCode";
-			this.checkProcEditRequireAutoCode.Size = new System.Drawing.Size(400, 18);
+			this.checkProcEditRequireAutoCode.Size = new System.Drawing.Size(224, 20);
 			this.checkProcEditRequireAutoCode.TabIndex = 222;
 			this.checkProcEditRequireAutoCode.Text = "Require use of suggested auto codes";
 			// 
 			// comboProcFeeUpdatePrompt
 			// 
 			this.comboProcFeeUpdatePrompt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.comboProcFeeUpdatePrompt.Location = new System.Drawing.Point(221, 139);
+			this.comboProcFeeUpdatePrompt.Location = new System.Drawing.Point(221, 151);
 			this.comboProcFeeUpdatePrompt.Name = "comboProcFeeUpdatePrompt";
-			this.comboProcFeeUpdatePrompt.Size = new System.Drawing.Size(219, 21);
+			this.comboProcFeeUpdatePrompt.Size = new System.Drawing.Size(220, 23);
 			this.comboProcFeeUpdatePrompt.TabIndex = 227;
 			// 
 			// checkClaimProcsAllowEstimatesOnCompl
 			// 
 			this.checkClaimProcsAllowEstimatesOnCompl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkClaimProcsAllowEstimatesOnCompl.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkClaimProcsAllowEstimatesOnCompl.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.checkClaimProcsAllowEstimatesOnCompl.Checked = true;
 			this.checkClaimProcsAllowEstimatesOnCompl.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.checkClaimProcsAllowEstimatesOnCompl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-			this.checkClaimProcsAllowEstimatesOnCompl.Location = new System.Drawing.Point(40, 108);
+			this.checkClaimProcsAllowEstimatesOnCompl.Location = new System.Drawing.Point(8, 119);
 			this.checkClaimProcsAllowEstimatesOnCompl.Name = "checkClaimProcsAllowEstimatesOnCompl";
-			this.checkClaimProcsAllowEstimatesOnCompl.Size = new System.Drawing.Size(400, 18);
+			this.checkClaimProcsAllowEstimatesOnCompl.Size = new System.Drawing.Size(389, 20);
 			this.checkClaimProcsAllowEstimatesOnCompl.TabIndex = 223;
 			this.checkClaimProcsAllowEstimatesOnCompl.Text = "Allow estimates to be created for backdated completed procedures";
 			this.checkClaimProcsAllowEstimatesOnCompl.Click += new System.EventHandler(this.checkClaimProcsAllowEstimatesOnCompl_Click);
@@ -113,9 +113,9 @@ namespace OpenPmsDental {
 			// labelProcFeeUpdatePrompt
 			// 
 			this.labelProcFeeUpdatePrompt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelProcFeeUpdatePrompt.Location = new System.Drawing.Point(17, 142);
+			this.labelProcFeeUpdatePrompt.Location = new System.Drawing.Point(39, 151);
 			this.labelProcFeeUpdatePrompt.Name = "labelProcFeeUpdatePrompt";
-			this.labelProcFeeUpdatePrompt.Size = new System.Drawing.Size(203, 18);
+			this.labelProcFeeUpdatePrompt.Size = new System.Drawing.Size(176, 23);
 			this.labelProcFeeUpdatePrompt.TabIndex = 228;
 			this.labelProcFeeUpdatePrompt.Text = "Procedure fee update behavior";
 			this.labelProcFeeUpdatePrompt.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -123,10 +123,10 @@ namespace OpenPmsDental {
 			// checkProcLockingIsAllowed
 			// 
 			this.checkProcLockingIsAllowed.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkProcLockingIsAllowed.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkProcLockingIsAllowed.Location = new System.Drawing.Point(40, 46);
+			this.checkProcLockingIsAllowed.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkProcLockingIsAllowed.Location = new System.Drawing.Point(8, 55);
 			this.checkProcLockingIsAllowed.Name = "checkProcLockingIsAllowed";
-			this.checkProcLockingIsAllowed.Size = new System.Drawing.Size(400, 18);
+			this.checkProcLockingIsAllowed.Size = new System.Drawing.Size(178, 20);
 			this.checkProcLockingIsAllowed.TabIndex = 224;
 			this.checkProcLockingIsAllowed.Text = "Procedure locking is allowed";
 			this.checkProcLockingIsAllowed.Click += new System.EventHandler(this.checkProcLockingIsAllowed_Click);
@@ -140,68 +140,68 @@ namespace OpenPmsDental {
 			this.groupProcNotes.Controls.Add(this.checkProcGroupNoteDoesAggregate);
 			this.groupProcNotes.Controls.Add(this.checkNotesProviderSigOnly);
 			this.groupProcNotes.Controls.Add(this.checkProcNoteConcurrencyMerge);
-			this.groupProcNotes.Location = new System.Drawing.Point(20, 255);
+			this.groupProcNotes.Location = new System.Drawing.Point(8, 234);
 			this.groupProcNotes.Name = "groupProcNotes";
-			this.groupProcNotes.Size = new System.Drawing.Size(450, 191);
+			this.groupProcNotes.Size = new System.Drawing.Size(478, 207);
 			this.groupProcNotes.TabIndex = 239;
 			this.groupProcNotes.Text = "Procedure Notes";
 			// 
 			// checkProcNoteSigsBlocked
 			// 
-			this.checkProcNoteSigsBlocked.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkProcNoteSigsBlocked.Location = new System.Drawing.Point(5, 164);
+			this.checkProcNoteSigsBlocked.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkProcNoteSigsBlocked.Location = new System.Drawing.Point(8, 159);
 			this.checkProcNoteSigsBlocked.Name = "checkProcNoteSigsBlocked";
-			this.checkProcNoteSigsBlocked.Size = new System.Drawing.Size(445, 18);
+			this.checkProcNoteSigsBlocked.Size = new System.Drawing.Size(462, 40);
 			this.checkProcNoteSigsBlocked.TabIndex = 249;
 			this.checkProcNoteSigsBlocked.Text = "Block procedure note signatures when there are uncompleted auto note prompts";
 			// 
 			// checkProcsPromptForAutoNote
 			// 
 			this.checkProcsPromptForAutoNote.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkProcsPromptForAutoNote.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkProcsPromptForAutoNote.Location = new System.Drawing.Point(40, 15);
+			this.checkProcsPromptForAutoNote.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkProcsPromptForAutoNote.Location = new System.Drawing.Point(8, 23);
 			this.checkProcsPromptForAutoNote.Name = "checkProcsPromptForAutoNote";
-			this.checkProcsPromptForAutoNote.Size = new System.Drawing.Size(400, 18);
+			this.checkProcsPromptForAutoNote.Size = new System.Drawing.Size(209, 20);
 			this.checkProcsPromptForAutoNote.TabIndex = 234;
 			this.checkProcsPromptForAutoNote.Text = "Procedures Prompt For Auto Note";
 			// 
 			// checkSignatureAllowDigital
 			// 
 			this.checkSignatureAllowDigital.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkSignatureAllowDigital.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkSignatureAllowDigital.Location = new System.Drawing.Point(15, 46);
+			this.checkSignatureAllowDigital.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkSignatureAllowDigital.Location = new System.Drawing.Point(8, 55);
 			this.checkSignatureAllowDigital.Name = "checkSignatureAllowDigital";
-			this.checkSignatureAllowDigital.Size = new System.Drawing.Size(425, 18);
+			this.checkSignatureAllowDigital.Size = new System.Drawing.Size(149, 20);
 			this.checkSignatureAllowDigital.TabIndex = 238;
 			this.checkSignatureAllowDigital.Text = "Allow digital signatures";
 			// 
 			// checkProcGroupNoteDoesAggregate
 			// 
 			this.checkProcGroupNoteDoesAggregate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkProcGroupNoteDoesAggregate.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkProcGroupNoteDoesAggregate.Location = new System.Drawing.Point(15, 77);
+			this.checkProcGroupNoteDoesAggregate.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkProcGroupNoteDoesAggregate.Location = new System.Drawing.Point(8, 87);
 			this.checkProcGroupNoteDoesAggregate.Name = "checkProcGroupNoteDoesAggregate";
-			this.checkProcGroupNoteDoesAggregate.Size = new System.Drawing.Size(425, 18);
+			this.checkProcGroupNoteDoesAggregate.Size = new System.Drawing.Size(335, 20);
 			this.checkProcGroupNoteDoesAggregate.TabIndex = 235;
 			this.checkProcGroupNoteDoesAggregate.Text = "When creating a Group Note, aggregate procedure notes";
 			// 
 			// checkNotesProviderSigOnly
 			// 
 			this.checkNotesProviderSigOnly.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkNotesProviderSigOnly.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkNotesProviderSigOnly.Location = new System.Drawing.Point(15, 135);
+			this.checkNotesProviderSigOnly.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkNotesProviderSigOnly.Location = new System.Drawing.Point(8, 135);
 			this.checkNotesProviderSigOnly.Name = "checkNotesProviderSigOnly";
-			this.checkNotesProviderSigOnly.Size = new System.Drawing.Size(425, 18);
+			this.checkNotesProviderSigOnly.Size = new System.Drawing.Size(232, 20);
 			this.checkNotesProviderSigOnly.TabIndex = 237;
 			this.checkNotesProviderSigOnly.Text = "Notes can only be signed by providers";
 			// 
 			// checkProcNoteConcurrencyMerge
 			// 
 			this.checkProcNoteConcurrencyMerge.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkProcNoteConcurrencyMerge.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkProcNoteConcurrencyMerge.Location = new System.Drawing.Point(40, 106);
+			this.checkProcNoteConcurrencyMerge.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkProcNoteConcurrencyMerge.Location = new System.Drawing.Point(8, 111);
 			this.checkProcNoteConcurrencyMerge.Name = "checkProcNoteConcurrencyMerge";
-			this.checkProcNoteConcurrencyMerge.Size = new System.Drawing.Size(400, 18);
+			this.checkProcNoteConcurrencyMerge.Size = new System.Drawing.Size(372, 20);
 			this.checkProcNoteConcurrencyMerge.TabIndex = 236;
 			this.checkProcNoteConcurrencyMerge.Text = "Procedure notes merge together when concurrency issues occur";
 			// 

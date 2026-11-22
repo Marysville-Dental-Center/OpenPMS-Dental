@@ -56,10 +56,10 @@ namespace OpenPmsDental {
 			// 
 			// checkUseReadOnlyServer
 			// 
-			this.checkUseReadOnlyServer.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkUseReadOnlyServer.Location = new System.Drawing.Point(60, 10);
+			this.checkUseReadOnlyServer.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkUseReadOnlyServer.Location = new System.Drawing.Point(8, 8);
 			this.checkUseReadOnlyServer.Name = "checkUseReadOnlyServer";
-			this.checkUseReadOnlyServer.Size = new System.Drawing.Size(400, 18);
+			this.checkUseReadOnlyServer.Size = new System.Drawing.Size(192, 20);
 			this.checkUseReadOnlyServer.TabIndex = 0;
 			this.checkUseReadOnlyServer.Text = "Use Separate Read-Only Server\r\n";
 			this.checkUseReadOnlyServer.CheckedChanged += new System.EventHandler(this.checkReadOnlyServer_CheckChanged);
@@ -70,17 +70,17 @@ namespace OpenPmsDental {
 			this.groupBoxReadOnlyServerSetup.Controls.Add(this.groupConnectionSettings);
 			this.groupBoxReadOnlyServerSetup.Controls.Add(this.radioReadOnlyServerMiddleTier);
 			this.groupBoxReadOnlyServerSetup.Controls.Add(this.groupMiddleTier);
-			this.groupBoxReadOnlyServerSetup.Location = new System.Drawing.Point(20, 30);
+			this.groupBoxReadOnlyServerSetup.Location = new System.Drawing.Point(8, 36);
 			this.groupBoxReadOnlyServerSetup.Name = "groupBoxReadOnlyServerSetup";
-			this.groupBoxReadOnlyServerSetup.Size = new System.Drawing.Size(450, 323);
+			this.groupBoxReadOnlyServerSetup.Size = new System.Drawing.Size(498, 313);
 			this.groupBoxReadOnlyServerSetup.TabIndex = 99;
 			this.groupBoxReadOnlyServerSetup.Text = "Read-Only Server Setup";
 			// 
 			// radioReadOnlyServerDirect
 			// 
-			this.radioReadOnlyServerDirect.Location = new System.Drawing.Point(9, 29);
+			this.radioReadOnlyServerDirect.Location = new System.Drawing.Point(8, 23);
 			this.radioReadOnlyServerDirect.Name = "radioReadOnlyServerDirect";
-			this.radioReadOnlyServerDirect.Size = new System.Drawing.Size(157, 23);
+			this.radioReadOnlyServerDirect.Size = new System.Drawing.Size(123, 20);
 			this.radioReadOnlyServerDirect.TabIndex = 3;
 			this.radioReadOnlyServerDirect.TabStop = true;
 			this.radioReadOnlyServerDirect.Text = "Direct Connection";
@@ -99,24 +99,24 @@ namespace OpenPmsDental {
 			this.groupConnectionSettings.Controls.Add(this.label2);
 			this.groupConnectionSettings.Controls.Add(this.label3);
 			this.groupConnectionSettings.Controls.Add(this.label4);
-			this.groupConnectionSettings.Location = new System.Drawing.Point(9, 54);
+			this.groupConnectionSettings.Location = new System.Drawing.Point(8, 51);
 			this.groupConnectionSettings.Name = "groupConnectionSettings";
-			this.groupConnectionSettings.Size = new System.Drawing.Size(438, 174);
+			this.groupConnectionSettings.Size = new System.Drawing.Size(482, 175);
 			this.groupConnectionSettings.TabIndex = 100;
 			this.groupConnectionSettings.Text = "Connection Settings";
 			// 
 			// labelSslCaPem
 			// 
-			this.labelSslCaPem.Location = new System.Drawing.Point(6, 140);
+			this.labelSslCaPem.Location = new System.Drawing.Point(8, 139);
 			this.labelSslCaPem.Name = "labelSslCaPem";
-			this.labelSslCaPem.Size = new System.Drawing.Size(133, 28);
+			this.labelSslCaPem.Size = new System.Drawing.Size(168, 28);
 			this.labelSslCaPem.TabIndex = 105;
 			this.labelSslCaPem.Text = "SSL CA certificate (.pem) path";
 			this.labelSslCaPem.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textSslCaPem
 			// 
-			this.textSslCaPem.Location = new System.Drawing.Point(139, 144);
+			this.textSslCaPem.Location = new System.Drawing.Point(182, 141);
 			this.textSslCaPem.Name = "textSslCaPem";
 			this.textSslCaPem.Size = new System.Drawing.Size(292, 20);
 			this.textSslCaPem.TabIndex = 105;
@@ -124,7 +124,7 @@ namespace OpenPmsDental {
 			// comboServerName
 			// 
 			this.comboServerName.FormattingEnabled = true;
-			this.comboServerName.Location = new System.Drawing.Point(139, 19);
+			this.comboServerName.Location = new System.Drawing.Point(182, 23);
 			this.comboServerName.Name = "comboServerName";
 			this.comboServerName.Size = new System.Drawing.Size(292, 21);
 			this.comboServerName.TabIndex = 4;
@@ -132,7 +132,7 @@ namespace OpenPmsDental {
 			// 
 			// textMysqlPass
 			// 
-			this.textMysqlPass.Location = new System.Drawing.Point(139, 112);
+			this.textMysqlPass.Location = new System.Drawing.Point(182, 110);
 			this.textMysqlPass.Name = "textMysqlPass";
 			this.textMysqlPass.Size = new System.Drawing.Size(292, 20);
 			this.textMysqlPass.TabIndex = 7;
@@ -140,7 +140,7 @@ namespace OpenPmsDental {
 			// comboDatabase
 			// 
 			this.comboDatabase.FormattingEnabled = true;
-			this.comboDatabase.Location = new System.Drawing.Point(139, 50);
+			this.comboDatabase.Location = new System.Drawing.Point(182, 52);
 			this.comboDatabase.Name = "comboDatabase";
 			this.comboDatabase.Size = new System.Drawing.Size(292, 21);
 			this.comboDatabase.TabIndex = 5;
@@ -148,52 +148,52 @@ namespace OpenPmsDental {
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(16, 115);
+			this.label1.Location = new System.Drawing.Point(72, 110);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(122, 17);
+			this.label1.Size = new System.Drawing.Size(104, 23);
 			this.label1.TabIndex = 104;
 			this.label1.Text = "MySQL Password";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textMysqlUser
 			// 
-			this.textMysqlUser.Location = new System.Drawing.Point(139, 81);
+			this.textMysqlUser.Location = new System.Drawing.Point(182, 81);
 			this.textMysqlUser.Name = "textMysqlUser";
 			this.textMysqlUser.Size = new System.Drawing.Size(292, 20);
 			this.textMysqlUser.TabIndex = 6;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(16, 22);
+			this.label2.Location = new System.Drawing.Point(96, 23);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(122, 17);
+			this.label2.Size = new System.Drawing.Size(80, 23);
 			this.label2.TabIndex = 101;
 			this.label2.Text = "Server Name";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(16, 84);
+			this.label3.Location = new System.Drawing.Point(100, 81);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(122, 17);
+			this.label3.Size = new System.Drawing.Size(76, 23);
 			this.label3.TabIndex = 103;
 			this.label3.Text = "MySQL User";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(16, 53);
+			this.label4.Location = new System.Drawing.Point(116, 52);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(122, 17);
+			this.label4.Size = new System.Drawing.Size(60, 23);
 			this.label4.TabIndex = 102;
 			this.label4.Text = "Database";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// radioReadOnlyServerMiddleTier
 			// 
-			this.radioReadOnlyServerMiddleTier.Location = new System.Drawing.Point(9, 241);
+			this.radioReadOnlyServerMiddleTier.Location = new System.Drawing.Point(8, 238);
 			this.radioReadOnlyServerMiddleTier.Name = "radioReadOnlyServerMiddleTier";
-			this.radioReadOnlyServerMiddleTier.Size = new System.Drawing.Size(137, 23);
+			this.radioReadOnlyServerMiddleTier.Size = new System.Drawing.Size(87, 20);
 			this.radioReadOnlyServerMiddleTier.TabIndex = 8;
 			this.radioReadOnlyServerMiddleTier.TabStop = true;
 			this.radioReadOnlyServerMiddleTier.Text = "Middle Tier";
@@ -204,9 +204,9 @@ namespace OpenPmsDental {
 			// 
 			this.groupMiddleTier.Controls.Add(this.textMiddleTierURI);
 			this.groupMiddleTier.Controls.Add(this.labelURI);
-			this.groupMiddleTier.Location = new System.Drawing.Point(9, 266);
+			this.groupMiddleTier.Location = new System.Drawing.Point(8, 266);
 			this.groupMiddleTier.Name = "groupMiddleTier";
-			this.groupMiddleTier.Size = new System.Drawing.Size(438, 36);
+			this.groupMiddleTier.Size = new System.Drawing.Size(462, 39);
 			this.groupMiddleTier.TabIndex = 105;
 			this.groupMiddleTier.Text = "";
 			// 
@@ -219,9 +219,9 @@ namespace OpenPmsDental {
 			// 
 			// labelURI
 			// 
-			this.labelURI.Location = new System.Drawing.Point(16, 11);
+			this.labelURI.Location = new System.Drawing.Point(101, 8);
 			this.labelURI.Name = "labelURI";
-			this.labelURI.Size = new System.Drawing.Size(122, 17);
+			this.labelURI.Size = new System.Drawing.Size(32, 23);
 			this.labelURI.TabIndex = 106;
 			this.labelURI.Text = "URI";
 			this.labelURI.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -233,24 +233,24 @@ namespace OpenPmsDental {
 			this.groupReplication.Controls.Add(this.labelReplicationSignalLookback);
 			this.groupReplication.Controls.Add(this.textReplicationSignalLookbackMs);
 			this.groupReplication.Controls.Add(this.labelReplicationInfo);
-			this.groupReplication.Location = new System.Drawing.Point(20, 365);
+			this.groupReplication.Location = new System.Drawing.Point(8, 361);
 			this.groupReplication.Name = "groupReplication";
-			this.groupReplication.Size = new System.Drawing.Size(450, 156);
+			this.groupReplication.Size = new System.Drawing.Size(478, 167);
 			this.groupReplication.TabIndex = 110;
 			this.groupReplication.Text = "Replication";
 			// 
 			// labelReplicationReadDelay
 			// 
-			this.labelReplicationReadDelay.Location = new System.Drawing.Point(16, 21);
+			this.labelReplicationReadDelay.Location = new System.Drawing.Point(181, 23);
 			this.labelReplicationReadDelay.Name = "labelReplicationReadDelay";
-			this.labelReplicationReadDelay.Size = new System.Drawing.Size(320, 17);
+			this.labelReplicationReadDelay.Size = new System.Drawing.Size(152, 23);
 			this.labelReplicationReadDelay.TabIndex = 111;
 			this.labelReplicationReadDelay.Text = "Read delay after write (ms)";
 			this.labelReplicationReadDelay.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textReplicationReadDelayMs
 			// 
-			this.textReplicationReadDelayMs.Location = new System.Drawing.Point(339, 19);
+			this.textReplicationReadDelayMs.Location = new System.Drawing.Point(339, 23);
 			this.textReplicationReadDelayMs.MaxVal = 60000;
 			this.textReplicationReadDelayMs.MinVal = 0;
 			this.textReplicationReadDelayMs.Name = "textReplicationReadDelayMs";
@@ -260,16 +260,16 @@ namespace OpenPmsDental {
 			// 
 			// labelReplicationSignalLookback
 			// 
-			this.labelReplicationSignalLookback.Location = new System.Drawing.Point(16, 47);
+			this.labelReplicationSignalLookback.Location = new System.Drawing.Point(177, 52);
 			this.labelReplicationSignalLookback.Name = "labelReplicationSignalLookback";
-			this.labelReplicationSignalLookback.Size = new System.Drawing.Size(320, 17);
+			this.labelReplicationSignalLookback.Size = new System.Drawing.Size(156, 23);
 			this.labelReplicationSignalLookback.TabIndex = 113;
 			this.labelReplicationSignalLookback.Text = "Write delay for signals (ms)";
 			this.labelReplicationSignalLookback.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textReplicationSignalLookbackMs
 			// 
-			this.textReplicationSignalLookbackMs.Location = new System.Drawing.Point(339, 45);
+			this.textReplicationSignalLookbackMs.Location = new System.Drawing.Point(339, 52);
 			this.textReplicationSignalLookbackMs.MaxVal = 60000;
 			this.textReplicationSignalLookbackMs.MinVal = 0;
 			this.textReplicationSignalLookbackMs.Name = "textReplicationSignalLookbackMs";
@@ -279,7 +279,7 @@ namespace OpenPmsDental {
 			// 
 			// labelReplicationInfo
 			// 
-			this.labelReplicationInfo.Location = new System.Drawing.Point(6, 72);
+			this.labelReplicationInfo.Location = new System.Drawing.Point(8, 81);
 			this.labelReplicationInfo.Name = "labelReplicationInfo";
 			this.labelReplicationInfo.Size = new System.Drawing.Size(438, 78);
 			this.labelReplicationInfo.TabIndex = 115;
