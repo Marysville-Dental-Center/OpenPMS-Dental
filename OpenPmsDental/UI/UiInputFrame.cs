@@ -149,19 +149,16 @@ namespace OpenPmsDental.UI {
 			try {
 				g.SmoothingMode=SmoothingMode.AntiAlias;
 				Region region=new Region(rectangle);
-				Rectangle rectangleInner=Rectangle.Inflate(rectangle,-edge,-edge);
-				Rectangle rectangleButton=Rectangle.Empty;
-				if(control is DateTimePicker || control is System.Windows.Forms.ComboBox) {
-					//The drop button: the width of a scroll bar inside the edge, at the right.
-					int widthButton=SystemInformation.VerticalScrollBarWidth+2;
-					rectangleButton=new Rectangle(rectangleInner.Right-widthButton,rectangleInner.Y,widthButton,rectangleInner.Height);
-					rectangleInner.Width-=widthButton;
-				}
+				Rectangle rectangleInner=GetInnerRectangle(rectangle,control);
 				region.Exclude(rectangleInner);
 				g.Clip=region;
+				//UI-13: the parent's colour on whole pixels. With antialiasing and the default pixel offset the fill covered the edge pixels by half
+				//and the corner pixel by a quarter, so Windows' dark border showed through under each rounded corner (UI-12.md section 5).
+				g.SmoothingMode=SmoothingMode.None;
 				using(SolidBrush brushParent=new SolidBrush(colorParent)) {
 					g.FillRectangle(brushParent,rectangle);
 				}
+				g.SmoothingMode=SmoothingMode.AntiAlias;
 				Rectangle rectangleBox=new Rectangle(rectangle.X,rectangle.Y,rectangle.Width,rectangle.Height);
 				UiListPaint.DrawComboBoxBox(g,rectangleBox,false,control.Enabled,scale,colorBack);
 				if(control is DateTimePicker || control is System.Windows.Forms.ComboBox) {
@@ -176,6 +173,16 @@ namespace OpenPmsDental.UI {
 				g.Restore(graphicsState);
 			}
 		}
+		///<summary>The part of the control the frame leaves as Windows drew it: inside the edge, less a date picker's or combo box's drop button
+		///(the width of a scroll bar inside the edge, at the right), which the frame covers with the chevron.</summary>
+		public static Rectangle GetInnerRectangle(Rectangle rectangle,Control control) {
+			Rectangle rectangleInner=Rectangle.Inflate(rectangle,-GetEdgeWidth(control),-GetEdgeWidth(control));
+			if(control is DateTimePicker || control is System.Windows.Forms.ComboBox) {
+				rectangleInner.Width-=SystemInformation.VerticalScrollBarWidth+2;
+			}
+			return rectangleInner;
+		}
+
 		#endregion Methods - Public
 
 		#region Methods - Private
@@ -212,17 +219,8 @@ namespace OpenPmsDental.UI {
 						PaintOnWindow();
 						break;
 					case WM_PRINT:
-						//UI-13: Windows leaves the clip of its own printing on the device context (the edge without its corners), which kept the
-						//frame's corners from being painted: Windows' dark corner pixel stayed under each rounded corner. The frame paints with no clip.
-						int saved=SaveDC(m.WParam);
-						try {
-							SelectClipRgn(m.WParam,IntPtr.Zero);
-							using(Graphics g=Graphics.FromHdc(m.WParam)) {
-								PaintFrame(g,new Rectangle(0,0,_control.Width,_control.Height),_control,false);
-							}
-						}
-						finally {
-							RestoreDC(m.WParam,saved);
+						using(Graphics g=Graphics.FromHdc(m.WParam)) {
+							PaintFrame(g,new Rectangle(0,0,_control.Width,_control.Height),_control,false);
 						}
 						break;
 				}
@@ -252,15 +250,6 @@ namespace OpenPmsDental.UI {
 
 		[DllImport("user32.dll")]
 		private static extern int ReleaseDC(IntPtr hWnd,IntPtr hDC);
-
-		[DllImport("gdi32.dll")]
-		private static extern int SaveDC(IntPtr hdc);
-
-		[DllImport("gdi32.dll")]
-		private static extern bool RestoreDC(IntPtr hdc,int nSavedDC);
-
-		[DllImport("gdi32.dll")]
-		private static extern int SelectClipRgn(IntPtr hdc,IntPtr hrgn);
 
 		[DllImport("user32.dll")]
 		private static extern bool RedrawWindow(IntPtr hWnd,IntPtr lprcUpdate,IntPtr hrgnUpdate,int flags);

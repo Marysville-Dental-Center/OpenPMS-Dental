@@ -157,7 +157,11 @@ namespace OpenPmsDental.UI {
 			if(dataGridView.GridColor==SystemColors.ControlDark || dataGridView.GridColor==SystemColors.WindowFrame) {
 				dataGridView.GridColor=UiTheme.GetColor(EnumUiColor.Gridline);
 			}
-			if(dataGridView.BackgroundColor==SystemColors.AppWorkspace || dataGridView.BackgroundColor==SystemColors.ControlDark) {
+			int argbBackground=dataGridView.BackgroundColor.ToArgb();
+			if(dataGridView.BackgroundColor==SystemColors.AppWorkspace || dataGridView.BackgroundColor==SystemColors.ControlDark
+				|| argbBackground==Color.Gainsboro.ToArgb() || argbBackground==Color.DarkGray.ToArgb())
+			{
+				//Windows' grey and the classic greys windows chose (FormQuery's Gainsboro): the program's surface.
 				dataGridView.BackgroundColor=UiTheme.GetColor(EnumUiColor.Surface);
 			}
 			dataGridView.EnableHeadersVisualStyles=false;
@@ -451,9 +455,10 @@ namespace OpenPmsDental.UI {
 		}
 	}
 
-	///<summary>The stock check box (System.Windows.Forms.CheckBox, not UI.CheckBox) drawn like the program's check box: the box on the left in
-	///UiControlPaint.DrawCheckBoxBox, the text 3 px after it (as UiRadioLook draws the stock radio button). A check box drawn as a button, right
-	///to left or with its box elsewhere than on the left keeps the Windows picture.</summary>
+	///<summary>The stock check box (System.Windows.Forms.CheckBox, not UI.CheckBox) drawn like the program's check box: the box in
+	///UiControlPaint.DrawCheckBoxBox on the left with the text 3 px after it (as UiRadioLook draws the stock radio button), or, for a box the
+	///window puts on the right (CheckAlign MiddleRight or TopRight), on the right with the text 3 px before it, where it was. A check box drawn as
+	///a button or right to left keeps the Windows picture.</summary>
 	public class UiCheckLook : NativeWindow {
 		private const int WM_PAINT=0x000F;
 		private const int WM_PRINT=0x0317;
@@ -480,7 +485,8 @@ namespace OpenPmsDental.UI {
 			}
 			System.Windows.Forms.CheckBox checkBox=(System.Windows.Forms.CheckBox)control;
 			return checkBox.Appearance==Appearance.Normal
-				&& (checkBox.CheckAlign==ContentAlignment.MiddleLeft || checkBox.CheckAlign==ContentAlignment.TopLeft)
+				&& (checkBox.CheckAlign==ContentAlignment.MiddleLeft || checkBox.CheckAlign==ContentAlignment.TopLeft
+					|| checkBox.CheckAlign==ContentAlignment.MiddleRight || checkBox.CheckAlign==ContentAlignment.TopRight)
 				&& checkBox.RightToLeft!=RightToLeft.Yes;
 		}
 
@@ -503,7 +509,11 @@ namespace OpenPmsDental.UI {
 			int gap=(int)Math.Round(3*scale);
 			int top=rectangle.Y;
 			TextFormatFlags textFormatFlags=TextFormatFlags.Left|TextFormatFlags.WordBreak;
-			if(checkBox.CheckAlign==ContentAlignment.TopLeft) {
+			bool isBoxRight=checkBox.CheckAlign==ContentAlignment.MiddleRight || checkBox.CheckAlign==ContentAlignment.TopRight;
+			if(isBoxRight) {
+				textFormatFlags=(textFormatFlags & ~TextFormatFlags.Left)|UiButtonLook.GetTextFlags(checkBox.TextAlign) & (TextFormatFlags.Right|TextFormatFlags.HorizontalCenter);
+			}
+			if(checkBox.CheckAlign==ContentAlignment.TopLeft || checkBox.CheckAlign==ContentAlignment.TopRight) {
 				textFormatFlags|=TextFormatFlags.Top;
 			}
 			else {
@@ -515,8 +525,12 @@ namespace OpenPmsDental.UI {
 			}
 			int sizeDrawn=sizeBox+UiTheme.GetLineWidth(scale);
 			Rectangle rectangleBox=new Rectangle(rectangle.X,top,sizeDrawn,sizeDrawn);
-			UiControlPaint.DrawCheckBoxBox(g,rectangleBox,checkBox.CheckState,isHovering,checkBox.Enabled,scale,Color.Empty);
 			Rectangle rectangleText=new Rectangle(rectangle.X+sizeBox+gap,rectangle.Y,Math.Max(0,rectangle.Width-sizeBox-gap),rectangle.Height);
+			if(isBoxRight) {
+				rectangleBox=new Rectangle(rectangle.Right-sizeDrawn,top,sizeDrawn,sizeDrawn);
+				rectangleText=new Rectangle(rectangle.X,rectangle.Y,Math.Max(0,rectangle.Width-sizeBox-gap),rectangle.Height);
+			}
+			UiControlPaint.DrawCheckBoxBox(g,rectangleBox,checkBox.CheckState,isHovering,checkBox.Enabled,scale,Color.Empty);
 			TextRenderer.DrawText(g,checkBox.Text,checkBox.Font,rectangleText,UiTheme.GetColor(checkBox.Enabled ? EnumUiColor.Text : EnumUiColor.TextDisabled),
 				textFormatFlags);
 			if(checkBox.Focused) {

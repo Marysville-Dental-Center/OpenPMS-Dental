@@ -180,16 +180,8 @@ namespace OpenPmsDental.UI {
 				switch(msg) {
 					case WM_PRINT:
 						if(_isScrollBarControl || ((int)m.LParam & PRF_NONCLIENT)!=0) {
-							//Windows may leave its own printing's clip on the device context: the bars paint with none (as UiInputFrame).
-							int saved=SaveDC(m.WParam);
-							try {
-								SelectClipRgn(m.WParam,IntPtr.Zero);
-								using(Graphics g=Graphics.FromHdc(m.WParam)) {
-									PaintBars(g,isForPrint:true);
-								}
-							}
-							finally {
-								RestoreDC(m.WParam,saved);
+							using(Graphics g=Graphics.FromHdc(m.WParam)) {
+								PaintBars(g,isForPrint:true);
 							}
 						}
 						return;
@@ -458,15 +450,6 @@ namespace OpenPmsDental.UI {
 
 		[DllImport("user32.dll")]
 		private static extern int ReleaseDC(IntPtr hWnd,IntPtr hDC);
-
-		[DllImport("gdi32.dll")]
-		private static extern int SaveDC(IntPtr hdc);
-
-		[DllImport("gdi32.dll")]
-		private static extern bool RestoreDC(IntPtr hdc,int nSavedDC);
-
-		[DllImport("gdi32.dll")]
-		private static extern int SelectClipRgn(IntPtr hdc,IntPtr hrgn);
 
 		[DllImport("user32.dll")]
 		private static extern bool TrackMouseEvent(ref TRACKMOUSEEVENT lpEventTrack);

@@ -47,7 +47,9 @@ namespace OpenPmsDental.UI {
 				return false;
 			}
 			return radioButton.Appearance==Appearance.Normal
-				&& (radioButton.CheckAlign==ContentAlignment.MiddleLeft || radioButton.CheckAlign==ContentAlignment.TopLeft)
+				&& (radioButton.CheckAlign==ContentAlignment.MiddleLeft || radioButton.CheckAlign==ContentAlignment.TopLeft
+					//UI-13: a circle the window puts on the right is drawn there in the same look (FormPerio's sequence choices).
+					|| radioButton.CheckAlign==ContentAlignment.MiddleRight || radioButton.CheckAlign==ContentAlignment.TopRight)
 				&& radioButton.RightToLeft!=RightToLeft.Yes;
 		}
 
@@ -79,7 +81,11 @@ namespace OpenPmsDental.UI {
 			int top=rectangle.Y;
 			StringFormat stringFormat=new StringFormat();
 			stringFormat.Alignment=StringAlignment.Near;
-			if(radioButton.CheckAlign==ContentAlignment.TopLeft) {
+			bool isCircleRight=radioButton.CheckAlign==ContentAlignment.MiddleRight || radioButton.CheckAlign==ContentAlignment.TopRight;
+			if(isCircleRight) {
+				stringFormat.Alignment=StringAlignment.Far;
+			}
+			if(radioButton.CheckAlign==ContentAlignment.TopLeft || radioButton.CheckAlign==ContentAlignment.TopRight) {
 				stringFormat.LineAlignment=StringAlignment.Near;
 			}
 			else {
@@ -88,8 +94,12 @@ namespace OpenPmsDental.UI {
 			}
 			int sizeDrawn=sizeCircle+UiTheme.GetLineWidth(scale);
 			Rectangle rectangleCircle=new Rectangle(rectangle.X,top,sizeDrawn,sizeDrawn);
-			UiControlPaint.DrawRadioCircle(g,rectangleCircle,radioButton.Checked,isHovering,radioButton.Enabled,scale,Color.Empty);
 			Rectangle rectangleText=new Rectangle(rectangle.X+sizeCircle+gap,rectangle.Y,Math.Max(0,rectangle.Width-sizeCircle-gap),rectangle.Height);
+			if(isCircleRight) {
+				rectangleCircle=new Rectangle(rectangle.Right-sizeDrawn,top,sizeDrawn,sizeDrawn);
+				rectangleText=new Rectangle(rectangle.X,rectangle.Y,Math.Max(0,rectangle.Width-sizeCircle-gap),rectangle.Height);
+			}
+			UiControlPaint.DrawRadioCircle(g,rectangleCircle,radioButton.Checked,isHovering,radioButton.Enabled,scale,Color.Empty);
 			//A token brush: cached per thread by UiTheme, never disposed here.
 			SolidBrush solidBrushText=UiTheme.GetBrush(radioButton.Enabled ? EnumUiColor.Text : EnumUiColor.TextDisabled);
 			g.DrawString(radioButton.Text,radioButton.Font,solidBrushText,rectangleText,stringFormat);
