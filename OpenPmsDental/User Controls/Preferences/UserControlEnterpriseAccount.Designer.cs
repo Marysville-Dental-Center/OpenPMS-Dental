@@ -251,9 +251,9 @@ namespace OpenPmsDental {
 			// textClaimReportReceiveTime
 			// 
 			this.textClaimReportReceiveTime.Enabled = false;
-			this.textClaimReportReceiveTime.Location = new System.Drawing.Point(146, 302);
+			this.textClaimReportReceiveTime.Location = new System.Drawing.Point(304, 302);
 			this.textClaimReportReceiveTime.Name = "textClaimReportReceiveTime";
-			this.textClaimReportReceiveTime.Size = new System.Drawing.Size(128, 23);
+			this.textClaimReportReceiveTime.Size = new System.Drawing.Size(182, 23);
 			this.textClaimReportReceiveTime.TabIndex = 296;
 			// 
 			// label38
@@ -277,7 +277,7 @@ namespace OpenPmsDental {
 			// 
 			// butReplacements
 			// 
-			this.butReplacements.Location = new System.Drawing.Point(89, 50);
+			this.butReplacements.Location = new System.Drawing.Point(377, 50);
 			this.butReplacements.Name = "butReplacements";
 			this.butReplacements.Size = new System.Drawing.Size(93, 23);
 			this.butReplacements.TabIndex = 240;
@@ -287,9 +287,9 @@ namespace OpenPmsDental {
 			// 
 			// textClaimIdPrefix
 			// 
-			this.textClaimIdPrefix.Location = new System.Drawing.Point(15, 23);
+			this.textClaimIdPrefix.Location = new System.Drawing.Point(296, 23);
 			this.textClaimIdPrefix.Name = "textClaimIdPrefix";
-			this.textClaimIdPrefix.Size = new System.Drawing.Size(168, 23);
+			this.textClaimIdPrefix.Size = new System.Drawing.Size(174, 23);
 			this.textClaimIdPrefix.TabIndex = 238;
 			this.textClaimIdPrefix.Validating += new System.ComponentModel.CancelEventHandler(this.textClaimIdPrefix_Validating);
 			// 

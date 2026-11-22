@@ -242,13 +242,14 @@ class Box:
             self.h.text_align(label, "MiddleRight")
         return out
 
-    def checks(self, names, x, gap=None, after=None):
-        """Check boxes (or radio buttons) one per row at x, the list pitch apart. after: name -> cells that follow the check box's text."""
+    def checks(self, names, x, gap=None, after=None, h=None):
+        """Check boxes (or radio buttons) one per row at x, the list pitch apart. after: name -> cells that follow the check box's text. h: one
+        row height for every row (a list where some rows hold a button keeps one pitch)."""
         for name in names:
             cells = [(name, x, None)]
             if after and name in after:
                 cells += list(after[name])
-            self.row(*cells, gap=GRID["list_gap"] if gap is None else gap)
+            self.row(*cells, gap=GRID["list_gap"] if gap is None else gap, h=h)
 
     def place(self, name, x=None, w=None, h=None, gap=None):
         """A block (a group box, a list, a grid) at the cursor's row: x (default the content's left), w ("R": to the right edge)."""

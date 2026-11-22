@@ -213,7 +213,7 @@ namespace OpenPmsDental {
 			// butReplacements
 			// 
 			this.butReplacements.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butReplacements.Location = new System.Drawing.Point(309, 50);
+			this.butReplacements.Location = new System.Drawing.Point(363, 50);
 			this.butReplacements.Name = "butReplacements";
 			this.butReplacements.Size = new System.Drawing.Size(91, 23);
 			this.butReplacements.TabIndex = 1;
@@ -225,9 +225,9 @@ namespace OpenPmsDental {
 			// 
 			this.textClaimIdPrefix.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.textClaimIdPrefix.AutoSize = false;
-			this.textClaimIdPrefix.Location = new System.Drawing.Point(229, 23);
+			this.textClaimIdPrefix.Location = new System.Drawing.Point(280, 23);
 			this.textClaimIdPrefix.Name = "textClaimIdPrefix";
-			this.textClaimIdPrefix.Size = new System.Drawing.Size(172, 23);
+			this.textClaimIdPrefix.Size = new System.Drawing.Size(174, 23);
 			this.textClaimIdPrefix.TabIndex = 0;
 			this.textClaimIdPrefix.Validating += new System.ComponentModel.CancelEventHandler(this.textClaimIdPrefix_Validating);
 			// 

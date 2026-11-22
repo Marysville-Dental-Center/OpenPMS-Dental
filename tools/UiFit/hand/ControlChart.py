@@ -11,19 +11,19 @@ def layout(h):
     H = h.H
     h.watch("tabEnterTx", "groupBox2", "tabPlanned", "tabShow", "tabDraw")
     # ---- Enter Treatment --------------------------------------------------------------------------------------------------------------
-    xa, wa = 2, 92
-    xb, wb = xa + wa + 6, 126
+    xa, wa = 2, 96
+    xb, wb = xa + wa + 6, 122
     xc, wc = xb + wb + 6, 112
     xd = xc + wc + 6
     wd = 518 - xd
     y0, ycap, ylist, ybot = 2, 29, 48, 211
     # A: the surface box, the procedure buttons under it, the entry status.
     h.set("textSurf", xa, y0, wa, H)
-    bw, bh, gap = 28, 19, 4
+    bw, bh, gap = 30, 19, 3
     cols = [xa, xa + bw + gap, xa + 2 * (bw + gap)]
     rows = [ycap, ycap + bh + gap, ycap + 2 * (bh + gap)]
     for name, c, r in (("butBF", 1, 0), ("butV", 2, 0), ("butM", 0, 1), ("butOI", 1, 1), ("butD", 2, 1), ("butL", 1, 2)):
-        h.set(name, cols[c], rows[r], bw, bh, why="the procedure buttons: a 3 x 3 grid as wide as the surface box, 4 px apart")
+        h.set(name, cols[c], rows[r], bw, bh, why="the procedure buttons: a 3 x 3 grid as wide as the surface box, 3 px apart")
     yg = rows[2] + bh + 4
     h.set("groupBox2", xa, yg, wa, 234 - yg)
     yr = h.n("groupBox2").title_bottom + 2

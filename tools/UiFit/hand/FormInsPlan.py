@@ -7,7 +7,7 @@ height outside Canada: relative moves, laid out here with their column."""
 
 W1 = 448   # the plan column (panelPlan)
 W2 = 448   # the other insurance info column (panelOrthInfo)
-W3 = 544   # the subscriber column, on the window
+W3 = 552   # the subscriber column, on the window
 TOP = 128  # the patient band's height (panelPat), then the 2 px rule (panel1)
 
 
@@ -17,11 +17,14 @@ def layout(h):
 
     # ---- The patient band (panelPat) -----------------------------------------------------------------------------------------------------
     # The band reaches the request and import groups at the top right (laid out below, right-aligned to the window's content edge).
-    wgr = 8 + h.lw("labelHistElect") + 6 + 80 + 8
-    wgi = 8 + 3 * 64 + 12 + 8
-    wp = (W1 + W2 + 8 + W3) - wgi - 8 - wgr - 8
+    # The date fields at the top right (Last Request, Benefits Last Verified) stand on the subscriber group's second date column (the To
+    # date): one column from the top of the window to the subscriber's dates.
+    xs_ = 8 + max(h.lw(n) for n in ("label25", "label2", "label5", "label28", "label22", "label9")) + 6
+    T = W1 + W2 + 8 + xs_ + 72 + 6 + h.lw("label6") + 6
+    xgr = T - 6 - h.lw("labelHistElect") - 8
+    wp = min(xgr, T - 6 - h.lw("label34")) - 8  # the band ends 8 px before the request group and the Benefits Last Verified label
     p = h.box("panelPat", 0, 0, wp, TOP)
-    fa = 8 + max(h.lw("label26"), h.lw("labelPatID")) + 6
+    fa = 168  # the plan column's field column (X1): the band's fields stand on it
     p.row(("label33", 8, h.lw("label33") + 8), ("butAuditPat", fa, None))
     h.text_align("label33", "MiddleLeft")
     p.field("label26", "comboRelationship", fa, 152)
@@ -116,7 +119,7 @@ def layout(h):
     c2.row(("labelOtherInsInfo", 8, h.lw("labelOtherInsInfo") + 8))
     h.text_align("labelOtherInsInfo", "MiddleLeft")
     c2.skip(4)
-    c2.checks(["checkAlternateCode", "checkCodeSubst", "checkPpoSubWo", "checkClaimsUseUCR", "checkIsHidden", "checkShowBaseUnits"], 8,
+    c2.checks(["checkAlternateCode", "checkCodeSubst", "checkPpoSubWo", "checkClaimsUseUCR", "checkIsHidden", "checkShowBaseUnits"], 8, h=H,
               after={"checkAlternateCode": [("label41", None, h.lw("label41"))], "checkCodeSubst": [("label40", None, h.lw("label40"))],
                      "checkPpoSubWo": [("butSubstCodes", None, None, H)], "checkShowBaseUnits": [("label12", None, h.lw("label12"))]})
     for lb in ("label41", "label40", "label12"):
@@ -159,10 +162,11 @@ def layout(h):
     # ---- The subscriber column (on the window) -----------------------------------------------------------------------------------------
     x3 = W1 + W2 + 8
     gs = h.box("groupSubscriber", x3, y0 + 8, W3)
-    xs = 8 + max(h.lw(n) for n in ("label25", "label2", "label5", "label28")) + 6
+    # One field column for the subscriber and the Canadian groups (the widest label of both).
+    xs = 8 + max(h.lw(n) for n in ("label25", "label2", "label5", "label28", "label22", "label9")) + 6
     wch = h.n("butChange").nw
     gs.field("label25", "textSubscriber", xs, ("R", wch + 6), after=[("butChange", None, wch)])
-    wdate = 80
+    wdate = 72
     lto = h.lw("label6")
     xchk = xs + wdate + 6 + lto + 6 + wdate + 16
     gs.field("label2", "textSubscriberID", xs, 2 * wdate + 12 + lto, after=[("checkRelease", xchk, 16), ("labelRelease", xchk + 16, h.lw("labelRelease"))])
@@ -178,7 +182,7 @@ def layout(h):
     # The benefits grid, the plan note under it, the Canadian group at the bottom of the column (outside Canada the note moves down into
     # its space and the grid grows).
     gcan = h.box("groupCanadian", x3, 0, W3)
-    xk = 8 + max(h.lw("label22"), h.lw("label9")) + 6
+    xk = xs
     gcan.field("label22", "textPlanFlag", xk, 40, after=[("label24", None, h.lw("label24"))])
     h.text_align("label24", "MiddleLeft")
     lin = h.lw("label19")
@@ -203,7 +207,7 @@ def layout(h):
     for c in (c1, c2):
         c.end(h=bottom3 + 8 - c.node.ny)
 
-    # ---- The top right: requests, imports, benefits verified (right-aligned to the window's content edge) -------------------------------
+    # ---- The top right: imports at the window's content edge; the request group's date and the verified date on the To-date column --
     xr = x3 + W3
     gi = h.box("groupBox1", 0, 8, None)
     bw = 64
@@ -220,13 +224,14 @@ def layout(h):
     gr.row(("butGetElectronic", 8, bw2), ("butHistoryElect", None, bw2))
     wgr = 8 + lr + 6 + 80 + 8
     gr.end(w=wgr)
-    h.set("groupRequestBen", xr - wgi - 8 - wgr, 8)
+    h.set("groupRequestBen", xgr, 8)
+    assert xgr + wgr <= xr - wgi - 8, "the request group reaches the import group"
     yv = 8 + max(gi.node.nh, gr.node.nh) + 8
     wdv = h.cw("checkDontVerify")
     h.check_left("checkDontVerify")
-    xdv = xr - wdv
-    xnow = xdv - 16 - h.n("butVerifyBenefits").nw
-    xd = xnow - 6 - 80
+    xd = T
+    xnow = xd + 80 + 6
+    xdv = xnow + h.n("butVerifyBenefits").nw + 16
     lv = h.lw("label34")
     h.set("label34", xd - 6 - lv, yv, lv, H)
     h.text_align("label34", "MiddleRight")

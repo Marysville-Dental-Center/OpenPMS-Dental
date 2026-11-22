@@ -65,7 +65,7 @@ namespace OpenPmsDental {
 			// checkOrthoChartLoggingOn
 			// 
 			this.checkOrthoChartLoggingOn.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkOrthoChartLoggingOn.Location = new System.Drawing.Point(8, 623);
+			this.checkOrthoChartLoggingOn.Location = new System.Drawing.Point(8, 621);
 			this.checkOrthoChartLoggingOn.Name = "checkOrthoChartLoggingOn";
 			this.checkOrthoChartLoggingOn.Size = new System.Drawing.Size(237, 20);
 			this.checkOrthoChartLoggingOn.TabIndex = 271;
@@ -134,7 +134,7 @@ namespace OpenPmsDental {
 			this.groupOrthoCaseProcedures.Controls.Add(this.labelDebondCodes);
 			this.groupOrthoCaseProcedures.Controls.Add(this.textVisitCodes);
 			this.groupOrthoCaseProcedures.Controls.Add(this.labelBandingCodes);
-			this.groupOrthoCaseProcedures.Location = new System.Drawing.Point(8, 488);
+			this.groupOrthoCaseProcedures.Location = new System.Drawing.Point(8, 486);
 			this.groupOrthoCaseProcedures.Name = "groupOrthoCaseProcedures";
 			this.groupOrthoCaseProcedures.Size = new System.Drawing.Size(478, 127);
 			this.groupOrthoCaseProcedures.TabIndex = 265;
@@ -212,7 +212,7 @@ namespace OpenPmsDental {
 			this.groupBox4.Controls.Add(this.butPlacementProcsEdit);
 			this.groupBox4.Location = new System.Drawing.Point(8, 363);
 			this.groupBox4.Name = "groupBox4";
-			this.groupBox4.Size = new System.Drawing.Size(478, 117);
+			this.groupBox4.Size = new System.Drawing.Size(478, 115);
 			this.groupBox4.TabIndex = 264;
 			this.groupBox4.Text = "Ortho Placement Procedures";
 			// 
@@ -221,9 +221,9 @@ namespace OpenPmsDental {
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(100, 85);
+			this.butDelete.Location = new System.Drawing.Point(102, 61);
 			this.butDelete.Name = "butDelete";
-			this.butDelete.Size = new System.Drawing.Size(72, 24);
+			this.butDelete.Size = new System.Drawing.Size(72, 23);
 			this.butDelete.TabIndex = 13;
 			this.butDelete.Text = "Delete";
 			this.butDelete.Click += new System.EventHandler(this.butDelete_Click);
@@ -232,7 +232,7 @@ namespace OpenPmsDental {
 			// 
 			this.listboxOrthoPlacementProcs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.listboxOrthoPlacementProcs.IntegralHeight = false;
-			this.listboxOrthoPlacementProcs.Location = new System.Drawing.Point(245, 23);
+			this.listboxOrthoPlacementProcs.Location = new System.Drawing.Point(296, 23);
 			this.listboxOrthoPlacementProcs.Name = "listboxOrthoPlacementProcs";
 			this.listboxOrthoPlacementProcs.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
 			this.listboxOrthoPlacementProcs.Size = new System.Drawing.Size(93, 84);
@@ -241,21 +241,21 @@ namespace OpenPmsDental {
 			// label29
 			// 
 			this.label29.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.label29.Location = new System.Drawing.Point(31, 23);
+			this.label29.Location = new System.Drawing.Point(24, 23);
 			this.label29.Name = "label29";
-			this.label29.Size = new System.Drawing.Size(210, 32);
+			this.label29.Size = new System.Drawing.Size(266, 36);
 			this.label29.TabIndex = 223;
 			this.label29.Text = "Current Procedures to Consider for Patients\' Date Placement";
-			this.label29.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.label29.TextAlign = System.Drawing.ContentAlignment.TopLeft;
 			// 
 			// butPlacementProcsEdit
 			// 
 			this.butPlacementProcsEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butPlacementProcsEdit.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butPlacementProcsEdit.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butPlacementProcsEdit.Location = new System.Drawing.Point(100, 57);
+			this.butPlacementProcsEdit.Location = new System.Drawing.Point(24, 61);
 			this.butPlacementProcsEdit.Name = "butPlacementProcsEdit";
-			this.butPlacementProcsEdit.Size = new System.Drawing.Size(72, 24);
+			this.butPlacementProcsEdit.Size = new System.Drawing.Size(72, 23);
 			this.butPlacementProcsEdit.TabIndex = 12;
 			this.butPlacementProcsEdit.Text = "Add";
 			this.butPlacementProcsEdit.Click += new System.EventHandler(this.butPlacementProcsEdit_Click);

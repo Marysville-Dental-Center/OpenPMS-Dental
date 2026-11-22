@@ -291,14 +291,14 @@
 			this.textSurf.Location = new System.Drawing.Point(2, 2);
 			this.textSurf.Name = "textSurf";
 			this.textSurf.ReadOnly = true;
-			this.textSurf.Size = new System.Drawing.Size(92, 23);
+			this.textSurf.Size = new System.Drawing.Size(96, 23);
 			this.textSurf.TabIndex = 25;
 			// 
 			// labelDx
 			// 
-			this.labelDx.Location = new System.Drawing.Point(100, 29);
+			this.labelDx.Location = new System.Drawing.Point(104, 29);
 			this.labelDx.Name = "labelDx";
-			this.labelDx.Size = new System.Drawing.Size(126, 17);
+			this.labelDx.Size = new System.Drawing.Size(122, 17);
 			this.labelDx.TabIndex = 47;
 			this.labelDx.Text = "Diagnosis";
 			this.labelDx.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -344,7 +344,7 @@
 			// 
 			this.checkToday.Checked = true;
 			this.checkToday.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkToday.Location = new System.Drawing.Point(100, 3);
+			this.checkToday.Location = new System.Drawing.Point(104, 3);
 			this.checkToday.Name = "checkToday";
 			this.checkToday.Size = new System.Drawing.Size(56, 20);
 			this.checkToday.TabIndex = 58;
@@ -353,9 +353,9 @@
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(100, 192);
+			this.label6.Location = new System.Drawing.Point(104, 192);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(126, 17);
+			this.label6.Size = new System.Drawing.Size(122, 17);
 			this.label6.TabIndex = 57;
 			this.label6.Text = "Priority";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -655,26 +655,26 @@
 			// 
 			// comboPrognosis
 			// 
-			this.comboPrognosis.Location = new System.Drawing.Point(100, 165);
+			this.comboPrognosis.Location = new System.Drawing.Point(104, 165);
 			this.comboPrognosis.Name = "comboPrognosis";
-			this.comboPrognosis.Size = new System.Drawing.Size(126, 23);
+			this.comboPrognosis.Size = new System.Drawing.Size(122, 23);
 			this.comboPrognosis.TabIndex = 199;
 			this.comboPrognosis.SelectionChangeCommitted += new System.EventHandler(this.ComboPrognosis_SelectionChangeCommitted);
 			// 
 			// labelPrognosis
 			// 
-			this.labelPrognosis.Location = new System.Drawing.Point(100, 146);
+			this.labelPrognosis.Location = new System.Drawing.Point(104, 146);
 			this.labelPrognosis.Name = "labelPrognosis";
-			this.labelPrognosis.Size = new System.Drawing.Size(126, 17);
+			this.labelPrognosis.Size = new System.Drawing.Size(122, 17);
 			this.labelPrognosis.TabIndex = 200;
 			this.labelPrognosis.Text = "Prognosis";
 			this.labelPrognosis.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// listDx
 			// 
-			this.listDx.Location = new System.Drawing.Point(100, 48);
+			this.listDx.Location = new System.Drawing.Point(104, 48);
 			this.listDx.Name = "listDx";
-			this.listDx.Size = new System.Drawing.Size(126, 94);
+			this.listDx.Size = new System.Drawing.Size(122, 94);
 			this.listDx.TabIndex = 46;
 			this.listDx.SelectionChangeCommitted += new System.EventHandler(this.listDx_SelectionChangeCommitted);
 			// 
@@ -687,9 +687,9 @@
 			this.groupBox2.Controls.Add(this.radioEntryEO);
 			this.groupBox2.Controls.Add(this.radioEntryEC);
 			this.groupBox2.Controls.Add(this.radioEntryTP);
-			this.groupBox2.Location = new System.Drawing.Point(2, 98);
+			this.groupBox2.Location = new System.Drawing.Point(2, 96);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(92, 136);
+			this.groupBox2.Size = new System.Drawing.Size(96, 138);
 			this.groupBox2.TabIndex = 35;
 			this.groupBox2.Text = "Entry Status";
 			// 
@@ -761,9 +761,9 @@
 			// butD
 			// 
 			this.butD.BackColor = System.Drawing.SystemColors.Control;
-			this.butD.Location = new System.Drawing.Point(66, 52);
+			this.butD.Location = new System.Drawing.Point(68, 51);
 			this.butD.Name = "butD";
-			this.butD.Size = new System.Drawing.Size(28, 19);
+			this.butD.Size = new System.Drawing.Size(30, 19);
 			this.butD.TabIndex = 20;
 			this.butD.Text = "D";
 			this.butD.UseVisualStyleBackColor = false;
@@ -771,26 +771,26 @@
 			// 
 			// comboPriority
 			// 
-			this.comboPriority.Location = new System.Drawing.Point(100, 211);
+			this.comboPriority.Location = new System.Drawing.Point(104, 211);
 			this.comboPriority.Name = "comboPriority";
-			this.comboPriority.Size = new System.Drawing.Size(126, 23);
+			this.comboPriority.Size = new System.Drawing.Size(122, 23);
 			this.comboPriority.TabIndex = 54;
 			this.comboPriority.SelectionChangeCommitted += new System.EventHandler(this.comboPriority_SelectionChangeCommitted);
 			// 
 			// textDate
 			// 
-			this.textDate.Location = new System.Drawing.Point(162, 2);
+			this.textDate.Location = new System.Drawing.Point(166, 2);
 			this.textDate.Name = "textDate";
-			this.textDate.Size = new System.Drawing.Size(64, 23);
+			this.textDate.Size = new System.Drawing.Size(60, 23);
 			this.textDate.TabIndex = 55;
 			this.textDate.Leave += new System.EventHandler(this.textDate_Leave);
 			// 
 			// butBF
 			// 
 			this.butBF.BackColor = System.Drawing.SystemColors.Control;
-			this.butBF.Location = new System.Drawing.Point(34, 29);
+			this.butBF.Location = new System.Drawing.Point(35, 29);
 			this.butBF.Name = "butBF";
-			this.butBF.Size = new System.Drawing.Size(28, 19);
+			this.butBF.Size = new System.Drawing.Size(30, 19);
 			this.butBF.TabIndex = 21;
 			this.butBF.Text = "B/F";
 			this.butBF.UseVisualStyleBackColor = false;
@@ -799,9 +799,9 @@
 			// butL
 			// 
 			this.butL.BackColor = System.Drawing.SystemColors.Control;
-			this.butL.Location = new System.Drawing.Point(34, 75);
+			this.butL.Location = new System.Drawing.Point(35, 73);
 			this.butL.Name = "butL";
-			this.butL.Size = new System.Drawing.Size(28, 19);
+			this.butL.Size = new System.Drawing.Size(30, 19);
 			this.butL.TabIndex = 22;
 			this.butL.Text = "L";
 			this.butL.UseVisualStyleBackColor = false;
@@ -810,9 +810,9 @@
 			// butM
 			// 
 			this.butM.BackColor = System.Drawing.SystemColors.Control;
-			this.butM.Location = new System.Drawing.Point(2, 52);
+			this.butM.Location = new System.Drawing.Point(2, 51);
 			this.butM.Name = "butM";
-			this.butM.Size = new System.Drawing.Size(28, 19);
+			this.butM.Size = new System.Drawing.Size(30, 19);
 			this.butM.TabIndex = 18;
 			this.butM.Text = "M";
 			this.butM.UseVisualStyleBackColor = false;
@@ -841,9 +841,9 @@
 			// butV
 			// 
 			this.butV.BackColor = System.Drawing.SystemColors.Control;
-			this.butV.Location = new System.Drawing.Point(66, 29);
+			this.butV.Location = new System.Drawing.Point(68, 29);
 			this.butV.Name = "butV";
-			this.butV.Size = new System.Drawing.Size(28, 19);
+			this.butV.Size = new System.Drawing.Size(30, 19);
 			this.butV.TabIndex = 24;
 			this.butV.Text = "V";
 			this.butV.UseVisualStyleBackColor = false;
@@ -852,9 +852,9 @@
 			// butOI
 			// 
 			this.butOI.BackColor = System.Drawing.SystemColors.Control;
-			this.butOI.Location = new System.Drawing.Point(34, 52);
+			this.butOI.Location = new System.Drawing.Point(35, 51);
 			this.butOI.Name = "butOI";
-			this.butOI.Size = new System.Drawing.Size(28, 19);
+			this.butOI.Size = new System.Drawing.Size(30, 19);
 			this.butOI.TabIndex = 19;
 			this.butOI.Text = "O/I";
 			this.butOI.UseVisualStyleBackColor = false;

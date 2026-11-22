@@ -4,6 +4,8 @@
 // container's padding. Every window of the list (tool and hand): no check box the owner's review named keeps its box on the right. A finding the
 // planner itself lists (it reports what it could not place) is in Data\grid-known.tsv with the reason; the test fails on any other, and on a
 // known row that no longer happens, so the list only shrinks. The rollout slices add their windows to grid-windows.tsv.
+// Round 3 (the owner's addition of 2026-11-21): every rule in every window of the list, the windows laid out by layout scripts too; no text past
+// its container's edge; consecutive fields, check boxes and buttons of a column one gap apart.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
@@ -94,9 +96,7 @@ namespace UiRefreshTests {
 								root=formODBase.PanelClient;
 							}
 							CheckWindow(gridWindow,root,listFindings);
-							if(gridWindow.Mode=="tool") {
-								CheckColumns(gridWindow,root,listFindings);
-							}
+							CheckColumns(gridWindow,root,listFindings);
 						}
 					}
 					catch(Exception exception) {
@@ -140,9 +140,8 @@ namespace UiRefreshTests {
 						}
 					}
 				}
-				if(gridWindow.Mode!="tool") {
-					continue;
-				}
+				//Round 3: the rules below hold in every grid window, the windows laid out by their layout scripts (mode hand) too; the parts a hand
+				//window keeps as on main are in grid-known.tsv with the reason.
 				//Siblings that overlap (by their text's extent for labels and check boxes), stacked controls excepted.
 				for(int i=0;i<listKids.Count;i++) {
 					for(int j=i+1;j<listKids.Count;j++) {
@@ -175,6 +174,42 @@ namespace UiRefreshTests {
 						if(rectangleInk.Left<4 || rectangleInk.Right>container.Width-4 || control.Bottom>container.Height-2) {
 							listFindings.Add(window+"\tpadding\t"+container.Name+" "+control.Name);
 						}
+					}
+				}
+				//No text runs past its container's edge (the owner's addition of 2026-11-21: "Text shouldn't be covered by other elements"): a label's
+				//or a check box's text extent inside the container's client area. A panel that scrolls holds what runs past its edge.
+				if(!(container is ScrollableControl scrollableControl && scrollableControl.AutoScroll)) {
+					foreach(Control control in listKids.Where(x => (x is Label || IsCheck(x)) && !string.IsNullOrWhiteSpace(x.Text) && x.Width>0 && x.Height>0)) {
+						Rectangle rectangleInk=GetInk(control);
+						if(rectangleInk.Left<0 || rectangleInk.Top<0 || rectangleInk.Right>container.ClientSize.Width || rectangleInk.Bottom>container.ClientSize.Height) {
+							listFindings.Add(window+"	frame	"+container.Name+" "+control.Name);
+						}
+					}
+				}
+				//Equal gaps (the owner's addition: "Spacing between items should be the same"): consecutive items of one kind stacked in one column of
+				//a container (single-line fields, check boxes and radio buttons, buttons) stand one distance apart; a pair closer than a section gap
+				//(12 px) whose gap differs from the container's usual one for that kind by more than 1 px is a finding.
+				foreach(Func<Control,bool> funcKind in new Func<Control,bool>[] { IsSingleLineField,IsCheck,IsButton }) {
+					List<Control> listOfKind=listKids.Where(funcKind).ToList();
+					List<Tuple<Control,Control,int>> listPairs=new List<Tuple<Control,Control,int>>();
+					foreach(Control controlA in listOfKind) {
+						Control controlB=listOfKind.Where(x => x!=controlA && Math.Abs(x.Left-controlA.Left)<=1 && x.Top>=controlA.Bottom-1 && x.Top-controlA.Bottom<12)
+							.OrderBy(x => x.Top).FirstOrDefault();
+						if(controlB==null) {
+							continue;
+						}
+						//Not when another control of the container stands between them.
+						if(listKids.Any(x => x!=controlA && x!=controlB && x.Top>=controlA.Bottom-1 && x.Bottom<=controlB.Top+1 && x.Right>controlA.Left && x.Left<controlA.Right)) {
+							continue;
+						}
+						listPairs.Add(Tuple.Create(controlA,controlB,controlB.Top-controlA.Bottom));
+					}
+					if(listPairs.Count<2) {
+						continue;
+					}
+					int gapUsual=listPairs.GroupBy(x => x.Item3).OrderByDescending(x => x.Count()).ThenBy(x => x.Key).First().Key;
+					foreach(Tuple<Control,Control,int> tuple in listPairs.Where(x => Math.Abs(x.Item3-gapUsual)>1)) {
+						listFindings.Add(window+"	gap	"+tuple.Item1.Name+" "+tuple.Item2.Name);
 					}
 				}
 				//A label right-aligned before a single-line field on its row: 4 to 8 px before it.
@@ -262,6 +297,14 @@ namespace UiRefreshTests {
 			}
 			return control.Height<=30 && (control is TextBoxBase || control is System.Windows.Forms.ComboBox || control is DateTimePicker || control is UpDownBase
 				|| name.Contains("ComboBox") || name.Contains("DatePicker"));
+		}
+
+		private static bool IsCheck(Control control) {
+			return control is RadioButton || control is System.Windows.Forms.CheckBox || TextFitMeasurer.IsOfType(control,TextFitMeasurer.TYPE_UI_CHECKBOX);
+		}
+
+		private static bool IsButton(Control control) {
+			return (control is System.Windows.Forms.Button || control.GetType().FullName=="OpenPmsDental.UI.Button") && control.Height<=30;
 		}
 
 		///<summary>Stacked on (nearly) the same bounds: controls the code switches by Visible.</summary>

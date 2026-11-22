@@ -705,6 +705,7 @@ class Layout:
         # for entire super family" beside "Same for entire family", two lines tall), leaves its row and goes to the end of the column like
         # a hidden row (round 3: it left a band under the shown box).
         extra = []
+        split_b = {}  # a row that lost its hidden check box -> the row's bottom with it (the gap under the row is measured from there)
         for idx, k in enumerate(kids):
             if k.kind != "h" or not is_row(k):
                 continue
@@ -714,6 +715,7 @@ class Layout:
             if hid and shown_h:
                 rest = [c for c in sorted(k.children, key=lambda c: c.x) if c.items[0] not in hid]
                 kids[idx] = rest[0] if len(rest) == 1 else Block("h", [c.items[0] for c in rest], rest)
+                split_b[id(kids[idx])] = k.b
                 extra.extend(Block("leaf", [i]) for i in hid)
         kids = kids + extra
         # A row of controls hidden in the designer (shown at run time in some setups only, such as Canada's Time Units) goes to the end of
@@ -731,6 +733,9 @@ class Layout:
                 if kids[j] not in hidden:
                     gap_over[id(kids[i])] = min(kids[j + 1].y - kids[j].b, kids[i].y - kids[i - 1].b)
             kids = [k for k in kids if k not in hidden] + hidden
+        for i in range(1, len(kids)):
+            if id(kids[i - 1]) in split_b and id(kids[i]) not in gap_over:
+                gap_over[id(kids[i])] = kids[i].y - split_b[id(kids[i - 1])]
         rows = [k for k in kids if is_row(k)]
         # Units and columns of the rows.
         units_by_row = {}
