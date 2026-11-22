@@ -24,6 +24,12 @@ def layout(h):
     h.text_align("labelTotals", "MiddleRight")
     h.check_left("checkExcludePast")
     h.set("checkExcludePast", grid.x, y + (H - h.CH) // 2, h.cw("checkExcludePast"), h.CH)
+    # Total Cost of Loan on the left column's field column (its label is the column's widest; the planner put the box 36 px left).
+    ref = h.n("textAccumulatedDue")
+    l15 = h.lw("label15")
+    h.set("textTotalCost", ref.x, None, ref.w)
+    h.set("label15", ref.x - 6 - l15, None, l15)
+    h.text_align("label15", "MiddleRight")
     # The note under the last row of the left column, the hidden signature under it.
     tx = h.n("textTotalTxAmt")
     yn = tx.y + tx.h + 4

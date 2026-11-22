@@ -177,9 +177,9 @@
 			// 
 			// labelPatient
 			// 
-			this.labelPatient.Location = new System.Drawing.Point(-4, 14);
+			this.labelPatient.Location = new System.Drawing.Point(8, 8);
 			this.labelPatient.Name = "labelPatient";
-			this.labelPatient.Size = new System.Drawing.Size(96, 17);
+			this.labelPatient.Size = new System.Drawing.Size(48, 23);
 			this.labelPatient.TabIndex = 15;
 			this.labelPatient.Text = "Patient";
 			this.labelPatient.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -187,10 +187,10 @@
 			// 
 			// textName
 			// 
-			this.textName.Location = new System.Drawing.Point(95, 12);
+			this.textName.Location = new System.Drawing.Point(62, 8);
 			this.textName.Name = "textName";
 			this.textName.ReadOnly = true;
-			this.textName.Size = new System.Drawing.Size(193, 20);
+			this.textName.Size = new System.Drawing.Size(224, 23);
 			this.textName.TabIndex = 14;
 			this.textName.Visible = false;
 			this.textName.WordWrap = false;
@@ -1006,7 +1006,7 @@
 			// 
 			// label16
 			// 
-			this.label16.Location = new System.Drawing.Point(382, 8);
+			this.label16.Location = new System.Drawing.Point(376, 8);
 			this.label16.Name = "label16";
 			this.label16.Size = new System.Drawing.Size(80, 23);
 			this.label16.TabIndex = 258;
@@ -1016,7 +1016,7 @@
 			// textParentOrderNum
 			// 
 			this.textParentOrderNum.AutoSize = false;
-			this.textParentOrderNum.Location = new System.Drawing.Point(468, 8);
+			this.textParentOrderNum.Location = new System.Drawing.Point(462, 8);
 			this.textParentOrderNum.Name = "textParentOrderNum";
 			this.textParentOrderNum.ReadOnly = true;
 			this.textParentOrderNum.Size = new System.Drawing.Size(156, 23);
@@ -1130,14 +1130,14 @@
 			// 
 			this.textResultDateTime.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textResultDateTime.Location = new System.Drawing.Point(830, 8);
+			this.textResultDateTime.Location = new System.Drawing.Point(816, 8);
 			this.textResultDateTime.Name = "textResultDateTime";
-			this.textResultDateTime.Size = new System.Drawing.Size(136, 23);
+			this.textResultDateTime.Size = new System.Drawing.Size(150, 23);
 			this.textResultDateTime.TabIndex = 6;
 			// 
 			// label20
 			// 
-			this.label20.Location = new System.Drawing.Point(748, 8);
+			this.label20.Location = new System.Drawing.Point(734, 8);
 			this.label20.Name = "label20";
 			this.label20.Size = new System.Drawing.Size(76, 23);
 			this.label20.TabIndex = 265;
@@ -1190,7 +1190,7 @@
 			this.butViewParent.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butViewParent.Location = new System.Drawing.Point(330, 8);
 			this.butViewParent.Name = "butViewParent";
-			this.butViewParent.Size = new System.Drawing.Size(46, 23);
+			this.butViewParent.Size = new System.Drawing.Size(40, 23);
 			this.butViewParent.TabIndex = 268;
 			this.butViewParent.Text = "View";
 			this.butViewParent.Click += new System.EventHandler(this.butViewParent_Click);
@@ -1198,7 +1198,7 @@
 			// butParentPicker
 			// 
 			this.butParentPicker.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butParentPicker.Location = new System.Drawing.Point(630, 8);
+			this.butParentPicker.Location = new System.Drawing.Point(624, 8);
 			this.butParentPicker.Name = "butParentPicker";
 			this.butParentPicker.Size = new System.Drawing.Size(24, 23);
 			this.butParentPicker.TabIndex = 259;
@@ -1218,9 +1218,9 @@
 			// butPatientPick
 			// 
 			this.butPatientPick.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butPatientPick.Location = new System.Drawing.Point(294, 9);
+			this.butPatientPick.Location = new System.Drawing.Point(298, 8);
 			this.butPatientPick.Name = "butPatientPick";
-			this.butPatientPick.Size = new System.Drawing.Size(29, 25);
+			this.butPatientPick.Size = new System.Drawing.Size(24, 23);
 			this.butPatientPick.TabIndex = 228;
 			this.butPatientPick.Text = "...";
 			this.butPatientPick.Visible = false;

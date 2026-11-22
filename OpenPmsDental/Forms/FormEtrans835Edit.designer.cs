@@ -318,17 +318,17 @@ namespace OpenPmsDental{
 			// textPayeeName
 			// 
 			this.textPayeeName.AutoSize = false;
-			this.textPayeeName.Location = new System.Drawing.Point(626, 8);
+			this.textPayeeName.Location = new System.Drawing.Point(632, 8);
 			this.textPayeeName.Name = "textPayeeName";
 			this.textPayeeName.ReadOnly = true;
-			this.textPayeeName.Size = new System.Drawing.Size(340, 23);
+			this.textPayeeName.Size = new System.Drawing.Size(334, 23);
 			this.textPayeeName.TabIndex = 165;
 			// 
 			// label15
 			// 
 			this.label15.Location = new System.Drawing.Point(540, 8);
 			this.label15.Name = "label15";
-			this.label15.Size = new System.Drawing.Size(80, 23);
+			this.label15.Size = new System.Drawing.Size(86, 23);
 			this.label15.TabIndex = 164;
 			this.label15.Text = "Payee Name";
 			this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -337,7 +337,7 @@ namespace OpenPmsDental{
 			// 
 			this.labelPayeeIdType.Location = new System.Drawing.Point(464, 35);
 			this.labelPayeeIdType.Name = "labelPayeeIdType";
-			this.labelPayeeIdType.Size = new System.Drawing.Size(156, 23);
+			this.labelPayeeIdType.Size = new System.Drawing.Size(162, 23);
 			this.labelPayeeIdType.TabIndex = 166;
 			this.labelPayeeIdType.Text = "Payee Medicaid ID/NPI/TIN";
 			this.labelPayeeIdType.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -345,7 +345,7 @@ namespace OpenPmsDental{
 			// textPayeeID
 			// 
 			this.textPayeeID.AutoSize = false;
-			this.textPayeeID.Location = new System.Drawing.Point(626, 35);
+			this.textPayeeID.Location = new System.Drawing.Point(632, 35);
 			this.textPayeeID.Name = "textPayeeID";
 			this.textPayeeID.ReadOnly = true;
 			this.textPayeeID.Size = new System.Drawing.Size(88, 23);

@@ -12,17 +12,6 @@ def layout(h):
     R = WW - 8
     CW = (R - 8 - 16) // 3
     XL, XM, XR = 8, 8 + CW + 8, R - CW
-    # The top row: View, the parent result, the last update at the right (the hidden patient row keeps its place at the left).
-    h.set("butViewParent", XM, 8, 46, H)
-    lp = h.lw("label16")
-    h.set("label16", XM + 46 + 6, 8, lp, H)
-    h.text_align("label16", "MiddleRight")
-    h.set("textParentOrderNum", XM + 46 + 6 + lp + 6, 8, 156, H)
-    h.set("butParentPicker", XM + 46 + 6 + lp + 6 + 156 + 6, 8, 24, H)
-    lu = h.lw("label20")
-    h.set("textResultDateTime", R - 136, 8, 136, H)
-    h.set("label20", R - 136 - 6 - lu, 8, lu, H)
-    h.text_align("label20", "MiddleRight")
     y0 = 8 + H + 8
     # The left column: the three order number groups.
     y = y0
@@ -51,6 +40,25 @@ def layout(h):
     b8, _ = h.group_rows("groupBox8", XR, y8, CW, align=F6)
     b8.end()
     bottom_r = y8 + h.n("groupBox8").nh
+    # The top row: View, the parent result on the ordering provider's field column, the last update on the service identifier's field column
+    # (the patient row, hidden in the designer, at the content edge before them).
+    xp = XM + F5
+    lp = h.lw("label16")
+    h.set("label16", xp - 6 - lp, 8, lp, H)
+    h.text_align("label16", "MiddleRight")
+    h.set("butViewParent", XM, 8, xp - 6 - lp - 6 - XM, H)
+    h.set("textParentOrderNum", xp, 8, 156, H)
+    h.set("butParentPicker", xp + 156 + 6, 8, 24, H)
+    lpat = h.lw("labelPatient")
+    h.set("labelPatient", 8, 8, lpat, H)
+    h.text_align("labelPatient", "MiddleRight")
+    h.set("textName", 8 + lpat + 6, 8, XM - 8 - 6 - 24 - 6 - (8 + lpat + 6), H)
+    h.set("butPatientPick", XM - 8 - 24, 8, 24, H)
+    xu = XR + F6
+    lu = h.lw("label20")
+    h.set("textResultDateTime", xu, 8, R - xu, H)
+    h.set("label20", xu - 6 - lu, 8, lu, H)
+    h.text_align("label20", "MiddleRight")
     # The grids: notes and copy-to under the left and middle columns, clinical information and specimens under the right column with their
     # buttons at the content edge; lab results under the left and middle columns; the result status and specimen action rows; the bottom bar.
     yg = max(bottom_l, bottom_m, bottom_r) + 8

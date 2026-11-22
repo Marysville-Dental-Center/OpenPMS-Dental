@@ -187,14 +187,14 @@ namespace OpenPmsDental {
 			// textCarrier
 			// 
 			this.textCarrier.AutoSize = false;
-			this.textCarrier.Location = new System.Drawing.Point(983, 50);
+			this.textCarrier.Location = new System.Drawing.Point(1000, 50);
 			this.textCarrier.Name = "textCarrier";
-			this.textCarrier.Size = new System.Drawing.Size(107, 23);
+			this.textCarrier.Size = new System.Drawing.Size(90, 23);
 			this.textCarrier.TabIndex = 105;
 			// 
 			// labelCarrier
 			// 
-			this.labelCarrier.Location = new System.Drawing.Point(929, 50);
+			this.labelCarrier.Location = new System.Drawing.Point(946, 50);
 			this.labelCarrier.Name = "labelCarrier";
 			this.labelCarrier.Size = new System.Drawing.Size(48, 23);
 			this.labelCarrier.TabIndex = 106;
@@ -364,7 +364,7 @@ namespace OpenPmsDental {
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(884, 77);
+			this.label3.Location = new System.Drawing.Point(878, 77);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(116, 23);
 			this.label3.TabIndex = 108;
@@ -373,9 +373,9 @@ namespace OpenPmsDental {
 			// 
 			// comboErrorDef
 			// 
-			this.comboErrorDef.Location = new System.Drawing.Point(1006, 77);
+			this.comboErrorDef.Location = new System.Drawing.Point(1000, 77);
 			this.comboErrorDef.Name = "comboErrorDef";
-			this.comboErrorDef.Size = new System.Drawing.Size(84, 23);
+			this.comboErrorDef.Size = new System.Drawing.Size(90, 23);
 			this.comboErrorDef.TabIndex = 107;
 			// 
 			// butMine
@@ -416,7 +416,7 @@ namespace OpenPmsDental {
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(817, 23);
+			this.label4.Location = new System.Drawing.Point(834, 23);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(160, 23);
 			this.label4.TabIndex = 63;
@@ -425,9 +425,9 @@ namespace OpenPmsDental {
 			// 
 			// comboLastClaimTrack
 			// 
-			this.comboLastClaimTrack.Location = new System.Drawing.Point(983, 23);
+			this.comboLastClaimTrack.Location = new System.Drawing.Point(1000, 23);
 			this.comboLastClaimTrack.Name = "comboLastClaimTrack";
-			this.comboLastClaimTrack.Size = new System.Drawing.Size(107, 23);
+			this.comboLastClaimTrack.Size = new System.Drawing.Size(90, 23);
 			this.comboLastClaimTrack.TabIndex = 62;
 			// 
 			// label1

@@ -742,7 +742,7 @@ namespace OpenPmsDental {
 			// textTotalCost
 			// 
 			this.textTotalCost.AutoSize = false;
-			this.textTotalCost.Location = new System.Drawing.Point(130, 526);
+			this.textTotalCost.Location = new System.Drawing.Point(166, 526);
 			this.textTotalCost.Name = "textTotalCost";
 			this.textTotalCost.ReadOnly = true;
 			this.textTotalCost.Size = new System.Drawing.Size(84, 23);
@@ -751,7 +751,7 @@ namespace OpenPmsDental {
 			// 
 			// label15
 			// 
-			this.label15.Location = new System.Drawing.Point(16, 526);
+			this.label15.Location = new System.Drawing.Point(52, 526);
 			this.label15.Name = "label15";
 			this.label15.Size = new System.Drawing.Size(108, 23);
 			this.label15.TabIndex = 0;
