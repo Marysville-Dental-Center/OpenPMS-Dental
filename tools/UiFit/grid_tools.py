@@ -6,8 +6,9 @@
 # line, one alignment word, or inserting one line with its neighbour's line end, so every line end and the BOM stay. Deterministic: a plan made
 # from the tree of the applied windows is empty. Plain Python 3, no packages.
 #
-#   grid_tools.py plan  --tree <grid-tree.tsv> [--windows A,B] --out <plan.tsv> [--unplaced <tsv>]
-#   grid_tools.py apply --plan <plan.tsv>
+#   grid_tools.py plan  --tree <grid-tree.tsv> [--windows-file tests/UiRefreshTests/Data/grid-windows.tsv] [--windows A,B] --out <plan.tsv>
+#                       [--unplaced <tsv>]
+#   grid_tools.py apply --plan <plan.tsv>            (also the hand plan, tests/UiRefreshTests/Data/grid-hand.tsv)
 import argparse
 import collections
 import csv
@@ -25,7 +26,7 @@ csv.field_size_limit(1 << 24)
 # The grid, in px at 96 dpi for Segoe UI 9 pt (UI-12.md section 1 and 1.1).
 GRID = {
     "pad": 8,                 # container padding on every side
-    "title_gap": 8,           # a group box's content starts this far below its title band
+    "title_gap": 4,           # a group box's content starts this far below its title band (measured: 8 px below the ink, section 1.1)
     "label_gap": 6,           # a label sits this far before its field
     "row_gap": 6,             # between field rows
     "list_gap": 4,            # between consecutive check boxes or radio buttons
@@ -265,7 +266,7 @@ def label_width(n):
 def check_width(n, text_room=None):
     """The width a check box or radio button needs for its box and its text on one line."""
     lead = GRID["check_box"] + GRID["check_text"] if n.type == "OpenPmsDental.UI.CheckBox" else 18
-    return snap_up(lead + n.text_w + 3) if n.text_w else n.w
+    return lead + n.text_w + 2 if n.text_w else n.w
 
 
 def wrapped_lines(text_w, room):
@@ -749,11 +750,15 @@ class Layout:
                 width = check_width(m)
                 room = right - x
                 hh = self.item_height(m, field_row)
-                if width > room:
-                    lines = wrapped_lines(m.text_w, room - 20)
+                if width > room and room >= 0.55 * width and room > 60:
+                    lines = min(3, wrapped_lines(m.text_w, room - 20))
                     hh = max(hh, lines * (m.text_h or 16) + 4)
                     width = room
                     h_row = max(h_row, hh)
+                elif width > room:
+                    # No room to wrap into: the text stays on one line and the container grows to it.
+                    self.problems.append("check box %s needs %d px, the row has %d: the container grows" % (m.name, width, max(0, room)))
+                    room = width + 1
                 self.set_size(m, width, hh, "check box: its text on one line" if width < room else "check box: text wraps in a taller row")
                 if m.autosize and m.type != "OpenPmsDental.UI.CheckBox":
                     m.autosize_off = True
@@ -843,6 +848,21 @@ class Planner:
                 n.why_fixed = "owner-drawn surface"
             if n.editable and n is not tree and n.parent is not None and n.parent is not tree and designer.adds.get(n.name) not in (None, n.parent.name):
                 n.editable = False
+        # The tree must be the build of these designer files: a plan made from a stale tree would move controls by the wrong amounts.
+        compared = mismatched = 0
+        for n in walk(tree):
+            if n is tree or not n.editable or n.dock not in ("None", ""):
+                continue
+            loc = designer.point(n.name)
+            if loc:
+                compared += 1
+                if loc != (n.x, n.y):
+                    mismatched += 1
+        if compared and mismatched > 0.3 * compared:
+            self.unplaced.append((window, ".", "the control tree is not the build of the designer file (%d of %d locations differ): dump again" % (mismatched, compared)))
+            for n in walk(tree):
+                n.editable = False
+            return
         self.layout_tree(tree, is_root=True, window=window)
         # Rows of the plan.
         for n in walk(tree):
@@ -975,6 +995,7 @@ class Planner:
                 n.add_rule("Size", "container: its content and padding" if not is_root else "window grows to its content")
         if bottom_items:
             self.place_bottom(lay, n, bottom_items)
+        self.align_checks(lay, n)
         for pr in lay.problems:
             self.unplaced.append((window, n.name or ".", pr))
         # A tab page that grew makes its tab control grow by the same.
@@ -990,6 +1011,41 @@ class Planner:
                         t.nw, t.nh = nw, nh
                         t.add_rule("Size", "tab control: its largest page's content")
                 n.rule.pop("Size", None)  # a page's size follows its tab control: no Size line is written for it
+
+    def align_checks(self, lay, n):
+        """A check box that was drawn with its box on the field column, but whose rows the cut parted from the label + field rows, still
+        puts its box on that column (with the note that follows it) when nothing is in the way."""
+        kids = [c for c in n.children if c.dock in ("None", "")]
+        xs = collections.Counter()
+        for c in kids:
+            if c.kind == "label" and "TextAlign" in c.rule or (c.kind == "label" and (c.text_align or "").endswith("Right")):
+                for f in kids:
+                    if f.kind == "field" and abs(f.ny - c.ny) <= 6 and 0 <= f.nx - (c.nx + c.nw) <= 8:
+                        xs[f.nx] += 1
+        if not xs:
+            return
+        fx = xs.most_common(1)[0][0]
+        for c in kids:
+            if c.kind not in ("check", "radio") or c.new_check_align is None or c.fixed or not c.editable:
+                continue
+            box = c.x + c.w - GRID["check_box"] - 1
+            if abs(box - fx) > 24 or c.nx >= fx - 2:
+                continue
+            dx = fx - c.nx
+            followers = [f for f in kids if f is not c and min(f.y + f.h, c.y + c.h) - max(f.y, c.y) > 2 and 0 <= f.x - (c.x + c.w) <= 40]
+            moved = [c] + followers
+            ok = True
+            for m in moved:
+                for o in kids:
+                    if o in moved or not o.visible:
+                        continue
+                    if (min(m.nx + dx + min(m.nw, check_width(m) if m.kind in ("check", "radio") else m.nw), o.nx + o.nw) - max(m.nx + dx, o.nx) > 0
+                            and min(m.ny + m.nh, o.ny + o.nh) - max(m.ny, o.ny) > 0):
+                        ok = False
+            if not ok or max(m.nx + dx + m.nw for m in moved) > n.nw - GRID["pad"]:
+                continue
+            for m in moved:
+                lay.set_loc(m, m.nx + dx, m.ny, "check box: its box on the field column")
 
     def lays_out(self, n):
         if n.fixed:
@@ -1063,8 +1119,7 @@ class GroupItem:
         self.nx, self.ny, self.nw, self.nh = self.x, self.y, self.w, self.h
         self.name = "+".join(m.name for m in members)
         self.type = "stacked"
-        # A member the code places relative to another member (a slider on its time bar) does not hold the group still.
-        self.fixed = any(m.fixed and not any(o.name and o.name in m.why_fixed for o in members if o is not m) for m in members)
+        self.fixed = any(m.fixed for m in members)
         self.editable = all(m.editable for m in members)
         self.anchor = members[0].anchor
         self.check_align = ""
@@ -1112,13 +1167,21 @@ def walk(n):
 
 def cmd_plan(args):
     root = fit_tools.repo_root()
-    windows = None
+    # The windows and their mode: tool (the planner lays it out) or hand (listed; its edits are in grid-hand.tsv).
+    modes = collections.OrderedDict()
+    for r in fit_tools.read_tsv(os.path.join(root, args.windows_file)):
+        modes[r["window"]] = (r.get("mode") or "tool", r.get("note") or "")
+    windows = set(modes.keys())
     if args.windows:
         windows = set(args.windows.split(","))
     trees = load_tree(args.tree, windows)
     wf = fit_tools.window_files(root, list(trees.keys()))
     planner = Planner(root)
     for w, tree in trees.items():
+        mode, note = modes.get(w, ("tool", ""))
+        if mode != "tool":
+            planner.unplaced.append((w, ".", "by hand: " + note))
+            continue
         files = wf.get(w) or []
         if not files:
             planner.unplaced.append((w, "", "no designer file"))
@@ -1233,6 +1296,7 @@ def main():
     a = sub.add_parser("plan")
     a.add_argument("--tree", required=True)
     a.add_argument("--windows")
+    a.add_argument("--windows-file", default="tests/UiRefreshTests/Data/grid-windows.tsv")
     a.add_argument("--out", required=True)
     a.add_argument("--unplaced")
     b = sub.add_parser("apply")
