@@ -323,6 +323,143 @@ namespace UiRefreshTests {
 			});
 		}
 
+		[TestMethod]
+		public void TimeBar_CellsAndSlider_ScaleWithTheWindow() {
+			//UI-13 fix round: the time pattern's cells, column and slider steps follow the window's LayoutManager (dpi and zoom), not 14 px always.
+			StaRunnerHelpers.RunSta(() => {
+				//In a plain window, where LayoutManager's moves of the bar's inner panels set their bounds.
+				using(Form form=new Form())
+				using(TimeBarProbe timeBarProbe=new TimeBarProbe()) {
+					form.Controls.Add(timeBarProbe);
+					Assert.AreEqual(14,timeBarProbe.GetCellHeight(),"96 dpi.");
+					LayoutManagerForms layoutManagerForms=new LayoutManagerForms();
+					layoutManagerForms.SetScaleMS(1.5f);
+					timeBarProbe.LayoutManager=layoutManagerForms;
+					timeBarProbe.LayoutTables();
+					Assert.AreEqual(21,timeBarProbe.GetCellHeight(),"14 px at 150%.");
+					Assert.AreEqual(21,timeBarProbe.GetCellForTest(1).Height);
+					Assert.AreEqual(layoutManagerForms.Scale(13)+2,timeBarProbe.Width,"The column 13 px at 96 dpi, scaled, in its frame.");
+					Assert.AreEqual(timeBarProbe.MaxRows*21+1,timeBarProbe.Height);
+					for(int count=1;count<timeBarProbe.MaxRows;count++) {
+						Point pointSlider=timeBarProbe.GetSliderLocation(count);
+						Assert.AreEqual(count,timeBarProbe.GetSliderStep(pointSlider.Y),"The slider's step at "+count+" cells.");
+						Assert.AreEqual(timeBarProbe.Location.Y+count*21+layoutManagerForms.Scale(1),pointSlider.Y);
+					}
+					timeBarProbe.Cell[0,0]="X";
+					timeBarProbe.Cell[0,1]="/";
+					using(Bitmap bitmap=new Bitmap(timeBarProbe.Width,timeBarProbe.Height,PixelFormat.Format24bppRgb))
+					using(Graphics g=Graphics.FromImage(bitmap)) {
+						timeBarProbe.PaintForTest(g);
+						Rectangle rectangleCell1=timeBarProbe.GetCellForTest(1);
+						AssertColour(UiTheme.GetColor(EnumUiColor.AccentSubtle),bitmap.GetPixel(3,rectangleCell1.Bottom-3),"the scaled assistant cell's bottom");
+						AssertColour(UiTheme.GetColor(EnumUiColor.SurfaceRaised),bitmap.GetPixel(3,timeBarProbe.GetCellForTest(2).Y+10),"the next cell");
+					}
+				}
+			});
+		}
+
+		[TestMethod]
+		public void Looks_Scale_FollowsTheWindowDpi() {
+			//UI-13 fix round: the looks take their scale from the painted control's window (FormODBase: its monitor's dpi times the zoom) or its
+			//own dpi, not from a LayoutManager without a dpi (which gave 1 on a 150% monitor).
+			Assert.AreEqual(1.5f,UiLooks.GetScale(0,144,1f),0.0001f,"A control on a 144 dpi monitor outside a FormODBase.");
+			Assert.AreEqual(1.8f,UiLooks.GetScale(0,144,1.2f),0.0001f,"Its dpi times the zoom.");
+			Assert.AreEqual(1.25f,UiLooks.GetScale(0,96,1.25f),0.0001f,"The zoom alone at 96 dpi.");
+			Assert.AreEqual(1.5f,UiLooks.GetScale(1.5f,96,1f),0.0001f,"The window's scale when it has one.");
+			Assert.AreEqual(1f,UiLooks.GetScale(0,72,1f),0.0001f,"Never under 1.");
+			StaRunnerHelpers.RunSta(() => {
+				using(UiRefreshTests.Scan.HostFormOD hostFormOD=new UiRefreshTests.Scan.HostFormOD(new Size(200,100))) {
+					System.Windows.Forms.Button button=new System.Windows.Forms.Button { Bounds=new Rectangle(0,0,80,26),Text="OK" };
+					hostFormOD.Controls.Add(button);
+					Assert.AreEqual(1f,UiLooks.GetScale(button),0.0001f,"The window at 96 dpi.");
+					hostFormOD.GetLayoutManager().SetScaleMS(1.5f);
+					Assert.AreEqual(1.5f,UiLooks.GetScale(button),0.0001f,"The window on a 150% monitor (FormODBase's SetScaleMS).");
+				}
+				using(Form form=new Form())
+				using(System.Windows.Forms.CheckBox checkBox=new System.Windows.Forms.CheckBox()) {
+					form.Controls.Add(checkBox);
+					Assert.AreEqual(Math.Max(1f,checkBox.DeviceDpi/96f),UiLooks.GetScale(checkBox),0.0001f,"A plain window: the control's own dpi.");
+				}
+			});
+		}
+
+		[TestMethod]
+		public void ButtonLook_OneLineButton_DoesNotWrapItsCaption() {
+			//UI-13 fix round: a caption wider than a one-line button (FormEHR's "Clinical Summary") stays on one line, as Windows drew it, instead of
+			//wrapping onto a second line the button's bottom edge cuts.
+			using(System.Windows.Forms.Button button=new System.Windows.Forms.Button { Bounds=new Rectangle(0,0,60,26),Text="Clinical Summary" }) {
+				TextFormatFlags textFormatFlags=UiButtonLook.GetButtonTextFlags(button,Rectangle.Inflate(button.ClientRectangle,-4,-2));
+				Assert.AreNotEqual(TextFormatFlags.WordBreak,textFormatFlags & TextFormatFlags.WordBreak,"No wrap in a 26 px button.");
+				Assert.AreEqual(TextFormatFlags.SingleLine,textFormatFlags & TextFormatFlags.SingleLine);
+				using(Bitmap bitmap=new Bitmap(60,26,PixelFormat.Format24bppRgb))
+				using(Graphics g=Graphics.FromImage(bitmap)) {
+					UiButtonLook.PaintButton(g,button,EnumUiButtonState.Normal,false);
+					int heightFont=button.Font.Height;
+					int yTopLine=(26-heightFont)/2-1;
+					int yBottomLine=yTopLine+heightFont+2;
+					for(int y=0;y<26;y++) {
+						if(y>=yTopLine && y<=yBottomLine) {
+							continue;
+						}
+						Assert.IsFalse(HasDarker(bitmap,new Rectangle(3,y,54,1),110),"Text ink outside the one line, at y "+y+".");
+					}
+				}
+			}
+			using(System.Windows.Forms.Button button=new System.Windows.Forms.Button { Bounds=new Rectangle(0,0,60,48),Text="Clinical Summary" }) {
+				TextFormatFlags textFormatFlags=UiButtonLook.GetButtonTextFlags(button,Rectangle.Inflate(button.ClientRectangle,-4,-2));
+				Assert.AreEqual(TextFormatFlags.WordBreak,textFormatFlags & TextFormatFlags.WordBreak,"A button two lines tall wraps.");
+			}
+		}
+
+		[TestMethod]
+		public void DataGridView_FlatHeaderAndFrame() {
+			//UI-13 fix round: without the visual styles a Raised header draws the classic bevel and the frame is black; Single headers (lines in
+			//GridColor) and a StrokeStrong frame.
+			using(DataGridView dataGridView=new DataGridView { Bounds=new Rectangle(0,0,120,60) }) {
+				UiLooks.SetDataGridViewLook(dataGridView);
+				Assert.AreEqual(DataGridViewHeaderBorderStyle.Single,dataGridView.ColumnHeadersBorderStyle);
+				Assert.AreEqual(DataGridViewHeaderBorderStyle.Single,dataGridView.RowHeadersBorderStyle);
+				using(Bitmap bitmap=new Bitmap(120,60,PixelFormat.Format24bppRgb))
+				using(Graphics g=Graphics.FromImage(bitmap)) {
+					g.Clear(Color.Black);
+					UiLooks.PaintDataGridViewBorder(g,dataGridView);
+					AssertColour(UiTheme.GetColor(EnumUiColor.StrokeStrong),bitmap.GetPixel(60,0),"the frame's top");
+					AssertColour(UiTheme.GetColor(EnumUiColor.StrokeStrong),bitmap.GetPixel(0,30),"the frame's left");
+				}
+			}
+			using(DataGridView dataGridView=new DataGridView { ColumnHeadersBorderStyle=DataGridViewHeaderBorderStyle.None }) {
+				UiLooks.SetDataGridViewLook(dataGridView);
+				Assert.AreEqual(DataGridViewHeaderBorderStyle.None,dataGridView.ColumnHeadersBorderStyle,"A style the window sets stays.");
+			}
+		}
+
+		[TestMethod]
+		public void SeparatorAndCaptionLooks_InTheTokens() {
+			//UI-13 fix round: FormInsPlan's 2 px ControlText divider and FormQuery's ActiveCaption grid title.
+			using(Panel panelParent=new Panel { BackColor=Color.White })
+			using(Panel panel=new Panel { Bounds=new Rectangle(0,0,200,2),BackColor=SystemColors.ControlText }) {
+				panelParent.Controls.Add(panel);
+				Assert.IsTrue(UiSeparatorLook.IsDrawn(panel));
+				Assert.IsFalse(UiSeparatorLook.IsDrawn(new Panel { Bounds=new Rectangle(0,0,200,40),BackColor=SystemColors.ControlText }),"A block, not a line.");
+				Assert.IsFalse(UiSeparatorLook.IsDrawn(new Panel { Bounds=new Rectangle(0,0,200,2),BackColor=Color.Red }),"A colour bar.");
+				using(Bitmap bitmap=new Bitmap(200,2,PixelFormat.Format24bppRgb))
+				using(Graphics g=Graphics.FromImage(bitmap)) {
+					UiSeparatorLook.PaintSeparator(g,panel);
+					AssertColour(UiTheme.GetColor(EnumUiColor.Stroke),bitmap.GetPixel(100,0),"the line");
+					AssertColour(Color.White,bitmap.GetPixel(100,1),"the parent's colour beside it");
+				}
+			}
+			using(Label label=new Label { Bounds=new Rectangle(0,0,200,19),BackColor=SystemColors.ActiveCaption,Text="Query results" }) {
+				Assert.IsTrue(UiCaptionLook.IsDrawn(label));
+				Assert.IsFalse(UiCaptionLook.IsDrawn(new Label()));
+				using(Bitmap bitmap=new Bitmap(200,19,PixelFormat.Format24bppRgb))
+				using(Graphics g=Graphics.FromImage(bitmap)) {
+					UiCaptionLook.PaintCaption(g,label);
+					AssertColour(UiTheme.GetColor(EnumUiColor.Accent),bitmap.GetPixel(190,2),"the title's colour");
+				}
+			}
+		}
+
 		///<summary>TableTimeBar with its look's drawing and cells reachable from the test.</summary>
 		private class TimeBarProbe : TableTimeBar {
 			public void PaintForTest(Graphics g) {

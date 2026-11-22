@@ -4,19 +4,26 @@
 // Windows draws them, which is what main shows for these types (the time pattern draws its look in both: its before is the owner row's
 // window picture). At 150% the controls, their fonts and the looks' scale are 1.5 times. Opt-in: OPMS_UI_ELEMENT_STYLES names the folder.
 // Nothing is shown; no database.
+// UI-13 fix round: the sheets are hosted in a FormODBase whose LayoutManager is set to the scale the way FormODBase sets it from a monitor's dpi
+// (SetScaleMS), so the looks take their scale through the program's own path (UiLooks.GetScale from the control's window), not a test zoom;
+// they are drawn with Windows' visual styles (VisualStylesScope: comctl32 version 6, as the program runs), so the native parts the looks leave
+// to Windows (tree and list views, the month calendar) show the picture the program shows; the time pattern is FormProcCodeEdit's own,
+// laid out at the scale by its LayoutManager (WindowBuilder, as the window gallery draws windows at 150%) and cropped to the bar, its handle,
+// its caption and its Minutes box.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Reflection;
+using System.Linq;
 using System.Windows.Forms;
 using CodeBase;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenPmsDental;
 using OpenPmsDental.UI;
 using UiRefreshTests.Scan;
+using UiRefreshTests.TextFit;
 
 namespace UiRefreshTests {
 	[TestClass]
@@ -37,12 +44,16 @@ namespace UiRefreshTests {
 			StaRunner.Run(() => {
 				NoDatabaseGuard.Install();
 				DesignSheetWindows.IsPrintingWithoutChildren=true;
+				using VisualStylesScope visualStylesScope=new VisualStylesScope();
+				if(!visualStylesScope.IsActive) {
+					listFailed.Add("Windows' visual styles could not be activated: the native parts draw their classic picture.");
+				}
 				foreach(float scale in new float[] { 1f,1.5f }) {
-					SetLooksScale(scale);
 					foreach(KeyValuePair<string,Func<float,Control[]>> pair in GetSheets()) {
 						try {
-							using(Form form=new Form()) {
-								form.FormBorderStyle=FormBorderStyle.None;
+							using(HostFormOD form=new HostFormOD(new Size(100,100))) {
+								//The window on a monitor at the scale, as FormODBase sets it from the monitor's dpi.
+								form.GetLayoutManager().SetScaleMS(scale);
 								form.BackColor=SystemColors.Control;
 								form.Font=new Font(UiTheme.FONT_FAMILY,UiTheme.FONT_SIZE_BODY*scale);
 								Panel panel=new Panel { BackColor=SystemColors.Control,Location=Point.Empty };
@@ -51,10 +62,8 @@ namespace UiRefreshTests {
 								List<Point> listOffsets=new List<Point>();
 								foreach(Control control in listControls) {
 									listOffsets.Add(control.Location);
-									if(!(control is TableTimeBar)) {
-										//Not the time pattern: its cells are 14 px in code, as in the windows (a font would rescale its panels).
-										control.Font=new Font(UiTheme.FONT_FAMILY,UiTheme.FONT_SIZE_BODY*scale);
-									}
+									//The font as Windows scales a point size at the monitor's dpi.
+									control.Font=new Font(UiTheme.FONT_FAMILY,UiTheme.FONT_SIZE_BODY*scale);
 									panel.Controls.Add(control);
 								}
 								if(!isBefore) {
@@ -64,17 +73,9 @@ namespace UiRefreshTests {
 								//Laid out after the handles: a month calendar takes its size from its font then.
 								int x=S(8,scale);
 								int bottom=0;
-								int xPrevious=x;
 								for(int i=0;i<listControls.Count;i++) {
 									Control control=listControls[i];
-									if(control.Tag as string=="onPrevious") {
-										//Placed on the control before it (the time pattern's slider on its column).
-										control.Location=new Point(xPrevious+listOffsets[i].X,S(8,scale)+listOffsets[i].Y);
-										control.BringToFront();
-										continue;
-									}
 									control.Location=new Point(x,S(8,scale)+listOffsets[i].Y);
-									xPrevious=x;
 									x=control.Right+S(12,scale);
 									bottom=Math.Max(bottom,control.Bottom);
 								}
@@ -93,8 +94,16 @@ namespace UiRefreshTests {
 							listFailed.Add(pair.Key+" at "+scale+": "+TierOneScan.Describe(exception));
 						}
 					}
+					try {
+						using(Bitmap bitmap=DrawTimePattern(scale)) {
+							bitmap.Save(Path.Combine(folder,"14-timepattern-"+(int)Math.Round(scale*100)+".png"),ImageFormat.Png);
+							countPictures++;
+						}
+					}
+					catch(Exception exception) {
+						listFailed.Add("14-timepattern at "+scale+": "+TierOneScan.Describe(exception));
+					}
 				}
-				SetLooksScale(1f);
 			});
 			DesignSheetWindows.IsPrintingWithoutChildren=false;
 			File.WriteAllLines(Path.Combine(folder,"element-styles-failed.txt"),listFailed);
@@ -105,12 +114,80 @@ namespace UiRefreshTests {
 			return (int)Math.Round(value96*scale);
 		}
 
-		///<summary>The looks take the program's zoom from their LayoutManager (UiLooks' own); the sheet sets its test zoom so the 150% picture
-		///draws the looks at 1.5.</summary>
-		private static void SetLooksScale(float scale) {
-			FieldInfo fieldInfo=typeof(UiLooks).GetField("_layoutManager",BindingFlags.Static|BindingFlags.NonPublic);
-			LayoutManagerForms layoutManagerForms=(LayoutManagerForms)fieldInfo.GetValue(null);
-			layoutManagerForms.ZoomTest=scale==1f ? 0 : (scale-1f)*100f;
+		///<summary>The time pattern as FormProcCodeEdit shows it, through the window's own path: the window built and laid out at the scale by its
+		///LayoutManager (the bar's cells, column and letters follow it, SetCellSizesForScale), the fonts as Windows scales them at that dpi, a
+		///pattern of 12 cells (//XXXX//XX//) filled as the window's FillTime fills it and its handle placed where FillTime places it
+		///(GetSliderLocation); cropped to the bar, its handle, its caption and its Minutes box with an 8 px margin.</summary>
+		private static Bitmap DrawTimePattern(float scale) {
+			ScanType scanType=WindowBuilder.GetScanTypes().FirstOrDefault(x => x.WindowKey=="OpenPmsDental.FormProcCodeEdit");
+			if(scanType==null) {
+				throw new Exception("FormProcCodeEdit is not a scanned type.");
+			}
+			FitGallery.SetGalleryFont("program");
+			try {
+				using(BuiltWindow builtWindow=WindowBuilder.Build(scanType)) {
+					if(scale!=1f) {
+						builtWindow.LayOutAt(scale);
+					}
+					FitGallery.SettleAfterHandles(builtWindow);
+					Control root=builtWindow.Root;
+					if(root is FormODBase formODBase && formODBase.PanelClient!=null) {
+						root=formODBase.PanelClient;
+					}
+					if(scale!=1f) {
+						GridStyleGallery.ScaleFontsAsWindowsDoes(root,scale);
+					}
+					TableTimeBar tableTimeBar=(TableTimeBar)FindByName(root,"tbTime");
+					Control controlSlider=FindByName(root,"butSlider");
+					string pattern="//XXXX//XX//";
+					for(int i=0;i<tableTimeBar.MaxRows;i++) {
+						tableTimeBar.Cell[0,i]=i<pattern.Length ? pattern.Substring(i,1) : "";
+						tableTimeBar.BackGColor[0,i]=i<pattern.Length ? Color.White : SystemColors.Control;
+					}
+					tableTimeBar.Refresh();
+					builtWindow.LayoutManager.MoveLocation(controlSlider,tableTimeBar.GetSliderLocation(pattern.Length));
+					if(FindByName(root,"textTime2") is TextBox textBox) {
+						textBox.Text=(pattern.Length*5).ToString();
+					}
+					Rectangle rectangleCrop=Rectangle.Empty;
+					foreach(string name in new string[] { "tbTime","butSlider","label6","label11","textTime2" }) {
+						Control control=FindByName(root,name);
+						if(control==null) {
+							continue;
+						}
+						Rectangle rectangle=GetBoundsIn(control,root);
+						rectangleCrop=rectangleCrop.IsEmpty ? rectangle : Rectangle.Union(rectangleCrop,rectangle);
+					}
+					rectangleCrop.Inflate(S(8,scale),S(8,scale));
+					rectangleCrop.Intersect(new Rectangle(0,0,root.Width,root.Height));
+					return DesignSheetWindows.Capture(root,rectangleCrop);
+				}
+			}
+			finally {
+				UiTheme.SetFontForTest(null);
+				DefaultFontOverride.Set(TextFitFontOption.Today,1f);
+			}
+		}
+
+		private static Control FindByName(Control root,string name) {
+			foreach(Control child in root.Controls) {
+				if(child.Name==name) {
+					return child;
+				}
+				Control found=FindByName(child,name);
+				if(found!=null) {
+					return found;
+				}
+			}
+			return null;
+		}
+
+		private static Rectangle GetBoundsIn(Control control,Control ancestor) {
+			Rectangle rectangle=control.Bounds;
+			for(Control parent=control.Parent;parent!=null && parent!=ancestor;parent=parent.Parent) {
+				rectangle.Offset(parent.Left,parent.Top);
+			}
+			return rectangle;
 		}
 
 		///<summary>Content the controls show once they have handles (items Windows needs a handle for, a value that makes a thumb).</summary>
@@ -214,24 +291,6 @@ namespace UiRefreshTests {
 				return new Control[] { dataGridView };
 			});
 			add("13-linklabel",s => new Control[] { new LinkLabel { Text="View provider and clinic specific fees",AutoSize=true } });
-			add("14-timepattern",s => {
-				TableTimeBar tableTimeBar=new TableTimeBar();
-				//No scaling by the sheet's font (a user control scales its panels on a font change; the windows' LayoutManager does not).
-				tableTimeBar.AutoScaleMode=AutoScaleMode.None;
-				//The size every window's designer gives it (its own layout leaves the width of its designer's panels).
-				tableTimeBar.Size=new Size(15,561);
-				string pattern="//XXXX//XX//";
-				for(int i=0;i<pattern.Length;i++) {
-					tableTimeBar.Cell[0,i]=pattern.Substring(i,1);
-					tableTimeBar.BackGColor[0,i]=Color.White;
-				}
-				for(int i=pattern.Length;i<tableTimeBar.MaxRows;i++) {
-					tableTimeBar.Cell[0,i]="";
-					tableTimeBar.BackGColor[0,i]=SystemColors.Control;
-				}
-				return new Control[] { tableTimeBar,
-					new System.Windows.Forms.Button { Size=new Size(12,15),BackColor=SystemColors.ControlDark,UseVisualStyleBackColor=false,Left=2,Top=pattern.Length*14+1,Tag="onPrevious" } };
-			});
 			return list;
 		}
 	}

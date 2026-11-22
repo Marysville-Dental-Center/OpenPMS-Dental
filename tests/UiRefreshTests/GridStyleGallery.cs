@@ -109,7 +109,7 @@ namespace UiRefreshTests {
 
 		///<summary>The date pickers and up-down boxes get the zoom only from LayoutManager and their dpi scaling from Windows; at 96 dpi this harness
 		///scales their fonts by the scale, so they take the height Windows gives them at that dpi.</summary>
-		private static void ScaleFontsAsWindowsDoes(Control control,float scale) {
+		internal static void ScaleFontsAsWindowsDoes(Control control,float scale) {
 			foreach(Control child in control.Controls) {
 				if(child is DateTimePicker || child is UpDownBase) {
 					child.Font=new Font(child.Font.FontFamily,child.Font.Size*scale,child.Font.Style);
