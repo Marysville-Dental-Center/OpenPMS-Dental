@@ -1082,8 +1082,9 @@ Scrollable Control: For example, a panel that's set to AutoScroll=true.  These c
 				if(IsBoundsScaledInput(control.Controls[i]) && Math.Abs(height-23)<=2 && Scale(23)!=23){
 					//UI-12 (the layout grid): a combo box the program draws itself takes its height from its bounds, while the Windows inputs beside it
 					//(text boxes, number fields, date pickers) take theirs from their font. Scaled, they parted (150%: 34 against 31), so a single-line
-					//combo box gets the height of a single-line text box at the font text boxes get here, and one row of inputs has one height.
-					rectangleBounds.Height=GetTextBoxHeight(ScaleF(control96Info.FontSize96));
+					//combo box (and a text box sized by its bounds) gets the height Windows gives a text box at the program's font at this scale, and one
+					//row of inputs has one height.
+					rectangleBounds.Height=GetTextBoxHeight(UiTheme.FontBody.Size*ScaleF(100f)/100f);//the body font at the layout's whole scale (dpi and zoom)
 				}
 				control.Controls[i].Bounds=rectangleBounds;
 				if(control.Controls[i].Bounds.Height<0 || control.Controls[i].Bounds.Width<0){
@@ -1195,16 +1196,17 @@ Scrollable Control: For example, a panel that's set to AutoScroll=true.  These c
 			return control is UI.ComboBox || control is UI.ComboBoxClinicPicker || control is System.Windows.Forms.TextBox;
 		}
 
-		///<summary>UI-12: the height of a bordered single-line text box at this font size (points), as Windows sizes it (its PreferredHeight).</summary>
+		///<summary>UI-12: the height Windows gives a bordered single-line text box, date picker or up-down box at this font size (points): the
+		///font's line height in pixels at 96 dpi plus 7 (the 3-D border and its padding, as their PreferredHeight adds). 23 at the program's 9 pt
+		///font, 31 at 13.5 pt (150%). Computed from the font family's metrics, not from a control, so it does not depend on the dpi a control
+		///happens to be created at.</summary>
 		private static int GetTextBoxHeight(float fontSize){
 			if(_dictTextBoxHeights.TryGetValue(fontSize,out int height)){
 				return height;
 			}
-			using(Font font=new Font(UiTheme.FontBody.FontFamily,fontSize))
-			using(System.Windows.Forms.TextBox textBox=new System.Windows.Forms.TextBox()){
-				textBox.Font=font;
-				height=textBox.PreferredHeight;
-			}
+			FontFamily fontFamily=UiTheme.FontBody.FontFamily;
+			float lineSpacing=(float)fontFamily.GetLineSpacing(FontStyle.Regular)/fontFamily.GetEmHeight(FontStyle.Regular);
+			height=(int)Math.Ceiling(lineSpacing*fontSize*96f/72f-0.01f)+7;
 			_dictTextBoxHeights[fontSize]=height;
 			return height;
 		}

@@ -1582,6 +1582,11 @@ own 26.2 overlap check before it starts. The first cut is below; a brief that fi
   button drawn like the check box (`UiRadioLook`); `GridRulesTests` in every grid window with the owner's addition (no text past its
   container, equal gaps between consecutive fields, check boxes and buttons); kept as on main with reasons: the Chart's Missing, Movements,
   Show and Ortho pages and the Account's hidden summary groups (UI-12.md section 5); gallery G-UI3-ui12p redrawn from round 3.
+  Round 4 (branch `ui/ui12p-2`, the lead's 27 review findings): the Preferences field column at 50% of the page; the clinic picker, one-line
+  multi-line boxes and wrapped notes on the grid; groups whose hidden last row the code shows grow in code; code that sizes a window is
+  listed by the planner and FormInsBenefits' and FormPayment's sizes follow the designer; one input height per row at 150%; the harness
+  draws windows at their designer size after their handles; GridRulesTests checks hidden controls inside their container; gallery
+  G-UI3-ui12p redrawn from round 4 (UI-12.md section 4, "Round 4").
 - Gallery: G-UI3 per slice, the owner's rows first.
 
 ---

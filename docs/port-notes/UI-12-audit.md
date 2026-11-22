@@ -232,3 +232,58 @@ crops in two montages, the style pictures (the procedure buttons and the page ba
 | FormPayment-inputs 100/150, ControlChart-procbuttons and -pagebar 100/150 | frames, sizes, gaps | Good: one frame for every input, the procedure buttons 30 x 19 px 3 px apart, the page bar flat. |
 
 The pass finds nothing beyond the known rows (each with its reason in `grid-known.tsv`) and the harness's FormClaimEdit bottom bar.
+
+## Round 4 (2026-11-21: the fix round, the lead's 27 review findings)
+
+The findings and what changed: UI-12.md section 4, "Round 4". Each pass opened every picture named (whole pictures; the preference pages
+in montages of four at full size; the owner crops in two montages; the 150% inputs also measured from the picture's pixels).
+
+### Pass 1 (gallery r4a, the first round 4 build)
+
+| Picture | Checked | Found |
+|---|---|---|
+| FormInsBenefits (owner rows 24, 35) | the benefit grid, Categories' columns, the notes row, the frequency grid | Grid under the simplified panel, no overlap; columns on 298/368; Edit under Delete. The Notes label centred on the 98 px box instead of on its first line (fixed: 23 px label). |
+| FormClaimEdit (owner row 02) | the bottom bar, the right margin, General's groups, Claim Referral | The bottom bar and the 8 px margin are in the picture now; Crown and Ortho one height; the referral fields on the buttons' edge. Good. |
+| FormPayment | the splits panel's edges, the row under the grids, the clinic picker | Good: 8 / 1103 edges, one gutter, one row height. |
+| FormPayment-hidesplits-100/150 | the hidden state | Not drawn: the toggle reads `Visible`, false in a window never shown (fixed: `SetSplitsShown`, which the harness calls). |
+| FormPayment-inputs-150 | input heights per row (pixels) | Combo 25-26 px, text boxes 27, up-down and date picker 30-31: not one height yet (fixed in pass 3). |
+| FormPatientEdit | the left column's edge, the Address group, Referred From, the clinic picker | One right edge (480), the Address group ends under Zip, Referred From 23 px framed, Clinic label 6 px before its box. The right column's tab control ended 24 px higher than before (fixed: it keeps its bottom). |
+| FormEmailInbox | the three groups, captions, toolbar | Drawn maximized at the screen's size after the harness created its handles (fixed: the harness draws a window at its designer size). |
+| FormScreenEdit | Age, Gender | The age arrows were behind the Age box (z-order; fixed with the applier's `AddBefore`); the radios on the field column. |
+| FormApptEdit (owner row 25) | the fields panel's pitch | Every row 23 px at a 27 px pitch, the clinic picker too. Good. |
+| FormInsPlan (owner row 36) | the ortho check box | On the field column, two lines to the group's edge. Good. |
+| ControlAccount | the side panel's Main page | 4 px inset, the check box 8 px in. Good. |
+
+GridRulesTests (r4a) listed the new `hidden-frame` rule's findings: hidden scroll bars of lists (the rule now looks at layout containers
+and named controls only), the two groups grown by code (known rows), FormPayment's Treat Plan warning 1 px past its narrower page and
+the From/To label 5 px left of the group's padding (fixed), FormPractice's notes past their narrower groups (fixed), FormScreenEdit's
+arrows over the Age box (known: one box), the wrapped labels that make a Preferences row taller (known), the time bar's hidden head panel
+and the Chart's hidden button (known: other designers / kept as on main).
+
+### Pass 2 (gallery r4b and r4c)
+
+| Picture | Checked | Found |
+|---|---|---|
+| FormPayment-hidesplits-100, -150 | the hidden state | The bottom row 15 px (22 at 150%) under the note and Show Splits, nothing covered. Good. |
+| FormScreenEdit | the age box | The arrows inside the box's right end; moved 1 px in from the frame. Good after that. |
+| FormEmailInbox | groups, captions, toolbar | One height (149), captions on their fields, Search/Clear on the fields' edge, four message buttons one width. "Subject/Body" was cut by the Date To caption's bounds (fixed: the date captions as wide as their boxes). |
+| FormMedLabEdit | the bottom bar | Notes beside their buttons; a 55 px band over the bar (fixed: the facilities grid down to the bar). |
+| FormStatementOptions | the content box | 8..712 for groups, notes and the bar. Good. |
+| FormPractice | group padding | 8 px in every group, the notes inside. Good. |
+| FormBackup | the Backup and Restore buttons | On the content edge. Good. |
+| FormApptViewEdit | Rows Displayed, the clinic picker | The group to 1084 with even padding. The picker's own Clinic label was under Show mirrored appointments (fixed: the picker after the check box's text; GridRulesTests now counts the picker's label in its ink). |
+| FormProvEdit | the left column's edges | One edge; Edit on the fields' edge. Good. |
+| FormProcEdit, FormProcCodeEdit | panel1's second band, the time fields | Time Start on the band; End and Now inside panel1 (hidden in the designer). Good. |
+| Preference pages (28, seven montages) | the 50% column, wrapped labels, notes, groups | Field column at 256 on every page that has one; labels that pass half the page wrap; the Global Lock and Select Patient groups end 8 px under their last row; the replication and Insurance History notes end 8 px over their frames. UserControlEnterpriseAccount's interval unit stood before its box (fixed: after it). |
+| ControlChart, FormHL7DefEdit | unchanged parts | As round 3. Good. |
+| Owner crops (26, two montages) | each crop | Each control whole, boxes left, labels whole, nothing covered. |
+
+### Pass 3 (gallery r4e, the final build; G-UI3-ui12p's after pictures)
+
+| Picture | Checked | Found |
+|---|---|---|
+| FormPayment-inputs-100, -150 | input heights per row (pixels) | 100%: every input 23 px (the combo box's frame 1 px inside its bounds, as approved). 150%: text boxes 30, up-down boxes 30, date pickers 31, combo boxes 28 (their frame 1-2 px inside their 31 px bounds): one height per row within the combo frame's inset (was 34 / 31 / 23). |
+| All 47 windows, the 38 owner rows, the style pictures | changes since pass 2 | Only the designer changes of pass 2's fixes and the 150% input heights; each looked at again. Good. |
+
+The pass finds nothing beyond the known rows (each with its reason in `grid-known.tsv`) and the 123 re-run rows of the hand-row windows
+(UI-12.md section 5).
