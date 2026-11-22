@@ -504,6 +504,68 @@ with the streams of the .resx files, one png per picture), `OPMS_UI9B_PICTURES` 
 A look at the real windows (the editors, the wiki, the claims window, a task list, the dashboard's edit mode) at 125% and 150% on a connected desktop waits for
 the lead's session.
 
+### 5.8 The fix after the lead's audit (UI-9b-4 fix, `ui/ui9b4fix-1`)
+
+The owner approved the icon choices of G-UI3-ui9b4 "as fixed" (2026-11-21). The lead's audit found four faults; each is fixed at its cause.
+
+1. **Icon sizes differ at 150% and 200%.** Cause: the shared icon code (`CodeBase.UiIcons.GetDesign` and `GetDrawRectangle`) drew an icon at its
+   largest design that fits the slot, never stretched up, in a box of that design's size. The toolbar slot is 22 px at 96 DPI: 33 px at 150% and
+   44 px at 200%, where section 3.5 wants the 32 px design. An icon with a 32 px design (Copy, Paste, Save as Draft, Print, Preview, Delete, Link,
+   ...) filled a 32 px box; an icon whose largest design is 24 px (Sync, Save, Cut, Undo, New document, List, Rename, the text buttons, ...) a
+   24 px box, 8 px smaller. The claims window's "small" document icons were New document (24 px largest) and Preview, a narrow page. The same
+   fault was in every UI-9b strip and toolbar (the module toolbars' Rx, Commlog and others at 150 and 200%; the 16 px trees and grid columns at
+   200%, and at 100% where an icon has no 16 px design: the task lists' new-list icons were the 20 px design shrunk proportionally).
+   Fix, in the shared code so every strip benefits: an icon of the toolbars, buttons, lists and module bar (`EnumIcons` and `DentalIcon` rows:
+   `UiIcons.IsBoxFilled`) is drawn in the box of section 3.5 for its slot (`UiTheme.GetIconDesignSize`, the same box for every icon of the slot)
+   whatever design sizes it has. The design is the box's size when the icon has one (drawn pixel for pixel, as before), else the nearest in size
+   (by ratio; a tie takes the larger), scaled so its Fluent keyline square fills the box's (`UiIcons.GetLiveSize`: 10 of 12, 14 of 16, 16 of
+   20, 20 of 24, 24 of 28, 28 of 32 and 40 of 48 px; `UiIcons.GetPlacement`). A 24 px design in the 32 px box is scaled 1.4: its 1.5 px strokes
+   become 2.1 px, the 32 px designs' 2 px, so the optical size and the stroke weight match. GDI+ (`UiIcons.Draw`, the path cache), Direct2D
+   (`WriteFigures`) and WPF (`GetGeometryWpf`) all place through `GetPlacement`. The control glyphs (`UiGlyph`: caption buttons, chevrons, check
+   marks) keep section 3.5's rule, so no control changes (the design sheet, the layout snapshot and every control picture test are unchanged).
+   Compared with the pictures of `main` (every UI-9b gallery test, 90 pictures): 35 are the same; the changed ones are the 150 and 200% module
+   toolbars (main, account, appointments, chart, family, tasks, treatment plan, imaging), the 200% trees and grid columns, the task icons at
+   100% (above), and this slice's strips. Each change is an icon that had the fault, now in its neighbours' box.
+2. **The wiki strip was cut on the right** (icon 14 at every size). The picture was short, not the strip: the gallery test gave each strip
+   10 + 40 px per button at 96 DPI, which the two-digit labels outgrow, so the wiki's last button was cut and the email and wiki editors' last
+   button (19, 20) was left out of the picture altogether. The gallery now lays the buttons out and takes the last one's right edge
+   (`RemainingFormsImageListTests.FitToButtons`). The real wiki toolbar is docked across its window (944 px at 96 DPI); a test lays out its buttons
+   as `FormWiki.LayoutToolBar` adds them, with today's labels at the program font, and they fit at 100, 150 and 200%. Found on the way, for UI-12:
+   with the optional Read-Only Copy text button (only when the office keeps a read-only copy) the wiki toolbar is 999 px at 100%, 55 px past the
+   window's designer width, since UI-2b's Segoe UI 9 pt (the test writes the widths to its output; the window can be widened).
+3. **The editors' text buttons**: H1 to H3 looked small and light next to the icons and B heavier. Cause: Fluent draws the heading letters with
+   a cap height of 14 in the 24 px design where B and I have 16, and at 150 and 200% the headings (largest design 24 px) were in the smaller box
+   of fault 1; Fluent's 16 to 24 px B has stems about a fifth of its height (3 px of 16). Fix: a manifest field `opticalScale` (optional,
+   `EnumIcons` rows, 0.8 to 1.5; `IconDesign.OpticalScale`, the generator writes it) scales a row's designs about their centre. H1 to H3 are
+   15/14 larger, B draws Fluent's 28 px design at every size (stems 3 of 20, lighter; the generator now accepts the 28 size, which no slot asks
+   for) at 0.92, and I is 15/16 as large: the five text buttons have one cap height, 15 of the 24 px design's 20 px keyline square (21 px in the
+   32 px box; within 1 px at 100, 150 and 200%), and the strokes of H and I stay those of the regular icons beside them (about 1 px at 100%
+   and 2 px at 150 and 200%; B stays bold, with stems of 3.2 px at 200%, where Fluent's 24 px B in the same box would have 4.2). 8/7 for the headings was tried first: H2 and H3 then filled the box edge to edge and crowded their
+   labels at 150%, so the five meet at 15 instead of 16. The colour and font buttons (an A) are unchanged.
+4. **Wiki icon 6 was hard to read.** It is Rename: the button renames the current wiki page (its title; `FormWiki.ToolBarMain_ButtonClick`,
+   "Rename"). Fluent Rename is a split box (a text cursor through a box) that reads as a column split at 16 to 22 px. New choice for the owner:
+   **Fluent Rename A** (`rename_a`: a name, the letter A in a box, with a text cursor beside it), the clearest of Fluent's rename and text-edit
+   icons (Text Edit Style reads as formatting, Document Edit and the pencil as Edit, which the strip already has). Same member (`EnumIcons.Rename`),
+   same index 6, sizes 16, 20 and 24.
+
+Files: `CodeBase/UI/Icons/UiIcons.cs` (`IsBoxFilled`, `GetLiveSize`, `GetPlacement`, the box in `GetDrawRectangle`, the nearest design in
+`GetDesign`, `IconDesign.OpticalScale`), `UiIcons.Gdi.cs`, `UiIcons.Wpf.cs`, `icons/manifest.json` (Heading1 to 3, Bold, Italic, Rename),
+`tools/New-IconData.ps1` (`opticalScale`, size 28), `IconData.g.cs` regenerated (848 designs), `icons/README.md`; the SVGs `text_bold_28_regular`
+and `rename_a_16/20/24_regular` from UI-7a's approved 1.1.346 download (`.git/od-tools/downloads/ui7a-fluentui-svg-icons-20261117`, each checked
+byte for byte against the tarball, whose SHA-256 is the one in `SOURCE.txt`), and the six SVGs no row names any more (`text_bold_16/20/24`,
+`rename_16/20/24`) removed; `SOURCE.txt` updated. No download, no package, no schema, no window shown.
+
+Tests (UiRefreshTests): new `Toolbars/StripIconBoxTests`: every ImageList strip of the program (each `ArrayIcons*` array of OpenPmsDental, 44)
+at 100, 150 and 200% of the 22 and 16 px slots draws every icon in the same box, its ink inside the box, and its ink extent within 1 px of its
+size class in that box (the extent of the design it draws, as Fluent drew it, scaled by the keylines); the audited icons are no larger (Copy,
+Paste, Save as Draft against Cut; Print against List, Preview and New document) and the document icons no smaller than their neighbours; H1 and
+I have B's cap height within 1 px and H2 and H3 stay 1 px inside the box; Rename is Rename A; a control glyph keeps its design size. In
+`RemainingFormsImageListTests`: `GalleryStrips_HoldEveryButton_AndTheWikiToolbarFitsItsWindow_At100_150_200`. Every earlier test is unchanged
+and green.
+
+Gallery G-UI3-ui9b4-v2: `.git/od-tools/test-results/G-UI3-ui9b4-v2/index.html`, the same 39 pictures and layout as G-UI3-ui9b4 (each strip now
+whole); the before set is the old bitmaps, as in the first gallery. The audit of every after picture: `docs/port-notes/UI-9b-4-audit.md`.
+
 ## 6. UI-9b is complete
 
 With UI-9b-4 every ImageList of the program is made by the one icon factory or is a list of office content:

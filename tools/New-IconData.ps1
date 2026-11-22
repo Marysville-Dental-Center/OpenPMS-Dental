@@ -15,7 +15,7 @@ file byte for byte.
 The file holds the UiGlyph enum (the manifest's UiGlyph rows, in manifest order, after None), the DentalIcon enum (the custom
 dental icons of package UI-8, the manifest's DentalIcon rows, likewise) and IconData's table: one row per design with its enum,
 name, colour role, size, file name, the SVG's SHA-256 and the path data, and, for a row with an opticalScale (an EnumIcons row whose
-glyph Fluent draws smaller than its neighbours; the UI-9b-4 fix, docs/port-notes/UI-9b.md, section 5.8), that scale. The renderer (CodeBase/UI/Icons/
+glyph Fluent draws smaller or larger than its neighbours; the UI-9b-4 fix, docs/port-notes/UI-9b.md, section 5.8), that scale. The renderer (CodeBase/UI/Icons/
 UiIcons*.cs) draws the table on GDI+, Direct2D and WPF.
 
 Refused (the script stops with a message): a manifest row with an unknown enum, style, role or size, a duplicate name, a
@@ -494,12 +494,13 @@ foreach($row in $listRows){
 		if($AllowedSizes -notcontains $sizes[$i]){ Stop-Generator "row '$name': the size $($sizes[$i]) is not one of $($AllowedSizes -join ', ')" }
 		if($i -gt 0 -and $sizes[$i] -le $sizes[$i-1]){ Stop-Generator "row '$name': the sizes are not in rising order" }
 	}
-	#opticalScale (optional; the UI-9b-4 fix): the row's designs are drawn this much larger about their centre. EnumIcons rows only, 1 to 1.5.
+	#opticalScale (optional; the UI-9b-4 fix): the row's designs are drawn this much larger or smaller about their centre. EnumIcons rows only,
+	#0.8 to 1.5, not 1.
 	$opticalScaleText=''
 	if($row.PSObject.Properties.Name -contains 'opticalScale'){
 		$opticalScale=[double]$row.opticalScale
 		if($enum -ne 'EnumIcons'){ Stop-Generator "row '$name': only an EnumIcons row takes an opticalScale" }
-		if($opticalScale -le 1 -or $opticalScale -gt 1.5){ Stop-Generator "row '$name': the opticalScale $opticalScale is not above 1 and at most 1.5" }
+		if($opticalScale -lt 0.8 -or $opticalScale -gt 1.5 -or $opticalScale -eq 1){ Stop-Generator "row '$name': the opticalScale $opticalScale is not 0.8 to 1.5 (and not 1)" }
 		$opticalScaleText=','+(Format-Number $opticalScale)+'f'
 	}
 	foreach($size in $sizes){

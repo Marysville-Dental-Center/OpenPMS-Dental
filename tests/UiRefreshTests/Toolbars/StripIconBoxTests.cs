@@ -182,13 +182,15 @@ namespace UiRefreshTests.Toolbars {
 		}
 
 		///<summary>The editors' text buttons (the lead's audit): H1 has the cap height of B and I (within 1 px) in the 20, 24 and 32 px boxes (H2 and
-		///H3 take H1's optical scale, 8/7; their digits overshoot as Fluent drew them), so the headings no longer look small next to them; B draws
-		///the 28 px design (lighter stems than the 16 to 24 px designs' heavy B).</summary>
+		///H3 take H1's optical scale, 15/14; their digits overshoot as Fluent drew them), so the headings no longer look small next to them; B draws
+		///the 28 px design (lighter stems than the 16 to 24 px designs' heavy B) at 0.92 and I at 15/16: one cap height, 15 of the 24 px design's
+		///20 px keyline square. H2 and H3, the widest, stay inside the box with 1 px to spare, so they keep their gap to the label.</summary>
 		[TestMethod]
 		public void HeadingLetters_HaveTheCapHeightOfBoldAndItalic_At100_150_200() {
-			Assert.IsTrue(IconLibrary.GetDesigns(EnumIcons.Bold).All(x => x.Size==28 && x.FileName=="text_bold_28_regular.svg" && x.OpticalScale==1f));
+			Assert.IsTrue(IconLibrary.GetDesigns(EnumIcons.Bold).All(x => x.Size==28 && x.FileName=="text_bold_28_regular.svg" && Math.Abs(x.OpticalScale-0.92f)<0.001f));
+			Assert.IsTrue(IconLibrary.GetDesigns(EnumIcons.Italic).All(x => Math.Abs(x.OpticalScale-15f/16f)<0.001f),"Italic: the optical scale 15/16.");
 			foreach(EnumIcons icon in new[] { EnumIcons.Heading1,EnumIcons.Heading2,EnumIcons.Heading3 }) {
-				Assert.IsTrue(IconLibrary.GetDesigns(icon).All(x => Math.Abs(x.OpticalScale-8f/7f)<0.001f),icon+": the optical scale 8/7.");
+				Assert.IsTrue(IconLibrary.GetDesigns(icon).All(x => Math.Abs(x.OpticalScale-15f/14f)<0.001f),icon+": the optical scale 15/14.");
 			}
 			foreach(float scale in _arrayScales) {
 				int sizePixels=UiTheme.ScaleI(ToolBarOD.SIZE_IMAGE_LIST96,scale);
@@ -199,6 +201,15 @@ namespace UiRefreshTests.Toolbars {
 				}
 				//Before the fix H1 was 2 design px shorter than B and I at every size (14 of 24 against 16).
 				Assert.IsTrue(GetDrawnHeight(EnumIcons.Heading1,sizePixels)>=GetDrawnHeight(EnumIcons.Italic,sizePixels)-0.5f);
+				//H2 and H3 leave at least 1 px of the box on each side.
+				foreach(EnumIcons icon in new[] { EnumIcons.Heading2,EnumIcons.Heading3 }) {
+					IconDesign iconDesign=IconLibrary.GetDesign(icon,sizePixels);
+					int sizeBox=UiIcons.GetDrawRectangle(iconDesign,new Rectangle(0,0,sizePixels,sizePixels)).Width;
+					UiIcons.GetPlacement(iconDesign,sizeBox,out float offset,out float scaleDesign);
+					RectangleF rectangleF=GetDesignBounds(iconDesign);
+					Assert.IsTrue(offset+rectangleF.Left*scaleDesign>=0.95f && offset+rectangleF.Right*scaleDesign<=sizeBox-0.95f,
+						icon+" at "+(int)Math.Round(scale*100)+"%: "+(offset+rectangleF.Left*scaleDesign)+" to "+(offset+rectangleF.Right*scaleDesign)+" of "+sizeBox+" px.");
+				}
 			}
 		}
 
