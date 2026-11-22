@@ -129,3 +129,28 @@ The style sheets: 03 (the stock list themed; the program's list at 150% keeps it
 LayoutManager layout, as in pass 3), 04, 06, 07, 11, 12, 14 changed; each opened; 01, 02, 05, 08, 09, 10, 13 identical to pass 3.
 
 This pass finds nothing beyond the recorded limits (UI-13.md section 4).
+
+## Pass 5, fix round 2 (the review's two findings; pictures `g2` (pilot windows), `xg3`/`yg3` (windows outside the pilot and the style
+## sheets, after and before, with Windows' visual styles); the gallery G-UI3-ui13 is redrawn from them with `assemble15.sh`)
+
+The findings, each checked in the redrawn pictures:
+- 1 (the themed date picker's clipped Windows glyph and black value): FormFamilyBalancer: 'Income Transfer Date', 'As of Date', 'Pay Date'
+  show the value in the Text token (no (0,0,0) pixel left in the pickers; the pass 4 picture had 146 in 'Income Transfer Date') and only the
+  combo box's chevron in the button: no pixel of Windows' glyph ((119,107,104), (234,239,247), (219,227,241): 0 in the picture, 96 in pass 4).
+  The chevrons stand in one column with 'Pay Type''s under 'Pay Date'. 'Changed Since Date' (disabled): the box in the disabled grey (240),
+  grey text, the chevron in TextDisabled, the frame in Stroke. 15-datepicker-100 and -150 (new sheet): a value, a check box, disabled; the
+  button covered, the value in Text; at 150% the frame's line and chevron at the 100% size (the control's DeviceDpi in the 96 dpi harness,
+  clip note, UI-13.md section 4). Its before: the stock picker with Windows' calendar glyph. Nothing wrong.
+- 2 (the 150% sheets' scroll bars and the program's list at 100%): 03-listbox-150: the program's list at 1.5 times (rows 25 px apart, the
+  text 1.5 times, its scroll bar 26 px with a 10 px thumb, x=543-568, thumb 551-560), the stock list beside it with the same text size;
+  the stock list's frame bar 17 px (clip note: Windows' metric, which the harness cannot set). 03-listbox-100: both lists 17 px bars,
+  unchanged layout. 02-textbox-scroll-150 and 04-treeview-listview-150: unchanged but for the text smoothing, their frame bars 17 px with
+  the clip note. 01-scrollbars-150: 26 px bars, as before. Nothing wrong beyond the recorded limit.
+
+Every other after picture: the session drew GDI text with ClearType for this round (pass 4: unsmoothed), so every redrawn picture differs
+from pass 4 in its glyphs' smoothing pixels. Opened: the four owner rows (FormProvEdit, ControlAccount looked at whole; ControlChart,
+FormProcCodeEdit as in pass 4), FormPayment-inputs-100 (its stock date pickers drawn without visual styles: the scroll bar width covered
+as before, the values in Text), FormEtransEdit, 02, 04, 15, 03; UserControlManageGeneral and FormBackup compared pixel by pixel with pass 4:
+only smoothing pixels differ. FormProvEdit's 'Term Date' is the program's own date picker (UI-4b), unchanged.
+
+This pass finds nothing beyond the recorded limits (UI-13.md section 4).

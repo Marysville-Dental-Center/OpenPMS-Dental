@@ -1621,6 +1621,10 @@ own 26.2 overlap check before it starts. The first cut is below; a brief that fi
   pattern's cells, letters and slider steps at the window's scale, the ActiveCaption grid title and thin dark divider panels in the look,
   trees without dotted lines; the style sheets and the windows outside the pilot drawn with Windows' visual styles (171 inventory rows: 127
   in the new look).
+- Fix round 2 (2026-11-22, branch `ui/ui13-3`): the themed date picker's whole calendar button under the chevron
+  (DTM_GETDATETIMEPICKERINFO), its value in the Text token and a disabled picker's box in the disabled grey; the style sheet's program list
+  laid out by the window's LayoutManager and painted at the scale's dpi (its rows, text and 26 px scroll bar at 150%), a date picker sheet;
+  the 150% frame scroll bar limit recorded (UI-13.md section 4) with a test that the scroll look scales with the bar Windows reports.
 - Gallery: G-UI3-ui13 (the owner's four rows, a style sheet per element type at 100% and 150%, the 47 UI-12 windows, one window per type
   outside the pilot).
 
