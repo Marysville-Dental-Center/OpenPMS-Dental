@@ -575,6 +575,7 @@ namespace OpenPmsDental {
 			listUserControls.Add(userControlExperimentalPrefs);
 			for(int i=0;i<listUserControls.Count;i++) {
 				listUserControls[i].Dock=DockStyle.Fill;
+				listUserControls[i].AutoScroll=true;//UI-12: a page laid out on the grid may be taller than the page area; it scrolls
 				LayoutManager.AddUnscaled(listUserControls[i],panelMain);
 			}
 			LayoutManager.LayoutControlBoundsAndFonts(panelMain);

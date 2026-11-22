@@ -46,6 +46,7 @@ GRID = {
     "check_box": 13,          # UI.CheckBox's box (12 + the 1 px line)
     "check_text": 3,          # between the box and the text
     "dialog_gap": 8,          # between dialog buttons
+    "scroll_bar": 17,         # a vertical scroll bar at 96 dpi (SystemInformation.VerticalScrollBarWidth)
 }
 
 LABEL_TYPES = ("System.Windows.Forms.Label", "System.Windows.Forms.LinkLabel")
@@ -260,6 +261,10 @@ def runtime_positioned(root, simple, names):
 # Measures of one item
 
 def label_width(n):
+    # A label drawn on two or more lines keeps the width it wraps at (it stays a wrapped label, not one long line that pushes its field
+    # column across the window).
+    if n.text_w and n.text_h and n.h >= 1.6 * n.text_h and n.w > 40 and n.text_w + 4 > n.w:
+        return n.w
     return snap_up(n.text_w + 4) if n.text_w else n.w
 
 
@@ -472,7 +477,7 @@ def make_units(items, row_index):
         it = items[i]
         nxt = items[i + 1] if i + 1 < len(items) else None
         if (it.kind == "label" and nxt is not None and nxt.kind in ("field", "other", "button", "panel") and nxt.x - (it.x + it.w) <= 40
-                and nxt.h <= 3 * GRID["field_height"] and not it.fixed and not nxt.fixed):
+                and (nxt.h <= 3 * GRID["field_height"] or abs(it.y - nxt.y) <= 8) and not it.fixed and not nxt.fixed):
             units.append(Unit([it, nxt], row_index))
             i += 2
             continue
@@ -692,6 +697,29 @@ class Layout:
                 cols[-1].append(u)
             else:
                 cols.append([u])
+        # Label + field columns that never share a row are one column: the fields of a stack start at one x (a row's own field that was
+        # drawn further right joins the others), so a group reads as one form. Columns that share a row (two bands) stay apart.
+        merged = True
+        while merged:
+            merged = False
+            pair_cols = [c for c in cols if all(u.label is not None for u in c)]
+            for i in range(len(pair_cols)):
+                for j in range(i + 1, len(pair_cols)):
+                    a, b = pair_cols[i], pair_cols[j]
+                    if {u.row for u in a} & {u.row for u in b}:
+                        continue
+                    # Only when nothing else of the stack sits between them on any of their rows.
+                    lo = min(min(u.anchor for u in a), min(u.anchor for u in b))
+                    hi = max(max(u.anchor for u in a), max(u.anchor for u in b))
+                    rows_ab = {u.row for u in a} | {u.row for u in b}
+                    if any(lo < v.anchor < hi and v.row in rows_ab for v in others if v not in a and v not in b):
+                        continue
+                    a.extend(b)
+                    cols.remove(b)
+                    merged = True
+                    break
+                if merged:
+                    break
         field_cols = [c for c in cols if any(u.label is not None for u in c)]
         # Check boxes: at the first field column when every one fits there, else at the content's left edge (a check box list).
         if checks:
@@ -745,7 +773,19 @@ class Layout:
         cursor = None
         rmax = 0
         prev_orig_right = None
-        for idx, u in enumerate(sorted(units, key=lambda u: u.anchor)):
+        ordered = sorted(units, key=lambda u: u.anchor)
+        # The width the items that follow a unit on the row need (its button, its note): a field leaves them room before the content's edge.
+        tails = []
+        for idx in range(len(ordered)):
+            tail = 0
+            prev_r = max(sum(ink_x(i)) for i in ordered[idx].items)
+            for v in ordered[idx + 1:]:
+                if v.label is not None or min(ink_x(i)[0] for i in v.items) - prev_r > 40:
+                    break
+                tail += GRID["item_gap"] + sum(min(i.nw, check_width(i)) if i.kind in ("check", "radio") else i.nw for i in v.items)
+                prev_r = max(sum(ink_x(i)) for i in v.items)
+            tails.append(tail)
+        for idx, u in enumerate(ordered):
             x = u.col["x"] if u.col else u.anchor
             orig_left = min(ink_x(i)[0] for i in u.items)
             if cursor is not None and u.label is None and prev_orig_right is not None and orig_left - prev_orig_right <= 40:
@@ -781,6 +821,10 @@ class Layout:
                     m.autosize_off = True
             elif m.kind == "field" and not m.fixed:
                 w = snap(m.nw) if m.nw > 8 else m.nw
+                if x + w + tails[idx] > right and right - tails[idx] - x >= 60:
+                    # A field never runs past its container's content: it ends at the content's right edge, less what follows it on the row
+                    # (the container keeps its width).
+                    w = right - tails[idx] - x
                 self.set_size(m, w, self.item_height(m, True), "single-line field: the standard height, width on the 4 px grid")
             elif m.kind == "button" and field_row and not m.fixed:
                 self.set_size(m, m.nw, self.item_height(m, True), "button in a field row: the field height")
@@ -845,6 +889,7 @@ class Planner:
         self.check_height = GRID["check_height"]
         self.rows = []
         self.unplaced = []
+        self.window_simple = ""
 
     def measure(self, tree):
         # A bordered single-line text box's own height at the program's font (a borderless box, 16 px, is not a field's height).
@@ -856,6 +901,7 @@ class Planner:
             self.check_height = max(GRID["check_height"], collections.Counter(ths).most_common(1)[0][0] + 2)
 
     def plan_window(self, window, tree, designer, simple):
+        self.window_simple = simple
         if tree is None:
             self.unplaced.append((window, "", "no control tree"))
             return
@@ -1007,9 +1053,14 @@ class Planner:
     def content_rect(self, n, is_root):
         pad = GRID["pad"]
         top = pad
+        scroll = 0
+        if is_root and self.window_simple.startswith("UserControl") and n.nh > PREFS_PAGE_HEIGHT:
+            # A preference page taller than FormPreferences' page area scrolls (FormPreferences sets AutoScroll): its vertical scroll bar
+            # takes this much of the width, and the content keeps 8 px from it.
+            scroll = GRID["scroll_bar"]
         if n.kind == "group":
             top = (n.title_bottom + GRID["title_gap"]) if n.title_bottom else pad
-        right = n.nw - pad
+        right = n.nw - pad - scroll
         bottom = n.nh - pad
         left = pad
         # Docked children take their edge.
@@ -1255,6 +1306,7 @@ def walk(n):
 
 
 SIMULATE = False
+PREFS_PAGE_HEIGHT = 660  # FormPreferences' panelMain: the page area the preference pages fill
 MAX_PASSES = 6
 
 
