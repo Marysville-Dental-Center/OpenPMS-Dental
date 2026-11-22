@@ -226,15 +226,17 @@ namespace OpenPmsDental.UI {
 		///<summary>UI-13 fix round: the date picker's value as Windows drew it (pure black, its theme's text colour, which no property of the stock
 		///picker changes) recoloured to the Text token, in the part of the window the frame leaves (left of the drop button, right of the check
 		///box), inside rectangleUpdate (window coordinates). Every channel darker than the box's colour is moved linearly from black to the
-		///token, so antialiased and ClearType pixels keep their shape. Only an enabled, unfocused picker in the light look: a focused picker shows
-		///its selected field in Windows' highlight, a disabled one its grey, and high contrast its own colours. The caller passes pixels Windows
-		///has just drawn, so none is recoloured twice.</summary>
+		///token, so antialiased and ClearType pixels keep their shape. A disabled picker: Windows fills it nearly white, so its box (the lightest
+		///value of each channel) is moved to the disabled inputs' grey (SystemColors.Control, the frame's fill) with its grey text kept, the
+		///check box included. Not a focused picker (it shows its selected field in Windows' highlight) and not in high contrast (its own
+		///colours). The caller passes pixels Windows has just drawn, so none is recoloured twice.</summary>
 		public static void RecolorDateText(IntPtr hdc,Control control,Rectangle rectangleUpdate) {
-			if(!(control is DateTimePicker dateTimePicker) || !control.Enabled || control.ContainsFocus || SystemInformation.HighContrast) {
+			if(!(control is DateTimePicker dateTimePicker) || control.ContainsFocus || SystemInformation.HighContrast) {
 				return;
 			}
+			bool isEnabled=control.Enabled;
 			Rectangle rectangleText=GetInnerRectangle(new Rectangle(0,0,control.Width,control.Height),control);
-			if(dateTimePicker.ShowCheckBox && control.IsHandleCreated) {
+			if(isEnabled && dateTimePicker.ShowCheckBox && control.IsHandleCreated) {
 				DATETIMEPICKERINFO dateTimePickerInfo=new DATETIMEPICKERINFO();
 				dateTimePickerInfo.cbSize=Marshal.SizeOf(typeof(DATETIMEPICKERINFO));
 				SendMessage(control.Handle,DTM_GETDATETIMEPICKERINFO,IntPtr.Zero,ref dateTimePickerInfo);
@@ -278,10 +280,29 @@ namespace OpenPmsDental.UI {
 				byte[] arrayBytes=new byte[count];
 				Marshal.Copy(pBits,arrayBytes,0,count);
 				//Blue, green, red and an unused byte in each pixel.
-				for(int i=0;i<count;i+=4) {
-					arrayBytes[i]=RecolorChannel(arrayBytes[i],colorBack.B,colorText.B);
-					arrayBytes[i+1]=RecolorChannel(arrayBytes[i+1],colorBack.G,colorText.G);
-					arrayBytes[i+2]=RecolorChannel(arrayBytes[i+2],colorBack.R,colorText.R);
+				if(isEnabled) {
+					for(int i=0;i<count;i+=4) {
+						arrayBytes[i]=RecolorChannel(arrayBytes[i],colorBack.B,colorText.B);
+						arrayBytes[i+1]=RecolorChannel(arrayBytes[i+1],colorBack.G,colorText.G);
+						arrayBytes[i+2]=RecolorChannel(arrayBytes[i+2],colorBack.R,colorText.R);
+					}
+				}
+				else {
+					byte[] arrayLightest=new byte[3];
+					for(int i=0;i<count;i+=4) {
+						for(int c=0;c<3;c++) {
+							arrayLightest[c]=Math.Max(arrayLightest[c],arrayBytes[i+c]);
+						}
+					}
+					Color colorInk=SystemColors.GrayText;
+					Color colorDisabled=SystemColors.Control;
+					byte[] arrayInk=new byte[] { colorInk.B,colorInk.G,colorInk.R };
+					byte[] arrayDisabled=new byte[] { colorDisabled.B,colorDisabled.G,colorDisabled.R };
+					for(int i=0;i<count;i+=4) {
+						for(int c=0;c<3;c++) {
+							arrayBytes[i+c]=RecolorDisabledChannel(arrayBytes[i+c],arrayInk[c],arrayLightest[c],arrayDisabled[c]);
+						}
+					}
 				}
 				Marshal.Copy(arrayBytes,0,pBits,count);
 				BitBlt(hdc,rectangleText.X,rectangleText.Y,width,height,hdcMemory,0,0,SRCCOPY);
@@ -296,6 +317,15 @@ namespace OpenPmsDental.UI {
 				}
 				DeleteDC(hdcMemory);
 			}
+		}
+
+		///<summary>One channel of a disabled picker's pixel: the ink stays, the box's colour (valueBack) becomes valueTarget, the blends in
+		///between in proportion. A channel at or below the ink is left.</summary>
+		public static byte RecolorDisabledChannel(byte value,byte valueInk,byte valueBack,byte valueTarget) {
+			if(value<=valueInk || valueBack<=valueInk) {
+				return value;
+			}
+			return (byte)Math.Round(valueInk+(value-valueInk)*(double)(valueTarget-valueInk)/(valueBack-valueInk));
 		}
 
 		///<summary>One channel of a pixel of black ink on the box's colour, moved to the token's ink: black becomes the token, the box's colour

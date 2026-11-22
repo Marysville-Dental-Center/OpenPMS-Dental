@@ -516,6 +516,10 @@ namespace UiRefreshTests {
 			Assert.AreEqual(UiTheme.GetColor(EnumUiColor.Text).R,UiInputFrame.RecolorChannel(0,255,UiTheme.GetColor(EnumUiColor.Text).R));
 			Assert.AreEqual(255,UiInputFrame.RecolorChannel(255,255,31));
 			Assert.AreEqual(143,UiInputFrame.RecolorChannel(128,255,31));
+			//Disabled: Windows' nearly white box becomes the disabled inputs' grey, its grey text stays.
+			Assert.AreEqual(240,UiInputFrame.RecolorDisabledChannel(254,109,254,240));
+			Assert.AreEqual(109,UiInputFrame.RecolorDisabledChannel(109,109,254,240));
+			Assert.AreEqual(80,UiInputFrame.RecolorDisabledChannel(80,109,254,240));
 			StaRunnerHelpers.RunSta(() => {
 				using VisualStylesScope visualStylesScope=new VisualStylesScope();
 				Assert.IsTrue(visualStylesScope.IsActive,"Windows' visual styles could not be activated for the themed date picker.");
@@ -571,6 +575,28 @@ namespace UiRefreshTests {
 						}
 						Assert.IsTrue(darkest<120,"No value drawn in the date picker (darkest channel "+darkest+").");
 						Assert.IsTrue(darkest>=UiTheme.GetColor(EnumUiColor.Text).R-1,"The value is darker than the Text token: darkest channel "+darkest+".");
+					}
+					//Disabled: the box Windows leaves inside the frame is the frame's disabled grey, not Windows' near white.
+					dateTimePicker.Enabled=false;
+					using(Bitmap bitmap=new Bitmap(dateTimePicker.Width,dateTimePicker.Height,PixelFormat.Format24bppRgb)) {
+						using(Graphics g=Graphics.FromImage(bitmap)) {
+							g.Clear(Color.Magenta);
+							IntPtr hdc=g.GetHdc();
+							try {
+								SendMessage(handle,0x0317,hdc,(IntPtr)(0x2|0x4|0x8));
+							}
+							finally {
+								g.ReleaseHdc(hdc);
+							}
+						}
+						int lightest=0;
+						for(int y=rectangleInner.Top;y<rectangleInner.Bottom;y++) {
+							for(int x=rectangleInner.Left;x<rectangleInner.Right;x++) {
+								Color color=bitmap.GetPixel(x,y);
+								lightest=Math.Max(lightest,Math.Max(color.R,Math.Max(color.G,color.B)));
+							}
+						}
+						Assert.IsTrue(Math.Abs(lightest-SystemColors.Control.R)<=1,"A disabled picker's box is "+lightest+", not the disabled grey.");
 					}
 				}
 			});

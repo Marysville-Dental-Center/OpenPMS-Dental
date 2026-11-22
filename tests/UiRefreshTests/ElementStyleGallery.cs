@@ -232,7 +232,8 @@ namespace UiRefreshTests {
 					MethodInfo methodInfo=typeof(Control).GetMethod("OnPaint",BindingFlags.Instance|BindingFlags.NonPublic);
 					methodInfo.Invoke(control,new object[] { new PaintEventArgs(g,new Rectangle(Point.Empty,control.ClientSize)) });
 					foreach(Control child in control.Controls) {
-						if(child.Visible) {
+						//The window is never shown, so Visible is false: the harness's test of a shown child, as DrawTree draws children.
+						if(TextFitBoundsRecord.IsDesignedVisible(child)) {
 							DesignSheetWindows.DrawTree(g,child,child.Location);
 						}
 					}
@@ -344,18 +345,12 @@ namespace UiRefreshTests {
 				return new Control[] { dataGridView };
 			});
 			add("13-linklabel",s => new Control[] { new LinkLabel { Text="View provider and clinic specific fees",AutoSize=true } });
-			//Fix round 2: the date picker as the program shows it (Windows' themed picker, its calendar button wider than a scroll bar), beside a
-			//stock combo box for the chevron's place: a value, a check box, disabled.
-			add("15-datepicker",s => {
-				System.Windows.Forms.ComboBox comboBox=new System.Windows.Forms.ComboBox { DropDownStyle=ComboBoxStyle.DropDownList,Width=S(132,s) };
-				comboBox.Items.Add("Stock combo box");
-				comboBox.SelectedIndex=0;
-				return new Control[] {
-					new DateTimePicker { Format=DateTimePickerFormat.Short,Width=S(132,s),Value=new DateTime(2026,11,22) },
-					new DateTimePicker { Format=DateTimePickerFormat.Short,Width=S(132,s),Value=new DateTime(2026,11,22),ShowCheckBox=true },
-					new DateTimePicker { Format=DateTimePickerFormat.Short,Width=S(132,s),Value=new DateTime(2026,11,22),Enabled=false },
-					comboBox,
-				};
+			//Fix round 2: the date picker as the program shows it (Windows' themed picker, its calendar button wider than a scroll bar): a value, a
+			//check box, disabled.
+			add("15-datepicker",s => new Control[] {
+				new DateTimePicker { Format=DateTimePickerFormat.Short,Width=S(132,s),Value=new DateTime(2026,11,22) },
+				new DateTimePicker { Format=DateTimePickerFormat.Short,Width=S(132,s),Value=new DateTime(2026,11,22),ShowCheckBox=true },
+				new DateTimePicker { Format=DateTimePickerFormat.Short,Width=S(132,s),Value=new DateTime(2026,11,22),Enabled=false },
 			});
 			return list;
 		}
