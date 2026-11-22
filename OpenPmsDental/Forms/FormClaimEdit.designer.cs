@@ -3222,9 +3222,9 @@
 			this.groupEnterPayment.Controls.Add(this.butPaySupp);
 			this.groupEnterPayment.Controls.Add(this.butPayTotal);
 			this.groupEnterPayment.Controls.Add(this.butPayProc);
-			this.groupEnterPayment.Location = new System.Drawing.Point(883, 8);
+			this.groupEnterPayment.Location = new System.Drawing.Point(892, 8);
 			this.groupEnterPayment.Name = "groupEnterPayment";
-			this.groupEnterPayment.Size = new System.Drawing.Size(120, 108);
+			this.groupEnterPayment.Size = new System.Drawing.Size(130, 108);
 			this.groupEnterPayment.TabIndex = 132;
 			this.groupEnterPayment.Text = "Enter Payment";
 			// 
@@ -3232,7 +3232,7 @@
 			// 
 			this.butPaySupp.Location = new System.Drawing.Point(8, 77);
 			this.butPaySupp.Name = "butPaySupp";
-			this.butPaySupp.Size = new System.Drawing.Size(104, 23);
+			this.butPaySupp.Size = new System.Drawing.Size(114, 23);
 			this.butPaySupp.TabIndex = 102;
 			this.butPaySupp.Text = "S&upplemental";
 			this.butPaySupp.Click += new System.EventHandler(this.butPaySupp_Click);
@@ -3241,7 +3241,7 @@
 			// 
 			this.butPayTotal.Location = new System.Drawing.Point(8, 23);
 			this.butPayTotal.Name = "butPayTotal";
-			this.butPayTotal.Size = new System.Drawing.Size(104, 23);
+			this.butPayTotal.Size = new System.Drawing.Size(114, 23);
 			this.butPayTotal.TabIndex = 100;
 			this.butPayTotal.Text = "As &Total";
 			this.butPayTotal.Click += new System.EventHandler(this.butPayTotal_Click);
@@ -3250,7 +3250,7 @@
 			// 
 			this.butPayProc.Location = new System.Drawing.Point(8, 50);
 			this.butPayProc.Name = "butPayProc";
-			this.butPayProc.Size = new System.Drawing.Size(104, 23);
+			this.butPayProc.Size = new System.Drawing.Size(114, 23);
 			this.butPayProc.TabIndex = 101;
 			this.butPayProc.Text = "&By Procedure";
 			this.butPayProc.Click += new System.EventHandler(this.butPayProc_Click);
@@ -3294,9 +3294,9 @@
 			// 
 			// butSplit
 			// 
-			this.butSplit.Location = new System.Drawing.Point(891, 124);
+			this.butSplit.Location = new System.Drawing.Point(900, 124);
 			this.butSplit.Name = "butSplit";
-			this.butSplit.Size = new System.Drawing.Size(104, 23);
+			this.butSplit.Size = new System.Drawing.Size(114, 23);
 			this.butSplit.TabIndex = 127;
 			this.butSplit.Text = "Split Claim";
 			this.butSplit.Click += new System.EventHandler(this.butSplit_Click);
@@ -3479,13 +3479,13 @@
 			this.groupBox3.Controls.Add(this.textPlan2);
 			this.groupBox3.Location = new System.Drawing.Point(595, 97);
 			this.groupBox3.Name = "groupBox3";
-			this.groupBox3.Size = new System.Drawing.Size(280, 81);
+			this.groupBox3.Size = new System.Drawing.Size(289, 81);
 			this.groupBox3.TabIndex = 111;
 			this.groupBox3.Text = "Other Coverage";
 			// 
 			// butOtherNone
 			// 
-			this.butOtherNone.Location = new System.Drawing.Point(207, 23);
+			this.butOtherNone.Location = new System.Drawing.Point(216, 23);
 			this.butOtherNone.Name = "butOtherNone";
 			this.butOtherNone.Size = new System.Drawing.Size(65, 23);
 			this.butOtherNone.TabIndex = 5;
@@ -3494,7 +3494,7 @@
 			// 
 			// butOtherCovChange
 			// 
-			this.butOtherCovChange.Location = new System.Drawing.Point(136, 23);
+			this.butOtherCovChange.Location = new System.Drawing.Point(145, 23);
 			this.butOtherCovChange.Name = "butOtherCovChange";
 			this.butOtherCovChange.Size = new System.Drawing.Size(65, 23);
 			this.butOtherCovChange.TabIndex = 4;
@@ -3505,7 +3505,7 @@
 			// 
 			this.comboPatRelat2.Location = new System.Drawing.Point(90, 50);
 			this.comboPatRelat2.Name = "comboPatRelat2";
-			this.comboPatRelat2.Size = new System.Drawing.Size(182, 23);
+			this.comboPatRelat2.Size = new System.Drawing.Size(191, 23);
 			this.comboPatRelat2.TabIndex = 3;
 			// 
 			// label10
@@ -3522,7 +3522,7 @@
 			this.textPlan2.Location = new System.Drawing.Point(8, 23);
 			this.textPlan2.Name = "textPlan2";
 			this.textPlan2.ReadOnly = true;
-			this.textPlan2.Size = new System.Drawing.Size(122, 23);
+			this.textPlan2.Size = new System.Drawing.Size(131, 23);
 			this.textPlan2.TabIndex = 1;
 			// 
 			// groupBox2
@@ -3532,7 +3532,7 @@
 			this.groupBox2.Controls.Add(this.textPlan);
 			this.groupBox2.Location = new System.Drawing.Point(595, 8);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(280, 81);
+			this.groupBox2.Size = new System.Drawing.Size(289, 81);
 			this.groupBox2.TabIndex = 110;
 			this.groupBox2.Text = "Insurance Plan";
 			// 
@@ -3540,7 +3540,7 @@
 			// 
 			this.comboPatRelat.Location = new System.Drawing.Point(90, 50);
 			this.comboPatRelat.Name = "comboPatRelat";
-			this.comboPatRelat.Size = new System.Drawing.Size(182, 23);
+			this.comboPatRelat.Size = new System.Drawing.Size(191, 23);
 			this.comboPatRelat.TabIndex = 3;
 			// 
 			// label5
@@ -3557,7 +3557,7 @@
 			this.textPlan.Location = new System.Drawing.Point(8, 23);
 			this.textPlan.Name = "textPlan";
 			this.textPlan.ReadOnly = true;
-			this.textPlan.Size = new System.Drawing.Size(264, 23);
+			this.textPlan.Size = new System.Drawing.Size(273, 23);
 			this.textPlan.TabIndex = 1;
 			// 
 			// label9
@@ -3685,9 +3685,9 @@
 			// 
 			this.groupBoxPendingPayment.Controls.Add(this.butInsuranceOverpaid);
 			this.groupBoxPendingPayment.Controls.Add(this.butInsuranceUnderpaid);
-			this.groupBoxPendingPayment.Location = new System.Drawing.Point(1011, 8);
+			this.groupBoxPendingPayment.Location = new System.Drawing.Point(1030, 8);
 			this.groupBoxPendingPayment.Name = "groupBoxPendingPayment";
-			this.groupBoxPendingPayment.Size = new System.Drawing.Size(120, 108);
+			this.groupBoxPendingPayment.Size = new System.Drawing.Size(130, 108);
 			this.groupBoxPendingPayment.TabIndex = 133;
 			this.groupBoxPendingPayment.Text = "Pending Payment";
 			// 
@@ -3695,7 +3695,7 @@
 			// 
 			this.butInsuranceOverpaid.Location = new System.Drawing.Point(8, 23);
 			this.butInsuranceOverpaid.Name = "butInsuranceOverpaid";
-			this.butInsuranceOverpaid.Size = new System.Drawing.Size(104, 23);
+			this.butInsuranceOverpaid.Size = new System.Drawing.Size(114, 23);
 			this.butInsuranceOverpaid.TabIndex = 100;
 			this.butInsuranceOverpaid.Text = "&Ins Overpaid";
 			this.butInsuranceOverpaid.Click += new System.EventHandler(this.butInsuranceOverpaid_Click);
@@ -3704,7 +3704,7 @@
 			// 
 			this.butInsuranceUnderpaid.Location = new System.Drawing.Point(8, 50);
 			this.butInsuranceUnderpaid.Name = "butInsuranceUnderpaid";
-			this.butInsuranceUnderpaid.Size = new System.Drawing.Size(104, 23);
+			this.butInsuranceUnderpaid.Size = new System.Drawing.Size(114, 23);
 			this.butInsuranceUnderpaid.TabIndex = 101;
 			this.butInsuranceUnderpaid.Text = "&Ins Underpaid";
 			this.butInsuranceUnderpaid.Click += new System.EventHandler(this.butInsuranceUnderpaid_Click);

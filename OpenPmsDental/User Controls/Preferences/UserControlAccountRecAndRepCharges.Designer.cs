@@ -185,7 +185,7 @@ namespace OpenPmsDental {
 			// butRecurringChargesFailEmailTemplate
 			// 
 			this.butRecurringChargesFailEmailTemplate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butRecurringChargesFailEmailTemplate.Location = new System.Drawing.Point(340, 245);
+			this.butRecurringChargesFailEmailTemplate.Location = new System.Drawing.Point(370, 245);
 			this.butRecurringChargesFailEmailTemplate.Name = "butRecurringChargesFailEmailTemplate";
 			this.butRecurringChargesFailEmailTemplate.Size = new System.Drawing.Size(100, 24);
 			this.butRecurringChargesFailEmailTemplate.TabIndex = 256;

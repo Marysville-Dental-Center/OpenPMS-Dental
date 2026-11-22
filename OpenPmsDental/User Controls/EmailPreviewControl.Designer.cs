@@ -65,9 +65,9 @@
 			// 
 			// labelSignedBy
 			// 
-			this.labelSignedBy.Location = new System.Drawing.Point(0, 139);
+			this.labelSignedBy.Location = new System.Drawing.Point(0, 136);
 			this.labelSignedBy.Name = "labelSignedBy";
-			this.labelSignedBy.Size = new System.Drawing.Size(88, 18);
+			this.labelSignedBy.Size = new System.Drawing.Size(83, 18);
 			this.labelSignedBy.TabIndex = 0;
 			this.labelSignedBy.Text = "Signed By:";
 			this.labelSignedBy.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -89,34 +89,34 @@
 			// 
 			this.labelSent.Location = new System.Drawing.Point(0, 34);
 			this.labelSent.Name = "labelSent";
-			this.labelSent.Size = new System.Drawing.Size(88, 18);
+			this.labelSent.Size = new System.Drawing.Size(83, 18);
 			this.labelSent.TabIndex = 0;
 			this.labelSent.Text = "Date / Time:";
 			this.labelSent.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(0, 55);
+			this.label3.Location = new System.Drawing.Point(0, 52);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(88, 18);
+			this.label3.Size = new System.Drawing.Size(83, 18);
 			this.label3.TabIndex = 0;
 			this.label3.Text = "From:";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(0, 76);
+			this.label1.Location = new System.Drawing.Point(0, 73);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(88, 18);
+			this.label1.Size = new System.Drawing.Size(83, 18);
 			this.label1.TabIndex = 0;
 			this.label1.Text = "To:";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(0, 158);
+			this.label2.Location = new System.Drawing.Point(0, 157);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(88, 18);
+			this.label2.Size = new System.Drawing.Size(83, 18);
 			this.label2.TabIndex = 0;
 			this.label2.Text = "Subject:";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -158,36 +158,36 @@
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(0, 17);
+			this.label5.Location = new System.Drawing.Point(0, 16);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(88, 17);
+			this.label5.Size = new System.Drawing.Size(83, 17);
 			this.label5.TabIndex = 0;
 			this.label5.Text = "Sent/Received:";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(0, 97);
+			this.label4.Location = new System.Drawing.Point(0, 94);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(88, 18);
+			this.label4.Size = new System.Drawing.Size(83, 18);
 			this.label4.TabIndex = 8;
 			this.label4.Text = "CC:";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(0, 117);
+			this.label6.Location = new System.Drawing.Point(0, 115);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(88, 18);
+			this.label6.Size = new System.Drawing.Size(83, 18);
 			this.label6.TabIndex = 0;
 			this.label6.Text = "BCC:";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// lableUserName
 			// 
-			this.lableUserName.Location = new System.Drawing.Point(0, 0);
+			this.lableUserName.Location = new System.Drawing.Point(0, 1);
 			this.lableUserName.Name = "lableUserName";
-			this.lableUserName.Size = new System.Drawing.Size(88, 17);
+			this.lableUserName.Size = new System.Drawing.Size(83, 17);
 			this.lableUserName.TabIndex = 11;
 			this.lableUserName.Text = "Username:";
 			this.lableUserName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -458,7 +458,7 @@
 			this.butAddImage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butAddImage.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAddImage.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAddImage.Location = new System.Drawing.Point(654, 25);
+			this.butAddImage.Location = new System.Drawing.Point(553, 1);
 			this.butAddImage.Name = "butAddImage";
 			this.butAddImage.Size = new System.Drawing.Size(93, 24);
 			this.butAddImage.TabIndex = 16;

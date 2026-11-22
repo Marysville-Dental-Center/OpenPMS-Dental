@@ -1431,7 +1431,7 @@ namespace OpenPmsDental{
 			// 
 			// checkSuperBilling
 			// 
-			this.checkSuperBilling.Location = new System.Drawing.Point(202, 48);
+			this.checkSuperBilling.Location = new System.Drawing.Point(210, 48);
 			this.checkSuperBilling.Name = "checkSuperBilling";
 			this.checkSuperBilling.Size = new System.Drawing.Size(193, 20);
 			this.checkSuperBilling.TabIndex = 0;
@@ -1489,7 +1489,7 @@ namespace OpenPmsDental{
 			this.textCreditType.Location = new System.Drawing.Point(180, 47);
 			this.textCreditType.MaxLength = 1;
 			this.textCreditType.Name = "textCreditType";
-			this.textCreditType.Size = new System.Drawing.Size(16, 23);
+			this.textCreditType.Size = new System.Drawing.Size(24, 23);
 			this.textCreditType.TabIndex = 1;
 			this.textCreditType.Leave += new System.EventHandler(this.textBox_Leave);
 			// 

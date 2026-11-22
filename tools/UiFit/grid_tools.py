@@ -37,6 +37,7 @@ GRID = {
     "item_gap": 6,            # between items of one row (a field and its button or its unit label)
     "band_gap": 16,           # between two label + field bands of one row
     "edge_snap": 16,          # right edges of one column within this share one edge
+    "edge_grow": 32,          # polish round: a wide field this much short of its column's right edge grows to it (never shrinks this far)
     "column_snap": 16,        # left edges (anchors) within this are one column
     "field_column_snap": 40,  # ... and for the fields of label + field rows (a label column right-aligned to them)
     "span_snap": 32,          # a container within this of its parent's content edges spans the content
@@ -994,7 +995,10 @@ class Layout:
             targets = {max(edges, key=lambda e: (edges[e], e)), max(edges)}
             for f in lasts:
                 fe = f.nx + f.nw
-                near = [e for e in targets if abs(e - fe) <= GRID["edge_snap"]]
+                # Polish round: a wide field (wide_field or wider: FormScreenEdit's Grade Level, FormProvEdit's Taxonomy Code Override) up to
+                # edge_grow short of the column's edge grows to it; short fields (numbers, codes) keep their width.
+                grow = GRID["edge_grow"] if f.nw >= GRID["wide_field"] else GRID["edge_snap"]
+                near = [e for e in targets if abs(e - fe) <= GRID["edge_snap"] or 0 < e - fe <= grow]
                 if not near:
                     continue
                 edge = max(near, key=lambda e: (edges[e], e))

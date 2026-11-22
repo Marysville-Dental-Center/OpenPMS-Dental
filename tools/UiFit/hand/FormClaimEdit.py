@@ -37,7 +37,11 @@ def layout(h):
     right2 = F2 + 150 + 6 + H
     # ---- Band 3: the insurance plan and the other coverage --------------------------------------------------------------------------
     x3 = right2 + 16
-    w3 = 280
+    # Polish round: the three columns of the top right (the plan groups, Enter Payment, Pending Payment) end on the procedures grid's right
+    # edge, the room past their old widths (280, 120, 120) shared evenly between them.
+    extra = right - (x3 + 280 + 8 + 2 * 120 + 8)
+    e_pay = (extra + 2) // 3
+    w3 = 280 + extra - 2 * e_pay
     g2 = h.box("groupBox2", x3, 8, w3)
     g2.row(("textPlan", 8, "R"))
     fr = 8 + max(h.lw("label5"), h.lw("label10")) + 6
@@ -51,7 +55,7 @@ def layout(h):
     bottom3 = g3.node.ny + g3.node.nh
     # ---- Band 4: entering payments (Split Claim under them) ------------------------------------------------------------------------------
     x4 = x3 + w3 + 8
-    wbtn = 104
+    wbtn = 104 + e_pay
     ge = h.box("groupEnterPayment", x4, 8, wbtn + 16)
     for name in ("butPayTotal", "butPayProc", "butPaySupp"):
         ge.row((name, 8, wbtn))

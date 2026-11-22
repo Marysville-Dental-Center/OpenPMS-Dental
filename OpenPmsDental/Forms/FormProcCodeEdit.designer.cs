@@ -203,7 +203,7 @@ namespace OpenPmsDental {
 			this.textDescription.Location = new System.Drawing.Point(209, 116);
 			this.textDescription.MaxLength = 255;
 			this.textDescription.Name = "textDescription";
-			this.textDescription.Size = new System.Drawing.Size(288, 23);
+			this.textDescription.Size = new System.Drawing.Size(314, 23);
 			this.textDescription.TabIndex = 5;
 			// 
 			// listTreatArea
@@ -219,7 +219,7 @@ namespace OpenPmsDental {
         "Tooth Range"};
 			this.listTreatArea.Location = new System.Drawing.Point(700, 25);
 			this.listTreatArea.Name = "listTreatArea";
-			this.listTreatArea.Size = new System.Drawing.Size(118, 118);
+			this.listTreatArea.Size = new System.Drawing.Size(118, 138);
 			this.listTreatArea.TabIndex = 24;
 			this.listTreatArea.SelectedIndexChanged += new System.EventHandler(this.listTreatArea_SelectedIndexChanged);
 			// 
@@ -243,7 +243,7 @@ namespace OpenPmsDental {
 			// label9
 			// 
 			this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.label9.Location = new System.Drawing.Point(985, 497);
+			this.label9.Location = new System.Drawing.Point(985, 491);
 			this.label9.Name = "label9";
 			this.label9.Size = new System.Drawing.Size(121, 32);
 			this.label9.TabIndex = 0;
@@ -535,7 +535,7 @@ namespace OpenPmsDental {
 			// label4
 			// 
 			this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.label4.Location = new System.Drawing.Point(983, 384);
+			this.label4.Location = new System.Drawing.Point(983, 383);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(125, 32);
 			this.label4.TabIndex = 0;
@@ -545,9 +545,9 @@ namespace OpenPmsDental {
 			// label23
 			// 
 			this.label23.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.label23.Location = new System.Drawing.Point(984, 448);
+			this.label23.Location = new System.Drawing.Point(984, 445);
 			this.label23.Name = "label23";
-			this.label23.Size = new System.Drawing.Size(122, 17);
+			this.label23.Size = new System.Drawing.Size(122, 16);
 			this.label23.TabIndex = 0;
 			this.label23.Text = "View all fee changes";
 			this.label23.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -594,7 +594,7 @@ namespace OpenPmsDental {
 			// butMore
 			// 
 			this.butMore.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butMore.Location = new System.Drawing.Point(1008, 418);
+			this.butMore.Location = new System.Drawing.Point(1008, 417);
 			this.butMore.Name = "butMore";
 			this.butMore.Size = new System.Drawing.Size(75, 26);
 			this.butMore.TabIndex = 25;
@@ -606,7 +606,7 @@ namespace OpenPmsDental {
 			this.butAddNote.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butAddNote.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAddNote.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAddNote.Location = new System.Drawing.Point(693, 112);
+			this.butAddNote.Location = new System.Drawing.Point(970, 112);
 			this.butAddNote.Name = "butAddNote";
 			this.butAddNote.Size = new System.Drawing.Size(88, 26);
 			this.butAddNote.TabIndex = 20;
@@ -637,7 +637,7 @@ namespace OpenPmsDental {
 			// butAuditTrail
 			// 
 			this.butAuditTrail.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butAuditTrail.Location = new System.Drawing.Point(1008, 467);
+			this.butAuditTrail.Location = new System.Drawing.Point(1008, 463);
 			this.butAuditTrail.Name = "butAuditTrail";
 			this.butAuditTrail.Size = new System.Drawing.Size(75, 26);
 			this.butAuditTrail.TabIndex = 26;
@@ -659,7 +659,7 @@ namespace OpenPmsDental {
 			this.butAutoNote.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butAutoNote.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAutoNote.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAutoNote.Location = new System.Drawing.Point(693, 27);
+			this.butAutoNote.Location = new System.Drawing.Point(970, 27);
 			this.butAutoNote.Name = "butAutoNote";
 			this.butAutoNote.Size = new System.Drawing.Size(88, 26);
 			this.butAutoNote.TabIndex = 37;
@@ -681,7 +681,7 @@ namespace OpenPmsDental {
 			this.butAutoTpNote.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butAutoTpNote.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAutoTpNote.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAutoTpNote.Location = new System.Drawing.Point(693, 27);
+			this.butAutoTpNote.Location = new System.Drawing.Point(970, 27);
 			this.butAutoTpNote.Name = "butAutoTpNote";
 			this.butAutoTpNote.Size = new System.Drawing.Size(88, 26);
 			this.butAutoTpNote.TabIndex = 40;
@@ -693,7 +693,7 @@ namespace OpenPmsDental {
 			this.butAddTpNote.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butAddTpNote.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAddTpNote.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAddTpNote.Location = new System.Drawing.Point(693, 112);
+			this.butAddTpNote.Location = new System.Drawing.Point(970, 112);
 			this.butAddTpNote.Name = "butAddTpNote";
 			this.butAddTpNote.Size = new System.Drawing.Size(88, 26);
 			this.butAddTpNote.TabIndex = 42;
@@ -708,7 +708,7 @@ namespace OpenPmsDental {
 			this.tabControl1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
 			this.tabControl1.Location = new System.Drawing.Point(75, 531);
 			this.tabControl1.Name = "tabControl1";
-			this.tabControl1.Size = new System.Drawing.Size(793, 285);
+			this.tabControl1.Size = new System.Drawing.Size(1070, 285);
 			this.tabControl1.TabIndex = 43;
 			// 
 			// tabPage1
@@ -721,7 +721,7 @@ namespace OpenPmsDental {
 			this.tabPage1.Location = new System.Drawing.Point(2, 21);
 			this.tabPage1.Name = "tabPage1";
 			this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage1.Size = new System.Drawing.Size(789, 259);
+			this.tabPage1.Size = new System.Drawing.Size(1066, 259);
 			this.tabPage1.TabIndex = 0;
 			this.tabPage1.Text = "Completed Note";
 			// 
@@ -737,7 +737,7 @@ namespace OpenPmsDental {
 			this.textNote.Name = "textNote";
 			this.textNote.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Procedure;
 			this.textNote.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textNote.Size = new System.Drawing.Size(679, 81);
+			this.textNote.Size = new System.Drawing.Size(956, 81);
 			this.textNote.TabIndex = 21;
 			this.textNote.Text = "";
 			// 
@@ -748,7 +748,7 @@ namespace OpenPmsDental {
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridNotes.Location = new System.Drawing.Point(8, 112);
 			this.gridNotes.Name = "gridNotes";
-			this.gridNotes.Size = new System.Drawing.Size(679, 139);
+			this.gridNotes.Size = new System.Drawing.Size(956, 139);
 			this.gridNotes.TabIndex = 0;
 			this.gridNotes.TabStop = false;
 			this.gridNotes.Title = "Notes and Times for Specific Providers";
@@ -765,7 +765,7 @@ namespace OpenPmsDental {
 			this.tabPage2.Location = new System.Drawing.Point(2, 21);
 			this.tabPage2.Name = "tabPage2";
 			this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage2.Size = new System.Drawing.Size(789, 259);
+			this.tabPage2.Size = new System.Drawing.Size(1066, 259);
 			this.tabPage2.TabIndex = 1;
 			this.tabPage2.Text = "TP\'d Note";
 			// 
@@ -776,7 +776,7 @@ namespace OpenPmsDental {
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridTpNotes.Location = new System.Drawing.Point(8, 112);
 			this.gridTpNotes.Name = "gridTpNotes";
-			this.gridTpNotes.Size = new System.Drawing.Size(679, 139);
+			this.gridTpNotes.Size = new System.Drawing.Size(956, 139);
 			this.gridTpNotes.TabIndex = 41;
 			this.gridTpNotes.TabStop = false;
 			this.gridTpNotes.Title = "Notes and Times for Specific Providers";
@@ -795,7 +795,7 @@ namespace OpenPmsDental {
 			this.textTpNote.Name = "textTpNote";
 			this.textTpNote.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Procedure;
 			this.textTpNote.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textTpNote.Size = new System.Drawing.Size(679, 81);
+			this.textTpNote.Size = new System.Drawing.Size(956, 81);
 			this.textTpNote.TabIndex = 38;
 			this.textTpNote.Text = "";
 			// 
@@ -807,7 +807,7 @@ namespace OpenPmsDental {
 			this.tabPage3.Location = new System.Drawing.Point(2, 21);
 			this.tabPage3.Name = "tabPage3";
 			this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage3.Size = new System.Drawing.Size(785, 252);
+			this.tabPage3.Size = new System.Drawing.Size(1066, 259);
 			this.tabPage3.TabIndex = 2;
 			this.tabPage3.Text = "Default Claim Note";
 			// 
@@ -844,7 +844,7 @@ namespace OpenPmsDental {
 			this.textDefaultClaimNote.Name = "textDefaultClaimNote";
 			this.textDefaultClaimNote.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Claim;
 			this.textDefaultClaimNote.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textDefaultClaimNote.Size = new System.Drawing.Size(762, 214);
+			this.textDefaultClaimNote.Size = new System.Drawing.Size(1050, 222);
 			this.textDefaultClaimNote.TabIndex = 35;
 			this.textDefaultClaimNote.Text = "";
 			// 
@@ -895,7 +895,7 @@ namespace OpenPmsDental {
 			// 
 			// checkToothRange
 			// 
-			this.checkToothRange.Location = new System.Drawing.Point(700, 147);
+			this.checkToothRange.Location = new System.Drawing.Point(700, 167);
 			this.checkToothRange.Name = "checkToothRange";
 			this.checkToothRange.Size = new System.Drawing.Size(106, 20);
 			this.checkToothRange.TabIndex = 49;

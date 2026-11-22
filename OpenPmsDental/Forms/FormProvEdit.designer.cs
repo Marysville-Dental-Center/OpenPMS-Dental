@@ -596,7 +596,7 @@ namespace OpenPmsDental {
 			// 
 			this.label21.Location = new System.Drawing.Point(407, 302);
 			this.label21.Name = "label21";
-			this.label21.Size = new System.Drawing.Size(107, 17);
+			this.label21.Size = new System.Drawing.Size(165, 17);
 			this.label21.TabIndex = 324;
 			this.label21.Text = "Custom ID";
 			this.label21.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -606,7 +606,7 @@ namespace OpenPmsDental {
 			this.textCustomID.Location = new System.Drawing.Point(407, 323);
 			this.textCustomID.MaxLength = 255;
 			this.textCustomID.Name = "textCustomID";
-			this.textCustomID.Size = new System.Drawing.Size(108, 20);
+			this.textCustomID.Size = new System.Drawing.Size(165, 23);
 			this.textCustomID.TabIndex = 301;
 			// 
 			// label20
@@ -715,17 +715,17 @@ namespace OpenPmsDental {
 			// 
 			// textTaxonomyOverride
 			// 
-			this.textTaxonomyOverride.Location = new System.Drawing.Point(581, 323);
+			this.textTaxonomyOverride.Location = new System.Drawing.Point(580, 323);
 			this.textTaxonomyOverride.MaxLength = 255;
 			this.textTaxonomyOverride.Name = "textTaxonomyOverride";
-			this.textTaxonomyOverride.Size = new System.Drawing.Size(152, 23);
+			this.textTaxonomyOverride.Size = new System.Drawing.Size(180, 23);
 			this.textTaxonomyOverride.TabIndex = 302;
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(581, 302);
+			this.label4.Location = new System.Drawing.Point(580, 302);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(154, 17);
+			this.label4.Size = new System.Drawing.Size(180, 17);
 			this.label4.TabIndex = 315;
 			this.label4.Text = "Taxonomy Code Override";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -954,16 +954,16 @@ namespace OpenPmsDental {
         "Pathology, Oral & MaxFac",
         "Public Health",
         "Radiology"};
-			this.listSpecialty.Location = new System.Drawing.Point(581, 29);
+			this.listSpecialty.Location = new System.Drawing.Point(580, 29);
 			this.listSpecialty.Name = "listSpecialty";
-			this.listSpecialty.Size = new System.Drawing.Size(154, 186);
+			this.listSpecialty.Size = new System.Drawing.Size(180, 186);
 			this.listSpecialty.TabIndex = 297;
 			// 
 			// listFeeSched
 			// 
 			this.listFeeSched.Location = new System.Drawing.Point(407, 29);
 			this.listFeeSched.Name = "listFeeSched";
-			this.listFeeSched.Size = new System.Drawing.Size(168, 186);
+			this.listFeeSched.Size = new System.Drawing.Size(165, 186);
 			this.listFeeSched.TabIndex = 296;
 			// 
 			// checkIsSecondary
@@ -1014,16 +1014,16 @@ namespace OpenPmsDental {
 			// 
 			this.label6.Location = new System.Drawing.Point(407, 8);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(168, 17);
+			this.label6.Size = new System.Drawing.Size(165, 17);
 			this.label6.TabIndex = 289;
 			this.label6.Text = "Fee Schedule";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(581, 8);
+			this.label5.Location = new System.Drawing.Point(580, 8);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(154, 17);
+			this.label5.Size = new System.Drawing.Size(180, 17);
 			this.label5.TabIndex = 287;
 			this.label5.Text = "Specialty";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.BottomLeft;

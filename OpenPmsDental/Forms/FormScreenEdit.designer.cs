@@ -70,7 +70,7 @@ namespace OpenPmsDental {
 			this.comboGradeLevel.BackColor = System.Drawing.SystemColors.Window;
 			this.comboGradeLevel.Location = new System.Drawing.Point(111, 62);
 			this.comboGradeLevel.Name = "comboGradeLevel";
-			this.comboGradeLevel.Size = new System.Drawing.Size(148, 23);
+			this.comboGradeLevel.Size = new System.Drawing.Size(172, 23);
 			this.comboGradeLevel.TabIndex = 6;
 			// 
 			// label35

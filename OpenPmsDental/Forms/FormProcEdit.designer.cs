@@ -1061,7 +1061,7 @@
 			// 
 			this.comboPlaceService.Location = new System.Drawing.Point(123, 116);
 			this.comboPlaceService.Name = "comboPlaceService";
-			this.comboPlaceService.Size = new System.Drawing.Size(176, 23);
+			this.comboPlaceService.Size = new System.Drawing.Size(200, 23);
 			this.comboPlaceService.TabIndex = 6;
 			// 
 			// labelPlaceService

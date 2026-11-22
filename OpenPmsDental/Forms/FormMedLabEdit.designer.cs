@@ -155,7 +155,7 @@ namespace OpenPmsDental{
 			// 
 			// labelAdditionalInfo
 			// 
-			this.labelAdditionalInfo.Location = new System.Drawing.Point(596, 24);
+			this.labelAdditionalInfo.Location = new System.Drawing.Point(596, 8);
 			this.labelAdditionalInfo.Name = "labelAdditionalInfo";
 			this.labelAdditionalInfo.Size = new System.Drawing.Size(132, 23);
 			this.labelAdditionalInfo.TabIndex = 294;
@@ -219,7 +219,7 @@ namespace OpenPmsDental{
 			// 
 			// labelTestsOrd
 			// 
-			this.labelTestsOrd.Location = new System.Drawing.Point(644, 148);
+			this.labelTestsOrd.Location = new System.Drawing.Point(644, 132);
 			this.labelTestsOrd.Name = "labelTestsOrd";
 			this.labelTestsOrd.Size = new System.Drawing.Size(84, 23);
 			this.labelTestsOrd.TabIndex = 313;
@@ -228,7 +228,7 @@ namespace OpenPmsDental{
 			// 
 			// labelGenComments
 			// 
-			this.labelGenComments.Location = new System.Drawing.Point(612, 86);
+			this.labelGenComments.Location = new System.Drawing.Point(612, 70);
 			this.labelGenComments.Name = "labelGenComments";
 			this.labelGenComments.Size = new System.Drawing.Size(116, 23);
 			this.labelGenComments.TabIndex = 321;
@@ -258,7 +258,7 @@ namespace OpenPmsDental{
 			this.groupPat.Controls.Add(this.textSpecimenNumber);
 			this.groupPat.Location = new System.Drawing.Point(8, 8);
 			this.groupPat.Name = "groupPat";
-			this.groupPat.Size = new System.Drawing.Size(579, 135);
+			this.groupPat.Size = new System.Drawing.Size(558, 135);
 			this.groupPat.TabIndex = 326;
 			this.groupPat.TabStop = false;
 			this.groupPat.Text = "Patient";
@@ -275,7 +275,7 @@ namespace OpenPmsDental{
 			// textFasting
 			// 
 			this.textFasting.AutoSize = false;
-			this.textFasting.Location = new System.Drawing.Point(547, 77);
+			this.textFasting.Location = new System.Drawing.Point(525, 77);
 			this.textFasting.MaxLength = 100;
 			this.textFasting.Name = "textFasting";
 			this.textFasting.ReadOnly = true;
@@ -284,7 +284,7 @@ namespace OpenPmsDental{
 			// 
 			// labelFasting
 			// 
-			this.labelFasting.Location = new System.Drawing.Point(489, 77);
+			this.labelFasting.Location = new System.Drawing.Point(467, 77);
 			this.labelFasting.Name = "labelFasting";
 			this.labelFasting.Size = new System.Drawing.Size(52, 23);
 			this.labelFasting.TabIndex = 299;
@@ -298,7 +298,7 @@ namespace OpenPmsDental{
 			this.textGender.MaxLength = 100;
 			this.textGender.Name = "textGender";
 			this.textGender.ReadOnly = true;
-			this.textGender.Size = new System.Drawing.Size(52, 23);
+			this.textGender.Size = new System.Drawing.Size(36, 23);
 			this.textGender.TabIndex = 298;
 			// 
 			// labelGender
@@ -425,9 +425,9 @@ namespace OpenPmsDental{
 			// 
 			// labelSpecimenNum
 			// 
-			this.labelSpecimenNum.Location = new System.Drawing.Point(9, 23);
+			this.labelSpecimenNum.Location = new System.Drawing.Point(8, 23);
 			this.labelSpecimenNum.Name = "labelSpecimenNum";
-			this.labelSpecimenNum.Size = new System.Drawing.Size(112, 23);
+			this.labelSpecimenNum.Size = new System.Drawing.Size(113, 23);
 			this.labelSpecimenNum.TabIndex = 281;
 			this.labelSpecimenNum.Text = "Specimen Number";
 			this.labelSpecimenNum.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -558,7 +558,7 @@ namespace OpenPmsDental{
 			this.textGenComments.BackColor = System.Drawing.SystemColors.Control;
 			this.textGenComments.DetectLinksEnabled = false;
 			this.textGenComments.DetectUrls = false;
-			this.textGenComments.Location = new System.Drawing.Point(734, 86);
+			this.textGenComments.Location = new System.Drawing.Point(734, 70);
 			this.textGenComments.Name = "textGenComments";
 			this.textGenComments.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Lab;
 			this.textGenComments.ReadOnly = true;
@@ -573,7 +573,7 @@ namespace OpenPmsDental{
 			this.textTestsOrd.BackColor = System.Drawing.SystemColors.Control;
 			this.textTestsOrd.DetectLinksEnabled = false;
 			this.textTestsOrd.DetectUrls = false;
-			this.textTestsOrd.Location = new System.Drawing.Point(734, 148);
+			this.textTestsOrd.Location = new System.Drawing.Point(734, 132);
 			this.textTestsOrd.Name = "textTestsOrd";
 			this.textTestsOrd.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Lab;
 			this.textTestsOrd.ReadOnly = true;
@@ -588,7 +588,7 @@ namespace OpenPmsDental{
 			this.textAddlInfo.BackColor = System.Drawing.SystemColors.Control;
 			this.textAddlInfo.DetectLinksEnabled = false;
 			this.textAddlInfo.DetectUrls = false;
-			this.textAddlInfo.Location = new System.Drawing.Point(734, 24);
+			this.textAddlInfo.Location = new System.Drawing.Point(734, 8);
 			this.textAddlInfo.Name = "textAddlInfo";
 			this.textAddlInfo.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Lab;
 			this.textAddlInfo.ReadOnly = true;
