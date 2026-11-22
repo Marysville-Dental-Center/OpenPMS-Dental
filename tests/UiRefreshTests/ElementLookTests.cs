@@ -217,14 +217,11 @@ namespace UiRefreshTests {
 			Assert.IsTrue(UiButtonLook.IsSwatch(new System.Windows.Forms.Button { BackColor=Color.RoyalBlue,UseVisualStyleBackColor=false }));
 			Assert.IsFalse(UiButtonLook.IsSwatch(new System.Windows.Forms.Button { BackColor=Color.Silver,UseVisualStyleBackColor=false,Text="Edit" }),
 				"A button with a text on a colour is a button.");
-			using(OpenPmsDental.UI.ODColorPicker odColorPicker=new OpenPmsDental.UI.ODColorPicker()) {
-				Control controlSwatch=odColorPicker.Controls[0];
-				Assert.IsTrue(UiLooks.IsPartOfOwnControl(controlSwatch),"The colour picker draws its own swatch.");
-			}
-			using(OpenPmsDental.UI.GroupBox groupBox=new OpenPmsDental.UI.GroupBox())
 			using(System.Windows.Forms.Button button=new System.Windows.Forms.Button()) {
-				groupBox.Controls.Add(button);
-				Assert.IsFalse(UiLooks.IsPartOfOwnControl(button),"A group box holds any control.");
+				Assert.IsTrue(UiButtonLook.IsDrawn(button));
+				button.Paint+=(sender,e) => { };
+				Assert.IsTrue(UiButtonLook.IsPaintedByOwner(button));
+				Assert.IsFalse(UiButtonLook.IsDrawn(button),"A button its owner paints (the colour picker's swatch) keeps its owner's picture.");
 			}
 			Assert.IsTrue(UiButtonLook.IsSwatch(new System.Windows.Forms.Button { BackColor=SystemColors.ControlDark,UseVisualStyleBackColor=false }),"The time pattern's handle.");
 			Assert.IsFalse(UiButtonLook.IsSwatch(new System.Windows.Forms.Button { BackColor=SystemColors.Control,UseVisualStyleBackColor=false }));

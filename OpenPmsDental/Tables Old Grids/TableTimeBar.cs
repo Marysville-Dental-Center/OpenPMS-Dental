@@ -98,7 +98,8 @@ namespace OpenPmsDental{
 						g.FillRectangle(UiTheme.GetBrush(uiColorFill),rectangleCell);
 						Color colorText=UiTheme.GetColor(text=="X" ? EnumUiColor.TextOnAccent : EnumUiColor.Text);
 						TextRenderer.DrawText(g,text,UiTheme.FontGrid,rectangleCell,colorText,
-							TextFormatFlags.HorizontalCenter|TextFormatFlags.VerticalCenter|TextFormatFlags.NoPadding|TextFormatFlags.NoPrefix|TextFormatFlags.SingleLine);
+							TextFormatFlags.HorizontalCenter|TextFormatFlags.VerticalCenter|TextFormatFlags.NoPadding|TextFormatFlags.NoPrefix|TextFormatFlags.SingleLine
+							|TextFormatFlags.PreserveGraphicsTranslateTransform|TextFormatFlags.PreserveGraphicsClipping);//each panel paints this picture moved to its place
 					}
 					if(i>0){
 						//The line over the cell: white between two filled cells, Gridline otherwise.

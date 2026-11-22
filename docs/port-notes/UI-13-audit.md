@@ -44,3 +44,32 @@ Windows (`a1`, the 47 pilot windows; 22 changed against main's pictures, all loo
 - The 25 unchanged windows (no scroll bar, stock button or other UI-13 type in their pictures): identical to main's pictures.
 - Seen: the up-down boxes' printed corner pixel (FormPayment) is still dark: under investigation (`InputFrame_PrintedCorners_InTheParentColour`).
 
+## Pass 2 (builds of e3b0ef8ee to 5f6e70ca2, pictures `a2` to `a5`, `xa2` to `xa5`: the 47 pilot windows, the 14 windows outside the pilot,
+## the style sheets)
+
+- FormProvEdit, FormPatientEdit: the date pickers' calendar buttons draw their glyph again (pass 1's fix seen). FormProvEdit's Appointment
+  Color and Highlight Outline Color: Finding: the colour picker's own swatch (with its "no colour" diagonal) drawn over as a plain white
+  swatch. Fixed: a stock control inside one of the program's own user controls (OpenPmsDental.UI) is left to that control.
+- FormProcEdit: Finding: the two small icon buttons on a grey colour (edit, delete) drawn as grey swatches with their icons. Fixed: a button
+  with an icon or a text is a button, not a swatch (now the program's button look with the icon).
+- FormApptEdit, UserControlApptAppearance: the colour swatches rounded with a StrokeStrong edge. Nothing wrong.
+- FormApptEdit: the disabled Lab and Req boxes' scroll bars on the box's grey (pass 1's fix seen). Nothing wrong.
+- Every pilot window with a framed input (36 of the 47 pictures): Finding: the dark corner pixel under each input frame's rounded corner
+  (`InputFrame_PrintedCorners_InTheParentColour` reproduced it: (0,0) = 74 grey, the parent white). Cause: the parent's colour was filled with
+  antialiasing at the default pixel offset, which covers an edge pixel by half and a corner pixel by a quarter (64 = a quarter of white over
+  black in a bitmap). Fixed: the fill on whole pixels. The redrawn pictures: every changed corner group is a 4 x 4 corner (checked by
+  `work/classify.py` against main's pictures) and the zoomed corners are the parent's colour.
+- FormCodeGroupEdit (stock check boxes with the box on the right), FormPerio (radio buttons with the circle on the right): Finding: Windows'
+  classic boxes and circles. Fixed: the box or circle drawn in the look where the window puts it.
+- FormQuery: Finding: the data grid view's Gainsboro background (the window's own classic grey). Fixed: Gainsboro and DarkGray read as the
+  classic greys and become Surface. Its 1 px dark border is the data grid view's own (no paint hook): kept, noted.
+- FormJournal: its two calendars are hidden until the V buttons (not a picture of the type): FormRpAdjSheet draws the month calendar instead.
+  The calendar shows Windows' classic picture in the harness with the token colours (title Accent, other months grey); with Windows 11's theme
+  the program shows Windows' themed calendar (section 4 of UI-13.md).
+- FormAutoNotes (tree view), FormProcButtons (list view), FormEtransEdit (rich text boxes), FormFamilyBalancer (progress bar, disabled output
+  box), FormPrintTrojan (scroll bar control), FormEHR (stock buttons), FormClaimFormEdit (picture box), FormDatabaseMaintTemp (link label,
+  stock buttons), FormEmailMessageEdit (stock list box), FormApptTypeEdit (the time pattern): opened; each type in its look. Nothing else wrong.
+- Style sheet: 14-timepattern: Finding: still 440 px wide (a TableTimeBar's own layout leaves its designer panels' width; every window's
+  designer gives it 15 x 561). Fixed in the sheet (the designer's size). 12-datagridview at 150%: Finding: the header text cut (the sheet's
+  font at 150% without the header's height). Fixed in the sheet (header height from its font).
+

@@ -43,11 +43,6 @@ namespace OpenPmsDental.UI {
 			if(control is TrackBar) {
 				UiTrackBarLook.Attach(control);
 			}
-			if(IsPartOfOwnControl(control)) {
-				//A stock button, check box or panel inside one of the program's own controls (the colour picker's swatch, the date picker's button,
-				//UI-4) is drawn by that control: only its scroll bars take a look here.
-				return;
-			}
 			if(UiButtonLook.IsDrawn(control)) {
 				UiButtonLook.Attach(control);
 			}
@@ -118,16 +113,6 @@ namespace OpenPmsDental.UI {
 			if(dateTimePicker.CalendarForeColor==SystemColors.WindowText) {
 				dateTimePicker.CalendarForeColor=UiTheme.GetColor(EnumUiColor.Text);
 			}
-		}
-
-		///<summary>True for a control whose parent is one of the program's own user controls (OpenPmsDental.UI: ODColorPicker, ODDatePicker,
-		///ODDateRangePicker, ComboBoxClinicPicker and the others UI-4 restyled), which draws its parts itself.</summary>
-		public static bool IsPartOfOwnControl(Control control) {
-			if(!(control.Parent is UserControl)) {
-				return false;//not a window (the print preview) nor a container (UI.GroupBox, UI.TabPage, UI.PanelOD hold any control)
-			}
-			string nameSpace=control.Parent.GetType().Namespace;
-			return nameSpace!=null && (nameSpace=="OpenPmsDental.UI" || nameSpace.StartsWith("OpenPmsDental.UI."));
 		}
 
 		///<summary>The scale of the looks: the program's dpi and zoom.</summary>
@@ -248,7 +233,28 @@ namespace OpenPmsDental.UI {
 				return false;
 			}
 			//A flat borderless button is a part of the control that owns it (the date picker's calendar button, UI-4b): that control styles it.
-			return !(button.FlatStyle==FlatStyle.Flat && button.FlatAppearance.BorderSize==0);
+			if(button.FlatStyle==FlatStyle.Flat && button.FlatAppearance.BorderSize==0) {
+				return false;
+			}
+			//A button its owner already paints (the colour picker's swatch, UI-4c, in a Paint handler) keeps its owner's picture.
+			return !IsPaintedByOwner(button);
+		}
+
+		///<summary>True when the control's Paint event has a handler before the look attaches (its owner paints it).</summary>
+		public static bool IsPaintedByOwner(Control control) {
+			try {
+				FieldInfo fieldInfoKey=typeof(Control).GetField("s_paintEvent",BindingFlags.Static|BindingFlags.NonPublic)
+					??typeof(Control).GetField("EventPaint",BindingFlags.Static|BindingFlags.NonPublic);
+				PropertyInfo propertyInfoEvents=typeof(System.ComponentModel.Component).GetProperty("Events",BindingFlags.Instance|BindingFlags.NonPublic);
+				if(fieldInfoKey==null || propertyInfoEvents==null) {
+					return false;
+				}
+				System.ComponentModel.EventHandlerList eventHandlerList=(System.ComponentModel.EventHandlerList)propertyInfoEvents.GetValue(control);
+				return eventHandlerList[fieldInfoKey.GetValue(null)]!=null;
+			}
+			catch(Exception) {
+				return false;
+			}
 		}
 
 		public static void Attach(Control control) {
