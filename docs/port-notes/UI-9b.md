@@ -579,6 +579,11 @@ code), run the Targeted UiRefreshTests; then on this branch with a folder named 
 and `ui9b4fix-after6.txt`; the pictures in `.git/od-tools/test-results/ui9b4fix-pictures/v3`. The comparison with `main`'s pictures of every
 UI-9b gallery test (item 1 above): `ui9b4fix-pictures/base` (main) against `v2/after`.
 
+Runs (`.git/od-tools/test-results/`), after the full x64 build (0 errors): `ui9b4fix-final.txt` (NoHqTests 127; WindowChecksTests 30 + 44 opt-in
+skipped; UiRefreshTests 267 + 14 opt-in skipped; UnitTests 1,727, with `Billing_StatementOrder_ClinicsYES` failing once: it asserts that random
+synthetic statements leave the grid's order, which they sometimes do not, and no billing code changed here) and `ui9b4fix-unit2.txt` (UnitTests
+1,728 + 3 skipped, the same build). InitSqlTests and ForkMigrationTests not run (no schema; `db/init/new-database.sql` not regenerated).
+
 ## 6. UI-9b is complete
 
 With UI-9b-4 every ImageList of the program is made by the one icon factory or is a list of office content:
