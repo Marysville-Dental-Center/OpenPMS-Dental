@@ -1371,7 +1371,11 @@ class Layout:
                         m.autosize_off = True
             if u.label is not None and id(u) in prefs_lx:
                 lb = u.label
-                self.set_loc(lb, prefs_lx[id(u)], y + (h_row - lb.nh) // 2, "label: Preferences style, centred on its field")
+                # Polish round: beside a multi-line box (taller than a field) the label stands on the box's first line, as in the ordinary
+                # forms (UserControlTreatPlanGeneral's Default Note stood in the middle of its 66 px box).
+                tall = h_row > H + 2 and lb.nh < h_row - 2
+                self.set_loc(lb, prefs_lx[id(u)], y if tall else y + (h_row - lb.nh) // 2,
+                             "label: Preferences style, on its box's first line" if tall else "label: Preferences style, centred on its field")
             elif u.label is not None and u.label.kind == "button":
                 # A button that names the box beside it (Lab, Req): it stands where a label would, keeping its size, at the box's top.
                 lb = u.label

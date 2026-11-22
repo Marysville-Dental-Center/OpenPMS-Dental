@@ -60,7 +60,12 @@ namespace OpenPmsDental.UI {
 			if(rectangle.Width<=0 || rectangle.Height<=0) {
 				return;
 			}
+			//The dpi, or the program's zoom read from the box's height (23 px at 100%), whichever is larger: the chevrons grow with the box as the
+			//combo box's do.
 			float scale=Math.Max(1f,controlButtons.DeviceDpi/96f);
+			if(controlButtons.Parent!=null) {
+				scale=Math.Max(scale,controlButtons.Parent.Height/23f);
+			}
 			bool isEnabled=controlButtons.Enabled && (controlButtons.Parent==null || controlButtons.Parent.Enabled);
 			Color colorBack=controlButtons.Parent?.BackColor ?? SystemColors.Window;
 			if(!isEnabled) {

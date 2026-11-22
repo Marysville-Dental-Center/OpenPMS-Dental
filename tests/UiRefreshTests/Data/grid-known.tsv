@@ -2,15 +2,6 @@
 # The test fails on a finding not listed here and on a row that no longer happens, so this list only shrinks.
 window	rule	key	why
 OpenPmsDental.FormInsBenefits	overlap	labelMonths labelWaitingPeriod	two labels the designer stacks over one another (waiting period header), kept as drawn by the planner
-OpenPmsDental.FormEmailInbox	label-gap	lableUserName textUserName	the preview pane's labels: EmailPreviewControl is another designer (its own rollout slice)
-OpenPmsDental.FormEmailInbox	label-gap	label6 textBccAddress	the preview pane's labels: EmailPreviewControl is another designer (its own rollout slice)
-OpenPmsDental.FormEmailInbox	label-gap	label4 textCcAddress	the preview pane's labels: EmailPreviewControl is another designer (its own rollout slice)
-OpenPmsDental.FormEmailInbox	label-gap	label5 textSentOrReceived	the preview pane's labels: EmailPreviewControl is another designer (its own rollout slice)
-OpenPmsDental.FormEmailInbox	label-gap	labelSignedBy textSignedBy	the preview pane's labels: EmailPreviewControl is another designer (its own rollout slice)
-OpenPmsDental.FormEmailInbox	label-gap	labelSent textMsgDateTime	the preview pane's labels: EmailPreviewControl is another designer (its own rollout slice)
-OpenPmsDental.FormEmailInbox	label-gap	label3 textFromAddress	the preview pane's labels: EmailPreviewControl is another designer (its own rollout slice)
-OpenPmsDental.FormEmailInbox	label-gap	label1 textToAddress	the preview pane's labels: EmailPreviewControl is another designer (its own rollout slice)
-OpenPmsDental.FormEmailInbox	label-gap	label2 textSubject	the preview pane's labels: EmailPreviewControl is another designer (its own rollout slice)
 OpenPmsDental.FormProcCodeEdit	overlap	butSlider tbTime	the time bar column: the slider is placed on the bar by the window's code (FormProcCodeEdit's FillTime); the planner keeps the column as drawn
 OpenPmsDental.FormBackup	overlap	groupBox2 textBox2	the Backup group's controls stand over the group box in the tab page (they are not its children, as on main): the group is drawn behind them; hand rows put them on the Restore group's content edges
 OpenPmsDental.FormBackup	overlap	butBrowseFrom groupBox2	the Backup group's controls stand over the group box in the tab page (they are not its children, as on main): the group is drawn behind them; hand rows put them on the Restore group's content edges

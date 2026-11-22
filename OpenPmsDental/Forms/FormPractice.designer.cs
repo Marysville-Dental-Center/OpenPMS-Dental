@@ -257,7 +257,7 @@ namespace OpenPmsDental {
 			this.groupBox4.Controls.Add(this.radioInsBillingProvDefault);
 			this.groupBox4.Location = new System.Drawing.Point(634, 198);
 			this.groupBox4.Name = "groupBox4";
-			this.groupBox4.Size = new System.Drawing.Size(243, 126);
+			this.groupBox4.Size = new System.Drawing.Size(249, 126);
 			this.groupBox4.TabIndex = 14;
 			this.groupBox4.Text = "Default Insurance Billing Provider";
 			// 
@@ -265,7 +265,7 @@ namespace OpenPmsDental {
 			// 
 			this.comboInsBillingProv.Location = new System.Drawing.Point(8, 95);
 			this.comboInsBillingProv.Name = "comboInsBillingProv";
-			this.comboInsBillingProv.Size = new System.Drawing.Size(227, 23);
+			this.comboInsBillingProv.Size = new System.Drawing.Size(233, 23);
 			this.comboInsBillingProv.TabIndex = 4;
 			// 
 			// radioInsBillingProvSpecific
@@ -302,7 +302,7 @@ namespace OpenPmsDental {
 			this.groupSwiss.Controls.Add(this.label1);
 			this.groupSwiss.Location = new System.Drawing.Point(482, 366);
 			this.groupSwiss.Name = "groupSwiss";
-			this.groupSwiss.Size = new System.Drawing.Size(395, 153);
+			this.groupSwiss.Size = new System.Drawing.Size(401, 153);
 			this.groupSwiss.TabIndex = 8;
 			this.groupSwiss.Text = "Switzerland";
 			// 
@@ -312,7 +312,7 @@ namespace OpenPmsDental {
 			this.textBankAddress.Location = new System.Drawing.Point(112, 50);
 			this.textBankAddress.Multiline = true;
 			this.textBankAddress.Name = "textBankAddress";
-			this.textBankAddress.Size = new System.Drawing.Size(275, 95);
+			this.textBankAddress.Size = new System.Drawing.Size(281, 95);
 			this.textBankAddress.TabIndex = 2;
 			// 
 			// label2
@@ -328,7 +328,7 @@ namespace OpenPmsDental {
 			// 
 			this.textBankRouting.Location = new System.Drawing.Point(112, 23);
 			this.textBankRouting.Name = "textBankRouting";
-			this.textBankRouting.Size = new System.Drawing.Size(275, 23);
+			this.textBankRouting.Size = new System.Drawing.Size(281, 23);
 			this.textBankRouting.TabIndex = 1;
 			// 
 			// label1
@@ -634,7 +634,7 @@ namespace OpenPmsDental {
 			// 
 			this.comboProv.Location = new System.Drawing.Point(634, 149);
 			this.comboProv.Name = "comboProv";
-			this.comboProv.Size = new System.Drawing.Size(243, 23);
+			this.comboProv.Size = new System.Drawing.Size(249, 23);
 			this.comboProv.TabIndex = 5;
 			// 
 			// FormPractice

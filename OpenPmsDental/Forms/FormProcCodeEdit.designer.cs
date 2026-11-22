@@ -219,7 +219,7 @@ namespace OpenPmsDental {
         "Tooth Range"};
 			this.listTreatArea.Location = new System.Drawing.Point(700, 25);
 			this.listTreatArea.Name = "listTreatArea";
-			this.listTreatArea.Size = new System.Drawing.Size(118, 138);
+			this.listTreatArea.Size = new System.Drawing.Size(118, 140);
 			this.listTreatArea.TabIndex = 24;
 			this.listTreatArea.SelectedIndexChanged += new System.EventHandler(this.listTreatArea_SelectedIndexChanged);
 			// 
@@ -895,7 +895,7 @@ namespace OpenPmsDental {
 			// 
 			// checkToothRange
 			// 
-			this.checkToothRange.Location = new System.Drawing.Point(700, 167);
+			this.checkToothRange.Location = new System.Drawing.Point(700, 169);
 			this.checkToothRange.Name = "checkToothRange";
 			this.checkToothRange.Size = new System.Drawing.Size(106, 20);
 			this.checkToothRange.TabIndex = 49;

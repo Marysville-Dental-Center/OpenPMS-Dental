@@ -507,7 +507,7 @@ namespace OpenPmsDental {
 			// 
 			// checkAllowLegacy
 			// 
-			this.checkAllowLegacy.Location = new System.Drawing.Point(616, 581);
+			this.checkAllowLegacy.Location = new System.Drawing.Point(616, 597);
 			this.checkAllowLegacy.Name = "checkAllowLegacy";
 			this.checkAllowLegacy.Size = new System.Drawing.Size(171, 20);
 			this.checkAllowLegacy.TabIndex = 340;
@@ -578,7 +578,7 @@ namespace OpenPmsDental {
 			// 
 			// checkUseErx
 			// 
-			this.checkUseErx.Location = new System.Drawing.Point(407, 581);
+			this.checkUseErx.Location = new System.Drawing.Point(407, 597);
 			this.checkUseErx.Name = "checkUseErx";
 			this.checkUseErx.Size = new System.Drawing.Size(203, 20);
 			this.checkUseErx.TabIndex = 310;
@@ -586,7 +586,7 @@ namespace OpenPmsDental {
 			// 
 			// checkIsHiddenOnReports
 			// 
-			this.checkIsHiddenOnReports.Location = new System.Drawing.Point(407, 557);
+			this.checkIsHiddenOnReports.Location = new System.Drawing.Point(407, 573);
 			this.checkIsHiddenOnReports.Name = "checkIsHiddenOnReports";
 			this.checkIsHiddenOnReports.Size = new System.Drawing.Size(127, 20);
 			this.checkIsHiddenOnReports.TabIndex = 309;
@@ -647,14 +647,14 @@ namespace OpenPmsDental {
 			//
 			// comboClaimForm
 			//
-			this.comboClaimForm.Location = new System.Drawing.Point(536, 605);
+			this.comboClaimForm.Location = new System.Drawing.Point(536, 621);
 			this.comboClaimForm.Name = "comboClaimForm";
 			this.comboClaimForm.Size = new System.Drawing.Size(224, 23);
 			this.comboClaimForm.TabIndex = 346;
 			//
 			// labelClaimForm
 			//
-			this.labelClaimForm.Location = new System.Drawing.Point(414, 605);
+			this.labelClaimForm.Location = new System.Drawing.Point(414, 621);
 			this.labelClaimForm.Name = "labelClaimForm";
 			this.labelClaimForm.Size = new System.Drawing.Size(116, 23);
 			this.labelClaimForm.TabIndex = 347;
@@ -681,7 +681,7 @@ namespace OpenPmsDental {
 			// 
 			this.checkIsNotPerson.Location = new System.Drawing.Point(407, 509);
 			this.checkIsNotPerson.Name = "checkIsNotPerson";
-			this.checkIsNotPerson.Size = new System.Drawing.Size(440, 20);
+			this.checkIsNotPerson.Size = new System.Drawing.Size(353, 36);
 			this.checkIsNotPerson.TabIndex = 307;
 			this.checkIsNotPerson.Text = "Not a Person (for example, a dummy provider representing the organization)";
 			// 
@@ -706,7 +706,7 @@ namespace OpenPmsDental {
 			// 
 			// checkIsCDAnet
 			// 
-			this.checkIsCDAnet.Location = new System.Drawing.Point(407, 632);
+			this.checkIsCDAnet.Location = new System.Drawing.Point(407, 648);
 			this.checkIsCDAnet.Name = "checkIsCDAnet";
 			this.checkIsCDAnet.Size = new System.Drawing.Size(126, 20);
 			this.checkIsCDAnet.TabIndex = 304;
@@ -1039,7 +1039,7 @@ namespace OpenPmsDental {
 			// 
 			// checkIsHidden
 			// 
-			this.checkIsHidden.Location = new System.Drawing.Point(407, 533);
+			this.checkIsHidden.Location = new System.Drawing.Point(407, 549);
 			this.checkIsHidden.Name = "checkIsHidden";
 			this.checkIsHidden.Size = new System.Drawing.Size(62, 20);
 			this.checkIsHidden.TabIndex = 308;
