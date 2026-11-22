@@ -6,3 +6,10 @@ OpenPmsDental.FormPayment	.	label1,checkPayTypeNone,listPayType,groupXWeb,labelD
 OpenPmsDental.FormPayment	.	labelCreditCards,comboCreditCards,checkRecurring,checkProcessed,labelDeposit,textDeposit	width	credit card and deposit
 OpenPmsDental.FormPayment	panelSplits/groupBoxFilteringPaySplits		width	the splits filter
 OpenPmsDental.FormPayment	panelSplits/groupBoxFilteringOutstanding		width	the outstanding charges filter
+OpenPmsDental.FormClaimEdit	tabControlMain/tabGeneral/panel2		width	the General tab (its panel scrolls): keeps the tab's width, its group boxes grow to their content; the rest of the window by its layout script (tools/UiFit/hand/FormClaimEdit.py, grid-hand.tsv)
+OpenPmsDental.FormClaimEdit	tabControlMain/tabMisc/panel3		width	the Misc tab (its panel scrolls); the rest of the window by its layout script (tools/UiFit/hand/FormClaimEdit.py, grid-hand.tsv)
+OpenPmsDental.FormClaimEdit	tabControlMain/tabAttachments/panel1		width	the Attachments tab (its panel scrolls); the rest of the window by its layout script (tools/UiFit/hand/FormClaimEdit.py, grid-hand.tsv)
+OpenPmsDental.FormProcEdit	tabControl/tabPageFinancial		width	the Financial tab: keeps the tab control's width; the rest of the window by its layout script (tools/UiFit/hand/FormProcEdit.py, grid-hand.tsv)
+OpenPmsDental.FormProcEdit	tabControl/tabPageMedical		width	the Medical tab; the rest of the window by its layout script (tools/UiFit/hand/FormProcEdit.py, grid-hand.tsv)
+OpenPmsDental.FormProcEdit	tabControl/tabPageMisc		width	the Misc tab; the rest of the window by its layout script (tools/UiFit/hand/FormProcEdit.py, grid-hand.tsv)
+OpenPmsDental.FormProcEdit	tabControl/tabPageCanada		width	the Canada tab; the rest of the window by its layout script (tools/UiFit/hand/FormProcEdit.py, grid-hand.tsv)

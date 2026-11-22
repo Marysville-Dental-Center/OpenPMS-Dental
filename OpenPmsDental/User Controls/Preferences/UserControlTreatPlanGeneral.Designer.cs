@@ -188,7 +188,7 @@ namespace OpenPmsDental {
 			this.radioTreatPlanSortTooth.Location = new System.Drawing.Point(8, 23);
 			this.radioTreatPlanSortTooth.Name = "radioTreatPlanSortTooth";
 			this.radioTreatPlanSortTooth.RightToLeft = System.Windows.Forms.RightToLeft.No;
-			this.radioTreatPlanSortTooth.Size = new System.Drawing.Size(58, 20);
+			this.radioTreatPlanSortTooth.Size = new System.Drawing.Size(56, 20);
 			this.radioTreatPlanSortTooth.TabIndex = 54;
 			this.radioTreatPlanSortTooth.Text = "Tooth";
 			this.radioTreatPlanSortTooth.UseVisualStyleBackColor = true;
@@ -201,7 +201,7 @@ namespace OpenPmsDental {
 			this.radioTreatPlanSortOrder.Location = new System.Drawing.Point(8, 47);
 			this.radioTreatPlanSortOrder.Name = "radioTreatPlanSortOrder";
 			this.radioTreatPlanSortOrder.RightToLeft = System.Windows.Forms.RightToLeft.No;
-			this.radioTreatPlanSortOrder.Size = new System.Drawing.Size(100, 20);
+			this.radioTreatPlanSortOrder.Size = new System.Drawing.Size(98, 20);
 			this.radioTreatPlanSortOrder.TabIndex = 53;
 			this.radioTreatPlanSortOrder.TabStop = true;
 			this.radioTreatPlanSortOrder.Text = "Order Entered";

@@ -534,7 +534,7 @@ namespace OpenPmsDental{
 			this.radioChangeAndAdd.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.radioChangeAndAdd.Location = new System.Drawing.Point(9, 95);
 			this.radioChangeAndAdd.Name = "radioChangeAndAdd";
-			this.radioChangeAndAdd.Size = new System.Drawing.Size(135, 20);
+			this.radioChangeAndAdd.Size = new System.Drawing.Size(133, 20);
 			this.radioChangeAndAdd.TabIndex = 66;
 			this.radioChangeAndAdd.TabStop = true;
 			this.radioChangeAndAdd.Text = "Change and Add Pts";
@@ -547,7 +547,7 @@ namespace OpenPmsDental{
 			this.radioChange.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.radioChange.Location = new System.Drawing.Point(9, 71);
 			this.radioChange.Name = "radioChange";
-			this.radioChange.Size = new System.Drawing.Size(68, 20);
+			this.radioChange.Size = new System.Drawing.Size(66, 20);
 			this.radioChange.TabIndex = 65;
 			this.radioChange.TabStop = true;
 			this.radioChange.Text = "Change";
@@ -559,7 +559,7 @@ namespace OpenPmsDental{
 			this.radioShow.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.radioShow.Location = new System.Drawing.Point(8, 47);
 			this.radioShow.Name = "radioShow";
-			this.radioShow.Size = new System.Drawing.Size(56, 20);
+			this.radioShow.Size = new System.Drawing.Size(54, 20);
 			this.radioShow.TabIndex = 64;
 			this.radioShow.TabStop = true;
 			this.radioShow.Text = "Show";
@@ -571,7 +571,7 @@ namespace OpenPmsDental{
 			this.radioHide.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.radioHide.Location = new System.Drawing.Point(8, 23);
 			this.radioHide.Name = "radioHide";
-			this.radioHide.Size = new System.Drawing.Size(52, 20);
+			this.radioHide.Size = new System.Drawing.Size(50, 20);
 			this.radioHide.TabIndex = 63;
 			this.radioHide.TabStop = true;
 			this.radioHide.Text = "Hide";

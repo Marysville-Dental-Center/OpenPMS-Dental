@@ -14,6 +14,7 @@ OpenPmsDental/UI/PanelOD	UI-4a	the panel
 OpenPmsDental/UI/ToolTipOD	UI-4a	the tooltip
 OpenPmsDental/UI/ComboBox	UI-4b	the combo box
 OpenPmsDental/UI/UiInputFrame	UI-12	the combo box's frame over the stock single-line inputs (text box, up-down box, date picker)
+OpenPmsDental/UI/UiRadioLook	UI-12	the stock radio button drawn like the program's check box (round 3: the circle where the box is, the text 16 px from the left)
 OpenPmsDental/UI/ListBox	UI-4b	the list box
 OpenPmsDental/UI/TabControl/*	UI-4b	the tab control, its pages and designers
 OpenPmsDental/UI/Splitters/*	UI-4b	the split container, its panels and designers

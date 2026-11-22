@@ -142,7 +142,7 @@ namespace OpenPmsDental {
 			this.groupProcNotes.Controls.Add(this.checkProcNoteConcurrencyMerge);
 			this.groupProcNotes.Location = new System.Drawing.Point(8, 190);
 			this.groupProcNotes.Name = "groupProcNotes";
-			this.groupProcNotes.Size = new System.Drawing.Size(478, 191);
+			this.groupProcNotes.Size = new System.Drawing.Size(478, 171);
 			this.groupProcNotes.TabIndex = 239;
 			this.groupProcNotes.Text = "Procedure Notes";
 			// 
@@ -151,7 +151,7 @@ namespace OpenPmsDental {
 			this.checkProcNoteSigsBlocked.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.checkProcNoteSigsBlocked.Location = new System.Drawing.Point(8, 143);
 			this.checkProcNoteSigsBlocked.Name = "checkProcNoteSigsBlocked";
-			this.checkProcNoteSigsBlocked.Size = new System.Drawing.Size(462, 40);
+			this.checkProcNoteSigsBlocked.Size = new System.Drawing.Size(462, 20);
 			this.checkProcNoteSigsBlocked.TabIndex = 249;
 			this.checkProcNoteSigsBlocked.Text = "Block procedure note signatures when there are uncompleted auto note prompts";
 			// 

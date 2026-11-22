@@ -316,7 +316,7 @@ namespace OpenPmsDental{
 			// 
 			this.textSearchBody.Location = new System.Drawing.Point(164, 94);
 			this.textSearchBody.Name = "textSearchBody";
-			this.textSearchBody.Size = new System.Drawing.Size(224, 23);
+			this.textSearchBody.Size = new System.Drawing.Size(240, 23);
 			this.textSearchBody.TabIndex = 6;
 			// 
 			// label5
@@ -476,7 +476,7 @@ namespace OpenPmsDental{
 			// butAutomatedNone
 			// 
 			this.butAutomatedNone.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAutomatedNone.Location = new System.Drawing.Point(264, 116);
+			this.butAutomatedNone.Location = new System.Drawing.Point(262, 116);
 			this.butAutomatedNone.Name = "butAutomatedNone";
 			this.butAutomatedNone.Size = new System.Drawing.Size(38, 20);
 			this.butAutomatedNone.TabIndex = 175;
@@ -486,7 +486,7 @@ namespace OpenPmsDental{
 			// butManualNone
 			// 
 			this.butManualNone.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butManualNone.Location = new System.Drawing.Point(94, 116);
+			this.butManualNone.Location = new System.Drawing.Point(92, 116);
 			this.butManualNone.Name = "butManualNone";
 			this.butManualNone.Size = new System.Drawing.Size(38, 20);
 			this.butManualNone.TabIndex = 174;
@@ -496,9 +496,9 @@ namespace OpenPmsDental{
 			// labelAutomatedMsgSource
 			// 
 			this.labelAutomatedMsgSource.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.labelAutomatedMsgSource.Location = new System.Drawing.Point(173, 23);
+			this.labelAutomatedMsgSource.Location = new System.Drawing.Point(175, 23);
 			this.labelAutomatedMsgSource.Name = "labelAutomatedMsgSource";
-			this.labelAutomatedMsgSource.Size = new System.Drawing.Size(150, 16);
+			this.labelAutomatedMsgSource.Size = new System.Drawing.Size(161, 16);
 			this.labelAutomatedMsgSource.TabIndex = 173;
 			this.labelAutomatedMsgSource.Text = "Automated:";
 			this.labelAutomatedMsgSource.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -508,7 +508,7 @@ namespace OpenPmsDental{
 			this.labelManualMsgSource.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.labelManualMsgSource.Location = new System.Drawing.Point(8, 23);
 			this.labelManualMsgSource.Name = "labelManualMsgSource";
-			this.labelManualMsgSource.Size = new System.Drawing.Size(150, 16);
+			this.labelManualMsgSource.Size = new System.Drawing.Size(161, 16);
 			this.labelManualMsgSource.TabIndex = 172;
 			this.labelManualMsgSource.Text = "Manual:";
 			this.labelManualMsgSource.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -516,7 +516,7 @@ namespace OpenPmsDental{
 			// butAutomatedAll
 			// 
 			this.butAutomatedAll.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAutomatedAll.Location = new System.Drawing.Point(308, 116);
+			this.butAutomatedAll.Location = new System.Drawing.Point(306, 116);
 			this.butAutomatedAll.Name = "butAutomatedAll";
 			this.butAutomatedAll.Size = new System.Drawing.Size(30, 20);
 			this.butAutomatedAll.TabIndex = 171;
@@ -526,7 +526,7 @@ namespace OpenPmsDental{
 			// butAllManual
 			// 
 			this.butAllManual.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAllManual.Location = new System.Drawing.Point(138, 116);
+			this.butAllManual.Location = new System.Drawing.Point(136, 116);
 			this.butAllManual.Name = "butAllManual";
 			this.butAllManual.Size = new System.Drawing.Size(30, 20);
 			this.butAllManual.TabIndex = 170;

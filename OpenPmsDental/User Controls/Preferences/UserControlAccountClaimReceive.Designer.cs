@@ -57,7 +57,7 @@ namespace OpenPmsDental {
 			// groupBoxClaimsSecondary
 			// 
 			this.groupBoxClaimsSecondary.Controls.Add(this.checkClaimUpdateFeeForSecondary);
-			this.groupBoxClaimsSecondary.Location = new System.Drawing.Point(8, 568);
+			this.groupBoxClaimsSecondary.Location = new System.Drawing.Point(8, 548);
 			this.groupBoxClaimsSecondary.Name = "groupBoxClaimsSecondary";
 			this.groupBoxClaimsSecondary.Size = new System.Drawing.Size(478, 51);
 			this.groupBoxClaimsSecondary.TabIndex = 5;
@@ -79,7 +79,7 @@ namespace OpenPmsDental {
 			this.groupBoxClaimsMedical.Controls.Add(this.checkClaimMedReceivedPromptForMedicalEob);
 			this.groupBoxClaimsMedical.Location = new System.Drawing.Point(8, 441);
 			this.groupBoxClaimsMedical.Name = "groupBoxClaimsMedical";
-			this.groupBoxClaimsMedical.Size = new System.Drawing.Size(478, 119);
+			this.groupBoxClaimsMedical.Size = new System.Drawing.Size(478, 99);
 			this.groupBoxClaimsMedical.TabIndex = 4;
 			this.groupBoxClaimsMedical.Text = "Claims Medical";
 			// 
@@ -97,7 +97,7 @@ namespace OpenPmsDental {
 			this.checkClaimMedReceivedForcePrimaryStatus.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.checkClaimMedReceivedForcePrimaryStatus.Location = new System.Drawing.Point(8, 47);
 			this.checkClaimMedReceivedForcePrimaryStatus.Name = "checkClaimMedReceivedForcePrimaryStatus";
-			this.checkClaimMedReceivedForcePrimaryStatus.Size = new System.Drawing.Size(462, 40);
+			this.checkClaimMedReceivedForcePrimaryStatus.Size = new System.Drawing.Size(462, 20);
 			this.checkClaimMedReceivedForcePrimaryStatus.TabIndex = 1;
 			this.checkClaimMedReceivedForcePrimaryStatus.Text = "Remove \'Do Nothing\' for primary claims with \'Hold Until Pri Received\' or \'Unsent\'" +
     "";
@@ -105,7 +105,7 @@ namespace OpenPmsDental {
 			// checkClaimMedReceivedPromptForMedicalEob
 			//
 			this.checkClaimMedReceivedPromptForMedicalEob.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkClaimMedReceivedPromptForMedicalEob.Location = new System.Drawing.Point(8, 91);
+			this.checkClaimMedReceivedPromptForMedicalEob.Location = new System.Drawing.Point(8, 71);
 			this.checkClaimMedReceivedPromptForMedicalEob.Name = "checkClaimMedReceivedPromptForMedicalEob";
 			this.checkClaimMedReceivedPromptForMedicalEob.Size = new System.Drawing.Size(254, 20);
 			this.checkClaimMedReceivedPromptForMedicalEob.TabIndex = 2;

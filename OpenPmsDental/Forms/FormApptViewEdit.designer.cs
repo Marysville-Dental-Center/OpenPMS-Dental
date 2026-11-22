@@ -392,7 +392,7 @@ namespace OpenPmsDental {
 			this.textScrollTime.AutoSize = false;
 			this.textScrollTime.Location = new System.Drawing.Point(282, 89);
 			this.textScrollTime.Name = "textScrollTime";
-			this.textScrollTime.Size = new System.Drawing.Size(56, 23);
+			this.textScrollTime.Size = new System.Drawing.Size(48, 23);
 			this.textScrollTime.TabIndex = 3;
 			// 
 			// labelStartTime

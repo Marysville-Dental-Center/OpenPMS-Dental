@@ -57,7 +57,7 @@ namespace OpenPmsDental {
 			// 
 			this.radioReportServerMiddleTier.Location = new System.Drawing.Point(8, 283);
 			this.radioReportServerMiddleTier.Name = "radioReportServerMiddleTier";
-			this.radioReportServerMiddleTier.Size = new System.Drawing.Size(87, 20);
+			this.radioReportServerMiddleTier.Size = new System.Drawing.Size(85, 20);
 			this.radioReportServerMiddleTier.TabIndex = 237;
 			this.radioReportServerMiddleTier.Text = "Middle Tier";
 			this.radioReportServerMiddleTier.UseVisualStyleBackColor = true;
@@ -67,7 +67,7 @@ namespace OpenPmsDental {
 			this.radioReportServerDirect.Checked = true;
 			this.radioReportServerDirect.Location = new System.Drawing.Point(8, 32);
 			this.radioReportServerDirect.Name = "radioReportServerDirect";
-			this.radioReportServerDirect.Size = new System.Drawing.Size(123, 20);
+			this.radioReportServerDirect.Size = new System.Drawing.Size(121, 20);
 			this.radioReportServerDirect.TabIndex = 236;
 			this.radioReportServerDirect.TabStop = true;
 			this.radioReportServerDirect.Text = "Direct Connection";

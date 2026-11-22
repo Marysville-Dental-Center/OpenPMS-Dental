@@ -1,9 +1,9 @@
 window	slice	mode	note
 OpenPmsDental.FormPatientEdit	pilot	tool	UI-10 slice 1
 OpenPmsDental.FormProvEdit	pilot	tool	UI-10 slice 1
-OpenPmsDental.FormClaimEdit	pilot	hand	UI-10 slice 1; by hand: the owner's row was the gallery's doubled drawing; stacked bottom buttons and nested tab pages are left for the rollout (section 4)
-OpenPmsDental.FormProcEdit	pilot	hand	UI-10 slice 1; by hand: its tooth and surface panels are switched and placed by its code; the tool loses them (section 4)
-OpenPmsDental.ControlAccount	pilot	hand	UI-10 slice 1; by hand: a module laid out by its own code at run time (section 4)
+OpenPmsDental.FormClaimEdit	pilot	tool	UI-10 slice 1; round 3: its General, Misc and Attachments tabs laid out in parts by the planner (grid-scope.tsv), the rest of the window by its layout script (tools/UiFit/hand/FormClaimEdit.py); the UB04 and Canadian tabs as on main (the planner does not settle them)
+OpenPmsDental.FormProcEdit	pilot	tool	UI-10 slice 1; round 3: its four tabs laid out in parts by the planner (grid-scope.tsv), the rest (the switched tooth, surface and area fields as one block each) by its layout script (tools/UiFit/hand/FormProcEdit.py)
+OpenPmsDental.ControlAccount	pilot	hand	UI-10 slice 1; a module laid out by its own code at run time: the aging strip and the side panel's pages by its layout script (tools/UiFit/hand/ControlAccount.py)
 OpenPmsDental.UserControlMainWindow	pilot	tool	UI-10 slice 1
 OpenPmsDental.UserControlMainWindowMisc	pilot	tool	UI-10 slice 1
 OpenPmsDental.UserControlApptGeneral	pilot	tool	UI-10 slice 1
@@ -41,8 +41,8 @@ OpenPmsDental.FormBackup	pilot	tool	owner review 2026-11-21
 OpenPmsDental.FormPayment	pilot	tool	owner review 2026-11-21; laid out in parts (grid-scope.tsv): the payment fields, payment type and account, credit card and deposit, the two filter groups; the input styles (UiInputFrame) are the owner's row
 OpenPmsDental.FormStatementOptions	pilot	tool	owner review 2026-11-21
 OpenPmsDental.FormEmailInbox	pilot	tool	owner review 2026-11-21
-OpenPmsDental.ControlChart	pilot	hand	owner review 2026-11-21; a module laid out by its own code at run time: the procedure buttons by hand (grid-hand.tsv)
+OpenPmsDental.ControlChart	pilot	hand	owner review 2026-11-21; a module laid out at run time by the Chart layout sheet: the Enter Treatment page, the procedure buttons and the button rows by its layout script (tools/UiFit/hand/ControlChart.py)
 OpenPmsDental.FormApptViewEdit	pilot	tool	owner review 2026-11-21
 OpenPmsDental.FormHL7DefEdit	pilot	tool	owner review 2026-11-21
-OpenPmsDental.FormInsPlan	pilot	hand	owner review 2026-11-21; by hand: the ortho check box; the tool grows the window past 960 px (section 4)
+OpenPmsDental.FormInsPlan	pilot	hand	owner review 2026-11-21; round 3: the whole window by its layout script (tools/UiFit/hand/FormInsPlan.py; the planner does not settle its nested panels)
 OpenPmsDental.FormMedLabEdit	pilot	tool	owner review 2026-11-21

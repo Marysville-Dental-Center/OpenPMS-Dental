@@ -201,7 +201,7 @@ namespace OpenPmsDental {
 			// 
 			this.listboxBadDebtAdjs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.listboxBadDebtAdjs.IntegralHeight = false;
-			this.listboxBadDebtAdjs.Location = new System.Drawing.Point(332, 23);
+			this.listboxBadDebtAdjs.Location = new System.Drawing.Point(188, 23);
 			this.listboxBadDebtAdjs.Name = "listboxBadDebtAdjs";
 			this.listboxBadDebtAdjs.Size = new System.Drawing.Size(120, 49);
 			this.listboxBadDebtAdjs.TabIndex = 197;
@@ -209,19 +209,19 @@ namespace OpenPmsDental {
 			// labelCurrentBadDebtAdjTypes
 			// 
 			this.labelCurrentBadDebtAdjTypes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelCurrentBadDebtAdjTypes.Location = new System.Drawing.Point(172, 23);
+			this.labelCurrentBadDebtAdjTypes.Location = new System.Drawing.Point(24, 23);
 			this.labelCurrentBadDebtAdjTypes.Name = "labelCurrentBadDebtAdjTypes";
-			this.labelCurrentBadDebtAdjTypes.Size = new System.Drawing.Size(156, 17);
+			this.labelCurrentBadDebtAdjTypes.Size = new System.Drawing.Size(158, 23);
 			this.labelCurrentBadDebtAdjTypes.TabIndex = 223;
 			this.labelCurrentBadDebtAdjTypes.Text = "Current Bad Debt adj types:";
-			this.labelCurrentBadDebtAdjTypes.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.labelCurrentBadDebtAdjTypes.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// butBadDebt
 			// 
 			this.butBadDebt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butBadDebt.Location = new System.Drawing.Point(246, 42);
+			this.butBadDebt.Location = new System.Drawing.Point(24, 48);
 			this.butBadDebt.Name = "butBadDebt";
-			this.butBadDebt.Size = new System.Drawing.Size(68, 21);
+			this.butBadDebt.Size = new System.Drawing.Size(68, 23);
 			this.butBadDebt.TabIndex = 197;
 			this.butBadDebt.Text = "Edit";
 			this.butBadDebt.Click += new System.EventHandler(this.butBadDebt_Click);

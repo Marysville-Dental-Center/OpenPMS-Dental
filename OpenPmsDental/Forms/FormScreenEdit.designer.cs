@@ -170,24 +170,24 @@ namespace OpenPmsDental {
 			// 
 			this.radioM.Location = new System.Drawing.Point(127, 412);
 			this.radioM.Name = "radioM";
-			this.radioM.Size = new System.Drawing.Size(38, 20);
+			this.radioM.Size = new System.Drawing.Size(36, 20);
 			this.radioM.TabIndex = 11;
 			this.radioM.Text = "M";
 			// 
 			// radioF
 			// 
-			this.radioF.Location = new System.Drawing.Point(171, 412);
+			this.radioF.Location = new System.Drawing.Point(169, 412);
 			this.radioF.Name = "radioF";
-			this.radioF.Size = new System.Drawing.Size(33, 20);
+			this.radioF.Size = new System.Drawing.Size(31, 20);
 			this.radioF.TabIndex = 12;
 			this.radioF.Text = "F";
 			// 
 			// radioUnknown
 			// 
 			this.radioUnknown.Checked = true;
-			this.radioUnknown.Location = new System.Drawing.Point(210, 412);
+			this.radioUnknown.Location = new System.Drawing.Point(206, 412);
 			this.radioUnknown.Name = "radioUnknown";
-			this.radioUnknown.Size = new System.Drawing.Size(32, 20);
+			this.radioUnknown.Size = new System.Drawing.Size(30, 20);
 			this.radioUnknown.TabIndex = 13;
 			this.radioUnknown.TabStop = true;
 			this.radioUnknown.Text = "?";

@@ -263,7 +263,7 @@ namespace OpenPmsDental {
 			this.textOrthoPercent.MaxVal = 100;
 			this.textOrthoPercent.Name = "textOrthoPercent";
 			this.textOrthoPercent.ShowZero = false;
-			this.textOrthoPercent.Size = new System.Drawing.Size(60, 23);
+			this.textOrthoPercent.Size = new System.Drawing.Size(72, 23);
 			this.textOrthoPercent.TabIndex = 1;
 			// 
 			// label11

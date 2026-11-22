@@ -1480,6 +1480,7 @@ class Planner:
                 continue
             self.keep_width = keep
             self.in_scope = True
+            self.scope_root = c
             try:
                 if names is None:
                     old_r = c.nx + c.nw
@@ -1756,7 +1757,9 @@ class Planner:
             bb = Block("v", bottom_items)
             h_bottom = max(i.y + i.h for i in bottom_items) - min(i.y for i in bottom_items)
             need_h = b + GRID["section_gap"] + h_bottom + GRID["pad"]
-        grow_w = n.nw if self.keep_width else max(n.nw, need_w)
+        # A part that keeps its width keeps it; the group boxes inside it grow to their content (round 3: FormClaimEdit's tab pages scroll,
+        # their group boxes must not cut their fields).
+        grow_w = n.nw if (self.keep_width and (n is getattr(self, "scope_root", None) or n.kind != "group")) else max(n.nw, need_w)
         if (n.kind == "group" or (n.kind == "panel" and self.in_scope)) and not is_root:
             new_h = need_h if not (n.anchor & 1 and n.anchor & 2) else max(n.nh, need_h)
         else:

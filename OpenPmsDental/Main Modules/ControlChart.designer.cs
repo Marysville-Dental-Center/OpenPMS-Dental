@@ -288,26 +288,26 @@
 			// 
 			this.textSurf.BackColor = System.Drawing.SystemColors.Window;
 			this.textSurf.AutoSize = false;
-			this.textSurf.Location = new System.Drawing.Point(3, 2);
+			this.textSurf.Location = new System.Drawing.Point(2, 2);
 			this.textSurf.Name = "textSurf";
 			this.textSurf.ReadOnly = true;
-			this.textSurf.Size = new System.Drawing.Size(82, 19);
+			this.textSurf.Size = new System.Drawing.Size(92, 23);
 			this.textSurf.TabIndex = 25;
 			// 
 			// labelDx
 			// 
-			this.labelDx.Location = new System.Drawing.Point(89, -2);
+			this.labelDx.Location = new System.Drawing.Point(100, 29);
 			this.labelDx.Name = "labelDx";
-			this.labelDx.Size = new System.Drawing.Size(100, 18);
+			this.labelDx.Size = new System.Drawing.Size(126, 17);
 			this.labelDx.TabIndex = 47;
 			this.labelDx.Text = "Diagnosis";
 			this.labelDx.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// checkDone
 			// 
-			this.checkDone.Location = new System.Drawing.Point(324, 5);
+			this.checkDone.Location = new System.Drawing.Point(323, 2);
 			this.checkDone.Name = "checkDone";
-			this.checkDone.Size = new System.Drawing.Size(67, 18);
+			this.checkDone.Size = new System.Drawing.Size(52, 20);
 			this.checkDone.TabIndex = 0;
 			this.checkDone.Text = "Done";
 			this.checkDone.Click += new System.EventHandler(this.checkDone_Click);
@@ -320,10 +320,10 @@
             this.columnHeader1});
 			this.listViewButtons.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
 			this.listViewButtons.HideSelection = false;
-			this.listViewButtons.Location = new System.Drawing.Point(311, 40);
+			this.listViewButtons.Location = new System.Drawing.Point(350, 48);
 			this.listViewButtons.MultiSelect = false;
 			this.listViewButtons.Name = "listViewButtons";
-			this.listViewButtons.Size = new System.Drawing.Size(199, 192);
+			this.listViewButtons.Size = new System.Drawing.Size(168, 186);
 			this.listViewButtons.SmallImageList = this.imageListProcButtons;
 			this.listViewButtons.TabIndex = 188;
 			this.listViewButtons.UseCompatibleStateImageBehavior = false;
@@ -344,18 +344,18 @@
 			// 
 			this.checkToday.Checked = true;
 			this.checkToday.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkToday.Location = new System.Drawing.Point(1, 194);
+			this.checkToday.Location = new System.Drawing.Point(100, 3);
 			this.checkToday.Name = "checkToday";
-			this.checkToday.Size = new System.Drawing.Size(80, 18);
+			this.checkToday.Size = new System.Drawing.Size(56, 20);
 			this.checkToday.TabIndex = 58;
 			this.checkToday.Text = "Today";
 			this.checkToday.CheckedChanged += new System.EventHandler(this.checkToday_CheckedChanged);
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(89, 192);
+			this.label6.Location = new System.Drawing.Point(100, 192);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(79, 17);
+			this.label6.Size = new System.Drawing.Size(126, 17);
 			this.label6.TabIndex = 57;
 			this.label6.Text = "Priority";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -363,9 +363,9 @@
 			// textProcCode
 			// 
 			this.textProcCode.AutoSize = false;
-			this.textProcCode.Location = new System.Drawing.Point(330, 3);
+			this.textProcCode.Location = new System.Drawing.Point(380, 2);
 			this.textProcCode.Name = "textProcCode";
-			this.textProcCode.Size = new System.Drawing.Size(108, 20);
+			this.textProcCode.Size = new System.Drawing.Size(92, 23);
 			this.textProcCode.TabIndex = 50;
 			this.textProcCode.Text = "Type Proc Code";
 			this.textProcCode.TextChanged += new System.EventHandler(this.textProcCode_TextChanged);
@@ -374,18 +374,18 @@
 			// 
 			// label14
 			// 
-			this.label14.Location = new System.Drawing.Point(282, 5);
+			this.label14.Location = new System.Drawing.Point(350, 2);
 			this.label14.Name = "label14";
-			this.label14.Size = new System.Drawing.Size(45, 17);
+			this.label14.Size = new System.Drawing.Size(24, 23);
 			this.label14.TabIndex = 51;
 			this.label14.Text = "Or";
 			this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label13
 			// 
-			this.label13.Location = new System.Drawing.Point(308, 21);
+			this.label13.Location = new System.Drawing.Point(350, 29);
 			this.label13.Name = "label13";
-			this.label13.Size = new System.Drawing.Size(128, 18);
+			this.label13.Size = new System.Drawing.Size(168, 17);
 			this.label13.TabIndex = 49;
 			this.label13.Text = "Or Single Click:";
 			this.label13.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -637,9 +637,9 @@
 			// 
 			// checkTreatPlans
 			// 
-			this.checkTreatPlans.Location = new System.Drawing.Point(192, 213);
+			this.checkTreatPlans.Location = new System.Drawing.Point(232, 212);
 			this.checkTreatPlans.Name = "checkTreatPlans";
-			this.checkTreatPlans.Size = new System.Drawing.Size(112, 18);
+			this.checkTreatPlans.Size = new System.Drawing.Size(110, 20);
 			this.checkTreatPlans.TabIndex = 203;
 			this.checkTreatPlans.Text = "Treatment Plans";
 			this.checkTreatPlans.Click += new System.EventHandler(this.checkTreatPlans_Click);
@@ -647,34 +647,34 @@
 			// panelQuickButtons
 			// 
 			this.panelQuickButtons.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.5F);
-			this.panelQuickButtons.Location = new System.Drawing.Point(315, 45);
+			this.panelQuickButtons.Location = new System.Drawing.Point(350, 48);
 			this.panelQuickButtons.Name = "panelQuickButtons";
-			this.panelQuickButtons.Size = new System.Drawing.Size(195, 182);
+			this.panelQuickButtons.Size = new System.Drawing.Size(168, 186);
 			this.panelQuickButtons.TabIndex = 202;
 			this.panelQuickButtons.ItemClickBut += new OpenPmsDental.UI.ODButtonPanelEventHandler(this.panelQuickButtons_ItemClickBut);
 			// 
 			// comboPrognosis
 			// 
-			this.comboPrognosis.Location = new System.Drawing.Point(91, 174);
+			this.comboPrognosis.Location = new System.Drawing.Point(100, 165);
 			this.comboPrognosis.Name = "comboPrognosis";
-			this.comboPrognosis.Size = new System.Drawing.Size(96, 21);
+			this.comboPrognosis.Size = new System.Drawing.Size(126, 23);
 			this.comboPrognosis.TabIndex = 199;
 			this.comboPrognosis.SelectionChangeCommitted += new System.EventHandler(this.ComboPrognosis_SelectionChangeCommitted);
 			// 
 			// labelPrognosis
 			// 
-			this.labelPrognosis.Location = new System.Drawing.Point(89, 155);
+			this.labelPrognosis.Location = new System.Drawing.Point(100, 146);
 			this.labelPrognosis.Name = "labelPrognosis";
-			this.labelPrognosis.Size = new System.Drawing.Size(79, 17);
+			this.labelPrognosis.Size = new System.Drawing.Size(126, 17);
 			this.labelPrognosis.TabIndex = 200;
 			this.labelPrognosis.Text = "Prognosis";
 			this.labelPrognosis.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// listDx
 			// 
-			this.listDx.Location = new System.Drawing.Point(91, 16);
+			this.listDx.Location = new System.Drawing.Point(100, 48);
 			this.listDx.Name = "listDx";
-			this.listDx.Size = new System.Drawing.Size(94, 134);
+			this.listDx.Size = new System.Drawing.Size(126, 94);
 			this.listDx.TabIndex = 46;
 			this.listDx.SelectionChangeCommitted += new System.EventHandler(this.listDx_SelectionChangeCommitted);
 			// 
@@ -687,53 +687,53 @@
 			this.groupBox2.Controls.Add(this.radioEntryEO);
 			this.groupBox2.Controls.Add(this.radioEntryEC);
 			this.groupBox2.Controls.Add(this.radioEntryTP);
-			this.groupBox2.Location = new System.Drawing.Point(1, 85);
+			this.groupBox2.Location = new System.Drawing.Point(2, 98);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(88, 110);
+			this.groupBox2.Size = new System.Drawing.Size(92, 136);
 			this.groupBox2.TabIndex = 35;
 			this.groupBox2.Text = "Entry Status";
 			// 
 			// radioEntryCn
 			// 
-			this.radioEntryCn.Location = new System.Drawing.Point(2, 91);
+			this.radioEntryCn.Location = new System.Drawing.Point(4, 116);
 			this.radioEntryCn.Name = "radioEntryCn";
-			this.radioEntryCn.Size = new System.Drawing.Size(80, 17);
+			this.radioEntryCn.Size = new System.Drawing.Size(78, 18);
 			this.radioEntryCn.TabIndex = 5;
 			this.radioEntryCn.Text = "Condition";
 			this.radioEntryCn.CheckedChanged += new System.EventHandler(this.radioEntryCn_CheckedChanged);
 			// 
 			// radioEntryR
 			// 
-			this.radioEntryR.Location = new System.Drawing.Point(2, 76);
+			this.radioEntryR.Location = new System.Drawing.Point(4, 97);
 			this.radioEntryR.Name = "radioEntryR";
-			this.radioEntryR.Size = new System.Drawing.Size(80, 17);
+			this.radioEntryR.Size = new System.Drawing.Size(69, 18);
 			this.radioEntryR.TabIndex = 4;
 			this.radioEntryR.Text = "Referred";
 			this.radioEntryR.CheckedChanged += new System.EventHandler(this.radioEntryR_CheckedChanged);
 			// 
 			// radioEntryC
 			// 
-			this.radioEntryC.Location = new System.Drawing.Point(2, 31);
+			this.radioEntryC.Location = new System.Drawing.Point(4, 40);
 			this.radioEntryC.Name = "radioEntryC";
-			this.radioEntryC.Size = new System.Drawing.Size(80, 17);
+			this.radioEntryC.Size = new System.Drawing.Size(77, 18);
 			this.radioEntryC.TabIndex = 3;
 			this.radioEntryC.Text = "Complete";
 			this.radioEntryC.CheckedChanged += new System.EventHandler(this.radioEntryC_CheckedChanged);
 			// 
 			// radioEntryEO
 			// 
-			this.radioEntryEO.Location = new System.Drawing.Point(2, 61);
+			this.radioEntryEO.Location = new System.Drawing.Point(4, 78);
 			this.radioEntryEO.Name = "radioEntryEO";
-			this.radioEntryEO.Size = new System.Drawing.Size(80, 17);
+			this.radioEntryEO.Size = new System.Drawing.Size(75, 18);
 			this.radioEntryEO.TabIndex = 2;
 			this.radioEntryEO.Text = "ExstOther";
 			this.radioEntryEO.CheckedChanged += new System.EventHandler(this.radioEntryEO_CheckedChanged);
 			// 
 			// radioEntryEC
 			// 
-			this.radioEntryEC.Location = new System.Drawing.Point(2, 46);
+			this.radioEntryEC.Location = new System.Drawing.Point(4, 59);
 			this.radioEntryEC.Name = "radioEntryEC";
-			this.radioEntryEC.Size = new System.Drawing.Size(84, 17);
+			this.radioEntryEC.Size = new System.Drawing.Size(88, 18);
 			this.radioEntryEC.TabIndex = 1;
 			this.radioEntryEC.Text = "ExstCurProv";
 			this.radioEntryEC.CheckedChanged += new System.EventHandler(this.radioEntryEC_CheckedChanged);
@@ -741,9 +741,9 @@
 			// radioEntryTP
 			// 
 			this.radioEntryTP.Checked = true;
-			this.radioEntryTP.Location = new System.Drawing.Point(2, 16);
+			this.radioEntryTP.Location = new System.Drawing.Point(4, 21);
 			this.radioEntryTP.Name = "radioEntryTP";
-			this.radioEntryTP.Size = new System.Drawing.Size(80, 17);
+			this.radioEntryTP.Size = new System.Drawing.Size(74, 18);
 			this.radioEntryTP.TabIndex = 0;
 			this.radioEntryTP.TabStop = true;
 			this.radioEntryTP.Text = "TreatPlan";
@@ -752,18 +752,18 @@
 			// listButtonCats
 			// 
 			this.listButtonCats.IntegralHeight = false;
-			this.listButtonCats.Location = new System.Drawing.Point(187, 40);
+			this.listButtonCats.Location = new System.Drawing.Point(232, 48);
 			this.listButtonCats.Name = "listButtonCats";
-			this.listButtonCats.Size = new System.Drawing.Size(122, 192);
+			this.listButtonCats.Size = new System.Drawing.Size(112, 160);
 			this.listButtonCats.TabIndex = 59;
 			this.listButtonCats.Click += new System.EventHandler(this.listButtonCats_Click);
 			// 
 			// butD
 			// 
 			this.butD.BackColor = System.Drawing.SystemColors.Control;
-			this.butD.Location = new System.Drawing.Point(59, 44);
+			this.butD.Location = new System.Drawing.Point(66, 52);
 			this.butD.Name = "butD";
-			this.butD.Size = new System.Drawing.Size(26, 19);
+			this.butD.Size = new System.Drawing.Size(28, 19);
 			this.butD.TabIndex = 20;
 			this.butD.Text = "D";
 			this.butD.UseVisualStyleBackColor = false;
@@ -771,26 +771,26 @@
 			// 
 			// comboPriority
 			// 
-			this.comboPriority.Location = new System.Drawing.Point(91, 211);
+			this.comboPriority.Location = new System.Drawing.Point(100, 211);
 			this.comboPriority.Name = "comboPriority";
-			this.comboPriority.Size = new System.Drawing.Size(96, 21);
+			this.comboPriority.Size = new System.Drawing.Size(126, 23);
 			this.comboPriority.TabIndex = 54;
 			this.comboPriority.SelectionChangeCommitted += new System.EventHandler(this.comboPriority_SelectionChangeCommitted);
 			// 
 			// textDate
 			// 
-			this.textDate.Location = new System.Drawing.Point(0, 211);
+			this.textDate.Location = new System.Drawing.Point(162, 2);
 			this.textDate.Name = "textDate";
-			this.textDate.Size = new System.Drawing.Size(89, 20);
+			this.textDate.Size = new System.Drawing.Size(64, 23);
 			this.textDate.TabIndex = 55;
 			this.textDate.Leave += new System.EventHandler(this.textDate_Leave);
 			// 
 			// butBF
 			// 
 			this.butBF.BackColor = System.Drawing.SystemColors.Control;
-			this.butBF.Location = new System.Drawing.Point(31, 23);
+			this.butBF.Location = new System.Drawing.Point(34, 29);
 			this.butBF.Name = "butBF";
-			this.butBF.Size = new System.Drawing.Size(26, 19);
+			this.butBF.Size = new System.Drawing.Size(28, 19);
 			this.butBF.TabIndex = 21;
 			this.butBF.Text = "B/F";
 			this.butBF.UseVisualStyleBackColor = false;
@@ -799,9 +799,9 @@
 			// butL
 			// 
 			this.butL.BackColor = System.Drawing.SystemColors.Control;
-			this.butL.Location = new System.Drawing.Point(31, 65);
+			this.butL.Location = new System.Drawing.Point(34, 75);
 			this.butL.Name = "butL";
-			this.butL.Size = new System.Drawing.Size(26, 19);
+			this.butL.Size = new System.Drawing.Size(28, 19);
 			this.butL.TabIndex = 22;
 			this.butL.Text = "L";
 			this.butL.UseVisualStyleBackColor = false;
@@ -810,9 +810,9 @@
 			// butM
 			// 
 			this.butM.BackColor = System.Drawing.SystemColors.Control;
-			this.butM.Location = new System.Drawing.Point(3, 44);
+			this.butM.Location = new System.Drawing.Point(2, 52);
 			this.butM.Name = "butM";
-			this.butM.Size = new System.Drawing.Size(26, 19);
+			this.butM.Size = new System.Drawing.Size(28, 19);
 			this.butM.TabIndex = 18;
 			this.butM.Text = "M";
 			this.butM.UseVisualStyleBackColor = false;
@@ -820,9 +820,9 @@
 			// 
 			// butOK
 			// 
-			this.butOK.Location = new System.Drawing.Point(442, 1);
+			this.butOK.Location = new System.Drawing.Point(478, 2);
 			this.butOK.Name = "butOK";
-			this.butOK.Size = new System.Drawing.Size(44, 23);
+			this.butOK.Size = new System.Drawing.Size(40, 23);
 			this.butOK.TabIndex = 52;
 			this.butOK.Text = "OK";
 			this.butOK.Click += new System.EventHandler(this.butOK_Click);
@@ -830,9 +830,9 @@
 			// butAddProc
 			// 
 			this.butAddProc.BackColor = System.Drawing.SystemColors.Control;
-			this.butAddProc.Location = new System.Drawing.Point(191, 1);
+			this.butAddProc.Location = new System.Drawing.Point(232, 2);
 			this.butAddProc.Name = "butAddProc";
-			this.butAddProc.Size = new System.Drawing.Size(89, 23);
+			this.butAddProc.Size = new System.Drawing.Size(112, 23);
 			this.butAddProc.TabIndex = 17;
 			this.butAddProc.Text = "Procedure List";
 			this.butAddProc.UseVisualStyleBackColor = false;
@@ -841,9 +841,9 @@
 			// butV
 			// 
 			this.butV.BackColor = System.Drawing.SystemColors.Control;
-			this.butV.Location = new System.Drawing.Point(59, 23);
+			this.butV.Location = new System.Drawing.Point(66, 29);
 			this.butV.Name = "butV";
-			this.butV.Size = new System.Drawing.Size(26, 19);
+			this.butV.Size = new System.Drawing.Size(28, 19);
 			this.butV.TabIndex = 24;
 			this.butV.Text = "V";
 			this.butV.UseVisualStyleBackColor = false;
@@ -852,9 +852,9 @@
 			// butOI
 			// 
 			this.butOI.BackColor = System.Drawing.SystemColors.Control;
-			this.butOI.Location = new System.Drawing.Point(31, 44);
+			this.butOI.Location = new System.Drawing.Point(34, 52);
 			this.butOI.Name = "butOI";
-			this.butOI.Size = new System.Drawing.Size(26, 19);
+			this.butOI.Size = new System.Drawing.Size(28, 19);
 			this.butOI.TabIndex = 19;
 			this.butOI.Text = "O/I";
 			this.butOI.UseVisualStyleBackColor = false;
@@ -862,9 +862,9 @@
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(184, 21);
+			this.label3.Location = new System.Drawing.Point(232, 29);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(118, 18);
+			this.label3.Size = new System.Drawing.Size(112, 17);
 			this.label3.TabIndex = 201;
 			this.label3.Text = "Procedure Buttons:";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -1380,9 +1380,9 @@
 			// 
 			// checkShowCompleted
 			// 
-			this.checkShowCompleted.Location = new System.Drawing.Point(381, 5);
+			this.checkShowCompleted.Location = new System.Drawing.Point(381, 2);
 			this.checkShowCompleted.Name = "checkShowCompleted";
-			this.checkShowCompleted.Size = new System.Drawing.Size(132, 18);
+			this.checkShowCompleted.Size = new System.Drawing.Size(116, 20);
 			this.checkShowCompleted.TabIndex = 196;
 			this.checkShowCompleted.Text = "Show Completed";
 			this.checkShowCompleted.CheckedChanged += new System.EventHandler(this.checkShowCompleted_CheckedChanged);
@@ -1390,7 +1390,7 @@
 			// butPin
 			// 
 			this.butPin.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butPin.Location = new System.Drawing.Point(163, 1);
+			this.butPin.Location = new System.Drawing.Point(164, 1);
 			this.butPin.Name = "butPin";
 			this.butPin.Size = new System.Drawing.Size(75, 23);
 			this.butPin.TabIndex = 6;
@@ -1401,7 +1401,7 @@
 			// 
 			this.butClear.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butClear.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butClear.Location = new System.Drawing.Point(82, 1);
+			this.butClear.Location = new System.Drawing.Point(83, 1);
 			this.butClear.Name = "butClear";
 			this.butClear.Size = new System.Drawing.Size(75, 23);
 			this.butClear.TabIndex = 5;
@@ -1412,7 +1412,7 @@
 			// 
 			this.butNew.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butNew.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butNew.Location = new System.Drawing.Point(1, 1);
+			this.butNew.Location = new System.Drawing.Point(2, 1);
 			this.butNew.Name = "butNew";
 			this.butNew.Size = new System.Drawing.Size(75, 23);
 			this.butNew.TabIndex = 4;
@@ -1423,7 +1423,7 @@
 			// 
 			this.butDown.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Down,22,22);
 			this.butDown.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDown.Location = new System.Drawing.Point(283, 1);
+			this.butDown.Location = new System.Drawing.Point(284, 1);
 			this.butDown.Name = "butDown";
 			this.butDown.Size = new System.Drawing.Size(33, 23);
 			this.butDown.TabIndex = 195;
@@ -1434,7 +1434,7 @@
 			this.butUp.AdjustImageLocation = new System.Drawing.Point(0, 1);
 			this.butUp.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Up,22,22);
 			this.butUp.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butUp.Location = new System.Drawing.Point(244, 1);
+			this.butUp.Location = new System.Drawing.Point(245, 1);
 			this.butUp.Name = "butUp";
 			this.butUp.Size = new System.Drawing.Size(33, 23);
 			this.butUp.TabIndex = 194;
@@ -1740,9 +1740,9 @@
 			// 
 			this.butChartViewDown.Icon = OpenPmsDental.UI.EnumIcons.Down;
 			this.butChartViewDown.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butChartViewDown.Location = new System.Drawing.Point(426, 188);
+			this.butChartViewDown.Location = new System.Drawing.Point(426, 185);
 			this.butChartViewDown.Name = "butChartViewDown";
-			this.butChartViewDown.Size = new System.Drawing.Size(68, 24);
+			this.butChartViewDown.Size = new System.Drawing.Size(68, 23);
 			this.butChartViewDown.TabIndex = 41;
 			this.butChartViewDown.Text = "&Down";
 			this.butChartViewDown.Click += new System.EventHandler(this.butChartViewDown_Click);
@@ -1751,9 +1751,9 @@
 			// 
 			this.butChartViewUp.Icon = OpenPmsDental.UI.EnumIcons.Up;
 			this.butChartViewUp.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butChartViewUp.Location = new System.Drawing.Point(367, 188);
+			this.butChartViewUp.Location = new System.Drawing.Point(366, 185);
 			this.butChartViewUp.Name = "butChartViewUp";
-			this.butChartViewUp.Size = new System.Drawing.Size(54, 24);
+			this.butChartViewUp.Size = new System.Drawing.Size(54, 23);
 			this.butChartViewUp.TabIndex = 42;
 			this.butChartViewUp.Text = "&Up";
 			this.butChartViewUp.Click += new System.EventHandler(this.butChartViewUp_Click);
@@ -1762,9 +1762,9 @@
 			// 
 			this.butChartViewAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butChartViewAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butChartViewAdd.Location = new System.Drawing.Point(303, 188);
+			this.butChartViewAdd.Location = new System.Drawing.Point(301, 185);
 			this.butChartViewAdd.Name = "butChartViewAdd";
-			this.butChartViewAdd.Size = new System.Drawing.Size(59, 24);
+			this.butChartViewAdd.Size = new System.Drawing.Size(59, 23);
 			this.butChartViewAdd.TabIndex = 40;
 			this.butChartViewAdd.Text = "&Add";
 			this.butChartViewAdd.Click += new System.EventHandler(this.butChartViewAdd_Click);
@@ -1922,9 +1922,9 @@
 			// 
 			this.butAddText.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAddText.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAddText.Location = new System.Drawing.Point(332, 195);
+			this.butAddText.Location = new System.Drawing.Point(332, 193);
 			this.butAddText.Name = "butAddText";
-			this.butAddText.Size = new System.Drawing.Size(71, 22);
+			this.butAddText.Size = new System.Drawing.Size(71, 23);
 			this.butAddText.TabIndex = 24;
 			this.butAddText.Text = "Add";
 			this.butAddText.Click += new System.EventHandler(this.butAddText_Click);
@@ -1933,9 +1933,9 @@
 			// 
 			this.butDeleteText.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDeleteText.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDeleteText.Location = new System.Drawing.Point(425, 195);
+			this.butDeleteText.Location = new System.Drawing.Point(425, 193);
 			this.butDeleteText.Name = "butDeleteText";
-			this.butDeleteText.Size = new System.Drawing.Size(71, 22);
+			this.butDeleteText.Size = new System.Drawing.Size(71, 23);
 			this.butDeleteText.TabIndex = 23;
 			this.butDeleteText.Text = "Delete";
 			this.butDeleteText.Click += new System.EventHandler(this.butDeleteText_Click);

@@ -80,7 +80,7 @@ namespace OpenPmsDental {
 			// 
 			this.radioReadOnlyServerDirect.Location = new System.Drawing.Point(8, 23);
 			this.radioReadOnlyServerDirect.Name = "radioReadOnlyServerDirect";
-			this.radioReadOnlyServerDirect.Size = new System.Drawing.Size(123, 20);
+			this.radioReadOnlyServerDirect.Size = new System.Drawing.Size(121, 20);
 			this.radioReadOnlyServerDirect.TabIndex = 3;
 			this.radioReadOnlyServerDirect.TabStop = true;
 			this.radioReadOnlyServerDirect.Text = "Direct Connection";
@@ -193,7 +193,7 @@ namespace OpenPmsDental {
 			// 
 			this.radioReadOnlyServerMiddleTier.Location = new System.Drawing.Point(8, 221);
 			this.radioReadOnlyServerMiddleTier.Name = "radioReadOnlyServerMiddleTier";
-			this.radioReadOnlyServerMiddleTier.Size = new System.Drawing.Size(87, 20);
+			this.radioReadOnlyServerMiddleTier.Size = new System.Drawing.Size(85, 20);
 			this.radioReadOnlyServerMiddleTier.TabIndex = 8;
 			this.radioReadOnlyServerMiddleTier.TabStop = true;
 			this.radioReadOnlyServerMiddleTier.Text = "Middle Tier";

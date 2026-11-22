@@ -188,9 +188,9 @@ namespace OpenPmsDental {
 			// 
 			// labelReportheckUnits
 			// 
-			this.labelReportheckUnits.Location = new System.Drawing.Point(152, 275);
+			this.labelReportheckUnits.Location = new System.Drawing.Point(150, 275);
 			this.labelReportheckUnits.Name = "labelReportheckUnits";
-			this.labelReportheckUnits.Size = new System.Drawing.Size(146, 23);
+			this.labelReportheckUnits.Size = new System.Drawing.Size(148, 23);
 			this.labelReportheckUnits.TabIndex = 300;
 			this.labelReportheckUnits.Text = "minutes (5 to 60)";
 			this.labelReportheckUnits.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -210,7 +210,7 @@ namespace OpenPmsDental {
 			this.radioReceiveAtAnInterval.Location = new System.Drawing.Point(8, 276);
 			this.radioReceiveAtAnInterval.Name = "radioReceiveAtAnInterval";
 			this.radioReceiveAtAnInterval.RightToLeft = System.Windows.Forms.RightToLeft.No;
-			this.radioReceiveAtAnInterval.Size = new System.Drawing.Size(138, 20);
+			this.radioReceiveAtAnInterval.Size = new System.Drawing.Size(136, 20);
 			this.radioReceiveAtAnInterval.TabIndex = 297;
 			this.radioReceiveAtAnInterval.TabStop = true;
 			this.radioReceiveAtAnInterval.Text = "Receive at an interval";
@@ -232,7 +232,7 @@ namespace OpenPmsDental {
 			this.radioReceiveAtASetTime.Location = new System.Drawing.Point(8, 303);
 			this.radioReceiveAtASetTime.Name = "radioReceiveAtASetTime";
 			this.radioReceiveAtASetTime.RightToLeft = System.Windows.Forms.RightToLeft.No;
-			this.radioReceiveAtASetTime.Size = new System.Drawing.Size(134, 20);
+			this.radioReceiveAtASetTime.Size = new System.Drawing.Size(132, 20);
 			this.radioReceiveAtASetTime.TabIndex = 298;
 			this.radioReceiveAtASetTime.Text = "Receive at a set time";
 			this.radioReceiveAtASetTime.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -251,7 +251,7 @@ namespace OpenPmsDental {
 			// textClaimReportReceiveTime
 			// 
 			this.textClaimReportReceiveTime.Enabled = false;
-			this.textClaimReportReceiveTime.Location = new System.Drawing.Point(148, 302);
+			this.textClaimReportReceiveTime.Location = new System.Drawing.Point(146, 302);
 			this.textClaimReportReceiveTime.Name = "textClaimReportReceiveTime";
 			this.textClaimReportReceiveTime.Size = new System.Drawing.Size(128, 23);
 			this.textClaimReportReceiveTime.TabIndex = 296;
