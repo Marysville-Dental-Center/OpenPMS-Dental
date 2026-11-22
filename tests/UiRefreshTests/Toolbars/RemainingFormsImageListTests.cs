@@ -426,6 +426,25 @@ namespace UiRefreshTests.Toolbars {
 			toolBarOD.Width=right+UiTheme.ScaleI(10,scale);
 		}
 
+		///<summary>Makes the gallery's grid tall enough for all its rows (the UI-9b-4 fix, docs/port-notes/UI-9b.md, section 5.8): the first gallery's
+		///height (28 + 17 px a row at 96 DPI) was measured at the old font; at UI-2b's Segoe UI 9 pt the rows are taller, so the last row (the
+		///wizard's and the info buttons' only row) was cut. Grows the grid a pixel at a time until it no longer scrolls.</summary>
+		public static void FitGridToRows(OpenPmsDental.UI.GridOD grid) {
+			for(int i=0;i<400;i++) {
+				using(Bitmap bitmap=Draw(grid)) {
+					//laid out
+				}
+				grid.ScrollToEnd();
+				bool isScrolled=grid.ScrollValue>0;
+				grid.ScrollToTop();
+				if(!isScrolled) {
+					return;
+				}
+				grid.Height+=1;
+			}
+			Assert.Fail("The grid still scrolls at "+grid.Height+" px.");
+		}
+
 		///<summary>The gallery's strips hold every button (the UI-9b-4 fix: the first gallery cut the wiki's and the editors' last buttons), and the real
 		///wiki toolbar, with the buttons its LayoutToolBar adds (Lists included) and today's labels at the program font, fits the window's designer
 		///width (944 px at 96 DPI, docked) at 100, 150 and 200%: the cut was the picture's, not the window's. The optional Read-Only Copy text button
@@ -572,6 +591,7 @@ namespace UiRefreshTests.Toolbars {
 							});
 						}
 						using(grid) {
+							FitGridToRows(grid);
 							actionSave("grids\\"+pair.Key+"-"+scaleText+".png",Draw(grid));
 						}
 						imageList?.Dispose();
