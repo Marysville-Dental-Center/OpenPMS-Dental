@@ -895,7 +895,7 @@ namespace OpenPmsDental{
 			// 
 			this.butClearResponsParty.AdjustImageLocation = new System.Drawing.Point(1, 1);
 			this.butClearResponsParty.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
-			this.butClearResponsParty.Location = new System.Drawing.Point(428, 170);
+			this.butClearResponsParty.Location = new System.Drawing.Point(429, 170);
 			this.butClearResponsParty.Name = "butClearResponsParty";
 			this.butClearResponsParty.Size = new System.Drawing.Size(25, 23);
 			this.butClearResponsParty.TabIndex = 9;
@@ -903,7 +903,7 @@ namespace OpenPmsDental{
 			// 
 			// butPickResponsParty
 			// 
-			this.butPickResponsParty.Location = new System.Drawing.Point(399, 170);
+			this.butPickResponsParty.Location = new System.Drawing.Point(400, 170);
 			this.butPickResponsParty.Name = "butPickResponsParty";
 			this.butPickResponsParty.Size = new System.Drawing.Size(23, 23);
 			this.butPickResponsParty.TabIndex = 8;
@@ -917,7 +917,7 @@ namespace OpenPmsDental{
 			this.textResponsParty.Location = new System.Drawing.Point(178, 170);
 			this.textResponsParty.Name = "textResponsParty";
 			this.textResponsParty.ReadOnly = true;
-			this.textResponsParty.Size = new System.Drawing.Size(215, 23);
+			this.textResponsParty.Size = new System.Drawing.Size(216, 23);
 			this.textResponsParty.TabIndex = 0;
 			this.textResponsParty.TabStop = false;
 			this.textResponsParty.Leave += new System.EventHandler(this.textBox_Leave);

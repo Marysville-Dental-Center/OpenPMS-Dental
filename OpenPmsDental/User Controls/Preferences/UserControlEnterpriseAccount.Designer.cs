@@ -64,7 +64,7 @@ namespace OpenPmsDental {
 			// 
 			// label13
 			// 
-			this.label13.Location = new System.Drawing.Point(24, 432);
+			this.label13.Location = new System.Drawing.Point(24, 434);
 			this.label13.Name = "label13";
 			this.label13.Size = new System.Drawing.Size(274, 32);
 			this.label13.TabIndex = 302;
@@ -75,7 +75,7 @@ namespace OpenPmsDental {
 			// 
 			this.label27.Location = new System.Drawing.Point(24, 407);
 			this.label27.Name = "label27";
-			this.label27.Size = new System.Drawing.Size(462, 18);
+			this.label27.Size = new System.Drawing.Size(274, 23);
 			this.label27.TabIndex = 293;
 			this.label27.Text = "Pay Plan charge logic";
 			this.label27.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -92,7 +92,7 @@ namespace OpenPmsDental {
 			// 
 			// textBillingElectBatchMax
 			// 
-			this.textBillingElectBatchMax.Location = new System.Drawing.Point(304, 436);
+			this.textBillingElectBatchMax.Location = new System.Drawing.Point(304, 438);
 			this.textBillingElectBatchMax.Name = "textBillingElectBatchMax";
 			this.textBillingElectBatchMax.Size = new System.Drawing.Size(60, 20);
 			this.textBillingElectBatchMax.TabIndex = 283;
@@ -102,9 +102,9 @@ namespace OpenPmsDental {
 			// 
 			// comboPayPlansVersion
 			// 
-			this.comboPayPlansVersion.Location = new System.Drawing.Point(247, 407);
+			this.comboPayPlansVersion.Location = new System.Drawing.Point(304, 407);
 			this.comboPayPlansVersion.Name = "comboPayPlansVersion";
-			this.comboPayPlansVersion.Size = new System.Drawing.Size(205, 21);
+			this.comboPayPlansVersion.Size = new System.Drawing.Size(182, 23);
 			this.comboPayPlansVersion.TabIndex = 292;
 			this.comboPayPlansVersion.Visible = false;
 			this.comboPayPlansVersion.SelectionChangeCommitted += new System.EventHandler(this.comboPayPlansVersion_ChangeCommitted);
