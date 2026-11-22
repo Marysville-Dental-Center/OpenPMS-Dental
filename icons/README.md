@@ -37,9 +37,18 @@ packages. The approved download is `.git/od-tools/downloads/ui7a-fluentui-svg-ic
   finds it and falls back to the Regular row when there is none. Today the seven module bar icons have one.
 - `fluent`: the Fluent file name stem, or `custom`: a stem under `icons/custom` (`<custom>_<size>.svg`). Exactly one of the two.
 - `style`: `regular`, or `filled` for "on" states (the selected module, a toggled toolbar button), section 4.3.
-- `sizes`: the design sizes compiled in, rising: 12, 16, 20, 24, 32, 48 (section 3.5; the 24 design serves 24 to 31 px, so 28 is not
-  used). Take every size Fluent has for the icon. A slot whose design is missing draws the largest smaller one, centred; a slot below
-  the smallest design draws the smallest shrunk to the slot.
+- `sizes`: the design sizes compiled in, rising: 12, 16, 20, 24, 32, 48 (section 3.5; the 24 design serves 24 to 31 px, so no slot asks
+  for 28; an `EnumIcons` row may name 28 when that design is the one it draws at every size, as `Bold`). Take every size Fluent has for
+  the icon. A `UiGlyph` slot whose design is missing draws the largest smaller one, centred; a slot below the smallest design draws the
+  smallest shrunk to the slot. An `EnumIcons` or `DentalIcon` slot (the toolbars, buttons, lists and the module bar) always draws in the
+  box of section 3.5 for the slot: a missing design is replaced by the nearest one, scaled so its Fluent keyline square (10 of 12, 14 of
+  16, 16 of 20, 20 of 24, 28 of 32, 40 of 48 px) fills the box's, so every icon of a strip has one size and stroke weight (the UI-9b-4 fix,
+  docs/port-notes/UI-9b.md, section 5.8).
+- `opticalScale` (optional, `EnumIcons` only, 0.8 to 1.5, not 1): the row's designs are drawn that much larger or smaller about their
+  centre, so glyphs of one kind that Fluent draws at different sizes match: the editors' text buttons H1 to H3 (15/14), B (0.92) and I
+  (15/16) have one cap height, 15 of the 24 px design's keyline square. Only where a design is scaled anyway (a box of another size): a
+  design in a box of its own size (the 20 px designs in the toolbars' 20 px box at 100%) is drawn pixel for pixel, so its 1 px stems stay
+  crisp.
 - `role`: the default colour token (`Text`, `Accent`, `Danger`, `Success`, `Warning`). The drawing call may pass its own colour: a white
   check mark on the accent, the title bar's text colour on a caption button, `TextDisabled` for a disabled icon.
 - `purpose`: where it is drawn.

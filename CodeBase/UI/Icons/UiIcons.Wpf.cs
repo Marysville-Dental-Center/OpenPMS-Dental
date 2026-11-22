@@ -40,9 +40,10 @@ namespace CodeBase {
 			StreamGeometry streamGeometryNew=new StreamGeometry();
 			streamGeometryNew.FillRule=FillRule.Nonzero;
 			System.Drawing.Rectangle rectangleDraw=GetDrawRectangle(iconDesign,new System.Drawing.Rectangle(0,0,sizePixels,sizePixels));
+			GetPlacement(iconDesign,rectangleDraw.Width,out float offset,out float scaleDesign);
 			using(StreamGeometryContext streamGeometryContext=streamGeometryNew.Open()) {
-				iconDesign.GetFigures().WriteTo(new WpfPathSink(streamGeometryContext),(float)(rectangleDraw.X/scale),(float)(rectangleDraw.Y/scale),
-					(float)((double)rectangleDraw.Width/iconDesign.Size/scale));
+				iconDesign.GetFigures().WriteTo(new WpfPathSink(streamGeometryContext),(float)((rectangleDraw.X+offset)/scale),(float)((rectangleDraw.Y+offset)/scale),
+					(float)(scaleDesign/scale));
 			}
 			streamGeometryNew.Freeze();
 			lock(_lockWpf) {
