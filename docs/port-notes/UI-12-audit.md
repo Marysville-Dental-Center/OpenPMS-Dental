@@ -329,3 +329,49 @@ FormHL7DefEdit's server row gap no longer happen). The pass finds nothing new.
 Open, outside this round's findings (seen while auditing, for the lead): FormPractice's groups stand at x = 19 (labels outside them start at 8) against the
 bottom bar's 8 px (their fields share the window's field column at 132); FormProcCodeEdit's tab control starts at 75 (the label column's
 edge) and leaves an empty corner at the bottom right; both as in round 4.
+
+## Round 6 (2026-11-22: the polish round, the lead's non-blocking list of round 5)
+
+The findings and what changed: UI-12.md section 4, "Round 6". Pictures from the build of each pass (`G-UI3-ui12p-src/r6a`, `r6b`). Every
+picture was opened in each pass: the full windows one by one, the 28 preference pages three to a sheet at full size, the 26 owner crops on
+three sheets, the style pictures at 100% and 150% whole and zoomed (the up-down buttons and the multi-line boxes at 4x).
+
+### Pass 1 (gallery r6a, the first round 6 build)
+
+| Picture | Checked | Found |
+|---|---|---|
+| FormPayment-inputs-100, -150, -hidesplits-100, -150 | the up-down buttons, the Note box, one look per input | The arrows light with the combo box's chevrons, the Note box framed like the text boxes. At 150% the chevrons stayed at their 100% size (the harness's windows are at 96 dpi; fixed: they follow the box's height too). |
+| FormProvEdit | the Specialty list, the right column's edges and gutter | Every specialty whole, one right edge (760), 8 px gutter. Not a Person's text ran 87 px past the column's edge (fixed: it wraps at 760). |
+| FormProcCodeEdit (owner row 23) | the Treatment Area list, the tab control, the fee notes | Tooth Range in view but the list still scrolled (138 px held 136 px of rows and the border: fixed, 140 px); the tab control to 1145, no empty corner, the notes 8 px over it; Description on the Only if combo's edge (the planner's new rule). |
+| FormEmailInbox (owner row 30) | the preview's label gaps, Add Image | 6 px everywhere, the labels centred on their fields, Add Image beside Add File; the body box framed. Good. |
+| FormPatientEdit | Credit Type, the multi-line boxes | 24 px; the Address and Phone Notes box framed. Good. |
+| FormScreenEdit (owner row 26) | Grade Level, the age arrows | On Name's edge; the arrows light inside the Age box. Good. |
+| FormClaimEdit (owner row 02) | the top row's right edge | 1160 for the plan groups' column and both payment groups, Split Claim under Enter Payment's content. Good. |
+| UserControlAccountRecAndRepCharges (owner row 08's page) | Edit Template | On the combo's edge. Good. |
+| FormMedLabEdit (owner row 37) | the Patient group, Fasting, the right column | Fasting inside the column, the group 8 px past its content, the right column from 8; the three note boxes framed. Good. |
+| FormPractice (owner rows 22, 38) | the groups' x, the right column | The groups at 8, the fields still on 132. The right column 14 px from the window's right edge against Save's 8 and 6-7 px after its lists (fixed: 8 px gutter, to 883). |
+| UserControlTreatPlanGeneral | the Default Note row | The label centred on its 66 px box while the ordinary forms' labels stand on a box's first line (fixed: the planner's Preferences rule). |
+| FormInsPlan, FormApptEdit (owner row 25), FormProcEdit, FormHL7DefEdit (owner row 34), FormStatementOptions (owner row 29), FormInsBenefits (owner row 24), ControlChart (owner row 31), ControlAccount, ControlChart-pagebar-100 | the multi-line boxes, nothing else changed | Every multi-line box framed like the inputs (the notes, the Lab and Req boxes, the claim and E-claim notes, the treatment note), the scroll bars inside the frame; the rest as audited in round 5. Good. |
+
+### Pass 2 (gallery r6b, the final build; G-UI3-ui12p's after pictures)
+
+| Picture | Checked | Found |
+|---|---|---|
+| FormProvEdit | the wrapped Not a Person, the rows under it | Two lines ending inside 760, the list pitch kept, Default Claim Form 16 px lower. Good. |
+| FormProcCodeEdit, 23-FormProcCodeEdit | the Treatment Area list | Eight items, no scroll bar, & Tooth Range 4 px under it. Good. |
+| FormPractice, 22-FormPractice, 38-FormPractice-label18 | the right column | One gutter (8), one right edge with Save (883), the Switzerland fields to its content edge. Good. |
+| UserControlTreatPlanGeneral | Default Note | On the box's first line. Good. |
+| FormPayment-inputs-150, FormPayment-hidesplits-150 | the up-down chevrons at 150% | Larger with the box, inside the button area. Good. The date pickers' text larger than the labels' is the harness's (section 5, round 4). |
+| FormPayment, FormPayment-inputs-100, FormPayment-hidesplits-100, 28-FormPayment | the inputs | One frame, height and chevron look for the combo boxes, text boxes, date pickers and up-down boxes; the Note box framed. Good. |
+| ControlChart-pagebar-100, -150, ControlChart-procbuttons-100, -150 | the page bar, the procedure buttons | As approved in round 4 (the page bar's left edge shows the framed note box's corner). Good. |
+| FormApptViewEdit (owner row 33), FormBackup (owner row 27), 33-FormApptViewEdit-label5 | unchanged since round 5 | Opened again: the grids' bottoms, the content box, the Browse buttons on the content edge. Good. |
+| FormInsPlan, FormApptEdit, FormProcEdit, FormHL7DefEdit, FormStatementOptions, FormInsBenefits, FormClaimEdit, FormEmailInbox, FormPatientEdit, FormScreenEdit, FormMedLabEdit, ControlChart, ControlAccount and their owner rows (02, 24-26, 29-31, 34-37) | unchanged since pass 1 (byte-identical to r6a) | Opened whole in pass 1 (above). Good. |
+| The other 26 preference pages (UserControlAccountAdjustments to UserControlTreatPlanFreqLimit) | unchanged since round 5 | Opened on the page sheets at full size: one field column per page, labels where the check box text starts, the groups 8 px apart, no text cut or covered. Good. |
+| The 26 owner crops (rows 03-21, 32-38) | each crop | No text cut, every box on the left, the labels 6 px before their fields; FormHL7DefEdit-label17 and FormPractice-label18 changed only by the framed boxes and the groups' new x. Good. |
+
+GridRulesTests (r6b): no findings beyond `grid-known.tsv` (nine rows removed this round: the preview pane's label gaps no longer happen). The
+pass finds nothing new.
+
+Seen and kept, for the lead (not in this round's list, as audited before): FormApptEdit's grids and buttons on the right stand 1 px from the
+window's right edge as on main (the window is laid out in parts, `grid-scope.tsv`, and they are outside them); FormProvEdit's hidden Allow
+NewCrop eRx Option box ends at 787 past the column's 760 when the code shows it (it stands 6 px after Use Electronic Prescriptions, as on main).

@@ -1592,6 +1592,12 @@ own 26.2 overlap check before it starts. The first cut is below; a brief that fi
   FormPayment's filter captions and second row on the field columns; one content box in FormHL7DefEdit, FormMedLabEdit and FormEmailInbox;
   FormInsPlan's adjustments list holds its lines; the clinic picker's label drawn as a Label draws; gallery G-UI3-ui12p redrawn from
   round 5 (UI-12.md section 4, "Round 5").
+  Round 6 (branch `ui/ui12p-4-1`, the polish round: the lead's non-blocking list of round 5): every multi-line text box draws the
+  inputs' frame and the up-down boxes' arrows draw in the theme (`UiUpDownLook`); lists hold their items (FormProvEdit's Specialty,
+  FormProcCodeEdit's Treatment Area); the message preview's label gaps; the edges and gaps of FormClaimEdit, FormMedLabEdit,
+  FormPractice, FormProvEdit, FormProcCodeEdit (its tab control to the content edge), FormScreenEdit, FormPatientEdit and the recurring
+  charges page; the planner grows a wide field to its column's edge and stands a Preferences label on a multi-line box's first line;
+  gallery G-UI3-ui12p redrawn from round 6 (UI-12.md section 4, "Round 6").
 - Gallery: G-UI3 per slice, the owner's rows first.
 
 ---
