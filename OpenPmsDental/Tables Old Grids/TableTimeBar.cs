@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Drawing;
 
 using System.Windows.Forms;
+using CodeBase;
 
 
 namespace OpenPmsDental{
@@ -24,6 +25,7 @@ namespace OpenPmsDental{
 			ColWidth[0]=13;
 			ColAlign[0]=HorizontalAlignment.Center;
 			SetGridColor(Color.LightGray);
+			SetModernFrame();//UI-13: one frame around the column (PaintModern)
 			/*TopBorder[0,6]=Color.Black;
 			TopBorder[0,12]=Color.Black;
 			TopBorder[0,18]=Color.Black;
@@ -59,6 +61,54 @@ namespace OpenPmsDental{
 
 		private void TableTimeBar_Load(object sender, System.EventArgs e) {
 			LayoutTables();
+		}
+
+		///<summary>UI-13 (docs/port-notes/UI-13.md, the owner's G-UI3-ui12p row "Time pattern on the left looks odd"): the time pattern drawn as one
+		///framed column of 5-minute cells in the input frame's look (SurfaceRaised, a 1 px StrokeStrong frame with 2 px corners, Gridline between
+		///the cells); a provider cell (X) filled Accent with its letter in TextOnAccent, an assistant cell (/) AccentSubtle with its letter in Text,
+		///a white line between two filled cells so the pattern reads as steps. Every cell where ContrTable puts it: the clicks and the slider's
+		///14 px steps are unchanged.</summary>
+		protected override bool IsModernLook{
+			get{
+				return true;
+			}
+		}
+
+		protected override void PaintModern(Graphics g){
+			Rectangle rectangleFrame=new Rectangle(0,0,Width,Height);
+			Color colorParent=Parent==null ? SystemColors.Control : Parent.BackColor;
+			if(colorParent.A<255){
+				colorParent=SystemColors.Control;
+			}
+			using(SolidBrush brushParent=new SolidBrush(colorParent)){
+				g.FillRectangle(brushParent,rectangleFrame);
+			}
+			UiControlPaint.Fill(g,EnumUiColor.SurfaceRaised,rectangleFrame,UiTheme.CORNER_CHECKBOX,1f);
+			System.Drawing.Drawing2D.GraphicsState graphicsState=g.Save();
+			using(System.Drawing.Drawing2D.GraphicsPath graphicsPath=UiTheme.GetRoundedRectanglePath(Rectangle.Inflate(rectangleFrame,-1,-1),UiTheme.CORNER_CHECKBOX)){
+				g.SetClip(graphicsPath,System.Drawing.Drawing2D.CombineMode.Intersect);
+				for(int i=0;i<MaxRows;i++){
+					Rectangle rectangleCell=GetCellRectangle(0,i);
+					rectangleCell=new Rectangle(1,rectangleCell.Y,Width-2,rectangleCell.Height);
+					string text=Cell[0,i]??"";
+					bool isFilled=text!="";
+					bool isFilledBefore=i>0 && !string.IsNullOrEmpty(Cell[0,i-1]);
+					if(isFilled){
+						EnumUiColor uiColorFill=text=="X" ? EnumUiColor.Accent : EnumUiColor.AccentSubtle;
+						g.FillRectangle(UiTheme.GetBrush(uiColorFill),rectangleCell);
+						Color colorText=UiTheme.GetColor(text=="X" ? EnumUiColor.TextOnAccent : EnumUiColor.Text);
+						TextRenderer.DrawText(g,text,UiTheme.FontGrid,rectangleCell,colorText,
+							TextFormatFlags.HorizontalCenter|TextFormatFlags.VerticalCenter|TextFormatFlags.NoPadding|TextFormatFlags.NoPrefix|TextFormatFlags.SingleLine);
+					}
+					if(i>0){
+						//The line over the cell: white between two filled cells, Gridline otherwise.
+						EnumUiColor uiColorLine=isFilled && isFilledBefore ? EnumUiColor.SurfaceRaised : EnumUiColor.Gridline;
+						g.FillRectangle(UiTheme.GetBrush(uiColorLine),new Rectangle(rectangleCell.X,rectangleCell.Y,rectangleCell.Width,1));
+					}
+				}
+			}
+			g.Restore(graphicsState);
+			UiControlPaint.Outline(g,EnumUiColor.StrokeStrong,rectangleFrame,1,UiTheme.CORNER_CHECKBOX,1f);
 		}
 
 		private void butSlider_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e) {

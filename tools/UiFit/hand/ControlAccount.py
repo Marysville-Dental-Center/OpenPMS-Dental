@@ -11,35 +11,40 @@ def layout(h):
     H = h.H
     h.watch("panelAging", "tabMain", "tabShow")
     # ---- The aging strip (panelAging, 749 x 37) ------------------------------------------------------------------------------------------
-    ycap, hcap, yval = 2, 14, 17
-    h.set("label2", 4, 2, 56, 33)
+    # UI-13 (the owner's G-UI3-ui12p row "Check spacing top left"): the strip on the grid's 8 px left padding (the Family Aging label stood at
+    # 4), the caption row 2 px under the toolbar and the value row 1 px under the captions (the boxes overlapped their captions by 1 px), the
+    # aging boxes one width 4 px apart, the five amount columns one width (76: the bold Total and Balance amounts fit), every amount bottom
+    # aligned on the boxes' bottom so the amounts share one baseline (the bold 11 pt amounts were centred and sat 2 px lower), each separator
+    # line 4 px from the columns on both sides, Ins Rem on the right edge.
+    ycap, hcap, yval, hval = 2, 14, 17, 18
+    h.set("label2", 8, 2, 52, 33)
     h.text_align("label2", "MiddleRight")
     xb, wbox, gap = 66, 50, 4
     for i, (lb, tb) in enumerate((("label7", "text0_30"), ("label6", "text31_60"), ("label5", "text61_90"), ("label3", "textOver90"))):
         x = xb + i * (wbox + gap)
         h.set(lb, x, ycap, wbox, hcap)
         h.text_align(lb, "BottomCenter")
-        h.set(tb, x, 15, wbox, 20, why="the aging boxes: one width, 4 px apart (the strip is 37 px tall: the module's code places the grids under it)")
+        h.set(tb, x, yval, wbox, hval, why="the aging boxes: one width, 4 px apart, under their captions (the strip is 37 px tall: the module's code places the grids under it)")
     x = xb + 4 * (wbox + gap) - gap + 6
 
     def column(cap, amt, x, wcol):
         h.set(cap, x, ycap, wcol, hcap)
         h.text_align(cap, "BottomCenter")
-        h.set(amt, x, yval, wcol, 18)
-        h.text_align(amt, "MiddleCenter")
+        h.set(amt, x, yval, wcol, hval)
+        h.text_align(amt, "BottomCenter")
         return x + wcol
 
-    # The amounts in bold (Total, Balance) are 80 wide, the others 72; a separator line 4 px from the columns on each side.
-    x = column("labelTotal", "labelTotalAmt", x, 80)
-    h.set("panelAgeLine", x + 4, 3, 2, 32)
-    x = column("labelInsEst", "labelInsEstAmt", x + 10, 72)
-    x = column("labelBalance", "labelBalanceAmt", x + 4, 80)
-    h.set("panel1", x + 4, 3, 2, 32)
-    x = column("labelPatEstBal", "labelPatEstBalAmt", x + 10, 72)
-    h.set("panel2", x + 4, 3, 2, 32)
-    x = column("labelUnearned", "labelUnearnedAmt", x + 10, 72)
-    h.set("labelInsRem", x + 6, 2, 49, 33)
-    h.set("labelDisRem", x + 6, 2, 49, 33)
+    wcol, sep = 76, 4
+    x = column("labelTotal", "labelTotalAmt", x, wcol)
+    h.set("panelAgeLine", x + sep, 3, 2, 32)
+    x = column("labelInsEst", "labelInsEstAmt", x + 2 * sep + 2, wcol)
+    x = column("labelBalance", "labelBalanceAmt", x + 4, wcol)
+    h.set("panel1", x + sep, 3, 2, 32)
+    x = column("labelPatEstBal", "labelPatEstBalAmt", x + 2 * sep + 2, wcol)
+    h.set("panel2", x + sep, 3, 2, 32)
+    x = column("labelUnearned", "labelUnearnedAmt", x + 2 * sep + 2, wcol)
+    h.set("labelInsRem", x + 6, 2, 749 - x - 6, 33)
+    h.set("labelDisRem", x + 6, 2, 749 - x - 6, 33)
 
     # ---- The side panel, Main page (182 wide) ------------------------------------------------------------------------------------------
     # Fix round: the page's content 4 px in from the page's frame on every side, as the Show page (the owner: "text shouldn't be touched by a

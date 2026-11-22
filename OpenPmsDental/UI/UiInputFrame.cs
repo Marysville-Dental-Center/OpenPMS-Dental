@@ -95,19 +95,29 @@ namespace OpenPmsDental.UI {
 				return;
 			}
 			foreach(Control control in root.Controls) {
-				if(IsFramed(control)) {
-					Attach(control);
-				}
-				else if(control is RadioButton) {
-					//Round 3: the stock radio button drawn like the program's check box (UiRadioLook).
-					UiRadioLook.Attach(control);
-				}
-				else if(UiUpDownLook.IsButtons(control)) {
-					//Polish round: the up-down box's arrow buttons drawn like the combo box's drop area (UiUpDownLook).
-					UiUpDownLook.Attach(control);
-				}
+				AttachOne(control);
 				AttachTree(control);
 			}
+		}
+
+		///<summary>Attaches every shared look that applies to the one control (not its children): the frame, the radio button's and the up-down
+		///box's looks (UI-12), and UI-13's looks (UiLooks.AttachOne: scroll bars, slider, stock buttons, grey label blocks and the rest).</summary>
+		public static void AttachOne(Control control) {
+			if(control==null) {
+				return;
+			}
+			if(IsFramed(control)) {
+				Attach(control);
+			}
+			else if(control is RadioButton) {
+				//Round 3: the stock radio button drawn like the program's check box (UiRadioLook).
+				UiRadioLook.Attach(control);
+			}
+			else if(UiUpDownLook.IsButtons(control)) {
+				//Polish round: the up-down box's arrow buttons drawn like the combo box's drop area (UiUpDownLook).
+				UiUpDownLook.Attach(control);
+			}
+			UiLooks.AttachOne(control);
 		}
 
 		public static void Attach(Control control) {
