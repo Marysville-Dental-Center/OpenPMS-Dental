@@ -18,7 +18,7 @@ OpenPmsDental/UI/UiRadioLook	UI-12,UI-13	the stock radio button drawn like the p
 OpenPmsDental/UI/UiUpDownLook	UI-12	the stock up-down box's arrow buttons drawn like the combo box's drop area (polish round: the box's fill, the Fluent chevrons)
 OpenPmsDental/UI/UiScrollLook	UI-13	every scroll bar (the stock scroll bar controls of the grids, lists and pickers, and the frame scroll bars of text boxes, lists, tree and list views, scrolling panels) painted over in UiScrollPaint's Fluent look
 OpenPmsDental/UI/UiTrackBarLook	UI-13	the stock track bar painted over in UiSliderPaint's Fluent slider look (ControlChart's procedure date slider)
-OpenPmsDental/UI/UiLooks	UI-13	the shared looks of the other stock element types: stock buttons and colour swatches, stock check boxes, grey label blocks, progress bars, flat panel and picture borders, tree and list views (Explorer theme), data grid views, link labels
+OpenPmsDental/UI/UiLooks	UI-13	the shared looks of the other stock element types: stock buttons and colour swatches, stock check boxes, grey label blocks, grid-title labels, divider panels, progress bars, flat panel and picture borders, tree and list views (Explorer theme), data grid views, link labels
 OpenPmsDental/UI/ListBox	UI-4b	the list box
 OpenPmsDental/UI/TabControl/*	UI-4b	the tab control, its pages and designers
 OpenPmsDental/UI/Splitters/*	UI-4b	the split container, its panels and designers

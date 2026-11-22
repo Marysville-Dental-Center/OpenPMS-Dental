@@ -17,6 +17,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Windows.Forms;
 using CodeBase;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -48,6 +49,8 @@ namespace UiRefreshTests {
 				if(!visualStylesScope.IsActive) {
 					listFailed.Add("Windows' visual styles could not be activated: the native parts draw their classic picture.");
 				}
+				//Before: the stock types without UI-13's looks, as main draws them.
+				OpenPmsDental.UI.UiLooks.IsOffForGallery=isBefore;
 				foreach(float scale in new float[] { 1f,1.5f }) {
 					foreach(KeyValuePair<string,Func<float,Control[]>> pair in GetSheets()) {
 						try {
@@ -64,6 +67,11 @@ namespace UiRefreshTests {
 									listOffsets.Add(control.Location);
 									//The font as Windows scales a point size at the monitor's dpi.
 									control.Font=new Font(UiTheme.FONT_FAMILY,UiTheme.FONT_SIZE_BODY*scale);
+									//The program's own controls get the window's LayoutManager, as LayoutManagerForms passes it to them.
+									FieldInfo fieldInfo=control.GetType().GetField("LayoutManager",BindingFlags.Instance|BindingFlags.Public);
+									if(fieldInfo!=null && fieldInfo.FieldType==typeof(LayoutManagerForms)) {
+										fieldInfo.SetValue(control,form.GetLayoutManager());
+									}
 									panel.Controls.Add(control);
 								}
 								if(!isBefore) {
@@ -106,6 +114,7 @@ namespace UiRefreshTests {
 				}
 			});
 			DesignSheetWindows.IsPrintingWithoutChildren=false;
+			OpenPmsDental.UI.UiLooks.IsOffForGallery=false;
 			File.WriteAllLines(Path.Combine(folder,"element-styles-failed.txt"),listFailed);
 			Assert.IsTrue(countPictures>0,"No picture made: "+string.Join("; ",listFailed));
 		}
