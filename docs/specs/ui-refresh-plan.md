@@ -1623,6 +1623,13 @@ own 26.2 overlap check before it starts. The first cut is below; a brief that fi
   (no padding, so it ends on the label column; GridRulesTests checks its ink), right-to-left labels the grid aligns cleared, four new layout
   scripts (FormArManager, FormEmailMessageEdit, FormPaySplitEdit, FormRpTreatmentFinder) and ten changed; gallery redrawn from `d2`, audit
   pass 7 (UI-12.md, "Slice 1, fix round 9").
+  Slice 2 (UI-12-2, branch `ui/ui12-2-1`): fit-scan ranks 82 to 142, 46 windows on the grid (27 laid out by the planner, 19 of them
+  with a layout script; 19 by their own layout script from main's arrangement where the planner placed them badly), 9 files skipped
+  (owner-drawn surfaces, other exes, already on the grid), 5 windows left for the continuation (FormTaskEdit, FormClaimPayBatch,
+  FormAdvertisingPatientList, FormPayConnectSetup, UserControlSetupWizSchedule); the pilot's 12 cut texts fixed; the 150% harness draws
+  labels, check boxes, buttons and group titles at the scaled font; the clinic picker's box edge rounded once at 150%; no planner rule
+  added (the earlier windows re-plan as recorded); gallery G-UI3-ui12-2 (46 windows, 14 at 150%, styles, the pilot follow-up), audit
+  `UI-12-audit-2.md` (UI-12.md section 7).
 - Gallery: G-UI3 per slice, the owner's rows first.
 
 **UI-13: every element type in the new look (the owner, 2026-11-22: "Overall make sure you modernize all element types")**
