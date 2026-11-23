@@ -61,7 +61,7 @@ namespace OpenPmsDental {
 			// 
 			// label7
 			// 
-			this.label7.Location = new System.Drawing.Point(56, 96);
+			this.label7.Location = new System.Drawing.Point(56, 89);
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(44, 23);
 			this.label7.TabIndex = 0;
@@ -80,7 +80,7 @@ namespace OpenPmsDental {
 			// 
 			// label16
 			// 
-			this.label16.Location = new System.Drawing.Point(64, 69);
+			this.label16.Location = new System.Drawing.Point(64, 62);
 			this.label16.Name = "label16";
 			this.label16.Size = new System.Drawing.Size(36, 23);
 			this.label16.TabIndex = 80;
@@ -90,7 +90,7 @@ namespace OpenPmsDental {
 			// textUser
 			// 
 			this.textUser.AutoSize = false;
-			this.textUser.Location = new System.Drawing.Point(106, 69);
+			this.textUser.Location = new System.Drawing.Point(106, 62);
 			this.textUser.Name = "textUser";
 			this.textUser.ReadOnly = true;
 			this.textUser.Size = new System.Drawing.Size(120, 23);
@@ -98,7 +98,7 @@ namespace OpenPmsDental {
 			// 
 			// label12
 			// 
-			this.label12.Location = new System.Drawing.Point(32, 42);
+			this.label12.Location = new System.Drawing.Point(32, 35);
 			this.label12.Name = "label12";
 			this.label12.Size = new System.Drawing.Size(68, 23);
 			this.label12.TabIndex = 96;
@@ -107,9 +107,9 @@ namespace OpenPmsDental {
 			// 
 			// label26
 			// 
-			this.label26.Location = new System.Drawing.Point(188, 44);
+			this.label26.Location = new System.Drawing.Point(188, 35);
 			this.label26.Name = "label26";
-			this.label26.Size = new System.Drawing.Size(83, 18);
+			this.label26.Size = new System.Drawing.Size(80, 23);
 			this.label26.TabIndex = 97;
 			this.label26.Text = "(for security)";
 			this.label26.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -126,7 +126,7 @@ namespace OpenPmsDental {
 			// textProcDate
 			// 
 			this.textProcDate.AutoSize = false;
-			this.textProcDate.Location = new System.Drawing.Point(106, 11);
+			this.textProcDate.Location = new System.Drawing.Point(106, 8);
 			this.textProcDate.Name = "textProcDate";
 			this.textProcDate.Size = new System.Drawing.Size(76, 23);
 			this.textProcDate.TabIndex = 100;
@@ -159,7 +159,7 @@ namespace OpenPmsDental {
 			// textDateEntry
 			// 
 			this.textDateEntry.AutoSize = false;
-			this.textDateEntry.Location = new System.Drawing.Point(106, 42);
+			this.textDateEntry.Location = new System.Drawing.Point(106, 35);
 			this.textDateEntry.Name = "textDateEntry";
 			this.textDateEntry.ReadOnly = true;
 			this.textDateEntry.Size = new System.Drawing.Size(76, 23);
@@ -167,7 +167,7 @@ namespace OpenPmsDental {
 			// 
 			// buttonUseAutoNote
 			// 
-			this.buttonUseAutoNote.Location = new System.Drawing.Point(351, 69);
+			this.buttonUseAutoNote.Location = new System.Drawing.Point(359, 62);
 			this.buttonUseAutoNote.Name = "buttonUseAutoNote";
 			this.buttonUseAutoNote.Size = new System.Drawing.Size(82, 23);
 			this.buttonUseAutoNote.TabIndex = 106;
@@ -184,11 +184,11 @@ namespace OpenPmsDental {
 			this.textNotes.DetectLinksEnabled = false;
 			this.textNotes.DetectUrls = false;
 			this.textNotes.HasAutoNotes = true;
-			this.textNotes.Location = new System.Drawing.Point(106, 96);
+			this.textNotes.Location = new System.Drawing.Point(106, 89);
 			this.textNotes.Name = "textNotes";
 			this.textNotes.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Procedure;
 			this.textNotes.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textNotes.Size = new System.Drawing.Size(872, 231);
+			this.textNotes.Size = new System.Drawing.Size(872, 238);
 			this.textNotes.TabIndex = 1;
 			this.textNotes.Text = "";
 			this.textNotes.TextChanged += new System.EventHandler(this.textNotes_TextChanged);
@@ -219,7 +219,7 @@ namespace OpenPmsDental {
 			// 
 			this.butLock.Location = new System.Drawing.Point(413, 8);
 			this.butLock.Name = "butLock";
-			this.butLock.Size = new System.Drawing.Size(80, 22);
+			this.butLock.Size = new System.Drawing.Size(80, 23);
 			this.butLock.TabIndex = 204;
 			this.butLock.Text = "Lock";
 			this.butLock.Click += new System.EventHandler(this.butLock_Click);
@@ -236,7 +236,7 @@ namespace OpenPmsDental {
 			// 
 			// butAppend
 			// 
-			this.butAppend.Location = new System.Drawing.Point(439, 69);
+			this.butAppend.Location = new System.Drawing.Point(447, 62);
 			this.butAppend.Name = "butAppend";
 			this.butAppend.Size = new System.Drawing.Size(80, 23);
 			this.butAppend.TabIndex = 203;
@@ -270,7 +270,7 @@ namespace OpenPmsDental {
 			// 
 			// butChangeUser
 			// 
-			this.butChangeUser.Location = new System.Drawing.Point(232, 69);
+			this.butChangeUser.Location = new System.Drawing.Point(232, 62);
 			this.butChangeUser.Name = "butChangeUser";
 			this.butChangeUser.Size = new System.Drawing.Size(23, 23);
 			this.butChangeUser.TabIndex = 207;
@@ -284,16 +284,16 @@ namespace OpenPmsDental {
 			this.labelPermAlert.ForeColor = System.Drawing.Color.DarkRed;
 			this.labelPermAlert.Location = new System.Drawing.Point(106, 415);
 			this.labelPermAlert.Name = "labelPermAlert";
-			this.labelPermAlert.Size = new System.Drawing.Size(367, 24);
+			this.labelPermAlert.Size = new System.Drawing.Size(408, 24);
 			this.labelPermAlert.TabIndex = 209;
 			this.labelPermAlert.Text = "Notes and Signature locked. Need GroupNoteUser permission.";
 			this.labelPermAlert.Visible = false;
 			// 
 			// butEditAutoNote
 			// 
-			this.butEditAutoNote.Location = new System.Drawing.Point(261, 69);
+			this.butEditAutoNote.Location = new System.Drawing.Point(261, 62);
 			this.butEditAutoNote.Name = "butEditAutoNote";
-			this.butEditAutoNote.Size = new System.Drawing.Size(84, 23);
+			this.butEditAutoNote.Size = new System.Drawing.Size(92, 23);
 			this.butEditAutoNote.TabIndex = 210;
 			this.butEditAutoNote.Text = "Edit Auto Note";
 			this.butEditAutoNote.Click += new System.EventHandler(this.ButEditAutoNote_Click);
@@ -309,7 +309,7 @@ namespace OpenPmsDental {
 			// 
 			// comboProv
 			// 
-			this.comboProv.Location = new System.Drawing.Point(260, 11);
+			this.comboProv.Location = new System.Drawing.Point(260, 8);
 			this.comboProv.Name = "comboProv";
 			this.comboProv.Size = new System.Drawing.Size(80, 23);
 			this.comboProv.TabIndex = 212;

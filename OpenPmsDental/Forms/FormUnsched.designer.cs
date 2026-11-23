@@ -56,10 +56,10 @@ namespace OpenPmsDental {
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.grid.ContextMenuStrip = this.menuRightClick;
-			this.grid.Location = new System.Drawing.Point(10, 109);
+			this.grid.Location = new System.Drawing.Point(8, 117);
 			this.grid.Name = "grid";
 			this.grid.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.grid.Size = new System.Drawing.Size(775, 577);
+			this.grid.Size = new System.Drawing.Size(799, 571);
 			this.grid.TabIndex = 8;
 			this.grid.Title = "Unscheduled List";
 			this.grid.TranslationName = "TableUnsched";
@@ -109,39 +109,39 @@ namespace OpenPmsDental {
 			this.butPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butPrint.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Print,16,16);
 			this.butPrint.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butPrint.Location = new System.Drawing.Point(1000, 60);
+			this.butPrint.Location = new System.Drawing.Point(815, 664);
 			this.butPrint.Name = "butPrint";
-			this.butPrint.Size = new System.Drawing.Size(87, 24);
+			this.butPrint.Size = new System.Drawing.Size(86, 24);
 			this.butPrint.TabIndex = 21;
 			this.butPrint.Text = "Print List";
 			this.butPrint.Click += new System.EventHandler(this.butPrint_Click);
 			// 
 			// comboOrder
 			// 
-			this.comboOrder.Location = new System.Drawing.Point(97, 32);
+			this.comboOrder.Location = new System.Drawing.Point(73, 32);
 			this.comboOrder.Name = "comboOrder";
-			this.comboOrder.Size = new System.Drawing.Size(132, 23);
+			this.comboOrder.Size = new System.Drawing.Size(133, 23);
 			this.comboOrder.TabIndex = 35;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(31, 32);
+			this.label1.Location = new System.Drawing.Point(8, 32);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(60, 23);
+			this.label1.Size = new System.Drawing.Size(59, 23);
 			this.label1.TabIndex = 34;
 			this.label1.Text = "Order by";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// comboProv
 			// 
-			this.comboProv.Location = new System.Drawing.Point(319, 32);
+			this.comboProv.Location = new System.Drawing.Point(284, 32);
 			this.comboProv.Name = "comboProv";
-			this.comboProv.Size = new System.Drawing.Size(180, 23);
+			this.comboProv.Size = new System.Drawing.Size(181, 23);
 			this.comboProv.TabIndex = 33;
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(257, 32);
+			this.label4.Location = new System.Drawing.Point(222, 32);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(56, 23);
 			this.label4.TabIndex = 32;
@@ -150,7 +150,7 @@ namespace OpenPmsDental {
 			// 
 			// butRefresh
 			// 
-			this.butRefresh.Location = new System.Drawing.Point(1000, 32);
+			this.butRefresh.Location = new System.Drawing.Point(815, 32);
 			this.butRefresh.Name = "butRefresh";
 			this.butRefresh.Size = new System.Drawing.Size(86, 24);
 			this.butRefresh.TabIndex = 31;
@@ -159,16 +159,16 @@ namespace OpenPmsDental {
 			// 
 			// comboSite
 			// 
-			this.comboSite.Location = new System.Drawing.Point(558, 59);
+			this.comboSite.Location = new System.Drawing.Point(284, 59);
 			this.comboSite.Name = "comboSite";
-			this.comboSite.Size = new System.Drawing.Size(180, 23);
+			this.comboSite.Size = new System.Drawing.Size(181, 23);
 			this.comboSite.TabIndex = 37;
 			// 
 			// labelSite
 			// 
-			this.labelSite.Location = new System.Drawing.Point(520, 59);
+			this.labelSite.Location = new System.Drawing.Point(222, 59);
 			this.labelSite.Name = "labelSite";
-			this.labelSite.Size = new System.Drawing.Size(32, 23);
+			this.labelSite.Size = new System.Drawing.Size(56, 23);
 			this.labelSite.TabIndex = 36;
 			this.labelSite.Text = "Site";
 			this.labelSite.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -177,7 +177,7 @@ namespace OpenPmsDental {
 			// 
 			this.checkBrokenAppts.AutoSize = false;
 			this.checkBrokenAppts.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkBrokenAppts.Location = new System.Drawing.Point(319, 59);
+			this.checkBrokenAppts.Location = new System.Drawing.Point(8, 60);
 			this.checkBrokenAppts.Name = "checkBrokenAppts";
 			this.checkBrokenAppts.Size = new System.Drawing.Size(185, 20);
 			this.checkBrokenAppts.TabIndex = 38;
@@ -187,14 +187,14 @@ namespace OpenPmsDental {
 			// 
 			this.comboClinic.IncludeAll = true;
 			this.comboClinic.IncludeUnassigned = true;
-			this.comboClinic.Location = new System.Drawing.Point(547, 32);
+			this.comboClinic.Location = new System.Drawing.Point(520, 32);
 			this.comboClinic.Name = "comboClinic";
-			this.comboClinic.Size = new System.Drawing.Size(219, 23);
+			this.comboClinic.Size = new System.Drawing.Size(203, 23);
 			this.comboClinic.TabIndex = 40;
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(742, 59);
+			this.label6.Location = new System.Drawing.Point(481, 59);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(76, 23);
 			this.label6.TabIndex = 43;
@@ -204,7 +204,7 @@ namespace OpenPmsDental {
 			// dateRangePicker
 			// 
 			this.dateRangePicker.EnableWeekButtons = false;
-			this.dateRangePicker.Location = new System.Drawing.Point(57, 83);
+			this.dateRangePicker.Location = new System.Drawing.Point(8, 86);
 			this.dateRangePicker.MaximumSize = new System.Drawing.Size(0, 185);
 			this.dateRangePicker.MinimumSize = new System.Drawing.Size(453, 22);
 			this.dateRangePicker.Name = "dateRangePicker";
@@ -213,7 +213,7 @@ namespace OpenPmsDental {
 			// 
 			// codeRangeFilter
 			// 
-			this.codeRangeFilter.Location = new System.Drawing.Point(824, 59);
+			this.codeRangeFilter.Location = new System.Drawing.Point(563, 59);
 			this.codeRangeFilter.Name = "codeRangeFilter";
 			this.codeRangeFilter.Size = new System.Drawing.Size(160, 37);
 			this.codeRangeFilter.TabIndex = 48;
@@ -228,7 +228,7 @@ namespace OpenPmsDental {
 			// 
 			// FormUnsched
 			// 
-			this.ClientSize = new System.Drawing.Size(1095, 697);
+			this.ClientSize = new System.Drawing.Size(909, 696);
 			this.Controls.Add(this.butPrint);
 			this.Controls.Add(this.butRefresh);
 			this.Controls.Add(this.codeRangeFilter);

@@ -63,26 +63,26 @@ namespace OpenPmsDental {
 			// 
 			// checkClinicInfo
 			// 
-			this.checkClinicInfo.Location = new System.Drawing.Point(212, 344);
+			this.checkClinicInfo.Location = new System.Drawing.Point(215, 344);
 			this.checkClinicInfo.Name = "checkClinicInfo";
-			this.checkClinicInfo.Size = new System.Drawing.Size(110, 20);
+			this.checkClinicInfo.Size = new System.Drawing.Size(154, 18);
 			this.checkClinicInfo.TabIndex = 8;
 			this.checkClinicInfo.Text = "Show Clinic Info";
 			this.checkClinicInfo.CheckedChanged += new System.EventHandler(this.checkClinicInfo_CheckedChanged);
 			// 
 			// checkClinicBreakdown
 			// 
-			this.checkClinicBreakdown.Location = new System.Drawing.Point(212, 368);
+			this.checkClinicBreakdown.Location = new System.Drawing.Point(215, 362);
 			this.checkClinicBreakdown.Name = "checkClinicBreakdown";
-			this.checkClinicBreakdown.Size = new System.Drawing.Size(149, 20);
+			this.checkClinicBreakdown.Size = new System.Drawing.Size(154, 18);
 			this.checkClinicBreakdown.TabIndex = 9;
 			this.checkClinicBreakdown.Text = "Show Clinic Breakdown";
 			// 
 			// checkAllClin
 			// 
-			this.checkAllClin.Location = new System.Drawing.Point(212, 130);
+			this.checkAllClin.Location = new System.Drawing.Point(215, 137);
 			this.checkAllClin.Name = "checkAllClin";
-			this.checkAllClin.Size = new System.Drawing.Size(134, 20);
+			this.checkAllClin.Size = new System.Drawing.Size(154, 18);
 			this.checkAllClin.TabIndex = 5;
 			this.checkAllClin.Text = "All (Includes hidden)";
 			this.checkAllClin.Click += new System.EventHandler(this.checkAllClin_Click);
@@ -91,9 +91,9 @@ namespace OpenPmsDental {
 			// 
 			this.checkAllProv.Checked = true;
 			this.checkAllProv.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkAllProv.Location = new System.Drawing.Point(34, 157);
+			this.checkAllProv.Location = new System.Drawing.Point(37, 137);
 			this.checkAllProv.Name = "checkAllProv";
-			this.checkAllProv.Size = new System.Drawing.Size(134, 20);
+			this.checkAllProv.Size = new System.Drawing.Size(172, 18);
 			this.checkAllProv.TabIndex = 3;
 			this.checkAllProv.Text = "All (Includes hidden)";
 			this.checkAllProv.Click += new System.EventHandler(this.checkAllProv_Click);
@@ -104,18 +104,18 @@ namespace OpenPmsDental {
 			this.groupShowInsWriteoffs.Controls.Add(this.label5);
 			this.groupShowInsWriteoffs.Controls.Add(this.radioWriteoffProc);
 			this.groupShowInsWriteoffs.Controls.Add(this.radioWriteoffPay);
-			this.groupShowInsWriteoffs.Location = new System.Drawing.Point(390, 174);
+			this.groupShowInsWriteoffs.Location = new System.Drawing.Point(390, 203);
 			this.groupShowInsWriteoffs.Name = "groupShowInsWriteoffs";
-			this.groupShowInsWriteoffs.Size = new System.Drawing.Size(291, 135);
+			this.groupShowInsWriteoffs.Size = new System.Drawing.Size(281, 139);
 			this.groupShowInsWriteoffs.TabIndex = 7;
 			this.groupShowInsWriteoffs.Text = "Show Insurance Write-offs";
 			// 
 			// radioWriteoffBoth
 			// 
 			this.radioWriteoffBoth.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
-			this.radioWriteoffBoth.Location = new System.Drawing.Point(8, 71);
+			this.radioWriteoffBoth.Location = new System.Drawing.Point(9, 71);
 			this.radioWriteoffBoth.Name = "radioWriteoffBoth";
-			this.radioWriteoffBoth.Size = new System.Drawing.Size(275, 35);
+			this.radioWriteoffBoth.Size = new System.Drawing.Size(272, 35);
 			this.radioWriteoffBoth.TabIndex = 4;
 			this.radioWriteoffBoth.Text = "Use initial claim date for write-off estimates, ins pay date for write-off adjust" +
     "ments";
@@ -124,7 +124,7 @@ namespace OpenPmsDental {
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(8, 110);
+			this.label5.Location = new System.Drawing.Point(6, 110);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(275, 17);
 			this.label5.TabIndex = 2;
@@ -133,9 +133,9 @@ namespace OpenPmsDental {
 			// radioWriteoffProc
 			// 
 			this.radioWriteoffProc.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
-			this.radioWriteoffProc.Location = new System.Drawing.Point(8, 47);
+			this.radioWriteoffProc.Location = new System.Drawing.Point(9, 45);
 			this.radioWriteoffProc.Name = "radioWriteoffProc";
-			this.radioWriteoffProc.Size = new System.Drawing.Size(138, 20);
+			this.radioWriteoffProc.Size = new System.Drawing.Size(244, 23);
 			this.radioWriteoffProc.TabIndex = 1;
 			this.radioWriteoffProc.Text = "Using procedure date";
 			this.radioWriteoffProc.TextAlign = System.Drawing.ContentAlignment.TopLeft;
@@ -145,9 +145,9 @@ namespace OpenPmsDental {
 			// 
 			this.radioWriteoffPay.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
 			this.radioWriteoffPay.Checked = true;
-			this.radioWriteoffPay.Location = new System.Drawing.Point(8, 23);
+			this.radioWriteoffPay.Location = new System.Drawing.Point(9, 21);
 			this.radioWriteoffPay.Name = "radioWriteoffPay";
-			this.radioWriteoffPay.Size = new System.Drawing.Size(185, 20);
+			this.radioWriteoffPay.Size = new System.Drawing.Size(244, 23);
 			this.radioWriteoffPay.TabIndex = 0;
 			this.radioWriteoffPay.TabStop = true;
 			this.radioWriteoffPay.Text = "Using insurance payment date";
@@ -156,7 +156,7 @@ namespace OpenPmsDental {
 			// 
 			// listClin
 			// 
-			this.listClin.Location = new System.Drawing.Point(212, 154);
+			this.listClin.Location = new System.Drawing.Point(215, 156);
 			this.listClin.Name = "listClin";
 			this.listClin.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
 			this.listClin.Size = new System.Drawing.Size(154, 186);
@@ -165,7 +165,7 @@ namespace OpenPmsDental {
 			// 
 			// labelClin
 			// 
-			this.labelClin.Location = new System.Drawing.Point(212, 112);
+			this.labelClin.Location = new System.Drawing.Point(212, 119);
 			this.labelClin.Name = "labelClin";
 			this.labelClin.Size = new System.Drawing.Size(154, 16);
 			this.labelClin.TabIndex = 44;
@@ -181,16 +181,16 @@ namespace OpenPmsDental {
 			this.groupBox2.Controls.Add(this.textDateTo);
 			this.groupBox2.Controls.Add(this.label3);
 			this.groupBox2.Controls.Add(this.butLeft);
-			this.groupBox2.Location = new System.Drawing.Point(390, 55);
+			this.groupBox2.Location = new System.Drawing.Point(390, 53);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(291, 111);
+			this.groupBox2.Size = new System.Drawing.Size(281, 144);
 			this.groupBox2.TabIndex = 2;
 			this.groupBox2.Text = "Date Range";
 			// 
 			// butRight
 			// 
 			this.butRight.Icon = OpenPmsDental.UI.EnumIcons.ArrowRight;
-			this.butRight.Location = new System.Drawing.Point(199, 23);
+			this.butRight.Location = new System.Drawing.Point(205, 30);
 			this.butRight.Name = "butRight";
 			this.butRight.Size = new System.Drawing.Size(45, 26);
 			this.butRight.TabIndex = 2;
@@ -198,7 +198,7 @@ namespace OpenPmsDental {
 			// 
 			// butThis
 			// 
-			this.butThis.Location = new System.Drawing.Point(92, 23);
+			this.butThis.Location = new System.Drawing.Point(95, 30);
 			this.butThis.Name = "butThis";
 			this.butThis.Size = new System.Drawing.Size(101, 26);
 			this.butThis.TabIndex = 1;
@@ -207,40 +207,40 @@ namespace OpenPmsDental {
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(49, 53);
+			this.label2.Location = new System.Drawing.Point(9, 79);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(40, 23);
+			this.label2.Size = new System.Drawing.Size(82, 18);
 			this.label2.TabIndex = 37;
 			this.label2.Text = "From";
-			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.label2.TextAlign = System.Drawing.ContentAlignment.TopRight;
 			// 
 			// textDateFrom
 			// 
-			this.textDateFrom.Location = new System.Drawing.Point(95, 53);
+			this.textDateFrom.Location = new System.Drawing.Point(95, 77);
 			this.textDateFrom.Name = "textDateFrom";
 			this.textDateFrom.Size = new System.Drawing.Size(100, 20);
 			this.textDateFrom.TabIndex = 3;
 			// 
 			// textDateTo
 			// 
-			this.textDateTo.Location = new System.Drawing.Point(95, 80);
+			this.textDateTo.Location = new System.Drawing.Point(95, 104);
 			this.textDateTo.Name = "textDateTo";
 			this.textDateTo.Size = new System.Drawing.Size(100, 20);
 			this.textDateTo.TabIndex = 4;
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(65, 80);
+			this.label3.Location = new System.Drawing.Point(7, 105);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(24, 23);
+			this.label3.Size = new System.Drawing.Size(82, 18);
 			this.label3.TabIndex = 39;
 			this.label3.Text = "To";
-			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.label3.TextAlign = System.Drawing.ContentAlignment.TopRight;
 			// 
 			// butLeft
 			// 
 			this.butLeft.Icon = OpenPmsDental.UI.EnumIcons.ArrowLeft;
-			this.butLeft.Location = new System.Drawing.Point(41, 23);
+			this.butLeft.Location = new System.Drawing.Point(41, 30);
 			this.butLeft.Name = "butLeft";
 			this.butLeft.Size = new System.Drawing.Size(45, 26);
 			this.butLeft.TabIndex = 0;
@@ -248,7 +248,7 @@ namespace OpenPmsDental {
 			// 
 			// textToday
 			// 
-			this.textToday.Location = new System.Drawing.Point(485, 24);
+			this.textToday.Location = new System.Drawing.Point(485, 27);
 			this.textToday.Name = "textToday";
 			this.textToday.ReadOnly = true;
 			this.textToday.Size = new System.Drawing.Size(100, 20);
@@ -256,12 +256,12 @@ namespace OpenPmsDental {
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(399, 24);
+			this.label4.Location = new System.Drawing.Point(356, 29);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(80, 23);
+			this.label4.Size = new System.Drawing.Size(127, 20);
 			this.label4.TabIndex = 41;
 			this.label4.Text = "Today\'s Date";
-			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.label4.TextAlign = System.Drawing.ContentAlignment.TopRight;
 			// 
 			// groupBox1
 			// 
@@ -269,26 +269,26 @@ namespace OpenPmsDental {
 			this.groupBox1.Controls.Add(this.radioAnnual);
 			this.groupBox1.Controls.Add(this.radioDaily);
 			this.groupBox1.Controls.Add(this.radioMonthly);
-			this.groupBox1.Location = new System.Drawing.Point(34, 8);
+			this.groupBox1.Location = new System.Drawing.Point(37, 13);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(154, 123);
+			this.groupBox1.Size = new System.Drawing.Size(154, 103);
 			this.groupBox1.TabIndex = 0;
 			this.groupBox1.Text = "Report Type";
 			// 
 			// radioProvider
 			// 
-			this.radioProvider.Location = new System.Drawing.Point(8, 95);
+			this.radioProvider.Location = new System.Drawing.Point(14, 78);
 			this.radioProvider.Name = "radioProvider";
-			this.radioProvider.Size = new System.Drawing.Size(69, 20);
+			this.radioProvider.Size = new System.Drawing.Size(134, 17);
 			this.radioProvider.TabIndex = 3;
 			this.radioProvider.Text = "Provider";
 			this.radioProvider.Click += new System.EventHandler(this.radioProvider_Click);
 			// 
 			// radioAnnual
 			// 
-			this.radioAnnual.Location = new System.Drawing.Point(8, 71);
+			this.radioAnnual.Location = new System.Drawing.Point(14, 59);
 			this.radioAnnual.Name = "radioAnnual";
-			this.radioAnnual.Size = new System.Drawing.Size(63, 20);
+			this.radioAnnual.Size = new System.Drawing.Size(134, 17);
 			this.radioAnnual.TabIndex = 2;
 			this.radioAnnual.Text = "Annual";
 			this.radioAnnual.Click += new System.EventHandler(this.radioAnnual_Click);
@@ -296,9 +296,9 @@ namespace OpenPmsDental {
 			// radioDaily
 			// 
 			this.radioDaily.Checked = true;
-			this.radioDaily.Location = new System.Drawing.Point(8, 23);
+			this.radioDaily.Location = new System.Drawing.Point(14, 21);
 			this.radioDaily.Name = "radioDaily";
-			this.radioDaily.Size = new System.Drawing.Size(51, 20);
+			this.radioDaily.Size = new System.Drawing.Size(134, 17);
 			this.radioDaily.TabIndex = 0;
 			this.radioDaily.TabStop = true;
 			this.radioDaily.Text = "Daily";
@@ -306,16 +306,16 @@ namespace OpenPmsDental {
 			// 
 			// radioMonthly
 			// 
-			this.radioMonthly.Location = new System.Drawing.Point(8, 47);
+			this.radioMonthly.Location = new System.Drawing.Point(14, 40);
 			this.radioMonthly.Name = "radioMonthly";
-			this.radioMonthly.Size = new System.Drawing.Size(70, 20);
+			this.radioMonthly.Size = new System.Drawing.Size(134, 17);
 			this.radioMonthly.TabIndex = 1;
 			this.radioMonthly.Text = "Monthly";
 			this.radioMonthly.Click += new System.EventHandler(this.radioMonthly_Click);
 			// 
 			// listProv
 			// 
-			this.listProv.Location = new System.Drawing.Point(34, 181);
+			this.listProv.Location = new System.Drawing.Point(37, 156);
 			this.listProv.Name = "listProv";
 			this.listProv.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
 			this.listProv.Size = new System.Drawing.Size(154, 186);
@@ -324,7 +324,7 @@ namespace OpenPmsDental {
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(34, 139);
+			this.label1.Location = new System.Drawing.Point(34, 119);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(154, 16);
 			this.label1.TabIndex = 29;
@@ -334,7 +334,7 @@ namespace OpenPmsDental {
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(638, 403);
+			this.butOK.Location = new System.Drawing.Point(634, 351);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 26);
 			this.butOK.TabIndex = 10;
@@ -345,15 +345,15 @@ namespace OpenPmsDental {
 			// 
 			this.checkUnearned.Checked = true;
 			this.checkUnearned.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkUnearned.Location = new System.Drawing.Point(34, 371);
+			this.checkUnearned.Location = new System.Drawing.Point(37, 344);
 			this.checkUnearned.Name = "checkUnearned";
-			this.checkUnearned.Size = new System.Drawing.Size(119, 20);
+			this.checkUnearned.Size = new System.Drawing.Size(154, 18);
 			this.checkUnearned.TabIndex = 45;
 			this.checkUnearned.Text = "Include Unearned";
 			// 
 			// FormRpProdInc
 			// 
-			this.ClientSize = new System.Drawing.Size(721, 437);
+			this.ClientSize = new System.Drawing.Size(721, 389);
 			this.Controls.Add(this.checkUnearned);
 			this.Controls.Add(this.checkClinicInfo);
 			this.Controls.Add(this.checkClinicBreakdown);

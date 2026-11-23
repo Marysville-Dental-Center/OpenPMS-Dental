@@ -63,19 +63,19 @@ namespace OpenPmsDental{
 			// 
 			// checkExcludePatientClones
 			// 
-			this.checkExcludePatientClones.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkExcludePatientClones.Location = new System.Drawing.Point(8, 247);
+			this.checkExcludePatientClones.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkExcludePatientClones.Location = new System.Drawing.Point(1, 243);
 			this.checkExcludePatientClones.Name = "checkExcludePatientClones";
-			this.checkExcludePatientClones.Size = new System.Drawing.Size(144, 20);
+			this.checkExcludePatientClones.Size = new System.Drawing.Size(346, 18);
 			this.checkExcludePatientClones.TabIndex = 233;
 			this.checkExcludePatientClones.Text = "Exclude patient clones";
 			// 
 			// checkInsVerifyExcludePatVerify
 			// 
-			this.checkInsVerifyExcludePatVerify.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkInsVerifyExcludePatVerify.Location = new System.Drawing.Point(8, 175);
+			this.checkInsVerifyExcludePatVerify.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkInsVerifyExcludePatVerify.Location = new System.Drawing.Point(1, 189);
 			this.checkInsVerifyExcludePatVerify.Name = "checkInsVerifyExcludePatVerify";
-			this.checkInsVerifyExcludePatVerify.Size = new System.Drawing.Size(362, 20);
+			this.checkInsVerifyExcludePatVerify.Size = new System.Drawing.Size(360, 18);
 			this.checkInsVerifyExcludePatVerify.TabIndex = 232;
 			this.checkInsVerifyExcludePatVerify.Text = "Exclude patients with insurance plans marked as Do Not Verify";
 			// 
@@ -93,15 +93,15 @@ namespace OpenPmsDental{
 			this.groupStandard.Controls.Add(this.labelPatientEligibilityStandard);
 			this.groupStandard.Controls.Add(this.labelPlanBenefitsDaysStandard);
 			this.groupStandard.Controls.Add(this.textInsBenefitEligibilityDaysStandard);
-			this.groupStandard.Location = new System.Drawing.Point(99, 8);
+			this.groupStandard.Location = new System.Drawing.Point(99, 24);
 			this.groupStandard.Name = "groupStandard";
-			this.groupStandard.Size = new System.Drawing.Size(315, 135);
+			this.groupStandard.Size = new System.Drawing.Size(288, 125);
 			this.groupStandard.TabIndex = 231;
 			this.groupStandard.Text = "Show In Standard List When";
 			// 
 			// labelPastDueDaysStandard
 			// 
-			this.labelPastDueDaysStandard.Location = new System.Drawing.Point(272, 105);
+			this.labelPastDueDaysStandard.Location = new System.Drawing.Point(252, 94);
 			this.labelPastDueDaysStandard.Name = "labelPastDueDaysStandard";
 			this.labelPastDueDaysStandard.Size = new System.Drawing.Size(35, 20);
 			this.labelPastDueDaysStandard.TabIndex = 239;
@@ -110,7 +110,7 @@ namespace OpenPmsDental{
 			// 
 			// textPastDueDaysStandard
 			// 
-			this.textPastDueDaysStandard.Location = new System.Drawing.Point(234, 104);
+			this.textPastDueDaysStandard.Location = new System.Drawing.Point(216, 94);
 			this.textPastDueDaysStandard.MaxVal = 99999;
 			this.textPastDueDaysStandard.MinVal = 1;
 			this.textPastDueDaysStandard.Name = "textPastDueDaysStandard";
@@ -122,16 +122,16 @@ namespace OpenPmsDental{
 			// 
 			// labelPastDueStandard
 			// 
-			this.labelPastDueStandard.Location = new System.Drawing.Point(64, 104);
+			this.labelPastDueStandard.Location = new System.Drawing.Point(14, 94);
 			this.labelPastDueStandard.Name = "labelPastDueStandard";
-			this.labelPastDueStandard.Size = new System.Drawing.Size(164, 23);
+			this.labelPastDueStandard.Size = new System.Drawing.Size(200, 20);
 			this.labelPastDueStandard.TabIndex = 237;
 			this.labelPastDueStandard.Text = "Past due appointments up to";
 			this.labelPastDueStandard.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// labelSchedApptDaysStandard
 			// 
-			this.labelSchedApptDaysStandard.Location = new System.Drawing.Point(272, 24);
+			this.labelSchedApptDaysStandard.Location = new System.Drawing.Point(252, 16);
 			this.labelSchedApptDaysStandard.Name = "labelSchedApptDaysStandard";
 			this.labelSchedApptDaysStandard.Size = new System.Drawing.Size(35, 20);
 			this.labelSchedApptDaysStandard.TabIndex = 231;
@@ -140,7 +140,7 @@ namespace OpenPmsDental{
 			// 
 			// textPatientEnrollmentDaysStandard
 			// 
-			this.textPatientEnrollmentDaysStandard.Location = new System.Drawing.Point(234, 77);
+			this.textPatientEnrollmentDaysStandard.Location = new System.Drawing.Point(216, 68);
 			this.textPatientEnrollmentDaysStandard.MaxVal = 99999;
 			this.textPatientEnrollmentDaysStandard.Name = "textPatientEnrollmentDaysStandard";
 			this.textPatientEnrollmentDaysStandard.ShowZero = false;
@@ -151,16 +151,16 @@ namespace OpenPmsDental{
 			// 
 			// labelScheduledAppointmentStandard
 			// 
-			this.labelScheduledAppointmentStandard.Location = new System.Drawing.Point(76, 23);
+			this.labelScheduledAppointmentStandard.Location = new System.Drawing.Point(5, 16);
 			this.labelScheduledAppointmentStandard.Name = "labelScheduledAppointmentStandard";
-			this.labelScheduledAppointmentStandard.Size = new System.Drawing.Size(152, 23);
+			this.labelScheduledAppointmentStandard.Size = new System.Drawing.Size(209, 20);
 			this.labelScheduledAppointmentStandard.TabIndex = 230;
 			this.labelScheduledAppointmentStandard.Text = "Scheduled appointment in";
 			this.labelScheduledAppointmentStandard.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textScheduledAppointmentDaysStandard
 			// 
-			this.textScheduledAppointmentDaysStandard.Location = new System.Drawing.Point(234, 23);
+			this.textScheduledAppointmentDaysStandard.Location = new System.Drawing.Point(216, 16);
 			this.textScheduledAppointmentDaysStandard.MaxVal = 99999;
 			this.textScheduledAppointmentDaysStandard.Name = "textScheduledAppointmentDaysStandard";
 			this.textScheduledAppointmentDaysStandard.ShowZero = false;
@@ -171,7 +171,7 @@ namespace OpenPmsDental{
 			// 
 			// labelPatientEligibilityDaysStandard
 			// 
-			this.labelPatientEligibilityDaysStandard.Location = new System.Drawing.Point(272, 78);
+			this.labelPatientEligibilityDaysStandard.Location = new System.Drawing.Point(252, 68);
 			this.labelPatientEligibilityDaysStandard.Name = "labelPatientEligibilityDaysStandard";
 			this.labelPatientEligibilityDaysStandard.Size = new System.Drawing.Size(35, 20);
 			this.labelPatientEligibilityDaysStandard.TabIndex = 229;
@@ -180,25 +180,25 @@ namespace OpenPmsDental{
 			// 
 			// labelPlanBenefitsStandard
 			// 
-			this.labelPlanBenefitsStandard.Location = new System.Drawing.Point(20, 50);
+			this.labelPlanBenefitsStandard.Location = new System.Drawing.Point(2, 42);
 			this.labelPlanBenefitsStandard.Name = "labelPlanBenefitsStandard";
-			this.labelPlanBenefitsStandard.Size = new System.Drawing.Size(208, 23);
+			this.labelPlanBenefitsStandard.Size = new System.Drawing.Size(212, 20);
 			this.labelPlanBenefitsStandard.TabIndex = 75;
 			this.labelPlanBenefitsStandard.Text = "Plan benefits haven\'t been verified in";
 			this.labelPlanBenefitsStandard.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// labelPatientEligibilityStandard
 			// 
-			this.labelPatientEligibilityStandard.Location = new System.Drawing.Point(8, 77);
+			this.labelPatientEligibilityStandard.Location = new System.Drawing.Point(2, 68);
 			this.labelPatientEligibilityStandard.Name = "labelPatientEligibilityStandard";
-			this.labelPatientEligibilityStandard.Size = new System.Drawing.Size(220, 23);
+			this.labelPatientEligibilityStandard.Size = new System.Drawing.Size(214, 20);
 			this.labelPatientEligibilityStandard.TabIndex = 83;
 			this.labelPatientEligibilityStandard.Text = "Patient eligibility hasn\'t been verified in";
 			this.labelPatientEligibilityStandard.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// labelPlanBenefitsDaysStandard
 			// 
-			this.labelPlanBenefitsDaysStandard.Location = new System.Drawing.Point(272, 51);
+			this.labelPlanBenefitsDaysStandard.Location = new System.Drawing.Point(252, 42);
 			this.labelPlanBenefitsDaysStandard.Name = "labelPlanBenefitsDaysStandard";
 			this.labelPlanBenefitsDaysStandard.Size = new System.Drawing.Size(35, 20);
 			this.labelPlanBenefitsDaysStandard.TabIndex = 228;
@@ -207,7 +207,7 @@ namespace OpenPmsDental{
 			// 
 			// textInsBenefitEligibilityDaysStandard
 			// 
-			this.textInsBenefitEligibilityDaysStandard.Location = new System.Drawing.Point(234, 50);
+			this.textInsBenefitEligibilityDaysStandard.Location = new System.Drawing.Point(216, 42);
 			this.textInsBenefitEligibilityDaysStandard.MaxVal = 99999;
 			this.textInsBenefitEligibilityDaysStandard.Name = "textInsBenefitEligibilityDaysStandard";
 			this.textInsBenefitEligibilityDaysStandard.ShowZero = false;
@@ -218,17 +218,17 @@ namespace OpenPmsDental{
 			// 
 			// checkInsVerifyUseCurrentUser
 			// 
-			this.checkInsVerifyUseCurrentUser.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkInsVerifyUseCurrentUser.Location = new System.Drawing.Point(8, 151);
+			this.checkInsVerifyUseCurrentUser.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkInsVerifyUseCurrentUser.Location = new System.Drawing.Point(1, 171);
 			this.checkInsVerifyUseCurrentUser.Name = "checkInsVerifyUseCurrentUser";
-			this.checkInsVerifyUseCurrentUser.Size = new System.Drawing.Size(313, 20);
+			this.checkInsVerifyUseCurrentUser.Size = new System.Drawing.Size(346, 18);
 			this.checkInsVerifyUseCurrentUser.TabIndex = 226;
 			this.checkInsVerifyUseCurrentUser.Text = "Insurance Verification List defaults to the current user";
 			// 
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(739, 394);
+			this.butSave.Location = new System.Drawing.Point(724, 390);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 3;
@@ -237,19 +237,19 @@ namespace OpenPmsDental{
 			// 
 			// checkFutureDateBenefitYear
 			// 
-			this.checkFutureDateBenefitYear.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkFutureDateBenefitYear.Location = new System.Drawing.Point(8, 199);
+			this.checkFutureDateBenefitYear.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkFutureDateBenefitYear.Location = new System.Drawing.Point(1, 207);
 			this.checkFutureDateBenefitYear.Name = "checkFutureDateBenefitYear";
-			this.checkFutureDateBenefitYear.Size = new System.Drawing.Size(273, 20);
+			this.checkFutureDateBenefitYear.Size = new System.Drawing.Size(346, 18);
 			this.checkFutureDateBenefitYear.TabIndex = 234;
 			this.checkFutureDateBenefitYear.Text = "Always reverify service year insurance benefits";
 			// 
 			// checkFutureDatePatEnrollmentYear
 			// 
-			this.checkFutureDatePatEnrollmentYear.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkFutureDatePatEnrollmentYear.Location = new System.Drawing.Point(8, 223);
+			this.checkFutureDatePatEnrollmentYear.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkFutureDatePatEnrollmentYear.Location = new System.Drawing.Point(1, 225);
 			this.checkFutureDatePatEnrollmentYear.Name = "checkFutureDatePatEnrollmentYear";
-			this.checkFutureDatePatEnrollmentYear.Size = new System.Drawing.Size(265, 20);
+			this.checkFutureDatePatEnrollmentYear.Size = new System.Drawing.Size(346, 18);
 			this.checkFutureDatePatEnrollmentYear.TabIndex = 235;
 			this.checkFutureDatePatEnrollmentYear.Text = "Always reverify service year patient eligibility";
 			// 
@@ -269,24 +269,24 @@ namespace OpenPmsDental{
 			this.groupMedicaid.Controls.Add(this.labelPatientEligibilityMedicaid);
 			this.groupMedicaid.Controls.Add(this.labelPlanBenefitsDaysMedicaid);
 			this.groupMedicaid.Controls.Add(this.textInsBenefitEligibilityDaysMedicaid);
-			this.groupMedicaid.Location = new System.Drawing.Point(422, 8);
+			this.groupMedicaid.Location = new System.Drawing.Point(418, 24);
 			this.groupMedicaid.Name = "groupMedicaid";
-			this.groupMedicaid.Size = new System.Drawing.Size(392, 351);
+			this.groupMedicaid.Size = new System.Drawing.Size(350, 351);
 			this.groupMedicaid.TabIndex = 236;
 			this.groupMedicaid.Text = "Show In Medicaid List When";
 			// 
 			// labelInsuranceFilingCodeInMedicaid
 			// 
-			this.labelInsuranceFilingCodeInMedicaid.Location = new System.Drawing.Point(92, 131);
+			this.labelInsuranceFilingCodeInMedicaid.Location = new System.Drawing.Point(3, 122);
 			this.labelInsuranceFilingCodeInMedicaid.Name = "labelInsuranceFilingCodeInMedicaid";
-			this.labelInsuranceFilingCodeInMedicaid.Size = new System.Drawing.Size(136, 23);
+			this.labelInsuranceFilingCodeInMedicaid.Size = new System.Drawing.Size(173, 20);
 			this.labelInsuranceFilingCodeInMedicaid.TabIndex = 241;
 			this.labelInsuranceFilingCodeInMedicaid.Text = "Insurance filing code in";
 			this.labelInsuranceFilingCodeInMedicaid.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// listBoxInsFilingCodes
 			// 
-			this.listBoxInsFilingCodes.Location = new System.Drawing.Point(234, 131);
+			this.listBoxInsFilingCodes.Location = new System.Drawing.Point(182, 122);
 			this.listBoxInsFilingCodes.Name = "listBoxInsFilingCodes";
 			this.listBoxInsFilingCodes.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
 			this.listBoxInsFilingCodes.Size = new System.Drawing.Size(150, 212);
@@ -295,7 +295,7 @@ namespace OpenPmsDental{
 			// 
 			// labelPastDueDaysMedicaid
 			// 
-			this.labelPastDueDaysMedicaid.Location = new System.Drawing.Point(272, 105);
+			this.labelPastDueDaysMedicaid.Location = new System.Drawing.Point(297, 94);
 			this.labelPastDueDaysMedicaid.Name = "labelPastDueDaysMedicaid";
 			this.labelPastDueDaysMedicaid.Size = new System.Drawing.Size(35, 20);
 			this.labelPastDueDaysMedicaid.TabIndex = 239;
@@ -304,7 +304,7 @@ namespace OpenPmsDental{
 			// 
 			// textPastDueDaysMedicaid
 			// 
-			this.textPastDueDaysMedicaid.Location = new System.Drawing.Point(234, 104);
+			this.textPastDueDaysMedicaid.Location = new System.Drawing.Point(262, 94);
 			this.textPastDueDaysMedicaid.MaxVal = 99999;
 			this.textPastDueDaysMedicaid.MinVal = 1;
 			this.textPastDueDaysMedicaid.Name = "textPastDueDaysMedicaid";
@@ -316,16 +316,16 @@ namespace OpenPmsDental{
 			// 
 			// labelPastDueMedicaid
 			// 
-			this.labelPastDueMedicaid.Location = new System.Drawing.Point(64, 104);
+			this.labelPastDueMedicaid.Location = new System.Drawing.Point(62, 94);
 			this.labelPastDueMedicaid.Name = "labelPastDueMedicaid";
-			this.labelPastDueMedicaid.Size = new System.Drawing.Size(164, 23);
+			this.labelPastDueMedicaid.Size = new System.Drawing.Size(199, 20);
 			this.labelPastDueMedicaid.TabIndex = 237;
 			this.labelPastDueMedicaid.Text = "Past due appointments up to";
 			this.labelPastDueMedicaid.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// labelSchedApptDaysMedicaid
 			// 
-			this.labelSchedApptDaysMedicaid.Location = new System.Drawing.Point(272, 24);
+			this.labelSchedApptDaysMedicaid.Location = new System.Drawing.Point(297, 16);
 			this.labelSchedApptDaysMedicaid.Name = "labelSchedApptDaysMedicaid";
 			this.labelSchedApptDaysMedicaid.Size = new System.Drawing.Size(35, 20);
 			this.labelSchedApptDaysMedicaid.TabIndex = 231;
@@ -334,7 +334,7 @@ namespace OpenPmsDental{
 			// 
 			// textPatientEnrollmentDaysMedicaid
 			// 
-			this.textPatientEnrollmentDaysMedicaid.Location = new System.Drawing.Point(234, 77);
+			this.textPatientEnrollmentDaysMedicaid.Location = new System.Drawing.Point(262, 68);
 			this.textPatientEnrollmentDaysMedicaid.MaxVal = 99999;
 			this.textPatientEnrollmentDaysMedicaid.Name = "textPatientEnrollmentDaysMedicaid";
 			this.textPatientEnrollmentDaysMedicaid.ShowZero = false;
@@ -345,16 +345,16 @@ namespace OpenPmsDental{
 			// 
 			// labelScheduledAppointmentMedicaid
 			// 
-			this.labelScheduledAppointmentMedicaid.Location = new System.Drawing.Point(76, 23);
+			this.labelScheduledAppointmentMedicaid.Location = new System.Drawing.Point(53, 16);
 			this.labelScheduledAppointmentMedicaid.Name = "labelScheduledAppointmentMedicaid";
-			this.labelScheduledAppointmentMedicaid.Size = new System.Drawing.Size(152, 23);
+			this.labelScheduledAppointmentMedicaid.Size = new System.Drawing.Size(208, 20);
 			this.labelScheduledAppointmentMedicaid.TabIndex = 230;
 			this.labelScheduledAppointmentMedicaid.Text = "Scheduled appointment in";
 			this.labelScheduledAppointmentMedicaid.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textScheduledAppointmentDaysMedicaid
 			// 
-			this.textScheduledAppointmentDaysMedicaid.Location = new System.Drawing.Point(234, 23);
+			this.textScheduledAppointmentDaysMedicaid.Location = new System.Drawing.Point(262, 16);
 			this.textScheduledAppointmentDaysMedicaid.MaxVal = 99999;
 			this.textScheduledAppointmentDaysMedicaid.Name = "textScheduledAppointmentDaysMedicaid";
 			this.textScheduledAppointmentDaysMedicaid.ShowZero = false;
@@ -365,7 +365,7 @@ namespace OpenPmsDental{
 			// 
 			// labelPatientEligibilityDaysMedicaid
 			// 
-			this.labelPatientEligibilityDaysMedicaid.Location = new System.Drawing.Point(272, 78);
+			this.labelPatientEligibilityDaysMedicaid.Location = new System.Drawing.Point(297, 68);
 			this.labelPatientEligibilityDaysMedicaid.Name = "labelPatientEligibilityDaysMedicaid";
 			this.labelPatientEligibilityDaysMedicaid.Size = new System.Drawing.Size(35, 20);
 			this.labelPatientEligibilityDaysMedicaid.TabIndex = 229;
@@ -374,25 +374,25 @@ namespace OpenPmsDental{
 			// 
 			// labelPlanBenefitsMedicaid
 			// 
-			this.labelPlanBenefitsMedicaid.Location = new System.Drawing.Point(20, 50);
+			this.labelPlanBenefitsMedicaid.Location = new System.Drawing.Point(50, 42);
 			this.labelPlanBenefitsMedicaid.Name = "labelPlanBenefitsMedicaid";
-			this.labelPlanBenefitsMedicaid.Size = new System.Drawing.Size(208, 23);
+			this.labelPlanBenefitsMedicaid.Size = new System.Drawing.Size(211, 20);
 			this.labelPlanBenefitsMedicaid.TabIndex = 75;
 			this.labelPlanBenefitsMedicaid.Text = "Plan benefits haven\'t been verified in";
 			this.labelPlanBenefitsMedicaid.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// labelPatientEligibilityMedicaid
 			// 
-			this.labelPatientEligibilityMedicaid.Location = new System.Drawing.Point(8, 77);
+			this.labelPatientEligibilityMedicaid.Location = new System.Drawing.Point(50, 68);
 			this.labelPatientEligibilityMedicaid.Name = "labelPatientEligibilityMedicaid";
-			this.labelPatientEligibilityMedicaid.Size = new System.Drawing.Size(220, 23);
+			this.labelPatientEligibilityMedicaid.Size = new System.Drawing.Size(212, 20);
 			this.labelPatientEligibilityMedicaid.TabIndex = 83;
 			this.labelPatientEligibilityMedicaid.Text = "Patient eligibility hasn\'t been verified in";
 			this.labelPatientEligibilityMedicaid.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// labelPlanBenefitsDaysMedicaid
 			// 
-			this.labelPlanBenefitsDaysMedicaid.Location = new System.Drawing.Point(272, 51);
+			this.labelPlanBenefitsDaysMedicaid.Location = new System.Drawing.Point(297, 42);
 			this.labelPlanBenefitsDaysMedicaid.Name = "labelPlanBenefitsDaysMedicaid";
 			this.labelPlanBenefitsDaysMedicaid.Size = new System.Drawing.Size(35, 20);
 			this.labelPlanBenefitsDaysMedicaid.TabIndex = 228;
@@ -401,7 +401,7 @@ namespace OpenPmsDental{
 			// 
 			// textInsBenefitEligibilityDaysMedicaid
 			// 
-			this.textInsBenefitEligibilityDaysMedicaid.Location = new System.Drawing.Point(234, 50);
+			this.textInsBenefitEligibilityDaysMedicaid.Location = new System.Drawing.Point(262, 42);
 			this.textInsBenefitEligibilityDaysMedicaid.MaxVal = 99999;
 			this.textInsBenefitEligibilityDaysMedicaid.Name = "textInsBenefitEligibilityDaysMedicaid";
 			this.textInsBenefitEligibilityDaysMedicaid.ShowZero = false;
@@ -412,7 +412,7 @@ namespace OpenPmsDental{
 			// 
 			// FormInsVerificationSetup
 			// 
-			this.ClientSize = new System.Drawing.Size(822, 426);
+			this.ClientSize = new System.Drawing.Size(811, 426);
 			this.Controls.Add(this.groupMedicaid);
 			this.Controls.Add(this.checkFutureDatePatEnrollmentYear);
 			this.Controls.Add(this.checkFutureDateBenefitYear);

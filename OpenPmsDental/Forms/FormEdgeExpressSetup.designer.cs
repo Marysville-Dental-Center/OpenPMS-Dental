@@ -82,7 +82,7 @@ namespace OpenPmsDental{
 			this.groupPaySettings.Controls.Add(this.groupCredentials);
 			this.groupPaySettings.Controls.Add(this.comboPaymentType);
 			this.groupPaySettings.Controls.Add(this.labelPaymentType);
-			this.groupPaySettings.Location = new System.Drawing.Point(8, 107);
+			this.groupPaySettings.Location = new System.Drawing.Point(8, 127);
 			this.groupPaySettings.Name = "groupPaySettings";
 			this.groupPaySettings.Size = new System.Drawing.Size(419, 290);
 			this.groupPaySettings.TabIndex = 17;
@@ -134,63 +134,63 @@ namespace OpenPmsDental{
 			// 
 			// textTerminalID
 			// 
-			this.textTerminalID.Location = new System.Drawing.Point(103, 77);
+			this.textTerminalID.Location = new System.Drawing.Point(102, 77);
 			this.textTerminalID.Name = "textTerminalID";
-			this.textTerminalID.Size = new System.Drawing.Size(272, 23);
+			this.textTerminalID.Size = new System.Drawing.Size(293, 23);
 			this.textTerminalID.TabIndex = 3;
 			// 
 			// labelTerminalID
 			// 
-			this.labelTerminalID.Location = new System.Drawing.Point(25, 77);
+			this.labelTerminalID.Location = new System.Drawing.Point(8, 77);
 			this.labelTerminalID.Name = "labelTerminalID";
-			this.labelTerminalID.Size = new System.Drawing.Size(72, 23);
+			this.labelTerminalID.Size = new System.Drawing.Size(88, 23);
 			this.labelTerminalID.TabIndex = 0;
 			this.labelTerminalID.Text = "Terminal ID";
 			this.labelTerminalID.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textAuthKey
 			// 
-			this.textAuthKey.Location = new System.Drawing.Point(103, 50);
+			this.textAuthKey.Location = new System.Drawing.Point(102, 50);
 			this.textAuthKey.Name = "textAuthKey";
-			this.textAuthKey.Size = new System.Drawing.Size(272, 23);
+			this.textAuthKey.Size = new System.Drawing.Size(293, 23);
 			this.textAuthKey.TabIndex = 2;
 			this.textAuthKey.UseSystemPasswordChar = true;
 			// 
 			// labelAuthKey
 			// 
-			this.labelAuthKey.Location = new System.Drawing.Point(37, 50);
+			this.labelAuthKey.Location = new System.Drawing.Point(8, 50);
 			this.labelAuthKey.Name = "labelAuthKey";
-			this.labelAuthKey.Size = new System.Drawing.Size(60, 23);
+			this.labelAuthKey.Size = new System.Drawing.Size(88, 23);
 			this.labelAuthKey.TabIndex = 0;
 			this.labelAuthKey.Text = "Auth Key";
 			this.labelAuthKey.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textXWebID
 			// 
-			this.textXWebID.Location = new System.Drawing.Point(103, 23);
+			this.textXWebID.Location = new System.Drawing.Point(102, 23);
 			this.textXWebID.Name = "textXWebID";
-			this.textXWebID.Size = new System.Drawing.Size(272, 23);
+			this.textXWebID.Size = new System.Drawing.Size(293, 23);
 			this.textXWebID.TabIndex = 1;
 			// 
 			// labelXWebID
 			// 
-			this.labelXWebID.Location = new System.Drawing.Point(33, 23);
+			this.labelXWebID.Location = new System.Drawing.Point(8, 23);
 			this.labelXWebID.Name = "labelXWebID";
-			this.labelXWebID.Size = new System.Drawing.Size(64, 23);
+			this.labelXWebID.Size = new System.Drawing.Size(88, 23);
 			this.labelXWebID.TabIndex = 0;
 			this.labelXWebID.Text = "X-Web ID";
 			this.labelXWebID.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// comboPaymentType
 			// 
-			this.comboPaymentType.Location = new System.Drawing.Point(198, 23);
+			this.comboPaymentType.Location = new System.Drawing.Point(110, 23);
 			this.comboPaymentType.Name = "comboPaymentType";
-			this.comboPaymentType.Size = new System.Drawing.Size(192, 23);
+			this.comboPaymentType.Size = new System.Drawing.Size(301, 23);
 			this.comboPaymentType.TabIndex = 3;
 			// 
 			// labelPaymentType
 			// 
-			this.labelPaymentType.Location = new System.Drawing.Point(104, 23);
+			this.labelPaymentType.Location = new System.Drawing.Point(16, 23);
 			this.labelPaymentType.Name = "labelPaymentType";
 			this.labelPaymentType.Size = new System.Drawing.Size(88, 23);
 			this.labelPaymentType.TabIndex = 0;
@@ -201,16 +201,16 @@ namespace OpenPmsDental{
 			// 
 			this.comboClinic.HqDescription = "Headquarters";
 			this.comboClinic.IncludeUnassigned = true;
-			this.comboClinic.Location = new System.Drawing.Point(163, 76);
+			this.comboClinic.Location = new System.Drawing.Point(75, 96);
 			this.comboClinic.Name = "comboClinic";
-			this.comboClinic.Size = new System.Drawing.Size(227, 23);
+			this.comboClinic.Size = new System.Drawing.Size(344, 23);
 			this.comboClinic.TabIndex = 16;
 			this.comboClinic.SelectionChangeCommitted += new System.EventHandler(this.comboClinic_SelectionChangeCommitted);
 			// 
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(352, 551);
+			this.butSave.Location = new System.Drawing.Point(352, 546);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 26);
 			this.butSave.TabIndex = 18;
@@ -228,9 +228,9 @@ namespace OpenPmsDental{
 			// 
 			// labelClinicEnable
 			// 
-			this.labelClinicEnable.Location = new System.Drawing.Point(8, 56);
+			this.labelClinicEnable.Location = new System.Drawing.Point(8, 60);
 			this.labelClinicEnable.Name = "labelClinicEnable";
-			this.labelClinicEnable.Size = new System.Drawing.Size(419, 18);
+			this.labelClinicEnable.Size = new System.Drawing.Size(419, 32);
 			this.labelClinicEnable.TabIndex = 20;
 			this.labelClinicEnable.Text = "To enable Global Payments V1 for a clinic, enter the X-Web credentials for that clinic.";
 			this.labelClinicEnable.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -251,56 +251,56 @@ namespace OpenPmsDental{
 			this.groupCardEntry.Controls.Add(this.labelReturnUrl);
 			this.groupCardEntry.Controls.Add(this.comboReturnMode);
 			this.groupCardEntry.Controls.Add(this.labelReturnMode);
-			this.groupCardEntry.Location = new System.Drawing.Point(8, 405);
+			this.groupCardEntry.Location = new System.Drawing.Point(8, 425);
 			this.groupCardEntry.Name = "groupCardEntry";
-			this.groupCardEntry.Size = new System.Drawing.Size(419, 132);
+			this.groupCardEntry.Size = new System.Drawing.Size(419, 115);
 			this.groupCardEntry.TabIndex = 17;
 			this.groupCardEntry.TabStop = false;
 			this.groupCardEntry.Text = "Card Entry Page";
 			// 
 			// labelReturnMode
 			// 
-			this.labelReturnMode.Location = new System.Drawing.Point(25, 23);
+			this.labelReturnMode.Location = new System.Drawing.Point(16, 23);
 			this.labelReturnMode.Name = "labelReturnMode";
-			this.labelReturnMode.Size = new System.Drawing.Size(80, 23);
+			this.labelReturnMode.Size = new System.Drawing.Size(88, 23);
 			this.labelReturnMode.TabIndex = 0;
 			this.labelReturnMode.Text = "Return mode";
 			this.labelReturnMode.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// comboReturnMode
 			// 
-			this.comboReturnMode.Location = new System.Drawing.Point(111, 23);
+			this.comboReturnMode.Location = new System.Drawing.Point(110, 23);
 			this.comboReturnMode.Name = "comboReturnMode";
-			this.comboReturnMode.Size = new System.Drawing.Size(264, 23);
+			this.comboReturnMode.Size = new System.Drawing.Size(301, 23);
 			this.comboReturnMode.TabIndex = 1;
 			// 
 			// labelReturnUrl
 			// 
-			this.labelReturnUrl.Location = new System.Drawing.Point(33, 50);
+			this.labelReturnUrl.Location = new System.Drawing.Point(16, 50);
 			this.labelReturnUrl.Name = "labelReturnUrl";
-			this.labelReturnUrl.Size = new System.Drawing.Size(72, 23);
+			this.labelReturnUrl.Size = new System.Drawing.Size(88, 23);
 			this.labelReturnUrl.TabIndex = 0;
 			this.labelReturnUrl.Text = "Return URL";
 			this.labelReturnUrl.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textReturnUrl
 			// 
-			this.textReturnUrl.Location = new System.Drawing.Point(111, 50);
+			this.textReturnUrl.Location = new System.Drawing.Point(110, 50);
 			this.textReturnUrl.Name = "textReturnUrl";
-			this.textReturnUrl.Size = new System.Drawing.Size(264, 23);
+			this.textReturnUrl.Size = new System.Drawing.Size(301, 23);
 			this.textReturnUrl.TabIndex = 2;
 			// 
 			// labelReturnUrlHint
 			// 
-			this.labelReturnUrlHint.Location = new System.Drawing.Point(111, 77);
+			this.labelReturnUrlHint.Location = new System.Drawing.Point(110, 75);
 			this.labelReturnUrlHint.Name = "labelReturnUrlHint";
-			this.labelReturnUrlHint.Size = new System.Drawing.Size(281, 47);
+			this.labelReturnUrlHint.Size = new System.Drawing.Size(301, 32);
 			this.labelReturnUrlHint.TabIndex = 0;
 			this.labelReturnUrlHint.Text = "Blank uses the built-in address. The program closes the page when the card processor sends it there.";
 			// 
 			// FormEdgeExpressSetup
 			// 
-			this.ClientSize = new System.Drawing.Size(435, 585);
+			this.ClientSize = new System.Drawing.Size(435, 580);
 			this.Controls.Add(this.groupCardEntry);
 			this.Controls.Add(this.checkUseTestGateway);
 			this.Controls.Add(this.labelClinicEnable);

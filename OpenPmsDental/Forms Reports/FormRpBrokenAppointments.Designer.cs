@@ -44,7 +44,7 @@ namespace OpenPmsDental{
 			// 
 			this.checkAllProvs.Checked = true;
 			this.checkAllProvs.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkAllProvs.Location = new System.Drawing.Point(31, 206);
+			this.checkAllProvs.Location = new System.Drawing.Point(8, 238);
 			this.checkAllProvs.Name = "checkAllProvs";
 			this.checkAllProvs.Size = new System.Drawing.Size(36, 20);
 			this.checkAllProvs.TabIndex = 64;
@@ -53,7 +53,7 @@ namespace OpenPmsDental{
 			// 
 			// checkAllClinics
 			// 
-			this.checkAllClinics.Location = new System.Drawing.Point(157, 206);
+			this.checkAllClinics.Location = new System.Drawing.Point(136, 238);
 			this.checkAllClinics.Name = "checkAllClinics";
 			this.checkAllClinics.Size = new System.Drawing.Size(134, 20);
 			this.checkAllClinics.TabIndex = 63;
@@ -62,66 +62,68 @@ namespace OpenPmsDental{
 			// 
 			// listClinics
 			// 
-			this.listClinics.Location = new System.Drawing.Point(157, 230);
+			this.listClinics.Location = new System.Drawing.Point(136, 260);
 			this.listClinics.Name = "listClinics";
 			this.listClinics.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
-			this.listClinics.Size = new System.Drawing.Size(120, 186);
+			this.listClinics.Size = new System.Drawing.Size(120, 182);
 			this.listClinics.TabIndex = 62;
 			this.listClinics.Click += new System.EventHandler(this.listClinics_Click);
 			// 
 			// labelClinics
 			// 
-			this.labelClinics.Location = new System.Drawing.Point(157, 186);
+			this.labelClinics.Location = new System.Drawing.Point(136, 218);
 			this.labelClinics.Name = "labelClinics";
-			this.labelClinics.Size = new System.Drawing.Size(104, 16);
+			this.labelClinics.Size = new System.Drawing.Size(120, 18);
 			this.labelClinics.TabIndex = 61;
 			this.labelClinics.Text = "Clinics";
 			this.labelClinics.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// listProvs
 			// 
-			this.listProvs.Location = new System.Drawing.Point(31, 230);
+			this.listProvs.Location = new System.Drawing.Point(8, 260);
 			this.listProvs.Name = "listProvs";
 			this.listProvs.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
-			this.listProvs.Size = new System.Drawing.Size(120, 186);
+			this.listProvs.Size = new System.Drawing.Size(120, 182);
 			this.listProvs.TabIndex = 60;
 			this.listProvs.Click += new System.EventHandler(this.listProvs_Click);
 			// 
 			// labelProviders
 			// 
-			this.labelProviders.Location = new System.Drawing.Point(31, 186);
+			this.labelProviders.Location = new System.Drawing.Point(8, 218);
 			this.labelProviders.Name = "labelProviders";
-			this.labelProviders.Size = new System.Drawing.Size(104, 16);
+			this.labelProviders.Size = new System.Drawing.Size(120, 18);
 			this.labelProviders.TabIndex = 59;
 			this.labelProviders.Text = "Providers";
 			this.labelProviders.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// dateEnd
 			// 
-			this.dateEnd.Location = new System.Drawing.Point(326, 27);
+			this.dateEnd.Location = new System.Drawing.Point(238, 34);
+			this.dateEnd.Size = new System.Drawing.Size(190, 155);
 			this.dateEnd.Name = "dateEnd";
 			this.dateEnd.TabIndex = 66;
 			// 
 			// dateStart
 			// 
-			this.dateStart.Location = new System.Drawing.Point(64, 27);
+			this.dateStart.Location = new System.Drawing.Point(8, 34);
+			this.dateStart.Size = new System.Drawing.Size(190, 155);
 			this.dateStart.Name = "dateStart";
 			this.dateStart.TabIndex = 65;
 			// 
 			// labelTO
 			// 
-			this.labelTO.Location = new System.Drawing.Point(212, 35);
+			this.labelTO.Location = new System.Drawing.Point(204, 110);
 			this.labelTO.Name = "labelTO";
-			this.labelTO.Size = new System.Drawing.Size(72, 23);
+			this.labelTO.Size = new System.Drawing.Size(28, 23);
 			this.labelTO.TabIndex = 67;
 			this.labelTO.Text = "TO";
-			this.labelTO.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+			this.labelTO.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// labelDescr
 			// 
-			this.labelDescr.Location = new System.Drawing.Point(66, 8);
+			this.labelDescr.Location = new System.Drawing.Point(8, 8);
 			this.labelDescr.Name = "labelDescr";
-			this.labelDescr.Size = new System.Drawing.Size(481, 17);
+			this.labelDescr.Size = new System.Drawing.Size(584, 18);
 			this.labelDescr.TabIndex = 68;
 			this.labelDescr.Text = "Broken appointments based on appointment status.";
 			this.labelDescr.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -138,7 +140,7 @@ namespace OpenPmsDental{
 			// 
 			// radioProcs
 			// 
-			this.radioProcs.Location = new System.Drawing.Point(287, 246);
+			this.radioProcs.Location = new System.Drawing.Point(272, 260);
 			this.radioProcs.Name = "radioProcs";
 			this.radioProcs.Size = new System.Drawing.Size(100, 20);
 			this.radioProcs.TabIndex = 69;
@@ -148,7 +150,7 @@ namespace OpenPmsDental{
 			// 
 			// radioAdj
 			// 
-			this.radioAdj.Location = new System.Drawing.Point(287, 270);
+			this.radioAdj.Location = new System.Drawing.Point(272, 284);
 			this.radioAdj.Name = "radioAdj";
 			this.radioAdj.Size = new System.Drawing.Size(106, 20);
 			this.radioAdj.TabIndex = 70;
@@ -158,7 +160,7 @@ namespace OpenPmsDental{
 			// 
 			// radioAptStatus
 			// 
-			this.radioAptStatus.Location = new System.Drawing.Point(287, 294);
+			this.radioAptStatus.Location = new System.Drawing.Point(272, 308);
 			this.radioAptStatus.Name = "radioAptStatus";
 			this.radioAptStatus.Size = new System.Drawing.Size(144, 20);
 			this.radioAptStatus.TabIndex = 71;
@@ -168,10 +170,10 @@ namespace OpenPmsDental{
 			// 
 			// listOptions
 			// 
-			this.listOptions.Location = new System.Drawing.Point(436, 230);
+			this.listOptions.Location = new System.Drawing.Point(432, 260);
 			this.listOptions.Name = "listOptions";
 			this.listOptions.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
-			this.listOptions.Size = new System.Drawing.Size(152, 186);
+			this.listOptions.Size = new System.Drawing.Size(160, 182);
 			this.listOptions.TabIndex = 72;
 			this.listOptions.Visible = false;
 			// 

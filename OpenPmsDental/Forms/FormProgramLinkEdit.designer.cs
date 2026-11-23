@@ -199,9 +199,9 @@ namespace OpenPmsDental {
 			// 
 			// label7
 			// 
-			this.label7.Location = new System.Drawing.Point(253, 176);
+			this.label7.Location = new System.Drawing.Point(265, 242);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(88, 18);
+			this.label7.Size = new System.Drawing.Size(88, 23);
 			this.label7.TabIndex = 57;
 			this.label7.Text = "Text on button";
 			this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -217,12 +217,12 @@ namespace OpenPmsDental {
 			// 
 			// label8
 			// 
-			this.label8.Location = new System.Drawing.Point(541, 433);
+			this.label8.Location = new System.Drawing.Point(359, 441);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(44, 23);
+			this.label8.Size = new System.Drawing.Size(44, 17);
 			this.label8.TabIndex = 60;
 			this.label8.Text = "Notes";
-			this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.label8.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// label9
 			// 
@@ -252,7 +252,7 @@ namespace OpenPmsDental {
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(253, 242);
+			this.label5.Location = new System.Drawing.Point(253, 269);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(100, 23);
 			this.label5.TabIndex = 63;
@@ -345,7 +345,7 @@ namespace OpenPmsDental {
 			this.groupboxPLbuttons.Controls.Add(this.pictureBox);
 			this.groupboxPLbuttons.Controls.Add(this.butImport);
 			this.groupboxPLbuttons.Controls.Add(this.label10);
-			this.groupboxPLbuttons.Location = new System.Drawing.Point(15, 176);
+			this.groupboxPLbuttons.Location = new System.Drawing.Point(8, 176);
 			this.groupboxPLbuttons.Name = "groupboxPLbuttons";
 			this.groupboxPLbuttons.Size = new System.Drawing.Size(200, 296);
 			this.groupboxPLbuttons.TabIndex = 0;
@@ -367,7 +367,7 @@ namespace OpenPmsDental {
 			this.labelDisableForClinic.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelDisableForClinic.ForeColor = System.Drawing.Color.DarkRed;
-			this.labelDisableForClinic.Location = new System.Drawing.Point(15, 544);
+			this.labelDisableForClinic.Location = new System.Drawing.Point(8, 544);
 			this.labelDisableForClinic.Name = "labelDisableForClinic";
 			this.labelDisableForClinic.RightToLeft = System.Windows.Forms.RightToLeft.No;
 			this.labelDisableForClinic.Size = new System.Drawing.Size(751, 20);
@@ -379,9 +379,9 @@ namespace OpenPmsDental {
 			// 
 			// label11
 			// 
-			this.label11.Location = new System.Drawing.Point(561, 271);
+			this.label11.Location = new System.Drawing.Point(561, 269);
 			this.label11.Name = "label11";
-			this.label11.Size = new System.Drawing.Size(149, 18);
+			this.label11.Size = new System.Drawing.Size(136, 23);
 			this.label11.TabIndex = 78;
 			this.label11.Text = "Example: Something.dll";
 			this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;

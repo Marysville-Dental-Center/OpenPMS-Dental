@@ -55,7 +55,7 @@ namespace OpenPmsDental{
 			this.groupBox1.Controls.Add(this.textDescriptionInto);
 			this.groupBox1.Location = new System.Drawing.Point(8, 8);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(647, 77);
+			this.groupBox1.Size = new System.Drawing.Size(647, 73);
 			this.groupBox1.TabIndex = 4;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Plan to merge into. Patients with the plan chosen below will have this plan after" +
@@ -64,7 +64,7 @@ namespace OpenPmsDental{
 			// textAdjTypeInto
 			// 
 			this.textAdjTypeInto.AutoSize = false;
-			this.textAdjTypeInto.Location = new System.Drawing.Point(396, 46);
+			this.textAdjTypeInto.Location = new System.Drawing.Point(396, 42);
 			this.textAdjTypeInto.Name = "textAdjTypeInto";
 			this.textAdjTypeInto.ReadOnly = true;
 			this.textAdjTypeInto.Size = new System.Drawing.Size(128, 23);
@@ -73,16 +73,17 @@ namespace OpenPmsDental{
 			// label5
 			// 
 			this.label5.AutoSize = false;
-			this.label5.Location = new System.Drawing.Point(393, 23);
+			this.label5.Location = new System.Drawing.Point(396, 23);
+			this.label5.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(104, 19);
+			this.label5.Size = new System.Drawing.Size(104, 17);
 			this.label5.TabIndex = 5;
 			this.label5.Text = "Adjustment Type";
 			// 
 			// butChangePlanInto
 			// 
 			this.butChangePlanInto.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butChangePlanInto.Location = new System.Drawing.Point(530, 46);
+			this.butChangePlanInto.Location = new System.Drawing.Point(564, 42);
 			this.butChangePlanInto.Name = "butChangePlanInto";
 			this.butChangePlanInto.Size = new System.Drawing.Size(75, 23);
 			this.butChangePlanInto.TabIndex = 4;
@@ -92,7 +93,7 @@ namespace OpenPmsDental{
 			// textFeeSchedInto
 			// 
 			this.textFeeSchedInto.AutoSize = false;
-			this.textFeeSchedInto.Location = new System.Drawing.Point(154, 46);
+			this.textFeeSchedInto.Location = new System.Drawing.Point(154, 42);
 			this.textFeeSchedInto.Name = "textFeeSchedInto";
 			this.textFeeSchedInto.ReadOnly = true;
 			this.textFeeSchedInto.Size = new System.Drawing.Size(236, 23);
@@ -101,9 +102,10 @@ namespace OpenPmsDental{
 			// label2
 			// 
 			this.label2.AutoSize = false;
-			this.label2.Location = new System.Drawing.Point(150, 23);
+			this.label2.Location = new System.Drawing.Point(154, 23);
+			this.label2.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(80, 19);
+			this.label2.Size = new System.Drawing.Size(80, 17);
 			this.label2.TabIndex = 2;
 			this.label2.Text = "Fee Schedule";
 			// 
@@ -111,15 +113,16 @@ namespace OpenPmsDental{
 			// 
 			this.label1.AutoSize = false;
 			this.label1.Location = new System.Drawing.Point(8, 23);
+			this.label1.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(72, 19);
+			this.label1.Size = new System.Drawing.Size(72, 17);
 			this.label1.TabIndex = 1;
 			this.label1.Text = "Description";
 			// 
 			// textDescriptionInto
 			// 
 			this.textDescriptionInto.AutoSize = false;
-			this.textDescriptionInto.Location = new System.Drawing.Point(8, 46);
+			this.textDescriptionInto.Location = new System.Drawing.Point(8, 42);
 			this.textDescriptionInto.Name = "textDescriptionInto";
 			this.textDescriptionInto.ReadOnly = true;
 			this.textDescriptionInto.Size = new System.Drawing.Size(140, 23);
@@ -134,9 +137,9 @@ namespace OpenPmsDental{
 			this.groupBox2.Controls.Add(this.label3);
 			this.groupBox2.Controls.Add(this.label4);
 			this.groupBox2.Controls.Add(this.textDescriptionFrom);
-			this.groupBox2.Location = new System.Drawing.Point(8, 93);
+			this.groupBox2.Location = new System.Drawing.Point(8, 89);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(647, 77);
+			this.groupBox2.Size = new System.Drawing.Size(647, 73);
 			this.groupBox2.TabIndex = 5;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Plan to merge from. Patients with this plan will be changed to have the plan abov" +
@@ -145,7 +148,7 @@ namespace OpenPmsDental{
 			// textAdjTypeFrom
 			// 
 			this.textAdjTypeFrom.AutoSize = false;
-			this.textAdjTypeFrom.Location = new System.Drawing.Point(396, 46);
+			this.textAdjTypeFrom.Location = new System.Drawing.Point(396, 42);
 			this.textAdjTypeFrom.Name = "textAdjTypeFrom";
 			this.textAdjTypeFrom.ReadOnly = true;
 			this.textAdjTypeFrom.Size = new System.Drawing.Size(128, 23);
@@ -154,7 +157,8 @@ namespace OpenPmsDental{
 			// label6
 			// 
 			this.label6.AutoSize = false;
-			this.label6.Location = new System.Drawing.Point(396, 24);
+			this.label6.Location = new System.Drawing.Point(396, 23);
+			this.label6.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(104, 17);
 			this.label6.TabIndex = 10;
@@ -163,7 +167,7 @@ namespace OpenPmsDental{
 			// butChangePlanFrom
 			// 
 			this.butChangePlanFrom.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butChangePlanFrom.Location = new System.Drawing.Point(530, 46);
+			this.butChangePlanFrom.Location = new System.Drawing.Point(564, 42);
 			this.butChangePlanFrom.Name = "butChangePlanFrom";
 			this.butChangePlanFrom.Size = new System.Drawing.Size(75, 23);
 			this.butChangePlanFrom.TabIndex = 9;
@@ -173,7 +177,7 @@ namespace OpenPmsDental{
 			// textFeeSchedFrom
 			// 
 			this.textFeeSchedFrom.AutoSize = false;
-			this.textFeeSchedFrom.Location = new System.Drawing.Point(154, 46);
+			this.textFeeSchedFrom.Location = new System.Drawing.Point(154, 42);
 			this.textFeeSchedFrom.Name = "textFeeSchedFrom";
 			this.textFeeSchedFrom.ReadOnly = true;
 			this.textFeeSchedFrom.Size = new System.Drawing.Size(236, 23);
@@ -182,9 +186,10 @@ namespace OpenPmsDental{
 			// label3
 			// 
 			this.label3.AutoSize = false;
-			this.label3.Location = new System.Drawing.Point(150, 23);
+			this.label3.Location = new System.Drawing.Point(154, 23);
+			this.label3.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(80, 19);
+			this.label3.Size = new System.Drawing.Size(80, 17);
 			this.label3.TabIndex = 7;
 			this.label3.Text = "Fee Schedule";
 			// 
@@ -192,15 +197,16 @@ namespace OpenPmsDental{
 			// 
 			this.label4.AutoSize = false;
 			this.label4.Location = new System.Drawing.Point(8, 23);
+			this.label4.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(72, 19);
+			this.label4.Size = new System.Drawing.Size(72, 17);
 			this.label4.TabIndex = 6;
 			this.label4.Text = "Description";
 			// 
 			// textDescriptionFrom
 			// 
 			this.textDescriptionFrom.AutoSize = false;
-			this.textDescriptionFrom.Location = new System.Drawing.Point(8, 46);
+			this.textDescriptionFrom.Location = new System.Drawing.Point(8, 42);
 			this.textDescriptionFrom.Name = "textDescriptionFrom";
 			this.textDescriptionFrom.ReadOnly = true;
 			this.textDescriptionFrom.Size = new System.Drawing.Size(140, 23);
@@ -210,7 +216,7 @@ namespace OpenPmsDental{
 			// 
 			this.butMerge.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butMerge.Enabled = false;
-			this.butMerge.Location = new System.Drawing.Point(576, 178);
+			this.butMerge.Location = new System.Drawing.Point(580, 218);
 			this.butMerge.Name = "butMerge";
 			this.butMerge.Size = new System.Drawing.Size(75, 24);
 			this.butMerge.TabIndex = 3;

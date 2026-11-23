@@ -117,15 +117,15 @@ namespace OpenPmsDental {
 			// 
 			this.groupBox7.Controls.Add(this.butIns);
 			this.groupBox7.Controls.Add(this.label6);
-			this.groupBox7.Location = new System.Drawing.Point(17, 568);
+			this.groupBox7.Location = new System.Drawing.Point(8, 578);
 			this.groupBox7.Name = "groupBox7";
-			this.groupBox7.Size = new System.Drawing.Size(357, 73);
+			this.groupBox7.Size = new System.Drawing.Size(366, 63);
 			this.groupBox7.TabIndex = 17;
 			this.groupBox7.Text = "Check Ins Plan Fee Schedules";
 			// 
 			// butIns
 			// 
-			this.butIns.Location = new System.Drawing.Point(248, 32);
+			this.butIns.Location = new System.Drawing.Point(283, 27);
 			this.butIns.Name = "butIns";
 			this.butIns.Size = new System.Drawing.Size(75, 23);
 			this.butIns.TabIndex = 4;
@@ -134,10 +134,10 @@ namespace OpenPmsDental {
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(13, 23);
-			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.label6.Location = new System.Drawing.Point(8, 23);
+			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(229, 42);
+			this.label6.Size = new System.Drawing.Size(269, 32);
 			this.label6.TabIndex = 5;
 			this.label6.Text = "This tool will help make sure your insurance plans have the right fee schedules s" +
     "et.";
@@ -232,9 +232,9 @@ namespace OpenPmsDental {
 			// 
 			// gridMain
 			// 
-			this.gridMain.Location = new System.Drawing.Point(17, 8);
+			this.gridMain.Location = new System.Drawing.Point(8, 8);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(357, 552);
+			this.gridMain.Size = new System.Drawing.Size(366, 562);
 			this.gridMain.TabIndex = 11;
 			this.gridMain.Title = "FeeSchedules";
 			this.gridMain.TranslationName = "TableFeeScheds";
