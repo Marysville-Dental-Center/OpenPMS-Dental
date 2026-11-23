@@ -59,9 +59,9 @@ namespace OpenPmsDental{
 			this.groupBoxFrom.Controls.Add(this.label8);
 			this.groupBoxFrom.Controls.Add(this.textMedNumFrom);
 			this.groupBoxFrom.Controls.Add(this.butChangeMedFrom);
-			this.groupBoxFrom.Location = new System.Drawing.Point(12, 107);
+			this.groupBoxFrom.Location = new System.Drawing.Point(8, 89);
 			this.groupBoxFrom.Name = "groupBoxFrom";
-			this.groupBoxFrom.Size = new System.Drawing.Size(665, 91);
+			this.groupBoxFrom.Size = new System.Drawing.Size(673, 73);
 			this.groupBoxFrom.TabIndex = 13;
 			this.groupBoxFrom.TabStop = false;
 			this.groupBoxFrom.Text = "Medication to merge from. This medication will be merged into the one above, then" +
@@ -69,74 +69,78 @@ namespace OpenPmsDental{
 			// 
 			// textGenNumFrom
 			// 
-			this.textGenNumFrom.Location = new System.Drawing.Point(152, 38);
+			this.textGenNumFrom.Location = new System.Drawing.Point(154, 42);
 			this.textGenNumFrom.Name = "textGenNumFrom";
 			this.textGenNumFrom.ReadOnly = true;
-			this.textGenNumFrom.Size = new System.Drawing.Size(140, 20);
+			this.textGenNumFrom.Size = new System.Drawing.Size(140, 23);
 			this.textGenNumFrom.TabIndex = 16;
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(150, 22);
+			this.label3.Location = new System.Drawing.Point(154, 23);
+			this.label3.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(113, 16);
+			this.label3.Size = new System.Drawing.Size(80, 17);
 			this.label3.TabIndex = 15;
 			this.label3.Text = "GenericNum";
 			// 
 			// textRxFrom
 			// 
-			this.textRxFrom.Location = new System.Drawing.Point(466, 38);
+			this.textRxFrom.Location = new System.Drawing.Point(466, 42);
 			this.textRxFrom.Name = "textRxFrom";
 			this.textRxFrom.ReadOnly = true;
-			this.textRxFrom.Size = new System.Drawing.Size(105, 20);
+			this.textRxFrom.Size = new System.Drawing.Size(104, 23);
 			this.textRxFrom.TabIndex = 14;
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(463, 22);
+			this.label4.Location = new System.Drawing.Point(466, 23);
+			this.label4.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(99, 16);
+			this.label4.Size = new System.Drawing.Size(44, 17);
 			this.label4.TabIndex = 13;
 			this.label4.Text = "RxCui";
 			// 
 			// textMedNameFrom
 			// 
-			this.textMedNameFrom.Location = new System.Drawing.Point(298, 38);
+			this.textMedNameFrom.Location = new System.Drawing.Point(300, 42);
 			this.textMedNameFrom.Name = "textMedNameFrom";
 			this.textMedNameFrom.ReadOnly = true;
-			this.textMedNameFrom.Size = new System.Drawing.Size(162, 20);
+			this.textMedNameFrom.Size = new System.Drawing.Size(160, 23);
 			this.textMedNameFrom.TabIndex = 12;
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(295, 22);
+			this.label6.Location = new System.Drawing.Point(300, 23);
+			this.label6.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(125, 16);
+			this.label6.Size = new System.Drawing.Size(68, 17);
 			this.label6.TabIndex = 11;
 			this.label6.Text = "MedName";
 			// 
 			// label8
 			// 
-			this.label8.Location = new System.Drawing.Point(3, 22);
+			this.label8.Location = new System.Drawing.Point(8, 23);
+			this.label8.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(99, 16);
+			this.label8.Size = new System.Drawing.Size(100, 17);
 			this.label8.TabIndex = 10;
 			this.label8.Text = "MedicationNum";
 			// 
 			// textMedNumFrom
 			// 
-			this.textMedNumFrom.Location = new System.Drawing.Point(6, 38);
+			this.textMedNumFrom.Location = new System.Drawing.Point(8, 42);
 			this.textMedNumFrom.Name = "textMedNumFrom";
 			this.textMedNumFrom.ReadOnly = true;
-			this.textMedNumFrom.Size = new System.Drawing.Size(140, 20);
+			this.textMedNumFrom.Size = new System.Drawing.Size(140, 23);
 			this.textMedNumFrom.TabIndex = 9;
 			// 
 			// butChangeMedFrom
 			// 
 			this.butChangeMedFrom.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butChangeMedFrom.Location = new System.Drawing.Point(577, 35);
+			this.butChangeMedFrom.Location = new System.Drawing.Point(590, 42);
 			this.butChangeMedFrom.Name = "butChangeMedFrom";
-			this.butChangeMedFrom.Size = new System.Drawing.Size(75, 24);
+			this.butChangeMedFrom.Size = new System.Drawing.Size(75, 23);
 			this.butChangeMedFrom.TabIndex = 4;
 			this.butChangeMedFrom.Text = "Change";
 			this.butChangeMedFrom.Click += new System.EventHandler(this.butChangeMedFrom_Click);
@@ -152,91 +156,95 @@ namespace OpenPmsDental{
 			this.groupBoxInto.Controls.Add(this.label2);
 			this.groupBoxInto.Controls.Add(this.label1);
 			this.groupBoxInto.Controls.Add(this.textMedNumInto);
-			this.groupBoxInto.Location = new System.Drawing.Point(12, 12);
+			this.groupBoxInto.Location = new System.Drawing.Point(8, 8);
 			this.groupBoxInto.Name = "groupBoxInto";
-			this.groupBoxInto.Size = new System.Drawing.Size(665, 89);
+			this.groupBoxInto.Size = new System.Drawing.Size(673, 73);
 			this.groupBoxInto.TabIndex = 12;
 			this.groupBoxInto.TabStop = false;
 			this.groupBoxInto.Text = "Medication to merge into. The medication chosen below will be merged into this.";
 			// 
 			// textGenNumInto
 			// 
-			this.textGenNumInto.Location = new System.Drawing.Point(152, 37);
+			this.textGenNumInto.Location = new System.Drawing.Point(154, 42);
 			this.textGenNumInto.Name = "textGenNumInto";
 			this.textGenNumInto.ReadOnly = true;
-			this.textGenNumInto.Size = new System.Drawing.Size(140, 20);
+			this.textGenNumInto.Size = new System.Drawing.Size(140, 23);
 			this.textGenNumInto.TabIndex = 8;
 			// 
 			// label7
 			// 
-			this.label7.Location = new System.Drawing.Point(150, 21);
+			this.label7.Location = new System.Drawing.Point(154, 23);
+			this.label7.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(113, 16);
+			this.label7.Size = new System.Drawing.Size(80, 17);
 			this.label7.TabIndex = 7;
 			this.label7.Text = "GenericNum";
 			// 
 			// textRxInto
 			// 
-			this.textRxInto.Location = new System.Drawing.Point(466, 37);
+			this.textRxInto.Location = new System.Drawing.Point(466, 42);
 			this.textRxInto.Name = "textRxInto";
 			this.textRxInto.ReadOnly = true;
-			this.textRxInto.Size = new System.Drawing.Size(105, 20);
+			this.textRxInto.Size = new System.Drawing.Size(104, 23);
 			this.textRxInto.TabIndex = 6;
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(463, 21);
+			this.label5.Location = new System.Drawing.Point(466, 23);
+			this.label5.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(99, 16);
+			this.label5.Size = new System.Drawing.Size(44, 17);
 			this.label5.TabIndex = 5;
 			this.label5.Text = "RxCui";
 			// 
 			// textMedNameInto
 			// 
-			this.textMedNameInto.Location = new System.Drawing.Point(298, 37);
+			this.textMedNameInto.Location = new System.Drawing.Point(300, 42);
 			this.textMedNameInto.Name = "textMedNameInto";
 			this.textMedNameInto.ReadOnly = true;
-			this.textMedNameInto.Size = new System.Drawing.Size(162, 20);
+			this.textMedNameInto.Size = new System.Drawing.Size(160, 23);
 			this.textMedNameInto.TabIndex = 3;
 			// 
 			// butChangeMedInto
 			// 
 			this.butChangeMedInto.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butChangeMedInto.Location = new System.Drawing.Point(577, 34);
+			this.butChangeMedInto.Location = new System.Drawing.Point(590, 42);
 			this.butChangeMedInto.Name = "butChangeMedInto";
-			this.butChangeMedInto.Size = new System.Drawing.Size(75, 24);
+			this.butChangeMedInto.Size = new System.Drawing.Size(75, 23);
 			this.butChangeMedInto.TabIndex = 4;
 			this.butChangeMedInto.Text = "Change";
 			this.butChangeMedInto.Click += new System.EventHandler(this.butChangeMedInto_Click);
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(295, 21);
+			this.label2.Location = new System.Drawing.Point(300, 23);
+			this.label2.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(125, 16);
+			this.label2.Size = new System.Drawing.Size(68, 17);
 			this.label2.TabIndex = 2;
 			this.label2.Text = "MedName";
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(3, 21);
+			this.label1.Location = new System.Drawing.Point(8, 23);
+			this.label1.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(99, 16);
+			this.label1.Size = new System.Drawing.Size(100, 17);
 			this.label1.TabIndex = 1;
 			this.label1.Text = "MedicationNum";
 			// 
 			// textMedNumInto
 			// 
-			this.textMedNumInto.Location = new System.Drawing.Point(6, 37);
+			this.textMedNumInto.Location = new System.Drawing.Point(8, 42);
 			this.textMedNumInto.Name = "textMedNumInto";
 			this.textMedNumInto.ReadOnly = true;
-			this.textMedNumInto.Size = new System.Drawing.Size(140, 20);
+			this.textMedNumInto.Size = new System.Drawing.Size(140, 23);
 			this.textMedNumInto.TabIndex = 0;
 			// 
 			// butMerge
 			// 
 			this.butMerge.Enabled = false;
-			this.butMerge.Location = new System.Drawing.Point(602, 209);
+			this.butMerge.Location = new System.Drawing.Point(606, 213);
 			this.butMerge.Name = "butMerge";
 			this.butMerge.Size = new System.Drawing.Size(75, 24);
 			this.butMerge.TabIndex = 11;

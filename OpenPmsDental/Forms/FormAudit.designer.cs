@@ -57,39 +57,39 @@ namespace OpenPmsDental {
 			// 
 			// textDateEditedFrom
 			// 
-			this.textDateEditedFrom.Location = new System.Drawing.Point(933, 18);
+			this.textDateEditedFrom.Location = new System.Drawing.Point(933, 8);
 			this.textDateEditedFrom.Name = "textDateEditedFrom";
 			this.textDateEditedFrom.Size = new System.Drawing.Size(80, 20);
 			this.textDateEditedFrom.TabIndex = 276;
 			// 
 			// textDateEditedTo
 			// 
-			this.textDateEditedTo.Location = new System.Drawing.Point(933, 41);
+			this.textDateEditedTo.Location = new System.Drawing.Point(933, 35);
 			this.textDateEditedTo.Name = "textDateEditedTo";
 			this.textDateEditedTo.Size = new System.Drawing.Size(80, 20);
 			this.textDateEditedTo.TabIndex = 272;
 			// 
 			// label7
 			// 
-			this.label7.Location = new System.Drawing.Point(813, 19);
+			this.label7.Location = new System.Drawing.Point(811, 8);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(118, 19);
+			this.label7.Size = new System.Drawing.Size(116, 23);
 			this.label7.TabIndex = 273;
 			this.label7.Text = "Previous From Date";
 			this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label8
 			// 
-			this.label8.Location = new System.Drawing.Point(867, 44);
+			this.label8.Location = new System.Drawing.Point(875, 35);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(64, 17);
+			this.label8.Size = new System.Drawing.Size(52, 23);
 			this.label8.TabIndex = 274;
 			this.label8.Text = "To Date";
 			this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textRows
 			// 
-			this.textRows.Location = new System.Drawing.Point(771, 41);
+			this.textRows.Location = new System.Drawing.Point(789, 35);
 			this.textRows.MaxLength = 5;
 			this.textRows.MaxVal = 99999;
 			this.textRows.MinVal = 1;
@@ -99,9 +99,9 @@ namespace OpenPmsDental {
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(683, 42);
+			this.label6.Location = new System.Drawing.Point(711, 35);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(86, 17);
+			this.label6.Size = new System.Drawing.Size(72, 23);
 			this.label6.TabIndex = 61;
 			this.label6.Text = "Limit Rows:";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -110,127 +110,127 @@ namespace OpenPmsDental {
 			// 
 			this.butPrint.Icon = OpenPmsDental.UI.EnumIcons.Print;
 			this.butPrint.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butPrint.Location = new System.Drawing.Point(1019, 41);
+			this.butPrint.Location = new System.Drawing.Point(1019, 35);
 			this.butPrint.Name = "butPrint";
-			this.butPrint.Size = new System.Drawing.Size(82, 24);
+			this.butPrint.Size = new System.Drawing.Size(82, 23);
 			this.butPrint.TabIndex = 60;
 			this.butPrint.Text = "Print";
 			this.butPrint.Click += new System.EventHandler(this.butPrint_Click);
 			// 
 			// butCurrent
 			// 
-			this.butCurrent.Location = new System.Drawing.Point(472, 41);
+			this.butCurrent.Location = new System.Drawing.Point(494, 35);
 			this.butCurrent.Name = "butCurrent";
-			this.butCurrent.Size = new System.Drawing.Size(63, 24);
+			this.butCurrent.Size = new System.Drawing.Size(63, 23);
 			this.butCurrent.TabIndex = 59;
 			this.butCurrent.Text = "Current";
 			this.butCurrent.Click += new System.EventHandler(this.butCurrent_Click);
 			// 
 			// butAll
 			// 
-			this.butAll.Location = new System.Drawing.Point(616, 41);
+			this.butAll.Location = new System.Drawing.Point(632, 35);
 			this.butAll.Name = "butAll";
-			this.butAll.Size = new System.Drawing.Size(63, 24);
+			this.butAll.Size = new System.Drawing.Size(63, 23);
 			this.butAll.TabIndex = 58;
 			this.butAll.Text = "All";
 			this.butAll.Click += new System.EventHandler(this.butAll_Click);
 			// 
 			// butFind
 			// 
-			this.butFind.Location = new System.Drawing.Point(544, 41);
+			this.butFind.Location = new System.Drawing.Point(563, 35);
 			this.butFind.Name = "butFind";
-			this.butFind.Size = new System.Drawing.Size(63, 24);
+			this.butFind.Size = new System.Drawing.Size(63, 23);
 			this.butFind.TabIndex = 57;
 			this.butFind.Text = "Find";
 			this.butFind.Click += new System.EventHandler(this.butFind_Click);
 			// 
 			// textPatient
 			// 
-			this.textPatient.Location = new System.Drawing.Point(472, 18);
+			this.textPatient.Location = new System.Drawing.Point(494, 8);
 			this.textPatient.Name = "textPatient";
-			this.textPatient.Size = new System.Drawing.Size(207, 20);
+			this.textPatient.Size = new System.Drawing.Size(208, 23);
 			this.textPatient.TabIndex = 56;
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(158, 36);
+			this.label5.Location = new System.Drawing.Point(214, 35);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(75, 17);
+			this.label5.Size = new System.Drawing.Size(36, 23);
 			this.label5.TabIndex = 55;
 			this.label5.Text = "User";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// comboUser
 			// 
-			this.comboUser.Location = new System.Drawing.Point(235, 31);
+			this.comboUser.Location = new System.Drawing.Point(256, 35);
 			this.comboUser.Name = "comboUser";
-			this.comboUser.Size = new System.Drawing.Size(170, 21);
+			this.comboUser.Size = new System.Drawing.Size(168, 23);
 			this.comboUser.TabIndex = 54;
 			this.comboUser.SelectionChangeCommitted += new System.EventHandler(this.comboUser_SelectionChangeCommitted);
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(405, 21);
+			this.label4.Location = new System.Drawing.Point(440, 8);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(65, 17);
+			this.label4.Size = new System.Drawing.Size(48, 23);
 			this.label4.TabIndex = 52;
 			this.label4.Text = "Patient";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(158, 13);
+			this.label1.Location = new System.Drawing.Point(178, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(75, 17);
+			this.label1.Size = new System.Drawing.Size(72, 23);
 			this.label1.TabIndex = 51;
 			this.label1.Text = "Permission";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// comboPermission
 			// 
-			this.comboPermission.Location = new System.Drawing.Point(235, 8);
+			this.comboPermission.Location = new System.Drawing.Point(256, 8);
 			this.comboPermission.Name = "comboPermission";
-			this.comboPermission.Size = new System.Drawing.Size(170, 21);
+			this.comboPermission.Size = new System.Drawing.Size(168, 23);
 			this.comboPermission.TabIndex = 50;
 			this.comboPermission.SelectionChangeCommitted += new System.EventHandler(this.comboPermission_SelectionChangeCommitted);
 			// 
 			// butRefresh
 			// 
-			this.butRefresh.Location = new System.Drawing.Point(1019, 14);
+			this.butRefresh.Location = new System.Drawing.Point(1019, 8);
 			this.butRefresh.Name = "butRefresh";
-			this.butRefresh.Size = new System.Drawing.Size(82, 24);
+			this.butRefresh.Size = new System.Drawing.Size(82, 23);
 			this.butRefresh.TabIndex = 49;
 			this.butRefresh.Text = "Refresh";
 			this.butRefresh.Click += new System.EventHandler(this.butRefresh_Click);
 			// 
 			// textDateFrom
 			// 
-			this.textDateFrom.Location = new System.Drawing.Point(77, 18);
+			this.textDateFrom.Location = new System.Drawing.Point(82, 8);
 			this.textDateFrom.Name = "textDateFrom";
 			this.textDateFrom.Size = new System.Drawing.Size(80, 20);
 			this.textDateFrom.TabIndex = 47;
 			// 
 			// textDateTo
 			// 
-			this.textDateTo.Location = new System.Drawing.Point(77, 41);
+			this.textDateTo.Location = new System.Drawing.Point(82, 35);
 			this.textDateTo.Name = "textDateTo";
 			this.textDateTo.Size = new System.Drawing.Size(80, 20);
 			this.textDateTo.TabIndex = 48;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(0, 21);
+			this.label2.Location = new System.Drawing.Point(8, 8);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(75, 18);
+			this.label2.Size = new System.Drawing.Size(68, 23);
 			this.label2.TabIndex = 45;
 			this.label2.Text = "From Date";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(11, 44);
+			this.label3.Location = new System.Drawing.Point(24, 35);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(64, 17);
+			this.label3.Size = new System.Drawing.Size(52, 23);
 			this.label3.TabIndex = 46;
 			this.label3.Text = "To Date";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -241,7 +241,7 @@ namespace OpenPmsDental {
 			this.grid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.grid.Location = new System.Drawing.Point(8, 81);
+			this.grid.Location = new System.Drawing.Point(8, 89);
 			this.grid.Name = "grid";
 			this.grid.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
 			this.grid.Size = new System.Drawing.Size(1093, 576);
@@ -252,24 +252,24 @@ namespace OpenPmsDental {
 			// 
 			// comboLogSource
 			// 
-			this.comboLogSource.Location = new System.Drawing.Point(235, 54);
+			this.comboLogSource.Location = new System.Drawing.Point(256, 62);
 			this.comboLogSource.Name = "comboLogSource";
-			this.comboLogSource.Size = new System.Drawing.Size(170, 21);
+			this.comboLogSource.Size = new System.Drawing.Size(168, 23);
 			this.comboLogSource.TabIndex = 277;
 			this.comboLogSource.SelectionChangeCommitted += new System.EventHandler(this.comboLogSource_SelectionChangeCommitted);
 			// 
 			// labelLogSource
 			// 
-			this.labelLogSource.Location = new System.Drawing.Point(158, 59);
+			this.labelLogSource.Location = new System.Drawing.Point(182, 62);
 			this.labelLogSource.Name = "labelLogSource";
-			this.labelLogSource.Size = new System.Drawing.Size(75, 17);
+			this.labelLogSource.Size = new System.Drawing.Size(68, 23);
 			this.labelLogSource.TabIndex = 278;
 			this.labelLogSource.Text = "LogSource";
 			this.labelLogSource.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// FormAudit
 			// 
-			this.ClientSize = new System.Drawing.Size(1108, 661);
+			this.ClientSize = new System.Drawing.Size(1109, 673);
 			this.Controls.Add(this.labelLogSource);
 			this.Controls.Add(this.comboLogSource);
 			this.Controls.Add(this.grid);

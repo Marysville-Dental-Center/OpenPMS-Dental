@@ -110,7 +110,7 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridMain.ContextMenuStrip = this.contextMenu;
-			this.gridMain.Location = new System.Drawing.Point(1, 1);
+			this.gridMain.Location = new System.Drawing.Point(8, 8);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.Size = new System.Drawing.Size(946, 492);
 			this.gridMain.TabIndex = 0;
@@ -121,9 +121,9 @@ namespace OpenPmsDental{
 			// butRefresh
 			// 
 			this.butRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butRefresh.Location = new System.Drawing.Point(882, 10);
+			this.butRefresh.Location = new System.Drawing.Point(862, 8);
 			this.butRefresh.Name = "butRefresh";
-			this.butRefresh.Size = new System.Drawing.Size(82, 24);
+			this.butRefresh.Size = new System.Drawing.Size(82, 23);
 			this.butRefresh.TabIndex = 3;
 			this.butRefresh.Text = "Refresh";
 			this.butRefresh.Click += new System.EventHandler(this.butRefresh_Click);
@@ -132,15 +132,15 @@ namespace OpenPmsDental{
 			// 
 			this.comboClinic.IncludeAll = true;
 			this.comboClinic.IncludeUnassigned = true;
-			this.comboClinic.Location = new System.Drawing.Point(657, 12);
+			this.comboClinic.Location = new System.Drawing.Point(657, 8);
 			this.comboClinic.Name = "comboClinic";
-			this.comboClinic.Size = new System.Drawing.Size(200, 21);
+			this.comboClinic.Size = new System.Drawing.Size(199, 23);
 			this.comboClinic.TabIndex = 1;
 			// 
 			// dateRangePicker
 			// 
 			this.dateRangePicker.BackColor = System.Drawing.Color.Transparent;
-			this.dateRangePicker.Location = new System.Drawing.Point(4, 9);
+			this.dateRangePicker.Location = new System.Drawing.Point(8, 6);
 			this.dateRangePicker.MinimumSize = new System.Drawing.Size(453, 22);
 			this.dateRangePicker.Name = "dateRangePicker";
 			this.dateRangePicker.Size = new System.Drawing.Size(453, 24);
@@ -154,9 +154,9 @@ namespace OpenPmsDental{
 			this.tabControl.Controls.Add(this.tabTrans);
 			this.tabControl.Controls.Add(this.tabQSBatchTrans);
 			this.tabControl.Controls.Add(this.tabErrors);
-			this.tabControl.Location = new System.Drawing.Point(12, 56);
+			this.tabControl.Location = new System.Drawing.Point(8, 64);
 			this.tabControl.Name = "tabControl";
-			this.tabControl.Size = new System.Drawing.Size(952, 516);
+			this.tabControl.Size = new System.Drawing.Size(966, 531);
 			this.tabControl.TabIndex = 4;
 			this.tabControl.SelectedIndexChanged += new System.EventHandler(this.tabControl_SelectedIndexChanged);
 			// 
@@ -166,7 +166,7 @@ namespace OpenPmsDental{
 			this.tabTrans.Location = new System.Drawing.Point(2, 21);
 			this.tabTrans.Name = "tabTrans";
 			this.tabTrans.Padding = new System.Windows.Forms.Padding(3);
-			this.tabTrans.Size = new System.Drawing.Size(948, 493);
+			this.tabTrans.Size = new System.Drawing.Size(962, 508);
 			this.tabTrans.TabIndex = 0;
 			this.tabTrans.Text = "Transactions";
 			// 
@@ -181,14 +181,14 @@ namespace OpenPmsDental{
 			this.tabQSBatchTrans.Location = new System.Drawing.Point(2, 21);
 			this.tabQSBatchTrans.Name = "tabQSBatchTrans";
 			this.tabQSBatchTrans.Padding = new System.Windows.Forms.Padding(3);
-			this.tabQSBatchTrans.Size = new System.Drawing.Size(948, 493);
+			this.tabQSBatchTrans.Size = new System.Drawing.Size(961, 494);
 			this.tabQSBatchTrans.TabIndex = 2;
 			this.tabQSBatchTrans.Text = "Quickscreen Transactions";
 			// 
 			// butNoneQSBatch
 			// 
 			this.butNoneQSBatch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butNoneQSBatch.Location = new System.Drawing.Point(104, 461);
+			this.butNoneQSBatch.Location = new System.Drawing.Point(96, 462);
 			this.butNoneQSBatch.Name = "butNoneQSBatch";
 			this.butNoneQSBatch.Size = new System.Drawing.Size(82, 24);
 			this.butNoneQSBatch.TabIndex = 151;
@@ -198,7 +198,7 @@ namespace OpenPmsDental{
 			// butButAllQSTrans
 			// 
 			this.butButAllQSTrans.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butButAllQSTrans.Location = new System.Drawing.Point(6, 461);
+			this.butButAllQSTrans.Location = new System.Drawing.Point(8, 462);
 			this.butButAllQSTrans.Name = "butButAllQSTrans";
 			this.butButAllQSTrans.Size = new System.Drawing.Size(82, 24);
 			this.butButAllQSTrans.TabIndex = 150;
@@ -208,7 +208,7 @@ namespace OpenPmsDental{
 			// labelProcessQSBatches
 			// 
 			this.labelProcessQSBatches.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.labelProcessQSBatches.Location = new System.Drawing.Point(462, 461);
+			this.labelProcessQSBatches.Location = new System.Drawing.Point(464, 462);
 			this.labelProcessQSBatches.Name = "labelProcessQSBatches";
 			this.labelProcessQSBatches.Size = new System.Drawing.Size(367, 24);
 			this.labelProcessQSBatches.TabIndex = 149;
@@ -218,7 +218,7 @@ namespace OpenPmsDental{
 			// butProcessBatchQS
 			// 
 			this.butProcessBatchQS.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butProcessBatchQS.Location = new System.Drawing.Point(367, 461);
+			this.butProcessBatchQS.Location = new System.Drawing.Point(367, 462);
 			this.butProcessBatchQS.Name = "butProcessBatchQS";
 			this.butProcessBatchQS.Size = new System.Drawing.Size(91, 24);
 			this.butProcessBatchQS.TabIndex = 148;
@@ -231,7 +231,7 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridQSBatchTrans.ContextMenuStrip = this.contextMenu;
-			this.gridQSBatchTrans.Location = new System.Drawing.Point(1, 1);
+			this.gridQSBatchTrans.Location = new System.Drawing.Point(8, 8);
 			this.gridQSBatchTrans.Name = "gridQSBatchTrans";
 			this.gridQSBatchTrans.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
 			this.gridQSBatchTrans.Size = new System.Drawing.Size(945, 450);
@@ -249,14 +249,14 @@ namespace OpenPmsDental{
 			this.tabErrors.Location = new System.Drawing.Point(2, 21);
 			this.tabErrors.Name = "tabErrors";
 			this.tabErrors.Padding = new System.Windows.Forms.Padding(3);
-			this.tabErrors.Size = new System.Drawing.Size(948, 493);
+			this.tabErrors.Size = new System.Drawing.Size(961, 494);
 			this.tabErrors.TabIndex = 1;
 			this.tabErrors.Text = "Errors(0)";
 			// 
 			// butNone
 			// 
 			this.butNone.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butNone.Location = new System.Drawing.Point(104, 461);
+			this.butNone.Location = new System.Drawing.Point(96, 462);
 			this.butNone.Name = "butNone";
 			this.butNone.Size = new System.Drawing.Size(82, 24);
 			this.butNone.TabIndex = 148;
@@ -266,7 +266,7 @@ namespace OpenPmsDental{
 			// butAll
 			// 
 			this.butAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butAll.Location = new System.Drawing.Point(6, 461);
+			this.butAll.Location = new System.Drawing.Point(8, 462);
 			this.butAll.Name = "butAll";
 			this.butAll.Size = new System.Drawing.Size(82, 24);
 			this.butAll.TabIndex = 147;
@@ -276,7 +276,7 @@ namespace OpenPmsDental{
 			// butAck
 			// 
 			this.butAck.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butAck.Location = new System.Drawing.Point(367, 461);
+			this.butAck.Location = new System.Drawing.Point(367, 462);
 			this.butAck.Name = "butAck";
 			this.butAck.Size = new System.Drawing.Size(91, 24);
 			this.butAck.TabIndex = 146;
@@ -289,7 +289,7 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridError.ContextMenuStrip = this.contextMenu;
-			this.gridError.Location = new System.Drawing.Point(1, 1);
+			this.gridError.Location = new System.Drawing.Point(8, 8);
 			this.gridError.Name = "gridError";
 			this.gridError.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
 			this.gridError.Size = new System.Drawing.Size(945, 450);
@@ -300,16 +300,16 @@ namespace OpenPmsDental{
 			// 
 			// checkIncludeAck
 			// 
-			this.checkIncludeAck.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkIncludeAck.Location = new System.Drawing.Point(722, 39);
+			this.checkIncludeAck.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkIncludeAck.Location = new System.Drawing.Point(8, 36);
 			this.checkIncludeAck.Name = "checkIncludeAck";
-			this.checkIncludeAck.Size = new System.Drawing.Size(144, 17);
+			this.checkIncludeAck.Size = new System.Drawing.Size(146, 20);
 			this.checkIncludeAck.TabIndex = 2;
 			this.checkIncludeAck.Text = "Include Acknowledged";
 			// 
 			// labelStatus
 			// 
-			this.labelStatus.Location = new System.Drawing.Point(426, 14);
+			this.labelStatus.Location = new System.Drawing.Point(430, 13);
 			this.labelStatus.Name = "labelStatus";
 			this.labelStatus.Size = new System.Drawing.Size(51, 16);
 			this.labelStatus.TabIndex = 41;
@@ -319,15 +319,15 @@ namespace OpenPmsDental{
 			// comboStatuses
 			// 
 			this.comboStatuses.BackColor = System.Drawing.SystemColors.Window;
-			this.comboStatuses.Location = new System.Drawing.Point(479, 13);
+			this.comboStatuses.Location = new System.Drawing.Point(487, 8);
 			this.comboStatuses.Name = "comboStatuses";
 			this.comboStatuses.SelectionModeMulti = true;
-			this.comboStatuses.Size = new System.Drawing.Size(160, 21);
+			this.comboStatuses.Size = new System.Drawing.Size(160, 23);
 			this.comboStatuses.TabIndex = 40;
 			// 
 			// FormCareCreditTransactions
 			// 
-			this.ClientSize = new System.Drawing.Size(990, 584);
+			this.ClientSize = new System.Drawing.Size(990, 603);
 			this.Controls.Add(this.labelStatus);
 			this.Controls.Add(this.comboStatuses);
 			this.Controls.Add(this.checkIncludeAck);

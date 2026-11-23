@@ -153,6 +153,47 @@ class Hand:
                 self.set(hidden_first, b.left, yy + (H - self.CH) // 2, self.cw(hidden_first), self.CH)
         return b, F
 
+    def caption_row(self, gname, cols, x, y, w, button=None, under=()):
+        """UI-12 slice 2: a group box of one row of captioned fields (the merge windows): each column a caption label over its field (the
+        caption 2 px over the field, both from the column's x), the columns 6 px apart from the content edge, the field keeping its width
+        (a column is as wide as the wider of its field and its caption's text); a check box as a field stands under the start of its caption;
+        button: a button on the field row at the content's right edge; under: controls placed one per row under the field row, from the
+        content edge. The group is laid at x, y, w and as tall as its content + 8. Returns the group's height."""
+        H = self.H
+        grp = self.n(gname)
+        top = (grp.title_bottom or 18) + GRID["title_gap"]
+        cap_h = 17
+        yf = top + cap_h + GRID["caption_gap"]
+        cx = GRID["pad"]
+        for cap, fld in cols:
+            c = self.n(cap)
+            f = self.n(fld)
+            cw = max(f.nw, self.lw(cap))
+            self.set(cap, cx, top, self.lw(cap), cap_h)
+            self.text_align(cap, "BottomLeft")
+            if f.kind in ("check", "radio"):
+                self.set(fld, cx + 2, yf + (H - f.nh) // 2)
+            else:
+                self.set(fld, cx, yf, f.nw, H)
+            cx += cw + GRID["item_gap"]
+        if button:
+            b = self.n(button)
+            self.set(button, w - GRID["pad"] - b.nw, yf, b.nw, H)
+        yb = yf + H
+        for name in under:
+            k = self.n(name)
+            hh = self.CH if k.kind in ("check", "radio") else H
+            if k.kind in ("check", "radio"):
+                self.check_left(name)
+                self.set(name, GRID["pad"], yb + GRID["row_gap"], self.cw(name), hh)
+            else:
+                self.set(name, GRID["pad"], yb + GRID["row_gap"], None, hh)
+            yb += GRID["row_gap"] + hh
+        gh = yb + GRID["pad"]
+        self.set(gname, x, y, w, gh)
+        self.containers.append(Box(self, gname, None, None, None, None, None, None, None))
+        return gh
+
     def frame_left(self):
         """UI-12 slice 1: the window's left content edge at the padding (8). The planner keeps a window's left column at main's x when the
         controls there are anchored (12, 13, 34, 45 in the slice); this moves every control of the window's left edge to 8, and a wide one
@@ -369,9 +410,16 @@ def load_script(window_simple):
     return mod
 
 
+def full_name(window):
+    """The window's type name: a class name of the OpenPmsDental namespace (FormInsPlan), or a full name for a class of another
+    namespace (OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizSchedule, UI-12 slice 2 continuation)."""
+    return window if window.startswith("OpenPmsDental.") else "OpenPmsDental." + window
+
+
 def run(tree_path, window_simple):
     root = fit_tools.repo_root()
-    window = "OpenPmsDental." + window_simple
+    window = full_name(window_simple)
+    window_simple = window.split(".")[-1]
     trees = g.load_tree(tree_path, {window})
     tree = trees[window]
     wf = fit_tools.window_files(root, [window])
@@ -388,14 +436,14 @@ def run(tree_path, window_simple):
 def main():
     a = argparse.ArgumentParser()
     a.add_argument("--tree", required=True)
-    a.add_argument("--window", required=True, help="the window's class name, e.g. FormInsPlan")
+    a.add_argument("--window", required=True, help="the window's class name, e.g. FormInsPlan (a full name outside the OpenPmsDental namespace)")
     a.add_argument("--hand-file", default="tests/UiRefreshTests/Data/grid-hand.tsv")
     a.add_argument("--tree-out", help="write the laid-out tree (GridDump format) for render.py")
     a.add_argument("--dry", action="store_true", help="print the rows, do not write the hand file")
     args = a.parse_args()
     hand, designer = run(args.tree, args.window)
     rows = hand.rows()
-    window = "OpenPmsDental." + args.window
+    window = full_name(args.window)
     for p in hand.check():
         print("check:", p)
     if args.tree_out:

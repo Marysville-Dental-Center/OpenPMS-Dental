@@ -866,18 +866,18 @@
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(19, 3);
+			this.label6.Location = new System.Drawing.Point(19, 0);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(12, 12);
+			this.label6.Size = new System.Drawing.Size(12, 15);
 			this.label6.TabIndex = 185;
 			this.label6.Text = "2";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// label11
 			// 
-			this.label11.Location = new System.Drawing.Point(7, 3);
+			this.label11.Location = new System.Drawing.Point(7, 0);
 			this.label11.Name = "label11";
-			this.label11.Size = new System.Drawing.Size(12, 12);
+			this.label11.Size = new System.Drawing.Size(12, 15);
 			this.label11.TabIndex = 188;
 			this.label11.Text = "1";
 			this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;

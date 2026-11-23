@@ -56,7 +56,7 @@
 			// 
 			// listStatus
 			// 
-			this.listStatus.Location = new System.Drawing.Point(802, 8);
+			this.listStatus.Location = new System.Drawing.Point(852, 8);
 			this.listStatus.Name = "listStatus";
 			this.listStatus.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
 			this.listStatus.Size = new System.Drawing.Size(120, 56);
@@ -66,7 +66,7 @@
 			// butRefresh
 			// 
 			this.butRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butRefresh.Location = new System.Drawing.Point(944, 56);
+			this.butRefresh.Location = new System.Drawing.Point(988, 8);
 			this.butRefresh.Name = "butRefresh";
 			this.butRefresh.Size = new System.Drawing.Size(75, 24);
 			this.butRefresh.TabIndex = 82;
@@ -81,71 +81,71 @@
 			this.groupBox2.Controls.Add(this.textRangeMax);
 			this.groupBox2.Controls.Add(this.labelDaysOldMax);
 			this.groupBox2.Controls.Add(this.labelDaysOldMin);
-			this.groupBox2.Location = new System.Drawing.Point(16, 31);
+			this.groupBox2.Location = new System.Drawing.Point(8, 39);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(242, 42);
+			this.groupBox2.Size = new System.Drawing.Size(266, 54);
 			this.groupBox2.TabIndex = 104;
 			this.groupBox2.Text = "Amount Range (leave both blank to show all)";
 			// 
 			// textRangeMin
 			// 
 			this.textRangeMin.CausesValidation = false;
-			this.textRangeMin.Location = new System.Drawing.Point(48, 18);
+			this.textRangeMin.Location = new System.Drawing.Point(65, 23);
 			this.textRangeMin.MaxVal = 50000;
 			this.textRangeMin.Name = "textRangeMin";
-			this.textRangeMin.Size = new System.Drawing.Size(60, 20);
+			this.textRangeMin.Size = new System.Drawing.Size(60, 23);
 			this.textRangeMin.TabIndex = 8;
 			// 
 			// textRangeMax
 			// 
 			this.textRangeMax.CausesValidation = false;
-			this.textRangeMax.Location = new System.Drawing.Point(149, 18);
+			this.textRangeMax.Location = new System.Drawing.Point(183, 23);
 			this.textRangeMax.MaxVal = 50000;
 			this.textRangeMax.Name = "textRangeMax";
-			this.textRangeMax.Size = new System.Drawing.Size(60, 20);
+			this.textRangeMax.Size = new System.Drawing.Size(60, 23);
 			this.textRangeMax.TabIndex = 9;
 			// 
 			// labelDaysOldMax
 			// 
-			this.labelDaysOldMax.Location = new System.Drawing.Point(109, 19);
+			this.labelDaysOldMax.Location = new System.Drawing.Point(141, 23);
 			this.labelDaysOldMax.Name = "labelDaysOldMax";
-			this.labelDaysOldMax.Size = new System.Drawing.Size(40, 18);
+			this.labelDaysOldMax.Size = new System.Drawing.Size(36, 23);
 			this.labelDaysOldMax.TabIndex = 99;
 			this.labelDaysOldMax.Text = "Max";
 			this.labelDaysOldMax.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// labelDaysOldMin
 			// 
-			this.labelDaysOldMin.Location = new System.Drawing.Point(3, 19);
+			this.labelDaysOldMin.Location = new System.Drawing.Point(8, 23);
 			this.labelDaysOldMin.Name = "labelDaysOldMin";
-			this.labelDaysOldMin.Size = new System.Drawing.Size(45, 18);
+			this.labelDaysOldMin.Size = new System.Drawing.Size(51, 23);
 			this.labelDaysOldMin.TabIndex = 100;
 			this.labelDaysOldMin.Text = "Min";
 			this.labelDaysOldMin.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// labelCheckTrace
 			// 
-			this.labelCheckTrace.Location = new System.Drawing.Point(422, 31);
+			this.labelCheckTrace.Location = new System.Drawing.Point(491, 35);
 			this.labelCheckTrace.Name = "labelCheckTrace";
-			this.labelCheckTrace.Size = new System.Drawing.Size(161, 16);
+			this.labelCheckTrace.Size = new System.Drawing.Size(128, 23);
 			this.labelCheckTrace.TabIndex = 96;
 			this.labelCheckTrace.Text = "Check# or EFT Trace#";
 			this.labelCheckTrace.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// labelCarrier
 			// 
-			this.labelCarrier.Location = new System.Drawing.Point(528, 10);
+			this.labelCarrier.Location = new System.Drawing.Point(491, 8);
 			this.labelCarrier.Name = "labelCarrier";
-			this.labelCarrier.Size = new System.Drawing.Size(55, 16);
+			this.labelCarrier.Size = new System.Drawing.Size(128, 23);
 			this.labelCarrier.TabIndex = 84;
 			this.labelCarrier.Text = "Carrier";
 			this.labelCarrier.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// labelStatus
 			// 
-			this.labelStatus.Location = new System.Drawing.Point(752, 8);
+			this.labelStatus.Location = new System.Drawing.Point(802, 8);
 			this.labelStatus.Name = "labelStatus";
-			this.labelStatus.Size = new System.Drawing.Size(49, 16);
+			this.labelStatus.Size = new System.Drawing.Size(44, 23);
 			this.labelStatus.TabIndex = 86;
 			this.labelStatus.Text = "Status";
 			this.labelStatus.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -153,7 +153,7 @@
 			// dateRangePicker
 			// 
 			this.dateRangePicker.BackColor = System.Drawing.Color.Transparent;
-			this.dateRangePicker.Location = new System.Drawing.Point(21, 5);
+			this.dateRangePicker.Location = new System.Drawing.Point(8, 6);
 			this.dateRangePicker.MinimumSize = new System.Drawing.Size(453, 22);
 			this.dateRangePicker.Name = "dateRangePicker";
 			this.dateRangePicker.Size = new System.Drawing.Size(453, 24);
@@ -161,9 +161,9 @@
 			// 
 			// labelControlId
 			// 
-			this.labelControlId.Location = new System.Drawing.Point(258, 52);
+			this.labelControlId.Location = new System.Drawing.Point(290, 62);
 			this.labelControlId.Name = "labelControlId";
-			this.labelControlId.Size = new System.Drawing.Size(55, 18);
+			this.labelControlId.Size = new System.Drawing.Size(68, 23);
 			this.labelControlId.TabIndex = 109;
 			this.labelControlId.Text = "Control ID";
 			this.labelControlId.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -172,10 +172,10 @@
 			// 
 			this.comboClinics.IncludeAll = true;
 			this.comboClinics.IncludeUnassigned = true;
-			this.comboClinics.Location = new System.Drawing.Point(546, 51);
+			this.comboClinics.Location = new System.Drawing.Point(577, 62);
 			this.comboClinics.Name = "comboClinics";
 			this.comboClinics.IsMultiSelect = true;
-			this.comboClinics.Size = new System.Drawing.Size(198, 21);
+			this.comboClinics.Size = new System.Drawing.Size(209, 23);
 			this.comboClinics.TabIndex = 111;
 			// 
 			// textControlId
@@ -184,11 +184,11 @@
 			this.textControlId.BackColor = System.Drawing.SystemColors.Window;
 			this.textControlId.DetectLinksEnabled = false;
 			this.textControlId.DetectUrls = false;
-			this.textControlId.Location = new System.Drawing.Point(313, 50);
+			this.textControlId.Location = new System.Drawing.Point(364, 62);
 			this.textControlId.Name = "textControlId";
 			this.textControlId.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.InsPlan;
 			this.textControlId.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
-			this.textControlId.Size = new System.Drawing.Size(111, 21);
+			this.textControlId.Size = new System.Drawing.Size(111, 23);
 			this.textControlId.TabIndex = 110;
 			this.textControlId.Text = "";
 			// 
@@ -198,12 +198,12 @@
 			this.textCarrier.BackColor = System.Drawing.SystemColors.Window;
 			this.textCarrier.DetectLinksEnabled = false;
 			this.textCarrier.DetectUrls = false;
-			this.textCarrier.Location = new System.Drawing.Point(583, 8);
+			this.textCarrier.Location = new System.Drawing.Point(625, 8);
 			this.textCarrier.Multiline = false;
 			this.textCarrier.Name = "textCarrier";
 			this.textCarrier.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.InsPlan;
 			this.textCarrier.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textCarrier.Size = new System.Drawing.Size(161, 21);
+			this.textCarrier.Size = new System.Drawing.Size(161, 23);
 			this.textCarrier.TabIndex = 105;
 			this.textCarrier.Text = "";
 			// 
@@ -213,12 +213,12 @@
 			this.textCheckTrace.BackColor = System.Drawing.SystemColors.Window;
 			this.textCheckTrace.DetectLinksEnabled = false;
 			this.textCheckTrace.DetectUrls = false;
-			this.textCheckTrace.Location = new System.Drawing.Point(583, 29);
+			this.textCheckTrace.Location = new System.Drawing.Point(625, 35);
 			this.textCheckTrace.Multiline = false;
 			this.textCheckTrace.Name = "textCheckTrace";
 			this.textCheckTrace.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.FinancialNotes;
 			this.textCheckTrace.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textCheckTrace.Size = new System.Drawing.Size(161, 21);
+			this.textCheckTrace.Size = new System.Drawing.Size(161, 23);
 			this.textCheckTrace.TabIndex = 10;
 			this.textCheckTrace.Text = "";
 			// 
@@ -228,10 +228,10 @@
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(16, 83);
+			this.gridMain.Location = new System.Drawing.Point(8, 101);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridMain.Size = new System.Drawing.Size(1003, 579);
+			this.gridMain.Size = new System.Drawing.Size(1055, 555);
 			this.gridMain.TabIndex = 8;
 			this.gridMain.Title = "ERAs";
 			this.gridMain.TranslationName = "TableEtrans835s";
@@ -239,26 +239,26 @@
 			// 
 			// checkAutomatableCarriersOnly
 			// 
-			this.checkAutomatableCarriersOnly.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkAutomatableCarriersOnly.Location = new System.Drawing.Point(761, 66);
+			this.checkAutomatableCarriersOnly.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkAutomatableCarriersOnly.Location = new System.Drawing.Point(802, 68);
 			this.checkAutomatableCarriersOnly.Name = "checkAutomatableCarriersOnly";
-			this.checkAutomatableCarriersOnly.Size = new System.Drawing.Size(165, 17);
+			this.checkAutomatableCarriersOnly.Size = new System.Drawing.Size(167, 20);
 			this.checkAutomatableCarriersOnly.TabIndex = 270;
 			this.checkAutomatableCarriersOnly.Text = "Automatable Carriers Only";
 			// 
 			// checkShowFinalizedOnly
 			// 
-			this.checkShowFinalizedOnly.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkShowFinalizedOnly.Location = new System.Drawing.Point(761, 27);
+			this.checkShowFinalizedOnly.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkShowFinalizedOnly.Location = new System.Drawing.Point(802, 68);
 			this.checkShowFinalizedOnly.Name = "checkShowFinalizedOnly";
-			this.checkShowFinalizedOnly.Size = new System.Drawing.Size(162, 18);
+			this.checkShowFinalizedOnly.Size = new System.Drawing.Size(167, 20);
 			this.checkShowFinalizedOnly.TabIndex = 271;
 			this.checkShowFinalizedOnly.Text = "Finalized Only";
 			// 
 			// butAutoProcessedEras
 			// 
 			this.butAutoProcessedEras.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butAutoProcessedEras.Location = new System.Drawing.Point(16, 668);
+			this.butAutoProcessedEras.Location = new System.Drawing.Point(8, 664);
 			this.butAutoProcessedEras.Name = "butAutoProcessedEras";
 			this.butAutoProcessedEras.Size = new System.Drawing.Size(149, 24);
 			this.butAutoProcessedEras.TabIndex = 272;
@@ -268,7 +268,7 @@
 			// 
 			// FormEtrans835s
 			// 
-			this.ClientSize = new System.Drawing.Size(1034, 696);
+			this.ClientSize = new System.Drawing.Size(1071, 696);
 			this.Controls.Add(this.butAutoProcessedEras);
 			this.Controls.Add(this.checkShowFinalizedOnly);
 			this.Controls.Add(this.checkAutomatableCarriersOnly);

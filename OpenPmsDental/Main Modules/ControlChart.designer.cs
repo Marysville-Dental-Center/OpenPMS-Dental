@@ -394,7 +394,7 @@
 			// 
 			this.checkAudit.Location = new System.Drawing.Point(169, 180);
 			this.checkAudit.Name = "checkAudit";
-			this.checkAudit.Size = new System.Drawing.Size(128, 13);
+			this.checkAudit.Size = new System.Drawing.Size(128, 15);
 			this.checkAudit.TabIndex = 17;
 			this.checkAudit.Text = "Audit";
 			this.checkAudit.Click += new System.EventHandler(this.checkAudit_Click);
@@ -403,7 +403,7 @@
 			// 
 			this.checkShowTeeth.Location = new System.Drawing.Point(15, 121);
 			this.checkShowTeeth.Name = "checkShowTeeth";
-			this.checkShowTeeth.Size = new System.Drawing.Size(102, 13);
+			this.checkShowTeeth.Size = new System.Drawing.Size(103, 15);
 			this.checkShowTeeth.TabIndex = 15;
 			this.checkShowTeeth.Text = "Selected Teeth";
 			this.checkShowTeeth.Click += new System.EventHandler(this.checkShowTeeth_Click);
@@ -415,7 +415,7 @@
 			this.checkNotes.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.checkNotes.Location = new System.Drawing.Point(15, 105);
 			this.checkNotes.Name = "checkNotes";
-			this.checkNotes.Size = new System.Drawing.Size(102, 13);
+			this.checkNotes.Size = new System.Drawing.Size(102, 15);
 			this.checkNotes.TabIndex = 11;
 			this.checkNotes.Text = "Proc Notes";
 			this.checkNotes.Click += new System.EventHandler(this.checkNotes_Click);
@@ -1486,7 +1486,7 @@
 			// 
 			this.checkShowCommAuto.Location = new System.Drawing.Point(169, 164);
 			this.checkShowCommAuto.Name = "checkShowCommAuto";
-			this.checkShowCommAuto.Size = new System.Drawing.Size(128, 13);
+			this.checkShowCommAuto.Size = new System.Drawing.Size(144, 15);
 			this.checkShowCommAuto.TabIndex = 70;
 			this.checkShowCommAuto.Text = "Show Auto Commlogs";
 			this.checkShowCommAuto.Click += new System.EventHandler(this.checkShowCommAuto_Click);
@@ -1517,7 +1517,7 @@
 			// 
 			this.checkTPChart.Location = new System.Drawing.Point(169, 196);
 			this.checkTPChart.Name = "checkTPChart";
-			this.checkTPChart.Size = new System.Drawing.Size(128, 13);
+			this.checkTPChart.Size = new System.Drawing.Size(128, 15);
 			this.checkTPChart.TabIndex = 66;
 			this.checkTPChart.Text = "Is TP View";
 			this.checkTPChart.Click += new System.EventHandler(this.checkTPChart_Click);
@@ -1565,7 +1565,7 @@
 			this.checkCommSuperFamily.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.checkCommSuperFamily.Location = new System.Drawing.Point(26, 62);
 			this.checkCommSuperFamily.Name = "checkCommSuperFamily";
-			this.checkCommSuperFamily.Size = new System.Drawing.Size(88, 13);
+			this.checkCommSuperFamily.Size = new System.Drawing.Size(92, 15);
 			this.checkCommSuperFamily.TabIndex = 20;
 			this.checkCommSuperFamily.Text = "Super Family";
 			this.checkCommSuperFamily.Click += new System.EventHandler(this.checkCommSuperFamily_Click);
@@ -1576,7 +1576,7 @@
 			this.checkSheets.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.checkSheets.Location = new System.Drawing.Point(10, 140);
 			this.checkSheets.Name = "checkSheets";
-			this.checkSheets.Size = new System.Drawing.Size(102, 13);
+			this.checkSheets.Size = new System.Drawing.Size(102, 15);
 			this.checkSheets.TabIndex = 219;
 			this.checkSheets.Text = "Sheets";
 			this.checkSheets.Click += new System.EventHandler(this.checkSheets_Click);
@@ -1587,7 +1587,7 @@
 			this.checkTasks.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.checkTasks.Location = new System.Drawing.Point(10, 78);
 			this.checkTasks.Name = "checkTasks";
-			this.checkTasks.Size = new System.Drawing.Size(102, 13);
+			this.checkTasks.Size = new System.Drawing.Size(102, 15);
 			this.checkTasks.TabIndex = 218;
 			this.checkTasks.Text = "Tasks";
 			this.checkTasks.Click += new System.EventHandler(this.checkTasks_Click);
@@ -1598,7 +1598,7 @@
 			this.checkEmail.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.checkEmail.Location = new System.Drawing.Point(10, 94);
 			this.checkEmail.Name = "checkEmail";
-			this.checkEmail.Size = new System.Drawing.Size(102, 13);
+			this.checkEmail.Size = new System.Drawing.Size(102, 15);
 			this.checkEmail.TabIndex = 217;
 			this.checkEmail.Text = "Email";
 			this.checkEmail.Click += new System.EventHandler(this.checkEmail_Click);
@@ -1609,7 +1609,7 @@
 			this.checkCommFamily.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.checkCommFamily.Location = new System.Drawing.Point(26, 46);
 			this.checkCommFamily.Name = "checkCommFamily";
-			this.checkCommFamily.Size = new System.Drawing.Size(88, 13);
+			this.checkCommFamily.Size = new System.Drawing.Size(88, 15);
 			this.checkCommFamily.TabIndex = 20;
 			this.checkCommFamily.Text = "Family";
 			this.checkCommFamily.Click += new System.EventHandler(this.checkCommFamily_Click);
@@ -1620,7 +1620,7 @@
 			this.checkAppt.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.checkAppt.Location = new System.Drawing.Point(10, 16);
 			this.checkAppt.Name = "checkAppt";
-			this.checkAppt.Size = new System.Drawing.Size(102, 13);
+			this.checkAppt.Size = new System.Drawing.Size(102, 15);
 			this.checkAppt.TabIndex = 20;
 			this.checkAppt.Text = "Appointments";
 			this.checkAppt.Click += new System.EventHandler(this.checkAppt_Click);
@@ -1631,7 +1631,7 @@
 			this.checkLabCase.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.checkLabCase.Location = new System.Drawing.Point(10, 109);
 			this.checkLabCase.Name = "checkLabCase";
-			this.checkLabCase.Size = new System.Drawing.Size(102, 13);
+			this.checkLabCase.Size = new System.Drawing.Size(102, 15);
 			this.checkLabCase.TabIndex = 17;
 			this.checkLabCase.Text = "Lab Cases";
 			this.checkLabCase.Click += new System.EventHandler(this.checkLabCase_Click);
@@ -1642,7 +1642,7 @@
 			this.checkRx.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.checkRx.Location = new System.Drawing.Point(10, 125);
 			this.checkRx.Name = "checkRx";
-			this.checkRx.Size = new System.Drawing.Size(102, 13);
+			this.checkRx.Size = new System.Drawing.Size(102, 15);
 			this.checkRx.TabIndex = 8;
 			this.checkRx.Text = "Rx";
 			this.checkRx.Click += new System.EventHandler(this.checkRx_Click);
@@ -1653,7 +1653,7 @@
 			this.checkComm.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.checkComm.Location = new System.Drawing.Point(10, 31);
 			this.checkComm.Name = "checkComm";
-			this.checkComm.Size = new System.Drawing.Size(102, 13);
+			this.checkComm.Size = new System.Drawing.Size(102, 15);
 			this.checkComm.TabIndex = 16;
 			this.checkComm.Text = "Commlog";
 			this.checkComm.Click += new System.EventHandler(this.checkComm_Click);
@@ -1677,7 +1677,7 @@
 			this.checkShowCn.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.checkShowCn.Location = new System.Drawing.Point(9, 81);
 			this.checkShowCn.Name = "checkShowCn";
-			this.checkShowCn.Size = new System.Drawing.Size(101, 13);
+			this.checkShowCn.Size = new System.Drawing.Size(101, 15);
 			this.checkShowCn.TabIndex = 15;
 			this.checkShowCn.Text = "Conditions";
 			this.checkShowCn.Click += new System.EventHandler(this.checkShowCn_Click);
@@ -1688,7 +1688,7 @@
 			this.checkShowE.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.checkShowE.Location = new System.Drawing.Point(9, 49);
 			this.checkShowE.Name = "checkShowE";
-			this.checkShowE.Size = new System.Drawing.Size(101, 13);
+			this.checkShowE.Size = new System.Drawing.Size(101, 15);
 			this.checkShowE.TabIndex = 10;
 			this.checkShowE.Text = "Existing";
 			this.checkShowE.Click += new System.EventHandler(this.checkShowE_Click);
@@ -1699,7 +1699,7 @@
 			this.checkShowR.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.checkShowR.Location = new System.Drawing.Point(9, 65);
 			this.checkShowR.Name = "checkShowR";
-			this.checkShowR.Size = new System.Drawing.Size(101, 13);
+			this.checkShowR.Size = new System.Drawing.Size(101, 15);
 			this.checkShowR.TabIndex = 14;
 			this.checkShowR.Text = "Referred";
 			this.checkShowR.Click += new System.EventHandler(this.checkShowR_Click);
@@ -1710,7 +1710,7 @@
 			this.checkShowC.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.checkShowC.Location = new System.Drawing.Point(9, 33);
 			this.checkShowC.Name = "checkShowC";
-			this.checkShowC.Size = new System.Drawing.Size(101, 13);
+			this.checkShowC.Size = new System.Drawing.Size(101, 15);
 			this.checkShowC.TabIndex = 9;
 			this.checkShowC.Text = "Completed";
 			this.checkShowC.Click += new System.EventHandler(this.checkShowC_Click);
@@ -1721,7 +1721,7 @@
 			this.checkShowTP.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.checkShowTP.Location = new System.Drawing.Point(9, 17);
 			this.checkShowTP.Name = "checkShowTP";
-			this.checkShowTP.Size = new System.Drawing.Size(101, 13);
+			this.checkShowTP.Size = new System.Drawing.Size(101, 15);
 			this.checkShowTP.TabIndex = 8;
 			this.checkShowTP.Text = "Treat Plan";
 			this.checkShowTP.Click += new System.EventHandler(this.checkShowTP_Click);
@@ -1740,9 +1740,9 @@
 			// 
 			this.butChartViewDown.Icon = OpenPmsDental.UI.EnumIcons.Down;
 			this.butChartViewDown.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butChartViewDown.Location = new System.Drawing.Point(426, 185);
+			this.butChartViewDown.Location = new System.Drawing.Point(442, 185);
 			this.butChartViewDown.Name = "butChartViewDown";
-			this.butChartViewDown.Size = new System.Drawing.Size(68, 23);
+			this.butChartViewDown.Size = new System.Drawing.Size(76, 23);
 			this.butChartViewDown.TabIndex = 41;
 			this.butChartViewDown.Text = "&Down";
 			this.butChartViewDown.Click += new System.EventHandler(this.butChartViewDown_Click);
@@ -1751,7 +1751,7 @@
 			// 
 			this.butChartViewUp.Icon = OpenPmsDental.UI.EnumIcons.Up;
 			this.butChartViewUp.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butChartViewUp.Location = new System.Drawing.Point(366, 185);
+			this.butChartViewUp.Location = new System.Drawing.Point(382, 185);
 			this.butChartViewUp.Name = "butChartViewUp";
 			this.butChartViewUp.Size = new System.Drawing.Size(54, 23);
 			this.butChartViewUp.TabIndex = 42;
@@ -1762,7 +1762,7 @@
 			// 
 			this.butChartViewAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butChartViewAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butChartViewAdd.Location = new System.Drawing.Point(301, 185);
+			this.butChartViewAdd.Location = new System.Drawing.Point(317, 185);
 			this.butChartViewAdd.Name = "butChartViewAdd";
 			this.butChartViewAdd.Size = new System.Drawing.Size(59, 23);
 			this.butChartViewAdd.TabIndex = 40;
@@ -1789,9 +1789,9 @@
 			// 
 			// gridChartViews
 			// 
-			this.gridChartViews.Location = new System.Drawing.Point(303, 8);
+			this.gridChartViews.Location = new System.Drawing.Point(317, 8);
 			this.gridChartViews.Name = "gridChartViews";
-			this.gridChartViews.Size = new System.Drawing.Size(191, 173);
+			this.gridChartViews.Size = new System.Drawing.Size(201, 173);
 			this.gridChartViews.TabIndex = 44;
 			this.gridChartViews.Title = "Chart Views";
 			this.gridChartViews.TranslationName = "TableChartViews";
@@ -1837,9 +1837,9 @@
 			// 
 			// label24
 			// 
-			this.label24.Location = new System.Drawing.Point(176, 149);
+			this.label24.Location = new System.Drawing.Point(176, 140);
 			this.label24.Name = "label24";
-			this.label24.Size = new System.Drawing.Size(150, 87);
+			this.label24.Size = new System.Drawing.Size(150, 96);
 			this.label24.TabIndex = 26;
 			this.label24.Text = "(the text feature here is completely different from the text that shows automatic" +
     "ally for procedures with a PaintType of Text)";

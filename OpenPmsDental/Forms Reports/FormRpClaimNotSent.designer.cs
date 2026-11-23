@@ -43,7 +43,7 @@ namespace OpenPmsDental {
 			// butRunReport
 			// 
 			this.butRunReport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butRunReport.Location = new System.Drawing.Point(12, 591);
+			this.butRunReport.Location = new System.Drawing.Point(8, 592);
 			this.butRunReport.Name = "butRunReport";
 			this.butRunReport.Size = new System.Drawing.Size(75, 26);
 			this.butRunReport.TabIndex = 3;
@@ -52,9 +52,9 @@ namespace OpenPmsDental {
 			// 
 			// butRefresh
 			// 
-			this.butRefresh.Location = new System.Drawing.Point(1035, 12);
+			this.butRefresh.Location = new System.Drawing.Point(1035, 23);
 			this.butRefresh.Name = "butRefresh";
-			this.butRefresh.Size = new System.Drawing.Size(75, 26);
+			this.butRefresh.Size = new System.Drawing.Size(75, 23);
 			this.butRefresh.TabIndex = 60;
 			this.butRefresh.Text = "&Refresh";
 			this.butRefresh.UseVisualStyleBackColor = true;
@@ -66,9 +66,9 @@ namespace OpenPmsDental {
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(12, 65);
+			this.gridMain.Location = new System.Drawing.Point(8, 71);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(1112, 517);
+			this.gridMain.Size = new System.Drawing.Size(1120, 517);
 			this.gridMain.TabIndex = 61;
 			this.gridMain.Title = "Claims Not Sent";
 			this.gridMain.TranslationName = "TableClaimsNotSent";
@@ -81,9 +81,9 @@ namespace OpenPmsDental {
 			this.groupBoxFilters.Controls.Add(this.comboBoxInsFilter);
 			this.groupBoxFilters.Controls.Add(this.butRefresh);
 			this.groupBoxFilters.Controls.Add(this.labelClaimFilter);
-			this.groupBoxFilters.Location = new System.Drawing.Point(12, 12);
+			this.groupBoxFilters.Location = new System.Drawing.Point(8, 8);
 			this.groupBoxFilters.Name = "groupBoxFilters";
-			this.groupBoxFilters.Size = new System.Drawing.Size(1112, 47);
+			this.groupBoxFilters.Size = new System.Drawing.Size(1120, 55);
 			this.groupBoxFilters.TabIndex = 63;
 			this.groupBoxFilters.TabStop = false;
 			this.groupBoxFilters.Text = "Filters";
@@ -94,14 +94,14 @@ namespace OpenPmsDental {
 			this.comboClinicMulti.IncludeHiddenInAll = true;
 			this.comboClinicMulti.IncludeUnassigned = true;
 			this.comboClinicMulti.IsMultiSelect = true;
-			this.comboClinicMulti.Location = new System.Drawing.Point(446, 15);
+			this.comboClinicMulti.Location = new System.Drawing.Point(446, 23);
 			this.comboClinicMulti.Name = "comboClinicMulti";
-			this.comboClinicMulti.Size = new System.Drawing.Size(176, 21);
+			this.comboClinicMulti.Size = new System.Drawing.Size(176, 23);
 			this.comboClinicMulti.TabIndex = 67;
 			// 
 			// odDateRangePicker
 			// 
-			this.odDateRangePicker.Location = new System.Drawing.Point(6, 13);
+			this.odDateRangePicker.Location = new System.Drawing.Point(8, 21);
 			this.odDateRangePicker.MaximumSize = new System.Drawing.Size(0, 185);
 			this.odDateRangePicker.MinimumSize = new System.Drawing.Size(0, 24);
 			this.odDateRangePicker.Name = "odDateRangePicker";
@@ -112,16 +112,16 @@ namespace OpenPmsDental {
 			// 
 			this.comboBoxInsFilter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboBoxInsFilter.FormattingEnabled = true;
-			this.comboBoxInsFilter.Location = new System.Drawing.Point(741, 15);
+			this.comboBoxInsFilter.Location = new System.Drawing.Point(741, 23);
 			this.comboBoxInsFilter.Name = "comboBoxInsFilter";
-			this.comboBoxInsFilter.Size = new System.Drawing.Size(121, 21);
+			this.comboBoxInsFilter.Size = new System.Drawing.Size(120, 23);
 			this.comboBoxInsFilter.TabIndex = 65;
 			// 
 			// labelClaimFilter
 			// 
-			this.labelClaimFilter.Location = new System.Drawing.Point(645, 18);
+			this.labelClaimFilter.Location = new System.Drawing.Point(663, 23);
 			this.labelClaimFilter.Name = "labelClaimFilter";
-			this.labelClaimFilter.Size = new System.Drawing.Size(93, 18);
+			this.labelClaimFilter.Size = new System.Drawing.Size(72, 23);
 			this.labelClaimFilter.TabIndex = 64;
 			this.labelClaimFilter.Text = "Claim Filter";
 			this.labelClaimFilter.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

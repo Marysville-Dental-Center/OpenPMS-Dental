@@ -1623,6 +1623,24 @@ own 26.2 overlap check before it starts. The first cut is below; a brief that fi
   (no padding, so it ends on the label column; GridRulesTests checks its ink), right-to-left labels the grid aligns cleared, four new layout
   scripts (FormArManager, FormEmailMessageEdit, FormPaySplitEdit, FormRpTreatmentFinder) and ten changed; gallery redrawn from `d2`, audit
   pass 7 (UI-12.md, "Slice 1, fix round 9").
+  Slice 2 (UI-12-2, branch `ui/ui12-2-1`): fit-scan ranks 82 to 142, 46 windows on the grid (27 laid out by the planner, 19 of them
+  with a layout script; 19 by their own layout script from main's arrangement where the planner placed them badly), 9 files skipped
+  (owner-drawn surfaces, other exes, already on the grid), 5 windows left for the continuation (FormTaskEdit, FormClaimPayBatch,
+  FormAdvertisingPatientList, FormPayConnectSetup, UserControlSetupWizSchedule); the pilot's 12 cut texts fixed; the 150% harness draws
+  labels, check boxes, buttons and group titles at the scaled font; the clinic picker's box edge rounded once at 150%; no planner rule
+  added (the earlier windows re-plan as recorded); gallery G-UI3-ui12-2 (46 windows, 14 at 150%, styles, the pilot follow-up), audit
+  `UI-12-audit-2.md` (UI-12.md section 7).
+  Slice 2 continuation (2026-11-23, same branch): the 5 windows left laid out by their own layout scripts (51 slice windows on the grid);
+  the harness runs a base class's designer only when its constructor does (the setup wizard's pages never had SetupWizControl's title and
+  description labels); RendererTests' menu strip test inconclusive in a session that reports 8 bits per pixel or less (a disconnected one);
+  the re-plan counts recorded as the lead set them (slice 1 = 461, pilot = 243); gallery and audit extended (UI-12.md section 7,
+  "Slice 2, continuation").
+  Slice 2 fix round (2026-11-23, branch `ui/ui12-2-2`, the lead's review of the gallery, 11 findings): the history row of FormClaimsSend,
+  the date ranges 2 px over their rows, FormFeeScheds' right column on one edge, even list columns (FormLetterMergeEdit, FormRpInsAging's
+  new script), FormProcGroup's and FormTaskSearch's edges, icon buttons wide enough for their text, FormPharmacyEdit's picker colour; the
+  150% gallery draws hosted modules and pages at the scaled font (the insurance summaries at the scale's dpi) and the pilot follow-up's
+  states (ControlAccount's summaries and TOTAL Owed panel, ControlChart's Show and Draw pages, FormBackup's Archive page); ControlChart's
+  Show page check boxes and Down whole; re-plans 461 / 243 as recorded (UI-12.md section 7, "Slice 2, fix round").
 - Gallery: G-UI3 per slice, the owner's rows first.
 
 **UI-13: every element type in the new look (the owner, 2026-11-22: "Overall make sure you modernize all element types")**

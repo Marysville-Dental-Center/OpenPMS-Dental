@@ -6,6 +6,8 @@ lists, the lists' tops on one line and the bottom row (the date, Priority, Treat
 wide as the surface box above them, the Entry Status radio buttons one list at a 19 px pitch (the page's height leaves no more). The button
 rows of the Planned, Show and Draw pages: one height, 6 px apart, ending at the edge of what they stand under."""
 
+from grid_tools import walk as g_walk
+
 
 def layout(h):
     H = h.H
@@ -73,13 +75,30 @@ def layout(h):
         h.check_left(name)
         x += w + 6
     # ---- Show: the chart view buttons under their grid, ending at its right edge -------------------------------------------------------
+    # UI-12 slice 2 (pilot follow-up): Show Auto Commlogs as wide as its box and text (142 px; 128 wrapped it onto a second line its 13 px
+    # row cut), so the grid starts 14 px further right (6 px after the text) and keeps its right edge; Down 52 px wide to fit the row.
+    # UI-12 slice 2 fix round (review 2026-11-23, the Show page drawn in the gallery): Down's 52 px wrapped its text under the arrow icon
+    # ("Dow" / "n"); the grid reaches the page's right edge (2 px in, 518) and Down is 76 px (its icon, 6 px, its text, 6 px), Up and Add
+    # keep their places. The page's 13 px check box rows cut the descenders of their text (Commlog's g, Appointments' p, Family's y): each
+    # is 15 px tall on its row (the rows stand 15 or 16 px apart, so none overlaps the next).
+    h.set("gridChartViews", 317, 8, 518 - 317, 173)
+    for n in g_walk(h.n("tabShow")):
+        if n.kind == "check" and n.nh == 13:
+            # As wide as their box and text (the pilot follow-up's rows widened Show Auto Commlogs and Super Family to that).
+            h.set(n.name, None, None, max(n.nw, h.cw(n.name)), 15, why="the Show page's check boxes 15 px tall: the descenders of their text whole")
     grid = h.n("gridChartViews")
     yb = grid.ny + grid.nh + 4
     r = grid.nx + grid.nw
     for name in ("butChartViewDown", "butChartViewUp", "butChartViewAdd"):
-        w = h.n(name).nw
+        w = 76 if name == "butChartViewDown" else h.n(name).nw
         h.set(name, r - w, yb, w, H)
         r -= w + 6
+    # ---- Draw: the text note (UI-12 slice 2 fix round: at 150% its six lines need 144 px and its 90 px gave 135, cutting the last line's
+    # descenders at the page's bottom; it cannot widen, the text list stands 6 px after it): 96 px, from 4 px under the color square to the
+    # page's bottom (236) ------------------------------------------------------------------------------------------------------------------
+    sq = h.n("panelDrawColor")
+    y24 = sq.ny + sq.nh + 4
+    h.set("label24", None, y24, None, 236 - y24, why="the Draw page's note as tall as its six lines at 150% too, ending on the page's bottom")
     # ---- Draw: Add and Delete under the text list, at its edges ------------------------------------------------------------------------
     lst = h.n("listBoxText")
     yb = lst.ny + lst.nh + 4

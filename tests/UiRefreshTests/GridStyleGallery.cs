@@ -110,15 +110,33 @@ namespace UiRefreshTests {
 		///<summary>The date pickers and up-down boxes get the zoom only from LayoutManager and their dpi scaling from Windows; at 96 dpi this harness
 		///scales their fonts by the scale, so they take the height Windows gives them at that dpi. UI-12 slice 1: the clinic picker too, whose
 		///label area is sized from its label's text at its font (ComboBoxClinicPicker.WidthLabelArea): with the font of the scale its box stands
-		///where the program draws it, on its column.</summary>
+		///where the program draws it, on its column. UI-12 slice 2: the plain labels too (System.Windows.Forms.Label and its subclasses), and
+		///the other controls that draw their own text with the font LayoutManager gives them (the zoom only, the dpi part left to Windows): check
+		///boxes, radio buttons, group boxes' titles and buttons, stock and the program's. At 96 dpi the harness drew them at the 100% size beside
+		///inputs at the 150% size; with the font of the scale the labels, the check boxes and the inputs beside them match, as on a 150% screen.
+		///Two passes: every size is read before any is set, because a control whose font is ambient (LayoutManager sets a font only where it
+		///differs from the parent's) would otherwise take its scaled group box's font and be scaled twice.</summary>
 		internal static void ScaleFontsAsWindowsDoes(Control control,float scale) {
+			List<Tuple<Control,Font>> listScaled=new List<Tuple<Control,Font>>();
+			CollectFontsAsWindowsScales(control,listScaled);
+			foreach(Tuple<Control,Font> tuple in listScaled) {
+				tuple.Item1.Font=new Font(tuple.Item2.FontFamily,tuple.Item2.Size*scale,tuple.Item2.Style);
+			}
+		}
+
+		///<summary>The controls under the control whose font Windows scales (see ScaleFontsAsWindowsDoes), with their fonts now.</summary>
+		private static void CollectFontsAsWindowsScales(Control control,List<Tuple<Control,Font>> listScaled) {
 			foreach(Control child in control.Controls) {
-				if(child is DateTimePicker || child is UpDownBase || child is OpenPmsDental.UI.ComboBoxClinicPicker) {
-					child.Font=new Font(child.Font.FontFamily,child.Font.Size*scale,child.Font.Style);
+				if(child is DateTimePicker || child is UpDownBase || child is OpenPmsDental.UI.ComboBoxClinicPicker || child is Label
+					|| child is System.Windows.Forms.ButtonBase || child is OpenPmsDental.UI.CheckBox)
+				{
+					listScaled.Add(Tuple.Create(child,child.Font));
+					continue;
 				}
-				else {
-					ScaleFontsAsWindowsDoes(child,scale);
+				if(child is System.Windows.Forms.GroupBox || child is OpenPmsDental.UI.GroupBox) {
+					listScaled.Add(Tuple.Create(child,child.Font));
 				}
+				CollectFontsAsWindowsScales(child,listScaled);
 			}
 		}
 

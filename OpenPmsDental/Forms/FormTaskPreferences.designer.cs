@@ -55,7 +55,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(297, 351);
+			this.butSave.Location = new System.Drawing.Point(301, 426);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 12;
@@ -65,30 +65,30 @@ namespace OpenPmsDental{
 			// checkTaskSortApptDateTime
 			// 
 			this.checkTaskSortApptDateTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkTaskSortApptDateTime.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkTaskSortApptDateTime.Location = new System.Drawing.Point(12, 126);
+			this.checkTaskSortApptDateTime.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkTaskSortApptDateTime.Location = new System.Drawing.Point(8, 146);
 			this.checkTaskSortApptDateTime.Name = "checkTaskSortApptDateTime";
-			this.checkTaskSortApptDateTime.Size = new System.Drawing.Size(348, 18);
+			this.checkTaskSortApptDateTime.Size = new System.Drawing.Size(352, 40);
 			this.checkTaskSortApptDateTime.TabIndex = 6;
 			this.checkTaskSortApptDateTime.Text = "Default to sorting appointment type task lists by AptDateTime";
 			// 
 			// checkShowOpenTickets
 			// 
 			this.checkShowOpenTickets.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkShowOpenTickets.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkShowOpenTickets.Location = new System.Drawing.Point(12, 108);
+			this.checkShowOpenTickets.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkShowOpenTickets.Location = new System.Drawing.Point(8, 122);
 			this.checkShowOpenTickets.Name = "checkShowOpenTickets";
-			this.checkShowOpenTickets.Size = new System.Drawing.Size(342, 18);
+			this.checkShowOpenTickets.Size = new System.Drawing.Size(159, 20);
 			this.checkShowOpenTickets.TabIndex = 5;
 			this.checkShowOpenTickets.Text = "Show open tasks for user";
 			// 
 			// checkTasksNewTrackedByUser
 			// 
 			this.checkTasksNewTrackedByUser.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkTasksNewTrackedByUser.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkTasksNewTrackedByUser.Location = new System.Drawing.Point(54, 90);
+			this.checkTasksNewTrackedByUser.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkTasksNewTrackedByUser.Location = new System.Drawing.Point(8, 98);
 			this.checkTasksNewTrackedByUser.Name = "checkTasksNewTrackedByUser";
-			this.checkTasksNewTrackedByUser.Size = new System.Drawing.Size(300, 18);
+			this.checkTasksNewTrackedByUser.Size = new System.Drawing.Size(270, 20);
 			this.checkTasksNewTrackedByUser.TabIndex = 4;
 			this.checkTasksNewTrackedByUser.Text = "New/Viewed status tracked by individual user";
 			// 
@@ -102,19 +102,19 @@ namespace OpenPmsDental{
 			this.groupBoxComputerDefaults.Controls.Add(this.labelX);
 			this.groupBoxComputerDefaults.Controls.Add(this.checkBoxTaskKeepListHidden);
 			this.groupBoxComputerDefaults.Enabled = false;
-			this.groupBoxComputerDefaults.Location = new System.Drawing.Point(12, 257);
+			this.groupBoxComputerDefaults.Location = new System.Drawing.Point(8, 312);
 			this.groupBoxComputerDefaults.Name = "groupBoxComputerDefaults";
-			this.groupBoxComputerDefaults.Size = new System.Drawing.Size(360, 86);
+			this.groupBoxComputerDefaults.Size = new System.Drawing.Size(368, 102);
 			this.groupBoxComputerDefaults.TabIndex = 76;
 			this.groupBoxComputerDefaults.Text = "Local Computer Default Settings";
 			// 
 			// radioRight
 			// 
 			this.radioRight.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.radioRight.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.radioRight.Location = new System.Drawing.Point(154, 38);
+			this.radioRight.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.radioRight.Location = new System.Drawing.Point(8, 47);
 			this.radioRight.Name = "radioRight";
-			this.radioRight.Size = new System.Drawing.Size(99, 17);
+			this.radioRight.Size = new System.Drawing.Size(83, 20);
 			this.radioRight.TabIndex = 8;
 			this.radioRight.TabStop = true;
 			this.radioRight.Text = "Dock Right";
@@ -124,10 +124,10 @@ namespace OpenPmsDental{
 			// radioBottom
 			// 
 			this.radioBottom.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.radioBottom.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.radioBottom.Location = new System.Drawing.Point(255, 38);
+			this.radioBottom.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.radioBottom.Location = new System.Drawing.Point(97, 47);
 			this.radioBottom.Name = "radioBottom";
-			this.radioBottom.Size = new System.Drawing.Size(96, 17);
+			this.radioBottom.Size = new System.Drawing.Size(95, 20);
 			this.radioBottom.TabIndex = 9;
 			this.radioBottom.TabStop = true;
 			this.radioBottom.Text = "Dock Bottom";
@@ -137,13 +137,13 @@ namespace OpenPmsDental{
 			// validNumY
 			// 
 			this.validNumY.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.validNumY.Location = new System.Drawing.Point(304, 59);
+			this.validNumY.Location = new System.Drawing.Point(314, 71);
 			this.validNumY.MaxLength = 4;
 			this.validNumY.MaxVal = 1200;
 			this.validNumY.MinVal = 300;
 			this.validNumY.Name = "validNumY";
 			this.validNumY.ShowZero = false;
-			this.validNumY.Size = new System.Drawing.Size(47, 20);
+			this.validNumY.Size = new System.Drawing.Size(46, 23);
 			this.validNumY.TabIndex = 11;
 			this.validNumY.Text = "542";
 			this.validNumY.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -151,9 +151,9 @@ namespace OpenPmsDental{
 			// labelY
 			// 
 			this.labelY.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelY.Location = new System.Drawing.Point(236, 59);
+			this.labelY.Location = new System.Drawing.Point(248, 71);
 			this.labelY.Name = "labelY";
-			this.labelY.Size = new System.Drawing.Size(62, 18);
+			this.labelY.Size = new System.Drawing.Size(60, 23);
 			this.labelY.TabIndex = 189;
 			this.labelY.Text = "Y Default";
 			this.labelY.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -161,13 +161,13 @@ namespace OpenPmsDental{
 			// validNumX
 			// 
 			this.validNumX.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.validNumX.Location = new System.Drawing.Point(184, 59);
+			this.validNumX.Location = new System.Drawing.Point(184, 71);
 			this.validNumX.MaxLength = 4;
 			this.validNumX.MaxVal = 2000;
 			this.validNumX.MinVal = 300;
 			this.validNumX.Name = "validNumX";
 			this.validNumX.ShowZero = false;
-			this.validNumX.Size = new System.Drawing.Size(47, 20);
+			this.validNumX.Size = new System.Drawing.Size(48, 23);
 			this.validNumX.TabIndex = 10;
 			this.validNumX.Text = "542";
 			this.validNumX.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -175,9 +175,9 @@ namespace OpenPmsDental{
 			// labelX
 			// 
 			this.labelX.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelX.Location = new System.Drawing.Point(116, 59);
+			this.labelX.Location = new System.Drawing.Point(118, 71);
 			this.labelX.Name = "labelX";
-			this.labelX.Size = new System.Drawing.Size(62, 18);
+			this.labelX.Size = new System.Drawing.Size(60, 23);
 			this.labelX.TabIndex = 187;
 			this.labelX.Text = "X Default";
 			this.labelX.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -185,10 +185,10 @@ namespace OpenPmsDental{
 			// checkBoxTaskKeepListHidden
 			// 
 			this.checkBoxTaskKeepListHidden.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkBoxTaskKeepListHidden.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkBoxTaskKeepListHidden.Location = new System.Drawing.Point(133, 19);
+			this.checkBoxTaskKeepListHidden.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkBoxTaskKeepListHidden.Location = new System.Drawing.Point(8, 23);
 			this.checkBoxTaskKeepListHidden.Name = "checkBoxTaskKeepListHidden";
-			this.checkBoxTaskKeepListHidden.Size = new System.Drawing.Size(218, 20);
+			this.checkBoxTaskKeepListHidden.Size = new System.Drawing.Size(181, 20);
 			this.checkBoxTaskKeepListHidden.TabIndex = 7;
 			this.checkBoxTaskKeepListHidden.Text = "Don\'t show on this computer";
 			this.checkBoxTaskKeepListHidden.CheckedChanged += new System.EventHandler(this.checkBoxTaskKeepListHidden_CheckedChanged);
@@ -196,10 +196,10 @@ namespace OpenPmsDental{
 			// checkTaskListAlwaysShow
 			// 
 			this.checkTaskListAlwaysShow.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkTaskListAlwaysShow.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkTaskListAlwaysShow.Location = new System.Drawing.Point(164, 72);
+			this.checkTaskListAlwaysShow.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkTaskListAlwaysShow.Location = new System.Drawing.Point(8, 74);
 			this.checkTaskListAlwaysShow.Name = "checkTaskListAlwaysShow";
-			this.checkTaskListAlwaysShow.Size = new System.Drawing.Size(190, 18);
+			this.checkTaskListAlwaysShow.Size = new System.Drawing.Size(136, 20);
 			this.checkTaskListAlwaysShow.TabIndex = 3;
 			this.checkTaskListAlwaysShow.Text = "Always show task list";
 			this.checkTaskListAlwaysShow.CheckedChanged += new System.EventHandler(this.checkTaskListAlwaysShow_CheckedChanged);
@@ -207,10 +207,10 @@ namespace OpenPmsDental{
 			// checkShowLegacyRepeatingTasks
 			// 
 			this.checkShowLegacyRepeatingTasks.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkShowLegacyRepeatingTasks.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkShowLegacyRepeatingTasks.Location = new System.Drawing.Point(124, 54);
+			this.checkShowLegacyRepeatingTasks.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkShowLegacyRepeatingTasks.Location = new System.Drawing.Point(8, 50);
 			this.checkShowLegacyRepeatingTasks.Name = "checkShowLegacyRepeatingTasks";
-			this.checkShowLegacyRepeatingTasks.Size = new System.Drawing.Size(230, 18);
+			this.checkShowLegacyRepeatingTasks.Size = new System.Drawing.Size(176, 20);
 			this.checkShowLegacyRepeatingTasks.TabIndex = 2;
 			this.checkShowLegacyRepeatingTasks.Text = "Show legacy repeating tasks";
 			// 
@@ -228,53 +228,53 @@ namespace OpenPmsDental{
 			this.groupBoxDatabase.Controls.Add(this.checkTaskListAlwaysShow);
 			this.groupBoxDatabase.Controls.Add(this.checkShowOpenTickets);
 			this.groupBoxDatabase.Controls.Add(this.checkTasksNewTrackedByUser);
-			this.groupBoxDatabase.Location = new System.Drawing.Point(12, 12);
+			this.groupBoxDatabase.Location = new System.Drawing.Point(8, 8);
 			this.groupBoxDatabase.Name = "groupBoxDatabase";
-			this.groupBoxDatabase.Size = new System.Drawing.Size(360, 239);
+			this.groupBoxDatabase.Size = new System.Drawing.Size(368, 296);
 			this.groupBoxDatabase.TabIndex = 80;
 			this.groupBoxDatabase.Text = "Global Settings";
 			// 
 			// checkTaskToApptOneToOne
 			// 
 			this.checkTaskToApptOneToOne.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkTaskToApptOneToOne.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkTaskToApptOneToOne.Location = new System.Drawing.Point(12, 144);
+			this.checkTaskToApptOneToOne.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkTaskToApptOneToOne.Location = new System.Drawing.Point(8, 190);
 			this.checkTaskToApptOneToOne.Name = "checkTaskToApptOneToOne";
-			this.checkTaskToApptOneToOne.Size = new System.Drawing.Size(342, 18);
+			this.checkTaskToApptOneToOne.Size = new System.Drawing.Size(299, 20);
 			this.checkTaskToApptOneToOne.TabIndex = 143;
 			this.checkTaskToApptOneToOne.Text = "Allow multiple Tasks attached to one Appointment";
 			// 
 			// checkTaskCategoryShow
 			// 
 			this.checkTaskCategoryShow.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkTaskCategoryShow.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkTaskCategoryShow.Location = new System.Drawing.Point(12, 162);
+			this.checkTaskCategoryShow.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkTaskCategoryShow.Location = new System.Drawing.Point(8, 214);
 			this.checkTaskCategoryShow.Name = "checkTaskCategoryShow";
-			this.checkTaskCategoryShow.Size = new System.Drawing.Size(342, 18);
+			this.checkTaskCategoryShow.Size = new System.Drawing.Size(128, 20);
 			this.checkTaskCategoryShow.TabIndex = 144;
 			this.checkTaskCategoryShow.Text = "Show task category";
 			// 
 			// labelImageCategoryFolder
 			// 
-			this.labelImageCategoryFolder.Location = new System.Drawing.Point(3, 211);
+			this.labelImageCategoryFolder.Location = new System.Drawing.Point(12, 238);
 			this.labelImageCategoryFolder.Name = "labelImageCategoryFolder";
-			this.labelImageCategoryFolder.Size = new System.Drawing.Size(228, 19);
+			this.labelImageCategoryFolder.Size = new System.Drawing.Size(216, 23);
 			this.labelImageCategoryFolder.TabIndex = 142;
 			this.labelImageCategoryFolder.Text = "Image category folder for attachments";
 			this.labelImageCategoryFolder.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// comboImageCategoryFolders
 			// 
-			this.comboImageCategoryFolders.Location = new System.Drawing.Point(234, 211);
+			this.comboImageCategoryFolders.Location = new System.Drawing.Point(234, 238);
 			this.comboImageCategoryFolders.Name = "comboImageCategoryFolders";
-			this.comboImageCategoryFolders.Size = new System.Drawing.Size(120, 21);
+			this.comboImageCategoryFolders.Size = new System.Drawing.Size(120, 23);
 			this.comboImageCategoryFolders.TabIndex = 141;
 			// 
 			// labelGlobalFilter
 			// 
-			this.labelGlobalFilter.Location = new System.Drawing.Point(54, 184);
+			this.labelGlobalFilter.Location = new System.Drawing.Point(60, 265);
 			this.labelGlobalFilter.Name = "labelGlobalFilter";
-			this.labelGlobalFilter.Size = new System.Drawing.Size(177, 19);
+			this.labelGlobalFilter.Size = new System.Drawing.Size(168, 23);
 			this.labelGlobalFilter.TabIndex = 140;
 			this.labelGlobalFilter.Text = "Default Filter for Tasks in Lists";
 			this.labelGlobalFilter.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -283,7 +283,7 @@ namespace OpenPmsDental{
 			// butTaskInboxSetup
 			// 
 			this.butTaskInboxSetup.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butTaskInboxSetup.Location = new System.Drawing.Point(279, 19);
+			this.butTaskInboxSetup.Location = new System.Drawing.Point(279, 23);
 			this.butTaskInboxSetup.Name = "butTaskInboxSetup";
 			this.butTaskInboxSetup.Size = new System.Drawing.Size(75, 23);
 			this.butTaskInboxSetup.TabIndex = 1;
@@ -293,9 +293,9 @@ namespace OpenPmsDental{
 			// 
 			// comboFilterDefault
 			// 
-			this.comboFilterDefault.Location = new System.Drawing.Point(234, 184);
+			this.comboFilterDefault.Location = new System.Drawing.Point(234, 265);
 			this.comboFilterDefault.Name = "comboFilterDefault";
-			this.comboFilterDefault.Size = new System.Drawing.Size(120, 21);
+			this.comboFilterDefault.Size = new System.Drawing.Size(120, 23);
 			this.comboFilterDefault.TabIndex = 139;
 			this.comboFilterDefault.Visible = false;
 			this.comboFilterDefault.SelectionChangeCommitted += new System.EventHandler(this.comboGlobalFilter_SelectionChangeCommitted);
@@ -306,7 +306,7 @@ namespace OpenPmsDental{
 			// 
 			// FormTaskPreferences
 			// 
-			this.ClientSize = new System.Drawing.Size(384, 387);
+			this.ClientSize = new System.Drawing.Size(384, 458);
 			this.Controls.Add(this.butSave);
 			this.Controls.Add(this.groupBoxComputerDefaults);
 			this.Controls.Add(this.groupBoxDatabase);

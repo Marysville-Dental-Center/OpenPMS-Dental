@@ -59,9 +59,9 @@ namespace OpenPmsDental {
 			this.groupBox2.Controls.Add(this.label4);
 			this.groupBox2.Controls.Add(this.label6);
 			this.groupBox2.Controls.Add(this.textTitleFrom);
-			this.groupBox2.Location = new System.Drawing.Point(12, 110);
+			this.groupBox2.Location = new System.Drawing.Point(8, 89);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(638, 88);
+			this.groupBox2.Size = new System.Drawing.Size(650, 73);
 			this.groupBox2.TabIndex = 9;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Referral to merge from. This referral will be merged into the referral above.";
@@ -70,7 +70,7 @@ namespace OpenPmsDental {
 			// 
 			this.checkIsDoctorFrom.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.checkIsDoctorFrom.Enabled = false;
-			this.checkIsDoctorFrom.Location = new System.Drawing.Point(487, 38);
+			this.checkIsDoctorFrom.Location = new System.Drawing.Point(424, 44);
 			this.checkIsDoctorFrom.Name = "checkIsDoctorFrom";
 			this.checkIsDoctorFrom.Size = new System.Drawing.Size(17, 18);
 			this.checkIsDoctorFrom.TabIndex = 138;
@@ -78,9 +78,9 @@ namespace OpenPmsDental {
 			// butChangeReferralFrom
 			// 
 			this.butChangeReferralFrom.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butChangeReferralFrom.Location = new System.Drawing.Point(550, 32);
+			this.butChangeReferralFrom.Location = new System.Drawing.Point(567, 42);
 			this.butChangeReferralFrom.Name = "butChangeReferralFrom";
-			this.butChangeReferralFrom.Size = new System.Drawing.Size(75, 24);
+			this.butChangeReferralFrom.Size = new System.Drawing.Size(75, 23);
 			this.butChangeReferralFrom.TabIndex = 9;
 			this.butChangeReferralFrom.Text = "Change";
 			this.butChangeReferralFrom.Click += new System.EventHandler(this.butChangeReferralFrom_Click);
@@ -89,62 +89,62 @@ namespace OpenPmsDental {
 			// 
 			this.checkIsPersonFrom.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.checkIsPersonFrom.Enabled = false;
-			this.checkIsPersonFrom.Location = new System.Drawing.Point(401, 38);
+			this.checkIsPersonFrom.Location = new System.Drawing.Point(358, 44);
 			this.checkIsPersonFrom.Name = "checkIsPersonFrom";
 			this.checkIsPersonFrom.Size = new System.Drawing.Size(17, 18);
 			this.checkIsPersonFrom.TabIndex = 137;
 			// 
 			// label8
 			// 
-			this.label8.Location = new System.Drawing.Point(4, 21);
+			this.label8.Location = new System.Drawing.Point(8, 23);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(114, 16);
+			this.label8.Size = new System.Drawing.Size(88, 17);
 			this.label8.TabIndex = 131;
 			this.label8.Text = "Referral Name";
 			this.label8.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(454, 21);
+			this.label3.Location = new System.Drawing.Point(422, 23);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(86, 16);
+			this.label3.Size = new System.Drawing.Size(60, 17);
 			this.label3.TabIndex = 136;
 			this.label3.Text = "Is Doctor";
-			this.label3.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+			this.label3.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// textReferralNameFrom
 			// 
-			this.textReferralNameFrom.Location = new System.Drawing.Point(7, 37);
+			this.textReferralNameFrom.Location = new System.Drawing.Point(8, 42);
 			this.textReferralNameFrom.Name = "textReferralNameFrom";
 			this.textReferralNameFrom.ReadOnly = true;
-			this.textReferralNameFrom.Size = new System.Drawing.Size(237, 20);
+			this.textReferralNameFrom.Size = new System.Drawing.Size(236, 23);
 			this.textReferralNameFrom.TabIndex = 132;
 			this.textReferralNameFrom.TabStop = false;
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(364, 21);
+			this.label4.Location = new System.Drawing.Point(356, 23);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(91, 16);
+			this.label4.Size = new System.Drawing.Size(60, 17);
 			this.label4.TabIndex = 135;
 			this.label4.Text = "Is Person";
-			this.label4.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+			this.label4.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(247, 21);
+			this.label6.Location = new System.Drawing.Point(250, 23);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(85, 16);
+			this.label6.Size = new System.Drawing.Size(36, 17);
 			this.label6.TabIndex = 133;
 			this.label6.Text = "Title";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// textTitleFrom
 			// 
-			this.textTitleFrom.Location = new System.Drawing.Point(250, 37);
+			this.textTitleFrom.Location = new System.Drawing.Point(250, 42);
 			this.textTitleFrom.Name = "textTitleFrom";
 			this.textTitleFrom.ReadOnly = true;
-			this.textTitleFrom.Size = new System.Drawing.Size(100, 20);
+			this.textTitleFrom.Size = new System.Drawing.Size(100, 23);
 			this.textTitleFrom.TabIndex = 134;
 			this.textTitleFrom.TabStop = false;
 			// 
@@ -159,9 +159,9 @@ namespace OpenPmsDental {
 			this.groupBox1.Controls.Add(this.butChangeReferralInto);
 			this.groupBox1.Controls.Add(this.textReferralNameInto);
 			this.groupBox1.Controls.Add(this.label2);
-			this.groupBox1.Location = new System.Drawing.Point(12, 12);
+			this.groupBox1.Location = new System.Drawing.Point(8, 8);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(638, 88);
+			this.groupBox1.Size = new System.Drawing.Size(650, 73);
 			this.groupBox1.TabIndex = 8;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Referral to merge into. The referral below will be merged into this referral.";
@@ -170,7 +170,7 @@ namespace OpenPmsDental {
 			// 
 			this.checkIsDoctorInto.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.checkIsDoctorInto.Enabled = false;
-			this.checkIsDoctorInto.Location = new System.Drawing.Point(487, 38);
+			this.checkIsDoctorInto.Location = new System.Drawing.Point(424, 44);
 			this.checkIsDoctorInto.Name = "checkIsDoctorInto";
 			this.checkIsDoctorInto.Size = new System.Drawing.Size(17, 18);
 			this.checkIsDoctorInto.TabIndex = 130;
@@ -179,43 +179,43 @@ namespace OpenPmsDental {
 			// 
 			this.checkIsPersonInto.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.checkIsPersonInto.Enabled = false;
-			this.checkIsPersonInto.Location = new System.Drawing.Point(401, 38);
+			this.checkIsPersonInto.Location = new System.Drawing.Point(358, 44);
 			this.checkIsPersonInto.Name = "checkIsPersonInto";
 			this.checkIsPersonInto.Size = new System.Drawing.Size(17, 18);
 			this.checkIsPersonInto.TabIndex = 129;
 			// 
 			// label7
 			// 
-			this.label7.Location = new System.Drawing.Point(454, 21);
+			this.label7.Location = new System.Drawing.Point(422, 23);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(86, 16);
+			this.label7.Size = new System.Drawing.Size(60, 17);
 			this.label7.TabIndex = 8;
 			this.label7.Text = "Is Doctor";
-			this.label7.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+			this.label7.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(364, 21);
+			this.label1.Location = new System.Drawing.Point(356, 23);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(91, 16);
+			this.label1.Size = new System.Drawing.Size(60, 17);
 			this.label1.TabIndex = 7;
 			this.label1.Text = "Is Person";
-			this.label1.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+			this.label1.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// textTitleInto
 			// 
-			this.textTitleInto.Location = new System.Drawing.Point(250, 37);
+			this.textTitleInto.Location = new System.Drawing.Point(250, 42);
 			this.textTitleInto.Name = "textTitleInto";
 			this.textTitleInto.ReadOnly = true;
-			this.textTitleInto.Size = new System.Drawing.Size(100, 20);
+			this.textTitleInto.Size = new System.Drawing.Size(100, 23);
 			this.textTitleInto.TabIndex = 6;
 			this.textTitleInto.TabStop = false;
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(247, 21);
+			this.label5.Location = new System.Drawing.Point(250, 23);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(85, 16);
+			this.label5.Size = new System.Drawing.Size(36, 17);
 			this.label5.TabIndex = 5;
 			this.label5.Text = "Title";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -223,27 +223,27 @@ namespace OpenPmsDental {
 			// butChangeReferralInto
 			// 
 			this.butChangeReferralInto.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butChangeReferralInto.Location = new System.Drawing.Point(550, 32);
+			this.butChangeReferralInto.Location = new System.Drawing.Point(567, 42);
 			this.butChangeReferralInto.Name = "butChangeReferralInto";
-			this.butChangeReferralInto.Size = new System.Drawing.Size(75, 24);
+			this.butChangeReferralInto.Size = new System.Drawing.Size(75, 23);
 			this.butChangeReferralInto.TabIndex = 4;
 			this.butChangeReferralInto.Text = "Change";
 			this.butChangeReferralInto.Click += new System.EventHandler(this.butChangeReferralInto_Click);
 			// 
 			// textReferralNameInto
 			// 
-			this.textReferralNameInto.Location = new System.Drawing.Point(7, 37);
+			this.textReferralNameInto.Location = new System.Drawing.Point(8, 42);
 			this.textReferralNameInto.Name = "textReferralNameInto";
 			this.textReferralNameInto.ReadOnly = true;
-			this.textReferralNameInto.Size = new System.Drawing.Size(237, 20);
+			this.textReferralNameInto.Size = new System.Drawing.Size(236, 23);
 			this.textReferralNameInto.TabIndex = 3;
 			this.textReferralNameInto.TabStop = false;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(4, 21);
+			this.label2.Location = new System.Drawing.Point(8, 23);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(114, 16);
+			this.label2.Size = new System.Drawing.Size(88, 17);
 			this.label2.TabIndex = 2;
 			this.label2.Text = "Referral Name";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -251,7 +251,7 @@ namespace OpenPmsDental {
 			// butMerge
 			// 
 			this.butMerge.Enabled = false;
-			this.butMerge.Location = new System.Drawing.Point(575, 213);
+			this.butMerge.Location = new System.Drawing.Point(583, 217);
 			this.butMerge.Name = "butMerge";
 			this.butMerge.Size = new System.Drawing.Size(75, 24);
 			this.butMerge.TabIndex = 7;

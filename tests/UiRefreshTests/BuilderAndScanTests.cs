@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Windows.Forms;
 using DataConnectionBase;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -67,6 +68,28 @@ namespace UiRefreshTests {
 					Assert.IsNotNull(builtWindow.LayoutManager);
 					Assert.IsNotNull(((FormODBase)builtWindow.Form).PanelClient);
 					Assert.IsFalse(builtWindow.Form.IsHandleCreated);
+				}
+			});
+		}
+
+		///<summary>UI-12 slice 2 continuation: a base class's designer runs only when its constructor calls it, as in the program. SetupWizControl
+		///has a designer (a title and a description label) but no constructor, so the setup wizard's pages never have those labels; FormODBase
+		///windows' own designers still run.</summary>
+		[TestMethod]
+		public void CreateBare_RunsABaseDesignerOnlyWhenItsConstructorDoes() {
+			StaRunner.Run(() => {
+				NoDatabaseGuard.Install();
+				DefaultFontOverride.Set(TextFitFontOption.Today,1f);
+				Type typeBase=typeof(OpenPmsDental.User_Controls.SetupWizard.SetupWizControl);
+				MethodInfo methodInfo=typeBase.GetMethod("InitializeComponent",BindingFlags.Instance|BindingFlags.NonPublic|BindingFlags.DeclaredOnly);
+				Assert.IsNotNull(methodInfo,"SetupWizControl has a designer.");
+				Assert.IsFalse(WindowBuilder.ConstructorCalls(typeBase,methodInfo),"SetupWizControl has no constructor that calls it.");
+				Type typePage=typeof(OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizSchedule);
+				Assert.IsTrue(WindowBuilder.ConstructorCalls(typePage,typePage.GetMethod("InitializeComponent",BindingFlags.Instance|BindingFlags.NonPublic|BindingFlags.DeclaredOnly)));
+				using(UserControl userControl=(UserControl)WindowBuilder.CreateBare(typePage,typeof(UserControl))) {
+					Assert.IsTrue(userControl.Controls.Find("checkMonday",false).Length==1,"The page's own designer ran.");
+					Assert.AreEqual(0,userControl.Controls.Find("labelTitle",false).Length,"SetupWizControl's labels are never made.");
+					Assert.AreEqual(0,userControl.Controls.Find("labelDesc",false).Length);
 				}
 			});
 		}
