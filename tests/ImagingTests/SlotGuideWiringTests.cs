@@ -21,6 +21,18 @@ namespace ImagingTests {
 		}
 
 		[TestMethod]
+		public void PastingAMount_CopiesEachSlotsGuide() {
+			string source=Read("OpenPmsDental","User Controls","ControlImageDisplay.cs");
+			int idxInsert=source.IndexOf("mountItem.MountNum=mount.MountNum;\r\n\t\t\t\t\tMountItems.Insert(mountItem);");
+			if(idxInsert<0) {
+				idxInsert=source.IndexOf("mountItem.MountNum=mount.MountNum;\n\t\t\t\t\tMountItems.Insert(mountItem);");
+			}
+			Assert.IsTrue(idxInsert>0,"The paste's item copy.");
+			int idxGuide=source.IndexOf("MountItemGuides.CopyForMountItem(listMountItemsOrig[i].MountItemNum,mountItem.MountItemNum);",idxInsert);
+			Assert.IsTrue(idxGuide>idxInsert && idxGuide-idxInsert<300,"The guide is copied right after the item.");
+		}
+
+		[TestMethod]
 		public void SlotWindow_HasTheGuideControls() {
 			string designer=Read("OpenPmsDental","Forms","FormMountItemDefEdit.designer.cs");
 			foreach(string name in new[] { "textGuideLabel","comboSlotKind","checkMirror","labelGuideLabel","labelSlotKind" }) {

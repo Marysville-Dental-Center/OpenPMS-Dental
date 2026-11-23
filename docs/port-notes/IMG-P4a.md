@@ -13,6 +13,7 @@ camera code.
    - `MountSlotKind`: Radiograph=0, Intraoral=1, Extraoral=2. A slot without a row is a radiograph slot with no guide.
    - Each delete path removes the matching guide rows: `MountDefs.Delete`, `MountItemDefs.Delete` and `DeleteForMount`, `Mounts.Delete` and
      `MountItems.Delete`.
+   - Pasting a copied mount (the module's Paste) copies each slot's guide too (`MountItemGuides.CopyForMountItem`; found in review).
    - Init SQL is regenerated (462 tables). The adoption rules and runbook list both tables as allowed additions, held empty.
 2. **Three photo templates** (`StandardMountTemplates.ListPhotoTemplates`), kept apart from the four X-ray ones. Slots are 1600 x 1200
    (4:3); face photos are portrait. Each slot has a guide and default teeth (Universal), which an office can change.
@@ -44,9 +45,10 @@ camera code.
 
 ## Tests
 
-- `tests/ImagingTests/MountGuideDbTests.cs` (7): the table declarations; Upsert, Get and Delete for both tables; `CreateMountFromDef` copying
-  guides; every delete path.
-- `tests/ImagingTests/SlotGuideWiringTests.cs` (2): the slot window's controls; the guide is read on load and saved after the slot.
+- `tests/ImagingTests/MountGuideDbTests.cs` (8): the table declarations; Upsert, Get and Delete for both tables; `CreateMountFromDef` copying
+  guides; a pasted mount keeping its guides; every delete path.
+- `tests/ImagingTests/SlotGuideWiringTests.cs` (3): the slot window's controls; the guide is read on load and saved after the slot; the paste
+  copies the guide.
 - `tests/ImagingCaptureTests/PhotoMountTemplatesTests.cs` (6):
   - the three templates: slots inside the mount, no overlap, shooting order, mirror shots;
   - installs with a photo category only, with both categories, and with a bad category.
@@ -57,7 +59,7 @@ Targeted x64 run:
 
 | Suite | Passed | Total |
 |---|---|---|
-| ImagingTests | 160 | 160 |
+| ImagingTests | 162 | 162 |
 | ImagingCaptureTests | 813 | 813 |
 | ForkMigrationTests | 38 (2 skipped) | 40 |
 | RegistryTests | 39 | 39 |

@@ -165,6 +165,36 @@ namespace ImagingTests {
 
 		#region Deletes
 		[TestMethod]
+		public void CopyForMountItem_APastedMountKeepsItsGuides() {
+			Patient patient=ImagingDb.CreatePatient("mg paste");
+			MountDef mountDef=MakeDef("guide def paste",2,out List<MountItemDef> listItemDefs);
+			Mount mount=Mounts.CreateMountFromDef(mountDef,patient.PatNum,ImagingDb.GetImageCategory());
+			List<MountItem> listItems=MountItems.GetItemsForMount(mount.MountNum);
+			MountItemGuides.Upsert(new MountItemGuide { MountItemNum=listItems[0].MountItemNum,GuideLabel="Smile",IsMirror=true,SlotKind=MountSlotKind.Extraoral });
+			//the paste in ControlImageDisplay: a new mount, a copy of each item, then the guide
+			Mount mountCopy=mount.Copy();
+			Mounts.Insert(mountCopy);
+			List<long> listCopyNums=new List<long>();
+			foreach(MountItem mountItemOrig in listItems) {
+				MountItem mountItem=mountItemOrig.Copy();
+				mountItem.MountNum=mountCopy.MountNum;
+				MountItems.Insert(mountItem);
+				MountItemGuides.CopyForMountItem(mountItemOrig.MountItemNum,mountItem.MountItemNum);
+				listCopyNums.Add(mountItem.MountItemNum);
+			}
+			MountItemGuide guide=MountItemGuides.GetForMountItem(listCopyNums[0]);
+			Assert.IsNotNull(guide);
+			Assert.AreEqual("Smile",guide.GuideLabel);
+			Assert.IsTrue(guide.IsMirror);
+			Assert.AreEqual(MountSlotKind.Extraoral,guide.SlotKind);
+			Assert.IsNull(MountItemGuides.GetForMountItem(listCopyNums[1]),"A slot without a guide gets none.");
+			Assert.IsNotNull(MountItemGuides.GetForMountItem(listItems[0].MountItemNum),"The original keeps its own.");
+			Mounts.Delete(mountCopy);
+			Mounts.Delete(mount);
+			MountDefs.Delete(mountDef.MountDefNum);
+		}
+
+		[TestMethod]
 		public void MountItemsDelete_AlsoDeletesTheGuideRow() {
 			Patient patient=ImagingDb.CreatePatient("mg3");
 			MountDef mountDef=MakeDef("guide def 5",2,out List<MountItemDef> listItemDefs);

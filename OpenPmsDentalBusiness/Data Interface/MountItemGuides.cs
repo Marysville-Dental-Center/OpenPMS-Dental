@@ -55,6 +55,21 @@ namespace OpenPmsDentalBusiness {
 			Crud.MountItemGuideCrud.Update(mountItemGuide,mountItemGuideOld);
 		}
 
+		///<summary>Gives mountItemNumTo the guide of mountItemNumFrom, when that slot has one (a pasted copy of a mount, IMG-P4a review). Nothing
+		///when it has none.</summary>
+		public static void CopyForMountItem(long mountItemNumFrom,long mountItemNumTo) {
+			if(RemotingClient.MiddleTierRole==MiddleTierRole.ClientMT) {
+				Meth.GetVoid(MethodBase.GetCurrentMethod(),mountItemNumFrom,mountItemNumTo);
+				return;
+			}
+			MountItemGuide mountItemGuide=GetForMountItem(mountItemNumFrom);
+			if(mountItemGuide==null) {
+				return;
+			}
+			Upsert(new MountItemGuide { MountItemNum=mountItemNumTo,GuideLabel=mountItemGuide.GuideLabel,IsMirror=mountItemGuide.IsMirror,
+				SlotKind=mountItemGuide.SlotKind });
+		}
+
 		///<summary>Deletes the slot's row, if it has one.</summary>
 		public static void DeleteForMountItem(long mountItemNum) {
 			if(RemotingClient.MiddleTierRole==MiddleTierRole.ClientMT) {
