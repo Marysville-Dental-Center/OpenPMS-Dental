@@ -129,9 +129,9 @@ namespace OpenPmsDental{
 			// 
 			this.labelWarning.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.labelWarning.ForeColor = System.Drawing.Color.Red;
-			this.labelWarning.Location = new System.Drawing.Point(88, 336);
+			this.labelWarning.Location = new System.Drawing.Point(89, 329);
 			this.labelWarning.Name = "labelWarning";
-			this.labelWarning.Size = new System.Drawing.Size(235, 27);
+			this.labelWarning.Size = new System.Drawing.Size(245, 34);
 			this.labelWarning.TabIndex = 130;
 			this.labelWarning.Text = "Grading scale items are only used for PickList scale types.";
 			this.labelWarning.Visible = false;

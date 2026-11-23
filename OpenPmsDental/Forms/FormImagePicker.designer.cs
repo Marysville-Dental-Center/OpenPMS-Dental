@@ -69,15 +69,15 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.picturePreview.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.picturePreview.Location = new System.Drawing.Point(264, 35);
+			this.picturePreview.Location = new System.Drawing.Point(268, 35);
 			this.picturePreview.Name = "picturePreview";
-			this.picturePreview.Size = new System.Drawing.Size(451, 444);
+			this.picturePreview.Size = new System.Drawing.Size(447, 444);
 			this.picturePreview.TabIndex = 17;
 			this.picturePreview.TabStop = false;
 			// 
 			// labelImageSize
 			// 
-			this.labelImageSize.Location = new System.Drawing.Point(264, 8);
+			this.labelImageSize.Location = new System.Drawing.Point(268, 8);
 			this.labelImageSize.Name = "labelImageSize";
 			this.labelImageSize.Size = new System.Drawing.Size(447, 23);
 			this.labelImageSize.TabIndex = 21;

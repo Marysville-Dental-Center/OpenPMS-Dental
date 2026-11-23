@@ -142,9 +142,9 @@ namespace OpenPmsDental{
 			// 
 			this.labelDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.labelDelete.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.labelDelete.Location = new System.Drawing.Point(99, 403);
+			this.labelDelete.Location = new System.Drawing.Point(99, 399);
 			this.labelDelete.Name = "labelDelete";
-			this.labelDelete.Size = new System.Drawing.Size(264, 28);
+			this.labelDelete.Size = new System.Drawing.Size(273, 34);
 			this.labelDelete.TabIndex = 66;
 			this.labelDelete.Text = "This HL7Def is internal. To edit this HL7Def you must first copy it to the Custom" +
     " list.";

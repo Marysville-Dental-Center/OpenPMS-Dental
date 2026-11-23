@@ -1,6 +1,6 @@
 """FormDiseaseDefs on the grid (UI-12 slice 7, layout script on the planner's tree). The Search group and the grid stood 18 px from the left
 and 26 px before the button column, the four search boxes 20 px tall: the group and the grid from the content edge to 8 px before the
-buttons, the boxes at the field height on the 27 px pitch, Description to the group's content edge."""
+button column's note (wider than the buttons), the boxes at the field height on the 27 px pitch, Description to the group's content edge."""
 import importlib.util
 import os
 
@@ -10,7 +10,7 @@ _spec.loader.exec_module(s)
 
 
 def layout(h):
-    r = h.n("butAdd").nx - 8
+    r = h.n("labelAlphabetize").nx - 8
     s.span(h, "groupBox1", x=8, r=r)
     s.span(h, "gridMain", x=8, r=r)
     for n in ("textICD9", "textICD10", "textSnoMed", "textDescript"):
