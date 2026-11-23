@@ -110,7 +110,7 @@ namespace OpenPmsDental {
 			_windowFixed=null;
 			_settings=(_controlImageDisplay.GetAdjustSettings(_document)??new ImageAdjustSettings()).Copy();
 			_settingsOld=_settings.Copy();
-			_isDicom=_document.FileName!=null && _document.FileName.ToLower().EndsWith(".dcm");
+			_isDicom=ImageHelper.IsDicomPath(_document.FileName);
 			string target=_document.DateCreated.ToShortDateString()+": "+_document.Description;
 			if(_document.ToothNumbers!=""){
 				target+=", "+Lan.g(this,"teeth")+" "+Tooth.DisplayRange(_document.ToothNumbers);

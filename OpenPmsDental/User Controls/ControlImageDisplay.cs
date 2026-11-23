@@ -1132,7 +1132,7 @@ Here is the desired behavior:
 				DownloadDocumentNoteFile(nodeTypeAndKey);
 				if(_bitmapRaw==null && _bitmapDicomRaw==null) {
 					panelMain.Visible=false;
-					if(ImageHelper.HasImageExtension(document.FileName) || Path.GetExtension(document.FileName).ToLower()==".dcm") {
+					if(ImageHelper.HasImageExtension(document.FileName) || ImageHelper.IsDicomPath(document.FileName)) {
 						string srcFileName = ODFileUtils.CombinePaths(PatFolder,document.FileName);
 						if(_dicomNotShownMessage!="") {
 							MessageBox.Show(_dicomNotShownMessage+"\r\n"+document.FileName);
@@ -1481,7 +1481,7 @@ Here is the desired behavior:
 			if(_documentArrayShowing==null || _bitmapArrayShowing==null || idx<0 || idx>_documentArrayShowing.Length-1 || idx>_bitmapArrayShowing.Length-1){
 				return;
 			}
-			if(_documentArrayShowing[idx]?.FileName!=null && _documentArrayShowing[idx].FileName.EndsWith(".dcm")){
+			if(_documentArrayShowing[idx]?.FileName!=null && ImageHelper.IsDicomPath(_documentArrayShowing[idx].FileName)){
 				return;//IMG-P3c-2: a DICOM image is filtered with its window (ImageAdjust.WindowDicom), not after it
 			}
 			ImageAdjust.Apply(_bitmapArrayShowing[idx],GetAdjustSettings(_documentArrayShowing[idx]));
@@ -1632,7 +1632,7 @@ Here is the desired behavior:
 				Document document=_documentArrayShowing[idx];
 				Document documentOld=document.Copy();
 				ImageAdjustSettings settingsOld=GetAdjustSettings(document)??new ImageAdjustSettings();
-				bool isDicom=document.FileName!=null && document.FileName.ToLower().EndsWith(".dcm");
+				bool isDicom=ImageHelper.IsDicomPath(document.FileName);
 				if(!isDicom && !(windowingMin==0 && windowingMax==0)){
 					document.WindowingMin=windowingMin;
 					document.WindowingMax=windowingMax;
@@ -1699,7 +1699,7 @@ Here is the desired behavior:
 			}
 			int idx=GetTeethIdx();
 			Document document=GetDocumentShowing(idx);
-			if(document==null || (document.FileName!=null && document.FileName.ToLower().EndsWith(".dcm"))){
+			if(document==null || (ImageHelper.IsDicomPath(document.FileName))){
 				return false;
 			}
 			if(_bitmapArrayShowing==null || idx>_bitmapArrayShowing.Length-1 || _bitmapArrayShowing[idx]==null){
@@ -2027,7 +2027,7 @@ Here is the desired behavior:
 			}
 			Cursor=Cursors.WaitCursor;
 			if(IsMountItemSelected()){
-				if(ImageHelper.HasImageExtension(GetDocumentShowing(_idxSelectedInMount).FileName) || GetDocumentShowing(_idxSelectedInMount).FileName.EndsWith(".dcm"))
+				if(ImageHelper.HasImageExtension(GetDocumentShowing(_idxSelectedInMount).FileName) || ImageHelper.IsDicomPath(GetDocumentShowing(_idxSelectedInMount).FileName))
 				{
 					//normal images and dicom will have the bitmap and filedrop pulled from the screen
 					nodeTypeAndKey=new NodeTypeAndKey(EnumImageNodeType.Document,_documentArrayShowing[_idxSelectedInMount].DocNum);
@@ -2072,7 +2072,7 @@ Here is the desired behavior:
 			}
 			else if(IsDocumentShowing()){
 				nodeTypeAndKey=new NodeTypeAndKey(EnumImageNodeType.Document,GetDocumentShowing(0).DocNum);
-				if(ImageHelper.HasImageExtension(GetDocumentShowing(0).FileName) || GetDocumentShowing(0).FileName.EndsWith(".dcm")){
+				if(ImageHelper.HasImageExtension(GetDocumentShowing(0).FileName) || ImageHelper.IsDicomPath(GetDocumentShowing(0).FileName)){
 					fileName=Path.GetTempPath()+GetDocumentShowing(0).FileName;
 					if(!ImageCopyRules.MustDrawForCopy(GetDocumentShowing(0),includeDrawings)) {//Do a file copy since no changes were made
 						string filePathSource=Documents.GetPath(GetDocumentShowing(0).DocNum);
@@ -5312,7 +5312,7 @@ Here is the desired behavior:
 					if(_bitmapArrayShowing[idx]==null){
 						return;//we should already have an image showing, so this shouldn't happen
 					}
-					if(_documentArrayShowing[idx].FileName.EndsWith(".dcm")){
+					if(ImageHelper.IsDicomPath(_documentArrayShowing[idx].FileName)){
 						//This optimization doesn't matter because all dicom images need windowing.  We always get a new one.
 						//Obviously, this needs improvement.  We don't want to be reloading images from disk just because user is clicking on item in mount.
 					}
@@ -5325,7 +5325,7 @@ Here is the desired behavior:
 			//from here down, we must be getting the image from disk===================================================================================
 			Bitmap bitmapTemp=null;
 			//BitmapDicom bitmapDicom=null;
-			if(_documentArrayShowing[idx].FileName.EndsWith(".dcm")){
+			if(ImageHelper.IsDicomPath(_documentArrayShowing[idx].FileName)){
 				DicomImageReadResult dicomImageReadResult=ImageStore.OpenBitmapDicomResult(_documentArrayShowing[idx],PatFolder);
 				_bitmapDicomRaw=dicomImageReadResult.BitmapDicom;
 				if(_bitmapDicomRaw==null){
@@ -5345,7 +5345,7 @@ Here is the desired behavior:
 			if(_nodeTypeKeyCatSelected.ImageNodeType==EnumImageNodeType.Document){
 				//always IdxAndRaw
 				//single images simply load up the whole unscaled image. Mounts load the whole image, but maybe at a different scale to match mount scale.
-				if(_documentArrayShowing[idx].FileName.EndsWith(".dcm")){
+				if(ImageHelper.IsDicomPath(_documentArrayShowing[idx].FileName)){
 					_bitmapArrayShowing[idx]=ImageAdjust.WindowDicom(_bitmapDicomRaw,_documentArrayShowing[idx].WindowingMin,_documentArrayShowing[idx].WindowingMax,
 						GetAdjustSettings(_documentArrayShowing[idx]));//IMG-P3c-2
 					return;
@@ -5383,7 +5383,7 @@ Here is the desired behavior:
 			//	scale=(double)_listMountItems[idx].Width/_arrayDocumentsShowing[idx].CropW;
 			//}
 			if(loadBitmapType==EnumLoadBitmapType.OnlyIdx || loadBitmapType==EnumLoadBitmapType.IdxAndRaw){
-				if(_documentArrayShowing[idx].FileName.EndsWith(".dcm")){
+				if(ImageHelper.IsDicomPath(_documentArrayShowing[idx].FileName)){
 					bitmapTemp=ImageAdjust.WindowDicom(_bitmapDicomRaw,_documentArrayShowing[idx].WindowingMin,_documentArrayShowing[idx].WindowingMax,
 						GetAdjustSettings(_documentArrayShowing[idx]));//IMG-P3c-2
 					_bitmapArrayShowing[idx]=new Bitmap(bitmapTemp);
@@ -5395,7 +5395,7 @@ Here is the desired behavior:
 				ApplyAdjust(idx);
 			}
 			if(loadBitmapType==EnumLoadBitmapType.IdxAndRaw || loadBitmapType==EnumLoadBitmapType.OnlyRaw){
-				if(_documentArrayShowing[idx].FileName.EndsWith(".dcm")){
+				if(ImageHelper.IsDicomPath(_documentArrayShowing[idx].FileName)){
 					//already got _bitmapDicomRaw near beginning of this method
 				}
 				else{

@@ -575,7 +575,7 @@ namespace OpenPmsDentalBusiness {
 				if(listDefNumsImgCat.Contains(prefixCategoryNum)) {
 					document.DocCategory=prefixCategoryNum;
 				}
-				if(fileName.ToLower().EndsWith(".dcm")) {//DICOM images come with additional metadata we need to collect
+				if(ImageHelper.IsDicomPath(fileName)) {//DICOM images come with additional metadata we need to collect
 					document.ImgType=ImageType.Radiograph;
 					//Read the file where it is now: a category prefix above renamed it.
 					BitmapDicom bitmapDicom=DicomHelper.GetFromFile(Path.Combine(Path.GetDirectoryName(listFiles[j]),fileName));

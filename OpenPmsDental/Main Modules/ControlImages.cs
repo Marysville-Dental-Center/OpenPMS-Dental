@@ -1314,7 +1314,7 @@ namespace OpenPmsDental{
 			}
 			string ext=ImageStore.GetExtension(document);
 			List<string> listImageExtensions=new List<string> {".bmp",".dcm",".dicom",".gif",".jpg",".jpeg",".png",".tif",".tiff"};
-			if(listImageExtensions.Contains(ext)) {
+			if(listImageExtensions.Contains(ext) || ImageHelper.IsDicomPath(document.FileName)) {
 				//An image opens in the image viewer window.
 				//After the tree's mouse sequence, as the canvas does, so the window is not left behind the main window.
 				if(controlImageDisplay!=null && controlImageDisplay.IsBitmapShowing()){

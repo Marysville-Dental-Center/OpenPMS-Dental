@@ -87,7 +87,7 @@ namespace ImagingTests {
 		public void RightDrag_ChecksThePermission_SavesThroughOneSave_CancelsTheMenu_NotForDicom() {
 			string display=Display();
 			string bodyDrag=MethodBody(display,"private bool RightDrag(");
-			StringAssert.Contains(bodyDrag,".EndsWith(\".dcm\")","A DICOM window stays on the module's slider.");
+			StringAssert.Contains(bodyDrag,"ImageHelper.IsDicomPath(document.FileName)","A DICOM window stays on the module's slider.");
 			StringAssert.Contains(bodyDrag,"if(!CanEditImage(idx,suppressMessage:true)){");
 			StringAssert.Contains(bodyDrag,"InvalidateSettingsColor(doApplyAdjust:false);","Fast while it moves.");
 			string bodyEnd=MethodBody(display,"private void RightDragEnd(");

@@ -29,13 +29,10 @@ namespace OpenPmsDentalBusiness {
 		private static readonly byte[] _arrayBytesDicm=Encoding.ASCII.GetBytes("DICM");
 
 		#region File names
-		///<summary>True when the file name or path ends in .dcm, in any case. This is how ImageStore.Import decides that a file is DICOM, so a file
-		///imported as DICOM is also treated as DICOM on a claim. Surrounding spaces are ignored.</summary>
+		///<summary>True when the file name or path is DICOM: ImageHelper.IsDicomPath, the program's one DICOM test (.dcm or .dicom, any case,
+		///surrounding spaces ignored), so a file the module treats as DICOM is also DICOM on a claim.</summary>
 		public static bool IsDicomFileName(string fileName) {
-			if(string.IsNullOrWhiteSpace(fileName)) {
-				return false;
-			}
-			return fileName.Trim().EndsWith(".dcm",StringComparison.OrdinalIgnoreCase);
+			return ImageHelper.IsDicomPath(fileName);
 		}
 
 		///<summary>The name shown in Edit Claim for the copy of a DICOM document: the document's file name with the .jpg extension, so the list
