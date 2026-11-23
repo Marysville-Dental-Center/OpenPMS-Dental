@@ -103,21 +103,21 @@ namespace OpenPmsDental {
 			// label4
 			// 
 			this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.label4.Location = new System.Drawing.Point(707, 5);
+			this.label4.Location = new System.Drawing.Point(711, 8);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(45, 18);
+			this.label4.Size = new System.Drawing.Size(36, 23);
 			this.label4.TabIndex = 47;
 			this.label4.Text = "Type";
-			this.label4.TextAlign = System.Drawing.ContentAlignment.BottomRight;
+			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// comboHistoryType
 			// 
 			this.comboHistoryType.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.comboHistoryType.BackColor = System.Drawing.SystemColors.Window;
-			this.comboHistoryType.Location = new System.Drawing.Point(753, 6);
+			this.comboHistoryType.Location = new System.Drawing.Point(753, 8);
 			this.comboHistoryType.Name = "comboHistoryType";
 			this.comboHistoryType.SelectionModeMulti = true;
-			this.comboHistoryType.Size = new System.Drawing.Size(100, 21);
+			this.comboHistoryType.Size = new System.Drawing.Size(100, 23);
 			this.comboHistoryType.TabIndex = 45;
 			this.comboHistoryType.SelectionChangeCommitted += new System.EventHandler(this.comboHistoryType_SelectionChangeCommitted);
 			// 
@@ -126,10 +126,10 @@ namespace OpenPmsDental {
 			this.gridHistory.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridHistory.Location = new System.Drawing.Point(8, 31);
+			this.gridHistory.Location = new System.Drawing.Point(8, 41);
 			this.gridHistory.Name = "gridHistory";
 			this.gridHistory.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridHistory.Size = new System.Drawing.Size(1214, 252);
+			this.gridHistory.Size = new System.Drawing.Size(1214, 238);
 			this.gridHistory.TabIndex = 33;
 			this.gridHistory.Title = "History";
 			this.gridHistory.TranslationName = "TableClaimHistory";
@@ -140,7 +140,7 @@ namespace OpenPmsDental {
 			this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.panel1.BackColor = System.Drawing.SystemColors.ControlDark;
 			this.panel1.Controls.Add(this.ToolBarHistory);
-			this.panel1.Location = new System.Drawing.Point(867, 0);
+			this.panel1.Location = new System.Drawing.Point(868, 6);
 			this.panel1.Name = "panel1";
 			this.panel1.Size = new System.Drawing.Size(354, 27);
 			this.panel1.TabIndex = 44;

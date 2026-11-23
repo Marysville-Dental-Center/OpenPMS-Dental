@@ -101,7 +101,7 @@ namespace OpenPmsDental {
 			// 
 			// odDateRangePicker
 			// 
-			this.odDateRangePicker.Location = new System.Drawing.Point(8, 23);
+			this.odDateRangePicker.Location = new System.Drawing.Point(8, 21);
 			this.odDateRangePicker.MaximumSize = new System.Drawing.Size(0, 185);
 			this.odDateRangePicker.MinimumSize = new System.Drawing.Size(0, 24);
 			this.odDateRangePicker.Name = "odDateRangePicker";

@@ -204,7 +204,7 @@ namespace OpenPmsDental {
 			// dateRangePicker
 			// 
 			this.dateRangePicker.EnableWeekButtons = false;
-			this.dateRangePicker.Location = new System.Drawing.Point(8, 86);
+			this.dateRangePicker.Location = new System.Drawing.Point(8, 84);
 			this.dateRangePicker.MaximumSize = new System.Drawing.Size(0, 185);
 			this.dateRangePicker.MinimumSize = new System.Drawing.Size(453, 22);
 			this.dateRangePicker.Name = "dateRangePicker";

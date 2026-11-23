@@ -21,7 +21,7 @@ def layout(h):
     h.set("label1", 8, y0, F1 - 6 - 8, H)
     h.text_align("label1", "MiddleRight")
     h.set("comboOrder", F1, y0, 133, H)
-    h.set("dateRangePicker", F1 - DR_BOX, y2, None, None)
+    h.set("dateRangePicker", F1 - DR_BOX, y2 - 2, None, None)  # its boxes 2 px into its bounds: on the row (review 2026-11-23)
     h.set("butAllDates", F1 - DR_BOX + 190, y2, 71, H)
     lw2 = max(h.lw("label4"), h.lw("labelSite"))
     F2 = F1 - DR_BOX + DR_TO_BOX  # the second field column on the date range's To box

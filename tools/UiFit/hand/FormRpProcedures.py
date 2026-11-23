@@ -14,7 +14,7 @@ def layout(h):
     top = (grp.title_bottom or 18) + 4
     y0, y1 = top, top + P
     dr = h.n("dateRangePicker")
-    h.set("dateRangePicker", 8, y0, None, None)
+    h.set("dateRangePicker", 8, y0 - 2, None, None)  # its boxes 2 px into its bounds: on the row with Providers (review 2026-11-23)
     x2 = 8 + dr.nw + 16
     lw = h.lw("labelProv")
     F2 = x2 + lw + 6

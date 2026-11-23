@@ -81,7 +81,7 @@
 			this.groupBox2.Controls.Add(this.textRangeMax);
 			this.groupBox2.Controls.Add(this.labelDaysOldMax);
 			this.groupBox2.Controls.Add(this.labelDaysOldMin);
-			this.groupBox2.Location = new System.Drawing.Point(8, 35);
+			this.groupBox2.Location = new System.Drawing.Point(8, 39);
 			this.groupBox2.Name = "groupBox2";
 			this.groupBox2.Size = new System.Drawing.Size(266, 54);
 			this.groupBox2.TabIndex = 104;
@@ -153,7 +153,7 @@
 			// dateRangePicker
 			// 
 			this.dateRangePicker.BackColor = System.Drawing.Color.Transparent;
-			this.dateRangePicker.Location = new System.Drawing.Point(8, 8);
+			this.dateRangePicker.Location = new System.Drawing.Point(8, 6);
 			this.dateRangePicker.MinimumSize = new System.Drawing.Size(453, 22);
 			this.dateRangePicker.Name = "dateRangePicker";
 			this.dateRangePicker.Size = new System.Drawing.Size(453, 24);
@@ -228,10 +228,10 @@
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(8, 97);
+			this.gridMain.Location = new System.Drawing.Point(8, 101);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridMain.Size = new System.Drawing.Size(1055, 559);
+			this.gridMain.Size = new System.Drawing.Size(1055, 555);
 			this.gridMain.TabIndex = 8;
 			this.gridMain.Title = "ERAs";
 			this.gridMain.TranslationName = "TableEtrans835s";

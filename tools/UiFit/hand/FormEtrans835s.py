@@ -1,6 +1,7 @@
 """FormEtrans835s (ERAs) on the grid (UI-12 slice 2, mode hand: the planner put Finalized Only over the status list and cut the Amount
 Range title). As main arranges it, on the grid, three filter columns 16 px apart on the 27 px pitch from 8: the date range (its From box at
-the content edge + 65), the Amount Range group under it (as wide as its title, Min and Max each 6 px after its label) with Control ID 16 px
+the content edge + 65; its bounds 2 px over the row, as it draws its boxes 2 px in), the Amount Range group under it (its Min and Max on
+the third row) (as wide as its title, Min and Max each 6 px after its label) with Control ID 16 px
 after the group on the third row; Carrier, Check# or EFT Trace# and the clinic picker on one field column; the status list with its label,
 and under it Automatable Carriers Only, which shows with the list, on the bounds of Finalized Only, which shows without it (Load switches
 them by the EraShowStatusAndClinic preference). Refresh at the right content edge on the first row, 16 px after the status list (the window 41 px wider); the grid 8 px under the filters to the
@@ -15,9 +16,13 @@ def layout(h):
     R = root.w - 8
     y0, y1, y2 = 8, 8 + P, 8 + 2 * P
     dr = h.n("dateRangePicker")
-    h.set("dateRangePicker", 8, y0, None, None)
+    # The range draws its boxes 2 px into its bounds: its top 2 px over the row puts its boxes on the row with Carrier (review 2026-11-23).
+    h.set("dateRangePicker", 8, y0 - 2, None, None)
     grp = h.n("groupBox2")
     top = (grp.title_bottom or 18) + 4
+    # The Amount Range group under the range, its Min and Max row on the third row (with Control ID and Clinics), which leaves 8 px or
+    # more between the range's boxes and the group's top border.
+    gy = max(y2 - top, y0 + H + 8)
     x = 8
     for lab, fld in (("labelDaysOldMin", "textRangeMin"), ("labelDaysOldMax", "textRangeMax")):
         lw = h.lw(lab)
@@ -29,7 +34,7 @@ def layout(h):
         x += lw + 6 + 60 + 16
     gw = max(x - 16 + 8, grp.text_w + 16)
     gh = top + H + 8
-    h.set("groupBox2", 8, y1, gw, gh)
+    h.set("groupBox2", 8, gy, gw, gh)
     h.watch("groupBox2")
     xc = 8 + gw + 16
     lwc = h.lw("labelControlId")
@@ -61,7 +66,7 @@ def layout(h):
     R = W - 8
     h.set(".", None, None, W, None)
     h.set("butRefresh", R - 75, y0, 75, 24)
-    yg = max(y1 + gh, yc + CH, y2 + H) + 8
+    yg = max(gy + gh, yc + CH, y2 + H) + 8
     yb = root.h - 8 - 24
     h.set("gridMain", 8, yg, R - 8, yb - 8 - yg)
     h.set("butAutoProcessedEras", 8, yb, None, 24)

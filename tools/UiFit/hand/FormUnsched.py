@@ -23,7 +23,7 @@ def layout(h):
     h.set("comboOrder", F1, y0, 133, H)
     h.check_left("checkBrokenAppts")
     h.set("checkBrokenAppts", 8, y1 + (H - CH) // 2, h.cw("checkBrokenAppts"), CH)
-    h.set("dateRangePicker", F1 - DR_BOX, y2, None, None)
+    h.set("dateRangePicker", F1 - DR_BOX, y2 - 2, None, None)  # its boxes 2 px into its bounds: on the row (review 2026-11-23)
     lw2 = max(h.lw("label4"), h.lw("labelSite"))
     F2 = F1 - DR_BOX + DR_TO_BOX  # the second field column on the date range's To box
     x2 = F2 - 6 - lw2
