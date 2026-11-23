@@ -185,7 +185,7 @@
 			this.textSnomedDescription.Location = new System.Drawing.Point(108, 50);
 			this.textSnomedDescription.Multiline = true;
 			this.textSnomedDescription.Name = "textSnomedDescription";
-			this.textSnomedDescription.Size = new System.Drawing.Size(277, 49);
+			this.textSnomedDescription.Size = new System.Drawing.Size(283, 49);
 			this.textSnomedDescription.TabIndex = 225;
 			// 
 			// butSnomed

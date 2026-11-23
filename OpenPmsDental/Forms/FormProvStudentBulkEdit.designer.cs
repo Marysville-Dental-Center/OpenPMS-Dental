@@ -41,7 +41,7 @@ namespace OpenPmsDental{
 			// 
 			// butBulkEdit
 			// 
-			this.butBulkEdit.Location = new System.Drawing.Point(84, 77);
+			this.butBulkEdit.Location = new System.Drawing.Point(105, 77);
 			this.butBulkEdit.Name = "butBulkEdit";
 			this.butBulkEdit.Size = new System.Drawing.Size(75, 24);
 			this.butBulkEdit.TabIndex = 3;

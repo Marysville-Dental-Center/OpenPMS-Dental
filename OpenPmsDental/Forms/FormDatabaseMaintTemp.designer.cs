@@ -92,9 +92,9 @@ namespace OpenPmsDental{
 			// label4
 			// 
 			this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label4.Location = new System.Drawing.Point(8, 560);
+			this.label4.Location = new System.Drawing.Point(8, 559);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(116, 23);
+			this.label4.Size = new System.Drawing.Size(116, 24);
 			this.label4.TabIndex = 10;
 			this.label4.Text = "Step 4.  Print results";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -108,7 +108,7 @@ namespace OpenPmsDental{
 			this.textResults.Multiline = true;
 			this.textResults.Name = "textResults";
 			this.textResults.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.textResults.Size = new System.Drawing.Size(717, 441);
+			this.textResults.Size = new System.Drawing.Size(717, 440);
 			this.textResults.TabIndex = 11;
 			// 
 			// groupBox1
@@ -215,9 +215,9 @@ namespace OpenPmsDental{
 			this.butPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butPrint.Icon = OpenPmsDental.UI.EnumIcons.Print;
 			this.butPrint.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butPrint.Location = new System.Drawing.Point(130, 560);
+			this.butPrint.Location = new System.Drawing.Point(130, 559);
 			this.butPrint.Name = "butPrint";
-			this.butPrint.Size = new System.Drawing.Size(75, 23);
+			this.butPrint.Size = new System.Drawing.Size(75, 24);
 			this.butPrint.TabIndex = 12;
 			this.butPrint.Text = "Print";
 			this.butPrint.Click += new System.EventHandler(this.butPrint_Click);

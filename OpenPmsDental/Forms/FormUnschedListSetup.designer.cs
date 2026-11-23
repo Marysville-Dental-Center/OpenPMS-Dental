@@ -69,7 +69,7 @@ namespace OpenPmsDental{
 			// textDaysFuture
 			// 
 			this.textDaysFuture.AutoSize = false;
-			this.textDaysFuture.Location = new System.Drawing.Point(192, 50);
+			this.textDaysFuture.Location = new System.Drawing.Point(210, 50);
 			this.textDaysFuture.MaxVal = 10000;
 			this.textDaysFuture.Name = "textDaysFuture";
 			this.textDaysFuture.ShowZero = false;
@@ -79,7 +79,7 @@ namespace OpenPmsDental{
 			// textDaysPast
 			// 
 			this.textDaysPast.AutoSize = false;
-			this.textDaysPast.Location = new System.Drawing.Point(192, 23);
+			this.textDaysPast.Location = new System.Drawing.Point(210, 23);
 			this.textDaysPast.MaxVal = 10000;
 			this.textDaysPast.Name = "textDaysPast";
 			this.textDaysPast.ShowZero = false;
@@ -88,7 +88,7 @@ namespace OpenPmsDental{
 			// 
 			// label14
 			// 
-			this.label14.Location = new System.Drawing.Point(14, 23);
+			this.label14.Location = new System.Drawing.Point(32, 23);
 			this.label14.Name = "label14";
 			this.label14.Size = new System.Drawing.Size(172, 23);
 			this.label14.TabIndex = 50;
@@ -97,7 +97,7 @@ namespace OpenPmsDental{
 			// 
 			// label15
 			// 
-			this.label15.Location = new System.Drawing.Point(74, 50);
+			this.label15.Location = new System.Drawing.Point(92, 50);
 			this.label15.Name = "label15";
 			this.label15.Size = new System.Drawing.Size(112, 23);
 			this.label15.TabIndex = 52;

@@ -111,7 +111,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.butPatForms.Location = new System.Drawing.Point(8, 187);
 			this.butPatForms.Name = "butPatForms";
-			this.butPatForms.Size = new System.Drawing.Size(158, 24);
+			this.butPatForms.Size = new System.Drawing.Size(164, 24);
 			this.butPatForms.TabIndex = 16;
 			this.butPatForms.Text = "Add or Remove Forms";
 			this.butPatForms.Click += new System.EventHandler(this.butPatForms_Click);
@@ -139,7 +139,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.listSheets.Location = new System.Drawing.Point(8, 62);
 			this.listSheets.Name = "listSheets";
-			this.listSheets.Size = new System.Drawing.Size(158, 121);
+			this.listSheets.Size = new System.Drawing.Size(164, 121);
 			this.listSheets.TabIndex = 8;
 			// 
 			// label1

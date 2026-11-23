@@ -52,14 +52,14 @@ namespace OpenPmsDental {
 			//
 			this.labelExpiryDays.Location = new System.Drawing.Point(8, 104);
 			this.labelExpiryDays.Name = "labelExpiryDays";
-			this.labelExpiryDays.Size = new System.Drawing.Size(230, 23);
+			this.labelExpiryDays.Size = new System.Drawing.Size(228, 23);
 			this.labelExpiryDays.TabIndex = 2;
 			this.labelExpiryDays.Text = "Expiring alert, days before the expiry date";
-			this.labelExpiryDays.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.labelExpiryDays.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			//
 			// textExpiryDays
 			//
-			this.textExpiryDays.Location = new System.Drawing.Point(244, 104);
+			this.textExpiryDays.Location = new System.Drawing.Point(242, 104);
 			this.textExpiryDays.MaxVal = 3650;
 			this.textExpiryDays.MinVal = 0;
 			this.textExpiryDays.Name = "textExpiryDays";
@@ -68,7 +68,7 @@ namespace OpenPmsDental {
 			//
 			// labelExpiryNote
 			//
-			this.labelExpiryNote.Location = new System.Drawing.Point(298, 106);
+			this.labelExpiryNote.Location = new System.Drawing.Point(296, 106);
 			this.labelExpiryNote.Name = "labelExpiryNote";
 			this.labelExpiryNote.Size = new System.Drawing.Size(140, 18);
 			this.labelExpiryNote.TabIndex = 4;

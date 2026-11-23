@@ -56,6 +56,15 @@ def frame(h, left=True, right=True, bottom=False, tol=4, parent=None, skip=()):
     return pad_top
 
 
+def icon_buttons(h):
+    """UI-12 slice 6 fix round: a button with an Icon (this.<name>.Icon = ... in the designer) keeps the 24 px button height: at 23 its icon
+    paints over the bottom-left border (main draws them 24). The button's top stays."""
+    import re
+    for name in re.findall(r"this\.(\w+)\.Icon ?= ?", h.designer.text):
+        if name in h.by_name and h.n(name).kind == "button" and h.n(name).nh < 24:
+            h.set(name, None, None, None, 24)
+
+
 def bottom_to(h, name, y):
     """The control's bottom edge at y (its top kept)."""
     n = h.n(name)

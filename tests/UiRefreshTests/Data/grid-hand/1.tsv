@@ -1543,6 +1543,7 @@ OpenPmsDental/Main Modules/ControlTreat.designer.cs	OpenPmsDental.ControlTreat	d
 OpenPmsDental/Main Modules/ControlTreat.designer.cs	OpenPmsDental.ControlTreat	userControlIndIns	Location	799,491	799,490	by hand (layout script): on the grid
 OpenPmsDental/Main Modules/ControlTreat.designer.cs	OpenPmsDental.ControlTreat	userControlFamIns	Location	799,411	799,406	by hand (layout script): on the grid
 OpenPmsDental/Main Modules/ControlTreat.designer.cs	OpenPmsDental.ControlTreat	userControlIndDis	Location	799,422	799,406	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlTreat.designer.cs	OpenPmsDental.ControlTreat	userControlIndDis	Size	173,84	174,108	by hand (layout script): on the grid
 OpenPmsDental/Main Modules/ControlTreat.designer.cs	OpenPmsDental.ControlTreat	listSetPr	Location	810,195	799,207	by hand (layout script): on the grid
 OpenPmsDental/Main Modules/ControlTreat.designer.cs	OpenPmsDental.ControlTreat	listSetPr	Size	92,199	92,195	by hand (layout script): on the grid
 OpenPmsDental/Main Modules/ControlTreat.designer.cs	OpenPmsDental.ControlTreat	butInsRem	Location	917,400	917,386	by hand (layout script): on the grid

@@ -50,7 +50,7 @@ namespace OpenPmsDental{
 			// 
 			this.textDescription.Location = new System.Drawing.Point(230, 8);
 			this.textDescription.Name = "textDescription";
-			this.textDescription.Size = new System.Drawing.Size(152, 20);
+			this.textDescription.Size = new System.Drawing.Size(157, 23);
 			this.textDescription.TabIndex = 4;
 			// 
 			// labelDescription

@@ -43,14 +43,14 @@ namespace OpenPmsDental{
 			// 
 			this.textWirelessPhone.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textWirelessPhone.Location = new System.Drawing.Point(215, 91);
+			this.textWirelessPhone.Location = new System.Drawing.Point(229, 91);
 			this.textWirelessPhone.Name = "textWirelessPhone";
 			this.textWirelessPhone.Size = new System.Drawing.Size(140, 20);
 			this.textWirelessPhone.TabIndex = 4;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(215, 67);
+			this.label1.Location = new System.Drawing.Point(229, 67);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(140, 20);
 			this.label1.TabIndex = 6;
@@ -59,7 +59,7 @@ namespace OpenPmsDental{
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(25, 145);
+			this.label2.Location = new System.Drawing.Point(8, 145);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(86, 20);
 			this.label2.TabIndex = 6;
@@ -105,15 +105,15 @@ namespace OpenPmsDental{
 			// 
 			// textPatient
 			// 
-			this.textPatient.Location = new System.Drawing.Point(25, 91);
+			this.textPatient.Location = new System.Drawing.Point(8, 91);
 			this.textPatient.Name = "textPatient";
 			this.textPatient.ReadOnly = true;
-			this.textPatient.Size = new System.Drawing.Size(184, 23);
+			this.textPatient.Size = new System.Drawing.Size(215, 23);
 			this.textPatient.TabIndex = 3;
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(25, 67);
+			this.label4.Location = new System.Drawing.Point(8, 67);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(70, 20);
 			this.label4.TabIndex = 163;
@@ -122,7 +122,7 @@ namespace OpenPmsDental{
 			// 
 			// butPatFind
 			// 
-			this.butPatFind.Location = new System.Drawing.Point(25, 118);
+			this.butPatFind.Location = new System.Drawing.Point(8, 118);
 			this.butPatFind.Name = "butPatFind";
 			this.butPatFind.Size = new System.Drawing.Size(63, 23);
 			this.butPatFind.TabIndex = 5;
@@ -138,11 +138,11 @@ namespace OpenPmsDental{
 			this.textMessage.BackColor = System.Drawing.SystemColors.Window;
 			this.textMessage.DetectLinksEnabled = false;
 			this.textMessage.DetectUrls = false;
-			this.textMessage.Location = new System.Drawing.Point(25, 167);
+			this.textMessage.Location = new System.Drawing.Point(8, 167);
 			this.textMessage.Name = "textMessage";
 			this.textMessage.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.TxtMsg;
 			this.textMessage.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textMessage.Size = new System.Drawing.Size(344, 113);
+			this.textMessage.Size = new System.Drawing.Size(361, 113);
 			this.textMessage.TabIndex = 6;
 			this.textMessage.Text = "";
 			// 
@@ -158,7 +158,7 @@ namespace OpenPmsDental{
 			// 
 			// labelCharCount
 			// 
-			this.labelCharCount.Location = new System.Drawing.Point(200, 118);
+			this.labelCharCount.Location = new System.Drawing.Point(210, 118);
 			this.labelCharCount.Name = "labelCharCount";
 			this.labelCharCount.Size = new System.Drawing.Size(100, 23);
 			this.labelCharCount.TabIndex = 164;
@@ -171,12 +171,12 @@ namespace OpenPmsDental{
 			this.textCharCount.BackColor = System.Drawing.SystemColors.Control;
 			this.textCharCount.DetectLinksEnabled = false;
 			this.textCharCount.DetectUrls = false;
-			this.textCharCount.Location = new System.Drawing.Point(306, 119);
+			this.textCharCount.Location = new System.Drawing.Point(316, 118);
 			this.textCharCount.Name = "textCharCount";
 			this.textCharCount.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.TxtMsg;
 			this.textCharCount.ReadOnly = true;
 			this.textCharCount.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textCharCount.Size = new System.Drawing.Size(53, 20);
+			this.textCharCount.Size = new System.Drawing.Size(53, 23);
 			this.textCharCount.TabIndex = 166;
 			this.textCharCount.TabStop = false;
 			this.textCharCount.Text = "0";

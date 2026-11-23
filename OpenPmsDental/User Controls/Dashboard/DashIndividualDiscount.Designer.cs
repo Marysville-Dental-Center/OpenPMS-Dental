@@ -41,7 +41,7 @@
 			this.groupBoxIndDiscount.Controls.Add(this.label11);
 			this.groupBoxIndDiscount.Controls.Add(this.label18);
 			this.groupBoxIndDiscount.Controls.Add(this.label12);
-			this.groupBoxIndDiscount.Location = new System.Drawing.Point(8, 8);
+			this.groupBoxIndDiscount.Location = new System.Drawing.Point(0, 0);
 			this.groupBoxIndDiscount.Name = "groupBoxIndDiscount";
 			this.groupBoxIndDiscount.Size = new System.Drawing.Size(174, 108);
 			this.groupBoxIndDiscount.TabIndex = 69;
@@ -112,7 +112,7 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.Controls.Add(this.groupBoxIndDiscount);
 			this.Name = "DashIndividualDiscount";
-			this.Size = new System.Drawing.Size(190, 124);
+			this.Size = new System.Drawing.Size(174, 108);
 			this.groupBoxIndDiscount.ResumeLayout(false);
 			this.groupBoxIndDiscount.PerformLayout();
 			this.ResumeLayout(false);

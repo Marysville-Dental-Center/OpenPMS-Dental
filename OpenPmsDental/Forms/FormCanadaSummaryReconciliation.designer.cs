@@ -59,7 +59,7 @@ namespace OpenPmsDental{
 			// 
 			this.listCarriers.Location = new System.Drawing.Point(8, 42);
 			this.listCarriers.Name = "listCarriers";
-			this.listCarriers.Size = new System.Drawing.Size(275, 160);
+			this.listCarriers.Size = new System.Drawing.Size(286, 160);
 			this.listCarriers.TabIndex = 107;
 			this.listCarriers.Click += new System.EventHandler(this.listCarriers_Click);
 			// 
@@ -67,7 +67,7 @@ namespace OpenPmsDental{
 			// 
 			this.listNetworks.Location = new System.Drawing.Point(8, 225);
 			this.listNetworks.Name = "listNetworks";
-			this.listNetworks.Size = new System.Drawing.Size(275, 134);
+			this.listNetworks.Size = new System.Drawing.Size(286, 134);
 			this.listNetworks.TabIndex = 108;
 			this.listNetworks.Click += new System.EventHandler(this.listNetwork_Click);
 			// 

@@ -143,9 +143,9 @@ namespace OpenPmsDental{
 			this.butAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdd.Location = new System.Drawing.Point(661, 35);
+			this.butAdd.Location = new System.Drawing.Point(644, 35);
 			this.butAdd.Name = "butAdd";
-			this.butAdd.Size = new System.Drawing.Size(93, 23);
+			this.butAdd.Size = new System.Drawing.Size(110, 24);
 			this.butAdd.TabIndex = 11;
 			this.butAdd.Text = "Add Supply";
 			this.butAdd.Click += new System.EventHandler(this.butAdd_Click);

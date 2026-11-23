@@ -24,5 +24,6 @@ def layout(h):
     h.set("comboUserGroup", xg, None)
     h.set("labelUserGroup", xg - 6 - h.n("labelUserGroup").nw, None)
     h.set("butSetAll", xg + 184 + 6, None)
-    h.set("butAdd", xg + 184 + 6 + 68 + 6, None)
+    h.set("butAdd", xg + 184 + 6 + 68 + 6, None, 65, 24)
     h.set("butDuplicate", h.n("butSave").nx - 8 - h.n("butDuplicate").nw, None)
+    e.icon_buttons(h)

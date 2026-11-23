@@ -138,7 +138,7 @@ namespace OpenPmsDental {
 			// 
 			this.textElapsed.Location = new System.Drawing.Point(646, 18);
 			this.textElapsed.Name = "textElapsed";
-			this.textElapsed.Size = new System.Drawing.Size(111, 20);
+			this.textElapsed.Size = new System.Drawing.Size(123, 23);
 			this.textElapsed.TabIndex = 4;
 			// 
 			// textDateTimeStop
@@ -157,9 +157,9 @@ namespace OpenPmsDental {
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(6, 25);
+			this.label1.Location = new System.Drawing.Point(6, 20);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(68, 18);
+			this.label1.Size = new System.Drawing.Size(68, 17);
 			this.label1.TabIndex = 1;
 			this.label1.Text = "Command";
 			// 

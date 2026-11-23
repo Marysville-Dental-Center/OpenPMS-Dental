@@ -1,6 +1,7 @@
 """FormPatFieldDefs on the grid (UI-12 slice 6, layout script on the planner's tree). The content kept main's 15 px margin under the menu and
 the buttons ended 11 px short of the right edge: the note, the check box and the grid from the padding, Add, Up and Down on the right edge,
-the grid and the note 8 px before them."""
+the grid and the note 8 px before them.
+Fix round (ui/ui12-6-2): Add 24 px tall like Up and Down (it was 26) on the grid's top, Up and Down under it 4 px apart."""
 import importlib.util
 import os
 
@@ -12,8 +13,10 @@ _spec.loader.exec_module(e)
 def layout(h):
     R = e.right_edge(h)
     bx = R - 79
+    y = h.n("gridMain").ny
     for name in ("butAdd", "butUp", "butDown"):
-        h.set(name, bx, None)
+        h.set(name, bx, y, 79, 24)
+        y += 24 + 4
     h.set("label1", 8, None, bx - 8 - 8, None)
     h.set("checkDisplayRenamed", 8, None)
     h.set("gridMain", 8, None, bx - 8 - 8, None)

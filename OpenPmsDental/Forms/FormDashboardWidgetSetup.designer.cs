@@ -128,7 +128,7 @@ namespace OpenPmsDental{
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butAdd.Location = new System.Drawing.Point(744, 8);
 			this.butAdd.Name = "butAdd";
-			this.butAdd.Size = new System.Drawing.Size(65, 23);
+			this.butAdd.Size = new System.Drawing.Size(65, 24);
 			this.butAdd.TabIndex = 239;
 			this.butAdd.Text = "Add";
 			this.butAdd.Click += new System.EventHandler(this.ButAdd_Click);

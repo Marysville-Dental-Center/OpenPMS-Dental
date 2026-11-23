@@ -1,6 +1,8 @@
 """FormEhrLabResultEdit on the grid (UI-12 slice 6, layout script on the planner's tree). The two groups stood at 52 (main's place) while
 Delete stands at the padding: the groups from the padding to the right edge with their field column kept at the window's x of Date Time's
-box (158), the long fields to the groups' content edge."""
+box (158), the long fields to the groups' content edge.
+Fix round (ui/ui12-6-2): Delete and Save 75 x 24 (they were 28 tall) 8 px under the Test Result group, the window's height down to 8 px
+under them (a 39 px empty band; the code does not set the window's size)."""
 import importlib.util
 import os
 
@@ -23,3 +25,8 @@ def layout(h):
             if any(k.name == name for k in gn.children):
                 n = h.n(name)
                 h.set(name, None, None, cr - n.nx, None)
+    g2 = h.n("groupBox2")
+    yb = g2.ny + g2.nh + 8
+    h.set("butDelete", 8, yb, 75, 24)
+    h.set("butSave", R - 75, yb, 75, 24)
+    h.set(".", None, None, None, yb + 24 + 8)

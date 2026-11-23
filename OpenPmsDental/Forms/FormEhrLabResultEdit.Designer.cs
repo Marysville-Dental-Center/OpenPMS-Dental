@@ -48,9 +48,9 @@
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(307, 302);
+			this.butSave.Location = new System.Drawing.Point(307, 271);
 			this.butSave.Name = "butSave";
-			this.butSave.Size = new System.Drawing.Size(75, 28);
+			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 5;
 			this.butSave.Text = "&Save";
 			this.butSave.UseVisualStyleBackColor = true;
@@ -59,9 +59,9 @@
 			// butDelete
 			// 
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butDelete.Location = new System.Drawing.Point(8, 302);
+			this.butDelete.Location = new System.Drawing.Point(8, 271);
 			this.butDelete.Name = "butDelete";
-			this.butDelete.Size = new System.Drawing.Size(75, 28);
+			this.butDelete.Size = new System.Drawing.Size(75, 24);
 			this.butDelete.TabIndex = 7;
 			this.butDelete.Text = "Delete";
 			this.butDelete.UseVisualStyleBackColor = true;
@@ -213,7 +213,7 @@
 			// 
 			// FormEhrLabResultEdit
 			// 
-			this.ClientSize = new System.Drawing.Size(390, 338);
+			this.ClientSize = new System.Drawing.Size(390, 303);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.Controls.Add(this.groupBox2);
 			this.Controls.Add(this.groupBox1);
