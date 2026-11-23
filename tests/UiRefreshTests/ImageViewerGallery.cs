@@ -47,6 +47,12 @@ namespace UiRefreshTests {
 				SavePicker(folder,"teeth-single-image",listFailed,"8",null,ToothNumberingNomenclature.Universal);
 				SavePicker(folder,"teeth-mixed-dentition",listFailed,"3,14,19,30,A,B,J,K,S,T",null,ToothNumberingNomenclature.Universal);
 				SavePicker(folder,"teeth-fdi",listFailed,"13,14,15","12,13,14",ToothNumberingNomenclature.FDI);
+				//The Enhance window (IMG-P3b): no image selected, an image with filters, and an image the user may not change.
+				SaveEnhance(folder,"enhance-no-image",listFailed,null,null,isEditable:false,note:null);
+				SaveEnhance(folder,"enhance-filtered",listFailed,new Document { DateCreated=new DateTime(2026,11,22),Description="BW L",FileName="bw.jpg",
+					WindowingMin=25,WindowingMax=230 },new ImageAdjustSettings { Gamma=1.1,Sharpen=30,IsAutoContrast=true },isEditable:true,note:"");
+				SaveEnhance(folder,"enhance-no-permission",listFailed,new Document { DateCreated=new DateTime(2026,11,22),Description="PA",FileName="pa.jpg" },
+					new ImageAdjustSettings(),isEditable:false,note:"Changing this image needs the Image Edit permission (and Signed Image Edit for a signed image).");
 			});
 			DesignSheetWindows.IsPrintingWithoutChildren=false;
 			File.WriteAllLines(Path.Combine(folder,"gallery-failed.txt"),listFailed);
@@ -90,6 +96,38 @@ namespace UiRefreshTests {
 			}
 			catch(Exception exception) {
 				listFailed.Add(name+": "+exception.Message);
+			}
+		}
+
+		private static void SaveEnhance(string folder,string name,List<string> listFailed,Document document,ImageAdjustSettings settings,bool isEditable,
+			string note)
+		{
+			try {
+				using FormImageEnhance formImageEnhance=new FormImageEnhance();
+				if(document!=null) {
+					SetField(formImageEnhance,"_document",document);
+					SetField(formImageEnhance,"_documentOld",document.Copy());
+					SetField(formImageEnhance,"_settings",settings);
+					SetField(formImageEnhance,"_settingsOld",settings.Copy());
+					SetField(formImageEnhance,"_isEditable",isEditable);
+					((Label)GetField(formImageEnhance,"labelTarget")).Text=document.DateCreated.ToShortDateString()+": "+document.Description+", teeth 12-14";
+					((Label)GetField(formImageEnhance,"labelNote")).Text=note;
+					int[] arrayHistogram=new int[256];
+					for(int v=0;v<256;v++) {
+						arrayHistogram[v]=(int)(1000*Math.Exp(-Math.Pow((v-90)/30.0,2))+400*Math.Exp(-Math.Pow((v-190)/20.0,2)));
+					}
+					SetField(formImageEnhance,"_arrayHistogram",arrayHistogram);
+					formImageEnhance.GetType().GetMethod("FillControls",BindingFlags.Instance|BindingFlags.NonPublic).Invoke(formImageEnhance,null);
+					formImageEnhance.GetType().GetMethod("EnableControls",BindingFlags.Instance|BindingFlags.NonPublic).Invoke(formImageEnhance,null);
+				}
+				object layoutManager=typeof(FormODBase).GetField("LayoutManager",BindingFlags.Instance|BindingFlags.NonPublic|BindingFlags.Public).GetValue(formImageEnhance);
+				layoutManager.GetType().GetMethod("SetPanelClient").Invoke(layoutManager,new object[] { formImageEnhance });
+				Control root=formImageEnhance.PanelClient ?? (Control)formImageEnhance;
+				using Bitmap bitmapPicture=DesignSheetWindows.Capture(root,Rectangle.Empty);
+				bitmapPicture.Save(Path.Combine(folder,name+".png"),ImageFormat.Png);
+			}
+			catch(Exception exception) {
+				listFailed.Add(name+": "+(exception.InnerException??exception).Message);
 			}
 		}
 

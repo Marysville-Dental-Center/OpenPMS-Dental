@@ -31,7 +31,7 @@ namespace ImagingTests {
 			string display=Display();
 			string bodyLoad=MethodBody(display,"private void LoadBitmap(int idx,EnumLoadBitmapType loadBitmapType){");
 			Assert.AreEqual(3,Regex.Matches(bodyLoad,Regex.Escape("ApplyAdjust(idx);")).Count,"A single image (DICOM and other) and a mount item.");
-			string bodyInvalidate=MethodBody(display,"public void InvalidateSettingsColor() {");
+			string bodyInvalidate=MethodBody(display,"public void InvalidateSettingsColor(bool doApplyAdjust=true) {");
 			StringAssert.Contains(bodyInvalidate,"ApplyAdjust(0);","The brightness/contrast slider, a single image.");
 			StringAssert.Contains(bodyInvalidate,"ApplyAdjust(_idxSelectedInMount);","The slider, a mount item.");
 			StringAssert.Contains(display,"ImageAdjust.ApplyToCopy(_bitmapArrayShowing[0],GetAdjustSettings(listDocuments[i]));","Print all in category (any pixel format).");

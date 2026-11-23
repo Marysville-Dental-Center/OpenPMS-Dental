@@ -201,6 +201,10 @@ Here is the desired behavior:
 		public event EventHandler<NodeTypeAndKey> EventSelectTreeNode;
 		///<summary>A double-click on an image asks for the image viewer window (owner, 2026-11-22). The int is the image's index in this display (0 for a single image). ControlImages opens or reuses the window.</summary>
 		public event EventHandler<int> EventViewerRequested;
+		///<summary>The A key, here or in the image viewer window, asks for the Enhance window on the image at this index (IMG-P3b).</summary>
+		public event EventHandler<int> EventEnhanceRequested;
+		///<summary>An image's brightness/contrast or filters were saved (IMG-P3b): the image viewer window shows them.</summary>
+		public event EventHandler EventAdjustSaved;
 		///<summary>This event bubbles up to the parent, which then sets the property here.</summary>
 		public event EventHandler<EnumCropPanAdj> EventSetCropPanEditAdj;
 		///<summary>This event bubbles up to the parent, which then calls SetDrawMode() here.</summary>
@@ -539,7 +543,9 @@ Here is the desired behavior:
 		}
 
 		///<summary>Invalidates the color image setting and recalculates.  This is not on a separate thread.  Instead, it's just designed to run no more than about every 300ms, which completely avoids any lockup.</summary>
-		public void InvalidateSettingsColor() {
+		///<param name="doApplyAdjust">False shows brightness/contrast only, without the saved filters: the fast preview while a slider moves
+		///(IMG-P3b). The next call with true shows them.</param>
+		public void InvalidateSettingsColor(bool doApplyAdjust=true) {
 			if(IsDocumentShowing()){
 				//if((imageSettingFlags & ImageSettingFlags.COLORFUNCTION) !=0 || (imageSettingFlags & ImageSettingFlags.CROP) !=0){
 				//We don't do any flip, rotate, or crop here
@@ -550,7 +556,9 @@ Here is the desired behavior:
 				if(_bitmapDicomRaw!=null){
 					SetBitmapShowing(0,DicomHelper.ApplyWindowing(_bitmapDicomRaw,GetDocumentShowing(0).WindowingMin,GetDocumentShowing(0).WindowingMax));
 				}
-				ApplyAdjust(0);
+				if(doApplyAdjust){
+					ApplyAdjust(0);
+				}
 				panelMain.Invalidate();
 			}
 			if(IsMountItemSelected()){
@@ -563,7 +571,9 @@ Here is the desired behavior:
 					_bitmapArrayShowing[_idxSelectedInMount]=new Bitmap(bitmapTemp);
 					bitmapTemp.Dispose();//this is not efficient
 				}
-				ApplyAdjust(_idxSelectedInMount);
+				if(doApplyAdjust){
+					ApplyAdjust(_idxSelectedInMount);
+				}
 				panelMain.Invalidate();
 				//eventually: only invalidate the rectangle of single mount item
 			}
@@ -1437,6 +1447,128 @@ Here is the desired behavior:
 				return;
 			}
 			ImageAdjust.Apply(_bitmapArrayShowing[idx],GetAdjustSettings(_documentArrayShowing[idx]));
+		}
+		///<summary>The selected image: a selected mount item, or 0 for a single image; -1 for none (the Teeth button and the Enhance window).</summary>
+		///<summary>Asks for the Enhance window on the image at idx (the image viewer window's A key).</summary>
+		public void RequestEnhance(int idx){
+			EventEnhanceRequested?.Invoke(this,idx);
+		}
+
+		public int GetSelectedImageIdx(){
+			return GetTeethIdx();
+		}
+
+		///<summary>True when the user may change the image at idx: Image Edit, and Signed Image Edit for a signed image, as the module's other edits.</summary>
+		public bool CanEditImage(int idx,bool suppressMessage){
+			Document document=GetDocumentShowing(idx);
+			if(document==null){
+				return false;
+			}
+			return ImageSignaturePermissions.IsAuthorizedToEdit(document,suppressMessage);
+		}
+
+		///<summary>Shows the selected image at idx with this window and these filters, without saving (the Enhance window's preview). doFilter false
+		///shows brightness/contrast only.</summary>
+		public void PreviewAdjust(int idx,int windowingMin,int windowingMax,ImageAdjustSettings imageAdjustSettings,bool doFilter){
+			Document document=GetDocumentShowing(idx);
+			if(document==null || idx!=GetSelectedImageIdx()){
+				return;
+			}
+			document.WindowingMin=windowingMin;
+			document.WindowingMax=windowingMax;
+			_dictAdjustSettings[document.DocNum]=imageAdjustSettings?.Copy();
+			InvalidateSettingsColor(doFilter);
+			SetWindowingSlider();
+		}
+
+		///<summary>Saves the image at idx as previewed: its window (documentOld is the row before) and its filters (settingsOld before), keeping a
+		///video's trim. Logged like the module's other edits; the thumbnail is made again.</summary>
+		public void SaveAdjust(int idx,Document documentOld,ImageAdjustSettings settingsOld){
+			Document document=GetDocumentShowing(idx);
+			if(document==null){
+				return;
+			}
+			ImageAdjustSettings imageAdjustSettings=GetAdjustSettings(document)??new ImageAdjustSettings();
+			if(document.WindowingMin!=documentOld.WindowingMin || document.WindowingMax!=documentOld.WindowingMax){
+				Documents.Update(document,documentOld);
+			}
+			DocumentAdjust documentAdjust=DocumentAdjust.FromSettings(document.DocNum,imageAdjustSettings);
+			DocumentAdjust documentAdjustOld=DocumentAdjusts.GetForDoc(document.DocNum);
+			if(documentAdjustOld!=null){
+				documentAdjust.TrimStartMs=documentAdjustOld.TrimStartMs;
+				documentAdjust.TrimEndMs=documentAdjustOld.TrimEndMs;
+			}
+			DocumentAdjusts.Upsert(documentAdjust);
+			string logText="Document Edited: "+document.FileName+" enhanced: window "+documentOld.WindowingMin+"-"+documentOld.WindowingMax+" to "
+				+document.WindowingMin+"-"+document.WindowingMax+", filters '"+ImageEnhance.Describe(settingsOld)+"' to '"+ImageEnhance.Describe(imageAdjustSettings)+"'";
+			SecurityLogs.MakeLogEntry(EnumPermType.ImageEdit,PatientCur.PatNum,logText);
+			ImageSignaturePermissions.LogSignedImageEdited(document,"enhanced");
+			ImageStore.DeleteThumbnailImage(document,PatFolder);
+			ThumbnailRefresh();
+			SetWindowingSlider();
+			panelMain.Invalidate();
+			EventAdjustSaved?.Invoke(this,EventArgs.Empty);
+		}
+
+		///<summary>The histogram of the picture showing at idx (after brightness/contrast and filters), 256 bins of the grey value, from every
+		///other pixel in each direction; null when there is none.</summary>
+		public int[] GetHistogram(int idx){
+			if(_bitmapArrayShowing==null || idx<0 || idx>_bitmapArrayShowing.Length-1 || _bitmapArrayShowing[idx]==null){
+				return null;
+			}
+			Bitmap bitmap=_bitmapArrayShowing[idx];
+			int[] arrayHistogram=new int[256];
+			using(Bitmap bitmapSmall=new Bitmap(bitmap,Math.Max(1,bitmap.Width/2),Math.Max(1,bitmap.Height/2))){
+				System.Drawing.Imaging.BitmapData bitmapData=bitmapSmall.LockBits(new Rectangle(0,0,bitmapSmall.Width,bitmapSmall.Height),
+					System.Drawing.Imaging.ImageLockMode.ReadOnly,System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+				try{
+					int stride=Math.Abs(bitmapData.Stride);
+					byte[] arrayBytes=new byte[stride*bitmapSmall.Height];
+					System.Runtime.InteropServices.Marshal.Copy(bitmapData.Scan0,arrayBytes,0,arrayBytes.Length);
+					for(int y=0;y<bitmapSmall.Height;y++){
+						for(int x=0;x<bitmapSmall.Width;x++){
+							int i=y*stride+x*4;
+							arrayHistogram[(arrayBytes[i]+arrayBytes[i+1]+arrayBytes[i+2])/3]++;
+						}
+					}
+				}
+				finally{
+					bitmapSmall.UnlockBits(bitmapData);
+				}
+			}
+			return arrayHistogram;
+		}
+
+		///<summary>D4: an "Adjusted" tag on each image whose saved filters change what it shows (brightness/contrast alone do not count). On the
+		///screen only: not in prints or copies. Drawn in screen pixels from the current transform (the mount's top left after DrawMount).</summary>
+		private void DrawAdjustedTags(Graphics g){
+			List<PointF> listPointFs=new List<PointF>();//bottom right corner of each tagged image, in the panel
+			if(IsMountShowing() && _listMountItems!=null && _documentArrayShowing!=null){
+				using System.Drawing.Drawing2D.Matrix matrix=g.Transform;
+				for(int i=0;i<_listMountItems.Count && i<_documentArrayShowing.Length;i++){
+					if(_listMountItems[i].ItemOrder<1 || _documentArrayShowing[i]==null || IsAdjustNeutral(_documentArrayShowing[i])){
+						continue;
+					}
+					PointF[] arrayPointFs={ new PointF(_listMountItems[i].Xpos+_listMountItems[i].Width,_listMountItems[i].Ypos+_listMountItems[i].Height) };
+					matrix.TransformPoints(arrayPointFs);
+					listPointFs.Add(arrayPointFs[0]);
+				}
+			}
+			else if(IsDocumentShowing() && !IsAdjustNeutral(GetDocumentShowing(0))){
+				listPointFs.Add(new PointF(panelMain.Width,panelMain.Height));
+			}
+			if(listPointFs.Count==0){
+				return;
+			}
+			g.ResetTransform();
+			string text=Lan.g(this,"Adjusted");
+			Size sizeText=TextRenderer.MeasureText(text,UiTheme.FontBody);
+			using SolidBrush solidBrushBack=new SolidBrush(UiTheme.Warning);
+			foreach(PointF pointF in listPointFs){
+				Rectangle rectangle=new Rectangle((int)pointF.X-sizeText.Width-10,(int)pointF.Y-sizeText.Height-6,sizeText.Width+6,sizeText.Height+2);
+				g.FillRectangle(solidBrushBack,rectangle);
+				TextRenderer.DrawText(g,text,UiTheme.FontBody,rectangle,UiTheme.TextOnAccent,TextFormatFlags.HorizontalCenter|TextFormatFlags.VerticalCenter);
+			}
 		}
 		#endregion Methods - Public - Adjust filters
 
@@ -2879,6 +3011,10 @@ Here is the desired behavior:
 				ToolBarTeeth_Click();
 				return true;
 			}
+			if(keyData==Keys.A && GetTeethIdx()>-1){
+				EventEnhanceRequested?.Invoke(this,GetTeethIdx());
+				return true;
+			}
 			return base.ProcessCmdKey(ref msg,keyData);
 		}
 
@@ -3914,6 +4050,7 @@ Here is the desired behavior:
 				if(IsMountShowing()){
 					DrawMount(g);
 				}
+				DrawAdjustedTags(g);
 			}
 			catch{
 				//one of the objects above might get damaged in the middle of a paint.

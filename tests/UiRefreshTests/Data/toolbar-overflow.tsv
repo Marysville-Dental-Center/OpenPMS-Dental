@@ -8,5 +8,6 @@ chart	today	1024	Commlog | CCD | EHR | hl7Def.Description | hl7DefMedLab.Descrip
 chart	today	1366	Layout
 chart	segoe9	1024	Commlog | CCD | EHR | hl7Def.Description | hl7DefMedLab.Description | Layout
 chart	segoe9	1366	hl7DefMedLab.Description | Layout
+imaging	today	1024	Paste | Forms
 imaging-paint	today	1024	Unmount
 imaging-paint	segoe9	1024	Unmount

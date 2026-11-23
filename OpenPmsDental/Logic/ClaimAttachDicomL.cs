@@ -12,16 +12,25 @@ using OpenPmsDentalBusiness;
 
 namespace OpenPmsDental {
 	public static class ClaimAttachDicomL {
+		///<summary>The document's saved adjust filters (IMG-P3), or null for none.</summary>
+		private static ImageAdjustSettings GetAdjustSettings(Document document) {
+			if(document==null || document.DocNum==0) {
+				return null;
+			}
+			return DocumentAdjusts.GetForDoc(document.DocNum)?.ToSettings();
+		}
+
 		///<summary>The 8-bit copy of a DICOM document for a claim, with its stored window, crop, rotation and flip, and its drawings when
 		///doIncludeDrawings is true (as the DentalXChange image picker sends other images). Returns null when the file cannot be read, after
 		///showing why unless doShowMessage is false (a preview). The caller disposes the bitmap.</summary>
 		public static Bitmap GetBitmapForDocument(IWin32Window owner,Document document,string patFolder,bool doIncludeDrawings,bool doShowMessage=true) {
 			try {
 				BitmapDicom bitmapDicom=ClaimAttachDicom.ReadDocument(document,patFolder);
+				ImageAdjustSettings imageAdjustSettings=GetAdjustSettings(document);//IMG-P3: as the module shows the image
 				if(doIncludeDrawings) {
-					return ClaimAttachDicom.Render(document,bitmapDicom,ImageDraws.RefreshForDoc(document.DocNum));
+					return ClaimAttachDicom.Render(document,bitmapDicom,ImageDraws.RefreshForDoc(document.DocNum),imageAdjustSettings);
 				}
-				return ClaimAttachDicom.Render(document,bitmapDicom);
+				return ClaimAttachDicom.Render(document,bitmapDicom,imageAdjustSettings);
 			}
 			catch(ODException ex) {
 				if(doShowMessage) {
@@ -44,7 +53,7 @@ namespace OpenPmsDental {
 				BitmapDicom bitmapDicom=ClaimAttachDicom.ReadFile(path);
 				Document document=FindDocumentForFile(patient,path);
 				if(document!=null) {
-					return ClaimAttachDicom.Render(document,bitmapDicom);
+					return ClaimAttachDicom.Render(document,bitmapDicom,GetAdjustSettings(document));
 				}
 				return ClaimAttachDicom.RenderFile(bitmapDicom);
 			}
