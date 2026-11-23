@@ -11,6 +11,7 @@ using System.Reflection;
 using System.Windows.Forms;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenPmsDental;
+using OpenPmsDentalBusiness;
 using UiRefreshTests.Scan;
 
 namespace UiRefreshTests {
@@ -28,19 +29,26 @@ namespace UiRefreshTests {
 			List<string> listFailed=new List<string>();
 			StaRunner.Run(() => {
 				NoDatabaseGuard.Install();
+				DesignSheetWindows.IsPrintingWithoutChildren=true;//each control drawn once, as FitGallery draws
 				Save(folder,"viewer-mount-item",listFailed,MakeXray(1300,1800),Color.Black,new List<int> { 0,1,2,3 },2,1f,PointF.Empty,
 					"Test, Sensor - 11/22/2026: BWX",
-					"Image 3 of 4   |   Taken 11/22/2026, Teeth: 12-14   |   Left/Right: previous/next image   |   Wheel: zoom, Home: fit   |   Double-click or Esc: close");
+					"Image 3 of 4   |   Taken 11/22/2026, Teeth: 12-14   |   Left/Right: previous/next image   |   Wheel: zoom, Home: fit   |   T: teeth   |   Double-click or Esc: close");
 				Save(folder,"viewer-mount-item-zoomed",listFailed,MakeXray(1300,1800),Color.Black,new List<int> { 0,1,2,3 },2,2.5f,new PointF(60,-40),
 					"Test, Sensor - 11/22/2026: BWX",
-					"Image 3 of 4   |   Taken 11/22/2026, Teeth: 12-14   |   Left/Right: previous/next image   |   Wheel: zoom, Home: fit   |   Double-click or Esc: close");
+					"Image 3 of 4   |   Taken 11/22/2026, Teeth: 12-14   |   Left/Right: previous/next image   |   Wheel: zoom, Home: fit   |   T: teeth   |   Double-click or Esc: close");
 				Save(folder,"viewer-single-image",listFailed,MakeXray(1800,1300),Color.White,new List<int> { 0 },0,1f,PointF.Empty,
 					"Test, Sensor - 11/22/2026: PA",
-					"Tooth: 8   |   Wheel: zoom, Home: fit   |   Double-click or Esc: close");
+					"Tooth: 8   |   Wheel: zoom, Home: fit   |   T: teeth   |   Double-click or Esc: close");
 				Save(folder,"viewer-not-loaded",listFailed,null,Color.Black,new List<int> { 0 },0,1f,PointF.Empty,
 					"Test, Sensor - 11/22/2026: BWX",
-					"Wheel: zoom, Home: fit   |   Double-click or Esc: close");
+					"Wheel: zoom, Home: fit   |   T: teeth   |   Double-click or Esc: close");
+				//The tooth picker (IMG-P2): a mount item with its slot's teeth, a single image, mixed dentition, and FDI numbering.
+				SavePicker(folder,"teeth-mount-item",listFailed,"13,14,15","12,13,14",ToothNumberingNomenclature.Universal);
+				SavePicker(folder,"teeth-single-image",listFailed,"8",null,ToothNumberingNomenclature.Universal);
+				SavePicker(folder,"teeth-mixed-dentition",listFailed,"3,14,19,30,A,B,J,K,S,T",null,ToothNumberingNomenclature.Universal);
+				SavePicker(folder,"teeth-fdi",listFailed,"13,14,15","12,13,14",ToothNumberingNomenclature.FDI);
 			});
+			DesignSheetWindows.IsPrintingWithoutChildren=false;
 			File.WriteAllLines(Path.Combine(folder,"gallery-failed.txt"),listFailed);
 			Assert.AreEqual(0,listFailed.Count,string.Join("; ",listFailed));
 		}
@@ -60,6 +68,24 @@ namespace UiRefreshTests {
 				((Label)GetField(formImageViewer,"labelInfo")).Text=info;
 				((Control)GetField(formImageViewer,"canvas")).BackColor=colorBack;
 				using Bitmap bitmapPicture=DesignSheetWindows.Capture(formImageViewer,Rectangle.Empty);
+				bitmapPicture.Save(Path.Combine(folder,name+".png"),ImageFormat.Png);
+			}
+			catch(Exception exception) {
+				listFailed.Add(name+": "+exception.Message);
+			}
+		}
+
+		private static void SavePicker(string folder,string name,List<string> listFailed,string toothNumbers,string toothNumbersSlot,
+			ToothNumberingNomenclature toothNumberingNomenclature)
+		{
+			try {
+				using FormToothPicker formToothPicker=new FormToothPicker(toothNumbers,toothNumbersSlot,toothNumberingNomenclature);
+				//The client area, as FitGallery draws a FormODBase. Load (which never runs here) moves the controls into PanelClient under the
+				//title bar; the same call does it here.
+				object layoutManager=typeof(FormODBase).GetField("LayoutManager",BindingFlags.Instance|BindingFlags.NonPublic|BindingFlags.Public).GetValue(formToothPicker);
+				layoutManager.GetType().GetMethod("SetPanelClient").Invoke(layoutManager,new object[] { formToothPicker });
+				Control root=formToothPicker.PanelClient ?? (Control)formToothPicker;
+				using Bitmap bitmapPicture=DesignSheetWindows.Capture(root,Rectangle.Empty);
 				bitmapPicture.Save(Path.Combine(folder,name+".png"),ImageFormat.Png);
 			}
 			catch(Exception exception) {

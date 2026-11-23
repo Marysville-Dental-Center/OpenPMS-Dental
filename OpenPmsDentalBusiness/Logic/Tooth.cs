@@ -520,7 +520,9 @@ namespace OpenPmsDentalBusiness{
 						throw new ApplicationException(rangeEnd+" "+Lans.g("Tooth","is not a valid tooth number."));
 					}
 					intBegin=Tooth.ToOrdinal(Parse(rangeBegin));
-					intEnd=Tooth.ToInt(Parse(rangeEnd));
+					//IMG-P2: the end by ordinal too, as the beginning. ToInt maps a primary tooth to its permanent successor, so DisplayRange's own
+					//"A-C" was read as A (33) to 6 and refused ("Range specified is impossible").
+					intEnd=Tooth.ToOrdinal(Parse(rangeEnd));
 					if(intEnd<intBegin){
 						throw new ApplicationException("Range specified is impossible.");
 					}

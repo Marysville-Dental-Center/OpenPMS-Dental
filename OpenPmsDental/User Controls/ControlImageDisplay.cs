@@ -140,6 +140,8 @@ Here is the desired behavior:
 		private string _stringMeasure;
 		///<summary>Displays PDFs.</summary>
 		private ODWebView2 _odWebView2=null;
+		///<summary>The right-click menu's Teeth item (imaging design P2), made in code after Info.</summary>
+		private ToolStripMenuItem _menuItemTeeth;
 		///<summary>The browser that prints PDFs (PrintPDF), in no window. Disposed with this control. Null until the first print.</summary>
 		private ODWebView2 _odWebView2Print=null;
 		///<summary>The location of the file that <see cref="_odWebView2" /> has navigated to.</summary>
@@ -157,6 +159,11 @@ Here is the desired behavior:
 			panelMain.Cursor=_cursorPan;
 			panelMain.MouseWheel += panelMain_MouseWheel;//here because not browsable in designer
 			panelMain.ContextMenuStrip=menuPanelMain;
+			//Teeth (imaging design P2): made in code, after Info, so the designer file is unchanged.
+			_menuItemTeeth=new ToolStripMenuItem("Teeth...");
+			_menuItemTeeth.Name="menuItemTeeth";
+			_menuItemTeeth.Click+=menuPanelMain_Click;
+			menuPanelMain.Items.Insert(menuPanelMain.Items.IndexOf(menuItemInfo)+1,_menuItemTeeth);
 			_odWebView2=new ODWebView2();//Include a WebView2 object for loading .pdf files.
 			_odWebView2.Visible=false;
 			_odWebView2.Dock=DockStyle.Fill;
@@ -1380,6 +1387,71 @@ Here is the desired behavior:
 		}
 		#endregion Methods - Public - Image viewer window
 
+		#region Methods - Public - Teeth
+		///<summary>Opens the tooth picker for the image at idx (a mount item, or 0 for a single image) and saves its teeth, and with the picker's
+		///check box the slot's teeth in this mount too (imaging design P2). Needs ImageEdit, and SignedImageEdit for a signed image; logged like
+		///the other edits here. Called by the Teeth button, the right-click menu, the T key and the image viewer window.</summary>
+		public void EditTeeth(int idx){
+			Document document=GetDocumentShowing(idx);
+			if(document==null){
+				return;
+			}
+			if(!ImageSignaturePermissions.IsAuthorizedToEdit(document)) {
+				return;
+			}
+			MountItem mountItem=null;
+			if(IsMountShowing() && _listMountItems!=null && idx<_listMountItems.Count){
+				mountItem=_listMountItems[idx];
+			}
+			ToothNumberingNomenclature toothNumberingNomenclature=(ToothNumberingNomenclature)PrefC.GetInt(PrefName.UseInternationalToothNumbers);
+			using FormToothPicker formToothPicker=new FormToothPicker(document.ToothNumbers,mountItem?.ToothNumbers,toothNumberingNomenclature);
+			formToothPicker.PointAnchor=Cursor.Position;//beside the pointer, kept on the screen (placed in its Load, after the dpi sizing)
+			if(formToothPicker.ShowDialog()!=DialogResult.OK){
+				return;
+			}
+			string toothNumbersNew=formToothPicker.ToothNumbers;
+			if(toothNumbersNew!=document.ToothNumbers){
+				Document documentOld=document.Copy();
+				document.ToothNumbers=toothNumbersNew;
+				Documents.Update(document,documentOld);
+				string logText="Document Edited: "+document.FileName+" teeth changed from '"+Tooth.DisplayRange(documentOld.ToothNumbers)+"' to '"
+					+Tooth.DisplayRange(toothNumbersNew)+"'";
+				SecurityLogs.MakeLogEntry(EnumPermType.ImageEdit,PatientCur.PatNum,logText);
+				ImageSignaturePermissions.LogSignedImageEdited(document,"teeth changed");
+			}
+			if(formToothPicker.IsSlotChanged && mountItem!=null && mountItem.ToothNumbers!=toothNumbersNew){
+				string logTextSlot="Mount Edited: "+_mountShowing.Description+", slot "+mountItem.ItemOrder+" teeth changed from '"
+					+Tooth.DisplayRange(mountItem.ToothNumbers)+"' to '"+Tooth.DisplayRange(toothNumbersNew)+"'";
+				mountItem.ToothNumbers=toothNumbersNew;
+				MountItems.Update(mountItem);
+				SecurityLogs.MakeLogEntry(EnumPermType.ImageEdit,PatientCur.PatNum,logTextSlot);
+			}
+			if(!IsMountShowing()){
+				EventFillTree?.Invoke(this,true);//a single image's teeth are in the title
+			}
+			panelMain.Invalidate();
+		}
+
+		///<summary>The Teeth button and the right-click menu's Teeth: the selected mount item, or the single image showing.</summary>
+		public void ToolBarTeeth_Click(){
+			int idx=GetTeethIdx();
+			if(idx>-1){
+				EditTeeth(idx);
+			}
+		}
+
+		///<summary>The image whose teeth the Teeth button changes: the selected mount item (0 for a single image), or -1 for none.</summary>
+		private int GetTeethIdx(){
+			if(IsMountItemSelected()){
+				return _idxSelectedInMount;
+			}
+			if(IsDocumentShowing()){
+				return 0;
+			}
+			return -1;
+		}
+		#endregion Methods - Public - Teeth
+
 		public void SetMountShowing(Mount mount){
 			_mountShowing=mount;
 		}
@@ -2601,6 +2673,9 @@ Here is the desired behavior:
 			else if(menuItem==menuItemInfo) {
 				ToolBarInfo_Click(this,new EventArgs());
 			}
+			else if(menuItem==_menuItemTeeth) {
+				ToolBarTeeth_Click();
+			}
 			else if(menuItem==menuItemTasks) {
 				ToolBarTasks_Click(this,new EventArgs());
 			}
@@ -2745,6 +2820,10 @@ Here is the desired behavior:
 		protected override bool ProcessCmdKey(ref Message msg,Keys keyData) {
 			if(keyData==(Keys.Alt|Keys.Enter)){
 				ToolBarInfo_Click(this,EventArgs.Empty);
+				return true;
+			}
+			if(keyData==Keys.T && GetTeethIdx()>-1){
+				ToolBarTeeth_Click();
 				return true;
 			}
 			return base.ProcessCmdKey(ref msg,keyData);
@@ -3124,6 +3203,7 @@ Here is the desired behavior:
 				menuItemRotate180.Visible=false;//Rotate 180
 				menuItemDelete.Visible=false;//Delete
 				//Info
+				_menuItemTeeth.Visible=false;//no image selected
 			}
 			else {
 				//Disable these context menu items when opening this from the chart module
@@ -3577,9 +3657,8 @@ Here is the desired behavior:
 					_documentArrayShowing[_idxSelectedInMount].CropY=0;
 					_documentArrayShowing[_idxSelectedInMount].CropW=0;
 					_documentArrayShowing[_idxSelectedInMount].CropH=0;
-					if(_documentArrayShowing[_idxSelectedInMount].ToothNumbers==_listMountItems[_idxSelectedInMount].ToothNumbers){//only if unchanged by user
-						_documentArrayShowing[_idxSelectedInMount].ToothNumbers=_listMountItems[idxNewPos].ToothNumbers;
-					}
+					_documentArrayShowing[_idxSelectedInMount].ToothNumbers=ImageTeeth.GetTeethAfterMove(_documentArrayShowing[_idxSelectedInMount].ToothNumbers,
+						_listMountItems[_idxSelectedInMount].ToothNumbers,_listMountItems[idxNewPos].ToothNumbers);//the new slot's teeth (owner, design D6)
 					Documents.Update(_documentArrayShowing[_idxSelectedInMount],documentOld);
 					documentOld=_documentArrayShowing[idxNewPos].Copy();
 					_documentArrayShowing[idxNewPos].MountItemNum=mountItemNumOldPos;
@@ -3587,9 +3666,8 @@ Here is the desired behavior:
 					_documentArrayShowing[idxNewPos].CropY=0;
 					_documentArrayShowing[idxNewPos].CropW=0;
 					_documentArrayShowing[idxNewPos].CropH=0;
-					if(_documentArrayShowing[idxNewPos].ToothNumbers==_listMountItems[idxNewPos].ToothNumbers){//only if unchanged by user
-						_documentArrayShowing[idxNewPos].ToothNumbers=_listMountItems[_idxSelectedInMount].ToothNumbers;
-					}
+					_documentArrayShowing[idxNewPos].ToothNumbers=ImageTeeth.GetTeethAfterMove(_documentArrayShowing[idxNewPos].ToothNumbers,
+						_listMountItems[idxNewPos].ToothNumbers,_listMountItems[_idxSelectedInMount].ToothNumbers);
 					Documents.Update(_documentArrayShowing[idxNewPos],documentOld);
 					Bitmap bitmapOldPos=_bitmapArrayShowing[_idxSelectedInMount];//no dispose, just ref
 					_bitmapArrayShowing[_idxSelectedInMount]=_bitmapArrayShowing[idxNewPos];
@@ -3608,9 +3686,8 @@ Here is the desired behavior:
 				if(idxNewPos!=_idxSelectedInMount){
 					bool movedPosNoCrop=false;//moving to a new mount position, but no crop was specified, then don't add one
 					_documentArrayShowing[_idxSelectedInMount].MountItemNum=_listMountItems[idxNewPos].MountItemNum;
-					if(_documentArrayShowing[_idxSelectedInMount].ToothNumbers==_listMountItems[_idxSelectedInMount].ToothNumbers){//only if unchanged by user
-						_documentArrayShowing[_idxSelectedInMount].ToothNumbers=_listMountItems[idxNewPos].ToothNumbers;
-					}
+					_documentArrayShowing[_idxSelectedInMount].ToothNumbers=ImageTeeth.GetTeethAfterMove(_documentArrayShowing[_idxSelectedInMount].ToothNumbers,
+						_listMountItems[_idxSelectedInMount].ToothNumbers,_listMountItems[idxNewPos].ToothNumbers);
 					if(_documentArrayShowing[_idxSelectedInMount].CropW==0 || _documentArrayShowing[_idxSelectedInMount].CropH==0){
 						movedPosNoCrop=true;
 					}
