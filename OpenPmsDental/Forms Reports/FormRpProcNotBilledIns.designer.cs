@@ -210,10 +210,10 @@
 			this.comboClinics.IncludeAll = true;
 			this.comboClinics.IncludeHiddenInAll = true;
 			this.comboClinics.IncludeUnassigned = true;
-			this.comboClinics.Location = new System.Drawing.Point(550, 23);
+			this.comboClinics.Location = new System.Drawing.Point(539, 23);
 			this.comboClinics.Name = "comboClinics";
 			this.comboClinics.IsMultiSelect = true;
-			this.comboClinics.Size = new System.Drawing.Size(201, 23);
+			this.comboClinics.Size = new System.Drawing.Size(212, 23);
 			this.comboClinics.TabIndex = 77;
 			// 
 			// checkShowProcsInProcess

@@ -151,7 +151,7 @@ namespace OpenPmsDental{
 			// comboPracticeAddr
 			// 
 			this.comboPracticeAddr.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.comboPracticeAddr.Location = new System.Drawing.Point(689, 23);
+			this.comboPracticeAddr.Location = new System.Drawing.Point(695, 23);
 			this.comboPracticeAddr.Name = "comboPracticeAddr";
 			this.comboPracticeAddr.Size = new System.Drawing.Size(152, 23);
 			this.comboPracticeAddr.TabIndex = 260;
@@ -160,7 +160,7 @@ namespace OpenPmsDental{
 			// 
 			this.comboRemitAddr.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.comboRemitAddr.Enabled = false;
-			this.comboRemitAddr.Location = new System.Drawing.Point(689, 50);
+			this.comboRemitAddr.Location = new System.Drawing.Point(695, 50);
 			this.comboRemitAddr.Name = "comboRemitAddr";
 			this.comboRemitAddr.Size = new System.Drawing.Size(152, 23);
 			this.comboRemitAddr.TabIndex = 259;
@@ -169,7 +169,7 @@ namespace OpenPmsDental{
 			// 
 			this.labelPracticeAddr.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelPracticeAddr.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.labelPracticeAddr.Location = new System.Drawing.Point(583, 23);
+			this.labelPracticeAddr.Location = new System.Drawing.Point(589, 23);
 			this.labelPracticeAddr.Name = "labelPracticeAddr";
 			this.labelPracticeAddr.Size = new System.Drawing.Size(100, 23);
 			this.labelPracticeAddr.TabIndex = 258;
@@ -179,7 +179,7 @@ namespace OpenPmsDental{
 			// labelRemitAddr
 			// 
 			this.labelRemitAddr.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelRemitAddr.Location = new System.Drawing.Point(595, 50);
+			this.labelRemitAddr.Location = new System.Drawing.Point(601, 50);
 			this.labelRemitAddr.Name = "labelRemitAddr";
 			this.labelRemitAddr.Size = new System.Drawing.Size(88, 23);
 			this.labelRemitAddr.TabIndex = 257;
@@ -193,7 +193,7 @@ namespace OpenPmsDental{
 			this.comboClinic.IncludeUnassigned = true;
 			this.comboClinic.Location = new System.Drawing.Point(652, 77);
 			this.comboClinic.Name = "comboClinic";
-			this.comboClinic.Size = new System.Drawing.Size(189, 23);
+			this.comboClinic.Size = new System.Drawing.Size(195, 23);
 			this.comboClinic.TabIndex = 255;
 			this.comboClinic.SelectionChangeCommitted += new System.EventHandler(this.comboClinic_SelectionChangeCommitted);
 			// 

@@ -23,7 +23,8 @@ def layout(h):
     # Clinics and Procedure Codes on one field column; Only and Exclude on it, their note 16 px after Exclude's text.
     lw = h.lw("label1")
     M = xr + 453 + 16 + lw + 6
-    h.set("comboClinics", M - 37, y0, 37 + 164, H)
+    cl = h.clinic_w("comboClinics")
+    h.set("comboClinics", M - cl, y0, cl + 164, H)
     h.set("label1", M - 6 - lw, y0 + 27, lw, H)
     h.text_align("label1", "MiddleRight")
     h.set("textProcedureCodes", M, y0 + 27, 164, H)

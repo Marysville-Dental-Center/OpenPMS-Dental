@@ -228,9 +228,9 @@ namespace OpenPmsDental {
 			// 
 			this.comboClinic.HqDescription = "None";
 			this.comboClinic.IncludeUnassigned = true;
-			this.comboClinic.Location = new System.Drawing.Point(121, 50);
+			this.comboClinic.Location = new System.Drawing.Point(115, 50);
 			this.comboClinic.Name = "comboClinic";
-			this.comboClinic.Size = new System.Drawing.Size(213, 23);
+			this.comboClinic.Size = new System.Drawing.Size(219, 23);
 			this.comboClinic.TabIndex = 3;
 			this.comboClinic.SelectionChangeCommitted += new System.EventHandler(this.ComboClinic_SelectionChangeCommitted);
 			// 

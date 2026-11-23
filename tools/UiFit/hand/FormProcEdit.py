@@ -117,7 +117,8 @@ def layout(h):
     r.y = 8
     r.field("label14", "comboProcStatus", FR, 140, after=[("butSetComplete", None, None), ("labelSetComplete", None, h.lw("labelSetComplete"))])
     h.text_align("labelSetComplete", "MiddleLeft")
-    h.set("comboClinic", FR - 37, r.y, 37 + 180, H)
+    cl = h.clinic_w("comboClinic")
+    h.set("comboClinic", FR - cl, r.y, cl + 180, H)
     r.y += H + 4
     r.field("label9", "comboProv", FR, 180, after=[("butPickProv", None, H)])
     r.field("label13", "textReferral", FR, 180, after=[("butReferral", None, H)])

@@ -45,7 +45,7 @@ namespace OpenPmsDental{
 			// dateRangePicker
 			// 
 			this.dateRangePicker.BackColor = System.Drawing.Color.Transparent;
-			this.dateRangePicker.Location = new System.Drawing.Point(12, 8);
+			this.dateRangePicker.Location = new System.Drawing.Point(8, 8);
 			this.dateRangePicker.MinimumSize = new System.Drawing.Size(453, 22);
 			this.dateRangePicker.Name = "dateRangePicker";
 			this.dateRangePicker.Size = new System.Drawing.Size(453, 24);
@@ -54,7 +54,7 @@ namespace OpenPmsDental{
 			// checkShowAcknowledged
 			// 
 			this.checkShowAcknowledged.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkShowAcknowledged.Location = new System.Drawing.Point(915, 68);
+			this.checkShowAcknowledged.Location = new System.Drawing.Point(919, 68);
 			this.checkShowAcknowledged.Name = "checkShowAcknowledged";
 			this.checkShowAcknowledged.Size = new System.Drawing.Size(136, 20);
 			this.checkShowAcknowledged.TabIndex = 5;
@@ -66,7 +66,7 @@ namespace OpenPmsDental{
 			this.textCarrier.BackColor = System.Drawing.SystemColors.Window;
 			this.textCarrier.DetectLinksEnabled = false;
 			this.textCarrier.DetectUrls = false;
-			this.textCarrier.Location = new System.Drawing.Point(603, 9);
+			this.textCarrier.Location = new System.Drawing.Point(607, 9);
 			this.textCarrier.Multiline = false;
 			this.textCarrier.Name = "textCarrier";
 			this.textCarrier.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.InsPlan;
@@ -81,7 +81,7 @@ namespace OpenPmsDental{
 			this.textCheckTrace.BackColor = System.Drawing.SystemColors.Window;
 			this.textCheckTrace.DetectLinksEnabled = false;
 			this.textCheckTrace.DetectUrls = false;
-			this.textCheckTrace.Location = new System.Drawing.Point(603, 36);
+			this.textCheckTrace.Location = new System.Drawing.Point(607, 36);
 			this.textCheckTrace.Multiline = false;
 			this.textCheckTrace.Name = "textCheckTrace";
 			this.textCheckTrace.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.FinancialNotes;
@@ -92,7 +92,7 @@ namespace OpenPmsDental{
 			// 
 			// labelCheckTrace
 			// 
-			this.labelCheckTrace.Location = new System.Drawing.Point(469, 35);
+			this.labelCheckTrace.Location = new System.Drawing.Point(473, 35);
 			this.labelCheckTrace.Name = "labelCheckTrace";
 			this.labelCheckTrace.Size = new System.Drawing.Size(128, 23);
 			this.labelCheckTrace.TabIndex = 275;
@@ -101,7 +101,7 @@ namespace OpenPmsDental{
 			// 
 			// labelCarrier
 			// 
-			this.labelCarrier.Location = new System.Drawing.Point(549, 8);
+			this.labelCarrier.Location = new System.Drawing.Point(553, 8);
 			this.labelCarrier.Name = "labelCarrier";
 			this.labelCarrier.Size = new System.Drawing.Size(48, 23);
 			this.labelCarrier.TabIndex = 274;
@@ -111,7 +111,7 @@ namespace OpenPmsDental{
 			// butRefresh
 			// 
 			this.butRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butRefresh.Location = new System.Drawing.Point(1137, 56);
+			this.butRefresh.Location = new System.Drawing.Point(1141, 56);
 			this.butRefresh.Name = "butRefresh";
 			this.butRefresh.Size = new System.Drawing.Size(75, 24);
 			this.butRefresh.TabIndex = 8;
@@ -124,10 +124,10 @@ namespace OpenPmsDental{
 			this.gridEras.AllowSortingByColumn = true;
 			this.gridEras.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridEras.Location = new System.Drawing.Point(12, 92);
+			this.gridEras.Location = new System.Drawing.Point(8, 92);
 			this.gridEras.Name = "gridEras";
 			this.gridEras.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridEras.Size = new System.Drawing.Size(1200, 149);
+			this.gridEras.Size = new System.Drawing.Size(1208, 149);
 			this.gridEras.TabIndex = 9;
 			this.gridEras.Title = "ERAs";
 			this.gridEras.TranslationName = "TableEtrans835s";
@@ -139,9 +139,9 @@ namespace OpenPmsDental{
 			this.gridClaims.AllowSortingByColumn = true;
 			this.gridClaims.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridClaims.Location = new System.Drawing.Point(12, 245);
+			this.gridClaims.Location = new System.Drawing.Point(8, 245);
 			this.gridClaims.Name = "gridClaims";
-			this.gridClaims.Size = new System.Drawing.Size(1200, 288);
+			this.gridClaims.Size = new System.Drawing.Size(1208, 288);
 			this.gridClaims.TabIndex = 10;
 			this.gridClaims.Title = "Claims";
 			this.gridClaims.TranslationName = "TableEtrans835s";
@@ -150,7 +150,7 @@ namespace OpenPmsDental{
 			// 
 			// butAcknowledge
 			// 
-			this.butAcknowledge.Location = new System.Drawing.Point(12, 36);
+			this.butAcknowledge.Location = new System.Drawing.Point(8, 36);
 			this.butAcknowledge.Name = "butAcknowledge";
 			this.butAcknowledge.Size = new System.Drawing.Size(144, 24);
 			this.butAcknowledge.TabIndex = 6;
@@ -162,15 +162,15 @@ namespace OpenPmsDental{
 			// 
 			this.comboClinics.IncludeAll = true;
 			this.comboClinics.IncludeUnassigned = true;
-			this.comboClinics.Location = new System.Drawing.Point(566, 62);
+			this.comboClinics.Location = new System.Drawing.Point(559, 62);
 			this.comboClinics.Name = "comboClinics";
 			this.comboClinics.IsMultiSelect = true;
-			this.comboClinics.Size = new System.Drawing.Size(197, 23);
+			this.comboClinics.Size = new System.Drawing.Size(208, 23);
 			this.comboClinics.TabIndex = 3;
 			// 
 			// listAutoProcessStatuses
 			// 
-			this.listAutoProcessStatuses.Location = new System.Drawing.Point(915, 8);
+			this.listAutoProcessStatuses.Location = new System.Drawing.Point(919, 8);
 			this.listAutoProcessStatuses.Name = "listAutoProcessStatuses";
 			this.listAutoProcessStatuses.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
 			this.listAutoProcessStatuses.Size = new System.Drawing.Size(153, 56);
@@ -178,7 +178,7 @@ namespace OpenPmsDental{
 			// 
 			// labelAutoProcessStatus
 			// 
-			this.labelAutoProcessStatus.Location = new System.Drawing.Point(781, 8);
+			this.labelAutoProcessStatus.Location = new System.Drawing.Point(785, 8);
 			this.labelAutoProcessStatus.Name = "labelAutoProcessStatus";
 			this.labelAutoProcessStatus.Size = new System.Drawing.Size(128, 23);
 			this.labelAutoProcessStatus.TabIndex = 283;
@@ -187,7 +187,7 @@ namespace OpenPmsDental{
 			// 
 			// butSelectEob
 			// 
-			this.butSelectEob.Location = new System.Drawing.Point(162, 36);
+			this.butSelectEob.Location = new System.Drawing.Point(158, 36);
 			this.butSelectEob.Name = "butSelectEob";
 			this.butSelectEob.Size = new System.Drawing.Size(90, 24);
 			this.butSelectEob.TabIndex = 7;
@@ -202,9 +202,9 @@ namespace OpenPmsDental{
 			this.gridClaimProcedureAdjustments.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridClaimProcedureAdjustments.Location = new System.Drawing.Point(12, 537);
+			this.gridClaimProcedureAdjustments.Location = new System.Drawing.Point(8, 537);
 			this.gridClaimProcedureAdjustments.Name = "gridClaimProcedureAdjustments";
-			this.gridClaimProcedureAdjustments.Size = new System.Drawing.Size(1200, 154);
+			this.gridClaimProcedureAdjustments.Size = new System.Drawing.Size(1208, 154);
 			this.gridClaimProcedureAdjustments.TabIndex = 11;
 			this.gridClaimProcedureAdjustments.Title = "Claim Procedure Adjustments";
 			this.gridClaimProcedureAdjustments.TranslationName = "TableEtrans835s";
@@ -213,7 +213,7 @@ namespace OpenPmsDental{
 			//
 			this.checkShowPreAuths.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.checkShowPreAuths.Checked = true;
-			this.checkShowPreAuths.Location = new System.Drawing.Point(1075, 8);
+			this.checkShowPreAuths.Location = new System.Drawing.Point(1079, 8);
 			this.checkShowPreAuths.Name = "checkShowPreAuths";
 			this.checkShowPreAuths.Size = new System.Drawing.Size(105, 20);
 			this.checkShowPreAuths.TabIndex = 12;
@@ -223,7 +223,7 @@ namespace OpenPmsDental{
 			//
 			this.checkShowZeroPayments.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.checkShowZeroPayments.Checked = true;
-			this.checkShowZeroPayments.Location = new System.Drawing.Point(1075, 32);
+			this.checkShowZeroPayments.Location = new System.Drawing.Point(1079, 32);
 			this.checkShowZeroPayments.Name = "checkShowZeroPayments";
 			this.checkShowZeroPayments.Size = new System.Drawing.Size(125, 20);
 			this.checkShowZeroPayments.TabIndex = 13;

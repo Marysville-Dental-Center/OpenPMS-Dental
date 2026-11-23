@@ -3318,9 +3318,9 @@
 			this.comboClinic.Enabled = false;
 			this.comboClinic.HqDescription = "None";
 			this.comboClinic.IncludeUnassigned = true;
-			this.comboClinic.Location = new System.Drawing.Point(363, 8);
+			this.comboClinic.Location = new System.Drawing.Point(357, 8);
 			this.comboClinic.Name = "comboClinic";
-			this.comboClinic.Size = new System.Drawing.Size(187, 23);
+			this.comboClinic.Size = new System.Drawing.Size(193, 23);
 			this.comboClinic.TabIndex = 121;
 			this.comboClinic.SelectionChangeCommitted += new System.EventHandler(this.ComboClinic_SelectionChangeCommitted);
 			// 

@@ -170,10 +170,10 @@
 			this.comboBoxMultiClinics.IncludeAll = true;
 			this.comboBoxMultiClinics.IncludeHiddenInAll = true;
 			this.comboBoxMultiClinics.IncludeUnassigned = true;
-			this.comboBoxMultiClinics.Location = new System.Drawing.Point(432, 50);
+			this.comboBoxMultiClinics.Location = new System.Drawing.Point(421, 50);
 			this.comboBoxMultiClinics.Name = "comboBoxMultiClinics";
 			this.comboBoxMultiClinics.IsMultiSelect = true;
-			this.comboBoxMultiClinics.Size = new System.Drawing.Size(197, 23);
+			this.comboBoxMultiClinics.Size = new System.Drawing.Size(208, 23);
 			this.comboBoxMultiClinics.TabIndex = 71;
 			// 
 			// dateRangePicker

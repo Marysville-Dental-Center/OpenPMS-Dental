@@ -27,7 +27,8 @@ def layout(h):
     x2 = F1 + 150 + 16
     F2 = x2 + max(h.lw(n) for n in ("label86", "label87", "label3", "label21", "labelPredeterm")) + 6
     root.y = 8
-    h.set("comboClinic", F2 - 37, root.y, 37 + 150, H)
+    cl = h.clinic_w("comboClinic")
+    h.set("comboClinic", F2 - cl, root.y, cl + 150, H)
     root.y += H + 4
     root.field("label86", "comboMedType", F2, 150)
     root.field("label87", "comboClaimForm", F2, 150)

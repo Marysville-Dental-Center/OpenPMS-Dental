@@ -150,7 +150,7 @@ namespace OpenPmsDental{
 			// 
 			this.textSslCaPem.Location = new System.Drawing.Point(61, 347);
 			this.textSslCaPem.Name = "textSslCaPem";
-			this.textSslCaPem.Size = new System.Drawing.Size(415, 23);
+			this.textSslCaPem.Size = new System.Drawing.Size(416, 23);
 			this.textSslCaPem.TabIndex = 229;
 			// 
 			// checkUseReportServer
@@ -196,7 +196,7 @@ namespace OpenPmsDental{
 			this.groupConnectionSettings.Controls.Add(this.label4);
 			this.groupConnectionSettings.Location = new System.Drawing.Point(61, 109);
 			this.groupConnectionSettings.Name = "groupConnectionSettings";
-			this.groupConnectionSettings.Size = new System.Drawing.Size(415, 211);
+			this.groupConnectionSettings.Size = new System.Drawing.Size(416, 211);
 			this.groupConnectionSettings.TabIndex = 226;
 			this.groupConnectionSettings.Text = "Connection Settings";
 			// 
@@ -274,7 +274,7 @@ namespace OpenPmsDental{
 			this.groupMiddleTier.Controls.Add(this.label9);
 			this.groupMiddleTier.Location = new System.Drawing.Point(61, 402);
 			this.groupMiddleTier.Name = "groupMiddleTier";
-			this.groupMiddleTier.Size = new System.Drawing.Size(415, 110);
+			this.groupMiddleTier.Size = new System.Drawing.Size(416, 110);
 			this.groupMiddleTier.TabIndex = 224;
 			this.groupMiddleTier.Text = "Middle Tier";
 			// 

@@ -109,7 +109,7 @@ namespace OpenPmsDental{
 			this.textMiddleI.MaxLength = 100;
 			this.textMiddleI.Name = "textMiddleI";
 			this.textMiddleI.ReadOnly = true;
-			this.textMiddleI.Size = new System.Drawing.Size(88, 23);
+			this.textMiddleI.Size = new System.Drawing.Size(90, 23);
 			this.textMiddleI.TabIndex = 76;
 			// 
 			// textFName
@@ -119,7 +119,7 @@ namespace OpenPmsDental{
 			this.textFName.MaxLength = 100;
 			this.textFName.Name = "textFName";
 			this.textFName.ReadOnly = true;
-			this.textFName.Size = new System.Drawing.Size(238, 23);
+			this.textFName.Size = new System.Drawing.Size(240, 23);
 			this.textFName.TabIndex = 74;
 			// 
 			// textLName
@@ -129,7 +129,7 @@ namespace OpenPmsDental{
 			this.textLName.MaxLength = 100;
 			this.textLName.Name = "textLName";
 			this.textLName.ReadOnly = true;
-			this.textLName.Size = new System.Drawing.Size(238, 23);
+			this.textLName.Size = new System.Drawing.Size(240, 23);
 			this.textLName.TabIndex = 70;
 			// 
 			// labelPreferredAndMiddleI
@@ -185,7 +185,7 @@ namespace OpenPmsDental{
 			this.textAge.MaxLength = 100;
 			this.textAge.Name = "textAge";
 			this.textAge.ReadOnly = true;
-			this.textAge.Size = new System.Drawing.Size(88, 23);
+			this.textAge.Size = new System.Drawing.Size(90, 23);
 			this.textAge.TabIndex = 83;
 			// 
 			// label2

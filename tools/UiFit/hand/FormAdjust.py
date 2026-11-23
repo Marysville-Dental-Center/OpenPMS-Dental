@@ -24,7 +24,8 @@ def layout(h):
     c.field("label5", "textAmount", F, 80, lw=lw, after=[("labelPercentOfFeeAmount", xr, h.lw("labelPercentOfFeeAmount"))])
     c.field("label2", "comboProv", F, 152, lw=lw, after=[("butPickProv", None, 24)])
     yc = c.y
-    h.set("comboClinic", F - 37, yc, 37 + 182, H)
+    cl = h.clinic_w("comboClinic")
+    h.set("comboClinic", F - cl, yc, cl + 182, H)
     c.y = yc + H + 4
     c.checks(("checkOnlyTsiExcludedAdjTypes",), F)
     yl = c.bottom_used

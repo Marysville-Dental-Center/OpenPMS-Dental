@@ -21,7 +21,8 @@ def layout(h):
     cw = max(h.cw(n) for n in checks)
     lw = h.lw("label1")
     M = g.left + cw + 16 + lw + 6
-    h.set("comboClinics", M - 37, y0, 197, H)
+    cl = h.clinic_w("comboClinics")
+    h.set("comboClinics", M - cl, y0, cl + 160, H)
     h.set("label1", M - 6 - lw, y0 + 27, lw, H)
     h.text_align("label1", "MiddleRight")
     h.set("comboProvs", M, y0 + 27, 160, H)
