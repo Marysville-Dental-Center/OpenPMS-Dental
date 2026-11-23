@@ -1635,6 +1635,12 @@ own 26.2 overlap check before it starts. The first cut is below; a brief that fi
   description labels); RendererTests' menu strip test inconclusive in a session that reports 8 bits per pixel or less (a disconnected one);
   the re-plan counts recorded as the lead set them (slice 1 = 461, pilot = 243); gallery and audit extended (UI-12.md section 7,
   "Slice 2, continuation").
+  Slice 2 fix round (2026-11-23, branch `ui/ui12-2-2`, the lead's review of the gallery, 11 findings): the history row of FormClaimsSend,
+  the date ranges 2 px over their rows, FormFeeScheds' right column on one edge, even list columns (FormLetterMergeEdit, FormRpInsAging's
+  new script), FormProcGroup's and FormTaskSearch's edges, icon buttons wide enough for their text, FormPharmacyEdit's picker colour; the
+  150% gallery draws hosted modules and pages at the scaled font (the insurance summaries at the scale's dpi) and the pilot follow-up's
+  states (ControlAccount's summaries and TOTAL Owed panel, ControlChart's Show and Draw pages, FormBackup's Archive page); ControlChart's
+  Show page check boxes and Down whole; re-plans 461 / 243 as recorded (UI-12.md section 7, "Slice 2, fix round").
 - Gallery: G-UI3 per slice, the owner's rows first.
 
 **UI-13: every element type in the new look (the owner, 2026-11-22: "Overall make sure you modernize all element types")**

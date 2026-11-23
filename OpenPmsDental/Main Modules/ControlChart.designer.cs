@@ -1837,9 +1837,9 @@
 			// 
 			// label24
 			// 
-			this.label24.Location = new System.Drawing.Point(176, 146);
+			this.label24.Location = new System.Drawing.Point(176, 140);
 			this.label24.Name = "label24";
-			this.label24.Size = new System.Drawing.Size(150, 90);
+			this.label24.Size = new System.Drawing.Size(150, 96);
 			this.label24.TabIndex = 26;
 			this.label24.Text = "(the text feature here is completely different from the text that shows automatic" +
     "ally for procedures with a PaintType of Text)";

@@ -93,6 +93,12 @@ def layout(h):
         w = 76 if name == "butChartViewDown" else h.n(name).nw
         h.set(name, r - w, yb, w, H)
         r -= w + 6
+    # ---- Draw: the text note (UI-12 slice 2 fix round: at 150% its six lines need 144 px and its 90 px gave 135, cutting the last line's
+    # descenders at the page's bottom; it cannot widen, the text list stands 6 px after it): 96 px, from 4 px under the color square to the
+    # page's bottom (236) ------------------------------------------------------------------------------------------------------------------
+    sq = h.n("panelDrawColor")
+    y24 = sq.ny + sq.nh + 4
+    h.set("label24", None, y24, None, 236 - y24, why="the Draw page's note as tall as its six lines at 150% too, ending on the page's bottom")
     # ---- Draw: Add and Delete under the text list, at its edges ------------------------------------------------------------------------
     lst = h.n("listBoxText")
     yb = lst.ny + lst.nh + 4

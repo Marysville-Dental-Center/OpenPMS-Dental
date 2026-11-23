@@ -3478,8 +3478,6 @@ OpenPmsDental/Forms/FormBackup.designer.cs	OpenPmsDental.FormBackup	groupBoxBack
 OpenPmsDental/Forms/FormBackup.designer.cs	OpenPmsDental.FormBackup	label3	Size	481,39	492,39	by hand: UI-12 slice 2 (pilot follow-up): the Archive page's connection group 11 px wider so the Server Name note's first line (490 px) fits on one line (it wrapped onto a third line, cut); its notes on the content edge
 OpenPmsDental/Forms/FormBackup.designer.cs	OpenPmsDental.FormBackup	label8	Size	480,18	492,18	by hand: UI-12 slice 2 (pilot follow-up): the Archive page's connection group 11 px wider so the Server Name note's first line (490 px) fits on one line (it wrapped onto a third line, cut); its notes on the content edge
 OpenPmsDental/Forms/FormBackup.designer.cs	OpenPmsDental.FormBackup	label5	Size	480,18	492,18	by hand: UI-12 slice 2 (pilot follow-up): the Archive page's connection group 11 px wider so the Server Name note's first line (490 px) fits on one line (it wrapped onto a third line, cut); its notes on the content edge
-OpenPmsDental/Main Modules/ControlChart.designer.cs	OpenPmsDental.ControlChart	label24	Location	176,149	176,146	by hand: UI-12 slice 2 (pilot follow-up): the Draw page's text note as tall as its six lines (90 px, was 87), 3 px up, ending on the page's bottom as before
-OpenPmsDental/Main Modules/ControlChart.designer.cs	OpenPmsDental.ControlChart	label24	Size	150,87	150,90	by hand: UI-12 slice 2 (pilot follow-up): the Draw page's text note as tall as its six lines (90 px, was 87), 3 px up, ending on the page's bottom as before
 OpenPmsDental/Forms/FormPatientMerge.designer.cs	OpenPmsDental.FormPatientMerge	labelPatNumInto	Location	7,18	8,23	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormPatientMerge.designer.cs	OpenPmsDental.FormPatientMerge	labelPatNumInto	Size	91,19	96,17	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormPatientMerge.designer.cs	OpenPmsDental.FormPatientMerge	labelPatNumInto	TextAlign	TopLeft	BottomLeft	by hand (layout script): on the grid
@@ -5445,12 +5443,12 @@ OpenPmsDental/Forms/FormClaimsSend.designer.cs	OpenPmsDental.FormClaimsSend	grid
 OpenPmsDental/Forms/FormClaimsSend.designer.cs	OpenPmsDental.FormClaimsSend	gridHistory	Size	1218,252	1214,238	by hand (layout script): on the grid
 OpenPmsDental/Main Modules/ControlChart.designer.cs	OpenPmsDental.ControlChart	gridChartViews	Location	317,8	317,8	by hand (layout script): on the grid
 OpenPmsDental/Main Modules/ControlChart.designer.cs	OpenPmsDental.ControlChart	gridChartViews	Size	201,173	201,173	by hand (layout script): on the grid
-OpenPmsDental/Main Modules/ControlChart.designer.cs	OpenPmsDental.ControlChart	checkShowCommAuto	Size	128,15	144,15	by hand (layout script): the Show page's check boxes 15 px tall: the descenders of their text whole
+OpenPmsDental/Main Modules/ControlChart.designer.cs	OpenPmsDental.ControlChart	checkShowCommAuto	Size	144,15	144,15	by hand (layout script): the Show page's check boxes 15 px tall: the descenders of their text whole
 OpenPmsDental/Main Modules/ControlChart.designer.cs	OpenPmsDental.ControlChart	checkTPChart	Size	128,15	128,15	by hand (layout script): the Show page's check boxes 15 px tall: the descenders of their text whole
-OpenPmsDental/Main Modules/ControlChart.designer.cs	OpenPmsDental.ControlChart	checkShowTeeth	Size	102,15	103,15	by hand (layout script): the Show page's check boxes 15 px tall: the descenders of their text whole
+OpenPmsDental/Main Modules/ControlChart.designer.cs	OpenPmsDental.ControlChart	checkShowTeeth	Size	103,15	103,15	by hand (layout script): the Show page's check boxes 15 px tall: the descenders of their text whole
 OpenPmsDental/Main Modules/ControlChart.designer.cs	OpenPmsDental.ControlChart	checkNotes	Size	102,15	102,15	by hand (layout script): the Show page's check boxes 15 px tall: the descenders of their text whole
 OpenPmsDental/Main Modules/ControlChart.designer.cs	OpenPmsDental.ControlChart	checkAudit	Size	128,15	128,15	by hand (layout script): the Show page's check boxes 15 px tall: the descenders of their text whole
-OpenPmsDental/Main Modules/ControlChart.designer.cs	OpenPmsDental.ControlChart	checkCommSuperFamily	Size	88,15	92,15	by hand (layout script): the Show page's check boxes 15 px tall: the descenders of their text whole
+OpenPmsDental/Main Modules/ControlChart.designer.cs	OpenPmsDental.ControlChart	checkCommSuperFamily	Size	92,15	92,15	by hand (layout script): the Show page's check boxes 15 px tall: the descenders of their text whole
 OpenPmsDental/Main Modules/ControlChart.designer.cs	OpenPmsDental.ControlChart	checkSheets	Size	102,15	102,15	by hand (layout script): the Show page's check boxes 15 px tall: the descenders of their text whole
 OpenPmsDental/Main Modules/ControlChart.designer.cs	OpenPmsDental.ControlChart	checkTasks	Size	102,15	102,15	by hand (layout script): the Show page's check boxes 15 px tall: the descenders of their text whole
 OpenPmsDental/Main Modules/ControlChart.designer.cs	OpenPmsDental.ControlChart	checkEmail	Size	102,15	102,15	by hand (layout script): the Show page's check boxes 15 px tall: the descenders of their text whole
@@ -5468,3 +5466,5 @@ OpenPmsDental/Main Modules/ControlChart.designer.cs	OpenPmsDental.ControlChart	b
 OpenPmsDental/Main Modules/ControlChart.designer.cs	OpenPmsDental.ControlChart	butChartViewDown	Size	76,23	76,23	by hand (layout script): on the grid
 OpenPmsDental/Main Modules/ControlChart.designer.cs	OpenPmsDental.ControlChart	butChartViewUp	Location	382,185	382,185	by hand (layout script): on the grid
 OpenPmsDental/Main Modules/ControlChart.designer.cs	OpenPmsDental.ControlChart	butChartViewAdd	Location	317,185	317,185	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlChart.designer.cs	OpenPmsDental.ControlChart	label24	Location	176,146	176,140	by hand (layout script): the Draw page's note as tall as its six lines at 150% too, ending on the page's bottom
+OpenPmsDental/Main Modules/ControlChart.designer.cs	OpenPmsDental.ControlChart	label24	Size	150,90	150,96	by hand (layout script): the Draw page's note as tall as its six lines at 150% too, ending on the page's bottom

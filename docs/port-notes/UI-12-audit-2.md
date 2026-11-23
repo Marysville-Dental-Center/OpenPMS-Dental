@@ -131,3 +131,64 @@ styles and the pilot follow-up byte-identical to `a6`'s, so their lines above st
 | 2-at-150/FormPayConnectSetup-150.png | changed | at 150%: Default Processing Method on one line, both notes whole, Clinic on the Secret column. Nothing found. |
 | 2-at-150/FormTaskEdit-150.png | changed | at 150%: the date rows, the reminder group's rows and day key, the right column, the bottom rows and bar whole. Nothing found. |
 | 2-at-150/UserControlSetupWizSchedule-150.png | changed | at 150%: the layout scales; the page's text stays at its 100% size on both sides (the harness does not scale the fonts of a page the program adds with AddUnscaled; main's picture the same). Nothing found. |
+
+## Fix round (2026-11-23): the lead's review of the gallery (11 findings)
+
+UI-12.md, "Slice 2, fix round". The after pictures: `a8` (every slice window, the pilot follow-up and its states at 100%, the 150% windows),
+`a9` (FormFeeScheds, FormClaimsSend, ControlChart and its states, redrawn after pass 1), `a10` (the five states at 150%, after the gallery
+set the state ahead of the font pass). The before pictures: as above for the slice's windows; the states and the hosted controls at 150%
+from main's product with this branch's harness (`b2`, `b3`: `fc35c0ab7`'s OpenPmsDental). `work/pixdiff.py a7 a8` and `a7-150 a8-150`: only
+the 16 windows of the findings and the four hosted 150% pictures differ; every other picture is byte-identical to `a7`, so its line above
+stands. All under ClearType (no setting changed).
+
+**Pass 1** (`a8`): the eleven findings fixed as the table of UI-12.md says; more found in the new or redrawn pictures: FormFeeScheds'
+Clean Up Allowed text filling its 102 px button, the white rectangle behind FormClaimsSend's history date range (the designer's BackColor,
+as finding 9), ControlChart's Show page (now drawn): Down's text wrapped under its icon ("Dow" / "n") and the 13 px check box rows cutting
+the descenders (Commlog's g, Appointments' p, Family's y); and in the 150% state pictures the tab pages' text at the 100% size (the state
+was set after the font pass). Fixes: Clean Up Allowed 115 px, the BackColor row, Down 76 px with the grid to the page's edge and the check
+boxes 15 px tall, the state set before the font pass.
+**Pass 2** (`a9`, `a10`): nothing found. GridRulesTests and the layout snapshot pass on `a8` and `a9`.
+
+**Corrections to the lines above.** FormFeeScheds (pass 2 said "the centred notes under their buttons are main's"): main had the buttons and
+notes left-aligned at 383; the planner centred them. FormClaimEdit (both pictures, "the missing teeth note is on the General tab, not the tab
+drawn"): the General tab is the tab drawn; the note is in the picture, two lines, whole (main's cut its second line). ControlTreat-150
+("'Ded Remain' whole") and UserControlSetupWizSchedule-150 ("the page's text stays at its 100% size"): the hosted controls' text was drawn
+at the 100% size; redrawn below at the scaled font. ControlAccount, ControlChart and FormBackup ("not drawn here"): now drawn in their states
+below.
+
+| Picture | Status | What was checked and found |
+|---|---|---|
+| 1-slice-windows/FormCareCreditTransactions.png | changed | the date range's From and To boxes on the row's top with Status and Clinic (8 px), Include Acknowledged under it. Nothing found. |
+| 1-slice-windows/FormClaimsSend.png | changed | the history row: the range's boxes and Type's box 8 px under the splitter (412..434), the gray toolbar frame centred on them (410..436) and on the grids' right edge; no white rectangle behind the range; the History grid 8 px under the frame and 8 px above the window bottom (445..682 in 691). Nothing found. |
+| 1-slice-windows/FormConfirmList.png | changed | Postcard Preview 130 and Label Preview 112: 6 px or more between icon and text and after the text, like E-Mail and Text after them (6 px apart). Nothing found. |
+| 1-slice-windows/FormEtrans835s.png | changed | the From box on the row with Carrier (8..30); the Amount Range group 8 px under the range's boxes, its Min and Max on the Control ID and Clinics row; the grid 8 px under the filters. Nothing found. |
+| 1-slice-windows/FormFeeScheds.png | changed | Type, Show Hidden, Up, Down, Set Order, Sort, Add, Clean Up Allowed (115 px) and Hide Unused on one left edge (380), the notes left-aligned under their buttons to the content edge (one, two and two lines, whole), 4 px between the items. Nothing found. |
+| 1-slice-windows/FormLetterMergeEdit.png | changed | Patient Fields, Referred From and Other one width (170) at 8, 186 and 364 (8 px apart), the captions over them, the hint on the Referred From list's left edge; the lists on one bottom. Nothing found. |
+| 1-slice-windows/FormPharmacyEdit.png | changed | the Clinics label on the window's background (no white rectangle), on the label column. Nothing found. |
+| 1-slice-windows/FormProcGroup.png | changed | Notes, Signature 2 and Save end on 982; + and Remove right-aligned with Save (906); the Procedures grid from 8 to 898; Delete at 8. Nothing found. |
+| 1-slice-windows/FormRpClaimNotSent.png | changed | the date range's boxes on the row with Clinics, Claim Filter and Refresh. Nothing found. |
+| 1-slice-windows/FormRpInsAging.png | changed | the left column at 8; Billing Types, Providers and Clinics one width (161), 8 px apart, the last ending on 774 (8 px margin), captions, All boxes and lists each on one top. Nothing found. |
+| 1-slice-windows/FormRpProcedures.png | changed | the date range's boxes on the row with Providers; Clinics under Providers. Nothing found. |
+| 1-slice-windows/FormScreenGroupEdit.png | changed | Add, Remove, Screen Patients and the Sheet box one 100 px column 8 px before the Patients grid, the icons 6 px or more from their text; Add Anonymous 130 px. Nothing found. |
+| 1-slice-windows/FormTaskSearch.png | changed | the task grid 8 px from the left, top and bottom and 8 px before the search panel; New Task and Refresh on the Search by group's left and right edges. Nothing found. |
+| 1-slice-windows/FormTimeCard.png | changed | Add Adjustment 130 px (its + 6 px or more from the text, 6 px after it), Calc Week OT and Calc Daily 6 px apart after it. Nothing found. |
+| 1-slice-windows/FormTrackNext.png | changed | the date range's boxes on the third row's top with All Dates (both at 86); Code Range's example line whole. Nothing found. |
+| 1-slice-windows/FormUnsched.png | changed | the date range's boxes on the third row's top. Nothing found. |
+| 2-at-150/FormEtrans835s-150.png | changed | at 150%: the From box on the Carrier row, Min and Max on the Control ID row, the group's title whole. Nothing found. |
+| 2-at-150/FormProcGroup-150.png | changed | at 150%: the right edges on Save's, the + / Remove column, the grid 8 px before it. Nothing found. |
+| 2-at-150/FormTimeCard-150.png | changed | at 150%: Add Adjustment's icon and text apart, the bottom bar 6 px apart. Nothing found. |
+| 2-at-150/FormUnsched-150.png | changed | at 150%: the range's boxes on the third row. Nothing found. |
+| 2-at-150/UserControlSetupWizSchedule-150.png | changed | at 150%, both sides redrawn with the scaled font: the provider line and the Next Prov note, the day check boxes on their groups' title bands, Add, Prev Prov and Next Prov at the scaled size, whole. Nothing found. |
+| 4-pilot-follow-up/ControlAccount-150.png | changed | at 150%, both sides with the scaled font: the aging strip's captions, Fam Urgent Fin Note, Service Date View, Credit Card Manage, Show SuperFamily whole. Nothing found. |
+| 4-pilot-follow-up/ControlChart-150.png | changed | at 150%, both sides with the scaled font: the Enter Treatment page's captions, Entry Status, the procedure buttons, Type Proc Code and OK whole. Nothing found. |
+| 4-pilot-follow-up/ControlTreat-150.png | changed | at 150%, both sides: the insurance summaries painted at 144 dpi: 'Ded Remain' (90 px) whole on one line in its 105 px room, every row caption whole; the Show page's check boxes, New TP, Save TP, Refresh and Plan Appt at the scaled font. Nothing found. |
+| 4-pilot-follow-up/ControlAccount-summary.png | new | both insurance summaries shown: the two Annual Max captions whole, Fam Ded, Deductible, Ded Remain, Ins Used, Pending, Remaining whole; the groups' columns. Nothing found. |
+| 4-pilot-follow-up/ControlAccount-summary-150.png | new | at 150%: the same, whole at the scaled font. Nothing found. |
+| 4-pilot-follow-up/ControlAccount-totalowed.png | new | the TOTAL Owed panel drawn alone (40 px tall; main's 37): "TOTAL  Owed w/ Plan:" and the amount whole. Nothing found. |
+| 4-pilot-follow-up/ControlAccount-totalowed-150.png | new | at 150%: the same. Nothing found. |
+| 4-pilot-follow-up/ControlChart-show.png | new | the Show page: Super Family and Show Auto Commlogs whole on one line (main cut them: "Super Famil", "Show Auto Comml"), every check box 15 px tall with its descenders whole; the Chart Views grid to the page's edge, Add, Up and Down (76 px) whole. Nothing found. |
+| 4-pilot-follow-up/ControlChart-show-150.png | new | at 150%: the same at the scaled font. Nothing found. |
+| 4-pilot-follow-up/ControlChart-draw.png | new | the Draw page: the note's six lines whole in its 90 px (main cut its last line); the color buttons, the radio list, the text list, Add and Delete. Nothing found. |
+| 4-pilot-follow-up/ControlChart-draw-150.png | new | at 150%: the same at the scaled font. Nothing found. |
+| 4-pilot-follow-up/FormBackup-archive.png | new | the Archive page: the Backup Connection Settings group's Server Name note on its two lines, whole in the 508 px group; the User and Password notes and boxes. Nothing found. |
+| 4-pilot-follow-up/FormBackup-archive-150.png | new | at 150%: the same. Nothing found. |
