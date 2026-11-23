@@ -29,6 +29,20 @@ namespace ImagingCapture.Uvc.Interop {
 		///<summary>Fragmented MP4: what is written stays playable if the program or Windows stops before the file is finished.</summary>
 		public static readonly Guid MFTranscodeContainerType_FMPEG4=new Guid("9ba876f1-419f-4b77-a1e0-35959d9d4004");
 		public static readonly Guid MFTranscodeContainerType_MPEG4=new Guid("dc6cd05d-b9d0-40ef-bd35-fa622c1ab28a");
+		///<summary>Lets the source reader convert the decoded frames to RGB32 (IMG-P4d frames).</summary>
+		public static readonly Guid MF_SOURCE_READER_ENABLE_VIDEO_PROCESSING=new Guid("fb394f3d-ccf1-42ee-bbb3-f9b845d5681d");
+		///<summary>The length of the presentation, a VT_UI8 in 100-nanosecond units.</summary>
+		public static readonly Guid MF_PD_DURATION=new Guid("6c990d33-bb8e-477a-8598-0d5d96fcd88a");
+		///<summary>MF_SOURCE_READER_FIRST_VIDEO_STREAM (0xfffffffc).</summary>
+		public const int MF_SOURCE_READER_FIRST_VIDEO_STREAM=unchecked((int)0xfffffffc);
+		///<summary>MF_SOURCE_READER_ALL_STREAMS (0xfffffffe).</summary>
+		public const int MF_SOURCE_READER_ALL_STREAMS=unchecked((int)0xfffffffe);
+		///<summary>MF_SOURCE_READER_MEDIASOURCE (0xffffffff).</summary>
+		public const int MF_SOURCE_READER_MEDIASOURCE=unchecked((int)0xffffffff);
+		///<summary>MF_SOURCE_READERF_ENDOFSTREAM.</summary>
+		public const int MF_SOURCE_READERF_ENDOFSTREAM=0x2;
+		public const ushort VT_I8=20;
+		public const ushort VT_UI8=21;
 		public static readonly Guid MFMediaType_Video=new Guid("73646976-0000-0010-8000-00aa00389b71");
 		///<summary>FCC('H264').</summary>
 		public static readonly Guid MFVideoFormat_H264=new Guid("34363248-0000-0010-8000-00aa00389b71");
@@ -52,6 +66,10 @@ namespace ImagingCapture.Uvc.Interop {
 
 		[DllImport("mfplat.dll",ExactSpelling=true)]
 		public static extern int MFCreateMemoryBuffer(int cbMaxLength,out IMFMediaBuffer ppBuffer);
+
+		[DllImport("mfreadwrite.dll",ExactSpelling=true)]
+		public static extern int MFCreateSourceReaderFromURL([MarshalAs(UnmanagedType.LPWStr)] string pwszURL,IMFAttributes pAttributes,
+			out IMFSourceReader ppSourceReader);
 
 		[DllImport("mfreadwrite.dll",ExactSpelling=true)]
 		public static extern int MFCreateSinkWriterFromURL([MarshalAs(UnmanagedType.LPWStr)] string pwszOutputURL,IntPtr pByteStream,
@@ -84,8 +102,10 @@ namespace ImagingCapture.Uvc.Interop {
 		int Unused_GetItemType();
 		int Unused_CompareItem();
 		int Unused_Compare();
-		int Unused_GetUINT32();
-		int Unused_GetUINT64();
+		[PreserveSig]
+		int GetUINT32([In,MarshalAs(UnmanagedType.LPStruct)] Guid guidKey,out int punValue);
+		[PreserveSig]
+		int GetUINT64([In,MarshalAs(UnmanagedType.LPStruct)] Guid guidKey,out long punValue);
 		int Unused_GetDouble();
 		int Unused_GetGUID();
 		int Unused_GetStringLength();
@@ -151,7 +171,8 @@ namespace ImagingCapture.Uvc.Interop {
 		int SetSampleDuration(long hnsSampleDuration);
 		int Unused_GetBufferCount();
 		int Unused_GetBufferByIndex();
-		int Unused_ConvertToContiguousBuffer();
+		[PreserveSig]
+		int ConvertToContiguousBuffer(out IMFMediaBuffer ppBuffer);
 		[PreserveSig]
 		int AddBuffer(IMFMediaBuffer pBuffer);
 	}
@@ -186,5 +207,37 @@ namespace ImagingCapture.Uvc.Interop {
 		///<summary>IMFSinkWriter::Finalize: completes the file.</summary>
 		[PreserveSig]
 		int FinalizeWriting();
+	}
+
+	///<summary>A PROPVARIANT holding a 64-bit integer (VT_I8 or VT_UI8): vt at 0, the value at 8. 24 bytes, the size of a PROPVARIANT in a
+	///64-bit process (16 in a 32-bit one, where the last 8 are not read).</summary>
+	[StructLayout(LayoutKind.Explicit,Size=24)]
+	internal struct PropVariantLong {
+		[FieldOffset(0)]
+		public ushort vt;
+		[FieldOffset(8)]
+		public long Value;
+	}
+
+	///<summary>IMFSourceReader (mfreadwrite.h): reads a video file's frames, for "Save frame as photo" and the tree's picture (IMG-P4d).</summary>
+	[ComImport,Guid("70ae66f2-c809-4e4f-8915-bdcb406b7993"),InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+	internal interface IMFSourceReader {
+		int Unused_GetStreamSelection();
+		[PreserveSig]
+		int SetStreamSelection(int dwStreamIndex,[MarshalAs(UnmanagedType.Bool)] bool fSelected);
+		int Unused_GetNativeMediaType();
+		[PreserveSig]
+		int GetCurrentMediaType(int dwStreamIndex,out IMFAttributes ppMediaType);
+		[PreserveSig]
+		int SetCurrentMediaType(int dwStreamIndex,IntPtr pdwReserved,IMFAttributes pMediaType);
+		[PreserveSig]
+		int SetCurrentPosition([In,MarshalAs(UnmanagedType.LPStruct)] Guid guidTimeFormat,[In] ref PropVariantLong varPosition);
+		[PreserveSig]
+		int ReadSample(int dwStreamIndex,int dwControlFlags,out int pdwActualStreamIndex,out int pdwStreamFlags,out long pllTimestamp,
+			out IMFSample ppSample);
+		int Unused_Flush();
+		int Unused_GetServiceForStream();
+		[PreserveSig]
+		int GetPresentationAttribute(int dwStreamIndex,[In,MarshalAs(UnmanagedType.LPStruct)] Guid guidAttribute,out PropVariantLong pvarAttribute);
 	}
 }

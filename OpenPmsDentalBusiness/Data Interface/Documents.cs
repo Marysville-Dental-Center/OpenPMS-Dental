@@ -389,6 +389,10 @@ namespace OpenPmsDentalBusiness {
 			//If the specified document is not an image return 'not available'. A DICOM file (.dcm) is an image too: it is let through here
 			//explicitly, and ImageHelper.GetImageCropped reads and windows it (design 7.8, CAP-W1). Its thumbnail is saved like the Imaging
 			//module saves one, as Thumbnails\<file name>.
+			//IMG-P4d: a video's picture is its first frame with a play mark, saved by the module's player or the camera session; none yet: not available.
+			if(VideoMedia.IsVideoPath(fileName)) {
+				return VideoMedia.LoadThumbnail(document,patFolder)??NoAvailablePhoto();
+			}
 			if(!ImageHelper.HasImageExtension(fullName) && !ImageHelper.IsDicomFileName(fileName)) {
 				return NoAvailablePhoto();
 			}

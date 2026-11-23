@@ -140,6 +140,8 @@ Here is the desired behavior:
 		private string _stringMeasure;
 		///<summary>Displays PDFs.</summary>
 		private ODWebView2 _odWebView2=null;
+		///<summary>Plays a video document in place of the image (IMG-P4d). Hidden otherwise.</summary>
+		private ControlVideoPlayer _controlVideoPlayer;
 		///<summary>The saved adjust filters (IMG-P3) of the documents showing, by DocNum; null for a document without any. Read once per document
 		///(a mount's in one query) and emptied by ClearObjects.</summary>
 		private Dictionary<long,ImageAdjustSettings> _dictAdjustSettings=new Dictionary<long,ImageAdjustSettings>();
@@ -193,6 +195,12 @@ Here is the desired behavior:
 			_odWebView2.Dock=DockStyle.Fill;
 			_odWebView2.DoBlockNavigation=true;
 			LayoutManager.Add(_odWebView2,this);
+			_controlVideoPlayer=new ControlVideoPlayer(x => LayoutManager.Scale(x));
+			_controlVideoPlayer.Visible=false;
+			_controlVideoPlayer.Dock=DockStyle.Fill;
+			_controlVideoPlayer.EventFrameSaved+=(sender,docNum) => EventFillTree?.Invoke(this,true);
+			_controlVideoPlayer.EventThumbnailSaved+=(sender,e) => ThumbnailRefresh();
+			LayoutManager.Add(_controlVideoPlayer,this);
 			_cursorCrosshair=new Cursor(GetType(),"CursorCrosshair.cur");
 			_cursorLineAdd=new Cursor(GetType(),"CursorLineAdd.cur");
 			_cursorLineMove=new Cursor(GetType(),"CursorLinePoint.cur");
@@ -275,6 +283,7 @@ Here is the desired behavior:
 		#region Methods - Public
 		///<summary>Deletes the specified document from the database and refreshes the tree view. Set securityCheck false when creating a new document that might get cancelled.  Document is passed in because it might not be in the tree if the image folder it belongs to is now hidden.</summary>
 		public void DeleteDocument(bool isVerbose,bool doSecurityCheck,Document document) {
+			_controlVideoPlayer?.StopAndRelease();//a video being shown is open in the player: it could not be deleted
 			if(doSecurityCheck) {
 				//24.4: a signed image also needs SignedImageEdit.
 				if(!ImageSignaturePermissions.IsAuthorizedToDelete(document)) {
@@ -1087,6 +1096,10 @@ Here is the desired behavior:
 			if(_odWebView2!=null) {
 				_odWebView2.Visible=false;
 			}
+			if(_controlVideoPlayer!=null) {
+				_controlVideoPlayer.Stop();//closes the file
+				_controlVideoPlayer.Visible=false;
+			}
 			if(nodeTypeAndKey is null){
 				return;
 			}
@@ -1148,6 +1161,9 @@ Here is the desired behavior:
 						if(!PrefC.GetBool(PrefName.PdfLaunchWindow)) {
 							LoadPdf(PatFolder,document.FileName,localPathImportedCloud,"Downloading Document...");
 						}
+					}
+					else if(VideoMedia.IsVideoPath(document.FileName)) {
+						ShowVideo(document,localPathImportedCloud);//IMG-P4d: played here, not in an outside player
 					}
 				}
 				ImageHelper.ConvertCropIfNeeded(document,_bitmapRaw);
@@ -5409,6 +5425,45 @@ Here is the desired behavior:
 		}
 
 		///<summary>Displays the PDF in an ODWebView2 control. Downloads the PDF file from the cloud if necessary.</summary>
+		///<summary>Shows a video document in the player (IMG-P4d): the A to Z file, or a copy for cloud or database storage.</summary>
+		private void ShowVideo(Document document,string localPathImportedCloud) {
+			string pathLocal;
+			try {
+				pathLocal=GetLocalMediaPath(document,localPathImportedCloud);
+			}
+			catch(Exception ex) {
+				ex.DoNothing();
+				pathLocal="";
+			}
+			panelMain.Visible=false;
+			_controlVideoPlayer.Visible=true;
+			_controlVideoPlayer.BringToFront();
+			_controlVideoPlayer.ShowVideo(document,PatientCur,PatFolder,pathLocal);
+		}
+
+		///<summary>A path this computer can read for document: the A to Z file; for cloud storage the imported copy or a download into the temp
+		///folder; for database storage a copy written there. As SetPdfFilePath, for any file type.</summary>
+		private string GetLocalMediaPath(Document document,string localPathImportedCloud) {
+			if(PrefC.AtoZfolderUsed==DataStorageType.LocalAtoZ) {
+				return ODFileUtils.CombinePaths(PatFolder,document.FileName);
+			}
+			string pathTemp=ODFileUtils.CombinePaths(PrefC.GetTempFolderPath(),document.DocNum+(PatientCur!=null ? PatientCur.PatNum.ToString() : "")
+				+Path.GetExtension(document.FileName));
+			if(CloudStorage.IsCloudStorage) {
+				if(localPathImportedCloud!="") {
+					return localPathImportedCloud;
+				}
+				if(!ODFileUtils.IsFileInUse(pathTemp)) {
+					FileAtoZ.Download(FileAtoZ.CombinePaths(PatFolder,document.FileName),pathTemp,"Downloading Video...");
+				}
+				return pathTemp;
+			}
+			if(!ODFileUtils.IsFileInUse(pathTemp)) {
+				File.WriteAllBytes(pathTemp,Convert.FromBase64String(document.RawBase64));
+			}
+			return pathTemp;
+		}
+
 		private async void LoadPdf(string atoZFolder,string atoZFileName,string localPath,string downloadMessage) {
 			try {
 				if(_odWebView2!=null) {
