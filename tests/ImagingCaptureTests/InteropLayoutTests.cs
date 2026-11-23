@@ -153,6 +153,7 @@ namespace ImagingCapture.Tests {
 			//Media Foundation (IMG-P4c video recording; mfobjects.h and mfreadwrite.h, SDK 10.0.26100): IMFAttributes' 30 methods come first in IMFSample.
 			Tuple.Create(typeof(IMFAttributes),"GetUINT32",7),
 			Tuple.Create(typeof(IMFAttributes),"GetUINT64",8),
+			Tuple.Create(typeof(IMFAttributes),"GetBlob",15),
 			Tuple.Create(typeof(IMFAttributes),"SetUINT32",21),
 			Tuple.Create(typeof(IMFAttributes),"SetUINT64",22),
 			Tuple.Create(typeof(IMFAttributes),"SetGUID",24),

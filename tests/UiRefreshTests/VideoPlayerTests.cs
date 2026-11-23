@@ -22,10 +22,10 @@ namespace UiRefreshTests {
 	[TestClass]
 	public class VideoPlayerTests {
 		///<summary>Two seconds at 15 frames a second, 320 by 240.</summary>
-		private static void WriteTestVideo(string path) {
+		private static void WriteTestVideo(string path,int frames=30) {
 			using(Mp4Writer writer=Mp4Writer.Create(path,320,240,15)) {
 				byte[] arrayPixels=new byte[320*240*4];
-				for(int i=0;i<30;i++) {
+				for(int i=0;i<frames;i++) {
 					for(int p=0;p<arrayPixels.Length;p+=4) {
 						arrayPixels[p]=(byte)(i<15 ? 30 : 220);
 						arrayPixels[p+1]=40;
@@ -86,6 +86,16 @@ namespace UiRefreshTests {
 						if(controlVideoPlayer.IsPlaying) {
 							listFailures.Add("A video opens paused at its start.");
 						}
+						//straight on to another video: it opens with its own length, not the first one's (the review's late-answer case)
+						string pathSecond=Path.Combine(folder,"second.mp4");
+						WriteTestVideo(pathSecond,frames:60);
+						controlVideoPlayer.ShowVideo(new Document { DocNum=31,PatNum=1,FileName="second.mp4",ToothNumbers="" },new Patient { PatNum=1 },folder,pathSecond);
+						if(!PumpUntil(() => controlVideoPlayer.IsOpened,20000)) {
+							listFailures.Add("The second video did not open after the first.");
+						}
+						else if(Math.Abs(controlVideoPlayer.DurationMs-4000)>300) {
+							listFailures.Add("The second video's length is "+controlVideoPlayer.DurationMs+" ms, expected about 4000.");
+						}
 						string folderGallery=Environment.GetEnvironmentVariable("OPMS_IMAGE_VIEWER_GALLERY");
 						if(!string.IsNullOrEmpty(folderGallery)) {
 							SavePicture(form,controlVideoPlayer,Path.Combine(folderGallery,"video-player.png"));
@@ -140,14 +150,16 @@ namespace UiRefreshTests {
 
 		[TestMethod]
 		public void PollAnswer_IsParsed() {
-			Assert.IsTrue(ControlVideoPlayer.TryParsePoll("\"12.5,1,42.25\"",out double seconds,out bool isPaused,out double durationSeconds));
+			Assert.IsTrue(ControlVideoPlayer.TryParsePoll("\"12.5,1,42.25,file:///C:/a,b/v.mp4\"",out double seconds,out bool isPaused,out double durationSeconds,
+				out string address));
 			Assert.AreEqual(12.5,seconds);
 			Assert.IsTrue(isPaused);
 			Assert.AreEqual(42.25,durationSeconds);
-			Assert.IsTrue(ControlVideoPlayer.TryParsePoll("\"0,0,0\"",out seconds,out isPaused,out durationSeconds));
+			Assert.AreEqual("file:///C:/a,b/v.mp4",address,"A comma in the address stays in it.");
+			Assert.IsTrue(ControlVideoPlayer.TryParsePoll("\"0,0,0,about:blank\"",out seconds,out isPaused,out durationSeconds,out address));
 			Assert.IsFalse(isPaused);
-			Assert.IsFalse(ControlVideoPlayer.TryParsePoll("\"\"",out seconds,out isPaused,out durationSeconds),"No video element yet.");
-			Assert.IsFalse(ControlVideoPlayer.TryParsePoll("null",out seconds,out isPaused,out durationSeconds));
+			Assert.IsFalse(ControlVideoPlayer.TryParsePoll("\"\"",out seconds,out isPaused,out durationSeconds,out address),"No video element yet.");
+			Assert.IsFalse(ControlVideoPlayer.TryParsePoll("null",out seconds,out isPaused,out durationSeconds,out address));
 		}
 	}
 }

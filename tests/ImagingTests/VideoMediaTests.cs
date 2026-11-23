@@ -83,7 +83,9 @@ namespace ImagingTests {
 			string display=Read("OpenPmsDental","User Controls","ControlImageDisplay.cs");
 			StringAssert.Contains(display,"else if(VideoMedia.IsVideoPath(document.FileName)) {");
 			StringAssert.Contains(MethodBody(display,"public void SelectTreeNode2("),"_controlVideoPlayer.Stop();");
-			StringAssert.Contains(MethodBody(display,"public void DeleteDocument("),"_controlVideoPlayer?.StopAndRelease();");
+			string delete=MethodBody(display,"public void DeleteDocument(");
+			Assert.IsTrue(delete.IndexOf("_controlVideoPlayer.StopAndRelease();")>delete.IndexOf("Delete image?"),"The player lets go after the checks and the question.");
+			StringAssert.Contains(MethodBody(Read("OpenPmsDental","Main Modules","ControlImages.cs"),"public void ModuleUnselected("),"StopVideo();");
 			string documents=Read("OpenPmsDentalBusiness","Data Interface","Documents.cs");
 			StringAssert.Contains(MethodBody(documents,"public static Bitmap GetThumbnail("),"VideoMedia.LoadThumbnail(document,patFolder)");
 			string player=Read("OpenPmsDental","User Controls","ControlVideoPlayer.cs");

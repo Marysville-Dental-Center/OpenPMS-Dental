@@ -36,6 +36,19 @@ when selected; a double-click opened it in an outside player. IMG-P4e (camera se
 6. **Interop:** IMFSourceReader, MFCreateSourceReaderFromURL, a 64-bit PROPVARIANT, IMFAttributes.GetUINT32/GetUINT64 and
    IMFSample.ConvertToContiguousBuffer, all from the Windows SDK headers. `InteropLayoutTests` pins every new slot (21 interfaces).
 
+7. **Review fixes:**
+   - An answer from the previous page (Edge still showing the last video while the next loads) is dropped. Each answer carries the page's
+     address and a show counter, so the next video always opens paused, at its trim start, with Edge's controls hidden.
+   - Going from one video to the next does not pass through a blank page that could block the second navigation.
+   - A delete lets go of the video only after the permission checks and the question, and only for the video shown.
+   - Save frame takes the frame shown at the position (the last one that starts at or before it), and the position where the pause landed.
+   - A 1080p video's frame is cropped to the picture's 1080 rows (MF_MT_MINIMUM_DISPLAY_APERTURE); the decoder makes 1088.
+   - A change of the decoded size is followed.
+   - A position that cannot be reached is an error, not a wrong frame.
+   - Leaving the module stops the video.
+   - The browser's failures never reach the crash dialog.
+   - No bitmap is leaked when checking the tree picture.
+
 ## Why Edge and not WPF's MediaPlayer
 
 The first attempt used WPF's MediaPlayer, which goes through the legacy Windows Media Player. On this Windows 11 build it refused every MP4
@@ -56,10 +69,10 @@ still writes the whole file. Recorded in docs/owner-questions.md.
   - the tree picture;
   - the module wiring: player, thumbnail, delete, the permissions, Edge's menu and controls off.
 - `tests/ImagingCaptureTests/VideoRecordingTests.cs` (+1): **a real MP4 read back** by VideoFrameReader at full size, the right way up (red
-  top, blue bottom), at a position (green in the second second), with its length, and the last frame past the end.
+  top, blue bottom), at a position (green in the second second), with its length, and the last frame past the end; and a 1080p video cropped to 1080 rows, with the frame shown at 450 ms (+1).
 - `tests/UiRefreshTests/VideoPlayerTests.cs` (2):
   - **the player shows a recorded MP4 in the browser control**, paused at its start, with its length (inconclusive without the WebView2
-    Runtime);
+    Runtime), then a second video straight after it with its own length;
   - the poll answer is parsed.
 - `InteropLayoutTests`: the new slots.
 - Gallery G-IMG9: the player with a trim.
@@ -70,7 +83,7 @@ Targeted x64 run:
 
 | Suite | Passed | Total |
 |---|---|---|
-| ImagingCaptureTests | 842 | 842 |
+| ImagingCaptureTests | 843 | 843 |
 | ImagingTests | 175 | 175 |
 | WindowChecksTests | 30 (44 skipped) | 74 |
 | NoHqTests | 127 | 127 |

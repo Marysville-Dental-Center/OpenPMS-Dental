@@ -41,6 +41,10 @@ namespace ImagingCapture.Uvc.Interop {
 		public const int MF_SOURCE_READER_MEDIASOURCE=unchecked((int)0xffffffff);
 		///<summary>MF_SOURCE_READERF_ENDOFSTREAM.</summary>
 		public const int MF_SOURCE_READERF_ENDOFSTREAM=0x2;
+		///<summary>MF_SOURCE_READERF_CURRENTMEDIATYPECHANGED: the decoded frames' size or stride changed.</summary>
+		public const int MF_SOURCE_READERF_CURRENTMEDIATYPECHANGED=0x20;
+		///<summary>The visible area of the decoded frames (a BLOB of MFVideoArea): a 1080-row picture is decoded in 1088 rows.</summary>
+		public static readonly Guid MF_MT_MINIMUM_DISPLAY_APERTURE=new Guid("d7388766-18fe-48c6-a177-ee894867c8c4");
 		public const ushort VT_I8=20;
 		public const ushort VT_UI8=21;
 		public static readonly Guid MFMediaType_Video=new Guid("73646976-0000-0010-8000-00aa00389b71");
@@ -112,7 +116,9 @@ namespace ImagingCapture.Uvc.Interop {
 		int Unused_GetString();
 		int Unused_GetAllocatedString();
 		int Unused_GetBlobSize();
-		int Unused_GetBlob();
+		[PreserveSig]
+		int GetBlob([In,MarshalAs(UnmanagedType.LPStruct)] Guid guidKey,[Out,MarshalAs(UnmanagedType.LPArray,SizeParamIndex=2)] byte[] pBuf,int cbBufSize,
+			out int pcbBlobSize);//a plain UINT8 buffer: in a COM interface an array would default to a SAFEARRAY
 		int Unused_GetAllocatedBlob();
 		int Unused_GetUnknown();
 		int Unused_SetItem();

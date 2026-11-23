@@ -213,6 +213,48 @@ namespace ImagingCapture.Tests {
 		}
 
 		[TestMethod]
+		public void FrameReader_1080p_CroppedToThePicture_TheFrameShownAtThePosition() {
+			string folder=Path.Combine(Path.GetTempPath(),"opms-frame1080-"+Guid.NewGuid().ToString("N"));
+			Directory.CreateDirectory(folder);
+			string path=Path.Combine(folder,"hd.mp4");
+			try {
+				Mp4Writer writer;
+				try {
+					writer=Mp4Writer.Create(path,1920,1080,10);
+				}
+				catch(MfException ex) {
+					Assert.Inconclusive("No H.264 encoder for 1080p here: "+ex.Message);
+					return;
+				}
+				using(writer) {
+					byte[] arrayPixels=new byte[1920*1080*4];
+					for(int i=0;i<10;i++) {
+						for(int p=0;p<arrayPixels.Length;p+=4) {
+							arrayPixels[p]=(byte)(i*25);//blue grows frame by frame (10 fps: frame i starts at i*100 ms)
+							arrayPixels[p+1]=60;
+							arrayPixels[p+2]=60;
+							arrayPixels[p+3]=255;
+						}
+						writer.WriteFrame(arrayPixels,1920*4,i*1000000L,1000000L);
+					}
+					writer.Finish();
+				}
+				int durationMs;
+				using(Bitmap bitmap=VideoFrameReader.ReadFrame(path,450,out durationMs)) {
+					Assert.AreEqual(1920,bitmap.Width);
+					Assert.AreEqual(1080,bitmap.Height,"The visible picture, not the decoder's 1088 rows.");
+					Color colorBottom=bitmap.GetPixel(960,1079);
+					Assert.IsTrue(Math.Abs(colorBottom.G-60)<30,"The last row is picture, not padding: "+colorBottom);
+					int blue=bitmap.GetPixel(960,540).B;
+					Assert.IsTrue(Math.Abs(blue-100)<20,"At 450 ms the frame shown starts at 400 ms (blue 100), not the one at 500 ms: "+blue);
+				}
+			}
+			finally {
+				Directory.Delete(folder,true);
+			}
+		}
+
+		[TestMethod]
 		public void Mp4Writer_WritesAPlayableMp4_WithWindowsOwnEncoder() {
 			string folder=Path.Combine(Path.GetTempPath(),"opms-mp4-"+Guid.NewGuid().ToString("N"));
 			Directory.CreateDirectory(folder);

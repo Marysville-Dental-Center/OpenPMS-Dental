@@ -22,7 +22,7 @@ namespace OpenPmsDental {
 		#region Fields
 		///<summary>The state of the page's video element: position and length in seconds, and whether it is paused.</summary>
 		private const string ScriptPoll="(function(){var v=document.querySelector('video');if(!v){return '';}"
-			+"return v.currentTime+','+(v.paused?1:0)+','+(isFinite(v.duration)?v.duration:0);})()";
+			+"return v.currentTime+','+(v.paused?1:0)+','+(isFinite(v.duration)?v.duration:0)+','+location.href;})()";
 		private readonly Func<int,int> _funcScale;
 		private ODWebView2 _odWebView2;
 		private PanelScrub panelScrub;
@@ -50,6 +50,11 @@ namespace OpenPmsDental {
 		private bool _isOpened;
 		private bool _isHalfSpeed;
 		private bool _isPolling;
+		///<summary>Counts ShowVideo and Stop: an answer of the browser that comes back after either belongs to the page before and is dropped.
+		///</summary>
+		private int _generation;
+		///<summary>The address of the video being shown: an answer from another page (the previous one, still loaded) is ignored.</summary>
+		private Uri _uriExpected;
 		#endregion Fields
 
 		///<summary>A photo was saved from a frame (its DocNum): the module refreshes its tree.</summary>
@@ -78,7 +83,7 @@ namespace OpenPmsDental {
 		///<summary>Shows the video at pathLocal (a file this computer can read: the A to Z file, or a copy downloaded for cloud or database storage).
 		///</summary>
 		public void ShowVideo(Document document,Patient patient,string patFolder,string pathLocal) {
-			Stop();
+			Stop(isNavigateBlank:false);//the next navigation replaces the page; a blank one in between could block it
 			_document=document;
 			_patient=patient;
 			_patFolder=patFolder??"";
@@ -104,22 +109,28 @@ namespace OpenPmsDental {
 				return;
 			}
 			RefreshControls();
-			_=NavigateAsync(_pathLocal);
-			BeginInvoke((Action)SaveThumbnailIfMissing);
+			_uriExpected=new Uri(_pathLocal);
+			_=NavigateAsync(_pathLocal,_generation);
+			int generation=_generation;
+			BeginInvoke((Action)(() => {
+				if(generation==_generation) {
+					SaveThumbnailIfMissing();
+				}
+			}));
 		}
 
-		private async System.Threading.Tasks.Task NavigateAsync(string path) {
+		private async System.Threading.Tasks.Task NavigateAsync(string path,int generation) {
 			try {
 				if(_odWebView2.CoreWebView2==null) {
 					await _odWebView2.Init();//tells the user once when the WebView2 Runtime is missing
 				}
-				if(_odWebView2.CoreWebView2==null || _pathLocal!=path) {
+				if(_odWebView2.CoreWebView2==null || _pathLocal!=path || generation!=_generation) {
 					return;
 				}
 				//Edge's own menu and keys could save the patient's file outside Export (ImageExport): the bar below is the only control
 				_odWebView2.CoreWebView2.Settings.AreDefaultContextMenusEnabled=false;
 				_odWebView2.CoreWebView2.Settings.AreBrowserAcceleratorKeysEnabled=false;
-				_odWebView2.ODWebView2Navigate(new Uri(path).AbsoluteUri);//Edge's own player for the file
+				_odWebView2.ODWebView2Navigate(_uriExpected.AbsoluteUri);//Edge's own player for the file
 				timerPoll.Start();
 			}
 			catch(Exception ex) {
@@ -127,12 +138,18 @@ namespace OpenPmsDental {
 			}
 		}
 
-		///<summary>Stops playing and leaves the file, so it is not held open (a delete needs that).</summary>
+		///<summary>Stops playing and leaves the file (a blank page), so it is not held open (a delete needs that).</summary>
 		public void Stop() {
+			Stop(isNavigateBlank:true);
+		}
+
+		private void Stop(bool isNavigateBlank) {
+			_generation++;
 			timerPoll?.Stop();
 			_isOpened=false;
 			_isPaused=true;
-			if(_odWebView2?.CoreWebView2!=null && _pathLocal!="") {
+			_uriExpected=null;
+			if(isNavigateBlank && _odWebView2?.CoreWebView2!=null && _pathLocal!="") {
 				try {
 					_odWebView2.ODWebView2Navigate("about:blank");
 				}
@@ -174,13 +191,15 @@ namespace OpenPmsDental {
 				return;
 			}
 			_isPolling=true;
+			int generation=_generation;
 			try {
 				string result=await _odWebView2.CoreWebView2.ExecuteScriptAsync(ScriptPoll);
 				double seconds;
 				bool isPaused;
 				double durationSeconds;
-				if(!TryParsePoll(result,out seconds,out isPaused,out durationSeconds)) {
-					return;
+				string address;
+				if(generation!=_generation || !TryParsePoll(result,out seconds,out isPaused,out durationSeconds,out address) || !IsExpectedPage(address)) {
+					return;//the previous page answered, or another video was chosen meanwhile
 				}
 				_positionMs=(int)(seconds*1000);
 				_isPaused=isPaused;
@@ -196,6 +215,9 @@ namespace OpenPmsDental {
 						+"st.textContent='video::-webkit-media-controls{display:none !important}';document.head.appendChild(st);"
 						+"document.body.style.margin='0';document.body.style.background='black';"
 						+"v.style.width='100vw';v.style.height='100vh';v.style.maxWidth='none';v.style.maxHeight='none';v.style.objectFit='contain';");
+					if(generation!=_generation) {
+						return;
+					}
 					_isPaused=true;
 					_positionMs=VideoMedia.GetPlayStartMs(_trimStartMs,_durationMs);
 					_isOpened=true;
@@ -217,16 +239,28 @@ namespace OpenPmsDental {
 			}
 		}
 
-		///<summary>The poll script's answer: "12.5,1,42.0" (as a JSON string). False for none (no video element yet).</summary>
-		public static bool TryParsePoll(string result,out double seconds,out bool isPaused,out double durationSeconds) {
+		///<summary>True when address (the page's location) is the video being shown.</summary>
+		private bool IsExpectedPage(string address) {
+			Uri uri;
+			return _uriExpected!=null && Uri.TryCreate(address,UriKind.Absolute,out uri) && Uri.Compare(uri,_uriExpected,UriComponents.AbsoluteUri,
+				UriFormat.Unescaped,StringComparison.OrdinalIgnoreCase)==0;
+		}
+
+		///<summary>The poll script's answer: "12.5,1,42.0,file:///..." (as a JSON string). False for none (no video element yet).</summary>
+		public static bool TryParsePoll(string result,out double seconds,out bool isPaused,out double durationSeconds,out string address) {
 			seconds=0;
 			isPaused=true;
 			durationSeconds=0;
-			string text=(result??"").Trim().Trim('"');
-			string[] arrayParts=text.Split(',');
-			if(arrayParts.Length!=3) {
+			address="";
+			string text=(result??"").Trim();
+			if(text.Length>=2 && text.StartsWith("\"") && text.EndsWith("\"")) {
+				text=text.Substring(1,text.Length-2).Replace("\\\\","\\").Replace("\\\"","\"");//a JSON string
+			}
+			string[] arrayParts=text.Split(new[] { ',' },4);
+			if(arrayParts.Length!=4) {
 				return false;
 			}
+			address=arrayParts[3];
 			if(!double.TryParse(arrayParts[0],NumberStyles.Float,CultureInfo.InvariantCulture,out seconds)
 				|| !double.TryParse(arrayParts[2],NumberStyles.Float,CultureInfo.InvariantCulture,out durationSeconds))
 			{
@@ -241,11 +275,17 @@ namespace OpenPmsDental {
 		}
 
 		///<summary>Runs a statement on the page's video element v (scripts the program runs itself work whatever the page may run).</summary>
-		private async System.Threading.Tasks.Task RunScript(string statement) {
-			if(_odWebView2.CoreWebView2==null) {
-				return;
+		private async System.Threading.Tasks.Task<string> RunScript(string statement) {
+			try {
+				if(IsDisposed || _odWebView2.CoreWebView2==null) {
+					return "";
+				}
+				return await _odWebView2.CoreWebView2.ExecuteScriptAsync("(function(){var v=document.querySelector('video');if(v){"+statement+"}})()");
 			}
-			await _odWebView2.CoreWebView2.ExecuteScriptAsync("(function(){var v=document.querySelector('video');if(v){"+statement+"}})()");
+			catch(Exception ex) {
+				ex.DoNothing();//the browser closed or the page is changing
+				return "";
+			}
 		}
 
 		private async void TogglePlay() {
@@ -340,9 +380,18 @@ namespace OpenPmsDental {
 			if(!Security.IsAuthorized(EnumPermType.ImageCreate)) {
 				return;
 			}
-			await RunScript("v.pause();");
+			int generation=_generation;
+			string answer=await RunScript("v.pause();return v.currentTime;");
+			if(generation!=_generation) {
+				return;
+			}
 			_isPaused=true;
 			int positionMs=_positionMs;
+			double secondsPaused;
+			if(double.TryParse(answer,NumberStyles.Float,CultureInfo.InvariantCulture,out secondsPaused)) {
+				positionMs=(int)Math.Round(secondsPaused*1000);//where the pause landed, not the last poll
+				_positionMs=positionMs;
+			}
 			Bitmap bitmap;
 			Cursor=Cursors.WaitCursor;
 			try {
@@ -381,7 +430,8 @@ namespace OpenPmsDental {
 				return;
 			}
 			try {
-				if(VideoMedia.GetThumbnailPath(_document,_patFolder)==null || VideoMedia.LoadThumbnail(_document,_patFolder)!=null) {
+				string pathThumbnail=VideoMedia.GetThumbnailPath(_document,_patFolder);
+				if(pathThumbnail==null || File.Exists(pathThumbnail)) {
 					return;
 				}
 				int durationMs;

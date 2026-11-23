@@ -283,7 +283,6 @@ Here is the desired behavior:
 		#region Methods - Public
 		///<summary>Deletes the specified document from the database and refreshes the tree view. Set securityCheck false when creating a new document that might get cancelled.  Document is passed in because it might not be in the tree if the image folder it belongs to is now hidden.</summary>
 		public void DeleteDocument(bool isVerbose,bool doSecurityCheck,Document document) {
-			_controlVideoPlayer?.StopAndRelease();//a video being shown is open in the player: it could not be deleted
 			if(doSecurityCheck) {
 				//24.4: a signed image also needs SignedImageEdit.
 				if(!ImageSignaturePermissions.IsAuthorizedToDelete(document)) {
@@ -321,6 +320,9 @@ Here is the desired behavior:
 				}
 			}
 			Statements.DetachDocFromStatements(document.DocNum);
+			if(_controlVideoPlayer?.Document!=null && _controlVideoPlayer.Document.DocNum==document.DocNum) {
+				_controlVideoPlayer.StopAndRelease();//the video being shown is open in the player: let go of it, after the checks and the question
+			}
 			//SelectTreeNode(null);//Release access to current image so it may be properly deleted.
 			Document[] documentArray=new Document[1] { document };	
 			try {
@@ -5424,7 +5426,11 @@ Here is the desired behavior:
 			//_arrayBitmapsRaw[i].Clone(  //don't ever do it this way. Messes up dpi.
 		}
 
-		///<summary>Displays the PDF in an ODWebView2 control. Downloads the PDF file from the cloud if necessary.</summary>
+		///<summary>Stops a video being played (leaving the Imaging module).</summary>
+		public void StopVideo() {
+			_controlVideoPlayer?.Stop();
+		}
+
 		///<summary>Shows a video document in the player (IMG-P4d): the A to Z file, or a copy for cloud or database storage.</summary>
 		private void ShowVideo(Document document,string localPathImportedCloud) {
 			string pathLocal;
@@ -5464,6 +5470,7 @@ Here is the desired behavior:
 			return pathTemp;
 		}
 
+		///<summary>Displays the PDF in an ODWebView2 control. Downloads the PDF file from the cloud if necessary.</summary>
 		private async void LoadPdf(string atoZFolder,string atoZFileName,string localPath,string downloadMessage) {
 			try {
 				if(_odWebView2!=null) {
