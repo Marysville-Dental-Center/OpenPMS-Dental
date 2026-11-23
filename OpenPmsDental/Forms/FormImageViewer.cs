@@ -247,6 +247,13 @@ namespace OpenPmsDental {
 				case Keys.Home:
 					ResetZoom();
 					return true;
+				case Keys.T:
+					//The teeth of the image showing (imaging design P2): the module's picker saves them; this window then shows the new teeth.
+					if(IsSourceValid()){
+						_controlImageDisplay.EditTeeth(_idxShowing);
+						ShowIdx(_idxShowing,keepZoom:true);
+					}
+					return true;
 				case Keys.Add:
 				case Keys.Oemplus:
 					ZoomAt(ZOOM_STEP,new Point(canvas.Width/2,canvas.Height/2));
@@ -300,6 +307,7 @@ namespace OpenPmsDental {
 				listParts.Add(Lan.g(this,"Left/Right: previous/next image"));
 			}
 			listParts.Add(Lan.g(this,"Wheel: zoom, Home: fit"));
+			listParts.Add(Lan.g(this,"T: teeth"));
 			listParts.Add(Lan.g(this,"Double-click or Esc: close"));
 			labelInfo.Text=string.Join("   |   ",listParts);
 			canvas.Invalidate();

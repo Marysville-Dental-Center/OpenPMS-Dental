@@ -184,6 +184,7 @@ namespace OpenPmsDental{
 			Print,
 			Delete,
 			Info,
+			Teeth,
 			Sign,
 			//ScanDoc,
 			//ScanMultiDoc,
@@ -269,6 +270,7 @@ namespace OpenPmsDental{
 			toolBarMain.Add(Lan.g(this,"Print"),ToolBarPrint_Click,WpfControls.UI.EnumIcons.Print,tag:TB.Print.ToString(),toolBarButtonStyle:WpfControls.UI.ToolBarButtonStyle.DropDownButton,contextMenuDropDown:contextMenuPrint);
 			toolBarMain.Add(Lan.g(this,"Delete"),ToolBarDelete_Click,WpfControls.UI.EnumIcons.DeleteX,tag:TB.Delete.ToString());
 			toolBarMain.Add(Lan.g(this,"Info"),ToolBarInfo_Click,WpfControls.UI.EnumIcons.Info,tag:TB.Info.ToString());
+			toolBarMain.Add(Lan.g(this,"Teeth"),ToolBarTeeth_Click,WpfControls.UI.EnumIcons.Chart32G,tag:TB.Teeth.ToString(),toolTipText:Lan.g(this,"Change the teeth of the selected image (T)"));
 			toolBarMain.Add(Lan.g(this,"Sign"),ToolBarSign_Click,tag:TB.Sign.ToString());
 			toolBarMain.AddSeparator();
 			toolBarMain.Add(Lan.g(this,"Scan:"),null);
@@ -2383,6 +2385,10 @@ namespace OpenPmsDental{
 			GetOrMakeControlImageDisplay().ToolBarInfo_Click(sender,e);
 		}
 
+		private void ToolBarTeeth_Click(object sender, EventArgs e){
+			GetOrMakeControlImageDisplay().ToolBarTeeth_Click();
+		}
+
 		private void ToolBarMoveToPatient(object sender, EventArgs e){
 			if(!IsDocumentShowing() && !IsMountShowing()){
 				MsgBox.Show(this,"Please select an item first.");
@@ -3043,6 +3049,8 @@ namespace OpenPmsDental{
 			imageSelector.PrintOptionEnabled=toolBarButtonState.Print;
 			toolBarMain.SetEnabled(TB.Delete.ToString(),toolBarButtonState.Delete);
 			toolBarMain.SetEnabled(TB.Info.ToString(),toolBarButtonState.Info);
+			//Teeth is for one image, as Flip is: a single image or a selected mount item.
+			toolBarMain.SetEnabled(TB.Teeth.ToString(),toolBarButtonState.Flip);
 			toolBarMain.SetEnabled(TB.Sign.ToString(),toolBarButtonState.Sign);
 			toolBarMain.SetEnabled(TB.Export.ToString(),toolBarButtonState.Export);
 			toolBarMain.SetEnabled(TB.Copy.ToString(),toolBarButtonState.Copy);

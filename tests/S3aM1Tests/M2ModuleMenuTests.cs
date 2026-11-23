@@ -135,6 +135,14 @@ namespace S3aM1Tests {
 		public void ControlImageDisplay_PanelMenu() {
 			M2Support.RunSta(() => {
 				using(ControlImageDisplay controlImageDisplay=new ControlImageDisplay()) {
+					//IMG-P2: the constructor adds Teeth after Info in code (the designer file is unchanged). Checked here, then taken out so the
+					//rest of the menu is compared with the designer as before.
+					ContextMenuStrip contextMenuStrip=(ContextMenuStrip)Priv.Get(controlImageDisplay,"menuPanelMain");
+					ToolStripMenuItem menuItemTeeth=(ToolStripMenuItem)Priv.Get(controlImageDisplay,"_menuItemTeeth");
+					Assert.AreEqual(contextMenuStrip.Items.IndexOf((ToolStripItem)Priv.Get(controlImageDisplay,"menuItemInfo"))+1,
+						contextMenuStrip.Items.IndexOf(menuItemTeeth),"Teeth follows Info.");
+					Assert.AreEqual("Teeth...",menuItemTeeth.Text);
+					contextMenuStrip.Items.Remove(menuItemTeeth);
 					AssertDesignerMenus(controlImageDisplay,@"User Controls\ControlImageDisplay.Designer.cs");
 					Control panelMain=(Control)Priv.Get(controlImageDisplay,"panelMain");
 					Assert.AreSame(Priv.Get(controlImageDisplay,"menuPanelMain"),panelMain.ContextMenuStrip);
