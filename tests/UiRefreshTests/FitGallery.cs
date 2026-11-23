@@ -110,12 +110,14 @@ namespace UiRefreshTests {
 								builtWindow.LayOutAt(scale);
 							}
 							SettleAfterHandles(builtWindow);
+							//The state before the 150% font pass: a tab page shown lays its page out again (TabControl.LayoutTabs), with
+							//LayoutManager's zoom-only fonts.
+							Control controlPicture=FillSampleState(root,window,state);
 							if(scale!=1f) {
 								GridStyleGallery.ScaleFontsAsWindowsDoes(root,scale);
 							}
 							HideDatePickerCalendars(root);
 							FillSampleContent(root,window);
-							Control controlPicture=FillSampleState(root,window,state);
 							List<string[]> listOwnerHere=controlPicture==root ? listOwner.Where(x => x[1]==window).ToList() : new List<string[]>();
 							using(Bitmap bitmap=DesignSheetWindows.Capture(controlPicture,Rectangle.Empty)) {
 								string name=window.Substring(window.LastIndexOf('.')+1);
