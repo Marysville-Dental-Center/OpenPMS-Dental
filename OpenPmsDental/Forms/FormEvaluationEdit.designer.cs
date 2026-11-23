@@ -210,7 +210,7 @@ namespace OpenPmsDental{
 			this.gridGrades.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridGrades.Location = new System.Drawing.Point(511, 89);
+			this.gridGrades.Location = new System.Drawing.Point(520, 89);
 			this.gridGrades.Name = "gridGrades";
 			this.gridGrades.Size = new System.Drawing.Size(314, 342);
 			this.gridGrades.TabIndex = 150;
@@ -238,10 +238,10 @@ namespace OpenPmsDental{
 			// 
 			this.gridCriterion.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-			this.gridCriterion.Location = new System.Drawing.Point(18, 89);
+			this.gridCriterion.Location = new System.Drawing.Point(8, 89);
 			this.gridCriterion.Name = "gridCriterion";
 			this.gridCriterion.SelectionMode = OpenPmsDental.UI.GridSelectionMode.OneCell;
-			this.gridCriterion.Size = new System.Drawing.Size(487, 342);
+			this.gridCriterion.Size = new System.Drawing.Size(504, 342);
 			this.gridCriterion.TabIndex = 143;
 			this.gridCriterion.Title = "Criterion";
 			this.gridCriterion.TranslationName = "FormEvaluationDefEdit";

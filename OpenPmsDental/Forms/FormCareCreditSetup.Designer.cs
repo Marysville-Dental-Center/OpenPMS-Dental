@@ -121,9 +121,9 @@
 			this.groupClinicSettings.Controls.Add(this.comboPaymentType);
 			this.groupClinicSettings.Controls.Add(this.labelPaymentType);
 			this.groupClinicSettings.Controls.Add(this.groupPromotions);
-			this.groupClinicSettings.Location = new System.Drawing.Point(24, 195);
+			this.groupClinicSettings.Location = new System.Drawing.Point(8, 195);
 			this.groupClinicSettings.Name = "groupClinicSettings";
-			this.groupClinicSettings.Size = new System.Drawing.Size(580, 234);
+			this.groupClinicSettings.Size = new System.Drawing.Size(603, 234);
 			this.groupClinicSettings.TabIndex = 6;
 			this.groupClinicSettings.Text = "Clinic Settings";
 			// 
@@ -147,7 +147,7 @@
 			// 
 			// labelMerchantNumberClinic
 			// 
-			this.labelMerchantNumberClinic.Location = new System.Drawing.Point(68, 117);
+			this.labelMerchantNumberClinic.Location = new System.Drawing.Point(84, 117);
 			this.labelMerchantNumberClinic.Name = "labelMerchantNumberClinic";
 			this.labelMerchantNumberClinic.Size = new System.Drawing.Size(112, 23);
 			this.labelMerchantNumberClinic.TabIndex = 276;
@@ -156,9 +156,9 @@
 			// 
 			// textMerchantNumberClinic
 			// 
-			this.textMerchantNumberClinic.Location = new System.Drawing.Point(186, 117);
+			this.textMerchantNumberClinic.Location = new System.Drawing.Point(202, 117);
 			this.textMerchantNumberClinic.Name = "textMerchantNumberClinic";
-			this.textMerchantNumberClinic.Size = new System.Drawing.Size(220, 20);
+			this.textMerchantNumberClinic.Size = new System.Drawing.Size(212, 23);
 			this.textMerchantNumberClinic.TabIndex = 275;
 			this.textMerchantNumberClinic.Leave += new System.EventHandler(this.textMerchantNumberClinic_Leave);
 			// 
@@ -168,7 +168,7 @@
 			this.groupQSBatch.Controls.Add(this.labelQSDays);
 			this.groupQSBatch.Location = new System.Drawing.Point(106, 162);
 			this.groupQSBatch.Name = "groupQSBatch";
-			this.groupQSBatch.Size = new System.Drawing.Size(466, 54);
+			this.groupQSBatch.Size = new System.Drawing.Size(489, 54);
 			this.groupQSBatch.TabIndex = 6;
 			this.groupQSBatch.Text = "Quickscreen Settings";
 			// 
@@ -191,15 +191,15 @@
 			// 
 			// comboPaymentType
 			// 
-			this.comboPaymentType.Location = new System.Drawing.Point(186, 23);
+			this.comboPaymentType.Location = new System.Drawing.Point(202, 23);
 			this.comboPaymentType.Name = "comboPaymentType";
-			this.comboPaymentType.Size = new System.Drawing.Size(220, 23);
+			this.comboPaymentType.Size = new System.Drawing.Size(212, 23);
 			this.comboPaymentType.TabIndex = 0;
 			this.comboPaymentType.Text = "comboPaymentType";
 			// 
 			// labelPaymentType
 			// 
-			this.labelPaymentType.Location = new System.Drawing.Point(92, 23);
+			this.labelPaymentType.Location = new System.Drawing.Point(108, 23);
 			this.labelPaymentType.Name = "labelPaymentType";
 			this.labelPaymentType.Size = new System.Drawing.Size(88, 23);
 			this.labelPaymentType.TabIndex = 18;
@@ -210,16 +210,16 @@
 			// 
 			this.groupPromotions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.groupPromotions.Controls.Add(this.butPromotions);
-			this.groupPromotions.Location = new System.Drawing.Point(186, 54);
+			this.groupPromotions.Location = new System.Drawing.Point(202, 54);
 			this.groupPromotions.Name = "groupPromotions";
-			this.groupPromotions.Size = new System.Drawing.Size(220, 55);
+			this.groupPromotions.Size = new System.Drawing.Size(212, 55);
 			this.groupPromotions.TabIndex = 4;
 			this.groupPromotions.Text = "CareCredit admin";
 			// 
 			// butPromotions
 			// 
 			this.butPromotions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butPromotions.Location = new System.Drawing.Point(73, 23);
+			this.butPromotions.Location = new System.Drawing.Point(68, 23);
 			this.butPromotions.Name = "butPromotions";
 			this.butPromotions.Size = new System.Drawing.Size(75, 24);
 			this.butPromotions.TabIndex = 0;
@@ -232,7 +232,7 @@
 			this.comboClinics.IncludeUnassigned = true;
 			this.comboClinics.Location = new System.Drawing.Point(167, 164);
 			this.comboClinics.Name = "comboClinics";
-			this.comboClinics.Size = new System.Drawing.Size(251, 23);
+			this.comboClinics.Size = new System.Drawing.Size(255, 23);
 			this.comboClinics.TabIndex = 2;
 			this.comboClinics.SelectionChangeCommitted += new System.EventHandler(this.comboClinics_SelectionChangeCommitted);
 			// 
@@ -357,7 +357,7 @@
 			this.groupConnection.Controls.Add(this.labelConnectionStatus);
 			this.groupConnection.Location = new System.Drawing.Point(619, 8);
 			this.groupConnection.Name = "groupConnection";
-			this.groupConnection.Size = new System.Drawing.Size(403, 446);
+			this.groupConnection.Size = new System.Drawing.Size(403, 406);
 			this.groupConnection.TabIndex = 8;
 			this.groupConnection.Text = "Connection (values from Synchrony's implementation guide)";
 			// 
@@ -597,7 +597,7 @@
 			this.groupBackground.Controls.Add(this.labelPullbackTime);
 			this.groupBackground.Controls.Add(this.textPullbackTime);
 			this.groupBackground.Controls.Add(this.labelTimeFormat);
-			this.groupBackground.Location = new System.Drawing.Point(619, 462);
+			this.groupBackground.Location = new System.Drawing.Point(619, 422);
 			this.groupBackground.Name = "groupBackground";
 			this.groupBackground.Size = new System.Drawing.Size(403, 115);
 			this.groupBackground.TabIndex = 9;
@@ -605,18 +605,18 @@
 			//
 			// labelJobComputer
 			//
-			this.labelJobComputer.Location = new System.Drawing.Point(169, 23);
+			this.labelJobComputer.Location = new System.Drawing.Point(8, 26);
 			this.labelJobComputer.Name = "labelJobComputer";
-			this.labelJobComputer.Size = new System.Drawing.Size(100, 30);
+			this.labelJobComputer.Size = new System.Drawing.Size(237, 23);
 			this.labelJobComputer.TabIndex = 0;
 			this.labelJobComputer.Text = "Run on: (not set)";
 			this.labelJobComputer.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			//
 			// butRunHere
 			//
-			this.butRunHere.Location = new System.Drawing.Point(275, 26);
+			this.butRunHere.Location = new System.Drawing.Point(251, 26);
 			this.butRunHere.Name = "butRunHere";
-			this.butRunHere.Size = new System.Drawing.Size(120, 23);
+			this.butRunHere.Size = new System.Drawing.Size(144, 23);
 			this.butRunHere.TabIndex = 1;
 			this.butRunHere.Text = "Run on this computer";
 			this.butRunHere.Click += new System.EventHandler(this.butRunHere_Click);

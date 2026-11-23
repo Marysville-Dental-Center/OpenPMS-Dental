@@ -90,7 +90,7 @@ namespace OpenPmsDental{
 			this.textDescription.Name = "textDescription";
 			this.textDescription.ReadOnly = true;
 			this.textDescription.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.textDescription.Size = new System.Drawing.Size(241, 51);
+			this.textDescription.Size = new System.Drawing.Size(323, 51);
 			this.textDescription.TabIndex = 141;
 			// 
 			// label3
@@ -158,7 +158,7 @@ namespace OpenPmsDental{
 			// 
 			this.radioMedReason.Location = new System.Drawing.Point(102, 115);
 			this.radioMedReason.Name = "radioMedReason";
-			this.radioMedReason.Size = new System.Drawing.Size(108, 20);
+			this.radioMedReason.Size = new System.Drawing.Size(108, 18);
 			this.radioMedReason.TabIndex = 156;
 			this.radioMedReason.Text = "Medical Reason";
 			this.radioMedReason.Visible = false;
@@ -177,7 +177,7 @@ namespace OpenPmsDental{
 			// 
 			this.radioSysReason.Location = new System.Drawing.Point(325, 115);
 			this.radioSysReason.Name = "radioSysReason";
-			this.radioSysReason.Size = new System.Drawing.Size(100, 34);
+			this.radioSysReason.Size = new System.Drawing.Size(104, 18);
 			this.radioSysReason.TabIndex = 158;
 			this.radioSysReason.Text = "System Reason";
 			this.radioSysReason.Visible = false;
@@ -196,7 +196,7 @@ namespace OpenPmsDental{
 			// 
 			this.radioPatReason.Location = new System.Drawing.Point(216, 115);
 			this.radioPatReason.Name = "radioPatReason";
-			this.radioPatReason.Size = new System.Drawing.Size(103, 20);
+			this.radioPatReason.Size = new System.Drawing.Size(103, 18);
 			this.radioPatReason.TabIndex = 157;
 			this.radioPatReason.Text = "Patient Reason";
 			this.radioPatReason.Visible = false;
@@ -274,7 +274,7 @@ namespace OpenPmsDental{
 			this.textDescriptionReason.Name = "textDescriptionReason";
 			this.textDescriptionReason.ReadOnly = true;
 			this.textDescriptionReason.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.textDescriptionReason.Size = new System.Drawing.Size(241, 34);
+			this.textDescriptionReason.Size = new System.Drawing.Size(323, 34);
 			this.textDescriptionReason.TabIndex = 147;
 			// 
 			// textNote
@@ -285,7 +285,7 @@ namespace OpenPmsDental{
 			this.textNote.Multiline = true;
 			this.textNote.Name = "textNote";
 			this.textNote.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.textNote.Size = new System.Drawing.Size(245, 60);
+			this.textNote.Size = new System.Drawing.Size(331, 60);
 			this.textNote.TabIndex = 148;
 			// 
 			// FormEhrNotPerformedEdit

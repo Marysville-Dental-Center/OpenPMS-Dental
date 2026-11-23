@@ -299,7 +299,7 @@
 			this.comboProvNumOrdering.Location = new System.Drawing.Point(624, 89);
 			this.comboProvNumOrdering.MaxDropDownItems = 30;
 			this.comboProvNumOrdering.Name = "comboProvNumOrdering";
-			this.comboProvNumOrdering.Size = new System.Drawing.Size(256, 23);
+			this.comboProvNumOrdering.Size = new System.Drawing.Size(268, 23);
 			this.comboProvNumOrdering.TabIndex = 262;
 			this.comboProvNumOrdering.SelectionChangeCommitted += new System.EventHandler(this.comboProvNumOrdering_SelectionChangeCommitted);
 			// 
@@ -318,7 +318,7 @@
 			this.comboProvNumAdministering.Location = new System.Drawing.Point(624, 116);
 			this.comboProvNumAdministering.MaxDropDownItems = 30;
 			this.comboProvNumAdministering.Name = "comboProvNumAdministering";
-			this.comboProvNumAdministering.Size = new System.Drawing.Size(256, 23);
+			this.comboProvNumAdministering.Size = new System.Drawing.Size(268, 23);
 			this.comboProvNumAdministering.TabIndex = 265;
 			this.comboProvNumAdministering.SelectionChangeCommitted += new System.EventHandler(this.comboProvNumAdministering_SelectionChangeCommitted);
 			// 
@@ -421,7 +421,7 @@
 			this.gridObservations.Location = new System.Drawing.Point(624, 369);
 			this.gridObservations.Name = "gridObservations";
 			this.gridObservations.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridObservations.Size = new System.Drawing.Size(254, 110);
+			this.gridObservations.Size = new System.Drawing.Size(342, 110);
 			this.gridObservations.TabIndex = 284;
 			this.gridObservations.Title = "Observations";
 			this.gridObservations.TranslationName = "TableObservations";
@@ -430,7 +430,7 @@
 			// 
 			// butUngroupObservations
 			// 
-			this.butUngroupObservations.Location = new System.Drawing.Point(786, 486);
+			this.butUngroupObservations.Location = new System.Drawing.Point(891, 486);
 			this.butUngroupObservations.Name = "butUngroupObservations";
 			this.butUngroupObservations.Size = new System.Drawing.Size(75, 22);
 			this.butUngroupObservations.TabIndex = 287;
@@ -439,7 +439,7 @@
 			// 
 			// butGroupObservations
 			// 
-			this.butGroupObservations.Location = new System.Drawing.Point(705, 486);
+			this.butGroupObservations.Location = new System.Drawing.Point(810, 486);
 			this.butGroupObservations.Name = "butGroupObservations";
 			this.butGroupObservations.Size = new System.Drawing.Size(75, 22);
 			this.butGroupObservations.TabIndex = 286;
@@ -481,7 +481,7 @@
 			// 
 			// butNoneProvAdministering
 			// 
-			this.butNoneProvAdministering.Location = new System.Drawing.Point(910, 116);
+			this.butNoneProvAdministering.Location = new System.Drawing.Point(922, 116);
 			this.butNoneProvAdministering.Name = "butNoneProvAdministering";
 			this.butNoneProvAdministering.Size = new System.Drawing.Size(44, 23);
 			this.butNoneProvAdministering.TabIndex = 279;
@@ -490,7 +490,7 @@
 			// 
 			// butNoneProvOrdering
 			// 
-			this.butNoneProvOrdering.Location = new System.Drawing.Point(910, 89);
+			this.butNoneProvOrdering.Location = new System.Drawing.Point(922, 89);
 			this.butNoneProvOrdering.Name = "butNoneProvOrdering";
 			this.butNoneProvOrdering.Size = new System.Drawing.Size(44, 23);
 			this.butNoneProvOrdering.TabIndex = 278;
@@ -506,7 +506,7 @@
 			// 
 			// butPickProvAdministering
 			// 
-			this.butPickProvAdministering.Location = new System.Drawing.Point(886, 116);
+			this.butPickProvAdministering.Location = new System.Drawing.Point(898, 116);
 			this.butPickProvAdministering.Name = "butPickProvAdministering";
 			this.butPickProvAdministering.Size = new System.Drawing.Size(18, 23);
 			this.butPickProvAdministering.TabIndex = 266;
@@ -515,7 +515,7 @@
 			// 
 			// butPickProvOrdering
 			// 
-			this.butPickProvOrdering.Location = new System.Drawing.Point(886, 89);
+			this.butPickProvOrdering.Location = new System.Drawing.Point(898, 89);
 			this.butPickProvOrdering.Name = "butPickProvOrdering";
 			this.butPickProvOrdering.Size = new System.Drawing.Size(18, 23);
 			this.butPickProvOrdering.TabIndex = 263;

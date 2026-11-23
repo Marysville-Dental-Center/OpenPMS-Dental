@@ -304,9 +304,9 @@ namespace OpenPmsDental {
 			this.groupSpecialUseOnly.Controls.Add(this.checkHospitals);
 			this.groupSpecialUseOnly.Controls.Add(this.checkPublicHealth);
 			this.groupSpecialUseOnly.Controls.Add(this.checkEhr);
-			this.groupSpecialUseOnly.Location = new System.Drawing.Point(269, 159);
+			this.groupSpecialUseOnly.Location = new System.Drawing.Point(261, 159);
 			this.groupSpecialUseOnly.Name = "groupSpecialUseOnly";
-			this.groupSpecialUseOnly.Size = new System.Drawing.Size(241, 171);
+			this.groupSpecialUseOnly.Size = new System.Drawing.Size(249, 171);
 			this.groupSpecialUseOnly.TabIndex = 28;
 			this.groupSpecialUseOnly.TabStop = false;
 			this.groupSpecialUseOnly.Text = "Special Use Only";

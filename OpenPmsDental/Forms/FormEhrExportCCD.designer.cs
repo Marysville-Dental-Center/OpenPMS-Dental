@@ -132,7 +132,7 @@ namespace OpenPmsDental{
 			// 
 			this.checkResult.Checked = true;
 			this.checkResult.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkResult.Location = new System.Drawing.Point(130, 56);
+			this.checkResult.Location = new System.Drawing.Point(177, 56);
 			this.checkResult.Name = "checkResult";
 			this.checkResult.Size = new System.Drawing.Size(56, 20);
 			this.checkResult.TabIndex = 129;
@@ -162,7 +162,7 @@ namespace OpenPmsDental{
 			// 
 			this.labelSections.Location = new System.Drawing.Point(8, 35);
 			this.labelSections.Name = "labelSections";
-			this.labelSections.Size = new System.Drawing.Size(353, 18);
+			this.labelSections.Size = new System.Drawing.Size(368, 18);
 			this.labelSections.TabIndex = 132;
 			this.labelSections.Text = "Choose the sections to include in the Continuity of Care Document.";
 			// 
@@ -171,7 +171,7 @@ namespace OpenPmsDental{
 			this.textInstructions.Location = new System.Drawing.Point(8, 269);
 			this.textInstructions.Multiline = true;
 			this.textInstructions.Name = "textInstructions";
-			this.textInstructions.Size = new System.Drawing.Size(353, 73);
+			this.textInstructions.Size = new System.Drawing.Size(368, 73);
 			this.textInstructions.TabIndex = 136;
 			// 
 			// labelInstructions
@@ -211,7 +211,7 @@ namespace OpenPmsDental{
 			this.groupBox1.Controls.Add(this.checkResult);
 			this.groupBox1.Location = new System.Drawing.Point(8, 55);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(353, 184);
+			this.groupBox1.Size = new System.Drawing.Size(368, 184);
 			this.groupBox1.TabIndex = 138;
             this.groupBox1.TabStop = false;
 			// 
@@ -243,7 +243,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(286, 364);
+			this.butSave.Location = new System.Drawing.Point(301, 364);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 3;
@@ -252,7 +252,7 @@ namespace OpenPmsDental{
 			// 
 			// butCheckNone
 			// 
-			this.butCheckNone.Location = new System.Drawing.Point(244, 152);
+			this.butCheckNone.Location = new System.Drawing.Point(259, 152);
 			this.butCheckNone.Name = "butCheckNone";
 			this.butCheckNone.Size = new System.Drawing.Size(60, 24);
 			this.butCheckNone.TabIndex = 134;
@@ -261,7 +261,7 @@ namespace OpenPmsDental{
 			// 
 			// butCheckAll
 			// 
-			this.butCheckAll.Location = new System.Drawing.Point(177, 152);
+			this.butCheckAll.Location = new System.Drawing.Point(192, 152);
 			this.butCheckAll.Name = "butCheckAll";
 			this.butCheckAll.Size = new System.Drawing.Size(61, 24);
 			this.butCheckAll.TabIndex = 133;
@@ -271,7 +271,7 @@ namespace OpenPmsDental{
 			// FormEhrExportCCD
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(369, 396);
+			this.ClientSize = new System.Drawing.Size(384, 396);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.dateLabel);
 			this.Controls.Add(this.textDate);

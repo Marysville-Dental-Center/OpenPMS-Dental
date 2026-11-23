@@ -90,7 +90,7 @@ namespace OpenPmsDental {
 			this.textHeading.AutoSize = false;
 			this.textHeading.Location = new System.Drawing.Point(137, 35);
 			this.textHeading.Name = "textHeading";
-			this.textHeading.Size = new System.Drawing.Size(488, 23);
+			this.textHeading.Size = new System.Drawing.Size(515, 23);
 			this.textHeading.TabIndex = 4;
 			// 
 			// label2
@@ -222,7 +222,7 @@ namespace OpenPmsDental {
 			this.textNote.Name = "textNote";
 			this.textNote.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.TreatPlan;
 			this.textNote.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textNote.Size = new System.Drawing.Size(489, 181);
+			this.textNote.Size = new System.Drawing.Size(515, 181);
 			this.textNote.SpellCheckIsEnabled = false;
 			this.textNote.TabIndex = 80;
 			this.textNote.Text = "";

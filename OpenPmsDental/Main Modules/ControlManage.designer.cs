@@ -288,14 +288,14 @@ namespace OpenPmsDental {
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.listBoxMessages.Location = new System.Drawing.Point(258, 50);
 			this.listBoxMessages.Name = "listBoxMessages";
-			this.listBoxMessages.Size = new System.Drawing.Size(98, 329);
+			this.listBoxMessages.Size = new System.Drawing.Size(98, 322);
 			this.listBoxMessages.TabIndex = 10;
 			this.listBoxMessages.Click += new System.EventHandler(this.listMessages_Click);
 			// 
 			// butSend
 			// 
 			this.butSend.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butSend.Location = new System.Drawing.Point(258, 383);
+			this.butSend.Location = new System.Drawing.Point(258, 376);
 			this.butSend.Name = "butSend";
 			this.butSend.Size = new System.Drawing.Size(98, 25);
 			this.butSend.TabIndex = 15;
@@ -394,7 +394,7 @@ namespace OpenPmsDental {
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(258, 25);
+			this.label5.Location = new System.Drawing.Point(258, 30);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(124, 18);
 			this.label5.TabIndex = 9;
@@ -405,16 +405,16 @@ namespace OpenPmsDental {
 			// 
 			this.listBoxExtras.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-			this.listBoxExtras.Location = new System.Drawing.Point(170, 43);
+			this.listBoxExtras.Location = new System.Drawing.Point(170, 50);
 			this.listBoxExtras.Name = "listBoxExtras";
-			this.listBoxExtras.Size = new System.Drawing.Size(75, 329);
+			this.listBoxExtras.Size = new System.Drawing.Size(75, 322);
 			this.listBoxExtras.TabIndex = 8;
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(170, 23);
+			this.label4.Location = new System.Drawing.Point(170, 30);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(75, 16);
+			this.label4.Size = new System.Drawing.Size(75, 18);
 			this.label4.TabIndex = 7;
 			this.label4.Text = "Extras";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -423,16 +423,16 @@ namespace OpenPmsDental {
 			// 
 			this.listBoxFrom.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-			this.listBoxFrom.Location = new System.Drawing.Point(89, 43);
+			this.listBoxFrom.Location = new System.Drawing.Point(89, 50);
 			this.listBoxFrom.Name = "listBoxFrom";
-			this.listBoxFrom.Size = new System.Drawing.Size(75, 329);
+			this.listBoxFrom.Size = new System.Drawing.Size(75, 322);
 			this.listBoxFrom.TabIndex = 6;
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(89, 23);
+			this.label3.Location = new System.Drawing.Point(89, 30);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(75, 16);
+			this.label3.Size = new System.Drawing.Size(75, 18);
 			this.label3.TabIndex = 5;
 			this.label3.Text = "From";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -441,16 +441,16 @@ namespace OpenPmsDental {
 			// 
 			this.listBoxTo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-			this.listBoxTo.Location = new System.Drawing.Point(8, 43);
+			this.listBoxTo.Location = new System.Drawing.Point(8, 50);
 			this.listBoxTo.Name = "listBoxTo";
-			this.listBoxTo.Size = new System.Drawing.Size(75, 329);
+			this.listBoxTo.Size = new System.Drawing.Size(75, 322);
 			this.listBoxTo.TabIndex = 4;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(8, 23);
+			this.label1.Location = new System.Drawing.Point(8, 30);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(75, 16);
+			this.label1.Size = new System.Drawing.Size(75, 18);
 			this.label1.TabIndex = 3;
 			this.label1.Text = "To";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -488,15 +488,15 @@ namespace OpenPmsDental {
 			// 
 			// textFilterName
 			// 
-			this.textFilterName.Location = new System.Drawing.Point(264, 23);
+			this.textFilterName.Location = new System.Drawing.Point(214, 23);
 			this.textFilterName.Name = "textFilterName";
-			this.textFilterName.Size = new System.Drawing.Size(72, 23);
+			this.textFilterName.Size = new System.Drawing.Size(120, 23);
 			this.textFilterName.TabIndex = 26;
 			this.textFilterName.TextChanged += new System.EventHandler(this.textFilterName_TextChanged);
 			// 
 			// labelFilterName
 			// 
-			this.labelFilterName.Location = new System.Drawing.Point(170, 23);
+			this.labelFilterName.Location = new System.Drawing.Point(120, 23);
 			this.labelFilterName.Name = "labelFilterName";
 			this.labelFilterName.Size = new System.Drawing.Size(88, 23);
 			this.labelFilterName.TabIndex = 25;
@@ -505,15 +505,15 @@ namespace OpenPmsDental {
 			// 
 			// comboReportsTo
 			// 
-			this.comboReportsTo.Location = new System.Drawing.Point(264, 50);
+			this.comboReportsTo.Location = new System.Drawing.Point(214, 50);
 			this.comboReportsTo.Name = "comboReportsTo";
-			this.comboReportsTo.Size = new System.Drawing.Size(72, 23);
+			this.comboReportsTo.Size = new System.Drawing.Size(120, 23);
 			this.comboReportsTo.TabIndex = 28;
 			this.comboReportsTo.SelectionChangeCommitted += new System.EventHandler(this.comboReportsTo_SelectionChangeCommitted);
 			// 
 			// labelReportsTo
 			// 
-			this.labelReportsTo.Location = new System.Drawing.Point(190, 50);
+			this.labelReportsTo.Location = new System.Drawing.Point(140, 50);
 			this.labelReportsTo.Name = "labelReportsTo";
 			this.labelReportsTo.Size = new System.Drawing.Size(68, 23);
 			this.labelReportsTo.TabIndex = 27;
@@ -522,7 +522,7 @@ namespace OpenPmsDental {
 			// 
 			// butViewSched
 			// 
-			this.butViewSched.Location = new System.Drawing.Point(340, 106);
+			this.butViewSched.Location = new System.Drawing.Point(342, 106);
 			this.butViewSched.Name = "butViewSched";
 			this.butViewSched.Size = new System.Drawing.Size(108, 25);
 			this.butViewSched.TabIndex = 24;
@@ -540,7 +540,7 @@ namespace OpenPmsDental {
 			// 
 			// butBreaks
 			// 
-			this.butBreaks.Location = new System.Drawing.Point(340, 77);
+			this.butBreaks.Location = new System.Drawing.Point(342, 77);
 			this.butBreaks.Name = "butBreaks";
 			this.butBreaks.Size = new System.Drawing.Size(108, 25);
 			this.butBreaks.TabIndex = 22;
@@ -549,10 +549,10 @@ namespace OpenPmsDental {
 			// 
 			// gridEmp
 			// 
-			this.gridEmp.Location = new System.Drawing.Point(21, 77);
+			this.gridEmp.Location = new System.Drawing.Point(8, 77);
 			this.gridEmp.Name = "gridEmp";
 			this.gridEmp.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridEmp.Size = new System.Drawing.Size(303, 198);
+			this.gridEmp.Size = new System.Drawing.Size(326, 198);
 			this.gridEmp.TabIndex = 21;
 			this.gridEmp.Title = "Employee";
 			this.gridEmp.TranslationName = "TableEmpClock";
@@ -561,23 +561,23 @@ namespace OpenPmsDental {
 			// 
 			// labelCurrentTime
 			// 
-			this.labelCurrentTime.Location = new System.Drawing.Point(350, 135);
+			this.labelCurrentTime.Location = new System.Drawing.Point(342, 135);
 			this.labelCurrentTime.Name = "labelCurrentTime";
-			this.labelCurrentTime.Size = new System.Drawing.Size(88, 17);
+			this.labelCurrentTime.Size = new System.Drawing.Size(108, 17);
 			this.labelCurrentTime.TabIndex = 20;
 			this.labelCurrentTime.Text = "Server Time";
 			this.labelCurrentTime.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			// 
 			// listBoxStatus
 			// 
-			this.listBoxStatus.Location = new System.Drawing.Point(339, 235);
+			this.listBoxStatus.Location = new System.Drawing.Point(342, 235);
 			this.listBoxStatus.Name = "listBoxStatus";
-			this.listBoxStatus.Size = new System.Drawing.Size(107, 43);
+			this.listBoxStatus.Size = new System.Drawing.Size(108, 43);
 			this.listBoxStatus.TabIndex = 12;
 			// 
 			// butClockOut
 			// 
-			this.butClockOut.Location = new System.Drawing.Point(340, 206);
+			this.butClockOut.Location = new System.Drawing.Point(342, 206);
 			this.butClockOut.Name = "butClockOut";
 			this.butClockOut.Size = new System.Drawing.Size(108, 25);
 			this.butClockOut.TabIndex = 14;
@@ -596,16 +596,16 @@ namespace OpenPmsDental {
 			// labelTime
 			// 
 			this.labelTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.labelTime.Location = new System.Drawing.Point(339, 154);
+			this.labelTime.Location = new System.Drawing.Point(342, 154);
 			this.labelTime.Name = "labelTime";
-			this.labelTime.Size = new System.Drawing.Size(111, 21);
+			this.labelTime.Size = new System.Drawing.Size(108, 21);
 			this.labelTime.TabIndex = 17;
 			this.labelTime.Text = "12:00:00 PM";
 			this.labelTime.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			// 
 			// butClockIn
 			// 
-			this.butClockIn.Location = new System.Drawing.Point(340, 177);
+			this.butClockIn.Location = new System.Drawing.Point(342, 177);
 			this.butClockIn.Name = "butClockIn";
 			this.butClockIn.Size = new System.Drawing.Size(108, 25);
 			this.butClockIn.TabIndex = 11;

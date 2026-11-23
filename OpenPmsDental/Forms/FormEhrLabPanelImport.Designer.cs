@@ -60,7 +60,7 @@
 			this.textHL7Raw.Multiline = true;
 			this.textHL7Raw.Name = "textHL7Raw";
 			this.textHL7Raw.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this.textHL7Raw.Size = new System.Drawing.Size(747, 205);
+			this.textHL7Raw.Size = new System.Drawing.Size(759, 205);
 			this.textHL7Raw.TabIndex = 1;
 			this.textHL7Raw.WordWrap = false;
 			this.textHL7Raw.TextChanged += new System.EventHandler(this.textHL7Raw_TextChanged);
@@ -147,9 +147,9 @@
 			this.groupBox1.Controls.Add(this.label2);
 			this.groupBox1.Controls.Add(this.label3);
 			this.groupBox1.Controls.Add(this.label4);
-			this.groupBox1.Location = new System.Drawing.Point(12, 244);
+			this.groupBox1.Location = new System.Drawing.Point(8, 244);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(435, 224);
+			this.groupBox1.Size = new System.Drawing.Size(435, 232);
 			this.groupBox1.TabIndex = 13;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Info From Incoming Message";
@@ -232,7 +232,7 @@
 			// 
 			this.gridMain.Location = new System.Drawing.Point(467, 305);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(412, 171);
+			this.gridMain.Size = new System.Drawing.Size(428, 171);
 			this.gridMain.TabIndex = 10;
 			this.gridMain.Title = "Lab Orders for the Patient Above";
 			this.gridMain.TranslationName = "TablePatientOrders";
@@ -243,12 +243,12 @@
 			this.textPatName2.Location = new System.Drawing.Point(467, 278);
 			this.textPatName2.Name = "textPatName2";
 			this.textPatName2.ReadOnly = true;
-			this.textPatName2.Size = new System.Drawing.Size(348, 23);
+			this.textPatName2.Size = new System.Drawing.Size(363, 23);
 			this.textPatName2.TabIndex = 15;
 			// 
 			// butChangePat
 			// 
-			this.butChangePat.Location = new System.Drawing.Point(821, 278);
+			this.butChangePat.Location = new System.Drawing.Point(836, 278);
 			this.butChangePat.Name = "butChangePat";
 			this.butChangePat.Size = new System.Drawing.Size(59, 23);
 			this.butChangePat.TabIndex = 16;

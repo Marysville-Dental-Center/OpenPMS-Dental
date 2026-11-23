@@ -76,7 +76,7 @@ namespace OpenPmsDental{
 			this.groupBox1.Controls.Add(this.label3);
 			this.groupBox1.Location = new System.Drawing.Point(92, 279);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(283, 81);
+			this.groupBox1.Size = new System.Drawing.Size(283, 105);
 			this.groupBox1.TabIndex = 88;
 			this.groupBox1.Text = "Default Font";
 			// 
@@ -114,7 +114,7 @@ namespace OpenPmsDental{
 			// 
 			// label7
 			// 
-			this.label7.Location = new System.Drawing.Point(122, 368);
+			this.label7.Location = new System.Drawing.Point(122, 392);
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(44, 23);
 			this.label7.TabIndex = 94;
@@ -123,7 +123,7 @@ namespace OpenPmsDental{
 			// 
 			// label8
 			// 
-			this.label8.Location = new System.Drawing.Point(118, 395);
+			this.label8.Location = new System.Drawing.Point(118, 419);
 			this.label8.Name = "label8";
 			this.label8.Size = new System.Drawing.Size(48, 23);
 			this.label8.TabIndex = 96;
@@ -149,7 +149,7 @@ namespace OpenPmsDental{
 			// checkIsLandscape
 			// 
 			this.checkIsLandscape.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkIsLandscape.Location = new System.Drawing.Point(172, 422);
+			this.checkIsLandscape.Location = new System.Drawing.Point(172, 446);
 			this.checkIsLandscape.Name = "checkIsLandscape";
 			this.checkIsLandscape.Size = new System.Drawing.Size(80, 20);
 			this.checkIsLandscape.TabIndex = 100;
@@ -158,7 +158,7 @@ namespace OpenPmsDental{
 			// 
 			// textHeight
 			// 
-			this.textHeight.Location = new System.Drawing.Point(172, 395);
+			this.textHeight.Location = new System.Drawing.Point(172, 419);
 			this.textHeight.MaxVal = 2000;
 			this.textHeight.MinVal = -100;
 			this.textHeight.Name = "textHeight";
@@ -167,7 +167,7 @@ namespace OpenPmsDental{
 			// 
 			// textWidth
 			// 
-			this.textWidth.Location = new System.Drawing.Point(172, 368);
+			this.textWidth.Location = new System.Drawing.Point(172, 392);
 			this.textWidth.MaxVal = 2000;
 			this.textWidth.MinVal = -100;
 			this.textWidth.Name = "textWidth";
@@ -177,7 +177,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(490, 534);
+			this.butSave.Location = new System.Drawing.Point(490, 558);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 3;
@@ -196,7 +196,7 @@ namespace OpenPmsDental{
 			// checkHasMobileLayout
 			// 
 			this.checkHasMobileLayout.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkHasMobileLayout.Location = new System.Drawing.Point(172, 446);
+			this.checkHasMobileLayout.Location = new System.Drawing.Point(172, 470);
 			this.checkHasMobileLayout.Name = "checkHasMobileLayout";
 			this.checkHasMobileLayout.Size = new System.Drawing.Size(124, 20);
 			this.checkHasMobileLayout.TabIndex = 102;
@@ -205,7 +205,7 @@ namespace OpenPmsDental{
 			// checkAutoSaveCheck
 			// 
 			this.checkAutoSaveCheck.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkAutoSaveCheck.Location = new System.Drawing.Point(172, 470);
+			this.checkAutoSaveCheck.Location = new System.Drawing.Point(172, 494);
 			this.checkAutoSaveCheck.Name = "checkAutoSaveCheck";
 			this.checkAutoSaveCheck.Size = new System.Drawing.Size(181, 20);
 			this.checkAutoSaveCheck.TabIndex = 103;
@@ -214,7 +214,7 @@ namespace OpenPmsDental{
 			// 
 			// comboAutoSaveOverride
 			// 
-			this.comboAutoSaveOverride.Location = new System.Drawing.Point(172, 496);
+			this.comboAutoSaveOverride.Location = new System.Drawing.Point(172, 520);
 			this.comboAutoSaveOverride.Name = "comboAutoSaveOverride";
 			this.comboAutoSaveOverride.Size = new System.Drawing.Size(196, 23);
 			this.comboAutoSaveOverride.TabIndex = 104;
@@ -222,7 +222,7 @@ namespace OpenPmsDental{
 			// 
 			// labelAutoSaveOverride
 			// 
-			this.labelAutoSaveOverride.Location = new System.Drawing.Point(12, 494);
+			this.labelAutoSaveOverride.Location = new System.Drawing.Point(12, 518);
 			this.labelAutoSaveOverride.Name = "labelAutoSaveOverride";
 			this.labelAutoSaveOverride.Size = new System.Drawing.Size(154, 28);
 			this.labelAutoSaveOverride.TabIndex = 105;
@@ -246,7 +246,7 @@ namespace OpenPmsDental{
 			this.groupBox2.Controls.Add(this.label2);
 			this.groupBox2.Controls.Add(this.butAbout);
 			this.groupBox2.Controls.Add(this.butReduceFontSize);
-			this.groupBox2.Location = new System.Drawing.Point(395, 316);
+			this.groupBox2.Location = new System.Drawing.Point(395, 279);
 			this.groupBox2.Name = "groupBox2";
 			this.groupBox2.Size = new System.Drawing.Size(170, 105);
 			this.groupBox2.TabIndex = 108;
@@ -282,7 +282,7 @@ namespace OpenPmsDental{
 			// 
 			// FormSheetDef
 			// 
-			this.ClientSize = new System.Drawing.Size(573, 566);
+			this.ClientSize = new System.Drawing.Size(573, 590);
 			this.Controls.Add(this.groupBox2);
 			this.Controls.Add(this.labelAutoSaveOverride);
 			this.Controls.Add(this.comboAutoSaveOverride);

@@ -67,7 +67,7 @@ namespace OpenPmsDental {
 			//
 			// listCategory
 			//
-			this.listCategory.Location = new System.Drawing.Point(87, 23);
+			this.listCategory.Location = new System.Drawing.Point(125, 23);
 			this.listCategory.Name = "listCategory";
 			this.listCategory.Size = new System.Drawing.Size(215, 23);
 			this.listCategory.TabIndex = 1;
@@ -82,7 +82,7 @@ namespace OpenPmsDental {
 			//
 			// textProcCode
 			//
-			this.textProcCode.Location = new System.Drawing.Point(122, 50);
+			this.textProcCode.Location = new System.Drawing.Point(125, 50);
 			this.textProcCode.Name = "textProcCode";
 			this.textProcCode.Size = new System.Drawing.Size(100, 20);
 			this.textProcCode.TabIndex = 3;
@@ -131,7 +131,7 @@ namespace OpenPmsDental {
 			//
 			// listQuantityQualifier
 			//
-			this.listQuantityQualifier.Location = new System.Drawing.Point(251, 23);
+			this.listQuantityQualifier.Location = new System.Drawing.Point(263, 23);
 			this.listQuantityQualifier.Name = "listQuantityQualifier";
 			this.listQuantityQualifier.Size = new System.Drawing.Size(160, 23);
 			this.listQuantityQualifier.TabIndex = 1;
@@ -139,7 +139,7 @@ namespace OpenPmsDental {
 			//
 			// label8
 			//
-			this.label8.Location = new System.Drawing.Point(189, 23);
+			this.label8.Location = new System.Drawing.Point(201, 23);
 			this.label8.Name = "label8";
 			this.label8.Size = new System.Drawing.Size(56, 23);
 			this.label8.TabIndex = 34;
@@ -159,7 +159,7 @@ namespace OpenPmsDental {
 			//
 			// textQuantity
 			//
-			this.textQuantity.Location = new System.Drawing.Point(113, 23);
+			this.textQuantity.Location = new System.Drawing.Point(125, 23);
 			this.textQuantity.MaxVal = 100;
 			this.textQuantity.Name = "textQuantity";
 			this.textQuantity.Size = new System.Drawing.Size(60, 20);
@@ -281,7 +281,7 @@ namespace OpenPmsDental {
 			//
 			// comboCodeGroup
 			//
-			this.comboCodeGroup.Location = new System.Drawing.Point(102, 77);
+			this.comboCodeGroup.Location = new System.Drawing.Point(125, 77);
 			this.comboCodeGroup.Name = "comboCodeGroup";
 			this.comboCodeGroup.Size = new System.Drawing.Size(200, 23);
 			this.comboCodeGroup.TabIndex = 5;

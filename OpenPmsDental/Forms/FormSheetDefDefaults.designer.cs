@@ -63,22 +63,22 @@ namespace OpenPmsDental{
 			// 
 			this.comboClinicDefault.HqDescription = "Defaults";
 			this.comboClinicDefault.IncludeUnassigned = true;
-			this.comboClinicDefault.Location = new System.Drawing.Point(47, 247);
+			this.comboClinicDefault.Location = new System.Drawing.Point(102, 265);
 			this.comboClinicDefault.Name = "comboClinicDefault";
-			this.comboClinicDefault.Size = new System.Drawing.Size(239, 23);
+			this.comboClinicDefault.Size = new System.Drawing.Size(243, 23);
 			this.comboClinicDefault.TabIndex = 5;
 			this.comboClinicDefault.SelectionChangeCommitted += new System.EventHandler(this.comboClinicDefault_SelectionChangeCommitted);
 			// 
 			// comboRx
 			// 
-			this.comboRx.Location = new System.Drawing.Point(106, 8);
+			this.comboRx.Location = new System.Drawing.Point(137, 8);
 			this.comboRx.Name = "comboRx";
 			this.comboRx.Size = new System.Drawing.Size(200, 23);
 			this.comboRx.TabIndex = 17;
 			// 
 			// label7
 			// 
-			this.label7.Location = new System.Drawing.Point(76, 8);
+			this.label7.Location = new System.Drawing.Point(107, 8);
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(24, 23);
 			this.label7.TabIndex = 18;
@@ -87,14 +87,14 @@ namespace OpenPmsDental{
 			// 
 			// comboBoxChartLayout
 			// 
-			this.comboBoxChartLayout.Location = new System.Drawing.Point(106, 35);
+			this.comboBoxChartLayout.Location = new System.Drawing.Point(137, 35);
 			this.comboBoxChartLayout.Name = "comboBoxChartLayout";
 			this.comboBoxChartLayout.Size = new System.Drawing.Size(200, 23);
 			this.comboBoxChartLayout.TabIndex = 49;
 			// 
 			// labelChartLayout
 			// 
-			this.labelChartLayout.Location = new System.Drawing.Point(20, 35);
+			this.labelChartLayout.Location = new System.Drawing.Point(51, 35);
 			this.labelChartLayout.Name = "labelChartLayout";
 			this.labelChartLayout.Size = new System.Drawing.Size(80, 23);
 			this.labelChartLayout.TabIndex = 50;
@@ -110,14 +110,14 @@ namespace OpenPmsDental{
 			this.groupBoxOD1.Controls.Add(this.labelChartLayout);
 			this.groupBoxOD1.Controls.Add(this.label7);
 			this.groupBoxOD1.Controls.Add(this.comboBoxChartLayout);
-			this.groupBoxOD1.Location = new System.Drawing.Point(39, 278);
+			this.groupBoxOD1.Location = new System.Drawing.Point(8, 296);
 			this.groupBoxOD1.Name = "groupBoxOD1";
-			this.groupBoxOD1.Size = new System.Drawing.Size(323, 93);
+			this.groupBoxOD1.Size = new System.Drawing.Size(345, 93);
 			this.groupBoxOD1.TabIndex = 52;
 			// 
 			// labelTreatmentPlan
 			// 
-			this.labelTreatmentPlan.Location = new System.Drawing.Point(8, 62);
+			this.labelTreatmentPlan.Location = new System.Drawing.Point(39, 62);
 			this.labelTreatmentPlan.Name = "labelTreatmentPlan";
 			this.labelTreatmentPlan.Size = new System.Drawing.Size(92, 23);
 			this.labelTreatmentPlan.TabIndex = 52;
@@ -126,7 +126,7 @@ namespace OpenPmsDental{
 			// 
 			// comboTreatmentPlan
 			// 
-			this.comboTreatmentPlan.Location = new System.Drawing.Point(106, 62);
+			this.comboTreatmentPlan.Location = new System.Drawing.Point(137, 62);
 			this.comboTreatmentPlan.Name = "comboTreatmentPlan";
 			this.comboTreatmentPlan.Size = new System.Drawing.Size(200, 23);
 			this.comboTreatmentPlan.TabIndex = 51;
@@ -142,43 +142,43 @@ namespace OpenPmsDental{
 			this.groupBoxOD2.Controls.Add(this.label8);
 			this.groupBoxOD2.Controls.Add(this.label2);
 			this.groupBoxOD2.Controls.Add(this.label1);
-			this.groupBoxOD2.Location = new System.Drawing.Point(39, 104);
+			this.groupBoxOD2.Location = new System.Drawing.Point(8, 122);
 			this.groupBoxOD2.Name = "groupBoxOD2";
-			this.groupBoxOD2.Size = new System.Drawing.Size(323, 135);
+			this.groupBoxOD2.Size = new System.Drawing.Size(345, 135);
 			this.groupBoxOD2.TabIndex = 53;
 			this.groupBoxOD2.Text = "Statements";
 			// 
 			// comboReceipt
 			// 
-			this.comboReceipt.Location = new System.Drawing.Point(106, 104);
+			this.comboReceipt.Location = new System.Drawing.Point(137, 104);
 			this.comboReceipt.Name = "comboReceipt";
 			this.comboReceipt.Size = new System.Drawing.Size(200, 23);
 			this.comboReceipt.TabIndex = 63;
 			// 
 			// comboInvoice
 			// 
-			this.comboInvoice.Location = new System.Drawing.Point(106, 77);
+			this.comboInvoice.Location = new System.Drawing.Point(137, 77);
 			this.comboInvoice.Name = "comboInvoice";
 			this.comboInvoice.Size = new System.Drawing.Size(200, 23);
 			this.comboInvoice.TabIndex = 62;
 			// 
 			// comboLimited
 			// 
-			this.comboLimited.Location = new System.Drawing.Point(106, 50);
+			this.comboLimited.Location = new System.Drawing.Point(137, 50);
 			this.comboLimited.Name = "comboLimited";
 			this.comboLimited.Size = new System.Drawing.Size(200, 23);
 			this.comboLimited.TabIndex = 52;
 			// 
 			// comboStatements
 			// 
-			this.comboStatements.Location = new System.Drawing.Point(106, 23);
+			this.comboStatements.Location = new System.Drawing.Point(137, 23);
 			this.comboStatements.Name = "comboStatements";
 			this.comboStatements.Size = new System.Drawing.Size(200, 23);
 			this.comboStatements.TabIndex = 51;
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(48, 104);
+			this.label3.Location = new System.Drawing.Point(79, 104);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(52, 23);
 			this.label3.TabIndex = 61;
@@ -187,7 +187,7 @@ namespace OpenPmsDental{
 			// 
 			// label8
 			// 
-			this.label8.Location = new System.Drawing.Point(48, 23);
+			this.label8.Location = new System.Drawing.Point(79, 23);
 			this.label8.Name = "label8";
 			this.label8.Size = new System.Drawing.Size(52, 23);
 			this.label8.TabIndex = 58;
@@ -196,7 +196,7 @@ namespace OpenPmsDental{
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(48, 77);
+			this.label2.Location = new System.Drawing.Point(79, 77);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(52, 23);
 			this.label2.TabIndex = 60;
@@ -205,7 +205,7 @@ namespace OpenPmsDental{
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(48, 50);
+			this.label1.Location = new System.Drawing.Point(79, 50);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(52, 23);
 			this.label1.TabIndex = 59;
@@ -214,22 +214,22 @@ namespace OpenPmsDental{
 			// 
 			// comboLabel
 			// 
-			this.comboLabel.Location = new System.Drawing.Point(145, 68);
+			this.comboLabel.Location = new System.Drawing.Point(145, 86);
 			this.comboLabel.Name = "comboLabel";
 			this.comboLabel.Size = new System.Drawing.Size(200, 23);
 			this.comboLabel.TabIndex = 54;
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(12, 8);
+			this.label4.Location = new System.Drawing.Point(8, 8);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(557, 54);
+			this.label4.Size = new System.Drawing.Size(561, 66);
 			this.label4.TabIndex = 55;
 			this.label4.Text = resources.GetString("label4.Text");
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(26, 64);
+			this.label5.Location = new System.Drawing.Point(26, 82);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(113, 32);
 			this.label5.TabIndex = 64;

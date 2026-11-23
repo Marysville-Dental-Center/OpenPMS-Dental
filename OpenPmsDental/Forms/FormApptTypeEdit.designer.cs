@@ -217,7 +217,7 @@ namespace OpenPmsDental{
 			// 
 			// listBoxProcCodesRequired
 			// 
-			this.listBoxProcCodesRequired.Location = new System.Drawing.Point(27, 23);
+			this.listBoxProcCodesRequired.Location = new System.Drawing.Point(8, 23);
 			this.listBoxProcCodesRequired.Name = "listBoxProcCodesRequired";
 			this.listBoxProcCodesRequired.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
 			this.listBoxProcCodesRequired.Size = new System.Drawing.Size(120, 160);
@@ -225,7 +225,7 @@ namespace OpenPmsDental{
 			// 
 			// butAddRequired
 			// 
-			this.butAddRequired.Location = new System.Drawing.Point(153, 23);
+			this.butAddRequired.Location = new System.Drawing.Point(134, 23);
 			this.butAddRequired.Name = "butAddRequired";
 			this.butAddRequired.Size = new System.Drawing.Size(65, 24);
 			this.butAddRequired.TabIndex = 11;
@@ -234,7 +234,7 @@ namespace OpenPmsDental{
 			// 
 			// butRemoveRequired
 			// 
-			this.butRemoveRequired.Location = new System.Drawing.Point(153, 51);
+			this.butRemoveRequired.Location = new System.Drawing.Point(134, 51);
 			this.butRemoveRequired.Name = "butRemoveRequired";
 			this.butRemoveRequired.Size = new System.Drawing.Size(65, 24);
 			this.butRemoveRequired.TabIndex = 12;
@@ -265,9 +265,9 @@ namespace OpenPmsDental{
 			this.groupBoxOD1.Controls.Add(this.listBoxProcCodesRequired);
 			this.groupBoxOD1.Controls.Add(this.butRemoveRequired);
 			this.groupBoxOD1.Controls.Add(this.butAddRequired);
-			this.groupBoxOD1.Location = new System.Drawing.Point(420, 92);
+			this.groupBoxOD1.Location = new System.Drawing.Point(420, 90);
 			this.groupBoxOD1.Name = "groupBoxOD1";
-			this.groupBoxOD1.Size = new System.Drawing.Size(251, 239);
+			this.groupBoxOD1.Size = new System.Drawing.Size(207, 239);
 			this.groupBoxOD1.TabIndex = 211;
 			this.groupBoxOD1.Text = "Required Procedures";
 			// 

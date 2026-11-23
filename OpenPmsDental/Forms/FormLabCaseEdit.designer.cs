@@ -101,7 +101,7 @@ namespace OpenPmsDental {
 			this.textPatient.Location = new System.Drawing.Point(98, 8);
 			this.textPatient.Name = "textPatient";
 			this.textPatient.ReadOnly = true;
-			this.textPatient.Size = new System.Drawing.Size(320, 23);
+			this.textPatient.Size = new System.Drawing.Size(418, 23);
 			this.textPatient.TabIndex = 0;
 			// 
 			// label3
@@ -117,7 +117,7 @@ namespace OpenPmsDental {
 			// 
 			this.label2.Location = new System.Drawing.Point(98, 143);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(198, 17);
+			this.label2.Size = new System.Drawing.Size(206, 17);
 			this.label2.TabIndex = 99;
 			this.label2.Text = "Lab";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -127,7 +127,7 @@ namespace OpenPmsDental {
 			this.textAppointment.Location = new System.Drawing.Point(98, 35);
 			this.textAppointment.Name = "textAppointment";
 			this.textAppointment.ReadOnly = true;
-			this.textAppointment.Size = new System.Drawing.Size(320, 23);
+			this.textAppointment.Size = new System.Drawing.Size(337, 23);
 			this.textAppointment.TabIndex = 103;
 			// 
 			// label4
@@ -144,7 +144,7 @@ namespace OpenPmsDental {
 			this.textPlanned.Location = new System.Drawing.Point(98, 62);
 			this.textPlanned.Name = "textPlanned";
 			this.textPlanned.ReadOnly = true;
-			this.textPlanned.Size = new System.Drawing.Size(320, 23);
+			this.textPlanned.Size = new System.Drawing.Size(337, 23);
 			this.textPlanned.TabIndex = 106;
 			// 
 			// label5
@@ -222,7 +222,7 @@ namespace OpenPmsDental {
 			// 
 			// textDateDue
 			// 
-			this.textDateDue.Location = new System.Drawing.Point(348, 289);
+			this.textDateDue.Location = new System.Drawing.Point(356, 289);
 			this.textDateDue.Name = "textDateDue";
 			this.textDateDue.Size = new System.Drawing.Size(160, 23);
 			this.textDateDue.TabIndex = 119;
@@ -230,7 +230,7 @@ namespace OpenPmsDental {
 			// 
 			// label10
 			// 
-			this.label10.Location = new System.Drawing.Point(204, 289);
+			this.label10.Location = new System.Drawing.Point(212, 289);
 			this.label10.Name = "label10";
 			this.label10.Size = new System.Drawing.Size(92, 23);
 			this.label10.TabIndex = 118;
@@ -257,7 +257,7 @@ namespace OpenPmsDental {
 			// 
 			this.listLab.Location = new System.Drawing.Point(98, 164);
 			this.listLab.Name = "listLab";
-			this.listLab.Size = new System.Drawing.Size(198, 121);
+			this.listLab.Size = new System.Drawing.Size(206, 121);
 			this.listLab.TabIndex = 0;
 			this.listLab.SelectedIndexChanged += new System.EventHandler(this.listLab_SelectedIndexChanged);
 			// 
@@ -320,17 +320,17 @@ namespace OpenPmsDental {
 			// 
 			// listTurnaround
 			// 
-			this.listTurnaround.Location = new System.Drawing.Point(302, 164);
+			this.listTurnaround.Location = new System.Drawing.Point(310, 164);
 			this.listTurnaround.Name = "listTurnaround";
-			this.listTurnaround.Size = new System.Drawing.Size(198, 121);
+			this.listTurnaround.Size = new System.Drawing.Size(206, 121);
 			this.listTurnaround.TabIndex = 124;
 			this.listTurnaround.Click += new System.EventHandler(this.listTurnaround_Click);
 			// 
 			// label12
 			// 
-			this.label12.Location = new System.Drawing.Point(302, 143);
+			this.label12.Location = new System.Drawing.Point(310, 143);
 			this.label12.Name = "label12";
-			this.label12.Size = new System.Drawing.Size(198, 17);
+			this.label12.Size = new System.Drawing.Size(206, 17);
 			this.label12.TabIndex = 125;
 			this.label12.Text = "Set Due Date";
 			this.label12.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -338,10 +338,10 @@ namespace OpenPmsDental {
 			// textWeekday
 			// 
 			this.textWeekday.BackColor = System.Drawing.Color.White;
-			this.textWeekday.Location = new System.Drawing.Point(302, 289);
+			this.textWeekday.Location = new System.Drawing.Point(310, 289);
 			this.textWeekday.Name = "textWeekday";
 			this.textWeekday.ReadOnly = true;
-			this.textWeekday.Size = new System.Drawing.Size(40, 20);
+			this.textWeekday.Size = new System.Drawing.Size(40, 23);
 			this.textWeekday.TabIndex = 126;
 			// 
 			// butSlip
@@ -356,7 +356,7 @@ namespace OpenPmsDental {
 			// 
 			// butDetachPlanned
 			// 
-			this.butDetachPlanned.Location = new System.Drawing.Point(424, 62);
+			this.butDetachPlanned.Location = new System.Drawing.Point(441, 62);
 			this.butDetachPlanned.Name = "butDetachPlanned";
 			this.butDetachPlanned.Size = new System.Drawing.Size(75, 23);
 			this.butDetachPlanned.TabIndex = 108;
@@ -365,7 +365,7 @@ namespace OpenPmsDental {
 			// 
 			// butDetach
 			// 
-			this.butDetach.Location = new System.Drawing.Point(424, 35);
+			this.butDetach.Location = new System.Drawing.Point(441, 35);
 			this.butDetach.Name = "butDetach";
 			this.butDetach.Size = new System.Drawing.Size(75, 23);
 			this.butDetach.TabIndex = 105;
@@ -415,7 +415,7 @@ namespace OpenPmsDental {
 			// 
 			// labelInvoiceNumber
 			// 
-			this.labelInvoiceNumber.Location = new System.Drawing.Point(273, 116);
+			this.labelInvoiceNumber.Location = new System.Drawing.Point(281, 116);
 			this.labelInvoiceNumber.Name = "labelInvoiceNumber";
 			this.labelInvoiceNumber.Size = new System.Drawing.Size(96, 23);
 			this.labelInvoiceNumber.TabIndex = 130;
@@ -425,7 +425,7 @@ namespace OpenPmsDental {
 			// textInvoiceNumber
 			// 
 			this.textInvoiceNumber.AutoSize = false;
-			this.textInvoiceNumber.Location = new System.Drawing.Point(375, 116);
+			this.textInvoiceNumber.Location = new System.Drawing.Point(383, 116);
 			this.textInvoiceNumber.MaxLength = 255;
 			this.textInvoiceNumber.Name = "textInvoiceNumber";
 			this.textInvoiceNumber.Size = new System.Drawing.Size(133, 23);
@@ -442,7 +442,7 @@ namespace OpenPmsDental {
 			this.textInstructions.Name = "textInstructions";
 			this.textInstructions.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Lab;
 			this.textInstructions.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textInstructions.Size = new System.Drawing.Size(396, 127);
+			this.textInstructions.Size = new System.Drawing.Size(418, 127);
 			this.textInstructions.TabIndex = 1;
 			this.textInstructions.Text = "";
 			//

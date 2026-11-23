@@ -130,7 +130,7 @@ namespace OpenPmsDental {
 			// 
 			this.checkCommSuperFamily.Checked = true;
 			this.checkCommSuperFamily.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkCommSuperFamily.Location = new System.Drawing.Point(8, 95);
+			this.checkCommSuperFamily.Location = new System.Drawing.Point(24, 95);
 			this.checkCommSuperFamily.Name = "checkCommSuperFamily";
 			this.checkCommSuperFamily.Size = new System.Drawing.Size(92, 20);
 			this.checkCommSuperFamily.TabIndex = 20;
@@ -174,7 +174,7 @@ namespace OpenPmsDental {
 			// 
 			this.checkCommFamily.Checked = true;
 			this.checkCommFamily.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkCommFamily.Location = new System.Drawing.Point(8, 71);
+			this.checkCommFamily.Location = new System.Drawing.Point(24, 71);
 			this.checkCommFamily.Name = "checkCommFamily";
 			this.checkCommFamily.Size = new System.Drawing.Size(57, 20);
 			this.checkCommFamily.TabIndex = 20;

@@ -43,9 +43,9 @@ namespace OpenPmsDental {
 			// labelInternalReview
 			//
 			this.labelInternalReview.ForeColor = System.Drawing.Color.Firebrick;
-			this.labelInternalReview.Location = new System.Drawing.Point(12, 8);
+			this.labelInternalReview.Location = new System.Drawing.Point(8, 8);
 			this.labelInternalReview.Name = "labelInternalReview";
-			this.labelInternalReview.Size = new System.Drawing.Size(836, 18);
+			this.labelInternalReview.Size = new System.Drawing.Size(844, 18);
 			this.labelInternalReview.TabIndex = 0;
 			//
 			// labelMeasureName
@@ -62,7 +62,7 @@ namespace OpenPmsDental {
 			this.textMeasureName.Location = new System.Drawing.Point(155, 28);
 			this.textMeasureName.Name = "textMeasureName";
 			this.textMeasureName.ReadOnly = true;
-			this.textMeasureName.Size = new System.Drawing.Size(693, 20);
+			this.textMeasureName.Size = new System.Drawing.Size(697, 23);
 			this.textMeasureName.TabIndex = 2;
 			//
 			// labelPeriod
@@ -79,7 +79,7 @@ namespace OpenPmsDental {
 			this.textPeriod.Location = new System.Drawing.Point(155, 55);
 			this.textPeriod.Name = "textPeriod";
 			this.textPeriod.ReadOnly = true;
-			this.textPeriod.Size = new System.Drawing.Size(693, 20);
+			this.textPeriod.Size = new System.Drawing.Size(697, 23);
 			this.textPeriod.TabIndex = 4;
 			//
 			// labelObjective
@@ -98,7 +98,7 @@ namespace OpenPmsDental {
 			this.textObjective.Name = "textObjective";
 			this.textObjective.ReadOnly = true;
 			this.textObjective.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.textObjective.Size = new System.Drawing.Size(693, 44);
+			this.textObjective.Size = new System.Drawing.Size(697, 44);
 			this.textObjective.TabIndex = 6;
 			//
 			// labelMeasure
@@ -117,7 +117,7 @@ namespace OpenPmsDental {
 			this.textMeasure.Name = "textMeasure";
 			this.textMeasure.ReadOnly = true;
 			this.textMeasure.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.textMeasure.Size = new System.Drawing.Size(693, 44);
+			this.textMeasure.Size = new System.Drawing.Size(697, 44);
 			this.textMeasure.TabIndex = 8;
 			//
 			// labelNumeratorExplain
@@ -136,7 +136,7 @@ namespace OpenPmsDental {
 			this.textNumeratorExplain.Name = "textNumeratorExplain";
 			this.textNumeratorExplain.ReadOnly = true;
 			this.textNumeratorExplain.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.textNumeratorExplain.Size = new System.Drawing.Size(693, 44);
+			this.textNumeratorExplain.Size = new System.Drawing.Size(697, 44);
 			this.textNumeratorExplain.TabIndex = 10;
 			//
 			// labelDenominatorExplain
@@ -155,7 +155,7 @@ namespace OpenPmsDental {
 			this.textDenominatorExplain.Name = "textDenominatorExplain";
 			this.textDenominatorExplain.ReadOnly = true;
 			this.textDenominatorExplain.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.textDenominatorExplain.Size = new System.Drawing.Size(693, 44);
+			this.textDenominatorExplain.Size = new System.Drawing.Size(697, 44);
 			this.textDenominatorExplain.TabIndex = 12;
 			//
 			// labelExclusionExplain
@@ -174,7 +174,7 @@ namespace OpenPmsDental {
 			this.textExclusionExplain.Name = "textExclusionExplain";
 			this.textExclusionExplain.ReadOnly = true;
 			this.textExclusionExplain.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.textExclusionExplain.Size = new System.Drawing.Size(693, 44);
+			this.textExclusionExplain.Size = new System.Drawing.Size(697, 44);
 			this.textExclusionExplain.TabIndex = 14;
 			//
 			// labelExclusionCount
@@ -191,7 +191,7 @@ namespace OpenPmsDental {
 			this.textExclusionCount.Location = new System.Drawing.Point(155, 322);
 			this.textExclusionCount.Name = "textExclusionCount";
 			this.textExclusionCount.ReadOnly = true;
-			this.textExclusionCount.Size = new System.Drawing.Size(693, 20);
+			this.textExclusionCount.Size = new System.Drawing.Size(697, 23);
 			this.textExclusionCount.TabIndex = 16;
 			//
 			// labelResult
@@ -208,14 +208,14 @@ namespace OpenPmsDental {
 			this.textResult.Location = new System.Drawing.Point(155, 349);
 			this.textResult.Name = "textResult";
 			this.textResult.ReadOnly = true;
-			this.textResult.Size = new System.Drawing.Size(693, 20);
+			this.textResult.Size = new System.Drawing.Size(697, 23);
 			this.textResult.TabIndex = 18;
 			//
 			// labelHint
 			//
-			this.labelHint.Location = new System.Drawing.Point(12, 376);
+			this.labelHint.Location = new System.Drawing.Point(8, 376);
 			this.labelHint.Name = "labelHint";
-			this.labelHint.Size = new System.Drawing.Size(836, 18);
+			this.labelHint.Size = new System.Drawing.Size(844, 18);
 			this.labelHint.TabIndex = 19;
 			this.labelHint.Text = "Double-click a patient to close these windows and switch the Chart to that patient.";
 			//
@@ -224,9 +224,9 @@ namespace OpenPmsDental {
 			this.gridAudit.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridAudit.Location = new System.Drawing.Point(12, 396);
+			this.gridAudit.Location = new System.Drawing.Point(8, 396);
 			this.gridAudit.Name = "gridAudit";
-			this.gridAudit.Size = new System.Drawing.Size(836, 270);
+			this.gridAudit.Size = new System.Drawing.Size(844, 270);
 			this.gridAudit.TabIndex = 20;
 			this.gridAudit.Title = "Patients";
 			this.gridAudit.TranslationName = "TableEhrMeasureCalcAudit";

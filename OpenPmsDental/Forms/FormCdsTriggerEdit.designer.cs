@@ -92,7 +92,7 @@ namespace OpenPmsDental{
 			this.groupBox1.Controls.Add(this.butAddIcd10);
 			this.groupBox1.Controls.Add(this.butAddIcd9);
 			this.groupBox1.Controls.Add(this.butAddProblem);
-			this.groupBox1.Location = new System.Drawing.Point(12, 71);
+			this.groupBox1.Location = new System.Drawing.Point(8, 71);
 			this.groupBox1.Name = "groupBox1";
 			this.groupBox1.Size = new System.Drawing.Size(115, 135);
 			this.groupBox1.TabIndex = 123;
@@ -153,7 +153,7 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridMain.Location = new System.Drawing.Point(139, 71);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(589, 392);
+			this.gridMain.Size = new System.Drawing.Size(592, 464);
 			this.gridMain.TabIndex = 202;
 			this.gridMain.Title = "Trigger Conditions";
 			this.gridMain.WrapText = false;
@@ -163,7 +163,7 @@ namespace OpenPmsDental{
 			this.groupBox2.Controls.Add(this.butAddCvx);
 			this.groupBox2.Controls.Add(this.butAddRxNorm);
 			this.groupBox2.Controls.Add(this.butAddMed);
-			this.groupBox2.Location = new System.Drawing.Point(12, 214);
+			this.groupBox2.Location = new System.Drawing.Point(8, 214);
 			this.groupBox2.Name = "groupBox2";
 			this.groupBox2.Size = new System.Drawing.Size(115, 108);
 			this.groupBox2.TabIndex = 207;
@@ -210,7 +210,7 @@ namespace OpenPmsDental{
 			// groupBox3
 			// 
 			this.groupBox3.Controls.Add(this.butAddAllergy);
-			this.groupBox3.Location = new System.Drawing.Point(12, 330);
+			this.groupBox3.Location = new System.Drawing.Point(8, 330);
 			this.groupBox3.Name = "groupBox3";
 			this.groupBox3.Size = new System.Drawing.Size(115, 54);
 			this.groupBox3.TabIndex = 208;
@@ -233,7 +233,7 @@ namespace OpenPmsDental{
 			// 
 			this.groupBox4.Controls.Add(this.butAddGender);
 			this.groupBox4.Controls.Add(this.butAddAge);
-			this.groupBox4.Location = new System.Drawing.Point(12, 392);
+			this.groupBox4.Location = new System.Drawing.Point(8, 392);
 			this.groupBox4.Name = "groupBox4";
 			this.groupBox4.Size = new System.Drawing.Size(115, 81);
 			this.groupBox4.TabIndex = 209;
@@ -267,7 +267,7 @@ namespace OpenPmsDental{
 			// groupBox5
 			// 
 			this.groupBox5.Controls.Add(this.butAddLab);
-			this.groupBox5.Location = new System.Drawing.Point(12, 481);
+			this.groupBox5.Location = new System.Drawing.Point(8, 481);
 			this.groupBox5.Name = "groupBox5";
 			this.groupBox5.Size = new System.Drawing.Size(115, 54);
 			this.groupBox5.TabIndex = 210;
@@ -292,7 +292,7 @@ namespace OpenPmsDental{
 			this.groupBox6.Controls.Add(this.butAddBP);
 			this.groupBox6.Controls.Add(this.butAddWeight);
 			this.groupBox6.Controls.Add(this.butAddHeight);
-			this.groupBox6.Location = new System.Drawing.Point(12, 543);
+			this.groupBox6.Location = new System.Drawing.Point(8, 543);
 			this.groupBox6.Name = "groupBox6";
 			this.groupBox6.Size = new System.Drawing.Size(115, 135);
 			this.groupBox6.TabIndex = 211;
@@ -377,7 +377,7 @@ namespace OpenPmsDental{
 			// 
 			this.labelCardinality.Location = new System.Drawing.Point(304, 35);
 			this.labelCardinality.Name = "labelCardinality";
-			this.labelCardinality.Size = new System.Drawing.Size(425, 32);
+			this.labelCardinality.Size = new System.Drawing.Size(427, 32);
 			this.labelCardinality.TabIndex = 214;
 			this.labelCardinality.Text = "For this trigger to provide Clinical Decision Support, only one of the conditions" +
     " below must be met.";
@@ -409,7 +409,7 @@ namespace OpenPmsDental{
 			this.textInstruction.Location = new System.Drawing.Point(233, 543);
 			this.textInstruction.Multiline = true;
 			this.textInstruction.Name = "textInstruction";
-			this.textInstruction.Size = new System.Drawing.Size(494, 84);
+			this.textInstruction.Size = new System.Drawing.Size(498, 84);
 			this.textInstruction.TabIndex = 217;
 			// 
 			// label1
@@ -429,7 +429,7 @@ namespace OpenPmsDental{
 			this.textBibliography.Location = new System.Drawing.Point(233, 631);
 			this.textBibliography.Multiline = true;
 			this.textBibliography.Name = "textBibliography";
-			this.textBibliography.Size = new System.Drawing.Size(494, 42);
+			this.textBibliography.Size = new System.Drawing.Size(498, 42);
 			this.textBibliography.TabIndex = 219;
 			// 
 			// FormCdsTriggerEdit

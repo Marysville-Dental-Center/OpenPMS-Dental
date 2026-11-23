@@ -105,7 +105,7 @@ namespace OpenPmsDental {
 			this.groupInterval.Controls.Add(this.label9);
 			this.groupInterval.Controls.Add(this.textYears);
 			this.groupInterval.Controls.Add(this.label10);
-			this.groupInterval.Location = new System.Drawing.Point(42, 280);
+			this.groupInterval.Location = new System.Drawing.Point(42, 294);
 			this.groupInterval.Name = "groupInterval";
 			this.groupInterval.Size = new System.Drawing.Size(482, 135);
 			this.groupInterval.TabIndex = 116;
@@ -228,7 +228,7 @@ namespace OpenPmsDental {
 			this.groupBox2.Controls.Add(this.label15);
 			this.groupBox2.Controls.Add(this.label14);
 			this.groupBox2.Controls.Add(this.label12);
-			this.groupBox2.Location = new System.Drawing.Point(42, 423);
+			this.groupBox2.Location = new System.Drawing.Point(42, 437);
 			this.groupBox2.Name = "groupBox2";
 			this.groupBox2.Size = new System.Drawing.Size(482, 199);
 			this.groupBox2.TabIndex = 123;
@@ -285,14 +285,14 @@ namespace OpenPmsDental {
 			// 
 			// listTriggers
 			// 
-			this.listTriggers.Location = new System.Drawing.Point(160, 86);
+			this.listTriggers.Location = new System.Drawing.Point(160, 100);
 			this.listTriggers.Name = "listTriggers";
 			this.listTriggers.Size = new System.Drawing.Size(220, 186);
 			this.listTriggers.TabIndex = 3;
 			// 
 			// labelTriggers
 			// 
-			this.labelTriggers.Location = new System.Drawing.Point(39, 86);
+			this.labelTriggers.Location = new System.Drawing.Point(39, 100);
 			this.labelTriggers.Name = "labelTriggers";
 			this.labelTriggers.Size = new System.Drawing.Size(115, 52);
 			this.labelTriggers.TabIndex = 125;
@@ -320,7 +320,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelSpecial.Location = new System.Drawing.Point(392, 35);
 			this.labelSpecial.Name = "labelSpecial";
-			this.labelSpecial.Size = new System.Drawing.Size(320, 22);
+			this.labelSpecial.Size = new System.Drawing.Size(246, 22);
 			this.labelSpecial.TabIndex = 131;
 			this.labelSpecial.Text = "labelSpecial";
 			// 
@@ -328,7 +328,7 @@ namespace OpenPmsDental {
 			// 
 			this.butRemoveTrigger.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butRemoveTrigger.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butRemoveTrigger.Location = new System.Drawing.Point(386, 248);
+			this.butRemoveTrigger.Location = new System.Drawing.Point(386, 262);
 			this.butRemoveTrigger.Name = "butRemoveTrigger";
 			this.butRemoveTrigger.Size = new System.Drawing.Size(78, 24);
 			this.butRemoveTrigger.TabIndex = 5;
@@ -339,7 +339,7 @@ namespace OpenPmsDental {
 			// 
 			this.butAddTrigger.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAddTrigger.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAddTrigger.Location = new System.Drawing.Point(386, 218);
+			this.butAddTrigger.Location = new System.Drawing.Point(386, 232);
 			this.butAddTrigger.Name = "butAddTrigger";
 			this.butAddTrigger.Size = new System.Drawing.Size(78, 24);
 			this.butAddTrigger.TabIndex = 4;
@@ -349,7 +349,7 @@ namespace OpenPmsDental {
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(747, 653);
+			this.butSave.Location = new System.Drawing.Point(563, 667);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 6;
@@ -358,9 +358,9 @@ namespace OpenPmsDental {
 			// 
 			// labelTriggerDisable
 			// 
-			this.labelTriggerDisable.Location = new System.Drawing.Point(386, 86);
+			this.labelTriggerDisable.Location = new System.Drawing.Point(386, 100);
 			this.labelTriggerDisable.Name = "labelTriggerDisable";
-			this.labelTriggerDisable.Size = new System.Drawing.Size(260, 52);
+			this.labelTriggerDisable.Size = new System.Drawing.Size(252, 52);
 			this.labelTriggerDisable.TabIndex = 132;
 			this.labelTriggerDisable.Text = "A manual recall type will have no triggers.  To disable an automatic recall type," +
     " clear out the triggers.";
@@ -370,7 +370,7 @@ namespace OpenPmsDental {
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(8, 653);
+			this.butDelete.Location = new System.Drawing.Point(8, 667);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(78, 24);
 			this.butDelete.TabIndex = 8;
@@ -380,7 +380,7 @@ namespace OpenPmsDental {
 			// label4
 			// 
 			this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label4.Location = new System.Drawing.Point(110, 634);
+			this.label4.Location = new System.Drawing.Point(110, 648);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(263, 43);
 			this.label4.TabIndex = 134;
@@ -404,9 +404,9 @@ namespace OpenPmsDental {
 			this.groupAgeLimit.Controls.Add(this.label5);
 			this.groupAgeLimit.Controls.Add(this.label8);
 			this.groupAgeLimit.Controls.Add(this.label17);
-			this.groupAgeLimit.Location = new System.Drawing.Point(42, 117);
+			this.groupAgeLimit.Location = new System.Drawing.Point(42, 100);
 			this.groupAgeLimit.Name = "groupAgeLimit";
-			this.groupAgeLimit.Size = new System.Drawing.Size(465, 103);
+			this.groupAgeLimit.Size = new System.Drawing.Size(482, 103);
 			this.groupAgeLimit.TabIndex = 116;
 			this.groupAgeLimit.Text = "Child Prophy";
 			// 
@@ -448,17 +448,17 @@ namespace OpenPmsDental {
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(294, 63);
+			this.label2.Location = new System.Drawing.Point(294, 62);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(528, 18);
+			this.label2.Size = new System.Drawing.Size(344, 34);
 			this.label2.TabIndex = 136;
 			this.label2.Text = "If needed, automatically add this recall type when scheduling a special recall ty" +
     "pe.";
-			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.label2.TextAlign = System.Drawing.ContentAlignment.TopLeft;
 			// 
 			// FormRecallTypeEdit
 			// 
-			this.ClientSize = new System.Drawing.Size(830, 685);
+			this.ClientSize = new System.Drawing.Size(646, 699);
 			this.Controls.Add(this.label2);
 			this.Controls.Add(this.checkAppendToSpecial);
 			this.Controls.Add(this.groupAgeLimit);

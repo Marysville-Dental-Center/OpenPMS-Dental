@@ -228,7 +228,7 @@ namespace OpenPmsDental{
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(60, 79);
+			this.label2.Location = new System.Drawing.Point(50, 79);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(238, 18);
 			this.label2.TabIndex = 110;
@@ -237,7 +237,7 @@ namespace OpenPmsDental{
 			// 
 			// textApptSetComplete
 			// 
-			this.textApptSetComplete.Location = new System.Drawing.Point(18, 23);
+			this.textApptSetComplete.Location = new System.Drawing.Point(8, 23);
 			this.textApptSetComplete.MaxVal = 5000D;
 			this.textApptSetComplete.MinVal = 5D;
 			this.textApptSetComplete.Name = "textApptSetComplete";
@@ -246,7 +246,7 @@ namespace OpenPmsDental{
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(60, 52);
+			this.label1.Location = new System.Drawing.Point(50, 52);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(238, 18);
 			this.label1.TabIndex = 109;
@@ -255,7 +255,7 @@ namespace OpenPmsDental{
 			// 
 			// textApptTimeArrived
 			// 
-			this.textApptTimeArrived.Location = new System.Drawing.Point(18, 50);
+			this.textApptTimeArrived.Location = new System.Drawing.Point(8, 50);
 			this.textApptTimeArrived.MaxVal = 5000D;
 			this.textApptTimeArrived.MinVal = 5D;
 			this.textApptTimeArrived.Name = "textApptTimeArrived";
@@ -264,7 +264,7 @@ namespace OpenPmsDental{
 			// 
 			// textApptTimeDismissed
 			// 
-			this.textApptTimeDismissed.Location = new System.Drawing.Point(18, 77);
+			this.textApptTimeDismissed.Location = new System.Drawing.Point(8, 77);
 			this.textApptTimeDismissed.MaxVal = 5000D;
 			this.textApptTimeDismissed.MinVal = 5D;
 			this.textApptTimeDismissed.Name = "textApptTimeDismissed";
@@ -273,7 +273,7 @@ namespace OpenPmsDental{
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(60, 25);
+			this.label4.Location = new System.Drawing.Point(50, 25);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(238, 18);
 			this.label4.TabIndex = 97;

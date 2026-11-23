@@ -193,7 +193,7 @@ namespace OpenPmsDental {
 			// label2
 			// 
 			this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label2.Location = new System.Drawing.Point(369, 96);
+			this.label2.Location = new System.Drawing.Point(369, 94);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(20, 23);
 			this.label2.TabIndex = 35;
@@ -203,7 +203,7 @@ namespace OpenPmsDental {
 			// label3
 			// 
 			this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label3.Location = new System.Drawing.Point(369, 171);
+			this.label3.Location = new System.Drawing.Point(369, 542);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(20, 23);
 			this.label3.TabIndex = 36;
@@ -213,7 +213,7 @@ namespace OpenPmsDental {
 			// label4
 			// 
 			this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label4.Location = new System.Drawing.Point(369, 146);
+			this.label4.Location = new System.Drawing.Point(369, 408);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(20, 23);
 			this.label4.TabIndex = 37;
@@ -223,7 +223,7 @@ namespace OpenPmsDental {
 			// label5
 			// 
 			this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label5.Location = new System.Drawing.Point(369, 121);
+			this.label5.Location = new System.Drawing.Point(369, 215);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(20, 23);
 			this.label5.TabIndex = 38;

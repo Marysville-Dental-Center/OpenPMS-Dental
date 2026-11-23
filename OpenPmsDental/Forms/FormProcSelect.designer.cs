@@ -99,9 +99,9 @@
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(15, 111);
+			this.gridMain.Location = new System.Drawing.Point(8, 111);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(675, 503);
+			this.gridMain.Size = new System.Drawing.Size(680, 503);
 			this.gridMain.TabIndex = 140;
 			this.gridMain.Title = "Procedures";
 			this.gridMain.TranslationName = "TableProcSelect";
@@ -123,7 +123,7 @@
 			this.groupCreditLogic.Controls.Add(this.radioExcludeAllCredits);
 			this.groupCreditLogic.Controls.Add(this.radioOnlyAllocatedCredits);
 			this.groupCreditLogic.Controls.Add(this.radioIncludeAllCredits);
-			this.groupCreditLogic.Location = new System.Drawing.Point(15, 8);
+			this.groupCreditLogic.Location = new System.Drawing.Point(8, 8);
 			this.groupCreditLogic.Name = "groupCreditLogic";
 			this.groupCreditLogic.Size = new System.Drawing.Size(331, 99);
 			this.groupCreditLogic.TabIndex = 143;
@@ -373,7 +373,7 @@
 			// 
 			// labelNegativeAdjs
 			// 
-			this.labelNegativeAdjs.Location = new System.Drawing.Point(102, 67);
+			this.labelNegativeAdjs.Location = new System.Drawing.Point(100, 67);
 			this.labelNegativeAdjs.Name = "labelNegativeAdjs";
 			this.labelNegativeAdjs.Size = new System.Drawing.Size(61, 18);
 			this.labelNegativeAdjs.TabIndex = 18;
@@ -384,7 +384,7 @@
 			// 
 			this.label7.Location = new System.Drawing.Point(8, 67);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(88, 18);
+			this.label7.Size = new System.Drawing.Size(86, 18);
 			this.label7.TabIndex = 19;
 			this.label7.Text = "Negative Adjs:";
 			this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

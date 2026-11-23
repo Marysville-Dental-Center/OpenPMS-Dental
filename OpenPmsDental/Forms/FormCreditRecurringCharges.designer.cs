@@ -73,7 +73,7 @@ namespace OpenPmsDental{
 			this.groupCounts.Controls.Add(this.labelTotal);
 			this.groupCounts.Location = new System.Drawing.Point(867, 414);
 			this.groupCounts.Name = "groupCounts";
-			this.groupCounts.Size = new System.Drawing.Size(100, 123);
+			this.groupCounts.Size = new System.Drawing.Size(183, 123);
 			this.groupCounts.TabIndex = 34;
 			this.groupCounts.TabStop = false;
 			this.groupCounts.Text = "Counts";
@@ -82,7 +82,7 @@ namespace OpenPmsDental{
 			// 
 			this.labelUpdated.Location = new System.Drawing.Point(8, 79);
 			this.labelUpdated.Name = "labelUpdated";
-			this.labelUpdated.Size = new System.Drawing.Size(84, 18);
+			this.labelUpdated.Size = new System.Drawing.Size(167, 18);
 			this.labelUpdated.TabIndex = 33;
 			this.labelUpdated.Text = "Updated=0";
 			this.labelUpdated.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -91,7 +91,7 @@ namespace OpenPmsDental{
 			// 
 			this.labelFailed.Location = new System.Drawing.Point(8, 99);
 			this.labelFailed.Name = "labelFailed";
-			this.labelFailed.Size = new System.Drawing.Size(84, 16);
+			this.labelFailed.Size = new System.Drawing.Size(167, 16);
 			this.labelFailed.TabIndex = 32;
 			this.labelFailed.Text = "Failed=0";
 			this.labelFailed.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -100,7 +100,7 @@ namespace OpenPmsDental{
 			// 
 			this.labelCharged.Location = new System.Drawing.Point(8, 59);
 			this.labelCharged.Name = "labelCharged";
-			this.labelCharged.Size = new System.Drawing.Size(84, 18);
+			this.labelCharged.Size = new System.Drawing.Size(167, 18);
 			this.labelCharged.TabIndex = 31;
 			this.labelCharged.Text = "Charged=0";
 			this.labelCharged.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -109,7 +109,7 @@ namespace OpenPmsDental{
 			// 
 			this.labelSelected.Location = new System.Drawing.Point(8, 41);
 			this.labelSelected.Name = "labelSelected";
-			this.labelSelected.Size = new System.Drawing.Size(84, 16);
+			this.labelSelected.Size = new System.Drawing.Size(167, 16);
 			this.labelSelected.TabIndex = 30;
 			this.labelSelected.Text = "Selected=0";
 			this.labelSelected.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -118,7 +118,7 @@ namespace OpenPmsDental{
 			// 
 			this.labelTotal.Location = new System.Drawing.Point(8, 23);
 			this.labelTotal.Name = "labelTotal";
-			this.labelTotal.Size = new System.Drawing.Size(84, 16);
+			this.labelTotal.Size = new System.Drawing.Size(167, 16);
 			this.labelTotal.TabIndex = 29;
 			this.labelTotal.Text = "Total=0";
 			this.labelTotal.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -128,10 +128,10 @@ namespace OpenPmsDental{
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(12, 8);
+			this.gridMain.Location = new System.Drawing.Point(8, 8);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridMain.Size = new System.Drawing.Size(849, 474);
+			this.gridMain.Size = new System.Drawing.Size(851, 533);
 			this.gridMain.TabIndex = 29;
 			this.gridMain.Title = "Recurring Charges";
 			this.gridMain.TranslationName = "TableRecurring";
@@ -145,7 +145,7 @@ namespace OpenPmsDental{
 			this.groupClinics.Controls.Add(this.listClinics);
 			this.groupClinics.Location = new System.Drawing.Point(867, 178);
 			this.groupClinics.Name = "groupClinics";
-			this.groupClinics.Size = new System.Drawing.Size(173, 228);
+			this.groupClinics.Size = new System.Drawing.Size(183, 228);
 			this.groupClinics.TabIndex = 52;
 			this.groupClinics.TabStop = false;
 			this.groupClinics.Text = "Clinic Filter";
@@ -166,7 +166,7 @@ namespace OpenPmsDental{
 			this.listClinics.Location = new System.Drawing.Point(8, 47);
 			this.listClinics.Name = "listClinics";
 			this.listClinics.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
-			this.listClinics.Size = new System.Drawing.Size(157, 173);
+			this.listClinics.Size = new System.Drawing.Size(167, 173);
 			this.listClinics.TabIndex = 65;
 			this.listClinics.SelectedIndexChanged += new System.EventHandler(this.listClinics_SelectedIndexChanged);
 			// 
@@ -205,9 +205,9 @@ namespace OpenPmsDental{
 			// butRefresh
 			// 
 			this.butRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butRefresh.Location = new System.Drawing.Point(917, 8);
+			this.butRefresh.Location = new System.Drawing.Point(867, 8);
 			this.butRefresh.Name = "butRefresh";
-			this.butRefresh.Size = new System.Drawing.Size(81, 24);
+			this.butRefresh.Size = new System.Drawing.Size(183, 24);
 			this.butRefresh.TabIndex = 40;
 			this.butRefresh.Text = "&Refresh";
 			this.butRefresh.Click += new System.EventHandler(this.butRefresh_Click);

@@ -79,7 +79,7 @@ namespace OpenPmsDental{
 			this.textName.Location = new System.Drawing.Point(118, 23);
 			this.textName.Name = "textName";
 			this.textName.ReadOnly = true;
-			this.textName.Size = new System.Drawing.Size(278, 23);
+			this.textName.Size = new System.Drawing.Size(288, 23);
 			this.textName.TabIndex = 41;
 			// 
 			// label4
@@ -102,14 +102,14 @@ namespace OpenPmsDental{
 			this.textSubNote.Name = "textSubNote";
 			this.textSubNote.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.InsPlan;
 			this.textSubNote.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textSubNote.Size = new System.Drawing.Size(258, 60);
+			this.textSubNote.Size = new System.Drawing.Size(288, 60);
 			this.textSubNote.TabIndex = 4;
 			this.textSubNote.Text = "";
 			// 
 			// label6
 			// 
 			this.label6.AutoSize = false;
-			this.label6.Location = new System.Drawing.Point(246, 50);
+			this.label6.Location = new System.Drawing.Point(256, 50);
 			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(24, 23);
@@ -118,7 +118,7 @@ namespace OpenPmsDental{
 			// 
 			// textDateTerm
 			// 
-			this.textDateTerm.Location = new System.Drawing.Point(276, 50);
+			this.textDateTerm.Location = new System.Drawing.Point(286, 50);
 			this.textDateTerm.Name = "textDateTerm";
 			this.textDateTerm.Size = new System.Drawing.Size(120, 20);
 			this.textDateTerm.TabIndex = 2;
@@ -154,7 +154,7 @@ namespace OpenPmsDental{
 			// 
 			// butDiscountPlans
 			// 
-			this.butDiscountPlans.Location = new System.Drawing.Point(372, 35);
+			this.butDiscountPlans.Location = new System.Drawing.Point(402, 35);
 			this.butDiscountPlans.Name = "butDiscountPlans";
 			this.butDiscountPlans.Size = new System.Drawing.Size(20, 23);
 			this.butDiscountPlans.TabIndex = 1;
@@ -175,7 +175,7 @@ namespace OpenPmsDental{
 			this.textFeeSched.Location = new System.Drawing.Point(126, 62);
 			this.textFeeSched.Name = "textFeeSched";
 			this.textFeeSched.ReadOnly = true;
-			this.textFeeSched.Size = new System.Drawing.Size(264, 23);
+			this.textFeeSched.Size = new System.Drawing.Size(296, 23);
 			this.textFeeSched.TabIndex = 22;
 			// 
 			// label1
@@ -192,7 +192,7 @@ namespace OpenPmsDental{
 			this.textDescript.Location = new System.Drawing.Point(126, 35);
 			this.textDescript.Name = "textDescript";
 			this.textDescript.ReadOnly = true;
-			this.textDescript.Size = new System.Drawing.Size(240, 23);
+			this.textDescript.Size = new System.Drawing.Size(270, 23);
 			this.textDescript.TabIndex = 21;
 			// 
 			// butSave
@@ -210,7 +210,7 @@ namespace OpenPmsDental{
 			this.textAdjustmentType.Location = new System.Drawing.Point(126, 89);
 			this.textAdjustmentType.Name = "textAdjustmentType";
 			this.textAdjustmentType.ReadOnly = true;
-			this.textAdjustmentType.Size = new System.Drawing.Size(264, 23);
+			this.textAdjustmentType.Size = new System.Drawing.Size(296, 23);
 			this.textAdjustmentType.TabIndex = 23;
 			// 
 			// label3
@@ -258,7 +258,7 @@ namespace OpenPmsDental{
 			this.textPlanNote.Name = "textPlanNote";
 			this.textPlanNote.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.InsPlan;
 			this.textPlanNote.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textPlanNote.Size = new System.Drawing.Size(266, 60);
+			this.textPlanNote.Size = new System.Drawing.Size(296, 60);
 			this.textPlanNote.TabIndex = 47;
 			this.textPlanNote.Text = "";
 			// 

@@ -53,9 +53,9 @@ namespace OpenPmsDental {
 			// 
 			this.listComputer.ItemStrings = new string[] {
         ""};
-			this.listComputer.Location = new System.Drawing.Point(17, 271);
+			this.listComputer.Location = new System.Drawing.Point(16, 273);
 			this.listComputer.Name = "listComputer";
-			this.listComputer.Size = new System.Drawing.Size(282, 277);
+			this.listComputer.Size = new System.Drawing.Size(282, 286);
 			this.listComputer.TabIndex = 2;
 			this.listComputer.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listComputer_MouseDoubleClick);
 			// 
@@ -63,7 +63,7 @@ namespace OpenPmsDental {
 			// 
 			this.label1.Location = new System.Drawing.Point(8, 50);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(409, 52);
+			this.label1.Size = new System.Drawing.Size(503, 48);
 			this.label1.TabIndex = 43;
 			this.label1.Text = "Computers are added to this list every time you use Open PMS - Dental.  You can safely " +
     "delete unused computer names from this list to speed up messaging.";
@@ -72,7 +72,7 @@ namespace OpenPmsDental {
 			// 
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(8, 110);
+			this.butDelete.Location = new System.Drawing.Point(8, 416);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(75, 26);
 			this.butDelete.TabIndex = 4;
@@ -81,7 +81,7 @@ namespace OpenPmsDental {
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(8, 88);
+			this.label2.Location = new System.Drawing.Point(8, 102);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(294, 18);
 			this.label2.TabIndex = 45;
@@ -90,7 +90,7 @@ namespace OpenPmsDental {
 			// 
 			// butSetSimpleGraphics
 			// 
-			this.butSetSimpleGraphics.Location = new System.Drawing.Point(42, 162);
+			this.butSetSimpleGraphics.Location = new System.Drawing.Point(51, 162);
 			this.butSetSimpleGraphics.Name = "butSetSimpleGraphics";
 			this.butSetSimpleGraphics.Size = new System.Drawing.Size(116, 24);
 			this.butSetSimpleGraphics.TabIndex = 3;
@@ -99,7 +99,7 @@ namespace OpenPmsDental {
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(23, 23);
+			this.label3.Location = new System.Drawing.Point(32, 23);
 			this.label3.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(155, 137);
@@ -112,15 +112,15 @@ namespace OpenPmsDental {
 			this.groupBox1.Controls.Add(this.butResetZoom);
 			this.groupBox1.Controls.Add(this.butSetSimpleGraphics);
 			this.groupBox1.Controls.Add(this.label3);
-			this.groupBox1.Location = new System.Drawing.Point(310, 270);
+			this.groupBox1.Location = new System.Drawing.Point(306, 273);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(195, 286);
+			this.groupBox1.Size = new System.Drawing.Size(213, 286);
 			this.groupBox1.TabIndex = 83;
 			this.groupBox1.Text = "Fix a Workstation";
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(24, 190);
+			this.label4.Location = new System.Drawing.Point(33, 190);
 			this.label4.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(152, 62);
@@ -130,7 +130,7 @@ namespace OpenPmsDental {
 			// 
 			// butResetZoom
 			// 
-			this.butResetZoom.Location = new System.Drawing.Point(59, 254);
+			this.butResetZoom.Location = new System.Drawing.Point(68, 254);
 			this.butResetZoom.Name = "butResetZoom";
 			this.butResetZoom.Size = new System.Drawing.Size(82, 24);
 			this.butResetZoom.TabIndex = 83;
@@ -164,7 +164,7 @@ namespace OpenPmsDental {
 			this.groupBox2.Controls.Add(this.label1);
 			this.groupBox2.Location = new System.Drawing.Point(8, 151);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(519, 144);
+			this.groupBox2.Size = new System.Drawing.Size(519, 450);
 			this.groupBox2.TabIndex = 2;
 			this.groupBox2.Text = "Workstation";
 			// 
@@ -258,7 +258,7 @@ namespace OpenPmsDental {
 			// 
 			// FormComputers
 			// 
-			this.ClientSize = new System.Drawing.Size(535, 606);
+			this.ClientSize = new System.Drawing.Size(535, 609);
 			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.listComputer);
 			this.Controls.Add(this.groupBox2);

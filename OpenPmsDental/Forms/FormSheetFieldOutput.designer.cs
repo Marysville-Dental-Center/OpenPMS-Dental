@@ -56,7 +56,7 @@ namespace OpenPmsDental{
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(13, 46);
+			this.label2.Location = new System.Drawing.Point(8, 46);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(108, 16);
 			this.label2.TabIndex = 86;
@@ -65,7 +65,7 @@ namespace OpenPmsDental{
 			// 
 			// listFields
 			// 
-			this.listFields.Location = new System.Drawing.Point(15, 70);
+			this.listFields.Location = new System.Drawing.Point(8, 70);
 			this.listFields.Name = "listFields";
 			this.listFields.Size = new System.Drawing.Size(142, 277);
 			this.listFields.TabIndex = 85;
@@ -74,7 +74,7 @@ namespace OpenPmsDental{
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(13, 8);
+			this.label1.Location = new System.Drawing.Point(8, 8);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(393, 33);
 			this.label1.TabIndex = 87;

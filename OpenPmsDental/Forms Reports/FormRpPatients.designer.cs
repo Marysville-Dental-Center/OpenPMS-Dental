@@ -69,9 +69,9 @@ namespace OpenPmsDental {
 			this.tabPatients.Controls.Add(this.tabData);
 			this.tabPatients.Controls.Add(this.tabFilters);
 			this.tabPatients.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-			this.tabPatients.Location = new System.Drawing.Point(16, 8);
+			this.tabPatients.Location = new System.Drawing.Point(8, 8);
 			this.tabPatients.Name = "tabPatients";
-			this.tabPatients.Size = new System.Drawing.Size(845, 544);
+			this.tabPatients.Size = new System.Drawing.Size(946, 544);
 			this.tabPatients.TabIndex = 1;
 			// 
 			// tabData
@@ -86,7 +86,7 @@ namespace OpenPmsDental {
 			this.tabData.Controls.Add(this.listPatientSelect);
 			this.tabData.Location = new System.Drawing.Point(2, 21);
 			this.tabData.Name = "tabData";
-			this.tabData.Size = new System.Drawing.Size(841, 521);
+			this.tabData.Size = new System.Drawing.Size(942, 521);
 			this.tabData.TabIndex = 1;
 			this.tabData.Text = "SELECT";
 			// 
@@ -95,7 +95,7 @@ namespace OpenPmsDental {
 			this.listBoxRefType.Location = new System.Drawing.Point(220, 88);
 			this.listBoxRefType.Name = "listBoxRefType";
 			this.listBoxRefType.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
-			this.listBoxRefType.Size = new System.Drawing.Size(120, 420);
+			this.listBoxRefType.Size = new System.Drawing.Size(120, 425);
 			this.listBoxRefType.TabIndex = 16;
 			this.listBoxRefType.Text = "listBoxOD1";
 			this.listBoxRefType.SelectionChangeCommitted += new System.EventHandler(this.listBoxRefType_SelectionChangeCommitted);
@@ -115,7 +115,7 @@ namespace OpenPmsDental {
 			this.textBox1.Location = new System.Drawing.Point(220, 24);
 			this.textBox1.Multiline = true;
 			this.textBox1.Name = "textBox1";
-			this.textBox1.Size = new System.Drawing.Size(613, 38);
+			this.textBox1.Size = new System.Drawing.Size(714, 38);
 			this.textBox1.TabIndex = 13;
 			this.textBox1.Text = resources.GetString("textBox1.Text");
 			// 
@@ -133,7 +133,7 @@ namespace OpenPmsDental {
 			this.listReferredToSelect.Location = new System.Drawing.Point(346, 88);
 			this.listReferredToSelect.Name = "listReferredToSelect";
 			this.listReferredToSelect.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
-			this.listReferredToSelect.Size = new System.Drawing.Size(168, 420);
+			this.listReferredToSelect.Size = new System.Drawing.Size(168, 425);
 			this.listReferredToSelect.TabIndex = 7;
 			this.listReferredToSelect.SelectedIndexChanged += new System.EventHandler(this.listReferredToSelect_SelectedIndexChanged);
 			// 
@@ -171,7 +171,7 @@ namespace OpenPmsDental {
 			this.tabFilters.Controls.Add(this.DropListFilter);
 			this.tabFilters.Location = new System.Drawing.Point(2, 21);
 			this.tabFilters.Name = "tabFilters";
-			this.tabFilters.Size = new System.Drawing.Size(836, 521);
+			this.tabFilters.Size = new System.Drawing.Size(942, 521);
 			this.tabFilters.TabIndex = 0;
 			this.tabFilters.Text = "WHERE";
 			// 
@@ -286,11 +286,11 @@ namespace OpenPmsDental {
 			this.TextSQL.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.TextSQL.Location = new System.Drawing.Point(16, 560);
+			this.TextSQL.Location = new System.Drawing.Point(8, 560);
 			this.TextSQL.Multiline = true;
 			this.TextSQL.Name = "TextSQL";
 			this.TextSQL.ReadOnly = true;
-			this.TextSQL.Size = new System.Drawing.Size(845, 128);
+			this.TextSQL.Size = new System.Drawing.Size(946, 128);
 			this.TextSQL.TabIndex = 38;
 			// 
 			// FormRpPatients

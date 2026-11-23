@@ -62,16 +62,16 @@ namespace OpenPmsDental {
 			// 
 			// listProvs
 			// 
-			this.listProvs.Location = new System.Drawing.Point(12, 50);
+			this.listProvs.Location = new System.Drawing.Point(8, 50);
 			this.listProvs.Name = "listProvs";
 			this.listProvs.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
-			this.listProvs.Size = new System.Drawing.Size(120, 238);
+			this.listProvs.Size = new System.Drawing.Size(124, 284);
 			this.listProvs.TabIndex = 33;
 			this.listProvs.Click += new System.EventHandler(this.listProvs_Click);
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(12, 8);
+			this.label1.Location = new System.Drawing.Point(8, 8);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(104, 16);
 			this.label1.TabIndex = 32;
@@ -158,7 +158,7 @@ namespace OpenPmsDental {
 			this.groupBox1.Controls.Add(this.textDateTo);
 			this.groupBox1.Controls.Add(this.label3);
 			this.groupBox1.Controls.Add(this.label2);
-			this.groupBox1.Location = new System.Drawing.Point(264, 50);
+			this.groupBox1.Location = new System.Drawing.Point(272, 50);
 			this.groupBox1.Name = "groupBox1";
 			this.groupBox1.Size = new System.Drawing.Size(322, 153);
 			this.groupBox1.TabIndex = 45;
@@ -194,16 +194,16 @@ namespace OpenPmsDental {
 			// 
 			// listClinics
 			// 
-			this.listClinics.Location = new System.Drawing.Point(138, 50);
+			this.listClinics.Location = new System.Drawing.Point(140, 50);
 			this.listClinics.Name = "listClinics";
 			this.listClinics.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
-			this.listClinics.Size = new System.Drawing.Size(120, 238);
+			this.listClinics.Size = new System.Drawing.Size(124, 284);
 			this.listClinics.TabIndex = 48;
 			this.listClinics.Click += new System.EventHandler(this.listClinics_Click);
 			// 
 			// labelClinics
 			// 
-			this.labelClinics.Location = new System.Drawing.Point(138, 8);
+			this.labelClinics.Location = new System.Drawing.Point(140, 8);
 			this.labelClinics.Name = "labelClinics";
 			this.labelClinics.Size = new System.Drawing.Size(104, 16);
 			this.labelClinics.TabIndex = 47;
@@ -212,7 +212,7 @@ namespace OpenPmsDental {
 			// 
 			// checkAllClinics
 			// 
-			this.checkAllClinics.Location = new System.Drawing.Point(138, 26);
+			this.checkAllClinics.Location = new System.Drawing.Point(140, 26);
 			this.checkAllClinics.Name = "checkAllClinics";
 			this.checkAllClinics.Size = new System.Drawing.Size(134, 20);
 			this.checkAllClinics.TabIndex = 50;
@@ -223,7 +223,7 @@ namespace OpenPmsDental {
 			// 
 			this.checkAllProvs.Checked = true;
 			this.checkAllProvs.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkAllProvs.Location = new System.Drawing.Point(12, 26);
+			this.checkAllProvs.Location = new System.Drawing.Point(8, 26);
 			this.checkAllProvs.Name = "checkAllProvs";
 			this.checkAllProvs.Size = new System.Drawing.Size(36, 20);
 			this.checkAllProvs.TabIndex = 51;
@@ -236,7 +236,7 @@ namespace OpenPmsDental {
 			this.groupBox2.Controls.Add(this.checkWebSchedASAP);
 			this.groupBox2.Controls.Add(this.checkWebSchedNewPat);
 			this.groupBox2.Controls.Add(this.checkWebSchedRecall);
-			this.groupBox2.Location = new System.Drawing.Point(264, 211);
+			this.groupBox2.Location = new System.Drawing.Point(272, 211);
 			this.groupBox2.Name = "groupBox2";
 			this.groupBox2.Size = new System.Drawing.Size(322, 123);
 			this.groupBox2.TabIndex = 47;

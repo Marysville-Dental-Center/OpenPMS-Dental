@@ -107,7 +107,7 @@ namespace OpenPmsDental{
 			// checkQuickBooksClassRefsEnabled
 			// 
 			this.checkQuickBooksClassRefsEnabled.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkQuickBooksClassRefsEnabled.Location = new System.Drawing.Point(140, 380);
+			this.checkQuickBooksClassRefsEnabled.Location = new System.Drawing.Point(203, 380);
 			this.checkQuickBooksClassRefsEnabled.Name = "checkQuickBooksClassRefsEnabled";
 			this.checkQuickBooksClassRefsEnabled.Size = new System.Drawing.Size(183, 20);
 			this.checkQuickBooksClassRefsEnabled.TabIndex = 9;

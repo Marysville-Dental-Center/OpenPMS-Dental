@@ -77,7 +77,7 @@ namespace OpenPmsDental{
 			this.textEmailAddress.Location = new System.Drawing.Point(143, 87);
 			this.textEmailAddress.Name = "textEmailAddress";
 			this.textEmailAddress.ReadOnly = true;
-			this.textEmailAddress.Size = new System.Drawing.Size(320, 20);
+			this.textEmailAddress.Size = new System.Drawing.Size(477, 23);
 			this.textEmailAddress.TabIndex = 2;
 			//
 			// labelAddressNote
@@ -125,14 +125,14 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.textCertFilePath.Location = new System.Drawing.Point(135, 23);
 			this.textCertFilePath.Name = "textCertFilePath";
-			this.textCertFilePath.Size = new System.Drawing.Size(420, 20);
+			this.textCertFilePath.Size = new System.Drawing.Size(433, 23);
 			this.textCertFilePath.TabIndex = 1;
 			this.textCertFilePath.TextChanged += new System.EventHandler(this.textCertFile_TextChanged);
 			//
 			// butBrowse
 			//
 			this.butBrowse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butBrowse.Location = new System.Drawing.Point(561, 23);
+			this.butBrowse.Location = new System.Drawing.Point(574, 23);
 			this.butBrowse.Name = "butBrowse";
 			this.butBrowse.Size = new System.Drawing.Size(30, 23);
 			this.butBrowse.TabIndex = 2;
@@ -184,14 +184,14 @@ namespace OpenPmsDental{
 			this.textDetails.Name = "textDetails";
 			this.textDetails.ReadOnly = true;
 			this.textDetails.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.textDetails.Size = new System.Drawing.Size(452, 116);
+			this.textDetails.Size = new System.Drawing.Size(469, 116);
 			this.textDetails.TabIndex = 7;
 			//
 			// butImport
 			//
 			this.butImport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butImport.Enabled = false;
-			this.butImport.Location = new System.Drawing.Point(512, 197);
+			this.butImport.Location = new System.Drawing.Point(529, 197);
 			this.butImport.Name = "butImport";
 			this.butImport.Size = new System.Drawing.Size(75, 24);
 			this.butImport.TabIndex = 8;
@@ -216,7 +216,7 @@ namespace OpenPmsDental{
 			this.textInStore.Name = "textInStore";
 			this.textInStore.ReadOnly = true;
 			this.textInStore.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.textInStore.Size = new System.Drawing.Size(465, 60);
+			this.textInStore.Size = new System.Drawing.Size(477, 60);
 			this.textInStore.TabIndex = 5;
 			//
 			// groupAnchor
@@ -241,7 +241,7 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelAnchorExplanation.Location = new System.Drawing.Point(8, 23);
 			this.labelAnchorExplanation.Name = "labelAnchorExplanation";
-			this.labelAnchorExplanation.Size = new System.Drawing.Size(590, 32);
+			this.labelAnchorExplanation.Size = new System.Drawing.Size(596, 32);
 			this.labelAnchorExplanation.TabIndex = 0;
 			this.labelAnchorExplanation.Text = "Direct messages are trusted when the sender\'s certificate was issued under a trust anchor of this computer. Your provider gives you its anchor as a public certificate file.";
 			//
@@ -260,13 +260,13 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.textAnchorFilePath.Location = new System.Drawing.Point(135, 57);
 			this.textAnchorFilePath.Name = "textAnchorFilePath";
-			this.textAnchorFilePath.Size = new System.Drawing.Size(420, 20);
+			this.textAnchorFilePath.Size = new System.Drawing.Size(433, 23);
 			this.textAnchorFilePath.TabIndex = 2;
 			//
 			// butBrowseAnchor
 			//
 			this.butBrowseAnchor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butBrowseAnchor.Location = new System.Drawing.Point(561, 57);
+			this.butBrowseAnchor.Location = new System.Drawing.Point(574, 57);
 			this.butBrowseAnchor.Name = "butBrowseAnchor";
 			this.butBrowseAnchor.Size = new System.Drawing.Size(30, 23);
 			this.butBrowseAnchor.TabIndex = 3;
@@ -276,7 +276,7 @@ namespace OpenPmsDental{
 			// butImportAnchor
 			//
 			this.butImportAnchor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butImportAnchor.Location = new System.Drawing.Point(512, 84);
+			this.butImportAnchor.Location = new System.Drawing.Point(529, 84);
 			this.butImportAnchor.Name = "butImportAnchor";
 			this.butImportAnchor.Size = new System.Drawing.Size(75, 24);
 			this.butImportAnchor.TabIndex = 4;

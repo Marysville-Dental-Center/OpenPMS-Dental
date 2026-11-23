@@ -75,7 +75,7 @@ namespace OpenPmsDental {
 			this.textEmail.Location = new System.Drawing.Point(106, 143);
 			this.textEmail.MaxLength = 255;
 			this.textEmail.Name = "textEmail";
-			this.textEmail.Size = new System.Drawing.Size(276, 23);
+			this.textEmail.Size = new System.Drawing.Size(296, 23);
 			this.textEmail.TabIndex = 141;
 			// 
 			// textZip
@@ -116,7 +116,7 @@ namespace OpenPmsDental {
 			this.textAddress.Location = new System.Drawing.Point(106, 89);
 			this.textAddress.MaxLength = 255;
 			this.textAddress.Name = "textAddress";
-			this.textAddress.Size = new System.Drawing.Size(240, 23);
+			this.textAddress.Size = new System.Drawing.Size(296, 23);
 			this.textAddress.TabIndex = 135;
 			// 
 			// label6
@@ -168,7 +168,7 @@ namespace OpenPmsDental {
 			this.textNotes.MaxLength = 30000;
 			this.textNotes.Multiline = true;
 			this.textNotes.Name = "textNotes";
-			this.textNotes.Size = new System.Drawing.Size(386, 111);
+			this.textNotes.Size = new System.Drawing.Size(296, 111);
 			this.textNotes.TabIndex = 2;
 			// 
 			// label3
@@ -193,7 +193,7 @@ namespace OpenPmsDental {
 			// 
 			this.textDescription.Location = new System.Drawing.Point(106, 8);
 			this.textDescription.Name = "textDescription";
-			this.textDescription.Size = new System.Drawing.Size(240, 23);
+			this.textDescription.Size = new System.Drawing.Size(296, 23);
 			this.textDescription.TabIndex = 0;
 			// 
 			// label1
@@ -209,7 +209,7 @@ namespace OpenPmsDental {
 			// 
 			this.gridMain.Location = new System.Drawing.Point(104, 336);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(561, 261);
+			this.gridMain.Size = new System.Drawing.Size(597, 261);
 			this.gridMain.TabIndex = 128;
 			this.gridMain.Title = "Turnaround Times";
 			this.gridMain.TranslationName = "TableLabTurnaround";
@@ -227,9 +227,9 @@ namespace OpenPmsDental {
 			// 
 			this.butDeleteTurnaround.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDeleteTurnaround.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDeleteTurnaround.Location = new System.Drawing.Point(17, 364);
+			this.butDeleteTurnaround.Location = new System.Drawing.Point(8, 364);
 			this.butDeleteTurnaround.Name = "butDeleteTurnaround";
-			this.butDeleteTurnaround.Size = new System.Drawing.Size(81, 24);
+			this.butDeleteTurnaround.Size = new System.Drawing.Size(90, 24);
 			this.butDeleteTurnaround.TabIndex = 129;
 			this.butDeleteTurnaround.Text = "Delete";
 			this.butDeleteTurnaround.Click += new System.EventHandler(this.butDeleteTurnaround_Click);
@@ -238,9 +238,9 @@ namespace OpenPmsDental {
 			// 
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdd.Location = new System.Drawing.Point(17, 336);
+			this.butAdd.Location = new System.Drawing.Point(8, 336);
 			this.butAdd.Name = "butAdd";
-			this.butAdd.Size = new System.Drawing.Size(81, 24);
+			this.butAdd.Size = new System.Drawing.Size(90, 24);
 			this.butAdd.TabIndex = 127;
 			this.butAdd.Text = "Add";
 			this.butAdd.Click += new System.EventHandler(this.butAdd_Click);

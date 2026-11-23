@@ -56,7 +56,7 @@
 			// 
 			this.butMeasures.Location = new System.Drawing.Point(8, 23);
 			this.butMeasures.Name = "butMeasures";
-			this.butMeasures.Size = new System.Drawing.Size(84, 23);
+			this.butMeasures.Size = new System.Drawing.Size(88, 23);
 			this.butMeasures.TabIndex = 11;
 			this.butMeasures.Text = "Measure Calc";
 			this.butMeasures.UseVisualStyleBackColor = true;
@@ -66,7 +66,7 @@
 			// 
 			this.butHash.Location = new System.Drawing.Point(8, 23);
 			this.butHash.Name = "butHash";
-			this.butHash.Size = new System.Drawing.Size(84, 23);
+			this.butHash.Size = new System.Drawing.Size(88, 23);
 			this.butHash.TabIndex = 13;
 			this.butHash.Text = "Hash";
 			this.butHash.UseVisualStyleBackColor = true;
@@ -76,7 +76,7 @@
 			// 
 			this.butEncryption.Location = new System.Drawing.Point(8, 50);
 			this.butEncryption.Name = "butEncryption";
-			this.butEncryption.Size = new System.Drawing.Size(84, 23);
+			this.butEncryption.Size = new System.Drawing.Size(88, 23);
 			this.butEncryption.TabIndex = 17;
 			this.butEncryption.Text = "Encryption";
 			this.butEncryption.UseVisualStyleBackColor = true;
@@ -97,7 +97,7 @@
 			// 
 			this.but2014CQM.Location = new System.Drawing.Point(8, 50);
 			this.but2014CQM.Name = "but2014CQM";
-			this.but2014CQM.Size = new System.Drawing.Size(84, 23);
+			this.but2014CQM.Size = new System.Drawing.Size(88, 23);
 			this.but2014CQM.TabIndex = 21;
 			this.but2014CQM.Text = "Quality Meas";
 			this.but2014CQM.UseVisualStyleBackColor = true;
@@ -107,7 +107,7 @@
 			// 
 			this.butEhrNotPerformed.Location = new System.Drawing.Point(708, 312);
 			this.butEhrNotPerformed.Name = "butEhrNotPerformed";
-			this.butEhrNotPerformed.Size = new System.Drawing.Size(84, 23);
+			this.butEhrNotPerformed.Size = new System.Drawing.Size(104, 23);
 			this.butEhrNotPerformed.TabIndex = 38;
 			this.butEhrNotPerformed.Text = "Not Performed";
 			this.butEhrNotPerformed.UseVisualStyleBackColor = true;
@@ -128,7 +128,7 @@
 			// 
 			this.butVaccines.Location = new System.Drawing.Point(708, 258);
 			this.butVaccines.Name = "butVaccines";
-			this.butVaccines.Size = new System.Drawing.Size(84, 23);
+			this.butVaccines.Size = new System.Drawing.Size(104, 23);
 			this.butVaccines.TabIndex = 27;
 			this.butVaccines.Text = "Vaccines";
 			this.butVaccines.UseVisualStyleBackColor = true;
@@ -136,9 +136,9 @@
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(12, 9);
+			this.label1.Location = new System.Drawing.Point(8, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(136, 18);
+			this.label1.Size = new System.Drawing.Size(140, 18);
 			this.label1.TabIndex = 28;
 			this.label1.Text = "Provider for this patient:";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -147,7 +147,7 @@
 			// 
 			this.label2.Location = new System.Drawing.Point(8, 31);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(128, 18);
+			this.label2.Size = new System.Drawing.Size(140, 18);
 			this.label2.TabIndex = 29;
 			this.label2.Text = "Provider logged on:";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -156,7 +156,7 @@
 			// 
 			this.labelProvPat.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.labelProvPat.ForeColor = System.Drawing.Color.DarkRed;
-			this.labelProvPat.Location = new System.Drawing.Point(135, 8);
+			this.labelProvPat.Location = new System.Drawing.Point(154, 8);
 			this.labelProvPat.Name = "labelProvPat";
 			this.labelProvPat.Size = new System.Drawing.Size(426, 18);
 			this.labelProvPat.TabIndex = 30;
@@ -167,7 +167,7 @@
 			// 
 			this.labelProvUser.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.labelProvUser.ForeColor = System.Drawing.Color.DarkRed;
-			this.labelProvUser.Location = new System.Drawing.Point(142, 31);
+			this.labelProvUser.Location = new System.Drawing.Point(154, 31);
 			this.labelProvUser.Name = "labelProvUser";
 			this.labelProvUser.Size = new System.Drawing.Size(426, 18);
 			this.labelProvUser.TabIndex = 31;
@@ -186,7 +186,7 @@
 			// 
 			this.butAmendments.Location = new System.Drawing.Point(708, 285);
 			this.butAmendments.Name = "butAmendments";
-			this.butAmendments.Size = new System.Drawing.Size(84, 23);
+			this.butAmendments.Size = new System.Drawing.Size(104, 23);
 			this.butAmendments.TabIndex = 36;
 			this.butAmendments.Text = "Amendments";
 			this.butAmendments.UseVisualStyleBackColor = true;
@@ -196,7 +196,7 @@
 			// 
 			this.butEncounters.Location = new System.Drawing.Point(708, 339);
 			this.butEncounters.Name = "butEncounters";
-			this.butEncounters.Size = new System.Drawing.Size(84, 23);
+			this.butEncounters.Size = new System.Drawing.Size(104, 23);
 			this.butEncounters.TabIndex = 39;
 			this.butEncounters.Text = "Encounters";
 			this.butEncounters.UseVisualStyleBackColor = true;
@@ -206,7 +206,7 @@
 			// 
 			this.butInterventions.Location = new System.Drawing.Point(708, 366);
 			this.butInterventions.Name = "butInterventions";
-			this.butInterventions.Size = new System.Drawing.Size(84, 23);
+			this.butInterventions.Size = new System.Drawing.Size(104, 23);
 			this.butInterventions.TabIndex = 40;
 			this.butInterventions.Text = "Interventions";
 			this.butInterventions.UseVisualStyleBackColor = true;
@@ -216,7 +216,7 @@
 			// 
 			this.butCarePlans.Location = new System.Drawing.Point(708, 393);
 			this.butCarePlans.Name = "butCarePlans";
-			this.butCarePlans.Size = new System.Drawing.Size(84, 23);
+			this.butCarePlans.Size = new System.Drawing.Size(104, 23);
 			this.butCarePlans.TabIndex = 42;
 			this.butCarePlans.Text = "Care Plans";
 			this.butCarePlans.UseVisualStyleBackColor = true;
@@ -226,7 +226,7 @@
 			// 
 			this.but2011Labs.Location = new System.Drawing.Point(8, 23);
 			this.but2011Labs.Name = "but2011Labs";
-			this.but2011Labs.Size = new System.Drawing.Size(84, 23);
+			this.but2011Labs.Size = new System.Drawing.Size(88, 23);
 			this.but2011Labs.TabIndex = 43;
 			this.but2011Labs.Text = "Labs/Rads";
 			this.but2011Labs.UseVisualStyleBackColor = true;
@@ -246,7 +246,7 @@
 			// 
 			this.butMeasureEvent.Location = new System.Drawing.Point(708, 540);
 			this.butMeasureEvent.Name = "butMeasureEvent";
-			this.butMeasureEvent.Size = new System.Drawing.Size(84, 23);
+			this.butMeasureEvent.Size = new System.Drawing.Size(104, 23);
 			this.butMeasureEvent.TabIndex = 43;
 			this.butMeasureEvent.Text = "Edit Events";
 			this.butMeasureEvent.UseVisualStyleBackColor = true;
@@ -269,7 +269,7 @@
 			// 
 			this.butClinicalSummary.Location = new System.Drawing.Point(708, 420);
 			this.butClinicalSummary.Name = "butClinicalSummary";
-			this.butClinicalSummary.Size = new System.Drawing.Size(84, 23);
+			this.butClinicalSummary.Size = new System.Drawing.Size(104, 23);
 			this.butClinicalSummary.TabIndex = 44;
 			this.butClinicalSummary.Text = "Clinical Summ.";
 			this.butClinicalSummary.UseVisualStyleBackColor = true;
@@ -279,7 +279,7 @@
 			// 
 			this.butPatList.Location = new System.Drawing.Point(708, 447);
 			this.butPatList.Name = "butPatList";
-			this.butPatList.Size = new System.Drawing.Size(84, 23);
+			this.butPatList.Size = new System.Drawing.Size(104, 23);
 			this.butPatList.TabIndex = 45;
 			this.butPatList.Text = "Patient List";
 			this.butPatList.UseVisualStyleBackColor = true;
