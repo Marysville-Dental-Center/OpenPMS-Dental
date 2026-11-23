@@ -50,7 +50,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(435, 603);
+			this.butSave.Location = new System.Drawing.Point(453, 607);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 13;
@@ -59,7 +59,7 @@ namespace OpenPmsDental{
 			// 
 			// buttonRemoveClassRefQB
 			// 
-			this.buttonRemoveClassRefQB.Location = new System.Drawing.Point(435, 464);
+			this.buttonRemoveClassRefQB.Location = new System.Drawing.Point(435, 448);
 			this.buttonRemoveClassRefQB.Name = "buttonRemoveClassRefQB";
 			this.buttonRemoveClassRefQB.Size = new System.Drawing.Size(75, 24);
 			this.buttonRemoveClassRefQB.TabIndex = 12;
@@ -69,7 +69,7 @@ namespace OpenPmsDental{
 			// 
 			// buttonAddClassRefQB
 			// 
-			this.buttonAddClassRefQB.Location = new System.Drawing.Point(435, 434);
+			this.buttonAddClassRefQB.Location = new System.Drawing.Point(435, 420);
 			this.buttonAddClassRefQB.Name = "buttonAddClassRefQB";
 			this.buttonAddClassRefQB.Size = new System.Drawing.Size(75, 24);
 			this.buttonAddClassRefQB.TabIndex = 11;
@@ -79,25 +79,25 @@ namespace OpenPmsDental{
 			// 
 			// listBoxClassRefsQB
 			// 
-			this.listBoxClassRefsQB.Location = new System.Drawing.Point(199, 434);
+			this.listBoxClassRefsQB.Location = new System.Drawing.Point(203, 420);
 			this.listBoxClassRefsQB.Name = "listBoxClassRefsQB";
-			this.listBoxClassRefsQB.Size = new System.Drawing.Size(230, 108);
+			this.listBoxClassRefsQB.Size = new System.Drawing.Size(226, 108);
 			this.listBoxClassRefsQB.TabIndex = 10;
 			this.listBoxClassRefsQB.Visible = false;
 			// 
 			// labelClass
 			// 
-			this.labelClass.Location = new System.Drawing.Point(20, 435);
+			this.labelClass.Location = new System.Drawing.Point(137, 420);
 			this.labelClass.Name = "labelClass";
-			this.labelClass.Size = new System.Drawing.Size(177, 53);
+			this.labelClass.Size = new System.Drawing.Size(60, 53);
 			this.labelClass.TabIndex = 78;
 			this.labelClass.Text = "Class List";
-			this.labelClass.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.labelClass.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.labelClass.Visible = false;
 			// 
 			// butRemoveIncomeQB
 			// 
-			this.butRemoveIncomeQB.Location = new System.Drawing.Point(435, 325);
+			this.butRemoveIncomeQB.Location = new System.Drawing.Point(435, 312);
 			this.butRemoveIncomeQB.Name = "butRemoveIncomeQB";
 			this.butRemoveIncomeQB.Size = new System.Drawing.Size(75, 24);
 			this.butRemoveIncomeQB.TabIndex = 8;
@@ -106,17 +106,17 @@ namespace OpenPmsDental{
 			// 
 			// checkQuickBooksClassRefsEnabled
 			// 
-			this.checkQuickBooksClassRefsEnabled.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkQuickBooksClassRefsEnabled.Location = new System.Drawing.Point(171, 409);
+			this.checkQuickBooksClassRefsEnabled.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkQuickBooksClassRefsEnabled.Location = new System.Drawing.Point(203, 396);
 			this.checkQuickBooksClassRefsEnabled.Name = "checkQuickBooksClassRefsEnabled";
-			this.checkQuickBooksClassRefsEnabled.Size = new System.Drawing.Size(258, 19);
+			this.checkQuickBooksClassRefsEnabled.Size = new System.Drawing.Size(183, 20);
 			this.checkQuickBooksClassRefsEnabled.TabIndex = 9;
 			this.checkQuickBooksClassRefsEnabled.Text = "Enable QuickBooks Class Refs";
 			this.checkQuickBooksClassRefsEnabled.CheckedChanged += new System.EventHandler(this.checkQuickBooksClassRefsEnabled_CheckedChanged);
 			// 
 			// butAddIncomeQB
 			// 
-			this.butAddIncomeQB.Location = new System.Drawing.Point(435, 295);
+			this.butAddIncomeQB.Location = new System.Drawing.Point(435, 284);
 			this.butAddIncomeQB.Name = "butAddIncomeQB";
 			this.butAddIncomeQB.Size = new System.Drawing.Size(75, 24);
 			this.butAddIncomeQB.TabIndex = 7;
@@ -125,14 +125,14 @@ namespace OpenPmsDental{
 			// 
 			// listBoxIncomeAccountsQB
 			// 
-			this.listBoxIncomeAccountsQB.Location = new System.Drawing.Point(199, 295);
+			this.listBoxIncomeAccountsQB.Location = new System.Drawing.Point(203, 284);
 			this.listBoxIncomeAccountsQB.Name = "listBoxIncomeAccountsQB";
-			this.listBoxIncomeAccountsQB.Size = new System.Drawing.Size(230, 108);
+			this.listBoxIncomeAccountsQB.Size = new System.Drawing.Size(226, 108);
 			this.listBoxIncomeAccountsQB.TabIndex = 6;
 			// 
 			// labelQuickBooksTitle
 			// 
-			this.labelQuickBooksTitle.Location = new System.Drawing.Point(32, 9);
+			this.labelQuickBooksTitle.Location = new System.Drawing.Point(18, 8);
 			this.labelQuickBooksTitle.Name = "labelQuickBooksTitle";
 			this.labelQuickBooksTitle.Size = new System.Drawing.Size(478, 34);
 			this.labelQuickBooksTitle.TabIndex = 74;
@@ -143,9 +143,9 @@ namespace OpenPmsDental{
 			// labelConnectQB
 			// 
 			this.labelConnectQB.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.labelConnectQB.Location = new System.Drawing.Point(32, 71);
+			this.labelConnectQB.Location = new System.Drawing.Point(31, 71);
 			this.labelConnectQB.Name = "labelConnectQB";
-			this.labelConnectQB.Size = new System.Drawing.Size(397, 52);
+			this.labelConnectQB.Size = new System.Drawing.Size(397, 47);
 			this.labelConnectQB.TabIndex = 73;
 			this.labelConnectQB.Text = "Push the connect button with QuickBooks running in the background if this is your" +
     " first time using QuickBooks with Open PMS - Dental. (Only need to do this once)";
@@ -153,19 +153,19 @@ namespace OpenPmsDental{
 			// 
 			// labelIncomeAccountQB
 			// 
-			this.labelIncomeAccountQB.Location = new System.Drawing.Point(20, 296);
+			this.labelIncomeAccountQB.Location = new System.Drawing.Point(20, 284);
 			this.labelIncomeAccountQB.Name = "labelIncomeAccountQB";
-			this.labelIncomeAccountQB.Size = new System.Drawing.Size(177, 53);
+			this.labelIncomeAccountQB.Size = new System.Drawing.Size(177, 32);
 			this.labelIncomeAccountQB.TabIndex = 72;
 			this.labelIncomeAccountQB.Text = "User will get to pick from this list of income accounts.";
-			this.labelIncomeAccountQB.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.labelIncomeAccountQB.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// labelWarning
 			// 
 			this.labelWarning.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.labelWarning.Location = new System.Drawing.Point(52, 558);
+			this.labelWarning.Location = new System.Drawing.Point(52, 532);
 			this.labelWarning.Name = "labelWarning";
-			this.labelWarning.Size = new System.Drawing.Size(476, 27);
+			this.labelWarning.Size = new System.Drawing.Size(476, 32);
 			this.labelWarning.TabIndex = 71;
 			this.labelWarning.Text = "Open PMS - Dental will run faster if your QuickBooks company file is open in the backgr" +
     "ound.";
@@ -173,48 +173,48 @@ namespace OpenPmsDental{
 			// 
 			// butConnectQB
 			// 
-			this.butConnectQB.Location = new System.Drawing.Point(435, 82);
+			this.butConnectQB.Location = new System.Drawing.Point(434, 71);
 			this.butConnectQB.Name = "butConnectQB";
-			this.butConnectQB.Size = new System.Drawing.Size(75, 24);
+			this.butConnectQB.Size = new System.Drawing.Size(75, 23);
 			this.butConnectQB.TabIndex = 2;
 			this.butConnectQB.Text = "Connect";
 			this.butConnectQB.Click += new System.EventHandler(this.butConnectQB_Click);
 			// 
 			// butBrowseQB
 			// 
-			this.butBrowseQB.Location = new System.Drawing.Point(435, 46);
+			this.butBrowseQB.Location = new System.Drawing.Point(434, 44);
 			this.butBrowseQB.Name = "butBrowseQB";
-			this.butBrowseQB.Size = new System.Drawing.Size(75, 24);
+			this.butBrowseQB.Size = new System.Drawing.Size(75, 23);
 			this.butBrowseQB.TabIndex = 1;
 			this.butBrowseQB.Text = "Browse";
 			this.butBrowseQB.Click += new System.EventHandler(this.butBrowseQB_Click);
 			// 
 			// labelCompanyFile
 			// 
-			this.labelCompanyFile.Location = new System.Drawing.Point(29, 48);
+			this.labelCompanyFile.Location = new System.Drawing.Point(50, 44);
 			this.labelCompanyFile.Name = "labelCompanyFile";
-			this.labelCompanyFile.Size = new System.Drawing.Size(105, 19);
+			this.labelCompanyFile.Size = new System.Drawing.Size(84, 23);
 			this.labelCompanyFile.TabIndex = 67;
 			this.labelCompanyFile.Text = "Company File";
 			this.labelCompanyFile.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textCompanyFileQB
 			// 
-			this.textCompanyFileQB.Location = new System.Drawing.Point(140, 48);
+			this.textCompanyFileQB.Location = new System.Drawing.Point(140, 44);
 			this.textCompanyFileQB.Name = "textCompanyFileQB";
-			this.textCompanyFileQB.Size = new System.Drawing.Size(289, 20);
+			this.textCompanyFileQB.Size = new System.Drawing.Size(288, 23);
 			this.textCompanyFileQB.TabIndex = 0;
 			// 
 			// listBoxDepositAccountsQB
 			// 
-			this.listBoxDepositAccountsQB.Location = new System.Drawing.Point(199, 180);
+			this.listBoxDepositAccountsQB.Location = new System.Drawing.Point(203, 172);
 			this.listBoxDepositAccountsQB.Name = "listBoxDepositAccountsQB";
-			this.listBoxDepositAccountsQB.Size = new System.Drawing.Size(230, 108);
+			this.listBoxDepositAccountsQB.Size = new System.Drawing.Size(226, 108);
 			this.listBoxDepositAccountsQB.TabIndex = 3;
 			// 
 			// butRemoveDepositQB
 			// 
-			this.butRemoveDepositQB.Location = new System.Drawing.Point(435, 209);
+			this.butRemoveDepositQB.Location = new System.Drawing.Point(435, 200);
 			this.butRemoveDepositQB.Name = "butRemoveDepositQB";
 			this.butRemoveDepositQB.Size = new System.Drawing.Size(75, 24);
 			this.butRemoveDepositQB.TabIndex = 5;
@@ -223,7 +223,7 @@ namespace OpenPmsDental{
 			// 
 			// butAddDepositQB
 			// 
-			this.butAddDepositQB.Location = new System.Drawing.Point(435, 179);
+			this.butAddDepositQB.Location = new System.Drawing.Point(435, 172);
 			this.butAddDepositQB.Name = "butAddDepositQB";
 			this.butAddDepositQB.Size = new System.Drawing.Size(75, 24);
 			this.butAddDepositQB.TabIndex = 4;
@@ -232,18 +232,18 @@ namespace OpenPmsDental{
 			// 
 			// label7
 			// 
-			this.label7.Location = new System.Drawing.Point(20, 180);
+			this.label7.Location = new System.Drawing.Point(20, 172);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(177, 53);
+			this.label7.Size = new System.Drawing.Size(177, 32);
 			this.label7.TabIndex = 62;
 			this.label7.Text = "User will get to pick from this list of accounts to deposit to.";
-			this.label7.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// labelDepositsQB
 			// 
-			this.labelDepositsQB.Location = new System.Drawing.Point(18, 140);
+			this.labelDepositsQB.Location = new System.Drawing.Point(8, 122);
 			this.labelDepositsQB.Name = "labelDepositsQB";
-			this.labelDepositsQB.Size = new System.Drawing.Size(510, 27);
+			this.labelDepositsQB.Size = new System.Drawing.Size(520, 48);
 			this.labelDepositsQB.TabIndex = 61;
 			this.labelDepositsQB.Text = "Every time a deposit is created, a deposit will be created within QuickBooks usin" +
     "g these settings.\r\n(Commas must be removed from account names within QuickBooks)" +
@@ -252,7 +252,7 @@ namespace OpenPmsDental{
 			// 
 			// FormQuickBooksSetup
 			// 
-			this.ClientSize = new System.Drawing.Size(528, 639);
+			this.ClientSize = new System.Drawing.Size(536, 639);
 			this.Controls.Add(this.buttonRemoveClassRefQB);
 			this.Controls.Add(this.buttonAddClassRefQB);
 			this.Controls.Add(this.listBoxClassRefsQB);

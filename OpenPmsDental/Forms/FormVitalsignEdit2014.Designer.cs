@@ -78,52 +78,52 @@
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(26, 20);
+			this.label1.Location = new System.Drawing.Point(80, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(93, 17);
+			this.label1.Size = new System.Drawing.Size(36, 23);
 			this.label1.TabIndex = 0;
 			this.label1.Text = "Date";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// labelBMI
 			// 
-			this.labelBMI.Location = new System.Drawing.Point(26, 139);
+			this.labelBMI.Location = new System.Drawing.Point(84, 143);
 			this.labelBMI.Name = "labelBMI";
-			this.labelBMI.Size = new System.Drawing.Size(93, 17);
+			this.labelBMI.Size = new System.Drawing.Size(32, 23);
 			this.labelBMI.TabIndex = 0;
 			this.labelBMI.Text = "BMI";
 			this.labelBMI.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// labelBPs
 			// 
-			this.labelBPs.Location = new System.Drawing.Point(26, 44);
+			this.labelBPs.Location = new System.Drawing.Point(48, 35);
 			this.labelBPs.Name = "labelBPs";
-			this.labelBPs.Size = new System.Drawing.Size(93, 17);
+			this.labelBPs.Size = new System.Drawing.Size(68, 23);
 			this.labelBPs.TabIndex = 0;
 			this.labelBPs.Text = "Systolic BP";
 			this.labelBPs.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// labelWeight
 			// 
-			this.labelWeight.Location = new System.Drawing.Point(26, 116);
+			this.labelWeight.Location = new System.Drawing.Point(36, 116);
 			this.labelWeight.Name = "labelWeight";
-			this.labelWeight.Size = new System.Drawing.Size(93, 17);
+			this.labelWeight.Size = new System.Drawing.Size(80, 23);
 			this.labelWeight.TabIndex = 0;
 			this.labelWeight.Text = "Weight (.lbs)";
 			this.labelWeight.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// labelHeight
 			// 
-			this.labelHeight.Location = new System.Drawing.Point(26, 92);
+			this.labelHeight.Location = new System.Drawing.Point(44, 89);
 			this.labelHeight.Name = "labelHeight";
-			this.labelHeight.Size = new System.Drawing.Size(93, 17);
+			this.labelHeight.Size = new System.Drawing.Size(72, 23);
 			this.labelHeight.TabIndex = 0;
 			this.labelHeight.Text = "Height (in.)";
 			this.labelHeight.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textDateTaken
 			// 
-			this.textDateTaken.Location = new System.Drawing.Point(122, 18);
+			this.textDateTaken.Location = new System.Drawing.Point(122, 8);
 			this.textDateTaken.Name = "textDateTaken";
 			this.textDateTaken.Size = new System.Drawing.Size(80, 20);
 			this.textDateTaken.TabIndex = 1;
@@ -131,15 +131,15 @@
 			// 
 			// textBPd
 			// 
-			this.textBPd.Location = new System.Drawing.Point(122, 66);
+			this.textBPd.Location = new System.Drawing.Point(122, 62);
 			this.textBPd.Name = "textBPd";
-			this.textBPd.Size = new System.Drawing.Size(39, 20);
+			this.textBPd.Size = new System.Drawing.Size(40, 23);
 			this.textBPd.TabIndex = 4;
 			this.textBPd.TextChanged += new System.EventHandler(this.textBPd_TextChanged);
 			// 
 			// textBPs
 			// 
-			this.textBPs.Location = new System.Drawing.Point(122, 42);
+			this.textBPs.Location = new System.Drawing.Point(122, 35);
 			this.textBPs.Name = "textBPs";
 			this.textBPs.Size = new System.Drawing.Size(40, 20);
 			this.textBPs.TabIndex = 3;
@@ -147,7 +147,7 @@
 			// 
 			// textWeight
 			// 
-			this.textWeight.Location = new System.Drawing.Point(122, 114);
+			this.textWeight.Location = new System.Drawing.Point(122, 116);
 			this.textWeight.Name = "textWeight";
 			this.textWeight.Size = new System.Drawing.Size(56, 20);
 			this.textWeight.TabIndex = 6;
@@ -155,7 +155,7 @@
 			// 
 			// textHeight
 			// 
-			this.textHeight.Location = new System.Drawing.Point(122, 90);
+			this.textHeight.Location = new System.Drawing.Point(122, 89);
 			this.textHeight.Name = "textHeight";
 			this.textHeight.Size = new System.Drawing.Size(56, 20);
 			this.textHeight.TabIndex = 5;
@@ -163,7 +163,7 @@
 			// 
 			// textBMI
 			// 
-			this.textBMI.Location = new System.Drawing.Point(122, 137);
+			this.textBMI.Location = new System.Drawing.Point(122, 143);
 			this.textBMI.Name = "textBMI";
 			this.textBMI.ReadOnly = true;
 			this.textBMI.Size = new System.Drawing.Size(40, 20);
@@ -172,7 +172,7 @@
 			// 
 			// labelWeightCode
 			// 
-			this.labelWeightCode.Location = new System.Drawing.Point(168, 139);
+			this.labelWeightCode.Location = new System.Drawing.Point(168, 146);
 			this.labelWeightCode.Name = "labelWeightCode";
 			this.labelWeightCode.Size = new System.Drawing.Size(82, 17);
 			this.labelWeightCode.TabIndex = 24;
@@ -183,39 +183,39 @@
 			// 
 			this.comboHeightExamCode.Location = new System.Drawing.Point(434, 89);
 			this.comboHeightExamCode.Name = "comboHeightExamCode";
-			this.comboHeightExamCode.Size = new System.Drawing.Size(158, 21);
+			this.comboHeightExamCode.Size = new System.Drawing.Size(160, 23);
 			this.comboHeightExamCode.TabIndex = 7;
 			// 
 			// comboWeightExamCode
 			// 
-			this.comboWeightExamCode.Location = new System.Drawing.Point(434, 113);
+			this.comboWeightExamCode.Location = new System.Drawing.Point(434, 116);
 			this.comboWeightExamCode.Name = "comboWeightExamCode";
-			this.comboWeightExamCode.Size = new System.Drawing.Size(158, 21);
+			this.comboWeightExamCode.Size = new System.Drawing.Size(160, 23);
 			this.comboWeightExamCode.TabIndex = 8;
 			// 
 			// labelHeightExamCode
 			// 
-			this.labelHeightExamCode.Location = new System.Drawing.Point(301, 92);
+			this.labelHeightExamCode.Location = new System.Drawing.Point(348, 89);
 			this.labelHeightExamCode.Name = "labelHeightExamCode";
-			this.labelHeightExamCode.Size = new System.Drawing.Size(130, 17);
+			this.labelHeightExamCode.Size = new System.Drawing.Size(80, 23);
 			this.labelHeightExamCode.TabIndex = 0;
 			this.labelHeightExamCode.Text = "Height Code";
 			this.labelHeightExamCode.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// labelWeightExamCode
 			// 
-			this.labelWeightExamCode.Location = new System.Drawing.Point(301, 116);
+			this.labelWeightExamCode.Location = new System.Drawing.Point(348, 116);
 			this.labelWeightExamCode.Name = "labelWeightExamCode";
-			this.labelWeightExamCode.Size = new System.Drawing.Size(130, 17);
+			this.labelWeightExamCode.Size = new System.Drawing.Size(80, 23);
 			this.labelWeightExamCode.TabIndex = 0;
 			this.labelWeightExamCode.Text = "Weight Code";
 			this.labelWeightExamCode.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// labelBMIPercentileCode
 			// 
-			this.labelBMIPercentileCode.Location = new System.Drawing.Point(301, 163);
+			this.labelBMIPercentileCode.Location = new System.Drawing.Point(308, 671);
 			this.labelBMIPercentileCode.Name = "labelBMIPercentileCode";
-			this.labelBMIPercentileCode.Size = new System.Drawing.Size(130, 17);
+			this.labelBMIPercentileCode.Size = new System.Drawing.Size(120, 23);
 			this.labelBMIPercentileCode.TabIndex = 0;
 			this.labelBMIPercentileCode.Text = "BMI Percentile Code";
 			this.labelBMIPercentileCode.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -223,68 +223,68 @@
 			// 
 			// labelBMIExamCode
 			// 
-			this.labelBMIExamCode.Location = new System.Drawing.Point(301, 139);
+			this.labelBMIExamCode.Location = new System.Drawing.Point(364, 143);
 			this.labelBMIExamCode.Name = "labelBMIExamCode";
-			this.labelBMIExamCode.Size = new System.Drawing.Size(130, 17);
+			this.labelBMIExamCode.Size = new System.Drawing.Size(64, 23);
 			this.labelBMIExamCode.TabIndex = 0;
 			this.labelBMIExamCode.Text = "BMI Code";
 			this.labelBMIExamCode.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textBMIExamCode
 			// 
-			this.textBMIExamCode.Location = new System.Drawing.Point(434, 137);
+			this.textBMIExamCode.Location = new System.Drawing.Point(434, 143);
 			this.textBMIExamCode.Name = "textBMIExamCode";
 			this.textBMIExamCode.ReadOnly = true;
-			this.textBMIExamCode.Size = new System.Drawing.Size(95, 20);
+			this.textBMIExamCode.Size = new System.Drawing.Size(96, 23);
 			this.textBMIExamCode.TabIndex = 31;
 			// 
 			// labelBPd
 			// 
-			this.labelBPd.Location = new System.Drawing.Point(26, 68);
+			this.labelBPd.Location = new System.Drawing.Point(40, 62);
 			this.labelBPd.Name = "labelBPd";
-			this.labelBPd.Size = new System.Drawing.Size(93, 17);
+			this.labelBPd.Size = new System.Drawing.Size(76, 23);
 			this.labelBPd.TabIndex = 0;
 			this.labelBPd.Text = "Diastolic BP";
 			this.labelBPd.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// labelBPdExamCode
 			// 
-			this.labelBPdExamCode.Location = new System.Drawing.Point(301, 68);
+			this.labelBPdExamCode.Location = new System.Drawing.Point(324, 62);
 			this.labelBPdExamCode.Name = "labelBPdExamCode";
-			this.labelBPdExamCode.Size = new System.Drawing.Size(130, 17);
+			this.labelBPdExamCode.Size = new System.Drawing.Size(104, 23);
 			this.labelBPdExamCode.TabIndex = 0;
 			this.labelBPdExamCode.Text = "Diastolic BP Code";
 			this.labelBPdExamCode.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textBPdExamCode
 			// 
-			this.textBPdExamCode.Location = new System.Drawing.Point(434, 66);
+			this.textBPdExamCode.Location = new System.Drawing.Point(434, 62);
 			this.textBPdExamCode.Name = "textBPdExamCode";
 			this.textBPdExamCode.ReadOnly = true;
-			this.textBPdExamCode.Size = new System.Drawing.Size(95, 20);
+			this.textBPdExamCode.Size = new System.Drawing.Size(96, 23);
 			this.textBPdExamCode.TabIndex = 34;
 			// 
 			// labelBPsExamCode
 			// 
-			this.labelBPsExamCode.Location = new System.Drawing.Point(301, 44);
+			this.labelBPsExamCode.Location = new System.Drawing.Point(328, 35);
 			this.labelBPsExamCode.Name = "labelBPsExamCode";
-			this.labelBPsExamCode.Size = new System.Drawing.Size(130, 17);
+			this.labelBPsExamCode.Size = new System.Drawing.Size(100, 23);
 			this.labelBPsExamCode.TabIndex = 0;
 			this.labelBPsExamCode.Text = "Systolic BP Code";
 			this.labelBPsExamCode.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textBPsExamCode
 			// 
-			this.textBPsExamCode.Location = new System.Drawing.Point(434, 42);
+			this.textBPsExamCode.Location = new System.Drawing.Point(434, 35);
 			this.textBPsExamCode.Name = "textBPsExamCode";
 			this.textBPsExamCode.ReadOnly = true;
-			this.textBPsExamCode.Size = new System.Drawing.Size(95, 20);
+			this.textBPsExamCode.Size = new System.Drawing.Size(96, 23);
 			this.textBPsExamCode.TabIndex = 36;
 			// 
 			// checkPregnant
 			// 
 			this.checkPregnant.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
-			this.checkPregnant.Location = new System.Drawing.Point(6, 16);
+			this.checkPregnant.Location = new System.Drawing.Point(8, 23);
 			this.checkPregnant.Name = "checkPregnant";
 			this.checkPregnant.Size = new System.Drawing.Size(261, 66);
 			this.checkPregnant.TabIndex = 1;
@@ -294,18 +294,18 @@
 			// 
 			// textPregCode
 			// 
-			this.textPregCode.Location = new System.Drawing.Point(377, 14);
+			this.textPregCode.Location = new System.Drawing.Point(381, 23);
 			this.textPregCode.Name = "textPregCode";
 			this.textPregCode.ReadOnly = true;
-			this.textPregCode.Size = new System.Drawing.Size(100, 20);
+			this.textPregCode.Size = new System.Drawing.Size(84, 23);
 			this.textPregCode.TabIndex = 0;
 			// 
 			// label6
 			// 
 			this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label6.Location = new System.Drawing.Point(273, 15);
+			this.label6.Location = new System.Drawing.Point(275, 23);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(101, 17);
+			this.label6.Size = new System.Drawing.Size(100, 23);
 			this.label6.TabIndex = 0;
 			this.label6.Text = "Pregnancy Code";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -324,9 +324,9 @@
 			this.groupExclusion.Controls.Add(this.label6);
 			this.groupExclusion.Controls.Add(this.textPregCode);
 			this.groupExclusion.Controls.Add(this.checkPregnant);
-			this.groupExclusion.Location = new System.Drawing.Point(10, 186);
+			this.groupExclusion.Location = new System.Drawing.Point(8, 174);
 			this.groupExclusion.Name = "groupExclusion";
-			this.groupExclusion.Size = new System.Drawing.Size(578, 180);
+			this.groupExclusion.Size = new System.Drawing.Size(586, 213);
 			this.groupExclusion.TabIndex = 9;
 			this.groupExclusion.TabStop = false;
 			this.groupExclusion.Text = "Exclusion From BMI Exam";
@@ -334,9 +334,9 @@
 			// butChangeDefault
 			// 
 			this.butChangeDefault.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butChangeDefault.Location = new System.Drawing.Point(483, 12);
+			this.butChangeDefault.Location = new System.Drawing.Point(471, 23);
 			this.butChangeDefault.Name = "butChangeDefault";
-			this.butChangeDefault.Size = new System.Drawing.Size(89, 24);
+			this.butChangeDefault.Size = new System.Drawing.Size(105, 23);
 			this.butChangeDefault.TabIndex = 3;
 			this.butChangeDefault.Text = "Change Default";
 			this.butChangeDefault.Click += new System.EventHandler(this.butChangeDefault_Click);
@@ -344,7 +344,7 @@
 			// textReasonDescript
 			// 
 			this.textReasonDescript.AcceptsTab = true;
-			this.textReasonDescript.Location = new System.Drawing.Point(377, 133);
+			this.textReasonDescript.Location = new System.Drawing.Point(381, 165);
 			this.textReasonDescript.MaxLength = 2147483647;
 			this.textReasonDescript.Multiline = true;
 			this.textReasonDescript.Name = "textReasonDescript";
@@ -356,7 +356,7 @@
 			// textPregCodeDescript
 			// 
 			this.textPregCodeDescript.AcceptsTab = true;
-			this.textPregCodeDescript.Location = new System.Drawing.Point(377, 40);
+			this.textPregCodeDescript.Location = new System.Drawing.Point(381, 50);
 			this.textPregCodeDescript.MaxLength = 2147483647;
 			this.textPregCodeDescript.Multiline = true;
 			this.textPregCodeDescript.Name = "textPregCodeDescript";
@@ -367,9 +367,9 @@
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(273, 134);
+			this.label4.Location = new System.Drawing.Point(303, 165);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(101, 17);
+			this.label4.Size = new System.Drawing.Size(72, 23);
 			this.label4.TabIndex = 0;
 			this.label4.Text = "Description";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -377,16 +377,16 @@
 			// labelNotPerf
 			// 
 			this.labelNotPerf.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.labelNotPerf.Location = new System.Drawing.Point(273, 108);
+			this.labelNotPerf.Location = new System.Drawing.Point(295, 138);
 			this.labelNotPerf.Name = "labelNotPerf";
-			this.labelNotPerf.Size = new System.Drawing.Size(101, 17);
+			this.labelNotPerf.Size = new System.Drawing.Size(80, 23);
 			this.labelNotPerf.TabIndex = 0;
 			this.labelNotPerf.Text = "Reason Code";
 			this.labelNotPerf.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textReasonCode
 			// 
-			this.textReasonCode.Location = new System.Drawing.Point(377, 107);
+			this.textReasonCode.Location = new System.Drawing.Point(381, 138);
 			this.textReasonCode.Name = "textReasonCode";
 			this.textReasonCode.ReadOnly = true;
 			this.textReasonCode.Size = new System.Drawing.Size(100, 20);
@@ -394,9 +394,9 @@
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(273, 41);
+			this.label3.Location = new System.Drawing.Point(303, 50);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(101, 17);
+			this.label3.Size = new System.Drawing.Size(72, 23);
 			this.label3.TabIndex = 0;
 			this.label3.Text = "Description";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -404,9 +404,9 @@
 			// checkNotPerf
 			// 
 			this.checkNotPerf.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
-			this.checkNotPerf.Location = new System.Drawing.Point(6, 108);
+			this.checkNotPerf.Location = new System.Drawing.Point(8, 138);
 			this.checkNotPerf.Name = "checkNotPerf";
-			this.checkNotPerf.Size = new System.Drawing.Size(267, 31);
+			this.checkNotPerf.Size = new System.Drawing.Size(261, 34);
 			this.checkNotPerf.TabIndex = 2;
 			this.checkNotPerf.Text = "Height and Weight was not recorded for a medical or other reason.";
 			this.checkNotPerf.Click += new System.EventHandler(this.checkNotPerf_Click);
@@ -414,7 +414,7 @@
 			// labelPregNotice
 			// 
 			this.labelPregNotice.ForeColor = System.Drawing.Color.Red;
-			this.labelPregNotice.Location = new System.Drawing.Point(24, 61);
+			this.labelPregNotice.Location = new System.Drawing.Point(26, 91);
 			this.labelPregNotice.Name = "labelPregNotice";
 			this.labelPregNotice.Size = new System.Drawing.Size(243, 39);
 			this.labelPregNotice.TabIndex = 0;
@@ -426,9 +426,9 @@
 			// 
 			this.groupInterventions.Controls.Add(this.butAdd);
 			this.groupInterventions.Controls.Add(this.gridInterventions);
-			this.groupInterventions.Location = new System.Drawing.Point(10, 372);
+			this.groupInterventions.Location = new System.Drawing.Point(8, 395);
 			this.groupInterventions.Name = "groupInterventions";
-			this.groupInterventions.Size = new System.Drawing.Size(578, 198);
+			this.groupInterventions.Size = new System.Drawing.Size(586, 200);
 			this.groupInterventions.TabIndex = 10;
 			this.groupInterventions.TabStop = false;
 			this.groupInterventions.Text = "Interventions";
@@ -438,7 +438,7 @@
 			this.butAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdd.Location = new System.Drawing.Point(497, 19);
+			this.butAdd.Location = new System.Drawing.Point(499, 23);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(75, 24);
 			this.butAdd.TabIndex = 1;
@@ -447,7 +447,7 @@
 			// 
 			// gridInterventions
 			// 
-			this.gridInterventions.Location = new System.Drawing.Point(6, 19);
+			this.gridInterventions.Location = new System.Drawing.Point(8, 23);
 			this.gridInterventions.Name = "gridInterventions";
 			this.gridInterventions.Size = new System.Drawing.Size(485, 169);
 			this.gridInterventions.TabIndex = 0;
@@ -457,7 +457,7 @@
 			// 
 			// textBMIPercentile
 			// 
-			this.textBMIPercentile.Location = new System.Drawing.Point(122, 161);
+			this.textBMIPercentile.Location = new System.Drawing.Point(122, 671);
 			this.textBMIPercentile.Name = "textBMIPercentile";
 			this.textBMIPercentile.ReadOnly = true;
 			this.textBMIPercentile.Size = new System.Drawing.Size(40, 20);
@@ -467,9 +467,9 @@
 			// 
 			// labelBMIPercentile
 			// 
-			this.labelBMIPercentile.Location = new System.Drawing.Point(26, 163);
+			this.labelBMIPercentile.Location = new System.Drawing.Point(28, 671);
 			this.labelBMIPercentile.Name = "labelBMIPercentile";
-			this.labelBMIPercentile.Size = new System.Drawing.Size(93, 17);
+			this.labelBMIPercentile.Size = new System.Drawing.Size(88, 23);
 			this.labelBMIPercentile.TabIndex = 0;
 			this.labelBMIPercentile.Text = "BMI Percentile";
 			this.labelBMIPercentile.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -477,27 +477,27 @@
 			// 
 			// textBMIPercentileCode
 			// 
-			this.textBMIPercentileCode.Location = new System.Drawing.Point(434, 161);
+			this.textBMIPercentileCode.Location = new System.Drawing.Point(434, 671);
 			this.textBMIPercentileCode.Name = "textBMIPercentileCode";
 			this.textBMIPercentileCode.ReadOnly = true;
-			this.textBMIPercentileCode.Size = new System.Drawing.Size(95, 20);
+			this.textBMIPercentileCode.Size = new System.Drawing.Size(96, 23);
 			this.textBMIPercentileCode.TabIndex = 164;
 			this.textBMIPercentileCode.Visible = false;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(316, 18);
+			this.label2.Location = new System.Drawing.Point(352, 8);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(115, 17);
+			this.label2.Size = new System.Drawing.Size(76, 23);
 			this.label2.TabIndex = 0;
 			this.label2.Text = "Pulse (bpm)";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textPulse
 			// 
-			this.textPulse.Location = new System.Drawing.Point(434, 18);
+			this.textPulse.Location = new System.Drawing.Point(434, 8);
 			this.textPulse.Name = "textPulse";
-			this.textPulse.Size = new System.Drawing.Size(39, 20);
+			this.textPulse.Size = new System.Drawing.Size(40, 23);
 			this.textPulse.TabIndex = 2;
 			// 
 			// butDelete
@@ -505,7 +505,7 @@
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(10, 649);
+			this.butDelete.Location = new System.Drawing.Point(8, 706);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(75, 24);
 			this.butDelete.TabIndex = 13;
@@ -515,7 +515,7 @@
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(513, 649);
+			this.butSave.Location = new System.Drawing.Point(519, 706);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 11;
@@ -524,9 +524,9 @@
 			//
 			// labelNotes
 			//
-			this.labelNotes.Location = new System.Drawing.Point(26, 577);
+			this.labelNotes.Location = new System.Drawing.Point(72, 603);
 			this.labelNotes.Name = "labelNotes";
-			this.labelNotes.Size = new System.Drawing.Size(93, 17);
+			this.labelNotes.Size = new System.Drawing.Size(44, 23);
 			this.labelNotes.TabIndex = 0;
 			this.labelNotes.Text = "Notes";
 			this.labelNotes.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -534,16 +534,16 @@
 			// textNotes
 			//
 			this.textNotes.AcceptsReturn = true;
-			this.textNotes.Location = new System.Drawing.Point(122, 576);
+			this.textNotes.Location = new System.Drawing.Point(122, 603);
 			this.textNotes.Multiline = true;
 			this.textNotes.Name = "textNotes";
 			this.textNotes.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.textNotes.Size = new System.Drawing.Size(466, 64);
+			this.textNotes.Size = new System.Drawing.Size(472, 64);
 			this.textNotes.TabIndex = 10;
 			//
 			// FormVitalsignEdit2014
 			//
-			this.ClientSize = new System.Drawing.Size(602, 684);
+			this.ClientSize = new System.Drawing.Size(602, 738);
 			this.Controls.Add(this.textNotes);
 			this.Controls.Add(this.labelNotes);
 			this.Controls.Add(this.butSave);

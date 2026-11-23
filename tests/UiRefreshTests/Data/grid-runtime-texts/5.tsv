@@ -1,0 +1,16 @@
+# UI-12 slice 1 (fix round 8): texts a grid window's code gives a label or check box at run time, other than its designer text (UI-12.md
+# section 2, "Labels whose text the code sets"). The layout scripts size the control for the widest of its texts (grid_hand.py's Hand.lw reads
+# the width); GridRulesTests sets each text in the laid-out window and fails when it is cut or its width here is stale. text: \n is a line
+# break (the width is then the widest line's). width: px on one line at Segoe UI 9, 96 dpi (TextRenderer, the Label's flags).
+window	control	text	width	why
+OpenPmsDental.FormProcSelect	labelAmtOriginal	$99,999.99	69	UI-12 slice 5: the breakdown's amount (FormProcSelect.cs, currency)
+OpenPmsDental.FormProcSelect	labelPositiveAdjs	$99,999.99	61	UI-12 slice 5: the breakdown's amount (FormProcSelect.cs, currency)
+OpenPmsDental.FormProcSelect	labelNegativeAdjs	$99,999.99	61	UI-12 slice 5: the breakdown's amount (FormProcSelect.cs, currency)
+OpenPmsDental.FormProcSelect	labelPayPlanProduction	$99,999.99	61	UI-12 slice 5: the breakdown's amount (FormProcSelect.cs, currency)
+OpenPmsDental.FormProcSelect	labelPaySplits	$99,999.99	61	UI-12 slice 5: the breakdown's amount (FormProcSelect.cs, currency)
+OpenPmsDental.FormProcSelect	labelInsPay	$99,999.99	61	UI-12 slice 5: the breakdown's amount (FormProcSelect.cs, currency)
+OpenPmsDental.FormProcSelect	labelWriteOff	$99,999.99	61	UI-12 slice 5: the breakdown's amount (FormProcSelect.cs, currency)
+OpenPmsDental.FormProcSelect	labelInsEst	$99,999.99	61	UI-12 slice 5: the breakdown's amount (FormProcSelect.cs, currency)
+OpenPmsDental.FormProcSelect	labelWriteOffEst	$99,999.99	61	UI-12 slice 5: the breakdown's amount (FormProcSelect.cs, currency)
+OpenPmsDental.FormProcSelect	labelCurrentSplits	$99,999.99	61	UI-12 slice 5: the breakdown's amount (FormProcSelect.cs, currency)
+OpenPmsDental.FormProcSelect	labelAmtEnd	$99,999.99	69	UI-12 slice 5: the breakdown's amount (FormProcSelect.cs, currency)

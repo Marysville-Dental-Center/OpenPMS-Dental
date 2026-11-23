@@ -78,44 +78,44 @@
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(5, 50);
+			this.label5.Location = new System.Drawing.Point(46, 35);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(130, 17);
+			this.label5.Size = new System.Drawing.Size(84, 23);
 			this.label5.TabIndex = 12;
 			this.label5.Text = "Manufacturer";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// labelAmount
 			// 
-			this.labelAmount.Location = new System.Drawing.Point(5, 128);
+			this.labelAmount.Location = new System.Drawing.Point(74, 116);
 			this.labelAmount.Name = "labelAmount";
-			this.labelAmount.Size = new System.Drawing.Size(130, 17);
+			this.labelAmount.Size = new System.Drawing.Size(56, 23);
 			this.labelAmount.TabIndex = 10;
 			this.labelAmount.Text = "Amount";
 			this.labelAmount.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textAmount
 			// 
-			this.textAmount.Location = new System.Drawing.Point(136, 128);
+			this.textAmount.Location = new System.Drawing.Point(136, 116);
 			this.textAmount.Name = "textAmount";
-			this.textAmount.Size = new System.Drawing.Size(63, 20);
+			this.textAmount.Size = new System.Drawing.Size(64, 23);
 			this.textAmount.TabIndex = 3;
 			// 
 			// comboVaccine
 			// 
 			this.comboVaccine.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboVaccine.FormattingEnabled = true;
-			this.comboVaccine.Location = new System.Drawing.Point(136, 23);
+			this.comboVaccine.Location = new System.Drawing.Point(136, 8);
 			this.comboVaccine.Name = "comboVaccine";
-			this.comboVaccine.Size = new System.Drawing.Size(201, 21);
+			this.comboVaccine.Size = new System.Drawing.Size(200, 23);
 			this.comboVaccine.TabIndex = 0;
 			this.comboVaccine.SelectedIndexChanged += new System.EventHandler(this.comboVaccine_SelectedIndexChanged);
 			// 
 			// labelVaccine
 			// 
-			this.labelVaccine.Location = new System.Drawing.Point(5, 23);
+			this.labelVaccine.Location = new System.Drawing.Point(58, 8);
 			this.labelVaccine.Name = "labelVaccine";
-			this.labelVaccine.Size = new System.Drawing.Size(130, 17);
+			this.labelVaccine.Size = new System.Drawing.Size(72, 23);
 			this.labelVaccine.TabIndex = 13;
 			this.labelVaccine.Text = "Vaccine Def";
 			this.labelVaccine.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -124,71 +124,71 @@
 			// 
 			this.comboUnits.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboUnits.FormattingEnabled = true;
-			this.comboUnits.Location = new System.Drawing.Point(136, 155);
+			this.comboUnits.Location = new System.Drawing.Point(136, 143);
 			this.comboUnits.Name = "comboUnits";
-			this.comboUnits.Size = new System.Drawing.Size(63, 21);
+			this.comboUnits.Size = new System.Drawing.Size(64, 23);
 			this.comboUnits.TabIndex = 4;
 			// 
 			// textManufacturer
 			// 
-			this.textManufacturer.Location = new System.Drawing.Point(136, 48);
+			this.textManufacturer.Location = new System.Drawing.Point(136, 35);
 			this.textManufacturer.Name = "textManufacturer";
 			this.textManufacturer.ReadOnly = true;
-			this.textManufacturer.Size = new System.Drawing.Size(201, 20);
+			this.textManufacturer.Size = new System.Drawing.Size(200, 23);
 			this.textManufacturer.TabIndex = 14;
 			this.textManufacturer.TabStop = false;
 			// 
 			// labelDateTimeStartStop
 			// 
-			this.labelDateTimeStartStop.Location = new System.Drawing.Point(5, 74);
+			this.labelDateTimeStartStop.Location = new System.Drawing.Point(38, 62);
 			this.labelDateTimeStartStop.Name = "labelDateTimeStartStop";
-			this.labelDateTimeStartStop.Size = new System.Drawing.Size(130, 17);
+			this.labelDateTimeStartStop.Size = new System.Drawing.Size(92, 23);
 			this.labelDateTimeStartStop.TabIndex = 11;
 			this.labelDateTimeStartStop.Text = "Date Time Start";
 			this.labelDateTimeStartStop.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textDateTimeStart
 			// 
-			this.textDateTimeStart.Location = new System.Drawing.Point(136, 74);
+			this.textDateTimeStart.Location = new System.Drawing.Point(136, 62);
 			this.textDateTimeStart.Name = "textDateTimeStart";
-			this.textDateTimeStart.Size = new System.Drawing.Size(151, 20);
+			this.textDateTimeStart.Size = new System.Drawing.Size(152, 23);
 			this.textDateTimeStart.TabIndex = 1;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(5, 182);
+			this.label2.Location = new System.Drawing.Point(54, 170);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(130, 17);
+			this.label2.Size = new System.Drawing.Size(76, 23);
 			this.label2.TabIndex = 9;
 			this.label2.Text = "Lot Number";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textLotNum
 			// 
-			this.textLotNum.Location = new System.Drawing.Point(136, 182);
+			this.textLotNum.Location = new System.Drawing.Point(136, 170);
 			this.textLotNum.Name = "textLotNum";
-			this.textLotNum.Size = new System.Drawing.Size(118, 20);
+			this.textLotNum.Size = new System.Drawing.Size(120, 23);
 			this.textLotNum.TabIndex = 5;
 			// 
 			// textDateTimeStop
 			// 
-			this.textDateTimeStop.Location = new System.Drawing.Point(136, 101);
+			this.textDateTimeStop.Location = new System.Drawing.Point(136, 89);
 			this.textDateTimeStop.Name = "textDateTimeStop";
-			this.textDateTimeStop.Size = new System.Drawing.Size(151, 20);
+			this.textDateTimeStop.Size = new System.Drawing.Size(152, 23);
 			this.textDateTimeStop.TabIndex = 2;
 			// 
 			// labelDateTimeStop
 			// 
-			this.labelDateTimeStop.Location = new System.Drawing.Point(5, 101);
+			this.labelDateTimeStop.Location = new System.Drawing.Point(38, 89);
 			this.labelDateTimeStop.Name = "labelDateTimeStop";
-			this.labelDateTimeStop.Size = new System.Drawing.Size(130, 17);
+			this.labelDateTimeStop.Size = new System.Drawing.Size(92, 23);
 			this.labelDateTimeStop.TabIndex = 11;
 			this.labelDateTimeStop.Text = "Date Time Stop";
 			this.labelDateTimeStop.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// labelDocument
 			// 
-			this.labelDocument.Location = new System.Drawing.Point(136, 371);
+			this.labelDocument.Location = new System.Drawing.Point(136, 357);
 			this.labelDocument.Name = "labelDocument";
 			this.labelDocument.Size = new System.Drawing.Size(336, 48);
 			this.labelDocument.TabIndex = 16;
@@ -197,7 +197,7 @@
 			// 
 			// textNote
 			// 
-			this.textNote.Location = new System.Drawing.Point(136, 419);
+			this.textNote.Location = new System.Drawing.Point(136, 407);
 			this.textNote.Multiline = true;
 			this.textNote.Name = "textNote";
 			this.textNote.Size = new System.Drawing.Size(336, 75);
@@ -205,129 +205,129 @@
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(5, 419);
+			this.label3.Location = new System.Drawing.Point(90, 407);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(130, 17);
+			this.label3.Size = new System.Drawing.Size(40, 23);
 			this.label3.TabIndex = 18;
 			this.label3.Text = "Note";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(5, 155);
+			this.label1.Location = new System.Drawing.Point(90, 143);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(130, 17);
+			this.label1.Size = new System.Drawing.Size(40, 23);
 			this.label1.TabIndex = 19;
 			this.label1.Text = "Units";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textFilledCity
 			// 
-			this.textFilledCity.Location = new System.Drawing.Point(624, 23);
+			this.textFilledCity.Location = new System.Drawing.Point(624, 8);
 			this.textFilledCity.Name = "textFilledCity";
-			this.textFilledCity.Size = new System.Drawing.Size(151, 20);
+			this.textFilledCity.Size = new System.Drawing.Size(152, 23);
 			this.textFilledCity.TabIndex = 20;
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(494, 23);
+			this.label4.Location = new System.Drawing.Point(518, 8);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(130, 17);
+			this.label4.Size = new System.Drawing.Size(100, 23);
 			this.label4.TabIndex = 21;
 			this.label4.Text = "City Where Filled";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textFilledSt
 			// 
-			this.textFilledSt.Location = new System.Drawing.Point(624, 48);
+			this.textFilledSt.Location = new System.Drawing.Point(624, 35);
 			this.textFilledSt.Name = "textFilledSt";
-			this.textFilledSt.Size = new System.Drawing.Size(151, 20);
+			this.textFilledSt.Size = new System.Drawing.Size(152, 23);
 			this.textFilledSt.TabIndex = 22;
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(494, 48);
+			this.label6.Location = new System.Drawing.Point(510, 35);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(130, 17);
+			this.label6.Size = new System.Drawing.Size(108, 23);
 			this.label6.TabIndex = 23;
 			this.label6.Text = "State Where Filled";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// listCompletionStatus
 			// 
-			this.listCompletionStatus.Location = new System.Drawing.Point(136, 234);
+			this.listCompletionStatus.Location = new System.Drawing.Point(136, 224);
 			this.listCompletionStatus.Name = "listCompletionStatus";
 			this.listCompletionStatus.Size = new System.Drawing.Size(151, 56);
 			this.listCompletionStatus.TabIndex = 24;
 			// 
 			// label7
 			// 
-			this.label7.Location = new System.Drawing.Point(5, 234);
+			this.label7.Location = new System.Drawing.Point(18, 224);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(130, 17);
+			this.label7.Size = new System.Drawing.Size(112, 23);
 			this.label7.TabIndex = 25;
 			this.label7.Text = "Completion Status";
 			this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label8
 			// 
-			this.label8.Location = new System.Drawing.Point(494, 208);
+			this.label8.Location = new System.Drawing.Point(498, 197);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(130, 17);
+			this.label8.Size = new System.Drawing.Size(120, 23);
 			this.label8.TabIndex = 27;
 			this.label8.Text = "Administration Note";
 			this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// listAdministrationNote
 			// 
-			this.listAdministrationNote.Location = new System.Drawing.Point(624, 208);
+			this.listAdministrationNote.Location = new System.Drawing.Point(624, 197);
 			this.listAdministrationNote.Name = "listAdministrationNote";
 			this.listAdministrationNote.Size = new System.Drawing.Size(151, 121);
 			this.listAdministrationNote.TabIndex = 26;
 			// 
 			// label9
 			// 
-			this.label9.Location = new System.Drawing.Point(494, 74);
+			this.label9.Location = new System.Drawing.Point(582, 62);
 			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(130, 17);
+			this.label9.Size = new System.Drawing.Size(36, 23);
 			this.label9.TabIndex = 28;
 			this.label9.Text = "User";
 			this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// comboProvNumOrdering
 			// 
-			this.comboProvNumOrdering.Location = new System.Drawing.Point(624, 101);
+			this.comboProvNumOrdering.Location = new System.Drawing.Point(624, 89);
 			this.comboProvNumOrdering.MaxDropDownItems = 30;
 			this.comboProvNumOrdering.Name = "comboProvNumOrdering";
-			this.comboProvNumOrdering.Size = new System.Drawing.Size(254, 21);
+			this.comboProvNumOrdering.Size = new System.Drawing.Size(268, 23);
 			this.comboProvNumOrdering.TabIndex = 262;
 			this.comboProvNumOrdering.SelectionChangeCommitted += new System.EventHandler(this.comboProvNumOrdering_SelectionChangeCommitted);
 			// 
 			// label10
 			// 
 			this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label10.Location = new System.Drawing.Point(494, 101);
+			this.label10.Location = new System.Drawing.Point(510, 89);
 			this.label10.Name = "label10";
-			this.label10.Size = new System.Drawing.Size(130, 17);
+			this.label10.Size = new System.Drawing.Size(108, 23);
 			this.label10.TabIndex = 261;
 			this.label10.Text = "Ordering Provider";
 			this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// comboProvNumAdministering
 			// 
-			this.comboProvNumAdministering.Location = new System.Drawing.Point(624, 128);
+			this.comboProvNumAdministering.Location = new System.Drawing.Point(624, 116);
 			this.comboProvNumAdministering.MaxDropDownItems = 30;
 			this.comboProvNumAdministering.Name = "comboProvNumAdministering";
-			this.comboProvNumAdministering.Size = new System.Drawing.Size(254, 21);
+			this.comboProvNumAdministering.Size = new System.Drawing.Size(268, 23);
 			this.comboProvNumAdministering.TabIndex = 265;
 			this.comboProvNumAdministering.SelectionChangeCommitted += new System.EventHandler(this.comboProvNumAdministering_SelectionChangeCommitted);
 			// 
 			// label11
 			// 
 			this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label11.Location = new System.Drawing.Point(494, 128);
+			this.label11.Location = new System.Drawing.Point(482, 116);
 			this.label11.Name = "label11";
-			this.label11.Size = new System.Drawing.Size(130, 17);
+			this.label11.Size = new System.Drawing.Size(136, 23);
 			this.label11.TabIndex = 264;
 			this.label11.Text = "Administering Provider";
 			this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -335,50 +335,50 @@
 			// label12
 			// 
 			this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label12.Location = new System.Drawing.Point(5, 208);
+			this.label12.Location = new System.Drawing.Point(38, 197);
 			this.label12.Name = "label12";
-			this.label12.Size = new System.Drawing.Size(130, 17);
+			this.label12.Size = new System.Drawing.Size(92, 23);
 			this.label12.TabIndex = 268;
 			this.label12.Text = "Date Expiration";
 			this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label13
 			// 
-			this.label13.Location = new System.Drawing.Point(5, 296);
+			this.label13.Location = new System.Drawing.Point(38, 284);
 			this.label13.Name = "label13";
-			this.label13.Size = new System.Drawing.Size(130, 17);
+			this.label13.Size = new System.Drawing.Size(92, 23);
 			this.label13.TabIndex = 270;
 			this.label13.Text = "Refusal Reason";
 			this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// listRefusalReason
 			// 
-			this.listRefusalReason.Location = new System.Drawing.Point(136, 296);
+			this.listRefusalReason.Location = new System.Drawing.Point(136, 284);
 			this.listRefusalReason.Name = "listRefusalReason";
 			this.listRefusalReason.Size = new System.Drawing.Size(151, 69);
 			this.listRefusalReason.TabIndex = 269;
 			// 
 			// label14
 			// 
-			this.label14.Location = new System.Drawing.Point(494, 335);
+			this.label14.Location = new System.Drawing.Point(570, 322);
 			this.label14.Name = "label14";
-			this.label14.Size = new System.Drawing.Size(130, 17);
+			this.label14.Size = new System.Drawing.Size(48, 23);
 			this.label14.TabIndex = 272;
 			this.label14.Text = "Action";
 			this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// listAction
 			// 
-			this.listAction.Location = new System.Drawing.Point(624, 335);
+			this.listAction.Location = new System.Drawing.Point(624, 322);
 			this.listAction.Name = "listAction";
 			this.listAction.Size = new System.Drawing.Size(151, 43);
 			this.listAction.TabIndex = 271;
 			// 
 			// label15
 			// 
-			this.label15.Location = new System.Drawing.Point(494, 155);
+			this.label15.Location = new System.Drawing.Point(494, 143);
 			this.label15.Name = "label15";
-			this.label15.Size = new System.Drawing.Size(130, 17);
+			this.label15.Size = new System.Drawing.Size(124, 23);
 			this.label15.TabIndex = 274;
 			this.label15.Text = "Administration Route";
 			this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -386,42 +386,42 @@
 			// comboAdministrationRoute
 			// 
 			this.comboAdministrationRoute.FormattingEnabled = true;
-			this.comboAdministrationRoute.Location = new System.Drawing.Point(624, 155);
+			this.comboAdministrationRoute.Location = new System.Drawing.Point(624, 143);
 			this.comboAdministrationRoute.Name = "comboAdministrationRoute";
-			this.comboAdministrationRoute.Size = new System.Drawing.Size(151, 21);
+			this.comboAdministrationRoute.Size = new System.Drawing.Size(152, 23);
 			this.comboAdministrationRoute.TabIndex = 275;
 			// 
 			// comboAdministrationSite
 			// 
 			this.comboAdministrationSite.FormattingEnabled = true;
-			this.comboAdministrationSite.Location = new System.Drawing.Point(624, 182);
+			this.comboAdministrationSite.Location = new System.Drawing.Point(624, 170);
 			this.comboAdministrationSite.Name = "comboAdministrationSite";
-			this.comboAdministrationSite.Size = new System.Drawing.Size(151, 21);
+			this.comboAdministrationSite.Size = new System.Drawing.Size(152, 23);
 			this.comboAdministrationSite.TabIndex = 277;
 			// 
 			// label16
 			// 
-			this.label16.Location = new System.Drawing.Point(494, 182);
+			this.label16.Location = new System.Drawing.Point(506, 170);
 			this.label16.Name = "label16";
-			this.label16.Size = new System.Drawing.Size(130, 17);
+			this.label16.Size = new System.Drawing.Size(112, 23);
 			this.label16.TabIndex = 276;
 			this.label16.Text = "Administration Site";
 			this.label16.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textUser
 			// 
-			this.textUser.Location = new System.Drawing.Point(624, 74);
+			this.textUser.Location = new System.Drawing.Point(624, 62);
 			this.textUser.Name = "textUser";
 			this.textUser.ReadOnly = true;
-			this.textUser.Size = new System.Drawing.Size(151, 20);
+			this.textUser.Size = new System.Drawing.Size(152, 23);
 			this.textUser.TabIndex = 283;
 			// 
 			// gridObservations
 			// 
-			this.gridObservations.Location = new System.Drawing.Point(624, 384);
+			this.gridObservations.Location = new System.Drawing.Point(624, 369);
 			this.gridObservations.Name = "gridObservations";
 			this.gridObservations.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridObservations.Size = new System.Drawing.Size(254, 110);
+			this.gridObservations.Size = new System.Drawing.Size(342, 110);
 			this.gridObservations.TabIndex = 284;
 			this.gridObservations.Title = "Observations";
 			this.gridObservations.TranslationName = "TableObservations";
@@ -430,7 +430,7 @@
 			// 
 			// butUngroupObservations
 			// 
-			this.butUngroupObservations.Location = new System.Drawing.Point(803, 497);
+			this.butUngroupObservations.Location = new System.Drawing.Point(891, 486);
 			this.butUngroupObservations.Name = "butUngroupObservations";
 			this.butUngroupObservations.Size = new System.Drawing.Size(75, 22);
 			this.butUngroupObservations.TabIndex = 287;
@@ -439,7 +439,7 @@
 			// 
 			// butGroupObservations
 			// 
-			this.butGroupObservations.Location = new System.Drawing.Point(725, 497);
+			this.butGroupObservations.Location = new System.Drawing.Point(810, 486);
 			this.butGroupObservations.Name = "butGroupObservations";
 			this.butGroupObservations.Size = new System.Drawing.Size(75, 22);
 			this.butGroupObservations.TabIndex = 286;
@@ -450,7 +450,7 @@
 			// 
 			this.butAddObservation.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAddObservation.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAddObservation.Location = new System.Drawing.Point(624, 497);
+			this.butAddObservation.Location = new System.Drawing.Point(624, 486);
 			this.butAddObservation.Name = "butAddObservation";
 			this.butAddObservation.Size = new System.Drawing.Size(75, 22);
 			this.butAddObservation.TabIndex = 285;
@@ -460,7 +460,7 @@
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(772, 563);
+			this.butSave.Location = new System.Drawing.Point(874, 567);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(92, 24);
 			this.butSave.TabIndex = 282;
@@ -472,7 +472,7 @@
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(11, 563);
+			this.butDelete.Location = new System.Drawing.Point(8, 567);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(92, 24);
 			this.butDelete.TabIndex = 280;
@@ -481,43 +481,43 @@
 			// 
 			// butNoneProvAdministering
 			// 
-			this.butNoneProvAdministering.Location = new System.Drawing.Point(901, 128);
+			this.butNoneProvAdministering.Location = new System.Drawing.Point(922, 116);
 			this.butNoneProvAdministering.Name = "butNoneProvAdministering";
-			this.butNoneProvAdministering.Size = new System.Drawing.Size(44, 21);
+			this.butNoneProvAdministering.Size = new System.Drawing.Size(44, 23);
 			this.butNoneProvAdministering.TabIndex = 279;
 			this.butNoneProvAdministering.Text = "None";
 			this.butNoneProvAdministering.Click += new System.EventHandler(this.butNoneProvAdministering_Click);
 			// 
 			// butNoneProvOrdering
 			// 
-			this.butNoneProvOrdering.Location = new System.Drawing.Point(901, 101);
+			this.butNoneProvOrdering.Location = new System.Drawing.Point(922, 89);
 			this.butNoneProvOrdering.Name = "butNoneProvOrdering";
-			this.butNoneProvOrdering.Size = new System.Drawing.Size(44, 21);
+			this.butNoneProvOrdering.Size = new System.Drawing.Size(44, 23);
 			this.butNoneProvOrdering.TabIndex = 278;
 			this.butNoneProvOrdering.Text = "None";
 			this.butNoneProvOrdering.Click += new System.EventHandler(this.butNoneProvOrdering_Click);
 			// 
 			// textDateExpiration
 			// 
-			this.textDateExpiration.Location = new System.Drawing.Point(136, 208);
+			this.textDateExpiration.Location = new System.Drawing.Point(136, 197);
 			this.textDateExpiration.Name = "textDateExpiration";
-			this.textDateExpiration.Size = new System.Drawing.Size(151, 20);
+			this.textDateExpiration.Size = new System.Drawing.Size(152, 23);
 			this.textDateExpiration.TabIndex = 267;
 			// 
 			// butPickProvAdministering
 			// 
-			this.butPickProvAdministering.Location = new System.Drawing.Point(880, 128);
+			this.butPickProvAdministering.Location = new System.Drawing.Point(898, 116);
 			this.butPickProvAdministering.Name = "butPickProvAdministering";
-			this.butPickProvAdministering.Size = new System.Drawing.Size(18, 21);
+			this.butPickProvAdministering.Size = new System.Drawing.Size(18, 23);
 			this.butPickProvAdministering.TabIndex = 266;
 			this.butPickProvAdministering.Text = "...";
 			this.butPickProvAdministering.Click += new System.EventHandler(this.butPickProvAdministering_Click);
 			// 
 			// butPickProvOrdering
 			// 
-			this.butPickProvOrdering.Location = new System.Drawing.Point(880, 101);
+			this.butPickProvOrdering.Location = new System.Drawing.Point(898, 89);
 			this.butPickProvOrdering.Name = "butPickProvOrdering";
-			this.butPickProvOrdering.Size = new System.Drawing.Size(18, 21);
+			this.butPickProvOrdering.Size = new System.Drawing.Size(18, 23);
 			this.butPickProvOrdering.TabIndex = 263;
 			this.butPickProvOrdering.Text = "...";
 			this.butPickProvOrdering.Click += new System.EventHandler(this.butPickProvOrdering_Click);

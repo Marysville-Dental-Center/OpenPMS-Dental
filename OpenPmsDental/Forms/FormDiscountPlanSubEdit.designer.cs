@@ -58,36 +58,37 @@ namespace OpenPmsDental{
 			this.groupSubscriber.Controls.Add(this.textDateTerm);
 			this.groupSubscriber.Controls.Add(this.textDateEffective);
 			this.groupSubscriber.Controls.Add(this.label5);
-			this.groupSubscriber.Location = new System.Drawing.Point(16, 174);
+			this.groupSubscriber.Location = new System.Drawing.Point(8, 184);
 			this.groupSubscriber.Name = "groupSubscriber";
-			this.groupSubscriber.Size = new System.Drawing.Size(394, 142);
+			this.groupSubscriber.Size = new System.Drawing.Size(414, 145);
 			this.groupSubscriber.TabIndex = 2;
 			this.groupSubscriber.TabStop = false;
 			this.groupSubscriber.Text = "Subscriber Information";
 			// 
 			// labelSubNote
 			// 
-			this.labelSubNote.Location = new System.Drawing.Point(1, 73);
+			this.labelSubNote.Location = new System.Drawing.Point(16, 77);
 			this.labelSubNote.Name = "labelSubNote";
-			this.labelSubNote.Size = new System.Drawing.Size(109, 18);
+			this.labelSubNote.Size = new System.Drawing.Size(96, 23);
 			this.labelSubNote.TabIndex = 47;
 			this.labelSubNote.Text = "Subscriber Note";
 			this.labelSubNote.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textName
 			// 
-			this.textName.Location = new System.Drawing.Point(110, 19);
+			this.textName.Location = new System.Drawing.Point(118, 23);
 			this.textName.Name = "textName";
 			this.textName.ReadOnly = true;
-			this.textName.Size = new System.Drawing.Size(266, 20);
+			this.textName.Size = new System.Drawing.Size(288, 23);
 			this.textName.TabIndex = 41;
 			// 
 			// label4
 			// 
-			this.label4.AutoSize = true;
-			this.label4.Location = new System.Drawing.Point(69, 22);
+			this.label4.AutoSize = false;
+			this.label4.Location = new System.Drawing.Point(68, 23);
+			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(35, 13);
+			this.label4.Size = new System.Drawing.Size(44, 23);
 			this.label4.TabIndex = 4;
 			this.label4.Text = "Name";
 			// 
@@ -97,26 +98,27 @@ namespace OpenPmsDental{
 			this.textSubNote.BackColor = System.Drawing.SystemColors.Window;
 			this.textSubNote.DetectLinksEnabled = false;
 			this.textSubNote.DetectUrls = false;
-			this.textSubNote.Location = new System.Drawing.Point(110, 71);
+			this.textSubNote.Location = new System.Drawing.Point(118, 77);
 			this.textSubNote.Name = "textSubNote";
 			this.textSubNote.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.InsPlan;
 			this.textSubNote.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textSubNote.Size = new System.Drawing.Size(266, 60);
+			this.textSubNote.Size = new System.Drawing.Size(288, 60);
 			this.textSubNote.TabIndex = 4;
 			this.textSubNote.Text = "";
 			// 
 			// label6
 			// 
-			this.label6.AutoSize = true;
-			this.label6.Location = new System.Drawing.Point(230, 48);
+			this.label6.AutoSize = false;
+			this.label6.Location = new System.Drawing.Point(256, 50);
+			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(20, 13);
+			this.label6.Size = new System.Drawing.Size(24, 23);
 			this.label6.TabIndex = 3;
 			this.label6.Text = "To";
 			// 
 			// textDateTerm
 			// 
-			this.textDateTerm.Location = new System.Drawing.Point(256, 45);
+			this.textDateTerm.Location = new System.Drawing.Point(286, 50);
 			this.textDateTerm.Name = "textDateTerm";
 			this.textDateTerm.Size = new System.Drawing.Size(120, 20);
 			this.textDateTerm.TabIndex = 2;
@@ -124,17 +126,18 @@ namespace OpenPmsDental{
 			// textDateEffective
 			// 
 			this.textDateEffective.AutoSize = false;
-			this.textDateEffective.Location = new System.Drawing.Point(110, 45);
+			this.textDateEffective.Location = new System.Drawing.Point(118, 50);
 			this.textDateEffective.Name = "textDateEffective";
-			this.textDateEffective.Size = new System.Drawing.Size(114, 20);
+			this.textDateEffective.Size = new System.Drawing.Size(112, 23);
 			this.textDateEffective.TabIndex = 1;
 			// 
 			// label5
 			// 
 			this.label5.AutoSize = false;
-			this.label5.Location = new System.Drawing.Point(30, 48);
+			this.label5.Location = new System.Drawing.Point(24, 50);
+			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(80, 20);
+			this.label5.Size = new System.Drawing.Size(88, 23);
 			this.label5.TabIndex = 0;
 			this.label5.Text = "Effective Dates";
 			// 
@@ -142,7 +145,7 @@ namespace OpenPmsDental{
 			// 
 			this.butDrop.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDrop.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDrop.Location = new System.Drawing.Point(12, 332);
+			this.butDrop.Location = new System.Drawing.Point(8, 341);
 			this.butDrop.Name = "butDrop";
 			this.butDrop.Size = new System.Drawing.Size(75, 24);
 			this.butDrop.TabIndex = 11;
@@ -151,51 +154,51 @@ namespace OpenPmsDental{
 			// 
 			// butDiscountPlans
 			// 
-			this.butDiscountPlans.Location = new System.Drawing.Point(372, 32);
+			this.butDiscountPlans.Location = new System.Drawing.Point(402, 35);
 			this.butDiscountPlans.Name = "butDiscountPlans";
-			this.butDiscountPlans.Size = new System.Drawing.Size(20, 20);
+			this.butDiscountPlans.Size = new System.Drawing.Size(20, 23);
 			this.butDiscountPlans.TabIndex = 1;
 			this.butDiscountPlans.Text = "...";
 			this.butDiscountPlans.Click += new System.EventHandler(this.butDiscountPlans_Click);
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(13, 59);
+			this.label2.Location = new System.Drawing.Point(40, 62);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(113, 18);
+			this.label2.Size = new System.Drawing.Size(80, 23);
 			this.label2.TabIndex = 29;
 			this.label2.Text = "Fee Schedule";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textFeeSched
 			// 
-			this.textFeeSched.Location = new System.Drawing.Point(126, 58);
+			this.textFeeSched.Location = new System.Drawing.Point(126, 62);
 			this.textFeeSched.Name = "textFeeSched";
 			this.textFeeSched.ReadOnly = true;
-			this.textFeeSched.Size = new System.Drawing.Size(266, 20);
+			this.textFeeSched.Size = new System.Drawing.Size(296, 23);
 			this.textFeeSched.TabIndex = 22;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(13, 34);
+			this.label1.Location = new System.Drawing.Point(36, 35);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(113, 18);
+			this.label1.Size = new System.Drawing.Size(84, 23);
 			this.label1.TabIndex = 27;
 			this.label1.Text = "Discount Plan";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textDescript
 			// 
-			this.textDescript.Location = new System.Drawing.Point(126, 33);
+			this.textDescript.Location = new System.Drawing.Point(126, 35);
 			this.textDescript.Name = "textDescript";
 			this.textDescript.ReadOnly = true;
-			this.textDescript.Size = new System.Drawing.Size(241, 20);
+			this.textDescript.Size = new System.Drawing.Size(270, 23);
 			this.textDescript.TabIndex = 21;
 			// 
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(335, 332);
+			this.butSave.Location = new System.Drawing.Point(347, 341);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 5;
@@ -204,17 +207,17 @@ namespace OpenPmsDental{
 			// 
 			// textAdjustmentType
 			// 
-			this.textAdjustmentType.Location = new System.Drawing.Point(126, 82);
+			this.textAdjustmentType.Location = new System.Drawing.Point(126, 89);
 			this.textAdjustmentType.Name = "textAdjustmentType";
 			this.textAdjustmentType.ReadOnly = true;
-			this.textAdjustmentType.Size = new System.Drawing.Size(266, 20);
+			this.textAdjustmentType.Size = new System.Drawing.Size(296, 23);
 			this.textAdjustmentType.TabIndex = 23;
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(13, 84);
+			this.label3.Location = new System.Drawing.Point(16, 89);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(113, 18);
+			this.label3.Size = new System.Drawing.Size(104, 23);
 			this.label3.TabIndex = 41;
 			this.label3.Text = "Adjustment Type";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -224,23 +227,23 @@ namespace OpenPmsDental{
 			this.textPlanNum.Location = new System.Drawing.Point(126, 8);
 			this.textPlanNum.Name = "textPlanNum";
 			this.textPlanNum.ReadOnly = true;
-			this.textPlanNum.Size = new System.Drawing.Size(114, 20);
+			this.textPlanNum.Size = new System.Drawing.Size(112, 23);
 			this.textPlanNum.TabIndex = 20;
 			// 
 			// labelPlanNum
 			// 
-			this.labelPlanNum.Location = new System.Drawing.Point(16, 8);
+			this.labelPlanNum.Location = new System.Drawing.Point(20, 8);
 			this.labelPlanNum.Name = "labelPlanNum";
-			this.labelPlanNum.Size = new System.Drawing.Size(110, 18);
+			this.labelPlanNum.Size = new System.Drawing.Size(100, 23);
 			this.labelPlanNum.TabIndex = 44;
 			this.labelPlanNum.Text = "Discount Plan ID";
 			this.labelPlanNum.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// labelPlanNote
 			// 
-			this.labelPlanNote.Location = new System.Drawing.Point(14, 108);
+			this.labelPlanNote.Location = new System.Drawing.Point(56, 116);
 			this.labelPlanNote.Name = "labelPlanNote";
-			this.labelPlanNote.Size = new System.Drawing.Size(112, 18);
+			this.labelPlanNote.Size = new System.Drawing.Size(64, 23);
 			this.labelPlanNote.TabIndex = 48;
 			this.labelPlanNote.Text = "Plan Note";
 			this.labelPlanNote.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -251,17 +254,17 @@ namespace OpenPmsDental{
 			this.textPlanNote.BackColor = System.Drawing.SystemColors.Window;
 			this.textPlanNote.DetectLinksEnabled = false;
 			this.textPlanNote.DetectUrls = false;
-			this.textPlanNote.Location = new System.Drawing.Point(126, 108);
+			this.textPlanNote.Location = new System.Drawing.Point(126, 116);
 			this.textPlanNote.Name = "textPlanNote";
 			this.textPlanNote.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.InsPlan;
 			this.textPlanNote.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textPlanNote.Size = new System.Drawing.Size(266, 60);
+			this.textPlanNote.Size = new System.Drawing.Size(296, 60);
 			this.textPlanNote.TabIndex = 47;
 			this.textPlanNote.Text = "";
 			// 
 			// FormDiscountPlanSubEdit
 			// 
-			this.ClientSize = new System.Drawing.Size(430, 368);
+			this.ClientSize = new System.Drawing.Size(430, 373);
 			this.Controls.Add(this.labelPlanNote);
 			this.Controls.Add(this.textPlanNote);
 			this.Controls.Add(this.labelPlanNum);

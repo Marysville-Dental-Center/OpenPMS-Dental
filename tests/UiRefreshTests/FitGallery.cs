@@ -232,6 +232,30 @@ namespace UiRefreshTests {
 				//UI-12 slice 4 fix round: both callers open it in permission mode (FormCentralManager, FormCentralSecurity).
 				SetReportSetupMode(root,isPermissionMode:true);
 			}
+			if(window=="OpenPmsDental.FormRecallTypeEdit") {
+				//UI-12 slice 5: the special type shows the trigger rows and the Default Interval group, or (Child Prophy, the state "childprophy")
+				//the Child Prophy group on their band (comboSpecial_SelectionChangeCommitted sets Visible, never both).
+				bool isChildProphy=state=="childprophy";
+				foreach(string name in new string[] { "listTriggers","labelTriggers","labelTriggerDisable","butAddTrigger","butRemoveTrigger","groupInterval" }) {
+					if(FindByName(root,name) is Control control) {
+						control.Visible=!isChildProphy;
+					}
+				}
+				if(FindByName(root,"groupAgeLimit") is Control controlAgeLimit) {
+					controlAgeLimit.Visible=isChildProphy;
+				}
+			}
+			if(window=="OpenPmsDental.FormTransactionEdit") {
+				//UI-12 slice 5: Load shows the simple panel or the compound one (FillSimple, FillCompound), never both; the picture shows the simple,
+				//or (fix round 2, the state "compound", every compound transaction) the compound.
+				bool isCompound=state=="compound";
+				if(FindByName(root,"panelSimple") is Control controlSimple) {
+					controlSimple.Visible=!isCompound;
+				}
+				if(FindByName(root,"panelCompound") is Control controlCompound) {
+					controlCompound.Visible=isCompound;
+				}
+			}
 			if(window=="OpenPmsDental.FormScheduleDayEdit" && FindByName(root,"labelDate") is Label labelDate) {
 				//UI-12 slice 1 (fix round 8): Load and the day arrows set the day of the week over the short date, two lines (the designer's text is
 				//a one-line placeholder); the picture shows the widest day name.
@@ -360,6 +384,14 @@ namespace UiRefreshTests {
 					FindByName(root,name).Visible=true;
 				}
 				((System.Windows.Forms.RadioButton)FindByName(root,"radioCertification")).Checked=true;
+				return root;
+			}
+			if(window=="OpenPmsDental.FormRecallTypeEdit" && state=="childprophy") {
+				//UI-12 slice 5: the Child Prophy special type (FillSampleContent sets the Visible flags).
+				return root;
+			}
+			if(window=="OpenPmsDental.FormTransactionEdit" && state=="compound") {
+				//UI-12 slice 5 fix round 2: the compound panel (FillSampleContent sets the Visible flags).
 				return root;
 			}
 			throw new ArgumentException("No gallery state "+state+" for "+window+".");

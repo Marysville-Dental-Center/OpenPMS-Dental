@@ -43,179 +43,179 @@ namespace OpenPmsDental {
 			// labelInternalReview
 			//
 			this.labelInternalReview.ForeColor = System.Drawing.Color.Firebrick;
-			this.labelInternalReview.Location = new System.Drawing.Point(12, 8);
+			this.labelInternalReview.Location = new System.Drawing.Point(8, 8);
 			this.labelInternalReview.Name = "labelInternalReview";
-			this.labelInternalReview.Size = new System.Drawing.Size(836, 18);
+			this.labelInternalReview.Size = new System.Drawing.Size(844, 18);
 			this.labelInternalReview.TabIndex = 0;
 			//
 			// labelMeasureName
 			//
-			this.labelMeasureName.Location = new System.Drawing.Point(12, 30);
+			this.labelMeasureName.Location = new System.Drawing.Point(65, 28);
 			this.labelMeasureName.Name = "labelMeasureName";
-			this.labelMeasureName.Size = new System.Drawing.Size(140, 18);
+			this.labelMeasureName.Size = new System.Drawing.Size(84, 23);
 			this.labelMeasureName.TabIndex = 1;
 			this.labelMeasureName.Text = "Measure type";
 			this.labelMeasureName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			//
 			// textMeasureName
 			//
-			this.textMeasureName.Location = new System.Drawing.Point(155, 29);
+			this.textMeasureName.Location = new System.Drawing.Point(155, 28);
 			this.textMeasureName.Name = "textMeasureName";
 			this.textMeasureName.ReadOnly = true;
-			this.textMeasureName.Size = new System.Drawing.Size(693, 20);
+			this.textMeasureName.Size = new System.Drawing.Size(697, 23);
 			this.textMeasureName.TabIndex = 2;
 			//
 			// labelPeriod
 			//
-			this.labelPeriod.Location = new System.Drawing.Point(12, 54);
+			this.labelPeriod.Location = new System.Drawing.Point(61, 55);
 			this.labelPeriod.Name = "labelPeriod";
-			this.labelPeriod.Size = new System.Drawing.Size(140, 18);
+			this.labelPeriod.Size = new System.Drawing.Size(88, 23);
 			this.labelPeriod.TabIndex = 3;
 			this.labelPeriod.Text = "Calculated for";
 			this.labelPeriod.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			//
 			// textPeriod
 			//
-			this.textPeriod.Location = new System.Drawing.Point(155, 53);
+			this.textPeriod.Location = new System.Drawing.Point(155, 55);
 			this.textPeriod.Name = "textPeriod";
 			this.textPeriod.ReadOnly = true;
-			this.textPeriod.Size = new System.Drawing.Size(693, 20);
+			this.textPeriod.Size = new System.Drawing.Size(697, 23);
 			this.textPeriod.TabIndex = 4;
 			//
 			// labelObjective
 			//
-			this.labelObjective.Location = new System.Drawing.Point(12, 78);
+			this.labelObjective.Location = new System.Drawing.Point(85, 82);
 			this.labelObjective.Name = "labelObjective";
-			this.labelObjective.Size = new System.Drawing.Size(140, 18);
+			this.labelObjective.Size = new System.Drawing.Size(64, 23);
 			this.labelObjective.TabIndex = 5;
 			this.labelObjective.Text = "Objective";
 			this.labelObjective.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			//
 			// textObjective
 			//
-			this.textObjective.Location = new System.Drawing.Point(155, 77);
+			this.textObjective.Location = new System.Drawing.Point(155, 82);
 			this.textObjective.Multiline = true;
 			this.textObjective.Name = "textObjective";
 			this.textObjective.ReadOnly = true;
 			this.textObjective.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.textObjective.Size = new System.Drawing.Size(693, 44);
+			this.textObjective.Size = new System.Drawing.Size(697, 44);
 			this.textObjective.TabIndex = 6;
 			//
 			// labelMeasure
 			//
-			this.labelMeasure.Location = new System.Drawing.Point(12, 126);
+			this.labelMeasure.Location = new System.Drawing.Point(93, 130);
 			this.labelMeasure.Name = "labelMeasure";
-			this.labelMeasure.Size = new System.Drawing.Size(140, 18);
+			this.labelMeasure.Size = new System.Drawing.Size(56, 23);
 			this.labelMeasure.TabIndex = 7;
 			this.labelMeasure.Text = "Measure";
 			this.labelMeasure.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			//
 			// textMeasure
 			//
-			this.textMeasure.Location = new System.Drawing.Point(155, 125);
+			this.textMeasure.Location = new System.Drawing.Point(155, 130);
 			this.textMeasure.Multiline = true;
 			this.textMeasure.Name = "textMeasure";
 			this.textMeasure.ReadOnly = true;
 			this.textMeasure.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.textMeasure.Size = new System.Drawing.Size(693, 44);
+			this.textMeasure.Size = new System.Drawing.Size(697, 44);
 			this.textMeasure.TabIndex = 8;
 			//
 			// labelNumeratorExplain
 			//
-			this.labelNumeratorExplain.Location = new System.Drawing.Point(12, 174);
+			this.labelNumeratorExplain.Location = new System.Drawing.Point(77, 178);
 			this.labelNumeratorExplain.Name = "labelNumeratorExplain";
-			this.labelNumeratorExplain.Size = new System.Drawing.Size(140, 18);
+			this.labelNumeratorExplain.Size = new System.Drawing.Size(72, 23);
 			this.labelNumeratorExplain.TabIndex = 9;
 			this.labelNumeratorExplain.Text = "Numerator";
 			this.labelNumeratorExplain.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			//
 			// textNumeratorExplain
 			//
-			this.textNumeratorExplain.Location = new System.Drawing.Point(155, 173);
+			this.textNumeratorExplain.Location = new System.Drawing.Point(155, 178);
 			this.textNumeratorExplain.Multiline = true;
 			this.textNumeratorExplain.Name = "textNumeratorExplain";
 			this.textNumeratorExplain.ReadOnly = true;
 			this.textNumeratorExplain.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.textNumeratorExplain.Size = new System.Drawing.Size(693, 44);
+			this.textNumeratorExplain.Size = new System.Drawing.Size(697, 44);
 			this.textNumeratorExplain.TabIndex = 10;
 			//
 			// labelDenominatorExplain
 			//
-			this.labelDenominatorExplain.Location = new System.Drawing.Point(12, 222);
+			this.labelDenominatorExplain.Location = new System.Drawing.Point(65, 226);
 			this.labelDenominatorExplain.Name = "labelDenominatorExplain";
-			this.labelDenominatorExplain.Size = new System.Drawing.Size(140, 18);
+			this.labelDenominatorExplain.Size = new System.Drawing.Size(84, 23);
 			this.labelDenominatorExplain.TabIndex = 11;
 			this.labelDenominatorExplain.Text = "Denominator";
 			this.labelDenominatorExplain.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			//
 			// textDenominatorExplain
 			//
-			this.textDenominatorExplain.Location = new System.Drawing.Point(155, 221);
+			this.textDenominatorExplain.Location = new System.Drawing.Point(155, 226);
 			this.textDenominatorExplain.Multiline = true;
 			this.textDenominatorExplain.Name = "textDenominatorExplain";
 			this.textDenominatorExplain.ReadOnly = true;
 			this.textDenominatorExplain.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.textDenominatorExplain.Size = new System.Drawing.Size(693, 44);
+			this.textDenominatorExplain.Size = new System.Drawing.Size(697, 44);
 			this.textDenominatorExplain.TabIndex = 12;
 			//
 			// labelExclusionExplain
 			//
-			this.labelExclusionExplain.Location = new System.Drawing.Point(12, 270);
+			this.labelExclusionExplain.Location = new System.Drawing.Point(89, 274);
 			this.labelExclusionExplain.Name = "labelExclusionExplain";
-			this.labelExclusionExplain.Size = new System.Drawing.Size(140, 18);
+			this.labelExclusionExplain.Size = new System.Drawing.Size(60, 23);
 			this.labelExclusionExplain.TabIndex = 13;
 			this.labelExclusionExplain.Text = "Exclusion";
 			this.labelExclusionExplain.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			//
 			// textExclusionExplain
 			//
-			this.textExclusionExplain.Location = new System.Drawing.Point(155, 269);
+			this.textExclusionExplain.Location = new System.Drawing.Point(155, 274);
 			this.textExclusionExplain.Multiline = true;
 			this.textExclusionExplain.Name = "textExclusionExplain";
 			this.textExclusionExplain.ReadOnly = true;
 			this.textExclusionExplain.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.textExclusionExplain.Size = new System.Drawing.Size(693, 44);
+			this.textExclusionExplain.Size = new System.Drawing.Size(697, 44);
 			this.textExclusionExplain.TabIndex = 14;
 			//
 			// labelExclusionCount
 			//
-			this.labelExclusionCount.Location = new System.Drawing.Point(12, 318);
+			this.labelExclusionCount.Location = new System.Drawing.Point(53, 322);
 			this.labelExclusionCount.Name = "labelExclusionCount";
-			this.labelExclusionCount.Size = new System.Drawing.Size(140, 18);
+			this.labelExclusionCount.Size = new System.Drawing.Size(96, 23);
 			this.labelExclusionCount.TabIndex = 15;
 			this.labelExclusionCount.Text = "Exclusion count";
 			this.labelExclusionCount.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			//
 			// textExclusionCount
 			//
-			this.textExclusionCount.Location = new System.Drawing.Point(155, 317);
+			this.textExclusionCount.Location = new System.Drawing.Point(155, 322);
 			this.textExclusionCount.Name = "textExclusionCount";
 			this.textExclusionCount.ReadOnly = true;
-			this.textExclusionCount.Size = new System.Drawing.Size(693, 20);
+			this.textExclusionCount.Size = new System.Drawing.Size(697, 23);
 			this.textExclusionCount.TabIndex = 16;
 			//
 			// labelResult
 			//
-			this.labelResult.Location = new System.Drawing.Point(12, 342);
+			this.labelResult.Location = new System.Drawing.Point(105, 349);
 			this.labelResult.Name = "labelResult";
-			this.labelResult.Size = new System.Drawing.Size(140, 18);
+			this.labelResult.Size = new System.Drawing.Size(44, 23);
 			this.labelResult.TabIndex = 17;
 			this.labelResult.Text = "Result";
 			this.labelResult.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			//
 			// textResult
 			//
-			this.textResult.Location = new System.Drawing.Point(155, 341);
+			this.textResult.Location = new System.Drawing.Point(155, 349);
 			this.textResult.Name = "textResult";
 			this.textResult.ReadOnly = true;
-			this.textResult.Size = new System.Drawing.Size(693, 20);
+			this.textResult.Size = new System.Drawing.Size(697, 23);
 			this.textResult.TabIndex = 18;
 			//
 			// labelHint
 			//
-			this.labelHint.Location = new System.Drawing.Point(12, 366);
+			this.labelHint.Location = new System.Drawing.Point(8, 376);
 			this.labelHint.Name = "labelHint";
-			this.labelHint.Size = new System.Drawing.Size(836, 18);
+			this.labelHint.Size = new System.Drawing.Size(844, 18);
 			this.labelHint.TabIndex = 19;
 			this.labelHint.Text = "Double-click a patient to close these windows and switch the Chart to that patient.";
 			//
@@ -224,9 +224,9 @@ namespace OpenPmsDental {
 			this.gridAudit.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridAudit.Location = new System.Drawing.Point(12, 388);
+			this.gridAudit.Location = new System.Drawing.Point(8, 396);
 			this.gridAudit.Name = "gridAudit";
-			this.gridAudit.Size = new System.Drawing.Size(836, 270);
+			this.gridAudit.Size = new System.Drawing.Size(844, 270);
 			this.gridAudit.TabIndex = 20;
 			this.gridAudit.Title = "Patients";
 			this.gridAudit.TranslationName = "TableEhrMeasureCalcAudit";
@@ -235,7 +235,7 @@ namespace OpenPmsDental {
 			// butClose
 			//
 			this.butClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butClose.Location = new System.Drawing.Point(773, 666);
+			this.butClose.Location = new System.Drawing.Point(777, 678);
 			this.butClose.Name = "butClose";
 			this.butClose.Size = new System.Drawing.Size(75, 24);
 			this.butClose.TabIndex = 21;
@@ -245,7 +245,7 @@ namespace OpenPmsDental {
 			// butCancel
 			//
 			this.butCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butCancel.Location = new System.Drawing.Point(12, 666);
+			this.butCancel.Location = new System.Drawing.Point(8, 678);
 			this.butCancel.Name = "butCancel";
 			this.butCancel.Size = new System.Drawing.Size(75, 24);
 			this.butCancel.TabIndex = 22;
@@ -254,7 +254,7 @@ namespace OpenPmsDental {
 			//
 			// FormEhrMeasureCalcDetail
 			//
-			this.ClientSize = new System.Drawing.Size(860, 700);
+			this.ClientSize = new System.Drawing.Size(860, 710);
 			this.Controls.Add(this.butCancel);
 			this.Controls.Add(this.butClose);
 			this.Controls.Add(this.gridAudit);

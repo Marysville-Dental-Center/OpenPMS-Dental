@@ -301,7 +301,7 @@ namespace OpenPmsDental {
 			// 
 			// checkHidden
 			// 
-			this.checkHidden.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.checkHidden.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.checkHidden.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.checkHidden.Location = new System.Drawing.Point(432, 8);
 			this.checkHidden.Name = "checkHidden";

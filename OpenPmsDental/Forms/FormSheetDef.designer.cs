@@ -54,16 +54,16 @@ namespace OpenPmsDental{
 			// 
 			// labelSheetType
 			// 
-			this.labelSheetType.Location = new System.Drawing.Point(16, 51);
+			this.labelSheetType.Location = new System.Drawing.Point(12, 35);
 			this.labelSheetType.Name = "labelSheetType";
-			this.labelSheetType.Size = new System.Drawing.Size(154, 48);
+			this.labelSheetType.Size = new System.Drawing.Size(154, 32);
 			this.labelSheetType.TabIndex = 86;
 			this.labelSheetType.Text = "Sheet Type\r\n(cannot be changed later)";
-			this.labelSheetType.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.labelSheetType.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// listSheetType
 			// 
-			this.listSheetType.Location = new System.Drawing.Point(172, 50);
+			this.listSheetType.Location = new System.Drawing.Point(172, 35);
 			this.listSheetType.Name = "listSheetType";
 			this.listSheetType.Size = new System.Drawing.Size(142, 212);
 			this.listSheetType.TabIndex = 85;
@@ -74,110 +74,110 @@ namespace OpenPmsDental{
 			this.groupBox1.Controls.Add(this.label4);
 			this.groupBox1.Controls.Add(this.comboFontName);
 			this.groupBox1.Controls.Add(this.label3);
-			this.groupBox1.Location = new System.Drawing.Point(92, 345);
+			this.groupBox1.Location = new System.Drawing.Point(92, 279);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(283, 72);
+			this.groupBox1.Size = new System.Drawing.Size(295, 105);
 			this.groupBox1.TabIndex = 88;
 			this.groupBox1.Text = "Default Font";
 			// 
 			// textFontSize
 			// 
-			this.textFontSize.Location = new System.Drawing.Point(80, 41);
+			this.textFontSize.Location = new System.Drawing.Point(80, 50);
 			this.textFontSize.Name = "textFontSize";
 			this.textFontSize.Size = new System.Drawing.Size(44, 20);
 			this.textFontSize.TabIndex = 89;
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(7, 42);
+			this.label4.Location = new System.Drawing.Point(42, 50);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(71, 16);
+			this.label4.Size = new System.Drawing.Size(32, 23);
 			this.label4.TabIndex = 89;
 			this.label4.Text = "Size";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// comboFontName
 			// 
-			this.comboFontName.Location = new System.Drawing.Point(80, 14);
+			this.comboFontName.Location = new System.Drawing.Point(80, 23);
 			this.comboFontName.Name = "comboFontName";
-			this.comboFontName.Size = new System.Drawing.Size(197, 21);
+			this.comboFontName.Size = new System.Drawing.Size(207, 23);
 			this.comboFontName.TabIndex = 88;
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(7, 16);
+			this.label3.Location = new System.Drawing.Point(30, 23);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(71, 16);
+			this.label3.Size = new System.Drawing.Size(44, 23);
 			this.label3.TabIndex = 87;
 			this.label3.Text = "Name";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label7
 			// 
-			this.label7.Location = new System.Drawing.Point(101, 423);
+			this.label7.Location = new System.Drawing.Point(122, 392);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(71, 16);
+			this.label7.Size = new System.Drawing.Size(44, 23);
 			this.label7.TabIndex = 94;
 			this.label7.Text = "Width";
 			this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label8
 			// 
-			this.label8.Location = new System.Drawing.Point(101, 449);
+			this.label8.Location = new System.Drawing.Point(118, 419);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(71, 18);
+			this.label8.Size = new System.Drawing.Size(48, 23);
 			this.label8.TabIndex = 96;
 			this.label8.Text = "Height";
 			this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textDescription
 			// 
-			this.textDescription.Location = new System.Drawing.Point(172, 25);
+			this.textDescription.Location = new System.Drawing.Point(172, 8);
 			this.textDescription.Name = "textDescription";
-			this.textDescription.Size = new System.Drawing.Size(215, 20);
+			this.textDescription.Size = new System.Drawing.Size(216, 23);
 			this.textDescription.TabIndex = 99;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(57, 26);
+			this.label1.Location = new System.Drawing.Point(94, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(113, 18);
+			this.label1.Size = new System.Drawing.Size(72, 23);
 			this.label1.TabIndex = 98;
 			this.label1.Text = "Description";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// checkIsLandscape
 			// 
-			this.checkIsLandscape.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkIsLandscape.Location = new System.Drawing.Point(60, 472);
+			this.checkIsLandscape.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkIsLandscape.Location = new System.Drawing.Point(172, 446);
 			this.checkIsLandscape.Name = "checkIsLandscape";
-			this.checkIsLandscape.Size = new System.Drawing.Size(126, 20);
+			this.checkIsLandscape.Size = new System.Drawing.Size(80, 20);
 			this.checkIsLandscape.TabIndex = 100;
 			this.checkIsLandscape.Text = "Landscape";
 			this.checkIsLandscape.CheckedChanged += new System.EventHandler(this.checkIsLandscape_Click);
 			// 
 			// textHeight
 			// 
-			this.textHeight.Location = new System.Drawing.Point(172, 448);
+			this.textHeight.Location = new System.Drawing.Point(172, 419);
 			this.textHeight.MaxVal = 2000;
 			this.textHeight.MinVal = -100;
 			this.textHeight.Name = "textHeight";
-			this.textHeight.Size = new System.Drawing.Size(69, 20);
+			this.textHeight.Size = new System.Drawing.Size(68, 23);
 			this.textHeight.TabIndex = 97;
 			// 
 			// textWidth
 			// 
-			this.textWidth.Location = new System.Drawing.Point(172, 422);
+			this.textWidth.Location = new System.Drawing.Point(172, 392);
 			this.textWidth.MaxVal = 2000;
 			this.textWidth.MinVal = -100;
 			this.textWidth.Name = "textWidth";
-			this.textWidth.Size = new System.Drawing.Size(69, 20);
+			this.textWidth.Size = new System.Drawing.Size(68, 23);
 			this.textWidth.TabIndex = 95;
 			// 
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(481, 505);
+			this.butSave.Location = new System.Drawing.Point(490, 558);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 3;
@@ -186,53 +186,53 @@ namespace OpenPmsDental{
 			// 
 			// checkBypassLockDate
 			// 
-			this.checkBypassLockDate.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkBypassLockDate.Location = new System.Drawing.Point(22, 320);
+			this.checkBypassLockDate.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkBypassLockDate.Location = new System.Drawing.Point(172, 251);
 			this.checkBypassLockDate.Name = "checkBypassLockDate";
-			this.checkBypassLockDate.Size = new System.Drawing.Size(164, 20);
+			this.checkBypassLockDate.Size = new System.Drawing.Size(156, 20);
 			this.checkBypassLockDate.TabIndex = 101;
 			this.checkBypassLockDate.Text = "Bypass Global Lock Date";
 			// 
 			// checkHasMobileLayout
 			// 
-			this.checkHasMobileLayout.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkHasMobileLayout.Location = new System.Drawing.Point(60, 494);
+			this.checkHasMobileLayout.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkHasMobileLayout.Location = new System.Drawing.Point(172, 470);
 			this.checkHasMobileLayout.Name = "checkHasMobileLayout";
-			this.checkHasMobileLayout.Size = new System.Drawing.Size(126, 20);
+			this.checkHasMobileLayout.Size = new System.Drawing.Size(124, 20);
 			this.checkHasMobileLayout.TabIndex = 102;
 			this.checkHasMobileLayout.Text = "Use Mobile Layout";
 			// 
 			// checkAutoSaveCheck
 			// 
-			this.checkAutoSaveCheck.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkAutoSaveCheck.Location = new System.Drawing.Point(12, 268);
+			this.checkAutoSaveCheck.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkAutoSaveCheck.Location = new System.Drawing.Point(172, 494);
 			this.checkAutoSaveCheck.Name = "checkAutoSaveCheck";
-			this.checkAutoSaveCheck.Size = new System.Drawing.Size(174, 20);
+			this.checkAutoSaveCheck.Size = new System.Drawing.Size(181, 20);
 			this.checkAutoSaveCheck.TabIndex = 103;
 			this.checkAutoSaveCheck.Text = "Copy to Imaging when saved";
 			this.checkAutoSaveCheck.Visible = false;
 			// 
 			// comboAutoSaveOverride
 			// 
-			this.comboAutoSaveOverride.Location = new System.Drawing.Point(172, 294);
+			this.comboAutoSaveOverride.Location = new System.Drawing.Point(172, 520);
 			this.comboAutoSaveOverride.Name = "comboAutoSaveOverride";
-			this.comboAutoSaveOverride.Size = new System.Drawing.Size(197, 21);
+			this.comboAutoSaveOverride.Size = new System.Drawing.Size(196, 23);
 			this.comboAutoSaveOverride.TabIndex = 104;
 			this.comboAutoSaveOverride.Visible = false;
 			// 
 			// labelAutoSaveOverride
 			// 
-			this.labelAutoSaveOverride.Location = new System.Drawing.Point(16, 291);
+			this.labelAutoSaveOverride.Location = new System.Drawing.Point(12, 518);
 			this.labelAutoSaveOverride.Name = "labelAutoSaveOverride";
 			this.labelAutoSaveOverride.Size = new System.Drawing.Size(154, 28);
 			this.labelAutoSaveOverride.TabIndex = 105;
 			this.labelAutoSaveOverride.Text = "Autosave Image Category Override";
-			this.labelAutoSaveOverride.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.labelAutoSaveOverride.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.labelAutoSaveOverride.Visible = false;
 			// 
 			// butReduceFontSize
 			// 
-			this.butReduceFontSize.Location = new System.Drawing.Point(16, 54);
+			this.butReduceFontSize.Location = new System.Drawing.Point(16, 51);
 			this.butReduceFontSize.Name = "butReduceFontSize";
 			this.butReduceFontSize.Size = new System.Drawing.Size(98, 24);
 			this.butReduceFontSize.TabIndex = 107;
@@ -246,24 +246,24 @@ namespace OpenPmsDental{
 			this.groupBox2.Controls.Add(this.label2);
 			this.groupBox2.Controls.Add(this.butAbout);
 			this.groupBox2.Controls.Add(this.butReduceFontSize);
-			this.groupBox2.Location = new System.Drawing.Point(394, 332);
+			this.groupBox2.Location = new System.Drawing.Point(395, 279);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(162, 107);
+			this.groupBox2.Size = new System.Drawing.Size(170, 105);
 			this.groupBox2.TabIndex = 108;
 			this.groupBox2.Text = "Sheet Font Size Reduction";
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(118, 58);
+			this.label2.Location = new System.Drawing.Point(120, 54);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(41, 18);
+			this.label2.Size = new System.Drawing.Size(42, 18);
 			this.label2.TabIndex = 109;
 			this.label2.Text = "by 0.5";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// butAbout
 			// 
-			this.butAbout.Location = new System.Drawing.Point(16, 24);
+			this.butAbout.Location = new System.Drawing.Point(16, 23);
 			this.butAbout.Name = "butAbout";
 			this.butAbout.Size = new System.Drawing.Size(98, 24);
 			this.butAbout.TabIndex = 108;
@@ -273,7 +273,7 @@ namespace OpenPmsDental{
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(16, 81);
+			this.label5.Location = new System.Drawing.Point(16, 79);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(146, 18);
 			this.label5.TabIndex = 110;
@@ -282,7 +282,7 @@ namespace OpenPmsDental{
 			// 
 			// FormSheetDef
 			// 
-			this.ClientSize = new System.Drawing.Size(566, 541);
+			this.ClientSize = new System.Drawing.Size(573, 590);
 			this.Controls.Add(this.groupBox2);
 			this.Controls.Add(this.labelAutoSaveOverride);
 			this.Controls.Add(this.comboAutoSaveOverride);

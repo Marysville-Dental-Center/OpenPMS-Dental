@@ -18,7 +18,11 @@ def layout(h):
     h.set("groupBox1", 8, None, LW, None)
     t = h.n("textLog")
     h.set("textLog", 8, None, LW, root.h - 8 - t.ny)
-    y = f.ny
-    for name in ("butBrowse", "butCopy", "butRun", "butFinished"):
+    h.set("butBrowse", BX, f.ny, BW, 24)
+    # Slice 5 (the anchor check): Copy Log Text, Run and Finished are anchored to the bottom (Bottom|Right; main drew them low beside the
+    # log, at 325, 371 and 422); under Browse at the top they left their place on every resize (onto Browse when the window got shorter). At the bottom of the
+    # button column, 4 px apart in main's order, Finished ending on the log box's bottom edge (Top|Bottom: the same edge).
+    y = root.h - 8 - 24
+    for name in ("butFinished", "butRun", "butCopy"):
         h.set(name, BX, y, BW, 24)
-        y += 24 + 4
+        y -= 24 + 4

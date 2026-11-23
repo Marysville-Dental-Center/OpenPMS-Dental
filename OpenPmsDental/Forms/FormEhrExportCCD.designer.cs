@@ -52,9 +52,9 @@ namespace OpenPmsDental{
 			// 
 			this.checkEncounter.Checked = true;
 			this.checkEncounter.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkEncounter.Location = new System.Drawing.Point(19, 40);
+			this.checkEncounter.Location = new System.Drawing.Point(8, 32);
 			this.checkEncounter.Name = "checkEncounter";
-			this.checkEncounter.Size = new System.Drawing.Size(150, 18);
+			this.checkEncounter.Size = new System.Drawing.Size(78, 20);
 			this.checkEncounter.TabIndex = 120;
 			this.checkEncounter.Text = "Encounter";
 			// 
@@ -62,9 +62,9 @@ namespace OpenPmsDental{
 			// 
 			this.checkFunctionalStatus.Checked = true;
 			this.checkFunctionalStatus.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkFunctionalStatus.Location = new System.Drawing.Point(19, 64);
+			this.checkFunctionalStatus.Location = new System.Drawing.Point(8, 56);
 			this.checkFunctionalStatus.Name = "checkFunctionalStatus";
-			this.checkFunctionalStatus.Size = new System.Drawing.Size(150, 18);
+			this.checkFunctionalStatus.Size = new System.Drawing.Size(116, 20);
 			this.checkFunctionalStatus.TabIndex = 121;
 			this.checkFunctionalStatus.Text = "Functional Status";
 			// 
@@ -72,9 +72,9 @@ namespace OpenPmsDental{
 			// 
 			this.checkImmunization.Checked = true;
 			this.checkImmunization.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkImmunization.Location = new System.Drawing.Point(19, 88);
+			this.checkImmunization.Location = new System.Drawing.Point(8, 80);
 			this.checkImmunization.Name = "checkImmunization";
-			this.checkImmunization.Size = new System.Drawing.Size(150, 18);
+			this.checkImmunization.Size = new System.Drawing.Size(97, 20);
 			this.checkImmunization.TabIndex = 122;
 			this.checkImmunization.Text = "Immunization";
 			// 
@@ -82,9 +82,9 @@ namespace OpenPmsDental{
 			// 
 			this.checkMedication.Checked = true;
 			this.checkMedication.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkMedication.Location = new System.Drawing.Point(19, 112);
+			this.checkMedication.Location = new System.Drawing.Point(8, 104);
 			this.checkMedication.Name = "checkMedication";
-			this.checkMedication.Size = new System.Drawing.Size(150, 18);
+			this.checkMedication.Size = new System.Drawing.Size(84, 20);
 			this.checkMedication.TabIndex = 123;
 			this.checkMedication.Text = "Medication";
 			// 
@@ -92,9 +92,9 @@ namespace OpenPmsDental{
 			// 
 			this.checkAllergy.Checked = true;
 			this.checkAllergy.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkAllergy.Location = new System.Drawing.Point(19, 16);
+			this.checkAllergy.Location = new System.Drawing.Point(8, 8);
 			this.checkAllergy.Name = "checkAllergy";
-			this.checkAllergy.Size = new System.Drawing.Size(150, 18);
+			this.checkAllergy.Size = new System.Drawing.Size(60, 20);
 			this.checkAllergy.TabIndex = 124;
 			this.checkAllergy.Text = "Allergy";
 			// 
@@ -102,9 +102,9 @@ namespace OpenPmsDental{
 			// 
 			this.checkPlanOfCare.Checked = true;
 			this.checkPlanOfCare.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkPlanOfCare.Location = new System.Drawing.Point(19, 136);
+			this.checkPlanOfCare.Location = new System.Drawing.Point(8, 128);
 			this.checkPlanOfCare.Name = "checkPlanOfCare";
-			this.checkPlanOfCare.Size = new System.Drawing.Size(150, 18);
+			this.checkPlanOfCare.Size = new System.Drawing.Size(88, 20);
 			this.checkPlanOfCare.TabIndex = 125;
 			this.checkPlanOfCare.Text = "Plan of Care";
 			// 
@@ -112,9 +112,9 @@ namespace OpenPmsDental{
 			// 
 			this.checkProblem.Checked = true;
 			this.checkProblem.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkProblem.Location = new System.Drawing.Point(175, 16);
+			this.checkProblem.Location = new System.Drawing.Point(177, 8);
 			this.checkProblem.Name = "checkProblem";
-			this.checkProblem.Size = new System.Drawing.Size(150, 18);
+			this.checkProblem.Size = new System.Drawing.Size(68, 20);
 			this.checkProblem.TabIndex = 126;
 			this.checkProblem.Text = "Problem";
 			// 
@@ -122,9 +122,9 @@ namespace OpenPmsDental{
 			// 
 			this.checkProcedure.Checked = true;
 			this.checkProcedure.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkProcedure.Location = new System.Drawing.Point(175, 40);
+			this.checkProcedure.Location = new System.Drawing.Point(177, 32);
 			this.checkProcedure.Name = "checkProcedure";
-			this.checkProcedure.Size = new System.Drawing.Size(150, 18);
+			this.checkProcedure.Size = new System.Drawing.Size(78, 20);
 			this.checkProcedure.TabIndex = 127;
 			this.checkProcedure.Text = "Procedure";
 			// 
@@ -132,9 +132,9 @@ namespace OpenPmsDental{
 			// 
 			this.checkResult.Checked = true;
 			this.checkResult.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkResult.Location = new System.Drawing.Point(175, 64);
+			this.checkResult.Location = new System.Drawing.Point(177, 56);
 			this.checkResult.Name = "checkResult";
-			this.checkResult.Size = new System.Drawing.Size(150, 18);
+			this.checkResult.Size = new System.Drawing.Size(56, 20);
 			this.checkResult.TabIndex = 129;
 			this.checkResult.Text = "Result";
 			// 
@@ -142,9 +142,9 @@ namespace OpenPmsDental{
 			// 
 			this.checkSocialHistory.Checked = true;
 			this.checkSocialHistory.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkSocialHistory.Location = new System.Drawing.Point(175, 112);
+			this.checkSocialHistory.Location = new System.Drawing.Point(177, 104);
 			this.checkSocialHistory.Name = "checkSocialHistory";
-			this.checkSocialHistory.Size = new System.Drawing.Size(150, 18);
+			this.checkSocialHistory.Size = new System.Drawing.Size(96, 20);
 			this.checkSocialHistory.TabIndex = 130;
 			this.checkSocialHistory.Text = "Social History";
 			// 
@@ -152,31 +152,31 @@ namespace OpenPmsDental{
 			// 
 			this.checkVitalSign.Checked = true;
 			this.checkVitalSign.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkVitalSign.Location = new System.Drawing.Point(175, 136);
+			this.checkVitalSign.Location = new System.Drawing.Point(177, 128);
 			this.checkVitalSign.Name = "checkVitalSign";
-			this.checkVitalSign.Size = new System.Drawing.Size(150, 18);
+			this.checkVitalSign.Size = new System.Drawing.Size(74, 20);
 			this.checkVitalSign.TabIndex = 131;
 			this.checkVitalSign.Text = "Vital Sign";
 			// 
 			// labelSections
 			// 
-			this.labelSections.Location = new System.Drawing.Point(12, 35);
+			this.labelSections.Location = new System.Drawing.Point(8, 35);
 			this.labelSections.Name = "labelSections";
-			this.labelSections.Size = new System.Drawing.Size(353, 18);
+			this.labelSections.Size = new System.Drawing.Size(368, 18);
 			this.labelSections.TabIndex = 132;
 			this.labelSections.Text = "Choose the sections to include in the Continuity of Care Document.";
 			// 
 			// textInstructions
 			// 
-			this.textInstructions.Location = new System.Drawing.Point(17, 272);
+			this.textInstructions.Location = new System.Drawing.Point(8, 269);
 			this.textInstructions.Multiline = true;
 			this.textInstructions.Name = "textInstructions";
-			this.textInstructions.Size = new System.Drawing.Size(338, 73);
+			this.textInstructions.Size = new System.Drawing.Size(368, 73);
 			this.textInstructions.TabIndex = 136;
 			// 
 			// labelInstructions
 			// 
-			this.labelInstructions.Location = new System.Drawing.Point(14, 249);
+			this.labelInstructions.Location = new System.Drawing.Point(8, 247);
 			this.labelInstructions.Name = "labelInstructions";
 			this.labelInstructions.Size = new System.Drawing.Size(275, 20);
 			this.labelInstructions.TabIndex = 135;
@@ -187,9 +187,9 @@ namespace OpenPmsDental{
 			// 
 			this.checkReferral.Checked = true;
 			this.checkReferral.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkReferral.Location = new System.Drawing.Point(175, 88);
+			this.checkReferral.Location = new System.Drawing.Point(177, 80);
 			this.checkReferral.Name = "checkReferral";
-			this.checkReferral.Size = new System.Drawing.Size(150, 18);
+			this.checkReferral.Size = new System.Drawing.Size(65, 20);
 			this.checkReferral.TabIndex = 137;
 			this.checkReferral.Text = "Referral";
 			// 
@@ -209,31 +209,31 @@ namespace OpenPmsDental{
 			this.groupBox1.Controls.Add(this.checkProcedure);
 			this.groupBox1.Controls.Add(this.checkSocialHistory);
 			this.groupBox1.Controls.Add(this.checkResult);
-			this.groupBox1.Location = new System.Drawing.Point(15, 48);
+			this.groupBox1.Location = new System.Drawing.Point(8, 55);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(338, 198);
+			this.groupBox1.Size = new System.Drawing.Size(368, 184);
 			this.groupBox1.TabIndex = 138;
             this.groupBox1.TabStop = false;
 			// 
 			// textDate
 			// 
-			this.textDate.Location = new System.Drawing.Point(80, 9);
+			this.textDate.Location = new System.Drawing.Point(80, 8);
 			this.textDate.Name = "textDate";
-			this.textDate.Size = new System.Drawing.Size(82, 20);
+			this.textDate.Size = new System.Drawing.Size(80, 23);
 			this.textDate.TabIndex = 139;
 			// 
 			// dateLabel
 			// 
-			this.dateLabel.Location = new System.Drawing.Point(12, 9);
+			this.dateLabel.Location = new System.Drawing.Point(10, 8);
 			this.dateLabel.Name = "dateLabel";
-			this.dateLabel.Size = new System.Drawing.Size(67, 20);
+			this.dateLabel.Size = new System.Drawing.Size(64, 23);
 			this.dateLabel.TabIndex = 138;
 			this.dateLabel.Text = "Visit Date:";
 			this.dateLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(186, 9);
+			this.label1.Location = new System.Drawing.Point(166, 9);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(137, 20);
 			this.label1.TabIndex = 140;
@@ -243,7 +243,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(280, 360);
+			this.butSave.Location = new System.Drawing.Point(301, 364);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 3;
@@ -252,7 +252,7 @@ namespace OpenPmsDental{
 			// 
 			// butCheckNone
 			// 
-			this.butCheckNone.Location = new System.Drawing.Point(244, 163);
+			this.butCheckNone.Location = new System.Drawing.Point(259, 152);
 			this.butCheckNone.Name = "butCheckNone";
 			this.butCheckNone.Size = new System.Drawing.Size(60, 24);
 			this.butCheckNone.TabIndex = 134;
@@ -261,7 +261,7 @@ namespace OpenPmsDental{
 			// 
 			// butCheckAll
 			// 
-			this.butCheckAll.Location = new System.Drawing.Point(177, 163);
+			this.butCheckAll.Location = new System.Drawing.Point(192, 152);
 			this.butCheckAll.Name = "butCheckAll";
 			this.butCheckAll.Size = new System.Drawing.Size(61, 24);
 			this.butCheckAll.TabIndex = 133;
@@ -271,7 +271,7 @@ namespace OpenPmsDental{
 			// FormEhrExportCCD
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(365, 396);
+			this.ClientSize = new System.Drawing.Size(384, 396);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.dateLabel);
 			this.Controls.Add(this.textDate);

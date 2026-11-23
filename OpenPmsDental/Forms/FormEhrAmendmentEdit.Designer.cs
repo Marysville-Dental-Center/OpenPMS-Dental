@@ -48,25 +48,25 @@
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(68, 198);
+			this.label5.Location = new System.Drawing.Point(16, 190);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(60, 52);
+			this.label5.Size = new System.Drawing.Size(124, 23);
 			this.label5.TabIndex = 16;
 			this.label5.Text = "Description/Location";
-			this.label5.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textDescription
 			// 
-			this.textDescription.Location = new System.Drawing.Point(130, 199);
+			this.textDescription.Location = new System.Drawing.Point(146, 190);
 			this.textDescription.Multiline = true;
 			this.textDescription.Name = "textDescription";
-			this.textDescription.Size = new System.Drawing.Size(435, 54);
+			this.textDescription.Size = new System.Drawing.Size(428, 54);
 			this.textDescription.TabIndex = 17;
 			// 
 			// labelScan
 			// 
 			this.labelScan.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.labelScan.Location = new System.Drawing.Point(123, 279);
+			this.labelScan.Location = new System.Drawing.Point(114, 282);
 			this.labelScan.Name = "labelScan";
 			this.labelScan.Size = new System.Drawing.Size(176, 16);
 			this.labelScan.TabIndex = 111;
@@ -78,103 +78,103 @@
 			// 
 			this.comboSource.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboSource.FormattingEnabled = true;
-			this.comboSource.Location = new System.Drawing.Point(130, 145);
+			this.comboSource.Location = new System.Drawing.Point(146, 136);
 			this.comboSource.Name = "comboSource";
-			this.comboSource.Size = new System.Drawing.Size(121, 21);
+			this.comboSource.Size = new System.Drawing.Size(120, 23);
 			this.comboSource.TabIndex = 114;
 			// 
 			// label7
 			// 
-			this.label7.Location = new System.Drawing.Point(42, 146);
+			this.label7.Location = new System.Drawing.Point(92, 136);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(86, 17);
+			this.label7.Size = new System.Drawing.Size(48, 23);
 			this.label7.TabIndex = 113;
 			this.label7.Text = "Source";
 			this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textSourceName
 			// 
-			this.textSourceName.Location = new System.Drawing.Point(130, 172);
+			this.textSourceName.Location = new System.Drawing.Point(146, 163);
 			this.textSourceName.Multiline = true;
 			this.textSourceName.Name = "textSourceName";
-			this.textSourceName.Size = new System.Drawing.Size(435, 21);
+			this.textSourceName.Size = new System.Drawing.Size(428, 23);
 			this.textSourceName.TabIndex = 119;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(42, 171);
+			this.label2.Location = new System.Drawing.Point(56, 163);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(87, 21);
+			this.label2.Size = new System.Drawing.Size(84, 23);
 			this.label2.TabIndex = 120;
 			this.label2.Text = "Source Name";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(42, 17);
+			this.label3.Location = new System.Drawing.Point(44, 8);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(88, 17);
+			this.label3.Size = new System.Drawing.Size(96, 23);
 			this.label3.TabIndex = 129;
 			this.label3.Text = "Date Requested";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(7, 44);
+			this.label4.Location = new System.Drawing.Point(8, 35);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(123, 17);
+			this.label4.Size = new System.Drawing.Size(132, 23);
 			this.label4.TabIndex = 130;
 			this.label4.Text = "Date Accepted/Denied";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(7, 71);
+			this.label6.Location = new System.Drawing.Point(44, 62);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(121, 17);
+			this.label6.Size = new System.Drawing.Size(96, 23);
 			this.label6.TabIndex = 131;
 			this.label6.Text = "Date Appended";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// listAmdStatus
 			// 
-			this.listAmdStatus.Location = new System.Drawing.Point(130, 98);
+			this.listAmdStatus.Location = new System.Drawing.Point(146, 89);
 			this.listAmdStatus.Name = "listAmdStatus";
 			this.listAmdStatus.Size = new System.Drawing.Size(120, 43);
 			this.listAmdStatus.TabIndex = 138;
 			// 
 			// label8
 			// 
-			this.label8.Location = new System.Drawing.Point(43, 98);
+			this.label8.Location = new System.Drawing.Point(96, 89);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(86, 17);
+			this.label8.Size = new System.Drawing.Size(44, 23);
 			this.label8.TabIndex = 139;
 			this.label8.Text = "Status";
 			this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// butNowReq
 			// 
-			this.butNowReq.Location = new System.Drawing.Point(304, 13);
+			this.butNowReq.Location = new System.Drawing.Point(320, 8);
 			this.butNowReq.Name = "butNowReq";
-			this.butNowReq.Size = new System.Drawing.Size(75, 24);
+			this.butNowReq.Size = new System.Drawing.Size(75, 23);
 			this.butNowReq.TabIndex = 134;
 			this.butNowReq.Text = "Now";
 			this.butNowReq.Click += new System.EventHandler(this.butNowReq_Click);
 			// 
 			// butNowAcc
 			// 
-			this.butNowAcc.Location = new System.Drawing.Point(304, 40);
+			this.butNowAcc.Location = new System.Drawing.Point(320, 35);
 			this.butNowAcc.Name = "butNowAcc";
-			this.butNowAcc.Size = new System.Drawing.Size(75, 24);
+			this.butNowAcc.Size = new System.Drawing.Size(75, 23);
 			this.butNowAcc.TabIndex = 133;
 			this.butNowAcc.Text = "Now";
 			this.butNowAcc.Click += new System.EventHandler(this.butNowAcc_Click);
 			// 
 			// butNowApp
 			// 
-			this.butNowApp.Location = new System.Drawing.Point(304, 67);
+			this.butNowApp.Location = new System.Drawing.Point(320, 62);
 			this.butNowApp.Name = "butNowApp";
-			this.butNowApp.Size = new System.Drawing.Size(75, 24);
+			this.butNowApp.Size = new System.Drawing.Size(75, 23);
 			this.butNowApp.TabIndex = 132;
 			this.butNowApp.Text = "Now";
 			this.butNowApp.Click += new System.EventHandler(this.butNowApp_Click);
@@ -184,7 +184,7 @@
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(17, 275);
+			this.butDelete.Location = new System.Drawing.Point(8, 278);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(75, 24);
 			this.butDelete.TabIndex = 124;
@@ -194,7 +194,7 @@
 			// butScan
 			// 
 			this.butScan.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butScan.Location = new System.Drawing.Point(301, 275);
+			this.butScan.Location = new System.Drawing.Point(301, 278);
 			this.butScan.Name = "butScan";
 			this.butScan.Size = new System.Drawing.Size(75, 24);
 			this.butScan.TabIndex = 123;
@@ -204,7 +204,7 @@
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(490, 274);
+			this.butSave.Location = new System.Drawing.Point(499, 278);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 121;
@@ -213,26 +213,26 @@
 			// 
 			// textDateAcc
 			// 
-			this.textDateAcc.Location = new System.Drawing.Point(130, 42);
+			this.textDateAcc.Location = new System.Drawing.Point(146, 35);
 			this.textDateAcc.Multiline = true;
 			this.textDateAcc.Name = "textDateAcc";
-			this.textDateAcc.Size = new System.Drawing.Size(168, 21);
+			this.textDateAcc.Size = new System.Drawing.Size(168, 23);
 			this.textDateAcc.TabIndex = 140;
 			// 
 			// textDateReq
 			// 
-			this.textDateReq.Location = new System.Drawing.Point(130, 15);
+			this.textDateReq.Location = new System.Drawing.Point(146, 8);
 			this.textDateReq.Multiline = true;
 			this.textDateReq.Name = "textDateReq";
-			this.textDateReq.Size = new System.Drawing.Size(168, 21);
+			this.textDateReq.Size = new System.Drawing.Size(168, 23);
 			this.textDateReq.TabIndex = 141;
 			// 
 			// textDateApp
 			// 
-			this.textDateApp.Location = new System.Drawing.Point(130, 69);
+			this.textDateApp.Location = new System.Drawing.Point(146, 62);
 			this.textDateApp.Multiline = true;
 			this.textDateApp.Name = "textDateApp";
-			this.textDateApp.Size = new System.Drawing.Size(168, 21);
+			this.textDateApp.Size = new System.Drawing.Size(168, 23);
 			this.textDateApp.TabIndex = 142;
 			// 
 			// FormEhrAmendmentEdit

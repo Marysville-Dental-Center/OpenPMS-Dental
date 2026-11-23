@@ -46,3 +46,9 @@ def layout(h):
         h.set(name, xc, None)
     gp = h.n("gridProc")
     h.set("gridProc", 8, None, xc - 8 - 8, None)
+    # Slice 5 (the anchor check): the Signature / Initials label is anchored to the bottom (Bottom|Left) with its signature box; 32 px tall
+    # at the box's top its middle stood in the window's upper half. As tall as the box, its two lines at the box's top (TopRight): the
+    # text stands where it stood and the label covers the box's rows, so it moves with the box.
+    sb = h.n("signatureBoxWrapper")
+    h.set("label15", None, sb.ny, None, sb.nh)
+    h.text_align("label15", "TopRight")

@@ -62,16 +62,16 @@ namespace OpenPmsDental {
 			// 
 			// listProvs
 			// 
-			this.listProvs.Location = new System.Drawing.Point(12, 57);
+			this.listProvs.Location = new System.Drawing.Point(8, 50);
 			this.listProvs.Name = "listProvs";
 			this.listProvs.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
-			this.listProvs.Size = new System.Drawing.Size(120, 238);
+			this.listProvs.Size = new System.Drawing.Size(124, 284);
 			this.listProvs.TabIndex = 33;
 			this.listProvs.Click += new System.EventHandler(this.listProvs_Click);
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(12, 18);
+			this.label1.Location = new System.Drawing.Point(8, 8);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(104, 16);
 			this.label1.TabIndex = 32;
@@ -81,7 +81,7 @@ namespace OpenPmsDental {
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(511, 315);
+			this.butOK.Location = new System.Drawing.Point(519, 346);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 26);
 			this.butOK.TabIndex = 43;
@@ -90,48 +90,48 @@ namespace OpenPmsDental {
 			// 
 			// checkWebSchedRecall
 			// 
-			this.checkWebSchedRecall.Location = new System.Drawing.Point(60, 17);
+			this.checkWebSchedRecall.Location = new System.Drawing.Point(60, 23);
 			this.checkWebSchedRecall.Name = "checkWebSchedRecall";
-			this.checkWebSchedRecall.Size = new System.Drawing.Size(224, 18);
+			this.checkWebSchedRecall.Size = new System.Drawing.Size(168, 20);
 			this.checkWebSchedRecall.TabIndex = 46;
 			this.checkWebSchedRecall.Text = "Show Recall Appointments";
 			this.checkWebSchedRecall.CheckedChanged += new System.EventHandler(this.checkWebSched_CheckedChanged);
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(9, 22);
+			this.label2.Location = new System.Drawing.Point(15, 23);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(51, 18);
+			this.label2.Size = new System.Drawing.Size(40, 23);
 			this.label2.TabIndex = 37;
 			this.label2.Text = "From";
-			this.label2.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(8, 47);
+			this.label3.Location = new System.Drawing.Point(31, 50);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(51, 18);
+			this.label3.Size = new System.Drawing.Size(24, 23);
 			this.label3.TabIndex = 39;
 			this.label3.Text = "To";
-			this.label3.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textDateTo
 			// 
-			this.textDateTo.Location = new System.Drawing.Point(61, 46);
+			this.textDateTo.Location = new System.Drawing.Point(61, 50);
 			this.textDateTo.Name = "textDateTo";
 			this.textDateTo.Size = new System.Drawing.Size(100, 20);
 			this.textDateTo.TabIndex = 44;
 			// 
 			// textDateFrom
 			// 
-			this.textDateFrom.Location = new System.Drawing.Point(61, 20);
+			this.textDateFrom.Location = new System.Drawing.Point(61, 23);
 			this.textDateFrom.Name = "textDateFrom";
 			this.textDateFrom.Size = new System.Drawing.Size(100, 20);
 			this.textDateFrom.TabIndex = 43;
 			// 
 			// butTomorrow
 			// 
-			this.butTomorrow.Location = new System.Drawing.Point(164, 44);
+			this.butTomorrow.Location = new System.Drawing.Point(167, 50);
 			this.butTomorrow.Name = "butTomorrow";
 			this.butTomorrow.Size = new System.Drawing.Size(96, 23);
 			this.butTomorrow.TabIndex = 45;
@@ -140,7 +140,7 @@ namespace OpenPmsDental {
 			// 
 			// butToday
 			// 
-			this.butToday.Location = new System.Drawing.Point(164, 19);
+			this.butToday.Location = new System.Drawing.Point(167, 23);
 			this.butToday.Name = "butToday";
 			this.butToday.Size = new System.Drawing.Size(96, 23);
 			this.butToday.TabIndex = 46;
@@ -158,25 +158,25 @@ namespace OpenPmsDental {
 			this.groupBox1.Controls.Add(this.textDateTo);
 			this.groupBox1.Controls.Add(this.label3);
 			this.groupBox1.Controls.Add(this.label2);
-			this.groupBox1.Location = new System.Drawing.Point(264, 57);
+			this.groupBox1.Location = new System.Drawing.Point(272, 50);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(322, 137);
+			this.groupBox1.Size = new System.Drawing.Size(322, 153);
 			this.groupBox1.TabIndex = 45;
 			this.groupBox1.Text = "Date Range";
 			// 
 			// checkShowNoteAppts
 			// 
-			this.checkShowNoteAppts.Location = new System.Drawing.Point(60, 113);
+			this.checkShowNoteAppts.Location = new System.Drawing.Point(61, 125);
 			this.checkShowNoteAppts.Name = "checkShowNoteAppts";
-			this.checkShowNoteAppts.Size = new System.Drawing.Size(202, 18);
+			this.checkShowNoteAppts.Size = new System.Drawing.Size(173, 20);
 			this.checkShowNoteAppts.TabIndex = 49;
 			this.checkShowNoteAppts.Text = "Show \"Note\" Appointments";
 			// 
 			// radioDateAptCreated
 			// 
-			this.radioDateAptCreated.Location = new System.Drawing.Point(60, 91);
+			this.radioDateAptCreated.Location = new System.Drawing.Point(61, 101);
 			this.radioDateAptCreated.Name = "radioDateAptCreated";
-			this.radioDateAptCreated.Size = new System.Drawing.Size(224, 17);
+			this.radioDateAptCreated.Size = new System.Drawing.Size(167, 20);
 			this.radioDateAptCreated.TabIndex = 48;
 			this.radioDateAptCreated.Text = "Appointment Date Created";
 			this.radioDateAptCreated.UseVisualStyleBackColor = true;
@@ -184,9 +184,9 @@ namespace OpenPmsDental {
 			// radioAptDate
 			// 
 			this.radioAptDate.Checked = true;
-			this.radioAptDate.Location = new System.Drawing.Point(60, 72);
+			this.radioAptDate.Location = new System.Drawing.Point(61, 77);
 			this.radioAptDate.Name = "radioAptDate";
-			this.radioAptDate.Size = new System.Drawing.Size(224, 17);
+			this.radioAptDate.Size = new System.Drawing.Size(123, 20);
 			this.radioAptDate.TabIndex = 47;
 			this.radioAptDate.TabStop = true;
 			this.radioAptDate.Text = "Appointment Date";
@@ -194,16 +194,16 @@ namespace OpenPmsDental {
 			// 
 			// listClinics
 			// 
-			this.listClinics.Location = new System.Drawing.Point(138, 57);
+			this.listClinics.Location = new System.Drawing.Point(140, 50);
 			this.listClinics.Name = "listClinics";
 			this.listClinics.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
-			this.listClinics.Size = new System.Drawing.Size(120, 238);
+			this.listClinics.Size = new System.Drawing.Size(124, 284);
 			this.listClinics.TabIndex = 48;
 			this.listClinics.Click += new System.EventHandler(this.listClinics_Click);
 			// 
 			// labelClinics
 			// 
-			this.labelClinics.Location = new System.Drawing.Point(138, 19);
+			this.labelClinics.Location = new System.Drawing.Point(140, 8);
 			this.labelClinics.Name = "labelClinics";
 			this.labelClinics.Size = new System.Drawing.Size(104, 16);
 			this.labelClinics.TabIndex = 47;
@@ -212,9 +212,9 @@ namespace OpenPmsDental {
 			// 
 			// checkAllClinics
 			// 
-			this.checkAllClinics.Location = new System.Drawing.Point(138, 38);
+			this.checkAllClinics.Location = new System.Drawing.Point(140, 26);
 			this.checkAllClinics.Name = "checkAllClinics";
-			this.checkAllClinics.Size = new System.Drawing.Size(153, 18);
+			this.checkAllClinics.Size = new System.Drawing.Size(134, 20);
 			this.checkAllClinics.TabIndex = 50;
 			this.checkAllClinics.Text = "All (Includes hidden)";
 			this.checkAllClinics.Click += new System.EventHandler(this.checkAllClinics_Click);
@@ -223,9 +223,9 @@ namespace OpenPmsDental {
 			// 
 			this.checkAllProvs.Checked = true;
 			this.checkAllProvs.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkAllProvs.Location = new System.Drawing.Point(12, 38);
+			this.checkAllProvs.Location = new System.Drawing.Point(8, 26);
 			this.checkAllProvs.Name = "checkAllProvs";
-			this.checkAllProvs.Size = new System.Drawing.Size(95, 18);
+			this.checkAllProvs.Size = new System.Drawing.Size(36, 20);
 			this.checkAllProvs.TabIndex = 51;
 			this.checkAllProvs.Text = "All";
 			this.checkAllProvs.Click += new System.EventHandler(this.checkAllProvs_Click);
@@ -236,33 +236,33 @@ namespace OpenPmsDental {
 			this.groupBox2.Controls.Add(this.checkWebSchedASAP);
 			this.groupBox2.Controls.Add(this.checkWebSchedNewPat);
 			this.groupBox2.Controls.Add(this.checkWebSchedRecall);
-			this.groupBox2.Location = new System.Drawing.Point(264, 200);
+			this.groupBox2.Location = new System.Drawing.Point(272, 211);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(322, 95);
+			this.groupBox2.Size = new System.Drawing.Size(322, 123);
 			this.groupBox2.TabIndex = 47;
 			this.groupBox2.Text = "Web Sched Appointments Only";
 			// 
 			// checkWebSchedExistingPat
 			// 
-			this.checkWebSchedExistingPat.Location = new System.Drawing.Point(60, 71);
+			this.checkWebSchedExistingPat.Location = new System.Drawing.Point(60, 95);
 			this.checkWebSchedExistingPat.Name = "checkWebSchedExistingPat";
-			this.checkWebSchedExistingPat.Size = new System.Drawing.Size(224, 18);
+			this.checkWebSchedExistingPat.Size = new System.Drawing.Size(220, 20);
 			this.checkWebSchedExistingPat.TabIndex = 52;
 			this.checkWebSchedExistingPat.Text = "Show Existing Patient Appointments";
 			// 
 			// checkWebSchedASAP
 			// 
-			this.checkWebSchedASAP.Location = new System.Drawing.Point(60, 53);
+			this.checkWebSchedASAP.Location = new System.Drawing.Point(60, 71);
 			this.checkWebSchedASAP.Name = "checkWebSchedASAP";
-			this.checkWebSchedASAP.Size = new System.Drawing.Size(224, 18);
+			this.checkWebSchedASAP.Size = new System.Drawing.Size(85, 20);
 			this.checkWebSchedASAP.TabIndex = 49;
 			this.checkWebSchedASAP.Text = "Show ASAP";
 			// 
 			// checkWebSchedNewPat
 			// 
-			this.checkWebSchedNewPat.Location = new System.Drawing.Point(60, 35);
+			this.checkWebSchedNewPat.Location = new System.Drawing.Point(60, 47);
 			this.checkWebSchedNewPat.Name = "checkWebSchedNewPat";
-			this.checkWebSchedNewPat.Size = new System.Drawing.Size(224, 18);
+			this.checkWebSchedNewPat.Size = new System.Drawing.Size(203, 20);
 			this.checkWebSchedNewPat.TabIndex = 48;
 			this.checkWebSchedNewPat.Text = "Show New Patient Appointments";
 			this.checkWebSchedNewPat.CheckedChanged += new System.EventHandler(this.checkWebSched_CheckedChanged);
@@ -270,7 +270,7 @@ namespace OpenPmsDental {
 			// FormRpAppointments
 			// 
 			this.AcceptButton = this.butOK;
-			this.ClientSize = new System.Drawing.Size(602, 353);
+			this.ClientSize = new System.Drawing.Size(602, 380);
 			this.Controls.Add(this.groupBox2);
 			this.Controls.Add(this.checkAllProvs);
 			this.Controls.Add(this.checkAllClinics);

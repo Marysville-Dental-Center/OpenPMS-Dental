@@ -60,60 +60,60 @@ namespace OpenPmsDental {
 			// textCarrier
 			// 
 			this.textCarrier.AutoSize = false;
-			this.textCarrier.Location = new System.Drawing.Point(236, 49);
+			this.textCarrier.Location = new System.Drawing.Point(240, 57);
 			this.textCarrier.Name = "textCarrier";
-			this.textCarrier.Size = new System.Drawing.Size(180, 20);
+			this.textCarrier.Size = new System.Drawing.Size(180, 23);
 			this.textCarrier.TabIndex = 0;
 			this.textCarrier.TextChanged += new System.EventHandler(this.textCarrier_TextChanged);
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(137, 52);
+			this.label2.Location = new System.Drawing.Point(162, 57);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(93, 17);
+			this.label2.Size = new System.Drawing.Size(72, 23);
 			this.label2.TabIndex = 19;
 			this.label2.Text = "Carrier Like";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(450, 73);
+			this.label1.Location = new System.Drawing.Point(454, 84);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(128, 17);
+			this.label1.Size = new System.Drawing.Size(128, 23);
 			this.label1.TabIndex = 20;
 			this.label1.Text = "Without Fee Schedule";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// comboFeeSchedWithout
 			// 
-			this.comboFeeSchedWithout.Location = new System.Drawing.Point(584, 69);
+			this.comboFeeSchedWithout.Location = new System.Drawing.Point(588, 84);
 			this.comboFeeSchedWithout.Name = "comboFeeSchedWithout";
-			this.comboFeeSchedWithout.Size = new System.Drawing.Size(228, 21);
+			this.comboFeeSchedWithout.Size = new System.Drawing.Size(228, 23);
 			this.comboFeeSchedWithout.TabIndex = 1;
 			this.comboFeeSchedWithout.SelectionChangeCommitted += new System.EventHandler(this.comboFeeSchedWithout_SelectionChangeCommitted);
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(140, 12);
+			this.label3.Location = new System.Drawing.Point(134, 8);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(444, 27);
+			this.label3.Size = new System.Drawing.Size(682, 18);
 			this.label3.TabIndex = 22;
 			this.label3.Text = "You are searching for Insurance Plans that might have the wrong fee schedule atta" +
     "ched.";
 			// 
 			// comboFeeSchedWith
 			// 
-			this.comboFeeSchedWith.Location = new System.Drawing.Point(584, 47);
+			this.comboFeeSchedWith.Location = new System.Drawing.Point(588, 57);
 			this.comboFeeSchedWith.Name = "comboFeeSchedWith";
-			this.comboFeeSchedWith.Size = new System.Drawing.Size(228, 21);
+			this.comboFeeSchedWith.Size = new System.Drawing.Size(228, 23);
 			this.comboFeeSchedWith.TabIndex = 23;
 			this.comboFeeSchedWith.SelectionChangeCommitted += new System.EventHandler(this.comboFeeSchedWith_SelectionChangeCommitted);
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(450, 51);
+			this.label4.Location = new System.Drawing.Point(474, 57);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(128, 17);
+			this.label4.Size = new System.Drawing.Size(108, 23);
 			this.label4.TabIndex = 24;
 			this.label4.Text = "With Fee Schedule";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -121,17 +121,17 @@ namespace OpenPmsDental {
 			// comboFeeSchedNew
 			// 
 			this.comboFeeSchedNew.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.comboFeeSchedNew.Location = new System.Drawing.Point(341, 664);
+			this.comboFeeSchedNew.Location = new System.Drawing.Point(337, 674);
 			this.comboFeeSchedNew.Name = "comboFeeSchedNew";
-			this.comboFeeSchedNew.Size = new System.Drawing.Size(228, 21);
+			this.comboFeeSchedNew.Size = new System.Drawing.Size(228, 23);
 			this.comboFeeSchedNew.TabIndex = 25;
 			// 
 			// label5
 			// 
 			this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label5.Location = new System.Drawing.Point(186, 668);
+			this.label5.Location = new System.Drawing.Point(223, 674);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(149, 17);
+			this.label5.Size = new System.Drawing.Size(108, 23);
 			this.label5.TabIndex = 26;
 			this.label5.Text = "New Fee Schedule";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -139,35 +139,35 @@ namespace OpenPmsDental {
 			// textCarrierNot
 			// 
 			this.textCarrierNot.AutoSize = false;
-			this.textCarrierNot.Location = new System.Drawing.Point(236, 70);
+			this.textCarrierNot.Location = new System.Drawing.Point(240, 84);
 			this.textCarrierNot.Name = "textCarrierNot";
-			this.textCarrierNot.Size = new System.Drawing.Size(180, 20);
+			this.textCarrierNot.Size = new System.Drawing.Size(180, 23);
 			this.textCarrierNot.TabIndex = 27;
 			this.textCarrierNot.TextChanged += new System.EventHandler(this.textCarrierNot_TextChanged);
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(137, 73);
+			this.label6.Location = new System.Drawing.Point(138, 84);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(93, 17);
+			this.label6.Size = new System.Drawing.Size(96, 23);
 			this.label6.TabIndex = 28;
 			this.label6.Text = "Carrier Not Like";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// listType
 			// 
-			this.listType.Location = new System.Drawing.Point(14, 12);
+			this.listType.Location = new System.Drawing.Point(8, 8);
 			this.listType.Name = "listType";
-			this.listType.Size = new System.Drawing.Size(120, 78);
+			this.listType.Size = new System.Drawing.Size(120, 99);
 			this.listType.TabIndex = 29;
 			this.listType.Click += new System.EventHandler(this.listType_Click);
 			// 
 			// butSelectAll
 			// 
 			this.butSelectAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butSelectAll.Location = new System.Drawing.Point(12, 661);
+			this.butSelectAll.Location = new System.Drawing.Point(8, 674);
 			this.butSelectAll.Name = "butSelectAll";
-			this.butSelectAll.Size = new System.Drawing.Size(75, 24);
+			this.butSelectAll.Size = new System.Drawing.Size(75, 23);
 			this.butSelectAll.TabIndex = 30;
 			this.butSelectAll.Text = "Select All";
 			this.butSelectAll.Click += new System.EventHandler(this.butSelectAll_Click);
@@ -176,10 +176,10 @@ namespace OpenPmsDental {
 			// 
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-			this.gridMain.Location = new System.Drawing.Point(13, 96);
+			this.gridMain.Location = new System.Drawing.Point(8, 115);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridMain.Size = new System.Drawing.Size(799, 533);
+			this.gridMain.Size = new System.Drawing.Size(808, 524);
 			this.gridMain.TabIndex = 2;
 			this.gridMain.Title = "Ins Plans that might need to be changed";
 			this.gridMain.TranslationName = "TablePlans";
@@ -187,9 +187,9 @@ namespace OpenPmsDental {
 			// butChangeFeeSchedule
 			// 
 			this.butChangeFeeSchedule.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butChangeFeeSchedule.Location = new System.Drawing.Point(578, 662);
+			this.butChangeFeeSchedule.Location = new System.Drawing.Point(571, 674);
 			this.butChangeFeeSchedule.Name = "butChangeFeeSchedule";
-			this.butChangeFeeSchedule.Size = new System.Drawing.Size(74, 24);
+			this.butChangeFeeSchedule.Size = new System.Drawing.Size(74, 23);
 			this.butChangeFeeSchedule.TabIndex = 2;
 			this.butChangeFeeSchedule.Text = "Change";
 			this.butChangeFeeSchedule.Click += new System.EventHandler(this.butChangeFeeSchedule_Click);
@@ -199,35 +199,35 @@ namespace OpenPmsDental {
 			this.butPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butPrint.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Print,16,16);
 			this.butPrint.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butPrint.Location = new System.Drawing.Point(93, 661);
+			this.butPrint.Location = new System.Drawing.Point(89, 674);
 			this.butPrint.Name = "butPrint";
-			this.butPrint.Size = new System.Drawing.Size(87, 24);
+			this.butPrint.Size = new System.Drawing.Size(87, 23);
 			this.butPrint.TabIndex = 31;
 			this.butPrint.Text = "Print List";
 			this.butPrint.Click += new System.EventHandler(this.butPrint_Click);
 			// 
 			// comboInsPlanTypeWith
 			// 
-			this.comboInsPlanTypeWith.Location = new System.Drawing.Point(584, 25);
+			this.comboInsPlanTypeWith.Location = new System.Drawing.Point(588, 30);
 			this.comboInsPlanTypeWith.Name = "comboInsPlanTypeWith";
-			this.comboInsPlanTypeWith.Size = new System.Drawing.Size(228, 21);
+			this.comboInsPlanTypeWith.Size = new System.Drawing.Size(228, 23);
 			this.comboInsPlanTypeWith.TabIndex = 32;
 			this.comboInsPlanTypeWith.SelectionChangeCommitted += new System.EventHandler(this.comboInsPlanTypeWith_SelectionChangeCommitted);
 			// 
 			// comboInsPlanType
 			// 
 			this.comboInsPlanType.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.comboInsPlanType.Location = new System.Drawing.Point(341, 637);
+			this.comboInsPlanType.Location = new System.Drawing.Point(337, 647);
 			this.comboInsPlanType.Name = "comboInsPlanType";
-			this.comboInsPlanType.Size = new System.Drawing.Size(228, 21);
+			this.comboInsPlanType.Size = new System.Drawing.Size(228, 23);
 			this.comboInsPlanType.TabIndex = 34;
 			// 
 			// label7
 			// 
 			this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label7.Location = new System.Drawing.Point(186, 641);
+			this.label7.Location = new System.Drawing.Point(187, 647);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(149, 17);
+			this.label7.Size = new System.Drawing.Size(144, 23);
 			this.label7.TabIndex = 35;
 			this.label7.Text = "New Insurance Plan Type";
 			this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -235,25 +235,25 @@ namespace OpenPmsDental {
 			// butChangeInsPlanType
 			// 
 			this.butChangeInsPlanType.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butChangeInsPlanType.Location = new System.Drawing.Point(578, 635);
+			this.butChangeInsPlanType.Location = new System.Drawing.Point(571, 647);
 			this.butChangeInsPlanType.Name = "butChangeInsPlanType";
-			this.butChangeInsPlanType.Size = new System.Drawing.Size(74, 24);
+			this.butChangeInsPlanType.Size = new System.Drawing.Size(74, 23);
 			this.butChangeInsPlanType.TabIndex = 33;
 			this.butChangeInsPlanType.Text = "Change";
 			this.butChangeInsPlanType.Click += new System.EventHandler(this.butChangeInsPlanType_Click);
 			// 
 			// label8
 			// 
-			this.label8.Location = new System.Drawing.Point(412, 29);
+			this.label8.Location = new System.Drawing.Point(438, 30);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(166, 17);
+			this.label8.Size = new System.Drawing.Size(144, 23);
 			this.label8.TabIndex = 36;
 			this.label8.Text = "With Insurance Plan Type";
 			this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// FormFeesForIns
 			// 
-			this.ClientSize = new System.Drawing.Size(824, 696);
+			this.ClientSize = new System.Drawing.Size(824, 705);
 			this.Controls.Add(this.label8);
 			this.Controls.Add(this.comboInsPlanType);
 			this.Controls.Add(this.label7);

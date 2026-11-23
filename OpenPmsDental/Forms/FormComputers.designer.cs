@@ -53,17 +53,17 @@ namespace OpenPmsDental {
 			// 
 			this.listComputer.ItemStrings = new string[] {
         ""};
-			this.listComputer.Location = new System.Drawing.Point(17, 265);
+			this.listComputer.Location = new System.Drawing.Point(16, 259);
 			this.listComputer.Name = "listComputer";
-			this.listComputer.Size = new System.Drawing.Size(282, 277);
+			this.listComputer.Size = new System.Drawing.Size(282, 286);
 			this.listComputer.TabIndex = 2;
 			this.listComputer.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listComputer_MouseDoubleClick);
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(4, 62);
+			this.label1.Location = new System.Drawing.Point(8, 50);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(409, 52);
+			this.label1.Size = new System.Drawing.Size(503, 34);
 			this.label1.TabIndex = 43;
 			this.label1.Text = "Computers are added to this list every time you use Open PMS - Dental.  You can safely " +
     "delete unused computer names from this list to speed up messaging.";
@@ -72,7 +72,7 @@ namespace OpenPmsDental {
 			// 
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(5, 408);
+			this.butDelete.Location = new System.Drawing.Point(8, 402);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(75, 26);
 			this.butDelete.TabIndex = 4;
@@ -81,7 +81,7 @@ namespace OpenPmsDental {
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(4, 100);
+			this.label2.Location = new System.Drawing.Point(8, 88);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(294, 18);
 			this.label2.TabIndex = 45;
@@ -90,7 +90,7 @@ namespace OpenPmsDental {
 			// 
 			// butSetSimpleGraphics
 			// 
-			this.butSetSimpleGraphics.Location = new System.Drawing.Point(40, 136);
+			this.butSetSimpleGraphics.Location = new System.Drawing.Point(51, 162);
 			this.butSetSimpleGraphics.Name = "butSetSimpleGraphics";
 			this.butSetSimpleGraphics.Size = new System.Drawing.Size(116, 24);
 			this.butSetSimpleGraphics.TabIndex = 3;
@@ -99,9 +99,10 @@ namespace OpenPmsDental {
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(23, 25);
+			this.label3.Location = new System.Drawing.Point(32, 23);
+			this.label3.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(155, 108);
+			this.label3.Size = new System.Drawing.Size(155, 137);
 			this.label3.TabIndex = 82;
 			this.label3.Text = resources.GetString("label3.Text");
 			// 
@@ -111,24 +112,25 @@ namespace OpenPmsDental {
 			this.groupBox1.Controls.Add(this.butResetZoom);
 			this.groupBox1.Controls.Add(this.butSetSimpleGraphics);
 			this.groupBox1.Controls.Add(this.label3);
-			this.groupBox1.Location = new System.Drawing.Point(310, 264);
+			this.groupBox1.Location = new System.Drawing.Point(306, 259);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(195, 278);
+			this.groupBox1.Size = new System.Drawing.Size(213, 286);
 			this.groupBox1.TabIndex = 83;
 			this.groupBox1.Text = "Fix a Workstation";
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(26, 182);
+			this.label4.Location = new System.Drawing.Point(33, 190);
+			this.label4.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(152, 60);
+			this.label4.Size = new System.Drawing.Size(152, 62);
 			this.label4.TabIndex = 84;
 			this.label4.Text = "To reset a computer\'s zoom, highlight the desired machine on the left and click t" +
     "he button below.";
 			// 
 			// butResetZoom
 			// 
-			this.butResetZoom.Location = new System.Drawing.Point(40, 242);
+			this.butResetZoom.Location = new System.Drawing.Point(68, 254);
 			this.butResetZoom.Name = "butResetZoom";
 			this.butResetZoom.Size = new System.Drawing.Size(82, 24);
 			this.butResetZoom.TabIndex = 83;
@@ -138,17 +140,17 @@ namespace OpenPmsDental {
 			// textCurComp
 			// 
 			this.textCurComp.Enabled = false;
-			this.textCurComp.Location = new System.Drawing.Point(119, 20);
+			this.textCurComp.Location = new System.Drawing.Point(122, 23);
 			this.textCurComp.Name = "textCurComp";
 			this.textCurComp.ReadOnly = true;
-			this.textCurComp.Size = new System.Drawing.Size(282, 20);
+			this.textCurComp.Size = new System.Drawing.Size(280, 23);
 			this.textCurComp.TabIndex = 1;
 			// 
 			// labelCurComp
 			// 
-			this.labelCurComp.Location = new System.Drawing.Point(6, 22);
+			this.labelCurComp.Location = new System.Drawing.Point(8, 23);
 			this.labelCurComp.Name = "labelCurComp";
-			this.labelCurComp.Size = new System.Drawing.Size(110, 18);
+			this.labelCurComp.Size = new System.Drawing.Size(108, 23);
 			this.labelCurComp.TabIndex = 86;
 			this.labelCurComp.Text = "Current Computer";
 			this.labelCurComp.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -160,9 +162,9 @@ namespace OpenPmsDental {
 			this.groupBox2.Controls.Add(this.label2);
 			this.groupBox2.Controls.Add(this.labelCurComp);
 			this.groupBox2.Controls.Add(this.label1);
-			this.groupBox2.Location = new System.Drawing.Point(12, 145);
+			this.groupBox2.Location = new System.Drawing.Point(8, 151);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(511, 447);
+			this.groupBox2.Size = new System.Drawing.Size(519, 436);
 			this.groupBox2.TabIndex = 2;
 			this.groupBox2.Text = "Workstation";
 			// 
@@ -176,87 +178,87 @@ namespace OpenPmsDental {
 			this.groupBox3.Controls.Add(this.labelVersion);
 			this.groupBox3.Controls.Add(this.labelService);
 			this.groupBox3.Controls.Add(this.labelName);
-			this.groupBox3.Location = new System.Drawing.Point(12, 12);
+			this.groupBox3.Location = new System.Drawing.Point(8, 8);
 			this.groupBox3.Name = "groupBox3";
-			this.groupBox3.Size = new System.Drawing.Size(511, 127);
+			this.groupBox3.Size = new System.Drawing.Size(519, 135);
 			this.groupBox3.TabIndex = 1;
 			this.groupBox3.Text = "Database Server";
 			// 
 			// textServComment
 			// 
 			this.textServComment.Enabled = false;
-			this.textServComment.Location = new System.Drawing.Point(119, 92);
+			this.textServComment.Location = new System.Drawing.Point(122, 104);
 			this.textServComment.Name = "textServComment";
 			this.textServComment.ReadOnly = true;
-			this.textServComment.Size = new System.Drawing.Size(282, 20);
+			this.textServComment.Size = new System.Drawing.Size(280, 23);
 			this.textServComment.TabIndex = 4;
 			// 
 			// textVersion
 			// 
 			this.textVersion.Enabled = false;
-			this.textVersion.Location = new System.Drawing.Point(119, 68);
+			this.textVersion.Location = new System.Drawing.Point(122, 77);
 			this.textVersion.Name = "textVersion";
 			this.textVersion.ReadOnly = true;
-			this.textVersion.Size = new System.Drawing.Size(282, 20);
+			this.textVersion.Size = new System.Drawing.Size(280, 23);
 			this.textVersion.TabIndex = 3;
 			// 
 			// textService
 			// 
 			this.textService.Enabled = false;
-			this.textService.Location = new System.Drawing.Point(119, 44);
+			this.textService.Location = new System.Drawing.Point(122, 50);
 			this.textService.Name = "textService";
 			this.textService.ReadOnly = true;
-			this.textService.Size = new System.Drawing.Size(282, 20);
+			this.textService.Size = new System.Drawing.Size(280, 23);
 			this.textService.TabIndex = 2;
 			// 
 			// textName
 			// 
 			this.textName.Enabled = false;
-			this.textName.Location = new System.Drawing.Point(119, 20);
+			this.textName.Location = new System.Drawing.Point(122, 23);
 			this.textName.Name = "textName";
 			this.textName.ReadOnly = true;
-			this.textName.Size = new System.Drawing.Size(282, 20);
+			this.textName.Size = new System.Drawing.Size(280, 23);
 			this.textName.TabIndex = 1;
 			// 
 			// labelServComment
 			// 
-			this.labelServComment.Location = new System.Drawing.Point(6, 93);
+			this.labelServComment.Location = new System.Drawing.Point(8, 104);
 			this.labelServComment.Name = "labelServComment";
-			this.labelServComment.Size = new System.Drawing.Size(110, 17);
+			this.labelServComment.Size = new System.Drawing.Size(108, 23);
 			this.labelServComment.TabIndex = 90;
 			this.labelServComment.Text = "Service Comment";
 			this.labelServComment.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// labelVersion
 			// 
-			this.labelVersion.Location = new System.Drawing.Point(6, 69);
+			this.labelVersion.Location = new System.Drawing.Point(24, 77);
 			this.labelVersion.Name = "labelVersion";
-			this.labelVersion.Size = new System.Drawing.Size(110, 17);
+			this.labelVersion.Size = new System.Drawing.Size(92, 23);
 			this.labelVersion.TabIndex = 89;
 			this.labelVersion.Text = "Service Version";
 			this.labelVersion.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// labelService
 			// 
-			this.labelService.Location = new System.Drawing.Point(6, 45);
+			this.labelService.Location = new System.Drawing.Point(32, 50);
 			this.labelService.Name = "labelService";
-			this.labelService.Size = new System.Drawing.Size(110, 17);
+			this.labelService.Size = new System.Drawing.Size(84, 23);
 			this.labelService.TabIndex = 88;
 			this.labelService.Text = "Service Name";
 			this.labelService.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// labelName
 			// 
-			this.labelName.Location = new System.Drawing.Point(6, 21);
+			this.labelName.Location = new System.Drawing.Point(36, 23);
 			this.labelName.Name = "labelName";
-			this.labelName.Size = new System.Drawing.Size(110, 17);
+			this.labelName.Size = new System.Drawing.Size(80, 23);
 			this.labelName.TabIndex = 87;
 			this.labelName.Text = "Server Name";
 			this.labelName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// FormComputers
 			// 
-			this.ClientSize = new System.Drawing.Size(535, 598);
+			this.ClientSize = new System.Drawing.Size(535, 609);
 			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.listComputer);
 			this.Controls.Add(this.groupBox2);

@@ -242,7 +242,7 @@ namespace OpenPmsDental {
 			// 
 			// label9
 			// 
-			this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)));
 			this.label9.Location = new System.Drawing.Point(985, 491);
 			this.label9.Name = "label9";
 			this.label9.Size = new System.Drawing.Size(121, 32);
@@ -535,7 +535,7 @@ namespace OpenPmsDental {
 			// 
 			// label4
 			// 
-			this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)));
 			this.label4.Location = new System.Drawing.Point(983, 383);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(125, 32);
@@ -545,7 +545,7 @@ namespace OpenPmsDental {
 			// 
 			// label23
 			// 
-			this.label23.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.label23.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)));
 			this.label23.Location = new System.Drawing.Point(984, 445);
 			this.label23.Name = "label23";
 			this.label23.Size = new System.Drawing.Size(122, 16);
@@ -594,7 +594,7 @@ namespace OpenPmsDental {
 			// 
 			// butMore
 			// 
-			this.butMore.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.butMore.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)));
 			this.butMore.Location = new System.Drawing.Point(1008, 417);
 			this.butMore.Name = "butMore";
 			this.butMore.Size = new System.Drawing.Size(75, 26);
@@ -637,7 +637,7 @@ namespace OpenPmsDental {
 			// 
 			// butAuditTrail
 			// 
-			this.butAuditTrail.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.butAuditTrail.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)));
 			this.butAuditTrail.Location = new System.Drawing.Point(1008, 463);
 			this.butAuditTrail.Name = "butAuditTrail";
 			this.butAuditTrail.Size = new System.Drawing.Size(75, 26);
