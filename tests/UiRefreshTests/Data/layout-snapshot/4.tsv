@@ -1185,8 +1185,8 @@ OpenPmsDental/Forms/FormTimeCardManage.designer.cs	gridMain	12,117	1025,541
 OpenPmsDental/Forms/FormTimeCardManage.designer.cs	butDaily	8,23	69,24	
 OpenPmsDental/Forms/FormTimeCardManage.designer.cs	butCompute	83,23	72,24	
 OpenPmsDental/Forms/FormTimeCardManage.designer.cs	butPrintAll	8,23	87,24	
-OpenPmsDental/Forms/FormTimeCardManage.designer.cs	butClearAuto	909,60	132,24	
-OpenPmsDental/Forms/FormTimeCardManage.designer.cs	butClearManual	909,32	132,24	
+OpenPmsDental/Forms/FormTimeCardManage.designer.cs	butClearAuto	905,60	132,24	
+OpenPmsDental/Forms/FormTimeCardManage.designer.cs	butClearManual	905,32	132,24	
 OpenPmsDental/Forms/FormTimeCardManage.designer.cs	butPrintSelected	101,23	109,24	
 OpenPmsDental/Forms/FormTimeCardManage.designer.cs	groupBox2	12,666	163,55	
 OpenPmsDental/Forms/FormTimeCardManage.designer.cs	groupBox3	183,666	218,55	
