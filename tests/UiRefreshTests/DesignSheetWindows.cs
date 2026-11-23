@@ -297,7 +297,10 @@ namespace UiRefreshTests {
 				return;
 			}
 			using(Bitmap bitmap=new Bitmap(control.Width,control.Height,PixelFormat.Format24bppRgb)) {
-				if(IsPrintingWithoutChildren) {
+				if(PaintDpiScale!=1f && IsPaintedAtDpi(control)) {
+					PaintAtDpi(control,bitmap,PaintDpiScale);
+				}
+				else if(IsPrintingWithoutChildren) {
 					PrintWithoutChildren(control,bitmap);
 				}
 				else {
@@ -382,6 +385,41 @@ namespace UiRefreshTests {
 		///differ where the window was moved after its handle was made. The galleries print each control without its children; DrawTree draws
 		///them.</summary>
 		public static bool IsPrintingWithoutChildren;
+
+		///<summary>UI-12 slice 2 fix round (review of 2026-11-23): the scale of the screen a 150% picture stands for (1 otherwise). The insurance
+		///summaries of the Treatment Plans module (DashFamilyInsurance, DashIndividualInsurance) make their font in OnPaint from LayoutManager's
+		///zoom only (ScaleFontODZoom) and leave the dpi part to the Graphics Windows paints them with: on a 150% screen that Graphics has 144 dpi
+		///and a font in points draws 1.5 times as large, inside rectangles LayoutManager scales by 1.5. Printed at 96 dpi their text stood at the
+		///100% size in boxes of the 150% size. At a scale other than 1 the galleries paint these controls through their OnPaint into a picture
+		///of that dpi (PaintAtDpi), so their text has the size Windows gives it; every other control is printed as before.</summary>
+		public static float PaintDpiScale=1f;
+
+		///<summary>The controls painted at the screen's dpi at a scale other than 1 (see PaintDpiScale): their own OnPaint draws all of their
+		///text with GDI+ (Graphics.DrawString) in fonts made from LayoutManager's zoom only.</summary>
+		private static bool IsPaintedAtDpi(Control control) {
+			return control is OpenPmsDental.DashFamilyInsurance || control is OpenPmsDental.DashIndividualInsurance;
+		}
+
+		///<summary>Paints the control through its OnPaintBackground and OnPaint into the picture with a Graphics of 96 x scale dpi, as Windows
+		///paints it on a screen of that scale: fonts in points draw at the scaled size, positions in pixels stay where the control puts them.</summary>
+		private static void PaintAtDpi(Control control,Bitmap bitmap,float scale) {
+			float dpiBefore=bitmap.HorizontalResolution;
+			bitmap.SetResolution(96f*scale,96f*scale);
+			try {
+				using(Graphics g=Graphics.FromImage(bitmap)) {
+					g.Clear(control.BackColor);
+					Rectangle rectangle=new Rectangle(0,0,control.Width,control.Height);
+					using(PaintEventArgs paintEventArgs=new PaintEventArgs(g,rectangle)) {
+						BindingFlags bindingFlags=BindingFlags.Instance|BindingFlags.NonPublic;
+						typeof(Control).GetMethod("OnPaintBackground",bindingFlags).Invoke(control,new object[] { paintEventArgs });
+						control.GetType().GetMethod("OnPaint",bindingFlags,null,new Type[] { typeof(PaintEventArgs) },null).Invoke(control,new object[] { paintEventArgs });
+					}
+				}
+			}
+			finally {
+				bitmap.SetResolution(dpiBefore,dpiBefore);
+			}
+		}
 
 		private const int WM_PRINT=0x0317;
 		private const int PRF_NONCLIENT=0x02;

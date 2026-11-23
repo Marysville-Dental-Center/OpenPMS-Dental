@@ -83,8 +83,17 @@ namespace UiRefreshTests {
 				}
 				OpenPmsDental.UI.UiLooks.IsOffForGallery=isLooksOff;
 				DesignSheetWindows.IsPrintingWithoutChildren=true;
+				DesignSheetWindows.PaintDpiScale=scale;//the insurance summaries' text at the scale's dpi (DesignSheetWindows.PaintDpiScale)
 				List<ScanType> listScanTypes=WindowBuilder.GetScanTypes();
-				foreach(string window in arrayWindows) {
+				foreach(string windowAndState in arrayWindows) {
+					//UI-12 slice 2 fix round: "<window>#<state>" draws the window in one of the states of FillSampleState, named <window>-<state>.
+					string window=windowAndState;
+					string state="";
+					int indexHash=windowAndState.IndexOf('#');
+					if(indexHash>=0) {
+						window=windowAndState.Substring(0,indexHash);
+						state=windowAndState.Substring(indexHash+1);
+					}
 					ScanType scanType=listScanTypes.FirstOrDefault(x => x.WindowKey==window);
 					if(scanType==null) {
 						listFailed.Add(window+": not a scanned type");
@@ -106,9 +115,13 @@ namespace UiRefreshTests {
 							}
 							HideDatePickerCalendars(root);
 							FillSampleContent(root,window);
-							List<string[]> listOwnerHere=listOwner.Where(x => x[1]==window).ToList();
-							using(Bitmap bitmap=DesignSheetWindows.Capture(root,Rectangle.Empty)) {
+							Control controlPicture=FillSampleState(root,window,state);
+							List<string[]> listOwnerHere=controlPicture==root ? listOwner.Where(x => x[1]==window).ToList() : new List<string[]>();
+							using(Bitmap bitmap=DesignSheetWindows.Capture(controlPicture,Rectangle.Empty)) {
 								string name=window.Substring(window.LastIndexOf('.')+1);
+								if(state!="") {
+									name+="-"+state;
+								}
 								if(scale!=1f) {
 									name+="-"+(int)Math.Round(scale*100);
 								}
@@ -147,6 +160,7 @@ namespace UiRefreshTests {
 				}
 			});
 			DesignSheetWindows.IsPrintingWithoutChildren=false;
+			DesignSheetWindows.PaintDpiScale=1f;
 			OpenPmsDental.UI.UiLooks.IsOffForGallery=false;
 			File.WriteAllLines(Path.Combine(folder,"gallery-failed.txt"),listFailed);
 			Assert.IsTrue(countPictures>0,"No picture made: "+string.Join("; ",listFailed));
@@ -156,9 +170,23 @@ namespace UiRefreshTests {
 		///handles resizes the window once more (Windows' own anchoring runs on the way, and a control with a minimum size, FormClaimEdit's
 		///procedure grid, keeps the difference), which left the right and bottom edges of FormClaimEdit past its picture: its grid ran to the
 		///picture's edge and its bottom bar was cut. The second layout puts every control where LayoutManager puts it in the designer's client
-		///area, as the window's Load does when it sets the client area (DoCalculateClientArea).</summary>
+		///area, as the window's Load does when it sets the client area (DoCalculateClientArea).
+		///<para>UI-12 slice 2 fix round (review of 2026-11-23): a UserControl hosted in its test FormODBase (a module, LayoutManager.Add; a
+		///preference or setup wizard page, AddUnscaled) at a scale other than 100% too. Its host's handle was made only by the capture, after the
+		///150% font pass (GridStyleGallery.ScaleFontsAsWindowsDoes), and the host's first resize laid the page out again with LayoutManager's
+		///zoom-only fonts, so its labels, check boxes and buttons drew at the 100% size beside boxes at the 150% size. With the handles made and
+		///the layout done first, the font pass comes last, as for the windows. At 100% the hosted pictures stay as they were drawn.</para></summary>
 		public static void SettleAfterHandles(BuiltWindow builtWindow) {
-			if(builtWindow.ScanType==null || builtWindow.ScanType.Kind!=BuildKind.LayoutManagerWindow || builtWindow.Form==null) {
+			if(builtWindow.ScanType==null || builtWindow.Form==null) {
+				return;
+			}
+			bool isHosted=builtWindow.ScanType.Kind==BuildKind.UserControlAdd || builtWindow.ScanType.Kind==BuildKind.UserControlAddUnscaled;
+			if(isHosted && builtWindow.Scale!=1f) {
+				DesignSheetWindows.CreateHandles(builtWindow.Form);
+				builtWindow.LayOutAt(builtWindow.Scale);
+				return;
+			}
+			if(builtWindow.ScanType.Kind!=BuildKind.LayoutManagerWindow) {
 				return;
 			}
 			//A window the designer opens maximized (FormEmailInbox) would take the screen's size with its handle: the picture shows the designer's
@@ -276,6 +304,51 @@ namespace UiRefreshTests {
 					listView.Items[1].Selected=true;
 				}
 			}
+		}
+
+		///<summary>UI-12 slice 2 fix round (review of 2026-11-23): the states of the pilot follow-up windows whose fixed texts the default
+		///picture does not show, named in the window list as "<window>#<state>". Returns the control to draw: the root, or the part drawn alone.
+		///ControlAccount "summary": the family and individual insurance summaries (labelInsRem_MouseEnter shows them; hidden in the designer)
+		///with their Annual Max captions. ControlAccount "totalowed": the TOTAL Owed panel drawn alone (the designer puts it 41 px above the
+		///aging strip, where the program never shows it, on main too). ControlChart "show" and "draw": the procedure tab control on its Show and
+		///Draw pages (the Show page's check boxes, the Draw page's note). FormBackup "archive": its Archive page (the Server Name note).</summary>
+		public static Control FillSampleState(Control root,string window,string state) {
+			if(state=="") {
+				return root;
+			}
+			if(window=="OpenPmsDental.ControlAccount" && state=="summary") {
+				foreach(string name in new string[] { "groupBoxFamilyIns","groupBoxIndIns" }) {
+					FindByName(root,name).Visible=true;
+				}
+				return root;
+			}
+			if(window=="OpenPmsDental.ControlAccount" && state=="totalowed") {
+				return FindByName(root,"panelTotalOwes");
+			}
+			if(window=="OpenPmsDental.ControlChart" && (state=="show" || state=="draw")) {
+				SelectTabPage(root,"tabControlProc",state=="show" ? "tabShow" : "tabDraw");
+				return root;
+			}
+			if(window=="OpenPmsDental.FormBackup" && state=="archive") {
+				SelectTabPage(root,"tabControl1","tabPageArchive");
+				return root;
+			}
+			throw new ArgumentException("No gallery state "+state+" for "+window+".");
+		}
+
+		///<summary>Shows the tab control's page as a click on its tab does, without SelectedIndexChanged (the windows' handlers read the database,
+		///which the harness has not got): the selected index, then the tab control's layout of its pages.</summary>
+		private static void SelectTabPage(Control root,string nameTabControl,string namePage) {
+			OpenPmsDental.UI.TabControl tabControl=(OpenPmsDental.UI.TabControl)FindByName(root,nameTabControl);
+			OpenPmsDental.UI.TabPage tabPage=(OpenPmsDental.UI.TabPage)FindByName(tabControl,namePage);
+			int index=tabControl.TabPages.IndexOf(tabPage);
+			if(index<0) {
+				throw new ArgumentException(namePage+" is not a page of "+nameTabControl+".");
+			}
+			typeof(OpenPmsDental.UI.TabControl).GetField("_selectedIndex",System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.NonPublic)
+				.SetValue(tabControl,index);
+			tabControl.LayoutTabs();
+			tabControl.Invalidate();
 		}
 
 		///<summary>Hides the calendar of every ODDatePicker as the picker's Load does (the harness builds windows without Load): a calendar left
