@@ -1658,7 +1658,10 @@ own 26.2 overlap check before it starts. The first cut is below; a brief that fi
   split container); the 13 bottom-anchored controls of earlier slices fixed (four back on their bottom edge by their scripts, the others
   given the anchor of what they stand with); GridDump writes the anchor LayoutManager stores, and the earlier slices re-plan 239 / 509 /
   203 / 316 rows (pilot, 1, 2, 4) with every row the stored anchors add pinned by a hand row (147); gallery G-UI3-ui12-5 (44 windows and
-  a state, 7 at 150%, the 8 anchor windows), audit `UI-12-audit-5.md` (UI-12.md section 7, "Slice 5 (batch 3)").
+  a state, 7 at 150%, the 8 anchor windows), audit `UI-12-audit-5.md` (UI-12.md section 7, "Slice 5 (batch 3)"). Fix round 2 (branch
+  `ui/ui12-5-2`): the reviewer's eleven findings fixed in nine windows' scripts (FormTransactionEdit now with a script and its compound
+  panel drawn as the gallery state `compound`; FormPerio's keypad on one grid; ControlManage, FormShowFeatures, FormSheetDef,
+  FormEvaluationEdit, FormGlobalPaymentsV2Setup, FormSheetFieldOutput, FormVitalsignEdit2014), the gallery drawn again (62 pictures).
 - Gallery: G-UI3 per slice, the owner's rows first.
 
 **UI-13: every element type in the new look (the owner, 2026-11-22: "Overall make sure you modernize all element types")**
