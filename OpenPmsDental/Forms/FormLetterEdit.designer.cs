@@ -69,7 +69,7 @@ namespace OpenPmsDental {
 			// 
 			this.label7.Location = new System.Drawing.Point(39,35);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(87,77);
+			this.label7.Size = new System.Drawing.Size(87,82);
 			this.label7.TabIndex = 7;
 			this.label7.Text = "Body of Letter (do not include the address, greeting, or closing)";
 			this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -84,7 +84,7 @@ namespace OpenPmsDental {
 			this.textBody.Name = "textBody";
 			this.textBody.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Letter;
 			this.textBody.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textBody.Size = new System.Drawing.Size(659,363);
+			this.textBody.Size = new System.Drawing.Size(663,386);
 			this.textBody.TabIndex = 8;
 			// 
 			// FormLetterEdit

@@ -39,7 +39,7 @@ namespace OpenPmsDental {
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(13, 8);
+			this.label1.Location = new System.Drawing.Point(8, 8);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(74, 16);
 			this.label1.TabIndex = 0;
@@ -48,14 +48,14 @@ namespace OpenPmsDental {
 			// 
 			// textTitle
 			// 
-			this.textTitle.Location = new System.Drawing.Point(13, 26);
+			this.textTitle.Location = new System.Drawing.Point(8, 26);
 			this.textTitle.Name = "textTitle";
-			this.textTitle.Size = new System.Drawing.Size(316, 23);
+			this.textTitle.Size = new System.Drawing.Size(321, 23);
 			this.textTitle.TabIndex = 0;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(13, 77);
+			this.label2.Location = new System.Drawing.Point(8, 77);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(103, 18);
 			this.label2.TabIndex = 2;
@@ -65,7 +65,7 @@ namespace OpenPmsDental {
 			// label3
 			// 
 			this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label3.Location = new System.Drawing.Point(13, 639);
+			this.label3.Location = new System.Drawing.Point(8, 639);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(118, 17);
 			this.label3.TabIndex = 4;
@@ -75,9 +75,9 @@ namespace OpenPmsDental {
 			// textFileName
 			// 
 			this.textFileName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.textFileName.Location = new System.Drawing.Point(13, 658);
+			this.textFileName.Location = new System.Drawing.Point(8, 658);
 			this.textFileName.Name = "textFileName";
-			this.textFileName.Size = new System.Drawing.Size(328, 23);
+			this.textFileName.Size = new System.Drawing.Size(333, 23);
 			this.textFileName.TabIndex = 2;
 			// 
 			// butSave
@@ -99,18 +99,18 @@ namespace OpenPmsDental {
 			this.textQuery.BackColor = System.Drawing.SystemColors.Window;
 			this.textQuery.DetectLinksEnabled = false;
 			this.textQuery.DetectUrls = false;
-			this.textQuery.Location = new System.Drawing.Point(13, 99);
+			this.textQuery.Location = new System.Drawing.Point(8, 99);
 			this.textQuery.Name = "textQuery";
 			this.textQuery.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Query;
 			this.textQuery.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textQuery.Size = new System.Drawing.Size(657, 536);
+			this.textQuery.Size = new System.Drawing.Size(666, 536);
 			this.textQuery.SpellCheckIsEnabled = false;
 			this.textQuery.TabIndex = 5;
 			this.textQuery.Text = "";
 			// 
 			// checkReleased
 			// 
-			this.checkReleased.Location = new System.Drawing.Point(13, 53);
+			this.checkReleased.Location = new System.Drawing.Point(8, 53);
 			this.checkReleased.Name = "checkReleased";
 			this.checkReleased.Size = new System.Drawing.Size(71, 20);
 			this.checkReleased.TabIndex = 6;
@@ -148,7 +148,7 @@ namespace OpenPmsDental {
 			this.groupFormat.Controls.Add(this.radioRaw);
 			this.groupFormat.Location = new System.Drawing.Point(507, 8);
 			this.groupFormat.Name = "groupFormat";
-			this.groupFormat.Size = new System.Drawing.Size(163, 75);
+			this.groupFormat.Size = new System.Drawing.Size(167, 75);
 			this.groupFormat.TabIndex = 8;
 			this.groupFormat.Text = "Format";
 			// 

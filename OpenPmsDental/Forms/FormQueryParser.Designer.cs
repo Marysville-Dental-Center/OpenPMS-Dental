@@ -112,12 +112,12 @@ namespace OpenPmsDental{
 			this.splitContainer.Controls.Add(this.splitterPanel1);
 			this.splitContainer.Controls.Add(this.splitterPanel2);
 			this.splitContainer.Cursor = System.Windows.Forms.Cursors.Default;
-			this.splitContainer.Location = new System.Drawing.Point(12, 8);
+			this.splitContainer.Location = new System.Drawing.Point(8, 8);
 			this.splitContainer.Name = "splitContainer";
 			this.splitContainer.Orientation = System.Windows.Forms.Orientation.Horizontal;
 			this.splitContainer.Panel1 = this.splitterPanel1;
 			this.splitContainer.Panel2 = this.splitterPanel2;
-			this.splitContainer.Size = new System.Drawing.Size(819, 667);
+			this.splitContainer.Size = new System.Drawing.Size(823, 667);
 			this.splitContainer.SplitterDistance = 212;
 			this.splitContainer.TabIndex = 12;
 			// 

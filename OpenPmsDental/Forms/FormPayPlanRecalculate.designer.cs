@@ -45,7 +45,7 @@ namespace OpenPmsDental{
 			// 
 			// checkRecalculateInterest
 			// 
-			this.checkRecalculateInterest.Location = new System.Drawing.Point(12, 170);
+			this.checkRecalculateInterest.Location = new System.Drawing.Point(8, 170);
 			this.checkRecalculateInterest.Name = "checkRecalculateInterest";
 			this.checkRecalculateInterest.Size = new System.Drawing.Size(128, 20);
 			this.checkRecalculateInterest.TabIndex = 45;
@@ -76,18 +76,18 @@ namespace OpenPmsDental{
 			// 
 			this.groupBox1.Controls.Add(this.radioPrepayWithoutInterest);
 			this.groupBox1.Controls.Add(this.radioPrepay);
-			this.groupBox1.Location = new System.Drawing.Point(12, 87);
+			this.groupBox1.Location = new System.Drawing.Point(8, 87);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(270, 75);
+			this.groupBox1.Size = new System.Drawing.Size(363, 75);
 			this.groupBox1.TabIndex = 44;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Payment Allocation Method";
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(12, 8);
+			this.label1.Location = new System.Drawing.Point(8, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(349, 77);
+			this.label1.Size = new System.Drawing.Size(363, 77);
 			this.label1.TabIndex = 46;
 			this.label1.Text = resources.GetString("label1.Text");
 			// 

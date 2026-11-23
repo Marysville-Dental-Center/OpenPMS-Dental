@@ -33,7 +33,7 @@ namespace OpenPmsDental {
 			//
 			// checkEnabled
 			//
-			this.checkEnabled.Location = new System.Drawing.Point(244, 8);
+			this.checkEnabled.Location = new System.Drawing.Point(8, 8);
 			this.checkEnabled.Name = "checkEnabled";
 			this.checkEnabled.Size = new System.Drawing.Size(150, 20);
 			this.checkEnabled.TabIndex = 0;
@@ -41,25 +41,25 @@ namespace OpenPmsDental {
 			//
 			// labelEnabled
 			//
-			this.labelEnabled.Location = new System.Drawing.Point(38, 32);
+			this.labelEnabled.Location = new System.Drawing.Point(24, 30);
 			this.labelEnabled.Name = "labelEnabled";
-			this.labelEnabled.Size = new System.Drawing.Size(400, 62);
+			this.labelEnabled.Size = new System.Drawing.Size(420, 66);
 			this.labelEnabled.TabIndex = 1;
 			this.labelEnabled.Text = "When a procedure whose code has default materials is completed, the Materials used window opens, and what is confirmed" +
     " there is deducted from stock. Low-stock and expiring alerts are raised. While it is off, nothing opens and nothing is deducted.";
 			//
 			// labelExpiryDays
 			//
-			this.labelExpiryDays.Location = new System.Drawing.Point(10, 96);
+			this.labelExpiryDays.Location = new System.Drawing.Point(8, 104);
 			this.labelExpiryDays.Name = "labelExpiryDays";
-			this.labelExpiryDays.Size = new System.Drawing.Size(228, 23);
+			this.labelExpiryDays.Size = new System.Drawing.Size(230, 23);
 			this.labelExpiryDays.TabIndex = 2;
 			this.labelExpiryDays.Text = "Expiring alert, days before the expiry date";
 			this.labelExpiryDays.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			//
 			// textExpiryDays
 			//
-			this.textExpiryDays.Location = new System.Drawing.Point(244, 96);
+			this.textExpiryDays.Location = new System.Drawing.Point(244, 104);
 			this.textExpiryDays.MaxVal = 3650;
 			this.textExpiryDays.MinVal = 0;
 			this.textExpiryDays.Name = "textExpiryDays";
@@ -68,7 +68,7 @@ namespace OpenPmsDental {
 			//
 			// labelExpiryNote
 			//
-			this.labelExpiryNote.Location = new System.Drawing.Point(298, 98);
+			this.labelExpiryNote.Location = new System.Drawing.Point(298, 106);
 			this.labelExpiryNote.Name = "labelExpiryNote";
 			this.labelExpiryNote.Size = new System.Drawing.Size(140, 18);
 			this.labelExpiryNote.TabIndex = 4;

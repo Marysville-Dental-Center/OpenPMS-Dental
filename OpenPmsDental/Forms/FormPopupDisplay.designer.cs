@@ -64,7 +64,7 @@ namespace OpenPmsDental {
 			this.groupBox1.Controls.Add(this.butPerm);
 			this.groupBox1.Controls.Add(this.butMinutes);
 			this.groupBox1.Controls.Add(this.butHours);
-			this.groupBox1.Location = new System.Drawing.Point(350, 20);
+			this.groupBox1.Location = new System.Drawing.Point(350, 8);
 			this.groupBox1.Name = "groupBox1";
 			this.groupBox1.Size = new System.Drawing.Size(276, 109);
 			this.groupBox1.TabIndex = 3;
@@ -208,11 +208,11 @@ namespace OpenPmsDental {
 			this.textDescription.BackColor = System.Drawing.SystemColors.Window;
 			this.textDescription.DetectLinksEnabled = false;
 			this.textDescription.DetectUrls = false;
-			this.textDescription.Location = new System.Drawing.Point(53, 89);
+			this.textDescription.Location = new System.Drawing.Point(8, 89);
 			this.textDescription.Name = "textDescription";
 			this.textDescription.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Popup;
 			this.textDescription.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textDescription.Size = new System.Drawing.Size(271, 91);
+			this.textDescription.Size = new System.Drawing.Size(334, 91);
 			this.textDescription.TabIndex = 2;
 			this.textDescription.Text = "";
 			// 

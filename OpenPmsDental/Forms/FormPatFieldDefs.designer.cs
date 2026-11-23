@@ -44,9 +44,9 @@ namespace OpenPmsDental {
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(15, 32);
+			this.label1.Location = new System.Drawing.Point(8, 32);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(373, 47);
+			this.label1.Size = new System.Drawing.Size(409, 47);
 			this.label1.TabIndex = 8;
 			this.label1.Text = "This is a list of extra fields that you can setup for patients.  After adding fie" +
     "lds to this list, you can set the value in the Family module.";
@@ -56,9 +56,9 @@ namespace OpenPmsDental {
 			this.gridMain.AllowSortingByColumn = true;
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-			this.gridMain.Location = new System.Drawing.Point(15, 105);
+			this.gridMain.Location = new System.Drawing.Point(8, 105);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(370, 305);
+			this.gridMain.Size = new System.Drawing.Size(409, 305);
 			this.gridMain.TabIndex = 9;
 			this.gridMain.Title = "Patient Field Defs";
 			this.gridMain.TranslationName = "TablePatientDefs";
@@ -68,7 +68,7 @@ namespace OpenPmsDental {
 			// 
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdd.Location = new System.Drawing.Point(414, 96);
+			this.butAdd.Location = new System.Drawing.Point(425, 96);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(79, 26);
 			this.butAdd.TabIndex = 7;
@@ -79,7 +79,7 @@ namespace OpenPmsDental {
 			// 
 			this.butDown.Icon = OpenPmsDental.UI.EnumIcons.Down;
 			this.butDown.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDown.Location = new System.Drawing.Point(414, 154);
+			this.butDown.Location = new System.Drawing.Point(425, 154);
 			this.butDown.Name = "butDown";
 			this.butDown.Size = new System.Drawing.Size(79, 24);
 			this.butDown.TabIndex = 161;
@@ -90,7 +90,7 @@ namespace OpenPmsDental {
 			// 
 			this.butUp.Icon = OpenPmsDental.UI.EnumIcons.Up;
 			this.butUp.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butUp.Location = new System.Drawing.Point(414, 126);
+			this.butUp.Location = new System.Drawing.Point(425, 126);
 			this.butUp.Name = "butUp";
 			this.butUp.Size = new System.Drawing.Size(79, 24);
 			this.butUp.TabIndex = 160;
@@ -100,7 +100,7 @@ namespace OpenPmsDental {
 			// checkDisplayRenamed
 			// 
 			this.checkDisplayRenamed.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
-			this.checkDisplayRenamed.Location = new System.Drawing.Point(15, 81);
+			this.checkDisplayRenamed.Location = new System.Drawing.Point(8, 81);
 			this.checkDisplayRenamed.Name = "checkDisplayRenamed";
 			this.checkDisplayRenamed.Size = new System.Drawing.Size(329, 20);
 			this.checkDisplayRenamed.TabIndex = 162;

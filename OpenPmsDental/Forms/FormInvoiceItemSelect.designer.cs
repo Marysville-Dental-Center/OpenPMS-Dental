@@ -35,7 +35,7 @@ namespace OpenPmsDental{
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(12, 8);
+			this.label1.Location = new System.Drawing.Point(8, 8);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(673, 26);
 			this.label1.TabIndex = 3;
@@ -48,10 +48,10 @@ namespace OpenPmsDental{
 			this._gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this._gridMain.Location = new System.Drawing.Point(12, 36);
+			this._gridMain.Location = new System.Drawing.Point(8, 36);
 			this._gridMain.Name = "_gridMain";
 			this._gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this._gridMain.Size = new System.Drawing.Size(587, 518);
+			this._gridMain.Size = new System.Drawing.Size(577, 518);
 			this._gridMain.TabIndex = 140;
 			this._gridMain.Title = "Invoice Items";
 			this._gridMain.TranslationName = "TableInvoiceItems";
@@ -70,7 +70,7 @@ namespace OpenPmsDental{
 			// butAll
 			// 
 			this.butAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butAll.Location = new System.Drawing.Point(605, 115);
+			this.butAll.Location = new System.Drawing.Point(593, 502);
 			this.butAll.Name = "butAll";
 			this.butAll.Size = new System.Drawing.Size(75, 26);
 			this.butAll.TabIndex = 141;
@@ -80,7 +80,7 @@ namespace OpenPmsDental{
 			// butNone
 			// 
 			this.butNone.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butNone.Location = new System.Drawing.Point(605, 145);
+			this.butNone.Location = new System.Drawing.Point(593, 532);
 			this.butNone.Name = "butNone";
 			this.butNone.Size = new System.Drawing.Size(75, 26);
 			this.butNone.TabIndex = 142;
@@ -90,9 +90,9 @@ namespace OpenPmsDental{
 			// groupBox1
 			// 
 			this.groupBox1.Controls.Add(this.checkIsFilteringZeroAmount);
-			this.groupBox1.Location = new System.Drawing.Point(605, 36);
+			this.groupBox1.Location = new System.Drawing.Point(593, 36);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(108, 71);
+			this.groupBox1.Size = new System.Drawing.Size(120, 51);
 			this.groupBox1.TabIndex = 143;
 			this.groupBox1.Text = "Filter";
 			// 
@@ -102,7 +102,7 @@ namespace OpenPmsDental{
 			this.checkIsFilteringZeroAmount.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.checkIsFilteringZeroAmount.Location = new System.Drawing.Point(8, 23);
 			this.checkIsFilteringZeroAmount.Name = "checkIsFilteringZeroAmount";
-			this.checkIsFilteringZeroAmount.Size = new System.Drawing.Size(92, 40);
+			this.checkIsFilteringZeroAmount.Size = new System.Drawing.Size(103, 20);
 			this.checkIsFilteringZeroAmount.TabIndex = 0;
 			this.checkIsFilteringZeroAmount.Text = "Exclude $0 Fee";
 			this.checkIsFilteringZeroAmount.Click += new System.EventHandler(this.checkIsFilteringZeroAmount_Click);

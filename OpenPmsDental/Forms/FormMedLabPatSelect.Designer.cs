@@ -37,9 +37,9 @@
 			this.gridLabs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridLabs.Location = new System.Drawing.Point(12, 156);
+			this.gridLabs.Location = new System.Drawing.Point(8, 156);
 			this.gridLabs.Name = "gridLabs";
-			this.gridLabs.Size = new System.Drawing.Size(800, 188);
+			this.gridLabs.Size = new System.Drawing.Size(808, 188);
 			this.gridLabs.TabIndex = 5;
 			this.gridLabs.Title = "Labs";
 			this.gridLabs.TranslationName = "TableLabs";
@@ -99,9 +99,9 @@
 			// 
 			this.gridPidInfo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridPidInfo.Location = new System.Drawing.Point(12, 35);
+			this.gridPidInfo.Location = new System.Drawing.Point(8, 35);
 			this.gridPidInfo.Name = "gridPidInfo";
-			this.gridPidInfo.Size = new System.Drawing.Size(800, 117);
+			this.gridPidInfo.Size = new System.Drawing.Size(808, 117);
 			this.gridPidInfo.TabIndex = 251;
 			this.gridPidInfo.Title = "Patient Information From Message(s)";
 			this.gridPidInfo.TranslationName = "TablePatientInformation";

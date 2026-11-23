@@ -43,9 +43,9 @@ namespace OpenPmsDental {
 			// labelRelat
 			// 
 			this.labelRelat.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelRelat.Location = new System.Drawing.Point(580, 8);
+			this.labelRelat.Location = new System.Drawing.Point(606, 8);
 			this.labelRelat.Name = "labelRelat";
-			this.labelRelat.Size = new System.Drawing.Size(206, 20);
+			this.labelRelat.Size = new System.Drawing.Size(180, 20);
 			this.labelRelat.TabIndex = 8;
 			this.labelRelat.Text = "Relationship to Subscriber";
 			this.labelRelat.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -53,16 +53,16 @@ namespace OpenPmsDental {
 			// listRelat
 			// 
 			this.listRelat.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.listRelat.Location = new System.Drawing.Point(555, 32);
+			this.listRelat.Location = new System.Drawing.Point(606, 32);
 			this.listRelat.Name = "listRelat";
-			this.listRelat.Size = new System.Drawing.Size(180, 186);
+			this.listRelat.Size = new System.Drawing.Size(180, 212);
 			this.listRelat.TabIndex = 9;
 			// 
 			// gridMain
 			// 
-			this.gridMain.Location = new System.Drawing.Point(22, 32);
+			this.gridMain.Location = new System.Drawing.Point(8, 32);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(527, 186);
+			this.gridMain.Size = new System.Drawing.Size(590, 212);
 			this.gridMain.TabIndex = 10;
 			this.gridMain.Title = "Insurance Plans for Family";
 			this.gridMain.TranslationName = "TableInsPlans";
@@ -80,7 +80,7 @@ namespace OpenPmsDental {
 			// 
 			// checkShowPlansNotInUse
 			// 
-			this.checkShowPlansNotInUse.Location = new System.Drawing.Point(22, 8);
+			this.checkShowPlansNotInUse.Location = new System.Drawing.Point(8, 8);
 			this.checkShowPlansNotInUse.Name = "checkShowPlansNotInUse";
 			this.checkShowPlansNotInUse.Size = new System.Drawing.Size(377, 20);
 			this.checkShowPlansNotInUse.TabIndex = 12;

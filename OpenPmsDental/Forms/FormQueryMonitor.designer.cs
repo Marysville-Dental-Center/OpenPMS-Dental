@@ -54,7 +54,7 @@ namespace OpenPmsDental {
 			// 
 			this.butStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butStart.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.butStart.Location = new System.Drawing.Point(969, 76);
+			this.butStart.Location = new System.Drawing.Point(975, 8);
 			this.butStart.Name = "butStart";
 			this.butStart.Size = new System.Drawing.Size(75, 24);
 			this.butStart.TabIndex = 3;
@@ -65,7 +65,7 @@ namespace OpenPmsDental {
 			// 
 			this.butLog.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butLog.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.butLog.Location = new System.Drawing.Point(969, 132);
+			this.butLog.Location = new System.Drawing.Point(975, 64);
 			this.butLog.Name = "butLog";
 			this.butLog.Size = new System.Drawing.Size(75, 24);
 			this.butLog.TabIndex = 4;
@@ -184,7 +184,7 @@ namespace OpenPmsDental {
 			// 
 			this.butCopy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butCopy.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.butCopy.Location = new System.Drawing.Point(969, 222);
+			this.butCopy.Location = new System.Drawing.Point(975, 494);
 			this.butCopy.Name = "butCopy";
 			this.butCopy.Size = new System.Drawing.Size(75, 24);
 			this.butCopy.TabIndex = 17;
@@ -195,7 +195,7 @@ namespace OpenPmsDental {
 			// 
 			this.buttonClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.buttonClear.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.buttonClear.Location = new System.Drawing.Point(969, 104);
+			this.buttonClear.Location = new System.Drawing.Point(975, 36);
 			this.buttonClear.Name = "buttonClear";
 			this.buttonClear.Size = new System.Drawing.Size(75, 24);
 			this.buttonClear.TabIndex = 18;
@@ -216,7 +216,7 @@ namespace OpenPmsDental {
 			this.splitContainer.Orientation = System.Windows.Forms.Orientation.Horizontal;
 			this.splitContainer.Panel1 = this.splitterPanel1;
 			this.splitContainer.Panel2 = this.splitterPanel2;
-			this.splitContainer.Size = new System.Drawing.Size(952, 510);
+			this.splitContainer.Size = new System.Drawing.Size(959, 510);
 			this.splitContainer.SplitterDistance = 227;
 			this.splitContainer.TabIndex = 19;
 			// 
@@ -239,7 +239,7 @@ namespace OpenPmsDental {
 			// butFilter
 			// 
 			this.butFilter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butFilter.Location = new System.Drawing.Point(969, 160);
+			this.butFilter.Location = new System.Drawing.Point(975, 92);
 			this.butFilter.Name = "butFilter";
 			this.butFilter.Size = new System.Drawing.Size(75, 24);
 			this.butFilter.TabIndex = 20;
@@ -249,10 +249,10 @@ namespace OpenPmsDental {
 			// labelFilterGroup
 			// 
 			this.labelFilterGroup.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelFilterGroup.Location = new System.Drawing.Point(963, 188);
+			this.labelFilterGroup.Location = new System.Drawing.Point(975, 120);
 			this.labelFilterGroup.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			this.labelFilterGroup.Name = "labelFilterGroup";
-			this.labelFilterGroup.Size = new System.Drawing.Size(86, 32);
+			this.labelFilterGroup.Size = new System.Drawing.Size(75, 48);
 			this.labelFilterGroup.TabIndex = 21;
 			this.labelFilterGroup.Text = "Filter group: none";
 			// 

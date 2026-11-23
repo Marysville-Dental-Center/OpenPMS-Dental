@@ -63,7 +63,7 @@ namespace OpenPmsDental {
 			// 
 			// labelDateFrom
 			// 
-			this.labelDateFrom.Location = new System.Drawing.Point(32, 33);
+			this.labelDateFrom.Location = new System.Drawing.Point(8, 33);
 			this.labelDateFrom.Name = "labelDateFrom";
 			this.labelDateFrom.Size = new System.Drawing.Size(40, 23);
 			this.labelDateFrom.TabIndex = 0;
@@ -72,21 +72,21 @@ namespace OpenPmsDental {
 			// 
 			// textDateFrom
 			// 
-			this.textDateFrom.Location = new System.Drawing.Point(78, 33);
+			this.textDateFrom.Location = new System.Drawing.Point(54, 33);
 			this.textDateFrom.Name = "textDateFrom";
 			this.textDateFrom.Size = new System.Drawing.Size(80, 23);
 			this.textDateFrom.TabIndex = 1;
 			// 
 			// textDateTo
 			// 
-			this.textDateTo.Location = new System.Drawing.Point(268, 33);
+			this.textDateTo.Location = new System.Drawing.Point(208, 33);
 			this.textDateTo.Name = "textDateTo";
 			this.textDateTo.Size = new System.Drawing.Size(80, 23);
 			this.textDateTo.TabIndex = 5;
 			// 
 			// labelDateTo
 			// 
-			this.labelDateTo.Location = new System.Drawing.Point(238, 33);
+			this.labelDateTo.Location = new System.Drawing.Point(178, 33);
 			this.labelDateTo.Name = "labelDateTo";
 			this.labelDateTo.Size = new System.Drawing.Size(24, 23);
 			this.labelDateTo.TabIndex = 0;
@@ -96,7 +96,7 @@ namespace OpenPmsDental {
 			// butRefresh
 			// 
 			this.butRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butRefresh.Location = new System.Drawing.Point(966, 33);
+			this.butRefresh.Location = new System.Drawing.Point(784, 33);
 			this.butRefresh.Name = "butRefresh";
 			this.butRefresh.Size = new System.Drawing.Size(75, 23);
 			this.butRefresh.TabIndex = 10;
@@ -106,7 +106,7 @@ namespace OpenPmsDental {
 			// 
 			// calendarFrom
 			// 
-			this.calendarFrom.Location = new System.Drawing.Point(13, 62);
+			this.calendarFrom.Location = new System.Drawing.Point(54, 62);
 			this.calendarFrom.MaxSelectionCount = 1;
 			this.calendarFrom.Name = "calendarFrom";
 			this.calendarFrom.TabIndex = 4;
@@ -115,7 +115,7 @@ namespace OpenPmsDental {
 			// 
 			// butDropFrom
 			// 
-			this.butDropFrom.Location = new System.Drawing.Point(164, 33);
+			this.butDropFrom.Location = new System.Drawing.Point(140, 33);
 			this.butDropFrom.Name = "butDropFrom";
 			this.butDropFrom.Size = new System.Drawing.Size(22, 23);
 			this.butDropFrom.TabIndex = 3;
@@ -125,7 +125,7 @@ namespace OpenPmsDental {
 			// 
 			// butDropTo
 			// 
-			this.butDropTo.Location = new System.Drawing.Point(354, 33);
+			this.butDropTo.Location = new System.Drawing.Point(294, 33);
 			this.butDropTo.Name = "butDropTo";
 			this.butDropTo.Size = new System.Drawing.Size(22, 23);
 			this.butDropTo.TabIndex = 6;
@@ -135,7 +135,7 @@ namespace OpenPmsDental {
 			// 
 			// calendarTo
 			// 
-			this.calendarTo.Location = new System.Drawing.Point(239, 62);
+			this.calendarTo.Location = new System.Drawing.Point(208, 62);
 			this.calendarTo.MaxSelectionCount = 1;
 			this.calendarTo.Name = "calendarTo";
 			this.calendarTo.TabIndex = 7;
@@ -145,7 +145,7 @@ namespace OpenPmsDental {
 			// textAmountFrom
 			// 
 			this.textAmountFrom.ForeColor = System.Drawing.SystemColors.WindowText;
-			this.textAmountFrom.Location = new System.Drawing.Point(516, 33);
+			this.textAmountFrom.Location = new System.Drawing.Point(374, 33);
 			this.textAmountFrom.MaxVal = 100000000D;
 			this.textAmountFrom.MinVal = -100000000D;
 			this.textAmountFrom.Name = "textAmountFrom";
@@ -154,7 +154,7 @@ namespace OpenPmsDental {
 			// 
 			// labelAmout
 			// 
-			this.labelAmout.Location = new System.Drawing.Point(474, 33);
+			this.labelAmout.Location = new System.Drawing.Point(332, 33);
 			this.labelAmout.Name = "labelAmout";
 			this.labelAmout.Size = new System.Drawing.Size(36, 23);
 			this.labelAmout.TabIndex = 0;
@@ -164,7 +164,7 @@ namespace OpenPmsDental {
 			// label4
 			// 
 			this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.label4.Location = new System.Drawing.Point(814, 33);
+			this.label4.Location = new System.Drawing.Point(632, 33);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(60, 23);
 			this.label4.TabIndex = 0;
@@ -174,7 +174,7 @@ namespace OpenPmsDental {
 			// textFindText
 			// 
 			this.textFindText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.textFindText.Location = new System.Drawing.Point(880, 33);
+			this.textFindText.Location = new System.Drawing.Point(698, 33);
 			this.textFindText.Name = "textFindText";
 			this.textFindText.Size = new System.Drawing.Size(80, 23);
 			this.textFindText.TabIndex = 9;
@@ -183,7 +183,7 @@ namespace OpenPmsDental {
 			// 
 			this.textAmountTo.ForeColor = System.Drawing.SystemColors.WindowText;
 			this.textAmountTo.AutoSize = false;
-			this.textAmountTo.Location = new System.Drawing.Point(678, 33);
+			this.textAmountTo.Location = new System.Drawing.Point(536, 33);
 			this.textAmountTo.MaxVal = 100000000D;
 			this.textAmountTo.MinVal = -100000000D;
 			this.textAmountTo.Name = "textAmountTo";
@@ -192,7 +192,7 @@ namespace OpenPmsDental {
 			// 
 			// labelAmountMax
 			// 
-			this.labelAmountMax.Location = new System.Drawing.Point(612, 33);
+			this.labelAmountMax.Location = new System.Drawing.Point(470, 33);
 			this.labelAmountMax.Name = "labelAmountMax";
 			this.labelAmountMax.Size = new System.Drawing.Size(60, 23);
 			this.labelAmountMax.TabIndex = 13;
@@ -201,7 +201,7 @@ namespace OpenPmsDental {
 			// 
 			// labelOptional
 			// 
-			this.labelOptional.Location = new System.Drawing.Point(664, 60);
+			this.labelOptional.Location = new System.Drawing.Point(536, 60);
 			this.labelOptional.Name = "labelOptional";
 			this.labelOptional.Size = new System.Drawing.Size(80, 17);
 			this.labelOptional.TabIndex = 14;

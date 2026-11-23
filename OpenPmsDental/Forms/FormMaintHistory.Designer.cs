@@ -41,7 +41,7 @@ namespace OpenPmsDental {
 			// labelItem
 			//
 			this.labelItem.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.labelItem.Location = new System.Drawing.Point(12, 9);
+			this.labelItem.Location = new System.Drawing.Point(8, 9);
 			this.labelItem.Name = "labelItem";
 			this.labelItem.Size = new System.Drawing.Size(450, 20);
 			this.labelItem.TabIndex = 0;
@@ -49,7 +49,7 @@ namespace OpenPmsDental {
 			//
 			// labelDateFrom
 			//
-			this.labelDateFrom.Location = new System.Drawing.Point(479, 8);
+			this.labelDateFrom.Location = new System.Drawing.Point(715, 8);
 			this.labelDateFrom.Name = "labelDateFrom";
 			this.labelDateFrom.Size = new System.Drawing.Size(68, 23);
 			this.labelDateFrom.TabIndex = 1;
@@ -58,14 +58,14 @@ namespace OpenPmsDental {
 			//
 			// textDateFrom
 			//
-			this.textDateFrom.Location = new System.Drawing.Point(553, 8);
+			this.textDateFrom.Location = new System.Drawing.Point(789, 8);
 			this.textDateFrom.Name = "textDateFrom";
 			this.textDateFrom.Size = new System.Drawing.Size(88, 23);
 			this.textDateFrom.TabIndex = 2;
 			//
 			// labelDateTo
 			//
-			this.labelDateTo.Location = new System.Drawing.Point(657, 8);
+			this.labelDateTo.Location = new System.Drawing.Point(893, 8);
 			this.labelDateTo.Name = "labelDateTo";
 			this.labelDateTo.Size = new System.Drawing.Size(24, 23);
 			this.labelDateTo.TabIndex = 3;
@@ -74,14 +74,14 @@ namespace OpenPmsDental {
 			//
 			// textDateTo
 			//
-			this.textDateTo.Location = new System.Drawing.Point(687, 8);
+			this.textDateTo.Location = new System.Drawing.Point(923, 8);
 			this.textDateTo.Name = "textDateTo";
 			this.textDateTo.Size = new System.Drawing.Size(88, 23);
 			this.textDateTo.TabIndex = 4;
 			//
 			// butRefresh
 			//
-			this.butRefresh.Location = new System.Drawing.Point(781, 8);
+			this.butRefresh.Location = new System.Drawing.Point(1017, 8);
 			this.butRefresh.Name = "butRefresh";
 			this.butRefresh.Size = new System.Drawing.Size(75, 23);
 			this.butRefresh.TabIndex = 5;
@@ -93,9 +93,9 @@ namespace OpenPmsDental {
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(12, 35);
+			this.gridMain.Location = new System.Drawing.Point(8, 35);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(1076, 360);
+			this.gridMain.Size = new System.Drawing.Size(1084, 360);
 			this.gridMain.TabIndex = 6;
 			this.gridMain.Title = "Maintenance History";
 			this.gridMain.TranslationName = "TableMaintHistory";
@@ -105,9 +105,9 @@ namespace OpenPmsDental {
 			//
 			this.gridValues.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridValues.Location = new System.Drawing.Point(12, 399);
+			this.gridValues.Location = new System.Drawing.Point(8, 399);
 			this.gridValues.Name = "gridValues";
-			this.gridValues.Size = new System.Drawing.Size(990, 180);
+			this.gridValues.Size = new System.Drawing.Size(996, 197);
 			this.gridValues.TabIndex = 7;
 			this.gridValues.Title = "Checklist and Results";
 			this.gridValues.TranslationName = "TableMaintHistoryValues";
@@ -116,7 +116,7 @@ namespace OpenPmsDental {
 			// butOpenAttachment
 			//
 			this.butOpenAttachment.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOpenAttachment.Location = new System.Drawing.Point(1008, 399);
+			this.butOpenAttachment.Location = new System.Drawing.Point(1012, 399);
 			this.butOpenAttachment.Name = "butOpenAttachment";
 			this.butOpenAttachment.Size = new System.Drawing.Size(80, 40);
 			this.butOpenAttachment.TabIndex = 8;
@@ -126,7 +126,7 @@ namespace OpenPmsDental {
 			// butCorrect
 			//
 			this.butCorrect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butCorrect.Location = new System.Drawing.Point(1008, 443);
+			this.butCorrect.Location = new System.Drawing.Point(1012, 443);
 			this.butCorrect.Name = "butCorrect";
 			this.butCorrect.Size = new System.Drawing.Size(80, 40);
 			this.butCorrect.TabIndex = 12;

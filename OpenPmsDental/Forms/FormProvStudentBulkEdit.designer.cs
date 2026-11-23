@@ -53,10 +53,10 @@ namespace OpenPmsDental{
 			this.gridStudents.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridStudents.Location = new System.Drawing.Point(12, 8);
+			this.gridStudents.Location = new System.Drawing.Point(8, 8);
 			this.gridStudents.Name = "gridStudents";
 			this.gridStudents.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridStudents.Size = new System.Drawing.Size(388, 459);
+			this.gridStudents.Size = new System.Drawing.Size(388, 478);
 			this.gridStudents.TabIndex = 14;
 			this.gridStudents.Title = "Students";
 			this.gridStudents.TranslationName = "TableStudent";
