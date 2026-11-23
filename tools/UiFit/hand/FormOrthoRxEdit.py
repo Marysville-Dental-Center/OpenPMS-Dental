@@ -1,7 +1,8 @@
 """FormOrthoRxEdit on the grid (UI-12 slice 8, layout script on the planner's tree). The planner took the Comments label (the code gives
 it the tooth example, "Example: 6,27,28") for the caption of the Upper, Lower and All buttons, and kept Delete at x 25: the example on the
 field column under Teeth, left-aligned, as wide as its widest text; Upper, Lower and All on its row ending on the Teeth box's right edge,
-6 px apart; Delete on the padding."""
+6 px apart; Delete on the padding.
+The Teeth caption takes the code's texts ("Tooth Range"): as wide as the widest, its right edge kept."""
 import importlib.util
 import os
 
@@ -22,3 +23,6 @@ def layout(h):
         h.set(name, x, y)
         x -= 6
     s.bar(h, left=("butDelete",), right=("butSave",))
+    lt = h.n("labelTeeth")
+    lw = h.lw("labelTeeth")
+    h.set("labelTeeth", lt.nx + lt.nw - lw, None, lw, None)

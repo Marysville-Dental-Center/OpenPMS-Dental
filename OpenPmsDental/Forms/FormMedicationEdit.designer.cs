@@ -76,7 +76,7 @@ namespace OpenPmsDental {
 			// 
 			// textGenericName
 			// 
-			this.textGenericName.Location = new System.Drawing.Point(187, 66);
+			this.textGenericName.Location = new System.Drawing.Point(187, 62);
 			this.textGenericName.Name = "textGenericName";
 			this.textGenericName.ReadOnly = true;
 			this.textGenericName.Size = new System.Drawing.Size(212, 23);

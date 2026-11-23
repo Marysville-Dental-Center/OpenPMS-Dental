@@ -1,5 +1,6 @@
 """FormEhrAptObsEdit on the grid (UI-12 slice 8, layout script on the planner's tree). Delete stood at x 5: on the padding (the bottom
-bar on the padding)."""
+bar on the padding). The Value caption takes the code's texts ("SNOMEDCT Value", "Facility Address"): as wide as the widest, its right
+edge kept."""
 import importlib.util
 import os
 
@@ -10,3 +11,6 @@ _spec.loader.exec_module(s)
 
 def layout(h):
     s.bar(h, left=("butDelete",), right=("butSave",))
+    lv = h.n("labelValue")
+    w = h.lw("labelValue")
+    h.set("labelValue", lv.nx + lv.nw - w, None, w, None)

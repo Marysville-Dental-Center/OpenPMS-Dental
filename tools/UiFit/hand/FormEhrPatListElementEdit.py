@@ -1,5 +1,6 @@
 """FormEhrPatListElementEdit on the grid (UI-12 slice 8, layout script on the planner's tree). The Restriction and Operand lists were 75
-px wide and cut their items (Medication, GreaterThan): both as wide as the Compare string box (117)."""
+px wide and cut their items (Medication, GreaterThan): both as wide as the Compare string box (117). The Compare string caption takes the code's texts ("For display and sorting"): as
+wide as the widest, its right edge kept."""
 import importlib.util
 import os
 
@@ -12,3 +13,6 @@ def layout(h):
     w = h.n("textCompareString").nw
     h.set("listRestriction", None, None, w, None)
     h.set("listOperand", None, None, w, None)
+    lc = h.n("labelCompareString")
+    lw = h.lw("labelCompareString")
+    h.set("labelCompareString", lc.nx + lc.nw - lw, None, lw, None)

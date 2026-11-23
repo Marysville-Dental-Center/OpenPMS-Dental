@@ -1,7 +1,8 @@
 """FormMedicationEdit on the grid (UI-12 slice 8, layout script on the planner's tree). The Dependencies group stood at x 43 (its combos
 on the window's field column) and ended 108 px short of the right padding: the group from the padding to the right padding with its
 combos still on the field column (its labels with them) and ending on its content edge; the Notes box on the right padding with Drug
-name."""
+name.
+The Generic name box on its label's row (on the pitch under Drug name; it stood 4 px lower)."""
 import importlib.util
 import os
 
@@ -25,3 +26,5 @@ def layout(h):
     tn = h.n("textNotes")
     h.set("textNotes", None, None, R - tn.nx, None)
     s.bar(h, left=("butDelete",), right=("butSave",))
+    l1 = h.n("label1")
+    h.set("textGenericName", None, l1.ny)

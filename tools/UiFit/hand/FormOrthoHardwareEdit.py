@@ -1,6 +1,7 @@
 """FormOrthoHardwareEdit on the grid (UI-12 slice 8, layout script on the planner's tree). The Hidden row's check box stood 4 px after
 the field column and its label 16 px tall, 2 px off the row: the check box on the field column, the label right-aligned 6 px before it as
-tall as the field rows, both on the pitch under Note."""
+tall as the field rows, both on the pitch under Note.
+The Teeth caption takes the code's texts ("Tooth Range"): as wide as the widest, its right edge kept."""
 import importlib.util
 import os
 
@@ -17,3 +18,6 @@ def layout(h):
     h.check_left("checkIsHidden")
     ck = h.n("checkIsHidden")
     h.set("checkIsHidden", tn.nx, y + (tn.nh - ck.nh) // 2)
+    lt = h.n("labelTeeth")
+    lw = h.lw("labelTeeth")
+    h.set("labelTeeth", lt.nx + lt.nw - lw, None, lw, None)

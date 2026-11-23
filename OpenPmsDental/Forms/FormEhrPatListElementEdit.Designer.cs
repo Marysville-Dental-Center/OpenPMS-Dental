@@ -80,9 +80,9 @@
 			// 
 			// labelCompareString
 			// 
-			this.labelCompareString.Location = new System.Drawing.Point(47, 128);
+			this.labelCompareString.Location = new System.Drawing.Point(11, 128);
 			this.labelCompareString.Name = "labelCompareString";
-			this.labelCompareString.Size = new System.Drawing.Size(96, 23);
+			this.labelCompareString.Size = new System.Drawing.Size(132, 23);
 			this.labelCompareString.TabIndex = 9;
 			this.labelCompareString.Text = "Compare string";
 			this.labelCompareString.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
