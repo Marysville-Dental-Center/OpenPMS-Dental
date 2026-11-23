@@ -1607,6 +1607,12 @@ own 26.2 overlap check before it starts. The first cut is below; a brief that fi
   layout script on the planner's tree), 8 by their own layout script (mode hand), ControlTreat kept as on main for a later round; left out:
   the Central Manager's two plain forms, the dashboard surface, EmailPreviewControl (the pilot's); FormPayPlan.cs moves two controls by the
   layout's offsets; gallery G-UI3-ui12-1 (47 windows before/after, 12 at 150%), audit `UI-12-audit-1.md` (UI-12.md, "Slice 1").
+  Slice 1 continuation (same branch, the lead's answers of 2026-11-22): the clinic picker's label area sized from its text
+  (`ComboBoxClinicPicker.WidthLabelArea`, "Clinics" whole, the box on its column at every scale; the planner, the scripts and
+  GridRulesTests follow it; the pilot's pickers moved onto their columns), the report windows on the 8 px margin, ControlTreat laid out by a
+  layout script, the planner's rounding rows pinned, the whole window at 150% (before pictures from a build of main); fix rounds 5 and 6 of
+  the audit (FormCloneAdd, FormMedical, FormRpLaserLabels, FormRxDefEdit, ControlTreat); gallery G-UI3-ui12-1 redrawn (63 pictures with
+  the clinic picker's style pictures), audit passes 4 and 5 (UI-12.md, "Slice 1, continuation").
 - Gallery: G-UI3 per slice, the owner's rows first.
 
 **UI-13: every element type in the new look (the owner, 2026-11-22: "Overall make sure you modernize all element types")**

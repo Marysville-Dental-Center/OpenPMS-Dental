@@ -2,7 +2,9 @@
 
 One line per picture per pass: what was checked (cut or covered text, overlaps, margins, columns and edges, gaps, crowding, empty space,
 control looks, group titles, check boxes on the left) and what was wrong. The pictures: `.git/od-tools/test-results/G-UI3-ui12-1-src`
-(`a1` the planner alone, `a5` after fix rounds 1 and 2, `a8` after fix round 3, `a9` the final build; `a8-150` the 150% pictures).
+(`a1` the planner alone, `a5` after fix rounds 1 and 2, `a8` after fix round 3, `a9` the final build; `a8-150` the 150% pictures;
+the continuation: `b1`/`b2` and `b2-150` the first build of the lead's answers, `b3`, `b4` the fix rounds, `b5` the final build, with
+`b5-150`, `b5-styles`, `b5-lists`; `m2`, `m2-150`, `m2-styles`, `m2-lists` the before pictures from a build of `main` at the branch point).
 
 ## Pass 1 (`a1`, then `a5`): the planner's layout, then the first two fix rounds
 
@@ -125,3 +127,70 @@ control looks, group titles, check boxes on the left) and what was wrong. The pi
 The two pictures redrawn after pass 2 opened again: FormOrthoCase (the groups on 8, their right edges kept) and FormRpAging (both right-hand
 groups of the second and third rows 75 px tall, every check box on one line): nothing found. Every other `a9` picture is byte-identical to its
 `a8` picture (compared with `cmp`), and the 150% pictures' windows did not change after `a8-150`. The pass finds nothing.
+
+## Pass 4 (`b1`, `b2`, `b2-150`): the continuation's first build (the lead's answers of 2026-11-22)
+
+What changed since pass 3: the clinic picker's label area sized from its text (the box of every picker moved onto its column again), the
+report windows on the 8 px margin, ControlTreat's layout script, the rounding rows pinned, the whole window at 150%. Every picture opened.
+
+| Picture | Found | Fixed by |
+|---|---|---|
+| ControlTreat | The parts on one top and height, the right column, the summaries stacked; the Show page's check boxes 17 px (the fit fixes gave 18 and 19) | Fix round 6: 18 px rows, the top row 4 px taller (`b5`) |
+| FormASAP | The clinic picker's box on the filter row's column | nothing |
+| FormAdjust | "Clinic" whole, the box on the field column | nothing |
+| FormAllocationsSetup | opened: the same picture as pass 3 (`a9`, byte for byte) | nothing |
+| FormArManager | opened: the same picture as pass 3 (`a9`, byte for byte) | nothing |
+| FormCarrierEdit | opened: the same picture as pass 3 (`a9`, byte for byte) | nothing |
+| FormClaimPayEdit | the picker's box on the column (the width grew by the label area) | nothing |
+| FormClaimProc | opened: the same picture as pass 3 (`a9`, byte for byte) | nothing |
+| FormClearinghouseEdit | the picker after the Description note, its label whole | nothing |
+| FormClinicEdit | opened: the same picture as pass 3 (`a9`, byte for byte) | nothing |
+| FormCloneAdd | Clone between Primary Provider and the hidden Specialty and Clinic rows (shown by Load): the action stands among the fields | Fix round 5: a layout script (the rows under Primary Provider, Clone bottom right) |
+| FormCodeGroupEdit | opened: the same picture as pass 3 (`a9`, byte for byte) | nothing |
+| FormDispensary | opened: the same picture as pass 3 (`a9`, byte for byte) | nothing |
+| FormEbillSetup | the picker's box on the address column | nothing |
+| FormEhrLabOrderEdit2014 | opened: the same picture as pass 3 (`a9`, byte for byte) | nothing |
+| FormEhrLabResultEdit2014 | opened: the same picture as pass 3 (`a9`, byte for byte) | nothing |
+| FormEmailMessageEdit | opened: the same picture as pass 3 (`a9`, byte for byte) | nothing |
+| FormEmployeeEdit | opened: the same picture as pass 3 (`a9`, byte for byte) | nothing |
+| FormEtrans835Edit | opened: the same picture as pass 3 (`a9`, byte for byte) | nothing |
+| FormFamilyBalancer | opened: the same picture as pass 3 (`a9`, byte for byte) | nothing |
+| FormInsRemain | opened: the same picture as pass 3 (`a9`, byte for byte) | nothing |
+| FormInsVerificationList | opened: the same picture as pass 3 (`a9`, byte for byte) | nothing |
+| FormMedical | Med Urgent 9 px and Service Notes 17 px over their boxes (the captions under them 2 px); Service Notes 2 px short of Medical Summary's bottom; the wide boxes ending at two x short of the page's edge | Fix round 5: a layout script |
+| FormOrthoCase | opened: the same picture as pass 3 (`a9`, byte for byte) | nothing |
+| FormPayPlan | the picker in its group on the Provider column | nothing |
+| FormPayPlanDynamic | opened: the same picture as pass 3 (`a9`, byte for byte) | nothing |
+| FormPayPlanTemplateEdit | the picker on the field column | nothing |
+| FormPaySplitEdit | the picker on the field column (the band under it: the hidden rows' place, as main) | nothing |
+| FormProviderSetup | opened: the same picture as pass 3 (`a9`, byte for byte) | nothing |
+| FormRecallSetup | opened: the same picture as pass 3 (`a9`, byte for byte) | nothing |
+| FormReportSetup | The Display Settings page shows UserControlReportSetup's instructions under its user group row (the harness shows both modes) | Fix round 5: the gallery draws the page's mode (FitGallery) |
+| FormRpAging | opened: the same picture as pass 3 (`a9`, byte for byte) | nothing |
+| FormRpCustomAging | opened: the same picture as pass 3 (`a9`, byte for byte) | nothing |
+| FormRpDPPOvercharged | "Clinics" whole, the box on the Providers column | nothing |
+| FormRpEraAutoProcessed | the 8 px margin both sides, the filter row's gaps kept, "Clinics" whole | nothing |
+| FormRpLaserLabels | Two field columns 43 px apart on Patient Labels (Start Name at 159, End Name and the check boxes at 202) | Fix round 5: one column per page (the Insurance Company page too) |
+| FormRpOutstandingIns | "Clinics" whole, the box on the column | nothing |
+| FormRpPaySheet | opened: the same picture as pass 3 (`a9`, byte for byte) | nothing |
+| FormRpProcNotBilledIns | "Clinics" whole, the box on Procedure Codes' column | nothing |
+| FormRpProcNote | "Clinics" whole, Clinics and Providers on one column | nothing |
+| FormRpProcOverpaid | "Clinics" whole, the box on the Providers column | nothing |
+| FormRpTreatmentFinder | The picker reads "Clinic" (the harness builds without Load, which makes it multi select): its box 5 px left of the Provider column | Fix round 5: the gallery draws it as Load does (the box on the column) |
+| FormRpUnearnedIncome | each page's content from the page's 8 px edge, OK 8 px from the corner | nothing |
+| FormRxDefEdit | Sig 4 px short of Drug's right edge; the RxNorm button 4 px past the notes' edge | Fix round 5: the layout script |
+| FormRxEdit | the picker on the field column | nothing |
+| FormScheduleDayEdit | the picker ending at the content edge | nothing |
+| FormTransworldSetup | opened: the same picture as pass 3 (`a9`, byte for byte) | nothing |
+| FormAdjust-150 | the whole window | The picker's box 18 px left of its column: the harness drew its label at the 100% font (fix round 5: the harness scales the picker's font as Windows does), then 3 px left (a text at 150% is narrower than 1.5 times its 100% width; fix round 5b: the label area scaled from its 96 dpi width) |
+| FormCarrierEdit-150 | the whole window (1492 px), every row | nothing |
+| FormClaimProc-150 | the whole window | nothing |
+| FormClearinghouseEdit-150 | the whole window | the picker as FormAdjust-150 (fixed the same way) |
+| FormClinicEdit-150 | both columns, the pages | nothing |
+| FormEhrLabOrderEdit2014-150 | the whole window, the grids | nothing |
+| FormEhrLabResultEdit2014-150 | the whole window, Add Note under the groups (no longer drawn over them) | nothing |
+| FormInsVerificationList-150 | filters, tab controls, groups | nothing |
+| FormPayPlan-150 | the whole window | the picker as FormAdjust-150 |
+| FormPayPlanDynamic-150 | the whole window | nothing |
+| FormPaySplitEdit-150 | rows, the tab page | the picker as FormAdjust-150 |
+| FormRpOutstandingIns-150 | the whole window | the picker as FormAdjust-150 |
