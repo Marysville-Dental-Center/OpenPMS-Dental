@@ -174,7 +174,7 @@ namespace OpenPmsDental {
 			// 
 			// labelPatient
 			// 
-			this.labelPatient.Location = new System.Drawing.Point(12, 170);
+			this.labelPatient.Location = new System.Drawing.Point(8, 170);
 			this.labelPatient.Name = "labelPatient";
 			this.labelPatient.Size = new System.Drawing.Size(170, 18);
 			this.labelPatient.TabIndex = 28;
@@ -183,7 +183,7 @@ namespace OpenPmsDental {
 			// 
 			// listPatSelect
 			// 
-			this.listPatSelect.Location = new System.Drawing.Point(12, 190);
+			this.listPatSelect.Location = new System.Drawing.Point(8, 190);
 			this.listPatSelect.Name = "listPatSelect";
 			this.listPatSelect.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
 			this.listPatSelect.Size = new System.Drawing.Size(170, 491);
@@ -193,7 +193,7 @@ namespace OpenPmsDental {
 			// 
 			this.textBox1.BackColor = System.Drawing.SystemColors.Control;
 			this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			this.textBox1.Location = new System.Drawing.Point(190, 190);
+			this.textBox1.Location = new System.Drawing.Point(186, 190);
 			this.textBox1.Multiline = true;
 			this.textBox1.Name = "textBox1";
 			this.textBox1.Size = new System.Drawing.Size(528, 34);
@@ -213,7 +213,7 @@ namespace OpenPmsDental {
 			// 
 			// labelReferredFrom
 			// 
-			this.labelReferredFrom.Location = new System.Drawing.Point(190, 228);
+			this.labelReferredFrom.Location = new System.Drawing.Point(186, 228);
 			this.labelReferredFrom.Name = "labelReferredFrom";
 			this.labelReferredFrom.Size = new System.Drawing.Size(170, 17);
 			this.labelReferredFrom.TabIndex = 32;
@@ -222,7 +222,7 @@ namespace OpenPmsDental {
 			// 
 			// listReferral
 			// 
-			this.listReferral.Location = new System.Drawing.Point(190, 247);
+			this.listReferral.Location = new System.Drawing.Point(186, 247);
 			this.listReferral.Name = "listReferral";
 			this.listReferral.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
 			this.listReferral.Size = new System.Drawing.Size(170, 434);
@@ -240,7 +240,7 @@ namespace OpenPmsDental {
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(366, 228);
+			this.label6.Location = new System.Drawing.Point(364, 228);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(170, 17);
 			this.label6.TabIndex = 35;
@@ -249,7 +249,7 @@ namespace OpenPmsDental {
 			// 
 			// listOther
 			// 
-			this.listOther.Location = new System.Drawing.Point(366, 247);
+			this.listOther.Location = new System.Drawing.Point(364, 247);
 			this.listOther.Name = "listOther";
 			this.listOther.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
 			this.listOther.Size = new System.Drawing.Size(170, 434);

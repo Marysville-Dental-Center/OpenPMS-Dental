@@ -439,12 +439,12 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridTasks.DoShowRightClickLinks = true;
-			this.gridTasks.Location = new System.Drawing.Point(12, 8);
+			this.gridTasks.Location = new System.Drawing.Point(8, 8);
 			this.gridTasks.Name = "gridTasks";
 			this.gridTasks.NoteSpanStart = 2;
 			this.gridTasks.NoteSpanStop = 2;
 			this.gridTasks.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridTasks.Size = new System.Drawing.Size(1000, 672);
+			this.gridTasks.Size = new System.Drawing.Size(1002, 692);
 			this.gridTasks.TabIndex = 0;
 			this.gridTasks.Title = "Task Results";
 			this.gridTasks.TranslationName = "TableProg";
@@ -454,7 +454,7 @@ namespace OpenPmsDental{
 			// butRefresh
 			// 
 			this.butRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butRefresh.Location = new System.Drawing.Point(1143, 628);
+			this.butRefresh.Location = new System.Drawing.Point(1153, 628);
 			this.butRefresh.Name = "butRefresh";
 			this.butRefresh.Size = new System.Drawing.Size(75, 24);
 			this.butRefresh.TabIndex = 3;

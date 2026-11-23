@@ -68,17 +68,17 @@ namespace OpenPmsDental {
 			// 
 			// labelCleanUp
 			// 
-			this.labelCleanUp.Location = new System.Drawing.Point(402, 359);
-			this.labelCleanUp.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+			this.labelCleanUp.Location = new System.Drawing.Point(380, 346);
+			this.labelCleanUp.TextAlign = System.Drawing.ContentAlignment.TopLeft;
 			this.labelCleanUp.Name = "labelCleanUp";
-			this.labelCleanUp.Size = new System.Drawing.Size(169, 36);
+			this.labelCleanUp.Size = new System.Drawing.Size(213, 32);
 			this.labelCleanUp.TabIndex = 22;
 			this.labelCleanUp.Text = "Deletes any allowed fee schedules that are not in use";
 			// 
 			// butCleanUp
 			// 
 			this.butCleanUp.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butCleanUp.Location = new System.Drawing.Point(435, 331);
+			this.butCleanUp.Location = new System.Drawing.Point(380, 318);
 			this.butCleanUp.Name = "butCleanUp";
 			this.butCleanUp.Size = new System.Drawing.Size(102, 24);
 			this.butCleanUp.TabIndex = 21;
@@ -87,17 +87,17 @@ namespace OpenPmsDental {
 			// 
 			// labelSort
 			// 
-			this.labelSort.Location = new System.Drawing.Point(425, 269);
-			this.labelSort.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+			this.labelSort.Location = new System.Drawing.Point(380, 269);
+			this.labelSort.TextAlign = System.Drawing.ContentAlignment.TopLeft;
 			this.labelSort.Name = "labelSort";
-			this.labelSort.Size = new System.Drawing.Size(123, 32);
+			this.labelSort.Size = new System.Drawing.Size(213, 17);
 			this.labelSort.TabIndex = 20;
 			this.labelSort.Text = "Sorts by type and alphabetically";
 			// 
 			// butSort
 			// 
 			this.butSort.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butSort.Location = new System.Drawing.Point(449, 241);
+			this.butSort.Location = new System.Drawing.Point(380, 241);
 			this.butSort.Name = "butSort";
 			this.butSort.Size = new System.Drawing.Size(75, 24);
 			this.butSort.TabIndex = 19;
@@ -177,7 +177,7 @@ namespace OpenPmsDental {
 			// 
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdd.Location = new System.Drawing.Point(449, 303);
+			this.butAdd.Location = new System.Drawing.Point(380, 290);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(75, 24);
 			this.butAdd.TabIndex = 10;
@@ -186,17 +186,17 @@ namespace OpenPmsDental {
 			// 
 			// labelHideUnused
 			// 
-			this.labelHideUnused.Location = new System.Drawing.Point(425, 425);
-			this.labelHideUnused.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+			this.labelHideUnused.Location = new System.Drawing.Point(380, 410);
+			this.labelHideUnused.TextAlign = System.Drawing.ContentAlignment.TopLeft;
 			this.labelHideUnused.Name = "labelHideUnused";
-			this.labelHideUnused.Size = new System.Drawing.Size(123, 47);
+			this.labelHideUnused.Size = new System.Drawing.Size(213, 32);
 			this.labelHideUnused.TabIndex = 25;
 			this.labelHideUnused.Text = "Hides any fee schedules that are not in use";
 			// 
 			// butHideUnused
 			// 
 			this.butHideUnused.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butHideUnused.Location = new System.Drawing.Point(437, 397);
+			this.butHideUnused.Location = new System.Drawing.Point(380, 382);
 			this.butHideUnused.Name = "butHideUnused";
 			this.butHideUnused.Size = new System.Drawing.Size(99, 24);
 			this.butHideUnused.TabIndex = 22;

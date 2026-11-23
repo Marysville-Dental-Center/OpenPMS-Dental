@@ -148,10 +148,10 @@ namespace OpenPmsDental {
 			this.gridProc.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridProc.HScrollVisible = true;
-			this.gridProc.Location = new System.Drawing.Point(10, 443);
+			this.gridProc.Location = new System.Drawing.Point(8, 443);
 			this.gridProc.Name = "gridProc";
 			this.gridProc.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridProc.Size = new System.Drawing.Size(864, 222);
+			this.gridProc.Size = new System.Drawing.Size(890, 222);
 			this.gridProc.TabIndex = 193;
 			this.gridProc.Title = "Procedures";
 			this.gridProc.TranslationName = "TableProg";
@@ -188,7 +188,7 @@ namespace OpenPmsDental {
 			this.textNotes.Name = "textNotes";
 			this.textNotes.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Procedure;
 			this.textNotes.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textNotes.Size = new System.Drawing.Size(872, 238);
+			this.textNotes.Size = new System.Drawing.Size(876, 238);
 			this.textNotes.TabIndex = 1;
 			this.textNotes.Text = "";
 			this.textNotes.TextChanged += new System.EventHandler(this.textNotes_TextChanged);
@@ -318,7 +318,7 @@ namespace OpenPmsDental {
 			// 
 			this.butAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
-			this.butAdd.Location = new System.Drawing.Point(882, 443);
+			this.butAdd.Location = new System.Drawing.Point(906, 443);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(76, 24);
 			this.butAdd.TabIndex = 213;
@@ -328,7 +328,7 @@ namespace OpenPmsDental {
 			// butRemove
 			// 
 			this.butRemove.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butRemove.Location = new System.Drawing.Point(882, 471);
+			this.butRemove.Location = new System.Drawing.Point(906, 471);
 			this.butRemove.Name = "butRemove";
 			this.butRemove.Size = new System.Drawing.Size(76, 24);
 			this.butRemove.TabIndex = 214;
@@ -351,7 +351,7 @@ namespace OpenPmsDental {
 			this.signatureBoxWrapper2.BackColor = System.Drawing.SystemColors.ControlDark;
 			this.signatureBoxWrapper2.Location = new System.Drawing.Point(586, 331);
 			this.signatureBoxWrapper2.Name = "signatureBoxWrapper2";
-			this.signatureBoxWrapper2.Size = new System.Drawing.Size(394, 81);
+			this.signatureBoxWrapper2.Size = new System.Drawing.Size(396, 81);
 			this.signatureBoxWrapper2.TabIndex = 216;
 			this.signatureBoxWrapper2.UserSig = null;
 			this.signatureBoxWrapper2.SignatureChanged += new System.EventHandler(this.signatureBoxWrapper2_SignatureChanged);
