@@ -744,8 +744,8 @@ OpenPmsDental/Forms/FormInfobutton.designer.cs	radioRecProv	8,45	69,18
 OpenPmsDental/Forms/FormInfobutton.designer.cs	groupBox1	8,360	136,71	
 OpenPmsDental/Forms/FormInfobutton.designer.cs	radioReqPat	8,23	62,18	
 OpenPmsDental/Forms/FormInfobutton.designer.cs	radioReqProv	8,45	69,18	
-OpenPmsDental/Forms/FormInfobutton.designer.cs	comboTask	493,383	137,23	
-OpenPmsDental/Forms/FormInfobutton.designer.cs	label17	419,383	68,23	
+OpenPmsDental/Forms/FormInfobutton.designer.cs	comboTask	501,383	137,23	
+OpenPmsDental/Forms/FormInfobutton.designer.cs	label17	427,383	68,23	
 OpenPmsDental/Forms/FormInfobutton.designer.cs	butAddLoinc	338,483	104,24	
 OpenPmsDental/Forms/FormInfobutton.designer.cs	butAddIcd10	228,483	104,24	
 OpenPmsDental/Forms/FormInfobutton.designer.cs	button3	338,455	104,24	

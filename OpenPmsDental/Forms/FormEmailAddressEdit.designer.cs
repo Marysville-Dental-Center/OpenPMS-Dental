@@ -375,7 +375,7 @@ namespace OpenPmsDental {
 			this.groupGmail.Controls.Add(this.labelGmailStatus);
 			this.groupGmail.Location = new System.Drawing.Point(556, 23);
 			this.groupGmail.Name = "groupGmail";
-			this.groupGmail.Size = new System.Drawing.Size(518, 278);
+			this.groupGmail.Size = new System.Drawing.Size(574, 278);
 			this.groupGmail.TabIndex = 16;
 			this.groupGmail.Text = "Gmail";
 			// 

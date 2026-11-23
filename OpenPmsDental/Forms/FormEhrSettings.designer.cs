@@ -133,7 +133,7 @@ namespace OpenPmsDental{
 			// 
 			// butEncCpt
 			// 
-			this.butEncCpt.Location = new System.Drawing.Point(306, 174);
+			this.butEncCpt.Location = new System.Drawing.Point(317, 174);
 			this.butEncCpt.Name = "butEncCpt";
 			this.butEncCpt.Size = new System.Drawing.Size(75, 24);
 			this.butEncCpt.TabIndex = 130;
@@ -217,7 +217,7 @@ namespace OpenPmsDental{
 			// 
 			// butEncHcpcs
 			// 
-			this.butEncHcpcs.Location = new System.Drawing.Point(387, 174);
+			this.butEncHcpcs.Location = new System.Drawing.Point(398, 174);
 			this.butEncHcpcs.Name = "butEncHcpcs";
 			this.butEncHcpcs.Size = new System.Drawing.Size(75, 24);
 			this.butEncHcpcs.TabIndex = 124;
@@ -237,14 +237,14 @@ namespace OpenPmsDental{
 			// 
 			this.butEncSnomed.Location = new System.Drawing.Point(142, 174);
 			this.butEncSnomed.Name = "butEncSnomed";
-			this.butEncSnomed.Size = new System.Drawing.Size(77, 24);
+			this.butEncSnomed.Size = new System.Drawing.Size(88, 24);
 			this.butEncSnomed.TabIndex = 125;
 			this.butEncSnomed.Text = "SNOMED CT";
 			this.butEncSnomed.Click += new System.EventHandler(this.butEncSnomed_Click);
 			// 
 			// butEncCdt
 			// 
-			this.butEncCdt.Location = new System.Drawing.Point(225, 174);
+			this.butEncCdt.Location = new System.Drawing.Point(236, 174);
 			this.butEncCdt.Name = "butEncCdt";
 			this.butEncCdt.Size = new System.Drawing.Size(75, 24);
 			this.butEncCdt.TabIndex = 123;
@@ -344,7 +344,7 @@ namespace OpenPmsDental{
 			// 
 			// butPregIcd9
 			// 
-			this.butPregIcd9.Location = new System.Drawing.Point(225, 190);
+			this.butPregIcd9.Location = new System.Drawing.Point(236, 190);
 			this.butPregIcd9.Name = "butPregIcd9";
 			this.butPregIcd9.Size = new System.Drawing.Size(75, 24);
 			this.butPregIcd9.TabIndex = 124;
@@ -355,14 +355,14 @@ namespace OpenPmsDental{
 			// 
 			this.butPregSnomed.Location = new System.Drawing.Point(142, 190);
 			this.butPregSnomed.Name = "butPregSnomed";
-			this.butPregSnomed.Size = new System.Drawing.Size(77, 24);
+			this.butPregSnomed.Size = new System.Drawing.Size(88, 24);
 			this.butPregSnomed.TabIndex = 125;
 			this.butPregSnomed.Text = "SNOMED CT";
 			this.butPregSnomed.Click += new System.EventHandler(this.butPregSnomed_Click);
 			// 
 			// butPregIcd10
 			// 
-			this.butPregIcd10.Location = new System.Drawing.Point(306, 190);
+			this.butPregIcd10.Location = new System.Drawing.Point(317, 190);
 			this.butPregIcd10.Name = "butPregIcd10";
 			this.butPregIcd10.Size = new System.Drawing.Size(75, 24);
 			this.butPregIcd10.TabIndex = 123;

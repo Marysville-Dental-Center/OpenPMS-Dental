@@ -254,9 +254,9 @@ namespace OpenPmsDental {
 			this.groupOverrides.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.groupOverrides.Controls.Add(this.groupNoBillInsOverrides);
-			this.groupOverrides.Location = new System.Drawing.Point(741, 98);
+			this.groupOverrides.Location = new System.Drawing.Point(743, 98);
 			this.groupOverrides.Name = "groupOverrides";
-			this.groupOverrides.Size = new System.Drawing.Size(231, 153);
+			this.groupOverrides.Size = new System.Drawing.Size(236, 153);
 			this.groupOverrides.TabIndex = 34;
 			this.groupOverrides.Text = "Overrides";
 			// 
@@ -272,7 +272,7 @@ namespace OpenPmsDental {
 			this.groupNoBillInsOverrides.Controls.Add(this.butBillIns);
 			this.groupNoBillInsOverrides.Location = new System.Drawing.Point(8, 23);
 			this.groupNoBillInsOverrides.Name = "groupNoBillInsOverrides";
-			this.groupNoBillInsOverrides.Size = new System.Drawing.Size(215, 122);
+			this.groupNoBillInsOverrides.Size = new System.Drawing.Size(220, 122);
 			this.groupNoBillInsOverrides.TabIndex = 37;
 			this.groupNoBillInsOverrides.Text = "\'Do not usually bill to Ins\' Overrides";
 			// 
@@ -280,7 +280,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelNoBillIns.Location = new System.Drawing.Point(92, 51);
 			this.labelNoBillIns.Name = "labelNoBillIns";
-			this.labelNoBillIns.Size = new System.Drawing.Size(115, 35);
+			this.labelNoBillIns.Size = new System.Drawing.Size(120, 35);
 			this.labelNoBillIns.TabIndex = 40;
 			this.labelNoBillIns.Text = "Do not usually bill to Insurance";
 			this.labelNoBillIns.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -289,7 +289,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelBillToIns.Location = new System.Drawing.Point(92, 26);
 			this.labelBillToIns.Name = "labelBillToIns";
-			this.labelBillToIns.Size = new System.Drawing.Size(96, 17);
+			this.labelBillToIns.Size = new System.Drawing.Size(120, 17);
 			this.labelBillToIns.TabIndex = 39;
 			this.labelBillToIns.Text = "Bill to Insurance";
 			this.labelBillToIns.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -298,7 +298,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelDeleteNoBillIns.Location = new System.Drawing.Point(92, 93);
 			this.labelDeleteNoBillIns.Name = "labelDeleteNoBillIns";
-			this.labelDeleteNoBillIns.Size = new System.Drawing.Size(115, 17);
+			this.labelDeleteNoBillIns.Size = new System.Drawing.Size(120, 17);
 			this.labelDeleteNoBillIns.TabIndex = 41;
 			this.labelDeleteNoBillIns.Text = "Delete overrides";
 			this.labelDeleteNoBillIns.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -336,7 +336,7 @@ namespace OpenPmsDental {
 			// butSelectAll
 			// 
 			this.butSelectAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSelectAll.Location = new System.Drawing.Point(660, 680);
+			this.butSelectAll.Location = new System.Drawing.Point(657, 680);
 			this.butSelectAll.Name = "butSelectAll";
 			this.butSelectAll.Size = new System.Drawing.Size(78, 24);
 			this.butSelectAll.TabIndex = 35;

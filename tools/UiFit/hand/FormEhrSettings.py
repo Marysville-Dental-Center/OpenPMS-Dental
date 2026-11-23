@@ -38,7 +38,7 @@ def code_group(h, grp, intro, lab_rec, combo, note_none, lab_desc, desc, note_re
     y += rh + 4
     x = F
     for b in buttons:
-        bw = max(h.n(b).nw, 75)
+        bw = max(75, ((h.n(b).text_w + 12 + 3) // 4) * 4)  # 6 px on each side of the text (SNOMED CT filled its 77 px)
         h.set(b, x, y, bw, 24)
         x += bw + 6
     y += 24 + 4

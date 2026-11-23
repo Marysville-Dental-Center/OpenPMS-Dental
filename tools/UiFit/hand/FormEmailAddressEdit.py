@@ -151,6 +151,7 @@ def layout(h):
         W = PAD + 2 * half + GAP + PAD
         R = W - PAD
         h.set("groupAuthentication", PAD, ay, R - PAD, ah)
+        h.set("groupGmail", gx, top, R - PAD - PAD - gx, gh)  # the Gmail box to the group's content edge
     h.set("groupIncoming", PAD, sy, half, gh2)
     h.set("groupOutgoing", R - half, sy, half, gh2)
     # The user panel under the incoming settings, its box on their column.
