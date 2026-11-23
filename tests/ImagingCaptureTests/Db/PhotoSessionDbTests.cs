@@ -75,6 +75,18 @@ namespace ImagingCapture.Tests.Db {
 			PhotoMountState photoMountStateAfter=store.GetMountState(mount.MountNum);
 			CollectionAssert.AreEqual(new[] { false,false,false,true,false },photoMountStateAfter.ListSlots.Select(x => x.IsFilled).ToArray());
 			Assert.IsNull(store.GetMountState(mount.MountNum+1000000));
+			//Retake (IMG-P4b-2): the photo moves to an unmounted item of the mount, described, logged; the slot is empty again.
+			store.MoveToRetake(document,mount.MountNum,"Upper occlusal",patient.PatNum);
+			Document documentRetaken=store.GetDocument(document.DocNum);
+			Assert.AreNotEqual(plan.MountItemNum,documentRetaken.MountItemNum);
+			Assert.AreEqual("Retake: Upper occlusal",documentRetaken.Description);
+			MountItem mountItemUnmounted=MountItems.GetItemsForMount(mount.MountNum).Single(x => x.MountItemNum==documentRetaken.MountItemNum);
+			Assert.AreEqual(-1,mountItemUnmounted.ItemOrder,"Unmounted, not deleted.");
+			Assert.IsFalse(store.GetMountState(mount.MountNum).ListSlots[3].IsFilled);
+			Assert.AreEqual(1,CaptureDb.GetLogsForPatient(EnumPermType.ImageEdit,patient.PatNum).Count(x => x.LogText.StartsWith("Camera session retake: ")));
+			//Delete: the row is gone.
+			store.DeleteDocument(documentRetaken,patient.PatNum);
+			Assert.IsNull(store.GetDocument(document.DocNum));
 		}
 	}
 }

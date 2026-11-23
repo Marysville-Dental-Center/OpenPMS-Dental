@@ -32,6 +32,16 @@ namespace ImagingCapture.Photo {
 		}
 	}
 
+	///<summary>A photo saved in this session (IMG-P4b-2): what the right-click menu and Ctrl+Z act on.</summary>
+	public sealed class PhotoShot {
+		public long DocNum { get; set; }
+		///<summary>0 for a quick photo.</summary>
+		public long MountItemNum { get; set; }
+		///<summary>The slot's index in the model's ListSlots, -1 for a quick photo.</summary>
+		public int IdxSlot { get; set; }=-1;
+		public string GuideLabel { get; set; }="";
+	}
+
 	///<summary>Where and how the next photo is saved: the slot (MountItemNum 0 for a quick photo, which stays unmounted), saved flipped for a
 	///mirror shot or a mount that flips on acquire, the slot's rotation and teeth.</summary>
 	public sealed class PhotoShotPlan {
@@ -51,6 +61,10 @@ namespace ImagingCapture.Photo {
 	public sealed class PhotoSessionModel {
 		private readonly List<PhotoSlot> _listSlots;
 		private readonly bool _isFlipOnAcquire;
+		private readonly List<PhotoShot> _listShots=new List<PhotoShot>();
+		///<summary>The teeth the user set for the next photo (T), or null for the slot's own. A slot's override ends when the next slot changes;
+		///quick photos keep it until it is set again.</summary>
+		private string _teethNext;
 
 		///<summary>A photo mount: listSlots are its photo slots in any order (sorted here by ItemOrder). isFlipOnAcquire: the mount's flag.</summary>
 		public PhotoSessionModel(IEnumerable<PhotoSlot> listSlots,bool isFlipOnAcquire) {
@@ -80,8 +94,31 @@ namespace ImagingCapture.Photo {
 		///<summary>True when the next photo is saved flipped: a mirror slot, or a mount that flips on acquire. The live picture is shown the same
 		///way, so what you see is what is saved.</summary>
 		public bool IsNextFlipped => SlotNext!=null && (SlotNext.IsMirror || _isFlipOnAcquire);
-		///<summary>Photos saved in this session.</summary>
+		///<summary>Photos saved in this session (a retaken or deleted one still counts: it was saved).</summary>
 		public int CountSaved { get; private set; }
+		///<summary>The photos of this session still in it, oldest first.</summary>
+		public IReadOnlyList<PhotoShot> ListShots => _listShots;
+		public PhotoShot ShotLast => _listShots.Count>0 ? _listShots[_listShots.Count-1] : null;
+
+		///<summary>The teeth the next photo gets: those set with T, else the next slot's.</summary>
+		public string GetTeethNext() {
+			if(_teethNext!=null) {
+				return _teethNext;
+			}
+			return SlotNext?.ToothNumbers??"";
+		}
+
+		///<summary>T: the teeth of the next photo. null goes back to the slot's own.</summary>
+		public void SetTeethNext(string toothNumbers) {
+			_teethNext=toothNumbers;
+		}
+
+		private void SetIdxNext(int idx) {
+			if(idx!=IdxNext && !IsQuickPhotos) {
+				_teethNext=null;
+			}
+			IdxNext=idx;
+		}
 
 		///<summary>True for a photo mount whose photo slots are all filled: nothing more to take.</summary>
 		public bool IsComplete => !IsQuickPhotos && IdxNext==-1;
@@ -98,7 +135,7 @@ namespace ImagingCapture.Photo {
 			if(idx<0 || idx==IdxNext) {
 				return false;
 			}
-			IdxNext=idx;
+			SetIdxNext(idx);
 			return true;
 		}
 
@@ -110,7 +147,7 @@ namespace ImagingCapture.Photo {
 			for(int step=1;step<_listSlots.Count;step++) {
 				int idx=(IdxNext-step+_listSlots.Count)%_listSlots.Count;
 				if(!_listSlots[idx].IsFilled) {
-					IdxNext=idx;
+					SetIdxNext(idx);
 					return true;
 				}
 			}
@@ -122,14 +159,14 @@ namespace ImagingCapture.Photo {
 			if(idx<0 || idx>=_listSlots.Count || _listSlots[idx].IsFilled) {
 				return false;
 			}
-			IdxNext=idx;
+			SetIdxNext(idx);
 			return true;
 		}
 
 		///<summary>The plan of the next photo; null when a photo mount is complete. teethQuick: the teeth of a quick photo.</summary>
-		public PhotoShotPlan PlanShot(string teethQuick="") {
+		public PhotoShotPlan PlanShot(string teethQuick=null) {
 			if(IsQuickPhotos) {
-				return new PhotoShotPlan { MountItemNum=0,IdxSlot=-1,IsFlipped=false,DegreesRotated=0,ToothNumbers=teethQuick??"" };
+				return new PhotoShotPlan { MountItemNum=0,IdxSlot=-1,IsFlipped=false,DegreesRotated=0,ToothNumbers=teethQuick??_teethNext??"" };
 			}
 			PhotoSlot slot=SlotNext;
 			if(slot==null) {
@@ -140,22 +177,41 @@ namespace ImagingCapture.Photo {
 				IdxSlot=IdxNext,
 				IsFlipped=slot.IsMirror || _isFlipOnAcquire,
 				DegreesRotated=slot.RotateOnAcquire,
-				ToothNumbers=slot.ToothNumbers??"",
+				ToothNumbers=_teethNext??slot.ToothNumbers??"",
 				GuideLabel=slot.GuideLabel??"",
 			};
 		}
 
 		///<summary>After the photo of plan was saved: its slot is filled and the next empty slot after it becomes the next one.</summary>
-		public void MarkSaved(PhotoShotPlan plan) {
+		public void MarkSaved(PhotoShotPlan plan,long docNum=0) {
 			if(plan==null) {
 				throw new ArgumentNullException(nameof(plan));
 			}
 			CountSaved++;
+			_listShots.Add(new PhotoShot { DocNum=docNum,MountItemNum=plan.MountItemNum,IdxSlot=plan.IdxSlot,GuideLabel=plan.GuideLabel??"" });
 			if(IsQuickPhotos || plan.IdxSlot<0 || plan.IdxSlot>=_listSlots.Count) {
 				return;
 			}
 			_listSlots[plan.IdxSlot].IsFilled=true;
-			IdxNext=GetNextEmpty(plan.IdxSlot);
+			SetIdxNext(GetNextEmpty(plan.IdxSlot));
+		}
+
+		///<summary>The shot of this session in a slot, or null.</summary>
+		public PhotoShot GetShotInSlot(int idxSlot) {
+			return _listShots.LastOrDefault(x => x.IdxSlot==idxSlot && idxSlot>=0);
+		}
+
+		///<summary>After a retake moved shot's photo out of its slot (or a delete removed it): the shot leaves the session's list and its slot is
+		///empty again and the next one, so the next photo fills it. A quick photo just leaves the list.</summary>
+		public void RemoveShot(PhotoShot shot) {
+			if(shot==null || !_listShots.Remove(shot)) {
+				return;
+			}
+			if(IsQuickPhotos || shot.IdxSlot<0 || shot.IdxSlot>=_listSlots.Count) {
+				return;
+			}
+			_listSlots[shot.IdxSlot].IsFilled=false;
+			SetIdxNext(shot.IdxSlot);
 		}
 
 		///<summary>The first empty slot after idxFrom, wrapping round to idxFrom itself; -1 when every slot is filled.</summary>
@@ -176,7 +232,9 @@ namespace ImagingCapture.Photo {
 		///</summary>
 		public string GetGuideText(Func<string,string> funcDisplayTeeth=null) {
 			if(IsQuickPhotos) {
-				return "Quick photos: each photo is saved unmounted.";
+				string teethQuick=_teethNext??"";
+				return "Quick photos: each photo is saved unmounted"+(teethQuick=="" ? "." : ", teeth "
+					+(funcDisplayTeeth==null ? teethQuick : funcDisplayTeeth(teethQuick))+".");
 			}
 			PhotoSlot slot=SlotNext;
 			if(slot==null) {
@@ -192,7 +250,7 @@ namespace ImagingCapture.Photo {
 			if(slot.RotateOnAcquire!=0) {
 				listParts.Add("rotated "+slot.RotateOnAcquire.ToString(CultureInfo.InvariantCulture)+" degrees");
 			}
-			string teeth=slot.ToothNumbers??"";
+			string teeth=GetTeethNext();
 			if(teeth!="") {
 				listParts.Add("teeth "+(funcDisplayTeeth==null ? teeth : funcDisplayTeeth(teeth)));
 			}

@@ -169,6 +169,21 @@ namespace ImagingCapture.Tests {
 				}
 				ListUpdated.Add(document.Copy());
 			}
+
+			public Document GetDocument(long docNum) {
+				return null;
+			}
+
+			public void MoveToRetake(Document document,long mountNum,string slotLabel,long patNum) {
+				throw new NotSupportedException();
+			}
+
+			public void DeleteDocument(Document document,long patNum) {
+				throw new NotSupportedException();
+			}
+
+			public void LogEdit(long patNum,string logText,long docNum) {
+			}
 		}
 
 		[TestMethod]
@@ -205,6 +220,58 @@ namespace ImagingCapture.Tests {
 			Assert.IsFalse(result.IsPlaced);
 			StringAssert.Contains(result.Error,"not placed");
 			Assert.AreEqual("No photo to save.",PhotoSaver.Save(store,null,new PhotoShotPlan(),7,55).Error);
+		}
+
+		[TestMethod]
+		public void TeethForTheNextShot_OverrideTheSlot_UntilTheSlotChanges() {
+			PhotoSessionModel model=new PhotoSessionModel(Intraoral5(),isFlipOnAcquire:false);
+			Assert.IsTrue(model.SelectSlot(3));
+			Assert.AreEqual("2,3,4",model.GetTeethNext(),"The slot's teeth first.");
+			model.SetTeethNext("2,3");
+			Assert.AreEqual("2,3",model.PlanShot().ToothNumbers);
+			StringAssert.Contains(model.GetGuideText(),"teeth 2,3");
+			model.SkipForward();
+			model.SkipBack();
+			Assert.AreEqual("2,3,4",model.GetTeethNext(),"Another slot drops the teeth set for the last one.");
+			model.SetTeethNext("5");
+			model.MarkSaved(model.PlanShot(),docNum:44);
+			Assert.AreEqual("",model.GetTeethNext(),"The next slot (lower occlusal) has no teeth of its own.");
+			PhotoSessionModel modelQuick=PhotoSessionModel.CreateQuickPhotos();
+			modelQuick.SetTeethNext("30");
+			modelQuick.MarkSaved(modelQuick.PlanShot(),1);
+			Assert.AreEqual("30",modelQuick.PlanShot().ToothNumbers,"Quick photos keep the teeth until they are set again.");
+			Assert.AreEqual("Quick photos: each photo is saved unmounted, teeth 30.",modelQuick.GetGuideText());
+		}
+
+		[TestMethod]
+		public void Shots_RetakeEmptiesTheSlotAndMakesItNext() {
+			PhotoSessionModel model=new PhotoSessionModel(Intraoral5(),isFlipOnAcquire:false);
+			model.MarkSaved(model.PlanShot(),docNum:11);
+			model.MarkSaved(model.PlanShot(),docNum:12);
+			Assert.AreEqual(2,model.ListShots.Count);
+			Assert.AreEqual(12,model.ShotLast.DocNum);
+			Assert.AreEqual(2,model.IdxNext);
+			PhotoShot shot=model.GetShotInSlot(0);
+			Assert.AreEqual(11,shot.DocNum);
+			model.RemoveShot(shot);
+			Assert.AreEqual(0,model.IdxNext,"The retaken slot is next.");
+			Assert.IsFalse(model.ListSlots[0].IsFilled);
+			Assert.IsNull(model.GetShotInSlot(0));
+			Assert.AreEqual(2,model.CountSaved,"Both were saved.");
+			model.MarkSaved(model.PlanShot(),docNum:13);
+			Assert.AreEqual(2,model.IdxNext,"After the retake, on with the slots still empty.");
+			model.RemoveShot(null);
+			model.RemoveShot(new PhotoShot { DocNum=99 });//not of this session: nothing changes
+			Assert.AreEqual(2,model.ListShots.Count);
+		}
+
+		[TestMethod]
+		public void ClickSound_IsAValidShortWav() {
+			byte[] arrayBytes=PhotoSounds.MakeClickWav();
+			Assert.AreEqual("RIFF",System.Text.Encoding.ASCII.GetString(arrayBytes,0,4));
+			Assert.AreEqual("WAVE",System.Text.Encoding.ASCII.GetString(arrayBytes,8,4));
+			Assert.AreEqual(arrayBytes.Length-8,BitConverter.ToInt32(arrayBytes,4));
+			Assert.IsTrue(arrayBytes.Length<3000,"About 30 ms.");
 		}
 
 		[TestMethod]

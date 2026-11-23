@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
@@ -51,6 +53,21 @@ namespace OpenPmsDental {
 		private readonly Dictionary<long,Bitmap> _dictThumbs=new Dictionary<long,Bitmap>();
 		///<summary>The quick photos of this session, newest last.</summary>
 		private readonly List<Bitmap> _listThumbsQuick=new List<Bitmap>();
+		///<summary>The DocNum of each of _listThumbsQuick.</summary>
+		private readonly List<long> _listDocNumsQuick=new List<long>();
+		///<summary>Freeze (F, IMG-P4b-2): the frozen picture as the camera gave it (not flipped), saved by the next Capture; null while live.</summary>
+		private Bitmap _bitmapFrozen;
+		///<summary>True when the live picture on screen is flipped (a mirror slot), so a frozen copy is flipped back before it is saved.</summary>
+		private bool _isLiveFlipped;
+		private Panel panelFlash;
+		private System.Windows.Forms.Timer timerFlash;
+		private UI.Button butFreeze;
+		private UI.Button butTeeth;
+		private ContextMenuStrip contextMenuShot;
+		///<summary>The shot the right-click menu acts on.</summary>
+		private PhotoShot _shotMenu;
+		///<summary>A short click, made once (design section 2: a soft click on every shot).</summary>
+		private static byte[] _arrayBytesClick;
 		private VideoStatusAction _videoStatusAction;
 		private Label labelBanner;
 		private Panel panelLive;
@@ -90,6 +107,9 @@ namespace OpenPmsDental {
 		public Mount Mount => _mount;
 		public PhotoSessionModel Model => _model;
 		public bool IsEnded => _isEnded;
+		public bool IsFrozen => _bitmapFrozen!=null;
+		///<summary>Plays a click after each saved photo. A setting turns it off later (IMG-P4e).</summary>
+		public bool IsClickOn { get; set; }=true;
 		///<summary>Shows stored tooth numbers in the office's numbering (Tooth.DisplayRange). Replaceable for pictures made without a database.
 		///</summary>
 		public Func<string,string> FuncDisplayTeeth { get; set; }=x => Tooth.DisplayRange(x);
@@ -181,6 +201,11 @@ namespace OpenPmsDental {
 					bitmap.Dispose();
 				}
 				_listThumbsQuick.Clear();
+				_listDocNumsQuick.Clear();
+				_bitmapFrozen?.Dispose();
+				_bitmapFrozen=null;
+				timerFlash?.Dispose();
+				contextMenuShot?.Dispose();
 			}
 			base.Dispose(disposing);
 		}
@@ -203,7 +228,20 @@ namespace OpenPmsDental {
 					Skip(isForward:false);
 					return true;
 				case Keys.Escape:
+					if(IsFrozen) {
+						Unfreeze();//Esc goes back to live first (design section 2)
+						return true;
+					}
 					End();
+					return true;
+				case Keys.F:
+					ToggleFreeze();
+					return true;
+				case Keys.T:
+					PickTeethNext();
+					return true;
+				case Keys.Control|Keys.Z:
+					RetakeLast();
 					return true;
 			}
 			return base.ProcessCmdKey(ref msg,keyData);
@@ -270,8 +308,15 @@ namespace OpenPmsDental {
 		}
 
 		private void panelMount_MouseClick(object sender,MouseEventArgs e) {
+			if(_model==null) {
+				return;
+			}
+			if(e.Button==MouseButtons.Right) {
+				ShowShotMenu(e.Location);
+				return;
+			}
 			int idx=panelMount.HitTestSlot(e.Location);
-			if(idx<0 || _model==null) {
+			if(idx<0) {
 				return;
 			}
 			if(!_model.SelectSlot(idx)) {
@@ -296,7 +341,9 @@ namespace OpenPmsDental {
 				ShowInfo(Lan.g(this,"Every slot is filled. End the session (Esc)."));
 				return;
 			}
-			CaptureStart captureStart=videoCaptureSession.BeginCapture(captureRequestSource,frameStill);
+			bool isFrozen=IsFrozen;
+			CaptureStart captureStart=isFrozen ? videoCaptureSession.BeginCaptureFrozen(captureRequestSource,_bitmapFrozen)
+				: videoCaptureSession.BeginCapture(captureRequestSource,frameStill);
 			if(!captureStart.IsAccepted) {
 				ShowInfo(Lan.g(this,CaptureGate.GetDropText(captureStart.DropReason)));
 				return;
@@ -313,8 +360,12 @@ namespace OpenPmsDental {
 					ShowInfo(photoSaveResult.Error);
 					return;
 				}
-				_model.MarkSaved(photoShotPlan);
-				AddThumb(photoShotPlan,captureStart.Bitmap);
+				_model.MarkSaved(photoShotPlan,photoSaveResult.Document.DocNum);
+				AddThumb(photoShotPlan,captureStart.Bitmap,photoSaveResult.Document.DocNum);
+				if(isFrozen) {
+					Unfreeze();
+				}
+				Flash();
 				string textSaved=photoShotPlan.GuideLabel!="" ? Lan.g(this,"Saved")+": "+photoShotPlan.GuideLabel : Lan.g(this,"Photo saved");
 				ShowInfo(textSaved);
 				RefreshGuide();
@@ -334,16 +385,18 @@ namespace OpenPmsDental {
 		}
 
 		///<summary>A small copy of the saved photo as it will show: flipped for a mirror shot and rotated as the slot says.</summary>
-		private void AddThumb(PhotoShotPlan photoShotPlan,Bitmap bitmap) {
+		private void AddThumb(PhotoShotPlan photoShotPlan,Bitmap bitmap,long docNum) {
 			Bitmap bitmapThumb=MakeThumb(bitmap,photoShotPlan.IsFlipped,photoShotPlan.DegreesRotated,_funcScale(160));
 			if(bitmapThumb==null) {
 				return;
 			}
 			if(photoShotPlan.MountItemNum==0) {
 				_listThumbsQuick.Add(bitmapThumb);
+				_listDocNumsQuick.Add(docNum);
 				while(_listThumbsQuick.Count>12) {
 					_listThumbsQuick[0].Dispose();
 					_listThumbsQuick.RemoveAt(0);
+					_listDocNumsQuick.RemoveAt(0);
 				}
 				return;
 			}
@@ -388,6 +441,247 @@ namespace OpenPmsDental {
 		}
 		#endregion Methods - Capture
 
+		#region Methods - Freeze, Teeth, Retake, Shot menu
+		///<summary>F: freezes the picture on screen (yellow border); Capture saves it, F or Esc goes back to live. Not while the camera has no
+		///picture.</summary>
+		private void ToggleFreeze() {
+			if(IsFrozen) {
+				Unfreeze();
+				return;
+			}
+			if(pictureLive.Image==null || _videoCaptureSession==null || !_videoCaptureSession.IsStreaming) {
+				ShowInfo(Lan.g(this,"No picture to freeze."));
+				return;
+			}
+			try {
+				_bitmapFrozen=new Bitmap(pictureLive.Image);
+				if(_isLiveFlipped) {
+					_bitmapFrozen.RotateFlip(RotateFlipType.RotateNoneFlipX);//saved as the camera gave it; the slot's flip is set on the document
+				}
+			}
+			catch(Exception ex) {
+				ex.DoNothing();//out of memory: stay live
+				_bitmapFrozen=null;
+				return;
+			}
+			ShowInfo(Lan.g(this,"Frozen: Capture saves it, F goes live."));
+			RefreshGuide();
+		}
+
+		private void Unfreeze() {
+			if(_bitmapFrozen==null) {
+				return;
+			}
+			_bitmapFrozen.Dispose();
+			_bitmapFrozen=null;
+			RefreshGuide();
+		}
+
+		///<summary>T: the teeth of the next photo, with the slot's teeth offered (the tooth picker of IMG-P2).</summary>
+		private void PickTeethNext() {
+			if(_model==null || _isEnded || (!_model.IsQuickPhotos && _model.SlotNext==null)) {
+				return;
+			}
+			ToothNumberingNomenclature toothNumberingNomenclature=(ToothNumberingNomenclature)PrefC.GetInt(PrefName.UseInternationalToothNumbers);
+			using FormToothPicker formToothPicker=new FormToothPicker(_model.GetTeethNext(),_model.SlotNext?.ToothNumbers,toothNumberingNomenclature);
+			if(formToothPicker.ShowDialog()!=DialogResult.OK) {
+				return;
+			}
+			_model.SetTeethNext(formToothPicker.ToothNumbers);
+			ShowInfo("");
+			RefreshGuide();
+		}
+
+		///<summary>Ctrl+Z: retakes the last photo of a photo mount.</summary>
+		private void RetakeLast() {
+			if(_model==null || _model.IsQuickPhotos) {
+				ShowInfo(Lan.g(this,"Right-click a photo to delete it."));
+				return;
+			}
+			PhotoShot shot=_model.ListShots.LastOrDefault(x => x.IdxSlot>=0);
+			if(shot==null) {
+				ShowInfo(Lan.g(this,"No photo of this session to retake."));
+				return;
+			}
+			Retake(shot);
+		}
+
+		///<summary>Retake (design section 2; as the X-ray session's Retake, design 7.11): the photo moves out of its slot to an unmounted item
+		///"Retake: slot", nothing is deleted, and the slot is the next one. Needs Image Delete, as the design says for Retake and Delete.</summary>
+		private void Retake(PhotoShot shot) {
+			if(!Security.IsAuthorized(EnumPermType.ImageDelete,suppressMessage:true)) {
+				ShowInfo(Lan.g(this,"Retake needs the Image Delete permission."));
+				return;
+			}
+			Document document=_store.GetDocument(shot.DocNum);
+			string slotLabel=shot.IdxSlot>=0 && shot.IdxSlot<_model.ListSlots.Count ? _model.ListSlots[shot.IdxSlot].GetLabel() : shot.GuideLabel;
+			if(document!=null) {
+				try {
+					_store.MoveToRetake(document,_mount.MountNum,slotLabel,_patient.PatNum);
+				}
+				catch(Exception ex) {
+					ShowInfo(Lan.g(this,"Could not retake")+" "+slotLabel+": "+ex.Message);
+					return;
+				}
+			}
+			RemoveThumb(shot);
+			_model.RemoveShot(shot);
+			ShowInfo(Lan.g(this,"Retake")+": "+slotLabel+". "+Lan.g(this,"The earlier photo is kept unmounted in this mount."));
+			RefreshGuide();
+		}
+
+		private void ShowShotMenu(Point point) {
+			PhotoShot shot=null;
+			if(_model.IsQuickPhotos) {
+				int idxQuick=panelMount.HitTestQuick(point);
+				if(idxQuick>=0 && idxQuick<_listDocNumsQuick.Count) {
+					shot=_model.ListShots.FirstOrDefault(x => x.DocNum==_listDocNumsQuick[idxQuick]);
+				}
+			}
+			else {
+				int idx=panelMount.HitTestSlot(point);
+				if(idx<0) {
+					return;
+				}
+				shot=_model.GetShotInSlot(idx);
+			}
+			if(shot==null) {
+				ShowInfo(Lan.g(this,"The right-click menu works on photos taken in this session."));
+				return;
+			}
+			_shotMenu=shot;
+			contextMenuShot.Items[0].Visible=!_model.IsQuickPhotos;//Retake: a slot only
+			contextMenuShot.Show(panelMount,point);
+		}
+
+		///<summary>Teeth of a photo taken in this session, as the module's Teeth (ImageEdit, logged).</summary>
+		private void EditTeethShot(PhotoShot shot) {
+			Document document=_store.GetDocument(shot.DocNum);
+			if(document==null || !ImageSignaturePermissions.IsAuthorizedToEdit(document)) {
+				return;
+			}
+			ToothNumberingNomenclature toothNumberingNomenclature=(ToothNumberingNomenclature)PrefC.GetInt(PrefName.UseInternationalToothNumbers);
+			string toothNumbersSlot=shot.IdxSlot>=0 && shot.IdxSlot<_model.ListSlots.Count ? _model.ListSlots[shot.IdxSlot].ToothNumbers : null;
+			using FormToothPicker formToothPicker=new FormToothPicker(document.ToothNumbers,toothNumbersSlot,toothNumberingNomenclature);
+			if(formToothPicker.ShowDialog()!=DialogResult.OK || formToothPicker.ToothNumbers==document.ToothNumbers) {
+				return;
+			}
+			Document documentOld=document.Copy();
+			document.ToothNumbers=formToothPicker.ToothNumbers;
+			try {
+				_store.UpdateDocument(document,documentOld);
+				_store.LogEdit(_patient.PatNum,"Document Edited: "+document.FileName+" teeth changed from '"+Tooth.DisplayRange(documentOld.ToothNumbers)
+					+"' to '"+Tooth.DisplayRange(document.ToothNumbers)+"'",document.DocNum);
+			}
+			catch(Exception ex) {
+				ShowInfo(Lan.g(this,"Could not change the teeth")+": "+ex.Message);
+				return;
+			}
+			ShowInfo(Lan.g(this,"Teeth changed."));
+		}
+
+		///<summary>Rotates a photo of this session 90 degrees clockwise (a display setting, as the module's Rotate Right; ImageEdit, logged).</summary>
+		private void RotateShot(PhotoShot shot) {
+			Document document=_store.GetDocument(shot.DocNum);
+			if(document==null || !ImageSignaturePermissions.IsAuthorizedToEdit(document)) {
+				return;
+			}
+			Document documentOld=document.Copy();
+			document.DegreesRotated=(((document.DegreesRotated%360)+360)%360+90)%360;
+			try {
+				_store.UpdateDocument(document,documentOld);
+				_store.LogEdit(_patient.PatNum,"Document Edited: "+document.FileName+" rotated to "+document.DegreesRotated+" degrees",document.DocNum);
+			}
+			catch(Exception ex) {
+				ShowInfo(Lan.g(this,"Could not rotate")+": "+ex.Message);
+				return;
+			}
+			Bitmap bitmapThumb=GetThumb(shot);
+			bitmapThumb?.RotateFlip(RotateFlipType.Rotate90FlipNone);
+			panelMount.Invalidate();
+			ShowInfo(Lan.g(this,"Rotated."));
+		}
+
+		///<summary>Deletes a photo of this session after asking (Image Delete; ImageStore.DeleteDocuments). Its slot is empty and next again.</summary>
+		private void DeleteShot(PhotoShot shot) {
+			Document document=_store.GetDocument(shot.DocNum);
+			if(document==null) {
+				RemoveThumb(shot);
+				_model.RemoveShot(shot);
+				RefreshGuide();
+				return;
+			}
+			if(!ImageSignaturePermissions.IsAuthorizedToDelete(document)) {
+				return;
+			}
+			if(!MsgBox.Show(this,MsgBoxButtons.OKCancel,"Delete this photo?")) {
+				return;
+			}
+			try {
+				_store.DeleteDocument(document,_patient.PatNum);
+			}
+			catch(Exception ex) {
+				ShowInfo(Lan.g(this,"Could not delete the photo")+": "+ex.Message);
+				return;
+			}
+			RemoveThumb(shot);
+			_model.RemoveShot(shot);
+			ShowInfo(Lan.g(this,"Photo deleted."));
+			RefreshGuide();
+		}
+
+		private Bitmap GetThumb(PhotoShot shot) {
+			if(shot.MountItemNum!=0) {
+				return _dictThumbs.TryGetValue(shot.MountItemNum,out Bitmap bitmap) ? bitmap : null;
+			}
+			int idx=_listDocNumsQuick.IndexOf(shot.DocNum);
+			return idx>=0 ? _listThumbsQuick[idx] : null;
+		}
+
+		private void RemoveThumb(PhotoShot shot) {
+			if(shot.MountItemNum!=0) {
+				if(_dictThumbs.TryGetValue(shot.MountItemNum,out Bitmap bitmap)) {
+					bitmap.Dispose();
+					_dictThumbs.Remove(shot.MountItemNum);
+				}
+				return;
+			}
+			int idx=_listDocNumsQuick.IndexOf(shot.DocNum);
+			if(idx>=0) {
+				_listThumbsQuick[idx].Dispose();
+				_listThumbsQuick.RemoveAt(idx);
+				_listDocNumsQuick.RemoveAt(idx);
+			}
+		}
+
+		///<summary>The confirmation of every shot (design section 2): a short white flash over the live picture and a soft click.</summary>
+		private void Flash() {
+			panelFlash.Bounds=pictureLive.Bounds;
+			panelFlash.Visible=true;
+			panelFlash.BringToFront();
+			timerFlash.Stop();
+			timerFlash.Start();
+			if(IsClickOn) {
+				PlayClick();
+			}
+		}
+
+		private static void PlayClick() {
+			try {
+				if(_arrayBytesClick==null) {
+					_arrayBytesClick=PhotoSounds.MakeClickWav();
+				}
+				using MemoryStream memoryStream=new MemoryStream(_arrayBytesClick);
+				using System.Media.SoundPlayer soundPlayer=new System.Media.SoundPlayer(memoryStream);
+				soundPlayer.Play();//asynchronous; the player has loaded the bytes
+			}
+			catch(Exception ex) {
+				ex.DoNothing();//no sound device: the flash still shows
+			}
+		}
+
+		#endregion Methods - Freeze, Teeth, Retake, Shot menu
+
 		#region Methods - Camera
 		private void RefreshCamera() {
 			if(_videoCaptureSession==null || _videoCaptureSession.Gate.IsClosing) {
@@ -409,7 +703,7 @@ namespace OpenPmsDental {
 
 		private void ShowNewFrame() {
 			Interlocked.Exchange(ref _isFramePosted,0);
-			if(IsDisposed || _videoCaptureSession==null || _isPreviewPaused) {
+			if(IsDisposed || _videoCaptureSession==null || _isPreviewPaused || IsFrozen) {
 				return;
 			}
 			UvcFrame frame=_videoCaptureSession.TakePreviewFrame();
@@ -424,7 +718,8 @@ namespace OpenPmsDental {
 				ex.DoNothing();//out of memory for one frame: the next one tries again
 				return;
 			}
-			if(_model?.IsNextFlipped==true) {
+			_isLiveFlipped=_model?.IsNextFlipped==true;
+			if(_isLiveFlipped) {
 				bitmap.RotateFlip(RotateFlipType.RotateNoneFlipX);//what you see is what is saved (design section 2, mirror shots)
 			}
 			SetLiveImage(bitmap);
@@ -548,11 +843,15 @@ namespace OpenPmsDental {
 				return;
 			}
 			//Built from slot labels, teeth and counts: not translation keys (Lan.g would add a language row for each).
-			labelGuide.Text=_model.GetGuideText(FuncDisplayTeeth);
+			labelGuide.Text=(IsFrozen ? Lan.g(this,"FROZEN")+"  " : "")+_model.GetGuideText(FuncDisplayTeeth);
+			panelLive.BackColor=IsFrozen ? Color.FromArgb(255,210,74) : Color.FromArgb(14,16,18);//the frozen picture has a yellow border
 			labelProgress.Text=_model.GetProgressText();
-			labelHint.Text=_model.IsQuickPhotos ? Lan.g(this,"Each photo is saved unmounted in the photo category.")
-				: Lan.g(this,"Yellow is next. Click an empty slot to shoot it next. Arrows skip a slot.");
+			labelHint.Text=_model.IsQuickPhotos ? Lan.g(this,"Each photo is saved unmounted in the photo category. Right-click a photo: Teeth, Rotate, Delete.")
+				: Lan.g(this,"Yellow is next. Click an empty slot to shoot it next. Right-click a photo: Retake, Teeth, Rotate, Delete. Ctrl+Z retakes the last.");
 			panelMount.SetSlots(_model,_mount,_dictThumbs,_listThumbsQuick);
+			if(butFreeze!=null) {
+				butFreeze.Text=IsFrozen ? Lan.g(this,"Live (F)") : Lan.g(this,"Freeze (F)");
+			}
 			LayoutControls();
 		}
 
@@ -585,15 +884,31 @@ namespace OpenPmsDental {
 			panelBar=new Panel { BackColor=UiTheme.SurfaceSubtle };
 			butCapture=new UI.Button { Text=Lan.g(this,"Capture (Space)"),TabStop=false };
 			butCapture.Click+=butCapture_Click;
-			butBack=new UI.Button { Text=Lan.g(this,"Previous slot (Left)"),TabStop=false };
+			butFreeze=new UI.Button { Text=Lan.g(this,"Freeze (F)"),TabStop=false };
+			butFreeze.Click+=(sender,e) => ToggleFreeze();
+			butTeeth=new UI.Button { Text=Lan.g(this,"Teeth (T)"),TabStop=false };
+			butTeeth.Click+=(sender,e) => PickTeethNext();
+			butBack=new UI.Button { Text=Lan.g(this,"Previous (Left)"),TabStop=false };
 			butBack.Click+=(sender,e) => Skip(isForward:false);
-			butSkip=new UI.Button { Text=Lan.g(this,"Skip slot (Right)"),TabStop=false };
+			butSkip=new UI.Button { Text=Lan.g(this,"Skip (Right)"),TabStop=false };
 			butSkip.Click+=(sender,e) => Skip(isForward:true);
 			butEnd=new UI.Button { Text=Lan.g(this,"End (Esc)"),TabStop=false };
 			butEnd.Click+=(sender,e) => End();
 			labelInfo=new Label { AutoSize=false,ForeColor=UiTheme.TextSecondary,BackColor=UiTheme.SurfaceSubtle,Font=UiTheme.FontBody,
 				TextAlign=ContentAlignment.MiddleLeft,UseMnemonic=false,AutoEllipsis=true };
-			panelBar.Controls.AddRange(new Control[] { butCapture,butBack,butSkip,butEnd,labelInfo });
+			panelBar.Controls.AddRange(new Control[] { butCapture,butFreeze,butTeeth,butBack,butSkip,butEnd,labelInfo });
+			panelFlash=new Panel { BackColor=Color.White,Visible=false };
+			panelLive.Controls.Add(panelFlash);
+			timerFlash=new System.Windows.Forms.Timer { Interval=120 };
+			timerFlash.Tick+=(sender,e) => {
+				timerFlash.Stop();
+				panelFlash.Visible=false;
+			};
+			contextMenuShot=new ContextMenuStrip();
+			contextMenuShot.Items.Add(Lan.g(this,"Retake"),null,(sender,e) => { if(_shotMenu!=null) Retake(_shotMenu); });
+			contextMenuShot.Items.Add(Lan.g(this,"Teeth..."),null,(sender,e) => { if(_shotMenu!=null) EditTeethShot(_shotMenu); });
+			contextMenuShot.Items.Add(Lan.g(this,"Rotate right"),null,(sender,e) => { if(_shotMenu!=null) RotateShot(_shotMenu); });
+			contextMenuShot.Items.Add(Lan.g(this,"Delete..."),null,(sender,e) => { if(_shotMenu!=null) DeleteShot(_shotMenu); });
 			panelRight=new Panel { BackColor=UiTheme.SurfaceRaised };
 			labelTitle=new Label { AutoSize=false,Font=UiTheme.FontTitle,ForeColor=UiTheme.Text,UseMnemonic=false,AutoEllipsis=true };
 			labelProgress=new Label { AutoSize=false,Font=UiTheme.FontBody,ForeColor=UiTheme.TextSecondary,UseMnemonic=false };
@@ -623,7 +938,8 @@ namespace OpenPmsDental {
 			panelBar.Bounds=new Rectangle(0,Height-heightBar,widthLeft,heightBar);
 			panelLive.Bounds=new Rectangle(0,heightBanner,widthLeft,Math.Max(0,Height-heightBanner-heightBar));
 			//live area
-			pictureLive.Bounds=new Rectangle(0,0,panelLive.Width,panelLive.Height);
+			int inset=IsFrozen ? _funcScale(4) : 0;
+			pictureLive.Bounds=new Rectangle(inset,inset,Math.Max(0,panelLive.Width-2*inset),Math.Max(0,panelLive.Height-2*inset));
 			//the guide box fits its text, wrapping when the live area is narrow
 			int widthGuideMax=Math.Max(_funcScale(60),panelLive.Width-2*pad);
 			int widthPadding=labelGuide.Padding.Horizontal+_funcScale(14);//the label's own margins
@@ -643,17 +959,16 @@ namespace OpenPmsDental {
 			int x=pad;
 			int heightButton=_funcScale(26);
 			int y=(heightBar-heightButton)/2;
-			foreach(UI.Button button in new[] { butCapture,butBack,butSkip,butEnd }) {
-				int widthButton=TextRenderer.MeasureText(button.Text,UiTheme.FontBody).Width+_funcScale(24);
-				button.Bounds=new Rectangle(x,y,widthButton,heightButton);
-				x+=widthButton+pad;
-			}
 			bool isMount=_model!=null && !_model.IsQuickPhotos;
 			butBack.Visible=isMount;
 			butSkip.Visible=isMount;
-			if(!isMount) {
-				butEnd.Left=butCapture.Right+pad;
-				x=butEnd.Right+pad;
+			foreach(UI.Button button in new[] { butCapture,butFreeze,butTeeth,butBack,butSkip,butEnd }) {
+				if(!button.Visible) {
+					continue;
+				}
+				int widthButton=TextRenderer.MeasureText(button.Text,UiTheme.FontBody).Width+_funcScale(24);
+				button.Bounds=new Rectangle(x,y,widthButton,heightButton);
+				x+=widthButton+pad;
 			}
 			labelInfo.Bounds=new Rectangle(x,y,Math.Max(0,widthLeft-x-pad),heightButton);
 			//right panel
@@ -662,7 +977,7 @@ namespace OpenPmsDental {
 			labelProgress.Bounds=new Rectangle(pad,labelTitle.Bottom,widthInner,_funcScale(20));
 			int heightMount=Math.Max(_funcScale(80),Math.Min(widthInner*3/4,panelRight.Height/2));
 			panelMount.Bounds=new Rectangle(pad,labelProgress.Bottom+pad,widthInner,heightMount);
-			labelHint.Bounds=new Rectangle(pad,panelMount.Bottom+pad,widthInner,_funcScale(48));
+			labelHint.Bounds=new Rectangle(pad,panelMount.Bottom+pad,widthInner,_funcScale(66));
 			labelCamera.Bounds=new Rectangle(pad,labelHint.Bottom+pad,widthInner,_funcScale(48));
 		}
 		#endregion Methods - Layout
@@ -675,6 +990,17 @@ namespace OpenPmsDental {
 			private Dictionary<long,Bitmap> _dictThumbs;
 			private List<Bitmap> _listThumbsQuick;
 			private readonly List<Rectangle> _listRectanglesSlots=new List<Rectangle>();
+			private readonly List<Rectangle> _listRectanglesQuick=new List<Rectangle>();
+
+			///<summary>The index in the quick photos under the point, or -1.</summary>
+			public int HitTestQuick(Point point) {
+				for(int i=0;i<_listRectanglesQuick.Count;i++) {
+					if(_listRectanglesQuick[i].Contains(point)) {
+						return i;
+					}
+				}
+				return -1;
+			}
 
 			public PanelMount() {
 				DoubleBuffered=true;
@@ -703,6 +1029,7 @@ namespace OpenPmsDental {
 			protected override void OnPaint(PaintEventArgs e) {
 				base.OnPaint(e);
 				_listRectanglesSlots.Clear();
+				_listRectanglesQuick.Clear();
 				if(_model==null) {
 					return;
 				}
@@ -755,6 +1082,7 @@ namespace OpenPmsDental {
 					if(rectangle.Bottom>Height) {
 						break;
 					}
+					_listRectanglesQuick.Add(rectangle);
 					g.DrawImage(_listThumbsQuick[i],FitInside(_listThumbsQuick[i].Size,rectangle));
 				}
 			}
