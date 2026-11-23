@@ -29,3 +29,9 @@ def layout(h):
     # The As of Date note: 317 px for its widest line (TextRenderer, Segoe UI 9), to the group's content edge.
     nd = h.n("labelAsOfDateDesc")
     h.set("labelAsOfDateDesc", None, None, gi.nw - 8 - nd.nx, None)
+    # The Delete All Transfers check box on the column of the date boxes and the Changed Since check box (6 px left of it), its label
+    # ending 6 px before it.
+    cd, ld = h.n("checkDeleteTransfers"), h.n("labelDeleteTransfers")
+    xc = ck.nx
+    h.set("checkDeleteTransfers", xc, None, cd.nx + cd.nw - xc, None)
+    h.set("labelDeleteTransfers", None, None, xc - 6 - ld.nx, None)

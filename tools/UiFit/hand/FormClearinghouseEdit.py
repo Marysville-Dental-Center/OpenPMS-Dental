@@ -33,3 +33,10 @@ def layout(h):
     h.set("groupBox1", None, None, R - g1.nx, None)
     h.set("groupBox3", None, None, (R - g1.nx) - 8 - g3.nx, None)
     h.set("comboClinic", R - c.nw, None)
+    # The Sender ID group on the X12 group's 8 px padding (12 px), 8 px before the Hexadecimal Delimiters group.
+    g2 = h.n("groupBox2")
+    h.set("groupBox2", 8, None, g3.nx - 8 - 8, None)
+    # Its fields keep the window's field column (the X12 group's): they move right by as much as the group moved left.
+    dx = g2.x - 8
+    for name in ("labelTIN", "textSenderTIN", "labelSenderName", "textSenderName", "labelSenderTelephone", "textSenderTelephone"):
+        h.set(name, h.n(name).nx + dx, None)

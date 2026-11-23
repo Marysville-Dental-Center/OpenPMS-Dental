@@ -339,7 +339,7 @@ namespace OpenPmsDental {
 			// 
 			// butPaySimple
 			// 
-			this.butPaySimple.Location = new System.Drawing.Point(236, 23);
+			this.butPaySimple.Location = new System.Drawing.Point(255, 23);
 			this.butPaySimple.Name = "butPaySimple";
 			this.butPaySimple.Size = new System.Drawing.Size(76, 26);
 			this.butPaySimple.TabIndex = 131;
@@ -461,7 +461,7 @@ namespace OpenPmsDental {
 			// 
 			// panelEdgeExpress
 			// 
-			this.panelEdgeExpress.Location = new System.Drawing.Point(73, 23);
+			this.panelEdgeExpress.Location = new System.Drawing.Point(80, 23);
 			this.panelEdgeExpress.Name = "panelEdgeExpress";
 			this.panelEdgeExpress.Size = new System.Drawing.Size(75, 26);
 			this.panelEdgeExpress.TabIndex = 132;
@@ -471,7 +471,7 @@ namespace OpenPmsDental {
 			// 
 			// butPayConnect
 			// 
-			this.butPayConnect.Location = new System.Drawing.Point(154, 23);
+			this.butPayConnect.Location = new System.Drawing.Point(167, 23);
 			this.butPayConnect.Name = "butPayConnect";
 			this.butPayConnect.Size = new System.Drawing.Size(76, 26);
 			this.butPayConnect.TabIndex = 132;

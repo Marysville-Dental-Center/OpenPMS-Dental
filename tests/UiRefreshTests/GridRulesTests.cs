@@ -92,8 +92,9 @@ namespace UiRefreshTests {
 				if(control.Dock!=DockStyle.None || !TextFitBoundsRecord.IsDesignedVisible(control) || control.Name=="") {
 					continue;
 				}
-				if(IsCut(control)) {
+				if(IsCut(control,out string detail)) {
 					listFindings.Add(window+"\ttext\t"+control.Name);
+					ListTextDetails.Add(window+" "+control.Name+" "+detail);
 				}
 			}
 			foreach(string[] arrayRow in listRuntimeTexts.Where(x => x[0]==window)) {
@@ -107,8 +108,9 @@ namespace UiRefreshTests {
 					if(Math.Abs(width-int.Parse(arrayRow[3]))>2 && !control.Text.Contains("\r\n")) {
 						listFindings.Add(window+"\truntime-width\t"+control.Name+" measures "+width);
 					}
-					if(IsCut(control)) {
+					if(IsCut(control,out string detail)) {
 						listFindings.Add(window+"\truntime-text\t"+control.Name);
+						ListTextDetails.Add(window+" "+control.Name+" (runtime) "+detail);
 					}
 				}
 				finally {
@@ -119,13 +121,17 @@ namespace UiRefreshTests {
 
 		///<summary>The control's text does not fit it: too wide for its one line, or more lines than its height holds (an ink check of 1-2 px
 		///tall lines as the scan does it).</summary>
-		private static bool IsCut(Control control) {
+		private static bool IsCut(Control control,out string detail) {
 			TextFitResult result=TextFitMeasurer.Measure(control,1f);
+			detail=result.Kind+" "+control.Width+"x"+control.Height+" needs +"+result.NeedWidth+" x +"+result.NeedHeight;
 			if(result.Method==TextFitMethod.None) {
 				return false;
 			}
 			return result.Kind==TextFitKind.Width || result.Kind==TextFitKind.Line || (result.Kind==TextFitKind.Height && result.IsInkChecked && result.IsInkClipped);
 		}
+
+		///<summary>The measurements of the text findings, for the failure message.</summary>
+		private static List<string> ListTextDetails=new List<string>();
 
 		///<summary>UI-12 slice 1 (fix round 8): outside Canada FormCarrierEdit's Load hides the CDAnet group and the Is CDAnet Carrier check box and
 		///sets the window 560 px wide and their heights less tall (this.Height-groupCDAnet.Height-checkIsCDAnet.Height). Every other control, the
@@ -146,8 +152,9 @@ namespace UiRefreshTests {
 						int heightClient=root.Height-groupCDAnet.Height-checkIsCDAnet.Height;
 						int widthClient=560-(builtWindow.Form.Width-root.Width);
 						Assert.IsTrue(widthClient>500 && widthClient<=560,"The client width at 560 px: "+widthClient);
-						List<Control> listBar=root.Controls.Cast<Control>().Where(x => x.Anchor.HasFlag(AnchorStyles.Bottom) && !x.Anchor.HasFlag(AnchorStyles.Top)).ToList();
-						Assert.IsTrue(listBar.Count>=2,"Save and Delete are anchored to the bottom.");
+						//The bottom bar (anchored to the bottom in the designer; LayoutManager keeps it on the client area's bottom).
+						List<Control> listBar=new List<Control> { root.Controls["butSave"],root.Controls["butDelete"] };
+						Assert.IsTrue(listBar.All(x => x!=null),"Save and Delete stand on the window.");
 						int yBar=listBar.Min(x => x.Top)-(root.Height-heightClient);
 						foreach(Control control in root.Controls) {
 							if(control==groupCDAnet || control==checkIsCDAnet || listBar.Contains(control)) {
@@ -160,10 +167,9 @@ namespace UiRefreshTests {
 								listProblems.Add(control.Name+" "+control.Bounds+" (client "+widthClient+" x "+heightClient+", bar at "+yBar+")");
 							}
 						}
-						foreach(Control control in listBar) {
-							if(control.Right-(root.Width-widthClient)<8 && control.Anchor.HasFlag(AnchorStyles.Right)) {
-								listProblems.Add(control.Name+" past the left edge");
-							}
+						//Save moves left with the window's right edge (anchored right): it stays right of Delete.
+						if(listBar[0].Left-(root.Width-widthClient)<listBar[1].Right+8) {
+							listProblems.Add("butSave over butDelete");
 						}
 					}
 				}
@@ -263,7 +269,8 @@ namespace UiRefreshTests {
 			Assert.AreEqual(0,listFailed.Count,"Windows that could not be built: "+string.Join("; ",listFailed));
 			List<string> listNew=listFindings.Where(x => !hashSetKnown.Contains(x)).ToList();
 			List<string> listGone=hashSetKnown.Where(x => !listFindings.Contains(x)).ToList();
-			Assert.AreEqual(0,listNew.Count,"Grid findings not in grid-known.tsv:"+Environment.NewLine+string.Join(Environment.NewLine,listNew));
+			Assert.AreEqual(0,listNew.Count,"Grid findings not in grid-known.tsv:"+Environment.NewLine+string.Join(Environment.NewLine,listNew)
+				+Environment.NewLine+"Text measured:"+Environment.NewLine+string.Join(Environment.NewLine,ListTextDetails));
 			Assert.AreEqual(0,listGone.Count,"grid-known.tsv rows that no longer happen (remove them):"+Environment.NewLine+string.Join(Environment.NewLine,listGone));
 		}
 
@@ -407,9 +414,10 @@ namespace UiRefreshTests {
 					}
 				}
 				//UI-12 slice 1 (fix round 8): a clinic picker under a field of a column (the next row, its box within 40 px of the field's left edge)
-				//has its box on that column: the same left edge, and under a combo box of about its width the same right edge too
-				//(FormRpDPPOvercharged's and FormRpProcOverpaid's Clinics under Providers). The column check does not see a picker: it names
-				//itself, no label stands before it.
+				//has its box on that column: the same left edge, and under a combo box of about its width (right edges within 16 px, the grid's edge
+				//snap) the same right edge too (FormRpDPPOvercharged's and FormRpProcOverpaid's Clinics under Providers). A picker that ends on the
+				//picker button after the combo box (FormAdjust) or well past it is a wider field on the column. The column check does not see a
+				//picker: it names itself, no label stands before it.
 				foreach(Control picker in listKids.Where(x => x is OpenPmsDental.UI.ComboBoxClinicPicker comboBoxClinicPicker && comboBoxClinicPicker.ShowLabel)) {
 					Rectangle rectangleBox=GetBox(picker);
 					Control fieldAbove=listKids.Where(x => x!=picker && IsSingleLineField(x) && x.Bottom<=picker.Top+1 && picker.Top-x.Bottom<12
@@ -420,7 +428,7 @@ namespace UiRefreshTests {
 					Rectangle rectangleAbove=GetBox(fieldAbove);
 					bool isComboAbove=fieldAbove is System.Windows.Forms.ComboBox || fieldAbove.GetType().Name.Contains("ComboBox");
 					if(Math.Abs(rectangleAbove.Left-rectangleBox.Left)>1
-						|| (isComboAbove && Math.Abs(rectangleAbove.Right-rectangleBox.Right)<=40 && Math.Abs(rectangleAbove.Right-rectangleBox.Right)>1))
+						|| (isComboAbove && Math.Abs(rectangleAbove.Right-rectangleBox.Right)<=16 && Math.Abs(rectangleAbove.Right-rectangleBox.Right)>1))
 					{
 						listFindings.Add(window+"\tpicker-column\t"+picker.Name+" "+fieldAbove.Name);
 					}

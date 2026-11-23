@@ -357,22 +357,22 @@ namespace OpenPmsDental{
 			this.textClaimInsPaidSum.Location = new System.Drawing.Point(8, 47);
 			this.textClaimInsPaidSum.Name = "textClaimInsPaidSum";
 			this.textClaimInsPaidSum.ReadOnly = true;
-			this.textClaimInsPaidSum.Size = new System.Drawing.Size(135, 23);
+			this.textClaimInsPaidSum.Size = new System.Drawing.Size(122, 23);
 			this.textClaimInsPaidSum.TabIndex = 176;
 			// 
 			// textProjAdjAmtSum
 			// 
 			this.textProjAdjAmtSum.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.textProjAdjAmtSum.Location = new System.Drawing.Point(171, 47);
+			this.textProjAdjAmtSum.Location = new System.Drawing.Point(158, 47);
 			this.textProjAdjAmtSum.Name = "textProjAdjAmtSum";
 			this.textProjAdjAmtSum.ReadOnly = true;
-			this.textProjAdjAmtSum.Size = new System.Drawing.Size(135, 23);
+			this.textProjAdjAmtSum.Size = new System.Drawing.Size(122, 23);
 			this.textProjAdjAmtSum.TabIndex = 178;
 			// 
 			// label18
 			// 
 			this.label18.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label18.Location = new System.Drawing.Point(149, 47);
+			this.label18.Location = new System.Drawing.Point(136, 47);
 			this.label18.Name = "label18";
 			this.label18.Size = new System.Drawing.Size(16, 23);
 			this.label18.TabIndex = 180;
@@ -382,7 +382,7 @@ namespace OpenPmsDental{
 			// label20
 			// 
 			this.label20.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label20.Location = new System.Drawing.Point(312, 47);
+			this.label20.Location = new System.Drawing.Point(286, 47);
 			this.label20.Name = "label20";
 			this.label20.Size = new System.Drawing.Size(20, 23);
 			this.label20.TabIndex = 182;
@@ -392,10 +392,10 @@ namespace OpenPmsDental{
 			// textPayAmountCalc
 			// 
 			this.textPayAmountCalc.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.textPayAmountCalc.Location = new System.Drawing.Point(338, 47);
+			this.textPayAmountCalc.Location = new System.Drawing.Point(312, 47);
 			this.textPayAmountCalc.Name = "textPayAmountCalc";
 			this.textPayAmountCalc.ReadOnly = true;
-			this.textPayAmountCalc.Size = new System.Drawing.Size(136, 23);
+			this.textPayAmountCalc.Size = new System.Drawing.Size(122, 23);
 			this.textPayAmountCalc.TabIndex = 184;
 			// 
 			// groupBalancing
@@ -410,25 +410,25 @@ namespace OpenPmsDental{
 			this.groupBalancing.Controls.Add(this.label18);
 			this.groupBalancing.Location = new System.Drawing.Point(8, 226);
 			this.groupBalancing.Name = "groupBalancing";
-			this.groupBalancing.Size = new System.Drawing.Size(482, 78);
+			this.groupBalancing.Size = new System.Drawing.Size(442, 78);
 			this.groupBalancing.TabIndex = 211;
 			this.groupBalancing.TabStop = false;
 			this.groupBalancing.Text = "Balancing - Pay Amount Calc should exactly match Payment Amount";
 			// 
 			// labelEquation3
 			// 
-			this.labelEquation3.Location = new System.Drawing.Point(338, 23);
+			this.labelEquation3.Location = new System.Drawing.Point(312, 23);
 			this.labelEquation3.Name = "labelEquation3";
-			this.labelEquation3.Size = new System.Drawing.Size(136, 20);
+			this.labelEquation3.Size = new System.Drawing.Size(122, 20);
 			this.labelEquation3.TabIndex = 187;
 			this.labelEquation3.Text = "Pay Amount Calc";
 			this.labelEquation3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// labelEquation2
 			// 
-			this.labelEquation2.Location = new System.Drawing.Point(171, 23);
+			this.labelEquation2.Location = new System.Drawing.Point(158, 23);
 			this.labelEquation2.Name = "labelEquation2";
-			this.labelEquation2.Size = new System.Drawing.Size(135, 20);
+			this.labelEquation2.Size = new System.Drawing.Size(122, 20);
 			this.labelEquation2.TabIndex = 186;
 			this.labelEquation2.Text = "Prov AdjAmt Sum";
 			this.labelEquation2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -437,7 +437,7 @@ namespace OpenPmsDental{
 			// 
 			this.labelEquation1.Location = new System.Drawing.Point(8, 23);
 			this.labelEquation1.Name = "labelEquation1";
-			this.labelEquation1.Size = new System.Drawing.Size(135, 20);
+			this.labelEquation1.Size = new System.Drawing.Size(122, 20);
 			this.labelEquation1.TabIndex = 185;
 			this.labelEquation1.Text = "Claim InsPaid Sum";
 			this.labelEquation1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;

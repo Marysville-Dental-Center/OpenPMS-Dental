@@ -26,3 +26,4 @@ def layout(h):
     yp = gi.ny + gi.nh - h.H
     for name in ("labelPatBirthdate", "textPatBirthdate"):
         h.set(name, None, yp)
+    h.set("textPatBirthdate", None, None, h.n("textSubscriberName").nw, None)

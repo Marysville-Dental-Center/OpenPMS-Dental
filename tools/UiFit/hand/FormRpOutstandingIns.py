@@ -19,13 +19,14 @@ def layout(h):
     # The groups beside the bottom buttons move left with them (their fields keep their distance to the filter group's columns).
     for name in ("groupBox1", "groupBox3", "groupBoxUpdateCustomTracking"):
         h.set(name, h.n(name).x - dx, None)
-    # Fix round 8: Zero Claims 6 px after Assign User on its row, the three groups 8 px after it (frame_left moved the groups but not Zero
-    # Claims: they touched), and the Custom Tracking group as tall as the two info groups beside it (one height for groups side by side).
-    au, zc = h.n("butAssignUser"), h.n("butZeroClaims")
-    xz = au.nx + au.nw + 6
-    h.set("butZeroClaims", xz, None)
-    xg = xz + zc.nw + 8
-    dxg = xg - h.n("groupBox1").nx
-    for name in ("groupBox1", "groupBox3", "groupBoxUpdateCustomTracking"):
-        h.set(name, h.n(name).nx + dxg, None)
+    # Fix round 8: the three groups stay where frame_left put them (their fields on the filter group's columns); Assign User and Zero Claims
+    # narrow to their text (68 and 69 px) so that Zero Claims stands 6 px after Assign User and 8 px before the groups (frame_left moved the
+    # groups but not Zero Claims: they touched). The Custom Tracking group as tall as the two info groups beside it (one height for groups
+    # side by side).
+    au = h.n("butAssignUser")
+    xg = h.n("groupBox1").nx
+    wz = 72
+    xz = xg - 8 - wz
+    h.set("butAssignUser", None, None, xz - 6 - au.nx, None)
+    h.set("butZeroClaims", xz, None, wz, None)
     h.set("groupBoxUpdateCustomTracking", None, None, None, h.n("groupBox1").nh)

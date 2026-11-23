@@ -144,9 +144,9 @@ namespace OpenPmsDental{
 			// 
 			// checkDeleteTransfers
 			// 
-			this.checkDeleteTransfers.Location = new System.Drawing.Point(134, 223);
+			this.checkDeleteTransfers.Location = new System.Drawing.Point(140, 223);
 			this.checkDeleteTransfers.Name = "checkDeleteTransfers";
-			this.checkDeleteTransfers.Size = new System.Drawing.Size(460, 40);
+			this.checkDeleteTransfers.Size = new System.Drawing.Size(454, 40);
 			this.checkDeleteTransfers.TabIndex = 2;
 			this.checkDeleteTransfers.Text = "Deletes all transfers, regardless of date.  But they must have PayType=0 and Amt=" +
     "0.";
@@ -155,7 +155,7 @@ namespace OpenPmsDental{
 			// 
 			this.labelDeleteTransfers.Location = new System.Drawing.Point(8, 234);
 			this.labelDeleteTransfers.Name = "labelDeleteTransfers";
-			this.labelDeleteTransfers.Size = new System.Drawing.Size(120, 17);
+			this.labelDeleteTransfers.Size = new System.Drawing.Size(126, 17);
 			this.labelDeleteTransfers.TabIndex = 157;
 			this.labelDeleteTransfers.Text = "Delete All Transfers";
 			this.labelDeleteTransfers.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

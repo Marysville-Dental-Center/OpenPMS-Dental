@@ -10,3 +10,15 @@ def layout(h):
     for name in ("textNote", "groupPrepaid"):
         n = h.n(name)
         h.set(name, None, None, R - n.nx, None)
+    # The group's four buttons (the code shows one or more) spread over its content, the first on its left padding and the last 8 px inside
+    # its right side, as main has them.
+    gp = h.n("groupPrepaid")
+    names = ("panelXcharge", "panelEdgeExpress", "butPayConnect", "butPaySimple")
+    inner = (R - gp.nx) - 16
+    room = inner - sum(h.n(n).nw for n in names)
+    x = 8
+    for i, name in enumerate(names):
+        h.set(name, x, None)
+        if i < 3:
+            gap = room // 3 + (1 if i < room % 3 else 0)
+            x += h.n(name).nw + gap

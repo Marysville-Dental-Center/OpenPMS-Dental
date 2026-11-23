@@ -17,23 +17,21 @@ def layout(h):
             lw = max(h.lw(lab), x - 6 - l.x)
             h.set(lab, x - 6 - lw, None, lw)
             h.text_align(lab, "MiddleRight")
-    # Fix round 8: the Balancing group on the payer field column's right edge (its content ended 32 px short of its right side), its three
-    # sums spread over its content with the - and = signs 6 px from them, each caption over its box (the planner had put the captions on a
-    # row of their own, 6 px apart, off their boxes; main: over them).
+    # Fix round 8: the Balancing group's content 8 px inside it on both sides (its content ended 32 px short of its right side): the middle
+    # sum on the payer field column (the window's column check pairs it with the payer fields through the - sign before it), the three sums
+    # one width with the - and = signs 6 px from them, each caption over its box (the planner had put the captions on a row of their own, 6 px
+    # apart, off their boxes; main: over them), the group to its content.
     gb = h.n("groupBalancing")
-    R = h.n("textPayerName").nx + h.n("textPayerName").nw
-    h.set("groupBalancing", None, None, R - gb.nx, None)
-    inner = (R - gb.nx) - 16
-    ops = (("label18", 16), ("label20", 20))
-    W = (inner - sum(w for _, w in ops) - 4 * 6) // 3
+    col = h.n("textPayerName").nx - gb.nx
+    W = col - 8 - 6 - 16 - 6
     x = 8
-    boxes = (("textClaimInsPaidSum", "labelEquation1"), ("textProjAdjAmtSum", "labelEquation2"), ("textPayAmountCalc", "labelEquation3"))
-    for i, (box, cap) in enumerate(boxes):
-        w = W if i < 2 else 8 + inner - x
-        h.set(box, x, None, w, None)
-        h.set(cap, x, None, w, None)
-        x += w + 6
-        if i < 2:
-            op, ow = ops[i]
-            h.set(op, x, None, ow, None)
-            x += ow + 6
+    boxes = (("textClaimInsPaidSum", "labelEquation1", ("label18", 16)), ("textProjAdjAmtSum", "labelEquation2", ("label20", 20)),
+             ("textPayAmountCalc", "labelEquation3", None))
+    for box, cap, op in boxes:
+        h.set(box, x, None, W, None)
+        h.set(cap, x, None, W, None)
+        x += W + 6
+        if op:
+            h.set(op[0], x, None, op[1], None)
+            x += op[1] + 6
+    h.set("groupBalancing", None, None, x - 6 + 8, None)

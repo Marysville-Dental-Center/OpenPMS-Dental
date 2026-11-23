@@ -228,7 +228,7 @@ namespace OpenPmsDental{
 			this.textPatBirthdate.Location = new System.Drawing.Point(609, 506);
 			this.textPatBirthdate.Name = "textPatBirthdate";
 			this.textPatBirthdate.ReadOnly = true;
-			this.textPatBirthdate.Size = new System.Drawing.Size(116, 20);
+			this.textPatBirthdate.Size = new System.Drawing.Size(113, 23);
 			this.textPatBirthdate.TabIndex = 229;
 			// 
 			// labelPatBirthdate

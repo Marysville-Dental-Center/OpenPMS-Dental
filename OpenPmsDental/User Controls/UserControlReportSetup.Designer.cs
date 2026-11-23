@@ -38,7 +38,7 @@
 			//
 			this.labelInstructions.Location = new System.Drawing.Point(3, 3);
 			this.labelInstructions.Name = "labelInstructions";
-			this.labelInstructions.Size = new System.Drawing.Size(389, 28);
+			this.labelInstructions.Size = new System.Drawing.Size(389, 31);
 			this.labelInstructions.TabIndex = 221;
 			this.labelInstructions.Text = "Click a display name to rename the report, or a box to mark it.\r\nUp and Down move the selected report within its category.";
 			this.labelInstructions.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
