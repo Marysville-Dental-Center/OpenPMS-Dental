@@ -914,11 +914,19 @@ namespace ImagingTests {
 			//The PrefName stays, for the convert scripts, and says that nothing reads it any more.
 			StringAssert.Contains(Read("OpenPmsDentalBusiness","TableTypes","Pref.cs"),"\t\tImagesModuleUsesOld2020,");
 			StringAssert.Contains(Read("OpenPmsDentalBusiness","Misc","ConvertDatabases6.cs"),"'ImagesModuleUsesOld2020'");
-			//Setup > Imaging has no check box for it, and the boxes below it moved up into its row.
+			//Setup > Imaging has no check box for it, and the boxes below it moved up into its row: the group holds three check boxes, stacked at
+			//one even pitch with no empty row. The pixel positions are UI-12's layout grid, so the test checks the stacking, not the numbers.
 			string designer=Read("OpenPmsDental","User Controls","Preferences","UserControlImagingGeneral.Designer.cs");
-			StringAssert.Contains(designer,"this.checkImagingOrderDescending.Location = new System.Drawing.Point(5, 41);");
-			StringAssert.Contains(designer,"this.checkImagingAllowPdfJavascript.Location = new System.Drawing.Point(5, 72);");
-			StringAssert.Contains(designer,"this.groupBoxFunctionality.Size = new System.Drawing.Size(450, 98);");
+			List<int> listTops=new List<int>();
+			foreach(string nameCheck in new[] { "checkPDFLaunchWindow","checkImagingOrderDescending","checkImagingAllowPdfJavascript" }) {
+				StringAssert.Contains(designer,"this.groupBoxFunctionality.Controls.Add(this."+nameCheck+");");
+				Match match=Regex.Match(designer,@"this\."+nameCheck+@"\.Location = new System\.Drawing\.Point\(\d+, (\d+)\);");
+				Assert.IsTrue(match.Success,nameCheck+" has a location.");
+				listTops.Add(int.Parse(match.Groups[1].Value));
+			}
+			Assert.AreEqual(3,Regex.Matches(designer,@"this\.groupBoxFunctionality\.Controls\.Add\(").Count,"Only the three check boxes are left in the group.");
+			listTops.Sort();
+			Assert.AreEqual(listTops[1]-listTops[0],listTops[2]-listTops[1],"Even pitch, no empty row: "+string.Join(",",listTops));
 			Assert.AreEqual(0,Count(Read("OpenPmsDental","Forms","FormPreferences.cs"),"DoSwapImagingModule"),"No forced restart after a module swap.");
 			//FormOpenDental always creates the current module.
 			string formOpenDental=Read("OpenPmsDental","Main Modules","FormOpenDental.cs");

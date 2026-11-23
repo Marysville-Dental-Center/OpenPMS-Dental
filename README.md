@@ -6,7 +6,7 @@ Open PMS - Dental is a fork of Open Dental (c) Open Dental Software, Inc. and co
 
 **Free, open-source practice management software for dental offices, for Windows.** It started from the [Open Dental](https://www.opendental.com) source code (v24.3.63) and keeps everything an office relies on: scheduling, charting, billing, insurance, imaging and reports. It is written for one dental practice and published for anyone to use. See [NOTICE](NOTICE) for attribution and [LICENSE](LICENSE) for the GNU General Public License; every Open Dental copyright line and GPL notice is kept.
 
-**Project site: [marysville-dental-center.github.io/OpenPMS-Dental](https://marysville-dental-center.github.io/OpenPMS-Dental/)**
+**Project site:** the website link in this repository's About panel (GitHub Pages, built from [`site/`](site/)).
 
 ## Philosophy
 
