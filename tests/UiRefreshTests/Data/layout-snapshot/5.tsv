@@ -1037,11 +1037,11 @@ OpenPmsDental/Forms/FormRecallTypeEdit.designer.cs	label14	38,23	80,23
 OpenPmsDental/Forms/FormRecallTypeEdit.designer.cs	label15	14,50	104,33	
 OpenPmsDental/Forms/FormRecallTypeEdit.designer.cs	listProcs	124,50	214,108	
 OpenPmsDental/Forms/FormRecallTypeEdit.designer.cs	groupBox2	42,437	482,199	
-OpenPmsDental/Forms/FormRecallTypeEdit.designer.cs	labelRestrictToBlockouts	18,159	100,34	
+OpenPmsDental/Forms/FormRecallTypeEdit.designer.cs	labelRestrictToBlockouts	12,159	106,34	
 OpenPmsDental/Forms/FormRecallTypeEdit.designer.cs	butRemoveProc	344,134	78,24	
-OpenPmsDental/Forms/FormRecallTypeEdit.designer.cs	butSelectBlockouts	344,165	21,23	
+OpenPmsDental/Forms/FormRecallTypeEdit.designer.cs	butSelectBlockouts	350,165	21,23	
 OpenPmsDental/Forms/FormRecallTypeEdit.designer.cs	butAddProc	344,106	78,24	
-OpenPmsDental/Forms/FormRecallTypeEdit.designer.cs	textRestrictToBlockouts	124,165	214,23	
+OpenPmsDental/Forms/FormRecallTypeEdit.designer.cs	textRestrictToBlockouts	124,165	220,20	
 OpenPmsDental/Forms/FormRecallTypeEdit.designer.cs	listTriggers	160,100	220,186	
 OpenPmsDental/Forms/FormRecallTypeEdit.designer.cs	labelTriggers	39,100	115,52	
 OpenPmsDental/Forms/FormRecallTypeEdit.designer.cs	label3	84,35	76,23	
