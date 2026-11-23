@@ -26,6 +26,8 @@ namespace OpenPmsDental {
 		public int CountSaved { get; set; }
 		///<summary>Photos of this session still in it (not deleted or retaken): 0 lets the module remove a mount the session made.</summary>
 		public int CountShotsLeft { get; set; }
+		///<summary>Photos that could not be saved and were kept on this computer: their mount must stay, for filing them into their slots.</summary>
+		public int CountKept { get; set; }
 		///<summary>True when the session ended because the patient changed.</summary>
 		public bool IsPatientChange { get; set; }
 		///<summary>True when the session ended because the user left the Imaging module: the module is not refreshed.</summary>
@@ -79,6 +81,7 @@ namespace OpenPmsDental {
 		private DateTime _dateTimeActivity=DateTime.Now;
 		///<summary>True while the camera is released for being idle; Capture, Space or Wake opens it again.</summary>
 		private bool _isAsleep;
+		private int _countKept;
 		private VideoStatusAction _videoStatusAction;
 		private Label labelBanner;
 		private Panel panelLive;
@@ -189,6 +192,7 @@ namespace OpenPmsDental {
 				DocNumLast=_docNumLast,
 				CountSaved=_model?.CountSaved??0,
 				CountShotsLeft=_model?.ListShots.Count??0,
+				CountKept=_countKept,
 				IsPatientChange=isPatientChange,
 				IsModuleLeft=isModuleLeft,
 			});
@@ -412,6 +416,7 @@ namespace OpenPmsDental {
 		}
 
 		private void Skip(bool isForward) {
+			_dateTimeActivity=DateTime.Now;
 			if(_model==null || _model.IsQuickPhotos) {
 				return;
 			}
@@ -504,12 +509,17 @@ namespace OpenPmsDental {
 				ShowInfo("");
 				return;
 			}
+			_countKept++;
 			ShowAlert(Lan.g(this,"Photo could not be saved. It is kept on this computer; Camera, Unsaved photos files it later.")+"\r\n"+errorSave);
 			ShowInfo("");
 		}
 
 		private void timerIdle_Tick(object sender,EventArgs e) {
 			if(_isAsleep || _isEnded || _videoCaptureSession==null || !_videoCaptureSession.IsStreaming) {
+				return;
+			}
+			if(!IsEnabledForCapture()) {
+				_dateTimeActivity=DateTime.Now;//a window over the session (the tooth picker, a question) is someone at work
 				return;
 			}
 			if((DateTime.Now-_dateTimeActivity).TotalMinutes<MinutesIdle) {
@@ -542,6 +552,7 @@ namespace OpenPmsDental {
 		///<summary>F: freezes the picture on screen (yellow border); Capture saves it, F or Esc goes back to live. Not while the camera has no
 		///picture.</summary>
 		private void ToggleFreeze() {
+			_dateTimeActivity=DateTime.Now;
 			if(IsFrozen) {
 				Unfreeze();
 				return;
@@ -577,6 +588,7 @@ namespace OpenPmsDental {
 
 		///<summary>T: the teeth of the next photo, with the slot's teeth offered (the tooth picker of IMG-P2).</summary>
 		private void PickTeethNext() {
+			_dateTimeActivity=DateTime.Now;
 			if(_model==null || _isEnded || (!_model.IsQuickPhotos && _model.SlotNext==null)) {
 				return;
 			}
@@ -632,6 +644,7 @@ namespace OpenPmsDental {
 		}
 
 		private void ShowShotMenu(Point point) {
+			_dateTimeActivity=DateTime.Now;
 			PhotoShot shot=null;
 			if(_model.IsQuickPhotos) {
 				int idxQuick=panelMount.HitTestQuick(point);

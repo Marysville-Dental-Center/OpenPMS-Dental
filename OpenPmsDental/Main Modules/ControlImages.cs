@@ -3041,15 +3041,15 @@ namespace OpenPmsDental{
 			List<string> listErrors=new List<string>();
 			int countFiled=0;
 			for(int i=0;i<listPhotos.Count;i++){
-				string error=ImagingCapture.Photo.PhotoQuarantine.FileOne(odPhotoStore,listPhotos[i]);
-				if(error==""){
+				string error=ImagingCapture.Photo.PhotoQuarantine.FileOne(odPhotoStore,listPhotos[i],out bool isFiled);
+				if(isFiled){
 					countFiled++;
 				}
-				else{
-					listErrors.Add(System.IO.Path.GetFileName(listPhotos[i].PathImage)+": "+error);
+				if(error!=""){
+					listErrors.Add(System.IO.Path.GetFileName(listPhotos[i].PathImage)+(isFiled ? " ("+Lan.g(this,"filed")+")" : "")+": "+error);
 				}
 			}
-			string result=Lan.g(this,"Photos filed")+": "+countFiled+(listErrors.Count==0 ? "" : "\r\n"+Lan.g(this,"Not filed")+":\r\n"+string.Join("\r\n",listErrors));
+			string result=Lan.g(this,"Photos filed")+": "+countFiled+(listErrors.Count==0 ? "" : "\r\n"+Lan.g(this,"Problems")+":\r\n"+string.Join("\r\n",listErrors));
 			if(_patient!=null && listPhotos.Any(x => x.PatNum==_patient.PatNum)){
 				FillImageSelector(true);
 			}
@@ -3068,11 +3068,19 @@ namespace OpenPmsDental{
 			//The whole monitor the module is on (owner design C1); a borderless window owned by the main window, not maximised, not topmost.
 			Form form=new Form();
 			form.FormBorderStyle=FormBorderStyle.None;
+			form.ControlBox=false;//Win+Down and Win+Up must not minimise or maximise it (decision C1: the monitor's bounds)
+			form.MinimizeBox=false;
+			form.MaximizeBox=false;
 			form.StartPosition=FormStartPosition.Manual;
 			form.Bounds=System.Windows.Forms.Screen.FromControl(this).Bounds;
 			form.ShowInTaskbar=false;
 			form.Text=Lan.g(this,"Camera");
 			form.BackColor=Color.Black;
+			form.Resize+=(senderForm,eResize) => {
+				if(_formCameraFullScreen==form && form.WindowState!=FormWindowState.Normal){
+					BeginInvoke((Action)ExitCameraFullScreen);//minimised or maximised anyway: back into the module
+				}
+			};
 			form.FormClosing+=(senderForm,eClosing) => {
 				if(_formCameraFullScreen==form && eClosing.CloseReason==CloseReason.UserClosing){
 					eClosing.Cancel=true;//Alt+F4 goes back to the module; End ends the session
@@ -3209,7 +3217,7 @@ namespace OpenPmsDental{
 			long mountNumCreated=_mountNumCameraCreated;
 			_mountNumCameraCreated=0;
 			bool isMountRemoved=false;
-			if(mountNumCreated!=0 && e.MountNum==mountNumCreated && e.CountShotsLeft==0){//no photo, or all deleted again (retakes stay in the mount)
+			if(mountNumCreated!=0 && e.MountNum==mountNumCreated && e.CountShotsLeft==0 && e.CountKept==0){//kept photos are filed into its slots//no photo, or all deleted again (retakes stay in the mount)
 				isMountRemoved=RemoveEmptyCameraMount(mountNumCreated,controlCameraSession.Patient?.PatNum??0);
 			}
 			BeginInvoke((Action)(() => {

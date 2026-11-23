@@ -30,6 +30,18 @@ recording (IMG-P4c) comes next.
      removed. A photo that cannot be filed stays, and the reason is reported. It needs ImageCreate.
    - The X-ray capture quarantine and its recovery window are not changed: they read radiographs only. Photos have their own folder.
 
+4. **Review fixes:**
+   - A mount the session made stays when photos were kept unsaved, so they file into its slots.
+   - Filing puts a photo into a slot only when the mount belongs to the same patient, because a deleted mount's number can be given out
+     again.
+   - A filed photo keeps the time it was taken.
+   - A photo filed but not placed is reported.
+   - The full-screen window can't be minimised or maximised; if Windows does it anyway, the session goes back into the module.
+   - The idle release counts the toolbar buttons as activity, and never fires while a window (the tooth picker, a question) is over the
+     session.
+   - Not changed: the unsaved-photo folder is readable by every Windows user of the computer, like the X-ray capture quarantine; and a
+     photo whose patient was deleted cannot be filed and stays listed.
+
 ## Files
 
 - `ImagingCapture/Photo/PhotoQuarantine.cs` (new).

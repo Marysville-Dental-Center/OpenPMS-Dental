@@ -114,10 +114,12 @@ namespace ImagingCapture.Tests {
 			string error;
 			PhotoQuarantine.WriteToFolder(_folder,new Bitmap(16,12),MakeRecord(103),out error);
 			PhotoUnsaved photoUnsaved=PhotoQuarantine.List(_folder).Single();
-			Store store=new Store { PhotoMountState=new PhotoMountState { Mount=new Mount { MountNum=50 },
+			Store store=new Store { PhotoMountState=new PhotoMountState { Mount=new Mount { MountNum=50,PatNum=7 },
 				ListSlots=new List<PhotoSlot> { new PhotoSlot { MountItemNum=103,ItemOrder=4,SlotKind=MountSlotKind.Intraoral,IsFilled=false } } } };
-			Assert.AreEqual("",PhotoQuarantine.FileOne(store,photoUnsaved));
+			Assert.AreEqual("",PhotoQuarantine.FileOne(store,photoUnsaved,out bool isFiled));
+			Assert.IsTrue(isFiled);
 			Document document=store.ListUpdated.Single();
+			Assert.AreEqual(new DateTime(2026,11,23,10,14,5),document.DateCreated,"The time it was taken, not the time it was filed.");
 			Assert.AreEqual(103,document.MountItemNum);
 			Assert.IsTrue(document.IsFlipped);
 			Assert.AreEqual(180,document.DegreesRotated);
@@ -133,16 +135,30 @@ namespace ImagingCapture.Tests {
 			string error;
 			PhotoQuarantine.WriteToFolder(_folder,new Bitmap(16,12),MakeRecord(103),out error);
 			PhotoUnsaved photoUnsaved=PhotoQuarantine.List(_folder).Single();
-			Store store=new Store { IsImportFailing=true,PhotoMountState=new PhotoMountState { Mount=new Mount { MountNum=50 },
+			Store store=new Store { IsImportFailing=true,PhotoMountState=new PhotoMountState { Mount=new Mount { MountNum=50,PatNum=7 },
 				ListSlots=new List<PhotoSlot> { new PhotoSlot { MountItemNum=103,ItemOrder=4,SlotKind=MountSlotKind.Intraoral,IsFilled=true } } } };
-			StringAssert.Contains(PhotoQuarantine.FileOne(store,photoUnsaved),"still not reachable");
+			StringAssert.Contains(PhotoQuarantine.FileOne(store,photoUnsaved,out bool isFiled),"still not reachable");
+			Assert.IsFalse(isFiled);
 			Assert.AreEqual(1,PhotoQuarantine.List(_folder).Count,"Not filed: the files stay.");
 			store.IsImportFailing=false;
-			Assert.AreEqual("",PhotoQuarantine.FileOne(store,photoUnsaved));
+			Assert.AreEqual("",PhotoQuarantine.FileOne(store,photoUnsaved,out isFiled));
 			Assert.AreEqual(0,store.ListUpdated.Single().MountItemNum,"The slot has a photo now: filed unmounted, flipped and rotated as taken.");
 			Assert.IsTrue(store.ListUpdated.Single().IsFlipped);
 			photoUnsaved.PathImage=Path.Combine(_folder,"gone.jpg");
-			StringAssert.Contains(PhotoQuarantine.FileOne(store,photoUnsaved),"could not be read");
+			StringAssert.Contains(PhotoQuarantine.FileOne(store,photoUnsaved,out isFiled),"could not be read");
+		}
+
+		[TestMethod]
+		public void File_AnotherPatientsMount_NeverItsSlot() {
+			string error;
+			PhotoQuarantine.WriteToFolder(_folder,new Bitmap(16,12),MakeRecord(103),out error);
+			PhotoUnsaved photoUnsaved=PhotoQuarantine.List(_folder).Single();
+			//the mount number was given again to another patient's mount (a deleted mount, the counter reset by a server restart)
+			Store store=new Store { PhotoMountState=new PhotoMountState { Mount=new Mount { MountNum=50,PatNum=8 },
+				ListSlots=new List<PhotoSlot> { new PhotoSlot { MountItemNum=103,ItemOrder=4,SlotKind=MountSlotKind.Intraoral,IsFilled=false } } } };
+			Assert.AreEqual("",PhotoQuarantine.FileOne(store,photoUnsaved,out bool isFiled));
+			Assert.AreEqual(0,store.ListUpdated.Single().MountItemNum,"Unmounted, with patient 7.");
+			Assert.AreEqual(7,store.ListImported.Single().PatNum);
 		}
 	}
 }

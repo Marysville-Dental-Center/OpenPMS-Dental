@@ -115,6 +115,10 @@ namespace ImagingTests {
 			string images=Images();
 			string full=MethodBody(images,"private void controlCameraSession_EventFullScreenToggle(");
 			StringAssert.Contains(full,"form.FormBorderStyle=FormBorderStyle.None;");
+			StringAssert.Contains(full,"form.MinimizeBox=false;");
+			StringAssert.Contains(full,"form.Resize+=");
+			StringAssert.Contains(MethodBody(images,"private void controlCameraSession_EventEnded("),"e.CountKept==0");
+			StringAssert.Contains(MethodBody(session,"private void timerIdle_Tick("),"if(!IsEnabledForCapture()) {");
 			StringAssert.Contains(full,"System.Windows.Forms.Screen.FromControl(this).Bounds");
 			Assert.IsFalse(full.Contains("FormWindowState.Maximized"),"The whole monitor by its bounds, never a maximised window.");
 			StringAssert.Contains(MethodBody(images,"private void controlCameraSession_EventEnded("),"ExitCameraFullScreen();");

@@ -166,9 +166,12 @@ namespace ImagingCapture.Photo {
 			return listPhotos;
 		}
 
-		///<summary>Files one unsaved photo to its patient: into its slot when the slot is still empty, else unmounted in the same category; then
-		///removes the files. Returns "" when filed, else why not (the files stay).</summary>
-		public static string FileOne(IPhotoStore store,PhotoUnsaved photoUnsaved) {
+		///<summary>Files one unsaved photo to its patient, with the time it was taken: into its slot when the slot is still empty and its mount
+		///belongs to the same patient, else unmounted in the same category; then removes the files. isFiled: a document was made (the files are
+		///then removed). Returns "" when filed as planned; otherwise why not, or a warning when it was filed but not placed.</summary>
+		public static string FileOne(IPhotoStore store,PhotoUnsaved photoUnsaved,out bool isFiled) {
+			isFiled=false;
+			string warning="";
 			Bitmap bitmap;
 			try {
 				using(Bitmap bitmapFile=new Bitmap(photoUnsaved.PathImage)) {
@@ -180,10 +183,12 @@ namespace ImagingCapture.Photo {
 			}
 			using(bitmap) {
 				PhotoShotPlan plan=new PhotoShotPlan { MountItemNum=0,IsFlipped=photoUnsaved.IsFlipped,DegreesRotated=photoUnsaved.DegreesRotated,
-					ToothNumbers=photoUnsaved.ToothNumbers??"",GuideLabel=photoUnsaved.Slot??"" };
+					ToothNumbers=photoUnsaved.ToothNumbers??"",GuideLabel=photoUnsaved.Slot??"",DateTimeTaken=photoUnsaved.DateTimeTaken };
 				if(photoUnsaved.MountNum!=0 && photoUnsaved.MountItemNum!=0) {
 					PhotoMountState photoMountState=store.GetMountState(photoUnsaved.MountNum);
-					PhotoSlot slot=photoMountState?.ListSlots.FirstOrDefault(x => x.MountItemNum==photoUnsaved.MountItemNum);
+					//Only the patient's own mount: a deleted mount's number could be given again to another patient's mount.
+					PhotoSlot slot=photoMountState==null || photoMountState.Mount.PatNum!=photoUnsaved.PatNum ? null
+						: photoMountState.ListSlots.FirstOrDefault(x => x.MountItemNum==photoUnsaved.MountItemNum);
 					if(slot!=null && !slot.IsFilled) {
 						plan.MountItemNum=slot.MountItemNum;
 					}
@@ -192,6 +197,8 @@ namespace ImagingCapture.Photo {
 				if(result.Document==null) {
 					return result.Error;
 				}
+				isFiled=true;
+				warning=result.IsPlaced ? "" : result.Error;//filed, but its slot, flip, rotation, teeth or time could not be set
 			}
 			try {
 				System.IO.File.Delete(photoUnsaved.PathImage);
@@ -200,7 +207,7 @@ namespace ImagingCapture.Photo {
 			catch(Exception ex) {
 				return "Filed, but the files could not be removed (file them again only after checking the patient's images): "+ex.Message;
 			}
-			return "";
+			return warning;
 		}
 	}
 }
