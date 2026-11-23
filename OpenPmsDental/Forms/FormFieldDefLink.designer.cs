@@ -47,9 +47,9 @@ namespace OpenPmsDental{
 			// 
 			this.gridDisplayed.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-			this.gridDisplayed.Location = new System.Drawing.Point(16, 69);
+			this.gridDisplayed.Location = new System.Drawing.Point(8, 69);
 			this.gridDisplayed.Name = "gridDisplayed";
-			this.gridDisplayed.Size = new System.Drawing.Size(270, 360);
+			this.gridDisplayed.Size = new System.Drawing.Size(286, 391);
 			this.gridDisplayed.TabIndex = 4;
 			this.gridDisplayed.Title = "Visible Fields";
 			this.gridDisplayed.TranslationName = "TableVisible";
@@ -58,9 +58,9 @@ namespace OpenPmsDental{
 			// 
 			this.gridHidden.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-			this.gridHidden.Location = new System.Drawing.Point(355, 69);
+			this.gridHidden.Location = new System.Drawing.Point(344, 69);
 			this.gridHidden.Name = "gridHidden";
-			this.gridHidden.Size = new System.Drawing.Size(270, 360);
+			this.gridHidden.Size = new System.Drawing.Size(286, 391);
 			this.gridHidden.TabIndex = 5;
 			this.gridHidden.Title = "Hidden Fields ";
 			this.gridHidden.TranslationName = "TableHidden";
@@ -68,7 +68,7 @@ namespace OpenPmsDental{
 			// butRight
 			// 
 			this.butRight.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.ArrowRight,22,22);
-			this.butRight.Location = new System.Drawing.Point(303, 189);
+			this.butRight.Location = new System.Drawing.Point(302, 237);
 			this.butRight.Name = "butRight";
 			this.butRight.Size = new System.Drawing.Size(34, 23);
 			this.butRight.TabIndex = 6;
@@ -78,7 +78,7 @@ namespace OpenPmsDental{
 			// butLeft
 			// 
 			this.butLeft.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.ArrowLeft,22,22);
-			this.butLeft.Location = new System.Drawing.Point(303, 216);
+			this.butLeft.Location = new System.Drawing.Point(302, 268);
 			this.butLeft.Name = "butLeft";
 			this.butLeft.Size = new System.Drawing.Size(34, 23);
 			this.butLeft.TabIndex = 7;
@@ -89,9 +89,9 @@ namespace OpenPmsDental{
 			// 
 			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.label1.Location = new System.Drawing.Point(13, 8);
+			this.label1.Location = new System.Drawing.Point(8, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(612, 32);
+			this.label1.Size = new System.Drawing.Size(622, 32);
 			this.label1.TabIndex = 8;
 			this.label1.Text = "Select fields on the left and move them to the right in order to hide the selecte" +
     "d field from the specified location in the software.";

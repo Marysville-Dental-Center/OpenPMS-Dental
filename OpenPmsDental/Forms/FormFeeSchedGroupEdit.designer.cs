@@ -65,7 +65,7 @@ namespace OpenPmsDental{
 			// butRight
 			// 
 			this.butRight.Icon = OpenPmsDental.UI.EnumIcons.ArrowRight;
-			this.butRight.Location = new System.Drawing.Point(275, 154);
+			this.butRight.Location = new System.Drawing.Point(277, 194);
 			this.butRight.Name = "butRight";
 			this.butRight.Size = new System.Drawing.Size(35, 26);
 			this.butRight.TabIndex = 54;
@@ -75,7 +75,7 @@ namespace OpenPmsDental{
 			// 
 			this.butLeft.AdjustImageLocation = new System.Drawing.Point(-1, 0);
 			this.butLeft.Icon = OpenPmsDental.UI.EnumIcons.ArrowLeft;
-			this.butLeft.Location = new System.Drawing.Point(275, 184);
+			this.butLeft.Location = new System.Drawing.Point(277, 228);
 			this.butLeft.Name = "butLeft";
 			this.butLeft.Size = new System.Drawing.Size(35, 26);
 			this.butLeft.TabIndex = 55;
@@ -85,10 +85,10 @@ namespace OpenPmsDental{
 			// 
 			this.gridGroup.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-			this.gridGroup.Location = new System.Drawing.Point(334, 62);
+			this.gridGroup.Location = new System.Drawing.Point(320, 62);
 			this.gridGroup.Name = "gridGroup";
 			this.gridGroup.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridGroup.Size = new System.Drawing.Size(233, 291);
+			this.gridGroup.Size = new System.Drawing.Size(261, 324);
 			this.gridGroup.TabIndex = 56;
 			this.gridGroup.Title = "Clinics in Group";
 			this.gridGroup.TranslationName = "Table Group Clinics ";
@@ -97,10 +97,10 @@ namespace OpenPmsDental{
 			// 
 			this.gridAvailable.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-			this.gridAvailable.Location = new System.Drawing.Point(18, 62);
+			this.gridAvailable.Location = new System.Drawing.Point(8, 62);
 			this.gridAvailable.Name = "gridAvailable";
 			this.gridAvailable.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridAvailable.Size = new System.Drawing.Size(233, 291);
+			this.gridAvailable.Size = new System.Drawing.Size(261, 324);
 			this.gridAvailable.TabIndex = 57;
 			this.gridAvailable.Title = "Available Clinics";
 			this.gridAvailable.TranslationName = "Table Clinics Available";
@@ -110,9 +110,9 @@ namespace OpenPmsDental{
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(8, 392);
+			this.butDelete.Location = new System.Drawing.Point(8, 394);
 			this.butDelete.Name = "butDelete";
-			this.butDelete.Size = new System.Drawing.Size(83, 26);
+			this.butDelete.Size = new System.Drawing.Size(83, 24);
 			this.butDelete.TabIndex = 58;
 			this.butDelete.Text = "Delete";
 			this.butDelete.Click += new System.EventHandler(this.butDelete_Click);

@@ -105,7 +105,7 @@ namespace OpenPmsDental{
 			// 
 			// labelPayerService
 			// 
-			this.labelPayerService.Location = new System.Drawing.Point(496, 8);
+			this.labelPayerService.Location = new System.Drawing.Point(504, 8);
 			this.labelPayerService.Name = "labelPayerService";
 			this.labelPayerService.Size = new System.Drawing.Size(80, 23);
 			this.labelPayerService.TabIndex = 12;
@@ -114,7 +114,7 @@ namespace OpenPmsDental{
 			// 
 			// textPayerService
 			// 
-			this.textPayerService.Location = new System.Drawing.Point(582, 8);
+			this.textPayerService.Location = new System.Drawing.Point(590, 8);
 			this.textPayerService.Name = "textPayerService";
 			this.textPayerService.ReadOnly = true;
 			this.textPayerService.Size = new System.Drawing.Size(112, 23);
@@ -124,7 +124,7 @@ namespace OpenPmsDental{
 			// 
 			this.gridAttributes.Location = new System.Drawing.Point(442, 35);
 			this.gridAttributes.Name = "gridAttributes";
-			this.gridAttributes.Size = new System.Drawing.Size(259, 285);
+			this.gridAttributes.Size = new System.Drawing.Size(260, 316);
 			this.gridAttributes.TabIndex = 13;
 			this.gridAttributes.Title = "Attributes";
 			// 

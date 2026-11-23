@@ -68,7 +68,7 @@ namespace OpenPmsDental {
 			this.textEmailAddress.Location = new System.Drawing.Point(109, 35);
 			this.textEmailAddress.MaxLength = 200;
 			this.textEmailAddress.Name = "textEmailAddress";
-			this.textEmailAddress.Size = new System.Drawing.Size(848, 23);
+			this.textEmailAddress.Size = new System.Drawing.Size(857, 23);
 			this.textEmailAddress.TabIndex = 2;
 			// 
 			// textAutographText
@@ -82,7 +82,7 @@ namespace OpenPmsDental {
 			this.textAutographText.Name = "textAutographText";
 			this.textAutographText.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Email;
 			this.textAutographText.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textAutographText.Size = new System.Drawing.Size(849, 596);
+			this.textAutographText.Size = new System.Drawing.Size(857, 596);
 			this.textAutographText.TabIndex = 3;
 			this.textAutographText.Text = "";
 			// 
@@ -103,7 +103,7 @@ namespace OpenPmsDental {
 			this.textDescription.Location = new System.Drawing.Point(109, 8);
 			this.textDescription.MaxLength = 200;
 			this.textDescription.Name = "textDescription";
-			this.textDescription.Size = new System.Drawing.Size(848, 23);
+			this.textDescription.Size = new System.Drawing.Size(857, 23);
 			this.textDescription.TabIndex = 1;
 			// 
 			// label3

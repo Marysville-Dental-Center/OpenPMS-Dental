@@ -41,10 +41,10 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridCustom.HasMultilineHeaders = true;
-			this.gridCustom.Location = new System.Drawing.Point(478, 35);
+			this.gridCustom.Location = new System.Drawing.Point(480, 35);
 			this.gridCustom.Name = "gridCustom";
 			this.gridCustom.SelectionMode = OpenPmsDental.UI.GridSelectionMode.OneCell;
-			this.gridCustom.Size = new System.Drawing.Size(370, 585);
+			this.gridCustom.Size = new System.Drawing.Size(381, 590);
 			this.gridCustom.TabIndex = 233;
 			this.gridCustom.Title = "Custom";
 			this.gridCustom.TranslationName = "TablePermissions";
@@ -53,14 +53,14 @@ namespace OpenPmsDental{
 			// 
 			// comboUserGroup
 			// 
-			this.comboUserGroup.Location = new System.Drawing.Point(478, 8);
+			this.comboUserGroup.Location = new System.Drawing.Point(480, 8);
 			this.comboUserGroup.Name = "comboUserGroup";
 			this.comboUserGroup.Size = new System.Drawing.Size(184, 23);
 			this.comboUserGroup.TabIndex = 232;
 			// 
 			// labelUserGroup
 			// 
-			this.labelUserGroup.Location = new System.Drawing.Point(400, 8);
+			this.labelUserGroup.Location = new System.Drawing.Point(402, 8);
 			this.labelUserGroup.Name = "labelUserGroup";
 			this.labelUserGroup.Size = new System.Drawing.Size(72, 23);
 			this.labelUserGroup.TabIndex = 231;
@@ -69,7 +69,7 @@ namespace OpenPmsDental{
 			// 
 			// butSetAll
 			// 
-			this.butSetAll.Location = new System.Drawing.Point(668, 8);
+			this.butSetAll.Location = new System.Drawing.Point(670, 8);
 			this.butSetAll.Name = "butSetAll";
 			this.butSetAll.Size = new System.Drawing.Size(68, 23);
 			this.butSetAll.TabIndex = 230;
@@ -81,9 +81,9 @@ namespace OpenPmsDental{
 			this.gridInternal.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.gridInternal.HasMultilineHeaders = true;
-			this.gridInternal.Location = new System.Drawing.Point(12, 36);
+			this.gridInternal.Location = new System.Drawing.Point(8, 35);
 			this.gridInternal.Name = "gridInternal";
-			this.gridInternal.Size = new System.Drawing.Size(370, 585);
+			this.gridInternal.Size = new System.Drawing.Size(381, 590);
 			this.gridInternal.TabIndex = 234;
 			this.gridInternal.Title = "Internal";
 			this.gridInternal.TranslationName = "TableInternal";
@@ -105,7 +105,7 @@ namespace OpenPmsDental{
 			this.butDuplicate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butDuplicate.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butDuplicate.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDuplicate.Location = new System.Drawing.Point(687, 633);
+			this.butDuplicate.Location = new System.Drawing.Point(689, 633);
 			this.butDuplicate.Name = "butDuplicate";
 			this.butDuplicate.Size = new System.Drawing.Size(89, 24);
 			this.butDuplicate.TabIndex = 236;
@@ -126,7 +126,7 @@ namespace OpenPmsDental{
 			// 
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdd.Location = new System.Drawing.Point(742, 8);
+			this.butAdd.Location = new System.Drawing.Point(744, 8);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(65, 23);
 			this.butAdd.TabIndex = 239;

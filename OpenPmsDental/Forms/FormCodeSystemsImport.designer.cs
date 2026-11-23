@@ -35,9 +35,9 @@ namespace OpenPmsDental{
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridMain.EditableAcceptsCR = true;
-			this.gridMain.Location = new System.Drawing.Point(12, 8);
+			this.gridMain.Location = new System.Drawing.Point(8, 8);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(857, 130);
+			this.gridMain.Size = new System.Drawing.Size(865, 130);
 			this.gridMain.TabIndex = 27;
 			this.gridMain.Title = "Code Systems";
 			this.gridMain.TranslationName = "TableCodeSystems";
@@ -46,7 +46,7 @@ namespace OpenPmsDental{
 			//
 			this.butImport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butImport.Enabled = false;
-			this.butImport.Location = new System.Drawing.Point(759, 555);
+			this.butImport.Location = new System.Drawing.Point(763, 574);
 			this.butImport.Name = "butImport";
 			this.butImport.Size = new System.Drawing.Size(110, 24);
 			this.butImport.TabIndex = 3;
@@ -57,7 +57,7 @@ namespace OpenPmsDental{
 			//
 			this.butImportValueSets.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butImportValueSets.Enabled = false;
-			this.butImportValueSets.Location = new System.Drawing.Point(623, 555);
+			this.butImportValueSets.Location = new System.Drawing.Point(623, 574);
 			this.butImportValueSets.Name = "butImportValueSets";
 			this.butImportValueSets.Size = new System.Drawing.Size(130, 24);
 			this.butImportValueSets.TabIndex = 4;
@@ -69,18 +69,18 @@ namespace OpenPmsDental{
 			this.gridStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridStatus.Location = new System.Drawing.Point(12, 178);
+			this.gridStatus.Location = new System.Drawing.Point(8, 178);
 			this.gridStatus.Name = "gridStatus";
-			this.gridStatus.Size = new System.Drawing.Size(857, 373);
+			this.gridStatus.Size = new System.Drawing.Size(865, 388);
 			this.gridStatus.TabIndex = 28;
 			this.gridStatus.Title = "Code-System Status";
 			this.gridStatus.TranslationName = "TableCodeSystemStatus";
 			//
 			// labelStatus
 			//
-			this.labelStatus.Location = new System.Drawing.Point(12, 142);
+			this.labelStatus.Location = new System.Drawing.Point(8, 142);
 			this.labelStatus.Name = "labelStatus";
-			this.labelStatus.Size = new System.Drawing.Size(857, 34);
+			this.labelStatus.Size = new System.Drawing.Size(865, 34);
 			this.labelStatus.TabIndex = 29;
 			this.labelStatus.Text = "The value sets name codes of the code systems below. A code counts for the EHR pick lists and the quality measures only when its code system's table is loaded: load each table directly into the database (CPT with the import above). In the Release is the version the imported release names.";
 			//

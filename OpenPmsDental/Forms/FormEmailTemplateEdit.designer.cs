@@ -68,7 +68,7 @@ namespace OpenPmsDental {
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(39, 79);
+			this.label2.Location = new System.Drawing.Point(50, 33);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(52, 23);
 			this.label2.TabIndex = 0;
@@ -84,27 +84,27 @@ namespace OpenPmsDental {
 			this.textBodyText.BackColor = System.Drawing.SystemColors.Window;
 			this.textBodyText.DetectLinksEnabled = false;
 			this.textBodyText.DetectUrls = false;
-			this.textBodyText.Location = new System.Drawing.Point(106, 106);
+			this.textBodyText.Location = new System.Drawing.Point(108, 102);
 			this.textBodyText.Name = "textBodyText";
 			this.textBodyText.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Email;
 			this.textBodyText.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textBodyText.Size = new System.Drawing.Size(861, 564);
+			this.textBodyText.Size = new System.Drawing.Size(859, 572);
 			this.textBodyText.TabIndex = 3;
 			this.textBodyText.Text = "";
 			this.textBodyText.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBodyText_KeyDown);
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(8, 106);
+			this.label1.Location = new System.Drawing.Point(62, 102);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(88, 20);
+			this.label1.Size = new System.Drawing.Size(40, 20);
 			this.label1.TabIndex = 0;
 			this.label1.Text = "Body";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(19, 52);
+			this.label3.Location = new System.Drawing.Point(30, 6);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(72, 23);
 			this.label3.TabIndex = 0;
@@ -113,7 +113,7 @@ namespace OpenPmsDental {
 			// 
 			// butBodyFields
 			// 
-			this.butBodyFields.Location = new System.Drawing.Point(14, 85);
+			this.butBodyFields.Location = new System.Drawing.Point(13, 90);
 			this.butBodyFields.Name = "butBodyFields";
 			this.butBodyFields.Size = new System.Drawing.Size(65, 24);
 			this.butBodyFields.TabIndex = 4;
@@ -128,12 +128,12 @@ namespace OpenPmsDental {
 			this.textSubject.BackColor = System.Drawing.SystemColors.Window;
 			this.textSubject.DetectLinksEnabled = false;
 			this.textSubject.DetectUrls = false;
-			this.textSubject.Location = new System.Drawing.Point(97, 80);
+			this.textSubject.Location = new System.Drawing.Point(108, 35);
 			this.textSubject.Multiline = false;
 			this.textSubject.Name = "textSubject";
 			this.textSubject.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Email;
 			this.textSubject.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textSubject.Size = new System.Drawing.Size(635, 20);
+			this.textSubject.Size = new System.Drawing.Size(631, 20);
 			this.textSubject.TabIndex = 2;
 			this.textSubject.Text = "";
 			// 
@@ -145,18 +145,18 @@ namespace OpenPmsDental {
 			this.textDescription.BackColor = System.Drawing.SystemColors.Window;
 			this.textDescription.DetectLinksEnabled = false;
 			this.textDescription.DetectUrls = false;
-			this.textDescription.Location = new System.Drawing.Point(97, 53);
+			this.textDescription.Location = new System.Drawing.Point(108, 8);
 			this.textDescription.Multiline = false;
 			this.textDescription.Name = "textDescription";
 			this.textDescription.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Email;
 			this.textDescription.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textDescription.Size = new System.Drawing.Size(635, 20);
+			this.textDescription.Size = new System.Drawing.Size(631, 20);
 			this.textDescription.TabIndex = 1;
 			this.textDescription.Text = "";
 			// 
 			// butSubjectFields
 			// 
-			this.butSubjectFields.Location = new System.Drawing.Point(14, 57);
+			this.butSubjectFields.Location = new System.Drawing.Point(13, 62);
 			this.butSubjectFields.Name = "butSubjectFields";
 			this.butSubjectFields.Size = new System.Drawing.Size(65, 24);
 			this.butSubjectFields.TabIndex = 7;
@@ -166,7 +166,7 @@ namespace OpenPmsDental {
 			// butAttach
 			// 
 			this.butAttach.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butAttach.Location = new System.Drawing.Point(738, 8);
+			this.butAttach.Location = new System.Drawing.Point(747, 8);
 			this.butAttach.Name = "butAttach";
 			this.butAttach.Size = new System.Drawing.Size(82, 20);
 			this.butAttach.TabIndex = 9;
@@ -176,7 +176,7 @@ namespace OpenPmsDental {
 			// gridAttachments
 			// 
 			this.gridAttachments.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridAttachments.Location = new System.Drawing.Point(738, 32);
+			this.gridAttachments.Location = new System.Drawing.Point(747, 32);
 			this.gridAttachments.Name = "gridAttachments";
 			this.gridAttachments.Size = new System.Drawing.Size(220, 62);
 			this.gridAttachments.TabIndex = 8;
@@ -212,7 +212,7 @@ namespace OpenPmsDental {
 			// butEditHtml
 			// 
 			this.butEditHtml.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butEditHtml.Location = new System.Drawing.Point(178, 682);
+			this.butEditHtml.Location = new System.Drawing.Point(189, 682);
 			this.butEditHtml.Name = "butEditHtml";
 			this.butEditHtml.Size = new System.Drawing.Size(75, 25);
 			this.butEditHtml.TabIndex = 40;
@@ -222,7 +222,7 @@ namespace OpenPmsDental {
 			// butEditText
 			// 
 			this.butEditText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butEditText.Location = new System.Drawing.Point(97, 682);
+			this.butEditText.Location = new System.Drawing.Point(108, 682);
 			this.butEditText.Name = "butEditText";
 			this.butEditText.Size = new System.Drawing.Size(75, 25);
 			this.butEditText.TabIndex = 41;
@@ -235,9 +235,9 @@ namespace OpenPmsDental {
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.webViewHtml.AreBrowserKeysEnabled = true;
-			this.webViewHtml.Location = new System.Drawing.Point(106, 106);
+			this.webViewHtml.Location = new System.Drawing.Point(108, 102);
 			this.webViewHtml.Name = "webViewHtml";
-			this.webViewHtml.Size = new System.Drawing.Size(861, 564);
+			this.webViewHtml.Size = new System.Drawing.Size(859, 572);
 			this.webViewHtml.TabIndex = 42;
 			this.webViewHtml.Visible = false;
 			// 
@@ -246,18 +246,18 @@ namespace OpenPmsDental {
 			this.groupBoxOD1.Controls.Add(this.label4);
 			this.groupBoxOD1.Controls.Add(this.butSubjectFields);
 			this.groupBoxOD1.Controls.Add(this.butBodyFields);
-			this.groupBoxOD1.Location = new System.Drawing.Point(8, 134);
+			this.groupBoxOD1.Location = new System.Drawing.Point(8, 130);
 			this.groupBoxOD1.Name = "groupBoxOD1";
-			this.groupBoxOD1.Size = new System.Drawing.Size(94, 117);
+			this.groupBoxOD1.Size = new System.Drawing.Size(92, 122);
 			this.groupBoxOD1.TabIndex = 43;
 			this.groupBoxOD1.Text = "";
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(7, 8);
+			this.label4.Location = new System.Drawing.Point(8, 8);
 			this.label4.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(78, 47);
+			this.label4.Size = new System.Drawing.Size(76, 50);
 			this.label4.TabIndex = 44;
 			this.label4.Text = "Add \r\nReplacement \r\nFields";
 			// 

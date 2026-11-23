@@ -84,12 +84,12 @@ namespace OpenPmsDental{
 			// 
 			this.listTreatingProvider.Location = new System.Drawing.Point(8, 430);
 			this.listTreatingProvider.Name = "listTreatingProvider";
-			this.listTreatingProvider.Size = new System.Drawing.Size(276, 69);
+			this.listTreatingProvider.Size = new System.Drawing.Size(302, 69);
 			this.listTreatingProvider.TabIndex = 112;
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(75, 503);
+			this.label4.Location = new System.Drawing.Point(88, 503);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(116, 23);
 			this.label4.TabIndex = 113;
@@ -98,7 +98,7 @@ namespace OpenPmsDental{
 			// 
 			// textDateReconciliation
 			// 
-			this.textDateReconciliation.Location = new System.Drawing.Point(197, 503);
+			this.textDateReconciliation.Location = new System.Drawing.Point(210, 503);
 			this.textDateReconciliation.Name = "textDateReconciliation";
 			this.textDateReconciliation.Size = new System.Drawing.Size(100, 20);
 			this.textDateReconciliation.TabIndex = 114;

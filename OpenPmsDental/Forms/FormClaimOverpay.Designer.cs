@@ -35,7 +35,7 @@ namespace OpenPmsDental{
 			// 
 			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label1.Location = new System.Drawing.Point(427, 269);
+			this.label1.Location = new System.Drawing.Point(427, 299);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(44, 23);
 			this.label1.TabIndex = 117;
@@ -60,7 +60,7 @@ namespace OpenPmsDental{
 			this.gridMain.Location = new System.Drawing.Point(8, 8);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.OneCell;
-			this.gridMain.Size = new System.Drawing.Size(1142, 257);
+			this.gridMain.Size = new System.Drawing.Size(1142, 287);
 			this.gridMain.TabIndex = 125;
 			this.gridMain.Title = "Procedures";
 			this.gridMain.TranslationName = "TableClaimProc";
@@ -69,7 +69,7 @@ namespace OpenPmsDental{
 			// textOverpayTotal
 			// 
 			this.textOverpayTotal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.textOverpayTotal.Location = new System.Drawing.Point(477, 269);
+			this.textOverpayTotal.Location = new System.Drawing.Point(477, 299);
 			this.textOverpayTotal.MaxVal = 100000000D;
 			this.textOverpayTotal.MinVal = -100000000D;
 			this.textOverpayTotal.Name = "textOverpayTotal";
@@ -82,7 +82,7 @@ namespace OpenPmsDental{
 			// textUnderpayTotal
 			// 
 			this.textUnderpayTotal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.textUnderpayTotal.Location = new System.Drawing.Point(547, 269);
+			this.textUnderpayTotal.Location = new System.Drawing.Point(547, 299);
 			this.textUnderpayTotal.MaxVal = 100000000D;
 			this.textUnderpayTotal.MinVal = -100000000D;
 			this.textUnderpayTotal.Name = "textUnderpayTotal";

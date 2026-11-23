@@ -40,7 +40,7 @@ namespace OpenPmsDental{
 			// 
 			this.butMerge.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butMerge.Enabled = false;
-			this.butMerge.Location = new System.Drawing.Point(515,176);
+			this.butMerge.Location = new System.Drawing.Point(517,176);
 			this.butMerge.Name = "butMerge";
 			this.butMerge.Size = new System.Drawing.Size(75, 24);
 			this.butMerge.TabIndex = 3;
@@ -62,7 +62,7 @@ namespace OpenPmsDental{
 			// 
 			// buttonChangeInto
 			// 
-			this.buttonChangeInto.Location = new System.Drawing.Point(482, 35);
+			this.buttonChangeInto.Location = new System.Drawing.Point(501, 35);
 			this.buttonChangeInto.Name = "buttonChangeInto";
 			this.buttonChangeInto.Size = new System.Drawing.Size(75, 24);
 			this.buttonChangeInto.TabIndex = 2;
@@ -102,7 +102,7 @@ namespace OpenPmsDental{
 			// 
 			// buttonChangeFrom
 			// 
-			this.buttonChangeFrom.Location = new System.Drawing.Point(482, 35);
+			this.buttonChangeFrom.Location = new System.Drawing.Point(501, 35);
 			this.buttonChangeFrom.Name = "buttonChangeFrom";
 			this.buttonChangeFrom.Size = new System.Drawing.Size(75, 24);
 			this.buttonChangeFrom.TabIndex = 3;

@@ -178,9 +178,9 @@ namespace OpenPmsDental {
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(12, 32);
+			this.gridMain.Location = new System.Drawing.Point(8, 32);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(650, 562);
+			this.gridMain.Size = new System.Drawing.Size(652, 562);
 			this.gridMain.TabIndex = 0;
 			this.gridMain.Title = "Clinics";
 			this.gridMain.TranslationName = "TableClinics";
@@ -188,9 +188,9 @@ namespace OpenPmsDental {
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(12, 9);
+			this.label1.Location = new System.Drawing.Point(8, 9);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(351, 18);
+			this.label1.Size = new System.Drawing.Size(355, 18);
 			this.label1.TabIndex = 11;
 			this.label1.Text = "This is usually only used if you have multiple locations";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -200,7 +200,7 @@ namespace OpenPmsDental {
 			this.butAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdd.Location = new System.Drawing.Point(827, 243);
+			this.butAdd.Location = new System.Drawing.Point(831, 243);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(75, 26);
 			this.butAdd.TabIndex = 10;

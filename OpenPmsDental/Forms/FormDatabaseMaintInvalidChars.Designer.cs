@@ -28,9 +28,9 @@ namespace OpenPmsDental {
 			//
 			this.labelExplain.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelExplain.Location = new System.Drawing.Point(12, 8);
+			this.labelExplain.Location = new System.Drawing.Point(8, 8);
 			this.labelExplain.Name = "labelExplain";
-			this.labelExplain.Size = new System.Drawing.Size(876, 48);
+			this.labelExplain.Size = new System.Drawing.Size(884, 18);
 			this.labelExplain.TabIndex = 0;
 			this.labelExplain.Text = "labelExplain";
 			//
@@ -38,10 +38,10 @@ namespace OpenPmsDental {
 			//
 			this.gridColumns.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridColumns.Location = new System.Drawing.Point(12, 58);
+			this.gridColumns.Location = new System.Drawing.Point(8, 30);
 			this.gridColumns.Name = "gridColumns";
 			this.gridColumns.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridColumns.Size = new System.Drawing.Size(876, 230);
+			this.gridColumns.Size = new System.Drawing.Size(884, 230);
 			this.gridColumns.TabIndex = 1;
 			this.gridColumns.Title = "Columns (selected rows are scanned)";
 			this.gridColumns.TranslationName = "TableDbmInvalidCharsColumns";
@@ -51,10 +51,10 @@ namespace OpenPmsDental {
 			this.gridPreview.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridPreview.Location = new System.Drawing.Point(12, 314);
+			this.gridPreview.Location = new System.Drawing.Point(8, 286);
 			this.gridPreview.Name = "gridPreview";
 			this.gridPreview.SelectionMode = OpenPmsDental.UI.GridSelectionMode.OneRow;
-			this.gridPreview.Size = new System.Drawing.Size(876, 268);
+			this.gridPreview.Size = new System.Drawing.Size(884, 296);
 			this.gridPreview.TabIndex = 3;
 			this.gridPreview.Title = "First 50 affected values (invalid characters shown as [U+XXXX])";
 			this.gridPreview.TranslationName = "TableDbmInvalidCharsPreview";
@@ -63,9 +63,9 @@ namespace OpenPmsDental {
 			//
 			this.labelSummary.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelSummary.Location = new System.Drawing.Point(12, 292);
+			this.labelSummary.Location = new System.Drawing.Point(8, 264);
 			this.labelSummary.Name = "labelSummary";
-			this.labelSummary.Size = new System.Drawing.Size(876, 20);
+			this.labelSummary.Size = new System.Drawing.Size(884, 20);
 			this.labelSummary.TabIndex = 2;
 			this.labelSummary.Text = "Click Scan to count the invalid characters in the selected columns.";
 			this.labelSummary.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -74,9 +74,9 @@ namespace OpenPmsDental {
 			//
 			this.labelCannotFix.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.labelCannotFix.ForeColor = System.Drawing.Color.Firebrick;
-			this.labelCannotFix.Location = new System.Drawing.Point(12, 586);
+			this.labelCannotFix.Location = new System.Drawing.Point(8, 586);
 			this.labelCannotFix.Name = "labelCannotFix";
-			this.labelCannotFix.Size = new System.Drawing.Size(560, 20);
+			this.labelCannotFix.Size = new System.Drawing.Size(564, 20);
 			this.labelCannotFix.TabIndex = 4;
 			this.labelCannotFix.Text = "labelCannotFix";
 			this.labelCannotFix.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;

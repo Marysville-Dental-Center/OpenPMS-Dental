@@ -35,10 +35,10 @@
 			// 
 			this.gridEdu.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridEdu.Location = new System.Drawing.Point(12, 48);
+			this.gridEdu.Location = new System.Drawing.Point(8, 48);
 			this.gridEdu.Name = "gridEdu";
 			this.gridEdu.SelectionMode = OpenPmsDental.UI.GridSelectionMode.None;
-			this.gridEdu.Size = new System.Drawing.Size(847, 264);
+			this.gridEdu.Size = new System.Drawing.Size(855, 264);
 			this.gridEdu.TabIndex = 1;
 			this.gridEdu.Title = "Educational Resources";
 			this.gridEdu.TranslationName = "TableResources";
@@ -46,9 +46,9 @@
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(12, 8);
+			this.label1.Location = new System.Drawing.Point(8, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(679, 18);
+			this.label1.Size = new System.Drawing.Size(683, 18);
 			this.label1.TabIndex = 2;
 			this.label1.Text = "To generate a patient education resource, single click on one of the links below," +
     " then print.";
@@ -59,19 +59,19 @@
 			this.gridProvided.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridProvided.Location = new System.Drawing.Point(12, 336);
+			this.gridProvided.Location = new System.Drawing.Point(8, 336);
 			this.gridProvided.Name = "gridProvided";
 			this.gridProvided.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridProvided.Size = new System.Drawing.Size(847, 273);
+			this.gridProvided.Size = new System.Drawing.Size(855, 300);
 			this.gridProvided.TabIndex = 3;
 			this.gridProvided.Title = "Education Provided";
 			this.gridProvided.TranslationName = "TableProvided";
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(12, 316);
+			this.label2.Location = new System.Drawing.Point(8, 316);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(679, 18);
+			this.label2.Size = new System.Drawing.Size(683, 18);
 			this.label2.TabIndex = 4;
 			this.label2.Text = "This is a historical record of education resources provided to this patient.  Del" +
     "ete any entries that are inaccurate.";
@@ -80,7 +80,7 @@
 			// butDelete
 			// 
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butDelete.Location = new System.Drawing.Point(12, 613);
+			this.butDelete.Location = new System.Drawing.Point(8, 640);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(75, 23);
 			this.butDelete.TabIndex = 5;
@@ -90,9 +90,9 @@
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(12, 28);
+			this.label3.Location = new System.Drawing.Point(8, 28);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(799, 18);
+			this.label3.Size = new System.Drawing.Size(803, 18);
 			this.label3.TabIndex = 6;
 			this.label3.Text = "Please note that it will not be possible to enter patient-specific educational re" +
     "sources for patients who have no medications, problems, or lab results.";

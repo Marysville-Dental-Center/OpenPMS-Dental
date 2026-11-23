@@ -51,7 +51,7 @@
 			// 
 			this.textFName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.textFName.AutoSize = false;
-			this.textFName.Location = new System.Drawing.Point(646, 147);
+			this.textFName.Location = new System.Drawing.Point(646, 35);
 			this.textFName.Name = "textFName";
 			this.textFName.Size = new System.Drawing.Size(119, 23);
 			this.textFName.TabIndex = 12;
@@ -59,7 +59,7 @@
 			// label3
 			// 
 			this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.label3.Location = new System.Drawing.Point(572, 147);
+			this.label3.Location = new System.Drawing.Point(572, 35);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(68, 23);
 			this.label3.TabIndex = 14;
@@ -70,7 +70,7 @@
 			// 
 			this.textLName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.textLName.AutoSize = false;
-			this.textLName.Location = new System.Drawing.Point(646, 120);
+			this.textLName.Location = new System.Drawing.Point(646, 8);
 			this.textLName.Name = "textLName";
 			this.textLName.Size = new System.Drawing.Size(119, 23);
 			this.textLName.TabIndex = 11;
@@ -78,7 +78,7 @@
 			// label1
 			// 
 			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.label1.Location = new System.Drawing.Point(572, 120);
+			this.label1.Location = new System.Drawing.Point(572, 8);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(68, 23);
 			this.label1.TabIndex = 13;
@@ -88,7 +88,7 @@
 			// butSearch
 			// 
 			this.butSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSearch.Location = new System.Drawing.Point(686, 174);
+			this.butSearch.Location = new System.Drawing.Point(690, 62);
 			this.butSearch.Name = "butSearch";
 			this.butSearch.Size = new System.Drawing.Size(75, 23);
 			this.butSearch.TabIndex = 15;

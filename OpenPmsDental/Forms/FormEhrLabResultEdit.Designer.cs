@@ -76,9 +76,9 @@
 			// 
 			// textTestName
 			// 
-			this.textTestName.Location = new System.Drawing.Point(106, 50);
+			this.textTestName.Location = new System.Drawing.Point(150, 50);
 			this.textTestName.Name = "textTestName";
-			this.textTestName.Size = new System.Drawing.Size(178, 20);
+			this.textTestName.Size = new System.Drawing.Size(216, 23);
 			this.textTestName.TabIndex = 1;
 			// 
 			// label3
@@ -92,7 +92,7 @@
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(56, 50);
+			this.label4.Location = new System.Drawing.Point(100, 50);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(44, 23);
 			this.label4.TabIndex = 3;
@@ -105,23 +105,23 @@
 			this.groupBox1.Controls.Add(this.label1);
 			this.groupBox1.Controls.Add(this.textTestName);
 			this.groupBox1.Controls.Add(this.label4);
-			this.groupBox1.Location = new System.Drawing.Point(52, 39);
+			this.groupBox1.Location = new System.Drawing.Point(8, 39);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(292, 81);
+			this.groupBox1.Size = new System.Drawing.Size(374, 81);
 			this.groupBox1.TabIndex = 1;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Test Performed";
 			// 
 			// textTestID
 			// 
-			this.textTestID.Location = new System.Drawing.Point(106, 23);
+			this.textTestID.Location = new System.Drawing.Point(150, 23);
 			this.textTestID.Name = "textTestID";
 			this.textTestID.Size = new System.Drawing.Size(104, 23);
 			this.textTestID.TabIndex = 0;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(52, 23);
+			this.label1.Location = new System.Drawing.Point(96, 23);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(48, 23);
 			this.label1.TabIndex = 2;
@@ -130,14 +130,14 @@
 			// 
 			// textObsValue
 			// 
-			this.textObsValue.Location = new System.Drawing.Point(106, 23);
+			this.textObsValue.Location = new System.Drawing.Point(150, 23);
 			this.textObsValue.Name = "textObsValue";
 			this.textObsValue.Size = new System.Drawing.Size(80, 23);
 			this.textObsValue.TabIndex = 3;
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(60, 23);
+			this.label5.Location = new System.Drawing.Point(104, 23);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(40, 23);
 			this.label5.TabIndex = 10;
@@ -146,7 +146,7 @@
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(60, 50);
+			this.label6.Location = new System.Drawing.Point(104, 50);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(40, 23);
 			this.label6.TabIndex = 11;
@@ -163,9 +163,9 @@
 			this.groupBox2.Controls.Add(this.textObsValue);
 			this.groupBox2.Controls.Add(this.label5);
 			this.groupBox2.Controls.Add(this.label6);
-			this.groupBox2.Location = new System.Drawing.Point(52, 128);
+			this.groupBox2.Location = new System.Drawing.Point(8, 128);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(292, 135);
+			this.groupBox2.Size = new System.Drawing.Size(374, 135);
 			this.groupBox2.TabIndex = 12;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Test Result";
@@ -174,28 +174,28 @@
 			// 
 			this.comboAbnormalFlag.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboAbnormalFlag.FormattingEnabled = true;
-			this.comboAbnormalFlag.Location = new System.Drawing.Point(106, 104);
+			this.comboAbnormalFlag.Location = new System.Drawing.Point(150, 104);
 			this.comboAbnormalFlag.Name = "comboAbnormalFlag";
-			this.comboAbnormalFlag.Size = new System.Drawing.Size(178, 21);
+			this.comboAbnormalFlag.Size = new System.Drawing.Size(216, 23);
 			this.comboAbnormalFlag.TabIndex = 15;
 			// 
 			// textObsUnits
 			// 
-			this.textObsUnits.Location = new System.Drawing.Point(106, 50);
+			this.textObsUnits.Location = new System.Drawing.Point(150, 50);
 			this.textObsUnits.Name = "textObsUnits";
 			this.textObsUnits.Size = new System.Drawing.Size(80, 23);
 			this.textObsUnits.TabIndex = 14;
 			// 
 			// textObsRange
 			// 
-			this.textObsRange.Location = new System.Drawing.Point(106, 77);
+			this.textObsRange.Location = new System.Drawing.Point(150, 77);
 			this.textObsRange.Name = "textObsRange";
 			this.textObsRange.Size = new System.Drawing.Size(116, 20);
 			this.textObsRange.TabIndex = 12;
 			// 
 			// label7
 			// 
-			this.label7.Location = new System.Drawing.Point(8, 104);
+			this.label7.Location = new System.Drawing.Point(52, 104);
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(92, 23);
 			this.label7.TabIndex = 13;
@@ -204,7 +204,7 @@
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(56, 77);
+			this.label2.Location = new System.Drawing.Point(100, 77);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(44, 23);
 			this.label2.TabIndex = 13;

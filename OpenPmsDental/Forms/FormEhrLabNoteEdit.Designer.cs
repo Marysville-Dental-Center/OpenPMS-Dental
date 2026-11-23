@@ -35,9 +35,9 @@
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(12, 8);
+			this.gridMain.Location = new System.Drawing.Point(8, 8);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(609, 339);
+			this.gridMain.Size = new System.Drawing.Size(615, 364);
 			this.gridMain.TabIndex = 5;
 			this.gridMain.Title = "Lab Note Comments";
 			this.gridMain.TranslationName = "TableLabNote";
@@ -66,7 +66,7 @@
 			// butAddComment
 			// 
 			this.butAddComment.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butAddComment.Location = new System.Drawing.Point(627, 8);
+			this.butAddComment.Location = new System.Drawing.Point(631, 8);
 			this.butAddComment.Name = "butAddComment";
 			this.butAddComment.Size = new System.Drawing.Size(75, 23);
 			this.butAddComment.TabIndex = 12;
@@ -77,7 +77,7 @@
 			// label57
 			// 
 			this.label57.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label57.Location = new System.Drawing.Point(93, 351);
+			this.label57.Location = new System.Drawing.Point(89, 383);
 			this.label57.Name = "label57";
 			this.label57.Size = new System.Drawing.Size(150, 17);
 			this.label57.TabIndex = 259;

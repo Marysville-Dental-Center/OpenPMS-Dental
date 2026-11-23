@@ -41,7 +41,7 @@
 			// butDelete
 			// 
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butDelete.Location = new System.Drawing.Point(27, 439);
+			this.butDelete.Location = new System.Drawing.Point(8, 439);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(75, 23);
 			this.butDelete.TabIndex = 15;
@@ -51,7 +51,7 @@
 			// 
 			// butRequest
 			// 
-			this.butRequest.Location = new System.Drawing.Point(27, 8);
+			this.butRequest.Location = new System.Drawing.Point(8, 8);
 			this.butRequest.Name = "butRequest";
 			this.butRequest.Size = new System.Drawing.Size(103, 23);
 			this.butRequest.TabIndex = 17;
@@ -64,17 +64,17 @@
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(27, 152);
+			this.gridMain.Location = new System.Drawing.Point(8, 152);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridMain.Size = new System.Drawing.Size(378, 283);
+			this.gridMain.Size = new System.Drawing.Size(421, 283);
 			this.gridMain.TabIndex = 16;
 			this.gridMain.Title = "History";
 			this.gridMain.TranslationName = "TableHistory";
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(136, 10);
+			this.label1.Location = new System.Drawing.Point(117, 10);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(74, 18);
 			this.label1.TabIndex = 18;
@@ -85,7 +85,7 @@
 			// 
 			this.groupBox1.Controls.Add(this.butShowXhtml);
 			this.groupBox1.Controls.Add(this.butShowXml);
-			this.groupBox1.Location = new System.Drawing.Point(243, 39);
+			this.groupBox1.Location = new System.Drawing.Point(248, 39);
 			this.groupBox1.Name = "groupBox1";
 			this.groupBox1.Size = new System.Drawing.Size(103, 105);
 			this.groupBox1.TabIndex = 21;
@@ -117,9 +117,9 @@
 			this.groupBox3.Controls.Add(this.label2);
 			this.groupBox3.Controls.Add(this.butExport);
 			this.groupBox3.Controls.Add(this.butSendEmail);
-			this.groupBox3.Location = new System.Drawing.Point(27, 39);
+			this.groupBox3.Location = new System.Drawing.Point(8, 39);
 			this.groupBox3.Name = "groupBox3";
-			this.groupBox3.Size = new System.Drawing.Size(208, 105);
+			this.groupBox3.Size = new System.Drawing.Size(232, 105);
 			this.groupBox3.TabIndex = 24;
 			this.groupBox3.TabStop = false;
 			this.groupBox3.Text = "Provide Electronic Copy to Patient";
@@ -128,7 +128,7 @@
 			// 
 			this.label2.Location = new System.Drawing.Point(8, 50);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(192, 47);
+			this.label2.Size = new System.Drawing.Size(216, 50);
 			this.label2.TabIndex = 23;
 			this.label2.Text = "includes 2 files:\r\nccd.xml - the data\r\nccd.xsl - for human readable viewing";
 			// 

@@ -54,7 +54,7 @@
 			this.gridEHRMeasureEvents.Location = new System.Drawing.Point(8, 183);
 			this.gridEHRMeasureEvents.Name = "gridEHRMeasureEvents";
 			this.gridEHRMeasureEvents.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridEHRMeasureEvents.Size = new System.Drawing.Size(240, 261);
+			this.gridEHRMeasureEvents.Size = new System.Drawing.Size(257, 261);
 			this.gridEHRMeasureEvents.TabIndex = 13;
 			this.gridEHRMeasureEvents.Title = "Clinical Summaries Sent to Patient";
 			this.gridEHRMeasureEvents.TranslationName = "TableSummaries";
@@ -117,7 +117,7 @@
 			// 
 			this.label1.Location = new System.Drawing.Point(8, 50);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(192, 47);
+			this.label1.Size = new System.Drawing.Size(241, 50);
 			this.label1.TabIndex = 23;
 			this.label1.Text = "includes 2 files:\r\nccd.xml - the data\r\nccd.xsl - for human readable viewing";
 			// 
