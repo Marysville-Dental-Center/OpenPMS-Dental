@@ -3,7 +3,12 @@ shrank Filter by Name and Reports To to 72 px (main 97) and kept the employee gr
 the button column (buttons, server time, the status list) at one x on the content edge, the grid from the content edge to 8 px before it,
 the two filter fields 120 px wide ending 8 px before it. In Messaging the Message (& Send) caption and list stood 2 and 7 px under the
 other three and the History grid 7 px under the lists: the four captions on one line 2 px over the lists, the four lists from the grid's
-top (under the Ack row) to one bottom, Send Message 4 px under its list."""
+top (under the Ack row) to one bottom, Send Message 4 px under its list.
+
+Fix round 2: in the Daily group the two button columns (104 px at 16 and 126) left 42 px on the right against 16 on the left: they fill
+the group, 117 px each at 16 and 139 with the 6 px gap, 16 px on both sides. In Messaging the Message (& Send) caption, its list, Send
+Message and the Sending note under it stood 13 px after Extras (the other lists 6 px apart): 6 px after it, the list (and Send) widened
+to end 6 px before the History grid."""
 
 
 def layout(h):
@@ -28,3 +33,18 @@ def layout(h):
         h.set(cap, None, top - 2 - 18, None, 18)
         h.set(name, None, top, None, bottom - top)
     h.set("butSend", None, bottom + 4)
+    # The Daily group's two button columns fill it: 16 px margins, a 6 px gap.
+    d = h.n("groupBox3")
+    cw = (d.nw - 16 - 16 - 6) // 2
+    for name in ("butSendClaims", "butClaimPay", "butBilling", "butDeposit", "butSupply", "butManageAR", "butMaintenance"):
+        h.set(name, 16, None, cw, None)
+    for name in ("butTasks", "butBackup", "butAccounting", "butEmailInbox", "butEras", "butImportInsPlans"):
+        h.set(name, 16 + cw + 6, None, cw, None)
+    # The message list 6 px after Extras, to 6 px before the History grid.
+    ex = h.n("listBoxExtras")
+    mx = ex.nx + ex.nw + 6
+    mw = h.n("gridMessages").nx - 6 - mx
+    h.set("label5", mx)
+    h.set("listBoxMessages", mx, None, mw, None)
+    h.set("butSend", mx, None, mw, None)
+    h.set("labelSending", mx, None, mw, None)

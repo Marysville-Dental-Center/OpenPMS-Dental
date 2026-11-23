@@ -120,18 +120,18 @@ namespace OpenPmsDental {
 			// butEras
 			// 
 			this.butEras.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butEras.Location = new System.Drawing.Point(126, 143);
+			this.butEras.Location = new System.Drawing.Point(139, 143);
 			this.butEras.Name = "butEras";
-			this.butEras.Size = new System.Drawing.Size(104, 26);
+			this.butEras.Size = new System.Drawing.Size(117, 26);
 			this.butEras.TabIndex = 30;
 			this.butEras.Text = "ERAs";
 			this.butEras.Click += new System.EventHandler(this.butEras_Click);
 			// 
 			// butImportInsPlans
 			// 
-			this.butImportInsPlans.Location = new System.Drawing.Point(126, 173);
+			this.butImportInsPlans.Location = new System.Drawing.Point(139, 173);
 			this.butImportInsPlans.Name = "butImportInsPlans";
-			this.butImportInsPlans.Size = new System.Drawing.Size(104, 26);
+			this.butImportInsPlans.Size = new System.Drawing.Size(117, 26);
 			this.butImportInsPlans.TabIndex = 29;
 			this.butImportInsPlans.Text = "Import Ins Plans";
 			this.butImportInsPlans.Click += new System.EventHandler(this.butImportInsPlans_Click);
@@ -140,9 +140,9 @@ namespace OpenPmsDental {
 			// 
 			this.butEmailInbox.Icon = OpenPmsDental.UI.EnumIcons.Email;
 			this.butEmailInbox.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butEmailInbox.Location = new System.Drawing.Point(126, 113);
+			this.butEmailInbox.Location = new System.Drawing.Point(139, 113);
 			this.butEmailInbox.Name = "butEmailInbox";
-			this.butEmailInbox.Size = new System.Drawing.Size(104, 26);
+			this.butEmailInbox.Size = new System.Drawing.Size(117, 26);
 			this.butEmailInbox.TabIndex = 28;
 			this.butEmailInbox.Text = "Emails";
 			this.butEmailInbox.Click += new System.EventHandler(this.butEmailInbox_Click);
@@ -152,7 +152,7 @@ namespace OpenPmsDental {
 			this.butSupply.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butSupply.Location = new System.Drawing.Point(16, 143);
 			this.butSupply.Name = "butSupply";
-			this.butSupply.Size = new System.Drawing.Size(104, 26);
+			this.butSupply.Size = new System.Drawing.Size(117, 26);
 			this.butSupply.TabIndex = 26;
 			this.butSupply.Text = "Supply Inventory";
 			this.butSupply.Click += new System.EventHandler(this.butSupply_Click);
@@ -161,7 +161,7 @@ namespace OpenPmsDental {
 			// 
 			this.butClaimPay.Location = new System.Drawing.Point(16, 53);
 			this.butClaimPay.Name = "butClaimPay";
-			this.butClaimPay.Size = new System.Drawing.Size(104, 26);
+			this.butClaimPay.Size = new System.Drawing.Size(117, 26);
 			this.butClaimPay.TabIndex = 25;
 			this.butClaimPay.Text = "Batch Ins";
 			this.butClaimPay.Click += new System.EventHandler(this.butClaimPay_Click);
@@ -170,7 +170,7 @@ namespace OpenPmsDental {
 			// 
 			this.butBilling.Location = new System.Drawing.Point(16, 83);
 			this.butBilling.Name = "butBilling";
-			this.butBilling.Size = new System.Drawing.Size(104, 26);
+			this.butBilling.Size = new System.Drawing.Size(117, 26);
 			this.butBilling.TabIndex = 25;
 			this.butBilling.Text = "Billing";
 			this.butBilling.Click += new System.EventHandler(this.butBilling_Click);
@@ -179,9 +179,9 @@ namespace OpenPmsDental {
 			// 
 			this.butAccounting.Icon = OpenPmsDental.UI.EnumIcons.Calculator;
 			this.butAccounting.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAccounting.Location = new System.Drawing.Point(126, 83);
+			this.butAccounting.Location = new System.Drawing.Point(139, 83);
 			this.butAccounting.Name = "butAccounting";
-			this.butAccounting.Size = new System.Drawing.Size(104, 26);
+			this.butAccounting.Size = new System.Drawing.Size(117, 26);
 			this.butAccounting.TabIndex = 24;
 			this.butAccounting.Text = "Accounting";
 			this.butAccounting.Click += new System.EventHandler(this.butAccounting_Click);
@@ -190,9 +190,9 @@ namespace OpenPmsDental {
 			// 
 			this.butBackup.Icon = OpenPmsDental.UI.EnumIcons.Backup;
 			this.butBackup.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butBackup.Location = new System.Drawing.Point(126, 53);
+			this.butBackup.Location = new System.Drawing.Point(139, 53);
 			this.butBackup.Name = "butBackup";
-			this.butBackup.Size = new System.Drawing.Size(104, 26);
+			this.butBackup.Size = new System.Drawing.Size(117, 26);
 			this.butBackup.TabIndex = 22;
 			this.butBackup.Text = "Backup";
 			this.butBackup.Click += new System.EventHandler(this.butBackup_Click);
@@ -203,7 +203,7 @@ namespace OpenPmsDental {
 			this.butDeposit.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butDeposit.Location = new System.Drawing.Point(16, 113);
 			this.butDeposit.Name = "butDeposit";
-			this.butDeposit.Size = new System.Drawing.Size(104, 26);
+			this.butDeposit.Size = new System.Drawing.Size(117, 26);
 			this.butDeposit.TabIndex = 23;
 			this.butDeposit.Text = "Deposits";
 			this.butDeposit.Click += new System.EventHandler(this.butDeposit_Click);
@@ -214,7 +214,7 @@ namespace OpenPmsDental {
 			this.butSendClaims.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butSendClaims.Location = new System.Drawing.Point(16, 23);
 			this.butSendClaims.Name = "butSendClaims";
-			this.butSendClaims.Size = new System.Drawing.Size(104, 26);
+			this.butSendClaims.Size = new System.Drawing.Size(117, 26);
 			this.butSendClaims.TabIndex = 20;
 			this.butSendClaims.Text = "Send Claims";
 			this.butSendClaims.Click += new System.EventHandler(this.butSendClaims_Click);
@@ -223,9 +223,9 @@ namespace OpenPmsDental {
 			// 
 			this.butTasks.Icon = OpenPmsDental.UI.EnumIcons.TaskList;
 			this.butTasks.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butTasks.Location = new System.Drawing.Point(126, 23);
+			this.butTasks.Location = new System.Drawing.Point(139, 23);
 			this.butTasks.Name = "butTasks";
-			this.butTasks.Size = new System.Drawing.Size(104, 26);
+			this.butTasks.Size = new System.Drawing.Size(117, 26);
 			this.butTasks.TabIndex = 21;
 			this.butTasks.Text = "Tasks";
 			this.butTasks.Click += new System.EventHandler(this.butTasks_Click);
@@ -237,7 +237,7 @@ namespace OpenPmsDental {
 			this.butManageAR.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butManageAR.Location = new System.Drawing.Point(16, 173);
 			this.butManageAR.Name = "butManageAR";
-			this.butManageAR.Size = new System.Drawing.Size(104, 26);
+			this.butManageAR.Size = new System.Drawing.Size(117, 26);
 			this.butManageAR.TabIndex = 31;
 			this.butManageAR.Text = "Collections";
 			this.butManageAR.Click += new System.EventHandler(this.butManageAR_Click);
@@ -246,7 +246,7 @@ namespace OpenPmsDental {
 			// 
 			this.butMaintenance.Location = new System.Drawing.Point(16, 203);
 			this.butMaintenance.Name = "butMaintenance";
-			this.butMaintenance.Size = new System.Drawing.Size(104, 26);
+			this.butMaintenance.Size = new System.Drawing.Size(117, 26);
 			this.butMaintenance.TabIndex = 32;
 			this.butMaintenance.Text = "Maintenance";
 			this.butMaintenance.Click += new System.EventHandler(this.butMaintenance_Click);
@@ -286,18 +286,18 @@ namespace OpenPmsDental {
 			// 
 			this.listBoxMessages.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-			this.listBoxMessages.Location = new System.Drawing.Point(258, 50);
+			this.listBoxMessages.Location = new System.Drawing.Point(251, 50);
 			this.listBoxMessages.Name = "listBoxMessages";
-			this.listBoxMessages.Size = new System.Drawing.Size(98, 322);
+			this.listBoxMessages.Size = new System.Drawing.Size(106, 322);
 			this.listBoxMessages.TabIndex = 10;
 			this.listBoxMessages.Click += new System.EventHandler(this.listMessages_Click);
 			// 
 			// butSend
 			// 
 			this.butSend.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butSend.Location = new System.Drawing.Point(258, 376);
+			this.butSend.Location = new System.Drawing.Point(251, 376);
 			this.butSend.Name = "butSend";
-			this.butSend.Size = new System.Drawing.Size(98, 25);
+			this.butSend.Size = new System.Drawing.Size(106, 25);
 			this.butSend.TabIndex = 15;
 			this.butSend.Text = "Send Message";
 			this.butSend.Click += new System.EventHandler(this.butSend_Click);
@@ -316,9 +316,9 @@ namespace OpenPmsDental {
 			this.labelSending.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.labelSending.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.labelSending.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-			this.labelSending.Location = new System.Drawing.Point(258, 412);
+			this.labelSending.Location = new System.Drawing.Point(251, 412);
 			this.labelSending.Name = "labelSending";
-			this.labelSending.Size = new System.Drawing.Size(100, 21);
+			this.labelSending.Size = new System.Drawing.Size(106, 21);
 			this.labelSending.TabIndex = 24;
 			this.labelSending.Text = "Sending";
 			this.labelSending.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -394,7 +394,7 @@ namespace OpenPmsDental {
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(258, 30);
+			this.label5.Location = new System.Drawing.Point(251, 30);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(124, 18);
 			this.label5.TabIndex = 9;

@@ -518,39 +518,6 @@ OpenPmsDental/Forms/FormEvaluationEdit.designer.cs	OpenPmsDental.FormEvaluationE
 OpenPmsDental/Forms/FormEvaluationEdit.designer.cs	OpenPmsDental.FormEvaluationEdit	textGradeShowingOverride	Location	314,469	324,469	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormEvaluationEdit.designer.cs	OpenPmsDental.FormEvaluationEdit	label7	Location	115,470	173,469	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormEvaluationEdit.designer.cs	OpenPmsDental.FormEvaluationEdit	label7	Size	137,17	84,23	by hand (layout script): on the grid
-OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	butBreaks	Location	342,77	342,77	by hand (layout script): on the grid
-OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	butViewSched	Location	342,106	342,106	by hand (layout script): on the grid
-OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	butClockIn	Location	342,177	342,177	by hand (layout script): on the grid
-OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	butClockOut	Location	342,206	342,206	by hand (layout script): on the grid
-OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	listBoxStatus	Location	342,235	342,235	by hand (layout script): on the grid
-OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	listBoxStatus	Size	108,43	108,43	by hand (layout script): on the grid
-OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	labelCurrentTime	Location	342,135	342,135	by hand (layout script): on the grid
-OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	labelCurrentTime	Size	108,17	108,17	by hand (layout script): on the grid
-OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	labelTime	Location	342,154	340,154	by hand (layout script): on the grid
-OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	labelTime	Size	108,21	112,23	by hand (layout script): on the grid
-OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	gridEmp	Location	8,77	8,77	by hand (layout script): on the grid
-OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	gridEmp	Size	326,198	326,198	by hand (layout script): on the grid
-OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	textFilterName	Location	214,23	214,23	by hand (layout script): on the grid
-OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	textFilterName	Size	120,23	120,23	by hand (layout script): on the grid
-OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	labelFilterName	Location	120,23	120,23	by hand (layout script): on the grid
-OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	comboReportsTo	Location	214,50	214,50	by hand (layout script): on the grid
-OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	comboReportsTo	Size	120,23	120,23	by hand (layout script): on the grid
-OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	labelReportsTo	Location	140,50	140,50	by hand (layout script): on the grid
-OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	label1	Location	8,30	8,30	by hand (layout script): on the grid
-OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	label1	Size	75,18	75,18	by hand (layout script): on the grid
-OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	listBoxTo	Location	8,50	8,50	by hand (layout script): on the grid
-OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	listBoxTo	Size	75,322	75,322	by hand (layout script): on the grid
-OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	label3	Location	89,30	89,30	by hand (layout script): on the grid
-OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	label3	Size	75,18	75,18	by hand (layout script): on the grid
-OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	listBoxFrom	Location	89,50	89,50	by hand (layout script): on the grid
-OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	listBoxFrom	Size	75,322	75,322	by hand (layout script): on the grid
-OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	label4	Location	170,30	170,30	by hand (layout script): on the grid
-OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	label4	Size	75,18	75,18	by hand (layout script): on the grid
-OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	listBoxExtras	Location	170,50	170,50	by hand (layout script): on the grid
-OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	listBoxExtras	Size	75,322	75,322	by hand (layout script): on the grid
-OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	label5	Location	258,30	258,30	by hand (layout script): on the grid
-OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	listBoxMessages	Size	98,322	98,322	by hand (layout script): on the grid
-OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	butSend	Location	258,376	258,376	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormQuickBooksSetup.designer.cs	OpenPmsDental.FormQuickBooksSetup	checkQuickBooksClassRefsEnabled	Location	203,380	203,396	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormQuickBooksSetup.designer.cs	OpenPmsDental.FormQuickBooksSetup	labelDepositsQB	Location	8,122	8,122	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormQuickBooksSetup.designer.cs	OpenPmsDental.FormQuickBooksSetup	labelDepositsQB	Size	520,48	520,48	by hand (layout script): on the grid
@@ -599,3 +566,59 @@ OpenPmsDental/Forms/FormPerio.designer.cs	OpenPmsDental.FormPerio	but10	Location
 OpenPmsDental/Forms/FormPerio.designer.cs	OpenPmsDental.FormPerio	butListen	Location	1115,189	1115,210	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormPerio.designer.cs	OpenPmsDental.FormPerio	labelListening	Location	1150,197	1151,216	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormPerio.designer.cs	OpenPmsDental.FormPerio	butBolaLaunch	Location	1116,245	1115,241	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	butBreaks	Location	342,77	342,77	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	butViewSched	Location	342,106	342,106	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	butClockIn	Location	342,177	342,177	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	butClockOut	Location	342,206	342,206	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	listBoxStatus	Location	342,235	342,235	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	listBoxStatus	Size	108,43	108,43	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	labelCurrentTime	Location	342,135	342,135	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	labelCurrentTime	Size	108,17	108,17	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	labelTime	Location	340,154	340,154	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	labelTime	Size	112,23	112,23	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	gridEmp	Location	8,77	8,77	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	gridEmp	Size	326,198	326,198	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	textFilterName	Location	214,23	214,23	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	textFilterName	Size	120,23	120,23	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	labelFilterName	Location	120,23	120,23	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	comboReportsTo	Location	214,50	214,50	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	comboReportsTo	Size	120,23	120,23	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	labelReportsTo	Location	140,50	140,50	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	label1	Location	8,30	8,30	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	label1	Size	75,18	75,18	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	listBoxTo	Location	8,50	8,50	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	listBoxTo	Size	75,322	75,322	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	label3	Location	89,30	89,30	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	label3	Size	75,18	75,18	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	listBoxFrom	Location	89,50	89,50	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	listBoxFrom	Size	75,322	75,322	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	label4	Location	170,30	170,30	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	label4	Size	75,18	75,18	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	listBoxExtras	Location	170,50	170,50	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	listBoxExtras	Size	75,322	75,322	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	label5	Location	258,30	251,30	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	listBoxMessages	Location	258,50	251,50	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	listBoxMessages	Size	98,322	106,322	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	butSend	Location	258,376	251,376	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	butSend	Size	98,25	106,25	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	butSendClaims	Size	104,26	117,26	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	butClaimPay	Size	104,26	117,26	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	butBilling	Size	104,26	117,26	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	butDeposit	Size	104,26	117,26	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	butSupply	Size	104,26	117,26	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	butManageAR	Size	104,26	117,26	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	butMaintenance	Size	104,26	117,26	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	butTasks	Location	126,23	139,23	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	butTasks	Size	104,26	117,26	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	butBackup	Location	126,53	139,53	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	butBackup	Size	104,26	117,26	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	butAccounting	Location	126,83	139,83	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	butAccounting	Size	104,26	117,26	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	butEmailInbox	Location	126,113	139,113	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	butEmailInbox	Size	104,26	117,26	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	butEras	Location	126,143	139,143	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	butEras	Size	104,26	117,26	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	butImportInsPlans	Location	126,173	139,173	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	butImportInsPlans	Size	104,26	117,26	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	labelSending	Location	258,412	251,412	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlManage.designer.cs	OpenPmsDental.ControlManage	labelSending	Size	100,21	106,21	by hand (layout script): on the grid
