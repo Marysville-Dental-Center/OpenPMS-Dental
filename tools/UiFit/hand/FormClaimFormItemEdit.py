@@ -1,6 +1,6 @@
 """FormClaimFormItemEdit on the grid (UI-12 slice 7, layout script on the planner's tree). The Format String note was drawn over the line
 under the file name note (main has the same overlap), the left column stood 12 px from the left and the field list ended 85 px short of
-Save's edge: the left column on the content edge, each note as tall as its lines (two and four, as GridRulesTests measures them) with the section gap before Format String, the field
+Save's edge: the left column on the content edge, each note as tall as its lines (three and four, as GridRulesTests measures them) with the section gap before Format String, the field
 list to Save's edge and down to 8 px over the bottom bar."""
 import importlib.util
 import os
@@ -15,7 +15,7 @@ def layout(h):
     for n in ("labelImageFileName", "textImageFileName", "label2", "labelFormatString", "textFormatString"):
         h.set(n, 8, None, W, None)
     y = h.n("textImageFileName").ny + h.H + 4
-    nh = 34
+    nh = 46
     h.set("label2", None, y, None, nh)
     y += nh + 12
     nh = 60

@@ -75,7 +75,7 @@ namespace OpenPmsDental {
 			// 
 			this.label2.Location = new System.Drawing.Point(8, 56);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(240, 34);
+			this.label2.Size = new System.Drawing.Size(240, 46);
 			this.label2.TabIndex = 4;
 			this.label2.Text = "This file must be present in the A to Z folder.  \r\nIt should be a gif, jpg, or em" +
     "f.";
@@ -103,14 +103,14 @@ namespace OpenPmsDental {
 			// 
 			// textFormatString
 			// 
-			this.textFormatString.Location = new System.Drawing.Point(8, 164);
+			this.textFormatString.Location = new System.Drawing.Point(8, 176);
 			this.textFormatString.Name = "textFormatString";
 			this.textFormatString.Size = new System.Drawing.Size(240, 23);
 			this.textFormatString.TabIndex = 8;
 			// 
 			// labelFormatString
 			// 
-			this.labelFormatString.Location = new System.Drawing.Point(8, 102);
+			this.labelFormatString.Location = new System.Drawing.Point(8, 114);
 			this.labelFormatString.Name = "labelFormatString";
 			this.labelFormatString.Size = new System.Drawing.Size(240, 60);
 			this.labelFormatString.TabIndex = 7;

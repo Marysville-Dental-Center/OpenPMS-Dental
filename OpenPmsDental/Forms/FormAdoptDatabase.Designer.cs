@@ -59,7 +59,7 @@ namespace OpenPmsDental {
 			//
 			this.checkRestoredCopy.Location = new System.Drawing.Point(8, 172);
 			this.checkRestoredCopy.Name = "checkRestoredCopy";
-			this.checkRestoredCopy.Size = new System.Drawing.Size(405, 18);
+			this.checkRestoredCopy.Size = new System.Drawing.Size(421, 18);
 			this.checkRestoredCopy.TabIndex = 3;
 			this.checkRestoredCopy.Text = "This is a restored copy, not the live database, and I have a backup of it.";
 			//
