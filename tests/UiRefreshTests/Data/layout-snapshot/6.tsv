@@ -68,21 +68,21 @@ OpenPmsDental/Forms/FormAutomationEdit.designer.cs	gridMain	162,89	537,146
 OpenPmsDental/Forms/FormAutomationEdit.designer.cs	butProcCode	484,62	23,23	
 OpenPmsDental/Forms/FormAutomationEdit.designer.cs	butSave	695,405	75,24	
 OpenPmsDental/Forms/FormAutomationEdit.designer.cs	.			778,437
-OpenPmsDental/Forms/FormBlockoutCutCopyPaste.designer.cs	groupBox1	8,40	203,197	
-OpenPmsDental/Forms/FormBlockoutCutCopyPaste.designer.cs	textClipboard	8,110	187,23	
-OpenPmsDental/Forms/FormBlockoutCutCopyPaste.designer.cs	label1	8,23	187,66	
-OpenPmsDental/Forms/FormBlockoutCutCopyPaste.designer.cs	label3	8,91	187,17	
-OpenPmsDental/Forms/FormBlockoutCutCopyPaste.designer.cs	butCopyWeek	8,165	75,24	
-OpenPmsDental/Forms/FormBlockoutCutCopyPaste.designer.cs	butCopyDay	8,137	75,24	
-OpenPmsDental/Forms/FormBlockoutCutCopyPaste.designer.cs	groupBox2	8,245	203,107	
+OpenPmsDental/Forms/FormBlockoutCutCopyPaste.designer.cs	groupBox1	8,53	274,181	
+OpenPmsDental/Forms/FormBlockoutCutCopyPaste.designer.cs	textClipboard	8,94	258,23	
+OpenPmsDental/Forms/FormBlockoutCutCopyPaste.designer.cs	label1	8,23	258,50	
+OpenPmsDental/Forms/FormBlockoutCutCopyPaste.designer.cs	label3	8,75	258,17	
+OpenPmsDental/Forms/FormBlockoutCutCopyPaste.designer.cs	butCopyWeek	8,149	75,24	
+OpenPmsDental/Forms/FormBlockoutCutCopyPaste.designer.cs	butCopyDay	8,121	75,24	
+OpenPmsDental/Forms/FormBlockoutCutCopyPaste.designer.cs	groupBox2	8,255	274,107	
 OpenPmsDental/Forms/FormBlockoutCutCopyPaste.designer.cs	butRepeat	8,75	75,24	
-OpenPmsDental/Forms/FormBlockoutCutCopyPaste.designer.cs	label4	129,75	20,23	
+OpenPmsDental/Forms/FormBlockoutCutCopyPaste.designer.cs	label4	91,75	20,23	
 OpenPmsDental/Forms/FormBlockoutCutCopyPaste.designer.cs	checkReplace	8,23	110,20	
-OpenPmsDental/Forms/FormBlockoutCutCopyPaste.designer.cs	textRepeat	155,75	40,23	
+OpenPmsDental/Forms/FormBlockoutCutCopyPaste.designer.cs	textRepeat	117,75	40,23	
 OpenPmsDental/Forms/FormBlockoutCutCopyPaste.designer.cs	butPaste	8,47	75,24	
 OpenPmsDental/Forms/FormBlockoutCutCopyPaste.designer.cs	checkWeekend	89,10	122,20	
 OpenPmsDental/Forms/FormBlockoutCutCopyPaste.designer.cs	butClearDay	8,8	75,24	
-OpenPmsDental/Forms/FormBlockoutCutCopyPaste.designer.cs	.			219,360
+OpenPmsDental/Forms/FormBlockoutCutCopyPaste.designer.cs	.			290,383
 OpenPmsDental/Forms/FormCDSILabResult.Designer.cs	butOk	328,328	75,28	
 OpenPmsDental/Forms/FormCDSILabResult.Designer.cs	butDelete	8,328	75,28	
 OpenPmsDental/Forms/FormCDSILabResult.Designer.cs	textLoinc	116,8	104,23	
@@ -295,25 +295,25 @@ OpenPmsDental/Forms/FormEhrLabOrderImport.Designer.cs	label7	60,97	52,23
 OpenPmsDental/Forms/FormEhrLabOrderImport.Designer.cs	label9	52,70	60,23	
 OpenPmsDental/Forms/FormEhrLabOrderImport.Designer.cs	labelExistingLab	235,367	386,17	
 OpenPmsDental/Forms/FormEhrLabOrderImport.Designer.cs	.			714,427
-OpenPmsDental/Forms/FormEhrLabResultEdit.Designer.cs	butSave	307,271	75,24	
-OpenPmsDental/Forms/FormEhrLabResultEdit.Designer.cs	butDelete	8,271	75,24	
+OpenPmsDental/Forms/FormEhrLabResultEdit.Designer.cs	butSave	307,306	75,24	
+OpenPmsDental/Forms/FormEhrLabResultEdit.Designer.cs	butDelete	8,306	75,24	
 OpenPmsDental/Forms/FormEhrLabResultEdit.Designer.cs	textDateTimeTest	158,8	152,20	
 OpenPmsDental/Forms/FormEhrLabResultEdit.Designer.cs	textTestName	150,50	216,23	
 OpenPmsDental/Forms/FormEhrLabResultEdit.Designer.cs	label3	84,8	68,23	
 OpenPmsDental/Forms/FormEhrLabResultEdit.Designer.cs	label4	100,50	44,23	
-OpenPmsDental/Forms/FormEhrLabResultEdit.Designer.cs	groupBox1	8,39	374,81	
+OpenPmsDental/Forms/FormEhrLabResultEdit.Designer.cs	groupBox1	8,50	374,81	
 OpenPmsDental/Forms/FormEhrLabResultEdit.Designer.cs	textTestID	150,23	104,23	
 OpenPmsDental/Forms/FormEhrLabResultEdit.Designer.cs	label1	96,23	48,23	
 OpenPmsDental/Forms/FormEhrLabResultEdit.Designer.cs	textObsValue	150,23	80,23	
 OpenPmsDental/Forms/FormEhrLabResultEdit.Designer.cs	label5	104,23	40,23	
 OpenPmsDental/Forms/FormEhrLabResultEdit.Designer.cs	label6	104,50	40,23	
-OpenPmsDental/Forms/FormEhrLabResultEdit.Designer.cs	groupBox2	8,128	374,135	
+OpenPmsDental/Forms/FormEhrLabResultEdit.Designer.cs	groupBox2	8,150	374,135	
 OpenPmsDental/Forms/FormEhrLabResultEdit.Designer.cs	comboAbnormalFlag	150,104	216,23	
 OpenPmsDental/Forms/FormEhrLabResultEdit.Designer.cs	textObsUnits	150,50	80,23	
 OpenPmsDental/Forms/FormEhrLabResultEdit.Designer.cs	textObsRange	150,77	116,20	
 OpenPmsDental/Forms/FormEhrLabResultEdit.Designer.cs	label7	52,104	92,23	
 OpenPmsDental/Forms/FormEhrLabResultEdit.Designer.cs	label2	100,77	44,23	
-OpenPmsDental/Forms/FormEhrLabResultEdit.Designer.cs	.			390,303
+OpenPmsDental/Forms/FormEhrLabResultEdit.Designer.cs	.			390,338
 OpenPmsDental/Forms/FormEhrPatientSelectSimple.Designer.cs	gridMain	8,8	559,527	
 OpenPmsDental/Forms/FormEhrPatientSelectSimple.Designer.cs	textFName	646,35	119,23	
 OpenPmsDental/Forms/FormEhrPatientSelectSimple.Designer.cs	label3	572,35	68,23	
