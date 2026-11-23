@@ -267,3 +267,31 @@ Opened: every picture whose layout changed, at 100% and at 150%, and ControlTrea
 | FormAdjust (`c3`), FormRpUnearnedIncome (`c3`) | The changes stand on hidden controls and pages (the percent amount label, the Unallocated Balances note): the pictures show the same layout as `b6` | nothing |
 
 The pass finds nothing more: `c3` (with `c3-150`) is the gallery's after set.
+
+## Pass 7 (`d1`, `d2`): fix round 9, the lead's review of 21 findings (UI-12.md, "Slice 1, fix round 9")
+
+`d1` is the round's first build, `d2` its final one (after the second pass below). `work/pixdiff.py c3 d2`: 21 pictures at 100% and 4 at
+150% are the same as `c3`; the rest were opened.
+
+| Picture | What was looked at | Found |
+|---|---|---|
+| FormArManager (`d1`) | The Unsent filter row: label 6 px before its box, 16 px from a box to the next label's text; Save As Default, Run Aging, Print, Export on the grid's right edge | GridRulesTests: three `column` findings (the filter boxes against the code-placed totals boxes, the Service Type box under the grid); in `grid-known.tsv` with why |
+| FormClaimProc (`d1`) | Blue Book Log on the right column's edge, the column 5 px wider | the PPO and Allowed fee schedule boxes 8 px short of their group's content edge: on it (`d2`) |
+| FormEtrans835Edit (`d1`) | The bottom bar one height, the six buttons 6 px apart | the two grids and Raw Message 1-2 px short of the content edge: on it (`d2`) |
+| FormFamilyBalancer (`d1`, `d2`) | Start Rigorous / Start FIFO one height, both descriptions on one x; Delete All Transfers on the Recreate Splits columns | nothing |
+| FormInsVerificationList (`d1`), -150 | Insurance Plan and Subscriber one height, Pat Birthdate on the right column under Status Note; Region on Clear's edge; Refresh on Verify Status's edge | nothing |
+| FormPayPlan (`d1`), -150 | The Patient/Guarantor/Insurance Plan rows and Sheet ending on the column's edge (419), the grid 8 px after it | GridRulesTests (FormPayPlanDynamic): the overcharged note past the narrower window; it and the closed plan's note move with the right-hand blocks in both windows (`d2`) |
+| FormPayPlanDynamic (`d1`, `d2`), -150 | The rows ending on the Terms group's edge, the tab control and Note 8 px after it | nothing more |
+| FormPaySplitEdit (`d1`), -150 | Provider on the pitch after Clinic; the Patient group, the tab control and Save on one right edge | nothing |
+| FormProviderSetup (`d1`) | "Search" 6 px before its box; the right column's fields and buttons on one content edge | nothing |
+| FormScheduleDayEdit (`d1`) | "Search" 6 px before its box | nothing |
+| FormRpPaySheet (`d1`) | The calendars and lists 8 px apart on one set of columns, Group By and the options on the calendar's edge | nothing |
+| FormRpTreatmentFinder (`d1`) | One right edge in the first field column, the two check boxes on columns, Refresh List on Code Range's edge | nothing |
+| FormEmailMessageEdit (`d2`) | Save/Refresh/Edit Text/Edit HTML from the body box's left edge, 6 px apart, at Delete's height | nothing |
+| FormOrthoCase (`d2`) | The schedule grid ending on the Dates group's bottom | nothing |
+| FormASAP (`d1`, `d2`) | The filter row from the drawn ink (`work/ink.py`): label to box 8, 8, 9, 9 px, box to next label 17, 16, 16 px in `d2`; the split container at 8, Refresh, Print and Code Range on the 1081 edge | `d1`: the picker's text 3 px left of the labels' (the paint, below) |
+| FormPayment-inputs-100 (`d1`) and every picker window | GridRulesTests' new picker check: "Clinic" 3-4 px left of the label column with TextBoxControl back | the reviewer's remedy does not move the text (measured); the paint draws as a Label (no padding, 1 px narrower bounds) (`d2`): the check passes, FormPayment's "Clinic" ends with Paid By and the dates |
+| FormAdjust, FormClearinghouseEdit, FormEbillSetup, FormPayPlanTemplateEdit, FormRpDPPOvercharged, FormRpEraAutoProcessed, FormRpOutstandingIns, FormRpProcNotBilledIns, FormRpProcNote, FormRpProcOverpaid, FormRxEdit (`d2`), FormAdjust-150, FormClearinghouseEdit-150, FormRpOutstandingIns-150 | The only change is the picker's label, 3 px right, on the label column | nothing |
+| FormPaySplitEdit-150, FormClaimProc-150 | The picker's label and the column at 150% | nothing (the capture's smaller label font at 150% is the harness's, as in `c3-150`) |
+
+The pass finds nothing more: `d2` (with `d2-150`) is the gallery's after set.
