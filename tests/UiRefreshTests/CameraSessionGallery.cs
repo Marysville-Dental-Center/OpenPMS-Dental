@@ -46,6 +46,8 @@ namespace UiRefreshTests {
 					new VideoStatus(VideoStatusKind.InUse,VideoStatusText.TextInUse,"",VideoStatusAction.Refresh),"");
 				Save(folder,"camera-disconnected",listFailed,StandardTemplateKind.PhotoIntraoral5,countFilled:2,idxNext:2,
 					new VideoStatus(VideoStatusKind.Disconnected,VideoStatusText.TextDisconnected,"",VideoStatusAction.Reconnect),"");
+				Save(folder,"camera-intraoral5-frozen",listFailed,StandardTemplateKind.PhotoIntraoral5,countFilled:3,idxNext:3,VideoStatusText.Streaming(),
+					"Frozen: Capture saves it, F goes live.",isFrozen:true);
 			});
 			DesignSheetWindows.IsPrintingWithoutChildren=false;
 			File.WriteAllLines(Path.Combine(folder,"gallery-camera-failed.txt"),listFailed);
@@ -75,10 +77,25 @@ namespace UiRefreshTests {
 			public void UpdateDocument(Document document,Document documentOld) {
 				throw new NotSupportedException();
 			}
+
+			public Document GetDocument(long docNum) {
+				return null;
+			}
+
+			public void MoveToRetake(Document document,long mountNum,string slotLabel,long patNum) {
+				throw new NotSupportedException();
+			}
+
+			public void DeleteDocument(Document document,long patNum) {
+				throw new NotSupportedException();
+			}
+
+			public void LogEdit(long patNum,string logText,long docNum) {
+			}
 		}
 
 		private static void Save(string folder,string name,List<string> listFailed,StandardTemplateKind? kind,int countFilled,int idxNext,
-			VideoStatus videoStatus,string info)
+			VideoStatus videoStatus,string info,bool isFrozen=false)
 		{
 			try {
 				GalleryStore store=new GalleryStore();
@@ -126,6 +143,10 @@ namespace UiRefreshTests {
 				}
 				((Label)GetField(controlCameraSession,"labelCamera")).Text=videoStatus.IsStreaming ? "Camera: USB intraoral camera\r\nPicture: 1920x1080 MJPG 30 fps"
 					: "Camera: none";
+				if(isFrozen) {
+					controlCameraSession.GetType().GetField("_bitmapFrozen",BindingFlags.Instance|BindingFlags.NonPublic).SetValue(controlCameraSession,MakePhoto(1280,720,7));
+					Invoke(controlCameraSession,"RefreshGuide");
+				}
 				((Label)GetField(controlCameraSession,"labelInfo")).Text=info;
 				controlCameraSession.PerformLayout();
 				using Bitmap bitmapPicture=DesignSheetWindows.Capture(controlCameraSession,Rectangle.Empty);

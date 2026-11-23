@@ -27,6 +27,16 @@ namespace ImagingCapture.Photo {
 		Document ImportPhoto(Bitmap bitmap,long categoryDefNum,long patNum);
 		///<summary>Documents.Update(document,documentOld).</summary>
 		void UpdateDocument(Document document,Document documentOld);
+		///<summary>The document, or null when it is gone.</summary>
+		Document GetDocument(long docNum);
+		///<summary>Retake (IMG-P4b-2), as the X-ray capture session's Retake (design 7.11): the photo moves to a new unmounted item of the mount,
+		///described "Retake: slotLabel", with an ImageEdit entry; nothing is deleted. Throws on failure, changing nothing.</summary>
+		void MoveToRetake(Document document,long mountNum,string slotLabel,long patNum);
+		///<summary>ImageStore.DeleteDocuments for the patient's photo (the file, the row, its drawings; ImageDelete entry). Throws on failure.
+		///</summary>
+		void DeleteDocument(Document document,long patNum);
+		///<summary>An ImageEdit entry for the patient's document.</summary>
+		void LogEdit(long patNum,string logText,long docNum);
 	}
 
 	///<summary>What PhotoSaver.Save did.</summary>
@@ -140,6 +150,61 @@ namespace ImagingCapture.Photo {
 
 		public void UpdateDocument(Document document,Document documentOld) {
 			Documents.Update(document,documentOld);
+		}
+
+		public Document GetDocument(long docNum) {
+			return Documents.GetByNum(docNum,doReturnNullIfNotFound:true);
+		}
+
+		public void MoveToRetake(Document document,long mountNum,string slotLabel,long patNum) {
+			MountItem mountItemUnmounted=ImagingCapture.Save.MountPlacement.CreateUnmountedItem(mountNum);
+			MountItems.Insert(mountItemUnmounted);
+			Document documentOld=document.Copy();
+			document.MountItemNum=mountItemUnmounted.MountItemNum;
+			document.Description=PhotoSessionTexts.GetRetakeDescription(slotLabel);
+			try {
+				Documents.Update(document,documentOld);
+			}
+			catch {
+				document.MountItemNum=documentOld.MountItemNum;
+				document.Description=documentOld.Description;
+				try {
+					MountItems.Delete(mountItemUnmounted);
+				}
+				catch(Exception exDelete) {
+					exDelete.DoNothing();//an empty unmounted item stays; harmless
+				}
+				throw;
+			}
+			try {
+				SecurityLogs.MakeLogEntry(EnumPermType.ImageEdit,patNum,"Camera session retake: DocNum "+document.DocNum+" moved from "+slotLabel
+					+" to an unmounted item of mount "+mountNum,document.DocNum,DateTime.MinValue);
+			}
+			catch(Exception ex) {
+				ex.DoNothing();//the photo has moved; a missing log entry must not report the retake as failed
+			}
+		}
+
+		public void DeleteDocument(Document document,long patNum) {
+			Patient patient=Patients.GetPat(patNum);
+			if(patient==null) {
+				throw new ApplicationException("The patient was not found.");
+			}
+			string patFolder=PrefC.AtoZfolderUsed==DataStorageType.InDatabase ? "" : ImageStore.GetPatientFolder(patient,ImageStore.GetPreferredAtoZpath());
+			Statements.DetachDocFromStatements(document.DocNum);
+			ImageStore.DeleteDocuments(new List<Document> { document },patFolder);
+		}
+
+		public void LogEdit(long patNum,string logText,long docNum) {
+			SecurityLogs.MakeLogEntry(EnumPermType.ImageEdit,patNum,logText,docNum,DateTime.MinValue);
+		}
+	}
+
+	///<summary>Texts of the camera session that are stored or logged.</summary>
+	public static class PhotoSessionTexts {
+		///<summary>The description of a photo moved out of its slot by a retake: "Retake: Upper occlusal".</summary>
+		public static string GetRetakeDescription(string slotLabel) {
+			return "Retake: "+(slotLabel??"").Trim();
 		}
 	}
 }

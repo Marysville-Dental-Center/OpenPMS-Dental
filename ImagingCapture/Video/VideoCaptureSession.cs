@@ -474,6 +474,34 @@ namespace ImagingCapture.Video {
 			return new CaptureStart(captureRequestSource,bitmap,isFromStill);
 		}
 
+		///<summary>BeginCapture for a picture the window froze (IMG-P4b-2, Freeze): the same gate, without needing the stream (it may have stopped
+		///since), and the photo is a copy of bitmapFrozen. EndCapture releases it as usual.</summary>
+		public CaptureStart BeginCaptureFrozen(CaptureRequestSource captureRequestSource,Bitmap bitmapFrozen) {
+			bool isWindowEnabled=GetIsWindowEnabled();
+			CaptureDropReason captureDropReason=Gate.TryBegin(captureRequestSource,isWindowEnabled,_cameraConfig.MainWindowSpace,PatientBinding.PatNum!=0,
+				!_isDisposed);
+			if(captureDropReason!=CaptureDropReason.None) {
+				LogDrop(captureRequestSource,captureDropReason);
+				return new CaptureStart(captureRequestSource,captureDropReason);
+			}
+			if(bitmapFrozen==null) {
+				Gate.End();
+				LogDrop(captureRequestSource,CaptureDropReason.NoPicture);
+				return new CaptureStart(captureRequestSource,CaptureDropReason.NoPicture);
+			}
+			Bitmap bitmap;
+			try {
+				bitmap=new Bitmap(bitmapFrozen);
+			}
+			catch(Exception ex) {
+				Gate.End();
+				Log("Copying the frozen photo failed: "+ex.Message);
+				return new CaptureStart(captureRequestSource,CaptureDropReason.Failed);
+			}
+			_countPhotos++;
+			return new CaptureStart(captureRequestSource,bitmap,false);
+		}
+
 		///<summary>After the handler returned: disposes the photo's bitmap and releases the gate. Safe to call more than once, for a
 		///dropped request, and after Dispose.</summary>
 		public void EndCapture(CaptureStart captureStart) {

@@ -3115,7 +3115,7 @@ namespace OpenPmsDental{
 			long mountNumCreated=_mountNumCameraCreated;
 			_mountNumCameraCreated=0;
 			bool isMountRemoved=false;
-			if(mountNumCreated!=0 && e.MountNum==mountNumCreated && e.CountSaved==0){
+			if(mountNumCreated!=0 && e.MountNum==mountNumCreated && e.CountShotsLeft==0){//no photo, or all deleted again (retakes stay in the mount)
 				isMountRemoved=RemoveEmptyCameraMount(mountNumCreated,controlCameraSession.Patient?.PatNum??0);
 			}
 			BeginInvoke((Action)(() => {

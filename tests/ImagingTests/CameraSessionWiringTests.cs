@@ -79,16 +79,41 @@ namespace ImagingTests {
 		}
 
 		[TestMethod]
+		public void Tools_FreezeTeethRetake_Keys_AndPermissions() {
+			string session=Session();
+			string keys=MethodBody(session,"protected override bool ProcessCmdKey(");
+			StringAssert.Contains(keys,"case Keys.F:");
+			StringAssert.Contains(keys,"case Keys.T:");
+			StringAssert.Contains(keys,"case Keys.Control|Keys.Z:");
+			int idxEscape=keys.IndexOf("case Keys.Escape:");
+			Assert.IsTrue(keys.IndexOf("Unfreeze();",idxEscape)<keys.IndexOf("End();",idxEscape),"Esc goes back to live before it ends the session.");
+			StringAssert.Contains(MethodBody(session,"private void Retake("),"Security.IsAuthorized(EnumPermType.ImageDelete,suppressMessage:true)");
+			StringAssert.Contains(MethodBody(session,"private void Retake("),"_store.MoveToRetake(");
+			StringAssert.Contains(MethodBody(session,"private void DeleteShot("),"ImageSignaturePermissions.IsAuthorizedToDelete(document)");
+			StringAssert.Contains(MethodBody(session,"private void EditTeethShot("),"ImageSignaturePermissions.IsAuthorizedToEdit(document)");
+			StringAssert.Contains(MethodBody(session,"private void RotateShot("),"ImageSignaturePermissions.IsAuthorizedToEdit(document)");
+			string capture=MethodBody(session,"public void RequestCapture(");
+			StringAssert.Contains(capture,"BeginCaptureFrozen(captureRequestSource,_bitmapFrozen)");
+			StringAssert.Contains(capture,"Flash();");
+			//review fixes: a camera problem, a new slot and a reconnect end a freeze; Ctrl+Z only for the photo just taken
+			StringAssert.Contains(MethodBody(session,"private void ShowStatus("),"Unfreeze();");
+			StringAssert.Contains(MethodBody(session,"private void RefreshCamera("),"Unfreeze();");
+			StringAssert.Contains(MethodBody(session,"private void Skip("),"UnfreezeIfSlotChanged();");
+			StringAssert.Contains(MethodBody(session,"private void RetakeLast("),"_docNumUndoable");
+			StringAssert.Contains(MethodBody(session,"private void AfterShotRemoved("),"_docNumLast=");
+		}
+
+		[TestMethod]
 		public void Capture_PlansTheSlotFirst_ThenSaves_AndReleasesTheGate() {
 			string capture=MethodBody(Session(),"public void RequestCapture(");
 			int idxPlan=capture.IndexOf("_model.PlanShot()");
-			int idxBegin=capture.IndexOf("BeginCapture(");
+			int idxBegin=capture.IndexOf("BeginCaptureFrozen(");
 			int idxSave=capture.IndexOf("PhotoSaver.Save(");
 			int idxEnd=capture.IndexOf("EndCapture(captureStart)");
 			Assert.IsTrue(idxPlan>0 && idxBegin>idxPlan && idxSave>idxBegin && idxEnd>idxSave,"Plan, take, save, release.");
 			Assert.IsFalse(capture.Contains("MessageBox") || capture.Contains("MsgBox"),"No message box in the middle of a session (design section 6).");
 			int idxPlaced=capture.IndexOf("if(!photoSaveResult.IsPlaced) {");
-			int idxMark=capture.IndexOf("_model.MarkSaved(photoShotPlan);");
+			int idxMark=capture.IndexOf("_model.MarkSaved(photoShotPlan,");
 			Assert.IsTrue(idxPlaced>0 && idxMark>idxPlaced,"A photo that is not in its slot leaves the slot next.");
 		}
 	}
