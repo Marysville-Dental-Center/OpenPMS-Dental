@@ -236,7 +236,7 @@ namespace OpenPmsDental {
 			// 
 			this.butCalcDaily.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butCalcDaily.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butCalcDaily.Location = new System.Drawing.Point(226, 664);
+			this.butCalcDaily.Location = new System.Drawing.Point(240, 664);
 			this.butCalcDaily.Name = "butCalcDaily";
 			this.butCalcDaily.Size = new System.Drawing.Size(90, 24);
 			this.butCalcDaily.TabIndex = 23;
@@ -259,7 +259,7 @@ namespace OpenPmsDental {
 			// 
 			this.butCalcWeekOT.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butCalcWeekOT.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butCalcWeekOT.Location = new System.Drawing.Point(130, 664);
+			this.butCalcWeekOT.Location = new System.Drawing.Point(144, 664);
 			this.butCalcWeekOT.Name = "butCalcWeekOT";
 			this.butCalcWeekOT.Size = new System.Drawing.Size(90, 24);
 			this.butCalcWeekOT.TabIndex = 18;
@@ -273,7 +273,7 @@ namespace OpenPmsDental {
 			this.butAdj.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butAdj.Location = new System.Drawing.Point(8, 664);
 			this.butAdj.Name = "butAdj";
-			this.butAdj.Size = new System.Drawing.Size(116, 24);
+			this.butAdj.Size = new System.Drawing.Size(130, 24);
 			this.butAdj.TabIndex = 15;
 			this.butAdj.Text = "Add Adjustment";
 			this.butAdj.Click += new System.EventHandler(this.butAdj_Click);

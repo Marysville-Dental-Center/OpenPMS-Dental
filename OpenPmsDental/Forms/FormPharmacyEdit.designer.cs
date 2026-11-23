@@ -242,7 +242,6 @@ namespace OpenPmsDental {
 			// 
 			// comboClinic
 			// 
-			this.comboClinic.BackColor = System.Drawing.SystemColors.Window;
 			this.comboClinic.IncludeAll = true;
 			this.comboClinic.IncludeUnassigned = true;
 			this.comboClinic.Location = new System.Drawing.Point(122, 170);

@@ -70,7 +70,10 @@ def layout(h):
     x = 8
     for name in ("butAdj", "butCalcWeekOT", "butCalcDaily"):
         b = h.n(name)
-        h.set(name, x, yb, b.nw, 24)
-        x += b.nw + 6
+        # Add Adjustment 130 px (review 2026-11-23: at 116 its + touched the A and the text ran to 2 px from the edge): an icon button keeps
+        # 6 px between its icon and its text and 6 px after the text, like E-Mail, Text and Print.
+        bw = 130 if name == "butAdj" else b.nw
+        h.set(name, x, yb, bw, 24)
+        x += bw + 6
     h.set("butSave", R - 75, yb, 75, 24)
     h.set("butPrint", R - 75 - 8 - 86, yb, 86, 24)

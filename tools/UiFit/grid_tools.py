@@ -2375,6 +2375,14 @@ def apply_row(text, control, prop, new):
         text = text[:mc.start()] + text[mc.end():]
         ms = pat_s.search(text)
         return text[:ms.start()] + line + text[ms.start():], None
+    if prop == "BackColor" and new == "(none)":
+        # A hand row only (UI-12 slice 2 fix round: FormPharmacyEdit's clinic picker drew its label on a white rectangle): the control's
+        # BackColor line is removed, so it takes its parent's background. A second run finds no line and changes nothing.
+        pat = re.compile(r"^[ \t]*%sBackColor ?= ?[^;\r\n]+;(\r\n|\n)" % re.escape(target), re.M)
+        m = pat.search(text)
+        if m:
+            return text[:m.start()] + text[m.end():], None
+        return text, None
     if prop in ("CheckAlign", "TextAlign"):
         pat = re.compile(r"(%s%s ?= ?System\.Drawing\.ContentAlignment\.)(\w+)(;)" % (re.escape(target), prop))
         m = pat.search(text)

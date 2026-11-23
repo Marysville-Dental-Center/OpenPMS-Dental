@@ -194,9 +194,9 @@ namespace OpenPmsDental {
 			this.butLabels.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butLabels.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Label,18,16);
 			this.butLabels.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butLabels.Location = new System.Drawing.Point(133, 678);
+			this.butLabels.Location = new System.Drawing.Point(144, 678);
 			this.butLabels.Name = "butLabels";
-			this.butLabels.Size = new System.Drawing.Size(102, 24);
+			this.butLabels.Size = new System.Drawing.Size(112, 24);
 			this.butLabels.TabIndex = 14;
 			this.butLabels.Text = "Label Preview";
 			this.butLabels.Click += new System.EventHandler(this.butLabels_Click);
@@ -226,7 +226,7 @@ namespace OpenPmsDental {
 			this.butPostcards.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butPostcards.Location = new System.Drawing.Point(8, 678);
 			this.butPostcards.Name = "butPostcards";
-			this.butPostcards.Size = new System.Drawing.Size(119, 24);
+			this.butPostcards.Size = new System.Drawing.Size(130, 24);
 			this.butPostcards.TabIndex = 16;
 			this.butPostcards.Text = "Postcard Preview";
 			this.butPostcards.Click += new System.EventHandler(this.butPostcards_Click);
@@ -296,7 +296,7 @@ namespace OpenPmsDental {
 			this.butEmail.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butEmail.Icon = OpenPmsDental.UI.EnumIcons.Email;
 			this.butEmail.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butEmail.Location = new System.Drawing.Point(241, 678);
+			this.butEmail.Location = new System.Drawing.Point(262, 678);
 			this.butEmail.Name = "butEmail";
 			this.butEmail.Size = new System.Drawing.Size(91, 24);
 			this.butEmail.TabIndex = 61;
@@ -308,7 +308,7 @@ namespace OpenPmsDental {
 			this.butText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butText.Icon = OpenPmsDental.UI.EnumIcons.Text;
 			this.butText.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butText.Location = new System.Drawing.Point(338, 678);
+			this.butText.Location = new System.Drawing.Point(359, 678);
 			this.butText.Name = "butText";
 			this.butText.Size = new System.Drawing.Size(79, 24);
 			this.butText.TabIndex = 61;

@@ -228,9 +228,9 @@ namespace OpenPmsDental {
 			// butStartScreens
 			// 
 			this.butStartScreens.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butStartScreens.Location = new System.Drawing.Point(375, 89);
+			this.butStartScreens.Location = new System.Drawing.Point(364, 89);
 			this.butStartScreens.Name = "butStartScreens";
-			this.butStartScreens.Size = new System.Drawing.Size(92, 23);
+			this.butStartScreens.Size = new System.Drawing.Size(100, 23);
 			this.butStartScreens.TabIndex = 9;
 			this.butStartScreens.Text = "Screen Patients";
 			this.butStartScreens.UseVisualStyleBackColor = true;
@@ -240,9 +240,9 @@ namespace OpenPmsDental {
 			// 
 			this.butRemovePat.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butRemovePat.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butRemovePat.Location = new System.Drawing.Point(392, 62);
+			this.butRemovePat.Location = new System.Drawing.Point(364, 62);
 			this.butRemovePat.Name = "butRemovePat";
-			this.butRemovePat.Size = new System.Drawing.Size(75, 23);
+			this.butRemovePat.Size = new System.Drawing.Size(100, 23);
 			this.butRemovePat.TabIndex = 8;
 			this.butRemovePat.Text = "Remove";
 			this.butRemovePat.UseVisualStyleBackColor = true;
@@ -252,9 +252,9 @@ namespace OpenPmsDental {
 			// 
 			this.button1.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.button1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.button1.Location = new System.Drawing.Point(392, 35);
+			this.button1.Location = new System.Drawing.Point(364, 35);
 			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(75, 23);
+			this.button1.Size = new System.Drawing.Size(100, 23);
 			this.button1.TabIndex = 7;
 			this.button1.Text = "Add";
 			this.button1.UseVisualStyleBackColor = true;
@@ -267,7 +267,7 @@ namespace OpenPmsDental {
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butAdd.Location = new System.Drawing.Point(169, 647);
 			this.butAdd.Name = "butAdd";
-			this.butAdd.Size = new System.Drawing.Size(119, 24);
+			this.butAdd.Size = new System.Drawing.Size(130, 24);
 			this.butAdd.TabIndex = 10;
 			this.butAdd.Text = "Add Anonymous";
 			this.butAdd.Click += new System.EventHandler(this.butAddAnonymous_Click);
@@ -297,14 +297,14 @@ namespace OpenPmsDental {
 			// comboSheetDefs
 			// 
 			this.comboSheetDefs.BackColor = System.Drawing.SystemColors.Window;
-			this.comboSheetDefs.Location = new System.Drawing.Point(375, 116);
+			this.comboSheetDefs.Location = new System.Drawing.Point(364, 116);
 			this.comboSheetDefs.Name = "comboSheetDefs";
-			this.comboSheetDefs.Size = new System.Drawing.Size(92, 23);
+			this.comboSheetDefs.Size = new System.Drawing.Size(100, 23);
 			this.comboSheetDefs.TabIndex = 153;
 			// 
 			// labelSheet
 			// 
-			this.labelSheet.Location = new System.Drawing.Point(329, 116);
+			this.labelSheet.Location = new System.Drawing.Point(318, 116);
 			this.labelSheet.Name = "labelSheet";
 			this.labelSheet.Size = new System.Drawing.Size(40, 23);
 			this.labelSheet.TabIndex = 154;
