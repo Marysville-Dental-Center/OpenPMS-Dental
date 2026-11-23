@@ -7,10 +7,10 @@ the builds `a1` (the planner alone) to `a7` (UI-12.md, "Slice 3 (batch 1)"); a l
 the last pass finds nothing in any picture. Notes on what stays: a group or window keeps the room of a row hidden in the designer that the
 code shows (FormEClinicalWorks' HL7 definition warning, FormApptSearchAdvanced's Appt View, FormCreditCardEdit's procedures group,
 FormEtransEdit's Attachments Sent, FormMaintItemEdit's next due line, FormDatabaseMaintenance's table check note); a window never shrinks
-(FormPath's band over Save); controls the code switches by Visible stand on one bounds and both draw in the harness (FormCertifications'
-two views); FormSecurity's user group control is drawn at its designer height (FormSecurity.cs stretches it to the window's bottom on Load);
-the menu bars (FormSecurity, FormOrthoChart) and the payment page (FormPayConnect2's WebView2) draw empty in the harness; the white
-note boxes of FormDatabaseMaintenancePat are main's text boxes.
+(FormPath's band over Save); controls the code switches by Visible stand on one bounds (FormCertifications' two views: since the fix
+round the designer hides the Cert Complete view as Load does, and the gallery draws it as a state); FormSecurity's user group control is drawn at its designer height (FormSecurity.cs stretches it to the window's bottom on Load);
+the menu bars (FormSecurity, FormOrthoChart) and the payment page (FormPayConnect2's WebView2) draw empty in the harness. The fix round
+(section "Fix round" below) gives FormDatabaseMaintenancePat's note boxes their page's colour and adds the other tab pages and views.
 
 **Pass 1** (`a1`, the planner's plan): 27 windows placed badly (FormBillingDefaults with no fixed point at 4097 px, FormPath at 1416 px
 and FormUserQuery at 1551 px with long check boxes on one line, FormBillingOptions at 1184 px, overlapping rows kept as drawn in
@@ -72,3 +72,39 @@ button, FormInsPlansOverrides' Overrides group 6 px after the grid and Select Al
 | 2-at-150/FormEClinicalWorks-150.png | changed | 150%: the notes after the boxes on one line. Nothing found. |
 | 2-at-150/FormEmailAddressEdit-150.png | changed | 150%: the password row on the Password choice's row, the settings notes whole. Nothing found (`a7`). |
 | 2-at-150/FormUserEdit-150.png | changed | 150%: the logoff label's two lines, the lists one width. Nothing found (the tab captions draw at 100% in the harness, as before). |
+
+## Fix round (the lead's review of 2026-11-23)
+
+The gallery redrawn from the fix round's builds in one session: before = `b8` (the branch point's designers, this branch's harness with
+the new states), after = `a8` (UI-12.md section 7, "Slice 3, fix round"). Every after picture of the round's windows and every new state
+was opened again; the other windows' after pictures are the same layout as in pass 4, drawn again in this session.
+
+| Picture | Status | Finding and result |
+|---|---|---|
+| 1-slice-windows/FormUserQuery.png | changed | Review 1 and 4: Print Orientation's caption on the row of Portrait and Landscape (the button panel 128 px, within the 140 px Load gives the upper panel); the panels' frame runs unbroken (measured: x 8 and 1267 at 209 gray from top to bottom, except the splitter band). Nothing found. |
+| 2-at-150/FormUserQuery-150.png | changed | 150%: the button panel, the Format group and the Print Orientation row whole inside the frame. Nothing found. |
+| 1-slice-windows/FormCertifications.png | changed | Review 3: the Category view only (Show Only Incomplete, Sort By Date, Employee and Categories lists); the Cert Complete controls hidden as Load hides them. Nothing found. |
+| 1-slice-windows/FormCertifications-certcomplete.png | changed (new) | The Cert Complete view: Sort By Date Completed on Show Only Incomplete's place, the Categories and Certifications lists on the Employee and Categories lists' bounds; Employee Search and Reports To hidden as the code hides them (their band stays, as in main). Nothing found. |
+| 1-slice-windows/FormDatabaseMaintenancePat.png | changed | Review 5: the Patient caption and the None note in the window's and page's colour, no white rectangles. Nothing found. |
+| 1-slice-windows/FormDatabaseMaintenancePat-hidden.png | changed (new) | The Hidden page: the grid to the page's edges, its note under it on one line. Nothing found. |
+| 1-slice-windows/FormDatabaseMaintenancePat-old.png | changed (new) | The Old page: the three-line note at the left and the None note on one top, Show Hidden on the Check and Fix row; the note box in the page's colour. Nothing found. |
+| 1-slice-windows/FormDatabaseMaintenance-hidden.png | changed (new) | The Hidden page: the note at the padding, the grid 8 px under its box (the box keeps main's two lines: the note nearly fills the width and wraps at 150% or in a longer translation), Select All over Explain at the right edge. Nothing found. |
+| 1-slice-windows/FormDatabaseMaintenance-old.png | changed (new) | The Old page: the note as on the Hidden page, the None row and the Check, Fix, Stop DBM, Explain row at the right edge, Show Hidden at the left. Nothing found. |
+| 1-slice-windows/FormDatabaseMaintenance-tools.png | changed (new) | The Tools page: the update group (its note, box and Clear) to the content edge, the three-line note and the grid under it, Fix at the right edge. Nothing found. |
+| 1-slice-windows/FormPath-database.png | changed (new) | The Database page: the warning note from the page's padding, five lines whole. Nothing found. |
+| 1-slice-windows/FormPath-removed.png | changed (new) | The Removed page: the note at the padding. Nothing found. |
+| 1-slice-windows/FormPath-sftp.png | changed (new) | The SFTP page: the two notes, the four fields on one column, Clear after the Password box, SSH Host Keys on the column. Nothing found. |
+| 1-slice-windows/FormUserEdit.png | changed | Review 6: the User page in the window's background (250), like the slice's other pages. Nothing found. |
+| 1-slice-windows/FormUserEdit-clinics.png | changed (new) | The Clinics page: both lists from the padding, one width and one top, 8 px apart, their captions on them. Nothing found. |
+| 1-slice-windows/FormUserEdit-alertsubs.png | changed (new) | The Alert Subs page: as the Clinics page. Nothing found. |
+| 2-at-150/FormUserEdit-150.png | changed | 150%: the page in the window's background. Nothing found (the tab captions draw at 100% in the harness, as before). |
+| 2-at-150/FormUserEdit-clinics-150.png, 2-at-150/FormUserEdit-alertsubs-150.png | changed (new) | 150%: the lists and captions whole. Nothing found. |
+| 1-slice-windows/FormSecurity-usergroups.png | changed (new) | The User Groups page of the hosted control (its `--part` script): the three lists one top, 8 px apart, captions on them; Add Group and Edit Group, Set All and Set None, Collapse All and Expand All under their lists. Drawn at the designer height, as the Users page. Nothing found. |
+| 2-at-150/FormSecurity-usergroups-150.png | changed (new) | 150%: buttons and captions whole. Nothing found. |
+| 1-slice-windows/FormDepositEdit.png | changed | Review 7: Date, Amount and Item Count 2 px over their boxes, on the boxes' left edges, like the column's other captions. Nothing found. |
+| 1-slice-windows/FormInsPlans.png, 1-slice-windows/FormInsPlansOverrides.png | changed | Review 8: Get All and Show Hidden 8 px after Order By in both (compared side by side). Nothing found. |
+| 1-slice-windows/FormOperatoryEdit.png | changed | Review 9 and 10: the Clinic box ends with the other boxes; Save 24 px, 8 px from the bottom and right edges. Nothing found. |
+| 1-slice-windows/FormEhrPatientSmoking.png | changed | Review 11: the filter choices of both groups on 134, 189, 254, 345; the Frequent choices one above the other. Nothing found. |
+| 1-slice-windows/FormMedPat.png | changed | Review 12: Save 8 px under Remove's note, no empty band. Nothing found. |
+
+A second look at every picture above after the gallery was assembled found nothing more.
