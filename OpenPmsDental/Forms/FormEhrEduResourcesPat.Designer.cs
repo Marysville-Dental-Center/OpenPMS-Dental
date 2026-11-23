@@ -35,7 +35,7 @@
 			// 
 			this.gridEdu.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridEdu.Location = new System.Drawing.Point(12, 53);
+			this.gridEdu.Location = new System.Drawing.Point(12, 48);
 			this.gridEdu.Name = "gridEdu";
 			this.gridEdu.SelectionMode = OpenPmsDental.UI.GridSelectionMode.None;
 			this.gridEdu.Size = new System.Drawing.Size(847, 264);
@@ -46,7 +46,7 @@
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(12, 10);
+			this.label1.Location = new System.Drawing.Point(12, 8);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(679, 18);
 			this.label1.TabIndex = 2;
@@ -59,7 +59,7 @@
 			this.gridProvided.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridProvided.Location = new System.Drawing.Point(12, 357);
+			this.gridProvided.Location = new System.Drawing.Point(12, 336);
 			this.gridProvided.Name = "gridProvided";
 			this.gridProvided.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
 			this.gridProvided.Size = new System.Drawing.Size(847, 273);
@@ -69,7 +69,7 @@
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(12, 338);
+			this.label2.Location = new System.Drawing.Point(12, 316);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(679, 18);
 			this.label2.TabIndex = 4;
@@ -80,7 +80,7 @@
 			// butDelete
 			// 
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butDelete.Location = new System.Drawing.Point(12, 636);
+			this.butDelete.Location = new System.Drawing.Point(12, 613);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(75, 23);
 			this.butDelete.TabIndex = 5;
@@ -90,7 +90,7 @@
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(12, 29);
+			this.label3.Location = new System.Drawing.Point(12, 28);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(799, 18);
 			this.label3.TabIndex = 6;

@@ -51,7 +51,7 @@
 			// butOk
 			// 
 			this.butOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOk.Location = new System.Drawing.Point(328, 324);
+			this.butOk.Location = new System.Drawing.Point(328, 328);
 			this.butOk.Name = "butOk";
 			this.butOk.Size = new System.Drawing.Size(75, 28);
 			this.butOk.TabIndex = 5;
@@ -62,7 +62,7 @@
 			// butDelete
 			// 
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butDelete.Location = new System.Drawing.Point(12, 324);
+			this.butDelete.Location = new System.Drawing.Point(8, 328);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(75, 28);
 			this.butDelete.TabIndex = 7;
@@ -71,41 +71,41 @@
 			// 
 			// textLoinc
 			// 
-			this.textLoinc.Location = new System.Drawing.Point(116, 12);
+			this.textLoinc.Location = new System.Drawing.Point(116, 8);
 			this.textLoinc.Name = "textLoinc";
 			this.textLoinc.ReadOnly = true;
-			this.textLoinc.Size = new System.Drawing.Size(105, 20);
+			this.textLoinc.Size = new System.Drawing.Size(104, 23);
 			this.textLoinc.TabIndex = 0;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(45, 13);
+			this.label1.Location = new System.Drawing.Point(62, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(70, 17);
+			this.label1.Size = new System.Drawing.Size(48, 23);
 			this.label1.TabIndex = 2;
 			this.label1.Text = "LOINC";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textObsValue
 			// 
-			this.textObsValue.Location = new System.Drawing.Point(162, 20);
+			this.textObsValue.Location = new System.Drawing.Point(165, 23);
 			this.textObsValue.Name = "textObsValue";
-			this.textObsValue.Size = new System.Drawing.Size(142, 20);
+			this.textObsValue.Size = new System.Drawing.Size(144, 23);
 			this.textObsValue.TabIndex = 3;
 			this.textObsValue.TextChanged += new System.EventHandler(this.textObsValue_TextChanged);
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(21, 38);
+			this.label3.Location = new System.Drawing.Point(38, 35);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(93, 17);
+			this.label3.Size = new System.Drawing.Size(72, 23);
 			this.label3.TabIndex = 222;
 			this.label3.Text = "Description";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textLoincDescription
 			// 
-			this.textLoincDescription.Location = new System.Drawing.Point(116, 38);
+			this.textLoincDescription.Location = new System.Drawing.Point(116, 35);
 			this.textLoincDescription.Multiline = true;
 			this.textLoincDescription.Name = "textLoincDescription";
 			this.textLoincDescription.Size = new System.Drawing.Size(287, 49);
@@ -113,9 +113,9 @@
 			// 
 			// butLoinc
 			// 
-			this.butLoinc.Location = new System.Drawing.Point(227, 11);
+			this.butLoinc.Location = new System.Drawing.Point(226, 8);
 			this.butLoinc.Name = "butLoinc";
-			this.butLoinc.Size = new System.Drawing.Size(24, 21);
+			this.butLoinc.Size = new System.Drawing.Size(24, 23);
 			this.butLoinc.TabIndex = 223;
 			this.butLoinc.Text = "...";
 			this.butLoinc.UseVisualStyleBackColor = true;
@@ -123,16 +123,16 @@
 			// 
 			// comboComparator
 			// 
-			this.comboComparator.Location = new System.Drawing.Point(104, 19);
+			this.comboComparator.Location = new System.Drawing.Point(108, 23);
 			this.comboComparator.Name = "comboComparator";
-			this.comboComparator.Size = new System.Drawing.Size(52, 21);
+			this.comboComparator.Size = new System.Drawing.Size(51, 23);
 			this.comboComparator.TabIndex = 224;
 			// 
 			// comboUnits
 			// 
-			this.comboUnits.Location = new System.Drawing.Point(310, 19);
+			this.comboUnits.Location = new System.Drawing.Point(315, 23);
 			this.comboUnits.Name = "comboUnits";
-			this.comboUnits.Size = new System.Drawing.Size(75, 21);
+			this.comboUnits.Size = new System.Drawing.Size(76, 23);
 			this.comboUnits.TabIndex = 225;
 			// 
 			// groupBox5
@@ -141,18 +141,18 @@
 			this.groupBox5.Controls.Add(this.comboUnits);
 			this.groupBox5.Controls.Add(this.textObsValue);
 			this.groupBox5.Controls.Add(this.comboComparator);
-			this.groupBox5.Location = new System.Drawing.Point(12, 150);
+			this.groupBox5.Location = new System.Drawing.Point(8, 151);
 			this.groupBox5.Name = "groupBox5";
-			this.groupBox5.Size = new System.Drawing.Size(391, 51);
+			this.groupBox5.Size = new System.Drawing.Size(399, 54);
 			this.groupBox5.TabIndex = 226;
 			this.groupBox5.TabStop = false;
 			this.groupBox5.Text = "Numeric Results";
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(9, 21);
+			this.label5.Location = new System.Drawing.Point(62, 23);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(93, 17);
+			this.label5.Size = new System.Drawing.Size(40, 23);
 			this.label5.TabIndex = 226;
 			this.label5.Text = "Value";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -164,35 +164,35 @@
 			this.groupBox1.Controls.Add(this.butSnomed);
 			this.groupBox1.Controls.Add(this.textSnomed);
 			this.groupBox1.Controls.Add(this.label2);
-			this.groupBox1.Location = new System.Drawing.Point(12, 207);
+			this.groupBox1.Location = new System.Drawing.Point(8, 213);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(391, 100);
+			this.groupBox1.Size = new System.Drawing.Size(399, 107);
 			this.groupBox1.TabIndex = 227;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Microbiology Results";
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(6, 45);
+			this.label4.Location = new System.Drawing.Point(30, 50);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(96, 17);
+			this.label4.Size = new System.Drawing.Size(72, 23);
 			this.label4.TabIndex = 226;
 			this.label4.Text = "Description";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textSnomedDescription
 			// 
-			this.textSnomedDescription.Location = new System.Drawing.Point(104, 45);
+			this.textSnomedDescription.Location = new System.Drawing.Point(108, 50);
 			this.textSnomedDescription.Multiline = true;
 			this.textSnomedDescription.Name = "textSnomedDescription";
-			this.textSnomedDescription.Size = new System.Drawing.Size(281, 49);
+			this.textSnomedDescription.Size = new System.Drawing.Size(277, 49);
 			this.textSnomedDescription.TabIndex = 225;
 			// 
 			// butSnomed
 			// 
-			this.butSnomed.Location = new System.Drawing.Point(310, 18);
+			this.butSnomed.Location = new System.Drawing.Point(314, 23);
 			this.butSnomed.Name = "butSnomed";
-			this.butSnomed.Size = new System.Drawing.Size(24, 21);
+			this.butSnomed.Size = new System.Drawing.Size(24, 23);
 			this.butSnomed.TabIndex = 224;
 			this.butSnomed.Text = "...";
 			this.butSnomed.UseVisualStyleBackColor = true;
@@ -200,7 +200,7 @@
 			// 
 			// textSnomed
 			// 
-			this.textSnomed.Location = new System.Drawing.Point(104, 19);
+			this.textSnomed.Location = new System.Drawing.Point(108, 23);
 			this.textSnomed.Name = "textSnomed";
 			this.textSnomed.ReadOnly = true;
 			this.textSnomed.Size = new System.Drawing.Size(200, 20);
@@ -208,18 +208,18 @@
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(6, 20);
+			this.label2.Location = new System.Drawing.Point(22, 23);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(97, 17);
+			this.label2.Size = new System.Drawing.Size(80, 23);
 			this.label2.TabIndex = 4;
 			this.label2.Text = "SNOMED CT";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// checkAllResults
 			// 
-			this.checkAllResults.Location = new System.Drawing.Point(104, 19);
+			this.checkAllResults.Location = new System.Drawing.Point(104, 23);
 			this.checkAllResults.Name = "checkAllResults";
-			this.checkAllResults.Size = new System.Drawing.Size(281, 23);
+			this.checkAllResults.Size = new System.Drawing.Size(277, 20);
 			this.checkAllResults.TabIndex = 228;
 			this.checkAllResults.Tag = "";
 			this.checkAllResults.Text = "Trigger intervention reguardless of result value";
@@ -227,9 +227,9 @@
 			// groupBox2
 			// 
 			this.groupBox2.Controls.Add(this.checkAllResults);
-			this.groupBox2.Location = new System.Drawing.Point(12, 93);
+			this.groupBox2.Location = new System.Drawing.Point(8, 92);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(391, 51);
+			this.groupBox2.Size = new System.Drawing.Size(399, 51);
 			this.groupBox2.TabIndex = 227;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "All Results";
@@ -237,7 +237,7 @@
 			// FormCDSILabResult
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(415, 359);
+			this.ClientSize = new System.Drawing.Size(415, 364);
 			this.Controls.Add(this.groupBox2);
 			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.groupBox5);

@@ -45,7 +45,7 @@ namespace OpenPmsDental {
 			// 
 			this.grid1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-			this.grid1.Location = new System.Drawing.Point(12, 38);
+			this.grid1.Location = new System.Drawing.Point(12, 36);
 			this.grid1.Name = "grid1";
 			this.grid1.Size = new System.Drawing.Size(470, 559);
 			this.grid1.TabIndex = 14;
@@ -58,7 +58,7 @@ namespace OpenPmsDental {
 			this.grid2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.grid2.Location = new System.Drawing.Point(491, 38);
+			this.grid2.Location = new System.Drawing.Point(491, 40);
 			this.grid2.Name = "grid2";
 			this.grid2.Size = new System.Drawing.Size(470, 559);
 			this.grid2.TabIndex = 12;
@@ -71,7 +71,7 @@ namespace OpenPmsDental {
 			this.butDuplicate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butDuplicate.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butDuplicate.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDuplicate.Location = new System.Drawing.Point(737, 607);
+			this.butDuplicate.Location = new System.Drawing.Point(737, 603);
 			this.butDuplicate.Name = "butDuplicate";
 			this.butDuplicate.Size = new System.Drawing.Size(89, 24);
 			this.butDuplicate.TabIndex = 20;
@@ -83,7 +83,7 @@ namespace OpenPmsDental {
 			this.butCopy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butCopy.Icon = OpenPmsDental.UI.EnumIcons.ArrowRight;
 			this.butCopy.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butCopy.Location = new System.Drawing.Point(333, 607);
+			this.butCopy.Location = new System.Drawing.Point(333, 599);
 			this.butCopy.Name = "butCopy";
 			this.butCopy.Size = new System.Drawing.Size(75, 24);
 			this.butCopy.TabIndex = 15;

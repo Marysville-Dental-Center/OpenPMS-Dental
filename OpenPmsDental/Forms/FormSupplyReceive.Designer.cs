@@ -34,26 +34,26 @@ namespace OpenPmsDental {
 			//
 			// labelScan
 			//
-			this.labelScan.Location = new System.Drawing.Point(12, 12);
+			this.labelScan.Location = new System.Drawing.Point(18, 8);
 			this.labelScan.Name = "labelScan";
-			this.labelScan.Size = new System.Drawing.Size(46, 18);
+			this.labelScan.Size = new System.Drawing.Size(36, 23);
 			this.labelScan.TabIndex = 0;
 			this.labelScan.Text = "Scan";
 			this.labelScan.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			//
 			// textScan
 			//
-			this.textScan.Location = new System.Drawing.Point(60, 11);
+			this.textScan.Location = new System.Drawing.Point(60, 12);
 			this.textScan.Name = "textScan";
-			this.textScan.Size = new System.Drawing.Size(180, 20);
+			this.textScan.Size = new System.Drawing.Size(172, 23);
 			this.textScan.TabIndex = 1;
 			this.textScan.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textScan_KeyDown);
 			//
 			// labelScanNote
 			//
-			this.labelScanNote.Location = new System.Drawing.Point(246, 8);
+			this.labelScanNote.Location = new System.Drawing.Point(238, 8);
 			this.labelScanNote.Name = "labelScanNote";
-			this.labelScanNote.Size = new System.Drawing.Size(514, 28);
+			this.labelScanNote.Size = new System.Drawing.Size(514, 32);
 			this.labelScanNote.TabIndex = 2;
 			this.labelScanNote.Text = "Each scan adds one to the item. Enter the lot number and expiry date of supplies tracked by lot. For a second lot of" +
     " the same item, use Add Lot Row.";
@@ -64,7 +64,7 @@ namespace OpenPmsDental {
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(12, 40);
+			this.gridMain.Location = new System.Drawing.Point(12, 44);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.OneCell;
 			this.gridMain.Size = new System.Drawing.Size(736, 380);
@@ -78,7 +78,7 @@ namespace OpenPmsDental {
 			this.butAddLotRow.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butAddLotRow.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAddLotRow.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAddLotRow.Location = new System.Drawing.Point(12, 428);
+			this.butAddLotRow.Location = new System.Drawing.Point(8, 436);
 			this.butAddLotRow.Name = "butAddLotRow";
 			this.butAddLotRow.Size = new System.Drawing.Size(100, 24);
 			this.butAddLotRow.TabIndex = 4;
@@ -88,7 +88,7 @@ namespace OpenPmsDental {
 			// butPost
 			//
 			this.butPost.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butPost.Location = new System.Drawing.Point(592, 428);
+			this.butPost.Location = new System.Drawing.Point(592, 436);
 			this.butPost.Name = "butPost";
 			this.butPost.Size = new System.Drawing.Size(75, 24);
 			this.butPost.TabIndex = 5;
@@ -98,7 +98,7 @@ namespace OpenPmsDental {
 			// butClose
 			//
 			this.butClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butClose.Location = new System.Drawing.Point(673, 428);
+			this.butClose.Location = new System.Drawing.Point(677, 436);
 			this.butClose.Name = "butClose";
 			this.butClose.Size = new System.Drawing.Size(75, 24);
 			this.butClose.TabIndex = 6;
@@ -107,7 +107,7 @@ namespace OpenPmsDental {
 			//
 			// FormSupplyReceive
 			//
-			this.ClientSize = new System.Drawing.Size(760, 462);
+			this.ClientSize = new System.Drawing.Size(760, 468);
 			this.Controls.Add(this.butClose);
 			this.Controls.Add(this.butPost);
 			this.Controls.Add(this.butAddLotRow);

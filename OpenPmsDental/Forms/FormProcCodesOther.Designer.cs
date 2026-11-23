@@ -33,15 +33,15 @@ namespace OpenPmsDental {
 			//
 			// labelInfo
 			//
-			this.labelInfo.Location = new System.Drawing.Point(12, 9);
+			this.labelInfo.Location = new System.Drawing.Point(12, 8);
 			this.labelInfo.Name = "labelInfo";
-			this.labelInfo.Size = new System.Drawing.Size(496, 63);
+			this.labelInfo.Size = new System.Drawing.Size(496, 77);
 			this.labelInfo.TabIndex = 0;
 			this.labelInfo.Text = "Imports another Canadian code system from a code file that you supply: comma or tab separated text with the columns code, description, abbreviation, treatment area, paint type and time units (a header row is optional). Each code system gets its own procedure code category. Codes that already exist are skipped unless an Advanced Option is checked. Codes are never deleted.";
 			//
 			// labelCodeSystem
 			//
-			this.labelCodeSystem.Location = new System.Drawing.Point(12, 72);
+			this.labelCodeSystem.Location = new System.Drawing.Point(12, 87);
 			this.labelCodeSystem.Name = "labelCodeSystem";
 			this.labelCodeSystem.Size = new System.Drawing.Size(240, 18);
 			this.labelCodeSystem.TabIndex = 1;
@@ -50,7 +50,7 @@ namespace OpenPmsDental {
 			//
 			// listCodeSystem
 			//
-			this.listCodeSystem.Location = new System.Drawing.Point(12, 92);
+			this.listCodeSystem.Location = new System.Drawing.Point(12, 107);
 			this.listCodeSystem.Name = "listCodeSystem";
 			this.listCodeSystem.Size = new System.Drawing.Size(240, 82);
 			this.listCodeSystem.TabIndex = 2;
@@ -61,55 +61,55 @@ namespace OpenPmsDental {
 			this.groupAdvanced.Controls.Add(this.checkUpdateAbbreviations);
 			this.groupAdvanced.Controls.Add(this.checkUpdateTreatArea);
 			this.groupAdvanced.Controls.Add(this.checkUpdatePaintType);
-			this.groupAdvanced.Location = new System.Drawing.Point(270, 72);
+			this.groupAdvanced.Location = new System.Drawing.Point(270, 87);
 			this.groupAdvanced.Name = "groupAdvanced";
-			this.groupAdvanced.Size = new System.Drawing.Size(238, 102);
+			this.groupAdvanced.Size = new System.Drawing.Size(238, 123);
 			this.groupAdvanced.TabIndex = 3;
 			this.groupAdvanced.Text = "Advanced Options";
 			//
 			// checkUpdateDescriptions
 			//
-			this.checkUpdateDescriptions.Location = new System.Drawing.Point(10, 20);
+			this.checkUpdateDescriptions.Location = new System.Drawing.Point(8, 23);
 			this.checkUpdateDescriptions.Name = "checkUpdateDescriptions";
-			this.checkUpdateDescriptions.Size = new System.Drawing.Size(220, 18);
+			this.checkUpdateDescriptions.Size = new System.Drawing.Size(132, 20);
 			this.checkUpdateDescriptions.TabIndex = 0;
 			this.checkUpdateDescriptions.Text = "Update descriptions";
 			//
 			// checkUpdateAbbreviations
 			//
-			this.checkUpdateAbbreviations.Location = new System.Drawing.Point(10, 40);
+			this.checkUpdateAbbreviations.Location = new System.Drawing.Point(8, 47);
 			this.checkUpdateAbbreviations.Name = "checkUpdateAbbreviations";
-			this.checkUpdateAbbreviations.Size = new System.Drawing.Size(220, 18);
+			this.checkUpdateAbbreviations.Size = new System.Drawing.Size(139, 20);
 			this.checkUpdateAbbreviations.TabIndex = 1;
 			this.checkUpdateAbbreviations.Text = "Update abbreviations";
 			//
 			// checkUpdateTreatArea
 			//
-			this.checkUpdateTreatArea.Location = new System.Drawing.Point(10, 60);
+			this.checkUpdateTreatArea.Location = new System.Drawing.Point(8, 71);
 			this.checkUpdateTreatArea.Name = "checkUpdateTreatArea";
-			this.checkUpdateTreatArea.Size = new System.Drawing.Size(220, 18);
+			this.checkUpdateTreatArea.Size = new System.Drawing.Size(146, 20);
 			this.checkUpdateTreatArea.TabIndex = 2;
 			this.checkUpdateTreatArea.Text = "Update treatment area";
 			//
 			// checkUpdatePaintType
 			//
-			this.checkUpdatePaintType.Location = new System.Drawing.Point(10, 80);
+			this.checkUpdatePaintType.Location = new System.Drawing.Point(8, 95);
 			this.checkUpdatePaintType.Name = "checkUpdatePaintType";
-			this.checkUpdatePaintType.Size = new System.Drawing.Size(220, 18);
+			this.checkUpdatePaintType.Size = new System.Drawing.Size(121, 20);
 			this.checkUpdatePaintType.TabIndex = 3;
 			this.checkUpdatePaintType.Text = "Update paint type";
 			//
 			// labelAdvanced
 			//
-			this.labelAdvanced.Location = new System.Drawing.Point(270, 177);
+			this.labelAdvanced.Location = new System.Drawing.Point(270, 214);
 			this.labelAdvanced.Name = "labelAdvanced";
-			this.labelAdvanced.Size = new System.Drawing.Size(238, 52);
+			this.labelAdvanced.Size = new System.Drawing.Size(238, 47);
 			this.labelAdvanced.TabIndex = 4;
 			this.labelAdvanced.Text = "Advanced Options change the codes of the file that already exist. They ask you to type a confirmation phrase first.";
 			//
 			// labelFile
 			//
-			this.labelFile.Location = new System.Drawing.Point(12, 224);
+			this.labelFile.Location = new System.Drawing.Point(12, 263);
 			this.labelFile.Name = "labelFile";
 			this.labelFile.Size = new System.Drawing.Size(240, 18);
 			this.labelFile.TabIndex = 5;
@@ -118,16 +118,16 @@ namespace OpenPmsDental {
 			//
 			// textFile
 			//
-			this.textFile.Location = new System.Drawing.Point(12, 244);
+			this.textFile.Location = new System.Drawing.Point(12, 283);
 			this.textFile.Name = "textFile";
-			this.textFile.Size = new System.Drawing.Size(415, 20);
+			this.textFile.Size = new System.Drawing.Size(416, 23);
 			this.textFile.TabIndex = 6;
 			//
 			// butBrowse
 			//
-			this.butBrowse.Location = new System.Drawing.Point(433, 242);
+			this.butBrowse.Location = new System.Drawing.Point(434, 283);
 			this.butBrowse.Name = "butBrowse";
-			this.butBrowse.Size = new System.Drawing.Size(75, 24);
+			this.butBrowse.Size = new System.Drawing.Size(75, 23);
 			this.butBrowse.TabIndex = 7;
 			this.butBrowse.Text = "&Browse";
 			this.butBrowse.Click += new System.EventHandler(this.butBrowse_Click);
@@ -135,7 +135,7 @@ namespace OpenPmsDental {
 			// butOK
 			//
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(433, 290);
+			this.butOK.Location = new System.Drawing.Point(437, 318);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 24);
 			this.butOK.TabIndex = 8;
@@ -144,7 +144,7 @@ namespace OpenPmsDental {
 			//
 			// FormProcCodesOther
 			//
-			this.ClientSize = new System.Drawing.Size(520, 326);
+			this.ClientSize = new System.Drawing.Size(520, 350);
 			this.Controls.Add(this.labelInfo);
 			this.Controls.Add(this.labelCodeSystem);
 			this.Controls.Add(this.listCodeSystem);

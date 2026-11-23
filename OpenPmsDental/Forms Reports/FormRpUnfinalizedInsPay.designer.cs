@@ -46,21 +46,21 @@ namespace OpenPmsDental {
 			// 
 			// labelType
 			// 
-			this.labelType.Location = new System.Drawing.Point(4, 20);
+			this.labelType.Location = new System.Drawing.Point(8, 23);
 			this.labelType.Name = "labelType";
-			this.labelType.Size = new System.Drawing.Size(39, 18);
+			this.labelType.Size = new System.Drawing.Size(40, 23);
 			this.labelType.TabIndex = 61;
 			this.labelType.Text = "Type:";
-			this.labelType.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.labelType.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// comboBoxMultiType
 			// 
 			this.comboBoxMultiType.BackColor = System.Drawing.SystemColors.Window;
-			this.comboBoxMultiType.Location = new System.Drawing.Point(45, 18);
+			this.comboBoxMultiType.Location = new System.Drawing.Point(54, 23);
 			this.comboBoxMultiType.Name = "comboBoxMultiType";
 			this.comboBoxMultiType.SelectionModeMulti = true;
 			this.comboBoxMultiType.IncludeAll = true;
-			this.comboBoxMultiType.Size = new System.Drawing.Size(160, 21);
+			this.comboBoxMultiType.Size = new System.Drawing.Size(160, 23);
 			this.comboBoxMultiType.TabIndex = 62;
 			this.comboBoxMultiType.SelectionChangeCommitted += new System.EventHandler(this.comboBoxMulti_SelectionChangeCommitted);
 			// 
@@ -71,9 +71,9 @@ namespace OpenPmsDental {
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridMain.ContextMenuStrip = this.contextMenuStrip1;
-			this.gridMain.Location = new System.Drawing.Point(8, 64);
+			this.gridMain.Location = new System.Drawing.Point(8, 70);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(961, 393);
+			this.gridMain.Size = new System.Drawing.Size(965, 393);
 			this.gridMain.TabIndex = 65;
 			this.gridMain.Title = "Unfinalized Insurance Payment";
 			this.gridMain.TranslationName = "TableUnfinalizedInsPay";
@@ -130,7 +130,7 @@ namespace OpenPmsDental {
 			this.butExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butExport.Icon = OpenPmsDental.UI.EnumIcons.Export;
 			this.butExport.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butExport.Location = new System.Drawing.Point(93, 463);
+			this.butExport.Location = new System.Drawing.Point(93, 467);
 			this.butExport.Name = "butExport";
 			this.butExport.Size = new System.Drawing.Size(79, 24);
 			this.butExport.TabIndex = 71;
@@ -142,7 +142,7 @@ namespace OpenPmsDental {
 			this.butPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butPrint.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Print,16,16);
 			this.butPrint.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butPrint.Location = new System.Drawing.Point(8, 463);
+			this.butPrint.Location = new System.Drawing.Point(8, 467);
 			this.butPrint.Name = "butPrint";
 			this.butPrint.Size = new System.Drawing.Size(79, 24);
 			this.butPrint.TabIndex = 70;
@@ -151,16 +151,16 @@ namespace OpenPmsDental {
 			// 
 			// textCarrier
 			// 
-			this.textCarrier.Location = new System.Drawing.Point(519, 19);
+			this.textCarrier.Location = new System.Drawing.Point(519, 23);
 			this.textCarrier.Name = "textCarrier";
 			this.textCarrier.Size = new System.Drawing.Size(160, 20);
 			this.textCarrier.TabIndex = 107;
 			// 
 			// labelCarrier
 			// 
-			this.labelCarrier.Location = new System.Drawing.Point(446, 21);
+			this.labelCarrier.Location = new System.Drawing.Point(461, 23);
 			this.labelCarrier.Name = "labelCarrier";
-			this.labelCarrier.Size = new System.Drawing.Size(70, 16);
+			this.labelCarrier.Size = new System.Drawing.Size(52, 23);
 			this.labelCarrier.TabIndex = 108;
 			this.labelCarrier.Text = "Carrier:";
 			this.labelCarrier.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -168,9 +168,9 @@ namespace OpenPmsDental {
 			// butRefresh
 			// 
 			this.butRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butRefresh.Location = new System.Drawing.Point(874, 14);
+			this.butRefresh.Location = new System.Drawing.Point(874, 23);
 			this.butRefresh.Name = "butRefresh";
-			this.butRefresh.Size = new System.Drawing.Size(82, 24);
+			this.butRefresh.Size = new System.Drawing.Size(82, 23);
 			this.butRefresh.TabIndex = 109;
 			this.butRefresh.Text = "&Refresh";
 			this.butRefresh.Click += new System.EventHandler(this.butRefresh_Click);
@@ -183,9 +183,9 @@ namespace OpenPmsDental {
 			this.groupBoxFilter.Controls.Add(this.labelCarrier);
 			this.groupBoxFilter.Controls.Add(this.comboBoxMultiType);
 			this.groupBoxFilter.Controls.Add(this.labelType);
-			this.groupBoxFilter.Location = new System.Drawing.Point(8, 2);
+			this.groupBoxFilter.Location = new System.Drawing.Point(8, 8);
 			this.groupBoxFilter.Name = "groupBoxFilter";
-			this.groupBoxFilter.Size = new System.Drawing.Size(961, 56);
+			this.groupBoxFilter.Size = new System.Drawing.Size(965, 54);
 			this.groupBoxFilter.TabIndex = 110;
 			this.groupBoxFilter.TabStop = false;
 			this.groupBoxFilter.Text = "Filters";
@@ -195,10 +195,10 @@ namespace OpenPmsDental {
 			this.comboClinics.IncludeAll = true;
 			this.comboClinics.IncludeHiddenInAll = true;
 			this.comboClinics.IncludeUnassigned = true;
-			this.comboClinics.Location = new System.Drawing.Point(240, 18);
+			this.comboClinics.Location = new System.Drawing.Point(240, 23);
 			this.comboClinics.Name = "comboClinics";
 			this.comboClinics.IsMultiSelect = true;
-			this.comboClinics.Size = new System.Drawing.Size(200, 21);
+			this.comboClinics.Size = new System.Drawing.Size(200, 23);
 			this.comboClinics.TabIndex = 110;
 			this.comboClinics.SelectionChangeCommitted += new System.EventHandler(this.ComboClinics_SelectionChangeCommitted);
 			// 

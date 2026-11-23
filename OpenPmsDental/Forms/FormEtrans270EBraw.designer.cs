@@ -30,7 +30,7 @@ namespace OpenPmsDental{
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(14, 13);
+			this.label1.Location = new System.Drawing.Point(14, 8);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(351, 18);
 			this.label1.TabIndex = 4;
@@ -42,7 +42,7 @@ namespace OpenPmsDental{
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(16, 166);
+			this.gridMain.Location = new System.Drawing.Point(14, 158);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.Size = new System.Drawing.Size(337, 258);
 			this.gridMain.TabIndex = 21;
@@ -53,7 +53,7 @@ namespace OpenPmsDental{
 			// 
 			this.textRaw.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textRaw.Location = new System.Drawing.Point(16, 34);
+			this.textRaw.Location = new System.Drawing.Point(14, 28);
 			this.textRaw.Name = "textRaw";
 			this.textRaw.ReadOnly = true;
 			this.textRaw.Size = new System.Drawing.Size(337, 126);
@@ -63,7 +63,7 @@ namespace OpenPmsDental{
 			// 
 			// FormEtrans270EBraw
 			// 
-			this.ClientSize = new System.Drawing.Size(365, 452);
+			this.ClientSize = new System.Drawing.Size(373, 452);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.Controls.Add(this.textRaw);
 			this.Controls.Add(this.gridMain);

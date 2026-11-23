@@ -35,7 +35,7 @@ namespace OpenPmsDental{
 			// label4
 			// 
 			this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.label4.Location = new System.Drawing.Point(350, 46);
+			this.label4.Location = new System.Drawing.Point(350, 32);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(176, 23);
 			this.label4.TabIndex = 15;
@@ -45,18 +45,18 @@ namespace OpenPmsDental{
 			// textCustom
 			// 
 			this.textCustom.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.textCustom.Location = new System.Drawing.Point(352, 72);
+			this.textCustom.Location = new System.Drawing.Point(350, 57);
 			this.textCustom.Name = "textCustom";
-			this.textCustom.Size = new System.Drawing.Size(173, 20);
+			this.textCustom.Size = new System.Drawing.Size(172, 23);
 			this.textCustom.TabIndex = 14;
 			// 
 			// checkBox1
 			// 
 			this.checkBox1.AutoSize = false;
-			this.checkBox1.Location = new System.Drawing.Point(12, 12);
+			this.checkBox1.Location = new System.Drawing.Point(8, 8);
 			this.checkBox1.Name = "checkBox1";
 			this.checkBox1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-			this.checkBox1.Size = new System.Drawing.Size(129, 18);
+			this.checkBox1.Size = new System.Drawing.Size(132, 20);
 			this.checkBox1.TabIndex = 18;
 			this.checkBox1.Text = "Spell Check Enabled";
 			// 
@@ -65,7 +65,7 @@ namespace OpenPmsDental{
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(12, 35);
+			this.gridMain.Location = new System.Drawing.Point(12, 32);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.Size = new System.Drawing.Size(245, 599);
 			this.gridMain.TabIndex = 4;
@@ -78,7 +78,7 @@ namespace OpenPmsDental{
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(263, 608);
+			this.butDelete.Location = new System.Drawing.Point(263, 94);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(75, 26);
 			this.butDelete.TabIndex = 17;
@@ -90,7 +90,7 @@ namespace OpenPmsDental{
 			this.butAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.ArrowLeft;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdd.Location = new System.Drawing.Point(267, 68);
+			this.butAdd.Location = new System.Drawing.Point(263, 64);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(75, 26);
 			this.butAdd.TabIndex = 16;
@@ -99,11 +99,11 @@ namespace OpenPmsDental{
 			// 
 			// label1
 			// 
-			this.label1.AutoSize = true;
+			this.label1.AutoSize = false;
 			this.label1.ForeColor = System.Drawing.Color.Red;
-			this.label1.Location = new System.Drawing.Point(157, 12);
+			this.label1.Location = new System.Drawing.Point(146, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(298, 13);
+			this.label1.Size = new System.Drawing.Size(344, 20);
 			this.label1.TabIndex = 20;
 			this.label1.Text = "Foreign language Input Method Editor composition is enabled.";
 			this.label1.Visible = false;

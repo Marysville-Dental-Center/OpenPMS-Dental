@@ -35,9 +35,9 @@ namespace OpenPmsDental {
 			//
 			this.labelInstructions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelInstructions.Location = new System.Drawing.Point(12, 9);
+			this.labelInstructions.Location = new System.Drawing.Point(12, 8);
 			this.labelInstructions.Name = "labelInstructions";
-			this.labelInstructions.Size = new System.Drawing.Size(736, 70);
+			this.labelInstructions.Size = new System.Drawing.Size(736, 62);
 			this.labelInstructions.TabIndex = 0;
 			this.labelInstructions.Text = "Enter each dental service line of UDS Table 6A, as the UDS manual for the reporting year numbers and names it, with the procedure codes counted on it. No codes ship with this program. Separate codes with commas. A range is two codes of the same length joined by a hyphen (for example D1000-D1999); a code ending in * counts every code that starts with it (for example D1*). Only completed procedures are counted.";
 			//
@@ -46,7 +46,7 @@ namespace OpenPmsDental {
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(12, 84);
+			this.gridMain.Location = new System.Drawing.Point(12, 72);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.OneCell;
 			this.gridMain.Size = new System.Drawing.Size(736, 384);
@@ -59,7 +59,7 @@ namespace OpenPmsDental {
 			this.butAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdd.Location = new System.Drawing.Point(12, 476);
+			this.butAdd.Location = new System.Drawing.Point(8, 480);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(80, 24);
 			this.butAdd.TabIndex = 2;
@@ -71,7 +71,7 @@ namespace OpenPmsDental {
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(98, 476);
+			this.butDelete.Location = new System.Drawing.Point(94, 480);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(80, 24);
 			this.butDelete.TabIndex = 3;
@@ -81,7 +81,7 @@ namespace OpenPmsDental {
 			// butTemplate
 			//
 			this.butTemplate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butTemplate.Location = new System.Drawing.Point(184, 476);
+			this.butTemplate.Location = new System.Drawing.Point(180, 480);
 			this.butTemplate.Name = "butTemplate";
 			this.butTemplate.Size = new System.Drawing.Size(150, 24);
 			this.butTemplate.TabIndex = 4;
@@ -91,7 +91,7 @@ namespace OpenPmsDental {
 			// butSave
 			//
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(673, 476);
+			this.butSave.Location = new System.Drawing.Point(677, 480);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 5;

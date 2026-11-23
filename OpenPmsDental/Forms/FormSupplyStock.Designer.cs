@@ -33,7 +33,7 @@ namespace OpenPmsDental {
 			//
 			// labelSupply
 			//
-			this.labelSupply.Location = new System.Drawing.Point(12, 7);
+			this.labelSupply.Location = new System.Drawing.Point(12, 8);
 			this.labelSupply.Name = "labelSupply";
 			this.labelSupply.Size = new System.Drawing.Size(860, 20);
 			this.labelSupply.TabIndex = 0;
@@ -44,7 +44,7 @@ namespace OpenPmsDental {
 			//
 			this.gridLots.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Left)));
-			this.gridLots.Location = new System.Drawing.Point(12, 32);
+			this.gridLots.Location = new System.Drawing.Point(12, 30);
 			this.gridLots.Name = "gridLots";
 			this.gridLots.Size = new System.Drawing.Size(300, 400);
 			this.gridLots.TabIndex = 1;
@@ -55,9 +55,9 @@ namespace OpenPmsDental {
 			// checkShowEmptyLots
 			//
 			this.checkShowEmptyLots.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.checkShowEmptyLots.Location = new System.Drawing.Point(12, 438);
+			this.checkShowEmptyLots.Location = new System.Drawing.Point(12, 434);
 			this.checkShowEmptyLots.Name = "checkShowEmptyLots";
-			this.checkShowEmptyLots.Size = new System.Drawing.Size(200, 18);
+			this.checkShowEmptyLots.Size = new System.Drawing.Size(152, 20);
 			this.checkShowEmptyLots.TabIndex = 2;
 			this.checkShowEmptyLots.Text = "Show lots without stock";
 			this.checkShowEmptyLots.Click += new System.EventHandler(this.checkShowEmptyLots_Click);
@@ -67,7 +67,7 @@ namespace OpenPmsDental {
 			this.gridLedger.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridLedger.Location = new System.Drawing.Point(320, 32);
+			this.gridLedger.Location = new System.Drawing.Point(876, 32);
 			this.gridLedger.Name = "gridLedger";
 			this.gridLedger.Size = new System.Drawing.Size(752, 400);
 			this.gridLedger.TabIndex = 3;
@@ -77,7 +77,7 @@ namespace OpenPmsDental {
 			// butAdjust
 			//
 			this.butAdjust.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butAdjust.Location = new System.Drawing.Point(320, 438);
+			this.butAdjust.Location = new System.Drawing.Point(320, 466);
 			this.butAdjust.Name = "butAdjust";
 			this.butAdjust.Size = new System.Drawing.Size(80, 24);
 			this.butAdjust.TabIndex = 4;
@@ -87,7 +87,7 @@ namespace OpenPmsDental {
 			// butClose
 			//
 			this.butClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butClose.Location = new System.Drawing.Point(997, 438);
+			this.butClose.Location = new System.Drawing.Point(1553, 466);
 			this.butClose.Name = "butClose";
 			this.butClose.Size = new System.Drawing.Size(75, 24);
 			this.butClose.TabIndex = 5;
@@ -96,7 +96,7 @@ namespace OpenPmsDental {
 			//
 			// FormSupplyStock
 			//
-			this.ClientSize = new System.Drawing.Size(1084, 472);
+			this.ClientSize = new System.Drawing.Size(1636, 498);
 			this.Controls.Add(this.butClose);
 			this.Controls.Add(this.butAdjust);
 			this.Controls.Add(this.gridLedger);

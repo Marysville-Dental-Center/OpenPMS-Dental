@@ -35,7 +35,7 @@ namespace OpenPmsDental{
 			// 
 			this.textQuery.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textQuery.Location = new System.Drawing.Point(246, 58);
+			this.textQuery.Location = new System.Drawing.Point(246, 52);
 			this.textQuery.Multiline = true;
 			this.textQuery.Name = "textQuery";
 			this.textQuery.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -47,7 +47,7 @@ namespace OpenPmsDental{
 			// 
 			this.textConnString.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textConnString.Location = new System.Drawing.Point(12, 12);
+			this.textConnString.Location = new System.Drawing.Point(12, 8);
 			this.textConnString.Multiline = true;
 			this.textConnString.Name = "textConnString";
 			this.textConnString.Size = new System.Drawing.Size(962, 40);
@@ -61,7 +61,7 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridMain.HScrollVisible = true;
-			this.gridMain.Location = new System.Drawing.Point(246, 163);
+			this.gridMain.Location = new System.Drawing.Point(246, 155);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.Size = new System.Drawing.Size(728, 505);
 			this.gridMain.TabIndex = 7;
@@ -75,7 +75,7 @@ namespace OpenPmsDental{
 			this.gridTables.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.gridTables.HScrollVisible = true;
-			this.gridTables.Location = new System.Drawing.Point(12, 163);
+			this.gridTables.Location = new System.Drawing.Point(12, 155);
 			this.gridTables.Name = "gridTables";
 			this.gridTables.Size = new System.Drawing.Size(228, 505);
 			this.gridTables.TabIndex = 8;
@@ -89,7 +89,7 @@ namespace OpenPmsDental{
 			this.butRunQ.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butRunQ.Icon = OpenPmsDental.UI.EnumIcons.ArrowRight;
 			this.butRunQ.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butRunQ.Location = new System.Drawing.Point(986, 58);
+			this.butRunQ.Location = new System.Drawing.Point(986, 56);
 			this.butRunQ.Name = "butRunQ";
 			this.butRunQ.Size = new System.Drawing.Size(75, 24);
 			this.butRunQ.TabIndex = 6;
@@ -98,9 +98,9 @@ namespace OpenPmsDental{
 			// 
 			// listQuery
 			// 
-			this.listQuery.Location = new System.Drawing.Point(12, 58);
+			this.listQuery.Location = new System.Drawing.Point(12, 52);
 			this.listQuery.Name = "listQuery";
-			this.listQuery.Size = new System.Drawing.Size(228, 95);
+			this.listQuery.Size = new System.Drawing.Size(228, 99);
 			this.listQuery.TabIndex = 9;
 			this.listQuery.SelectedIndexChanged += new System.EventHandler(this.listQuery_SelectedIndexChanged);
 			// 

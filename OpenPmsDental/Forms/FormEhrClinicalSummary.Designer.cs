@@ -38,7 +38,7 @@
 			// 
 			// butSendToPortal
 			// 
-			this.butSendToPortal.Location = new System.Drawing.Point(109, 19);
+			this.butSendToPortal.Location = new System.Drawing.Point(98, 23);
 			this.butSendToPortal.Name = "butSendToPortal";
 			this.butSendToPortal.Size = new System.Drawing.Size(84, 23);
 			this.butSendToPortal.TabIndex = 11;
@@ -51,7 +51,7 @@
 			this.gridEHRMeasureEvents.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridEHRMeasureEvents.Location = new System.Drawing.Point(15, 166);
+			this.gridEHRMeasureEvents.Location = new System.Drawing.Point(8, 183);
 			this.gridEHRMeasureEvents.Name = "gridEHRMeasureEvents";
 			this.gridEHRMeasureEvents.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
 			this.gridEHRMeasureEvents.Size = new System.Drawing.Size(240, 261);
@@ -62,7 +62,7 @@
 			// butDelete
 			// 
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butDelete.Location = new System.Drawing.Point(15, 440);
+			this.butDelete.Location = new System.Drawing.Point(8, 448);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(75, 23);
 			this.butDelete.TabIndex = 12;
@@ -74,16 +74,16 @@
 			// 
 			this.groupBox1.Controls.Add(this.butShowXhtml);
 			this.groupBox1.Controls.Add(this.butShowXml);
-			this.groupBox1.Location = new System.Drawing.Point(39, 108);
+			this.groupBox1.Location = new System.Drawing.Point(8, 121);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(201, 50);
+			this.groupBox1.Size = new System.Drawing.Size(257, 54);
 			this.groupBox1.TabIndex = 21;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Show";
 			// 
 			// butShowXhtml
 			// 
-			this.butShowXhtml.Location = new System.Drawing.Point(8, 19);
+			this.butShowXhtml.Location = new System.Drawing.Point(8, 23);
 			this.butShowXhtml.Name = "butShowXhtml";
 			this.butShowXhtml.Size = new System.Drawing.Size(84, 23);
 			this.butShowXhtml.TabIndex = 18;
@@ -93,7 +93,7 @@
 			// 
 			// butShowXml
 			// 
-			this.butShowXml.Location = new System.Drawing.Point(109, 19);
+			this.butShowXml.Location = new System.Drawing.Point(98, 23);
 			this.butShowXml.Name = "butShowXml";
 			this.butShowXml.Size = new System.Drawing.Size(84, 23);
 			this.butShowXml.TabIndex = 19;
@@ -106,24 +106,24 @@
 			this.groupBox2.Controls.Add(this.label1);
 			this.groupBox2.Controls.Add(this.butExport);
 			this.groupBox2.Controls.Add(this.butSendToPortal);
-			this.groupBox2.Location = new System.Drawing.Point(39, 10);
+			this.groupBox2.Location = new System.Drawing.Point(8, 8);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(201, 91);
+			this.groupBox2.Size = new System.Drawing.Size(257, 105);
 			this.groupBox2.TabIndex = 22;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Send Clinical Summary to Patient";
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(6, 45);
+			this.label1.Location = new System.Drawing.Point(8, 50);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(192, 46);
+			this.label1.Size = new System.Drawing.Size(192, 47);
 			this.label1.TabIndex = 23;
 			this.label1.Text = "includes 2 files:\r\nccd.xml - the data\r\nccd.xsl - for human readable viewing";
 			// 
 			// butExport
 			// 
-			this.butExport.Location = new System.Drawing.Point(8, 19);
+			this.butExport.Location = new System.Drawing.Point(8, 23);
 			this.butExport.Name = "butExport";
 			this.butExport.Size = new System.Drawing.Size(84, 23);
 			this.butExport.TabIndex = 12;
@@ -134,7 +134,7 @@
 			// FormEhrClinicalSummary
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(273, 475);
+			this.ClientSize = new System.Drawing.Size(273, 479);
 			this.Controls.Add(this.groupBox2);
 			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.gridEHRMeasureEvents);

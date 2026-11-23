@@ -51,16 +51,16 @@ namespace OpenPmsDental{
 			this.groupBox1.Controls.Add(this.butColumnInsert);
 			this.groupBox1.Controls.Add(this.butColumnRight);
 			this.groupBox1.Controls.Add(this.butColumnLeft);
-			this.groupBox1.Location = new System.Drawing.Point(861, 66);
+			this.groupBox1.Location = new System.Drawing.Point(861, 40);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(88, 141);
+			this.groupBox1.Size = new System.Drawing.Size(89, 139);
 			this.groupBox1.TabIndex = 28;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Column";
 			// 
 			// butColumnDelete
 			// 
-			this.butColumnDelete.Location = new System.Drawing.Point(8, 109);
+			this.butColumnDelete.Location = new System.Drawing.Point(8, 107);
 			this.butColumnDelete.Name = "butColumnDelete";
 			this.butColumnDelete.Size = new System.Drawing.Size(71, 24);
 			this.butColumnDelete.TabIndex = 34;
@@ -69,7 +69,7 @@ namespace OpenPmsDental{
 			// 
 			// butHeaders
 			// 
-			this.butHeaders.Location = new System.Drawing.Point(8, 49);
+			this.butHeaders.Location = new System.Drawing.Point(8, 51);
 			this.butHeaders.Name = "butHeaders";
 			this.butHeaders.Size = new System.Drawing.Size(71, 24);
 			this.butHeaders.TabIndex = 31;
@@ -87,7 +87,7 @@ namespace OpenPmsDental{
 			// 
 			// butColumnRight
 			// 
-			this.butColumnRight.Location = new System.Drawing.Point(47, 19);
+			this.butColumnRight.Location = new System.Drawing.Point(44, 23);
 			this.butColumnRight.Name = "butColumnRight";
 			this.butColumnRight.Size = new System.Drawing.Size(30, 24);
 			this.butColumnRight.TabIndex = 30;
@@ -96,7 +96,7 @@ namespace OpenPmsDental{
 			// 
 			// butColumnLeft
 			// 
-			this.butColumnLeft.Location = new System.Drawing.Point(8, 19);
+			this.butColumnLeft.Location = new System.Drawing.Point(8, 23);
 			this.butColumnLeft.Name = "butColumnLeft";
 			this.butColumnLeft.Size = new System.Drawing.Size(30, 24);
 			this.butColumnLeft.TabIndex = 29;
@@ -110,16 +110,16 @@ namespace OpenPmsDental{
 			this.groupRow.Controls.Add(this.butRowInsert);
 			this.groupRow.Controls.Add(this.butRowDown);
 			this.groupRow.Controls.Add(this.butRowUp);
-			this.groupRow.Location = new System.Drawing.Point(861, 214);
+			this.groupRow.Location = new System.Drawing.Point(861, 187);
 			this.groupRow.Name = "groupRow";
-			this.groupRow.Size = new System.Drawing.Size(88, 141);
+			this.groupRow.Size = new System.Drawing.Size(89, 139);
 			this.groupRow.TabIndex = 32;
 			this.groupRow.TabStop = false;
 			this.groupRow.Text = "Row";
 			// 
 			// butRowDelete
 			// 
-			this.butRowDelete.Location = new System.Drawing.Point(8, 109);
+			this.butRowDelete.Location = new System.Drawing.Point(8, 107);
 			this.butRowDelete.Name = "butRowDelete";
 			this.butRowDelete.Size = new System.Drawing.Size(71, 24);
 			this.butRowDelete.TabIndex = 32;
@@ -137,7 +137,7 @@ namespace OpenPmsDental{
 			// 
 			// butRowDown
 			// 
-			this.butRowDown.Location = new System.Drawing.Point(8, 49);
+			this.butRowDown.Location = new System.Drawing.Point(8, 51);
 			this.butRowDown.Name = "butRowDown";
 			this.butRowDown.Size = new System.Drawing.Size(44, 24);
 			this.butRowDown.TabIndex = 30;
@@ -146,7 +146,7 @@ namespace OpenPmsDental{
 			// 
 			// butRowUp
 			// 
-			this.butRowUp.Location = new System.Drawing.Point(8, 19);
+			this.butRowUp.Location = new System.Drawing.Point(8, 23);
 			this.butRowUp.Name = "butRowUp";
 			this.butRowUp.Size = new System.Drawing.Size(44, 24);
 			this.butRowUp.TabIndex = 29;
@@ -158,7 +158,7 @@ namespace OpenPmsDental{
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(12, 589);
+			this.butDelete.Location = new System.Drawing.Point(8, 594);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(75, 24);
 			this.butDelete.TabIndex = 36;
@@ -168,7 +168,7 @@ namespace OpenPmsDental{
 			// butManEdit
 			// 
 			this.butManEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butManEdit.Location = new System.Drawing.Point(865, 12);
+			this.butManEdit.Location = new System.Drawing.Point(861, 8);
 			this.butManEdit.Name = "butManEdit";
 			this.butManEdit.Size = new System.Drawing.Size(75, 24);
 			this.butManEdit.TabIndex = 27;
@@ -183,7 +183,7 @@ namespace OpenPmsDental{
 			this.gridMain.EditableAcceptsCR = true;
 			this.gridMain.EditableUsesRTF = true;
 			this.gridMain.HScrollVisible = true;
-			this.gridMain.Location = new System.Drawing.Point(12, 12);
+			this.gridMain.Location = new System.Drawing.Point(12, 8);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.OneCell;
 			this.gridMain.Size = new System.Drawing.Size(842, 574);
@@ -195,7 +195,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(779, 589);
+			this.butSave.Location = new System.Drawing.Point(875, 594);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 21;
@@ -205,7 +205,7 @@ namespace OpenPmsDental{
 			// butPaste
 			// 
 			this.butPaste.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butPaste.Location = new System.Drawing.Point(861, 361);
+			this.butPaste.Location = new System.Drawing.Point(861, 334);
 			this.butPaste.Name = "butPaste";
 			this.butPaste.Size = new System.Drawing.Size(88, 24);
 			this.butPaste.TabIndex = 37;
@@ -214,7 +214,7 @@ namespace OpenPmsDental{
 			// 
 			// FormMarkupTableEdit
 			// 
-			this.ClientSize = new System.Drawing.Size(952, 613);
+			this.ClientSize = new System.Drawing.Size(958, 626);
 			this.Controls.Add(this.butPaste);
 			this.Controls.Add(this.butDelete);
 			this.Controls.Add(this.groupRow);

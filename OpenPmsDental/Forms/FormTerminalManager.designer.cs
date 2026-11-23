@@ -45,7 +45,7 @@
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(21, 92);
+			this.gridMain.Location = new System.Drawing.Point(18, 57);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.Size = new System.Drawing.Size(826, 418);
 			this.gridMain.TabIndex = 2;
@@ -59,22 +59,22 @@
 			this.groupBoxPassword.Controls.Add(this.textPassword);
 			this.groupBoxPassword.Controls.Add(this.label2);
 			this.groupBoxPassword.Controls.Add(this.butSave);
-			this.groupBoxPassword.Location = new System.Drawing.Point(21, 517);
+			this.groupBoxPassword.Location = new System.Drawing.Point(18, 483);
 			this.groupBoxPassword.Name = "groupBoxPassword";
-			this.groupBoxPassword.Size = new System.Drawing.Size(506, 80);
+			this.groupBoxPassword.Size = new System.Drawing.Size(515, 88);
 			this.groupBoxPassword.TabIndex = 12;
 			this.groupBoxPassword.Text = "Password";
 			// 
 			// textPassword
 			// 
-			this.textPassword.Location = new System.Drawing.Point(10, 50);
+			this.textPassword.Location = new System.Drawing.Point(8, 57);
 			this.textPassword.Name = "textPassword";
-			this.textPassword.Size = new System.Drawing.Size(129, 20);
+			this.textPassword.Size = new System.Drawing.Size(128, 23);
 			this.textPassword.TabIndex = 5;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(7, 16);
+			this.label2.Location = new System.Drawing.Point(8, 23);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(499, 32);
 			this.label2.TabIndex = 4;
@@ -83,9 +83,9 @@
 			// 
 			// butSave
 			// 
-			this.butSave.Location = new System.Drawing.Point(145, 48);
+			this.butSave.Location = new System.Drawing.Point(142, 57);
 			this.butSave.Name = "butSave";
-			this.butSave.Size = new System.Drawing.Size(97, 24);
+			this.butSave.Size = new System.Drawing.Size(97, 23);
 			this.butSave.TabIndex = 6;
 			this.butSave.Text = "Save Password";
 			this.butSave.UseVisualStyleBackColor = true;
@@ -99,9 +99,9 @@
 			this.groupBoxPatient.Controls.Add(this.labelSheets);
 			this.groupBoxPatient.Controls.Add(this.labelPatient);
 			this.groupBoxPatient.Controls.Add(this.listSheets);
-			this.groupBoxPatient.Location = new System.Drawing.Point(853, 90);
+			this.groupBoxPatient.Location = new System.Drawing.Point(853, 84);
 			this.groupBoxPatient.Name = "groupBoxPatient";
-			this.groupBoxPatient.Size = new System.Drawing.Size(180, 390);
+			this.groupBoxPatient.Size = new System.Drawing.Size(180, 219);
 			this.groupBoxPatient.TabIndex = 11;
 			this.groupBoxPatient.Text = "Current Patient";
 			// 
@@ -109,7 +109,7 @@
 			// 
 			this.butPatForms.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.butPatForms.Location = new System.Drawing.Point(11, 186);
+			this.butPatForms.Location = new System.Drawing.Point(8, 187);
 			this.butPatForms.Name = "butPatForms";
 			this.butPatForms.Size = new System.Drawing.Size(158, 24);
 			this.butPatForms.TabIndex = 16;
@@ -118,7 +118,7 @@
 			// 
 			// labelSheets
 			// 
-			this.labelSheets.Location = new System.Drawing.Point(11, 41);
+			this.labelSheets.Location = new System.Drawing.Point(8, 43);
 			this.labelSheets.Name = "labelSheets";
 			this.labelSheets.Size = new System.Drawing.Size(146, 17);
 			this.labelSheets.TabIndex = 10;
@@ -127,7 +127,7 @@
 			// 
 			// labelPatient
 			// 
-			this.labelPatient.Location = new System.Drawing.Point(11, 19);
+			this.labelPatient.Location = new System.Drawing.Point(8, 23);
 			this.labelPatient.Name = "labelPatient";
 			this.labelPatient.Size = new System.Drawing.Size(147, 18);
 			this.labelPatient.TabIndex = 9;
@@ -137,16 +137,16 @@
 			// 
 			this.listSheets.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.listSheets.Location = new System.Drawing.Point(11, 62);
+			this.listSheets.Location = new System.Drawing.Point(8, 62);
 			this.listSheets.Name = "listSheets";
 			this.listSheets.Size = new System.Drawing.Size(158, 121);
 			this.listSheets.TabIndex = 8;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(18, 13);
+			this.label1.Location = new System.Drawing.Point(18, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(580, 52);
+			this.label1.Size = new System.Drawing.Size(580, 47);
 			this.label1.TabIndex = 3;
 			this.label1.Text = resources.GetString("label1.Text");
 			// 

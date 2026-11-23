@@ -32,9 +32,9 @@ namespace OpenPmsDental{
 			// radioClaimOriginal
 			// 
 			this.radioClaimOriginal.Checked = true;
-			this.radioClaimOriginal.Location = new System.Drawing.Point(12,12);
+			this.radioClaimOriginal.Location = new System.Drawing.Point(8,8);
 			this.radioClaimOriginal.Name = "radioClaimOriginal";
-			this.radioClaimOriginal.Size = new System.Drawing.Size(390,24);
+			this.radioClaimOriginal.Size = new System.Drawing.Size(341,20);
 			this.radioClaimOriginal.TabIndex = 6;
 			this.radioClaimOriginal.TabStop = true;
 			this.radioClaimOriginal.Text = "The claim has not been accepted yet and I need to resend it.";
@@ -43,9 +43,9 @@ namespace OpenPmsDental{
 			// 
 			// radioClaimReplacement
 			// 
-			this.radioClaimReplacement.Location = new System.Drawing.Point(12,36);
+			this.radioClaimReplacement.Location = new System.Drawing.Point(8,32);
 			this.radioClaimReplacement.Name = "radioClaimReplacement";
-			this.radioClaimReplacement.Size = new System.Drawing.Size(396,24);
+			this.radioClaimReplacement.Size = new System.Drawing.Size(392,34);
 			this.radioClaimReplacement.TabIndex = 7;
 			this.radioClaimReplacement.Text = "The claim was accepted and I need to replace it with updated information.";
 			this.radioClaimReplacement.UseVisualStyleBackColor = true;
@@ -56,7 +56,7 @@ namespace OpenPmsDental{
 			this.butSend.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butSend.Icon = OpenPmsDental.UI.EnumIcons.Send;
 			this.butSend.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butSend.Location = new System.Drawing.Point(310,66);
+			this.butSend.Location = new System.Drawing.Point(310,70);
 			this.butSend.Name = "butSend";
 			this.butSend.Size = new System.Drawing.Size(86,24);
 			this.butSend.TabIndex = 131;

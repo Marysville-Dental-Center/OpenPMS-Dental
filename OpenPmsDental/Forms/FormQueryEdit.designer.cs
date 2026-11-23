@@ -39,7 +39,7 @@ namespace OpenPmsDental {
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(13, 2);
+			this.label1.Location = new System.Drawing.Point(13, 8);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(74, 16);
 			this.label1.TabIndex = 0;
@@ -48,14 +48,14 @@ namespace OpenPmsDental {
 			// 
 			// textTitle
 			// 
-			this.textTitle.Location = new System.Drawing.Point(16, 18);
+			this.textTitle.Location = new System.Drawing.Point(13, 26);
 			this.textTitle.Name = "textTitle";
-			this.textTitle.Size = new System.Drawing.Size(315, 20);
+			this.textTitle.Size = new System.Drawing.Size(316, 23);
 			this.textTitle.TabIndex = 0;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(13, 64);
+			this.label2.Location = new System.Drawing.Point(13, 77);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(103, 18);
 			this.label2.TabIndex = 2;
@@ -65,7 +65,7 @@ namespace OpenPmsDental {
 			// label3
 			// 
 			this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label3.Location = new System.Drawing.Point(13, 620);
+			this.label3.Location = new System.Drawing.Point(13, 639);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(118, 17);
 			this.label3.TabIndex = 4;
@@ -75,15 +75,15 @@ namespace OpenPmsDental {
 			// textFileName
 			// 
 			this.textFileName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.textFileName.Location = new System.Drawing.Point(16, 637);
+			this.textFileName.Location = new System.Drawing.Point(13, 658);
 			this.textFileName.Name = "textFileName";
-			this.textFileName.Size = new System.Drawing.Size(326, 20);
+			this.textFileName.Size = new System.Drawing.Size(328, 23);
 			this.textFileName.TabIndex = 2;
 			// 
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(594, 631);
+			this.butSave.Location = new System.Drawing.Point(599, 693);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 26);
 			this.butSave.TabIndex = 3;
@@ -99,46 +99,46 @@ namespace OpenPmsDental {
 			this.textQuery.BackColor = System.Drawing.SystemColors.Window;
 			this.textQuery.DetectLinksEnabled = false;
 			this.textQuery.DetectUrls = false;
-			this.textQuery.Location = new System.Drawing.Point(16, 82);
+			this.textQuery.Location = new System.Drawing.Point(13, 99);
 			this.textQuery.Name = "textQuery";
 			this.textQuery.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Query;
 			this.textQuery.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textQuery.Size = new System.Drawing.Size(653, 536);
+			this.textQuery.Size = new System.Drawing.Size(657, 536);
 			this.textQuery.SpellCheckIsEnabled = false;
 			this.textQuery.TabIndex = 5;
 			this.textQuery.Text = "";
 			// 
 			// checkReleased
 			// 
-			this.checkReleased.Location = new System.Drawing.Point(16, 41);
+			this.checkReleased.Location = new System.Drawing.Point(13, 53);
 			this.checkReleased.Name = "checkReleased";
-			this.checkReleased.Size = new System.Drawing.Size(203, 21);
+			this.checkReleased.Size = new System.Drawing.Size(71, 20);
 			this.checkReleased.TabIndex = 6;
 			this.checkReleased.Text = "Released";
 			// 
 			// checkIsPromptSetup
 			// 
-			this.checkIsPromptSetup.Location = new System.Drawing.Point(219, 44);
+			this.checkIsPromptSetup.Location = new System.Drawing.Point(219, 53);
 			this.checkIsPromptSetup.Name = "checkIsPromptSetup";
-			this.checkIsPromptSetup.Size = new System.Drawing.Size(239, 21);
+			this.checkIsPromptSetup.Size = new System.Drawing.Size(168, 20);
 			this.checkIsPromptSetup.TabIndex = 7;
 			this.checkIsPromptSetup.Text = "Prompt for SET statements";
 			// 
 			// radioHuman
 			// 
 			this.radioHuman.Checked = true;
-			this.radioHuman.Location = new System.Drawing.Point(6, 20);
+			this.radioHuman.Location = new System.Drawing.Point(8, 23);
 			this.radioHuman.Name = "radioHuman";
-			this.radioHuman.Size = new System.Drawing.Size(125, 22);
+			this.radioHuman.Size = new System.Drawing.Size(115, 20);
 			this.radioHuman.TabIndex = 0;
 			this.radioHuman.TabStop = true;
 			this.radioHuman.Text = "Human-readable";
 			// 
 			// radioRaw
 			// 
-			this.radioRaw.Location = new System.Drawing.Point(6, 43);
+			this.radioRaw.Location = new System.Drawing.Point(8, 47);
 			this.radioRaw.Name = "radioRaw";
-			this.radioRaw.Size = new System.Drawing.Size(104, 22);
+			this.radioRaw.Size = new System.Drawing.Size(47, 20);
 			this.radioRaw.TabIndex = 1;
 			this.radioRaw.Text = "Raw";
 			// 
@@ -146,16 +146,16 @@ namespace OpenPmsDental {
 			// 
 			this.groupFormat.Controls.Add(this.radioHuman);
 			this.groupFormat.Controls.Add(this.radioRaw);
-			this.groupFormat.Location = new System.Drawing.Point(507, 9);
+			this.groupFormat.Location = new System.Drawing.Point(507, 8);
 			this.groupFormat.Name = "groupFormat";
-			this.groupFormat.Size = new System.Drawing.Size(163, 67);
+			this.groupFormat.Size = new System.Drawing.Size(163, 75);
 			this.groupFormat.TabIndex = 8;
 			this.groupFormat.Text = "Format";
 			// 
 			// FormQueryEdit
 			// 
 			this.AcceptButton = this.butSave;
-			this.ClientSize = new System.Drawing.Size(682, 670);
+			this.ClientSize = new System.Drawing.Size(682, 727);
 			this.Controls.Add(this.groupFormat);
 			this.Controls.Add(this.butSave);
 			this.Controls.Add(this.checkIsPromptSetup);

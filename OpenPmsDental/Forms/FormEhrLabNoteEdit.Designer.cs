@@ -35,7 +35,7 @@
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(12, 12);
+			this.gridMain.Location = new System.Drawing.Point(12, 8);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.Size = new System.Drawing.Size(609, 339);
 			this.gridMain.TabIndex = 5;
@@ -45,7 +45,7 @@
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(546, 357);
+			this.butSave.Location = new System.Drawing.Point(631, 380);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 23);
 			this.butSave.TabIndex = 10;
@@ -56,7 +56,7 @@
 			// butDelete
 			// 
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butDelete.Location = new System.Drawing.Point(12, 357);
+			this.butDelete.Location = new System.Drawing.Point(8, 380);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(75, 23);
 			this.butDelete.TabIndex = 11;
@@ -66,7 +66,7 @@
 			// butAddComment
 			// 
 			this.butAddComment.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butAddComment.Location = new System.Drawing.Point(627, 12);
+			this.butAddComment.Location = new System.Drawing.Point(627, 8);
 			this.butAddComment.Name = "butAddComment";
 			this.butAddComment.Size = new System.Drawing.Size(75, 23);
 			this.butAddComment.TabIndex = 12;
@@ -77,7 +77,7 @@
 			// label57
 			// 
 			this.label57.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label57.Location = new System.Drawing.Point(93, 360);
+			this.label57.Location = new System.Drawing.Point(93, 351);
 			this.label57.Name = "label57";
 			this.label57.Size = new System.Drawing.Size(150, 17);
 			this.label57.TabIndex = 259;
@@ -87,7 +87,7 @@
 			// FormEhrLabNoteEdit
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(714, 392);
+			this.ClientSize = new System.Drawing.Size(714, 411);
 			this.Controls.Add(this.label57);
 			this.Controls.Add(this.butAddComment);
 			this.Controls.Add(this.butDelete);

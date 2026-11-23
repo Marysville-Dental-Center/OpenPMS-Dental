@@ -35,17 +35,17 @@ namespace OpenPmsDental{
 			// 
 			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label1.Location = new System.Drawing.Point(387, 278);
+			this.label1.Location = new System.Drawing.Point(427, 269);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(84, 16);
+			this.label1.Size = new System.Drawing.Size(44, 23);
 			this.label1.TabIndex = 117;
 			this.label1.Text = "Totals";
-			this.label1.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(1058, 324);
+			this.butSave.Location = new System.Drawing.Point(1075, 330);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 25);
 			this.butSave.TabIndex = 1;
@@ -57,7 +57,7 @@ namespace OpenPmsDental{
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(8, 12);
+			this.gridMain.Location = new System.Drawing.Point(8, 8);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.OneCell;
 			this.gridMain.Size = new System.Drawing.Size(1142, 257);
@@ -69,12 +69,12 @@ namespace OpenPmsDental{
 			// textOverpayTotal
 			// 
 			this.textOverpayTotal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.textOverpayTotal.Location = new System.Drawing.Point(477, 274);
+			this.textOverpayTotal.Location = new System.Drawing.Point(477, 269);
 			this.textOverpayTotal.MaxVal = 100000000D;
 			this.textOverpayTotal.MinVal = -100000000D;
 			this.textOverpayTotal.Name = "textOverpayTotal";
 			this.textOverpayTotal.ReadOnly = true;
-			this.textOverpayTotal.Size = new System.Drawing.Size(63, 20);
+			this.textOverpayTotal.Size = new System.Drawing.Size(64, 23);
 			this.textOverpayTotal.TabIndex = 141;
 			this.textOverpayTotal.TabStop = false;
 			this.textOverpayTotal.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -82,12 +82,12 @@ namespace OpenPmsDental{
 			// textUnderpayTotal
 			// 
 			this.textUnderpayTotal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.textUnderpayTotal.Location = new System.Drawing.Point(542, 274);
+			this.textUnderpayTotal.Location = new System.Drawing.Point(547, 269);
 			this.textUnderpayTotal.MaxVal = 100000000D;
 			this.textUnderpayTotal.MinVal = -100000000D;
 			this.textUnderpayTotal.Name = "textUnderpayTotal";
 			this.textUnderpayTotal.ReadOnly = true;
-			this.textUnderpayTotal.Size = new System.Drawing.Size(63, 20);
+			this.textUnderpayTotal.Size = new System.Drawing.Size(64, 23);
 			this.textUnderpayTotal.TabIndex = 142;
 			this.textUnderpayTotal.TabStop = false;
 			this.textUnderpayTotal.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -95,7 +95,7 @@ namespace OpenPmsDental{
 			// butToSupplemental
 			// 
 			this.butToSupplemental.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butToSupplemental.Location = new System.Drawing.Point(533, 324);
+			this.butToSupplemental.Location = new System.Drawing.Point(533, 330);
 			this.butToSupplemental.Name = "butToSupplemental";
 			this.butToSupplemental.Size = new System.Drawing.Size(97, 25);
 			this.butToSupplemental.TabIndex = 143;
@@ -104,7 +104,7 @@ namespace OpenPmsDental{
 			// 
 			// FormClaimOverpay
 			// 
-			this.ClientSize = new System.Drawing.Size(1156, 363);
+			this.ClientSize = new System.Drawing.Size(1158, 363);
 			this.Controls.Add(this.butToSupplemental);
 			this.Controls.Add(this.textUnderpayTotal);
 			this.Controls.Add(this.textOverpayTotal);

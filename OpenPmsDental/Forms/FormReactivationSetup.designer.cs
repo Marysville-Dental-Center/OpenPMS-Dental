@@ -50,9 +50,9 @@ namespace OpenPmsDental {
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(16, 12);
+			this.gridMain.Location = new System.Drawing.Point(16, 8);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(935, 451);
+			this.gridMain.Size = new System.Drawing.Size(941, 451);
 			this.gridMain.TabIndex = 67;
 			this.gridMain.Title = "Messages";
 			this.gridMain.TranslationName = "TableReactivationMsgs";
@@ -61,19 +61,19 @@ namespace OpenPmsDental {
 			// label8
 			// 
 			this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.label8.Location = new System.Drawing.Point(487, 552);
+			this.label8.Location = new System.Drawing.Point(499, 548);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(176, 18);
+			this.label8.Size = new System.Drawing.Size(164, 23);
 			this.label8.TabIndex = 19;
 			this.label8.Text = "Postcards per sheet (1,3,or 4)";
-			this.label8.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textPostcardsPerSheet
 			// 
 			this.textPostcardsPerSheet.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.textPostcardsPerSheet.Location = new System.Drawing.Point(663, 549);
+			this.textPostcardsPerSheet.Location = new System.Drawing.Point(669, 548);
 			this.textPostcardsPerSheet.Name = "textPostcardsPerSheet";
-			this.textPostcardsPerSheet.Size = new System.Drawing.Size(34, 20);
+			this.textPostcardsPerSheet.Size = new System.Drawing.Size(32, 23);
 			this.textPostcardsPerSheet.TabIndex = 18;
 			// 
 			// groupBox3
@@ -82,16 +82,16 @@ namespace OpenPmsDental {
 			this.groupBox3.Controls.Add(this.textDaysPast);
 			this.groupBox3.Controls.Add(this.checkGroupFamilies);
 			this.groupBox3.Controls.Add(this.label14);
-			this.groupBox3.Location = new System.Drawing.Point(471, 473);
+			this.groupBox3.Location = new System.Drawing.Point(477, 463);
 			this.groupBox3.Name = "groupBox3";
-			this.groupBox3.Size = new System.Drawing.Size(253, 70);
+			this.groupBox3.Size = new System.Drawing.Size(253, 78);
 			this.groupBox3.TabIndex = 54;
 			this.groupBox3.TabStop = false;
 			this.groupBox3.Text = "Reactivation List Default View";
 			// 
 			// textDaysPast
 			// 
-			this.textDaysPast.Location = new System.Drawing.Point(192, 42);
+			this.textDaysPast.Location = new System.Drawing.Point(192, 47);
 			this.textDaysPast.MaxVal = 10000;
 			this.textDaysPast.Name = "textDaysPast";
 			this.textDaysPast.ShowZero = false;
@@ -100,18 +100,18 @@ namespace OpenPmsDental {
 			// 
 			// checkGroupFamilies
 			// 
-			this.checkGroupFamilies.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkGroupFamilies.Location = new System.Drawing.Point(85, 18);
+			this.checkGroupFamilies.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkGroupFamilies.Location = new System.Drawing.Point(8, 23);
 			this.checkGroupFamilies.Name = "checkGroupFamilies";
-			this.checkGroupFamilies.Size = new System.Drawing.Size(121, 18);
+			this.checkGroupFamilies.Size = new System.Drawing.Size(104, 20);
 			this.checkGroupFamilies.TabIndex = 49;
 			this.checkGroupFamilies.Text = "Group Families";
 			// 
 			// label14
 			// 
-			this.label14.Location = new System.Drawing.Point(6, 42);
+			this.label14.Location = new System.Drawing.Point(10, 47);
 			this.label14.Name = "label14";
-			this.label14.Size = new System.Drawing.Size(184, 20);
+			this.label14.Size = new System.Drawing.Size(176, 23);
 			this.label14.TabIndex = 50;
 			this.label14.Text = "Days Past (e.g. 1095, blank, etc)";
 			this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -119,47 +119,47 @@ namespace OpenPmsDental {
 			// label25
 			// 
 			this.label25.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label25.Location = new System.Drawing.Point(45, 473);
+			this.label25.Location = new System.Drawing.Point(37, 463);
 			this.label25.Name = "label25";
-			this.label25.Size = new System.Drawing.Size(159, 18);
+			this.label25.Size = new System.Drawing.Size(168, 23);
 			this.label25.TabIndex = 57;
 			this.label25.Text = "Status for mailed Reactivation";
-			this.label25.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label25.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// comboStatusMailedReactivation
 			// 
 			this.comboStatusMailedReactivation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.comboStatusMailedReactivation.Location = new System.Drawing.Point(204, 469);
+			this.comboStatusMailedReactivation.Location = new System.Drawing.Point(211, 463);
 			this.comboStatusMailedReactivation.Name = "comboStatusMailedReactivation";
-			this.comboStatusMailedReactivation.Size = new System.Drawing.Size(261, 21);
+			this.comboStatusMailedReactivation.Size = new System.Drawing.Size(260, 23);
 			this.comboStatusMailedReactivation.TabIndex = 58;
 			// 
 			// label26
 			// 
 			this.label26.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label26.Location = new System.Drawing.Point(25, 496);
+			this.label26.Location = new System.Drawing.Point(25, 490);
 			this.label26.Name = "label26";
-			this.label26.Size = new System.Drawing.Size(178, 16);
+			this.label26.Size = new System.Drawing.Size(180, 23);
 			this.label26.TabIndex = 59;
 			this.label26.Text = "Status for e-mailed Reactivation";
-			this.label26.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label26.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textMaxReminders
 			// 
-			this.textMaxReminders.Location = new System.Drawing.Point(161, 43);
+			this.textMaxReminders.Location = new System.Drawing.Point(161, 50);
 			this.textMaxReminders.MaxVal = 10000;
 			this.textMaxReminders.MinVal = 0;
 			this.textMaxReminders.Name = "textMaxReminders";
-			this.textMaxReminders.Size = new System.Drawing.Size(53, 20);
+			this.textMaxReminders.Size = new System.Drawing.Size(52, 23);
 			this.textMaxReminders.TabIndex = 68;
 			this.textMaxReminders.ShowZero = false;
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(13, 42);
+			this.label4.Location = new System.Drawing.Point(11, 50);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(146, 20);
+			this.label4.Size = new System.Drawing.Size(144, 23);
 			this.label4.TabIndex = 67;
 			this.label4.Text = "Max # Reminders (e.g. 4)";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -168,15 +168,15 @@ namespace OpenPmsDental {
 			// 
 			this.comboStatusEmailedReactivation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.comboStatusEmailedReactivation.Location = new System.Drawing.Point(204, 492);
+			this.comboStatusEmailedReactivation.Location = new System.Drawing.Point(211, 490);
 			this.comboStatusEmailedReactivation.Name = "comboStatusEmailedReactivation";
-			this.comboStatusEmailedReactivation.Size = new System.Drawing.Size(261, 21);
+			this.comboStatusEmailedReactivation.Size = new System.Drawing.Size(260, 23);
 			this.comboStatusEmailedReactivation.TabIndex = 60;
 			// 
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(876, 552);
+			this.butSave.Location = new System.Drawing.Point(882, 583);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 3;
@@ -185,19 +185,19 @@ namespace OpenPmsDental {
 			// 
 			// labelContactInterval
 			// 
-			this.labelContactInterval.Location = new System.Drawing.Point(6, 16);
+			this.labelContactInterval.Location = new System.Drawing.Point(23, 23);
 			this.labelContactInterval.Name = "labelContactInterval";
-			this.labelContactInterval.Size = new System.Drawing.Size(153, 20);
+			this.labelContactInterval.Size = new System.Drawing.Size(132, 23);
 			this.labelContactInterval.TabIndex = 50;
 			this.labelContactInterval.Text = "Contact Interval (days)";
 			this.labelContactInterval.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textDaysContactInterval
 			// 
-			this.textDaysContactInterval.Location = new System.Drawing.Point(161, 17);
+			this.textDaysContactInterval.Location = new System.Drawing.Point(161, 23);
 			this.textDaysContactInterval.MaxVal = 10000;
 			this.textDaysContactInterval.Name = "textDaysContactInterval";
-			this.textDaysContactInterval.Size = new System.Drawing.Size(53, 20);
+			this.textDaysContactInterval.Size = new System.Drawing.Size(52, 23);
 			this.textDaysContactInterval.TabIndex = 65;
 			// 
 			// groupBox1
@@ -207,16 +207,16 @@ namespace OpenPmsDental {
 			this.groupBox1.Controls.Add(this.textDaysContactInterval);
 			this.groupBox1.Controls.Add(this.label4);
 			this.groupBox1.Controls.Add(this.labelContactInterval);
-			this.groupBox1.Location = new System.Drawing.Point(730, 473);
+			this.groupBox1.Location = new System.Drawing.Point(736, 463);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(221, 70);
+			this.groupBox1.Size = new System.Drawing.Size(221, 81);
 			this.groupBox1.TabIndex = 65;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Contact Rules";
 			// 
 			// FormReactivationSetup
 			// 
-			this.ClientSize = new System.Drawing.Size(963, 585);
+			this.ClientSize = new System.Drawing.Size(965, 615);
 			this.Controls.Add(this.butSave);
 			this.Controls.Add(this.gridMain);
 			this.Controls.Add(this.label8);

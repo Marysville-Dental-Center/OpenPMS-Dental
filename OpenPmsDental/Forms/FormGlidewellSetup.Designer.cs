@@ -29,15 +29,15 @@ namespace OpenPmsDental {
 			//
 			// checkEnabled
 			//
-			this.checkEnabled.Location = new System.Drawing.Point(12, 12);
+			this.checkEnabled.Location = new System.Drawing.Point(12, 8);
 			this.checkEnabled.Name = "checkEnabled";
-			this.checkEnabled.Size = new System.Drawing.Size(200, 18);
+			this.checkEnabled.Size = new System.Drawing.Size(66, 20);
 			this.checkEnabled.TabIndex = 0;
 			this.checkEnabled.Text = "Enabled";
 			//
 			// labelDescription
 			//
-			this.labelDescription.Location = new System.Drawing.Point(12, 36);
+			this.labelDescription.Location = new System.Drawing.Point(12, 32);
 			this.labelDescription.Name = "labelDescription";
 			this.labelDescription.Size = new System.Drawing.Size(570, 66);
 			this.labelDescription.TabIndex = 1;
@@ -45,7 +45,7 @@ namespace OpenPmsDental {
 			//
 			// gridAccounts
 			//
-			this.gridAccounts.Location = new System.Drawing.Point(12, 102);
+			this.gridAccounts.Location = new System.Drawing.Point(12, 100);
 			this.gridAccounts.Name = "gridAccounts";
 			this.gridAccounts.Size = new System.Drawing.Size(470, 200);
 			this.gridAccounts.TabIndex = 2;
@@ -56,7 +56,7 @@ namespace OpenPmsDental {
 			// butAdd
 			//
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
-			this.butAdd.Location = new System.Drawing.Point(490, 102);
+			this.butAdd.Location = new System.Drawing.Point(488, 100);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(80, 24);
 			this.butAdd.TabIndex = 3;
@@ -66,29 +66,29 @@ namespace OpenPmsDental {
 			// labelTransport
 			//
 			this.labelTransport.ForeColor = System.Drawing.Color.Firebrick;
-			this.labelTransport.Location = new System.Drawing.Point(12, 356);
+			this.labelTransport.Location = new System.Drawing.Point(12, 368);
 			this.labelTransport.Name = "labelTransport";
 			this.labelTransport.Size = new System.Drawing.Size(570, 60);
 			this.labelTransport.TabIndex = 4;
 			//
 			// checkBaaOnFile
 			//
-			this.checkBaaOnFile.Location = new System.Drawing.Point(12, 310);
+			this.checkBaaOnFile.Location = new System.Drawing.Point(12, 304);
 			this.checkBaaOnFile.Name = "checkBaaOnFile";
-			this.checkBaaOnFile.Size = new System.Drawing.Size(582, 18);
+			this.checkBaaOnFile.Size = new System.Drawing.Size(574, 40);
 			this.checkBaaOnFile.TabIndex = 6;
 			this.checkBaaOnFile.Text = "A signed business associate agreement with Glidewell is on file (required before any patient data is sent)";
 			//
 			// labelBaaConfirmed
 			//
-			this.labelBaaConfirmed.Location = new System.Drawing.Point(30, 330);
+			this.labelBaaConfirmed.Location = new System.Drawing.Point(30, 348);
 			this.labelBaaConfirmed.Name = "labelBaaConfirmed";
 			this.labelBaaConfirmed.Size = new System.Drawing.Size(552, 18);
 			this.labelBaaConfirmed.TabIndex = 7;
 			//
 			// labelSendWithout
 			//
-			this.labelSendWithout.Location = new System.Drawing.Point(12, 422);
+			this.labelSendWithout.Location = new System.Drawing.Point(12, 430);
 			this.labelSendWithout.Name = "labelSendWithout";
 			this.labelSendWithout.Size = new System.Drawing.Size(570, 18);
 			this.labelSendWithout.TabIndex = 8;
@@ -96,7 +96,7 @@ namespace OpenPmsDental {
 			//
 			// textSendWithout
 			//
-			this.textSendWithout.Location = new System.Drawing.Point(12, 442);
+			this.textSendWithout.Location = new System.Drawing.Point(12, 450);
 			this.textSendWithout.Multiline = true;
 			this.textSendWithout.Name = "textSendWithout";
 			this.textSendWithout.ReadOnly = true;
@@ -107,7 +107,7 @@ namespace OpenPmsDental {
 			// butSave
 			//
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(507, 584);
+			this.butSave.Location = new System.Drawing.Point(511, 594);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 5;
@@ -116,7 +116,7 @@ namespace OpenPmsDental {
 			//
 			// FormGlidewellSetup
 			//
-			this.ClientSize = new System.Drawing.Size(594, 620);
+			this.ClientSize = new System.Drawing.Size(594, 626);
 			this.Controls.Add(this.butSave);
 			this.Controls.Add(this.textSendWithout);
 			this.Controls.Add(this.labelSendWithout);

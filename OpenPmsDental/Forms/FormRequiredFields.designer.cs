@@ -40,7 +40,7 @@ namespace OpenPmsDental {
 			// 
 			// listAvailableFields
 			// 
-			this.listAvailableFields.Location = new System.Drawing.Point(12, 74);
+			this.listAvailableFields.Location = new System.Drawing.Point(12, 75);
 			this.listAvailableFields.Name = "listAvailableFields";
 			this.listAvailableFields.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
 			this.listAvailableFields.Size = new System.Drawing.Size(158, 511);
@@ -50,7 +50,7 @@ namespace OpenPmsDental {
 			// labelExplanation
 			// 
 			this.labelExplanation.ImageAlign = System.Drawing.ContentAlignment.TopRight;
-			this.labelExplanation.Location = new System.Drawing.Point(214, 526);
+			this.labelExplanation.Location = new System.Drawing.Point(215, 512);
 			this.labelExplanation.Name = "labelExplanation";
 			this.labelExplanation.Size = new System.Drawing.Size(415, 18);
 			this.labelExplanation.TabIndex = 61;
@@ -59,7 +59,7 @@ namespace OpenPmsDental {
 			// label1
 			// 
 			this.label1.ImageAlign = System.Drawing.ContentAlignment.TopRight;
-			this.label1.Location = new System.Drawing.Point(12, 56);
+			this.label1.Location = new System.Drawing.Point(12, 55);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(158, 18);
 			this.label1.TabIndex = 63;
@@ -69,7 +69,7 @@ namespace OpenPmsDental {
 			// labelFieldType
 			// 
 			this.labelFieldType.ImageAlign = System.Drawing.ContentAlignment.TopRight;
-			this.labelFieldType.Location = new System.Drawing.Point(12, 14);
+			this.labelFieldType.Location = new System.Drawing.Point(12, 8);
 			this.labelFieldType.Name = "labelFieldType";
 			this.labelFieldType.Size = new System.Drawing.Size(158, 18);
 			this.labelFieldType.TabIndex = 65;
@@ -79,7 +79,7 @@ namespace OpenPmsDental {
 			// label2
 			// 
 			this.label2.ImageAlign = System.Drawing.ContentAlignment.TopRight;
-			this.label2.Location = new System.Drawing.Point(476, 32);
+			this.label2.Location = new System.Drawing.Point(474, 24);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(393, 18);
 			this.label2.TabIndex = 70;
@@ -87,9 +87,9 @@ namespace OpenPmsDental {
 			// 
 			// checkMedicaidLength
 			// 
-			this.checkMedicaidLength.Location = new System.Drawing.Point(217, 545);
+			this.checkMedicaidLength.Location = new System.Drawing.Point(215, 532);
 			this.checkMedicaidLength.Name = "checkMedicaidLength";
-			this.checkMedicaidLength.Size = new System.Drawing.Size(421, 26);
+			this.checkMedicaidLength.Size = new System.Drawing.Size(407, 20);
 			this.checkMedicaidLength.TabIndex = 216;
 			this.checkMedicaidLength.Text = "Validate the number of digits in MedicaidID to be correct for that state";
 			this.checkMedicaidLength.Visible = false;
@@ -99,7 +99,7 @@ namespace OpenPmsDental {
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(788, 293);
+			this.butDelete.Location = new System.Drawing.Point(788, 288);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(83, 26);
 			this.butDelete.TabIndex = 69;
@@ -110,7 +110,7 @@ namespace OpenPmsDental {
 			// 
 			this.butLeft.AdjustImageLocation = new System.Drawing.Point(-1, 0);
 			this.butLeft.Icon = OpenPmsDental.UI.EnumIcons.ArrowLeft;
-			this.butLeft.Location = new System.Drawing.Point(176, 235);
+			this.butLeft.Location = new System.Drawing.Point(176, 216);
 			this.butLeft.Name = "butLeft";
 			this.butLeft.Size = new System.Drawing.Size(35, 24);
 			this.butLeft.TabIndex = 68;
@@ -121,7 +121,7 @@ namespace OpenPmsDental {
 			this.butAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdd.Location = new System.Drawing.Point(707, 293);
+			this.butAdd.Location = new System.Drawing.Point(707, 288);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(75, 26);
 			this.butAdd.TabIndex = 62;
@@ -132,7 +132,7 @@ namespace OpenPmsDental {
 			// 
 			this.gridConditions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridConditions.Location = new System.Drawing.Point(474, 50);
+			this.gridConditions.Location = new System.Drawing.Point(474, 44);
 			this.gridConditions.Name = "gridConditions";
 			this.gridConditions.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
 			this.gridConditions.Size = new System.Drawing.Size(397, 240);
@@ -144,7 +144,7 @@ namespace OpenPmsDental {
 			// butRight
 			// 
 			this.butRight.Icon = OpenPmsDental.UI.EnumIcons.ArrowRight;
-			this.butRight.Location = new System.Drawing.Point(176, 195);
+			this.butRight.Location = new System.Drawing.Point(176, 188);
 			this.butRight.Name = "butRight";
 			this.butRight.Size = new System.Drawing.Size(35, 24);
 			this.butRight.TabIndex = 59;
@@ -152,7 +152,7 @@ namespace OpenPmsDental {
 			// 
 			// gridMain
 			// 
-			this.gridMain.Location = new System.Drawing.Point(217, 32);
+			this.gridMain.Location = new System.Drawing.Point(217, 24);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
 			this.gridMain.Size = new System.Drawing.Size(236, 484);
@@ -163,9 +163,9 @@ namespace OpenPmsDental {
 			// 
 			// comboFieldTypes
 			// 
-			this.comboFieldTypes.Location = new System.Drawing.Point(15, 32);
+			this.comboFieldTypes.Location = new System.Drawing.Point(12, 28);
 			this.comboFieldTypes.Name = "comboFieldTypes";
-			this.comboFieldTypes.Size = new System.Drawing.Size(121, 21);
+			this.comboFieldTypes.Size = new System.Drawing.Size(120, 23);
 			this.comboFieldTypes.TabIndex = 217;
 			this.comboFieldTypes.SelectedIndexChanged += new System.EventHandler(this.comboFieldTypes_SelectedIndexChanged);
 			// 

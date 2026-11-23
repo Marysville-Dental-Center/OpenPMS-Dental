@@ -49,7 +49,7 @@
 			// checkUseMobileLayout
 			// 
 			this.checkUseMobileLayout.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkUseMobileLayout.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkUseMobileLayout.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.checkUseMobileLayout.Location = new System.Drawing.Point(243, 14);
 			this.checkUseMobileLayout.Name = "checkUseMobileLayout";
 			this.checkUseMobileLayout.Size = new System.Drawing.Size(133, 18);

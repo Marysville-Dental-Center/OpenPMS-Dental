@@ -36,7 +36,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(550, 464);
+			this.butSave.Location = new System.Drawing.Point(555, 468);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 3;
@@ -47,7 +47,7 @@ namespace OpenPmsDental{
 			// 
 			this.gridDisplayed.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-			this.gridDisplayed.Location = new System.Drawing.Point(16, 87);
+			this.gridDisplayed.Location = new System.Drawing.Point(16, 69);
 			this.gridDisplayed.Name = "gridDisplayed";
 			this.gridDisplayed.Size = new System.Drawing.Size(270, 360);
 			this.gridDisplayed.TabIndex = 4;
@@ -58,7 +58,7 @@ namespace OpenPmsDental{
 			// 
 			this.gridHidden.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-			this.gridHidden.Location = new System.Drawing.Point(355, 87);
+			this.gridHidden.Location = new System.Drawing.Point(355, 69);
 			this.gridHidden.Name = "gridHidden";
 			this.gridHidden.Size = new System.Drawing.Size(270, 360);
 			this.gridHidden.TabIndex = 5;
@@ -68,7 +68,7 @@ namespace OpenPmsDental{
 			// butRight
 			// 
 			this.butRight.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.ArrowRight,22,22);
-			this.butRight.Location = new System.Drawing.Point(303, 205);
+			this.butRight.Location = new System.Drawing.Point(303, 189);
 			this.butRight.Name = "butRight";
 			this.butRight.Size = new System.Drawing.Size(34, 23);
 			this.butRight.TabIndex = 6;
@@ -78,7 +78,7 @@ namespace OpenPmsDental{
 			// butLeft
 			// 
 			this.butLeft.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.ArrowLeft,22,22);
-			this.butLeft.Location = new System.Drawing.Point(303, 252);
+			this.butLeft.Location = new System.Drawing.Point(303, 216);
 			this.butLeft.Name = "butLeft";
 			this.butLeft.Size = new System.Drawing.Size(34, 23);
 			this.butLeft.TabIndex = 7;
@@ -89,26 +89,26 @@ namespace OpenPmsDental{
 			// 
 			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.label1.Location = new System.Drawing.Point(13, 9);
+			this.label1.Location = new System.Drawing.Point(13, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(612, 48);
+			this.label1.Size = new System.Drawing.Size(612, 32);
 			this.label1.TabIndex = 8;
 			this.label1.Text = "Select fields on the left and move them to the right in order to hide the selecte" +
     "d field from the specified location in the software.";
 			// 
 			// comboFieldLocation
 			// 
-			this.comboFieldLocation.Location = new System.Drawing.Point(125, 60);
+			this.comboFieldLocation.Location = new System.Drawing.Point(125, 42);
 			this.comboFieldLocation.Name = "comboFieldLocation";
-			this.comboFieldLocation.Size = new System.Drawing.Size(161, 21);
+			this.comboFieldLocation.Size = new System.Drawing.Size(160, 23);
 			this.comboFieldLocation.TabIndex = 10;
 			this.comboFieldLocation.SelectionChangeCommitted += new System.EventHandler(this.comboFieldLocation_SelectionChangeCommitted);
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(14, 60);
+			this.label2.Location = new System.Drawing.Point(31, 42);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(105, 18);
+			this.label2.Size = new System.Drawing.Size(88, 23);
 			this.label2.TabIndex = 11;
 			this.label2.Text = "Field Location";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

@@ -28,7 +28,7 @@ namespace OpenPmsDental {
 			//
 			this.labelExplain.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelExplain.Location = new System.Drawing.Point(12, 9);
+			this.labelExplain.Location = new System.Drawing.Point(12, 8);
 			this.labelExplain.Name = "labelExplain";
 			this.labelExplain.Size = new System.Drawing.Size(876, 48);
 			this.labelExplain.TabIndex = 0;
@@ -38,7 +38,7 @@ namespace OpenPmsDental {
 			//
 			this.gridColumns.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridColumns.Location = new System.Drawing.Point(12, 62);
+			this.gridColumns.Location = new System.Drawing.Point(12, 58);
 			this.gridColumns.Name = "gridColumns";
 			this.gridColumns.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
 			this.gridColumns.Size = new System.Drawing.Size(876, 230);
@@ -51,7 +51,7 @@ namespace OpenPmsDental {
 			this.gridPreview.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridPreview.Location = new System.Drawing.Point(12, 324);
+			this.gridPreview.Location = new System.Drawing.Point(12, 314);
 			this.gridPreview.Name = "gridPreview";
 			this.gridPreview.SelectionMode = OpenPmsDental.UI.GridSelectionMode.OneRow;
 			this.gridPreview.Size = new System.Drawing.Size(876, 268);
@@ -63,7 +63,7 @@ namespace OpenPmsDental {
 			//
 			this.labelSummary.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelSummary.Location = new System.Drawing.Point(12, 298);
+			this.labelSummary.Location = new System.Drawing.Point(12, 292);
 			this.labelSummary.Name = "labelSummary";
 			this.labelSummary.Size = new System.Drawing.Size(876, 20);
 			this.labelSummary.TabIndex = 2;
@@ -74,7 +74,7 @@ namespace OpenPmsDental {
 			//
 			this.labelCannotFix.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.labelCannotFix.ForeColor = System.Drawing.Color.Firebrick;
-			this.labelCannotFix.Location = new System.Drawing.Point(12, 604);
+			this.labelCannotFix.Location = new System.Drawing.Point(12, 586);
 			this.labelCannotFix.Name = "labelCannotFix";
 			this.labelCannotFix.Size = new System.Drawing.Size(560, 20);
 			this.labelCannotFix.TabIndex = 4;
@@ -84,7 +84,7 @@ namespace OpenPmsDental {
 			// butScan
 			//
 			this.butScan.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butScan.Location = new System.Drawing.Point(651, 602);
+			this.butScan.Location = new System.Drawing.Point(651, 618);
 			this.butScan.Name = "butScan";
 			this.butScan.Size = new System.Drawing.Size(75, 24);
 			this.butScan.TabIndex = 5;
@@ -94,7 +94,7 @@ namespace OpenPmsDental {
 			// butFix
 			//
 			this.butFix.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butFix.Location = new System.Drawing.Point(732, 602);
+			this.butFix.Location = new System.Drawing.Point(732, 618);
 			this.butFix.Name = "butFix";
 			this.butFix.Size = new System.Drawing.Size(75, 24);
 			this.butFix.TabIndex = 6;
@@ -104,7 +104,7 @@ namespace OpenPmsDental {
 			// butClose
 			//
 			this.butClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butClose.Location = new System.Drawing.Point(813, 602);
+			this.butClose.Location = new System.Drawing.Point(817, 618);
 			this.butClose.Name = "butClose";
 			this.butClose.Size = new System.Drawing.Size(75, 24);
 			this.butClose.TabIndex = 7;
@@ -114,7 +114,7 @@ namespace OpenPmsDental {
 			// FormDatabaseMaintInvalidChars
 			//
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(900, 638);
+			this.ClientSize = new System.Drawing.Size(900, 650);
 			this.Controls.Add(this.labelExplain);
 			this.Controls.Add(this.gridColumns);
 			this.Controls.Add(this.labelSummary);

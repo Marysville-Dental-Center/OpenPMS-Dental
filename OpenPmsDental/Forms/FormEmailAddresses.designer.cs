@@ -40,7 +40,7 @@ namespace OpenPmsDental{
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(16, 5);
+			this.label2.Location = new System.Drawing.Point(16, 8);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(689, 33);
 			this.label2.TabIndex = 13;
@@ -54,25 +54,25 @@ namespace OpenPmsDental{
 			this.groupEmailPrefs.Controls.Add(this.label1);
 			this.groupEmailPrefs.Controls.Add(this.butSetDefault);
 			this.groupEmailPrefs.Controls.Add(this.butWebMailNotify);
-			this.groupEmailPrefs.Location = new System.Drawing.Point(794, 35);
+			this.groupEmailPrefs.Location = new System.Drawing.Point(794, 40);
 			this.groupEmailPrefs.Name = "groupEmailPrefs";
-			this.groupEmailPrefs.Size = new System.Drawing.Size(102, 163);
+			this.groupEmailPrefs.Size = new System.Drawing.Size(106, 164);
 			this.groupEmailPrefs.TabIndex = 3;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(6, 12);
+			this.label1.Location = new System.Drawing.Point(7, 8);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(90, 94);
 			this.label1.TabIndex = 12;
 			this.label1.Text = "Highlight an email address in the grid, then use one of these buttons.  Not requi" +
     "red.";
-			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// butSetDefault
 			// 
 			this.butSetDefault.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSetDefault.Location = new System.Drawing.Point(5, 106);
+			this.butSetDefault.Location = new System.Drawing.Point(7, 104);
 			this.butSetDefault.Name = "butSetDefault";
 			this.butSetDefault.Size = new System.Drawing.Size(90, 24);
 			this.butSetDefault.TabIndex = 3;
@@ -82,7 +82,7 @@ namespace OpenPmsDental{
 			// butWebMailNotify
 			// 
 			this.butWebMailNotify.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butWebMailNotify.Location = new System.Drawing.Point(5, 133);
+			this.butWebMailNotify.Location = new System.Drawing.Point(7, 132);
 			this.butWebMailNotify.Name = "butWebMailNotify";
 			this.butWebMailNotify.Size = new System.Drawing.Size(90, 24);
 			this.butWebMailNotify.TabIndex = 3;
@@ -93,17 +93,17 @@ namespace OpenPmsDental{
 			// textInboxCheckInterval
 			// 
 			this.textInboxCheckInterval.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.textInboxCheckInterval.Location = new System.Drawing.Point(19, 502);
+			this.textInboxCheckInterval.Location = new System.Drawing.Point(16, 506);
 			this.textInboxCheckInterval.MaxLength = 2147483647;
 			this.textInboxCheckInterval.Multiline = true;
 			this.textInboxCheckInterval.Name = "textInboxCheckInterval";
-			this.textInboxCheckInterval.Size = new System.Drawing.Size(30, 20);
+			this.textInboxCheckInterval.Size = new System.Drawing.Size(32, 23);
 			this.textInboxCheckInterval.TabIndex = 8;
 			// 
 			// labelInboxCheckUnits
 			// 
 			this.labelInboxCheckUnits.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.labelInboxCheckUnits.Location = new System.Drawing.Point(50, 504);
+			this.labelInboxCheckUnits.Location = new System.Drawing.Point(54, 509);
 			this.labelInboxCheckUnits.Name = "labelInboxCheckUnits";
 			this.labelInboxCheckUnits.Size = new System.Drawing.Size(102, 17);
 			this.labelInboxCheckUnits.TabIndex = 9;
@@ -113,7 +113,7 @@ namespace OpenPmsDental{
 			// labelInboxCheckInterval
 			// 
 			this.labelInboxCheckInterval.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.labelInboxCheckInterval.Location = new System.Drawing.Point(19, 484);
+			this.labelInboxCheckInterval.Location = new System.Drawing.Point(16, 487);
 			this.labelInboxCheckInterval.Name = "labelInboxCheckInterval";
 			this.labelInboxCheckInterval.Size = new System.Drawing.Size(335, 17);
 			this.labelInboxCheckInterval.TabIndex = 7;
@@ -125,7 +125,7 @@ namespace OpenPmsDental{
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(19, 41);
+			this.gridMain.Location = new System.Drawing.Point(16, 43);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.Size = new System.Drawing.Size(766, 440);
 			this.gridMain.TabIndex = 4;
@@ -138,7 +138,7 @@ namespace OpenPmsDental{
 			this.butAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdd.Location = new System.Drawing.Point(794, 248);
+			this.butAdd.Location = new System.Drawing.Point(794, 212);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(75, 24);
 			this.butAdd.TabIndex = 3;
@@ -148,7 +148,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(815, 497);
+			this.butSave.Location = new System.Drawing.Point(827, 541);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 2;
@@ -158,16 +158,16 @@ namespace OpenPmsDental{
 			// checkEmailDisclaimer
 			// 
 			this.checkEmailDisclaimer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.checkEmailDisclaimer.Location = new System.Drawing.Point(158, 504);
+			this.checkEmailDisclaimer.Location = new System.Drawing.Point(162, 507);
 			this.checkEmailDisclaimer.Name = "checkEmailDisclaimer";
-			this.checkEmailDisclaimer.Size = new System.Drawing.Size(185, 18);
+			this.checkEmailDisclaimer.Size = new System.Drawing.Size(171, 20);
 			this.checkEmailDisclaimer.TabIndex = 14;
 			this.checkEmailDisclaimer.Text = "Include Opt-Out Statement";
 			this.checkEmailDisclaimer.CheckedChanged += new System.EventHandler(this.checkEmailDisclaimer_CheckedChanged);
 			// 
 			// FormEmailAddresses
 			// 
-			this.ClientSize = new System.Drawing.Size(910, 539);
+			this.ClientSize = new System.Drawing.Size(910, 573);
 			this.Controls.Add(this.checkEmailDisclaimer);
 			this.Controls.Add(this.label2);
 			this.Controls.Add(this.groupEmailPrefs);

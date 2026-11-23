@@ -32,7 +32,7 @@ namespace OpenPmsDental{
 			// gridActiveInstances
 			// 
 			this.gridActiveInstances.AllowSortingByColumn = true;
-			this.gridActiveInstances.Location = new System.Drawing.Point(12, 24);
+			this.gridActiveInstances.Location = new System.Drawing.Point(11, 28);
 			this.gridActiveInstances.Name = "gridActiveInstances";
 			this.gridActiveInstances.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
 			this.gridActiveInstances.Size = new System.Drawing.Size(509, 431);
@@ -40,7 +40,7 @@ namespace OpenPmsDental{
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(11, 3);
+			this.label1.Location = new System.Drawing.Point(11, 8);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(510, 18);
 			this.label1.TabIndex = 5;
@@ -50,7 +50,7 @@ namespace OpenPmsDental{
 			// butCloseSessions
 			// 
 			this.butCloseSessions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butCloseSessions.Location = new System.Drawing.Point(529, 401);
+			this.butCloseSessions.Location = new System.Drawing.Point(529, 408);
 			this.butCloseSessions.Name = "butCloseSessions";
 			this.butCloseSessions.Size = new System.Drawing.Size(110, 24);
 			this.butCloseSessions.TabIndex = 8;
@@ -61,7 +61,7 @@ namespace OpenPmsDental{
 			// butShutdown
 			// 
 			this.butShutdown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butShutdown.Location = new System.Drawing.Point(529, 431);
+			this.butShutdown.Location = new System.Drawing.Point(529, 436);
 			this.butShutdown.Name = "butShutdown";
 			this.butShutdown.Size = new System.Drawing.Size(107, 24);
 			this.butShutdown.TabIndex = 6;
@@ -70,7 +70,7 @@ namespace OpenPmsDental{
 			// 
 			// FormShutdown
 			// 
-			this.ClientSize = new System.Drawing.Size(648, 467);
+			this.ClientSize = new System.Drawing.Size(648, 468);
 			this.Controls.Add(this.butCloseSessions);
 			this.Controls.Add(this.gridActiveInstances);
 			this.Controls.Add(this.butShutdown);

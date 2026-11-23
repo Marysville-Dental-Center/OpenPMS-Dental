@@ -39,7 +39,7 @@ namespace OpenPmsDental{
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(6, 199);
+			this.label5.Location = new System.Drawing.Point(8, 206);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(151, 17);
 			this.label5.TabIndex = 105;
@@ -48,7 +48,7 @@ namespace OpenPmsDental{
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(6, 16);
+			this.label1.Location = new System.Drawing.Point(8, 23);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(278, 17);
 			this.label1.TabIndex = 106;
@@ -57,7 +57,7 @@ namespace OpenPmsDental{
 			// 
 			// listCarriers
 			// 
-			this.listCarriers.Location = new System.Drawing.Point(9, 36);
+			this.listCarriers.Location = new System.Drawing.Point(8, 42);
 			this.listCarriers.Name = "listCarriers";
 			this.listCarriers.Size = new System.Drawing.Size(275, 160);
 			this.listCarriers.TabIndex = 107;
@@ -65,7 +65,7 @@ namespace OpenPmsDental{
 			// 
 			// listNetworks
 			// 
-			this.listNetworks.Location = new System.Drawing.Point(9, 219);
+			this.listNetworks.Location = new System.Drawing.Point(8, 225);
 			this.listNetworks.Name = "listNetworks";
 			this.listNetworks.Size = new System.Drawing.Size(275, 134);
 			this.listNetworks.TabIndex = 108;
@@ -73,7 +73,7 @@ namespace OpenPmsDental{
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(18, 396);
+			this.label3.Location = new System.Drawing.Point(8, 411);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(278, 17);
 			this.label3.TabIndex = 111;
@@ -82,23 +82,23 @@ namespace OpenPmsDental{
 			// 
 			// listTreatingProvider
 			// 
-			this.listTreatingProvider.Location = new System.Drawing.Point(21, 416);
+			this.listTreatingProvider.Location = new System.Drawing.Point(8, 430);
 			this.listTreatingProvider.Name = "listTreatingProvider";
 			this.listTreatingProvider.Size = new System.Drawing.Size(276, 69);
 			this.listTreatingProvider.TabIndex = 112;
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(88, 492);
+			this.label4.Location = new System.Drawing.Point(75, 503);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(109, 17);
+			this.label4.Size = new System.Drawing.Size(116, 23);
 			this.label4.TabIndex = 113;
 			this.label4.Text = "Reconciliation Date";
-			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textDateReconciliation
 			// 
-			this.textDateReconciliation.Location = new System.Drawing.Point(197, 491);
+			this.textDateReconciliation.Location = new System.Drawing.Point(197, 503);
 			this.textDateReconciliation.Name = "textDateReconciliation";
 			this.textDateReconciliation.Size = new System.Drawing.Size(100, 20);
 			this.textDateReconciliation.TabIndex = 114;
@@ -106,7 +106,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(222, 520);
+			this.butSave.Location = new System.Drawing.Point(235, 538);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 3;
@@ -120,9 +120,9 @@ namespace OpenPmsDental{
 			this.groupCarrierOrNetwork.Controls.Add(this.listCarriers);
 			this.groupCarrierOrNetwork.Controls.Add(this.listNetworks);
 			this.groupCarrierOrNetwork.Enabled = false;
-			this.groupCarrierOrNetwork.Location = new System.Drawing.Point(12, 32);
+			this.groupCarrierOrNetwork.Location = new System.Drawing.Point(8, 36);
 			this.groupCarrierOrNetwork.Name = "groupCarrierOrNetwork";
-			this.groupCarrierOrNetwork.Size = new System.Drawing.Size(293, 361);
+			this.groupCarrierOrNetwork.Size = new System.Drawing.Size(302, 367);
 			this.groupCarrierOrNetwork.TabIndex = 115;
 			this.groupCarrierOrNetwork.TabStop = false;
 			this.groupCarrierOrNetwork.Text = "Carrier or Network";
@@ -131,9 +131,9 @@ namespace OpenPmsDental{
 			// 
 			this.checkGetForAllCarriers.Checked = true;
 			this.checkGetForAllCarriers.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkGetForAllCarriers.Location = new System.Drawing.Point(12, 9);
+			this.checkGetForAllCarriers.Location = new System.Drawing.Point(8, 8);
 			this.checkGetForAllCarriers.Name = "checkGetForAllCarriers";
-			this.checkGetForAllCarriers.Size = new System.Drawing.Size(193, 18);
+			this.checkGetForAllCarriers.Size = new System.Drawing.Size(196, 20);
 			this.checkGetForAllCarriers.TabIndex = 116;
 			this.checkGetForAllCarriers.Text = "Get Transactions For All Carriers";
 			this.checkGetForAllCarriers.Click += new System.EventHandler(this.checkGetForAllCarriers_Click);
@@ -141,7 +141,7 @@ namespace OpenPmsDental{
 			// FormCanadaSummaryReconciliation
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(318, 556);
+			this.ClientSize = new System.Drawing.Size(318, 570);
 			this.Controls.Add(this.checkGetForAllCarriers);
 			this.Controls.Add(this.groupCarrierOrNetwork);
 			this.Controls.Add(this.textDateReconciliation);

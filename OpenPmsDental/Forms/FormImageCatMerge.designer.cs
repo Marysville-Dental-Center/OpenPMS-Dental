@@ -40,7 +40,7 @@ namespace OpenPmsDental{
 			// 
 			this.butMerge.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butMerge.Enabled = false;
-			this.butMerge.Location = new System.Drawing.Point(515,213);
+			this.butMerge.Location = new System.Drawing.Point(515,176);
 			this.butMerge.Name = "butMerge";
 			this.butMerge.Size = new System.Drawing.Size(75, 24);
 			this.butMerge.TabIndex = 3;
@@ -52,9 +52,9 @@ namespace OpenPmsDental{
 			this.groupBoxInto.Controls.Add(this.buttonChangeInto);
 			this.groupBoxInto.Controls.Add(this.textBoxInto);
 			this.groupBoxInto.Controls.Add(this.labelInto);
-			this.groupBoxInto.Location = new System.Drawing.Point(12, 12);
+			this.groupBoxInto.Location = new System.Drawing.Point(8, 8);
 			this.groupBoxInto.Name = "groupBoxInto";
-			this.groupBoxInto.Size = new System.Drawing.Size(578, 88);
+			this.groupBoxInto.Size = new System.Drawing.Size(584, 76);
 			this.groupBoxInto.TabIndex = 4;
 			this.groupBoxInto.TabStop = false;
 			this.groupBoxInto.Text = "Image Category to merge into. The Image Category below will be merged into this I" +
@@ -62,7 +62,7 @@ namespace OpenPmsDental{
 			// 
 			// buttonChangeInto
 			// 
-			this.buttonChangeInto.Location = new System.Drawing.Point(482, 33);
+			this.buttonChangeInto.Location = new System.Drawing.Point(482, 35);
 			this.buttonChangeInto.Name = "buttonChangeInto";
 			this.buttonChangeInto.Size = new System.Drawing.Size(75, 24);
 			this.buttonChangeInto.TabIndex = 2;
@@ -72,18 +72,18 @@ namespace OpenPmsDental{
 			// 
 			// textBoxInto
 			// 
-			this.textBoxInto.Location = new System.Drawing.Point(7, 37);
+			this.textBoxInto.Location = new System.Drawing.Point(8, 45);
 			this.textBoxInto.Name = "textBoxInto";
 			this.textBoxInto.ReadOnly = true;
-			this.textBoxInto.Size = new System.Drawing.Size(237, 20);
+			this.textBoxInto.Size = new System.Drawing.Size(236, 23);
 			this.textBoxInto.TabIndex = 1;
 			// 
 			// labelInto
 			// 
 			this.labelInto.AutoSize = false;
-			this.labelInto.Location = new System.Drawing.Point(4, 21);
+			this.labelInto.Location = new System.Drawing.Point(8, 23);
 			this.labelInto.Name = "labelInto";
-			this.labelInto.Size = new System.Drawing.Size(128, 20);
+			this.labelInto.Size = new System.Drawing.Size(132, 20);
 			this.labelInto.TabIndex = 0;
 			this.labelInto.Text = "Image Category Name";
 			// 
@@ -92,9 +92,9 @@ namespace OpenPmsDental{
 			this.groupBoxFrom.Controls.Add(this.buttonChangeFrom);
 			this.groupBoxFrom.Controls.Add(this.textBoxFrom);
 			this.groupBoxFrom.Controls.Add(this.labelFrom);
-			this.groupBoxFrom.Location = new System.Drawing.Point(12, 106);
+			this.groupBoxFrom.Location = new System.Drawing.Point(8, 92);
 			this.groupBoxFrom.Name = "groupBoxFrom";
-			this.groupBoxFrom.Size = new System.Drawing.Size(578, 88);
+			this.groupBoxFrom.Size = new System.Drawing.Size(584, 76);
 			this.groupBoxFrom.TabIndex = 5;
 			this.groupBoxFrom.TabStop = false;
 			this.groupBoxFrom.Text = "Image Category to merge from. This Image Category will be merged into the Image C" +
@@ -102,7 +102,7 @@ namespace OpenPmsDental{
 			// 
 			// buttonChangeFrom
 			// 
-			this.buttonChangeFrom.Location = new System.Drawing.Point(482, 33);
+			this.buttonChangeFrom.Location = new System.Drawing.Point(482, 35);
 			this.buttonChangeFrom.Name = "buttonChangeFrom";
 			this.buttonChangeFrom.Size = new System.Drawing.Size(75, 24);
 			this.buttonChangeFrom.TabIndex = 3;
@@ -112,18 +112,18 @@ namespace OpenPmsDental{
 			// 
 			// textBoxFrom
 			// 
-			this.textBoxFrom.Location = new System.Drawing.Point(7, 37);
+			this.textBoxFrom.Location = new System.Drawing.Point(8, 45);
 			this.textBoxFrom.Name = "textBoxFrom";
 			this.textBoxFrom.ReadOnly = true;
-			this.textBoxFrom.Size = new System.Drawing.Size(237, 20);
+			this.textBoxFrom.Size = new System.Drawing.Size(236, 23);
 			this.textBoxFrom.TabIndex = 2;
 			// 
 			// labelFrom
 			// 
 			this.labelFrom.AutoSize = false;
-			this.labelFrom.Location = new System.Drawing.Point(4, 21);
+			this.labelFrom.Location = new System.Drawing.Point(8, 23);
 			this.labelFrom.Name = "labelFrom";
-			this.labelFrom.Size = new System.Drawing.Size(128, 20);
+			this.labelFrom.Size = new System.Drawing.Size(132, 20);
 			this.labelFrom.TabIndex = 2;
 			this.labelFrom.Text = "Image Category Name";
 			// 

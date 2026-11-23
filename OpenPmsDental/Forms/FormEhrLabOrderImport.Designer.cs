@@ -46,9 +46,9 @@
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(12, 163);
+			this.gridMain.Location = new System.Drawing.Point(8, 175);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(690, 188);
+			this.gridMain.Size = new System.Drawing.Size(698, 188);
 			this.gridMain.TabIndex = 5;
 			this.gridMain.Title = "Laboratory Orders";
 			this.gridMain.TranslationName = "TableOrders";
@@ -57,7 +57,7 @@
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(627, 357);
+			this.butSave.Location = new System.Drawing.Point(631, 396);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 23);
 			this.butSave.TabIndex = 10;
@@ -68,28 +68,28 @@
 			// butPatSelect
 			// 
 			this.butPatSelect.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butPatSelect.Location = new System.Drawing.Point(325, 9);
+			this.butPatSelect.Location = new System.Drawing.Point(324, 8);
 			this.butPatSelect.Name = "butPatSelect";
-			this.butPatSelect.Size = new System.Drawing.Size(29, 25);
+			this.butPatSelect.Size = new System.Drawing.Size(29, 23);
 			this.butPatSelect.TabIndex = 231;
 			this.butPatSelect.Text = "...";
 			this.butPatSelect.Click += new System.EventHandler(this.butPatSelect_Click);
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(27, 14);
+			this.label5.Location = new System.Drawing.Point(20, 8);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(96, 17);
+			this.label5.Size = new System.Drawing.Size(100, 23);
 			this.label5.TabIndex = 230;
 			this.label5.Text = "Attached Patient";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textName
 			// 
-			this.textName.Location = new System.Drawing.Point(126, 12);
+			this.textName.Location = new System.Drawing.Point(126, 8);
 			this.textName.Name = "textName";
 			this.textName.ReadOnly = true;
-			this.textName.Size = new System.Drawing.Size(193, 20);
+			this.textName.Size = new System.Drawing.Size(192, 23);
 			this.textName.TabIndex = 229;
 			this.textName.WordWrap = false;
 			// 
@@ -103,84 +103,84 @@
 			this.groupBox5.Controls.Add(this.listBoxNames);
 			this.groupBox5.Controls.Add(this.label7);
 			this.groupBox5.Controls.Add(this.label9);
-			this.groupBox5.Location = new System.Drawing.Point(12, 38);
+			this.groupBox5.Location = new System.Drawing.Point(8, 39);
 			this.groupBox5.Name = "groupBox5";
-			this.groupBox5.Size = new System.Drawing.Size(697, 119);
+			this.groupBox5.Size = new System.Drawing.Size(698, 128);
 			this.groupBox5.TabIndex = 249;
 			this.groupBox5.TabStop = false;
 			this.groupBox5.Text = "Patient Information From Message";
 			// 
 			// textBirthdate
 			// 
-			this.textBirthdate.Location = new System.Drawing.Point(114, 64);
+			this.textBirthdate.Location = new System.Drawing.Point(118, 70);
 			this.textBirthdate.MaxLength = 100;
 			this.textBirthdate.Name = "textBirthdate";
-			this.textBirthdate.Size = new System.Drawing.Size(93, 20);
+			this.textBirthdate.Size = new System.Drawing.Size(92, 23);
 			this.textBirthdate.TabIndex = 244;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(330, 17);
+			this.label2.Location = new System.Drawing.Point(353, 23);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(79, 16);
+			this.label2.Size = new System.Drawing.Size(52, 23);
 			this.label2.TabIndex = 243;
 			this.label2.Text = "Race(s)";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// listBoxRaces
 			// 
-			this.listBoxRaces.Location = new System.Drawing.Point(411, 17);
+			this.listBoxRaces.Location = new System.Drawing.Point(411, 23);
 			this.listBoxRaces.Name = "listBoxRaces";
 			this.listBoxRaces.Size = new System.Drawing.Size(154, 43);
 			this.listBoxRaces.TabIndex = 242;
 			// 
 			// textGender
 			// 
-			this.textGender.Location = new System.Drawing.Point(114, 88);
+			this.textGender.Location = new System.Drawing.Point(118, 97);
 			this.textGender.MaxLength = 100;
 			this.textGender.Name = "textGender";
-			this.textGender.Size = new System.Drawing.Size(93, 20);
+			this.textGender.Size = new System.Drawing.Size(92, 23);
 			this.textGender.TabIndex = 241;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(24, 17);
+			this.label1.Location = new System.Drawing.Point(56, 23);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(88, 16);
+			this.label1.Size = new System.Drawing.Size(56, 23);
 			this.label1.TabIndex = 240;
 			this.label1.Text = "Name(s)";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// listBoxNames
 			// 
-			this.listBoxNames.Location = new System.Drawing.Point(114, 17);
+			this.listBoxNames.Location = new System.Drawing.Point(118, 23);
 			this.listBoxNames.Name = "listBoxNames";
 			this.listBoxNames.Size = new System.Drawing.Size(193, 43);
 			this.listBoxNames.TabIndex = 239;
 			// 
 			// label7
 			// 
-			this.label7.Location = new System.Drawing.Point(30, 90);
+			this.label7.Location = new System.Drawing.Point(60, 97);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(82, 16);
+			this.label7.Size = new System.Drawing.Size(52, 23);
 			this.label7.TabIndex = 237;
 			this.label7.Text = "Gender";
 			this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label9
 			// 
-			this.label9.Location = new System.Drawing.Point(27, 67);
+			this.label9.Location = new System.Drawing.Point(52, 70);
 			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(85, 18);
+			this.label9.Size = new System.Drawing.Size(60, 23);
 			this.label9.TabIndex = 235;
 			this.label9.Text = "Birthdate";
-			this.label9.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// labelExistingLab
 			// 
 			this.labelExistingLab.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelExistingLab.ForeColor = System.Drawing.Color.Red;
-			this.labelExistingLab.Location = new System.Drawing.Point(235, 360);
+			this.labelExistingLab.Location = new System.Drawing.Point(235, 367);
 			this.labelExistingLab.Name = "labelExistingLab";
 			this.labelExistingLab.Size = new System.Drawing.Size(386, 17);
 			this.labelExistingLab.TabIndex = 250;
@@ -191,7 +191,7 @@
 			// FormEhrLabOrderImport
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(714, 392);
+			this.ClientSize = new System.Drawing.Size(714, 427);
 			this.Controls.Add(this.labelExistingLab);
 			this.Controls.Add(this.groupBox5);
 			this.Controls.Add(this.butPatSelect);
