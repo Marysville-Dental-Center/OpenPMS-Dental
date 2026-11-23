@@ -16,6 +16,8 @@ namespace ImagingCapture.UI {
 		private ImageCategoryRule _imageCategoryRule;
 		///<summary>The category of each comboCategory item; 0 is none chosen.</summary>
 		private List<long> _listCategoryDefNums=new List<long>();
+		///<summary>The category of each comboPhotoCategory item; 0 is none (no photo template is added).</summary>
+		private List<long> _listPhotoCategoryDefNums=new List<long>();
 		private bool _isAdded;
 
 		public FrmStandardTemplates(StandardTemplateInstaller installer) {
@@ -23,6 +25,7 @@ namespace ImagingCapture.UI {
 			_installer=installer??throw new ArgumentNullException(nameof(installer));
 			Load+=FrmStandardTemplates_Load;
 			comboCategory.SelectionChangeCommitted+=comboCategory_SelectionChangeCommitted;
+			comboPhotoCategory.SelectionChangeCommitted+=comboCategory_SelectionChangeCommitted;
 		}
 
 		///<summary>Opens the window, modal. Needs Setup (the refusal is shown). Returns true when templates were added.</summary>
@@ -49,6 +52,15 @@ namespace ImagingCapture.UI {
 				_listCategoryDefNums.Add(item.DefNum);
 			}
 			comboCategory.SelectedIndex=0;
+			comboPhotoCategory.Items.Clear();
+			_listPhotoCategoryDefNums=new List<long>();
+			comboPhotoCategory.Items.Add(Lang.g(this,"(none)"));
+			_listPhotoCategoryDefNums.Add(0);
+			foreach(ImageCategoryItem item in _imageCategoryRule.GetPickList(0)) {
+				comboPhotoCategory.Items.Add(item.Name);
+				_listPhotoCategoryDefNums.Add(item.DefNum);
+			}
+			comboPhotoCategory.SelectedIndex=0;
 			RefreshView();
 		}
 
@@ -61,13 +73,14 @@ namespace ImagingCapture.UI {
 				return;
 			}
 			long categoryDefNum=GetCategoryDefNum();
-			if(categoryDefNum==0) {
+			long photoCategoryDefNum=GetPhotoCategoryDefNum();
+			if(categoryDefNum==0 && photoCategoryDefNum==0) {
 				MsgBox.Show(Lang.g(this,"Choose the X-ray category the templates save into."));
 				return;
 			}
 			StandardTemplatePlan plan;
 			try {
-				plan=_installer.GetPlan(categoryDefNum);
+				plan=_installer.GetPlan(categoryDefNum,photoCategoryDefNum);
 			}
 			catch(Exception ex) {
 				MsgBox.Show(Lang.g(this,"The mount templates could not be read:")+" "+ex.Message);
@@ -78,16 +91,18 @@ namespace ImagingCapture.UI {
 				return;
 			}
 			string categoryName=_imageCategoryRule.Find(categoryDefNum)?.Name??"";
-			string question=Lang.g(this,"Add these mount templates, saving into")+" \""+categoryName+"\"?\r\n\r\n"
-				+string.Join("\r\n",plan.ListToAdd.ConvertAll(x => x.Template.Description));
-			string warning=_imageCategoryRule.GetWarning(categoryDefNum,"X-ray","X-rays");
+			string photoCategoryName=_imageCategoryRule.Find(photoCategoryDefNum)?.Name??"";
+			string question=Lang.g(this,"Add these mount templates?")+"\r\n\r\n"
+				+string.Join("\r\n",plan.ListToAdd.ConvertAll(x => x.Template.Description+" ("+Lang.g(this,"saving into")+" \""
+					+(x.Template.IsPhoto ? photoCategoryName : categoryName)+"\")"));
+			string warning=GetWarnings(categoryDefNum,photoCategoryDefNum);
 			if(warning!="") {
 				question+="\r\n\r\n"+warning;
 			}
 			if(!MsgBox.Show(MsgBoxButtons.OKCancel,question)) {
 				return;
 			}
-			StandardTemplateResult result=_installer.Install(categoryDefNum,categoryName);
+			StandardTemplateResult result=_installer.Install(categoryDefNum,categoryName,photoCategoryDefNum,photoCategoryName);
 			if(result.ListAdded.Count>0) {
 				_isAdded=true;
 			}
@@ -107,16 +122,34 @@ namespace ImagingCapture.UI {
 			return idx>=0 && idx<_listCategoryDefNums.Count ? _listCategoryDefNums[idx] : 0;
 		}
 
+		private long GetPhotoCategoryDefNum() {
+			int idx=comboPhotoCategory.SelectedIndex;
+			return idx>=0 && idx<_listPhotoCategoryDefNums.Count ? _listPhotoCategoryDefNums[idx] : 0;
+		}
+
+		///<summary>The patient-picture warnings of the chosen categories, one per line; "" when none.</summary>
+		private string GetWarnings(long categoryDefNum,long photoCategoryDefNum) {
+			List<string> listWarnings=new List<string>();
+			if(categoryDefNum!=0) {
+				listWarnings.Add(_imageCategoryRule.GetWarning(categoryDefNum,"X-ray","X-rays"));
+			}
+			if(photoCategoryDefNum!=0) {
+				listWarnings.Add(_imageCategoryRule.GetWarning(photoCategoryDefNum));
+			}
+			return string.Join("\r\n",listWarnings.FindAll(x => x!=""));
+		}
+
 		private void RefreshView() {
 			long categoryDefNum=GetCategoryDefNum();
-			labelCategoryWarning.Text=categoryDefNum==0 ? "" : _imageCategoryRule.GetWarning(categoryDefNum,"X-ray","X-rays");
+			long photoCategoryDefNum=GetPhotoCategoryDefNum();
+			labelCategoryWarning.Text=GetWarnings(categoryDefNum,photoCategoryDefNum);
 			try {
-				textPlan.Text=StandardTemplateTexts.GetPlanText(_installer.GetPlan(categoryDefNum));
+				textPlan.Text=StandardTemplateTexts.GetPlanText(_installer.GetPlan(categoryDefNum,photoCategoryDefNum));
 			}
 			catch(Exception ex) {
 				textPlan.Text=Lang.g(this,"The mount templates could not be read:")+" "+ex.Message;
 			}
-			butAdd.IsEnabled=categoryDefNum!=0;
+			butAdd.IsEnabled=categoryDefNum!=0 || photoCategoryDefNum!=0;
 		}
 	}
 }

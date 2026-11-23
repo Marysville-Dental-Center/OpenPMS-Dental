@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using OpenPmsDentalBusiness;
@@ -44,6 +45,7 @@ namespace OpenPmsDentalBusiness {
 			}
 			string command="DELETE FROM mount WHERE MountNum='"+POut.Long(mount.MountNum)+"'";
 			Db.NonQ(command);
+			MountItemGuides.DeleteForMount(mount.MountNum);//the slots' camera guides, before the slots they are found through
 			command="DELETE FROM mountitem WHERE MountNum='"+POut.Long(mount.MountNum)+"'";
 			Db.NonQ(command);
 		}
@@ -80,6 +82,7 @@ namespace OpenPmsDentalBusiness {
 			mount.MountNum=Insert(mount);
 			//mount.ListMountItems=new List<MountItem>();
 			List<MountItemDef> listMountItemDefs=MountItemDefs.GetForMountDef(mountDef.MountDefNum);
+			List<MountItemDefGuide> listMountItemDefGuides=MountItemDefGuides.GetForMountItemDefs(listMountItemDefs.Select(x => x.MountItemDefNum).ToList());
 			for(int i=0;i<listMountItemDefs.Count;i++){
 				MountItem mountItem=new MountItem();
 				mountItem.MountNum=mount.MountNum;
@@ -93,6 +96,11 @@ namespace OpenPmsDentalBusiness {
 				mountItem.TextShowing=listMountItemDefs[i].TextShowing;
 				mountItem.FontSize=listMountItemDefs[i].FontSize;
 				mountItem.MountItemNum=MountItems.Insert(mountItem);
+				MountItemDefGuide mountItemDefGuide=listMountItemDefGuides.Find(x => x.MountItemDefNum==listMountItemDefs[i].MountItemDefNum);
+				if(mountItemDefGuide!=null) {//the camera guide of the slot, copied because a mount does not keep its MountDefNum
+					MountItemGuides.Upsert(new MountItemGuide { MountItemNum=mountItem.MountItemNum,GuideLabel=mountItemDefGuide.GuideLabel,
+						IsMirror=mountItemDefGuide.IsMirror,SlotKind=mountItemDefGuide.SlotKind });
+				}
 				//mount.ListMountItems.Add(mountItem);
 			}
 			if(mountDef.ScaleValue!=""){

@@ -26,6 +26,36 @@ namespace OpenPmsDental {
 			textToothNumbers.Text=Tooth.DisplayRange(MountItemDefCur.ToothNumbers);
 			textTextShowing.Text=MountItemDefCur.TextShowing;
 			textFontSize.Value=MountItemDefCur.FontSize;
+			FillGuide();
+		}
+
+		///<summary>IMG-P4a: the slot's guide for the camera session (mountitemdefguide). A slot without a row is a radiograph slot with no guide.
+		///The kinds are added in MountSlotKind's order, so the index is the value.</summary>
+		private void FillGuide() {
+			comboSlotKind.Items.Clear();
+			comboSlotKind.Items.Add(Lan.g(this,"Radiograph"));
+			comboSlotKind.Items.Add(Lan.g(this,"Intraoral photo"));
+			comboSlotKind.Items.Add(Lan.g(this,"Extraoral photo"));
+			MountItemDefGuide mountItemDefGuide=null;
+			if(!MountItemDefCur.IsNew) {
+				mountItemDefGuide=MountItemDefGuides.GetForMountItemDef(MountItemDefCur.MountItemDefNum);
+			}
+			textGuideLabel.Text=mountItemDefGuide?.GuideLabel??"";
+			checkMirror.Checked=mountItemDefGuide?.IsMirror??false;
+			comboSlotKind.SelectedIndex=(int)(mountItemDefGuide?.SlotKind??MountSlotKind.Radiograph);
+		}
+
+		///<summary>IMG-P4a: saves the slot's guide after the slot is saved: a radiograph slot with no guide text and no mirror keeps no row.
+		///Changes reach mounts made from now on; a patient's existing mount keeps the guide it was made with.</summary>
+		private void SaveGuide() {
+			MountSlotKind mountSlotKind=(MountSlotKind)Math.Max(0,comboSlotKind.SelectedIndex);
+			string guideLabel=textGuideLabel.Text.Trim();
+			if(mountSlotKind==MountSlotKind.Radiograph && guideLabel=="" && !checkMirror.Checked) {
+				MountItemDefGuides.DeleteForMountItemDef(MountItemDefCur.MountItemDefNum);
+				return;
+			}
+			MountItemDefGuides.Upsert(new MountItemDefGuide { MountItemDefNum=MountItemDefCur.MountItemDefNum,GuideLabel=guideLabel,
+				IsMirror=checkMirror.Checked,SlotKind=mountSlotKind });
 		}
 
 		private void butAddField_Click(object sender,EventArgs e) {
@@ -93,6 +123,7 @@ namespace OpenPmsDental {
 			else{
 				MountItemDefs.Update(MountItemDefCur);
 			}
+			SaveGuide();
 			DialogResult=DialogResult.OK;
 		}
 

@@ -9,11 +9,13 @@
              Width="820" Height="600"
              Text="Add Standard Mount Templates" >
 	<Grid Background="#FFFCFDFE" >
-		<ui:Label x:Name="labelIntro" Width="790" Height="70" Margin="12,8,0,0" Text="" IsWrap="True" />
-		<ui:Label x:Name="labelCategory" Width="130" Height="18" Margin="12,86,0,0" Text="X-ray category" VAlign="Bottom" />
-		<ui:ComboBox x:Name="comboCategory" Width="300" Height="21" Margin="146,84,0,0" />
-		<ui:Label x:Name="labelCategoryWarning" Width="790" Height="36" Margin="12,110,0,0" Text="" IsWrap="True" ColorText="#FFC00000" />
-		<ui:TextBox x:Name="textPlan" Width="790" Height="340" Margin="12,150,0,0" IsMultiline="True" ReadOnly="True" ColorBack="#FFF0F0F0" />
+		<ui:Label x:Name="labelIntro" Width="790" Height="86" Margin="12,8,0,0" Text="" IsWrap="True" />
+		<ui:Label x:Name="labelCategory" Width="130" Height="18" Margin="12,102,0,0" Text="X-ray category" VAlign="Bottom" />
+		<ui:ComboBox x:Name="comboCategory" Width="300" Height="21" Margin="146,100,0,0" />
+		<ui:Label x:Name="labelPhotoCategory" Width="130" Height="18" Margin="12,128,0,0" Text="Photo category" VAlign="Bottom" />
+		<ui:ComboBox x:Name="comboPhotoCategory" Width="300" Height="21" Margin="146,126,0,0" />
+		<ui:Label x:Name="labelCategoryWarning" Width="790" Height="36" Margin="12,152,0,0" Text="" IsWrap="True" ColorText="#FFC00000" />
+		<ui:TextBox x:Name="textPlan" Width="790" Height="298" Margin="12,192,0,0" IsMultiline="True" ReadOnly="True" ColorBack="#FFF0F0F0" />
 		<ui:Button x:Name="butAdd" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="110" Height="24" Margin="0,0,93,12" Text="Add templates" Click="butAdd_Click" />
 		<ui:Button x:Name="butClose" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Height="24" Margin="0,0,12,12" Text="Close" Click="butClose_Click" />
 	</Grid>

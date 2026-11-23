@@ -2802,6 +2802,7 @@ Here is the desired behavior:
 					MountItem mountItem=listMountItemsOrig[i].Copy();
 					mountItem.MountNum=mount.MountNum;
 					MountItems.Insert(mountItem);
+					MountItemGuides.CopyForMountItem(listMountItemsOrig[i].MountItemNum,mountItem.MountItemNum);//IMG-P4a: the slot's camera guide
 					Document documentOriginal=Documents.GetDocumentForMountItem(listMountItemsOrig[i].MountItemNum);
 					if(documentOriginal is null){
 						continue;//some mount items may be empty

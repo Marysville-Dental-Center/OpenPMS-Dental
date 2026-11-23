@@ -17,6 +17,7 @@ namespace ImagingCapture.Tests {
 		public HashSet<long> HashSetCategories=new HashSet<long> { 20 };
 		public readonly List<MountDef> ListMountDefs=new List<MountDef>();
 		public readonly List<MountItemDef> ListMountItemDefs=new List<MountItemDef>();
+		public readonly List<MountItemDefGuide> ListMountItemDefGuides=new List<MountItemDefGuide>();
 		public readonly List<SecurityLog> ListLogs=new List<SecurityLog>();
 		public int CountSignals;
 		///<summary>"InsertMountDef", "InsertMountItemDef", "MakeLogEntry", "GetMountDefs"; separated by '|'.</summary>
@@ -58,6 +59,10 @@ namespace ImagingCapture.Tests {
 			mountItemDefCopy.MountItemDefNum=ListMountItemDefs.Count+1;
 			ListMountItemDefs.Add(mountItemDefCopy);
 			return mountItemDefCopy.MountItemDefNum;
+		}
+
+		public void InsertMountItemDefGuide(MountItemDefGuide mountItemDefGuide) {
+			ListMountItemDefGuides.Add(mountItemDefGuide.Copy());
 		}
 
 		public void DeleteMountDef(long mountDefNum) {
