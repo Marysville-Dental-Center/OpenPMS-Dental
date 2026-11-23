@@ -411,7 +411,7 @@ namespace OpenPmsDental{
 			// 
 			this.checkBenefitAssumeGeneral.Location = new System.Drawing.Point(17, 272);
 			this.checkBenefitAssumeGeneral.Name = "checkBenefitAssumeGeneral";
-			this.checkBenefitAssumeGeneral.Size = new System.Drawing.Size(516, 40);
+			this.checkBenefitAssumeGeneral.Size = new System.Drawing.Size(532, 40);
 			this.checkBenefitAssumeGeneral.TabIndex = 213;
 			this.checkBenefitAssumeGeneral.Text = "Assume all procedures are in the General benefit category by default in Treatment" +
     " Finder report";

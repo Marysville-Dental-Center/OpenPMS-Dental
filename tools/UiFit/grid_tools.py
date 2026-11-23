@@ -1651,7 +1651,10 @@ class Planner:
             if "Size" in n.rule and (n.nw, n.nh) != (n.w, n.h):
                 sz = designer.size(n.name)
                 old = "%d,%d" % sz if sz else "(none)"
-                self.add(designer, window, n.name, "Size", old, "%d,%d" % (n.nw, n.nh), n.rule["Size"])
+                # Slice 1: a size the designer already has is no row (a stock combo box is as tall as its font makes it, 21 px in the build,
+                # whatever its designer says: FormReportSetup's server and database boxes planned 23 again on every run).
+                if not sz or sz != (n.nw, n.nh) or SIMULATE:
+                    self.add(designer, window, n.name, "Size", old, "%d,%d" % (n.nw, n.nh), n.rule["Size"])
             if n.autosize_off and ("Size" in n.rule):
                 self.add(designer, window, n.name, "AutoSize", "true", "false", "a size set by the grid")
             if n.new_check_align:

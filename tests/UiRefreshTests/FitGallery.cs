@@ -187,6 +187,11 @@ namespace UiRefreshTests {
 				}
 				treeView.SelectedNode=treeView.Nodes[0].Nodes[1];
 			}
+			if(window=="OpenPmsDental.FormRpTreatmentFinder" && FindByName(root,"comboClinics") is OpenPmsDental.UI.ComboBoxClinicPicker comboBoxClinicPicker) {
+				//UI-12 slice 1: its Load makes the clinic picker a multi select (not on a middle tier client), so it reads "Clinics" and its box
+				//stands on the Provider and Billing Type column; the picture shows it so.
+				comboBoxClinicPicker.IsMultiSelect=true;
+			}
 			if(window=="OpenPmsDental.FormQuery" && FindByName(root,"grid2") is DataGridView dataGridView) {
 				//A result as the window shows it after a query: its caption over the grid, columns and rows.
 				if(FindByName(root,"labelGridCaption") is Label labelCaption) {
