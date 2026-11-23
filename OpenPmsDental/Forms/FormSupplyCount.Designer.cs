@@ -40,26 +40,26 @@ namespace OpenPmsDental {
 			//
 			// labelScan
 			//
-			this.labelScan.Location = new System.Drawing.Point(12, 12);
+			this.labelScan.Location = new System.Drawing.Point(8, 12);
 			this.labelScan.Name = "labelScan";
-			this.labelScan.Size = new System.Drawing.Size(46, 18);
+			this.labelScan.Size = new System.Drawing.Size(36, 23);
 			this.labelScan.TabIndex = 0;
 			this.labelScan.Text = "Scan";
 			this.labelScan.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			//
 			// textScan
 			//
-			this.textScan.Location = new System.Drawing.Point(60, 11);
+			this.textScan.Location = new System.Drawing.Point(50, 12);
 			this.textScan.Name = "textScan";
-			this.textScan.Size = new System.Drawing.Size(180, 20);
+			this.textScan.Size = new System.Drawing.Size(172, 23);
 			this.textScan.TabIndex = 1;
 			this.textScan.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textScan_KeyDown);
 			//
 			// labelScanNote
 			//
-			this.labelScanNote.Location = new System.Drawing.Point(246, 8);
+			this.labelScanNote.Location = new System.Drawing.Point(228, 8);
 			this.labelScanNote.Name = "labelScanNote";
-			this.labelScanNote.Size = new System.Drawing.Size(534, 28);
+			this.labelScanNote.Size = new System.Drawing.Size(544, 32);
 			this.labelScanNote.TabIndex = 2;
 			this.labelScanNote.Text = "Each scan adds one to the counted quantity of the item (of the selected lot). Or type the counted quantity in the" +
     " grid. Every counted row is saved at once.";
@@ -70,10 +70,10 @@ namespace OpenPmsDental {
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(12, 40);
+			this.gridMain.Location = new System.Drawing.Point(8, 44);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.OneCell;
-			this.gridMain.Size = new System.Drawing.Size(756, 380);
+			this.gridMain.Size = new System.Drawing.Size(764, 380);
 			this.gridMain.TabIndex = 3;
 			this.gridMain.Title = "Stock Count";
 			this.gridMain.TranslationName = "TableSupplyCount";
@@ -82,9 +82,9 @@ namespace OpenPmsDental {
 			// labelCount
 			//
 			this.labelCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.labelCount.Location = new System.Drawing.Point(12, 424);
+			this.labelCount.Location = new System.Drawing.Point(8, 428);
 			this.labelCount.Name = "labelCount";
-			this.labelCount.Size = new System.Drawing.Size(756, 18);
+			this.labelCount.Size = new System.Drawing.Size(764, 18);
 			this.labelCount.TabIndex = 4;
 			this.labelCount.Text = "0 rows counted";
 			this.labelCount.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -94,7 +94,7 @@ namespace OpenPmsDental {
 			this.butAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdd.Location = new System.Drawing.Point(12, 446);
+			this.butAdd.Location = new System.Drawing.Point(8, 483);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(80, 24);
 			this.butAdd.TabIndex = 5;
@@ -104,7 +104,7 @@ namespace OpenPmsDental {
 			// butNewLot
 			//
 			this.butNewLot.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butNewLot.Location = new System.Drawing.Point(98, 446);
+			this.butNewLot.Location = new System.Drawing.Point(94, 483);
 			this.butNewLot.Name = "butNewLot";
 			this.butNewLot.Size = new System.Drawing.Size(80, 24);
 			this.butNewLot.TabIndex = 6;
@@ -116,7 +116,7 @@ namespace OpenPmsDental {
 			this.butRemove.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butRemove.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butRemove.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butRemove.Location = new System.Drawing.Point(184, 446);
+			this.butRemove.Location = new System.Drawing.Point(180, 483);
 			this.butRemove.Name = "butRemove";
 			this.butRemove.Size = new System.Drawing.Size(80, 24);
 			this.butRemove.TabIndex = 7;
@@ -126,7 +126,7 @@ namespace OpenPmsDental {
 			// butDiscard
 			//
 			this.butDiscard.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butDiscard.Location = new System.Drawing.Point(270, 446);
+			this.butDiscard.Location = new System.Drawing.Point(266, 483);
 			this.butDiscard.Name = "butDiscard";
 			this.butDiscard.Size = new System.Drawing.Size(80, 24);
 			this.butDiscard.TabIndex = 8;
@@ -136,9 +136,9 @@ namespace OpenPmsDental {
 			// labelReason
 			//
 			this.labelReason.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.labelReason.Location = new System.Drawing.Point(356, 449);
+			this.labelReason.Location = new System.Drawing.Point(522, 448);
 			this.labelReason.Name = "labelReason";
-			this.labelReason.Size = new System.Drawing.Size(56, 18);
+			this.labelReason.Size = new System.Drawing.Size(52, 23);
 			this.labelReason.TabIndex = 9;
 			this.labelReason.Text = "Reason";
 			this.labelReason.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -146,16 +146,16 @@ namespace OpenPmsDental {
 			// textReason
 			//
 			this.textReason.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.textReason.Location = new System.Drawing.Point(414, 448);
+			this.textReason.Location = new System.Drawing.Point(580, 448);
 			this.textReason.MaxLength = 255;
 			this.textReason.Name = "textReason";
-			this.textReason.Size = new System.Drawing.Size(190, 20);
+			this.textReason.Size = new System.Drawing.Size(192, 23);
 			this.textReason.TabIndex = 10;
 			//
 			// butPost
 			//
 			this.butPost.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butPost.Location = new System.Drawing.Point(612, 446);
+			this.butPost.Location = new System.Drawing.Point(612, 483);
 			this.butPost.Name = "butPost";
 			this.butPost.Size = new System.Drawing.Size(75, 24);
 			this.butPost.TabIndex = 11;
@@ -165,7 +165,7 @@ namespace OpenPmsDental {
 			// butClose
 			//
 			this.butClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butClose.Location = new System.Drawing.Point(693, 446);
+			this.butClose.Location = new System.Drawing.Point(697, 483);
 			this.butClose.Name = "butClose";
 			this.butClose.Size = new System.Drawing.Size(75, 24);
 			this.butClose.TabIndex = 12;
@@ -174,7 +174,7 @@ namespace OpenPmsDental {
 			//
 			// FormSupplyCount
 			//
-			this.ClientSize = new System.Drawing.Size(780, 480);
+			this.ClientSize = new System.Drawing.Size(780, 515);
 			this.Controls.Add(this.butClose);
 			this.Controls.Add(this.butPost);
 			this.Controls.Add(this.textReason);

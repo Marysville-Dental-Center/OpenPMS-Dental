@@ -48,9 +48,9 @@ namespace OpenPmsDental {
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(51, 20);
+			this.label1.Location = new System.Drawing.Point(54, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(83, 17);
+			this.label1.Size = new System.Drawing.Size(76, 23);
 			this.label1.TabIndex = 2;
 			this.label1.Text = "Code Range";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -58,15 +58,15 @@ namespace OpenPmsDental {
 			// textCodeRange
 			// 
 			this.textCodeRange.AutoSize = false;
-			this.textCodeRange.Location = new System.Drawing.Point(136, 20);
+			this.textCodeRange.Location = new System.Drawing.Point(136, 8);
 			this.textCodeRange.Name = "textCodeRange";
-			this.textCodeRange.Size = new System.Drawing.Size(200, 20);
+			this.textCodeRange.Size = new System.Drawing.Size(200, 23);
 			this.textCodeRange.TabIndex = 1;
 			// 
 			// label2
 			// 
 			this.label2.AutoSize = false;
-			this.label2.Location = new System.Drawing.Point(140, 42);
+			this.label2.Location = new System.Drawing.Point(136, 35);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(101, 20);
 			this.label2.TabIndex = 16;
@@ -75,16 +75,16 @@ namespace OpenPmsDental {
 			// panelColor
 			// 
 			this.panelColor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-			this.panelColor.Location = new System.Drawing.Point(136, 64);
+			this.panelColor.Location = new System.Drawing.Point(136, 57);
 			this.panelColor.Name = "panelColor";
 			this.panelColor.Size = new System.Drawing.Size(24, 24);
 			this.panelColor.TabIndex = 127;
 			// 
 			// labelBeforeTime
 			// 
-			this.labelBeforeTime.Location = new System.Drawing.Point(54, 65);
+			this.labelBeforeTime.Location = new System.Drawing.Point(66, 57);
 			this.labelBeforeTime.Name = "labelBeforeTime";
-			this.labelBeforeTime.Size = new System.Drawing.Size(80, 20);
+			this.labelBeforeTime.Size = new System.Drawing.Size(64, 23);
 			this.labelBeforeTime.TabIndex = 126;
 			this.labelBeforeTime.Text = "Text Color";
 			this.labelBeforeTime.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -92,17 +92,17 @@ namespace OpenPmsDental {
 			// checkPrevDate
 			// 
 			this.checkPrevDate.AutoSize = false;
-			this.checkPrevDate.Location = new System.Drawing.Point(136, 102);
+			this.checkPrevDate.Location = new System.Drawing.Point(136, 85);
 			this.checkPrevDate.Name = "checkPrevDate";
-			this.checkPrevDate.Size = new System.Drawing.Size(127, 18);
+			this.checkPrevDate.Size = new System.Drawing.Size(130, 20);
 			this.checkPrevDate.TabIndex = 3;
 			this.checkPrevDate.Text = "Show previous date";
 			// 
 			// butChange
 			// 
-			this.butChange.Location = new System.Drawing.Point(170, 64);
+			this.butChange.Location = new System.Drawing.Point(166, 57);
 			this.butChange.Name = "butChange";
-			this.butChange.Size = new System.Drawing.Size(75, 24);
+			this.butChange.Size = new System.Drawing.Size(75, 23);
 			this.butChange.TabIndex = 2;
 			this.butChange.Text = "Change";
 			this.butChange.Click += new System.EventHandler(this.butChange_Click);
@@ -112,7 +112,7 @@ namespace OpenPmsDental {
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(6, 129);
+			this.butDelete.Location = new System.Drawing.Point(8, 127);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(92, 24);
 			this.butDelete.TabIndex = 6;
@@ -122,7 +122,7 @@ namespace OpenPmsDental {
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(280, 129);
+			this.butSave.Location = new System.Drawing.Point(278, 127);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 4;

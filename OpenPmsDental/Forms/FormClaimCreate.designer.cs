@@ -32,7 +32,7 @@ namespace OpenPmsDental {
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(667, 238);
+			this.butOK.Location = new System.Drawing.Point(679, 242);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(76, 26);
 			this.butOK.TabIndex = 5;
@@ -41,7 +41,7 @@ namespace OpenPmsDental {
 			// 
 			// labelRelat
 			// 
-			this.labelRelat.Location = new System.Drawing.Point(563, 17);
+			this.labelRelat.Location = new System.Drawing.Point(563, 8);
 			this.labelRelat.Name = "labelRelat";
 			this.labelRelat.Size = new System.Drawing.Size(192, 20);
 			this.labelRelat.TabIndex = 8;
@@ -50,14 +50,14 @@ namespace OpenPmsDental {
 			// 
 			// listRelat
 			// 
-			this.listRelat.Location = new System.Drawing.Point(565, 38);
+			this.listRelat.Location = new System.Drawing.Point(565, 32);
 			this.listRelat.Name = "listRelat";
 			this.listRelat.Size = new System.Drawing.Size(180, 186);
 			this.listRelat.TabIndex = 9;
 			// 
 			// gridMain
 			// 
-			this.gridMain.Location = new System.Drawing.Point(8, 38);
+			this.gridMain.Location = new System.Drawing.Point(8, 32);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.Size = new System.Drawing.Size(551, 186);
 			this.gridMain.TabIndex = 10;
@@ -67,9 +67,9 @@ namespace OpenPmsDental {
 			// 
 			// checkShowPlansNotInUse
 			// 
-			this.checkShowPlansNotInUse.Location = new System.Drawing.Point(8, 19);
+			this.checkShowPlansNotInUse.Location = new System.Drawing.Point(8, 8);
 			this.checkShowPlansNotInUse.Name = "checkShowPlansNotInUse";
-			this.checkShowPlansNotInUse.Size = new System.Drawing.Size(378, 18);
+			this.checkShowPlansNotInUse.Size = new System.Drawing.Size(377, 20);
 			this.checkShowPlansNotInUse.TabIndex = 11;
 			this.checkShowPlansNotInUse.Text = "Show plans for family which are not in use by the current patient.";
 			this.checkShowPlansNotInUse.Click += new System.EventHandler(this.checkPlansNotInUse_Click);
@@ -77,7 +77,7 @@ namespace OpenPmsDental {
 			// FormClaimCreate
 			// 
 			this.AcceptButton = this.butOK;
-			this.ClientSize = new System.Drawing.Size(755, 276);
+			this.ClientSize = new System.Drawing.Size(763, 276);
 			this.Controls.Add(this.checkShowPlansNotInUse);
 			this.Controls.Add(this.gridMain);
 			this.Controls.Add(this.listRelat);

@@ -40,7 +40,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(453, 174);
+			this.butSave.Location = new System.Drawing.Point(457, 188);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 3;
@@ -49,16 +49,16 @@ namespace OpenPmsDental{
 			// 
 			// textDate
 			// 
-			this.textDate.Location = new System.Drawing.Point(107, 29);
+			this.textDate.Location = new System.Drawing.Point(107, 33);
 			this.textDate.Name = "textDate";
 			this.textDate.Size = new System.Drawing.Size(76, 20);
 			this.textDate.TabIndex = 5;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(9, 32);
+			this.label1.Location = new System.Drawing.Point(65, 33);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(96, 18);
+			this.label1.Size = new System.Drawing.Size(36, 23);
 			this.label1.TabIndex = 4;
 			this.label1.Text = "Date";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -66,7 +66,7 @@ namespace OpenPmsDental{
 			// butEditAnyway
 			// 
 			this.butEditAnyway.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butEditAnyway.Location = new System.Drawing.Point(288, 159);
+			this.butEditAnyway.Location = new System.Drawing.Point(288, 188);
 			this.butEditAnyway.Name = "butEditAnyway";
 			this.butEditAnyway.Size = new System.Drawing.Size(96, 24);
 			this.butEditAnyway.TabIndex = 53;
@@ -78,9 +78,9 @@ namespace OpenPmsDental{
 			// 
 			this.labelClaim.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.labelClaim.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.labelClaim.Location = new System.Drawing.Point(9, 110);
+			this.labelClaim.Location = new System.Drawing.Point(8, 114);
 			this.labelClaim.Name = "labelClaim";
-			this.labelClaim.Size = new System.Drawing.Size(295, 73);
+			this.labelClaim.Size = new System.Drawing.Size(295, 47);
 			this.labelClaim.TabIndex = 52;
 			this.labelClaim.Text = "A procedure is attached to a claim, so certain fields should not be edited.  You " +
     "should reprint the claim if any significant changes are made.";
@@ -89,9 +89,9 @@ namespace OpenPmsDental{
 			// 
 			// butToday
 			// 
-			this.butToday.Location = new System.Drawing.Point(193, 27);
+			this.butToday.Location = new System.Drawing.Point(189, 33);
 			this.butToday.Name = "butToday";
-			this.butToday.Size = new System.Drawing.Size(72, 22);
+			this.butToday.Size = new System.Drawing.Size(72, 23);
 			this.butToday.TabIndex = 54;
 			this.butToday.Text = "Today";
 			this.butToday.Visible = false;
@@ -99,25 +99,25 @@ namespace OpenPmsDental{
 			// 
 			// comboProv
 			// 
-			this.comboProv.Location = new System.Drawing.Point(107, 57);
+			this.comboProv.Location = new System.Drawing.Point(107, 60);
 			this.comboProv.Name = "comboProv";
-			this.comboProv.Size = new System.Drawing.Size(133, 21);
+			this.comboProv.Size = new System.Drawing.Size(132, 23);
 			this.comboProv.TabIndex = 178;
 			// 
 			// butMoreProvs
 			// 
-			this.butMoreProvs.Location = new System.Drawing.Point(243, 56);
+			this.butMoreProvs.Location = new System.Drawing.Point(245, 60);
 			this.butMoreProvs.Name = "butMoreProvs";
-			this.butMoreProvs.Size = new System.Drawing.Size(19, 22);
+			this.butMoreProvs.Size = new System.Drawing.Size(19, 23);
 			this.butMoreProvs.TabIndex = 176;
 			this.butMoreProvs.Text = "...";
 			this.butMoreProvs.Click += new System.EventHandler(this.butMoreProvs_Click);
 			// 
 			// labelClinic
 			// 
-			this.labelClinic.Location = new System.Drawing.Point(6, 90);
+			this.labelClinic.Location = new System.Drawing.Point(57, 87);
 			this.labelClinic.Name = "labelClinic";
-			this.labelClinic.Size = new System.Drawing.Size(96, 14);
+			this.labelClinic.Size = new System.Drawing.Size(44, 23);
 			this.labelClinic.TabIndex = 175;
 			this.labelClinic.Text = "Clinic";
 			this.labelClinic.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -125,25 +125,25 @@ namespace OpenPmsDental{
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(7, 59);
+			this.label2.Location = new System.Drawing.Point(45, 60);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(96, 18);
+			this.label2.Size = new System.Drawing.Size(56, 23);
 			this.label2.TabIndex = 174;
 			this.label2.Text = "Provider";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// comboClinic
 			// 
-			this.comboClinic.Location = new System.Drawing.Point(107, 86);
+			this.comboClinic.Location = new System.Drawing.Point(107, 87);
 			this.comboClinic.Name = "comboClinic";
-			this.comboClinic.Size = new System.Drawing.Size(133, 21);
+			this.comboClinic.Size = new System.Drawing.Size(132, 23);
 			this.comboClinic.TabIndex = 179;
 			this.comboClinic.Visible = false;
 			this.comboClinic.SelectionChangeCommitted += new System.EventHandler(this.comboClinic_SelectionChangeCommitted);
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(12, 0);
+			this.label3.Location = new System.Drawing.Point(8, 8);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(516, 23);
 			this.label3.TabIndex = 180;
@@ -154,7 +154,7 @@ namespace OpenPmsDental{
 			// FormProcEditAll
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(540, 210);
+			this.ClientSize = new System.Drawing.Size(540, 220);
 			this.Controls.Add(this.label3);
 			this.Controls.Add(this.comboClinic);
 			this.Controls.Add(this.comboProv);

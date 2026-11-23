@@ -34,9 +34,9 @@
 			// 
 			// labelDragToOrder
 			// 
-			this.labelDragToOrder.Location = new System.Drawing.Point(3, 13);
+			this.labelDragToOrder.Location = new System.Drawing.Point(8, 11);
 			this.labelDragToOrder.Name = "labelDragToOrder";
-			this.labelDragToOrder.Size = new System.Drawing.Size(240, 18);
+			this.labelDragToOrder.Size = new System.Drawing.Size(256, 18);
 			this.labelDragToOrder.TabIndex = 0;
 			this.labelDragToOrder.Text = "Mobile order will not affect desktop tab order.";
 			this.labelDragToOrder.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -49,8 +49,8 @@
 			// checkUseMobileLayout
 			// 
 			this.checkUseMobileLayout.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkUseMobileLayout.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkUseMobileLayout.Location = new System.Drawing.Point(243, 14);
+			this.checkUseMobileLayout.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkUseMobileLayout.Location = new System.Drawing.Point(276, 11);
 			this.checkUseMobileLayout.Name = "checkUseMobileLayout";
 			this.checkUseMobileLayout.Size = new System.Drawing.Size(133, 18);
 			this.checkUseMobileLayout.TabIndex = 88;
@@ -60,7 +60,7 @@
 			// butAddHeader
 			// 
 			this.butAddHeader.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butAddHeader.Location = new System.Drawing.Point(382, 10);
+			this.butAddHeader.Location = new System.Drawing.Point(417, 8);
 			this.butAddHeader.Name = "butAddHeader";
 			this.butAddHeader.Size = new System.Drawing.Size(75, 23);
 			this.butAddHeader.TabIndex = 89;
@@ -71,7 +71,7 @@
 			// butOrderFields
 			// 
 			this.butOrderFields.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOrderFields.Location = new System.Drawing.Point(488, 10);
+			this.butOrderFields.Location = new System.Drawing.Point(498, 8);
 			this.butOrderFields.Name = "butOrderFields";
 			this.butOrderFields.Size = new System.Drawing.Size(152, 23);
 			this.butOrderFields.TabIndex = 90;

@@ -42,7 +42,7 @@ namespace OpenPmsDental {
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(716, 425);
+			this.butSave.Location = new System.Drawing.Point(720, 429);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 26);
 			this.butSave.TabIndex = 2;
@@ -51,40 +51,40 @@ namespace OpenPmsDental {
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(29,35);
+			this.label2.Location = new System.Drawing.Point(54,8);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(100,18);
+			this.label2.Size = new System.Drawing.Size(72,23);
 			this.label2.TabIndex = 3;
 			this.label2.Text = "Description";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textDescription
 			// 
-			this.textDescription.Location = new System.Drawing.Point(132,30);
+			this.textDescription.Location = new System.Drawing.Point(132,8);
 			this.textDescription.Name = "textDescription";
-			this.textDescription.Size = new System.Drawing.Size(346,20);
+			this.textDescription.Size = new System.Drawing.Size(344,23);
 			this.textDescription.TabIndex = 0;
 			// 
 			// label7
 			// 
-			this.label7.Location = new System.Drawing.Point(43,56);
+			this.label7.Location = new System.Drawing.Point(39,35);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(87,103);
+			this.label7.Size = new System.Drawing.Size(87,90);
 			this.label7.TabIndex = 7;
 			this.label7.Text = "Body of Letter (do not include the address, greeting, or closing)";
-			this.label7.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textBody
 			// 
 			this.textBody.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
 						| System.Windows.Forms.AnchorStyles.Left) 
 						| System.Windows.Forms.AnchorStyles.Right)));
-			this.textBody.Location = new System.Drawing.Point(132,56);
+			this.textBody.Location = new System.Drawing.Point(132,35);
 			this.textBody.Multiline = true;
 			this.textBody.Name = "textBody";
 			this.textBody.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Letter;
 			this.textBody.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textBody.Size = new System.Drawing.Size(659,363);
+			this.textBody.Size = new System.Drawing.Size(663,386);
 			this.textBody.TabIndex = 8;
 			// 
 			// FormLetterEdit

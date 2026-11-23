@@ -202,6 +202,12 @@ namespace UiRefreshTests {
 		///which the harness does not run): FormAutoNotes' tree (groups with notes, one expanded, one selected), FormQuery's result grid (columns,
 		///rows and its caption) and FormProcButtons' list of buttons
 		///(a category selected, as SetVisibility shows a category other than the quick buttons).</summary>
+		///<summary>UI-12 slice 6: the windows whose pictures show the run-time texts of their placeholder labels (FillSampleContent).</summary>
+		private static List<string> _listRuntimeTextWindows=new List<string> {
+			"OpenPmsDental.FormDatabaseMaintInvalidChars","OpenPmsDental.FormMaintHistory","OpenPmsDental.FormMaintRecordEdit",
+			"OpenPmsDental.FormTreatPlanAddProcs","OpenPmsDental.FormSupplyStock","OpenPmsDental.FormPrinterEdit","OpenPmsDental.FormTerminalManager"
+		};
+
 		public static void FillSampleContent(Control root,string window,string state="") {
 			if(window=="OpenPmsDental.FormAutoNotes" && FindByName(root,"treeNotes") is TreeView treeView) {
 				treeView.Nodes.Clear();
@@ -266,6 +272,15 @@ namespace UiRefreshTests {
 				//UI-12 slice 1: FillSummary shows the discount plan summary (a patient with a discount plan) or the family and individual insurance
 				//summaries, never both; the discount summary stands on the family summary's place. The picture shows the insurance summaries.
 				controlDiscount.Visible=false;
+			}
+			if(_listRuntimeTextWindows.Contains(window)) {
+				//UI-12 slice 6: Load gives these labels their text (the designer's is a placeholder or empty), and their rows stand where that text
+				//goes; the picture shows the first text of each label in grid-runtime-texts (the one the layout script sized it for).
+				foreach(string[] arrayRow in GridRulesTests.ReadRuntimeTexts().Where(x => x[0]==window)) {
+					if(FindByName(root,arrayRow[1]) is Label label && !label.Text.Contains(" ")) {
+						label.Text=arrayRow[2].Replace("\\n","\r\n");
+					}
+				}
 			}
 			if(window=="OpenPmsDental.FormTaskEdit" && FindByName(root,"groupReminder") is Control groupReminder && FindByName(root,"panelRepeating") is Control panelRepeating) {
 				//UI-12 slice 2 continuation: LoadTask shows the reminder group or the repeating panel (TasksUseRepeating, off by default), both on one

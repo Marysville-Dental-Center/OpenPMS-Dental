@@ -32,9 +32,9 @@ namespace OpenPmsDental {
 			//
 			this.labelPlan.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelPlan.Location = new System.Drawing.Point(12, 9);
+			this.labelPlan.Location = new System.Drawing.Point(8, 8);
 			this.labelPlan.Name = "labelPlan";
-			this.labelPlan.Size = new System.Drawing.Size(876, 18);
+			this.labelPlan.Size = new System.Drawing.Size(884, 18);
 			this.labelPlan.TabIndex = 0;
 			this.labelPlan.Text = "labelPlan";
 			this.labelPlan.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -43,7 +43,7 @@ namespace OpenPmsDental {
 			//
 			this.gridQuick.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Left)));
-			this.gridQuick.Location = new System.Drawing.Point(12, 32);
+			this.gridQuick.Location = new System.Drawing.Point(8, 28);
 			this.gridQuick.Name = "gridQuick";
 			this.gridQuick.Size = new System.Drawing.Size(200, 330);
 			this.gridQuick.TabIndex = 1;
@@ -54,17 +54,17 @@ namespace OpenPmsDental {
 			// labelCode
 			//
 			this.labelCode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.labelCode.Location = new System.Drawing.Point(12, 370);
+			this.labelCode.Location = new System.Drawing.Point(8, 362);
 			this.labelCode.Name = "labelCode";
-			this.labelCode.Size = new System.Drawing.Size(40, 20);
+			this.labelCode.Size = new System.Drawing.Size(40, 23);
 			this.labelCode.TabIndex = 2;
 			this.labelCode.Text = "Code";
-			this.labelCode.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.labelCode.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			//
 			// textCode
 			//
 			this.textCode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.textCode.Location = new System.Drawing.Point(54, 370);
+			this.textCode.Location = new System.Drawing.Point(54, 362);
 			this.textCode.Name = "textCode";
 			this.textCode.Size = new System.Drawing.Size(88, 20);
 			this.textCode.TabIndex = 3;
@@ -73,9 +73,9 @@ namespace OpenPmsDental {
 			// butAddCode
 			//
 			this.butAddCode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butAddCode.Location = new System.Drawing.Point(148, 368);
+			this.butAddCode.Location = new System.Drawing.Point(148, 362);
 			this.butAddCode.Name = "butAddCode";
-			this.butAddCode.Size = new System.Drawing.Size(64, 24);
+			this.butAddCode.Size = new System.Drawing.Size(60, 23);
 			this.butAddCode.TabIndex = 4;
 			this.butAddCode.Text = "Add";
 			this.butAddCode.Click += new System.EventHandler(this.butAddCode_Click);
@@ -83,7 +83,7 @@ namespace OpenPmsDental {
 			// butSearch
 			//
 			this.butSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butSearch.Location = new System.Drawing.Point(12, 400);
+			this.butSearch.Location = new System.Drawing.Point(8, 389);
 			this.butSearch.Name = "butSearch";
 			this.butSearch.Size = new System.Drawing.Size(200, 24);
 			this.butSearch.TabIndex = 5;
@@ -96,10 +96,10 @@ namespace OpenPmsDental {
             | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridMain.EditableEnterMovesDown = true;
-			this.gridMain.Location = new System.Drawing.Point(222, 32);
+			this.gridMain.Location = new System.Drawing.Point(216, 28);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.OneCell;
-			this.gridMain.Size = new System.Drawing.Size(666, 392);
+			this.gridMain.Size = new System.Drawing.Size(676, 392);
 			this.gridMain.TabIndex = 6;
 			this.gridMain.Title = "Procedures to Add";
 			this.gridMain.TranslationName = "TableTreatPlanAddProcs";
@@ -108,9 +108,9 @@ namespace OpenPmsDental {
 			// butRemove
 			//
 			this.butRemove.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butRemove.Location = new System.Drawing.Point(222, 432);
+			this.butRemove.Location = new System.Drawing.Point(216, 424);
 			this.butRemove.Name = "butRemove";
-			this.butRemove.Size = new System.Drawing.Size(75, 24);
+			this.butRemove.Size = new System.Drawing.Size(75, 23);
 			this.butRemove.TabIndex = 7;
 			this.butRemove.Text = "Remove";
 			this.butRemove.Click += new System.EventHandler(this.butRemove_Click);
@@ -118,9 +118,9 @@ namespace OpenPmsDental {
 			// labelPriority
 			//
 			this.labelPriority.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.labelPriority.Location = new System.Drawing.Point(310, 434);
+			this.labelPriority.Location = new System.Drawing.Point(307, 424);
 			this.labelPriority.Name = "labelPriority";
-			this.labelPriority.Size = new System.Drawing.Size(60, 20);
+			this.labelPriority.Size = new System.Drawing.Size(52, 23);
 			this.labelPriority.TabIndex = 8;
 			this.labelPriority.Text = "Priority";
 			this.labelPriority.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -128,25 +128,25 @@ namespace OpenPmsDental {
 			// comboPriority
 			//
 			this.comboPriority.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.comboPriority.Location = new System.Drawing.Point(374, 434);
+			this.comboPriority.Location = new System.Drawing.Point(365, 424);
 			this.comboPriority.Name = "comboPriority";
-			this.comboPriority.Size = new System.Drawing.Size(150, 21);
+			this.comboPriority.Size = new System.Drawing.Size(152, 23);
 			this.comboPriority.TabIndex = 9;
 			//
 			// labelHelp
 			//
 			this.labelHelp.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelHelp.Location = new System.Drawing.Point(12, 466);
+			this.labelHelp.Location = new System.Drawing.Point(8, 451);
 			this.labelHelp.Name = "labelHelp";
-			this.labelHelp.Size = new System.Drawing.Size(760, 52);
+			this.labelHelp.Size = new System.Drawing.Size(760, 47);
 			this.labelHelp.TabIndex = 10;
 			this.labelHelp.Text = "Tooth: one tooth, a list (3,5) or a range (3-5). Surf/Area: surfaces (MOD), a quadrant (UR, UL, LR, LL), an arch (U, L) or a sextant (1-6). A tooth or surface code typed for several teeth adds one procedure per tooth. The procedures are added as treatment planned with the fees and estimates of Chart entry.";
 			//
 			// butOK
 			//
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(788, 520);
+			this.butOK.Location = new System.Drawing.Point(792, 524);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(100, 24);
 			this.butOK.TabIndex = 11;

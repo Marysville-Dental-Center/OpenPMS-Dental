@@ -43,23 +43,23 @@ namespace OpenPmsDental{
 			// 
 			this.textWirelessPhone.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textWirelessPhone.Location = new System.Drawing.Point(219, 91);
+			this.textWirelessPhone.Location = new System.Drawing.Point(229, 91);
 			this.textWirelessPhone.Name = "textWirelessPhone";
 			this.textWirelessPhone.Size = new System.Drawing.Size(140, 20);
 			this.textWirelessPhone.TabIndex = 4;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(216, 68);
+			this.label1.Location = new System.Drawing.Point(229, 67);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(136, 20);
+			this.label1.Size = new System.Drawing.Size(140, 20);
 			this.label1.TabIndex = 6;
 			this.label1.Text = "Wireless Phone Number";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(25, 158);
+			this.label2.Location = new System.Drawing.Point(8, 145);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(86, 20);
 			this.label2.TabIndex = 6;
@@ -68,10 +68,10 @@ namespace OpenPmsDental{
 			// 
 			// radioPatient
 			// 
-			this.radioPatient.Location = new System.Drawing.Point(6, 18);
+			this.radioPatient.Location = new System.Drawing.Point(8, 23);
 			this.radioPatient.Name = "radioPatient";
 			this.radioPatient.RightToLeft = System.Windows.Forms.RightToLeft.No;
-			this.radioPatient.Size = new System.Drawing.Size(120, 17);
+			this.radioPatient.Size = new System.Drawing.Size(62, 20);
 			this.radioPatient.TabIndex = 1;
 			this.radioPatient.TabStop = true;
 			this.radioPatient.Text = "Patient";
@@ -80,10 +80,10 @@ namespace OpenPmsDental{
 			// 
 			// radioOther
 			// 
-			this.radioOther.Location = new System.Drawing.Point(132, 18);
+			this.radioOther.Location = new System.Drawing.Point(132, 23);
 			this.radioOther.Name = "radioOther";
 			this.radioOther.RightToLeft = System.Windows.Forms.RightToLeft.No;
-			this.radioOther.Size = new System.Drawing.Size(120, 17);
+			this.radioOther.Size = new System.Drawing.Size(107, 20);
 			this.radioOther.TabIndex = 2;
 			this.radioOther.TabStop = true;
 			this.radioOther.Text = "Another Person";
@@ -96,24 +96,24 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.groupRecipient.Controls.Add(this.radioPatient);
 			this.groupRecipient.Controls.Add(this.radioOther);
-			this.groupRecipient.Location = new System.Drawing.Point(28, 13);
+			this.groupRecipient.Location = new System.Drawing.Point(8, 8);
 			this.groupRecipient.Name = "groupRecipient";
-			this.groupRecipient.Size = new System.Drawing.Size(331, 43);
+			this.groupRecipient.Size = new System.Drawing.Size(361, 51);
 			this.groupRecipient.TabIndex = 9;
 			this.groupRecipient.TabStop = false;
 			this.groupRecipient.Text = "Choose one of the following options:";
 			// 
 			// textPatient
 			// 
-			this.textPatient.Location = new System.Drawing.Point(28, 91);
+			this.textPatient.Location = new System.Drawing.Point(8, 91);
 			this.textPatient.Name = "textPatient";
 			this.textPatient.ReadOnly = true;
-			this.textPatient.Size = new System.Drawing.Size(185, 20);
+			this.textPatient.Size = new System.Drawing.Size(215, 23);
 			this.textPatient.TabIndex = 3;
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(25, 67);
+			this.label4.Location = new System.Drawing.Point(8, 67);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(70, 20);
 			this.label4.TabIndex = 163;
@@ -122,9 +122,9 @@ namespace OpenPmsDental{
 			// 
 			// butPatFind
 			// 
-			this.butPatFind.Location = new System.Drawing.Point(28, 117);
+			this.butPatFind.Location = new System.Drawing.Point(8, 118);
 			this.butPatFind.Name = "butPatFind";
-			this.butPatFind.Size = new System.Drawing.Size(63, 24);
+			this.butPatFind.Size = new System.Drawing.Size(63, 23);
 			this.butPatFind.TabIndex = 5;
 			this.butPatFind.Text = "Find";
 			this.butPatFind.Click += new System.EventHandler(this.butPatFind_Click);
@@ -138,18 +138,18 @@ namespace OpenPmsDental{
 			this.textMessage.BackColor = System.Drawing.SystemColors.Window;
 			this.textMessage.DetectLinksEnabled = false;
 			this.textMessage.DetectUrls = false;
-			this.textMessage.Location = new System.Drawing.Point(28, 181);
+			this.textMessage.Location = new System.Drawing.Point(8, 167);
 			this.textMessage.Name = "textMessage";
 			this.textMessage.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.TxtMsg;
 			this.textMessage.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textMessage.Size = new System.Drawing.Size(331, 113);
+			this.textMessage.Size = new System.Drawing.Size(361, 113);
 			this.textMessage.TabIndex = 6;
 			this.textMessage.Text = "";
 			// 
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(284, 303);
+			this.butOK.Location = new System.Drawing.Point(294, 307);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 24);
 			this.butOK.TabIndex = 7;
@@ -158,12 +158,12 @@ namespace OpenPmsDental{
 			// 
 			// labelCharCount
 			// 
-			this.labelCharCount.Location = new System.Drawing.Point(190, 135);
+			this.labelCharCount.Location = new System.Drawing.Point(210, 118);
 			this.labelCharCount.Name = "labelCharCount";
-			this.labelCharCount.Size = new System.Drawing.Size(115, 17);
+			this.labelCharCount.Size = new System.Drawing.Size(100, 23);
 			this.labelCharCount.TabIndex = 164;
 			this.labelCharCount.Text = "Character Count";
-			this.labelCharCount.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.labelCharCount.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textCharCount
 			// 
@@ -171,12 +171,12 @@ namespace OpenPmsDental{
 			this.textCharCount.BackColor = System.Drawing.SystemColors.Control;
 			this.textCharCount.DetectLinksEnabled = false;
 			this.textCharCount.DetectUrls = false;
-			this.textCharCount.Location = new System.Drawing.Point(306, 132);
+			this.textCharCount.Location = new System.Drawing.Point(316, 118);
 			this.textCharCount.Name = "textCharCount";
 			this.textCharCount.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.TxtMsg;
 			this.textCharCount.ReadOnly = true;
 			this.textCharCount.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textCharCount.Size = new System.Drawing.Size(53, 20);
+			this.textCharCount.Size = new System.Drawing.Size(53, 23);
 			this.textCharCount.TabIndex = 166;
 			this.textCharCount.TabStop = false;
 			this.textCharCount.Text = "0";

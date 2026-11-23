@@ -2410,6 +2410,9 @@ def apply_row(text, control, prop, new):
         x, y = new.split(",")
         pat = re.compile(r"(%sLocation ?= ?new System\.Drawing\.Point\()(-?\d+)(, ?)(-?\d+)(\))" % re.escape(target))
         ms = list(pat.finditer(text))
+        if not ms and control != ".":
+            # UI-12 slice 6: a control the designer declares as a local of InitializeComponent (FormAutomationEdit's butDelete) has no "this.".
+            ms = list(re.compile(r"(?<![\w.])(%s\.Location ?= ?new System\.Drawing\.Point\()(-?\d+)(, ?)(-?\d+)(\))" % re.escape(control)).finditer(text))
         if len(ms) == 1:
             m = ms[0]
             return text[:m.start(2)] + x + m.group(3) + y + text[m.end(4):], None
@@ -2420,6 +2423,9 @@ def apply_row(text, control, prop, new):
         w, h = new.split(",")
         pat = re.compile(r"(%s%s ?= ?new System\.Drawing\.Size\()(\d+)(, ?)(\d+)(\))" % (re.escape(target), prop))
         ms = list(pat.finditer(text))
+        if not ms and control != ".":
+            # UI-12 slice 6: a local of InitializeComponent (above).
+            ms = list(re.compile(r"(?<![\w.])(%s\.%s ?= ?new System\.Drawing\.Size\()(\d+)(, ?)(\d+)(\))" % (re.escape(control), prop)).finditer(text))
         if len(ms) == 1:
             m = ms[0]
             return text[:m.start(2)] + w + m.group(3) + h + text[m.end(4):], None

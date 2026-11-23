@@ -38,7 +38,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridMain.HScrollVisible = true;
-			this.gridMain.Location = new System.Drawing.Point(2, 2);
+			this.gridMain.Location = new System.Drawing.Point(8, 8);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.Size = new System.Drawing.Size(559, 527);
 			this.gridMain.TabIndex = 10;
@@ -51,17 +51,17 @@
 			// 
 			this.textFName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.textFName.AutoSize = false;
-			this.textFName.Location = new System.Drawing.Point(646, 135);
+			this.textFName.Location = new System.Drawing.Point(646, 35);
 			this.textFName.Name = "textFName";
-			this.textFName.Size = new System.Drawing.Size(124, 20);
+			this.textFName.Size = new System.Drawing.Size(119, 23);
 			this.textFName.TabIndex = 12;
 			// 
 			// label3
 			// 
 			this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.label3.Location = new System.Drawing.Point(566, 139);
+			this.label3.Location = new System.Drawing.Point(572, 35);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(79, 12);
+			this.label3.Size = new System.Drawing.Size(68, 23);
 			this.label3.TabIndex = 14;
 			this.label3.Text = "First Name";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -70,17 +70,17 @@
 			// 
 			this.textLName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.textLName.AutoSize = false;
-			this.textLName.Location = new System.Drawing.Point(646, 115);
+			this.textLName.Location = new System.Drawing.Point(646, 8);
 			this.textLName.Name = "textLName";
-			this.textLName.Size = new System.Drawing.Size(124, 20);
+			this.textLName.Size = new System.Drawing.Size(119, 23);
 			this.textLName.TabIndex = 11;
 			// 
 			// label1
 			// 
 			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.label1.Location = new System.Drawing.Point(563, 118);
+			this.label1.Location = new System.Drawing.Point(572, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(82, 12);
+			this.label1.Size = new System.Drawing.Size(68, 23);
 			this.label1.TabIndex = 13;
 			this.label1.Text = "Last Name";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -88,7 +88,7 @@
 			// butSearch
 			// 
 			this.butSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSearch.Location = new System.Drawing.Point(686, 200);
+			this.butSearch.Location = new System.Drawing.Point(690, 62);
 			this.butSearch.Name = "butSearch";
 			this.butSearch.Size = new System.Drawing.Size(75, 23);
 			this.butSearch.TabIndex = 15;
@@ -99,7 +99,7 @@
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(666, 495);
+			this.butOK.Location = new System.Drawing.Point(690, 547);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 23);
 			this.butOK.TabIndex = 16;
@@ -110,7 +110,7 @@
 			// FormEhrPatientSelectSimple
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(773, 530);
+			this.ClientSize = new System.Drawing.Size(773, 578);
 			this.Controls.Add(this.butOK);
 			this.Controls.Add(this.butSearch);
 			this.Controls.Add(this.textFName);

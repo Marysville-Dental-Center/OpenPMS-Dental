@@ -37,9 +37,9 @@
 			this.gridLabs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridLabs.Location = new System.Drawing.Point(12, 163);
+			this.gridLabs.Location = new System.Drawing.Point(8, 156);
 			this.gridLabs.Name = "gridLabs";
-			this.gridLabs.Size = new System.Drawing.Size(800, 188);
+			this.gridLabs.Size = new System.Drawing.Size(808, 188);
 			this.gridLabs.TabIndex = 5;
 			this.gridLabs.Title = "Labs";
 			this.gridLabs.TranslationName = "TableLabs";
@@ -47,7 +47,7 @@
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(737, 357);
+			this.butOK.Location = new System.Drawing.Point(741, 377);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 23);
 			this.butOK.TabIndex = 10;
@@ -58,28 +58,28 @@
 			// butPatSelect
 			// 
 			this.butPatSelect.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butPatSelect.Location = new System.Drawing.Point(368, 9);
+			this.butPatSelect.Location = new System.Drawing.Point(367, 8);
 			this.butPatSelect.Name = "butPatSelect";
-			this.butPatSelect.Size = new System.Drawing.Size(29, 25);
+			this.butPatSelect.Size = new System.Drawing.Size(29, 23);
 			this.butPatSelect.TabIndex = 231;
 			this.butPatSelect.Text = "...";
 			this.butPatSelect.Click += new System.EventHandler(this.butPatSelect_Click);
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(12, 14);
+			this.label5.Location = new System.Drawing.Point(63, 8);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(154, 17);
+			this.label5.Size = new System.Drawing.Size(100, 23);
 			this.label5.TabIndex = 230;
 			this.label5.Text = "Attached Patient";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textName
 			// 
-			this.textName.Location = new System.Drawing.Point(169, 12);
+			this.textName.Location = new System.Drawing.Point(169, 8);
 			this.textName.Name = "textName";
 			this.textName.ReadOnly = true;
-			this.textName.Size = new System.Drawing.Size(193, 20);
+			this.textName.Size = new System.Drawing.Size(192, 23);
 			this.textName.TabIndex = 229;
 			this.textName.WordWrap = false;
 			// 
@@ -87,7 +87,7 @@
 			// 
 			this.labelExistingLab.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelExistingLab.ForeColor = System.Drawing.Color.Red;
-			this.labelExistingLab.Location = new System.Drawing.Point(352, 360);
+			this.labelExistingLab.Location = new System.Drawing.Point(352, 348);
 			this.labelExistingLab.Name = "labelExistingLab";
 			this.labelExistingLab.Size = new System.Drawing.Size(386, 17);
 			this.labelExistingLab.TabIndex = 250;
@@ -99,9 +99,9 @@
 			// 
 			this.gridPidInfo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridPidInfo.Location = new System.Drawing.Point(12, 40);
+			this.gridPidInfo.Location = new System.Drawing.Point(8, 35);
 			this.gridPidInfo.Name = "gridPidInfo";
-			this.gridPidInfo.Size = new System.Drawing.Size(800, 117);
+			this.gridPidInfo.Size = new System.Drawing.Size(808, 117);
 			this.gridPidInfo.TabIndex = 251;
 			this.gridPidInfo.Title = "Patient Information From Message(s)";
 			this.gridPidInfo.TranslationName = "TablePatientInformation";
@@ -109,7 +109,7 @@
 			// FormMedLabPatSelect
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(824, 392);
+			this.ClientSize = new System.Drawing.Size(824, 408);
 			this.Controls.Add(this.gridPidInfo);
 			this.Controls.Add(this.labelExistingLab);
 			this.Controls.Add(this.butPatSelect);

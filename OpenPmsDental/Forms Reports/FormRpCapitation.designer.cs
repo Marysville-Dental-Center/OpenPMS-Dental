@@ -46,7 +46,7 @@ namespace OpenPmsDental {
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(518, 100);
+			this.butOK.Location = new System.Drawing.Point(522, 104);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 26);
 			this.butOK.TabIndex = 1;
@@ -55,48 +55,48 @@ namespace OpenPmsDental {
 			// 
 			// textDateStart
 			// 
-			this.textDateStart.Location = new System.Drawing.Point(308, 45);
+			this.textDateStart.Location = new System.Drawing.Point(310, 35);
 			this.textDateStart.Name = "textDateStart";
 			this.textDateStart.Size = new System.Drawing.Size(100, 20);
 			this.textDateStart.TabIndex = 45;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(222, 47);
+			this.label2.Location = new System.Drawing.Point(236, 35);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(82, 18);
+			this.label2.Size = new System.Drawing.Size(68, 23);
 			this.label2.TabIndex = 44;
 			this.label2.Text = "From Date";
-			this.label2.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textDateEnd
 			// 
-			this.textDateEnd.Location = new System.Drawing.Point(308, 71);
+			this.textDateEnd.Location = new System.Drawing.Point(310, 62);
 			this.textDateEnd.Name = "textDateEnd";
 			this.textDateEnd.Size = new System.Drawing.Size(100, 20);
 			this.textDateEnd.TabIndex = 47;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(222, 73);
+			this.label1.Location = new System.Drawing.Point(252, 62);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(82, 18);
+			this.label1.Size = new System.Drawing.Size(52, 23);
 			this.label1.TabIndex = 46;
 			this.label1.Text = "To Date";
-			this.label1.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textCarrier
 			// 
-			this.textCarrier.Location = new System.Drawing.Point(308, 16);
+			this.textCarrier.Location = new System.Drawing.Point(310, 8);
 			this.textCarrier.Name = "textCarrier";
-			this.textCarrier.Size = new System.Drawing.Size(285, 20);
+			this.textCarrier.Size = new System.Drawing.Size(287, 23);
 			this.textCarrier.TabIndex = 48;
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(7, 19);
+			this.label3.Location = new System.Drawing.Point(8, 8);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(299, 17);
+			this.label3.Size = new System.Drawing.Size(296, 23);
 			this.label3.TabIndex = 49;
 			this.label3.Text = "Enter a few letters of the name of the insurance carrier";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

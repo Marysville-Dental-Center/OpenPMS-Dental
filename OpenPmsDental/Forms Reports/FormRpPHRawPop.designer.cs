@@ -33,7 +33,7 @@ namespace OpenPmsDental {
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(657, 358);
+			this.butOK.Location = new System.Drawing.Point(682, 362);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 26);
 			this.butOK.TabIndex = 3;
@@ -42,42 +42,42 @@ namespace OpenPmsDental {
 			// 
 			// date2
 			// 
-			this.date2.Location = new System.Drawing.Point(290, 67);
+			this.date2.Location = new System.Drawing.Point(242, 8);
 			this.date2.MaxSelectionCount = 1;
 			this.date2.Name = "date2";
 			this.date2.TabIndex = 2;
 			// 
 			// date1
 			// 
-			this.date1.Location = new System.Drawing.Point(34, 67);
+			this.date1.Location = new System.Drawing.Point(8, 8);
 			this.date1.MaxSelectionCount = 1;
 			this.date1.Name = "date1";
 			this.date1.TabIndex = 1;
 			// 
 			// labelTO
 			// 
-			this.labelTO.Location = new System.Drawing.Point(240, 75);
+			this.labelTO.Location = new System.Drawing.Point(206, 8);
 			this.labelTO.Name = "labelTO";
-			this.labelTO.Size = new System.Drawing.Size(69, 23);
+			this.labelTO.Size = new System.Drawing.Size(28, 23);
 			this.labelTO.TabIndex = 28;
 			this.labelTO.Text = "TO";
-			this.labelTO.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+			this.labelTO.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(537, 24);
+			this.label1.Location = new System.Drawing.Point(448, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(195, 43);
+			this.label1.Size = new System.Drawing.Size(195, 47);
 			this.label1.TabIndex = 29;
 			this.label1.Text = "Adjustment types for broken appointments (hold down the control key to select mul" +
     "tiple)";
 			// 
 			// listAdjType
 			// 
-			this.listAdjType.Location = new System.Drawing.Point(538, 67);
+			this.listAdjType.Location = new System.Drawing.Point(448, 57);
 			this.listAdjType.Name = "listAdjType";
 			this.listAdjType.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
-			this.listAdjType.Size = new System.Drawing.Size(149, 238);
+			this.listAdjType.Size = new System.Drawing.Size(195, 238);
 			this.listAdjType.TabIndex = 30;
 			// 
 			// FormRpPHRawPop

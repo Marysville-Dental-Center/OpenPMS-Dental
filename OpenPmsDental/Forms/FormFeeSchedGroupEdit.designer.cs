@@ -39,7 +39,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(492, 386);
+			this.butSave.Location = new System.Drawing.Point(506, 394);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 3;
@@ -48,16 +48,16 @@ namespace OpenPmsDental{
 			// 
 			// textDescription
 			// 
-			this.textDescription.Location = new System.Drawing.Point(230, 19);
+			this.textDescription.Location = new System.Drawing.Point(230, 8);
 			this.textDescription.Name = "textDescription";
-			this.textDescription.Size = new System.Drawing.Size(152, 20);
+			this.textDescription.Size = new System.Drawing.Size(157, 23);
 			this.textDescription.TabIndex = 4;
 			// 
 			// labelDescription
 			// 
-			this.labelDescription.Location = new System.Drawing.Point(124, 19);
+			this.labelDescription.Location = new System.Drawing.Point(152, 8);
 			this.labelDescription.Name = "labelDescription";
-			this.labelDescription.Size = new System.Drawing.Size(100, 20);
+			this.labelDescription.Size = new System.Drawing.Size(72, 23);
 			this.labelDescription.TabIndex = 5;
 			this.labelDescription.Text = "Description";
 			this.labelDescription.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -65,7 +65,7 @@ namespace OpenPmsDental{
 			// butRight
 			// 
 			this.butRight.Icon = OpenPmsDental.UI.EnumIcons.ArrowRight;
-			this.butRight.Location = new System.Drawing.Point(275, 173);
+			this.butRight.Location = new System.Drawing.Point(277, 194);
 			this.butRight.Name = "butRight";
 			this.butRight.Size = new System.Drawing.Size(35, 26);
 			this.butRight.TabIndex = 54;
@@ -75,7 +75,7 @@ namespace OpenPmsDental{
 			// 
 			this.butLeft.AdjustImageLocation = new System.Drawing.Point(-1, 0);
 			this.butLeft.Icon = OpenPmsDental.UI.EnumIcons.ArrowLeft;
-			this.butLeft.Location = new System.Drawing.Point(275, 205);
+			this.butLeft.Location = new System.Drawing.Point(277, 228);
 			this.butLeft.Name = "butLeft";
 			this.butLeft.Size = new System.Drawing.Size(35, 26);
 			this.butLeft.TabIndex = 55;
@@ -85,10 +85,10 @@ namespace OpenPmsDental{
 			// 
 			this.gridGroup.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-			this.gridGroup.Location = new System.Drawing.Point(334, 81);
+			this.gridGroup.Location = new System.Drawing.Point(320, 62);
 			this.gridGroup.Name = "gridGroup";
 			this.gridGroup.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridGroup.Size = new System.Drawing.Size(233, 291);
+			this.gridGroup.Size = new System.Drawing.Size(261, 324);
 			this.gridGroup.TabIndex = 56;
 			this.gridGroup.Title = "Clinics in Group";
 			this.gridGroup.TranslationName = "Table Group Clinics ";
@@ -97,10 +97,10 @@ namespace OpenPmsDental{
 			// 
 			this.gridAvailable.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-			this.gridAvailable.Location = new System.Drawing.Point(18, 81);
+			this.gridAvailable.Location = new System.Drawing.Point(8, 62);
 			this.gridAvailable.Name = "gridAvailable";
 			this.gridAvailable.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridAvailable.Size = new System.Drawing.Size(233, 291);
+			this.gridAvailable.Size = new System.Drawing.Size(261, 324);
 			this.gridAvailable.TabIndex = 57;
 			this.gridAvailable.Title = "Available Clinics";
 			this.gridAvailable.TranslationName = "Table Clinics Available";
@@ -110,35 +110,35 @@ namespace OpenPmsDental{
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(18, 386);
+			this.butDelete.Location = new System.Drawing.Point(8, 394);
 			this.butDelete.Name = "butDelete";
-			this.butDelete.Size = new System.Drawing.Size(83, 26);
+			this.butDelete.Size = new System.Drawing.Size(83, 24);
 			this.butDelete.TabIndex = 58;
 			this.butDelete.Text = "Delete";
 			this.butDelete.Click += new System.EventHandler(this.butDelete_Click);
 			// 
 			// comboFeeSched
 			// 
-			this.comboFeeSched.Location = new System.Drawing.Point(230, 45);
+			this.comboFeeSched.Location = new System.Drawing.Point(230, 35);
 			this.comboFeeSched.Name = "comboFeeSched";
-			this.comboFeeSched.Size = new System.Drawing.Size(126, 21);
+			this.comboFeeSched.Size = new System.Drawing.Size(128, 23);
 			this.comboFeeSched.TabIndex = 6;
 			this.comboFeeSched.SelectedIndexChanged += new System.EventHandler(this.comboFeeSched_SelectedIndexChanged);
 			// 
 			// labelFeeSched
 			// 
-			this.labelFeeSched.Location = new System.Drawing.Point(124, 45);
+			this.labelFeeSched.Location = new System.Drawing.Point(144, 35);
 			this.labelFeeSched.Name = "labelFeeSched";
-			this.labelFeeSched.Size = new System.Drawing.Size(100, 21);
+			this.labelFeeSched.Size = new System.Drawing.Size(80, 23);
 			this.labelFeeSched.TabIndex = 7;
 			this.labelFeeSched.Text = "Fee Schedule";
 			this.labelFeeSched.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// butPickFeeSched
 			// 
-			this.butPickFeeSched.Location = new System.Drawing.Point(359, 45);
+			this.butPickFeeSched.Location = new System.Drawing.Point(364, 35);
 			this.butPickFeeSched.Name = "butPickFeeSched";
-			this.butPickFeeSched.Size = new System.Drawing.Size(23, 21);
+			this.butPickFeeSched.Size = new System.Drawing.Size(23, 23);
 			this.butPickFeeSched.TabIndex = 59;
 			this.butPickFeeSched.Text = "...";
 			this.butPickFeeSched.Click += new System.EventHandler(this.butPickFeeSched_Click);

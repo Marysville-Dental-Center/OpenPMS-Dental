@@ -33,42 +33,42 @@ namespace OpenPmsDental {
 			//
 			// checkEnabled
 			//
-			this.checkEnabled.Location = new System.Drawing.Point(20, 14);
+			this.checkEnabled.Location = new System.Drawing.Point(8, 8);
 			this.checkEnabled.Name = "checkEnabled";
-			this.checkEnabled.Size = new System.Drawing.Size(420, 18);
+			this.checkEnabled.Size = new System.Drawing.Size(150, 20);
 			this.checkEnabled.TabIndex = 0;
 			this.checkEnabled.Text = "Inventory tracking is on";
 			//
 			// labelEnabled
 			//
-			this.labelEnabled.Location = new System.Drawing.Point(38, 34);
+			this.labelEnabled.Location = new System.Drawing.Point(24, 30);
 			this.labelEnabled.Name = "labelEnabled";
-			this.labelEnabled.Size = new System.Drawing.Size(400, 67);
+			this.labelEnabled.Size = new System.Drawing.Size(420, 66);
 			this.labelEnabled.TabIndex = 1;
 			this.labelEnabled.Text = "When a procedure whose code has default materials is completed, the Materials used window opens, and what is confirmed" +
     " there is deducted from stock. Low-stock and expiring alerts are raised. While it is off, nothing opens and nothing is deducted.";
 			//
 			// labelExpiryDays
 			//
-			this.labelExpiryDays.Location = new System.Drawing.Point(20, 102);
+			this.labelExpiryDays.Location = new System.Drawing.Point(8, 104);
 			this.labelExpiryDays.Name = "labelExpiryDays";
-			this.labelExpiryDays.Size = new System.Drawing.Size(224, 18);
+			this.labelExpiryDays.Size = new System.Drawing.Size(228, 23);
 			this.labelExpiryDays.TabIndex = 2;
 			this.labelExpiryDays.Text = "Expiring alert, days before the expiry date";
-			this.labelExpiryDays.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.labelExpiryDays.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			//
 			// textExpiryDays
 			//
-			this.textExpiryDays.Location = new System.Drawing.Point(244, 101);
+			this.textExpiryDays.Location = new System.Drawing.Point(242, 104);
 			this.textExpiryDays.MaxVal = 3650;
 			this.textExpiryDays.MinVal = 0;
 			this.textExpiryDays.Name = "textExpiryDays";
-			this.textExpiryDays.Size = new System.Drawing.Size(50, 20);
+			this.textExpiryDays.Size = new System.Drawing.Size(48, 23);
 			this.textExpiryDays.TabIndex = 3;
 			//
 			// labelExpiryNote
 			//
-			this.labelExpiryNote.Location = new System.Drawing.Point(300, 102);
+			this.labelExpiryNote.Location = new System.Drawing.Point(296, 106);
 			this.labelExpiryNote.Name = "labelExpiryNote";
 			this.labelExpiryNote.Size = new System.Drawing.Size(140, 18);
 			this.labelExpiryNote.TabIndex = 4;
@@ -78,7 +78,7 @@ namespace OpenPmsDental {
 			// butSave
 			//
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(365, 142);
+			this.butSave.Location = new System.Drawing.Point(369, 146);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 5;

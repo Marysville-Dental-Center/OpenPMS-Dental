@@ -1005,9 +1005,9 @@
 			// groupBoxIndDis
 			// 
 			this.groupBoxIndDis.Enabled = false;
-			this.groupBoxIndDis.Location = new System.Drawing.Point(577, 64);
+			this.groupBoxIndDis.Location = new System.Drawing.Point(575, 64);
 			this.groupBoxIndDis.Name = "groupBoxIndDis";
-			this.groupBoxIndDis.Size = new System.Drawing.Size(170, 84);
+			this.groupBoxIndDis.Size = new System.Drawing.Size(174, 108);
 			this.groupBoxIndDis.TabIndex = 223;
 			this.groupBoxIndDis.Visible = false;
 			// 

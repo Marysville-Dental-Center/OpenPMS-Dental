@@ -36,7 +36,7 @@ namespace OpenPmsDental{
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(925, 647);
+			this.butOK.Location = new System.Drawing.Point(929, 686);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 24);
 			this.butOK.TabIndex = 3;
@@ -52,16 +52,16 @@ namespace OpenPmsDental{
 			this.webViewWiki.IsContextMenuEnabled = false;
 			this.webViewWiki.Location = new System.Drawing.Point(266, 32);
 			this.webViewWiki.Name = "webViewWiki";
-			this.webViewWiki.Size = new System.Drawing.Size(653, 639);
+			this.webViewWiki.Size = new System.Drawing.Size(655, 646);
 			this.webViewWiki.TabIndex = 9;
 			// 
 			// gridMain
 			// 
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-			this.gridMain.Location = new System.Drawing.Point(12, 32);
+			this.gridMain.Location = new System.Drawing.Point(8, 35);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(248, 639);
+			this.gridMain.Size = new System.Drawing.Size(252, 643);
 			this.gridMain.TabIndex = 8;
 			this.gridMain.Title = "All Wiki Pages";
 			this.gridMain.TranslationName = "TableWikiHistory";
@@ -70,7 +70,7 @@ namespace OpenPmsDental{
 			// 
 			// textSearch
 			// 
-			this.textSearch.Location = new System.Drawing.Point(160, 6);
+			this.textSearch.Location = new System.Drawing.Point(160, 8);
 			this.textSearch.Name = "textSearch";
 			this.textSearch.Size = new System.Drawing.Size(100, 20);
 			this.textSearch.TabIndex = 0;
@@ -78,9 +78,9 @@ namespace OpenPmsDental{
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(77, 6);
+			this.label1.Location = new System.Drawing.Point(106, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(82, 18);
+			this.label1.Size = new System.Drawing.Size(48, 23);
 			this.label1.TabIndex = 11;
 			this.label1.Text = "Search";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -89,7 +89,7 @@ namespace OpenPmsDental{
 			// 
 			this.butBrackets.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butBrackets.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.butBrackets.Location = new System.Drawing.Point(925, 617);
+			this.butBrackets.Location = new System.Drawing.Point(929, 616);
 			this.butBrackets.Name = "butBrackets";
 			this.butBrackets.Size = new System.Drawing.Size(75, 24);
 			this.butBrackets.TabIndex = 12;
@@ -99,7 +99,7 @@ namespace OpenPmsDental{
 			// butAdd
 			// 
 			this.butAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butAdd.Location = new System.Drawing.Point(925, 587);
+			this.butAdd.Location = new System.Drawing.Point(929, 588);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(75, 24);
 			this.butAdd.TabIndex = 13;
@@ -108,16 +108,16 @@ namespace OpenPmsDental{
 			// 
 			// checkIncludeArchived
 			// 
-			this.checkIncludeArchived.Location = new System.Drawing.Point(266, 6);
+			this.checkIncludeArchived.Location = new System.Drawing.Point(266, 8);
 			this.checkIncludeArchived.Name = "checkIncludeArchived";
-			this.checkIncludeArchived.Size = new System.Drawing.Size(177, 18);
+			this.checkIncludeArchived.Size = new System.Drawing.Size(149, 20);
 			this.checkIncludeArchived.TabIndex = 14;
 			this.checkIncludeArchived.Text = "Include Archived Pages";
 			this.checkIncludeArchived.CheckedChanged += new System.EventHandler(this.checkIncludeArchived_CheckedChanged);
 			// 
 			// FormWikiAllPages
 			// 
-			this.ClientSize = new System.Drawing.Size(1012, 683);
+			this.ClientSize = new System.Drawing.Size(1012, 718);
 			this.Controls.Add(this.checkIncludeArchived);
 			this.Controls.Add(this.butAdd);
 			this.Controls.Add(this.butBrackets);

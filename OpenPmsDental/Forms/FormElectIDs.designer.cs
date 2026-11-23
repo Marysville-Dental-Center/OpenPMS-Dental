@@ -46,7 +46,7 @@ namespace OpenPmsDental {
 			this.gridElectIDs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridElectIDs.Location = new System.Drawing.Point(7, 39);
+			this.gridElectIDs.Location = new System.Drawing.Point(8, 35);
 			this.gridElectIDs.Name = "gridElectIDs";
 			this.gridElectIDs.Size = new System.Drawing.Size(900, 640);
 			this.gridElectIDs.TabIndex = 140;
@@ -57,7 +57,7 @@ namespace OpenPmsDental {
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(832, 692);
+			this.butOK.Location = new System.Drawing.Point(833, 698);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 25);
 			this.butOK.TabIndex = 1;
@@ -69,7 +69,7 @@ namespace OpenPmsDental {
 			this.butAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdd.Location = new System.Drawing.Point(7, 692);
+			this.butAdd.Location = new System.Drawing.Point(8, 698);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(75, 25);
 			this.butAdd.TabIndex = 141;
@@ -78,24 +78,24 @@ namespace OpenPmsDental {
 			// 
 			// labelCommBridge
 			// 
-			this.labelCommBridge.Location = new System.Drawing.Point(7, 16);
+			this.labelCommBridge.Location = new System.Drawing.Point(8, 8);
 			this.labelCommBridge.Name = "labelCommBridge";
-			this.labelCommBridge.Size = new System.Drawing.Size(84, 17);
+			this.labelCommBridge.Size = new System.Drawing.Size(84, 23);
 			this.labelCommBridge.TabIndex = 280;
 			this.labelCommBridge.Text = "CommBridge";
 			this.labelCommBridge.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// comboCommBridge
 			// 
-			this.comboCommBridge.Location = new System.Drawing.Point(93, 12);
+			this.comboCommBridge.Location = new System.Drawing.Point(98, 8);
 			this.comboCommBridge.Name = "comboCommBridge";
-			this.comboCommBridge.Size = new System.Drawing.Size(160, 21);
+			this.comboCommBridge.Size = new System.Drawing.Size(160, 23);
 			this.comboCommBridge.TabIndex = 279;
 			this.comboCommBridge.SelectionChangeCommitted += new System.EventHandler(this.comboCommBridge_SelectionChangeCommitted);
 			// 
 			// FormElectIDs
 			// 
-			this.ClientSize = new System.Drawing.Size(913, 731);
+			this.ClientSize = new System.Drawing.Size(916, 731);
 			this.Controls.Add(this.labelCommBridge);
 			this.Controls.Add(this.comboCommBridge);
 			this.Controls.Add(this.butOK);

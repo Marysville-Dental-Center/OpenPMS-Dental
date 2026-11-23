@@ -40,9 +40,9 @@ namespace OpenPmsDental{
 			this.gridGroups.AllowSortingByColumn = true;
 			this.gridGroups.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-			this.gridGroups.Location = new System.Drawing.Point(12, 71);
+			this.gridGroups.Location = new System.Drawing.Point(8, 70);
 			this.gridGroups.Name = "gridGroups";
-			this.gridGroups.Size = new System.Drawing.Size(440, 577);
+			this.gridGroups.Size = new System.Drawing.Size(443, 587);
 			this.gridGroups.TabIndex = 4;
 			this.gridGroups.Title = "Fee Schedule Groups";
 			this.gridGroups.TranslationName = "Table Fee Schedule Groups";
@@ -55,9 +55,9 @@ namespace OpenPmsDental{
 			this.gridClinics.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridClinics.Location = new System.Drawing.Point(458, 71);
+			this.gridClinics.Location = new System.Drawing.Point(459, 70);
 			this.gridClinics.Name = "gridClinics";
-			this.gridClinics.Size = new System.Drawing.Size(442, 577);
+			this.gridClinics.Size = new System.Drawing.Size(443, 587);
 			this.gridClinics.TabIndex = 5;
 			this.gridClinics.Title = "Clinics in Group";
 			this.gridClinics.TranslationName = "Table Clinics";
@@ -67,7 +67,7 @@ namespace OpenPmsDental{
 			this.butAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butAdd.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Add,22,22);
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdd.Location = new System.Drawing.Point(10, 661);
+			this.butAdd.Location = new System.Drawing.Point(8, 665);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(93, 23);
 			this.butAdd.TabIndex = 220;
@@ -80,44 +80,44 @@ namespace OpenPmsDental{
 			this.groupFilters.Controls.Add(this.label1);
 			this.groupFilters.Controls.Add(this.labelFeeSchedFilter);
 			this.groupFilters.Controls.Add(this.textFeeSched);
-			this.groupFilters.Location = new System.Drawing.Point(12, 12);
+			this.groupFilters.Location = new System.Drawing.Point(8, 8);
 			this.groupFilters.Name = "groupFilters";
-			this.groupFilters.Size = new System.Drawing.Size(440, 53);
+			this.groupFilters.Size = new System.Drawing.Size(443, 54);
 			this.groupFilters.TabIndex = 221;
 			this.groupFilters.TabStop = false;
 			this.groupFilters.Text = "Fee Schedule Group Filters";
 			// 
 			// comboClinic
 			// 
-			this.comboClinic.Location = new System.Drawing.Point(308, 20);
+			this.comboClinic.Location = new System.Drawing.Point(308, 23);
 			this.comboClinic.Name = "comboClinic";
-			this.comboClinic.Size = new System.Drawing.Size(126, 21);
+			this.comboClinic.Size = new System.Drawing.Size(124, 23);
 			this.comboClinic.TabIndex = 3;
 			this.comboClinic.SelectedIndexChanged += new System.EventHandler(this.comboClinic_SelectionChanged);
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(250, 20);
+			this.label1.Location = new System.Drawing.Point(258, 23);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(52, 21);
+			this.label1.Size = new System.Drawing.Size(44, 23);
 			this.label1.TabIndex = 2;
 			this.label1.Text = "Clinic";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// labelFeeSchedFilter
 			// 
-			this.labelFeeSchedFilter.Location = new System.Drawing.Point(9, 22);
+			this.labelFeeSchedFilter.Location = new System.Drawing.Point(15, 23);
 			this.labelFeeSchedFilter.Name = "labelFeeSchedFilter";
-			this.labelFeeSchedFilter.Size = new System.Drawing.Size(86, 16);
+			this.labelFeeSchedFilter.Size = new System.Drawing.Size(80, 23);
 			this.labelFeeSchedFilter.TabIndex = 1;
 			this.labelFeeSchedFilter.Text = "Fee Schedule";
 			this.labelFeeSchedFilter.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textFeeSched
 			// 
-			this.textFeeSched.Location = new System.Drawing.Point(101, 21);
+			this.textFeeSched.Location = new System.Drawing.Point(101, 23);
 			this.textFeeSched.Name = "textFeeSched";
-			this.textFeeSched.Size = new System.Drawing.Size(126, 20);
+			this.textFeeSched.Size = new System.Drawing.Size(128, 23);
 			this.textFeeSched.TabIndex = 0;
 			// 
 			// FormFeeSchedGroups

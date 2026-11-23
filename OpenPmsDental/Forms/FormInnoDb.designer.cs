@@ -35,16 +35,16 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.textBox1.Font = new System.Drawing.Font("Courier New",8.25F);
-			this.textBox1.Location = new System.Drawing.Point(21,32);
+			this.textBox1.Location = new System.Drawing.Point(8,30);
 			this.textBox1.Multiline = true;
 			this.textBox1.Name = "textBox1";
 			this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.textBox1.Size = new System.Drawing.Size(692, 456);
+			this.textBox1.Size = new System.Drawing.Size(709, 464);
 			this.textBox1.TabIndex = 18;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(14,9);
+			this.label1.Location = new System.Drawing.Point(8,8);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(507,20);
 			this.label1.TabIndex = 19;
@@ -55,7 +55,7 @@ namespace OpenPmsDental{
 			// butToMyIsam
 			// 
 			this.butToMyIsam.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butToMyIsam.Location = new System.Drawing.Point(21,500);
+			this.butToMyIsam.Location = new System.Drawing.Point(8,502);
 			this.butToMyIsam.Name = "butToMyIsam";
 			this.butToMyIsam.Size = new System.Drawing.Size(108,24);
 			this.butToMyIsam.TabIndex = 20;
@@ -65,7 +65,7 @@ namespace OpenPmsDental{
 			// butToInnoDb
 			// 
 			this.butToInnoDb.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butToInnoDb.Location = new System.Drawing.Point(136,500);
+			this.butToInnoDb.Location = new System.Drawing.Point(122,502);
 			this.butToInnoDb.Name = "butToInnoDb";
 			this.butToInnoDb.Size = new System.Drawing.Size(106,24);
 			this.butToInnoDb.TabIndex = 21;

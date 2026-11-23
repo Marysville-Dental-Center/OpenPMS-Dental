@@ -34,9 +34,9 @@ namespace OpenPmsDental {
 			//
 			// labelInstructions
 			//
-			this.labelInstructions.Location = new System.Drawing.Point(12, 7);
+			this.labelInstructions.Location = new System.Drawing.Point(8, 8);
 			this.labelInstructions.Name = "labelInstructions";
-			this.labelInstructions.Size = new System.Drawing.Size(772, 30);
+			this.labelInstructions.Size = new System.Drawing.Size(776, 32);
 			this.labelInstructions.TabIndex = 0;
 			this.labelInstructions.Text = "When a procedure with one of these codes is completed, the Materials used window opens filled with its default materi" +
     "als. Changes are saved right away.";
@@ -46,9 +46,9 @@ namespace OpenPmsDental {
 			//
 			this.gridCodes.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Left)));
-			this.gridCodes.Location = new System.Drawing.Point(12, 40);
+			this.gridCodes.Location = new System.Drawing.Point(8, 42);
 			this.gridCodes.Name = "gridCodes";
-			this.gridCodes.Size = new System.Drawing.Size(330, 400);
+			this.gridCodes.Size = new System.Drawing.Size(334, 404);
 			this.gridCodes.TabIndex = 1;
 			this.gridCodes.Title = "Procedure Codes";
 			this.gridCodes.TranslationName = "TableSupplyProcCodes";
@@ -59,10 +59,10 @@ namespace OpenPmsDental {
 			this.gridMaterials.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMaterials.Location = new System.Drawing.Point(350, 40);
+			this.gridMaterials.Location = new System.Drawing.Point(350, 42);
 			this.gridMaterials.Name = "gridMaterials";
 			this.gridMaterials.SelectionMode = OpenPmsDental.UI.GridSelectionMode.OneCell;
-			this.gridMaterials.Size = new System.Drawing.Size(422, 400);
+			this.gridMaterials.Size = new System.Drawing.Size(434, 404);
 			this.gridMaterials.TabIndex = 2;
 			this.gridMaterials.Title = "Default Materials";
 			this.gridMaterials.TranslationName = "TableSupplyProcCodeMaterials";
@@ -73,7 +73,7 @@ namespace OpenPmsDental {
 			this.butAddCode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butAddCode.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAddCode.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAddCode.Location = new System.Drawing.Point(12, 448);
+			this.butAddCode.Location = new System.Drawing.Point(8, 454);
 			this.butAddCode.Name = "butAddCode";
 			this.butAddCode.Size = new System.Drawing.Size(90, 24);
 			this.butAddCode.TabIndex = 3;
@@ -85,7 +85,7 @@ namespace OpenPmsDental {
 			this.butAddSupply.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butAddSupply.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAddSupply.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAddSupply.Location = new System.Drawing.Point(350, 448);
+			this.butAddSupply.Location = new System.Drawing.Point(350, 454);
 			this.butAddSupply.Name = "butAddSupply";
 			this.butAddSupply.Size = new System.Drawing.Size(90, 24);
 			this.butAddSupply.TabIndex = 4;
@@ -97,7 +97,7 @@ namespace OpenPmsDental {
 			this.butRemoveSupply.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butRemoveSupply.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butRemoveSupply.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butRemoveSupply.Location = new System.Drawing.Point(446, 448);
+			this.butRemoveSupply.Location = new System.Drawing.Point(446, 454);
 			this.butRemoveSupply.Name = "butRemoveSupply";
 			this.butRemoveSupply.Size = new System.Drawing.Size(90, 24);
 			this.butRemoveSupply.TabIndex = 5;
@@ -107,7 +107,7 @@ namespace OpenPmsDental {
 			// butClose
 			//
 			this.butClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butClose.Location = new System.Drawing.Point(697, 448);
+			this.butClose.Location = new System.Drawing.Point(709, 454);
 			this.butClose.Name = "butClose";
 			this.butClose.Size = new System.Drawing.Size(75, 24);
 			this.butClose.TabIndex = 6;
@@ -116,7 +116,7 @@ namespace OpenPmsDental {
 			//
 			// FormSupplyProcCodes
 			//
-			this.ClientSize = new System.Drawing.Size(784, 482);
+			this.ClientSize = new System.Drawing.Size(792, 486);
 			this.Controls.Add(this.butClose);
 			this.Controls.Add(this.butRemoveSupply);
 			this.Controls.Add(this.butAddSupply);

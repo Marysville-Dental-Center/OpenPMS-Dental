@@ -35,7 +35,7 @@ namespace OpenPmsDental{
 			// butDropIndexes
 			// 
 			this.butDropIndexes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butDropIndexes.Location = new System.Drawing.Point(259, 454);
+			this.butDropIndexes.Location = new System.Drawing.Point(259, 468);
 			this.butDropIndexes.Name = "butDropIndexes";
 			this.butDropIndexes.Size = new System.Drawing.Size(75, 24);
 			this.butDropIndexes.TabIndex = 4;
@@ -47,16 +47,16 @@ namespace OpenPmsDental{
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(12, 43);
+			this.gridMain.Location = new System.Drawing.Point(8, 59);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridMain.Size = new System.Drawing.Size(1206, 405);
+			this.gridMain.Size = new System.Drawing.Size(1214, 405);
 			this.gridMain.TabIndex = 0;
 			// 
 			// butAll
 			// 
 			this.butAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butAll.Location = new System.Drawing.Point(12, 454);
+			this.butAll.Location = new System.Drawing.Point(8, 468);
 			this.butAll.Name = "butAll";
 			this.butAll.Size = new System.Drawing.Size(75, 24);
 			this.butAll.TabIndex = 1;
@@ -66,7 +66,7 @@ namespace OpenPmsDental{
 			// butNone
 			// 
 			this.butNone.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butNone.Location = new System.Drawing.Point(93, 454);
+			this.butNone.Location = new System.Drawing.Point(93, 468);
 			this.butNone.Name = "butNone";
 			this.butNone.Size = new System.Drawing.Size(75, 24);
 			this.butNone.TabIndex = 2;
@@ -76,12 +76,12 @@ namespace OpenPmsDental{
 			// checkLogAddStatements
 			// 
 			this.checkLogAddStatements.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkLogAddStatements.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkLogAddStatements.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.checkLogAddStatements.Checked = true;
 			this.checkLogAddStatements.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkLogAddStatements.Location = new System.Drawing.Point(984, 19);
+			this.checkLogAddStatements.Location = new System.Drawing.Point(1004, 8);
 			this.checkLogAddStatements.Name = "checkLogAddStatements";
-			this.checkLogAddStatements.Size = new System.Drawing.Size(234, 18);
+			this.checkLogAddStatements.Size = new System.Drawing.Size(218, 20);
 			this.checkLogAddStatements.TabIndex = 3;
 			this.checkLogAddStatements.Text = "Log statements to add indexes back";
 			this.checkLogAddStatements.CheckedChanged += new System.EventHandler(this.checkLogAddStatements_CheckedChanged);
@@ -90,16 +90,16 @@ namespace OpenPmsDental{
 			// 
 			this.labelDescription.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelDescription.Location = new System.Drawing.Point(12, 9);
+			this.labelDescription.Location = new System.Drawing.Point(8, 8);
 			this.labelDescription.Name = "labelDescription";
-			this.labelDescription.Size = new System.Drawing.Size(972, 28);
+			this.labelDescription.Size = new System.Drawing.Size(988, 47);
 			this.labelDescription.TabIndex = 6;
 			this.labelDescription.Text = resources.GetString("labelDescription.Text");
 			this.labelDescription.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// FormRedundantIndexes
 			// 
-			this.ClientSize = new System.Drawing.Size(1230, 490);
+			this.ClientSize = new System.Drawing.Size(1230, 500);
 			this.Controls.Add(this.labelDescription);
 			this.Controls.Add(this.checkLogAddStatements);
 			this.Controls.Add(this.butAll);

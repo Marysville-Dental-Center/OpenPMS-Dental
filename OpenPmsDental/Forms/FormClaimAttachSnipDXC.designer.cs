@@ -47,41 +47,44 @@ namespace OpenPmsDental {
 			// 
 			// labelImageType
 			// 
-			this.labelImageType.Location = new System.Drawing.Point(45, 97);
+			this.labelImageType.Location = new System.Drawing.Point(68, 97);
+			this.labelImageType.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.labelImageType.Name = "labelImageType";
-			this.labelImageType.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-			this.labelImageType.Size = new System.Drawing.Size(84, 18);
+			this.labelImageType.RightToLeft = System.Windows.Forms.RightToLeft.No;
+			this.labelImageType.Size = new System.Drawing.Size(72, 23);
 			this.labelImageType.TabIndex = 1;
 			this.labelImageType.Text = "Image Type";
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(45, 44);
+			this.label1.Location = new System.Drawing.Point(76, 43);
+			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label1.Name = "label1";
-			this.label1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-			this.label1.Size = new System.Drawing.Size(84, 18);
+			this.label1.RightToLeft = System.Windows.Forms.RightToLeft.No;
+			this.label1.Size = new System.Drawing.Size(64, 23);
 			this.label1.TabIndex = 2;
 			this.label1.Text = "File Name";
 			// 
 			// textDateCreated
 			// 
-			this.textDateCreated.Location = new System.Drawing.Point(130, 68);
+			this.textDateCreated.Location = new System.Drawing.Point(146, 70);
 			this.textDateCreated.Name = "textDateCreated";
-			this.textDateCreated.Size = new System.Drawing.Size(139, 20);
+			this.textDateCreated.Size = new System.Drawing.Size(140, 23);
 			this.textDateCreated.TabIndex = 1;
 			// 
 			// labelDateTimeCreate
 			// 
-			this.labelDateTimeCreate.Location = new System.Drawing.Point(45, 71);
+			this.labelDateTimeCreate.Location = new System.Drawing.Point(60, 70);
+			this.labelDateTimeCreate.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.labelDateTimeCreate.Name = "labelDateTimeCreate";
-			this.labelDateTimeCreate.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-			this.labelDateTimeCreate.Size = new System.Drawing.Size(84, 18);
+			this.labelDateTimeCreate.RightToLeft = System.Windows.Forms.RightToLeft.No;
+			this.labelDateTimeCreate.Size = new System.Drawing.Size(80, 23);
 			this.labelDateTimeCreate.TabIndex = 6;
 			this.labelDateTimeCreate.Text = "Date Created";
 			// 
 			// butSend
 			// 
-			this.butSend.Location = new System.Drawing.Point(490, 443);
+			this.butSend.Location = new System.Drawing.Point(514, 447);
 			this.butSend.Name = "butSend";
 			this.butSend.Size = new System.Drawing.Size(75, 24);
 			this.butSend.TabIndex = 4;
@@ -91,15 +94,15 @@ namespace OpenPmsDental {
 			// 
 			// textFileName
 			// 
-			this.textFileName.Location = new System.Drawing.Point(130, 41);
+			this.textFileName.Location = new System.Drawing.Point(146, 43);
 			this.textFileName.Name = "textFileName";
-			this.textFileName.Size = new System.Drawing.Size(139, 20);
+			this.textFileName.Size = new System.Drawing.Size(140, 23);
 			this.textFileName.TabIndex = 0;
 			this.textFileName.Text = "Attachment";
 			// 
 			// listBoxImageType
 			// 
-			this.listBoxImageType.Location = new System.Drawing.Point(130, 97);
+			this.listBoxImageType.Location = new System.Drawing.Point(146, 97);
 			this.listBoxImageType.Name = "listBoxImageType";
 			this.listBoxImageType.Size = new System.Drawing.Size(139, 145);
 			this.listBoxImageType.TabIndex = 2;
@@ -107,10 +110,10 @@ namespace OpenPmsDental {
 			// 
 			// checkIsXrayMirrored
 			// 
-			this.checkIsXrayMirrored.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkIsXrayMirrored.Location = new System.Drawing.Point(3, 249);
+			this.checkIsXrayMirrored.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkIsXrayMirrored.Location = new System.Drawing.Point(146, 246);
 			this.checkIsXrayMirrored.Name = "checkIsXrayMirrored";
-			this.checkIsXrayMirrored.Size = new System.Drawing.Size(141, 18);
+			this.checkIsXrayMirrored.Size = new System.Drawing.Size(131, 20);
 			this.checkIsXrayMirrored.TabIndex = 3;
 			this.checkIsXrayMirrored.Text = "Is xray mirror image";
 			// 
@@ -118,7 +121,7 @@ namespace OpenPmsDental {
 			// 
 			this.pictureBoxImagePreview.BackColor = System.Drawing.SystemColors.Control;
 			this.pictureBoxImagePreview.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.pictureBoxImagePreview.Location = new System.Drawing.Point(323, 41);
+			this.pictureBoxImagePreview.Location = new System.Drawing.Point(399, 43);
 			this.pictureBoxImagePreview.Name = "pictureBoxImagePreview";
 			this.pictureBoxImagePreview.Size = new System.Drawing.Size(190, 190);
 			this.pictureBoxImagePreview.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -127,7 +130,7 @@ namespace OpenPmsDental {
 			// 
 			// butSendAndAgain
 			// 
-			this.butSendAndAgain.Location = new System.Drawing.Point(436, 413);
+			this.butSendAndAgain.Location = new System.Drawing.Point(458, 419);
 			this.butSendAndAgain.Name = "butSendAndAgain";
 			this.butSendAndAgain.Size = new System.Drawing.Size(131, 24);
 			this.butSendAndAgain.TabIndex = 6;
@@ -138,9 +141,9 @@ namespace OpenPmsDental {
 			// labelClaimAttachWarning
 			// 
 			this.labelClaimAttachWarning.ForeColor = System.Drawing.Color.DarkRed;
-			this.labelClaimAttachWarning.Location = new System.Drawing.Point(19, 9);
+			this.labelClaimAttachWarning.Location = new System.Drawing.Point(8, 8);
 			this.labelClaimAttachWarning.Name = "labelClaimAttachWarning";
-			this.labelClaimAttachWarning.Size = new System.Drawing.Size(570, 33);
+			this.labelClaimAttachWarning.Size = new System.Drawing.Size(581, 33);
 			this.labelClaimAttachWarning.TabIndex = 16;
 			this.labelClaimAttachWarning.Text = "No claim attachment image category definition found.  Images will be saved using " +
     "the first image category.";
@@ -160,29 +163,29 @@ namespace OpenPmsDental {
 			this.textNarrative.BackColor = System.Drawing.SystemColors.Window;
 			this.textNarrative.DetectLinksEnabled = false;
 			this.textNarrative.DetectUrls = false;
-			this.textNarrative.Location = new System.Drawing.Point(130, 375);
+			this.textNarrative.Location = new System.Drawing.Point(146, 374);
 			this.textNarrative.MaxLength = 2000;
 			this.textNarrative.Name = "textNarrative";
 			this.textNarrative.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Claim;
 			this.textNarrative.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textNarrative.Size = new System.Drawing.Size(233, 92);
+			this.textNarrative.Size = new System.Drawing.Size(217, 92);
 			this.textNarrative.TabIndex = 55;
 			this.textNarrative.Text = "";
 			this.textNarrative.TextChanged += new System.EventHandler(this.textNarrative_TextChanged);
 			// 
 			// labelNarrative
 			// 
-			this.labelNarrative.Location = new System.Drawing.Point(42, 375);
+			this.labelNarrative.Location = new System.Drawing.Point(80, 374);
 			this.labelNarrative.Name = "labelNarrative";
-			this.labelNarrative.Size = new System.Drawing.Size(88, 18);
+			this.labelNarrative.Size = new System.Drawing.Size(60, 23);
 			this.labelNarrative.TabIndex = 56;
 			this.labelNarrative.Text = "Narrative";
-			this.labelNarrative.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.labelNarrative.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// labelCharCount
 			// 
 			this.labelCharCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelCharCount.Location = new System.Drawing.Point(287, 356);
+			this.labelCharCount.Location = new System.Drawing.Point(287, 354);
 			this.labelCharCount.Name = "labelCharCount";
 			this.labelCharCount.Size = new System.Drawing.Size(76, 18);
 			this.labelCharCount.TabIndex = 60;
@@ -195,28 +198,28 @@ namespace OpenPmsDental {
 			this.textClaimStatus.BackColor = System.Drawing.SystemColors.Control;
 			this.textClaimStatus.DetectLinksEnabled = false;
 			this.textClaimStatus.DetectUrls = false;
-			this.textClaimStatus.Location = new System.Drawing.Point(130, 273);
+			this.textClaimStatus.Location = new System.Drawing.Point(146, 270);
 			this.textClaimStatus.Name = "textClaimStatus";
 			this.textClaimStatus.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Claim;
 			this.textClaimStatus.ReadOnly = true;
 			this.textClaimStatus.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textClaimStatus.Size = new System.Drawing.Size(233, 80);
+			this.textClaimStatus.Size = new System.Drawing.Size(217, 80);
 			this.textClaimStatus.TabIndex = 61;
 			this.textClaimStatus.Text = "";
 			// 
 			// labelClaimStatus
 			// 
-			this.labelClaimStatus.Location = new System.Drawing.Point(3, 273);
+			this.labelClaimStatus.Location = new System.Drawing.Point(8, 270);
 			this.labelClaimStatus.Name = "labelClaimStatus";
-			this.labelClaimStatus.Size = new System.Drawing.Size(127, 18);
+			this.labelClaimStatus.Size = new System.Drawing.Size(132, 23);
 			this.labelClaimStatus.TabIndex = 62;
 			this.labelClaimStatus.Text = "Claim Validation Status";
-			this.labelClaimStatus.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.labelClaimStatus.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// FormClaimAttachSnipDXC
 			// 
 			this.AcceptButton = this.butSend;
-			this.ClientSize = new System.Drawing.Size(589, 479);
+			this.ClientSize = new System.Drawing.Size(597, 479);
 			this.Controls.Add(this.labelClaimStatus);
 			this.Controls.Add(this.textClaimStatus);
 			this.Controls.Add(this.labelCharCount);

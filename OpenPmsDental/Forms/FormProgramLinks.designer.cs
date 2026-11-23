@@ -33,7 +33,7 @@ namespace OpenPmsDental {
 			this.butAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdd.Location = new System.Drawing.Point(17, 631);
+			this.butAdd.Location = new System.Drawing.Point(8, 635);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(75, 26);
 			this.butAdd.TabIndex = 41;
@@ -42,7 +42,7 @@ namespace OpenPmsDental {
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(15, 8);
+			this.label2.Location = new System.Drawing.Point(8, 8);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(406, 17);
 			this.label2.TabIndex = 43;
@@ -52,7 +52,7 @@ namespace OpenPmsDental {
 			// label1
 			// 
 			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label1.Location = new System.Drawing.Point(97, 630);
+			this.label1.Location = new System.Drawing.Point(89, 633);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(253, 29);
 			this.label1.TabIndex = 44;
@@ -64,9 +64,9 @@ namespace OpenPmsDental {
 			this.gridProgram.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridProgram.Location = new System.Drawing.Point(18, 29);
+			this.gridProgram.Location = new System.Drawing.Point(8, 27);
 			this.gridProgram.Name = "gridProgram";
-			this.gridProgram.Size = new System.Drawing.Size(429, 588);
+			this.gridProgram.Size = new System.Drawing.Size(448, 600);
 			this.gridProgram.TabIndex = 45;
 			this.gridProgram.Title = "Programs";
 			this.gridProgram.TranslationName = "TablePrograms";

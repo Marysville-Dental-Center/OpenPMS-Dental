@@ -33,7 +33,7 @@ namespace OpenPmsDental {
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(704, 248);
+			this.butOK.Location = new System.Drawing.Point(710, 252);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(76, 24);
 			this.butOK.TabIndex = 5;
@@ -43,9 +43,9 @@ namespace OpenPmsDental {
 			// labelRelat
 			// 
 			this.labelRelat.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelRelat.Location = new System.Drawing.Point(580, 17);
+			this.labelRelat.Location = new System.Drawing.Point(606, 8);
 			this.labelRelat.Name = "labelRelat";
-			this.labelRelat.Size = new System.Drawing.Size(206, 20);
+			this.labelRelat.Size = new System.Drawing.Size(180, 20);
 			this.labelRelat.TabIndex = 8;
 			this.labelRelat.Text = "Relationship to Subscriber";
 			this.labelRelat.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -53,16 +53,16 @@ namespace OpenPmsDental {
 			// listRelat
 			// 
 			this.listRelat.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.listRelat.Location = new System.Drawing.Point(582, 38);
+			this.listRelat.Location = new System.Drawing.Point(606, 32);
 			this.listRelat.Name = "listRelat";
-			this.listRelat.Size = new System.Drawing.Size(180, 186);
+			this.listRelat.Size = new System.Drawing.Size(180, 212);
 			this.listRelat.TabIndex = 9;
 			// 
 			// gridMain
 			// 
-			this.gridMain.Location = new System.Drawing.Point(22, 38);
+			this.gridMain.Location = new System.Drawing.Point(8, 32);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(527, 186);
+			this.gridMain.Size = new System.Drawing.Size(590, 212);
 			this.gridMain.TabIndex = 10;
 			this.gridMain.Title = "Insurance Plans for Family";
 			this.gridMain.TranslationName = "TableInsPlans";
@@ -71,7 +71,7 @@ namespace OpenPmsDental {
 			// butNone
 			// 
 			this.butNone.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butNone.Location = new System.Drawing.Point(22, 248);
+			this.butNone.Location = new System.Drawing.Point(8, 252);
 			this.butNone.Name = "butNone";
 			this.butNone.Size = new System.Drawing.Size(76, 24);
 			this.butNone.TabIndex = 11;
@@ -80,9 +80,9 @@ namespace OpenPmsDental {
 			// 
 			// checkShowPlansNotInUse
 			// 
-			this.checkShowPlansNotInUse.Location = new System.Drawing.Point(22, 19);
+			this.checkShowPlansNotInUse.Location = new System.Drawing.Point(8, 8);
 			this.checkShowPlansNotInUse.Name = "checkShowPlansNotInUse";
-			this.checkShowPlansNotInUse.Size = new System.Drawing.Size(389, 18);
+			this.checkShowPlansNotInUse.Size = new System.Drawing.Size(377, 20);
 			this.checkShowPlansNotInUse.TabIndex = 12;
 			this.checkShowPlansNotInUse.Text = "Show plans for family which are not in use by the current patient.";
 			this.checkShowPlansNotInUse.Click += new System.EventHandler(this.checkPlansNotInUse_Click);
@@ -90,7 +90,7 @@ namespace OpenPmsDental {
 			// FormInsPlanSelect
 			// 
 			this.AcceptButton = this.butOK;
-			this.ClientSize = new System.Drawing.Size(792, 284);
+			this.ClientSize = new System.Drawing.Size(794, 284);
 			this.Controls.Add(this.checkShowPlansNotInUse);
 			this.Controls.Add(this.butNone);
 			this.Controls.Add(this.gridMain);

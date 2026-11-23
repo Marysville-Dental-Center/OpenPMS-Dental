@@ -36,7 +36,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(292, 150);
+			this.butSave.Location = new System.Drawing.Point(296, 202);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 3;
@@ -45,17 +45,17 @@ namespace OpenPmsDental{
 			// 
 			// checkRecalculateInterest
 			// 
-			this.checkRecalculateInterest.Location = new System.Drawing.Point(18, 143);
+			this.checkRecalculateInterest.Location = new System.Drawing.Point(8, 170);
 			this.checkRecalculateInterest.Name = "checkRecalculateInterest";
-			this.checkRecalculateInterest.Size = new System.Drawing.Size(264, 24);
+			this.checkRecalculateInterest.Size = new System.Drawing.Size(128, 20);
 			this.checkRecalculateInterest.TabIndex = 45;
 			this.checkRecalculateInterest.Text = "Recalculate Interest";
 			// 
 			// radioPrepay
 			// 
-			this.radioPrepay.Location = new System.Drawing.Point(6, 17);
+			this.radioPrepay.Location = new System.Drawing.Point(8, 23);
 			this.radioPrepay.Name = "radioPrepay";
-			this.radioPrepay.Size = new System.Drawing.Size(63, 17);
+			this.radioPrepay.Size = new System.Drawing.Size(61, 20);
 			this.radioPrepay.TabIndex = 43;
 			this.radioPrepay.TabStop = true;
 			this.radioPrepay.Text = "Prepay";
@@ -64,9 +64,9 @@ namespace OpenPmsDental{
 			// radioPrepayWithoutInterest
 			// 
 			this.radioPrepayWithoutInterest.AutoSize = false;
-			this.radioPrepayWithoutInterest.Location = new System.Drawing.Point(6, 39);
+			this.radioPrepayWithoutInterest.Location = new System.Drawing.Point(8, 47);
 			this.radioPrepayWithoutInterest.Name = "radioPrepayWithoutInterest";
-			this.radioPrepayWithoutInterest.Size = new System.Drawing.Size(109, 24);
+			this.radioPrepayWithoutInterest.Size = new System.Drawing.Size(110, 20);
 			this.radioPrepayWithoutInterest.TabIndex = 44;
 			this.radioPrepayWithoutInterest.TabStop = true;
 			this.radioPrepayWithoutInterest.Text = "Pay on principal";
@@ -76,24 +76,24 @@ namespace OpenPmsDental{
 			// 
 			this.groupBox1.Controls.Add(this.radioPrepayWithoutInterest);
 			this.groupBox1.Controls.Add(this.radioPrepay);
-			this.groupBox1.Location = new System.Drawing.Point(12, 73);
+			this.groupBox1.Location = new System.Drawing.Point(8, 87);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(270, 64);
+			this.groupBox1.Size = new System.Drawing.Size(363, 75);
 			this.groupBox1.TabIndex = 44;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Payment Allocation Method";
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(18, 13);
+			this.label1.Location = new System.Drawing.Point(8, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(349, 60);
+			this.label1.Size = new System.Drawing.Size(363, 77);
 			this.label1.TabIndex = 46;
 			this.label1.Text = resources.GetString("label1.Text");
 			// 
 			// FormPayPlanRecalculate
 			// 
-			this.ClientSize = new System.Drawing.Size(379, 186);
+			this.ClientSize = new System.Drawing.Size(379, 234);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.checkRecalculateInterest);

@@ -30,7 +30,7 @@
 			// 
 			// label7
 			// 
-			this.label7.Location = new System.Drawing.Point(21, 9);
+			this.label7.Location = new System.Drawing.Point(8, 8);
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(499, 19);
 			this.label7.TabIndex = 137;
@@ -43,7 +43,7 @@
 			this.butAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdd.Location = new System.Drawing.Point(621, 31);
+			this.butAdd.Location = new System.Drawing.Point(619, 29);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(75, 24);
 			this.butAdd.TabIndex = 32;
@@ -55,9 +55,9 @@
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(24, 31);
+			this.gridMain.Location = new System.Drawing.Point(8, 29);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(585, 228);
+			this.gridMain.Size = new System.Drawing.Size(603, 234);
 			this.gridMain.TabIndex = 30;
 			this.gridMain.Title = "History";
 			this.gridMain.TranslationName = "TableHistory";

@@ -39,7 +39,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(618, 355);
+			this.butSave.Location = new System.Drawing.Point(627, 359);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 3;
@@ -48,83 +48,83 @@ namespace OpenPmsDental{
 			// 
 			// textPayerID
 			// 
-			this.textPayerID.Location = new System.Drawing.Point(91, 15);
+			this.textPayerID.Location = new System.Drawing.Point(98, 8);
 			this.textPayerID.Name = "textPayerID";
-			this.textPayerID.Size = new System.Drawing.Size(111, 20);
+			this.textPayerID.Size = new System.Drawing.Size(112, 23);
 			this.textPayerID.TabIndex = 4;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(3, 19);
+			this.label1.Location = new System.Drawing.Point(36, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(82, 18);
+			this.label1.Size = new System.Drawing.Size(56, 23);
 			this.label1.TabIndex = 5;
 			this.label1.Text = "Payer ID";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textCarrierName
 			// 
-			this.textCarrierName.Location = new System.Drawing.Point(91, 41);
+			this.textCarrierName.Location = new System.Drawing.Point(98, 35);
 			this.textCarrierName.Name = "textCarrierName";
-			this.textCarrierName.Size = new System.Drawing.Size(331, 20);
+			this.textCarrierName.Size = new System.Drawing.Size(332, 23);
 			this.textCarrierName.TabIndex = 6;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(5, 42);
+			this.label2.Location = new System.Drawing.Point(8, 35);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(80, 19);
+			this.label2.Size = new System.Drawing.Size(84, 23);
 			this.label2.TabIndex = 7;
 			this.label2.Text = "Carrier Name";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// checkIsMedicaid
 			// 
-			this.checkIsMedicaid.Location = new System.Drawing.Point(91, 242);
+			this.checkIsMedicaid.Location = new System.Drawing.Point(98, 235);
 			this.checkIsMedicaid.Name = "checkIsMedicaid";
-			this.checkIsMedicaid.Size = new System.Drawing.Size(82, 18);
+			this.checkIsMedicaid.Size = new System.Drawing.Size(85, 20);
 			this.checkIsMedicaid.TabIndex = 8;
 			this.checkIsMedicaid.Text = "Is Medicaid";
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(3, 68);
+			this.label3.Location = new System.Drawing.Point(20, 62);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(82, 20);
+			this.label3.Size = new System.Drawing.Size(72, 23);
 			this.label3.TabIndex = 10;
 			this.label3.Text = "Comments";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textComments
 			// 
-			this.textComments.Location = new System.Drawing.Point(91, 67);
+			this.textComments.Location = new System.Drawing.Point(98, 62);
 			this.textComments.Multiline = true;
 			this.textComments.Name = "textComments";
-			this.textComments.Size = new System.Drawing.Size(331, 169);
+			this.textComments.Size = new System.Drawing.Size(332, 169);
 			this.textComments.TabIndex = 9;
 			// 
 			// labelPayerService
 			// 
-			this.labelPayerService.Location = new System.Drawing.Point(494, 19);
+			this.labelPayerService.Location = new System.Drawing.Point(504, 8);
 			this.labelPayerService.Name = "labelPayerService";
-			this.labelPayerService.Size = new System.Drawing.Size(82, 18);
+			this.labelPayerService.Size = new System.Drawing.Size(80, 23);
 			this.labelPayerService.TabIndex = 12;
 			this.labelPayerService.Text = "Payer Service";
 			this.labelPayerService.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textPayerService
 			// 
-			this.textPayerService.Location = new System.Drawing.Point(582, 15);
+			this.textPayerService.Location = new System.Drawing.Point(590, 8);
 			this.textPayerService.Name = "textPayerService";
 			this.textPayerService.ReadOnly = true;
-			this.textPayerService.Size = new System.Drawing.Size(111, 20);
+			this.textPayerService.Size = new System.Drawing.Size(112, 23);
 			this.textPayerService.TabIndex = 11;
 			// 
 			// gridAttributes
 			// 
-			this.gridAttributes.Location = new System.Drawing.Point(434, 41);
+			this.gridAttributes.Location = new System.Drawing.Point(442, 35);
 			this.gridAttributes.Name = "gridAttributes";
-			this.gridAttributes.Size = new System.Drawing.Size(259, 285);
+			this.gridAttributes.Size = new System.Drawing.Size(260, 316);
 			this.gridAttributes.TabIndex = 13;
 			this.gridAttributes.Title = "Attributes";
 			// 

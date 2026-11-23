@@ -41,7 +41,7 @@ namespace OpenPmsDental{
 			// 
 			// butBulkEdit
 			// 
-			this.butBulkEdit.Location = new System.Drawing.Point(84, 65);
+			this.butBulkEdit.Location = new System.Drawing.Point(105, 77);
 			this.butBulkEdit.Name = "butBulkEdit";
 			this.butBulkEdit.Size = new System.Drawing.Size(75, 24);
 			this.butBulkEdit.TabIndex = 3;
@@ -53,10 +53,10 @@ namespace OpenPmsDental{
 			this.gridStudents.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridStudents.Location = new System.Drawing.Point(12, 23);
+			this.gridStudents.Location = new System.Drawing.Point(8, 8);
 			this.gridStudents.Name = "gridStudents";
 			this.gridStudents.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridStudents.Size = new System.Drawing.Size(388, 459);
+			this.gridStudents.Size = new System.Drawing.Size(388, 478);
 			this.gridStudents.TabIndex = 14;
 			this.gridStudents.Title = "Students";
 			this.gridStudents.TranslationName = "TableStudent";
@@ -64,7 +64,7 @@ namespace OpenPmsDental{
 			// label7
 			// 
 			this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.label7.Location = new System.Drawing.Point(402, 67);
+			this.label7.Location = new System.Drawing.Point(404, 55);
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(90, 18);
 			this.label7.TabIndex = 29;
@@ -74,25 +74,25 @@ namespace OpenPmsDental{
 			// textProvNum
 			// 
 			this.textProvNum.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.textProvNum.Location = new System.Drawing.Point(405, 88);
+			this.textProvNum.Location = new System.Drawing.Point(404, 75);
 			this.textProvNum.MaxLength = 15;
 			this.textProvNum.Name = "textProvNum";
-			this.textProvNum.Size = new System.Drawing.Size(166, 20);
+			this.textProvNum.Size = new System.Drawing.Size(188, 23);
 			this.textProvNum.TabIndex = 2;
 			// 
 			// comboClass
 			// 
 			this.comboClass.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.comboClass.Location = new System.Drawing.Point(405, 44);
+			this.comboClass.Location = new System.Drawing.Point(404, 28);
 			this.comboClass.Name = "comboClass";
-			this.comboClass.Size = new System.Drawing.Size(166, 21);
+			this.comboClass.Size = new System.Drawing.Size(188, 23);
 			this.comboClass.TabIndex = 1;
 			this.comboClass.SelectionChangeCommitted += new System.EventHandler(this.comboClass_SelectionChangeCommitted);
 			// 
 			// label1
 			// 
 			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.label1.Location = new System.Drawing.Point(405, 23);
+			this.label1.Location = new System.Drawing.Point(404, 8);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(90, 18);
 			this.label1.TabIndex = 27;
@@ -101,37 +101,37 @@ namespace OpenPmsDental{
 			// 
 			// label14
 			// 
-			this.label14.Location = new System.Drawing.Point(6, 42);
+			this.label14.Location = new System.Drawing.Point(8, 50);
 			this.label14.Name = "label14";
-			this.label14.Size = new System.Drawing.Size(123, 18);
+			this.label14.Size = new System.Drawing.Size(136, 23);
 			this.label14.TabIndex = 49;
 			this.label14.Text = "Highlight Outline Color";
-			this.label14.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// butOutlineColor
 			// 
 			this.butOutlineColor.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-			this.butOutlineColor.Location = new System.Drawing.Point(129, 38);
+			this.butOutlineColor.Location = new System.Drawing.Point(150, 50);
 			this.butOutlineColor.Name = "butOutlineColor";
-			this.butOutlineColor.Size = new System.Drawing.Size(30, 20);
+			this.butOutlineColor.Size = new System.Drawing.Size(30, 23);
 			this.butOutlineColor.TabIndex = 2;
 			this.butOutlineColor.Click += new System.EventHandler(this.butOutlineColor_Click);
 			// 
 			// labelColor
 			// 
-			this.labelColor.Location = new System.Drawing.Point(6, 22);
+			this.labelColor.Location = new System.Drawing.Point(28, 23);
 			this.labelColor.Name = "labelColor";
-			this.labelColor.Size = new System.Drawing.Size(117, 18);
+			this.labelColor.Size = new System.Drawing.Size(116, 23);
 			this.labelColor.TabIndex = 46;
 			this.labelColor.Text = "Appointment Color";
-			this.labelColor.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.labelColor.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// butColor
 			// 
 			this.butColor.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-			this.butColor.Location = new System.Drawing.Point(129, 18);
+			this.butColor.Location = new System.Drawing.Point(150, 23);
 			this.butColor.Name = "butColor";
-			this.butColor.Size = new System.Drawing.Size(30, 20);
+			this.butColor.Size = new System.Drawing.Size(30, 23);
 			this.butColor.TabIndex = 1;
 			this.butColor.Click += new System.EventHandler(this.butColor_Click);
 			// 
@@ -143,9 +143,9 @@ namespace OpenPmsDental{
 			this.groupCreateUsers.Controls.Add(this.butOutlineColor);
 			this.groupCreateUsers.Controls.Add(this.labelColor);
 			this.groupCreateUsers.Controls.Add(this.butBulkEdit);
-			this.groupCreateUsers.Location = new System.Drawing.Point(406, 114);
+			this.groupCreateUsers.Location = new System.Drawing.Point(404, 106);
 			this.groupCreateUsers.Name = "groupCreateUsers";
-			this.groupCreateUsers.Size = new System.Drawing.Size(165, 95);
+			this.groupCreateUsers.Size = new System.Drawing.Size(188, 109);
 			this.groupCreateUsers.TabIndex = 3;
 			this.groupCreateUsers.TabStop = false;
 			this.groupCreateUsers.Text = "Edit Students";
@@ -157,7 +157,7 @@ namespace OpenPmsDental{
 			// FormProvStudentBulkEdit
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(583, 494);
+			this.ClientSize = new System.Drawing.Size(600, 494);
 			this.Controls.Add(this.groupCreateUsers);
 			this.Controls.Add(this.label7);
 			this.Controls.Add(this.textProvNum);

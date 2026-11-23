@@ -46,36 +46,36 @@ namespace OpenPmsDental{
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(25, 78);
+			this.label2.Location = new System.Drawing.Point(15, 72);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(112, 20);
+			this.label2.Size = new System.Drawing.Size(116, 23);
 			this.label2.TabIndex = 81;
 			this.label2.Text = "NIST server address";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(22, 104);
+			this.label1.Location = new System.Drawing.Point(59, 99);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(109, 20);
+			this.label1.Size = new System.Drawing.Size(72, 23);
 			this.label1.TabIndex = 82;
 			this.label1.Text = "NIST server";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(25, 130);
+			this.label3.Location = new System.Drawing.Point(35, 126);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(106, 20);
+			this.label3.Size = new System.Drawing.Size(96, 23);
 			this.label3.TabIndex = 83;
 			this.label3.Text = "Database server";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(28, 156);
+			this.label4.Location = new System.Drawing.Point(43, 153);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(103, 20);
+			this.label4.Size = new System.Drawing.Size(88, 23);
 			this.label4.TabIndex = 84;
 			this.label4.Text = "Local machine";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -87,17 +87,17 @@ namespace OpenPmsDental{
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(25, 21);
+			this.label6.Location = new System.Drawing.Point(8, 8);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(456, 44);
+			this.label6.Size = new System.Drawing.Size(473, 62);
 			this.label6.TabIndex = 87;
 			this.label6.Text = resources.GetString("label6.Text");
 			// 
 			// label7
 			// 
-			this.label7.Location = new System.Drawing.Point(28, 182);
+			this.label7.Location = new System.Drawing.Point(71, 180);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(103, 20);
+			this.label7.Size = new System.Drawing.Size(60, 23);
 			this.label7.TabIndex = 92;
 			this.label7.Text = "Message";
 			this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -111,7 +111,7 @@ namespace OpenPmsDental{
 			this.textMessage.BackColor = System.Drawing.SystemColors.Control;
 			this.textMessage.DetectUrls = false;
 			this.textMessage.ForeColor = System.Drawing.Color.DarkRed;
-			this.textMessage.Location = new System.Drawing.Point(137, 182);
+			this.textMessage.Location = new System.Drawing.Point(137, 180);
 			this.textMessage.Name = "textMessage";
 			this.textMessage.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.MedicationEdit;
 			this.textMessage.ReadOnly = true;
@@ -125,7 +125,7 @@ namespace OpenPmsDental{
 			this.textLocalTime.AcceptsTab = true;
 			this.textLocalTime.BackColor = System.Drawing.SystemColors.Control;
 			this.textLocalTime.DetectUrls = false;
-			this.textLocalTime.Location = new System.Drawing.Point(137, 156);
+			this.textLocalTime.Location = new System.Drawing.Point(137, 154);
 			this.textLocalTime.Multiline = false;
 			this.textLocalTime.Name = "textLocalTime";
 			this.textLocalTime.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.MedicationEdit;
@@ -140,7 +140,7 @@ namespace OpenPmsDental{
 			this.textServerTime.AcceptsTab = true;
 			this.textServerTime.BackColor = System.Drawing.SystemColors.Control;
 			this.textServerTime.DetectUrls = false;
-			this.textServerTime.Location = new System.Drawing.Point(137, 130);
+			this.textServerTime.Location = new System.Drawing.Point(137, 127);
 			this.textServerTime.Multiline = false;
 			this.textServerTime.Name = "textServerTime";
 			this.textServerTime.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.MedicationEdit;
@@ -155,7 +155,7 @@ namespace OpenPmsDental{
 			this.textNistTime.AcceptsTab = true;
 			this.textNistTime.BackColor = System.Drawing.SystemColors.Control;
 			this.textNistTime.DetectUrls = false;
-			this.textNistTime.Location = new System.Drawing.Point(137, 104);
+			this.textNistTime.Location = new System.Drawing.Point(137, 100);
 			this.textNistTime.Multiline = false;
 			this.textNistTime.Name = "textNistTime";
 			this.textNistTime.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.MedicationEdit;
@@ -167,9 +167,9 @@ namespace OpenPmsDental{
 			// 
 			// butRefreshTime
 			// 
-			this.butRefreshTime.Location = new System.Drawing.Point(398, 76);
+			this.butRefreshTime.Location = new System.Drawing.Point(398, 72);
 			this.butRefreshTime.Name = "butRefreshTime";
-			this.butRefreshTime.Size = new System.Drawing.Size(83, 24);
+			this.butRefreshTime.Size = new System.Drawing.Size(83, 23);
 			this.butRefreshTime.TabIndex = 76;
 			this.butRefreshTime.Text = "Measure";
 			this.butRefreshTime.Click += new System.EventHandler(this.butRefreshTime_Click);
@@ -179,7 +179,7 @@ namespace OpenPmsDental{
 			this.textNistUrl.AcceptsTab = true;
 			this.textNistUrl.BackColor = System.Drawing.SystemColors.Window;
 			this.textNistUrl.DetectUrls = false;
-			this.textNistUrl.Location = new System.Drawing.Point(137, 78);
+			this.textNistUrl.Location = new System.Drawing.Point(137, 73);
 			this.textNistUrl.Multiline = false;
 			this.textNistUrl.Name = "textNistUrl";
 			this.textNistUrl.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.MedicationEdit;
@@ -191,9 +191,9 @@ namespace OpenPmsDental{
 			// butSetClock
 			// 
 			this.butSetClock.Enabled = false;
-			this.butSetClock.Location = new System.Drawing.Point(254, 154);
+			this.butSetClock.Location = new System.Drawing.Point(254, 153);
 			this.butSetClock.Name = "butSetClock";
-			this.butSetClock.Size = new System.Drawing.Size(160, 24);
+			this.butSetClock.Size = new System.Drawing.Size(160, 23);
 			this.butSetClock.TabIndex = 93;
 			this.butSetClock.Text = "Set this computer's clock";
 			this.butSetClock.Click += new System.EventHandler(this.butSetClock_Click);
@@ -201,7 +201,7 @@ namespace OpenPmsDental{
 			// labelSetClock
 			// 
 			this.labelSetClock.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.labelSetClock.Location = new System.Drawing.Point(137, 272);
+			this.labelSetClock.Location = new System.Drawing.Point(137, 268);
 			this.labelSetClock.Name = "labelSetClock";
 			this.labelSetClock.Size = new System.Drawing.Size(380, 44);
 			this.labelSetClock.TabIndex = 94;
@@ -210,9 +210,9 @@ namespace OpenPmsDental{
 			// checkTimeSyncWarn
 			// 
 			this.checkTimeSyncWarn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.checkTimeSyncWarn.Location = new System.Drawing.Point(137, 322);
+			this.checkTimeSyncWarn.Location = new System.Drawing.Point(137, 314);
 			this.checkTimeSyncWarn.Name = "checkTimeSyncWarn";
-			this.checkTimeSyncWarn.Size = new System.Drawing.Size(380, 20);
+			this.checkTimeSyncWarn.Size = new System.Drawing.Size(281, 20);
 			this.checkTimeSyncWarn.TabIndex = 95;
 			this.checkTimeSyncWarn.Text = "Check the database server's clock every 4 hours";
 			this.checkTimeSyncWarn.Click += new System.EventHandler(this.checkTimeSyncWarn_Click);
@@ -220,9 +220,9 @@ namespace OpenPmsDental{
 			// labelTimeSyncWarn
 			// 
 			this.labelTimeSyncWarn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.labelTimeSyncWarn.Location = new System.Drawing.Point(137, 344);
+			this.labelTimeSyncWarn.Location = new System.Drawing.Point(137, 338);
 			this.labelTimeSyncWarn.Name = "labelTimeSyncWarn";
-			this.labelTimeSyncWarn.Size = new System.Drawing.Size(380, 52);
+			this.labelTimeSyncWarn.Size = new System.Drawing.Size(380, 47);
 			this.labelTimeSyncWarn.TabIndex = 96;
 			this.labelTimeSyncWarn.Text = "Runs on the database server's computer and shows an alert when its clock is more than 5 seconds off the tim" +
     "e server. It never sets the clock. Takes effect at the next start.";

@@ -1673,6 +1673,16 @@ own 26.2 overlap check before it starts. The first cut is below; a brief that fi
   `ui/ui12-5-2`): the reviewer's eleven findings fixed in nine windows' scripts (FormTransactionEdit now with a script and its compound
   panel drawn as the gallery state `compound`; FormPerio's keypad on one grid; ControlManage, FormShowFeatures, FormSheetDef,
   FormEvaluationEdit, FormGlobalPaymentsV2Setup, FormSheetFieldOutput, FormVitalsignEdit2014), the gallery drawn again (62 pictures).
+  Slice 6 (UI-12-6, branch `ui/ui12-6-1`, batch 2 of `UI-12-batches.tsv` as re-planned after slices 3 and 4): 97 windows on the grid
+  (the planner and its templates, 83 of them with a layout script on the planner's tree: margins and right edges, side-by-side grids on
+  one top and width, cut and covered notes, run-time label texts, the step list of FormDatabaseMaintTemp, FormClaimPayTotal's totals row,
+  five window sizes the planner broke back at main's), 23 files skipped (the plain exes, the graph project, ODProgressBar,
+  ODDateRangePicker, ControlFamily); `grid_tools.py apply` moves a control declared as a local of InitializeComponent; the gallery shows
+  the run-time texts of seven windows' placeholder labels; no planner rule added (the planner's SplitterPanel placement left to the lead);
+  re-plans 243 / 461 / 179 / 37 and slice 4's rows unchanged; gallery G-UI3-ui12-6 (97 windows, 15 at 150%), audit `UI-12-audit-6.md`
+  (UI-12.md section 7, "Slice 6 (batch 2)"). Fix round (`ui/ui12-6-2`, the lead's 17 findings): 89 layout scripts (six new), the
+  discount summary 174 x 108 at 0, 0 with ControlTreat and ControlAccount sized to it, icon buttons kept at 24 px, inner margins and
+  rows of 18 windows; re-plans unchanged, gallery and audit updated ("Slice 6, fix round").
 - Gallery: G-UI3 per slice, the owner's rows first.
 
 **UI-13: every element type in the new look (the owner, 2026-11-22: "Overall make sure you modernize all element types")**

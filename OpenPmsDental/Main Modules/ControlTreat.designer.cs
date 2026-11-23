@@ -455,7 +455,7 @@ namespace OpenPmsDental {
 			// 
 			this.userControlIndDis.Location = new System.Drawing.Point(799, 406);
 			this.userControlIndDis.Name = "userControlIndDis";
-			this.userControlIndDis.Size = new System.Drawing.Size(173, 84);
+			this.userControlIndDis.Size = new System.Drawing.Size(174, 108);
 			this.userControlIndDis.TabIndex = 79;
 			// 
 			// ControlTreat

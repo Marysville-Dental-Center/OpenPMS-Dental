@@ -42,7 +42,7 @@ namespace OpenPmsDental
 			// 
 			this.tBStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.tBStatus.ForeColor = System.Drawing.Color.Blue;
-			this.tBStatus.Location = new System.Drawing.Point(7, 23);
+			this.tBStatus.Location = new System.Drawing.Point(8, 27);
 			this.tBStatus.Multiline = true;
 			this.tBStatus.Name = "tBStatus";
 			this.tBStatus.ScrollBars = System.Windows.Forms.ScrollBars.Both;
@@ -53,7 +53,7 @@ namespace OpenPmsDental
 			// 
 			this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label4.ForeColor = System.Drawing.Color.Blue;
-			this.label4.Location = new System.Drawing.Point(7, 6);
+			this.label4.Location = new System.Drawing.Point(8, 8);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(68, 17);
 			this.label4.TabIndex = 41;
@@ -63,9 +63,9 @@ namespace OpenPmsDental
 			// 
 			this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label1.ForeColor = System.Drawing.Color.Red;
-			this.label1.Location = new System.Drawing.Point(7, 223);
+			this.label1.Location = new System.Drawing.Point(8, 228);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(46, 17);
+			this.label1.Size = new System.Drawing.Size(48, 17);
 			this.label1.TabIndex = 43;
 			this.label1.Text = "Error...";
 			// 
@@ -73,7 +73,7 @@ namespace OpenPmsDental
 			// 
 			this.tBError.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.tBError.ForeColor = System.Drawing.Color.Red;
-			this.tBError.Location = new System.Drawing.Point(7, 240);
+			this.tBError.Location = new System.Drawing.Point(8, 247);
 			this.tBError.Multiline = true;
 			this.tBError.Name = "tBError";
 			this.tBError.ScrollBars = System.Windows.Forms.ScrollBars.Both;
@@ -83,7 +83,7 @@ namespace OpenPmsDental
 			// FormPatienteBill
 			// 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(475, 391);
+			this.ClientSize = new System.Drawing.Size(475, 394);
 			this.Controls.Add(this.tBError);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.label4);

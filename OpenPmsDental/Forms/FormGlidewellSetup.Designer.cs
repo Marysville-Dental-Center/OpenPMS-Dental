@@ -29,25 +29,25 @@ namespace OpenPmsDental {
 			//
 			// checkEnabled
 			//
-			this.checkEnabled.Location = new System.Drawing.Point(12, 12);
+			this.checkEnabled.Location = new System.Drawing.Point(8, 8);
 			this.checkEnabled.Name = "checkEnabled";
-			this.checkEnabled.Size = new System.Drawing.Size(200, 18);
+			this.checkEnabled.Size = new System.Drawing.Size(66, 20);
 			this.checkEnabled.TabIndex = 0;
 			this.checkEnabled.Text = "Enabled";
 			//
 			// labelDescription
 			//
-			this.labelDescription.Location = new System.Drawing.Point(12, 36);
+			this.labelDescription.Location = new System.Drawing.Point(8, 32);
 			this.labelDescription.Name = "labelDescription";
-			this.labelDescription.Size = new System.Drawing.Size(570, 66);
+			this.labelDescription.Size = new System.Drawing.Size(578, 66);
 			this.labelDescription.TabIndex = 1;
 			this.labelDescription.Text = "Sends lab cases from the Edit Lab Case window to Glidewell for a scan from an iTero or Medit scanner, and checks their status, directly with the office\'s own Glidewell account number and API key. Sent: the patient\'s name, patient number, gender and birthdate, the provider\'s number and license number, and the lab case\'s number, instructions and products.";
 			//
 			// gridAccounts
 			//
-			this.gridAccounts.Location = new System.Drawing.Point(12, 102);
+			this.gridAccounts.Location = new System.Drawing.Point(8, 100);
 			this.gridAccounts.Name = "gridAccounts";
-			this.gridAccounts.Size = new System.Drawing.Size(470, 200);
+			this.gridAccounts.Size = new System.Drawing.Size(490, 200);
 			this.gridAccounts.TabIndex = 2;
 			this.gridAccounts.Title = "Glidewell Accounts";
 			this.gridAccounts.TranslationName = "TableGlidewellAccts";
@@ -56,7 +56,7 @@ namespace OpenPmsDental {
 			// butAdd
 			//
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
-			this.butAdd.Location = new System.Drawing.Point(490, 102);
+			this.butAdd.Location = new System.Drawing.Point(506, 100);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(80, 24);
 			this.butAdd.TabIndex = 3;
@@ -66,48 +66,48 @@ namespace OpenPmsDental {
 			// labelTransport
 			//
 			this.labelTransport.ForeColor = System.Drawing.Color.Firebrick;
-			this.labelTransport.Location = new System.Drawing.Point(12, 356);
+			this.labelTransport.Location = new System.Drawing.Point(8, 368);
 			this.labelTransport.Name = "labelTransport";
-			this.labelTransport.Size = new System.Drawing.Size(570, 60);
+			this.labelTransport.Size = new System.Drawing.Size(578, 60);
 			this.labelTransport.TabIndex = 4;
 			//
 			// checkBaaOnFile
 			//
-			this.checkBaaOnFile.Location = new System.Drawing.Point(12, 310);
+			this.checkBaaOnFile.Location = new System.Drawing.Point(8, 304);
 			this.checkBaaOnFile.Name = "checkBaaOnFile";
-			this.checkBaaOnFile.Size = new System.Drawing.Size(582, 18);
+			this.checkBaaOnFile.Size = new System.Drawing.Size(578, 40);
 			this.checkBaaOnFile.TabIndex = 6;
 			this.checkBaaOnFile.Text = "A signed business associate agreement with Glidewell is on file (required before any patient data is sent)";
 			//
 			// labelBaaConfirmed
 			//
-			this.labelBaaConfirmed.Location = new System.Drawing.Point(30, 330);
+			this.labelBaaConfirmed.Location = new System.Drawing.Point(24, 348);
 			this.labelBaaConfirmed.Name = "labelBaaConfirmed";
-			this.labelBaaConfirmed.Size = new System.Drawing.Size(552, 18);
+			this.labelBaaConfirmed.Size = new System.Drawing.Size(562, 18);
 			this.labelBaaConfirmed.TabIndex = 7;
 			//
 			// labelSendWithout
 			//
-			this.labelSendWithout.Location = new System.Drawing.Point(12, 422);
+			this.labelSendWithout.Location = new System.Drawing.Point(8, 430);
 			this.labelSendWithout.Name = "labelSendWithout";
-			this.labelSendWithout.Size = new System.Drawing.Size(570, 18);
+			this.labelSendWithout.Size = new System.Drawing.Size(578, 18);
 			this.labelSendWithout.TabIndex = 8;
 			this.labelSendWithout.Text = "Sending a case to Glidewell today";
 			//
 			// textSendWithout
 			//
-			this.textSendWithout.Location = new System.Drawing.Point(12, 442);
+			this.textSendWithout.Location = new System.Drawing.Point(8, 450);
 			this.textSendWithout.Multiline = true;
 			this.textSendWithout.Name = "textSendWithout";
 			this.textSendWithout.ReadOnly = true;
 			this.textSendWithout.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.textSendWithout.Size = new System.Drawing.Size(570, 130);
+			this.textSendWithout.Size = new System.Drawing.Size(578, 130);
 			this.textSendWithout.TabIndex = 9;
 			//
 			// butSave
 			//
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(507, 584);
+			this.butSave.Location = new System.Drawing.Point(511, 594);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 5;
@@ -116,7 +116,7 @@ namespace OpenPmsDental {
 			//
 			// FormGlidewellSetup
 			//
-			this.ClientSize = new System.Drawing.Size(594, 620);
+			this.ClientSize = new System.Drawing.Size(594, 626);
 			this.Controls.Add(this.butSave);
 			this.Controls.Add(this.textSendWithout);
 			this.Controls.Add(this.labelSendWithout);

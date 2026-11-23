@@ -44,7 +44,7 @@ namespace OpenPmsDental {
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(883, 656);
+			this.butSave.Location = new System.Drawing.Point(891, 670);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 25);
 			this.butSave.TabIndex = 4;
@@ -53,9 +53,9 @@ namespace OpenPmsDental {
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(6, 33);
+			this.label2.Location = new System.Drawing.Point(15, 35);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(102, 20);
+			this.label2.Size = new System.Drawing.Size(88, 23);
 			this.label2.TabIndex = 0;
 			this.label2.Text = "Email Address";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -65,10 +65,10 @@ namespace OpenPmsDental {
 			this.textEmailAddress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.textEmailAddress.AutoSize = false;
-			this.textEmailAddress.Location = new System.Drawing.Point(109, 33);
+			this.textEmailAddress.Location = new System.Drawing.Point(109, 35);
 			this.textEmailAddress.MaxLength = 200;
 			this.textEmailAddress.Name = "textEmailAddress";
-			this.textEmailAddress.Size = new System.Drawing.Size(849, 20);
+			this.textEmailAddress.Size = new System.Drawing.Size(857, 23);
 			this.textEmailAddress.TabIndex = 2;
 			// 
 			// textAutographText
@@ -78,19 +78,19 @@ namespace OpenPmsDental {
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.textAutographText.DetectUrls = false;
-			this.textAutographText.Location = new System.Drawing.Point(109, 54);
+			this.textAutographText.Location = new System.Drawing.Point(109, 62);
 			this.textAutographText.Name = "textAutographText";
 			this.textAutographText.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Email;
 			this.textAutographText.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textAutographText.Size = new System.Drawing.Size(849, 596);
+			this.textAutographText.Size = new System.Drawing.Size(857, 596);
 			this.textAutographText.TabIndex = 3;
 			this.textAutographText.Text = "";
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(3, 54);
+			this.label1.Location = new System.Drawing.Point(11, 62);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(105, 20);
+			this.label1.Size = new System.Drawing.Size(92, 23);
 			this.label1.TabIndex = 0;
 			this.label1.Text = "Autograph Text";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -100,17 +100,17 @@ namespace OpenPmsDental {
 			this.textDescription.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.textDescription.AutoSize = false;
-			this.textDescription.Location = new System.Drawing.Point(109, 12);
+			this.textDescription.Location = new System.Drawing.Point(109, 8);
 			this.textDescription.MaxLength = 200;
 			this.textDescription.Name = "textDescription";
-			this.textDescription.Size = new System.Drawing.Size(849, 20);
+			this.textDescription.Size = new System.Drawing.Size(857, 23);
 			this.textDescription.TabIndex = 1;
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(6, 12);
+			this.label3.Location = new System.Drawing.Point(31, 8);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(102, 20);
+			this.label3.Size = new System.Drawing.Size(72, 23);
 			this.label3.TabIndex = 0;
 			this.label3.Text = "Description";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -118,7 +118,7 @@ namespace OpenPmsDental {
 			// FormEmailAutographEdit
 			// 
 			this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
-			this.ClientSize = new System.Drawing.Size(974, 695);
+			this.ClientSize = new System.Drawing.Size(974, 703);
 			this.Controls.Add(this.textDescription);
 			this.Controls.Add(this.label3);
 			this.Controls.Add(this.label1);

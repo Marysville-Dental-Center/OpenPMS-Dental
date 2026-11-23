@@ -17,7 +17,8 @@ the other modules have them, 4 px between the parts):
 - the tab pages: the check boxes and radio buttons at the grid's check box height (18) one under the other from 3 px under the page's top,
   so the Show page's seven need the row 4 px taller than main's (155: the page 132); the Sort and Printing pages from the Show page's x,
   the Sort page's note as on main (159 px: the width its fit fix gave it for the scales up to 200%).
-The summaries' insides are their own designers (DashFamilyInsurance, DashIndividualInsurance, DashIndividualDiscount)."""
+The summaries' insides are their own designers (DashFamilyInsurance, DashIndividualInsurance, DashIndividualDiscount); the discount
+summary takes its designer's size (slice 6 fix round)."""
 
 
 def layout(h):
@@ -63,7 +64,13 @@ def layout(h):
     h.set("userControlIndIns", xr, yind, ind.w, ind.h)
     yfam = yind - gap - fam.h
     h.set("userControlFamIns", xr, yfam, fam.w, fam.h)
-    h.set("userControlIndDis", xr, yfam, dis.w, dis.h)
+    # UI-12 slice 6 fix round: the discount summary at its own designer's size (DashIndividualDiscount, 174 x 108 on the grid; the module
+    # gave it main's 173 x 84, which cut its third row and right edge). It stands on the family summary's place and reaches over the
+    # individual summary's: FillSummary shows the discount summary or the two insurance summaries, never both.
+    import fit_tools
+    import grid_tools
+    dw, dh = grid_tools.Designer(fit_tools.repo_root(), "OpenPmsDental/User Controls/Dashboard/DashIndividualDiscount.Designer.cs").size(".")
+    h.set("userControlIndDis", xr, yfam, dw, dh)
     # Set Priority's list down to 4 px over the summaries (main: 199 px tall, over the family summary's top).
     h.set("listSetPr", xr, ybox, wl, yfam - gap - ybox)
     rem = h.n("butInsRem")

@@ -30,9 +30,9 @@ namespace OpenPmsDental{
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(14, 13);
+			this.label1.Location = new System.Drawing.Point(8, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(351, 18);
+			this.label1.Size = new System.Drawing.Size(357, 18);
 			this.label1.TabIndex = 4;
 			this.label1.Text = "Raw benefit information as received from the insurance company";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -42,9 +42,9 @@ namespace OpenPmsDental{
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(16, 166);
+			this.gridMain.Location = new System.Drawing.Point(8, 158);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(337, 258);
+			this.gridMain.Size = new System.Drawing.Size(357, 286);
 			this.gridMain.TabIndex = 21;
 			this.gridMain.Title = "EB (benefit) Elements";
 			this.gridMain.TranslationName = "FormEtrans270EBraw";
@@ -53,17 +53,17 @@ namespace OpenPmsDental{
 			// 
 			this.textRaw.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textRaw.Location = new System.Drawing.Point(16, 34);
+			this.textRaw.Location = new System.Drawing.Point(8, 28);
 			this.textRaw.Name = "textRaw";
 			this.textRaw.ReadOnly = true;
-			this.textRaw.Size = new System.Drawing.Size(337, 126);
+			this.textRaw.Size = new System.Drawing.Size(357, 126);
 			this.textRaw.TabIndex = 23;
 			this.textRaw.Text = "";
 			this.textRaw.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.textRaw_LinkClicked);
 			// 
 			// FormEtrans270EBraw
 			// 
-			this.ClientSize = new System.Drawing.Size(365, 452);
+			this.ClientSize = new System.Drawing.Size(373, 452);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.Controls.Add(this.textRaw);
 			this.Controls.Add(this.gridMain);

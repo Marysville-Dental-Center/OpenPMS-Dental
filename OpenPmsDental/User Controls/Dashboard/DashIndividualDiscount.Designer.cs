@@ -41,9 +41,9 @@
 			this.groupBoxIndDiscount.Controls.Add(this.label11);
 			this.groupBoxIndDiscount.Controls.Add(this.label18);
 			this.groupBoxIndDiscount.Controls.Add(this.label12);
-			this.groupBoxIndDiscount.Location = new System.Drawing.Point(2, 0);
+			this.groupBoxIndDiscount.Location = new System.Drawing.Point(0, 0);
 			this.groupBoxIndDiscount.Name = "groupBoxIndDiscount";
-			this.groupBoxIndDiscount.Size = new System.Drawing.Size(166, 83);
+			this.groupBoxIndDiscount.Size = new System.Drawing.Size(174, 108);
 			this.groupBoxIndDiscount.TabIndex = 69;
 			this.groupBoxIndDiscount.TabStop = false;
 			this.groupBoxIndDiscount.Text = "Discount Plan";
@@ -51,7 +51,7 @@
 			// textAccumulatedAdj
 			// 
 			this.textUsedAdj.BackColor = System.Drawing.Color.White;
-			this.textUsedAdj.Location = new System.Drawing.Point(99, 37);
+			this.textUsedAdj.Location = new System.Drawing.Point(106, 50);
 			this.textUsedAdj.Name = "textAccumulatedAdj";
 			this.textUsedAdj.ReadOnly = true;
 			this.textUsedAdj.Size = new System.Drawing.Size(60, 20);
@@ -62,10 +62,10 @@
 			// 
 			this.textRemainingAdj.BackColor = System.Drawing.Color.White;
 			this.textRemainingAdj.AutoSize = false;
-			this.textRemainingAdj.Location = new System.Drawing.Point(99, 57);
+			this.textRemainingAdj.Location = new System.Drawing.Point(106, 77);
 			this.textRemainingAdj.Name = "textRemainingAdj";
 			this.textRemainingAdj.ReadOnly = true;
-			this.textRemainingAdj.Size = new System.Drawing.Size(60, 20);
+			this.textRemainingAdj.Size = new System.Drawing.Size(60, 23);
 			this.textRemainingAdj.TabIndex = 51;
 			this.textRemainingAdj.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			// 
@@ -73,46 +73,46 @@
 			// 
 			this.textMaxAdj.BackColor = System.Drawing.Color.White;
 			this.textMaxAdj.AutoSize = false;
-			this.textMaxAdj.Location = new System.Drawing.Point(99, 17);
+			this.textMaxAdj.Location = new System.Drawing.Point(106, 23);
 			this.textMaxAdj.Name = "textMaxAdj";
 			this.textMaxAdj.ReadOnly = true;
-			this.textMaxAdj.Size = new System.Drawing.Size(60, 20);
+			this.textMaxAdj.Size = new System.Drawing.Size(60, 23);
 			this.textMaxAdj.TabIndex = 38;
 			this.textMaxAdj.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			// 
 			// label11
 			// 
-			this.label11.Location = new System.Drawing.Point(4, 19);
+			this.label11.Location = new System.Drawing.Point(24, 23);
 			this.label11.Name = "label11";
-			this.label11.Size = new System.Drawing.Size(89, 18);
+			this.label11.Size = new System.Drawing.Size(76, 23);
 			this.label11.TabIndex = 32;
 			this.label11.Text = "Annual Max";
-			this.label11.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label18
 			// 
-			this.label18.Location = new System.Drawing.Point(2, 59);
+			this.label18.Location = new System.Drawing.Point(8, 77);
 			this.label18.Name = "label18";
-			this.label18.Size = new System.Drawing.Size(91, 18);
+			this.label18.Size = new System.Drawing.Size(92, 23);
 			this.label18.TabIndex = 50;
 			this.label18.Text = "Adj Remaining";
-			this.label18.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label18.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label12
 			// 
-			this.label12.Location = new System.Drawing.Point(4, 39);
+			this.label12.Location = new System.Drawing.Point(40, 50);
 			this.label12.Name = "label12";
-			this.label12.Size = new System.Drawing.Size(89, 18);
+			this.label12.Size = new System.Drawing.Size(60, 23);
 			this.label12.TabIndex = 33;
 			this.label12.Text = "Adj Used";
-			this.label12.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// DashIndividualDiscount
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.Controls.Add(this.groupBoxIndDiscount);
 			this.Name = "DashIndividualDiscount";
-			this.Size = new System.Drawing.Size(170, 84);
+			this.Size = new System.Drawing.Size(174, 108);
 			this.groupBoxIndDiscount.ResumeLayout(false);
 			this.groupBoxIndDiscount.PerformLayout();
 			this.ResumeLayout(false);

@@ -45,19 +45,19 @@
 			// 
 			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label1.Location = new System.Drawing.Point(317, 278);
+			this.label1.Location = new System.Drawing.Point(355, 269);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(84, 16);
+			this.label1.Size = new System.Drawing.Size(44, 23);
 			this.label1.TabIndex = 117;
 			this.label1.Text = "Totals";
-			this.label1.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label2
 			// 
 			this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label2.Location = new System.Drawing.Point(407, 325);
+			this.label2.Location = new System.Drawing.Point(405, 300);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(348, 39);
+			this.label2.Size = new System.Drawing.Size(348, 32);
 			this.label2.TabIndex = 122;
 			this.label2.Text = "Before you click Save, the Deductible and the Ins Pay amounts should exactly match " +
     "the insurance EOB.";
@@ -65,7 +65,7 @@
 			// label3
 			// 
 			this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label3.Location = new System.Drawing.Point(11, 283);
+			this.label3.Location = new System.Drawing.Point(8, 322);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(116, 34);
 			this.label3.TabIndex = 123;
@@ -75,9 +75,9 @@
 			// label4
 			// 
 			this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label4.Location = new System.Drawing.Point(155, 289);
+			this.label4.Location = new System.Drawing.Point(132, 322);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(132, 29);
+			this.label4.Size = new System.Drawing.Size(132, 34);
 			this.label4.TabIndex = 124;
 			this.label4.Text = "On all unpaid amounts:";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -85,7 +85,7 @@
 			// butWriteOff
 			// 
 			this.butWriteOff.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butWriteOff.Location = new System.Drawing.Point(154, 324);
+			this.butWriteOff.Location = new System.Drawing.Point(132, 358);
 			this.butWriteOff.Name = "butWriteOff";
 			this.butWriteOff.Size = new System.Drawing.Size(90, 25);
 			this.butWriteOff.TabIndex = 121;
@@ -95,7 +95,7 @@
 			// butDeductible
 			// 
 			this.butDeductible.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butDeductible.Location = new System.Drawing.Point(14, 324);
+			this.butDeductible.Location = new System.Drawing.Point(8, 358);
 			this.butDeductible.Name = "butDeductible";
 			this.butDeductible.Size = new System.Drawing.Size(92, 25);
 			this.butDeductible.TabIndex = 120;
@@ -105,7 +105,7 @@
 			// butPayLabs
 			// 
 			this.butPayLabs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butPayLabs.Location = new System.Drawing.Point(264, 324);
+			this.butPayLabs.Location = new System.Drawing.Point(228, 358);
 			this.butPayLabs.Name = "butPayLabs";
 			this.butPayLabs.Size = new System.Drawing.Size(90, 25);
 			this.butPayLabs.TabIndex = 125;
@@ -116,12 +116,12 @@
 			// textWriteOff
 			// 
 			this.textWriteOff.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.textWriteOff.Location = new System.Drawing.Point(715, 275);
+			this.textWriteOff.Location = new System.Drawing.Point(715, 269);
 			this.textWriteOff.MaxVal = 100000000D;
 			this.textWriteOff.MinVal = -100000000D;
 			this.textWriteOff.Name = "textWriteOff";
 			this.textWriteOff.ReadOnly = true;
-			this.textWriteOff.Size = new System.Drawing.Size(63, 20);
+			this.textWriteOff.Size = new System.Drawing.Size(63, 23);
 			this.textWriteOff.TabIndex = 119;
 			this.textWriteOff.TabStop = false;
 			this.textWriteOff.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -130,12 +130,12 @@
 			// 
 			this.textInsPayAmt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.textInsPayAmt.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.textInsPayAmt.Location = new System.Drawing.Point(653, 275);
+			this.textInsPayAmt.Location = new System.Drawing.Point(653, 269);
 			this.textInsPayAmt.MaxVal = 100000000D;
 			this.textInsPayAmt.MinVal = -100000000D;
 			this.textInsPayAmt.Name = "textInsPayAmt";
 			this.textInsPayAmt.ReadOnly = true;
-			this.textInsPayAmt.Size = new System.Drawing.Size(63, 20);
+			this.textInsPayAmt.Size = new System.Drawing.Size(63, 23);
 			this.textInsPayAmt.TabIndex = 115;
 			this.textInsPayAmt.TabStop = false;
 			this.textInsPayAmt.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -144,12 +144,12 @@
 			// 
 			this.textDedApplied.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.textDedApplied.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.textDedApplied.Location = new System.Drawing.Point(529, 275);
+			this.textDedApplied.Location = new System.Drawing.Point(529, 269);
 			this.textDedApplied.MaxVal = 100000000D;
 			this.textDedApplied.MinVal = -100000000D;
 			this.textDedApplied.Name = "textDedApplied";
 			this.textDedApplied.ReadOnly = true;
-			this.textDedApplied.Size = new System.Drawing.Size(63, 20);
+			this.textDedApplied.Size = new System.Drawing.Size(63, 23);
 			this.textDedApplied.TabIndex = 114;
 			this.textDedApplied.TabStop = false;
 			this.textDedApplied.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -157,7 +157,7 @@
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(1069, 325);
+			this.butSave.Location = new System.Drawing.Point(1075, 358);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 25);
 			this.butSave.TabIndex = 1;
@@ -167,12 +167,12 @@
 			// textLabFees
 			// 
 			this.textLabFees.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.textLabFees.Location = new System.Drawing.Point(467, 275);
+			this.textLabFees.Location = new System.Drawing.Point(467, 269);
 			this.textLabFees.MaxVal = 100000000D;
 			this.textLabFees.MinVal = -100000000D;
 			this.textLabFees.Name = "textLabFees";
 			this.textLabFees.ReadOnly = true;
-			this.textLabFees.Size = new System.Drawing.Size(63, 20);
+			this.textLabFees.Size = new System.Drawing.Size(63, 23);
 			this.textLabFees.TabIndex = 139;
 			this.textLabFees.TabStop = false;
 			this.textLabFees.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -182,7 +182,7 @@
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(8, 12);
+			this.gridMain.Location = new System.Drawing.Point(8, 8);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.OneCell;
 			this.gridMain.Size = new System.Drawing.Size(1142, 257);
@@ -195,12 +195,12 @@
 			// textClaimFee
 			// 
 			this.textClaimFee.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.textClaimFee.Location = new System.Drawing.Point(405, 275);
+			this.textClaimFee.Location = new System.Drawing.Point(405, 269);
 			this.textClaimFee.MaxVal = 100000000D;
 			this.textClaimFee.MinVal = -100000000D;
 			this.textClaimFee.Name = "textClaimFee";
 			this.textClaimFee.ReadOnly = true;
-			this.textClaimFee.Size = new System.Drawing.Size(63, 20);
+			this.textClaimFee.Size = new System.Drawing.Size(63, 23);
 			this.textClaimFee.TabIndex = 140;
 			this.textClaimFee.TabStop = false;
 			this.textClaimFee.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -209,12 +209,12 @@
 			// 
 			this.textInsPayAllowed.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.textInsPayAllowed.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.textInsPayAllowed.Location = new System.Drawing.Point(591, 275);
+			this.textInsPayAllowed.Location = new System.Drawing.Point(591, 269);
 			this.textInsPayAllowed.MaxVal = 100000000D;
 			this.textInsPayAllowed.MinVal = -100000000D;
 			this.textInsPayAllowed.Name = "textInsPayAllowed";
 			this.textInsPayAllowed.ReadOnly = true;
-			this.textInsPayAllowed.Size = new System.Drawing.Size(63, 20);
+			this.textInsPayAllowed.Size = new System.Drawing.Size(63, 23);
 			this.textInsPayAllowed.TabIndex = 141;
 			this.textInsPayAllowed.TabStop = false;
 			this.textInsPayAllowed.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -222,19 +222,19 @@
 			// textPatResp
 			// 
 			this.textPatResp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.textPatResp.Location = new System.Drawing.Point(777, 275);
+			this.textPatResp.Location = new System.Drawing.Point(777, 269);
 			this.textPatResp.MaxVal = 100000000D;
 			this.textPatResp.MinVal = -100000000D;
 			this.textPatResp.Name = "textPatResp";
 			this.textPatResp.ReadOnly = true;
-			this.textPatResp.Size = new System.Drawing.Size(63, 20);
+			this.textPatResp.Size = new System.Drawing.Size(63, 23);
 			this.textPatResp.TabIndex = 142;
 			this.textPatResp.TabStop = false;
 			this.textPatResp.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			// 
 			// FormClaimPayTotal
 			// 
-			this.ClientSize = new System.Drawing.Size(1156, 363);
+			this.ClientSize = new System.Drawing.Size(1158, 391);
 			this.Controls.Add(this.textPatResp);
 			this.Controls.Add(this.textInsPayAllowed);
 			this.Controls.Add(this.textClaimFee);

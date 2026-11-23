@@ -42,7 +42,7 @@ namespace OpenPmsDental {
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(429, 237);
+			this.butSave.Location = new System.Drawing.Point(493, 241);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 3;
@@ -51,43 +51,43 @@ namespace OpenPmsDental {
 			// 
 			// checkPrompt
 			// 
-			this.checkPrompt.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkPrompt.Location = new System.Drawing.Point(47, 113);
+			this.checkPrompt.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkPrompt.Location = new System.Drawing.Point(117, 137);
 			this.checkPrompt.Name = "checkPrompt";
-			this.checkPrompt.Size = new System.Drawing.Size(83, 19);
+			this.checkPrompt.Size = new System.Drawing.Size(63, 20);
 			this.checkPrompt.TabIndex = 24;
 			this.checkPrompt.Text = "Prompt";
 			// 
 			// comboPrinter
 			// 
-			this.comboPrinter.Location = new System.Drawing.Point(117, 72);
+			this.comboPrinter.Location = new System.Drawing.Point(117, 62);
 			this.comboPrinter.Name = "comboPrinter";
-			this.comboPrinter.Size = new System.Drawing.Size(281, 21);
+			this.comboPrinter.Size = new System.Drawing.Size(280, 23);
 			this.comboPrinter.TabIndex = 169;
 			// 
 			// labelPrinter
 			// 
-			this.labelPrinter.Location = new System.Drawing.Point(16, 74);
+			this.labelPrinter.Location = new System.Drawing.Point(63, 62);
 			this.labelPrinter.Name = "labelPrinter";
-			this.labelPrinter.Size = new System.Drawing.Size(99, 16);
+			this.labelPrinter.Size = new System.Drawing.Size(48, 23);
 			this.labelPrinter.TabIndex = 168;
 			this.labelPrinter.Text = "Printer";
 			this.labelPrinter.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// checkVirtualPrinter
 			// 
-			this.checkVirtualPrinter.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkVirtualPrinter.Location = new System.Drawing.Point(-3, 144);
+			this.checkVirtualPrinter.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkVirtualPrinter.Location = new System.Drawing.Point(117, 167);
 			this.checkVirtualPrinter.Name = "checkVirtualPrinter";
-			this.checkVirtualPrinter.Size = new System.Drawing.Size(133, 19);
+			this.checkVirtualPrinter.Size = new System.Drawing.Size(97, 20);
 			this.checkVirtualPrinter.TabIndex = 171;
 			this.checkVirtualPrinter.Text = "Virtual Printer";
 			// 
 			// labelExtension
 			// 
-			this.labelExtension.Location = new System.Drawing.Point(16, 171);
+			this.labelExtension.Location = new System.Drawing.Point(27, 195);
 			this.labelExtension.Name = "labelExtension";
-			this.labelExtension.Size = new System.Drawing.Size(99, 16);
+			this.labelExtension.Size = new System.Drawing.Size(84, 23);
 			this.labelExtension.TabIndex = 173;
 			this.labelExtension.Text = "File Extension";
 			this.labelExtension.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -97,7 +97,7 @@ namespace OpenPmsDental {
 			this.textFileExtension.AcceptsTab = true;
 			this.textFileExtension.BackColor = System.Drawing.SystemColors.Window;
 			this.textFileExtension.DetectUrls = false;
-			this.textFileExtension.Location = new System.Drawing.Point(117, 169);
+			this.textFileExtension.Location = new System.Drawing.Point(117, 196);
 			this.textFileExtension.Name = "textFileExtension";
 			this.textFileExtension.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Letter;
 			this.textFileExtension.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
@@ -107,9 +107,9 @@ namespace OpenPmsDental {
 			// 
 			// labelSituation
 			// 
-			this.labelSituation.Location = new System.Drawing.Point(16, 44);
+			this.labelSituation.Location = new System.Drawing.Point(51, 35);
 			this.labelSituation.Name = "labelSituation";
-			this.labelSituation.Size = new System.Drawing.Size(99, 16);
+			this.labelSituation.Size = new System.Drawing.Size(60, 23);
 			this.labelSituation.TabIndex = 175;
 			this.labelSituation.Text = "Situation";
 			this.labelSituation.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -120,7 +120,7 @@ namespace OpenPmsDental {
 			this.textSituation.BackColor = System.Drawing.SystemColors.Control;
 			this.textSituation.DetectUrls = false;
 			this.textSituation.Enabled = false;
-			this.textSituation.Location = new System.Drawing.Point(117, 42);
+			this.textSituation.Location = new System.Drawing.Point(117, 36);
 			this.textSituation.Name = "textSituation";
 			this.textSituation.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.FAQ;
 			this.textSituation.ReadOnly = true;
@@ -131,16 +131,16 @@ namespace OpenPmsDental {
 			// 
 			// label11
 			// 
-			this.label11.Location = new System.Drawing.Point(134, 108);
+			this.label11.Location = new System.Drawing.Point(186, 131);
 			this.label11.Name = "label11";
-			this.label11.Size = new System.Drawing.Size(382, 31);
+			this.label11.Size = new System.Drawing.Size(382, 32);
 			this.label11.TabIndex = 177;
 			this.label11.Text = "It is recommended to use the prompt option for most functions.  But if you are us" +
     "ing a default, it is not necessary to check the box";
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(12, 20);
+			this.label2.Location = new System.Drawing.Point(8, 8);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(354, 18);
 			this.label2.TabIndex = 178;
@@ -148,30 +148,30 @@ namespace OpenPmsDental {
 			// 
 			// labelExtensionNote
 			// 
-			this.labelExtensionNote.Location = new System.Drawing.Point(186, 166);
+			this.labelExtensionNote.Location = new System.Drawing.Point(186, 190);
 			this.labelExtensionNote.Name = "labelExtensionNote";
-			this.labelExtensionNote.Size = new System.Drawing.Size(329, 33);
+			this.labelExtensionNote.Size = new System.Drawing.Size(382, 33);
 			this.labelExtensionNote.TabIndex = 179;
 			this.labelExtensionNote.Text = "The file extension the selected virtual printer writes to (i.e. pdf, xps, etc.)";
 			//
 			// labelStatus
 			//
-			this.labelStatus.Location = new System.Drawing.Point(404, 74);
+			this.labelStatus.Location = new System.Drawing.Point(403, 65);
 			this.labelStatus.Name = "labelStatus";
-			this.labelStatus.Size = new System.Drawing.Size(100, 16);
+			this.labelStatus.Size = new System.Drawing.Size(165, 16);
 			this.labelStatus.TabIndex = 180;
 			this.labelStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			//
 			// labelPrinterRule
 			//
-			this.labelPrinterRule.Location = new System.Drawing.Point(117, 94);
+			this.labelPrinterRule.Location = new System.Drawing.Point(117, 89);
 			this.labelPrinterRule.Name = "labelPrinterRule";
-			this.labelPrinterRule.Size = new System.Drawing.Size(387, 14);
+			this.labelPrinterRule.Size = new System.Drawing.Size(451, 34);
 			this.labelPrinterRule.TabIndex = 181;
 			// 
 			// FormPrinterEdit
 			// 
-			this.ClientSize = new System.Drawing.Size(516, 273);
+			this.ClientSize = new System.Drawing.Size(576, 273);
 			this.Controls.Add(this.labelPrinterRule);
 			this.Controls.Add(this.labelStatus);
 			this.Controls.Add(this.labelExtensionNote);
