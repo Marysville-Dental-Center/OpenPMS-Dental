@@ -442,3 +442,6 @@ OpenPmsDental/Forms/FormMedicationEdit.designer.cs	OpenPmsDental.FormMedicationE
 OpenPmsDental/Forms/FormMedicationEdit.designer.cs	OpenPmsDental.FormMedicationEdit	comboBrands	Size	300,23	418,23	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormMedicationEdit.designer.cs	OpenPmsDental.FormMedicationEdit	textNotes	Size	419,194	426,194	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormMedicationEdit.designer.cs	OpenPmsDental.FormMedicationEdit	textGenericName	Location	187,66	187,62	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormFeeEdit.designer.cs	OpenPmsDental.FormFeeEdit	.	ClientSize	536,336	374,132	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormFeeEdit.designer.cs	OpenPmsDental.FormFeeEdit	butSave	Location	453,303	291,99	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormFeeEdit.designer.cs	OpenPmsDental.FormFeeEdit	textBox1	Location	16,83	16,132	by hand (layout script): on the grid

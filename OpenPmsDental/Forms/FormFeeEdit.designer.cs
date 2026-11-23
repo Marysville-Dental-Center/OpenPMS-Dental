@@ -73,7 +73,7 @@ namespace OpenPmsDental {
 			// 
 			this.textBox1.BackColor = System.Drawing.SystemColors.Control;
 			this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			this.textBox1.Location = new System.Drawing.Point(16,83);
+			this.textBox1.Location = new System.Drawing.Point(16,132);
 			this.textBox1.Multiline = true;
 			this.textBox1.Name = "textBox1";
 			this.textBox1.Size = new System.Drawing.Size(512,208);
@@ -84,7 +84,7 @@ namespace OpenPmsDental {
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(453, 303);
+			this.butSave.Location = new System.Drawing.Point(291, 99);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 25);
 			this.butSave.TabIndex = 3;
@@ -96,7 +96,7 @@ namespace OpenPmsDental {
 			this.AcceptButton = this.butSave;
 			this.Controls.Add(this.butSave);
 			this.AutoScaleBaseSize = new System.Drawing.Size(5,13);
-			this.ClientSize = new System.Drawing.Size(536,336);
+			this.ClientSize = new System.Drawing.Size(374,132);
 			this.Controls.Add(this.textBox1);
 			this.Controls.Add(this.textFee);
 			this.Controls.Add(this.checkDefCov);
