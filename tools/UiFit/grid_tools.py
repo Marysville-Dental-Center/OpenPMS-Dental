@@ -277,6 +277,46 @@ def bottom_anchored_high(tree, designer):
     return out
 
 
+def window_files(root, windows):
+    """fit_tools.window_files, and (UI-12 slice 12) for a window with no designer file of its name, the .cs file of its name that holds its
+    InitializeComponent (the Central Manager's FormCentralChooseDatabase and FormCentralLogOn keep their designer code in the window's own
+    file), else the designer file of its assembly's folder that declares the class. Only for such windows: a window with a designer file finds the same files as before."""
+    wf = fit_tools.window_files(root, windows)
+    missing = [w for w in windows if not wf.get(w)]
+    if missing:
+        saved = fit_tools.ALLOW_CODE_FILES
+        fit_tools.ALLOW_CODE_FILES = True
+        try:
+            by_name = fit_tools.code_files_with_designer_code(root)
+            for w in missing:
+                simple = w.split(".")[-1].split("@")[0]
+                wf[w] = by_name.get(simple.lower(), [])
+                if not wf[w]:
+                    # A designer file named otherwise than its class (MySQLManager's FormMySQLUserManager in FormMySQLManager.Designer.cs).
+                    wf[w] = [f for f in fit_tools.files_declaring(root, fit_tools.designer_files(root), simple)
+                             if f.lower().startswith(w.split(".")[0].lower() + "/")]
+        finally:
+            fit_tools.ALLOW_CODE_FILES = saved
+    return wf
+
+
+def without_initialize_component(text):
+    """The code without the body of InitializeComponent (UI-12 slice 12): in a window whose designer code is in its own .cs file, the
+    designer's Location and Size lines are not code that positions controls at run time."""
+    m = re.search(r"void\s+InitializeComponent\s*\(\s*\)\s*\{", text)
+    if not m:
+        return text
+    depth = 0
+    for i in range(m.end() - 1, len(text)):
+        if text[i] == "{":
+            depth += 1
+        elif text[i] == "}":
+            depth -= 1
+            if depth == 0:
+                return text[:m.end()] + text[i:]
+    return text
+
+
 def code_files_for(root, simple):
     """The .cs files (not designer files) that declare (partial) class simple."""
     try:
@@ -303,7 +343,7 @@ def runtime_positioned(root, simple, names):
     texts = []
     for f in code_files_for(root, simple):
         with open(os.path.join(root, f), "rb") as fh:
-            texts.append(fh.read().decode("latin-1"))
+            texts.append(without_initialize_component(fh.read().decode("latin-1")))
     code = "\n".join(texts)
     if not code:
         return found
@@ -347,7 +387,7 @@ def runtime_window_sized(root, simple):
     texts = []
     for f in code_files_for(root, simple):
         with open(os.path.join(root, f), "rb") as fh:
-            texts.append(fh.read().decode("latin-1"))
+            texts.append(without_initialize_component(fh.read().decode("latin-1")))
     code = "\n".join(texts)
     code = re.sub(r'(?m)^((?:[^"\n/]|"(?:[^"\\\n]|\\.)*"|/(?!/))*)//[^\n]*', r"\1", code)
     out = []
@@ -2304,7 +2344,7 @@ def cmd_plan(args):
     if args.windows:
         windows = set(args.windows.split(","))
     trees = load_tree(args.tree, windows)
-    wf = fit_tools.window_files(root, list(trees.keys()))
+    wf = window_files(root, list(trees.keys()))
     planner = Planner(root)
     scope_file = os.path.join(root, args.scope_file)
     if os.path.exists(scope_file):
@@ -2545,7 +2585,7 @@ def cmd_anchors(args):
     windows = set(args.windows.split(",")) if args.windows else set(
         r["window"] for r in slice_data.read_dicts(slice_data.resolve(root, args.windows_file)))
     trees = load_tree(args.tree, windows)
-    wf = fit_tools.window_files(root, list(trees.keys()))
+    wf = window_files(root, list(trees.keys()))
     found = 0
     for w in sorted(trees):
         files = wf.get(w) or []
