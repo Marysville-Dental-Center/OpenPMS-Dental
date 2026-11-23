@@ -40,57 +40,57 @@ namespace OpenPmsDental{
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(12, 8);
+			this.label1.Location = new System.Drawing.Point(8, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(278, 17);
+			this.label1.Size = new System.Drawing.Size(290, 17);
 			this.label1.TabIndex = 106;
 			this.label1.Text = "Carrier";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// listCarriers
 			// 
-			this.listCarriers.Location = new System.Drawing.Point(12, 27);
+			this.listCarriers.Location = new System.Drawing.Point(8, 27);
 			this.listCarriers.Name = "listCarriers";
-			this.listCarriers.Size = new System.Drawing.Size(275, 43);
+			this.listCarriers.Size = new System.Drawing.Size(290, 43);
 			this.listCarriers.TabIndex = 107;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(12, 74);
+			this.label2.Location = new System.Drawing.Point(8, 74);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(278, 17);
+			this.label2.Size = new System.Drawing.Size(290, 17);
 			this.label2.TabIndex = 109;
 			this.label2.Text = "Billing Provider";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// listBillingProvider
 			// 
-			this.listBillingProvider.Location = new System.Drawing.Point(12, 93);
+			this.listBillingProvider.Location = new System.Drawing.Point(8, 93);
 			this.listBillingProvider.Name = "listBillingProvider";
-			this.listBillingProvider.Size = new System.Drawing.Size(275, 43);
+			this.listBillingProvider.Size = new System.Drawing.Size(290, 43);
 			this.listBillingProvider.TabIndex = 110;
 			this.listBillingProvider.Click += new System.EventHandler(this.listBillingProvider_Click);
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(12, 186);
+			this.label3.Location = new System.Drawing.Point(8, 186);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(278, 17);
+			this.label3.Size = new System.Drawing.Size(290, 17);
 			this.label3.TabIndex = 111;
 			this.label3.Text = "Treating Provider";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// listTreatingProvider
 			// 
-			this.listTreatingProvider.Location = new System.Drawing.Point(12, 205);
+			this.listTreatingProvider.Location = new System.Drawing.Point(8, 205);
 			this.listTreatingProvider.Name = "listTreatingProvider";
-			this.listTreatingProvider.Size = new System.Drawing.Size(276, 43);
+			this.listTreatingProvider.Size = new System.Drawing.Size(290, 43);
 			this.listTreatingProvider.TabIndex = 112;
 			this.listTreatingProvider.Click += new System.EventHandler(this.listTreatingProvider_Click);
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(169, 252);
+			this.label4.Location = new System.Drawing.Point(182, 252);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(116, 17);
 			this.label4.TabIndex = 113;
@@ -99,9 +99,9 @@ namespace OpenPmsDental{
 			// 
 			// textDateReconciliation
 			// 
-			this.textDateReconciliation.Location = new System.Drawing.Point(187, 273);
+			this.textDateReconciliation.Location = new System.Drawing.Point(182, 273);
 			this.textDateReconciliation.Name = "textDateReconciliation";
-			this.textDateReconciliation.Size = new System.Drawing.Size(100, 20);
+			this.textDateReconciliation.Size = new System.Drawing.Size(116, 23);
 			this.textDateReconciliation.TabIndex = 114;
 			// 
 			// butSave
@@ -116,7 +116,7 @@ namespace OpenPmsDental{
 			// 
 			// textBillingOfficeNumber
 			// 
-			this.textBillingOfficeNumber.Location = new System.Drawing.Point(12, 159);
+			this.textBillingOfficeNumber.Location = new System.Drawing.Point(8, 159);
 			this.textBillingOfficeNumber.Name = "textBillingOfficeNumber";
 			this.textBillingOfficeNumber.ReadOnly = true;
 			this.textBillingOfficeNumber.Size = new System.Drawing.Size(104, 23);
@@ -124,25 +124,25 @@ namespace OpenPmsDental{
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(12, 140);
+			this.label5.Location = new System.Drawing.Point(8, 140);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(278, 17);
+			this.label5.Size = new System.Drawing.Size(290, 17);
 			this.label5.TabIndex = 115;
 			this.label5.Text = "Billing Office Number";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(12, 252);
+			this.label6.Location = new System.Drawing.Point(8, 252);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(151, 17);
+			this.label6.Size = new System.Drawing.Size(166, 17);
 			this.label6.TabIndex = 117;
 			this.label6.Text = "Treating Office Number";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// textTreatingOfficeNumber
 			// 
-			this.textTreatingOfficeNumber.Location = new System.Drawing.Point(12, 273);
+			this.textTreatingOfficeNumber.Location = new System.Drawing.Point(8, 273);
 			this.textTreatingOfficeNumber.Name = "textTreatingOfficeNumber";
 			this.textTreatingOfficeNumber.ReadOnly = true;
 			this.textTreatingOfficeNumber.Size = new System.Drawing.Size(104, 23);

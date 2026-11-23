@@ -48,10 +48,10 @@ namespace OpenPmsDental{
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(23, 35);
+			this.gridMain.Location = new System.Drawing.Point(8, 35);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridMain.Size = new System.Drawing.Size(242, 284);
+			this.gridMain.Size = new System.Drawing.Size(280, 284);
 			this.gridMain.TabIndex = 4;
 			this.gridMain.Title = "Allergies";
 			this.gridMain.TranslationName = "TableAllergies";
@@ -91,7 +91,7 @@ namespace OpenPmsDental{
 			// 
 			// labelSearch
 			// 
-			this.labelSearch.Location = new System.Drawing.Point(23, 8);
+			this.labelSearch.Location = new System.Drawing.Point(8, 8);
 			this.labelSearch.Name = "labelSearch";
 			this.labelSearch.Size = new System.Drawing.Size(48, 23);
 			this.labelSearch.TabIndex = 0;
@@ -102,9 +102,9 @@ namespace OpenPmsDental{
 			// 
 			this.textSearch.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textSearch.Location = new System.Drawing.Point(77, 8);
+			this.textSearch.Location = new System.Drawing.Point(62, 8);
 			this.textSearch.Name = "textSearch";
-			this.textSearch.Size = new System.Drawing.Size(192, 23);
+			this.textSearch.Size = new System.Drawing.Size(226, 23);
 			this.textSearch.TabIndex = 1;
 			this.textSearch.TextChanged += new System.EventHandler(this.textSearch_TextChanged);
 			// 

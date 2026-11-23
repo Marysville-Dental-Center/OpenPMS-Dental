@@ -57,25 +57,25 @@ namespace OpenPmsDental {
 			// 
 			// labelImageFileName
 			// 
-			this.labelImageFileName.Location = new System.Drawing.Point(12, 8);
+			this.labelImageFileName.Location = new System.Drawing.Point(8, 8);
 			this.labelImageFileName.Name = "labelImageFileName";
-			this.labelImageFileName.Size = new System.Drawing.Size(236, 17);
+			this.labelImageFileName.Size = new System.Drawing.Size(240, 17);
 			this.labelImageFileName.TabIndex = 2;
 			this.labelImageFileName.Text = "Image File Name";
 			this.labelImageFileName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// textImageFileName
 			// 
-			this.textImageFileName.Location = new System.Drawing.Point(12, 29);
+			this.textImageFileName.Location = new System.Drawing.Point(8, 29);
 			this.textImageFileName.Name = "textImageFileName";
-			this.textImageFileName.Size = new System.Drawing.Size(236, 20);
+			this.textImageFileName.Size = new System.Drawing.Size(240, 23);
 			this.textImageFileName.TabIndex = 3;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(12, 56);
+			this.label2.Location = new System.Drawing.Point(8, 56);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(236, 47);
+			this.label2.Size = new System.Drawing.Size(240, 50);
 			this.label2.TabIndex = 4;
 			this.label2.Text = "This file must be present in the A to Z folder.  \r\nIt should be a gif, jpg, or em" +
     "f.";
@@ -97,22 +97,22 @@ namespace OpenPmsDental {
 			this.listFieldName.Location = new System.Drawing.Point(254, 29);
 			this.listFieldName.MultiColumn = true;
 			this.listFieldName.Name = "listFieldName";
-			this.listFieldName.Size = new System.Drawing.Size(592, 602);
+			this.listFieldName.Size = new System.Drawing.Size(677, 606);
 			this.listFieldName.TabIndex = 6;
 			this.listFieldName.DoubleClick += new System.EventHandler(this.listFieldName_DoubleClick);
 			// 
 			// textFormatString
 			// 
-			this.textFormatString.Location = new System.Drawing.Point(12, 162);
+			this.textFormatString.Location = new System.Drawing.Point(8, 170);
 			this.textFormatString.Name = "textFormatString";
-			this.textFormatString.Size = new System.Drawing.Size(236, 20);
+			this.textFormatString.Size = new System.Drawing.Size(240, 23);
 			this.textFormatString.TabIndex = 8;
 			// 
 			// labelFormatString
 			// 
-			this.labelFormatString.Location = new System.Drawing.Point(12, 105);
+			this.labelFormatString.Location = new System.Drawing.Point(8, 118);
 			this.labelFormatString.Name = "labelFormatString";
-			this.labelFormatString.Size = new System.Drawing.Size(236, 55);
+			this.labelFormatString.Size = new System.Drawing.Size(240, 50);
 			this.labelFormatString.TabIndex = 7;
 			this.labelFormatString.Text = "Format String.  All dates must have a format.  Valid entries would include MM/dd/" +
     "yyyy, MM-dd-yy, and M d y as examples.";

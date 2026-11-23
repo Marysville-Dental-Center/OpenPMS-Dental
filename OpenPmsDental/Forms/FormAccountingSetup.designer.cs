@@ -58,9 +58,9 @@ namespace OpenPmsDental {
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(12, 52);
+			this.label1.Location = new System.Drawing.Point(8, 52);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(168, 47);
+			this.label1.Size = new System.Drawing.Size(172, 47);
 			this.label1.TabIndex = 2;
 			this.label1.Text = "User will get to pick from this list of accounts to deposit into";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -85,12 +85,12 @@ namespace OpenPmsDental {
 			// 
 			this.listAccountsDep.Location = new System.Drawing.Point(186, 52);
 			this.listAccountsDep.Name = "listAccountsDep";
-			this.listAccountsDep.Size = new System.Drawing.Size(226, 108);
+			this.listAccountsDep.Size = new System.Drawing.Size(262, 108);
 			this.listAccountsDep.TabIndex = 0;
 			// 
 			// butRemove
 			// 
-			this.butRemove.Location = new System.Drawing.Point(417, 80);
+			this.butRemove.Location = new System.Drawing.Point(454, 80);
 			this.butRemove.Name = "butRemove";
 			this.butRemove.Size = new System.Drawing.Size(75, 24);
 			this.butRemove.TabIndex = 2;
@@ -99,7 +99,7 @@ namespace OpenPmsDental {
 			// 
 			// butChange
 			// 
-			this.butChange.Location = new System.Drawing.Point(424, 164);
+			this.butChange.Location = new System.Drawing.Point(454, 164);
 			this.butChange.Name = "butChange";
 			this.butChange.Size = new System.Drawing.Size(75, 23);
 			this.butChange.TabIndex = 3;
@@ -120,21 +120,21 @@ namespace OpenPmsDental {
 			this.textAccountInc.Location = new System.Drawing.Point(186, 164);
 			this.textAccountInc.Name = "textAccountInc";
 			this.textAccountInc.ReadOnly = true;
-			this.textAccountInc.Size = new System.Drawing.Size(232, 23);
+			this.textAccountInc.Size = new System.Drawing.Size(262, 23);
 			this.textAccountInc.TabIndex = 34;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(19, 23);
+			this.label2.Location = new System.Drawing.Point(8, 23);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(496, 27);
+			this.label2.Size = new System.Drawing.Size(521, 18);
 			this.label2.TabIndex = 32;
 			this.label2.Text = "Every time a deposit is created, an accounting transaction will also be automatic" +
     "ally created.";
 			// 
 			// butAdd
 			// 
-			this.butAdd.Location = new System.Drawing.Point(417, 52);
+			this.butAdd.Location = new System.Drawing.Point(454, 52);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(75, 24);
 			this.butAdd.TabIndex = 1;
@@ -151,15 +151,15 @@ namespace OpenPmsDental {
 			this.groupAutomaticPayment.Controls.Add(this.butAddPay);
 			this.groupAutomaticPayment.Location = new System.Drawing.Point(8, 211);
 			this.groupAutomaticPayment.Name = "groupAutomaticPayment";
-			this.groupAutomaticPayment.Size = new System.Drawing.Size(537, 327);
+			this.groupAutomaticPayment.Size = new System.Drawing.Size(537, 418);
 			this.groupAutomaticPayment.TabIndex = 1;
 			this.groupAutomaticPayment.Text = "Automatic Payment Entries";
 			// 
 			// gridMain
 			// 
-			this.gridMain.Location = new System.Drawing.Point(19, 115);
+			this.gridMain.Location = new System.Drawing.Point(8, 115);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(471, 177);
+			this.gridMain.Size = new System.Drawing.Size(521, 268);
 			this.gridMain.TabIndex = 1;
 			this.gridMain.Title = "Auto Payment Entries";
 			this.gridMain.TranslationName = "TableAccountingAutoPay";
@@ -167,7 +167,7 @@ namespace OpenPmsDental {
 			// 
 			// butChangeCash
 			// 
-			this.butChangeCash.Location = new System.Drawing.Point(424, 296);
+			this.butChangeCash.Location = new System.Drawing.Point(454, 387);
 			this.butChangeCash.Name = "butChangeCash";
 			this.butChangeCash.Size = new System.Drawing.Size(75, 23);
 			this.butChangeCash.TabIndex = 2;
@@ -176,7 +176,7 @@ namespace OpenPmsDental {
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(80, 296);
+			this.label4.Location = new System.Drawing.Point(80, 387);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(100, 23);
 			this.label4.TabIndex = 33;
@@ -185,23 +185,23 @@ namespace OpenPmsDental {
 			// 
 			// textAccountCashInc
 			// 
-			this.textAccountCashInc.Location = new System.Drawing.Point(186, 296);
+			this.textAccountCashInc.Location = new System.Drawing.Point(186, 387);
 			this.textAccountCashInc.Name = "textAccountCashInc";
 			this.textAccountCashInc.ReadOnly = true;
-			this.textAccountCashInc.Size = new System.Drawing.Size(232, 23);
+			this.textAccountCashInc.Size = new System.Drawing.Size(262, 23);
 			this.textAccountCashInc.TabIndex = 34;
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(19, 23);
+			this.label5.Location = new System.Drawing.Point(8, 23);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(492, 62);
+			this.label5.Size = new System.Drawing.Size(521, 50);
 			this.label5.TabIndex = 32;
 			this.label5.Text = resources.GetString("label5.Text");
 			// 
 			// butAddPay
 			// 
-			this.butAddPay.Location = new System.Drawing.Point(418, 87);
+			this.butAddPay.Location = new System.Drawing.Point(454, 87);
 			this.butAddPay.Name = "butAddPay";
 			this.butAddPay.Size = new System.Drawing.Size(75, 24);
 			this.butAddPay.TabIndex = 0;

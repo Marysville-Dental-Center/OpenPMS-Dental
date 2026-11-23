@@ -32,16 +32,16 @@ namespace OpenPmsDental {
 			// 
 			// labelTitle
 			// 
-			this.labelTitle.Location = new System.Drawing.Point(14, 8);
+			this.labelTitle.Location = new System.Drawing.Point(8, 8);
 			this.labelTitle.Name = "labelTitle";
-			this.labelTitle.Size = new System.Drawing.Size(259, 47);
+			this.labelTitle.Size = new System.Drawing.Size(310, 34);
 			this.labelTitle.TabIndex = 0;
 			this.labelTitle.Text = "A Continuity of Care Document (CCD) is used to share a patient health summary ele" +
     "ctronically.";
 			// 
 			// butExportToFile
 			// 
-			this.butExportToFile.Location = new System.Drawing.Point(115, 57);
+			this.butExportToFile.Location = new System.Drawing.Point(109, 57);
 			this.butExportToFile.Name = "butExportToFile";
 			this.butExportToFile.Size = new System.Drawing.Size(95, 24);
 			this.butExportToFile.TabIndex = 2;
@@ -50,7 +50,7 @@ namespace OpenPmsDental {
 			// 
 			// butShowAndPrint
 			// 
-			this.butShowAndPrint.Location = new System.Drawing.Point(14, 57);
+			this.butShowAndPrint.Location = new System.Drawing.Point(8, 57);
 			this.butShowAndPrint.Name = "butShowAndPrint";
 			this.butShowAndPrint.Size = new System.Drawing.Size(95, 24);
 			this.butShowAndPrint.TabIndex = 1;
@@ -59,9 +59,9 @@ namespace OpenPmsDental {
 			// 
 			// labelInstructions
 			// 
-			this.labelInstructions.Location = new System.Drawing.Point(14, 85);
+			this.labelInstructions.Location = new System.Drawing.Point(8, 85);
 			this.labelInstructions.Name = "labelInstructions";
-			this.labelInstructions.Size = new System.Drawing.Size(304, 18);
+			this.labelInstructions.Size = new System.Drawing.Size(310, 18);
 			this.labelInstructions.TabIndex = 0;
 			this.labelInstructions.Text = "Optional Instructions for Patient to show on CCD";
 			this.labelInstructions.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -72,11 +72,11 @@ namespace OpenPmsDental {
 			this.textInstructions.BackColor = System.Drawing.SystemColors.Window;
 			this.textInstructions.DetectLinksEnabled = false;
 			this.textInstructions.DetectUrls = false;
-			this.textInstructions.Location = new System.Drawing.Point(14, 105);
+			this.textInstructions.Location = new System.Drawing.Point(8, 105);
 			this.textInstructions.Name = "textInstructions";
 			this.textInstructions.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.MedicalSummary;
 			this.textInstructions.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textInstructions.Size = new System.Drawing.Size(256, 73);
+			this.textInstructions.Size = new System.Drawing.Size(310, 73);
 			this.textInstructions.TabIndex = 3;
 			this.textInstructions.Text = "";
 			// 

@@ -36,9 +36,9 @@ namespace OpenPmsDental{
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(157, 8);
+			this.gridMain.Location = new System.Drawing.Point(136, 8);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(586, 621);
+			this.gridMain.Size = new System.Drawing.Size(607, 621);
 			this.gridMain.TabIndex = 6;
 			this.gridMain.CellDoubleClick += new OpenPmsDental.UI.ODGridClickEventHandler(this.gridMain_CellDoubleClick);
 			// 
@@ -80,18 +80,18 @@ namespace OpenPmsDental{
 			// 
 			// listBoxCategories
 			// 
-			this.listBoxCategories.Location = new System.Drawing.Point(9, 44);
+			this.listBoxCategories.Location = new System.Drawing.Point(8, 27);
 			this.listBoxCategories.Name = "listBoxCategories";
-			this.listBoxCategories.Size = new System.Drawing.Size(120, 316);
+			this.listBoxCategories.Size = new System.Drawing.Size(120, 333);
 			this.listBoxCategories.TabIndex = 1;
 			this.listBoxCategories.Text = "listBoxOD1";
 			this.listBoxCategories.SelectionChangeCommitted += new System.EventHandler(this.listBoxCategories_SelectionChangeCommitted);
 			// 
 			// labelCategories
 			// 
-			this.labelCategories.Location = new System.Drawing.Point(9, 24);
+			this.labelCategories.Location = new System.Drawing.Point(8, 8);
 			this.labelCategories.Name = "labelCategories";
-			this.labelCategories.Size = new System.Drawing.Size(100, 18);
+			this.labelCategories.Size = new System.Drawing.Size(100, 17);
 			this.labelCategories.TabIndex = 52;
 			this.labelCategories.Text = "Categories";
 			this.labelCategories.TextAlign = System.Drawing.ContentAlignment.BottomLeft;

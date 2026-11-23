@@ -124,7 +124,7 @@ namespace OpenPmsDental{
 			// butNewSnip
 			// 
 			this.butNewSnip.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butNewSnip.Location = new System.Drawing.Point(390, 306);
+			this.butNewSnip.Location = new System.Drawing.Point(300, 306);
 			this.butNewSnip.Name = "butNewSnip";
 			this.butNewSnip.Size = new System.Drawing.Size(75, 24);
 			this.butNewSnip.TabIndex = 6;
@@ -135,9 +135,9 @@ namespace OpenPmsDental{
 			// labelNewSnip
 			// 
 			this.labelNewSnip.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelNewSnip.Location = new System.Drawing.Point(469, 269);
+			this.labelNewSnip.Location = new System.Drawing.Point(381, 306);
 			this.labelNewSnip.Name = "labelNewSnip";
-			this.labelNewSnip.Size = new System.Drawing.Size(116, 18);
+			this.labelNewSnip.Size = new System.Drawing.Size(112, 24);
 			this.labelNewSnip.TabIndex = 10;
 			this.labelNewSnip.Text = "(and Snip Another)";
 			this.labelNewSnip.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;

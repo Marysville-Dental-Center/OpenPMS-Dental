@@ -57,10 +57,10 @@ namespace OpenPmsDental {
 			this.treeNotes.HideSelection = false;
 			this.treeNotes.ImageIndex = 1;
 			this.treeNotes.Indent = 12;
-			this.treeNotes.Location = new System.Drawing.Point(15, 8);
+			this.treeNotes.Location = new System.Drawing.Point(8, 8);
 			this.treeNotes.Name = "treeNotes";
 			this.treeNotes.SelectedImageIndex = 1;
-			this.treeNotes.Size = new System.Drawing.Size(307, 641);
+			this.treeNotes.Size = new System.Drawing.Size(324, 659);
 			this.treeNotes.TabIndex = 2;
 			this.treeNotes.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.treeNotes_ItemDrag);
 			this.treeNotes.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeNotes_MouseDoubleClick);

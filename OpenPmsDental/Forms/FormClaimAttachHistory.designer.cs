@@ -40,10 +40,10 @@ namespace OpenPmsDental {
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(14, 8);
+			this.gridMain.Location = new System.Drawing.Point(8, 8);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridMain.Size = new System.Drawing.Size(353, 469);
+			this.gridMain.Size = new System.Drawing.Size(368, 502);
 			this.gridMain.TabIndex = 49;
 			this.gridMain.Title = "Attachment Images Sent";
 			this.gridMain.CellDoubleClick += new OpenPmsDental.UI.ODGridClickEventHandler(this.gridMain_CellDoubleClick);
@@ -70,7 +70,7 @@ namespace OpenPmsDental {
 			this.textClaimStatus.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Claim;
 			this.textClaimStatus.ReadOnly = true;
 			this.textClaimStatus.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textClaimStatus.Size = new System.Drawing.Size(257, 122);
+			this.textClaimStatus.Size = new System.Drawing.Size(264, 122);
 			this.textClaimStatus.TabIndex = 51;
 			this.textClaimStatus.Text = "";
 			// 
@@ -97,7 +97,7 @@ namespace OpenPmsDental {
 			this.textNarrative.Name = "textNarrative";
 			this.textNarrative.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Claim;
 			this.textNarrative.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textNarrative.Size = new System.Drawing.Size(257, 286);
+			this.textNarrative.Size = new System.Drawing.Size(264, 286);
 			this.textNarrative.TabIndex = 54;
 			this.textNarrative.Text = "";
 			this.textNarrative.TextChanged += new System.EventHandler(this.textNarrative_TextChanged);
@@ -124,16 +124,16 @@ namespace OpenPmsDental {
 			this.textAttachmentID.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Claim;
 			this.textAttachmentID.ReadOnly = true;
 			this.textAttachmentID.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textAttachmentID.Size = new System.Drawing.Size(132, 20);
+			this.textAttachmentID.Size = new System.Drawing.Size(146, 23);
 			this.textAttachmentID.TabIndex = 56;
 			this.textAttachmentID.Text = "";
 			// 
 			// butClear
 			// 
 			this.butClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butClear.Location = new System.Drawing.Point(522, 174);
+			this.butClear.Location = new System.Drawing.Point(536, 176);
 			this.butClear.Name = "butClear";
-			this.butClear.Size = new System.Drawing.Size(100, 24);
+			this.butClear.Size = new System.Drawing.Size(112, 23);
 			this.butClear.TabIndex = 57;
 			this.butClear.Text = "Clear Attachment";
 			this.butClear.Click += new System.EventHandler(this.butClear_Click);
@@ -141,12 +141,12 @@ namespace OpenPmsDental {
 			// labelCharCount
 			// 
 			this.labelCharCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelCharCount.Location = new System.Drawing.Point(568, 202);
+			this.labelCharCount.Location = new System.Drawing.Point(572, 202);
 			this.labelCharCount.Name = "labelCharCount";
 			this.labelCharCount.Size = new System.Drawing.Size(76, 18);
 			this.labelCharCount.TabIndex = 58;
 			this.labelCharCount.Text = "/2000";
-			this.labelCharCount.TextAlign = System.Drawing.ContentAlignment.BottomRight;
+			this.labelCharCount.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// labelRemoveAttachment
 			// 

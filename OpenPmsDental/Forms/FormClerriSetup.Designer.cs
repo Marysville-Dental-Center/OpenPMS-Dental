@@ -46,9 +46,9 @@ namespace OpenPmsDental {
 			//
 			// labelDescription
 			//
-			this.labelDescription.Location = new System.Drawing.Point(12, 32);
+			this.labelDescription.Location = new System.Drawing.Point(8, 32);
 			this.labelDescription.Name = "labelDescription";
-			this.labelDescription.Size = new System.Drawing.Size(510, 58);
+			this.labelDescription.Size = new System.Drawing.Size(526, 50);
 			this.labelDescription.TabIndex = 1;
 			this.labelDescription.Text = "Adds a Clerri button to the Family module that opens the office\'s Clerri dashboard in the default browser. Nothing is synced with Clerri. Only the Client Key and the selected patient\'s number are sent, and only where the dashboard address has [ClientKey] and [PatNum].";
 			//
@@ -66,7 +66,7 @@ namespace OpenPmsDental {
 			this.textProgName.Location = new System.Drawing.Point(150, 92);
 			this.textProgName.Name = "textProgName";
 			this.textProgName.ReadOnly = true;
-			this.textProgName.Size = new System.Drawing.Size(248, 23);
+			this.textProgName.Size = new System.Drawing.Size(384, 23);
 			this.textProgName.TabIndex = 3;
 			this.textProgName.TabStop = false;
 			//
@@ -84,7 +84,7 @@ namespace OpenPmsDental {
 			this.textProgDesc.Location = new System.Drawing.Point(150, 119);
 			this.textProgDesc.Name = "textProgDesc";
 			this.textProgDesc.ReadOnly = true;
-			this.textProgDesc.Size = new System.Drawing.Size(248, 23);
+			this.textProgDesc.Size = new System.Drawing.Size(384, 23);
 			this.textProgDesc.TabIndex = 5;
 			this.textProgDesc.TabStop = false;
 			//
@@ -100,7 +100,7 @@ namespace OpenPmsDental {
 			//
 			this.labelToolbarNote.Location = new System.Drawing.Point(150, 170);
 			this.labelToolbarNote.Name = "labelToolbarNote";
-			this.labelToolbarNote.Size = new System.Drawing.Size(372, 18);
+			this.labelToolbarNote.Size = new System.Drawing.Size(384, 18);
 			this.labelToolbarNote.TabIndex = 7;
 			this.labelToolbarNote.Text = "The Family module button. Can\'t be changed while Clerri is enabled.";
 			//
@@ -118,7 +118,7 @@ namespace OpenPmsDental {
 			this.textDashboardAddress.AutoSize = false;
 			this.textDashboardAddress.Location = new System.Drawing.Point(150, 190);
 			this.textDashboardAddress.Name = "textDashboardAddress";
-			this.textDashboardAddress.Size = new System.Drawing.Size(372, 23);
+			this.textDashboardAddress.Size = new System.Drawing.Size(384, 23);
 			this.textDashboardAddress.TabIndex = 9;
 			//
 			// labelDashboardHint
@@ -142,7 +142,7 @@ namespace OpenPmsDental {
 			//
 			this.comboClinic.HqDescription = "Default";
 			this.comboClinic.IncludeUnassigned = true;
-			this.comboClinic.Location = new System.Drawing.Point(107, 251);
+			this.comboClinic.Location = new System.Drawing.Point(150, 251);
 			this.comboClinic.Name = "comboClinic";
 			this.comboClinic.Size = new System.Drawing.Size(199, 23);
 			this.comboClinic.TabIndex = 12;
@@ -162,12 +162,12 @@ namespace OpenPmsDental {
 			this.textClientKey.Location = new System.Drawing.Point(150, 278);
 			this.textClientKey.Name = "textClientKey";
 			this.textClientKey.PasswordChar = '*';
-			this.textClientKey.Size = new System.Drawing.Size(248, 23);
+			this.textClientKey.Size = new System.Drawing.Size(303, 23);
 			this.textClientKey.TabIndex = 14;
 			//
 			// butClearKey
 			//
-			this.butClearKey.Location = new System.Drawing.Point(404, 278);
+			this.butClearKey.Location = new System.Drawing.Point(459, 278);
 			this.butClearKey.Name = "butClearKey";
 			this.butClearKey.Size = new System.Drawing.Size(75, 23);
 			this.butClearKey.TabIndex = 15;
@@ -178,7 +178,7 @@ namespace OpenPmsDental {
 			//
 			this.labelKeyStatus.Location = new System.Drawing.Point(150, 305);
 			this.labelKeyStatus.Name = "labelKeyStatus";
-			this.labelKeyStatus.Size = new System.Drawing.Size(372, 30);
+			this.labelKeyStatus.Size = new System.Drawing.Size(384, 30);
 			this.labelKeyStatus.TabIndex = 16;
 			this.labelKeyStatus.Text = "Not set.";
 			//

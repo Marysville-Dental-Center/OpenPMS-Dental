@@ -59,7 +59,7 @@ namespace OpenPmsDental {
 			this.comboClinics.IncludeUnassigned = true;
 			this.comboClinics.Location = new System.Drawing.Point(57, 8);
 			this.comboClinics.Name = "comboClinics";
-			this.comboClinics.Size = new System.Drawing.Size(251, 23);
+			this.comboClinics.Size = new System.Drawing.Size(259, 23);
 			this.comboClinics.TabIndex = 0;
 			this.comboClinics.SelectionChangeCommitted += new System.EventHandler(this.comboClinics_SelectionChangeCommitted);
 			// 
@@ -86,7 +86,7 @@ namespace OpenPmsDental {
 			// butTransactions
 			// 
 			this.butTransactions.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.butTransactions.Location = new System.Drawing.Point(34, 194);
+			this.butTransactions.Location = new System.Drawing.Point(100, 214);
 			this.butTransactions.Name = "butTransactions";
 			this.butTransactions.Size = new System.Drawing.Size(90, 24);
 			this.butTransactions.TabIndex = 7;
@@ -115,9 +115,9 @@ namespace OpenPmsDental {
 			// labelMerchantClosedDescription
 			// 
 			this.labelMerchantClosedDescription.ForeColor = System.Drawing.Color.Red;
-			this.labelMerchantClosedDescription.Location = new System.Drawing.Point(74, 118);
+			this.labelMerchantClosedDescription.Location = new System.Drawing.Point(100, 118);
 			this.labelMerchantClosedDescription.Name = "labelMerchantClosedDescription";
-			this.labelMerchantClosedDescription.Size = new System.Drawing.Size(308, 52);
+			this.labelMerchantClosedDescription.Size = new System.Drawing.Size(293, 50);
 			this.labelMerchantClosedDescription.TabIndex = 274;
 			this.labelMerchantClosedDescription.Text = "The Merchant Number you are using has been closed.\r\nPlease refer to the manual on" +
     " how to change your settings.";
@@ -125,9 +125,9 @@ namespace OpenPmsDental {
 			//
 			// labelApplyRestricted
 			//
-			this.labelApplyRestricted.Location = new System.Drawing.Point(34, 160);
+			this.labelApplyRestricted.Location = new System.Drawing.Point(100, 172);
 			this.labelApplyRestricted.Name = "labelApplyRestricted";
-			this.labelApplyRestricted.Size = new System.Drawing.Size(348, 30);
+			this.labelApplyRestricted.Size = new System.Drawing.Size(293, 34);
 			this.labelApplyRestricted.TabIndex = 275;
 			this.labelApplyRestricted.Text = "At this location, staff may not submit applications for patients. The patient applies directly with CareCredit.";
 			this.labelApplyRestricted.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;

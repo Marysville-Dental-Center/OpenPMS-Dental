@@ -56,20 +56,20 @@ namespace OpenPmsDental{
 			this.splitContainer.Orientation = System.Windows.Forms.Orientation.Horizontal;
 			this.splitContainer.Panel1 = this.splitterPanel1;
 			this.splitContainer.Panel2 = this.splitterPanel2;
-			this.splitContainer.Size = new System.Drawing.Size(174, 132);
+			this.splitContainer.Size = new System.Drawing.Size(158, 116);
 			this.splitContainer.SplitterDistance = 57;
 			this.splitContainer.TabIndex = 11;
 			// 
 			// splitterPanel1
 			// 
-			this.splitterPanel1.Location = new System.Drawing.Point(8, 8);
+			this.splitterPanel1.Location = new System.Drawing.Point(0, 0);
 			this.splitterPanel1.Name = "splitterPanel1";
 			this.splitterPanel1.Size = new System.Drawing.Size(158, 57);
 			this.splitterPanel1.TabIndex = 13;
 			// 
 			// splitterPanel2
 			// 
-			this.splitterPanel2.Location = new System.Drawing.Point(8, 69);
+			this.splitterPanel2.Location = new System.Drawing.Point(0, 61);
 			this.splitterPanel2.Name = "splitterPanel2";
 			this.splitterPanel2.Size = new System.Drawing.Size(158, 55);
 			this.splitterPanel2.TabIndex = 14;

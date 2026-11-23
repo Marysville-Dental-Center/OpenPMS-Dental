@@ -41,7 +41,7 @@ namespace OpenPmsDental{
 			// 
 			// labelResponseText
 			// 
-			this.labelResponseText.Location = new System.Drawing.Point(16, 8);
+			this.labelResponseText.Location = new System.Drawing.Point(8, 8);
 			this.labelResponseText.Name = "labelResponseText";
 			this.labelResponseText.Size = new System.Drawing.Size(84, 23);
 			this.labelResponseText.TabIndex = 115;
@@ -50,9 +50,9 @@ namespace OpenPmsDental{
 			// 
 			// textResponseText
 			// 
-			this.textResponseText.Location = new System.Drawing.Point(106, 8);
+			this.textResponseText.Location = new System.Drawing.Point(98, 8);
 			this.textResponseText.Name = "textResponseText";
-			this.textResponseText.Size = new System.Drawing.Size(216, 23);
+			this.textResponseText.Size = new System.Drawing.Size(223, 23);
 			this.textResponseText.TabIndex = 114;
 			// 
 			// gridMain
@@ -60,9 +60,9 @@ namespace OpenPmsDental{
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(25, 35);
+			this.gridMain.Location = new System.Drawing.Point(8, 35);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(296, 463);
+			this.gridMain.Size = new System.Drawing.Size(313, 463);
 			this.gridMain.TabIndex = 116;
 			this.gridMain.Title = "Available Auto Notes";
 			this.gridMain.TranslationName = "FormAutoNoteEdit";

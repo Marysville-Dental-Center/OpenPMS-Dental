@@ -34,14 +34,14 @@ namespace OpenPmsDental{
 			// 
 			this.textCode.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textCode.Location = new System.Drawing.Point(246, 8);
+			this.textCode.Location = new System.Drawing.Point(146, 8);
 			this.textCode.Name = "textCode";
 			this.textCode.Size = new System.Drawing.Size(400, 23);
 			this.textCode.TabIndex = 17;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(108, 8);
+			this.label1.Location = new System.Drawing.Point(8, 8);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(132, 23);
 			this.label1.TabIndex = 18;
@@ -53,9 +53,9 @@ namespace OpenPmsDental{
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(20, 35);
+			this.gridMain.Location = new System.Drawing.Point(8, 35);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(851, 641);
+			this.gridMain.Size = new System.Drawing.Size(945, 641);
 			this.gridMain.TabIndex = 20;
 			this.gridMain.Title = "CPT Codes";
 			this.gridMain.TranslationName = "FormCptCodes";
@@ -65,7 +65,7 @@ namespace OpenPmsDental{
 			// butSearch
 			// 
 			this.butSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSearch.Location = new System.Drawing.Point(652, 8);
+			this.butSearch.Location = new System.Drawing.Point(552, 8);
 			this.butSearch.Name = "butSearch";
 			this.butSearch.Size = new System.Drawing.Size(75, 23);
 			this.butSearch.TabIndex = 19;

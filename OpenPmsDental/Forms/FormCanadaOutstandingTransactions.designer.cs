@@ -38,7 +38,7 @@ namespace OpenPmsDental{
             // 
             this.listCarriers.Location = new System.Drawing.Point(8, 23);
             this.listCarriers.Name = "listCarriers";
-            this.listCarriers.Size = new System.Drawing.Size(307, 95);
+            this.listCarriers.Size = new System.Drawing.Size(328, 95);
             this.listCarriers.TabIndex = 107;
             // 
             // groupCarrier
@@ -89,7 +89,7 @@ namespace OpenPmsDental{
             // 
             this.listOfficeNumbers.Location = new System.Drawing.Point(8, 23);
             this.listOfficeNumbers.Name = "listOfficeNumbers";
-            this.listOfficeNumbers.Size = new System.Drawing.Size(307, 43);
+            this.listOfficeNumbers.Size = new System.Drawing.Size(328, 43);
             this.listOfficeNumbers.TabIndex = 0;
             // 
             // butOK
