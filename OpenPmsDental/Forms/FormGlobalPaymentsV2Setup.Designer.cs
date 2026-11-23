@@ -48,7 +48,7 @@ namespace OpenPmsDental {
 			//
 			// checkEnabled
 			//
-			this.checkEnabled.Location = new System.Drawing.Point(189, 8);
+			this.checkEnabled.Location = new System.Drawing.Point(142, 8);
 			this.checkEnabled.Name = "checkEnabled";
 			this.checkEnabled.Size = new System.Drawing.Size(164, 20);
 			this.checkEnabled.TabIndex = 0;
@@ -64,7 +64,7 @@ namespace OpenPmsDental {
 			//
 			// checkUseSandbox
 			//
-			this.checkUseSandbox.Location = new System.Drawing.Point(189, 82);
+			this.checkUseSandbox.Location = new System.Drawing.Point(142, 82);
 			this.checkUseSandbox.Name = "checkUseSandbox";
 			this.checkUseSandbox.Size = new System.Drawing.Size(381, 20);
 			this.checkUseSandbox.TabIndex = 2;
@@ -72,7 +72,7 @@ namespace OpenPmsDental {
 			//
 			// labelClinic
 			//
-			this.labelClinic.Location = new System.Drawing.Point(139, 106);
+			this.labelClinic.Location = new System.Drawing.Point(92, 106);
 			this.labelClinic.Name = "labelClinic";
 			this.labelClinic.Size = new System.Drawing.Size(44, 23);
 			this.labelClinic.TabIndex = 3;
@@ -83,7 +83,7 @@ namespace OpenPmsDental {
 			//
 			this.comboClinic.HqDescription = "Headquarters";
 			this.comboClinic.IncludeUnassigned = true;
-			this.comboClinic.Location = new System.Drawing.Point(189, 106);
+			this.comboClinic.Location = new System.Drawing.Point(142, 106);
 			this.comboClinic.Name = "comboClinic";
 			this.comboClinic.Size = new System.Drawing.Size(192, 23);
 			this.comboClinic.ShowLabel = false;
