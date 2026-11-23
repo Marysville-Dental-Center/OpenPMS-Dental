@@ -7042,7 +7042,7 @@ OpenPmsDental/Forms/FormFeeSchedTools.designer.cs	butCopyCode	100,186	75,24
 OpenPmsDental/Forms/FormFeeSchedTools.designer.cs	.			429,422
 OpenPmsDental/Forms/FormFeeScheds.designer.cs	butOK	518,653	75,24	
 OpenPmsDental/Forms/FormFeeScheds.designer.cs	labelCleanUp	380,346	213,32	
-OpenPmsDental/Forms/FormFeeScheds.designer.cs	butCleanUp	380,318	102,24	
+OpenPmsDental/Forms/FormFeeScheds.designer.cs	butCleanUp	380,318	115,24	
 OpenPmsDental/Forms/FormFeeScheds.designer.cs	labelSort	380,269	213,17	
 OpenPmsDental/Forms/FormFeeScheds.designer.cs	butSort	380,241	75,24	
 OpenPmsDental/Forms/FormFeeScheds.designer.cs	label1	380,8	100,18	
@@ -15095,9 +15095,9 @@ OpenPmsDental/Main Modules/ControlChart.designer.cs	label6	104,192	122,17
 OpenPmsDental/Main Modules/ControlChart.designer.cs	textProcCode	380,2	92,23	
 OpenPmsDental/Main Modules/ControlChart.designer.cs	label14	350,2	24,23	
 OpenPmsDental/Main Modules/ControlChart.designer.cs	label13	350,29	168,17	
-OpenPmsDental/Main Modules/ControlChart.designer.cs	checkAudit	169,180	128,13	
-OpenPmsDental/Main Modules/ControlChart.designer.cs	checkShowTeeth	15,121	102,13	
-OpenPmsDental/Main Modules/ControlChart.designer.cs	checkNotes	15,105	102,13	
+OpenPmsDental/Main Modules/ControlChart.designer.cs	checkAudit	169,180	128,15	
+OpenPmsDental/Main Modules/ControlChart.designer.cs	checkShowTeeth	15,121	103,15	
+OpenPmsDental/Main Modules/ControlChart.designer.cs	checkNotes	15,105	102,15	
 OpenPmsDental/Main Modules/ControlChart.designer.cs	tabControlImages	0,686	939,22	
 OpenPmsDental/Main Modules/ControlChart.designer.cs	tabPage1	2,2	935,0	
 OpenPmsDental/Main Modules/ControlChart.designer.cs	tabPage2	2,2	935,0	
@@ -15187,35 +15187,35 @@ OpenPmsDental/Main Modules/ControlChart.designer.cs	butDown	284,1	33,23
 OpenPmsDental/Main Modules/ControlChart.designer.cs	butUp	245,1	33,23	
 OpenPmsDental/Main Modules/ControlChart.designer.cs	gridPlanned	0,25	520,211	
 OpenPmsDental/Main Modules/ControlChart.designer.cs	tabShow	2,21	520,236	
-OpenPmsDental/Main Modules/ControlChart.designer.cs	checkShowCommAuto	169,164	142,13	
+OpenPmsDental/Main Modules/ControlChart.designer.cs	checkShowCommAuto	169,164	144,15	
 OpenPmsDental/Main Modules/ControlChart.designer.cs	labelSearchClear	274,215	12,13	
 OpenPmsDental/Main Modules/ControlChart.designer.cs	label23	3,216	43,12	
-OpenPmsDental/Main Modules/ControlChart.designer.cs	checkTPChart	169,196	128,13	
+OpenPmsDental/Main Modules/ControlChart.designer.cs	checkTPChart	169,196	128,15	
 OpenPmsDental/Main Modules/ControlChart.designer.cs	textShowDateRange	6,171	125,19	
 OpenPmsDental/Main Modules/ControlChart.designer.cs	labelCustView	346,217	96,16	
 OpenPmsDental/Main Modules/ControlChart.designer.cs	groupBox7	159,4	125,158	
-OpenPmsDental/Main Modules/ControlChart.designer.cs	checkCommSuperFamily	26,62	90,13	
-OpenPmsDental/Main Modules/ControlChart.designer.cs	checkSheets	10,140	102,13	
-OpenPmsDental/Main Modules/ControlChart.designer.cs	checkTasks	10,78	102,13	
-OpenPmsDental/Main Modules/ControlChart.designer.cs	checkEmail	10,94	102,13	
-OpenPmsDental/Main Modules/ControlChart.designer.cs	checkCommFamily	26,46	88,13	
-OpenPmsDental/Main Modules/ControlChart.designer.cs	checkAppt	10,16	102,13	
-OpenPmsDental/Main Modules/ControlChart.designer.cs	checkLabCase	10,109	102,13	
-OpenPmsDental/Main Modules/ControlChart.designer.cs	checkRx	10,125	102,13	
-OpenPmsDental/Main Modules/ControlChart.designer.cs	checkComm	10,31	102,13	
+OpenPmsDental/Main Modules/ControlChart.designer.cs	checkCommSuperFamily	26,62	92,15	
+OpenPmsDental/Main Modules/ControlChart.designer.cs	checkSheets	10,140	102,15	
+OpenPmsDental/Main Modules/ControlChart.designer.cs	checkTasks	10,78	102,15	
+OpenPmsDental/Main Modules/ControlChart.designer.cs	checkEmail	10,94	102,15	
+OpenPmsDental/Main Modules/ControlChart.designer.cs	checkCommFamily	26,46	88,15	
+OpenPmsDental/Main Modules/ControlChart.designer.cs	checkAppt	10,16	102,15	
+OpenPmsDental/Main Modules/ControlChart.designer.cs	checkLabCase	10,109	102,15	
+OpenPmsDental/Main Modules/ControlChart.designer.cs	checkRx	10,125	102,15	
+OpenPmsDental/Main Modules/ControlChart.designer.cs	checkComm	10,31	102,15	
 OpenPmsDental/Main Modules/ControlChart.designer.cs	groupBox6	6,4	121,99	
-OpenPmsDental/Main Modules/ControlChart.designer.cs	checkShowCn	9,81	101,13	
-OpenPmsDental/Main Modules/ControlChart.designer.cs	checkShowE	9,49	101,13	
-OpenPmsDental/Main Modules/ControlChart.designer.cs	checkShowR	9,65	101,13	
-OpenPmsDental/Main Modules/ControlChart.designer.cs	checkShowC	9,33	101,13	
-OpenPmsDental/Main Modules/ControlChart.designer.cs	checkShowTP	9,17	101,13	
+OpenPmsDental/Main Modules/ControlChart.designer.cs	checkShowCn	9,81	101,15	
+OpenPmsDental/Main Modules/ControlChart.designer.cs	checkShowE	9,49	101,15	
+OpenPmsDental/Main Modules/ControlChart.designer.cs	checkShowR	9,65	101,15	
+OpenPmsDental/Main Modules/ControlChart.designer.cs	checkShowC	9,33	101,15	
+OpenPmsDental/Main Modules/ControlChart.designer.cs	checkShowTP	9,17	101,15	
 OpenPmsDental/Main Modules/ControlChart.designer.cs	butShowDateRange	133,169	24,22	
-OpenPmsDental/Main Modules/ControlChart.designer.cs	butChartViewDown	442,185	52,23	
+OpenPmsDental/Main Modules/ControlChart.designer.cs	butChartViewDown	442,185	76,23	
 OpenPmsDental/Main Modules/ControlChart.designer.cs	butChartViewUp	382,185	54,23	
 OpenPmsDental/Main Modules/ControlChart.designer.cs	butChartViewAdd	317,185	59,23	
 OpenPmsDental/Main Modules/ControlChart.designer.cs	butShowAll	6,141	53,23	
 OpenPmsDental/Main Modules/ControlChart.designer.cs	butShowNone	69,141	58,23	
-OpenPmsDental/Main Modules/ControlChart.designer.cs	gridChartViews	317,8	177,173	
+OpenPmsDental/Main Modules/ControlChart.designer.cs	gridChartViews	317,8	201,173	
 OpenPmsDental/Main Modules/ControlChart.designer.cs	textSearch	47,213	241,20	
 OpenPmsDental/Main Modules/ControlChart.designer.cs	tabDraw	2,21	520,236	
 OpenPmsDental/Main Modules/ControlChart.designer.cs	label24	176,146	150,90	
