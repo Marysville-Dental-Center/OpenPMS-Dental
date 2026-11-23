@@ -72,7 +72,7 @@ namespace OpenPmsDental{
             "Photo Grid"});
 			this.listType.Location = new System.Drawing.Point(90, 46);
 			this.listType.Name = "listType";
-			this.listType.Size = new System.Drawing.Size(158, 95);
+			this.listType.Size = new System.Drawing.Size(185, 95);
 			this.listType.TabIndex = 14;
 			this.listType.SelectedIndexChanged += new System.EventHandler(this.listType_SelectedIndexChanged);
 			// 
@@ -136,7 +136,7 @@ namespace OpenPmsDental{
 			this.groupBoxOD1.Controls.Add(this.label6);
 			this.groupBoxOD1.Controls.Add(this.textColumns);
 			this.groupBoxOD1.Controls.Add(this.label7);
-			this.groupBoxOD1.Location = new System.Drawing.Point(254, 46);
+			this.groupBoxOD1.Location = new System.Drawing.Point(281, 46);
 			this.groupBoxOD1.Name = "groupBoxOD1";
 			this.groupBoxOD1.Size = new System.Drawing.Size(158, 81);
 			this.groupBoxOD1.TabIndex = 35;

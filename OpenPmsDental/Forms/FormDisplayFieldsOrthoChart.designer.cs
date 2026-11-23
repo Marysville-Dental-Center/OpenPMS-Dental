@@ -48,7 +48,7 @@ namespace OpenPmsDental {
 			this.listAvailable.Location = new System.Drawing.Point(438, 62);
 			this.listAvailable.Name = "listAvailable";
 			this.listAvailable.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
-			this.listAvailable.Size = new System.Drawing.Size(158, 252);
+			this.listAvailable.Size = new System.Drawing.Size(192, 252);
 			this.listAvailable.TabIndex = 3;
 			this.listAvailable.Click += new System.EventHandler(this.listAvailable_Click);
 			// 
@@ -56,7 +56,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelAvailable.Location = new System.Drawing.Point(438, 43);
 			this.labelAvailable.Name = "labelAvailable";
-			this.labelAvailable.Size = new System.Drawing.Size(158, 17);
+			this.labelAvailable.Size = new System.Drawing.Size(192, 17);
 			this.labelAvailable.TabIndex = 16;
 			this.labelAvailable.Text = "Available Fields";
 			this.labelAvailable.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -87,7 +87,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelCustomField.Location = new System.Drawing.Point(438, 318);
 			this.labelCustomField.Name = "labelCustomField";
-			this.labelCustomField.Size = new System.Drawing.Size(135, 17);
+			this.labelCustomField.Size = new System.Drawing.Size(192, 17);
 			this.labelCustomField.TabIndex = 58;
 			this.labelCustomField.Text = "New Field";
 			this.labelCustomField.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -96,7 +96,7 @@ namespace OpenPmsDental {
 			// 
 			this.textCustomField.Location = new System.Drawing.Point(438, 337);
 			this.textCustomField.Name = "textCustomField";
-			this.textCustomField.Size = new System.Drawing.Size(160, 23);
+			this.textCustomField.Size = new System.Drawing.Size(192, 23);
 			this.textCustomField.TabIndex = 0;
 			this.textCustomField.Click += new System.EventHandler(this.textCustomField_Click);
 			// 
@@ -113,7 +113,7 @@ namespace OpenPmsDental {
 			// butRight
 			// 
 			this.butRight.Icon = OpenPmsDental.UI.EnumIcons.ArrowRight;
-			this.butRight.Location = new System.Drawing.Point(388, 280);
+			this.butRight.Location = new System.Drawing.Point(385, 280);
 			this.butRight.Name = "butRight";
 			this.butRight.Size = new System.Drawing.Size(35, 24);
 			this.butRight.TabIndex = 1;
@@ -123,7 +123,7 @@ namespace OpenPmsDental {
 			// 
 			this.butLeft.AdjustImageLocation = new System.Drawing.Point(-1, 0);
 			this.butLeft.Icon = OpenPmsDental.UI.EnumIcons.ArrowLeft;
-			this.butLeft.Location = new System.Drawing.Point(388, 252);
+			this.butLeft.Location = new System.Drawing.Point(385, 252);
 			this.butLeft.Name = "butLeft";
 			this.butLeft.Size = new System.Drawing.Size(35, 24);
 			this.butLeft.TabIndex = 2;

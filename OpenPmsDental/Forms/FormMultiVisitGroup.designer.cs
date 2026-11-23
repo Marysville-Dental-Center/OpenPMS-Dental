@@ -45,7 +45,7 @@ namespace OpenPmsDental {
 			// butUngroup
 			// 
 			this.butUngroup.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butUngroup.Location = new System.Drawing.Point(566, 529);
+			this.butUngroup.Location = new System.Drawing.Point(647, 529);
 			this.butUngroup.Name = "butUngroup";
 			this.butUngroup.Size = new System.Drawing.Size(75, 24);
 			this.butUngroup.TabIndex = 4;

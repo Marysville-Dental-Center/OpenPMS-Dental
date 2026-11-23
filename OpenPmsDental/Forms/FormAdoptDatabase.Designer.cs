@@ -95,7 +95,7 @@ namespace OpenPmsDental {
 			// butAdopt
 			//
 			this.butAdopt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butAdopt.Location = new System.Drawing.Point(456, 409);
+			this.butAdopt.Location = new System.Drawing.Point(458, 409);
 			this.butAdopt.Name = "butAdopt";
 			this.butAdopt.Size = new System.Drawing.Size(75, 24);
 			this.butAdopt.TabIndex = 7;

@@ -98,7 +98,7 @@ namespace OpenPmsDental {
 			// butFix
 			//
 			this.butFix.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butFix.Location = new System.Drawing.Point(707, 606);
+			this.butFix.Location = new System.Drawing.Point(709, 606);
 			this.butFix.Name = "butFix";
 			this.butFix.Size = new System.Drawing.Size(100, 24);
 			this.butFix.TabIndex = 7;

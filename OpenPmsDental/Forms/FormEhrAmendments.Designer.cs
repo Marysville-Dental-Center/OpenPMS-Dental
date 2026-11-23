@@ -35,7 +35,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridMain.Location = new System.Drawing.Point(8, 43);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(477, 231);
+			this.gridMain.Size = new System.Drawing.Size(497, 231);
 			this.gridMain.TabIndex = 25;
 			this.gridMain.Title = "Amendments";
 			this.gridMain.TranslationName = "TableAmendments";
@@ -46,7 +46,7 @@
 			this.butAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdd.Location = new System.Drawing.Point(491, 43);
+			this.butAdd.Location = new System.Drawing.Point(513, 43);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(75, 24);
 			this.butAdd.TabIndex = 29;

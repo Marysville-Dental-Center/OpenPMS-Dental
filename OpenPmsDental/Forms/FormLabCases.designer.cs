@@ -84,7 +84,7 @@ namespace OpenPmsDental {
 			// 
 			// checkShowUnattached
 			// 
-			this.checkShowUnattached.Location = new System.Drawing.Point(222, 9);
+			this.checkShowUnattached.Location = new System.Drawing.Point(303, 9);
 			this.checkShowUnattached.Name = "checkShowUnattached";
 			this.checkShowUnattached.Size = new System.Drawing.Size(119, 20);
 			this.checkShowUnattached.TabIndex = 8;

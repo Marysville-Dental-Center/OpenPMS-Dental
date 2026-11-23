@@ -45,10 +45,10 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridMain.HasMultilineHeaders = true;
-			this.gridMain.Location = new System.Drawing.Point(12, 32);
+			this.gridMain.Location = new System.Drawing.Point(8, 32);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.OneCell;
-			this.gridMain.Size = new System.Drawing.Size(525, 608);
+			this.gridMain.Size = new System.Drawing.Size(540, 608);
 			this.gridMain.TabIndex = 231;
 			this.gridMain.Title = "Dashboards";
 			this.gridMain.TranslationName = "TableProductionIncome";

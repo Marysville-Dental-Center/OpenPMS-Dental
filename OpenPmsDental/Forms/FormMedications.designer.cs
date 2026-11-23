@@ -57,7 +57,7 @@ namespace OpenPmsDental {
 			// 
 			this.butAddGeneric.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAddGeneric.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAddGeneric.Location = new System.Drawing.Point(14, 8);
+			this.butAddGeneric.Location = new System.Drawing.Point(8, 8);
 			this.butAddGeneric.Name = "butAddGeneric";
 			this.butAddGeneric.Size = new System.Drawing.Size(113, 23);
 			this.butAddGeneric.TabIndex = 33;
@@ -68,7 +68,7 @@ namespace OpenPmsDental {
 			// 
 			this.butAddBrand.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAddBrand.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAddBrand.Location = new System.Drawing.Point(133, 8);
+			this.butAddBrand.Location = new System.Drawing.Point(127, 8);
 			this.butAddBrand.Name = "butAddBrand";
 			this.butAddBrand.Size = new System.Drawing.Size(113, 23);
 			this.butAddBrand.TabIndex = 34;
@@ -81,9 +81,9 @@ namespace OpenPmsDental {
 			this.gridAllMedications.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridAllMedications.Location = new System.Drawing.Point(14, 35);
+			this.gridAllMedications.Location = new System.Drawing.Point(8, 35);
 			this.gridAllMedications.Name = "gridAllMedications";
-			this.gridAllMedications.Size = new System.Drawing.Size(919, 588);
+			this.gridAllMedications.Size = new System.Drawing.Size(925, 588);
 			this.gridAllMedications.TabIndex = 37;
 			this.gridAllMedications.Title = "All Medications";
 			this.gridAllMedications.TranslationName = "FormMedications";

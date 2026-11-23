@@ -162,12 +162,12 @@ namespace OpenPmsDental{
 			// labelOtherEntered
 			//
 			this.labelOtherEntered.AutoEllipsis = true;
-			this.labelOtherEntered.Location = new System.Drawing.Point(319, 170);
+			this.labelOtherEntered.Location = new System.Drawing.Point(146, 170);
 			this.labelOtherEntered.Name = "labelOtherEntered";
-			this.labelOtherEntered.Size = new System.Drawing.Size(96, 23);
+			this.labelOtherEntered.Size = new System.Drawing.Size(269, 23);
 			this.labelOtherEntered.TabIndex = 29;
 			this.labelOtherEntered.Text = "Patient entered:";
-			this.labelOtherEntered.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.labelOtherEntered.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.labelOtherEntered.Visible = false;
 			//
 			// butConvertOther

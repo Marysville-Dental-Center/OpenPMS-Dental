@@ -22,3 +22,4 @@ OpenPmsDental.FormHL7DefSegmentEdit	labelDelete	The segments and their item orde
 OpenPmsDental.FormLabCaseSelect	labelInfo	Select a lab case from the list below or create a new one.  This list will not show lab cases that are already attached to other appointments.	730	UI-12 slice 7: the selection note (FormLabCaseSelect.cs)
 OpenPmsDental.FormEhrMeasureCalc	labelProgress	No provider is marked for EHR reporting. Add a row with the provider's last and first name in Setup, Chart, EHR, Provider Keys.	669	UI-12 slice 7: the no-provider note (FormEhrMeasureCalc.cs)
 OpenPmsDental.FormMaintBoard	labelSummary	999 overdue, 999 due soon (today is 12/31/2026)	260	UI-12 slice 7: the summary, three-digit counts (FormMaintBoard.cs)
+OpenPmsDental.FormAllergyEdit	labelOtherEntered	Patient entered: shellfish, tree nuts and penicillin	262	UI-12 slice 7 (fix round): what the patient entered (FormAllergyEdit.cs, Load; a long sample)

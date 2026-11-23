@@ -173,7 +173,7 @@ namespace OpenPmsDental {
 			// butExport
 			//
 			this.butExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butExport.Location = new System.Drawing.Point(604, 604);
+			this.butExport.Location = new System.Drawing.Point(600, 604);
 			this.butExport.Name = "butExport";
 			this.butExport.Size = new System.Drawing.Size(75, 24);
 			this.butExport.TabIndex = 13;

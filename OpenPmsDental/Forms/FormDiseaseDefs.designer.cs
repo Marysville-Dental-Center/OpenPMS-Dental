@@ -212,7 +212,7 @@ namespace OpenPmsDental {
 			this.butAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdd.Location = new System.Drawing.Point(581, 144);
+			this.butAdd.Location = new System.Drawing.Point(601, 144);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(79, 26);
 			this.butAdd.TabIndex = 21;
@@ -234,7 +234,7 @@ namespace OpenPmsDental {
 			this.butDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butDown.Icon = OpenPmsDental.UI.EnumIcons.Down;
 			this.butDown.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDown.Location = new System.Drawing.Point(581, 299);
+			this.butDown.Location = new System.Drawing.Point(601, 299);
 			this.butDown.Name = "butDown";
 			this.butDown.Size = new System.Drawing.Size(79, 26);
 			this.butDown.TabIndex = 14;
@@ -246,7 +246,7 @@ namespace OpenPmsDental {
 			this.butUp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butUp.Icon = OpenPmsDental.UI.EnumIcons.Up;
 			this.butUp.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butUp.Location = new System.Drawing.Point(581, 269);
+			this.butUp.Location = new System.Drawing.Point(601, 269);
 			this.butUp.Name = "butUp";
 			this.butUp.Size = new System.Drawing.Size(79, 26);
 			this.butUp.TabIndex = 13;
@@ -258,7 +258,7 @@ namespace OpenPmsDental {
 			this.butAlphabetize.AdjustImageLocation = new System.Drawing.Point(0, 1);
 			this.butAlphabetize.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butAlphabetize.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAlphabetize.Location = new System.Drawing.Point(581, 239);
+			this.butAlphabetize.Location = new System.Drawing.Point(601, 239);
 			this.butAlphabetize.Name = "butAlphabetize";
 			this.butAlphabetize.Size = new System.Drawing.Size(79, 26);
 			this.butAlphabetize.TabIndex = 22;
@@ -273,13 +273,13 @@ namespace OpenPmsDental {
 			this.labelAlphabetize.Size = new System.Drawing.Size(119, 33);
 			this.labelAlphabetize.TabIndex = 29;
 			this.labelAlphabetize.Text = "Orders the problem list alphabetically";
-			this.labelAlphabetize.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.labelAlphabetize.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			//
 			// butMerge
 			//
 			this.butMerge.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butMerge.Enabled = false;
-			this.butMerge.Location = new System.Drawing.Point(581, 174);
+			this.butMerge.Location = new System.Drawing.Point(601, 174);
 			this.butMerge.Name = "butMerge";
 			this.butMerge.Size = new System.Drawing.Size(79, 26);
 			this.butMerge.TabIndex = 30;

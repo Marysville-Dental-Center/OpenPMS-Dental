@@ -48,9 +48,9 @@ namespace OpenPmsDental {
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(496, 547);
+			this.butOK.Location = new System.Drawing.Point(486, 547);
 			this.butOK.Name = "butOK";
-			this.butOK.Size = new System.Drawing.Size(75, 26);
+			this.butOK.Size = new System.Drawing.Size(85, 26);
 			this.butOK.TabIndex = 1;
 			this.butOK.Text = "&OK";
 			this.butOK.Click += new System.EventHandler(this.butOK_Click);
@@ -60,9 +60,9 @@ namespace OpenPmsDental {
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(12, 8);
+			this.gridMain.Location = new System.Drawing.Point(8, 8);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(441, 527);
+			this.gridMain.Size = new System.Drawing.Size(445, 527);
 			this.gridMain.TabIndex = 2;
 			this.gridMain.Title = "Existing Images";
 			this.gridMain.TranslationName = "FormImageSelect";
@@ -71,17 +71,17 @@ namespace OpenPmsDental {
 			// labelPasteImage
 			// 
 			this.labelPasteImage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelPasteImage.Location = new System.Drawing.Point(459, 128);
+			this.labelPasteImage.Location = new System.Drawing.Point(461, 128);
 			this.labelPasteImage.Name = "labelPasteImage";
 			this.labelPasteImage.Size = new System.Drawing.Size(110, 18);
 			this.labelPasteImage.TabIndex = 20;
 			this.labelPasteImage.Text = "(from clipboard)";
-			this.labelPasteImage.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+			this.labelPasteImage.TextAlign = System.Drawing.ContentAlignment.TopRight;
 			// 
 			// butPasteImage
 			// 
 			this.butPasteImage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butPasteImage.Location = new System.Drawing.Point(472, 100);
+			this.butPasteImage.Location = new System.Drawing.Point(486, 100);
 			this.butPasteImage.Name = "butPasteImage";
 			this.butPasteImage.Size = new System.Drawing.Size(85, 24);
 			this.butPasteImage.TabIndex = 19;
@@ -92,7 +92,7 @@ namespace OpenPmsDental {
 			// butSnipTool
 			// 
 			this.butSnipTool.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSnipTool.Location = new System.Drawing.Point(472, 72);
+			this.butSnipTool.Location = new System.Drawing.Point(486, 72);
 			this.butSnipTool.Name = "butSnipTool";
 			this.butSnipTool.Size = new System.Drawing.Size(85, 24);
 			this.butSnipTool.TabIndex = 17;
@@ -103,7 +103,7 @@ namespace OpenPmsDental {
 			// butImport
 			// 
 			this.butImport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butImport.Location = new System.Drawing.Point(472, 44);
+			this.butImport.Location = new System.Drawing.Point(486, 44);
 			this.butImport.Name = "butImport";
 			this.butImport.Size = new System.Drawing.Size(85, 24);
 			this.butImport.TabIndex = 18;

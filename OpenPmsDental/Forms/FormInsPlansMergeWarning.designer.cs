@@ -53,7 +53,7 @@ namespace OpenPmsDental {
 			// butCombine
 			//
 			this.butCombine.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butCombine.Location = new System.Drawing.Point(785,522);
+			this.butCombine.Location = new System.Drawing.Point(790,522);
 			this.butCombine.Name = "butCombine";
 			this.butCombine.Size = new System.Drawing.Size(78,26);
 			this.butCombine.TabIndex = 4;
