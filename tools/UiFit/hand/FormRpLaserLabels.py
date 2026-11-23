@@ -5,3 +5,5 @@ the planner brought it into the page beside the visible label. The script keeps 
 
 def layout(h):
     h.set("labEndName", -95, 53, 61, 20)
+    # The window's left content edge at 8 (the planner kept main's x).
+    h.frame_left()

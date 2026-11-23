@@ -79,9 +79,9 @@ namespace OpenPmsDental {
             this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.gridMain.Location = new System.Drawing.Point(16, 35);
+            this.gridMain.Location = new System.Drawing.Point(8, 35);
             this.gridMain.Name = "gridMain";
-            this.gridMain.Size = new System.Drawing.Size(901, 437);
+            this.gridMain.Size = new System.Drawing.Size(909, 437);
             this.gridMain.TabIndex = 67;
             this.gridMain.Title = "Messages";
             this.gridMain.TranslationName = "TableRecallMsgs";
@@ -135,9 +135,9 @@ namespace OpenPmsDental {
             this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox4.Controls.Add(this.radioUseEmailFalse);
             this.groupBox4.Controls.Add(this.radioUseEmailTrue);
-            this.groupBox4.Location = new System.Drawing.Point(687, 565);
+            this.groupBox4.Location = new System.Drawing.Point(691, 565);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(230, 75);
+            this.groupBox4.Size = new System.Drawing.Size(226, 75);
             this.groupBox4.TabIndex = 70;
             this.groupBox4.Text = "Use email if";
             // 
@@ -166,16 +166,16 @@ namespace OpenPmsDental {
             this.groupBox2.Controls.Add(this.label12);
             this.groupBox2.Controls.Add(this.textRight);
             this.groupBox2.Controls.Add(this.label13);
-            this.groupBox2.Location = new System.Drawing.Point(687, 476);
+            this.groupBox2.Location = new System.Drawing.Point(691, 476);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(230, 81);
+            this.groupBox2.Size = new System.Drawing.Size(226, 81);
             this.groupBox2.TabIndex = 48;
             this.groupBox2.Text = "Adjust Postcard Position in Inches";
             // 
             // textDown
             // 
             this.textDown.AutoSize = false;
-            this.textDown.Location = new System.Drawing.Point(150, 50);
+            this.textDown.Location = new System.Drawing.Point(146, 50);
             this.textDown.MaxVal = 100000000D;
             this.textDown.MinVal = -100000000D;
             this.textDown.Name = "textDown";
@@ -184,7 +184,7 @@ namespace OpenPmsDental {
             // 
             // label12
             // 
-            this.label12.Location = new System.Drawing.Point(100, 50);
+            this.label12.Location = new System.Drawing.Point(96, 50);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(44, 23);
             this.label12.TabIndex = 5;
@@ -194,7 +194,7 @@ namespace OpenPmsDental {
             // textRight
             // 
             this.textRight.AutoSize = false;
-            this.textRight.Location = new System.Drawing.Point(150, 23);
+            this.textRight.Location = new System.Drawing.Point(146, 23);
             this.textRight.MaxVal = 100000000D;
             this.textRight.MinVal = -100000000D;
             this.textRight.Name = "textRight";
@@ -203,7 +203,7 @@ namespace OpenPmsDental {
             // 
             // label13
             // 
-            this.label13.Location = new System.Drawing.Point(104, 23);
+            this.label13.Location = new System.Drawing.Point(100, 23);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(40, 23);
             this.label13.TabIndex = 4;

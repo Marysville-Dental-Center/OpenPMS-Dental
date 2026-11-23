@@ -140,9 +140,9 @@ namespace OpenPmsDental {
 			// listBoxEraBehavior
 			// 
 			this.listBoxEraBehavior.Enabled = false;
-			this.listBoxEraBehavior.Location = new System.Drawing.Point(583, 532);
+			this.listBoxEraBehavior.Location = new System.Drawing.Point(573, 532);
 			this.listBoxEraBehavior.Name = "listBoxEraBehavior";
-			this.listBoxEraBehavior.Size = new System.Drawing.Size(264, 43);
+			this.listBoxEraBehavior.Size = new System.Drawing.Size(216, 43);
 			this.listBoxEraBehavior.TabIndex = 20;
 			// 
 			// checkIsClaimExportAllowed
@@ -172,7 +172,7 @@ namespace OpenPmsDental {
 			// labelInfo
 			// 
 			this.labelInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.labelInfo.Location = new System.Drawing.Point(251, 827);
+			this.labelInfo.Location = new System.Drawing.Point(251, 835);
 			this.labelInfo.Name = "labelInfo";
 			this.labelInfo.Size = new System.Drawing.Size(698, 17);
 			this.labelInfo.TabIndex = 0;
@@ -636,7 +636,7 @@ namespace OpenPmsDental {
 			// 
 			// textModemPort
 			// 
-			this.textModemPort.Location = new System.Drawing.Point(251, 800);
+			this.textModemPort.Location = new System.Drawing.Point(251, 808);
 			this.textModemPort.MaxLength = 255;
 			this.textModemPort.Name = "textModemPort";
 			this.textModemPort.Size = new System.Drawing.Size(32, 20);
@@ -679,7 +679,7 @@ namespace OpenPmsDental {
 			this.textBox2.Multiline = true;
 			this.textBox2.Name = "textBox2";
 			this.textBox2.ReadOnly = true;
-			this.textBox2.Size = new System.Drawing.Size(390, 44);
+			this.textBox2.Size = new System.Drawing.Size(390, 52);
 			this.textBox2.TabIndex = 0;
 			this.textBox2.TabStop = false;
 			this.textBox2.Text = "The list of payor IDs should be separated by commas with no spaces or other punct" +
@@ -753,7 +753,7 @@ namespace OpenPmsDental {
 			// 
 			// label14
 			// 
-			this.label14.Location = new System.Drawing.Point(289, 803);
+			this.label14.Location = new System.Drawing.Point(289, 811);
 			this.label14.Name = "label14";
 			this.label14.Size = new System.Drawing.Size(267, 17);
 			this.label14.TabIndex = 0;
@@ -762,7 +762,7 @@ namespace OpenPmsDental {
 			// 
 			// label13
 			// 
-			this.label13.Location = new System.Drawing.Point(137, 800);
+			this.label13.Location = new System.Drawing.Point(137, 808);
 			this.label13.Name = "label13";
 			this.label13.Size = new System.Drawing.Size(108, 23);
 			this.label13.TabIndex = 0;
@@ -861,7 +861,7 @@ namespace OpenPmsDental {
 			// 
 			// checkSaveAttachments
 			// 
-			this.checkSaveAttachments.Location = new System.Drawing.Point(251, 776);
+			this.checkSaveAttachments.Location = new System.Drawing.Point(251, 784);
 			this.checkSaveAttachments.Name = "checkSaveAttachments";
 			this.checkSaveAttachments.RightToLeft = System.Windows.Forms.RightToLeft.No;
 			this.checkSaveAttachments.Size = new System.Drawing.Size(228, 20);

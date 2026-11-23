@@ -129,7 +129,7 @@ namespace OpenPmsDental {
 			this.butExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butExport.Icon = OpenPmsDental.UI.EnumIcons.Export;
 			this.butExport.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butExport.Location = new System.Drawing.Point(12, 693);
+			this.butExport.Location = new System.Drawing.Point(8, 693);
 			this.butExport.Name = "butExport";
 			this.butExport.Size = new System.Drawing.Size(75, 24);
 			this.butExport.TabIndex = 57;
@@ -151,7 +151,7 @@ namespace OpenPmsDental {
 			this.butPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butPrint.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Print,16,16);
 			this.butPrint.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butPrint.Location = new System.Drawing.Point(12, 721);
+			this.butPrint.Location = new System.Drawing.Point(8, 721);
 			this.butPrint.Name = "butPrint";
 			this.butPrint.Size = new System.Drawing.Size(75, 24);
 			this.butPrint.TabIndex = 52;
@@ -165,10 +165,10 @@ namespace OpenPmsDental {
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridMain.HScrollVisible = true;
-			this.gridMain.Location = new System.Drawing.Point(12, 130);
+			this.gridMain.Location = new System.Drawing.Point(8, 130);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridMain.Size = new System.Drawing.Size(1231, 519);
+			this.gridMain.Size = new System.Drawing.Size(1235, 519);
 			this.gridMain.TabIndex = 1;
 			this.gridMain.Title = "Claims";
 			this.gridMain.TranslationName = "TableOustandingInsClaims";
@@ -222,9 +222,9 @@ namespace OpenPmsDental {
 			this.groupBox2.Controls.Add(this.labelProv);
 			this.groupBox2.Controls.Add(this.comboBoxMultiProv);
 			this.groupBox2.Controls.Add(this.label1);
-			this.groupBox2.Location = new System.Drawing.Point(12, 8);
+			this.groupBox2.Location = new System.Drawing.Point(8, 8);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(1098, 118);
+			this.groupBox2.Size = new System.Drawing.Size(1102, 118);
 			this.groupBox2.TabIndex = 248;
 			this.groupBox2.Text = "Filters";
 			// 
@@ -464,7 +464,7 @@ namespace OpenPmsDental {
 			this.groupBoxUpdateCustomTracking.Controls.Add(this.labelCustomTracking);
 			this.groupBoxUpdateCustomTracking.Controls.Add(this.buttonUpdateCustomTrack);
 			this.groupBoxUpdateCustomTracking.Controls.Add(this.labelClaimCount);
-			this.groupBoxUpdateCustomTracking.Location = new System.Drawing.Point(825, 653);
+			this.groupBoxUpdateCustomTracking.Location = new System.Drawing.Point(821, 653);
 			this.groupBoxUpdateCustomTracking.Name = "groupBoxUpdateCustomTracking";
 			this.groupBoxUpdateCustomTracking.Size = new System.Drawing.Size(280, 89);
 			this.groupBoxUpdateCustomTracking.TabIndex = 254;
@@ -482,7 +482,7 @@ namespace OpenPmsDental {
 			// butAssignUser
 			// 
 			this.butAssignUser.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butAssignUser.Location = new System.Drawing.Point(12, 665);
+			this.butAssignUser.Location = new System.Drawing.Point(8, 665);
 			this.butAssignUser.Name = "butAssignUser";
 			this.butAssignUser.Size = new System.Drawing.Size(75, 24);
 			this.butAssignUser.TabIndex = 110;
@@ -500,7 +500,7 @@ namespace OpenPmsDental {
 			this.groupBox1.Controls.Add(this.label7);
 			this.groupBox1.Controls.Add(this.label6);
 			this.groupBox1.Controls.Add(this.label5);
-			this.groupBox1.Location = new System.Drawing.Point(171, 653);
+			this.groupBox1.Location = new System.Drawing.Point(167, 653);
 			this.groupBox1.Name = "groupBox1";
 			this.groupBox1.Size = new System.Drawing.Size(321, 135);
 			this.groupBox1.TabIndex = 255;
@@ -589,7 +589,7 @@ namespace OpenPmsDental {
 			this.groupBox3.Controls.Add(this.label10);
 			this.groupBox3.Controls.Add(this.label11);
 			this.groupBox3.Controls.Add(this.label12);
-			this.groupBox3.Location = new System.Drawing.Point(498, 653);
+			this.groupBox3.Location = new System.Drawing.Point(494, 653);
 			this.groupBox3.Name = "groupBox3";
 			this.groupBox3.Size = new System.Drawing.Size(321, 135);
 			this.groupBox3.TabIndex = 260;

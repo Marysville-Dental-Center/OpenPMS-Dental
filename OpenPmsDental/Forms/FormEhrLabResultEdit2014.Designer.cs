@@ -1117,9 +1117,9 @@
 			this.groupBox6.Controls.Add(this.label34);
 			this.groupBox6.Controls.Add(this.label35);
 			this.groupBox6.Controls.Add(this.textObsIDAlt);
-			this.groupBox6.Location = new System.Drawing.Point(12, 8);
+			this.groupBox6.Location = new System.Drawing.Point(8, 8);
 			this.groupBox6.Name = "groupBox6";
-			this.groupBox6.Size = new System.Drawing.Size(287, 243);
+			this.groupBox6.Size = new System.Drawing.Size(291, 243);
 			this.groupBox6.TabIndex = 0;
 			this.groupBox6.TabStop = false;
 			this.groupBox6.Text = "Observation Identifier";
@@ -1468,7 +1468,7 @@
 			// 
 			// label56
 			// 
-			this.label56.Location = new System.Drawing.Point(12, 259);
+			this.label56.Location = new System.Drawing.Point(8, 259);
 			this.label56.Name = "label56";
 			this.label56.Size = new System.Drawing.Size(111, 17);
 			this.label56.TabIndex = 256;
@@ -1477,19 +1477,19 @@
 			// 
 			// listAbnormalFlags
 			// 
-			this.listAbnormalFlags.Location = new System.Drawing.Point(12, 278);
+			this.listAbnormalFlags.Location = new System.Drawing.Point(8, 278);
 			this.listAbnormalFlags.Name = "listAbnormalFlags";
 			this.listAbnormalFlags.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
-			this.listAbnormalFlags.Size = new System.Drawing.Size(287, 251);
+			this.listAbnormalFlags.Size = new System.Drawing.Size(291, 251);
 			this.listAbnormalFlags.TabIndex = 1;
 			// 
 			// gridNotes
 			// 
 			this.gridNotes.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-			this.gridNotes.Location = new System.Drawing.Point(12, 533);
+			this.gridNotes.Location = new System.Drawing.Point(8, 533);
 			this.gridNotes.Name = "gridNotes";
-			this.gridNotes.Size = new System.Drawing.Size(287, 208);
+			this.gridNotes.Size = new System.Drawing.Size(291, 208);
 			this.gridNotes.TabIndex = 232;
 			this.gridNotes.Title = "Notes";
 			this.gridNotes.TranslationName = "TableNotes";

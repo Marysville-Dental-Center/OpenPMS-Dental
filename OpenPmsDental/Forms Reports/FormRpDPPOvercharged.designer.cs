@@ -40,9 +40,9 @@
 			this.butPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butPrint.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Print,16,16);
 			this.butPrint.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butPrint.Location = new System.Drawing.Point(12, 678);
+			this.butPrint.Location = new System.Drawing.Point(8, 680);
 			this.butPrint.Name = "butPrint";
-			this.butPrint.Size = new System.Drawing.Size(75, 26);
+			this.butPrint.Size = new System.Drawing.Size(75, 24);
 			this.butPrint.TabIndex = 3;
 			this.butPrint.Text = "Print";
 			this.butPrint.Click += new System.EventHandler(this.butPrint_Click);
@@ -55,10 +55,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridMain.HasAutoWrappedHeaders = true;
 			this.gridMain.HasMultilineHeaders = true;
-			this.gridMain.Location = new System.Drawing.Point(12, 93);
+			this.gridMain.Location = new System.Drawing.Point(8, 97);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridMain.Size = new System.Drawing.Size(1165, 581);
+			this.gridMain.Size = new System.Drawing.Size(1173, 575);
 			this.gridMain.TabIndex = 69;
 			this.gridMain.Title = "Overcharged Production";
 			this.gridMain.TranslationName = "TableProcedures";
@@ -76,9 +76,9 @@
 			// butRefresh
 			// 
 			this.butRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butRefresh.Location = new System.Drawing.Point(1102, 8);
+			this.butRefresh.Location = new System.Drawing.Point(933, 8);
 			this.butRefresh.Name = "butRefresh";
-			this.butRefresh.Size = new System.Drawing.Size(75, 26);
+			this.butRefresh.Size = new System.Drawing.Size(75, 24);
 			this.butRefresh.TabIndex = 73;
 			this.butRefresh.Text = "Refresh";
 			this.butRefresh.UseVisualStyleBackColor = true;
@@ -96,7 +96,7 @@
 			this.groupBox2.Controls.Add(this.comboBoxMultiProv);
 			this.groupBox2.Controls.Add(this.comboBoxMultiClinics);
 			this.groupBox2.Controls.Add(this.dateRangePicker);
-			this.groupBox2.Location = new System.Drawing.Point(12, 8);
+			this.groupBox2.Location = new System.Drawing.Point(8, 8);
 			this.groupBox2.Name = "groupBox2";
 			this.groupBox2.Size = new System.Drawing.Size(917, 81);
 			this.groupBox2.TabIndex = 77;
@@ -190,9 +190,9 @@
 			// butFix
 			// 
 			this.butFix.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-			this.butFix.Location = new System.Drawing.Point(548, 678);
+			this.butFix.Location = new System.Drawing.Point(548, 680);
 			this.butFix.Name = "butFix";
-			this.butFix.Size = new System.Drawing.Size(75, 26);
+			this.butFix.Size = new System.Drawing.Size(75, 24);
 			this.butFix.TabIndex = 78;
 			this.butFix.Text = "Fix";
 			this.butFix.UseVisualStyleBackColor = true;

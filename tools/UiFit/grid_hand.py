@@ -114,6 +114,27 @@ class Hand:
                 self.set(hidden_first, b.left, yy + (H - self.CH) // 2, self.cw(hidden_first), self.CH)
         return b, F
 
+    def frame_left(self):
+        """UI-12 slice 1: the window's left content edge at the padding (8). The planner keeps a window's left column at main's x when the
+        controls there are anchored (12, 13, 34, 45 in the slice); this moves every control of the window's left edge to 8, and a wide one
+        (120 px or more, not a button) keeps its right edge (it grows by as much). Returns the shift."""
+        kids = [k for k in self.tree.children if k.dock in ("None", "") and k.w > 0 and k.h > 0]
+        shown = [k for k in kids if k.visible]
+        if not shown:
+            return 0
+        minx = min(k.nx for k in shown)
+        dx = minx - GRID["pad"]
+        if dx <= 0:
+            return 0
+        for k in kids:
+            if k.nx != minx:
+                continue
+            if k.nw >= 120 and k.kind != "button":
+                self.set(k.name, GRID["pad"], None, k.nw + dx, None)
+            else:
+                self.set(k.name, GRID["pad"], None)
+        return dx
+
     def watch(self, *names):
         """Containers the script laid out without a Box: the check reads them too."""
         for name in names:

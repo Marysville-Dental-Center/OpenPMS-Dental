@@ -64,7 +64,6 @@ OpenPmsDental.FormReportSetup	overlap	comboUserGroup labelInstructions	UI-12 sli
 OpenPmsDental.FormReportSetup	overlap	labelInstructions labelUserGroup	UI-12 slice 1: UserControlReportSetup (another designer) shows the instructions or the user group row, never both (UserControlReportSetup.cs sets Visible by its mode)
 OpenPmsDental.FormReportSetup	overlap	butSetAll labelInstructions	UI-12 slice 1: UserControlReportSetup (another designer) shows the instructions or the user group row, never both (UserControlReportSetup.cs sets Visible by its mode)
 OpenPmsDental.FormReportSetup	label-gap	labelUserGroup comboUserGroup	UI-12 slice 1: UserControlReportSetup's own user group row (another designer; laid out with that control in a later slice)
-OpenPmsDental.FormAllocationsSetup	gap	radioAdjustEnforce radioAdjustLink	UI-12 slice 1: the Rigorous row holds a two-line note beside its radio button; the next radio button follows the note, so the list's first gap is the note's
 OpenPmsDental.FormRpOutstandingIns	hidden-frame	dateRangePicker panelWeek	UI-12 slice 1: ODDateRangePicker's own week buttons (another designer, hidden unless the picker shows them); unchanged
 OpenPmsDental.FormRpProcNotBilledIns	hidden-frame	dateRangePicker panelWeek	UI-12 slice 1: ODDateRangePicker's own week buttons (another designer, hidden unless the picker shows them); unchanged
 OpenPmsDental.FormRpProcOverpaid	hidden-frame	dateRangePicker panelWeek	UI-12 slice 1: ODDateRangePicker's own week buttons (another designer, hidden unless the picker shows them); unchanged

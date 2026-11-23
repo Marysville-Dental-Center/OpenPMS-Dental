@@ -615,9 +615,9 @@ namespace OpenPmsDental {
 			this.tabLabelSetup.Controls.Add(this.tabCustomLabels);
 			this.tabLabelSetup.Controls.Add(this.tabBirthday);
 			this.tabLabelSetup.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-			this.tabLabelSetup.Location = new System.Drawing.Point(13, 8);
+			this.tabLabelSetup.Location = new System.Drawing.Point(8, 8);
 			this.tabLabelSetup.Name = "tabLabelSetup";
-			this.tabLabelSetup.Size = new System.Drawing.Size(423, 349);
+			this.tabLabelSetup.Size = new System.Drawing.Size(428, 349);
 			this.tabLabelSetup.TabIndex = 3;
 			// 
 			// tabBirthday

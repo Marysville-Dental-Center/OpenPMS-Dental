@@ -14,3 +14,8 @@ def layout(h):
         lw = h.lw(lab)
         h.set(lab, x - 6 - lw, None, lw)
         h.text_align(lab, "MiddleRight")
+    # The window's left content edge at 8 (the planner kept main's x).
+    dx = h.frame_left()
+    # The groups beside the bottom buttons move left with them (their fields keep their distance to the filter group's columns).
+    for name in ("groupBox1", "groupBox3", "groupBoxUpdateCustomTracking"):
+        h.set(name, h.n(name).x - dx, None)

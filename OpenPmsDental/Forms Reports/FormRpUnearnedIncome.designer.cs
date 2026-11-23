@@ -82,9 +82,9 @@ namespace OpenPmsDental{
 			this.tabControlMain.Controls.Add(this.tabPageUnallocatedBalances);
 			this.tabControlMain.Controls.Add(this.tabPageNetUnearned);
 			this.tabControlMain.Controls.Add(this.tabPageLineItemUnearned);
-			this.tabControlMain.Location = new System.Drawing.Point(12, 8);
+			this.tabControlMain.Location = new System.Drawing.Point(8, 8);
 			this.tabControlMain.Name = "tabControlMain";
-			this.tabControlMain.Size = new System.Drawing.Size(625, 527);
+			this.tabControlMain.Size = new System.Drawing.Size(631, 527);
 			this.tabControlMain.TabIndex = 61;
 			this.tabControlMain.SelectedIndexChanged += new System.EventHandler(this.tabControlMain_SelectedIndexChanged);
 			// 

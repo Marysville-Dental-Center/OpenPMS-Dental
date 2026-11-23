@@ -9,3 +9,5 @@ def layout(h):
         g = h.n(gname)
         b, _ = h.group_rows(gname, g.x, g.y, g.w, button=button)
         b.end()
+    # The window's left content edge at 8 (the planner kept main's x).
+    h.frame_left()

@@ -113,9 +113,9 @@ namespace OpenPmsDental{
 			// progressBarTransfer
 			// 
 			this.progressBarTransfer.Anchor = System.Windows.Forms.AnchorStyles.Top;
-			this.progressBarTransfer.Location = new System.Drawing.Point(12, 411);
+			this.progressBarTransfer.Location = new System.Drawing.Point(8, 411);
 			this.progressBarTransfer.Name = "progressBarTransfer";
-			this.progressBarTransfer.Size = new System.Drawing.Size(1206, 22);
+			this.progressBarTransfer.Size = new System.Drawing.Size(1210, 22);
 			this.progressBarTransfer.TabIndex = 153;
 			// 
 			// timerProgress
@@ -125,9 +125,9 @@ namespace OpenPmsDental{
 			// labelProgress
 			// 
 			this.labelProgress.Anchor = System.Windows.Forms.AnchorStyles.Top;
-			this.labelProgress.Location = new System.Drawing.Point(12, 391);
+			this.labelProgress.Location = new System.Drawing.Point(8, 391);
 			this.labelProgress.Name = "labelProgress";
-			this.labelProgress.Size = new System.Drawing.Size(551, 15);
+			this.labelProgress.Size = new System.Drawing.Size(555, 15);
 			this.labelProgress.TabIndex = 154;
 			this.labelProgress.Text = "labelProgress";
 			this.labelProgress.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -253,9 +253,9 @@ namespace OpenPmsDental{
 			this.groupBoxIncomeTransfers.Controls.Add(this.label5);
 			this.groupBoxIncomeTransfers.Controls.Add(this.checkDeleteTransfers);
 			this.groupBoxIncomeTransfers.Controls.Add(this.labelDeleteTransfers);
-			this.groupBoxIncomeTransfers.Location = new System.Drawing.Point(12, 8);
+			this.groupBoxIncomeTransfers.Location = new System.Drawing.Point(8, 8);
 			this.groupBoxIncomeTransfers.Name = "groupBoxIncomeTransfers";
-			this.groupBoxIncomeTransfers.Size = new System.Drawing.Size(602, 379);
+			this.groupBoxIncomeTransfers.Size = new System.Drawing.Size(606, 379);
 			this.groupBoxIncomeTransfers.TabIndex = 0;
 			this.groupBoxIncomeTransfers.Text = "Income Transfers";
 			// 
@@ -377,9 +377,9 @@ namespace OpenPmsDental{
 			// 
 			// label15
 			// 
-			this.label15.Location = new System.Drawing.Point(12, 437);
+			this.label15.Location = new System.Drawing.Point(8, 437);
 			this.label15.Name = "label15";
-			this.label15.Size = new System.Drawing.Size(551, 16);
+			this.label15.Size = new System.Drawing.Size(555, 16);
 			this.label15.TabIndex = 169;
 			this.label15.Text = "Output";
 			this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -391,18 +391,18 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.textOutput.BackColor = System.Drawing.SystemColors.Control;
-			this.textOutput.Location = new System.Drawing.Point(12, 455);
+			this.textOutput.Location = new System.Drawing.Point(8, 455);
 			this.textOutput.Multiline = true;
 			this.textOutput.Name = "textOutput";
 			this.textOutput.ReadOnly = true;
 			this.textOutput.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.textOutput.Size = new System.Drawing.Size(1206, 152);
+			this.textOutput.Size = new System.Drawing.Size(1210, 152);
 			this.textOutput.TabIndex = 170;
 			// 
 			// checkOutputVerbose
 			// 
 			this.checkOutputVerbose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.checkOutputVerbose.Location = new System.Drawing.Point(12, 614);
+			this.checkOutputVerbose.Location = new System.Drawing.Point(8, 614);
 			this.checkOutputVerbose.Name = "checkOutputVerbose";
 			this.checkOutputVerbose.Size = new System.Drawing.Size(67, 20);
 			this.checkOutputVerbose.TabIndex = 3;

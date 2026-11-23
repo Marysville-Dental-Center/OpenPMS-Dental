@@ -18,3 +18,5 @@ def layout(h):
     h.set("checkLineItemShowProv", None, y + 18 + 2)
     yl = y + 18 + 2 + h.CH + 2
     h.set("listLineItemClins", None, yl, None, bottom - yl)
+    # The tab control from the content edge to the right content edge (the planner kept main's 12 and 10 px).
+    h.set("tabControlMain", 8, None, h.tree.w - 16, None)

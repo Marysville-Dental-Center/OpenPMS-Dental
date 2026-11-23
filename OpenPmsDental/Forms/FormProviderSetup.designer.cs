@@ -94,7 +94,7 @@ namespace OpenPmsDental {
 			this.butAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdd.Location = new System.Drawing.Point(885, 550);
+			this.butAdd.Location = new System.Drawing.Point(898, 550);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(82, 24);
 			this.butAdd.TabIndex = 6;
@@ -190,7 +190,7 @@ namespace OpenPmsDental {
 			// radioInstructors
 			// 
 			this.radioInstructors.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.radioInstructors.Location = new System.Drawing.Point(98, 101);
+			this.radioInstructors.Location = new System.Drawing.Point(8, 98);
 			this.radioInstructors.Name = "radioInstructors";
 			this.radioInstructors.Size = new System.Drawing.Size(81, 20);
 			this.radioInstructors.TabIndex = 3;
@@ -386,7 +386,7 @@ namespace OpenPmsDental {
 			// 
 			this.butStudBulkEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butStudBulkEdit.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butStudBulkEdit.Location = new System.Drawing.Point(865, 578);
+			this.butStudBulkEdit.Location = new System.Drawing.Point(878, 578);
 			this.butStudBulkEdit.Name = "butStudBulkEdit";
 			this.butStudBulkEdit.Size = new System.Drawing.Size(102, 24);
 			this.butStudBulkEdit.TabIndex = 7;
@@ -419,9 +419,9 @@ namespace OpenPmsDental {
 			// butAlphabetize
 			// 
 			this.butAlphabetize.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butAlphabetize.Location = new System.Drawing.Point(133, 51);
+			this.butAlphabetize.Location = new System.Drawing.Point(137, 52);
 			this.butAlphabetize.Name = "butAlphabetize";
-			this.butAlphabetize.Size = new System.Drawing.Size(131, 26);
+			this.butAlphabetize.Size = new System.Drawing.Size(131, 24);
 			this.butAlphabetize.TabIndex = 16;
 			this.butAlphabetize.Text = "Alphabetize Providers";
 			this.butAlphabetize.Click += new System.EventHandler(this.butAlphabetize_Click);

@@ -393,9 +393,9 @@ namespace OpenPmsDental{
 			this.gridRemainTimeUnits.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridRemainTimeUnits.Location = new System.Drawing.Point(12, 8);
+			this.gridRemainTimeUnits.Location = new System.Drawing.Point(8, 8);
 			this.gridRemainTimeUnits.Name = "gridRemainTimeUnits";
-			this.gridRemainTimeUnits.Size = new System.Drawing.Size(563, 397);
+			this.gridRemainTimeUnits.Size = new System.Drawing.Size(567, 397);
 			this.gridRemainTimeUnits.TabIndex = 4;
 			this.gridRemainTimeUnits.Title = "Time Units Remaining";
 			this.gridRemainTimeUnits.TranslationName = "TableTimeRemaining";
