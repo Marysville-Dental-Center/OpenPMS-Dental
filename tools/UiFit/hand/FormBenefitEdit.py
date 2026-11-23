@@ -8,6 +8,11 @@ def layout(h):
     g = h.n("groupBox1")
     for name in ("listCategory", "textProcCode", "comboCodeGroup"):
         h.set(name, fx - g.nx, None)
+    # Teeth on the pitch under Treatment Area (the planner put it 4 px lower for its two-line hint, which starts on the row's top).
+    ta = h.n("listTreatArea")
+    y = ta.ny + ta.nh + 4
+    for name in ("labelTeeth", "textTeeth", "labelTeethHint"):
+        h.set(name, None, y)
     q = h.n("groupQuantity")
     dx = (fx - q.nx) - h.n("textQuantity").nx
     for name in ("textQuantity", "label8", "listQuantityQualifier"):

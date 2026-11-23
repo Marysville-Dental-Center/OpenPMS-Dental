@@ -241,9 +241,9 @@ namespace OpenPmsDental{
 			// 
 			// labelDepositsQB
 			// 
-			this.labelDepositsQB.Location = new System.Drawing.Point(18, 122);
+			this.labelDepositsQB.Location = new System.Drawing.Point(8, 122);
 			this.labelDepositsQB.Name = "labelDepositsQB";
-			this.labelDepositsQB.Size = new System.Drawing.Size(510, 32);
+			this.labelDepositsQB.Size = new System.Drawing.Size(520, 48);
 			this.labelDepositsQB.TabIndex = 61;
 			this.labelDepositsQB.Text = "Every time a deposit is created, a deposit will be created within QuickBooks usin" +
     "g these settings.\r\n(Commas must be removed from account names within QuickBooks)" +

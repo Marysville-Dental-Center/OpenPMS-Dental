@@ -236,9 +236,9 @@ namespace OpenPmsDental {
 			// 
 			// labelRestrictToBlockouts
 			// 
-			this.labelRestrictToBlockouts.Location = new System.Drawing.Point(18, 162);
+			this.labelRestrictToBlockouts.Location = new System.Drawing.Point(18, 159);
 			this.labelRestrictToBlockouts.Name = "labelRestrictToBlockouts";
-			this.labelRestrictToBlockouts.Size = new System.Drawing.Size(100, 29);
+			this.labelRestrictToBlockouts.Size = new System.Drawing.Size(100, 34);
 			this.labelRestrictToBlockouts.TabIndex = 217;
 			this.labelRestrictToBlockouts.Text = "Restrict to Specific Blockouts";
 			this.labelRestrictToBlockouts.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -256,7 +256,7 @@ namespace OpenPmsDental {
 			// 
 			// butSelectBlockouts
 			// 
-			this.butSelectBlockouts.Location = new System.Drawing.Point(350, 165);
+			this.butSelectBlockouts.Location = new System.Drawing.Point(344, 165);
 			this.butSelectBlockouts.Name = "butSelectBlockouts";
 			this.butSelectBlockouts.Size = new System.Drawing.Size(21, 23);
 			this.butSelectBlockouts.TabIndex = 216;
@@ -280,7 +280,7 @@ namespace OpenPmsDental {
 			this.textRestrictToBlockouts.Location = new System.Drawing.Point(124, 165);
 			this.textRestrictToBlockouts.Name = "textRestrictToBlockouts";
 			this.textRestrictToBlockouts.ReadOnly = true;
-			this.textRestrictToBlockouts.Size = new System.Drawing.Size(220, 20);
+			this.textRestrictToBlockouts.Size = new System.Drawing.Size(214, 23);
 			this.textRestrictToBlockouts.TabIndex = 215;
 			// 
 			// listTriggers

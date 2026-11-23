@@ -357,7 +357,7 @@
 			this.groupConnection.Controls.Add(this.labelConnectionStatus);
 			this.groupConnection.Location = new System.Drawing.Point(619, 8);
 			this.groupConnection.Name = "groupConnection";
-			this.groupConnection.Size = new System.Drawing.Size(403, 406);
+			this.groupConnection.Size = new System.Drawing.Size(403, 446);
 			this.groupConnection.TabIndex = 8;
 			this.groupConnection.Text = "Connection (values from Synchrony's implementation guide)";
 			// 
@@ -597,7 +597,7 @@
 			this.groupBackground.Controls.Add(this.labelPullbackTime);
 			this.groupBackground.Controls.Add(this.textPullbackTime);
 			this.groupBackground.Controls.Add(this.labelTimeFormat);
-			this.groupBackground.Location = new System.Drawing.Point(619, 422);
+			this.groupBackground.Location = new System.Drawing.Point(619, 462);
 			this.groupBackground.Name = "groupBackground";
 			this.groupBackground.Size = new System.Drawing.Size(403, 115);
 			this.groupBackground.TabIndex = 9;

@@ -298,7 +298,7 @@ namespace OpenPmsDental {
 			//
 			// textTeeth
 			//
-			this.textTeeth.Location = new System.Drawing.Point(133, 384);
+			this.textTeeth.Location = new System.Drawing.Point(133, 380);
 			this.textTeeth.Name = "textTeeth";
 			this.textTeeth.Size = new System.Drawing.Size(143, 23);
 			this.textTeeth.TabIndex = 13;

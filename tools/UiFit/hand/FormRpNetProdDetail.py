@@ -1,6 +1,7 @@
 """FormRpNetProdDetail on the grid (UI-12 slice 5, layout script on the planner's tree). The planner kept main's 26 px left margin for the
 two list columns and the note under them: the Providers and Clinics columns (caption, All, list) from the content edge, one width, 8 px
-apart, ending 8 px before the right column's groups; the special-report note at the content edge."""
+apart, ending 8 px before the right column's groups; the special-report note at the content edge, 8 px wider (its first line
+was cut 7 px short)."""
 
 
 def layout(h):
@@ -11,4 +12,5 @@ def layout(h):
         h.set(cap, x, None)
         h.set(chk, x, None)
         h.set(lst, x, None, w, None)
-    h.set("labelSpecialReport", 8, None)
+    s = h.n("labelSpecialReport")
+    h.set("labelSpecialReport", 8, None, s.nw + 8, None)

@@ -1,0 +1,19 @@
+# UI-12: the grid findings GridRulesTests allows on the grid windows, each with why (the planner lists them in its run; UI-12.md section 4).
+# The test fails on a finding not listed here and on a row that no longer happens, so this list only shrinks.
+window	rule	key	why
+OpenPmsDental.FormRecallTypeEdit	overlap	groupAgeLimit labelTriggerDisable	UI-12 slice 5: the Child Prophy group stands on the trigger rows' band; the special type shows one or the other (comboSpecial_SelectionChangeCommitted)
+OpenPmsDental.FormRecallTypeEdit	overlap	groupAgeLimit listTriggers	UI-12 slice 5: the Child Prophy group stands on the trigger rows' band; the special type shows one or the other (comboSpecial_SelectionChangeCommitted)
+OpenPmsDental.FormRecallTypeEdit	overlap	groupAgeLimit labelTriggers	UI-12 slice 5: the Child Prophy group stands on the trigger rows' band; the special type shows one or the other (comboSpecial_SelectionChangeCommitted)
+OpenPmsDental.FormComputers	overlap	groupBox1 groupBox2	UI-12 slice 5: main's arrangement: the Fix a Workstation group is the window's child laid over the Workstation group, which frames it
+OpenPmsDental.FormComputers	overlap	groupBox2 listComputer	UI-12 slice 5: main's arrangement: the computer list is the window's child laid over the Workstation group, which frames it
+OpenPmsDental.FormSupplyEdit	gap	textDescript textLevelDesired	UI-12 slice 5: Stock Level's row is as tall as its two-line note beside the box
+OpenPmsDental.FormSupplyEdit	gap	textLevelDesired textOnHand	UI-12 slice 5: Stock Level's row is as tall as its two-line note beside the box
+OpenPmsDental.FormSupplyEdit	gap	textOrderQty textPrice	UI-12 slice 5: Order Qty's row is as tall as its two-line note beside the box
+OpenPmsDental.FormSupplyEdit	gap	textBarcode textReorderLevel	UI-12 slice 5: Reorder Level's row is as tall as its two-line note beside the box
+OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizPrinter	overlap	label1 panelSimple	UI-12 slice 5: the third note line is the group's child on the panel's caption band (main's arrangement); the panel's controls stand beside it
+OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizPrinter	overlap	comboDefault panelSimple	UI-12 slice 5: Default's combo box is the group's child standing on the panel's first row (it stays when Show me the simple interface hides the panel)
+OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizPrinter	frame	panelSimple labelPrompt	UI-12 slice 5: the Prompt caption on the panel's top edge (the panel draws no frame), bottom-aligned with the note line beside it
+OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizPrinter	column	textScanDocQuality	UI-12 slice 5: the JPEG quality box is the Scanner group's only field; the Resolution box in Scanning Options stands on the same window x
+OpenPmsDental.FormApptTypeEdit	overlap	butSlider tbTime	UI-12 slice 5: the time bar's slider stands on the bar (LayoutManager.MoveLocation from the bar's slider location)
+OpenPmsDental.FormApptTypeEdit	hidden-frame	tbTime panelHead	UI-12 slice 5: the time bar's own hidden header panel (TableTimeBar)
+OpenPmsDental.FormPerio	overlap	contrPerio textInputBox	UI-12 slice 5: the probing input box stands on the owner-drawn perio chart (the chart places it on the selected cell)

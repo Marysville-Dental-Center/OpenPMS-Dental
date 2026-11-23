@@ -150,9 +150,9 @@ namespace OpenPmsDental{
 			// label7
 			// 
 			this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label7.Location = new System.Drawing.Point(115, 470);
+			this.label7.Location = new System.Drawing.Point(173, 469);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(137, 17);
+			this.label7.Size = new System.Drawing.Size(84, 23);
 			this.label7.TabIndex = 142;
 			this.label7.Text = "Overall Grade";
 			this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -160,7 +160,7 @@ namespace OpenPmsDental{
 			// textGradeShowingOverride
 			// 
 			this.textGradeShowingOverride.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.textGradeShowingOverride.Location = new System.Drawing.Point(314, 469);
+			this.textGradeShowingOverride.Location = new System.Drawing.Point(324, 469);
 			this.textGradeShowingOverride.MaxLength = 255;
 			this.textGradeShowingOverride.Name = "textGradeShowingOverride";
 			this.textGradeShowingOverride.Size = new System.Drawing.Size(60, 20);
@@ -169,9 +169,9 @@ namespace OpenPmsDental{
 			// label8
 			// 
 			this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label8.Location = new System.Drawing.Point(115, 444);
+			this.label8.Location = new System.Drawing.Point(125, 443);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(137, 17);
+			this.label8.Size = new System.Drawing.Size(132, 23);
 			this.label8.TabIndex = 147;
 			this.label8.Text = "Overall Grade Number";
 			this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -179,7 +179,7 @@ namespace OpenPmsDental{
 			// textGradeNumberOverride
 			// 
 			this.textGradeNumberOverride.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.textGradeNumberOverride.Location = new System.Drawing.Point(314, 443);
+			this.textGradeNumberOverride.Location = new System.Drawing.Point(324, 443);
 			this.textGradeNumberOverride.MaxLength = 255;
 			this.textGradeNumberOverride.Name = "textGradeNumberOverride";
 			this.textGradeNumberOverride.Size = new System.Drawing.Size(60, 20);
@@ -188,7 +188,7 @@ namespace OpenPmsDental{
 			// textGradeNumber
 			// 
 			this.textGradeNumber.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.textGradeNumber.Location = new System.Drawing.Point(253, 443);
+			this.textGradeNumber.Location = new System.Drawing.Point(263, 443);
 			this.textGradeNumber.MaxLength = 255;
 			this.textGradeNumber.Name = "textGradeNumber";
 			this.textGradeNumber.ReadOnly = true;
@@ -198,7 +198,7 @@ namespace OpenPmsDental{
 			// textGradeShowing
 			// 
 			this.textGradeShowing.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.textGradeShowing.Location = new System.Drawing.Point(253, 469);
+			this.textGradeShowing.Location = new System.Drawing.Point(263, 469);
 			this.textGradeShowing.MaxLength = 255;
 			this.textGradeShowing.Name = "textGradeShowing";
 			this.textGradeShowing.ReadOnly = true;

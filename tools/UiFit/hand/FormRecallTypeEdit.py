@@ -30,3 +30,10 @@ def layout(h):
     s = h.n("butSave")
     h.set("butSave", R - s.nw, s.ny + dy)
     h.set(".", None, None, None, h.tree.nh + dy)
+    # In the appointments group: Restrict to Specific Blockouts on its two lines (29 px cut its second line), centred on its box; the box
+    # as wide as the procedures list over it and the ... button on the Add / Remove column.
+    t = h.n("textRestrictToBlockouts")
+    h.set("labelRestrictToBlockouts", None, t.ny + (h.H - 34) // 2, None, 34)
+    lp = h.n("listProcs")
+    h.set("textRestrictToBlockouts", None, None, lp.nw, None)
+    h.set("butSelectBlockouts", h.n("butAddProc").nx, None)

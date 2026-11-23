@@ -253,7 +253,7 @@ namespace OpenPmsDental {
 			this.labelSpecialReport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.labelSpecialReport.Location = new System.Drawing.Point(8, 288);
 			this.labelSpecialReport.Name = "labelSpecialReport";
-			this.labelSpecialReport.Size = new System.Drawing.Size(669, 27);
+			this.labelSpecialReport.Size = new System.Drawing.Size(677, 27);
 			this.labelSpecialReport.TabIndex = 54;
 			this.labelSpecialReport.Text = "*This is a special report that may not match other reports due to using different" +
     " transaction dates.  See manual for more details.";

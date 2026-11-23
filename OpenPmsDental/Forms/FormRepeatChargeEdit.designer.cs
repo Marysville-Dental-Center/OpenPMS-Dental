@@ -103,7 +103,7 @@ namespace OpenPmsDental {
 			// 
 			// labelChargeAmount
 			// 
-			this.labelChargeAmount.Location = new System.Drawing.Point(61, 150);
+			this.labelChargeAmount.Location = new System.Drawing.Point(61, 152);
 			this.labelChargeAmount.Name = "labelChargeAmount";
 			this.labelChargeAmount.Size = new System.Drawing.Size(96, 23);
 			this.labelChargeAmount.TabIndex = 4;
@@ -306,7 +306,7 @@ namespace OpenPmsDental {
 			// 
 			// textChargeAmt
 			// 
-			this.textChargeAmt.Location = new System.Drawing.Point(163, 150);
+			this.textChargeAmt.Location = new System.Drawing.Point(163, 152);
 			this.textChargeAmt.MaxVal = 100000000D;
 			this.textChargeAmt.MinVal = -100000000D;
 			this.textChargeAmt.Name = "textChargeAmt";

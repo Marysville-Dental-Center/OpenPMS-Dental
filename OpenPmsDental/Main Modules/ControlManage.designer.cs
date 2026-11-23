@@ -596,9 +596,9 @@ namespace OpenPmsDental {
 			// labelTime
 			// 
 			this.labelTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.labelTime.Location = new System.Drawing.Point(342, 154);
+			this.labelTime.Location = new System.Drawing.Point(340, 154);
 			this.labelTime.Name = "labelTime";
-			this.labelTime.Size = new System.Drawing.Size(108, 21);
+			this.labelTime.Size = new System.Drawing.Size(112, 23);
 			this.labelTime.TabIndex = 17;
 			this.labelTime.Text = "12:00:00 PM";
 			this.labelTime.TextAlign = System.Drawing.ContentAlignment.BottomCenter;

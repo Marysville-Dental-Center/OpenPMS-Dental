@@ -13,6 +13,8 @@ def layout(h):
                  "labelTime"):
         h.set(name, bx, None, 108, None)
     h.set("gridEmp", 8, None, bx - 8 - 8, None)
+    # The server time (a bold 12:00:00 PM, 111 x 23 measured) centred on the column, 2 px past it on each side.
+    h.set("labelTime", bx - 2, None, 112, 23)
     fw = 120
     for lab, fld in (("labelFilterName", "textFilterName"), ("labelReportsTo", "comboReportsTo")):
         h.set(fld, bx - 8 - fw, None, fw, None)
