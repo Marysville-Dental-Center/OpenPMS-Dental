@@ -48,7 +48,7 @@ namespace OpenPmsDental {
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(711, 521);
+			this.butSave.Location = new System.Drawing.Point(680, 521);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 26);
 			this.butSave.TabIndex = 19;
@@ -74,13 +74,13 @@ namespace OpenPmsDental {
 			// label2
 			// 
 			this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.label2.Location = new System.Drawing.Point(421, 461);
+			this.label2.Location = new System.Drawing.Point(428, 518);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(246, 48);
+			this.label2.Size = new System.Drawing.Size(246, 31);
 			this.label2.TabIndex = 26;
 			this.label2.Text = "Items are saved as they are changed.\r\nThe Save button is for the 3 fields at the " +
     "top.";
-			this.label2.TextAlign = System.Drawing.ContentAlignment.BottomRight;
+			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label3
 			// 

@@ -56,7 +56,7 @@ namespace OpenPmsDental{
 			this.gridMain.Location = new System.Drawing.Point(12, 8);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridMain.Size = new System.Drawing.Size(673, 469);
+			this.gridMain.Size = new System.Drawing.Size(673, 497);
 			this.gridMain.TabIndex = 15;
 			this.gridMain.Title = "Evaluations";
 			this.gridMain.TranslationName = "TableEvaluationSetup";
@@ -176,9 +176,9 @@ namespace OpenPmsDental{
 			// textDateEnd
 			// 
 			this.textDateEnd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.textDateEnd.Location = new System.Drawing.Point(863, 8);
+			this.textDateEnd.Location = new System.Drawing.Point(870, 8);
 			this.textDateEnd.Name = "textDateEnd";
-			this.textDateEnd.Size = new System.Drawing.Size(72, 23);
+			this.textDateEnd.Size = new System.Drawing.Size(88, 23);
 			this.textDateEnd.TabIndex = 2;
 			// 
 			// textDateStart
@@ -186,13 +186,13 @@ namespace OpenPmsDental{
 			this.textDateStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.textDateStart.Location = new System.Drawing.Point(745, 8);
 			this.textDateStart.Name = "textDateStart";
-			this.textDateStart.Size = new System.Drawing.Size(72, 23);
+			this.textDateStart.Size = new System.Drawing.Size(88, 23);
 			this.textDateStart.TabIndex = 1;
 			// 
 			// label6
 			// 
 			this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.label6.Location = new System.Drawing.Point(833, 8);
+			this.label6.Location = new System.Drawing.Point(839, 8);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(24, 23);
 			this.label6.TabIndex = 38;
@@ -226,7 +226,7 @@ namespace OpenPmsDental{
 			this.comboCourse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.comboCourse.Location = new System.Drawing.Point(745, 35);
 			this.comboCourse.Name = "comboCourse";
-			this.comboCourse.Size = new System.Drawing.Size(190, 23);
+			this.comboCourse.Size = new System.Drawing.Size(213, 23);
 			this.comboCourse.TabIndex = 3;
 			this.comboCourse.SelectionChangeCommitted += new System.EventHandler(this.comboCourse_SelectionChangeCommitted);
 			// 

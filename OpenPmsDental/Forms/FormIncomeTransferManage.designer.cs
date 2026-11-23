@@ -69,7 +69,7 @@ namespace OpenPmsDental{
 			// 
 			this.butTransfer.Icon = OpenPmsDental.UI.EnumIcons.ArrowLeft;
 			this.butTransfer.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butTransfer.Location = new System.Drawing.Point(424, 35);
+			this.butTransfer.Location = new System.Drawing.Point(426, 35);
 			this.butTransfer.Name = "butTransfer";
 			this.butTransfer.Size = new System.Drawing.Size(94, 24);
 			this.butTransfer.TabIndex = 18;
@@ -128,7 +128,7 @@ namespace OpenPmsDental{
 			// 
 			this.label6.Location = new System.Drawing.Point(107, 8);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(308, 62);
+			this.label6.Size = new System.Drawing.Size(293, 61);
 			this.label6.TabIndex = 163;
 			this.label6.Text = "This is only used once to fix historical data. It allocates on a FIFO basis witho" +
     "ut regard for provider or patient.  For ongoing allocations by provider, use the" +
@@ -149,13 +149,13 @@ namespace OpenPmsDental{
 			this.groupBoxOD1.Controls.Add(this.label6);
 			this.groupBoxOD1.Location = new System.Drawing.Point(653, 36);
 			this.groupBoxOD1.Name = "groupBoxOD1";
-			this.groupBoxOD1.Size = new System.Drawing.Size(423, 78);
+			this.groupBoxOD1.Size = new System.Drawing.Size(408, 77);
 			this.groupBoxOD1.TabIndex = 165;
 			this.groupBoxOD1.Text = "";
 			// 
 			// FormIncomeTransferManage
 			// 
-			this.ClientSize = new System.Drawing.Size(1084, 580);
+			this.ClientSize = new System.Drawing.Size(1073, 580);
 			this.Controls.Add(this.groupBoxOD1);
 			this.Controls.Add(this.label8);
 			this.Controls.Add(this.label1);

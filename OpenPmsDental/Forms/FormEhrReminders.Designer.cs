@@ -48,7 +48,7 @@
 			this.textPreferedConfidentialContact.Location = new System.Drawing.Point(238, 8);
 			this.textPreferedConfidentialContact.Name = "textPreferedConfidentialContact";
 			this.textPreferedConfidentialContact.ReadOnly = true;
-			this.textPreferedConfidentialContact.Size = new System.Drawing.Size(235, 23);
+			this.textPreferedConfidentialContact.Size = new System.Drawing.Size(231, 23);
 			this.textPreferedConfidentialContact.TabIndex = 1;
 			// 
 			// gridMain
@@ -57,7 +57,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridMain.Location = new System.Drawing.Point(12, 35);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(535, 244);
+			this.gridMain.Size = new System.Drawing.Size(538, 244);
 			this.gridMain.TabIndex = 3;
 			this.gridMain.Title = "Reminders";
 			this.gridMain.TranslationName = "TableReminders";
@@ -91,7 +91,7 @@
 			this.gridProvided.Location = new System.Drawing.Point(12, 310);
 			this.gridProvided.Name = "gridProvided";
 			this.gridProvided.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridProvided.Size = new System.Drawing.Size(535, 258);
+			this.gridProvided.Size = new System.Drawing.Size(538, 258);
 			this.gridProvided.TabIndex = 7;
 			this.gridProvided.Title = "Reminders Sent";
 			this.gridProvided.TranslationName = "TableRemindersSent";
@@ -99,7 +99,7 @@
 			// butEdit
 			// 
 			this.butEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butEdit.Location = new System.Drawing.Point(479, 8);
+			this.butEdit.Location = new System.Drawing.Point(475, 8);
 			this.butEdit.Name = "butEdit";
 			this.butEdit.Size = new System.Drawing.Size(75, 23);
 			this.butEdit.TabIndex = 8;

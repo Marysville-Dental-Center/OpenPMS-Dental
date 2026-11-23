@@ -133,7 +133,7 @@ namespace OpenPmsDental{
 			this.comboClinic.IncludeUnassigned = true;
 			this.comboClinic.Location = new System.Drawing.Point(83, 89);
 			this.comboClinic.Name = "comboClinic";
-			this.comboClinic.Size = new System.Drawing.Size(215, 23);
+			this.comboClinic.Size = new System.Drawing.Size(223, 23);
 			this.comboClinic.TabIndex = 4;
 			this.comboClinic.SelectionChangeCommitted += new System.EventHandler(this.ComboClinic_SelectionChangeCommitted);
 			// 
@@ -167,9 +167,9 @@ namespace OpenPmsDental{
 			// 
 			// butAutoNoteAccount
 			// 
-			this.butAutoNoteAccount.Location = new System.Drawing.Point(245, 314);
+			this.butAutoNoteAccount.Location = new System.Drawing.Point(248, 314);
 			this.butAutoNoteAccount.Name = "butAutoNoteAccount";
-			this.butAutoNoteAccount.Size = new System.Drawing.Size(80, 22);
+			this.butAutoNoteAccount.Size = new System.Drawing.Size(80, 23);
 			this.butAutoNoteAccount.TabIndex = 7;
 			this.butAutoNoteAccount.Text = "Auto Note";
 			this.butAutoNoteAccount.Click += new System.EventHandler(this.butAutoNoteAccount_Click);

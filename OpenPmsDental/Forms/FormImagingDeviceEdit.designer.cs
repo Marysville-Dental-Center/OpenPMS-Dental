@@ -94,7 +94,7 @@ namespace OpenDentalImaging{
 			// 
 			// textComputerName
 			// 
-			this.textComputerName.Location = new System.Drawing.Point(126, 39);
+			this.textComputerName.Location = new System.Drawing.Point(126, 35);
 			this.textComputerName.Name = "textComputerName";
 			this.textComputerName.Size = new System.Drawing.Size(184, 23);
 			this.textComputerName.TabIndex = 7;
@@ -119,7 +119,7 @@ namespace OpenDentalImaging{
 			// 
 			// butThis
 			// 
-			this.butThis.Location = new System.Drawing.Point(316, 39);
+			this.butThis.Location = new System.Drawing.Point(316, 35);
 			this.butThis.Name = "butThis";
 			this.butThis.Size = new System.Drawing.Size(55, 23);
 			this.butThis.TabIndex = 23;
@@ -158,7 +158,7 @@ namespace OpenDentalImaging{
 			// 
 			this.groupBoxOD1.Controls.Add(this.radioTwainMulti);
 			this.groupBoxOD1.Controls.Add(this.radioTwain);
-			this.groupBoxOD1.Location = new System.Drawing.Point(131, 71);
+			this.groupBoxOD1.Location = new System.Drawing.Point(126, 71);
 			this.groupBoxOD1.Name = "groupBoxOD1";
 			this.groupBoxOD1.Size = new System.Drawing.Size(243, 60);
 			this.groupBoxOD1.TabIndex = 28;
@@ -166,9 +166,9 @@ namespace OpenDentalImaging{
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(24, 71);
+			this.label4.Location = new System.Drawing.Point(20, 71);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(101, 18);
+			this.label4.Size = new System.Drawing.Size(100, 18);
 			this.label4.TabIndex = 29;
 			this.label4.Text = "Device Type";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

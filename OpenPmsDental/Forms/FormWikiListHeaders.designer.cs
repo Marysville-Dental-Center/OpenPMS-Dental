@@ -49,10 +49,10 @@ namespace OpenPmsDental{
 			// 
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-			this.gridMain.Location = new System.Drawing.Point(12, 73);
+			this.gridMain.Location = new System.Drawing.Point(12, 72);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.OneCell;
-			this.gridMain.Size = new System.Drawing.Size(388, 358);
+			this.gridMain.Size = new System.Drawing.Size(388, 359);
 			this.gridMain.TabIndex = 26;
 			this.gridMain.Title = "Wiki List Headers";
 			this.gridMain.TranslationName = "TableWikiListHeaders";
@@ -112,9 +112,9 @@ namespace OpenPmsDental{
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(12, 9);
+			this.label2.Location = new System.Drawing.Point(12, 8);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(263, 57);
+			this.label2.Size = new System.Drawing.Size(263, 62);
 			this.label2.TabIndex = 32;
 			this.label2.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
@@ -123,7 +123,7 @@ namespace OpenPmsDental{
 			this.label3.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
 			this.label3.Location = new System.Drawing.Point(12, 8);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(362, 61);
+			this.label3.Size = new System.Drawing.Size(362, 62);
 			this.label3.TabIndex = 33;
 			this.label3.Text = resources.GetString("label3.Text");
 			this.label3.TextAlign = System.Drawing.ContentAlignment.BottomLeft;

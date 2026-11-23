@@ -150,7 +150,7 @@ namespace OpenPmsDental {
 			// butCreateList
 			// 
 			this.butCreateList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butCreateList.Location = new System.Drawing.Point(925, 8);
+			this.butCreateList.Location = new System.Drawing.Point(932, 8);
 			this.butCreateList.Name = "butCreateList";
 			this.butCreateList.Size = new System.Drawing.Size(75, 26);
 			this.butCreateList.TabIndex = 74;
@@ -161,7 +161,7 @@ namespace OpenPmsDental {
 			// butRun
 			// 
 			this.butRun.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butRun.Location = new System.Drawing.Point(925, 580);
+			this.butRun.Location = new System.Drawing.Point(932, 580);
 			this.butRun.Name = "butRun";
 			this.butRun.Size = new System.Drawing.Size(75, 23);
 			this.butRun.TabIndex = 3;
@@ -189,7 +189,7 @@ namespace OpenPmsDental {
 			// 
 			// FormPatientStatusTool
 			// 
-			this.ClientSize = new System.Drawing.Size(1019, 639);
+			this.ClientSize = new System.Drawing.Size(1019, 611);
 			this.Controls.Add(this.labelChangeTo);
 			this.Controls.Add(this.groupCriteria);
 			this.Controls.Add(this.butSelectAll);

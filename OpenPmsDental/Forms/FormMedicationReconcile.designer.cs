@@ -58,7 +58,7 @@ namespace OpenPmsDental{
 			// 
 			// checkDiscontinued
 			// 
-			this.checkDiscontinued.Location = new System.Drawing.Point(568, 9);
+			this.checkDiscontinued.Location = new System.Drawing.Point(597, 9);
 			this.checkDiscontinued.Name = "checkDiscontinued";
 			this.checkDiscontinued.Size = new System.Drawing.Size(197, 20);
 			this.checkDiscontinued.TabIndex = 70;
@@ -115,7 +115,7 @@ namespace OpenPmsDental{
 			// 
 			this.label2.Location = new System.Drawing.Point(606, 434);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(317, 32);
+			this.label2.Size = new System.Drawing.Size(300, 32);
 			this.label2.TabIndex = 66;
 			this.label2.Text = "This is a historical record of medication reconciles for this patient.  Delete an" +
     "y entries that are inaccurate.";
@@ -147,7 +147,7 @@ namespace OpenPmsDental{
 			this.butAdd.AdjustImageLocation = new System.Drawing.Point(0, 1);
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdd.Location = new System.Drawing.Point(439, 8);
+			this.butAdd.Location = new System.Drawing.Point(468, 8);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(123, 23);
 			this.butAdd.TabIndex = 75;
@@ -157,16 +157,16 @@ namespace OpenPmsDental{
 			// label3
 			// 
 			this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label3.Location = new System.Drawing.Point(8, 649);
+			this.label3.Location = new System.Drawing.Point(12, 649);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(912, 32);
+			this.label3.Size = new System.Drawing.Size(894, 32);
 			this.label3.TabIndex = 78;
 			this.label3.Text = resources.GetString("label3.Text");
 			this.label3.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// FormMedicationReconcile
 			// 
-			this.ClientSize = new System.Drawing.Size(931, 689);
+			this.ClientSize = new System.Drawing.Size(918, 689);
 			this.Controls.Add(this.pictBox);
 			this.Controls.Add(this.gridReconcileEvents);
 			this.Controls.Add(this.butDelete);

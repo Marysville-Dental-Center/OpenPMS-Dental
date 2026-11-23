@@ -68,7 +68,7 @@
 			// 
 			this.textResult.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-			this.textResult.Location = new System.Drawing.Point(400, 29);
+			this.textResult.Location = new System.Drawing.Point(389, 29);
 			this.textResult.Multiline = true;
 			this.textResult.Name = "textResult";
 			this.textResult.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -116,7 +116,7 @@
 			// FormEhrEncryption
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(680, 319);
+			this.ClientSize = new System.Drawing.Size(671, 319);
 			this.Controls.Add(this.label2);
 			this.Controls.Add(this.butTransmit);
 			this.Controls.Add(this.labelOutput);

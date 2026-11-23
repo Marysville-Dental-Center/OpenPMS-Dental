@@ -51,7 +51,7 @@ namespace OpenPmsDental{
 			// 
 			// labelCashBackAmt
 			// 
-			this.labelCashBackAmt.Location = new System.Drawing.Point(50, 157);
+			this.labelCashBackAmt.Location = new System.Drawing.Point(49, 144);
 			this.labelCashBackAmt.Name = "labelCashBackAmt";
 			this.labelCashBackAmt.Size = new System.Drawing.Size(154, 16);
 			this.labelCashBackAmt.TabIndex = 60;
@@ -70,11 +70,11 @@ namespace OpenPmsDental{
 			// 
 			// textCashBackAmt
 			// 
-			this.textCashBackAmt.Location = new System.Drawing.Point(49, 267);
+			this.textCashBackAmt.Location = new System.Drawing.Point(49, 162);
 			this.textCashBackAmt.MaxVal = 100000000D;
 			this.textCashBackAmt.MinVal = -100000000D;
 			this.textCashBackAmt.Name = "textCashBackAmt";
-			this.textCashBackAmt.Size = new System.Drawing.Size(100, 20);
+			this.textCashBackAmt.Size = new System.Drawing.Size(100, 23);
 			this.textCashBackAmt.TabIndex = 61;
 			this.textCashBackAmt.Visible = false;
 			// 
@@ -88,7 +88,7 @@ namespace OpenPmsDental{
 			// 
 			// checkSaveToken
 			// 
-			this.checkSaveToken.Location = new System.Drawing.Point(49, 177);
+			this.checkSaveToken.Location = new System.Drawing.Point(49, 193);
 			this.checkSaveToken.Name = "checkSaveToken";
 			this.checkSaveToken.Size = new System.Drawing.Size(84, 20);
 			this.checkSaveToken.TabIndex = 63;
@@ -96,7 +96,7 @@ namespace OpenPmsDental{
 			// 
 			// checkSignature
 			// 
-			this.checkSignature.Location = new System.Drawing.Point(49, 201);
+			this.checkSignature.Location = new System.Drawing.Point(49, 217);
 			this.checkSignature.Name = "checkSignature";
 			this.checkSignature.Size = new System.Drawing.Size(137, 20);
 			this.checkSignature.TabIndex = 64;
@@ -104,7 +104,7 @@ namespace OpenPmsDental{
 			// 
 			// checkPrintReceipt
 			// 
-			this.checkPrintReceipt.Location = new System.Drawing.Point(49, 225);
+			this.checkPrintReceipt.Location = new System.Drawing.Point(49, 241);
 			this.checkPrintReceipt.Name = "checkPrintReceipt";
 			this.checkPrintReceipt.Size = new System.Drawing.Size(92, 20);
 			this.checkPrintReceipt.TabIndex = 65;
@@ -112,15 +112,15 @@ namespace OpenPmsDental{
 			// 
 			// textTransactionId
 			// 
-			this.textTransactionId.Location = new System.Drawing.Point(52, 140);
+			this.textTransactionId.Location = new System.Drawing.Point(49, 162);
 			this.textTransactionId.Name = "textTransactionId";
-			this.textTransactionId.Size = new System.Drawing.Size(100, 20);
+			this.textTransactionId.Size = new System.Drawing.Size(100, 23);
 			this.textTransactionId.TabIndex = 66;
 			this.textTransactionId.Visible = false;
 			// 
 			// labelTransactionID
 			// 
-			this.labelTransactionID.Location = new System.Drawing.Point(49, 249);
+			this.labelTransactionID.Location = new System.Drawing.Point(49, 144);
 			this.labelTransactionID.Name = "labelTransactionID";
 			this.labelTransactionID.Size = new System.Drawing.Size(154, 16);
 			this.labelTransactionID.TabIndex = 67;

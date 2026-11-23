@@ -36,15 +36,15 @@ namespace OpenPmsDental{
 			// 
 			// comboSupplier
 			// 
-			this.comboSupplier.Location = new System.Drawing.Point(693, 8);
+			this.comboSupplier.Location = new System.Drawing.Point(593, 8);
 			this.comboSupplier.Name = "comboSupplier";
-			this.comboSupplier.Size = new System.Drawing.Size(60, 23);
+			this.comboSupplier.Size = new System.Drawing.Size(160, 23);
 			this.comboSupplier.TabIndex = 13;
 			this.comboSupplier.SelectionChangeCommitted += new System.EventHandler(this.comboSupplier_SelectionChangeCommitted);
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(631, 8);
+			this.label3.Location = new System.Drawing.Point(531, 8);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(56, 23);
 			this.label3.TabIndex = 14;
@@ -114,7 +114,7 @@ namespace OpenPmsDental{
 			// 
 			// checkShowReceived
 			// 
-			this.checkShowReceived.Location = new System.Drawing.Point(514, 9);
+			this.checkShowReceived.Location = new System.Drawing.Point(418, 9);
 			this.checkShowReceived.Name = "checkShowReceived";
 			this.checkShowReceived.Size = new System.Drawing.Size(101, 20);
 			this.checkShowReceived.TabIndex = 27;

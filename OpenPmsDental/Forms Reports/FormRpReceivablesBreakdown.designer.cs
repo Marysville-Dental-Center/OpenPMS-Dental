@@ -104,7 +104,7 @@ namespace OpenPmsDental {
 			this.groupInsBox.Controls.Add(this.radioWriteoffPay);
 			this.groupInsBox.Location = new System.Drawing.Point(8, 215);
 			this.groupInsBox.Name = "groupInsBox";
-			this.groupInsBox.Size = new System.Drawing.Size(270, 75);
+			this.groupInsBox.Size = new System.Drawing.Size(258, 75);
 			this.groupInsBox.TabIndex = 33;
 			this.groupInsBox.Text = "Show Insurance Write-offs";
 			// 

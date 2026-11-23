@@ -95,9 +95,9 @@ namespace OpenPmsDental{
 			this.butAddNew.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butAddNew.Icon = OpenPmsDental.UI.EnumIcons.Down;
 			this.butAddNew.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAddNew.Location = new System.Drawing.Point(921, 257);
+			this.butAddNew.Location = new System.Drawing.Point(909, 257);
 			this.butAddNew.Name = "butAddNew";
-			this.butAddNew.Size = new System.Drawing.Size(60, 24);
+			this.butAddNew.Size = new System.Drawing.Size(72, 24);
 			this.butAddNew.TabIndex = 80;
 			this.butAddNew.Text = "Add";
 			this.butAddNew.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -108,9 +108,9 @@ namespace OpenPmsDental{
 			this.butAddExist.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
 			this.butAddExist.Icon = OpenPmsDental.UI.EnumIcons.Down;
 			this.butAddExist.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAddExist.Location = new System.Drawing.Point(430, 257);
+			this.butAddExist.Location = new System.Drawing.Point(418, 257);
 			this.butAddExist.Name = "butAddExist";
-			this.butAddExist.Size = new System.Drawing.Size(60, 24);
+			this.butAddExist.Size = new System.Drawing.Size(72, 24);
 			this.butAddExist.TabIndex = 79;
 			this.butAddExist.Text = "Add";
 			this.butAddExist.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

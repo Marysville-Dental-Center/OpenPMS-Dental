@@ -57,7 +57,7 @@
 			// 
 			this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.panel2.Location = new System.Drawing.Point(8, 477);
+			this.panel2.Location = new System.Drawing.Point(8, 460);
 			this.panel2.Name = "panel2";
 			this.panel2.Size = new System.Drawing.Size(722, 26);
 			this.panel2.TabIndex = 1;
@@ -71,7 +71,7 @@
 			this.groupBox3.Controls.Add(this.label2);
 			this.groupBox3.Location = new System.Drawing.Point(504, 8);
 			this.groupBox3.Name = "groupBox3";
-			this.groupBox3.Size = new System.Drawing.Size(260, 71);
+			this.groupBox3.Size = new System.Drawing.Size(260, 54);
 			this.groupBox3.TabIndex = 3;
 			this.groupBox3.Text = "Scale (0-24)";
 			// 
@@ -129,7 +129,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.panel1.AutoScroll = true;
-			this.panel1.Location = new System.Drawing.Point(8, 87);
+			this.panel1.Location = new System.Drawing.Point(8, 70);
 			this.panel1.Name = "panel1";
 			this.panel1.Size = new System.Drawing.Size(722, 382);
 			this.panel1.TabIndex = 0;
@@ -142,7 +142,7 @@
 			this.groupBox2.Controls.Add(this.checkBoxEmployees);
 			this.groupBox2.Location = new System.Drawing.Point(259, 8);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(237, 71);
+			this.groupBox2.Size = new System.Drawing.Size(237, 54);
 			this.groupBox2.TabIndex = 2;
 			this.groupBox2.Text = "Filter";
 			// 
@@ -190,7 +190,7 @@
 			this.groupBox1.Controls.Add(this.radioName);
 			this.groupBox1.Location = new System.Drawing.Point(8, 8);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(243, 71);
+			this.groupBox1.Size = new System.Drawing.Size(243, 54);
 			this.groupBox1.TabIndex = 1;
 			this.groupBox1.Text = "Sort";
 			// 
@@ -242,7 +242,7 @@
 			this.Controls.Add(this.groupBox1);
 			this.DoubleBuffered = true;
 			this.Name = "GraphScheduleDay";
-			this.Size = new System.Drawing.Size(773, 511);
+			this.Size = new System.Drawing.Size(773, 494);
 			this.groupBox3.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.numEndHour)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.numStartHour)).EndInit();

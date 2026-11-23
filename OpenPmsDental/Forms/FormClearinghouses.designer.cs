@@ -67,14 +67,14 @@ namespace OpenPmsDental {
 			this.groupBox1.Controls.Add(this.butDefaultDental);
 			this.groupBox1.Location = new System.Drawing.Point(8, 403);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(98, 111);
+			this.groupBox1.Size = new System.Drawing.Size(91, 132);
 			this.groupBox1.TabIndex = 9;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Set Default";
 			// 
 			// butEligibility
 			// 
-			this.butEligibility.Location = new System.Drawing.Point(15, 79);
+			this.butEligibility.Location = new System.Drawing.Point(8, 79);
 			this.butEligibility.Name = "butEligibility";
 			this.butEligibility.Size = new System.Drawing.Size(75, 24);
 			this.butEligibility.TabIndex = 3;
@@ -83,7 +83,7 @@ namespace OpenPmsDental {
 			// 
 			// butDefaultMedical
 			// 
-			this.butDefaultMedical.Location = new System.Drawing.Point(15, 51);
+			this.butDefaultMedical.Location = new System.Drawing.Point(8, 51);
 			this.butDefaultMedical.Name = "butDefaultMedical";
 			this.butDefaultMedical.Size = new System.Drawing.Size(75, 24);
 			this.butDefaultMedical.TabIndex = 2;
@@ -92,7 +92,7 @@ namespace OpenPmsDental {
 			// 
 			// butDefaultDental
 			// 
-			this.butDefaultDental.Location = new System.Drawing.Point(15, 23);
+			this.butDefaultDental.Location = new System.Drawing.Point(8, 23);
 			this.butDefaultDental.Name = "butDefaultDental";
 			this.butDefaultDental.Size = new System.Drawing.Size(75, 24);
 			this.butDefaultDental.TabIndex = 1;
@@ -217,7 +217,7 @@ namespace OpenPmsDental {
 			this.groupRecieveSettings.Controls.Add(this.radioTime);
 			this.groupRecieveSettings.Controls.Add(this.textReportCheckInterval);
 			this.groupRecieveSettings.Controls.Add(this.labelReportheckUnits);
-			this.groupRecieveSettings.Location = new System.Drawing.Point(162, 403);
+			this.groupRecieveSettings.Location = new System.Drawing.Point(107, 403);
 			this.groupRecieveSettings.Name = "groupRecieveSettings";
 			this.groupRecieveSettings.Size = new System.Drawing.Size(571, 132);
 			this.groupRecieveSettings.TabIndex = 29;

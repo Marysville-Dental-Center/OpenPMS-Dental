@@ -53,7 +53,7 @@ namespace OpenPmsDental {
 			this.groupBox2.Controls.Add(this.textDateFrom);
 			this.groupBox2.Controls.Add(this.textDateTo);
 			this.groupBox2.Controls.Add(this.label3);
-			this.groupBox2.Location = new System.Drawing.Point(263, 48);
+			this.groupBox2.Location = new System.Drawing.Point(263, 50);
 			this.groupBox2.Name = "groupBox2";
 			this.groupBox2.Size = new System.Drawing.Size(173, 81);
 			this.groupBox2.TabIndex = 1;
@@ -102,7 +102,7 @@ namespace OpenPmsDental {
 			// 
 			// listBillingType
 			// 
-			this.listBillingType.Location = new System.Drawing.Point(134, 52);
+			this.listBillingType.Location = new System.Drawing.Point(134, 50);
 			this.listBillingType.Name = "listBillingType";
 			this.listBillingType.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
 			this.listBillingType.Size = new System.Drawing.Size(120, 147);
@@ -123,7 +123,7 @@ namespace OpenPmsDental {
 			// 
 			this.checkAllBilling.Checked = true;
 			this.checkAllBilling.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkAllBilling.Location = new System.Drawing.Point(134, 28);
+			this.checkAllBilling.Location = new System.Drawing.Point(134, 26);
 			this.checkAllBilling.Name = "checkAllBilling";
 			this.checkAllBilling.Size = new System.Drawing.Size(36, 20);
 			this.checkAllBilling.TabIndex = 50;
@@ -142,7 +142,7 @@ namespace OpenPmsDental {
 			// 
 			this.label4.Location = new System.Drawing.Point(134, 8);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(104, 18);
+			this.label4.Size = new System.Drawing.Size(104, 16);
 			this.label4.TabIndex = 52;
 			this.label4.Text = "Billing Types";
 			// 

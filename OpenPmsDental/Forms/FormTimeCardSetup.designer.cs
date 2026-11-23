@@ -64,7 +64,7 @@ namespace OpenPmsDental {
 			this.groupBox1.Controls.Add(this.checkShowSeconds);
 			this.groupBox1.Controls.Add(this.checkAdjOverBreaks);
 			this.groupBox1.Controls.Add(this.checkUseDecimal);
-			this.groupBox1.Location = new System.Drawing.Point(372, 587);
+			this.groupBox1.Location = new System.Drawing.Point(299, 591);
 			this.groupBox1.Name = "groupBox1";
 			this.groupBox1.Size = new System.Drawing.Size(380, 99);
 			this.groupBox1.TabIndex = 14;
@@ -94,7 +94,7 @@ namespace OpenPmsDental {
 			this.butAddRule.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butAddRule.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAddRule.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAddRule.Location = new System.Drawing.Point(372, 555);
+			this.butAddRule.Location = new System.Drawing.Point(299, 559);
 			this.butAddRule.Name = "butAddRule";
 			this.butAddRule.Size = new System.Drawing.Size(80, 24);
 			this.butAddRule.TabIndex = 15;
@@ -109,10 +109,10 @@ namespace OpenPmsDental {
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridRules.HasAutoWrappedHeaders = true;
 			this.gridRules.HasMultilineHeaders = true;
-			this.gridRules.Location = new System.Drawing.Point(372, 28);
+			this.gridRules.Location = new System.Drawing.Point(299, 32);
 			this.gridRules.Name = "gridRules";
 			this.gridRules.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridRules.Size = new System.Drawing.Size(687, 523);
+			this.gridRules.Size = new System.Drawing.Size(702, 523);
 			this.gridRules.TabIndex = 13;
 			this.gridRules.Title = "Rules";
 			this.gridRules.TranslationName = "FormTimeCardSetup";
@@ -202,7 +202,7 @@ namespace OpenPmsDental {
 			this.butDeleteRules.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butDeleteRules.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDeleteRules.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDeleteRules.Location = new System.Drawing.Point(947, 555);
+			this.butDeleteRules.Location = new System.Drawing.Point(889, 559);
 			this.butDeleteRules.Name = "butDeleteRules";
 			this.butDeleteRules.Size = new System.Drawing.Size(112, 24);
 			this.butDeleteRules.TabIndex = 21;
@@ -229,7 +229,7 @@ namespace OpenPmsDental {
 			// 
 			// FormTimeCardSetup
 			// 
-			this.ClientSize = new System.Drawing.Size(1067, 696);
+			this.ClientSize = new System.Drawing.Size(1020, 698);
 			this.Controls.Add(this.labelADPRunIID);
 			this.Controls.Add(this.textADPRunIID);
 			this.Controls.Add(this.butDeleteRules);

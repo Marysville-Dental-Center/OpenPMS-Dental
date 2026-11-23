@@ -115,7 +115,7 @@ namespace OpenPmsDental {
 			this.checkWorkingOffice.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.checkWorkingOffice.Checked = true;
 			this.checkWorkingOffice.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkWorkingOffice.Location = new System.Drawing.Point(795, 616);
+			this.checkWorkingOffice.Location = new System.Drawing.Point(795, 32);
 			this.checkWorkingOffice.Name = "checkWorkingOffice";
 			this.checkWorkingOffice.Size = new System.Drawing.Size(105, 20);
 			this.checkWorkingOffice.TabIndex = 28;
@@ -131,7 +131,7 @@ namespace OpenPmsDental {
 			this.checkWorkingHome.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.checkWorkingHome.Location = new System.Drawing.Point(795, 8);
 			this.checkWorkingHome.Name = "checkWorkingHome";
-			this.checkWorkingHome.Size = new System.Drawing.Size(130, 40);
+			this.checkWorkingHome.Size = new System.Drawing.Size(130, 20);
 			this.checkWorkingHome.TabIndex = 27;
 			this.checkWorkingHome.Text = "Working From Home";
 			this.checkWorkingHome.Visible = false;
@@ -177,7 +177,7 @@ namespace OpenPmsDental {
 			// 
 			// FormEmployeeSelect
 			// 
-			this.ClientSize = new System.Drawing.Size(933, 644);
+			this.ClientSize = new System.Drawing.Size(933, 618);
 			this.Controls.Add(this.label2);
 			this.Controls.Add(this.textSearch);
 			this.Controls.Add(this.checkHidden);

@@ -4,7 +4,8 @@ planner moved both 5 px right and down at main's widths, so Down and the allowed
 and FormCentralReportSetup). On one row at the content top: the instructions (two lines, 340 px for the longer one) with Up and Down at the
 right content edge; the user group label 6 px before its combo, Set All and Set None 6 px apart, and the allowed count right-aligned on the
 right content edge, as wide as its widest text ("Reports allowed: 999 / 999", grid-runtime-texts); the grid 8 px under the instructions
-down to 8 px over the page's bottom (the hosts' 607 px; the page keeps main's size)."""
+down to 8 px over the page's bottom (the hosts' 607 px; the page keeps main's size). Fix round: Up and Down 75 px (at 63 the arrow
+touched Down's text, which ended 2 px from the border), still right-aligned on the right content edge."""
 
 
 def layout(h):
@@ -13,8 +14,8 @@ def layout(h):
     R = W - 8
     h.set(".", None, None, W, Hh)
     h.set("labelInstructions", 8, 8, 340, 31)
-    h.set("butDown", R - 63, 8, 63, 24)
-    h.set("butUp", R - 63 - 6 - 63, 8, 63, 24)
+    h.set("butDown", R - 75, 8, 75, 24)
+    h.set("butUp", R - 75 - 6 - 75, 8, 75, 24)
     lw = h.lw("labelUserGroup")
     h.set("labelUserGroup", 8, 8, lw, H)
     h.text_align("labelUserGroup", "MiddleRight")

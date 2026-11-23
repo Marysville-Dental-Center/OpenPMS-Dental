@@ -11,3 +11,10 @@ def layout(h):
     yn = bottom - note.nh
     h.set("label1", None, yn, None, None)
     h.set("butDelete", None, yn - 4 - 24, None, None)
+    # The planner has no fixed point for the right column's widths (2 px wider on every pass): Clinic, Carrier Name and the note box end
+    # on one right edge, the planner's first pass (882).
+    for name in ("comboClinic", "textCarrierName"):
+        n = h.n(name)
+        h.set(name, None, None, 882 - n.nx, None)
+    nb = h.n("textNote")
+    h.set("textNote", None, None, 882 - nb.nx, None)

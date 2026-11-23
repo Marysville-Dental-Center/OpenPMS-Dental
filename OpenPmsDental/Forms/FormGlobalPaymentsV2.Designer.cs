@@ -105,7 +105,7 @@ namespace OpenPmsDental {
 			//
 			this.comboTerminal.Location = new System.Drawing.Point(128, 23);
 			this.comboTerminal.Name = "comboTerminal";
-			this.comboTerminal.Size = new System.Drawing.Size(256, 23);
+			this.comboTerminal.Size = new System.Drawing.Size(288, 23);
 			this.comboTerminal.TabIndex = 1;
 			//
 			// radioSavedCard
@@ -148,7 +148,7 @@ namespace OpenPmsDental {
 			this.textTransaction.Location = new System.Drawing.Point(154, 180);
 			this.textTransaction.Name = "textTransaction";
 			this.textTransaction.ReadOnly = true;
-			this.textTransaction.Size = new System.Drawing.Size(268, 20);
+			this.textTransaction.Size = new System.Drawing.Size(278, 23);
 			this.textTransaction.TabIndex = 5;
 			//
 			// checkSaveCard
@@ -164,7 +164,7 @@ namespace OpenPmsDental {
 			this.labelStatus.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.labelStatus.Location = new System.Drawing.Point(8, 231);
 			this.labelStatus.Name = "labelStatus";
-			this.labelStatus.Size = new System.Drawing.Size(416, 84);
+			this.labelStatus.Size = new System.Drawing.Size(424, 84);
 			this.labelStatus.TabIndex = 7;
 			//
 			// butRun
