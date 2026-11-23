@@ -39,6 +39,11 @@ namespace OpenPmsDental{
 		private Family _familyCur=null;
 		private FileSystemWatcher _fileSystemWatcher;
 		private FormLauncher _formLauncherVideo;
+		///<summary>The camera session covering the module while it runs (IMG-P4b), or null.</summary>
+		private ControlCameraSession _controlCameraSession;
+		///<summary>The kind of camera session the Camera button starts: a photo mount definition's MountDefNum, 0 for quick photos, -1 when none
+		///was started yet in this run (then the first photo mount, else quick photos).</summary>
+		private long _mountDefNumCameraLast=-1;
 		private FrmPearlLayers _frmPearlLayers;
 		private WpfControls.UI.ImageSelector imageSelector;
 		///<summary>A list of the forms that are currently floating. Can be empty.  When a form is closed, it is removed from the list at FormImageFloat_FormClosed.</summary>
@@ -256,6 +261,9 @@ namespace OpenPmsDental{
 
 		///<summary>Key down from FormOpenDental is passed in to allow some keys to work here.  As long as this module is open, all key down events are sent here.</summary>
 		public void ControlImages_KeyDown(Keys keys){
+			if(_controlCameraSession!=null){
+				return;//the camera session covers the module and takes its own keys (IMG-P4b)
+			}
 			if(_formLauncherVideo!=null && !_formLauncherVideo.IsNullDisposedOrNotVis()){
 				_formLauncherVideo.MethodGetVoid("Parent_KeyDown",keys);
 			}
@@ -284,7 +292,13 @@ namespace OpenPmsDental{
 			toolBarMain.Add("",ToolBarScanPhoto_Click,WpfControls.UI.EnumIcons.ScanPhoto,toolTipText:Lan.g(this,"Scan Photo"));
 			toolBarMain.AddSeparator();
 			toolBarMain.Add(Lan.g(this,"Mount / Acquire"),ToolBarMountAcquire_Click,WpfControls.UI.EnumIcons.Acquire,toolTipText:Lan.g(this,"Create Mount and/or Acquire from device"));
-			toolBarMain.Add(Lan.g(this,"Video"),ToolBarVideo_Click,WpfControls.UI.EnumIcons.Video,toolTipText:Lan.g(this,"Intraoral Video Camera"));
+			//IMG-P4b: Camera replaces Video. The button starts the last kind of session; its arrow lists the photo mounts, Quick photos and the
+			//Video window (camera settings and Learn until IMG-P4e). The list is filled when it opens.
+			WpfControls.UI.ContextMenu contextMenuCamera=new WpfControls.UI.ContextMenu();
+			contextMenuCamera.Opened+=contextMenuCamera_Opened;
+			FillCameraMenu(contextMenuCamera,new List<MountDef>());
+			toolBarMain.Add(Lan.g(this,"Camera"),ToolBarCamera_Click,WpfControls.UI.EnumIcons.Video,WpfControls.UI.ToolBarButtonStyle.DropDownButton,
+				Lan.g(this,"Intraoral camera: photo series, quick photos (Ctrl+Shift+C)"),contextMenuCamera);
 			toolBarMain.AddSeparator();
 			WpfControls.UI.ContextMenu contextMenuImport = new WpfControls.UI.ContextMenu();
 			contextMenuImport.Add(new WpfControls.UI.MenuItem(Lan.g(this,"Import Automatically"),ToolBarImportAuto));
@@ -559,6 +573,7 @@ namespace OpenPmsDental{
 		
 		///<summary></summary>
 		public void ModuleUnselected(){
+			_controlCameraSession?.End();//leaving the Imaging module releases the camera
 			_familyCur=null;
 			//We will not close any undocked floaters here.
 			//So _listFormImageFloats remains valid and still has all the floaters in it, even when we are in the Chart module. 
@@ -569,6 +584,8 @@ namespace OpenPmsDental{
 
 		///<summary>Called when changing patients by any means.  Closes the undocked floating image windows.</summary>
 		public void CloseFloaters(){
+			//The camera session belongs to the previous patient: it ends (its photos are saved already).
+			_controlCameraSession?.End(isPatientChange:true);
 			for(int i=_listFormImageFloats.Count-1;i>=0;i--){//go backwards
 				if(!_listFormImageFloats[i].IsDisposed){
 					_listFormImageFloats[i].Close();//remove gets handled automatically here
@@ -2954,6 +2971,166 @@ namespace OpenPmsDental{
 			SelectTreeNode1(nodeTypeAndKey);
 		}
 
+		#region Camera session (IMG-P4b)
+		private void contextMenuCamera_Opened(object sender,System.Windows.RoutedEventArgs e){
+			List<MountDef> listMountDefs;
+			try{
+				listMountDefs=new ImagingCapture.Photo.OdPhotoStore().GetPhotoMountDefs();
+			}
+			catch(Exception ex){
+				ex.DoNothing();//no database: the menu still offers quick photos
+				listMountDefs=new List<MountDef>();
+			}
+			FillCameraMenu((WpfControls.UI.ContextMenu)sender,listMountDefs);
+		}
+
+		///<summary>The Camera menu: a new photo mount of each photo mount definition (owner design: photo series), Quick photos, and the Video
+		///window.</summary>
+		private void FillCameraMenu(WpfControls.UI.ContextMenu contextMenuCamera,List<MountDef> listMountDefs){
+			contextMenuCamera.Items.Clear();
+			for(int i=0;i<listMountDefs.Count;i++){
+				contextMenuCamera.Add(listMountDefs[i].Description,menuCameraMount_Click,listMountDefs[i]);
+			}
+			if(listMountDefs.Count==0){
+				WpfControls.UI.MenuItem menuItemNone=new WpfControls.UI.MenuItem(Lan.g(this,"No photo mounts (Setup, Imaging devices, Add standard templates)"));
+				menuItemNone.IsEnabled=false;
+				contextMenuCamera.Add(menuItemNone);
+			}
+			contextMenuCamera.AddSeparator();
+			contextMenuCamera.Add(Lan.g(this,"Quick photos"),menuCameraQuick_Click);
+			contextMenuCamera.AddSeparator();
+			contextMenuCamera.Add(Lan.g(this,"Video window (camera settings, Learn)..."),menuCameraVideo_Click);
+		}
+
+		private void menuCameraMount_Click(object sender,System.Windows.RoutedEventArgs e){
+			MountDef mountDef=((System.Windows.FrameworkElement)sender).Tag as MountDef;
+			if(mountDef!=null){
+				StartCameraSession(mountDef);
+			}
+		}
+
+		private void menuCameraQuick_Click(object sender,System.Windows.RoutedEventArgs e){
+			StartCameraSession(null);
+		}
+
+		private void menuCameraVideo_Click(object sender,System.Windows.RoutedEventArgs e){
+			_controlCameraSession?.End();//one program at a time can use the camera
+			ToolBarVideo_Click(sender,EventArgs.Empty);
+		}
+
+		///<summary>The Camera button (and Ctrl+Shift+C): a photo mount of today that is selected and has an empty photo slot is filled on;
+		///otherwise the last kind of session started, else the first photo mount, else quick photos.</summary>
+		private void ToolBarCamera_Click(object sender,EventArgs e){
+			if(_patient==null || _patient.PatNum==0){
+				return;
+			}
+			ImagingCapture.Photo.OdPhotoStore odPhotoStore=new ImagingCapture.Photo.OdPhotoStore();
+			ControlImageDisplay controlImageDisplay=GetControlImageDisplaySelected();
+			if(controlImageDisplay!=null && controlImageDisplay.GetNodeTypeAndKey().NodeType==EnumImageNodeType.Mount){
+				ImagingCapture.Photo.PhotoMountState photoMountState=odPhotoStore.GetMountState(controlImageDisplay.GetNodeTypeAndKey().PriKey);
+				if(photoMountState!=null && photoMountState.Mount.DateCreated.Date==DateTime.Today && photoMountState.ListSlots.Any(x => !x.IsFilled)){
+					if(Security.IsAuthorized(EnumPermType.ImageCreate)){
+						StartCameraSessionCore(photoMountState.Mount,photoMountState.Mount.DocCategory);
+					}
+					return;
+				}
+			}
+			if(_mountDefNumCameraLast==0){
+				StartCameraSession(null);
+				return;
+			}
+			List<MountDef> listMountDefs=odPhotoStore.GetPhotoMountDefs();
+			MountDef mountDef=listMountDefs.FirstOrDefault(x => x.MountDefNum==_mountDefNumCameraLast)??listMountDefs.FirstOrDefault();
+			StartCameraSession(mountDef);
+		}
+
+		///<summary>Starts a camera session: a new photo mount of mountDef for today, or quick photos when mountDef is null. Needs ImageCreate.
+		///</summary>
+		private void StartCameraSession(MountDef mountDef){
+			if(_patient==null || _patient.PatNum==0){
+				return;
+			}
+			if(!Security.IsAuthorized(EnumPermType.ImageCreate)){
+				return;
+			}
+			if(mountDef==null){
+				_mountDefNumCameraLast=0;
+				long defNumCategoryQuick=ImagingCapture.Photo.PhotoSaver.GetQuickPhotoCategory(PrefC.GetLong(PrefName.VideoImageCategoryDefault),GetCurrentCategory());
+				StartCameraSessionCore(null,defNumCategoryQuick);
+				return;
+			}
+			_mountDefNumCameraLast=mountDef.MountDefNum;
+			long defNumCategory=ImagingCapture.Photo.PhotoSaver.GetMountCategory(mountDef,GetCurrentCategory());
+			Mount mount;
+			try{
+				mount=new ImagingCapture.Photo.OdPhotoStore().CreateMount(mountDef,_patient.PatNum,defNumCategory);
+			}
+			catch(Exception ex){
+				MessageBox.Show(Lan.g(this,"The photo mount could not be made")+": "+ex.Message);
+				return;
+			}
+			FillImageSelector(false);
+			SelectTreeNode1(new NodeTypeAndKey(EnumImageNodeType.Mount,mount.MountNum));
+			StartCameraSessionCore(mount,mount.DocCategory);
+		}
+
+		///<summary>Covers the module with the session for mount (null: quick photos) and opens the camera once it is painted.</summary>
+		private void StartCameraSessionCore(Mount mount,long defNumCategory){
+			_controlCameraSession?.End();
+			if(_formLauncherVideo!=null && !_formLauncherVideo.IsNullDisposedOrNotVis()){
+				_formLauncherVideo.Close();//the Video window would hold the camera
+			}
+			ControlCameraSession controlCameraSession=new ControlCameraSession(new ImagingCapture.Photo.OdPhotoStore(),x => LayoutManager.Scale(x));
+			string error=controlCameraSession.Start(_patient,mount,defNumCategory);
+			if(error!=""){
+				controlCameraSession.Dispose();
+				MessageBox.Show(error);
+				return;
+			}
+			controlCameraSession.EventEnded+=controlCameraSession_EventEnded;
+			_controlCameraSession=controlCameraSession;
+			Controls.Add(controlCameraSession);
+			LayoutControls();
+			controlCameraSession.Focus();
+			controlCameraSession.Update();
+			BeginInvoke((Action)controlCameraSession.OpenCamera);
+		}
+
+		///<summary>The session ended: the module shows again with the mount it filled, or the last quick photo, selected. After a patient change the
+		///module is refreshed for the new patient instead.</summary>
+		private void controlCameraSession_EventEnded(object sender,CameraSessionEndedEventArgs e){
+			ControlCameraSession controlCameraSession=(ControlCameraSession)sender;
+			controlCameraSession.EventEnded-=controlCameraSession_EventEnded;
+			if(_controlCameraSession==controlCameraSession){
+				_controlCameraSession=null;
+			}
+			BeginInvoke((Action)(() => {
+				Controls.Remove(controlCameraSession);
+				controlCameraSession.Dispose();
+				if(e.IsPatientChange || _patient==null){
+					return;
+				}
+				FillImageSelector(false);
+				if(e.MountNum!=0){
+					SelectTreeNode1(new NodeTypeAndKey(EnumImageNodeType.Mount,e.MountNum));
+					ThumbnailRefresh();
+				}
+				else if(e.DocNumLast!=0){
+					SelectTreeNode1(new NodeTypeAndKey(EnumImageNodeType.Document,e.DocNumLast));
+				}
+			}));
+		}
+
+		///<summary>Ctrl+Shift+C anywhere in the module starts the camera (design section 1).</summary>
+		protected override bool ProcessCmdKey(ref Message msg,Keys keyData){
+			if(keyData==(Keys.Control|Keys.Shift|Keys.C) && _controlCameraSession==null){
+				ToolBarCamera_Click(this,EventArgs.Empty);
+				return true;
+			}
+			return base.ProcessCmdKey(ref msg,keyData);
+		}
+		#endregion Camera session (IMG-P4b)
+
 		private void ToolBarVideo_Click(object sender,EventArgs e){
 			//If no patient selected, then this button is disabled
 			if(!Security.IsAuthorized(EnumPermType.ImageCreate)) {
@@ -3450,6 +3627,10 @@ namespace OpenPmsDental{
 				panelMainTop,//used to sit under panelAcquire, but now gets resized
 				Width-panelSplitter.Right-1,
 				elementHostUnmountedBar.Top-panelMainTop-2));
+			if(_controlCameraSession!=null){
+				_controlCameraSession.Bounds=new Rectangle(0,0,Width,Height);//the session covers the whole module (design section 2)
+				_controlCameraSession.BringToFront();
+			}
 			//FormOpenDental has minimized, in this case do not set the bounds for FormImageFloat so that it will restore from the taskbar. However, when there is a zoom scale setting in place, we adjust ControlImageJ's font but the parent is not set yet, so this will be null and cause OD to crash.  A null check prevents this.
 			if(FindForm()!=null) {
 				if(FindForm().WindowState==FormWindowState.Minimized) {
