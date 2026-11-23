@@ -158,6 +158,147 @@ namespace OpenPmsDentalBusiness {
 			return bitmapCopy;
 		}
 
+		///<summary>A DICOM image's 8-bit picture with its window and its adjust filters (IMG-P3c-2). Noise reduction and sharpening run on the
+		///16-bit (or 12-bit) data before the window, where they have the full depth: a sensor's fine grey steps that the window would merge are
+		///still there for them. Local contrast, gamma and invert then run on the windowed picture, because they are display mappings of what the
+		///window shows. Neutral or null settings: exactly DicomHelper.ApplyWindowing. bitmapDicom is not changed. The caller disposes the bitmap.
+		///</summary>
+		public static Bitmap WindowDicom(BitmapDicom bitmapDicom,int windowingMin,int windowingMax,ImageAdjustSettings settings) {
+			if(bitmapDicom==null) {
+				return null;
+			}
+			if(settings==null || settings.IsNeutral()) {
+				return DicomHelper.ApplyWindowing(bitmapDicom,windowingMin,windowingMax);
+			}
+			BitmapDicom bitmapDicomFiltered=FilterBeforeWindow(bitmapDicom,settings);
+			Bitmap bitmap=DicomHelper.ApplyWindowing(bitmapDicomFiltered??bitmapDicom,windowingMin,windowingMax);
+			ImageAdjustSettings settingsAfter=settings.Copy();
+			if(bitmapDicomFiltered!=null) {//done on the raw data; otherwise (data shorter than the image) they run on the 8-bit picture below
+				settingsAfter.Smooth=ImageSmooth.Off;
+				settingsAfter.Sharpen=0;
+			}
+			if(IsFormatSupported(bitmap.PixelFormat)) {
+				Apply(bitmap,settingsAfter);
+				return bitmap;
+			}
+			Bitmap bitmapCopy=ApplyToCopy(bitmap,settingsAfter);
+			if(bitmapCopy==null) {
+				return bitmap;
+			}
+			bitmap.Dispose();
+			return bitmapCopy;
+		}
+
+		///<summary>A copy of bitmapDicom with the noise reduction and sharpening of settings on its raw data (IMG-P3c-2), clamped to its stored bits;
+		///null when settings have neither. bitmapDicom is not changed.</summary>
+		public static BitmapDicom FilterBeforeWindow(BitmapDicom bitmapDicom,ImageAdjustSettings settings) {
+			if(bitmapDicom?.ArrayDataRaw==null || settings==null || (settings.Smooth==ImageSmooth.Off && settings.Sharpen<=0)) {
+				return null;
+			}
+			int width=bitmapDicom.Width;
+			int height=bitmapDicom.Height;
+			if(width<1 || height<1 || bitmapDicom.ArrayDataRaw.Length<width*height) {
+				return null;
+			}
+			int bitsStored=bitmapDicom.BitsStored>0 && bitmapDicom.BitsStored<=16 ? bitmapDicom.BitsStored : 16;
+			int maxValue=(1<<bitsStored)-1;
+			ushort[] arrayData=(ushort[])bitmapDicom.ArrayDataRaw.Clone();
+			if(settings.Smooth!=ImageSmooth.Off) {
+				arrayData=MedianUshort(arrayData,width,height,settings.Smooth==ImageSmooth.Low ? 1 : 2);
+			}
+			if(settings.Sharpen>0) {
+				double amount=Math.Min(100,settings.Sharpen)/100.0*SHARPEN_AMOUNT_MAX;
+				float[] arrayBlur=GaussianBlurUshort(arrayData,width,height,SHARPEN_SIGMA);
+				for(int p=0;p<width*height;p++) {
+					double value=arrayData[p]+amount*(arrayData[p]-arrayBlur[p]);
+					arrayData[p]=(ushort)Math.Max(0,Math.Min(maxValue,Math.Round(value)));
+				}
+			}
+			BitmapDicom bitmapDicomFiltered=new BitmapDicom();
+			bitmapDicomFiltered.ArrayDataRaw=arrayData;
+			bitmapDicomFiltered.Width=width;
+			bitmapDicomFiltered.Height=height;
+			bitmapDicomFiltered.BitsAllocated=bitmapDicom.BitsAllocated;
+			bitmapDicomFiltered.BitsStored=bitmapDicom.BitsStored;
+			bitmapDicomFiltered.WindowingMin=bitmapDicom.WindowingMin;
+			bitmapDicomFiltered.WindowingMax=bitmapDicom.WindowingMax;
+			bitmapDicomFiltered.PhotometricInterp=bitmapDicom.PhotometricInterp;
+			return bitmapDicomFiltered;
+		}
+
+		///<summary>Median of 16-bit data over a (2*radius+1) square; the edges repeat the border pixels.</summary>
+		public static ushort[] MedianUshort(ushort[] arrayData,int width,int height,int radius) {
+			ushort[] result=new ushort[width*height];
+			int size=2*radius+1;
+			//rows in parallel (each its own window): a 5x5 median of a large 16-bit image is about a second on one core
+			System.Threading.Tasks.Parallel.For(0,height,y => {
+				ushort[] window=new ushort[size*size];
+				for(int x=0;x<width;x++) {
+					int n=0;
+					for(int dy=-radius;dy<=radius;dy++) {
+						int yy=Math.Max(0,Math.Min(height-1,y+dy))*width;
+						for(int dx=-radius;dx<=radius;dx++) {
+							ushort value=arrayData[yy+Math.Max(0,Math.Min(width-1,x+dx))];
+							int k=n-1;
+							while(k>=0 && window[k]>value) {
+								window[k+1]=window[k];
+								k--;
+							}
+							window[k+1]=value;
+							n++;
+						}
+					}
+					result[y*width+x]=window[n/2];
+				}
+			});
+			return result;
+		}
+
+		///<summary>A separable Gaussian blur of 16-bit data; the edges repeat the border pixels.</summary>
+		public static float[] GaussianBlurUshort(ushort[] arrayData,int width,int height,double sigma) {
+			float[] arrayPlane=new float[width*height];
+			for(int p=0;p<arrayPlane.Length;p++) {
+				arrayPlane[p]=arrayData[p];
+			}
+			return GaussianBlurFloat(arrayPlane,width,height,sigma);
+		}
+
+		private static float[] GaussianBlurFloat(float[] plane,int width,int height,double sigma) {
+			int radius=Math.Max(1,(int)Math.Ceiling(3*sigma));
+			float[] arrayKernel=new float[2*radius+1];
+			double sum=0;
+			for(int i=-radius;i<=radius;i++) {
+				double value=Math.Exp(-(i*i)/(2*sigma*sigma));
+				arrayKernel[i+radius]=(float)value;
+				sum+=value;
+			}
+			for(int i=0;i<arrayKernel.Length;i++) {
+				arrayKernel[i]=(float)(arrayKernel[i]/sum);
+			}
+			float[] arrayHorizontal=new float[plane.Length];
+			System.Threading.Tasks.Parallel.For(0,height,y => {
+				int row=y*width;
+				for(int x=0;x<width;x++) {
+					float value=0;
+					for(int k=-radius;k<=radius;k++) {
+						value+=arrayKernel[k+radius]*plane[row+Math.Max(0,Math.Min(width-1,x+k))];
+					}
+					arrayHorizontal[row+x]=value;
+				}
+			});
+			float[] result=new float[plane.Length];
+			System.Threading.Tasks.Parallel.For(0,height,y => {
+				for(int x=0;x<width;x++) {
+					float value=0;
+					for(int k=-radius;k<=radius;k++) {
+						value+=arrayKernel[k+radius]*arrayHorizontal[Math.Max(0,Math.Min(height-1,y+k))*width+x];
+					}
+					result[y*width+x]=value;
+				}
+			});
+			return result;
+		}
+
 		///<summary>The spot enhancer (IMG-P3c, Apteryx's Spot Enhancer): stretches the picture's grey values so that its darkest and lightest
 		///percent (by luminance) reach black and white, the same mapping for every channel. In place; 24 or 32-bit only. Display only: nothing is
 		///saved.</summary>
@@ -274,8 +415,8 @@ namespace OpenPmsDentalBusiness {
 		public static byte[] Median(byte[] plane,int width,int height,int radius) {
 			byte[] result=new byte[plane.Length];
 			int size=2*radius+1;
-			byte[] window=new byte[size*size];
-			for(int y=0;y<height;y++) {
+			System.Threading.Tasks.Parallel.For(0,height,y => {//rows in parallel, each its own window
+				byte[] window=new byte[size*size];
 				for(int x=0;x<width;x++) {
 					int n=0;
 					for(int dy=-radius;dy<=radius;dy++) {
@@ -295,7 +436,7 @@ namespace OpenPmsDentalBusiness {
 					}
 					result[y*width+x]=window[n/2];
 				}
-			}
+			});
 			return result;
 		}
 
@@ -313,7 +454,7 @@ namespace OpenPmsDentalBusiness {
 				arrayKernel[i]=(float)(arrayKernel[i]/sum);
 			}
 			float[] arrayHorizontal=new float[plane.Length];
-			for(int y=0;y<height;y++) {
+			System.Threading.Tasks.Parallel.For(0,height,y => {
 				int row=y*width;
 				for(int x=0;x<width;x++) {
 					float value=0;
@@ -323,9 +464,9 @@ namespace OpenPmsDentalBusiness {
 					}
 					arrayHorizontal[row+x]=value;
 				}
-			}
+			});
 			float[] result=new float[plane.Length];
-			for(int y=0;y<height;y++) {
+			System.Threading.Tasks.Parallel.For(0,height,y => {
 				for(int x=0;x<width;x++) {
 					float value=0;
 					for(int k=-radius;k<=radius;k++) {
@@ -334,7 +475,7 @@ namespace OpenPmsDentalBusiness {
 					}
 					result[y*width+x]=value;
 				}
-			}
+			});
 			return result;
 		}
 

@@ -30,7 +30,8 @@ namespace ImagingTests {
 		public void Display_AppliesTheFiltersAfterEveryBrightnessContrast() {
 			string display=Display();
 			string bodyLoad=MethodBody(display,"private void LoadBitmap(int idx,EnumLoadBitmapType loadBitmapType){");
-			Assert.AreEqual(3,Regex.Matches(bodyLoad,Regex.Escape("ApplyAdjust(idx);")).Count,"A single image (DICOM and other) and a mount item.");
+			Assert.AreEqual(2,Regex.Matches(bodyLoad,Regex.Escape("ApplyAdjust(idx);")).Count,"A single image and a mount item (a DICOM image is filtered with its window).");
+			Assert.AreEqual(2,Regex.Matches(bodyLoad,Regex.Escape("ImageAdjust.WindowDicom(_bitmapDicomRaw,")).Count,"IMG-P3c-2: DICOM, a single image and a mount item.");
 			string bodyInvalidate=MethodBody(display,"public void InvalidateSettingsColor(bool doApplyAdjust=true) {");
 			StringAssert.Contains(bodyInvalidate,"ApplyAdjust(0);","The brightness/contrast slider, a single image.");
 			StringAssert.Contains(bodyInvalidate,"ApplyAdjust(_idxSelectedInMount);","The slider, a mount item.");
@@ -61,7 +62,7 @@ namespace ImagingTests {
 			StringAssert.Contains(body,"g.DrawImage(bitmapSource,");
 			StringAssert.Contains(body,"bitmapFiltered==null &&//a filtered source already has its window","No second brightness/contrast.");
 			StringAssert.Contains(MethodBody(helper,"public static Bitmap GetImageCroppedDicom(Document document,BitmapDicom bitmapDicom,bool doSaveCropConversion,"),
-				"ImageAdjust.ApplyToCopy(bitmapWindowed,imageAdjustSettings);","DICOM thumbnails (the filters passed in, so a claim render stays without the database).");
+				"ImageAdjust.WindowDicom(bitmapDicom,document.WindowingMin,document.WindowingMax,imageAdjustSettings);","DICOM thumbnails (IMG-P3c-2; the filters passed in, so a claim render stays without the database).");
 			StringAssert.Contains(MethodBody(helper,"private static Bitmap LoadBitmap(Document document,string patFolder){"),"WithAdjust(bitmapResult,document)",
 				"Email attachments, sheet image fields and the pickers (GetBitmapOfDocumentFromDb).");
 			StringAssert.Contains(Read("OpenPmsDentalBusiness","Imaging","ClaimAttachImage.cs"),"|| HasAdjustFilters(document);",

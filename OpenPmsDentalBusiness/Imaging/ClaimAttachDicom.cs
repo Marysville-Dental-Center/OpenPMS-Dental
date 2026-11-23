@@ -146,10 +146,10 @@ namespace OpenPmsDentalBusiness {
 				return null;
 			}
 			Document documentCopy=document.Copy();
-			using Bitmap bitmapWindowed=DicomHelper.ApplyWindowing(bitmapDicom,documentCopy.WindowingMin,documentCopy.WindowingMax);
+			//IMG-P3: the window and the filters (noise reduction and sharpening on the 16-bit data, IMG-P3c-2), before the crop and rotation
+			using Bitmap bitmapWindowed=ImageAdjust.WindowDicom(bitmapDicom,documentCopy.WindowingMin,documentCopy.WindowingMax,imageAdjustSettings);
 			ImageHelper.ConvertCropIfNeeded(documentCopy,bitmapWindowed,doSave:false);
-			using Bitmap bitmapFiltered=ImageAdjust.ApplyToCopy(bitmapWindowed,imageAdjustSettings);//IMG-P3, before the crop and rotation
-			return ImageHelper.GetBitmapOfDocument(documentCopy,bitmapFiltered??bitmapWindowed,listImageDraws??new List<ImageDraw>());
+			return ImageHelper.GetBitmapOfDocument(documentCopy,bitmapWindowed,listImageDraws??new List<ImageDraw>());
 		}
 
 		///<summary>The 8-bit copy of a DICOM file that is not one of the patient's documents (chosen from disk or pasted as a file): windowed with

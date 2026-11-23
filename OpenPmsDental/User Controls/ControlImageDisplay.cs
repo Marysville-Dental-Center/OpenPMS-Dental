@@ -584,7 +584,9 @@ Here is the desired behavior:
 					SetBitmapShowing(0,ImageHelper.CopyWithBrightContrast(GetDocumentShowing(0),_bitmapRaw));
 				}
 				if(_bitmapDicomRaw!=null){
-					SetBitmapShowing(0,DicomHelper.ApplyWindowing(_bitmapDicomRaw,GetDocumentShowing(0).WindowingMin,GetDocumentShowing(0).WindowingMax));
+					//IMG-P3c-2: a DICOM image's filters with its window (noise reduction and sharpening on the 16-bit data); ApplyAdjust skips DICOM
+					SetBitmapShowing(0,ImageAdjust.WindowDicom(_bitmapDicomRaw,GetDocumentShowing(0).WindowingMin,GetDocumentShowing(0).WindowingMax,
+						doApplyAdjust ? GetAdjustSettings(GetDocumentShowing(0)) : null));
 				}
 				if(doApplyAdjust){
 					ApplyAdjust(0);
@@ -597,7 +599,8 @@ Here is the desired behavior:
 					_bitmapArrayShowing[_idxSelectedInMount]=ImageHelper.CopyWithBrightContrast(_documentArrayShowing[_idxSelectedInMount],_bitmapRaw);
 				}
 				if(_bitmapDicomRaw!=null){
-					Bitmap bitmapTemp=DicomHelper.ApplyWindowing(_bitmapDicomRaw,_documentArrayShowing[_idxSelectedInMount].WindowingMin,_documentArrayShowing[_idxSelectedInMount].WindowingMax);
+					Bitmap bitmapTemp=ImageAdjust.WindowDicom(_bitmapDicomRaw,_documentArrayShowing[_idxSelectedInMount].WindowingMin,
+						_documentArrayShowing[_idxSelectedInMount].WindowingMax,doApplyAdjust ? GetAdjustSettings(_documentArrayShowing[_idxSelectedInMount]) : null);
 					_bitmapArrayShowing[_idxSelectedInMount]=new Bitmap(bitmapTemp);
 					bitmapTemp.Dispose();//this is not efficient
 				}
@@ -1477,6 +1480,9 @@ Here is the desired behavior:
 		private void ApplyAdjust(int idx){
 			if(_documentArrayShowing==null || _bitmapArrayShowing==null || idx<0 || idx>_documentArrayShowing.Length-1 || idx>_bitmapArrayShowing.Length-1){
 				return;
+			}
+			if(_documentArrayShowing[idx]?.FileName!=null && _documentArrayShowing[idx].FileName.EndsWith(".dcm")){
+				return;//IMG-P3c-2: a DICOM image is filtered with its window (ImageAdjust.WindowDicom), not after it
 			}
 			ImageAdjust.Apply(_bitmapArrayShowing[idx],GetAdjustSettings(_documentArrayShowing[idx]));
 		}
@@ -5340,8 +5346,8 @@ Here is the desired behavior:
 				//always IdxAndRaw
 				//single images simply load up the whole unscaled image. Mounts load the whole image, but maybe at a different scale to match mount scale.
 				if(_documentArrayShowing[idx].FileName.EndsWith(".dcm")){
-					_bitmapArrayShowing[idx]=DicomHelper.ApplyWindowing(_bitmapDicomRaw,_documentArrayShowing[idx].WindowingMin,_documentArrayShowing[idx].WindowingMax);
-					ApplyAdjust(idx);
+					_bitmapArrayShowing[idx]=ImageAdjust.WindowDicom(_bitmapDicomRaw,_documentArrayShowing[idx].WindowingMin,_documentArrayShowing[idx].WindowingMax,
+						GetAdjustSettings(_documentArrayShowing[idx]));//IMG-P3c-2
 					return;
 				}
 				try{
@@ -5378,7 +5384,8 @@ Here is the desired behavior:
 			//}
 			if(loadBitmapType==EnumLoadBitmapType.OnlyIdx || loadBitmapType==EnumLoadBitmapType.IdxAndRaw){
 				if(_documentArrayShowing[idx].FileName.EndsWith(".dcm")){
-					bitmapTemp=DicomHelper.ApplyWindowing(_bitmapDicomRaw,_documentArrayShowing[idx].WindowingMin,_documentArrayShowing[idx].WindowingMax);
+					bitmapTemp=ImageAdjust.WindowDicom(_bitmapDicomRaw,_documentArrayShowing[idx].WindowingMin,_documentArrayShowing[idx].WindowingMax,
+						GetAdjustSettings(_documentArrayShowing[idx]));//IMG-P3c-2
 					_bitmapArrayShowing[idx]=new Bitmap(bitmapTemp);
 				}
 				else{
