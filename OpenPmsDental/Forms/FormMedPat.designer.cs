@@ -187,9 +187,10 @@ namespace OpenPmsDental {
 			// 
 			// labelEdit
 			// 
-			this.labelEdit.Location = new System.Drawing.Point(264, 195);
+			this.labelEdit.Location = new System.Drawing.Point(264, 199);
+			this.labelEdit.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.labelEdit.Name = "labelEdit";
-			this.labelEdit.Size = new System.Drawing.Size(201, 32);
+			this.labelEdit.Size = new System.Drawing.Size(204, 24);
 			this.labelEdit.TabIndex = 11;
 			this.labelEdit.Text = "(edit this medication for all patients)";
 			// 
@@ -205,7 +206,7 @@ namespace OpenPmsDental {
 			// butRemove
 			// 
 			this.butRemove.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butRemove.Location = new System.Drawing.Point(49, 467);
+			this.butRemove.Location = new System.Drawing.Point(8, 467);
 			this.butRemove.Name = "butRemove";
 			this.butRemove.Size = new System.Drawing.Size(75, 24);
 			this.butRemove.TabIndex = 8;
@@ -215,12 +216,12 @@ namespace OpenPmsDental {
 			// label5
 			// 
 			this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label5.Location = new System.Drawing.Point(8, 495);
+			this.label5.Location = new System.Drawing.Point(89, 462);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(150, 32);
+			this.label5.Size = new System.Drawing.Size(150, 34);
 			this.label5.TabIndex = 10;
 			this.label5.Text = "(remove this medication\r\nfrom this patient)";
-			this.label5.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// textPatNote
 			// 

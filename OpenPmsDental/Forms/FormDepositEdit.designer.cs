@@ -94,7 +94,7 @@ namespace OpenPmsDental {
 			this.groupSelect.Controls.Add(this.label2);
 			this.groupSelect.Location = new System.Drawing.Point(601, 315);
 			this.groupSelect.Name = "groupSelect";
-			this.groupSelect.Size = new System.Drawing.Size(358, 319);
+			this.groupSelect.Size = new System.Drawing.Size(365, 319);
 			this.groupSelect.TabIndex = 0;
 			this.groupSelect.TabStop = false;
 			this.groupSelect.Text = "Show";
@@ -103,7 +103,7 @@ namespace OpenPmsDental {
 			// 
 			this.comboClassRefs.Location = new System.Drawing.Point(185, 88);
 			this.comboClassRefs.Name = "comboClassRefs";
-			this.comboClassRefs.Size = new System.Drawing.Size(165, 23);
+			this.comboClassRefs.Size = new System.Drawing.Size(172, 23);
 			this.comboClassRefs.TabIndex = 0;
 			this.comboClassRefs.TabStop = false;
 			this.comboClassRefs.Visible = false;
@@ -123,7 +123,7 @@ namespace OpenPmsDental {
 			this.listInsPayType.Location = new System.Drawing.Point(185, 136);
 			this.listInsPayType.Name = "listInsPayType";
 			this.listInsPayType.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
-			this.listInsPayType.Size = new System.Drawing.Size(165, 147);
+			this.listInsPayType.Size = new System.Drawing.Size(172, 147);
 			this.listInsPayType.TabIndex = 0;
 			this.listInsPayType.TabStop = false;
 			// 
@@ -131,14 +131,14 @@ namespace OpenPmsDental {
 			// 
 			this.label6.Location = new System.Drawing.Point(185, 115);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(165, 17);
+			this.label6.Size = new System.Drawing.Size(172, 17);
 			this.label6.TabIndex = 0;
 			this.label6.Text = "Insurance Payment Types";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// butRefresh
 			// 
-			this.butRefresh.Location = new System.Drawing.Point(275, 287);
+			this.butRefresh.Location = new System.Drawing.Point(282, 287);
 			this.butRefresh.Name = "butRefresh";
 			this.butRefresh.Size = new System.Drawing.Size(75, 24);
 			this.butRefresh.TabIndex = 0;
@@ -227,7 +227,7 @@ namespace OpenPmsDental {
 			this.textBankAccountInfo.Location = new System.Drawing.Point(601, 119);
 			this.textBankAccountInfo.Multiline = true;
 			this.textBankAccountInfo.Name = "textBankAccountInfo";
-			this.textBankAccountInfo.Size = new System.Drawing.Size(289, 59);
+			this.textBankAccountInfo.Size = new System.Drawing.Size(365, 59);
 			this.textBankAccountInfo.TabIndex = 103;
 			// 
 			// label4
@@ -255,7 +255,7 @@ namespace OpenPmsDental {
 			this.comboDepositAccount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.comboDepositAccount.Location = new System.Drawing.Point(601, 257);
 			this.comboDepositAccount.Name = "comboDepositAccount";
-			this.comboDepositAccount.Size = new System.Drawing.Size(289, 23);
+			this.comboDepositAccount.Size = new System.Drawing.Size(365, 23);
 			this.comboDepositAccount.TabIndex = 110;
 			this.comboDepositAccount.TabStop = false;
 			// 
@@ -264,7 +264,7 @@ namespace OpenPmsDental {
 			this.labelDepositAccount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelDepositAccount.Location = new System.Drawing.Point(601, 239);
 			this.labelDepositAccount.Name = "labelDepositAccount";
-			this.labelDepositAccount.Size = new System.Drawing.Size(289, 16);
+			this.labelDepositAccount.Size = new System.Drawing.Size(365, 16);
 			this.labelDepositAccount.TabIndex = 0;
 			this.labelDepositAccount.Text = "Deposit into Account";
 			this.labelDepositAccount.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -285,7 +285,7 @@ namespace OpenPmsDental {
 			this.textMemo.Location = new System.Drawing.Point(601, 200);
 			this.textMemo.Multiline = true;
 			this.textMemo.Name = "textMemo";
-			this.textMemo.Size = new System.Drawing.Size(289, 35);
+			this.textMemo.Size = new System.Drawing.Size(365, 35);
 			this.textMemo.TabIndex = 104;
 			// 
 			// labelMemo
@@ -488,7 +488,7 @@ namespace OpenPmsDental {
 			this.comboDepositAccountNum.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.comboDepositAccountNum.Location = new System.Drawing.Point(601, 658);
 			this.comboDepositAccountNum.Name = "comboDepositAccountNum";
-			this.comboDepositAccountNum.Size = new System.Drawing.Size(288, 23);
+			this.comboDepositAccountNum.Size = new System.Drawing.Size(365, 23);
 			this.comboDepositAccountNum.TabIndex = 0;
 			this.comboDepositAccountNum.TabStop = false;
 			this.comboDepositAccountNum.Visible = false;
@@ -499,7 +499,7 @@ namespace OpenPmsDental {
 			this.textBatch.Location = new System.Drawing.Point(601, 74);
 			this.textBatch.MaxLength = 25;
 			this.textBatch.Name = "textBatch";
-			this.textBatch.Size = new System.Drawing.Size(289, 23);
+			this.textBatch.Size = new System.Drawing.Size(365, 23);
 			this.textBatch.TabIndex = 102;
 			// 
 			// labelBatchNum

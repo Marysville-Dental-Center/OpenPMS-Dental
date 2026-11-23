@@ -105,9 +105,9 @@ namespace OpenPmsDental {
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(222, 65);
+			this.label5.Location = new System.Drawing.Point(222, 62);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(175, 17);
+			this.label5.Size = new System.Drawing.Size(124, 23);
 			this.label5.TabIndex = 10;
 			this.label5.Text = "(based on text above)";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -140,9 +140,9 @@ namespace OpenPmsDental {
 			this.butDown.AdjustImageLocation = new System.Drawing.Point(1, 0);
 			this.butDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butDown.Icon = OpenPmsDental.UI.EnumIcons.Down;
-			this.butDown.Location = new System.Drawing.Point(432, 27);
+			this.butDown.Location = new System.Drawing.Point(429, 35);
 			this.butDown.Name = "butDown";
-			this.butDown.Size = new System.Drawing.Size(25, 24);
+			this.butDown.Size = new System.Drawing.Size(25, 23);
 			this.butDown.TabIndex = 30;
 			this.butDown.Click += new System.EventHandler(this.butDown_Click);
 			// 
@@ -151,9 +151,9 @@ namespace OpenPmsDental {
 			this.butUp.AdjustImageLocation = new System.Drawing.Point(1, 0);
 			this.butUp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butUp.Icon = OpenPmsDental.UI.EnumIcons.Up;
-			this.butUp.Location = new System.Drawing.Point(401, 27);
+			this.butUp.Location = new System.Drawing.Point(398, 35);
 			this.butUp.Name = "butUp";
-			this.butUp.Size = new System.Drawing.Size(25, 24);
+			this.butUp.Size = new System.Drawing.Size(25, 23);
 			this.butUp.TabIndex = 25;
 			this.butUp.Click += new System.EventHandler(this.butUp_Click);
 			// 
@@ -199,18 +199,18 @@ namespace OpenPmsDental {
 			// label6
 			// 
 			this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.label6.Location = new System.Drawing.Point(401, 8);
+			this.label6.Location = new System.Drawing.Point(398, 8);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(101, 17);
+			this.label6.Size = new System.Drawing.Size(64, 23);
 			this.label6.TabIndex = 94;
 			this.label6.Text = "(optional)";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// labelDefaultMode
 			// 
-			this.labelDefaultMode.Location = new System.Drawing.Point(222, 92);
+			this.labelDefaultMode.Location = new System.Drawing.Point(222, 89);
 			this.labelDefaultMode.Name = "labelDefaultMode";
-			this.labelDefaultMode.Size = new System.Drawing.Size(175, 17);
+			this.labelDefaultMode.Size = new System.Drawing.Size(56, 23);
 			this.labelDefaultMode.TabIndex = 95;
 			this.labelDefaultMode.Text = "(default)";
 			this.labelDefaultMode.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;

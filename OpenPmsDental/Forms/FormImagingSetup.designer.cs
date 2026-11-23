@@ -271,7 +271,7 @@ namespace OpenPmsDental {
 			// 
 			this.butSetScanner.Location = new System.Drawing.Point(8, 8);
 			this.butSetScanner.Name = "butSetScanner";
-			this.butSetScanner.Size = new System.Drawing.Size(112, 24);
+			this.butSetScanner.Size = new System.Drawing.Size(124, 24);
 			this.butSetScanner.TabIndex = 22;
 			this.butSetScanner.Text = "Set Default Scanner";
 			this.butSetScanner.Click += new System.EventHandler(this.butSetScanner_Click);
