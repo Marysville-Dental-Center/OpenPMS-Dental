@@ -45,9 +45,9 @@
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(18, 57);
+			this.gridMain.Location = new System.Drawing.Point(8, 57);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(826, 418);
+			this.gridMain.Size = new System.Drawing.Size(841, 448);
 			this.gridMain.TabIndex = 2;
 			this.gridMain.Title = "Active Kiosks";
 			this.gridMain.TranslationName = "TableTerminals";
@@ -59,7 +59,7 @@
 			this.groupBoxPassword.Controls.Add(this.textPassword);
 			this.groupBoxPassword.Controls.Add(this.label2);
 			this.groupBoxPassword.Controls.Add(this.butSave);
-			this.groupBoxPassword.Location = new System.Drawing.Point(18, 483);
+			this.groupBoxPassword.Location = new System.Drawing.Point(8, 513);
 			this.groupBoxPassword.Name = "groupBoxPassword";
 			this.groupBoxPassword.Size = new System.Drawing.Size(515, 88);
 			this.groupBoxPassword.TabIndex = 12;
@@ -99,7 +99,7 @@
 			this.groupBoxPatient.Controls.Add(this.labelSheets);
 			this.groupBoxPatient.Controls.Add(this.labelPatient);
 			this.groupBoxPatient.Controls.Add(this.listSheets);
-			this.groupBoxPatient.Location = new System.Drawing.Point(853, 84);
+			this.groupBoxPatient.Location = new System.Drawing.Point(857, 57);
 			this.groupBoxPatient.Name = "groupBoxPatient";
 			this.groupBoxPatient.Size = new System.Drawing.Size(180, 219);
 			this.groupBoxPatient.TabIndex = 11;
@@ -120,7 +120,7 @@
 			// 
 			this.labelSheets.Location = new System.Drawing.Point(8, 43);
 			this.labelSheets.Name = "labelSheets";
-			this.labelSheets.Size = new System.Drawing.Size(146, 17);
+			this.labelSheets.Size = new System.Drawing.Size(164, 17);
 			this.labelSheets.TabIndex = 10;
 			this.labelSheets.Text = "Forms for Kiosk";
 			this.labelSheets.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -129,7 +129,7 @@
 			// 
 			this.labelPatient.Location = new System.Drawing.Point(8, 23);
 			this.labelPatient.Name = "labelPatient";
-			this.labelPatient.Size = new System.Drawing.Size(147, 18);
+			this.labelPatient.Size = new System.Drawing.Size(164, 18);
 			this.labelPatient.TabIndex = 9;
 			this.labelPatient.Text = "Fname Lname";
 			// 
@@ -144,7 +144,7 @@
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(18, 8);
+			this.label1.Location = new System.Drawing.Point(8, 8);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(580, 47);
 			this.label1.TabIndex = 3;

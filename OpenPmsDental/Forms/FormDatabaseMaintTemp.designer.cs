@@ -47,9 +47,9 @@ namespace OpenPmsDental{
 			// linkLabel1
 			// 
 			this.linkLabel1.LinkArea = new System.Windows.Forms.LinkArea(0, 0);
-			this.linkLabel1.Location = new System.Drawing.Point(12, 8);
+			this.linkLabel1.Location = new System.Drawing.Point(8, 8);
 			this.linkLabel1.Name = "linkLabel1";
-			this.linkLabel1.Size = new System.Drawing.Size(671, 51);
+			this.linkLabel1.Size = new System.Drawing.Size(717, 18);
 			this.linkLabel1.TabIndex = 5;
 			this.linkLabel1.TabStop = true;
 			this.linkLabel1.Text = "This tool checks the database to make sure no damage was done by a specific bug.";
@@ -57,34 +57,34 @@ namespace OpenPmsDental{
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(12, 61);
+			this.label1.Location = new System.Drawing.Point(8, 34);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(311, 18);
+			this.label1.Size = new System.Drawing.Size(312, 23);
 			this.label1.TabIndex = 6;
 			this.label1.Text = "Step 1.  Choose the most recent backup of this database.";
-			this.label1.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// comboDbs
 			// 
-			this.comboDbs.Location = new System.Drawing.Point(307, 62);
+			this.comboDbs.Location = new System.Drawing.Point(326, 34);
 			this.comboDbs.Name = "comboDbs";
-			this.comboDbs.Size = new System.Drawing.Size(317, 21);
+			this.comboDbs.Size = new System.Drawing.Size(399, 23);
 			this.comboDbs.TabIndex = 7;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(79, 87);
+			this.label2.Location = new System.Drawing.Point(8, 61);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(76, 23);
 			this.label2.TabIndex = 8;
 			this.label2.Text = "Step 2.  Run";
-			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(12, 114);
+			this.label3.Location = new System.Drawing.Point(8, 92);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(138, 18);
+			this.label3.Size = new System.Drawing.Size(138, 17);
 			this.label3.TabIndex = 9;
 			this.label3.Text = "Step 3.  View results";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -92,23 +92,23 @@ namespace OpenPmsDental{
 			// label4
 			// 
 			this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label4.Location = new System.Drawing.Point(39, 560);
+			this.label4.Location = new System.Drawing.Point(8, 560);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(116, 23);
 			this.label4.TabIndex = 10;
 			this.label4.Text = "Step 4.  Print results";
-			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// textResults
 			// 
 			this.textResults.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textResults.Location = new System.Drawing.Point(12, 134);
+			this.textResults.Location = new System.Drawing.Point(8, 111);
 			this.textResults.Multiline = true;
 			this.textResults.Name = "textResults";
 			this.textResults.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.textResults.Size = new System.Drawing.Size(706, 422);
+			this.textResults.Size = new System.Drawing.Size(717, 441);
 			this.textResults.TabIndex = 11;
 			// 
 			// groupBox1
@@ -122,9 +122,9 @@ namespace OpenPmsDental{
 			this.groupBox1.Controls.Add(this.label6);
 			this.groupBox1.Controls.Add(this.butBackup);
 			this.groupBox1.Controls.Add(this.label5);
-			this.groupBox1.Location = new System.Drawing.Point(12, 591);
+			this.groupBox1.Location = new System.Drawing.Point(8, 591);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(616, 108);
+			this.groupBox1.Size = new System.Drawing.Size(717, 108);
 			this.groupBox1.TabIndex = 13;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Fix (only if needed)";
@@ -133,7 +133,7 @@ namespace OpenPmsDental{
 			// 
 			this.butFix3.Enabled = false;
 			this.butFix3.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butFix3.Location = new System.Drawing.Point(542, 77);
+			this.butFix3.Location = new System.Drawing.Point(643, 77);
 			this.butFix3.Name = "butFix3";
 			this.butFix3.Size = new System.Drawing.Size(66, 23);
 			this.butFix3.TabIndex = 20;
@@ -142,7 +142,7 @@ namespace OpenPmsDental{
 			// 
 			// label8
 			// 
-			this.label8.Location = new System.Drawing.Point(228, 77);
+			this.label8.Location = new System.Drawing.Point(329, 77);
 			this.label8.Name = "label8";
 			this.label8.Size = new System.Drawing.Size(308, 23);
 			this.label8.TabIndex = 19;
@@ -153,7 +153,7 @@ namespace OpenPmsDental{
 			// 
 			this.butFix2.Enabled = false;
 			this.butFix2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butFix2.Location = new System.Drawing.Point(542, 50);
+			this.butFix2.Location = new System.Drawing.Point(643, 50);
 			this.butFix2.Name = "butFix2";
 			this.butFix2.Size = new System.Drawing.Size(66, 23);
 			this.butFix2.TabIndex = 18;
@@ -162,7 +162,7 @@ namespace OpenPmsDental{
 			// 
 			// label7
 			// 
-			this.label7.Location = new System.Drawing.Point(328, 50);
+			this.label7.Location = new System.Drawing.Point(429, 50);
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(208, 23);
 			this.label7.TabIndex = 17;
@@ -173,7 +173,7 @@ namespace OpenPmsDental{
 			// 
 			this.butFix1.Enabled = false;
 			this.butFix1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butFix1.Location = new System.Drawing.Point(542, 23);
+			this.butFix1.Location = new System.Drawing.Point(643, 23);
 			this.butFix1.Name = "butFix1";
 			this.butFix1.Size = new System.Drawing.Size(66, 23);
 			this.butFix1.TabIndex = 16;
@@ -182,7 +182,7 @@ namespace OpenPmsDental{
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(372, 23);
+			this.label6.Location = new System.Drawing.Point(473, 23);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(164, 23);
 			this.label6.TabIndex = 15;
@@ -192,7 +192,7 @@ namespace OpenPmsDental{
 			// butBackup
 			// 
 			this.butBackup.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butBackup.Location = new System.Drawing.Point(149, 23);
+			this.butBackup.Location = new System.Drawing.Point(145, 23);
 			this.butBackup.Name = "butBackup";
 			this.butBackup.Size = new System.Drawing.Size(75, 23);
 			this.butBackup.TabIndex = 14;
@@ -202,7 +202,7 @@ namespace OpenPmsDental{
 			// label5
 			// 
 			this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label5.Location = new System.Drawing.Point(12, 23);
+			this.label5.Location = new System.Drawing.Point(8, 23);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(131, 77);
 			this.label5.TabIndex = 13;
@@ -215,7 +215,7 @@ namespace OpenPmsDental{
 			this.butPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butPrint.Icon = OpenPmsDental.UI.EnumIcons.Print;
 			this.butPrint.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butPrint.Location = new System.Drawing.Point(161, 560);
+			this.butPrint.Location = new System.Drawing.Point(130, 560);
 			this.butPrint.Name = "butPrint";
 			this.butPrint.Size = new System.Drawing.Size(75, 23);
 			this.butPrint.TabIndex = 12;
@@ -224,7 +224,7 @@ namespace OpenPmsDental{
 			// 
 			// butRun
 			// 
-			this.butRun.Location = new System.Drawing.Point(161, 87);
+			this.butRun.Location = new System.Drawing.Point(90, 61);
 			this.butRun.Name = "butRun";
 			this.butRun.Size = new System.Drawing.Size(75, 23);
 			this.butRun.TabIndex = 3;

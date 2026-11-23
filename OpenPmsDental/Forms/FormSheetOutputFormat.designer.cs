@@ -34,7 +34,7 @@ namespace OpenPmsDental{
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(80, 10);
+			this.label1.Location = new System.Drawing.Point(58, 10);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(134, 18);
 			this.label1.TabIndex = 83;
@@ -43,39 +43,39 @@ namespace OpenPmsDental{
 			// 
 			// checkEmailPat
 			// 
-			this.checkEmailPat.Location = new System.Drawing.Point(78, 35);
+			this.checkEmailPat.Location = new System.Drawing.Point(8, 35);
 			this.checkEmailPat.Name = "checkEmailPat";
-			this.checkEmailPat.Size = new System.Drawing.Size(347, 40);
+			this.checkEmailPat.Size = new System.Drawing.Size(417, 20);
 			this.checkEmailPat.TabIndex = 85;
 			this.checkEmailPat.Text = "E-mail to patient (not recommended for sensitive information):";
 			this.checkEmailPat.Click += new System.EventHandler(this.checkEmailPat_Click);
 			// 
 			// textEmailPat
 			// 
-			this.textEmailPat.Location = new System.Drawing.Point(78, 79);
+			this.textEmailPat.Location = new System.Drawing.Point(24, 59);
 			this.textEmailPat.Name = "textEmailPat";
-			this.textEmailPat.Size = new System.Drawing.Size(296, 23);
+			this.textEmailPat.Size = new System.Drawing.Size(401, 23);
 			this.textEmailPat.TabIndex = 86;
 			// 
 			// textEmail2
 			// 
-			this.textEmail2.Location = new System.Drawing.Point(78, 150);
+			this.textEmail2.Location = new System.Drawing.Point(24, 114);
 			this.textEmail2.Name = "textEmail2";
-			this.textEmail2.Size = new System.Drawing.Size(296, 23);
+			this.textEmail2.Size = new System.Drawing.Size(401, 23);
 			this.textEmail2.TabIndex = 88;
 			// 
 			// checkEmail2
 			// 
-			this.checkEmail2.Location = new System.Drawing.Point(78, 106);
+			this.checkEmail2.Location = new System.Drawing.Point(8, 90);
 			this.checkEmail2.Name = "checkEmail2";
-			this.checkEmail2.Size = new System.Drawing.Size(347, 40);
+			this.checkEmail2.Size = new System.Drawing.Size(417, 20);
 			this.checkEmail2.TabIndex = 87;
 			this.checkEmail2.Text = "E-mail to referral (not recommended for sensitive information):";
 			this.checkEmail2.Click += new System.EventHandler(this.checkEmail2_Click);
 			// 
 			// textPaperCopies
 			// 
-			this.textPaperCopies.Location = new System.Drawing.Point(30, 8);
+			this.textPaperCopies.Location = new System.Drawing.Point(8, 8);
 			this.textPaperCopies.MaxVal = 255;
 			this.textPaperCopies.MinVal = 0;
 			this.textPaperCopies.Name = "textPaperCopies";

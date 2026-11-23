@@ -37,9 +37,9 @@
 			// 
 			// label8
 			// 
-			this.label8.Location = new System.Drawing.Point(20, 23);
+			this.label8.Location = new System.Drawing.Point(8, 8);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(662, 30);
+			this.label8.Size = new System.Drawing.Size(506, 34);
 			this.label8.TabIndex = 27;
 			this.label8.Text = "Here are your currently set up Operatories. Click \'Add\' to add more.\r\nEach operat" +
     "ory must have a name and an abbreviation.";
@@ -49,7 +49,7 @@
 			this.butAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdd.Location = new System.Drawing.Point(712, 68);
+			this.butAdd.Location = new System.Drawing.Point(705, 57);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(82, 26);
 			this.butAdd.TabIndex = 28;
@@ -59,9 +59,9 @@
 			// label2
 			// 
 			this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.label2.Location = new System.Drawing.Point(712, 98);
+			this.label2.Location = new System.Drawing.Point(705, 87);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(220, 32);
+			this.label2.Size = new System.Drawing.Size(217, 32);
 			this.label2.TabIndex = 30;
 			this.label2.Text = "Double click a row to edit the specific operatory.\r\n";
 			// 
@@ -72,10 +72,10 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridMain.HScrollVisible = true;
-			this.gridMain.Location = new System.Drawing.Point(18, 57);
+			this.gridMain.Location = new System.Drawing.Point(8, 57);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridMain.Size = new System.Drawing.Size(690, 457);
+			this.gridMain.Size = new System.Drawing.Size(689, 465);
 			this.gridMain.TabIndex = 31;
 			this.gridMain.Title = "Operatories";
 			this.gridMain.TranslationName = "TableProviderSetup";
@@ -86,7 +86,7 @@
 			this.pictureAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.pictureAdd.HasBorder = false;
 			this.pictureAdd.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.ArrowLeft,22,22);
-			this.pictureAdd.Location = new System.Drawing.Point(800, 71);
+			this.pictureAdd.Location = new System.Drawing.Point(793, 60);
 			this.pictureAdd.Name = "pictureAdd";
 			this.pictureAdd.Size = new System.Drawing.Size(22, 20);
 			this.pictureAdd.TabIndex = 32;
@@ -100,7 +100,7 @@
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(533, 8);
+			this.label3.Location = new System.Drawing.Point(522, 8);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(175, 45);
 			this.label3.TabIndex = 34;
@@ -111,7 +111,7 @@
 			// 
 			this.butAdvanced.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butAdvanced.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdvanced.Location = new System.Drawing.Point(712, 196);
+			this.butAdvanced.Location = new System.Drawing.Point(705, 187);
 			this.butAdvanced.Name = "butAdvanced";
 			this.butAdvanced.Size = new System.Drawing.Size(82, 26);
 			this.butAdvanced.TabIndex = 36;
@@ -121,7 +121,7 @@
 			// label4
 			// 
 			this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.label4.Location = new System.Drawing.Point(712, 132);
+			this.label4.Location = new System.Drawing.Point(705, 121);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(217, 62);
 			this.label4.TabIndex = 35;

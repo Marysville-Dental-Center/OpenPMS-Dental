@@ -32,15 +32,15 @@ namespace OpenPmsDental{
 			// gridActiveInstances
 			// 
 			this.gridActiveInstances.AllowSortingByColumn = true;
-			this.gridActiveInstances.Location = new System.Drawing.Point(11, 28);
+			this.gridActiveInstances.Location = new System.Drawing.Point(8, 28);
 			this.gridActiveInstances.Name = "gridActiveInstances";
 			this.gridActiveInstances.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridActiveInstances.Size = new System.Drawing.Size(509, 431);
+			this.gridActiveInstances.Size = new System.Drawing.Size(514, 432);
 			this.gridActiveInstances.TabIndex = 7;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(11, 8);
+			this.label1.Location = new System.Drawing.Point(8, 8);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(510, 18);
 			this.label1.TabIndex = 5;
@@ -50,7 +50,7 @@ namespace OpenPmsDental{
 			// butCloseSessions
 			// 
 			this.butCloseSessions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butCloseSessions.Location = new System.Drawing.Point(529, 408);
+			this.butCloseSessions.Location = new System.Drawing.Point(530, 408);
 			this.butCloseSessions.Name = "butCloseSessions";
 			this.butCloseSessions.Size = new System.Drawing.Size(110, 24);
 			this.butCloseSessions.TabIndex = 8;
@@ -61,9 +61,9 @@ namespace OpenPmsDental{
 			// butShutdown
 			// 
 			this.butShutdown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butShutdown.Location = new System.Drawing.Point(529, 436);
+			this.butShutdown.Location = new System.Drawing.Point(530, 436);
 			this.butShutdown.Name = "butShutdown";
-			this.butShutdown.Size = new System.Drawing.Size(107, 24);
+			this.butShutdown.Size = new System.Drawing.Size(110, 24);
 			this.butShutdown.TabIndex = 6;
 			this.butShutdown.Text = "Shutdown All";
 			this.butShutdown.Click += new System.EventHandler(this.butShutdown_Click);

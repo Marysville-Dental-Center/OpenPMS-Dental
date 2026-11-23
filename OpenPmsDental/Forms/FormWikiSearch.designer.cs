@@ -43,9 +43,9 @@ namespace OpenPmsDental{
 			// 
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-			this.gridMain.Location = new System.Drawing.Point(12, 62);
+			this.gridMain.Location = new System.Drawing.Point(8, 62);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(248, 588);
+			this.gridMain.Size = new System.Drawing.Size(252, 592);
 			this.gridMain.TabIndex = 10;
 			this.gridMain.Title = "Wiki Pages";
 			this.gridMain.TranslationName = "TableWikiSearchPages";
@@ -54,15 +54,15 @@ namespace OpenPmsDental{
 			// 
 			// textSearch
 			// 
-			this.textSearch.Location = new System.Drawing.Point(12, 8);
+			this.textSearch.Location = new System.Drawing.Point(8, 8);
 			this.textSearch.Name = "textSearch";
-			this.textSearch.Size = new System.Drawing.Size(248, 20);
+			this.textSearch.Size = new System.Drawing.Size(252, 23);
 			this.textSearch.TabIndex = 0;
 			this.textSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textSearch_KeyDown);
 			// 
 			// checkIgnoreContent
 			// 
-			this.checkIgnoreContent.Location = new System.Drawing.Point(414, 10);
+			this.checkIgnoreContent.Location = new System.Drawing.Point(357, 10);
 			this.checkIgnoreContent.Name = "checkIgnoreContent";
 			this.checkIgnoreContent.Size = new System.Drawing.Size(105, 20);
 			this.checkIgnoreContent.TabIndex = 14;
@@ -71,7 +71,7 @@ namespace OpenPmsDental{
 			// 
 			// checkArchivedOnly
 			// 
-			this.checkArchivedOnly.Location = new System.Drawing.Point(525, 10);
+			this.checkArchivedOnly.Location = new System.Drawing.Point(468, 10);
 			this.checkArchivedOnly.Name = "checkArchivedOnly";
 			this.checkArchivedOnly.Size = new System.Drawing.Size(99, 20);
 			this.checkArchivedOnly.TabIndex = 15;
@@ -87,7 +87,7 @@ namespace OpenPmsDental{
 			this.webViewWiki.IsContextMenuEnabled = false;
 			this.webViewWiki.Location = new System.Drawing.Point(266, 36);
 			this.webViewWiki.Name = "webViewWiki";
-			this.webViewWiki.Size = new System.Drawing.Size(825, 588);
+			this.webViewWiki.Size = new System.Drawing.Size(910, 588);
 			this.webViewWiki.TabIndex = 11;
 			// 
 			// butOK
@@ -104,7 +104,7 @@ namespace OpenPmsDental{
 			// 
 			this.butRestore.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butRestore.Enabled = false;
-			this.butRestore.Location = new System.Drawing.Point(1097, 8);
+			this.butRestore.Location = new System.Drawing.Point(1101, 8);
 			this.butRestore.Name = "butRestore";
 			this.butRestore.Size = new System.Drawing.Size(75, 24);
 			this.butRestore.TabIndex = 16;
@@ -113,7 +113,7 @@ namespace OpenPmsDental{
 			// 
 			// checkBoxMatchWholeWord
 			// 
-			this.checkBoxMatchWholeWord.Location = new System.Drawing.Point(630, 10);
+			this.checkBoxMatchWholeWord.Location = new System.Drawing.Point(573, 10);
 			this.checkBoxMatchWholeWord.Name = "checkBoxMatchWholeWord";
 			this.checkBoxMatchWholeWord.Size = new System.Drawing.Size(88, 20);
 			this.checkBoxMatchWholeWord.TabIndex = 18;
@@ -124,7 +124,7 @@ namespace OpenPmsDental{
 			// 
 			this.checkBoxShowMainPages.Checked = true;
 			this.checkBoxShowMainPages.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkBoxShowMainPages.Location = new System.Drawing.Point(724, 10);
+			this.checkBoxShowMainPages.Location = new System.Drawing.Point(667, 10);
 			this.checkBoxShowMainPages.Name = "checkBoxShowMainPages";
 			this.checkBoxShowMainPages.Size = new System.Drawing.Size(119, 20);
 			this.checkBoxShowMainPages.TabIndex = 19;
@@ -142,7 +142,7 @@ namespace OpenPmsDental{
 			// 
 			// checkReportServer
 			// 
-			this.checkReportServer.Location = new System.Drawing.Point(849, 10);
+			this.checkReportServer.Location = new System.Drawing.Point(792, 10);
 			this.checkReportServer.Name = "checkReportServer";
 			this.checkReportServer.Size = new System.Drawing.Size(135, 20);
 			this.checkReportServer.TabIndex = 21;
@@ -150,7 +150,7 @@ namespace OpenPmsDental{
 			// 
 			// checkLimit
 			// 
-			this.checkLimit.Location = new System.Drawing.Point(12, 36);
+			this.checkLimit.Location = new System.Drawing.Point(8, 36);
 			this.checkLimit.Name = "checkLimit";
 			this.checkLimit.Size = new System.Drawing.Size(103, 20);
 			this.checkLimit.TabIndex = 22;
@@ -159,7 +159,7 @@ namespace OpenPmsDental{
 			// 
 			// textLimit
 			// 
-			this.textLimit.Location = new System.Drawing.Point(121, 35);
+			this.textLimit.Location = new System.Drawing.Point(117, 35);
 			this.textLimit.MaxLength = 4;
 			this.textLimit.MaxVal = 5000;
 			this.textLimit.MinVal = 1;

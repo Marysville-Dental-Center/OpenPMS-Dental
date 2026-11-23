@@ -30,7 +30,7 @@
 			// butAdd
 			// 
 			this.butAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butAdd.Location = new System.Drawing.Point(299, 374);
+			this.butAdd.Location = new System.Drawing.Point(297, 379);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(75, 28);
 			this.butAdd.TabIndex = 1;
@@ -43,9 +43,9 @@
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(12, 8);
+			this.gridMain.Location = new System.Drawing.Point(8, 8);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(646, 362);
+			this.gridMain.Size = new System.Drawing.Size(654, 363);
 			this.gridMain.TabIndex = 2;
 			this.gridMain.Title = "Reminder Rules";
 			this.gridMain.TranslationName = "TableRules";

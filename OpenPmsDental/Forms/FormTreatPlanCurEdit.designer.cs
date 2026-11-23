@@ -69,7 +69,7 @@ namespace OpenPmsDental{
 			// 
 			this.textHeading.Location = new System.Drawing.Point(103, 8);
 			this.textHeading.Name = "textHeading";
-			this.textHeading.Size = new System.Drawing.Size(336, 23);
+			this.textHeading.Size = new System.Drawing.Size(333, 23);
 			this.textHeading.TabIndex = 77;
 			// 
 			// labelNote
@@ -96,10 +96,10 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridAll.ContextMenuStrip = this.contextMenuProcs;
-			this.gridAll.Location = new System.Drawing.Point(486, 124);
+			this.gridAll.Location = new System.Drawing.Point(487, 124);
 			this.gridAll.Name = "gridAll";
 			this.gridAll.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridAll.Size = new System.Drawing.Size(426, 469);
+			this.gridAll.Size = new System.Drawing.Size(428, 476);
 			this.gridAll.TabIndex = 59;
 			this.gridAll.Title = "Available Procedures";
 			this.gridAll.TranslationName = "FormDisplayFields";
@@ -111,10 +111,10 @@ namespace OpenPmsDental{
 			this.gridTP.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.gridTP.ContextMenuStrip = this.contextMenuProcs;
-			this.gridTP.Location = new System.Drawing.Point(12, 124);
+			this.gridTP.Location = new System.Drawing.Point(8, 124);
 			this.gridTP.Name = "gridTP";
 			this.gridTP.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridTP.Size = new System.Drawing.Size(427, 469);
+			this.gridTP.Size = new System.Drawing.Size(428, 476);
 			this.gridTP.TabIndex = 56;
 			this.gridTP.Title = "Treatment Planned Procedures";
 			this.gridTP.TranslationName = "FormDisplayFields";
@@ -125,7 +125,7 @@ namespace OpenPmsDental{
 			// 
 			this.butMakeActive.AdjustImageLocation = new System.Drawing.Point(1, 1);
 			this.butMakeActive.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butMakeActive.Location = new System.Drawing.Point(270, 608);
+			this.butMakeActive.Location = new System.Drawing.Point(272, 608);
 			this.butMakeActive.Name = "butMakeActive";
 			this.butMakeActive.Size = new System.Drawing.Size(164, 24);
 			this.butMakeActive.TabIndex = 76;
@@ -148,7 +148,7 @@ namespace OpenPmsDental{
 			// butRight
 			// 
 			this.butRight.Icon = OpenPmsDental.UI.EnumIcons.ArrowRight;
-			this.butRight.Location = new System.Drawing.Point(445, 244);
+			this.butRight.Location = new System.Drawing.Point(444, 366);
 			this.butRight.Name = "butRight";
 			this.butRight.Size = new System.Drawing.Size(35, 24);
 			this.butRight.TabIndex = 58;
@@ -158,7 +158,7 @@ namespace OpenPmsDental{
 			// 
 			this.butLeft.AdjustImageLocation = new System.Drawing.Point(-1, 0);
 			this.butLeft.Icon = OpenPmsDental.UI.EnumIcons.ArrowLeft;
-			this.butLeft.Location = new System.Drawing.Point(445, 216);
+			this.butLeft.Location = new System.Drawing.Point(444, 334);
 			this.butLeft.Name = "butLeft";
 			this.butLeft.Size = new System.Drawing.Size(35, 24);
 			this.butLeft.TabIndex = 57;
@@ -184,7 +184,7 @@ namespace OpenPmsDental{
 			this.textNote.Name = "textNote";
 			this.textNote.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.TreatPlan;
 			this.textNote.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textNote.Size = new System.Drawing.Size(335, 58);
+			this.textNote.Size = new System.Drawing.Size(333, 58);
 			this.textNote.SpellCheckIsEnabled = false;
 			this.textNote.TabIndex = 81;
 			this.textNote.Text = "";

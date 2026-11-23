@@ -43,10 +43,10 @@ namespace OpenPmsDental{
 			this.gridProcs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridProcs.Location = new System.Drawing.Point(12, 31);
+			this.gridProcs.Location = new System.Drawing.Point(8, 31);
 			this.gridProcs.Name = "gridProcs";
 			this.gridProcs.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridProcs.Size = new System.Drawing.Size(626, 611);
+			this.gridProcs.Size = new System.Drawing.Size(634, 625);
 			this.gridProcs.TabIndex = 70;
 			this.gridProcs.Title = "Procedures";
 			this.gridProcs.TranslationName = "Table Procedures";
@@ -54,7 +54,7 @@ namespace OpenPmsDental{
 			// labelTitle
 			// 
 			this.labelTitle.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.labelTitle.Location = new System.Drawing.Point(12, 8);
+			this.labelTitle.Location = new System.Drawing.Point(8, 8);
 			this.labelTitle.Name = "labelTitle";
 			this.labelTitle.Size = new System.Drawing.Size(345, 21);
 			this.labelTitle.TabIndex = 71;

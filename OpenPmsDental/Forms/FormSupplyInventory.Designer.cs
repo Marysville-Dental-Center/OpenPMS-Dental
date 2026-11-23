@@ -43,9 +43,9 @@ namespace OpenPmsDental {
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(12, 186);
+			this.gridMain.Location = new System.Drawing.Point(8, 182);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(450, 409);
+			this.gridMain.Size = new System.Drawing.Size(466, 414);
 			this.gridMain.TabIndex = 4;
 			this.gridMain.Title = "Supplies Needed";
 			this.gridMain.TranslationName = "TableSupplies";
@@ -56,7 +56,7 @@ namespace OpenPmsDental {
 			this.butAddNeeded.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butAddNeeded.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAddNeeded.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAddNeeded.Location = new System.Drawing.Point(12, 599);
+			this.butAddNeeded.Location = new System.Drawing.Point(8, 604);
 			this.butAddNeeded.Name = "butAddNeeded";
 			this.butAddNeeded.Size = new System.Drawing.Size(80, 26);
 			this.butAddNeeded.TabIndex = 5;
@@ -66,7 +66,7 @@ namespace OpenPmsDental {
 			// butEquipment
 			// 
 			this.butEquipment.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butEquipment.Location = new System.Drawing.Point(12, 32);
+			this.butEquipment.Location = new System.Drawing.Point(8, 32);
 			this.butEquipment.Name = "butEquipment";
 			this.butEquipment.Size = new System.Drawing.Size(80, 24);
 			this.butEquipment.TabIndex = 15;
@@ -78,7 +78,7 @@ namespace OpenPmsDental {
 			this.butPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butPrint.Icon = OpenPmsDental.UI.EnumIcons.Print;
 			this.butPrint.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butPrint.Location = new System.Drawing.Point(158, 599);
+			this.butPrint.Location = new System.Drawing.Point(94, 604);
 			this.butPrint.Name = "butPrint";
 			this.butPrint.Size = new System.Drawing.Size(80, 26);
 			this.butPrint.TabIndex = 24;
@@ -88,7 +88,7 @@ namespace OpenPmsDental {
 			// butOrders
 			// 
 			this.butOrders.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butOrders.Location = new System.Drawing.Point(12, 60);
+			this.butOrders.Location = new System.Drawing.Point(8, 60);
 			this.butOrders.Name = "butOrders";
 			this.butOrders.Size = new System.Drawing.Size(80, 24);
 			this.butOrders.TabIndex = 14;
@@ -98,7 +98,7 @@ namespace OpenPmsDental {
 			// butSupplies
 			// 
 			this.butSupplies.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butSupplies.Location = new System.Drawing.Point(12, 88);
+			this.butSupplies.Location = new System.Drawing.Point(8, 88);
 			this.butSupplies.Name = "butSupplies";
 			this.butSupplies.Size = new System.Drawing.Size(80, 24);
 			this.butSupplies.TabIndex = 13;
@@ -107,36 +107,36 @@ namespace OpenPmsDental {
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(98, 35);
+			this.label1.Location = new System.Drawing.Point(94, 35);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(364, 18);
+			this.label1.Size = new System.Drawing.Size(380, 18);
 			this.label1.TabIndex = 25;
 			this.label1.Text = "For keeping track of equipment for payment of property tax";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(98, 63);
+			this.label2.Location = new System.Drawing.Point(94, 63);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(364, 18);
+			this.label2.Size = new System.Drawing.Size(380, 18);
 			this.label2.TabIndex = 26;
 			this.label2.Text = "Orders placed or new orders pending";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(98, 91);
+			this.label3.Location = new System.Drawing.Point(94, 91);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(364, 18);
+			this.label3.Size = new System.Drawing.Size(380, 18);
 			this.label3.TabIndex = 27;
 			this.label3.Text = "List of all supplies.";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(12, 152);
+			this.label4.Location = new System.Drawing.Point(8, 148);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(462, 32);
+			this.label4.Size = new System.Drawing.Size(466, 32);
 			this.label4.TabIndex = 28;
 			this.label4.Text = "If staff notices that an item is running low, it can be temporarily indicated bel" +
     "ow.  But most supply shortages are instead noticed by taking regular inventory.";
@@ -152,7 +152,7 @@ namespace OpenPmsDental {
 			//
 			// butStockCount
 			//
-			this.butStockCount.Location = new System.Drawing.Point(12, 120);
+			this.butStockCount.Location = new System.Drawing.Point(8, 116);
 			this.butStockCount.Name = "butStockCount";
 			this.butStockCount.Size = new System.Drawing.Size(80, 24);
 			this.butStockCount.TabIndex = 16;
@@ -161,9 +161,9 @@ namespace OpenPmsDental {
 			//
 			// labelStockCount
 			//
-			this.labelStockCount.Location = new System.Drawing.Point(98, 116);
+			this.labelStockCount.Location = new System.Drawing.Point(94, 112);
 			this.labelStockCount.Name = "labelStockCount";
-			this.labelStockCount.Size = new System.Drawing.Size(364, 32);
+			this.labelStockCount.Size = new System.Drawing.Size(380, 32);
 			this.labelStockCount.TabIndex = 30;
 			this.labelStockCount.Text = "No stock count is open.";
 			this.labelStockCount.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;

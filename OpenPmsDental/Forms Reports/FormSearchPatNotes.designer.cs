@@ -57,7 +57,7 @@ namespace OpenPmsDental {
 			this.textPharse.MaxLength = 40;
 			this.textPharse.Multiline = true;
 			this.textPharse.Name = "textPharse";
-			this.textPharse.Size = new System.Drawing.Size(264, 144);
+			this.textPharse.Size = new System.Drawing.Size(270, 144);
 			this.textPharse.TabIndex = 1;
 			this.textPharse.TextChanged += new System.EventHandler(this.textPharse_TextChanged);
 			// 

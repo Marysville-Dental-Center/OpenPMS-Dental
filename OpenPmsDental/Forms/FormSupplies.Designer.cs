@@ -61,7 +61,7 @@ namespace OpenPmsDental{
 			this.butUp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butUp.Icon = OpenPmsDental.UI.EnumIcons.Up;
 			this.butUp.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butUp.Location = new System.Drawing.Point(12, 556);
+			this.butUp.Location = new System.Drawing.Point(8, 656);
 			this.butUp.Name = "butUp";
 			this.butUp.Size = new System.Drawing.Size(67, 24);
 			this.butUp.TabIndex = 28;
@@ -95,7 +95,7 @@ namespace OpenPmsDental{
 			this.butPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butPrint.Icon = OpenPmsDental.UI.EnumIcons.Print;
 			this.butPrint.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butPrint.Location = new System.Drawing.Point(118, 692);
+			this.butPrint.Location = new System.Drawing.Point(83, 692);
 			this.butPrint.Name = "butPrint";
 			this.butPrint.Size = new System.Drawing.Size(80, 24);
 			this.butPrint.TabIndex = 25;
@@ -143,7 +143,7 @@ namespace OpenPmsDental{
 			this.butAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdd.Location = new System.Drawing.Point(657, 35);
+			this.butAdd.Location = new System.Drawing.Point(661, 35);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(93, 23);
 			this.butAdd.TabIndex = 11;
@@ -155,10 +155,10 @@ namespace OpenPmsDental{
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(12, 62);
+			this.gridMain.Location = new System.Drawing.Point(8, 62);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridMain.Size = new System.Drawing.Size(738, 490);
+			this.gridMain.Size = new System.Drawing.Size(746, 527);
 			this.gridMain.TabIndex = 5;
 			this.gridMain.Title = "Supplies";
 			this.gridMain.TranslationName = "TableSupplies";
@@ -186,9 +186,9 @@ namespace OpenPmsDental{
 			// labelPrint
 			// 
 			this.labelPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.labelPrint.Location = new System.Drawing.Point(206, 643);
+			this.labelPrint.Location = new System.Drawing.Point(169, 686);
 			this.labelPrint.Name = "labelPrint";
-			this.labelPrint.Size = new System.Drawing.Size(469, 36);
+			this.labelPrint.Size = new System.Drawing.Size(502, 36);
 			this.labelPrint.TabIndex = 33;
 			this.labelPrint.Text = "It\'s common to print a filtered list to use for taking inventory, regardless of w" +
     "hether that order then gets entered back into the software";
@@ -219,7 +219,7 @@ namespace OpenPmsDental{
 			this.groupCreateOrders.Controls.Add(this.label3);
 			this.groupCreateOrders.Controls.Add(this.butCreateOrders);
 			this.groupCreateOrders.Controls.Add(this.labelCreateOrder);
-			this.groupCreateOrders.Location = new System.Drawing.Point(85, 556);
+			this.groupCreateOrders.Location = new System.Drawing.Point(83, 597);
 			this.groupCreateOrders.Name = "groupCreateOrders";
 			this.groupCreateOrders.Size = new System.Drawing.Size(327, 83);
 			this.groupCreateOrders.TabIndex = 36;

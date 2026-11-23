@@ -84,7 +84,7 @@ namespace OpenPmsDental {
 			// 
 			// butSend
 			// 
-			this.butSend.Location = new System.Drawing.Point(490, 442);
+			this.butSend.Location = new System.Drawing.Point(514, 447);
 			this.butSend.Name = "butSend";
 			this.butSend.Size = new System.Drawing.Size(75, 24);
 			this.butSend.TabIndex = 4;
@@ -121,7 +121,7 @@ namespace OpenPmsDental {
 			// 
 			this.pictureBoxImagePreview.BackColor = System.Drawing.SystemColors.Control;
 			this.pictureBoxImagePreview.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.pictureBoxImagePreview.Location = new System.Drawing.Point(323, 43);
+			this.pictureBoxImagePreview.Location = new System.Drawing.Point(399, 43);
 			this.pictureBoxImagePreview.Name = "pictureBoxImagePreview";
 			this.pictureBoxImagePreview.Size = new System.Drawing.Size(190, 190);
 			this.pictureBoxImagePreview.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -130,7 +130,7 @@ namespace OpenPmsDental {
 			// 
 			// butSendAndAgain
 			// 
-			this.butSendAndAgain.Location = new System.Drawing.Point(436, 414);
+			this.butSendAndAgain.Location = new System.Drawing.Point(458, 419);
 			this.butSendAndAgain.Name = "butSendAndAgain";
 			this.butSendAndAgain.Size = new System.Drawing.Size(131, 24);
 			this.butSendAndAgain.TabIndex = 6;
@@ -141,9 +141,9 @@ namespace OpenPmsDental {
 			// labelClaimAttachWarning
 			// 
 			this.labelClaimAttachWarning.ForeColor = System.Drawing.Color.DarkRed;
-			this.labelClaimAttachWarning.Location = new System.Drawing.Point(19, 8);
+			this.labelClaimAttachWarning.Location = new System.Drawing.Point(8, 8);
 			this.labelClaimAttachWarning.Name = "labelClaimAttachWarning";
-			this.labelClaimAttachWarning.Size = new System.Drawing.Size(570, 33);
+			this.labelClaimAttachWarning.Size = new System.Drawing.Size(581, 33);
 			this.labelClaimAttachWarning.TabIndex = 16;
 			this.labelClaimAttachWarning.Text = "No claim attachment image category definition found.  Images will be saved using " +
     "the first image category.";

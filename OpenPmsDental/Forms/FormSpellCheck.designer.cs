@@ -35,9 +35,9 @@ namespace OpenPmsDental{
 			// label4
 			// 
 			this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.label4.Location = new System.Drawing.Point(350, 32);
+			this.label4.Location = new System.Drawing.Point(348, 32);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(176, 23);
+			this.label4.Size = new System.Drawing.Size(179, 23);
 			this.label4.TabIndex = 15;
 			this.label4.Text = "Custom Word";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -45,9 +45,9 @@ namespace OpenPmsDental{
 			// textCustom
 			// 
 			this.textCustom.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.textCustom.Location = new System.Drawing.Point(350, 57);
+			this.textCustom.Location = new System.Drawing.Point(348, 57);
 			this.textCustom.Name = "textCustom";
-			this.textCustom.Size = new System.Drawing.Size(172, 23);
+			this.textCustom.Size = new System.Drawing.Size(179, 23);
 			this.textCustom.TabIndex = 14;
 			// 
 			// checkBox1
@@ -65,9 +65,9 @@ namespace OpenPmsDental{
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(12, 32);
+			this.gridMain.Location = new System.Drawing.Point(8, 32);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(245, 599);
+			this.gridMain.Size = new System.Drawing.Size(249, 606);
 			this.gridMain.TabIndex = 4;
 			this.gridMain.Title = "Custom Words";
 			this.gridMain.TranslationName = "TableWords";
@@ -78,7 +78,7 @@ namespace OpenPmsDental{
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(263, 94);
+			this.butDelete.Location = new System.Drawing.Point(265, 612);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(75, 26);
 			this.butDelete.TabIndex = 17;
@@ -90,7 +90,7 @@ namespace OpenPmsDental{
 			this.butAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.ArrowLeft;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdd.Location = new System.Drawing.Point(263, 64);
+			this.butAdd.Location = new System.Drawing.Point(265, 64);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(75, 26);
 			this.butAdd.TabIndex = 16;

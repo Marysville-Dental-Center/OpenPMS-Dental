@@ -47,16 +47,16 @@ namespace OpenPmsDental{
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(12, 59);
+			this.gridMain.Location = new System.Drawing.Point(8, 59);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridMain.Size = new System.Drawing.Size(1206, 405);
+			this.gridMain.Size = new System.Drawing.Size(1214, 405);
 			this.gridMain.TabIndex = 0;
 			// 
 			// butAll
 			// 
 			this.butAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butAll.Location = new System.Drawing.Point(12, 468);
+			this.butAll.Location = new System.Drawing.Point(8, 468);
 			this.butAll.Name = "butAll";
 			this.butAll.Size = new System.Drawing.Size(75, 24);
 			this.butAll.TabIndex = 1;
@@ -79,7 +79,7 @@ namespace OpenPmsDental{
 			this.checkLogAddStatements.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.checkLogAddStatements.Checked = true;
 			this.checkLogAddStatements.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkLogAddStatements.Location = new System.Drawing.Point(990, 8);
+			this.checkLogAddStatements.Location = new System.Drawing.Point(1004, 8);
 			this.checkLogAddStatements.Name = "checkLogAddStatements";
 			this.checkLogAddStatements.Size = new System.Drawing.Size(218, 20);
 			this.checkLogAddStatements.TabIndex = 3;
@@ -90,9 +90,9 @@ namespace OpenPmsDental{
 			// 
 			this.labelDescription.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelDescription.Location = new System.Drawing.Point(12, 8);
+			this.labelDescription.Location = new System.Drawing.Point(8, 8);
 			this.labelDescription.Name = "labelDescription";
-			this.labelDescription.Size = new System.Drawing.Size(972, 47);
+			this.labelDescription.Size = new System.Drawing.Size(988, 47);
 			this.labelDescription.TabIndex = 6;
 			this.labelDescription.Text = resources.GetString("labelDescription.Text");
 			this.labelDescription.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;

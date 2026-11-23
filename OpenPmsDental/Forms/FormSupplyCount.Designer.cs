@@ -40,7 +40,7 @@ namespace OpenPmsDental {
 			//
 			// labelScan
 			//
-			this.labelScan.Location = new System.Drawing.Point(18, 8);
+			this.labelScan.Location = new System.Drawing.Point(8, 12);
 			this.labelScan.Name = "labelScan";
 			this.labelScan.Size = new System.Drawing.Size(36, 23);
 			this.labelScan.TabIndex = 0;
@@ -49,7 +49,7 @@ namespace OpenPmsDental {
 			//
 			// textScan
 			//
-			this.textScan.Location = new System.Drawing.Point(60, 12);
+			this.textScan.Location = new System.Drawing.Point(50, 12);
 			this.textScan.Name = "textScan";
 			this.textScan.Size = new System.Drawing.Size(172, 23);
 			this.textScan.TabIndex = 1;
@@ -57,9 +57,9 @@ namespace OpenPmsDental {
 			//
 			// labelScanNote
 			//
-			this.labelScanNote.Location = new System.Drawing.Point(238, 8);
+			this.labelScanNote.Location = new System.Drawing.Point(228, 8);
 			this.labelScanNote.Name = "labelScanNote";
-			this.labelScanNote.Size = new System.Drawing.Size(534, 32);
+			this.labelScanNote.Size = new System.Drawing.Size(544, 32);
 			this.labelScanNote.TabIndex = 2;
 			this.labelScanNote.Text = "Each scan adds one to the counted quantity of the item (of the selected lot). Or type the counted quantity in the" +
     " grid. Every counted row is saved at once.";
@@ -70,10 +70,10 @@ namespace OpenPmsDental {
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(12, 44);
+			this.gridMain.Location = new System.Drawing.Point(8, 44);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.OneCell;
-			this.gridMain.Size = new System.Drawing.Size(756, 380);
+			this.gridMain.Size = new System.Drawing.Size(764, 380);
 			this.gridMain.TabIndex = 3;
 			this.gridMain.Title = "Stock Count";
 			this.gridMain.TranslationName = "TableSupplyCount";
@@ -82,9 +82,9 @@ namespace OpenPmsDental {
 			// labelCount
 			//
 			this.labelCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.labelCount.Location = new System.Drawing.Point(12, 428);
+			this.labelCount.Location = new System.Drawing.Point(8, 428);
 			this.labelCount.Name = "labelCount";
-			this.labelCount.Size = new System.Drawing.Size(756, 18);
+			this.labelCount.Size = new System.Drawing.Size(764, 18);
 			this.labelCount.TabIndex = 4;
 			this.labelCount.Text = "0 rows counted";
 			this.labelCount.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -136,7 +136,7 @@ namespace OpenPmsDental {
 			// labelReason
 			//
 			this.labelReason.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.labelReason.Location = new System.Drawing.Point(356, 448);
+			this.labelReason.Location = new System.Drawing.Point(522, 448);
 			this.labelReason.Name = "labelReason";
 			this.labelReason.Size = new System.Drawing.Size(52, 23);
 			this.labelReason.TabIndex = 9;
@@ -146,7 +146,7 @@ namespace OpenPmsDental {
 			// textReason
 			//
 			this.textReason.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.textReason.Location = new System.Drawing.Point(414, 448);
+			this.textReason.Location = new System.Drawing.Point(580, 448);
 			this.textReason.MaxLength = 255;
 			this.textReason.Name = "textReason";
 			this.textReason.Size = new System.Drawing.Size(192, 23);

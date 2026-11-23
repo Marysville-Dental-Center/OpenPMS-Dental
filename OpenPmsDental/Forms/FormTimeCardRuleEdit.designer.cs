@@ -55,7 +55,7 @@ namespace OpenPmsDental{
 			// checkIsOvertimeExempt
 			// 
 			this.checkIsOvertimeExempt.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkIsOvertimeExempt.Location = new System.Drawing.Point(190, 152);
+			this.checkIsOvertimeExempt.Location = new System.Drawing.Point(8, 150);
 			this.checkIsOvertimeExempt.Name = "checkIsOvertimeExempt";
 			this.checkIsOvertimeExempt.Size = new System.Drawing.Size(129, 20);
 			this.checkIsOvertimeExempt.TabIndex = 4;
@@ -95,15 +95,15 @@ namespace OpenPmsDental{
 			this.groupBox2.Controls.Add(this.label3);
 			this.groupBox2.Controls.Add(this.but5pm);
 			this.groupBox2.Controls.Add(this.textBeforeTimeOfDay);
-			this.groupBox2.Location = new System.Drawing.Point(31, 39);
+			this.groupBox2.Location = new System.Drawing.Point(8, 39);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(282, 81);
+			this.groupBox2.Size = new System.Drawing.Size(343, 81);
 			this.groupBox2.TabIndex = 2;
 			this.groupBox2.Text = "Rate2 Hours";
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(41, 23);
+			this.label4.Location = new System.Drawing.Point(64, 23);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(112, 23);
 			this.label4.TabIndex = 0;
@@ -113,7 +113,7 @@ namespace OpenPmsDental{
 			// but6am
 			// 
 			this.but6am.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.but6am.Location = new System.Drawing.Point(229, 23);
+			this.but6am.Location = new System.Drawing.Point(252, 23);
 			this.but6am.Name = "but6am";
 			this.but6am.Size = new System.Drawing.Size(35, 23);
 			this.but6am.TabIndex = 0;
@@ -123,7 +123,7 @@ namespace OpenPmsDental{
 			// 
 			// textAfterTimeOfDay
 			// 
-			this.textAfterTimeOfDay.Location = new System.Drawing.Point(159, 50);
+			this.textAfterTimeOfDay.Location = new System.Drawing.Point(182, 50);
 			this.textAfterTimeOfDay.Name = "textAfterTimeOfDay";
 			this.textAfterTimeOfDay.Size = new System.Drawing.Size(64, 23);
 			this.textAfterTimeOfDay.TabIndex = 2;
@@ -132,7 +132,7 @@ namespace OpenPmsDental{
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(49, 50);
+			this.label3.Location = new System.Drawing.Point(72, 50);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(104, 23);
 			this.label3.TabIndex = 0;
@@ -142,7 +142,7 @@ namespace OpenPmsDental{
 			// but5pm
 			// 
 			this.but5pm.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.but5pm.Location = new System.Drawing.Point(229, 50);
+			this.but5pm.Location = new System.Drawing.Point(252, 50);
 			this.but5pm.Name = "but5pm";
 			this.but5pm.Size = new System.Drawing.Size(35, 23);
 			this.but5pm.TabIndex = 0;
@@ -152,7 +152,7 @@ namespace OpenPmsDental{
 			// 
 			// textBeforeTimeOfDay
 			// 
-			this.textBeforeTimeOfDay.Location = new System.Drawing.Point(159, 23);
+			this.textBeforeTimeOfDay.Location = new System.Drawing.Point(182, 23);
 			this.textBeforeTimeOfDay.Name = "textBeforeTimeOfDay";
 			this.textBeforeTimeOfDay.Size = new System.Drawing.Size(64, 23);
 			this.textBeforeTimeOfDay.TabIndex = 1;
@@ -163,16 +163,16 @@ namespace OpenPmsDental{
 			// 
 			this.listEmp.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-			this.listEmp.Location = new System.Drawing.Point(31, 222);
+			this.listEmp.Location = new System.Drawing.Point(8, 226);
 			this.listEmp.Name = "listEmp";
-			this.listEmp.Size = new System.Drawing.Size(282, 212);
+			this.listEmp.Size = new System.Drawing.Size(343, 212);
 			this.listEmp.TabIndex = 6;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(31, 203);
+			this.label1.Location = new System.Drawing.Point(8, 207);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(175, 17);
+			this.label1.Size = new System.Drawing.Size(343, 17);
 			this.label1.TabIndex = 0;
 			this.label1.Text = "Employee (can select multiple)";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;

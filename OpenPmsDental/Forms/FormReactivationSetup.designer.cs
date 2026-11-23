@@ -50,9 +50,9 @@ namespace OpenPmsDental {
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(16, 8);
+			this.gridMain.Location = new System.Drawing.Point(8, 8);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(941, 451);
+			this.gridMain.Size = new System.Drawing.Size(949, 451);
 			this.gridMain.TabIndex = 67;
 			this.gridMain.Title = "Messages";
 			this.gridMain.TranslationName = "TableReactivationMsgs";
@@ -61,7 +61,7 @@ namespace OpenPmsDental {
 			// label8
 			// 
 			this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.label8.Location = new System.Drawing.Point(499, 548);
+			this.label8.Location = new System.Drawing.Point(497, 548);
 			this.label8.Name = "label8";
 			this.label8.Size = new System.Drawing.Size(164, 23);
 			this.label8.TabIndex = 19;
@@ -71,7 +71,7 @@ namespace OpenPmsDental {
 			// textPostcardsPerSheet
 			// 
 			this.textPostcardsPerSheet.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.textPostcardsPerSheet.Location = new System.Drawing.Point(669, 548);
+			this.textPostcardsPerSheet.Location = new System.Drawing.Point(667, 548);
 			this.textPostcardsPerSheet.Name = "textPostcardsPerSheet";
 			this.textPostcardsPerSheet.Size = new System.Drawing.Size(32, 23);
 			this.textPostcardsPerSheet.TabIndex = 18;
@@ -82,9 +82,9 @@ namespace OpenPmsDental {
 			this.groupBox3.Controls.Add(this.textDaysPast);
 			this.groupBox3.Controls.Add(this.checkGroupFamilies);
 			this.groupBox3.Controls.Add(this.label14);
-			this.groupBox3.Location = new System.Drawing.Point(477, 463);
+			this.groupBox3.Location = new System.Drawing.Point(475, 463);
 			this.groupBox3.Name = "groupBox3";
-			this.groupBox3.Size = new System.Drawing.Size(253, 78);
+			this.groupBox3.Size = new System.Drawing.Size(253, 81);
 			this.groupBox3.TabIndex = 54;
 			this.groupBox3.TabStop = false;
 			this.groupBox3.Text = "Reactivation List Default View";
@@ -132,7 +132,7 @@ namespace OpenPmsDental {
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.comboStatusMailedReactivation.Location = new System.Drawing.Point(211, 463);
 			this.comboStatusMailedReactivation.Name = "comboStatusMailedReactivation";
-			this.comboStatusMailedReactivation.Size = new System.Drawing.Size(260, 23);
+			this.comboStatusMailedReactivation.Size = new System.Drawing.Size(256, 23);
 			this.comboStatusMailedReactivation.TabIndex = 58;
 			// 
 			// label26
@@ -170,7 +170,7 @@ namespace OpenPmsDental {
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.comboStatusEmailedReactivation.Location = new System.Drawing.Point(211, 490);
 			this.comboStatusEmailedReactivation.Name = "comboStatusEmailedReactivation";
-			this.comboStatusEmailedReactivation.Size = new System.Drawing.Size(260, 23);
+			this.comboStatusEmailedReactivation.Size = new System.Drawing.Size(256, 23);
 			this.comboStatusEmailedReactivation.TabIndex = 60;
 			// 
 			// butSave

@@ -35,9 +35,9 @@ namespace OpenPmsDental {
 			//
 			this.labelInstructions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelInstructions.Location = new System.Drawing.Point(12, 8);
+			this.labelInstructions.Location = new System.Drawing.Point(8, 8);
 			this.labelInstructions.Name = "labelInstructions";
-			this.labelInstructions.Size = new System.Drawing.Size(736, 62);
+			this.labelInstructions.Size = new System.Drawing.Size(744, 62);
 			this.labelInstructions.TabIndex = 0;
 			this.labelInstructions.Text = "Enter each dental service line of UDS Table 6A, as the UDS manual for the reporting year numbers and names it, with the procedure codes counted on it. No codes ship with this program. Separate codes with commas. A range is two codes of the same length joined by a hyphen (for example D1000-D1999); a code ending in * counts every code that starts with it (for example D1*). Only completed procedures are counted.";
 			//
@@ -46,10 +46,10 @@ namespace OpenPmsDental {
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(12, 72);
+			this.gridMain.Location = new System.Drawing.Point(8, 72);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.OneCell;
-			this.gridMain.Size = new System.Drawing.Size(736, 384);
+			this.gridMain.Size = new System.Drawing.Size(744, 400);
 			this.gridMain.TabIndex = 1;
 			this.gridMain.Title = "UDS Dental Service Lines";
 			this.gridMain.TranslationName = "TableUdsPlusLines";

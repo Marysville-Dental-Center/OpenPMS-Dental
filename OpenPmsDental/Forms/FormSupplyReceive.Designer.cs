@@ -34,7 +34,7 @@ namespace OpenPmsDental {
 			//
 			// labelScan
 			//
-			this.labelScan.Location = new System.Drawing.Point(18, 8);
+			this.labelScan.Location = new System.Drawing.Point(8, 12);
 			this.labelScan.Name = "labelScan";
 			this.labelScan.Size = new System.Drawing.Size(36, 23);
 			this.labelScan.TabIndex = 0;
@@ -43,7 +43,7 @@ namespace OpenPmsDental {
 			//
 			// textScan
 			//
-			this.textScan.Location = new System.Drawing.Point(60, 12);
+			this.textScan.Location = new System.Drawing.Point(50, 12);
 			this.textScan.Name = "textScan";
 			this.textScan.Size = new System.Drawing.Size(172, 23);
 			this.textScan.TabIndex = 1;
@@ -51,9 +51,9 @@ namespace OpenPmsDental {
 			//
 			// labelScanNote
 			//
-			this.labelScanNote.Location = new System.Drawing.Point(238, 8);
+			this.labelScanNote.Location = new System.Drawing.Point(228, 8);
 			this.labelScanNote.Name = "labelScanNote";
-			this.labelScanNote.Size = new System.Drawing.Size(514, 32);
+			this.labelScanNote.Size = new System.Drawing.Size(524, 32);
 			this.labelScanNote.TabIndex = 2;
 			this.labelScanNote.Text = "Each scan adds one to the item. Enter the lot number and expiry date of supplies tracked by lot. For a second lot of" +
     " the same item, use Add Lot Row.";
@@ -64,10 +64,10 @@ namespace OpenPmsDental {
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(12, 44);
+			this.gridMain.Location = new System.Drawing.Point(8, 44);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.OneCell;
-			this.gridMain.Size = new System.Drawing.Size(736, 380);
+			this.gridMain.Size = new System.Drawing.Size(744, 384);
 			this.gridMain.TabIndex = 3;
 			this.gridMain.Title = "Order Items";
 			this.gridMain.TranslationName = "TableSupplyReceive";

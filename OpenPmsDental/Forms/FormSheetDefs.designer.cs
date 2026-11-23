@@ -64,7 +64,7 @@ namespace OpenPmsDental {
 			// butTools
 			// 
 			this.butTools.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butTools.Location = new System.Drawing.Point(246, 553);
+			this.butTools.Location = new System.Drawing.Point(140, 553);
 			this.butTools.Name = "butTools";
 			this.butTools.Size = new System.Drawing.Size(75, 24);
 			this.butTools.TabIndex = 5;
@@ -76,7 +76,7 @@ namespace OpenPmsDental {
 			this.butCopy2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butCopy2.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butCopy2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butCopy2.Location = new System.Drawing.Point(817, 553);
+			this.butCopy2.Location = new System.Drawing.Point(822, 553);
 			this.butCopy2.Name = "butCopy2";
 			this.butCopy2.Size = new System.Drawing.Size(89, 24);
 			this.butCopy2.TabIndex = 7;
@@ -88,7 +88,7 @@ namespace OpenPmsDental {
 			this.butCopy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butCopy.Icon = OpenPmsDental.UI.EnumIcons.ArrowRight;
 			this.butCopy.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butCopy.Location = new System.Drawing.Point(563, 553);
+			this.butCopy.Location = new System.Drawing.Point(529, 553);
 			this.butCopy.Name = "butCopy";
 			this.butCopy.Size = new System.Drawing.Size(75, 24);
 			this.butCopy.TabIndex = 4;
@@ -101,7 +101,7 @@ namespace OpenPmsDental {
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.grid1.Location = new System.Drawing.Point(140, 8);
 			this.grid1.Name = "grid1";
-			this.grid1.Size = new System.Drawing.Size(380, 541);
+			this.grid1.Size = new System.Drawing.Size(381, 541);
 			this.grid1.TabIndex = 2;
 			this.grid1.Title = "Internal";
 			this.grid1.TranslationName = "TableInternal";
@@ -114,9 +114,9 @@ namespace OpenPmsDental {
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.grid2.HasMultilineHeaders = true;
-			this.grid2.Location = new System.Drawing.Point(526, 8);
+			this.grid2.Location = new System.Drawing.Point(529, 8);
 			this.grid2.Name = "grid2";
-			this.grid2.Size = new System.Drawing.Size(380, 541);
+			this.grid2.Size = new System.Drawing.Size(382, 541);
 			this.grid2.TabIndex = 3;
 			this.grid2.Title = "Custom";
 			this.grid2.TranslationName = "TableCustom";
@@ -128,7 +128,7 @@ namespace OpenPmsDental {
 			this.butNew.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butNew.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butNew.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butNew.Location = new System.Drawing.Point(731, 553);
+			this.butNew.Location = new System.Drawing.Point(736, 553);
 			this.butNew.Name = "butNew";
 			this.butNew.Size = new System.Drawing.Size(80, 24);
 			this.butNew.TabIndex = 6;

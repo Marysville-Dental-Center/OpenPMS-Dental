@@ -52,16 +52,16 @@ namespace OpenPmsDental{
 			this.webViewWiki.IsContextMenuEnabled = false;
 			this.webViewWiki.Location = new System.Drawing.Point(266, 32);
 			this.webViewWiki.Name = "webViewWiki";
-			this.webViewWiki.Size = new System.Drawing.Size(653, 639);
+			this.webViewWiki.Size = new System.Drawing.Size(655, 646);
 			this.webViewWiki.TabIndex = 9;
 			// 
 			// gridMain
 			// 
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-			this.gridMain.Location = new System.Drawing.Point(12, 35);
+			this.gridMain.Location = new System.Drawing.Point(8, 35);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(248, 639);
+			this.gridMain.Size = new System.Drawing.Size(252, 643);
 			this.gridMain.TabIndex = 8;
 			this.gridMain.Title = "All Wiki Pages";
 			this.gridMain.TranslationName = "TableWikiHistory";
@@ -89,7 +89,7 @@ namespace OpenPmsDental{
 			// 
 			this.butBrackets.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butBrackets.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.butBrackets.Location = new System.Drawing.Point(925, 616);
+			this.butBrackets.Location = new System.Drawing.Point(929, 616);
 			this.butBrackets.Name = "butBrackets";
 			this.butBrackets.Size = new System.Drawing.Size(75, 24);
 			this.butBrackets.TabIndex = 12;
@@ -99,7 +99,7 @@ namespace OpenPmsDental{
 			// butAdd
 			// 
 			this.butAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butAdd.Location = new System.Drawing.Point(925, 588);
+			this.butAdd.Location = new System.Drawing.Point(929, 588);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(75, 24);
 			this.butAdd.TabIndex = 13;
