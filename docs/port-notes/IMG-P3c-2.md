@@ -55,3 +55,18 @@ Targeted x64 run:
 UiRefreshTests has the base set's failures (18, MenuStrip now Inconclusive).
 
 There is no gallery: the change shows only on real 16-bit images.
+
+## Review (one independent review, 2026-11-23)
+
+No correctness bugs. Taken from its notes:
+
+- **Speed:** the median and the blur, 8-bit and 16-bit, now run their rows in parallel (`Parallel.For`). On one core a 5x5 median of a
+  2000x2500 16-bit image took about a second, repeated for every filtered mount item on load. The 8-bit timing test (every filter on
+  1300x1800 under 2 s) had also failed once while other sessions were building.
+- **Fallback:** when the raw data is shorter than the image, so the 16-bit step cannot run, noise reduction and sharpening run on the
+  8-bit picture instead of being dropped.
+
+Reported to the coordinator, not changed here (existing behaviour):
+
+- `DicomHelper.GetRawPerWindowingStep` divides 8-bit data stored in 16 bits allocated by 16, so such an image shows nearly black.
+- The module's DICOM test is the case-sensitive `.dcm`, while ClaimAttachDicom ignores case and ControlImages also accepts `.dicom`.

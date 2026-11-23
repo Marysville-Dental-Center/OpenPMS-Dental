@@ -170,11 +170,13 @@ namespace OpenPmsDentalBusiness {
 			if(settings==null || settings.IsNeutral()) {
 				return DicomHelper.ApplyWindowing(bitmapDicom,windowingMin,windowingMax);
 			}
-			BitmapDicom bitmapDicomFiltered=FilterBeforeWindow(bitmapDicom,settings)??bitmapDicom;
-			Bitmap bitmap=DicomHelper.ApplyWindowing(bitmapDicomFiltered,windowingMin,windowingMax);
+			BitmapDicom bitmapDicomFiltered=FilterBeforeWindow(bitmapDicom,settings);
+			Bitmap bitmap=DicomHelper.ApplyWindowing(bitmapDicomFiltered??bitmapDicom,windowingMin,windowingMax);
 			ImageAdjustSettings settingsAfter=settings.Copy();
-			settingsAfter.Smooth=ImageSmooth.Off;
-			settingsAfter.Sharpen=0;
+			if(bitmapDicomFiltered!=null) {//done on the raw data; otherwise (data shorter than the image) they run on the 8-bit picture below
+				settingsAfter.Smooth=ImageSmooth.Off;
+				settingsAfter.Sharpen=0;
+			}
 			if(IsFormatSupported(bitmap.PixelFormat)) {
 				Apply(bitmap,settingsAfter);
 				return bitmap;
@@ -228,8 +230,9 @@ namespace OpenPmsDentalBusiness {
 		public static ushort[] MedianUshort(ushort[] arrayData,int width,int height,int radius) {
 			ushort[] result=new ushort[width*height];
 			int size=2*radius+1;
-			ushort[] window=new ushort[size*size];
-			for(int y=0;y<height;y++) {
+			//rows in parallel (each its own window): a 5x5 median of a large 16-bit image is about a second on one core
+			System.Threading.Tasks.Parallel.For(0,height,y => {
+				ushort[] window=new ushort[size*size];
 				for(int x=0;x<width;x++) {
 					int n=0;
 					for(int dy=-radius;dy<=radius;dy++) {
@@ -247,7 +250,7 @@ namespace OpenPmsDentalBusiness {
 					}
 					result[y*width+x]=window[n/2];
 				}
-			}
+			});
 			return result;
 		}
 
@@ -273,7 +276,7 @@ namespace OpenPmsDentalBusiness {
 				arrayKernel[i]=(float)(arrayKernel[i]/sum);
 			}
 			float[] arrayHorizontal=new float[plane.Length];
-			for(int y=0;y<height;y++) {
+			System.Threading.Tasks.Parallel.For(0,height,y => {
 				int row=y*width;
 				for(int x=0;x<width;x++) {
 					float value=0;
@@ -282,9 +285,9 @@ namespace OpenPmsDentalBusiness {
 					}
 					arrayHorizontal[row+x]=value;
 				}
-			}
+			});
 			float[] result=new float[plane.Length];
-			for(int y=0;y<height;y++) {
+			System.Threading.Tasks.Parallel.For(0,height,y => {
 				for(int x=0;x<width;x++) {
 					float value=0;
 					for(int k=-radius;k<=radius;k++) {
@@ -292,7 +295,7 @@ namespace OpenPmsDentalBusiness {
 					}
 					result[y*width+x]=value;
 				}
-			}
+			});
 			return result;
 		}
 
@@ -412,8 +415,8 @@ namespace OpenPmsDentalBusiness {
 		public static byte[] Median(byte[] plane,int width,int height,int radius) {
 			byte[] result=new byte[plane.Length];
 			int size=2*radius+1;
-			byte[] window=new byte[size*size];
-			for(int y=0;y<height;y++) {
+			System.Threading.Tasks.Parallel.For(0,height,y => {//rows in parallel, each its own window
+				byte[] window=new byte[size*size];
 				for(int x=0;x<width;x++) {
 					int n=0;
 					for(int dy=-radius;dy<=radius;dy++) {
@@ -433,7 +436,7 @@ namespace OpenPmsDentalBusiness {
 					}
 					result[y*width+x]=window[n/2];
 				}
-			}
+			});
 			return result;
 		}
 
@@ -451,7 +454,7 @@ namespace OpenPmsDentalBusiness {
 				arrayKernel[i]=(float)(arrayKernel[i]/sum);
 			}
 			float[] arrayHorizontal=new float[plane.Length];
-			for(int y=0;y<height;y++) {
+			System.Threading.Tasks.Parallel.For(0,height,y => {
 				int row=y*width;
 				for(int x=0;x<width;x++) {
 					float value=0;
@@ -461,9 +464,9 @@ namespace OpenPmsDentalBusiness {
 					}
 					arrayHorizontal[row+x]=value;
 				}
-			}
+			});
 			float[] result=new float[plane.Length];
-			for(int y=0;y<height;y++) {
+			System.Threading.Tasks.Parallel.For(0,height,y => {
 				for(int x=0;x<width;x++) {
 					float value=0;
 					for(int k=-radius;k<=radius;k++) {
@@ -472,7 +475,7 @@ namespace OpenPmsDentalBusiness {
 					}
 					result[y*width+x]=value;
 				}
-			}
+			});
 			return result;
 		}
 
