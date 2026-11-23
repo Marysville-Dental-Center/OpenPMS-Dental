@@ -40,6 +40,12 @@ namespace OpenPmsDental {
 		///<summary>A preset's window, used exactly until brightness or contrast is moved (the bars cannot hold every window exactly).</summary>
 		private (int Min,int Max)? _windowFixed;
 		private Font _fontTarget;
+		///<summary>IMG-P3c: the image's saved states before each save (undo) and after each undo (redo), for this image while the window is on it.</summary>
+		private Stack<EnhanceState> _stackUndo=new Stack<EnhanceState>();
+		private Stack<EnhanceState> _stackRedo=new Stack<EnhanceState>();
+		///<summary>True while an undo or redo saves, so that save is not pushed as a new step.</summary>
+		private bool _isUndoing;
+		private UI.Button butAllInMount;
 		private Label labelNote;
 		private Label labelTarget;
 		private List<Label> _listLabelsValue=new List<Label>();
@@ -85,6 +91,8 @@ namespace OpenPmsDental {
 				return;
 			}
 			FlushPending();//a change still waiting goes to the image it was made on, shown with its filters
+			_stackUndo.Clear();
+			_stackRedo.Clear();
 			_controlImageDisplay=document==null ? null : controlImageDisplay;
 			_document=document;
 			_idx=document==null ? -1 : idx;
@@ -121,6 +129,11 @@ namespace OpenPmsDental {
 			if(_document==null){
 				return;
 			}
+			if(_documentOld.WindowingMin!=_document.WindowingMin || _documentOld.WindowingMax!=_document.WindowingMax){
+				//IMG-P3c: a window saved by the module's slider or a right-drag is an undo step like one saved here
+				_stackUndo.Push(new EnhanceState { WindowingMin=_documentOld.WindowingMin,WindowingMax=_documentOld.WindowingMax,Settings=_settingsOld.Copy() });
+				_stackRedo.Clear();
+			}
 			_documentOld.WindowingMin=_document.WindowingMin;
 			_documentOld.WindowingMax=_document.WindowingMax;
 			_isWindowTouched=false;
@@ -133,6 +146,45 @@ namespace OpenPmsDental {
 				_isFilling=false;
 				FillValueLabels();
 			}
+		}
+
+		///<summary>Ctrl+Z (isRedo false) or Ctrl+Y: back to the image's state before its last save here, or forward again. Saved like any change.</summary>
+		public void UndoRedo(bool isRedo){
+			FlushPending();
+			if(_document==null || !_isEditable){
+				return;
+			}
+			Stack<EnhanceState> stackFrom=isRedo ? _stackRedo : _stackUndo;
+			Stack<EnhanceState> stackTo=isRedo ? _stackUndo : _stackRedo;
+			if(stackFrom.Count==0){
+				return;
+			}
+			EnhanceState enhanceState=stackFrom.Pop();
+			stackTo.Push(new EnhanceState { WindowingMin=_document.WindowingMin,WindowingMax=_document.WindowingMax,Settings=_settings.Copy() });
+			_settings=enhanceState.Settings.Copy();
+			if(!_isDicom){
+				_windowFixed=(enhanceState.WindowingMin,enhanceState.WindowingMax);
+				ImageEnhance.FromWindowing(enhanceState.WindowingMin,enhanceState.WindowingMax,out int brightness,out int contrast);
+				_isFilling=true;
+				trackBrightness.Value=brightness;
+				trackContrast.Value=contrast;
+				_isFilling=false;
+			}
+			FillFilterControls();
+			_controlImageDisplay?.PreviewAdjust(_idx,enhanceState.WindowingMin,enhanceState.WindowingMax,_settings,doFilter:true);
+			_isUndoing=true;
+			bool isSaved=SaveIfChanged();
+			_isUndoing=false;
+			if(!isSaved){
+				//refused (the permission changed): the stacks, the picture and the controls go back to the saved state
+				stackTo.Pop();
+				stackFrom.Push(enhanceState);
+				_settings=_settingsOld.Copy();
+				_windowFixed=null;
+				_controlImageDisplay?.PreviewAdjust(_idx,_documentOld.WindowingMin,_documentOld.WindowingMax,_settings,doFilter:true);
+				FillControls();
+			}
+			RefreshHistogram();
 		}
 		#endregion Methods - Public
 
@@ -325,13 +377,16 @@ namespace OpenPmsDental {
 			butReset=new UI.Button { Location=new Point(8,y),Size=new Size(75,26),Name="butReset",Text="Reset" };
 			butReset.Click+=butReset_Click;
 			Controls.Add(butReset);
-			butSavePreset=new UI.Button { Location=new Point(91,y),Size=new Size(120,26),Name="butSavePreset",Text="Save as preset..." };
+			butSavePreset=new UI.Button { Location=new Point(8,y+34),Size=new Size(120,26),Name="butSavePreset",Text="Save as preset..." };
+			butAllInMount=new UI.Button { Location=new Point(91,y),Size=new Size(120,26),Name="butAllInMount",Text="All in mount..." };
+			butAllInMount.Click+=butAllInMount_Click;
+			Controls.Add(butAllInMount);
 			butSavePreset.Click+=butSavePreset_Click;
 			Controls.Add(butSavePreset);
-			butClose=new UI.Button { Location=new Point(8+WIDTH_CONTENT-75,y),Size=new Size(75,26),Name="butClose",Text="Close" };
+			butClose=new UI.Button { Location=new Point(8+WIDTH_CONTENT-75,y+34),Size=new Size(75,26),Name="butClose",Text="Close" };//bottom right
 			butClose.Click+=butClose_Click;
 			Controls.Add(butClose);
-			ClientSize=new Size(WIDTH_CONTENT+16,y+26+8);
+			ClientSize=new Size(WIDTH_CONTENT+16,y+34+26+8);
 			Name="FormImageEnhance";
 			Text="Enhance";
 			ShowIcon=false;
@@ -404,6 +459,7 @@ namespace OpenPmsDental {
 			trackBrightness.Enabled=isEnabled && !_isDicom;
 			trackContrast.Enabled=isEnabled && !_isDicom;
 			butSavePreset.Enabled=_document!=null;
+			butAllInMount.Enabled=isEnabled && _controlImageDisplay!=null && _controlImageDisplay.IsMountShowing();
 		}
 
 		private void FillControls(){
@@ -511,14 +567,15 @@ namespace OpenPmsDental {
 		}
 
 		///<summary>Saves what changed since the last save on the image: its window and its filters (ControlImageDisplay.SaveAdjust logs it).</summary>
-		private void SaveIfChanged(){
-			if(_document==null || !_isEditable || _controlImageDisplay==null || _controlImageDisplay.IsDisposed){
-				return;
+		///<summary>True when nothing needed saving or the save was made; false when it was refused.</summary>
+		private bool SaveIfChanged(){
+			if(_document==null || !_isEditable){
+				return true;
 			}
 			bool isWindowChanged=_document.WindowingMin!=_documentOld.WindowingMin || _document.WindowingMax!=_documentOld.WindowingMax;
 			bool isFilterChanged=ImageEnhance.Describe(_settings)!=ImageEnhance.Describe(_settingsOld);
 			if(!isWindowChanged && !isFilterChanged){
-				return;
+				return true;
 			}
 			bool isSaved;
 			if(_controlImageDisplay!=null && !_controlImageDisplay.IsDisposed){
@@ -535,10 +592,57 @@ namespace OpenPmsDental {
 				_isEditable=false;
 				FillNote();
 				EnableControls();
-				return;
+				return false;
+			}
+			if(!_isUndoing){
+				_stackUndo.Push(new EnhanceState { WindowingMin=_documentOld.WindowingMin,WindowingMax=_documentOld.WindowingMax,Settings=_settingsOld.Copy() });
+				_stackRedo.Clear();
 			}
 			_documentOld=_document.Copy();
 			_settingsOld=_settings.Copy();
+			return true;
+		}
+
+		private void butAllInMount_Click(object sender,EventArgs e) {
+			FlushPending();
+			if(_document==null || !_isEditable || _controlImageDisplay==null || !_controlImageDisplay.IsMountShowing()){
+				return;
+			}
+			int count=_controlImageDisplay.GetViewerIndexes().Count;
+			if(!MsgBox.Show(this,MsgBoxButtons.OKCancel,Lan.g(this,"Give all")+" "+count+" "+Lan.g(this,"images of this mount these settings?"))){
+				return;
+			}
+			int windowingMin=0;
+			int windowingMax=0;//0 and 0: each image keeps its window (a DICOM image's window is on its own scale)
+			if(!_isDicom){
+				if(_isWindowTouched || _windowFixed!=null){
+					GetWindow(out windowingMin,out windowingMax);
+				}
+				else{
+					windowingMin=_document.WindowingMin;
+					windowingMax=_document.WindowingMax;
+				}
+				if(windowingMax==0){
+					windowingMin=0;//a window never set is the full range, which is what the user sees
+					windowingMax=255;
+				}
+			}
+			int countSaved=_controlImageDisplay.ApplyAdjustToMount(windowingMin,windowingMax,_settings);
+			if(countSaved<count){
+				MsgBox.Show(this,(count-countSaved)+" "+Lan.g(this,"images were not changed: they need the Image Edit permission (and Signed Image Edit for a signed image)."));
+			}
+			_documentOld=_document.Copy();
+			_settingsOld=_settings.Copy();
+			_stackUndo.Clear();
+			_stackRedo.Clear();
+		}
+
+		protected override bool ProcessCmdKey(ref Message msg,Keys keyData) {
+			if(keyData==(Keys.Control|Keys.Z) || keyData==(Keys.Control|Keys.Y)){
+				UndoRedo(keyData==(Keys.Control|Keys.Y));
+				return true;
+			}
+			return base.ProcessCmdKey(ref msg,keyData);
 		}
 
 		///<summary>A change still waiting is shown with its filters and saved: before the window changes image or closes.</summary>
@@ -586,5 +690,12 @@ namespace OpenPmsDental {
 			FillPresets();
 		}
 		#endregion Methods - Private
+
+		///<summary>One saved state of the image for undo and redo: its window and its filters.</summary>
+		private class EnhanceState {
+			public int WindowingMin;
+			public int WindowingMax;
+			public ImageAdjustSettings Settings;
+		}
 	}
 }

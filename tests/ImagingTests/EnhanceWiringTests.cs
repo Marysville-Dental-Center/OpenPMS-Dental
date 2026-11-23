@@ -67,7 +67,7 @@ namespace ImagingTests {
 			StringAssert.Contains(save,"ImageSignaturePermissions.LogSignedImageEdited(document,\"enhanced\");");
 			string window=Window();
 			StringAssert.Contains(window,"_isEditable=_controlImageDisplay.CanEditImage(_idx,suppressMessage:true);");
-			string bodySave=MethodBody(window,"private void SaveIfChanged(");
+			string bodySave=MethodBody(window,"private bool SaveIfChanged(");
 			StringAssert.Contains(bodySave,"_controlImageDisplay.SaveAdjust(_document,_documentOld,_settingsOld,_settings);","By document, not by index.");
 			StringAssert.Contains(bodySave,"ImageEnhance.Save(_document,_documentOld,_settingsOld,_settings,_document.PatNum,patFolder);","Without the display.");
 		}
