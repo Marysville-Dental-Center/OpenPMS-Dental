@@ -460,7 +460,7 @@
 			this.groupBoxBackupConnection.Controls.Add(this.textArchiveUser);
 			this.groupBoxBackupConnection.Location = new System.Drawing.Point(131, 295);
 			this.groupBoxBackupConnection.Name = "groupBoxBackupConnection";
-			this.groupBoxBackupConnection.Size = new System.Drawing.Size(497, 189);
+			this.groupBoxBackupConnection.Size = new System.Drawing.Size(508, 189);
 			this.groupBoxBackupConnection.TabIndex = 0;
 			this.groupBoxBackupConnection.Text = "Backup Connection Settings";
 			// 
@@ -468,7 +468,7 @@
 			// 
 			this.label5.Location = new System.Drawing.Point(8, 138);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(480, 18);
+			this.label5.Size = new System.Drawing.Size(492, 18);
 			this.label5.TabIndex = 37;
 			this.label5.Text = "Password: For new installations, the password will be blank.";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -477,7 +477,7 @@
 			// 
 			this.label8.Location = new System.Drawing.Point(8, 91);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(480, 18);
+			this.label8.Size = new System.Drawing.Size(492, 18);
 			this.label8.TabIndex = 36;
 			this.label8.Text = "User: When MySQL is first installed, the user is root.";
 			this.label8.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -486,7 +486,7 @@
 			// 
 			this.label3.Location = new System.Drawing.Point(8, 23);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(481, 39);
+			this.label3.Size = new System.Drawing.Size(492, 39);
 			this.label3.TabIndex = 35;
 			this.label3.Text = "Server Name: The name of the computer where the backup server and database are lo" +
     "cated.\r\nIf running on a single computer only, Server Name may be localhost.";

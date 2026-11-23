@@ -1486,7 +1486,7 @@
 			// 
 			this.checkShowCommAuto.Location = new System.Drawing.Point(169, 164);
 			this.checkShowCommAuto.Name = "checkShowCommAuto";
-			this.checkShowCommAuto.Size = new System.Drawing.Size(128, 13);
+			this.checkShowCommAuto.Size = new System.Drawing.Size(142, 13);
 			this.checkShowCommAuto.TabIndex = 70;
 			this.checkShowCommAuto.Text = "Show Auto Commlogs";
 			this.checkShowCommAuto.Click += new System.EventHandler(this.checkShowCommAuto_Click);
@@ -1565,7 +1565,7 @@
 			this.checkCommSuperFamily.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.checkCommSuperFamily.Location = new System.Drawing.Point(26, 62);
 			this.checkCommSuperFamily.Name = "checkCommSuperFamily";
-			this.checkCommSuperFamily.Size = new System.Drawing.Size(88, 13);
+			this.checkCommSuperFamily.Size = new System.Drawing.Size(90, 13);
 			this.checkCommSuperFamily.TabIndex = 20;
 			this.checkCommSuperFamily.Text = "Super Family";
 			this.checkCommSuperFamily.Click += new System.EventHandler(this.checkCommSuperFamily_Click);
@@ -1740,9 +1740,9 @@
 			// 
 			this.butChartViewDown.Icon = OpenPmsDental.UI.EnumIcons.Down;
 			this.butChartViewDown.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butChartViewDown.Location = new System.Drawing.Point(426, 185);
+			this.butChartViewDown.Location = new System.Drawing.Point(442, 185);
 			this.butChartViewDown.Name = "butChartViewDown";
-			this.butChartViewDown.Size = new System.Drawing.Size(68, 23);
+			this.butChartViewDown.Size = new System.Drawing.Size(52, 23);
 			this.butChartViewDown.TabIndex = 41;
 			this.butChartViewDown.Text = "&Down";
 			this.butChartViewDown.Click += new System.EventHandler(this.butChartViewDown_Click);
@@ -1751,7 +1751,7 @@
 			// 
 			this.butChartViewUp.Icon = OpenPmsDental.UI.EnumIcons.Up;
 			this.butChartViewUp.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butChartViewUp.Location = new System.Drawing.Point(366, 185);
+			this.butChartViewUp.Location = new System.Drawing.Point(382, 185);
 			this.butChartViewUp.Name = "butChartViewUp";
 			this.butChartViewUp.Size = new System.Drawing.Size(54, 23);
 			this.butChartViewUp.TabIndex = 42;
@@ -1762,7 +1762,7 @@
 			// 
 			this.butChartViewAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butChartViewAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butChartViewAdd.Location = new System.Drawing.Point(301, 185);
+			this.butChartViewAdd.Location = new System.Drawing.Point(317, 185);
 			this.butChartViewAdd.Name = "butChartViewAdd";
 			this.butChartViewAdd.Size = new System.Drawing.Size(59, 23);
 			this.butChartViewAdd.TabIndex = 40;
@@ -1789,9 +1789,9 @@
 			// 
 			// gridChartViews
 			// 
-			this.gridChartViews.Location = new System.Drawing.Point(303, 8);
+			this.gridChartViews.Location = new System.Drawing.Point(317, 8);
 			this.gridChartViews.Name = "gridChartViews";
-			this.gridChartViews.Size = new System.Drawing.Size(191, 173);
+			this.gridChartViews.Size = new System.Drawing.Size(177, 173);
 			this.gridChartViews.TabIndex = 44;
 			this.gridChartViews.Title = "Chart Views";
 			this.gridChartViews.TranslationName = "TableChartViews";
@@ -1837,9 +1837,9 @@
 			// 
 			// label24
 			// 
-			this.label24.Location = new System.Drawing.Point(176, 149);
+			this.label24.Location = new System.Drawing.Point(176, 146);
 			this.label24.Name = "label24";
-			this.label24.Size = new System.Drawing.Size(150, 87);
+			this.label24.Size = new System.Drawing.Size(150, 90);
 			this.label24.TabIndex = 26;
 			this.label24.Text = "(the text feature here is completely different from the text that shows automatic" +
     "ally for procedures with a PaintType of Text)";

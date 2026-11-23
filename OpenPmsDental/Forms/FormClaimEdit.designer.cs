@@ -613,7 +613,7 @@
 			// 
 			this.labelMissingTeeth.Location = new System.Drawing.Point(8, 94);
 			this.labelMissingTeeth.Name = "labelMissingTeeth";
-			this.labelMissingTeeth.Size = new System.Drawing.Size(290, 32);
+			this.labelMissingTeeth.Size = new System.Drawing.Size(361, 32);
 			this.labelMissingTeeth.TabIndex = 28;
 			this.labelMissingTeeth.Text = "For bridges, dentures, and partials, missing teeth must have been correctly enter" +
     "ed in the Chart module. ";

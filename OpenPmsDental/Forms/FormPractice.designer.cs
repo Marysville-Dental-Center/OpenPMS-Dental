@@ -226,9 +226,9 @@ namespace OpenPmsDental {
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(29, 32);
+			this.label3.Location = new System.Drawing.Point(29, 29);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(97, 28);
+			this.label3.Size = new System.Drawing.Size(97, 32);
 			this.label3.TabIndex = 0;
 			this.label3.Text = "Provider Name or Practice Title";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

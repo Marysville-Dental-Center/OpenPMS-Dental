@@ -469,7 +469,7 @@ namespace OpenPmsDental{
 			// labelShowHL7
 			// 
 			this.labelShowHL7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.labelShowHL7.Location = new System.Drawing.Point(546, 761);
+			this.labelShowHL7.Location = new System.Drawing.Point(556, 761);
 			this.labelShowHL7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.labelShowHL7.Name = "labelShowHL7";
 			this.labelShowHL7.Size = new System.Drawing.Size(240, 18);
@@ -482,7 +482,7 @@ namespace OpenPmsDental{
 			this.labelPrint.Location = new System.Drawing.Point(259, 754);
 			this.labelPrint.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.labelPrint.Name = "labelPrint";
-			this.labelPrint.Size = new System.Drawing.Size(190, 32);
+			this.labelPrint.Size = new System.Drawing.Size(200, 32);
 			this.labelPrint.TabIndex = 331;
 			this.labelPrint.Text = "Create results report PDF and\r\nsave it in the patient\'s image folder.";
 			// 
@@ -513,7 +513,7 @@ namespace OpenPmsDental{
 			// butShowHL7
 			// 
 			this.butShowHL7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butShowHL7.Location = new System.Drawing.Point(465, 758);
+			this.butShowHL7.Location = new System.Drawing.Point(475, 758);
 			this.butShowHL7.Name = "butShowHL7";
 			this.butShowHL7.Size = new System.Drawing.Size(75, 24);
 			this.butShowHL7.TabIndex = 336;

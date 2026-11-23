@@ -73,11 +73,14 @@ def layout(h):
         h.check_left(name)
         x += w + 6
     # ---- Show: the chart view buttons under their grid, ending at its right edge -------------------------------------------------------
+    # UI-12 slice 2 (pilot follow-up): Show Auto Commlogs as wide as its box and text (142 px; 128 wrapped it onto a second line its 13 px
+    # row cut), so the grid starts 14 px further right (6 px after the text) and keeps its right edge; Down 52 px wide to fit the row.
+    h.set("gridChartViews", 317, 8, 177, 173)
     grid = h.n("gridChartViews")
     yb = grid.ny + grid.nh + 4
     r = grid.nx + grid.nw
     for name in ("butChartViewDown", "butChartViewUp", "butChartViewAdd"):
-        w = h.n(name).nw
+        w = 52 if name == "butChartViewDown" else h.n(name).nw
         h.set(name, r - w, yb, w, H)
         r -= w + 6
     # ---- Draw: Add and Delete under the text list, at its edges ------------------------------------------------------------------------

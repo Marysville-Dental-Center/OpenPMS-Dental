@@ -438,16 +438,16 @@
 			// 
 			this.panelTotalOwes.Controls.Add(this.label21);
 			this.panelTotalOwes.Controls.Add(this.labelTotalPtOwes);
-			this.panelTotalOwes.Location = new System.Drawing.Point(560, -38);
+			this.panelTotalOwes.Location = new System.Drawing.Point(560, -41);
 			this.panelTotalOwes.Name = "panelTotalOwes";
-			this.panelTotalOwes.Size = new System.Drawing.Size(126, 37);
+			this.panelTotalOwes.Size = new System.Drawing.Size(126, 40);
 			this.panelTotalOwes.TabIndex = 226;
 			// 
 			// label21
 			// 
-			this.label21.Location = new System.Drawing.Point(3, 0);
+			this.label21.Location = new System.Drawing.Point(2, 0);
 			this.label21.Name = "label21";
-			this.label21.Size = new System.Drawing.Size(123, 12);
+			this.label21.Size = new System.Drawing.Size(124, 15);
 			this.label21.TabIndex = 223;
 			this.label21.Text = "TOTAL  Owed w/ Plan:";
 			this.label21.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -457,7 +457,7 @@
 			// 
 			this.labelTotalPtOwes.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.labelTotalPtOwes.ForeColor = System.Drawing.Color.Firebrick;
-			this.labelTotalPtOwes.Location = new System.Drawing.Point(6, 12);
+			this.labelTotalPtOwes.Location = new System.Drawing.Point(6, 15);
 			this.labelTotalPtOwes.Name = "labelTotalPtOwes";
 			this.labelTotalPtOwes.Size = new System.Drawing.Size(112, 25);
 			this.labelTotalPtOwes.TabIndex = 222;
@@ -1062,9 +1062,9 @@
 			// 
 			// label8
 			// 
-			this.label8.Location = new System.Drawing.Point(14, 37);
+			this.label8.Location = new System.Drawing.Point(10, 37);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(66, 15);
+			this.label8.Size = new System.Drawing.Size(70, 15);
 			this.label8.TabIndex = 67;
 			this.label8.Text = "Annual Max";
 			this.label8.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -1237,9 +1237,9 @@
 			// 
 			// label11
 			// 
-			this.label11.Location = new System.Drawing.Point(14, 37);
+			this.label11.Location = new System.Drawing.Point(10, 37);
 			this.label11.Name = "label11";
-			this.label11.Size = new System.Drawing.Size(66, 15);
+			this.label11.Size = new System.Drawing.Size(70, 15);
 			this.label11.TabIndex = 32;
 			this.label11.Text = "Annual Max";
 			this.label11.TextAlign = System.Drawing.ContentAlignment.TopRight;
