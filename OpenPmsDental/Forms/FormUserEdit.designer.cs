@@ -87,7 +87,6 @@ namespace OpenPmsDental {
 			// 
 			// tabUser
 			// 
-			this.tabUser.BackColor = System.Drawing.SystemColors.Control;
 			this.tabUser.Controls.Add(this.labelBadgeInstruction);
 			this.tabUser.Controls.Add(this.textBadgeId);
 			this.tabUser.Controls.Add(this.labelBadgeId);
@@ -352,7 +351,6 @@ namespace OpenPmsDental {
 			// 
 			// tabClinics
 			// 
-			this.tabClinics.BackColor = System.Drawing.SystemColors.Control;
 			this.tabClinics.Controls.Add(this.label6);
 			this.tabClinics.Controls.Add(this.listClinicMulti);
 			this.tabClinics.Controls.Add(this.listClinic);
@@ -404,7 +402,6 @@ namespace OpenPmsDental {
 			// 
 			// tabAlertSubs
 			// 
-			this.tabAlertSubs.BackColor = System.Drawing.SystemColors.Control;
 			this.tabAlertSubs.Controls.Add(this.labelAlertClinic);
 			this.tabAlertSubs.Controls.Add(this.listAlertSubsClinicsMulti);
 			this.tabAlertSubs.Controls.Add(this.listAlertSubMulti);

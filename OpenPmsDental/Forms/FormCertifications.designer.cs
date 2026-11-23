@@ -144,6 +144,7 @@ namespace OpenPmsDental{
 			// labelCertification
 			// 
 			this.labelCertification.Location = new System.Drawing.Point(136, 140);
+			this.labelCertification.Visible = false;
 			this.labelCertification.Name = "labelCertification";
 			this.labelCertification.Size = new System.Drawing.Size(120, 17);
 			this.labelCertification.TabIndex = 53;
@@ -153,6 +154,7 @@ namespace OpenPmsDental{
 			// listBoxCertification
 			// 
 			this.listBoxCertification.Location = new System.Drawing.Point(136, 159);
+			this.listBoxCertification.Visible = false;
 			this.listBoxCertification.Name = "listBoxCertification";
 			this.listBoxCertification.Size = new System.Drawing.Size(120, 464);
 			this.listBoxCertification.TabIndex = 32;
@@ -210,6 +212,7 @@ namespace OpenPmsDental{
 			// labelCategories2
 			// 
 			this.labelCategories2.Location = new System.Drawing.Point(8, 140);
+			this.labelCategories2.Visible = false;
 			this.labelCategories2.Name = "labelCategories2";
 			this.labelCategories2.Size = new System.Drawing.Size(120, 17);
 			this.labelCategories2.TabIndex = 52;
@@ -219,6 +222,7 @@ namespace OpenPmsDental{
 			// listBoxCategories2
 			// 
 			this.listBoxCategories2.Location = new System.Drawing.Point(8, 159);
+			this.listBoxCategories2.Visible = false;
 			this.listBoxCategories2.Name = "listBoxCategories2";
 			this.listBoxCategories2.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
 			this.listBoxCategories2.Size = new System.Drawing.Size(120, 464);
@@ -247,6 +251,7 @@ namespace OpenPmsDental{
 			// checkSortDateCertComplete
 			// 
 			this.checkSortDateCertComplete.Location = new System.Drawing.Point(264, 10);
+			this.checkSortDateCertComplete.Visible = false;
 			this.checkSortDateCertComplete.Name = "checkSortDateCertComplete";
 			this.checkSortDateCertComplete.Size = new System.Drawing.Size(154, 20);
 			this.checkSortDateCertComplete.TabIndex = 54;

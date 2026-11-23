@@ -2,7 +2,8 @@
 the two groups). Main's arrangement on the grid's numbers: Current Smoking Status with its box and the MU note after it; the screening
 group at the padding to the right edge down to 8 px over Save, its two groups one height filling it; in each the fields on one field column
 (the window's), the filter row's choices on the column 16 px apart, Patient Declined on the column, the add button on the column, the
-history grid 16 px after the fields to the content edge, the group's content height."""
+history grid 16 px after the fields to the content edge, the group's content height. The two filter rows share their x stops (each choice
+16 px after the wider of the two choices before it), so the choices of the two groups stand on common columns."""
 
 PAD = 8
 GAP = 8
@@ -35,6 +36,12 @@ def layout(h):
     ilw = Fi - 6 - PAD
     grids = []
     gx = 0
+    # The filter rows' shared x stops: the n-th choice of both rows on one x, 16 px after the wider n-1-th choice.
+    radio_rows = (("radioAllStatuses", "radioUserStatuses", "radioNonUserStatuses", "radioRecentStatuses"),
+                  ("radioAllInterventions", "radioMedInterventions", "radioCounselInterventions", "radioRecentInterventions"))
+    stops = [Fi]
+    for i in range(1, len(radio_rows[0])):
+        stops.append(stops[-1] + max(h.cw(rr[i - 1]) for rr in radio_rows) + 16)
     for k, (grp, rows, grid) in enumerate((
             ("groupAssessment", (("f", "label6", "textDateAssessed", 140), ("f", "label5", "comboAssessmentType", 260),
                                  ("r", "label8", ("radioAllStatuses", "radioUserStatuses", "radioNonUserStatuses", "radioRecentStatuses")),
@@ -58,12 +65,10 @@ def layout(h):
             elif r[0] == "r":
                 h.set(r[1], PAD, y, ilw, H)
                 h.text_align(r[1], "MiddleRight")
-                x = Fi
-                for rad in r[2]:
+                for i, rad in enumerate(r[2]):
                     h.check_left(rad)
-                    h.set(rad, x, y + (H - CH) // 2, h.cw(rad), CH)
-                    x += h.cw(rad) + 16
-                right = max(right, x - 16)
+                    h.set(rad, stops[i], y + (H - CH) // 2, h.cw(rad), CH)
+                    right = max(right, stops[i] + h.cw(rad))
                 y += H + 4
             elif r[0] == "c":
                 h.check_left(r[1])

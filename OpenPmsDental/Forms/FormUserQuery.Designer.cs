@@ -94,14 +94,14 @@ namespace OpenPmsDental {
 			// 
 			// textTitle
 			// 
-			this.textTitle.Location = new System.Drawing.Point(42, 0);
+			this.textTitle.Location = new System.Drawing.Point(43, 0);
 			this.textTitle.Name = "textTitle";
 			this.textTitle.Size = new System.Drawing.Size(219, 23);
 			this.textTitle.TabIndex = 1;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(0, 0);
+			this.label1.Location = new System.Drawing.Point(1, 0);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(36, 23);
 			this.label1.TabIndex = 9;
@@ -136,7 +136,7 @@ namespace OpenPmsDental {
 			this.groupBox1.Controls.Add(this.checkWordWrap);
 			this.groupBox1.Location = new System.Drawing.Point(148, 0);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(443, 100);
+			this.groupBox1.Size = new System.Drawing.Size(442, 100);
 			this.groupBox1.TabIndex = 5;
 			this.groupBox1.Text = "Format";
 			// 
@@ -153,7 +153,7 @@ namespace OpenPmsDental {
 			// 
 			this.comboAlignment.Location = new System.Drawing.Point(261, 23);
 			this.comboAlignment.Name = "comboAlignment";
-			this.comboAlignment.Size = new System.Drawing.Size(174, 23);
+			this.comboAlignment.Size = new System.Drawing.Size(173, 23);
 			this.comboAlignment.TabIndex = 18;
 			this.comboAlignment.Text = "comboBoxOD1";
 			this.comboAlignment.SelectionChangeCommitted += new System.EventHandler(this.comboAlignment_SelectionChangeCommitted);
@@ -262,9 +262,9 @@ namespace OpenPmsDental {
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.textQuery.DetectUrls = false;
 			this.textQuery.Font = new System.Drawing.Font("Courier New", 9F);
-			this.textQuery.Location = new System.Drawing.Point(0, 0);
+			this.textQuery.Location = new System.Drawing.Point(1, 1);
 			this.textQuery.Name = "textQuery";
-			this.textQuery.Size = new System.Drawing.Size(661, 268);
+			this.textQuery.Size = new System.Drawing.Size(660, 267);
 			this.textQuery.TabIndex = 0;
 			this.textQuery.Text = "";
 			this.textQuery.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textQuery_KeyDown);
@@ -282,14 +282,14 @@ namespace OpenPmsDental {
 			this.panel1.Controls.Add(this.butSubmit);
 			this.panel1.Controls.Add(this.butCopy);
 			this.panel1.Controls.Add(this.groupBox1);
-			this.panel1.Location = new System.Drawing.Point(669, 0);
+			this.panel1.Location = new System.Drawing.Point(669, 1);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(591, 147);
+			this.panel1.Size = new System.Drawing.Size(590, 128);
 			this.panel1.TabIndex = 17;
 			// 
 			// radioLandscape
 			// 
-			this.radioLandscape.Location = new System.Drawing.Point(228, 127);
+			this.radioLandscape.Location = new System.Drawing.Point(334, 108);
 			this.radioLandscape.Name = "radioLandscape";
 			this.radioLandscape.Size = new System.Drawing.Size(81, 20);
 			this.radioLandscape.TabIndex = 21;
@@ -299,7 +299,7 @@ namespace OpenPmsDental {
 			// radioPortrait
 			// 
 			this.radioPortrait.Checked = true;
-			this.radioPortrait.Location = new System.Drawing.Point(148, 127);
+			this.radioPortrait.Location = new System.Drawing.Point(254, 108);
 			this.radioPortrait.Name = "radioPortrait";
 			this.radioPortrait.Size = new System.Drawing.Size(64, 20);
 			this.radioPortrait.TabIndex = 20;
@@ -311,10 +311,10 @@ namespace OpenPmsDental {
 			// 
 			this.labelPrintOrientation.Location = new System.Drawing.Point(148, 108);
 			this.labelPrintOrientation.Name = "labelPrintOrientation";
-			this.labelPrintOrientation.Size = new System.Drawing.Size(100, 17);
+			this.labelPrintOrientation.Size = new System.Drawing.Size(100, 20);
 			this.labelPrintOrientation.TabIndex = 19;
 			this.labelPrintOrientation.Text = "Print Orientation";
-			this.labelPrintOrientation.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+			this.labelPrintOrientation.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// checkReportServer
 			// 
@@ -327,7 +327,7 @@ namespace OpenPmsDental {
 			// 
 			// labelRowCount
 			// 
-			this.labelRowCount.Location = new System.Drawing.Point(277, 0);
+			this.labelRowCount.Location = new System.Drawing.Point(278, 0);
 			this.labelRowCount.Name = "labelRowCount";
 			this.labelRowCount.Size = new System.Drawing.Size(245, 23);
 			this.labelRowCount.TabIndex = 18;
@@ -344,10 +344,10 @@ namespace OpenPmsDental {
 			this._gridResults.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this._gridResults.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this._gridResults.HScrollVisible = true;
-			this._gridResults.Location = new System.Drawing.Point(0, 31);
+			this._gridResults.Location = new System.Drawing.Point(1, 31);
 			this._gridResults.Name = "_gridResults";
 			this._gridResults.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this._gridResults.Size = new System.Drawing.Size(1260, 369);
+			this._gridResults.Size = new System.Drawing.Size(1258, 368);
 			this._gridResults.TabIndex = 10;
 			this._gridResults.TitleVisible = false;
 			this._gridResults.WrapText = false;

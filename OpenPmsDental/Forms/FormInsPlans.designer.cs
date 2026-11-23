@@ -66,7 +66,7 @@ namespace OpenPmsDental {
 			// 
 			// butGetAll
 			// 
-			this.butGetAll.Location = new System.Drawing.Point(851, 23);
+			this.butGetAll.Location = new System.Drawing.Point(855, 23);
 			this.butGetAll.Name = "butGetAll";
 			this.butGetAll.Size = new System.Drawing.Size(75, 24);
 			this.butGetAll.TabIndex = 30;
@@ -87,7 +87,7 @@ namespace OpenPmsDental {
 			// checkShowHidden
 			// 
 			this.checkShowHidden.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkShowHidden.Location = new System.Drawing.Point(851, 51);
+			this.checkShowHidden.Location = new System.Drawing.Point(855, 51);
 			this.checkShowHidden.Name = "checkShowHidden";
 			this.checkShowHidden.Size = new System.Drawing.Size(95, 20);
 			this.checkShowHidden.TabIndex = 27;

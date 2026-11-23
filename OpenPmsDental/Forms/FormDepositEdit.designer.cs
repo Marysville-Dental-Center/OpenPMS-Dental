@@ -204,7 +204,7 @@ namespace OpenPmsDental {
 			// label1
 			// 
 			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.label1.Location = new System.Drawing.Point(601, 8);
+			this.label1.Location = new System.Drawing.Point(601, 11);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(95, 16);
 			this.label1.TabIndex = 0;
@@ -233,7 +233,7 @@ namespace OpenPmsDental {
 			// label4
 			// 
 			this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.label4.Location = new System.Drawing.Point(702, 8);
+			this.label4.Location = new System.Drawing.Point(703, 11);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(94, 16);
 			this.label4.TabIndex = 0;
@@ -354,9 +354,9 @@ namespace OpenPmsDental {
 			// label9
 			// 
 			this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.label9.Location = new System.Drawing.Point(802, 8);
+			this.label9.Location = new System.Drawing.Point(805, 11);
 			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(72, 17);
+			this.label9.Size = new System.Drawing.Size(72, 16);
 			this.label9.TabIndex = 0;
 			this.label9.Text = "Item Count";
 			this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;

@@ -84,7 +84,7 @@ namespace OpenPmsDental {
 			this.comboClinic.IncludeUnassigned = true;
 			this.comboClinic.Location = new System.Drawing.Point(139, 86);
 			this.comboClinic.Name = "comboClinic";
-			this.comboClinic.Size = new System.Drawing.Size(291, 23);
+			this.comboClinic.Size = new System.Drawing.Size(295, 23);
 			this.comboClinic.TabIndex = 4;
 			this.comboClinic.TabStop = false;
 			this.comboClinic.SelectionChangeCommitted += new System.EventHandler(this.ComboClinic_SelectionChangeCommitted);
@@ -210,9 +210,9 @@ namespace OpenPmsDental {
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(535, 277);
+			this.butSave.Location = new System.Drawing.Point(535, 279);
 			this.butSave.Name = "butSave";
-			this.butSave.Size = new System.Drawing.Size(75, 26);
+			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 9;
 			this.butSave.Text = "&Save";
 			this.butSave.Click += new System.EventHandler(this.butSave_Click);

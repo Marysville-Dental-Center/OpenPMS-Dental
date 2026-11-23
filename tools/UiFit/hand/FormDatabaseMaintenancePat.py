@@ -2,7 +2,8 @@
 borderless text box) as wide as its text before the patient box and its picker button at the padding; the tab control 8 px under them to the
 window's edges. Every page from its padding: the grid to the page's edges; under it the None row (the right-aligned note box and None at the
 right edge; the log check box, or the Old page's note, at the left) and the button row (Show Hidden at the left on the Old page; Check and
-Fix 6 px apart at the right edge); the Hidden page's note under its grid. The note boxes keep main's white text box look (a text box)."""
+Fix 6 px apart at the right edge); the Hidden page's note under its grid. The borderless note boxes (and the Patient caption) take their
+parent's background through hand rows of grid-hand/3.tsv (BackColor 250,250,250, the window's Surface; main's white drew rectangles)."""
 
 PAD = 8
 GAP = 8

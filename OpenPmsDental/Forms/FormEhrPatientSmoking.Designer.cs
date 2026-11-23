@@ -155,7 +155,7 @@
 			this.groupTobaccoUse.Controls.Add(this.groupAssessment);
 			this.groupTobaccoUse.Location = new System.Drawing.Point(8, 39);
 			this.groupTobaccoUse.Name = "groupTobaccoUse";
-			this.groupTobaccoUse.Size = new System.Drawing.Size(1015, 445);
+			this.groupTobaccoUse.Size = new System.Drawing.Size(1016, 445);
 			this.groupTobaccoUse.TabIndex = 2;
 			this.groupTobaccoUse.TabStop = false;
 			this.groupTobaccoUse.Text = "Tobacco Use Screening and Cessation Intervention (CQM)";
@@ -178,14 +178,14 @@
 			this.groupIntervention.Controls.Add(this.comboInterventionCode);
 			this.groupIntervention.Location = new System.Drawing.Point(8, 234);
 			this.groupIntervention.Name = "groupIntervention";
-			this.groupIntervention.Size = new System.Drawing.Size(999, 203);
+			this.groupIntervention.Size = new System.Drawing.Size(1000, 203);
 			this.groupIntervention.TabIndex = 2;
 			this.groupIntervention.TabStop = false;
 			this.groupIntervention.Text = "Cessation Intervention";
 			// 
 			// radioRecentInterventions
 			// 
-			this.radioRecentInterventions.Location = new System.Drawing.Point(338, 51);
+			this.radioRecentInterventions.Location = new System.Drawing.Point(345, 51);
 			this.radioRecentInterventions.Name = "radioRecentInterventions";
 			this.radioRecentInterventions.Size = new System.Drawing.Size(72, 20);
 			this.radioRecentInterventions.TabIndex = 5;
@@ -215,7 +215,7 @@
 			// 
 			this.gridInterventions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridInterventions.Location = new System.Drawing.Point(432, 23);
+			this.gridInterventions.Location = new System.Drawing.Point(433, 23);
 			this.gridInterventions.MinimumSize = new System.Drawing.Size(559, 160);
 			this.gridInterventions.Name = "gridInterventions";
 			this.gridInterventions.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
@@ -320,14 +320,14 @@
 			this.groupAssessment.Controls.Add(this.comboTobaccoStatus);
 			this.groupAssessment.Location = new System.Drawing.Point(8, 23);
 			this.groupAssessment.Name = "groupAssessment";
-			this.groupAssessment.Size = new System.Drawing.Size(999, 203);
+			this.groupAssessment.Size = new System.Drawing.Size(1000, 203);
 			this.groupAssessment.TabIndex = 1;
 			this.groupAssessment.TabStop = false;
 			this.groupAssessment.Text = "Tobacco Use Assessment";
 			// 
 			// radioRecentStatuses
 			// 
-			this.radioRecentStatuses.Location = new System.Drawing.Point(344, 78);
+			this.radioRecentStatuses.Location = new System.Drawing.Point(345, 78);
 			this.radioRecentStatuses.Name = "radioRecentStatuses";
 			this.radioRecentStatuses.Size = new System.Drawing.Size(72, 20);
 			this.radioRecentStatuses.TabIndex = 6;
@@ -348,7 +348,7 @@
 			// 
 			this.gridAssessments.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridAssessments.Location = new System.Drawing.Point(432, 23);
+			this.gridAssessments.Location = new System.Drawing.Point(433, 23);
 			this.gridAssessments.MinimumSize = new System.Drawing.Size(559, 160);
 			this.gridAssessments.Name = "gridAssessments";
 			this.gridAssessments.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
@@ -370,7 +370,7 @@
 			// 
 			// radioNonUserStatuses
 			// 
-			this.radioNonUserStatuses.Location = new System.Drawing.Point(253, 78);
+			this.radioNonUserStatuses.Location = new System.Drawing.Point(254, 78);
 			this.radioNonUserStatuses.Name = "radioNonUserStatuses";
 			this.radioNonUserStatuses.Size = new System.Drawing.Size(75, 20);
 			this.radioNonUserStatuses.TabIndex = 5;
@@ -400,7 +400,7 @@
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(947, 492);
+			this.butSave.Location = new System.Drawing.Point(948, 492);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(76, 24);
 			this.butSave.TabIndex = 3;
@@ -410,7 +410,7 @@
 			// FormEhrPatientSmoking
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(1031, 524);
+			this.ClientSize = new System.Drawing.Size(1032, 524);
 			this.Controls.Add(this.butSave);
 			this.Controls.Add(this.groupTobaccoUse);
 			this.Controls.Add(this.label1);

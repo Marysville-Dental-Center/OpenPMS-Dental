@@ -2,7 +2,9 @@
 boxes ending at 890 and the Show group at 959 while Send QB ends on the window's right content edge (966): the boxes (Batch #, Bank Account
 Info, Memo, Deposit into Account, the auto deposit account shown by the code), the Show group and, in the group, the insurance payment type
 list, the class box and Refresh end on that edge; the group's content starts at its padding (8, the planner kept 14), its two list
-columns (with the clinic picker and the class box over them) one width."""
+columns (with the clinic picker and the class box over them) one width. The top row's captions (Date, Amount, Item Count) 2 px over
+their boxes like the column's other captions (the planner left them at 8, 5 px over the boxes at 29), each on its box's left edge, 16 px
+tall like the others."""
 
 
 def layout(h):
@@ -24,3 +26,7 @@ def layout(h):
     for name in ("listInsPayType", "comboClassRefs", "label6", "labelClassRef"):
         h.set(name, x2, None, lw, None)
     h.set("butRefresh", cr - h.n("butRefresh").nw, None)
+    # The top row's captions: 2 px over their boxes, on the boxes' left edges.
+    for cap, box in (("label1", "textDate"), ("label4", "textAmount"), ("label9", "textItemNum")):
+        bx = h.n(box)
+        h.set(cap, bx.nx, bx.ny - 2 - 16, None, 16)
