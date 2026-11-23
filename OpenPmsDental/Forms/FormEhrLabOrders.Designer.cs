@@ -57,7 +57,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridMain.Location = new System.Drawing.Point(12, 8);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(862, 378);
+			this.gridMain.Size = new System.Drawing.Size(862, 382);
 			this.gridMain.TabIndex = 5;
 			this.gridMain.Title = "Laboratory Orders";
 			this.gridMain.TranslationName = "TableOrders";

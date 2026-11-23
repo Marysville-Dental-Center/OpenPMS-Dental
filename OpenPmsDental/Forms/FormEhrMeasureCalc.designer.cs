@@ -112,27 +112,27 @@ namespace OpenPmsDental {
 			this.labelInternalReview.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelInternalReview.ForeColor = System.Drawing.Color.Firebrick;
-			this.labelInternalReview.Location = new System.Drawing.Point(12, 35);
+			this.labelInternalReview.Location = new System.Drawing.Point(8, 35);
 			this.labelInternalReview.Name = "labelInternalReview";
-			this.labelInternalReview.Size = new System.Drawing.Size(976, 18);
+			this.labelInternalReview.Size = new System.Drawing.Size(984, 18);
 			this.labelInternalReview.TabIndex = 9;
 			//
 			// labelNotes
 			//
 			this.labelNotes.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelNotes.Location = new System.Drawing.Point(12, 55);
+			this.labelNotes.Location = new System.Drawing.Point(8, 55);
 			this.labelNotes.Name = "labelNotes";
-			this.labelNotes.Size = new System.Drawing.Size(976, 80);
+			this.labelNotes.Size = new System.Drawing.Size(984, 80);
 			this.labelNotes.TabIndex = 10;
 			//
 			// labelProgress
 			//
 			this.labelProgress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelProgress.Location = new System.Drawing.Point(12, 137);
+			this.labelProgress.Location = new System.Drawing.Point(8, 137);
 			this.labelProgress.Name = "labelProgress";
-			this.labelProgress.Size = new System.Drawing.Size(976, 30);
+			this.labelProgress.Size = new System.Drawing.Size(984, 30);
 			this.labelProgress.TabIndex = 11;
 			//
 			// gridMain
@@ -140,9 +140,9 @@ namespace OpenPmsDental {
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(12, 169);
+			this.gridMain.Location = new System.Drawing.Point(8, 169);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(976, 416);
+			this.gridMain.Size = new System.Drawing.Size(984, 427);
 			this.gridMain.TabIndex = 12;
 			this.gridMain.Title = "Meaningful Use Measures (double-click a measure for its patients)";
 			this.gridMain.TranslationName = "TableEhrMeasureCalc";

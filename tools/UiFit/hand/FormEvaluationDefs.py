@@ -1,5 +1,6 @@
 """FormEvaluationDefs on the grid (UI-12 slice 7, layout script on the planner's tree). The planner has no fixed point here (the Course combo
-box 1 px wider each pass) and left it 3 px past the buttons under it: the combo box on the buttons' right edge."""
+box 1 px wider each pass) and left it 3 px past the buttons under it: the combo box on the buttons' right edge. The grid 12 px over the bottom
+(its side margin; it stood 16 px over it)."""
 import importlib.util
 import os
 
@@ -11,3 +12,4 @@ _spec.loader.exec_module(s)
 def layout(h):
     a = h.n("butAdd")
     s.span(h, "comboCourse", r=a.nx + a.nw)
+    s.grid_bottom(h, "gridMain")

@@ -33,7 +33,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridResultHist.Location = new System.Drawing.Point(12, 8);
 			this.gridResultHist.Name = "gridResultHist";
-			this.gridResultHist.Size = new System.Drawing.Size(950, 385);
+			this.gridResultHist.Size = new System.Drawing.Size(950, 389);
 			this.gridResultHist.TabIndex = 5;
 			this.gridResultHist.Title = "Result History";
 			this.gridResultHist.TranslationName = "TableResult";

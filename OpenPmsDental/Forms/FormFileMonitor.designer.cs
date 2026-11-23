@@ -39,7 +39,7 @@ namespace OpenPmsDental {
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridFeed.Location = new System.Drawing.Point(12, 8);
 			this.gridFeed.Name = "gridFeed";
-			this.gridFeed.Size = new System.Drawing.Size(916, 488);
+			this.gridFeed.Size = new System.Drawing.Size(916, 492);
 			this.gridFeed.TabIndex = 0;
 			this.gridFeed.Title = "File Feed";
 			this.gridFeed.TranslationName = "TableFileFeed";

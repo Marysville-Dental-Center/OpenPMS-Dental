@@ -87,7 +87,7 @@ namespace OpenPmsDental {
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridMain.Location = new System.Drawing.Point(12, 65);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(476, 578);
+			this.gridMain.Size = new System.Drawing.Size(476, 583);
 			this.gridMain.TabIndex = 14;
 			this.gridMain.Title = "Coverage Spans";
 			this.gridMain.TranslationName = "TableCovSpans";

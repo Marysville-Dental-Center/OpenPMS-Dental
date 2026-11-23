@@ -33,7 +33,7 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridMain.Location = new System.Drawing.Point(12, 8);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(482,301);
+			this.gridMain.Size = new System.Drawing.Size(482,305);
 			this.gridMain.TabIndex = 3;
 			this.gridMain.Title = "Electronic Benefit Request History";
 			this.gridMain.TranslationName = "TableBenefitHistory";

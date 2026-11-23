@@ -60,7 +60,7 @@ namespace OpenPmsDental{
 			this.gridMain.Location = new System.Drawing.Point(12, 8);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridMain.Size = new System.Drawing.Size(266, 465);
+			this.gridMain.Size = new System.Drawing.Size(266, 469);
 			this.gridMain.TabIndex = 14;
 			this.gridMain.Title = "Evaluation Definitions";
 			this.gridMain.TranslationName = "TableEvaluationSetup";

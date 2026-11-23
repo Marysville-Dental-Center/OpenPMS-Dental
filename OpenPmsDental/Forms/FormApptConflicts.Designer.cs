@@ -50,7 +50,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridConflicts.Location = new System.Drawing.Point(8, 8);
 			this.gridConflicts.Name = "gridConflicts";
-			this.gridConflicts.Size = new System.Drawing.Size(836, 616);
+			this.gridConflicts.Size = new System.Drawing.Size(842, 620);
 			this.gridConflicts.TabIndex = 23;
 			this.gridConflicts.Title = "Conflicting Appointments";
 			this.gridConflicts.TranslationName = "TableApptConflicts";

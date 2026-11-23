@@ -64,3 +64,17 @@ def column(h, names, x, y, gap=4, w=None):
         h.set(name, x, y, w, None)
         y += n.nh + gap
     return y - gap
+
+
+def bar_top(h, grid):
+    """The top of the bottom bar under a grid: the highest visible button of the window standing under it (None when there is none)."""
+    g = h.n(grid)
+    gb = g.ny + g.nh
+    tops = [k.ny for k in h.tree.children if k.kind == "button" and k.visible and k.ny >= gb]
+    return min(tops) if tops else None
+
+
+def grid_bottom(h, grid, side=12):
+    """A grid down to 12 px over the bottom bar (the section gap the planner keeps there), or to its side margin over the bottom."""
+    t = bar_top(h, grid)
+    return span(h, grid, b=(t - 12) if t is not None else h.tree.nh - side)

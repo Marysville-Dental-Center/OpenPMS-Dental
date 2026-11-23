@@ -1,6 +1,7 @@
 """FormDisplayFieldsOrthoChart on the grid (UI-12 slice 7, layout script on the planner's tree). The Available Fields list stood 25 px under
 the grid's top and the left column 12 px from the left against Up's 8: the list on the grid's top with its caption 2 px over it, the left
-column on the content edge (Tab, its combo box 6 px after it and Setup Tabs 6 px after the combo box)."""
+column on the content edge (Tab, its combo box 6 px after it and Setup Tabs 6 px after the combo box). The grid down to 12 px over the bottom
+bar (it stood 37 px over it)."""
 import importlib.util
 import os
 
@@ -14,8 +15,8 @@ def layout(h):
     lw = h.lw("label1")
     h.set("label1", 8, None, lw, None)
     s.row_left(h, ("comboOrthoChartTabs", "butSetupTabs"), 8 + lw + 6)
+    s.span(h, "gridMain", x=8, b=h.n("butUp").ny - 12)
     g = h.n("gridMain")
-    s.span(h, "gridMain", x=8)
     lst = h.n("listAvailable")
     s.span(h, "listAvailable", y=g.ny)
     h.set("labelAvailable", lst.nx, g.ny - 2 - 17, lst.nw, 17)

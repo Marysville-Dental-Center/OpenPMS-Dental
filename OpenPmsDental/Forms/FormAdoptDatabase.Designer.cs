@@ -89,7 +89,7 @@ namespace OpenPmsDental {
 			this.textLog.Name = "textLog";
 			this.textLog.ReadOnly = true;
 			this.textLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.textLog.Size = new System.Drawing.Size(608, 160);
+			this.textLog.Size = new System.Drawing.Size(608, 176);
 			this.textLog.TabIndex = 6;
 			//
 			// butAdopt

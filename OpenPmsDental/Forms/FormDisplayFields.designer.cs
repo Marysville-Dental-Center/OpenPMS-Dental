@@ -56,7 +56,7 @@ namespace OpenPmsDental {
 			this.listAvailable.Location = new System.Drawing.Point(376, 64);
 			this.listAvailable.Name = "listAvailable";
 			this.listAvailable.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
-			this.listAvailable.Size = new System.Drawing.Size(164, 425);
+			this.listAvailable.Size = new System.Drawing.Size(164, 451);
 			this.listAvailable.TabIndex = 15;
 			// 
 			// labelAvailable
@@ -84,7 +84,7 @@ namespace OpenPmsDental {
 			this.gridMain.Location = new System.Drawing.Point(8, 64);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridMain.Size = new System.Drawing.Size(296, 425);
+			this.gridMain.Size = new System.Drawing.Size(296, 451);
 			this.gridMain.TabIndex = 3;
 			this.gridMain.Title = "Fields Showing";
 			this.gridMain.TranslationName = "FormDisplayFields";

@@ -29,15 +29,15 @@ namespace OpenPmsDental {
 			//
 			this.labelExplain.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelExplain.Location = new System.Drawing.Point(12, 8);
+			this.labelExplain.Location = new System.Drawing.Point(8, 8);
 			this.labelExplain.Name = "labelExplain";
-			this.labelExplain.Size = new System.Drawing.Size(876, 60);
+			this.labelExplain.Size = new System.Drawing.Size(884, 60);
 			this.labelExplain.TabIndex = 0;
 			this.labelExplain.Text = "labelExplain";
 			//
 			// labelDateConversion
 			//
-			this.labelDateConversion.Location = new System.Drawing.Point(20, 70);
+			this.labelDateConversion.Location = new System.Drawing.Point(8, 70);
 			this.labelDateConversion.Name = "labelDateConversion";
 			this.labelDateConversion.Size = new System.Drawing.Size(100, 23);
 			this.labelDateConversion.TabIndex = 1;
@@ -46,14 +46,14 @@ namespace OpenPmsDental {
 			//
 			// textDateConversion
 			//
-			this.textDateConversion.Location = new System.Drawing.Point(126, 70);
+			this.textDateConversion.Location = new System.Drawing.Point(114, 70);
 			this.textDateConversion.Name = "textDateConversion";
 			this.textDateConversion.Size = new System.Drawing.Size(88, 23);
 			this.textDateConversion.TabIndex = 2;
 			//
 			// butFind
 			//
-			this.butFind.Location = new System.Drawing.Point(220, 70);
+			this.butFind.Location = new System.Drawing.Point(208, 70);
 			this.butFind.Name = "butFind";
 			this.butFind.Size = new System.Drawing.Size(75, 23);
 			this.butFind.TabIndex = 3;
@@ -64,9 +64,9 @@ namespace OpenPmsDental {
 			//
 			this.labelSummary.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelSummary.Location = new System.Drawing.Point(12, 97);
+			this.labelSummary.Location = new System.Drawing.Point(8, 97);
 			this.labelSummary.Name = "labelSummary";
-			this.labelSummary.Size = new System.Drawing.Size(876, 20);
+			this.labelSummary.Size = new System.Drawing.Size(884, 20);
 			this.labelSummary.TabIndex = 4;
 			this.labelSummary.Text = "Enter the conversion date and click Find.";
 			this.labelSummary.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -76,10 +76,10 @@ namespace OpenPmsDental {
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(12, 119);
+			this.gridMain.Location = new System.Drawing.Point(8, 119);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridMain.Size = new System.Drawing.Size(876, 464);
+			this.gridMain.Size = new System.Drawing.Size(884, 475);
 			this.gridMain.TabIndex = 5;
 			this.gridMain.Title = "Income Transfers (selected rows are dated on the conversion date)";
 			this.gridMain.TranslationName = "TableDbmConvPayDates";

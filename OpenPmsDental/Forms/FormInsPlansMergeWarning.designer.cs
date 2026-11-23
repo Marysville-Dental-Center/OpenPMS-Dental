@@ -34,7 +34,7 @@ namespace OpenPmsDental {
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelWarning.Location = new System.Drawing.Point(8,8);
 			this.labelWarning.Name = "labelWarning";
-			this.labelWarning.Size = new System.Drawing.Size(935,56);
+			this.labelWarning.Size = new System.Drawing.Size(946,56);
 			this.labelWarning.TabIndex = 20;
 			this.labelWarning.Text = "The plans below have fields that do not match the plan you selected.";
 			//
@@ -45,7 +45,7 @@ namespace OpenPmsDental {
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridMain.Location = new System.Drawing.Point(8,66);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(936,442);
+			this.gridMain.Size = new System.Drawing.Size(946,442);
 			this.gridMain.TabIndex = 19;
 			this.gridMain.Title = "Mismatched Fields";
 			this.gridMain.TranslationName = "TableInsPlansMergeWarning";
