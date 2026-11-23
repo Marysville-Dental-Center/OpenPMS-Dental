@@ -387,7 +387,9 @@ namespace UiRefreshTests.Scan {
 		}
 
 		///<summary>An empty object of type, with only typeBase's constructor run (and the ones it chains to), then each class's own
-		///InitializeComponent from typeBase down to type.</summary>
+		///InitializeComponent from typeBase down to type: type's always (its constructor, which calls it, does not run), a base class's only when
+		///that class's own constructor calls it, as in the program (UI-12 slice 2 continuation: SetupWizControl has a designer but no constructor,
+		///so its title and description labels never exist in the setup wizard's pages).</summary>
 		public static object CreateBare(Type type,Type typeBase) {
 			object obj=RuntimeHelpers.GetUninitializedObject(type);
 			ConstructorInfo constructorInfo=typeBase.GetConstructor(BindingFlags.Instance|BindingFlags.Public|BindingFlags.NonPublic,null,Type.EmptyTypes,null);
@@ -401,6 +403,9 @@ namespace UiRefreshTests.Scan {
 				foreach(Type t in listChain) {
 					MethodInfo methodInfo=t.GetMethod("InitializeComponent",BindingFlags.Instance|BindingFlags.NonPublic|BindingFlags.Public|BindingFlags.DeclaredOnly,
 						null,Type.EmptyTypes,null);
+					if(methodInfo!=null && t!=type && !ConstructorCalls(t,methodInfo)) {
+						continue;
+					}
 					methodInfo?.Invoke(obj,null);
 				}
 			}
@@ -413,6 +418,31 @@ namespace UiRefreshTests.Scan {
 				throw;
 			}
 			return obj;
+		}
+
+		///<summary>True when one of type's own instance constructors calls methodInfo directly (a call or callvirt in its IL whose token resolves
+		///to it).</summary>
+		public static bool ConstructorCalls(Type type,MethodInfo methodInfo) {
+			foreach(ConstructorInfo constructorInfo in type.GetConstructors(BindingFlags.Instance|BindingFlags.Public|BindingFlags.NonPublic|BindingFlags.DeclaredOnly)) {
+				byte[] arrayIL=constructorInfo.GetMethodBody()?.GetILAsByteArray();
+				if(arrayIL==null) {
+					continue;
+				}
+				for(int i=0;i+4<arrayIL.Length;i++) {
+					if(arrayIL[i]!=0x28 && arrayIL[i]!=0x6F) {//call, callvirt
+						continue;
+					}
+					int token=BitConverter.ToInt32(arrayIL,i+1);
+					try {
+						if(type.Module.ResolveMethod(token)==methodInfo) {
+							return true;
+						}
+					}
+					catch(ArgumentException) {
+					}
+				}
+			}
+			return false;
 		}
 
 		private static void InvokeNonPublic(object obj,Type type,string name,object[] arrayArgs) {

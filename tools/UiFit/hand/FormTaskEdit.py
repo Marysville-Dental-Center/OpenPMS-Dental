@@ -1,0 +1,186 @@
+"""FormTaskEdit (Task) on the grid (UI-12 slice 2 continuation, mode hand: the reminder group's stacked panels, the repeating and object panels
+and the window width the code sets from its split container). The code sets the window's width to the split container's right edge + 25
+(FormTaskEdit.LoadTask: Width=splitContainer.Right+25), so everything stands within the split container's right edge, the right content
+edge; the designer's client width is that edge + 8, as the code makes it. It shows the reminder group or the repeating panel (the
+TasksUseRepeating preference) and the category field (the TaskCategoryShow preference), and hides the reply, the task-changed note with
+Refresh and the object panel by the task's state; it sets no position.
+The top band: New, Done with its note and Read Only on one row at the content edge, Date/Time Created, Date/Time Task and Date/Time Finished
+under it on one field column (each label right-aligned 6 px before its box, Now 6 px after the box); the reminder group 16 px after them (Type
+with its box; under it, on one bounds, the frequency panel (Every, its box and the unit), the date and time pickers, the day panel (Days, the
+seven boxes and their key)); From User (with its pick button), Task List, Task Priority (with its color button) and Category on one field
+column at the right content edge. The split container 8 px under the band from the content edge to the right content edge: in its top panel
+the Description label with Edit Auto Note and Auto Note under it in a 92 px column (the hidden Red and Blue buttons on the row after them), the
+description box and Short Descript's box from the column to the edge; the notes grid fills the bottom panel. Under it 8 px: the repeating
+panel (Date and Date Type on one field column with Object Type's label, the date note on two lines after the date box, Is From Repeating
+after the type box), Attachments with its box and button, Copy and Add at the right content edge; then Object Type with its list, the object
+panel (its label, box, Change and Go To) 16 px after it, TaskNum at the right content edge; the bottom bar: Delete, History (Subscribers,
+always hidden, after it), the task-changed note and Refresh, Send To..., Reply and its note, Save at the bottom right."""
+
+
+def lf(h, lab, fld, x, y, lw, fw, fh=None):
+    H = h.H
+    h.set(lab, x, y, lw, H)
+    h.text_align(lab, "MiddleRight")
+    h.set(fld, x + lw + 6, y, fw, H if fh is None else fh)
+    return x + lw + 6 + fw
+
+
+def layout(h):
+    H = h.H
+    CH = h.CH
+    P = H + 4
+    root = h.tree
+    sp = h.n("splitContainer")
+    W = 8 + sp.nw + 8  # the split container keeps its width; the client is its right edge + 8 (the code's Width)
+    HH = root.h
+    R = W - 8
+    yb = HH - 8 - 24
+    # Row 0: New, Done with its note, Read Only.
+    x = 8
+    for name in ("checkNew", "checkDone"):
+        h.check_left(name)
+        h.set(name, x, 8, h.cw(name), CH)
+        x += h.cw(name) + 16
+    x -= 16
+    wa = h.lw("labelDoneAffectsAll")
+    h.set("labelDoneAffectsAll", x + 2, 8, wa, CH)
+    h.text_align("labelDoneAffectsAll", "MiddleLeft")
+    x += 2 + wa + 16
+    h.check_left("checkIsReadOnly")
+    h.set("checkIsReadOnly", x, 8, h.cw("checkIsReadOnly"), CH)
+    # The date rows.
+    y1 = 8 + CH + 4
+    lwd = max(h.lw(n) for n in ("label3", "label5", "label7"))
+    lf(h, "label3", "textBoxDateTimeCreated", 8, y1, lwd, 151)
+    xe = lf(h, "label5", "textDateTimeEntry", 8, y1 + P, lwd, 151)
+    h.set("butNow", xe + 6, y1 + P, 62, 24)
+    lf(h, "label7", "textDateTimeFinished", 8, y1 + 2 * P, lwd, 151)
+    h.set("butNowFinished", xe + 6, y1 + 2 * P, 62, 24)
+    yl = y1 + 2 * P + H
+    # The reminder group.
+    xg = xe + 6 + 62 + 16
+    top = (h.n("groupReminder").title_bottom or 18) + 4
+    lr = max(h.lw(n) for n in ("labelReminderRepeat", "label2", "labelReminderRepeatDays"))
+    Fr = 8 + lr + 6
+    gw = 8 + 159 + 6 + 96 + 8
+    lf(h, "labelReminderRepeat", "comboReminderRepeat", 8, top, lr, gw - 8 - Fr)
+    y2 = top + P
+    # the frequency panel: Every, its box, the unit
+    h.set("label2", 8, 0, lr, H)
+    h.text_align("label2", "MiddleRight")
+    h.set("textReminderRepeatFrequency", Fr, 0, 50, H)
+    wu = h.lw("labelRemindFrequency")
+    h.set("labelRemindFrequency", Fr + 50 + 6, 0, wu, H)
+    h.text_align("labelRemindFrequency", "MiddleLeft")
+    h.set("panelReminderFrequency", 0, y2, gw, 32)
+    # the date and time pickers
+    h.set("datePickerReminder", 8, y2, 159, H)
+    h.set("timePickerReminder", 8 + 159 + 6, y2, 96, H)
+    # the day panel: Days, the seven boxes 14 px apart, their key under them
+    h.set("labelReminderRepeatDays", 8, 0, lr, 15)
+    h.text_align("labelReminderRepeatDays", "MiddleRight")
+    for i, d in enumerate(("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")):
+        h.set("checkReminderRepeat" + d, Fr + i * 14, 0, 13, 15)
+    h.set("labelReminderRepeatDayKey", Fr - 1, 17, 109, 15)
+    h.set("panelReminderDays", 0, y2, gw, 32)
+    gh = y2 + 32 + 8
+    h.set("groupReminder", xg, 8, gw, gh)
+    h.watch("groupReminder", "panelReminderFrequency", "panelReminderDays")
+    # The right column: From User, Task List, Task Priority, Category.
+    lwr = max(h.lw(n) for n in ("label16", "label10", "label8", "labelCategory"))
+    fx = R - 24 - 6 - 134
+    xr = fx - 6 - lwr
+    lf(h, "label16", "textUser", xr, 8, lwr, 134)
+    h.set("butChangeUser", R - 24, 8, 24, H)
+    lf(h, "label10", "textTaskList", xr, 8 + P, lwr, 134)
+    lf(h, "label8", "comboTaskPriorities", xr, 8 + 2 * P, lwr, 134)
+    h.set("butColor", R - 24, 8 + 2 * P, 24, H)
+    lf(h, "labelCategory", "comboCategory", xr, 8 + 3 * P, lwr, 134)
+    yr = 8 + 3 * P + H
+    # The repeating panel on the reminder group's bounds (the code shows one or the other: TasksUseRepeating): Date and Date Type on one
+    # field column at the group's padding, Is From Repeating after the type box, the date note on two lines under them at the column.
+    lp = max(h.lw("labelDateTask"), h.lw("labelDateType"))
+    Fp = 8 + lp + 6
+    lf(h, "labelDateTask", "textDateTask", 8, 0, lp, 100)
+    lf(h, "labelDateType", "comboDateType", 8, P, lp, 100)
+    h.check_left("checkFromNum")
+    h.set("checkFromNum", Fp + 100 + 6, P + (H - CH) // 2, h.cw("checkFromNum"), CH)
+    gw2 = max(gw, Fp + 100 + 6 + h.cw("checkFromNum") + 8)
+    h.set("labelDateAdvice", Fp, 2 * P, gw2 - 8 - Fp, 34)
+    h.text_align("labelDateAdvice", "TopLeft")
+    gh2 = max(gh, 2 * P + 34)
+    h.set("panelRepeating", xg, 8, gw2, gh2)
+    h.set("groupReminder", xg, 8, gw2, gh2)
+    h.set("comboReminderRepeat", None, None, gw2 - 8 - Fr, None)
+    for name in ("panelReminderFrequency", "panelReminderDays"):
+        h.set(name, None, None, gw2, None)
+    h.watch("panelRepeating")
+    ys = max(yl, yr, 8 + gh2) + 8
+    # The bottom rows, from the bottom bar up: Attachments, then Object Type, on one field column.
+    lb = max(h.lw("label6"), h.lw("labelAttachments"))
+    Fb = 8 + lb + 6
+    yo = yb - 8 - 43
+    h.set("label6", 8, yo, lb, H)
+    h.text_align("label6", "MiddleRight")
+    h.set("listObjectType", Fb, yo, 120, 43)
+    lod = h.lw("labelObjectDesc")
+    h.set("labelObjectDesc", 0, 0, lod, H)
+    h.text_align("labelObjectDesc", "MiddleRight")
+    h.set("textObjectDesc", lod + 6, 0, 302, 34)
+    xb = lod + 6 + 302 + 6
+    h.set("butChange", xb, 5, 75, 24)
+    h.set("butGoto", xb + 75 + 6, 5, 76, 24)
+    pw = xb + 75 + 6 + 76
+    xpo = Fb + 120 + 16
+    h.set("panelObject", xpo, yo, pw, 34)
+    h.watch("panelObject")
+    wt = h.lw("labelTaskNum")
+    h.set("textTaskNum", R - 54, yo, 54, H)
+    h.set("labelTaskNum", R - 54 - 6 - wt, yo, wt, H)
+    h.text_align("labelTaskNum", "MiddleRight")
+    ya = yo - 4 - 24
+    lf(h, "labelAttachments", "textAttachments", 8, ya, lb, xpo + xb - 6 - Fb)
+    h.set("butAttachments", xpo + xb, ya, 75, 24)
+    h.set("butAddNote", R - 75, ya, 75, 24)
+    h.set("butCopy", R - 75 - 6 - 75, ya, 75, 24)
+    yrp = ya
+    # The split container between the band and the bottom rows.
+    sh = yrp - 8 - ys
+    h.set("splitContainer", 8, ys, sp.nw, sh)
+    p1 = h.n("splitterPanel1")
+    lc = 92
+    Fd = lc + 6
+    h.set("label1", 0, 0, lc, H)
+    h.text_align("label1", "MiddleRight")
+    h.set("butEditAutoNote", 0, P, lc, 24)
+    h.set("butAutoNote", 0, 2 * P, lc, 24)
+    h.set("butRed", 0, 3 * P, 44, 24)
+    h.set("butBlue", 48, 3 * P, 44, 24)
+    ysd = p1.nh - H
+    h.set("textDescript", Fd, 0, sp.nw - Fd, ysd - 4)
+    h.set("label4", 0, ysd, lc, H)
+    h.text_align("label4", "MiddleRight")
+    h.set("textDescriptOverride", Fd, ysd, sp.nw - Fd, H)
+    p2 = h.n("splitterPanel2")
+    h.set("splitterPanel2", None, None, sp.nw, sh - p2.ny)
+    h.set("gridMain", 0, 0, sp.nw, sh - p2.ny)
+    # The bottom bar.
+    h.set("butDelete", 8, yb, 80, 24)
+    h.set("butAudit", 8 + 80 + 6, yb, 75, 24)
+    xs = 8 + 80 + 6 + 75 + 6
+    h.set("butSubscribers", xs, yb, 75, 24)
+    xs += 75 + 6
+    wc = h.lw("labelTaskChanged")
+    h.set("labelTaskChanged", xs, yb, wc, 24)
+    h.text_align("labelTaskChanged", "MiddleRight")
+    xs += wc + 6
+    h.set("butRefresh", xs, yb, 75, 24)
+    xs += 75 + 16
+    h.set("butSend", xs, yb, 75, 24)
+    xs += 75 + 6
+    h.set("butReply", xs, yb, 75, 24)
+    xs += 75 + 6
+    h.set("labelReply", xs, yb, h.lw("labelReply"), 24)
+    h.text_align("labelReply", "MiddleLeft")
+    h.set("butSave", R - 75, yb, 75, 24)
+    h.set(".", None, None, W, HH)

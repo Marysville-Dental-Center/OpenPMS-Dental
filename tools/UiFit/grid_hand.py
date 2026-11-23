@@ -410,9 +410,16 @@ def load_script(window_simple):
     return mod
 
 
+def full_name(window):
+    """The window's type name: a class name of the OpenPmsDental namespace (FormInsPlan), or a full name for a class of another
+    namespace (OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizSchedule, UI-12 slice 2 continuation)."""
+    return window if window.startswith("OpenPmsDental.") else "OpenPmsDental." + window
+
+
 def run(tree_path, window_simple):
     root = fit_tools.repo_root()
-    window = "OpenPmsDental." + window_simple
+    window = full_name(window_simple)
+    window_simple = window.split(".")[-1]
     trees = g.load_tree(tree_path, {window})
     tree = trees[window]
     wf = fit_tools.window_files(root, [window])
@@ -429,14 +436,14 @@ def run(tree_path, window_simple):
 def main():
     a = argparse.ArgumentParser()
     a.add_argument("--tree", required=True)
-    a.add_argument("--window", required=True, help="the window's class name, e.g. FormInsPlan")
+    a.add_argument("--window", required=True, help="the window's class name, e.g. FormInsPlan (a full name outside the OpenPmsDental namespace)")
     a.add_argument("--hand-file", default="tests/UiRefreshTests/Data/grid-hand.tsv")
     a.add_argument("--tree-out", help="write the laid-out tree (GridDump format) for render.py")
     a.add_argument("--dry", action="store_true", help="print the rows, do not write the hand file")
     args = a.parse_args()
     hand, designer = run(args.tree, args.window)
     rows = hand.rows()
-    window = "OpenPmsDental." + args.window
+    window = full_name(args.window)
     for p in hand.check():
         print("check:", p)
     if args.tree_out:
