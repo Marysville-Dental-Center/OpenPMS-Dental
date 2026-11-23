@@ -68,21 +68,21 @@ OpenPmsDental/Forms/FormAutomationEdit.designer.cs	gridMain	162,89	537,146
 OpenPmsDental/Forms/FormAutomationEdit.designer.cs	butProcCode	484,62	23,23	
 OpenPmsDental/Forms/FormAutomationEdit.designer.cs	butSave	695,405	75,24	
 OpenPmsDental/Forms/FormAutomationEdit.designer.cs	.			778,437
-OpenPmsDental/Forms/FormBlockoutCutCopyPaste.designer.cs	groupBox1	26,40	173,211	
-OpenPmsDental/Forms/FormBlockoutCutCopyPaste.designer.cs	textClipboard	8,124	144,23	
-OpenPmsDental/Forms/FormBlockoutCutCopyPaste.designer.cs	label1	8,23	149,80	
-OpenPmsDental/Forms/FormBlockoutCutCopyPaste.designer.cs	label3	8,105	146,17	
-OpenPmsDental/Forms/FormBlockoutCutCopyPaste.designer.cs	butCopyWeek	8,179	75,24	
-OpenPmsDental/Forms/FormBlockoutCutCopyPaste.designer.cs	butCopyDay	8,151	75,24	
-OpenPmsDental/Forms/FormBlockoutCutCopyPaste.designer.cs	groupBox2	26,259	173,106	
-OpenPmsDental/Forms/FormBlockoutCutCopyPaste.designer.cs	butRepeat	8,75	75,23	
-OpenPmsDental/Forms/FormBlockoutCutCopyPaste.designer.cs	label4	99,75	20,23	
+OpenPmsDental/Forms/FormBlockoutCutCopyPaste.designer.cs	groupBox1	8,40	203,197	
+OpenPmsDental/Forms/FormBlockoutCutCopyPaste.designer.cs	textClipboard	8,110	187,23	
+OpenPmsDental/Forms/FormBlockoutCutCopyPaste.designer.cs	label1	8,23	187,66	
+OpenPmsDental/Forms/FormBlockoutCutCopyPaste.designer.cs	label3	8,91	187,17	
+OpenPmsDental/Forms/FormBlockoutCutCopyPaste.designer.cs	butCopyWeek	8,165	75,24	
+OpenPmsDental/Forms/FormBlockoutCutCopyPaste.designer.cs	butCopyDay	8,137	75,24	
+OpenPmsDental/Forms/FormBlockoutCutCopyPaste.designer.cs	groupBox2	8,245	203,107	
+OpenPmsDental/Forms/FormBlockoutCutCopyPaste.designer.cs	butRepeat	8,75	75,24	
+OpenPmsDental/Forms/FormBlockoutCutCopyPaste.designer.cs	label4	129,75	20,23	
 OpenPmsDental/Forms/FormBlockoutCutCopyPaste.designer.cs	checkReplace	8,23	110,20	
-OpenPmsDental/Forms/FormBlockoutCutCopyPaste.designer.cs	textRepeat	125,75	40,23	
+OpenPmsDental/Forms/FormBlockoutCutCopyPaste.designer.cs	textRepeat	155,75	40,23	
 OpenPmsDental/Forms/FormBlockoutCutCopyPaste.designer.cs	butPaste	8,47	75,24	
-OpenPmsDental/Forms/FormBlockoutCutCopyPaste.designer.cs	checkWeekend	107,10	122,20	
-OpenPmsDental/Forms/FormBlockoutCutCopyPaste.designer.cs	butClearDay	26,8	75,24	
-OpenPmsDental/Forms/FormBlockoutCutCopyPaste.designer.cs	.			290,383
+OpenPmsDental/Forms/FormBlockoutCutCopyPaste.designer.cs	checkWeekend	89,10	122,20	
+OpenPmsDental/Forms/FormBlockoutCutCopyPaste.designer.cs	butClearDay	8,8	75,24	
+OpenPmsDental/Forms/FormBlockoutCutCopyPaste.designer.cs	.			219,360
 OpenPmsDental/Forms/FormCDSILabResult.Designer.cs	butOk	328,328	75,28	
 OpenPmsDental/Forms/FormCDSILabResult.Designer.cs	butDelete	8,328	75,28	
 OpenPmsDental/Forms/FormCDSILabResult.Designer.cs	textLoinc	116,8	104,23	
@@ -97,7 +97,7 @@ OpenPmsDental/Forms/FormCDSILabResult.Designer.cs	groupBox5	8,151	399,54
 OpenPmsDental/Forms/FormCDSILabResult.Designer.cs	label5	62,23	40,23	
 OpenPmsDental/Forms/FormCDSILabResult.Designer.cs	groupBox1	8,213	399,107	
 OpenPmsDental/Forms/FormCDSILabResult.Designer.cs	label4	30,50	72,23	
-OpenPmsDental/Forms/FormCDSILabResult.Designer.cs	textSnomedDescription	108,50	277,49	
+OpenPmsDental/Forms/FormCDSILabResult.Designer.cs	textSnomedDescription	108,50	283,49	
 OpenPmsDental/Forms/FormCDSILabResult.Designer.cs	butSnomed	314,23	24,23	
 OpenPmsDental/Forms/FormCDSILabResult.Designer.cs	textSnomed	108,23	200,20	
 OpenPmsDental/Forms/FormCDSILabResult.Designer.cs	label2	22,23	80,23	
@@ -106,8 +106,8 @@ OpenPmsDental/Forms/FormCDSILabResult.Designer.cs	groupBox2	8,92	399,51
 OpenPmsDental/Forms/FormCDSILabResult.Designer.cs	.			415,364
 OpenPmsDental/Forms/FormCanadaSummaryReconciliation.designer.cs	label5	8,206	151,17	
 OpenPmsDental/Forms/FormCanadaSummaryReconciliation.designer.cs	label1	8,23	278,17	
-OpenPmsDental/Forms/FormCanadaSummaryReconciliation.designer.cs	listCarriers	8,42	275,160	
-OpenPmsDental/Forms/FormCanadaSummaryReconciliation.designer.cs	listNetworks	8,225	275,134	
+OpenPmsDental/Forms/FormCanadaSummaryReconciliation.designer.cs	listCarriers	8,42	286,160	
+OpenPmsDental/Forms/FormCanadaSummaryReconciliation.designer.cs	listNetworks	8,225	286,134	
 OpenPmsDental/Forms/FormCanadaSummaryReconciliation.designer.cs	label3	8,411	278,17	
 OpenPmsDental/Forms/FormCanadaSummaryReconciliation.designer.cs	listTreatingProvider	8,430	302,69	
 OpenPmsDental/Forms/FormCanadaSummaryReconciliation.designer.cs	label4	88,503	116,23	
@@ -206,7 +206,7 @@ OpenPmsDental/Forms/FormDashboardWidgetSetup.designer.cs	gridInternal	8,35	381,5
 OpenPmsDental/Forms/FormDashboardWidgetSetup.designer.cs	butCopy	397,35	75,24	
 OpenPmsDental/Forms/FormDashboardWidgetSetup.designer.cs	butDuplicate	689,633	89,24	
 OpenPmsDental/Forms/FormDashboardWidgetSetup.designer.cs	butTools	397,633	75,24	
-OpenPmsDental/Forms/FormDashboardWidgetSetup.designer.cs	butAdd	744,8	65,23	
+OpenPmsDental/Forms/FormDashboardWidgetSetup.designer.cs	butAdd	744,8	65,24	
 OpenPmsDental/Forms/FormDashboardWidgetSetup.designer.cs	butSave	786,633	75,24	
 OpenPmsDental/Forms/FormDashboardWidgetSetup.designer.cs	.			869,665
 OpenPmsDental/Forms/FormDatabaseMaintInvalidChars.Designer.cs	labelExplain	8,8	884,50	
@@ -223,8 +223,8 @@ OpenPmsDental/Forms/FormDatabaseMaintTemp.designer.cs	label1	8,34	312,23
 OpenPmsDental/Forms/FormDatabaseMaintTemp.designer.cs	comboDbs	326,34	399,23	
 OpenPmsDental/Forms/FormDatabaseMaintTemp.designer.cs	label2	8,61	76,23	
 OpenPmsDental/Forms/FormDatabaseMaintTemp.designer.cs	label3	8,92	138,17	
-OpenPmsDental/Forms/FormDatabaseMaintTemp.designer.cs	label4	8,560	116,23	
-OpenPmsDental/Forms/FormDatabaseMaintTemp.designer.cs	textResults	8,111	717,441	
+OpenPmsDental/Forms/FormDatabaseMaintTemp.designer.cs	label4	8,559	116,24	
+OpenPmsDental/Forms/FormDatabaseMaintTemp.designer.cs	textResults	8,111	717,440	
 OpenPmsDental/Forms/FormDatabaseMaintTemp.designer.cs	groupBox1	8,591	717,108	
 OpenPmsDental/Forms/FormDatabaseMaintTemp.designer.cs	butFix3	643,77	66,23	
 OpenPmsDental/Forms/FormDatabaseMaintTemp.designer.cs	label8	329,77	308,23	
@@ -234,7 +234,7 @@ OpenPmsDental/Forms/FormDatabaseMaintTemp.designer.cs	butFix1	643,23	66,23
 OpenPmsDental/Forms/FormDatabaseMaintTemp.designer.cs	label6	473,23	164,23	
 OpenPmsDental/Forms/FormDatabaseMaintTemp.designer.cs	butBackup	145,23	75,23	
 OpenPmsDental/Forms/FormDatabaseMaintTemp.designer.cs	label5	8,23	131,77	
-OpenPmsDental/Forms/FormDatabaseMaintTemp.designer.cs	butPrint	130,560	75,23	
+OpenPmsDental/Forms/FormDatabaseMaintTemp.designer.cs	butPrint	130,559	75,24	
 OpenPmsDental/Forms/FormDatabaseMaintTemp.designer.cs	butRun	90,61	75,23	
 OpenPmsDental/Forms/FormDatabaseMaintTemp.designer.cs	.			733,707
 OpenPmsDental/Forms/FormEcwDiagAdv.designer.cs	textQuery	246,52	736,99	
@@ -295,8 +295,8 @@ OpenPmsDental/Forms/FormEhrLabOrderImport.Designer.cs	label7	60,97	52,23
 OpenPmsDental/Forms/FormEhrLabOrderImport.Designer.cs	label9	52,70	60,23	
 OpenPmsDental/Forms/FormEhrLabOrderImport.Designer.cs	labelExistingLab	235,367	386,17	
 OpenPmsDental/Forms/FormEhrLabOrderImport.Designer.cs	.			714,427
-OpenPmsDental/Forms/FormEhrLabResultEdit.Designer.cs	butSave	307,302	75,28	
-OpenPmsDental/Forms/FormEhrLabResultEdit.Designer.cs	butDelete	8,302	75,28	
+OpenPmsDental/Forms/FormEhrLabResultEdit.Designer.cs	butSave	307,271	75,24	
+OpenPmsDental/Forms/FormEhrLabResultEdit.Designer.cs	butDelete	8,271	75,24	
 OpenPmsDental/Forms/FormEhrLabResultEdit.Designer.cs	textDateTimeTest	158,8	152,20	
 OpenPmsDental/Forms/FormEhrLabResultEdit.Designer.cs	textTestName	150,50	216,23	
 OpenPmsDental/Forms/FormEhrLabResultEdit.Designer.cs	label3	84,8	68,23	
@@ -313,7 +313,7 @@ OpenPmsDental/Forms/FormEhrLabResultEdit.Designer.cs	textObsUnits	150,50	80,23
 OpenPmsDental/Forms/FormEhrLabResultEdit.Designer.cs	textObsRange	150,77	116,20	
 OpenPmsDental/Forms/FormEhrLabResultEdit.Designer.cs	label7	52,104	92,23	
 OpenPmsDental/Forms/FormEhrLabResultEdit.Designer.cs	label2	100,77	44,23	
-OpenPmsDental/Forms/FormEhrLabResultEdit.Designer.cs	.			390,338
+OpenPmsDental/Forms/FormEhrLabResultEdit.Designer.cs	.			390,303
 OpenPmsDental/Forms/FormEhrPatientSelectSimple.Designer.cs	gridMain	8,8	559,527	
 OpenPmsDental/Forms/FormEhrPatientSelectSimple.Designer.cs	textFName	646,35	119,23	
 OpenPmsDental/Forms/FormEhrPatientSelectSimple.Designer.cs	label3	572,35	68,23	
@@ -353,7 +353,7 @@ OpenPmsDental/Forms/FormElectIDEdit.designer.cs	gridAttributes	442,35	260,316
 OpenPmsDental/Forms/FormElectIDEdit.designer.cs	.			710,391
 OpenPmsDental/Forms/FormElectIDs.designer.cs	gridElectIDs	8,35	900,640	
 OpenPmsDental/Forms/FormElectIDs.designer.cs	butOK	833,698	75,25	
-OpenPmsDental/Forms/FormElectIDs.designer.cs	butAdd	7,698	75,25	
+OpenPmsDental/Forms/FormElectIDs.designer.cs	butAdd	8,698	75,25	
 OpenPmsDental/Forms/FormElectIDs.designer.cs	labelCommBridge	8,8	84,23	
 OpenPmsDental/Forms/FormElectIDs.designer.cs	comboCommBridge	98,8	160,23	
 OpenPmsDental/Forms/FormElectIDs.designer.cs	.			916,731
@@ -400,7 +400,7 @@ OpenPmsDental/Forms/FormEtrans270EBraw.designer.cs	gridMain	8,158	357,286
 OpenPmsDental/Forms/FormEtrans270EBraw.designer.cs	textRaw	8,28	357,126	
 OpenPmsDental/Forms/FormEtrans270EBraw.designer.cs	.			373,452
 OpenPmsDental/Forms/FormFeeSchedGroupEdit.designer.cs	butSave	506,394	75,24	
-OpenPmsDental/Forms/FormFeeSchedGroupEdit.designer.cs	textDescription	230,8	152,20	
+OpenPmsDental/Forms/FormFeeSchedGroupEdit.designer.cs	textDescription	230,8	157,23	
 OpenPmsDental/Forms/FormFeeSchedGroupEdit.designer.cs	labelDescription	152,8	72,23	
 OpenPmsDental/Forms/FormFeeSchedGroupEdit.designer.cs	butRight	277,194	35,26	
 OpenPmsDental/Forms/FormFeeSchedGroupEdit.designer.cs	butLeft	277,228	35,26	
@@ -500,9 +500,9 @@ OpenPmsDental/Forms/FormInsPlanSelectFam.designer.cs	checkShowPlansNotInUse	8,8	
 OpenPmsDental/Forms/FormInsPlanSelectFam.designer.cs	.			794,284
 OpenPmsDental/Forms/FormInventorySetup.Designer.cs	checkEnabled	8,8	150,20	
 OpenPmsDental/Forms/FormInventorySetup.Designer.cs	labelEnabled	24,30	420,66	
-OpenPmsDental/Forms/FormInventorySetup.Designer.cs	labelExpiryDays	8,104	230,23	
-OpenPmsDental/Forms/FormInventorySetup.Designer.cs	textExpiryDays	244,104	48,23	
-OpenPmsDental/Forms/FormInventorySetup.Designer.cs	labelExpiryNote	298,106	140,18	
+OpenPmsDental/Forms/FormInventorySetup.Designer.cs	labelExpiryDays	8,104	228,23	
+OpenPmsDental/Forms/FormInventorySetup.Designer.cs	textExpiryDays	242,104	48,23	
+OpenPmsDental/Forms/FormInventorySetup.Designer.cs	labelExpiryNote	296,106	140,18	
 OpenPmsDental/Forms/FormInventorySetup.Designer.cs	butSave	369,146	75,24	
 OpenPmsDental/Forms/FormInventorySetup.Designer.cs	.			452,178
 OpenPmsDental/Forms/FormInvoiceItemSelect.designer.cs	label1	8,8	673,26	
@@ -593,9 +593,9 @@ OpenPmsDental/Forms/FormMedLabPatSelect.Designer.cs	gridPidInfo	8,35	808,117
 OpenPmsDental/Forms/FormMedLabPatSelect.Designer.cs	.			824,408
 OpenPmsDental/Forms/FormPatFieldDefs.designer.cs	label1	8,32	409,47	
 OpenPmsDental/Forms/FormPatFieldDefs.designer.cs	gridMain	8,105	409,305	
-OpenPmsDental/Forms/FormPatFieldDefs.designer.cs	butAdd	425,96	79,26	
-OpenPmsDental/Forms/FormPatFieldDefs.designer.cs	butDown	425,154	79,24	
-OpenPmsDental/Forms/FormPatFieldDefs.designer.cs	butUp	425,126	79,24	
+OpenPmsDental/Forms/FormPatFieldDefs.designer.cs	butAdd	425,105	79,24	
+OpenPmsDental/Forms/FormPatFieldDefs.designer.cs	butDown	425,161	79,24	
+OpenPmsDental/Forms/FormPatFieldDefs.designer.cs	butUp	425,133	79,24	
 OpenPmsDental/Forms/FormPatFieldDefs.designer.cs	checkDisplayRenamed	8,81	329,20	
 OpenPmsDental/Forms/FormPatFieldDefs.designer.cs	menuMain	0,0	512,24	
 OpenPmsDental/Forms/FormPatFieldDefs.designer.cs	.			512,418
@@ -650,7 +650,7 @@ OpenPmsDental/Forms/FormProcApptColorEdit.designer.cs	panelColor	136,57	24,24
 OpenPmsDental/Forms/FormProcApptColorEdit.designer.cs	labelBeforeTime	66,57	64,23	
 OpenPmsDental/Forms/FormProcApptColorEdit.designer.cs	checkPrevDate	136,85	130,20	
 OpenPmsDental/Forms/FormProcApptColorEdit.designer.cs	butChange	166,57	75,23	
-OpenPmsDental/Forms/FormProcApptColorEdit.designer.cs	butDelete	6,127	92,24	
+OpenPmsDental/Forms/FormProcApptColorEdit.designer.cs	butDelete	8,127	92,24	
 OpenPmsDental/Forms/FormProcApptColorEdit.designer.cs	butSave	278,127	75,24	
 OpenPmsDental/Forms/FormProcApptColorEdit.designer.cs	.			361,159
 OpenPmsDental/Forms/FormProcCodesOther.Designer.cs	labelInfo	8,8	504,77	
@@ -685,7 +685,7 @@ OpenPmsDental/Forms/FormProgramLinks.designer.cs	label2	8,8	406,17
 OpenPmsDental/Forms/FormProgramLinks.designer.cs	label1	89,633	253,29	
 OpenPmsDental/Forms/FormProgramLinks.designer.cs	gridProgram	8,27	448,600	
 OpenPmsDental/Forms/FormProgramLinks.designer.cs	.			464,669
-OpenPmsDental/Forms/FormProvStudentBulkEdit.designer.cs	butBulkEdit	84,77	75,24	
+OpenPmsDental/Forms/FormProvStudentBulkEdit.designer.cs	butBulkEdit	105,77	75,24	
 OpenPmsDental/Forms/FormProvStudentBulkEdit.designer.cs	gridStudents	8,8	388,478	
 OpenPmsDental/Forms/FormProvStudentBulkEdit.designer.cs	label7	404,55	90,18	
 OpenPmsDental/Forms/FormProvStudentBulkEdit.designer.cs	textProvNum	404,75	188,23	
@@ -717,10 +717,10 @@ OpenPmsDental/Forms/FormQueryMonitor.designer.cs	groupBox1	0,0	936,263
 OpenPmsDental/Forms/FormQueryMonitor.designer.cs	label4	544,20	96,17	
 OpenPmsDental/Forms/FormQueryMonitor.designer.cs	label3	313,20	96,17	
 OpenPmsDental/Forms/FormQueryMonitor.designer.cs	label2	82,20	96,17	
-OpenPmsDental/Forms/FormQueryMonitor.designer.cs	textElapsed	646,18	111,20	
+OpenPmsDental/Forms/FormQueryMonitor.designer.cs	textElapsed	646,18	123,23	
 OpenPmsDental/Forms/FormQueryMonitor.designer.cs	textDateTimeStop	415,18	123,20	
 OpenPmsDental/Forms/FormQueryMonitor.designer.cs	textDateTimeStart	184,18	123,20	
-OpenPmsDental/Forms/FormQueryMonitor.designer.cs	label1	6,25	68,18	
+OpenPmsDental/Forms/FormQueryMonitor.designer.cs	label1	6,20	68,17	
 OpenPmsDental/Forms/FormQueryMonitor.designer.cs	textCommand	6,45	924,212	
 OpenPmsDental/Forms/FormQueryMonitor.designer.cs	butCopy	953,480	75,24	
 OpenPmsDental/Forms/FormQueryMonitor.designer.cs	buttonClear	953,36	75,24	
@@ -835,7 +835,7 @@ OpenPmsDental/Forms/FormSupplies.Designer.cs	label1	266,8	48,23
 OpenPmsDental/Forms/FormSupplies.Designer.cs	labelSuppliers	16,8	60,23	
 OpenPmsDental/Forms/FormSupplies.Designer.cs	comboSuppliers	82,8	168,23	
 OpenPmsDental/Forms/FormSupplies.Designer.cs	checkShowHidden	494,9	95,20	
-OpenPmsDental/Forms/FormSupplies.Designer.cs	butAdd	661,35	93,23	
+OpenPmsDental/Forms/FormSupplies.Designer.cs	butAdd	644,35	110,24	
 OpenPmsDental/Forms/FormSupplies.Designer.cs	gridMain	8,62	746,527	
 OpenPmsDental/Forms/FormSupplies.Designer.cs	label2	8,35	68,23	
 OpenPmsDental/Forms/FormSupplies.Designer.cs	comboCategories	82,35	168,23	
@@ -910,10 +910,10 @@ OpenPmsDental/Forms/FormTerminalManager.designer.cs	textPassword	8,57	128,23
 OpenPmsDental/Forms/FormTerminalManager.designer.cs	label2	8,23	499,32	
 OpenPmsDental/Forms/FormTerminalManager.designer.cs	butSave	142,57	97,23	
 OpenPmsDental/Forms/FormTerminalManager.designer.cs	groupBoxPatient	857,57	180,219	
-OpenPmsDental/Forms/FormTerminalManager.designer.cs	butPatForms	8,187	158,24	
+OpenPmsDental/Forms/FormTerminalManager.designer.cs	butPatForms	8,187	164,24	
 OpenPmsDental/Forms/FormTerminalManager.designer.cs	labelSheets	8,43	164,17	
 OpenPmsDental/Forms/FormTerminalManager.designer.cs	labelPatient	8,23	164,18	
-OpenPmsDental/Forms/FormTerminalManager.designer.cs	listSheets	8,62	158,121	
+OpenPmsDental/Forms/FormTerminalManager.designer.cs	listSheets	8,62	164,121	
 OpenPmsDental/Forms/FormTerminalManager.designer.cs	label1	8,8	580,47	
 OpenPmsDental/Forms/FormTerminalManager.designer.cs	.			1045,609
 OpenPmsDental/Forms/FormTimeCardRuleEdit.designer.cs	label5	60,176	124,23	
@@ -964,27 +964,27 @@ OpenPmsDental/Forms/FormTreatPlanCurEdit.designer.cs	textNote	103,62	333,58
 OpenPmsDental/Forms/FormTreatPlanCurEdit.designer.cs	labelPlanType	33,35	64,23	
 OpenPmsDental/Forms/FormTreatPlanCurEdit.designer.cs	comboPlanType	103,35	104,23	
 OpenPmsDental/Forms/FormTreatPlanCurEdit.designer.cs	.			923,640
-OpenPmsDental/Forms/FormTxtMsgEdit.designer.cs	textWirelessPhone	215,91	140,20	
-OpenPmsDental/Forms/FormTxtMsgEdit.designer.cs	label1	215,67	140,20	
-OpenPmsDental/Forms/FormTxtMsgEdit.designer.cs	label2	25,145	86,20	
+OpenPmsDental/Forms/FormTxtMsgEdit.designer.cs	textWirelessPhone	229,91	140,20	
+OpenPmsDental/Forms/FormTxtMsgEdit.designer.cs	label1	229,67	140,20	
+OpenPmsDental/Forms/FormTxtMsgEdit.designer.cs	label2	8,145	86,20	
 OpenPmsDental/Forms/FormTxtMsgEdit.designer.cs	radioPatient	8,23	62,20	
 OpenPmsDental/Forms/FormTxtMsgEdit.designer.cs	radioOther	132,23	107,20	
 OpenPmsDental/Forms/FormTxtMsgEdit.designer.cs	groupRecipient	8,8	361,51	
-OpenPmsDental/Forms/FormTxtMsgEdit.designer.cs	textPatient	25,91	184,23	
-OpenPmsDental/Forms/FormTxtMsgEdit.designer.cs	label4	25,67	70,20	
-OpenPmsDental/Forms/FormTxtMsgEdit.designer.cs	butPatFind	25,118	63,23	
-OpenPmsDental/Forms/FormTxtMsgEdit.designer.cs	textMessage	25,167	344,113	
+OpenPmsDental/Forms/FormTxtMsgEdit.designer.cs	textPatient	8,91	215,23	
+OpenPmsDental/Forms/FormTxtMsgEdit.designer.cs	label4	8,67	70,20	
+OpenPmsDental/Forms/FormTxtMsgEdit.designer.cs	butPatFind	8,118	63,23	
+OpenPmsDental/Forms/FormTxtMsgEdit.designer.cs	textMessage	8,167	361,113	
 OpenPmsDental/Forms/FormTxtMsgEdit.designer.cs	butOK	294,307	75,24	
-OpenPmsDental/Forms/FormTxtMsgEdit.designer.cs	labelCharCount	200,118	100,23	
-OpenPmsDental/Forms/FormTxtMsgEdit.designer.cs	textCharCount	306,119	53,20	
+OpenPmsDental/Forms/FormTxtMsgEdit.designer.cs	labelCharCount	210,118	100,23	
+OpenPmsDental/Forms/FormTxtMsgEdit.designer.cs	textCharCount	316,118	53,23	
 OpenPmsDental/Forms/FormTxtMsgEdit.designer.cs	.			377,339
 OpenPmsDental/Forms/FormUnschedListSetup.designer.cs	butSave	203,161	75,24	
 OpenPmsDental/Forms/FormUnschedListSetup.designer.cs	groupBox3	8,8	270,145	
 OpenPmsDental/Forms/FormUnschedListSetup.designer.cs	label1	8,77	253,60	
-OpenPmsDental/Forms/FormUnschedListSetup.designer.cs	textDaysFuture	192,50	52,23	
-OpenPmsDental/Forms/FormUnschedListSetup.designer.cs	textDaysPast	192,23	52,23	
-OpenPmsDental/Forms/FormUnschedListSetup.designer.cs	label14	14,23	172,23	
-OpenPmsDental/Forms/FormUnschedListSetup.designer.cs	label15	74,50	112,23	
+OpenPmsDental/Forms/FormUnschedListSetup.designer.cs	textDaysFuture	210,50	52,23	
+OpenPmsDental/Forms/FormUnschedListSetup.designer.cs	textDaysPast	210,23	52,23	
+OpenPmsDental/Forms/FormUnschedListSetup.designer.cs	label14	32,23	172,23	
+OpenPmsDental/Forms/FormUnschedListSetup.designer.cs	label15	92,50	112,23	
 OpenPmsDental/Forms/FormUnschedListSetup.designer.cs	.			286,193
 OpenPmsDental/Forms/FormWikiAllPages.designer.cs	butOK	929,686	75,24	
 OpenPmsDental/Forms/FormWikiAllPages.designer.cs	webViewWiki	266,32	655,646	
@@ -1038,14 +1038,14 @@ OpenPmsDental/SheetFramework/SheetEditMobileCtrl.Designer.cs	butAddHeader	417,8	
 OpenPmsDental/SheetFramework/SheetEditMobileCtrl.Designer.cs	butOrderFields	498,8	152,23	
 OpenPmsDental/SheetFramework/SheetEditMobileCtrl.Designer.cs	panelPreview	2,40	656,343	
 OpenPmsDental/SheetFramework/SheetEditMobileCtrl.Designer.cs	.		658,385	
-OpenPmsDental/User Controls/Dashboard/DashIndividualDiscount.Designer.cs	groupBoxIndDiscount	8,8	174,108	
+OpenPmsDental/User Controls/Dashboard/DashIndividualDiscount.Designer.cs	groupBoxIndDiscount	0,0	174,108	
 OpenPmsDental/User Controls/Dashboard/DashIndividualDiscount.Designer.cs	textUsedAdj	106,50	60,20	
 OpenPmsDental/User Controls/Dashboard/DashIndividualDiscount.Designer.cs	textRemainingAdj	106,77	60,23	
 OpenPmsDental/User Controls/Dashboard/DashIndividualDiscount.Designer.cs	textMaxAdj	106,23	60,23	
 OpenPmsDental/User Controls/Dashboard/DashIndividualDiscount.Designer.cs	label11	24,23	76,23	
 OpenPmsDental/User Controls/Dashboard/DashIndividualDiscount.Designer.cs	label18	8,77	92,23	
 OpenPmsDental/User Controls/Dashboard/DashIndividualDiscount.Designer.cs	label12	40,50	60,23	
-OpenPmsDental/User Controls/Dashboard/DashIndividualDiscount.Designer.cs	.		190,124	
+OpenPmsDental/User Controls/Dashboard/DashIndividualDiscount.Designer.cs	.		174,108	
 OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizOperatory.Designer.cs	label8	8,8	506,34	
 OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizOperatory.Designer.cs	butAdd	705,50	82,26	
 OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizOperatory.Designer.cs	label2	705,80	217,32	
