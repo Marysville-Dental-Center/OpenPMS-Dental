@@ -1663,6 +1663,14 @@ own 26.2 overlap check before it starts. The first cut is below; a brief that fi
   in the designer, note boxes and tab pages in their background, caption gaps and edges in FormDepositEdit, FormInsPlans(Overrides),
   FormOperatoryEdit, FormEhrPatientSmoking, FormMedPat's height; the gallery draws the 11 other tab pages and the Cert Complete view (59
   pictures); re-plans 243 / 461 / 179 unchanged (UI-12.md section 7, "Slice 3, fix round").
+  Slice 6 (UI-12-6, branch `ui/ui12-6-1`, batch 2 of `UI-12-batches.tsv` as re-planned after slices 3 and 4): 97 windows on the grid
+  (the planner and its templates, 83 of them with a layout script on the planner's tree: margins and right edges, side-by-side grids on
+  one top and width, cut and covered notes, run-time label texts, the step list of FormDatabaseMaintTemp, FormClaimPayTotal's totals row,
+  five window sizes the planner broke back at main's), 23 files skipped (the plain exes, the graph project, ODProgressBar,
+  ODDateRangePicker, ControlFamily); `grid_tools.py apply` moves a control declared as a local of InitializeComponent; the gallery shows
+  the run-time texts of seven windows' placeholder labels; no planner rule added (the planner's SplitterPanel placement left to the lead);
+  re-plans 243 / 461 / 179 / 37 and slice 4's rows unchanged; gallery G-UI3-ui12-6 (97 windows, 15 at 150%), audit `UI-12-audit-6.md`
+  (UI-12.md section 7, "Slice 6 (batch 2)").
 - Gallery: G-UI3 per slice, the owner's rows first.
 
 **UI-13: every element type in the new look (the owner, 2026-11-22: "Overall make sure you modernize all element types")**
