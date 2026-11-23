@@ -53,9 +53,9 @@ namespace OpenPmsDental{
 			this.groupBox1.Controls.Add(this.label2);
 			this.groupBox1.Controls.Add(this.labelPatNumInto);
 			this.groupBox1.Controls.Add(this.textPatNumInto);
-			this.groupBox1.Location = new System.Drawing.Point(12, 12);
+			this.groupBox1.Location = new System.Drawing.Point(8, 8);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(668, 88);
+			this.groupBox1.Size = new System.Drawing.Size(677, 77);
 			this.groupBox1.TabIndex = 4;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Patient to merge into. The patient chosen below will be merged into this account." +
@@ -64,27 +64,27 @@ namespace OpenPmsDental{
 			// textPatToBirthdate
 			// 
 			this.textPatToBirthdate.AutoSize = false;
-			this.textPatToBirthdate.Location = new System.Drawing.Point(396, 37);
+			this.textPatToBirthdate.Location = new System.Drawing.Point(396, 46);
 			this.textPatToBirthdate.Name = "textPatToBirthdate";
 			this.textPatToBirthdate.ReadOnly = true;
-			this.textPatToBirthdate.Size = new System.Drawing.Size(126, 20);
+			this.textPatToBirthdate.Size = new System.Drawing.Size(128, 23);
 			this.textPatToBirthdate.TabIndex = 6;
 			// 
 			// label5
 			// 
 			this.label5.AutoSize = false;
-			this.label5.Location = new System.Drawing.Point(393, 18);
+			this.label5.Location = new System.Drawing.Point(393, 23);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(96, 19);
+			this.label5.Size = new System.Drawing.Size(100, 19);
 			this.label5.TabIndex = 5;
 			this.label5.Text = "Patient Birthdate";
 			// 
 			// butChangePatientInto
 			// 
 			this.butChangePatientInto.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butChangePatientInto.Location = new System.Drawing.Point(581, 34);
+			this.butChangePatientInto.Location = new System.Drawing.Point(581, 46);
 			this.butChangePatientInto.Name = "butChangePatientInto";
-			this.butChangePatientInto.Size = new System.Drawing.Size(75, 24);
+			this.butChangePatientInto.Size = new System.Drawing.Size(75, 23);
 			this.butChangePatientInto.TabIndex = 4;
 			this.butChangePatientInto.Text = "Change";
 			this.butChangePatientInto.Click += new System.EventHandler(this.butChangePatientInto_Click);
@@ -92,37 +92,37 @@ namespace OpenPmsDental{
 			// textPatientNameInto
 			// 
 			this.textPatientNameInto.AutoSize = false;
-			this.textPatientNameInto.Location = new System.Drawing.Point(153, 37);
+			this.textPatientNameInto.Location = new System.Drawing.Point(154, 46);
 			this.textPatientNameInto.Name = "textPatientNameInto";
 			this.textPatientNameInto.ReadOnly = true;
-			this.textPatientNameInto.Size = new System.Drawing.Size(237, 20);
+			this.textPatientNameInto.Size = new System.Drawing.Size(236, 23);
 			this.textPatientNameInto.TabIndex = 3;
 			// 
 			// label2
 			// 
 			this.label2.AutoSize = false;
-			this.label2.Location = new System.Drawing.Point(150, 18);
+			this.label2.Location = new System.Drawing.Point(150, 23);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(80, 19);
+			this.label2.Size = new System.Drawing.Size(84, 19);
 			this.label2.TabIndex = 2;
 			this.label2.Text = "Patient Name";
 			// 
 			// labelPatNumInto
 			// 
 			this.labelPatNumInto.AutoSize = false;
-			this.labelPatNumInto.Location = new System.Drawing.Point(7, 18);
+			this.labelPatNumInto.Location = new System.Drawing.Point(8, 23);
 			this.labelPatNumInto.Name = "labelPatNumInto";
-			this.labelPatNumInto.Size = new System.Drawing.Size(91, 19);
+			this.labelPatNumInto.Size = new System.Drawing.Size(96, 19);
 			this.labelPatNumInto.TabIndex = 1;
 			this.labelPatNumInto.Text = "Patient Number";
 			// 
 			// textPatNumInto
 			// 
 			this.textPatNumInto.AutoSize = false;
-			this.textPatNumInto.Location = new System.Drawing.Point(6, 37);
+			this.textPatNumInto.Location = new System.Drawing.Point(8, 46);
 			this.textPatNumInto.Name = "textPatNumInto";
 			this.textPatNumInto.ReadOnly = true;
-			this.textPatNumInto.Size = new System.Drawing.Size(141, 20);
+			this.textPatNumInto.Size = new System.Drawing.Size(140, 23);
 			this.textPatNumInto.TabIndex = 0;
 			// 
 			// groupBox2
@@ -134,9 +134,9 @@ namespace OpenPmsDental{
 			this.groupBox2.Controls.Add(this.label3);
 			this.groupBox2.Controls.Add(this.labelPatNumFrom);
 			this.groupBox2.Controls.Add(this.textPatNumFrom);
-			this.groupBox2.Location = new System.Drawing.Point(12, 112);
+			this.groupBox2.Location = new System.Drawing.Point(8, 93);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(681, 88);
+			this.groupBox2.Size = new System.Drawing.Size(677, 77);
 			this.groupBox2.TabIndex = 5;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Patient to merge from. This account will be merged into the account above. This a" +
@@ -145,27 +145,27 @@ namespace OpenPmsDental{
 			// textPatFromBirthdate
 			// 
 			this.textPatFromBirthdate.AutoSize = false;
-			this.textPatFromBirthdate.Location = new System.Drawing.Point(396, 37);
+			this.textPatFromBirthdate.Location = new System.Drawing.Point(396, 46);
 			this.textPatFromBirthdate.Name = "textPatFromBirthdate";
 			this.textPatFromBirthdate.ReadOnly = true;
-			this.textPatFromBirthdate.Size = new System.Drawing.Size(126, 20);
+			this.textPatFromBirthdate.Size = new System.Drawing.Size(128, 23);
 			this.textPatFromBirthdate.TabIndex = 11;
 			// 
 			// label6
 			// 
 			this.label6.AutoSize = false;
-			this.label6.Location = new System.Drawing.Point(396, 20);
+			this.label6.Location = new System.Drawing.Point(396, 24);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(96, 17);
+			this.label6.Size = new System.Drawing.Size(100, 17);
 			this.label6.TabIndex = 10;
 			this.label6.Text = "Patient Birthdate";
 			// 
 			// butChangePatientFrom
 			// 
 			this.butChangePatientFrom.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butChangePatientFrom.Location = new System.Drawing.Point(580, 34);
+			this.butChangePatientFrom.Location = new System.Drawing.Point(580, 46);
 			this.butChangePatientFrom.Name = "butChangePatientFrom";
-			this.butChangePatientFrom.Size = new System.Drawing.Size(75, 24);
+			this.butChangePatientFrom.Size = new System.Drawing.Size(75, 23);
 			this.butChangePatientFrom.TabIndex = 9;
 			this.butChangePatientFrom.Text = "Change";
 			this.butChangePatientFrom.Click += new System.EventHandler(this.butChangePatientFrom_Click);
@@ -173,44 +173,44 @@ namespace OpenPmsDental{
 			// textPatientNameFrom
 			// 
 			this.textPatientNameFrom.AutoSize = false;
-			this.textPatientNameFrom.Location = new System.Drawing.Point(153, 37);
+			this.textPatientNameFrom.Location = new System.Drawing.Point(154, 46);
 			this.textPatientNameFrom.Name = "textPatientNameFrom";
 			this.textPatientNameFrom.ReadOnly = true;
-			this.textPatientNameFrom.Size = new System.Drawing.Size(237, 20);
+			this.textPatientNameFrom.Size = new System.Drawing.Size(236, 23);
 			this.textPatientNameFrom.TabIndex = 8;
 			// 
 			// label3
 			// 
 			this.label3.AutoSize = false;
-			this.label3.Location = new System.Drawing.Point(150, 18);
+			this.label3.Location = new System.Drawing.Point(150, 23);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(80, 19);
+			this.label3.Size = new System.Drawing.Size(84, 19);
 			this.label3.TabIndex = 7;
 			this.label3.Text = "Patient Name";
 			// 
 			// labelPatNumFrom
 			// 
 			this.labelPatNumFrom.AutoSize = false;
-			this.labelPatNumFrom.Location = new System.Drawing.Point(7, 18);
+			this.labelPatNumFrom.Location = new System.Drawing.Point(8, 23);
 			this.labelPatNumFrom.Name = "labelPatNumFrom";
-			this.labelPatNumFrom.Size = new System.Drawing.Size(91, 19);
+			this.labelPatNumFrom.Size = new System.Drawing.Size(96, 19);
 			this.labelPatNumFrom.TabIndex = 6;
 			this.labelPatNumFrom.Text = "Patient Number";
 			// 
 			// textPatNumFrom
 			// 
 			this.textPatNumFrom.AutoSize = false;
-			this.textPatNumFrom.Location = new System.Drawing.Point(6, 37);
+			this.textPatNumFrom.Location = new System.Drawing.Point(8, 46);
 			this.textPatNumFrom.Name = "textPatNumFrom";
 			this.textPatNumFrom.ReadOnly = true;
-			this.textPatNumFrom.Size = new System.Drawing.Size(141, 20);
+			this.textPatNumFrom.Size = new System.Drawing.Size(140, 23);
 			this.textPatNumFrom.TabIndex = 5;
 			// 
 			// butMerge
 			// 
 			this.butMerge.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butMerge.Enabled = false;
-			this.butMerge.Location = new System.Drawing.Point(605, 214);
+			this.butMerge.Location = new System.Drawing.Point(605, 178);
 			this.butMerge.Name = "butMerge";
 			this.butMerge.Size = new System.Drawing.Size(75, 24);
 			this.butMerge.TabIndex = 3;

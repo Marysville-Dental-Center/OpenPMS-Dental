@@ -56,7 +56,7 @@ namespace OpenPmsDental {
 			// label6
 			// 
 			this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label6.Location = new System.Drawing.Point(107, -44);
+			this.label6.Location = new System.Drawing.Point(107, 33);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(112, 44);
 			this.label6.TabIndex = 21;
@@ -159,42 +159,42 @@ namespace OpenPmsDental {
 			// 
 			// comboClinic
 			// 
-			this.comboClinic.Location = new System.Drawing.Point(74, 26);
+			this.comboClinic.Location = new System.Drawing.Point(86, 79);
 			this.comboClinic.Name = "comboClinic";
 			this.comboClinic.SelectionModeMulti = true;
-			this.comboClinic.Size = new System.Drawing.Size(160, 21);
+			this.comboClinic.Size = new System.Drawing.Size(160, 23);
 			this.comboClinic.TabIndex = 53;
 			this.comboClinic.SelectionChangeCommitted += new System.EventHandler(this.comboClinic_SelectionChangeCommitted);
 			// 
 			// labelClinic
 			// 
-			this.labelClinic.Location = new System.Drawing.Point(7, 29);
+			this.labelClinic.Location = new System.Drawing.Point(8, 79);
 			this.labelClinic.Name = "labelClinic";
-			this.labelClinic.Size = new System.Drawing.Size(66, 18);
+			this.labelClinic.Size = new System.Drawing.Size(72, 23);
 			this.labelClinic.TabIndex = 52;
 			this.labelClinic.Text = "Clinic Filter";
-			this.labelClinic.TextAlign = System.Drawing.ContentAlignment.BottomRight;
+			this.labelClinic.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// comboCustomTracking
 			// 
-			this.comboCustomTracking.Location = new System.Drawing.Point(514, 26);
+			this.comboCustomTracking.Location = new System.Drawing.Point(514, 79);
 			this.comboCustomTracking.Name = "comboCustomTracking";
-			this.comboCustomTracking.Size = new System.Drawing.Size(160, 21);
+			this.comboCustomTracking.Size = new System.Drawing.Size(160, 23);
 			this.comboCustomTracking.TabIndex = 55;
 			this.comboCustomTracking.SelectionChangeCommitted += new System.EventHandler(this.comboCustomTracking_SelectionChangeCommitted);
 			// 
 			// labelCustomTracking
 			// 
-			this.labelCustomTracking.Location = new System.Drawing.Point(370, 29);
+			this.labelCustomTracking.Location = new System.Drawing.Point(376, 79);
 			this.labelCustomTracking.Name = "labelCustomTracking";
-			this.labelCustomTracking.Size = new System.Drawing.Size(142, 18);
+			this.labelCustomTracking.Size = new System.Drawing.Size(132, 23);
 			this.labelCustomTracking.TabIndex = 54;
 			this.labelCustomTracking.Text = "Custom Tracking Filter";
-			this.labelCustomTracking.TextAlign = System.Drawing.ContentAlignment.BottomRight;
+			this.labelCustomTracking.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// butNextUnsent
 			// 
-			this.butNextUnsent.Location = new System.Drawing.Point(234, 25);
+			this.butNextUnsent.Location = new System.Drawing.Point(252, 79);
 			this.butNextUnsent.Name = "butNextUnsent";
 			this.butNextUnsent.Size = new System.Drawing.Size(74, 23);
 			this.butNextUnsent.TabIndex = 56;
@@ -207,7 +207,7 @@ namespace OpenPmsDental {
 			this.gridMain.AllowSortingByColumn = true;
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(4, 49);
+			this.gridMain.Location = new System.Drawing.Point(969, 108);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
 			this.gridMain.Size = new System.Drawing.Size(1218, 350);
@@ -240,7 +240,7 @@ namespace OpenPmsDental {
 			// 
 			this.textCarrier.AcceptsTab = true;
 			this.textCarrier.BackColor = System.Drawing.SystemColors.Window;
-			this.textCarrier.Location = new System.Drawing.Point(775, 26);
+			this.textCarrier.Location = new System.Drawing.Point(775, 79);
 			this.textCarrier.Name = "textCarrier";
 			this.textCarrier.Size = new System.Drawing.Size(100, 20);
 			this.textCarrier.TabIndex = 57;
@@ -249,7 +249,7 @@ namespace OpenPmsDental {
 			// 
 			this.textProc.AcceptsTab = true;
 			this.textProc.BackColor = System.Drawing.SystemColors.Window;
-			this.textProc.Location = new System.Drawing.Point(1122, 26);
+			this.textProc.Location = new System.Drawing.Point(1143, 79);
 			this.textProc.Name = "textProc";
 			this.textProc.Size = new System.Drawing.Size(100, 20);
 			this.textProc.TabIndex = 59;
@@ -258,7 +258,7 @@ namespace OpenPmsDental {
 			// 
 			this.textProv.AcceptsTab = true;
 			this.textProv.BackColor = System.Drawing.SystemColors.Window;
-			this.textProv.Location = new System.Drawing.Point(943, 26);
+			this.textProv.Location = new System.Drawing.Point(953, 79);
 			this.textProv.Name = "textProv";
 			this.textProv.Size = new System.Drawing.Size(100, 20);
 			this.textProv.TabIndex = 58;
@@ -266,9 +266,9 @@ namespace OpenPmsDental {
 			// labelCarrier
 			// 
 			this.labelCarrier.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.labelCarrier.Location = new System.Drawing.Point(709, 26);
+			this.labelCarrier.Location = new System.Drawing.Point(721, 79);
 			this.labelCarrier.Name = "labelCarrier";
-			this.labelCarrier.Size = new System.Drawing.Size(65, 20);
+			this.labelCarrier.Size = new System.Drawing.Size(48, 23);
 			this.labelCarrier.TabIndex = 60;
 			this.labelCarrier.Text = "Carrier";
 			this.labelCarrier.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -276,9 +276,9 @@ namespace OpenPmsDental {
 			// labelProc
 			// 
 			this.labelProc.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.labelProc.Location = new System.Drawing.Point(1045, 26);
+			this.labelProc.Location = new System.Drawing.Point(1069, 79);
 			this.labelProc.Name = "labelProc";
-			this.labelProc.Size = new System.Drawing.Size(76, 20);
+			this.labelProc.Size = new System.Drawing.Size(68, 23);
 			this.labelProc.TabIndex = 61;
 			this.labelProc.Text = "Procedure";
 			this.labelProc.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -286,16 +286,16 @@ namespace OpenPmsDental {
 			// labelProv
 			// 
 			this.labelProv.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.labelProv.Location = new System.Drawing.Point(877, 26);
+			this.labelProv.Location = new System.Drawing.Point(891, 79);
 			this.labelProv.Name = "labelProv";
-			this.labelProv.Size = new System.Drawing.Size(65, 20);
+			this.labelProv.Size = new System.Drawing.Size(56, 23);
 			this.labelProv.TabIndex = 62;
 			this.labelProv.Text = "Provider";
 			this.labelProv.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// FormClaimsSend
 			// 
-			this.ClientSize = new System.Drawing.Size(1230, 691);
+			this.ClientSize = new System.Drawing.Size(2195, 760);
 			this.Controls.Add(this.labelProv);
 			this.Controls.Add(this.labelProc);
 			this.Controls.Add(this.labelCarrier);

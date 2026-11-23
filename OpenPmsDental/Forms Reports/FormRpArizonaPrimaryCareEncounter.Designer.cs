@@ -45,7 +45,7 @@ namespace OpenPmsDental{
 			// butRun
 			// 
 			this.butRun.Anchor=((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom|System.Windows.Forms.AnchorStyles.Right)));
-			this.butRun.Location=new System.Drawing.Point(625,371);
+			this.butRun.Location=new System.Drawing.Point(625,80);
 			this.butRun.Name="butRun";
 			this.butRun.Size=new System.Drawing.Size(75,24);
 			this.butRun.TabIndex=26;
@@ -55,7 +55,7 @@ namespace OpenPmsDental{
 			// butCopy
 			// 
 			this.butCopy.Anchor=((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom|System.Windows.Forms.AnchorStyles.Right)));
-			this.butCopy.Location=new System.Drawing.Point(625,325);
+			this.butCopy.Location=new System.Drawing.Point(625,52);
 			this.butCopy.Name="butCopy";
 			this.butCopy.Size=new System.Drawing.Size(83,24);
 			this.butCopy.TabIndex=25;
@@ -65,28 +65,28 @@ namespace OpenPmsDental{
 			// textEncounterFile
 			// 
 			this.textEncounterFile.AutoSize=false;
-			this.textEncounterFile.Location=new System.Drawing.Point(12,76);
+			this.textEncounterFile.Location=new System.Drawing.Point(9,75);
 			this.textEncounterFile.Name="textEncounterFile";
 			this.textEncounterFile.ReadOnly=true;
-			this.textEncounterFile.Size=new System.Drawing.Size(164,20);
+			this.textEncounterFile.Size=new System.Drawing.Size(164,23);
 			this.textEncounterFile.TabIndex=24;
 			this.textEncounterFile.Text="ApcEncounter.txt";
 			// 
 			// label3
 			// 
 			this.label3.AutoSize=false;
-			this.label3.Location=new System.Drawing.Point(13,59);
+			this.label3.Location=new System.Drawing.Point(9,56);
 			this.label3.Name="label3";
-			this.label3.Size=new System.Drawing.Size(97,17);
+			this.label3.Size=new System.Drawing.Size(108,17);
 			this.label3.TabIndex=23;
 			this.label3.Text="Output File Name";
 			// 
 			// label2
 			// 
 			this.label2.AutoSize=false;
-			this.label2.Location=new System.Drawing.Point(9,178);
+			this.label2.Location=new System.Drawing.Point(9,191);
 			this.label2.Name="label2";
-			this.label2.Size=new System.Drawing.Size(62,18);
+			this.label2.Size=new System.Drawing.Size(72,18);
 			this.label2.TabIndex=22;
 			this.label2.Text="Report Log";
 			// 
@@ -95,18 +95,18 @@ namespace OpenPmsDental{
 			this.textLog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textLog.Location=new System.Drawing.Point(12,196);
+			this.textLog.Location=new System.Drawing.Point(9,211);
 			this.textLog.Multiline=true;
 			this.textLog.Name="textLog";
 			this.textLog.ReadOnly=true;
 			this.textLog.ScrollBars=System.Windows.Forms.ScrollBars.Vertical;
-			this.textLog.Size=new System.Drawing.Size(607,290);
+			this.textLog.Size=new System.Drawing.Size(608,290);
 			this.textLog.TabIndex=21;
 			// 
 			// butBrowse
 			// 
 			this.butBrowse.Anchor=((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top|System.Windows.Forms.AnchorStyles.Right)));
-			this.butBrowse.Location=new System.Drawing.Point(625,30);
+			this.butBrowse.Location=new System.Drawing.Point(625,24);
 			this.butBrowse.Name="butBrowse";
 			this.butBrowse.Size=new System.Drawing.Size(75,24);
 			this.butBrowse.TabIndex=20;
@@ -116,9 +116,9 @@ namespace OpenPmsDental{
 			// label1
 			// 
 			this.label1.AutoSize=false;
-			this.label1.Location=new System.Drawing.Point(12,14);
+			this.label1.Location=new System.Drawing.Point(9,8);
 			this.label1.Name="label1";
-			this.label1.Size=new System.Drawing.Size(81,19);
+			this.label1.Size=new System.Drawing.Size(88,19);
 			this.label1.TabIndex=19;
 			this.label1.Text="Save report to:";
 			// 
@@ -127,16 +127,16 @@ namespace OpenPmsDental{
 			this.textEncounterFolder.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.textEncounterFolder.AutoSize=false;
-			this.textEncounterFolder.Location=new System.Drawing.Point(12,33);
+			this.textEncounterFolder.Location=new System.Drawing.Point(9,29);
 			this.textEncounterFolder.Name="textEncounterFolder";
-			this.textEncounterFolder.Size=new System.Drawing.Size(607,20);
+			this.textEncounterFolder.Size=new System.Drawing.Size(608,23);
 			this.textEncounterFolder.TabIndex=18;
 			this.textEncounterFolder.Text="C:\\Temp";
 			// 
 			// butFinished
 			// 
 			this.butFinished.Anchor=((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom|System.Windows.Forms.AnchorStyles.Right)));
-			this.butFinished.Location=new System.Drawing.Point(625,422);
+			this.butFinished.Location=new System.Drawing.Point(625,108);
 			this.butFinished.Name="butFinished";
 			this.butFinished.Size=new System.Drawing.Size(75,24);
 			this.butFinished.TabIndex=17;
@@ -151,9 +151,9 @@ namespace OpenPmsDental{
 			this.groupBox1.Controls.Add(this.dateTimeTo);
 			this.groupBox1.Controls.Add(this.label4);
 			this.groupBox1.Controls.Add(this.dateTimeFrom);
-			this.groupBox1.Location=new System.Drawing.Point(12,102);
+			this.groupBox1.Location=new System.Drawing.Point(9,106);
 			this.groupBox1.Name="groupBox1";
-			this.groupBox1.Size=new System.Drawing.Size(603,71);
+			this.groupBox1.Size=new System.Drawing.Size(608,77);
 			this.groupBox1.TabIndex=27;
 			this.groupBox1.TabStop=false;
 			this.groupBox1.Text="Date of Last Completed Appointment";
@@ -161,15 +161,15 @@ namespace OpenPmsDental{
 			// label5
 			// 
 			this.label5.AutoSize=false;
-			this.label5.Location=new System.Drawing.Point(262,22);
+			this.label5.Location=new System.Drawing.Point(262,23);
 			this.label5.Name="label5";
-			this.label5.Size=new System.Drawing.Size(18,19);
+			this.label5.Size=new System.Drawing.Size(24,19);
 			this.label5.TabIndex=17;
 			this.label5.Text="To";
 			// 
 			// dateTimeTo
 			// 
-			this.dateTimeTo.Location=new System.Drawing.Point(262,41);
+			this.dateTimeTo.Location=new System.Drawing.Point(262,46);
 			this.dateTimeTo.Name="dateTimeTo";
 			this.dateTimeTo.Size=new System.Drawing.Size(200,20);
 			this.dateTimeTo.TabIndex=16;
@@ -177,15 +177,15 @@ namespace OpenPmsDental{
 			// label4
 			// 
 			this.label4.AutoSize=false;
-			this.label4.Location=new System.Drawing.Point(7,23);
+			this.label4.Location=new System.Drawing.Point(8,23);
 			this.label4.Name="label4";
-			this.label4.Size=new System.Drawing.Size(31,19);
+			this.label4.Size=new System.Drawing.Size(40,19);
 			this.label4.TabIndex=15;
 			this.label4.Text="From";
 			// 
 			// dateTimeFrom
 			// 
-			this.dateTimeFrom.Location=new System.Drawing.Point(6,42);
+			this.dateTimeFrom.Location=new System.Drawing.Point(8,46);
 			this.dateTimeFrom.Name="dateTimeFrom";
 			this.dateTimeFrom.Size=new System.Drawing.Size(200,20);
 			this.dateTimeFrom.TabIndex=14;
@@ -193,7 +193,7 @@ namespace OpenPmsDental{
 			// FormRpArizonaPrimaryCareEncounter
 			// 
 			this.AutoScaleMode=System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize=new System.Drawing.Size(725,498);
+			this.ClientSize=new System.Drawing.Size(725,509);
 			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.butRun);
 			this.Controls.Add(this.butCopy);

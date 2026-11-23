@@ -63,7 +63,7 @@ namespace OpenPmsDental{
 			// butRun
 			// 
 			this.butRun.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butRun.Location = new System.Drawing.Point(515, 372);
+			this.butRun.Location = new System.Drawing.Point(537, 312);
 			this.butRun.Name = "butRun";
 			this.butRun.Size = new System.Drawing.Size(75, 24);
 			this.butRun.TabIndex = 5;
@@ -72,42 +72,42 @@ namespace OpenPmsDental{
 			// 
 			// textDateLastRun
 			// 
-			this.textDateLastRun.Location = new System.Drawing.Point(124, 7);
+			this.textDateLastRun.Location = new System.Drawing.Point(134, 8);
 			this.textDateLastRun.Name = "textDateLastRun";
 			this.textDateLastRun.ReadOnly = true;
-			this.textDateLastRun.Size = new System.Drawing.Size(78, 20);
+			this.textDateLastRun.Size = new System.Drawing.Size(80, 23);
 			this.textDateLastRun.TabIndex = 0;
 			// 
 			// labelDateLastRun
 			// 
-			this.labelDateLastRun.Location = new System.Drawing.Point(53, 10);
+			this.labelDateLastRun.Location = new System.Drawing.Point(48, 8);
 			this.labelDateLastRun.Name = "labelDateLastRun";
-			this.labelDateLastRun.Size = new System.Drawing.Size(71, 18);
+			this.labelDateLastRun.Size = new System.Drawing.Size(80, 23);
 			this.labelDateLastRun.TabIndex = 32;
 			this.labelDateLastRun.Text = "Date last run";
-			this.labelDateLastRun.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.labelDateLastRun.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textDateNewCharges
 			// 
-			this.textDateNewCharges.Location = new System.Drawing.Point(124, 34);
+			this.textDateNewCharges.Location = new System.Drawing.Point(134, 35);
 			this.textDateNewCharges.Name = "textDateNewCharges";
-			this.textDateNewCharges.Size = new System.Drawing.Size(78, 20);
+			this.textDateNewCharges.Size = new System.Drawing.Size(80, 23);
 			this.textDateNewCharges.TabIndex = 1;
 			// 
 			// labelDateNewCharges
 			// 
-			this.labelDateNewCharges.Location = new System.Drawing.Point(3, 37);
+			this.labelDateNewCharges.Location = new System.Drawing.Point(8, 35);
 			this.labelDateNewCharges.Name = "labelDateNewCharges";
-			this.labelDateNewCharges.Size = new System.Drawing.Size(120, 18);
+			this.labelDateNewCharges.Size = new System.Drawing.Size(120, 23);
 			this.labelDateNewCharges.TabIndex = 30;
 			this.labelDateNewCharges.Text = "Date of new charges";
-			this.labelDateNewCharges.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.labelDateNewCharges.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// labelBillType
 			// 
-			this.labelBillType.Location = new System.Drawing.Point(399, 37);
+			this.labelBillType.Location = new System.Drawing.Point(399, 25);
 			this.labelBillType.Name = "labelBillType";
-			this.labelBillType.Size = new System.Drawing.Size(179, 16);
+			this.labelBillType.Size = new System.Drawing.Size(184, 16);
 			this.labelBillType.TabIndex = 34;
 			this.labelBillType.Text = "Only apply to these Billing Types";
 			this.labelBillType.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -118,33 +118,33 @@ namespace OpenPmsDental{
 			this.groupBoxUndo.Controls.Add(this.textDateUndo);
 			this.groupBoxUndo.Controls.Add(this.labelDateUndo);
 			this.groupBoxUndo.Controls.Add(this.butUndo);
-			this.groupBoxUndo.Location = new System.Drawing.Point(12, 310);
+			this.groupBoxUndo.Location = new System.Drawing.Point(8, 312);
 			this.groupBoxUndo.Name = "groupBoxUndo";
-			this.groupBoxUndo.Size = new System.Drawing.Size(167, 79);
+			this.groupBoxUndo.Size = new System.Drawing.Size(214, 82);
 			this.groupBoxUndo.TabIndex = 3;
 			this.groupBoxUndo.TabStop = false;
 			this.groupBoxUndo.Text = "Undo late charges";
 			// 
 			// textDateUndo
 			// 
-			this.textDateUndo.Location = new System.Drawing.Point(80, 19);
+			this.textDateUndo.Location = new System.Drawing.Point(126, 23);
 			this.textDateUndo.Name = "textDateUndo";
 			this.textDateUndo.ReadOnly = true;
-			this.textDateUndo.Size = new System.Drawing.Size(78, 20);
+			this.textDateUndo.Size = new System.Drawing.Size(80, 23);
 			this.textDateUndo.TabIndex = 31;
 			// 
 			// labelDateUndo
 			// 
-			this.labelDateUndo.Location = new System.Drawing.Point(3, 21);
+			this.labelDateUndo.Location = new System.Drawing.Point(40, 23);
 			this.labelDateUndo.Name = "labelDateUndo";
-			this.labelDateUndo.Size = new System.Drawing.Size(77, 18);
+			this.labelDateUndo.Size = new System.Drawing.Size(80, 23);
 			this.labelDateUndo.TabIndex = 32;
 			this.labelDateUndo.Text = "Date to undo";
 			this.labelDateUndo.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// butUndo
 			// 
-			this.butUndo.Location = new System.Drawing.Point(80, 45);
+			this.butUndo.Location = new System.Drawing.Point(126, 50);
 			this.butUndo.Name = "butUndo";
 			this.butUndo.Size = new System.Drawing.Size(78, 24);
 			this.butUndo.TabIndex = 0;
@@ -153,16 +153,16 @@ namespace OpenPmsDental{
 			// 
 			// checkExcludeAccountNoTil
 			// 
-			this.checkExcludeAccountNoTil.Location = new System.Drawing.Point(7, 27);
+			this.checkExcludeAccountNoTil.Location = new System.Drawing.Point(8, 23);
 			this.checkExcludeAccountNoTil.Name = "checkExcludeAccountNoTil";
-			this.checkExcludeAccountNoTil.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-			this.checkExcludeAccountNoTil.Size = new System.Drawing.Size(315, 18);
+			this.checkExcludeAccountNoTil.RightToLeft = System.Windows.Forms.RightToLeft.No;
+			this.checkExcludeAccountNoTil.Size = new System.Drawing.Size(318, 20);
 			this.checkExcludeAccountNoTil.TabIndex = 0;
 			this.checkExcludeAccountNoTil.Text = "Exclude accounts (guarantor) without Truth in Lending";
 			// 
 			// listBillType
 			// 
-			this.listBillType.Location = new System.Drawing.Point(399, 54);
+			this.listBillType.Location = new System.Drawing.Point(597, 47);
 			this.listBillType.Name = "listBillType";
 			this.listBillType.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
 			this.listBillType.Size = new System.Drawing.Size(158, 147);
@@ -172,19 +172,19 @@ namespace OpenPmsDental{
 			// textExcludeLessThan
 			// 
 			this.textExcludeLessThan.BackColor = System.Drawing.SystemColors.Window;
-			this.textExcludeLessThan.Location = new System.Drawing.Point(297, 73);
+			this.textExcludeLessThan.Location = new System.Drawing.Point(349, 71);
 			this.textExcludeLessThan.MaxVal = 100000000D;
 			this.textExcludeLessThan.MinVal = 0.01D;
 			this.textExcludeLessThan.Name = "textExcludeLessThan";
-			this.textExcludeLessThan.Size = new System.Drawing.Size(42, 20);
+			this.textExcludeLessThan.Size = new System.Drawing.Size(40, 23);
 			this.textExcludeLessThan.TabIndex = 2;
 			// 
 			// labelExcludeBalanceLessThan
 			// 
-			this.labelExcludeBalanceLessThan.Location = new System.Drawing.Point(124, 75);
+			this.labelExcludeBalanceLessThan.Location = new System.Drawing.Point(175, 71);
 			this.labelExcludeBalanceLessThan.Name = "labelExcludeBalanceLessThan";
 			this.labelExcludeBalanceLessThan.RightToLeft = System.Windows.Forms.RightToLeft.No;
-			this.labelExcludeBalanceLessThan.Size = new System.Drawing.Size(172, 16);
+			this.labelExcludeBalanceLessThan.Size = new System.Drawing.Size(168, 23);
 			this.labelExcludeBalanceLessThan.TabIndex = 55;
 			this.labelExcludeBalanceLessThan.Text = "Exclude if balance is less than";
 			this.labelExcludeBalanceLessThan.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -192,19 +192,19 @@ namespace OpenPmsDental{
 			// textMinCharge
 			// 
 			this.textMinCharge.BackColor = System.Drawing.SystemColors.Window;
-			this.textMinCharge.Location = new System.Drawing.Point(297, 127);
+			this.textMinCharge.Location = new System.Drawing.Point(349, 125);
 			this.textMinCharge.MaxVal = 100000000D;
 			this.textMinCharge.MinVal = 0D;
 			this.textMinCharge.Name = "textMinCharge";
-			this.textMinCharge.Size = new System.Drawing.Size(42, 20);
+			this.textMinCharge.Size = new System.Drawing.Size(40, 23);
 			this.textMinCharge.TabIndex = 4;
 			// 
 			// labelMinCharge
 			// 
-			this.labelMinCharge.Location = new System.Drawing.Point(203, 129);
+			this.labelMinCharge.Location = new System.Drawing.Point(239, 125);
 			this.labelMinCharge.Name = "labelMinCharge";
 			this.labelMinCharge.RightToLeft = System.Windows.Forms.RightToLeft.No;
-			this.labelMinCharge.Size = new System.Drawing.Size(94, 18);
+			this.labelMinCharge.Size = new System.Drawing.Size(104, 23);
 			this.labelMinCharge.TabIndex = 57;
 			this.labelMinCharge.Text = "Minimum charge";
 			this.labelMinCharge.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -212,90 +212,90 @@ namespace OpenPmsDental{
 			// textMaxCharge
 			// 
 			this.textMaxCharge.BackColor = System.Drawing.SystemColors.Window;
-			this.textMaxCharge.Location = new System.Drawing.Point(297, 154);
+			this.textMaxCharge.Location = new System.Drawing.Point(349, 152);
 			this.textMaxCharge.MaxVal = 100000000D;
 			this.textMaxCharge.MinVal = 0D;
 			this.textMaxCharge.Name = "textMaxCharge";
-			this.textMaxCharge.Size = new System.Drawing.Size(42, 20);
+			this.textMaxCharge.Size = new System.Drawing.Size(40, 23);
 			this.textMaxCharge.TabIndex = 5;
 			// 
 			// labelMaxCharge
 			// 
-			this.labelMaxCharge.Location = new System.Drawing.Point(200, 156);
+			this.labelMaxCharge.Location = new System.Drawing.Point(239, 152);
 			this.labelMaxCharge.Name = "labelMaxCharge";
 			this.labelMaxCharge.RightToLeft = System.Windows.Forms.RightToLeft.No;
-			this.labelMaxCharge.Size = new System.Drawing.Size(97, 18);
+			this.labelMaxCharge.Size = new System.Drawing.Size(104, 23);
 			this.labelMaxCharge.TabIndex = 59;
 			this.labelMaxCharge.Text = "Maximum charge";
 			this.labelMaxCharge.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// labelChargePercent
 			// 
-			this.labelChargePercent.Location = new System.Drawing.Point(123, 102);
+			this.labelChargePercent.Location = new System.Drawing.Point(167, 98);
 			this.labelChargePercent.Name = "labelChargePercent";
-			this.labelChargePercent.Size = new System.Drawing.Size(173, 18);
+			this.labelChargePercent.Size = new System.Drawing.Size(176, 23);
 			this.labelChargePercent.TabIndex = 61;
 			this.labelChargePercent.Text = "Percentage (% fee on amt due)";
-			this.labelChargePercent.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.labelChargePercent.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textChargePercent
 			// 
-			this.textChargePercent.Location = new System.Drawing.Point(297, 100);
+			this.textChargePercent.Location = new System.Drawing.Point(349, 98);
 			this.textChargePercent.MaxVal = 100000000;
 			this.textChargePercent.Name = "textChargePercent";
 			this.textChargePercent.ShowZero = false;
-			this.textChargePercent.Size = new System.Drawing.Size(42, 20);
+			this.textChargePercent.Size = new System.Drawing.Size(40, 23);
 			this.textChargePercent.TabIndex = 3;
 			// 
 			// labelDateRange1
 			// 
-			this.labelDateRange1.Location = new System.Drawing.Point(33, 183);
+			this.labelDateRange1.Location = new System.Drawing.Point(27, 179);
 			this.labelDateRange1.Name = "labelDateRange1";
 			this.labelDateRange1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-			this.labelDateRange1.Size = new System.Drawing.Size(191, 18);
+			this.labelDateRange1.Size = new System.Drawing.Size(192, 23);
 			this.labelDateRange1.TabIndex = 63;
 			this.labelDateRange1.Text = "Apply to statements sent between";
 			this.labelDateRange1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textDateRangeEnd
 			// 
-			this.textDateRangeEnd.Location = new System.Drawing.Point(225, 181);
+			this.textDateRangeEnd.Location = new System.Drawing.Point(225, 179);
 			this.textDateRangeEnd.MaxVal = 100000000;
 			this.textDateRangeEnd.Name = "textDateRangeEnd";
-			this.textDateRangeEnd.Size = new System.Drawing.Size(42, 20);
+			this.textDateRangeEnd.Size = new System.Drawing.Size(40, 23);
 			this.textDateRangeEnd.TabIndex = 6;
 			// 
 			// labelDateRange2
 			// 
-			this.labelDateRange2.Location = new System.Drawing.Point(268, 182);
+			this.labelDateRange2.Location = new System.Drawing.Point(311, 179);
 			this.labelDateRange2.Name = "labelDateRange2";
 			this.labelDateRange2.RightToLeft = System.Windows.Forms.RightToLeft.No;
-			this.labelDateRange2.Size = new System.Drawing.Size(30, 16);
+			this.labelDateRange2.Size = new System.Drawing.Size(32, 23);
 			this.labelDateRange2.TabIndex = 65;
 			this.labelDateRange2.Text = "and";
-			this.labelDateRange2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.labelDateRange2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textDateRangeStart
 			// 
-			this.textDateRangeStart.Location = new System.Drawing.Point(297, 181);
+			this.textDateRangeStart.Location = new System.Drawing.Point(349, 179);
 			this.textDateRangeStart.MaxVal = 100000000;
 			this.textDateRangeStart.Name = "textDateRangeStart";
-			this.textDateRangeStart.Size = new System.Drawing.Size(42, 20);
+			this.textDateRangeStart.Size = new System.Drawing.Size(40, 23);
 			this.textDateRangeStart.TabIndex = 7;
 			// 
 			// labelDateRange3
 			// 
-			this.labelDateRange3.Location = new System.Drawing.Point(340, 183);
+			this.labelDateRange3.Location = new System.Drawing.Point(531, 47);
 			this.labelDateRange3.Name = "labelDateRange3";
 			this.labelDateRange3.RightToLeft = System.Windows.Forms.RightToLeft.No;
-			this.labelDateRange3.Size = new System.Drawing.Size(57, 18);
+			this.labelDateRange3.Size = new System.Drawing.Size(60, 23);
 			this.labelDateRange3.TabIndex = 67;
 			this.labelDateRange3.Text = "days ago";
-			this.labelDateRange3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.labelDateRange3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// butSaveDefaults
 			// 
-			this.butSaveDefaults.Location = new System.Drawing.Point(458, 209);
+			this.butSaveDefaults.Location = new System.Drawing.Point(458, 206);
 			this.butSaveDefaults.Name = "butSaveDefaults";
 			this.butSaveDefaults.Size = new System.Drawing.Size(99, 24);
 			this.butSaveDefaults.TabIndex = 9;
@@ -323,27 +323,27 @@ namespace OpenPmsDental{
 			this.groupLateCharge.Controls.Add(this.textMaxCharge);
 			this.groupLateCharge.Controls.Add(this.labelChargePercent);
 			this.groupLateCharge.Controls.Add(this.textChargePercent);
-			this.groupLateCharge.Location = new System.Drawing.Point(12, 62);
+			this.groupLateCharge.Location = new System.Drawing.Point(8, 66);
 			this.groupLateCharge.Name = "groupLateCharge";
-			this.groupLateCharge.Size = new System.Drawing.Size(578, 241);
+			this.groupLateCharge.Size = new System.Drawing.Size(763, 238);
 			this.groupLateCharge.TabIndex = 2;
 			this.groupLateCharge.TabStop = false;
 			this.groupLateCharge.Text = "Late charge settings";
 			// 
 			// checkExcludeExistingLateCharges
 			// 
-			this.checkExcludeExistingLateCharges.Location = new System.Drawing.Point(7, 50);
+			this.checkExcludeExistingLateCharges.Location = new System.Drawing.Point(349, 47);
 			this.checkExcludeExistingLateCharges.Name = "checkExcludeExistingLateCharges";
-			this.checkExcludeExistingLateCharges.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-			this.checkExcludeExistingLateCharges.Size = new System.Drawing.Size(303, 18);
+			this.checkExcludeExistingLateCharges.RightToLeft = System.Windows.Forms.RightToLeft.No;
+			this.checkExcludeExistingLateCharges.Size = new System.Drawing.Size(178, 20);
 			this.checkExcludeExistingLateCharges.TabIndex = 1;
 			this.checkExcludeExistingLateCharges.Text = "Exclude existing late charges";
 			// 
 			// radioPatPriProv
 			// 
-			this.radioPatPriProv.Location = new System.Drawing.Point(12, 24);
+			this.radioPatPriProv.Location = new System.Drawing.Point(8, 23);
 			this.radioPatPriProv.Name = "radioPatPriProv";
-			this.radioPatPriProv.Size = new System.Drawing.Size(211, 16);
+			this.radioPatPriProv.Size = new System.Drawing.Size(177, 20);
 			this.radioPatPriProv.TabIndex = 0;
 			this.radioPatPriProv.Text = "Guarantor\'s Primary Provider";
 			this.radioPatPriProv.UseVisualStyleBackColor = true;
@@ -351,9 +351,9 @@ namespace OpenPmsDental{
 			// 
 			// radioSpecificProv
 			// 
-			this.radioSpecificProv.Location = new System.Drawing.Point(12, 47);
+			this.radioSpecificProv.Location = new System.Drawing.Point(8, 48);
 			this.radioSpecificProv.Name = "radioSpecificProv";
-			this.radioSpecificProv.Size = new System.Drawing.Size(108, 16);
+			this.radioSpecificProv.Size = new System.Drawing.Size(113, 20);
 			this.radioSpecificProv.TabIndex = 1;
 			this.radioSpecificProv.Text = "Specific Provider";
 			this.radioSpecificProv.UseVisualStyleBackColor = true;
@@ -361,9 +361,9 @@ namespace OpenPmsDental{
 			// 
 			// comboSpecificProv
 			// 
-			this.comboSpecificProv.Location = new System.Drawing.Point(121, 45);
+			this.comboSpecificProv.Location = new System.Drawing.Point(127, 47);
 			this.comboSpecificProv.Name = "comboSpecificProv";
-			this.comboSpecificProv.Size = new System.Drawing.Size(174, 21);
+			this.comboSpecificProv.Size = new System.Drawing.Size(166, 23);
 			this.comboSpecificProv.TabIndex = 2;
 			// 
 			// groupBoxAssignCharge
@@ -372,16 +372,16 @@ namespace OpenPmsDental{
 			this.groupBoxAssignCharge.Controls.Add(this.comboSpecificProv);
 			this.groupBoxAssignCharge.Controls.Add(this.radioSpecificProv);
 			this.groupBoxAssignCharge.Controls.Add(this.radioPatPriProv);
-			this.groupBoxAssignCharge.Location = new System.Drawing.Point(186, 310);
+			this.groupBoxAssignCharge.Location = new System.Drawing.Point(230, 312);
 			this.groupBoxAssignCharge.Name = "groupBoxAssignCharge";
-			this.groupBoxAssignCharge.Size = new System.Drawing.Size(301, 79);
+			this.groupBoxAssignCharge.Size = new System.Drawing.Size(301, 78);
 			this.groupBoxAssignCharge.TabIndex = 4;
 			this.groupBoxAssignCharge.TabStop = false;
 			this.groupBoxAssignCharge.Text = "Assign charges to";
 			// 
 			// FormLateCharges
 			// 
-			this.ClientSize = new System.Drawing.Size(602, 408);
+			this.ClientSize = new System.Drawing.Size(779, 408);
 			this.Controls.Add(this.groupLateCharge);
 			this.Controls.Add(this.groupBoxAssignCharge);
 			this.Controls.Add(this.groupBoxUndo);

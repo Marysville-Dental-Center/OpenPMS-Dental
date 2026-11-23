@@ -69,18 +69,18 @@ namespace OpenPmsDental {
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(107, 8);
+			this.label2.Location = new System.Drawing.Point(113, 23);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(73, 18);
+			this.label2.Size = new System.Drawing.Size(64, 23);
 			this.label2.TabIndex = 6;
 			this.label2.Text = "Start Date";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(110, 28);
+			this.label3.Location = new System.Drawing.Point(117, 50);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(70, 18);
+			this.label3.Size = new System.Drawing.Size(60, 23);
 			this.label3.TabIndex = 8;
 			this.label3.Text = "End Date";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -105,17 +105,17 @@ namespace OpenPmsDental {
 			this.groupBox1.Controls.Add(this.label4);
 			this.groupBox1.Controls.Add(this.label2);
 			this.groupBox1.Controls.Add(this.label3);
-			this.groupBox1.Location = new System.Drawing.Point(18, 3);
+			this.groupBox1.Location = new System.Drawing.Point(18, 8);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(646, 71);
+			this.groupBox1.Size = new System.Drawing.Size(648, 98);
 			this.groupBox1.TabIndex = 14;
 			this.groupBox1.Text = "Pay Period";
 			// 
 			// labelNote
 			// 
-			this.labelNote.Location = new System.Drawing.Point(284, 28);
+			this.labelNote.Location = new System.Drawing.Point(347, 50);
 			this.labelNote.Name = "labelNote";
-			this.labelNote.Size = new System.Drawing.Size(46, 18);
+			this.labelNote.Size = new System.Drawing.Size(40, 23);
 			this.labelNote.TabIndex = 16;
 			this.labelNote.Text = "Note";
 			this.labelNote.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -124,65 +124,65 @@ namespace OpenPmsDental {
 			// 
 			this.textNote.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textNote.Location = new System.Drawing.Point(331, 28);
+			this.textNote.Location = new System.Drawing.Point(393, 50);
 			this.textNote.Multiline = true;
 			this.textNote.Name = "textNote";
 			this.textNote.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.textNote.Size = new System.Drawing.Size(309, 40);
+			this.textNote.Size = new System.Drawing.Size(247, 40);
 			this.textNote.TabIndex = 15;
 			// 
 			// textDatePaycheck
 			// 
 			this.textDatePaycheck.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.textDatePaycheck.AutoSize = false;
-			this.textDatePaycheck.Location = new System.Drawing.Point(540, 8);
+			this.textDatePaycheck.Location = new System.Drawing.Point(393, 23);
 			this.textDatePaycheck.Name = "textDatePaycheck";
 			this.textDatePaycheck.ReadOnly = true;
-			this.textDatePaycheck.Size = new System.Drawing.Size(100, 20);
+			this.textDatePaycheck.Size = new System.Drawing.Size(100, 23);
 			this.textDatePaycheck.TabIndex = 14;
 			// 
 			// textDateStop
 			// 
 			this.textDateStop.AutoSize = false;
-			this.textDateStop.Location = new System.Drawing.Point(181, 28);
+			this.textDateStop.Location = new System.Drawing.Point(183, 58);
 			this.textDateStop.Name = "textDateStop";
 			this.textDateStop.ReadOnly = true;
-			this.textDateStop.Size = new System.Drawing.Size(100, 20);
+			this.textDateStop.Size = new System.Drawing.Size(100, 23);
 			this.textDateStop.TabIndex = 13;
 			// 
 			// textDateStart
 			// 
 			this.textDateStart.AutoSize = false;
-			this.textDateStart.Location = new System.Drawing.Point(181, 8);
+			this.textDateStart.Location = new System.Drawing.Point(183, 23);
 			this.textDateStart.Name = "textDateStart";
 			this.textDateStart.ReadOnly = true;
-			this.textDateStart.Size = new System.Drawing.Size(100, 20);
+			this.textDateStart.Size = new System.Drawing.Size(100, 23);
 			this.textDateStart.TabIndex = 12;
 			// 
 			// butRight
 			// 
 			this.butRight.Icon = OpenPmsDental.UI.EnumIcons.ArrowRight;
-			this.butRight.Location = new System.Drawing.Point(63, 18);
+			this.butRight.Location = new System.Drawing.Point(58, 23);
 			this.butRight.Name = "butRight";
-			this.butRight.Size = new System.Drawing.Size(39, 24);
+			this.butRight.Size = new System.Drawing.Size(39, 23);
 			this.butRight.TabIndex = 11;
 			this.butRight.Click += new System.EventHandler(this.butRight_Click);
 			// 
 			// butLeft
 			// 
 			this.butLeft.Icon = OpenPmsDental.UI.EnumIcons.ArrowLeft;
-			this.butLeft.Location = new System.Drawing.Point(13, 18);
+			this.butLeft.Location = new System.Drawing.Point(13, 23);
 			this.butLeft.Name = "butLeft";
-			this.butLeft.Size = new System.Drawing.Size(39, 24);
+			this.butLeft.Size = new System.Drawing.Size(39, 23);
 			this.butLeft.TabIndex = 10;
 			this.butLeft.Click += new System.EventHandler(this.butLeft_Click);
 			// 
 			// label4
 			// 
 			this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.label4.Location = new System.Drawing.Point(422, 8);
+			this.label4.Location = new System.Drawing.Point(299, 23);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(117, 18);
+			this.label4.Size = new System.Drawing.Size(88, 23);
 			this.label4.TabIndex = 9;
 			this.label4.Text = "Paycheck Date";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -192,14 +192,14 @@ namespace OpenPmsDental {
 			this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.groupBox2.Controls.Add(this.radioBreaks);
 			this.groupBox2.Controls.Add(this.radioTimeCard);
-			this.groupBox2.Location = new System.Drawing.Point(816, 3);
+			this.groupBox2.Location = new System.Drawing.Point(822, 8);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(140, 71);
+			this.groupBox2.Size = new System.Drawing.Size(140, 98);
 			this.groupBox2.TabIndex = 20;
 			// 
 			// radioBreaks
 			// 
-			this.radioBreaks.Location = new System.Drawing.Point(34, 27);
+			this.radioBreaks.Location = new System.Drawing.Point(34, 25);
 			this.radioBreaks.Name = "radioBreaks";
 			this.radioBreaks.Size = new System.Drawing.Size(97, 23);
 			this.radioBreaks.TabIndex = 1;
@@ -210,7 +210,7 @@ namespace OpenPmsDental {
 			// radioTimeCard
 			// 
 			this.radioTimeCard.Checked = true;
-			this.radioTimeCard.Location = new System.Drawing.Point(34, 10);
+			this.radioTimeCard.Location = new System.Drawing.Point(34, 8);
 			this.radioTimeCard.Name = "radioTimeCard";
 			this.radioTimeCard.Size = new System.Drawing.Size(97, 23);
 			this.radioTimeCard.TabIndex = 0;
@@ -224,9 +224,9 @@ namespace OpenPmsDental {
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(18, 80);
+			this.gridMain.Location = new System.Drawing.Point(18, 114);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(939, 488);
+			this.gridMain.Size = new System.Drawing.Size(944, 488);
 			this.gridMain.TabIndex = 13;
 			this.gridMain.Title = "Time Card";
 			this.gridMain.TranslationName = "TableTimeCard";
@@ -236,7 +236,7 @@ namespace OpenPmsDental {
 			// 
 			this.butCalcDaily.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butCalcDaily.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butCalcDaily.Location = new System.Drawing.Point(139, 633);
+			this.butCalcDaily.Location = new System.Drawing.Point(139, 684);
 			this.butCalcDaily.Name = "butCalcDaily";
 			this.butCalcDaily.Size = new System.Drawing.Size(90, 24);
 			this.butCalcDaily.TabIndex = 23;
@@ -248,7 +248,7 @@ namespace OpenPmsDental {
 			this.butPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butPrint.Icon = OpenPmsDental.UI.EnumIcons.Print;
 			this.butPrint.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butPrint.Location = new System.Drawing.Point(779, 662);
+			this.butPrint.Location = new System.Drawing.Point(779, 720);
 			this.butPrint.Name = "butPrint";
 			this.butPrint.Size = new System.Drawing.Size(86, 24);
 			this.butPrint.TabIndex = 19;
@@ -259,7 +259,7 @@ namespace OpenPmsDental {
 			// 
 			this.butCalcWeekOT.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butCalcWeekOT.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butCalcWeekOT.Location = new System.Drawing.Point(139, 662);
+			this.butCalcWeekOT.Location = new System.Drawing.Point(129, 720);
 			this.butCalcWeekOT.Name = "butCalcWeekOT";
 			this.butCalcWeekOT.Size = new System.Drawing.Size(90, 24);
 			this.butCalcWeekOT.TabIndex = 18;
@@ -271,7 +271,7 @@ namespace OpenPmsDental {
 			this.butAdj.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butAdj.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAdj.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdj.Location = new System.Drawing.Point(18, 662);
+			this.butAdj.Location = new System.Drawing.Point(8, 720);
 			this.butAdj.Name = "butAdj";
 			this.butAdj.Size = new System.Drawing.Size(116, 24);
 			this.butAdj.TabIndex = 15;
@@ -282,7 +282,7 @@ namespace OpenPmsDental {
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butSave.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.butSave.Location = new System.Drawing.Point(882, 662);
+			this.butSave.Location = new System.Drawing.Point(896, 720);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 0;
@@ -294,9 +294,9 @@ namespace OpenPmsDental {
 			this.groupEmployee.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.groupEmployee.Controls.Add(this.butPrevEmp);
 			this.groupEmployee.Controls.Add(this.butNextEmp);
-			this.groupEmployee.Location = new System.Drawing.Point(670, 3);
+			this.groupEmployee.Location = new System.Drawing.Point(674, 8);
 			this.groupEmployee.Name = "groupEmployee";
-			this.groupEmployee.Size = new System.Drawing.Size(140, 71);
+			this.groupEmployee.Size = new System.Drawing.Size(140, 98);
 			this.groupEmployee.TabIndex = 121;
 			this.groupEmployee.Text = "Employee";
 			this.groupEmployee.Visible = false;
@@ -304,7 +304,7 @@ namespace OpenPmsDental {
 			// butPrevEmp
 			// 
 			this.butPrevEmp.Icon = OpenPmsDental.UI.EnumIcons.ArrowLeft;
-			this.butPrevEmp.Location = new System.Drawing.Point(23, 18);
+			this.butPrevEmp.Location = new System.Drawing.Point(23, 23);
 			this.butPrevEmp.Name = "butPrevEmp";
 			this.butPrevEmp.Size = new System.Drawing.Size(39, 24);
 			this.butPrevEmp.TabIndex = 127;
@@ -313,7 +313,7 @@ namespace OpenPmsDental {
 			// butNextEmp
 			// 
 			this.butNextEmp.Icon = OpenPmsDental.UI.EnumIcons.ArrowRight;
-			this.butNextEmp.Location = new System.Drawing.Point(74, 18);
+			this.butNextEmp.Location = new System.Drawing.Point(68, 23);
 			this.butNextEmp.Name = "butNextEmp";
 			this.butNextEmp.Size = new System.Drawing.Size(39, 24);
 			this.butNextEmp.TabIndex = 128;
@@ -322,7 +322,7 @@ namespace OpenPmsDental {
 			// gridTotals
 			//
 			this.gridTotals.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.gridTotals.Location = new System.Drawing.Point(18, 572);
+			this.gridTotals.Location = new System.Drawing.Point(18, 606);
 			this.gridTotals.Name = "gridTotals";
 			this.gridTotals.SelectionMode = OpenPmsDental.UI.GridSelectionMode.None;
 			this.gridTotals.Size = new System.Drawing.Size(630, 58);
@@ -335,16 +335,16 @@ namespace OpenPmsDental {
 			this.groupTotalsFormat.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.groupTotalsFormat.Controls.Add(this.radioTotalsDecimal);
 			this.groupTotalsFormat.Controls.Add(this.radioTotalsColon);
-			this.groupTotalsFormat.Location = new System.Drawing.Point(654, 572);
+			this.groupTotalsFormat.Location = new System.Drawing.Point(654, 606);
 			this.groupTotalsFormat.Name = "groupTotalsFormat";
-			this.groupTotalsFormat.Size = new System.Drawing.Size(120, 58);
+			this.groupTotalsFormat.Size = new System.Drawing.Size(120, 74);
 			this.groupTotalsFormat.TabIndex = 132;
 			//
 			// radioTotalsDecimal
 			//
-			this.radioTotalsDecimal.Location = new System.Drawing.Point(10, 12);
+			this.radioTotalsDecimal.Location = new System.Drawing.Point(8, 8);
 			this.radioTotalsDecimal.Name = "radioTotalsDecimal";
-			this.radioTotalsDecimal.Size = new System.Drawing.Size(107, 20);
+			this.radioTotalsDecimal.Size = new System.Drawing.Size(104, 34);
 			this.radioTotalsDecimal.TabIndex = 0;
 			this.radioTotalsDecimal.Text = "Decimal Format";
 			this.radioTotalsDecimal.UseVisualStyleBackColor = true;
@@ -352,9 +352,9 @@ namespace OpenPmsDental {
 			//
 			// radioTotalsColon
 			//
-			this.radioTotalsColon.Location = new System.Drawing.Point(10, 32);
+			this.radioTotalsColon.Location = new System.Drawing.Point(8, 46);
 			this.radioTotalsColon.Name = "radioTotalsColon";
-			this.radioTotalsColon.Size = new System.Drawing.Size(105, 23);
+			this.radioTotalsColon.Size = new System.Drawing.Size(98, 20);
 			this.radioTotalsColon.TabIndex = 1;
 			this.radioTotalsColon.Text = "Colon Format";
 			this.radioTotalsColon.UseVisualStyleBackColor = true;
@@ -363,7 +363,7 @@ namespace OpenPmsDental {
 			// FormTimeCard
 			//
 			this.CancelButton = this.butSave;
-			this.ClientSize = new System.Drawing.Size(979, 696);
+			this.ClientSize = new System.Drawing.Size(979, 752);
 			this.Controls.Add(this.groupTotalsFormat);
 			this.Controls.Add(this.gridTotals);
 			this.Controls.Add(this.groupEmployee);

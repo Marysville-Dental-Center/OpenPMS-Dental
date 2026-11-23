@@ -66,51 +66,51 @@ namespace OpenPmsDental {
 			// 
 			// checkEnabled
 			// 
-			this.checkEnabled.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkEnabled.Location = new System.Drawing.Point(97, 34);
+			this.checkEnabled.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkEnabled.Location = new System.Drawing.Point(148, 36);
 			this.checkEnabled.Name = "checkEnabled";
-			this.checkEnabled.Size = new System.Drawing.Size(226, 18);
+			this.checkEnabled.Size = new System.Drawing.Size(164, 20);
 			this.checkEnabled.TabIndex = 1;
 			this.checkEnabled.Text = "Enabled (affects all clinics)";
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(432, 22);
+			this.label1.Location = new System.Drawing.Point(469, 23);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(124, 18);
+			this.label1.Size = new System.Drawing.Size(88, 23);
 			this.label1.TabIndex = 0;
 			this.label1.Text = "Payment Type";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// comboPaymentType
 			// 
-			this.comboPaymentType.Location = new System.Drawing.Point(557, 19);
+			this.comboPaymentType.Location = new System.Drawing.Point(563, 23);
 			this.comboPaymentType.Name = "comboPaymentType";
-			this.comboPaymentType.Size = new System.Drawing.Size(175, 21);
+			this.comboPaymentType.Size = new System.Drawing.Size(176, 23);
 			this.comboPaymentType.TabIndex = 0;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(129, 23);
+			this.label2.Location = new System.Drawing.Point(168, 23);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(88, 16);
+			this.label2.Size = new System.Drawing.Size(44, 23);
 			this.label2.TabIndex = 0;
 			this.label2.Text = "Secret";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// comboClinic
 			// 
-			this.comboClinic.Location = new System.Drawing.Point(148, 89);
+			this.comboClinic.Location = new System.Drawing.Point(148, 94);
 			this.comboClinic.Name = "comboClinic";
-			this.comboClinic.Size = new System.Drawing.Size(175, 21);
+			this.comboClinic.Size = new System.Drawing.Size(176, 23);
 			this.comboClinic.TabIndex = 3;
 			this.comboClinic.SelectionChangeCommitted += new System.EventHandler(this.comboClinic_SelectionChangeCommitted);
 			// 
 			// labelClinic
 			// 
-			this.labelClinic.Location = new System.Drawing.Point(69, 89);
+			this.labelClinic.Location = new System.Drawing.Point(98, 94);
 			this.labelClinic.Name = "labelClinic";
-			this.labelClinic.Size = new System.Drawing.Size(73, 16);
+			this.labelClinic.Size = new System.Drawing.Size(44, 23);
 			this.labelClinic.TabIndex = 0;
 			this.labelClinic.Text = "Clinic";
 			this.labelClinic.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -128,15 +128,15 @@ namespace OpenPmsDental {
 			this.groupPaySettings.Controls.Add(this.label2);
 			this.groupPaySettings.Controls.Add(this.comboPaymentType);
 			this.groupPaySettings.Controls.Add(this.label1);
-			this.groupPaySettings.Location = new System.Drawing.Point(9, 122);
+			this.groupPaySettings.Location = new System.Drawing.Point(8, 145);
 			this.groupPaySettings.Name = "groupPaySettings";
-			this.groupPaySettings.Size = new System.Drawing.Size(754, 173);
+			this.groupPaySettings.Size = new System.Drawing.Size(760, 143);
 			this.groupPaySettings.TabIndex = 4;
 			this.groupPaySettings.Text = "Clinic Payment Settings";
 			// 
 			// butMerchantInfo
 			// 
-			this.butMerchantInfo.Location = new System.Drawing.Point(21, 97);
+			this.butMerchantInfo.Location = new System.Drawing.Point(21, 103);
 			this.butMerchantInfo.Name = "butMerchantInfo";
 			this.butMerchantInfo.Size = new System.Drawing.Size(106, 24);
 			this.butMerchantInfo.TabIndex = 13;
@@ -146,58 +146,58 @@ namespace OpenPmsDental {
 			// 
 			// checkSurcharge
 			// 
-			this.checkSurcharge.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkSurcharge.Location = new System.Drawing.Point(243, 141);
+			this.checkSurcharge.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkSurcharge.Location = new System.Drawing.Point(218, 98);
 			this.checkSurcharge.Name = "checkSurcharge";
-			this.checkSurcharge.Size = new System.Drawing.Size(150, 18);
+			this.checkSurcharge.Size = new System.Drawing.Size(124, 20);
 			this.checkSurcharge.TabIndex = 12;
 			this.checkSurcharge.Text = "Surcharge account";
 			// 
 			// textAPISecret
 			// 
-			this.textAPISecret.Location = new System.Drawing.Point(218, 21);
+			this.textAPISecret.Location = new System.Drawing.Point(218, 23);
 			this.textAPISecret.Name = "textAPISecret";
-			this.textAPISecret.Size = new System.Drawing.Size(175, 20);
+			this.textAPISecret.Size = new System.Drawing.Size(176, 23);
 			this.textAPISecret.TabIndex = 11;
 			this.textAPISecret.UseSystemPasswordChar = true;
 			// 
 			// groupBox1
 			// 
 			this.groupBox1.Controls.Add(this.checkPatientPortalPayEnabled);
-			this.groupBox1.Location = new System.Drawing.Point(435, 82);
+			this.groupBox1.Location = new System.Drawing.Point(432, 84);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(307, 74);
+			this.groupBox1.Size = new System.Drawing.Size(307, 51);
 			this.groupBox1.TabIndex = 9;
 			this.groupBox1.Text = "Payment Portal Payments";
 			// 
 			// checkPatientPortalPayEnabled
 			// 
-			this.checkPatientPortalPayEnabled.Location = new System.Drawing.Point(106, 19);
+			this.checkPatientPortalPayEnabled.Location = new System.Drawing.Point(106, 23);
 			this.checkPatientPortalPayEnabled.Name = "checkPatientPortalPayEnabled";
-			this.checkPatientPortalPayEnabled.Size = new System.Drawing.Size(127, 18);
+			this.checkPatientPortalPayEnabled.Size = new System.Drawing.Size(66, 20);
 			this.checkPatientPortalPayEnabled.TabIndex = 9;
 			this.checkPatientPortalPayEnabled.Text = "Enabled";
 			this.checkPatientPortalPayEnabled.Click += new System.EventHandler(this.checkPatientPortalPayEnabled_Click);
 			// 
 			// checkPreventSavingNewCC
 			// 
-			this.checkPreventSavingNewCC.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkPreventSavingNewCC.Location = new System.Drawing.Point(175, 119);
+			this.checkPreventSavingNewCC.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkPreventSavingNewCC.Location = new System.Drawing.Point(218, 74);
 			this.checkPreventSavingNewCC.Name = "checkPreventSavingNewCC";
-			this.checkPreventSavingNewCC.Size = new System.Drawing.Size(218, 18);
+			this.checkPreventSavingNewCC.Size = new System.Drawing.Size(160, 20);
 			this.checkPreventSavingNewCC.TabIndex = 8;
 			this.checkPreventSavingNewCC.Text = "Prevent saving new cards";
 			// 
 			// comboDefaultProcessing
 			// 
-			this.comboDefaultProcessing.Location = new System.Drawing.Point(557, 46);
+			this.comboDefaultProcessing.Location = new System.Drawing.Point(563, 51);
 			this.comboDefaultProcessing.Name = "comboDefaultProcessing";
-			this.comboDefaultProcessing.Size = new System.Drawing.Size(175, 21);
+			this.comboDefaultProcessing.Size = new System.Drawing.Size(176, 23);
 			this.comboDefaultProcessing.TabIndex = 6;
 			// 
 			// labelDefaultProcMethod
 			// 
-			this.labelDefaultProcMethod.Location = new System.Drawing.Point(432, 43);
+			this.labelDefaultProcMethod.Location = new System.Drawing.Point(432, 50);
 			this.labelDefaultProcMethod.Name = "labelDefaultProcMethod";
 			this.labelDefaultProcMethod.Size = new System.Drawing.Size(125, 26);
 			this.labelDefaultProcMethod.TabIndex = 7;
@@ -206,18 +206,18 @@ namespace OpenPmsDental {
 			// 
 			// checkTerminal
 			// 
-			this.checkTerminal.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkTerminal.Location = new System.Drawing.Point(175, 74);
+			this.checkTerminal.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkTerminal.Location = new System.Drawing.Point(218, 50);
 			this.checkTerminal.Name = "checkTerminal";
-			this.checkTerminal.Size = new System.Drawing.Size(218, 18);
+			this.checkTerminal.Size = new System.Drawing.Size(169, 20);
 			this.checkTerminal.TabIndex = 3;
 			this.checkTerminal.Text = "Enable terminal processing";
 			// 
 			// labelClinicEnable
 			// 
-			this.labelClinicEnable.Location = new System.Drawing.Point(77, 55);
+			this.labelClinicEnable.Location = new System.Drawing.Point(77, 60);
 			this.labelClinicEnable.Name = "labelClinicEnable";
-			this.labelClinicEnable.Size = new System.Drawing.Size(267, 28);
+			this.labelClinicEnable.Size = new System.Drawing.Size(267, 32);
 			this.labelClinicEnable.TabIndex = 2;
 			this.labelClinicEnable.Text = "To enable PayConnect for a clinic, set the credentials for that clinic.";
 			this.labelClinicEnable.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -225,7 +225,7 @@ namespace OpenPmsDental {
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(688, 670);
+			this.butSave.Location = new System.Drawing.Point(693, 674);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 26);
 			this.butSave.TabIndex = 6;
@@ -237,9 +237,9 @@ namespace OpenPmsDental {
 			this.groupBoxTerminals.Controls.Add(this.butImportTerminals);
 			this.groupBoxTerminals.Controls.Add(this.butAddTerminal);
 			this.groupBoxTerminals.Controls.Add(this.gridODTerminals);
-			this.groupBoxTerminals.Location = new System.Drawing.Point(9, 302);
+			this.groupBoxTerminals.Location = new System.Drawing.Point(8, 296);
 			this.groupBoxTerminals.Name = "groupBoxTerminals";
-			this.groupBoxTerminals.Size = new System.Drawing.Size(754, 355);
+			this.groupBoxTerminals.Size = new System.Drawing.Size(760, 350);
 			this.groupBoxTerminals.TabIndex = 8;
 			this.groupBoxTerminals.Text = "Terminals";
 			// 
@@ -258,7 +258,7 @@ namespace OpenPmsDental {
 			// 
 			// gridODTerminals
 			// 
-			this.gridODTerminals.Location = new System.Drawing.Point(9, 21);
+			this.gridODTerminals.Location = new System.Drawing.Point(8, 23);
 			this.gridODTerminals.Name = "gridODTerminals";
 			this.gridODTerminals.Size = new System.Drawing.Size(733, 291);
 			this.gridODTerminals.TabIndex = 0;
@@ -282,24 +282,24 @@ namespace OpenPmsDental {
 			this.groupPracticeWide.Controls.Add(this.checkUseSandbox);
 			this.groupPracticeWide.Controls.Add(this.textAPIKey);
 			this.groupPracticeWide.Controls.Add(this.labelApiKey);
-			this.groupPracticeWide.Location = new System.Drawing.Point(344, 6);
+			this.groupPracticeWide.Location = new System.Drawing.Point(348, 8);
 			this.groupPracticeWide.Name = "groupPracticeWide";
-			this.groupPracticeWide.Size = new System.Drawing.Size(419, 110);
+			this.groupPracticeWide.Size = new System.Drawing.Size(420, 129);
 			this.groupPracticeWide.TabIndex = 7;
 			this.groupPracticeWide.Text = "Version 2.0, all clinics";
 			// 
 			// labelApiKey
 			// 
-			this.labelApiKey.Location = new System.Drawing.Point(6, 23);
+			this.labelApiKey.Location = new System.Drawing.Point(69, 23);
 			this.labelApiKey.Name = "labelApiKey";
-			this.labelApiKey.Size = new System.Drawing.Size(120, 18);
+			this.labelApiKey.Size = new System.Drawing.Size(52, 23);
 			this.labelApiKey.TabIndex = 0;
 			this.labelApiKey.Text = "API key";
 			this.labelApiKey.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textAPIKey
 			// 
-			this.textAPIKey.Location = new System.Drawing.Point(127, 21);
+			this.textAPIKey.Location = new System.Drawing.Point(127, 23);
 			this.textAPIKey.Name = "textAPIKey";
 			this.textAPIKey.Size = new System.Drawing.Size(280, 20);
 			this.textAPIKey.TabIndex = 1;
@@ -307,25 +307,25 @@ namespace OpenPmsDental {
 			// 
 			// checkUseSandbox
 			// 
-			this.checkUseSandbox.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkUseSandbox.Location = new System.Drawing.Point(6, 46);
+			this.checkUseSandbox.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkUseSandbox.Location = new System.Drawing.Point(127, 50);
 			this.checkUseSandbox.Name = "checkUseSandbox";
-			this.checkUseSandbox.Size = new System.Drawing.Size(135, 18);
+			this.checkUseSandbox.Size = new System.Drawing.Size(92, 20);
 			this.checkUseSandbox.TabIndex = 2;
 			this.checkUseSandbox.Text = "Use sandbox";
 			// 
 			// labelPracticeWide
 			// 
-			this.labelPracticeWide.Location = new System.Drawing.Point(6, 68);
+			this.labelPracticeWide.Location = new System.Drawing.Point(8, 74);
 			this.labelPracticeWide.Name = "labelPracticeWide";
-			this.labelPracticeWide.Size = new System.Drawing.Size(401, 42);
+			this.labelPracticeWide.Size = new System.Drawing.Size(401, 47);
 			this.labelPracticeWide.TabIndex = 3;
 			this.labelPracticeWide.Text = "The API key and the sandbox setting apply to every clinic. Each clinic enters its own Secret below. In the sandbox, transactions are tests and nothing is charged.";
 			// 
 			// butErrorLog
 			// 
 			this.butErrorLog.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butErrorLog.Location = new System.Drawing.Point(9, 670);
+			this.butErrorLog.Location = new System.Drawing.Point(8, 674);
 			this.butErrorLog.Name = "butErrorLog";
 			this.butErrorLog.Size = new System.Drawing.Size(110, 26);
 			this.butErrorLog.TabIndex = 20;
