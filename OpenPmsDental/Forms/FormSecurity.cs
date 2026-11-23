@@ -25,7 +25,7 @@ namespace OpenPmsDental {
 			//This is because the UI.TabPage does not properly layout in designer.
 			//This control is also used in FormCentralSecurity, where vertical space is less, so we initially match it here.
 			//In addition, we had to properly anchor to all 4 sides to the TabPage.
-			LayoutManager.MoveHeight(userControlSecurityUserGroup,ClientSize.Height-userControlSecurityUserGroup.Top-5);
+			LayoutManager.MoveHeight(userControlSecurityUserGroup,ClientSize.Height-userControlSecurityUserGroup.Top-LayoutManager.Scale(UiGrid.PAD));//UI-12: the grid's padding below it
 		}
 
 		private void LayoutMenu() {

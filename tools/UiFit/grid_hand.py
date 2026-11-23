@@ -115,6 +115,32 @@ class Hand:
         """The widths (px on one line at Segoe UI 9) of the texts the window's code gives the control (grid-runtime-texts.tsv)."""
         return [w for (win, ctl), ws in RUNTIME.items() if win == self.window and ctl == name for w in ws]
 
+    def note_h(self, name, w, line=16):
+        """UI-12 slice 3: a wrapping label's (or check box's text's) height at width w: the larger of the measured word wrap and the
+        word-wrap estimate of grid_tools, at line px a line, + 2."""
+        n = self.n(name)
+        tw = max([n.text_w or 0] + self.runtime_widths(name))
+        lines = max(g.measured_lines(n.text, tw, w), g.note_lines(n.text, tw, w))
+        return lines * line + 2
+
+    def captioned(self, cap, box, x, y, w, h=None, after=(), cap_w=None):
+        """UI-12 slice 3: a caption label (as tall as its lines at cap_w, default w; BottomLeft) 2 px over a box at x, y; the box w wide (less
+        the cells of after, each 6 px apart, the last ending at x + w) and h tall (default the field height). Returns the box's bottom."""
+        cw_ = cap_w if cap_w is not None else w
+        ch = self.note_h(cap, cw_) if self.n(cap).text_w and self.n(cap).text_w > cw_ - 2 else 17
+        self.set(cap, x, y, cw_, ch)
+        self.text_align(cap, "BottomLeft")
+        yb = y + ch + GRID["caption_gap"]
+        hh = h if h is not None else self.H
+        right = x + w
+        for name in reversed(list(after)):
+            n = self.n(name)
+            right -= n.nw
+            self.set(name, right, yb, n.nw, self.H)
+            right -= GRID["item_gap"]
+        self.set(box, x, yb, right - x, hh)
+        return yb + hh
+
     def cw(self, name):
         n = self.n(name)
         return g.check_width(n) if n.text_w else 16

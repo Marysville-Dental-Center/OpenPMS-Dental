@@ -89,7 +89,7 @@ namespace OpenPmsDental {
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(1043, 597);
+			this.butSave.Location = new System.Drawing.Point(1015, 597);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 6;
@@ -98,46 +98,46 @@ namespace OpenPmsDental {
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(9, 25);
+			this.label1.Location = new System.Drawing.Point(8, 23);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(143, 20);
+			this.label1.Size = new System.Drawing.Size(140, 23);
 			this.label1.TabIndex = 2;
 			this.label1.Text = "Outgoing SMTP Server";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(9, 134);
+			this.label2.Location = new System.Drawing.Point(8, 145);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(141, 20);
+			this.label2.Size = new System.Drawing.Size(140, 23);
 			this.label2.TabIndex = 3;
 			this.label2.Text = "E-mail address of sender";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textSMTPserver
 			// 
-			this.textSMTPserver.Location = new System.Drawing.Point(152, 25);
+			this.textSMTPserver.Location = new System.Drawing.Point(154, 23);
 			this.textSMTPserver.Name = "textSMTPserver";
-			this.textSMTPserver.Size = new System.Drawing.Size(187, 20);
+			this.textSMTPserver.Size = new System.Drawing.Size(187, 23);
 			this.textSMTPserver.TabIndex = 1;
 			// 
 			// textSender
 			// 
-			this.textSender.Location = new System.Drawing.Point(152, 134);
+			this.textSender.Location = new System.Drawing.Point(154, 145);
 			this.textSender.Name = "textSender";
-			this.textSender.Size = new System.Drawing.Size(187, 20);
+			this.textSender.Size = new System.Drawing.Size(187, 23);
 			this.textSender.TabIndex = 3;
 			// 
 			// textUsername
 			// 
-			this.textUsername.Location = new System.Drawing.Point(273, 8);
+			this.textUsername.Location = new System.Drawing.Point(170, 8);
 			this.textUsername.Name = "textUsername";
-			this.textUsername.Size = new System.Drawing.Size(188, 20);
+			this.textUsername.Size = new System.Drawing.Size(188, 23);
 			this.textUsername.TabIndex = 1;
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(111, 8);
+			this.label3.Location = new System.Drawing.Point(8, 8);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(156, 23);
 			this.label3.TabIndex = 0;
@@ -146,15 +146,15 @@ namespace OpenPmsDental {
 			// 
 			// textPassword
 			// 
-			this.textPassword.Location = new System.Drawing.Point(118, 8);
+			this.textPassword.Location = new System.Drawing.Point(70, 0);
 			this.textPassword.Name = "textPassword";
 			this.textPassword.PasswordChar = '*';
-			this.textPassword.Size = new System.Drawing.Size(153, 23);
+			this.textPassword.Size = new System.Drawing.Size(188, 23);
 			this.textPassword.TabIndex = 2;
 			// 
 			// labelPassword
 			// 
-			this.labelPassword.Location = new System.Drawing.Point(48, 8);
+			this.labelPassword.Location = new System.Drawing.Point(0, 0);
 			this.labelPassword.Name = "labelPassword";
 			this.labelPassword.Size = new System.Drawing.Size(64, 23);
 			this.labelPassword.TabIndex = 0;
@@ -163,25 +163,25 @@ namespace OpenPmsDental {
 			// 
 			// textPort
 			// 
-			this.textPort.Location = new System.Drawing.Point(152, 106);
+			this.textPort.Location = new System.Drawing.Point(154, 118);
 			this.textPort.Name = "textPort";
-			this.textPort.Size = new System.Drawing.Size(56, 20);
+			this.textPort.Size = new System.Drawing.Size(56, 23);
 			this.textPort.TabIndex = 2;
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(6, 106);
+			this.label5.Location = new System.Drawing.Point(8, 118);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(144, 20);
+			this.label5.Size = new System.Drawing.Size(140, 23);
 			this.label5.TabIndex = 22;
 			this.label5.Text = "Outgoing Port";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(214, 106);
+			this.label6.Location = new System.Drawing.Point(216, 118);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(251, 20);
+			this.label6.Size = new System.Drawing.Size(192, 23);
 			this.label6.TabIndex = 0;
 			this.label6.Text = "Usually 587.  Sometimes 25 or 465.";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -189,7 +189,7 @@ namespace OpenPmsDental {
 			// checkSSL
 			// 
 			this.checkSSL.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkSSL.Location = new System.Drawing.Point(273, 35);
+			this.checkSSL.Location = new System.Drawing.Point(170, 35);
 			this.checkSSL.Name = "checkSSL";
 			this.checkSSL.Size = new System.Drawing.Size(65, 20);
 			this.checkSSL.TabIndex = 3;
@@ -219,9 +219,9 @@ namespace OpenPmsDental {
 			this.groupOutgoing.Controls.Add(this.textSender);
 			this.groupOutgoing.Controls.Add(this.textPort);
 			this.groupOutgoing.Controls.Add(this.label5);
-			this.groupOutgoing.Location = new System.Drawing.Point(492, 400);
+			this.groupOutgoing.Location = new System.Drawing.Point(404, 380);
 			this.groupOutgoing.Name = "groupOutgoing";
-			this.groupOutgoing.Size = new System.Drawing.Size(510, 165);
+			this.groupOutgoing.Size = new System.Drawing.Size(523, 176);
 			this.groupOutgoing.TabIndex = 4;
 			this.groupOutgoing.Text = "Outgoing Email Settings";
 			// 
@@ -229,15 +229,15 @@ namespace OpenPmsDental {
 			// 
 			this.label13.Location = new System.Drawing.Point(154, 48);
 			this.label13.Name = "label13";
-			this.label13.Size = new System.Drawing.Size(198, 58);
+			this.label13.Size = new System.Drawing.Size(187, 66);
 			this.label13.TabIndex = 0;
 			this.label13.Text = "smtp.comcast.net\r\nmailhost.mycompany.com \r\nmail.mycompany.com\r\nor similar...";
 			// 
 			// label9
 			// 
-			this.label9.Location = new System.Drawing.Point(343, 133);
+			this.label9.Location = new System.Drawing.Point(347, 145);
 			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(165, 20);
+			this.label9.Size = new System.Drawing.Size(168, 23);
 			this.label9.TabIndex = 0;
 			this.label9.Text = "(not used in encrypted email)";
 			this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -251,9 +251,9 @@ namespace OpenPmsDental {
 			this.groupIncoming.Controls.Add(this.label10);
 			this.groupIncoming.Controls.Add(this.textPortIncoming);
 			this.groupIncoming.Controls.Add(this.label11);
-			this.groupIncoming.Location = new System.Drawing.Point(40, 400);
+			this.groupIncoming.Location = new System.Drawing.Point(8, 380);
 			this.groupIncoming.Name = "groupIncoming";
-			this.groupIncoming.Size = new System.Drawing.Size(402, 113);
+			this.groupIncoming.Size = new System.Drawing.Size(388, 176);
 			this.groupIncoming.TabIndex = 5;
 			this.groupIncoming.Text = "Incoming Email Settings";
 			// 
@@ -261,47 +261,47 @@ namespace OpenPmsDental {
 			// 
 			this.label14.Location = new System.Drawing.Point(154, 48);
 			this.label14.Name = "label14";
-			this.label14.Size = new System.Drawing.Size(198, 33);
+			this.label14.Size = new System.Drawing.Size(187, 34);
 			this.label14.TabIndex = 0;
 			this.label14.Text = "pop.secureserver.net\r\nor similar...";
 			// 
 			// textSMTPserverIncoming
 			// 
-			this.textSMTPserverIncoming.Location = new System.Drawing.Point(152, 25);
+			this.textSMTPserverIncoming.Location = new System.Drawing.Point(154, 23);
 			this.textSMTPserverIncoming.Name = "textSMTPserverIncoming";
-			this.textSMTPserverIncoming.Size = new System.Drawing.Size(187, 20);
+			this.textSMTPserverIncoming.Size = new System.Drawing.Size(187, 23);
 			this.textSMTPserverIncoming.TabIndex = 1;
 			// 
 			// label8
 			// 
-			this.label8.Location = new System.Drawing.Point(12, 25);
+			this.label8.Location = new System.Drawing.Point(8, 23);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(140, 20);
+			this.label8.Size = new System.Drawing.Size(140, 23);
 			this.label8.TabIndex = 0;
 			this.label8.Text = "Incoming POP3 Server";
 			this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label10
 			// 
-			this.label10.Location = new System.Drawing.Point(214, 81);
+			this.label10.Location = new System.Drawing.Point(216, 86);
 			this.label10.Name = "label10";
-			this.label10.Size = new System.Drawing.Size(177, 20);
+			this.label10.Size = new System.Drawing.Size(164, 23);
 			this.label10.TabIndex = 0;
 			this.label10.Text = "Usually 110.  Sometimes 995.";
 			this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// textPortIncoming
 			// 
-			this.textPortIncoming.Location = new System.Drawing.Point(152, 81);
+			this.textPortIncoming.Location = new System.Drawing.Point(154, 86);
 			this.textPortIncoming.Name = "textPortIncoming";
-			this.textPortIncoming.Size = new System.Drawing.Size(56, 20);
+			this.textPortIncoming.Size = new System.Drawing.Size(56, 23);
 			this.textPortIncoming.TabIndex = 2;
 			// 
 			// label11
 			// 
-			this.label11.Location = new System.Drawing.Point(9, 81);
+			this.label11.Location = new System.Drawing.Point(8, 86);
 			this.label11.Name = "label11";
-			this.label11.Size = new System.Drawing.Size(141, 20);
+			this.label11.Size = new System.Drawing.Size(140, 23);
 			this.label11.TabIndex = 0;
 			this.label11.Text = "Incoming Port";
 			this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -309,7 +309,7 @@ namespace OpenPmsDental {
 			// butRegisterCertificate
 			// 
 			this.butRegisterCertificate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butRegisterCertificate.Location = new System.Drawing.Point(313, 597);
+			this.butRegisterCertificate.Location = new System.Drawing.Point(89, 597);
 			this.butRegisterCertificate.Name = "butRegisterCertificate";
 			this.butRegisterCertificate.Size = new System.Drawing.Size(122, 24);
 			this.butRegisterCertificate.TabIndex = 9;
@@ -318,9 +318,9 @@ namespace OpenPmsDental {
 			// 
 			// butPickUserod
 			// 
-			this.butPickUserod.Location = new System.Drawing.Point(323, 12);
+			this.butPickUserod.Location = new System.Drawing.Point(378, 0);
 			this.butPickUserod.Name = "butPickUserod";
-			this.butPickUserod.Size = new System.Drawing.Size(26, 23);
+			this.butPickUserod.Size = new System.Drawing.Size(24, 23);
 			this.butPickUserod.TabIndex = 4;
 			this.butPickUserod.Text = "...";
 			this.butPickUserod.UseVisualStyleBackColor = true;
@@ -329,33 +329,33 @@ namespace OpenPmsDental {
 			// 
 			// labelUserod
 			// 
-			this.labelUserod.Location = new System.Drawing.Point(27, 13);
+			this.labelUserod.Location = new System.Drawing.Point(112, 0);
 			this.labelUserod.Name = "labelUserod";
-			this.labelUserod.Size = new System.Drawing.Size(71, 20);
+			this.labelUserod.Size = new System.Drawing.Size(36, 23);
 			this.labelUserod.TabIndex = 3;
 			this.labelUserod.Text = "User";
 			this.labelUserod.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textUserod
 			// 
-			this.textUserod.Location = new System.Drawing.Point(98, 13);
+			this.textUserod.Location = new System.Drawing.Point(154, 0);
 			this.textUserod.Name = "textUserod";
 			this.textUserod.ReadOnly = true;
-			this.textUserod.Size = new System.Drawing.Size(218, 20);
+			this.textUserod.Size = new System.Drawing.Size(218, 23);
 			this.textUserod.TabIndex = 0;
 			//
 			// labelGmailStatusCaption
 			//
-			this.labelGmailStatusCaption.Location = new System.Drawing.Point(41, 51);
+			this.labelGmailStatusCaption.Location = new System.Drawing.Point(8, 51);
 			this.labelGmailStatusCaption.Name = "labelGmailStatusCaption";
-			this.labelGmailStatusCaption.Size = new System.Drawing.Size(116, 20);
+			this.labelGmailStatusCaption.Size = new System.Drawing.Size(148, 20);
 			this.labelGmailStatusCaption.TabIndex = 14;
 			this.labelGmailStatusCaption.Text = "Status";
 			this.labelGmailStatusCaption.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			//
 			// labelGmailStatus
 			//
-			this.labelGmailStatus.Location = new System.Drawing.Point(163, 51);
+			this.labelGmailStatus.Location = new System.Drawing.Point(162, 53);
 			this.labelGmailStatus.Name = "labelGmailStatus";
 			this.labelGmailStatus.Size = new System.Drawing.Size(281, 52);
 			this.labelGmailStatus.TabIndex = 15;
@@ -373,9 +373,9 @@ namespace OpenPmsDental {
 			this.groupGmail.Controls.Add(this.butClearTokensGmail);
 			this.groupGmail.Controls.Add(this.labelGmailStatusCaption);
 			this.groupGmail.Controls.Add(this.labelGmailStatus);
-			this.groupGmail.Location = new System.Drawing.Point(492, 23);
+			this.groupGmail.Location = new System.Drawing.Point(556, 23);
 			this.groupGmail.Name = "groupGmail";
-			this.groupGmail.Size = new System.Drawing.Size(610, 277);
+			this.groupGmail.Size = new System.Drawing.Size(518, 278);
 			this.groupGmail.TabIndex = 16;
 			this.groupGmail.Text = "Gmail";
 			// 
@@ -383,7 +383,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelDownloadGmail.Location = new System.Drawing.Point(338, 135);
 			this.labelDownloadGmail.Name = "labelDownloadGmail";
-			this.labelDownloadGmail.Size = new System.Drawing.Size(264, 18);
+			this.labelDownloadGmail.Size = new System.Drawing.Size(172, 20);
 			this.labelDownloadGmail.TabIndex = 32;
 			this.labelDownloadGmail.Text = "Uncheck if sending email only";
 			this.labelDownloadGmail.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -400,7 +400,7 @@ namespace OpenPmsDental {
 			// checkUnreadGmail
 			// 
 			this.checkUnreadGmail.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkUnreadGmail.Location = new System.Drawing.Point(162, 249);
+			this.checkUnreadGmail.Location = new System.Drawing.Point(162, 250);
 			this.checkUnreadGmail.Name = "checkUnreadGmail";
 			this.checkUnreadGmail.RightToLeft = System.Windows.Forms.RightToLeft.No;
 			this.checkUnreadGmail.Size = new System.Drawing.Size(136, 20);
@@ -410,26 +410,26 @@ namespace OpenPmsDental {
 			// 
 			// textParams
 			// 
-			this.textParams.Location = new System.Drawing.Point(162, 158);
+			this.textParams.Location = new System.Drawing.Point(162, 159);
 			this.textParams.Multiline = true;
 			this.textParams.Name = "textParams";
-			this.textParams.Size = new System.Drawing.Size(262, 87);
+			this.textParams.Size = new System.Drawing.Size(264, 87);
 			this.textParams.TabIndex = 26;
 			//
 			// labelParams
 			//
 			this.labelParams.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.labelParams.Location = new System.Drawing.Point(8, 158);
+			this.labelParams.Location = new System.Drawing.Point(8, 159);
 			this.labelParams.Name = "labelParams";
-			this.labelParams.Size = new System.Drawing.Size(148, 62);
+			this.labelParams.Size = new System.Drawing.Size(148, 84);
 			this.labelParams.TabIndex = 28;
 			this.labelParams.Text = "Inbox Search Operators for Filtering\r\n(blank: in:inbox newer_than:30d)";
-			this.labelParams.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.labelParams.TextAlign = System.Drawing.ContentAlignment.TopRight;
 			// 
 			// checkDownloadGmail
 			// 
 			this.checkDownloadGmail.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkDownloadGmail.Location = new System.Drawing.Point(162, 134);
+			this.checkDownloadGmail.Location = new System.Drawing.Point(162, 135);
 			this.checkDownloadGmail.Name = "checkDownloadGmail";
 			this.checkDownloadGmail.RightToLeft = System.Windows.Forms.RightToLeft.No;
 			this.checkDownloadGmail.Size = new System.Drawing.Size(170, 20);
@@ -441,7 +441,7 @@ namespace OpenPmsDental {
 			// 
 			this.butClearTokensGmail.Location = new System.Drawing.Point(162, 107);
 			this.butClearTokensGmail.Name = "butClearTokensGmail";
-			this.butClearTokensGmail.Size = new System.Drawing.Size(115, 23);
+			this.butClearTokensGmail.Size = new System.Drawing.Size(115, 24);
 			this.butClearTokensGmail.TabIndex = 16;
 			this.butClearTokensGmail.Text = "Sign Out";
 			this.butClearTokensGmail.UseVisualStyleBackColor = true;
@@ -452,15 +452,15 @@ namespace OpenPmsDental {
 			this.panelUserod.Controls.Add(this.textUserod);
 			this.panelUserod.Controls.Add(this.butPickUserod);
 			this.panelUserod.Controls.Add(this.labelUserod);
-			this.panelUserod.Location = new System.Drawing.Point(63, 521);
+			this.panelUserod.Location = new System.Drawing.Point(8, 564);
 			this.panelUserod.Name = "panelUserod";
-			this.panelUserod.Size = new System.Drawing.Size(378, 50);
+			this.panelUserod.Size = new System.Drawing.Size(402, 23);
 			this.panelUserod.TabIndex = 20;
 			// 
 			// radioPassword
 			// 
 			this.radioPassword.Checked = true;
-			this.radioPassword.Location = new System.Drawing.Point(22, 33);
+			this.radioPassword.Location = new System.Drawing.Point(8, 23);
 			this.radioPassword.Name = "radioPassword";
 			this.radioPassword.Size = new System.Drawing.Size(75, 20);
 			this.radioPassword.TabIndex = 21;
@@ -471,7 +471,7 @@ namespace OpenPmsDental {
 			// 
 			// radioGmail
 			// 
-			this.radioGmail.Location = new System.Drawing.Point(22, 68);
+			this.radioGmail.Location = new System.Drawing.Point(8, 47);
 			this.radioGmail.Name = "radioGmail";
 			this.radioGmail.Size = new System.Drawing.Size(102, 20);
 			this.radioGmail.TabIndex = 22;
@@ -481,7 +481,7 @@ namespace OpenPmsDental {
 			// 
 			// radioMicrosoft
 			// 
-			this.radioMicrosoft.Location = new System.Drawing.Point(22, 92);
+			this.radioMicrosoft.Location = new System.Drawing.Point(8, 71);
 			this.radioMicrosoft.Name = "radioMicrosoft";
 			this.radioMicrosoft.Size = new System.Drawing.Size(97, 20);
 			this.radioMicrosoft.TabIndex = 23;
@@ -500,7 +500,7 @@ namespace OpenPmsDental {
 			this.groupAuthentication.Controls.Add(this.groupGmail);
 			this.groupAuthentication.Location = new System.Drawing.Point(8, 63);
 			this.groupAuthentication.Name = "groupAuthentication";
-			this.groupAuthentication.Size = new System.Drawing.Size(1110, 308);
+			this.groupAuthentication.Size = new System.Drawing.Size(1082, 309);
 			this.groupAuthentication.TabIndex = 23;
 			this.groupAuthentication.Text = "Email Authentication";
 			// 
@@ -508,9 +508,9 @@ namespace OpenPmsDental {
 			// 
 			this.panelPassword.Controls.Add(this.textPassword);
 			this.panelPassword.Controls.Add(this.labelPassword);
-			this.panelPassword.Location = new System.Drawing.Point(147, 23);
+			this.panelPassword.Location = new System.Drawing.Point(126, 22);
 			this.panelPassword.Name = "panelPassword";
-			this.panelPassword.Size = new System.Drawing.Size(279, 41);
+			this.panelPassword.Size = new System.Drawing.Size(258, 23);
 			this.panelPassword.TabIndex = 21;
 			// 
 			// groupMicrosoft
@@ -522,15 +522,15 @@ namespace OpenPmsDental {
 			this.groupMicrosoft.Controls.Add(this.labelMicrosoftStatus);
 			this.groupMicrosoft.Controls.Add(this.butClearTokensMicrosoft);
 			this.groupMicrosoft.Controls.Add(this.labelMicrosoftStatusCaption);
-			this.groupMicrosoft.Location = new System.Drawing.Point(92, 120);
+			this.groupMicrosoft.Location = new System.Drawing.Point(126, 53);
 			this.groupMicrosoft.Name = "groupMicrosoft";
-			this.groupMicrosoft.Size = new System.Drawing.Size(384, 162);
+			this.groupMicrosoft.Size = new System.Drawing.Size(414, 163);
 			this.groupMicrosoft.TabIndex = 30;
 			this.groupMicrosoft.Text = "Microsoft 365";
 			//
 			// butAuthMicrosoft
 			//
-			this.butAuthMicrosoft.Location = new System.Drawing.Point(173, 23);
+			this.butAuthMicrosoft.Location = new System.Drawing.Point(58, 23);
 			this.butAuthMicrosoft.Name = "butAuthMicrosoft";
 			this.butAuthMicrosoft.Size = new System.Drawing.Size(115, 24);
 			this.butAuthMicrosoft.TabIndex = 25;
@@ -539,9 +539,9 @@ namespace OpenPmsDental {
 			//
 			// labelDownloadMicrosoft
 			// 
-			this.labelDownloadMicrosoft.Location = new System.Drawing.Point(184, 135);
+			this.labelDownloadMicrosoft.Location = new System.Drawing.Point(234, 135);
 			this.labelDownloadMicrosoft.Name = "labelDownloadMicrosoft";
-			this.labelDownloadMicrosoft.Size = new System.Drawing.Size(172, 18);
+			this.labelDownloadMicrosoft.Size = new System.Drawing.Size(172, 20);
 			this.labelDownloadMicrosoft.TabIndex = 31;
 			this.labelDownloadMicrosoft.Text = "Uncheck if sending email only";
 			this.labelDownloadMicrosoft.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -549,7 +549,7 @@ namespace OpenPmsDental {
 			// checkDownloadMicrosoft
 			// 
 			this.checkDownloadMicrosoft.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkDownloadMicrosoft.Location = new System.Drawing.Point(8, 134);
+			this.checkDownloadMicrosoft.Location = new System.Drawing.Point(58, 135);
 			this.checkDownloadMicrosoft.Name = "checkDownloadMicrosoft";
 			this.checkDownloadMicrosoft.RightToLeft = System.Windows.Forms.RightToLeft.No;
 			this.checkDownloadMicrosoft.Size = new System.Drawing.Size(170, 20);
@@ -559,7 +559,7 @@ namespace OpenPmsDental {
 			//
 			// labelMicrosoftStatus
 			//
-			this.labelMicrosoftStatus.Location = new System.Drawing.Point(176, 51);
+			this.labelMicrosoftStatus.Location = new System.Drawing.Point(58, 53);
 			this.labelMicrosoftStatus.Name = "labelMicrosoftStatus";
 			this.labelMicrosoftStatus.Size = new System.Drawing.Size(200, 52);
 			this.labelMicrosoftStatus.TabIndex = 11;
@@ -567,9 +567,9 @@ namespace OpenPmsDental {
 			//
 			// butClearTokensMicrosoft
 			// 
-			this.butClearTokensMicrosoft.Location = new System.Drawing.Point(173, 107);
+			this.butClearTokensMicrosoft.Location = new System.Drawing.Point(58, 107);
 			this.butClearTokensMicrosoft.Name = "butClearTokensMicrosoft";
-			this.butClearTokensMicrosoft.Size = new System.Drawing.Size(115, 23);
+			this.butClearTokensMicrosoft.Size = new System.Drawing.Size(115, 24);
 			this.butClearTokensMicrosoft.TabIndex = 16;
 			this.butClearTokensMicrosoft.Text = "Sign Out";
 			this.butClearTokensMicrosoft.UseVisualStyleBackColor = true;
@@ -577,9 +577,9 @@ namespace OpenPmsDental {
 			// 
 			// labelMicrosoftStatusCaption
 			//
-			this.labelMicrosoftStatusCaption.Location = new System.Drawing.Point(54, 51);
+			this.labelMicrosoftStatusCaption.Location = new System.Drawing.Point(8, 51);
 			this.labelMicrosoftStatusCaption.Name = "labelMicrosoftStatusCaption";
-			this.labelMicrosoftStatusCaption.Size = new System.Drawing.Size(116, 20);
+			this.labelMicrosoftStatusCaption.Size = new System.Drawing.Size(44, 20);
 			this.labelMicrosoftStatusCaption.TabIndex = 14;
 			this.labelMicrosoftStatusCaption.Text = "Status";
 			this.labelMicrosoftStatusCaption.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -587,7 +587,7 @@ namespace OpenPmsDental {
 			// FormEmailAddressEdit
 			// 
 			this.AcceptButton = this.butSave;
-			this.ClientSize = new System.Drawing.Size(1126, 629);
+			this.ClientSize = new System.Drawing.Size(1098, 629);
 			this.Controls.Add(this.groupAuthentication);
 			this.Controls.Add(this.panelUserod);
 			this.Controls.Add(this.butSave);

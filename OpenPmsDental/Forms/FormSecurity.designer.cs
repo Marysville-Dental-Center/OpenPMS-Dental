@@ -37,7 +37,7 @@ namespace OpenPmsDental{
 			this.userControlSecurityUserGroup.Name = "userControlSecurityUserGroup";
 			this.userControlSecurityUserGroup.SelectedUser = null;
 			this.userControlSecurityUserGroup.SelectedUserGroup = null;
-			this.userControlSecurityUserGroup.Size = new System.Drawing.Size(969, 484);
+			this.userControlSecurityUserGroup.Size = new System.Drawing.Size(969, 656);
 			this.userControlSecurityUserGroup.TabIndex = 252;
 			this.userControlSecurityUserGroup.AddUserClick += new OpenPmsDental.UserControlSecurityUserGroup.SecurityTabsEventHandler(this.userControlSecurityTabs_AddUserClick);
 			this.userControlSecurityUserGroup.CopyUserClick += new OpenPmsDental.UserControlSecurityUserGroup.SecurityTabsEventHandler(this.UserControlSecurityTabs_CopyUserClick);

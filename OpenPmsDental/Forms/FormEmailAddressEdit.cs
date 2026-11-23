@@ -199,20 +199,21 @@ namespace OpenPmsDental{
 
 		///<summary>Where the controls of the Email Authentication box go, in 96 dpi pixels inside the box.</summary>
 		public class EmailAuthenticationLayout {
-			///<summary>The top of the first choice (Password), as in the designer.</summary>
-			public const int TopRadios=22;
-			///<summary>From one choice to the next, as in the designer.</summary>
-			public const int StepRadios=23;
-			///<summary>Right of the choices (the widest, Gmail (OAuth) and Microsoft 365, end at 142).</summary>
-			public const int LeftDetails=147;
-			///<summary>The password panel's top: its label (12 down in the panel) then lines up with the Password choice.</summary>
-			public const int TopPassword=10;
-			///<summary>A sign-in box's top, just below the box's own title, as the Gmail box was in the designer.</summary>
-			public const int TopSignInBox=13;
-			///<summary>Below the lowest control, as the box had below the Gmail box in the designer.</summary>
-			public const int MarginBottom=9;
-			///<summary>From the box to the incoming and outgoing settings below it, as in the designer.</summary>
-			public const int GapBelow=20;
+			///<summary>The top of the first choice (Password), as in the designer: the layout grid's content top in a group box (its 19 px
+			///title band + UiGrid.TITLE_GAP, UI-12).</summary>
+			public const int TopRadios=19+UiGrid.TITLE_GAP;
+			///<summary>From one choice to the next, as in the designer: a choice's 20 px + UiGrid.LIST_GAP.</summary>
+			public const int StepRadios=20+UiGrid.LIST_GAP;
+			///<summary>Right of the choices: the widest, Gmail (OAuth), ends at 110; UiGrid.BAND_GAP after it.</summary>
+			public const int LeftDetails=110+UiGrid.BAND_GAP;
+			///<summary>The password panel's top: its label and box (the field height, the panel's height) on the Password choice's row.</summary>
+			public const int TopPassword=TopRadios-(UiGrid.FIELD_HEIGHT-20)/2;
+			///<summary>A sign-in box's top: the group's content top, as the Gmail box is in the designer.</summary>
+			public const int TopSignInBox=TopRadios;
+			///<summary>Below the lowest control: the grid's padding.</summary>
+			public const int MarginBottom=UiGrid.PAD;
+			///<summary>From the box to the incoming and outgoing settings below it: the grid's gap between containers.</summary>
+			public const int GapBelow=UiGrid.SIBLING_GAP;
 			///<summary>The top of each shown choice: Password, then Gmail (OAuth) and Microsoft 365 when they show.</summary>
 			public List<int> ListYRadios=new List<int>();
 			///<summary>The top left of the password panel or of the chosen sign-in's box.</summary>
