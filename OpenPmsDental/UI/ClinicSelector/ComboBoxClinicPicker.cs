@@ -644,11 +644,13 @@ namespace OpenPmsDental.UI {
 				//on the full height came out 2 px lower and 2 px further right).
 				//UI-12 slice 1: the label area is as wide as the measured text + 6 px (WidthLabelArea), so the text fits its bounds; one line, never
 				//clipped, so a 1 px difference between two measurements cannot wrap it.
-				//UI-12 slice 1 fix round 9: TextBoxControl as in _textFormatFlagsLabel (and as a WinForms Label draws), so the text is drawn with the
-				//padding it is measured with: without it TextRenderer adds its default side padding and the ink ends 4 px before the labels' column.
+				//UI-12 slice 1 fix round 9: where a right-aligned WinForms Label ending on the same x draws its text. TextRenderer's default side
+				//padding (with or without TextBoxControl, measured: the same) put the ink 3-4 px before the label column; a Label draws without it,
+				//its text's last pixel 3 px before its right side: no padding, in bounds 1 px narrower (measured at Segoe UI 9: a 100 px Label's
+				//"Clinic" ends at 97, TextRenderer's default at 94, NoPadding at 98). GridRulesTests.ClinicPicker_LabelInk_OnTheLabelColumn checks it.
 				TextFormatFlags textFormatFlags=TextFormatFlags.Right|TextFormatFlags.VerticalCenter|TextFormatFlags.SingleLine|TextFormatFlags.NoClipping
-					|TextFormatFlags.TextBoxControl|TextFormatFlags.NoPrefix;
-				int xRight=rectangleCombo.X-LayoutManager.Scale(6);
+					|TextFormatFlags.TextBoxControl|TextFormatFlags.NoPadding|TextFormatFlags.NoPrefix;
+				int xRight=rectangleCombo.X-LayoutManager.Scale(6)-1;
 				TextRenderer.DrawText(g,labelFake.Text,Font,new Rectangle(0,0,xRight,Height),UiTheme.GetColor(EnumUiColor.Text),textFormatFlags);
 			}
 			StringFormat stringFormat=new StringFormat(StringFormatFlags.NoWrap);

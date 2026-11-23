@@ -15,7 +15,8 @@ def layout(h):
         h.set(name, None, None, sv.nx + sv.nw - b.nx, None)
     # Fix round 9: the Patient and Guarantor rows end on the Terms group's right edge (the left column's): Go To and Change 6 px apart,
     # Change on the edge (it ended 67 px past it, 6 px from the tab control; main: on the column), the name boxes narrower by as much,
-    # Category ending with them; the tab control, the Note box and its caption 8 px after the column (the window narrower by as much).
+    # Category ending with them; the tab control, the Note box, its caption and the two notes Load shows under it (overcharged, closed) 8 px
+    # after the column (the window narrower by as much).
     R = gt.nx + gt.nw
     cg, gg = h.n("butChangeGuar"), h.n("butGoToGuar")
     xc = R - cg.nw
@@ -28,7 +29,7 @@ def layout(h):
     h.set("comboCategory", None, None, h.n("textPatient").nx + wt - h.n("comboCategory").nx, None)
     tc = h.n("tabControl1")
     dx = R + 8 - tc.nx
-    for name in ("tabControl1", "textNote", "label10"):
+    for name in ("tabControl1", "textNote", "label10", "labelOverchargedWarning", "labelClosed"):
         h.set(name, h.n(name).nx + dx, None)
     s = h.n("butSave")
     h.set("butSave", s.nx + dx, None)

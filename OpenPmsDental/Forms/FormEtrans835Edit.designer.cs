@@ -483,7 +483,7 @@ namespace OpenPmsDental{
 			// 
 			// butRawMessage
 			// 
-			this.butRawMessage.Location = new System.Drawing.Point(883, 197);
+			this.butRawMessage.Location = new System.Drawing.Point(884, 197);
 			this.butRawMessage.Name = "butRawMessage";
 			this.butRawMessage.Size = new System.Drawing.Size(82, 25);
 			this.butRawMessage.TabIndex = 116;
@@ -574,7 +574,7 @@ namespace OpenPmsDental{
 			this.gridProviderAdjustments.Location = new System.Drawing.Point(8, 308);
 			this.gridProviderAdjustments.Name = "gridProviderAdjustments";
 			this.gridProviderAdjustments.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridProviderAdjustments.Size = new System.Drawing.Size(956, 95);
+			this.gridProviderAdjustments.Size = new System.Drawing.Size(958, 95);
 			this.gridProviderAdjustments.TabIndex = 170;
 			this.gridProviderAdjustments.TabStop = false;
 			this.gridProviderAdjustments.Title = "Provider Adjustments";
@@ -590,7 +590,7 @@ namespace OpenPmsDental{
 			this.gridClaimDetails.Location = new System.Drawing.Point(8, 407);
 			this.gridClaimDetails.Name = "gridClaimDetails";
 			this.gridClaimDetails.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridClaimDetails.Size = new System.Drawing.Size(956, 277);
+			this.gridClaimDetails.Size = new System.Drawing.Size(958, 277);
 			this.gridClaimDetails.TabIndex = 0;
 			this.gridClaimDetails.TabStop = false;
 			this.gridClaimDetails.Title = "Claims Paid";

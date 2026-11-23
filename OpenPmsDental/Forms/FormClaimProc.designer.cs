@@ -672,7 +672,7 @@
 			this.textAllowedFeeSched.Location = new System.Drawing.Point(163, 77);
 			this.textAllowedFeeSched.Name = "textAllowedFeeSched";
 			this.textAllowedFeeSched.ReadOnly = true;
-			this.textAllowedFeeSched.Size = new System.Drawing.Size(225, 23);
+			this.textAllowedFeeSched.Size = new System.Drawing.Size(233, 23);
 			this.textAllowedFeeSched.TabIndex = 0;
 			this.textAllowedFeeSched.TabStop = false;
 			// 
@@ -748,7 +748,7 @@
 			this.textPPOFeeSched.Location = new System.Drawing.Point(163, 50);
 			this.textPPOFeeSched.Name = "textPPOFeeSched";
 			this.textPPOFeeSched.ReadOnly = true;
-			this.textPPOFeeSched.Size = new System.Drawing.Size(225, 23);
+			this.textPPOFeeSched.Size = new System.Drawing.Size(233, 23);
 			this.textPPOFeeSched.TabIndex = 0;
 			this.textPPOFeeSched.TabStop = false;
 			// 

@@ -6,7 +6,8 @@ Fix round 9: Blue Book Log, 6 px after the Insurance Estimate row's override box
 groups of the estimate panel, and Claim Info under it). It cannot end on that edge: 85 px is the narrowest that holds its text (the program's
 button draws it with GDI+, 82 px at Segoe UI 9, and wraps it in less), and it cannot move left onto the override box. The right column grows
 by those 5 px instead: the estimate panel, the fields and groups on its content edge (Fee Schedule, the Carrier Allowed Amount group and
-its two fee schedule boxes, Estimate Note), Claim Info and the window; Save stays on the window's content edge."""
+its two fee schedule boxes, now on the group's content edge, and Estimate Note), Claim Info and the window; Save stays on the window's
+content edge."""
 
 
 def layout(h):
@@ -28,9 +29,9 @@ def layout(h):
                 h.set(name, None, None, n.nw + dx, None)
         if a.nx + a.nw == edge:
             for k in a.children:
-                # the group's fields that reach its right part (the two fee schedule boxes) keep their distance to its right side
+                # the group's fields that reach its right part (the two fee schedule boxes) to its content edge (they ended 8 px short of it)
                 if k.visible and k.kind == "field" and k.nx + k.nw >= a.nw - 8 - 16:
-                    h.set(k.name, None, None, k.nw + dx, None)
+                    h.set(k.name, None, None, a.nw + dx - 8 - k.nx, None)
             h.set("groupAllowed", None, None, a.nw + dx, None)
         s = h.n("butSave")
         h.set("butSave", s.nx + dx, None)

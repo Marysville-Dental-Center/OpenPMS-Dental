@@ -37,7 +37,11 @@ def layout(h):
     h.set("comboSheetDef", R - cs.nw, None)
     h.set("labelSheetDef", R - cs.nw - 6 - ls, None, ls, None)
     h.text_align("labelSheetDef", "MiddleRight")
+    gx = R + 8 - grid.nx
     h.set("gridCharges", R + 8, None)
+    # the closed plan's note Load shows under the Note box moves with the grid
+    lc = h.n("labelClosed")
+    h.set("labelClosed", lc.nx + gx, None)
     grid = type("G", (), {"x": grid.nx, "y": grid.ny, "w": grid.nw, "h": grid.nh})
     y = grid.y + grid.h + 4
     for name, x, w in MAIN_TOTALS:

@@ -754,7 +754,7 @@ namespace OpenPmsDental {
 			this.labelClosed.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelClosed.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.labelClosed.ForeColor = System.Drawing.Color.Red;
-			this.labelClosed.Location = new System.Drawing.Point(526, 670);
+			this.labelClosed.Location = new System.Drawing.Point(461, 670);
 			this.labelClosed.Name = "labelClosed";
 			this.labelClosed.Size = new System.Drawing.Size(512, 15);
 			this.labelClosed.TabIndex = 150;
@@ -1088,7 +1088,7 @@ namespace OpenPmsDental {
 			this.labelOverchargedWarning.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelOverchargedWarning.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.labelOverchargedWarning.ForeColor = System.Drawing.Color.Red;
-			this.labelOverchargedWarning.Location = new System.Drawing.Point(461, 654);
+			this.labelOverchargedWarning.Location = new System.Drawing.Point(396, 654);
 			this.labelOverchargedWarning.Name = "labelOverchargedWarning";
 			this.labelOverchargedWarning.Size = new System.Drawing.Size(662, 14);
 			this.labelOverchargedWarning.TabIndex = 201;

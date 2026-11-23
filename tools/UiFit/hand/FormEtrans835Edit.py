@@ -45,3 +45,10 @@ def layout(h):
         h.set(name, x, sv.ny, b.nw, 24)
         x += b.nw + 6
     h.set("butSave", None, None, sv.nw, 24)
+    # The two grids and Raw Message on the right content edge (Save's and the fields'; they ended 1 to 2 px short of it).
+    R = sv.nx + sv.nw
+    for name in ("gridProviderAdjustments", "gridClaimDetails"):
+        g = h.n(name)
+        h.set(name, None, None, R - g.nx, None)
+    rm = h.n("butRawMessage")
+    h.set("butRawMessage", R - rm.nw, None)
