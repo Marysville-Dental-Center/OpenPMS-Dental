@@ -1,7 +1,8 @@
 """FormRpPayPlans on the grid (UI-12 slice 2, layout script of grid_hand.py, on the planner's tree). The planner kept main's left column
 at x 23 to 47 and the two lists at two widths. The date captions 2 px over their date boxes, the first at the content edge, the second 16 px
 after it (the date boxes keep main's 224 px); under them the plan types group with the three options under it at the
-content edge, and the Providers and Clinics columns (caption, All 2 px under it, the list 2 px under the box) 16 px after the group, 8 px
+content edge, and the Providers and Clinics columns (caption, All 2 px under it, the list 2 px under the box) 16 px after the group and
+the options, 8 px
 apart and one width, to the right content edge, down to 8 px over the bottom bar; OK at the bottom right."""
 
 
@@ -13,7 +14,7 @@ def layout(h):
     yb = root.h - 8 - 24
     g = h.n("groupBox1")
     GW = g.nw
-    x1 = 8 + GW + 16
+    x1 = 8 + max(GW, max(h.cw(n) for n in ("checkHideCompletePlans", "checkShowFamilyBalance", "checkHasDateRange"))) + 16
     W = (R - x1 - 8) // 2
     x2 = x1 + W + 8
     h.set("label2", 8, 8, h.lw("label2"), 17)

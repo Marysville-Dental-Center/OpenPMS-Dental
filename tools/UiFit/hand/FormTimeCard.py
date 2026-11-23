@@ -62,7 +62,8 @@ def layout(h):
         h.check_left(r)
         h.set(r, 8, y, h.cw(r), CH)
         y += CH + 4
-    h.set("groupTotalsFormat", 8 + 630 + 8, yt, 120, th)
+    tw = max(120, 8 + max(h.cw("radioTotalsDecimal"), h.cw("radioTotalsColon")) + 8)
+    h.set("groupTotalsFormat", 8 + 630 + 8, yt, tw, th)
     h.watch("groupTotalsFormat")
     yg = 8 + GH + 8
     h.set("gridMain", 8, yg, R - 8, yt - 8 - yg)

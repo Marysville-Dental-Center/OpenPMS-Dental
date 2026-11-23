@@ -337,7 +337,7 @@ namespace OpenPmsDental {
 			this.groupTotalsFormat.Controls.Add(this.radioTotalsColon);
 			this.groupTotalsFormat.Location = new System.Drawing.Point(646, 586);
 			this.groupTotalsFormat.Name = "groupTotalsFormat";
-			this.groupTotalsFormat.Size = new System.Drawing.Size(120, 70);
+			this.groupTotalsFormat.Size = new System.Drawing.Size(125, 70);
 			this.groupTotalsFormat.TabIndex = 132;
 			//
 			// radioTotalsDecimal
