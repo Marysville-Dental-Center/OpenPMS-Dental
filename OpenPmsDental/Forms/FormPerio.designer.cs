@@ -138,19 +138,19 @@ namespace OpenPmsDental {
 			// 
 			this.groupBox1.Controls.Add(this.radioMaxFirst);
 			this.groupBox1.Controls.Add(this.radioFacialsFirst);
-			this.groupBox1.Location = new System.Drawing.Point(1003, 8);
+			this.groupBox1.Location = new System.Drawing.Point(1005, 8);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(208, 43);
+			this.groupBox1.Size = new System.Drawing.Size(221, 45);
 			this.groupBox1.TabIndex = 13;
 			this.groupBox1.Text = "Advance Sequence";
 			// 
 			// radioMaxFirst
 			// 
-			this.radioMaxFirst.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.radioMaxFirst.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.radioMaxFirst.Checked = true;
-			this.radioMaxFirst.Location = new System.Drawing.Point(7, 20);
+			this.radioMaxFirst.Location = new System.Drawing.Point(8, 19);
 			this.radioMaxFirst.Name = "radioMaxFirst";
-			this.radioMaxFirst.Size = new System.Drawing.Size(91, 20);
+			this.radioMaxFirst.Size = new System.Drawing.Size(91, 18);
 			this.radioMaxFirst.TabIndex = 3;
 			this.radioMaxFirst.TabStop = true;
 			this.radioMaxFirst.Text = "Maxillary First";
@@ -159,10 +159,10 @@ namespace OpenPmsDental {
 			// 
 			// radioFacialsFirst
 			// 
-			this.radioFacialsFirst.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.radioFacialsFirst.Location = new System.Drawing.Point(100, 20);
+			this.radioFacialsFirst.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.radioFacialsFirst.Location = new System.Drawing.Point(105, 19);
 			this.radioFacialsFirst.Name = "radioFacialsFirst";
-			this.radioFacialsFirst.Size = new System.Drawing.Size(91, 20);
+			this.radioFacialsFirst.Size = new System.Drawing.Size(83, 18);
 			this.radioFacialsFirst.TabIndex = 2;
 			this.radioFacialsFirst.Text = "Facials First";
 			this.radioFacialsFirst.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -170,10 +170,10 @@ namespace OpenPmsDental {
 			// 
 			// radioRight
 			// 
-			this.radioRight.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.radioRight.Location = new System.Drawing.Point(10, 18);
+			this.radioRight.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.radioRight.Location = new System.Drawing.Point(8, 19);
 			this.radioRight.Name = "radioRight";
-			this.radioRight.Size = new System.Drawing.Size(57, 20);
+			this.radioRight.Size = new System.Drawing.Size(49, 18);
 			this.radioRight.TabIndex = 1;
 			this.radioRight.Text = "Right";
 			this.radioRight.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -182,9 +182,9 @@ namespace OpenPmsDental {
 			// radioLeft
 			// 
 			this.radioLeft.Checked = true;
-			this.radioLeft.Location = new System.Drawing.Point(72, 18);
+			this.radioLeft.Location = new System.Drawing.Point(63, 19);
 			this.radioLeft.Name = "radioLeft";
-			this.radioLeft.Size = new System.Drawing.Size(57, 20);
+			this.radioLeft.Size = new System.Drawing.Size(44, 18);
 			this.radioLeft.TabIndex = 0;
 			this.radioLeft.TabStop = true;
 			this.radioLeft.Text = "Left";
@@ -193,9 +193,9 @@ namespace OpenPmsDental {
 			// label2
 			// 
 			this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label2.Location = new System.Drawing.Point(369, 94);
+			this.label2.Location = new System.Drawing.Point(369, 96);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(18, 23);
+			this.label2.Size = new System.Drawing.Size(20, 23);
 			this.label2.TabIndex = 35;
 			this.label2.Text = "F";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -203,9 +203,9 @@ namespace OpenPmsDental {
 			// label3
 			// 
 			this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label3.Location = new System.Drawing.Point(369, 542);
+			this.label3.Location = new System.Drawing.Point(369, 171);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(18, 23);
+			this.label3.Size = new System.Drawing.Size(20, 23);
 			this.label3.TabIndex = 36;
 			this.label3.Text = "F";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -213,9 +213,9 @@ namespace OpenPmsDental {
 			// label4
 			// 
 			this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label4.Location = new System.Drawing.Point(369, 408);
+			this.label4.Location = new System.Drawing.Point(369, 146);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(18, 23);
+			this.label4.Size = new System.Drawing.Size(20, 23);
 			this.label4.TabIndex = 37;
 			this.label4.Text = "L";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -223,9 +223,9 @@ namespace OpenPmsDental {
 			// label5
 			// 
 			this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label5.Location = new System.Drawing.Point(369, 215);
+			this.label5.Location = new System.Drawing.Point(369, 121);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(18, 23);
+			this.label5.Size = new System.Drawing.Size(20, 23);
 			this.label5.TabIndex = 38;
 			this.label5.Text = "L";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -234,9 +234,9 @@ namespace OpenPmsDental {
 			// 
 			this.butColorBleed.BackColor = System.Drawing.Color.Red;
 			this.butColorBleed.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-			this.butColorBleed.Location = new System.Drawing.Point(1091, 351);
+			this.butColorBleed.Location = new System.Drawing.Point(1083, 364);
 			this.butColorBleed.Name = "butColorBleed";
-			this.butColorBleed.Size = new System.Drawing.Size(12, 24);
+			this.butColorBleed.Size = new System.Drawing.Size(12, 20);
 			this.butColorBleed.TabIndex = 43;
 			this.toolTip1.SetToolTip(this.butColorBleed, "Edit Color");
 			this.butColorBleed.UseVisualStyleBackColor = false;
@@ -246,9 +246,9 @@ namespace OpenPmsDental {
 			// 
 			this.butColorPus.BackColor = System.Drawing.Color.Gold;
 			this.butColorPus.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-			this.butColorPus.Location = new System.Drawing.Point(1091, 381);
+			this.butColorPus.Location = new System.Drawing.Point(1083, 388);
 			this.butColorPus.Name = "butColorPus";
-			this.butColorPus.Size = new System.Drawing.Size(12, 24);
+			this.butColorPus.Size = new System.Drawing.Size(12, 20);
 			this.butColorPus.TabIndex = 50;
 			this.toolTip1.SetToolTip(this.butColorPus, "Edit Color");
 			this.butColorPus.UseVisualStyleBackColor = false;
@@ -258,9 +258,9 @@ namespace OpenPmsDental {
 			// 
 			this.butColorCalculus.BackColor = System.Drawing.Color.Green;
 			this.butColorCalculus.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-			this.butColorCalculus.Location = new System.Drawing.Point(1091, 321);
+			this.butColorCalculus.Location = new System.Drawing.Point(1083, 340);
 			this.butColorCalculus.Name = "butColorCalculus";
-			this.butColorCalculus.Size = new System.Drawing.Size(12, 24);
+			this.butColorCalculus.Size = new System.Drawing.Size(12, 20);
 			this.butColorCalculus.TabIndex = 67;
 			this.toolTip1.SetToolTip(this.butColorCalculus, "Edit Color");
 			this.butColorCalculus.UseVisualStyleBackColor = false;
@@ -270,9 +270,9 @@ namespace OpenPmsDental {
 			// 
 			this.butColorPlaque.BackColor = System.Drawing.Color.RoyalBlue;
 			this.butColorPlaque.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-			this.butColorPlaque.Location = new System.Drawing.Point(1091, 291);
+			this.butColorPlaque.Location = new System.Drawing.Point(1083, 316);
 			this.butColorPlaque.Name = "butColorPlaque";
-			this.butColorPlaque.Size = new System.Drawing.Size(12, 24);
+			this.butColorPlaque.Size = new System.Drawing.Size(12, 20);
 			this.butColorPlaque.TabIndex = 66;
 			this.toolTip1.SetToolTip(this.butColorPlaque, "Edit Color");
 			this.butColorPlaque.UseVisualStyleBackColor = false;
@@ -280,9 +280,9 @@ namespace OpenPmsDental {
 			// 
 			// checkThree
 			// 
-			this.checkThree.Location = new System.Drawing.Point(1006, 98);
+			this.checkThree.Location = new System.Drawing.Point(1005, 115);
 			this.checkThree.Name = "checkThree";
-			this.checkThree.Size = new System.Drawing.Size(100, 19);
+			this.checkThree.Size = new System.Drawing.Size(59, 18);
 			this.checkThree.TabIndex = 57;
 			this.checkThree.Text = "Triplets";
 			this.toolTip1.SetToolTip(this.checkThree, "Enter numbers three at a time");
@@ -290,9 +290,9 @@ namespace OpenPmsDental {
 			// 
 			// checkGingMarg
 			// 
-			this.checkGingMarg.Location = new System.Drawing.Point(1112, 98);
+			this.checkGingMarg.Location = new System.Drawing.Point(1112, 115);
 			this.checkGingMarg.Name = "checkGingMarg";
-			this.checkGingMarg.Size = new System.Drawing.Size(99, 19);
+			this.checkGingMarg.Size = new System.Drawing.Size(85, 18);
 			this.checkGingMarg.TabIndex = 80;
 			this.checkGingMarg.Text = "Ging Marg +";
 			this.toolTip1.SetToolTip(this.checkGingMarg, "Or hold down the Ctrl key while you type numbers.  Affects gingival margins only." +
@@ -301,7 +301,7 @@ namespace OpenPmsDental {
 			// 
 			// butCalcIndex
 			// 
-			this.butCalcIndex.Location = new System.Drawing.Point(1104, 264);
+			this.butCalcIndex.Location = new System.Drawing.Point(1078, 288);
 			this.butCalcIndex.Name = "butCalcIndex";
 			this.butCalcIndex.Size = new System.Drawing.Size(84, 24);
 			this.butCalcIndex.TabIndex = 74;
@@ -311,9 +311,9 @@ namespace OpenPmsDental {
 			// 
 			// butCalculus
 			// 
-			this.butCalculus.Location = new System.Drawing.Point(1019, 321);
+			this.butCalculus.Location = new System.Drawing.Point(1005, 340);
 			this.butCalculus.Name = "butCalculus";
-			this.butCalculus.Size = new System.Drawing.Size(72, 24);
+			this.butCalculus.Size = new System.Drawing.Size(72, 20);
 			this.butCalculus.TabIndex = 16;
 			this.butCalculus.Text = "Calculus";
 			this.toolTip1.SetToolTip(this.butCalculus, "C on your keyboard. With teeth selected (click their numbers), adds calculus to every site of those teeth");
@@ -321,9 +321,9 @@ namespace OpenPmsDental {
 			// 
 			// butPlaque
 			// 
-			this.butPlaque.Location = new System.Drawing.Point(1019, 291);
+			this.butPlaque.Location = new System.Drawing.Point(1005, 316);
 			this.butPlaque.Name = "butPlaque";
-			this.butPlaque.Size = new System.Drawing.Size(72, 24);
+			this.butPlaque.Size = new System.Drawing.Size(72, 20);
 			this.butPlaque.TabIndex = 15;
 			this.butPlaque.Text = "Plaque";
 			this.toolTip1.SetToolTip(this.butPlaque, "P on your keyboard. With teeth selected (click their numbers), adds plaque to every site of those teeth");
@@ -331,7 +331,7 @@ namespace OpenPmsDental {
 			// 
 			// butSkip
 			// 
-			this.butSkip.Location = new System.Drawing.Point(1005, 619);
+			this.butSkip.Location = new System.Drawing.Point(1005, 663);
 			this.butSkip.Name = "butSkip";
 			this.butSkip.Size = new System.Drawing.Size(88, 24);
 			this.butSkip.TabIndex = 19;
@@ -341,7 +341,7 @@ namespace OpenPmsDental {
 			// 
 			// butCount
 			// 
-			this.butCount.Location = new System.Drawing.Point(99, 11);
+			this.butCount.Location = new System.Drawing.Point(90, 19);
 			this.butCount.Name = "butCount";
 			this.butCount.Size = new System.Drawing.Size(84, 24);
 			this.butCount.TabIndex = 6;
@@ -351,9 +351,9 @@ namespace OpenPmsDental {
 			// 
 			// butPus
 			// 
-			this.butPus.Location = new System.Drawing.Point(1019, 381);
+			this.butPus.Location = new System.Drawing.Point(1005, 388);
 			this.butPus.Name = "butPus";
-			this.butPus.Size = new System.Drawing.Size(72, 24);
+			this.butPus.Size = new System.Drawing.Size(72, 20);
 			this.butPus.TabIndex = 18;
 			this.butPus.Text = "Suppuration";
 			this.toolTip1.SetToolTip(this.butPus, "S on your keyboard. With teeth selected (click their numbers), adds suppuration to every site of those teeth");
@@ -361,9 +361,9 @@ namespace OpenPmsDental {
 			// 
 			// butBleed
 			// 
-			this.butBleed.Location = new System.Drawing.Point(1019, 351);
+			this.butBleed.Location = new System.Drawing.Point(1005, 364);
 			this.butBleed.Name = "butBleed";
-			this.butBleed.Size = new System.Drawing.Size(72, 24);
+			this.butBleed.Size = new System.Drawing.Size(72, 20);
 			this.butBleed.TabIndex = 17;
 			this.butBleed.Text = "Bleeding";
 			this.toolTip1.SetToolTip(this.butBleed, "Space bar or B on your keyboard. With teeth selected (click their numbers), adds bleeding to every site of those teeth");
@@ -371,7 +371,7 @@ namespace OpenPmsDental {
 			// 
 			// but10
 			// 
-			this.but10.Location = new System.Drawing.Point(1074, 224);
+			this.but10.Location = new System.Drawing.Point(1078, 248);
 			this.but10.Name = "but10";
 			this.but10.Size = new System.Drawing.Size(32, 32);
 			this.but10.TabIndex = 14;
@@ -382,9 +382,9 @@ namespace OpenPmsDental {
 			// checkShowPreviousExams
 			// 
 			this.checkShowPreviousExams.Checked = true;
-			this.checkShowPreviousExams.Location = new System.Drawing.Point(17, 267);
+			this.checkShowPreviousExams.Location = new System.Drawing.Point(9, 267);
 			this.checkShowPreviousExams.Name = "checkShowPreviousExams";
-			this.checkShowPreviousExams.Size = new System.Drawing.Size(200, 19);
+			this.checkShowPreviousExams.Size = new System.Drawing.Size(133, 18);
 			this.checkShowPreviousExams.TabIndex = 83;
 			this.checkShowPreviousExams.Text = "Show previous exams";
 			this.toolTip1.SetToolTip(this.checkShowPreviousExams, "Show or hide data for previously completed perio exams");
@@ -393,9 +393,9 @@ namespace OpenPmsDental {
 			// checkShowPreviousProbing
 			// 
 			this.checkShowPreviousProbing.Checked = true;
-			this.checkShowPreviousProbing.Location = new System.Drawing.Point(17, 289);
+			this.checkShowPreviousProbing.Location = new System.Drawing.Point(9, 289);
 			this.checkShowPreviousProbing.Name = "checkShowPreviousProbing";
-			this.checkShowPreviousProbing.Size = new System.Drawing.Size(200, 19);
+			this.checkShowPreviousProbing.Size = new System.Drawing.Size(173, 18);
 			this.checkShowPreviousProbing.TabIndex = 86;
 			this.checkShowPreviousProbing.Text = "Show previous probing values";
 			this.toolTip1.SetToolTip(this.checkShowPreviousProbing, "Show or hide probing values for previously completed perio exams");
@@ -434,174 +434,174 @@ namespace OpenPmsDental {
 			this.groupBox2.Controls.Add(this.label9);
 			this.groupBox2.Controls.Add(this.label8);
 			this.groupBox2.Controls.Add(this.butCount);
-			this.groupBox2.Location = new System.Drawing.Point(1003, 409);
+			this.groupBox2.Location = new System.Drawing.Point(1005, 416);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(221, 204);
+			this.groupBox2.Size = new System.Drawing.Size(221, 239);
 			this.groupBox2.TabIndex = 49;
 			this.groupBox2.Text = "Numbers in red";
 			// 
 			// textCountAttGing
 			// 
-			this.textCountAttGing.Location = new System.Drawing.Point(148, 178);
+			this.textCountAttGing.Location = new System.Drawing.Point(150, 211);
 			this.textCountAttGing.Name = "textCountAttGing";
 			this.textCountAttGing.ReadOnly = true;
-			this.textCountAttGing.Size = new System.Drawing.Size(34, 20);
+			this.textCountAttGing.Size = new System.Drawing.Size(32, 20);
 			this.textCountAttGing.TabIndex = 30;
 			// 
 			// updownAttGing
 			// 
 			this.updownAttGing.InterceptArrowKeys = false;
-			this.updownAttGing.Location = new System.Drawing.Point(104, 178);
+			this.updownAttGing.Location = new System.Drawing.Point(124, 211);
 			this.updownAttGing.Name = "updownAttGing";
-			this.updownAttGing.Size = new System.Drawing.Size(19, 20);
+			this.updownAttGing.Size = new System.Drawing.Size(20, 20);
 			this.updownAttGing.TabIndex = 29;
 			this.updownAttGing.MouseDown += new System.Windows.Forms.MouseEventHandler(this.updownRedAttGing_MouseDown);
 			// 
 			// textRedAttGing
 			// 
-			this.textRedAttGing.Location = new System.Drawing.Point(77, 178);
+			this.textRedAttGing.Location = new System.Drawing.Point(90, 211);
 			this.textRedAttGing.Name = "textRedAttGing";
 			this.textRedAttGing.ReadOnly = true;
-			this.textRedAttGing.Size = new System.Drawing.Size(27, 20);
+			this.textRedAttGing.Size = new System.Drawing.Size(28, 20);
 			this.textRedAttGing.TabIndex = 28;
 			// 
 			// labelAttGing
 			// 
-			this.labelAttGing.Location = new System.Drawing.Point(3, 180);
+			this.labelAttGing.Location = new System.Drawing.Point(8, 211);
 			this.labelAttGing.Name = "labelAttGing";
-			this.labelAttGing.Size = new System.Drawing.Size(74, 16);
+			this.labelAttGing.Size = new System.Drawing.Size(76, 20);
 			this.labelAttGing.TabIndex = 27;
 			this.labelAttGing.Text = "Att Ging (<=)";
 			this.labelAttGing.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textCountMob
 			// 
-			this.textCountMob.Location = new System.Drawing.Point(148, 158);
+			this.textCountMob.Location = new System.Drawing.Point(150, 187);
 			this.textCountMob.Name = "textCountMob";
 			this.textCountMob.ReadOnly = true;
-			this.textCountMob.Size = new System.Drawing.Size(34, 20);
+			this.textCountMob.Size = new System.Drawing.Size(32, 20);
 			this.textCountMob.TabIndex = 26;
 			// 
 			// updownMob
 			// 
 			this.updownMob.InterceptArrowKeys = false;
-			this.updownMob.Location = new System.Drawing.Point(104, 158);
+			this.updownMob.Location = new System.Drawing.Point(124, 187);
 			this.updownMob.Name = "updownMob";
-			this.updownMob.Size = new System.Drawing.Size(19, 20);
+			this.updownMob.Size = new System.Drawing.Size(20, 20);
 			this.updownMob.TabIndex = 25;
 			this.updownMob.MouseDown += new System.Windows.Forms.MouseEventHandler(this.updownRed_MouseDown);
 			// 
 			// textRedMob
 			// 
-			this.textRedMob.Location = new System.Drawing.Point(77, 158);
+			this.textRedMob.Location = new System.Drawing.Point(90, 187);
 			this.textRedMob.Name = "textRedMob";
 			this.textRedMob.ReadOnly = true;
-			this.textRedMob.Size = new System.Drawing.Size(27, 20);
+			this.textRedMob.Size = new System.Drawing.Size(28, 20);
 			this.textRedMob.TabIndex = 24;
 			// 
 			// textCountFurc
 			// 
-			this.textCountFurc.Location = new System.Drawing.Point(148, 138);
+			this.textCountFurc.Location = new System.Drawing.Point(150, 163);
 			this.textCountFurc.Name = "textCountFurc";
 			this.textCountFurc.ReadOnly = true;
-			this.textCountFurc.Size = new System.Drawing.Size(34, 20);
+			this.textCountFurc.Size = new System.Drawing.Size(32, 20);
 			this.textCountFurc.TabIndex = 23;
 			// 
 			// updownFurc
 			// 
 			this.updownFurc.InterceptArrowKeys = false;
-			this.updownFurc.Location = new System.Drawing.Point(104, 138);
+			this.updownFurc.Location = new System.Drawing.Point(124, 163);
 			this.updownFurc.Name = "updownFurc";
-			this.updownFurc.Size = new System.Drawing.Size(19, 20);
+			this.updownFurc.Size = new System.Drawing.Size(20, 20);
 			this.updownFurc.TabIndex = 22;
 			this.updownFurc.MouseDown += new System.Windows.Forms.MouseEventHandler(this.updownRed_MouseDown);
 			// 
 			// textRedFurc
 			// 
-			this.textRedFurc.Location = new System.Drawing.Point(77, 138);
+			this.textRedFurc.Location = new System.Drawing.Point(90, 163);
 			this.textRedFurc.Name = "textRedFurc";
 			this.textRedFurc.ReadOnly = true;
-			this.textRedFurc.Size = new System.Drawing.Size(27, 20);
+			this.textRedFurc.Size = new System.Drawing.Size(28, 20);
 			this.textRedFurc.TabIndex = 21;
 			// 
 			// textCountCAL
 			// 
-			this.textCountCAL.Location = new System.Drawing.Point(148, 118);
+			this.textCountCAL.Location = new System.Drawing.Point(150, 139);
 			this.textCountCAL.Name = "textCountCAL";
 			this.textCountCAL.ReadOnly = true;
-			this.textCountCAL.Size = new System.Drawing.Size(34, 20);
+			this.textCountCAL.Size = new System.Drawing.Size(32, 20);
 			this.textCountCAL.TabIndex = 20;
 			// 
 			// updownCAL
 			// 
 			this.updownCAL.InterceptArrowKeys = false;
-			this.updownCAL.Location = new System.Drawing.Point(104, 118);
+			this.updownCAL.Location = new System.Drawing.Point(124, 139);
 			this.updownCAL.Name = "updownCAL";
-			this.updownCAL.Size = new System.Drawing.Size(19, 20);
+			this.updownCAL.Size = new System.Drawing.Size(20, 20);
 			this.updownCAL.TabIndex = 19;
 			this.updownCAL.MouseDown += new System.Windows.Forms.MouseEventHandler(this.updownRed_MouseDown);
 			// 
 			// textRedCAL
 			// 
-			this.textRedCAL.Location = new System.Drawing.Point(77, 118);
+			this.textRedCAL.Location = new System.Drawing.Point(90, 139);
 			this.textRedCAL.Name = "textRedCAL";
 			this.textRedCAL.ReadOnly = true;
-			this.textRedCAL.Size = new System.Drawing.Size(27, 20);
+			this.textRedCAL.Size = new System.Drawing.Size(28, 20);
 			this.textRedCAL.TabIndex = 18;
 			// 
 			// textCountGing
 			// 
-			this.textCountGing.Location = new System.Drawing.Point(148, 98);
+			this.textCountGing.Location = new System.Drawing.Point(150, 115);
 			this.textCountGing.Name = "textCountGing";
 			this.textCountGing.ReadOnly = true;
-			this.textCountGing.Size = new System.Drawing.Size(34, 20);
+			this.textCountGing.Size = new System.Drawing.Size(32, 20);
 			this.textCountGing.TabIndex = 17;
 			// 
 			// updownGing
 			// 
 			this.updownGing.InterceptArrowKeys = false;
-			this.updownGing.Location = new System.Drawing.Point(104, 98);
+			this.updownGing.Location = new System.Drawing.Point(124, 115);
 			this.updownGing.Name = "updownGing";
-			this.updownGing.Size = new System.Drawing.Size(19, 20);
+			this.updownGing.Size = new System.Drawing.Size(20, 20);
 			this.updownGing.TabIndex = 16;
 			this.updownGing.MouseDown += new System.Windows.Forms.MouseEventHandler(this.updownRed_MouseDown);
 			// 
 			// textRedGing
 			// 
-			this.textRedGing.Location = new System.Drawing.Point(77, 98);
+			this.textRedGing.Location = new System.Drawing.Point(90, 115);
 			this.textRedGing.Name = "textRedGing";
 			this.textRedGing.ReadOnly = true;
-			this.textRedGing.Size = new System.Drawing.Size(27, 20);
+			this.textRedGing.Size = new System.Drawing.Size(28, 20);
 			this.textRedGing.TabIndex = 15;
 			// 
 			// textCountMGJ
 			// 
-			this.textCountMGJ.Location = new System.Drawing.Point(148, 78);
+			this.textCountMGJ.Location = new System.Drawing.Point(150, 91);
 			this.textCountMGJ.Name = "textCountMGJ";
 			this.textCountMGJ.ReadOnly = true;
-			this.textCountMGJ.Size = new System.Drawing.Size(34, 20);
+			this.textCountMGJ.Size = new System.Drawing.Size(32, 20);
 			this.textCountMGJ.TabIndex = 14;
 			// 
 			// updownMGJ
 			// 
 			this.updownMGJ.InterceptArrowKeys = false;
-			this.updownMGJ.Location = new System.Drawing.Point(104, 78);
+			this.updownMGJ.Location = new System.Drawing.Point(124, 91);
 			this.updownMGJ.Name = "updownMGJ";
-			this.updownMGJ.Size = new System.Drawing.Size(19, 20);
+			this.updownMGJ.Size = new System.Drawing.Size(20, 20);
 			this.updownMGJ.TabIndex = 13;
 			this.updownMGJ.MouseDown += new System.Windows.Forms.MouseEventHandler(this.updownRed_MouseDown);
 			// 
 			// textRedMGJ
 			// 
-			this.textRedMGJ.Location = new System.Drawing.Point(77, 78);
+			this.textRedMGJ.Location = new System.Drawing.Point(90, 91);
 			this.textRedMGJ.Name = "textRedMGJ";
 			this.textRedMGJ.ReadOnly = true;
-			this.textRedMGJ.Size = new System.Drawing.Size(27, 20);
+			this.textRedMGJ.Size = new System.Drawing.Size(28, 20);
 			this.textRedMGJ.TabIndex = 12;
 			// 
 			// label14
 			// 
-			this.label14.Location = new System.Drawing.Point(132, 39);
+			this.label14.Location = new System.Drawing.Point(104, 47);
 			this.label14.Name = "label14";
 			this.label14.Size = new System.Drawing.Size(52, 16);
 			this.label14.TabIndex = 11;
@@ -610,24 +610,24 @@ namespace OpenPmsDental {
 			// 
 			// textCountProb
 			// 
-			this.textCountProb.Location = new System.Drawing.Point(148, 58);
+			this.textCountProb.Location = new System.Drawing.Point(150, 67);
 			this.textCountProb.Name = "textCountProb";
 			this.textCountProb.ReadOnly = true;
-			this.textCountProb.Size = new System.Drawing.Size(34, 20);
+			this.textCountProb.Size = new System.Drawing.Size(32, 20);
 			this.textCountProb.TabIndex = 10;
 			// 
 			// updownProb
 			// 
 			this.updownProb.InterceptArrowKeys = false;
-			this.updownProb.Location = new System.Drawing.Point(104, 58);
+			this.updownProb.Location = new System.Drawing.Point(124, 67);
 			this.updownProb.Name = "updownProb";
-			this.updownProb.Size = new System.Drawing.Size(19, 20);
+			this.updownProb.Size = new System.Drawing.Size(20, 20);
 			this.updownProb.TabIndex = 9;
 			this.updownProb.MouseDown += new System.Windows.Forms.MouseEventHandler(this.updownRed_MouseDown);
 			// 
 			// label13
 			// 
-			this.label13.Location = new System.Drawing.Point(14, 40);
+			this.label13.Location = new System.Drawing.Point(14, 47);
 			this.label13.Name = "label13";
 			this.label13.Size = new System.Drawing.Size(84, 16);
 			this.label13.TabIndex = 8;
@@ -636,69 +636,69 @@ namespace OpenPmsDental {
 			// 
 			// textRedProb
 			// 
-			this.textRedProb.Location = new System.Drawing.Point(77, 58);
+			this.textRedProb.Location = new System.Drawing.Point(90, 67);
 			this.textRedProb.Name = "textRedProb";
 			this.textRedProb.ReadOnly = true;
-			this.textRedProb.Size = new System.Drawing.Size(27, 20);
+			this.textRedProb.Size = new System.Drawing.Size(28, 20);
 			this.textRedProb.TabIndex = 0;
 			// 
 			// label12
 			// 
-			this.label12.Location = new System.Drawing.Point(13, 140);
+			this.label12.Location = new System.Drawing.Point(48, 163);
 			this.label12.Name = "label12";
-			this.label12.Size = new System.Drawing.Size(64, 16);
+			this.label12.Size = new System.Drawing.Size(36, 20);
 			this.label12.TabIndex = 7;
 			this.label12.Text = "Furc";
 			this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label7
 			// 
-			this.label7.Location = new System.Drawing.Point(13, 160);
+			this.label7.Location = new System.Drawing.Point(36, 187);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(64, 16);
+			this.label7.Size = new System.Drawing.Size(48, 20);
 			this.label7.TabIndex = 6;
 			this.label7.Text = "Mobility";
 			this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label11
 			// 
-			this.label11.Location = new System.Drawing.Point(13, 120);
+			this.label11.Location = new System.Drawing.Point(52, 139);
 			this.label11.Name = "label11";
-			this.label11.Size = new System.Drawing.Size(64, 16);
+			this.label11.Size = new System.Drawing.Size(32, 20);
 			this.label11.TabIndex = 5;
 			this.label11.Text = "CAL";
 			this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label10
 			// 
-			this.label10.Location = new System.Drawing.Point(13, 100);
+			this.label10.Location = new System.Drawing.Point(24, 115);
 			this.label10.Name = "label10";
-			this.label10.Size = new System.Drawing.Size(64, 16);
+			this.label10.Size = new System.Drawing.Size(60, 20);
 			this.label10.TabIndex = 4;
 			this.label10.Text = "Ging Marg";
 			this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label9
 			// 
-			this.label9.Location = new System.Drawing.Point(13, 80);
+			this.label9.Location = new System.Drawing.Point(28, 91);
 			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(64, 16);
+			this.label9.Size = new System.Drawing.Size(56, 20);
 			this.label9.TabIndex = 3;
 			this.label9.Text = "MGJ (<=)";
 			this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label8
 			// 
-			this.label8.Location = new System.Drawing.Point(13, 60);
+			this.label8.Location = new System.Drawing.Point(36, 67);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(64, 16);
+			this.label8.Size = new System.Drawing.Size(48, 20);
 			this.label8.TabIndex = 2;
 			this.label8.Text = "Probing";
 			this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(998, 673);
+			this.label6.Location = new System.Drawing.Point(1005, 719);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(226, 20);
 			this.label6.TabIndex = 54;
@@ -707,37 +707,37 @@ namespace OpenPmsDental {
 			// 
 			// textIndexPlaque
 			// 
-			this.textIndexPlaque.Location = new System.Drawing.Point(1109, 294);
+			this.textIndexPlaque.Location = new System.Drawing.Point(1101, 316);
 			this.textIndexPlaque.Name = "textIndexPlaque";
 			this.textIndexPlaque.ReadOnly = true;
-			this.textIndexPlaque.Size = new System.Drawing.Size(38, 20);
+			this.textIndexPlaque.Size = new System.Drawing.Size(40, 20);
 			this.textIndexPlaque.TabIndex = 70;
 			this.textIndexPlaque.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			// 
 			// textIndexSupp
 			// 
-			this.textIndexSupp.Location = new System.Drawing.Point(1109, 384);
+			this.textIndexSupp.Location = new System.Drawing.Point(1101, 388);
 			this.textIndexSupp.Name = "textIndexSupp";
 			this.textIndexSupp.ReadOnly = true;
-			this.textIndexSupp.Size = new System.Drawing.Size(38, 20);
+			this.textIndexSupp.Size = new System.Drawing.Size(40, 20);
 			this.textIndexSupp.TabIndex = 71;
 			this.textIndexSupp.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			// 
 			// textIndexBleeding
 			// 
-			this.textIndexBleeding.Location = new System.Drawing.Point(1109, 354);
+			this.textIndexBleeding.Location = new System.Drawing.Point(1101, 364);
 			this.textIndexBleeding.Name = "textIndexBleeding";
 			this.textIndexBleeding.ReadOnly = true;
-			this.textIndexBleeding.Size = new System.Drawing.Size(38, 20);
+			this.textIndexBleeding.Size = new System.Drawing.Size(40, 20);
 			this.textIndexBleeding.TabIndex = 72;
 			this.textIndexBleeding.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			// 
 			// textIndexCalculus
 			// 
-			this.textIndexCalculus.Location = new System.Drawing.Point(1109, 324);
+			this.textIndexCalculus.Location = new System.Drawing.Point(1101, 340);
 			this.textIndexCalculus.Name = "textIndexCalculus";
 			this.textIndexCalculus.ReadOnly = true;
-			this.textIndexCalculus.Size = new System.Drawing.Size(38, 20);
+			this.textIndexCalculus.Size = new System.Drawing.Size(40, 20);
 			this.textIndexCalculus.TabIndex = 73;
 			this.textIndexCalculus.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			// 
@@ -753,7 +753,7 @@ namespace OpenPmsDental {
 			// 
 			// labelPlaqueHistory
 			// 
-			this.labelPlaqueHistory.Location = new System.Drawing.Point(10, 532);
+			this.labelPlaqueHistory.Location = new System.Drawing.Point(9, 490);
 			this.labelPlaqueHistory.Name = "labelPlaqueHistory";
 			this.labelPlaqueHistory.Size = new System.Drawing.Size(126, 19);
 			this.labelPlaqueHistory.TabIndex = 78;
@@ -763,7 +763,7 @@ namespace OpenPmsDental {
 			// 
 			// listPlaqueHistory
 			// 
-			this.listPlaqueHistory.Location = new System.Drawing.Point(12, 554);
+			this.listPlaqueHistory.Location = new System.Drawing.Point(9, 516);
 			this.listPlaqueHistory.Name = "listPlaqueHistory";
 			this.listPlaqueHistory.SelectionMode = OpenPmsDental.UI.SelectionMode.None;
 			this.listPlaqueHistory.Size = new System.Drawing.Size(124, 121);
@@ -772,7 +772,7 @@ namespace OpenPmsDental {
 			// 
 			// textInputBox
 			// 
-			this.textInputBox.Location = new System.Drawing.Point(390, 8);
+			this.textInputBox.Location = new System.Drawing.Point(393, 8);
 			this.textInputBox.Name = "textInputBox";
 			this.textInputBox.Size = new System.Drawing.Size(53, 20);
 			this.textInputBox.TabIndex = 81;
@@ -785,7 +785,7 @@ namespace OpenPmsDental {
 			// 
 			this.butCopyPrevious.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butCopyPrevious.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butCopyPrevious.Location = new System.Drawing.Point(100, 237);
+			this.butCopyPrevious.Location = new System.Drawing.Point(92, 239);
 			this.butCopyPrevious.Name = "butCopyPrevious";
 			this.butCopyPrevious.Size = new System.Drawing.Size(77, 24);
 			this.butCopyPrevious.TabIndex = 1;
@@ -796,7 +796,7 @@ namespace OpenPmsDental {
 			// 
 			this.contrPerio.BackColor = System.Drawing.SystemColors.Window;
 			this.contrPerio.IdxExamSelected = 0;
-			this.contrPerio.Location = new System.Drawing.Point(390, 8);
+			this.contrPerio.Location = new System.Drawing.Point(393, 8);
 			this.contrPerio.Name = "contrPerio";
 			this.contrPerio.Size = new System.Drawing.Size(608, 685);
 			this.contrPerio.TabIndex = 75;
@@ -807,7 +807,7 @@ namespace OpenPmsDental {
 			// 
 			// butSaveImage
 			// 
-			this.butSaveImage.Location = new System.Drawing.Point(1005, 647);
+			this.butSaveImage.Location = new System.Drawing.Point(1005, 691);
 			this.butSaveImage.Name = "butSave";
 			this.butSaveImage.Size = new System.Drawing.Size(88, 24);
 			this.butSaveImage.TabIndex = 21;
@@ -817,7 +817,7 @@ namespace OpenPmsDental {
 			// butGraphical
 			// 
 			this.butGraphical.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butGraphical.Location = new System.Drawing.Point(1126, 619);
+			this.butGraphical.Location = new System.Drawing.Point(1099, 663);
 			this.butGraphical.Name = "butGraphical";
 			this.butGraphical.Size = new System.Drawing.Size(75, 24);
 			this.butGraphical.TabIndex = 20;
@@ -828,7 +828,7 @@ namespace OpenPmsDental {
 			// 
 			this.butPrint.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Print,16,16);
 			this.butPrint.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butPrint.Location = new System.Drawing.Point(1126, 647);
+			this.butPrint.Location = new System.Drawing.Point(1099, 691);
 			this.butPrint.Name = "butPrint";
 			this.butPrint.Size = new System.Drawing.Size(75, 24);
 			this.butPrint.TabIndex = 22;
@@ -839,7 +839,7 @@ namespace OpenPmsDental {
 			// 
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdd.Location = new System.Drawing.Point(17, 237);
+			this.butAdd.Location = new System.Drawing.Point(9, 239);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(77, 24);
 			this.butAdd.TabIndex = 0;
@@ -848,7 +848,7 @@ namespace OpenPmsDental {
 			// 
 			// but0
 			// 
-			this.but0.Location = new System.Drawing.Point(1004, 224);
+			this.but0.Location = new System.Drawing.Point(1005, 248);
 			this.but0.Name = "but0";
 			this.but0.Size = new System.Drawing.Size(67, 32);
 			this.but0.TabIndex = 13;
@@ -859,7 +859,7 @@ namespace OpenPmsDental {
 			// 
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(291, 237);
+			this.butDelete.Location = new System.Drawing.Point(260, 239);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(77, 24);
 			this.butDelete.TabIndex = 2;
@@ -868,7 +868,7 @@ namespace OpenPmsDental {
 			// 
 			// but8
 			// 
-			this.but8.Location = new System.Drawing.Point(1039, 119);
+			this.but8.Location = new System.Drawing.Point(1043, 137);
 			this.but8.Name = "but8";
 			this.but8.Size = new System.Drawing.Size(32, 32);
 			this.but8.TabIndex = 11;
@@ -877,7 +877,7 @@ namespace OpenPmsDental {
 			// 
 			// but4
 			// 
-			this.but4.Location = new System.Drawing.Point(1004, 154);
+			this.but4.Location = new System.Drawing.Point(1005, 173);
 			this.but4.Name = "but4";
 			this.but4.Size = new System.Drawing.Size(32, 32);
 			this.but4.TabIndex = 7;
@@ -886,7 +886,7 @@ namespace OpenPmsDental {
 			// 
 			// but5
 			// 
-			this.but5.Location = new System.Drawing.Point(1039, 154);
+			this.but5.Location = new System.Drawing.Point(1041, 173);
 			this.but5.Name = "but5";
 			this.but5.Size = new System.Drawing.Size(32, 32);
 			this.but5.TabIndex = 8;
@@ -895,7 +895,7 @@ namespace OpenPmsDental {
 			// 
 			// but9
 			// 
-			this.but9.Location = new System.Drawing.Point(1074, 119);
+			this.but9.Location = new System.Drawing.Point(1081, 137);
 			this.but9.Name = "but9";
 			this.but9.Size = new System.Drawing.Size(32, 32);
 			this.but9.TabIndex = 12;
@@ -904,7 +904,7 @@ namespace OpenPmsDental {
 			// 
 			// but6
 			// 
-			this.but6.Location = new System.Drawing.Point(1074, 154);
+			this.but6.Location = new System.Drawing.Point(1077, 173);
 			this.but6.Name = "but6";
 			this.but6.Size = new System.Drawing.Size(32, 32);
 			this.but6.TabIndex = 9;
@@ -913,7 +913,7 @@ namespace OpenPmsDental {
 			// 
 			// but1
 			// 
-			this.but1.Location = new System.Drawing.Point(1004, 189);
+			this.but1.Location = new System.Drawing.Point(1005, 209);
 			this.but1.Name = "but1";
 			this.but1.Size = new System.Drawing.Size(32, 32);
 			this.but1.TabIndex = 4;
@@ -922,7 +922,7 @@ namespace OpenPmsDental {
 			// 
 			// but2
 			// 
-			this.but2.Location = new System.Drawing.Point(1039, 189);
+			this.but2.Location = new System.Drawing.Point(1041, 209);
 			this.but2.Name = "but2";
 			this.but2.Size = new System.Drawing.Size(32, 32);
 			this.but2.TabIndex = 5;
@@ -931,7 +931,7 @@ namespace OpenPmsDental {
 			// 
 			// but3
 			// 
-			this.but3.Location = new System.Drawing.Point(1074, 189);
+			this.but3.Location = new System.Drawing.Point(1077, 209);
 			this.but3.Name = "but3";
 			this.but3.Size = new System.Drawing.Size(32, 32);
 			this.but3.TabIndex = 6;
@@ -940,7 +940,7 @@ namespace OpenPmsDental {
 			// 
 			// but7
 			// 
-			this.but7.Location = new System.Drawing.Point(1004, 119);
+			this.but7.Location = new System.Drawing.Point(1005, 137);
 			this.but7.Name = "but7";
 			this.but7.Size = new System.Drawing.Size(32, 32);
 			this.but7.TabIndex = 10;
@@ -950,7 +950,7 @@ namespace OpenPmsDental {
 			// butListen
 			// 
 			this.butListen.Icon = OpenPmsDental.UI.EnumIcons.Microphone;
-			this.butListen.Location = new System.Drawing.Point(1112, 172);
+			this.butListen.Location = new System.Drawing.Point(1115, 189);
 			this.butListen.Name = "butListen";
 			this.butListen.Size = new System.Drawing.Size(30, 30);
 			this.butListen.TabIndex = 3;
@@ -959,7 +959,7 @@ namespace OpenPmsDental {
 			// labelListening
 			// 
 			this.labelListening.ForeColor = System.Drawing.Color.ForestGreen;
-			this.labelListening.Location = new System.Drawing.Point(1147, 178);
+			this.labelListening.Location = new System.Drawing.Point(1150, 197);
 			this.labelListening.Name = "labelListening";
 			this.labelListening.Size = new System.Drawing.Size(67, 19);
 			this.labelListening.TabIndex = 84;
@@ -968,10 +968,10 @@ namespace OpenPmsDental {
 			// 
 			// labelNotes
 			// 
-			this.labelNotes.AutoSize = true;
-			this.labelNotes.Location = new System.Drawing.Point(9, 358);
+			this.labelNotes.AutoSize = false;
+			this.labelNotes.Location = new System.Drawing.Point(9, 311);
 			this.labelNotes.Name = "labelNotes";
-			this.labelNotes.Size = new System.Drawing.Size(64, 14);
+			this.labelNotes.Size = new System.Drawing.Size(68, 17);
 			this.labelNotes.TabIndex = 87;
 			this.labelNotes.Text = "Exam Notes";
 			// 
@@ -979,7 +979,7 @@ namespace OpenPmsDental {
 			// 
 			this.butCopyNote.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butCopyNote.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butCopyNote.Location = new System.Drawing.Point(266, 535);
+			this.butCopyNote.Location = new System.Drawing.Point(260, 488);
 			this.butCopyNote.Name = "butCopyNote";
 			this.butCopyNote.Size = new System.Drawing.Size(97, 24);
 			this.butCopyNote.TabIndex = 89;
@@ -990,7 +990,7 @@ namespace OpenPmsDental {
 			// 
 			this.butDefault.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butDefault.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDefault.Location = new System.Drawing.Point(183, 237);
+			this.butDefault.Location = new System.Drawing.Point(175, 239);
 			this.butDefault.Name = "butDefault";
 			this.butDefault.Size = new System.Drawing.Size(79, 24);
 			this.butDefault.TabIndex = 93;
@@ -999,7 +999,7 @@ namespace OpenPmsDental {
 			// 
 			// menuMain
 			// 
-			this.menuMain.Location = new System.Drawing.Point(17, 8);
+			this.menuMain.Location = new System.Drawing.Point(9, 8);
 			this.menuMain.Name = "menuMain";
 			this.menuMain.Size = new System.Drawing.Size(351, 24);
 			this.menuMain.TabIndex = 94;
@@ -1010,15 +1010,15 @@ namespace OpenPmsDental {
 			this.groupBox3.Controls.Add(this.labelFwdReverse);
 			this.groupBox3.Controls.Add(this.radioLeft);
 			this.groupBox3.Controls.Add(this.radioRight);
-			this.groupBox3.Location = new System.Drawing.Point(1003, 55);
+			this.groupBox3.Location = new System.Drawing.Point(1005, 61);
 			this.groupBox3.Name = "groupBox3";
-			this.groupBox3.Size = new System.Drawing.Size(208, 41);
+			this.groupBox3.Size = new System.Drawing.Size(221, 46);
 			this.groupBox3.TabIndex = 14;
 			this.groupBox3.Text = "Current Direction";
 			// 
 			// labelFwdReverse
 			// 
-			this.labelFwdReverse.Location = new System.Drawing.Point(131, 10);
+			this.labelFwdReverse.Location = new System.Drawing.Point(113, 19);
 			this.labelFwdReverse.Name = "labelFwdReverse";
 			this.labelFwdReverse.Size = new System.Drawing.Size(67, 19);
 			this.labelFwdReverse.TabIndex = 85;
@@ -1033,7 +1033,7 @@ namespace OpenPmsDental {
 			this.textExamNotes.DetectUrls = false;
 			this.textExamNotes.FormattedTextAllowed = true;
 			this.textExamNotes.HasAutoNotes = true;
-			this.textExamNotes.Location = new System.Drawing.Point(13, 375);
+			this.textExamNotes.Location = new System.Drawing.Point(9, 330);
 			this.textExamNotes.Name = "textExamNotes";
 			this.textExamNotes.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Procedure;
 			this.textExamNotes.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
@@ -1044,7 +1044,7 @@ namespace OpenPmsDental {
 			// 
 			// gridODExam
 			// 
-			this.gridODExam.Location = new System.Drawing.Point(17, 32);
+			this.gridODExam.Location = new System.Drawing.Point(9, 36);
 			this.gridODExam.Name = "gridODExam";
 			this.gridODExam.Size = new System.Drawing.Size(351, 199);
 			this.gridODExam.TabIndex = 85;
@@ -1056,15 +1056,15 @@ namespace OpenPmsDental {
 			// 
 			this.butBolaLaunch.BackgroundImage = global::OpenPmsDental.Properties.Resources.bola_launch;
 			this.butBolaLaunch.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-			this.butBolaLaunch.Location = new System.Drawing.Point(1112, 217);
+			this.butBolaLaunch.Location = new System.Drawing.Point(1116, 245);
 			this.butBolaLaunch.Name = "butBolaLaunch";
-			this.butBolaLaunch.Size = new System.Drawing.Size(89, 39);
+			this.butBolaLaunch.Size = new System.Drawing.Size(110, 39);
 			this.butBolaLaunch.TabIndex = 141;
 			this.butBolaLaunch.Click += new System.EventHandler(this.butBolaLaunch_Click);
 			// 
 			// FormPerio
 			// 
-			this.ClientSize = new System.Drawing.Size(1231, 696);
+			this.ClientSize = new System.Drawing.Size(1239, 747);
 			this.Controls.Add(this.butBolaLaunch);
 			this.Controls.Add(this.groupBox3);
 			this.Controls.Add(this.menuMain);

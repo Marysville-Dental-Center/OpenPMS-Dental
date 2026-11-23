@@ -56,7 +56,7 @@ namespace OpenPmsDental{
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(13, 47);
+			this.label2.Location = new System.Drawing.Point(13, 46);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(108, 16);
 			this.label2.TabIndex = 86;
@@ -65,7 +65,7 @@ namespace OpenPmsDental{
 			// 
 			// listFields
 			// 
-			this.listFields.Location = new System.Drawing.Point(15, 66);
+			this.listFields.Location = new System.Drawing.Point(15, 70);
 			this.listFields.Name = "listFields";
 			this.listFields.Size = new System.Drawing.Size(142, 277);
 			this.listFields.TabIndex = 85;
@@ -74,7 +74,7 @@ namespace OpenPmsDental{
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(13, 9);
+			this.label1.Location = new System.Drawing.Point(13, 8);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(393, 33);
 			this.label1.TabIndex = 87;
@@ -91,9 +91,9 @@ namespace OpenPmsDental{
 			this.groupBox1.Controls.Add(this.label4);
 			this.groupBox1.Controls.Add(this.comboFontName);
 			this.groupBox1.Controls.Add(this.label3);
-			this.groupBox1.Location = new System.Drawing.Point(188, 60);
+			this.groupBox1.Location = new System.Drawing.Point(188, 70);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(283, 148);
+			this.groupBox1.Size = new System.Drawing.Size(283, 159);
 			this.groupBox1.TabIndex = 88;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Font";
@@ -101,9 +101,9 @@ namespace OpenPmsDental{
 			// label11
 			// 
 			this.label11.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.label11.Location = new System.Drawing.Point(7, 93);
+			this.label11.Location = new System.Drawing.Point(34, 101);
 			this.label11.Name = "label11";
-			this.label11.Size = new System.Drawing.Size(71, 16);
+			this.label11.Size = new System.Drawing.Size(40, 23);
 			this.label11.TabIndex = 242;
 			this.label11.Text = "Color";
 			this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -111,155 +111,155 @@ namespace OpenPmsDental{
 			// butColor
 			// 
 			this.butColor.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-			this.butColor.Location = new System.Drawing.Point(80, 91);
+			this.butColor.Location = new System.Drawing.Point(80, 101);
 			this.butColor.Name = "butColor";
-			this.butColor.Size = new System.Drawing.Size(30, 20);
+			this.butColor.Size = new System.Drawing.Size(30, 23);
 			this.butColor.TabIndex = 241;
 			this.butColor.Click += new System.EventHandler(this.butColor_Click);
 			// 
 			// comboTextAlign
 			// 
-			this.comboTextAlign.Location = new System.Drawing.Point(80, 117);
+			this.comboTextAlign.Location = new System.Drawing.Point(80, 128);
 			this.comboTextAlign.Name = "comboTextAlign";
-			this.comboTextAlign.Size = new System.Drawing.Size(197, 21);
+			this.comboTextAlign.Size = new System.Drawing.Size(195, 23);
 			this.comboTextAlign.TabIndex = 111;
 			// 
 			// label10
 			// 
-			this.label10.Location = new System.Drawing.Point(3, 118);
+			this.label10.Location = new System.Drawing.Point(34, 128);
 			this.label10.Name = "label10";
-			this.label10.Size = new System.Drawing.Size(78, 18);
+			this.label10.Size = new System.Drawing.Size(40, 23);
 			this.label10.TabIndex = 110;
 			this.label10.Text = "Align";
 			this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// checkFontIsBold
 			// 
-			this.checkFontIsBold.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkFontIsBold.Location = new System.Drawing.Point(10, 66);
+			this.checkFontIsBold.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkFontIsBold.Location = new System.Drawing.Point(80, 77);
 			this.checkFontIsBold.Name = "checkFontIsBold";
-			this.checkFontIsBold.Size = new System.Drawing.Size(85, 20);
+			this.checkFontIsBold.Size = new System.Drawing.Size(47, 20);
 			this.checkFontIsBold.TabIndex = 90;
 			this.checkFontIsBold.Text = "Bold";
 			// 
 			// textFontSize
 			// 
-			this.textFontSize.Location = new System.Drawing.Point(80, 41);
+			this.textFontSize.Location = new System.Drawing.Point(80, 50);
 			this.textFontSize.Name = "textFontSize";
 			this.textFontSize.Size = new System.Drawing.Size(44, 20);
 			this.textFontSize.TabIndex = 89;
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(7, 42);
+			this.label4.Location = new System.Drawing.Point(42, 50);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(71, 16);
+			this.label4.Size = new System.Drawing.Size(32, 23);
 			this.label4.TabIndex = 89;
 			this.label4.Text = "Size";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// comboFontName
 			// 
-			this.comboFontName.Location = new System.Drawing.Point(80, 14);
+			this.comboFontName.Location = new System.Drawing.Point(80, 23);
 			this.comboFontName.Name = "comboFontName";
-			this.comboFontName.Size = new System.Drawing.Size(197, 21);
+			this.comboFontName.Size = new System.Drawing.Size(195, 23);
 			this.comboFontName.TabIndex = 88;
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(7, 16);
+			this.label3.Location = new System.Drawing.Point(30, 23);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(71, 16);
+			this.label3.Size = new System.Drawing.Size(44, 23);
 			this.label3.TabIndex = 87;
 			this.label3.Text = "Name";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(197, 243);
+			this.label5.Location = new System.Drawing.Point(222, 264);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(71, 16);
+			this.label5.Size = new System.Drawing.Size(40, 23);
 			this.label5.TabIndex = 90;
 			this.label5.Text = "X Pos";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(197, 269);
+			this.label6.Location = new System.Drawing.Point(222, 291);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(71, 16);
+			this.label6.Size = new System.Drawing.Size(40, 23);
 			this.label6.TabIndex = 92;
 			this.label6.Text = "Y Pos";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label7
 			// 
-			this.label7.Location = new System.Drawing.Point(197, 295);
+			this.label7.Location = new System.Drawing.Point(218, 318);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(71, 16);
+			this.label7.Size = new System.Drawing.Size(44, 23);
 			this.label7.TabIndex = 94;
 			this.label7.Text = "Width";
 			this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label8
 			// 
-			this.label8.Location = new System.Drawing.Point(197, 321);
+			this.label8.Location = new System.Drawing.Point(214, 345);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(71, 18);
+			this.label8.Size = new System.Drawing.Size(48, 23);
 			this.label8.TabIndex = 96;
 			this.label8.Text = "Height";
 			this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// comboGrowthBehavior
 			// 
-			this.comboGrowthBehavior.Location = new System.Drawing.Point(268, 214);
+			this.comboGrowthBehavior.Location = new System.Drawing.Point(268, 237);
 			this.comboGrowthBehavior.Name = "comboGrowthBehavior";
-			this.comboGrowthBehavior.Size = new System.Drawing.Size(197, 21);
+			this.comboGrowthBehavior.Size = new System.Drawing.Size(196, 23);
 			this.comboGrowthBehavior.TabIndex = 99;
 			// 
 			// label9
 			// 
-			this.label9.Location = new System.Drawing.Point(161, 215);
+			this.label9.Location = new System.Drawing.Point(162, 237);
 			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(107, 16);
+			this.label9.Size = new System.Drawing.Size(100, 23);
 			this.label9.TabIndex = 98;
 			this.label9.Text = "Growth Behavior";
 			this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textHeight
 			// 
-			this.textHeight.Location = new System.Drawing.Point(268, 320);
+			this.textHeight.Location = new System.Drawing.Point(268, 345);
 			this.textHeight.MaxVal = 2000;
 			this.textHeight.MinVal = -100;
 			this.textHeight.Name = "textHeight";
-			this.textHeight.Size = new System.Drawing.Size(69, 20);
+			this.textHeight.Size = new System.Drawing.Size(68, 23);
 			this.textHeight.TabIndex = 97;
 			// 
 			// textWidth
 			// 
-			this.textWidth.Location = new System.Drawing.Point(268, 294);
+			this.textWidth.Location = new System.Drawing.Point(268, 318);
 			this.textWidth.MaxVal = 2000;
 			this.textWidth.MinVal = -100;
 			this.textWidth.Name = "textWidth";
-			this.textWidth.Size = new System.Drawing.Size(69, 20);
+			this.textWidth.Size = new System.Drawing.Size(68, 23);
 			this.textWidth.TabIndex = 95;
 			// 
 			// textYPos
 			// 
-			this.textYPos.Location = new System.Drawing.Point(268, 268);
+			this.textYPos.Location = new System.Drawing.Point(268, 291);
 			this.textYPos.MaxVal = 2000;
 			this.textYPos.MinVal = -100;
 			this.textYPos.Name = "textYPos";
-			this.textYPos.Size = new System.Drawing.Size(69, 20);
+			this.textYPos.Size = new System.Drawing.Size(68, 23);
 			this.textYPos.TabIndex = 93;
 			// 
 			// textXPos
 			// 
-			this.textXPos.Location = new System.Drawing.Point(268, 242);
+			this.textXPos.Location = new System.Drawing.Point(268, 264);
 			this.textXPos.MaxVal = 2000;
 			this.textXPos.MinVal = -100;
 			this.textXPos.Name = "textXPos";
-			this.textXPos.Size = new System.Drawing.Size(69, 20);
+			this.textXPos.Size = new System.Drawing.Size(68, 23);
 			this.textXPos.TabIndex = 91;
 			// 
 			// butDelete
@@ -267,7 +267,7 @@ namespace OpenPmsDental{
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(15, 376);
+			this.butDelete.Location = new System.Drawing.Point(8, 404);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(77, 24);
 			this.butDelete.TabIndex = 100;
@@ -277,7 +277,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(396, 376);
+			this.butSave.Location = new System.Drawing.Point(400, 404);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 3;
@@ -286,34 +286,34 @@ namespace OpenPmsDental{
 			// 
 			// checkIsLocked
 			// 
-			this.checkIsLocked.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkIsLocked.Location = new System.Drawing.Point(172, 346);
+			this.checkIsLocked.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkIsLocked.Location = new System.Drawing.Point(268, 372);
 			this.checkIsLocked.Name = "checkIsLocked";
-			this.checkIsLocked.Size = new System.Drawing.Size(113, 20);
+			this.checkIsLocked.Size = new System.Drawing.Size(115, 20);
 			this.checkIsLocked.TabIndex = 238;
 			this.checkIsLocked.Text = "Lock Text Editing";
 			// 
 			// textUiLabelMobile
 			// 
 			this.textUiLabelMobile.AutoSize = false;
-			this.textUiLabelMobile.Location = new System.Drawing.Point(268, 39);
+			this.textUiLabelMobile.Location = new System.Drawing.Point(268, 43);
 			this.textUiLabelMobile.MaxLength = 65535;
 			this.textUiLabelMobile.Name = "textUiLabelMobile";
-			this.textUiLabelMobile.Size = new System.Drawing.Size(197, 20);
+			this.textUiLabelMobile.Size = new System.Drawing.Size(196, 23);
 			this.textUiLabelMobile.TabIndex = 241;
 			// 
 			// labelUiLabelMobile
 			// 
-			this.labelUiLabelMobile.Location = new System.Drawing.Point(163, 40);
+			this.labelUiLabelMobile.Location = new System.Drawing.Point(166, 43);
 			this.labelUiLabelMobile.Name = "labelUiLabelMobile";
-			this.labelUiLabelMobile.Size = new System.Drawing.Size(105, 18);
+			this.labelUiLabelMobile.Size = new System.Drawing.Size(96, 23);
 			this.labelUiLabelMobile.TabIndex = 242;
 			this.labelUiLabelMobile.Text = "Mobile Caption";
 			this.labelUiLabelMobile.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// FormSheetFieldOutput
 			// 
-			this.ClientSize = new System.Drawing.Size(483, 412);
+			this.ClientSize = new System.Drawing.Size(483, 436);
 			this.Controls.Add(this.textUiLabelMobile);
 			this.Controls.Add(this.labelUiLabelMobile);
 			this.Controls.Add(this.checkIsLocked);

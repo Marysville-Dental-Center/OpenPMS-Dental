@@ -99,7 +99,7 @@
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(15, 76);
+			this.gridMain.Location = new System.Drawing.Point(15, 111);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.Size = new System.Drawing.Size(675, 503);
 			this.gridMain.TabIndex = 140;
@@ -111,7 +111,7 @@
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(786, 553);
+			this.butOK.Location = new System.Drawing.Point(792, 626);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 26);
 			this.butOK.TabIndex = 1;
@@ -123,18 +123,18 @@
 			this.groupCreditLogic.Controls.Add(this.radioExcludeAllCredits);
 			this.groupCreditLogic.Controls.Add(this.radioOnlyAllocatedCredits);
 			this.groupCreditLogic.Controls.Add(this.radioIncludeAllCredits);
-			this.groupCreditLogic.Location = new System.Drawing.Point(15, 1);
+			this.groupCreditLogic.Location = new System.Drawing.Point(15, 8);
 			this.groupCreditLogic.Name = "groupCreditLogic";
-			this.groupCreditLogic.Size = new System.Drawing.Size(331, 73);
+			this.groupCreditLogic.Size = new System.Drawing.Size(331, 99);
 			this.groupCreditLogic.TabIndex = 143;
 			this.groupCreditLogic.TabStop = false;
 			this.groupCreditLogic.Text = "Credit Filter";
 			// 
 			// radioExcludeAllCredits
 			// 
-			this.radioExcludeAllCredits.Location = new System.Drawing.Point(20, 49);
+			this.radioExcludeAllCredits.Location = new System.Drawing.Point(8, 71);
 			this.radioExcludeAllCredits.Name = "radioExcludeAllCredits";
-			this.radioExcludeAllCredits.Size = new System.Drawing.Size(305, 17);
+			this.radioExcludeAllCredits.Size = new System.Drawing.Size(118, 20);
 			this.radioExcludeAllCredits.TabIndex = 2;
 			this.radioExcludeAllCredits.TabStop = true;
 			this.radioExcludeAllCredits.Text = "Exclude all credits";
@@ -144,9 +144,9 @@
 			// radioOnlyAllocatedCredits
 			// 
 			this.radioOnlyAllocatedCredits.Checked = true;
-			this.radioOnlyAllocatedCredits.Location = new System.Drawing.Point(20, 15);
+			this.radioOnlyAllocatedCredits.Location = new System.Drawing.Point(8, 23);
 			this.radioOnlyAllocatedCredits.Name = "radioOnlyAllocatedCredits";
-			this.radioOnlyAllocatedCredits.Size = new System.Drawing.Size(305, 17);
+			this.radioOnlyAllocatedCredits.Size = new System.Drawing.Size(139, 20);
 			this.radioOnlyAllocatedCredits.TabIndex = 0;
 			this.radioOnlyAllocatedCredits.TabStop = true;
 			this.radioOnlyAllocatedCredits.Text = "Only allocated credits";
@@ -155,9 +155,9 @@
 			// 
 			// radioIncludeAllCredits
 			// 
-			this.radioIncludeAllCredits.Location = new System.Drawing.Point(20, 32);
+			this.radioIncludeAllCredits.Location = new System.Drawing.Point(8, 47);
 			this.radioIncludeAllCredits.Name = "radioIncludeAllCredits";
-			this.radioIncludeAllCredits.Size = new System.Drawing.Size(305, 17);
+			this.radioIncludeAllCredits.Size = new System.Drawing.Size(117, 20);
 			this.radioIncludeAllCredits.TabIndex = 1;
 			this.radioIncludeAllCredits.TabStop = true;
 			this.radioIncludeAllCredits.Text = "Include all credits";
@@ -190,16 +190,16 @@
 			this.groupBreakdown.Controls.Add(this.label7);
 			this.groupBreakdown.Controls.Add(this.labelPayPlanProduction);
 			this.groupBreakdown.Controls.Add(this.label5);
-			this.groupBreakdown.Location = new System.Drawing.Point(694, 76);
+			this.groupBreakdown.Location = new System.Drawing.Point(696, 111);
 			this.groupBreakdown.Name = "groupBreakdown";
-			this.groupBreakdown.Size = new System.Drawing.Size(167, 270);
+			this.groupBreakdown.Size = new System.Drawing.Size(171, 273);
 			this.groupBreakdown.TabIndex = 144;
 			this.groupBreakdown.TabStop = false;
 			this.groupBreakdown.Text = "Breakdown";
 			// 
 			// label12
 			// 
-			this.label12.Location = new System.Drawing.Point(7, 216);
+			this.label12.Location = new System.Drawing.Point(8, 221);
 			this.label12.Name = "label12";
 			this.label12.Size = new System.Drawing.Size(86, 18);
 			this.label12.TabIndex = 152;
@@ -208,7 +208,7 @@
 			// 
 			// labelCurrentSplits
 			// 
-			this.labelCurrentSplits.Location = new System.Drawing.Point(99, 216);
+			this.labelCurrentSplits.Location = new System.Drawing.Point(100, 221);
 			this.labelCurrentSplits.Name = "labelCurrentSplits";
 			this.labelCurrentSplits.Size = new System.Drawing.Size(61, 18);
 			this.labelCurrentSplits.TabIndex = 151;
@@ -218,7 +218,7 @@
 			// label8
 			// 
 			this.label8.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-			this.label8.Location = new System.Drawing.Point(5, 239);
+			this.label8.Location = new System.Drawing.Point(8, 243);
 			this.label8.Name = "label8";
 			this.label8.Size = new System.Drawing.Size(155, 2);
 			this.label8.TabIndex = 150;
@@ -226,7 +226,7 @@
 			// label9
 			// 
 			this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label9.Location = new System.Drawing.Point(7, 245);
+			this.label9.Location = new System.Drawing.Point(8, 247);
 			this.label9.Name = "label9";
 			this.label9.Size = new System.Drawing.Size(86, 18);
 			this.label9.TabIndex = 149;
@@ -236,7 +236,7 @@
 			// labelAmtEnd
 			// 
 			this.labelAmtEnd.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.labelAmtEnd.Location = new System.Drawing.Point(99, 245);
+			this.labelAmtEnd.Location = new System.Drawing.Point(100, 247);
 			this.labelAmtEnd.Name = "labelAmtEnd";
 			this.labelAmtEnd.Size = new System.Drawing.Size(61, 18);
 			this.labelAmtEnd.TabIndex = 148;
@@ -245,7 +245,7 @@
 			// 
 			// labelTitleWriteOffEst
 			// 
-			this.labelTitleWriteOffEst.Location = new System.Drawing.Point(7, 194);
+			this.labelTitleWriteOffEst.Location = new System.Drawing.Point(8, 199);
 			this.labelTitleWriteOffEst.Name = "labelTitleWriteOffEst";
 			this.labelTitleWriteOffEst.Size = new System.Drawing.Size(86, 18);
 			this.labelTitleWriteOffEst.TabIndex = 147;
@@ -254,7 +254,7 @@
 			// 
 			// labelWriteOffEst
 			// 
-			this.labelWriteOffEst.Location = new System.Drawing.Point(99, 194);
+			this.labelWriteOffEst.Location = new System.Drawing.Point(100, 199);
 			this.labelWriteOffEst.Name = "labelWriteOffEst";
 			this.labelWriteOffEst.Size = new System.Drawing.Size(61, 18);
 			this.labelWriteOffEst.TabIndex = 146;
@@ -263,7 +263,7 @@
 			// 
 			// label10
 			// 
-			this.label10.Location = new System.Drawing.Point(7, 150);
+			this.label10.Location = new System.Drawing.Point(8, 155);
 			this.label10.Name = "label10";
 			this.label10.Size = new System.Drawing.Size(86, 18);
 			this.label10.TabIndex = 145;
@@ -272,7 +272,7 @@
 			// 
 			// labelWriteOff
 			// 
-			this.labelWriteOff.Location = new System.Drawing.Point(99, 150);
+			this.labelWriteOff.Location = new System.Drawing.Point(100, 155);
 			this.labelWriteOff.Name = "labelWriteOff";
 			this.labelWriteOff.Size = new System.Drawing.Size(61, 18);
 			this.labelWriteOff.TabIndex = 144;
@@ -281,7 +281,7 @@
 			// 
 			// labelTitleInsEst
 			// 
-			this.labelTitleInsEst.Location = new System.Drawing.Point(7, 172);
+			this.labelTitleInsEst.Location = new System.Drawing.Point(8, 177);
 			this.labelTitleInsEst.Name = "labelTitleInsEst";
 			this.labelTitleInsEst.Size = new System.Drawing.Size(86, 18);
 			this.labelTitleInsEst.TabIndex = 23;
@@ -290,7 +290,7 @@
 			// 
 			// labelInsEst
 			// 
-			this.labelInsEst.Location = new System.Drawing.Point(99, 172);
+			this.labelInsEst.Location = new System.Drawing.Point(100, 177);
 			this.labelInsEst.Name = "labelInsEst";
 			this.labelInsEst.Size = new System.Drawing.Size(61, 18);
 			this.labelInsEst.TabIndex = 22;
@@ -300,7 +300,7 @@
 			// label1
 			// 
 			this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label1.Location = new System.Drawing.Point(7, 18);
+			this.label1.Location = new System.Drawing.Point(8, 23);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(86, 18);
 			this.label1.TabIndex = 27;
@@ -309,7 +309,7 @@
 			// 
 			// labelPaySplits
 			// 
-			this.labelPaySplits.Location = new System.Drawing.Point(99, 106);
+			this.labelPaySplits.Location = new System.Drawing.Point(100, 111);
 			this.labelPaySplits.Name = "labelPaySplits";
 			this.labelPaySplits.Size = new System.Drawing.Size(61, 18);
 			this.labelPaySplits.TabIndex = 14;
@@ -319,7 +319,7 @@
 			// labelAmtOriginal
 			// 
 			this.labelAmtOriginal.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.labelAmtOriginal.Location = new System.Drawing.Point(99, 18);
+			this.labelAmtOriginal.Location = new System.Drawing.Point(100, 23);
 			this.labelAmtOriginal.Name = "labelAmtOriginal";
 			this.labelAmtOriginal.Size = new System.Drawing.Size(61, 18);
 			this.labelAmtOriginal.TabIndex = 26;
@@ -328,7 +328,7 @@
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(7, 106);
+			this.label2.Location = new System.Drawing.Point(8, 111);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(86, 18);
 			this.label2.TabIndex = 15;
@@ -337,7 +337,7 @@
 			// 
 			// labelPositiveAdjs
 			// 
-			this.labelPositiveAdjs.Location = new System.Drawing.Point(99, 40);
+			this.labelPositiveAdjs.Location = new System.Drawing.Point(100, 45);
 			this.labelPositiveAdjs.Name = "labelPositiveAdjs";
 			this.labelPositiveAdjs.Size = new System.Drawing.Size(61, 18);
 			this.labelPositiveAdjs.TabIndex = 16;
@@ -346,7 +346,7 @@
 			// 
 			// label13
 			// 
-			this.label13.Location = new System.Drawing.Point(7, 128);
+			this.label13.Location = new System.Drawing.Point(8, 133);
 			this.label13.Name = "label13";
 			this.label13.Size = new System.Drawing.Size(86, 18);
 			this.label13.TabIndex = 25;
@@ -355,7 +355,7 @@
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(7, 40);
+			this.label3.Location = new System.Drawing.Point(8, 45);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(86, 18);
 			this.label3.TabIndex = 17;
@@ -364,7 +364,7 @@
 			// 
 			// labelInsPay
 			// 
-			this.labelInsPay.Location = new System.Drawing.Point(99, 128);
+			this.labelInsPay.Location = new System.Drawing.Point(100, 133);
 			this.labelInsPay.Name = "labelInsPay";
 			this.labelInsPay.Size = new System.Drawing.Size(61, 18);
 			this.labelInsPay.TabIndex = 24;
@@ -373,7 +373,7 @@
 			// 
 			// labelNegativeAdjs
 			// 
-			this.labelNegativeAdjs.Location = new System.Drawing.Point(99, 62);
+			this.labelNegativeAdjs.Location = new System.Drawing.Point(102, 67);
 			this.labelNegativeAdjs.Name = "labelNegativeAdjs";
 			this.labelNegativeAdjs.Size = new System.Drawing.Size(61, 18);
 			this.labelNegativeAdjs.TabIndex = 18;
@@ -382,16 +382,16 @@
 			// 
 			// label7
 			// 
-			this.label7.Location = new System.Drawing.Point(7, 62);
+			this.label7.Location = new System.Drawing.Point(8, 67);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(86, 18);
+			this.label7.Size = new System.Drawing.Size(88, 18);
 			this.label7.TabIndex = 19;
 			this.label7.Text = "Negative Adjs:";
 			this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// labelPayPlanProduction
 			// 
-			this.labelPayPlanProduction.Location = new System.Drawing.Point(99, 84);
+			this.labelPayPlanProduction.Location = new System.Drawing.Point(100, 89);
 			this.labelPayPlanProduction.Name = "labelPayPlanProduction";
 			this.labelPayPlanProduction.Size = new System.Drawing.Size(61, 18);
 			this.labelPayPlanProduction.TabIndex = 20;
@@ -400,7 +400,7 @@
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(7, 84);
+			this.label5.Location = new System.Drawing.Point(8, 89);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(86, 18);
 			this.label5.TabIndex = 21;
@@ -410,9 +410,9 @@
 			// labelUnallocated
 			// 
 			this.labelUnallocated.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelUnallocated.Location = new System.Drawing.Point(390, 16);
+			this.labelUnallocated.Location = new System.Drawing.Point(390, 8);
 			this.labelUnallocated.Name = "labelUnallocated";
-			this.labelUnallocated.Size = new System.Drawing.Size(420, 45);
+			this.labelUnallocated.Size = new System.Drawing.Size(420, 32);
 			this.labelUnallocated.TabIndex = 155;
 			this.labelUnallocated.Text = "This patient has unallocated unearned income. Please select procedures to allocat" +
     "e this income towards.";
@@ -421,7 +421,7 @@
 			// 
 			// FormProcSelect
 			// 
-			this.ClientSize = new System.Drawing.Size(873, 586);
+			this.ClientSize = new System.Drawing.Size(875, 660);
 			this.Controls.Add(this.butOK);
 			this.Controls.Add(this.labelUnallocated);
 			this.Controls.Add(this.groupBreakdown);

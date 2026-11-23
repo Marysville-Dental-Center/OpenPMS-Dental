@@ -54,7 +54,7 @@
 			// 
 			// butMeasures
 			// 
-			this.butMeasures.Location = new System.Drawing.Point(10, 19);
+			this.butMeasures.Location = new System.Drawing.Point(8, 23);
 			this.butMeasures.Name = "butMeasures";
 			this.butMeasures.Size = new System.Drawing.Size(84, 23);
 			this.butMeasures.TabIndex = 11;
@@ -64,7 +64,7 @@
 			// 
 			// butHash
 			// 
-			this.butHash.Location = new System.Drawing.Point(10, 19);
+			this.butHash.Location = new System.Drawing.Point(8, 23);
 			this.butHash.Name = "butHash";
 			this.butHash.Size = new System.Drawing.Size(84, 23);
 			this.butHash.TabIndex = 13;
@@ -74,7 +74,7 @@
 			// 
 			// butEncryption
 			// 
-			this.butEncryption.Location = new System.Drawing.Point(10, 48);
+			this.butEncryption.Location = new System.Drawing.Point(8, 50);
 			this.butEncryption.Name = "butEncryption";
 			this.butEncryption.Size = new System.Drawing.Size(84, 23);
 			this.butEncryption.TabIndex = 17;
@@ -86,16 +86,16 @@
 			// 
 			this.groupBox4.Controls.Add(this.but2014CQM);
 			this.groupBox4.Controls.Add(this.butMeasures);
-			this.groupBox4.Location = new System.Drawing.Point(702, 81);
+			this.groupBox4.Location = new System.Drawing.Point(708, 80);
 			this.groupBox4.Name = "groupBox4";
-			this.groupBox4.Size = new System.Drawing.Size(104, 83);
+			this.groupBox4.Size = new System.Drawing.Size(104, 81);
 			this.groupBox4.TabIndex = 25;
 			this.groupBox4.TabStop = false;
 			this.groupBox4.Text = "For All Patients";
 			// 
 			// but2014CQM
 			// 
-			this.but2014CQM.Location = new System.Drawing.Point(10, 48);
+			this.but2014CQM.Location = new System.Drawing.Point(8, 50);
 			this.but2014CQM.Name = "but2014CQM";
 			this.but2014CQM.Size = new System.Drawing.Size(84, 23);
 			this.but2014CQM.TabIndex = 21;
@@ -105,7 +105,7 @@
 			// 
 			// butEhrNotPerformed
 			// 
-			this.butEhrNotPerformed.Location = new System.Drawing.Point(712, 317);
+			this.butEhrNotPerformed.Location = new System.Drawing.Point(708, 312);
 			this.butEhrNotPerformed.Name = "butEhrNotPerformed";
 			this.butEhrNotPerformed.Size = new System.Drawing.Size(84, 23);
 			this.butEhrNotPerformed.TabIndex = 38;
@@ -117,16 +117,16 @@
 			// 
 			this.groupBox5.Controls.Add(this.butHash);
 			this.groupBox5.Controls.Add(this.butEncryption);
-			this.groupBox5.Location = new System.Drawing.Point(702, 170);
+			this.groupBox5.Location = new System.Drawing.Point(708, 169);
 			this.groupBox5.Name = "groupBox5";
-			this.groupBox5.Size = new System.Drawing.Size(104, 83);
+			this.groupBox5.Size = new System.Drawing.Size(104, 81);
 			this.groupBox5.TabIndex = 26;
 			this.groupBox5.TabStop = false;
 			this.groupBox5.Text = "Tools";
 			// 
 			// butVaccines
 			// 
-			this.butVaccines.Location = new System.Drawing.Point(713, 259);
+			this.butVaccines.Location = new System.Drawing.Point(708, 258);
 			this.butVaccines.Name = "butVaccines";
 			this.butVaccines.Size = new System.Drawing.Size(84, 23);
 			this.butVaccines.TabIndex = 27;
@@ -145,7 +145,7 @@
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(12, 30);
+			this.label2.Location = new System.Drawing.Point(8, 31);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(128, 18);
 			this.label2.TabIndex = 29;
@@ -167,7 +167,7 @@
 			// 
 			this.labelProvUser.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.labelProvUser.ForeColor = System.Drawing.Color.DarkRed;
-			this.labelProvUser.Location = new System.Drawing.Point(135, 29);
+			this.labelProvUser.Location = new System.Drawing.Point(142, 31);
 			this.labelProvUser.Name = "labelProvUser";
 			this.labelProvUser.Size = new System.Drawing.Size(426, 18);
 			this.labelProvUser.TabIndex = 31;
@@ -176,15 +176,15 @@
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(6, 53);
+			this.label3.Location = new System.Drawing.Point(8, 53);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(696, 35);
+			this.label3.Size = new System.Drawing.Size(696, 47);
 			this.label3.TabIndex = 33;
 			this.label3.Text = resources.GetString("label3.Text");
 			// 
 			// butAmendments
 			// 
-			this.butAmendments.Location = new System.Drawing.Point(712, 288);
+			this.butAmendments.Location = new System.Drawing.Point(708, 285);
 			this.butAmendments.Name = "butAmendments";
 			this.butAmendments.Size = new System.Drawing.Size(84, 23);
 			this.butAmendments.TabIndex = 36;
@@ -194,7 +194,7 @@
 			// 
 			// butEncounters
 			// 
-			this.butEncounters.Location = new System.Drawing.Point(712, 346);
+			this.butEncounters.Location = new System.Drawing.Point(708, 339);
 			this.butEncounters.Name = "butEncounters";
 			this.butEncounters.Size = new System.Drawing.Size(84, 23);
 			this.butEncounters.TabIndex = 39;
@@ -204,7 +204,7 @@
 			// 
 			// butInterventions
 			// 
-			this.butInterventions.Location = new System.Drawing.Point(712, 375);
+			this.butInterventions.Location = new System.Drawing.Point(708, 366);
 			this.butInterventions.Name = "butInterventions";
 			this.butInterventions.Size = new System.Drawing.Size(84, 23);
 			this.butInterventions.TabIndex = 40;
@@ -214,7 +214,7 @@
 			// 
 			// butCarePlans
 			// 
-			this.butCarePlans.Location = new System.Drawing.Point(712, 404);
+			this.butCarePlans.Location = new System.Drawing.Point(708, 393);
 			this.butCarePlans.Name = "butCarePlans";
 			this.butCarePlans.Size = new System.Drawing.Size(84, 23);
 			this.butCarePlans.TabIndex = 42;
@@ -224,7 +224,7 @@
 			// 
 			// but2011Labs
 			// 
-			this.but2011Labs.Location = new System.Drawing.Point(10, 19);
+			this.but2011Labs.Location = new System.Drawing.Point(8, 23);
 			this.but2011Labs.Name = "but2011Labs";
 			this.but2011Labs.Size = new System.Drawing.Size(84, 23);
 			this.but2011Labs.TabIndex = 43;
@@ -235,16 +235,16 @@
 			// groupBox1
 			// 
 			this.groupBox1.Controls.Add(this.but2011Labs);
-			this.groupBox1.Location = new System.Drawing.Point(702, 495);
+			this.groupBox1.Location = new System.Drawing.Point(708, 478);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(104, 53);
+			this.groupBox1.Size = new System.Drawing.Size(104, 54);
 			this.groupBox1.TabIndex = 26;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "2011 Ed.";
 			// 
 			// butMeasureEvent
 			// 
-			this.butMeasureEvent.Location = new System.Drawing.Point(712, 554);
+			this.butMeasureEvent.Location = new System.Drawing.Point(708, 540);
 			this.butMeasureEvent.Name = "butMeasureEvent";
 			this.butMeasureEvent.Size = new System.Drawing.Size(84, 23);
 			this.butMeasureEvent.TabIndex = 43;
@@ -256,7 +256,7 @@
 			// 
 			this.gridMu.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-			this.gridMu.Location = new System.Drawing.Point(6, 88);
+			this.gridMu.Location = new System.Drawing.Point(8, 102);
 			this.gridMu.Name = "gridMu";
 			this.gridMu.SelectionMode = OpenPmsDental.UI.GridSelectionMode.None;
 			this.gridMu.Size = new System.Drawing.Size(688, 598);
@@ -267,7 +267,7 @@
 			// 
 			// butClinicalSummary
 			// 
-			this.butClinicalSummary.Location = new System.Drawing.Point(712, 433);
+			this.butClinicalSummary.Location = new System.Drawing.Point(708, 420);
 			this.butClinicalSummary.Name = "butClinicalSummary";
 			this.butClinicalSummary.Size = new System.Drawing.Size(84, 23);
 			this.butClinicalSummary.TabIndex = 44;
@@ -277,7 +277,7 @@
 			// 
 			// butPatList
 			// 
-			this.butPatList.Location = new System.Drawing.Point(712, 462);
+			this.butPatList.Location = new System.Drawing.Point(708, 447);
 			this.butPatList.Name = "butPatList";
 			this.butPatList.Size = new System.Drawing.Size(84, 23);
 			this.butPatList.TabIndex = 45;
@@ -288,7 +288,7 @@
 			// FormEHR
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(817, 696);
+			this.ClientSize = new System.Drawing.Size(820, 708);
 			this.Controls.Add(this.butPatList);
 			this.Controls.Add(this.butClinicalSummary);
 			this.Controls.Add(this.butMeasureEvent);
