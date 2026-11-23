@@ -18,3 +18,18 @@ OpenPmsDental.FormClearinghouseEdit	labelClientProgram	SFTP Host Name	96	an SFTP
 OpenPmsDental.FormEbillSetup	labelStatementURL	Output Path	72	the statement mode: Output Path for URL Override
 OpenPmsDental.FormAllocationsSetup	labelIncomeTransfersMadeUponClaimReceivedDesc	Only transfer patient overpayment if Paysplits - Rigorous is enabled.	364	the transfer mode's description (the longest of three)
 OpenPmsDental.FormRpOutstandingIns	labelClaimCount	9,999 claims	71	the grid's claim count
+OpenPmsDental.FormBilling	labelPrinted	Printed=99999	83	UI-12 slice 2: the count of printed statements after a send (FormBilling.cs; a five-digit count)
+OpenPmsDental.FormBilling	labelEmailed	E-mailed=99999	92	UI-12 slice 2: the count of e-mailed statements after a send (FormBilling.cs; a five-digit count)
+OpenPmsDental.FormBilling	labelSentElect	SentElect=99999	93	UI-12 slice 2: the count of statements sent electronically (FormBilling.cs; a five-digit count)
+OpenPmsDental.FormBilling	labelTotal	Total=99999	71	UI-12 slice 2: the number of statements in the list (FormBilling.cs; a five-digit count)
+OpenPmsDental.FormBilling	labelSelected	Selected=99999	89	UI-12 slice 2: the number of statements selected (FormBilling.cs; a five-digit count)
+OpenPmsDental.FormPharmacyEdit	label11	City, Province, Postal Code	149	UI-12 slice 2: the Canadian city label (FormPharmacyEdit.cs in Canada)
+OpenPmsDental.FormProcGroup	labelPermAlert	Notes and Signature locked. The note you kept was signed by another user.	403	UI-12 slice 2: the lock note when another user signed the kept note (FormProcGroup.cs, the longest of its texts)
+OpenPmsDental.FormTaskEdit	labelReply	(Send to Administrator)	131	UI-12 slice 2: the reply note names the user replied to (FormTaskEdit.cs; a 13-character user name)
+OpenPmsDental.FormTaskEdit	labelObjectDesc	Appointment Desc	106	UI-12 slice 2: the object label for an appointment task (FormTaskEdit.cs)
+OpenPmsDental.FormTaskEdit	labelRemindFrequency	Months	48	UI-12 slice 2: the reminder frequency unit (FormTaskEdit.cs, the widest of Day to Years)
+OpenPmsDental.FormTaskEdit	labelAttachments	Attachments (99)	98	UI-12 slice 2: the attachment count (FormTaskEdit.cs; a two-digit count)
+OpenPmsDental.FormGraphics	labelPreview	The preview is drawn by this computer, not by the computer being edited.	398	UI-12 slice 2: the preview note when another computer's settings are edited (FormGraphics.cs)
+OpenPmsDental.FormRpBrokenAppointments	labelDescr	Broken appointments based on broken appointment adjustments	352	UI-12 slice 2: the description of the broken appointment report's mode (FormRpBrokenAppointments.cs, the longest of its texts)
+OpenPmsDental.FormRpProcedures	labelTotal	Total: $12,345.67   Procedures: 9999	191	UI-12 slice 2: the report's total (FormRpProcedures.cs; a five-digit amount, a four-digit count)
+OpenPmsDental.FormAdvertisingPatientList	labelNumberPatientsSelected	99999	42	UI-12 slice 2: the number of patients selected (FormAdvertisingPatientList.cs; a five-digit count)
