@@ -327,9 +327,9 @@ namespace OpenPmsDental {
 			this.groupBoxCharges.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(249)))), ((int)(((byte)(249)))));
 			this.groupBoxCharges.Controls.Add(this.radioBillingFinance);
 			this.groupBoxCharges.Controls.Add(this.radioLateCharges);
-			this.groupBoxCharges.Location = new System.Drawing.Point(47, 23);
+			this.groupBoxCharges.Location = new System.Drawing.Point(8, 23);
 			this.groupBoxCharges.Name = "groupBoxCharges";
-			this.groupBoxCharges.Size = new System.Drawing.Size(190, 60);
+			this.groupBoxCharges.Size = new System.Drawing.Size(229, 60);
 			this.groupBoxCharges.TabIndex = 29;
 			this.groupBoxCharges.TabStop = false;
 			// 
