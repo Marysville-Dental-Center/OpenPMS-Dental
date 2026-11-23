@@ -57,7 +57,8 @@ namespace UiRefreshTests {
 							if(root is FormODBase formODBase && formODBase.PanelClient!=null) {
 								root=formODBase.PanelClient;
 							}
-							AddRows(window,".",root,0,listLines);
+							Dictionary<Control,AnchorStyles> dictAnchors=GetStoredAnchors(builtWindow.LayoutManager);
+							AddRows(window,".",root,0,listLines,dictAnchors);
 						}
 					}
 					catch(Exception exception) {
@@ -75,14 +76,38 @@ namespace UiRefreshTests {
 			Assert.IsTrue(listLines.Count>1,"Nothing dumped: "+string.Join("; ",listFailed));
 		}
 
-		private static void AddRows(string window,string path,Control control,int index,List<string> listLines) {
-			listLines.Add(ToLine(window,path,control,index));
+		///<summary>UI-12 slice 5: the anchor of each control as the window's LayoutManager stores it (Control96Info.Anchor). LayoutManager takes
+		///every control's designer anchor over when the window is laid out and leaves the control itself at Top|Left (SetNoAnchorDock), so the
+		///control's own Anchor says nothing about how it moves when its container resizes. Empty for a window without a LayoutManager.</summary>
+		public static Dictionary<Control,AnchorStyles> GetStoredAnchors(LayoutManagerForms layoutManager) {
+			Dictionary<Control,AnchorStyles> dictAnchors=new Dictionary<Control,AnchorStyles>();
+			if(layoutManager==null) {
+				return dictAnchors;
+			}
+			FieldInfo fieldInfo=typeof(LayoutManagerForms).GetField("_listControl96Infos",BindingFlags.Instance|BindingFlags.NonPublic);
+			if(!(fieldInfo?.GetValue(layoutManager) is List<Control96Info> listControl96Infos)) {
+				return dictAnchors;
+			}
+			for(int i=0;i<listControl96Infos.Count;i++) {
+				if(listControl96Infos[i].ControlRef!=null) {
+					dictAnchors[listControl96Infos[i].ControlRef]=listControl96Infos[i].Anchor;
+				}
+			}
+			return dictAnchors;
+		}
+
+		private static void AddRows(string window,string path,Control control,int index,List<string> listLines,Dictionary<Control,AnchorStyles> dictAnchors) {
+			listLines.Add(ToLine(window,path,control,index,dictAnchors));
 			for(int i=0;i<control.Controls.Count;i++) {
-				AddRows(window,TextFitBoundsRecord.GetChildPath(path,control,i),control.Controls[i],i,listLines);
+				AddRows(window,TextFitBoundsRecord.GetChildPath(path,control,i),control.Controls[i],i,listLines,dictAnchors);
 			}
 		}
 
-		private static string ToLine(string window,string path,Control control,int index) {
+		private static string ToLine(string window,string path,Control control,int index,Dictionary<Control,AnchorStyles> dictAnchors) {
+			//The anchor LayoutManager stores for the control (its designer anchor); the control's own one where LayoutManager does not track it.
+			if(!dictAnchors.TryGetValue(control,out AnchorStyles anchor)) {
+				anchor=control.Anchor;
+			}
 			Rectangle rectangleDisplay=control.DisplayRectangle;
 			string checkAlign="";
 			string textAlign="";
@@ -121,7 +146,7 @@ namespace UiRefreshTests {
 				Clean(window),Clean(path),Clean(control.Name),Clean(control.GetType().FullName),Int(index),
 				Int(control.Left),Int(control.Top),Int(control.Width),Int(control.Height),
 				Int(rectangleDisplay.X),Int(rectangleDisplay.Y),Int(control.ClientSize.Width),Int(control.ClientSize.Height),
-				TextFitBoundsRecord.IsDesignedVisible(control) ? "1" : "0",control.Dock.ToString(),((int)control.Anchor).ToString(CultureInfo.InvariantCulture),
+				TextFitBoundsRecord.IsDesignedVisible(control) ? "1" : "0",control.Dock.ToString(),((int)anchor).ToString(CultureInfo.InvariantCulture),
 				control.AutoSize ? "1" : "0",TextFitBoundsRecord.IsSizingItself(control) ? "1" : "0",
 				(control.Parent is FlowLayoutPanel || control.Parent is TableLayoutPanel) ? "1" : "0",
 				checkAlign,textAlign,isMultiline ? "1" : "0",Int(control.Font.Height),Int(sizeText.Width),Int(sizeText.Height),Int(titleBottom),Int(preferredHeight),
