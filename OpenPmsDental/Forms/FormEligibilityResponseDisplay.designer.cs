@@ -87,7 +87,7 @@ namespace OpenPmsDental {
 			this.dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle4;
 			this.dataGridView1.RowTemplate.ReadOnly = true;
 			this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.dataGridView1.Size = new System.Drawing.Size(807, 388);
+			this.dataGridView1.Size = new System.Drawing.Size(798, 415);
 			this.dataGridView1.TabIndex = 11;
 			// 
 			// MyPrintDocument
@@ -97,7 +97,7 @@ namespace OpenPmsDental {
 			// butPrintPreview
 			// 
 			this.butPrintPreview.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butPrintPreview.Location = new System.Drawing.Point(709, 431);
+			this.butPrintPreview.Location = new System.Drawing.Point(713, 431);
 			this.butPrintPreview.Name = "butPrintPreview";
 			this.butPrintPreview.Size = new System.Drawing.Size(93, 23);
 			this.butPrintPreview.TabIndex = 14;
@@ -108,7 +108,7 @@ namespace OpenPmsDental {
 			// FormEligibilityResponseDisplay
 			// 
 			this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
-			this.ClientSize = new System.Drawing.Size(823, 462);
+			this.ClientSize = new System.Drawing.Size(814, 462);
 			this.Controls.Add(this.butPrintPreview);
 			this.Controls.Add(this.LblPatientName);
 			this.Controls.Add(this.dataGridView1);

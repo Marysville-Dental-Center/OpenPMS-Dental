@@ -131,7 +131,7 @@
         "Gender"};
 			this.listRestriction.Location = new System.Drawing.Point(149, 8);
 			this.listRestriction.Name = "listRestriction";
-			this.listRestriction.Size = new System.Drawing.Size(75, 69);
+			this.listRestriction.Size = new System.Drawing.Size(117, 69);
 			this.listRestriction.TabIndex = 18;
 			this.listRestriction.SelectedIndexChanged += new System.EventHandler(this.listRestriction_SelectedIndexChanged);
 			// 
@@ -143,7 +143,7 @@
         "Equals"};
 			this.listOperand.Location = new System.Drawing.Point(149, 81);
 			this.listOperand.Name = "listOperand";
-			this.listOperand.Size = new System.Drawing.Size(75, 43);
+			this.listOperand.Size = new System.Drawing.Size(117, 43);
 			this.listOperand.TabIndex = 19;
 			// 
 			// labelExample

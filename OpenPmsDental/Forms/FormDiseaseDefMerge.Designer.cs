@@ -25,9 +25,9 @@ namespace OpenPmsDental {
 			//
 			this.labelExplain.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelExplain.Location = new System.Drawing.Point(12, 8);
+			this.labelExplain.Location = new System.Drawing.Point(8, 8);
 			this.labelExplain.Name = "labelExplain";
-			this.labelExplain.Size = new System.Drawing.Size(476, 47);
+			this.labelExplain.Size = new System.Drawing.Size(484, 47);
 			this.labelExplain.TabIndex = 0;
 			this.labelExplain.Text = "Choose the problem to keep. Patient problems, Rx alerts, education resources, family health entries, CDS triggers and reminder rules that use the other problem will use the kept one, and the other problem will be deleted. This cannot be undone.";
 			//
@@ -36,9 +36,9 @@ namespace OpenPmsDental {
 			this.radioKeep1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.radioKeep1.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
-			this.radioKeep1.Location = new System.Drawing.Point(12, 57);
+			this.radioKeep1.Location = new System.Drawing.Point(8, 57);
 			this.radioKeep1.Name = "radioKeep1";
-			this.radioKeep1.Size = new System.Drawing.Size(473, 36);
+			this.radioKeep1.Size = new System.Drawing.Size(484, 36);
 			this.radioKeep1.TabIndex = 1;
 			this.radioKeep1.TextAlign = System.Drawing.ContentAlignment.TopLeft;
 			this.radioKeep1.UseMnemonic = false;
@@ -48,9 +48,9 @@ namespace OpenPmsDental {
 			this.radioKeep2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.radioKeep2.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
-			this.radioKeep2.Location = new System.Drawing.Point(12, 97);
+			this.radioKeep2.Location = new System.Drawing.Point(8, 97);
 			this.radioKeep2.Name = "radioKeep2";
-			this.radioKeep2.Size = new System.Drawing.Size(473, 36);
+			this.radioKeep2.Size = new System.Drawing.Size(484, 36);
 			this.radioKeep2.TabIndex = 2;
 			this.radioKeep2.TextAlign = System.Drawing.ContentAlignment.TopLeft;
 			this.radioKeep2.UseMnemonic = false;

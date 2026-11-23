@@ -54,7 +54,7 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.listFieldNames.Location = new System.Drawing.Point(136, 116);
 			this.listFieldNames.Name = "listFieldNames";
-			this.listFieldNames.Size = new System.Drawing.Size(196, 511);
+			this.listFieldNames.Size = new System.Drawing.Size(196, 522);
 			this.listFieldNames.TabIndex = 13;
 			this.listFieldNames.Click += new System.EventHandler(this.listFieldNames_Click);
 			// 
@@ -103,7 +103,7 @@ namespace OpenPmsDental{
 			// 
 			this.labelDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.labelDelete.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.labelDelete.Location = new System.Drawing.Point(8, 639);
+			this.labelDelete.Location = new System.Drawing.Point(8, 569);
 			this.labelDelete.Name = "labelDelete";
 			this.labelDelete.Size = new System.Drawing.Size(125, 69);
 			this.labelDelete.TabIndex = 66;
@@ -141,7 +141,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(261, 715);
+			this.butSave.Location = new System.Drawing.Point(261, 646);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 3;
@@ -153,7 +153,7 @@ namespace OpenPmsDental{
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(9, 715);
+			this.butDelete.Location = new System.Drawing.Point(8, 646);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(85, 24);
 			this.butDelete.TabIndex = 65;
@@ -162,7 +162,7 @@ namespace OpenPmsDental{
 			// 
 			// FormHL7DefFieldEdit
 			// 
-			this.ClientSize = new System.Drawing.Size(344, 747);
+			this.ClientSize = new System.Drawing.Size(344, 678);
 			this.Controls.Add(this.butSave);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.Controls.Add(this.textFixedText);

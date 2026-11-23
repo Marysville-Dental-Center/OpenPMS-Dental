@@ -44,9 +44,9 @@ namespace OpenPmsDental {
 			this.listCategory.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.listCategory.Location = new System.Drawing.Point(23, 27);
+			this.listCategory.Location = new System.Drawing.Point(8, 27);
 			this.listCategory.Name = "listCategory";
-			this.listCategory.Size = new System.Drawing.Size(225, 298);
+			this.listCategory.Size = new System.Drawing.Size(255, 319);
 			this.listCategory.TabIndex = 57;
 			this.listCategory.DoubleClick += new System.EventHandler(this.listCategory_DoubleClick);
 			// 
@@ -62,9 +62,9 @@ namespace OpenPmsDental {
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(23, 8);
+			this.label1.Location = new System.Drawing.Point(8, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(194, 17);
+			this.label1.Size = new System.Drawing.Size(255, 17);
 			this.label1.TabIndex = 2;
 			this.label1.Text = "Select a category";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.BottomLeft;

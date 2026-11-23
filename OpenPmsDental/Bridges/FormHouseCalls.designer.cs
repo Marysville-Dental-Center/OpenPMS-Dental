@@ -64,7 +64,7 @@ namespace OpenPmsDental {
 			this.groupBox2.Controls.Add(this.label2);
 			this.groupBox2.Controls.Add(this.label1);
 			this.groupBox2.Controls.Add(this.textDateTo);
-			this.groupBox2.Location = new System.Drawing.Point(42,34);
+			this.groupBox2.Location = new System.Drawing.Point(8,34);
 			this.groupBox2.Name = "groupBox2";
 			this.groupBox2.Size = new System.Drawing.Size(393,81);
 			this.groupBox2.TabIndex = 8;
@@ -124,7 +124,7 @@ namespace OpenPmsDental {
 			// radioConfirm
 			// 
 			this.radioConfirm.Checked = true;
-			this.radioConfirm.Location = new System.Drawing.Point(42,8);
+			this.radioConfirm.Location = new System.Drawing.Point(8,8);
 			this.radioConfirm.Name = "radioConfirm";
 			this.radioConfirm.Size = new System.Drawing.Size(148,18);
 			this.radioConfirm.TabIndex = 9;

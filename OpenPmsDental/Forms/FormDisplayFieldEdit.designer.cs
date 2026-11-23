@@ -62,7 +62,7 @@ namespace OpenPmsDental {
 			this.textInternalName.Location = new System.Drawing.Point(141, 8);
 			this.textInternalName.Name = "textInternalName";
 			this.textInternalName.ReadOnly = true;
-			this.textInternalName.Size = new System.Drawing.Size(348, 20);
+			this.textInternalName.Size = new System.Drawing.Size(341, 23);
 			this.textInternalName.TabIndex = 3;
 			// 
 			// textDescription
@@ -129,7 +129,7 @@ namespace OpenPmsDental {
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(514, 151);
+			this.butSave.Location = new System.Drawing.Point(514, 120);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 26);
 			this.butSave.TabIndex = 1;
@@ -173,7 +173,7 @@ namespace OpenPmsDental {
 			// 
 			// FormDisplayFieldEdit
 			// 
-			this.ClientSize = new System.Drawing.Size(597, 185);
+			this.ClientSize = new System.Drawing.Size(597, 154);
 			this.Controls.Add(this.labelDescriptionOverrideOption);
 			this.Controls.Add(this.textDescriptionOverride);
 			this.Controls.Add(this.labelDescriptionOverride);

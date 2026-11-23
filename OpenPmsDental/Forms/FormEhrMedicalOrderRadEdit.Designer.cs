@@ -70,7 +70,7 @@
 			// 
 			// labelDescription
 			// 
-			this.labelDescription.Location = new System.Drawing.Point(8, 60);
+			this.labelDescription.Location = new System.Drawing.Point(8, 63);
 			this.labelDescription.Name = "labelDescription";
 			this.labelDescription.Size = new System.Drawing.Size(116, 21);
 			this.labelDescription.TabIndex = 17;

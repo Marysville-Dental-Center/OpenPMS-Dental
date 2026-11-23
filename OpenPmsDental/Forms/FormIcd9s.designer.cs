@@ -36,16 +36,16 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.listMain.IntegralHeight = false;
-			this.listMain.Location = new System.Drawing.Point(20, 35);
+			this.listMain.Location = new System.Drawing.Point(8, 35);
 			this.listMain.Name = "listMain";
-			this.listMain.Size = new System.Drawing.Size(501, 642);
+			this.listMain.Size = new System.Drawing.Size(598, 615);
 			this.listMain.TabIndex = 15;
 			this.listMain.DoubleClick += new System.EventHandler(this.listMain_DoubleClick);
 			// 
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(531,689);
+			this.butOK.Location = new System.Drawing.Point(531,658);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 24);
 			this.butOK.TabIndex = 3;
@@ -54,14 +54,14 @@ namespace OpenPmsDental{
 			// 
 			// textCode
 			// 
-			this.textCode.Location = new System.Drawing.Point(180, 8);
+			this.textCode.Location = new System.Drawing.Point(130, 8);
 			this.textCode.Name = "textCode";
 			this.textCode.Size = new System.Drawing.Size(100, 20);
 			this.textCode.TabIndex = 17;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(58, 8);
+			this.label1.Location = new System.Drawing.Point(8, 8);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(116, 23);
 			this.label1.TabIndex = 18;
@@ -70,7 +70,7 @@ namespace OpenPmsDental{
 			// 
 			// butSearch
 			// 
-			this.butSearch.Location = new System.Drawing.Point(286, 8);
+			this.butSearch.Location = new System.Drawing.Point(236, 8);
 			this.butSearch.Name = "butSearch";
 			this.butSearch.Size = new System.Drawing.Size(75, 23);
 			this.butSearch.TabIndex = 19;
@@ -80,7 +80,7 @@ namespace OpenPmsDental{
 			// FormIcd9s
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(614, 721);
+			this.ClientSize = new System.Drawing.Size(614, 690);
 			this.Controls.Add(this.butSearch);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.textCode);

@@ -100,7 +100,7 @@ namespace OpenPmsDental{
 			// 
 			this.label4.Location = new System.Drawing.Point(191, 64);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(245, 16);
+			this.label4.Size = new System.Drawing.Size(204, 16);
 			this.label4.TabIndex = 71;
 			this.label4.Text = "Shows relationship on appointments";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -130,7 +130,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(361, 132);
+			this.butSave.Location = new System.Drawing.Point(320, 132);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 3;
@@ -139,7 +139,7 @@ namespace OpenPmsDental{
 			// 
 			// FormGuardianEdit
 			// 
-			this.ClientSize = new System.Drawing.Size(444, 164);
+			this.ClientSize = new System.Drawing.Size(403, 164);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.Controls.Add(this.label4);
 			this.Controls.Add(this.checkIsGuardian);

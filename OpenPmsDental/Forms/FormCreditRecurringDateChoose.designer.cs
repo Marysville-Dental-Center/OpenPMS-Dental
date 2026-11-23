@@ -36,7 +36,7 @@ namespace OpenPmsDental{
 			// 
 			// butLastMonth
 			// 
-			this.butLastMonth.Location = new System.Drawing.Point(17, 39);
+			this.butLastMonth.Location = new System.Drawing.Point(8, 35);
 			this.butLastMonth.Name = "butLastMonth";
 			this.butLastMonth.Size = new System.Drawing.Size(96, 24);
 			this.butLastMonth.TabIndex = 4;
@@ -45,7 +45,7 @@ namespace OpenPmsDental{
 			// 
 			// butThisMonth
 			// 
-			this.butThisMonth.Location = new System.Drawing.Point(14, 74);
+			this.butThisMonth.Location = new System.Drawing.Point(8, 63);
 			this.butThisMonth.Name = "butThisMonth";
 			this.butThisMonth.Size = new System.Drawing.Size(96, 24);
 			this.butThisMonth.TabIndex = 5;
@@ -54,7 +54,7 @@ namespace OpenPmsDental{
 			// 
 			// labelMessage
 			// 
-			this.labelMessage.Location = new System.Drawing.Point(14, 8);
+			this.labelMessage.Location = new System.Drawing.Point(8, 8);
 			this.labelMessage.Name = "labelMessage";
 			this.labelMessage.Size = new System.Drawing.Size(362, 23);
 			this.labelMessage.TabIndex = 8;
@@ -62,27 +62,27 @@ namespace OpenPmsDental{
 			// 
 			// labelLastMonth
 			// 
-			this.labelLastMonth.Location = new System.Drawing.Point(119, 39);
+			this.labelLastMonth.Location = new System.Drawing.Point(110, 35);
 			this.labelLastMonth.Name = "labelLastMonth";
-			this.labelLastMonth.Size = new System.Drawing.Size(267, 24);
+			this.labelLastMonth.Size = new System.Drawing.Size(352, 24);
 			this.labelLastMonth.TabIndex = 9;
 			this.labelLastMonth.Text = "Payment date will be:";
 			this.labelLastMonth.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// labelThisMonth
 			// 
-			this.labelThisMonth.Location = new System.Drawing.Point(116, 74);
+			this.labelThisMonth.Location = new System.Drawing.Point(110, 63);
 			this.labelThisMonth.Name = "labelThisMonth";
-			this.labelThisMonth.Size = new System.Drawing.Size(267, 24);
+			this.labelThisMonth.Size = new System.Drawing.Size(352, 24);
 			this.labelThisMonth.TabIndex = 10;
 			this.labelThisMonth.Text = "Payment date will be:";
 			this.labelThisMonth.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// labelMonthSelect
 			// 
-			this.labelMonthSelect.Location = new System.Drawing.Point(138, 33);
+			this.labelMonthSelect.Location = new System.Drawing.Point(135, 35);
 			this.labelMonthSelect.Name = "labelMonthSelect";
-			this.labelMonthSelect.Size = new System.Drawing.Size(238, 23);
+			this.labelMonthSelect.Size = new System.Drawing.Size(132, 21);
 			this.labelMonthSelect.TabIndex = 16;
 			this.labelMonthSelect.Text = "Previous Charge Dates";
 			this.labelMonthSelect.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -90,7 +90,7 @@ namespace OpenPmsDental{
 			// 
 			// comboBoxMonthSelect
 			// 
-			this.comboBoxMonthSelect.Location = new System.Drawing.Point(17, 33);
+			this.comboBoxMonthSelect.Location = new System.Drawing.Point(8, 35);
 			this.comboBoxMonthSelect.Name = "comboBoxMonthSelect";
 			this.comboBoxMonthSelect.Size = new System.Drawing.Size(121, 21);
 			this.comboBoxMonthSelect.TabIndex = 15;
@@ -99,7 +99,7 @@ namespace OpenPmsDental{
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(311, 163);
+			this.butOK.Location = new System.Drawing.Point(387, 163);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 24);
 			this.butOK.TabIndex = 17;
@@ -108,9 +108,9 @@ namespace OpenPmsDental{
 			// 
 			// labelNoDates
 			// 
-			this.labelNoDates.Location = new System.Drawing.Point(45, 57);
+			this.labelNoDates.Location = new System.Drawing.Point(8, 35);
 			this.labelNoDates.Name = "labelNoDates";
-			this.labelNoDates.Size = new System.Drawing.Size(318, 13);
+			this.labelNoDates.Size = new System.Drawing.Size(454, 13);
 			this.labelNoDates.TabIndex = 18;
 			this.labelNoDates.Text = "No available dates after credit card start date.";
 			this.labelNoDates.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -119,7 +119,7 @@ namespace OpenPmsDental{
 			// FormCreditRecurringDateChoose
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(394, 195);
+			this.ClientSize = new System.Drawing.Size(470, 195);
 			this.Controls.Add(this.labelNoDates);
 			this.Controls.Add(this.butOK);
 			this.Controls.Add(this.labelMonthSelect);

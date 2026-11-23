@@ -41,7 +41,7 @@ namespace OpenPmsDental {
 			// 
 			// labelName
 			// 
-			this.labelName.Location = new System.Drawing.Point(9, 32);
+			this.labelName.Location = new System.Drawing.Point(8, 32);
 			this.labelName.Name = "labelName";
 			this.labelName.Size = new System.Drawing.Size(150, 16);
 			this.labelName.TabIndex = 0;
@@ -55,7 +55,7 @@ namespace OpenPmsDental {
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(418, 139);
+			this.butSave.Location = new System.Drawing.Point(410, 139);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 25);
 			this.butSave.TabIndex = 2;
@@ -64,7 +64,7 @@ namespace OpenPmsDental {
 			// 
 			// checkHidden
 			// 
-			this.checkHidden.Location = new System.Drawing.Point(9, 8);
+			this.checkHidden.Location = new System.Drawing.Point(8, 8);
 			this.checkHidden.Name = "checkHidden";
 			this.checkHidden.Size = new System.Drawing.Size(62, 20);
 			this.checkHidden.TabIndex = 3;
@@ -74,7 +74,7 @@ namespace OpenPmsDental {
 			// 
 			this.groupBoxUsage.Controls.Add(this.checkOverlap);
 			this.groupBoxUsage.Controls.Add(this.checkCutCopyPaste);
-			this.groupBoxUsage.Location = new System.Drawing.Point(196, 52);
+			this.groupBoxUsage.Location = new System.Drawing.Point(194, 50);
 			this.groupBoxUsage.Name = "groupBoxUsage";
 			this.groupBoxUsage.Size = new System.Drawing.Size(215, 75);
 			this.groupBoxUsage.TabIndex = 7;
@@ -100,7 +100,7 @@ namespace OpenPmsDental {
 			// butColor
 			// 
 			this.butColor.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-			this.butColor.Location = new System.Drawing.Point(419, 58);
+			this.butColor.Location = new System.Drawing.Point(417, 50);
 			this.butColor.Name = "butColor";
 			this.butColor.Size = new System.Drawing.Size(30, 20);
 			this.butColor.TabIndex = 1;
@@ -108,7 +108,7 @@ namespace OpenPmsDental {
 			// 
 			// labelColor
 			// 
-			this.labelColor.Location = new System.Drawing.Point(419, 40);
+			this.labelColor.Location = new System.Drawing.Point(417, 32);
 			this.labelColor.Name = "labelColor";
 			this.labelColor.Size = new System.Drawing.Size(74, 16);
 			this.labelColor.TabIndex = 10;
@@ -117,16 +117,16 @@ namespace OpenPmsDental {
 			// 
 			// textName
 			// 
-			this.textName.Location = new System.Drawing.Point(9, 50);
+			this.textName.Location = new System.Drawing.Point(8, 50);
 			this.textName.Multiline = true;
 			this.textName.Name = "textName";
-			this.textName.Size = new System.Drawing.Size(178, 64);
+			this.textName.Size = new System.Drawing.Size(178, 75);
 			this.textName.TabIndex = 11;
 			// 
 			// FormDefEditBlockout
 			// 
 			this.AcceptButton = this.butSave;
-			this.ClientSize = new System.Drawing.Size(501, 172);
+			this.ClientSize = new System.Drawing.Size(493, 172);
 			this.Controls.Add(this.textName);
 			this.Controls.Add(this.butColor);
 			this.Controls.Add(this.labelColor);

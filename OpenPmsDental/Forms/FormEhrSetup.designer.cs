@@ -52,7 +52,7 @@ namespace OpenPmsDental{
 			this.groupCodeSystems.Controls.Add(this.butRxNorm);
 			this.groupCodeSystems.Controls.Add(this.butICD9s);
 			this.groupCodeSystems.Controls.Add(this.butSnomeds);
-			this.groupCodeSystems.Location = new System.Drawing.Point(202, 32);
+			this.groupCodeSystems.Location = new System.Drawing.Point(152, 32);
 			this.groupCodeSystems.Name = "groupCodeSystems";
 			this.groupCodeSystems.Size = new System.Drawing.Size(152, 139);
 			this.groupCodeSystems.TabIndex = 136;
@@ -98,7 +98,7 @@ namespace OpenPmsDental{
 			// 
 			// butProviderKeys
 			// 
-			this.butProviderKeys.Location = new System.Drawing.Point(27, 248);
+			this.butProviderKeys.Location = new System.Drawing.Point(8, 251);
 			this.butProviderKeys.Name = "butProviderKeys";
 			this.butProviderKeys.Size = new System.Drawing.Size(128, 24);
 			this.butProviderKeys.TabIndex = 142;
@@ -107,7 +107,7 @@ namespace OpenPmsDental{
 			// 
 			// butOIDs
 			// 
-			this.butOIDs.Location = new System.Drawing.Point(202, 263);
+			this.butOIDs.Location = new System.Drawing.Point(164, 263);
 			this.butOIDs.Name = "butOIDs";
 			this.butOIDs.Size = new System.Drawing.Size(128, 24);
 			this.butOIDs.TabIndex = 140;
@@ -116,7 +116,7 @@ namespace OpenPmsDental{
 			// 
 			// butEhrTriggers
 			// 
-			this.butEhrTriggers.Location = new System.Drawing.Point(202, 207);
+			this.butEhrTriggers.Location = new System.Drawing.Point(164, 207);
 			this.butEhrTriggers.Name = "butEhrTriggers";
 			this.butEhrTriggers.Size = new System.Drawing.Size(128, 24);
 			this.butEhrTriggers.TabIndex = 138;
@@ -125,7 +125,7 @@ namespace OpenPmsDental{
 			// 
 			// butTimeSynch
 			// 
-			this.butTimeSynch.Location = new System.Drawing.Point(202, 235);
+			this.butTimeSynch.Location = new System.Drawing.Point(164, 235);
 			this.butTimeSynch.Name = "butTimeSynch";
 			this.butTimeSynch.Size = new System.Drawing.Size(128, 24);
 			this.butTimeSynch.TabIndex = 15;
@@ -134,7 +134,7 @@ namespace OpenPmsDental{
 			// 
 			// butLoincs
 			// 
-			this.butLoincs.Location = new System.Drawing.Point(202, 179);
+			this.butLoincs.Location = new System.Drawing.Point(164, 179);
 			this.butLoincs.Name = "butLoincs";
 			this.butLoincs.Size = new System.Drawing.Size(128, 24);
 			this.butLoincs.TabIndex = 11;
@@ -143,7 +143,7 @@ namespace OpenPmsDental{
 			// 
 			// butEducationalResources
 			// 
-			this.butEducationalResources.Location = new System.Drawing.Point(27, 220);
+			this.butEducationalResources.Location = new System.Drawing.Point(8, 223);
 			this.butEducationalResources.Name = "butEducationalResources";
 			this.butEducationalResources.Size = new System.Drawing.Size(128, 24);
 			this.butEducationalResources.TabIndex = 7;
@@ -152,7 +152,7 @@ namespace OpenPmsDental{
 			// 
 			// butInboundEmail
 			// 
-			this.butInboundEmail.Location = new System.Drawing.Point(27, 192);
+			this.butInboundEmail.Location = new System.Drawing.Point(8, 195);
 			this.butInboundEmail.Name = "butInboundEmail";
 			this.butInboundEmail.Size = new System.Drawing.Size(128, 24);
 			this.butInboundEmail.TabIndex = 6;
@@ -161,7 +161,7 @@ namespace OpenPmsDental{
 			// 
 			// butReminderRules
 			// 
-			this.butReminderRules.Location = new System.Drawing.Point(27, 164);
+			this.butReminderRules.Location = new System.Drawing.Point(8, 167);
 			this.butReminderRules.Name = "butReminderRules";
 			this.butReminderRules.Size = new System.Drawing.Size(128, 24);
 			this.butReminderRules.TabIndex = 5;
@@ -171,7 +171,7 @@ namespace OpenPmsDental{
 			// panelEmergencyNow
 			// 
 			this.panelEmergencyNow.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.panelEmergencyNow.Location = new System.Drawing.Point(504, 88);
+			this.panelEmergencyNow.Location = new System.Drawing.Point(424, 55);
 			this.panelEmergencyNow.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.panelEmergencyNow.Name = "panelEmergencyNow";
 			this.panelEmergencyNow.Size = new System.Drawing.Size(24, 24);
@@ -180,7 +180,7 @@ namespace OpenPmsDental{
 			// butEmergencyNow
 			// 
 			this.butEmergencyNow.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butEmergencyNow.Location = new System.Drawing.Point(400, 88);
+			this.butEmergencyNow.Location = new System.Drawing.Point(320, 55);
 			this.butEmergencyNow.Name = "butEmergencyNow";
 			this.butEmergencyNow.Size = new System.Drawing.Size(98, 24);
 			this.butEmergencyNow.TabIndex = 15;
@@ -189,7 +189,7 @@ namespace OpenPmsDental{
 			// 
 			// butDrugUnit
 			// 
-			this.butDrugUnit.Location = new System.Drawing.Point(27, 136);
+			this.butDrugUnit.Location = new System.Drawing.Point(8, 139);
 			this.butDrugUnit.Name = "butDrugUnit";
 			this.butDrugUnit.Size = new System.Drawing.Size(128, 24);
 			this.butDrugUnit.TabIndex = 4;
@@ -198,7 +198,7 @@ namespace OpenPmsDental{
 			// 
 			// butDrugManufacturer
 			// 
-			this.butDrugManufacturer.Location = new System.Drawing.Point(27, 108);
+			this.butDrugManufacturer.Location = new System.Drawing.Point(8, 111);
 			this.butDrugManufacturer.Name = "butDrugManufacturer";
 			this.butDrugManufacturer.Size = new System.Drawing.Size(128, 24);
 			this.butDrugManufacturer.TabIndex = 3;
@@ -207,7 +207,7 @@ namespace OpenPmsDental{
 			// 
 			// butVaccineDef
 			// 
-			this.butVaccineDef.Location = new System.Drawing.Point(27, 80);
+			this.butVaccineDef.Location = new System.Drawing.Point(8, 83);
 			this.butVaccineDef.Name = "butVaccineDef";
 			this.butVaccineDef.Size = new System.Drawing.Size(128, 24);
 			this.butVaccineDef.TabIndex = 2;
@@ -216,7 +216,7 @@ namespace OpenPmsDental{
 			// 
 			// butAllergies
 			// 
-			this.butAllergies.Location = new System.Drawing.Point(27, 52);
+			this.butAllergies.Location = new System.Drawing.Point(8, 55);
 			this.butAllergies.Name = "butAllergies";
 			this.butAllergies.Size = new System.Drawing.Size(128, 24);
 			this.butAllergies.TabIndex = 1;

@@ -57,7 +57,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelDebit.Location = new System.Drawing.Point(110, 8);
 			this.labelDebit.Name = "labelDebit";
-			this.labelDebit.Size = new System.Drawing.Size(90, 16);
+			this.labelDebit.Size = new System.Drawing.Size(88, 16);
 			this.labelDebit.TabIndex = 4;
 			this.labelDebit.Text = "Debit";
 			this.labelDebit.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -72,9 +72,9 @@ namespace OpenPmsDental {
 			// 
 			// labelCredit
 			// 
-			this.labelCredit.Location = new System.Drawing.Point(206, 8);
+			this.labelCredit.Location = new System.Drawing.Point(204, 8);
 			this.labelCredit.Name = "labelCredit";
-			this.labelCredit.Size = new System.Drawing.Size(90, 16);
+			this.labelCredit.Size = new System.Drawing.Size(88, 16);
 			this.labelCredit.TabIndex = 19;
 			this.labelCredit.Text = "Credit";
 			this.labelCredit.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -139,7 +139,7 @@ namespace OpenPmsDental {
 			this.textNotes.Multiline = true;
 			this.textNotes.Name = "textNotes";
 			this.textNotes.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.textNotes.Size = new System.Drawing.Size(311, 60);
+			this.textNotes.Size = new System.Drawing.Size(311, 46);
 			this.textNotes.TabIndex = 32;
 			// 
 			// label5
@@ -191,7 +191,7 @@ namespace OpenPmsDental {
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(8, 308);
+			this.butDelete.Location = new System.Drawing.Point(8, 286);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(75, 26);
 			this.butDelete.TabIndex = 8;
@@ -201,7 +201,7 @@ namespace OpenPmsDental {
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(373, 308);
+			this.butSave.Location = new System.Drawing.Point(373, 286);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 26);
 			this.butSave.TabIndex = 6;
@@ -210,16 +210,16 @@ namespace OpenPmsDental {
 			// 
 			// labelReconcile
 			// 
-			this.labelReconcile.Location = new System.Drawing.Point(110, 250);
+			this.labelReconcile.Location = new System.Drawing.Point(110, 236);
 			this.labelReconcile.Name = "labelReconcile";
-			this.labelReconcile.Size = new System.Drawing.Size(230, 21);
+			this.labelReconcile.Size = new System.Drawing.Size(230, 17);
 			this.labelReconcile.TabIndex = 27;
 			this.labelReconcile.Text = "Attached to Reconcile";
 			this.labelReconcile.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// textReconcile
 			// 
-			this.textReconcile.Location = new System.Drawing.Point(110, 273);
+			this.textReconcile.Location = new System.Drawing.Point(110, 255);
 			this.textReconcile.Name = "textReconcile";
 			this.textReconcile.ReadOnly = true;
 			this.textReconcile.Size = new System.Drawing.Size(112, 20);
@@ -227,7 +227,7 @@ namespace OpenPmsDental {
 			// 
 			// FormJournalEntryEdit
 			// 
-			this.ClientSize = new System.Drawing.Size(456, 342);
+			this.ClientSize = new System.Drawing.Size(456, 320);
 			this.Controls.Add(this.textNotes);
 			this.Controls.Add(this.labelNotes);
 			this.Controls.Add(this.textPayee);

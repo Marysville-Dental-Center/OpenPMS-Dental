@@ -51,9 +51,9 @@ namespace OpenPmsDental {
 			// 
 			// listPats
 			// 
-			this.listPats.Location = new System.Drawing.Point(24, 8);
+			this.listPats.Location = new System.Drawing.Point(8, 8);
 			this.listPats.Name = "listPats";
-			this.listPats.Size = new System.Drawing.Size(271, 160);
+			this.listPats.Size = new System.Drawing.Size(295, 215);
 			this.listPats.TabIndex = 2;
 			this.listPats.DoubleClick += new System.EventHandler(this.listPats_DoubleClick);
 			// 

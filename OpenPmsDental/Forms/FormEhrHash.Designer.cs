@@ -37,7 +37,7 @@
 			this.textHash.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.textHash.Location = new System.Drawing.Point(192, 219);
 			this.textHash.Name = "textHash";
-			this.textHash.Size = new System.Drawing.Size(357, 20);
+			this.textHash.Size = new System.Drawing.Size(361, 23);
 			this.textHash.TabIndex = 1;
 			// 
 			// butGererate
@@ -63,19 +63,19 @@
 			// label2
 			// 
 			this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label2.Location = new System.Drawing.Point(23, 243);
+			this.label2.Location = new System.Drawing.Point(118, 250);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(133, 17);
+			this.label2.Size = new System.Drawing.Size(88, 23);
 			this.label2.TabIndex = 4;
 			this.label2.Text = "( uses SHA-1 )";
-			this.label2.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// label3
 			// 
 			this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.label3.Location = new System.Drawing.Point(131, 220);
+			this.label3.Location = new System.Drawing.Point(129, 219);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(57, 17);
+			this.label3.Size = new System.Drawing.Size(57, 23);
 			this.label3.TabIndex = 5;
 			this.label3.Text = "Hash";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -88,13 +88,13 @@
 			this.textMessage.Location = new System.Drawing.Point(8, 27);
 			this.textMessage.Multiline = true;
 			this.textMessage.Name = "textMessage";
-			this.textMessage.Size = new System.Drawing.Size(537, 178);
+			this.textMessage.Size = new System.Drawing.Size(545, 184);
 			this.textMessage.TabIndex = 0;
 			// 
 			// butTransmit
 			// 
 			this.butTransmit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butTransmit.Location = new System.Drawing.Point(474, 250);
+			this.butTransmit.Location = new System.Drawing.Point(478, 250);
 			this.butTransmit.Name = "butTransmit";
 			this.butTransmit.Size = new System.Drawing.Size(75, 23);
 			this.butTransmit.TabIndex = 6;

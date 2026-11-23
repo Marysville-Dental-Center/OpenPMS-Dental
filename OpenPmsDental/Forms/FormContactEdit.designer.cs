@@ -63,7 +63,7 @@ namespace OpenPmsDental {
 			// butDelete
 			// 
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butDelete.Location = new System.Drawing.Point(42, 399);
+			this.butDelete.Location = new System.Drawing.Point(8, 399);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(75,25);
 			this.butDelete.TabIndex = 2;
@@ -150,7 +150,7 @@ namespace OpenPmsDental {
 			this.textNotes.Location = new System.Drawing.Point(215,215);
 			this.textNotes.Multiline = true;
 			this.textNotes.Name = "textNotes";
-			this.textNotes.Size = new System.Drawing.Size(449,120);
+			this.textNotes.Size = new System.Drawing.Size(494,176);
 			this.textNotes.TabIndex = 11;
 			// 
 			// listCategory

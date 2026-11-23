@@ -48,7 +48,7 @@
 			this.textMoreInfo.Location = new System.Drawing.Point(204, 116);
 			this.textMoreInfo.Multiline = true;
 			this.textMoreInfo.Name = "textMoreInfo";
-			this.textMoreInfo.Size = new System.Drawing.Size(316, 55);
+			this.textMoreInfo.Size = new System.Drawing.Size(316, 51);
 			this.textMoreInfo.TabIndex = 5;
 			// 
 			// labelDateTime
@@ -123,7 +123,7 @@
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(464, 238);
+			this.butSave.Location = new System.Drawing.Point(464, 229);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(76, 24);
 			this.butSave.TabIndex = 8;
@@ -133,7 +133,7 @@
 			// butDelete
 			// 
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butDelete.Location = new System.Drawing.Point(8, 238);
+			this.butDelete.Location = new System.Drawing.Point(8, 229);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(76, 24);
 			this.butDelete.TabIndex = 10;
@@ -149,7 +149,7 @@
 			// 
 			// labelTobaccoStartDate
 			// 
-			this.labelTobaccoStartDate.Location = new System.Drawing.Point(66, 175);
+			this.labelTobaccoStartDate.Location = new System.Drawing.Point(66, 171);
 			this.labelTobaccoStartDate.Name = "labelTobaccoStartDate";
 			this.labelTobaccoStartDate.Size = new System.Drawing.Size(132, 23);
 			this.labelTobaccoStartDate.TabIndex = 9;
@@ -159,7 +159,7 @@
 			// 
 			// textTobaccoDuration
 			// 
-			this.textTobaccoDuration.Location = new System.Drawing.Point(306, 175);
+			this.textTobaccoDuration.Location = new System.Drawing.Point(306, 171);
 			this.textTobaccoDuration.Name = "textTobaccoDuration";
 			this.textTobaccoDuration.ReadOnly = true;
 			this.textTobaccoDuration.Size = new System.Drawing.Size(56, 23);
@@ -169,7 +169,7 @@
 			// 
 			// textTobaccoDesireToQuit
 			// 
-			this.textTobaccoDesireToQuit.Location = new System.Drawing.Point(204, 202);
+			this.textTobaccoDesireToQuit.Location = new System.Drawing.Point(204, 198);
 			this.textTobaccoDesireToQuit.MaxVal = 10;
 			this.textTobaccoDesireToQuit.MinVal = 0;
 			this.textTobaccoDesireToQuit.Name = "textTobaccoDesireToQuit";
@@ -179,7 +179,7 @@
 			// 
 			// labelTobaccoDesireToQuit
 			// 
-			this.labelTobaccoDesireToQuit.Location = new System.Drawing.Point(42, 202);
+			this.labelTobaccoDesireToQuit.Location = new System.Drawing.Point(42, 198);
 			this.labelTobaccoDesireToQuit.Name = "labelTobaccoDesireToQuit";
 			this.labelTobaccoDesireToQuit.Size = new System.Drawing.Size(156, 23);
 			this.labelTobaccoDesireToQuit.TabIndex = 14;
@@ -189,7 +189,7 @@
 			// 
 			// labelTobaccoDesireScale
 			// 
-			this.labelTobaccoDesireScale.Location = new System.Drawing.Point(246, 205);
+			this.labelTobaccoDesireScale.Location = new System.Drawing.Point(246, 201);
 			this.labelTobaccoDesireScale.Name = "labelTobaccoDesireScale";
 			this.labelTobaccoDesireScale.Size = new System.Drawing.Size(107, 17);
 			this.labelTobaccoDesireScale.TabIndex = 15;
@@ -199,7 +199,7 @@
 			// 
 			// textTobaccoStartDate
 			// 
-			this.textTobaccoStartDate.Location = new System.Drawing.Point(204, 175);
+			this.textTobaccoStartDate.Location = new System.Drawing.Point(204, 171);
 			this.textTobaccoStartDate.Name = "textTobaccoStartDate";
 			this.textTobaccoStartDate.Size = new System.Drawing.Size(96, 23);
 			this.textTobaccoStartDate.TabIndex = 6;
@@ -208,7 +208,7 @@
 			// 
 			// FormEhrMeasureEventEdit
 			// 
-			this.ClientSize = new System.Drawing.Size(548, 270);
+			this.ClientSize = new System.Drawing.Size(548, 261);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.Controls.Add(this.textTobaccoStartDate);
 			this.Controls.Add(this.labelTobaccoDesireScale);
