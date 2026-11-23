@@ -40,13 +40,13 @@
 			this.webViewMain.AreBrowserKeysEnabled = true;
 			this.webViewMain.Location = new System.Drawing.Point(8, 8);
 			this.webViewMain.Name = "webViewMain";
-			this.webViewMain.Size = new System.Drawing.Size(882, 603);
+			this.webViewMain.Size = new System.Drawing.Size(868, 592);
 			this.webViewMain.TabIndex = 1;
 			// 
 			// butPrint
 			// 
 			this.butPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butPrint.Location = new System.Drawing.Point(628, 623);
+			this.butPrint.Location = new System.Drawing.Point(801, 608);
 			this.butPrint.Name = "butPrint";
 			this.butPrint.Size = new System.Drawing.Size(75, 23);
 			this.butPrint.TabIndex = 2;
@@ -57,7 +57,7 @@
 			// butReconcileMedications
 			// 
 			this.butReconcileMedications.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butReconcileMedications.Location = new System.Drawing.Point(104, 623);
+			this.butReconcileMedications.Location = new System.Drawing.Point(82, 608);
 			this.butReconcileMedications.Name = "butReconcileMedications";
 			this.butReconcileMedications.Size = new System.Drawing.Size(75, 23);
 			this.butReconcileMedications.TabIndex = 3;
@@ -68,9 +68,9 @@
 			// labelReconcile
 			// 
 			this.labelReconcile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.labelReconcile.Location = new System.Drawing.Point(1, 626);
+			this.labelReconcile.Location = new System.Drawing.Point(8, 608);
 			this.labelReconcile.Name = "labelReconcile";
-			this.labelReconcile.Size = new System.Drawing.Size(97, 16);
+			this.labelReconcile.Size = new System.Drawing.Size(68, 23);
 			this.labelReconcile.TabIndex = 4;
 			this.labelReconcile.Text = "Reconcile:";
 			this.labelReconcile.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -79,7 +79,7 @@
 			// butReconcileProblems
 			// 
 			this.butReconcileProblems.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butReconcileProblems.Location = new System.Drawing.Point(185, 623);
+			this.butReconcileProblems.Location = new System.Drawing.Point(165, 608);
 			this.butReconcileProblems.Name = "butReconcileProblems";
 			this.butReconcileProblems.Size = new System.Drawing.Size(75, 23);
 			this.butReconcileProblems.TabIndex = 5;
@@ -90,7 +90,7 @@
 			// butReconcileAllergies
 			// 
 			this.butReconcileAllergies.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butReconcileAllergies.Location = new System.Drawing.Point(266, 623);
+			this.butReconcileAllergies.Location = new System.Drawing.Point(248, 608);
 			this.butReconcileAllergies.Name = "butReconcileAllergies";
 			this.butReconcileAllergies.Size = new System.Drawing.Size(75, 23);
 			this.butReconcileAllergies.TabIndex = 6;
@@ -101,7 +101,7 @@
 			// butShowXml
 			// 
 			this.butShowXml.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butShowXml.Location = new System.Drawing.Point(453, 623);
+			this.butShowXml.Location = new System.Drawing.Point(718, 608);
 			this.butShowXml.Name = "butShowXml";
 			this.butShowXml.Size = new System.Drawing.Size(75, 23);
 			this.butShowXml.TabIndex = 7;
@@ -112,7 +112,7 @@
 			// FormEhrSummaryCcdEdit
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(898, 654);
+			this.ClientSize = new System.Drawing.Size(884, 639);
 			this.Controls.Add(this.butShowXml);
 			this.Controls.Add(this.butReconcileAllergies);
 			this.Controls.Add(this.butReconcileProblems);

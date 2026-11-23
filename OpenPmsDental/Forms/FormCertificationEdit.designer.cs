@@ -39,7 +39,7 @@ namespace OpenPmsDental{
 			this.listBoxCategories.IntegralHeight = false;
 			this.listBoxCategories.Location = new System.Drawing.Point(115, 62);
 			this.listBoxCategories.Name = "listBoxCategories";
-			this.listBoxCategories.Size = new System.Drawing.Size(180, 200);
+			this.listBoxCategories.Size = new System.Drawing.Size(180, 222);
 			this.listBoxCategories.TabIndex = 3;
 			this.listBoxCategories.Text = "listBoxOD1";
 			// 
@@ -109,7 +109,7 @@ namespace OpenPmsDental{
 			// checkIsHidden
 			// 
 			this.checkIsHidden.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkIsHidden.Location = new System.Drawing.Point(115, 266);
+			this.checkIsHidden.Location = new System.Drawing.Point(115, 288);
 			this.checkIsHidden.Name = "checkIsHidden";
 			this.checkIsHidden.Size = new System.Drawing.Size(62, 20);
 			this.checkIsHidden.TabIndex = 4;

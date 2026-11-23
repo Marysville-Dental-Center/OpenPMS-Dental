@@ -69,9 +69,9 @@ namespace OpenPmsDental{
 			// 
 			// butUnsched
 			// 
-			this.butUnsched.Location = new System.Drawing.Point(29, 67);
+			this.butUnsched.Location = new System.Drawing.Point(8, 67);
 			this.butUnsched.Name = "butUnsched";
-			this.butUnsched.Size = new System.Drawing.Size(143, 23);
+			this.butUnsched.Size = new System.Drawing.Size(190, 24);
 			this.butUnsched.TabIndex = 4;
 			this.butUnsched.Text = "Send to Unscheduled List";
 			this.butUnsched.UseVisualStyleBackColor = true;
@@ -79,9 +79,9 @@ namespace OpenPmsDental{
 			// 
 			// butPinboard
 			// 
-			this.butPinboard.Location = new System.Drawing.Point(29, 94);
+			this.butPinboard.Location = new System.Drawing.Point(8, 95);
 			this.butPinboard.Name = "butPinboard";
-			this.butPinboard.Size = new System.Drawing.Size(143, 23);
+			this.butPinboard.Size = new System.Drawing.Size(190, 24);
 			this.butPinboard.TabIndex = 5;
 			this.butPinboard.Text = "Copy to Pinboard";
 			this.butPinboard.UseVisualStyleBackColor = true;
@@ -89,9 +89,9 @@ namespace OpenPmsDental{
 			// 
 			// butApptBook
 			// 
-			this.butApptBook.Location = new System.Drawing.Point(29, 121);
+			this.butApptBook.Location = new System.Drawing.Point(8, 123);
 			this.butApptBook.Name = "butApptBook";
-			this.butApptBook.Size = new System.Drawing.Size(143, 23);
+			this.butApptBook.Size = new System.Drawing.Size(190, 24);
 			this.butApptBook.TabIndex = 6;
 			this.butApptBook.Text = "Leave in Appt Module";
 			this.butApptBook.UseVisualStyleBackColor = true;

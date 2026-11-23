@@ -91,7 +91,7 @@ namespace OpenPmsDental{
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(12, 8);
+			this.label2.Location = new System.Drawing.Point(8, 8);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(425, 47);
 			this.label2.TabIndex = 200;
@@ -110,7 +110,7 @@ namespace OpenPmsDental{
 			// 
 			this.listBoxTreatArea.Location = new System.Drawing.Point(420, 149);
 			this.listBoxTreatArea.Name = "listBoxTreatArea";
-			this.listBoxTreatArea.Size = new System.Drawing.Size(173, 173);
+			this.listBoxTreatArea.Size = new System.Drawing.Size(173, 185);
 			this.listBoxTreatArea.TabIndex = 202;
 			this.listBoxTreatArea.TabStop = false;
 			// 
@@ -125,7 +125,7 @@ namespace OpenPmsDental{
 			// 
 			// checkPat
 			// 
-			this.checkPat.Location = new System.Drawing.Point(76, 338);
+			this.checkPat.Location = new System.Drawing.Point(113, 342);
 			this.checkPat.Name = "checkPat";
 			this.checkPat.Size = new System.Drawing.Size(455, 20);
 			this.checkPat.TabIndex = 204;

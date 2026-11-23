@@ -35,9 +35,9 @@ namespace OpenPmsDental{
 			// 
 			// labelErrMsg
 			// 
-			this.labelErrMsg.Location = new System.Drawing.Point(20, 20);
+			this.labelErrMsg.Location = new System.Drawing.Point(8, 8);
 			this.labelErrMsg.Name = "labelErrMsg";
-			this.labelErrMsg.Size = new System.Drawing.Size(376, 39);
+			this.labelErrMsg.Size = new System.Drawing.Size(384, 39);
 			this.labelErrMsg.TabIndex = 0;
 			this.labelErrMsg.Text = "Error Message";
 			this.labelErrMsg.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -53,14 +53,14 @@ namespace OpenPmsDental{
 			this.panel1.Controls.Add(this.textPassword);
 			this.panel1.Controls.Add(this.labelPassword);
 			this.panel1.Controls.Add(this.labelUser);
-			this.panel1.Location = new System.Drawing.Point(8, 8);
+			this.panel1.Location = new System.Drawing.Point(0, 0);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(404, 150);
+			this.panel1.Size = new System.Drawing.Size(400, 150);
 			this.panel1.TabIndex = 0;
 			// 
 			// textUser
 			// 
-			this.textUser.Location = new System.Drawing.Point(12, 30);
+			this.textUser.Location = new System.Drawing.Point(8, 81);
 			this.textUser.Name = "textUser";
 			this.textUser.ReadOnly = true;
 			this.textUser.Size = new System.Drawing.Size(156, 23);
@@ -69,7 +69,7 @@ namespace OpenPmsDental{
 			// butLogin
 			// 
 			this.butLogin.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butLogin.Location = new System.Drawing.Point(312, 57);
+			this.butLogin.Location = new System.Drawing.Point(317, 118);
 			this.butLogin.Name = "butLogin";
 			this.butLogin.Size = new System.Drawing.Size(75, 24);
 			this.butLogin.TabIndex = 3;
@@ -78,26 +78,26 @@ namespace OpenPmsDental{
 			// 
 			// textPassword
 			// 
-			this.textPassword.Location = new System.Drawing.Point(174, 30);
+			this.textPassword.Location = new System.Drawing.Point(172, 81);
 			this.textPassword.Name = "textPassword";
 			this.textPassword.PasswordChar = '*';
-			this.textPassword.Size = new System.Drawing.Size(216, 23);
+			this.textPassword.Size = new System.Drawing.Size(220, 23);
 			this.textPassword.TabIndex = 2;
 			// 
 			// labelPassword
 			// 
-			this.labelPassword.Location = new System.Drawing.Point(173, 8);
+			this.labelPassword.Location = new System.Drawing.Point(172, 61);
 			this.labelPassword.Name = "labelPassword";
-			this.labelPassword.Size = new System.Drawing.Size(215, 18);
+			this.labelPassword.Size = new System.Drawing.Size(220, 18);
 			this.labelPassword.TabIndex = 0;
 			this.labelPassword.Text = "Password";
 			this.labelPassword.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// labelUser
 			// 
-			this.labelUser.Location = new System.Drawing.Point(12, 8);
+			this.labelUser.Location = new System.Drawing.Point(8, 61);
 			this.labelUser.Name = "labelUser";
-			this.labelUser.Size = new System.Drawing.Size(155, 18);
+			this.labelUser.Size = new System.Drawing.Size(156, 18);
 			this.labelUser.TabIndex = 0;
 			this.labelUser.Text = "User";
 			this.labelUser.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -105,7 +105,7 @@ namespace OpenPmsDental{
 			// FormLoginFailed
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(420, 166);
+			this.ClientSize = new System.Drawing.Size(400, 150);
 			this.Controls.Add(this.labelErrMsg);
 			this.Controls.Add(this.panel1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;

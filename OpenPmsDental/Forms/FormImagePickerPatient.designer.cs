@@ -32,7 +32,7 @@ namespace OpenPmsDental{
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(1147, 692);
+			this.butOK.Location = new System.Drawing.Point(1143, 660);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 24);
 			this.butOK.TabIndex = 19;
@@ -41,7 +41,7 @@ namespace OpenPmsDental{
 			// 
 			// pictureBox
 			// 
-			this.pictureBox.Location = new System.Drawing.Point(251, 8);
+			this.pictureBox.Location = new System.Drawing.Point(254, 12);
 			this.pictureBox.Name = "pictureBox";
 			this.pictureBox.Size = new System.Drawing.Size(883, 672);
 			this.pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -50,7 +50,7 @@ namespace OpenPmsDental{
 			// 
 			// elementHostImageSelector
 			// 
-			this.elementHostImageSelector.Location = new System.Drawing.Point(8, 8);
+			this.elementHostImageSelector.Location = new System.Drawing.Point(11, 12);
 			this.elementHostImageSelector.Name = "elementHostImageSelector";
 			this.elementHostImageSelector.Size = new System.Drawing.Size(237, 672);
 			this.elementHostImageSelector.TabIndex = 39;
@@ -59,7 +59,7 @@ namespace OpenPmsDental{
 			// 
 			// FormImagePickerPatient
 			// 
-			this.ClientSize = new System.Drawing.Size(1230, 724);
+			this.ClientSize = new System.Drawing.Size(1230, 696);
 			this.Controls.Add(this.elementHostImageSelector);
 			this.Controls.Add(this.pictureBox);
 			this.Controls.Add(this.butOK);

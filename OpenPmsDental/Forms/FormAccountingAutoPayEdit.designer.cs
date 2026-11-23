@@ -72,7 +72,7 @@ namespace OpenPmsDental {
 			// 
 			this.listAccounts.Location = new System.Drawing.Point(252, 35);
 			this.listAccounts.Name = "listAccounts";
-			this.listAccounts.Size = new System.Drawing.Size(230, 95);
+			this.listAccounts.Size = new System.Drawing.Size(232, 162);
 			this.listAccounts.TabIndex = 41;
 			// 
 			// label6
@@ -86,7 +86,7 @@ namespace OpenPmsDental {
 			// 
 			// butRemove
 			// 
-			this.butRemove.Location = new System.Drawing.Point(405, 134);
+			this.butRemove.Location = new System.Drawing.Point(409, 201);
 			this.butRemove.Name = "butRemove";
 			this.butRemove.Size = new System.Drawing.Size(75, 26);
 			this.butRemove.TabIndex = 45;
@@ -95,7 +95,7 @@ namespace OpenPmsDental {
 			// 
 			// butAdd
 			// 
-			this.butAdd.Location = new System.Drawing.Point(324, 134);
+			this.butAdd.Location = new System.Drawing.Point(326, 201);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(75, 26);
 			this.butAdd.TabIndex = 44;
@@ -107,7 +107,7 @@ namespace OpenPmsDental {
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(28, 235);
+			this.butDelete.Location = new System.Drawing.Point(8, 235);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(75, 26);
 			this.butDelete.TabIndex = 46;

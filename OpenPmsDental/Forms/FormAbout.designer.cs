@@ -51,7 +51,7 @@ namespace OpenPmsDental{
 			// 
 			// labelVersion
 			// 
-			this.labelVersion.Location = new System.Drawing.Point(257, 8);
+			this.labelVersion.Location = new System.Drawing.Point(257, 18);
 			this.labelVersion.Name = "labelVersion";
 			this.labelVersion.Size = new System.Drawing.Size(229, 20);
 			this.labelVersion.TabIndex = 1;
@@ -61,7 +61,7 @@ namespace OpenPmsDental{
 			// labelCopyright
 			// 
 			this.labelCopyright.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.labelCopyright.Location = new System.Drawing.Point(8, 302);
+			this.labelCopyright.Location = new System.Drawing.Point(8, 319);
 			this.labelCopyright.Name = "labelCopyright";
 			this.labelCopyright.Size = new System.Drawing.Size(550, 20);
 			this.labelCopyright.TabIndex = 3;
@@ -71,7 +71,7 @@ namespace OpenPmsDental{
 			// labelMySQLCopyright
 			// 
 			this.labelMySQLCopyright.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.labelMySQLCopyright.Location = new System.Drawing.Point(8, 362);
+			this.labelMySQLCopyright.Location = new System.Drawing.Point(8, 359);
 			this.labelMySQLCopyright.Name = "labelMySQLCopyright";
 			this.labelMySQLCopyright.Size = new System.Drawing.Size(433, 20);
 			this.labelMySQLCopyright.TabIndex = 6;
@@ -81,7 +81,7 @@ namespace OpenPmsDental{
 			// butLicense
 			// 
 			this.butLicense.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butLicense.Location = new System.Drawing.Point(521, 377);
+			this.butLicense.Location = new System.Drawing.Point(532, 377);
 			this.butLicense.Name = "butLicense";
 			this.butLicense.Size = new System.Drawing.Size(88, 25);
 			this.butLicense.TabIndex = 50;
@@ -91,7 +91,7 @@ namespace OpenPmsDental{
 			// label9
 			// 
 			this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label9.Location = new System.Drawing.Point(8, 324);
+			this.label9.Location = new System.Drawing.Point(8, 339);
 			this.label9.Name = "label9";
 			this.label9.Size = new System.Drawing.Size(433, 20);
 			this.label9.TabIndex = 51;
@@ -151,9 +151,9 @@ namespace OpenPmsDental{
 			this.groupBox3.Controls.Add(this.labelName);
 			this.groupBox3.Controls.Add(this.labelServComment);
 			this.groupBox3.Controls.Add(this.labelMySqlVersion);
-			this.groupBox3.Location = new System.Drawing.Point(60, 64);
+			this.groupBox3.Location = new System.Drawing.Point(8, 64);
 			this.groupBox3.Name = "groupBox3";
-			this.groupBox3.Size = new System.Drawing.Size(501, 161);
+			this.groupBox3.Size = new System.Drawing.Size(612, 161);
 			this.groupBox3.TabIndex = 57;
 			this.groupBox3.Text = "Current Connection";
 			// 
@@ -190,7 +190,7 @@ namespace OpenPmsDental{
 			this.labelAttribution.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.labelAttribution.Location = new System.Drawing.Point(8, 242);
 			this.labelAttribution.Name = "labelAttribution";
-			this.labelAttribution.Size = new System.Drawing.Size(597, 58);
+			this.labelAttribution.Size = new System.Drawing.Size(612, 58);
 			this.labelAttribution.TabIndex = 61;
 			this.labelAttribution.Text = "Open PMS - Dental is a fork of Open Dental.";
 			this.labelAttribution.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -198,7 +198,7 @@ namespace OpenPmsDental{
 			// butDiagnostics
 			// 
 			this.butDiagnostics.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butDiagnostics.Location = new System.Drawing.Point(429, 377);
+			this.butDiagnostics.Location = new System.Drawing.Point(436, 377);
 			this.butDiagnostics.Name = "butDiagnostics";
 			this.butDiagnostics.Size = new System.Drawing.Size(88, 25);
 			this.butDiagnostics.TabIndex = 59;
@@ -208,7 +208,7 @@ namespace OpenPmsDental{
 			// labelMariaDBCopyright
 			// 
 			this.labelMariaDBCopyright.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.labelMariaDBCopyright.Location = new System.Drawing.Point(8, 382);
+			this.labelMariaDBCopyright.Location = new System.Drawing.Point(8, 379);
 			this.labelMariaDBCopyright.Name = "labelMariaDBCopyright";
 			this.labelMariaDBCopyright.Size = new System.Drawing.Size(433, 20);
 			this.labelMariaDBCopyright.TabIndex = 60;
@@ -218,7 +218,7 @@ namespace OpenPmsDental{
 			// pictureLogo
 			//
 			this.pictureLogo.HasBorder = false;
-			this.pictureLogo.Location = new System.Drawing.Point(561, 8);
+			this.pictureLogo.Location = new System.Drawing.Point(572, 8);
 			this.pictureLogo.Name = "pictureLogo";
 			this.pictureLogo.Size = new System.Drawing.Size(48, 48);
 			this.pictureLogo.TabIndex = 62;

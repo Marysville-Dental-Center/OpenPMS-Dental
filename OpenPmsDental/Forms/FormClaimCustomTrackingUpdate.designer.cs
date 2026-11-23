@@ -36,7 +36,7 @@ namespace OpenPmsDental {
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(278, 357);
+			this.butSave.Location = new System.Drawing.Point(278, 347);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 3;
@@ -72,7 +72,7 @@ namespace OpenPmsDental {
 			this.textNotes.Name = "textNotes";
 			this.textNotes.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.ClaimCustomTrack;
 			this.textNotes.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textNotes.Size = new System.Drawing.Size(336, 189);
+			this.textNotes.Size = new System.Drawing.Size(345, 183);
 			this.textNotes.TabIndex = 56;
 			this.textNotes.Text = "";
 			// 
@@ -110,14 +110,14 @@ namespace OpenPmsDental {
 			this.textErrorDesc.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Claim;
 			this.textErrorDesc.ReadOnly = true;
 			this.textErrorDesc.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textErrorDesc.Size = new System.Drawing.Size(237, 36);
+			this.textErrorDesc.Size = new System.Drawing.Size(236, 36);
 			this.textErrorDesc.TabIndex = 161;
 			this.textErrorDesc.Text = "";
 			// 
 			// FormClaimCustomTrackingUpdate
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(361, 389);
+			this.ClientSize = new System.Drawing.Size(361, 379);
 			this.Controls.Add(this.textErrorDesc);
 			this.Controls.Add(this.comboErrorCode);
 			this.Controls.Add(this.label);

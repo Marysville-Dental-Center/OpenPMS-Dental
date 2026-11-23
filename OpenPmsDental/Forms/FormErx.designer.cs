@@ -57,7 +57,7 @@ namespace OpenPmsDental {
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.webViewMain.CreationProperties = null;
 			this.webViewMain.DefaultBackgroundColor = System.Drawing.Color.White;
-			this.webViewMain.Location = new System.Drawing.Point(8, 33);
+			this.webViewMain.Location = new System.Drawing.Point(0, 26);
 			this.webViewMain.Name = "webViewMain";
 			this.webViewMain.Size = new System.Drawing.Size(974, 669);
 			this.webViewMain.TabIndex = 33;
@@ -66,7 +66,7 @@ namespace OpenPmsDental {
 			// 
 			// FormErx
 			// 
-			this.ClientSize = new System.Drawing.Size(990, 710);
+			this.ClientSize = new System.Drawing.Size(974, 696);
 			this.Controls.Add(this.webViewMain);
 			this.Controls.Add(this.ToolBarMain);
 			this.Cursor = System.Windows.Forms.Cursors.Default;

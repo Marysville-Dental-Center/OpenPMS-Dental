@@ -12,11 +12,9 @@ OpenPmsDental.FormRpInsCo	8	tool	UI-12-8 batch 4
 OpenPmsDental.FormRpNewPatients	8	tool	UI-12-8 batch 4
 OpenPmsDental.FormRpPHRawScreen	8	tool	UI-12-8 batch 4
 OpenPmsDental.FormRpPrescriptions	8	tool	UI-12-8 batch 4
-OpenPmsDental.FormRpPrintPreview	8	tool	UI-12-8 batch 4
 OpenPmsDental.FormRpProcCodes	8	tool	UI-12-8 batch 4
 OpenPmsDental.FormRpReferralAnalysis	8	tool	UI-12-8 batch 4
 OpenPmsDental.FormRpReferrals	8	tool	UI-12-8 batch 4
-OpenPmsDental.FormRpStatement	8	tool	UI-12-8 batch 4
 OpenPmsDental.FormAbout	8	tool	UI-12-8 batch 4
 OpenPmsDental.FormAccountingAutoPayEdit	8	tool	UI-12-8 batch 4
 OpenPmsDental.FormAllergyDefEdit	8	tool	UI-12-8 batch 4
@@ -28,12 +26,10 @@ OpenPmsDental.FormAutomationConditionEdit	8	tool	UI-12-8 batch 4
 OpenPmsDental.FormBenefitFrequencyEdit	8	tool	UI-12-8 batch 4
 OpenPmsDental.FormBillingTypeMerge	8	tool	UI-12-8 batch 4
 OpenPmsDental.FormCalendar	8	tool	UI-12-8 batch 4
-OpenPmsDental.FormCareCreditWeb	8	tool	UI-12-8 batch 4
 OpenPmsDental.FormCertificationEdit	8	tool	UI-12-8 batch 4
 OpenPmsDental.FormChartViewDateFilter	8	tool	UI-12-8 batch 4
 OpenPmsDental.FormClaimAttachPasteDXCItem	8	tool	UI-12-8 batch 4
 OpenPmsDental.FormClaimCustomTrackingUpdate	8	tool	UI-12-8 batch 4
-OpenPmsDental.FormClaimPrint	8	tool	UI-12-8 batch 4
 OpenPmsDental.FormClaimReports	8	tool	UI-12-8 batch 4
 OpenPmsDental.FormConnectionLost	8	tool	UI-12-8 batch 4
 OpenPmsDental.FormContactEdit	8	tool	UI-12-8 batch 4
@@ -64,7 +60,6 @@ OpenPmsDental.FormEmailDigitalSignature	8	tool	UI-12-8 batch 4
 OpenPmsDental.FormEmailEdit	8	tool	UI-12-8 batch 4
 OpenPmsDental.FormEmployers	8	tool	UI-12-8 batch 4
 OpenPmsDental.FormEncounterEdit	8	tool	UI-12-8 batch 4
-OpenPmsDental.FormErx	8	tool	UI-12-8 batch 4
 OpenPmsDental.FormFamilyHealthEdit	8	tool	UI-12-8 batch 4
 OpenPmsDental.FormFamilyMemberSelect	8	tool	UI-12-8 batch 4
 OpenPmsDental.FormFeeEdit	8	tool	UI-12-8 batch 4
@@ -75,8 +70,6 @@ OpenPmsDental.FormHL7DefFieldEdit	8	tool	UI-12-8 batch 4
 OpenPmsDental.FormIcd9s	8	tool	UI-12-8 batch 4
 OpenPmsDental.FormImageDrawColor	8	tool	UI-12-8 batch 4
 OpenPmsDental.FormImageFloat	8	tool	UI-12-8 batch 4
-OpenPmsDental.FormImagePickerPatient	8	tool	UI-12-8 batch 4
-OpenPmsDental.FormImages	8	tool	UI-12-8 batch 4
 OpenPmsDental.FormInsBenefitNotes	8	tool	UI-12-8 batch 4
 OpenPmsDental.FormInsBlueBookRuleEdit	8	tool	UI-12-8 batch 4
 OpenPmsDental.FormInsHistSetup	8	tool	UI-12-8 batch 4

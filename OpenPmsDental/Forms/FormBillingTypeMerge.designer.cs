@@ -48,7 +48,7 @@ namespace OpenPmsDental{
 			// 
 			this.butMerge.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butMerge.Enabled = false;
-			this.butMerge.Location = new System.Drawing.Point(510, 206);
+			this.butMerge.Location = new System.Drawing.Point(524, 206);
 			this.butMerge.Name = "butMerge";
 			this.butMerge.Size = new System.Drawing.Size(75, 24);
 			this.butMerge.TabIndex = 2;
@@ -77,7 +77,7 @@ namespace OpenPmsDental{
 			this.textItemValueInto.Location = new System.Drawing.Point(368, 45);
 			this.textItemValueInto.Name = "textItemValueInto";
 			this.textItemValueInto.ReadOnly = true;
-			this.textItemValueInto.Size = new System.Drawing.Size(112, 20);
+			this.textItemValueInto.Size = new System.Drawing.Size(132, 23);
 			this.textItemValueInto.TabIndex = 2;
 			// 
 			// labelItemValueInto
@@ -108,9 +108,9 @@ namespace OpenPmsDental{
 			// 
 			// butChangeInto
 			// 
-			this.butChangeInto.Location = new System.Drawing.Point(486, 35);
+			this.butChangeInto.Location = new System.Drawing.Point(508, 45);
 			this.butChangeInto.Name = "butChangeInto";
-			this.butChangeInto.Size = new System.Drawing.Size(75, 24);
+			this.butChangeInto.Size = new System.Drawing.Size(75, 23);
 			this.butChangeInto.TabIndex = 3;
 			this.butChangeInto.Text = "Change";
 			this.butChangeInto.UseVisualStyleBackColor = true;
@@ -155,7 +155,7 @@ namespace OpenPmsDental{
 			this.textItemValueFrom.Location = new System.Drawing.Point(368, 45);
 			this.textItemValueFrom.Name = "textItemValueFrom";
 			this.textItemValueFrom.ReadOnly = true;
-			this.textItemValueFrom.Size = new System.Drawing.Size(112, 20);
+			this.textItemValueFrom.Size = new System.Drawing.Size(132, 23);
 			this.textItemValueFrom.TabIndex = 2;
 			// 
 			// labelItemValueFrom
@@ -186,9 +186,9 @@ namespace OpenPmsDental{
 			// 
 			// butChangeFrom
 			// 
-			this.butChangeFrom.Location = new System.Drawing.Point(486, 35);
+			this.butChangeFrom.Location = new System.Drawing.Point(508, 45);
 			this.butChangeFrom.Name = "butChangeFrom";
-			this.butChangeFrom.Size = new System.Drawing.Size(75, 24);
+			this.butChangeFrom.Size = new System.Drawing.Size(75, 23);
 			this.butChangeFrom.TabIndex = 3;
 			this.butChangeFrom.Text = "Change";
 			this.butChangeFrom.UseVisualStyleBackColor = true;
