@@ -33,7 +33,7 @@ OpenPmsDental.UI.ControlApptProvSlider	own control	1	0	yes	ControlApptProvSlider
 OpenPmsDental.UI.ControlDoubleBuffered	own control	4	0	n/a		OpenPmsDental/UI/ControlDoubleBuffered	a double-buffered base control: its owner draws on it
 OpenPmsDental.UI.GridOD	own control	546	1	yes	GridOD and GridScreenLook (UI-5); its scroll bars UiScrollLook (UI-13)	(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	the grid's parts are the owner-drawn rows below
 OpenPmsDental.UI.GridOld	own control	1	0	yes	GridOld's scroll bars UiScrollLook (UI-13)	(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	the old grid (one use) keeps its cell drawing; its scroll bars in the Fluent look
-OpenPmsDental.UI.GroupBox	own control	737	0	yes	UI.GroupBox (UI-4a)	OpenPmsDental/UI/GroupBox	
+OpenPmsDental.UI.GroupBox	own control	738	0	yes	UI.GroupBox (UI-4a)	OpenPmsDental/UI/GroupBox	
 OpenPmsDental.UI.LightSignalGrid	own control	1	0	yes	LightSignalGrid (UI-6)	OpenPmsDental/UI/LightSignalGrid	
 OpenPmsDental.UI.ListBox	own control	358	8	yes	UI.ListBox (UI-4b); its scroll bar UiScrollLook (UI-13)	OpenPmsDental/UI/ListBox	the list's own VScrollBar in the Fluent look (owner row 'Scrolling still using old style')
 OpenPmsDental.UI.MenuOD	own control	24	0	yes	MenuOD (UI-6)	OpenPmsDental/UI/MenuOD	
@@ -85,7 +85,6 @@ System.Windows.Forms.DomainUpDown	stock	8	0	yes	UiInputFrame and UiUpDownLook (U
 System.Windows.Forms.FlowLayoutPanel	stock	1	0	n/a		(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	draws nothing: a layout container
 System.Windows.Forms.FolderBrowserDialog	stock	1	20	keeps		(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	keeps Windows' own look (docs/specs/ui-refresh-plan.md section 1: the Windows dialogs and message boxes)
 System.Windows.Forms.FontDialog	stock	1	0	keeps		(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	keeps Windows' own look (docs/specs/ui-refresh-plan.md section 1: the Windows dialogs and message boxes)
-System.Windows.Forms.GroupBox	stock	1	0	keeps		(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	one use (a hidden legacy group); Windows' themed group frame. Its windows use UI.GroupBox (UI-4a)
 System.Windows.Forms.HScrollBar	stock	1	2	yes	UiScrollLook (UI-13)	OpenPmsDental/UI/UiScrollLook	flat Surface track, StrokeStrong pill thumb, Fluent chevrons
 System.Windows.Forms.Integration.ElementHost	stock	10	0	n/a		(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	hosts a WPF control: the WPF rows below
 System.Windows.Forms.Label	stock	4673	18	yes	UI-2a fonts; plain text in Text on the container	(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	a label draws its text only: the font tokens (UI-2a/UI-2b) and the grid (UI-12); a LightGray block label gets UiBlockLook, an ActiveCaption grid title UiCaptionLook (Accent, TextOnAccent, the title font) (UI-13)

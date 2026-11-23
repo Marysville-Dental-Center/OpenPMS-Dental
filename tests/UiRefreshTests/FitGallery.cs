@@ -360,7 +360,7 @@ namespace UiRefreshTests {
 			}
 		}
 
-		///<summary>UI-12 slice 8 fix round: synthetic cache content a window's constructor reads before it is drawn, for a state of the window
+		///<summary>UI-12 slice 8 fix round: synthetic cache content and constructor steps a window needs before it is drawn, for a state of the window
 		///list. FormInsHistSetup "rows": AddCategoryRows makes a row per code group marked Show In History (four for a Perio Four Quadrants
 		///group); without code groups it shows only its note. ClearSampleCache empties the cache again after the picture.</summary>
 		public static void FillSampleCache(string window,string state) {
@@ -379,6 +379,12 @@ namespace UiRefreshTests {
 					listCodeGroups.Add(codeGroup);
 				}
 				OpenPmsDentalBusiness.CodeGroups.FillCacheFromTable(OpenPmsDentalBusiness.Crud.CodeGroupCrud.ListToTable(listCodeGroups));
+				//The harness runs InitializeComponent but not the constructor: the rows as the constructor makes them, before the layout manager.
+				WindowBuilder.ActionBeforeLayoutManager=formODBase => {
+					System.Reflection.MethodInfo methodInfo=formODBase.GetType().GetMethod("AddCategoryRows",
+						System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.NonPublic);
+					methodInfo.Invoke(formODBase,null);
+				};
 			}
 		}
 
@@ -386,6 +392,7 @@ namespace UiRefreshTests {
 		public static void ClearSampleCache(string window,string state) {
 			if(window=="OpenPmsDental.FormInsHistSetup" && state=="rows") {
 				OpenPmsDentalBusiness.CodeGroups.ClearCache();
+				WindowBuilder.ActionBeforeLayoutManager=null;
 			}
 		}
 

@@ -110,6 +110,10 @@ namespace UiRefreshTests.Scan {
 	}
 
 	public static class WindowBuilder {
+		///<summary>UI-12 slice 8 fix round: when set, runs on a LayoutManager window after its InitializeComponent and before
+		///InitializeLayoutManager, where a constructor makes controls in code (FormInsHistSetup's AddCategoryRows), for a gallery state
+		///(FitGallery.FillSampleCache sets it, ClearSampleCache clears it). Null for every other build.</summary>
+		public static Action<FormODBase> ActionBeforeLayoutManager;
 		///<summary>The program's libraries whose windows and UserControls the scan builds, loaded by name from this test's folder (the program
 		///references them), else from their own build folder.</summary>
 		public static readonly string[] ArrayProgramAssemblies=new string[] { "OpenPmsDental","OpenPmsDentalBusiness","CodeBase","SparksToothChart",
@@ -289,6 +293,7 @@ namespace UiRefreshTests.Scan {
 						builtWindow.Form=formODBase;
 						builtWindow.Root=formODBase;
 						MarkContentAsTheConstructorDoes(formODBase);
+						ActionBeforeLayoutManager?.Invoke(formODBase);
 						InvokeNonPublic(formODBase,typeof(FormODBase),"InitializeLayoutManager",new object[] { false,false });
 						builtWindow.LayoutManager=GetLayoutManager(formODBase);
 						SetPanelClientAsOnLoad(formODBase,builtWindow.LayoutManager);

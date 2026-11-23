@@ -48,7 +48,9 @@ def layout(h):
     h.set("butAddCustom", cr - ac.nw, y)
     h.set("textCustom", 8, y, cr - ac.nw - 6 - 8, None)
     y += max(ac.nh, h.n("textCustom").nh) + 4
-    nh = h.note_h("label6", cr - 8)
+    # The note's three lines (hard line breaks) take five at this width (GridRulesTests' measure: 75 px), which note_h's one-paragraph
+    # wrap does not see: five lines of 16 px + 2.
+    nh = max(h.note_h("label6", cr - 8), 5 * 16 + 2)
     h.set("label6", 8, y, cr - 8, nh)
     gh = y + nh + 8
     sv = h.n("butSave")
