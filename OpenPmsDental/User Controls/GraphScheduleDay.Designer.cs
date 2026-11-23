@@ -69,15 +69,15 @@
 			this.groupBox3.Controls.Add(this.label3);
 			this.groupBox3.Controls.Add(this.numStartHour);
 			this.groupBox3.Controls.Add(this.label2);
-			this.groupBox3.Location = new System.Drawing.Point(501, 8);
+			this.groupBox3.Location = new System.Drawing.Point(504, 8);
 			this.groupBox3.Name = "groupBox3";
-			this.groupBox3.Size = new System.Drawing.Size(264, 71);
+			this.groupBox3.Size = new System.Drawing.Size(260, 71);
 			this.groupBox3.TabIndex = 3;
 			this.groupBox3.Text = "Scale (0-24)";
 			// 
 			// numEndHour
 			// 
-			this.numEndHour.Location = new System.Drawing.Point(212, 23);
+			this.numEndHour.Location = new System.Drawing.Point(208, 23);
 			this.numEndHour.Margin = new System.Windows.Forms.Padding(2);
 			this.numEndHour.Maximum = new decimal(new int[] {
             24,
@@ -85,13 +85,13 @@
             0,
             0});
 			this.numEndHour.Name = "numEndHour";
-			this.numEndHour.Size = new System.Drawing.Size(44, 20);
+			this.numEndHour.Size = new System.Drawing.Size(44, 23);
 			this.numEndHour.TabIndex = 8;
 			this.numEndHour.ValueChanged += new System.EventHandler(this.numEndHour_ValueChanged);
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(142, 23);
+			this.label3.Location = new System.Drawing.Point(138, 23);
 			this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(64, 23);
@@ -109,7 +109,7 @@
             0,
             0});
 			this.numStartHour.Name = "numStartHour";
-			this.numStartHour.Size = new System.Drawing.Size(44, 20);
+			this.numStartHour.Size = new System.Drawing.Size(44, 23);
 			this.numStartHour.TabIndex = 6;
 			this.numStartHour.ValueChanged += new System.EventHandler(this.numStartHour_ValueChanged);
 			// 
@@ -140,9 +140,9 @@
 			this.groupBox2.Controls.Add(this.checkBoxNotes);
 			this.groupBox2.Controls.Add(this.checkBoxProviders);
 			this.groupBox2.Controls.Add(this.checkBoxEmployees);
-			this.groupBox2.Location = new System.Drawing.Point(261, 8);
+			this.groupBox2.Location = new System.Drawing.Point(259, 8);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(232, 71);
+			this.groupBox2.Size = new System.Drawing.Size(237, 71);
 			this.groupBox2.TabIndex = 2;
 			this.groupBox2.Text = "Filter";
 			// 
@@ -151,7 +151,7 @@
 			this.checkBoxNotes.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.checkBoxNotes.Checked = true;
 			this.checkBoxNotes.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkBoxNotes.Location = new System.Drawing.Point(8, 33);
+			this.checkBoxNotes.Location = new System.Drawing.Point(8, 24);
 			this.checkBoxNotes.Name = "checkBoxNotes";
 			this.checkBoxNotes.Size = new System.Drawing.Size(55, 20);
 			this.checkBoxNotes.TabIndex = 2;
@@ -163,7 +163,7 @@
 			this.checkBoxProviders.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.checkBoxProviders.Checked = true;
 			this.checkBoxProviders.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkBoxProviders.Location = new System.Drawing.Point(69, 33);
+			this.checkBoxProviders.Location = new System.Drawing.Point(69, 24);
 			this.checkBoxProviders.Name = "checkBoxProviders";
 			this.checkBoxProviders.Size = new System.Drawing.Size(73, 20);
 			this.checkBoxProviders.TabIndex = 3;
@@ -176,9 +176,9 @@
 			this.checkBoxEmployees.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.checkBoxEmployees.Checked = true;
 			this.checkBoxEmployees.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkBoxEmployees.Location = new System.Drawing.Point(148, 23);
+			this.checkBoxEmployees.Location = new System.Drawing.Point(148, 24);
 			this.checkBoxEmployees.Name = "checkBoxEmployees";
-			this.checkBoxEmployees.Size = new System.Drawing.Size(76, 40);
+			this.checkBoxEmployees.Size = new System.Drawing.Size(81, 20);
 			this.checkBoxEmployees.TabIndex = 4;
 			this.checkBoxEmployees.Text = "Employees";
 			this.checkBoxEmployees.CheckedChanged += new System.EventHandler(this.checkBoxEmployees_CheckedChanged);
@@ -190,7 +190,7 @@
 			this.groupBox1.Controls.Add(this.radioName);
 			this.groupBox1.Location = new System.Drawing.Point(8, 8);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(245, 71);
+			this.groupBox1.Size = new System.Drawing.Size(243, 71);
 			this.groupBox1.TabIndex = 1;
 			this.groupBox1.Text = "Sort";
 			// 
@@ -198,7 +198,7 @@
 			// 
 			this.radioStopTime.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.radioStopTime.Checked = true;
-			this.radioStopTime.Location = new System.Drawing.Point(93, 23);
+			this.radioStopTime.Location = new System.Drawing.Point(93, 24);
 			this.radioStopTime.Name = "radioStopTime";
 			this.radioStopTime.Size = new System.Drawing.Size(79, 20);
 			this.radioStopTime.TabIndex = 2;
@@ -211,7 +211,7 @@
 			// radioStartTime
 			// 
 			this.radioStartTime.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.radioStartTime.Location = new System.Drawing.Point(8, 23);
+			this.radioStartTime.Location = new System.Drawing.Point(8, 24);
 			this.radioStartTime.Name = "radioStartTime";
 			this.radioStartTime.Size = new System.Drawing.Size(79, 20);
 			this.radioStartTime.TabIndex = 1;
@@ -223,7 +223,7 @@
 			// radioName
 			// 
 			this.radioName.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.radioName.Location = new System.Drawing.Point(178, 23);
+			this.radioName.Location = new System.Drawing.Point(178, 24);
 			this.radioName.Name = "radioName";
 			this.radioName.Size = new System.Drawing.Size(57, 20);
 			this.radioName.TabIndex = 0;

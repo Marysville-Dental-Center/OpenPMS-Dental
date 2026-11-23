@@ -42,39 +42,42 @@ namespace OpenPmsDental {
 			// 
 			// date2
 			// 
-			this.date2.Location = new System.Drawing.Point(285, 24);
+			this.date2.Location = new System.Drawing.Point(238, 8);
+			this.date2.Size = new System.Drawing.Size(190, 155);
 			this.date2.Name = "date2";
 			this.date2.TabIndex = 2;
 			// 
 			// date1
 			// 
-			this.date1.Location = new System.Drawing.Point(32, 24);
+			this.date1.Location = new System.Drawing.Point(8, 8);
+			this.date1.Size = new System.Drawing.Size(190, 155);
 			this.date1.Name = "date1";
 			this.date1.TabIndex = 1;
 			// 
 			// labelTO
 			// 
-			this.labelTO.Location = new System.Drawing.Point(251, 24);
+			this.labelTO.Location = new System.Drawing.Point(204, 84);
 			this.labelTO.Name = "labelTO";
 			this.labelTO.Size = new System.Drawing.Size(28, 23);
 			this.labelTO.TabIndex = 28;
 			this.labelTO.Text = "TO";
-			this.labelTO.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.labelTO.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// listProv
 			// 
-			this.listProv.Location = new System.Drawing.Point(726, 50);
+			this.listProv.Location = new System.Drawing.Point(679, 50);
 			this.listProv.Name = "listProv";
 			this.listProv.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
-			this.listProv.Size = new System.Drawing.Size(181, 147);
+			this.listProv.Size = new System.Drawing.Size(228, 134);
 			this.listProv.TabIndex = 36;
 			this.listProv.Click += new System.EventHandler(this.listProv_Click);
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(726, 8);
+			this.label1.Location = new System.Drawing.Point(679, 8);
+			this.label1.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(104, 16);
+			this.label1.Size = new System.Drawing.Size(228, 18);
 			this.label1.TabIndex = 35;
 			this.label1.Text = "Providers";
 			// 
@@ -84,7 +87,7 @@ namespace OpenPmsDental {
 			this.groupBox3.Controls.Add(this.label5);
 			this.groupBox3.Controls.Add(this.radioWriteoffProc);
 			this.groupBox3.Controls.Add(this.radioWriteoffPay);
-			this.groupBox3.Location = new System.Drawing.Point(32, 229);
+			this.groupBox3.Location = new System.Drawing.Point(8, 192);
 			this.groupBox3.Name = "groupBox3";
 			this.groupBox3.Size = new System.Drawing.Size(522, 120);
 			this.groupBox3.TabIndex = 47;
@@ -148,7 +151,7 @@ namespace OpenPmsDental {
 			// 
 			this.checkAllProv.Checked = true;
 			this.checkAllProv.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkAllProv.Location = new System.Drawing.Point(726, 26);
+			this.checkAllProv.Location = new System.Drawing.Point(679, 28);
 			this.checkAllProv.Name = "checkAllProv";
 			this.checkAllProv.Size = new System.Drawing.Size(36, 20);
 			this.checkAllProv.TabIndex = 48;
@@ -157,7 +160,7 @@ namespace OpenPmsDental {
 			// 
 			// checkAllClin
 			// 
-			this.checkAllClin.Location = new System.Drawing.Point(285, 201);
+			this.checkAllClin.Location = new System.Drawing.Point(444, 28);
 			this.checkAllClin.Name = "checkAllClin";
 			this.checkAllClin.Size = new System.Drawing.Size(134, 20);
 			this.checkAllClin.TabIndex = 54;
@@ -166,18 +169,18 @@ namespace OpenPmsDental {
 			// 
 			// listClin
 			// 
-			this.listClin.Location = new System.Drawing.Point(560, 224);
+			this.listClin.Location = new System.Drawing.Point(444, 50);
 			this.listClin.Name = "listClin";
 			this.listClin.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
-			this.listClin.Size = new System.Drawing.Size(151, 147);
+			this.listClin.Size = new System.Drawing.Size(227, 134);
 			this.listClin.TabIndex = 53;
 			this.listClin.Click += new System.EventHandler(this.listClin_Click);
 			// 
 			// labelClin
 			// 
-			this.labelClin.Location = new System.Drawing.Point(358, 183);
+			this.labelClin.Location = new System.Drawing.Point(444, 8);
 			this.labelClin.Name = "labelClin";
-			this.labelClin.Size = new System.Drawing.Size(104, 16);
+			this.labelClin.Size = new System.Drawing.Size(227, 18);
 			this.labelClin.TabIndex = 52;
 			this.labelClin.Text = "Clinics";
 			this.labelClin.TextAlign = System.Drawing.ContentAlignment.BottomLeft;

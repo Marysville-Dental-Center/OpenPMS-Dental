@@ -41,7 +41,7 @@ namespace OpenPmsDental{
 			this.gridMedExisting.Location = new System.Drawing.Point(8, 8);
 			this.gridMedExisting.Name = "gridMedExisting";
 			this.gridMedExisting.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridMedExisting.Size = new System.Drawing.Size(480, 245);
+			this.gridMedExisting.Size = new System.Drawing.Size(482, 245);
 			this.gridMedExisting.TabIndex = 65;
 			this.gridMedExisting.Title = "Current Medications";
 			this.gridMedExisting.TranslationName = "GridMedExisting";
@@ -50,10 +50,10 @@ namespace OpenPmsDental{
 			// 
 			this.gridMedImport.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMedImport.Location = new System.Drawing.Point(494, 8);
+			this.gridMedImport.Location = new System.Drawing.Point(498, 8);
 			this.gridMedImport.Name = "gridMedImport";
 			this.gridMedImport.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridMedImport.Size = new System.Drawing.Size(480, 245);
+			this.gridMedImport.Size = new System.Drawing.Size(483, 245);
 			this.gridMedImport.TabIndex = 77;
 			this.gridMedImport.Title = "Transition of Care/Referral Summary";
 			this.gridMedImport.TranslationName = "GridMedImport";
@@ -65,7 +65,7 @@ namespace OpenPmsDental{
 			this.gridMedReconcile.Location = new System.Drawing.Point(8, 285);
 			this.gridMedReconcile.Name = "gridMedReconcile";
 			this.gridMedReconcile.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridMedReconcile.Size = new System.Drawing.Size(973, 300);
+			this.gridMedReconcile.Size = new System.Drawing.Size(973, 336);
 			this.gridMedReconcile.TabIndex = 67;
 			this.gridMedReconcile.Title = "Reconciled Medications";
 			this.gridMedReconcile.TranslationName = "gridMedReconcile";
@@ -73,7 +73,7 @@ namespace OpenPmsDental{
 			// butRemoveRec
 			// 
 			this.butRemoveRec.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-			this.butRemoveRec.Location = new System.Drawing.Point(429, 589);
+			this.butRemoveRec.Location = new System.Drawing.Point(445, 625);
 			this.butRemoveRec.Name = "butRemoveRec";
 			this.butRemoveRec.Size = new System.Drawing.Size(99, 24);
 			this.butRemoveRec.TabIndex = 82;
@@ -95,9 +95,9 @@ namespace OpenPmsDental{
 			this.butAddNew.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butAddNew.Icon = OpenPmsDental.UI.EnumIcons.Down;
 			this.butAddNew.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAddNew.Location = new System.Drawing.Point(923, 257);
+			this.butAddNew.Location = new System.Drawing.Point(921, 257);
 			this.butAddNew.Name = "butAddNew";
-			this.butAddNew.Size = new System.Drawing.Size(51, 24);
+			this.butAddNew.Size = new System.Drawing.Size(60, 24);
 			this.butAddNew.TabIndex = 80;
 			this.butAddNew.Text = "Add";
 			this.butAddNew.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -108,9 +108,9 @@ namespace OpenPmsDental{
 			this.butAddExist.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
 			this.butAddExist.Icon = OpenPmsDental.UI.EnumIcons.Down;
 			this.butAddExist.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAddExist.Location = new System.Drawing.Point(429, 257);
+			this.butAddExist.Location = new System.Drawing.Point(430, 257);
 			this.butAddExist.Name = "butAddExist";
-			this.butAddExist.Size = new System.Drawing.Size(51, 24);
+			this.butAddExist.Size = new System.Drawing.Size(60, 24);
 			this.butAddExist.TabIndex = 79;
 			this.butAddExist.Text = "Add";
 			this.butAddExist.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -119,7 +119,7 @@ namespace OpenPmsDental{
 			// labelBatch
 			// 
 			this.labelBatch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelBatch.Location = new System.Drawing.Point(157, 617);
+			this.labelBatch.Location = new System.Drawing.Point(161, 653);
 			this.labelBatch.Name = "labelBatch";
 			this.labelBatch.Size = new System.Drawing.Size(739, 24);
 			this.labelBatch.TabIndex = 153;

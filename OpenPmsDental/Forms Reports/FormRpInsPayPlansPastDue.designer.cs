@@ -45,7 +45,7 @@ namespace OpenPmsDental{
 			// comboProvs
 			// 
 			this.comboProvs.BackColor = System.Drawing.SystemColors.Window;
-			this.comboProvs.Location = new System.Drawing.Point(220, 13);
+			this.comboProvs.Location = new System.Drawing.Point(220, 8);
 			this.comboProvs.Name = "comboProvs";
 			this.comboProvs.SelectionModeMulti = true;
 			this.comboProvs.Size = new System.Drawing.Size(160, 23);
@@ -58,9 +58,9 @@ namespace OpenPmsDental{
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(8, 46);
+			this.gridMain.Location = new System.Drawing.Point(8, 39);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(825, 417);
+			this.gridMain.Size = new System.Drawing.Size(825, 424);
 			this.gridMain.TabIndex = 65;
 			this.gridMain.Title = "Ins Pay Plans Past Due";
 			this.gridMain.TranslationName = "TableInsPayPlanPastDue";
@@ -69,7 +69,7 @@ namespace OpenPmsDental{
 			// 
 			this.label2.Location = new System.Drawing.Point(8, 8);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(88, 34);
+			this.label2.Size = new System.Drawing.Size(88, 23);
 			this.label2.TabIndex = 66;
 			this.label2.Text = "Days past due:";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -77,7 +77,7 @@ namespace OpenPmsDental{
 			// textDaysPastDue
 			// 
 			this.textDaysPastDue.AutoSize = false;
-			this.textDaysPastDue.Location = new System.Drawing.Point(102, 13);
+			this.textDaysPastDue.Location = new System.Drawing.Point(102, 8);
 			this.textDaysPastDue.Name = "textDaysPastDue";
 			this.textDaysPastDue.Size = new System.Drawing.Size(52, 23);
 			this.textDaysPastDue.TabIndex = 69;
@@ -112,7 +112,7 @@ namespace OpenPmsDental{
 			this.comboClinics.IncludeAll = true;
 			this.comboClinics.IncludeHiddenInAll = true;
 			this.comboClinics.IncludeUnassigned = true;
-			this.comboClinics.Location = new System.Drawing.Point(416, 13);
+			this.comboClinics.Location = new System.Drawing.Point(416, 8);
 			this.comboClinics.Name = "comboClinics";
 			this.comboClinics.IsMultiSelect = true;
 			this.comboClinics.Size = new System.Drawing.Size(200, 23);

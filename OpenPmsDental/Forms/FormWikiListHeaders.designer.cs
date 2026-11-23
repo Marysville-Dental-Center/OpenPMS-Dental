@@ -66,7 +66,7 @@ namespace OpenPmsDental{
 			this.gridPickList.Location = new System.Drawing.Point(406, 72);
 			this.gridPickList.Name = "gridPickList";
 			this.gridPickList.SelectionMode = OpenPmsDental.UI.GridSelectionMode.OneCell;
-			this.gridPickList.Size = new System.Drawing.Size(263, 235);
+			this.gridPickList.Size = new System.Drawing.Size(260, 235);
 			this.gridPickList.TabIndex = 28;
 			this.gridPickList.Title = "Pick List Options";
 			this.gridPickList.TranslationName = "TableWikiListHeaderPickList";
@@ -78,10 +78,10 @@ namespace OpenPmsDental{
 			this.butAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdd.Location = new System.Drawing.Point(675, 160);
+			this.butAdd.Location = new System.Drawing.Point(672, 160);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.RightToLeft = System.Windows.Forms.RightToLeft.No;
-			this.butAdd.Size = new System.Drawing.Size(75, 23);
+			this.butAdd.Size = new System.Drawing.Size(84, 23);
 			this.butAdd.TabIndex = 29;
 			this.butAdd.Text = "Add";
 			this.butAdd.UseVisualStyleBackColor = true;
@@ -92,9 +92,9 @@ namespace OpenPmsDental{
 			this.butRemove.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butRemove.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butRemove.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butRemove.Location = new System.Drawing.Point(675, 187);
+			this.butRemove.Location = new System.Drawing.Point(672, 187);
 			this.butRemove.Name = "butRemove";
-			this.butRemove.Size = new System.Drawing.Size(75, 23);
+			this.butRemove.Size = new System.Drawing.Size(84, 23);
 			this.butRemove.TabIndex = 30;
 			this.butRemove.Text = "Remove";
 			this.butRemove.UseVisualStyleBackColor = true;
@@ -104,7 +104,7 @@ namespace OpenPmsDental{
 			// 
 			this.label1.Location = new System.Drawing.Point(406, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(263, 62);
+			this.label1.Size = new System.Drawing.Size(260, 62);
 			this.label1.TabIndex = 31;
 			this.label1.Text = "A pick list is only used when you want to restrict user entry in a Wiki List to a" +
     " preset list of options.  The pick list is specific to one item at the left.";

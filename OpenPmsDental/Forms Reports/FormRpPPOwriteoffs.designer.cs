@@ -62,33 +62,35 @@ namespace OpenPmsDental {
 			// 
 			// date2
 			// 
-			this.date2.Location = new System.Drawing.Point(289, 8);
+			this.date2.Location = new System.Drawing.Point(238, 8);
 			this.date2.MaxSelectionCount = 1;
+			this.date2.Size = new System.Drawing.Size(190, 155);
 			this.date2.Name = "date2";
 			this.date2.TabIndex = 30;
 			// 
 			// date1
 			// 
-			this.date1.Location = new System.Drawing.Point(33, 8);
+			this.date1.Location = new System.Drawing.Point(8, 8);
 			this.date1.MaxSelectionCount = 1;
+			this.date1.Size = new System.Drawing.Size(190, 155);
 			this.date1.Name = "date1";
 			this.date1.TabIndex = 29;
 			// 
 			// labelTO
 			// 
-			this.labelTO.Location = new System.Drawing.Point(255, 8);
+			this.labelTO.Location = new System.Drawing.Point(204, 84);
 			this.labelTO.Name = "labelTO";
 			this.labelTO.Size = new System.Drawing.Size(28, 23);
 			this.labelTO.TabIndex = 31;
 			this.labelTO.Text = "TO";
-			this.labelTO.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.labelTO.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// radioIndividual
 			// 
 			this.radioIndividual.Checked = true;
-			this.radioIndividual.Location = new System.Drawing.Point(29, 167);
+			this.radioIndividual.Location = new System.Drawing.Point(8, 192);
 			this.radioIndividual.Name = "radioIndividual";
-			this.radioIndividual.Size = new System.Drawing.Size(116, 20);
+			this.radioIndividual.Size = new System.Drawing.Size(116, 18);
 			this.radioIndividual.TabIndex = 32;
 			this.radioIndividual.TabStop = true;
 			this.radioIndividual.Text = "Individual Claims";
@@ -96,25 +98,25 @@ namespace OpenPmsDental {
 			// 
 			// radioGroup
 			// 
-			this.radioGroup.Location = new System.Drawing.Point(29, 191);
+			this.radioGroup.Location = new System.Drawing.Point(8, 214);
 			this.radioGroup.Name = "radioGroup";
-			this.radioGroup.Size = new System.Drawing.Size(112, 20);
+			this.radioGroup.Size = new System.Drawing.Size(112, 18);
 			this.radioGroup.TabIndex = 33;
 			this.radioGroup.Text = "Group by Carrier";
 			this.radioGroup.UseVisualStyleBackColor = true;
 			// 
 			// textCarrier
 			// 
-			this.textCarrier.Location = new System.Drawing.Point(29, 239);
+			this.textCarrier.Location = new System.Drawing.Point(8, 260);
 			this.textCarrier.Name = "textCarrier";
 			this.textCarrier.Size = new System.Drawing.Size(176, 23);
 			this.textCarrier.TabIndex = 34;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(29, 215);
+			this.label1.Location = new System.Drawing.Point(8, 240);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(257, 22);
+			this.label1.Size = new System.Drawing.Size(252, 18);
 			this.label1.TabIndex = 35;
 			this.label1.Text = "Enter a few letters of the carrier to limit results";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -125,9 +127,9 @@ namespace OpenPmsDental {
 			this.groupBox3.Controls.Add(this.label5);
 			this.groupBox3.Controls.Add(this.radioWriteoffProcDate);
 			this.groupBox3.Controls.Add(this.radioWriteoffInsPayDate);
-			this.groupBox3.Location = new System.Drawing.Point(290, 167);
+			this.groupBox3.Location = new System.Drawing.Point(238, 192);
 			this.groupBox3.Name = "groupBox3";
-			this.groupBox3.Size = new System.Drawing.Size(521, 120);
+			this.groupBox3.Size = new System.Drawing.Size(573, 120);
 			this.groupBox3.TabIndex = 48;
 			this.groupBox3.Text = "Show Insurance Write-offs";
 			// 

@@ -45,10 +45,10 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridImbalances.HasDropDowns = true;
-			this.gridImbalances.Location = new System.Drawing.Point(426, 118);
+			this.gridImbalances.Location = new System.Drawing.Point(426, 124);
 			this.gridImbalances.Name = "gridImbalances";
 			this.gridImbalances.SelectionMode = OpenPmsDental.UI.GridSelectionMode.None;
-			this.gridImbalances.Size = new System.Drawing.Size(635, 454);
+			this.gridImbalances.Size = new System.Drawing.Size(635, 448);
 			this.gridImbalances.TabIndex = 13;
 			this.gridImbalances.Title = "Provider/Family Balances";
 			this.gridImbalances.TranslationName = "TableImbalances";
@@ -57,9 +57,9 @@ namespace OpenPmsDental{
 			// 
 			this.gridTransfers.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-			this.gridTransfers.Location = new System.Drawing.Point(12, 118);
+			this.gridTransfers.Location = new System.Drawing.Point(12, 124);
 			this.gridTransfers.Name = "gridTransfers";
-			this.gridTransfers.Size = new System.Drawing.Size(408, 454);
+			this.gridTransfers.Size = new System.Drawing.Size(408, 448);
 			this.gridTransfers.TabIndex = 12;
 			this.gridTransfers.Title = "Existing Transfers (editable)";
 			this.gridTransfers.TranslationName = "TableTransfers";
@@ -109,7 +109,7 @@ namespace OpenPmsDental{
 			// 
 			this.label1.Location = new System.Drawing.Point(12, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(395, 92);
+			this.label1.Size = new System.Drawing.Size(395, 108);
 			this.label1.TabIndex = 160;
 			this.label1.Text = resources.GetString("label1.Text");
 			// 

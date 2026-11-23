@@ -87,7 +87,7 @@ namespace OpenPmsDental{
 			// 
 			this.radioPurchased.Location = new System.Drawing.Point(697, 8);
 			this.radioPurchased.Name = "radioPurchased";
-			this.radioPurchased.Size = new System.Drawing.Size(93, 22);
+			this.radioPurchased.Size = new System.Drawing.Size(80, 18);
 			this.radioPurchased.TabIndex = 23;
 			this.radioPurchased.Text = "Purchased";
 			this.radioPurchased.UseVisualStyleBackColor = true;
@@ -95,9 +95,9 @@ namespace OpenPmsDental{
 			// 
 			// radioSold
 			// 
-			this.radioSold.Location = new System.Drawing.Point(697, 24);
+			this.radioSold.Location = new System.Drawing.Point(697, 30);
 			this.radioSold.Name = "radioSold";
-			this.radioSold.Size = new System.Drawing.Size(93, 22);
+			this.radioSold.Size = new System.Drawing.Size(48, 18);
 			this.radioSold.TabIndex = 24;
 			this.radioSold.Text = "Sold";
 			this.radioSold.UseVisualStyleBackColor = true;
@@ -106,9 +106,9 @@ namespace OpenPmsDental{
 			// radioAll
 			// 
 			this.radioAll.Checked = true;
-			this.radioAll.Location = new System.Drawing.Point(697, 40);
+			this.radioAll.Location = new System.Drawing.Point(697, 52);
 			this.radioAll.Name = "radioAll";
-			this.radioAll.Size = new System.Drawing.Size(93, 22);
+			this.radioAll.Size = new System.Drawing.Size(39, 18);
 			this.radioAll.TabIndex = 25;
 			this.radioAll.TabStop = true;
 			this.radioAll.Text = "All";
@@ -162,9 +162,9 @@ namespace OpenPmsDental{
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(12, 66);
+			this.gridMain.Location = new System.Drawing.Point(12, 78);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(950, 484);
+			this.gridMain.Size = new System.Drawing.Size(950, 472);
 			this.gridMain.TabIndex = 5;
 			this.gridMain.Title = "Equipment";
 			this.gridMain.TranslationName = "TableEquipment";

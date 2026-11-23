@@ -63,7 +63,7 @@ namespace OpenPmsDental{
 			this.groupBoxBreakdown.Controls.Add(this.labelAmtAvail);
 			this.groupBoxBreakdown.Controls.Add(this.labelAmtUsed);
 			this.groupBoxBreakdown.Controls.Add(this.labelAmtOriginal);
-			this.groupBoxBreakdown.Location = new System.Drawing.Point(475, 8);
+			this.groupBoxBreakdown.Location = new System.Drawing.Point(482, 8);
 			this.groupBoxBreakdown.Name = "groupBoxBreakdown";
 			this.groupBoxBreakdown.Size = new System.Drawing.Size(183, 137);
 			this.groupBoxBreakdown.TabIndex = 4;
@@ -176,9 +176,9 @@ namespace OpenPmsDental{
 			this.gridAdjusts.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridAdjusts.Location = new System.Drawing.Point(13, 8);
+			this.gridAdjusts.Location = new System.Drawing.Point(8, 8);
 			this.gridAdjusts.Name = "gridAdjusts";
-			this.gridAdjusts.Size = new System.Drawing.Size(456, 378);
+			this.gridAdjusts.Size = new System.Drawing.Size(468, 378);
 			this.gridAdjusts.TabIndex = 5;
 			this.gridAdjusts.Title = "Unattached Adjustments";
 			this.gridAdjusts.TranslationName = "TableAdjustSelect";
@@ -188,7 +188,7 @@ namespace OpenPmsDental{
 			// label1
 			// 
 			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label1.Location = new System.Drawing.Point(13, 390);
+			this.label1.Location = new System.Drawing.Point(8, 390);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(487, 30);
 			this.label1.TabIndex = 6;

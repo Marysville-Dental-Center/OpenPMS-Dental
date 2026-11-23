@@ -34,7 +34,7 @@
 			// 
 			// butAdd
 			// 
-			this.butAdd.Location = new System.Drawing.Point(21, 8);
+			this.butAdd.Location = new System.Drawing.Point(8, 8);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(75, 28);
 			this.butAdd.TabIndex = 2;
@@ -47,10 +47,10 @@
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(21, 40);
+			this.gridMain.Location = new System.Drawing.Point(8, 40);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridMain.Size = new System.Drawing.Size(381, 228);
+			this.gridMain.Size = new System.Drawing.Size(402, 228);
 			this.gridMain.TabIndex = 0;
 			this.gridMain.Title = "Lab Panels";
 			this.gridMain.TranslationName = "TablePanels";
@@ -94,7 +94,7 @@
 			this.groupHL7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.groupHL7.Controls.Add(this.butShow);
 			this.groupHL7.Controls.Add(this.butSubmit);
-			this.groupHL7.Location = new System.Drawing.Point(21, 276);
+			this.groupHL7.Location = new System.Drawing.Point(8, 276);
 			this.groupHL7.Name = "groupHL7";
 			this.groupHL7.Size = new System.Drawing.Size(156, 59);
 			this.groupHL7.TabIndex = 6;

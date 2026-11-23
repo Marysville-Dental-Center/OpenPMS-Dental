@@ -77,9 +77,9 @@ namespace OpenPmsDental {
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(478, 23);
+			this.label1.Location = new System.Drawing.Point(482, 23);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(44, 16);
+			this.label1.Size = new System.Drawing.Size(40, 23);
 			this.label1.TabIndex = 86;
 			this.label1.Text = "Since";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -171,7 +171,7 @@ namespace OpenPmsDental {
 			// labelChangeTo
 			// 
 			this.labelChangeTo.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-			this.labelChangeTo.Location = new System.Drawing.Point(361, 580);
+			this.labelChangeTo.Location = new System.Drawing.Point(598, 580);
 			this.labelChangeTo.Name = "labelChangeTo";
 			this.labelChangeTo.Size = new System.Drawing.Size(144, 23);
 			this.labelChangeTo.TabIndex = 211;
@@ -181,7 +181,7 @@ namespace OpenPmsDental {
 			// comboChangePatientStatusTo
 			// 
 			this.comboChangePatientStatusTo.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-			this.comboChangePatientStatusTo.Location = new System.Drawing.Point(511, 580);
+			this.comboChangePatientStatusTo.Location = new System.Drawing.Point(748, 580);
 			this.comboChangePatientStatusTo.Name = "comboChangePatientStatusTo";
 			this.comboChangePatientStatusTo.Size = new System.Drawing.Size(148, 23);
 			this.comboChangePatientStatusTo.TabIndex = 214;

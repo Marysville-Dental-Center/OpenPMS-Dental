@@ -54,7 +54,7 @@
 			// butDelete
 			// 
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butDelete.Location = new System.Drawing.Point(20, 421);
+			this.butDelete.Location = new System.Drawing.Point(8, 421);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(75, 23);
 			this.butDelete.TabIndex = 15;
@@ -86,9 +86,9 @@
 			// 
 			this.groupBox1.Controls.Add(this.butShowXhtml);
 			this.groupBox1.Controls.Add(this.butShowXml);
-			this.groupBox1.Location = new System.Drawing.Point(20, 121);
+			this.groupBox1.Location = new System.Drawing.Point(8, 121);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(208, 54);
+			this.groupBox1.Size = new System.Drawing.Size(220, 54);
 			this.groupBox1.TabIndex = 20;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Show";
@@ -97,10 +97,10 @@
 			// 
 			this.gridRec.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-			this.gridRec.Location = new System.Drawing.Point(240, 70);
+			this.gridRec.Location = new System.Drawing.Point(236, 70);
 			this.gridRec.Name = "gridRec";
 			this.gridRec.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridRec.Size = new System.Drawing.Size(178, 323);
+			this.gridRec.Size = new System.Drawing.Size(197, 323);
 			this.gridRec.TabIndex = 17;
 			this.gridRec.Title = "Received";
 			this.gridRec.TranslationName = "TableReceived";
@@ -110,10 +110,10 @@
 			// 
 			this.gridSent.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-			this.gridSent.Location = new System.Drawing.Point(20, 183);
+			this.gridSent.Location = new System.Drawing.Point(8, 183);
 			this.gridSent.Name = "gridSent";
 			this.gridSent.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridSent.Size = new System.Drawing.Size(185, 234);
+			this.gridSent.Size = new System.Drawing.Size(220, 234);
 			this.gridSent.TabIndex = 16;
 			this.gridSent.Title = "Sent";
 			this.gridSent.TranslationName = "TableSent";
@@ -123,9 +123,9 @@
 			// 
 			this.groupBox2.Controls.Add(this.butRecFile);
 			this.groupBox2.Controls.Add(this.butRecEmail);
-			this.groupBox2.Location = new System.Drawing.Point(240, 8);
+			this.groupBox2.Location = new System.Drawing.Point(236, 8);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(192, 54);
+			this.groupBox2.Size = new System.Drawing.Size(197, 54);
 			this.groupBox2.TabIndex = 21;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Receive by";
@@ -145,9 +145,9 @@
 			this.groupBox3.Controls.Add(this.label1);
 			this.groupBox3.Controls.Add(this.butExport);
 			this.groupBox3.Controls.Add(this.butSendEmail);
-			this.groupBox3.Location = new System.Drawing.Point(20, 8);
+			this.groupBox3.Location = new System.Drawing.Point(8, 8);
 			this.groupBox3.Name = "groupBox3";
-			this.groupBox3.Size = new System.Drawing.Size(208, 105);
+			this.groupBox3.Size = new System.Drawing.Size(220, 105);
 			this.groupBox3.TabIndex = 23;
 			this.groupBox3.TabStop = false;
 			this.groupBox3.Text = "Send Summary of Care to Doctor";
@@ -156,7 +156,7 @@
 			// 
 			this.label1.Location = new System.Drawing.Point(8, 50);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(192, 47);
+			this.label1.Size = new System.Drawing.Size(204, 47);
 			this.label1.TabIndex = 23;
 			this.label1.Text = "includes 2 files:\r\nccd.xml - the data\r\nccd.xsl - for human readable viewing";
 			// 

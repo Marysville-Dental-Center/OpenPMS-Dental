@@ -88,9 +88,9 @@ namespace OpenPmsDental {
 			this.comboClinics.IncludeHiddenInAll = true;
 			this.comboClinics.IncludeUnassigned = true;
 			this.comboClinics.IsMultiSelect = true;
-			this.comboClinics.Location = new System.Drawing.Point(540, 50);
+			this.comboClinics.Location = new System.Drawing.Point(569, 50);
 			this.comboClinics.Name = "comboClinics";
-			this.comboClinics.Size = new System.Drawing.Size(196, 23);
+			this.comboClinics.Size = new System.Drawing.Size(168, 23);
 			this.comboClinics.TabIndex = 2;
 			//
 			// dateRangePicker

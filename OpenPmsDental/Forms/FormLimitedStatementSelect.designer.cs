@@ -134,7 +134,7 @@ namespace OpenPmsDental{
 			// 
 			// labelTo
 			// 
-			this.labelTo.Location = new System.Drawing.Point(72, 50);
+			this.labelTo.Location = new System.Drawing.Point(88, 50);
 			this.labelTo.Name = "labelTo";
 			this.labelTo.Size = new System.Drawing.Size(24, 23);
 			this.labelTo.TabIndex = 155;
@@ -145,7 +145,7 @@ namespace OpenPmsDental{
 			// 
 			this.odDatePickerTo.AdjustCalendarLocation = new System.Drawing.Point(-40, 0);
 			this.odDatePickerTo.BackColor = System.Drawing.Color.Transparent;
-			this.odDatePickerTo.Location = new System.Drawing.Point(39, 50);
+			this.odDatePickerTo.Location = new System.Drawing.Point(55, 50);
 			this.odDatePickerTo.MaximumSize = new System.Drawing.Size(0, 184);
 			this.odDatePickerTo.MinimumSize = new System.Drawing.Size(0, 23);
 			this.odDatePickerTo.Name = "odDatePickerTo";

@@ -406,7 +406,7 @@ def load_script(window_simple):
 def full_name(window):
     """The window's type name: a class name of the OpenPmsDental namespace (FormInsPlan), or a full name for a class of another
     namespace (OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizSchedule, UI-12 slice 2 continuation)."""
-    return window if window.startswith("OpenPmsDental.") else "OpenPmsDental." + window
+    return window if "." in window else "OpenPmsDental." + window
 
 
 def run(tree_path, window_simple):

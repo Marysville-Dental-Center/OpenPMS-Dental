@@ -49,15 +49,15 @@ namespace OpenPmsDental {
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(12, 8);
+			this.label1.Location = new System.Drawing.Point(8, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(445, 167);
+			this.label1.Size = new System.Drawing.Size(454, 182);
 			this.label1.TabIndex = 2;
 			this.label1.Text = resources.GetString("label1.Text");
 			// 
 			// checkAdmin
 			// 
-			this.checkAdmin.Location = new System.Drawing.Point(88, 231);
+			this.checkAdmin.Location = new System.Drawing.Point(88, 252);
 			this.checkAdmin.Name = "checkAdmin";
 			this.checkAdmin.Size = new System.Drawing.Size(177, 20);
 			this.checkAdmin.TabIndex = 58;
@@ -65,7 +65,7 @@ namespace OpenPmsDental {
 			//
 			// checkPayPlansExcluded
 			//
-			this.checkPayPlansExcluded.Location = new System.Drawing.Point(88, 255);
+			this.checkPayPlansExcluded.Location = new System.Drawing.Point(88, 276);
 			this.checkPayPlansExcluded.Name = "checkPayPlansExcluded";
 			this.checkPayPlansExcluded.Size = new System.Drawing.Size(293, 20);
 			this.checkPayPlansExcluded.TabIndex = 65;
@@ -73,7 +73,7 @@ namespace OpenPmsDental {
 			//
 			// textDays
 			// 
-			this.textDays.Location = new System.Drawing.Point(88, 204);
+			this.textDays.Location = new System.Drawing.Point(88, 225);
 			this.textDays.Name = "textDays";
 			this.textDays.Size = new System.Drawing.Size(48, 23);
 			this.textDays.TabIndex = 59;
@@ -81,7 +81,7 @@ namespace OpenPmsDental {
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(46, 177);
+			this.label3.Location = new System.Drawing.Point(46, 198);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(36, 23);
 			this.label3.TabIndex = 60;
@@ -90,7 +90,7 @@ namespace OpenPmsDental {
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(46, 204);
+			this.label4.Location = new System.Drawing.Point(46, 225);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(36, 23);
 			this.label4.TabIndex = 61;
@@ -99,16 +99,16 @@ namespace OpenPmsDental {
 			// 
 			// textDate
 			// 
-			this.textDate.Location = new System.Drawing.Point(88, 177);
+			this.textDate.Location = new System.Drawing.Point(88, 198);
 			this.textDate.Name = "textDate";
-			this.textDate.Size = new System.Drawing.Size(100, 20);
+			this.textDate.Size = new System.Drawing.Size(100, 23);
 			this.textDate.TabIndex = 62;
 			this.textDate.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textDate_KeyDown);
 			// 
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(387, 289);
+			this.butSave.Location = new System.Drawing.Point(387, 304);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 1;
@@ -117,25 +117,25 @@ namespace OpenPmsDental {
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(142, 206);
+			this.label2.Location = new System.Drawing.Point(142, 226);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(234, 18);
+			this.label2.Size = new System.Drawing.Size(184, 20);
 			this.label2.TabIndex = 63;
 			this.label2.Text = "1 means only today, 0 to disable.";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(194, 179);
+			this.label5.Location = new System.Drawing.Point(194, 199);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(234, 18);
+			this.label5.Size = new System.Drawing.Size(172, 20);
 			this.label5.TabIndex = 64;
 			this.label5.Text = "Locks this date and prior dates";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// FormSecurityLock
 			// 
-			this.ClientSize = new System.Drawing.Size(470, 321);
+			this.ClientSize = new System.Drawing.Size(470, 336);
 			this.Controls.Add(this.checkPayPlansExcluded);
 			this.Controls.Add(this.label5);
 			this.Controls.Add(this.label2);

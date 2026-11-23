@@ -64,9 +64,10 @@ namespace OpenPmsDental {
 			// label1
 			// 
 			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label1.Location = new System.Drawing.Point(261, 583);
+			this.label1.Location = new System.Drawing.Point(261, 584);
+			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(162, 29);
+			this.label1.Size = new System.Drawing.Size(164, 26);
 			this.label1.TabIndex = 24;
 			this.label1.Text = "Delete all unused employees";
 			// 

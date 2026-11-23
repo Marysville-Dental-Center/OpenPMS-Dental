@@ -60,7 +60,7 @@ namespace OpenPmsDental {
 			//
 			// radioRefund
 			//
-			this.radioRefund.Location = new System.Drawing.Point(100, 23);
+			this.radioRefund.Location = new System.Drawing.Point(60, 23);
 			this.radioRefund.Name = "radioRefund";
 			this.radioRefund.Size = new System.Drawing.Size(63, 20);
 			this.radioRefund.TabIndex = 1;
@@ -70,7 +70,7 @@ namespace OpenPmsDental {
 			//
 			// radioVoid
 			//
-			this.radioVoid.Location = new System.Drawing.Point(169, 23);
+			this.radioVoid.Location = new System.Drawing.Point(129, 23);
 			this.radioVoid.Name = "radioVoid";
 			this.radioVoid.Size = new System.Drawing.Size(48, 20);
 			this.radioVoid.TabIndex = 2;
@@ -112,7 +112,7 @@ namespace OpenPmsDental {
 			//
 			this.radioSavedCard.Location = new System.Drawing.Point(8, 50);
 			this.radioSavedCard.Name = "radioSavedCard";
-			this.radioSavedCard.Size = new System.Drawing.Size(82, 20);
+			this.radioSavedCard.Size = new System.Drawing.Size(149, 20);
 			this.radioSavedCard.TabIndex = 2;
 			this.radioSavedCard.Text = "Saved card";
 			this.radioSavedCard.UseVisualStyleBackColor = true;

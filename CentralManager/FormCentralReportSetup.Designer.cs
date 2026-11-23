@@ -57,7 +57,7 @@
 			this.tabControl1.Controls.Add(this.tabReportPermissions);
 			this.tabControl1.Location = new System.Drawing.Point(8, 8);
 			this.tabControl1.Name = "tabControl1";
-			this.tabControl1.Size = new System.Drawing.Size(545, 646);
+			this.tabControl1.Size = new System.Drawing.Size(540, 633);
 			this.tabControl1.TabIndex = 217;
 			// 
 			// tabReportPermissions

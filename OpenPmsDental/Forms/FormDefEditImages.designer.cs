@@ -51,16 +51,16 @@ namespace OpenPmsDental {
 			// 
 			// labelName
 			// 
-			this.labelName.Location = new System.Drawing.Point(23, 8);
+			this.labelName.Location = new System.Drawing.Point(8, 8);
 			this.labelName.Name = "labelName";
-			this.labelName.Size = new System.Drawing.Size(150, 16);
+			this.labelName.Size = new System.Drawing.Size(176, 18);
 			this.labelName.TabIndex = 0;
 			this.labelName.Text = "Name";
-			this.labelName.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+			this.labelName.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// textName
 			// 
-			this.textName.Location = new System.Drawing.Point(23, 26);
+			this.textName.Location = new System.Drawing.Point(8, 28);
 			this.textName.Name = "textName";
 			this.textName.Size = new System.Drawing.Size(176, 23);
 			this.textName.TabIndex = 0;
@@ -81,7 +81,7 @@ namespace OpenPmsDental {
 			// 
 			// checkHidden
 			// 
-			this.checkHidden.Location = new System.Drawing.Point(23, 53);
+			this.checkHidden.Location = new System.Drawing.Point(8, 55);
 			this.checkHidden.Name = "checkHidden";
 			this.checkHidden.Size = new System.Drawing.Size(62, 20);
 			this.checkHidden.TabIndex = 3;
@@ -103,9 +103,9 @@ namespace OpenPmsDental {
 			this.groupBox1.Controls.Add(this.checkStatements);
 			this.groupBox1.Controls.Add(this.checkPatientPictures);
 			this.groupBox1.Controls.Add(this.checkChartModule);
-			this.groupBox1.Location = new System.Drawing.Point(228, 24);
+			this.groupBox1.Location = new System.Drawing.Point(228, 8);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(382, 363);
+			this.groupBox1.Size = new System.Drawing.Size(408, 363);
 			this.groupBox1.TabIndex = 7;
 			this.groupBox1.Text = "Usage";
 			// 

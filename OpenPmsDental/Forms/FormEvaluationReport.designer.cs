@@ -58,7 +58,7 @@ namespace OpenPmsDental{
 			// 
 			// checkAllCourses
 			// 
-			this.checkAllCourses.Location = new System.Drawing.Point(326, 37);
+			this.checkAllCourses.Location = new System.Drawing.Point(8, 37);
 			this.checkAllCourses.Name = "checkAllCourses";
 			this.checkAllCourses.Size = new System.Drawing.Size(83, 20);
 			this.checkAllCourses.TabIndex = 55;
@@ -67,7 +67,7 @@ namespace OpenPmsDental{
 			// 
 			// checkAllInstructors
 			// 
-			this.checkAllInstructors.Location = new System.Drawing.Point(415, 37);
+			this.checkAllInstructors.Location = new System.Drawing.Point(330, 37);
 			this.checkAllInstructors.Name = "checkAllInstructors";
 			this.checkAllInstructors.Size = new System.Drawing.Size(98, 20);
 			this.checkAllInstructors.TabIndex = 56;
@@ -94,10 +94,10 @@ namespace OpenPmsDental{
 			// 
 			this.gridCourses.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-			this.gridCourses.Location = new System.Drawing.Point(12, 63);
+			this.gridCourses.Location = new System.Drawing.Point(8, 63);
 			this.gridCourses.Name = "gridCourses";
 			this.gridCourses.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridCourses.Size = new System.Drawing.Size(308, 358);
+			this.gridCourses.Size = new System.Drawing.Size(314, 358);
 			this.gridCourses.TabIndex = 16;
 			this.gridCourses.Title = "Courses";
 			this.gridCourses.TranslationName = "TableCourses";
@@ -108,10 +108,10 @@ namespace OpenPmsDental{
 			this.gridInstructors.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridInstructors.Location = new System.Drawing.Point(326, 63);
+			this.gridInstructors.Location = new System.Drawing.Point(330, 63);
 			this.gridInstructors.Name = "gridInstructors";
 			this.gridInstructors.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridInstructors.Size = new System.Drawing.Size(308, 358);
+			this.gridInstructors.Size = new System.Drawing.Size(314, 358);
 			this.gridInstructors.TabIndex = 15;
 			this.gridInstructors.Title = "Instructors";
 			this.gridInstructors.TranslationName = "TableInstructors";
@@ -121,10 +121,10 @@ namespace OpenPmsDental{
 			// 
 			this.gridStudents.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridStudents.Location = new System.Drawing.Point(640, 63);
+			this.gridStudents.Location = new System.Drawing.Point(652, 63);
 			this.gridStudents.Name = "gridStudents";
 			this.gridStudents.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridStudents.Size = new System.Drawing.Size(308, 358);
+			this.gridStudents.Size = new System.Drawing.Size(314, 358);
 			this.gridStudents.TabIndex = 14;
 			this.gridStudents.Title = "Students";
 			this.gridStudents.TranslationName = "TableStudents";
@@ -132,7 +132,7 @@ namespace OpenPmsDental{
 			// butAllStudents
 			// 
 			this.butAllStudents.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butAllStudents.Location = new System.Drawing.Point(769, 35);
+			this.butAllStudents.Location = new System.Drawing.Point(652, 35);
 			this.butAllStudents.Name = "butAllStudents";
 			this.butAllStudents.Size = new System.Drawing.Size(78, 24);
 			this.butAllStudents.TabIndex = 62;

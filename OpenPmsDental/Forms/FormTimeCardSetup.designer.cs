@@ -179,7 +179,7 @@ namespace OpenPmsDental {
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(180, 559);
+			this.butDelete.Location = new System.Drawing.Point(179, 559);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(112, 24);
 			this.butDelete.TabIndex = 19;
@@ -190,7 +190,7 @@ namespace OpenPmsDental {
 			// 
 			this.checkHideOlder.Checked = true;
 			this.checkHideOlder.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkHideOlder.Location = new System.Drawing.Point(139, 8);
+			this.checkHideOlder.Location = new System.Drawing.Point(19, 8);
 			this.checkHideOlder.Name = "checkHideOlder";
 			this.checkHideOlder.Size = new System.Drawing.Size(229, 20);
 			this.checkHideOlder.TabIndex = 20;
@@ -202,7 +202,7 @@ namespace OpenPmsDental {
 			this.butDeleteRules.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butDeleteRules.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDeleteRules.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDeleteRules.Location = new System.Drawing.Point(881, 555);
+			this.butDeleteRules.Location = new System.Drawing.Point(947, 555);
 			this.butDeleteRules.Name = "butDeleteRules";
 			this.butDeleteRules.Size = new System.Drawing.Size(112, 24);
 			this.butDeleteRules.TabIndex = 21;

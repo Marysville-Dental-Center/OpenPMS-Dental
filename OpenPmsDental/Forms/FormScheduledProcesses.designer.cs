@@ -54,9 +54,9 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridMain.HScrollVisible = true;
-			this.gridMain.Location = new System.Drawing.Point(30, 8);
+			this.gridMain.Location = new System.Drawing.Point(8, 8);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(521, 500);
+			this.gridMain.Size = new System.Drawing.Size(544, 529);
 			this.gridMain.TabIndex = 4;
 			this.gridMain.Title = null;
 			this.gridMain.TranslationName = "TableScheduledProcess";

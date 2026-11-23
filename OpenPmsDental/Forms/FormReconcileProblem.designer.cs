@@ -30,7 +30,6 @@ namespace OpenPmsDental{
 			this.butAddNew = new OpenPmsDental.UI.Button();
 			this.butAddExist = new OpenPmsDental.UI.Button();
 			this.gridProbReconcile = new OpenPmsDental.UI.GridOD();
-			this.butClose = new OpenPmsDental.UI.Button();
 			this.labelBatch = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
@@ -39,10 +38,10 @@ namespace OpenPmsDental{
 			this.gridProbExisting.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridProbExisting.Location = new System.Drawing.Point(8, 36);
+			this.gridProbExisting.Location = new System.Drawing.Point(8, 8);
 			this.gridProbExisting.Name = "gridProbExisting";
 			this.gridProbExisting.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridProbExisting.Size = new System.Drawing.Size(477, 245);
+			this.gridProbExisting.Size = new System.Drawing.Size(482, 245);
 			this.gridProbExisting.TabIndex = 65;
 			this.gridProbExisting.Title = "Current Problems";
 			this.gridProbExisting.TranslationName = "GridProbExisting";
@@ -51,10 +50,10 @@ namespace OpenPmsDental{
 			// 
 			this.gridProbImport.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridProbImport.Location = new System.Drawing.Point(491, 36);
+			this.gridProbImport.Location = new System.Drawing.Point(498, 8);
 			this.gridProbImport.Name = "gridProbImport";
 			this.gridProbImport.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridProbImport.Size = new System.Drawing.Size(480, 245);
+			this.gridProbImport.Size = new System.Drawing.Size(483, 245);
 			this.gridProbImport.TabIndex = 77;
 			this.gridProbImport.Title = "Transition of Care/Referral Summary";
 			this.gridProbImport.TranslationName = "GridProbImport";
@@ -62,7 +61,7 @@ namespace OpenPmsDental{
 			// butRemoveRec
 			// 
 			this.butRemoveRec.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-			this.butRemoveRec.Location = new System.Drawing.Point(426, 617);
+			this.butRemoveRec.Location = new System.Drawing.Point(445, 625);
 			this.butRemoveRec.Name = "butRemoveRec";
 			this.butRemoveRec.Size = new System.Drawing.Size(99, 24);
 			this.butRemoveRec.TabIndex = 82;
@@ -72,7 +71,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(910, 681);
+			this.butSave.Location = new System.Drawing.Point(906, 653);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 81;
@@ -84,9 +83,9 @@ namespace OpenPmsDental{
 			this.butAddNew.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butAddNew.Icon = OpenPmsDental.UI.EnumIcons.Down;
 			this.butAddNew.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAddNew.Location = new System.Drawing.Point(920, 285);
+			this.butAddNew.Location = new System.Drawing.Point(921, 257);
 			this.butAddNew.Name = "butAddNew";
-			this.butAddNew.Size = new System.Drawing.Size(51, 24);
+			this.butAddNew.Size = new System.Drawing.Size(60, 24);
 			this.butAddNew.TabIndex = 80;
 			this.butAddNew.Text = "Add";
 			this.butAddNew.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -97,9 +96,9 @@ namespace OpenPmsDental{
 			this.butAddExist.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
 			this.butAddExist.Icon = OpenPmsDental.UI.EnumIcons.Down;
 			this.butAddExist.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAddExist.Location = new System.Drawing.Point(426, 285);
+			this.butAddExist.Location = new System.Drawing.Point(430, 257);
 			this.butAddExist.Name = "butAddExist";
-			this.butAddExist.Size = new System.Drawing.Size(51, 24);
+			this.butAddExist.Size = new System.Drawing.Size(60, 24);
 			this.butAddExist.TabIndex = 79;
 			this.butAddExist.Text = "Add";
 			this.butAddExist.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -109,10 +108,10 @@ namespace OpenPmsDental{
 			// 
 			this.gridProbReconcile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridProbReconcile.Location = new System.Drawing.Point(8, 313);
+			this.gridProbReconcile.Location = new System.Drawing.Point(8, 285);
 			this.gridProbReconcile.Name = "gridProbReconcile";
 			this.gridProbReconcile.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridProbReconcile.Size = new System.Drawing.Size(977, 300);
+			this.gridProbReconcile.Size = new System.Drawing.Size(973, 336);
 			this.gridProbReconcile.TabIndex = 67;
 			this.gridProbReconcile.Title = "Reconciled Problem";
 			this.gridProbReconcile.TranslationName = "gridProbReconcile";
@@ -120,7 +119,7 @@ namespace OpenPmsDental{
 			// labelBatch
 			// 
 			this.labelBatch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelBatch.Location = new System.Drawing.Point(157, 645);
+			this.labelBatch.Location = new System.Drawing.Point(161, 653);
 			this.labelBatch.Name = "labelBatch";
 			this.labelBatch.Size = new System.Drawing.Size(739, 24);
 			this.labelBatch.TabIndex = 153;
@@ -130,7 +129,7 @@ namespace OpenPmsDental{
 			// FormReconcileProblem
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(993, 713);
+			this.ClientSize = new System.Drawing.Size(989, 685);
 			this.Controls.Add(this.labelBatch);
 			this.Controls.Add(this.gridProbExisting);
 			this.Controls.Add(this.gridProbImport);
@@ -139,7 +138,6 @@ namespace OpenPmsDental{
 			this.Controls.Add(this.butAddNew);
 			this.Controls.Add(this.butAddExist);
 			this.Controls.Add(this.gridProbReconcile);
-			this.Controls.Add(this.butClose);
 			this.Name = "FormReconcileProblem";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Reconcile Problems";
@@ -150,7 +148,6 @@ namespace OpenPmsDental{
 
 		#endregion
 
-		private OpenPmsDental.UI.Button butClose;
 		private UI.GridOD gridProbReconcile;
 		private UI.GridOD gridProbImport;
 		private UI.GridOD gridProbExisting;

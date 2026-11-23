@@ -57,23 +57,23 @@ namespace OpenPmsDental{
 			// label1
 			// 
 			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label1.Location = new System.Drawing.Point(113, 453);
+			this.label1.Location = new System.Drawing.Point(104, 464);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(550, 42);
+			this.label1.Size = new System.Drawing.Size(668, 31);
 			this.label1.TabIndex = 61;
 			this.label1.Text = resources.GetString("label1.Text");
-			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.label1.TextAlign = System.Drawing.ContentAlignment.TopLeft;
 			// 
 			// label2
 			// 
 			this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label2.Location = new System.Drawing.Point(113, 493);
+			this.label2.Location = new System.Drawing.Point(104, 503);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(431, 35);
+			this.label2.Size = new System.Drawing.Size(668, 31);
 			this.label2.TabIndex = 63;
 			this.label2.Text = "Use the Test button to generate and display some sample key values for this compu" +
     "ter.  The displayed values should fall within the range set above.";
-			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.label2.TextAlign = System.Drawing.ContentAlignment.TopLeft;
 			// 
 			// label3
 			// 
@@ -152,7 +152,7 @@ namespace OpenPmsDental{
 			this.gridMain.HScrollVisible = true;
 			this.gridMain.Location = new System.Drawing.Point(8, 32);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(764, 417);
+			this.gridMain.Size = new System.Drawing.Size(764, 420);
 			this.gridMain.TabIndex = 57;
 			this.gridMain.Title = "Servers";
 			this.gridMain.TranslationName = "FormReplicationSetup";
@@ -205,7 +205,7 @@ namespace OpenPmsDental{
 			// 
 			this.butTest.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butTest.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butTest.Location = new System.Drawing.Point(17, 481);
+			this.butTest.Location = new System.Drawing.Point(8, 499);
 			this.butTest.Name = "butTest";
 			this.butTest.Size = new System.Drawing.Size(90, 24);
 			this.butTest.TabIndex = 62;
@@ -216,7 +216,7 @@ namespace OpenPmsDental{
 			// 
 			this.butSetRanges.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butSetRanges.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butSetRanges.Location = new System.Drawing.Point(17, 453);
+			this.butSetRanges.Location = new System.Drawing.Point(8, 460);
 			this.butSetRanges.Name = "butSetRanges";
 			this.butSetRanges.Size = new System.Drawing.Size(90, 24);
 			this.butSetRanges.TabIndex = 59;

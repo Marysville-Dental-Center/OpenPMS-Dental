@@ -64,7 +64,7 @@
 			this.textApptModNote.Multiline = true;
 			this.textApptModNote.Name = "textApptModNote";
 			this.textApptModNote.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.textApptModNote.Size = new System.Drawing.Size(189, 36);
+			this.textApptModNote.Size = new System.Drawing.Size(196, 36);
 			this.textApptModNote.TabIndex = 44;
 			this.textApptModNote.Leave += new System.EventHandler(this.textApptModNote_Leave);
 			// 
@@ -83,7 +83,7 @@
 			// 
 			this.butGoTo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butGoTo.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butGoTo.Location = new System.Drawing.Point(31, 626);
+			this.butGoTo.Location = new System.Drawing.Point(12, 626);
 			this.butGoTo.Name = "butGoTo";
 			this.butGoTo.Size = new System.Drawing.Size(125, 24);
 			this.butGoTo.TabIndex = 46;
@@ -95,7 +95,7 @@
 			this.butPin.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butPin.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Pin,20,23);
 			this.butPin.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butPin.Location = new System.Drawing.Point(165, 626);
+			this.butPin.Location = new System.Drawing.Point(143, 626);
 			this.butPin.Name = "butPin";
 			this.butPin.Size = new System.Drawing.Size(134, 24);
 			this.butPin.TabIndex = 47;
@@ -107,7 +107,7 @@
 			this.butNew.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butNew.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butNew.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butNew.Location = new System.Drawing.Point(576, 626);
+			this.butNew.Location = new System.Drawing.Point(545, 626);
 			this.butNew.Name = "butNew";
 			this.butNew.Size = new System.Drawing.Size(125, 24);
 			this.butNew.TabIndex = 48;
@@ -186,7 +186,7 @@
 			this.butRecall.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butRecall.Icon = OpenPmsDental.UI.EnumIcons.Recall;
 			this.butRecall.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butRecall.Location = new System.Drawing.Point(308, 626);
+			this.butRecall.Location = new System.Drawing.Point(283, 626);
 			this.butRecall.Name = "butRecall";
 			this.butRecall.Size = new System.Drawing.Size(125, 24);
 			this.butRecall.TabIndex = 60;
@@ -204,7 +204,7 @@
 			this.textFinUrg.Name = "textFinUrg";
 			this.textFinUrg.ReadOnly = true;
 			this.textFinUrg.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.textFinUrg.Size = new System.Drawing.Size(189, 81);
+			this.textFinUrg.Size = new System.Drawing.Size(196, 81);
 			this.textFinUrg.TabIndex = 63;
 			// 
 			// label3
@@ -223,7 +223,7 @@
 			this.butNote.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butNote.Icon = OpenPmsDental.UI.EnumIcons.Note;
 			this.butNote.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butNote.Location = new System.Drawing.Point(442, 626);
+			this.butNote.Location = new System.Drawing.Point(414, 626);
 			this.butNote.Name = "butNote";
 			this.butNote.Size = new System.Drawing.Size(125, 24);
 			this.butNote.TabIndex = 65;
@@ -235,7 +235,7 @@
 			this.butRecallFamily.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butRecallFamily.Icon = OpenPmsDental.UI.EnumIcons.Recall;
 			this.butRecallFamily.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butRecallFamily.Location = new System.Drawing.Point(308, 554);
+			this.butRecallFamily.Location = new System.Drawing.Point(283, 554);
 			this.butRecallFamily.Name = "butRecallFamily";
 			this.butRecallFamily.Size = new System.Drawing.Size(125, 24);
 			this.butRecallFamily.TabIndex = 66;
@@ -260,7 +260,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridMain.Location = new System.Drawing.Point(12, 152);
 			this.gridMain.Name = "gridOD1";
-			this.gridMain.Size = new System.Drawing.Size(897, 398);
+			this.gridMain.Size = new System.Drawing.Size(904, 398);
 			this.gridMain.TabIndex = 69;
 			this.gridMain.Title = "Appointments for Patient";
 			this.gridMain.CellDoubleClick += new OpenPmsDental.UI.ODGridClickEventHandler(this.gridMain_CellDoubleClick);

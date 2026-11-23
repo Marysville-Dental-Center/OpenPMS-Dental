@@ -42,7 +42,7 @@ namespace OpenPmsDental{
 			// 
 			this.checkUnattached.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.checkUnattached.AutoSize = false;
-			this.checkUnattached.Location = new System.Drawing.Point(12, 453);
+			this.checkUnattached.Location = new System.Drawing.Point(8, 453);
 			this.checkUnattached.Name = "checkUnattached";
 			this.checkUnattached.Size = new System.Drawing.Size(147, 20);
 			this.checkUnattached.TabIndex = 5;
@@ -54,9 +54,9 @@ namespace OpenPmsDental{
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(12, 8);
+			this.gridMain.Location = new System.Drawing.Point(8, 8);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(605, 441);
+			this.gridMain.Size = new System.Drawing.Size(613, 441);
 			this.gridMain.TabIndex = 4;
 			this.gridMain.Title = "Adjustments";
 			this.gridMain.TranslationName = "TableAjdustmentPicker";

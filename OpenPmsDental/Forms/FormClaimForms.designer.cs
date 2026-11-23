@@ -59,7 +59,7 @@ namespace OpenPmsDental {
 			this.groupBox2.Controls.Add(this.comboReassign);
 			this.groupBox2.Controls.Add(this.butReassign);
 			this.groupBox2.Controls.Add(this.label2);
-			this.groupBox2.Location = new System.Drawing.Point(550, 71);
+			this.groupBox2.Location = new System.Drawing.Point(550, 79);
 			this.groupBox2.Name = "groupBox2";
 			this.groupBox2.Size = new System.Drawing.Size(232, 131);
 			this.groupBox2.TabIndex = 12;
@@ -99,7 +99,7 @@ namespace OpenPmsDental {
 			this.groupBox1.Controls.Add(this.butAdd);
 			this.groupBox1.Controls.Add(this.butImport);
 			this.groupBox1.Controls.Add(this.butDelete);
-			this.groupBox1.Location = new System.Drawing.Point(550, 210);
+			this.groupBox1.Location = new System.Drawing.Point(550, 218);
 			this.groupBox1.Name = "groupBox1";
 			this.groupBox1.Size = new System.Drawing.Size(232, 108);
 			this.groupBox1.TabIndex = 11;
@@ -155,7 +155,7 @@ namespace OpenPmsDental {
 			// 
 			this.label1.Location = new System.Drawing.Point(8, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(466, 28);
+			this.label1.Size = new System.Drawing.Size(466, 30);
 			this.label1.TabIndex = 19;
 			this.label1.Text = "Internal forms cannot be edited or printed. \r\nCopy the form over to a custom form" +
     " first.";
@@ -165,9 +165,9 @@ namespace OpenPmsDental {
 			this.gridCustom.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridCustom.Location = new System.Drawing.Point(284, 38);
+			this.gridCustom.Location = new System.Drawing.Point(284, 46);
 			this.gridCustom.Name = "gridCustom";
-			this.gridCustom.Size = new System.Drawing.Size(260, 372);
+			this.gridCustom.Size = new System.Drawing.Size(260, 364);
 			this.gridCustom.TabIndex = 17;
 			this.gridCustom.Title = "Custom Claim Forms";
 			this.gridCustom.TranslationName = "TableClaimFormsCustom";
@@ -177,9 +177,9 @@ namespace OpenPmsDental {
 			// 
 			this.gridInternal.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-			this.gridInternal.Location = new System.Drawing.Point(8, 38);
+			this.gridInternal.Location = new System.Drawing.Point(8, 46);
 			this.gridInternal.Name = "gridInternal";
-			this.gridInternal.Size = new System.Drawing.Size(186, 372);
+			this.gridInternal.Size = new System.Drawing.Size(186, 364);
 			this.gridInternal.TabIndex = 16;
 			this.gridInternal.Title = "Internal Claim Forms";
 			this.gridInternal.TranslationName = "TableClaimFormsInternal";
@@ -189,7 +189,7 @@ namespace OpenPmsDental {
 			// 
 			this.butCopy.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.ArrowRight,22,22);
 			this.butCopy.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butCopy.Location = new System.Drawing.Point(210, 38);
+			this.butCopy.Location = new System.Drawing.Point(210, 46);
 			this.butCopy.Name = "butCopy";
 			this.butCopy.Size = new System.Drawing.Size(68, 23);
 			this.butCopy.TabIndex = 18;
@@ -199,7 +199,7 @@ namespace OpenPmsDental {
 			// butDefault
 			// 
 			this.butDefault.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butDefault.Location = new System.Drawing.Point(550, 40);
+			this.butDefault.Location = new System.Drawing.Point(550, 48);
 			this.butDefault.Name = "butDefault";
 			this.butDefault.Size = new System.Drawing.Size(87, 23);
 			this.butDefault.TabIndex = 12;

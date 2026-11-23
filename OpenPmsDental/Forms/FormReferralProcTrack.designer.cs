@@ -68,7 +68,7 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridMain.Location = new System.Drawing.Point(23, 35);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(762, 411);
+			this.gridMain.Size = new System.Drawing.Size(762, 463);
 			this.gridMain.TabIndex = 4;
 			this.gridMain.Title = "Referred Procedures";
 			this.gridMain.TranslationName = "TableProcedures";
@@ -79,7 +79,7 @@ namespace OpenPmsDental{
 			this.butPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butPrint.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Print,16,16);
 			this.butPrint.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butPrint.Location = new System.Drawing.Point(23, 450);
+			this.butPrint.Location = new System.Drawing.Point(23, 502);
 			this.butPrint.Name = "butPrint";
 			this.butPrint.Size = new System.Drawing.Size(79, 24);
 			this.butPrint.TabIndex = 5;

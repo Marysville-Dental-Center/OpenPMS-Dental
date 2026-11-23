@@ -109,9 +109,9 @@
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(12, 196);
+			this.gridMain.Location = new System.Drawing.Point(8, 196);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(385, 131);
+			this.gridMain.Size = new System.Drawing.Size(389, 131);
 			this.gridMain.TabIndex = 24;
 			this.gridMain.Title = "Attached Lab Panels";
 			this.gridMain.TranslationName = "TableAttachedPanels";

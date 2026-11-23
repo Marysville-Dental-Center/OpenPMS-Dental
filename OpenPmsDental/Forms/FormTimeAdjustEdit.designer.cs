@@ -56,7 +56,7 @@ namespace OpenPmsDental {
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(58, 51);
+			this.label1.Location = new System.Drawing.Point(58, 56);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(100, 23);
 			this.label1.TabIndex = 0;
@@ -65,7 +65,7 @@ namespace OpenPmsDental {
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(114, 78);
+			this.label2.Location = new System.Drawing.Point(114, 83);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(44, 23);
 			this.label2.TabIndex = 0;
@@ -74,14 +74,14 @@ namespace OpenPmsDental {
 			// 
 			// textTimeEntry
 			// 
-			this.textTimeEntry.Location = new System.Drawing.Point(164, 51);
+			this.textTimeEntry.Location = new System.Drawing.Point(164, 56);
 			this.textTimeEntry.Name = "textTimeEntry";
 			this.textTimeEntry.Size = new System.Drawing.Size(156, 23);
 			this.textTimeEntry.TabIndex = 3;
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(118, 207);
+			this.label4.Location = new System.Drawing.Point(118, 212);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(40, 23);
 			this.label4.TabIndex = 0;
@@ -92,7 +92,7 @@ namespace OpenPmsDental {
 			// 
 			this.textNote.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textNote.Location = new System.Drawing.Point(164, 207);
+			this.textNote.Location = new System.Drawing.Point(164, 212);
 			this.textNote.Multiline = true;
 			this.textNote.Name = "textNote";
 			this.textNote.Size = new System.Drawing.Size(350, 96);
@@ -101,7 +101,7 @@ namespace OpenPmsDental {
 			// checkOvertime
 			// 
 			this.checkOvertime.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkOvertime.Location = new System.Drawing.Point(164, 105);
+			this.checkOvertime.Location = new System.Drawing.Point(164, 110);
 			this.checkOvertime.Name = "checkOvertime";
 			this.checkOvertime.Size = new System.Drawing.Size(139, 20);
 			this.checkOvertime.TabIndex = 5;
@@ -109,16 +109,16 @@ namespace OpenPmsDental {
 			// 
 			// textHours
 			// 
-			this.textHours.Location = new System.Drawing.Point(164, 78);
+			this.textHours.Location = new System.Drawing.Point(164, 83);
 			this.textHours.Name = "textHours";
-			this.textHours.Size = new System.Drawing.Size(68, 20);
+			this.textHours.Size = new System.Drawing.Size(68, 23);
 			this.textHours.TabIndex = 4;
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(309, 106);
+			this.label3.Location = new System.Drawing.Point(309, 110);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(306, 18);
+			this.label3.Size = new System.Drawing.Size(308, 20);
 			this.label3.TabIndex = 0;
 			this.label3.Text = "(the hours will be shifted from regular time to overtime)";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -148,9 +148,9 @@ namespace OpenPmsDental {
 			// radioAuto
 			// 
 			this.radioAuto.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.radioAuto.Location = new System.Drawing.Point(39, 8);
+			this.radioAuto.Location = new System.Drawing.Point(164, 8);
 			this.radioAuto.Name = "radioAuto";
-			this.radioAuto.Size = new System.Drawing.Size(139, 24);
+			this.radioAuto.Size = new System.Drawing.Size(142, 20);
 			this.radioAuto.TabIndex = 1;
 			this.radioAuto.TabStop = true;
 			this.radioAuto.Text = "Automatically entered";
@@ -160,9 +160,9 @@ namespace OpenPmsDental {
 			// radioManual
 			// 
 			this.radioManual.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.radioManual.Location = new System.Drawing.Point(39, 25);
+			this.radioManual.Location = new System.Drawing.Point(164, 32);
 			this.radioManual.Name = "radioManual";
-			this.radioManual.Size = new System.Drawing.Size(139, 22);
+			this.radioManual.Size = new System.Drawing.Size(117, 20);
 			this.radioManual.TabIndex = 2;
 			this.radioManual.TabStop = true;
 			this.radioManual.Text = "Manually entered";
@@ -171,23 +171,23 @@ namespace OpenPmsDental {
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(182, 24);
+			this.label5.Location = new System.Drawing.Point(287, 32);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(172, 18);
+			this.label5.Size = new System.Drawing.Size(172, 20);
 			this.label5.TabIndex = 0;
 			this.label5.Text = "(protected from auto deletion)";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// comboPTO
 			// 
-			this.comboPTO.Location = new System.Drawing.Point(164, 153);
+			this.comboPTO.Location = new System.Drawing.Point(164, 158);
 			this.comboPTO.Name = "comboPTO";
 			this.comboPTO.Size = new System.Drawing.Size(120, 23);
 			this.comboPTO.TabIndex = 6;
 			// 
 			// labelPTO
 			// 
-			this.labelPTO.Location = new System.Drawing.Point(94, 153);
+			this.labelPTO.Location = new System.Drawing.Point(94, 158);
 			this.labelPTO.Name = "labelPTO";
 			this.labelPTO.Size = new System.Drawing.Size(64, 23);
 			this.labelPTO.TabIndex = 0;
@@ -197,7 +197,7 @@ namespace OpenPmsDental {
 			// checkUnpaidProtectedLeave
 			// 
 			this.checkUnpaidProtectedLeave.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkUnpaidProtectedLeave.Location = new System.Drawing.Point(164, 129);
+			this.checkUnpaidProtectedLeave.Location = new System.Drawing.Point(164, 134);
 			this.checkUnpaidProtectedLeave.Name = "checkUnpaidProtectedLeave";
 			this.checkUnpaidProtectedLeave.Size = new System.Drawing.Size(110, 20);
 			this.checkUnpaidProtectedLeave.TabIndex = 100;
@@ -206,7 +206,7 @@ namespace OpenPmsDental {
 			// 
 			// textUser
 			// 
-			this.textUser.Location = new System.Drawing.Point(164, 180);
+			this.textUser.Location = new System.Drawing.Point(164, 185);
 			this.textUser.Name = "textUser";
 			this.textUser.ReadOnly = true;
 			this.textUser.Size = new System.Drawing.Size(120, 23);
@@ -215,7 +215,7 @@ namespace OpenPmsDental {
 			// 
 			// labelUser
 			// 
-			this.labelUser.Location = new System.Drawing.Point(122, 180);
+			this.labelUser.Location = new System.Drawing.Point(122, 185);
 			this.labelUser.Name = "labelUser";
 			this.labelUser.Size = new System.Drawing.Size(36, 23);
 			this.labelUser.TabIndex = 103;

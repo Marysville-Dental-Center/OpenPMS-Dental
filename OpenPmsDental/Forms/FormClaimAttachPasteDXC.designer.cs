@@ -51,7 +51,7 @@ namespace OpenPmsDental {
 			// butSend
 			// 
 			this.butSend.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSend.Location = new System.Drawing.Point(1094, 447);
+			this.butSend.Location = new System.Drawing.Point(1094, 453);
 			this.butSend.Name = "butSend";
 			this.butSend.Size = new System.Drawing.Size(75, 24);
 			this.butSend.TabIndex = 19;
@@ -178,9 +178,9 @@ namespace OpenPmsDental {
 			// 
 			this.labelClaimAttachWarning.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelClaimAttachWarning.ForeColor = System.Drawing.Color.DarkRed;
-			this.labelClaimAttachWarning.Location = new System.Drawing.Point(1037, 340);
+			this.labelClaimAttachWarning.Location = new System.Drawing.Point(879, 340);
 			this.labelClaimAttachWarning.Name = "labelClaimAttachWarning";
-			this.labelClaimAttachWarning.Size = new System.Drawing.Size(135, 103);
+			this.labelClaimAttachWarning.Size = new System.Drawing.Size(290, 48);
 			this.labelClaimAttachWarning.TabIndex = 50;
 			this.labelClaimAttachWarning.Text = "No claim attachment image category definition found.  Images will be saved using " +
     "the first image category.";
@@ -188,7 +188,7 @@ namespace OpenPmsDental {
 			// buttonPasteAgain
 			// 
 			this.buttonPasteAgain.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.buttonPasteAgain.Location = new System.Drawing.Point(1085, 414);
+			this.buttonPasteAgain.Location = new System.Drawing.Point(1001, 453);
 			this.buttonPasteAgain.Name = "buttonPasteAgain";
 			this.buttonPasteAgain.Size = new System.Drawing.Size(87, 24);
 			this.buttonPasteAgain.TabIndex = 51;
