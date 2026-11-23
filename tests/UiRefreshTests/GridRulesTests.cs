@@ -57,6 +57,249 @@ namespace UiRefreshTests {
 			return hashSetKnown;
 		}
 
+		///<summary>UI-12 slice 1 (fix round 8): the texts a window's code gives a label or check box at run time (Data\grid-runtime-texts.tsv:
+		///window, control, text with \n for a line break, its width on one line at Segoe UI 9, why). The layout scripts size the control for the
+		///widest of its texts (grid_hand.py's Hand.lw); the test sets each text and measures it in the laid-out control.</summary>
+		public static List<string[]> ReadRuntimeTexts() {
+			List<string[]> listRows=new List<string[]>();
+			string[] arrayLines=File.ReadAllLines(RepoPaths.DataFile("grid-runtime-texts.tsv"));
+			foreach(string line in arrayLines) {
+				if(line.Trim()=="" || line.StartsWith("#")) {
+					continue;
+				}
+				if(line.StartsWith("window\t")) {
+					Assert.AreEqual("window\tcontrol\ttext\twidth\twhy",line,"grid-runtime-texts.tsv's header.");
+					continue;
+				}
+				string[] arrayFields=line.Split('\t');
+				Assert.AreEqual(5,arrayFields.Length,"grid-runtime-texts.tsv needs window, control, text, width and why: "+line);
+				listRows.Add(arrayFields);
+			}
+			return listRows;
+		}
+
+		///<summary>UI-12 slice 1 (fix round 8): no covered text (the owner's addition of 2026-11-21) in the grid windows, measured as the text-fit
+		///scan measures it (TextFitMeasurer at the program's font): every label and check box or radio button the designer shows holds its text,
+		///on one line or wrapped in its height (a check box of three lines kept three lines tall: FormFamilyBalancer's Changed Since check box);
+		///and every text of grid-runtime-texts.tsv fits the control the code gives it to (FormClinicEdit's Canadian address labels,
+		///FormScheduleDayEdit's two-line day).</summary>
+		private static void CheckText(GridWindow gridWindow,Control root,List<string[]> listRuntimeTexts,List<string> listFindings) {
+			string window=gridWindow.Window;
+			foreach(Control control in Walk(root)) {
+				if(control==root || !(control is Label || IsCheck(control)) || string.IsNullOrWhiteSpace(control.Text) || control.Width<=0 || control.Height<=0) {
+					continue;
+				}
+				if(control.Dock!=DockStyle.None || !TextFitBoundsRecord.IsDesignedVisible(control) || control.Name=="") {
+					continue;
+				}
+				if(IsCut(control,out string detail)) {
+					listFindings.Add(window+"\ttext\t"+control.Name);
+					ListTextDetails.Add(window+" "+control.Name+" "+detail);
+				}
+			}
+			foreach(string[] arrayRow in listRuntimeTexts.Where(x => x[0]==window)) {
+				Control control=Walk(root).FirstOrDefault(x => x.Name==arrayRow[1]);
+				Assert.IsNotNull(control,"grid-runtime-texts.tsv names a control the window does not have: "+string.Join(" ",arrayRow.Take(2)));
+				string textDesigner=control.Text;
+				try {
+					control.Text=arrayRow[2].Replace("\\n","\r\n");
+					int width=TextFitMeasurer.MeasureLineGdi(control.Text.Split(new string[] { "\r\n" },StringSplitOptions.None).OrderByDescending(x => x.Length).First(),
+						control.Font,TextFitMeasurer.GetStockFlags(control)).Width;
+					if(Math.Abs(width-int.Parse(arrayRow[3]))>2 && !control.Text.Contains("\r\n")) {
+						listFindings.Add(window+"\truntime-width\t"+control.Name+" measures "+width);
+					}
+					if(IsCut(control,out string detail)) {
+						listFindings.Add(window+"\truntime-text\t"+control.Name);
+						ListTextDetails.Add(window+" "+control.Name+" (runtime) "+detail);
+					}
+				}
+				finally {
+					control.Text=textDesigner;
+				}
+			}
+		}
+
+		///<summary>The control's text does not fit it. A label as the text-fit scan measures it (TextFitMeasurer): wrapped lines that need more
+		///height than it has, or a line 3 px or more too wide or too tall for it (1-2 px is the measure's rounding, the scan's "fixable" class).
+		///A check box or radio button: its text wrapped as it draws it (the program's check box: GDI+ in its width less the 12 px box and 3 px;
+		///a stock one: TextRenderer in its width less what its preferred size adds to the text, 2 px of rounding allowed as for labels), its line
+		///breaks kept; two lines or more that
+		///its height does not hold are cut (one line is the grid's 18 and 20 px row, whatever the measure's line spacing). The scan's own
+		///classification measures a text with line breaks on one line, so it would read FormFamilyBalancer's three-line check box as too wide
+		///rather than too short.</summary>
+		private static bool IsCut(Control control,out string detail) {
+			if(IsCheck(control)) {
+				Size sizeWrapped;
+				Size sizeLine;
+				if(TextFitMeasurer.IsOfType(control,TextFitMeasurer.TYPE_UI_CHECKBOX)) {
+					using(StringFormat stringFormat=new StringFormat()) {
+						sizeWrapped=TextFitMeasurer.MeasureWrappedGdiPlus(control.Text,control.Font,control.Width-12-3,stringFormat);
+						sizeLine=TextFitMeasurer.MeasureWrappedGdiPlus("Ag",control.Font,1000,stringFormat);
+					}
+				}
+				else {
+					TextFormatFlags flags=TextFitMeasurer.GetStockFlags(control);
+					int widthExtra=Math.Max(0,control.GetPreferredSize(Size.Empty).Width-TextFitMeasurer.MeasureLineGdi(control.Text,control.Font,flags).Width);
+					sizeWrapped=TextFitMeasurer.MeasureWrappedGdi(control.Text,control.Font,control.Width-widthExtra+2,flags);
+					sizeLine=TextFitMeasurer.MeasureLineGdi("Ag",control.Font,flags);
+				}
+				int countLines=(int)Math.Round(sizeWrapped.Height/(double)Math.Max(1,sizeLine.Height));
+				detail="wrapped "+sizeWrapped.Width+"x"+sizeWrapped.Height+" ("+countLines+" lines of "+sizeLine.Height+") in "+control.Width+"x"+control.Height;
+				return countLines>=2 && sizeWrapped.Height>control.Height+3;
+			}
+			TextFitResult result=TextFitMeasurer.Measure(control,1f);
+			detail=result.Kind+" "+control.Width+"x"+control.Height+" needs +"+result.NeedWidth+" x +"+result.NeedHeight;
+			if(result.Method==TextFitMethod.None) {
+				return false;
+			}
+			return result.Kind==TextFitKind.Line || (result.Kind==TextFitKind.Width && (result.NeedWidth>=3 || result.NeedHeight>=3));
+		}
+
+		///<summary>The measurements of the text findings, for the failure message.</summary>
+		private static List<string> ListTextDetails=new List<string>();
+
+		///<summary>UI-12 slice 1 (fix round 8): outside Canada FormCarrierEdit's Load hides the CDAnet group and the Is CDAnet Carrier check box and
+		///sets the window 560 px wide and their heights less tall (this.Height-groupCDAnet.Height-checkIsCDAnet.Height). Every other control, the
+		///Carrier Group row Load shows when a CarrierGroupNames definition exists too, stays inside the smaller client area above the bottom bar
+		///(the bar is anchored to the bottom and moves up with it).</summary>
+		[TestMethod]
+		public void FormCarrierEdit_OutsideCanada_EveryControlFits() {
+			List<string> listProblems=new List<string>();
+			StaRunner.Run(() => {
+				NoDatabaseGuard.Install();
+				ScanType scanType=WindowBuilder.GetScanTypes().First(x => x.WindowKey=="OpenPmsDental.FormCarrierEdit");
+				FitGallery.SetGalleryFont("program");
+				try {
+					using(BuiltWindow builtWindow=WindowBuilder.Build(scanType)) {
+						Control root=((FormODBase)builtWindow.Root).PanelClient;
+						Control groupCDAnet=root.Controls["groupCDAnet"];
+						Control checkIsCDAnet=root.Controls["checkIsCDAnet"];
+						int heightClient=root.Height-groupCDAnet.Height-checkIsCDAnet.Height;
+						int widthClient=560-(builtWindow.Form.Width-root.Width);
+						Assert.IsTrue(widthClient>500 && widthClient<=560,"The client width at 560 px: "+widthClient);
+						//The bottom bar (anchored to the bottom in the designer; LayoutManager keeps it on the client area's bottom).
+						List<Control> listBar=new List<Control> { root.Controls["butSave"],root.Controls["butDelete"] };
+						Assert.IsTrue(listBar.All(x => x!=null),"Save and Delete stand on the window.");
+						int yBar=listBar.Min(x => x.Top)-(root.Height-heightClient);
+						foreach(Control control in root.Controls) {
+							if(control==groupCDAnet || control==checkIsCDAnet || listBar.Contains(control)) {
+								continue;
+							}
+							if(!TextFitBoundsRecord.IsDesignedVisible(control) && control.Name!="labelCarrierGroupName" && control.Name!="comboCarrierGroupName") {
+								continue;
+							}
+							if(control.Bottom>yBar-8 || control.Right>widthClient-8) {
+								listProblems.Add(control.Name+" "+control.Bounds+" (client "+widthClient+" x "+heightClient+", bar at "+yBar+")");
+							}
+						}
+						//Save moves left with the window's right edge (anchored right): it stays right of Delete.
+						if(listBar[0].Left-(root.Width-widthClient)<listBar[1].Right+8) {
+							listProblems.Add("butSave over butDelete");
+						}
+					}
+				}
+				finally {
+					UiTheme.SetFontForTest(null);
+					DefaultFontOverride.Set(TextFitFontOption.Today,1f);
+				}
+			});
+			Assert.AreEqual(0,listProblems.Count,"Controls outside FormCarrierEdit's client area outside Canada: "+string.Join("; ",listProblems));
+		}
+
+		///<summary>UI-12 slice 1 fix round 9: the clinic picker draws its label ("Clinic", "Clinics") as a right-aligned WinForms Label draws its
+		///text, so in a window where it stands in a column of labels its text ends on the labels' ink edge. Drawn as the gallery draws the window
+		///(DesignSheetWindows.Capture), the picker's rightmost ink pixel left of its box is within 1 px of the nearest one of the right-aligned
+		///labels whose bounds end where its label area does (6 px before its box). Before this round its paint left out TextBoxControl, so
+		///TextRenderer added its side padding and the text ended 3-4 px short of the column (FormPayment 92 against 95-96).</summary>
+		[TestMethod]
+		public void ClinicPicker_LabelInk_OnTheLabelColumn() {
+			string[] arrayWindows=new string[] { "OpenPmsDental.FormPayment","OpenPmsDental.FormAdjust","OpenPmsDental.FormPaySplitEdit","OpenPmsDental.FormRxEdit" };
+			List<string> listProblems=new List<string>();
+			List<string> listMeasured=new List<string>();
+			StaRunner.Run(() => {
+				NoDatabaseGuard.Install();
+				List<ScanType> listScanTypes=WindowBuilder.GetScanTypes();
+				foreach(string window in arrayWindows) {
+					ScanType scanType=listScanTypes.First(x => x.WindowKey==window);
+					FitGallery.SetGalleryFont("program");
+					try {
+						using(BuiltWindow builtWindow=WindowBuilder.Build(scanType)) {
+							Control root=builtWindow.Root;
+							if(root is FormODBase formODBase && formODBase.PanelClient!=null) {
+								root=formODBase.PanelClient;
+							}
+							FitGallery.SettleAfterHandles(builtWindow);
+							FitGallery.HideDatePickerCalendars(root);
+							List<OpenPmsDental.UI.ComboBoxClinicPicker> listPickers=Walk(root).OfType<OpenPmsDental.UI.ComboBoxClinicPicker>()
+								.Where(x => x.ShowLabel && TextFitBoundsRecord.IsDesignedVisible(x)).ToList();
+							using(Bitmap bitmap=DesignSheetWindows.Capture(root,Rectangle.Empty)) {
+								int countCompared=0;
+								foreach(OpenPmsDental.UI.ComboBoxClinicPicker picker in listPickers) {
+									int xLabelEnd=picker.Left+picker.WidthLabelArea-(int)Math.Round(6*picker.DeviceDpi/96f);
+									List<Label> listLabels=picker.Parent.Controls.OfType<Label>()
+										.Where(x => TextFitBoundsRecord.IsDesignedVisible(x) && x.TextAlign.ToString().EndsWith("Right") && x.RightToLeft!=RightToLeft.Yes
+											&& !string.IsNullOrWhiteSpace(x.Text) && Math.Abs(x.Right-xLabelEnd)<=1)
+										.ToList();
+									if(listLabels.Count==0) {
+										continue;
+									}
+									Point pointPicker=GetOffset(picker,root);
+									int inkPicker=GetInkRight(bitmap,new Rectangle(pointPicker.X,pointPicker.Y,picker.WidthLabelArea,picker.Height));
+									List<int> listInkLabels=listLabels.Select(x => {
+										Point point=GetOffset(x,root);
+										return GetInkRight(bitmap,new Rectangle(point.X,point.Y,x.Width,x.Height));
+									}).Where(x => x>=0).ToList();
+									if(inkPicker<0 || listInkLabels.Count==0) {
+										listProblems.Add(window+" "+picker.Name+": no ink found");
+										continue;
+									}
+									countCompared++;
+									int diffNearest=listInkLabels.Min(x => Math.Abs(x-inkPicker));
+									listMeasured.Add(window+" "+picker.Name+" ink "+inkPicker+", labels "+string.Join(",",listInkLabels));
+									if(diffNearest>1) {
+										listProblems.Add(window+" "+picker.Name+": its label's ink ends at "+inkPicker+", the column's labels at "+string.Join(",",listInkLabels));
+									}
+								}
+								if(countCompared==0) {
+									listProblems.Add(window+": no clinic picker in a column of right-aligned labels");
+								}
+							}
+						}
+					}
+					finally {
+						UiTheme.SetFontForTest(null);
+						DefaultFontOverride.Set(TextFitFontOption.Today,1f);
+					}
+				}
+			});
+			Assert.AreEqual(0,listProblems.Count,"Clinic pickers whose label is off the label column: "+string.Join("; ",listProblems)
+				+Environment.NewLine+"Measured: "+string.Join("; ",listMeasured));
+		}
+
+		///<summary>The control's top left in the root's coordinates (the sum of the locations up the parents; group boxes, panels and tab pages
+		///have their client area at their bounds' origin).</summary>
+		private static Point GetOffset(Control control,Control root) {
+			Point point=Point.Empty;
+			for(Control controlAt=control;controlAt!=null && controlAt!=root;controlAt=controlAt.Parent) {
+				point.Offset(controlAt.Left,controlAt.Top);
+			}
+			return point;
+		}
+
+		///<summary>The rightmost column of the rectangle with a dark (text) pixel, or -1.</summary>
+		private static int GetInkRight(Bitmap bitmap,Rectangle rectangle) {
+			rectangle.Intersect(new Rectangle(0,0,bitmap.Width,bitmap.Height));
+			for(int x=rectangle.Right-1;x>=rectangle.Left;x--) {
+				for(int y=rectangle.Top;y<rectangle.Bottom;y++) {
+					Color color=bitmap.GetPixel(x,y);
+					if(0.299*color.R+0.587*color.G+0.114*color.B<110) {
+						return x;
+					}
+				}
+			}
+			return -1;
+		}
+
 		[TestMethod]
 		public void GridWindows_DataFilesAgree() {
 			List<GridWindow> listWindows=ReadGridWindows();
@@ -109,6 +352,7 @@ namespace UiRefreshTests {
 		public void GridWindows_FollowTheRules() {
 			List<GridWindow> listWindows=ReadGridWindows();
 			HashSet<string> hashSetKnown=ReadKnown();
+			List<string[]> listRuntimeTexts=ReadRuntimeTexts();
 			List<string> listFindings=new List<string>();
 			List<string> listFailed=new List<string>();
 			StaRunner.Run(() => {
@@ -129,6 +373,7 @@ namespace UiRefreshTests {
 							}
 							CheckWindow(gridWindow,root,listFindings);
 							CheckColumns(gridWindow,root,listFindings);
+							CheckText(gridWindow,root,listRuntimeTexts,listFindings);
 						}
 					}
 					catch(Exception exception) {
@@ -143,7 +388,8 @@ namespace UiRefreshTests {
 			Assert.AreEqual(0,listFailed.Count,"Windows that could not be built: "+string.Join("; ",listFailed));
 			List<string> listNew=listFindings.Where(x => !hashSetKnown.Contains(x)).ToList();
 			List<string> listGone=hashSetKnown.Where(x => !listFindings.Contains(x)).ToList();
-			Assert.AreEqual(0,listNew.Count,"Grid findings not in grid-known.tsv:"+Environment.NewLine+string.Join(Environment.NewLine,listNew));
+			Assert.AreEqual(0,listNew.Count,"Grid findings not in grid-known.tsv:"+Environment.NewLine+string.Join(Environment.NewLine,listNew)
+				+Environment.NewLine+"Text measured:"+Environment.NewLine+string.Join(Environment.NewLine,ListTextDetails));
 			Assert.AreEqual(0,listGone.Count,"grid-known.tsv rows that no longer happen (remove them):"+Environment.NewLine+string.Join(Environment.NewLine,listGone));
 		}
 
@@ -286,6 +532,26 @@ namespace UiRefreshTests {
 						listFindings.Add(window+"\tlabel-gap\t"+label.Name+" "+field.Name);
 					}
 				}
+				//UI-12 slice 1 (fix round 8): a clinic picker under a field of a column (the next row, its box within 40 px of the field's left edge)
+				//has its box on that column: the same left edge, and under a combo box of about its width (right edges within 16 px, the grid's edge
+				//snap) the same right edge too (FormRpDPPOvercharged's and FormRpProcOverpaid's Clinics under Providers). A picker that ends on the
+				//picker button after the combo box (FormAdjust) or well past it is a wider field on the column. The column check does not see a
+				//picker: it names itself, no label stands before it.
+				foreach(Control picker in listKids.Where(x => x is OpenPmsDental.UI.ComboBoxClinicPicker comboBoxClinicPicker && comboBoxClinicPicker.ShowLabel)) {
+					Rectangle rectangleBox=GetBox(picker);
+					Control fieldAbove=listKids.Where(x => x!=picker && IsSingleLineField(x) && x.Bottom<=picker.Top+1 && picker.Top-x.Bottom<12
+						&& Math.Abs(GetBox(x).Left-rectangleBox.Left)<=40).OrderByDescending(x => x.Bottom).FirstOrDefault();
+					if(fieldAbove==null) {
+						continue;
+					}
+					Rectangle rectangleAbove=GetBox(fieldAbove);
+					bool isComboAbove=fieldAbove is System.Windows.Forms.ComboBox || fieldAbove.GetType().Name.Contains("ComboBox");
+					if(Math.Abs(rectangleAbove.Left-rectangleBox.Left)>1
+						|| (isComboAbove && Math.Abs(rectangleAbove.Right-rectangleBox.Right)<=16 && Math.Abs(rectangleAbove.Right-rectangleBox.Right)>1))
+					{
+						listFindings.Add(window+"\tpicker-column\t"+picker.Name+" "+fieldAbove.Name);
+					}
+				}
 			}
 		}
 
@@ -396,7 +662,7 @@ namespace UiRefreshTests {
 		///<summary>The input box a field column aligns: a clinic picker's box after its label area; otherwise the ink.</summary>
 		private static Rectangle GetBox(Control control) {
 			if(control is OpenPmsDental.UI.ComboBoxClinicPicker comboBoxClinicPicker && comboBoxClinicPicker.ShowLabel) {
-				int widthLabel=(int)Math.Round(37*comboBoxClinicPicker.DeviceDpi/96f);
+				int widthLabel=comboBoxClinicPicker.WidthLabelArea;
 				return new Rectangle(control.Left+widthLabel,control.Top,control.Width-widthLabel,control.Height);
 			}
 			return GetInk(control);
@@ -410,8 +676,9 @@ namespace UiRefreshTests {
 				return new Rectangle(rectangle.X+controlDate.Left,rectangle.Y,controlDate.Width,rectangle.Height);
 			}
 			if(control is OpenPmsDental.UI.ComboBoxClinicPicker comboBoxClinicPicker && comboBoxClinicPicker.ShowLabel) {
-				//Fix round: its box and its own label, which it draws right-aligned 6 px before the box (another control over the label covers it).
-				int widthLabel=(int)Math.Round(37*comboBoxClinicPicker.DeviceDpi/96f);
+				//Fix round: its box and its own label, which it draws right-aligned 6 px before the box (another control over the label covers it); slice 1:
+				//its label area is sized from the text (WidthLabelArea).
+				int widthLabel=comboBoxClinicPicker.WidthLabelArea;
 				int widthText;
 				using(StringFormat stringFormat=new StringFormat(StringFormat.GenericTypographic)) {
 					widthText=TextFitMeasurer.MeasureLineGdiPlus(comboBoxClinicPicker.IsMultiSelect ? "Clinics" : "Clinic",comboBoxClinicPicker.Font,stringFormat).Width;

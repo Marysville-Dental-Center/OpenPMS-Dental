@@ -82,9 +82,9 @@ namespace OpenPmsDental{
 			this.tabControlMain.Controls.Add(this.tabPageUnallocatedBalances);
 			this.tabControlMain.Controls.Add(this.tabPageNetUnearned);
 			this.tabControlMain.Controls.Add(this.tabPageLineItemUnearned);
-			this.tabControlMain.Location = new System.Drawing.Point(12, 12);
+			this.tabControlMain.Location = new System.Drawing.Point(8, 8);
 			this.tabControlMain.Name = "tabControlMain";
-			this.tabControlMain.Size = new System.Drawing.Size(623, 519);
+			this.tabControlMain.Size = new System.Drawing.Size(631, 527);
 			this.tabControlMain.TabIndex = 61;
 			this.tabControlMain.SelectedIndexChanged += new System.EventHandler(this.tabControlMain_SelectedIndexChanged);
 			// 
@@ -99,16 +99,16 @@ namespace OpenPmsDental{
 			this.tabPageUnearnedAccounts.Location = new System.Drawing.Point(2, 21);
 			this.tabPageUnearnedAccounts.Name = "tabPageUnearnedAccounts";
 			this.tabPageUnearnedAccounts.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPageUnearnedAccounts.Size = new System.Drawing.Size(619, 496);
+			this.tabPageUnearnedAccounts.Size = new System.Drawing.Size(621, 496);
 			this.tabPageUnearnedAccounts.TabIndex = 3;
 			this.tabPageUnearnedAccounts.Text = "Unearned Accounts";
 			// 
 			// butUnearnedAcctOk
 			// 
 			this.butUnearnedAcctOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butUnearnedAcctOk.Location = new System.Drawing.Point(538, 459);
+			this.butUnearnedAcctOk.Location = new System.Drawing.Point(544, 464);
 			this.butUnearnedAcctOk.Name = "butUnearnedAcctOk";
-			this.butUnearnedAcctOk.Size = new System.Drawing.Size(75, 26);
+			this.butUnearnedAcctOk.Size = new System.Drawing.Size(75, 24);
 			this.butUnearnedAcctOk.TabIndex = 84;
 			this.butUnearnedAcctOk.Text = "&OK";
 			this.butUnearnedAcctOk.Click += new System.EventHandler(this.butUnearnedAcctOk_Click);
@@ -117,17 +117,17 @@ namespace OpenPmsDental{
 			// 
 			this.label1.BackColor = System.Drawing.Color.Transparent;
 			this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label1.Location = new System.Drawing.Point(18, 11);
+			this.label1.Location = new System.Drawing.Point(8, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(585, 72);
+			this.label1.Size = new System.Drawing.Size(585, 62);
 			this.label1.TabIndex = 83;
 			this.label1.Text = resources.GetString("label1.Text");
 			// 
 			// checkUnearnedAcctAllClins
 			// 
-			this.checkUnearnedAcctAllClins.Location = new System.Drawing.Point(21, 114);
+			this.checkUnearnedAcctAllClins.Location = new System.Drawing.Point(8, 90);
 			this.checkUnearnedAcctAllClins.Name = "checkUnearnedAcctAllClins";
-			this.checkUnearnedAcctAllClins.Size = new System.Drawing.Size(154, 17);
+			this.checkUnearnedAcctAllClins.Size = new System.Drawing.Size(134, 20);
 			this.checkUnearnedAcctAllClins.TabIndex = 82;
 			this.checkUnearnedAcctAllClins.Text = "All (Includes hidden)";
 			this.checkUnearnedAcctAllClins.CheckedChanged += new System.EventHandler(this.checkUnearnedAcctAllClins_CheckedChanged);
@@ -137,7 +137,7 @@ namespace OpenPmsDental{
 			this.listUnearnedAcctClins.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.listUnearnedAcctClins.IntegralHeight = false;
-			this.listUnearnedAcctClins.Location = new System.Drawing.Point(21, 131);
+			this.listUnearnedAcctClins.Location = new System.Drawing.Point(8, 114);
 			this.listUnearnedAcctClins.Name = "listUnearnedAcctClins";
 			this.listUnearnedAcctClins.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
 			this.listUnearnedAcctClins.Size = new System.Drawing.Size(154, 354);
@@ -146,7 +146,7 @@ namespace OpenPmsDental{
 			// 
 			// labelUnearnedAcctClins
 			// 
-			this.labelUnearnedAcctClins.Location = new System.Drawing.Point(18, 96);
+			this.labelUnearnedAcctClins.Location = new System.Drawing.Point(8, 72);
 			this.labelUnearnedAcctClins.Name = "labelUnearnedAcctClins";
 			this.labelUnearnedAcctClins.Size = new System.Drawing.Size(104, 16);
 			this.labelUnearnedAcctClins.TabIndex = 80;
@@ -172,15 +172,15 @@ namespace OpenPmsDental{
 			this.tabPageUnallocatedBalances.Location = new System.Drawing.Point(2, 21);
 			this.tabPageUnallocatedBalances.Name = "tabPageUnallocatedBalances";
 			this.tabPageUnallocatedBalances.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPageUnallocatedBalances.Size = new System.Drawing.Size(619, 496);
+			this.tabPageUnallocatedBalances.Size = new System.Drawing.Size(621, 504);
 			this.tabPageUnallocatedBalances.TabIndex = 1;
 			this.tabPageUnallocatedBalances.Text = "Unearned Allocation";
 			// 
 			// checkUnearnedAllocationShowProv
 			// 
-			this.checkUnearnedAllocationShowProv.Location = new System.Drawing.Point(21, 68);
+			this.checkUnearnedAllocationShowProv.Location = new System.Drawing.Point(8, 67);
 			this.checkUnearnedAllocationShowProv.Name = "checkUnearnedAllocationShowProv";
-			this.checkUnearnedAllocationShowProv.Size = new System.Drawing.Size(182, 16);
+			this.checkUnearnedAllocationShowProv.Size = new System.Drawing.Size(145, 20);
 			this.checkUnearnedAllocationShowProv.TabIndex = 77;
 			this.checkUnearnedAllocationShowProv.Text = "Show provider column";
 			// 
@@ -188,35 +188,35 @@ namespace OpenPmsDental{
 			// 
 			this.label4.BackColor = System.Drawing.Color.Transparent;
 			this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label4.Location = new System.Drawing.Point(18, 11);
+			this.label4.Location = new System.Drawing.Point(8, 8);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(571, 57);
+			this.label4.Size = new System.Drawing.Size(611, 57);
 			this.label4.TabIndex = 1;
 			this.label4.Text = resources.GetString("label4.Text");
 			// 
 			// checkUnearnedAllocationExcludeZero
 			// 
-			this.checkUnearnedAllocationExcludeZero.Location = new System.Drawing.Point(21, 84);
+			this.checkUnearnedAllocationExcludeZero.Location = new System.Drawing.Point(8, 91);
 			this.checkUnearnedAllocationExcludeZero.Name = "checkUnearnedAllocationExcludeZero";
-			this.checkUnearnedAllocationExcludeZero.Size = new System.Drawing.Size(474, 18);
+			this.checkUnearnedAllocationExcludeZero.Size = new System.Drawing.Size(343, 20);
 			this.checkUnearnedAllocationExcludeZero.TabIndex = 76;
 			this.checkUnearnedAllocationExcludeZero.Text = "Exclude families with a net $0.00 unearned income balance";
 			// 
 			// butUnearnedAllocationOK
 			// 
 			this.butUnearnedAllocationOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butUnearnedAllocationOK.Location = new System.Drawing.Point(538, 459);
+			this.butUnearnedAllocationOK.Location = new System.Drawing.Point(544, 472);
 			this.butUnearnedAllocationOK.Name = "butUnearnedAllocationOK";
-			this.butUnearnedAllocationOK.Size = new System.Drawing.Size(75, 26);
+			this.butUnearnedAllocationOK.Size = new System.Drawing.Size(75, 24);
 			this.butUnearnedAllocationOK.TabIndex = 74;
 			this.butUnearnedAllocationOK.Text = "&OK";
 			this.butUnearnedAllocationOK.Click += new System.EventHandler(this.butUnearnedAllocationOK_Click);
 			// 
 			// checkUnearnedAllocationAllTypes
 			// 
-			this.checkUnearnedAllocationAllTypes.Location = new System.Drawing.Point(21, 132);
+			this.checkUnearnedAllocationAllTypes.Location = new System.Drawing.Point(8, 136);
 			this.checkUnearnedAllocationAllTypes.Name = "checkUnearnedAllocationAllTypes";
-			this.checkUnearnedAllocationAllTypes.Size = new System.Drawing.Size(95, 17);
+			this.checkUnearnedAllocationAllTypes.Size = new System.Drawing.Size(36, 20);
 			this.checkUnearnedAllocationAllTypes.TabIndex = 72;
 			this.checkUnearnedAllocationAllTypes.Text = "All";
 			this.checkUnearnedAllocationAllTypes.CheckedChanged += new System.EventHandler(this.checkUnearnedAllocationAllTypes_CheckedChanged);
@@ -226,7 +226,7 @@ namespace OpenPmsDental{
 			this.listUnearnedAllocationTypes.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.listUnearnedAllocationTypes.IntegralHeight = false;
-			this.listUnearnedAllocationTypes.Location = new System.Drawing.Point(21, 149);
+			this.listUnearnedAllocationTypes.Location = new System.Drawing.Point(8, 160);
 			this.listUnearnedAllocationTypes.Name = "listUnearnedAllocationTypes";
 			this.listUnearnedAllocationTypes.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
 			this.listUnearnedAllocationTypes.Size = new System.Drawing.Size(154, 336);
@@ -235,7 +235,7 @@ namespace OpenPmsDental{
 			// 
 			// label10
 			// 
-			this.label10.Location = new System.Drawing.Point(18, 114);
+			this.label10.Location = new System.Drawing.Point(8, 115);
 			this.label10.Name = "label10";
 			this.label10.Size = new System.Drawing.Size(104, 17);
 			this.label10.TabIndex = 70;
@@ -244,9 +244,9 @@ namespace OpenPmsDental{
 			// 
 			// checkUnearnedAllocationAllProvs
 			// 
-			this.checkUnearnedAllocationAllProvs.Location = new System.Drawing.Point(181, 132);
+			this.checkUnearnedAllocationAllProvs.Location = new System.Drawing.Point(168, 136);
 			this.checkUnearnedAllocationAllProvs.Name = "checkUnearnedAllocationAllProvs";
-			this.checkUnearnedAllocationAllProvs.Size = new System.Drawing.Size(95, 17);
+			this.checkUnearnedAllocationAllProvs.Size = new System.Drawing.Size(36, 20);
 			this.checkUnearnedAllocationAllProvs.TabIndex = 69;
 			this.checkUnearnedAllocationAllProvs.Text = "All";
 			this.checkUnearnedAllocationAllProvs.CheckedChanged += new System.EventHandler(this.checkUnearnedAllocationAllProvs_CheckedChanged);
@@ -256,7 +256,7 @@ namespace OpenPmsDental{
 			this.listUnearnedAllocationProvs.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.listUnearnedAllocationProvs.IntegralHeight = false;
-			this.listUnearnedAllocationProvs.Location = new System.Drawing.Point(181, 149);
+			this.listUnearnedAllocationProvs.Location = new System.Drawing.Point(168, 160);
 			this.listUnearnedAllocationProvs.Name = "listUnearnedAllocationProvs";
 			this.listUnearnedAllocationProvs.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
 			this.listUnearnedAllocationProvs.Size = new System.Drawing.Size(154, 336);
@@ -265,7 +265,7 @@ namespace OpenPmsDental{
 			// 
 			// label11
 			// 
-			this.label11.Location = new System.Drawing.Point(178, 114);
+			this.label11.Location = new System.Drawing.Point(168, 115);
 			this.label11.Name = "label11";
 			this.label11.Size = new System.Drawing.Size(104, 16);
 			this.label11.TabIndex = 67;
@@ -274,9 +274,9 @@ namespace OpenPmsDental{
 			// 
 			// checkUnearnedAllocationAllClins
 			// 
-			this.checkUnearnedAllocationAllClins.Location = new System.Drawing.Point(341, 132);
+			this.checkUnearnedAllocationAllClins.Location = new System.Drawing.Point(328, 136);
 			this.checkUnearnedAllocationAllClins.Name = "checkUnearnedAllocationAllClins";
-			this.checkUnearnedAllocationAllClins.Size = new System.Drawing.Size(154, 17);
+			this.checkUnearnedAllocationAllClins.Size = new System.Drawing.Size(134, 20);
 			this.checkUnearnedAllocationAllClins.TabIndex = 66;
 			this.checkUnearnedAllocationAllClins.Text = "All (Includes hidden)";
 			this.checkUnearnedAllocationAllClins.CheckedChanged += new System.EventHandler(this.checkUnearnedAllocationAllClins_CheckedChanged);
@@ -286,7 +286,7 @@ namespace OpenPmsDental{
 			this.listUnearnedAllocationClins.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.listUnearnedAllocationClins.IntegralHeight = false;
-			this.listUnearnedAllocationClins.Location = new System.Drawing.Point(341, 149);
+			this.listUnearnedAllocationClins.Location = new System.Drawing.Point(328, 160);
 			this.listUnearnedAllocationClins.Name = "listUnearnedAllocationClins";
 			this.listUnearnedAllocationClins.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
 			this.listUnearnedAllocationClins.Size = new System.Drawing.Size(154, 336);
@@ -295,7 +295,7 @@ namespace OpenPmsDental{
 			// 
 			// labelUnearnedAllocationClins
 			// 
-			this.labelUnearnedAllocationClins.Location = new System.Drawing.Point(338, 114);
+			this.labelUnearnedAllocationClins.Location = new System.Drawing.Point(328, 115);
 			this.labelUnearnedAllocationClins.Name = "labelUnearnedAllocationClins";
 			this.labelUnearnedAllocationClins.Size = new System.Drawing.Size(104, 16);
 			this.labelUnearnedAllocationClins.TabIndex = 64;
@@ -320,15 +320,15 @@ namespace OpenPmsDental{
 			this.tabPageNetUnearned.Location = new System.Drawing.Point(2, 21);
 			this.tabPageNetUnearned.Name = "tabPageNetUnearned";
 			this.tabPageNetUnearned.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPageNetUnearned.Size = new System.Drawing.Size(619, 496);
+			this.tabPageNetUnearned.Size = new System.Drawing.Size(621, 496);
 			this.tabPageNetUnearned.TabIndex = 2;
 			this.tabPageNetUnearned.Text = "Net Unearned Income";
 			// 
 			// checkNetUnearnedExcludeZero
 			// 
-			this.checkNetUnearnedExcludeZero.Location = new System.Drawing.Point(21, 74);
+			this.checkNetUnearnedExcludeZero.Location = new System.Drawing.Point(8, 57);
 			this.checkNetUnearnedExcludeZero.Name = "checkNetUnearnedExcludeZero";
-			this.checkNetUnearnedExcludeZero.Size = new System.Drawing.Size(474, 18);
+			this.checkNetUnearnedExcludeZero.Size = new System.Drawing.Size(343, 20);
 			this.checkNetUnearnedExcludeZero.TabIndex = 78;
 			this.checkNetUnearnedExcludeZero.Text = "Exclude families with a net $0.00 unearned income balance";
 			// 
@@ -336,27 +336,27 @@ namespace OpenPmsDental{
 			// 
 			this.label5.BackColor = System.Drawing.Color.Transparent;
 			this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label5.Location = new System.Drawing.Point(18, 11);
+			this.label5.Location = new System.Drawing.Point(8, 8);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(562, 53);
+			this.label5.Size = new System.Drawing.Size(562, 47);
 			this.label5.TabIndex = 2;
 			this.label5.Text = resources.GetString("label5.Text");
 			// 
 			// butNetUnearnedOK
 			// 
 			this.butNetUnearnedOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butNetUnearnedOK.Location = new System.Drawing.Point(538, 459);
+			this.butNetUnearnedOK.Location = new System.Drawing.Point(544, 464);
 			this.butNetUnearnedOK.Name = "butNetUnearnedOK";
-			this.butNetUnearnedOK.Size = new System.Drawing.Size(75, 26);
+			this.butNetUnearnedOK.Size = new System.Drawing.Size(75, 24);
 			this.butNetUnearnedOK.TabIndex = 76;
 			this.butNetUnearnedOK.Text = "&OK";
 			this.butNetUnearnedOK.Click += new System.EventHandler(this.butNetUnearnedOK_Click);
 			// 
 			// checkNetUnearnedAllTypes
 			// 
-			this.checkNetUnearnedAllTypes.Location = new System.Drawing.Point(21, 114);
+			this.checkNetUnearnedAllTypes.Location = new System.Drawing.Point(8, 103);
 			this.checkNetUnearnedAllTypes.Name = "checkNetUnearnedAllTypes";
-			this.checkNetUnearnedAllTypes.Size = new System.Drawing.Size(95, 17);
+			this.checkNetUnearnedAllTypes.Size = new System.Drawing.Size(36, 20);
 			this.checkNetUnearnedAllTypes.TabIndex = 63;
 			this.checkNetUnearnedAllTypes.Text = "All";
 			this.checkNetUnearnedAllTypes.CheckedChanged += new System.EventHandler(this.checkNetUnearnedAllTypes_CheckedChanged);
@@ -366,7 +366,7 @@ namespace OpenPmsDental{
 			this.listNetUnearnedTypes.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.listNetUnearnedTypes.IntegralHeight = false;
-			this.listNetUnearnedTypes.Location = new System.Drawing.Point(21, 131);
+			this.listNetUnearnedTypes.Location = new System.Drawing.Point(8, 127);
 			this.listNetUnearnedTypes.Name = "listNetUnearnedTypes";
 			this.listNetUnearnedTypes.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
 			this.listNetUnearnedTypes.Size = new System.Drawing.Size(154, 354);
@@ -375,7 +375,7 @@ namespace OpenPmsDental{
 			// 
 			// label9
 			// 
-			this.label9.Location = new System.Drawing.Point(18, 96);
+			this.label9.Location = new System.Drawing.Point(8, 81);
 			this.label9.Name = "label9";
 			this.label9.Size = new System.Drawing.Size(104, 18);
 			this.label9.TabIndex = 61;
@@ -384,9 +384,9 @@ namespace OpenPmsDental{
 			// 
 			// checkNetUnearnedAllProvs
 			// 
-			this.checkNetUnearnedAllProvs.Location = new System.Drawing.Point(181, 114);
+			this.checkNetUnearnedAllProvs.Location = new System.Drawing.Point(168, 103);
 			this.checkNetUnearnedAllProvs.Name = "checkNetUnearnedAllProvs";
-			this.checkNetUnearnedAllProvs.Size = new System.Drawing.Size(95, 17);
+			this.checkNetUnearnedAllProvs.Size = new System.Drawing.Size(36, 20);
 			this.checkNetUnearnedAllProvs.TabIndex = 60;
 			this.checkNetUnearnedAllProvs.Text = "All";
 			this.checkNetUnearnedAllProvs.CheckedChanged += new System.EventHandler(this.checkNetUnearnedAllProvs_CheckedChanged);
@@ -396,7 +396,7 @@ namespace OpenPmsDental{
 			this.listNetUnearnedProvs.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.listNetUnearnedProvs.IntegralHeight = false;
-			this.listNetUnearnedProvs.Location = new System.Drawing.Point(181, 131);
+			this.listNetUnearnedProvs.Location = new System.Drawing.Point(168, 127);
 			this.listNetUnearnedProvs.Name = "listNetUnearnedProvs";
 			this.listNetUnearnedProvs.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
 			this.listNetUnearnedProvs.Size = new System.Drawing.Size(154, 354);
@@ -405,7 +405,7 @@ namespace OpenPmsDental{
 			// 
 			// label8
 			// 
-			this.label8.Location = new System.Drawing.Point(178, 96);
+			this.label8.Location = new System.Drawing.Point(168, 82);
 			this.label8.Name = "label8";
 			this.label8.Size = new System.Drawing.Size(104, 16);
 			this.label8.TabIndex = 58;
@@ -414,9 +414,9 @@ namespace OpenPmsDental{
 			// 
 			// checkNetUnearnedAllClins
 			// 
-			this.checkNetUnearnedAllClins.Location = new System.Drawing.Point(341, 114);
+			this.checkNetUnearnedAllClins.Location = new System.Drawing.Point(328, 103);
 			this.checkNetUnearnedAllClins.Name = "checkNetUnearnedAllClins";
-			this.checkNetUnearnedAllClins.Size = new System.Drawing.Size(154, 17);
+			this.checkNetUnearnedAllClins.Size = new System.Drawing.Size(134, 20);
 			this.checkNetUnearnedAllClins.TabIndex = 57;
 			this.checkNetUnearnedAllClins.Text = "All (Includes hidden)";
 			this.checkNetUnearnedAllClins.CheckedChanged += new System.EventHandler(this.checkNetUnearnedAllClins_CheckedChanged);
@@ -426,7 +426,7 @@ namespace OpenPmsDental{
 			this.listNetUnearnedClins.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.listNetUnearnedClins.IntegralHeight = false;
-			this.listNetUnearnedClins.Location = new System.Drawing.Point(341, 131);
+			this.listNetUnearnedClins.Location = new System.Drawing.Point(328, 127);
 			this.listNetUnearnedClins.Name = "listNetUnearnedClins";
 			this.listNetUnearnedClins.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
 			this.listNetUnearnedClins.Size = new System.Drawing.Size(154, 354);
@@ -435,7 +435,7 @@ namespace OpenPmsDental{
 			// 
 			// labelNetUnearnedClins
 			// 
-			this.labelNetUnearnedClins.Location = new System.Drawing.Point(338, 96);
+			this.labelNetUnearnedClins.Location = new System.Drawing.Point(328, 82);
 			this.labelNetUnearnedClins.Name = "labelNetUnearnedClins";
 			this.labelNetUnearnedClins.Size = new System.Drawing.Size(104, 16);
 			this.labelNetUnearnedClins.TabIndex = 55;
@@ -458,15 +458,15 @@ namespace OpenPmsDental{
 			this.tabPageLineItemUnearned.Location = new System.Drawing.Point(2, 21);
 			this.tabPageLineItemUnearned.Name = "tabPageLineItemUnearned";
 			this.tabPageLineItemUnearned.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPageLineItemUnearned.Size = new System.Drawing.Size(619, 496);
+			this.tabPageLineItemUnearned.Size = new System.Drawing.Size(621, 496);
 			this.tabPageLineItemUnearned.TabIndex = 0;
 			this.tabPageLineItemUnearned.Text = "Line Item Unearned Income";
 			// 
 			// checkLineItemShowProv
 			// 
-			this.checkLineItemShowProv.Location = new System.Drawing.Point(255, 259);
+			this.checkLineItemShowProv.Location = new System.Drawing.Point(242, 282);
 			this.checkLineItemShowProv.Name = "checkLineItemShowProv";
-			this.checkLineItemShowProv.Size = new System.Drawing.Size(183, 18);
+			this.checkLineItemShowProv.Size = new System.Drawing.Size(145, 20);
 			this.checkLineItemShowProv.TabIndex = 80;
 			this.checkLineItemShowProv.Text = "Show provider column";
 			// 
@@ -474,7 +474,7 @@ namespace OpenPmsDental{
 			// 
 			this.label7.BackColor = System.Drawing.Color.Transparent;
 			this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label7.Location = new System.Drawing.Point(18, 11);
+			this.label7.Location = new System.Drawing.Point(8, 8);
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(525, 48);
 			this.label7.TabIndex = 79;
@@ -485,50 +485,50 @@ namespace OpenPmsDental{
 			// butLineItemOK
 			// 
 			this.butLineItemOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butLineItemOK.Location = new System.Drawing.Point(538, 459);
+			this.butLineItemOK.Location = new System.Drawing.Point(544, 464);
 			this.butLineItemOK.Name = "butLineItemOK";
-			this.butLineItemOK.Size = new System.Drawing.Size(75, 26);
+			this.butLineItemOK.Size = new System.Drawing.Size(75, 24);
 			this.butLineItemOK.TabIndex = 77;
 			this.butLineItemOK.Text = "&OK";
 			this.butLineItemOK.Click += new System.EventHandler(this.butLineItemOK_Click);
 			// 
 			// label17
 			// 
-			this.label17.Location = new System.Drawing.Point(252, 61);
+			this.label17.Location = new System.Drawing.Point(242, 58);
 			this.label17.Name = "label17";
-			this.label17.Size = new System.Drawing.Size(104, 16);
+			this.label17.Size = new System.Drawing.Size(178, 16);
 			this.label17.TabIndex = 76;
 			this.label17.Text = "To:";
 			this.label17.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// label16
 			// 
-			this.label16.Location = new System.Drawing.Point(18, 59);
+			this.label16.Location = new System.Drawing.Point(8, 58);
 			this.label16.Name = "label16";
-			this.label16.Size = new System.Drawing.Size(104, 16);
+			this.label16.Size = new System.Drawing.Size(178, 16);
 			this.label16.TabIndex = 75;
 			this.label16.Text = "From:";
 			this.label16.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// dateLineItemTo
 			// 
-			this.dateLineItemTo.Location = new System.Drawing.Point(255, 77);
+			this.dateLineItemTo.Location = new System.Drawing.Point(242, 78);
 			this.dateLineItemTo.MaxSelectionCount = 1;
 			this.dateLineItemTo.Name = "dateLineItemTo";
 			this.dateLineItemTo.TabIndex = 4;
 			// 
 			// dateLineItemFrom
 			// 
-			this.dateLineItemFrom.Location = new System.Drawing.Point(21, 77);
+			this.dateLineItemFrom.Location = new System.Drawing.Point(8, 78);
 			this.dateLineItemFrom.MaxSelectionCount = 1;
 			this.dateLineItemFrom.Name = "dateLineItemFrom";
 			this.dateLineItemFrom.TabIndex = 3;
 			// 
 			// checkLineItemAllClins
 			// 
-			this.checkLineItemAllClins.Location = new System.Drawing.Point(21, 259);
+			this.checkLineItemAllClins.Location = new System.Drawing.Point(8, 282);
 			this.checkLineItemAllClins.Name = "checkLineItemAllClins";
-			this.checkLineItemAllClins.Size = new System.Drawing.Size(154, 18);
+			this.checkLineItemAllClins.Size = new System.Drawing.Size(134, 20);
 			this.checkLineItemAllClins.TabIndex = 54;
 			this.checkLineItemAllClins.Text = "All (Includes hidden)";
 			this.checkLineItemAllClins.CheckedChanged += new System.EventHandler(this.checkLineItemAllClins_CheckedChanged);
@@ -538,16 +538,16 @@ namespace OpenPmsDental{
 			this.listLineItemClins.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.listLineItemClins.IntegralHeight = false;
-			this.listLineItemClins.Location = new System.Drawing.Point(21, 278);
+			this.listLineItemClins.Location = new System.Drawing.Point(8, 304);
 			this.listLineItemClins.Name = "listLineItemClins";
 			this.listLineItemClins.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
-			this.listLineItemClins.Size = new System.Drawing.Size(154, 207);
+			this.listLineItemClins.Size = new System.Drawing.Size(154, 182);
 			this.listLineItemClins.TabIndex = 53;
 			this.listLineItemClins.Click += new System.EventHandler(this.listLineItemClins_Click);
 			// 
 			// labelLineItemClins
 			// 
-			this.labelLineItemClins.Location = new System.Drawing.Point(18, 241);
+			this.labelLineItemClins.Location = new System.Drawing.Point(8, 262);
 			this.labelLineItemClins.Name = "labelLineItemClins";
 			this.labelLineItemClins.Size = new System.Drawing.Size(104, 16);
 			this.labelLineItemClins.TabIndex = 52;

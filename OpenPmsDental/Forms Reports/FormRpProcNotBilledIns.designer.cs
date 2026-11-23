@@ -50,19 +50,19 @@
 			this.butPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butPrint.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Print,16,16);
 			this.butPrint.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butPrint.Location = new System.Drawing.Point(25, 665);
+			this.butPrint.Location = new System.Drawing.Point(8, 664);
 			this.butPrint.Name = "butPrint";
-			this.butPrint.Size = new System.Drawing.Size(75, 26);
+			this.butPrint.Size = new System.Drawing.Size(75, 24);
 			this.butPrint.TabIndex = 3;
 			this.butPrint.Text = "Print";
 			this.butPrint.Click += new System.EventHandler(this.butPrint_Click);
 			// 
 			// checkMedical
 			// 
-			this.checkMedical.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkMedical.Location = new System.Drawing.Point(734, 12);
+			this.checkMedical.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkMedical.Location = new System.Drawing.Point(767, 67);
 			this.checkMedical.Name = "checkMedical";
-			this.checkMedical.Size = new System.Drawing.Size(211, 17);
+			this.checkMedical.Size = new System.Drawing.Size(173, 20);
 			this.checkMedical.TabIndex = 11;
 			this.checkMedical.Text = "Include Medical Procedures";
 			this.checkMedical.Visible = false;
@@ -73,10 +73,10 @@
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(25, 119);
+			this.gridMain.Location = new System.Drawing.Point(8, 143);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridMain.Size = new System.Drawing.Size(967, 540);
+			this.gridMain.Size = new System.Drawing.Size(1003, 513);
 			this.gridMain.TabIndex = 69;
 			this.gridMain.Title = "Procedures Not Billed";
 			this.gridMain.TranslationName = "TableProcedures";
@@ -84,7 +84,7 @@
 			// butNewClaims
 			// 
 			this.butNewClaims.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-			this.butNewClaims.Location = new System.Drawing.Point(513, 666);
+			this.butNewClaims.Location = new System.Drawing.Point(513, 664);
 			this.butNewClaims.Name = "butNewClaims";
 			this.butNewClaims.Size = new System.Drawing.Size(94, 24);
 			this.butNewClaims.TabIndex = 71;
@@ -104,16 +104,16 @@
 			// 
 			// checkAutoGroupProcs
 			// 
-			this.checkAutoGroupProcs.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkAutoGroupProcs.Location = new System.Drawing.Point(734, 33);
+			this.checkAutoGroupProcs.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkAutoGroupProcs.Location = new System.Drawing.Point(767, 23);
 			this.checkAutoGroupProcs.Name = "checkAutoGroupProcs";
-			this.checkAutoGroupProcs.Size = new System.Drawing.Size(211, 18);
+			this.checkAutoGroupProcs.Size = new System.Drawing.Size(199, 20);
 			this.checkAutoGroupProcs.TabIndex = 72;
 			this.checkAutoGroupProcs.Text = "Automatically Group Procedures";
 			// 
 			// butRefresh
 			// 
-			this.butRefresh.Location = new System.Drawing.Point(871, 76);
+			this.butRefresh.Location = new System.Drawing.Point(920, 95);
 			this.butRefresh.Name = "butRefresh";
 			this.butRefresh.Size = new System.Drawing.Size(75, 24);
 			this.butRefresh.TabIndex = 73;
@@ -124,7 +124,7 @@
 			// butSelectAll
 			// 
 			this.butSelectAll.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-			this.butSelectAll.Location = new System.Drawing.Point(432, 666);
+			this.butSelectAll.Location = new System.Drawing.Point(432, 664);
 			this.butSelectAll.Name = "butSelectAll";
 			this.butSelectAll.Size = new System.Drawing.Size(75, 24);
 			this.butSelectAll.TabIndex = 74;
@@ -146,15 +146,15 @@
 			this.groupBox2.Controls.Add(this.dateRangePicker);
 			this.groupBox2.Controls.Add(this.checkMedical);
 			this.groupBox2.Controls.Add(this.checkAutoGroupProcs);
-			this.groupBox2.Location = new System.Drawing.Point(25, 4);
+			this.groupBox2.Location = new System.Drawing.Point(8, 8);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(967, 109);
+			this.groupBox2.Size = new System.Drawing.Size(1003, 127);
 			this.groupBox2.TabIndex = 77;
 			this.groupBox2.Text = "Filters";
 			// 
 			// listBoxShowProcsBeforeIns
 			// 
-			this.listBoxShowProcsBeforeIns.Location = new System.Drawing.Point(66, 12);
+			this.listBoxShowProcsBeforeIns.Location = new System.Drawing.Point(73, 23);
 			this.listBoxShowProcsBeforeIns.Name = "listBoxShowProcsBeforeIns";
 			this.listBoxShowProcsBeforeIns.Size = new System.Drawing.Size(388, 58);
 			this.listBoxShowProcsBeforeIns.TabIndex = 83;
@@ -162,45 +162,45 @@
 			// 
 			// checkExcludeProcCodes
 			// 
-			this.checkExcludeProcCodes.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkExcludeProcCodes.Location = new System.Drawing.Point(472, 76);
+			this.checkExcludeProcCodes.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkExcludeProcCodes.Location = new System.Drawing.Point(587, 99);
 			this.checkExcludeProcCodes.Name = "checkExcludeProcCodes";
-			this.checkExcludeProcCodes.Size = new System.Drawing.Size(108, 18);
+			this.checkExcludeProcCodes.Size = new System.Drawing.Size(64, 20);
 			this.checkExcludeProcCodes.TabIndex = 79;
 			this.checkExcludeProcCodes.Text = "Exclude";
 			this.checkExcludeProcCodes.Click += new System.EventHandler(this.checkExclude_Click);
 			// 
 			// checkOnlyProcCodes
 			// 
-			this.checkOnlyProcCodes.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkOnlyProcCodes.Location = new System.Drawing.Point(472, 57);
+			this.checkOnlyProcCodes.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkOnlyProcCodes.Location = new System.Drawing.Point(587, 77);
 			this.checkOnlyProcCodes.Name = "checkOnlyProcCodes";
-			this.checkOnlyProcCodes.Size = new System.Drawing.Size(108, 18);
+			this.checkOnlyProcCodes.Size = new System.Drawing.Size(48, 20);
 			this.checkOnlyProcCodes.TabIndex = 78;
 			this.checkOnlyProcCodes.Text = "Only";
 			this.checkOnlyProcCodes.Click += new System.EventHandler(this.checkOnly_Click);
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(602, 55);
+			this.label2.Location = new System.Drawing.Point(667, 77);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(98, 52);
+			this.label2.Size = new System.Drawing.Size(100, 36);
 			this.label2.TabIndex = 82;
 			this.label2.Text = "separate multiple by commas";
 			// 
 			// textProcedureCodes
 			// 
 			this.textProcedureCodes.AutoSize = false;
-			this.textProcedureCodes.Location = new System.Drawing.Point(569, 35);
+			this.textProcedureCodes.Location = new System.Drawing.Point(587, 50);
 			this.textProcedureCodes.Name = "textProcedureCodes";
-			this.textProcedureCodes.Size = new System.Drawing.Size(163, 20);
+			this.textProcedureCodes.Size = new System.Drawing.Size(164, 23);
 			this.textProcedureCodes.TabIndex = 81;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(469, 36);
+			this.label1.Location = new System.Drawing.Point(477, 50);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(100, 18);
+			this.label1.Size = new System.Drawing.Size(104, 23);
 			this.label1.TabIndex = 80;
 			this.label1.Text = "Procedure Codes";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -210,18 +210,18 @@
 			this.comboClinics.IncludeAll = true;
 			this.comboClinics.IncludeHiddenInAll = true;
 			this.comboClinics.IncludeUnassigned = true;
-			this.comboClinics.Location = new System.Drawing.Point(532, 12);
+			this.comboClinics.Location = new System.Drawing.Point(539, 23);
 			this.comboClinics.Name = "comboClinics";
 			this.comboClinics.IsMultiSelect = true;
-			this.comboClinics.Size = new System.Drawing.Size(200, 21);
+			this.comboClinics.Size = new System.Drawing.Size(212, 23);
 			this.comboClinics.TabIndex = 77;
 			// 
 			// checkShowProcsInProcess
 			// 
-			this.checkShowProcsInProcess.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkShowProcsInProcess.Location = new System.Drawing.Point(748, 54);
+			this.checkShowProcsInProcess.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkShowProcsInProcess.Location = new System.Drawing.Point(767, 45);
 			this.checkShowProcsInProcess.Name = "checkShowProcsInProcess";
-			this.checkShowProcsInProcess.Size = new System.Drawing.Size(197, 18);
+			this.checkShowProcsInProcess.Size = new System.Drawing.Size(175, 20);
 			this.checkShowProcsInProcess.TabIndex = 76;
 			this.checkShowProcsInProcess.Text = "Show Procedures In Process";
 			// 
@@ -230,7 +230,7 @@
 			this.dateRangePicker.BackColor = System.Drawing.Color.Transparent;
 			this.dateRangePicker.EnableWeekButtons = false;
 			this.dateRangePicker.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-			this.dateRangePicker.Location = new System.Drawing.Point(1, 76);
+			this.dateRangePicker.Location = new System.Drawing.Point(8, 85);
 			this.dateRangePicker.MaximumSize = new System.Drawing.Size(0, 185);
 			this.dateRangePicker.MinimumSize = new System.Drawing.Size(453, 22);
 			this.dateRangePicker.Name = "dateRangePicker";

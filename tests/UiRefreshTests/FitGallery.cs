@@ -28,6 +28,7 @@ namespace UiRefreshTests {
 		public const string VARIABLE_WINDOWS="OPMS_UI_FIT_GALLERY_WINDOWS";
 		public const string VARIABLE_OWNER="OPMS_UI_FIT_GALLERY_OWNER";
 		public const string VARIABLE_FONT="OPMS_UI_FIT_GALLERY_FONT";
+		public const string VARIABLE_SCALE="OPMS_UI_FIT_GALLERY_SCALE";
 
 		///<summary>Slice 1 (UI-10-1): FormPatientEdit, FormProvEdit, FormClaimEdit, FormProcEdit, ControlAccount and the preference pages.</summary>
 		public static readonly string[] ArraySlice1Windows=new string[] {
@@ -67,6 +68,13 @@ namespace UiRefreshTests {
 			//UI-13 fix round: OPMS_UI_FIT_GALLERY_VISUAL_STYLES=1 draws the windows with Windows' visual styles (comctl32 version 6, as the program
 			//runs; VisualStylesScope), for the windows that show a native type the looks leave to Windows (tree and list views, month calendars).
 			bool isVisualStyles=Environment.GetEnvironmentVariable("OPMS_UI_FIT_GALLERY_VISUAL_STYLES")=="1";
+			//UI-12 slice 1: OPMS_UI_FIT_GALLERY_SCALE (for example 1.5) draws the windows at that scale, as the style pictures do (LayoutManager's
+			//scale, the date pickers' and up-down boxes' fonts as Windows scales them); the pictures are named <window>-<percent>.png.
+			float scale=1f;
+			string textScale=Environment.GetEnvironmentVariable(VARIABLE_SCALE);
+			if(!string.IsNullOrWhiteSpace(textScale)) {
+				scale=float.Parse(textScale.Trim(),System.Globalization.CultureInfo.InvariantCulture);
+			}
 			StaRunner.Run(() => {
 				NoDatabaseGuard.Install();
 				using VisualStylesScope visualStylesScope=isVisualStyles ? new VisualStylesScope() : null;
@@ -89,12 +97,21 @@ namespace UiRefreshTests {
 							if(root is FormODBase formODBase && formODBase.PanelClient!=null) {
 								root=formODBase.PanelClient;
 							}
+							if(scale!=1f) {
+								builtWindow.LayOutAt(scale);
+							}
 							SettleAfterHandles(builtWindow);
+							if(scale!=1f) {
+								GridStyleGallery.ScaleFontsAsWindowsDoes(root,scale);
+							}
 							HideDatePickerCalendars(root);
 							FillSampleContent(root,window);
 							List<string[]> listOwnerHere=listOwner.Where(x => x[1]==window).ToList();
 							using(Bitmap bitmap=DesignSheetWindows.Capture(root,Rectangle.Empty)) {
 								string name=window.Substring(window.LastIndexOf('.')+1);
+								if(scale!=1f) {
+									name+="-"+(int)Math.Round(scale*100);
+								}
 								bitmap.Save(Path.Combine(folder,name+".png"),ImageFormat.Png);
 								countPictures++;
 								foreach(string[] owner in listOwnerHere) {
@@ -169,6 +186,31 @@ namespace UiRefreshTests {
 					}
 				}
 				treeView.SelectedNode=treeView.Nodes[0].Nodes[1];
+			}
+			if(window=="OpenPmsDental.FormRpTreatmentFinder" && FindByName(root,"comboClinics") is OpenPmsDental.UI.ComboBoxClinicPicker comboBoxClinicPicker) {
+				//UI-12 slice 1: its Load makes the clinic picker a multi select (not on a middle tier client), so it reads "Clinics" and its box
+				//stands on the Provider and Billing Type column; the picture shows it so.
+				comboBoxClinicPicker.IsMultiSelect=true;
+			}
+			if(window=="OpenPmsDental.FormReportSetup") {
+				//UI-12 slice 1: UserControlReportSetup shows its instructions on the Display Settings page and its user group row on the Security
+				//Permissions page (InitializeOnStartup sets Visible by the mode, never both); the first page shows the display mode.
+				foreach(string name in new string[] { "labelUserGroup","comboUserGroup","butSetAll","butSetNone","labelAllowedCount" }) {
+					if(FindByName(root,name) is Control control) {
+						control.Visible=false;
+					}
+				}
+			}
+			if(window=="OpenPmsDental.FormScheduleDayEdit" && FindByName(root,"labelDate") is Label labelDate) {
+				//UI-12 slice 1 (fix round 8): Load and the day arrows set the day of the week over the short date, two lines (the designer's text is
+				//a one-line placeholder); the picture shows the widest day name.
+				DateTime date=new DateTime(2026,12,30);
+				labelDate.Text=date.ToString("dddd")+"\r\n"+date.ToShortDateString();
+			}
+			if(window=="OpenPmsDental.ControlTreat" && FindByName(root,"userControlIndDis") is Control controlDiscount) {
+				//UI-12 slice 1: FillSummary shows the discount plan summary (a patient with a discount plan) or the family and individual insurance
+				//summaries, never both; the discount summary stands on the family summary's place. The picture shows the insurance summaries.
+				controlDiscount.Visible=false;
 			}
 			if(window=="OpenPmsDental.FormQuery" && FindByName(root,"grid2") is DataGridView dataGridView) {
 				//A result as the window shows it after a query: its caption over the grid, columns and rows.

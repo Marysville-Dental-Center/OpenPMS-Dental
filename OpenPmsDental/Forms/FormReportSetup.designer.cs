@@ -85,9 +85,9 @@ namespace OpenPmsDental{
 			this.tabControl1.Controls.Add(this.tabReportServer);
 			this.tabControl1.Controls.Add(this.tabMiscOptions);
 			this.tabControl1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-			this.tabControl1.Location = new System.Drawing.Point(6, 4);
+			this.tabControl1.Location = new System.Drawing.Point(8, 8);
 			this.tabControl1.Name = "tabControl1";
-			this.tabControl1.Size = new System.Drawing.Size(545, 638);
+			this.tabControl1.Size = new System.Drawing.Size(561, 646);
 			this.tabControl1.TabIndex = 216;
 			this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
 			// 
@@ -98,7 +98,7 @@ namespace OpenPmsDental{
 			this.tabDisplaySettings.Location = new System.Drawing.Point(2, 21);
 			this.tabDisplaySettings.Name = "tabDisplaySettings";
 			this.tabDisplaySettings.Padding = new System.Windows.Forms.Padding(3);
-			this.tabDisplaySettings.Size = new System.Drawing.Size(541, 615);
+			this.tabDisplaySettings.Size = new System.Drawing.Size(541, 623);
 			this.tabDisplaySettings.TabIndex = 1;
 			this.tabDisplaySettings.Text = "Display Settings";
 			// 
@@ -106,9 +106,9 @@ namespace OpenPmsDental{
 			// 
 			this.userControlReportSetup.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.userControlReportSetup.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-			this.userControlReportSetup.Location = new System.Drawing.Point(2, 2);
+			this.userControlReportSetup.Location = new System.Drawing.Point(5, 5);
 			this.userControlReportSetup.Name = "userControlReportSetup";
-			this.userControlReportSetup.Size = new System.Drawing.Size(525, 607);
+			this.userControlReportSetup.Size = new System.Drawing.Size(547, 613);
 			this.userControlReportSetup.TabIndex = 1;
 			// 
 			// tabReportPermissions
@@ -133,13 +133,13 @@ namespace OpenPmsDental{
 			this.tabReportServer.Location = new System.Drawing.Point(2, 21);
 			this.tabReportServer.Name = "tabReportServer";
 			this.tabReportServer.Padding = new System.Windows.Forms.Padding(3);
-			this.tabReportServer.Size = new System.Drawing.Size(541, 615);
+			this.tabReportServer.Size = new System.Drawing.Size(557, 615);
 			this.tabReportServer.TabIndex = 2;
 			this.tabReportServer.Text = "Report Server";
 			// 
 			// label8
 			// 
-			this.label8.Location = new System.Drawing.Point(69, 319);
+			this.label8.Location = new System.Drawing.Point(61, 328);
 			this.label8.Name = "label8";
 			this.label8.Size = new System.Drawing.Size(386, 17);
 			this.label8.TabIndex = 224;
@@ -148,25 +148,25 @@ namespace OpenPmsDental{
 			// 
 			// textSslCaPem
 			// 
-			this.textSslCaPem.Location = new System.Drawing.Point(67, 338);
+			this.textSslCaPem.Location = new System.Drawing.Point(61, 347);
 			this.textSslCaPem.Name = "textSslCaPem";
-			this.textSslCaPem.Size = new System.Drawing.Size(386, 20);
+			this.textSslCaPem.Size = new System.Drawing.Size(416, 23);
 			this.textSslCaPem.TabIndex = 229;
 			// 
 			// checkUseReportServer
 			// 
-			this.checkUseReportServer.Location = new System.Drawing.Point(14, 43);
+			this.checkUseReportServer.Location = new System.Drawing.Point(8, 57);
 			this.checkUseReportServer.Name = "checkUseReportServer";
-			this.checkUseReportServer.Size = new System.Drawing.Size(505, 18);
+			this.checkUseReportServer.Size = new System.Drawing.Size(183, 20);
 			this.checkUseReportServer.TabIndex = 15;
 			this.checkUseReportServer.Text = "Use separate reporting server";
 			this.checkUseReportServer.CheckedChanged += new System.EventHandler(this.checkReportingServer_CheckChanged);
 			// 
 			// radioReportServerMiddleTier
 			// 
-			this.radioReportServerMiddleTier.Location = new System.Drawing.Point(38, 368);
+			this.radioReportServerMiddleTier.Location = new System.Drawing.Point(8, 374);
 			this.radioReportServerMiddleTier.Name = "radioReportServerMiddleTier";
-			this.radioReportServerMiddleTier.Size = new System.Drawing.Size(219, 23);
+			this.radioReportServerMiddleTier.Size = new System.Drawing.Size(85, 20);
 			this.radioReportServerMiddleTier.TabIndex = 228;
 			this.radioReportServerMiddleTier.TabStop = true;
 			this.radioReportServerMiddleTier.Text = "Middle Tier";
@@ -175,9 +175,9 @@ namespace OpenPmsDental{
 			// 
 			// radioReportServerDirect
 			// 
-			this.radioReportServerDirect.Location = new System.Drawing.Point(38, 74);
+			this.radioReportServerDirect.Location = new System.Drawing.Point(8, 81);
 			this.radioReportServerDirect.Name = "radioReportServerDirect";
-			this.radioReportServerDirect.Size = new System.Drawing.Size(219, 21);
+			this.radioReportServerDirect.Size = new System.Drawing.Size(121, 20);
 			this.radioReportServerDirect.TabIndex = 227;
 			this.radioReportServerDirect.TabStop = true;
 			this.radioReportServerDirect.Text = "Direct Connection";
@@ -194,30 +194,30 @@ namespace OpenPmsDental{
 			this.groupConnectionSettings.Controls.Add(this.comboDatabase);
 			this.groupConnectionSettings.Controls.Add(this.label5);
 			this.groupConnectionSettings.Controls.Add(this.label4);
-			this.groupConnectionSettings.Location = new System.Drawing.Point(61, 95);
+			this.groupConnectionSettings.Location = new System.Drawing.Point(61, 109);
 			this.groupConnectionSettings.Name = "groupConnectionSettings";
-			this.groupConnectionSettings.Size = new System.Drawing.Size(405, 216);
+			this.groupConnectionSettings.Size = new System.Drawing.Size(416, 211);
 			this.groupConnectionSettings.TabIndex = 226;
 			this.groupConnectionSettings.Text = "Connection Settings";
 			// 
 			// comboServerName
 			// 
 			this.comboServerName.FormattingEnabled = true;
-			this.comboServerName.Location = new System.Drawing.Point(6, 36);
+			this.comboServerName.Location = new System.Drawing.Point(8, 42);
 			this.comboServerName.Name = "comboServerName";
-			this.comboServerName.Size = new System.Drawing.Size(386, 21);
+			this.comboServerName.Size = new System.Drawing.Size(384, 23);
 			this.comboServerName.TabIndex = 214;
 			// 
 			// textMysqlPass
 			// 
-			this.textMysqlPass.Location = new System.Drawing.Point(6, 177);
+			this.textMysqlPass.Location = new System.Drawing.Point(8, 180);
 			this.textMysqlPass.Name = "textMysqlPass";
-			this.textMysqlPass.Size = new System.Drawing.Size(386, 20);
+			this.textMysqlPass.Size = new System.Drawing.Size(384, 23);
 			this.textMysqlPass.TabIndex = 223;
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(6, 161);
+			this.label6.Location = new System.Drawing.Point(8, 161);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(386, 17);
 			this.label6.TabIndex = 221;
@@ -226,14 +226,14 @@ namespace OpenPmsDental{
 			// 
 			// textMysqlUser
 			// 
-			this.textMysqlUser.Location = new System.Drawing.Point(6, 129);
+			this.textMysqlUser.Location = new System.Drawing.Point(8, 134);
 			this.textMysqlUser.Name = "textMysqlUser";
-			this.textMysqlUser.Size = new System.Drawing.Size(386, 20);
+			this.textMysqlUser.Size = new System.Drawing.Size(384, 23);
 			this.textMysqlUser.TabIndex = 222;
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(6, 20);
+			this.label3.Location = new System.Drawing.Point(8, 23);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(386, 17);
 			this.label3.TabIndex = 215;
@@ -243,15 +243,15 @@ namespace OpenPmsDental{
 			// comboDatabase
 			// 
 			this.comboDatabase.FormattingEnabled = true;
-			this.comboDatabase.Location = new System.Drawing.Point(6, 81);
+			this.comboDatabase.Location = new System.Drawing.Point(8, 88);
 			this.comboDatabase.Name = "comboDatabase";
-			this.comboDatabase.Size = new System.Drawing.Size(386, 21);
+			this.comboDatabase.Size = new System.Drawing.Size(384, 23);
 			this.comboDatabase.TabIndex = 216;
 			this.comboDatabase.DropDown += new System.EventHandler(this.comboDatabase_DropDown);
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(6, 113);
+			this.label5.Location = new System.Drawing.Point(8, 115);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(386, 17);
 			this.label5.TabIndex = 219;
@@ -260,7 +260,7 @@ namespace OpenPmsDental{
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(6, 65);
+			this.label4.Location = new System.Drawing.Point(8, 69);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(386, 17);
 			this.label4.TabIndex = 217;
@@ -272,22 +272,22 @@ namespace OpenPmsDental{
 			this.groupMiddleTier.Controls.Add(this.textMiddleTierURI);
 			this.groupMiddleTier.Controls.Add(this.label11);
 			this.groupMiddleTier.Controls.Add(this.label9);
-			this.groupMiddleTier.Location = new System.Drawing.Point(61, 391);
+			this.groupMiddleTier.Location = new System.Drawing.Point(61, 402);
 			this.groupMiddleTier.Name = "groupMiddleTier";
-			this.groupMiddleTier.Size = new System.Drawing.Size(405, 90);
+			this.groupMiddleTier.Size = new System.Drawing.Size(416, 110);
 			this.groupMiddleTier.TabIndex = 224;
 			this.groupMiddleTier.Text = "Middle Tier";
 			// 
 			// textMiddleTierURI
 			// 
-			this.textMiddleTierURI.Location = new System.Drawing.Point(6, 33);
+			this.textMiddleTierURI.Location = new System.Drawing.Point(8, 42);
 			this.textMiddleTierURI.Name = "textMiddleTierURI";
-			this.textMiddleTierURI.Size = new System.Drawing.Size(386, 20);
+			this.textMiddleTierURI.Size = new System.Drawing.Size(384, 23);
 			this.textMiddleTierURI.TabIndex = 7;
 			// 
 			// label11
 			// 
-			this.label11.Location = new System.Drawing.Point(6, 56);
+			this.label11.Location = new System.Drawing.Point(8, 69);
 			this.label11.Name = "label11";
 			this.label11.Size = new System.Drawing.Size(399, 33);
 			this.label11.TabIndex = 14;
@@ -297,7 +297,7 @@ namespace OpenPmsDental{
 			// 
 			// label9
 			// 
-			this.label9.Location = new System.Drawing.Point(6, 18);
+			this.label9.Location = new System.Drawing.Point(8, 23);
 			this.label9.Name = "label9";
 			this.label9.Size = new System.Drawing.Size(203, 17);
 			this.label9.TabIndex = 9;
@@ -306,9 +306,9 @@ namespace OpenPmsDental{
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(0, 3);
+			this.label2.Location = new System.Drawing.Point(8, 8);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(541, 37);
+			this.label2.Size = new System.Drawing.Size(541, 47);
 			this.label2.TabIndex = 213;
 			this.label2.Text = resources.GetString("label2.Text");
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -345,15 +345,15 @@ namespace OpenPmsDental{
 			// 
 			// checkUserQueryDefaultRaw
 			// 
-			this.checkUserQueryDefaultRaw.Location = new System.Drawing.Point(20, 261);
+			this.checkUserQueryDefaultRaw.Location = new System.Drawing.Point(17, 364);
 			this.checkUserQueryDefaultRaw.Name = "checkUserQueryDefaultRaw";
-			this.checkUserQueryDefaultRaw.Size = new System.Drawing.Size(511, 18);
+			this.checkUserQueryDefaultRaw.Size = new System.Drawing.Size(275, 20);
 			this.checkUserQueryDefaultRaw.TabIndex = 221;
 			this.checkUserQueryDefaultRaw.Text = "Default to \'Raw\' format  in User Query window";
 			// 
 			// butIncompleteProcsExcludeCodes
 			// 
-			this.butIncompleteProcsExcludeCodes.Location = new System.Drawing.Point(501, 335);
+			this.butIncompleteProcsExcludeCodes.Location = new System.Drawing.Point(498, 453);
 			this.butIncompleteProcsExcludeCodes.Name = "butIncompleteProcsExcludeCodes";
 			this.butIncompleteProcsExcludeCodes.Size = new System.Drawing.Size(21, 21);
 			this.butIncompleteProcsExcludeCodes.TabIndex = 220;
@@ -363,7 +363,7 @@ namespace OpenPmsDental{
 			// 
 			// label7
 			// 
-			this.label7.Location = new System.Drawing.Point(17, 320);
+			this.label7.Location = new System.Drawing.Point(17, 435);
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(478, 16);
 			this.label7.TabIndex = 219;
@@ -375,7 +375,7 @@ namespace OpenPmsDental{
 			this.textIncompleteProcsExcludeCodes.BackColor = System.Drawing.SystemColors.Window;
 			this.textIncompleteProcsExcludeCodes.DetectLinksEnabled = false;
 			this.textIncompleteProcsExcludeCodes.DetectUrls = false;
-			this.textIncompleteProcsExcludeCodes.Location = new System.Drawing.Point(20, 336);
+			this.textIncompleteProcsExcludeCodes.Location = new System.Drawing.Point(17, 453);
 			this.textIncompleteProcsExcludeCodes.Multiline = false;
 			this.textIncompleteProcsExcludeCodes.Name = "textIncompleteProcsExcludeCodes";
 			this.textIncompleteProcsExcludeCodes.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Adjustment;
@@ -386,129 +386,129 @@ namespace OpenPmsDental{
 			// 
 			// checkReportDisplayUnearnedTP
 			// 
-			this.checkReportDisplayUnearnedTP.Location = new System.Drawing.Point(20, 244);
+			this.checkReportDisplayUnearnedTP.Location = new System.Drawing.Point(17, 340);
 			this.checkReportDisplayUnearnedTP.Name = "checkReportDisplayUnearnedTP";
-			this.checkReportDisplayUnearnedTP.Size = new System.Drawing.Size(511, 17);
+			this.checkReportDisplayUnearnedTP.Size = new System.Drawing.Size(483, 20);
 			this.checkReportDisplayUnearnedTP.TabIndex = 215;
 			this.checkReportDisplayUnearnedTP.Text = "Default to including hidden treatment planned prepayments on the Payments report";
 			// 
 			// comboReportWriteoff
 			// 
-			this.comboReportWriteoff.Location = new System.Drawing.Point(20, 296);
+			this.comboReportWriteoff.Location = new System.Drawing.Point(17, 408);
 			this.comboReportWriteoff.Name = "comboReportWriteoff";
-			this.comboReportWriteoff.Size = new System.Drawing.Size(171, 21);
+			this.comboReportWriteoff.Size = new System.Drawing.Size(172, 23);
 			this.comboReportWriteoff.TabIndex = 216;
 			// 
 			// checkOutstandingRpDateTab
 			// 
-			this.checkOutstandingRpDateTab.Location = new System.Drawing.Point(20, 227);
+			this.checkOutstandingRpDateTab.Location = new System.Drawing.Point(17, 316);
 			this.checkOutstandingRpDateTab.Name = "checkOutstandingRpDateTab";
-			this.checkOutstandingRpDateTab.Size = new System.Drawing.Size(511, 17);
+			this.checkOutstandingRpDateTab.Size = new System.Drawing.Size(351, 20);
 			this.checkOutstandingRpDateTab.TabIndex = 214;
 			this.checkOutstandingRpDateTab.Text = "Default to \'Date Range\' tab in Outstanding Insurance Report";
 			// 
 			// checkBenefitAssumeGeneral
 			// 
-			this.checkBenefitAssumeGeneral.Location = new System.Drawing.Point(20, 210);
+			this.checkBenefitAssumeGeneral.Location = new System.Drawing.Point(17, 272);
 			this.checkBenefitAssumeGeneral.Name = "checkBenefitAssumeGeneral";
-			this.checkBenefitAssumeGeneral.Size = new System.Drawing.Size(521, 17);
+			this.checkBenefitAssumeGeneral.Size = new System.Drawing.Size(532, 40);
 			this.checkBenefitAssumeGeneral.TabIndex = 213;
 			this.checkBenefitAssumeGeneral.Text = "Assume all procedures are in the General benefit category by default in Treatment" +
     " Finder report";
 			// 
 			// checkReportsIncompleteProcsUnsigned
 			// 
-			this.checkReportsIncompleteProcsUnsigned.Location = new System.Drawing.Point(20, 176);
+			this.checkReportsIncompleteProcsUnsigned.Location = new System.Drawing.Point(17, 224);
 			this.checkReportsIncompleteProcsUnsigned.Name = "checkReportsIncompleteProcsUnsigned";
-			this.checkReportsIncompleteProcsUnsigned.Size = new System.Drawing.Size(511, 17);
+			this.checkReportsIncompleteProcsUnsigned.Size = new System.Drawing.Size(485, 20);
 			this.checkReportsIncompleteProcsUnsigned.TabIndex = 212;
 			this.checkReportsIncompleteProcsUnsigned.Text = "Include procedures with a note that is unsigned in the Incomplete Procedures Repo" +
     "rt";
 			// 
 			// checkReportsIncompleteProcsAllNoNotes
 			// 
-			this.checkReportsIncompleteProcsAllNoNotes.Location = new System.Drawing.Point(20, 193);
+			this.checkReportsIncompleteProcsAllNoNotes.Location = new System.Drawing.Point(17, 248);
 			this.checkReportsIncompleteProcsAllNoNotes.Name = "checkReportsIncompleteProcsAllNoNotes";
-			this.checkReportsIncompleteProcsAllNoNotes.Size = new System.Drawing.Size(511, 17);
+			this.checkReportsIncompleteProcsAllNoNotes.Size = new System.Drawing.Size(424, 20);
 			this.checkReportsIncompleteProcsAllNoNotes.TabIndex = 222;
 			this.checkReportsIncompleteProcsAllNoNotes.Text = "Include all procedures with no notes in the Incomplete Procedures Report";
 			// 
 			// checkReportsIncompleteProcsNoNotes
 			// 
-			this.checkReportsIncompleteProcsNoNotes.Location = new System.Drawing.Point(20, 159);
+			this.checkReportsIncompleteProcsNoNotes.Location = new System.Drawing.Point(17, 200);
 			this.checkReportsIncompleteProcsNoNotes.Name = "checkReportsIncompleteProcsNoNotes";
-			this.checkReportsIncompleteProcsNoNotes.Size = new System.Drawing.Size(511, 17);
+			this.checkReportsIncompleteProcsNoNotes.Size = new System.Drawing.Size(413, 20);
 			this.checkReportsIncompleteProcsNoNotes.TabIndex = 211;
 			this.checkReportsIncompleteProcsNoNotes.Text = "Include procedures without a note in the Incomplete Procedures Report";
 			// 
 			// checkNetProdDetailUseSnapshotToday
 			// 
-			this.checkNetProdDetailUseSnapshotToday.Location = new System.Drawing.Point(20, 142);
+			this.checkNetProdDetailUseSnapshotToday.Location = new System.Drawing.Point(17, 176);
 			this.checkNetProdDetailUseSnapshotToday.Name = "checkNetProdDetailUseSnapshotToday";
-			this.checkNetProdDetailUseSnapshotToday.Size = new System.Drawing.Size(511, 17);
+			this.checkNetProdDetailUseSnapshotToday.Size = new System.Drawing.Size(490, 20);
 			this.checkNetProdDetailUseSnapshotToday.TabIndex = 209;
 			this.checkNetProdDetailUseSnapshotToday.Text = "Calculate write-offs by claim snapshot for today\'s date in Net Production Detail " +
     "report";
 			// 
 			// checkProviderPayrollAllowToday
 			// 
-			this.checkProviderPayrollAllowToday.Location = new System.Drawing.Point(20, 125);
+			this.checkProviderPayrollAllowToday.Location = new System.Drawing.Point(17, 152);
 			this.checkProviderPayrollAllowToday.Name = "checkProviderPayrollAllowToday";
-			this.checkProviderPayrollAllowToday.Size = new System.Drawing.Size(475, 17);
+			this.checkProviderPayrollAllowToday.Size = new System.Drawing.Size(298, 20);
 			this.checkProviderPayrollAllowToday.TabIndex = 208;
 			this.checkProviderPayrollAllowToday.Text = "Allow using today\'s date in Provider Payroll report.";
 			// 
 			// checkReportsShowHistory
 			// 
-			this.checkReportsShowHistory.Location = new System.Drawing.Point(20, 108);
+			this.checkReportsShowHistory.Location = new System.Drawing.Point(17, 128);
 			this.checkReportsShowHistory.Name = "checkReportsShowHistory";
-			this.checkReportsShowHistory.Size = new System.Drawing.Size(475, 17);
+			this.checkReportsShowHistory.Size = new System.Drawing.Size(289, 20);
 			this.checkReportsShowHistory.TabIndex = 206;
 			this.checkReportsShowHistory.Text = "Show a verbose history when previewing reports.";
 			// 
 			// checkReportProdWO
 			// 
-			this.checkReportProdWO.Location = new System.Drawing.Point(20, 57);
+			this.checkReportProdWO.Location = new System.Drawing.Point(17, 56);
 			this.checkReportProdWO.Name = "checkReportProdWO";
-			this.checkReportProdWO.Size = new System.Drawing.Size(345, 17);
+			this.checkReportProdWO.Size = new System.Drawing.Size(349, 20);
 			this.checkReportProdWO.TabIndex = 198;
 			this.checkReportProdWO.Text = "Monthly P&I scheduled production subtracts PPO write-offs";
 			// 
 			// checkReportPIClinic
 			// 
-			this.checkReportPIClinic.Location = new System.Drawing.Point(20, 91);
+			this.checkReportPIClinic.Location = new System.Drawing.Point(17, 104);
 			this.checkReportPIClinic.Name = "checkReportPIClinic";
-			this.checkReportPIClinic.Size = new System.Drawing.Size(345, 17);
+			this.checkReportPIClinic.Size = new System.Drawing.Size(307, 20);
 			this.checkReportPIClinic.TabIndex = 202;
 			this.checkReportPIClinic.Text = "Default to showing clinic breakdown on P&I reports.";
 			// 
 			// checkReportsShowPatNum
 			// 
-			this.checkReportsShowPatNum.Location = new System.Drawing.Point(20, 40);
+			this.checkReportsShowPatNum.Location = new System.Drawing.Point(17, 32);
 			this.checkReportsShowPatNum.Name = "checkReportsShowPatNum";
-			this.checkReportsShowPatNum.Size = new System.Drawing.Size(345, 17);
+			this.checkReportsShowPatNum.Size = new System.Drawing.Size(314, 20);
 			this.checkReportsShowPatNum.TabIndex = 196;
 			this.checkReportsShowPatNum.Text = "Show PatNum: Aging, OutstandingIns, ProcsNotBilled";
 			// 
 			// checkReportPIClinicInfo
 			// 
-			this.checkReportPIClinicInfo.Location = new System.Drawing.Point(20, 74);
+			this.checkReportPIClinicInfo.Location = new System.Drawing.Point(17, 80);
 			this.checkReportPIClinicInfo.Name = "checkReportPIClinicInfo";
-			this.checkReportPIClinicInfo.Size = new System.Drawing.Size(345, 17);
+			this.checkReportPIClinicInfo.Size = new System.Drawing.Size(292, 20);
 			this.checkReportPIClinicInfo.TabIndex = 200;
 			this.checkReportPIClinicInfo.Text = "Default to showing clinic info on Daily P&I report.";
 			// 
 			// checkReportPrintWrapColumns
 			// 
-			this.checkReportPrintWrapColumns.Location = new System.Drawing.Point(20, 23);
+			this.checkReportPrintWrapColumns.Location = new System.Drawing.Point(17, 8);
 			this.checkReportPrintWrapColumns.Name = "checkReportPrintWrapColumns";
-			this.checkReportPrintWrapColumns.Size = new System.Drawing.Size(345, 17);
+			this.checkReportPrintWrapColumns.Size = new System.Drawing.Size(180, 20);
 			this.checkReportPrintWrapColumns.TabIndex = 194;
 			this.checkReportPrintWrapColumns.Text = "Wrap columns when printing";
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(17, 281);
+			this.label1.Location = new System.Drawing.Point(17, 388);
 			this.label1.Name = "label1";
 			this.label1.RightToLeft = System.Windows.Forms.RightToLeft.No;
 			this.label1.Size = new System.Drawing.Size(244, 18);
@@ -518,7 +518,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(476, 648);
+			this.butSave.Location = new System.Drawing.Point(494, 666);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 3;
@@ -527,7 +527,7 @@ namespace OpenPmsDental{
 			// 
 			// FormReportSetup
 			// 
-			this.ClientSize = new System.Drawing.Size(556, 681);
+			this.ClientSize = new System.Drawing.Size(577, 698);
 			this.Controls.Add(this.tabControl1);
 			this.Controls.Add(this.butSave);
 			this.Name = "FormReportSetup";

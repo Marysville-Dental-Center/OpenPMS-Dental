@@ -145,15 +145,19 @@ namespace OpenPmsDental{
 				butAddTxCredits.Visible=false;
 				textTotalTxAmt.Visible=false;
 				labelTotalTx.Visible=false;
-				LayoutManager.MoveLocation(labelTxAmtInfo,new Point(labelTxAmtInfo.Location.X,labelTxAmtInfo.Location.Y-20));
+				//UI-12 slice 1: up by the row pitch (the hidden Total Tx Amt row's place; main moved it 20 px, its pitch then).
+				LayoutManager.MoveLocation(labelTxAmtInfo,new Point(labelTxAmtInfo.Location.X,labelTxAmtInfo.Location.Y-(textTotalTxAmt.Top-textCompletedAmt.Top)));
 			}
 			else {
 				Text=Lan.g(this,"Old Payment Plan");
 				labelInsPlan.Visible=false;
 				textInsPlan.Visible=false;
 				butChangePlan.Visible=false;
-				LayoutManager.MoveLocation(textDate,new Point(textDate.Location.X+22,textDate.Location.Y));//line up with text boxes below
-				LayoutManager.MoveLocation(labelDateAgreement,new Point(labelDateAgreement.Location.X+22,labelDateAgreement.Location.Y));
+				//Line up with text boxes below. UI-12 slice 1: by their offset (0 on the grid, where the Terms fields share the field column; main
+				//moved them 22 px, the offset of main's layout).
+				int deltaX=groupTerms.Left+textDateFirstPay.Left-textDate.Left;
+				LayoutManager.MoveLocation(textDate,new Point(textDate.Location.X+deltaX,textDate.Location.Y));
+				LayoutManager.MoveLocation(labelDateAgreement,new Point(labelDateAgreement.Location.X+deltaX,labelDateAgreement.Location.Y));
 			}
 			_defArrayAccountColors=Defs.GetDefsForCategory(DefCat.AccountColors,true).ToArray();
 			//If the amort schedule has been created and the first payment date has passed, don't allow user to change the first payment date or downpayment

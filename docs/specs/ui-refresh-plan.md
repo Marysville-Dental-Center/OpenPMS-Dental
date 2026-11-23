@@ -1602,6 +1602,27 @@ own 26.2 overlap check before it starts. The first cut is below; a brief that fi
   ones too (FormEmailInbox's address and subject boxes, ControlChart's search box); the message preview's address rows on the grid (23 px
   at a 27 px pitch, 8 px before the Attachments tab control); GridRulesTests' `unframed` rule; gallery G-UI3-ui12p redrawn from round 7
   (UI-12.md section 4, "Round 7").
+  Slice 1 (UI-12-1, branch `ui/ui12-1-1`, after the owner approved the pilot's look through G-UI3-ui13): the next 50 designer files of
+  `fit-scan-files.tsv` (ranks 7 to 81); 47 windows in `grid-windows.tsv` with slice 1: 38 laid out by the planner (24 of them touched by a
+  layout script on the planner's tree), 8 by their own layout script (mode hand), ControlTreat kept as on main for a later round; left out:
+  the Central Manager's two plain forms, the dashboard surface, EmailPreviewControl (the pilot's); FormPayPlan.cs moves two controls by the
+  layout's offsets; gallery G-UI3-ui12-1 (47 windows before/after, 12 at 150%), audit `UI-12-audit-1.md` (UI-12.md, "Slice 1").
+  Slice 1 continuation (same branch, the lead's answers of 2026-11-22): the clinic picker's label area sized from its text
+  (`ComboBoxClinicPicker.WidthLabelArea`, "Clinics" whole, the box on its column at every scale; the planner, the scripts and
+  GridRulesTests follow it; the pilot's pickers moved onto their columns), the report windows on the 8 px margin, ControlTreat laid out by a
+  layout script, the planner's rounding rows pinned, the whole window at 150% (before pictures from a build of main); fix rounds 5 to 7 of
+  the audit (FormCloneAdd, FormMedical, FormRpLaserLabels, FormRxDefEdit, ControlTreat and its picture); gallery G-UI3-ui12-1 redrawn (63
+  pictures with the clinic picker's style pictures), audit passes 4 and 5 (UI-12.md, "Slice 1, continuation").
+  Slice 1 fix round 8 (branch `ui/ui12-1-2`, the lead's review of 23 findings): FormCarrierEdit's Carrier Group row back above the CDAnet
+  group (outside Canada Load took it off the window), the labels whose text the code sets sized for it (`grid-runtime-texts.tsv`: the
+  Canadian address labels, the two-line day of FormScheduleDayEdit), FormFamilyBalancer's three-line check box, the pickers on their
+  columns, one right edge and one group height where the slice had broken them, UserControlReportSetup anchored to its page, the
+  individual insurance summary's labels whole; GridRulesTests checks no cut text in the grid windows, the pickers' columns and
+  FormCarrierEdit's client area outside Canada; audit pass 6 (UI-12.md, "Slice 1, fix round 8").
+  Slice 1 fix round 9 (branch `ui/ui12-1-3`, the lead's review of 21 findings): the clinic picker's label drawn as a WinForms Label draws
+  (no padding, so it ends on the label column; GridRulesTests checks its ink), right-to-left labels the grid aligns cleared, four new layout
+  scripts (FormArManager, FormEmailMessageEdit, FormPaySplitEdit, FormRpTreatmentFinder) and ten changed; gallery redrawn from `d2`, audit
+  pass 7 (UI-12.md, "Slice 1, fix round 9").
 - Gallery: G-UI3 per slice, the owner's rows first.
 
 **UI-13: every element type in the new look (the owner, 2026-11-22: "Overall make sure you modernize all element types")**

@@ -46,3 +46,50 @@ OpenPmsDental.FormApptViewEdit	pilot	tool	owner review 2026-11-21
 OpenPmsDental.FormHL7DefEdit	pilot	tool	owner review 2026-11-21
 OpenPmsDental.FormInsPlan	pilot	hand	owner review 2026-11-21; round 3: the whole window by its layout script (tools/UiFit/hand/FormInsPlan.py; the planner does not settle its nested panels)
 OpenPmsDental.FormMedLabEdit	pilot	tool	owner review 2026-11-21
+OpenPmsDental.FormClaimProc	1	tool	UI-12 slice 1 (fit-scan rank 7); two touches by its layout script on the planner's tree (tools/UiFit/hand/FormClaimProc.py)
+OpenPmsDental.FormEhrLabResultEdit2014	1	tool	UI-12 slice 1 (fit-scan rank 8); the Coded Elements and Unit of Measure groups' rows by its layout script on the planner's tree (tools/UiFit/hand/FormEhrLabResultEdit2014.py)
+OpenPmsDental.FormClinicEdit	1	hand	UI-12 slice 1 (fit-scan rank 9); by its layout script (tools/UiFit/hand/FormClinicEdit.py): the planner parted the Time Zone note from its label and put the alias example over the e-mail box
+OpenPmsDental.FormInsRemain	1	tool	UI-12 slice 1 (fit-scan rank 11); one touch by its layout script on the planner's tree (tools/UiFit/hand/FormInsRemain.py)
+OpenPmsDental.FormEhrLabOrderEdit2014	1	hand	UI-12 slice 1 (fit-scan rank 14); by its layout script (tools/UiFit/hand/FormEhrLabOrderEdit2014.py): the planner widened the left groups across the window
+OpenPmsDental.FormPayPlanDynamic	1	tool	UI-12 slice 1 (fit-scan rank 16); Change Guarantor on its row by its layout script on the planner's tree (tools/UiFit/hand/FormPayPlanDynamic.py)
+OpenPmsDental.FormOrthoCase	1	tool	UI-12 slice 1 (fit-scan rank 18); the left column's groups on the content edge by its layout script on the planner's tree (tools/UiFit/hand/FormOrthoCase.py)
+OpenPmsDental.FormPayPlan	1	tool	UI-12 slice 1 (fit-scan rank 20); the totals under the grid's columns, the Tx amount note and the Note box by its layout script on the planner's tree (tools/UiFit/hand/FormPayPlan.py); FormPayPlan.cs moves two controls by the layout's offsets
+OpenPmsDental.FormReportSetup	1	tool	UI-12 slice 1 (fit-scan rank 21)
+OpenPmsDental.FormAllocationsSetup	1	hand	UI-12 slice 1 (fit-scan rank 22); by its layout script (tools/UiFit/hand/FormAllocationsSetup.py): the planner left the radio buttons' descriptions and the check boxes' notes at several x positions
+OpenPmsDental.FormInsVerificationList	1	tool	UI-12 slice 1 (fit-scan rank 23); the verification list's tab control to the page's content edge by its layout script on the planner's tree (tools/UiFit/hand/FormInsVerificationList.py)
+OpenPmsDental.FormRpOutstandingIns	1	tool	UI-12 slice 1 (fit-scan rank 29); the filter group's last column by its layout script on the planner's tree (tools/UiFit/hand/FormRpOutstandingIns.py)
+OpenPmsDental.FormClearinghouseEdit	1	tool	UI-12 slice 1 (fit-scan rank 30); the Description note and the clinic picker by its layout script on the planner's tree (tools/UiFit/hand/FormClearinghouseEdit.py)
+OpenPmsDental.FormRxEdit	1	tool	UI-12 slice 1 (fit-scan rank 31)
+OpenPmsDental.FormFamilyBalancer	1	tool	UI-12 slice 1 (fit-scan rank 34); one touch by its layout script on the planner's tree (tools/UiFit/hand/FormFamilyBalancer.py)
+OpenPmsDental.FormRpCustomAging	1	tool	UI-12 slice 1 (fit-scan rank 37); the window in three columns by its layout script on the planner's tree (tools/UiFit/hand/FormRpCustomAging.py)
+OpenPmsDental.FormRpLaserLabels	1	tool	UI-12 slice 1 (fit-scan rank 38); the off-page End Name label kept where main has it by its layout script on the planner's tree (tools/UiFit/hand/FormRpLaserLabels.py)
+OpenPmsDental.FormCarrierEdit	1	tool	UI-12 slice 1 (fit-scan rank 40); the rows between Consolidate Ortho Ins Payments and the pre-authorization codes by its layout script on the planner's tree (tools/UiFit/hand/FormCarrierEdit.py)
+OpenPmsDental.FormPaySplitEdit	1	tool	UI-12 slice 1 (fit-scan rank 41)
+OpenPmsDental.ControlTreat	1	hand	UI-12 slice 1 (fit-scan rank 43); a module laid out by its layout script (tools/UiFit/hand/ControlTreat.py): the parts its code does not move; the code switches its insurance and discount summaries by Visible, LayoutManager keeps its anchored grids on the module's edges
+OpenPmsDental.FormRpUnearnedIncome	1	tool	UI-12 slice 1 (fit-scan rank 47); the pages' OK buttons and the Line Item page's clinic list by its layout script on the planner's tree (tools/UiFit/hand/FormRpUnearnedIncome.py)
+OpenPmsDental.FormEtrans835Edit	1	tool	UI-12 slice 1 (fit-scan rank 48); the right column's first two fields by its layout script on the planner's tree (tools/UiFit/hand/FormEtrans835Edit.py)
+OpenPmsDental.FormEmailMessageEdit	1	tool	UI-12 slice 1 (fit-scan rank 51)
+OpenPmsDental.FormRpTreatmentFinder	1	tool	UI-12 slice 1 (fit-scan rank 53)
+OpenPmsDental.FormArManager	1	tool	UI-12 slice 1 (fit-scan rank 54)
+OpenPmsDental.FormCodeGroupEdit	1	hand	UI-12 slice 1 (fit-scan rank 55); by its layout script (tools/UiFit/hand/FormCodeGroupEdit.py): the planner cut the right-aligned check boxes as label + field rows
+OpenPmsDental.FormMedical	1	tool	UI-12 slice 1 (fit-scan rank 56)
+OpenPmsDental.FormRpProcNotBilledIns	1	hand	UI-12 slice 1 (fit-scan rank 57); by its layout script (tools/UiFit/hand/FormRpProcNotBilledIns.py): the planner cut the filter group's columns as rows
+OpenPmsDental.FormRpProcOverpaid	1	tool	UI-12 slice 1 (fit-scan rank 58); the window's frame by its layout script on the planner's tree (tools/UiFit/hand/FormRpProcOverpaid.py)
+OpenPmsDental.FormClaimPayEdit	1	tool	UI-12 slice 1 (fit-scan rank 59)
+OpenPmsDental.FormDispensary	1	tool	UI-12 slice 1 (fit-scan rank 60)
+OpenPmsDental.FormEbillSetup	1	tool	UI-12 slice 1 (fit-scan rank 61)
+OpenPmsDental.FormProviderSetup	1	tool	UI-12 slice 1 (fit-scan rank 62); three touches by its layout script on the planner's tree (tools/UiFit/hand/FormProviderSetup.py)
+OpenPmsDental.FormRecallSetup	1	tool	UI-12 slice 1 (fit-scan rank 63); the grid and the right column's groups by its layout script on the planner's tree (tools/UiFit/hand/FormRecallSetup.py)
+OpenPmsDental.FormRxDefEdit	1	tool	UI-12 slice 1 (fit-scan rank 64); one touch by its layout script on the planner's tree (tools/UiFit/hand/FormRxDefEdit.py)
+OpenPmsDental.FormTransworldSetup	1	tool	UI-12 slice 1 (fit-scan rank 65)
+OpenPmsDental.FormRpDPPOvercharged	1	tool	UI-12 slice 1 (fit-scan rank 69); the window's frame by its layout script on the planner's tree (tools/UiFit/hand/FormRpDPPOvercharged.py)
+OpenPmsDental.FormRpPaySheet	1	hand	UI-12 slice 1 (fit-scan rank 70); by its layout script (tools/UiFit/hand/FormRpPaySheet.py): the month calendars take their own height, the planner's group stood on their Today line
+OpenPmsDental.FormAdjust	1	hand	UI-12 slice 1 (fit-scan rank 71); by its layout script (tools/UiFit/hand/FormAdjust.py): the planner put the Procedure group's fields at three x positions
+OpenPmsDental.FormCloneAdd	1	tool	UI-12 slice 1 (fit-scan rank 73)
+OpenPmsDental.FormEmployeeEdit	1	tool	UI-12 slice 1 (fit-scan rank 74); one touch by its layout script on the planner's tree (tools/UiFit/hand/FormEmployeeEdit.py)
+OpenPmsDental.FormPayPlanTemplateEdit	1	tool	UI-12 slice 1 (fit-scan rank 75)
+OpenPmsDental.FormRpEraAutoProcessed	1	tool	UI-12 slice 1 (fit-scan rank 76)
+OpenPmsDental.FormScheduleDayEdit	1	tool	UI-12 slice 1 (fit-scan rank 77); the top row, the tab control, the groups at the right and the bottom bar by its layout script on the planner's tree (tools/UiFit/hand/FormScheduleDayEdit.py)
+OpenPmsDental.FormRpAging	1	tool	UI-12 slice 1 (fit-scan rank 79); the window on one grid by its layout script on the planner's tree (tools/UiFit/hand/FormRpAging.py)
+OpenPmsDental.FormRpProcNote	1	hand	UI-12 slice 1 (fit-scan rank 80); by its layout script (tools/UiFit/hand/FormRpProcNote.py): the planner cut the filter group's columns as one band of rows
+OpenPmsDental.FormASAP	1	tool	UI-12 slice 1 (fit-scan rank 81); the filter row's combo boxes at its top by its layout script on the planner's tree (tools/UiFit/hand/FormASAP.py)

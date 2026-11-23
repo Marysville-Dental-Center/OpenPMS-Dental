@@ -54,34 +54,34 @@ namespace OpenPmsDental {
 			// 
 			// checkNoNotes
 			// 
-			this.checkNoNotes.Location = new System.Drawing.Point(16, 18);
+			this.checkNoNotes.Location = new System.Drawing.Point(8, 23);
 			this.checkNoNotes.Name = "checkNoNotes";
-			this.checkNoNotes.Size = new System.Drawing.Size(396, 21);
+			this.checkNoNotes.Size = new System.Drawing.Size(399, 20);
 			this.checkNoNotes.TabIndex = 0;
 			this.checkNoNotes.Text = "Include procedures with no notes on any procedure for the same day";
 			// 
 			// checkUnsignedNote
 			// 
-			this.checkUnsignedNote.Location = new System.Drawing.Point(16, 40);
+			this.checkUnsignedNote.Location = new System.Drawing.Point(8, 47);
 			this.checkUnsignedNote.Name = "checkUnsignedNote";
-			this.checkUnsignedNote.Size = new System.Drawing.Size(350, 21);
+			this.checkUnsignedNote.Size = new System.Drawing.Size(282, 20);
 			this.checkUnsignedNote.TabIndex = 1;
 			this.checkUnsignedNote.Text = "Include procedures with a note that is unsigned";
 			// 
 			// checkAllNoNotes
 			// 
-			this.checkAllNoNotes.Location = new System.Drawing.Point(16, 61);
+			this.checkAllNoNotes.Location = new System.Drawing.Point(8, 71);
 			this.checkAllNoNotes.Name = "checkAllNoNotes";
-			this.checkAllNoNotes.Size = new System.Drawing.Size(350, 21);
+			this.checkAllNoNotes.Size = new System.Drawing.Size(220, 20);
 			this.checkAllNoNotes.TabIndex = 2;
 			this.checkAllNoNotes.Text = "Include all procedures with no notes";
 			this.checkAllNoNotes.CheckedChanged += new System.EventHandler(this.checkAllNoNotes_CheckedChanged);
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(384, 38);
+			this.label1.Location = new System.Drawing.Point(423, 50);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(85, 21);
+			this.label1.Size = new System.Drawing.Size(60, 23);
 			this.label1.TabIndex = 49;
 			this.label1.Text = "Providers";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -98,17 +98,17 @@ namespace OpenPmsDental {
 			this.groupFilter.Controls.Add(this.checkAllNoNotes);
 			this.groupFilter.Controls.Add(this.checkNoNotes);
 			this.groupFilter.Controls.Add(this.label1);
-			this.groupFilter.Location = new System.Drawing.Point(12, 0);
+			this.groupFilter.Location = new System.Drawing.Point(8, 8);
 			this.groupFilter.Name = "groupFilter";
-			this.groupFilter.Size = new System.Drawing.Size(859, 139);
+			this.groupFilter.Size = new System.Drawing.Size(900, 154);
 			this.groupFilter.TabIndex = 0;
 			this.groupFilter.Text = "Filters";
 			// 
 			// checkShowExcludedCodes
 			// 
-			this.checkShowExcludedCodes.Location = new System.Drawing.Point(16, 82);
+			this.checkShowExcludedCodes.Location = new System.Drawing.Point(8, 95);
 			this.checkShowExcludedCodes.Name = "checkShowExcludedCodes";
-			this.checkShowExcludedCodes.Size = new System.Drawing.Size(350, 21);
+			this.checkShowExcludedCodes.Size = new System.Drawing.Size(142, 20);
 			this.checkShowExcludedCodes.TabIndex = 53;
 			this.checkShowExcludedCodes.Text = "Show Excluded Codes";
 			// 
@@ -117,17 +117,17 @@ namespace OpenPmsDental {
 			this.groupBox1.Controls.Add(this.radioProcDate);
 			this.groupBox1.Controls.Add(this.radioPatient);
 			this.groupBox1.Controls.Add(this.radioProc);
-			this.groupBox1.Location = new System.Drawing.Point(638, 12);
+			this.groupBox1.Location = new System.Drawing.Point(665, 23);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(125, 79);
+			this.groupBox1.Size = new System.Drawing.Size(128, 99);
 			this.groupBox1.TabIndex = 52;
 			this.groupBox1.Text = "Group By";
 			// 
 			// radioProcDate
 			// 
-			this.radioProcDate.Location = new System.Drawing.Point(8, 53);
+			this.radioProcDate.Location = new System.Drawing.Point(8, 71);
 			this.radioProcDate.Name = "radioProcDate";
-			this.radioProcDate.Size = new System.Drawing.Size(112, 22);
+			this.radioProcDate.Size = new System.Drawing.Size(112, 20);
 			this.radioProcDate.TabIndex = 2;
 			this.radioProcDate.Text = "Date and Patient";
 			this.radioProcDate.UseVisualStyleBackColor = true;
@@ -135,9 +135,9 @@ namespace OpenPmsDental {
 			// 
 			// radioPatient
 			// 
-			this.radioPatient.Location = new System.Drawing.Point(8, 35);
+			this.radioPatient.Location = new System.Drawing.Point(8, 47);
 			this.radioPatient.Name = "radioPatient";
-			this.radioPatient.Size = new System.Drawing.Size(104, 18);
+			this.radioPatient.Size = new System.Drawing.Size(62, 20);
 			this.radioPatient.TabIndex = 1;
 			this.radioPatient.Text = "Patient";
 			this.radioPatient.UseVisualStyleBackColor = true;
@@ -146,9 +146,9 @@ namespace OpenPmsDental {
 			// radioProc
 			// 
 			this.radioProc.Checked = true;
-			this.radioProc.Location = new System.Drawing.Point(8, 17);
+			this.radioProc.Location = new System.Drawing.Point(8, 23);
 			this.radioProc.Name = "radioProc";
-			this.radioProc.Size = new System.Drawing.Size(104, 18);
+			this.radioProc.Size = new System.Drawing.Size(79, 20);
 			this.radioProc.TabIndex = 0;
 			this.radioProc.TabStop = true;
 			this.radioProc.Text = "Procedure";
@@ -160,27 +160,27 @@ namespace OpenPmsDental {
 			this.comboClinics.IncludeAll = true;
 			this.comboClinics.IncludeHiddenInAll = true;
 			this.comboClinics.IncludeUnassigned = true;
-			this.comboClinics.Location = new System.Drawing.Point(431, 17);
+			this.comboClinics.Location = new System.Drawing.Point(441, 23);
 			this.comboClinics.Name = "comboClinics";
 			this.comboClinics.IsMultiSelect = true;
-			this.comboClinics.Size = new System.Drawing.Size(197, 21);
+			this.comboClinics.Size = new System.Drawing.Size(208, 23);
 			this.comboClinics.TabIndex = 3;
 			this.comboClinics.SelectionChangeCommitted += new System.EventHandler(this.comboClinics_SelectionChangeCommitted);
 			// 
 			// comboProvs
 			// 
 			this.comboProvs.BackColor = System.Drawing.SystemColors.Window;
-			this.comboProvs.Location = new System.Drawing.Point(468, 38);
+			this.comboProvs.Location = new System.Drawing.Point(489, 50);
 			this.comboProvs.Name = "comboProvs";
 			this.comboProvs.SelectionModeMulti = true;
-			this.comboProvs.Size = new System.Drawing.Size(160, 21);
+			this.comboProvs.Size = new System.Drawing.Size(160, 23);
 			this.comboProvs.TabIndex = 4;
 			// 
 			// dateRangePicker
 			// 
 			this.dateRangePicker.BackColor = System.Drawing.Color.Transparent;
 			this.dateRangePicker.EnableWeekButtons = false;
-			this.dateRangePicker.Location = new System.Drawing.Point(169, 106);
+			this.dateRangePicker.Location = new System.Drawing.Point(8, 119);
 			this.dateRangePicker.MaximumSize = new System.Drawing.Size(0, 185);
 			this.dateRangePicker.MinimumSize = new System.Drawing.Size(300, 21);
 			this.dateRangePicker.Name = "dateRangePicker";
@@ -190,7 +190,7 @@ namespace OpenPmsDental {
 			// butRefresh
 			// 
 			this.butRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butRefresh.Location = new System.Drawing.Point(769, 17);
+			this.butRefresh.Location = new System.Drawing.Point(810, 23);
 			this.butRefresh.Name = "butRefresh";
 			this.butRefresh.Size = new System.Drawing.Size(82, 24);
 			this.butRefresh.TabIndex = 6;
@@ -216,7 +216,7 @@ namespace OpenPmsDental {
 			this.butExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butExport.Icon = OpenPmsDental.UI.EnumIcons.Export;
 			this.butExport.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butExport.Location = new System.Drawing.Point(97, 526);
+			this.butExport.Location = new System.Drawing.Point(93, 540);
 			this.butExport.Name = "butExport";
 			this.butExport.Size = new System.Drawing.Size(79, 24);
 			this.butExport.TabIndex = 3;
@@ -228,7 +228,7 @@ namespace OpenPmsDental {
 			this.butPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butPrint.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Print,16,16);
 			this.butPrint.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butPrint.Location = new System.Drawing.Point(12, 526);
+			this.butPrint.Location = new System.Drawing.Point(8, 540);
 			this.butPrint.Name = "butPrint";
 			this.butPrint.Size = new System.Drawing.Size(79, 24);
 			this.butPrint.TabIndex = 2;
@@ -241,9 +241,9 @@ namespace OpenPmsDental {
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridMain.ContextMenuStrip = this.contextMenuStrip;
-			this.gridMain.Location = new System.Drawing.Point(12, 145);
+			this.gridMain.Location = new System.Drawing.Point(8, 170);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(859, 373);
+			this.gridMain.Size = new System.Drawing.Size(900, 362);
 			this.gridMain.TabIndex = 1;
 			this.gridMain.Title = "Incomplete Procedure Notes";
 			this.gridMain.TranslationName = "TableIncompleteProcNotes";
@@ -251,7 +251,7 @@ namespace OpenPmsDental {
 			// 
 			// FormRpProcNote
 			// 
-			this.ClientSize = new System.Drawing.Size(891, 572);
+			this.ClientSize = new System.Drawing.Size(916, 572);
 			this.Controls.Add(this.butExport);
 			this.Controls.Add(this.butPrint);
 			this.Controls.Add(this.gridMain);

@@ -181,9 +181,9 @@
 			// 
 			this.comboClinic.HqDescription = "None";
 			this.comboClinic.IncludeUnassigned = true;
-			this.comboClinic.Location = new System.Drawing.Point(93, 137);
+			this.comboClinic.Location = new System.Drawing.Point(87, 137);
 			this.comboClinic.Name = "comboClinic";
-			this.comboClinic.Size = new System.Drawing.Size(235, 23);
+			this.comboClinic.Size = new System.Drawing.Size(241, 23);
 			this.comboClinic.TabIndex = 136;
 			this.comboClinic.SelectionChangeCommitted += new System.EventHandler(this.ComboClinic_SelectionChangeCommitted);
 			// 

@@ -72,7 +72,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(337, 504);
+			this.butSave.Location = new System.Drawing.Point(345, 623);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 4;
@@ -81,9 +81,9 @@ namespace OpenPmsDental{
 			// 
 			// checkEnabled
 			// 
-			this.checkEnabled.Location = new System.Drawing.Point(24, 13);
+			this.checkEnabled.Location = new System.Drawing.Point(194, 8);
 			this.checkEnabled.Name = "checkEnabled";
-			this.checkEnabled.Size = new System.Drawing.Size(161, 18);
+			this.checkEnabled.Size = new System.Drawing.Size(164, 20);
 			this.checkEnabled.TabIndex = 1;
 			this.checkEnabled.Text = "Enabled (affects all clinics)";
 			// 
@@ -92,10 +92,10 @@ namespace OpenPmsDental{
 			this.textSftpPassword.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.textSftpPassword.AutoSize = false;
-			this.textSftpPassword.Location = new System.Drawing.Point(162, 76);
+			this.textSftpPassword.Location = new System.Drawing.Point(178, 104);
 			this.textSftpPassword.Name = "textSftpPassword";
 			this.textSftpPassword.PasswordChar = '*';
-			this.textSftpPassword.Size = new System.Drawing.Size(220, 20);
+			this.textSftpPassword.Size = new System.Drawing.Size(210, 23);
 			this.textSftpPassword.TabIndex = 5;
 			// 
 			// textSftpUsername
@@ -103,25 +103,25 @@ namespace OpenPmsDental{
 			this.textSftpUsername.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.textSftpUsername.AutoSize = false;
-			this.textSftpUsername.Location = new System.Drawing.Point(162, 56);
+			this.textSftpUsername.Location = new System.Drawing.Point(178, 77);
 			this.textSftpUsername.Name = "textSftpUsername";
-			this.textSftpUsername.Size = new System.Drawing.Size(220, 20);
+			this.textSftpUsername.Size = new System.Drawing.Size(210, 23);
 			this.textSftpUsername.TabIndex = 4;
 			// 
 			// labelSftpPassword
 			// 
-			this.labelSftpPassword.Location = new System.Drawing.Point(6, 77);
+			this.labelSftpPassword.Location = new System.Drawing.Point(108, 104);
 			this.labelSftpPassword.Name = "labelSftpPassword";
-			this.labelSftpPassword.Size = new System.Drawing.Size(155, 18);
+			this.labelSftpPassword.Size = new System.Drawing.Size(64, 23);
 			this.labelSftpPassword.TabIndex = 0;
 			this.labelSftpPassword.Text = "Password";
 			this.labelSftpPassword.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// labelSftpUsername
 			// 
-			this.labelSftpUsername.Location = new System.Drawing.Point(6, 57);
+			this.labelSftpUsername.Location = new System.Drawing.Point(108, 77);
 			this.labelSftpUsername.Name = "labelSftpUsername";
-			this.labelSftpUsername.Size = new System.Drawing.Size(155, 18);
+			this.labelSftpUsername.Size = new System.Drawing.Size(64, 23);
 			this.labelSftpUsername.TabIndex = 0;
 			this.labelSftpUsername.Text = "Username";
 			this.labelSftpUsername.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -131,16 +131,16 @@ namespace OpenPmsDental{
 			this.textSftpAddress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.textSftpAddress.AutoSize = false;
-			this.textSftpAddress.Location = new System.Drawing.Point(162, 16);
+			this.textSftpAddress.Location = new System.Drawing.Point(178, 23);
 			this.textSftpAddress.Name = "textSftpAddress";
-			this.textSftpAddress.Size = new System.Drawing.Size(220, 20);
+			this.textSftpAddress.Size = new System.Drawing.Size(210, 23);
 			this.textSftpAddress.TabIndex = 2;
 			// 
 			// labelSftpAddress
 			// 
-			this.labelSftpAddress.Location = new System.Drawing.Point(6, 17);
+			this.labelSftpAddress.Location = new System.Drawing.Point(116, 23);
 			this.labelSftpAddress.Name = "labelSftpAddress";
-			this.labelSftpAddress.Size = new System.Drawing.Size(155, 18);
+			this.labelSftpAddress.Size = new System.Drawing.Size(56, 23);
 			this.labelSftpAddress.TabIndex = 0;
 			this.labelSftpAddress.Text = "Address";
 			this.labelSftpAddress.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -150,25 +150,25 @@ namespace OpenPmsDental{
 			this.textClientIdAccelerator.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.textClientIdAccelerator.AutoSize = false;
-			this.textClientIdAccelerator.Location = new System.Drawing.Point(162, 16);
+			this.textClientIdAccelerator.Location = new System.Drawing.Point(178, 23);
 			this.textClientIdAccelerator.Name = "textClientIdAccelerator";
-			this.textClientIdAccelerator.Size = new System.Drawing.Size(220, 20);
+			this.textClientIdAccelerator.Size = new System.Drawing.Size(210, 23);
 			this.textClientIdAccelerator.TabIndex = 0;
 			// 
 			// labelClientIdAccelerator
 			// 
-			this.labelClientIdAccelerator.Location = new System.Drawing.Point(6, 17);
+			this.labelClientIdAccelerator.Location = new System.Drawing.Point(100, 23);
 			this.labelClientIdAccelerator.Name = "labelClientIdAccelerator";
-			this.labelClientIdAccelerator.Size = new System.Drawing.Size(155, 18);
+			this.labelClientIdAccelerator.Size = new System.Drawing.Size(72, 23);
 			this.labelClientIdAccelerator.TabIndex = 0;
 			this.labelClientIdAccelerator.Text = "Accelerator";
 			this.labelClientIdAccelerator.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// labelClinic
 			// 
-			this.labelClinic.Location = new System.Drawing.Point(12, 77);
+			this.labelClinic.Location = new System.Drawing.Point(144, 66);
 			this.labelClinic.Name = "labelClinic";
-			this.labelClinic.Size = new System.Drawing.Size(167, 18);
+			this.labelClinic.Size = new System.Drawing.Size(44, 23);
 			this.labelClinic.TabIndex = 0;
 			this.labelClinic.Text = "Clinic";
 			this.labelClinic.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -177,9 +177,9 @@ namespace OpenPmsDental{
 			// 
 			this.comboClinic.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.comboClinic.Location = new System.Drawing.Point(180, 76);
+			this.comboClinic.Location = new System.Drawing.Point(194, 66);
 			this.comboClinic.Name = "comboClinic";
-			this.comboClinic.Size = new System.Drawing.Size(220, 21);
+			this.comboClinic.Size = new System.Drawing.Size(220, 23);
 			this.comboClinic.TabIndex = 2;
 			this.comboClinic.SelectionChangeCommitted += new System.EventHandler(this.comboClinic_SelectionChangeCommitted);
 			// 
@@ -195,27 +195,27 @@ namespace OpenPmsDental{
 			this.groupClinicSettings.Controls.Add(this.groupServicesEnabled);
 			this.groupClinicSettings.Controls.Add(this.groupSftpServerInfo);
 			this.groupClinicSettings.Controls.Add(this.groupClientIDs);
-			this.groupClinicSettings.Location = new System.Drawing.Point(12, 103);
+			this.groupClinicSettings.Location = new System.Drawing.Point(8, 97);
 			this.groupClinicSettings.Name = "groupClinicSettings";
-			this.groupClinicSettings.Size = new System.Drawing.Size(400, 307);
+			this.groupClinicSettings.Size = new System.Drawing.Size(412, 396);
 			this.groupClinicSettings.TabIndex = 3;
 			this.groupClinicSettings.TabStop = false;
 			this.groupClinicSettings.Text = "Clinic Settings";
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(6, 282);
+			this.label2.Location = new System.Drawing.Point(28, 365);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(161, 18);
+			this.label2.Size = new System.Drawing.Size(152, 23);
 			this.label2.TabIndex = 241;
 			this.label2.Text = "Exclude Negative Adj Type";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(6, 261);
+			this.label1.Location = new System.Drawing.Point(36, 338);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(161, 18);
+			this.label1.Size = new System.Drawing.Size(144, 23);
 			this.label1.TabIndex = 240;
 			this.label1.Text = "Exclude Positive Adj Type";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -224,26 +224,26 @@ namespace OpenPmsDental{
 			// 
 			this.comboNegAdjType.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.comboNegAdjType.Location = new System.Drawing.Point(168, 281);
+			this.comboNegAdjType.Location = new System.Drawing.Point(186, 365);
 			this.comboNegAdjType.Name = "comboNegAdjType";
-			this.comboNegAdjType.Size = new System.Drawing.Size(220, 21);
+			this.comboNegAdjType.Size = new System.Drawing.Size(218, 23);
 			this.comboNegAdjType.TabIndex = 239;
 			// 
 			// comboPosAdjType
 			// 
 			this.comboPosAdjType.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.comboPosAdjType.Location = new System.Drawing.Point(168, 260);
+			this.comboPosAdjType.Location = new System.Drawing.Point(186, 338);
 			this.comboPosAdjType.Name = "comboPosAdjType";
-			this.comboPosAdjType.Size = new System.Drawing.Size(220, 21);
+			this.comboPosAdjType.Size = new System.Drawing.Size(218, 23);
 			this.comboPosAdjType.TabIndex = 238;
 			// 
 			// checkThankYouLetter
 			// 
-			this.checkThankYouLetter.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkThankYouLetter.Location = new System.Drawing.Point(6, 240);
+			this.checkThankYouLetter.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkThankYouLetter.Location = new System.Drawing.Point(186, 314);
 			this.checkThankYouLetter.Name = "checkThankYouLetter";
-			this.checkThankYouLetter.Size = new System.Drawing.Size(179, 18);
+			this.checkThankYouLetter.Size = new System.Drawing.Size(181, 20);
 			this.checkThankYouLetter.TabIndex = 6;
 			this.checkThankYouLetter.Text = "\"Paid in Full\" thank you letter";
 			// 
@@ -254,45 +254,45 @@ namespace OpenPmsDental{
 			this.groupServicesEnabled.Controls.Add(this.checkAccelService);
 			this.groupServicesEnabled.Controls.Add(this.checkPRService);
 			this.groupServicesEnabled.Controls.Add(this.checkCollService);
-			this.groupServicesEnabled.Location = new System.Drawing.Point(6, 18);
+			this.groupServicesEnabled.Location = new System.Drawing.Point(8, 23);
 			this.groupServicesEnabled.Name = "groupServicesEnabled";
-			this.groupServicesEnabled.Size = new System.Drawing.Size(388, 40);
+			this.groupServicesEnabled.Size = new System.Drawing.Size(396, 51);
 			this.groupServicesEnabled.TabIndex = 8;
 			this.groupServicesEnabled.TabStop = false;
 			this.groupServicesEnabled.Text = "Services Enabled";
 			// 
 			// checkAccelService
 			// 
-			this.checkAccelService.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkAccelService.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.checkAccelService.Checked = true;
 			this.checkAccelService.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkAccelService.Location = new System.Drawing.Point(6, 16);
+			this.checkAccelService.Location = new System.Drawing.Point(8, 23);
 			this.checkAccelService.Name = "checkAccelService";
-			this.checkAccelService.Size = new System.Drawing.Size(87, 18);
+			this.checkAccelService.Size = new System.Drawing.Size(84, 20);
 			this.checkAccelService.TabIndex = 9;
 			this.checkAccelService.Text = "Accelerator";
 			this.checkAccelService.CheckedChanged += new System.EventHandler(this.checkAccelService_CheckedChanged);
 			// 
 			// checkPRService
 			// 
-			this.checkPRService.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkPRService.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.checkPRService.Checked = true;
 			this.checkPRService.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkPRService.Location = new System.Drawing.Point(99, 16);
+			this.checkPRService.Location = new System.Drawing.Point(98, 23);
 			this.checkPRService.Name = "checkPRService";
-			this.checkPRService.Size = new System.Drawing.Size(111, 18);
+			this.checkPRService.Size = new System.Drawing.Size(105, 20);
 			this.checkPRService.TabIndex = 8;
 			this.checkPRService.Text = "Profit Recovery";
 			this.checkPRService.CheckedChanged += new System.EventHandler(this.checkPRService_CheckedChanged);
 			// 
 			// checkCollService
 			// 
-			this.checkCollService.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkCollService.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.checkCollService.Checked = true;
 			this.checkCollService.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkCollService.Location = new System.Drawing.Point(216, 16);
+			this.checkCollService.Location = new System.Drawing.Point(209, 23);
 			this.checkCollService.Name = "checkCollService";
-			this.checkCollService.Size = new System.Drawing.Size(149, 18);
+			this.checkCollService.Size = new System.Drawing.Size(151, 20);
 			this.checkCollService.TabIndex = 7;
 			this.checkCollService.Text = "Professional Collections";
 			this.checkCollService.CheckedChanged += new System.EventHandler(this.checkCollService_CheckedChanged);
@@ -309,18 +309,18 @@ namespace OpenPmsDental{
 			this.groupSftpServerInfo.Controls.Add(this.textSftpUsername);
 			this.groupSftpServerInfo.Controls.Add(this.labelSftpPassword);
 			this.groupSftpServerInfo.Controls.Add(this.labelSftpUsername);
-			this.groupSftpServerInfo.Location = new System.Drawing.Point(6, 64);
+			this.groupSftpServerInfo.Location = new System.Drawing.Point(8, 82);
 			this.groupSftpServerInfo.Name = "groupSftpServerInfo";
-			this.groupSftpServerInfo.Size = new System.Drawing.Size(388, 102);
+			this.groupSftpServerInfo.Size = new System.Drawing.Size(396, 135);
 			this.groupSftpServerInfo.TabIndex = 6;
 			this.groupSftpServerInfo.TabStop = false;
 			this.groupSftpServerInfo.Text = "SFTP Server Details";
 			// 
 			// labelSftpPort
 			// 
-			this.labelSftpPort.Location = new System.Drawing.Point(6, 37);
+			this.labelSftpPort.Location = new System.Drawing.Point(136, 50);
 			this.labelSftpPort.Name = "labelSftpPort";
-			this.labelSftpPort.Size = new System.Drawing.Size(155, 18);
+			this.labelSftpPort.Size = new System.Drawing.Size(36, 23);
 			this.labelSftpPort.TabIndex = 0;
 			this.labelSftpPort.Text = "Port";
 			this.labelSftpPort.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -330,12 +330,12 @@ namespace OpenPmsDental{
 			this.textSftpPort.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.textSftpPort.AutoSize = false;
-			this.textSftpPort.Location = new System.Drawing.Point(162, 36);
+			this.textSftpPort.Location = new System.Drawing.Point(178, 50);
 			this.textSftpPort.MaxLength = 5;
 			this.textSftpPort.MaxVal = 65535;
 			this.textSftpPort.Name = "textSftpPort";
 			this.textSftpPort.ShowZero = false;
-			this.textSftpPort.Size = new System.Drawing.Size(108, 20);
+			this.textSftpPort.Size = new System.Drawing.Size(108, 23);
 			this.textSftpPort.TabIndex = 3;
 			// 
 			// groupClientIDs
@@ -346,9 +346,9 @@ namespace OpenPmsDental{
 			this.groupClientIDs.Controls.Add(this.textClientIdCollection);
 			this.groupClientIDs.Controls.Add(this.labelClientIdAccelerator);
 			this.groupClientIDs.Controls.Add(this.labelClientIdCollection);
-			this.groupClientIDs.Location = new System.Drawing.Point(6, 172);
+			this.groupClientIDs.Location = new System.Drawing.Point(8, 225);
 			this.groupClientIDs.Name = "groupClientIDs";
-			this.groupClientIDs.Size = new System.Drawing.Size(388, 62);
+			this.groupClientIDs.Size = new System.Drawing.Size(396, 81);
 			this.groupClientIDs.TabIndex = 7;
 			this.groupClientIDs.TabStop = false;
 			this.groupClientIDs.Text = "Client IDs";
@@ -358,16 +358,16 @@ namespace OpenPmsDental{
 			this.textClientIdCollection.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.textClientIdCollection.AutoSize = false;
-			this.textClientIdCollection.Location = new System.Drawing.Point(162, 36);
+			this.textClientIdCollection.Location = new System.Drawing.Point(178, 50);
 			this.textClientIdCollection.Name = "textClientIdCollection";
-			this.textClientIdCollection.Size = new System.Drawing.Size(220, 20);
+			this.textClientIdCollection.Size = new System.Drawing.Size(210, 23);
 			this.textClientIdCollection.TabIndex = 1;
 			// 
 			// labelClientIdCollection
 			// 
-			this.labelClientIdCollection.Location = new System.Drawing.Point(6, 37);
+			this.labelClientIdCollection.Location = new System.Drawing.Point(20, 50);
 			this.labelClientIdCollection.Name = "labelClientIdCollection";
-			this.labelClientIdCollection.Size = new System.Drawing.Size(155, 18);
+			this.labelClientIdCollection.Size = new System.Drawing.Size(152, 23);
 			this.labelClientIdCollection.TabIndex = 0;
 			this.labelClientIdCollection.Text = "Profit Recovery/Collection";
 			this.labelClientIdCollection.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -376,9 +376,9 @@ namespace OpenPmsDental{
 			// 
 			this.labelClinicEnable.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelClinicEnable.Location = new System.Drawing.Point(12, 37);
+			this.labelClinicEnable.Location = new System.Drawing.Point(8, 32);
 			this.labelClinicEnable.Name = "labelClinicEnable";
-			this.labelClinicEnable.Size = new System.Drawing.Size(412, 30);
+			this.labelClinicEnable.Size = new System.Drawing.Size(412, 32);
 			this.labelClinicEnable.TabIndex = 0;
 			this.labelClinicEnable.Text = "To enable Transworld Systems for a clinic, set the ID(s),\r\nSFTP address and port," +
     " and login credentials for that clinic.";
@@ -386,9 +386,9 @@ namespace OpenPmsDental{
 			// 
 			// labelSendTimeOfDay
 			// 
-			this.labelSendTimeOfDay.Location = new System.Drawing.Point(6, 17);
+			this.labelSendTimeOfDay.Location = new System.Drawing.Point(8, 23);
 			this.labelSendTimeOfDay.Name = "labelSendTimeOfDay";
-			this.labelSendTimeOfDay.Size = new System.Drawing.Size(162, 18);
+			this.labelSendTimeOfDay.Size = new System.Drawing.Size(172, 23);
 			this.labelSendTimeOfDay.TabIndex = 233;
 			this.labelSendTimeOfDay.Text = "OpenDentalService Send Time";
 			this.labelSendTimeOfDay.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -396,17 +396,17 @@ namespace OpenPmsDental{
 			// textUpdatesTimeOfDay
 			// 
 			this.textUpdatesTimeOfDay.AutoSize = false;
-			this.textUpdatesTimeOfDay.Location = new System.Drawing.Point(168, 16);
+			this.textUpdatesTimeOfDay.Location = new System.Drawing.Point(186, 23);
 			this.textUpdatesTimeOfDay.Name = "textUpdatesTimeOfDay";
-			this.textUpdatesTimeOfDay.Size = new System.Drawing.Size(58, 20);
+			this.textUpdatesTimeOfDay.Size = new System.Drawing.Size(56, 23);
 			this.textUpdatesTimeOfDay.TabIndex = 232;
 			this.textUpdatesTimeOfDay.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			// 
 			// labelODService
 			// 
-			this.labelODService.Location = new System.Drawing.Point(227, 17);
+			this.labelODService.Location = new System.Drawing.Point(248, 23);
 			this.labelODService.Name = "labelODService";
-			this.labelODService.Size = new System.Drawing.Size(133, 18);
+			this.labelODService.Size = new System.Drawing.Size(136, 23);
 			this.labelODService.TabIndex = 2;
 			this.labelODService.Text = "(by OpenDentalService)";
 			this.labelODService.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -423,18 +423,18 @@ namespace OpenPmsDental{
 			this.groupSendActivity.Controls.Add(this.labelSendTimeOfDay);
 			this.groupSendActivity.Controls.Add(this.labelODService);
 			this.groupSendActivity.Controls.Add(this.textUpdatesTimeOfDay);
-			this.groupSendActivity.Location = new System.Drawing.Point(12, 411);
+			this.groupSendActivity.Location = new System.Drawing.Point(8, 501);
 			this.groupSendActivity.Name = "groupSendActivity";
-			this.groupSendActivity.Size = new System.Drawing.Size(400, 83);
+			this.groupSendActivity.Size = new System.Drawing.Size(412, 108);
 			this.groupSendActivity.TabIndex = 234;
 			this.groupSendActivity.TabStop = false;
 			this.groupSendActivity.Text = "Account Activity Updates (affects all clinics)";
 			// 
 			// labelPaidInFullBillType
 			// 
-			this.labelPaidInFullBillType.Location = new System.Drawing.Point(6, 57);
+			this.labelPaidInFullBillType.Location = new System.Drawing.Point(44, 77);
 			this.labelPaidInFullBillType.Name = "labelPaidInFullBillType";
-			this.labelPaidInFullBillType.Size = new System.Drawing.Size(161, 18);
+			this.labelPaidInFullBillType.Size = new System.Drawing.Size(136, 23);
 			this.labelPaidInFullBillType.TabIndex = 238;
 			this.labelPaidInFullBillType.Text = "Paid in Full Billing Type";
 			this.labelPaidInFullBillType.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -443,14 +443,14 @@ namespace OpenPmsDental{
 			// 
 			this.comboPaidInFullBillType.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.comboPaidInFullBillType.Location = new System.Drawing.Point(168, 56);
+			this.comboPaidInFullBillType.Location = new System.Drawing.Point(186, 77);
 			this.comboPaidInFullBillType.Name = "comboPaidInFullBillType";
-			this.comboPaidInFullBillType.Size = new System.Drawing.Size(220, 21);
+			this.comboPaidInFullBillType.Size = new System.Drawing.Size(218, 23);
 			this.comboPaidInFullBillType.TabIndex = 237;
 			// 
 			// numericSendFrequency
 			// 
-			this.numericSendFrequency.Location = new System.Drawing.Point(168, 36);
+			this.numericSendFrequency.Location = new System.Drawing.Point(186, 50);
 			this.numericSendFrequency.Maximum = new decimal(new int[] {
             60,
             0,
@@ -462,7 +462,7 @@ namespace OpenPmsDental{
             0,
             0});
 			this.numericSendFrequency.Name = "numericSendFrequency";
-			this.numericSendFrequency.Size = new System.Drawing.Size(58, 20);
+			this.numericSendFrequency.Size = new System.Drawing.Size(60, 23);
 			this.numericSendFrequency.TabIndex = 236;
 			this.numericSendFrequency.Value = new decimal(new int[] {
             1,
@@ -474,24 +474,24 @@ namespace OpenPmsDental{
 			// 
 			this.comboSendFrequencyUnits.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.comboSendFrequencyUnits.Location = new System.Drawing.Point(232, 35);
+			this.comboSendFrequencyUnits.Location = new System.Drawing.Point(252, 50);
 			this.comboSendFrequencyUnits.Name = "comboSendFrequencyUnits";
-			this.comboSendFrequencyUnits.Size = new System.Drawing.Size(156, 21);
+			this.comboSendFrequencyUnits.Size = new System.Drawing.Size(152, 23);
 			this.comboSendFrequencyUnits.TabIndex = 235;
 			this.comboSendFrequencyUnits.SelectedIndexChanged += new System.EventHandler(this.comboSendFrequencyUnits_SelectedIndexChanged);
 			// 
 			// labelSendFrequency
 			// 
-			this.labelSendFrequency.Location = new System.Drawing.Point(6, 37);
+			this.labelSendFrequency.Location = new System.Drawing.Point(100, 50);
 			this.labelSendFrequency.Name = "labelSendFrequency";
-			this.labelSendFrequency.Size = new System.Drawing.Size(161, 18);
+			this.labelSendFrequency.Size = new System.Drawing.Size(80, 23);
 			this.labelSendFrequency.TabIndex = 234;
 			this.labelSendFrequency.Text = "Repeat Every";
 			this.labelSendFrequency.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// FormTransworldSetup
 			// 
-			this.ClientSize = new System.Drawing.Size(424, 538);
+			this.ClientSize = new System.Drawing.Size(428, 655);
 			this.Controls.Add(this.groupSendActivity);
 			this.Controls.Add(this.labelClinicEnable);
 			this.Controls.Add(this.groupClinicSettings);

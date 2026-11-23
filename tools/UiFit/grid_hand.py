@@ -25,11 +25,36 @@ GRID = g.GRID
 RULE = "by hand (layout script): "
 
 
+def read_runtime_texts():
+    """(window, control) -> [width]: the runtime texts of tests/UiRefreshTests/Data/grid-runtime-texts.tsv."""
+    out = collections.defaultdict(list)
+    p = os.path.join(fit_tools.repo_root(), "tests", "UiRefreshTests", "Data", "grid-runtime-texts.tsv")
+    if not os.path.exists(p):
+        return out
+    with open(p, encoding="utf-8") as f:
+        for ln in f:
+            ln = ln.rstrip("\r\n")
+            if not ln or ln.startswith("#") or ln.startswith("window\t"):
+                continue
+            r = ln.split("\t")
+            out[(r[0], r[1])].append(int(r[3]))
+    return out
+
+
+RUNTIME = read_runtime_texts()
+
+
 class Hand:
     def __init__(self, window, tree, designer):
         self.window = window
         self.tree = tree
         self.designer = designer
+        # The window's clinic pickers, as the planner reads them (their label areas: clinic_w).
+        g.NO_LABEL_PICKERS.clear()
+        g.NO_LABEL_PICKERS.update(getattr(designer, "no_label", ()))
+        g.MULTI_PICKERS.clear()
+        g.MULTI_PICKERS.update(getattr(designer, "multi_pickers", ()))
+        g.MULTI_PICKERS.update(g.multi_pickers_in_code(fit_tools.repo_root(), window.split(".")[-1]))
         self.by_name = {}
         for n in g.walk(tree):
             if n is not tree and n.name:
@@ -72,6 +97,10 @@ class Hand:
         n = self.n(name)
         if n.text_align != value:
             n.new_text_align = value
+        # Slice 1 fix round 9: a right-to-left label mirrors its TextAlign (MiddleRight draws at the left): an aligned label is not right to
+        # left (grid_tools does the same for the labels it aligns).
+        if n.name in self.designer.rtl and n.kind == "label":
+            n.rtl = True
         self.touched[id(n)] = n
 
     def check_left(self, name):
@@ -83,13 +112,67 @@ class Hand:
         self.touched[id(n)] = n
 
     def lw(self, name):
-        """The width a label needs for its text on one line (snapped up to the grid)."""
+        """The width a label needs for its text on one line (snapped up to the grid): the widest of its designer text and the texts the code
+        gives it at run time (tests/UiRefreshTests/Data/grid-runtime-texts.tsv, slice 1 fix round 8)."""
         n = self.n(name)
-        return g.snap_up(n.text_w + 4) if n.text_w else n.w
+        tw = max([n.text_w or 0] + self.runtime_widths(name))
+        return g.snap_up(tw + 4) if tw else n.w
+
+    def runtime_widths(self, name):
+        """The widths (px on one line at Segoe UI 9) of the texts the window's code gives the control (grid-runtime-texts.tsv)."""
+        return [w for (win, ctl), ws in RUNTIME.items() if win == self.window and ctl == name for w in ws]
 
     def cw(self, name):
         n = self.n(name)
         return g.check_width(n) if n.text_w else 16
+
+    def clinic_w(self, name):
+        """A clinic picker's label area: its box starts this far into its bounds (grid_tools.clinic_label_w)."""
+        return g.clinic_label_w(self.n(name))
+
+    def group_rows(self, gname, x, y, w, button=None, align=None, hidden_first=None):
+        """UI-12 slice 1: lays out a group box of label + field rows in their drawn order: one field column, a picker button (24 px) on the
+        first row at the content edge before the labels, the labels right-aligned 6 px before the column, the fields to the content edge.
+        align: the field column's x in the group (to line up with another group); hidden_first: a control hidden in the designer that stands
+        at the content edge of the first row. Returns the Box and the field column's x."""
+        H = self.H
+        g = self.n(gname)
+        kids = [k for k in g.children if k.visible or k.name == hidden_first]
+        labels = sorted([k for k in kids if k.kind == "label"], key=lambda k: k.y)
+        fields = sorted([k for k in kids if k.kind == "field"], key=lambda k: k.y)
+        lw = max(self.lw(k.name) for k in labels)
+        b = self.box(gname, x, y, w)
+        F = align if align is not None else b.left + (24 + 6 if button else 0) + lw + 6
+        for i, (lb, fd) in enumerate(zip(labels, fields)):
+            yy = b.y
+            b.field(lb.name, fd.name, F, "R", lw=lw)
+            if i == 0 and button:
+                self.set(button, b.left, yy, 24, H)
+            if i == 0 and hidden_first:
+                self.check_left(hidden_first)
+                self.set(hidden_first, b.left, yy + (H - self.CH) // 2, self.cw(hidden_first), self.CH)
+        return b, F
+
+    def frame_left(self):
+        """UI-12 slice 1: the window's left content edge at the padding (8). The planner keeps a window's left column at main's x when the
+        controls there are anchored (12, 13, 34, 45 in the slice); this moves every control of the window's left edge to 8, and a wide one
+        (120 px or more, not a button) keeps its right edge (it grows by as much). Returns the shift."""
+        kids = [k for k in self.tree.children if k.dock in ("None", "") and k.w > 0 and k.h > 0]
+        shown = [k for k in kids if k.visible]
+        if not shown:
+            return 0
+        minx = min(k.nx for k in shown)
+        dx = minx - GRID["pad"]
+        if dx <= 0:
+            return 0
+        for k in kids:
+            if k.nx != minx:
+                continue
+            if k.nw >= 120 and k.kind != "button":
+                self.set(k.name, GRID["pad"], None, k.nw + dx, None)
+            else:
+                self.set(k.name, GRID["pad"], None)
+        return dx
 
     def watch(self, *names):
         """Containers the script laid out without a Box: the check reads them too."""
@@ -127,7 +210,9 @@ class Hand:
                 out.append((n.name, "TextAlign", n.text_align, n.new_text_align, why))
             if n.new_check_align:
                 out.append((n.name, "CheckAlign", n.check_align, n.new_check_align, RULE + "the box on the left of its text"))
-            if n.rtl:
+            if n.rtl and n.kind == "label":
+                out.append((n.name, "RightToLeft", "Yes", "No", RULE + "aligned, not right to left (which mirrors it)"))
+            elif n.rtl:
                 out.append((n.name, "RightToLeft", "Yes", "No", RULE + "the box on the left of its text (not right to left)"))
         return out
 

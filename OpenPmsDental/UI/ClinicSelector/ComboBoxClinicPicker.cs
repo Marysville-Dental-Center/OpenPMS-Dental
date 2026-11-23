@@ -89,8 +89,14 @@ namespace OpenPmsDental.UI {
 		private bool _showLabel=true;
 		///<summary>As this combo is initialized, the user defaults to CurUser. Can be changed.</summary>
 		private Userod _userod=Security.CurUser;
-		/// <summary>37. If this gets changed, then all places where this combo is used must be slightly adjusted.  This is a design weakness of this control, so just don't change it.  Wide enough to handle both "Clinic" and "Clinics".</summary>
-		private int _widthLabelArea=37;
+		///<summary>The flags a WinForms Label with TextAlign MiddleRight draws its text with: the label is measured and drawn with them.</summary>
+		private const TextFormatFlags _textFormatFlagsLabel=TextFormatFlags.Right|TextFormatFlags.VerticalCenter|TextFormatFlags.WordBreak
+			|TextFormatFlags.TextBoxControl|TextFormatFlags.NoPrefix;
+		///<summary>WidthLabelArea, measured for the label's text, the font and the scale beside it (it is read on every paint and mouse move).</summary>
+		private int _widthLabelAreaCached=-1;
+		private Font _fontLabelAreaCached;
+		private float _scaleLabelAreaCached;
+		private string _textLabelAreaCached;
 		#endregion Fields - Private
 
 		#region Constructor
@@ -377,6 +383,36 @@ namespace OpenPmsDental.UI {
 				return listClinics;
 			}
 		}
+		///<summary>The width of the label area before the box, in the control's current pixels, when ShowLabel is true. UI-12 slice 1 (the layout
+		///grid, docs/port-notes/UI-12.md): sized from the label's measured text, as a WinForms Label measures it at the control's font, plus the
+		///grid's 6 px label gap, so the label stands right-aligned 6 px before the box like the labels of the rows around it and "Clinics" is never
+		///cut. At Segoe UI 9 and 96 dpi: "Clinic" 43, "Clinics" 48 (the planner's CLINIC_LABEL_W, tools/UiFit/grid_tools.py). It was a fixed
+		///37, which cut "Clinics" at its left and drew "Clinic" 2 px from the box.
+		///Scaled, the width is the 96 dpi width scaled as LayoutManager scales the bounds of the controls around it (the text measured at the font
+		///less the scale), so the box stays on its column at every scale (a text measured at 150% is a few pixels narrower than 1.5 times its
+		///100% width); never narrower than the text at the control's font and the scaled gap, so the label is never cut.</summary>
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public int WidthLabelArea {
+			get {
+				float scale=LayoutManager.ScaleMy();
+				if(_widthLabelAreaCached>=0 && _textLabelAreaCached==labelFake.Text && _fontLabelAreaCached==Font && _scaleLabelAreaCached==scale) {
+					return _widthLabelAreaCached;
+				}
+				Size sizeMax=new Size(int.MaxValue,int.MaxValue);
+				int widthText=TextRenderer.MeasureText(labelFake.Text,Font,sizeMax,_textFormatFlagsLabel).Width;
+				int widthText96=widthText;
+				if(scale>0 && scale!=1f) {
+					using Font font96=new Font(Font.FontFamily,Font.Size/scale,Font.Style,Font.Unit);
+					widthText96=TextRenderer.MeasureText(labelFake.Text,font96,sizeMax,_textFormatFlagsLabel).Width;
+				}
+				_widthLabelAreaCached=Math.Max(LayoutManager.Scale(widthText96+6),widthText+LayoutManager.Scale(6));
+				_textLabelAreaCached=labelFake.Text;
+				_fontLabelAreaCached=Font;
+				_scaleLabelAreaCached=scale;
+				return _widthLabelAreaCached;
+			}
+		}
 		#endregion Properties - Public not browsable
 
 		#region Properties - Protected
@@ -390,7 +426,7 @@ namespace OpenPmsDental.UI {
 			get{
 				int widthMax=Width-1-15;
 				if(ShowLabel){
-					widthMax-=LayoutManager.Scale(_widthLabelArea);
+					widthMax-=WidthLabelArea;
 				}
 				return GetDisplayText(widthMax); 
 			}
@@ -508,7 +544,7 @@ namespace OpenPmsDental.UI {
 
 		protected override void OnMouseDown(MouseEventArgs e){
 			base.OnMouseDown(e);
-			if(ShowLabel && e.X<LayoutManager.Scale(_widthLabelArea)){
+			if(ShowLabel && e.X<WidthLabelArea){
 				return;
 			}
 			if(_clinicSelectedNoPermission!=null){
@@ -533,7 +569,7 @@ namespace OpenPmsDental.UI {
 				//this.PointToScreen(new Point(this.Width,0));//This doesn't get scaled in any way because it's an actual screen coord.
 			_formComboPicker.MinimumSize=new Size(15,15);
 			if(ShowLabel){
-				_formComboPicker.Width=this.Width-LayoutManager.Scale(_widthLabelArea);
+				_formComboPicker.Width=this.Width-WidthLabelArea;
 			}
 			else{
 				_formComboPicker.Width=this.Width;
@@ -557,7 +593,7 @@ namespace OpenPmsDental.UI {
 
 		protected override void OnMouseMove(MouseEventArgs e){
 			base.OnMouseMove(e);
-			if(ShowLabel && e.X<LayoutManager.Scale(_widthLabelArea)){
+			if(ShowLabel && e.X<WidthLabelArea){
 				if(!_isMouseOver){
 					return;//to avoid repeated invalidation
 				}
@@ -579,7 +615,7 @@ namespace OpenPmsDental.UI {
 			float scale=LayoutManager.ScaleMy();
 			Rectangle rectangleCombo=new Rectangle();
 			if(ShowLabel){
-				rectangleCombo.X=LayoutManager.Scale(_widthLabelArea);
+				rectangleCombo.X=WidthLabelArea;
 			}
 			else{
 				rectangleCombo.X=0;
@@ -603,18 +639,18 @@ namespace OpenPmsDental.UI {
 			if(ShowLabel){
 				//UI-12 (the layout grid, docs/port-notes/UI-12.md): the label as the grid places a label before its field: right-aligned, ending 6 px
 				//before the box and centred on it, like the labels of the rows around it (it was drawn from x=2 at a fixed top, touching the box).
-				//"Clinics" (multi select) is a tight fit: when the text is wider than the room, it keeps 2 px from the box and ends where it fits.
-				//UI-12 fix round 2: drawn as a WinForms Label draws a right-aligned, vertically centred text (TextRenderer with the Label's flags and
-				//its default padding, in the bounds a sibling label has), so its ink stands on the x and baseline of the labels around it (GDI+
-				//typographic text centred on the full height came out 2 px lower and 2 px further right).
-				TextFormatFlags textFormatFlags=TextFormatFlags.Right|TextFormatFlags.VerticalCenter|TextFormatFlags.WordBreak|TextFormatFlags.TextBoxControl
-					|TextFormatFlags.NoPrefix;
-				int widthText=TextRenderer.MeasureText(g,labelFake.Text,Font,new Size(int.MaxValue,Height),textFormatFlags).Width;
-				int xRight=rectangleCombo.X-LayoutManager.Scale(6);
-				if(widthText>xRight) {
-					xRight=Math.Min(rectangleCombo.X-LayoutManager.Scale(2),widthText);
-					textFormatFlags=TextFormatFlags.Right|TextFormatFlags.VerticalCenter|TextFormatFlags.SingleLine|TextFormatFlags.NoClipping|TextFormatFlags.NoPrefix;
-				}
+				//UI-12 fix round 2: drawn as a WinForms Label draws a right-aligned, vertically centred text (TextRenderer with its default padding,
+				//in the bounds a sibling label has), so its ink stands on the x and baseline of the labels around it (GDI+ typographic text centred
+				//on the full height came out 2 px lower and 2 px further right).
+				//UI-12 slice 1: the label area is as wide as the measured text + 6 px (WidthLabelArea), so the text fits its bounds; one line, never
+				//clipped, so a 1 px difference between two measurements cannot wrap it.
+				//UI-12 slice 1 fix round 9: where a right-aligned WinForms Label ending on the same x draws its text. TextRenderer's default side
+				//padding (with or without TextBoxControl, measured: the same) put the ink 3-4 px before the label column; a Label draws without it,
+				//its text's last pixel 3 px before its right side: no padding, in bounds 1 px narrower (measured at Segoe UI 9: a 100 px Label's
+				//"Clinic" ends at 97, TextRenderer's default at 94, NoPadding at 98). GridRulesTests.ClinicPicker_LabelInk_OnTheLabelColumn checks it.
+				TextFormatFlags textFormatFlags=TextFormatFlags.Right|TextFormatFlags.VerticalCenter|TextFormatFlags.SingleLine|TextFormatFlags.NoClipping
+					|TextFormatFlags.TextBoxControl|TextFormatFlags.NoPadding|TextFormatFlags.NoPrefix;
+				int xRight=rectangleCombo.X-LayoutManager.Scale(6)-1;
 				TextRenderer.DrawText(g,labelFake.Text,Font,new Rectangle(0,0,xRight,Height),UiTheme.GetColor(EnumUiColor.Text),textFormatFlags);
 			}
 			StringFormat stringFormat=new StringFormat(StringFormatFlags.NoWrap);
