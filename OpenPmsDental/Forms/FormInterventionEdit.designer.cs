@@ -54,9 +54,9 @@ namespace OpenPmsDental{
 			// label6
 			// 
 			this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.label6.Location = new System.Drawing.Point(12, 433);
+			this.label6.Location = new System.Drawing.Point(44, 468);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(78, 17);
+			this.label6.Size = new System.Drawing.Size(40, 23);
 			this.label6.TabIndex = 0;
 			this.label6.Text = "Note";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -86,9 +86,9 @@ namespace OpenPmsDental{
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(12, 35);
+			this.gridMain.Location = new System.Drawing.Point(8, 35);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(628, 394);
+			this.gridMain.Size = new System.Drawing.Size(636, 425);
 			this.gridMain.TabIndex = 3;
 			this.gridMain.Title = "Intervention Codes";
 			this.gridMain.TranslationName = "TableIntervention";
@@ -97,12 +97,12 @@ namespace OpenPmsDental{
 			// 
 			this.textNote.AcceptsTab = true;
 			this.textNote.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.textNote.Location = new System.Drawing.Point(90, 462);
+			this.textNote.Location = new System.Drawing.Point(90, 468);
 			this.textNote.MaxLength = 2147483647;
 			this.textNote.Multiline = true;
 			this.textNote.Name = "textNote";
 			this.textNote.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.textNote.Size = new System.Drawing.Size(550, 60);
+			this.textNote.Size = new System.Drawing.Size(554, 60);
 			this.textNote.TabIndex = 4;
 			// 
 			// butSave

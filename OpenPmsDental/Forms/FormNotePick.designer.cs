@@ -55,10 +55,10 @@ namespace OpenPmsDental {
 			// 
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(29,45);
+			this.gridMain.Location = new System.Drawing.Point(8,45);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridMain.Size = new System.Drawing.Size(627,322);
+			this.gridMain.Size = new System.Drawing.Size(676,322);
 			this.gridMain.TabIndex = 2;
 			this.gridMain.Title = "Pick Note";
 			this.gridMain.TranslationName = "TableNotePick";
@@ -67,9 +67,9 @@ namespace OpenPmsDental {
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(29,8);
+			this.label1.Location = new System.Drawing.Point(8,8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(627,35);
+			this.label1.Size = new System.Drawing.Size(676,35);
 			this.label1.TabIndex = 3;
 			this.label1.Text = "Multiple versions of the note exist.  Please pick or edit one version to retain. " +
     " This note will apply to ALL similar plans.  You can also pick multiple rows to " +
@@ -81,18 +81,18 @@ namespace OpenPmsDental {
 			this.textNote.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textNote.Location = new System.Drawing.Point(29,401);
+			this.textNote.Location = new System.Drawing.Point(8,401);
 			this.textNote.Multiline = true;
 			this.textNote.Name = "textNote";
 			this.textNote.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.textNote.Size = new System.Drawing.Size(627,219);
+			this.textNote.Size = new System.Drawing.Size(676,219);
 			this.textNote.TabIndex = 4;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(29,371);
+			this.label2.Location = new System.Drawing.Point(8,371);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(627,28);
+			this.label2.Size = new System.Drawing.Size(676,28);
 			this.label2.TabIndex = 5;
 			this.label2.Text = "This is the final note that will be saved for all similar plans.";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.BottomLeft;

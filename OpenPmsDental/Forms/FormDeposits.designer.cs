@@ -45,9 +45,9 @@ namespace OpenPmsDental {
 			this.grid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.grid.Location = new System.Drawing.Point(18, 35);
+			this.grid.Location = new System.Drawing.Point(8, 35);
 			this.grid.Name = "grid";
-			this.grid.Size = new System.Drawing.Size(339, 567);
+			this.grid.Size = new System.Drawing.Size(349, 567);
 			this.grid.TabIndex = 1;
 			this.grid.Title = "Deposit Slips";
 			this.grid.TranslationName = "TableDepositSlips";

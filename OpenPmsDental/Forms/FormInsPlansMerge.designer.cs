@@ -44,7 +44,7 @@ namespace OpenPmsDental {
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridMain.Location = new System.Drawing.Point(8,37);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(936,591);
+			this.gridMain.Size = new System.Drawing.Size(946,591);
 			this.gridMain.TabIndex = 19;
 			this.gridMain.Title = "Insurance Plans";
 			this.gridMain.TranslationName = "TableTemplates";

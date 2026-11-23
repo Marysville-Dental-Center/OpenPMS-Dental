@@ -165,10 +165,10 @@ namespace OpenPmsDental{
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(12, 89);
+			this.gridMain.Location = new System.Drawing.Point(8, 89);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridMain.Size = new System.Drawing.Size(367, 288);
+			this.gridMain.Size = new System.Drawing.Size(371, 288);
 			this.gridMain.TabIndex = 60;
 			this.gridMain.Title = "Criteria Used";
 			this.gridMain.TranslationName = "FormEvaluationDefEdit";
@@ -187,9 +187,9 @@ namespace OpenPmsDental{
 			// labelTotalPoint
 			// 
 			this.labelTotalPoint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelTotalPoint.Location = new System.Drawing.Point(201, 392);
+			this.labelTotalPoint.Location = new System.Drawing.Point(233, 391);
 			this.labelTotalPoint.Name = "labelTotalPoint";
-			this.labelTotalPoint.Size = new System.Drawing.Size(112, 17);
+			this.labelTotalPoint.Size = new System.Drawing.Size(76, 23);
 			this.labelTotalPoint.TabIndex = 130;
 			this.labelTotalPoint.Text = "Total Points";
 			this.labelTotalPoint.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

@@ -60,9 +60,9 @@ namespace OpenPmsDental {
 			// 
 			// textName
 			// 
-			this.textName.Location = new System.Drawing.Point(9, 27);
+			this.textName.Location = new System.Drawing.Point(8, 27);
 			this.textName.Name = "textName";
-			this.textName.Size = new System.Drawing.Size(336, 20);
+			this.textName.Size = new System.Drawing.Size(348, 23);
 			this.textName.TabIndex = 0;
 			// 
 			// buttonDelete
@@ -79,7 +79,7 @@ namespace OpenPmsDental {
 			// 
 			// labelStatus
 			// 
-			this.labelStatus.Location = new System.Drawing.Point(9, 8);
+			this.labelStatus.Location = new System.Drawing.Point(8, 8);
 			this.labelStatus.Name = "labelStatus";
 			this.labelStatus.Size = new System.Drawing.Size(143, 17);
 			this.labelStatus.TabIndex = 81;
@@ -89,7 +89,7 @@ namespace OpenPmsDental {
 			// comboFieldType
 			// 
 			this.comboFieldType.BackColor = System.Drawing.SystemColors.Window;
-			this.comboFieldType.Location = new System.Drawing.Point(9, 73);
+			this.comboFieldType.Location = new System.Drawing.Point(8, 73);
 			this.comboFieldType.Name = "comboFieldType";
 			this.comboFieldType.Size = new System.Drawing.Size(184, 23);
 			this.comboFieldType.TabIndex = 82;
@@ -97,9 +97,9 @@ namespace OpenPmsDental {
 			// 
 			// labelFieldType
 			// 
-			this.labelFieldType.Location = new System.Drawing.Point(9, 54);
+			this.labelFieldType.Location = new System.Drawing.Point(8, 54);
 			this.labelFieldType.Name = "labelFieldType";
-			this.labelFieldType.Size = new System.Drawing.Size(336, 17);
+			this.labelFieldType.Size = new System.Drawing.Size(348, 17);
 			this.labelFieldType.TabIndex = 83;
 			this.labelFieldType.Text = "Field Type";
 			this.labelFieldType.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -116,10 +116,10 @@ namespace OpenPmsDental {
 			// gridPickListItems
 			// 
 			this.gridPickListItems.AllowSortingByColumn = true;
-			this.gridPickListItems.Location = new System.Drawing.Point(9, 100);
+			this.gridPickListItems.Location = new System.Drawing.Point(8, 100);
 			this.gridPickListItems.Name = "gridPickListItems";
 			this.gridPickListItems.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridPickListItems.Size = new System.Drawing.Size(336, 300);
+			this.gridPickListItems.Size = new System.Drawing.Size(348, 300);
 			this.gridPickListItems.TabIndex = 87;
 			this.gridPickListItems.Title = "Pick List Items";
 			this.gridPickListItems.CellDoubleClick += new OpenPmsDental.UI.ODGridClickEventHandler(this.gridPickListItems_CellDoubleClick);
@@ -128,7 +128,7 @@ namespace OpenPmsDental {
 			// 
 			this.butDown.Icon = OpenPmsDental.UI.EnumIcons.Down;
 			this.butDown.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDown.Location = new System.Drawing.Point(360, 198);
+			this.butDown.Location = new System.Drawing.Point(364, 196);
 			this.butDown.Name = "butDown";
 			this.butDown.Size = new System.Drawing.Size(75, 24);
 			this.butDown.TabIndex = 164;
@@ -139,7 +139,7 @@ namespace OpenPmsDental {
 			// 
 			this.butUp.Icon = OpenPmsDental.UI.EnumIcons.Up;
 			this.butUp.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butUp.Location = new System.Drawing.Point(360, 170);
+			this.butUp.Location = new System.Drawing.Point(364, 168);
 			this.butUp.Name = "butUp";
 			this.butUp.Size = new System.Drawing.Size(75, 24);
 			this.butUp.TabIndex = 163;
@@ -150,9 +150,9 @@ namespace OpenPmsDental {
 			// 
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdd.Location = new System.Drawing.Point(360, 140);
+			this.butAdd.Location = new System.Drawing.Point(364, 140);
 			this.butAdd.Name = "butAdd";
-			this.butAdd.Size = new System.Drawing.Size(75, 26);
+			this.butAdd.Size = new System.Drawing.Size(75, 24);
 			this.butAdd.TabIndex = 167;
 			this.butAdd.Text = "&Add";
 			this.butAdd.Click += new System.EventHandler(this.butAdd_Click);
@@ -160,7 +160,7 @@ namespace OpenPmsDental {
 			// butMerge
 			// 
 			this.butMerge.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butMerge.Location = new System.Drawing.Point(360, 226);
+			this.butMerge.Location = new System.Drawing.Point(364, 224);
 			this.butMerge.Name = "butMerge";
 			this.butMerge.Size = new System.Drawing.Size(75, 24);
 			this.butMerge.TabIndex = 169;

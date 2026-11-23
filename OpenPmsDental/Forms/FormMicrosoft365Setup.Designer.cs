@@ -46,7 +46,7 @@ namespace OpenPmsDental {
 			//
 			this.labelDescription.Location = new System.Drawing.Point(8, 32);
 			this.labelDescription.Name = "labelDescription";
-			this.labelDescription.Size = new System.Drawing.Size(496, 47);
+			this.labelDescription.Size = new System.Drawing.Size(504, 47);
 			this.labelDescription.TabIndex = 1;
 			this.labelDescription.Text = "Sends email through Microsoft Graph for addresses set to Microsoft sign-in in Setup > Email, and downloads their inbox when the address asks for that. It uses an app registration in the office\'s own Microsoft Entra tenant. There is no client secret.";
 			//
@@ -63,7 +63,7 @@ namespace OpenPmsDental {
 			//
 			this.textClientId.Location = new System.Drawing.Point(175, 81);
 			this.textClientId.Name = "textClientId";
-			this.textClientId.Size = new System.Drawing.Size(328, 23);
+			this.textClientId.Size = new System.Drawing.Size(329, 23);
 			this.textClientId.TabIndex = 3;
 			//
 			// labelTenantId
@@ -79,7 +79,7 @@ namespace OpenPmsDental {
 			//
 			this.textTenantId.Location = new System.Drawing.Point(175, 108);
 			this.textTenantId.Name = "textTenantId";
-			this.textTenantId.Size = new System.Drawing.Size(328, 23);
+			this.textTenantId.Size = new System.Drawing.Size(329, 23);
 			this.textTenantId.TabIndex = 5;
 			//
 			// groupAdvanced
@@ -108,7 +108,7 @@ namespace OpenPmsDental {
 			//
 			this.textRedirectUri.Location = new System.Drawing.Point(167, 23);
 			this.textRedirectUri.Name = "textRedirectUri";
-			this.textRedirectUri.Size = new System.Drawing.Size(320, 20);
+			this.textRedirectUri.Size = new System.Drawing.Size(329, 23);
 			this.textRedirectUri.TabIndex = 1;
 			//
 			// labelSignInMethod
@@ -162,7 +162,7 @@ namespace OpenPmsDental {
 			this.textSteps.Name = "textSteps";
 			this.textSteps.ReadOnly = true;
 			this.textSteps.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.textSteps.Size = new System.Drawing.Size(495, 128);
+			this.textSteps.Size = new System.Drawing.Size(504, 128);
 			this.textSteps.TabIndex = 9;
 			this.textSteps.TabStop = false;
 			//

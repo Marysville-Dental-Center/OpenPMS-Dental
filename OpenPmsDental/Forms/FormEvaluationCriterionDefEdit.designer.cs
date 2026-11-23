@@ -48,7 +48,7 @@ namespace OpenPmsDental{
 			// 
 			// checkIsCategoryName
 			// 
-			this.checkIsCategoryName.Location = new System.Drawing.Point(158, 62);
+			this.checkIsCategoryName.Location = new System.Drawing.Point(153, 62);
 			this.checkIsCategoryName.Name = "checkIsCategoryName";
 			this.checkIsCategoryName.Size = new System.Drawing.Size(164, 20);
 			this.checkIsCategoryName.TabIndex = 4;
@@ -100,9 +100,9 @@ namespace OpenPmsDental{
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(39, 63);
+			this.label3.Location = new System.Drawing.Point(39, 62);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(113, 17);
+			this.label3.Size = new System.Drawing.Size(108, 20);
 			this.label3.TabIndex = 121;
 			this.label3.Text = "Is Category Name";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

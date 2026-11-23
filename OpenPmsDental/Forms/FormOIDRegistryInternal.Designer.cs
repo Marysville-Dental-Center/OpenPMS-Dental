@@ -35,9 +35,9 @@
 			this.labelStatus.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelStatus.ForeColor = System.Drawing.Color.Red;
-			this.labelStatus.Location = new System.Drawing.Point(12, 8);
+			this.labelStatus.Location = new System.Drawing.Point(8, 8);
 			this.labelStatus.Name = "labelStatus";
-			this.labelStatus.Size = new System.Drawing.Size(560, 32);
+			this.labelStatus.Size = new System.Drawing.Size(568, 32);
 			this.labelStatus.TabIndex = 10;
 			this.labelStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			//
@@ -79,9 +79,9 @@
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(12, 42);
+			this.gridMain.Location = new System.Drawing.Point(8, 42);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(560, 278);
+			this.gridMain.Size = new System.Drawing.Size(568, 278);
 			this.gridMain.TabIndex = 3;
 			this.gridMain.Title = "Object Identifiers";
 			this.gridMain.TranslationName = "TableObjectIdentifiers";

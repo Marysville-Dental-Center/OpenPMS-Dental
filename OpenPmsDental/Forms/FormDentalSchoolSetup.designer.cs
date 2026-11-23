@@ -60,7 +60,7 @@ namespace OpenPmsDental{
 			this.textStudents.MaxLength = 255;
 			this.textStudents.Name = "textStudents";
 			this.textStudents.ReadOnly = true;
-			this.textStudents.Size = new System.Drawing.Size(120, 23);
+			this.textStudents.Size = new System.Drawing.Size(188, 23);
 			this.textStudents.TabIndex = 1;
 			// 
 			// textInstructors
@@ -69,14 +69,14 @@ namespace OpenPmsDental{
 			this.textInstructors.MaxLength = 255;
 			this.textInstructors.Name = "textInstructors";
 			this.textInstructors.ReadOnly = true;
-			this.textInstructors.Size = new System.Drawing.Size(120, 23);
+			this.textInstructors.Size = new System.Drawing.Size(188, 23);
 			this.textInstructors.TabIndex = 3;
 			// 
 			// label3
 			// 
 			this.label3.Location = new System.Drawing.Point(8, 23);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(299, 47);
+			this.label3.Size = new System.Drawing.Size(311, 50);
 			this.label3.TabIndex = 112;
 			this.label3.Text = "Selecting a new user group gives you the opportunity to update all current studen" +
     "ts or instructors to the new group.";
@@ -99,7 +99,7 @@ namespace OpenPmsDental{
 			// 
 			// butStudentPicker
 			// 
-			this.butStudentPicker.Location = new System.Drawing.Point(229, 72);
+			this.butStudentPicker.Location = new System.Drawing.Point(297, 72);
 			this.butStudentPicker.Name = "butStudentPicker";
 			this.butStudentPicker.Size = new System.Drawing.Size(22, 23);
 			this.butStudentPicker.TabIndex = 2;
@@ -108,7 +108,7 @@ namespace OpenPmsDental{
 			// 
 			// butInstructorPicker
 			// 
-			this.butInstructorPicker.Location = new System.Drawing.Point(229, 99);
+			this.butInstructorPicker.Location = new System.Drawing.Point(297, 99);
 			this.butInstructorPicker.Name = "butInstructorPicker";
 			this.butInstructorPicker.Size = new System.Drawing.Size(22, 23);
 			this.butInstructorPicker.TabIndex = 4;

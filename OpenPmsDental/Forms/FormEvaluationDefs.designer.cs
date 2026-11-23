@@ -71,7 +71,7 @@ namespace OpenPmsDental{
 			this.comboCourse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.comboCourse.Location = new System.Drawing.Point(284, 28);
 			this.comboCourse.Name = "comboCourse";
-			this.comboCourse.Size = new System.Drawing.Size(168, 23);
+			this.comboCourse.Size = new System.Drawing.Size(165, 23);
 			this.comboCourse.TabIndex = 1;
 			this.comboCourse.SelectionChangeCommitted += new System.EventHandler(this.comboCourse_SelectionChangeCommitted);
 			// 

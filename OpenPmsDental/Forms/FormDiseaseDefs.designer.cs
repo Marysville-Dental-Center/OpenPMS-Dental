@@ -65,9 +65,9 @@ namespace OpenPmsDental {
 			this.groupBox1.Controls.Add(this.textICD10);
 			this.groupBox1.Controls.Add(this.label1);
 			this.groupBox1.Controls.Add(this.textICD9);
-			this.groupBox1.Location = new System.Drawing.Point(18, 8);
+			this.groupBox1.Location = new System.Drawing.Point(8, 8);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(537, 159);
+			this.groupBox1.Size = new System.Drawing.Size(565, 159);
 			this.groupBox1.TabIndex = 20;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Search";
@@ -108,7 +108,7 @@ namespace OpenPmsDental {
 			this.textSnoMed.Name = "textSnoMed";
 			this.textSnoMed.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.MedicationEdit;
 			this.textSnoMed.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textSnoMed.Size = new System.Drawing.Size(234, 20);
+			this.textSnoMed.Size = new System.Drawing.Size(234, 23);
 			this.textSnoMed.TabIndex = 26;
 			this.textSnoMed.Text = "";
 			// 
@@ -126,7 +126,7 @@ namespace OpenPmsDental {
 			this.textDescript.Name = "textDescript";
 			this.textDescript.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.MedicationEdit;
 			this.textDescript.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textDescript.Size = new System.Drawing.Size(441, 20);
+			this.textDescript.Size = new System.Drawing.Size(469, 23);
 			this.textDescript.TabIndex = 25;
 			this.textDescript.Text = "";
 			// 
@@ -162,7 +162,7 @@ namespace OpenPmsDental {
 			this.textICD10.Name = "textICD10";
 			this.textICD10.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.MedicationEdit;
 			this.textICD10.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textICD10.Size = new System.Drawing.Size(234, 20);
+			this.textICD10.Size = new System.Drawing.Size(234, 23);
 			this.textICD10.TabIndex = 21;
 			this.textICD10.Text = "";
 			// 
@@ -189,7 +189,7 @@ namespace OpenPmsDental {
 			this.textICD9.Name = "textICD9";
 			this.textICD9.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.MedicationEdit;
 			this.textICD9.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textICD9.Size = new System.Drawing.Size(234, 20);
+			this.textICD9.Size = new System.Drawing.Size(234, 23);
 			this.textICD9.TabIndex = 19;
 			this.textICD9.Text = "";
 			// 
@@ -198,9 +198,9 @@ namespace OpenPmsDental {
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(18, 175);
+			this.gridMain.Location = new System.Drawing.Point(8, 175);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(537, 548);
+			this.gridMain.Size = new System.Drawing.Size(565, 548);
 			this.gridMain.TabIndex = 16;
 			this.gridMain.Title = null;
 			this.gridMain.TranslationName = "TableProblems";

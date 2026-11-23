@@ -43,9 +43,9 @@
 			this.gridEdu.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridEdu.Location = new System.Drawing.Point(12, 8);
+			this.gridEdu.Location = new System.Drawing.Point(8, 8);
 			this.gridEdu.Name = "gridEdu";
-			this.gridEdu.Size = new System.Drawing.Size(868, 478);
+			this.gridEdu.Size = new System.Drawing.Size(876, 484);
 			this.gridEdu.TabIndex = 3;
 			this.gridEdu.Title = "Educational Resources";
 			this.gridEdu.TranslationName = "TableResources";

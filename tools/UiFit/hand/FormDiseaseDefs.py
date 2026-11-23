@@ -1,0 +1,18 @@
+"""FormDiseaseDefs on the grid (UI-12 slice 7, layout script on the planner's tree). The Search group and the grid stood 18 px from the left
+and 26 px before the button column, the four search boxes 20 px tall: the group and the grid from the content edge to 8 px before the
+buttons, the boxes at the field height on the 27 px pitch, Description to the group's content edge."""
+import importlib.util
+import os
+
+_spec = importlib.util.spec_from_file_location("_s7", os.path.join(os.path.dirname(os.path.abspath(__file__)), "_s7.py"))
+s = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(s)
+
+
+def layout(h):
+    r = h.n("butAdd").nx - 8
+    s.span(h, "groupBox1", x=8, r=r)
+    s.span(h, "gridMain", x=8, r=r)
+    for n in ("textICD9", "textICD10", "textSnoMed", "textDescript"):
+        h.set(n, None, None, None, h.H)
+    s.span(h, "textDescript", r=(r - 8) - 8)

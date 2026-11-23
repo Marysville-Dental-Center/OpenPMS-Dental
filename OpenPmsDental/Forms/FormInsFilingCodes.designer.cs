@@ -68,9 +68,9 @@ namespace OpenPmsDental {
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(17, 8);
+			this.gridMain.Location = new System.Drawing.Point(8, 8);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(467, 612);
+			this.gridMain.Size = new System.Drawing.Size(496, 612);
 			this.gridMain.TabIndex = 11;
 			this.gridMain.Title = "Insurance Filing Codes";
 			this.gridMain.TranslationName = "TableInsFilingCodes";
@@ -95,7 +95,7 @@ namespace OpenPmsDental {
 			this.butUp.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butUp.Location = new System.Drawing.Point(512, 36);
 			this.butUp.Name = "butUp";
-			this.butUp.Size = new System.Drawing.Size(75, 24);
+			this.butUp.Size = new System.Drawing.Size(80, 24);
 			this.butUp.TabIndex = 17;
 			this.butUp.Text = "&Up";
 			this.butUp.Click += new System.EventHandler(this.butUp_Click);
@@ -107,7 +107,7 @@ namespace OpenPmsDental {
 			this.butDown.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butDown.Location = new System.Drawing.Point(512, 64);
 			this.butDown.Name = "butDown";
-			this.butDown.Size = new System.Drawing.Size(75, 24);
+			this.butDown.Size = new System.Drawing.Size(80, 24);
 			this.butDown.TabIndex = 18;
 			this.butDown.Text = "&Down";
 			this.butDown.Click += new System.EventHandler(this.butDown_Click);

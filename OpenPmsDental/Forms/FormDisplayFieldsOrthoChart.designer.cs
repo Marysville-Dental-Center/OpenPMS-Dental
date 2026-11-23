@@ -45,18 +45,18 @@ namespace OpenPmsDental {
 			// listAvailable
 			// 
 			this.listAvailable.IntegralHeight = false;
-			this.listAvailable.Location = new System.Drawing.Point(438, 87);
+			this.listAvailable.Location = new System.Drawing.Point(438, 62);
 			this.listAvailable.Name = "listAvailable";
 			this.listAvailable.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
-			this.listAvailable.Size = new System.Drawing.Size(158, 227);
+			this.listAvailable.Size = new System.Drawing.Size(158, 252);
 			this.listAvailable.TabIndex = 3;
 			this.listAvailable.Click += new System.EventHandler(this.listAvailable_Click);
 			// 
 			// labelAvailable
 			// 
-			this.labelAvailable.Location = new System.Drawing.Point(438, 68);
+			this.labelAvailable.Location = new System.Drawing.Point(438, 43);
 			this.labelAvailable.Name = "labelAvailable";
-			this.labelAvailable.Size = new System.Drawing.Size(136, 17);
+			this.labelAvailable.Size = new System.Drawing.Size(158, 17);
 			this.labelAvailable.TabIndex = 16;
 			this.labelAvailable.Text = "Available Fields";
 			this.labelAvailable.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -64,7 +64,7 @@ namespace OpenPmsDental {
 			// labelCategory
 			// 
 			this.labelCategory.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.labelCategory.Location = new System.Drawing.Point(12, 8);
+			this.labelCategory.Location = new System.Drawing.Point(8, 8);
 			this.labelCategory.Name = "labelCategory";
 			this.labelCategory.Size = new System.Drawing.Size(213, 25);
 			this.labelCategory.TabIndex = 57;
@@ -74,10 +74,10 @@ namespace OpenPmsDental {
 			// 
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-			this.gridMain.Location = new System.Drawing.Point(12, 62);
+			this.gridMain.Location = new System.Drawing.Point(8, 62);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridMain.Size = new System.Drawing.Size(355, 419);
+			this.gridMain.Size = new System.Drawing.Size(359, 419);
 			this.gridMain.TabIndex = 3;
 			this.gridMain.Title = "Fields Showing";
 			this.gridMain.TranslationName = "FormDisplayFields";
@@ -155,7 +155,7 @@ namespace OpenPmsDental {
 			// 
 			// comboOrthoChartTabs
 			// 
-			this.comboOrthoChartTabs.Location = new System.Drawing.Point(59, 35);
+			this.comboOrthoChartTabs.Location = new System.Drawing.Point(46, 35);
 			this.comboOrthoChartTabs.Name = "comboOrthoChartTabs";
 			this.comboOrthoChartTabs.Size = new System.Drawing.Size(160, 23);
 			this.comboOrthoChartTabs.TabIndex = 4;
@@ -163,7 +163,7 @@ namespace OpenPmsDental {
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(21, 35);
+			this.label1.Location = new System.Drawing.Point(8, 35);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(32, 23);
 			this.label1.TabIndex = 61;
@@ -173,7 +173,7 @@ namespace OpenPmsDental {
 			// butSetupTabs
 			// 
 			this.butSetupTabs.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butSetupTabs.Location = new System.Drawing.Point(225, 35);
+			this.butSetupTabs.Location = new System.Drawing.Point(212, 35);
 			this.butSetupTabs.Name = "butSetupTabs";
 			this.butSetupTabs.Size = new System.Drawing.Size(82, 23);
 			this.butSetupTabs.TabIndex = 5;

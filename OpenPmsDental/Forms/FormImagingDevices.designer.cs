@@ -38,9 +38,9 @@ namespace OpenDentalImaging{
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(32, 35);
+			this.gridMain.Location = new System.Drawing.Point(8, 35);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(1008, 516);
+			this.gridMain.Size = new System.Drawing.Size(1051, 516);
 			this.gridMain.TabIndex = 4;
 			this.gridMain.Title = "Imaging Devices";
 			this.gridMain.TranslationName = "TableImagingDevices";
@@ -60,7 +60,7 @@ namespace OpenDentalImaging{
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(33, 8);
+			this.label2.Location = new System.Drawing.Point(8, 8);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(128, 23);
 			this.label2.TabIndex = 10;
@@ -69,7 +69,7 @@ namespace OpenDentalImaging{
 			// 
 			// textComputer
 			// 
-			this.textComputer.Location = new System.Drawing.Point(167, 8);
+			this.textComputer.Location = new System.Drawing.Point(142, 8);
 			this.textComputer.Name = "textComputer";
 			this.textComputer.ReadOnly = true;
 			this.textComputer.Size = new System.Drawing.Size(184, 23);
@@ -101,7 +101,7 @@ namespace OpenDentalImaging{
 			// 
 			// butUnassigned
 			// 
-			this.butUnassigned.Location = new System.Drawing.Point(357, 8);
+			this.butUnassigned.Location = new System.Drawing.Point(332, 8);
 			this.butUnassigned.Name = "butUnassigned";
 			this.butUnassigned.Size = new System.Drawing.Size(140, 23);
 			this.butUnassigned.TabIndex = 40;
@@ -110,7 +110,7 @@ namespace OpenDentalImaging{
 			// 
 			// butStandardTemplates
 			// 
-			this.butStandardTemplates.Location = new System.Drawing.Point(503, 8);
+			this.butStandardTemplates.Location = new System.Drawing.Point(478, 8);
 			this.butStandardTemplates.Name = "butStandardTemplates";
 			this.butStandardTemplates.Size = new System.Drawing.Size(150, 23);
 			this.butStandardTemplates.TabIndex = 41;

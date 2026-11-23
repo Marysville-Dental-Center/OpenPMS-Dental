@@ -75,9 +75,9 @@ namespace OpenPmsDental{
 			// listAllowedFeeMethod
 			// 
 			this.listAllowedFeeMethod.Anchor = System.Windows.Forms.AnchorStyles.None;
-			this.listAllowedFeeMethod.Location = new System.Drawing.Point(10, 207);
+			this.listAllowedFeeMethod.Location = new System.Drawing.Point(8, 207);
 			this.listAllowedFeeMethod.Name = "listAllowedFeeMethod";
-			this.listAllowedFeeMethod.Size = new System.Drawing.Size(145, 56);
+			this.listAllowedFeeMethod.Size = new System.Drawing.Size(147, 56);
 			this.listAllowedFeeMethod.TabIndex = 262;
 			// 
 			// labelAllowedFeeMethod
@@ -185,9 +185,9 @@ namespace OpenPmsDental{
 			// gridInsBlueBookRules
 			// 
 			this.gridInsBlueBookRules.Anchor = System.Windows.Forms.AnchorStyles.None;
-			this.gridInsBlueBookRules.Location = new System.Drawing.Point(10, 47);
+			this.gridInsBlueBookRules.Location = new System.Drawing.Point(8, 47);
 			this.gridInsBlueBookRules.Name = "gridInsBlueBookRules";
-			this.gridInsBlueBookRules.Size = new System.Drawing.Size(459, 135);
+			this.gridInsBlueBookRules.Size = new System.Drawing.Size(461, 135);
 			this.gridInsBlueBookRules.TabIndex = 266;
 			this.gridInsBlueBookRules.Title = "Insurance Blue Book Rules Hierarchy";
 			this.gridInsBlueBookRules.TranslationName = "TableInsuranceBlueBookRules";

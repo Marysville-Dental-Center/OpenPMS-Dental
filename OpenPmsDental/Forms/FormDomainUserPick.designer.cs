@@ -46,7 +46,7 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridMain.Location = new System.Drawing.Point(12, 8);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(879, 548);
+			this.gridMain.Size = new System.Drawing.Size(881, 548);
 			this.gridMain.TabIndex = 14;
 			this.gridMain.Title = "Domain Users";
 			this.gridMain.TranslationName = "Domain Users";
@@ -55,7 +55,7 @@ namespace OpenPmsDental{
 			// butNone
 			// 
 			this.butNone.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butNone.Location = new System.Drawing.Point(897, 8);
+			this.butNone.Location = new System.Drawing.Point(901, 8);
 			this.butNone.Name = "butNone";
 			this.butNone.Size = new System.Drawing.Size(75, 24);
 			this.butNone.TabIndex = 15;

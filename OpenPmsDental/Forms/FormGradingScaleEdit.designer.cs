@@ -105,9 +105,9 @@ namespace OpenPmsDental{
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(12, 62);
+			this.gridMain.Location = new System.Drawing.Point(8, 62);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(315, 248);
+			this.gridMain.Size = new System.Drawing.Size(319, 248);
 			this.gridMain.TabIndex = 8;
 			this.gridMain.Title = "Grading Scale Items";
 			this.gridMain.TranslationName = "TableGrading";

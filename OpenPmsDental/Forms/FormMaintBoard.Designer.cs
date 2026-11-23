@@ -99,9 +99,9 @@ namespace OpenPmsDental {
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(12, 35);
+			this.gridMain.Location = new System.Drawing.Point(8, 35);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(1076, 546);
+			this.gridMain.Size = new System.Drawing.Size(1084, 546);
 			this.gridMain.TabIndex = 6;
 			this.gridMain.Title = "Maintenance";
 			this.gridMain.TranslationName = "TableMaintBoard";

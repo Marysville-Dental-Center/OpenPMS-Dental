@@ -35,7 +35,7 @@ namespace OpenPmsDental{
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(71, 8);
+			this.label1.Location = new System.Drawing.Point(8, 8);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(48, 23);
 			this.label1.TabIndex = 15;
@@ -44,9 +44,9 @@ namespace OpenPmsDental{
 			// 
 			// textSearch
 			// 
-			this.textSearch.Location = new System.Drawing.Point(125, 8);
+			this.textSearch.Location = new System.Drawing.Point(62, 8);
 			this.textSearch.Name = "textSearch";
-			this.textSearch.Size = new System.Drawing.Size(112, 23);
+			this.textSearch.Size = new System.Drawing.Size(198, 23);
 			this.textSearch.TabIndex = 14;
 			this.textSearch.TextChanged += new System.EventHandler(this.textSearch_TextChanged);
 			// 
@@ -54,9 +54,9 @@ namespace OpenPmsDental{
 			// 
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-			this.gridMain.Location = new System.Drawing.Point(12, 35);
+			this.gridMain.Location = new System.Drawing.Point(8, 35);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(248, 444);
+			this.gridMain.Size = new System.Drawing.Size(252, 444);
 			this.gridMain.TabIndex = 16;
 			this.gridMain.Title = "Available Images";
 			this.gridMain.TranslationName = "TableWikiSearchPages";
@@ -69,9 +69,9 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.picturePreview.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.picturePreview.Location = new System.Drawing.Point(264, 28);
+			this.picturePreview.Location = new System.Drawing.Point(264, 35);
 			this.picturePreview.Name = "picturePreview";
-			this.picturePreview.Size = new System.Drawing.Size(444, 444);
+			this.picturePreview.Size = new System.Drawing.Size(451, 444);
 			this.picturePreview.TabIndex = 17;
 			this.picturePreview.TabStop = false;
 			// 
@@ -79,7 +79,7 @@ namespace OpenPmsDental{
 			// 
 			this.labelImageSize.Location = new System.Drawing.Point(264, 8);
 			this.labelImageSize.Name = "labelImageSize";
-			this.labelImageSize.Size = new System.Drawing.Size(447, 18);
+			this.labelImageSize.Size = new System.Drawing.Size(447, 23);
 			this.labelImageSize.TabIndex = 21;
 			this.labelImageSize.Text = "Image Size:";
 			this.labelImageSize.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -87,7 +87,7 @@ namespace OpenPmsDental{
 			// butImport
 			// 
 			this.butImport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butImport.Location = new System.Drawing.Point(717, 32);
+			this.butImport.Location = new System.Drawing.Point(723, 32);
 			this.butImport.Name = "butImport";
 			this.butImport.Size = new System.Drawing.Size(75, 24);
 			this.butImport.TabIndex = 20;

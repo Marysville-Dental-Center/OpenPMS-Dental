@@ -59,7 +59,7 @@ namespace OpenPmsDental {
 			// 
 			// listUser
 			// 
-			this.listUser.Location = new System.Drawing.Point(74, 35);
+			this.listUser.Location = new System.Drawing.Point(90, 35);
 			this.listUser.Name = "listUser";
 			this.listUser.Size = new System.Drawing.Size(141, 316);
 			this.listUser.TabIndex = 2;
@@ -67,16 +67,16 @@ namespace OpenPmsDental {
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(32, 35);
+			this.label1.Location = new System.Drawing.Point(8, 35);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(36, 23);
+			this.label1.Size = new System.Drawing.Size(76, 23);
 			this.label1.TabIndex = 6;
 			this.label1.Text = "User";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(222, 35);
+			this.label2.Location = new System.Drawing.Point(247, 35);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(64, 23);
 			this.label2.TabIndex = 7;
@@ -86,15 +86,15 @@ namespace OpenPmsDental {
 			// textPassword
 			// 
 			this.textPassword.AutoSize = false;
-			this.textPassword.Location = new System.Drawing.Point(292, 35);
+			this.textPassword.Location = new System.Drawing.Point(317, 35);
 			this.textPassword.Name = "textPassword";
 			this.textPassword.PasswordChar = '*';
-			this.textPassword.Size = new System.Drawing.Size(216, 23);
+			this.textPassword.Size = new System.Drawing.Size(207, 23);
 			this.textPassword.TabIndex = 0;
 			// 
 			// textUser
 			// 
-			this.textUser.Location = new System.Drawing.Point(74, 35);
+			this.textUser.Location = new System.Drawing.Point(90, 35);
 			this.textUser.Name = "textUser";
 			this.textUser.Size = new System.Drawing.Size(141, 20);
 			this.textUser.TabIndex = 8;
@@ -102,7 +102,7 @@ namespace OpenPmsDental {
 			// 
 			// checkShowCEMTUsers
 			// 
-			this.checkShowCEMTUsers.Location = new System.Drawing.Point(292, 82);
+			this.checkShowCEMTUsers.Location = new System.Drawing.Point(317, 82);
 			this.checkShowCEMTUsers.Name = "checkShowCEMTUsers";
 			this.checkShowCEMTUsers.Size = new System.Drawing.Size(119, 20);
 			this.checkShowCEMTUsers.TabIndex = 9;
@@ -112,16 +112,16 @@ namespace OpenPmsDental {
 			// 
 			// labelFilterName
 			// 
-			this.labelFilterName.Location = new System.Drawing.Point(28, 8);
+			this.labelFilterName.Location = new System.Drawing.Point(8, 8);
 			this.labelFilterName.Name = "labelFilterName";
-			this.labelFilterName.Size = new System.Drawing.Size(40, 23);
+			this.labelFilterName.Size = new System.Drawing.Size(76, 23);
 			this.labelFilterName.TabIndex = 26;
 			this.labelFilterName.Text = "Filter";
 			this.labelFilterName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textFilterName
 			// 
-			this.textFilterName.Location = new System.Drawing.Point(74, 8);
+			this.textFilterName.Location = new System.Drawing.Point(90, 8);
 			this.textFilterName.Name = "textFilterName";
 			this.textFilterName.Size = new System.Drawing.Size(140, 23);
 			this.textFilterName.TabIndex = 27;
@@ -129,7 +129,7 @@ namespace OpenPmsDental {
 			// 
 			// labelSwipeBadge
 			// 
-			this.labelSwipeBadge.Location = new System.Drawing.Point(292, 62);
+			this.labelSwipeBadge.Location = new System.Drawing.Point(317, 62);
 			this.labelSwipeBadge.Name = "labelSwipeBadge";
 			this.labelSwipeBadge.Size = new System.Drawing.Size(214, 18);
 			this.labelSwipeBadge.TabIndex = 28;
@@ -138,7 +138,7 @@ namespace OpenPmsDental {
 			//
 			// checkUseDomainLogin
 			//
-			this.checkUseDomainLogin.Location = new System.Drawing.Point(292, 106);
+			this.checkUseDomainLogin.Location = new System.Drawing.Point(317, 106);
 			this.checkUseDomainLogin.Name = "checkUseDomainLogin";
 			this.checkUseDomainLogin.Size = new System.Drawing.Size(179, 20);
 			this.checkUseDomainLogin.TabIndex = 29;

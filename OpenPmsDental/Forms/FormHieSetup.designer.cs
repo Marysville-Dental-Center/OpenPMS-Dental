@@ -78,7 +78,7 @@ namespace OpenPmsDental{
 			this.textExportPath.Location = new System.Drawing.Point(154, 83);
 			this.textExportPath.MaxLength = 255;
 			this.textExportPath.Name = "textExportPath";
-			this.textExportPath.Size = new System.Drawing.Size(316, 23);
+			this.textExportPath.Size = new System.Drawing.Size(345, 23);
 			this.textExportPath.TabIndex = 18;
 			// 
 			// labelExportPath
@@ -112,7 +112,7 @@ namespace OpenPmsDental{
 			// 
 			// butBrowse
 			// 
-			this.butBrowse.Location = new System.Drawing.Point(476, 83);
+			this.butBrowse.Location = new System.Drawing.Point(505, 83);
 			this.butBrowse.Name = "butBrowse";
 			this.butBrowse.Size = new System.Drawing.Size(30, 23);
 			this.butBrowse.TabIndex = 21;

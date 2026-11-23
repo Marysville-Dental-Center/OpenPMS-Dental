@@ -35,7 +35,7 @@ namespace OpenPmsDental{
 			// 
 			// listExamTypes
 			// 
-			this.listExamTypes.Location = new System.Drawing.Point(8, 55);
+			this.listExamTypes.Location = new System.Drawing.Point(8, 51);
 			this.listExamTypes.Name = "listExamTypes";
 			this.listExamTypes.Size = new System.Drawing.Size(196, 43);
 			this.listExamTypes.TabIndex = 1;
@@ -43,7 +43,7 @@ namespace OpenPmsDental{
 			// 
 			// labelFilterTypes
 			// 
-			this.labelFilterTypes.Location = new System.Drawing.Point(8, 36);
+			this.labelFilterTypes.Location = new System.Drawing.Point(8, 32);
 			this.labelFilterTypes.Name = "labelFilterTypes";
 			this.labelFilterTypes.Size = new System.Drawing.Size(156, 17);
 			this.labelFilterTypes.TabIndex = 49;
@@ -55,7 +55,7 @@ namespace OpenPmsDental{
 			this.butAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdd.Location = new System.Drawing.Point(4, 717);
+			this.butAdd.Location = new System.Drawing.Point(8, 664);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(75, 24);
 			this.butAdd.TabIndex = 3;
@@ -68,7 +68,7 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.gridMain.Location = new System.Drawing.Point(8, 102);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(435, 464);
+			this.gridMain.Size = new System.Drawing.Size(423, 554);
 			this.gridMain.TabIndex = 2;
 			this.gridMain.Title = "Exam Sheets";
 			this.gridMain.TranslationName = "FormPatientForms";
@@ -77,7 +77,7 @@ namespace OpenPmsDental{
 			// 
 			// menuMain
 			// 
-			this.menuMain.Location = new System.Drawing.Point(8, 8);
+			this.menuMain.Location = new System.Drawing.Point(0, 0);
 			this.menuMain.Name = "menuMain";
 			this.menuMain.Size = new System.Drawing.Size(435, 24);
 			this.menuMain.TabIndex = 0;
@@ -88,7 +88,7 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.panelSheetPreview.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
-			this.panelSheetPreview.Location = new System.Drawing.Point(454, 8);
+			this.panelSheetPreview.Location = new System.Drawing.Point(439, 3);
 			this.panelSheetPreview.Name = "panelSheetPreview";
 			this.panelSheetPreview.Size = new System.Drawing.Size(534, 692);
 			this.panelSheetPreview.TabIndex = 0;
@@ -99,10 +99,10 @@ namespace OpenPmsDental{
 			this.labelVerticalDivider.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.labelVerticalDivider.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(77)))), ((int)(((byte)(100)))), ((int)(((byte)(147)))));
-			this.labelVerticalDivider.Location = new System.Drawing.Point(447, 8);
+			this.labelVerticalDivider.Location = new System.Drawing.Point(435, 0);
 			this.labelVerticalDivider.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.labelVerticalDivider.Name = "labelVerticalDivider";
-			this.labelVerticalDivider.Size = new System.Drawing.Size(1, 697);
+			this.labelVerticalDivider.Size = new System.Drawing.Size(1, 696);
 			this.labelVerticalDivider.TabIndex = 5;
 			// 
 			// label1
@@ -115,7 +115,7 @@ namespace OpenPmsDental{
 			// 
 			// FormExamSheets
 			// 
-			this.ClientSize = new System.Drawing.Size(996, 749);
+			this.ClientSize = new System.Drawing.Size(974, 696);
 			this.Controls.Add(this.labelVerticalDivider);
 			this.Controls.Add(this.panelSheetPreview);
 			this.Controls.Add(this.labelFilterTypes);

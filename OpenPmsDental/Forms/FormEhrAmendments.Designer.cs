@@ -33,9 +33,9 @@
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(15, 43);
+			this.gridMain.Location = new System.Drawing.Point(8, 43);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(470, 222);
+			this.gridMain.Size = new System.Drawing.Size(477, 231);
 			this.gridMain.TabIndex = 25;
 			this.gridMain.Title = "Amendments";
 			this.gridMain.TranslationName = "TableAmendments";
@@ -55,9 +55,9 @@
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(15, 8);
+			this.label3.Location = new System.Drawing.Point(8, 8);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(573, 33);
+			this.label3.Size = new System.Drawing.Size(580, 33);
 			this.label3.TabIndex = 130;
 			this.label3.Text = "Patients can bring in documents and request that they be appended to their record" +
     ".  They can then be scanned or the hardcopy filed.";

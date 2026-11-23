@@ -53,9 +53,9 @@ namespace OpenPmsDental{
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(17, 121);
+			this.gridMain.Location = new System.Drawing.Point(8, 121);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(621, 255);
+			this.gridMain.Size = new System.Drawing.Size(638, 255);
 			this.gridMain.TabIndex = 7;
 			this.gridMain.Title = "Fields";
 			this.gridMain.TranslationName = "TableFields";
@@ -104,7 +104,7 @@ namespace OpenPmsDental{
 			this.textNote.Multiline = true;
 			this.textNote.Name = "textNote";
 			this.textNote.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.textNote.Size = new System.Drawing.Size(285, 109);
+			this.textNote.Size = new System.Drawing.Size(293, 109);
 			this.textNote.TabIndex = 15;
 			// 
 			// label12

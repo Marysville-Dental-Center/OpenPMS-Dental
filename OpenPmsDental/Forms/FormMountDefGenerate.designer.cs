@@ -125,7 +125,7 @@ namespace OpenPmsDental{
 			// 
 			this.label5.Location = new System.Drawing.Point(142, 145);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(449, 77);
+			this.label5.Size = new System.Drawing.Size(449, 98);
 			this.label5.TabIndex = 34;
 			this.label5.Text = resources.GetString("label5.Text");
 			// 
