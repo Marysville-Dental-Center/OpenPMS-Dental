@@ -1,0 +1,176 @@
+#!/usr/bin/env python3
+"""UI-12T: tests of the rollout tooling (docs/port-notes/UI-12.md, "Tooling (UI-12T)"). Plain unittest, no packages:
+
+    python -m unittest discover -s tools/UiFit -p "test_*.py"
+
+The per-slice data split (split_grid_data.py, slice_data.py), the grid's numbers (grid-numbers.tsv), the batch plan (plan_batches.py) and the
+window-family templates (grid_templates.py).
+"""
+import os
+import shutil
+import sys
+import tempfile
+import unittest
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import fit_tools  # noqa: E402
+import grid_tools  # noqa: E402
+import plan_batches  # noqa: E402
+import slice_data as sd  # noqa: E402
+import split_grid_data  # noqa: E402
+
+ROOT = fit_tools.repo_root()
+
+
+class SplitTests(unittest.TestCase):
+    def make_root(self):
+        tmp = tempfile.mkdtemp(prefix="ui12t-")
+        self.addCleanup(shutil.rmtree, tmp, True)
+        src = sd.data_dir(ROOT)
+        dst = sd.data_dir(tmp)
+        os.makedirs(dst)
+        for name in sd.FOLDERS:
+            shutil.copytree(os.path.join(src, name), os.path.join(dst, name))
+        shutil.copy(os.path.join(src, "fit-fixes.tsv"), dst)
+        return tmp, dst
+
+    def folder_texts(self, data):
+        out = {}
+        for name in sd.FOLDERS:
+            for s, p in sd.slice_files(os.path.join(data, name)):
+                with open(p, encoding="utf-8", newline="") as f:
+                    out[name + "/" + s] = f.read().replace("\r\n", "\n")
+        with open(os.path.join(data, "fit-fixes.tsv"), encoding="utf-8", newline="") as f:
+            out["fit-fixes"] = f.read().replace("\r\n", "\n")
+        return out
+
+    def test_repository_is_split(self):
+        r = split_grid_data.Run(ROOT, True)
+        r.run()
+        self.assertEqual([], r.changed, "run tools/UiFit/split_grid_data.py")
+
+    def test_rerun_changes_nothing(self):
+        tmp, data = self.make_root()
+        before = self.folder_texts(data)
+        r = split_grid_data.Run(tmp, False)
+        r.run()
+        self.assertEqual([], r.changed)
+        self.assertEqual(before, self.folder_texts(data))
+
+    def test_a_branch_of_single_files_splits_into_the_same_folders(self):
+        """A slice branch made before the split (its single files, its marks in fit-fixes.tsv) merged in: the rerun gives the folders."""
+        tmp, data = self.make_root()
+        before = self.folder_texts(data)
+        for name in ("grid-windows", "grid-hand", "grid-known", "grid-runtime-texts", "layout-snapshot"):
+            comments, header, rows = sd.read_folder(os.path.join(data, name))
+            lines = [ln for _, ln in rows]
+            if name == "layout-snapshot":
+                comments = comments[:3]
+                held = set(ln.split("\t")[0] for s, ln in rows if s != sd.UNSLICED)
+                lines = sorted((ln for s, ln in rows if s != sd.UNSLICED or ln.split("\t")[0] not in held), key=lambda x: x.split("\t")[0])
+            sd.write_file(os.path.join(data, name + ".tsv"), comments, header, lines, "\r\n")
+            shutil.rmtree(os.path.join(data, name))
+        # The superseded marks back in the notes of fit-fixes.tsv.
+        _, _, sup = sd.read_folder(os.path.join(data, "fit-fixes-superseded"))
+        keys = set(ln for _, ln in sup)
+        shutil.rmtree(os.path.join(data, "fit-fixes-superseded"))
+        path = os.path.join(data, "fit-fixes.tsv")
+        with open(path, encoding="utf-8", newline="") as f:
+            text = f.read()
+        nl = sd.line_end(text)
+        lines = text.split(nl)
+        for i, ln in enumerate(lines):
+            if "\t".join(ln.split("\t")[:3]) in keys:
+                lines[i] = ln + sd.SUPERSEDED_MARK
+        with open(path, "w", encoding="utf-8", newline="") as f:
+            f.write(nl.join(lines))
+        split_grid_data.Run(tmp, False).run()
+        self.assertEqual(before, self.folder_texts(data))
+        for name in sd.FOLDERS:
+            self.assertFalse(os.path.exists(os.path.join(data, name + ".tsv")), name)
+
+    def test_unsliced_rows_of_an_owned_file_are_pruned(self):
+        tmp, data = self.make_root()
+        before = self.folder_texts(data)
+        folder = os.path.join(data, "layout-snapshot")
+        c, h, d, nl = sd.read_file(os.path.join(folder, "pilot.tsv"))
+        c2, h2, d2, nl2 = sd.read_file(os.path.join(folder, "unsliced.tsv"))
+        stale = [ln.replace("\t", "\t", 1) for ln in d[:3]]
+        sd.write_file(os.path.join(folder, "unsliced.tsv"), c2, h2, sorted(d2 + stale, key=lambda x: x.split("\t")[0]), nl2)
+        split_grid_data.Run(tmp, False).run()
+        self.assertEqual(before, self.folder_texts(data))
+
+    def test_no_window_in_two_files(self):
+        for name, key in sd.FOLDERS.items():
+            dup = sd.duplicates(os.path.join(sd.data_dir(ROOT), name), [key] if key else ["file", "control"])
+            dup = [x for x in dup if sd.UNSLICED not in x[1]]
+            self.assertEqual([], dup, name)
+
+    def test_slice_order(self):
+        self.assertEqual(["pilot", "1", "2", "10", "x", "unsliced"], sorted(["unsliced", "10", "2", "pilot", "x", "1"], key=sd.slice_key))
+
+
+class NumbersTests(unittest.TestCase):
+    def test_grid_is_the_data_file(self):
+        self.assertEqual(grid_tools.load_grid(), grid_tools.GRID)
+        self.assertEqual(27, grid_tools.GRID["field_height"] + grid_tools.GRID["row_gap"])
+        self.assertEqual(0.5, grid_tools.GRID["label_cap"])
+
+    def test_code_constants_match(self):
+        import re
+        with open(os.path.join(ROOT, "CodeBase", "UI", "UiGrid.cs"), encoding="utf-8-sig") as f:
+            consts = dict((k.lower(), float(v)) for k, v in re.findall(r"public const (?:int|double) (\w+)=([\d.]+);", f.read()))
+        self.assertEqual(dict((k, float(v)) for k, v in grid_tools.GRID.items()), consts)
+
+    def test_a_wrong_pitch_is_refused(self):
+        tmp = tempfile.mkdtemp(prefix="ui12t-")
+        self.addCleanup(shutil.rmtree, tmp, True)
+        p = os.path.join(tmp, "n.tsv")
+        with open(grid_tools.GRID_NUMBERS, encoding="utf-8") as f:
+            text = f.read().replace("pitch\t27\t", "pitch\t29\t")
+        with open(p, "w", encoding="utf-8") as f:
+            f.write(text)
+        with self.assertRaises(ValueError):
+            grid_tools.load_grid(p)
+
+
+class BatchTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.batches, cls.rank, cls.controls, cls.group_of = plan_batches.plan(ROOT)
+
+    def test_no_file_in_two_batches(self):
+        self.assertEqual([], plan_batches.check_disjoint(ROOT, self.batches))
+
+    def test_no_laid_out_window(self):
+        _, _, laid = plan_batches.load(ROOT)
+        files = [f for _, _, fs in self.batches for f in fs]
+        self.assertEqual(set(), laid & set(files))
+        self.assertTrue(any(f.endswith("FormPatientEdit.Designer.cs") for f in laid))
+        self.assertEqual(len(files), len(set(files)))
+
+    def test_sizes(self):
+        for n, kind, files in self.batches:
+            groups = set(self.group_of[f] for f in files)
+            for g in groups:
+                members = [f for f in files if self.group_of[f] == g]
+                total = sum(self.controls[f] for f in members)
+                self.assertEqual(kind, "small" if total <= 20 else "large", g)
+            # A batch closes when it reaches its size; the last group may pass it.
+            size = 120 if kind == "small" else 50
+            last = self.group_of[files[-1]]
+            self.assertLess(len([f for f in files if self.group_of[f] != last]), size, n)
+
+    def test_a_window_and_its_user_controls_together(self):
+        where = dict((f, n) for n, _, fs in self.batches for f in fs)
+        for f, g in self.group_of.items():
+            self.assertEqual(where[g], where[f], f)
+
+    def test_the_committed_plan_is_current(self):
+        rows = sd.read_dicts(os.path.join(ROOT, "docs", "port-notes", "UI-12-batches.tsv"))
+        self.assertEqual([f for _, _, fs in self.batches for f in fs], [r["designer_file"] for r in rows],
+                         "run python tools/UiFit/plan_batches.py")
+
+
+if __name__ == "__main__":
+    unittest.main()
