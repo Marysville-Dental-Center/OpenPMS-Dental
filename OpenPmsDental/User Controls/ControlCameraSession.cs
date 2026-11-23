@@ -72,6 +72,16 @@ namespace OpenPmsDental {
 		private ContextMenuStrip contextMenuShot;
 		///<summary>The shot the right-click menu acts on.</summary>
 		private PhotoShot _shotMenu;
+		///<summary>The recording running (IMG-P4c), or null.</summary>
+		private VideoRecorder _recorder;
+		///<summary>The frame source the recording taps; its tap is cleared when the recording stops.</summary>
+		private IFrameSource _frameSourceRecording;
+		private string _pathRecording="";
+		private DateTime _dateTimeRecordingStarted;
+		private string _teethRecording="";
+		private Label labelRec;
+		private UI.Button butRecord;
+		private System.Windows.Forms.Timer timerRec;
 		///<summary>The DocNum Ctrl+Z may retake: the photo saved last, once; 0 after it was retaken or another action.</summary>
 		private long _docNumUndoable;
 		///<summary>A short click, made once (design section 2: a soft click on every shot).</summary>
@@ -131,6 +141,7 @@ namespace OpenPmsDental {
 		///<summary>Minutes without a photo or a key after which the camera is released (its light goes off). A setting later (IMG-P4e).</summary>
 		public int MinutesIdle { get; set; }=10;
 		public bool IsAsleep => _isAsleep;
+		public bool IsRecording => _recorder!=null;
 		///<summary>Shows stored tooth numbers in the office's numbering (Tooth.DisplayRange). Replaceable for pictures made without a database.
 		///</summary>
 		public Func<string,string> FuncDisplayTeeth { get; set; }=x => Tooth.DisplayRange(x);
@@ -168,6 +179,7 @@ namespace OpenPmsDental {
 			_videoCaptureSession.TriggerPressed+=videoCaptureSession_TriggerPressed;
 			_videoCaptureSession.LevelChanged+=videoCaptureSession_LevelChanged;
 			ODEvent.Fired+=ODEvent_Fired;
+			VideoFiles.RecoverStale();//a recording left by a program that stopped goes to the unsaved photos
 			ShowStatus(VideoStatusText.Starting());
 			_dateTimeActivity=DateTime.Now;
 			timerIdle.Start();
@@ -199,6 +211,7 @@ namespace OpenPmsDental {
 		}
 
 		private void ReleaseCamera() {
+			StopRecording();//the clip is completed and saved to the session's patient first (design section 4)
 			timerIdle?.Stop();
 			ODEvent.Fired-=ODEvent_Fired;
 			VideoCaptureSession videoCaptureSession=_videoCaptureSession;
@@ -232,6 +245,7 @@ namespace OpenPmsDental {
 				_bitmapFrozen=null;
 				timerFlash?.Dispose();
 				timerIdle?.Dispose();
+				timerRec?.Dispose();
 				contextMenuShot?.Dispose();
 			}
 			base.Dispose(disposing);
@@ -245,6 +259,16 @@ namespace OpenPmsDental {
 			switch(keyData) {
 				case Keys.F11:
 					EventFullScreenToggle?.Invoke(this,EventArgs.Empty);
+					return true;
+				case Keys.R:
+					if((msg.LParam.ToInt64() & 0x40000000)==0) {//a held R does not start and stop again
+						ToggleRecording();
+					}
+					return true;
+				case Keys.P:
+					if((msg.LParam.ToInt64() & 0x40000000)==0) {
+						TogglePause();
+					}
 					return true;
 				case Keys.Space:
 					//A held Space repeats: only the first press takes a photo, or one held key would fill the whole mount.
@@ -428,6 +452,17 @@ namespace OpenPmsDental {
 			RefreshGuide();
 		}
 
+		///<summary>The quick photos' small pictures: the newest 12.</summary>
+		private void AddQuickThumb(Bitmap bitmapThumb,long docNum) {
+			_listThumbsQuick.Add(bitmapThumb);
+			_listDocNumsQuick.Add(docNum);
+			while(_listThumbsQuick.Count>12) {
+				_listThumbsQuick[0].Dispose();
+				_listThumbsQuick.RemoveAt(0);
+				_listDocNumsQuick.RemoveAt(0);
+			}
+		}
+
 		///<summary>A small copy of the saved photo as it will show: flipped for a mirror shot and rotated as the slot says.</summary>
 		private void AddThumb(PhotoShotPlan photoShotPlan,Bitmap bitmap,long docNum) {
 			Bitmap bitmapThumb=MakeThumb(bitmap,photoShotPlan.IsFlipped,photoShotPlan.DegreesRotated,_funcScale(160));
@@ -435,13 +470,7 @@ namespace OpenPmsDental {
 				return;
 			}
 			if(photoShotPlan.MountItemNum==0) {
-				_listThumbsQuick.Add(bitmapThumb);
-				_listDocNumsQuick.Add(docNum);
-				while(_listThumbsQuick.Count>12) {
-					_listThumbsQuick[0].Dispose();
-					_listThumbsQuick.RemoveAt(0);
-					_listDocNumsQuick.RemoveAt(0);
-				}
+				AddQuickThumb(bitmapThumb,docNum);
 				return;
 			}
 			if(_dictThumbs.TryGetValue(photoShotPlan.MountItemNum,out Bitmap bitmapOld)) {
@@ -485,6 +514,199 @@ namespace OpenPmsDental {
 		}
 		#endregion Methods - Capture
 
+		#region Methods - Video recording (IMG-P4c)
+		///<summary>R: starts or stops a recording. Needs the live picture and 2 GB free on this computer.</summary>
+		private void ToggleRecording() {
+			_dateTimeActivity=DateTime.Now;
+			if(IsRecording) {
+				StopRecording();
+				return;
+			}
+			if(_isAsleep || _videoCaptureSession==null || !_videoCaptureSession.IsStreaming || _videoCaptureSession.FrameSource==null) {
+				ShowInfo(Lan.g(this,"Recording needs the live picture."));
+				return;
+			}
+			if(!VideoFiles.IsEnoughSpace(VideoFiles.GetBytesFree(VideoFiles.GetRecordingFolder()??""))) {
+				ShowAlert(Lan.g(this,"Video is off until there is at least 2 GB free on this computer. Photos still work."));
+				return;
+			}
+			PhotoUnsaved photoUnsaved=new PhotoUnsaved {
+				PatNum=_patient.PatNum,
+				PatientName=_patient.GetNameLF(),
+				MountNum=_mount?.MountNum??0,
+				Slot=PhotoSessionModel.VideoLabel,
+				ToothNumbers=_model.GetTeethNext(),
+				CategoryDefNum=_categoryDefNum,
+				DateTimeTaken=DateTime.Now,
+				Reason="Recording",
+			};
+			string error;
+			string path=VideoFiles.BeginRecordingFile(photoUnsaved,out error);
+			if(path==null) {
+				ShowAlert(Lan.g(this,"The video could not be started")+": "+error);
+				return;
+			}
+			double framesPerSecond=_videoCaptureSession.ModeChoice?.Mode?.MaxFramesPerSecond??30;
+			VideoRecorder recorder=new VideoRecorder((width,height) => Mp4Writer.Create(path,width,height,framesPerSecond),framesPerSecond);
+			recorder.Start();
+			_recorder=recorder;
+			_pathRecording=path;
+			_dateTimeRecordingStarted=photoUnsaved.DateTimeTaken;
+			_teethRecording=photoUnsaved.ToothNumbers;
+			_frameSourceRecording=_videoCaptureSession.FrameSource;
+			_frameSourceRecording.FrameTap=recorder.OfferFrame;
+			timerRec.Start();
+			ShowAlert("");
+			ShowInfo(Lan.g(this,"Recording. R stops, P pauses, Space still takes a photo."));
+			RefreshRecording();
+		}
+
+		private void TogglePause() {
+			_dateTimeActivity=DateTime.Now;
+			VideoRecorder recorder=_recorder;
+			if(recorder==null) {
+				return;
+			}
+			if(recorder.IsPaused) {
+				recorder.Resume();
+			}
+			else {
+				recorder.Pause();
+			}
+			RefreshRecording();
+		}
+
+		///<summary>Stops the recording, completes the file and imports it into the session patient's images (unmounted, with the teeth and the
+		///time it started). When the import fails the file is kept on this computer for Camera, Unsaved photos. Safe to call when not
+		///recording.</summary>
+		private void StopRecording() {
+			VideoRecorder recorder=_recorder;
+			if(recorder==null) {
+				return;
+			}
+			_recorder=null;
+			timerRec?.Stop();
+			if(_frameSourceRecording!=null) {
+				_frameSourceRecording.FrameTap=null;
+				_frameSourceRecording=null;
+			}
+			VideoRecordingResult result;
+			Cursor cursorOld=Cursor.Current;
+			Cursor.Current=Cursors.WaitCursor;
+			try {
+				result=recorder.Stop();
+			}
+			finally {
+				recorder.Dispose();
+				Cursor.Current=cursorOld;
+			}
+			if(IsDisposed) {
+				return;
+			}
+			RefreshRecording();
+			if(result.IsTimedOut) {
+				//the file may still be open: it is not imported now; the next session moves it to the unsaved photos
+				ShowAlert(Lan.g(this,"The video is still being finished. It will be under Camera, Unsaved photos after the next camera session starts."));
+				return;
+			}
+			if(result.FramesWritten==0) {
+				VideoFiles.Delete(_pathRecording);
+				ShowInfo(Lan.g(this,"Nothing was recorded.")+(result.Error=="" ? "" : " "+result.Error));
+				return;
+			}
+			string error;
+			Document document=VideoFiles.Import(_store,_pathRecording,_patient.PatNum,_categoryDefNum,_teethRecording,_dateTimeRecordingStarted,
+				result.Duration,out error);
+			if(document==null) {
+				string errorMove;
+				string pathKept=VideoFiles.MoveToUnsaved(_pathRecording,error,out errorMove,duration:result.Duration);
+				if(pathKept==null) {
+					ShowAlert(error+" "+Lan.g(this,"The file stays in")+" "+_pathRecording+": "+errorMove);
+					return;
+				}
+				_countKept++;
+				ShowAlert(Lan.g(this,"Video could not be saved. It is kept on this computer; Camera, Unsaved photos files it later.")+"\r\n"+error);
+				return;
+			}
+			VideoFiles.Delete(_pathRecording);
+			_docNumLast=document.DocNum;
+			_model.AddVideo(document.DocNum);
+			if(_model.IsQuickPhotos && result.FrameFirst!=null) {
+				using(Bitmap bitmapFirst=result.FrameFirst.ToBitmap()) {
+					Bitmap bitmapThumb=MakeThumb(bitmapFirst,false,0,_funcScale(160));
+					if(bitmapThumb!=null) {
+						MarkAsVideo(bitmapThumb);
+						AddQuickThumb(bitmapThumb,document.DocNum);
+					}
+				}
+			}
+			string text=Lan.g(this,"Video saved")+" ("+VideoFiles.FormatDuration(result.Duration)+")";
+			if(result.IsLimitReached) {
+				text+=". "+Lan.g(this,"It stopped at the limit of")+" "+VideoFiles.FormatDuration(TimeSpan.FromSeconds(recorder.LimitSeconds))+".";
+			}
+			if(result.FramesDropped>0) {
+				text+=" "+result.FramesDropped+" "+Lan.g(this,"frames left out (the computer was busy).");
+			}
+			ShowInfo(text);
+			if(error!="" || result.Error!="") {
+				ShowAlert((error+" "+result.Error).Trim());
+			}
+			Flash();
+			RefreshGuide();
+		}
+
+		///<summary>A play mark on a video's small picture.</summary>
+		private static void MarkAsVideo(Bitmap bitmap) {
+			using(Graphics g=Graphics.FromImage(bitmap)) {
+				g.SmoothingMode=SmoothingMode.AntiAlias;
+				int size=Math.Max(10,Math.Min(bitmap.Width,bitmap.Height)/3);
+				Point pointCenter=new Point(bitmap.Width/2,bitmap.Height/2);
+				using(Brush brushBack=new SolidBrush(Color.FromArgb(160,0,0,0))) {
+					g.FillEllipse(brushBack,pointCenter.X-size/2,pointCenter.Y-size/2,size,size);
+				}
+				Point[] arrayPoints={ new Point(pointCenter.X-size/6,pointCenter.Y-size/4),new Point(pointCenter.X-size/6,pointCenter.Y+size/4),
+					new Point(pointCenter.X+size/4,pointCenter.Y) };
+				g.FillPolygon(Brushes.White,arrayPoints);
+			}
+		}
+
+		private void timerRec_Tick(object sender,EventArgs e) {
+			VideoRecorder recorder=_recorder;
+			if(recorder==null) {
+				timerRec.Stop();
+				return;
+			}
+			_dateTimeActivity=DateTime.Now;//recording is activity
+			if(recorder.IsLimitReached || recorder.IsFailed) {
+				StopRecording();//a failed writer (no encoder, disk full) ends it at once and says why
+				return;
+			}
+			RefreshRecording();
+		}
+
+		///<summary>The red REC line over the live picture and the Record button's text.</summary>
+		private void RefreshRecording() {
+			if(labelRec==null) {
+				return;
+			}
+			VideoRecorder recorder=_recorder;
+			butRecord.Text=recorder==null ? Lan.g(this,"Record (R)") : Lan.g(this,"Stop recording (R)");
+			if(recorder==null) {
+				labelRec.Visible=false;
+				LayoutControls();
+				return;
+			}
+			string limit=VideoFiles.FormatDuration(TimeSpan.FromSeconds(recorder.LimitSeconds));
+			string text=(recorder.IsPaused ? Lan.g(this,"PAUSED") : "\u25CF "+Lan.g(this,"REC"))+" "+VideoFiles.FormatDuration(recorder.Elapsed)+" / "+limit;
+			if(recorder.IsNearLimit && !recorder.IsPaused) {
+				text+="  "+Lan.g(this,"stops at")+" "+limit;
+			}
+			labelRec.Text=text;
+			labelRec.Visible=true;
+			LayoutControls();
+		}
+		#endregion Methods - Video recording (IMG-P4c)
+
 		#region Methods - Unsaved photos and idle release
 		///<summary>A photo whose save failed is kept on this computer (PhotoQuarantine) for Camera, Unsaved photos; the slot stays empty and next.
 		///</summary>
@@ -518,7 +740,7 @@ namespace OpenPmsDental {
 			if(_isAsleep || _isEnded || _videoCaptureSession==null || !_videoCaptureSession.IsStreaming) {
 				return;
 			}
-			if(!IsEnabledForCapture()) {
+			if(!IsEnabledForCapture() || IsRecording) {
 				_dateTimeActivity=DateTime.Now;//a window over the session (the tooth picker, a question) is someone at work
 				return;
 			}
@@ -665,6 +887,7 @@ namespace OpenPmsDental {
 			}
 			_shotMenu=shot;
 			contextMenuShot.Items[0].Visible=!_model.IsQuickPhotos;//Retake: a slot only
+			contextMenuShot.Items[2].Visible=!shot.IsVideo;//Rotate: photos only
 			contextMenuShot.Show(panelMount,point);
 		}
 
@@ -833,6 +1056,7 @@ namespace OpenPmsDental {
 			if(_videoCaptureSession==null || _videoCaptureSession.Gate.IsClosing) {
 				return;
 			}
+			StopRecording();//the camera is opened anew: the recording ends with what it has
 			Unfreeze();
 			_isAsleep=false;
 			_dateTimeActivity=DateTime.Now;
@@ -883,6 +1107,9 @@ namespace OpenPmsDental {
 		private void HandleCameraError(object sender,UvcErrorEventArgs uvcErrorEventArgs) {
 			if(IsDisposed || _videoCaptureSession==null) {
 				return;
+			}
+			if(_frameSourceRecording!=null && sender==_frameSourceRecording) {
+				StopRecording();//the camera stopped: the clip is saved up to here
 			}
 			VideoStatus videoStatus=_videoCaptureSession.HandleCameraError(sender,uvcErrorEventArgs);
 			if(videoStatus==null) {
@@ -1051,6 +1278,12 @@ namespace OpenPmsDental {
 			butFreeze.Click+=(sender,e) => ToggleFreeze();
 			butTeeth=new UI.Button { Text=Lan.g(this,"Teeth (T)"),TabStop=false };
 			butTeeth.Click+=(sender,e) => PickTeethNext();
+			butRecord=new UI.Button { Text=Lan.g(this,"Record (R)"),TabStop=false };
+			butRecord.Click+=(sender,e) => ToggleRecording();
+			labelRec=new Label { AutoSize=false,BackColor=Color.FromArgb(40,44,50),ForeColor=Color.FromArgb(255,107,107),Font=UiTheme.FontBody,
+				UseMnemonic=false,TextAlign=ContentAlignment.MiddleCenter,Visible=false };
+			timerRec=new System.Windows.Forms.Timer { Interval=250 };
+			timerRec.Tick+=timerRec_Tick;
 			butBack=new UI.Button { Text=Lan.g(this,"Previous (Left)"),TabStop=false };
 			butBack.Click+=(sender,e) => Skip(isForward:false);
 			butSkip=new UI.Button { Text=Lan.g(this,"Skip (Right)"),TabStop=false };
@@ -1059,7 +1292,8 @@ namespace OpenPmsDental {
 			butEnd.Click+=(sender,e) => End();
 			labelInfo=new Label { AutoSize=false,ForeColor=UiTheme.TextSecondary,BackColor=UiTheme.SurfaceSubtle,Font=UiTheme.FontBody,
 				TextAlign=ContentAlignment.MiddleLeft,UseMnemonic=false,AutoEllipsis=true };
-			panelBar.Controls.AddRange(new Control[] { butCapture,butFreeze,butTeeth,butBack,butSkip,butEnd,labelInfo });
+			panelBar.Controls.AddRange(new Control[] { butCapture,butFreeze,butTeeth,butRecord,butBack,butSkip,butEnd,labelInfo });
+			panelLive.Controls.Add(labelRec);
 			panelFlash=new Panel { BackColor=Color.White,Visible=false };
 			panelLive.Controls.Add(panelFlash);
 			timerIdle=new System.Windows.Forms.Timer { Interval=30000 };
@@ -1120,6 +1354,11 @@ namespace OpenPmsDental {
 				butStatusAction.BringToFront();
 			}
 			labelGuide.BringToFront();
+			if(labelRec.Visible) {
+				int widthRec=TextRenderer.MeasureText(labelRec.Text,labelRec.Font).Width+_funcScale(20);
+				labelRec.Bounds=new Rectangle(Math.Max(pad,panelLive.Width-widthRec-pad),pad,widthRec,_funcScale(26));
+				labelRec.BringToFront();
+			}
 			if(labelAlert.Visible) {
 				int widthAlert=Math.Max(_funcScale(60),panelLive.Width-2*pad);
 				Size sizeAlert=TextRenderer.MeasureText(labelAlert.Text,labelAlert.Font,new Size(widthAlert-labelAlert.Padding.Horizontal-_funcScale(14),0),
@@ -1135,7 +1374,7 @@ namespace OpenPmsDental {
 			bool isMount=_model!=null && !_model.IsQuickPhotos;
 			butBack.Visible=isMount;
 			butSkip.Visible=isMount;
-			foreach(UI.Button button in new[] { butCapture,butFreeze,butTeeth,butBack,butSkip,butEnd }) {
+			foreach(UI.Button button in new[] { butCapture,butFreeze,butTeeth,butRecord,butBack,butSkip,butEnd }) {
 				if(!button.Visible) {
 					continue;
 				}

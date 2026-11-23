@@ -67,6 +67,7 @@ namespace ImagingCapture.Tests {
 		public UvcMode ModeStarted { get; private set; }
 		public bool IsStillPinConnected { get; private set; }
 		public long FramesReceived { get; private set; }
+		public Action<UvcFrame> FrameTap { get; set; }
 		public bool IsDisposed { get; private set; }
 		public int CountStart { get; private set; }
 		public int CountStop { get; private set; }

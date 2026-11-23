@@ -90,6 +90,8 @@ namespace ImagingCapture.Uvc.DirectShow {
 		///<summary>Why the still pin could not be connected, or "".</summary>
 		public string StillPinError { get; private set; }="";
 
+		public Action<UvcFrame> FrameTap { get; set; }
+
 		public event EventHandler FrameReady;
 		public event EventHandler<UvcStillEventArgs> StillCaptured;
 		public event EventHandler<UvcErrorEventArgs> Error;
@@ -739,6 +741,17 @@ namespace ImagingCapture.Uvc.DirectShow {
 					if(!FrameCopier.Copy(pBuffer,bufferLength,geometry,frame)) {
 						Interlocked.Increment(ref _framesDropped);
 						return Ds.S_OK;
+					}
+					Action<UvcFrame> actionTap=FrameTap;
+					if(actionTap!=null) {
+						//before Publish, while this thread alone holds the back buffer
+						frame.SampleTime=sampleTime;
+						try {
+							actionTap(frame);
+						}
+						catch(Exception) {
+							//the recording's problem must not stop the preview
+						}
 					}
 					_frameExchange.Publish(sampleTime);
 					Interlocked.Increment(ref _framesReceived);

@@ -37,6 +37,8 @@ namespace ImagingCapture.Photo {
 		void DeleteDocument(Document document,long patNum);
 		///<summary>An ImageEdit entry for the patient's document.</summary>
 		void LogEdit(long patNum,string logText,long docNum);
+		///<summary>ImageStore.Import of a video file (a copy into the patient's images) into categoryDefNum. Throws on failure.</summary>
+		Document ImportVideo(string pathVideo,long categoryDefNum,long patNum);
 	}
 
 	///<summary>What PhotoSaver.Save did.</summary>
@@ -200,6 +202,14 @@ namespace ImagingCapture.Photo {
 
 		public void LogEdit(long patNum,string logText,long docNum) {
 			SecurityLogs.MakeLogEntry(EnumPermType.ImageEdit,patNum,logText,docNum,DateTime.MinValue);
+		}
+
+		public Document ImportVideo(string pathVideo,long categoryDefNum,long patNum) {
+			Patient patient=Patients.GetPat(patNum);
+			if(patient==null) {
+				throw new ApplicationException("The patient was not found.");
+			}
+			return ImageStore.Import(pathVideo,categoryDefNum,patient);
 		}
 	}
 

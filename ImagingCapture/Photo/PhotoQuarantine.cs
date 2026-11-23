@@ -28,6 +28,8 @@ namespace ImagingCapture.Photo {
 		public long CategoryDefNum { get; set; }
 		public DateTime DateTimeTaken { get; set; }
 		public string Reason { get; set; }="";
+		///<summary>A video's length in seconds when known, else 0.</summary>
+		public int DurationSeconds { get; set; }
 
 		public string PathSidecar => Path.ChangeExtension(PathImage,".txt");
 	}
@@ -107,6 +109,9 @@ namespace ImagingCapture.Photo {
 			Add("Taken",photoUnsaved.DateTimeTaken.ToString("yyyy-MM-dd HH:mm:ss",CultureInfo.InvariantCulture));
 			Add("Computer",Environment.MachineName);
 			Add("Reason",photoUnsaved.Reason);
+			if(photoUnsaved.DurationSeconds>0) {
+				Add("DurationSeconds",photoUnsaved.DurationSeconds.ToString(CultureInfo.InvariantCulture));
+			}
 			return stringBuilder.ToString();
 		}
 
@@ -131,13 +136,14 @@ namespace ImagingCapture.Photo {
 			int.TryParse(Get("DegreesRotated"),NumberStyles.Integer,CultureInfo.InvariantCulture,out int degreesRotated);
 			long.TryParse(Get("CategoryDefNum"),NumberStyles.Integer,CultureInfo.InvariantCulture,out long categoryDefNum);
 			DateTime.TryParseExact(Get("Taken"),"yyyy-MM-dd HH:mm:ss",CultureInfo.InvariantCulture,DateTimeStyles.None,out DateTime dateTimeTaken);
+			int.TryParse(Get("DurationSeconds"),NumberStyles.Integer,CultureInfo.InvariantCulture,out int durationSeconds);
 			if(patNum<=0) {
 				return null;
 			}
 			return new PhotoUnsaved {
 				PathImage=pathImage,PatNum=patNum,PatientName=Get("Patient"),MountNum=mountNum,MountItemNum=mountItemNum,Slot=Get("Slot"),
 				IsFlipped=Get("IsFlipped")=="1",DegreesRotated=degreesRotated,ToothNumbers=Get("ToothNumbers"),CategoryDefNum=categoryDefNum,
-				DateTimeTaken=dateTimeTaken,Reason=Get("Reason"),
+				DateTimeTaken=dateTimeTaken,Reason=Get("Reason"),DurationSeconds=durationSeconds,
 			};
 		}
 
@@ -149,7 +155,8 @@ namespace ImagingCapture.Photo {
 				if(folder==null || !Directory.Exists(folder)) {
 					return listPhotos;
 				}
-				foreach(string pathImage in Directory.GetFiles(folder,"*.jpg").OrderBy(x => x,StringComparer.OrdinalIgnoreCase)) {
+				//photos, and videos whose recording could not be saved (VideoFiles)
+				foreach(string pathImage in Directory.GetFiles(folder,"*.jpg").Concat(Directory.GetFiles(folder,"*.mp4")).OrderBy(x => x,StringComparer.OrdinalIgnoreCase)) {
 					string pathSidecar=Path.ChangeExtension(pathImage,".txt");
 					if(!File.Exists(pathSidecar)) {
 						continue;
@@ -166,11 +173,33 @@ namespace ImagingCapture.Photo {
 			return listPhotos;
 		}
 
+		///<summary>A video: imported unmounted with its teeth and the time it started (IMG-P4c), then the files go.</summary>
+		private static string FileVideo(IPhotoStore store,PhotoUnsaved photoUnsaved,out bool isFiled) {
+			isFiled=false;
+			if(!System.IO.File.Exists(photoUnsaved.PathImage)) {
+				return "The video file is missing.";
+			}
+			string error;
+			Document document=VideoFiles.Import(store,photoUnsaved.PathImage,photoUnsaved.PatNum,photoUnsaved.CategoryDefNum,photoUnsaved.ToothNumbers,
+				photoUnsaved.DateTimeTaken,TimeSpan.FromSeconds(photoUnsaved.DurationSeconds),out error);
+			if(document==null) {
+				return error;
+			}
+			isFiled=true;
+			if(!VideoFiles.Delete(photoUnsaved.PathImage)) {
+				return "Filed, but the files could not be removed (file them again only after checking the patient's images).";
+			}
+			return error;
+		}
+
 		///<summary>Files one unsaved photo to its patient, with the time it was taken: into its slot when the slot is still empty and its mount
 		///belongs to the same patient, else unmounted in the same category; then removes the files. isFiled: a document was made (the files are
 		///then removed). Returns "" when filed as planned; otherwise why not, or a warning when it was filed but not placed.</summary>
 		public static string FileOne(IPhotoStore store,PhotoUnsaved photoUnsaved,out bool isFiled) {
 			isFiled=false;
+			if(string.Equals(Path.GetExtension(photoUnsaved.PathImage),".mp4",StringComparison.OrdinalIgnoreCase)) {
+				return FileVideo(store,photoUnsaved,out isFiled);
+			}
 			string warning="";
 			Bitmap bitmap;
 			try {

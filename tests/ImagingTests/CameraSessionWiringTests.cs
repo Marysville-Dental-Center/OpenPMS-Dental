@@ -118,12 +118,36 @@ namespace ImagingTests {
 			StringAssert.Contains(full,"form.MinimizeBox=false;");
 			StringAssert.Contains(full,"form.Resize+=");
 			StringAssert.Contains(MethodBody(images,"private void controlCameraSession_EventEnded("),"e.CountKept==0");
-			StringAssert.Contains(MethodBody(session,"private void timerIdle_Tick("),"if(!IsEnabledForCapture()) {");
+			StringAssert.Contains(MethodBody(session,"private void timerIdle_Tick("),"if(!IsEnabledForCapture()");
 			StringAssert.Contains(full,"System.Windows.Forms.Screen.FromControl(this).Bounds");
 			Assert.IsFalse(full.Contains("FormWindowState.Maximized"),"The whole monitor by its bounds, never a maximised window.");
 			StringAssert.Contains(MethodBody(images,"private void controlCameraSession_EventEnded("),"ExitCameraFullScreen();");
 			StringAssert.Contains(MethodBody(images,"private void FillCameraMenu("),"menuCameraUnsaved_Click");
 			StringAssert.Contains(MethodBody(images,"private void menuCameraUnsaved_Click("),"Security.IsAuthorized(EnumPermType.ImageCreate)");
+		}
+
+		[TestMethod]
+		public void Recording_Keys_Tap_AndStoppedBeforeTheCameraGoes() {
+			string session=Session();
+			string keys=MethodBody(session,"protected override bool ProcessCmdKey(");
+			StringAssert.Contains(keys,"case Keys.R:");
+			StringAssert.Contains(keys,"case Keys.P:");
+			string start=MethodBody(session,"private void ToggleRecording(");
+			StringAssert.Contains(start,"VideoFiles.IsEnoughSpace(");
+			StringAssert.Contains(start,"_frameSourceRecording.FrameTap=recorder.OfferFrame;");
+			string stop=MethodBody(session,"private void StopRecording(");
+			StringAssert.Contains(stop,"_frameSourceRecording.FrameTap=null;");
+			StringAssert.Contains(stop,"VideoFiles.Import(");
+			StringAssert.Contains(stop,"VideoFiles.MoveToUnsaved(");
+			string release=MethodBody(session,"private void ReleaseCamera(");
+			Assert.IsTrue(release.IndexOf("StopRecording();")<release.IndexOf("videoCaptureSession.Dispose();"),"The clip is saved before the camera goes.");
+			StringAssert.Contains(MethodBody(session,"private void RefreshCamera("),"StopRecording();");
+			StringAssert.Contains(MethodBody(session,"private void HandleCameraError("),"StopRecording();");
+			StringAssert.Contains(MethodBody(session,"private void timerRec_Tick("),"recorder.IsLimitReached || recorder.IsFailed");
+			StringAssert.Contains(stop,"if(result.IsTimedOut) {");
+			int idxR=keys.IndexOf("case Keys.R:");
+			Assert.IsTrue(keys.IndexOf("0x40000000",idxR)>idxR,"A held R starts or stops once.");
+			StringAssert.Contains(MethodBody(session,"private void timerIdle_Tick("),"IsRecording");
 		}
 
 		[TestMethod]
