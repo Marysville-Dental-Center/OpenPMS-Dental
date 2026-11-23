@@ -51,59 +51,59 @@ namespace OpenPmsDental {
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(566, 39);
+			this.label2.Location = new System.Drawing.Point(593, 35);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(77, 18);
+			this.label2.Size = new System.Drawing.Size(48, 23);
 			this.label2.TabIndex = 22;
 			this.label2.Text = "Course";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// comboCourse
 			// 
-			this.comboCourse.Location = new System.Drawing.Point(647, 39);
+			this.comboCourse.Location = new System.Drawing.Point(647, 35);
 			this.comboCourse.Name = "comboCourse";
-			this.comboCourse.Size = new System.Drawing.Size(234, 21);
+			this.comboCourse.Size = new System.Drawing.Size(232, 23);
 			this.comboCourse.TabIndex = 21;
 			this.comboCourse.SelectionChangeCommitted += new System.EventHandler(this.comboCourse_SelectionChangeCommitted);
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(563, 12);
+			this.label1.Location = new System.Drawing.Point(601, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(81, 18);
+			this.label1.Size = new System.Drawing.Size(40, 23);
 			this.label1.TabIndex = 20;
 			this.label1.Text = "Class";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// comboClass
 			// 
-			this.comboClass.Location = new System.Drawing.Point(647, 12);
+			this.comboClass.Location = new System.Drawing.Point(647, 8);
 			this.comboClass.Name = "comboClass";
-			this.comboClass.Size = new System.Drawing.Size(234, 21);
+			this.comboClass.Size = new System.Drawing.Size(232, 23);
 			this.comboClass.TabIndex = 19;
 			this.comboClass.SelectionChangeCommitted += new System.EventHandler(this.comboClass_SelectionChangeCommitted);
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(497, 66);
+			this.label3.Location = new System.Drawing.Point(577, 62);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(146, 18);
+			this.label3.Size = new System.Drawing.Size(64, 23);
 			this.label3.TabIndex = 29;
 			this.label3.Text = "Instructor";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// comboInstructor
 			// 
-			this.comboInstructor.Location = new System.Drawing.Point(647, 66);
+			this.comboInstructor.Location = new System.Drawing.Point(647, 62);
 			this.comboInstructor.Name = "comboInstructor";
-			this.comboInstructor.Size = new System.Drawing.Size(234, 21);
+			this.comboInstructor.Size = new System.Drawing.Size(232, 23);
 			this.comboInstructor.TabIndex = 28;
 			this.comboInstructor.SelectionChangeCommitted += new System.EventHandler(this.comboInstructor_SelectionChangeCommitted);
 			// 
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(806, 623);
+			this.butSave.Location = new System.Drawing.Point(810, 657);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 26);
 			this.butSave.TabIndex = 27;
@@ -114,7 +114,7 @@ namespace OpenPmsDental {
 			// 
 			this.gridReqs.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-			this.gridReqs.Location = new System.Drawing.Point(223, 12);
+			this.gridReqs.Location = new System.Drawing.Point(223, 8);
 			this.gridReqs.Name = "gridReqs";
 			this.gridReqs.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
 			this.gridReqs.Size = new System.Drawing.Size(268, 637);
@@ -126,7 +126,7 @@ namespace OpenPmsDental {
 			// 
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.Down;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdd.Location = new System.Drawing.Point(497, 273);
+			this.butAdd.Location = new System.Drawing.Point(497, 89);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(90, 26);
 			this.butAdd.TabIndex = 25;
@@ -137,7 +137,7 @@ namespace OpenPmsDental {
 			// 
 			this.butRemove.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butRemove.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butRemove.Location = new System.Drawing.Point(596, 273);
+			this.butRemove.Location = new System.Drawing.Point(593, 89);
 			this.butRemove.Name = "butRemove";
 			this.butRemove.Size = new System.Drawing.Size(90, 26);
 			this.butRemove.TabIndex = 24;
@@ -148,7 +148,7 @@ namespace OpenPmsDental {
 			// 
 			this.gridAttached.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-			this.gridAttached.Location = new System.Drawing.Point(497, 305);
+			this.gridAttached.Location = new System.Drawing.Point(497, 119);
 			this.gridAttached.Name = "gridAttached";
 			this.gridAttached.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
 			this.gridAttached.Size = new System.Drawing.Size(384, 225);
@@ -161,7 +161,7 @@ namespace OpenPmsDental {
 			// 
 			this.gridStudents.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-			this.gridStudents.Location = new System.Drawing.Point(10, 12);
+			this.gridStudents.Location = new System.Drawing.Point(10, 8);
 			this.gridStudents.Name = "gridStudents";
 			this.gridStudents.Size = new System.Drawing.Size(207, 637);
 			this.gridStudents.TabIndex = 3;
@@ -171,7 +171,7 @@ namespace OpenPmsDental {
 			// 
 			// FormReqAppt
 			// 
-			this.ClientSize = new System.Drawing.Size(893, 661);
+			this.ClientSize = new System.Drawing.Size(893, 691);
 			this.Controls.Add(this.butSave);
 			this.Controls.Add(this.label3);
 			this.Controls.Add(this.comboInstructor);

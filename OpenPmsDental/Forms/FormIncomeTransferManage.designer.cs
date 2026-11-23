@@ -45,7 +45,7 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridImbalances.HasDropDowns = true;
-			this.gridImbalances.Location = new System.Drawing.Point(426, 99);
+			this.gridImbalances.Location = new System.Drawing.Point(426, 118);
 			this.gridImbalances.Name = "gridImbalances";
 			this.gridImbalances.SelectionMode = OpenPmsDental.UI.GridSelectionMode.None;
 			this.gridImbalances.Size = new System.Drawing.Size(635, 454);
@@ -57,7 +57,7 @@ namespace OpenPmsDental{
 			// 
 			this.gridTransfers.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-			this.gridTransfers.Location = new System.Drawing.Point(12, 99);
+			this.gridTransfers.Location = new System.Drawing.Point(12, 118);
 			this.gridTransfers.Name = "gridTransfers";
 			this.gridTransfers.Size = new System.Drawing.Size(408, 454);
 			this.gridTransfers.TabIndex = 12;
@@ -69,7 +69,7 @@ namespace OpenPmsDental{
 			// 
 			this.butTransfer.Icon = OpenPmsDental.UI.EnumIcons.ArrowLeft;
 			this.butTransfer.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butTransfer.Location = new System.Drawing.Point(426, 71);
+			this.butTransfer.Location = new System.Drawing.Point(424, 35);
 			this.butTransfer.Name = "butTransfer";
 			this.butTransfer.Size = new System.Drawing.Size(94, 24);
 			this.butTransfer.TabIndex = 18;
@@ -79,10 +79,10 @@ namespace OpenPmsDental{
 			// 
 			// checkShowBreakdown
 			// 
-			this.checkShowBreakdown.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkShowBreakdown.Location = new System.Drawing.Point(918, 12);
+			this.checkShowBreakdown.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkShowBreakdown.Location = new System.Drawing.Point(919, 8);
 			this.checkShowBreakdown.Name = "checkShowBreakdown";
-			this.checkShowBreakdown.Size = new System.Drawing.Size(148, 20);
+			this.checkShowBreakdown.Size = new System.Drawing.Size(116, 20);
 			this.checkShowBreakdown.TabIndex = 157;
 			this.checkShowBreakdown.Text = "Show Breakdown";
 			this.checkShowBreakdown.CheckedChanged += new System.EventHandler(this.checkShowBreakdown_CheckedChanged);
@@ -90,7 +90,7 @@ namespace OpenPmsDental{
 			// datePickerAsOf
 			// 
 			this.datePickerAsOf.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-			this.datePickerAsOf.Location = new System.Drawing.Point(508, 12);
+			this.datePickerAsOf.Location = new System.Drawing.Point(508, 8);
 			this.datePickerAsOf.Name = "datePickerAsOf";
 			this.datePickerAsOf.Size = new System.Drawing.Size(112, 20);
 			this.datePickerAsOf.TabIndex = 158;
@@ -98,25 +98,25 @@ namespace OpenPmsDental{
 			// 
 			// labelAsOfDate
 			// 
-			this.labelAsOfDate.Location = new System.Drawing.Point(424, 15);
+			this.labelAsOfDate.Location = new System.Drawing.Point(434, 8);
 			this.labelAsOfDate.Name = "labelAsOfDate";
-			this.labelAsOfDate.Size = new System.Drawing.Size(78, 17);
+			this.labelAsOfDate.Size = new System.Drawing.Size(68, 23);
 			this.labelAsOfDate.TabIndex = 159;
 			this.labelAsOfDate.Text = "As of Date";
 			this.labelAsOfDate.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(12, 9);
+			this.label1.Location = new System.Drawing.Point(12, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(395, 90);
+			this.label1.Size = new System.Drawing.Size(395, 92);
 			this.label1.TabIndex = 160;
 			this.label1.Text = resources.GetString("label1.Text");
 			// 
 			// butFIFO
 			// 
 			this.butFIFO.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butFIFO.Location = new System.Drawing.Point(3, 3);
+			this.butFIFO.Location = new System.Drawing.Point(8, 8);
 			this.butFIFO.Name = "butFIFO";
 			this.butFIFO.Size = new System.Drawing.Size(93, 24);
 			this.butFIFO.TabIndex = 162;
@@ -126,9 +126,9 @@ namespace OpenPmsDental{
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(102, 3);
+			this.label6.Location = new System.Drawing.Point(107, 8);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(308, 48);
+			this.label6.Size = new System.Drawing.Size(308, 62);
 			this.label6.TabIndex = 163;
 			this.label6.Text = "This is only used once to fix historical data. It allocates on a FIFO basis witho" +
     "ut regard for provider or patient.  For ongoing allocations by provider, use the" +
@@ -137,7 +137,7 @@ namespace OpenPmsDental{
 			// label8
 			// 
 			this.label8.ForeColor = System.Drawing.Color.Black;
-			this.label8.Location = new System.Drawing.Point(626, 15);
+			this.label8.Location = new System.Drawing.Point(626, 8);
 			this.label8.Name = "label8";
 			this.label8.Size = new System.Drawing.Size(287, 19);
 			this.label8.TabIndex = 164;
@@ -147,15 +147,15 @@ namespace OpenPmsDental{
 			// 
 			this.groupBoxOD1.Controls.Add(this.butFIFO);
 			this.groupBoxOD1.Controls.Add(this.label6);
-			this.groupBoxOD1.Location = new System.Drawing.Point(653, 40);
+			this.groupBoxOD1.Location = new System.Drawing.Point(653, 36);
 			this.groupBoxOD1.Name = "groupBoxOD1";
-			this.groupBoxOD1.Size = new System.Drawing.Size(413, 51);
+			this.groupBoxOD1.Size = new System.Drawing.Size(423, 78);
 			this.groupBoxOD1.TabIndex = 165;
 			this.groupBoxOD1.Text = "";
 			// 
 			// FormIncomeTransferManage
 			// 
-			this.ClientSize = new System.Drawing.Size(1073, 565);
+			this.ClientSize = new System.Drawing.Size(1084, 580);
 			this.Controls.Add(this.groupBoxOD1);
 			this.Controls.Add(this.label8);
 			this.Controls.Add(this.label1);

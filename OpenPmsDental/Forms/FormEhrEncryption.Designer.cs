@@ -35,7 +35,7 @@
 			// 
 			// butEncrypt
 			// 
-			this.butEncrypt.Location = new System.Drawing.Point(296, 98);
+			this.butEncrypt.Location = new System.Drawing.Point(296, 93);
 			this.butEncrypt.Name = "butEncrypt";
 			this.butEncrypt.Size = new System.Drawing.Size(81, 28);
 			this.butEncrypt.TabIndex = 1;
@@ -45,7 +45,7 @@
 			// 
 			// butDecrypt
 			// 
-			this.butDecrypt.Location = new System.Drawing.Point(296, 160);
+			this.butDecrypt.Location = new System.Drawing.Point(296, 144);
 			this.butDecrypt.Name = "butDecrypt";
 			this.butDecrypt.Size = new System.Drawing.Size(81, 28);
 			this.butDecrypt.TabIndex = 2;
@@ -57,7 +57,7 @@
 			// 
 			this.textInput.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-			this.textInput.Location = new System.Drawing.Point(12, 35);
+			this.textInput.Location = new System.Drawing.Point(12, 29);
 			this.textInput.Multiline = true;
 			this.textInput.Name = "textInput";
 			this.textInput.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -68,7 +68,7 @@
 			// 
 			this.textResult.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-			this.textResult.Location = new System.Drawing.Point(389, 35);
+			this.textResult.Location = new System.Drawing.Point(400, 29);
 			this.textResult.Multiline = true;
 			this.textResult.Name = "textResult";
 			this.textResult.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -77,7 +77,7 @@
 			// 
 			// labelInput
 			// 
-			this.labelInput.Location = new System.Drawing.Point(12, 15);
+			this.labelInput.Location = new System.Drawing.Point(12, 8);
 			this.labelInput.Name = "labelInput";
 			this.labelInput.Size = new System.Drawing.Size(233, 17);
 			this.labelInput.TabIndex = 5;
@@ -86,7 +86,7 @@
 			// 
 			// labelOutput
 			// 
-			this.labelOutput.Location = new System.Drawing.Point(389, 15);
+			this.labelOutput.Location = new System.Drawing.Point(389, 8);
 			this.labelOutput.Name = "labelOutput";
 			this.labelOutput.Size = new System.Drawing.Size(124, 17);
 			this.labelOutput.TabIndex = 6;
@@ -96,7 +96,7 @@
 			// butTransmit
 			// 
 			this.butTransmit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butTransmit.Location = new System.Drawing.Point(574, 283);
+			this.butTransmit.Location = new System.Drawing.Point(574, 267);
 			this.butTransmit.Name = "butTransmit";
 			this.butTransmit.Size = new System.Drawing.Size(85, 28);
 			this.butTransmit.TabIndex = 8;
@@ -106,7 +106,7 @@
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(283, 134);
+			this.label2.Location = new System.Drawing.Point(284, 125);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(104, 17);
 			this.label2.TabIndex = 9;

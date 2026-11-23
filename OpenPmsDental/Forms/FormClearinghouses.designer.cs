@@ -65,9 +65,9 @@ namespace OpenPmsDental {
 			this.groupBox1.Controls.Add(this.butEligibility);
 			this.groupBox1.Controls.Add(this.butDefaultMedical);
 			this.groupBox1.Controls.Add(this.butDefaultDental);
-			this.groupBox1.Location = new System.Drawing.Point(6, 387);
+			this.groupBox1.Location = new System.Drawing.Point(8, 403);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(97, 112);
+			this.groupBox1.Size = new System.Drawing.Size(98, 111);
 			this.groupBox1.TabIndex = 9;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Set Default";
@@ -83,7 +83,7 @@ namespace OpenPmsDental {
 			// 
 			// butDefaultMedical
 			// 
-			this.butDefaultMedical.Location = new System.Drawing.Point(15, 49);
+			this.butDefaultMedical.Location = new System.Drawing.Point(15, 51);
 			this.butDefaultMedical.Name = "butDefaultMedical";
 			this.butDefaultMedical.Size = new System.Drawing.Size(75, 24);
 			this.butDefaultMedical.TabIndex = 2;
@@ -92,7 +92,7 @@ namespace OpenPmsDental {
 			// 
 			// butDefaultDental
 			// 
-			this.butDefaultDental.Location = new System.Drawing.Point(15, 19);
+			this.butDefaultDental.Location = new System.Drawing.Point(15, 23);
 			this.butDefaultDental.Name = "butDefaultDental";
 			this.butDefaultDental.Size = new System.Drawing.Size(75, 24);
 			this.butDefaultDental.TabIndex = 1;
@@ -102,17 +102,17 @@ namespace OpenPmsDental {
 			// textReportCheckInterval
 			// 
 			this.textReportCheckInterval.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.textReportCheckInterval.Location = new System.Drawing.Point(237, 66);
+			this.textReportCheckInterval.Location = new System.Drawing.Point(400, 74);
 			this.textReportCheckInterval.MaxLength = 2147483647;
 			this.textReportCheckInterval.Multiline = true;
 			this.textReportCheckInterval.Name = "textReportCheckInterval";
-			this.textReportCheckInterval.Size = new System.Drawing.Size(29, 20);
+			this.textReportCheckInterval.Size = new System.Drawing.Size(29, 23);
 			this.textReportCheckInterval.TabIndex = 14;
 			// 
 			// labelReportheckUnits
 			// 
 			this.labelReportheckUnits.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.labelReportheckUnits.Location = new System.Drawing.Point(273, 66);
+			this.labelReportheckUnits.Location = new System.Drawing.Point(435, 75);
 			this.labelReportheckUnits.Name = "labelReportheckUnits";
 			this.labelReportheckUnits.Size = new System.Drawing.Size(128, 20);
 			this.labelReportheckUnits.TabIndex = 15;
@@ -124,7 +124,7 @@ namespace OpenPmsDental {
 			this.butAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdd.Location = new System.Drawing.Point(805, 385);
+			this.butAdd.Location = new System.Drawing.Point(805, 403);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(80, 24);
 			this.butAdd.TabIndex = 8;
@@ -134,7 +134,7 @@ namespace OpenPmsDental {
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(810, 474);
+			this.butSave.Location = new System.Drawing.Point(812, 547);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 0;
@@ -146,17 +146,17 @@ namespace OpenPmsDental {
 			this.comboClinic.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.comboClinic.HqDescription = "Unassigned/Default";
 			this.comboClinic.IncludeUnassigned = true;
-			this.comboClinic.Location = new System.Drawing.Point(675, 17);
+			this.comboClinic.Location = new System.Drawing.Point(675, 8);
 			this.comboClinic.Name = "comboClinic";
-			this.comboClinic.Size = new System.Drawing.Size(210, 21);
+			this.comboClinic.Size = new System.Drawing.Size(212, 23);
 			this.comboClinic.TabIndex = 20;
 			this.comboClinic.SelectionChangeCommitted += new System.EventHandler(this.comboClinic_SelectionChangeCommitted);
 			// 
 			// labelGuide
 			// 
-			this.labelGuide.Location = new System.Drawing.Point(6, -1);
+			this.labelGuide.Location = new System.Drawing.Point(8, 8);
 			this.labelGuide.Name = "labelGuide";
-			this.labelGuide.Size = new System.Drawing.Size(595, 40);
+			this.labelGuide.Size = new System.Drawing.Size(595, 47);
 			this.labelGuide.TabIndex = 22;
 			this.labelGuide.Text = resources.GetString("labelGuide.Text");
 			this.labelGuide.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -166,7 +166,7 @@ namespace OpenPmsDental {
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(6, 39);
+			this.gridMain.Location = new System.Drawing.Point(8, 59);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.Size = new System.Drawing.Size(879, 340);
 			this.gridMain.TabIndex = 17;
@@ -177,10 +177,10 @@ namespace OpenPmsDental {
 			// radioInterval
 			// 
 			this.radioInterval.Checked = true;
-			this.radioInterval.Location = new System.Drawing.Point(102, 68);
+			this.radioInterval.Location = new System.Drawing.Point(258, 75);
 			this.radioInterval.Name = "radioInterval";
 			this.radioInterval.RightToLeft = System.Windows.Forms.RightToLeft.No;
-			this.radioInterval.Size = new System.Drawing.Size(134, 17);
+			this.radioInterval.Size = new System.Drawing.Size(136, 20);
 			this.radioInterval.TabIndex = 25;
 			this.radioInterval.TabStop = true;
 			this.radioInterval.Text = "Receive at an interval";
@@ -189,10 +189,10 @@ namespace OpenPmsDental {
 			// 
 			// radioTime
 			// 
-			this.radioTime.Location = new System.Drawing.Point(102, 90);
+			this.radioTime.Location = new System.Drawing.Point(258, 102);
 			this.radioTime.Name = "radioTime";
 			this.radioTime.RightToLeft = System.Windows.Forms.RightToLeft.No;
-			this.radioTime.Size = new System.Drawing.Size(134, 17);
+			this.radioTime.Size = new System.Drawing.Size(132, 20);
 			this.radioTime.TabIndex = 26;
 			this.radioTime.Text = "Receive at a set time";
 			this.radioTime.UseVisualStyleBackColor = true;
@@ -200,9 +200,9 @@ namespace OpenPmsDental {
 			// textReportCheckTime
 			// 
 			this.textReportCheckTime.Enabled = false;
-			this.textReportCheckTime.Location = new System.Drawing.Point(237, 89);
+			this.textReportCheckTime.Location = new System.Drawing.Point(396, 101);
 			this.textReportCheckTime.Name = "textReportCheckTime";
-			this.textReportCheckTime.Size = new System.Drawing.Size(119, 20);
+			this.textReportCheckTime.Size = new System.Drawing.Size(120, 23);
 			this.textReportCheckTime.TabIndex = 28;
 			// 
 			// groupRecieveSettings
@@ -217,9 +217,9 @@ namespace OpenPmsDental {
 			this.groupRecieveSettings.Controls.Add(this.radioTime);
 			this.groupRecieveSettings.Controls.Add(this.textReportCheckInterval);
 			this.groupRecieveSettings.Controls.Add(this.labelReportheckUnits);
-			this.groupRecieveSettings.Location = new System.Drawing.Point(162, 385);
+			this.groupRecieveSettings.Location = new System.Drawing.Point(162, 403);
 			this.groupRecieveSettings.Name = "groupRecieveSettings";
-			this.groupRecieveSettings.Size = new System.Drawing.Size(571, 115);
+			this.groupRecieveSettings.Size = new System.Drawing.Size(571, 132);
 			this.groupRecieveSettings.TabIndex = 29;
 			this.groupRecieveSettings.TabStop = false;
 			this.groupRecieveSettings.Text = "Automatic Report Settings";
@@ -227,10 +227,10 @@ namespace OpenPmsDental {
 			// checkReceiveReportsService
 			// 
 			this.checkReceiveReportsService.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.checkReceiveReportsService.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkReceiveReportsService.Location = new System.Drawing.Point(22, 17);
+			this.checkReceiveReportsService.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkReceiveReportsService.Location = new System.Drawing.Point(258, 23);
 			this.checkReceiveReportsService.Name = "checkReceiveReportsService";
-			this.checkReceiveReportsService.Size = new System.Drawing.Size(227, 18);
+			this.checkReceiveReportsService.Size = new System.Drawing.Size(168, 20);
 			this.checkReceiveReportsService.TabIndex = 32;
 			this.checkReceiveReportsService.TabStop = false;
 			this.checkReceiveReportsService.Text = "Receive Reports by Service";
@@ -239,19 +239,19 @@ namespace OpenPmsDental {
 			// textReportComputerName
 			// 
 			this.textReportComputerName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.textReportComputerName.Location = new System.Drawing.Point(237, 39);
+			this.textReportComputerName.Location = new System.Drawing.Point(258, 47);
 			this.textReportComputerName.MaxLength = 2147483647;
 			this.textReportComputerName.Multiline = true;
 			this.textReportComputerName.Name = "textReportComputerName";
-			this.textReportComputerName.Size = new System.Drawing.Size(239, 20);
+			this.textReportComputerName.Size = new System.Drawing.Size(213, 23);
 			this.textReportComputerName.TabIndex = 29;
 			// 
 			// butThisComputer
 			// 
 			this.butThisComputer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butThisComputer.Location = new System.Drawing.Point(479, 37);
+			this.butThisComputer.Location = new System.Drawing.Point(477, 47);
 			this.butThisComputer.Name = "butThisComputer";
-			this.butThisComputer.Size = new System.Drawing.Size(86, 24);
+			this.butThisComputer.Size = new System.Drawing.Size(86, 23);
 			this.butThisComputer.TabIndex = 31;
 			this.butThisComputer.Text = "This Computer";
 			this.butThisComputer.Click += new System.EventHandler(this.butThisComputer_Click);
@@ -259,9 +259,9 @@ namespace OpenPmsDental {
 			// labelReportComputerName
 			// 
 			this.labelReportComputerName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.labelReportComputerName.Location = new System.Drawing.Point(6, 39);
+			this.labelReportComputerName.Location = new System.Drawing.Point(8, 47);
 			this.labelReportComputerName.Name = "labelReportComputerName";
-			this.labelReportComputerName.Size = new System.Drawing.Size(231, 20);
+			this.labelReportComputerName.Size = new System.Drawing.Size(244, 23);
 			this.labelReportComputerName.TabIndex = 30;
 			this.labelReportComputerName.Text = "Computer To Receive Reports Automatically";
 			this.labelReportComputerName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -269,7 +269,7 @@ namespace OpenPmsDental {
 			// label1
 			// 
 			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label1.Location = new System.Drawing.Point(741, 428);
+			this.label1.Location = new System.Drawing.Point(741, 431);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(146, 46);
 			this.label1.TabIndex = 33;
@@ -278,7 +278,7 @@ namespace OpenPmsDental {
 			// 
 			// FormClearinghouses
 			// 
-			this.ClientSize = new System.Drawing.Size(891, 503);
+			this.ClientSize = new System.Drawing.Size(895, 579);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.butAdd);
 			this.Controls.Add(this.butSave);

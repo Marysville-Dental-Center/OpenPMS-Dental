@@ -43,9 +43,9 @@ namespace OpenPmsDental {
 			// checkInactive
 			// 
 			this.checkInactive.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.checkInactive.Location = new System.Drawing.Point(20, 525);
+			this.checkInactive.Location = new System.Drawing.Point(8, 517);
 			this.checkInactive.Name = "checkInactive";
-			this.checkInactive.Size = new System.Drawing.Size(158, 18);
+			this.checkInactive.Size = new System.Drawing.Size(161, 20);
 			this.checkInactive.TabIndex = 2;
 			this.checkInactive.Text = "Include Inactive Accounts";
 			this.checkInactive.Click += new System.EventHandler(this.checkInactive_Click);
@@ -55,7 +55,7 @@ namespace OpenPmsDental {
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(8, 14);
+			this.gridMain.Location = new System.Drawing.Point(8, 8);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.Size = new System.Drawing.Size(475, 505);
 			this.gridMain.TabIndex = 1;
@@ -66,7 +66,7 @@ namespace OpenPmsDental {
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(408, 546);
+			this.butOK.Location = new System.Drawing.Point(409, 550);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 26);
 			this.butOK.TabIndex = 10;

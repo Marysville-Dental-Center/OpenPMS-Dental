@@ -43,7 +43,7 @@ namespace OpenPmsDental{
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(586, 393);
+			this.butOK.Location = new System.Drawing.Point(590, 432);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 24);
 			this.butOK.TabIndex = 3;
@@ -63,9 +63,9 @@ namespace OpenPmsDental{
 			this.groupBoxBreakdown.Controls.Add(this.labelAmtAvail);
 			this.groupBoxBreakdown.Controls.Add(this.labelAmtUsed);
 			this.groupBoxBreakdown.Controls.Add(this.labelAmtOriginal);
-			this.groupBoxBreakdown.Location = new System.Drawing.Point(478, 12);
+			this.groupBoxBreakdown.Location = new System.Drawing.Point(475, 8);
 			this.groupBoxBreakdown.Name = "groupBoxBreakdown";
-			this.groupBoxBreakdown.Size = new System.Drawing.Size(183, 149);
+			this.groupBoxBreakdown.Size = new System.Drawing.Size(183, 137);
 			this.groupBoxBreakdown.TabIndex = 4;
 			this.groupBoxBreakdown.TabStop = false;
 			this.groupBoxBreakdown.Text = "Breakdown";
@@ -74,7 +74,7 @@ namespace OpenPmsDental{
 			// 
 			this.label9.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label9.Location = new System.Drawing.Point(12, 115);
+			this.label9.Location = new System.Drawing.Point(12, 111);
 			this.label9.Name = "label9";
 			this.label9.Size = new System.Drawing.Size(86, 18);
 			this.label9.TabIndex = 154;
@@ -84,7 +84,7 @@ namespace OpenPmsDental{
 			// label12
 			// 
 			this.label12.Anchor = System.Windows.Forms.AnchorStyles.None;
-			this.label12.Location = new System.Drawing.Point(12, 93);
+			this.label12.Location = new System.Drawing.Point(12, 89);
 			this.label12.Name = "label12";
 			this.label12.Size = new System.Drawing.Size(86, 18);
 			this.label12.TabIndex = 153;
@@ -95,7 +95,7 @@ namespace OpenPmsDental{
 			// 
 			this.label6.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label6.Location = new System.Drawing.Point(12, 71);
+			this.label6.Location = new System.Drawing.Point(12, 67);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(86, 18);
 			this.label6.TabIndex = 30;
@@ -105,7 +105,7 @@ namespace OpenPmsDental{
 			// label3
 			// 
 			this.label3.Anchor = System.Windows.Forms.AnchorStyles.None;
-			this.label3.Location = new System.Drawing.Point(12, 49);
+			this.label3.Location = new System.Drawing.Point(12, 45);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(86, 18);
 			this.label3.TabIndex = 29;
@@ -116,7 +116,7 @@ namespace OpenPmsDental{
 			// 
 			this.label2.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label2.Location = new System.Drawing.Point(12, 27);
+			this.label2.Location = new System.Drawing.Point(12, 23);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(86, 18);
 			this.label2.TabIndex = 28;
@@ -127,7 +127,7 @@ namespace OpenPmsDental{
 			// 
 			this.labelAmtEnd.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.labelAmtEnd.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.labelAmtEnd.Location = new System.Drawing.Point(104, 118);
+			this.labelAmtEnd.Location = new System.Drawing.Point(104, 111);
 			this.labelAmtEnd.Name = "labelAmtEnd";
 			this.labelAmtEnd.Size = new System.Drawing.Size(67, 17);
 			this.labelAmtEnd.TabIndex = 5;
@@ -136,7 +136,7 @@ namespace OpenPmsDental{
 			// labelCurSplitAmt
 			// 
 			this.labelCurSplitAmt.Anchor = System.Windows.Forms.AnchorStyles.None;
-			this.labelCurSplitAmt.Location = new System.Drawing.Point(104, 96);
+			this.labelCurSplitAmt.Location = new System.Drawing.Point(104, 89);
 			this.labelCurSplitAmt.Name = "labelCurSplitAmt";
 			this.labelCurSplitAmt.Size = new System.Drawing.Size(67, 17);
 			this.labelCurSplitAmt.TabIndex = 4;
@@ -146,7 +146,7 @@ namespace OpenPmsDental{
 			// 
 			this.labelAmtAvail.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.labelAmtAvail.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.labelAmtAvail.Location = new System.Drawing.Point(104, 74);
+			this.labelAmtAvail.Location = new System.Drawing.Point(104, 67);
 			this.labelAmtAvail.Name = "labelAmtAvail";
 			this.labelAmtAvail.Size = new System.Drawing.Size(67, 17);
 			this.labelAmtAvail.TabIndex = 3;
@@ -155,7 +155,7 @@ namespace OpenPmsDental{
 			// labelAmtUsed
 			// 
 			this.labelAmtUsed.Anchor = System.Windows.Forms.AnchorStyles.None;
-			this.labelAmtUsed.Location = new System.Drawing.Point(104, 52);
+			this.labelAmtUsed.Location = new System.Drawing.Point(104, 45);
 			this.labelAmtUsed.Name = "labelAmtUsed";
 			this.labelAmtUsed.Size = new System.Drawing.Size(67, 17);
 			this.labelAmtUsed.TabIndex = 2;
@@ -165,7 +165,7 @@ namespace OpenPmsDental{
 			// 
 			this.labelAmtOriginal.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.labelAmtOriginal.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.labelAmtOriginal.Location = new System.Drawing.Point(104, 30);
+			this.labelAmtOriginal.Location = new System.Drawing.Point(104, 23);
 			this.labelAmtOriginal.Name = "labelAmtOriginal";
 			this.labelAmtOriginal.Size = new System.Drawing.Size(67, 17);
 			this.labelAmtOriginal.TabIndex = 1;
@@ -176,7 +176,7 @@ namespace OpenPmsDental{
 			this.gridAdjusts.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridAdjusts.Location = new System.Drawing.Point(16, 12);
+			this.gridAdjusts.Location = new System.Drawing.Point(13, 8);
 			this.gridAdjusts.Name = "gridAdjusts";
 			this.gridAdjusts.Size = new System.Drawing.Size(456, 378);
 			this.gridAdjusts.TabIndex = 5;
@@ -188,7 +188,7 @@ namespace OpenPmsDental{
 			// label1
 			// 
 			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label1.Location = new System.Drawing.Point(13, 393);
+			this.label1.Location = new System.Drawing.Point(13, 390);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(487, 30);
 			this.label1.TabIndex = 6;
@@ -198,7 +198,7 @@ namespace OpenPmsDental{
 			// FormAdjustSelect
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(673, 429);
+			this.ClientSize = new System.Drawing.Size(673, 464);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.gridAdjusts);
 			this.Controls.Add(this.groupBoxBreakdown);

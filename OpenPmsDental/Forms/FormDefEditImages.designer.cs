@@ -51,7 +51,7 @@ namespace OpenPmsDental {
 			// 
 			// labelName
 			// 
-			this.labelName.Location = new System.Drawing.Point(38, 12);
+			this.labelName.Location = new System.Drawing.Point(23, 8);
 			this.labelName.Name = "labelName";
 			this.labelName.Size = new System.Drawing.Size(150, 16);
 			this.labelName.TabIndex = 0;
@@ -60,9 +60,9 @@ namespace OpenPmsDental {
 			// 
 			// textName
 			// 
-			this.textName.Location = new System.Drawing.Point(23, 28);
+			this.textName.Location = new System.Drawing.Point(23, 26);
 			this.textName.Name = "textName";
-			this.textName.Size = new System.Drawing.Size(178, 20);
+			this.textName.Size = new System.Drawing.Size(176, 23);
 			this.textName.TabIndex = 0;
 			// 
 			// colorDialog1
@@ -72,7 +72,7 @@ namespace OpenPmsDental {
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(535, 322);
+			this.butSave.Location = new System.Drawing.Point(561, 399);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 25);
 			this.butSave.TabIndex = 4;
@@ -81,9 +81,9 @@ namespace OpenPmsDental {
 			// 
 			// checkHidden
 			// 
-			this.checkHidden.Location = new System.Drawing.Point(23, 58);
+			this.checkHidden.Location = new System.Drawing.Point(23, 53);
 			this.checkHidden.Name = "checkHidden";
-			this.checkHidden.Size = new System.Drawing.Size(99, 24);
+			this.checkHidden.Size = new System.Drawing.Size(62, 20);
 			this.checkHidden.TabIndex = 3;
 			this.checkHidden.Text = "Hidden";
 			// 
@@ -103,138 +103,138 @@ namespace OpenPmsDental {
 			this.groupBox1.Controls.Add(this.checkStatements);
 			this.groupBox1.Controls.Add(this.checkPatientPictures);
 			this.groupBox1.Controls.Add(this.checkChartModule);
-			this.groupBox1.Location = new System.Drawing.Point(228, 26);
+			this.groupBox1.Location = new System.Drawing.Point(228, 24);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(382, 274);
+			this.groupBox1.Size = new System.Drawing.Size(382, 363);
 			this.groupBox1.TabIndex = 7;
 			this.groupBox1.Text = "Usage";
 			// 
 			// checkClaimResponses
 			// 
-			this.checkClaimResponses.Location = new System.Drawing.Point(8, 250);
+			this.checkClaimResponses.Location = new System.Drawing.Point(8, 335);
 			this.checkClaimResponses.Name = "checkClaimResponses";
-			this.checkClaimResponses.Size = new System.Drawing.Size(201, 18);
+			this.checkClaimResponses.Size = new System.Drawing.Size(192, 20);
 			this.checkClaimResponses.TabIndex = 17;
 			this.checkClaimResponses.Text = "(N) Claim Responses (only one)";
 			this.checkClaimResponses.CheckedChanged += new System.EventHandler(this.checkClaimResponses_CheckedChanged);
 			// 
 			// checkThumbnails
 			// 
-			this.checkThumbnails.Location = new System.Drawing.Point(8, 34);
+			this.checkThumbnails.Location = new System.Drawing.Point(8, 47);
 			this.checkThumbnails.Name = "checkThumbnails";
-			this.checkThumbnails.Size = new System.Drawing.Size(370, 18);
+			this.checkThumbnails.Size = new System.Drawing.Size(276, 20);
 			this.checkThumbnails.TabIndex = 17;
 			this.checkThumbnails.Text = "(M) Show Thumbnails (usually for radiographs)";
 			// 
 			// checkTaskAttachments
 			// 
-			this.checkTaskAttachments.Location = new System.Drawing.Point(8, 232);
+			this.checkTaskAttachments.Location = new System.Drawing.Point(8, 311);
 			this.checkTaskAttachments.Name = "checkTaskAttachments";
-			this.checkTaskAttachments.Size = new System.Drawing.Size(201, 18);
+			this.checkTaskAttachments.Size = new System.Drawing.Size(198, 20);
 			this.checkTaskAttachments.TabIndex = 16;
 			this.checkTaskAttachments.Text = "(Y) Task Attachments  (only one)";
 			this.checkTaskAttachments.CheckedChanged += new System.EventHandler(this.checkTaskAttachments_CheckedChanged);
 			// 
 			// checkAutoSaveForm
 			// 
-			this.checkAutoSaveForm.Location = new System.Drawing.Point(8, 214);
+			this.checkAutoSaveForm.Location = new System.Drawing.Point(8, 287);
 			this.checkAutoSaveForm.Name = "checkAutoSaveForm";
-			this.checkAutoSaveForm.Size = new System.Drawing.Size(235, 18);
+			this.checkAutoSaveForm.Size = new System.Drawing.Size(225, 20);
 			this.checkAutoSaveForm.TabIndex = 15;
 			this.checkAutoSaveForm.Text = "(U) Autosave Sheet Forms  (only one)";
 			this.checkAutoSaveForm.CheckedChanged += new System.EventHandler(this.checkAutoSaveForm_CheckedChanged);
 			// 
 			// checkLabCases
 			// 
-			this.checkLabCases.Location = new System.Drawing.Point(8, 196);
+			this.checkLabCases.Location = new System.Drawing.Point(8, 263);
 			this.checkLabCases.Name = "checkLabCases";
-			this.checkLabCases.Size = new System.Drawing.Size(183, 18);
+			this.checkLabCases.Size = new System.Drawing.Size(152, 20);
 			this.checkLabCases.TabIndex = 14;
 			this.checkLabCases.Text = "(B) Lab Cases (only one)";
 			this.checkLabCases.CheckedChanged += new System.EventHandler(this.checkLabCases_CheckedChanged);
 			// 
 			// checkClaimAttachments
 			// 
-			this.checkClaimAttachments.Location = new System.Drawing.Point(8, 178);
+			this.checkClaimAttachments.Location = new System.Drawing.Point(8, 239);
 			this.checkClaimAttachments.Name = "checkClaimAttachments";
-			this.checkClaimAttachments.Size = new System.Drawing.Size(199, 18);
+			this.checkClaimAttachments.Size = new System.Drawing.Size(202, 20);
 			this.checkClaimAttachments.TabIndex = 13;
 			this.checkClaimAttachments.Text = "(C) Claim Attachments (only one)";
 			this.checkClaimAttachments.CheckedChanged += new System.EventHandler(this.checkClaimAttachments_CheckedChanged);
 			// 
 			// checkPaymentPlans
 			// 
-			this.checkPaymentPlans.Location = new System.Drawing.Point(8, 160);
+			this.checkPaymentPlans.Location = new System.Drawing.Point(8, 215);
 			this.checkPaymentPlans.Name = "checkPaymentPlans";
-			this.checkPaymentPlans.Size = new System.Drawing.Size(176, 18);
+			this.checkPaymentPlans.Size = new System.Drawing.Size(179, 20);
 			this.checkPaymentPlans.TabIndex = 12;
 			this.checkPaymentPlans.Text = "(A) Payment Plans (only one)";
 			this.checkPaymentPlans.CheckedChanged += new System.EventHandler(this.checkPaymentPlans_CheckedChanged);
 			// 
 			// checkPatientPortal
 			// 
-			this.checkPatientPortal.Location = new System.Drawing.Point(8, 70);
+			this.checkPatientPortal.Location = new System.Drawing.Point(8, 95);
 			this.checkPatientPortal.Name = "checkPatientPortal";
-			this.checkPatientPortal.Size = new System.Drawing.Size(201, 18);
+			this.checkPatientPortal.Size = new System.Drawing.Size(159, 20);
 			this.checkPatientPortal.TabIndex = 10;
 			this.checkPatientPortal.Text = "(L) Show in Patient Portal";
 			// 
 			// checkTreatmentPlans
 			// 
-			this.checkTreatmentPlans.Location = new System.Drawing.Point(8, 142);
+			this.checkTreatmentPlans.Location = new System.Drawing.Point(8, 191);
 			this.checkTreatmentPlans.Name = "checkTreatmentPlans";
-			this.checkTreatmentPlans.Size = new System.Drawing.Size(201, 18);
+			this.checkTreatmentPlans.Size = new System.Drawing.Size(187, 20);
 			this.checkTreatmentPlans.TabIndex = 9;
 			this.checkTreatmentPlans.Text = "(R) Treatment Plans (only one)";
 			this.checkTreatmentPlans.CheckedChanged += new System.EventHandler(this.checkTreatmentPlans_CheckedChanged);
 			// 
 			// checkPatientForms
 			// 
-			this.checkPatientForms.Location = new System.Drawing.Point(8, 52);
+			this.checkPatientForms.Location = new System.Drawing.Point(8, 71);
 			this.checkPatientForms.Name = "checkPatientForms";
-			this.checkPatientForms.Size = new System.Drawing.Size(370, 18);
+			this.checkPatientForms.Size = new System.Drawing.Size(303, 20);
 			this.checkPatientForms.TabIndex = 8;
 			this.checkPatientForms.Text = "(F) Show these documents in Patient Forms window";
 			// 
 			// checkToothCharts
 			// 
-			this.checkToothCharts.Location = new System.Drawing.Point(8, 124);
+			this.checkToothCharts.Location = new System.Drawing.Point(8, 167);
 			this.checkToothCharts.Name = "checkToothCharts";
-			this.checkToothCharts.Size = new System.Drawing.Size(220, 18);
+			this.checkToothCharts.Size = new System.Drawing.Size(223, 20);
 			this.checkToothCharts.TabIndex = 7;
 			this.checkToothCharts.Text = "(T) Graphical Tooth Charts (only one)";
 			this.checkToothCharts.CheckedChanged += new System.EventHandler(this.checkToothCharts_CheckedChanged);
 			// 
 			// checkStatements
 			// 
-			this.checkStatements.Location = new System.Drawing.Point(8, 106);
+			this.checkStatements.Location = new System.Drawing.Point(8, 143);
 			this.checkStatements.Name = "checkStatements";
-			this.checkStatements.Size = new System.Drawing.Size(201, 18);
+			this.checkStatements.Size = new System.Drawing.Size(159, 20);
 			this.checkStatements.TabIndex = 6;
 			this.checkStatements.Text = "(S) Statements (only one)";
 			this.checkStatements.CheckedChanged += new System.EventHandler(this.checkStatements_CheckedChanged);
 			// 
 			// checkPatientPictures
 			// 
-			this.checkPatientPictures.Location = new System.Drawing.Point(8, 88);
+			this.checkPatientPictures.Location = new System.Drawing.Point(8, 119);
 			this.checkPatientPictures.Name = "checkPatientPictures";
-			this.checkPatientPictures.Size = new System.Drawing.Size(201, 18);
+			this.checkPatientPictures.Size = new System.Drawing.Size(183, 20);
 			this.checkPatientPictures.TabIndex = 5;
 			this.checkPatientPictures.Text = "(P) Patient Pictures (only one)";
 			this.checkPatientPictures.CheckedChanged += new System.EventHandler(this.checkPatientPictures_CheckedChanged);
 			// 
 			// checkChartModule
 			// 
-			this.checkChartModule.Location = new System.Drawing.Point(8, 16);
+			this.checkChartModule.Location = new System.Drawing.Point(8, 23);
 			this.checkChartModule.Name = "checkChartModule";
-			this.checkChartModule.Size = new System.Drawing.Size(370, 18);
+			this.checkChartModule.Size = new System.Drawing.Size(298, 20);
 			this.checkChartModule.TabIndex = 4;
 			this.checkChartModule.Text = "(X) Show in Chart module (usually for radiographs)";
 			// 
 			// FormDefEditImages
 			// 
 			this.AcceptButton = this.butSave;
-			this.ClientSize = new System.Drawing.Size(644, 359);
+			this.ClientSize = new System.Drawing.Size(644, 432);
 			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.checkHidden);
 			this.Controls.Add(this.butSave);

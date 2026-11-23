@@ -34,7 +34,7 @@ namespace OpenPmsDental{
 			this.butDuplicate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butDuplicate.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butDuplicate.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDuplicate.Location = new System.Drawing.Point(780, 565);
+			this.butDuplicate.Location = new System.Drawing.Point(780, 554);
 			this.butDuplicate.Name = "butDuplicate";
 			this.butDuplicate.Size = new System.Drawing.Size(89, 24);
 			this.butDuplicate.TabIndex = 13;
@@ -45,7 +45,7 @@ namespace OpenPmsDental{
 			// 
 			this.butCopy.Icon = OpenPmsDental.UI.EnumIcons.ArrowRight;
 			this.butCopy.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butCopy.Location = new System.Drawing.Point(403, 229);
+			this.butCopy.Location = new System.Drawing.Point(403, 220);
 			this.butCopy.Name = "butCopy";
 			this.butCopy.Size = new System.Drawing.Size(75, 24);
 			this.butCopy.TabIndex = 11;
@@ -56,7 +56,7 @@ namespace OpenPmsDental{
 			// 
 			this.gridInternal.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-			this.gridInternal.Location = new System.Drawing.Point(12, 17);
+			this.gridInternal.Location = new System.Drawing.Point(12, 8);
 			this.gridInternal.Name = "gridInternal";
 			this.gridInternal.Size = new System.Drawing.Size(370, 542);
 			this.gridInternal.TabIndex = 9;
@@ -69,7 +69,7 @@ namespace OpenPmsDental{
 			this.gridCustom.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridCustom.Location = new System.Drawing.Point(493, 17);
+			this.gridCustom.Location = new System.Drawing.Point(493, 8);
 			this.gridCustom.Name = "gridCustom";
 			this.gridCustom.Size = new System.Drawing.Size(376, 542);
 			this.gridCustom.TabIndex = 10;

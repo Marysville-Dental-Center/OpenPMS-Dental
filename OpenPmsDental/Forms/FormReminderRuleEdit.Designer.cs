@@ -42,7 +42,7 @@
 			// butDelete
 			// 
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butDelete.Location = new System.Drawing.Point(12, 178);
+			this.butDelete.Location = new System.Drawing.Point(8, 177);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(75, 28);
 			this.butDelete.TabIndex = 0;
@@ -53,7 +53,7 @@
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(359, 177);
+			this.butSave.Location = new System.Drawing.Point(363, 177);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 28);
 			this.butSave.TabIndex = 1;
@@ -63,75 +63,75 @@
 			// 
 			// comboReminderCriterion
 			// 
-			this.comboReminderCriterion.Location = new System.Drawing.Point(114, 28);
+			this.comboReminderCriterion.Location = new System.Drawing.Point(126, 8);
 			this.comboReminderCriterion.Name = "comboReminderCriterion";
-			this.comboReminderCriterion.Size = new System.Drawing.Size(121, 21);
+			this.comboReminderCriterion.Size = new System.Drawing.Size(120, 23);
 			this.comboReminderCriterion.TabIndex = 3;
 			this.comboReminderCriterion.SelectedIndexChanged += new System.EventHandler(this.comboReminderCriterion_SelectedIndexChanged);
 			// 
 			// textCriterionValue
 			// 
-			this.textCriterionValue.Location = new System.Drawing.Point(114, 55);
+			this.textCriterionValue.Location = new System.Drawing.Point(126, 35);
 			this.textCriterionValue.Name = "textCriterionValue";
 			this.textCriterionValue.Size = new System.Drawing.Size(100, 20);
 			this.textCriterionValue.TabIndex = 4;
 			// 
 			// textReminderMessage
 			// 
-			this.textReminderMessage.Location = new System.Drawing.Point(114, 133);
+			this.textReminderMessage.Location = new System.Drawing.Point(126, 89);
 			this.textReminderMessage.Name = "textReminderMessage";
-			this.textReminderMessage.Size = new System.Drawing.Size(320, 20);
+			this.textReminderMessage.Size = new System.Drawing.Size(312, 23);
 			this.textReminderMessage.TabIndex = 5;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(5, 29);
+			this.label1.Location = new System.Drawing.Point(8, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(108, 17);
+			this.label1.Size = new System.Drawing.Size(112, 23);
 			this.label1.TabIndex = 6;
 			this.label1.Text = "Reminder Criterion";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// labelCriterionValue
 			// 
-			this.labelCriterionValue.Location = new System.Drawing.Point(5, 56);
+			this.labelCriterionValue.Location = new System.Drawing.Point(32, 35);
 			this.labelCriterionValue.Name = "labelCriterionValue";
-			this.labelCriterionValue.Size = new System.Drawing.Size(107, 17);
+			this.labelCriterionValue.Size = new System.Drawing.Size(88, 23);
 			this.labelCriterionValue.TabIndex = 7;
 			this.labelCriterionValue.Text = "Criterion Value";
 			this.labelCriterionValue.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(5, 134);
+			this.label3.Location = new System.Drawing.Point(8, 89);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(109, 17);
+			this.label3.Size = new System.Drawing.Size(112, 23);
 			this.label3.TabIndex = 8;
 			this.label3.Text = "Reminder Message";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// labelCriterionFK
 			// 
-			this.labelCriterionFK.Location = new System.Drawing.Point(5, 82);
+			this.labelCriterionFK.Location = new System.Drawing.Point(44, 62);
 			this.labelCriterionFK.Name = "labelCriterionFK";
-			this.labelCriterionFK.Size = new System.Drawing.Size(107, 17);
+			this.labelCriterionFK.Size = new System.Drawing.Size(76, 23);
 			this.labelCriterionFK.TabIndex = 10;
 			this.labelCriterionFK.Text = "Criterion FK";
 			this.labelCriterionFK.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textCriterionFK
 			// 
-			this.textCriterionFK.Location = new System.Drawing.Point(114, 81);
+			this.textCriterionFK.Location = new System.Drawing.Point(126, 62);
 			this.textCriterionFK.Name = "textCriterionFK";
 			this.textCriterionFK.ReadOnly = true;
-			this.textCriterionFK.Size = new System.Drawing.Size(290, 20);
+			this.textCriterionFK.Size = new System.Drawing.Size(282, 23);
 			this.textCriterionFK.TabIndex = 9;
 			// 
 			// butSelectFK
 			// 
-			this.butSelectFK.Location = new System.Drawing.Point(410, 78);
+			this.butSelectFK.Location = new System.Drawing.Point(414, 62);
 			this.butSelectFK.Name = "butSelectFK";
-			this.butSelectFK.Size = new System.Drawing.Size(24, 28);
+			this.butSelectFK.Size = new System.Drawing.Size(24, 23);
 			this.butSelectFK.TabIndex = 11;
 			this.butSelectFK.Text = "...";
 			this.butSelectFK.UseVisualStyleBackColor = true;
@@ -139,7 +139,7 @@
 			// 
 			// labelExample
 			// 
-			this.labelExample.Location = new System.Drawing.Point(220, 56);
+			this.labelExample.Location = new System.Drawing.Point(232, 38);
 			this.labelExample.Name = "labelExample";
 			this.labelExample.Size = new System.Drawing.Size(107, 17);
 			this.labelExample.TabIndex = 12;
@@ -148,18 +148,18 @@
 			// 
 			// textICD9
 			// 
-			this.textICD9.Location = new System.Drawing.Point(114, 107);
+			this.textICD9.Location = new System.Drawing.Point(126, 116);
 			this.textICD9.Name = "textICD9";
 			this.textICD9.ReadOnly = true;
-			this.textICD9.Size = new System.Drawing.Size(139, 20);
+			this.textICD9.Size = new System.Drawing.Size(140, 23);
 			this.textICD9.TabIndex = 9;
 			this.textICD9.Visible = false;
 			// 
 			// labelICD9
 			// 
-			this.labelICD9.Location = new System.Drawing.Point(5, 108);
+			this.labelICD9.Location = new System.Drawing.Point(76, 116);
 			this.labelICD9.Name = "labelICD9";
-			this.labelICD9.Size = new System.Drawing.Size(107, 17);
+			this.labelICD9.Size = new System.Drawing.Size(44, 23);
 			this.labelICD9.TabIndex = 10;
 			this.labelICD9.Text = "ICD-9";
 			this.labelICD9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

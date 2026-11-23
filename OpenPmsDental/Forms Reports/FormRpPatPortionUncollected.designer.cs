@@ -41,9 +41,9 @@ namespace OpenPmsDental {
 			//
 			// butRefresh
 			//
-			this.butRefresh.Location = new System.Drawing.Point(773, 10);
+			this.butRefresh.Location = new System.Drawing.Point(773, 8);
 			this.butRefresh.Name = "butRefresh";
-			this.butRefresh.Size = new System.Drawing.Size(75, 26);
+			this.butRefresh.Size = new System.Drawing.Size(75, 23);
 			this.butRefresh.TabIndex = 3;
 			this.butRefresh.Text = "&Refresh";
 			this.butRefresh.Click += new System.EventHandler(this.butRefresh_Click);
@@ -53,10 +53,10 @@ namespace OpenPmsDental {
 			this.comboBoxClinicPicker.IncludeAll = true;
 			this.comboBoxClinicPicker.IncludeHiddenInAll = true;
 			this.comboBoxClinicPicker.IncludeUnassigned = true;
-			this.comboBoxClinicPicker.Location = new System.Drawing.Point(471, 12);
+			this.comboBoxClinicPicker.Location = new System.Drawing.Point(471, 8);
 			this.comboBoxClinicPicker.Name = "comboBoxClinicPicker";
 			this.comboBoxClinicPicker.IsMultiSelect = true;
-			this.comboBoxClinicPicker.Size = new System.Drawing.Size(200, 21);
+			this.comboBoxClinicPicker.Size = new System.Drawing.Size(200, 23);
 			this.comboBoxClinicPicker.TabIndex = 56;
 			//
 			// gridOD
@@ -66,7 +66,7 @@ namespace OpenPmsDental {
             | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridOD.ContextMenuStrip = this.contextMenuStrip1;
-			this.gridOD.Location = new System.Drawing.Point(12, 64);
+			this.gridOD.Location = new System.Drawing.Point(12, 60);
 			this.gridOD.Name = "gridOD";
 			this.gridOD.Size = new System.Drawing.Size(836, 392);
 			this.gridOD.TabIndex = 57;
@@ -91,7 +91,7 @@ namespace OpenPmsDental {
 			// odDateRangePicker
 			//
 			this.odDateRangePicker.BackColor = System.Drawing.Color.Transparent;
-			this.odDateRangePicker.Location = new System.Drawing.Point(12, 12);
+			this.odDateRangePicker.Location = new System.Drawing.Point(12, 8);
 			this.odDateRangePicker.Name = "odDateRangePicker";
 			this.odDateRangePicker.Size = new System.Drawing.Size(453, 24);
 			this.odDateRangePicker.TabIndex = 58;
@@ -99,7 +99,7 @@ namespace OpenPmsDental {
 			// butPrint
 			//
 			this.butPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butPrint.Location = new System.Drawing.Point(12, 462);
+			this.butPrint.Location = new System.Drawing.Point(12, 456);
 			this.butPrint.Name = "butPrint";
 			this.butPrint.Size = new System.Drawing.Size(75, 26);
 			this.butPrint.TabIndex = 59;
@@ -108,16 +108,16 @@ namespace OpenPmsDental {
 			//
 			// checkShowPrior
 			//
-			this.checkShowPrior.Location = new System.Drawing.Point(14, 40);
+			this.checkShowPrior.Location = new System.Drawing.Point(12, 36);
 			this.checkShowPrior.Name = "checkShowPrior";
-			this.checkShowPrior.Size = new System.Drawing.Size(300, 20);
+			this.checkShowPrior.Size = new System.Drawing.Size(199, 20);
 			this.checkShowPrior.TabIndex = 60;
 			this.checkShowPrior.Text = "Show prior uncollected balances";
 			//
 			// labelPrior
 			//
 			this.labelPrior.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.labelPrior.Location = new System.Drawing.Point(97, 462);
+			this.labelPrior.Location = new System.Drawing.Point(93, 456);
 			this.labelPrior.Name = "labelPrior";
 			this.labelPrior.Size = new System.Drawing.Size(700, 26);
 			this.labelPrior.TabIndex = 61;

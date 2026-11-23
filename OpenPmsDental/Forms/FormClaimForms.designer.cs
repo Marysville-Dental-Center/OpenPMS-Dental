@@ -59,23 +59,23 @@ namespace OpenPmsDental {
 			this.groupBox2.Controls.Add(this.comboReassign);
 			this.groupBox2.Controls.Add(this.butReassign);
 			this.groupBox2.Controls.Add(this.label2);
-			this.groupBox2.Location = new System.Drawing.Point(540, 71);
+			this.groupBox2.Location = new System.Drawing.Point(550, 71);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(232, 122);
+			this.groupBox2.Size = new System.Drawing.Size(232, 131);
 			this.groupBox2.TabIndex = 12;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Reassign";
 			// 
 			// comboReassign
 			// 
-			this.comboReassign.Location = new System.Drawing.Point(15, 64);
+			this.comboReassign.Location = new System.Drawing.Point(12, 73);
 			this.comboReassign.Name = "comboReassign";
-			this.comboReassign.Size = new System.Drawing.Size(169, 21);
+			this.comboReassign.Size = new System.Drawing.Size(168, 23);
 			this.comboReassign.TabIndex = 15;
 			// 
 			// butReassign
 			// 
-			this.butReassign.Location = new System.Drawing.Point(15, 87);
+			this.butReassign.Location = new System.Drawing.Point(12, 100);
 			this.butReassign.Name = "butReassign";
 			this.butReassign.Size = new System.Drawing.Size(87, 23);
 			this.butReassign.TabIndex = 13;
@@ -84,7 +84,7 @@ namespace OpenPmsDental {
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(12, 16);
+			this.label2.Location = new System.Drawing.Point(12, 23);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(203, 48);
 			this.label2.TabIndex = 14;
@@ -99,16 +99,16 @@ namespace OpenPmsDental {
 			this.groupBox1.Controls.Add(this.butAdd);
 			this.groupBox1.Controls.Add(this.butImport);
 			this.groupBox1.Controls.Add(this.butDelete);
-			this.groupBox1.Location = new System.Drawing.Point(540, 258);
+			this.groupBox1.Location = new System.Drawing.Point(550, 210);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(232, 122);
+			this.groupBox1.Size = new System.Drawing.Size(232, 108);
 			this.groupBox1.TabIndex = 11;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Custom Claim Form Options";
 			// 
 			// butDuplicate
 			// 
-			this.butDuplicate.Location = new System.Drawing.Point(15, 87);
+			this.butDuplicate.Location = new System.Drawing.Point(15, 77);
 			this.butDuplicate.Name = "butDuplicate";
 			this.butDuplicate.Size = new System.Drawing.Size(75, 23);
 			this.butDuplicate.TabIndex = 4;
@@ -117,7 +117,7 @@ namespace OpenPmsDental {
 			// 
 			// butExport
 			// 
-			this.butExport.Location = new System.Drawing.Point(141, 25);
+			this.butExport.Location = new System.Drawing.Point(141, 23);
 			this.butExport.Name = "butExport";
 			this.butExport.Size = new System.Drawing.Size(75, 23);
 			this.butExport.TabIndex = 9;
@@ -126,7 +126,7 @@ namespace OpenPmsDental {
 			// 
 			// butAdd
 			// 
-			this.butAdd.Location = new System.Drawing.Point(15, 25);
+			this.butAdd.Location = new System.Drawing.Point(15, 23);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(75, 23);
 			this.butAdd.TabIndex = 3;
@@ -135,7 +135,7 @@ namespace OpenPmsDental {
 			// 
 			// butImport
 			// 
-			this.butImport.Location = new System.Drawing.Point(141, 56);
+			this.butImport.Location = new System.Drawing.Point(141, 50);
 			this.butImport.Name = "butImport";
 			this.butImport.Size = new System.Drawing.Size(75, 23);
 			this.butImport.TabIndex = 10;
@@ -144,7 +144,7 @@ namespace OpenPmsDental {
 			// 
 			// butDelete
 			// 
-			this.butDelete.Location = new System.Drawing.Point(15, 56);
+			this.butDelete.Location = new System.Drawing.Point(15, 50);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(75, 23);
 			this.butDelete.TabIndex = 5;
@@ -153,7 +153,7 @@ namespace OpenPmsDental {
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(5, 7);
+			this.label1.Location = new System.Drawing.Point(8, 8);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(466, 28);
 			this.label1.TabIndex = 19;
@@ -165,7 +165,7 @@ namespace OpenPmsDental {
 			this.gridCustom.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridCustom.Location = new System.Drawing.Point(274, 38);
+			this.gridCustom.Location = new System.Drawing.Point(284, 38);
 			this.gridCustom.Name = "gridCustom";
 			this.gridCustom.Size = new System.Drawing.Size(260, 372);
 			this.gridCustom.TabIndex = 17;
@@ -189,7 +189,7 @@ namespace OpenPmsDental {
 			// 
 			this.butCopy.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.ArrowRight,22,22);
 			this.butCopy.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butCopy.Location = new System.Drawing.Point(200, 221);
+			this.butCopy.Location = new System.Drawing.Point(210, 38);
 			this.butCopy.Name = "butCopy";
 			this.butCopy.Size = new System.Drawing.Size(68, 23);
 			this.butCopy.TabIndex = 18;
@@ -199,7 +199,7 @@ namespace OpenPmsDental {
 			// butDefault
 			// 
 			this.butDefault.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butDefault.Location = new System.Drawing.Point(540, 38);
+			this.butDefault.Location = new System.Drawing.Point(550, 40);
 			this.butDefault.Name = "butDefault";
 			this.butDefault.Size = new System.Drawing.Size(87, 23);
 			this.butDefault.TabIndex = 12;
@@ -208,7 +208,7 @@ namespace OpenPmsDental {
 			// 
 			// FormClaimForms
 			// 
-			this.ClientSize = new System.Drawing.Size(785, 424);
+			this.ClientSize = new System.Drawing.Size(790, 424);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.groupBox2);
 			this.Controls.Add(this.butCopy);

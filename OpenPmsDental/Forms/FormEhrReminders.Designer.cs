@@ -35,9 +35,9 @@
 			// label1
 			// 
 			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.label1.Location = new System.Drawing.Point(17, 19);
+			this.label1.Location = new System.Drawing.Point(8, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(216, 17);
+			this.label1.Size = new System.Drawing.Size(224, 23);
 			this.label1.TabIndex = 0;
 			this.label1.Text = "Confidental Communication Preference";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -45,17 +45,17 @@
 			// textPreferedConfidentialContact
 			// 
 			this.textPreferedConfidentialContact.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.textPreferedConfidentialContact.Location = new System.Drawing.Point(233, 16);
+			this.textPreferedConfidentialContact.Location = new System.Drawing.Point(238, 8);
 			this.textPreferedConfidentialContact.Name = "textPreferedConfidentialContact";
 			this.textPreferedConfidentialContact.ReadOnly = true;
-			this.textPreferedConfidentialContact.Size = new System.Drawing.Size(237, 20);
+			this.textPreferedConfidentialContact.Size = new System.Drawing.Size(235, 23);
 			this.textPreferedConfidentialContact.TabIndex = 1;
 			// 
 			// gridMain
 			// 
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(15, 42);
+			this.gridMain.Location = new System.Drawing.Point(12, 35);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.Size = new System.Drawing.Size(535, 244);
 			this.gridMain.TabIndex = 3;
@@ -64,7 +64,7 @@
 			// 
 			// butSend
 			// 
-			this.butSend.Location = new System.Drawing.Point(248, 292);
+			this.butSend.Location = new System.Drawing.Point(238, 283);
 			this.butSend.Name = "butSend";
 			this.butSend.Size = new System.Drawing.Size(75, 23);
 			this.butSend.TabIndex = 5;
@@ -75,7 +75,7 @@
 			// butDelete
 			// 
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butDelete.Location = new System.Drawing.Point(12, 586);
+			this.butDelete.Location = new System.Drawing.Point(12, 572);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(75, 23);
 			this.butDelete.TabIndex = 6;
@@ -88,7 +88,7 @@
 			this.gridProvided.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridProvided.Location = new System.Drawing.Point(18, 321);
+			this.gridProvided.Location = new System.Drawing.Point(12, 310);
 			this.gridProvided.Name = "gridProvided";
 			this.gridProvided.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
 			this.gridProvided.Size = new System.Drawing.Size(535, 258);
@@ -99,7 +99,7 @@
 			// butEdit
 			// 
 			this.butEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butEdit.Location = new System.Drawing.Point(475, 14);
+			this.butEdit.Location = new System.Drawing.Point(479, 8);
 			this.butEdit.Name = "butEdit";
 			this.butEdit.Size = new System.Drawing.Size(75, 23);
 			this.butEdit.TabIndex = 8;

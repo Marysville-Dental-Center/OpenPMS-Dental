@@ -39,7 +39,7 @@ namespace OpenPmsDental{
 			this.butAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdd.Location = new System.Drawing.Point(567, 29);
+			this.butAdd.Location = new System.Drawing.Point(560, 8);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(75, 24);
 			this.butAdd.TabIndex = 5;
@@ -54,7 +54,7 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridMain.HScrollVisible = true;
-			this.gridMain.Location = new System.Drawing.Point(30, 29);
+			this.gridMain.Location = new System.Drawing.Point(30, 8);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.Size = new System.Drawing.Size(521, 500);
 			this.gridMain.TabIndex = 4;
@@ -70,55 +70,55 @@ namespace OpenPmsDental{
 			this.groupBoxInsVerifyChecks.Controls.Add(this.checkCheckDeductable);
 			this.groupBoxInsVerifyChecks.Controls.Add(this.checkCheckAnnualMax);
 			this.groupBoxInsVerifyChecks.Controls.Add(this.checkCreateAdjustments);
-			this.groupBoxInsVerifyChecks.Location = new System.Drawing.Point(560, 193);
+			this.groupBoxInsVerifyChecks.Location = new System.Drawing.Point(560, 40);
 			this.groupBoxInsVerifyChecks.Name = "groupBoxInsVerifyChecks";
-			this.groupBoxInsVerifyChecks.Size = new System.Drawing.Size(171, 141);
+			this.groupBoxInsVerifyChecks.Size = new System.Drawing.Size(171, 147);
 			this.groupBoxInsVerifyChecks.TabIndex = 6;
 			this.groupBoxInsVerifyChecks.Text = "Ins Verify Batch Preferences";
 			// 
 			// checkChangeEffectiveDates
 			// 
 			this.checkChangeEffectiveDates.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkChangeEffectiveDates.Location = new System.Drawing.Point(14, 115);
+			this.checkChangeEffectiveDates.Location = new System.Drawing.Point(8, 119);
 			this.checkChangeEffectiveDates.Name = "checkChangeEffectiveDates";
-			this.checkChangeEffectiveDates.Size = new System.Drawing.Size(154, 18);
+			this.checkChangeEffectiveDates.Size = new System.Drawing.Size(148, 20);
 			this.checkChangeEffectiveDates.TabIndex = 12;
 			this.checkChangeEffectiveDates.Text = "Change Effective Dates";
 			// 
 			// checkChangeInsHist
 			// 
 			this.checkChangeInsHist.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkChangeInsHist.Location = new System.Drawing.Point(14, 92);
+			this.checkChangeInsHist.Location = new System.Drawing.Point(8, 95);
 			this.checkChangeInsHist.Name = "checkChangeInsHist";
-			this.checkChangeInsHist.Size = new System.Drawing.Size(154, 18);
+			this.checkChangeInsHist.Size = new System.Drawing.Size(125, 20);
 			this.checkChangeInsHist.TabIndex = 11;
 			this.checkChangeInsHist.Text = "Change Ins History";
 			// 
 			// checkCheckDeductable
 			// 
 			this.checkCheckDeductable.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkCheckDeductable.Location = new System.Drawing.Point(14, 46);
+			this.checkCheckDeductable.Location = new System.Drawing.Point(8, 47);
 			this.checkCheckDeductable.Name = "checkCheckDeductable";
 			this.checkCheckDeductable.RightToLeft = System.Windows.Forms.RightToLeft.No;
-			this.checkCheckDeductable.Size = new System.Drawing.Size(154, 18);
+			this.checkCheckDeductable.Size = new System.Drawing.Size(118, 20);
 			this.checkCheckDeductable.TabIndex = 10;
 			this.checkCheckDeductable.Text = "Check Deductible";
 			// 
 			// checkCheckAnnualMax
 			// 
 			this.checkCheckAnnualMax.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkCheckAnnualMax.Location = new System.Drawing.Point(14, 69);
+			this.checkCheckAnnualMax.Location = new System.Drawing.Point(8, 71);
 			this.checkCheckAnnualMax.Name = "checkCheckAnnualMax";
-			this.checkCheckAnnualMax.Size = new System.Drawing.Size(154, 18);
+			this.checkCheckAnnualMax.Size = new System.Drawing.Size(124, 20);
 			this.checkCheckAnnualMax.TabIndex = 9;
 			this.checkCheckAnnualMax.Text = "Check Annual Max";
 			// 
 			// checkCreateAdjustments
 			// 
 			this.checkCreateAdjustments.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkCreateAdjustments.Location = new System.Drawing.Point(14, 23);
+			this.checkCreateAdjustments.Location = new System.Drawing.Point(8, 23);
 			this.checkCreateAdjustments.Name = "checkCreateAdjustments";
-			this.checkCreateAdjustments.Size = new System.Drawing.Size(154, 18);
+			this.checkCreateAdjustments.Size = new System.Drawing.Size(129, 20);
 			this.checkCreateAdjustments.TabIndex = 8;
 			this.checkCreateAdjustments.Text = "Create Adjustments";
 			// 

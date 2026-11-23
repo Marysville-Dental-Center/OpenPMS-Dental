@@ -37,7 +37,7 @@
 			// 
 			// label8
 			// 
-			this.label8.Location = new System.Drawing.Point(20, 28);
+			this.label8.Location = new System.Drawing.Point(18, 23);
 			this.label8.Name = "label8";
 			this.label8.Size = new System.Drawing.Size(760, 30);
 			this.label8.TabIndex = 27;
@@ -49,7 +49,7 @@
 			this.butAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdd.Location = new System.Drawing.Point(793, 92);
+			this.butAdd.Location = new System.Drawing.Point(791, 88);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(82, 26);
 			this.butAdd.TabIndex = 28;
@@ -59,9 +59,9 @@
 			// label1
 			// 
 			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.label1.Location = new System.Drawing.Point(790, 394);
+			this.label1.Location = new System.Drawing.Point(791, 152);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(132, 73);
+			this.label1.Size = new System.Drawing.Size(132, 77);
 			this.label1.TabIndex = 29;
 			this.label1.Text = "Further modifications to this list can be made by going to Lists -> Clinics, or c" +
     "licking \"Advanced\".";
@@ -69,9 +69,9 @@
 			// label2
 			// 
 			this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.label2.Location = new System.Drawing.Point(790, 121);
+			this.label2.Location = new System.Drawing.Point(791, 118);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(140, 29);
+			this.label2.Size = new System.Drawing.Size(140, 32);
 			this.label2.TabIndex = 30;
 			this.label2.Text = "Double click a row to edit the specific clinic.\r\n";
 			// 
@@ -82,7 +82,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridMain.HScrollVisible = true;
-			this.gridMain.Location = new System.Drawing.Point(18, 61);
+			this.gridMain.Location = new System.Drawing.Point(18, 57);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
 			this.gridMain.Size = new System.Drawing.Size(769, 457);
@@ -96,7 +96,7 @@
 			this.pictureAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.pictureAdd.HasBorder = false;
 			this.pictureAdd.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.ArrowLeft,22,22);
-			this.pictureAdd.Location = new System.Drawing.Point(872, 95);
+			this.pictureAdd.Location = new System.Drawing.Point(879, 91);
 			this.pictureAdd.Name = "pictureAdd";
 			this.pictureAdd.Size = new System.Drawing.Size(22, 20);
 			this.pictureAdd.TabIndex = 32;
@@ -110,7 +110,7 @@
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(612, 13);
+			this.label3.Location = new System.Drawing.Point(610, 8);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(175, 45);
 			this.label3.TabIndex = 33;
@@ -121,7 +121,7 @@
 			// 
 			this.butAdvanced.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butAdvanced.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdvanced.Location = new System.Drawing.Point(793, 467);
+			this.butAdvanced.Location = new System.Drawing.Point(791, 231);
 			this.butAdvanced.Name = "butAdvanced";
 			this.butAdvanced.Size = new System.Drawing.Size(82, 26);
 			this.butAdvanced.TabIndex = 34;

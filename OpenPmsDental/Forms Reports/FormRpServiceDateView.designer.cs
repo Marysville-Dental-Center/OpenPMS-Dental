@@ -38,7 +38,7 @@ namespace OpenPmsDental{
 			this.butPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butPrint.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Print,16,16);
 			this.butPrint.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butPrint.Location = new System.Drawing.Point(12, 442);
+			this.butPrint.Location = new System.Drawing.Point(12, 440);
 			this.butPrint.Name = "butPrint";
 			this.butPrint.Size = new System.Drawing.Size(75, 26);
 			this.butPrint.TabIndex = 4;
@@ -62,7 +62,7 @@ namespace OpenPmsDental{
 			// 
 			this.butSavePDFToImages.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butSavePDFToImages.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butSavePDFToImages.Location = new System.Drawing.Point(107, 442);
+			this.butSavePDFToImages.Location = new System.Drawing.Point(93, 440);
 			this.butSavePDFToImages.Name = "butSavePDFToImages";
 			this.butSavePDFToImages.Size = new System.Drawing.Size(88, 26);
 			this.butSavePDFToImages.TabIndex = 84;
@@ -74,28 +74,28 @@ namespace OpenPmsDental{
 			// 
 			this.groupFilter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.groupFilter.Controls.Add(this.checkDetailedView);
-			this.groupFilter.Location = new System.Drawing.Point(707, 12);
+			this.groupFilter.Location = new System.Drawing.Point(707, 8);
 			this.groupFilter.Name = "groupFilter";
-			this.groupFilter.Size = new System.Drawing.Size(169, 45);
+			this.groupFilter.Size = new System.Drawing.Size(169, 51);
 			this.groupFilter.TabIndex = 85;
 			this.groupFilter.TabStop = false;
 			this.groupFilter.Text = "Filters";
 			// 
 			// checkDetailedView
 			// 
-			this.checkDetailedView.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkDetailedView.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.checkDetailedView.Checked = true;
 			this.checkDetailedView.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkDetailedView.Location = new System.Drawing.Point(4, 15);
+			this.checkDetailedView.Location = new System.Drawing.Point(8, 23);
 			this.checkDetailedView.Name = "checkDetailedView";
-			this.checkDetailedView.Size = new System.Drawing.Size(142, 18);
+			this.checkDetailedView.Size = new System.Drawing.Size(127, 20);
 			this.checkDetailedView.TabIndex = 62;
 			this.checkDetailedView.Text = "Show detailed view";
 			// 
 			// butRefresh
 			// 
 			this.butRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butRefresh.Location = new System.Drawing.Point(884, 27);
+			this.butRefresh.Location = new System.Drawing.Point(882, 8);
 			this.butRefresh.Name = "butRefresh";
 			this.butRefresh.Size = new System.Drawing.Size(82, 24);
 			this.butRefresh.TabIndex = 86;
@@ -105,7 +105,7 @@ namespace OpenPmsDental{
 			// butSetupColumns
 			// 
 			this.butSetupColumns.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butSetupColumns.Location = new System.Drawing.Point(215, 442);
+			this.butSetupColumns.Location = new System.Drawing.Point(187, 440);
 			this.butSetupColumns.Name = "butSetupColumns";
 			this.butSetupColumns.Size = new System.Drawing.Size(88, 26);
 			this.butSetupColumns.TabIndex = 87;

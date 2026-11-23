@@ -34,7 +34,7 @@
 			// 
 			// butAdd
 			// 
-			this.butAdd.Location = new System.Drawing.Point(21, 12);
+			this.butAdd.Location = new System.Drawing.Point(21, 8);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(75, 28);
 			this.butAdd.TabIndex = 2;
@@ -47,7 +47,7 @@
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(21, 42);
+			this.gridMain.Location = new System.Drawing.Point(21, 40);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
 			this.gridMain.Size = new System.Drawing.Size(381, 228);
@@ -59,7 +59,7 @@
 			// butSubmit
 			// 
 			this.butSubmit.Anchor = System.Windows.Forms.AnchorStyles.None;
-			this.butSubmit.Location = new System.Drawing.Point(9, 17);
+			this.butSubmit.Location = new System.Drawing.Point(8, 23);
 			this.butSubmit.Name = "butSubmit";
 			this.butSubmit.Size = new System.Drawing.Size(66, 28);
 			this.butSubmit.TabIndex = 3;
@@ -70,7 +70,7 @@
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(327, 293);
+			this.butOK.Location = new System.Drawing.Point(335, 347);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 28);
 			this.butOK.TabIndex = 4;
@@ -81,7 +81,7 @@
 			// butShow
 			// 
 			this.butShow.Anchor = System.Windows.Forms.AnchorStyles.None;
-			this.butShow.Location = new System.Drawing.Point(81, 17);
+			this.butShow.Location = new System.Drawing.Point(80, 23);
 			this.butShow.Name = "butShow";
 			this.butShow.Size = new System.Drawing.Size(66, 28);
 			this.butShow.TabIndex = 5;
@@ -96,7 +96,7 @@
 			this.groupHL7.Controls.Add(this.butSubmit);
 			this.groupHL7.Location = new System.Drawing.Point(21, 276);
 			this.groupHL7.Name = "groupHL7";
-			this.groupHL7.Size = new System.Drawing.Size(156, 47);
+			this.groupHL7.Size = new System.Drawing.Size(156, 59);
 			this.groupHL7.TabIndex = 6;
 			this.groupHL7.TabStop = false;
 			this.groupHL7.Text = "HL7 Msg";
@@ -104,7 +104,7 @@
 			// FormEhrLabPanels
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(418, 331);
+			this.ClientSize = new System.Drawing.Size(418, 383);
 			this.Controls.Add(this.groupHL7);
 			this.Controls.Add(this.butOK);
 			this.Controls.Add(this.butAdd);

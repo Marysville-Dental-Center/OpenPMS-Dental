@@ -47,9 +47,9 @@
 			// 
 			this.checkDone.AutoCheck = false;
 			this.checkDone.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.checkDone.Location = new System.Drawing.Point(12, 145);
+			this.checkDone.Location = new System.Drawing.Point(12, 128);
 			this.checkDone.Name = "checkDone";
-			this.checkDone.Size = new System.Drawing.Size(168, 18);
+			this.checkDone.Size = new System.Drawing.Size(129, 20);
 			this.checkDone.TabIndex = 1;
 			this.checkDone.TabStop = false;
 			this.checkDone.Text = "Planned Appt Done";
@@ -60,11 +60,11 @@
 			this.textApptModNote.BackColor = System.Drawing.Color.White;
 			this.textApptModNote.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.textApptModNote.ForeColor = System.Drawing.Color.Red;
-			this.textApptModNote.Location = new System.Drawing.Point(707, 36);
+			this.textApptModNote.Location = new System.Drawing.Point(720, 27);
 			this.textApptModNote.Multiline = true;
 			this.textApptModNote.Name = "textApptModNote";
 			this.textApptModNote.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.textApptModNote.Size = new System.Drawing.Size(202, 36);
+			this.textApptModNote.Size = new System.Drawing.Size(189, 36);
 			this.textApptModNote.TabIndex = 44;
 			this.textApptModNote.Leave += new System.EventHandler(this.textApptModNote_Leave);
 			// 
@@ -72,18 +72,18 @@
 			// 
 			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.label1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.label1.Location = new System.Drawing.Point(542, 40);
+			this.label1.Location = new System.Drawing.Point(558, 27);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(163, 21);
+			this.label1.Size = new System.Drawing.Size(156, 23);
 			this.label1.TabIndex = 45;
 			this.label1.Text = "Appointment Module Note";
-			this.label1.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// butGoTo
 			// 
 			this.butGoTo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butGoTo.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butGoTo.Location = new System.Drawing.Point(31, 620);
+			this.butGoTo.Location = new System.Drawing.Point(31, 626);
 			this.butGoTo.Name = "butGoTo";
 			this.butGoTo.Size = new System.Drawing.Size(125, 24);
 			this.butGoTo.TabIndex = 46;
@@ -95,7 +95,7 @@
 			this.butPin.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butPin.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Pin,20,23);
 			this.butPin.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butPin.Location = new System.Drawing.Point(165, 620);
+			this.butPin.Location = new System.Drawing.Point(165, 626);
 			this.butPin.Name = "butPin";
 			this.butPin.Size = new System.Drawing.Size(134, 24);
 			this.butPin.TabIndex = 47;
@@ -107,7 +107,7 @@
 			this.butNew.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butNew.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butNew.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butNew.Location = new System.Drawing.Point(576, 620);
+			this.butNew.Location = new System.Drawing.Point(576, 626);
 			this.butNew.Name = "butNew";
 			this.butNew.Size = new System.Drawing.Size(125, 24);
 			this.butNew.TabIndex = 48;
@@ -117,7 +117,7 @@
 			// label2
 			// 
 			this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label2.Location = new System.Drawing.Point(12, 13);
+			this.label2.Location = new System.Drawing.Point(12, 8);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(168, 17);
 			this.label2.TabIndex = 57;
@@ -136,7 +136,7 @@
 			this.listViewFamily.GridLines = true;
 			this.listViewFamily.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
 			this.listViewFamily.HideSelection = false;
-			this.listViewFamily.Location = new System.Drawing.Point(12, 36);
+			this.listViewFamily.Location = new System.Drawing.Point(12, 27);
 			this.listViewFamily.Name = "listViewFamily";
 			this.listViewFamily.Size = new System.Drawing.Size(384, 97);
 			this.listViewFamily.TabIndex = 58;
@@ -174,7 +174,7 @@
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butOK.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.butOK.Location = new System.Drawing.Point(834, 620);
+			this.butOK.Location = new System.Drawing.Point(841, 626);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 24);
 			this.butOK.TabIndex = 59;
@@ -186,7 +186,7 @@
 			this.butRecall.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butRecall.Icon = OpenPmsDental.UI.EnumIcons.Recall;
 			this.butRecall.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butRecall.Location = new System.Drawing.Point(308, 620);
+			this.butRecall.Location = new System.Drawing.Point(308, 626);
 			this.butRecall.Name = "butRecall";
 			this.butRecall.Size = new System.Drawing.Size(125, 24);
 			this.butRecall.TabIndex = 60;
@@ -199,31 +199,31 @@
 			this.textFinUrg.BackColor = System.Drawing.Color.White;
 			this.textFinUrg.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.textFinUrg.ForeColor = System.Drawing.Color.Red;
-			this.textFinUrg.Location = new System.Drawing.Point(707, 78);
+			this.textFinUrg.Location = new System.Drawing.Point(720, 67);
 			this.textFinUrg.Multiline = true;
 			this.textFinUrg.Name = "textFinUrg";
 			this.textFinUrg.ReadOnly = true;
 			this.textFinUrg.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.textFinUrg.Size = new System.Drawing.Size(202, 81);
+			this.textFinUrg.Size = new System.Drawing.Size(189, 81);
 			this.textFinUrg.TabIndex = 63;
 			// 
 			// label3
 			// 
 			this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.label3.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.label3.Location = new System.Drawing.Point(542, 81);
+			this.label3.Location = new System.Drawing.Point(542, 67);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(165, 21);
+			this.label3.Size = new System.Drawing.Size(172, 23);
 			this.label3.TabIndex = 64;
 			this.label3.Text = "Family Urgent Financial Notes";
-			this.label3.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// butNote
 			// 
 			this.butNote.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butNote.Icon = OpenPmsDental.UI.EnumIcons.Note;
 			this.butNote.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butNote.Location = new System.Drawing.Point(442, 620);
+			this.butNote.Location = new System.Drawing.Point(442, 626);
 			this.butNote.Name = "butNote";
 			this.butNote.Size = new System.Drawing.Size(125, 24);
 			this.butNote.TabIndex = 65;
@@ -235,7 +235,7 @@
 			this.butRecallFamily.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butRecallFamily.Icon = OpenPmsDental.UI.EnumIcons.Recall;
 			this.butRecallFamily.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butRecallFamily.Location = new System.Drawing.Point(308, 588);
+			this.butRecallFamily.Location = new System.Drawing.Point(308, 554);
 			this.butRecallFamily.Name = "butRecallFamily";
 			this.butRecallFamily.Size = new System.Drawing.Size(125, 24);
 			this.butRecallFamily.TabIndex = 66;
@@ -245,9 +245,9 @@
 			// checkShowCompletePlanned
 			// 
 			this.checkShowCompletePlanned.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.checkShowCompletePlanned.Location = new System.Drawing.Point(182, 145);
+			this.checkShowCompletePlanned.Location = new System.Drawing.Point(182, 128);
 			this.checkShowCompletePlanned.Name = "checkShowCompletePlanned";
-			this.checkShowCompletePlanned.Size = new System.Drawing.Size(251, 18);
+			this.checkShowCompletePlanned.Size = new System.Drawing.Size(198, 20);
 			this.checkShowCompletePlanned.TabIndex = 68;
 			this.checkShowCompletePlanned.TabStop = false;
 			this.checkShowCompletePlanned.Text = "Show Completed Planned Appts";
@@ -258,7 +258,7 @@
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(12, 168);
+			this.gridMain.Location = new System.Drawing.Point(12, 152);
 			this.gridMain.Name = "gridOD1";
 			this.gridMain.Size = new System.Drawing.Size(897, 398);
 			this.gridMain.TabIndex = 69;

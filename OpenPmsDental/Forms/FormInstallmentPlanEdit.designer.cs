@@ -41,7 +41,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(300, 238);
+			this.butSave.Location = new System.Drawing.Point(304, 242);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 5;
@@ -51,18 +51,18 @@ namespace OpenPmsDental{
 			// textAPR
 			// 
 			this.textAPR.AutoSize = false;
-			this.textAPR.Location = new System.Drawing.Point(131, 92);
+			this.textAPR.Location = new System.Drawing.Point(138, 89);
 			this.textAPR.MaxVal = 100000000D;
 			this.textAPR.MinVal = -100000000D;
 			this.textAPR.Name = "textAPR";
-			this.textAPR.Size = new System.Drawing.Size(47, 20);
+			this.textAPR.Size = new System.Drawing.Size(48, 23);
 			this.textAPR.TabIndex = 3;
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(-10, 93);
+			this.label6.Location = new System.Drawing.Point(96, 89);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(138, 17);
+			this.label6.Size = new System.Drawing.Size(36, 23);
 			this.label6.TabIndex = 22;
 			this.label6.Text = "APR";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -70,25 +70,25 @@ namespace OpenPmsDental{
 			// textDateFirstPay
 			// 
 			this.textDateFirstPay.AutoSize = false;
-			this.textDateFirstPay.Location = new System.Drawing.Point(131, 51);
+			this.textDateFirstPay.Location = new System.Drawing.Point(138, 35);
 			this.textDateFirstPay.Name = "textDateFirstPay";
-			this.textDateFirstPay.Size = new System.Drawing.Size(85, 20);
+			this.textDateFirstPay.Size = new System.Drawing.Size(84, 23);
 			this.textDateFirstPay.TabIndex = 1;
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(-6, 52);
+			this.label5.Location = new System.Drawing.Point(8, 35);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(135, 17);
+			this.label5.Size = new System.Drawing.Size(124, 23);
 			this.label5.TabIndex = 20;
 			this.label5.Text = "Date of First Payment";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(-4, 31);
+			this.label2.Location = new System.Drawing.Point(20, 8);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(133, 17);
+			this.label2.Size = new System.Drawing.Size(112, 23);
 			this.label2.TabIndex = 16;
 			this.label2.Text = "Date of Agreement";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -96,16 +96,16 @@ namespace OpenPmsDental{
 			// textDateAgreement
 			// 
 			this.textDateAgreement.AutoSize = false;
-			this.textDateAgreement.Location = new System.Drawing.Point(131, 30);
+			this.textDateAgreement.Location = new System.Drawing.Point(138, 8);
 			this.textDateAgreement.Name = "textDateAgreement";
-			this.textDateAgreement.Size = new System.Drawing.Size(85, 20);
+			this.textDateAgreement.Size = new System.Drawing.Size(84, 23);
 			this.textDateAgreement.TabIndex = 0;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(-6, 72);
+			this.label1.Location = new System.Drawing.Point(24, 62);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(134, 17);
+			this.label1.Size = new System.Drawing.Size(108, 23);
 			this.label1.TabIndex = 24;
 			this.label1.Text = "Monthly Payment";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -113,24 +113,24 @@ namespace OpenPmsDental{
 			// textMonthlyPayment
 			// 
 			this.textMonthlyPayment.AutoSize = false;
-			this.textMonthlyPayment.Location = new System.Drawing.Point(131, 71);
+			this.textMonthlyPayment.Location = new System.Drawing.Point(138, 62);
 			this.textMonthlyPayment.MaxVal = 100000000D;
 			this.textMonthlyPayment.MinVal = -100000000D;
 			this.textMonthlyPayment.Name = "textMonthlyPayment";
-			this.textMonthlyPayment.Size = new System.Drawing.Size(85, 20);
+			this.textMonthlyPayment.Size = new System.Drawing.Size(84, 23);
 			this.textMonthlyPayment.TabIndex = 2;
 			// 
 			// textNote
 			// 
-			this.textNote.Location = new System.Drawing.Point(131, 114);
+			this.textNote.Location = new System.Drawing.Point(138, 116);
 			this.textNote.Multiline = true;
 			this.textNote.Name = "textNote";
-			this.textNote.Size = new System.Drawing.Size(209, 101);
+			this.textNote.Size = new System.Drawing.Size(202, 101);
 			this.textNote.TabIndex = 4;
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(177, 93);
+			this.label3.Location = new System.Drawing.Point(192, 92);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(138, 17);
 			this.label3.TabIndex = 22;
@@ -139,9 +139,9 @@ namespace OpenPmsDental{
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(-9, 115);
+			this.label4.Location = new System.Drawing.Point(92, 116);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(138, 17);
+			this.label4.Size = new System.Drawing.Size(40, 23);
 			this.label4.TabIndex = 22;
 			this.label4.Text = "Note";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -151,7 +151,7 @@ namespace OpenPmsDental{
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(12, 238);
+			this.butDelete.Location = new System.Drawing.Point(8, 242);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(75, 24);
 			this.butDelete.TabIndex = 5;

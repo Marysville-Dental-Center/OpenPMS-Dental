@@ -49,7 +49,7 @@ namespace OpenPmsDental {
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(12, 9);
+			this.label1.Location = new System.Drawing.Point(12, 8);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(445, 167);
 			this.label1.TabIndex = 2;
@@ -57,49 +57,49 @@ namespace OpenPmsDental {
 			// 
 			// checkAdmin
 			// 
-			this.checkAdmin.Location = new System.Drawing.Point(15, 232);
+			this.checkAdmin.Location = new System.Drawing.Point(88, 231);
 			this.checkAdmin.Name = "checkAdmin";
-			this.checkAdmin.Size = new System.Drawing.Size(224, 18);
+			this.checkAdmin.Size = new System.Drawing.Size(177, 20);
 			this.checkAdmin.TabIndex = 58;
 			this.checkAdmin.Text = "Lock includes administrators";
 			//
 			// checkPayPlansExcluded
 			//
-			this.checkPayPlansExcluded.Location = new System.Drawing.Point(15, 254);
+			this.checkPayPlansExcluded.Location = new System.Drawing.Point(88, 255);
 			this.checkPayPlansExcluded.Name = "checkPayPlansExcluded";
-			this.checkPayPlansExcluded.Size = new System.Drawing.Size(330, 18);
+			this.checkPayPlansExcluded.Size = new System.Drawing.Size(293, 20);
 			this.checkPayPlansExcluded.TabIndex = 65;
 			this.checkPayPlansExcluded.Text = "Payment plans are not affected by the global lock";
 			//
 			// textDays
 			// 
-			this.textDays.Location = new System.Drawing.Point(88, 202);
+			this.textDays.Location = new System.Drawing.Point(88, 204);
 			this.textDays.Name = "textDays";
-			this.textDays.Size = new System.Drawing.Size(46, 20);
+			this.textDays.Size = new System.Drawing.Size(48, 23);
 			this.textDays.TabIndex = 59;
 			this.textDays.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textDays_KeyDown);
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(21, 176);
+			this.label3.Location = new System.Drawing.Point(46, 177);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(65, 18);
+			this.label3.Size = new System.Drawing.Size(36, 23);
 			this.label3.TabIndex = 60;
 			this.label3.Text = "Date";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(17, 203);
+			this.label4.Location = new System.Drawing.Point(46, 204);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(70, 18);
+			this.label4.Size = new System.Drawing.Size(36, 23);
 			this.label4.TabIndex = 61;
 			this.label4.Text = "Days";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textDate
 			// 
-			this.textDate.Location = new System.Drawing.Point(88, 176);
+			this.textDate.Location = new System.Drawing.Point(88, 177);
 			this.textDate.Name = "textDate";
 			this.textDate.Size = new System.Drawing.Size(100, 20);
 			this.textDate.TabIndex = 62;
@@ -108,7 +108,7 @@ namespace OpenPmsDental {
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(382, 285);
+			this.butSave.Location = new System.Drawing.Point(387, 289);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 1;
@@ -117,7 +117,7 @@ namespace OpenPmsDental {
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(139, 204);
+			this.label2.Location = new System.Drawing.Point(142, 206);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(234, 18);
 			this.label2.TabIndex = 63;
@@ -126,7 +126,7 @@ namespace OpenPmsDental {
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(194, 177);
+			this.label5.Location = new System.Drawing.Point(194, 179);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(234, 18);
 			this.label5.TabIndex = 64;

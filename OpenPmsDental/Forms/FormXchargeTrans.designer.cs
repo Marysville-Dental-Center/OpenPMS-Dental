@@ -36,7 +36,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(243, 233);
+			this.butSave.Location = new System.Drawing.Point(262, 265);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 2;
@@ -45,7 +45,7 @@ namespace OpenPmsDental{
 			// 
 			// labelCashBackAmt
 			// 
-			this.labelCashBackAmt.Location = new System.Drawing.Point(50, 158);
+			this.labelCashBackAmt.Location = new System.Drawing.Point(50, 212);
 			this.labelCashBackAmt.Name = "labelCashBackAmt";
 			this.labelCashBackAmt.Size = new System.Drawing.Size(154, 16);
 			this.labelCashBackAmt.TabIndex = 60;
@@ -55,7 +55,7 @@ namespace OpenPmsDental{
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(50, 28);
+			this.label1.Location = new System.Drawing.Point(50, 8);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(154, 18);
 			this.label1.TabIndex = 58;
@@ -64,7 +64,7 @@ namespace OpenPmsDental{
 			// 
 			// textCashBackAmt
 			// 
-			this.textCashBackAmt.Location = new System.Drawing.Point(52, 177);
+			this.textCashBackAmt.Location = new System.Drawing.Point(50, 230);
 			this.textCashBackAmt.MaxVal = 100000000D;
 			this.textCashBackAmt.MinVal = -100000000D;
 			this.textCashBackAmt.Name = "textCashBackAmt";
@@ -74,7 +74,7 @@ namespace OpenPmsDental{
 			// 
 			// listTransType
 			// 
-			this.listTransType.Location = new System.Drawing.Point(53, 47);
+			this.listTransType.Location = new System.Drawing.Point(50, 28);
 			this.listTransType.Name = "listTransType";
 			this.listTransType.Size = new System.Drawing.Size(202, 108);
 			this.listTransType.TabIndex = 62;
@@ -82,32 +82,32 @@ namespace OpenPmsDental{
 			// 
 			// checkSaveToken
 			// 
-			this.checkSaveToken.Location = new System.Drawing.Point(52, 203);
+			this.checkSaveToken.Location = new System.Drawing.Point(50, 140);
 			this.checkSaveToken.Name = "checkSaveToken";
-			this.checkSaveToken.Size = new System.Drawing.Size(161, 17);
+			this.checkSaveToken.Size = new System.Drawing.Size(84, 20);
 			this.checkSaveToken.TabIndex = 63;
 			this.checkSaveToken.Text = "Save Token";
 			// 
 			// checkSignature
 			// 
-			this.checkSignature.Location = new System.Drawing.Point(52, 220);
+			this.checkSignature.Location = new System.Drawing.Point(50, 164);
 			this.checkSignature.Name = "checkSignature";
-			this.checkSignature.Size = new System.Drawing.Size(161, 17);
+			this.checkSignature.Size = new System.Drawing.Size(137, 20);
 			this.checkSignature.TabIndex = 64;
 			this.checkSignature.Text = "Prompt for Signature";
 			// 
 			// checkPrintReceipt
 			// 
-			this.checkPrintReceipt.Location = new System.Drawing.Point(52, 237);
+			this.checkPrintReceipt.Location = new System.Drawing.Point(50, 188);
 			this.checkPrintReceipt.Name = "checkPrintReceipt";
-			this.checkPrintReceipt.Size = new System.Drawing.Size(161, 18);
+			this.checkPrintReceipt.Size = new System.Drawing.Size(92, 20);
 			this.checkPrintReceipt.TabIndex = 65;
 			this.checkPrintReceipt.Text = "Print Receipt";
 			// 
 			// FormXchargeTrans
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(345, 282);
+			this.ClientSize = new System.Drawing.Size(345, 297);
 			this.Controls.Add(this.checkPrintReceipt);
 			this.Controls.Add(this.checkSignature);
 			this.Controls.Add(this.checkSaveToken);

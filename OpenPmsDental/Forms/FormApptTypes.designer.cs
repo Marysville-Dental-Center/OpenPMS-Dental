@@ -37,7 +37,7 @@ namespace OpenPmsDental{
 			this.butAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdd.Location = new System.Drawing.Point(345, 88);
+			this.butAdd.Location = new System.Drawing.Point(345, 120);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(79, 24);
 			this.butAdd.TabIndex = 156;
@@ -61,7 +61,7 @@ namespace OpenPmsDental{
 			this.butDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butDown.Icon = OpenPmsDental.UI.EnumIcons.Down;
 			this.butDown.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDown.Location = new System.Drawing.Point(345, 229);
+			this.butDown.Location = new System.Drawing.Point(345, 176);
 			this.butDown.Name = "butDown";
 			this.butDown.Size = new System.Drawing.Size(79, 24);
 			this.butDown.TabIndex = 159;
@@ -73,7 +73,7 @@ namespace OpenPmsDental{
 			this.butUp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butUp.Icon = OpenPmsDental.UI.EnumIcons.Up;
 			this.butUp.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butUp.Location = new System.Drawing.Point(345, 199);
+			this.butUp.Location = new System.Drawing.Point(345, 148);
 			this.butUp.Name = "butUp";
 			this.butUp.Size = new System.Drawing.Size(79, 24);
 			this.butUp.TabIndex = 158;
@@ -82,18 +82,18 @@ namespace OpenPmsDental{
 			// 
 			// checkPrompt
 			// 
-			this.checkPrompt.Location = new System.Drawing.Point(11, 6);
+			this.checkPrompt.Location = new System.Drawing.Point(8, 8);
 			this.checkPrompt.Name = "checkPrompt";
-			this.checkPrompt.Size = new System.Drawing.Size(382, 20);
+			this.checkPrompt.Size = new System.Drawing.Size(291, 20);
 			this.checkPrompt.TabIndex = 160;
 			this.checkPrompt.Text = "New appointments prompt for appointment type";
 			this.checkPrompt.CheckedChanged += new System.EventHandler(this.checkPrompt_CheckedChanged);
 			// 
 			// checkWarn
 			// 
-			this.checkWarn.Location = new System.Drawing.Point(11, 30);
+			this.checkWarn.Location = new System.Drawing.Point(8, 32);
 			this.checkWarn.Name = "checkWarn";
-			this.checkWarn.Size = new System.Drawing.Size(383, 20);
+			this.checkWarn.Size = new System.Drawing.Size(386, 20);
 			this.checkWarn.TabIndex = 161;
 			this.checkWarn.Text = "Warn users before disassociating procedures from an appointment";
 			this.checkWarn.CheckedChanged += new System.EventHandler(this.checkWarn_CheckedChanged);
@@ -101,7 +101,7 @@ namespace OpenPmsDental{
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(345, 428);
+			this.butOK.Location = new System.Drawing.Point(347, 469);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(79, 24);
 			this.butOK.TabIndex = 162;
@@ -110,7 +110,7 @@ namespace OpenPmsDental{
 			// 
 			// FormApptTypes
 			// 
-			this.ClientSize = new System.Drawing.Size(434, 464);
+			this.ClientSize = new System.Drawing.Size(434, 501);
 			this.Controls.Add(this.butOK);
 			this.Controls.Add(this.checkWarn);
 			this.Controls.Add(this.checkPrompt);

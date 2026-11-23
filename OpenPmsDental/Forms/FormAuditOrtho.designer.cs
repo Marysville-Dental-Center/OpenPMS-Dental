@@ -33,7 +33,7 @@ namespace OpenPmsDental{
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(178, 12);
+			this.gridMain.Location = new System.Drawing.Point(178, 8);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
 			this.gridMain.Size = new System.Drawing.Size(731, 572);
@@ -45,7 +45,7 @@ namespace OpenPmsDental{
 			// 
 			this.gridHist.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-			this.gridHist.Location = new System.Drawing.Point(12, 12);
+			this.gridHist.Location = new System.Drawing.Point(12, 8);
 			this.gridHist.Name = "gridHist";
 			this.gridHist.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
 			this.gridHist.Size = new System.Drawing.Size(160, 572);

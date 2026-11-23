@@ -40,18 +40,18 @@ namespace OpenPmsDental {
 			this.groupTransType.Controls.Add(this.radioSale);
 			this.groupTransType.Controls.Add(this.radioRefund);
 			this.groupTransType.Controls.Add(this.radioVoid);
-			this.groupTransType.Location = new System.Drawing.Point(12, 10);
+			this.groupTransType.Location = new System.Drawing.Point(8, 8);
 			this.groupTransType.Name = "groupTransType";
-			this.groupTransType.Size = new System.Drawing.Size(416, 46);
+			this.groupTransType.Size = new System.Drawing.Size(424, 51);
 			this.groupTransType.TabIndex = 0;
 			this.groupTransType.Text = "Transaction Type";
 			//
 			// radioSale
 			//
 			this.radioSale.Checked = true;
-			this.radioSale.Location = new System.Drawing.Point(10, 20);
+			this.radioSale.Location = new System.Drawing.Point(8, 23);
 			this.radioSale.Name = "radioSale";
-			this.radioSale.Size = new System.Drawing.Size(80, 22);
+			this.radioSale.Size = new System.Drawing.Size(46, 20);
 			this.radioSale.TabIndex = 0;
 			this.radioSale.TabStop = true;
 			this.radioSale.Text = "Sale";
@@ -60,9 +60,9 @@ namespace OpenPmsDental {
 			//
 			// radioRefund
 			//
-			this.radioRefund.Location = new System.Drawing.Point(100, 20);
+			this.radioRefund.Location = new System.Drawing.Point(100, 23);
 			this.radioRefund.Name = "radioRefund";
-			this.radioRefund.Size = new System.Drawing.Size(80, 22);
+			this.radioRefund.Size = new System.Drawing.Size(63, 20);
 			this.radioRefund.TabIndex = 1;
 			this.radioRefund.Text = "Refund";
 			this.radioRefund.UseVisualStyleBackColor = true;
@@ -70,9 +70,9 @@ namespace OpenPmsDental {
 			//
 			// radioVoid
 			//
-			this.radioVoid.Location = new System.Drawing.Point(190, 20);
+			this.radioVoid.Location = new System.Drawing.Point(169, 23);
 			this.radioVoid.Name = "radioVoid";
-			this.radioVoid.Size = new System.Drawing.Size(80, 22);
+			this.radioVoid.Size = new System.Drawing.Size(48, 20);
 			this.radioVoid.TabIndex = 2;
 			this.radioVoid.Text = "Void";
 			this.radioVoid.UseVisualStyleBackColor = true;
@@ -83,18 +83,18 @@ namespace OpenPmsDental {
 			this.groupCard.Controls.Add(this.radioTerminal);
 			this.groupCard.Controls.Add(this.comboTerminal);
 			this.groupCard.Controls.Add(this.radioSavedCard);
-			this.groupCard.Location = new System.Drawing.Point(12, 62);
+			this.groupCard.Location = new System.Drawing.Point(8, 67);
 			this.groupCard.Name = "groupCard";
-			this.groupCard.Size = new System.Drawing.Size(416, 74);
+			this.groupCard.Size = new System.Drawing.Size(424, 78);
 			this.groupCard.TabIndex = 1;
 			this.groupCard.Text = "Card";
 			//
 			// radioTerminal
 			//
 			this.radioTerminal.Checked = true;
-			this.radioTerminal.Location = new System.Drawing.Point(10, 20);
+			this.radioTerminal.Location = new System.Drawing.Point(8, 24);
 			this.radioTerminal.Name = "radioTerminal";
-			this.radioTerminal.Size = new System.Drawing.Size(130, 22);
+			this.radioTerminal.Size = new System.Drawing.Size(114, 20);
 			this.radioTerminal.TabIndex = 0;
 			this.radioTerminal.TabStop = true;
 			this.radioTerminal.Text = "Card on terminal";
@@ -103,16 +103,16 @@ namespace OpenPmsDental {
 			//
 			// comboTerminal
 			//
-			this.comboTerminal.Location = new System.Drawing.Point(146, 18);
+			this.comboTerminal.Location = new System.Drawing.Point(128, 23);
 			this.comboTerminal.Name = "comboTerminal";
-			this.comboTerminal.Size = new System.Drawing.Size(258, 21);
+			this.comboTerminal.Size = new System.Drawing.Size(256, 23);
 			this.comboTerminal.TabIndex = 1;
 			//
 			// radioSavedCard
 			//
-			this.radioSavedCard.Location = new System.Drawing.Point(10, 46);
+			this.radioSavedCard.Location = new System.Drawing.Point(8, 50);
 			this.radioSavedCard.Name = "radioSavedCard";
-			this.radioSavedCard.Size = new System.Drawing.Size(394, 22);
+			this.radioSavedCard.Size = new System.Drawing.Size(82, 20);
 			this.radioSavedCard.TabIndex = 2;
 			this.radioSavedCard.Text = "Saved card";
 			this.radioSavedCard.UseVisualStyleBackColor = true;
@@ -120,32 +120,32 @@ namespace OpenPmsDental {
 			//
 			// labelAmount
 			//
-			this.labelAmount.Location = new System.Drawing.Point(12, 147);
+			this.labelAmount.Location = new System.Drawing.Point(92, 153);
 			this.labelAmount.Name = "labelAmount";
-			this.labelAmount.Size = new System.Drawing.Size(120, 16);
+			this.labelAmount.Size = new System.Drawing.Size(56, 23);
 			this.labelAmount.TabIndex = 2;
 			this.labelAmount.Text = "Amount";
 			this.labelAmount.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			//
 			// textAmount
 			//
-			this.textAmount.Location = new System.Drawing.Point(136, 145);
+			this.textAmount.Location = new System.Drawing.Point(154, 153);
 			this.textAmount.Name = "textAmount";
 			this.textAmount.Size = new System.Drawing.Size(100, 20);
 			this.textAmount.TabIndex = 3;
 			//
 			// labelTransaction
 			//
-			this.labelTransaction.Location = new System.Drawing.Point(12, 173);
+			this.labelTransaction.Location = new System.Drawing.Point(36, 180);
 			this.labelTransaction.Name = "labelTransaction";
-			this.labelTransaction.Size = new System.Drawing.Size(120, 16);
+			this.labelTransaction.Size = new System.Drawing.Size(112, 23);
 			this.labelTransaction.TabIndex = 4;
 			this.labelTransaction.Text = "Transaction to void";
 			this.labelTransaction.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			//
 			// textTransaction
 			//
-			this.textTransaction.Location = new System.Drawing.Point(136, 171);
+			this.textTransaction.Location = new System.Drawing.Point(154, 180);
 			this.textTransaction.Name = "textTransaction";
 			this.textTransaction.ReadOnly = true;
 			this.textTransaction.Size = new System.Drawing.Size(268, 20);
@@ -153,16 +153,16 @@ namespace OpenPmsDental {
 			//
 			// checkSaveCard
 			//
-			this.checkSaveCard.Location = new System.Drawing.Point(136, 197);
+			this.checkSaveCard.Location = new System.Drawing.Point(154, 207);
 			this.checkSaveCard.Name = "checkSaveCard";
-			this.checkSaveCard.Size = new System.Drawing.Size(268, 18);
+			this.checkSaveCard.Size = new System.Drawing.Size(167, 20);
 			this.checkSaveCard.TabIndex = 6;
 			this.checkSaveCard.Text = "Save card for later charges";
 			//
 			// labelStatus
 			//
 			this.labelStatus.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.labelStatus.Location = new System.Drawing.Point(12, 224);
+			this.labelStatus.Location = new System.Drawing.Point(8, 231);
 			this.labelStatus.Name = "labelStatus";
 			this.labelStatus.Size = new System.Drawing.Size(416, 84);
 			this.labelStatus.TabIndex = 7;
@@ -170,7 +170,7 @@ namespace OpenPmsDental {
 			// butRun
 			//
 			this.butRun.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butRun.Location = new System.Drawing.Point(262, 320);
+			this.butRun.Location = new System.Drawing.Point(262, 327);
 			this.butRun.Name = "butRun";
 			this.butRun.Size = new System.Drawing.Size(80, 24);
 			this.butRun.TabIndex = 8;
@@ -180,7 +180,7 @@ namespace OpenPmsDental {
 			// butCancel
 			//
 			this.butCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butCancel.Location = new System.Drawing.Point(348, 320);
+			this.butCancel.Location = new System.Drawing.Point(352, 327);
 			this.butCancel.Name = "butCancel";
 			this.butCancel.Size = new System.Drawing.Size(80, 24);
 			this.butCancel.TabIndex = 9;
@@ -189,7 +189,7 @@ namespace OpenPmsDental {
 			//
 			// FormGlobalPaymentsV2
 			//
-			this.ClientSize = new System.Drawing.Size(440, 356);
+			this.ClientSize = new System.Drawing.Size(440, 359);
 			this.Controls.Add(this.butCancel);
 			this.Controls.Add(this.butRun);
 			this.Controls.Add(this.labelStatus);

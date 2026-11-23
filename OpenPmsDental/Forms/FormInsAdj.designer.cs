@@ -39,60 +39,60 @@ namespace OpenPmsDental {
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(29, 74);
+			this.label1.Location = new System.Drawing.Point(89, 42);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(100, 18);
+			this.label1.Size = new System.Drawing.Size(36, 23);
 			this.label1.TabIndex = 0;
 			this.label1.Text = "Date";
-			this.label1.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(15, 130);
+			this.label2.Location = new System.Drawing.Point(25, 96);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(114, 18);
+			this.label2.Size = new System.Drawing.Size(100, 23);
 			this.label2.TabIndex = 1;
 			this.label2.Text = "Deductible Used";
-			this.label2.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(17, 102);
+			this.label3.Location = new System.Drawing.Point(33, 69);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(112, 18);
+			this.label3.Size = new System.Drawing.Size(92, 23);
 			this.label3.TabIndex = 2;
 			this.label3.Text = "Insurance Used";
-			this.label3.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textDate
 			// 
-			this.textDate.Location = new System.Drawing.Point(131, 71);
+			this.textDate.Location = new System.Drawing.Point(131, 42);
 			this.textDate.Name = "textDate";
-			this.textDate.Size = new System.Drawing.Size(75, 20);
+			this.textDate.Size = new System.Drawing.Size(68, 23);
 			this.textDate.TabIndex = 0;
 			// 
 			// textInsUsed
 			// 
-			this.textInsUsed.Location = new System.Drawing.Point(131, 99);
+			this.textInsUsed.Location = new System.Drawing.Point(131, 69);
 			this.textInsUsed.MaxVal = 100000000D;
 			this.textInsUsed.MinVal = -100000000D;
 			this.textInsUsed.Name = "textInsUsed";
-			this.textInsUsed.Size = new System.Drawing.Size(69, 20);
+			this.textInsUsed.Size = new System.Drawing.Size(68, 23);
 			this.textInsUsed.TabIndex = 1;
 			// 
 			// textDedUsed
 			// 
-			this.textDedUsed.Location = new System.Drawing.Point(131, 127);
+			this.textDedUsed.Location = new System.Drawing.Point(131, 96);
 			this.textDedUsed.MaxVal = 100000000D;
 			this.textDedUsed.MinVal = -100000000D;
 			this.textDedUsed.Name = "textDedUsed";
-			this.textDedUsed.Size = new System.Drawing.Size(69, 20);
+			this.textDedUsed.Size = new System.Drawing.Size(68, 23);
 			this.textDedUsed.TabIndex = 2;
 			// 
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(161, 181);
+			this.butSave.Location = new System.Drawing.Point(165, 185);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 3;
@@ -101,9 +101,9 @@ namespace OpenPmsDental {
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(32, 12);
+			this.label4.Location = new System.Drawing.Point(32, 8);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(195, 41);
+			this.label4.Size = new System.Drawing.Size(195, 32);
 			this.label4.TabIndex = 5;
 			this.label4.Text = "Make sure the date you use falls within the correct benefit year.";
 			// 
@@ -112,7 +112,7 @@ namespace OpenPmsDental {
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(18, 180);
+			this.butDelete.Location = new System.Drawing.Point(8, 185);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(75, 24);
 			this.butDelete.TabIndex = 6;

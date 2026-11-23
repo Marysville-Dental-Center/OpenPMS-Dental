@@ -36,7 +36,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(237, 151);
+			this.butSave.Location = new System.Drawing.Point(248, 163);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 3;
@@ -46,25 +46,25 @@ namespace OpenPmsDental{
 			// checkShowFinished
 			// 
 			this.checkShowFinished.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
-			this.checkShowFinished.Location = new System.Drawing.Point(12, 12);
+			this.checkShowFinished.Location = new System.Drawing.Point(8, 8);
 			this.checkShowFinished.Name = "checkShowFinished";
-			this.checkShowFinished.Size = new System.Drawing.Size(151, 18);
+			this.checkShowFinished.Size = new System.Drawing.Size(133, 20);
 			this.checkShowFinished.TabIndex = 11;
 			this.checkShowFinished.Text = "Show Finished Tasks";
 			this.checkShowFinished.Click += new System.EventHandler(this.checkShowFinished_Click);
 			// 
 			// textStartDate
 			// 
-			this.textStartDate.Location = new System.Drawing.Point(192, 29);
+			this.textStartDate.Location = new System.Drawing.Point(192, 32);
 			this.textStartDate.Name = "textStartDate";
-			this.textStartDate.Size = new System.Drawing.Size(87, 20);
+			this.textStartDate.Size = new System.Drawing.Size(88, 23);
 			this.textStartDate.TabIndex = 13;
 			// 
 			// labelStartDate
 			// 
-			this.labelStartDate.Location = new System.Drawing.Point(38, 30);
+			this.labelStartDate.Location = new System.Drawing.Point(50, 32);
 			this.labelStartDate.Name = "labelStartDate";
-			this.labelStartDate.Size = new System.Drawing.Size(153, 17);
+			this.labelStartDate.Size = new System.Drawing.Size(136, 23);
 			this.labelStartDate.TabIndex = 14;
 			this.labelStartDate.Text = "Finished Task Start Date";
 			this.labelStartDate.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -72,43 +72,43 @@ namespace OpenPmsDental{
 			// checkTaskSortApptDateTime
 			// 
 			this.checkTaskSortApptDateTime.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
-			this.checkTaskSortApptDateTime.Location = new System.Drawing.Point(12, 55);
+			this.checkTaskSortApptDateTime.Location = new System.Drawing.Point(8, 59);
 			this.checkTaskSortApptDateTime.Name = "checkTaskSortApptDateTime";
-			this.checkTaskSortApptDateTime.Size = new System.Drawing.Size(299, 18);
+			this.checkTaskSortApptDateTime.Size = new System.Drawing.Size(287, 20);
 			this.checkTaskSortApptDateTime.TabIndex = 15;
 			this.checkTaskSortApptDateTime.Text = "Sort appointment type task lists by AptDateTime";
 			// 
 			// checkCollapsed
 			// 
 			this.checkCollapsed.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
-			this.checkCollapsed.Location = new System.Drawing.Point(12, 78);
+			this.checkCollapsed.Location = new System.Drawing.Point(8, 83);
 			this.checkCollapsed.Name = "checkCollapsed";
-			this.checkCollapsed.Size = new System.Drawing.Size(299, 18);
+			this.checkCollapsed.Size = new System.Drawing.Size(192, 20);
 			this.checkCollapsed.TabIndex = 16;
 			this.checkCollapsed.Text = "Default tasks to collapsed state";
 			// 
 			// checkShowArchivedTaskLists
 			// 
 			this.checkShowArchivedTaskLists.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
-			this.checkShowArchivedTaskLists.Location = new System.Drawing.Point(12, 101);
+			this.checkShowArchivedTaskLists.Location = new System.Drawing.Point(8, 107);
 			this.checkShowArchivedTaskLists.Name = "checkShowArchivedTaskLists";
-			this.checkShowArchivedTaskLists.Size = new System.Drawing.Size(200, 18);
+			this.checkShowArchivedTaskLists.Size = new System.Drawing.Size(158, 20);
 			this.checkShowArchivedTaskLists.TabIndex = 17;
 			this.checkShowArchivedTaskLists.Text = "Show Archived Task Lists";
 			// 
 			// checkBlockedTaskPlaySound
 			// 
 			this.checkBlockedTaskPlaySound.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
-			this.checkBlockedTaskPlaySound.Location = new System.Drawing.Point(12, 124);
+			this.checkBlockedTaskPlaySound.Location = new System.Drawing.Point(8, 131);
 			this.checkBlockedTaskPlaySound.Name = "checkBlockedTaskPlaySound";
-			this.checkBlockedTaskPlaySound.Size = new System.Drawing.Size(328, 18);
+			this.checkBlockedTaskPlaySound.Size = new System.Drawing.Size(292, 20);
 			this.checkBlockedTaskPlaySound.TabIndex = 19;
 			this.checkBlockedTaskPlaySound.Text = "Blocked task popups still make notification sound";
 			// 
 			// FormTaskOptions
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
-			this.ClientSize = new System.Drawing.Size(331, 191);
+			this.ClientSize = new System.Drawing.Size(331, 195);
 			this.Controls.Add(this.checkBlockedTaskPlaySound);
 			this.Controls.Add(this.checkShowArchivedTaskLists);
 			this.Controls.Add(this.checkCollapsed);

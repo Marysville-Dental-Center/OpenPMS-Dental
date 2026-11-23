@@ -37,7 +37,7 @@ namespace OpenPmsDental {
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(458, 458);
+			this.butOK.Location = new System.Drawing.Point(462, 482);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 26);
 			this.butOK.TabIndex = 18;
@@ -46,9 +46,9 @@ namespace OpenPmsDental {
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(21, 20);
+			this.label1.Location = new System.Drawing.Point(21, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(501, 38);
+			this.label1.Size = new System.Drawing.Size(501, 47);
 			this.label1.TabIndex = 20;
 			this.label1.Text = "Helps find situations where the insurance payment plus any write-off exceeds the " +
     "fee for procedures in the date range.  See the manual for suggestions on how to " +
@@ -57,9 +57,9 @@ namespace OpenPmsDental {
 			// radioGroupByProc
 			// 
 			this.radioGroupByProc.Checked = true;
-			this.radioGroupByProc.Location = new System.Drawing.Point(255, 268);
+			this.radioGroupByProc.Location = new System.Drawing.Point(252, 258);
 			this.radioGroupByProc.Name = "radioGroupByProc";
-			this.radioGroupByProc.Size = new System.Drawing.Size(245, 17);
+			this.radioGroupByProc.Size = new System.Drawing.Size(209, 20);
 			this.radioGroupByProc.TabIndex = 21;
 			this.radioGroupByProc.TabStop = true;
 			this.radioGroupByProc.Text = "Filter results by procedure (default)";
@@ -67,25 +67,25 @@ namespace OpenPmsDental {
 			// 
 			// radioGroupByPat
 			// 
-			this.radioGroupByPat.Location = new System.Drawing.Point(255, 291);
+			this.radioGroupByPat.Location = new System.Drawing.Point(252, 282);
 			this.radioGroupByPat.Name = "radioGroupByPat";
-			this.radioGroupByPat.Size = new System.Drawing.Size(160, 56);
+			this.radioGroupByPat.Size = new System.Drawing.Size(285, 56);
 			this.radioGroupByPat.TabIndex = 21;
 			this.radioGroupByPat.Text = "Filter results by patient and date (will show different results, see manual)";
 			this.radioGroupByPat.UseVisualStyleBackColor = true;
 			// 
 			// checkAllClin
 			// 
-			this.checkAllClin.Location = new System.Drawing.Point(82, 249);
+			this.checkAllClin.Location = new System.Drawing.Point(79, 234);
 			this.checkAllClin.Name = "checkAllClin";
-			this.checkAllClin.Size = new System.Drawing.Size(154, 18);
+			this.checkAllClin.Size = new System.Drawing.Size(134, 20);
 			this.checkAllClin.TabIndex = 57;
 			this.checkAllClin.Text = "All (Includes hidden)";
 			this.checkAllClin.Click += new System.EventHandler(this.checkAllClin_Click);
 			// 
 			// listClin
 			// 
-			this.listClin.Location = new System.Drawing.Point(82, 268);
+			this.listClin.Location = new System.Drawing.Point(82, 258);
 			this.listClin.Name = "listClin";
 			this.listClin.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
 			this.listClin.Size = new System.Drawing.Size(154, 212);
@@ -94,7 +94,7 @@ namespace OpenPmsDental {
 			// 
 			// labelClin
 			// 
-			this.labelClin.Location = new System.Drawing.Point(79, 231);
+			this.labelClin.Location = new System.Drawing.Point(79, 216);
 			this.labelClin.Name = "labelClin";
 			this.labelClin.Size = new System.Drawing.Size(104, 16);
 			this.labelClin.TabIndex = 55;
@@ -103,21 +103,21 @@ namespace OpenPmsDental {
 			// 
 			// dateEnd
 			// 
-			this.dateEnd.Location = new System.Drawing.Point(293, 60);
+			this.dateEnd.Location = new System.Drawing.Point(293, 57);
 			this.dateEnd.Name = "dateEnd";
 			this.dateEnd.TabIndex = 59;
 			// 
 			// dateStart
 			// 
-			this.dateStart.Location = new System.Drawing.Point(26, 60);
+			this.dateStart.Location = new System.Drawing.Point(21, 57);
 			this.dateStart.Name = "dateStart";
 			this.dateStart.TabIndex = 58;
 			// 
 			// labelDisclaimer
 			// 
-			this.labelDisclaimer.Location = new System.Drawing.Point(252, 347);
+			this.labelDisclaimer.Location = new System.Drawing.Point(252, 342);
 			this.labelDisclaimer.Name = "labelDisclaimer";
-			this.labelDisclaimer.Size = new System.Drawing.Size(270, 103);
+			this.labelDisclaimer.Size = new System.Drawing.Size(270, 92);
 			this.labelDisclaimer.TabIndex = 60;
 			this.labelDisclaimer.Text = "This report only considers insurance payments and \r\nwrite-offs, not patient payme" +
     "nts and adjustments. \r\nUse the Procedures Overpaid Report to include \r\npatient p" +
@@ -126,7 +126,7 @@ namespace OpenPmsDental {
 			// FormRpInsOverpaid
 			// 
 			this.AcceptButton = this.butOK;
-			this.ClientSize = new System.Drawing.Size(545, 496);
+			this.ClientSize = new System.Drawing.Size(545, 516);
 			this.Controls.Add(this.labelDisclaimer);
 			this.Controls.Add(this.dateEnd);
 			this.Controls.Add(this.dateStart);

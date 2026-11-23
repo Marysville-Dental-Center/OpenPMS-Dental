@@ -50,34 +50,34 @@ namespace OpenPmsDental {
 			this.groupCriteria.Controls.Add(this.comboClinic);
 			this.groupCriteria.Controls.Add(this.listOptions);
 			this.groupCriteria.Controls.Add(this.odDatePickerSince);
-			this.groupCriteria.Location = new System.Drawing.Point(19, 12);
+			this.groupCriteria.Location = new System.Drawing.Point(19, 8);
 			this.groupCriteria.Name = "groupCriteria";
-			this.groupCriteria.Size = new System.Drawing.Size(900, 82);
+			this.groupCriteria.Size = new System.Drawing.Size(900, 87);
 			this.groupCriteria.TabIndex = 83;
 			this.groupCriteria.TabStop = false;
 			this.groupCriteria.Text = "Criteria";
 			// 
 			// comboPatientStatusCur
 			// 
-			this.comboPatientStatusCur.Location = new System.Drawing.Point(131, 36);
+			this.comboPatientStatusCur.Location = new System.Drawing.Point(131, 23);
 			this.comboPatientStatusCur.Name = "comboPatientStatusCur";
-			this.comboPatientStatusCur.Size = new System.Drawing.Size(149, 21);
+			this.comboPatientStatusCur.Size = new System.Drawing.Size(148, 23);
 			this.comboPatientStatusCur.TabIndex = 213;
 			this.comboPatientStatusCur.Text = "comboBoxOD1";
 			this.comboPatientStatusCur.SelectionChangeCommitted += new System.EventHandler(this.comboPatientStatusCur_SelectionChangeCommitted);
 			// 
 			// labelPatientCurrent
 			// 
-			this.labelPatientCurrent.Location = new System.Drawing.Point(10, 36);
+			this.labelPatientCurrent.Location = new System.Drawing.Point(9, 23);
 			this.labelPatientCurrent.Name = "labelPatientCurrent";
-			this.labelPatientCurrent.Size = new System.Drawing.Size(111, 16);
+			this.labelPatientCurrent.Size = new System.Drawing.Size(116, 23);
 			this.labelPatientCurrent.TabIndex = 213;
 			this.labelPatientCurrent.Text = "Patients with Status";
 			this.labelPatientCurrent.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(478, 36);
+			this.label1.Location = new System.Drawing.Point(478, 23);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(44, 16);
 			this.label1.TabIndex = 86;
@@ -88,14 +88,14 @@ namespace OpenPmsDental {
 			// 
 			this.comboClinic.IncludeAll = true;
 			this.comboClinic.IncludeUnassigned = true;
-			this.comboClinic.Location = new System.Drawing.Point(686, 36);
+			this.comboClinic.Location = new System.Drawing.Point(686, 23);
 			this.comboClinic.Name = "comboClinic";
-			this.comboClinic.Size = new System.Drawing.Size(197, 21);
+			this.comboClinic.Size = new System.Drawing.Size(195, 23);
 			this.comboClinic.TabIndex = 83;
 			// 
 			// listOptions
 			// 
-			this.listOptions.Location = new System.Drawing.Point(322, 19);
+			this.listOptions.Location = new System.Drawing.Point(322, 23);
 			this.listOptions.Name = "listOptions";
 			this.listOptions.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
 			this.listOptions.Size = new System.Drawing.Size(120, 56);
@@ -104,19 +104,19 @@ namespace OpenPmsDental {
 			// odDatePickerSince
 			// 
 			this.odDatePickerSince.BackColor = System.Drawing.Color.Transparent;
-			this.odDatePickerSince.Location = new System.Drawing.Point(464, 36);
+			this.odDatePickerSince.Location = new System.Drawing.Point(465, 23);
 			this.odDatePickerSince.MaximumSize = new System.Drawing.Size(0, 184);
 			this.odDatePickerSince.MinimumSize = new System.Drawing.Size(227, 23);
 			this.odDatePickerSince.Name = "odDatePickerSince";
-			this.odDatePickerSince.Size = new System.Drawing.Size(227, 23);
+			this.odDatePickerSince.Size = new System.Drawing.Size(165, 23);
 			this.odDatePickerSince.TabIndex = 85;
 			// 
 			// butSelectAll
 			// 
 			this.butSelectAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butSelectAll.Location = new System.Drawing.Point(19, 601);
+			this.butSelectAll.Location = new System.Drawing.Point(19, 580);
 			this.butSelectAll.Name = "butSelectAll";
-			this.butSelectAll.Size = new System.Drawing.Size(83, 26);
+			this.butSelectAll.Size = new System.Drawing.Size(83, 23);
 			this.butSelectAll.TabIndex = 76;
 			this.butSelectAll.Text = "Select All";
 			this.butSelectAll.UseVisualStyleBackColor = true;
@@ -125,9 +125,9 @@ namespace OpenPmsDental {
 			// butDeselectAll
 			// 
 			this.butDeselectAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butDeselectAll.Location = new System.Drawing.Point(108, 601);
+			this.butDeselectAll.Location = new System.Drawing.Point(108, 580);
 			this.butDeselectAll.Name = "butDeselectAll";
-			this.butDeselectAll.Size = new System.Drawing.Size(82, 26);
+			this.butDeselectAll.Size = new System.Drawing.Size(82, 23);
 			this.butDeselectAll.TabIndex = 75;
 			this.butDeselectAll.Text = "Deselect All";
 			this.butDeselectAll.UseVisualStyleBackColor = true;
@@ -139,7 +139,7 @@ namespace OpenPmsDental {
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(19, 100);
+			this.gridMain.Location = new System.Drawing.Point(19, 99);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
 			this.gridMain.Size = new System.Drawing.Size(988, 477);
@@ -150,7 +150,7 @@ namespace OpenPmsDental {
 			// butCreateList
 			// 
 			this.butCreateList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butCreateList.Location = new System.Drawing.Point(932, 68);
+			this.butCreateList.Location = new System.Drawing.Point(925, 8);
 			this.butCreateList.Name = "butCreateList";
 			this.butCreateList.Size = new System.Drawing.Size(75, 26);
 			this.butCreateList.TabIndex = 74;
@@ -161,9 +161,9 @@ namespace OpenPmsDental {
 			// butRun
 			// 
 			this.butRun.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butRun.Location = new System.Drawing.Point(932, 602);
+			this.butRun.Location = new System.Drawing.Point(925, 580);
 			this.butRun.Name = "butRun";
-			this.butRun.Size = new System.Drawing.Size(75, 24);
+			this.butRun.Size = new System.Drawing.Size(75, 23);
 			this.butRun.TabIndex = 3;
 			this.butRun.Text = "&Run";
 			this.butRun.Click += new System.EventHandler(this.butRun_Click);
@@ -171,9 +171,9 @@ namespace OpenPmsDental {
 			// labelChangeTo
 			// 
 			this.labelChangeTo.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-			this.labelChangeTo.Location = new System.Drawing.Point(358, 598);
+			this.labelChangeTo.Location = new System.Drawing.Point(361, 580);
 			this.labelChangeTo.Name = "labelChangeTo";
-			this.labelChangeTo.Size = new System.Drawing.Size(147, 21);
+			this.labelChangeTo.Size = new System.Drawing.Size(144, 23);
 			this.labelChangeTo.TabIndex = 211;
 			this.labelChangeTo.Text = "Change Patient Status To";
 			this.labelChangeTo.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -181,9 +181,9 @@ namespace OpenPmsDental {
 			// comboChangePatientStatusTo
 			// 
 			this.comboChangePatientStatusTo.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-			this.comboChangePatientStatusTo.Location = new System.Drawing.Point(511, 598);
+			this.comboChangePatientStatusTo.Location = new System.Drawing.Point(511, 580);
 			this.comboChangePatientStatusTo.Name = "comboChangePatientStatusTo";
-			this.comboChangePatientStatusTo.Size = new System.Drawing.Size(149, 21);
+			this.comboChangePatientStatusTo.Size = new System.Drawing.Size(148, 23);
 			this.comboChangePatientStatusTo.TabIndex = 214;
 			this.comboChangePatientStatusTo.Text = "comboBoxOD1";
 			// 

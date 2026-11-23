@@ -58,7 +58,7 @@ namespace OpenPmsDental {
 			this.butAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdd.Location = new System.Drawing.Point(820, 435);
+			this.butAdd.Location = new System.Drawing.Point(812, 32);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(80, 24);
 			this.butAdd.TabIndex = 7;
@@ -68,7 +68,7 @@ namespace OpenPmsDental {
 			// butCombine
 			// 
 			this.butCombine.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butCombine.Location = new System.Drawing.Point(820, 471);
+			this.butCombine.Location = new System.Drawing.Point(812, 60);
 			this.butCombine.Name = "butCombine";
 			this.butCombine.Size = new System.Drawing.Size(80, 24);
 			this.butCombine.TabIndex = 8;
@@ -78,7 +78,7 @@ namespace OpenPmsDental {
 			// 
 			// butItransUpdateCarriers
 			// 
-			this.butItransUpdateCarriers.Location = new System.Drawing.Point(8, 76);
+			this.butItransUpdateCarriers.Location = new System.Drawing.Point(8, 95);
 			this.butItransUpdateCarriers.Name = "butItransUpdateCarriers";
 			this.butItransUpdateCarriers.Size = new System.Drawing.Size(90, 24);
 			this.butItransUpdateCarriers.TabIndex = 4;
@@ -92,7 +92,7 @@ namespace OpenPmsDental {
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridMain.HScrollVisible = true;
-			this.gridMain.Location = new System.Drawing.Point(11, 29);
+			this.gridMain.Location = new System.Drawing.Point(11, 35);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
 			this.gridMain.Size = new System.Drawing.Size(796, 620);
@@ -104,32 +104,32 @@ namespace OpenPmsDental {
 			// 
 			// checkCDAnet
 			// 
-			this.checkCDAnet.Location = new System.Drawing.Point(633, 6);
+			this.checkCDAnet.Location = new System.Drawing.Point(654, 9);
 			this.checkCDAnet.Name = "checkCDAnet";
-			this.checkCDAnet.Size = new System.Drawing.Size(96, 18);
+			this.checkCDAnet.Size = new System.Drawing.Size(93, 20);
 			this.checkCDAnet.TabIndex = 4;
 			this.checkCDAnet.Text = "CDAnet Only";
 			// 
 			// checkShowHidden
 			// 
-			this.checkShowHidden.Location = new System.Drawing.Point(527, 6);
+			this.checkShowHidden.Location = new System.Drawing.Point(553, 9);
 			this.checkShowHidden.Name = "checkShowHidden";
-			this.checkShowHidden.Size = new System.Drawing.Size(96, 18);
+			this.checkShowHidden.Size = new System.Drawing.Size(95, 20);
 			this.checkShowHidden.TabIndex = 3;
 			this.checkShowHidden.Text = "Show Hidden";
 			// 
 			// textCarrier
 			// 
-			this.textCarrier.Location = new System.Drawing.Point(67, 4);
+			this.textCarrier.Location = new System.Drawing.Point(67, 8);
 			this.textCarrier.Name = "textCarrier";
 			this.textCarrier.Size = new System.Drawing.Size(140, 20);
 			this.textCarrier.TabIndex = 0;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(13, 7);
+			this.label2.Location = new System.Drawing.Point(13, 8);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(53, 17);
+			this.label2.Size = new System.Drawing.Size(48, 23);
 			this.label2.TabIndex = 102;
 			this.label2.Text = "Carrier";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -137,7 +137,7 @@ namespace OpenPmsDental {
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(820, 625);
+			this.butOK.Location = new System.Drawing.Point(839, 667);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(80, 24);
 			this.butOK.TabIndex = 10;
@@ -146,16 +146,16 @@ namespace OpenPmsDental {
 			// 
 			// textPhone
 			// 
-			this.textPhone.Location = new System.Drawing.Point(381, 4);
+			this.textPhone.Location = new System.Drawing.Point(407, 8);
 			this.textPhone.Name = "textPhone";
 			this.textPhone.Size = new System.Drawing.Size(140, 20);
 			this.textPhone.TabIndex = 2;
 			// 
 			// labelPhone
 			// 
-			this.labelPhone.Location = new System.Drawing.Point(331, 7);
+			this.labelPhone.Location = new System.Drawing.Point(353, 8);
 			this.labelPhone.Name = "labelPhone";
-			this.labelPhone.Size = new System.Drawing.Size(49, 17);
+			this.labelPhone.Size = new System.Drawing.Size(48, 23);
 			this.labelPhone.TabIndex = 105;
 			this.labelPhone.Text = "Phone";
 			this.labelPhone.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -167,56 +167,56 @@ namespace OpenPmsDental {
 			this.groupItrans.Controls.Add(this.checkItransAddress);
 			this.groupItrans.Controls.Add(this.checkITransPhone);
 			this.groupItrans.Controls.Add(this.butItransUpdateCarriers);
-			this.groupItrans.Location = new System.Drawing.Point(812, 29);
+			this.groupItrans.Location = new System.Drawing.Point(812, 92);
 			this.groupItrans.Name = "groupItrans";
-			this.groupItrans.Size = new System.Drawing.Size(106, 105);
+			this.groupItrans.Size = new System.Drawing.Size(106, 127);
 			this.groupItrans.TabIndex = 6;
 			this.groupItrans.Text = "Itrans Web Import";
 			this.groupItrans.Visible = false;
 			// 
 			// checkItransMissing
 			// 
-			this.checkItransMissing.Location = new System.Drawing.Point(8, 55);
+			this.checkItransMissing.Location = new System.Drawing.Point(8, 71);
 			this.checkItransMissing.Name = "checkItransMissing";
-			this.checkItransMissing.Size = new System.Drawing.Size(90, 17);
+			this.checkItransMissing.Size = new System.Drawing.Size(90, 20);
 			this.checkItransMissing.TabIndex = 3;
 			this.checkItransMissing.Text = "Add Missing";
 			// 
 			// checkItransAddress
 			// 
-			this.checkItransAddress.Location = new System.Drawing.Point(8, 19);
+			this.checkItransAddress.Location = new System.Drawing.Point(8, 23);
 			this.checkItransAddress.Name = "checkItransAddress";
-			this.checkItransAddress.Size = new System.Drawing.Size(90, 16);
+			this.checkItransAddress.Size = new System.Drawing.Size(66, 20);
 			this.checkItransAddress.TabIndex = 1;
 			this.checkItransAddress.Text = "Address";
 			// 
 			// checkITransPhone
 			// 
-			this.checkITransPhone.Location = new System.Drawing.Point(8, 37);
+			this.checkITransPhone.Location = new System.Drawing.Point(8, 47);
 			this.checkITransPhone.Name = "checkITransPhone";
-			this.checkITransPhone.Size = new System.Drawing.Size(90, 17);
+			this.checkITransPhone.Size = new System.Drawing.Size(57, 20);
 			this.checkITransPhone.TabIndex = 2;
 			this.checkITransPhone.Text = "Phone";
 			// 
 			// textElectId
 			// 
-			this.textElectId.Location = new System.Drawing.Point(266, 4);
+			this.textElectId.Location = new System.Drawing.Point(277, 8);
 			this.textElectId.Name = "textElectId";
-			this.textElectId.Size = new System.Drawing.Size(59, 20);
+			this.textElectId.Size = new System.Drawing.Size(60, 23);
 			this.textElectId.TabIndex = 1;
 			// 
 			// labelElectId
 			// 
-			this.labelElectId.Location = new System.Drawing.Point(212, 7);
+			this.labelElectId.Location = new System.Drawing.Point(223, 8);
 			this.labelElectId.Name = "labelElectId";
-			this.labelElectId.Size = new System.Drawing.Size(53, 17);
+			this.labelElectId.Size = new System.Drawing.Size(48, 23);
 			this.labelElectId.TabIndex = 111;
 			this.labelElectId.Text = "ElectID";
 			this.labelElectId.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// FormCarriers
 			// 
-			this.ClientSize = new System.Drawing.Size(927, 672);
+			this.ClientSize = new System.Drawing.Size(927, 699);
 			this.Controls.Add(this.textElectId);
 			this.Controls.Add(this.labelElectId);
 			this.Controls.Add(this.butOK);

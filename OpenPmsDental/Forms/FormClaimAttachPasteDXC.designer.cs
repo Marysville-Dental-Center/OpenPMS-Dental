@@ -51,7 +51,7 @@ namespace OpenPmsDental {
 			// butSend
 			// 
 			this.butSend.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSend.Location = new System.Drawing.Point(1097, 457);
+			this.butSend.Location = new System.Drawing.Point(1094, 447);
 			this.butSend.Name = "butSend";
 			this.butSend.Size = new System.Drawing.Size(75, 24);
 			this.butSend.TabIndex = 19;
@@ -64,7 +64,7 @@ namespace OpenPmsDental {
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.pictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.pictureBox.Location = new System.Drawing.Point(393, 12);
+			this.pictureBox.Location = new System.Drawing.Point(393, 8);
 			this.pictureBox.Name = "pictureBox";
 			this.pictureBox.Size = new System.Drawing.Size(468, 469);
 			this.pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -74,7 +74,7 @@ namespace OpenPmsDental {
 			// label1
 			// 
 			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.label1.Location = new System.Drawing.Point(879, 12);
+			this.label1.Location = new System.Drawing.Point(879, 8);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(135, 16);
 			this.label1.TabIndex = 48;
@@ -87,7 +87,7 @@ namespace OpenPmsDental {
 			this.textClaimStatus.BackColor = System.Drawing.SystemColors.Control;
 			this.textClaimStatus.DetectLinksEnabled = false;
 			this.textClaimStatus.DetectUrls = false;
-			this.textClaimStatus.Location = new System.Drawing.Point(882, 28);
+			this.textClaimStatus.Location = new System.Drawing.Point(879, 26);
 			this.textClaimStatus.Name = "textClaimStatus";
 			this.textClaimStatus.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Claim;
 			this.textClaimStatus.ReadOnly = true;
@@ -102,7 +102,7 @@ namespace OpenPmsDental {
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.gridMain.ContextMenuStrip = this.contextMenuImageGrid;
 			this.gridMain.DoAddGridItemsToContextMenuStrip = true;
-			this.gridMain.Location = new System.Drawing.Point(12, 12);
+			this.gridMain.Location = new System.Drawing.Point(12, 8);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.Size = new System.Drawing.Size(375, 469);
 			this.gridMain.TabIndex = 49;
@@ -178,7 +178,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelClaimAttachWarning.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelClaimAttachWarning.ForeColor = System.Drawing.Color.DarkRed;
-			this.labelClaimAttachWarning.Location = new System.Drawing.Point(1037, 353);
+			this.labelClaimAttachWarning.Location = new System.Drawing.Point(1037, 340);
 			this.labelClaimAttachWarning.Name = "labelClaimAttachWarning";
 			this.labelClaimAttachWarning.Size = new System.Drawing.Size(135, 103);
 			this.labelClaimAttachWarning.TabIndex = 50;
@@ -188,7 +188,7 @@ namespace OpenPmsDental {
 			// buttonPasteAgain
 			// 
 			this.buttonPasteAgain.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.buttonPasteAgain.Location = new System.Drawing.Point(1085, 427);
+			this.buttonPasteAgain.Location = new System.Drawing.Point(1085, 414);
 			this.buttonPasteAgain.Name = "buttonPasteAgain";
 			this.buttonPasteAgain.Size = new System.Drawing.Size(87, 24);
 			this.buttonPasteAgain.TabIndex = 51;
@@ -203,7 +203,7 @@ namespace OpenPmsDental {
 			this.textNarrative.BackColor = System.Drawing.SystemColors.Window;
 			this.textNarrative.DetectLinksEnabled = false;
 			this.textNarrative.DetectUrls = false;
-			this.textNarrative.Location = new System.Drawing.Point(882, 185);
+			this.textNarrative.Location = new System.Drawing.Point(879, 183);
 			this.textNarrative.MaxLength = 2000;
 			this.textNarrative.Name = "textNarrative";
 			this.textNarrative.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Claim;
@@ -216,7 +216,7 @@ namespace OpenPmsDental {
 			// labelNarrative
 			// 
 			this.labelNarrative.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelNarrative.Location = new System.Drawing.Point(879, 164);
+			this.labelNarrative.Location = new System.Drawing.Point(879, 161);
 			this.labelNarrative.Name = "labelNarrative";
 			this.labelNarrative.Size = new System.Drawing.Size(88, 18);
 			this.labelNarrative.TabIndex = 56;
@@ -226,7 +226,7 @@ namespace OpenPmsDental {
 			// labelCharCount
 			// 
 			this.labelCharCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelCharCount.Location = new System.Drawing.Point(1094, 165);
+			this.labelCharCount.Location = new System.Drawing.Point(1094, 161);
 			this.labelCharCount.Name = "labelCharCount";
 			this.labelCharCount.Size = new System.Drawing.Size(76, 18);
 			this.labelCharCount.TabIndex = 59;

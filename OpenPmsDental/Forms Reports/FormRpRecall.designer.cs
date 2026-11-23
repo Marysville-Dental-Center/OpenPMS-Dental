@@ -31,7 +31,7 @@ namespace OpenPmsDental {
 			// 
 			// labelPatient
 			// 
-			this.labelPatient.Location = new System.Drawing.Point(12, 16);
+			this.labelPatient.Location = new System.Drawing.Point(12, 8);
 			this.labelPatient.Name = "labelPatient";
 			this.labelPatient.Size = new System.Drawing.Size(170, 14);
 			this.labelPatient.TabIndex = 6;
@@ -42,7 +42,7 @@ namespace OpenPmsDental {
 			// 
 			this.listPatientSelect.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-			this.listPatientSelect.Location = new System.Drawing.Point(12, 30);
+			this.listPatientSelect.Location = new System.Drawing.Point(12, 24);
 			this.listPatientSelect.Name = "listPatientSelect";
 			this.listPatientSelect.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
 			this.listPatientSelect.Size = new System.Drawing.Size(170, 355);
@@ -53,7 +53,7 @@ namespace OpenPmsDental {
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butOK.Enabled = false;
-			this.butOK.Location = new System.Drawing.Point(426, 359);
+			this.butOK.Location = new System.Drawing.Point(455, 391);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 26);
 			this.butOK.TabIndex = 7;
@@ -62,7 +62,7 @@ namespace OpenPmsDental {
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(208, 16);
+			this.label1.Location = new System.Drawing.Point(208, 8);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(170, 14);
 			this.label1.TabIndex = 10;
@@ -73,7 +73,7 @@ namespace OpenPmsDental {
 			// 
 			this.listPatientSelect2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-			this.listPatientSelect2.Location = new System.Drawing.Point(208, 30);
+			this.listPatientSelect2.Location = new System.Drawing.Point(208, 24);
 			this.listPatientSelect2.Name = "listPatientSelect2";
 			this.listPatientSelect2.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
 			this.listPatientSelect2.Size = new System.Drawing.Size(170, 355);
@@ -84,7 +84,7 @@ namespace OpenPmsDental {
 			// 
 			this.AcceptButton = this.butOK;
 			this.AutoScaleBaseSize = new System.Drawing.Size(5,13);
-			this.ClientSize = new System.Drawing.Size(538, 408);
+			this.ClientSize = new System.Drawing.Size(538, 425);
 			this.Controls.Add(this.butOK);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.listPatientSelect2);

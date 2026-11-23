@@ -36,9 +36,9 @@
 			this.groupOrderBy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.groupOrderBy.Controls.Add(this.radioDesc);
 			this.groupOrderBy.Controls.Add(this.radioAsc);
-			this.groupOrderBy.Location = new System.Drawing.Point(799, 12);
+			this.groupOrderBy.Location = new System.Drawing.Point(805, 8);
 			this.groupOrderBy.Name = "groupOrderBy";
-			this.groupOrderBy.Size = new System.Drawing.Size(75, 68);
+			this.groupOrderBy.Size = new System.Drawing.Size(75, 75);
 			this.groupOrderBy.TabIndex = 18;
 			this.groupOrderBy.TabStop = false;
 			this.groupOrderBy.Text = "Order By";
@@ -46,9 +46,9 @@
 			// radioDesc
 			// 
 			this.radioDesc.AutoSize = false;
-			this.radioDesc.Location = new System.Drawing.Point(11, 39);
+			this.radioDesc.Location = new System.Drawing.Point(8, 47);
 			this.radioDesc.Name = "radioDesc";
-			this.radioDesc.Size = new System.Drawing.Size(49, 22);
+			this.radioDesc.Size = new System.Drawing.Size(50, 20);
 			this.radioDesc.TabIndex = 20;
 			this.radioDesc.Text = "Desc";
 			this.radioDesc.UseVisualStyleBackColor = true;
@@ -56,9 +56,9 @@
 			// radioAsc
 			// 
 			this.radioAsc.AutoSize = false;
-			this.radioAsc.Location = new System.Drawing.Point(11, 19);
+			this.radioAsc.Location = new System.Drawing.Point(8, 23);
 			this.radioAsc.Name = "radioAsc";
-			this.radioAsc.Size = new System.Drawing.Size(41, 20);
+			this.radioAsc.Size = new System.Drawing.Size(44, 20);
 			this.radioAsc.TabIndex = 19;
 			this.radioAsc.Text = "Asc";
 			this.radioAsc.UseVisualStyleBackColor = true;
@@ -71,7 +71,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridMain.HScrollVisible = true;
-			this.gridMain.Location = new System.Drawing.Point(2, 2);
+			this.gridMain.Location = new System.Drawing.Point(8, 8);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.Size = new System.Drawing.Size(781, 367);
 			this.gridMain.TabIndex = 10;
@@ -81,7 +81,7 @@
 			// butPrint
 			// 
 			this.butPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butPrint.Location = new System.Drawing.Point(799, 335);
+			this.butPrint.Location = new System.Drawing.Point(805, 91);
 			this.butPrint.Name = "butPrint";
 			this.butPrint.Size = new System.Drawing.Size(75, 23);
 			this.butPrint.TabIndex = 20;
@@ -92,7 +92,7 @@
 			// FormEhrPatListResults
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(886, 370);
+			this.ClientSize = new System.Drawing.Size(888, 383);
 			this.Controls.Add(this.butPrint);
 			this.Controls.Add(this.groupOrderBy);
 			this.Controls.Add(this.gridMain);

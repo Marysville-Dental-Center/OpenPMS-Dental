@@ -51,9 +51,9 @@ namespace OpenPmsDental {
 			// 
 			// checkUseDecimal
 			// 
-			this.checkUseDecimal.Location = new System.Drawing.Point(12, 19);
+			this.checkUseDecimal.Location = new System.Drawing.Point(8, 23);
 			this.checkUseDecimal.Name = "checkUseDecimal";
-			this.checkUseDecimal.Size = new System.Drawing.Size(362, 18);
+			this.checkUseDecimal.Size = new System.Drawing.Size(266, 20);
 			this.checkUseDecimal.TabIndex = 12;
 			this.checkUseDecimal.Text = "Use decimal format rather than colon format";
 			this.checkUseDecimal.Click += new System.EventHandler(this.checkUseDecimal_Click);
@@ -64,27 +64,27 @@ namespace OpenPmsDental {
 			this.groupBox1.Controls.Add(this.checkShowSeconds);
 			this.groupBox1.Controls.Add(this.checkAdjOverBreaks);
 			this.groupBox1.Controls.Add(this.checkUseDecimal);
-			this.groupBox1.Location = new System.Drawing.Point(305, 584);
+			this.groupBox1.Location = new System.Drawing.Point(372, 587);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(380, 74);
+			this.groupBox1.Size = new System.Drawing.Size(380, 99);
 			this.groupBox1.TabIndex = 14;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Options";
 			// 
 			// checkShowSeconds
 			// 
-			this.checkShowSeconds.Location = new System.Drawing.Point(12, 51);
+			this.checkShowSeconds.Location = new System.Drawing.Point(8, 71);
 			this.checkShowSeconds.Name = "checkShowSeconds";
-			this.checkShowSeconds.Size = new System.Drawing.Size(362, 18);
+			this.checkShowSeconds.Size = new System.Drawing.Size(302, 20);
 			this.checkShowSeconds.TabIndex = 14;
 			this.checkShowSeconds.Text = "Use seconds on time card when using colon format";
 			this.checkShowSeconds.Click += new System.EventHandler(this.checkShowSeconds_Click);
 			// 
 			// checkAdjOverBreaks
 			// 
-			this.checkAdjOverBreaks.Location = new System.Drawing.Point(12, 35);
+			this.checkAdjOverBreaks.Location = new System.Drawing.Point(8, 47);
 			this.checkAdjOverBreaks.Name = "checkAdjOverBreaks";
-			this.checkAdjOverBreaks.Size = new System.Drawing.Size(364, 18);
+			this.checkAdjOverBreaks.Size = new System.Drawing.Size(364, 20);
 			this.checkAdjOverBreaks.TabIndex = 13;
 			this.checkAdjOverBreaks.Text = "Calc Daily button makes adjustments if breaks over 30 minutes.";
 			this.checkAdjOverBreaks.Click += new System.EventHandler(this.checkAdjOverBreaks_Click);
@@ -94,7 +94,7 @@ namespace OpenPmsDental {
 			this.butAddRule.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butAddRule.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAddRule.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAddRule.Location = new System.Drawing.Point(305, 554);
+			this.butAddRule.Location = new System.Drawing.Point(372, 555);
 			this.butAddRule.Name = "butAddRule";
 			this.butAddRule.Size = new System.Drawing.Size(80, 24);
 			this.butAddRule.TabIndex = 15;
@@ -109,7 +109,7 @@ namespace OpenPmsDental {
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridRules.HasAutoWrappedHeaders = true;
 			this.gridRules.HasMultilineHeaders = true;
-			this.gridRules.Location = new System.Drawing.Point(305, 27);
+			this.gridRules.Location = new System.Drawing.Point(372, 28);
 			this.gridRules.Name = "gridRules";
 			this.gridRules.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
 			this.gridRules.Size = new System.Drawing.Size(687, 523);
@@ -122,7 +122,7 @@ namespace OpenPmsDental {
 			// 
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-			this.gridMain.Location = new System.Drawing.Point(19, 27);
+			this.gridMain.Location = new System.Drawing.Point(19, 32);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
 			this.gridMain.Size = new System.Drawing.Size(272, 523);
@@ -136,7 +136,7 @@ namespace OpenPmsDental {
 			this.butAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdd.Location = new System.Drawing.Point(19, 554);
+			this.butAdd.Location = new System.Drawing.Point(19, 559);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(88, 24);
 			this.butAdd.TabIndex = 10;
@@ -146,9 +146,9 @@ namespace OpenPmsDental {
 			// label2
 			// 
 			this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label2.Location = new System.Drawing.Point(13, 668);
+			this.label2.Location = new System.Drawing.Point(13, 641);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(119, 18);
+			this.label2.Size = new System.Drawing.Size(120, 23);
 			this.label2.TabIndex = 17;
 			this.label2.Text = "ADP Company Code";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -156,9 +156,9 @@ namespace OpenPmsDental {
 			// textADPCompanyCode
 			// 
 			this.textADPCompanyCode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.textADPCompanyCode.Location = new System.Drawing.Point(133, 666);
+			this.textADPCompanyCode.Location = new System.Drawing.Point(139, 641);
 			this.textADPCompanyCode.Name = "textADPCompanyCode";
-			this.textADPCompanyCode.Size = new System.Drawing.Size(97, 20);
+			this.textADPCompanyCode.Size = new System.Drawing.Size(96, 23);
 			this.textADPCompanyCode.TabIndex = 16;
 			// 
 			// butGenerate
@@ -166,7 +166,7 @@ namespace OpenPmsDental {
 			this.butGenerate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butGenerate.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butGenerate.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butGenerate.Location = new System.Drawing.Point(19, 584);
+			this.butGenerate.Location = new System.Drawing.Point(19, 587);
 			this.butGenerate.Name = "butGenerate";
 			this.butGenerate.Size = new System.Drawing.Size(114, 23);
 			this.butGenerate.TabIndex = 18;
@@ -179,7 +179,7 @@ namespace OpenPmsDental {
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(180, 554);
+			this.butDelete.Location = new System.Drawing.Point(180, 559);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(112, 24);
 			this.butDelete.TabIndex = 19;
@@ -190,9 +190,9 @@ namespace OpenPmsDental {
 			// 
 			this.checkHideOlder.Checked = true;
 			this.checkHideOlder.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkHideOlder.Location = new System.Drawing.Point(20, 7);
+			this.checkHideOlder.Location = new System.Drawing.Point(139, 8);
 			this.checkHideOlder.Name = "checkHideOlder";
-			this.checkHideOlder.Size = new System.Drawing.Size(288, 18);
+			this.checkHideOlder.Size = new System.Drawing.Size(229, 20);
 			this.checkHideOlder.TabIndex = 20;
 			this.checkHideOlder.Text = "Hide pay periods older than 6 months";
 			this.checkHideOlder.CheckedChanged += new System.EventHandler(this.checkHideOlder_CheckedChanged);
@@ -202,7 +202,7 @@ namespace OpenPmsDental {
 			this.butDeleteRules.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butDeleteRules.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDeleteRules.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDeleteRules.Location = new System.Drawing.Point(881, 556);
+			this.butDeleteRules.Location = new System.Drawing.Point(881, 555);
 			this.butDeleteRules.Name = "butDeleteRules";
 			this.butDeleteRules.Size = new System.Drawing.Size(112, 24);
 			this.butDeleteRules.TabIndex = 21;
@@ -212,9 +212,9 @@ namespace OpenPmsDental {
 			// labelADPRunIID
 			// 
 			this.labelADPRunIID.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.labelADPRunIID.Location = new System.Drawing.Point(13, 642);
+			this.labelADPRunIID.Location = new System.Drawing.Point(61, 614);
 			this.labelADPRunIID.Name = "labelADPRunIID";
-			this.labelADPRunIID.Size = new System.Drawing.Size(119, 16);
+			this.labelADPRunIID.Size = new System.Drawing.Size(72, 23);
 			this.labelADPRunIID.TabIndex = 23;
 			this.labelADPRunIID.Text = "ADPRunIID";
 			this.labelADPRunIID.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -222,14 +222,14 @@ namespace OpenPmsDental {
 			// textADPRunIID
 			// 
 			this.textADPRunIID.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.textADPRunIID.Location = new System.Drawing.Point(133, 640);
+			this.textADPRunIID.Location = new System.Drawing.Point(139, 614);
 			this.textADPRunIID.Name = "textADPRunIID";
-			this.textADPRunIID.Size = new System.Drawing.Size(97, 20);
+			this.textADPRunIID.Size = new System.Drawing.Size(96, 23);
 			this.textADPRunIID.TabIndex = 22;
 			// 
 			// FormTimeCardSetup
 			// 
-			this.ClientSize = new System.Drawing.Size(1020, 696);
+			this.ClientSize = new System.Drawing.Size(1067, 696);
 			this.Controls.Add(this.labelADPRunIID);
 			this.Controls.Add(this.textADPRunIID);
 			this.Controls.Add(this.butDeleteRules);

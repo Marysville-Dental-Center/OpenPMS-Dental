@@ -42,7 +42,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(290, 283);
+			this.butSave.Location = new System.Drawing.Point(309, 304);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 2;
@@ -51,7 +51,7 @@ namespace OpenPmsDental{
 			// 
 			// labelCashBackAmt
 			// 
-			this.labelCashBackAmt.Location = new System.Drawing.Point(50, 195);
+			this.labelCashBackAmt.Location = new System.Drawing.Point(50, 157);
 			this.labelCashBackAmt.Name = "labelCashBackAmt";
 			this.labelCashBackAmt.Size = new System.Drawing.Size(154, 16);
 			this.labelCashBackAmt.TabIndex = 60;
@@ -61,7 +61,7 @@ namespace OpenPmsDental{
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(50, 28);
+			this.label1.Location = new System.Drawing.Point(49, 8);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(154, 18);
 			this.label1.TabIndex = 58;
@@ -70,7 +70,7 @@ namespace OpenPmsDental{
 			// 
 			// textCashBackAmt
 			// 
-			this.textCashBackAmt.Location = new System.Drawing.Point(52, 214);
+			this.textCashBackAmt.Location = new System.Drawing.Point(49, 267);
 			this.textCashBackAmt.MaxVal = 100000000D;
 			this.textCashBackAmt.MinVal = -100000000D;
 			this.textCashBackAmt.Name = "textCashBackAmt";
@@ -80,7 +80,7 @@ namespace OpenPmsDental{
 			// 
 			// listBoxTransType
 			// 
-			this.listBoxTransType.Location = new System.Drawing.Point(53, 47);
+			this.listBoxTransType.Location = new System.Drawing.Point(49, 28);
 			this.listBoxTransType.Name = "listBoxTransType";
 			this.listBoxTransType.Size = new System.Drawing.Size(202, 108);
 			this.listBoxTransType.TabIndex = 62;
@@ -88,31 +88,31 @@ namespace OpenPmsDental{
 			// 
 			// checkSaveToken
 			// 
-			this.checkSaveToken.Location = new System.Drawing.Point(52, 240);
+			this.checkSaveToken.Location = new System.Drawing.Point(49, 177);
 			this.checkSaveToken.Name = "checkSaveToken";
-			this.checkSaveToken.Size = new System.Drawing.Size(161, 17);
+			this.checkSaveToken.Size = new System.Drawing.Size(84, 20);
 			this.checkSaveToken.TabIndex = 63;
 			this.checkSaveToken.Text = "Save Token";
 			// 
 			// checkSignature
 			// 
-			this.checkSignature.Location = new System.Drawing.Point(52, 257);
+			this.checkSignature.Location = new System.Drawing.Point(49, 201);
 			this.checkSignature.Name = "checkSignature";
-			this.checkSignature.Size = new System.Drawing.Size(161, 17);
+			this.checkSignature.Size = new System.Drawing.Size(137, 20);
 			this.checkSignature.TabIndex = 64;
 			this.checkSignature.Text = "Prompt for Signature";
 			// 
 			// checkPrintReceipt
 			// 
-			this.checkPrintReceipt.Location = new System.Drawing.Point(52, 274);
+			this.checkPrintReceipt.Location = new System.Drawing.Point(49, 225);
 			this.checkPrintReceipt.Name = "checkPrintReceipt";
-			this.checkPrintReceipt.Size = new System.Drawing.Size(161, 18);
+			this.checkPrintReceipt.Size = new System.Drawing.Size(92, 20);
 			this.checkPrintReceipt.TabIndex = 65;
 			this.checkPrintReceipt.Text = "Print Receipt";
 			// 
 			// textTransactionId
 			// 
-			this.textTransactionId.Location = new System.Drawing.Point(52, 178);
+			this.textTransactionId.Location = new System.Drawing.Point(52, 140);
 			this.textTransactionId.Name = "textTransactionId";
 			this.textTransactionId.Size = new System.Drawing.Size(100, 20);
 			this.textTransactionId.TabIndex = 66;
@@ -120,7 +120,7 @@ namespace OpenPmsDental{
 			// 
 			// labelTransactionID
 			// 
-			this.labelTransactionID.Location = new System.Drawing.Point(49, 159);
+			this.labelTransactionID.Location = new System.Drawing.Point(49, 249);
 			this.labelTransactionID.Name = "labelTransactionID";
 			this.labelTransactionID.Size = new System.Drawing.Size(154, 16);
 			this.labelTransactionID.TabIndex = 67;
@@ -132,18 +132,18 @@ namespace OpenPmsDental{
 			// 
 			this.groupCardEntry.Controls.Add(this.radioWeb);
 			this.groupCardEntry.Controls.Add(this.radioTerminal);
-			this.groupCardEntry.Location = new System.Drawing.Point(261, 41);
+			this.groupCardEntry.Location = new System.Drawing.Point(261, 20);
 			this.groupCardEntry.Name = "groupCardEntry";
-			this.groupCardEntry.Size = new System.Drawing.Size(121, 84);
+			this.groupCardEntry.Size = new System.Drawing.Size(121, 75);
 			this.groupCardEntry.TabIndex = 68;
 			this.groupCardEntry.TabStop = false;
 			this.groupCardEntry.Text = "Card Entry Method";
 			// 
 			// radioWeb
 			// 
-			this.radioWeb.Location = new System.Drawing.Point(8, 51);
+			this.radioWeb.Location = new System.Drawing.Point(8, 47);
 			this.radioWeb.Name = "radioWeb";
-			this.radioWeb.Size = new System.Drawing.Size(104, 27);
+			this.radioWeb.Size = new System.Drawing.Size(89, 20);
 			this.radioWeb.TabIndex = 1;
 			this.radioWeb.TabStop = true;
 			this.radioWeb.Text = "Web Service";
@@ -152,9 +152,9 @@ namespace OpenPmsDental{
 			// 
 			// radioTerminal
 			// 
-			this.radioTerminal.Location = new System.Drawing.Point(8, 25);
+			this.radioTerminal.Location = new System.Drawing.Point(8, 23);
 			this.radioTerminal.Name = "radioTerminal";
-			this.radioTerminal.Size = new System.Drawing.Size(104, 24);
+			this.radioTerminal.Size = new System.Drawing.Size(71, 20);
 			this.radioTerminal.TabIndex = 0;
 			this.radioTerminal.TabStop = true;
 			this.radioTerminal.Text = "Terminal";
@@ -163,7 +163,7 @@ namespace OpenPmsDental{
 			// 
 			// FormEdgeExpressTrans
 			// 
-			this.ClientSize = new System.Drawing.Size(392, 323);
+			this.ClientSize = new System.Drawing.Size(392, 336);
 			this.Controls.Add(this.groupCardEntry);
 			this.Controls.Add(this.labelTransactionID);
 			this.Controls.Add(this.textTransactionId);

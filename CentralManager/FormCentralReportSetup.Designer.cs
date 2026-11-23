@@ -35,7 +35,7 @@
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(388, 649);
+			this.butOK.Location = new System.Drawing.Point(395, 666);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 24);
 			this.butOK.TabIndex = 5;
@@ -45,7 +45,7 @@
 			// butCancel
 			// 
 			this.butCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butCancel.Location = new System.Drawing.Point(469, 649);
+			this.butCancel.Location = new System.Drawing.Point(478, 666);
 			this.butCancel.Name = "butCancel";
 			this.butCancel.Size = new System.Drawing.Size(75, 24);
 			this.butCancel.TabIndex = 4;
@@ -55,9 +55,9 @@
 			// tabControl1
 			// 
 			this.tabControl1.Controls.Add(this.tabReportPermissions);
-			this.tabControl1.Location = new System.Drawing.Point(6, 4);
+			this.tabControl1.Location = new System.Drawing.Point(8, 8);
 			this.tabControl1.Name = "tabControl1";
-			this.tabControl1.Size = new System.Drawing.Size(545, 638);
+			this.tabControl1.Size = new System.Drawing.Size(545, 646);
 			this.tabControl1.TabIndex = 217;
 			// 
 			// tabReportPermissions
@@ -65,21 +65,21 @@
 			this.tabReportPermissions.Controls.Add(this.userControlReportSetup);
 			this.tabReportPermissions.Location = new System.Drawing.Point(2, 21);
 			this.tabReportPermissions.Name = "tabReportPermissions";
-			this.tabReportPermissions.Size = new System.Drawing.Size(541, 615);
+			this.tabReportPermissions.Size = new System.Drawing.Size(541, 623);
 			this.tabReportPermissions.TabIndex = 3;
 			this.tabReportPermissions.Text = "Security Permissions";
 			// 
 			// userControlReportSetup
 			// 
 			this.userControlReportSetup.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
-			this.userControlReportSetup.Location = new System.Drawing.Point(2, 2);
+			this.userControlReportSetup.Location = new System.Drawing.Point(8, 8);
 			this.userControlReportSetup.Name = "userControlReportSetup";
 			this.userControlReportSetup.Size = new System.Drawing.Size(525, 607);
 			this.userControlReportSetup.TabIndex = 2;
 			// 
 			// FormCentralReportSetup
 			// 
-			this.ClientSize = new System.Drawing.Size(556, 681);
+			this.ClientSize = new System.Drawing.Size(561, 698);
 			this.Controls.Add(this.tabControl1);
 			this.Controls.Add(this.butOK);
 			this.Controls.Add(this.butCancel);

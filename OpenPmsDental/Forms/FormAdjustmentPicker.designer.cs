@@ -31,7 +31,7 @@ namespace OpenPmsDental{
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(542, 459);
+			this.butOK.Location = new System.Drawing.Point(546, 485);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 24);
 			this.butOK.TabIndex = 3;
@@ -42,9 +42,9 @@ namespace OpenPmsDental{
 			// 
 			this.checkUnattached.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.checkUnattached.AutoSize = false;
-			this.checkUnattached.Location = new System.Drawing.Point(12, 459);
+			this.checkUnattached.Location = new System.Drawing.Point(12, 453);
 			this.checkUnattached.Name = "checkUnattached";
-			this.checkUnattached.Size = new System.Drawing.Size(144, 18);
+			this.checkUnattached.Size = new System.Drawing.Size(147, 20);
 			this.checkUnattached.TabIndex = 5;
 			this.checkUnattached.Text = "Show Unattached Only";
 			this.checkUnattached.Click += new System.EventHandler(this.checkUnattached_Click);
@@ -54,7 +54,7 @@ namespace OpenPmsDental{
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(12, 12);
+			this.gridMain.Location = new System.Drawing.Point(12, 8);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.Size = new System.Drawing.Size(605, 441);
 			this.gridMain.TabIndex = 4;
@@ -64,7 +64,7 @@ namespace OpenPmsDental{
 			// 
 			// FormAdjustmentPicker
 			// 
-			this.ClientSize = new System.Drawing.Size(629, 495);
+			this.ClientSize = new System.Drawing.Size(629, 517);
 			this.Controls.Add(this.checkUnattached);
 			this.Controls.Add(this.gridMain);
 			this.Controls.Add(this.butOK);
