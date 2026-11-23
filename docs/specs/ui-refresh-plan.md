@@ -1674,8 +1674,8 @@ own 26.2 overlap check before it starts. The first cut is below; a brief that fi
   panel drawn as the gallery state `compound`; FormPerio's keypad on one grid; ControlManage, FormShowFeatures, FormSheetDef,
   FormEvaluationEdit, FormGlobalPaymentsV2Setup, FormSheetFieldOutput, FormVitalsignEdit2014), the gallery drawn again (62 pictures).
   Slice 7 (UI-12-7, branch `ui/ui12-7-1`, batch 3 of UI-12-batches.tsv at the branch point, the small windows): 120 windows on the
-  grid, none skipped (96 with a layout script: main's arrangement back where the planner broke it, cut notes, columns and right
-  edges, margins and grid edges; shared helper `hand/_s7.py`), 19 runtime texts; slice 3 re-planned with the stored anchors (44 rows,
+  grid, none skipped (104 with a layout script, 8 of them from the fix round of 2026-11-23 (`ui/ui12-7-2`, 28 findings): main's arrangement back where the planner broke it, cut notes, columns and right
+  edges, margins and grid edges; shared helper `hand/_s7.py`), 20 runtime texts; slice 3 re-planned with the stored anchors (44 rows,
   its 6 new rows pinned in `grid-hand/3.tsv`), the other re-plans unchanged (239 / 509 / 203 / 316 / 335); gallery G-UI3-ui12-7 (120
   windows, 18 at 150%), audit `UI-12-audit-7.md` (UI-12.md section 7, "Slice 7 (batch 3)").
 - Gallery: G-UI3 per slice, the owner's rows first.
