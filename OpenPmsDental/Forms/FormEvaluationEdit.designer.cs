@@ -150,7 +150,7 @@ namespace OpenPmsDental{
 			// label7
 			// 
 			this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label7.Location = new System.Drawing.Point(173, 469);
+			this.label7.Location = new System.Drawing.Point(173, 468);
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(84, 23);
 			this.label7.TabIndex = 142;
@@ -160,16 +160,16 @@ namespace OpenPmsDental{
 			// textGradeShowingOverride
 			// 
 			this.textGradeShowingOverride.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.textGradeShowingOverride.Location = new System.Drawing.Point(324, 469);
+			this.textGradeShowingOverride.Location = new System.Drawing.Point(329, 468);
 			this.textGradeShowingOverride.MaxLength = 255;
 			this.textGradeShowingOverride.Name = "textGradeShowingOverride";
-			this.textGradeShowingOverride.Size = new System.Drawing.Size(60, 20);
+			this.textGradeShowingOverride.Size = new System.Drawing.Size(60, 23);
 			this.textGradeShowingOverride.TabIndex = 4;
 			// 
 			// label8
 			// 
 			this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label8.Location = new System.Drawing.Point(125, 443);
+			this.label8.Location = new System.Drawing.Point(125, 441);
 			this.label8.Name = "label8";
 			this.label8.Size = new System.Drawing.Size(132, 23);
 			this.label8.TabIndex = 147;
@@ -179,30 +179,30 @@ namespace OpenPmsDental{
 			// textGradeNumberOverride
 			// 
 			this.textGradeNumberOverride.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.textGradeNumberOverride.Location = new System.Drawing.Point(324, 443);
+			this.textGradeNumberOverride.Location = new System.Drawing.Point(329, 441);
 			this.textGradeNumberOverride.MaxLength = 255;
 			this.textGradeNumberOverride.Name = "textGradeNumberOverride";
-			this.textGradeNumberOverride.Size = new System.Drawing.Size(60, 20);
+			this.textGradeNumberOverride.Size = new System.Drawing.Size(60, 23);
 			this.textGradeNumberOverride.TabIndex = 3;
 			// 
 			// textGradeNumber
 			// 
 			this.textGradeNumber.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.textGradeNumber.Location = new System.Drawing.Point(263, 443);
+			this.textGradeNumber.Location = new System.Drawing.Point(263, 441);
 			this.textGradeNumber.MaxLength = 255;
 			this.textGradeNumber.Name = "textGradeNumber";
 			this.textGradeNumber.ReadOnly = true;
-			this.textGradeNumber.Size = new System.Drawing.Size(60, 20);
+			this.textGradeNumber.Size = new System.Drawing.Size(60, 23);
 			this.textGradeNumber.TabIndex = 149;
 			// 
 			// textGradeShowing
 			// 
 			this.textGradeShowing.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.textGradeShowing.Location = new System.Drawing.Point(263, 469);
+			this.textGradeShowing.Location = new System.Drawing.Point(263, 468);
 			this.textGradeShowing.MaxLength = 255;
 			this.textGradeShowing.Name = "textGradeShowing";
 			this.textGradeShowing.ReadOnly = true;
-			this.textGradeShowing.Size = new System.Drawing.Size(60, 20);
+			this.textGradeShowing.Size = new System.Drawing.Size(60, 23);
 			this.textGradeShowing.TabIndex = 148;
 			// 
 			// gridGrades
