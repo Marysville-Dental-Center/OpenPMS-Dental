@@ -37,7 +37,7 @@ namespace OpenPmsDental{
 			this.butDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butDown.Icon = OpenPmsDental.UI.EnumIcons.Down;
 			this.butDown.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDown.Location = new System.Drawing.Point(910, 148);
+			this.butDown.Location = new System.Drawing.Point(910, 128);
 			this.butDown.Name = "butDown";
 			this.butDown.Size = new System.Drawing.Size(82, 26);
 			this.butDown.TabIndex = 37;
@@ -49,7 +49,7 @@ namespace OpenPmsDental{
 			this.butUp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butUp.Icon = OpenPmsDental.UI.EnumIcons.Up;
 			this.butUp.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butUp.Location = new System.Drawing.Point(910, 119);
+			this.butUp.Location = new System.Drawing.Point(910, 98);
 			this.butUp.Name = "butUp";
 			this.butUp.Size = new System.Drawing.Size(82, 26);
 			this.butUp.TabIndex = 38;
@@ -61,7 +61,7 @@ namespace OpenPmsDental{
 			this.butAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdd.Location = new System.Drawing.Point(872, 12);
+			this.butAdd.Location = new System.Drawing.Point(872, 8);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(120, 26);
 			this.butAdd.TabIndex = 36;
@@ -72,7 +72,7 @@ namespace OpenPmsDental{
 			// 
 			this.labelStoreCCNumWarning.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.labelStoreCCNumWarning.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-			this.labelStoreCCNumWarning.Location = new System.Drawing.Point(12, 344);
+			this.labelStoreCCNumWarning.Location = new System.Drawing.Point(8, 348);
 			this.labelStoreCCNumWarning.Name = "labelStoreCCNumWarning";
 			this.labelStoreCCNumWarning.Size = new System.Drawing.Size(280, 30);
 			this.labelStoreCCNumWarning.TabIndex = 39;
@@ -83,7 +83,7 @@ namespace OpenPmsDental{
 			// butMoveTo
 			// 
 			this.butMoveTo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butMoveTo.Location = new System.Drawing.Point(872, 76);
+			this.butMoveTo.Location = new System.Drawing.Point(872, 68);
 			this.butMoveTo.Name = "butMoveTo";
 			this.butMoveTo.Size = new System.Drawing.Size(120, 26);
 			this.butMoveTo.TabIndex = 40;
@@ -97,7 +97,7 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridMain.HasMultilineHeaders = true;
 			this.gridMain.HScrollVisible = true;
-			this.gridMain.Location = new System.Drawing.Point(12, 12);
+			this.gridMain.Location = new System.Drawing.Point(12, 8);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.Size = new System.Drawing.Size(848, 328);
 			this.gridMain.TabIndex = 41;
@@ -108,7 +108,7 @@ namespace OpenPmsDental{
 			// butAddRecCharge
 			// 
 			this.butAddRecCharge.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butAddRecCharge.Location = new System.Drawing.Point(872, 44);
+			this.butAddRecCharge.Location = new System.Drawing.Point(872, 38);
 			this.butAddRecCharge.Name = "butAddRecCharge";
 			this.butAddRecCharge.Size = new System.Drawing.Size(120, 26);
 			this.butAddRecCharge.TabIndex = 42;
@@ -117,7 +117,7 @@ namespace OpenPmsDental{
 			// 
 			// FormCreditCardManage
 			// 
-			this.ClientSize = new System.Drawing.Size(1004, 383);
+			this.ClientSize = new System.Drawing.Size(1004, 386);
 			this.Controls.Add(this.butAddRecCharge);
 			this.Controls.Add(this.gridMain);
 			this.Controls.Add(this.butMoveTo);

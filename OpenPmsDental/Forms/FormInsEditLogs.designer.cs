@@ -38,7 +38,7 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridMain.HasDropDowns = true;
-			this.gridMain.Location = new System.Drawing.Point(8, 34);
+			this.gridMain.Location = new System.Drawing.Point(8, 35);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.Size = new System.Drawing.Size(995, 556);
 			this.gridMain.TabIndex = 4;
@@ -49,30 +49,30 @@ namespace OpenPmsDental{
 			// 
 			this.textDateTo.Location = new System.Drawing.Point(269, 8);
 			this.textDateTo.Name = "textDateTo";
-			this.textDateTo.Size = new System.Drawing.Size(137, 20);
+			this.textDateTo.Size = new System.Drawing.Size(136, 23);
 			this.textDateTo.TabIndex = 185;
 			// 
 			// textDateFrom
 			// 
 			this.textDateFrom.Location = new System.Drawing.Point(69, 8);
 			this.textDateFrom.Name = "textDateFrom";
-			this.textDateFrom.Size = new System.Drawing.Size(137, 20);
+			this.textDateFrom.Size = new System.Drawing.Size(136, 23);
 			this.textDateFrom.TabIndex = 184;
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(208, 10);
+			this.label3.Location = new System.Drawing.Point(235, 8);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(60, 18);
+			this.label3.Size = new System.Drawing.Size(28, 23);
 			this.label3.TabIndex = 19;
 			this.label3.Text = "To:";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(8, 10);
+			this.label2.Location = new System.Drawing.Point(19, 8);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(60, 18);
+			this.label2.Size = new System.Drawing.Size(44, 23);
 			this.label2.TabIndex = 17;
 			this.label2.Text = "From:";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -80,7 +80,7 @@ namespace OpenPmsDental{
 			// label1
 			// 
 			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.label1.Location = new System.Drawing.Point(412, 14);
+			this.label1.Location = new System.Drawing.Point(412, 11);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(587, 17);
 			this.label1.TabIndex = 186;

@@ -33,7 +33,7 @@ namespace OpenPmsDental{
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(691, 403);
+			this.butOK.Location = new System.Drawing.Point(713, 434);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 24);
 			this.butOK.TabIndex = 3;
@@ -45,9 +45,9 @@ namespace OpenPmsDental{
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(13, 13);
+			this.gridMain.Location = new System.Drawing.Point(8, 8);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(672, 414);
+			this.gridMain.Size = new System.Drawing.Size(677, 414);
 			this.gridMain.TabIndex = 4;
 			this.gridMain.Title = "Discount Plans";
 			this.gridMain.TranslationName = "TableDiscountPlans";
@@ -58,7 +58,7 @@ namespace OpenPmsDental{
 			this.butAdd.Anchor = System.Windows.Forms.AnchorStyles.Right;
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdd.Location = new System.Drawing.Point(691, 207);
+			this.butAdd.Location = new System.Drawing.Point(713, 152);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(75, 24);
 			this.butAdd.TabIndex = 5;
@@ -69,7 +69,7 @@ namespace OpenPmsDental{
 			// 
 			this.butMerge.Anchor = System.Windows.Forms.AnchorStyles.Right;
 			this.butMerge.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butMerge.Location = new System.Drawing.Point(691, 237);
+			this.butMerge.Location = new System.Drawing.Point(713, 180);
 			this.butMerge.Name = "butMerge";
 			this.butMerge.Size = new System.Drawing.Size(75, 24);
 			this.butMerge.TabIndex = 6;
@@ -79,16 +79,16 @@ namespace OpenPmsDental{
 			// checkShowHidden
 			// 
 			this.checkShowHidden.Anchor = System.Windows.Forms.AnchorStyles.Right;
-			this.checkShowHidden.Location = new System.Drawing.Point(691, 131);
+			this.checkShowHidden.Location = new System.Drawing.Point(693, 128);
 			this.checkShowHidden.Name = "checkShowHidden";
-			this.checkShowHidden.Size = new System.Drawing.Size(105, 24);
+			this.checkShowHidden.Size = new System.Drawing.Size(95, 20);
 			this.checkShowHidden.TabIndex = 7;
 			this.checkShowHidden.Text = "Show Hidden";
 			this.checkShowHidden.Click += new System.EventHandler(this.checkShowHidden_Click);
 			// 
 			// FormDiscountPlans
 			// 
-			this.ClientSize = new System.Drawing.Size(796, 439);
+			this.ClientSize = new System.Drawing.Size(796, 466);
 			this.Controls.Add(this.checkShowHidden);
 			this.Controls.Add(this.butMerge);
 			this.Controls.Add(this.butAdd);

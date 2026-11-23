@@ -31,7 +31,7 @@ namespace OpenPmsDental{
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(462, 645);
+			this.butOK.Location = new System.Drawing.Point(473, 652);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 24);
 			this.butOK.TabIndex = 3;
@@ -45,10 +45,10 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridMain.HasMultilineHeaders = true;
-			this.gridMain.Location = new System.Drawing.Point(12, 28);
+			this.gridMain.Location = new System.Drawing.Point(8, 32);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.OneCell;
-			this.gridMain.Size = new System.Drawing.Size(525, 608);
+			this.gridMain.Size = new System.Drawing.Size(540, 608);
 			this.gridMain.TabIndex = 231;
 			this.gridMain.Title = "Dashboards";
 			this.gridMain.TranslationName = "TableProductionIncome";
@@ -64,7 +64,7 @@ namespace OpenPmsDental{
 			// 
 			// FormDashboardWidgets
 			// 
-			this.ClientSize = new System.Drawing.Size(556, 681);
+			this.ClientSize = new System.Drawing.Size(556, 684);
 			this.Controls.Add(this.gridMain);
 			this.Controls.Add(this.butOK);
 			this.Controls.Add(this.menuMain);

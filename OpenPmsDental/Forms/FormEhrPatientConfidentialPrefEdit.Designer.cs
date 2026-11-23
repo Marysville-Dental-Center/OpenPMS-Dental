@@ -31,7 +31,7 @@
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(267, 77);
+			this.butSave.Location = new System.Drawing.Point(279, 81);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 23);
 			this.butSave.TabIndex = 9;
@@ -43,16 +43,16 @@
 			// 
 			this.comboConfidentialContact.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboConfidentialContact.FormattingEnabled = true;
-			this.comboConfidentialContact.Location = new System.Drawing.Point(129, 33);
+			this.comboConfidentialContact.Location = new System.Drawing.Point(138, 8);
 			this.comboConfidentialContact.Name = "comboConfidentialContact";
-			this.comboConfidentialContact.Size = new System.Drawing.Size(213, 21);
+			this.comboConfidentialContact.Size = new System.Drawing.Size(212, 23);
 			this.comboConfidentialContact.TabIndex = 13;
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(19, 34);
+			this.label3.Location = new System.Drawing.Point(8, 8);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(110, 17);
+			this.label3.Size = new System.Drawing.Size(124, 23);
 			this.label3.TabIndex = 14;
 			this.label3.Text = "Confidential Contact";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

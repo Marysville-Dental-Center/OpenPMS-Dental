@@ -46,17 +46,17 @@ namespace OpenPmsDental {
 			this.listBoxMain.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.listBoxMain.IntegralHeight = false;
-			this.listBoxMain.Location = new System.Drawing.Point(24, 45);
+			this.listBoxMain.Location = new System.Drawing.Point(8, 62);
 			this.listBoxMain.Name = "listBoxMain";
-			this.listBoxMain.Size = new System.Drawing.Size(262, 393);
+			this.listBoxMain.Size = new System.Drawing.Size(262, 388);
 			this.listBoxMain.TabIndex = 2;
 			this.listBoxMain.DoubleClick += new System.EventHandler(this.listMain_DoubleClick);
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(3, 10);
+			this.label1.Location = new System.Drawing.Point(8, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(385, 35);
+			this.label1.Size = new System.Drawing.Size(372, 50);
 			this.label1.TabIndex = 11;
 			this.label1.Text = "This is a list of radiograph mounts and image composites.  You can freely edit, m" +
     "ove, or delete any of these mounts without affecting patient records";
@@ -66,7 +66,7 @@ namespace OpenPmsDental {
 			this.butAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdd.Location = new System.Drawing.Point(24, 444);
+			this.butAdd.Location = new System.Drawing.Point(8, 462);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(80, 26);
 			this.butAdd.TabIndex = 10;
@@ -78,7 +78,7 @@ namespace OpenPmsDental {
 			this.butDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDown.Icon = OpenPmsDental.UI.EnumIcons.Down;
 			this.butDown.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDown.Location = new System.Drawing.Point(204, 444);
+			this.butDown.Location = new System.Drawing.Point(188, 462);
 			this.butDown.Name = "butDown";
 			this.butDown.Size = new System.Drawing.Size(82, 26);
 			this.butDown.TabIndex = 36;
@@ -90,7 +90,7 @@ namespace OpenPmsDental {
 			this.butUp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butUp.Icon = OpenPmsDental.UI.EnumIcons.Up;
 			this.butUp.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butUp.Location = new System.Drawing.Point(113, 444);
+			this.butUp.Location = new System.Drawing.Point(97, 462);
 			this.butUp.Name = "butUp";
 			this.butUp.Size = new System.Drawing.Size(82, 26);
 			this.butUp.TabIndex = 37;
@@ -99,7 +99,7 @@ namespace OpenPmsDental {
 			// 
 			// FormMountDefs
 			// 
-			this.ClientSize = new System.Drawing.Size(388, 487);
+			this.ClientSize = new System.Drawing.Size(388, 496);
 			this.Controls.Add(this.butDown);
 			this.Controls.Add(this.butUp);
 			this.Controls.Add(this.listBoxMain);

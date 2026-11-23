@@ -35,32 +35,32 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.textMain.BackColor = System.Drawing.SystemColors.Window;
 			this.textMain.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.textMain.Location = new System.Drawing.Point(15, 87);
+			this.textMain.Location = new System.Drawing.Point(8, 98);
 			this.textMain.Multiline = true;
 			this.textMain.Name = "textMain";
 			this.textMain.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.textMain.Size = new System.Drawing.Size(857, 588);
+			this.textMain.Size = new System.Drawing.Size(868, 581);
 			this.textMain.TabIndex = 336;
 			// 
 			// listFileNames
 			// 
 			this.listFileNames.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.listFileNames.Location = new System.Drawing.Point(248, 12);
+			this.listFileNames.Location = new System.Drawing.Point(248, 8);
 			this.listFileNames.Name = "listFileNames";
-			this.listFileNames.Size = new System.Drawing.Size(624, 69);
+			this.listFileNames.Size = new System.Drawing.Size(628, 82);
 			this.listFileNames.TabIndex = 337;
 			this.listFileNames.SelectedIndexChanged += new System.EventHandler(this.listFileNames_SelectedIndexChanged);
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(12, 12);
+			this.label1.Location = new System.Drawing.Point(8, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(230, 75);
+			this.label1.Size = new System.Drawing.Size(234, 82);
 			this.label1.TabIndex = 338;
 			this.label1.Text = "These are the file names of the HL7 message text files associated with the select" +
     "ed MedLab.\r\nSelect one to display the message text in the box below.";
-			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// FormMedLabHL7MsgText
 			// 

@@ -29,9 +29,9 @@ namespace OpenPmsDental{
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(12, 9);
+			this.label1.Location = new System.Drawing.Point(12, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(468, 18);
+			this.label1.Size = new System.Drawing.Size(200, 18);
 			this.label1.TabIndex = 4;
 			this.label1.Text = "Choose an EOB from the list below.";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -41,9 +41,9 @@ namespace OpenPmsDental{
 			this.gridEobs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridEobs.Location = new System.Drawing.Point(15, 30);
+			this.gridEobs.Location = new System.Drawing.Point(12, 28);
 			this.gridEobs.Name = "gridEobs";
-			this.gridEobs.Size = new System.Drawing.Size(305, 271);
+			this.gridEobs.Size = new System.Drawing.Size(308, 271);
 			this.gridEobs.TabIndex = 5;
 			this.gridEobs.Title = "EOB List";
 			this.gridEobs.TranslationName = "TableEOB";

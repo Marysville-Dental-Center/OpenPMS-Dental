@@ -37,7 +37,7 @@ namespace OpenPmsDental {
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(396, 181);
+			this.butSave.Location = new System.Drawing.Point(400, 182);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 26);
 			this.butSave.TabIndex = 36;
@@ -46,7 +46,7 @@ namespace OpenPmsDental {
 			// 
 			// textName
 			// 
-			this.textName.Location = new System.Drawing.Point(151,12);
+			this.textName.Location = new System.Drawing.Point(151,8);
 			this.textName.MaxLength = 100;
 			this.textName.Name = "textName";
 			this.textName.ReadOnly = true;
@@ -55,34 +55,34 @@ namespace OpenPmsDental {
 			// 
 			// label10
 			// 
-			this.label10.Location = new System.Drawing.Point(54,15);
+			this.label10.Location = new System.Drawing.Point(109,8);
 			this.label10.Name = "label10";
-			this.label10.Size = new System.Drawing.Size(95,18);
+			this.label10.Size = new System.Drawing.Size(36,23);
 			this.label10.TabIndex = 43;
 			this.label10.Text = "Type";
-			this.label10.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(7,19);
+			this.label1.Location = new System.Drawing.Point(101,23);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(121,18);
+			this.label1.Size = new System.Drawing.Size(36,23);
 			this.label1.TabIndex = 46;
 			this.label1.Text = "Date";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(3,46);
+			this.label2.Location = new System.Drawing.Point(101,50);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(126,18);
+			this.label2.Size = new System.Drawing.Size(36,23);
 			this.label2.TabIndex = 47;
 			this.label2.Text = "Days";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textDate
 			// 
-			this.textDate.Location = new System.Drawing.Point(130,19);
+			this.textDate.Location = new System.Drawing.Point(143,23);
 			this.textDate.Name = "textDate";
 			this.textDate.Size = new System.Drawing.Size(100,20);
 			this.textDate.TabIndex = 50;
@@ -92,18 +92,18 @@ namespace OpenPmsDental {
 			// 
 			this.label3.Location = new System.Drawing.Point(87,77);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(320,40);
+			this.label3.Size = new System.Drawing.Size(320,32);
 			this.label3.TabIndex = 52;
 			this.label3.Text = "For instance, if you set days to 1, then user will only have permission if the da" +
     "te of the item is today";
 			// 
 			// textDays
 			// 
-			this.textDays.Location = new System.Drawing.Point(130, 45);
+			this.textDays.Location = new System.Drawing.Point(143, 50);
 			this.textDays.MaxVal = 3000;
 			this.textDays.MinVal = 0;
 			this.textDays.Name = "textDays";
-			this.textDays.Size = new System.Drawing.Size(46, 20);
+			this.textDays.Size = new System.Drawing.Size(48, 23);
 			this.textDays.TabIndex = 0;
 			this.textDays.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textDays_KeyDown);
 			this.textDays.ShowZero = false;
@@ -115,9 +115,9 @@ namespace OpenPmsDental {
 			this.groupBox1.Controls.Add(this.label1);
 			this.groupBox1.Controls.Add(this.label2);
 			this.groupBox1.Controls.Add(this.label3);
-			this.groupBox1.Location = new System.Drawing.Point(21,45);
+			this.groupBox1.Location = new System.Drawing.Point(8,39);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(443,126);
+			this.groupBox1.Size = new System.Drawing.Size(467,117);
 			this.groupBox1.TabIndex = 53;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Only if newer than";

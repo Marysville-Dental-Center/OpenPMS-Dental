@@ -34,28 +34,28 @@ namespace OpenPmsDental{
 			// 
 			this.textCode.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textCode.Location = new System.Drawing.Point(246, 10);
+			this.textCode.Location = new System.Drawing.Point(146, 8);
 			this.textCode.Name = "textCode";
-			this.textCode.Size = new System.Drawing.Size(399, 20);
+			this.textCode.Size = new System.Drawing.Size(400, 23);
 			this.textCode.TabIndex = 17;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(73, 13);
+			this.label1.Location = new System.Drawing.Point(8, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(172, 18);
+			this.label1.Size = new System.Drawing.Size(132, 23);
 			this.label1.TabIndex = 18;
 			this.label1.Text = "Code(s) or Description";
-			this.label1.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// gridMain
 			// 
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(20, 38);
+			this.gridMain.Location = new System.Drawing.Point(8, 35);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(851, 641);
+			this.gridMain.Size = new System.Drawing.Size(945, 641);
 			this.gridMain.TabIndex = 20;
 			this.gridMain.Title = "CPT Codes";
 			this.gridMain.TranslationName = "FormCptCodes";
@@ -65,9 +65,9 @@ namespace OpenPmsDental{
 			// butSearch
 			// 
 			this.butSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSearch.Location = new System.Drawing.Point(651, 7);
+			this.butSearch.Location = new System.Drawing.Point(552, 8);
 			this.butSearch.Name = "butSearch";
-			this.butSearch.Size = new System.Drawing.Size(75, 24);
+			this.butSearch.Size = new System.Drawing.Size(75, 23);
 			this.butSearch.TabIndex = 19;
 			this.butSearch.Text = "Search";
 			this.butSearch.Click += new System.EventHandler(this.butSearch_Click);
@@ -75,7 +75,7 @@ namespace OpenPmsDental{
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(877, 655);
+			this.butOK.Location = new System.Drawing.Point(878, 688);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 24);
 			this.butOK.TabIndex = 3;
@@ -85,7 +85,7 @@ namespace OpenPmsDental{
 			// FormCpts
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(961, 691);
+			this.ClientSize = new System.Drawing.Size(961, 720);
 			this.Controls.Add(this.gridMain);
 			this.Controls.Add(this.butSearch);
 			this.Controls.Add(this.label1);

@@ -35,7 +35,7 @@ namespace OpenPmsDental{
 			// 
 			// listExamTypes
 			// 
-			this.listExamTypes.Location = new System.Drawing.Point(4, 52);
+			this.listExamTypes.Location = new System.Drawing.Point(8, 51);
 			this.listExamTypes.Name = "listExamTypes";
 			this.listExamTypes.Size = new System.Drawing.Size(196, 43);
 			this.listExamTypes.TabIndex = 1;
@@ -43,7 +43,7 @@ namespace OpenPmsDental{
 			// 
 			// labelFilterTypes
 			// 
-			this.labelFilterTypes.Location = new System.Drawing.Point(4, 34);
+			this.labelFilterTypes.Location = new System.Drawing.Point(8, 32);
 			this.labelFilterTypes.Name = "labelFilterTypes";
 			this.labelFilterTypes.Size = new System.Drawing.Size(156, 17);
 			this.labelFilterTypes.TabIndex = 49;
@@ -55,7 +55,7 @@ namespace OpenPmsDental{
 			this.butAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdd.Location = new System.Drawing.Point(4, 668);
+			this.butAdd.Location = new System.Drawing.Point(8, 664);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(75, 24);
 			this.butAdd.TabIndex = 3;
@@ -66,9 +66,9 @@ namespace OpenPmsDental{
 			// 
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-			this.gridMain.Location = new System.Drawing.Point(4, 101);
+			this.gridMain.Location = new System.Drawing.Point(8, 102);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(428, 464);
+			this.gridMain.Size = new System.Drawing.Size(423, 554);
 			this.gridMain.TabIndex = 2;
 			this.gridMain.Title = "Exam Sheets";
 			this.gridMain.TranslationName = "FormPatientForms";
@@ -99,9 +99,10 @@ namespace OpenPmsDental{
 			this.labelVerticalDivider.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.labelVerticalDivider.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(77)))), ((int)(((byte)(100)))), ((int)(((byte)(147)))));
-			this.labelVerticalDivider.Location = new System.Drawing.Point(435, 1);
+			this.labelVerticalDivider.Location = new System.Drawing.Point(435, 0);
+			this.labelVerticalDivider.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.labelVerticalDivider.Name = "labelVerticalDivider";
-			this.labelVerticalDivider.Size = new System.Drawing.Size(1, 697);
+			this.labelVerticalDivider.Size = new System.Drawing.Size(1, 696);
 			this.labelVerticalDivider.TabIndex = 5;
 			// 
 			// label1

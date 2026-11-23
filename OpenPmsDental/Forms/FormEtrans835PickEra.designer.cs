@@ -29,7 +29,7 @@ namespace OpenPmsDental{
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(12, 9);
+			this.label1.Location = new System.Drawing.Point(12, 8);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(468, 18);
 			this.label1.TabIndex = 4;
@@ -41,7 +41,7 @@ namespace OpenPmsDental{
 			this.gridEras.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridEras.Location = new System.Drawing.Point(15, 30);
+			this.gridEras.Location = new System.Drawing.Point(12, 28);
 			this.gridEras.Name = "gridEras";
 			this.gridEras.Size = new System.Drawing.Size(471, 261);
 			this.gridEras.TabIndex = 5;

@@ -27,9 +27,9 @@ namespace OpenPmsDental {
 			//
 			this.labelHeader.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelHeader.Location = new System.Drawing.Point(12, 9);
+			this.labelHeader.Location = new System.Drawing.Point(8, 8);
 			this.labelHeader.Name = "labelHeader";
-			this.labelHeader.Size = new System.Drawing.Size(860, 46);
+			this.labelHeader.Size = new System.Drawing.Size(868, 46);
 			this.labelHeader.TabIndex = 0;
 			this.labelHeader.Text = "Claim";
 			//
@@ -38,9 +38,9 @@ namespace OpenPmsDental {
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(12, 58);
+			this.gridMain.Location = new System.Drawing.Point(8, 56);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(860, 368);
+			this.gridMain.Size = new System.Drawing.Size(868, 373);
 			this.gridMain.TabIndex = 1;
 			this.gridMain.Title = "EDS Claim Validation";
 			this.gridMain.TranslationName = "TableEdsValidation";
@@ -49,7 +49,7 @@ namespace OpenPmsDental {
 			// butEditClaim
 			//
 			this.butEditClaim.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butEditClaim.Location = new System.Drawing.Point(12, 437);
+			this.butEditClaim.Location = new System.Drawing.Point(8, 441);
 			this.butEditClaim.Name = "butEditClaim";
 			this.butEditClaim.Size = new System.Drawing.Size(85, 24);
 			this.butEditClaim.TabIndex = 2;
@@ -59,7 +59,7 @@ namespace OpenPmsDental {
 			// butRevalidate
 			//
 			this.butRevalidate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butRevalidate.Location = new System.Drawing.Point(103, 437);
+			this.butRevalidate.Location = new System.Drawing.Point(99, 441);
 			this.butRevalidate.Name = "butRevalidate";
 			this.butRevalidate.Size = new System.Drawing.Size(85, 24);
 			this.butRevalidate.TabIndex = 3;
@@ -69,7 +69,7 @@ namespace OpenPmsDental {
 			// butSend
 			//
 			this.butSend.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSend.Location = new System.Drawing.Point(691, 437);
+			this.butSend.Location = new System.Drawing.Point(691, 441);
 			this.butSend.Name = "butSend";
 			this.butSend.Size = new System.Drawing.Size(100, 24);
 			this.butSend.TabIndex = 4;
@@ -80,7 +80,7 @@ namespace OpenPmsDental {
 			// butClose
 			//
 			this.butClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butClose.Location = new System.Drawing.Point(797, 437);
+			this.butClose.Location = new System.Drawing.Point(801, 441);
 			this.butClose.Name = "butClose";
 			this.butClose.Size = new System.Drawing.Size(75, 24);
 			this.butClose.TabIndex = 5;

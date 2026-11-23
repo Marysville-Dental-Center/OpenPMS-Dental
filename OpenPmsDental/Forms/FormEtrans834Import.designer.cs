@@ -37,7 +37,7 @@ namespace OpenPmsDental{
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(12, 93);
+			this.label1.Location = new System.Drawing.Point(8, 87);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(100, 20);
 			this.label1.TabIndex = 5;
@@ -50,28 +50,28 @@ namespace OpenPmsDental{
 			this.gridInsPlanFiles.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridInsPlanFiles.Location = new System.Drawing.Point(12, 142);
+			this.gridInsPlanFiles.Location = new System.Drawing.Point(8, 136);
 			this.gridInsPlanFiles.Name = "gridInsPlanFiles";
 			this.gridInsPlanFiles.SelectionMode = OpenPmsDental.UI.GridSelectionMode.None;
-			this.gridInsPlanFiles.Size = new System.Drawing.Size(950, 512);
+			this.gridInsPlanFiles.Size = new System.Drawing.Size(958, 516);
 			this.gridInsPlanFiles.TabIndex = 8;
 			this.gridInsPlanFiles.Title = "Ins Plan Files To Import";
 			this.gridInsPlanFiles.TranslationName = "TableImport";
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(12, 9);
+			this.label2.Location = new System.Drawing.Point(8, 8);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(950, 84);
+			this.label2.Size = new System.Drawing.Size(958, 77);
 			this.label2.TabIndex = 10;
 			this.label2.Text = resources.GetString("label2.Text");
 			// 
 			// butRefresh
 			// 
 			this.butRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butRefresh.Location = new System.Drawing.Point(887, 116);
+			this.butRefresh.Location = new System.Drawing.Point(891, 109);
 			this.butRefresh.Name = "butRefresh";
-			this.butRefresh.Size = new System.Drawing.Size(75, 20);
+			this.butRefresh.Size = new System.Drawing.Size(75, 23);
 			this.butRefresh.TabIndex = 9;
 			this.butRefresh.Text = "Refresh";
 			this.butRefresh.Click += new System.EventHandler(this.butRefresh_Click);
@@ -79,9 +79,9 @@ namespace OpenPmsDental{
 			// butImportPathPick
 			// 
 			this.butImportPathPick.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butImportPathPick.Location = new System.Drawing.Point(854, 116);
+			this.butImportPathPick.Location = new System.Drawing.Point(855, 109);
 			this.butImportPathPick.Name = "butImportPathPick";
-			this.butImportPathPick.Size = new System.Drawing.Size(30, 20);
+			this.butImportPathPick.Size = new System.Drawing.Size(30, 23);
 			this.butImportPathPick.TabIndex = 6;
 			this.butImportPathPick.Text = "...";
 			this.butImportPathPick.Click += new System.EventHandler(this.butImportPathPick_Click);
@@ -94,12 +94,12 @@ namespace OpenPmsDental{
 			this.textImportPath.BackColor = System.Drawing.SystemColors.Window;
 			this.textImportPath.DetectLinksEnabled = false;
 			this.textImportPath.DetectUrls = false;
-			this.textImportPath.Location = new System.Drawing.Point(12, 116);
+			this.textImportPath.Location = new System.Drawing.Point(8, 109);
 			this.textImportPath.Multiline = false;
 			this.textImportPath.Name = "textImportPath";
 			this.textImportPath.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Etrans834Import;
 			this.textImportPath.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textImportPath.Size = new System.Drawing.Size(836, 20);
+			this.textImportPath.Size = new System.Drawing.Size(841, 23);
 			this.textImportPath.SpellCheckIsEnabled = false;
 			this.textImportPath.TabIndex = 4;
 			this.textImportPath.Text = "";
@@ -107,7 +107,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(887, 660);
+			this.butSave.Location = new System.Drawing.Point(891, 664);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 3;
@@ -117,7 +117,7 @@ namespace OpenPmsDental{
 			// labelProgress
 			// 
 			this.labelProgress.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.labelProgress.Location = new System.Drawing.Point(12, 662);
+			this.labelProgress.Location = new System.Drawing.Point(8, 666);
 			this.labelProgress.Name = "labelProgress";
 			this.labelProgress.Size = new System.Drawing.Size(788, 20);
 			this.labelProgress.TabIndex = 11;

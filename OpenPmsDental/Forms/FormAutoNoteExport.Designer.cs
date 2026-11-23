@@ -42,16 +42,16 @@
 			this.treeNotes.CheckBoxes = true;
 			this.treeNotes.ImageIndex = 1;
 			this.treeNotes.Indent = 12;
-			this.treeNotes.Location = new System.Drawing.Point(18, 21);
+			this.treeNotes.Location = new System.Drawing.Point(8, 27);
 			this.treeNotes.Name = "treeNotes";
 			this.treeNotes.SelectedImageIndex = 1;
-			this.treeNotes.Size = new System.Drawing.Size(263, 636);
+			this.treeNotes.Size = new System.Drawing.Size(298, 640);
 			this.treeNotes.TabIndex = 0;
 			this.treeNotes.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.node_AfterCheck);
 			// 
 			// labelExportSelect
 			// 
-			this.labelExportSelect.Location = new System.Drawing.Point(17, 4);
+			this.labelExportSelect.Location = new System.Drawing.Point(8, 8);
 			this.labelExportSelect.Name = "labelExportSelect";
 			this.labelExportSelect.Size = new System.Drawing.Size(308, 17);
 			this.labelExportSelect.TabIndex = 1;
@@ -60,9 +60,9 @@
 			// checkCollapse
 			// 
 			this.checkCollapse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkCollapse.Location = new System.Drawing.Point(292, 21);
+			this.checkCollapse.Location = new System.Drawing.Point(314, 24);
 			this.checkCollapse.Name = "checkCollapse";
-			this.checkCollapse.Size = new System.Drawing.Size(100, 20);
+			this.checkCollapse.Size = new System.Drawing.Size(86, 20);
 			this.checkCollapse.TabIndex = 3;
 			this.checkCollapse.Text = "Collapse All";
 			this.checkCollapse.CheckedChanged += new System.EventHandler(this.checkCollapse_CheckedChanged);
@@ -70,9 +70,9 @@
 			// butExport
 			// 
 			this.butExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butExport.Location = new System.Drawing.Point(292, 106);
+			this.butExport.Location = new System.Drawing.Point(314, 106);
 			this.butExport.Name = "butExport";
-			this.butExport.Size = new System.Drawing.Size(89, 26);
+			this.butExport.Size = new System.Drawing.Size(104, 26);
 			this.butExport.TabIndex = 2;
 			this.butExport.Text = "Export Selected";
 			this.butExport.UseVisualStyleBackColor = true;
@@ -81,9 +81,9 @@
 			// butClear
 			// 
 			this.butClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butClear.Location = new System.Drawing.Point(292, 74);
+			this.butClear.Location = new System.Drawing.Point(314, 76);
 			this.butClear.Name = "butClear";
-			this.butClear.Size = new System.Drawing.Size(89, 26);
+			this.butClear.Size = new System.Drawing.Size(104, 26);
 			this.butClear.TabIndex = 6;
 			this.butClear.Text = "Clear Selection";
 			this.butClear.UseVisualStyleBackColor = true;
@@ -92,9 +92,9 @@
 			// butSelectAll
 			// 
 			this.butSelectAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSelectAll.Location = new System.Drawing.Point(292, 44);
+			this.butSelectAll.Location = new System.Drawing.Point(314, 48);
 			this.butSelectAll.Name = "butSelectAll";
-			this.butSelectAll.Size = new System.Drawing.Size(89, 24);
+			this.butSelectAll.Size = new System.Drawing.Size(104, 24);
 			this.butSelectAll.TabIndex = 7;
 			this.butSelectAll.Text = "Select All";
 			this.butSelectAll.UseVisualStyleBackColor = true;
@@ -103,7 +103,7 @@
 			// FormAutoNoteExport
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(393, 675);
+			this.ClientSize = new System.Drawing.Size(426, 675);
 			this.Controls.Add(this.butSelectAll);
 			this.Controls.Add(this.butClear);
 			this.Controls.Add(this.checkCollapse);

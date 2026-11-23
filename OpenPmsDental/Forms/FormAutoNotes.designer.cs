@@ -41,7 +41,7 @@ namespace OpenPmsDental {
 			// 
 			// labelSelection
 			// 
-			this.labelSelection.Location = new System.Drawing.Point(15, 4);
+			this.labelSelection.Location = new System.Drawing.Point(15, 653);
 			this.labelSelection.Name = "labelSelection";
 			this.labelSelection.Size = new System.Drawing.Size(268, 14);
 			this.labelSelection.TabIndex = 8;
@@ -57,10 +57,10 @@ namespace OpenPmsDental {
 			this.treeNotes.HideSelection = false;
 			this.treeNotes.ImageIndex = 1;
 			this.treeNotes.Indent = 12;
-			this.treeNotes.Location = new System.Drawing.Point(18, 21);
+			this.treeNotes.Location = new System.Drawing.Point(8, 8);
 			this.treeNotes.Name = "treeNotes";
 			this.treeNotes.SelectedImageIndex = 1;
-			this.treeNotes.Size = new System.Drawing.Size(307, 641);
+			this.treeNotes.Size = new System.Drawing.Size(324, 659);
 			this.treeNotes.TabIndex = 2;
 			this.treeNotes.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.treeNotes_ItemDrag);
 			this.treeNotes.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeNotes_MouseDoubleClick);
@@ -73,7 +73,7 @@ namespace OpenPmsDental {
 			this.butAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdd.Location = new System.Drawing.Point(340, 57);
+			this.butAdd.Location = new System.Drawing.Point(340, 48);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(79, 26);
 			this.butAdd.TabIndex = 7;
@@ -83,7 +83,7 @@ namespace OpenPmsDental {
 			// checkCollapse
 			// 
 			this.checkCollapse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkCollapse.Location = new System.Drawing.Point(340, 21);
+			this.checkCollapse.Location = new System.Drawing.Point(340, 24);
 			this.checkCollapse.Name = "checkCollapse";
 			this.checkCollapse.Size = new System.Drawing.Size(83, 20);
 			this.checkCollapse.TabIndex = 227;
@@ -93,7 +93,7 @@ namespace OpenPmsDental {
 			// butExport
 			// 
 			this.butExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butExport.Location = new System.Drawing.Point(340, 89);
+			this.butExport.Location = new System.Drawing.Point(340, 78);
 			this.butExport.Name = "butExport";
 			this.butExport.Size = new System.Drawing.Size(79, 26);
 			this.butExport.TabIndex = 228;
@@ -104,7 +104,7 @@ namespace OpenPmsDental {
 			// butImport
 			// 
 			this.butImport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butImport.Location = new System.Drawing.Point(340, 121);
+			this.butImport.Location = new System.Drawing.Point(340, 108);
 			this.butImport.Name = "butImport";
 			this.butImport.Size = new System.Drawing.Size(79, 26);
 			this.butImport.TabIndex = 229;

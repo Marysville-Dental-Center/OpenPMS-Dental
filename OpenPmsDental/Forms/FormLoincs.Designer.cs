@@ -36,9 +36,9 @@
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(12, 41);
+			this.gridMain.Location = new System.Drawing.Point(8, 35);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(901, 612);
+			this.gridMain.Size = new System.Drawing.Size(990, 612);
 			this.gridMain.TabIndex = 11;
 			this.gridMain.Title = "LOINC Codes";
 			this.gridMain.TranslationName = "FormLoincCodes";
@@ -47,25 +47,25 @@
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(15, 17);
+			this.label1.Location = new System.Drawing.Point(8, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(172, 18);
+			this.label1.Size = new System.Drawing.Size(116, 23);
 			this.label1.TabIndex = 20;
 			this.label1.Text = "Code or Description";
-			this.label1.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textCode
 			// 
-			this.textCode.Location = new System.Drawing.Point(190, 14);
+			this.textCode.Location = new System.Drawing.Point(130, 8);
 			this.textCode.Name = "textCode";
-			this.textCode.Size = new System.Drawing.Size(158, 20);
+			this.textCode.Size = new System.Drawing.Size(160, 23);
 			this.textCode.TabIndex = 19;
 			// 
 			// butSearch
 			// 
-			this.butSearch.Location = new System.Drawing.Point(354, 11);
+			this.butSearch.Location = new System.Drawing.Point(296, 8);
 			this.butSearch.Name = "butSearch";
-			this.butSearch.Size = new System.Drawing.Size(75, 24);
+			this.butSearch.Size = new System.Drawing.Size(75, 23);
 			this.butSearch.TabIndex = 23;
 			this.butSearch.Text = "Search";
 			this.butSearch.Click += new System.EventHandler(this.butSearch_Click);
@@ -73,7 +73,7 @@
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(919, 629);
+			this.butOK.Location = new System.Drawing.Point(923, 659);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 24);
 			this.butOK.TabIndex = 25;
@@ -83,7 +83,7 @@
 			// FormLoincs
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(1006, 665);
+			this.ClientSize = new System.Drawing.Size(1006, 691);
 			this.Controls.Add(this.butOK);
 			this.Controls.Add(this.butSearch);
 			this.Controls.Add(this.label1);

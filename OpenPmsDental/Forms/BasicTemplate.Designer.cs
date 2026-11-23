@@ -39,7 +39,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(1143, 660);
+			this.butSave.Location = new System.Drawing.Point(1147, 664);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 3;
@@ -51,7 +51,7 @@ namespace OpenPmsDental{
 			this.splitContainer.Controls.Add(this.splitterPanel1);
 			this.splitContainer.Controls.Add(this.splitterPanel2);
 			this.splitContainer.Cursor = System.Windows.Forms.Cursors.Default;
-			this.splitContainer.Location = new System.Drawing.Point(148, 90);
+			this.splitContainer.Location = new System.Drawing.Point(148, 91);
 			this.splitContainer.Name = "splitContainer";
 			this.splitContainer.Orientation = System.Windows.Forms.Orientation.Horizontal;
 			this.splitContainer.Panel1 = this.splitterPanel1;
@@ -79,7 +79,7 @@ namespace OpenPmsDental{
 			this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.label2.Location = new System.Drawing.Point(154, 9);
+			this.label2.Location = new System.Drawing.Point(148, 8);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(143, 81);
 			this.label2.TabIndex = 3;
@@ -94,7 +94,7 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.tabControl.Controls.Add(this.tabPage1);
 			this.tabControl.Controls.Add(this.tabPage2);
-			this.tabControl.Location = new System.Drawing.Point(386, 90);
+			this.tabControl.Location = new System.Drawing.Point(386, 78);
 			this.tabControl.Name = "tabControl";
 			this.tabControl.Size = new System.Drawing.Size(240, 115);
 			this.tabControl.TabIndex = 74;
@@ -124,9 +124,9 @@ namespace OpenPmsDental{
 			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.label1.Location = new System.Drawing.Point(416, 15);
+			this.label1.Location = new System.Drawing.Point(416, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(169, 53);
+			this.label1.Size = new System.Drawing.Size(169, 62);
 			this.label1.TabIndex = 4;
 			this.label1.Text = "This is a UI.TabControl along with its 2 TabPages, that you can copy/paste into a" +
     "ny form.";

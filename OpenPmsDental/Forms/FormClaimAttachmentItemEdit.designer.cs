@@ -39,42 +39,45 @@ namespace OpenPmsDental{
 			// 
 			// labelImageType
 			// 
-			this.labelImageType.Location = new System.Drawing.Point(54, 97);
+			this.labelImageType.Location = new System.Drawing.Point(62, 62);
+			this.labelImageType.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.labelImageType.Name = "labelImageType";
-			this.labelImageType.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-			this.labelImageType.Size = new System.Drawing.Size(84, 18);
+			this.labelImageType.RightToLeft = System.Windows.Forms.RightToLeft.No;
+			this.labelImageType.Size = new System.Drawing.Size(72, 23);
 			this.labelImageType.TabIndex = 1;
 			this.labelImageType.Text = "Image Type";
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(54, 44);
+			this.label1.Location = new System.Drawing.Point(70, 8);
+			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label1.Name = "label1";
-			this.label1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-			this.label1.Size = new System.Drawing.Size(84, 18);
+			this.label1.RightToLeft = System.Windows.Forms.RightToLeft.No;
+			this.label1.Size = new System.Drawing.Size(64, 23);
 			this.label1.TabIndex = 2;
 			this.label1.Text = "File Name";
 			// 
 			// textDateCreated
 			// 
-			this.textDateCreated.Location = new System.Drawing.Point(139, 68);
+			this.textDateCreated.Location = new System.Drawing.Point(140, 35);
 			this.textDateCreated.Name = "textDateCreated";
-			this.textDateCreated.Size = new System.Drawing.Size(139, 20);
+			this.textDateCreated.Size = new System.Drawing.Size(140, 23);
 			this.textDateCreated.TabIndex = 1;
 			// 
 			// labelDateTimeCreate
 			// 
-			this.labelDateTimeCreate.Location = new System.Drawing.Point(54, 71);
+			this.labelDateTimeCreate.Location = new System.Drawing.Point(54, 35);
+			this.labelDateTimeCreate.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.labelDateTimeCreate.Name = "labelDateTimeCreate";
-			this.labelDateTimeCreate.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-			this.labelDateTimeCreate.Size = new System.Drawing.Size(84, 18);
+			this.labelDateTimeCreate.RightToLeft = System.Windows.Forms.RightToLeft.No;
+			this.labelDateTimeCreate.Size = new System.Drawing.Size(80, 23);
 			this.labelDateTimeCreate.TabIndex = 6;
 			this.labelDateTimeCreate.Text = "Date Created";
 			// 
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(390, 302);
+			this.butSave.Location = new System.Drawing.Point(501, 306);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 4;
@@ -84,15 +87,15 @@ namespace OpenPmsDental{
 			// 
 			// textFileName
 			// 
-			this.textFileName.Location = new System.Drawing.Point(139, 41);
+			this.textFileName.Location = new System.Drawing.Point(140, 8);
 			this.textFileName.Name = "textFileName";
-			this.textFileName.Size = new System.Drawing.Size(139, 20);
+			this.textFileName.Size = new System.Drawing.Size(140, 23);
 			this.textFileName.TabIndex = 0;
 			this.textFileName.Text = "Attachment";
 			// 
 			// listBoxImageType
 			// 
-			this.listBoxImageType.Location = new System.Drawing.Point(139, 97);
+			this.listBoxImageType.Location = new System.Drawing.Point(140, 62);
 			this.listBoxImageType.Name = "listBoxImageType";
 			this.listBoxImageType.Size = new System.Drawing.Size(139, 134);
 			this.listBoxImageType.TabIndex = 2;
@@ -100,10 +103,10 @@ namespace OpenPmsDental{
 			// 
 			// checkIsXrayMirrored
 			// 
-			this.checkIsXrayMirrored.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkIsXrayMirrored.Location = new System.Drawing.Point(27, 237);
+			this.checkIsXrayMirrored.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkIsXrayMirrored.Location = new System.Drawing.Point(140, 202);
 			this.checkIsXrayMirrored.Name = "checkIsXrayMirrored";
-			this.checkIsXrayMirrored.Size = new System.Drawing.Size(129, 18);
+			this.checkIsXrayMirrored.Size = new System.Drawing.Size(131, 20);
 			this.checkIsXrayMirrored.TabIndex = 3;
 			this.checkIsXrayMirrored.Text = "Is xray mirror image";
 			// 
@@ -111,7 +114,7 @@ namespace OpenPmsDental{
 			// 
 			this.pictureBoxImagePreview.BackColor = System.Drawing.SystemColors.Control;
 			this.pictureBoxImagePreview.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.pictureBoxImagePreview.Location = new System.Drawing.Point(323, 41);
+			this.pictureBoxImagePreview.Location = new System.Drawing.Point(323, 8);
 			this.pictureBoxImagePreview.Name = "pictureBoxImagePreview";
 			this.pictureBoxImagePreview.Size = new System.Drawing.Size(190, 190);
 			this.pictureBoxImagePreview.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -121,7 +124,7 @@ namespace OpenPmsDental{
 			// butNewSnip
 			// 
 			this.butNewSnip.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butNewSnip.Location = new System.Drawing.Point(390, 262);
+			this.butNewSnip.Location = new System.Drawing.Point(300, 306);
 			this.butNewSnip.Name = "butNewSnip";
 			this.butNewSnip.Size = new System.Drawing.Size(75, 24);
 			this.butNewSnip.TabIndex = 6;
@@ -132,9 +135,9 @@ namespace OpenPmsDental{
 			// labelNewSnip
 			// 
 			this.labelNewSnip.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelNewSnip.Location = new System.Drawing.Point(469, 265);
+			this.labelNewSnip.Location = new System.Drawing.Point(381, 306);
 			this.labelNewSnip.Name = "labelNewSnip";
-			this.labelNewSnip.Size = new System.Drawing.Size(116, 18);
+			this.labelNewSnip.Size = new System.Drawing.Size(112, 24);
 			this.labelNewSnip.TabIndex = 10;
 			this.labelNewSnip.Text = "(and Snip Another)";
 			this.labelNewSnip.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;

@@ -37,9 +37,9 @@ namespace OpenPmsDental {
 			this.gridFeed.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridFeed.Location = new System.Drawing.Point(12, 12);
+			this.gridFeed.Location = new System.Drawing.Point(12, 8);
 			this.gridFeed.Name = "gridFeed";
-			this.gridFeed.Size = new System.Drawing.Size(916, 488);
+			this.gridFeed.Size = new System.Drawing.Size(916, 492);
 			this.gridFeed.TabIndex = 0;
 			this.gridFeed.Title = "File Feed";
 			this.gridFeed.TranslationName = "TableFileFeed";
@@ -48,7 +48,7 @@ namespace OpenPmsDental {
 			// butStart
 			//
 			this.butStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butStart.Location = new System.Drawing.Point(941, 12);
+			this.butStart.Location = new System.Drawing.Point(942, 8);
 			this.butStart.Name = "butStart";
 			this.butStart.Size = new System.Drawing.Size(75, 24);
 			this.butStart.TabIndex = 1;
@@ -58,7 +58,7 @@ namespace OpenPmsDental {
 			// butClear
 			//
 			this.butClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butClear.Location = new System.Drawing.Point(941, 46);
+			this.butClear.Location = new System.Drawing.Point(942, 36);
 			this.butClear.Name = "butClear";
 			this.butClear.Size = new System.Drawing.Size(75, 24);
 			this.butClear.TabIndex = 2;
@@ -68,7 +68,8 @@ namespace OpenPmsDental {
 			// labelStatus
 			//
 			this.labelStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelStatus.Location = new System.Drawing.Point(934, 80);
+			this.labelStatus.Location = new System.Drawing.Point(934, 64);
+			this.labelStatus.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			this.labelStatus.Name = "labelStatus";
 			this.labelStatus.Size = new System.Drawing.Size(90, 160);
 			this.labelStatus.TabIndex = 3;
@@ -81,7 +82,7 @@ namespace OpenPmsDental {
 			//
 			// FormFileMonitor
 			//
-			this.ClientSize = new System.Drawing.Size(1028, 512);
+			this.ClientSize = new System.Drawing.Size(1032, 512);
 			this.Controls.Add(this.labelStatus);
 			this.Controls.Add(this.butClear);
 			this.Controls.Add(this.butStart);

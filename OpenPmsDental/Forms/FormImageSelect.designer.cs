@@ -41,7 +41,7 @@ namespace OpenPmsDental {
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(408, 513);
+			this.butOK.Location = new System.Drawing.Point(412, 547);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 26);
 			this.butOK.TabIndex = 1;
@@ -53,9 +53,9 @@ namespace OpenPmsDental {
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(12, 12);
+			this.gridMain.Location = new System.Drawing.Point(8, 8);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(390, 527);
+			this.gridMain.Size = new System.Drawing.Size(479, 527);
 			this.gridMain.TabIndex = 2;
 			this.gridMain.Title = "Images";
 			this.gridMain.TranslationName = "FormImageSelect";
@@ -63,7 +63,7 @@ namespace OpenPmsDental {
 			// 
 			// FormImageSelect
 			// 
-			this.ClientSize = new System.Drawing.Size(495, 564);
+			this.ClientSize = new System.Drawing.Size(495, 581);
 			this.Controls.Add(this.butOK);
 			this.Controls.Add(this.gridMain);
 			this.MaximizeBox = false;

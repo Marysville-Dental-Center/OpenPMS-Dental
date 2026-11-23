@@ -33,10 +33,10 @@ namespace OpenPmsDental {
 			this.gridGroupedProcs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridGroupedProcs.Location = new System.Drawing.Point(13, 13);
+			this.gridGroupedProcs.Location = new System.Drawing.Point(12, 8);
 			this.gridGroupedProcs.Name = "gridGroupedProcs";
 			this.gridGroupedProcs.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridGroupedProcs.Size = new System.Drawing.Size(709, 506);
+			this.gridGroupedProcs.Size = new System.Drawing.Size(710, 509);
 			this.gridGroupedProcs.TabIndex = 3;
 			this.gridGroupedProcs.Title = "Multi-Visit Procedure Progress Notes";
 			this.gridGroupedProcs.TranslationName = "TableMultiVisitGroup";
@@ -45,7 +45,7 @@ namespace OpenPmsDental {
 			// butUngroup
 			// 
 			this.butUngroup.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butUngroup.Location = new System.Drawing.Point(566, 525);
+			this.butUngroup.Location = new System.Drawing.Point(647, 529);
 			this.butUngroup.Name = "butUngroup";
 			this.butUngroup.Size = new System.Drawing.Size(75, 24);
 			this.butUngroup.TabIndex = 4;

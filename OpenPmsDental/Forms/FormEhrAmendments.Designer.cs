@@ -33,9 +33,9 @@
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(18, 48);
+			this.gridMain.Location = new System.Drawing.Point(8, 43);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(470, 222);
+			this.gridMain.Size = new System.Drawing.Size(497, 231);
 			this.gridMain.TabIndex = 25;
 			this.gridMain.Title = "Amendments";
 			this.gridMain.TranslationName = "TableAmendments";
@@ -46,7 +46,7 @@
 			this.butAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdd.Location = new System.Drawing.Point(501, 48);
+			this.butAdd.Location = new System.Drawing.Point(513, 43);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(75, 24);
 			this.butAdd.TabIndex = 29;
@@ -55,9 +55,9 @@
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(15, 9);
+			this.label3.Location = new System.Drawing.Point(8, 8);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(573, 33);
+			this.label3.Size = new System.Drawing.Size(580, 33);
 			this.label3.TabIndex = 130;
 			this.label3.Text = "Patients can bring in documents and request that they be appended to their record" +
     ".  They can then be scanned or the hardcopy filed.";
@@ -65,7 +65,7 @@
 			// FormEhrAmendments
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(588, 282);
+			this.ClientSize = new System.Drawing.Size(596, 282);
 			this.Controls.Add(this.label3);
 			this.Controls.Add(this.butAdd);
 			this.Controls.Add(this.gridMain);

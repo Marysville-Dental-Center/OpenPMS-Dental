@@ -57,16 +57,16 @@ namespace OpenPmsDental {
 			// 
 			// comboClinic
 			// 
-			this.comboClinic.Location = new System.Drawing.Point(410, 12);
+			this.comboClinic.Location = new System.Drawing.Point(410, 8);
 			this.comboClinic.Name = "comboClinic";
-			this.comboClinic.Size = new System.Drawing.Size(159, 21);
+			this.comboClinic.Size = new System.Drawing.Size(160, 23);
 			this.comboClinic.TabIndex = 55;
 			// 
 			// labelClinic
 			// 
-			this.labelClinic.Location = new System.Drawing.Point(309, 14);
+			this.labelClinic.Location = new System.Drawing.Point(360, 8);
 			this.labelClinic.Name = "labelClinic";
-			this.labelClinic.Size = new System.Drawing.Size(100, 16);
+			this.labelClinic.Size = new System.Drawing.Size(44, 23);
 			this.labelClinic.TabIndex = 54;
 			this.labelClinic.Text = "Clinic";
 			this.labelClinic.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -77,9 +77,9 @@ namespace OpenPmsDental {
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridMain.ContextMenuStrip = this.contextMenu;
-			this.gridMain.Location = new System.Drawing.Point(12, 93);
+			this.gridMain.Location = new System.Drawing.Point(12, 89);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(657, 438);
+			this.gridMain.Size = new System.Drawing.Size(657, 442);
 			this.gridMain.TabIndex = 30;
 			this.gridMain.Title = "Payment Information";
 			this.gridMain.TranslationName = "TablePendingPayments";
@@ -88,75 +88,75 @@ namespace OpenPmsDental {
 			// 
 			// butRefresh
 			// 
-			this.butRefresh.Location = new System.Drawing.Point(593, 9);
+			this.butRefresh.Location = new System.Drawing.Point(576, 8);
 			this.butRefresh.Name = "butRefresh";
-			this.butRefresh.Size = new System.Drawing.Size(75, 24);
+			this.butRefresh.Size = new System.Drawing.Size(75, 23);
 			this.butRefresh.TabIndex = 56;
 			this.butRefresh.Text = "&Refresh";
 			this.butRefresh.Click += new System.EventHandler(this.butRefresh_Click);
 			// 
 			// comboPaymentSource
 			// 
-			this.comboPaymentSource.Location = new System.Drawing.Point(410, 66);
+			this.comboPaymentSource.Location = new System.Drawing.Point(410, 62);
 			this.comboPaymentSource.Name = "comboPaymentSource";
 			this.comboPaymentSource.SelectionModeMulti = true;
-			this.comboPaymentSource.Size = new System.Drawing.Size(159, 21);
+			this.comboPaymentSource.Size = new System.Drawing.Size(160, 23);
 			this.comboPaymentSource.TabIndex = 58;
 			// 
 			// labelPaymentSource
 			// 
-			this.labelPaymentSource.Location = new System.Drawing.Point(309, 69);
+			this.labelPaymentSource.Location = new System.Drawing.Point(304, 62);
 			this.labelPaymentSource.Name = "labelPaymentSource";
-			this.labelPaymentSource.Size = new System.Drawing.Size(100, 18);
+			this.labelPaymentSource.Size = new System.Drawing.Size(100, 23);
 			this.labelPaymentSource.TabIndex = 57;
 			this.labelPaymentSource.Text = "Payment Source";
 			this.labelPaymentSource.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// comboProcessStatus
 			// 
-			this.comboProcessStatus.Location = new System.Drawing.Point(410, 39);
+			this.comboProcessStatus.Location = new System.Drawing.Point(410, 35);
 			this.comboProcessStatus.Name = "comboProcessStatus";
 			this.comboProcessStatus.SelectionModeMulti = true;
-			this.comboProcessStatus.Size = new System.Drawing.Size(159, 21);
+			this.comboProcessStatus.Size = new System.Drawing.Size(160, 23);
 			this.comboProcessStatus.TabIndex = 60;
 			// 
 			// labelProcessStatus
 			// 
-			this.labelProcessStatus.Location = new System.Drawing.Point(309, 41);
+			this.labelProcessStatus.Location = new System.Drawing.Point(316, 35);
 			this.labelProcessStatus.Name = "labelProcessStatus";
-			this.labelProcessStatus.Size = new System.Drawing.Size(100, 16);
+			this.labelProcessStatus.Size = new System.Drawing.Size(88, 23);
 			this.labelProcessStatus.TabIndex = 59;
 			this.labelProcessStatus.Text = "Process Status";
 			this.labelProcessStatus.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// dateStart
 			// 
-			this.dateStart.Location = new System.Drawing.Point(79, 12);
+			this.dateStart.Location = new System.Drawing.Point(79, 8);
 			this.dateStart.Name = "dateStart";
 			this.dateStart.Size = new System.Drawing.Size(200, 20);
 			this.dateStart.TabIndex = 61;
 			// 
 			// dateEnd
 			// 
-			this.dateEnd.Location = new System.Drawing.Point(79, 39);
+			this.dateEnd.Location = new System.Drawing.Point(79, 35);
 			this.dateEnd.Name = "dateEnd";
 			this.dateEnd.Size = new System.Drawing.Size(200, 20);
 			this.dateEnd.TabIndex = 62;
 			// 
 			// label10
 			// 
-			this.label10.Location = new System.Drawing.Point(6, 41);
+			this.label10.Location = new System.Drawing.Point(49, 35);
 			this.label10.Name = "label10";
-			this.label10.Size = new System.Drawing.Size(72, 16);
+			this.label10.Size = new System.Drawing.Size(24, 23);
 			this.label10.TabIndex = 90;
 			this.label10.Text = "To";
 			this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label9
 			// 
-			this.label9.Location = new System.Drawing.Point(6, 14);
+			this.label9.Location = new System.Drawing.Point(33, 8);
 			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(72, 16);
+			this.label9.Size = new System.Drawing.Size(40, 23);
 			this.label9.TabIndex = 91;
 			this.label9.Text = "From";
 			this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

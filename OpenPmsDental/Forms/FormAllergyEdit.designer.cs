@@ -45,16 +45,16 @@ namespace OpenPmsDental{
 			// 
 			this.checkActive.Checked = true;
 			this.checkActive.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkActive.Location = new System.Drawing.Point(59, 153);
+			this.checkActive.Location = new System.Drawing.Point(146, 146);
 			this.checkActive.Name = "checkActive";
-			this.checkActive.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-			this.checkActive.Size = new System.Drawing.Size(100, 24);
+			this.checkActive.RightToLeft = System.Windows.Forms.RightToLeft.No;
+			this.checkActive.Size = new System.Drawing.Size(68, 20);
 			this.checkActive.TabIndex = 11;
 			this.checkActive.Text = "Is Active";
 			// 
 			// textReaction
 			// 
-			this.textReaction.Location = new System.Drawing.Point(144, 74);
+			this.textReaction.Location = new System.Drawing.Point(146, 62);
 			this.textReaction.Multiline = true;
 			this.textReaction.Name = "textReaction";
 			this.textReaction.Size = new System.Drawing.Size(272, 53);
@@ -62,58 +62,58 @@ namespace OpenPmsDental{
 			// 
 			// labelReaction
 			// 
-			this.labelReaction.Location = new System.Drawing.Point(7, 74);
+			this.labelReaction.Location = new System.Drawing.Point(20, 62);
 			this.labelReaction.Name = "labelReaction";
-			this.labelReaction.Size = new System.Drawing.Size(134, 20);
+			this.labelReaction.Size = new System.Drawing.Size(120, 23);
 			this.labelReaction.TabIndex = 9;
 			this.labelReaction.Text = "Reaction Description";
 			this.labelReaction.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// labelAllergy
 			// 
-			this.labelAllergy.Location = new System.Drawing.Point(60, 18);
+			this.labelAllergy.Location = new System.Drawing.Point(92, 8);
 			this.labelAllergy.Name = "labelAllergy";
-			this.labelAllergy.Size = new System.Drawing.Size(81, 20);
+			this.labelAllergy.Size = new System.Drawing.Size(48, 23);
 			this.labelAllergy.TabIndex = 12;
 			this.labelAllergy.Text = "Allergy";
 			this.labelAllergy.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// comboAllergies
 			// 
-			this.comboAllergies.Location = new System.Drawing.Point(144, 19);
+			this.comboAllergies.Location = new System.Drawing.Point(146, 8);
 			this.comboAllergies.Name = "comboAllergies";
-			this.comboAllergies.Size = new System.Drawing.Size(272, 21);
+			this.comboAllergies.Size = new System.Drawing.Size(272, 23);
 			this.comboAllergies.TabIndex = 13;
 			// 
 			// textDate
 			// 
 			this.textDate.AutoSize = false;
-			this.textDate.Location = new System.Drawing.Point(144, 133);
+			this.textDate.Location = new System.Drawing.Point(146, 119);
 			this.textDate.Name = "textDate";
-			this.textDate.Size = new System.Drawing.Size(100, 20);
+			this.textDate.Size = new System.Drawing.Size(100, 23);
 			this.textDate.TabIndex = 15;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(4, 132);
+			this.label1.Location = new System.Drawing.Point(8, 119);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(137, 20);
+			this.label1.Size = new System.Drawing.Size(132, 23);
 			this.label1.TabIndex = 16;
 			this.label1.Text = "Date Adverse Reaction";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(0, 46);
+			this.label2.Location = new System.Drawing.Point(12, 35);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(141, 20);
+			this.label2.Size = new System.Drawing.Size(128, 23);
 			this.label2.TabIndex = 26;
 			this.label2.Text = "SNOMED CT Reaction";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textSnomedReaction
 			// 
-			this.textSnomedReaction.Location = new System.Drawing.Point(144, 46);
+			this.textSnomedReaction.Location = new System.Drawing.Point(146, 35);
 			this.textSnomedReaction.Name = "textSnomedReaction";
 			this.textSnomedReaction.ReadOnly = true;
 			this.textSnomedReaction.Size = new System.Drawing.Size(272, 20);
@@ -121,18 +121,18 @@ namespace OpenPmsDental{
 			// 
 			// butNoneSnomedReaction
 			// 
-			this.butNoneSnomedReaction.Location = new System.Drawing.Point(449, 46);
+			this.butNoneSnomedReaction.Location = new System.Drawing.Point(452, 35);
 			this.butNoneSnomedReaction.Name = "butNoneSnomedReaction";
-			this.butNoneSnomedReaction.Size = new System.Drawing.Size(51, 22);
+			this.butNoneSnomedReaction.Size = new System.Drawing.Size(51, 23);
 			this.butNoneSnomedReaction.TabIndex = 28;
 			this.butNoneSnomedReaction.Text = "None";
 			this.butNoneSnomedReaction.Click += new System.EventHandler(this.butNoneSnomedReaction_Click);
 			// 
 			// butSnomedReactionSelect
 			// 
-			this.butSnomedReactionSelect.Location = new System.Drawing.Point(421, 46);
+			this.butSnomedReactionSelect.Location = new System.Drawing.Point(424, 35);
 			this.butSnomedReactionSelect.Name = "butSnomedReactionSelect";
-			this.butSnomedReactionSelect.Size = new System.Drawing.Size(22, 22);
+			this.butSnomedReactionSelect.Size = new System.Drawing.Size(22, 23);
 			this.butSnomedReactionSelect.TabIndex = 27;
 			this.butSnomedReactionSelect.Text = "...";
 			this.butSnomedReactionSelect.Click += new System.EventHandler(this.butSnomedReactionSelect_Click);
@@ -140,7 +140,7 @@ namespace OpenPmsDental{
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(425, 245);
+			this.butOK.Location = new System.Drawing.Point(431, 249);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 24);
 			this.butOK.TabIndex = 3;
@@ -152,7 +152,7 @@ namespace OpenPmsDental{
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(19, 245);
+			this.butDelete.Location = new System.Drawing.Point(8, 249);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(75, 24);
 			this.butDelete.TabIndex = 2;
@@ -162,9 +162,9 @@ namespace OpenPmsDental{
 			// labelOtherEntered
 			//
 			this.labelOtherEntered.AutoEllipsis = true;
-			this.labelOtherEntered.Location = new System.Drawing.Point(141, 182);
+			this.labelOtherEntered.Location = new System.Drawing.Point(146, 170);
 			this.labelOtherEntered.Name = "labelOtherEntered";
-			this.labelOtherEntered.Size = new System.Drawing.Size(275, 18);
+			this.labelOtherEntered.Size = new System.Drawing.Size(269, 23);
 			this.labelOtherEntered.TabIndex = 29;
 			this.labelOtherEntered.Text = "Patient entered:";
 			this.labelOtherEntered.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -172,9 +172,9 @@ namespace OpenPmsDental{
 			//
 			// butConvertOther
 			//
-			this.butConvertOther.Location = new System.Drawing.Point(421, 179);
+			this.butConvertOther.Location = new System.Drawing.Point(421, 170);
 			this.butConvertOther.Name = "butConvertOther";
-			this.butConvertOther.Size = new System.Drawing.Size(79, 24);
+			this.butConvertOther.Size = new System.Drawing.Size(79, 23);
 			this.butConvertOther.TabIndex = 30;
 			this.butConvertOther.Text = "Convert";
 			this.butConvertOther.Visible = false;
@@ -182,9 +182,9 @@ namespace OpenPmsDental{
 			//
 			// checkKeepOtherText
 			//
-			this.checkKeepOtherText.Location = new System.Drawing.Point(144, 205);
+			this.checkKeepOtherText.Location = new System.Drawing.Point(146, 197);
 			this.checkKeepOtherText.Name = "checkKeepOtherText";
-			this.checkKeepOtherText.Size = new System.Drawing.Size(272, 20);
+			this.checkKeepOtherText.Size = new System.Drawing.Size(182, 20);
 			this.checkKeepOtherText.TabIndex = 31;
 			this.checkKeepOtherText.Text = "Keep entered text as reaction";
 			this.checkKeepOtherText.Visible = false;

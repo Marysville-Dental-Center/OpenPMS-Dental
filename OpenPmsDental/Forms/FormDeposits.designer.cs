@@ -45,9 +45,9 @@ namespace OpenPmsDental {
 			this.grid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.grid.Location = new System.Drawing.Point(18, 34);
+			this.grid.Location = new System.Drawing.Point(8, 35);
 			this.grid.Name = "grid";
-			this.grid.Size = new System.Drawing.Size(339, 567);
+			this.grid.Size = new System.Drawing.Size(355, 567);
 			this.grid.TabIndex = 1;
 			this.grid.Title = "Deposit Slips";
 			this.grid.TranslationName = "TableDepositSlips";
@@ -59,9 +59,9 @@ namespace OpenPmsDental {
 			this.butAdd.Anchor = System.Windows.Forms.AnchorStyles.Right;
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdd.Location = new System.Drawing.Point(363, 293);
+			this.butAdd.Location = new System.Drawing.Point(371, 296);
 			this.butAdd.Name = "butAdd";
-			this.butAdd.Size = new System.Drawing.Size(77, 26);
+			this.butAdd.Size = new System.Drawing.Size(75, 26);
 			this.butAdd.TabIndex = 0;
 			this.butAdd.Text = "Add";
 			this.butAdd.Click += new System.EventHandler(this.butAdd_Click);
@@ -69,7 +69,7 @@ namespace OpenPmsDental {
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(363, 575);
+			this.butOK.Location = new System.Drawing.Point(371, 614);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 26);
 			this.butOK.TabIndex = 2;
@@ -80,17 +80,17 @@ namespace OpenPmsDental {
 			// 
 			this.comboClinics.IncludeAll = true;
 			this.comboClinics.IncludeUnassigned = true;
-			this.comboClinics.Location = new System.Drawing.Point(72, 7);
+			this.comboClinics.Location = new System.Drawing.Point(163, 8);
 			this.comboClinics.Name = "comboClinics";
 			this.comboClinics.IsMultiSelect = true;
-			this.comboClinics.Size = new System.Drawing.Size(200, 21);
+			this.comboClinics.Size = new System.Drawing.Size(200, 23);
 			this.comboClinics.TabIndex = 131;
 			this.comboClinics.SelectionChangeCommitted += new System.EventHandler(this.ComboClinics_SelectionChangeCommitted);
 			// 
 			// FormDeposits
 			// 
 			this.AcceptButton = this.butOK;
-			this.ClientSize = new System.Drawing.Size(454, 613);
+			this.ClientSize = new System.Drawing.Size(454, 648);
 			this.Controls.Add(this.comboClinics);
 			this.Controls.Add(this.butOK);
 			this.Controls.Add(this.grid);

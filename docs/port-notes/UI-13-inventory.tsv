@@ -3,9 +3,9 @@
 # designer/code: uses in designer files / 'new' in code (by name). styled: yes (in the new look, by the code named), keeps (Windows'
 # own or content, the reason given), n/a (draws nothing). coverage: the row of tests/UiRefreshTests/Data/coverage.tsv, or why none.
 type	drawn	designer	code	styled	by	coverage	fix_or_reason
-CodeBase.Controls.ODWebView2	own control	19	3	keeps		(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	web content (section 1)
+CodeBase.Controls.ODWebView2	own control	19	4	keeps		(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	web content (section 1)
 CodeBase.PrintPanel	own control	1	0	n/a		(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	a print surface: documents
-ODWebView2	own control	2	3	keeps		(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	web content (section 1)
+ODWebView2	own control	2	4	keeps		(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	web content (section 1)
 OpenPmsDental.CallFireService.SMSService	own control	1	1	n/a		(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	draws nothing (a component, a data holder or a part of another row's control)
 OpenPmsDental.ContrPerio	own control	1	1	keeps		(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	the perio chart: clinical content (section 1)
 OpenPmsDental.ControlImageDock	own control	1	0	yes	ControlImageDock (UI-4c, the image dock's header)	(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	

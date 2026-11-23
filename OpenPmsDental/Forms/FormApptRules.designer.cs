@@ -42,9 +42,9 @@ namespace OpenPmsDental {
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(21, 9);
+			this.label1.Location = new System.Drawing.Point(8, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(485, 49);
+			this.label1.Size = new System.Drawing.Size(523, 50);
 			this.label1.TabIndex = 12;
 			this.label1.Text = resources.GetString("label1.Text");
 			// 
@@ -53,9 +53,9 @@ namespace OpenPmsDental {
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(21, 59);
+			this.gridMain.Location = new System.Drawing.Point(8, 62);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(485, 369);
+			this.gridMain.Size = new System.Drawing.Size(523, 396);
 			this.gridMain.TabIndex = 11;
 			this.gridMain.Title = "Appointment Rules";
 			this.gridMain.TranslationName = "TablePayPeriods";
@@ -66,7 +66,7 @@ namespace OpenPmsDental {
 			this.butAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdd.Location = new System.Drawing.Point(21, 444);
+			this.butAdd.Location = new System.Drawing.Point(8, 466);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(80, 26);
 			this.butAdd.TabIndex = 10;

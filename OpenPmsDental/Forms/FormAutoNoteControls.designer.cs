@@ -39,9 +39,9 @@ namespace OpenPmsDental
 					this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-					this.gridMain.Location = new System.Drawing.Point(6,12);
+					this.gridMain.Location = new System.Drawing.Point(8,8);
 					this.gridMain.Name = "gridMain";
-					this.gridMain.Size = new System.Drawing.Size(842,597);
+					this.gridMain.Size = new System.Drawing.Size(851,604);
 					this.gridMain.TabIndex = 106;
 					this.gridMain.Title = "Controls";
 					this.gridMain.TranslationName = "FormAutoNoteEdit";
@@ -53,7 +53,7 @@ namespace OpenPmsDental
 					this.butAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 					this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
 					this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-					this.butAdd.Location = new System.Drawing.Point(489,619);
+					this.butAdd.Location = new System.Drawing.Point(489,624);
 					this.butAdd.Name = "butAdd";
 					this.butAdd.Size = new System.Drawing.Size(78,24);
 					this.butAdd.TabIndex = 105;
@@ -63,7 +63,7 @@ namespace OpenPmsDental
 					// butOK
 					// 
 					this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-					this.butOK.Location = new System.Drawing.Point(770,620);
+					this.butOK.Location = new System.Drawing.Point(781,624);
 					this.butOK.Name = "butOK";
 					this.butOK.Size = new System.Drawing.Size(78,24);
 					this.butOK.TabIndex = 5;
@@ -75,7 +75,7 @@ namespace OpenPmsDental
 					this.butEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 					this.butEdit.Icon = OpenPmsDental.UI.EnumIcons.Edit;
 					this.butEdit.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-					this.butEdit.Location = new System.Drawing.Point(342,619);
+					this.butEdit.Location = new System.Drawing.Point(342,624);
 					this.butEdit.Name = "butEdit";
 					this.butEdit.Size = new System.Drawing.Size(78,24);
 					this.butEdit.TabIndex = 107;

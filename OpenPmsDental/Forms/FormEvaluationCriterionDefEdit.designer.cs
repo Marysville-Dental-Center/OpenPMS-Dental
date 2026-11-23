@@ -39,7 +39,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(273, 138);
+			this.butSave.Location = new System.Drawing.Point(277, 142);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 6;
@@ -48,61 +48,61 @@ namespace OpenPmsDental{
 			// 
 			// checkIsCategoryName
 			// 
-			this.checkIsCategoryName.Location = new System.Drawing.Point(153, 103);
+			this.checkIsCategoryName.Location = new System.Drawing.Point(153, 62);
 			this.checkIsCategoryName.Name = "checkIsCategoryName";
-			this.checkIsCategoryName.Size = new System.Drawing.Size(190, 18);
+			this.checkIsCategoryName.Size = new System.Drawing.Size(164, 20);
 			this.checkIsCategoryName.TabIndex = 4;
 			this.checkIsCategoryName.Text = "This will not show a grade";
 			// 
 			// textDescript
 			// 
-			this.textDescript.Location = new System.Drawing.Point(153, 25);
+			this.textDescript.Location = new System.Drawing.Point(153, 8);
 			this.textDescript.MaxLength = 255;
 			this.textDescript.Name = "textDescript";
-			this.textDescript.Size = new System.Drawing.Size(155, 20);
+			this.textDescript.Size = new System.Drawing.Size(156, 23);
 			this.textDescript.TabIndex = 1;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(36, 52);
+			this.label1.Location = new System.Drawing.Point(63, 35);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(116, 17);
+			this.label1.Size = new System.Drawing.Size(84, 23);
 			this.label1.TabIndex = 119;
 			this.label1.Text = "Grading Scale";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textGradeScaleName
 			// 
-			this.textGradeScaleName.Location = new System.Drawing.Point(153, 51);
+			this.textGradeScaleName.Location = new System.Drawing.Point(153, 35);
 			this.textGradeScaleName.MaxLength = 255;
 			this.textGradeScaleName.Name = "textGradeScaleName";
 			this.textGradeScaleName.ReadOnly = true;
-			this.textGradeScaleName.Size = new System.Drawing.Size(155, 20);
+			this.textGradeScaleName.Size = new System.Drawing.Size(156, 23);
 			this.textGradeScaleName.TabIndex = 2;
 			// 
 			// butGradingScale
 			// 
-			this.butGradingScale.Location = new System.Drawing.Point(314, 48);
+			this.butGradingScale.Location = new System.Drawing.Point(315, 35);
 			this.butGradingScale.Name = "butGradingScale";
-			this.butGradingScale.Size = new System.Drawing.Size(24, 24);
+			this.butGradingScale.Size = new System.Drawing.Size(24, 23);
 			this.butGradingScale.TabIndex = 3;
 			this.butGradingScale.Text = "...";
 			this.butGradingScale.Click += new System.EventHandler(this.butGradingScale_Click);
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(36, 25);
+			this.label2.Location = new System.Drawing.Point(75, 8);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(116, 17);
+			this.label2.Size = new System.Drawing.Size(72, 23);
 			this.label2.TabIndex = 120;
 			this.label2.Text = "Description";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(39, 102);
+			this.label3.Location = new System.Drawing.Point(39, 62);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(113, 17);
+			this.label3.Size = new System.Drawing.Size(108, 20);
 			this.label3.TabIndex = 121;
 			this.label3.Text = "Is Category Name";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -112,7 +112,7 @@ namespace OpenPmsDental{
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(12, 138);
+			this.butDelete.Location = new System.Drawing.Point(8, 142);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(75, 24);
 			this.butDelete.TabIndex = 5;
@@ -121,9 +121,9 @@ namespace OpenPmsDental{
 			// 
 			// labelPoints
 			// 
-			this.labelPoints.Location = new System.Drawing.Point(36, 77);
+			this.labelPoints.Location = new System.Drawing.Point(103, 86);
 			this.labelPoints.Name = "labelPoints";
-			this.labelPoints.Size = new System.Drawing.Size(116, 17);
+			this.labelPoints.Size = new System.Drawing.Size(44, 23);
 			this.labelPoints.TabIndex = 123;
 			this.labelPoints.Text = "Points";
 			this.labelPoints.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -131,10 +131,10 @@ namespace OpenPmsDental{
 			// 
 			// textPoints
 			// 
-			this.textPoints.Location = new System.Drawing.Point(153, 77);
+			this.textPoints.Location = new System.Drawing.Point(153, 86);
 			this.textPoints.MaxLength = 255;
 			this.textPoints.Name = "textPoints";
-			this.textPoints.Size = new System.Drawing.Size(54, 20);
+			this.textPoints.Size = new System.Drawing.Size(56, 23);
 			this.textPoints.TabIndex = 122;
 			this.textPoints.Visible = false;
 			// 

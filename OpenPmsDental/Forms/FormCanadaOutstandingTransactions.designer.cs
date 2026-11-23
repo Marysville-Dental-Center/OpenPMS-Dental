@@ -36,18 +36,18 @@ namespace OpenPmsDental{
             // 
             // listCarriers
             // 
-            this.listCarriers.Location = new System.Drawing.Point(6, 19);
+            this.listCarriers.Location = new System.Drawing.Point(8, 23);
             this.listCarriers.Name = "listCarriers";
-            this.listCarriers.Size = new System.Drawing.Size(307, 95);
+            this.listCarriers.Size = new System.Drawing.Size(328, 95);
             this.listCarriers.TabIndex = 107;
             // 
             // groupCarrier
             // 
             this.groupCarrier.Controls.Add(this.listCarriers);
             this.groupCarrier.Enabled = false;
-            this.groupCarrier.Location = new System.Drawing.Point(29, 58);
+            this.groupCarrier.Location = new System.Drawing.Point(8, 60);
             this.groupCarrier.Name = "groupCarrier";
-            this.groupCarrier.Size = new System.Drawing.Size(319, 120);
+            this.groupCarrier.Size = new System.Drawing.Size(344, 126);
             this.groupCarrier.TabIndex = 109;
             this.groupCarrier.TabStop = false;
             this.groupCarrier.Text = "Carrier";
@@ -56,9 +56,9 @@ namespace OpenPmsDental{
             // 
             this.radioVersion4Itrans.AutoSize = false;
             this.radioVersion4Itrans.Checked = true;
-            this.radioVersion4Itrans.Location = new System.Drawing.Point(12, 12);
+            this.radioVersion4Itrans.Location = new System.Drawing.Point(8, 8);
             this.radioVersion4Itrans.Name = "radioVersion4Itrans";
-            this.radioVersion4Itrans.Size = new System.Drawing.Size(74, 22);
+            this.radioVersion4Itrans.Size = new System.Drawing.Size(72, 20);
             this.radioVersion4Itrans.TabIndex = 111;
             this.radioVersion4Itrans.TabStop = true;
             this.radioVersion4Itrans.Text = "Version 4";
@@ -67,9 +67,9 @@ namespace OpenPmsDental{
             // 
             // radioVersion4ToCarrier
             // 
-            this.radioVersion4ToCarrier.Location = new System.Drawing.Point(12, 35);
+            this.radioVersion4ToCarrier.Location = new System.Drawing.Point(8, 32);
             this.radioVersion4ToCarrier.Name = "radioVersion4ToCarrier";
-            this.radioVersion4ToCarrier.Size = new System.Drawing.Size(270, 17);
+            this.radioVersion4ToCarrier.Size = new System.Drawing.Size(288, 20);
             this.radioVersion4ToCarrier.TabIndex = 112;
             this.radioVersion4ToCarrier.Text = "Version 4 To Specific Carrier (not commonly used)";
             this.radioVersion4ToCarrier.UseVisualStyleBackColor = true;
@@ -78,24 +78,24 @@ namespace OpenPmsDental{
             // groupOfficeNumber
             // 
             this.groupOfficeNumber.Controls.Add(this.listOfficeNumbers);
-            this.groupOfficeNumber.Location = new System.Drawing.Point(29, 178);
+            this.groupOfficeNumber.Location = new System.Drawing.Point(8, 194);
             this.groupOfficeNumber.Name = "groupOfficeNumber";
-            this.groupOfficeNumber.Size = new System.Drawing.Size(319, 70);
+            this.groupOfficeNumber.Size = new System.Drawing.Size(344, 74);
             this.groupOfficeNumber.TabIndex = 113;
             this.groupOfficeNumber.TabStop = false;
             this.groupOfficeNumber.Text = "Office Number";
             // 
             // listOfficeNumbers
             // 
-            this.listOfficeNumbers.Location = new System.Drawing.Point(6, 19);
+            this.listOfficeNumbers.Location = new System.Drawing.Point(8, 23);
             this.listOfficeNumbers.Name = "listOfficeNumbers";
-            this.listOfficeNumbers.Size = new System.Drawing.Size(307, 43);
+            this.listOfficeNumbers.Size = new System.Drawing.Size(328, 43);
             this.listOfficeNumbers.TabIndex = 0;
             // 
             // butOK
             // 
             this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.butOK.Location = new System.Drawing.Point(273, 262);
+            this.butOK.Location = new System.Drawing.Point(277, 280);
             this.butOK.Name = "butOK";
             this.butOK.Size = new System.Drawing.Size(75, 24);
             this.butOK.TabIndex = 3;
@@ -104,7 +104,7 @@ namespace OpenPmsDental{
             // 
             // FormCanadaOutstandingTransactions
             // 
-            this.ClientSize = new System.Drawing.Size(360, 298);
+            this.ClientSize = new System.Drawing.Size(360, 312);
             this.Controls.Add(this.groupOfficeNumber);
             this.Controls.Add(this.radioVersion4ToCarrier);
             this.Controls.Add(this.radioVersion4Itrans);

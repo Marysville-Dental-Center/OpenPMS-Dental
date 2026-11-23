@@ -51,7 +51,7 @@ namespace OpenPmsDental {
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(373, 171);
+			this.butSave.Location = new System.Drawing.Point(377, 175);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 25);
 			this.butSave.TabIndex = 2;
@@ -60,7 +60,7 @@ namespace OpenPmsDental {
 			// 
 			// textName
 			// 
-			this.textName.Location = new System.Drawing.Point(118, 98);
+			this.textName.Location = new System.Drawing.Point(126, 89);
 			this.textName.Name = "textName";
 			this.textName.Size = new System.Drawing.Size(308, 20);
 			this.textName.TabIndex = 0;
@@ -70,7 +70,7 @@ namespace OpenPmsDental {
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(30, 172);
+			this.butDelete.Location = new System.Drawing.Point(8, 175);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(82, 25);
 			this.butDelete.TabIndex = 3;
@@ -79,52 +79,52 @@ namespace OpenPmsDental {
 			// 
 			// checkIsHidden
 			// 
-			this.checkIsHidden.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkIsHidden.Location = new System.Drawing.Point(28, 132);
+			this.checkIsHidden.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkIsHidden.Location = new System.Drawing.Point(126, 116);
 			this.checkIsHidden.Name = "checkIsHidden";
-			this.checkIsHidden.Size = new System.Drawing.Size(104, 24);
+			this.checkIsHidden.Size = new System.Drawing.Size(62, 20);
 			this.checkIsHidden.TabIndex = 1;
 			this.checkIsHidden.Text = "Hidden";
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(14, 96);
+			this.label1.Location = new System.Drawing.Point(48, 89);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(100, 23);
+			this.label1.Size = new System.Drawing.Size(72, 23);
 			this.label1.TabIndex = 5;
 			this.label1.Text = "Description";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textICD9
 			// 
-			this.textICD9.Location = new System.Drawing.Point(118, 20);
+			this.textICD9.Location = new System.Drawing.Point(126, 8);
 			this.textICD9.Name = "textICD9";
 			this.textICD9.ReadOnly = true;
-			this.textICD9.Size = new System.Drawing.Size(273, 20);
+			this.textICD9.Size = new System.Drawing.Size(272, 23);
 			this.textICD9.TabIndex = 5;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(14, 18);
+			this.label2.Location = new System.Drawing.Point(48, 8);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(100, 23);
+			this.label2.Size = new System.Drawing.Size(72, 23);
 			this.label2.TabIndex = 5;
 			this.label2.Text = "ICD-9 Code";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textSnomed
 			// 
-			this.textSnomed.Location = new System.Drawing.Point(118, 72);
+			this.textSnomed.Location = new System.Drawing.Point(126, 62);
 			this.textSnomed.Name = "textSnomed";
 			this.textSnomed.ReadOnly = true;
-			this.textSnomed.Size = new System.Drawing.Size(273, 20);
+			this.textSnomed.Size = new System.Drawing.Size(272, 23);
 			this.textSnomed.TabIndex = 9;
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(14, 70);
+			this.label3.Location = new System.Drawing.Point(8, 62);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(104, 23);
+			this.label3.Size = new System.Drawing.Size(112, 23);
 			this.label3.TabIndex = 5;
 			this.label3.Text = "SNOMED CT Code";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -132,9 +132,9 @@ namespace OpenPmsDental {
 			// butSnomed
 			// 
 			this.butSnomed.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butSnomed.Location = new System.Drawing.Point(397, 70);
+			this.butSnomed.Location = new System.Drawing.Point(404, 62);
 			this.butSnomed.Name = "butSnomed";
-			this.butSnomed.Size = new System.Drawing.Size(29, 25);
+			this.butSnomed.Size = new System.Drawing.Size(29, 23);
 			this.butSnomed.TabIndex = 10;
 			this.butSnomed.Text = "...";
 			this.butSnomed.Click += new System.EventHandler(this.butSnomed_Click);
@@ -142,9 +142,9 @@ namespace OpenPmsDental {
 			// butIcd9
 			// 
 			this.butIcd9.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butIcd9.Location = new System.Drawing.Point(397, 17);
+			this.butIcd9.Location = new System.Drawing.Point(404, 8);
 			this.butIcd9.Name = "butIcd9";
-			this.butIcd9.Size = new System.Drawing.Size(29, 25);
+			this.butIcd9.Size = new System.Drawing.Size(29, 23);
 			this.butIcd9.TabIndex = 6;
 			this.butIcd9.Text = "...";
 			this.butIcd9.Click += new System.EventHandler(this.butIcd9_Click);
@@ -152,28 +152,28 @@ namespace OpenPmsDental {
 			// butIcd10
 			// 
 			this.butIcd10.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butIcd10.Location = new System.Drawing.Point(397, 43);
+			this.butIcd10.Location = new System.Drawing.Point(404, 35);
 			this.butIcd10.Name = "butIcd10";
-			this.butIcd10.Size = new System.Drawing.Size(29, 25);
+			this.butIcd10.Size = new System.Drawing.Size(29, 23);
 			this.butIcd10.TabIndex = 8;
 			this.butIcd10.Text = "...";
 			this.butIcd10.Click += new System.EventHandler(this.butIcd10_Click);
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(14, 44);
+			this.label4.Location = new System.Drawing.Point(40, 35);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(100, 23);
+			this.label4.Size = new System.Drawing.Size(80, 23);
 			this.label4.TabIndex = 11;
 			this.label4.Text = "ICD-10 Code";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textIcd10
 			// 
-			this.textIcd10.Location = new System.Drawing.Point(118, 46);
+			this.textIcd10.Location = new System.Drawing.Point(126, 35);
 			this.textIcd10.Name = "textIcd10";
 			this.textIcd10.ReadOnly = true;
-			this.textIcd10.Size = new System.Drawing.Size(273, 20);
+			this.textIcd10.Size = new System.Drawing.Size(272, 23);
 			this.textIcd10.TabIndex = 7;
 			// 
 			// FormDiseaseDefEdit

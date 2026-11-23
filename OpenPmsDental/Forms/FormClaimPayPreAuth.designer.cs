@@ -47,7 +47,7 @@ namespace OpenPmsDental {
 			// 
 			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label1.Location = new System.Drawing.Point(12, 331);
+			this.label1.Location = new System.Drawing.Point(8, 336);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(84, 16);
 			this.label1.TabIndex = 117;
@@ -59,10 +59,10 @@ namespace OpenPmsDental {
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(8, 12);
+			this.gridMain.Location = new System.Drawing.Point(8, 8);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.OneCell;
-			this.gridMain.Size = new System.Drawing.Size(661, 304);
+			this.gridMain.Size = new System.Drawing.Size(670, 313);
 			this.gridMain.TabIndex = 125;
 			this.gridMain.Title = "Procedures";
 			this.gridMain.TranslationName = "TableClaimProc";
@@ -72,7 +72,7 @@ namespace OpenPmsDental {
 			// textTotal
 			// 
 			this.textTotal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.textTotal.Location = new System.Drawing.Point(102, 328);
+			this.textTotal.Location = new System.Drawing.Point(98, 333);
 			this.textTotal.MaxVal = 100000000D;
 			this.textTotal.MinVal = -100000000D;
 			this.textTotal.Name = "textTotal";
@@ -84,7 +84,7 @@ namespace OpenPmsDental {
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(594, 328);
+			this.butSave.Location = new System.Drawing.Point(603, 333);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 25);
 			this.butSave.TabIndex = 1;
@@ -94,7 +94,7 @@ namespace OpenPmsDental {
 			// labelEobIsScanned
 			//
 			this.labelEobIsScanned.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.labelEobIsScanned.Location = new System.Drawing.Point(172, 331);
+			this.labelEobIsScanned.Location = new System.Drawing.Point(168, 336);
 			this.labelEobIsScanned.Name = "labelEobIsScanned";
 			this.labelEobIsScanned.Size = new System.Drawing.Size(90, 16);
 			this.labelEobIsScanned.TabIndex = 126;
@@ -104,7 +104,7 @@ namespace OpenPmsDental {
 			// textEobIsScanned
 			//
 			this.textEobIsScanned.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.textEobIsScanned.Location = new System.Drawing.Point(268, 328);
+			this.textEobIsScanned.Location = new System.Drawing.Point(264, 333);
 			this.textEobIsScanned.MaxLength = 25;
 			this.textEobIsScanned.Name = "textEobIsScanned";
 			this.textEobIsScanned.ReadOnly = true;
@@ -114,7 +114,7 @@ namespace OpenPmsDental {
 			// butViewEob
 			//
 			this.butViewEob.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butViewEob.Location = new System.Drawing.Point(316, 326);
+			this.butViewEob.Location = new System.Drawing.Point(312, 334);
 			this.butViewEob.Name = "butViewEob";
 			this.butViewEob.Size = new System.Drawing.Size(75, 24);
 			this.butViewEob.TabIndex = 128;

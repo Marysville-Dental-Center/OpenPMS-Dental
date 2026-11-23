@@ -43,62 +43,62 @@ namespace OpenPmsDental{
 			// 
 			// textGradeScaleName
 			// 
-			this.textGradeScaleName.Location = new System.Drawing.Point(130, 38);
+			this.textGradeScaleName.Location = new System.Drawing.Point(130, 35);
 			this.textGradeScaleName.MaxLength = 255;
 			this.textGradeScaleName.Name = "textGradeScaleName";
 			this.textGradeScaleName.ReadOnly = true;
-			this.textGradeScaleName.Size = new System.Drawing.Size(145, 20);
+			this.textGradeScaleName.Size = new System.Drawing.Size(144, 23);
 			this.textGradeScaleName.TabIndex = 2;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(16, 39);
+			this.label1.Location = new System.Drawing.Point(40, 35);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(112, 17);
+			this.label1.Size = new System.Drawing.Size(84, 23);
 			this.label1.TabIndex = 114;
 			this.label1.Text = "Grading Scale";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(16, 13);
+			this.label2.Location = new System.Drawing.Point(88, 8);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(112, 17);
+			this.label2.Size = new System.Drawing.Size(36, 23);
 			this.label2.TabIndex = 125;
 			this.label2.Text = "Title";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textTitle
 			// 
-			this.textTitle.Location = new System.Drawing.Point(130, 12);
+			this.textTitle.Location = new System.Drawing.Point(130, 8);
 			this.textTitle.MaxLength = 255;
 			this.textTitle.Name = "textTitle";
-			this.textTitle.Size = new System.Drawing.Size(145, 20);
+			this.textTitle.Size = new System.Drawing.Size(144, 23);
 			this.textTitle.TabIndex = 1;
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(16, 65);
+			this.label3.Location = new System.Drawing.Point(76, 62);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(112, 17);
+			this.label3.Size = new System.Drawing.Size(48, 23);
 			this.label3.TabIndex = 128;
 			this.label3.Text = "Course";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textCourse
 			// 
-			this.textCourse.Location = new System.Drawing.Point(130, 64);
+			this.textCourse.Location = new System.Drawing.Point(130, 62);
 			this.textCourse.MaxLength = 255;
 			this.textCourse.Name = "textCourse";
 			this.textCourse.ReadOnly = true;
-			this.textCourse.Size = new System.Drawing.Size(145, 20);
+			this.textCourse.Size = new System.Drawing.Size(144, 23);
 			this.textCourse.TabIndex = 4;
 			// 
 			// butCoursePicker
 			// 
 			this.butCoursePicker.Location = new System.Drawing.Point(280, 62);
 			this.butCoursePicker.Name = "butCoursePicker";
-			this.butCoursePicker.Size = new System.Drawing.Size(24, 24);
+			this.butCoursePicker.Size = new System.Drawing.Size(24, 23);
 			this.butCoursePicker.TabIndex = 5;
 			this.butCoursePicker.Text = "...";
 			this.butCoursePicker.Click += new System.EventHandler(this.butCoursePicker_Click);
@@ -108,7 +108,7 @@ namespace OpenPmsDental{
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(12, 411);
+			this.butDelete.Location = new System.Drawing.Point(8, 415);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(75, 24);
 			this.butDelete.TabIndex = 8;
@@ -120,7 +120,7 @@ namespace OpenPmsDental{
 			this.butCriterionAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butCriterionAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butCriterionAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butCriterionAdd.Location = new System.Drawing.Point(385, 93);
+			this.butCriterionAdd.Location = new System.Drawing.Point(408, 88);
 			this.butCriterionAdd.Name = "butCriterionAdd";
 			this.butCriterionAdd.Size = new System.Drawing.Size(75, 24);
 			this.butCriterionAdd.TabIndex = 5;
@@ -129,9 +129,9 @@ namespace OpenPmsDental{
 			// 
 			// butGradingScale
 			// 
-			this.butGradingScale.Location = new System.Drawing.Point(280, 36);
+			this.butGradingScale.Location = new System.Drawing.Point(280, 35);
 			this.butGradingScale.Name = "butGradingScale";
-			this.butGradingScale.Size = new System.Drawing.Size(24, 24);
+			this.butGradingScale.Size = new System.Drawing.Size(24, 23);
 			this.butGradingScale.TabIndex = 3;
 			this.butGradingScale.Text = "...";
 			this.butGradingScale.Click += new System.EventHandler(this.butGradingScale_Click);
@@ -141,7 +141,7 @@ namespace OpenPmsDental{
 			this.butDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butDown.Icon = OpenPmsDental.UI.EnumIcons.Down;
 			this.butDown.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDown.Location = new System.Drawing.Point(385, 239);
+			this.butDown.Location = new System.Drawing.Point(408, 144);
 			this.butDown.Name = "butDown";
 			this.butDown.Size = new System.Drawing.Size(75, 24);
 			this.butDown.TabIndex = 7;
@@ -153,7 +153,7 @@ namespace OpenPmsDental{
 			this.butUp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butUp.Icon = OpenPmsDental.UI.EnumIcons.Up;
 			this.butUp.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butUp.Location = new System.Drawing.Point(385, 209);
+			this.butUp.Location = new System.Drawing.Point(408, 116);
 			this.butUp.Name = "butUp";
 			this.butUp.Size = new System.Drawing.Size(75, 24);
 			this.butUp.TabIndex = 6;
@@ -165,10 +165,10 @@ namespace OpenPmsDental{
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(12, 93);
+			this.gridMain.Location = new System.Drawing.Point(8, 89);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridMain.Size = new System.Drawing.Size(367, 288);
+			this.gridMain.Size = new System.Drawing.Size(392, 279);
 			this.gridMain.TabIndex = 60;
 			this.gridMain.Title = "Criteria Used";
 			this.gridMain.TranslationName = "FormEvaluationDefEdit";
@@ -177,7 +177,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(404, 411);
+			this.butSave.Location = new System.Drawing.Point(408, 415);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 10;
@@ -187,9 +187,9 @@ namespace OpenPmsDental{
 			// labelTotalPoint
 			// 
 			this.labelTotalPoint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelTotalPoint.Location = new System.Drawing.Point(201, 388);
+			this.labelTotalPoint.Location = new System.Drawing.Point(254, 380);
 			this.labelTotalPoint.Name = "labelTotalPoint";
-			this.labelTotalPoint.Size = new System.Drawing.Size(112, 17);
+			this.labelTotalPoint.Size = new System.Drawing.Size(76, 23);
 			this.labelTotalPoint.TabIndex = 130;
 			this.labelTotalPoint.Text = "Total Points";
 			this.labelTotalPoint.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -197,11 +197,11 @@ namespace OpenPmsDental{
 			// textTotalPoints
 			// 
 			this.textTotalPoints.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.textTotalPoints.Location = new System.Drawing.Point(315, 387);
+			this.textTotalPoints.Location = new System.Drawing.Point(336, 380);
 			this.textTotalPoints.MaxLength = 255;
 			this.textTotalPoints.Name = "textTotalPoints";
 			this.textTotalPoints.ReadOnly = true;
-			this.textTotalPoints.Size = new System.Drawing.Size(64, 20);
+			this.textTotalPoints.Size = new System.Drawing.Size(64, 23);
 			this.textTotalPoints.TabIndex = 129;
 			// 
 			// FormEvaluationDefEdit
