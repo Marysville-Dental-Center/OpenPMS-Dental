@@ -81,7 +81,7 @@
 			// butPrint
 			// 
 			this.butPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butPrint.Location = new System.Drawing.Point(805, 91);
+			this.butPrint.Location = new System.Drawing.Point(805, 352);
 			this.butPrint.Name = "butPrint";
 			this.butPrint.Size = new System.Drawing.Size(75, 23);
 			this.butPrint.TabIndex = 20;

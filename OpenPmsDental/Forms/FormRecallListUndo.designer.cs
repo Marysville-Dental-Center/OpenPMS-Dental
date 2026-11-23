@@ -74,9 +74,9 @@ namespace OpenPmsDental{
 			// label3
 			// 
 			this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.label3.Location = new System.Drawing.Point(268, 103);
+			this.label3.Location = new System.Drawing.Point(299, 229);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(108, 18);
+			this.label3.Size = new System.Drawing.Size(104, 24);
 			this.label3.TabIndex = 7;
 			this.label3.Text = "Patients Affected:";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -84,9 +84,9 @@ namespace OpenPmsDental{
 			// labelCount
 			// 
 			this.labelCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelCount.Location = new System.Drawing.Point(382, 103);
+			this.labelCount.Location = new System.Drawing.Point(409, 229);
 			this.labelCount.Name = "labelCount";
-			this.labelCount.Size = new System.Drawing.Size(68, 18);
+			this.labelCount.Size = new System.Drawing.Size(36, 24);
 			this.labelCount.TabIndex = 8;
 			this.labelCount.Text = "100";
 			this.labelCount.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;

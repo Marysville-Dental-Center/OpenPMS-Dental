@@ -59,7 +59,7 @@ namespace OpenPmsDental{
 			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.label1.Location = new System.Drawing.Point(104, 464);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(668, 31);
+			this.label1.Size = new System.Drawing.Size(440, 46);
 			this.label1.TabIndex = 61;
 			this.label1.Text = resources.GetString("label1.Text");
 			this.label1.TextAlign = System.Drawing.ContentAlignment.TopLeft;
@@ -67,9 +67,9 @@ namespace OpenPmsDental{
 			// label2
 			// 
 			this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label2.Location = new System.Drawing.Point(104, 503);
+			this.label2.Location = new System.Drawing.Point(104, 518);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(668, 31);
+			this.label2.Size = new System.Drawing.Size(440, 31);
 			this.label2.TabIndex = 63;
 			this.label2.Text = "Use the Test button to generate and display some sample key values for this compu" +
     "ter.  The displayed values should fall within the range set above.";
@@ -93,7 +93,7 @@ namespace OpenPmsDental{
 			this.groupBox1.Controls.Add(this.label4);
 			this.groupBox1.Controls.Add(this.label3);
 			this.groupBox1.Controls.Add(this.butSynch);
-			this.groupBox1.Location = new System.Drawing.Point(8, 542);
+			this.groupBox1.Location = new System.Drawing.Point(8, 557);
 			this.groupBox1.Name = "groupBox1";
 			this.groupBox1.Size = new System.Drawing.Size(887, 93);
 			this.groupBox1.TabIndex = 66;
@@ -165,7 +165,7 @@ namespace OpenPmsDental{
 			this.groupBoxReplicationFailure.Controls.Add(this.label6);
 			this.groupBoxReplicationFailure.Controls.Add(this.textReplicaitonFailureAtServer_id);
 			this.groupBoxReplicationFailure.ForeColor = System.Drawing.Color.Red;
-			this.groupBoxReplicationFailure.Location = new System.Drawing.Point(550, 480);
+			this.groupBoxReplicationFailure.Location = new System.Drawing.Point(550, 460);
 			this.groupBoxReplicationFailure.Name = "groupBoxReplicationFailure";
 			this.groupBoxReplicationFailure.Size = new System.Drawing.Size(345, 54);
 			this.groupBoxReplicationFailure.TabIndex = 67;
@@ -205,7 +205,7 @@ namespace OpenPmsDental{
 			// 
 			this.butTest.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butTest.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butTest.Location = new System.Drawing.Point(8, 499);
+			this.butTest.Location = new System.Drawing.Point(8, 514);
 			this.butTest.Name = "butTest";
 			this.butTest.Size = new System.Drawing.Size(90, 24);
 			this.butTest.TabIndex = 62;
@@ -228,7 +228,7 @@ namespace OpenPmsDental{
 			this.butAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdd.Location = new System.Drawing.Point(778, 32);
+			this.butAdd.Location = new System.Drawing.Point(778, 428);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(75, 24);
 			this.butAdd.TabIndex = 58;
@@ -237,7 +237,7 @@ namespace OpenPmsDental{
 			// 
 			// FormReplicationSetup
 			// 
-			this.ClientSize = new System.Drawing.Size(903, 643);
+			this.ClientSize = new System.Drawing.Size(903, 658);
 			this.Controls.Add(this.groupBoxReplicationFailure);
 			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.label2);

@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using CodeBase;
 using OpenPmsDentalBusiness;
 using OpenPmsDental.UI;
 using DataConnectionBase;
@@ -24,21 +25,32 @@ namespace OpenPmsDental {
 
 		private void FormReplicationSetup_Load(object sender,EventArgs e) {
 			checkRandomPrimaryKeys.Checked=PrefC.GetBool(PrefName.RandomPrimaryKeys);
+			int heightBand=0;
 			if(checkRandomPrimaryKeys.Checked) {
 				//not allowed to uncheck it
 				checkRandomPrimaryKeys.Enabled=false;
 			}
 			else {
 				checkRandomPrimaryKeys.Visible=false;//Don't allow them to turn random primary keys on if they don't already have it.
-				this.Size=new Size(LayoutManager.Scale(901),LayoutManager.Scale(640));//resize if random primary keys are not turned on
+				//Without random primary keys the Set Ranges and Test band under the grid is hidden: the window keeps the designer's width and loses
+				//the band's height, from Set Ranges' top to the Force Sync group's (anchored to the bottom, as the Replication Failure group).
+				//UI-12: derived from the designer; the literal 901 x 640 of before the layout grid was narrower and shorter than its client area.
+				heightBand=groupBox1.Top-butSetRanges.Top;
+				Height-=heightBand;
 				butSetRanges.Visible=false;
 				label1.Visible=false;
 				butTest.Visible=false;
 				label2.Visible=false;
 			}
-			if(PrefC.GetInt(PrefName.ReplicationFailureAtServer_id)>0) {
+			bool isReplicationFailure=PrefC.GetInt(PrefName.ReplicationFailureAtServer_id)>0;
+			if(isReplicationFailure) {
 				groupBoxReplicationFailure.Visible=true;
 				textReplicaitonFailureAtServer_id.Text=PrefC.GetInt(PrefName.ReplicationFailureAtServer_id).ToString();
+			}
+			if(heightBand>0 && !isReplicationFailure) {
+				//The band is empty: the grid reaches down again to 8 px (UiGrid.PAD) over the Force Sync group (the failure group, when shown,
+				//stands on the band's top, 8 px under the grid).
+				LayoutManager.MoveHeight(gridMain,groupBox1.Top-LayoutManager.Scale(UiGrid.PAD)-gridMain.Top);
 			}
 			FillGrid();
 		}
