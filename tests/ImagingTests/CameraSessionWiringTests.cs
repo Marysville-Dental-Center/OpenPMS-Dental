@@ -95,6 +95,12 @@ namespace ImagingTests {
 			string capture=MethodBody(session,"public void RequestCapture(");
 			StringAssert.Contains(capture,"BeginCaptureFrozen(captureRequestSource,_bitmapFrozen)");
 			StringAssert.Contains(capture,"Flash();");
+			//review fixes: a camera problem, a new slot and a reconnect end a freeze; Ctrl+Z only for the photo just taken
+			StringAssert.Contains(MethodBody(session,"private void ShowStatus("),"Unfreeze();");
+			StringAssert.Contains(MethodBody(session,"private void RefreshCamera("),"Unfreeze();");
+			StringAssert.Contains(MethodBody(session,"private void Skip("),"UnfreezeIfSlotChanged();");
+			StringAssert.Contains(MethodBody(session,"private void RetakeLast("),"_docNumUndoable");
+			StringAssert.Contains(MethodBody(session,"private void AfterShotRemoved("),"_docNumLast=");
 		}
 
 		[TestMethod]

@@ -24,6 +24,8 @@ namespace OpenPmsDental {
 		public long MountNum { get; set; }
 		public long DocNumLast { get; set; }
 		public int CountSaved { get; set; }
+		///<summary>Photos of this session still in it (not deleted or retaken): 0 lets the module remove a mount the session made.</summary>
+		public int CountShotsLeft { get; set; }
 		///<summary>True when the session ended because the patient changed.</summary>
 		public bool IsPatientChange { get; set; }
 		///<summary>True when the session ended because the user left the Imaging module: the module is not refreshed.</summary>
@@ -59,6 +61,8 @@ namespace OpenPmsDental {
 		private Bitmap _bitmapFrozen;
 		///<summary>True when the live picture on screen is flipped (a mirror slot), so a frozen copy is flipped back before it is saved.</summary>
 		private bool _isLiveFlipped;
+		///<summary>The next slot when the picture was frozen.</summary>
+		private int _idxFrozen=-1;
 		private Panel panelFlash;
 		private System.Windows.Forms.Timer timerFlash;
 		private UI.Button butFreeze;
@@ -66,6 +70,8 @@ namespace OpenPmsDental {
 		private ContextMenuStrip contextMenuShot;
 		///<summary>The shot the right-click menu acts on.</summary>
 		private PhotoShot _shotMenu;
+		///<summary>The DocNum Ctrl+Z may retake: the photo saved last, once; 0 after it was retaken or another action.</summary>
+		private long _docNumUndoable;
 		///<summary>A short click, made once (design section 2: a soft click on every shot).</summary>
 		private static byte[] _arrayBytesClick;
 		private VideoStatusAction _videoStatusAction;
@@ -168,6 +174,7 @@ namespace OpenPmsDental {
 				MountNum=_mount?.MountNum??0,
 				DocNumLast=_docNumLast,
 				CountSaved=_model?.CountSaved??0,
+				CountShotsLeft=_model?.ListShots.Count??0,
 				IsPatientChange=isPatientChange,
 				IsModuleLeft=isModuleLeft,
 			});
@@ -323,6 +330,7 @@ namespace OpenPmsDental {
 				ShowInfo(Lan.g(this,"That slot has a photo already."));
 				return;
 			}
+			UnfreezeIfSlotChanged();
 			ShowInfo("");
 			RefreshGuide();
 		}
@@ -361,6 +369,7 @@ namespace OpenPmsDental {
 					return;
 				}
 				_model.MarkSaved(photoShotPlan,photoSaveResult.Document.DocNum);
+				_docNumUndoable=photoSaveResult.Document.DocNum;
 				AddThumb(photoShotPlan,captureStart.Bitmap,photoSaveResult.Document.DocNum);
 				if(isFrozen) {
 					Unfreeze();
@@ -380,6 +389,9 @@ namespace OpenPmsDental {
 				return;
 			}
 			bool isMoved=isForward ? _model.SkipForward() : _model.SkipBack();
+			if(isMoved) {
+				UnfreezeIfSlotChanged();
+			}
 			ShowInfo(isMoved ? "" : Lan.g(this,"No other empty slot."));
 			RefreshGuide();
 		}
@@ -464,6 +476,7 @@ namespace OpenPmsDental {
 				_bitmapFrozen=null;
 				return;
 			}
+			_idxFrozen=_model?.IdxNext??-1;
 			ShowInfo(Lan.g(this,"Frozen: Capture saves it, F goes live."));
 			RefreshGuide();
 		}
@@ -498,9 +511,9 @@ namespace OpenPmsDental {
 				ShowInfo(Lan.g(this,"Right-click a photo to delete it."));
 				return;
 			}
-			PhotoShot shot=_model.ListShots.LastOrDefault(x => x.IdxSlot>=0);
+			PhotoShot shot=_model.ListShots.LastOrDefault(x => x.IdxSlot>=0 && x.DocNum==_docNumUndoable && _docNumUndoable!=0);
 			if(shot==null) {
-				ShowInfo(Lan.g(this,"No photo of this session to retake."));
+				ShowInfo(Lan.g(this,"Ctrl+Z retakes the photo just taken. Right-click a photo to retake an earlier one."));
 				return;
 			}
 			Retake(shot);
@@ -526,7 +539,10 @@ namespace OpenPmsDental {
 			}
 			RemoveThumb(shot);
 			_model.RemoveShot(shot);
-			ShowInfo(Lan.g(this,"Retake")+": "+slotLabel+". "+Lan.g(this,"The earlier photo is kept unmounted in this mount."));
+			_docNumUndoable=0;
+			UnfreezeIfSlotChanged();
+			ShowInfo(document==null ? Lan.g(this,"Retake")+": "+slotLabel+"."
+				: Lan.g(this,"Retake")+": "+slotLabel+". "+Lan.g(this,"The earlier photo is kept unmounted in this mount."));
 			RefreshGuide();
 		}
 
@@ -608,6 +624,7 @@ namespace OpenPmsDental {
 			if(document==null) {
 				RemoveThumb(shot);
 				_model.RemoveShot(shot);
+				AfterShotRemoved(shot);
 				RefreshGuide();
 				return;
 			}
@@ -626,8 +643,29 @@ namespace OpenPmsDental {
 			}
 			RemoveThumb(shot);
 			_model.RemoveShot(shot);
+			AfterShotRemoved(shot);
 			ShowInfo(Lan.g(this,"Photo deleted."));
 			RefreshGuide();
+		}
+
+		///<summary>After a delete: the module selects a photo that still exists when the session ends, and Ctrl+Z cannot reach a deleted one.
+		///</summary>
+		private void AfterShotRemoved(PhotoShot shot) {
+			if(_docNumLast==shot.DocNum) {
+				_docNumLast=_model.ListShots.LastOrDefault()?.DocNum??0;
+			}
+			if(_docNumUndoable==shot.DocNum) {
+				_docNumUndoable=0;
+			}
+			UnfreezeIfSlotChanged();
+		}
+
+		///<summary>A frozen picture belongs to the slot it was frozen for (its flip shows on screen): when the next slot changes, the session goes
+		///back to live.</summary>
+		private void UnfreezeIfSlotChanged() {
+			if(IsFrozen && _model!=null && _model.IdxNext!=_idxFrozen) {
+				Unfreeze();
+			}
 		}
 
 		private Bitmap GetThumb(PhotoShot shot) {
@@ -671,9 +709,19 @@ namespace OpenPmsDental {
 				if(_arrayBytesClick==null) {
 					_arrayBytesClick=PhotoSounds.MakeClickWav();
 				}
-				using MemoryStream memoryStream=new MemoryStream(_arrayBytesClick);
-				using System.Media.SoundPlayer soundPlayer=new System.Media.SoundPlayer(memoryStream);
-				soundPlayer.Play();//asynchronous; the player has loaded the bytes
+				byte[] arrayBytes=_arrayBytesClick;
+				//PlaySync on a pool thread: the player and its bytes live until the 30 ms click has played (an asynchronous Play from memory
+				//could outlive a disposed player).
+				System.Threading.Tasks.Task.Run(() => {
+					try {
+						using MemoryStream memoryStream=new MemoryStream(arrayBytes);
+						using System.Media.SoundPlayer soundPlayer=new System.Media.SoundPlayer(memoryStream);
+						soundPlayer.PlaySync();
+					}
+					catch(Exception exPlay) {
+						exPlay.DoNothing();//no sound device
+					}
+				});
 			}
 			catch(Exception ex) {
 				ex.DoNothing();//no sound device: the flash still shows
@@ -687,6 +735,7 @@ namespace OpenPmsDental {
 			if(_videoCaptureSession==null || _videoCaptureSession.Gate.IsClosing) {
 				return;
 			}
+			Unfreeze();
 			ShowStatus(VideoStatusText.Starting());
 			Update();
 			VideoStatus videoStatus;
@@ -765,6 +814,7 @@ namespace OpenPmsDental {
 				butStatusAction.Visible=videoStatus.Kind!=VideoStatusKind.Starting;
 				butCapture.Enabled=false;
 				if(videoStatus.IsProblem) {
+					Unfreeze();//the frozen picture is gone from the screen: it is not saved
 					SetLiveImage(null);
 				}
 			}

@@ -34,6 +34,15 @@ IMG-P4b-3 follows with F11 (whole monitor), the idle timeout and a quarantine fo
    - The click is made in code (`PhotoSounds.MakeClickWav`), so no sound file ships.
    - The click can be turned off with the camera settings later (IMG-P4e).
 
+6. **Review fixes:**
+   - A camera problem, a reconnect, or a change of the next slot ends a freeze, so a picture that is no longer on screen is never saved, and
+     a mirror slot's flip always matches what was shown.
+   - Ctrl+Z retakes only the photo just taken, once.
+   - After deleting the last quick photo, the session ends on a photo that still exists.
+   - A mount the session made is removed when all its photos were deleted again. Retakes stay in it.
+   - The click plays from a background thread, so its sound data stays alive while it plays.
+   - A missing log entry no longer reports a completed retake as failed.
+
 ## Files
 
 - `ImagingCapture/Photo/PhotoSessionModel.cs`: the shots of the session, teeth for the next shot, and RemoveShot for a retake or delete.

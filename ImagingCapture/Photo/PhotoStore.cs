@@ -176,8 +176,13 @@ namespace ImagingCapture.Photo {
 				}
 				throw;
 			}
-			SecurityLogs.MakeLogEntry(EnumPermType.ImageEdit,patNum,"Camera session retake: DocNum "+document.DocNum+" moved from "+slotLabel
-				+" to an unmounted item of mount "+mountNum,document.DocNum,DateTime.MinValue);
+			try {
+				SecurityLogs.MakeLogEntry(EnumPermType.ImageEdit,patNum,"Camera session retake: DocNum "+document.DocNum+" moved from "+slotLabel
+					+" to an unmounted item of mount "+mountNum,document.DocNum,DateTime.MinValue);
+			}
+			catch(Exception ex) {
+				ex.DoNothing();//the photo has moved; a missing log entry must not report the retake as failed
+			}
 		}
 
 		public void DeleteDocument(Document document,long patNum) {
