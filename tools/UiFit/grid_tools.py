@@ -6,9 +6,9 @@
 # line, one alignment word, or inserting one line with its neighbour's line end, so every line end and the BOM stay. Deterministic: a plan made
 # from the tree of the applied windows is empty. Plain Python 3, no packages.
 #
-#   grid_tools.py plan  --tree <grid-tree.tsv> [--windows-file tests/UiRefreshTests/Data/grid-windows.tsv] [--windows A,B] --out <plan.tsv>
+#   grid_tools.py plan  --tree <grid-tree.tsv> [--windows-file tests/UiRefreshTests/Data/grid-windows] [--windows A,B] --out <plan.tsv>
 #                       [--unplaced <tsv>]
-#   grid_tools.py apply --plan <plan.tsv>            (also the hand plan, tests/UiRefreshTests/Data/grid-hand.tsv)
+#   grid_tools.py apply --plan <plan.tsv>            (also the hand plan, the folder tests/UiRefreshTests/Data/grid-hand)
 import argparse
 import collections
 import csv
@@ -20,6 +20,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import fit_tools  # noqa: E402
+import slice_data  # noqa: E402
 
 csv.field_size_limit(1 << 24)
 
@@ -2248,7 +2249,7 @@ def cmd_plan(args):
     root = fit_tools.repo_root()
     # The windows and their mode: tool (the planner lays it out) or hand (listed; its edits are in grid-hand.tsv).
     modes = collections.OrderedDict()
-    for r in fit_tools.read_tsv(os.path.join(root, args.windows_file)):
+    for r in slice_data.read_dicts(slice_data.resolve(root, args.windows_file)):
         modes[r["window"]] = (r.get("mode") or "tool", r.get("note") or "")
     windows = set(modes.keys())
     if args.windows:
@@ -2388,7 +2389,8 @@ def apply_row(text, control, prop, new):
 
 def cmd_apply(args):
     root = fit_tools.repo_root()
-    rows = fit_tools.read_tsv(args.plan)
+    # A plan file, or a folder of them (the hand plan: tests/UiRefreshTests/Data/grid-hand, one file per slice; UI-12T).
+    rows = slice_data.read_dicts(args.plan) if os.path.isdir(args.plan) else fit_tools.read_tsv(args.plan)
     by_file = collections.OrderedDict()
     for r in rows:
         by_file.setdefault(r["designer_file"], []).append(r)
@@ -2420,7 +2422,7 @@ def main():
     a = sub.add_parser("plan")
     a.add_argument("--tree", required=True)
     a.add_argument("--windows")
-    a.add_argument("--windows-file", default="tests/UiRefreshTests/Data/grid-windows.tsv")
+    a.add_argument("--windows-file", default="tests/UiRefreshTests/Data/grid-windows")
     a.add_argument("--scope-file", default="tests/UiRefreshTests/Data/grid-scope.tsv")
     a.add_argument("--out", required=True)
     a.add_argument("--unplaced")

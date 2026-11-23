@@ -28,8 +28,7 @@ namespace UiRefreshTests {
 
 		///<summary>The windows of the grid (UI-12): the full type names in the first column of Data\grid-windows.tsv.</summary>
 		public static List<string> GetGridWindows() {
-			string file=RepoPaths.DataFile("grid-windows.tsv");
-			return File.ReadAllLines(file).Skip(1).Where(x => x.Trim()!="" && !x.StartsWith("#")).Select(x => x.Split('\t')[0].Trim()).ToList();
+			return SliceData.ReadLines(SliceData.Folder("grid-windows"),"window\tslice\tmode\tnote").Select(x => x.ArrayFields[0].Trim()).ToList();
 		}
 
 		[TestMethod]

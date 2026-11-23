@@ -18,13 +18,14 @@ namespace UiRefreshTests {
 		[TestMethod]
 		public void Snapshot_MatchesTheDesignerFiles() {
 			string root=RepoPaths.Root();
-			string path=RepoPaths.DataFile("layout-snapshot.tsv");
+			//UI-12T: one file per rollout slice, Data\layout-snapshot\<slice>.tsv (SliceData).
+			string folder=SliceData.Folder("layout-snapshot");
 			List<LayoutSnapshotRow> listNow=LayoutSnapshotBuilder.Build(root);
 			if(BuildOutput.IsRequiredValue(Environment.GetEnvironmentVariable(LayoutSnapshotBuilder.VARIABLE_WRITE))) {
-				LayoutSnapshotBuilder.Write(path,listNow);
+				LayoutSnapshotBuilder.WriteFolder(folder,listNow,SliceData.SnapshotOwners.FromData());
 			}
 			Assert.IsTrue(listNow.Count>10000,"Designer controls found: "+listNow.Count);
-			List<LayoutSnapshotRow> listRecord=LayoutSnapshotBuilder.Read(File.ReadAllLines(path));
+			List<LayoutSnapshotRow> listRecord=LayoutSnapshotBuilder.ReadFolder(folder);
 			HashSet<string> setFitFixes=new HashSet<string>(FitFixRow.ReadAll().Select(x => x.DesignerFile+"\t"+x.Control));
 			List<string> listChanges=LayoutSnapshotBuilder.Compare(listRecord,listNow,setFitFixes);
 			Assert.AreEqual(0,listChanges.Count,listChanges.Count+" designer layout changes not in fit-fixes.tsv (a deliberate change: run with "

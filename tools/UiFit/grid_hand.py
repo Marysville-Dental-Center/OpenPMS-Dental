@@ -1,13 +1,13 @@
 """UI-12 round 3: the grid's rules applied by a layout script, for the parts of windows the planner cannot place (docs/port-notes/UI-12.md,
 section 2). A window's script (tools/UiFit/hand/<Window>.py, a function layout(h)) names its rows and columns; this module places them with the
 numbers of grid_tools.GRID (the field height measured from the window's tree, the row pitch, the label gap, the padding, the title band) and
-writes the result as hand rows (tests/UiRefreshTests/Data/grid-hand.tsv, rule "by hand (layout script): ..."), which the applier writes into
+writes the result as hand rows (tests/UiRefreshTests/Data/grid-hand/<slice>.tsv, rule "by hand (layout script): ..."), which the applier writes into
 the designer file like any hand row. The script reads the window's tree as main builds it (the dump of the branch point), so a run gives the
 same rows every time and applying them twice changes nothing.
 
     python tools/UiFit/grid_hand.py --tree <tree-before.tsv> --window FormInsPlan [--check]
 
-replaces the window's script rows in grid-hand.tsv (rows of other windows and the window's other hand rows stay) and prints what its own check
+replaces the window's script rows in its slice's grid-hand file (rows of other windows and the window's other hand rows stay) and prints what its own check
 finds in the parts it placed: siblings that overlap (by their text for labels and check boxes), controls past their container, labels that do
 not fit their text.
 """
@@ -20,24 +20,17 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import fit_tools  # noqa: E402
 import grid_tools as g  # noqa: E402
+import slice_data  # noqa: E402
 
 GRID = g.GRID
 RULE = "by hand (layout script): "
 
 
 def read_runtime_texts():
-    """(window, control) -> [width]: the runtime texts of tests/UiRefreshTests/Data/grid-runtime-texts.tsv."""
+    """(window, control) -> [width]: the runtime texts of tests/UiRefreshTests/Data/grid-runtime-texts (one file per slice, UI-12T)."""
     out = collections.defaultdict(list)
-    p = os.path.join(fit_tools.repo_root(), "tests", "UiRefreshTests", "Data", "grid-runtime-texts.tsv")
-    if not os.path.exists(p):
-        return out
-    with open(p, encoding="utf-8") as f:
-        for ln in f:
-            ln = ln.rstrip("\r\n")
-            if not ln or ln.startswith("#") or ln.startswith("window\t"):
-                continue
-            r = ln.split("\t")
-            out[(r[0], r[1])].append(int(r[3]))
+    for r in slice_data.read_dicts(os.path.join(slice_data.data_dir(), "grid-runtime-texts")):
+        out[(r["window"], r["control"])].append(int(r["width"]))
     return out
 
 
@@ -389,7 +382,7 @@ def main():
     a = argparse.ArgumentParser()
     a.add_argument("--tree", required=True)
     a.add_argument("--window", required=True, help="the window's class name, e.g. FormInsPlan")
-    a.add_argument("--hand-file", default="tests/UiRefreshTests/Data/grid-hand.tsv")
+    a.add_argument("--hand-file", help="default: the window's slice file, tests/UiRefreshTests/Data/grid-hand/<slice>.tsv (UI-12T)")
     a.add_argument("--tree-out", help="write the laid-out tree (GridDump format) for render.py")
     a.add_argument("--dry", action="store_true", help="print the rows, do not write the hand file")
     args = a.parse_args()
@@ -404,9 +397,11 @@ def main():
         for r in rows:
             print("\t".join(r))
         return
-    path = os.path.join(fit_tools.repo_root(), args.hand_file)
-    with open(path, "r", encoding="utf-8", newline="") as f:
-        text = f.read()
+    path = os.path.join(fit_tools.repo_root(), args.hand_file) if args.hand_file else slice_data.hand_file_for(window)
+    text = "designer_file\twindow\tcontrol\tproperty\told\tnew\trule\n"
+    if os.path.exists(path):
+        with open(path, "r", encoding="utf-8", newline="") as f:
+            text = f.read()
     nl = "\r\n" if "\r\n" in text else "\n"
     lines = text.split(nl)
     keep = [ln for ln in lines if ln and not (ln.split("\t")[1:2] == [window] and "\t" + RULE in ln)]

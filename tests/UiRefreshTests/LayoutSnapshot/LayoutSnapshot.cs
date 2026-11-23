@@ -137,6 +137,7 @@ namespace UiRefreshTests.LayoutSnapshot {
 			yield return "# The layout snapshot of the UI refresh (docs/specs/ui-refresh-plan.md section 3.7, docs/port-notes/UI-0b.md): every designer";
 			yield return "# control's Location, Size and ClientSize as InitializeComponent sets them, \".\" for the window or UserControl itself. Written by";
 			yield return "# LayoutSnapshotTests with "+VARIABLE_WRITE+"=1; the test fails on any change that Data/fit-fixes.tsv does not list.";
+			yield return "# One file per rollout slice (UI-12T): the designer files a slice owns; unsliced.tsv the rest (a slice file wins over it).";
 			yield return HEADER;
 			foreach(LayoutSnapshotRow row in listRows) {
 				yield return row.ToLine();
@@ -154,6 +155,70 @@ namespace UiRefreshTests.LayoutSnapshot {
 				stringBuilder.Append(line).Append(lineEnd);
 			}
 			System.IO.File.WriteAllText(path,stringBuilder.ToString(),new UTF8Encoding(false));
+		}
+
+		///<summary>UI-12T: the record of Data\layout-snapshot\<slice>.tsv. A slice file wins over unsliced.tsv for every designer file it holds
+		///(a slice writes only its own file; split_grid_data.py prunes unsliced.tsv when the lead reruns it after the merge).</summary>
+		public static List<LayoutSnapshotRow> ReadFolder(string folder) {
+			List<LayoutSnapshotRow> listSliced=new List<LayoutSnapshotRow>();
+			List<LayoutSnapshotRow> listUnsliced=new List<LayoutSnapshotRow>();
+			foreach(string file in SliceData.Files(folder)) {
+				List<LayoutSnapshotRow> listRows=Read(System.IO.File.ReadAllLines(file));
+				if(SliceData.SliceOf(file)==SliceData.UNSLICED) {
+					listUnsliced.AddRange(listRows);
+				}
+				else {
+					listSliced.AddRange(listRows);
+				}
+			}
+			HashSet<string> hashSetHeld=new HashSet<string>(listSliced.Select(x => x.File));
+			return listSliced.Concat(listUnsliced.Where(x => !hashSetHeld.Contains(x.File))).ToList();
+		}
+
+		///<summary>UI-12T: writes the snapshot into its slice files. Each slice's file gets the rows of the designer files it owns, from listNow;
+		///unsliced.tsv gets the rows of the files no slice owns, from listNow, and keeps the rows it already has of files a slice owns, so a
+		///slice's rewrite changes only its own file (and unsliced.tsv only where a file no slice owns changed). A slice file left with no rows
+		///is removed. Every file keeps its line ends (Write).</summary>
+		public static void WriteFolder(string folder,List<LayoutSnapshotRow> listNow,SliceData.SnapshotOwners snapshotOwners) {
+			Directory.CreateDirectory(folder);
+			string pathUnsliced=Path.Combine(folder,SliceData.UNSLICED+".tsv");
+			List<LayoutSnapshotRow> listUnslicedOld=System.IO.File.Exists(pathUnsliced) ? Read(System.IO.File.ReadAllLines(pathUnsliced)) : new List<LayoutSnapshotRow>();
+			Dictionary<string,List<LayoutSnapshotRow>> dictBySlice=new Dictionary<string,List<LayoutSnapshotRow>>();
+			Dictionary<string,List<LayoutSnapshotRow>> dictUnsliced=new Dictionary<string,List<LayoutSnapshotRow>>();
+			foreach(LayoutSnapshotRow row in listNow) {
+				string slice=snapshotOwners.Owner(row.File);
+				if(slice==SliceData.UNSLICED) {
+					AddTo(dictUnsliced,row.File,row);
+					continue;
+				}
+				AddTo(dictBySlice,slice,row);
+			}
+			foreach(LayoutSnapshotRow row in listUnslicedOld) {
+				if(snapshotOwners.Owner(row.File)!=SliceData.UNSLICED) {
+					AddTo(dictUnsliced,row.File,row);
+				}
+			}
+			List<LayoutSnapshotRow> listUnsliced=new List<LayoutSnapshotRow>();
+			foreach(string file in dictUnsliced.Keys.OrderBy(x => x,StringComparer.Ordinal)) {
+				listUnsliced.AddRange(dictUnsliced[file]);
+			}
+			Write(pathUnsliced,listUnsliced);
+			foreach(KeyValuePair<string,List<LayoutSnapshotRow>> pair in dictBySlice) {
+				Write(Path.Combine(folder,pair.Key+".tsv"),pair.Value);
+			}
+			foreach(string file in SliceData.Files(folder)) {
+				string slice=SliceData.SliceOf(file);
+				if(slice!=SliceData.UNSLICED && !dictBySlice.ContainsKey(slice)) {
+					System.IO.File.Delete(file);
+				}
+			}
+		}
+
+		private static void AddTo(Dictionary<string,List<LayoutSnapshotRow>> dict,string key,LayoutSnapshotRow row) {
+			if(!dict.ContainsKey(key)) {
+				dict[key]=new List<LayoutSnapshotRow>();
+			}
+			dict[key].Add(row);
 		}
 
 		///<summary>The line end of the file at path: "\r\n" when its first line ends in CRLF, otherwise "\n" (also for a missing or one-line file).</summary>

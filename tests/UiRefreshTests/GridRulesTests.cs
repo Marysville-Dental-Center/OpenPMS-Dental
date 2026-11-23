@@ -30,15 +30,13 @@ namespace UiRefreshTests {
 
 		public static List<GridWindow> ReadGridWindows() {
 			List<GridWindow> listWindows=new List<GridWindow>();
-			string[] arrayLines=File.ReadAllLines(RepoPaths.DataFile("grid-windows.tsv"));
-			Assert.AreEqual("window\tslice\tmode\tnote",arrayLines[0],"grid-windows.tsv's header.");
-			foreach(string line in arrayLines.Skip(1)) {
-				if(line.Trim()=="" || line.StartsWith("#")) {
-					continue;
-				}
-				string[] arrayFields=line.Split('\t');
-				Assert.AreEqual(4,arrayFields.Length,"grid-windows.tsv needs window, slice, mode and note: "+line);
-				Assert.IsTrue(arrayFields[2]=="tool" || arrayFields[2]=="hand","grid-windows.tsv's mode is tool or hand: "+line);
+			//UI-12T: one file per slice, Data\grid-windows\<slice>.tsv; the slice column names the file the row is in.
+			foreach(SliceLine sliceLine in SliceData.ReadLines(SliceData.Folder("grid-windows"),"window\tslice\tmode\tnote")) {
+				string line=sliceLine.Line;
+				string[] arrayFields=sliceLine.ArrayFields;
+				Assert.AreEqual(4,arrayFields.Length,"grid-windows needs window, slice, mode and note: "+line);
+				Assert.AreEqual(sliceLine.Slice,arrayFields[1],"grid-windows: a row is in its slice's file: "+line);
+				Assert.IsTrue(arrayFields[2]=="tool" || arrayFields[2]=="hand","grid-windows's mode is tool or hand: "+line);
 				listWindows.Add(new GridWindow { Window=arrayFields[0],Mode=arrayFields[2] });
 			}
 			return listWindows;
@@ -47,11 +45,8 @@ namespace UiRefreshTests {
 		///<summary>The known findings: window, rule, the finding's key, and why.</summary>
 		private static HashSet<string> ReadKnown() {
 			HashSet<string> hashSetKnown=new HashSet<string>();
-			foreach(string line in File.ReadAllLines(RepoPaths.DataFile("grid-known.tsv"))) {
-				if(line.Trim()=="" || line.StartsWith("#") || line.StartsWith("window\t")) {
-					continue;
-				}
-				string[] arrayFields=line.Split('\t');
+			foreach(SliceLine sliceLine in SliceData.ReadLines(SliceData.Folder("grid-known"),"window\trule\tkey\twhy")) {
+				string[] arrayFields=sliceLine.ArrayFields;
 				hashSetKnown.Add(arrayFields[0]+"\t"+arrayFields[1]+"\t"+arrayFields[2]);
 			}
 			return hashSetKnown;
@@ -62,18 +57,9 @@ namespace UiRefreshTests {
 		///widest of its texts (grid_hand.py's Hand.lw); the test sets each text and measures it in the laid-out control.</summary>
 		public static List<string[]> ReadRuntimeTexts() {
 			List<string[]> listRows=new List<string[]>();
-			string[] arrayLines=File.ReadAllLines(RepoPaths.DataFile("grid-runtime-texts.tsv"));
-			foreach(string line in arrayLines) {
-				if(line.Trim()=="" || line.StartsWith("#")) {
-					continue;
-				}
-				if(line.StartsWith("window\t")) {
-					Assert.AreEqual("window\tcontrol\ttext\twidth\twhy",line,"grid-runtime-texts.tsv's header.");
-					continue;
-				}
-				string[] arrayFields=line.Split('\t');
-				Assert.AreEqual(5,arrayFields.Length,"grid-runtime-texts.tsv needs window, control, text, width and why: "+line);
-				listRows.Add(arrayFields);
+			foreach(SliceLine sliceLine in SliceData.ReadLines(SliceData.Folder("grid-runtime-texts"),"window\tcontrol\ttext\twidth\twhy")) {
+				Assert.AreEqual(5,sliceLine.ArrayFields.Length,"grid-runtime-texts needs window, control, text, width and why: "+sliceLine.Line);
+				listRows.Add(sliceLine.ArrayFields);
 			}
 			return listRows;
 		}
@@ -305,11 +291,9 @@ namespace UiRefreshTests {
 			List<GridWindow> listWindows=ReadGridWindows();
 			Assert.IsTrue(listWindows.Count>=47,"The pilot's 47 windows are in grid-windows.tsv.");
 			HashSet<string> hashSetWindows=new HashSet<string>(listWindows.Select(x => x.Window));
-			foreach(string line in File.ReadAllLines(RepoPaths.DataFile("grid-hand.tsv")).Skip(1)) {
-				if(line.Trim()=="") {
-					continue;
-				}
-				string[] arrayFields=line.Split('\t');
+			foreach(SliceLine sliceLine in SliceData.ReadLines(SliceData.Folder("grid-hand"),"designer_file\twindow\tcontrol\tproperty\told\tnew\trule")) {
+				string line=sliceLine.Line;
+				string[] arrayFields=sliceLine.ArrayFields;
 				Assert.AreEqual(7,arrayFields.Length,"grid-hand.tsv: designer file, window, control, property, old, new, rule: "+line);
 				Assert.IsTrue(hashSetWindows.Contains(arrayFields[1]),"grid-hand.tsv names a window grid-windows.tsv does not list: "+line);
 				Assert.IsTrue(File.Exists(Path.Combine(RepoPaths.Root(),arrayFields[0].Replace('/','\\'))),"grid-hand.tsv's designer file: "+line);
