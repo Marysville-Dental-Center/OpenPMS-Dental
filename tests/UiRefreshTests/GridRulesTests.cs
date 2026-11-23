@@ -174,12 +174,12 @@ namespace UiRefreshTests {
 							if(!TextFitBoundsRecord.IsDesignedVisible(control) && control.Name!="labelCarrierGroupName" && control.Name!="comboCarrierGroupName") {
 								continue;
 							}
-							if(control.Bottom>yBar-8 || control.Right>widthClient-8) {
+							if(control.Bottom>yBar-UiGrid.PAD || control.Right>widthClient-UiGrid.PAD) {
 								listProblems.Add(control.Name+" "+control.Bounds+" (client "+widthClient+" x "+heightClient+", bar at "+yBar+")");
 							}
 						}
 						//Save moves left with the window's right edge (anchored right): it stays right of Delete.
-						if(listBar[0].Left-(root.Width-widthClient)<listBar[1].Right+8) {
+						if(listBar[0].Left-(root.Width-widthClient)<listBar[1].Right+UiGrid.DIALOG_GAP) {
 							listProblems.Add("butSave over butDelete");
 						}
 					}
@@ -221,7 +221,7 @@ namespace UiRefreshTests {
 							using(Bitmap bitmap=DesignSheetWindows.Capture(root,Rectangle.Empty)) {
 								int countCompared=0;
 								foreach(OpenPmsDental.UI.ComboBoxClinicPicker picker in listPickers) {
-									int xLabelEnd=picker.Left+picker.WidthLabelArea-(int)Math.Round(6*picker.DeviceDpi/96f);
+									int xLabelEnd=picker.Left+picker.WidthLabelArea-(int)Math.Round(UiGrid.LABEL_GAP*picker.DeviceDpi/96f);
 									List<Label> listLabels=picker.Parent.Controls.OfType<Label>()
 										.Where(x => TextFitBoundsRecord.IsDesignedVisible(x) && x.TextAlign.ToString().EndsWith("Right") && x.RightToLeft!=RightToLeft.Yes
 											&& !string.IsNullOrWhiteSpace(x.Text) && Math.Abs(x.Right-xLabelEnd)<=1)
@@ -667,7 +667,7 @@ namespace UiRefreshTests {
 				using(StringFormat stringFormat=new StringFormat(StringFormat.GenericTypographic)) {
 					widthText=TextFitMeasurer.MeasureLineGdiPlus(comboBoxClinicPicker.IsMultiSelect ? "Clinics" : "Clinic",comboBoxClinicPicker.Font,stringFormat).Width;
 				}
-				int xText=Math.Max(0,widthLabel-(int)Math.Round(6*comboBoxClinicPicker.DeviceDpi/96f)-widthText);
+				int xText=Math.Max(0,widthLabel-(int)Math.Round(UiGrid.LABEL_GAP*comboBoxClinicPicker.DeviceDpi/96f)-widthText);
 				return new Rectangle(rectangle.X+xText,rectangle.Y,rectangle.Width-xText,rectangle.Height);
 			}
 			if(string.IsNullOrWhiteSpace(control.Text)) {

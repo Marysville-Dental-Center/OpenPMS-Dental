@@ -24,37 +24,28 @@ import slice_data  # noqa: E402
 
 csv.field_size_limit(1 << 24)
 
-# The grid, in px at 96 dpi for Segoe UI 9 pt (UI-12.md section 1 and 1.1).
-GRID = {
-    "pad": 8,                 # container padding on every side
-    "title_gap": 4,           # a group box's content starts this far below its title band (measured: 8 px below the ink, section 1.1)
-    "label_gap": 6,           # a label sits this far before its field
-    "row_gap": 4,             # between field rows (the owner, 2026-11-21: fields 23 px, row pitch 27)
-    "list_gap": 4,            # between consecutive check boxes or radio buttons
-    "caption_gap": 2,         # a caption label above the control it names
-    "section_gap": 12,        # rows that were clearly apart (a gap of section_from or more) stay apart by this
-    "section_from": 12,       # not above section_gap: a gap the grid made stays what it is on the next run
-    "sibling_gap": 8,         # between containers side by side or stacked
-    "item_gap": 6,            # between items of one row (a field and its button or its unit label)
-    "band_gap": 16,           # between two label + field bands of one row
-    "edge_snap": 16,          # right edges of one column within this share one edge
-    "edge_grow": 32,          # polish round: a wide field this much short of its column's right edge grows to it (never shrinks this far)
-    "column_snap": 16,        # left edges (anchors) within this are one column
-    "field_column_snap": 40,  # ... and for the fields of label + field rows (a label column right-aligned to them)
-    "span_snap": 32,          # a container within this of its parent's content edges spans the content
-    "snap": 4,                # widths snap to this
-    "field_height": 23,       # a single-line field; replaced by the measured height of a text box at the program's font
-    "check_height": 18,       # a check box or radio button row (UI.CheckBox's own height); at least the text line + 2
-    "check_box": 13,          # UI.CheckBox's box (12 + the 1 px line)
-    "check_text": 3,          # between the box and the text
-    "dialog_gap": 8,          # between dialog buttons
-    "scroll_bar": 17,         # a vertical scroll bar at 96 dpi (SystemInformation.VerticalScrollBarWidth)
-    "label_lead": 16,         # Preferences style: a label starts where the check box text beside it starts (UI.CheckBox: 13 px box + 3)
-    "label_cap": 0.5,         # Preferences style: the field column stays within this share of the content width; a longer label wraps
-    "wide_field": 120,        # Preferences style: a text field this wide or wider ends at the content's right edge, like the combo boxes
-    "hint_snap": 40,          # field columns of different containers within this (window coordinates) share one left edge
-    "check_slack": 3,         # a check box whose one line needs at most this much more than its row has stays one line (GDI+ measures 2-3 px wide)
-}
+# The grid, in px at 96 dpi for Segoe UI 9 pt (UI-12.md section 1 and 1.1). UI-12T: the numbers live in one data file,
+# tests/UiRefreshTests/Data/grid-numbers.tsv (name, value, why), which CodeBase/UI/UiGrid.cs mirrors for product code (GridNumbersTests).
+GRID_NUMBERS = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
+                            "tests", "UiRefreshTests", "Data", "grid-numbers.tsv")
+
+
+def load_grid(path=GRID_NUMBERS):
+    """name -> number (int, or float for a share such as label_cap) from grid-numbers.tsv; pitch and list_pitch are checked, not used."""
+    grid = {}
+    with open(path, encoding="utf-8") as f:
+        for ln in f:
+            ln = ln.rstrip("\r\n")
+            if not ln or ln.startswith("#") or ln.startswith("name\t"):
+                continue
+            name, value = ln.split("\t")[:2]
+            grid[name] = float(value) if "." in value else int(value)
+    if grid["pitch"] != grid["field_height"] + grid["row_gap"] or grid["list_pitch"] != grid["check_height"] + grid["list_gap"]:
+        raise ValueError("grid-numbers.tsv: pitch is field_height + row_gap and list_pitch is check_height + list_gap")
+    return grid
+
+
+GRID = load_grid()
 
 LABEL_TYPES = ("System.Windows.Forms.Label", "System.Windows.Forms.LinkLabel")
 CHECK_TYPES = ("OpenPmsDental.UI.CheckBox", "System.Windows.Forms.CheckBox")
