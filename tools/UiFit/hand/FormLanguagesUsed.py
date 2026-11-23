@@ -6,7 +6,7 @@ on its right edge; the captions 2 px over their lists. The custom Add button kee
 paints over the right border at 150%).
 Fix round (ui/ui12-8-2): the Custom Language group was the stock GroupBox (square frame, title cut into the line; now OpenPmsDental.UI.
 GroupBox in the designer) and spanned 8..402 with its content ending at 364 and its bottom 13 px over Save's row: the group under the All
-Languages list at the list's width (8..286), the text box and Add on its 8 px content edges under the title band, the note under them
+Languages list at the list's width (8..296; the list 10 px wider so the note keeps its three lines), the text box and Add on its 8 px content edges under the title band, the note under them
 as tall as its lines, the group's bottom on Save's bottom and the list down to 8 px over the group."""
 import importlib.util
 import os
@@ -16,10 +16,16 @@ s = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(s)
 
 
+LIST_W = 288
+
+
 def layout(h):
     R = s.W(h) - 8
     h.set("label2", 8, None)
     la = h.n("listAvailable")
+    # The All Languages column 288 wide (was 278): the group under it holds the Custom Language note at 272 px, where its three lines (hard
+    # line breaks) stay three (at 262 GridRulesTests' measure wraps two of them).
+    h.set("listAvailable", None, None, LIST_W, None)
     lu = h.n("listUsed")
     top = la.ny
     for cap, lst, x in (("label1", "listAvailable", 8), ("label3", "listUsed", R - lu.nw)):
@@ -48,9 +54,7 @@ def layout(h):
     h.set("butAddCustom", cr - ac.nw, y)
     h.set("textCustom", 8, y, cr - ac.nw - 6 - 8, None)
     y += max(ac.nh, h.n("textCustom").nh) + 4
-    # The note's three lines (hard line breaks) take five at this width (GridRulesTests' measure: 75 px), which note_h's one-paragraph
-    # wrap does not see: five lines of 16 px + 2.
-    nh = max(h.note_h("label6", cr - 8), 5 * 16 + 2)
+    nh = 3 * 16 + 2  # the note's three lines (note_h reads the text as one paragraph)
     h.set("label6", 8, y, cr - 8, nh)
     gh = y + nh + 8
     sv = h.n("butSave")

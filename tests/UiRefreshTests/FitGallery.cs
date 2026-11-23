@@ -380,10 +380,12 @@ namespace UiRefreshTests {
 				}
 				OpenPmsDentalBusiness.CodeGroups.FillCacheFromTable(OpenPmsDentalBusiness.Crud.CodeGroupCrud.ListToTable(listCodeGroups));
 				//The harness runs InitializeComponent but not the constructor: the rows as the constructor makes them, before the layout manager.
+				//The bare object has no field initializers either: the row list as its declaration makes it.
 				WindowBuilder.ActionBeforeLayoutManager=formODBase => {
-					System.Reflection.MethodInfo methodInfo=formODBase.GetType().GetMethod("AddCategoryRows",
-						System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.NonPublic);
-					methodInfo.Invoke(formODBase,null);
+					System.Reflection.BindingFlags bindingFlags=System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.NonPublic;
+					System.Reflection.FieldInfo fieldInfo=formODBase.GetType().GetField("_listCategoryRows",bindingFlags);
+					fieldInfo.SetValue(formODBase,Activator.CreateInstance(fieldInfo.FieldType));
+					formODBase.GetType().GetMethod("AddCategoryRows",bindingFlags).Invoke(formODBase,null);
 				};
 			}
 		}
