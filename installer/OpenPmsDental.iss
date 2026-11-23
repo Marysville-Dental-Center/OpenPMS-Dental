@@ -216,6 +216,9 @@ const
   { Setup's exit code when a silent install finished but its connection settings step did not: the tool failed or could not start, or the
     kept settings fail the connection rule (GetCustomSetupExitCode). Inno Setup's own codes are 0 to 8. }
   DbSettingsFailedExitCode = 10;
+  { The local group whose members are the people who use Open PMS - Dental on this computer (ImagingFolderAcl.GroupName). Optional: an
+    administrator makes it; setup never does. }
+  ImagingAccessGroup = 'OpenPMS-Dental Users';
 
 var
   ConfigPage: TInputQueryWizardPage;
@@ -911,6 +914,54 @@ begin
     Log(Result);
 end;
 
+{ The icacls grant for the people who use the program: the local group above when this computer has it, otherwise the local Users
+  group (S-1-5-32-545). The computer name is given, so a domain group of the same name is never used. }
+function ImagingAccessGrant: String;
+var
+  ResultCode: Integer;
+begin
+  if Exec(ExpandConstant('{sys}\net.exe'), 'localgroup ' + AddQuotes(ImagingAccessGroup), '', SW_HIDE, ewWaitUntilTerminated, ResultCode)
+    and (ResultCode = 0) then
+    Result := AddQuotes(GetComputerNameString + '\' + ImagingAccessGroup + ':(OI)(CI)M')
+  else
+    Result := '*S-1-5-32-545:(OI)(CI)M';
+end;
+
+{ Gives one folder that holds patient images not yet filed its own access list, as ImagingFolderAcl.MakePrivate does: SYSTEM and
+  Administrators Full control, the people who use the program Modify, nothing inherited from ProgramData. Everything inside is first
+  reset to inherit, so it takes the new list. Only a folder that exists is changed; the program sets the list on the folders it creates.
+  A failure is logged and does not stop setup: the folder keeps the access it had. }
+procedure LimitImagingFolder(const Dir, AccessGrant: String);
+var
+  Icacls: String;
+  ResultCode: Integer;
+begin
+  if not DirExists(Dir) then
+    exit;
+  Icacls := ExpandConstant('{sys}\icacls.exe');
+  if not Exec(Icacls, AddQuotes(Dir) + ' /reset /T /C /Q', '', SW_HIDE, ewWaitUntilTerminated, ResultCode) or (ResultCode <> 0) then
+    Log('icacls /reset of ' + Dir + ' ended with ' + IntToStr(ResultCode) + '.');
+  if Exec(Icacls, AddQuotes(Dir) + ' /inheritance:r /grant:r *S-1-5-18:(OI)(CI)F *S-1-5-32-544:(OI)(CI)F ' + AccessGrant + ' /Q', '',
+    SW_HIDE, ewWaitUntilTerminated, ResultCode) and (ResultCode = 0) then
+    Log('Access to ' + Dir + ' limited to SYSTEM, Administrators and ' + AccessGrant + '.')
+  else
+    Log('Could not limit access to ' + Dir + ' (icacls ' + IntToStr(ResultCode) + '); it keeps the access it had.');
+end;
+
+{ IMG-ACL: the folders under ProgramData that hold patient images not yet filed (ImagingFolderAcl.ListPrivateRoots). }
+procedure LimitImagingFolders;
+var
+  Imaging, AccessGrant: String;
+begin
+  Imaging := ExpandConstant('{commonappdata}\OpenPMS-Dental\Imaging');
+  if not DirExists(Imaging) then
+    exit;
+  AccessGrant := ImagingAccessGrant;
+  LimitImagingFolder(Imaging + '\Photos\unsaved', AccessGrant);
+  LimitImagingFolder(Imaging + '\Video\recording', AccessGrant);
+  LimitImagingFolder(Imaging + '\Capture', AccessGrant);
+end;
+
 procedure CurStepChanged(CurStep: TSetupStep);
 begin
   if CurStep = ssInstall then begin
@@ -920,8 +971,10 @@ begin
     else
       Log('{#ConfigFileName} exists already and is kept as it is.');
   end
-  else if CurStep = ssPostInstall then
+  else if CurStep = ssPostInstall then begin
+    LimitImagingFolders;
     SetUpConnection;
+  end;
 end;
 
 { Called when setup finished. A silent install whose connection settings step failed (ReportDbSettingsFailure, the /check of an upgrade)

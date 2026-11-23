@@ -1146,6 +1146,24 @@ and E-10b), where each is set out in full with its recommendation. You first ans
   - *Export of a trimmed video* writes the whole file; the trim plays in the module only. Writing the trimmed clip (design section 4) needs
     the MP4 remuxed or re-encoded: recommended as a small later package if videos are exported often.
 
+- **Who can open unfiled patient images on a computer** (IMG-ACL, [port-notes/IMG-ACL.md](port-notes/IMG-ACL.md)). Recommended, and built
+  that way; it can be overruled.
+  - *What changes:* three folders under `C:\ProgramData\OpenPMS-Dental\Imaging` hold patient images that are not filed yet. They are the
+    camera photos and videos that could not be saved (`Photos\unsaved`), a recording in progress (`Video\recording`), and the X-ray
+    capture journal and quarantine (`Capture`). Each now gets its own access list: SYSTEM, Administrators, and the people who use Open PMS.
+    Until now every Windows account on the computer could read them, through ProgramData's own access.
+  - *Who "the people who use Open PMS" are:* the members of a local group named **OpenPMS-Dental Users**, when an administrator has made
+    it. When there is no such group, it is every local user (the Users group), which is the same access as today, minus ProgramData's
+    extras. Setup and the program never make the group or change who is in it.
+  - *Recommended for the office:* leave the group out while each workstation has one shared Windows login. Make it (`net localgroup
+    "OpenPMS-Dental Users" /add`, then add the staff accounts) on any computer where people who must not see patient images also sign in
+    to Windows, and run setup again so the folders change over.
+  - *Where it is set:* by the program when it creates one of these folders, and by setup, as administrator, on the folders that exist
+    already. When a folder belongs to another Windows account and the program is not elevated, it cannot change the list. The folder then
+    keeps its old access and works as before, and running setup again fixes it.
+  - *Not changed:* the rest of the Imaging folder (`capture.ini`, the settings), the patients' image folder (the A to Z folder or the
+    database), and any other folder or Windows setting.
+
 ## Not asked again (already settled)
 
 - How package migration levels are numbered (B-ACCT 2, B-PRINT 1, B-SHELL 6, M2-EST 1, M2-UDS 1, V-BRIDGE1 2, V-PEARL2 1, M2-SHELL's old question 4): decided on 2026-11-01 and done: the package steps now have dated levels 2026110101 to 2026110104, and new steps always go above the highest one.

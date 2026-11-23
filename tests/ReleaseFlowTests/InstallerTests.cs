@@ -471,6 +471,26 @@ namespace ReleaseFlowTests {
 		}
 
 		[TestMethod]
+		public void Iss_LimitsTheFoldersOfUnfiledImages_ToSystemAdministratorsAndTheProgramsUsers() {
+			//IMG-ACL (docs/port-notes/IMG-ACL.md): as ImagingFolderAcl does in the program (ImagingFolderAclTests), on the folders that exist.
+			string iss=ReadIss();
+			StringAssert.Contains(iss,"ImagingAccessGroup = 'OpenPMS-Dental Users';");
+			StringAssert.Contains(iss,"'localgroup ' + AddQuotes(ImagingAccessGroup)");
+			StringAssert.Contains(iss,"AddQuotes(GetComputerNameString + '\\' + ImagingAccessGroup + ':(OI)(CI)M')");
+			StringAssert.Contains(iss,"Result := '*S-1-5-32-545:(OI)(CI)M';");
+			StringAssert.Contains(iss,"' /reset /T /C /Q'");
+			StringAssert.Contains(iss,"' /inheritance:r /grant:r *S-1-5-18:(OI)(CI)F *S-1-5-32-544:(OI)(CI)F ' + AccessGrant + ' /Q'");
+			StringAssert.Contains(iss,"ExpandConstant('{commonappdata}\\OpenPMS-Dental\\Imaging')");
+			foreach(string subfolder in new[] { @"\Photos\unsaved",@"\Video\recording",@"\Capture" }) {
+				StringAssert.Contains(iss,"LimitImagingFolder(Imaging + '"+subfolder+"', AccessGrant);");
+			}
+			StringAssert.Contains(iss,"if not DirExists(Dir) then");
+			Assert.IsTrue(Regex.IsMatch(iss,@"CurStep = ssPostInstall then begin\s+LimitImagingFolders;\s+SetUpConnection;"),
+				"After the files are in, before the connection settings.");
+			Assert.IsFalse(iss.Contains("/add"),"Setup never makes the group or adds anyone to one.");
+		}
+
+		[TestMethod]
 		public void Iss_SetsUpTheConnectionWithTheSettingsTool_AndNeverPassesASecret() {
 			string iss=ReadIss();
 			StringAssert.Contains(iss,"#define DbSettingsExeName \""+ProgramNames.DbSettingsExeFileName+"\"");
