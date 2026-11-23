@@ -48,7 +48,7 @@
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(307, 271);
+			this.butSave.Location = new System.Drawing.Point(307, 306);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 5;
@@ -59,7 +59,7 @@
 			// butDelete
 			// 
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butDelete.Location = new System.Drawing.Point(8, 271);
+			this.butDelete.Location = new System.Drawing.Point(8, 306);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(75, 24);
 			this.butDelete.TabIndex = 7;
@@ -105,7 +105,7 @@
 			this.groupBox1.Controls.Add(this.label1);
 			this.groupBox1.Controls.Add(this.textTestName);
 			this.groupBox1.Controls.Add(this.label4);
-			this.groupBox1.Location = new System.Drawing.Point(8, 39);
+			this.groupBox1.Location = new System.Drawing.Point(8, 50);
 			this.groupBox1.Name = "groupBox1";
 			this.groupBox1.Size = new System.Drawing.Size(374, 81);
 			this.groupBox1.TabIndex = 1;
@@ -163,7 +163,7 @@
 			this.groupBox2.Controls.Add(this.textObsValue);
 			this.groupBox2.Controls.Add(this.label5);
 			this.groupBox2.Controls.Add(this.label6);
-			this.groupBox2.Location = new System.Drawing.Point(8, 128);
+			this.groupBox2.Location = new System.Drawing.Point(8, 150);
 			this.groupBox2.Name = "groupBox2";
 			this.groupBox2.Size = new System.Drawing.Size(374, 135);
 			this.groupBox2.TabIndex = 12;
@@ -213,7 +213,7 @@
 			// 
 			// FormEhrLabResultEdit
 			// 
-			this.ClientSize = new System.Drawing.Size(390, 303);
+			this.ClientSize = new System.Drawing.Size(390, 338);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.Controls.Add(this.groupBox2);
 			this.Controls.Add(this.groupBox1);
