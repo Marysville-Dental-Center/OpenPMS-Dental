@@ -31,7 +31,7 @@ namespace OpenPmsDental{
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(232, 55);
+			this.butOK.Location = new System.Drawing.Point(236, 59);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 24);
 			this.butOK.TabIndex = 3;
@@ -40,21 +40,21 @@ namespace OpenPmsDental{
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(8, 9);
+			this.label1.Location = new System.Drawing.Point(72, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(100, 23);
+			this.label1.Size = new System.Drawing.Size(36, 23);
 			this.label1.TabIndex = 5;
 			this.label1.Text = "Year";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textYear
 			// 
-			this.textYear.Location = new System.Drawing.Point(114, 12);
+			this.textYear.Location = new System.Drawing.Point(114, 8);
 			this.textYear.MaxVal = 3000;
 			this.textYear.MinVal = 0;
 			this.textYear.Name = "textYear";
 			this.textYear.ShowZero = false;
-			this.textYear.Size = new System.Drawing.Size(153, 20);
+			this.textYear.Size = new System.Drawing.Size(152, 23);
 			this.textYear.TabIndex = 6;
 			// 
 			// FormRpDentalSealantMeasure

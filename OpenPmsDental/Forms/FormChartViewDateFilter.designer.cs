@@ -35,25 +35,25 @@ namespace OpenPmsDental{
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(19, 87);
+			this.label1.Location = new System.Drawing.Point(35, 81);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(84, 16);
+			this.label1.Size = new System.Drawing.Size(64, 23);
 			this.label1.TabIndex = 6;
 			this.label1.Text = "Start Date";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(19, 113);
+			this.label2.Location = new System.Drawing.Point(39, 108);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(84, 16);
+			this.label2.Size = new System.Drawing.Size(60, 23);
 			this.label2.TabIndex = 7;
 			this.label2.Text = "End Date";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// listPresetDateRanges
 			// 
-			this.listPresetDateRanges.Location = new System.Drawing.Point(105, 12);
+			this.listPresetDateRanges.Location = new System.Drawing.Point(105, 8);
 			this.listPresetDateRanges.Name = "listPresetDateRanges";
 			this.listPresetDateRanges.SelectionMode = OpenPmsDental.UI.SelectionMode.None;
 			this.listPresetDateRanges.Size = new System.Drawing.Size(91, 69);
@@ -62,22 +62,22 @@ namespace OpenPmsDental{
 			// 
 			// textDateEnd
 			// 
-			this.textDateEnd.Location = new System.Drawing.Point(105, 112);
+			this.textDateEnd.Location = new System.Drawing.Point(105, 108);
 			this.textDateEnd.Name = "textDateEnd";
-			this.textDateEnd.Size = new System.Drawing.Size(91, 20);
+			this.textDateEnd.Size = new System.Drawing.Size(92, 23);
 			this.textDateEnd.TabIndex = 5;
 			// 
 			// textDateStart
 			// 
-			this.textDateStart.Location = new System.Drawing.Point(105, 86);
+			this.textDateStart.Location = new System.Drawing.Point(105, 81);
 			this.textDateStart.Name = "textDateStart";
-			this.textDateStart.Size = new System.Drawing.Size(91, 20);
+			this.textDateStart.Size = new System.Drawing.Size(92, 23);
 			this.textDateStart.TabIndex = 4;
 			// 
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(224, 160);
+			this.butOK.Location = new System.Drawing.Point(234, 164);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 24);
 			this.butOK.TabIndex = 3;
@@ -86,18 +86,18 @@ namespace OpenPmsDental{
 			// 
 			// butNowStart
 			// 
-			this.butNowStart.Location = new System.Drawing.Point(206, 86);
+			this.butNowStart.Location = new System.Drawing.Point(203, 81);
 			this.butNowStart.Name = "butNowStart";
-			this.butNowStart.Size = new System.Drawing.Size(75, 20);
+			this.butNowStart.Size = new System.Drawing.Size(75, 23);
 			this.butNowStart.TabIndex = 20;
 			this.butNowStart.Text = "Now";
 			this.butNowStart.Click += new System.EventHandler(this.butNowStart_Click);
 			// 
 			// butNowEnd
 			// 
-			this.butNowEnd.Location = new System.Drawing.Point(206, 112);
+			this.butNowEnd.Location = new System.Drawing.Point(203, 108);
 			this.butNowEnd.Name = "butNowEnd";
-			this.butNowEnd.Size = new System.Drawing.Size(75, 20);
+			this.butNowEnd.Size = new System.Drawing.Size(75, 23);
 			this.butNowEnd.TabIndex = 21;
 			this.butNowEnd.Text = "Now";
 			this.butNowEnd.Click += new System.EventHandler(this.butNowEnd_Click);

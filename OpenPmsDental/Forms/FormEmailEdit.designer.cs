@@ -41,10 +41,10 @@ namespace OpenPmsDental{
 			this.textContentEmail.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.textContentEmail.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.textContentEmail.Location = new System.Drawing.Point(0, 56);
+			this.textContentEmail.Location = new System.Drawing.Point(8, 78);
 			this.textContentEmail.Name = "textContentEmail";
 			this.textContentEmail.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textContentEmail.Size = new System.Drawing.Size(616, 592);
+			this.textContentEmail.Size = new System.Drawing.Size(603, 577);
 			this.textContentEmail.TabIndex = 86;
 			this.textContentEmail.Text = "";
 			this.textContentEmail.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textContentEmail_KeyPress);
@@ -56,15 +56,15 @@ namespace OpenPmsDental{
 			this.webViewEmail.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.webViewEmail.Location = new System.Drawing.Point(622, 56);
+			this.webViewEmail.Location = new System.Drawing.Point(619, 78);
 			this.webViewEmail.Name = "webViewEmail";
-			this.webViewEmail.Size = new System.Drawing.Size(606, 592);
+			this.webViewEmail.Size = new System.Drawing.Size(603, 577);
 			this.webViewEmail.TabIndex = 86;
 			// 
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(1143, 659);
+			this.butSave.Location = new System.Drawing.Point(1147, 663);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 25);
 			this.butSave.TabIndex = 87;
@@ -93,8 +93,8 @@ namespace OpenPmsDental{
 			// 
 			// labelPreview
 			// 
-			this.labelPreview.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.labelPreview.Location = new System.Drawing.Point(626, 650);
+			this.labelPreview.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)));
+			this.labelPreview.Location = new System.Drawing.Point(619, 58);
 			this.labelPreview.Name = "labelPreview";
 			this.labelPreview.Size = new System.Drawing.Size(63, 18);
 			this.labelPreview.TabIndex = 89;
@@ -103,8 +103,8 @@ namespace OpenPmsDental{
 			// 
 			// labelPlainText
 			// 
-			this.labelPlainText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.labelPlainText.Location = new System.Drawing.Point(25, 650);
+			this.labelPlainText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)));
+			this.labelPlainText.Location = new System.Drawing.Point(8, 58);
 			this.labelPlainText.Name = "labelPlainText";
 			this.labelPlainText.Size = new System.Drawing.Size(163, 18);
 			this.labelPlainText.TabIndex = 88;
@@ -114,7 +114,7 @@ namespace OpenPmsDental{
 			// checkIsRaw
 			// 
 			this.checkIsRaw.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.checkIsRaw.Location = new System.Drawing.Point(28, 671);
+			this.checkIsRaw.Location = new System.Drawing.Point(8, 666);
 			this.checkIsRaw.Name = "checkIsRaw";
 			this.checkIsRaw.RightToLeft = System.Windows.Forms.RightToLeft.No;
 			this.checkIsRaw.Size = new System.Drawing.Size(319, 18);

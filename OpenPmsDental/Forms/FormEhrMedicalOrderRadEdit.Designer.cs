@@ -37,7 +37,7 @@
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(403, 243);
+			this.butSave.Location = new System.Drawing.Point(407, 247);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 23);
 			this.butSave.TabIndex = 11;
@@ -48,7 +48,7 @@
 			// butDelete
 			// 
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butDelete.Location = new System.Drawing.Point(12, 243);
+			this.butDelete.Location = new System.Drawing.Point(8, 247);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(75, 23);
 			this.butDelete.TabIndex = 12;
@@ -62,15 +62,15 @@
 			this.textDescription.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textDescription.Location = new System.Drawing.Point(12, 101);
+			this.textDescription.Location = new System.Drawing.Point(8, 86);
 			this.textDescription.Multiline = true;
 			this.textDescription.Name = "textDescription";
-			this.textDescription.Size = new System.Drawing.Size(466, 136);
+			this.textDescription.Size = new System.Drawing.Size(471, 136);
 			this.textDescription.TabIndex = 16;
 			// 
 			// labelDescription
 			// 
-			this.labelDescription.Location = new System.Drawing.Point(11, 77);
+			this.labelDescription.Location = new System.Drawing.Point(8, 63);
 			this.labelDescription.Name = "labelDescription";
 			this.labelDescription.Size = new System.Drawing.Size(116, 21);
 			this.labelDescription.TabIndex = 17;
@@ -79,34 +79,34 @@
 			// 
 			// textDateTime
 			// 
-			this.textDateTime.Location = new System.Drawing.Point(271, 13);
+			this.textDateTime.Location = new System.Drawing.Point(271, 8);
 			this.textDateTime.Name = "textDateTime";
-			this.textDateTime.Size = new System.Drawing.Size(207, 20);
+			this.textDateTime.Size = new System.Drawing.Size(208, 23);
 			this.textDateTime.TabIndex = 18;
 			// 
 			// labelDateTime
 			// 
-			this.labelDateTime.Location = new System.Drawing.Point(153, 15);
+			this.labelDateTime.Location = new System.Drawing.Point(197, 8);
 			this.labelDateTime.Name = "labelDateTime";
-			this.labelDateTime.Size = new System.Drawing.Size(116, 17);
+			this.labelDateTime.Size = new System.Drawing.Size(68, 23);
 			this.labelDateTime.TabIndex = 19;
 			this.labelDateTime.Text = "Date Time";
 			this.labelDateTime.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// checkIsDiscontinued
 			// 
-			this.checkIsDiscontinued.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkIsDiscontinued.Location = new System.Drawing.Point(159, 41);
+			this.checkIsDiscontinued.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkIsDiscontinued.Location = new System.Drawing.Point(271, 35);
 			this.checkIsDiscontinued.Name = "checkIsDiscontinued";
-			this.checkIsDiscontinued.Size = new System.Drawing.Size(126, 18);
+			this.checkIsDiscontinued.Size = new System.Drawing.Size(94, 20);
 			this.checkIsDiscontinued.TabIndex = 23;
 			this.checkIsDiscontinued.Text = "Discontinued";
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(153, 67);
+			this.label1.Location = new System.Drawing.Point(209, 59);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(116, 17);
+			this.label1.Size = new System.Drawing.Size(56, 23);
 			this.label1.TabIndex = 30;
 			this.label1.Text = "Provider";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -115,9 +115,9 @@
 			// 
 			this.comboProv.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboProv.FormattingEnabled = true;
-			this.comboProv.Location = new System.Drawing.Point(271, 64);
+			this.comboProv.Location = new System.Drawing.Point(271, 59);
 			this.comboProv.Name = "comboProv";
-			this.comboProv.Size = new System.Drawing.Size(207, 21);
+			this.comboProv.Size = new System.Drawing.Size(208, 23);
 			this.comboProv.TabIndex = 29;
 			// 
 			// FormEhrMedicalOrderRadEdit

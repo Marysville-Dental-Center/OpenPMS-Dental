@@ -33,15 +33,15 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.webViewMain.AreBrowserKeysEnabled = true;
-			this.webViewMain.Location = new System.Drawing.Point(1, 1);
+			this.webViewMain.Location = new System.Drawing.Point(8, 8);
 			this.webViewMain.Name = "webViewMain";
-			this.webViewMain.Size = new System.Drawing.Size(882, 603);
+			this.webViewMain.Size = new System.Drawing.Size(868, 592);
 			this.webViewMain.TabIndex = 1;
 			// 
 			// butPrint
 			// 
 			this.butPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butPrint.Location = new System.Drawing.Point(718, 610);
+			this.butPrint.Location = new System.Drawing.Point(801, 608);
 			this.butPrint.Name = "butPrint";
 			this.butPrint.Size = new System.Drawing.Size(75, 23);
 			this.butPrint.TabIndex = 2;

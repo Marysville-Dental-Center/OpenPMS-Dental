@@ -33,19 +33,19 @@ namespace OpenPmsDental{
 			this.textLog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textLog.Location = new System.Drawing.Point(12, 12);
+			this.textLog.Location = new System.Drawing.Point(8, 8);
 			this.textLog.Multiline = true;
 			this.textLog.Name = "textLog";
 			this.textLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.textLog.Size = new System.Drawing.Size(620, 510);
+			this.textLog.Size = new System.Drawing.Size(626, 518);
 			this.textLog.TabIndex = 4;
 			// 
 			// checkShow
 			// 
 			this.checkShow.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkShow.Location = new System.Drawing.Point(638, 43);
+			this.checkShow.Location = new System.Drawing.Point(642, 37);
 			this.checkShow.Name = "checkShow";
-			this.checkShow.Size = new System.Drawing.Size(75, 20);
+			this.checkShow.Size = new System.Drawing.Size(67, 20);
 			this.checkShow.TabIndex = 17;
 			this.checkShow.Text = "Verbose";
 			this.checkShow.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.checkShow_KeyPress);
@@ -53,7 +53,7 @@ namespace OpenPmsDental{
 			// butRunCheck
 			// 
 			this.butRunCheck.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butRunCheck.Location = new System.Drawing.Point(638, 12);
+			this.butRunCheck.Location = new System.Drawing.Point(642, 8);
 			this.butRunCheck.Name = "butRunCheck";
 			this.butRunCheck.Size = new System.Drawing.Size(75, 25);
 			this.butRunCheck.TabIndex = 5;

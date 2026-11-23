@@ -43,7 +43,7 @@ namespace OpenPmsDental{
 			// butTrust
 			// 
 			this.butTrust.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butTrust.Location = new System.Drawing.Point(384, 293);
+			this.butTrust.Location = new System.Drawing.Point(384, 297);
 			this.butTrust.Name = "butTrust";
 			this.butTrust.Size = new System.Drawing.Size(75, 24);
 			this.butTrust.TabIndex = 3;
@@ -52,16 +52,16 @@ namespace OpenPmsDental{
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(5, 141);
+			this.label2.Location = new System.Drawing.Point(36, 126);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(100, 20);
+			this.label2.Size = new System.Drawing.Size(64, 23);
 			this.label2.TabIndex = 5;
 			this.label2.Text = "Authority:";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textCertificateAuthority
 			// 
-			this.textCertificateAuthority.Location = new System.Drawing.Point(106, 141);
+			this.textCertificateAuthority.Location = new System.Drawing.Point(106, 126);
 			this.textCertificateAuthority.Multiline = true;
 			this.textCertificateAuthority.Name = "textCertificateAuthority";
 			this.textCertificateAuthority.ReadOnly = true;
@@ -71,7 +71,7 @@ namespace OpenPmsDental{
 			// 
 			// textValidFrom
 			// 
-			this.textValidFrom.Location = new System.Drawing.Point(106, 207);
+			this.textValidFrom.Location = new System.Drawing.Point(106, 190);
 			this.textValidFrom.Name = "textValidFrom";
 			this.textValidFrom.ReadOnly = true;
 			this.textValidFrom.Size = new System.Drawing.Size(332, 20);
@@ -79,16 +79,16 @@ namespace OpenPmsDental{
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(5, 207);
+			this.label3.Location = new System.Drawing.Point(28, 190);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(100, 20);
+			this.label3.Size = new System.Drawing.Size(72, 23);
 			this.label3.TabIndex = 7;
 			this.label3.Text = "Valid From:";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textSignedBy
 			// 
-			this.textSignedBy.Location = new System.Drawing.Point(106, 115);
+			this.textSignedBy.Location = new System.Drawing.Point(106, 99);
 			this.textSignedBy.Name = "textSignedBy";
 			this.textSignedBy.ReadOnly = true;
 			this.textSignedBy.Size = new System.Drawing.Size(332, 20);
@@ -96,16 +96,16 @@ namespace OpenPmsDental{
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(5, 115);
+			this.label5.Location = new System.Drawing.Point(32, 99);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(100, 20);
+			this.label5.Size = new System.Drawing.Size(68, 23);
 			this.label5.TabIndex = 11;
 			this.label5.Text = "Signed By:";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textThumbprint
 			// 
-			this.textThumbprint.Location = new System.Drawing.Point(106, 233);
+			this.textThumbprint.Location = new System.Drawing.Point(106, 217);
 			this.textThumbprint.Name = "textThumbprint";
 			this.textThumbprint.ReadOnly = true;
 			this.textThumbprint.Size = new System.Drawing.Size(332, 20);
@@ -113,16 +113,16 @@ namespace OpenPmsDental{
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(5, 233);
+			this.label6.Location = new System.Drawing.Point(20, 217);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(100, 20);
+			this.label6.Size = new System.Drawing.Size(80, 23);
 			this.label6.TabIndex = 13;
 			this.label6.Text = "Thumbprint:";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textVersion
 			// 
-			this.textVersion.Location = new System.Drawing.Point(106, 256);
+			this.textVersion.Location = new System.Drawing.Point(106, 244);
 			this.textVersion.Name = "textVersion";
 			this.textVersion.ReadOnly = true;
 			this.textVersion.Size = new System.Drawing.Size(332, 20);
@@ -130,16 +130,16 @@ namespace OpenPmsDental{
 			// 
 			// label7
 			// 
-			this.label7.Location = new System.Drawing.Point(5, 256);
+			this.label7.Location = new System.Drawing.Point(48, 244);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(100, 20);
+			this.label7.Size = new System.Drawing.Size(52, 23);
 			this.label7.TabIndex = 15;
 			this.label7.Text = "Version:";
 			this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textTrustStatus
 			// 
-			this.textTrustStatus.Location = new System.Drawing.Point(106, 23);
+			this.textTrustStatus.Location = new System.Drawing.Point(106, 8);
 			this.textTrustStatus.Name = "textTrustStatus";
 			this.textTrustStatus.ReadOnly = true;
 			this.textTrustStatus.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -148,16 +148,16 @@ namespace OpenPmsDental{
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(5, 23);
+			this.label4.Location = new System.Drawing.Point(24, 8);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(100, 20);
+			this.label4.Size = new System.Drawing.Size(76, 23);
 			this.label4.TabIndex = 17;
 			this.label4.Text = "Trust Status:";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textTrustExplanation
 			// 
-			this.textTrustExplanation.Location = new System.Drawing.Point(106, 49);
+			this.textTrustExplanation.Location = new System.Drawing.Point(106, 35);
 			this.textTrustExplanation.Multiline = true;
 			this.textTrustExplanation.Name = "textTrustExplanation";
 			this.textTrustExplanation.ReadOnly = true;
@@ -167,9 +167,9 @@ namespace OpenPmsDental{
 			// 
 			// label8
 			// 
-			this.label8.Location = new System.Drawing.Point(5, 49);
+			this.label8.Location = new System.Drawing.Point(20, 35);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(100, 20);
+			this.label8.Size = new System.Drawing.Size(80, 23);
 			this.label8.TabIndex = 19;
 			this.label8.Text = "Trust Details:";
 			this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

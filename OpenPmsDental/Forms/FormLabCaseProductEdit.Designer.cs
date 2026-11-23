@@ -31,16 +31,16 @@ namespace OpenPmsDental {
 			//
 			// labelMaterial
 			//
-			this.labelMaterial.Location = new System.Drawing.Point(12, 15);
+			this.labelMaterial.Location = new System.Drawing.Point(42, 8);
 			this.labelMaterial.Name = "labelMaterial";
-			this.labelMaterial.Size = new System.Drawing.Size(90, 17);
+			this.labelMaterial.Size = new System.Drawing.Size(56, 23);
 			this.labelMaterial.TabIndex = 0;
 			this.labelMaterial.Text = "Material";
 			this.labelMaterial.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			//
 			// textMaterial
 			//
-			this.textMaterial.Location = new System.Drawing.Point(104, 14);
+			this.textMaterial.Location = new System.Drawing.Point(104, 8);
 			this.textMaterial.MaxLength = 255;
 			this.textMaterial.Name = "textMaterial";
 			this.textMaterial.Size = new System.Drawing.Size(220, 20);
@@ -48,16 +48,16 @@ namespace OpenPmsDental {
 			//
 			// labelShade
 			//
-			this.labelShade.Location = new System.Drawing.Point(12, 41);
+			this.labelShade.Location = new System.Drawing.Point(54, 35);
 			this.labelShade.Name = "labelShade";
-			this.labelShade.Size = new System.Drawing.Size(90, 17);
+			this.labelShade.Size = new System.Drawing.Size(44, 23);
 			this.labelShade.TabIndex = 2;
 			this.labelShade.Text = "Shade";
 			this.labelShade.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			//
 			// textShade
 			//
-			this.textShade.Location = new System.Drawing.Point(104, 40);
+			this.textShade.Location = new System.Drawing.Point(104, 35);
 			this.textShade.MaxLength = 255;
 			this.textShade.Name = "textShade";
 			this.textShade.Size = new System.Drawing.Size(100, 20);
@@ -65,42 +65,42 @@ namespace OpenPmsDental {
 			//
 			// labelToothRange
 			//
-			this.labelToothRange.Location = new System.Drawing.Point(12, 67);
+			this.labelToothRange.Location = new System.Drawing.Point(58, 62);
 			this.labelToothRange.Name = "labelToothRange";
-			this.labelToothRange.Size = new System.Drawing.Size(90, 17);
+			this.labelToothRange.Size = new System.Drawing.Size(40, 23);
 			this.labelToothRange.TabIndex = 4;
 			this.labelToothRange.Text = "Teeth";
 			this.labelToothRange.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			//
 			// textToothRange
 			//
-			this.textToothRange.Location = new System.Drawing.Point(104, 66);
+			this.textToothRange.Location = new System.Drawing.Point(104, 62);
 			this.textToothRange.MaxLength = 255;
 			this.textToothRange.Name = "textToothRange";
-			this.textToothRange.Size = new System.Drawing.Size(150, 20);
+			this.textToothRange.Size = new System.Drawing.Size(152, 23);
 			this.textToothRange.TabIndex = 5;
 			//
 			// butToothRangeFromProcs
 			//
-			this.butToothRangeFromProcs.Location = new System.Drawing.Point(260, 64);
+			this.butToothRangeFromProcs.Location = new System.Drawing.Point(262, 62);
 			this.butToothRangeFromProcs.Name = "butToothRangeFromProcs";
-			this.butToothRangeFromProcs.Size = new System.Drawing.Size(110, 24);
+			this.butToothRangeFromProcs.Size = new System.Drawing.Size(110, 23);
 			this.butToothRangeFromProcs.TabIndex = 11;
 			this.butToothRangeFromProcs.Text = "From Procedures";
 			this.butToothRangeFromProcs.Click += new System.EventHandler(this.butToothRangeFromProcs_Click);
 			//
 			// labelNotes
 			//
-			this.labelNotes.Location = new System.Drawing.Point(12, 93);
+			this.labelNotes.Location = new System.Drawing.Point(54, 89);
 			this.labelNotes.Name = "labelNotes";
-			this.labelNotes.Size = new System.Drawing.Size(90, 17);
+			this.labelNotes.Size = new System.Drawing.Size(44, 23);
 			this.labelNotes.TabIndex = 6;
 			this.labelNotes.Text = "Notes";
-			this.labelNotes.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.labelNotes.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			//
 			// textNotes
 			//
-			this.textNotes.Location = new System.Drawing.Point(104, 92);
+			this.textNotes.Location = new System.Drawing.Point(104, 89);
 			this.textNotes.Multiline = true;
 			this.textNotes.Name = "textNotes";
 			this.textNotes.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -109,7 +109,7 @@ namespace OpenPmsDental {
 			//
 			// labelProductListValue
 			//
-			this.labelProductListValue.Location = new System.Drawing.Point(104, 177);
+			this.labelProductListValue.Location = new System.Drawing.Point(104, 173);
 			this.labelProductListValue.Name = "labelProductListValue";
 			this.labelProductListValue.Size = new System.Drawing.Size(300, 17);
 			this.labelProductListValue.TabIndex = 8;
@@ -119,7 +119,7 @@ namespace OpenPmsDental {
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(12, 209);
+			this.butDelete.Location = new System.Drawing.Point(8, 213);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(81, 24);
 			this.butDelete.TabIndex = 9;
@@ -129,7 +129,7 @@ namespace OpenPmsDental {
 			// butSave
 			//
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(329, 209);
+			this.butSave.Location = new System.Drawing.Point(333, 213);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 10;

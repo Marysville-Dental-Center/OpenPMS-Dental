@@ -49,7 +49,7 @@ namespace OpenPmsDental {
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(399,198);
+			this.butOK.Location = new System.Drawing.Point(403,202);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75,26);
 			this.butOK.TabIndex = 1;
@@ -64,16 +64,16 @@ namespace OpenPmsDental {
 			this.groupBox2.Controls.Add(this.label2);
 			this.groupBox2.Controls.Add(this.label1);
 			this.groupBox2.Controls.Add(this.textDateTo);
-			this.groupBox2.Location = new System.Drawing.Point(42,72);
+			this.groupBox2.Location = new System.Drawing.Point(8,73);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(393,109);
+			this.groupBox2.Size = new System.Drawing.Size(470,81);
 			this.groupBox2.TabIndex = 8;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Date Range";
 			// 
 			// butAll
 			// 
-			this.butAll.Location = new System.Drawing.Point(263,61);
+			this.butAll.Location = new System.Drawing.Point(369,50);
 			this.butAll.Name = "butAll";
 			this.butAll.Size = new System.Drawing.Size(93,23);
 			this.butAll.TabIndex = 8;
@@ -82,7 +82,7 @@ namespace OpenPmsDental {
 			// 
 			// but7
 			// 
-			this.but7.Location = new System.Drawing.Point(263,35);
+			this.but7.Location = new System.Drawing.Point(369,23);
 			this.but7.Name = "but7";
 			this.but7.Size = new System.Drawing.Size(93,23);
 			this.but7.TabIndex = 7;
@@ -91,42 +91,42 @@ namespace OpenPmsDental {
 			// 
 			// textDateFrom
 			// 
-			this.textDateFrom.Location = new System.Drawing.Point(137,37);
+			this.textDateFrom.Location = new System.Drawing.Point(137,23);
 			this.textDateFrom.Name = "textDateFrom";
 			this.textDateFrom.Size = new System.Drawing.Size(84,20);
 			this.textDateFrom.TabIndex = 3;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(30,64);
+			this.label2.Location = new System.Drawing.Point(79,50);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(100,17);
+			this.label2.Size = new System.Drawing.Size(52,23);
 			this.label2.TabIndex = 4;
 			this.label2.Text = "To Date";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(30,36);
+			this.label1.Location = new System.Drawing.Point(63,23);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(100,17);
+			this.label1.Size = new System.Drawing.Size(68,23);
 			this.label1.TabIndex = 2;
 			this.label1.Text = "From Date";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textDateTo
 			// 
-			this.textDateTo.Location = new System.Drawing.Point(137,65);
+			this.textDateTo.Location = new System.Drawing.Point(137,50);
 			this.textDateTo.Name = "textDateTo";
-			this.textDateTo.Size = new System.Drawing.Size(85,20);
+			this.textDateTo.Size = new System.Drawing.Size(84,23);
 			this.textDateTo.TabIndex = 5;
 			// 
 			// radioConfirm
 			// 
 			this.radioConfirm.Checked = true;
-			this.radioConfirm.Location = new System.Drawing.Point(43,30);
+			this.radioConfirm.Location = new System.Drawing.Point(8,8);
 			this.radioConfirm.Name = "radioConfirm";
-			this.radioConfirm.Size = new System.Drawing.Size(329,21);
+			this.radioConfirm.Size = new System.Drawing.Size(148,18);
 			this.radioConfirm.TabIndex = 9;
 			this.radioConfirm.TabStop = true;
 			this.radioConfirm.Text = "Confirm Appointments";

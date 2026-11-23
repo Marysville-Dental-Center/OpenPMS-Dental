@@ -59,42 +59,42 @@ namespace OpenPmsDental {
 			this.groupBox1.Controls.Add(this.label3);
 			this.groupBox1.Controls.Add(this.butCopyWeek);
 			this.groupBox1.Controls.Add(this.butCopyDay);
-			this.groupBox1.Location = new System.Drawing.Point(8, 40);
+			this.groupBox1.Location = new System.Drawing.Point(8, 53);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(203, 197);
+			this.groupBox1.Size = new System.Drawing.Size(274, 181);
 			this.groupBox1.TabIndex = 40;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Copy";
 			// 
 			// textClipboard
 			// 
-			this.textClipboard.Location = new System.Drawing.Point(8, 110);
+			this.textClipboard.Location = new System.Drawing.Point(8, 94);
 			this.textClipboard.Name = "textClipboard";
 			this.textClipboard.ReadOnly = true;
-			this.textClipboard.Size = new System.Drawing.Size(187, 23);
+			this.textClipboard.Size = new System.Drawing.Size(258, 23);
 			this.textClipboard.TabIndex = 30;
 			// 
 			// label1
 			// 
 			this.label1.Location = new System.Drawing.Point(8, 23);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(187, 66);
+			this.label1.Size = new System.Drawing.Size(258, 50);
 			this.label1.TabIndex = 47;
 			this.label1.Text = "Copying only applies to the visible operatories for the current appointment view." +
     " It also does not copy to a different operatory.";
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(8, 91);
+			this.label3.Location = new System.Drawing.Point(8, 75);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(187, 17);
+			this.label3.Size = new System.Drawing.Size(258, 17);
 			this.label3.TabIndex = 29;
 			this.label3.Text = "Clipboard Contents";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// butCopyWeek
 			// 
-			this.butCopyWeek.Location = new System.Drawing.Point(8, 165);
+			this.butCopyWeek.Location = new System.Drawing.Point(8, 149);
 			this.butCopyWeek.Name = "butCopyWeek";
 			this.butCopyWeek.Size = new System.Drawing.Size(75, 24);
 			this.butCopyWeek.TabIndex = 28;
@@ -103,7 +103,7 @@ namespace OpenPmsDental {
 			// 
 			// butCopyDay
 			// 
-			this.butCopyDay.Location = new System.Drawing.Point(8, 137);
+			this.butCopyDay.Location = new System.Drawing.Point(8, 121);
 			this.butCopyDay.Name = "butCopyDay";
 			this.butCopyDay.Size = new System.Drawing.Size(75, 24);
 			this.butCopyDay.TabIndex = 27;
@@ -117,9 +117,9 @@ namespace OpenPmsDental {
 			this.groupBox2.Controls.Add(this.checkReplace);
 			this.groupBox2.Controls.Add(this.textRepeat);
 			this.groupBox2.Controls.Add(this.butPaste);
-			this.groupBox2.Location = new System.Drawing.Point(8, 245);
+			this.groupBox2.Location = new System.Drawing.Point(8, 255);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(203, 107);
+			this.groupBox2.Size = new System.Drawing.Size(274, 107);
 			this.groupBox2.TabIndex = 45;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Paste";
@@ -135,7 +135,7 @@ namespace OpenPmsDental {
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(129, 75);
+			this.label4.Location = new System.Drawing.Point(91, 75);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(20, 23);
 			this.label4.TabIndex = 32;
@@ -154,7 +154,7 @@ namespace OpenPmsDental {
 			// 
 			// textRepeat
 			// 
-			this.textRepeat.Location = new System.Drawing.Point(155, 75);
+			this.textRepeat.Location = new System.Drawing.Point(117, 75);
 			this.textRepeat.Name = "textRepeat";
 			this.textRepeat.Size = new System.Drawing.Size(40, 23);
 			this.textRepeat.TabIndex = 31;
@@ -188,7 +188,7 @@ namespace OpenPmsDental {
 			// 
 			// FormBlockoutCutCopyPaste
 			// 
-			this.ClientSize = new System.Drawing.Size(219, 360);
+			this.ClientSize = new System.Drawing.Size(290, 383);
 			this.Controls.Add(this.butClearDay);
 			this.Controls.Add(this.checkWeekend);
 			this.Controls.Add(this.groupBox1);

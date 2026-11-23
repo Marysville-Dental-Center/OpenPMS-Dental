@@ -38,34 +38,34 @@ namespace OpenPmsDental{
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(314, 79);
+			this.label1.Location = new System.Drawing.Point(346, 84);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(104, 21);
+			this.label1.Size = new System.Drawing.Size(68, 23);
 			this.label1.TabIndex = 198;
 			this.label1.Text = "Frequency";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(3, 56);
+			this.label3.Location = new System.Drawing.Point(31, 57);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(104, 21);
+			this.label3.Size = new System.Drawing.Size(76, 23);
 			this.label3.TabIndex = 196;
 			this.label3.Text = "Code Group";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label24
 			// 
-			this.label24.Location = new System.Drawing.Point(342, 52);
+			this.label24.Location = new System.Drawing.Point(354, 57);
 			this.label24.Name = "label24";
-			this.label24.Size = new System.Drawing.Size(76, 20);
+			this.label24.Size = new System.Drawing.Size(60, 23);
 			this.label24.TabIndex = 197;
 			this.label24.Text = "Quantity";
 			this.label24.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// listBoxCodeGroup
 			// 
-			this.listBoxCodeGroup.Location = new System.Drawing.Point(113, 56);
+			this.listBoxCodeGroup.Location = new System.Drawing.Point(113, 57);
 			this.listBoxCodeGroup.Name = "listBoxCodeGroup";
 			this.listBoxCodeGroup.Size = new System.Drawing.Size(173, 277);
 			this.listBoxCodeGroup.TabIndex = 199;
@@ -73,16 +73,16 @@ namespace OpenPmsDental{
 			// 
 			// textNumber
 			// 
-			this.textNumber.Location = new System.Drawing.Point(420, 52);
+			this.textNumber.Location = new System.Drawing.Point(420, 57);
 			this.textNumber.MinVal = 1;
 			this.textNumber.Name = "textNumber";
-			this.textNumber.Size = new System.Drawing.Size(39, 20);
+			this.textNumber.Size = new System.Drawing.Size(40, 23);
 			this.textNumber.TabIndex = 194;
 			// 
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(606, 374);
+			this.butSave.Location = new System.Drawing.Point(610, 378);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 3;
@@ -91,16 +91,16 @@ namespace OpenPmsDental{
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(12, 9);
+			this.label2.Location = new System.Drawing.Point(8, 8);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(425, 38);
+			this.label2.Size = new System.Drawing.Size(425, 47);
 			this.label2.TabIndex = 200;
 			this.label2.Text = "This is not normally used. Instead, edit frequencies directly in the grid. But th" +
     "is can be used if you need to add a second frequency for the same Code Group.";
 			// 
 			// listBoxTimePeriod
 			// 
-			this.listBoxTimePeriod.Location = new System.Drawing.Point(420, 79);
+			this.listBoxTimePeriod.Location = new System.Drawing.Point(420, 84);
 			this.listBoxTimePeriod.Name = "listBoxTimePeriod";
 			this.listBoxTimePeriod.Size = new System.Drawing.Size(173, 61);
 			this.listBoxTimePeriod.TabIndex = 201;
@@ -108,26 +108,26 @@ namespace OpenPmsDental{
 			// 
 			// listBoxTreatArea
 			// 
-			this.listBoxTreatArea.Location = new System.Drawing.Point(420, 152);
+			this.listBoxTreatArea.Location = new System.Drawing.Point(420, 149);
 			this.listBoxTreatArea.Name = "listBoxTreatArea";
-			this.listBoxTreatArea.Size = new System.Drawing.Size(173, 173);
+			this.listBoxTreatArea.Size = new System.Drawing.Size(173, 185);
 			this.listBoxTreatArea.TabIndex = 202;
 			this.listBoxTreatArea.TabStop = false;
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(310, 152);
+			this.label4.Location = new System.Drawing.Point(322, 149);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(104, 21);
+			this.label4.Size = new System.Drawing.Size(92, 23);
 			this.label4.TabIndex = 203;
 			this.label4.Text = "Treatment Area";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// checkPat
 			// 
-			this.checkPat.Location = new System.Drawing.Point(76, 339);
+			this.checkPat.Location = new System.Drawing.Point(113, 342);
 			this.checkPat.Name = "checkPat";
-			this.checkPat.Size = new System.Drawing.Size(475, 23);
+			this.checkPat.Size = new System.Drawing.Size(455, 20);
 			this.checkPat.TabIndex = 204;
 			this.checkPat.Text = "Patient Override  (Rare. Usually if percentages are different for family members)" +
     "";

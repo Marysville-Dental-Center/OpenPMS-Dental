@@ -36,7 +36,7 @@ namespace OpenPmsDental {
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(274, 343);
+			this.butSave.Location = new System.Drawing.Point(278, 347);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 3;
@@ -45,7 +45,7 @@ namespace OpenPmsDental {
 			// 
 			// labelClaimTrack
 			// 
-			this.labelClaimTrack.Location = new System.Drawing.Point(10, 3);
+			this.labelClaimTrack.Location = new System.Drawing.Point(8, 8);
 			this.labelClaimTrack.Name = "labelClaimTrack";
 			this.labelClaimTrack.Size = new System.Drawing.Size(216, 16);
 			this.labelClaimTrack.TabIndex = 58;
@@ -53,7 +53,7 @@ namespace OpenPmsDental {
 			// 
 			// labelNote
 			// 
-			this.labelNote.Location = new System.Drawing.Point(12, 129);
+			this.labelNote.Location = new System.Drawing.Point(8, 138);
 			this.labelNote.Name = "labelNote";
 			this.labelNote.Size = new System.Drawing.Size(216, 16);
 			this.labelNote.TabIndex = 57;
@@ -68,32 +68,32 @@ namespace OpenPmsDental {
 			this.textNotes.BackColor = System.Drawing.SystemColors.Window;
 			this.textNotes.DetectLinksEnabled = false;
 			this.textNotes.DetectUrls = false;
-			this.textNotes.Location = new System.Drawing.Point(13, 148);
+			this.textNotes.Location = new System.Drawing.Point(8, 156);
 			this.textNotes.Name = "textNotes";
 			this.textNotes.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.ClaimCustomTrack;
 			this.textNotes.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textNotes.Size = new System.Drawing.Size(336, 189);
+			this.textNotes.Size = new System.Drawing.Size(345, 183);
 			this.textNotes.TabIndex = 56;
 			this.textNotes.Text = "";
 			// 
 			// comboCustomTracking
 			// 
-			this.comboCustomTracking.Location = new System.Drawing.Point(13, 21);
+			this.comboCustomTracking.Location = new System.Drawing.Point(8, 26);
 			this.comboCustomTracking.Name = "comboCustomTracking";
-			this.comboCustomTracking.Size = new System.Drawing.Size(237, 21);
+			this.comboCustomTracking.Size = new System.Drawing.Size(236, 23);
 			this.comboCustomTracking.TabIndex = 156;
 			// 
 			// comboErrorCode
 			// 
-			this.comboErrorCode.Location = new System.Drawing.Point(14, 66);
+			this.comboErrorCode.Location = new System.Drawing.Point(8, 71);
 			this.comboErrorCode.Name = "comboErrorCode";
-			this.comboErrorCode.Size = new System.Drawing.Size(237, 21);
+			this.comboErrorCode.Size = new System.Drawing.Size(236, 23);
 			this.comboErrorCode.TabIndex = 160;
 			this.comboErrorCode.SelectionChangeCommitted += new System.EventHandler(this.comboErrorCode_SelectionChangeCommitted);
 			// 
 			// label
 			// 
-			this.label.Location = new System.Drawing.Point(11, 48);
+			this.label.Location = new System.Drawing.Point(8, 53);
 			this.label.Name = "label";
 			this.label.Size = new System.Drawing.Size(216, 16);
 			this.label.TabIndex = 159;
@@ -105,12 +105,12 @@ namespace OpenPmsDental {
 			this.textErrorDesc.BackColor = System.Drawing.SystemColors.Control;
 			this.textErrorDesc.DetectLinksEnabled = false;
 			this.textErrorDesc.DetectUrls = false;
-			this.textErrorDesc.Location = new System.Drawing.Point(14, 90);
+			this.textErrorDesc.Location = new System.Drawing.Point(8, 98);
 			this.textErrorDesc.Name = "textErrorDesc";
 			this.textErrorDesc.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Claim;
 			this.textErrorDesc.ReadOnly = true;
 			this.textErrorDesc.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textErrorDesc.Size = new System.Drawing.Size(237, 36);
+			this.textErrorDesc.Size = new System.Drawing.Size(236, 36);
 			this.textErrorDesc.TabIndex = 161;
 			this.textErrorDesc.Text = "";
 			// 

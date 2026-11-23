@@ -33,7 +33,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(306, 86);
+			this.butSave.Location = new System.Drawing.Point(310, 90);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 3;
@@ -42,33 +42,33 @@ namespace OpenPmsDental{
 			// 
 			// textUsername
 			// 
-			this.textUsername.Location = new System.Drawing.Point(162, 20);
+			this.textUsername.Location = new System.Drawing.Point(162, 8);
 			this.textUsername.Name = "textUsername";
-			this.textUsername.Size = new System.Drawing.Size(187, 20);
+			this.textUsername.Size = new System.Drawing.Size(188, 23);
 			this.textUsername.TabIndex = 6;
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(81, 46);
+			this.label4.Location = new System.Drawing.Point(92, 35);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(79, 20);
+			this.label4.Size = new System.Drawing.Size(64, 23);
 			this.label4.TabIndex = 4;
 			this.label4.Text = "Password";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textPassword
 			// 
-			this.textPassword.Location = new System.Drawing.Point(162, 46);
+			this.textPassword.Location = new System.Drawing.Point(162, 35);
 			this.textPassword.Name = "textPassword";
 			this.textPassword.PasswordChar = '*';
-			this.textPassword.Size = new System.Drawing.Size(187, 20);
+			this.textPassword.Size = new System.Drawing.Size(188, 23);
 			this.textPassword.TabIndex = 7;
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(84, 20);
+			this.label3.Location = new System.Drawing.Point(92, 8);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(76, 20);
+			this.label3.Size = new System.Drawing.Size(64, 23);
 			this.label3.TabIndex = 5;
 			this.label3.Text = "Username";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

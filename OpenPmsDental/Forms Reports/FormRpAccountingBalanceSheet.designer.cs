@@ -33,7 +33,7 @@ namespace OpenPmsDental {
 			// 
 			// labelTO
 			// 
-			this.labelTO.Location = new System.Drawing.Point(29, 26);
+			this.labelTO.Location = new System.Drawing.Point(8, 8);
 			this.labelTO.Name = "labelTO";
 			this.labelTO.Size = new System.Drawing.Size(72, 18);
 			this.labelTO.TabIndex = 22;
@@ -43,7 +43,7 @@ namespace OpenPmsDental {
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(208, 233);
+			this.butOK.Location = new System.Drawing.Point(212, 237);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 26);
 			this.butOK.TabIndex = 3;
@@ -52,7 +52,7 @@ namespace OpenPmsDental {
 			// 
 			// monthCalendar
 			// 
-			this.monthCalendar.Location = new System.Drawing.Point(32, 47);
+			this.monthCalendar.Location = new System.Drawing.Point(8, 28);
 			this.monthCalendar.Name = "monthCalendar";
 			this.monthCalendar.Size = new System.Drawing.Size(227, 162);
 			this.monthCalendar.TabIndex = 28;

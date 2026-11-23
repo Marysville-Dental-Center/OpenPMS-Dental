@@ -42,7 +42,7 @@ namespace OpenPmsDental {
 			// 
 			// listProv
 			// 
-			this.listProv.Location = new System.Drawing.Point(42,61);
+			this.listProv.Location = new System.Drawing.Point(8,35);
 			this.listProv.Name = "listProv";
 			this.listProv.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
 			this.listProv.Size = new System.Drawing.Size(165,186);
@@ -50,7 +50,7 @@ namespace OpenPmsDental {
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(41,42);
+			this.label1.Location = new System.Drawing.Point(8,11);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(104,16);
 			this.label1.TabIndex = 35;
@@ -66,34 +66,34 @@ namespace OpenPmsDental {
 			this.groupBox2.Controls.Add(this.textDateTo);
 			this.groupBox2.Controls.Add(this.label3);
 			this.groupBox2.Controls.Add(this.butLeft);
-			this.groupBox2.Location = new System.Drawing.Point(271,55);
+			this.groupBox2.Location = new System.Drawing.Point(311,35);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(281,144);
+			this.groupBox2.Size = new System.Drawing.Size(281,109);
 			this.groupBox2.TabIndex = 46;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Date Range";
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(9,79);
+			this.label2.Location = new System.Drawing.Point(49,51);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(82,18);
+			this.label2.Size = new System.Drawing.Size(40,23);
 			this.label2.TabIndex = 37;
 			this.label2.Text = "From";
-			this.label2.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(7,105);
+			this.label3.Location = new System.Drawing.Point(65,78);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(82,18);
+			this.label3.Size = new System.Drawing.Size(24,23);
 			this.label3.TabIndex = 39;
 			this.label3.Text = "To";
-			this.label3.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textToday
 			// 
-			this.textToday.Location = new System.Drawing.Point(366,29);
+			this.textToday.Location = new System.Drawing.Point(406,8);
 			this.textToday.Name = "textToday";
 			this.textToday.ReadOnly = true;
 			this.textToday.Size = new System.Drawing.Size(100,20);
@@ -101,19 +101,19 @@ namespace OpenPmsDental {
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(237,32);
+			this.label4.Location = new System.Drawing.Point(320,8);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(127,20);
+			this.label4.Size = new System.Drawing.Size(80,23);
 			this.label4.TabIndex = 44;
 			this.label4.Text = "Today\'s Date";
-			this.label4.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// checkAddress
 			// 
 			this.checkAddress.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
-			this.checkAddress.Location = new System.Drawing.Point(42,273);
+			this.checkAddress.Location = new System.Drawing.Point(8,225);
 			this.checkAddress.Name = "checkAddress";
-			this.checkAddress.Size = new System.Drawing.Size(402,35);
+			this.checkAddress.Size = new System.Drawing.Size(584,40);
 			this.checkAddress.TabIndex = 47;
 			this.checkAddress.Text = "Include address information.  Doesn\'t fit easily on a printout, but useful if you" +
     " are exporting for letter merge.";
@@ -121,16 +121,16 @@ namespace OpenPmsDental {
 			// checkProd
 			// 
 			this.checkProd.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
-			this.checkProd.Location = new System.Drawing.Point(42,313);
+			this.checkProd.Location = new System.Drawing.Point(8,269);
 			this.checkProd.Name = "checkProd";
-			this.checkProd.Size = new System.Drawing.Size(381,22);
+			this.checkProd.Size = new System.Drawing.Size(221,20);
 			this.checkProd.TabIndex = 48;
 			this.checkProd.Text = "Exclude patients with no production.";
 			// 
 			// butRight
 			// 
 			this.butRight.Icon = OpenPmsDental.UI.EnumIcons.ArrowRight;
-			this.butRight.Location = new System.Drawing.Point(205,33);
+			this.butRight.Location = new System.Drawing.Point(199,23);
 			this.butRight.Name = "butRight";
 			this.butRight.Size = new System.Drawing.Size(45,24);
 			this.butRight.TabIndex = 46;
@@ -138,7 +138,7 @@ namespace OpenPmsDental {
 			// 
 			// butThis
 			// 
-			this.butThis.Location = new System.Drawing.Point(95,33);
+			this.butThis.Location = new System.Drawing.Point(92,23);
 			this.butThis.Name = "butThis";
 			this.butThis.Size = new System.Drawing.Size(101,24);
 			this.butThis.TabIndex = 45;
@@ -147,14 +147,14 @@ namespace OpenPmsDental {
 			// 
 			// textDateFrom
 			// 
-			this.textDateFrom.Location = new System.Drawing.Point(95,77);
+			this.textDateFrom.Location = new System.Drawing.Point(95,51);
 			this.textDateFrom.Name = "textDateFrom";
 			this.textDateFrom.Size = new System.Drawing.Size(100,20);
 			this.textDateFrom.TabIndex = 43;
 			// 
 			// textDateTo
 			// 
-			this.textDateTo.Location = new System.Drawing.Point(95,104);
+			this.textDateTo.Location = new System.Drawing.Point(95,78);
 			this.textDateTo.Name = "textDateTo";
 			this.textDateTo.Size = new System.Drawing.Size(100,20);
 			this.textDateTo.TabIndex = 44;
@@ -162,7 +162,7 @@ namespace OpenPmsDental {
 			// butLeft
 			// 
 			this.butLeft.Icon = OpenPmsDental.UI.EnumIcons.ArrowLeft;
-			this.butLeft.Location = new System.Drawing.Point(41,33);
+			this.butLeft.Location = new System.Drawing.Point(41,23);
 			this.butLeft.Name = "butLeft";
 			this.butLeft.Size = new System.Drawing.Size(45,24);
 			this.butLeft.TabIndex = 44;
@@ -171,7 +171,7 @@ namespace OpenPmsDental {
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(513, 315);
+			this.butOK.Location = new System.Drawing.Point(517, 319);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 24);
 			this.butOK.TabIndex = 3;

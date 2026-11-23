@@ -42,7 +42,7 @@ namespace OpenPmsDental {
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(185, 79);
+			this.butSave.Location = new System.Drawing.Point(189, 83);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 25);
 			this.butSave.TabIndex = 1;
@@ -51,19 +51,19 @@ namespace OpenPmsDental {
 			// 
 			// checkFieldValue
 			// 
-			this.checkFieldValue.Location = new System.Drawing.Point(22, 40);
+			this.checkFieldValue.Location = new System.Drawing.Point(8, 10);
 			this.checkFieldValue.Name = "checkFieldValue";
 			this.checkFieldValue.Size = new System.Drawing.Size(16, 16);
 			this.checkFieldValue.TabIndex = 4;
 			// 
 			// labelName
 			// 
-			this.labelName.Location = new System.Drawing.Point(42, 34);
+			this.labelName.Location = new System.Drawing.Point(22, 8);
 			this.labelName.Name = "labelName";
-			this.labelName.Size = new System.Drawing.Size(229, 20);
+			this.labelName.Size = new System.Drawing.Size(237, 20);
 			this.labelName.TabIndex = 3;
 			this.labelName.Text = "Field Name";
-			this.labelName.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+			this.labelName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// FormPatFieldCheckEdit
 			// 

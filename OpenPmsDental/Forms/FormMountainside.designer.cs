@@ -47,7 +47,7 @@ namespace OpenPmsDental {
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(475, 189);
+			this.butSave.Location = new System.Drawing.Point(479, 193);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 1;
@@ -56,59 +56,59 @@ namespace OpenPmsDental {
 			// 
 			// checkEnabled
 			// 
-			this.checkEnabled.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkEnabled.Location = new System.Drawing.Point(161, 60);
+			this.checkEnabled.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkEnabled.Location = new System.Drawing.Point(246, 62);
 			this.checkEnabled.Name = "checkEnabled";
-			this.checkEnabled.Size = new System.Drawing.Size(98, 18);
+			this.checkEnabled.Size = new System.Drawing.Size(66, 20);
 			this.checkEnabled.TabIndex = 41;
 			this.checkEnabled.Text = "Enabled";
 			this.checkEnabled.Click += new System.EventHandler(this.checkEnabled_Click);
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(58, 10);
+			this.label1.Location = new System.Drawing.Point(152, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(187, 18);
+			this.label1.Size = new System.Drawing.Size(88, 23);
 			this.label1.TabIndex = 44;
 			this.label1.Text = "Internal Name";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textProgName
 			// 
-			this.textProgName.Location = new System.Drawing.Point(246, 9);
+			this.textProgName.Location = new System.Drawing.Point(246, 8);
 			this.textProgName.Name = "textProgName";
 			this.textProgName.ReadOnly = true;
-			this.textProgName.Size = new System.Drawing.Size(275, 20);
+			this.textProgName.Size = new System.Drawing.Size(300, 23);
 			this.textProgName.TabIndex = 45;
 			// 
 			// textProgDesc
 			// 
-			this.textProgDesc.Location = new System.Drawing.Point(246, 34);
+			this.textProgDesc.Location = new System.Drawing.Point(246, 35);
 			this.textProgDesc.Name = "textProgDesc";
-			this.textProgDesc.Size = new System.Drawing.Size(275, 20);
+			this.textProgDesc.Size = new System.Drawing.Size(300, 23);
 			this.textProgDesc.TabIndex = 47;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(57, 35);
+			this.label2.Location = new System.Drawing.Point(168, 35);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(187, 18);
+			this.label2.Size = new System.Drawing.Size(72, 23);
 			this.label2.TabIndex = 46;
 			this.label2.Text = "Description";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textHL7FolderOut
 			// 
-			this.textHL7FolderOut.Location = new System.Drawing.Point(234, 48);
+			this.textHL7FolderOut.Location = new System.Drawing.Point(238, 43);
 			this.textHL7FolderOut.Name = "textHL7FolderOut";
-			this.textHL7FolderOut.Size = new System.Drawing.Size(275, 20);
+			this.textHL7FolderOut.Size = new System.Drawing.Size(300, 23);
 			this.textHL7FolderOut.TabIndex = 51;
 			// 
 			// labelHL7FolderOut
 			// 
-			this.labelHL7FolderOut.Location = new System.Drawing.Point(6, 49);
+			this.labelHL7FolderOut.Location = new System.Drawing.Point(96, 43);
 			this.labelHL7FolderOut.Name = "labelHL7FolderOut";
-			this.labelHL7FolderOut.Size = new System.Drawing.Size(226, 18);
+			this.labelHL7FolderOut.Size = new System.Drawing.Size(136, 23);
 			this.labelHL7FolderOut.TabIndex = 50;
 			this.labelHL7FolderOut.Text = "Out from Mountainside";
 			this.labelHL7FolderOut.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -118,15 +118,15 @@ namespace OpenPmsDental {
 			this.groupBox1.Controls.Add(this.label5);
 			this.groupBox1.Controls.Add(this.textHL7FolderOut);
 			this.groupBox1.Controls.Add(this.labelHL7FolderOut);
-			this.groupBox1.Location = new System.Drawing.Point(12, 93);
+			this.groupBox1.Location = new System.Drawing.Point(8, 90);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(538, 86);
+			this.groupBox1.Size = new System.Drawing.Size(546, 74);
 			this.groupBox1.TabIndex = 52;
 			this.groupBox1.Text = "HL7 Sync Folder";
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(6, 19);
+			this.label5.Location = new System.Drawing.Point(8, 23);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(478, 18);
 			this.label5.TabIndex = 45;

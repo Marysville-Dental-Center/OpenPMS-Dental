@@ -30,16 +30,16 @@ namespace OpenPmsDental {
 			//
 			// labelAccountNumber
 			//
-			this.labelAccountNumber.Location = new System.Drawing.Point(12, 15);
+			this.labelAccountNumber.Location = new System.Drawing.Point(34, 8);
 			this.labelAccountNumber.Name = "labelAccountNumber";
-			this.labelAccountNumber.Size = new System.Drawing.Size(130, 17);
+			this.labelAccountNumber.Size = new System.Drawing.Size(104, 23);
 			this.labelAccountNumber.TabIndex = 0;
 			this.labelAccountNumber.Text = "Account Number";
 			this.labelAccountNumber.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			//
 			// textAccountNumber
 			//
-			this.textAccountNumber.Location = new System.Drawing.Point(144, 14);
+			this.textAccountNumber.Location = new System.Drawing.Point(144, 8);
 			this.textAccountNumber.MaxLength = 255;
 			this.textAccountNumber.Name = "textAccountNumber";
 			this.textAccountNumber.Size = new System.Drawing.Size(200, 20);
@@ -47,16 +47,16 @@ namespace OpenPmsDental {
 			//
 			// labelApiKey
 			//
-			this.labelApiKey.Location = new System.Drawing.Point(12, 41);
+			this.labelApiKey.Location = new System.Drawing.Point(86, 35);
 			this.labelApiKey.Name = "labelApiKey";
-			this.labelApiKey.Size = new System.Drawing.Size(130, 17);
+			this.labelApiKey.Size = new System.Drawing.Size(52, 23);
 			this.labelApiKey.TabIndex = 2;
 			this.labelApiKey.Text = "API Key";
 			this.labelApiKey.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			//
 			// textApiKey
 			//
-			this.textApiKey.Location = new System.Drawing.Point(144, 40);
+			this.textApiKey.Location = new System.Drawing.Point(144, 35);
 			this.textApiKey.MaxLength = 255;
 			this.textApiKey.Name = "textApiKey";
 			this.textApiKey.Size = new System.Drawing.Size(200, 20);
@@ -65,23 +65,23 @@ namespace OpenPmsDental {
 			//
 			// labelApiKeyStatus
 			//
-			this.labelApiKeyStatus.Location = new System.Drawing.Point(144, 63);
+			this.labelApiKeyStatus.Location = new System.Drawing.Point(144, 62);
 			this.labelApiKeyStatus.Name = "labelApiKeyStatus";
 			this.labelApiKeyStatus.Size = new System.Drawing.Size(270, 30);
 			this.labelApiKeyStatus.TabIndex = 4;
 			//
 			// labelLastSignIn
 			//
-			this.labelLastSignIn.Location = new System.Drawing.Point(12, 97);
+			this.labelLastSignIn.Location = new System.Drawing.Point(22, 94);
 			this.labelLastSignIn.Name = "labelLastSignIn";
-			this.labelLastSignIn.Size = new System.Drawing.Size(130, 17);
+			this.labelLastSignIn.Size = new System.Drawing.Size(116, 23);
 			this.labelLastSignIn.TabIndex = 5;
 			this.labelLastSignIn.Text = "Last scanner sign-in";
 			this.labelLastSignIn.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			//
 			// textLastSignIn
 			//
-			this.textLastSignIn.Location = new System.Drawing.Point(144, 96);
+			this.textLastSignIn.Location = new System.Drawing.Point(144, 94);
 			this.textLastSignIn.Name = "textLastSignIn";
 			this.textLastSignIn.ReadOnly = true;
 			this.textLastSignIn.Size = new System.Drawing.Size(200, 20);
@@ -89,19 +89,19 @@ namespace OpenPmsDental {
 			//
 			// labelProviders
 			//
-			this.labelProviders.Location = new System.Drawing.Point(12, 126);
+			this.labelProviders.Location = new System.Drawing.Point(8, 121);
 			this.labelProviders.Name = "labelProviders";
-			this.labelProviders.Size = new System.Drawing.Size(400, 17);
+			this.labelProviders.Size = new System.Drawing.Size(408, 17);
 			this.labelProviders.TabIndex = 7;
 			this.labelProviders.Text = "Default account of these providers\' lab cases";
 			this.labelProviders.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			//
 			// listProviders
 			//
-			this.listProviders.Location = new System.Drawing.Point(12, 146);
+			this.listProviders.Location = new System.Drawing.Point(8, 140);
 			this.listProviders.Name = "listProviders";
 			this.listProviders.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
-			this.listProviders.Size = new System.Drawing.Size(400, 186);
+			this.listProviders.Size = new System.Drawing.Size(408, 186);
 			this.listProviders.TabIndex = 8;
 			//
 			// butDelete
@@ -109,7 +109,7 @@ namespace OpenPmsDental {
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(12, 349);
+			this.butDelete.Location = new System.Drawing.Point(8, 353);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(81, 24);
 			this.butDelete.TabIndex = 9;
@@ -119,7 +119,7 @@ namespace OpenPmsDental {
 			// butSave
 			//
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(337, 349);
+			this.butSave.Location = new System.Drawing.Point(341, 353);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 10;

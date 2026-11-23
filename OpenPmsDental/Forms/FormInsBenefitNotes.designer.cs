@@ -41,7 +41,7 @@ namespace OpenPmsDental {
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(466, 618);
+			this.butSave.Location = new System.Drawing.Point(478, 626);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 26);
 			this.butSave.TabIndex = 1;
@@ -55,11 +55,11 @@ namespace OpenPmsDental {
 			this.textBenefitNotes.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textBenefitNotes.Location = new System.Drawing.Point(10,12);
+			this.textBenefitNotes.Location = new System.Drawing.Point(8,8);
 			this.textBenefitNotes.Multiline = true;
 			this.textBenefitNotes.Name = "textBenefitNotes";
 			this.textBenefitNotes.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this.textBenefitNotes.Size = new System.Drawing.Size(450,632);
+			this.textBenefitNotes.Size = new System.Drawing.Size(545,610);
 			this.textBenefitNotes.TabIndex = 2;
 			// 
 			// FormInsBenefitNotes

@@ -31,7 +31,7 @@ namespace OpenPmsDental {
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(482, 269);
+			this.butOK.Location = new System.Drawing.Point(486, 273);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 26);
 			this.butOK.TabIndex = 3;
@@ -40,26 +40,26 @@ namespace OpenPmsDental {
 			// 
 			// date2
 			// 
-			this.date2.Location = new System.Drawing.Point(290, 67);
+			this.date2.Location = new System.Drawing.Point(305, 52);
 			this.date2.MaxSelectionCount = 1;
 			this.date2.Name = "date2";
 			this.date2.TabIndex = 2;
 			// 
 			// date1
 			// 
-			this.date1.Location = new System.Drawing.Point(34, 67);
+			this.date1.Location = new System.Drawing.Point(73, 52);
 			this.date1.MaxSelectionCount = 1;
 			this.date1.Name = "date1";
 			this.date1.TabIndex = 1;
 			// 
 			// labelTO
 			// 
-			this.labelTO.Location = new System.Drawing.Point(242, 75);
+			this.labelTO.Location = new System.Drawing.Point(271, 52);
 			this.labelTO.Name = "labelTO";
-			this.labelTO.Size = new System.Drawing.Size(68, 23);
+			this.labelTO.Size = new System.Drawing.Size(28, 23);
 			this.labelTO.TabIndex = 28;
 			this.labelTO.Text = "TO";
-			this.labelTO.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+			this.labelTO.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// FormRpPHRawScreen
 			// 

@@ -38,7 +38,7 @@ namespace OpenPmsDental {
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(506, 128);
+			this.butOK.Location = new System.Drawing.Point(510, 132);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(76, 26);
 			this.butOK.TabIndex = 2;
@@ -50,7 +50,7 @@ namespace OpenPmsDental {
 			this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.panel1.Controls.Add(this.radioDrug);
 			this.panel1.Controls.Add(this.radioPatient);
-			this.panel1.Location = new System.Drawing.Point(478, 18);
+			this.panel1.Location = new System.Drawing.Point(482, 8);
 			this.panel1.Name = "panel1";
 			this.panel1.Size = new System.Drawing.Size(104, 60);
 			this.panel1.TabIndex = 1;
@@ -59,7 +59,7 @@ namespace OpenPmsDental {
 			// 
 			this.radioDrug.Location = new System.Drawing.Point(8, 32);
 			this.radioDrug.Name = "radioDrug";
-			this.radioDrug.Size = new System.Drawing.Size(88, 24);
+			this.radioDrug.Size = new System.Drawing.Size(51, 20);
 			this.radioDrug.TabIndex = 1;
 			this.radioDrug.Text = "Drug";
 			// 
@@ -68,14 +68,14 @@ namespace OpenPmsDental {
 			this.radioPatient.Checked = true;
 			this.radioPatient.Location = new System.Drawing.Point(8, 8);
 			this.radioPatient.Name = "radioPatient";
-			this.radioPatient.Size = new System.Drawing.Size(88, 24);
+			this.radioPatient.Size = new System.Drawing.Size(62, 20);
 			this.radioPatient.TabIndex = 0;
 			this.radioPatient.TabStop = true;
 			this.radioPatient.Text = "Patient";
 			// 
 			// labelInstruct
 			// 
-			this.labelInstruct.Location = new System.Drawing.Point(3, 34);
+			this.labelInstruct.Location = new System.Drawing.Point(8, 8);
 			this.labelInstruct.Name = "labelInstruct";
 			this.labelInstruct.Size = new System.Drawing.Size(281, 30);
 			this.labelInstruct.TabIndex = 40;
@@ -85,7 +85,7 @@ namespace OpenPmsDental {
 			// 
 			// textBoxInput
 			// 
-			this.textBoxInput.Location = new System.Drawing.Point(290, 40);
+			this.textBoxInput.Location = new System.Drawing.Point(295, 8);
 			this.textBoxInput.Name = "textBoxInput";
 			this.textBoxInput.Size = new System.Drawing.Size(116, 20);
 			this.textBoxInput.TabIndex = 0;

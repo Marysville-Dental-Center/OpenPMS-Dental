@@ -46,9 +46,9 @@ namespace OpenPmsDental {
 			this.listCounties.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.listCounties.Location = new System.Drawing.Point(12, 30);
+			this.listCounties.Location = new System.Drawing.Point(8, 29);
 			this.listCounties.Name = "listCounties";
-			this.listCounties.Size = new System.Drawing.Size(298, 602);
+			this.listCounties.Size = new System.Drawing.Size(354, 609);
 			this.listCounties.TabIndex = 2;
 			this.listCounties.DoubleClick += new System.EventHandler(this.listCounties_DoubleClick);
 			// 
@@ -57,7 +57,7 @@ namespace OpenPmsDental {
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(338, 488);
+			this.butDelete.Location = new System.Drawing.Point(370, 612);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(86, 26);
 			this.butDelete.TabIndex = 72;
@@ -69,7 +69,7 @@ namespace OpenPmsDental {
 			this.butAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdd.Location = new System.Drawing.Point(338, 450);
+			this.butAdd.Location = new System.Drawing.Point(370, 582);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(86, 26);
 			this.butAdd.TabIndex = 71;
@@ -78,7 +78,7 @@ namespace OpenPmsDental {
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(11, 5);
+			this.label1.Location = new System.Drawing.Point(8, 8);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(437, 19);
 			this.label1.TabIndex = 73;

@@ -30,7 +30,7 @@ namespace OpenPmsDental {
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(343,81);
+			this.butOK.Location = new System.Drawing.Point(347,85);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75,26);
 			this.butOK.TabIndex = 1;
@@ -39,9 +39,9 @@ namespace OpenPmsDental {
 			// 
 			// labelPatName
 			// 
-			this.labelPatName.Location = new System.Drawing.Point(24,7);
+			this.labelPatName.Location = new System.Drawing.Point(19,8);
 			this.labelPatName.Name = "labelPatName";
-			this.labelPatName.Size = new System.Drawing.Size(256,70);
+			this.labelPatName.Size = new System.Drawing.Size(256,47);
 			this.labelPatName.TabIndex = 37;
 			this.labelPatName.Text = "Enter the first few letters of the Insurance Carrier name, or leave blank to view" +
     " all carriers:";
@@ -49,7 +49,7 @@ namespace OpenPmsDental {
 			// 
 			// textBoxCarrier
 			// 
-			this.textBoxCarrier.Location = new System.Drawing.Point(281,33);
+			this.textBoxCarrier.Location = new System.Drawing.Point(281,8);
 			this.textBoxCarrier.Name = "textBoxCarrier";
 			this.textBoxCarrier.Size = new System.Drawing.Size(100,20);
 			this.textBoxCarrier.TabIndex = 0;

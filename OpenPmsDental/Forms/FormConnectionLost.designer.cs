@@ -31,16 +31,16 @@ namespace OpenPmsDental{
 			// 
 			// labelErrMsg
 			// 
-			this.labelErrMsg.Location = new System.Drawing.Point(12, 9);
+			this.labelErrMsg.Location = new System.Drawing.Point(8, 8);
 			this.labelErrMsg.Name = "labelErrMsg";
-			this.labelErrMsg.Size = new System.Drawing.Size(377, 144);
+			this.labelErrMsg.Size = new System.Drawing.Size(384, 152);
 			this.labelErrMsg.TabIndex = 4;
 			this.labelErrMsg.Text = "Error Message";
 			// 
 			// butRetry
 			// 
 			this.butRetry.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butRetry.Location = new System.Drawing.Point(232, 164);
+			this.butRetry.Location = new System.Drawing.Point(234, 168);
 			this.butRetry.Name = "butRetry";
 			this.butRetry.Size = new System.Drawing.Size(75, 24);
 			this.butRetry.TabIndex = 3;
@@ -50,7 +50,7 @@ namespace OpenPmsDental{
 			// butExit
 			// 
 			this.butExit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butExit.Location = new System.Drawing.Point(313, 164);
+			this.butExit.Location = new System.Drawing.Point(317, 168);
 			this.butExit.Name = "butExit";
 			this.butExit.Size = new System.Drawing.Size(75, 24);
 			this.butExit.TabIndex = 2;

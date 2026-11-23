@@ -50,7 +50,7 @@ namespace OpenPmsDental {
 			butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			butDelete.Location = new System.Drawing.Point(12, 143);
+			butDelete.Location = new System.Drawing.Point(8, 147);
 			butDelete.Name = "butDelete";
 			butDelete.Size = new System.Drawing.Size(75, 26);
 			butDelete.TabIndex = 16;
@@ -60,7 +60,7 @@ namespace OpenPmsDental {
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(172, 143);
+			this.butSave.Location = new System.Drawing.Point(176, 147);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 26);
 			this.butSave.TabIndex = 8;
@@ -69,48 +69,48 @@ namespace OpenPmsDental {
 			// 
 			// textDateStart
 			// 
-			this.textDateStart.Location = new System.Drawing.Point(111, 24);
+			this.textDateStart.Location = new System.Drawing.Point(111, 8);
 			this.textDateStart.Name = "textDateStart";
 			this.textDateStart.Size = new System.Drawing.Size(100, 20);
 			this.textDateStart.TabIndex = 10;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(12, 24);
+			this.label1.Location = new System.Drawing.Point(41, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(100, 20);
+			this.label1.Size = new System.Drawing.Size(64, 23);
 			this.label1.TabIndex = 11;
 			this.label1.Text = "Start Date";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textDateStop
 			// 
-			this.textDateStop.Location = new System.Drawing.Point(111, 50);
+			this.textDateStop.Location = new System.Drawing.Point(111, 35);
 			this.textDateStop.Name = "textDateStop";
 			this.textDateStop.Size = new System.Drawing.Size(100, 20);
 			this.textDateStop.TabIndex = 12;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(12, 50);
+			this.label2.Location = new System.Drawing.Point(45, 35);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(100, 20);
+			this.label2.Size = new System.Drawing.Size(60, 23);
 			this.label2.TabIndex = 13;
 			this.label2.Text = "End Date";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textDatePaycheck
 			// 
-			this.textDatePaycheck.Location = new System.Drawing.Point(111, 76);
+			this.textDatePaycheck.Location = new System.Drawing.Point(111, 62);
 			this.textDatePaycheck.Name = "textDatePaycheck";
 			this.textDatePaycheck.Size = new System.Drawing.Size(100, 20);
 			this.textDatePaycheck.TabIndex = 14;
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(12, 76);
+			this.label3.Location = new System.Drawing.Point(17, 62);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(100, 20);
+			this.label3.Size = new System.Drawing.Size(88, 23);
 			this.label3.TabIndex = 15;
 			this.label3.Text = "Paycheck Date";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

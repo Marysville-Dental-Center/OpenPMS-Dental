@@ -48,17 +48,17 @@ namespace OpenPmsDental {
 			// 
 			this.listMain.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.listMain.Location = new System.Drawing.Point(18, 97);
+			this.listMain.Location = new System.Drawing.Point(8, 84);
 			this.listMain.Name = "listMain";
-			this.listMain.Size = new System.Drawing.Size(255, 173);
+			this.listMain.Size = new System.Drawing.Size(284, 195);
 			this.listMain.TabIndex = 1;
 			this.listMain.DoubleClick += new System.EventHandler(this.listMain_DoubleClick);
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(15, 33);
+			this.label1.Location = new System.Drawing.Point(8, 32);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(373, 52);
+			this.label1.Size = new System.Drawing.Size(367, 50);
 			this.label1.TabIndex = 8;
 			this.label1.Text = "This is only for advanced users.  This is a list of extra fields that you can set" +
     " up for appointments.  After adding fields to this list, you can set the values " +
@@ -69,7 +69,7 @@ namespace OpenPmsDental {
 			this.butAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdd.Location = new System.Drawing.Point(292, 97);
+			this.butAdd.Location = new System.Drawing.Point(300, 84);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(75, 24);
 			this.butAdd.TabIndex = 2;
@@ -90,7 +90,7 @@ namespace OpenPmsDental {
 			this.butDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butDown.Icon = OpenPmsDental.UI.EnumIcons.Down;
 			this.butDown.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDown.Location = new System.Drawing.Point(292, 186);
+			this.butDown.Location = new System.Drawing.Point(300, 140);
 			this.butDown.Name = "butDown";
 			this.butDown.Size = new System.Drawing.Size(75, 24);
 			this.butDown.TabIndex = 4;
@@ -102,7 +102,7 @@ namespace OpenPmsDental {
 			this.butUp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butUp.Icon = OpenPmsDental.UI.EnumIcons.Up;
 			this.butUp.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butUp.Location = new System.Drawing.Point(292, 154);
+			this.butUp.Location = new System.Drawing.Point(300, 112);
 			this.butUp.Name = "butUp";
 			this.butUp.Size = new System.Drawing.Size(75, 24);
 			this.butUp.TabIndex = 3;
