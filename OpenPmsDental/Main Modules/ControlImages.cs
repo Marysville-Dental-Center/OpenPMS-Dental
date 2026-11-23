@@ -3016,6 +3016,7 @@ namespace OpenPmsDental{
 			};
 			controlImageDisplay.EventZoomSliderSetValueAndMax+=(sender,newVal)=>zoomSlider.SetValueAndMax(newVal);
 			//The double-click arrives in the middle of the mouse sequence, so the window opens once it is finished.
+			controlImageDisplay.FuncCanUndo=() => _formImageEnhance!=null && !_formImageEnhance.IsDisposed;
 			controlImageDisplay.EventUndoRequested+=(sender,isRedo)=>{
 				if(_formImageEnhance!=null && !_formImageEnhance.IsDisposed){
 					_formImageEnhance.UndoRedo(isRedo);

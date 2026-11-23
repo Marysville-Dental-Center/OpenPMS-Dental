@@ -129,6 +129,11 @@ namespace OpenPmsDental {
 			if(_document==null){
 				return;
 			}
+			if(_documentOld.WindowingMin!=_document.WindowingMin || _documentOld.WindowingMax!=_document.WindowingMax){
+				//IMG-P3c: a window saved by the module's slider or a right-drag is an undo step like one saved here
+				_stackUndo.Push(new EnhanceState { WindowingMin=_documentOld.WindowingMin,WindowingMax=_documentOld.WindowingMax,Settings=_settingsOld.Copy() });
+				_stackRedo.Clear();
+			}
 			_documentOld.WindowingMin=_document.WindowingMin;
 			_documentOld.WindowingMax=_document.WindowingMax;
 			_isWindowTouched=false;
@@ -168,8 +173,17 @@ namespace OpenPmsDental {
 			FillFilterControls();
 			_controlImageDisplay?.PreviewAdjust(_idx,enhanceState.WindowingMin,enhanceState.WindowingMax,_settings,doFilter:true);
 			_isUndoing=true;
-			SaveIfChanged();
+			bool isSaved=SaveIfChanged();
 			_isUndoing=false;
+			if(!isSaved){
+				//refused (the permission changed): the stacks, the picture and the controls go back to the saved state
+				stackTo.Pop();
+				stackFrom.Push(enhanceState);
+				_settings=_settingsOld.Copy();
+				_windowFixed=null;
+				_controlImageDisplay?.PreviewAdjust(_idx,_documentOld.WindowingMin,_documentOld.WindowingMax,_settings,doFilter:true);
+				FillControls();
+			}
 			RefreshHistogram();
 		}
 		#endregion Methods - Public
@@ -553,14 +567,15 @@ namespace OpenPmsDental {
 		}
 
 		///<summary>Saves what changed since the last save on the image: its window and its filters (ControlImageDisplay.SaveAdjust logs it).</summary>
-		private void SaveIfChanged(){
-			if(_document==null || !_isEditable || _controlImageDisplay==null || _controlImageDisplay.IsDisposed){
-				return;
+		///<summary>True when nothing needed saving or the save was made; false when it was refused.</summary>
+		private bool SaveIfChanged(){
+			if(_document==null || !_isEditable){
+				return true;
 			}
 			bool isWindowChanged=_document.WindowingMin!=_documentOld.WindowingMin || _document.WindowingMax!=_documentOld.WindowingMax;
 			bool isFilterChanged=ImageEnhance.Describe(_settings)!=ImageEnhance.Describe(_settingsOld);
 			if(!isWindowChanged && !isFilterChanged){
-				return;
+				return true;
 			}
 			bool isSaved;
 			if(_controlImageDisplay!=null && !_controlImageDisplay.IsDisposed){
@@ -577,7 +592,7 @@ namespace OpenPmsDental {
 				_isEditable=false;
 				FillNote();
 				EnableControls();
-				return;
+				return false;
 			}
 			if(!_isUndoing){
 				_stackUndo.Push(new EnhanceState { WindowingMin=_documentOld.WindowingMin,WindowingMax=_documentOld.WindowingMax,Settings=_settingsOld.Copy() });
@@ -585,6 +600,7 @@ namespace OpenPmsDental {
 			}
 			_documentOld=_document.Copy();
 			_settingsOld=_settings.Copy();
+			return true;
 		}
 
 		private void butAllInMount_Click(object sender,EventArgs e) {
@@ -597,13 +613,19 @@ namespace OpenPmsDental {
 				return;
 			}
 			int windowingMin=0;
-			int windowingMax=0;//0 and 0: each image keeps its window
-			if(!_isDicom && (_isWindowTouched || _windowFixed!=null)){
-				GetWindow(out windowingMin,out windowingMax);
-			}
-			else if(!_isDicom){
-				windowingMin=_document.WindowingMin;
-				windowingMax=_document.WindowingMax;
+			int windowingMax=0;//0 and 0: each image keeps its window (a DICOM image's window is on its own scale)
+			if(!_isDicom){
+				if(_isWindowTouched || _windowFixed!=null){
+					GetWindow(out windowingMin,out windowingMax);
+				}
+				else{
+					windowingMin=_document.WindowingMin;
+					windowingMax=_document.WindowingMax;
+				}
+				if(windowingMax==0){
+					windowingMin=0;//a window never set is the full range, which is what the user sees
+					windowingMax=255;
+				}
 			}
 			int countSaved=_controlImageDisplay.ApplyAdjustToMount(windowingMin,windowingMax,_settings);
 			if(countSaved<count){

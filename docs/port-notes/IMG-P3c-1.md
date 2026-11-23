@@ -75,3 +75,30 @@ off the panel during the drag, so the menu's handlers are as the designer has th
 The Enhance window's "All in mount..." first sat on a row of its own under Close; the buttons were rearranged so Close stays bottom right.
 The viewing aids are drawn on the module's canvas, which the gallery harness cannot draw without a database, so they have no pictures; their
 drawing is tested by source.
+
+## Review (one independent review, 2026-11-23)
+
+Fixed:
+
+- **Right-drag left the mouse-down state set.** The image then followed the pointer, a mount item went on dragging, or a pen drawing kept
+  collecting points. The release now clears `_isMouseDownPanel` and `_isDraggingMount`. The drag only runs with no drawing mode and not
+  in Crop, and it owns the right button from the press, so there is no pan before the 5 px threshold.
+- **The menu could be lost for good, and a drag could end unsaved,** on another button or a lost capture. `EndRightDrag` now runs on
+  the release, on any mouse-down and on `MouseCaptureChanged`: it saves and puts the menu back.
+- **The magnifier spilled outside its circle.** DrawDocument and DrawMountOne set clips of their own, which replaced the circle, so a
+  cropped image or a mount painted the magnified picture over the panel. It is now drawn into its own bitmap and clipped on the
+  panel, as the spot enhancer is.
+- **The original could become the thumbnail,** after a slider or Enhance save while O was on. Any re-render (`InvalidateSettingsColor`)
+  now ends the original, and `SaveAdjust` renders first. `SelectFromViewer`, `SetIdxSelectedInMount` and `ApplyAdjustToMount` end it,
+  and `ClearObjects` forgets it.
+- **Undo now includes windows saved by the module's slider or a right-drag.** `SyncWindowFromImage` pushes them as undo steps;
+  before, Ctrl+Z silently reverted them with the last Enhance step.
+- **Right-drag works on images only.** On a missing file or a PDF it no longer saves and logs a window.
+- **Nits:**
+  - A refused undo puts the stacks, the picture and the controls back.
+  - A refused right-drag raises no events.
+  - A right-drag saves only the window, with the saved filters, not the Enhance window's pending preview.
+  - All in mount gives a never-set window as the full range.
+  - Ctrl+Z/Ctrl+Y are taken only while the Enhance window is open (`FuncCanUndo`).
+  - The viewer's Ctrl+Z selects its image first.
+  - `SaveIfChanged` no longer skipped the save without the display. IMG-P3b's fallback was unreachable through its first check.

@@ -177,6 +177,11 @@ Here is the desired behavior:
 			_cursorPan=new Cursor(GetType(),"CursorPalm.cur");
 			panelMain.Cursor=_cursorPan;
 			panelMain.MouseWheel += panelMain_MouseWheel;//here because not browsable in designer
+			panelMain.MouseCaptureChanged+=(sender,e) => {
+				if(_isRightDragging && !panelMain.Capture){
+					EndRightDrag();//IMG-P3c: a lost capture (Alt+Tab, a popup) ends a right-drag, saved, with the menu back
+				}
+			};
 			panelMain.ContextMenuStrip=menuPanelMain;
 			//Teeth (imaging design P2): made in code, after Info, so the designer file is unchanged.
 			_menuItemTeeth=new ToolStripMenuItem("Teeth...");
@@ -223,6 +228,9 @@ Here is the desired behavior:
 		public event EventHandler EventAdjustSaved;
 		///<summary>Ctrl+Z (false) or Ctrl+Y (true) on the image: the Enhance window's undo or redo (IMG-P3c).</summary>
 		public event EventHandler<bool> EventUndoRequested;
+		///<summary>True when Ctrl+Z/Ctrl+Y have somewhere to go (the Enhance window is open); otherwise the keys are left alone, for example for a
+		///PDF's own undo. Set by ControlImages.</summary>
+		public Func<bool> FuncCanUndo;
 		///<summary>A right-drag saved a new window for the selected image (IMG-P3c): the Enhance window shows it.</summary>
 		public event EventHandler EventWindowDragged;
 		///<summary>This event bubbles up to the parent, which then sets the property here.</summary>
@@ -566,10 +574,8 @@ Here is the desired behavior:
 		///<param name="doApplyAdjust">False shows brightness/contrast only, without the saved filters: the fast preview while a slider moves
 		///(IMG-P3b). The next call with true shows them.</param>
 		public void InvalidateSettingsColor(bool doApplyAdjust=true) {
-			if(_isShowingOriginal){
-				ShowOriginalPicture();
-				return;
-			}
+			//IMG-P3c: any re-render (a slider, a preview, a save) ends showing the original, so a thumbnail or a viewer never takes it.
+			_isShowingOriginal=false;
 			if(IsDocumentShowing()){
 				//if((imageSettingFlags & ImageSettingFlags.COLORFUNCTION) !=0 || (imageSettingFlags & ImageSettingFlags.CROP) !=0){
 				//We don't do any flip, rotate, or crop here
@@ -1292,6 +1298,7 @@ Here is the desired behavior:
 			if(_documentArrayShowing is null){
 				return;
 			}
+			SetShowingOriginal(false);//IMG-P3c
 			if(idx > _documentArrayShowing.Length-1){
 				return;
 			}
@@ -1422,6 +1429,7 @@ Here is the desired behavior:
 			if(!IsMountShowing() || _documentArrayShowing==null || idx<0 || idx>_documentArrayShowing.Length-1){
 				return;
 			}
+			SetShowingOriginal(false);//IMG-P3c: the image leaving the selection gets its window and filters back
 			if(_idxSelectedInMount!=idx){
 				_idxSelectedInMount=idx;
 				LoadBitmap(idx,EnumLoadBitmapType.OnlyRaw);
@@ -1510,6 +1518,9 @@ Here is the desired behavior:
 		///window. By document, not by index, so a change waiting while the selection moved still goes to its own image. False when nothing was
 		///saved (no permission).</summary>
 		public bool SaveAdjust(Document document,Document documentOld,ImageAdjustSettings settingsOld,ImageAdjustSettings settingsNew){
+			if(_isShowingOriginal){
+				InvalidateSettingsColor();//IMG-P3c: the thumbnail is made from the picture showing, never the original
+			}
 			if(!ImageEnhance.Save(document,documentOld,settingsOld,settingsNew,PatientCur.PatNum,PatFolder)){
 				return false;
 			}
@@ -1608,6 +1619,7 @@ Here is the desired behavior:
 			if(!IsMountShowing() || _listMountItems==null || _documentArrayShowing==null){
 				return 0;
 			}
+			SetShowingOriginal(false);
 			int countSaved=0;
 			List<int> listIdxs=GetViewerIndexes();
 			foreach(int idx in listIdxs){
@@ -1643,8 +1655,12 @@ Here is the desired behavior:
 			if(isShowingOriginal==_isShowingOriginal){
 				return;
 			}
-			_isShowingOriginal=isShowingOriginal;
-			InvalidateSettingsColor();
+			if(isShowingOriginal){
+				_isShowingOriginal=true;
+				ShowOriginalPicture();
+				return;
+			}
+			InvalidateSettingsColor();//ends it, and shows the image with its window and filters
 		}
 
 		private void ShowOriginalPicture(){
@@ -1672,14 +1688,20 @@ Here is the desired behavior:
 		///(as the slider). False when this is not a brightness/contrast drag (no image selected, a DICOM image, no permission, or not moved far
 		///enough yet), so the move goes on to the usual handling.</summary>
 		private bool RightDrag(Point point){
+			if(_drawMode!=EnumDrawMode.None || _cropPanAdj==EnumCropPanAdj.Crop){
+				return false;//drawing and cropping keep the right button as they use it
+			}
 			int idx=GetTeethIdx();
 			Document document=GetDocumentShowing(idx);
 			if(document==null || (document.FileName!=null && document.FileName.ToLower().EndsWith(".dcm"))){
 				return false;
 			}
+			if(_bitmapArrayShowing==null || idx>_bitmapArrayShowing.Length-1 || _bitmapArrayShowing[idx]==null){
+				return false;//not an image showing (a missing file, a PDF)
+			}
 			if(!_isRightDragging){
 				if(Math.Abs(point.X-_pointRightDown.X)<5 && Math.Abs(point.Y-_pointRightDown.Y)<5){
-					return false;
+					return true;//the right button is this drag's: no pan by it in the meantime
 				}
 				if(!CanEditImage(idx,suppressMessage:true)){
 					_isRightDown=false;
@@ -1705,21 +1727,47 @@ Here is the desired behavior:
 			int idx=GetTeethIdx();
 			Document document=GetDocumentShowing(idx);
 			if(document==null || _documentDragOld==null){
+				_documentDragOld=null;
 				return;
 			}
-			ImageAdjustSettings imageAdjustSettings=GetAdjustSettings(document);
-			if(!ImageEnhance.Save(document,_documentDragOld,imageAdjustSettings,imageAdjustSettings,PatientCur.PatNum,PatFolder)){
+			//Only the window: the filters as saved (the Enhance window may be previewing a change it saves itself).
+			ImageAdjustSettings imageAdjustSettingsSaved=DocumentAdjusts.GetForDoc(document.DocNum)?.ToSettings();
+			bool isSaved=ImageEnhance.Save(document,_documentDragOld,imageAdjustSettingsSaved,imageAdjustSettingsSaved,PatientCur.PatNum,PatFolder);
+			if(!isSaved){
 				document.WindowingMin=_documentDragOld.WindowingMin;
 				document.WindowingMax=_documentDragOld.WindowingMax;
 			}
 			_documentDragOld=null;
 			InvalidateSettingsColor();
 			SetWindowingSlider();
+			if(!isSaved){
+				return;
+			}
 			if(!IsMountShowing()){
 				ThumbnailRefresh();
 			}
 			EventWindowDragged?.Invoke(this,EventArgs.Empty);
 			EventAdjustSaved?.Invoke(this,EventArgs.Empty);
+		}
+
+		///<summary>Ends a right-drag that is running (saved) and puts the panel's menu back: on the release, on another button, on a lost capture.
+		///isRestoringMenuLater: on the right release, whose WM_CONTEXTMENU follows at once, so the menu comes back after it.</summary>
+		private void EndRightDrag(bool isRestoringMenuLater=false){
+			bool wasDragging=_isRightDragging;
+			_isRightDown=false;
+			_isRightDragging=false;
+			if(wasDragging){
+				RightDragEnd();
+			}
+			if(panelMain.ContextMenuStrip==menuPanelMain){
+				return;
+			}
+			if(isRestoringMenuLater){
+				BeginInvoke(new Action(() => panelMain.ContextMenuStrip=menuPanelMain));
+			}
+			else{
+				panelMain.ContextMenuStrip=menuPanelMain;
+			}
 		}
 
 		///<summary>The view's transform from the panel to the picture, as panelMain_Paint sets it.</summary>
@@ -1771,20 +1819,24 @@ Here is the desired behavior:
 			if(_magnifierZoom>0){
 				int radius=LayoutManager.Scale(90);
 				Rectangle rectangleLoupe=new Rectangle(_pointMouseLast.X-radius,_pointMouseLast.Y-radius,2*radius,2*radius);
-				System.Drawing.Drawing2D.GraphicsState graphicsState=g.Save();
+				//Into its own bitmap first: DrawDocument and DrawMountOne set clips of their own, which would replace the circle's.
+				using Bitmap bitmapLoupe=new Bitmap(rectangleLoupe.Width,rectangleLoupe.Height,System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+				using(Graphics graphicsLoupe=Graphics.FromImage(bitmapLoupe)){
+					graphicsLoupe.Clear(IsMountShowing() ? _mountShowing.ColorBack : Color.White);
+					graphicsLoupe.InterpolationMode=System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+					graphicsLoupe.TranslateTransform(-rectangleLoupe.X,-rectangleLoupe.Y);
+					//scale about the pointer, then the view's own transform
+					graphicsLoupe.TranslateTransform(_pointMouseLast.X,_pointMouseLast.Y);
+					graphicsLoupe.ScaleTransform(_magnifierZoom,_magnifierZoom);
+					graphicsLoupe.TranslateTransform(-_pointMouseLast.X,-_pointMouseLast.Y);
+					DrawPictureForAid(graphicsLoupe);
+				}
 				using(System.Drawing.Drawing2D.GraphicsPath graphicsPath=new System.Drawing.Drawing2D.GraphicsPath()){
 					graphicsPath.AddEllipse(rectangleLoupe);
 					g.SetClip(graphicsPath);
-					using SolidBrush solidBrushBack=new SolidBrush(IsMountShowing() ? _mountShowing.ColorBack : Color.White);
-					g.FillRectangle(solidBrushBack,rectangleLoupe);
-					g.InterpolationMode=System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
-					//scale about the pointer, then the view's own transform
-					g.TranslateTransform(_pointMouseLast.X,_pointMouseLast.Y);
-					g.ScaleTransform(_magnifierZoom,_magnifierZoom);
-					g.TranslateTransform(-_pointMouseLast.X,-_pointMouseLast.Y);
-					DrawPictureForAid(g);
+					g.DrawImage(bitmapLoupe,rectangleLoupe);
+					g.ResetClip();
 				}
-				g.Restore(graphicsState);
 				using Pen penLoupe=new Pen(UiTheme.Accent,2);
 				g.DrawEllipse(penLoupe,rectangleLoupe);
 			}
@@ -3252,7 +3304,7 @@ Here is the desired behavior:
 				SetShowingOriginal(!_isShowingOriginal);
 				return true;
 			}
-			if(keyData==(Keys.Control|Keys.Z) || keyData==(Keys.Control|Keys.Y)){
+			if((keyData==(Keys.Control|Keys.Z) || keyData==(Keys.Control|Keys.Y)) && FuncCanUndo!=null && FuncCanUndo()){
 				EventUndoRequested?.Invoke(this,keyData==(Keys.Control|Keys.Y));
 				return true;
 			}
@@ -3268,6 +3320,7 @@ Here is the desired behavior:
 			if(_isShowingOriginal){
 				SetShowingOriginal(false);//IMG-P3c: a click can select another image
 			}
+			EndRightDrag();//another button during a right-drag ends it (saved), and the menu comes back
 			_isRightDown=e.Button==MouseButtons.Right;
 			_isRightDragging=false;
 			_pointRightDown=e.Location;
@@ -3968,11 +4021,10 @@ Here is the desired behavior:
 
 		private void panelMain_MouseUp(object sender, MouseEventArgs e){
 			if(e.Button==MouseButtons.Right && _isRightDragging){
-				_isRightDown=false;
-				_isRightDragging=false;
-				RightDragEnd();
-				//The menu was taken off while dragging, so the release (WM_CONTEXTMENU, right after this) opens none; it comes back after.
-				BeginInvoke(new Action(() => panelMain.ContextMenuStrip=menuPanelMain));
+				//The mouse-down state the right button set (pan, a mount item's drag) ends here, as the usual path below would end it.
+				_isMouseDownPanel=false;
+				_isDraggingMount=false;
+				EndRightDrag(isRestoringMenuLater:true);
 				return;
 			}
 			_isRightDown=false;
@@ -4434,6 +4486,7 @@ Here is the desired behavior:
 		///<summary>Mostly to dispose of the old bitmaps all in one place.</summary>
 		public void ClearObjects(){
 			_dictAdjustSettings.Clear();
+			_isShowingOriginal=false;//IMG-P3c: the pictures are gone
 			_bitmapRaw?.Dispose();
 			_bitmapRaw=null;
 			if(_bitmapArrayShowing!=null && _bitmapArrayShowing.Length>0){

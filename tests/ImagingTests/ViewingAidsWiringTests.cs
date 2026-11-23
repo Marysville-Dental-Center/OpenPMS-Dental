@@ -70,13 +70,17 @@ namespace ImagingTests {
 			Assert.IsFalse(MethodBody(display,"private void DrawMount(Graphics g").Contains("DrawViewingAids"),"Not in prints and copies.");
 			string bodyAids=MethodBody(display,"private void DrawViewingAids(");
 			StringAssert.Contains(bodyAids,"ImageAdjust.StretchContrast(bitmapSpot);");
-			StringAssert.Contains(bodyAids,"g.ScaleTransform(_magnifierZoom,_magnifierZoom);");
+			StringAssert.Contains(bodyAids,"graphicsLoupe.ScaleTransform(_magnifierZoom,_magnifierZoom);");
 			string bodyOriginal=MethodBody(display,"private void ShowOriginalPicture(");
 			foreach(string text in new[] { "Documents.Update","ImageEnhance.Save","DocumentAdjusts." }) {
 				Assert.IsFalse(bodyOriginal.Contains(text),"The original is shown, never saved: "+text);
 				Assert.IsFalse(bodyAids.Contains(text),"The aids save nothing: "+text);
 			}
 			StringAssert.Contains(MethodBody(display,"private void panelMain_MouseDown("),"SetShowingOriginal(false);","A click ends it.");
+			StringAssert.Contains(MethodBody(display,"public void InvalidateSettingsColor("),"_isShowingOriginal=false;","Any re-render ends it (no thumbnail of the original).");
+			StringAssert.Contains(MethodBody(display,"public void SelectFromViewer("),"SetShowingOriginal(false);");
+			StringAssert.Contains(MethodBody(display,"public void ClearObjects("),"_isShowingOriginal=false;");
+			StringAssert.Contains(bodyAids,"DrawPictureForAid(graphicsLoupe);","The magnifier into its own bitmap, then clipped to its circle.");
 		}
 
 		[TestMethod]
@@ -87,10 +91,16 @@ namespace ImagingTests {
 			StringAssert.Contains(bodyDrag,"if(!CanEditImage(idx,suppressMessage:true)){");
 			StringAssert.Contains(bodyDrag,"InvalidateSettingsColor(doApplyAdjust:false);","Fast while it moves.");
 			string bodyEnd=MethodBody(display,"private void RightDragEnd(");
-			StringAssert.Contains(bodyEnd,"if(!ImageEnhance.Save(document,_documentDragOld,");
+			StringAssert.Contains(bodyEnd,"bool isSaved=ImageEnhance.Save(document,_documentDragOld,");
+			Assert.IsTrue(bodyEnd.IndexOf("if(!isSaved){")<bodyEnd.IndexOf("EventWindowDragged?.Invoke("),"No events after a refused save.");
 			StringAssert.Contains(bodyEnd,"EventWindowDragged?.Invoke(this,EventArgs.Empty);","The Enhance window follows.");
 			StringAssert.Contains(bodyDrag,"panelMain.ContextMenuStrip=null;","No menu after a drag.");
-			StringAssert.Contains(MethodBody(display,"private void panelMain_MouseUp("),"BeginInvoke(new Action(() => panelMain.ContextMenuStrip=menuPanelMain));","The menu comes back.");
+			StringAssert.Contains(MethodBody(display,"private void EndRightDrag("),"BeginInvoke(new Action(() => panelMain.ContextMenuStrip=menuPanelMain));","The menu comes back.");
+			StringAssert.Contains(MethodBody(display,"private void panelMain_MouseDown("),"EndRightDrag();","Another button ends a right-drag, saved, menu back.");
+			StringAssert.Contains(display,"panelMain.MouseCaptureChanged+=","A lost capture ends it too.");
+			StringAssert.Contains(MethodBody(display,"private void panelMain_MouseUp("),"_isMouseDownPanel=false;","No pan or item drag left behind.");
+			StringAssert.Contains(bodyDrag,"if(_drawMode!=EnumDrawMode.None || _cropPanAdj==EnumCropPanAdj.Crop){","Drawing and cropping keep the right button.");
+			StringAssert.Contains(bodyDrag,"_bitmapArrayShowing[idx]==null","Images only.");
 			StringAssert.Contains(Read("OpenPmsDental","Main Modules","ControlImages.cs"),"_formImageEnhance.SyncWindowFromImage();");
 		}
 
@@ -100,7 +110,10 @@ namespace ImagingTests {
 			string bodyUndo=MethodBody(window,"public void UndoRedo(");
 			StringAssert.Contains(bodyUndo,"FlushPending();");
 			StringAssert.Contains(bodyUndo,"SaveIfChanged();","An undo is saved like a change, and logged.");
-			StringAssert.Contains(MethodBody(window,"private void SaveIfChanged("),"if(!_isUndoing){","An undo is not a new step.");
+			StringAssert.Contains(MethodBody(window,"private bool SaveIfChanged("),"if(!_isUndoing){","An undo is not a new step.");
+			StringAssert.Contains(MethodBody(window,"public void SyncWindowFromImage("),"_stackUndo.Push(","A slider or right-drag window is an undo step.");
+			StringAssert.Contains(bodyUndo,"if(!isSaved){","A refused undo puts everything back.");
+			StringAssert.Contains(Read("OpenPmsDental","Main Modules","ControlImages.cs"),"controlImageDisplay.FuncCanUndo=","Ctrl+Z only taken with somewhere to go.");
 			StringAssert.Contains(MethodBody(window,"public void SetTarget("),"_stackUndo.Clear();","History per image.");
 			StringAssert.Contains(MethodBody(window,"private void butAllInMount_Click("),"if(!MsgBox.Show(this,MsgBoxButtons.OKCancel,");
 			string bodyMount=MethodBody(Display(),"public int ApplyAdjustToMount(");

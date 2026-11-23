@@ -269,6 +269,8 @@ namespace OpenPmsDental {
 				case Keys.Control|Keys.Y:
 					//IMG-P3c: the Enhance window's undo and redo
 					if(IsSourceValid()){
+						//on the image this window shows: the module selects it (the Enhance window follows the selection)
+						_controlImageDisplay.SelectFromViewer(_idxShowing);
 						_controlImageDisplay.RequestUndo(keyData==(Keys.Control|Keys.Y));
 					}
 					return true;
