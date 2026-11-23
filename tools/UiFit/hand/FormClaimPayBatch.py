@@ -5,7 +5,7 @@ column 16 px after it to the right content edge: the Payment Details group (thre
 before its box at the row pitch: Clinic, Payment Date, Date Issued and Amount; Carrier Name and Note to one right edge, Check # and
 Bank-Branch under them; Type and Group on that right edge; Edit on the last row at the content edge), the attached grid 8 px under it, the
 row of order arrows, Refresh / Attach / Detach (centred under the grid) and Total Payments (to the right edge) 8 px under the grid, the
-Filters group (one row: Carrier with its pick button, Name, Claim ID, 16 px between bands) 8 px under the row, the outstanding claims grid 8
+Filters group (one row: Carrier with its pick button, Name and Claim ID on the three field columns of Payment Details) 8 px under the row, the outstanding claims grid 8
 px under it down to 8 px over the bottom bar; Delete and Save on the bottom bar. The code only hides controls (FormClaimPayBatch.cs)."""
 
 
@@ -79,14 +79,17 @@ def layout(h):
     h.set("label8", R - 81 - 6 - lt, yrow, lt, H)
     h.text_align("label8", "MiddleRight")
     y = yrow + 24 + 8
-    # The Filters group: one row.
+    # The Filters group: one row, its three fields on the Payment Details group's three field columns (the groups share their x), the pick
+    # button 6 px after the Carrier box, 16 px before the next label; Name and Claim ID one width.
     ft = (h.n("groupFilters").title_bottom or 18) + 4
-    x = 8
-    x = label_field(h, "label9", "textCarrier", x, ft, h.lw("label9"), 132)
-    h.set("butCarrierPick", x + 6, ft, 24, H)
-    x += 6 + 24 + 16
-    x = label_field(h, "label12", "textName", x, ft, h.lw("label12"), 132) + 16
-    label_field(h, "label11", "textClaimID", x, ft, h.lw("label11"), 132)
+    F1 = 8 + lw1 + 6
+    F3 = x3 + lw3 + 6
+    ln, lc = h.lw("label12"), h.lw("label11")
+    wn = (F3 - 6 - lc - 16) - F2
+    label_field(h, "label9", "textCarrier", F1 - 6 - h.lw("label9"), ft, h.lw("label9"), (F2 - 6 - ln - 16) - 24 - 6 - F1)
+    h.set("butCarrierPick", F2 - 6 - ln - 16 - 24, ft, 24, H)
+    label_field(h, "label12", "textName", F2 - 6 - ln, ft, ln, wn)
+    label_field(h, "label11", "textClaimID", F3 - 6 - lc, ft, lc, wn)
     fh = ft + H + 8
     h.set("groupFilters", xr, y, RW, fh)
     h.watch("groupFilters")

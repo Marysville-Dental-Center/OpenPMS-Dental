@@ -1,5 +1,5 @@
 """FormPayConnectSetup (PayConnect setup) on the grid (UI-12 slice 2 continuation, mode hand: two columns of groups whose notes wrap). The top
-band: the left column at the content edge (Enabled, its box on the left; the clinic note under it; Clinic with its box to the column's edge:
+band: the left column at the content edge (Enabled, its box on the left; the clinic note under it; Clinic with its box on the Secret box's column to the column's edge:
 the code hides the note and Clinic without clinics, FormPayConnectSetup.cs) and the Version 2.0 group 8 px after it to the right content edge
 (API key with its box to the content edge, Use sandbox under the box, the note under them as tall as its lines). The Clinic Payment Settings
 group 8 px under the band to both content edges: on the left Secret with its box and Test connection, the three check boxes under the box
@@ -34,10 +34,12 @@ def layout(h):
     h.set("labelClinicEnable", 8, y, LW, nh)
     h.text_align("labelClinicEnable", "TopLeft")
     y += nh + 4
-    lc = h.lw("labelClinic")
+    # Clinic's box on the Secret box's column (the groups at the content edge: 8 + the group's field column).
+    Fs = 8 + 8 + h.lw("label2") + 6
+    lc = Fs - 6 - 8
     h.set("labelClinic", 8, y, lc, H)
     h.text_align("labelClinic", "MiddleRight")
-    h.set("comboClinic", 8 + lc + 6, y, LW - lc - 6, H)
+    h.set("comboClinic", Fs, y, 8 + LW - Fs, H)
     yl = y + H
     # The Version 2.0 group.
     xg = 8 + LW + 8
