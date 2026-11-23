@@ -179,7 +179,7 @@ namespace OpenPmsDental {
 			this.textOverAmount.MaxVal = 100000000D;
 			this.textOverAmount.MinVal = -100000000D;
 			this.textOverAmount.Name = "textOverAmount";
-			this.textOverAmount.Size = new System.Drawing.Size(96, 23);
+			this.textOverAmount.Size = new System.Drawing.Size(102, 23);
 			this.textOverAmount.TabIndex = 2;
 			// 
 			// comboMonthStart
@@ -202,7 +202,7 @@ namespace OpenPmsDental {
 			this.comboMonthStart.Location = new System.Drawing.Point(154, 23);
 			this.comboMonthStart.MaxDropDownItems = 40;
 			this.comboMonthStart.Name = "comboMonthStart";
-			this.comboMonthStart.Size = new System.Drawing.Size(96, 23);
+			this.comboMonthStart.Size = new System.Drawing.Size(102, 23);
 			this.comboMonthStart.TabIndex = 1;
 			// 
 			// label8
@@ -226,7 +226,7 @@ namespace OpenPmsDental {
 			// checkIncludePatsWithApts
 			// 
 			this.checkIncludePatsWithApts.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkIncludePatsWithApts.Location = new System.Drawing.Point(445, 105);
+			this.checkIncludePatsWithApts.Location = new System.Drawing.Point(546, 95);
 			this.checkIncludePatsWithApts.Name = "checkIncludePatsWithApts";
 			this.checkIncludePatsWithApts.Size = new System.Drawing.Size(273, 20);
 			this.checkIncludePatsWithApts.TabIndex = 9;
@@ -271,7 +271,7 @@ namespace OpenPmsDental {
 			// butRefresh
 			// 
 			this.butRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butRefresh.Location = new System.Drawing.Point(954, 64);
+			this.butRefresh.Location = new System.Drawing.Point(975, 64);
 			this.butRefresh.Name = "butRefresh";
 			this.butRefresh.Size = new System.Drawing.Size(80, 24);
 			this.butRefresh.TabIndex = 11;
@@ -412,7 +412,7 @@ namespace OpenPmsDental {
 			// checkIncludeHiddenBillingTypes
 			// 
 			this.checkIncludeHiddenBillingTypes.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkIncludeHiddenBillingTypes.Location = new System.Drawing.Point(262, 105);
+			this.checkIncludeHiddenBillingTypes.Location = new System.Drawing.Point(363, 105);
 			this.checkIncludeHiddenBillingTypes.Name = "checkIncludeHiddenBillingTypes";
 			this.checkIncludeHiddenBillingTypes.Size = new System.Drawing.Size(177, 20);
 			this.checkIncludeHiddenBillingTypes.TabIndex = 51;

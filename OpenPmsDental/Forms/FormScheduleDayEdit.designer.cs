@@ -342,7 +342,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelSearch.Location = new System.Drawing.Point(543, 12);
 			this.labelSearch.Name = "labelSearch";
-			this.labelSearch.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+			this.labelSearch.RightToLeft = System.Windows.Forms.RightToLeft.No;
 			this.labelSearch.Size = new System.Drawing.Size(48, 23);
 			this.labelSearch.TabIndex = 43;
 			this.labelSearch.Text = "Search";

@@ -633,7 +633,7 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridOrthoSchedule.Location = new System.Drawing.Point(524, 35);
 			this.gridOrthoSchedule.Name = "gridOrthoSchedule";
-			this.gridOrthoSchedule.Size = new System.Drawing.Size(503, 322);
+			this.gridOrthoSchedule.Size = new System.Drawing.Size(503, 429);
 			this.gridOrthoSchedule.TabIndex = 7;
 			this.gridOrthoSchedule.Title = "Ortho Schedule";
 			this.gridOrthoSchedule.TranslationName = "TableOrthoSchedule";

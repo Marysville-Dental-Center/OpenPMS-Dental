@@ -10,3 +10,7 @@ def layout(h):
     # Fix round 8: Payment Plan on the Ortho Schedule grid's right edge (main: so; the window grew and the button stayed).
     gr, pp = h.n("gridOrthoSchedule"), h.n("butPatPayPlan")
     h.set("butPatPayPlan", gr.nx + gr.nw - pp.nw, None)
+    # Fix round 9: the Ortho Schedule grid ends on the left column's bottom (the Dates group's; main: so). The window grew and the grid kept
+    # its height, 107 px short. It is anchored to the top and bottom and keeps that at run time.
+    gd = h.n("groupDates")
+    h.set("gridOrthoSchedule", None, None, None, gd.ny + gd.nh - gr.ny)

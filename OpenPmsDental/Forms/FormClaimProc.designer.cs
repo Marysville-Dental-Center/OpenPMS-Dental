@@ -469,7 +469,7 @@
 			this.panelEstimateInfo.Controls.Add(this.textPercentOverride);
 			this.panelEstimateInfo.Location = new System.Drawing.Point(518, 36);
 			this.panelEstimateInfo.Name = "panelEstimateInfo";
-			this.panelEstimateInfo.Size = new System.Drawing.Size(415, 517);
+			this.panelEstimateInfo.Size = new System.Drawing.Size(420, 517);
 			this.panelEstimateInfo.TabIndex = 9;
 			// 
 			// butBlueBookLog
@@ -524,7 +524,7 @@
 			this.textEstimateNote.Multiline = true;
 			this.textEstimateNote.Name = "textEstimateNote";
 			this.textEstimateNote.ReadOnly = true;
-			this.textEstimateNote.Size = new System.Drawing.Size(236, 58);
+			this.textEstimateNote.Size = new System.Drawing.Size(241, 58);
 			this.textEstimateNote.TabIndex = 0;
 			this.textEstimateNote.TabStop = false;
 			this.textEstimateNote.Text = "Over annual max\r\nExclusions\r\nLimitations";
@@ -643,7 +643,7 @@
 			this.groupAllowed.Controls.Add(this.textPPOFeeSched);
 			this.groupAllowed.Location = new System.Drawing.Point(8, 66);
 			this.groupAllowed.Name = "groupAllowed";
-			this.groupAllowed.Size = new System.Drawing.Size(399, 161);
+			this.groupAllowed.Size = new System.Drawing.Size(404, 161);
 			this.groupAllowed.TabIndex = 1;
 			this.groupAllowed.Text = "Carrier Allowed Amount";
 			// 
@@ -672,7 +672,7 @@
 			this.textAllowedFeeSched.Location = new System.Drawing.Point(163, 77);
 			this.textAllowedFeeSched.Name = "textAllowedFeeSched";
 			this.textAllowedFeeSched.ReadOnly = true;
-			this.textAllowedFeeSched.Size = new System.Drawing.Size(220, 23);
+			this.textAllowedFeeSched.Size = new System.Drawing.Size(225, 23);
 			this.textAllowedFeeSched.TabIndex = 0;
 			this.textAllowedFeeSched.TabStop = false;
 			// 
@@ -748,7 +748,7 @@
 			this.textPPOFeeSched.Location = new System.Drawing.Point(163, 50);
 			this.textPPOFeeSched.Name = "textPPOFeeSched";
 			this.textPPOFeeSched.ReadOnly = true;
-			this.textPPOFeeSched.Size = new System.Drawing.Size(220, 23);
+			this.textPPOFeeSched.Size = new System.Drawing.Size(225, 23);
 			this.textPPOFeeSched.TabIndex = 0;
 			this.textPPOFeeSched.TabStop = false;
 			// 
@@ -784,7 +784,7 @@
 			this.textFeeSched.Location = new System.Drawing.Point(171, 35);
 			this.textFeeSched.Name = "textFeeSched";
 			this.textFeeSched.ReadOnly = true;
-			this.textFeeSched.Size = new System.Drawing.Size(236, 23);
+			this.textFeeSched.Size = new System.Drawing.Size(241, 23);
 			this.textFeeSched.TabIndex = 0;
 			this.textFeeSched.TabStop = false;
 			// 
@@ -869,7 +869,7 @@
 			this.groupClaimInfo.Controls.Add(this.labelWriteOff);
 			this.groupClaimInfo.Location = new System.Drawing.Point(526, 586);
 			this.groupClaimInfo.Name = "groupClaimInfo";
-			this.groupClaimInfo.Size = new System.Drawing.Size(399, 162);
+			this.groupClaimInfo.Size = new System.Drawing.Size(404, 162);
 			this.groupClaimInfo.TabIndex = 10;
 			this.groupClaimInfo.Text = "Claim Info";
 			// 
@@ -1081,7 +1081,7 @@
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(858, 788);
+			this.butSave.Location = new System.Drawing.Point(863, 788);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 13;
@@ -1097,7 +1097,7 @@
 			// 
 			// FormClaimProc
 			// 
-			this.ClientSize = new System.Drawing.Size(941, 820);
+			this.ClientSize = new System.Drawing.Size(946, 820);
 			this.Controls.Add(this.warningIntegrity);
 			this.Controls.Add(this.comboPayTracker);
 			this.Controls.Add(this.label12);

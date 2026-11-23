@@ -21,9 +21,20 @@ def layout(h):
         h.set(name, None, yg)
     h.set("groupInsurancePlan", None, None, None, yg + h.H + 8)
     dx = gi.nx + gi.nw + 8 - gs.nx
-    for name in ("groupSubscriber", "labelPatBirthdate", "textPatBirthdate", "warningIntegrity1"):
+    for name in ("groupSubscriber", "warningIntegrity1"):
         h.set(name, h.n(name).nx + dx, None)
-    yp = gi.ny + gi.nh - h.H
-    for name in ("labelPatBirthdate", "textPatBirthdate"):
-        h.set(name, None, yp)
-    h.set("textPatBirthdate", None, None, h.n("textSubscriberName").nw, None)
+    # Fix round 9: the two groups one height (Subscriber as tall as Insurance Plan: they stand side by side on one top). The Pat Birthdate
+    # row is the patient's, not the subscriber's, and is no child of the group: it stands in the right column, on the row under Status Note
+    # (label right-aligned on the column's labels, its box on the column's fields).
+    h.set("groupSubscriber", None, None, None, gi.nh)
+    vs, sn, ls = h.n("comboSetVerifyStatus"), h.n("textInsVerifyReadOnlyNote"), h.n("labelVerifyStatusSet")
+    lpb = h.lw("labelPatBirthdate")
+    yp = sn.ny + sn.nh + 4
+    h.set("labelPatBirthdate", ls.nx + ls.nw - lpb, yp, lpb, h.H)
+    h.text_align("labelPatBirthdate", "MiddleRight")
+    h.set("textPatBirthdate", vs.nx, yp, vs.nw, h.H)
+    # Verification Filters: the Region list ends on Clear's right edge (main: so), Refresh on the Verify Status box's right edge.
+    cl, lr = h.n("butCarrierClear"), h.n("listBoxVerifyRegions")
+    h.set("listBoxVerifyRegions", None, None, cl.nx + cl.nw - lr.nx, None)
+    fv, rf = h.n("comboFilterVerifyStatus"), h.n("butRefresh")
+    h.set("butRefresh", fv.nx + fv.nw - rf.nw, None)

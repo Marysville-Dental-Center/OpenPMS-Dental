@@ -230,9 +230,9 @@ namespace OpenPmsDental {
 			// butRefresh
 			// 
 			this.butRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butRefresh.Location = new System.Drawing.Point(358, 698);
+			this.butRefresh.Location = new System.Drawing.Point(362, 697);
 			this.butRefresh.Name = "butRefresh";
-			this.butRefresh.Size = new System.Drawing.Size(75, 25);
+			this.butRefresh.Size = new System.Drawing.Size(75, 26);
 			this.butRefresh.TabIndex = 37;
 			this.butRefresh.Text = "Refresh";
 			this.butRefresh.UseVisualStyleBackColor = true;
@@ -274,9 +274,9 @@ namespace OpenPmsDental {
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butSave.Location = new System.Drawing.Point(278, 698);
+			this.butSave.Location = new System.Drawing.Point(281, 697);
 			this.butSave.Name = "butSave";
-			this.butSave.Size = new System.Drawing.Size(75, 25);
+			this.butSave.Size = new System.Drawing.Size(75, 26);
 			this.butSave.TabIndex = 6;
 			this.butSave.Text = "Save";
 			this.butSave.Click += new System.EventHandler(this.butSave_Click);
@@ -306,9 +306,9 @@ namespace OpenPmsDental {
 			// butEditHtml
 			// 
 			this.butEditHtml.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butEditHtml.Location = new System.Drawing.Point(520, 698);
+			this.butEditHtml.Location = new System.Drawing.Point(524, 697);
 			this.butEditHtml.Name = "butEditHtml";
-			this.butEditHtml.Size = new System.Drawing.Size(75, 25);
+			this.butEditHtml.Size = new System.Drawing.Size(75, 26);
 			this.butEditHtml.TabIndex = 39;
 			this.butEditHtml.Text = "Edit HTML";
 			this.butEditHtml.Click += new System.EventHandler(this.butEditHtml_Click);
@@ -316,9 +316,9 @@ namespace OpenPmsDental {
 			// butEditText
 			// 
 			this.butEditText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butEditText.Location = new System.Drawing.Point(439, 698);
+			this.butEditText.Location = new System.Drawing.Point(443, 697);
 			this.butEditText.Name = "butEditText";
-			this.butEditText.Size = new System.Drawing.Size(75, 25);
+			this.butEditText.Size = new System.Drawing.Size(75, 26);
 			this.butEditText.TabIndex = 40;
 			this.butEditText.Text = "Edit Text";
 			this.butEditText.Click += new System.EventHandler(this.butEditText_Click);

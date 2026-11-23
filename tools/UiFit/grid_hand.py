@@ -97,6 +97,10 @@ class Hand:
         n = self.n(name)
         if n.text_align != value:
             n.new_text_align = value
+        # Slice 1 fix round 9: a right-to-left label mirrors its TextAlign (MiddleRight draws at the left): an aligned label is not right to
+        # left (grid_tools does the same for the labels it aligns).
+        if n.name in self.designer.rtl and n.kind == "label":
+            n.rtl = True
         self.touched[id(n)] = n
 
     def check_left(self, name):
@@ -206,7 +210,9 @@ class Hand:
                 out.append((n.name, "TextAlign", n.text_align, n.new_text_align, why))
             if n.new_check_align:
                 out.append((n.name, "CheckAlign", n.check_align, n.new_check_align, RULE + "the box on the left of its text"))
-            if n.rtl:
+            if n.rtl and n.kind == "label":
+                out.append((n.name, "RightToLeft", "Yes", "No", RULE + "aligned, not right to left (which mirrors it)"))
+            elif n.rtl:
                 out.append((n.name, "RightToLeft", "Yes", "No", RULE + "the box on the left of its text (not right to left)"))
         return out
 

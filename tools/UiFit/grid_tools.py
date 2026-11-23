@@ -1661,6 +1661,11 @@ class Planner:
                 self.add(designer, window, n.name, "CheckAlign", n.check_align, n.new_check_align, n.rule["CheckAlign"])
             if n.new_text_align and n.type in LABEL_TYPES:
                 self.add(designer, window, n.name, "TextAlign", n.text_align, n.new_text_align, n.rule["TextAlign"])
+                # Slice 1 fix round 9: a label drawn right to left (RightToLeft.Yes) mirrors its TextAlign: MiddleRight would draw its text at
+                # the left of its bounds, away from its field (FormProviderSetup's and FormScheduleDayEdit's Search labels). A label the grid
+                # aligns needs no right to left: it is cleared.
+                if n.name in designer.rtl and n.dock in ("None", "") and not SIMULATE:
+                    self.add(designer, window, n.name, "RightToLeft", "Yes", "No", "label: aligned by the grid, not right to left (which mirrors it)")
         for n in walk(tree):
             if n.rtl and n.editable and n.dock in ("None", ""):
                 self.add(designer, window, n.name, "RightToLeft", "Yes", "No", "check box: the box on the left of its text (not right to left)")

@@ -126,7 +126,7 @@ namespace OpenPmsDental {
 			// 
 			this.label8.Location = new System.Drawing.Point(116, 50);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(148, 47);
+			this.label8.Size = new System.Drawing.Size(152, 47);
 			this.label8.TabIndex = 26;
 			this.label8.Text = "These selections will also affect the functionality of the Add button.";
 			// 
@@ -145,7 +145,7 @@ namespace OpenPmsDental {
 			this.textProvNum.Location = new System.Drawing.Point(98, 179);
 			this.textProvNum.MaxLength = 15;
 			this.textProvNum.Name = "textProvNum";
-			this.textProvNum.Size = new System.Drawing.Size(168, 23);
+			this.textProvNum.Size = new System.Drawing.Size(170, 23);
 			this.textProvNum.TabIndex = 6;
 			this.textProvNum.TextChanged += new System.EventHandler(this.textProvNum_TextChanged);
 			// 
@@ -164,7 +164,7 @@ namespace OpenPmsDental {
 			this.textFirstName.Location = new System.Drawing.Point(98, 152);
 			this.textFirstName.MaxLength = 15;
 			this.textFirstName.Name = "textFirstName";
-			this.textFirstName.Size = new System.Drawing.Size(168, 23);
+			this.textFirstName.Size = new System.Drawing.Size(170, 23);
 			this.textFirstName.TabIndex = 5;
 			this.textFirstName.TextChanged += new System.EventHandler(this.textFirstName_TextChanged);
 			// 
@@ -183,7 +183,7 @@ namespace OpenPmsDental {
 			this.textLastName.Location = new System.Drawing.Point(98, 125);
 			this.textLastName.MaxLength = 15;
 			this.textLastName.Name = "textLastName";
-			this.textLastName.Size = new System.Drawing.Size(168, 23);
+			this.textLastName.Size = new System.Drawing.Size(170, 23);
 			this.textLastName.TabIndex = 4;
 			this.textLastName.TextChanged += new System.EventHandler(this.textLastName_TextChanged);
 			// 
@@ -229,7 +229,7 @@ namespace OpenPmsDental {
 			// 
 			this.comboClass.Location = new System.Drawing.Point(98, 23);
 			this.comboClass.Name = "comboClass";
-			this.comboClass.Size = new System.Drawing.Size(168, 23);
+			this.comboClass.Size = new System.Drawing.Size(170, 23);
 			this.comboClass.TabIndex = 0;
 			this.comboClass.SelectionChangeCommitted += new System.EventHandler(this.comboClass_SelectionChangeCommitted);
 			// 
@@ -245,7 +245,7 @@ namespace OpenPmsDental {
 			// butCreateUsers
 			// 
 			this.butCreateUsers.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butCreateUsers.Location = new System.Drawing.Point(182, 50);
+			this.butCreateUsers.Location = new System.Drawing.Point(186, 50);
 			this.butCreateUsers.Name = "butCreateUsers";
 			this.butCreateUsers.Size = new System.Drawing.Size(82, 24);
 			this.butCreateUsers.TabIndex = 15;
@@ -270,7 +270,7 @@ namespace OpenPmsDental {
 			this.comboUserGroup.Location = new System.Drawing.Point(98, 23);
 			this.comboUserGroup.Name = "comboUserGroup";
 			this.comboUserGroup.SelectionModeMulti = true;
-			this.comboUserGroup.Size = new System.Drawing.Size(168, 23);
+			this.comboUserGroup.Size = new System.Drawing.Size(170, 23);
 			this.comboUserGroup.TabIndex = 19;
 			// 
 			// label3
@@ -331,7 +331,7 @@ namespace OpenPmsDental {
 			// butReassign
 			// 
 			this.butReassign.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butReassign.Location = new System.Drawing.Point(182, 78);
+			this.butReassign.Location = new System.Drawing.Point(186, 78);
 			this.butReassign.Name = "butReassign";
 			this.butReassign.Size = new System.Drawing.Size(82, 23);
 			this.butReassign.TabIndex = 15;
@@ -342,7 +342,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelReassign.Location = new System.Drawing.Point(8, 78);
 			this.labelReassign.Name = "labelReassign";
-			this.labelReassign.Size = new System.Drawing.Size(168, 47);
+			this.labelReassign.Size = new System.Drawing.Size(172, 47);
 			this.labelReassign.TabIndex = 18;
 			this.labelReassign.Text = "Reassigns patients to a different primary provider based on past procedures\r\n";
 			this.labelReassign.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -454,7 +454,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelSearch.Location = new System.Drawing.Point(8, 8);
 			this.labelSearch.Name = "labelSearch";
-			this.labelSearch.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+			this.labelSearch.RightToLeft = System.Windows.Forms.RightToLeft.No;
 			this.labelSearch.Size = new System.Drawing.Size(48, 23);
 			this.labelSearch.TabIndex = 45;
 			this.labelSearch.Text = "Search";

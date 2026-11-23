@@ -15,6 +15,30 @@ MAIN_TOTALS = (("textPrincipal", 625, 60), ("textInterest", 685, 52), ("textDue"
 def layout(h):
     H = h.H
     grid = h.n("gridCharges")
+    # Fix round 9: the Patient, Guarantor and Insurance Plan rows end on the left column's right edge (the groups', 8 + their width): Go To
+    # and Change 6 px apart, Change on the edge (it ended 54 px past it, 4 px from the grid; main: on the column), the name boxes narrower by
+    # as much, Category ending with them; Sheet on the edge; the grid and the Note box 8 px after the column (the window narrower by as much).
+    gt = h.n("groupTerms")
+    R = gt.nx + gt.nw
+    cg, gg = h.n("butChangeGuar"), h.n("butGoToGuar")
+    xc = R - cg.nw
+    xg = xc - 6 - gg.nw
+    wt = xg - 6 - h.n("textGuarantor").nx
+    h.set("butChangeGuar", xc, None)
+    for b, t in (("butGoToGuar", "textGuarantor"), ("butGoToPat", "textPatient")):
+        h.set(b, xg, None)
+        h.set(t, None, None, wt, None)
+    h.set("comboCategory", None, None, h.n("textPatient").nx + wt - h.n("comboCategory").nx, None)
+    cp, ti = h.n("butChangePlan"), h.n("textInsPlan")
+    h.set("butChangePlan", R - cp.nw, None)
+    h.set("textInsPlan", None, None, R - cp.nw - 6 - ti.nx, None)
+    cs = h.n("comboSheetDef")
+    ls = h.lw("labelSheetDef")
+    h.set("comboSheetDef", R - cs.nw, None)
+    h.set("labelSheetDef", R - cs.nw - 6 - ls, None, ls, None)
+    h.text_align("labelSheetDef", "MiddleRight")
+    h.set("gridCharges", R + 8, None)
+    grid = type("G", (), {"x": grid.nx, "y": grid.ny, "w": grid.nw, "h": grid.nh})
     y = grid.y + grid.h + 4
     for name, x, w in MAIN_TOTALS:
         h.set(name, grid.x + x - MAIN_GRID_X, y, w, H)

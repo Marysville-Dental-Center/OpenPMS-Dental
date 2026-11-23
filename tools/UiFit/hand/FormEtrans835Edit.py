@@ -35,3 +35,13 @@ def layout(h):
             h.set(op[0], x, None, op[1], None)
             x += op[1] + 6
     h.set("groupBalancing", None, None, x - 6 + 8, None)
+    # Fix round 9: the bottom bar's buttons one height (24, the dialog button height) and one top (Save's); EOB Details, Print and Print
+    # Preview 6 px apart from the left content edge, Auto Process, Finalize Payment and Delete 6 px apart after them (they stood 42 and 52 px
+    # apart, two heights), Save on the right content edge.
+    sv = h.n("butSave")
+    x = 8
+    for name in ("butClaimDetails", "butPrint", "butPreview", "butAutoProcess", "butBatch", "butDelete"):
+        b = h.n(name)
+        h.set(name, x, sv.ny, b.nw, 24)
+        x += b.nw + 6
+    h.set("butSave", None, None, sv.nw, 24)

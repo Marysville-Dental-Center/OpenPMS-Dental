@@ -276,7 +276,7 @@ namespace OpenPmsDental{
 			// 
 			// comboUnsentAccountAge
 			// 
-			this.comboUnsentAccountAge.Location = new System.Drawing.Point(610, 8);
+			this.comboUnsentAccountAge.Location = new System.Drawing.Point(575, 8);
 			this.comboUnsentAccountAge.Name = "comboUnsentAccountAge";
 			this.comboUnsentAccountAge.Size = new System.Drawing.Size(88, 23);
 			this.comboUnsentAccountAge.TabIndex = 4;
@@ -298,7 +298,7 @@ namespace OpenPmsDental{
 			this.butUnsentExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butUnsentExport.Icon = OpenPmsDental.UI.EnumIcons.Export;
 			this.butUnsentExport.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butUnsentExport.Location = new System.Drawing.Point(971, 553);
+			this.butUnsentExport.Location = new System.Drawing.Point(985, 553);
 			this.butUnsentExport.Name = "butUnsentExport";
 			this.butUnsentExport.Size = new System.Drawing.Size(75, 24);
 			this.butUnsentExport.TabIndex = 127;
@@ -307,7 +307,7 @@ namespace OpenPmsDental{
 			// 
 			// butUnsentSaveDefault
 			// 
-			this.butUnsentSaveDefault.Location = new System.Drawing.Point(1091, 8);
+			this.butUnsentSaveDefault.Location = new System.Drawing.Point(1124, 8);
 			this.butUnsentSaveDefault.Name = "butUnsentSaveDefault";
 			this.butUnsentSaveDefault.Size = new System.Drawing.Size(98, 23);
 			this.butUnsentSaveDefault.TabIndex = 10;
@@ -365,11 +365,11 @@ namespace OpenPmsDental{
 			// 
 			// textUnsentDaysLastPay
 			// 
-			this.textUnsentDaysLastPay.Location = new System.Drawing.Point(1041, 8);
+			this.textUnsentDaysLastPay.Location = new System.Drawing.Point(980, 8);
 			this.textUnsentDaysLastPay.MaxVal = 99999;
 			this.textUnsentDaysLastPay.Name = "textUnsentDaysLastPay";
 			this.textUnsentDaysLastPay.ShowZero = false;
-			this.textUnsentDaysLastPay.Size = new System.Drawing.Size(44, 20);
+			this.textUnsentDaysLastPay.Size = new System.Drawing.Size(44, 23);
 			this.textUnsentDaysLastPay.TabIndex = 6;
 			this.textUnsentDaysLastPay.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			this.textUnsentDaysLastPay.TextChanged += new System.EventHandler(this.textUnsentDaysLastPay_TextChanged);
@@ -387,7 +387,7 @@ namespace OpenPmsDental{
 			// 
 			// labelUnsentDaysLastPay
 			// 
-			this.labelUnsentDaysLastPay.Location = new System.Drawing.Point(891, 8);
+			this.labelUnsentDaysLastPay.Location = new System.Drawing.Point(830, 8);
 			this.labelUnsentDaysLastPay.Name = "labelUnsentDaysLastPay";
 			this.labelUnsentDaysLastPay.Size = new System.Drawing.Size(144, 23);
 			this.labelUnsentDaysLastPay.TabIndex = 0;
@@ -409,7 +409,7 @@ namespace OpenPmsDental{
 			// 
 			// labelUnsentBillTypes
 			// 
-			this.labelUnsentBillTypes.Location = new System.Drawing.Point(262, 8);
+			this.labelUnsentBillTypes.Location = new System.Drawing.Point(237, 8);
 			this.labelUnsentBillTypes.Name = "labelUnsentBillTypes";
 			this.labelUnsentBillTypes.Size = new System.Drawing.Size(80, 23);
 			this.labelUnsentBillTypes.TabIndex = 0;
@@ -453,7 +453,7 @@ namespace OpenPmsDental{
 			// 
 			// labelUnsentAccountAge
 			// 
-			this.labelUnsentAccountAge.Location = new System.Drawing.Point(524, 8);
+			this.labelUnsentAccountAge.Location = new System.Drawing.Point(489, 8);
 			this.labelUnsentAccountAge.Name = "labelUnsentAccountAge";
 			this.labelUnsentAccountAge.Size = new System.Drawing.Size(80, 23);
 			this.labelUnsentAccountAge.TabIndex = 0;
@@ -475,11 +475,11 @@ namespace OpenPmsDental{
 			// 
 			// textUnsentMinBal
 			// 
-			this.textUnsentMinBal.Location = new System.Drawing.Point(828, 8);
+			this.textUnsentMinBal.Location = new System.Drawing.Point(783, 8);
 			this.textUnsentMinBal.MaxVal = 999999D;
 			this.textUnsentMinBal.MinVal = -999999D;
 			this.textUnsentMinBal.Name = "textUnsentMinBal";
-			this.textUnsentMinBal.Size = new System.Drawing.Size(44, 20);
+			this.textUnsentMinBal.Size = new System.Drawing.Size(44, 23);
 			this.textUnsentMinBal.TabIndex = 5;
 			this.textUnsentMinBal.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			this.textUnsentMinBal.TextChanged += new System.EventHandler(this.textUnsentMinBal_TextChanged);
@@ -499,7 +499,7 @@ namespace OpenPmsDental{
 			// 
 			// labelUnsentMinBal
 			// 
-			this.labelUnsentMinBal.Location = new System.Drawing.Point(714, 8);
+			this.labelUnsentMinBal.Location = new System.Drawing.Point(669, 8);
 			this.labelUnsentMinBal.Name = "labelUnsentMinBal";
 			this.labelUnsentMinBal.Size = new System.Drawing.Size(108, 23);
 			this.labelUnsentMinBal.TabIndex = 0;
@@ -522,7 +522,7 @@ namespace OpenPmsDental{
 			// comboBillTypes
 			// 
 			this.comboBillTypes.BackColor = System.Drawing.SystemColors.Window;
-			this.comboBillTypes.Location = new System.Drawing.Point(348, 8);
+			this.comboBillTypes.Location = new System.Drawing.Point(323, 8);
 			this.comboBillTypes.Name = "comboBillTypes";
 			this.comboBillTypes.SelectionModeMulti = true;
 			this.comboBillTypes.Size = new System.Drawing.Size(160, 23);
@@ -544,7 +544,7 @@ namespace OpenPmsDental{
 			// butRunAging
 			// 
 			this.butRunAging.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butRunAging.Location = new System.Drawing.Point(1133, 553);
+			this.butRunAging.Location = new System.Drawing.Point(1147, 553);
 			this.butRunAging.Name = "butRunAging";
 			this.butRunAging.Size = new System.Drawing.Size(75, 24);
 			this.butRunAging.TabIndex = 7;
@@ -598,7 +598,7 @@ namespace OpenPmsDental{
 			this.butUnsentPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butUnsentPrint.Icon = OpenPmsDental.UI.EnumIcons.Print;
 			this.butUnsentPrint.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butUnsentPrint.Location = new System.Drawing.Point(1052, 553);
+			this.butUnsentPrint.Location = new System.Drawing.Point(1066, 553);
 			this.butUnsentPrint.Name = "butUnsentPrint";
 			this.butUnsentPrint.Size = new System.Drawing.Size(75, 24);
 			this.butUnsentPrint.TabIndex = 6;
@@ -686,7 +686,7 @@ namespace OpenPmsDental{
 			// comboLastTransType
 			// 
 			this.comboLastTransType.BackColor = System.Drawing.SystemColors.Window;
-			this.comboLastTransType.Location = new System.Drawing.Point(348, 8);
+			this.comboLastTransType.Location = new System.Drawing.Point(337, 8);
 			this.comboLastTransType.Name = "comboLastTransType";
 			this.comboLastTransType.Size = new System.Drawing.Size(160, 23);
 			this.comboLastTransType.TabIndex = 3;
@@ -698,7 +698,7 @@ namespace OpenPmsDental{
 			this.butSentExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butSentExport.Icon = OpenPmsDental.UI.EnumIcons.Export;
 			this.butSentExport.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butSentExport.Location = new System.Drawing.Point(1041, 553);
+			this.butSentExport.Location = new System.Drawing.Point(1066, 553);
 			this.butSentExport.Name = "butSentExport";
 			this.butSentExport.Size = new System.Drawing.Size(75, 24);
 			this.butSentExport.TabIndex = 136;
@@ -707,7 +707,7 @@ namespace OpenPmsDental{
 			// 
 			// butSentSaveDefaults
 			// 
-			this.butSentSaveDefaults.Location = new System.Drawing.Point(1091, 8);
+			this.butSentSaveDefaults.Location = new System.Drawing.Point(1124, 8);
 			this.butSentSaveDefaults.Name = "butSentSaveDefaults";
 			this.butSentSaveDefaults.Size = new System.Drawing.Size(98, 23);
 			this.butSentSaveDefaults.TabIndex = 7;
@@ -725,11 +725,11 @@ namespace OpenPmsDental{
 			// 
 			// textSentDaysLastPay
 			// 
-			this.textSentDaysLastPay.Location = new System.Drawing.Point(1041, 8);
+			this.textSentDaysLastPay.Location = new System.Drawing.Point(994, 8);
 			this.textSentDaysLastPay.MaxVal = 99999;
 			this.textSentDaysLastPay.Name = "textSentDaysLastPay";
 			this.textSentDaysLastPay.ShowZero = false;
-			this.textSentDaysLastPay.Size = new System.Drawing.Size(44, 20);
+			this.textSentDaysLastPay.Size = new System.Drawing.Size(44, 23);
 			this.textSentDaysLastPay.TabIndex = 6;
 			this.textSentDaysLastPay.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			this.textSentDaysLastPay.TextChanged += new System.EventHandler(this.textSentDaysLastPay_TextChanged);
@@ -750,7 +750,7 @@ namespace OpenPmsDental{
 			// 
 			// labelSentDaysLastPay
 			// 
-			this.labelSentDaysLastPay.Location = new System.Drawing.Point(891, 8);
+			this.labelSentDaysLastPay.Location = new System.Drawing.Point(844, 8);
 			this.labelSentDaysLastPay.Name = "labelSentDaysLastPay";
 			this.labelSentDaysLastPay.Size = new System.Drawing.Size(144, 23);
 			this.labelSentDaysLastPay.TabIndex = 0;
@@ -772,7 +772,7 @@ namespace OpenPmsDental{
 			// 
 			// labelLastTransType
 			// 
-			this.labelLastTransType.Location = new System.Drawing.Point(250, 8);
+			this.labelLastTransType.Location = new System.Drawing.Point(239, 8);
 			this.labelLastTransType.Name = "labelLastTransType";
 			this.labelLastTransType.Size = new System.Drawing.Size(92, 23);
 			this.labelLastTransType.TabIndex = 0;
@@ -814,7 +814,7 @@ namespace OpenPmsDental{
 			// 
 			// labelSentAccountAge
 			// 
-			this.labelSentAccountAge.Location = new System.Drawing.Point(524, 8);
+			this.labelSentAccountAge.Location = new System.Drawing.Point(503, 8);
 			this.labelSentAccountAge.Name = "labelSentAccountAge";
 			this.labelSentAccountAge.Size = new System.Drawing.Size(80, 23);
 			this.labelSentAccountAge.TabIndex = 0;
@@ -836,11 +836,11 @@ namespace OpenPmsDental{
 			// 
 			// textSentMinBal
 			// 
-			this.textSentMinBal.Location = new System.Drawing.Point(828, 8);
+			this.textSentMinBal.Location = new System.Drawing.Point(797, 8);
 			this.textSentMinBal.MaxVal = 999999D;
 			this.textSentMinBal.MinVal = -999999D;
 			this.textSentMinBal.Name = "textSentMinBal";
-			this.textSentMinBal.Size = new System.Drawing.Size(44, 20);
+			this.textSentMinBal.Size = new System.Drawing.Size(44, 23);
 			this.textSentMinBal.TabIndex = 5;
 			this.textSentMinBal.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			this.textSentMinBal.TextChanged += new System.EventHandler(this.textSentMinBal_TextChanged);
@@ -860,7 +860,7 @@ namespace OpenPmsDental{
 			// 
 			// labelSentMinBal
 			// 
-			this.labelSentMinBal.Location = new System.Drawing.Point(714, 8);
+			this.labelSentMinBal.Location = new System.Drawing.Point(683, 8);
 			this.labelSentMinBal.Name = "labelSentMinBal";
 			this.labelSentMinBal.Size = new System.Drawing.Size(108, 23);
 			this.labelSentMinBal.TabIndex = 0;
@@ -882,7 +882,7 @@ namespace OpenPmsDental{
 			// 
 			// comboSentAccountAge
 			// 
-			this.comboSentAccountAge.Location = new System.Drawing.Point(610, 8);
+			this.comboSentAccountAge.Location = new System.Drawing.Point(589, 8);
 			this.comboSentAccountAge.Name = "comboSentAccountAge";
 			this.comboSentAccountAge.Size = new System.Drawing.Size(88, 23);
 			this.comboSentAccountAge.TabIndex = 4;
@@ -954,7 +954,7 @@ namespace OpenPmsDental{
 			this.butSentPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butSentPrint.Icon = OpenPmsDental.UI.EnumIcons.Print;
 			this.butSentPrint.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butSentPrint.Location = new System.Drawing.Point(1122, 553);
+			this.butSentPrint.Location = new System.Drawing.Point(1147, 553);
 			this.butSentPrint.Name = "butSentPrint";
 			this.butSentPrint.Size = new System.Drawing.Size(75, 24);
 			this.butSentPrint.TabIndex = 6;
@@ -1104,7 +1104,7 @@ namespace OpenPmsDental{
 			// 
 			// comboExcludedAccountAge
 			// 
-			this.comboExcludedAccountAge.Location = new System.Drawing.Point(610, 8);
+			this.comboExcludedAccountAge.Location = new System.Drawing.Point(326, 8);
 			this.comboExcludedAccountAge.Name = "comboExcludedAccountAge";
 			this.comboExcludedAccountAge.Size = new System.Drawing.Size(88, 23);
 			this.comboExcludedAccountAge.TabIndex = 4;
@@ -1115,7 +1115,7 @@ namespace OpenPmsDental{
 			this.butExcludedExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butExcludedExport.Icon = OpenPmsDental.UI.EnumIcons.Export;
 			this.butExcludedExport.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butExcludedExport.Location = new System.Drawing.Point(971, 553);
+			this.butExcludedExport.Location = new System.Drawing.Point(985, 553);
 			this.butExcludedExport.Name = "butExcludedExport";
 			this.butExcludedExport.Size = new System.Drawing.Size(75, 24);
 			this.butExcludedExport.TabIndex = 145;
@@ -1148,7 +1148,7 @@ namespace OpenPmsDental{
 			// 
 			// butExcludedSaveDefault
 			// 
-			this.butExcludedSaveDefault.Location = new System.Drawing.Point(1091, 8);
+			this.butExcludedSaveDefault.Location = new System.Drawing.Point(1124, 8);
 			this.butExcludedSaveDefault.Name = "butExcludedSaveDefault";
 			this.butExcludedSaveDefault.Size = new System.Drawing.Size(98, 23);
 			this.butExcludedSaveDefault.TabIndex = 10;
@@ -1222,11 +1222,11 @@ namespace OpenPmsDental{
 			// 
 			// textExcludedDaysLastPay
 			// 
-			this.textExcludedDaysLastPay.Location = new System.Drawing.Point(1041, 8);
+			this.textExcludedDaysLastPay.Location = new System.Drawing.Point(731, 8);
 			this.textExcludedDaysLastPay.MaxVal = 99999;
 			this.textExcludedDaysLastPay.Name = "textExcludedDaysLastPay";
 			this.textExcludedDaysLastPay.ShowZero = false;
-			this.textExcludedDaysLastPay.Size = new System.Drawing.Size(44, 20);
+			this.textExcludedDaysLastPay.Size = new System.Drawing.Size(44, 23);
 			this.textExcludedDaysLastPay.TabIndex = 6;
 			this.textExcludedDaysLastPay.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			this.textExcludedDaysLastPay.TextChanged += new System.EventHandler(this.textExcludedDaysLastPay_TextChanged);
@@ -1244,7 +1244,7 @@ namespace OpenPmsDental{
 			// 
 			// labelExcludedDateLastPay
 			// 
-			this.labelExcludedDateLastPay.Location = new System.Drawing.Point(891, 8);
+			this.labelExcludedDateLastPay.Location = new System.Drawing.Point(581, 8);
 			this.labelExcludedDateLastPay.Name = "labelExcludedDateLastPay";
 			this.labelExcludedDateLastPay.Size = new System.Drawing.Size(144, 23);
 			this.labelExcludedDateLastPay.TabIndex = 0;
@@ -1288,7 +1288,7 @@ namespace OpenPmsDental{
 			// 
 			// labelExcludedAccountAge
 			// 
-			this.labelExcludedAccountAge.Location = new System.Drawing.Point(524, 8);
+			this.labelExcludedAccountAge.Location = new System.Drawing.Point(240, 8);
 			this.labelExcludedAccountAge.Name = "labelExcludedAccountAge";
 			this.labelExcludedAccountAge.Size = new System.Drawing.Size(80, 23);
 			this.labelExcludedAccountAge.TabIndex = 0;
@@ -1310,11 +1310,11 @@ namespace OpenPmsDental{
 			// 
 			// textExcludedMinBal
 			// 
-			this.textExcludedMinBal.Location = new System.Drawing.Point(828, 8);
+			this.textExcludedMinBal.Location = new System.Drawing.Point(534, 8);
 			this.textExcludedMinBal.MaxVal = 999999D;
 			this.textExcludedMinBal.MinVal = -999999D;
 			this.textExcludedMinBal.Name = "textExcludedMinBal";
-			this.textExcludedMinBal.Size = new System.Drawing.Size(44, 20);
+			this.textExcludedMinBal.Size = new System.Drawing.Size(44, 23);
 			this.textExcludedMinBal.TabIndex = 5;
 			this.textExcludedMinBal.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			this.textExcludedMinBal.TextChanged += new System.EventHandler(this.textExcludedMinBal_TextChanged);
@@ -1334,7 +1334,7 @@ namespace OpenPmsDental{
 			// 
 			// labelExcludedMinBal
 			// 
-			this.labelExcludedMinBal.Location = new System.Drawing.Point(714, 8);
+			this.labelExcludedMinBal.Location = new System.Drawing.Point(420, 8);
 			this.labelExcludedMinBal.Name = "labelExcludedMinBal";
 			this.labelExcludedMinBal.Size = new System.Drawing.Size(108, 23);
 			this.labelExcludedMinBal.TabIndex = 0;
@@ -1381,7 +1381,7 @@ namespace OpenPmsDental{
 			// butExcludedRunAging
 			// 
 			this.butExcludedRunAging.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butExcludedRunAging.Location = new System.Drawing.Point(1133, 553);
+			this.butExcludedRunAging.Location = new System.Drawing.Point(1147, 553);
 			this.butExcludedRunAging.Name = "butExcludedRunAging";
 			this.butExcludedRunAging.Size = new System.Drawing.Size(75, 24);
 			this.butExcludedRunAging.TabIndex = 132;
@@ -1435,7 +1435,7 @@ namespace OpenPmsDental{
 			this.butExcludedPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butExcludedPrint.Icon = OpenPmsDental.UI.EnumIcons.Print;
 			this.butExcludedPrint.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butExcludedPrint.Location = new System.Drawing.Point(1052, 553);
+			this.butExcludedPrint.Location = new System.Drawing.Point(1066, 553);
 			this.butExcludedPrint.Name = "butExcludedPrint";
 			this.butExcludedPrint.Size = new System.Drawing.Size(75, 24);
 			this.butExcludedPrint.TabIndex = 131;

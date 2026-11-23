@@ -96,7 +96,7 @@ namespace OpenPmsDental{
 			// 
 			this.butRigorous.Location = new System.Drawing.Point(8, 348);
 			this.butRigorous.Name = "butRigorous";
-			this.butRigorous.Size = new System.Drawing.Size(93, 26);
+			this.butRigorous.Size = new System.Drawing.Size(93, 24);
 			this.butRigorous.TabIndex = 5;
 			this.butRigorous.Text = "Start Rigorous";
 			this.butRigorous.Click += new System.EventHandler(this.butRigorous_Click);
@@ -113,7 +113,7 @@ namespace OpenPmsDental{
 			// progressBarTransfer
 			// 
 			this.progressBarTransfer.Anchor = System.Windows.Forms.AnchorStyles.Top;
-			this.progressBarTransfer.Location = new System.Drawing.Point(8, 441);
+			this.progressBarTransfer.Location = new System.Drawing.Point(8, 442);
 			this.progressBarTransfer.Name = "progressBarTransfer";
 			this.progressBarTransfer.Size = new System.Drawing.Size(1210, 22);
 			this.progressBarTransfer.TabIndex = 153;
@@ -125,7 +125,7 @@ namespace OpenPmsDental{
 			// labelProgress
 			// 
 			this.labelProgress.Anchor = System.Windows.Forms.AnchorStyles.Top;
-			this.labelProgress.Location = new System.Drawing.Point(8, 421);
+			this.labelProgress.Location = new System.Drawing.Point(8, 422);
 			this.labelProgress.Name = "labelProgress";
 			this.labelProgress.Size = new System.Drawing.Size(555, 15);
 			this.labelProgress.TabIndex = 154;
@@ -135,7 +135,7 @@ namespace OpenPmsDental{
 			// labelPayments
 			// 
 			this.labelPayments.Anchor = System.Windows.Forms.AnchorStyles.Top;
-			this.labelPayments.Location = new System.Drawing.Point(730, 421);
+			this.labelPayments.Location = new System.Drawing.Point(730, 422);
 			this.labelPayments.Name = "labelPayments";
 			this.labelPayments.Size = new System.Drawing.Size(468, 16);
 			this.labelPayments.TabIndex = 155;
@@ -170,7 +170,7 @@ namespace OpenPmsDental{
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(107, 352);
+			this.label5.Location = new System.Drawing.Point(107, 351);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(341, 18);
 			this.label5.TabIndex = 159;
@@ -179,18 +179,18 @@ namespace OpenPmsDental{
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(117, 378);
+			this.label6.Location = new System.Drawing.Point(107, 381);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(344, 23);
+			this.label6.Size = new System.Drawing.Size(354, 18);
 			this.label6.TabIndex = 161;
 			this.label6.Text = "Allocates on a FIFO basis without regard for provider or patient.";
-			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// butFIFO
 			// 
 			this.butFIFO.Location = new System.Drawing.Point(8, 378);
 			this.butFIFO.Name = "butFIFO";
-			this.butFIFO.Size = new System.Drawing.Size(93, 23);
+			this.butFIFO.Size = new System.Drawing.Size(93, 24);
 			this.butFIFO.TabIndex = 6;
 			this.butFIFO.Text = "Start FIFO";
 			this.butFIFO.Click += new System.EventHandler(this.butFIFO_Click);
@@ -255,7 +255,7 @@ namespace OpenPmsDental{
 			this.groupBoxIncomeTransfers.Controls.Add(this.labelDeleteTransfers);
 			this.groupBoxIncomeTransfers.Location = new System.Drawing.Point(8, 8);
 			this.groupBoxIncomeTransfers.Name = "groupBoxIncomeTransfers";
-			this.groupBoxIncomeTransfers.Size = new System.Drawing.Size(606, 409);
+			this.groupBoxIncomeTransfers.Size = new System.Drawing.Size(606, 410);
 			this.groupBoxIncomeTransfers.TabIndex = 0;
 			this.groupBoxIncomeTransfers.Text = "Income Transfers";
 			// 
@@ -263,7 +263,7 @@ namespace OpenPmsDental{
 			// 
 			this.butConfigureAuto.Location = new System.Drawing.Point(467, 378);
 			this.butConfigureAuto.Name = "butConfigureAuto";
-			this.butConfigureAuto.Size = new System.Drawing.Size(127, 23);
+			this.butConfigureAuto.Size = new System.Drawing.Size(127, 24);
 			this.butConfigureAuto.TabIndex = 173;
 			this.butConfigureAuto.Text = "Configure Automation";
 			this.butConfigureAuto.Click += new System.EventHandler(this.butConfigureAuto_Click);
@@ -352,17 +352,17 @@ namespace OpenPmsDental{
 			// 
 			// checkDeleteTransfersRecreate
 			// 
-			this.checkDeleteTransfersRecreate.Location = new System.Drawing.Point(181, 114);
+			this.checkDeleteTransfersRecreate.Location = new System.Drawing.Point(176, 114);
 			this.checkDeleteTransfersRecreate.Name = "checkDeleteTransfersRecreate";
-			this.checkDeleteTransfersRecreate.Size = new System.Drawing.Size(381, 20);
+			this.checkDeleteTransfersRecreate.Size = new System.Drawing.Size(386, 20);
 			this.checkDeleteTransfersRecreate.TabIndex = 1;
 			this.checkDeleteTransfersRecreate.Text = "Deletes all transfers regardless of Payment Date or Payment Type.";
 			// 
 			// labelDeleteTransfersRecreate
 			// 
-			this.labelDeleteTransfersRecreate.Location = new System.Drawing.Point(63, 115);
+			this.labelDeleteTransfersRecreate.Location = new System.Drawing.Point(58, 112);
 			this.labelDeleteTransfersRecreate.Name = "labelDeleteTransfersRecreate";
-			this.labelDeleteTransfersRecreate.Size = new System.Drawing.Size(112, 17);
+			this.labelDeleteTransfersRecreate.Size = new System.Drawing.Size(112, 23);
 			this.labelDeleteTransfersRecreate.TabIndex = 169;
 			this.labelDeleteTransfersRecreate.Text = "Delete All Transfers";
 			this.labelDeleteTransfersRecreate.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -377,7 +377,7 @@ namespace OpenPmsDental{
 			// 
 			// label15
 			// 
-			this.label15.Location = new System.Drawing.Point(8, 467);
+			this.label15.Location = new System.Drawing.Point(8, 468);
 			this.label15.Name = "label15";
 			this.label15.Size = new System.Drawing.Size(555, 16);
 			this.label15.TabIndex = 169;
@@ -391,7 +391,7 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.textOutput.BackColor = System.Drawing.SystemColors.Control;
-			this.textOutput.Location = new System.Drawing.Point(8, 485);
+			this.textOutput.Location = new System.Drawing.Point(8, 486);
 			this.textOutput.Multiline = true;
 			this.textOutput.Name = "textOutput";
 			this.textOutput.ReadOnly = true;
@@ -402,7 +402,7 @@ namespace OpenPmsDental{
 			// checkOutputVerbose
 			// 
 			this.checkOutputVerbose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.checkOutputVerbose.Location = new System.Drawing.Point(8, 644);
+			this.checkOutputVerbose.Location = new System.Drawing.Point(8, 645);
 			this.checkOutputVerbose.Name = "checkOutputVerbose";
 			this.checkOutputVerbose.Size = new System.Drawing.Size(67, 20);
 			this.checkOutputVerbose.TabIndex = 3;
@@ -417,7 +417,7 @@ namespace OpenPmsDental{
 			// butLog
 			// 
 			this.butLog.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-			this.butLog.Location = new System.Drawing.Point(567, 641);
+			this.butLog.Location = new System.Drawing.Point(567, 642);
 			this.butLog.Name = "butLog";
 			this.butLog.Size = new System.Drawing.Size(75, 26);
 			this.butLog.TabIndex = 4;
@@ -513,7 +513,7 @@ namespace OpenPmsDental{
 			// 
 			// FormFamilyBalancer
 			// 
-			this.ClientSize = new System.Drawing.Size(1226, 691);
+			this.ClientSize = new System.Drawing.Size(1226, 692);
 			this.Controls.Add(this.groupBoxInsuranceOverpayments);
 			this.Controls.Add(this.butLog);
 			this.Controls.Add(this.checkOutputVerbose);

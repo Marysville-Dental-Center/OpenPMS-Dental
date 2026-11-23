@@ -102,7 +102,7 @@
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(67, 176);
+			this.label5.Location = new System.Drawing.Point(67, 163);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(56, 23);
 			this.label5.TabIndex = 10;
@@ -113,7 +113,7 @@
 			// 
 			this.listPatient.Location = new System.Drawing.Point(8, 48);
 			this.listPatient.Name = "listPatient";
-			this.listPatient.Size = new System.Drawing.Size(192, 108);
+			this.listPatient.Size = new System.Drawing.Size(262, 108);
 			this.listPatient.TabIndex = 3;
 			this.listPatient.MouseDown += new System.Windows.Forms.MouseEventHandler(this.listPatient_MouseDown);
 			// 
@@ -149,7 +149,7 @@
 			// 
 			this.textPatient.Location = new System.Drawing.Point(8, 47);
 			this.textPatient.Name = "textPatient";
-			this.textPatient.Size = new System.Drawing.Size(238, 20);
+			this.textPatient.Size = new System.Drawing.Size(262, 23);
 			this.textPatient.TabIndex = 111;
 			// 
 			// checkPatOtherFam
@@ -169,7 +169,7 @@
 			this.groupPatient.Controls.Add(this.checkPatOtherFam);
 			this.groupPatient.Location = new System.Drawing.Point(480, 8);
 			this.groupPatient.Name = "groupPatient";
-			this.groupPatient.Size = new System.Drawing.Size(265, 164);
+			this.groupPatient.Size = new System.Drawing.Size(278, 164);
 			this.groupPatient.TabIndex = 112;
 			this.groupPatient.Text = "Patient";
 			// 
@@ -242,7 +242,7 @@
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(708, 487);
+			this.butSave.Location = new System.Drawing.Point(683, 487);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 5;
@@ -259,7 +259,7 @@
 			// 
 			// comboProvider
 			// 
-			this.comboProvider.Location = new System.Drawing.Point(129, 176);
+			this.comboProvider.Location = new System.Drawing.Point(129, 163);
 			this.comboProvider.Name = "comboProvider";
 			this.comboProvider.Size = new System.Drawing.Size(144, 23);
 			this.comboProvider.TabIndex = 118;
@@ -267,7 +267,7 @@
 			// 
 			// butPickProv
 			// 
-			this.butPickProv.Location = new System.Drawing.Point(279, 176);
+			this.butPickProv.Location = new System.Drawing.Point(279, 163);
 			this.butPickProv.Name = "butPickProv";
 			this.butPickProv.Size = new System.Drawing.Size(18, 23);
 			this.butPickProv.TabIndex = 158;
@@ -286,7 +286,7 @@
 			// 
 			// butEditAnyway
 			// 
-			this.butEditAnyway.Location = new System.Drawing.Point(670, 176);
+			this.butEditAnyway.Location = new System.Drawing.Point(683, 176);
 			this.butEditAnyway.Name = "butEditAnyway";
 			this.butEditAnyway.Size = new System.Drawing.Size(75, 23);
 			this.butEditAnyway.TabIndex = 163;
@@ -296,7 +296,7 @@
 			// 
 			// labelEditAnyway
 			// 
-			this.labelEditAnyway.Location = new System.Drawing.Point(414, 173);
+			this.labelEditAnyway.Location = new System.Drawing.Point(427, 173);
 			this.labelEditAnyway.Name = "labelEditAnyway";
 			this.labelEditAnyway.Size = new System.Drawing.Size(250, 28);
 			this.labelEditAnyway.TabIndex = 164;
@@ -748,7 +748,7 @@
 			// 
 			// FormPaySplitEdit
 			// 
-			this.ClientSize = new System.Drawing.Size(791, 519);
+			this.ClientSize = new System.Drawing.Size(766, 519);
 			this.Controls.Add(this.tabControl);
 			this.Controls.Add(this.butEditAnyway);
 			this.Controls.Add(this.labelEditAnyway);

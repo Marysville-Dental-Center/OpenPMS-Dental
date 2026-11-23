@@ -35,3 +35,35 @@ def layout(h):
     xc = ck.nx
     h.set("checkDeleteTransfers", xc, None, cd.nx + cd.nw - xc, None)
     h.set("labelDeleteTransfers", None, None, xc - 6 - ld.nx, None)
+    # Fix round 9: the Start Rigorous and Start FIFO rows alike: the three buttons one height (24, the dialog button height), FIFO 6 px under
+    # Rigorous, both descriptions left-aligned 6 px after the buttons (the FIFO one was right-aligned, 18 px further right), centred on their
+    # button, the FIFO one ending 6 px before Configure Automation; the group and what stands under it grow by what the rows need.
+    br, bf, bc = h.n("butRigorous"), h.n("butFIFO"), h.n("butConfigureAuto")
+    l5, l6 = h.n("label5"), h.n("label6")
+    BH = 24
+    yr = br.ny
+    yf = yr + BH + 6
+    h.set("butRigorous", None, yr, None, BH)
+    h.set("butFIFO", br.nx, yf, br.nw, BH)
+    h.set("butConfigureAuto", None, yf, None, BH)
+    xl = br.nx + br.nw + 6
+    h.set("label5", xl, yr + (BH - l5.nh) // 2, None, None)
+    h.text_align("label5", "MiddleLeft")
+    h.set("label6", xl, yr + BH + 6 + (BH - l5.nh) // 2, bc.nx - 6 - xl, l5.nh)
+    h.text_align("label6", "MiddleLeft")
+    need = yf + BH + 8 - gi.nh
+    if need > 0:
+        gb = gi.ny + gi.nh
+        h.set("groupBoxIncomeTransfers", None, None, None, gi.nh + need)
+        for k in h.tree.children:
+            if k is not gi and k.dock in ("None", "") and k.ny >= gb:
+                h.set(k.name, None, k.ny + need)
+        h.set(".", None, None, h.tree.nw, h.tree.nh + need)
+    # Recreate Splits: Delete All Transfers on the As of Date row's columns (it stood 5 px right of them): its box on the date box's x, its
+    # label right-aligned 6 px before it, centred on the box's row.
+    dp, la = h.n("datePickerAsOfDateRecreate"), h.n("labelAsOfDateRecreate")
+    cr, lr = h.n("checkDeleteTransfersRecreate"), h.n("labelDeleteTransfersRecreate")
+    h.set("checkDeleteTransfersRecreate", dp.nx, None, cr.nx + cr.nw - dp.nx, None)
+    lwr = h.lw("labelDeleteTransfersRecreate")
+    h.set("labelDeleteTransfersRecreate", dp.nx - 6 - lwr, cr.ny + (cr.nh - h.H) // 2, lwr, h.H)
+    h.text_align("labelDeleteTransfersRecreate", "MiddleRight")

@@ -462,9 +462,9 @@ namespace OpenPmsDental{
 			// butClaimDetails
 			// 
 			this.butClaimDetails.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butClaimDetails.Location = new System.Drawing.Point(8, 724);
+			this.butClaimDetails.Location = new System.Drawing.Point(8, 726);
 			this.butClaimDetails.Name = "butClaimDetails";
-			this.butClaimDetails.Size = new System.Drawing.Size(92, 26);
+			this.butClaimDetails.Size = new System.Drawing.Size(92, 24);
 			this.butClaimDetails.TabIndex = 213;
 			this.butClaimDetails.Text = "EOB Details";
 			this.butClaimDetails.Click += new System.EventHandler(this.butClaimDetails_Click);
@@ -474,9 +474,9 @@ namespace OpenPmsDental{
 			this.butPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butPrint.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Print,16,16);
 			this.butPrint.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butPrint.Location = new System.Drawing.Point(106, 724);
+			this.butPrint.Location = new System.Drawing.Point(106, 726);
 			this.butPrint.Name = "butPrint";
-			this.butPrint.Size = new System.Drawing.Size(79, 26);
+			this.butPrint.Size = new System.Drawing.Size(79, 24);
 			this.butPrint.TabIndex = 212;
 			this.butPrint.Text = "&Print";
 			this.butPrint.Click += new System.EventHandler(this.butPrint_Click);
@@ -505,7 +505,7 @@ namespace OpenPmsDental{
 			this.butBatch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butBatch.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butBatch.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butBatch.Location = new System.Drawing.Point(495, 726);
+			this.butBatch.Location = new System.Drawing.Point(413, 726);
 			this.butBatch.Name = "butBatch";
 			this.butBatch.Size = new System.Drawing.Size(145, 24);
 			this.butBatch.TabIndex = 217;
@@ -527,9 +527,9 @@ namespace OpenPmsDental{
 			this.butPreview.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butPreview.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Preview,17,16);
 			this.butPreview.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butPreview.Location = new System.Drawing.Point(191, 724);
+			this.butPreview.Location = new System.Drawing.Point(191, 726);
 			this.butPreview.Name = "butPreview";
-			this.butPreview.Size = new System.Drawing.Size(100, 26);
+			this.butPreview.Size = new System.Drawing.Size(100, 24);
 			this.butPreview.TabIndex = 221;
 			this.butPreview.Text = "&Print Preview";
 			this.butPreview.Click += new System.EventHandler(this.butPreview_Click);
@@ -549,9 +549,9 @@ namespace OpenPmsDental{
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(658, 724);
+			this.butDelete.Location = new System.Drawing.Point(564, 726);
 			this.butDelete.Name = "butDelete";
-			this.butDelete.Size = new System.Drawing.Size(82, 26);
+			this.butDelete.Size = new System.Drawing.Size(82, 24);
 			this.butDelete.TabIndex = 223;
 			this.butDelete.Text = "&Delete";
 			this.butDelete.Click += new System.EventHandler(this.butDelete_Click);
@@ -560,7 +560,7 @@ namespace OpenPmsDental{
 			// 
 			this.butAutoProcess.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butAutoProcess.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAutoProcess.Location = new System.Drawing.Point(333, 726);
+			this.butAutoProcess.Location = new System.Drawing.Point(297, 726);
 			this.butAutoProcess.Name = "butAutoProcess";
 			this.butAutoProcess.Size = new System.Drawing.Size(110, 24);
 			this.butAutoProcess.TabIndex = 224;

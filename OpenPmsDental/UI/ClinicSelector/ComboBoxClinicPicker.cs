@@ -644,8 +644,10 @@ namespace OpenPmsDental.UI {
 				//on the full height came out 2 px lower and 2 px further right).
 				//UI-12 slice 1: the label area is as wide as the measured text + 6 px (WidthLabelArea), so the text fits its bounds; one line, never
 				//clipped, so a 1 px difference between two measurements cannot wrap it.
+				//UI-12 slice 1 fix round 9: TextBoxControl as in _textFormatFlagsLabel (and as a WinForms Label draws), so the text is drawn with the
+				//padding it is measured with: without it TextRenderer adds its default side padding and the ink ends 4 px before the labels' column.
 				TextFormatFlags textFormatFlags=TextFormatFlags.Right|TextFormatFlags.VerticalCenter|TextFormatFlags.SingleLine|TextFormatFlags.NoClipping
-					|TextFormatFlags.NoPrefix;
+					|TextFormatFlags.TextBoxControl|TextFormatFlags.NoPrefix;
 				int xRight=rectangleCombo.X-LayoutManager.Scale(6);
 				TextRenderer.DrawText(g,labelFake.Text,Font,new Rectangle(0,0,xRight,Height),UiTheme.GetColor(EnumUiColor.Text),textFormatFlags);
 			}

@@ -159,7 +159,7 @@ namespace OpenPmsDental {
 			this.butPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butPrint.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Print,16,16);
 			this.butPrint.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butPrint.Location = new System.Drawing.Point(988, 101);
+			this.butPrint.Location = new System.Drawing.Point(994, 101);
 			this.butPrint.Name = "butPrint";
 			this.butPrint.Size = new System.Drawing.Size(87, 24);
 			this.butPrint.TabIndex = 21;
@@ -168,14 +168,14 @@ namespace OpenPmsDental {
 			// 
 			// comboProv
 			// 
-			this.comboProv.Location = new System.Drawing.Point(156, 32);
+			this.comboProv.Location = new System.Drawing.Point(152, 32);
 			this.comboProv.Name = "comboProv";
-			this.comboProv.Size = new System.Drawing.Size(182, 23);
+			this.comboProv.Size = new System.Drawing.Size(199, 23);
 			this.comboProv.TabIndex = 33;
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(94, 32);
+			this.label4.Location = new System.Drawing.Point(90, 32);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(56, 23);
 			this.label4.TabIndex = 32;
@@ -184,14 +184,14 @@ namespace OpenPmsDental {
 			// 
 			// comboSite
 			// 
-			this.comboSite.Location = new System.Drawing.Point(627, 32);
+			this.comboSite.Location = new System.Drawing.Point(645, 32);
 			this.comboSite.Name = "comboSite";
-			this.comboSite.Size = new System.Drawing.Size(182, 23);
+			this.comboSite.Size = new System.Drawing.Size(199, 23);
 			this.comboSite.TabIndex = 37;
 			// 
 			// labelSite
 			// 
-			this.labelSite.Location = new System.Drawing.Point(589, 32);
+			this.labelSite.Location = new System.Drawing.Point(607, 32);
 			this.labelSite.Name = "labelSite";
 			this.labelSite.Size = new System.Drawing.Size(32, 23);
 			this.labelSite.TabIndex = 36;
@@ -202,9 +202,9 @@ namespace OpenPmsDental {
 			// 
 			this.comboClinic.IncludeAll = true;
 			this.comboClinic.IncludeUnassigned = true;
-			this.comboClinic.Location = new System.Drawing.Point(354, 32);
+			this.comboClinic.Location = new System.Drawing.Point(361, 32);
 			this.comboClinic.Name = "comboClinic";
-			this.comboClinic.Size = new System.Drawing.Size(225, 23);
+			this.comboClinic.Size = new System.Drawing.Size(242, 23);
 			this.comboClinic.TabIndex = 39;
 			// 
 			// tabControl
@@ -383,7 +383,7 @@ namespace OpenPmsDental {
 			// butRefresh
 			// 
 			this.butRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butRefresh.Location = new System.Drawing.Point(988, 73);
+			this.butRefresh.Location = new System.Drawing.Point(994, 73);
 			this.butRefresh.Name = "butRefresh";
 			this.butRefresh.Size = new System.Drawing.Size(87, 24);
 			this.butRefresh.TabIndex = 71;
@@ -393,14 +393,14 @@ namespace OpenPmsDental {
 			// 
 			// codeRangeFilter
 			// 
-			this.codeRangeFilter.Location = new System.Drawing.Point(903, 32);
+			this.codeRangeFilter.Location = new System.Drawing.Point(931, 32);
 			this.codeRangeFilter.Name = "codeRangeFilter";
 			this.codeRangeFilter.Size = new System.Drawing.Size(150, 37);
 			this.codeRangeFilter.TabIndex = 72;
 			// 
 			// labelCodeRange
 			// 
-			this.labelCodeRange.Location = new System.Drawing.Point(821, 32);
+			this.labelCodeRange.Location = new System.Drawing.Point(849, 32);
 			this.labelCodeRange.Name = "labelCodeRange";
 			this.labelCodeRange.Size = new System.Drawing.Size(76, 23);
 			this.labelCodeRange.TabIndex = 73;
@@ -420,12 +420,12 @@ namespace OpenPmsDental {
 			this.splitContainer.Controls.Add(this.splitterPanel1);
 			this.splitContainer.Controls.Add(this.splitterPanel2);
 			this.splitContainer.Cursor = System.Windows.Forms.Cursors.Default;
-			this.splitContainer.Location = new System.Drawing.Point(12, 73);
+			this.splitContainer.Location = new System.Drawing.Point(8, 73);
 			this.splitContainer.Name = "splitContainer";
 			this.splitContainer.Orientation = System.Windows.Forms.Orientation.Horizontal;
 			this.splitContainer.Panel1 = this.splitterPanel1;
 			this.splitContainer.Panel2 = this.splitterPanel2;
-			this.splitContainer.Size = new System.Drawing.Size(960, 589);
+			this.splitContainer.Size = new System.Drawing.Size(978, 589);
 			this.splitContainer.SplitterDistance = 409;
 			this.splitContainer.TabIndex = 75;
 			// 

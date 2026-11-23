@@ -224,7 +224,7 @@ namespace OpenPmsDental {
 			// 
 			// butGoToPat
 			// 
-			this.butGoToPat.Location = new System.Drawing.Point(340, 35);
+			this.butGoToPat.Location = new System.Drawing.Point(273, 35);
 			this.butGoToPat.Name = "butGoToPat";
 			this.butGoToPat.Size = new System.Drawing.Size(44, 23);
 			this.butGoToPat.TabIndex = 10;
@@ -237,13 +237,13 @@ namespace OpenPmsDental {
 			this.textPatient.Location = new System.Drawing.Point(158, 35);
 			this.textPatient.Name = "textPatient";
 			this.textPatient.ReadOnly = true;
-			this.textPatient.Size = new System.Drawing.Size(176, 23);
+			this.textPatient.Size = new System.Drawing.Size(109, 23);
 			this.textPatient.TabIndex = 0;
 			this.textPatient.TabStop = false;
 			// 
 			// butGoToGuar
 			// 
-			this.butGoToGuar.Location = new System.Drawing.Point(340, 62);
+			this.butGoToGuar.Location = new System.Drawing.Point(273, 62);
 			this.butGoToGuar.Name = "butGoToGuar";
 			this.butGoToGuar.Size = new System.Drawing.Size(44, 23);
 			this.butGoToGuar.TabIndex = 11;
@@ -261,7 +261,7 @@ namespace OpenPmsDental {
 			// 
 			// butChangeGuar
 			// 
-			this.butChangeGuar.Location = new System.Drawing.Point(390, 62);
+			this.butChangeGuar.Location = new System.Drawing.Point(323, 62);
 			this.butChangeGuar.Name = "butChangeGuar";
 			this.butChangeGuar.Size = new System.Drawing.Size(65, 23);
 			this.butChangeGuar.TabIndex = 12;
@@ -274,14 +274,14 @@ namespace OpenPmsDental {
 			this.textGuarantor.Location = new System.Drawing.Point(158, 62);
 			this.textGuarantor.Name = "textGuarantor";
 			this.textGuarantor.ReadOnly = true;
-			this.textGuarantor.Size = new System.Drawing.Size(176, 23);
+			this.textGuarantor.Size = new System.Drawing.Size(109, 23);
 			this.textGuarantor.TabIndex = 0;
 			this.textGuarantor.TabStop = false;
 			// 
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(1069, 869);
+			this.butSave.Location = new System.Drawing.Point(1004, 869);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 7;
@@ -291,7 +291,7 @@ namespace OpenPmsDental {
 			// label10
 			// 
 			this.label10.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.label10.Location = new System.Drawing.Point(461, 537);
+			this.label10.Location = new System.Drawing.Point(396, 537);
 			this.label10.Name = "label10";
 			this.label10.Size = new System.Drawing.Size(92, 17);
 			this.label10.TabIndex = 0;
@@ -800,7 +800,7 @@ namespace OpenPmsDental {
 			// 
 			this.comboCategory.Location = new System.Drawing.Point(158, 8);
 			this.comboCategory.Name = "comboCategory";
-			this.comboCategory.Size = new System.Drawing.Size(176, 23);
+			this.comboCategory.Size = new System.Drawing.Size(109, 23);
 			this.comboCategory.TabIndex = 187;
 			// 
 			// label2
@@ -837,7 +837,7 @@ namespace OpenPmsDental {
 			this.tabControl1.Controls.Add(this.tabSchedule);
 			this.tabControl1.Controls.Add(this.tabProduction);
 			this.tabControl1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-			this.tabControl1.Location = new System.Drawing.Point(461, 8);
+			this.tabControl1.Location = new System.Drawing.Point(396, 8);
 			this.tabControl1.Name = "tabControl1";
 			this.tabControl1.Size = new System.Drawing.Size(683, 521);
 			this.tabControl1.TabIndex = 192;
@@ -1111,7 +1111,7 @@ namespace OpenPmsDental {
 			this.textNote.BackColor = System.Drawing.SystemColors.Window;
 			this.textNote.DetectLinksEnabled = false;
 			this.textNote.DetectUrls = false;
-			this.textNote.Location = new System.Drawing.Point(461, 556);
+			this.textNote.Location = new System.Drawing.Point(396, 556);
 			this.textNote.Name = "textNote";
 			this.textNote.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.PayPlan;
 			this.textNote.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
@@ -1124,7 +1124,7 @@ namespace OpenPmsDental {
 			// FormPayPlanDynamic
 			// 
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
-			this.ClientSize = new System.Drawing.Size(1152, 901);
+			this.ClientSize = new System.Drawing.Size(1087, 901);
 			this.Controls.Add(this.warningIntegrity1);
 			this.Controls.Add(this.labelSheetDef);
 			this.Controls.Add(this.comboSheetDef);

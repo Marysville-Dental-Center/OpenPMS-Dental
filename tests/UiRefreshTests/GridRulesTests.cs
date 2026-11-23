@@ -206,6 +206,100 @@ namespace UiRefreshTests {
 			Assert.AreEqual(0,listProblems.Count,"Controls outside FormCarrierEdit's client area outside Canada: "+string.Join("; ",listProblems));
 		}
 
+		///<summary>UI-12 slice 1 fix round 9: the clinic picker draws its label ("Clinic", "Clinics") as a right-aligned WinForms Label draws its
+		///text, so in a window where it stands in a column of labels its text ends on the labels' ink edge. Drawn as the gallery draws the window
+		///(DesignSheetWindows.Capture), the picker's rightmost ink pixel left of its box is within 1 px of the nearest one of the right-aligned
+		///labels whose bounds end where its label area does (6 px before its box). Before this round its paint left out TextBoxControl, so
+		///TextRenderer added its side padding and the text ended 3-4 px short of the column (FormPayment 92 against 95-96).</summary>
+		[TestMethod]
+		public void ClinicPicker_LabelInk_OnTheLabelColumn() {
+			string[] arrayWindows=new string[] { "OpenPmsDental.FormPayment","OpenPmsDental.FormAdjust","OpenPmsDental.FormPaySplitEdit","OpenPmsDental.FormRxEdit" };
+			List<string> listProblems=new List<string>();
+			List<string> listMeasured=new List<string>();
+			StaRunner.Run(() => {
+				NoDatabaseGuard.Install();
+				List<ScanType> listScanTypes=WindowBuilder.GetScanTypes();
+				foreach(string window in arrayWindows) {
+					ScanType scanType=listScanTypes.First(x => x.WindowKey==window);
+					FitGallery.SetGalleryFont("program");
+					try {
+						using(BuiltWindow builtWindow=WindowBuilder.Build(scanType)) {
+							Control root=builtWindow.Root;
+							if(root is FormODBase formODBase && formODBase.PanelClient!=null) {
+								root=formODBase.PanelClient;
+							}
+							FitGallery.SettleAfterHandles(builtWindow);
+							FitGallery.HideDatePickerCalendars(root);
+							List<OpenPmsDental.UI.ComboBoxClinicPicker> listPickers=Walk(root).OfType<OpenPmsDental.UI.ComboBoxClinicPicker>()
+								.Where(x => x.ShowLabel && TextFitBoundsRecord.IsDesignedVisible(x)).ToList();
+							using(Bitmap bitmap=DesignSheetWindows.Capture(root,Rectangle.Empty)) {
+								int countCompared=0;
+								foreach(OpenPmsDental.UI.ComboBoxClinicPicker picker in listPickers) {
+									int xLabelEnd=picker.Left+picker.WidthLabelArea-(int)Math.Round(6*picker.DeviceDpi/96f);
+									List<Label> listLabels=picker.Parent.Controls.OfType<Label>()
+										.Where(x => TextFitBoundsRecord.IsDesignedVisible(x) && x.TextAlign.ToString().EndsWith("Right") && x.RightToLeft!=RightToLeft.Yes
+											&& !string.IsNullOrWhiteSpace(x.Text) && Math.Abs(x.Right-xLabelEnd)<=1)
+										.ToList();
+									if(listLabels.Count==0) {
+										continue;
+									}
+									Point pointPicker=GetOffset(picker,root);
+									int inkPicker=GetInkRight(bitmap,new Rectangle(pointPicker.X,pointPicker.Y,picker.WidthLabelArea,picker.Height));
+									List<int> listInkLabels=listLabels.Select(x => {
+										Point point=GetOffset(x,root);
+										return GetInkRight(bitmap,new Rectangle(point.X,point.Y,x.Width,x.Height));
+									}).Where(x => x>=0).ToList();
+									if(inkPicker<0 || listInkLabels.Count==0) {
+										listProblems.Add(window+" "+picker.Name+": no ink found");
+										continue;
+									}
+									countCompared++;
+									int diffNearest=listInkLabels.Min(x => Math.Abs(x-inkPicker));
+									listMeasured.Add(window+" "+picker.Name+" ink "+inkPicker+", labels "+string.Join(",",listInkLabels));
+									if(diffNearest>1) {
+										listProblems.Add(window+" "+picker.Name+": its label's ink ends at "+inkPicker+", the column's labels at "+string.Join(",",listInkLabels));
+									}
+								}
+								if(countCompared==0) {
+									listProblems.Add(window+": no clinic picker in a column of right-aligned labels");
+								}
+							}
+						}
+					}
+					finally {
+						UiTheme.SetFontForTest(null);
+						DefaultFontOverride.Set(TextFitFontOption.Today,1f);
+					}
+				}
+			});
+			Assert.AreEqual(0,listProblems.Count,"Clinic pickers whose label is off the label column: "+string.Join("; ",listProblems)
+				+Environment.NewLine+"Measured: "+string.Join("; ",listMeasured));
+		}
+
+		///<summary>The control's top left in the root's coordinates (the sum of the locations up the parents; group boxes, panels and tab pages
+		///have their client area at their bounds' origin).</summary>
+		private static Point GetOffset(Control control,Control root) {
+			Point point=Point.Empty;
+			for(Control controlAt=control;controlAt!=null && controlAt!=root;controlAt=controlAt.Parent) {
+				point.Offset(controlAt.Left,controlAt.Top);
+			}
+			return point;
+		}
+
+		///<summary>The rightmost column of the rectangle with a dark (text) pixel, or -1.</summary>
+		private static int GetInkRight(Bitmap bitmap,Rectangle rectangle) {
+			rectangle.Intersect(new Rectangle(0,0,bitmap.Width,bitmap.Height));
+			for(int x=rectangle.Right-1;x>=rectangle.Left;x--) {
+				for(int y=rectangle.Top;y<rectangle.Bottom;y++) {
+					Color color=bitmap.GetPixel(x,y);
+					if(0.299*color.R+0.587*color.G+0.114*color.B<110) {
+						return x;
+					}
+				}
+			}
+			return -1;
+		}
+
 		[TestMethod]
 		public void GridWindows_DataFilesAgree() {
 			List<GridWindow> listWindows=ReadGridWindows();

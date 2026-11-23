@@ -147,7 +147,7 @@ namespace OpenPmsDental {
 			// textDue
 			// 
 			this.textDue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.textDue.Location = new System.Drawing.Point(834, 519);
+			this.textDue.Location = new System.Drawing.Point(784, 519);
 			this.textDue.Name = "textDue";
 			this.textDue.ReadOnly = true;
 			this.textDue.Size = new System.Drawing.Size(60, 23);
@@ -157,7 +157,7 @@ namespace OpenPmsDental {
 			// textBalance
 			// 
 			this.textBalance.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.textBalance.Location = new System.Drawing.Point(1025, 519);
+			this.textBalance.Location = new System.Drawing.Point(975, 519);
 			this.textBalance.MaxVal = 100000000D;
 			this.textBalance.MinVal = -100000000D;
 			this.textBalance.Name = "textBalance";
@@ -169,7 +169,7 @@ namespace OpenPmsDental {
 			// textInterest
 			// 
 			this.textInterest.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.textInterest.Location = new System.Drawing.Point(782, 519);
+			this.textInterest.Location = new System.Drawing.Point(732, 519);
 			this.textInterest.Name = "textInterest";
 			this.textInterest.ReadOnly = true;
 			this.textInterest.Size = new System.Drawing.Size(52, 23);
@@ -179,7 +179,7 @@ namespace OpenPmsDental {
 			// textPayment
 			// 
 			this.textPayment.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.textPayment.Location = new System.Drawing.Point(894, 519);
+			this.textPayment.Location = new System.Drawing.Point(844, 519);
 			this.textPayment.MaxVal = 100000000D;
 			this.textPayment.MinVal = -100000000D;
 			this.textPayment.Name = "textPayment";
@@ -191,7 +191,7 @@ namespace OpenPmsDental {
 			// textPrincipal
 			// 
 			this.textPrincipal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.textPrincipal.Location = new System.Drawing.Point(722, 519);
+			this.textPrincipal.Location = new System.Drawing.Point(672, 519);
 			this.textPrincipal.MaxVal = 100000000D;
 			this.textPrincipal.MinVal = -100000000D;
 			this.textPrincipal.Name = "textPrincipal";
@@ -204,7 +204,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelTotals.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelTotals.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.labelTotals.Location = new System.Drawing.Point(624, 519);
+			this.labelTotals.Location = new System.Drawing.Point(574, 519);
 			this.labelTotals.Name = "labelTotals";
 			this.labelTotals.Size = new System.Drawing.Size(92, 23);
 			this.labelTotals.TabIndex = 142;
@@ -331,7 +331,7 @@ namespace OpenPmsDental {
 			// 
 			// butChangePlan
 			// 
-			this.butChangePlan.Location = new System.Drawing.Point(348, 182);
+			this.butChangePlan.Location = new System.Drawing.Point(344, 182);
 			this.butChangePlan.Name = "butChangePlan";
 			this.butChangePlan.Size = new System.Drawing.Size(75, 23);
 			this.butChangePlan.TabIndex = 15;
@@ -344,7 +344,7 @@ namespace OpenPmsDental {
 			this.textInsPlan.Location = new System.Drawing.Point(166, 182);
 			this.textInsPlan.Name = "textInsPlan";
 			this.textInsPlan.ReadOnly = true;
-			this.textInsPlan.Size = new System.Drawing.Size(176, 23);
+			this.textInsPlan.Size = new System.Drawing.Size(172, 23);
 			this.textInsPlan.TabIndex = 0;
 			this.textInsPlan.TabStop = false;
 			// 
@@ -391,7 +391,7 @@ namespace OpenPmsDental {
 			// 
 			// butGoToPat
 			// 
-			this.butGoToPat.Location = new System.Drawing.Point(348, 35);
+			this.butGoToPat.Location = new System.Drawing.Point(294, 35);
 			this.butGoToPat.Name = "butGoToPat";
 			this.butGoToPat.Size = new System.Drawing.Size(44, 23);
 			this.butGoToPat.TabIndex = 10;
@@ -404,13 +404,13 @@ namespace OpenPmsDental {
 			this.textPatient.Location = new System.Drawing.Point(166, 35);
 			this.textPatient.Name = "textPatient";
 			this.textPatient.ReadOnly = true;
-			this.textPatient.Size = new System.Drawing.Size(176, 23);
+			this.textPatient.Size = new System.Drawing.Size(122, 23);
 			this.textPatient.TabIndex = 0;
 			this.textPatient.TabStop = false;
 			// 
 			// butGoToGuar
 			// 
-			this.butGoToGuar.Location = new System.Drawing.Point(348, 62);
+			this.butGoToGuar.Location = new System.Drawing.Point(294, 62);
 			this.butGoToGuar.Name = "butGoToGuar";
 			this.butGoToGuar.Size = new System.Drawing.Size(44, 23);
 			this.butGoToGuar.TabIndex = 11;
@@ -427,7 +427,7 @@ namespace OpenPmsDental {
 			// 
 			// butChangeGuar
 			// 
-			this.butChangeGuar.Location = new System.Drawing.Point(398, 62);
+			this.butChangeGuar.Location = new System.Drawing.Point(344, 62);
 			this.butChangeGuar.Name = "butChangeGuar";
 			this.butChangeGuar.Size = new System.Drawing.Size(75, 23);
 			this.butChangeGuar.TabIndex = 12;
@@ -440,14 +440,14 @@ namespace OpenPmsDental {
 			this.textGuarantor.Location = new System.Drawing.Point(166, 62);
 			this.textGuarantor.Name = "textGuarantor";
 			this.textGuarantor.ReadOnly = true;
-			this.textGuarantor.Size = new System.Drawing.Size(176, 23);
+			this.textGuarantor.Size = new System.Drawing.Size(122, 23);
 			this.textGuarantor.TabIndex = 0;
 			this.textGuarantor.TabStop = false;
 			// 
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(1042, 844);
+			this.butSave.Location = new System.Drawing.Point(992, 844);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 7;
@@ -457,7 +457,7 @@ namespace OpenPmsDental {
 			// label10
 			// 
 			this.label10.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label10.Location = new System.Drawing.Point(477, 688);
+			this.label10.Location = new System.Drawing.Point(427, 688);
 			this.label10.Name = "label10";
 			this.label10.Size = new System.Drawing.Size(640, 17);
 			this.label10.TabIndex = 0;
@@ -811,7 +811,7 @@ namespace OpenPmsDental {
 			// 
 			this.checkExcludePast.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.checkExcludePast.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkExcludePast.Location = new System.Drawing.Point(477, 520);
+			this.checkExcludePast.Location = new System.Drawing.Point(427, 520);
 			this.checkExcludePast.Name = "checkExcludePast";
 			this.checkExcludePast.Size = new System.Drawing.Size(132, 20);
 			this.checkExcludePast.TabIndex = 186;
@@ -822,7 +822,7 @@ namespace OpenPmsDental {
 			// 
 			this.comboCategory.Location = new System.Drawing.Point(166, 8);
 			this.comboCategory.Name = "comboCategory";
-			this.comboCategory.Size = new System.Drawing.Size(176, 23);
+			this.comboCategory.Size = new System.Drawing.Size(122, 23);
 			this.comboCategory.TabIndex = 187;
 			// 
 			// label2
@@ -836,7 +836,7 @@ namespace OpenPmsDental {
 			//
 			// comboSheetDef
 			//
-			this.comboSheetDef.Location = new System.Drawing.Point(312, 209);
+			this.comboSheetDef.Location = new System.Drawing.Point(311, 209);
 			this.comboSheetDef.Name = "comboSheetDef";
 			this.comboSheetDef.Size = new System.Drawing.Size(108, 23);
 			this.comboSheetDef.TabIndex = 201;
@@ -844,7 +844,7 @@ namespace OpenPmsDental {
 			//
 			// labelSheetDef
 			//
-			this.labelSheetDef.Location = new System.Drawing.Point(266, 209);
+			this.labelSheetDef.Location = new System.Drawing.Point(265, 209);
 			this.labelSheetDef.Name = "labelSheetDef";
 			this.labelSheetDef.Size = new System.Drawing.Size(40, 23);
 			this.labelSheetDef.TabIndex = 202;
@@ -866,7 +866,7 @@ namespace OpenPmsDental {
 			// textAdjustment
 			// 
 			this.textAdjustment.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.textAdjustment.Location = new System.Drawing.Point(954, 519);
+			this.textAdjustment.Location = new System.Drawing.Point(904, 519);
 			this.textAdjustment.MaxVal = 100000000D;
 			this.textAdjustment.MinVal = -100000000D;
 			this.textAdjustment.Name = "textAdjustment";
@@ -908,7 +908,7 @@ namespace OpenPmsDental {
 			this.gridCharges.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridCharges.Location = new System.Drawing.Point(477, 20);
+			this.gridCharges.Location = new System.Drawing.Point(427, 20);
 			this.gridCharges.Name = "gridCharges";
 			this.gridCharges.Size = new System.Drawing.Size(640, 495);
 			this.gridCharges.TabIndex = 41;
@@ -923,7 +923,7 @@ namespace OpenPmsDental {
 			this.textNote.BackColor = System.Drawing.SystemColors.Window;
 			this.textNote.DetectLinksEnabled = false;
 			this.textNote.DetectUrls = false;
-			this.textNote.Location = new System.Drawing.Point(477, 709);
+			this.textNote.Location = new System.Drawing.Point(427, 709);
 			this.textNote.Name = "textNote";
 			this.textNote.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.PayPlan;
 			this.textNote.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
@@ -935,7 +935,7 @@ namespace OpenPmsDental {
 			// 
 			// FormPayPlan
 			// 
-			this.ClientSize = new System.Drawing.Size(1125, 876);
+			this.ClientSize = new System.Drawing.Size(1075, 876);
 			this.Controls.Add(this.labelSignature);
 			this.Controls.Add(this.signatureBoxWrapper);
 			this.Controls.Add(this.warningIntegrity1);

@@ -225,15 +225,15 @@ namespace OpenPmsDental{
 			// 
 			// textPatBirthdate
 			// 
-			this.textPatBirthdate.Location = new System.Drawing.Point(609, 506);
+			this.textPatBirthdate.Location = new System.Drawing.Point(846, 482);
 			this.textPatBirthdate.Name = "textPatBirthdate";
 			this.textPatBirthdate.ReadOnly = true;
-			this.textPatBirthdate.Size = new System.Drawing.Size(113, 23);
+			this.textPatBirthdate.Size = new System.Drawing.Size(152, 23);
 			this.textPatBirthdate.TabIndex = 229;
 			// 
 			// labelPatBirthdate
 			// 
-			this.labelPatBirthdate.Location = new System.Drawing.Point(523, 506);
+			this.labelPatBirthdate.Location = new System.Drawing.Point(760, 482);
 			this.labelPatBirthdate.Name = "labelPatBirthdate";
 			this.labelPatBirthdate.Size = new System.Drawing.Size(80, 23);
 			this.labelPatBirthdate.TabIndex = 228;
@@ -298,7 +298,7 @@ namespace OpenPmsDental{
 			this.groupSubscriber.Controls.Add(this.labelName);
 			this.groupSubscriber.Location = new System.Drawing.Point(498, 367);
 			this.groupSubscriber.Name = "groupSubscriber";
-			this.groupSubscriber.Size = new System.Drawing.Size(232, 135);
+			this.groupSubscriber.Size = new System.Drawing.Size(232, 162);
 			this.groupSubscriber.TabIndex = 91;
 			this.groupSubscriber.Text = "Subscriber";
 			//
@@ -782,7 +782,7 @@ namespace OpenPmsDental{
 			this.listBoxVerifyRegions.Location = new System.Drawing.Point(372, 50);
 			this.listBoxVerifyRegions.Name = "listBoxVerifyRegions";
 			this.listBoxVerifyRegions.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
-			this.listBoxVerifyRegions.Size = new System.Drawing.Size(147, 82);
+			this.listBoxVerifyRegions.Size = new System.Drawing.Size(153, 82);
 			this.listBoxVerifyRegions.TabIndex = 234;
 			this.listBoxVerifyRegions.MouseUp += new System.Windows.Forms.MouseEventHandler(this.listBoxVerifyRegions_MouseUp);
 			// 
@@ -797,7 +797,7 @@ namespace OpenPmsDental{
 			// 
 			// butRefresh
 			// 
-			this.butRefresh.Location = new System.Drawing.Point(882, 77);
+			this.butRefresh.Location = new System.Drawing.Point(927, 77);
 			this.butRefresh.Name = "butRefresh";
 			this.butRefresh.Size = new System.Drawing.Size(75, 24);
 			this.butRefresh.TabIndex = 232;

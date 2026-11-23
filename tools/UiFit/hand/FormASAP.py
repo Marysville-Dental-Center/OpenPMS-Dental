@@ -22,30 +22,49 @@ def layout(h):
     dx = xw - (sc.x + tc.x + pg.x + h.n("textDateStart").x)
     for name in ("textDateStart", "textDateEnd", "label1", "label2", "checkGroupFamilies"):
         h.set(name, h.n(name).x + dx, None)
-    # Fix round 8: the filter row as label + 6 px + box, one gap between filters (16-17 px from a box's end to the next label's text), the
-    # three boxes one width: from the Provider box on the field column to the Code Range label, which keeps its place (its filter ends on the
-    # row's right edge as on main). The clinic picker draws its own label in its measured label area. Labels are right-aligned: a label's text
-    # starts its width less the text's measured width into it.
+    # Fix round 9: the row placed from the text as the controls draw it, so its gaps are equal in ink (they were 20 to 23 px, label to box 8
+    # to 11), and the window on the 8 px content edges. A right-aligned label (and the clinic picker's label, drawn as one since this round)
+    # draws its text from its right side less its measured width plus 6 px to 3 px before its right side: label to box is 9 px of ink to box
+    # on every filter. The three boxes one width B, one gap G (16 px, the remainder of the room as 1 px more on a gap) from a box's end to the
+    # next label's text; the Provider box on the window's field column, the Code Range filter ending on the content edge (Refresh and Print
+    # on it under it), the split container from the left content edge to 8 px before them.
     H = h.H
-    lc, cr = h.n("labelCodeRange"), h.n("codeRangeFilter")
+    WW = h.tree.nw
+    R = WW - 8
+    rf, pr = h.n("butRefresh"), h.n("butPrint")
+    for name in ("butRefresh", "butPrint"):
+        h.set(name, R - h.n(name).nw, None)
+    h.set("splitContainer", 8, None, R - rf.nw - 8 - 8, None)
+    lc, cr, ls = h.n("labelCodeRange"), h.n("codeRangeFilter"), h.n("labelSite")
+    h.set("codeRangeFilter", R - cr.nw, y)
+    xcr = R - cr.nw
     wlc = h.lw("labelCodeRange")
-    xlc = cr.nx - 6 - wlc
-    h.set("labelCodeRange", xlc, y, wlc, H)
+    h.set("labelCodeRange", xcr - 6 - wlc, y, wlc, H)
     h.text_align("labelCodeRange", "MiddleRight")
-    ink_lc = xlc + wlc - lc.text_w
     cwc = h.clinic_w("comboClinic")
-    ls = h.lw("labelSite")
-    # the room the three boxes and the three gaps share
-    room = ink_lc - xw - cwc - (h.n("labelSite").text_w + 6)
-    B = (room - 3 * 16) // 3
-    gaps = room - 3 * B
-    g1, g2 = gaps // 3, gaps // 3
-    g3 = gaps - g1 - g2
+    tws, twc = ls.text_w, lc.text_w
+    # the field column again, from the split container's new x
+    xw = sc.nx + tc.x + h.n("tabPageAppts").x + h.n("comboAptStatus").x
+    # ink of the Code Range label starts at xcr - 6 - twc + 6; the boxes and gaps fill the room from the Provider box to it
+    room = (xcr - twc) - xw - (cwc - 6) - (tws - 6) - 6
+    G = 16
+    B = (room - 3 * G) // 3
+    rem = room - 3 * B - 3 * G
+    gaps = [G + (1 if rem > 0 else 0), G + (1 if rem > 1 else 0), G]
     h.set("comboProv", xw, y, B, H)
-    xc = xw + B + g1
+    l4 = h.lw("label4")
+    h.set("label4", xw - 6 - l4, y, l4, H)
+    h.text_align("label4", "MiddleRight")
+    # the picker: its label's text starts 6 px into its bounds (its label area is its measured text + 6 px)
+    xc = xw + B + gaps[0] - 6
     h.set("comboClinic", xc, y, cwc + B, H)
-    xs_ink = xc + cwc + B + g2
-    xsl = xs_ink - (ls - h.n("labelSite").text_w)
-    h.set("labelSite", xsl, y, ls, H)
+    # Site: its text starts gaps[1] after the picker's box
+    rs = xc + cwc + B + gaps[1] + tws - 6
+    lsw = h.lw("labelSite")
+    h.set("labelSite", rs - lsw, y, lsw, H)
     h.text_align("labelSite", "MiddleRight")
-    h.set("comboSite", xsl + ls + 6, y, B, H)
+    h.set("comboSite", rs + 6, y, B, H)
+    # dx for the Recalls page's date fields: they follow the field column
+    dx2 = xw - (sc.nx + tc.x + pg.x + h.n("textDateStart").nx)
+    for name in ("textDateStart", "textDateEnd", "label1", "label2", "checkGroupFamilies"):
+        h.set(name, h.n(name).nx + dx2, None)
