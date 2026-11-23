@@ -165,14 +165,47 @@ def check_disjoint(root, batches):
     return problems
 
 
+def add_batch(root, plan_path, batch, slice_name):
+    """Adds the windows of one batch to grid-windows/<slice>.tsv (mode tool, note 'UI-12-<slice> batch <n>'); windows already listed in any
+    slice file are left out. Returns the windows of the batch, comma separated (the list the dump and the planner take)."""
+    if not slice_name:
+        raise SystemExit("--add needs --slice")
+    rows = [r for r in sd.read_dicts(plan_path) if r["batch"] == str(batch)]
+    if not rows:
+        raise SystemExit("no batch %d in %s" % (batch, plan_path))
+    listed = sd.window_slices(root)
+    folder = os.path.join(sd.data_dir(root), "grid-windows")
+    path = os.path.join(folder, slice_name + ".tsv")
+    if os.path.exists(path):
+        comments, header, data, nl = sd.read_file(path)
+    else:
+        first = sd.slice_files(folder)
+        comments, header, _, nl = sd.read_file(first[0][1])
+        data = []
+    windows = []
+    for r in rows:
+        w = r["window"]
+        windows.append(w)
+        if w not in listed:
+            data.append("\t".join([w, slice_name, "tool", "UI-12-%s batch %d" % (slice_name, batch)]))
+            listed[w] = slice_name
+    sd.write_file(path, comments, header, data, nl)
+    return ",".join(windows)
+
+
 def main():
     a = argparse.ArgumentParser()
     a.add_argument("--out", default="docs/port-notes/UI-12-batches.tsv")
     a.add_argument("--small", type=int, default=20, help="a group of this many designer controls or fewer is small")
     a.add_argument("--small-batch", type=int, default=120)
     a.add_argument("--large-batch", type=int, default=50)
+    a.add_argument("--add", type=int, help="add this batch's windows (of the --out file) to Data/grid-windows/<--slice>.tsv, mode tool")
+    a.add_argument("--slice", help="the slice --add adds to")
     args = a.parse_args()
     root = fit_tools.repo_root()
+    if args.add:
+        print(add_batch(root, os.path.join(root, args.out), args.add, args.slice))
+        return
     batches, rank, controls, group_of = plan(root, args.small, args.small_batch, args.large_batch)
     problems = check_disjoint(root, batches)
     if problems:
