@@ -51,25 +51,25 @@ namespace OpenPmsDental {
 			// checkInactive
 			// 
 			this.checkInactive.AutoSize = false;
-			this.checkInactive.Location = new System.Drawing.Point(313, 58);
+			this.checkInactive.Location = new System.Drawing.Point(320, 58);
 			this.checkInactive.Name = "checkInactive";
-			this.checkInactive.Size = new System.Drawing.Size(158, 18);
+			this.checkInactive.Size = new System.Drawing.Size(161, 20);
 			this.checkInactive.TabIndex = 2;
 			this.checkInactive.Text = "Include Inactive Accounts";
 			this.checkInactive.Click += new System.EventHandler(this.checkInactive_Click);
 			// 
 			// labelDate
 			// 
-			this.labelDate.Location = new System.Drawing.Point(3, 57);
+			this.labelDate.Location = new System.Drawing.Point(8, 57);
 			this.labelDate.Name = "labelDate";
-			this.labelDate.Size = new System.Drawing.Size(72, 18);
+			this.labelDate.Size = new System.Drawing.Size(68, 23);
 			this.labelDate.TabIndex = 7;
 			this.labelDate.Text = "As of Date";
-			this.labelDate.TextAlign = System.Drawing.ContentAlignment.BottomRight;
+			this.labelDate.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// butToday
 			// 
-			this.butToday.Location = new System.Drawing.Point(238, 56);
+			this.butToday.Location = new System.Drawing.Point(244, 57);
 			this.butToday.Name = "butToday";
 			this.butToday.Size = new System.Drawing.Size(70, 23);
 			this.butToday.TabIndex = 10;
@@ -79,7 +79,7 @@ namespace OpenPmsDental {
 			// 
 			// butRefresh
 			// 
-			this.butRefresh.Location = new System.Drawing.Point(163, 56);
+			this.butRefresh.Location = new System.Drawing.Point(168, 57);
 			this.butRefresh.Name = "butRefresh";
 			this.butRefresh.Size = new System.Drawing.Size(70, 23);
 			this.butRefresh.TabIndex = 9;
@@ -89,9 +89,9 @@ namespace OpenPmsDental {
 			// 
 			// textDate
 			// 
-			this.textDate.Location = new System.Drawing.Point(76, 58);
+			this.textDate.Location = new System.Drawing.Point(82, 57);
 			this.textDate.Name = "textDate";
-			this.textDate.Size = new System.Drawing.Size(81, 20);
+			this.textDate.Size = new System.Drawing.Size(80, 23);
 			this.textDate.TabIndex = 8;
 			// 
 			// gridMain
@@ -99,7 +99,7 @@ namespace OpenPmsDental {
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(0, 81);
+			this.gridMain.Location = new System.Drawing.Point(8, 84);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.Size = new System.Drawing.Size(492, 450);
 			this.gridMain.TabIndex = 1;
@@ -126,7 +126,7 @@ namespace OpenPmsDental {
 			// 
 			// FormAccounting
 			// 
-			this.ClientSize = new System.Drawing.Size(492, 531);
+			this.ClientSize = new System.Drawing.Size(508, 542);
 			this.Controls.Add(this.butToday);
 			this.Controls.Add(this.butRefresh);
 			this.Controls.Add(this.textDate);

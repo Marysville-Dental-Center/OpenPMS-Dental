@@ -41,7 +41,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(353, 217);
+			this.butSave.Location = new System.Drawing.Point(357, 224);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 4;
@@ -50,36 +50,36 @@ namespace OpenPmsDental{
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(45, 153);
+			this.label1.Location = new System.Drawing.Point(108, 141);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(100, 18);
+			this.label1.Size = new System.Drawing.Size(36, 23);
 			this.label1.TabIndex = 6;
 			this.label1.Text = "Year";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(45, 178);
+			this.label3.Location = new System.Drawing.Point(88, 168);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(100, 18);
+			this.label3.Size = new System.Drawing.Size(56, 23);
 			this.label3.TabIndex = 8;
 			this.label3.Text = "EHR Key";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textKey
 			// 
-			this.textKey.Location = new System.Drawing.Point(150, 178);
+			this.textKey.Location = new System.Drawing.Point(150, 168);
 			this.textKey.Name = "textKey";
-			this.textKey.Size = new System.Drawing.Size(163, 20);
+			this.textKey.Size = new System.Drawing.Size(153, 23);
 			this.textKey.TabIndex = 2;
 			// 
 			// textYear
 			// 
-			this.textYear.Location = new System.Drawing.Point(150, 152);
+			this.textYear.Location = new System.Drawing.Point(150, 141);
 			this.textYear.MaxVal = 99;
 			this.textYear.MinVal = 0;
 			this.textYear.Name = "textYear";
-			this.textYear.Size = new System.Drawing.Size(58, 20);
+			this.textYear.Size = new System.Drawing.Size(56, 23);
 			this.textYear.TabIndex = 0;
 			// 
 			// butDelete
@@ -87,7 +87,7 @@ namespace OpenPmsDental{
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(12, 217);
+			this.butDelete.Location = new System.Drawing.Point(8, 224);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(80, 24);
 			this.butDelete.TabIndex = 3;
@@ -96,43 +96,43 @@ namespace OpenPmsDental{
 			// 
 			// textLName
 			// 
-			this.textLName.Location = new System.Drawing.Point(150, 104);
+			this.textLName.Location = new System.Drawing.Point(150, 87);
 			this.textLName.MaxLength = 100;
 			this.textLName.Name = "textLName";
-			this.textLName.Size = new System.Drawing.Size(161, 20);
+			this.textLName.Size = new System.Drawing.Size(160, 23);
 			this.textLName.TabIndex = 113;
 			// 
 			// textFName
 			// 
-			this.textFName.Location = new System.Drawing.Point(150, 127);
+			this.textFName.Location = new System.Drawing.Point(150, 114);
 			this.textFName.MaxLength = 100;
 			this.textFName.Name = "textFName";
-			this.textFName.Size = new System.Drawing.Size(161, 20);
+			this.textFName.Size = new System.Drawing.Size(160, 23);
 			this.textFName.TabIndex = 114;
 			// 
 			// label10
 			// 
-			this.label10.Location = new System.Drawing.Point(16, 108);
+			this.label10.Location = new System.Drawing.Point(76, 87);
 			this.label10.Name = "label10";
-			this.label10.Size = new System.Drawing.Size(132, 18);
+			this.label10.Size = new System.Drawing.Size(68, 23);
 			this.label10.TabIndex = 116;
 			this.label10.Text = "Last Name";
-			this.label10.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label8
 			// 
-			this.label8.Location = new System.Drawing.Point(22, 131);
+			this.label8.Location = new System.Drawing.Point(76, 114);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(127, 18);
+			this.label8.Size = new System.Drawing.Size(68, 23);
 			this.label8.TabIndex = 115;
 			this.label8.Text = "First Name";
-			this.label8.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(19, 9);
+			this.label2.Location = new System.Drawing.Point(19, 8);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(410, 89);
+			this.label2.Size = new System.Drawing.Size(410, 77);
 			this.label2.TabIndex = 112;
 			this.label2.Text = "Add a row for each provider who reports EHR. Enter the last name and first name exactly as they are in the provider\'s rec" +
     "ord, and the year as two digits. The key is optional and is not checked: this program has no license keys. A row turns CPOE on for that p" +
@@ -140,7 +140,7 @@ namespace OpenPmsDental{
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(211, 153);
+			this.label4.Location = new System.Drawing.Point(212, 143);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(100, 18);
 			this.label4.TabIndex = 117;
@@ -149,7 +149,7 @@ namespace OpenPmsDental{
 			//
 			// labelKeyNote
 			//
-			this.labelKeyNote.Location = new System.Drawing.Point(316, 178);
+			this.labelKeyNote.Location = new System.Drawing.Point(309, 170);
 			this.labelKeyNote.Name = "labelKeyNote";
 			this.labelKeyNote.Size = new System.Drawing.Size(123, 18);
 			this.labelKeyNote.TabIndex = 118;

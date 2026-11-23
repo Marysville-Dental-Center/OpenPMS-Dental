@@ -81,18 +81,18 @@ namespace OpenPmsDental{
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(6, 15);
+			this.label2.Location = new System.Drawing.Point(11, 8);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(75, 18);
+			this.label2.Size = new System.Drawing.Size(68, 23);
 			this.label2.TabIndex = 141;
 			this.label2.Text = "From Date";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(184, 16);
+			this.label3.Location = new System.Drawing.Point(196, 8);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(64, 17);
+			this.label3.Size = new System.Drawing.Size(52, 23);
 			this.label3.TabIndex = 142;
 			this.label3.Text = "To Date";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -103,9 +103,9 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridMain.ContextMenuStrip = this.contextMenu;
-			this.gridMain.Location = new System.Drawing.Point(12, 40);
+			this.gridMain.Location = new System.Drawing.Point(12, 35);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(789, 488);
+			this.gridMain.Size = new System.Drawing.Size(789, 510);
 			this.gridMain.TabIndex = 140;
 			this.gridMain.Title = "Patient Portal Transactions";
 			this.gridMain.TranslationName = "TableXWebTrans";
@@ -115,44 +115,44 @@ namespace OpenPmsDental{
 			// butRefresh
 			// 
 			this.butRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butRefresh.Location = new System.Drawing.Point(719, 10);
+			this.butRefresh.Location = new System.Drawing.Point(719, 8);
 			this.butRefresh.Name = "butRefresh";
-			this.butRefresh.Size = new System.Drawing.Size(82, 24);
+			this.butRefresh.Size = new System.Drawing.Size(82, 23);
 			this.butRefresh.TabIndex = 145;
 			this.butRefresh.Text = "Refresh";
 			this.butRefresh.Click += new System.EventHandler(this.butRefresh_Click);
 			// 
 			// textDateFrom
 			// 
-			this.textDateFrom.Location = new System.Drawing.Point(85, 12);
+			this.textDateFrom.Location = new System.Drawing.Point(85, 8);
 			this.textDateFrom.Name = "textDateFrom";
-			this.textDateFrom.Size = new System.Drawing.Size(90, 20);
+			this.textDateFrom.Size = new System.Drawing.Size(88, 23);
 			this.textDateFrom.TabIndex = 143;
 			// 
 			// textDateTo
 			// 
-			this.textDateTo.Location = new System.Drawing.Point(254, 12);
+			this.textDateTo.Location = new System.Drawing.Point(254, 8);
 			this.textDateTo.Name = "textDateTo";
-			this.textDateTo.Size = new System.Drawing.Size(90, 20);
+			this.textDateTo.Size = new System.Drawing.Size(88, 23);
 			this.textDateTo.TabIndex = 144;
 			// 
 			// comboClinic
 			// 
 			this.comboClinic.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.comboClinic.Location = new System.Drawing.Point(543, 11);
+			this.comboClinic.Location = new System.Drawing.Point(553, 8);
 			this.comboClinic.Name = "comboClinic";
-			this.comboClinic.Size = new System.Drawing.Size(159, 21);
+			this.comboClinic.Size = new System.Drawing.Size(160, 23);
 			this.comboClinic.TabIndex = 147;
 			// 
 			// labelClinic
 			// 
 			this.labelClinic.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelClinic.Location = new System.Drawing.Point(476, 14);
+			this.labelClinic.Location = new System.Drawing.Point(503, 8);
 			this.labelClinic.Name = "labelClinic";
-			this.labelClinic.Size = new System.Drawing.Size(65, 18);
+			this.labelClinic.Size = new System.Drawing.Size(44, 23);
 			this.labelClinic.TabIndex = 146;
 			this.labelClinic.Text = "Clinic";
-			this.labelClinic.TextAlign = System.Drawing.ContentAlignment.BottomRight;
+			this.labelClinic.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// FormXWebTransactions
 			// 

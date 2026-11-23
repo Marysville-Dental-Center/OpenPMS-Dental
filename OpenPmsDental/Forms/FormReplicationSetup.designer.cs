@@ -48,38 +48,38 @@ namespace OpenPmsDental{
 			// 
 			// checkRandomPrimaryKeys
 			// 
-			this.checkRandomPrimaryKeys.Location = new System.Drawing.Point(17, 15);
+			this.checkRandomPrimaryKeys.Location = new System.Drawing.Point(8, 8);
 			this.checkRandomPrimaryKeys.Name = "checkRandomPrimaryKeys";
-			this.checkRandomPrimaryKeys.Size = new System.Drawing.Size(527, 18);
+			this.checkRandomPrimaryKeys.Size = new System.Drawing.Size(358, 20);
 			this.checkRandomPrimaryKeys.TabIndex = 56;
 			this.checkRandomPrimaryKeys.Text = "Use Random Primary Keys (BE VERY CAREFUL.  IRREVERSIBLE)";
 			// 
 			// label1
 			// 
 			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label1.Location = new System.Drawing.Point(113, 475);
+			this.label1.Location = new System.Drawing.Point(104, 464);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(550, 42);
+			this.label1.Size = new System.Drawing.Size(440, 46);
 			this.label1.TabIndex = 61;
 			this.label1.Text = resources.GetString("label1.Text");
-			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.label1.TextAlign = System.Drawing.ContentAlignment.TopLeft;
 			// 
 			// label2
 			// 
 			this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label2.Location = new System.Drawing.Point(113, 517);
+			this.label2.Location = new System.Drawing.Point(104, 518);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(431, 35);
+			this.label2.Size = new System.Drawing.Size(440, 31);
 			this.label2.TabIndex = 63;
 			this.label2.Text = "Use the Test button to generate and display some sample key values for this compu" +
     "ter.  The displayed values should fall within the range set above.";
-			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.label2.TextAlign = System.Drawing.ContentAlignment.TopLeft;
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(103, 16);
+			this.label3.Location = new System.Drawing.Point(104, 23);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(431, 50);
+			this.label3.Size = new System.Drawing.Size(431, 62);
 			this.label3.TabIndex = 65;
 			this.label3.Text = resources.GetString("label3.Text");
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -93,26 +93,26 @@ namespace OpenPmsDental{
 			this.groupBox1.Controls.Add(this.label4);
 			this.groupBox1.Controls.Add(this.label3);
 			this.groupBox1.Controls.Add(this.butSynch);
-			this.groupBox1.Location = new System.Drawing.Point(10, 556);
+			this.groupBox1.Location = new System.Drawing.Point(8, 557);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(863, 66);
+			this.groupBox1.Size = new System.Drawing.Size(887, 93);
 			this.groupBox1.TabIndex = 66;
 			this.groupBox1.Text = "Force Sync";
 			// 
 			// textPassword
 			// 
 			this.textPassword.AutoSize = false;
-			this.textPassword.Location = new System.Drawing.Point(641, 40);
+			this.textPassword.Location = new System.Drawing.Point(653, 50);
 			this.textPassword.Name = "textPassword";
 			this.textPassword.PasswordChar = '*';
-			this.textPassword.Size = new System.Drawing.Size(125, 20);
+			this.textPassword.Size = new System.Drawing.Size(124, 23);
 			this.textPassword.TabIndex = 69;
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(530, 40);
+			this.label5.Location = new System.Drawing.Point(583, 50);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(111, 18);
+			this.label5.Size = new System.Drawing.Size(64, 23);
 			this.label5.TabIndex = 68;
 			this.label5.Text = "Password";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -120,16 +120,16 @@ namespace OpenPmsDental{
 			// textUsername
 			// 
 			this.textUsername.AutoSize = false;
-			this.textUsername.Location = new System.Drawing.Point(641, 18);
+			this.textUsername.Location = new System.Drawing.Point(653, 23);
 			this.textUsername.Name = "textUsername";
-			this.textUsername.Size = new System.Drawing.Size(125, 20);
+			this.textUsername.Size = new System.Drawing.Size(124, 23);
 			this.textUsername.TabIndex = 67;
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(530, 18);
+			this.label4.Location = new System.Drawing.Point(539, 23);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(111, 18);
+			this.label4.Size = new System.Drawing.Size(108, 23);
 			this.label4.TabIndex = 66;
 			this.label4.Text = "MySQL Username";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -137,7 +137,7 @@ namespace OpenPmsDental{
 			// butSynch
 			// 
 			this.butSynch.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butSynch.Location = new System.Drawing.Point(7, 26);
+			this.butSynch.Location = new System.Drawing.Point(8, 23);
 			this.butSynch.Name = "butSynch";
 			this.butSynch.Size = new System.Drawing.Size(90, 24);
 			this.butSynch.TabIndex = 64;
@@ -150,9 +150,9 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridMain.HScrollVisible = true;
-			this.gridMain.Location = new System.Drawing.Point(17, 42);
+			this.gridMain.Location = new System.Drawing.Point(8, 32);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(764, 417);
+			this.gridMain.Size = new System.Drawing.Size(764, 420);
 			this.gridMain.TabIndex = 57;
 			this.gridMain.Title = "Servers";
 			this.gridMain.TranslationName = "FormReplicationSetup";
@@ -165,9 +165,9 @@ namespace OpenPmsDental{
 			this.groupBoxReplicationFailure.Controls.Add(this.label6);
 			this.groupBoxReplicationFailure.Controls.Add(this.textReplicaitonFailureAtServer_id);
 			this.groupBoxReplicationFailure.ForeColor = System.Drawing.Color.Red;
-			this.groupBoxReplicationFailure.Location = new System.Drawing.Point(550, 502);
+			this.groupBoxReplicationFailure.Location = new System.Drawing.Point(550, 460);
 			this.groupBoxReplicationFailure.Name = "groupBoxReplicationFailure";
-			this.groupBoxReplicationFailure.Size = new System.Drawing.Size(323, 50);
+			this.groupBoxReplicationFailure.Size = new System.Drawing.Size(345, 54);
 			this.groupBoxReplicationFailure.TabIndex = 67;
 			this.groupBoxReplicationFailure.Text = "Replication Failure Detected";
 			this.groupBoxReplicationFailure.Visible = false;
@@ -176,9 +176,9 @@ namespace OpenPmsDental{
 			// 
 			this.butClearReplicationFailureAtServer_id.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butClearReplicationFailureAtServer_id.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.butClearReplicationFailureAtServer_id.Location = new System.Drawing.Point(248, 19);
+			this.butClearReplicationFailureAtServer_id.Location = new System.Drawing.Point(268, 23);
 			this.butClearReplicationFailureAtServer_id.Name = "butClearReplicationFailureAtServer_id";
-			this.butClearReplicationFailureAtServer_id.Size = new System.Drawing.Size(69, 24);
+			this.butClearReplicationFailureAtServer_id.Size = new System.Drawing.Size(69, 23);
 			this.butClearReplicationFailureAtServer_id.TabIndex = 2;
 			this.butClearReplicationFailureAtServer_id.Text = "Clear";
 			this.butClearReplicationFailureAtServer_id.Click += new System.EventHandler(this.butResetReplicationFailureAtServer_id_Click);
@@ -186,26 +186,26 @@ namespace OpenPmsDental{
 			// label6
 			// 
 			this.label6.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.label6.Location = new System.Drawing.Point(6, 22);
+			this.label6.Location = new System.Drawing.Point(8, 23);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(155, 18);
+			this.label6.Size = new System.Drawing.Size(172, 23);
 			this.label6.TabIndex = 66;
 			this.label6.Text = "Replication Failure at Server_id";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textReplicaitonFailureAtServer_id
 			// 
-			this.textReplicaitonFailureAtServer_id.Location = new System.Drawing.Point(167, 22);
+			this.textReplicaitonFailureAtServer_id.Location = new System.Drawing.Point(186, 23);
 			this.textReplicaitonFailureAtServer_id.Name = "textReplicaitonFailureAtServer_id";
 			this.textReplicaitonFailureAtServer_id.ReadOnly = true;
-			this.textReplicaitonFailureAtServer_id.Size = new System.Drawing.Size(75, 20);
+			this.textReplicaitonFailureAtServer_id.Size = new System.Drawing.Size(76, 23);
 			this.textReplicaitonFailureAtServer_id.TabIndex = 67;
 			// 
 			// butTest
 			// 
 			this.butTest.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butTest.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butTest.Location = new System.Drawing.Point(17, 522);
+			this.butTest.Location = new System.Drawing.Point(8, 514);
 			this.butTest.Name = "butTest";
 			this.butTest.Size = new System.Drawing.Size(90, 24);
 			this.butTest.TabIndex = 62;
@@ -216,7 +216,7 @@ namespace OpenPmsDental{
 			// 
 			this.butSetRanges.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butSetRanges.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butSetRanges.Location = new System.Drawing.Point(17, 481);
+			this.butSetRanges.Location = new System.Drawing.Point(8, 460);
 			this.butSetRanges.Name = "butSetRanges";
 			this.butSetRanges.Size = new System.Drawing.Size(90, 24);
 			this.butSetRanges.TabIndex = 59;
@@ -228,7 +228,7 @@ namespace OpenPmsDental{
 			this.butAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdd.Location = new System.Drawing.Point(798, 435);
+			this.butAdd.Location = new System.Drawing.Point(778, 428);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(75, 24);
 			this.butAdd.TabIndex = 58;
@@ -237,7 +237,7 @@ namespace OpenPmsDental{
 			// 
 			// FormReplicationSetup
 			// 
-			this.ClientSize = new System.Drawing.Size(885, 636);
+			this.ClientSize = new System.Drawing.Size(903, 658);
 			this.Controls.Add(this.groupBoxReplicationFailure);
 			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.label2);

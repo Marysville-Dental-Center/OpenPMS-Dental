@@ -233,6 +233,49 @@ class Designer:
         m = re.search(r"%s ?= ?new System\.Drawing\.Size\((\d+), ?(\d+)\)" % re.escape(target), self.text)
         return (int(m.group(1)), int(m.group(2))) if m else None
 
+    def anchor(self, name):
+        """The control's Anchor as the designer sets it (bits: Top 1, Bottom 2, Left 4, Right 8; Top|Left when the designer sets none).
+        UI-12 slice 4 fix round: the tree's anchor is the one LayoutManager leaves on the control (it resets every Anchor to Top|Left and
+        keeps the designer's in its own Control96Info), so the designer is the source of a control's real anchor."""
+        m = re.search(r"this\.%s\.Anchor ?= ?(.*?);" % re.escape(name), self.text, re.S)
+        if not m:
+            return 5
+        return sum(ANCHOR_BITS.get(w, 0) for w in set(re.findall(r"AnchorStyles\.(\w+)", m.group(1))))
+
+
+ANCHOR_BITS = {"Top": 1, "Bottom": 2, "Left": 4, "Right": 8, "None": 0}
+
+
+def bottom_anchored_high(tree, designer):
+    """UI-12 slice 4 fix round: the controls anchored to the bottom and not the top (the designer's Anchor) that stand in the upper half of
+    their container in the (planned) tree. A resize keeps such a control's distance to the container's bottom, so one placed at the top of
+    its column runs into what stands under it when the window grows, and off the top when it shrinks; it belongs on the bottom edge it is
+    anchored to (the grid's bottom, the bottom bar). Returns (container name, control name, y, height, container height)."""
+    out = []
+    for c in walk(tree):
+        ch = c.nh if c is not tree else tree.nh
+        if c.kind == "tabs" or ch <= 0:
+            continue
+        # A container that never changes its height (anchored to the top or the bottom only, not docked to fill or a side) moves its
+        # children with it: their anchors inside it do nothing. The window's client area and tab pages always resize with the window.
+        if c is not tree and c.kind != "page" and c.name in designer.declared:
+            ca = designer.anchor(c.name)
+            if c.dock not in ("Fill", "Left", "Right") and not (ca & 1 and ca & 2):
+                continue
+        kids = [k for k in c.children if k.name and k.dock in ("None", "") and k.name in designer.declared]
+        for k in kids:
+            a = designer.anchor(k.name)
+            if not a & 2 or a & 1:
+                continue
+            if k.ny + k.nh / 2.0 >= ch / 2.0:
+                continue
+            # On a stretching edge: under a control anchored to the top and the bottom (Add under its grid's bottom), it follows that edge.
+            if any(designer.anchor(s.name) & 3 == 3 and 0 <= k.ny - (s.ny + s.nh) <= 16 and s.nx < k.nx + k.nw and k.nx < s.nx + s.nw
+                   for s in kids if s is not k):
+                continue
+            out.append((c.name or ".", k.name, k.ny, k.nh, ch))
+    return out
+
 
 def code_files_for(root, simple):
     """The .cs files (not designer files) that declare (partial) class simple."""
@@ -2470,9 +2513,39 @@ def cmd_apply(args):
     print("files changed", changed, "errors", errors)
 
 
+def cmd_anchors(args):
+    """UI-12 slice 4 fix round: lists the controls anchored to the bottom only that stand in the upper half of their container (exit 1 when
+    there is one): the check of bottom_anchored_high over the windows of a tree."""
+    root = fit_tools.repo_root()
+    windows = set(args.windows.split(",")) if args.windows else set(
+        r["window"] for r in slice_data.read_dicts(slice_data.resolve(root, args.windows_file)))
+    trees = load_tree(args.tree, windows)
+    wf = fit_tools.window_files(root, list(trees.keys()))
+    found = 0
+    for w in sorted(trees):
+        files = wf.get(w) or []
+        if len(files) != 1:
+            continue
+        designer = Designer(root, files[0])
+        tree = trees[w]
+        for n in walk(tree):
+            if n is not tree and n.name in designer.name_to_field and n.name not in designer.declared:
+                n.name = designer.name_to_field[n.name]
+        for cname, name, y, h, ch in bottom_anchored_high(tree, designer):
+            found += 1
+            print("%s\t%s\t%s\tanchored to the bottom only, at y %d (%d px tall) in the upper half of its %d px container" % (w, cname, name, y, h, ch))
+    print("bottom-anchored controls in the upper half:", found)
+    if found:
+        sys.exit(1)
+
+
 def main():
     p = argparse.ArgumentParser()
     sub = p.add_subparsers(dest="cmd", required=True)
+    c = sub.add_parser("anchors", help="UI-12 slice 4 fix round: bottom-anchored controls placed in the upper half of their container")
+    c.add_argument("--tree", required=True)
+    c.add_argument("--windows")
+    c.add_argument("--windows-file", default="tests/UiRefreshTests/Data/grid-windows")
     a = sub.add_parser("plan")
     a.add_argument("--tree", required=True)
     a.add_argument("--windows")
@@ -2487,7 +2560,7 @@ def main():
     b = sub.add_parser("apply")
     b.add_argument("--plan", required=True)
     args = p.parse_args()
-    {"plan": cmd_plan, "apply": cmd_apply}[args.cmd](args)
+    {"plan": cmd_plan, "apply": cmd_apply, "anchors": cmd_anchors}[args.cmd](args)
 
 
 if __name__ == "__main__":

@@ -35,9 +35,9 @@ namespace OpenPmsDental{
 			// 
 			// labelProv
 			// 
-			this.labelProv.Location = new System.Drawing.Point(135, 20);
+			this.labelProv.Location = new System.Drawing.Point(170, 8);
 			this.labelProv.Name = "labelProv";
-			this.labelProv.Size = new System.Drawing.Size(70, 16);
+			this.labelProv.Size = new System.Drawing.Size(44, 23);
 			this.labelProv.TabIndex = 61;
 			this.labelProv.Text = "Provs:";
 			this.labelProv.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -45,10 +45,10 @@ namespace OpenPmsDental{
 			// comboProvs
 			// 
 			this.comboProvs.BackColor = System.Drawing.SystemColors.Window;
-			this.comboProvs.Location = new System.Drawing.Point(206, 18);
+			this.comboProvs.Location = new System.Drawing.Point(220, 8);
 			this.comboProvs.Name = "comboProvs";
 			this.comboProvs.SelectionModeMulti = true;
-			this.comboProvs.Size = new System.Drawing.Size(160, 21);
+			this.comboProvs.Size = new System.Drawing.Size(160, 23);
 			this.comboProvs.TabIndex = 62;
 			this.comboProvs.SelectionChangeCommitted += new System.EventHandler(this.ComboProvs_SelectionChangeCommitted);
 			// 
@@ -58,28 +58,28 @@ namespace OpenPmsDental{
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(8, 40);
+			this.gridMain.Location = new System.Drawing.Point(8, 39);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(825, 417);
+			this.gridMain.Size = new System.Drawing.Size(825, 424);
 			this.gridMain.TabIndex = 65;
 			this.gridMain.Title = "Ins Pay Plans Past Due";
 			this.gridMain.TranslationName = "TableInsPayPlanPastDue";
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(-2, 1);
+			this.label2.Location = new System.Drawing.Point(8, 8);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(87, 34);
+			this.label2.Size = new System.Drawing.Size(88, 23);
 			this.label2.TabIndex = 66;
 			this.label2.Text = "Days past due:";
-			this.label2.TextAlign = System.Drawing.ContentAlignment.BottomRight;
+			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textDaysPastDue
 			// 
 			this.textDaysPastDue.AutoSize = false;
-			this.textDaysPastDue.Location = new System.Drawing.Point(83, 19);
+			this.textDaysPastDue.Location = new System.Drawing.Point(102, 8);
 			this.textDaysPastDue.Name = "textDaysPastDue";
-			this.textDaysPastDue.Size = new System.Drawing.Size(52, 20);
+			this.textDaysPastDue.Size = new System.Drawing.Size(52, 23);
 			this.textDaysPastDue.TabIndex = 69;
 			this.textDaysPastDue.Text = "30";
 			// 
@@ -88,7 +88,7 @@ namespace OpenPmsDental{
 			this.butExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butExport.Icon = OpenPmsDental.UI.EnumIcons.Export;
 			this.butExport.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butExport.Location = new System.Drawing.Point(93, 463);
+			this.butExport.Location = new System.Drawing.Point(93, 467);
 			this.butExport.Name = "butExport";
 			this.butExport.Size = new System.Drawing.Size(79, 24);
 			this.butExport.TabIndex = 71;
@@ -100,7 +100,7 @@ namespace OpenPmsDental{
 			this.butPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butPrint.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Print,16,16);
 			this.butPrint.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butPrint.Location = new System.Drawing.Point(8, 463);
+			this.butPrint.Location = new System.Drawing.Point(8, 467);
 			this.butPrint.Name = "butPrint";
 			this.butPrint.Size = new System.Drawing.Size(79, 24);
 			this.butPrint.TabIndex = 70;
@@ -112,10 +112,10 @@ namespace OpenPmsDental{
 			this.comboClinics.IncludeAll = true;
 			this.comboClinics.IncludeHiddenInAll = true;
 			this.comboClinics.IncludeUnassigned = true;
-			this.comboClinics.Location = new System.Drawing.Point(416, 18);
+			this.comboClinics.Location = new System.Drawing.Point(416, 8);
 			this.comboClinics.Name = "comboClinics";
 			this.comboClinics.IsMultiSelect = true;
-			this.comboClinics.Size = new System.Drawing.Size(200, 21);
+			this.comboClinics.Size = new System.Drawing.Size(200, 23);
 			this.comboClinics.TabIndex = 72;
 			this.comboClinics.SelectionChangeCommitted += new System.EventHandler(this.ComboClinics_SelectionChangeCommitted);
 			// 

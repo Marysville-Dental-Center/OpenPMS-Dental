@@ -36,7 +36,7 @@ namespace OpenPmsDental{
 			// labelBatch
 			// 
 			this.labelBatch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelBatch.Location = new System.Drawing.Point(150, 640);
+			this.labelBatch.Location = new System.Drawing.Point(161, 653);
 			this.labelBatch.Name = "labelBatch";
 			this.labelBatch.Size = new System.Drawing.Size(739, 24);
 			this.labelBatch.TabIndex = 152;
@@ -48,10 +48,10 @@ namespace OpenPmsDental{
 			this.gridAllergyExisting.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridAllergyExisting.Location = new System.Drawing.Point(4, 12);
+			this.gridAllergyExisting.Location = new System.Drawing.Point(8, 8);
 			this.gridAllergyExisting.Name = "gridAllergyExisting";
 			this.gridAllergyExisting.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridAllergyExisting.Size = new System.Drawing.Size(477, 245);
+			this.gridAllergyExisting.Size = new System.Drawing.Size(482, 245);
 			this.gridAllergyExisting.TabIndex = 65;
 			this.gridAllergyExisting.Title = "Current Allergies";
 			this.gridAllergyExisting.TranslationName = "GridAllergyExisting";
@@ -60,10 +60,10 @@ namespace OpenPmsDental{
 			// 
 			this.gridAllergyImport.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridAllergyImport.Location = new System.Drawing.Point(497, 12);
+			this.gridAllergyImport.Location = new System.Drawing.Point(498, 8);
 			this.gridAllergyImport.Name = "gridAllergyImport";
 			this.gridAllergyImport.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridAllergyImport.Size = new System.Drawing.Size(480, 245);
+			this.gridAllergyImport.Size = new System.Drawing.Size(483, 245);
 			this.gridAllergyImport.TabIndex = 77;
 			this.gridAllergyImport.Title = "Transition of Care/Referral Summary";
 			this.gridAllergyImport.TranslationName = "GridAllergyImport";
@@ -71,7 +71,7 @@ namespace OpenPmsDental{
 			// butRemoveRec
 			// 
 			this.butRemoveRec.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-			this.butRemoveRec.Location = new System.Drawing.Point(437, 599);
+			this.butRemoveRec.Location = new System.Drawing.Point(445, 625);
 			this.butRemoveRec.Name = "butRemoveRec";
 			this.butRemoveRec.Size = new System.Drawing.Size(99, 24);
 			this.butRemoveRec.TabIndex = 82;
@@ -81,7 +81,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(895, 640);
+			this.butSave.Location = new System.Drawing.Point(906, 653);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 81;
@@ -93,12 +93,12 @@ namespace OpenPmsDental{
 			this.butAddNew.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butAddNew.Icon = OpenPmsDental.UI.EnumIcons.Down;
 			this.butAddNew.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAddNew.Location = new System.Drawing.Point(712, 263);
+			this.butAddNew.Location = new System.Drawing.Point(909, 257);
 			this.butAddNew.Name = "butAddNew";
-			this.butAddNew.Size = new System.Drawing.Size(51, 24);
+			this.butAddNew.Size = new System.Drawing.Size(72, 24);
 			this.butAddNew.TabIndex = 80;
 			this.butAddNew.Text = "Add";
-			this.butAddNew.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.butAddNew.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.butAddNew.Click += new System.EventHandler(this.butAddNew_Click);
 			// 
 			// butAddExist
@@ -106,22 +106,22 @@ namespace OpenPmsDental{
 			this.butAddExist.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
 			this.butAddExist.Icon = OpenPmsDental.UI.EnumIcons.Down;
 			this.butAddExist.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAddExist.Location = new System.Drawing.Point(218, 263);
+			this.butAddExist.Location = new System.Drawing.Point(418, 257);
 			this.butAddExist.Name = "butAddExist";
-			this.butAddExist.Size = new System.Drawing.Size(51, 24);
+			this.butAddExist.Size = new System.Drawing.Size(72, 24);
 			this.butAddExist.TabIndex = 79;
 			this.butAddExist.Text = "Add";
-			this.butAddExist.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.butAddExist.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.butAddExist.Click += new System.EventHandler(this.butAddExist_Click);
 			// 
 			// gridAllergyReconcile
 			// 
 			this.gridAllergyReconcile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridAllergyReconcile.Location = new System.Drawing.Point(4, 293);
+			this.gridAllergyReconcile.Location = new System.Drawing.Point(8, 285);
 			this.gridAllergyReconcile.Name = "gridAllergyReconcile";
 			this.gridAllergyReconcile.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridAllergyReconcile.Size = new System.Drawing.Size(973, 300);
+			this.gridAllergyReconcile.Size = new System.Drawing.Size(973, 336);
 			this.gridAllergyReconcile.TabIndex = 67;
 			this.gridAllergyReconcile.Title = "Reconciled Allergies";
 			this.gridAllergyReconcile.TranslationName = "gridAllergyReconcile";
@@ -129,7 +129,7 @@ namespace OpenPmsDental{
 			// FormReconcileAllergy
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(982, 676);
+			this.ClientSize = new System.Drawing.Size(989, 685);
 			this.Controls.Add(this.labelBatch);
 			this.Controls.Add(this.gridAllergyExisting);
 			this.Controls.Add(this.gridAllergyImport);

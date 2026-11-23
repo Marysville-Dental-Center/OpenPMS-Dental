@@ -268,6 +268,9 @@ class Hand:
                     problems.append("%s: %s past the edge (%d,%d %dx%d in %dx%d)" % (c.name or ".", a.name, a.nx, a.ny, a.nw, a.nh, c.nw, c.nh))
                 if a.kind == "label" and a.text_w and a.text_w + 2 > a.nw and a.nh < 1.6 * (a.text_h or 16):
                     problems.append("%s: label %s %d px for a %d px text" % (c.name or ".", a.name, a.nw, a.text_w))
+        # UI-12 slice 4 fix round: a control anchored to the bottom only belongs on the bottom edge it follows (the designer's anchor).
+        for cname, name, y, h, ch in g.bottom_anchored_high(self.tree, self.designer):
+            problems.append("%s: %s anchored to the bottom only, at y %d in the upper half of its %d px container" % (cname, name, y, ch))
         return problems
 
 
@@ -406,7 +409,7 @@ def load_script(window_simple):
 def full_name(window):
     """The window's type name: a class name of the OpenPmsDental namespace (FormInsPlan), or a full name for a class of another
     namespace (OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizSchedule, UI-12 slice 2 continuation)."""
-    return window if window.startswith("OpenPmsDental.") else "OpenPmsDental." + window
+    return window if "." in window else "OpenPmsDental." + window
 
 
 def run(tree_path, window_simple):

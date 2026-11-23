@@ -42,25 +42,25 @@ namespace OpenPmsDental{
 			// textDocDateDesc
 			// 
 			this.textDocDateDesc.Enabled = false;
-			this.textDocDateDesc.Location = new System.Drawing.Point(133, 5);
+			this.textDocDateDesc.Location = new System.Drawing.Point(133, 8);
 			this.textDocDateDesc.Name = "textDocDateDesc";
 			this.textDocDateDesc.Size = new System.Drawing.Size(272, 20);
 			this.textDocDateDesc.TabIndex = 71;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(6, 9);
+			this.label1.Location = new System.Drawing.Point(15, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(126, 18);
+			this.label1.Size = new System.Drawing.Size(112, 23);
 			this.label1.TabIndex = 73;
 			this.label1.Text = "Image to Reconcile";
-			this.label1.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// checkDiscontinued
 			// 
-			this.checkDiscontinued.Location = new System.Drawing.Point(609, 5);
+			this.checkDiscontinued.Location = new System.Drawing.Point(597, 9);
 			this.checkDiscontinued.Name = "checkDiscontinued";
-			this.checkDiscontinued.Size = new System.Drawing.Size(212, 23);
+			this.checkDiscontinued.Size = new System.Drawing.Size(197, 20);
 			this.checkDiscontinued.TabIndex = 70;
 			this.checkDiscontinued.Tag = "";
 			this.checkDiscontinued.Text = "Show Discontinued Medications";
@@ -74,7 +74,7 @@ namespace OpenPmsDental{
 			this.pictBox.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
 			this.pictBox.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.pictBox.InitialImage = null;
-			this.pictBox.Location = new System.Drawing.Point(12, 34);
+			this.pictBox.Location = new System.Drawing.Point(12, 35);
 			this.pictBox.Name = "pictBox";
 			this.pictBox.Size = new System.Drawing.Size(450, 600);
 			this.pictBox.TabIndex = 66;
@@ -82,7 +82,7 @@ namespace OpenPmsDental{
 			// 
 			// butDelete
 			// 
-			this.butDelete.Location = new System.Drawing.Point(533, 431);
+			this.butDelete.Location = new System.Drawing.Point(537, 438);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(63, 24);
 			this.butDelete.TabIndex = 78;
@@ -91,7 +91,7 @@ namespace OpenPmsDental{
 			// 
 			// butAddEvent
 			// 
-			this.butAddEvent.Location = new System.Drawing.Point(468, 431);
+			this.butAddEvent.Location = new System.Drawing.Point(468, 438);
 			this.butAddEvent.Name = "butAddEvent";
 			this.butAddEvent.Size = new System.Drawing.Size(63, 24);
 			this.butAddEvent.TabIndex = 78;
@@ -103,7 +103,7 @@ namespace OpenPmsDental{
 			this.gridReconcileEvents.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridReconcileEvents.Location = new System.Drawing.Point(468, 459);
+			this.gridReconcileEvents.Location = new System.Drawing.Point(468, 470);
 			this.gridReconcileEvents.Name = "gridReconcileEvents";
 			this.gridReconcileEvents.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
 			this.gridReconcileEvents.Size = new System.Drawing.Size(438, 175);
@@ -113,9 +113,9 @@ namespace OpenPmsDental{
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(601, 429);
+			this.label2.Location = new System.Drawing.Point(606, 434);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(317, 27);
+			this.label2.Size = new System.Drawing.Size(300, 32);
 			this.label2.TabIndex = 66;
 			this.label2.Text = "This is a historical record of medication reconciles for this patient.  Delete an" +
     "y entries that are inaccurate.";
@@ -125,7 +125,7 @@ namespace OpenPmsDental{
 			// 
 			this.gridMeds.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMeds.Location = new System.Drawing.Point(468, 34);
+			this.gridMeds.Location = new System.Drawing.Point(468, 35);
 			this.gridMeds.Name = "gridMeds";
 			this.gridMeds.Size = new System.Drawing.Size(438, 395);
 			this.gridMeds.TabIndex = 65;
@@ -135,9 +135,9 @@ namespace OpenPmsDental{
 			// 
 			// butPickRxListImage
 			// 
-			this.butPickRxListImage.Location = new System.Drawing.Point(408, 3);
+			this.butPickRxListImage.Location = new System.Drawing.Point(411, 8);
 			this.butPickRxListImage.Name = "butPickRxListImage";
-			this.butPickRxListImage.Size = new System.Drawing.Size(22, 24);
+			this.butPickRxListImage.Size = new System.Drawing.Size(22, 23);
 			this.butPickRxListImage.TabIndex = 76;
 			this.butPickRxListImage.Text = "...";
 			this.butPickRxListImage.Click += new System.EventHandler(this.butPickRxListImage_Click);
@@ -147,7 +147,7 @@ namespace OpenPmsDental{
 			this.butAdd.AdjustImageLocation = new System.Drawing.Point(0, 1);
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdd.Location = new System.Drawing.Point(468, 4);
+			this.butAdd.Location = new System.Drawing.Point(468, 8);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(123, 23);
 			this.butAdd.TabIndex = 75;
@@ -157,16 +157,16 @@ namespace OpenPmsDental{
 			// label3
 			// 
 			this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label3.Location = new System.Drawing.Point(6, 637);
+			this.label3.Location = new System.Drawing.Point(12, 649);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(912, 27);
+			this.label3.Size = new System.Drawing.Size(894, 32);
 			this.label3.TabIndex = 78;
 			this.label3.Text = resources.GetString("label3.Text");
 			this.label3.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// FormMedicationReconcile
 			// 
-			this.ClientSize = new System.Drawing.Size(918, 676);
+			this.ClientSize = new System.Drawing.Size(918, 689);
 			this.Controls.Add(this.pictBox);
 			this.Controls.Add(this.gridReconcileEvents);
 			this.Controls.Add(this.butDelete);

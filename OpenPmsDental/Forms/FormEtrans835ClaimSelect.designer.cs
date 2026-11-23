@@ -42,44 +42,44 @@ namespace OpenPmsDental{
 			// textPatient
 			// 
 			this.textPatient.AutoSize = false;
-			this.textPatient.Location = new System.Drawing.Point(87, 12);
+			this.textPatient.Location = new System.Drawing.Point(87, 8);
 			this.textPatient.Name = "textPatient";
 			this.textPatient.ReadOnly = true;
-			this.textPatient.Size = new System.Drawing.Size(155, 20);
+			this.textPatient.Size = new System.Drawing.Size(156, 23);
 			this.textPatient.TabIndex = 161;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(16, 16);
+			this.label1.Location = new System.Drawing.Point(33, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(70, 17);
+			this.label1.Size = new System.Drawing.Size(48, 23);
 			this.label1.TabIndex = 160;
 			this.label1.Text = "Patient";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(251, 33);
+			this.label3.Location = new System.Drawing.Point(308, 35);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(114, 21);
+			this.label3.Size = new System.Drawing.Size(52, 23);
 			this.label3.TabIndex = 168;
 			this.label3.Text = "Date To";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(248, 12);
+			this.label2.Location = new System.Drawing.Point(292, 8);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(117, 21);
+			this.label2.Size = new System.Drawing.Size(68, 23);
 			this.label2.TabIndex = 166;
 			this.label2.Text = "Date From";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(455, 12);
+			this.label4.Location = new System.Drawing.Point(466, 8);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(80, 21);
+			this.label4.Size = new System.Drawing.Size(64, 23);
 			this.label4.TabIndex = 169;
 			this.label4.Text = "Claim Fee";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -89,7 +89,7 @@ namespace OpenPmsDental{
 			this.gridClaims.AllowSortingByColumn = true;
 			this.gridClaims.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridClaims.Location = new System.Drawing.Point(19, 63);
+			this.gridClaims.Location = new System.Drawing.Point(19, 62);
 			this.gridClaims.Name = "gridClaims";
 			this.gridClaims.Size = new System.Drawing.Size(744, 320);
 			this.gridClaims.TabIndex = 171;
@@ -101,22 +101,22 @@ namespace OpenPmsDental{
 			// textDateTo
 			// 
 			this.textDateTo.AutoSize = false;
-			this.textDateTo.Location = new System.Drawing.Point(366, 33);
+			this.textDateTo.Location = new System.Drawing.Point(366, 35);
 			this.textDateTo.Name = "textDateTo";
-			this.textDateTo.Size = new System.Drawing.Size(81, 20);
+			this.textDateTo.Size = new System.Drawing.Size(80, 23);
 			this.textDateTo.TabIndex = 5;
 			// 
 			// textDateFrom
 			// 
 			this.textDateFrom.AutoSize = false;
-			this.textDateFrom.Location = new System.Drawing.Point(366, 12);
+			this.textDateFrom.Location = new System.Drawing.Point(366, 8);
 			this.textDateFrom.Name = "textDateFrom";
-			this.textDateFrom.Size = new System.Drawing.Size(81, 20);
+			this.textDateFrom.Size = new System.Drawing.Size(80, 23);
 			this.textDateFrom.TabIndex = 4;
 			// 
 			// textClaimFee
 			// 
-			this.textClaimFee.Location = new System.Drawing.Point(536, 12);
+			this.textClaimFee.Location = new System.Drawing.Point(536, 8);
 			this.textClaimFee.MaxVal = 100000000D;
 			this.textClaimFee.MinVal = -100000000D;
 			this.textClaimFee.Name = "textClaimFee";
@@ -125,9 +125,9 @@ namespace OpenPmsDental{
 			// 
 			// butPatFind
 			// 
-			this.butPatFind.Location = new System.Drawing.Point(87, 33);
+			this.butPatFind.Location = new System.Drawing.Point(87, 35);
 			this.butPatFind.Name = "butPatFind";
-			this.butPatFind.Size = new System.Drawing.Size(63, 24);
+			this.butPatFind.Size = new System.Drawing.Size(63, 23);
 			this.butPatFind.TabIndex = 2;
 			this.butPatFind.Text = "Find";
 			this.butPatFind.Click += new System.EventHandler(this.butPatFind_Click);
@@ -135,7 +135,7 @@ namespace OpenPmsDental{
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(688, 526);
+			this.butOK.Location = new System.Drawing.Point(701, 559);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 24);
 			this.butOK.TabIndex = 7;
@@ -145,9 +145,9 @@ namespace OpenPmsDental{
 			// butRefresh
 			// 
 			this.butRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butRefresh.Location = new System.Drawing.Point(688, 9);
+			this.butRefresh.Location = new System.Drawing.Point(688, 8);
 			this.butRefresh.Name = "butRefresh";
-			this.butRefresh.Size = new System.Drawing.Size(75, 24);
+			this.butRefresh.Size = new System.Drawing.Size(75, 23);
 			this.butRefresh.TabIndex = 172;
 			this.butRefresh.Text = "Refresh";
 			this.butRefresh.Click += new System.EventHandler(this.butRefresh_Click);
@@ -158,7 +158,7 @@ namespace OpenPmsDental{
 			this.gridClaimDetails.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridClaimDetails.Location = new System.Drawing.Point(19, 389);
+			this.gridClaimDetails.Location = new System.Drawing.Point(19, 386);
 			this.gridClaimDetails.Name = "gridClaimDetails";
 			this.gridClaimDetails.Size = new System.Drawing.Size(582, 161);
 			this.gridClaimDetails.TabIndex = 173;
@@ -168,9 +168,9 @@ namespace OpenPmsDental{
 			// labelSplitClaims
 			// 
 			this.labelSplitClaims.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelSplitClaims.Location = new System.Drawing.Point(604, 389);
+			this.labelSplitClaims.Location = new System.Drawing.Point(607, 386);
 			this.labelSplitClaims.Name = "labelSplitClaims";
-			this.labelSplitClaims.Size = new System.Drawing.Size(159, 88);
+			this.labelSplitClaims.Size = new System.Drawing.Size(159, 62);
 			this.labelSplitClaims.TabIndex = 174;
 			this.labelSplitClaims.Text = "Split claims require all procedures on the ERA to be matched to procedures on the" +
     " selected claim.";
@@ -179,7 +179,7 @@ namespace OpenPmsDental{
 			// FormEtrans835ClaimSelect
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(784, 562);
+			this.ClientSize = new System.Drawing.Size(784, 591);
 			this.Controls.Add(this.butOK);
 			this.Controls.Add(this.labelSplitClaims);
 			this.Controls.Add(this.gridClaimDetails);

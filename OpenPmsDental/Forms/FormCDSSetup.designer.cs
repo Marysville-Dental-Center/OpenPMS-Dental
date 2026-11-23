@@ -36,7 +36,7 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridMain.HScrollVisible = true;
-			this.gridMain.Location = new System.Drawing.Point(12, 54);
+			this.gridMain.Location = new System.Drawing.Point(12, 56);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.Size = new System.Drawing.Size(710, 433);
 			this.gridMain.TabIndex = 60;
@@ -48,9 +48,9 @@ namespace OpenPmsDental{
 			// 
 			this.radioGroup.AutoCheck = false;
 			this.radioGroup.Enabled = false;
-			this.radioGroup.Location = new System.Drawing.Point(12, 30);
+			this.radioGroup.Location = new System.Drawing.Point(12, 32);
 			this.radioGroup.Name = "radioGroup";
-			this.radioGroup.Size = new System.Drawing.Size(158, 24);
+			this.radioGroup.Size = new System.Drawing.Size(74, 20);
 			this.radioGroup.TabIndex = 62;
 			this.radioGroup.Text = "by Group";
 			this.radioGroup.TextAlign = System.Drawing.ContentAlignment.TopLeft;
@@ -61,14 +61,14 @@ namespace OpenPmsDental{
 			this.radioUser.Enabled = false;
 			this.radioUser.Location = new System.Drawing.Point(12, 8);
 			this.radioUser.Name = "radioUser";
-			this.radioUser.Size = new System.Drawing.Size(91, 22);
+			this.radioUser.Size = new System.Drawing.Size(64, 20);
 			this.radioUser.TabIndex = 61;
 			this.radioUser.Text = "by User";
 			// 
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(647, 493);
+			this.butSave.Location = new System.Drawing.Point(651, 501);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 28);
 			this.butSave.TabIndex = 63;
@@ -79,7 +79,7 @@ namespace OpenPmsDental{
 			// label6
 			// 
 			this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.label6.Location = new System.Drawing.Point(462, 26);
+			this.label6.Location = new System.Drawing.Point(462, 33);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(260, 18);
 			this.label6.TabIndex = 65;
@@ -89,7 +89,7 @@ namespace OpenPmsDental{
 			// FormCDSSetup
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(734, 529);
+			this.ClientSize = new System.Drawing.Size(734, 537);
 			this.Controls.Add(this.label6);
 			this.Controls.Add(this.butSave);
 			this.Controls.Add(this.radioGroup);

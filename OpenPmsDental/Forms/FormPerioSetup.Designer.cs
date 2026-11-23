@@ -41,46 +41,46 @@ namespace OpenPmsDental {
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(28, 91);
+			this.label1.Location = new System.Drawing.Point(46, 87);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(94, 17);
+			this.label1.Size = new System.Drawing.Size(76, 23);
 			this.label1.TabIndex = 10;
 			this.label1.Text = "Upper Facial";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(31, 117);
+			this.label2.Location = new System.Drawing.Point(34, 114);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(91, 17);
+			this.label2.Size = new System.Drawing.Size(88, 23);
 			this.label2.TabIndex = 11;
 			this.label2.Text = "Upper Lingual";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(31, 143);
+			this.label3.Location = new System.Drawing.Point(34, 141);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(91, 17);
+			this.label3.Size = new System.Drawing.Size(88, 23);
 			this.label3.TabIndex = 12;
 			this.label3.Text = "Lower Lingual";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(31, 169);
+			this.label4.Location = new System.Drawing.Point(46, 168);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(91, 17);
+			this.label4.Size = new System.Drawing.Size(76, 23);
 			this.label4.TabIndex = 13;
 			this.label4.Text = "Lower Facial";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textF1
 			// 
-			this.textF1.Location = new System.Drawing.Point(128, 88);
+			this.textF1.Location = new System.Drawing.Point(128, 87);
 			this.textF1.MaxLength = 63;
 			this.textF1.Name = "textF1";
-			this.textF1.Size = new System.Drawing.Size(393, 20);
+			this.textF1.Size = new System.Drawing.Size(392, 23);
 			this.textF1.TabIndex = 18;
 			this.textF1.KeyUp += new System.Windows.Forms.KeyEventHandler(this.OnKeyUp);
 			// 
@@ -89,40 +89,40 @@ namespace OpenPmsDental {
 			this.textL1.Location = new System.Drawing.Point(128, 114);
 			this.textL1.MaxLength = 63;
 			this.textL1.Name = "textL1";
-			this.textL1.Size = new System.Drawing.Size(393, 20);
+			this.textL1.Size = new System.Drawing.Size(392, 23);
 			this.textL1.TabIndex = 19;
 			this.textL1.KeyUp += new System.Windows.Forms.KeyEventHandler(this.OnKeyUp);
 			// 
 			// textL32
 			// 
-			this.textL32.Location = new System.Drawing.Point(128, 140);
+			this.textL32.Location = new System.Drawing.Point(128, 141);
 			this.textL32.MaxLength = 63;
 			this.textL32.Name = "textL32";
-			this.textL32.Size = new System.Drawing.Size(393, 20);
+			this.textL32.Size = new System.Drawing.Size(392, 23);
 			this.textL32.TabIndex = 20;
 			this.textL32.KeyUp += new System.Windows.Forms.KeyEventHandler(this.OnKeyUp);
 			// 
 			// textF32
 			// 
-			this.textF32.Location = new System.Drawing.Point(128, 166);
+			this.textF32.Location = new System.Drawing.Point(128, 168);
 			this.textF32.MaxLength = 63;
 			this.textF32.Name = "textF32";
-			this.textF32.Size = new System.Drawing.Size(393, 20);
+			this.textF32.Size = new System.Drawing.Size(392, 23);
 			this.textF32.TabIndex = 21;
 			this.textF32.KeyUp += new System.Windows.Forms.KeyEventHandler(this.OnKeyUp);
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(50, 16);
+			this.label5.Location = new System.Drawing.Point(50, 8);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(454, 72);
+			this.label5.Size = new System.Drawing.Size(454, 77);
 			this.label5.TabIndex = 22;
 			this.label5.Text = resources.GetString("label5.Text");
 			// 
 			// butAll323
 			// 
 			this.butAll323.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butAll323.Location = new System.Drawing.Point(12, 231);
+			this.butAll323.Location = new System.Drawing.Point(8, 235);
 			this.butAll323.Name = "butAll323";
 			this.butAll323.Size = new System.Drawing.Size(81, 24);
 			this.butAll323.TabIndex = 23;
@@ -132,7 +132,7 @@ namespace OpenPmsDental {
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(467, 231);
+			this.butSave.Location = new System.Drawing.Point(471, 235);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 5;
@@ -141,9 +141,9 @@ namespace OpenPmsDental {
 			// 
 			// checkUseRecessionTerm
 			// 
-			this.checkUseRecessionTerm.Location = new System.Drawing.Point(12, 196);
+			this.checkUseRecessionTerm.Location = new System.Drawing.Point(8, 195);
 			this.checkUseRecessionTerm.Name = "checkUseRecessionTerm";
-			this.checkUseRecessionTerm.Size = new System.Drawing.Size(530, 20);
+			this.checkUseRecessionTerm.Size = new System.Drawing.Size(466, 20);
 			this.checkUseRecessionTerm.TabIndex = 22;
 			this.checkUseRecessionTerm.Text = "Use the term \"Recession\" (reverts to Gingival Margin when hyperplasia is charted)";
 			// 

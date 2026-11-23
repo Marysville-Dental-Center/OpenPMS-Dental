@@ -54,68 +54,68 @@ namespace OpenPmsDental{
 			this.groupBox1.Controls.Add(this.comboHL7Status);
 			this.groupBox1.Controls.Add(this.labelStartDate);
 			this.groupBox1.Controls.Add(this.butRefresh);
-			this.groupBox1.Location = new System.Drawing.Point(21, 6);
+			this.groupBox1.Location = new System.Drawing.Point(21, 8);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(816, 62);
+			this.groupBox1.Size = new System.Drawing.Size(816, 81);
 			this.groupBox1.TabIndex = 8;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "View";
 			// 
 			// butCurrent
 			// 
-			this.butCurrent.Location = new System.Drawing.Point(266, 34);
+			this.butCurrent.Location = new System.Drawing.Point(266, 50);
 			this.butCurrent.Name = "butCurrent";
-			this.butCurrent.Size = new System.Drawing.Size(64, 24);
+			this.butCurrent.Size = new System.Drawing.Size(64, 23);
 			this.butCurrent.TabIndex = 2;
 			this.butCurrent.Text = "Current";
 			this.butCurrent.Click += new System.EventHandler(this.butCurrent_Click);
 			// 
 			// butAll
 			// 
-			this.butAll.Location = new System.Drawing.Point(418, 34);
+			this.butAll.Location = new System.Drawing.Point(406, 50);
 			this.butAll.Name = "butAll";
-			this.butAll.Size = new System.Drawing.Size(64, 24);
+			this.butAll.Size = new System.Drawing.Size(64, 23);
 			this.butAll.TabIndex = 4;
 			this.butAll.Text = "All";
 			this.butAll.Click += new System.EventHandler(this.butAll_Click);
 			// 
 			// butFind
 			// 
-			this.butFind.Location = new System.Drawing.Point(342, 34);
+			this.butFind.Location = new System.Drawing.Point(336, 50);
 			this.butFind.Name = "butFind";
-			this.butFind.Size = new System.Drawing.Size(64, 24);
+			this.butFind.Size = new System.Drawing.Size(64, 23);
 			this.butFind.TabIndex = 3;
 			this.butFind.Text = "Find";
 			this.butFind.Click += new System.EventHandler(this.butFind_Click);
 			// 
 			// textDateEnd
 			// 
-			this.textDateEnd.Location = new System.Drawing.Point(102, 35);
+			this.textDateEnd.Location = new System.Drawing.Point(102, 50);
 			this.textDateEnd.Name = "textDateEnd";
-			this.textDateEnd.Size = new System.Drawing.Size(77, 20);
+			this.textDateEnd.Size = new System.Drawing.Size(76, 23);
 			this.textDateEnd.TabIndex = 1;
 			// 
 			// textDateStart
 			// 
-			this.textDateStart.Location = new System.Drawing.Point(102, 12);
+			this.textDateStart.Location = new System.Drawing.Point(102, 23);
 			this.textDateStart.Name = "textDateStart";
-			this.textDateStart.Size = new System.Drawing.Size(77, 20);
+			this.textDateStart.Size = new System.Drawing.Size(76, 23);
 			this.textDateStart.TabIndex = 0;
 			// 
 			// labelHL7Status
 			// 
-			this.labelHL7Status.Location = new System.Drawing.Point(487, 12);
+			this.labelHL7Status.Location = new System.Drawing.Point(499, 23);
 			this.labelHL7Status.Name = "labelHL7Status";
-			this.labelHL7Status.Size = new System.Drawing.Size(80, 18);
+			this.labelHL7Status.Size = new System.Drawing.Size(64, 23);
 			this.labelHL7Status.TabIndex = 8;
 			this.labelHL7Status.Text = "HL7Status";
 			this.labelHL7Status.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// labelEndDate
 			// 
-			this.labelEndDate.Location = new System.Drawing.Point(19, 35);
+			this.labelEndDate.Location = new System.Drawing.Point(36, 50);
 			this.labelEndDate.Name = "labelEndDate";
-			this.labelEndDate.Size = new System.Drawing.Size(80, 18);
+			this.labelEndDate.Size = new System.Drawing.Size(60, 23);
 			this.labelEndDate.TabIndex = 8;
 			this.labelEndDate.Text = "End Date";
 			this.labelEndDate.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -124,44 +124,44 @@ namespace OpenPmsDental{
 			// 
 			this.textPatient.BackColor = System.Drawing.SystemColors.Window;
 			this.textPatient.AutoSize = false;
-			this.textPatient.Location = new System.Drawing.Point(266, 12);
+			this.textPatient.Location = new System.Drawing.Point(266, 23);
 			this.textPatient.Name = "textPatient";
 			this.textPatient.ReadOnly = true;
-			this.textPatient.Size = new System.Drawing.Size(216, 20);
+			this.textPatient.Size = new System.Drawing.Size(216, 23);
 			this.textPatient.TabIndex = 8;
 			this.textPatient.TabStop = false;
 			// 
 			// labelPatient
 			// 
-			this.labelPatient.Location = new System.Drawing.Point(184, 12);
+			this.labelPatient.Location = new System.Drawing.Point(212, 23);
 			this.labelPatient.Name = "labelPatient";
-			this.labelPatient.Size = new System.Drawing.Size(80, 18);
+			this.labelPatient.Size = new System.Drawing.Size(48, 23);
 			this.labelPatient.TabIndex = 8;
 			this.labelPatient.Text = "Patient";
 			this.labelPatient.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// comboHL7Status
 			// 
-			this.comboHL7Status.Location = new System.Drawing.Point(569, 12);
+			this.comboHL7Status.Location = new System.Drawing.Point(569, 23);
 			this.comboHL7Status.Name = "comboHL7Status";
-			this.comboHL7Status.Size = new System.Drawing.Size(155, 21);
+			this.comboHL7Status.Size = new System.Drawing.Size(156, 23);
 			this.comboHL7Status.TabIndex = 5;
 			this.comboHL7Status.SelectedIndexChanged += new System.EventHandler(this.comboHL7Status_SelectedIndexChanged);
 			// 
 			// labelStartDate
 			// 
-			this.labelStartDate.Location = new System.Drawing.Point(19, 12);
+			this.labelStartDate.Location = new System.Drawing.Point(32, 23);
 			this.labelStartDate.Name = "labelStartDate";
-			this.labelStartDate.Size = new System.Drawing.Size(80, 18);
+			this.labelStartDate.Size = new System.Drawing.Size(64, 23);
 			this.labelStartDate.TabIndex = 8;
 			this.labelStartDate.Text = "Start Date";
 			this.labelStartDate.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// butRefresh
 			// 
-			this.butRefresh.Location = new System.Drawing.Point(736, 10);
+			this.butRefresh.Location = new System.Drawing.Point(731, 23);
 			this.butRefresh.Name = "butRefresh";
-			this.butRefresh.Size = new System.Drawing.Size(75, 24);
+			this.butRefresh.Size = new System.Drawing.Size(75, 23);
 			this.butRefresh.TabIndex = 6;
 			this.butRefresh.Text = "Refresh";
 			this.butRefresh.Click += new System.EventHandler(this.butRefresh_Click);
@@ -171,7 +171,7 @@ namespace OpenPmsDental{
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(21, 74);
+			this.gridMain.Location = new System.Drawing.Point(21, 97);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.Size = new System.Drawing.Size(902, 577);
 			this.gridMain.TabIndex = 8;
@@ -183,7 +183,7 @@ namespace OpenPmsDental{
 			// FormHL7Msgs
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(939, 663);
+			this.ClientSize = new System.Drawing.Size(939, 682);
 			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.gridMain);
 			this.Name = "FormHL7Msgs";

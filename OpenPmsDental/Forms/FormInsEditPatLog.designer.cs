@@ -33,7 +33,7 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridMain.HasDropDowns = true;
-			this.gridMain.Location = new System.Drawing.Point(8, 34);
+			this.gridMain.Location = new System.Drawing.Point(8, 36);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.Size = new System.Drawing.Size(995, 556);
 			this.gridMain.TabIndex = 4;
@@ -44,7 +44,7 @@ namespace OpenPmsDental{
 			// 
 			this.dateRangePicker.BackColor = System.Drawing.Color.Transparent;
 			this.dateRangePicker.EnableWeekButtons = false;
-			this.dateRangePicker.Location = new System.Drawing.Point(12, 4);
+			this.dateRangePicker.Location = new System.Drawing.Point(8, 8);
 			this.dateRangePicker.MinimumSize = new System.Drawing.Size(453, 22);
 			this.dateRangePicker.Name = "dateRangePicker";
 			this.dateRangePicker.Size = new System.Drawing.Size(453, 24);

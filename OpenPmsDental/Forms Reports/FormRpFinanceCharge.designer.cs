@@ -40,7 +40,7 @@ namespace OpenPmsDental {
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(361, 203);
+			this.butOK.Location = new System.Drawing.Point(365, 211);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 26);
 			this.butOK.TabIndex = 3;
@@ -55,46 +55,46 @@ namespace OpenPmsDental {
 			this.groupBox2.Controls.Add(this.label3);
 			this.groupBox2.Location = new System.Drawing.Point(263, 50);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(173, 86);
+			this.groupBox2.Size = new System.Drawing.Size(173, 81);
 			this.groupBox2.TabIndex = 1;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Date Range";
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(7, 22);
+			this.label2.Location = new System.Drawing.Point(13, 23);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(48, 18);
+			this.label2.Size = new System.Drawing.Size(40, 23);
 			this.label2.TabIndex = 37;
 			this.label2.Text = "From";
-			this.label2.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textDateFrom
 			// 
-			this.textDateFrom.Location = new System.Drawing.Point(59, 19);
+			this.textDateFrom.Location = new System.Drawing.Point(59, 23);
 			this.textDateFrom.Name = "textDateFrom";
-			this.textDateFrom.Size = new System.Drawing.Size(91, 20);
+			this.textDateFrom.Size = new System.Drawing.Size(92, 23);
 			this.textDateFrom.TabIndex = 1;
 			// 
 			// textDateTo
 			// 
-			this.textDateTo.Location = new System.Drawing.Point(60, 52);
+			this.textDateTo.Location = new System.Drawing.Point(59, 50);
 			this.textDateTo.Name = "textDateTo";
-			this.textDateTo.Size = new System.Drawing.Size(91, 20);
+			this.textDateTo.Size = new System.Drawing.Size(92, 23);
 			this.textDateTo.TabIndex = 2;
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(7, 55);
+			this.label3.Location = new System.Drawing.Point(29, 50);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(48, 18);
+			this.label3.Size = new System.Drawing.Size(24, 23);
 			this.label3.TabIndex = 39;
 			this.label3.Text = "To";
-			this.label3.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// listProv
 			// 
-			this.listProv.Location = new System.Drawing.Point(10, 50);
+			this.listProv.Location = new System.Drawing.Point(8, 50);
 			this.listProv.Name = "listProv";
 			this.listProv.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
 			this.listProv.Size = new System.Drawing.Size(120, 147);
@@ -102,7 +102,7 @@ namespace OpenPmsDental {
 			// 
 			// listBillingType
 			// 
-			this.listBillingType.Location = new System.Drawing.Point(137, 50);
+			this.listBillingType.Location = new System.Drawing.Point(134, 50);
 			this.listBillingType.Name = "listBillingType";
 			this.listBillingType.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
 			this.listBillingType.Size = new System.Drawing.Size(120, 147);
@@ -112,9 +112,9 @@ namespace OpenPmsDental {
 			// 
 			this.checkAllProv.Checked = true;
 			this.checkAllProv.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkAllProv.Location = new System.Drawing.Point(10, 28);
+			this.checkAllProv.Location = new System.Drawing.Point(8, 26);
 			this.checkAllProv.Name = "checkAllProv";
-			this.checkAllProv.Size = new System.Drawing.Size(95, 18);
+			this.checkAllProv.Size = new System.Drawing.Size(36, 20);
 			this.checkAllProv.TabIndex = 49;
 			this.checkAllProv.Text = "All";
 			this.checkAllProv.Click += new System.EventHandler(this.checkAllProv_Click);
@@ -123,16 +123,16 @@ namespace OpenPmsDental {
 			// 
 			this.checkAllBilling.Checked = true;
 			this.checkAllBilling.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkAllBilling.Location = new System.Drawing.Point(137, 28);
+			this.checkAllBilling.Location = new System.Drawing.Point(134, 26);
 			this.checkAllBilling.Name = "checkAllBilling";
-			this.checkAllBilling.Size = new System.Drawing.Size(95, 18);
+			this.checkAllBilling.Size = new System.Drawing.Size(36, 20);
 			this.checkAllBilling.TabIndex = 50;
 			this.checkAllBilling.Text = "All";
 			this.checkAllBilling.Click += new System.EventHandler(this.checkAllBilling_Click);
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(7, 9);
+			this.label1.Location = new System.Drawing.Point(8, 8);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(104, 16);
 			this.label1.TabIndex = 51;
@@ -140,16 +140,16 @@ namespace OpenPmsDental {
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(134, 9);
+			this.label4.Location = new System.Drawing.Point(134, 8);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(104, 18);
+			this.label4.Size = new System.Drawing.Size(104, 16);
 			this.label4.TabIndex = 52;
 			this.label4.Text = "Billing Types";
 			// 
 			// FormRpFinanceCharge
 			// 
 			this.AcceptButton = this.butOK;
-			this.ClientSize = new System.Drawing.Size(448, 241);
+			this.ClientSize = new System.Drawing.Size(448, 245);
 			this.Controls.Add(this.label4);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.checkAllBilling);

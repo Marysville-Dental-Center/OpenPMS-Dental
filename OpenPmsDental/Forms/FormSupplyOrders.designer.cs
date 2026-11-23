@@ -36,17 +36,17 @@ namespace OpenPmsDental{
 			// 
 			// comboSupplier
 			// 
-			this.comboSupplier.Location = new System.Drawing.Point(514, 10);
+			this.comboSupplier.Location = new System.Drawing.Point(593, 8);
 			this.comboSupplier.Name = "comboSupplier";
-			this.comboSupplier.Size = new System.Drawing.Size(144, 21);
+			this.comboSupplier.Size = new System.Drawing.Size(160, 23);
 			this.comboSupplier.TabIndex = 13;
 			this.comboSupplier.SelectionChangeCommitted += new System.EventHandler(this.comboSupplier_SelectionChangeCommitted);
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(437, 10);
+			this.label3.Location = new System.Drawing.Point(531, 8);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(75, 18);
+			this.label3.Size = new System.Drawing.Size(56, 23);
 			this.label3.TabIndex = 14;
 			this.label3.Text = "Supplier";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -56,10 +56,10 @@ namespace OpenPmsDental{
 			this.gridItems.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.gridItems.EditableEnterMovesDown = true;
-			this.gridItems.Location = new System.Drawing.Point(12, 227);
+			this.gridItems.Location = new System.Drawing.Point(12, 223);
 			this.gridItems.Name = "gridItems";
 			this.gridItems.SelectionMode = OpenPmsDental.UI.GridSelectionMode.OneCell;
-			this.gridItems.Size = new System.Drawing.Size(737, 438);
+			this.gridItems.Size = new System.Drawing.Size(741, 438);
 			this.gridItems.TabIndex = 17;
 			this.gridItems.Title = "Supplies on One Order";
 			this.gridItems.TranslationName = "TableSupplies";
@@ -68,9 +68,9 @@ namespace OpenPmsDental{
 			// 
 			// gridOrders
 			// 
-			this.gridOrders.Location = new System.Drawing.Point(12, 37);
+			this.gridOrders.Location = new System.Drawing.Point(12, 35);
 			this.gridOrders.Name = "gridOrders";
-			this.gridOrders.Size = new System.Drawing.Size(737, 184);
+			this.gridOrders.Size = new System.Drawing.Size(741, 184);
 			this.gridOrders.TabIndex = 15;
 			this.gridOrders.Title = "Order History";
 			this.gridOrders.TranslationName = "TableHistory";
@@ -82,7 +82,7 @@ namespace OpenPmsDental{
 			this.butPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butPrint.Icon = OpenPmsDental.UI.EnumIcons.Print;
 			this.butPrint.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butPrint.Location = new System.Drawing.Point(170, 672);
+			this.butPrint.Location = new System.Drawing.Point(170, 665);
 			this.butPrint.Name = "butPrint";
 			this.butPrint.Size = new System.Drawing.Size(80, 24);
 			this.butPrint.TabIndex = 26;
@@ -94,7 +94,7 @@ namespace OpenPmsDental{
 			this.butAddSupply.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butAddSupply.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAddSupply.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAddSupply.Location = new System.Drawing.Point(12, 671);
+			this.butAddSupply.Location = new System.Drawing.Point(12, 665);
 			this.butAddSupply.Name = "butAddSupply";
 			this.butAddSupply.Size = new System.Drawing.Size(95, 24);
 			this.butAddSupply.TabIndex = 25;
@@ -105,18 +105,18 @@ namespace OpenPmsDental{
 			// 
 			this.butNewOrder.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butNewOrder.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butNewOrder.Location = new System.Drawing.Point(12, 7);
+			this.butNewOrder.Location = new System.Drawing.Point(12, 8);
 			this.butNewOrder.Name = "butNewOrder";
-			this.butNewOrder.Size = new System.Drawing.Size(95, 24);
+			this.butNewOrder.Size = new System.Drawing.Size(95, 23);
 			this.butNewOrder.TabIndex = 16;
 			this.butNewOrder.Text = "New Order";
 			this.butNewOrder.Click += new System.EventHandler(this.butNewOrder_Click);
 			// 
 			// checkShowReceived
 			// 
-			this.checkShowReceived.Location = new System.Drawing.Point(360, 12);
+			this.checkShowReceived.Location = new System.Drawing.Point(418, 9);
 			this.checkShowReceived.Name = "checkShowReceived";
-			this.checkShowReceived.Size = new System.Drawing.Size(98, 18);
+			this.checkShowReceived.Size = new System.Drawing.Size(101, 20);
 			this.checkShowReceived.TabIndex = 27;
 			this.checkShowReceived.Text = "Show received";
 			this.checkShowReceived.MouseClick += new System.Windows.Forms.MouseEventHandler(this.checkShowReceived_MouseClick);
@@ -124,7 +124,7 @@ namespace OpenPmsDental{
 			// butReceive
 			//
 			this.butReceive.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butReceive.Location = new System.Drawing.Point(260, 672);
+			this.butReceive.Location = new System.Drawing.Point(256, 665);
 			this.butReceive.Name = "butReceive";
 			this.butReceive.Size = new System.Drawing.Size(95, 24);
 			this.butReceive.TabIndex = 28;

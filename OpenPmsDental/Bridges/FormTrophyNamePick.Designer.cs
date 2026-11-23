@@ -31,7 +31,7 @@ namespace OpenPmsDental{
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(12, 9);
+			this.label1.Location = new System.Drawing.Point(12, 8);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(340, 49);
 			this.label1.TabIndex = 4;
@@ -42,7 +42,7 @@ namespace OpenPmsDental{
 			// butNew
 			// 
 			this.butNew.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butNew.Location = new System.Drawing.Point(497, 437);
+			this.butNew.Location = new System.Drawing.Point(497, 436);
 			this.butNew.Name = "butNew";
 			this.butNew.Size = new System.Drawing.Size(84, 24);
 			this.butNew.TabIndex = 141;
@@ -55,7 +55,7 @@ namespace OpenPmsDental{
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(15, 58);
+			this.gridMain.Location = new System.Drawing.Point(12, 59);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.Size = new System.Drawing.Size(439, 449);
 			this.gridMain.TabIndex = 140;
@@ -66,7 +66,7 @@ namespace OpenPmsDental{
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(497, 483);
+			this.butOK.Location = new System.Drawing.Point(514, 520);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(84, 24);
 			this.butOK.TabIndex = 3;
@@ -75,7 +75,7 @@ namespace OpenPmsDental{
 			// 
 			// FormTrophyNamePick
 			// 
-			this.ClientSize = new System.Drawing.Size(606, 534);
+			this.ClientSize = new System.Drawing.Size(606, 552);
 			this.Controls.Add(this.butNew);
 			this.Controls.Add(this.gridMain);
 			this.Controls.Add(this.label1);

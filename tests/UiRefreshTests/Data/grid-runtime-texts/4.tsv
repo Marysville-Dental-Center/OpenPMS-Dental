@@ -1,0 +1,18 @@
+# UI-12 slice 1 (fix round 8): texts a grid window's code gives a label or check box at run time, other than its designer text (UI-12.md
+# section 2, "Labels whose text the code sets"). The layout scripts size the control for the widest of its texts (grid_hand.py's Hand.lw reads
+# the width); GridRulesTests sets each text in the laid-out window and fails when it is cut or its width here is stale. text: \n is a line
+# break (the width is then the widest line's). width: px on one line at Segoe UI 9, 96 dpi (TextRenderer, the Label's flags).
+window	control	text	width	why
+OpenPmsDental.FormAdjustSelect	labelAmtOriginal	$99,999.99	69	UI-12 slice 4: the entry's original amount (FormAdjustSelect.cs, currency)
+OpenPmsDental.FormAdjustSelect	labelAmtUsed	$99,999.99	61	UI-12 slice 4: the amount used (FormAdjustSelect.cs, currency)
+OpenPmsDental.FormAdjustSelect	labelAmtAvail	$99,999.99	69	UI-12 slice 4: the amount available (FormAdjustSelect.cs, currency)
+OpenPmsDental.FormAdjustSelect	labelCurSplitAmt	$99,999.99	61	UI-12 slice 4: the current split's amount (FormAdjustSelect.cs, currency)
+OpenPmsDental.FormAdjustSelect	labelAmtEnd	$99,999.99	69	UI-12 slice 4: the amount at the end (FormAdjustSelect.cs, currency)
+OpenPmsDental.FormCCDPrint	labelPage	99 / 99	42	UI-12 slice 4: the page and the page count of the preview (FormCCDPrint.cs)
+OpenPmsDental.FormGlobalPaymentsV2	radioSavedCard	Saved card ending 1234	131	UI-12 slice 4: the saved card's last four digits (FormGlobalPaymentsV2.cs)
+OpenPmsDental.FormProcBroken	labelAmountDescription	$99,999.99: Non-Refundable portion	197	UI-12 slice 4: the prepayment total (FormProcBroken.cs, currency)
+OpenPmsDental.FormRecallListUndo	labelCount	9999	31	UI-12 slice 4: the count of patients the undo affects (FormRecallListUndo.cs)
+OpenPmsDental.FormRpInsPendingSupplementals	labelTotal	Total: $99,999.99   Rows: 9999	160	UI-12 slice 4: the report's total and row count (FormRpInsPendingSupplementals.cs)
+OpenPmsDental.FormRpUdsPlus	labelLines	UDS lines set up: 99	109	UI-12 slice 4: the count of UDS lines (FormRpUdsPlus.cs)
+OpenPmsDental.FormSupplyUsageReport	labelTotal	Total cost: $99,999.99	118	UI-12 slice 4: the report's total cost (FormSupplyUsageReport.cs, currency)
+OpenPmsDental.User_Controls.UserControlReportSetup	labelAllowedCount	Reports allowed: 999 / 999	144	UI-12 slice 4: the allowed and total report counts of the user group (UserControlReportSetup.cs)

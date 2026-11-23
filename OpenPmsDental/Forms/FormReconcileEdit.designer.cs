@@ -57,9 +57,9 @@ namespace OpenPmsDental {
 			// labelDate
 			// 
 			this.labelDate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelDate.Location = new System.Drawing.Point(350, 8);
+			this.labelDate.Location = new System.Drawing.Point(436, 8);
 			this.labelDate.Name = "labelDate";
-			this.labelDate.Size = new System.Drawing.Size(116, 17);
+			this.labelDate.Size = new System.Drawing.Size(36, 23);
 			this.labelDate.TabIndex = 3;
 			this.labelDate.Text = "Date";
 			this.labelDate.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -67,9 +67,9 @@ namespace OpenPmsDental {
 			// labelStart
 			// 
 			this.labelStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelStart.Location = new System.Drawing.Point(350, 51);
+			this.labelStart.Location = new System.Drawing.Point(376, 59);
 			this.labelStart.Name = "labelStart";
-			this.labelStart.Size = new System.Drawing.Size(116, 17);
+			this.labelStart.Size = new System.Drawing.Size(96, 23);
 			this.labelStart.TabIndex = 5;
 			this.labelStart.Text = "Starting Balance";
 			this.labelStart.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -77,9 +77,9 @@ namespace OpenPmsDental {
 			// labelEnd
 			// 
 			this.labelEnd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelEnd.Location = new System.Drawing.Point(350, 72);
+			this.labelEnd.Location = new System.Drawing.Point(380, 86);
 			this.labelEnd.Name = "labelEnd";
-			this.labelEnd.Size = new System.Drawing.Size(116, 17);
+			this.labelEnd.Size = new System.Drawing.Size(92, 23);
 			this.labelEnd.TabIndex = 7;
 			this.labelEnd.Text = "Ending Balance";
 			this.labelEnd.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -88,19 +88,19 @@ namespace OpenPmsDental {
 			// 
 			this.textTarget.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.textTarget.AutoSize = false;
-			this.textTarget.Location = new System.Drawing.Point(467, 91);
+			this.textTarget.Location = new System.Drawing.Point(478, 113);
 			this.textTarget.Name = "textTarget";
 			this.textTarget.ReadOnly = true;
-			this.textTarget.Size = new System.Drawing.Size(114, 20);
+			this.textTarget.Size = new System.Drawing.Size(101, 23);
 			this.textTarget.TabIndex = 9;
 			this.textTarget.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			// 
 			// labelTarget
 			// 
 			this.labelTarget.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelTarget.Location = new System.Drawing.Point(350, 93);
+			this.labelTarget.Location = new System.Drawing.Point(384, 113);
 			this.labelTarget.Name = "labelTarget";
-			this.labelTarget.Size = new System.Drawing.Size(116, 17);
+			this.labelTarget.Size = new System.Drawing.Size(88, 23);
 			this.labelTarget.TabIndex = 10;
 			this.labelTarget.Text = "Target Change";
 			this.labelTarget.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -108,9 +108,9 @@ namespace OpenPmsDental {
 			// labelSum
 			// 
 			this.labelSum.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelSum.Location = new System.Drawing.Point(350, 114);
+			this.labelSum.Location = new System.Drawing.Point(352, 140);
 			this.labelSum.Name = "labelSum";
-			this.labelSum.Size = new System.Drawing.Size(116, 17);
+			this.labelSum.Size = new System.Drawing.Size(120, 23);
 			this.labelSum.TabIndex = 13;
 			this.labelSum.Text = "Sum of Transactions";
 			this.labelSum.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -119,20 +119,20 @@ namespace OpenPmsDental {
 			// 
 			this.textSum.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.textSum.AutoSize = false;
-			this.textSum.Location = new System.Drawing.Point(467, 112);
+			this.textSum.Location = new System.Drawing.Point(478, 140);
 			this.textSum.Name = "textSum";
 			this.textSum.ReadOnly = true;
-			this.textSum.Size = new System.Drawing.Size(114, 20);
+			this.textSum.Size = new System.Drawing.Size(101, 23);
 			this.textSum.TabIndex = 12;
 			this.textSum.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			// 
 			// checkLocked
 			// 
 			this.checkLocked.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkLocked.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkLocked.Location = new System.Drawing.Point(350, 29);
+			this.checkLocked.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkLocked.Location = new System.Drawing.Point(478, 35);
 			this.checkLocked.Name = "checkLocked";
-			this.checkLocked.Size = new System.Drawing.Size(130, 18);
+			this.checkLocked.Size = new System.Drawing.Size(61, 20);
 			this.checkLocked.TabIndex = 14;
 			this.checkLocked.Text = "Locked";
 			this.checkLocked.Click += new System.EventHandler(this.checkLocked_Click);
@@ -140,9 +140,9 @@ namespace OpenPmsDental {
 			// textFindAmount
 			// 
 			this.textFindAmount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.textFindAmount.Location = new System.Drawing.Point(467, 187);
+			this.textFindAmount.Location = new System.Drawing.Point(478, 167);
 			this.textFindAmount.Name = "textFindAmount";
-			this.textFindAmount.Size = new System.Drawing.Size(114, 20);
+			this.textFindAmount.Size = new System.Drawing.Size(101, 23);
 			this.textFindAmount.TabIndex = 16;
 			this.textFindAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			this.textFindAmount.TextChanged += new System.EventHandler(this.textFindAmount_TextChanged);
@@ -151,9 +151,9 @@ namespace OpenPmsDental {
 			// label6
 			// 
 			this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.label6.Location = new System.Drawing.Point(350, 189);
+			this.label6.Location = new System.Drawing.Point(388, 167);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(116, 17);
+			this.label6.Size = new System.Drawing.Size(84, 23);
 			this.label6.TabIndex = 17;
 			this.label6.Text = "Find Amount";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -163,7 +163,7 @@ namespace OpenPmsDental {
 			this.butPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butPrint.Icon = OpenPmsDental.UI.EnumIcons.Print;
 			this.butPrint.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butPrint.Location = new System.Drawing.Point(269, 648);
+			this.butPrint.Location = new System.Drawing.Point(269, 656);
 			this.butPrint.Name = "butPrint";
 			this.butPrint.Size = new System.Drawing.Size(75, 26);
 			this.butPrint.TabIndex = 19;
@@ -175,7 +175,7 @@ namespace OpenPmsDental {
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(6, 648);
+			this.butDelete.Location = new System.Drawing.Point(6, 656);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(75, 26);
 			this.butDelete.TabIndex = 15;
@@ -187,7 +187,7 @@ namespace OpenPmsDental {
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(6, 6);
+			this.gridMain.Location = new System.Drawing.Point(8, 8);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.Size = new System.Drawing.Size(338, 636);
 			this.gridMain.TabIndex = 11;
@@ -199,11 +199,11 @@ namespace OpenPmsDental {
 			// 
 			this.textEnd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.textEnd.AutoSize = false;
-			this.textEnd.Location = new System.Drawing.Point(467, 70);
+			this.textEnd.Location = new System.Drawing.Point(478, 86);
 			this.textEnd.MaxVal = 100000000D;
 			this.textEnd.MinVal = -100000000D;
 			this.textEnd.Name = "textEnd";
-			this.textEnd.Size = new System.Drawing.Size(114, 20);
+			this.textEnd.Size = new System.Drawing.Size(101, 23);
 			this.textEnd.TabIndex = 8;
 			this.textEnd.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			this.textEnd.TextChanged += new System.EventHandler(this.textEnd_TextChanged);
@@ -212,11 +212,11 @@ namespace OpenPmsDental {
 			// 
 			this.textStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.textStart.AutoSize = false;
-			this.textStart.Location = new System.Drawing.Point(467, 49);
+			this.textStart.Location = new System.Drawing.Point(478, 59);
 			this.textStart.MaxVal = 100000000D;
 			this.textStart.MinVal = -100000000D;
 			this.textStart.Name = "textStart";
-			this.textStart.Size = new System.Drawing.Size(114, 20);
+			this.textStart.Size = new System.Drawing.Size(101, 23);
 			this.textStart.TabIndex = 6;
 			this.textStart.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			this.textStart.TextChanged += new System.EventHandler(this.textStart_TextChanged);
@@ -224,15 +224,15 @@ namespace OpenPmsDental {
 			// textDate
 			// 
 			this.textDate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.textDate.Location = new System.Drawing.Point(467, 6);
+			this.textDate.Location = new System.Drawing.Point(478, 8);
 			this.textDate.Name = "textDate";
-			this.textDate.Size = new System.Drawing.Size(114, 20);
+			this.textDate.Size = new System.Drawing.Size(101, 23);
 			this.textDate.TabIndex = 2;
 			// 
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(506, 648);
+			this.butSave.Location = new System.Drawing.Point(504, 656);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 26);
 			this.butSave.TabIndex = 1;
@@ -244,7 +244,7 @@ namespace OpenPmsDental {
 			this.butExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butExport.Icon = OpenPmsDental.UI.EnumIcons.Export;
 			this.butExport.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butExport.Location = new System.Drawing.Point(188, 648);
+			this.butExport.Location = new System.Drawing.Point(188, 656);
 			this.butExport.Name = "butExport";
 			this.butExport.Size = new System.Drawing.Size(75, 26);
 			this.butExport.TabIndex = 20;
@@ -253,7 +253,7 @@ namespace OpenPmsDental {
 			// 
 			// FormReconcileEdit
 			// 
-			this.ClientSize = new System.Drawing.Size(587, 680);
+			this.ClientSize = new System.Drawing.Size(587, 690);
 			this.Controls.Add(this.butExport);
 			this.Controls.Add(this.butPrint);
 			this.Controls.Add(this.label6);

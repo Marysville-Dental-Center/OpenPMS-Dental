@@ -55,7 +55,7 @@ namespace OpenPmsDental {
 			// 
 			// listCategories
 			// 
-			this.listCategories.Location = new System.Drawing.Point(15, 33);
+			this.listCategories.Location = new System.Drawing.Point(14, 28);
 			this.listCategories.Name = "listCategories";
 			this.listCategories.Size = new System.Drawing.Size(164, 368);
 			this.listCategories.TabIndex = 2;
@@ -63,7 +63,7 @@ namespace OpenPmsDental {
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(14, 14);
+			this.label1.Location = new System.Drawing.Point(14, 8);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(124, 18);
 			this.label1.TabIndex = 3;
@@ -74,7 +74,7 @@ namespace OpenPmsDental {
 			// 
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdd.Location = new System.Drawing.Point(206, 408);
+			this.butAdd.Location = new System.Drawing.Point(205, 400);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(79, 24);
 			this.butAdd.TabIndex = 7;
@@ -84,7 +84,7 @@ namespace OpenPmsDental {
 			// butMerge
 			// 
 			this.butMerge.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butMerge.Location = new System.Drawing.Point(38, 84);
+			this.butMerge.Location = new System.Drawing.Point(42, 79);
 			this.butMerge.Name = "butMerge";
 			this.butMerge.Size = new System.Drawing.Size(79, 24);
 			this.butMerge.TabIndex = 17;
@@ -93,7 +93,7 @@ namespace OpenPmsDental {
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(205, 14);
+			this.label3.Location = new System.Drawing.Point(205, 8);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(124, 18);
 			this.label3.TabIndex = 19;
@@ -102,7 +102,7 @@ namespace OpenPmsDental {
 			// 
 			// listLetters
 			// 
-			this.listLetters.Location = new System.Drawing.Point(206, 33);
+			this.listLetters.Location = new System.Drawing.Point(205, 28);
 			this.listLetters.Name = "listLetters";
 			this.listLetters.Size = new System.Drawing.Size(164, 368);
 			this.listLetters.TabIndex = 18;
@@ -112,7 +112,7 @@ namespace OpenPmsDental {
 			// butEditCats
 			// 
 			this.butEditCats.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butEditCats.Location = new System.Drawing.Point(14, 408);
+			this.butEditCats.Location = new System.Drawing.Point(14, 400);
 			this.butEditCats.Name = "butEditCats";
 			this.butEditCats.Size = new System.Drawing.Size(98, 24);
 			this.butEditCats.TabIndex = 20;
@@ -122,7 +122,7 @@ namespace OpenPmsDental {
 			// butCreateData
 			// 
 			this.butCreateData.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butCreateData.Location = new System.Drawing.Point(38, 22);
+			this.butCreateData.Location = new System.Drawing.Point(42, 23);
 			this.butCreateData.Name = "butCreateData";
 			this.butCreateData.Size = new System.Drawing.Size(79, 24);
 			this.butCreateData.TabIndex = 21;
@@ -133,7 +133,7 @@ namespace OpenPmsDental {
 			// 
 			this.butEditTemplate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butEditTemplate.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butEditTemplate.Location = new System.Drawing.Point(449, 348);
+			this.butEditTemplate.Location = new System.Drawing.Point(449, 309);
 			this.butEditTemplate.Name = "butEditTemplate";
 			this.butEditTemplate.Size = new System.Drawing.Size(92, 24);
 			this.butEditTemplate.TabIndex = 22;
@@ -148,33 +148,33 @@ namespace OpenPmsDental {
 			this.groupBox1.Controls.Add(this.butPreview);
 			this.groupBox1.Controls.Add(this.butMerge);
 			this.groupBox1.Controls.Add(this.butCreateData);
-			this.groupBox1.Location = new System.Drawing.Point(415, 128);
+			this.groupBox1.Location = new System.Drawing.Point(415, 116);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(158, 197);
+			this.groupBox1.Size = new System.Drawing.Size(158, 185);
 			this.groupBox1.TabIndex = 23;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Create";
 			// 
 			// comboImageCategory
 			// 
-			this.comboImageCategory.Location = new System.Drawing.Point(15, 164);
+			this.comboImageCategory.Location = new System.Drawing.Point(13, 154);
 			this.comboImageCategory.Name = "comboImageCategory";
-			this.comboImageCategory.Size = new System.Drawing.Size(137, 21);
+			this.comboImageCategory.Size = new System.Drawing.Size(137, 23);
 			this.comboImageCategory.TabIndex = 37;
 			// 
 			// labelImageCategory
 			// 
-			this.labelImageCategory.Location = new System.Drawing.Point(13, 147);
+			this.labelImageCategory.Location = new System.Drawing.Point(19, 135);
 			this.labelImageCategory.Name = "labelImageCategory";
 			this.labelImageCategory.Size = new System.Drawing.Size(124, 17);
 			this.labelImageCategory.TabIndex = 38;
 			this.labelImageCategory.Text = "Image Folder";
-			this.labelImageCategory.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+			this.labelImageCategory.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// butViewData
 			// 
 			this.butViewData.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butViewData.Location = new System.Drawing.Point(38, 53);
+			this.butViewData.Location = new System.Drawing.Point(42, 51);
 			this.butViewData.Name = "butViewData";
 			this.butViewData.Size = new System.Drawing.Size(79, 24);
 			this.butViewData.TabIndex = 23;
@@ -184,7 +184,7 @@ namespace OpenPmsDental {
 			// butPreview
 			// 
 			this.butPreview.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butPreview.Location = new System.Drawing.Point(38, 115);
+			this.butPreview.Location = new System.Drawing.Point(42, 107);
 			this.butPreview.Name = "butPreview";
 			this.butPreview.Size = new System.Drawing.Size(79, 24);
 			this.butPreview.TabIndex = 22;
@@ -194,7 +194,7 @@ namespace OpenPmsDental {
 			// butChartLetter
 			//
 			this.butChartLetter.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butChartLetter.Location = new System.Drawing.Point(453, 90);
+			this.butChartLetter.Location = new System.Drawing.Point(449, 84);
 			this.butChartLetter.Name = "butChartLetter";
 			this.butChartLetter.Size = new System.Drawing.Size(79, 24);
 			this.butChartLetter.TabIndex = 24;
@@ -203,7 +203,7 @@ namespace OpenPmsDental {
 			//
 			// FormLetterMerges
 			//
-			this.ClientSize = new System.Drawing.Size(579, 446);
+			this.ClientSize = new System.Drawing.Size(581, 446);
 			this.Controls.Add(this.butChartLetter);
 			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.butEditTemplate);

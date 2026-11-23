@@ -40,7 +40,7 @@
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(403, 346);
+			this.butSave.Location = new System.Drawing.Point(407, 345);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 28);
 			this.butSave.TabIndex = 11;
@@ -51,7 +51,7 @@
 			// butDelete
 			// 
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butDelete.Location = new System.Drawing.Point(11, 346);
+			this.butDelete.Location = new System.Drawing.Point(8, 345);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(75, 28);
 			this.butDelete.TabIndex = 12;
@@ -64,15 +64,15 @@
 			// 
 			this.textDescription.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textDescription.Location = new System.Drawing.Point(12, 97);
+			this.textDescription.Location = new System.Drawing.Point(8, 86);
 			this.textDescription.Multiline = true;
 			this.textDescription.Name = "textDescription";
-			this.textDescription.Size = new System.Drawing.Size(466, 106);
+			this.textDescription.Size = new System.Drawing.Size(471, 106);
 			this.textDescription.TabIndex = 16;
 			// 
 			// labelDescription
 			// 
-			this.labelDescription.Location = new System.Drawing.Point(11, 73);
+			this.labelDescription.Location = new System.Drawing.Point(8, 60);
 			this.labelDescription.Name = "labelDescription";
 			this.labelDescription.Size = new System.Drawing.Size(116, 21);
 			this.labelDescription.TabIndex = 17;
@@ -83,24 +83,24 @@
 			// 
 			this.textDateTime.Location = new System.Drawing.Point(271, 8);
 			this.textDateTime.Name = "textDateTime";
-			this.textDateTime.Size = new System.Drawing.Size(207, 20);
+			this.textDateTime.Size = new System.Drawing.Size(208, 23);
 			this.textDateTime.TabIndex = 18;
 			// 
 			// labelDateTime
 			// 
-			this.labelDateTime.Location = new System.Drawing.Point(153, 10);
+			this.labelDateTime.Location = new System.Drawing.Point(197, 8);
 			this.labelDateTime.Name = "labelDateTime";
-			this.labelDateTime.Size = new System.Drawing.Size(116, 17);
+			this.labelDateTime.Size = new System.Drawing.Size(68, 23);
 			this.labelDateTime.TabIndex = 19;
 			this.labelDateTime.Text = "Date Time";
 			this.labelDateTime.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// checkIsDiscontinued
 			// 
-			this.checkIsDiscontinued.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkIsDiscontinued.Location = new System.Drawing.Point(159, 36);
+			this.checkIsDiscontinued.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkIsDiscontinued.Location = new System.Drawing.Point(271, 35);
 			this.checkIsDiscontinued.Name = "checkIsDiscontinued";
-			this.checkIsDiscontinued.Size = new System.Drawing.Size(126, 18);
+			this.checkIsDiscontinued.Size = new System.Drawing.Size(94, 20);
 			this.checkIsDiscontinued.TabIndex = 23;
 			this.checkIsDiscontinued.Text = "Discontinued";
 			// 
@@ -109,9 +109,9 @@
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(12, 209);
+			this.gridMain.Location = new System.Drawing.Point(8, 196);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(385, 131);
+			this.gridMain.Size = new System.Drawing.Size(389, 131);
 			this.gridMain.TabIndex = 24;
 			this.gridMain.Title = "Attached Lab Panels";
 			this.gridMain.TranslationName = "TableAttachedPanels";
@@ -120,7 +120,7 @@
 			// butAttach
 			// 
 			this.butAttach.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butAttach.Location = new System.Drawing.Point(403, 209);
+			this.butAttach.Location = new System.Drawing.Point(403, 196);
 			this.butAttach.Name = "butAttach";
 			this.butAttach.Size = new System.Drawing.Size(75, 28);
 			this.butAttach.TabIndex = 25;
@@ -131,7 +131,7 @@
 			// butRemove
 			// 
 			this.butRemove.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butRemove.Location = new System.Drawing.Point(403, 238);
+			this.butRemove.Location = new System.Drawing.Point(403, 228);
 			this.butRemove.Name = "butRemove";
 			this.butRemove.Size = new System.Drawing.Size(75, 28);
 			this.butRemove.TabIndex = 26;
@@ -145,14 +145,14 @@
 			this.comboProv.FormattingEnabled = true;
 			this.comboProv.Location = new System.Drawing.Point(271, 59);
 			this.comboProv.Name = "comboProv";
-			this.comboProv.Size = new System.Drawing.Size(207, 21);
+			this.comboProv.Size = new System.Drawing.Size(208, 23);
 			this.comboProv.TabIndex = 27;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(153, 62);
+			this.label1.Location = new System.Drawing.Point(209, 59);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(116, 17);
+			this.label1.Size = new System.Drawing.Size(56, 23);
 			this.label1.TabIndex = 28;
 			this.label1.Text = "Provider";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

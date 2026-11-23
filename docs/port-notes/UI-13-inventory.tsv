@@ -24,7 +24,7 @@ OpenPmsDental.SheetEditMobilePreviewPanel	own control	1	0	keeps		(outside covera
 OpenPmsDental.TableTimeBar	own control	3	0	yes	TableTimeBar.PaintModern (UI-13)	(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	a framed column of 5-minute cells, filled cells Accent/AccentSubtle, cells, letters and slider steps at the window's scale (owner row 'Time pattern on the left looks odd')
 OpenPmsDental.TextBoxWiki	own control	1	0	yes	UiInputFrame (UI-12); UiScrollLook (UI-13)	OpenPmsDental/UI/UiInputFrame	a rich text box: framed; scroll bars in the Fluent look
 OpenPmsDental.ToothChartTextBelowStrip	own control	1	0	yes	ToothChartTextBelowStrip (UI-4c)	(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	
-OpenPmsDental.UI.Button	own control	2834	10	yes	UI.Button (UI-4a)	OpenPmsDental/UI/Button	
+OpenPmsDental.UI.Button	own control	2833	10	yes	UI.Button (UI-4a)	OpenPmsDental/UI/Button	
 OpenPmsDental.UI.CheckBox	own control	1251	3	yes	UI.CheckBox (UI-4a)	OpenPmsDental/UI/CheckBox	
 OpenPmsDental.UI.ComboBox	own control	554	0	yes	UI.ComboBox (UI-4b)	OpenPmsDental/UI/ComboBox	
 OpenPmsDental.UI.ComboBoxClinicPicker	own control	84	0	yes	ComboBoxClinicPicker (UI-4b)	OpenPmsDental/UI/ClinicSelector/ComboBoxClinicPicker	
@@ -92,7 +92,7 @@ System.Windows.Forms.Label	stock	4673	18	yes	UI-2a fonts; plain text in Text on 
 System.Windows.Forms.LinkLabel	stock	2	4	yes	UiLooks.SetLinkLabelLook (UI-13)	OpenPmsDental/UI/UiLooks	links in Accent
 System.Windows.Forms.ListBox	stock	5	0	yes	UiScrollLook (UI-13) scroll bars; UiBorderLook-free (Windows' flat list border)	OpenPmsDental/UI/UiScrollLook	its scroll bars in the Fluent look; the items keep Windows' list (the program's own list is UI.ListBox)
 System.Windows.Forms.ListView	stock	5	0	yes	UiLooks.AttachExplorerTheme and UiScrollLook (UI-13)	OpenPmsDental/UI/UiLooks	Windows 11's Explorer theme; scroll bars in the Fluent look
-System.Windows.Forms.MessageBox	stock	0	1724	keeps		OpenPmsDental/UI/MessageBox	keeps Windows' own look (docs/specs/ui-refresh-plan.md section 1: the Windows dialogs and message boxes)
+System.Windows.Forms.MessageBox	stock	0	1726	keeps		OpenPmsDental/UI/MessageBox	keeps Windows' own look (docs/specs/ui-refresh-plan.md section 1: the Windows dialogs and message boxes)
 System.Windows.Forms.MonthCalendar	stock	33	0	yes	UiLooks.SetMonthCalendarLook (UI-13): the token colours	OpenPmsDental/UI/UiLooks	Windows' month calendar control (no owner drawing: Windows draws the days, header and hot tracking in one window): Windows 11's themed calendar (flat arrows, today in a themed frame; the gallery draws it with visual styles), and the token colours where Windows draws it without a theme; the program's own calendar is MonthCalendarOD (UI-4b), but swapping the 33 stock ones is a behaviour change (their events and selection ranges differ)
 System.Windows.Forms.NumericUpDown	stock	9	0	yes	UiInputFrame and UiUpDownLook (UI-12)	OpenPmsDental/UI/UiUpDownLook	framed; its arrows as the combo box's chevrons
 System.Windows.Forms.OpenFileDialog	stock	4	38	keeps		(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	keeps Windows' own look (docs/specs/ui-refresh-plan.md section 1: the Windows dialogs and message boxes)

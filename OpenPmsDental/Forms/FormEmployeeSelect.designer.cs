@@ -41,7 +41,7 @@ namespace OpenPmsDental {
 			this.butAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdd.Location = new System.Drawing.Point(12, 589);
+			this.butAdd.Location = new System.Drawing.Point(12, 584);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(78, 26);
 			this.butAdd.TabIndex = 21;
@@ -53,7 +53,7 @@ namespace OpenPmsDental {
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(12, 51);
+			this.gridMain.Location = new System.Drawing.Point(12, 56);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
 			this.gridMain.Size = new System.Drawing.Size(909, 523);
@@ -64,9 +64,10 @@ namespace OpenPmsDental {
 			// label1
 			// 
 			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label1.Location = new System.Drawing.Point(261, 589);
+			this.label1.Location = new System.Drawing.Point(261, 584);
+			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(162, 29);
+			this.label1.Size = new System.Drawing.Size(164, 26);
 			this.label1.TabIndex = 24;
 			this.label1.Text = "Delete all unused employees";
 			// 
@@ -75,7 +76,7 @@ namespace OpenPmsDental {
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(158, 589);
+			this.butDelete.Location = new System.Drawing.Point(158, 584);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(97, 26);
 			this.butDelete.TabIndex = 17;
@@ -85,12 +86,12 @@ namespace OpenPmsDental {
 			// checkFurloughed
 			// 
 			this.checkFurloughed.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkFurloughed.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkFurloughed.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.checkFurloughed.Checked = true;
 			this.checkFurloughed.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkFurloughed.Location = new System.Drawing.Point(675, 7);
+			this.checkFurloughed.Location = new System.Drawing.Point(675, 8);
 			this.checkFurloughed.Name = "checkFurloughed";
-			this.checkFurloughed.Size = new System.Drawing.Size(104, 18);
+			this.checkFurloughed.Size = new System.Drawing.Size(85, 20);
 			this.checkFurloughed.TabIndex = 25;
 			this.checkFurloughed.Text = "Furloughed";
 			this.checkFurloughed.CheckedChanged += new System.EventHandler(this.checkFurloughed_CheckedChanged);
@@ -98,12 +99,12 @@ namespace OpenPmsDental {
 			// checkNonFurloughed
 			// 
 			this.checkNonFurloughed.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkNonFurloughed.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkNonFurloughed.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.checkNonFurloughed.Checked = true;
 			this.checkNonFurloughed.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkNonFurloughed.Location = new System.Drawing.Point(675, 26);
+			this.checkNonFurloughed.Location = new System.Drawing.Point(675, 32);
 			this.checkNonFurloughed.Name = "checkNonFurloughed";
-			this.checkNonFurloughed.Size = new System.Drawing.Size(112, 18);
+			this.checkNonFurloughed.Size = new System.Drawing.Size(114, 20);
 			this.checkNonFurloughed.TabIndex = 26;
 			this.checkNonFurloughed.Text = "Non-Furloughed";
 			this.checkNonFurloughed.CheckedChanged += new System.EventHandler(this.checkNonFurloughed_CheckedChanged);
@@ -111,12 +112,12 @@ namespace OpenPmsDental {
 			// checkWorkingOffice
 			// 
 			this.checkWorkingOffice.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkWorkingOffice.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkWorkingOffice.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.checkWorkingOffice.Checked = true;
 			this.checkWorkingOffice.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkWorkingOffice.Location = new System.Drawing.Point(793, 26);
+			this.checkWorkingOffice.Location = new System.Drawing.Point(795, 32);
 			this.checkWorkingOffice.Name = "checkWorkingOffice";
-			this.checkWorkingOffice.Size = new System.Drawing.Size(128, 18);
+			this.checkWorkingOffice.Size = new System.Drawing.Size(105, 20);
 			this.checkWorkingOffice.TabIndex = 28;
 			this.checkWorkingOffice.Text = "Working Office";
 			this.checkWorkingOffice.Visible = false;
@@ -125,12 +126,12 @@ namespace OpenPmsDental {
 			// checkWorkingHome
 			// 
 			this.checkWorkingHome.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkWorkingHome.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkWorkingHome.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.checkWorkingHome.Checked = true;
 			this.checkWorkingHome.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkWorkingHome.Location = new System.Drawing.Point(793, 7);
+			this.checkWorkingHome.Location = new System.Drawing.Point(795, 8);
 			this.checkWorkingHome.Name = "checkWorkingHome";
-			this.checkWorkingHome.Size = new System.Drawing.Size(128, 18);
+			this.checkWorkingHome.Size = new System.Drawing.Size(130, 20);
 			this.checkWorkingHome.TabIndex = 27;
 			this.checkWorkingHome.Text = "Working From Home";
 			this.checkWorkingHome.Visible = false;
@@ -140,7 +141,7 @@ namespace OpenPmsDental {
 			// 
 			this.butExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butExport.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butExport.Location = new System.Drawing.Point(553, 589);
+			this.butExport.Location = new System.Drawing.Point(553, 584);
 			this.butExport.Name = "butExport";
 			this.butExport.Size = new System.Drawing.Size(83, 26);
 			this.butExport.TabIndex = 29;
@@ -150,33 +151,33 @@ namespace OpenPmsDental {
 			// checkHidden
 			// 
 			this.checkHidden.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkHidden.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkHidden.Location = new System.Drawing.Point(535, 7);
+			this.checkHidden.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkHidden.Location = new System.Drawing.Point(535, 8);
 			this.checkHidden.Name = "checkHidden";
-			this.checkHidden.Size = new System.Drawing.Size(104, 18);
+			this.checkHidden.Size = new System.Drawing.Size(62, 20);
 			this.checkHidden.TabIndex = 30;
 			this.checkHidden.Text = "Hidden";
 			this.checkHidden.CheckedChanged += new System.EventHandler(this.checkHidden_CheckedChanged);
 			// 
 			// textSearch
 			// 
-			this.textSearch.Location = new System.Drawing.Point(69, 15);
+			this.textSearch.Location = new System.Drawing.Point(69, 8);
 			this.textSearch.Name = "textSearch";
-			this.textSearch.Size = new System.Drawing.Size(179, 20);
+			this.textSearch.Size = new System.Drawing.Size(180, 23);
 			this.textSearch.TabIndex = 0;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(9, 16);
+			this.label2.Location = new System.Drawing.Point(15, 8);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(57, 18);
+			this.label2.Size = new System.Drawing.Size(48, 23);
 			this.label2.TabIndex = 32;
 			this.label2.Text = "Search";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// FormEmployeeSelect
 			// 
-			this.ClientSize = new System.Drawing.Size(933, 627);
+			this.ClientSize = new System.Drawing.Size(933, 618);
 			this.Controls.Add(this.label2);
 			this.Controls.Add(this.textSearch);
 			this.Controls.Add(this.checkHidden);

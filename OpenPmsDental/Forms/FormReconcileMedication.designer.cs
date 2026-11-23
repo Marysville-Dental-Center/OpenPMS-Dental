@@ -38,10 +38,10 @@ namespace OpenPmsDental{
 			this.gridMedExisting.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMedExisting.Location = new System.Drawing.Point(4, 12);
+			this.gridMedExisting.Location = new System.Drawing.Point(8, 8);
 			this.gridMedExisting.Name = "gridMedExisting";
 			this.gridMedExisting.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridMedExisting.Size = new System.Drawing.Size(480, 245);
+			this.gridMedExisting.Size = new System.Drawing.Size(482, 245);
 			this.gridMedExisting.TabIndex = 65;
 			this.gridMedExisting.Title = "Current Medications";
 			this.gridMedExisting.TranslationName = "GridMedExisting";
@@ -50,10 +50,10 @@ namespace OpenPmsDental{
 			// 
 			this.gridMedImport.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMedImport.Location = new System.Drawing.Point(497, 12);
+			this.gridMedImport.Location = new System.Drawing.Point(498, 8);
 			this.gridMedImport.Name = "gridMedImport";
 			this.gridMedImport.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridMedImport.Size = new System.Drawing.Size(480, 245);
+			this.gridMedImport.Size = new System.Drawing.Size(483, 245);
 			this.gridMedImport.TabIndex = 77;
 			this.gridMedImport.Title = "Transition of Care/Referral Summary";
 			this.gridMedImport.TranslationName = "GridMedImport";
@@ -62,10 +62,10 @@ namespace OpenPmsDental{
 			// 
 			this.gridMedReconcile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMedReconcile.Location = new System.Drawing.Point(4, 293);
+			this.gridMedReconcile.Location = new System.Drawing.Point(8, 285);
 			this.gridMedReconcile.Name = "gridMedReconcile";
 			this.gridMedReconcile.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridMedReconcile.Size = new System.Drawing.Size(973, 300);
+			this.gridMedReconcile.Size = new System.Drawing.Size(973, 336);
 			this.gridMedReconcile.TabIndex = 67;
 			this.gridMedReconcile.Title = "Reconciled Medications";
 			this.gridMedReconcile.TranslationName = "gridMedReconcile";
@@ -73,7 +73,7 @@ namespace OpenPmsDental{
 			// butRemoveRec
 			// 
 			this.butRemoveRec.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-			this.butRemoveRec.Location = new System.Drawing.Point(437, 599);
+			this.butRemoveRec.Location = new System.Drawing.Point(445, 625);
 			this.butRemoveRec.Name = "butRemoveRec";
 			this.butRemoveRec.Size = new System.Drawing.Size(99, 24);
 			this.butRemoveRec.TabIndex = 82;
@@ -83,7 +83,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(902, 640);
+			this.butSave.Location = new System.Drawing.Point(906, 653);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 81;
@@ -95,12 +95,12 @@ namespace OpenPmsDental{
 			this.butAddNew.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butAddNew.Icon = OpenPmsDental.UI.EnumIcons.Down;
 			this.butAddNew.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAddNew.Location = new System.Drawing.Point(712, 263);
+			this.butAddNew.Location = new System.Drawing.Point(909, 257);
 			this.butAddNew.Name = "butAddNew";
-			this.butAddNew.Size = new System.Drawing.Size(51, 24);
+			this.butAddNew.Size = new System.Drawing.Size(72, 24);
 			this.butAddNew.TabIndex = 80;
 			this.butAddNew.Text = "Add";
-			this.butAddNew.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.butAddNew.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.butAddNew.Click += new System.EventHandler(this.butAddNew_Click);
 			// 
 			// butAddExist
@@ -108,18 +108,18 @@ namespace OpenPmsDental{
 			this.butAddExist.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
 			this.butAddExist.Icon = OpenPmsDental.UI.EnumIcons.Down;
 			this.butAddExist.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAddExist.Location = new System.Drawing.Point(218, 263);
+			this.butAddExist.Location = new System.Drawing.Point(418, 257);
 			this.butAddExist.Name = "butAddExist";
-			this.butAddExist.Size = new System.Drawing.Size(51, 24);
+			this.butAddExist.Size = new System.Drawing.Size(72, 24);
 			this.butAddExist.TabIndex = 79;
 			this.butAddExist.Text = "Add";
-			this.butAddExist.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.butAddExist.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.butAddExist.Click += new System.EventHandler(this.butAddExist_Click);
 			// 
 			// labelBatch
 			// 
 			this.labelBatch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelBatch.Location = new System.Drawing.Point(157, 640);
+			this.labelBatch.Location = new System.Drawing.Point(161, 653);
 			this.labelBatch.Name = "labelBatch";
 			this.labelBatch.Size = new System.Drawing.Size(739, 24);
 			this.labelBatch.TabIndex = 153;
@@ -129,7 +129,7 @@ namespace OpenPmsDental{
 			// FormReconcileMedication
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(982, 676);
+			this.ClientSize = new System.Drawing.Size(989, 685);
 			this.Controls.Add(this.labelBatch);
 			this.Controls.Add(this.gridMedExisting);
 			this.Controls.Add(this.gridMedImport);

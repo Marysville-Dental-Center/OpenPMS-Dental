@@ -36,9 +36,9 @@
 			//
 			// labelInstructions
 			//
-			this.labelInstructions.Location = new System.Drawing.Point(3, 3);
+			this.labelInstructions.Location = new System.Drawing.Point(8, 8);
 			this.labelInstructions.Name = "labelInstructions";
-			this.labelInstructions.Size = new System.Drawing.Size(389, 31);
+			this.labelInstructions.Size = new System.Drawing.Size(340, 31);
 			this.labelInstructions.TabIndex = 221;
 			this.labelInstructions.Text = "Click a display name to rename the report, or a box to mark it.\r\nUp and Down move the selected report within its category.";
 			this.labelInstructions.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -46,18 +46,18 @@
 			// labelAllowedCount
 			//
 			this.labelAllowedCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelAllowedCount.Location = new System.Drawing.Point(376, 5);
+			this.labelAllowedCount.Location = new System.Drawing.Point(369, 8);
 			this.labelAllowedCount.Name = "labelAllowedCount";
-			this.labelAllowedCount.Size = new System.Drawing.Size(146, 24);
+			this.labelAllowedCount.Size = new System.Drawing.Size(148, 23);
 			this.labelAllowedCount.TabIndex = 222;
 			this.labelAllowedCount.Text = "Reports allowed: 0 / 0";
 			this.labelAllowedCount.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			//
 			// labelUserGroup
 			//
-			this.labelUserGroup.Location = new System.Drawing.Point(6, 5);
+			this.labelUserGroup.Location = new System.Drawing.Point(8, 8);
 			this.labelUserGroup.Name = "labelUserGroup";
-			this.labelUserGroup.Size = new System.Drawing.Size(73, 23);
+			this.labelUserGroup.Size = new System.Drawing.Size(72, 23);
 			this.labelUserGroup.TabIndex = 224;
 			this.labelUserGroup.Text = "User Group";
 			this.labelUserGroup.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -65,9 +65,9 @@
 			// comboUserGroup
 			//
 			this.comboUserGroup.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.comboUserGroup.Location = new System.Drawing.Point(80, 6);
+			this.comboUserGroup.Location = new System.Drawing.Point(86, 8);
 			this.comboUserGroup.Name = "comboUserGroup";
-			this.comboUserGroup.Size = new System.Drawing.Size(147, 21);
+			this.comboUserGroup.Size = new System.Drawing.Size(133, 23);
 			this.comboUserGroup.TabIndex = 225;
 			this.comboUserGroup.SelectionChangeCommitted += new System.EventHandler(this.comboUserGroup_SelectionChangeCommitted);
 			//
@@ -76,10 +76,10 @@
 			this.gridReports.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridReports.Location = new System.Drawing.Point(3, 35);
+			this.gridReports.Location = new System.Drawing.Point(8, 47);
 			this.gridReports.Name = "gridReports";
 			this.gridReports.SelectionMode = OpenPmsDental.UI.GridSelectionMode.OneCell;
-			this.gridReports.Size = new System.Drawing.Size(519, 569);
+			this.gridReports.Size = new System.Drawing.Size(509, 552);
 			this.gridReports.TabIndex = 214;
 			this.gridReports.Title = "Reports";
 			this.gridReports.TranslationName = "TableReportSetup";
@@ -91,9 +91,9 @@
 			this.butDown.Icon = OpenPmsDental.UI.EnumIcons.Down;
 			this.butDown.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butDown.Location = new System.Drawing.Point(459, 5);
+			this.butDown.Location = new System.Drawing.Point(442, 8);
 			this.butDown.Name = "butDown";
-			this.butDown.Size = new System.Drawing.Size(63, 24);
+			this.butDown.Size = new System.Drawing.Size(75, 24);
 			this.butDown.TabIndex = 220;
 			this.butDown.Text = "Down";
 			this.butDown.Click += new System.EventHandler(this.butDown_Click);
@@ -103,27 +103,27 @@
 			this.butUp.Icon = OpenPmsDental.UI.EnumIcons.Up;
 			this.butUp.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butUp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butUp.Location = new System.Drawing.Point(392, 5);
+			this.butUp.Location = new System.Drawing.Point(361, 8);
 			this.butUp.Name = "butUp";
-			this.butUp.Size = new System.Drawing.Size(63, 24);
+			this.butUp.Size = new System.Drawing.Size(75, 24);
 			this.butUp.TabIndex = 219;
 			this.butUp.Text = "Up";
 			this.butUp.Click += new System.EventHandler(this.butUp_Click);
 			//
 			// butSetAll
 			//
-			this.butSetAll.Location = new System.Drawing.Point(236, 5);
+			this.butSetAll.Location = new System.Drawing.Point(225, 8);
 			this.butSetAll.Name = "butSetAll";
-			this.butSetAll.Size = new System.Drawing.Size(66, 24);
+			this.butSetAll.Size = new System.Drawing.Size(66, 23);
 			this.butSetAll.TabIndex = 223;
 			this.butSetAll.Text = "Set All";
 			this.butSetAll.Click += new System.EventHandler(this.butSetAll_Click);
 			//
 			// butSetNone
 			//
-			this.butSetNone.Location = new System.Drawing.Point(306, 5);
+			this.butSetNone.Location = new System.Drawing.Point(297, 8);
 			this.butSetNone.Name = "butSetNone";
-			this.butSetNone.Size = new System.Drawing.Size(66, 24);
+			this.butSetNone.Size = new System.Drawing.Size(66, 23);
 			this.butSetNone.TabIndex = 226;
 			this.butSetNone.Text = "Set None";
 			this.butSetNone.Click += new System.EventHandler(this.butSetNone_Click);

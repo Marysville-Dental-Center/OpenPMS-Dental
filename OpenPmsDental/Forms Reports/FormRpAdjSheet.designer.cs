@@ -40,7 +40,7 @@ namespace OpenPmsDental {
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(639, 366);
+			this.butOK.Location = new System.Drawing.Point(640, 414);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 26);
 			this.butOK.TabIndex = 3;
@@ -49,28 +49,28 @@ namespace OpenPmsDental {
 			// 
 			// date2
 			// 
-			this.date2.Location = new System.Drawing.Point(288, 37);
+			this.date2.Location = new System.Drawing.Point(288, 26);
 			this.date2.Name = "date2";
 			this.date2.TabIndex = 2;
 			// 
 			// date1
 			// 
-			this.date1.Location = new System.Drawing.Point(32, 37);
+			this.date1.Location = new System.Drawing.Point(29, 26);
 			this.date1.Name = "date1";
 			this.date1.TabIndex = 1;
 			// 
 			// labelTO
 			// 
-			this.labelTO.Location = new System.Drawing.Point(248, 37);
+			this.labelTO.Location = new System.Drawing.Point(239, 26);
 			this.labelTO.Name = "labelTO";
-			this.labelTO.Size = new System.Drawing.Size(51, 23);
+			this.labelTO.Size = new System.Drawing.Size(28, 23);
 			this.labelTO.TabIndex = 28;
 			this.labelTO.Text = "TO";
-			this.labelTO.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.labelTO.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// listProv
 			// 
-			this.listProv.Location = new System.Drawing.Point(533, 51);
+			this.listProv.Location = new System.Drawing.Point(533, 50);
 			this.listProv.Name = "listProv";
 			this.listProv.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
 			this.listProv.Size = new System.Drawing.Size(181, 147);
@@ -79,7 +79,7 @@ namespace OpenPmsDental {
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(530, 18);
+			this.label1.Location = new System.Drawing.Point(530, 8);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(104, 16);
 			this.label1.TabIndex = 35;
@@ -87,7 +87,7 @@ namespace OpenPmsDental {
 			// 
 			// listType
 			// 
-			this.listType.Location = new System.Drawing.Point(32, 245);
+			this.listType.Location = new System.Drawing.Point(29, 255);
 			this.listType.Name = "listType";
 			this.listType.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
 			this.listType.Size = new System.Drawing.Size(227, 147);
@@ -96,7 +96,7 @@ namespace OpenPmsDental {
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(29, 209);
+			this.label2.Location = new System.Drawing.Point(29, 210);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(120, 17);
 			this.label2.TabIndex = 38;
@@ -106,25 +106,25 @@ namespace OpenPmsDental {
 			// 
 			this.checkAllProv.Checked = true;
 			this.checkAllProv.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkAllProv.Location = new System.Drawing.Point(533, 34);
+			this.checkAllProv.Location = new System.Drawing.Point(533, 26);
 			this.checkAllProv.Name = "checkAllProv";
-			this.checkAllProv.Size = new System.Drawing.Size(95, 17);
+			this.checkAllProv.Size = new System.Drawing.Size(36, 20);
 			this.checkAllProv.TabIndex = 48;
 			this.checkAllProv.Text = "All";
 			this.checkAllProv.Click += new System.EventHandler(this.checkAllProv_Click);
 			// 
 			// checkAllClin
 			// 
-			this.checkAllClin.Location = new System.Drawing.Point(288, 226);
+			this.checkAllClin.Location = new System.Drawing.Point(262, 231);
 			this.checkAllClin.Name = "checkAllClin";
-			this.checkAllClin.Size = new System.Drawing.Size(154, 18);
+			this.checkAllClin.Size = new System.Drawing.Size(134, 20);
 			this.checkAllClin.TabIndex = 51;
 			this.checkAllClin.Text = "All (Includes hidden)";
 			this.checkAllClin.Click += new System.EventHandler(this.checkAllClin_Click);
 			// 
 			// listClin
 			// 
-			this.listClin.Location = new System.Drawing.Point(288, 245);
+			this.listClin.Location = new System.Drawing.Point(262, 255);
 			this.listClin.Name = "listClin";
 			this.listClin.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
 			this.listClin.Size = new System.Drawing.Size(154, 147);
@@ -133,25 +133,25 @@ namespace OpenPmsDental {
 			// 
 			// labelClin
 			// 
-			this.labelClin.Location = new System.Drawing.Point(285, 208);
+			this.labelClin.Location = new System.Drawing.Point(262, 210);
 			this.labelClin.Name = "labelClin";
-			this.labelClin.Size = new System.Drawing.Size(104, 16);
+			this.labelClin.Size = new System.Drawing.Size(104, 17);
 			this.labelClin.TabIndex = 49;
 			this.labelClin.Text = "Clinics";
 			this.labelClin.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// checkAllAdjs
 			// 
-			this.checkAllAdjs.Location = new System.Drawing.Point(32, 226);
+			this.checkAllAdjs.Location = new System.Drawing.Point(29, 231);
 			this.checkAllAdjs.Name = "checkAllAdjs";
-			this.checkAllAdjs.Size = new System.Drawing.Size(95, 18);
+			this.checkAllAdjs.Size = new System.Drawing.Size(36, 20);
 			this.checkAllAdjs.TabIndex = 52;
 			this.checkAllAdjs.Text = "All";
 			this.checkAllAdjs.Click += new System.EventHandler(this.checkAllAdjs_Click);
 			// 
 			// FormRpAdjSheet
 			// 
-			this.ClientSize = new System.Drawing.Size(723, 402);
+			this.ClientSize = new System.Drawing.Size(723, 448);
 			this.Controls.Add(this.checkAllAdjs);
 			this.Controls.Add(this.checkAllClin);
 			this.Controls.Add(this.listClin);

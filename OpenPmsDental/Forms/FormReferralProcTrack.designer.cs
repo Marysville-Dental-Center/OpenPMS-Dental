@@ -35,28 +35,28 @@ namespace OpenPmsDental{
 			// 
 			// checkComplete
 			// 
-			this.checkComplete.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkComplete.Location = new System.Drawing.Point(441, 21);
+			this.checkComplete.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkComplete.Location = new System.Drawing.Point(417, 9);
 			this.checkComplete.Name = "checkComplete";
-			this.checkComplete.Size = new System.Drawing.Size(178, 18);
+			this.checkComplete.Size = new System.Drawing.Size(180, 20);
 			this.checkComplete.TabIndex = 2;
 			this.checkComplete.Text = "Show Completed Procedures";
 			this.checkComplete.Click += new System.EventHandler(this.checkComplete_Click);
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(4, 22);
+			this.label1.Location = new System.Drawing.Point(36, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(100, 17);
+			this.label1.Size = new System.Drawing.Size(68, 23);
 			this.label1.TabIndex = 7;
 			this.label1.Text = "Date From";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(216, 22);
+			this.label2.Location = new System.Drawing.Point(253, 8);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(89, 17);
+			this.label2.Size = new System.Drawing.Size(52, 23);
 			this.label2.TabIndex = 7;
 			this.label2.Text = "Date To";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -66,9 +66,9 @@ namespace OpenPmsDental{
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(23, 55);
+			this.gridMain.Location = new System.Drawing.Point(23, 35);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(762, 411);
+			this.gridMain.Size = new System.Drawing.Size(762, 463);
 			this.gridMain.TabIndex = 4;
 			this.gridMain.Title = "Referred Procedures";
 			this.gridMain.TranslationName = "TableProcedures";
@@ -79,7 +79,7 @@ namespace OpenPmsDental{
 			this.butPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butPrint.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Print,16,16);
 			this.butPrint.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butPrint.Location = new System.Drawing.Point(23, 488);
+			this.butPrint.Location = new System.Drawing.Point(23, 502);
 			this.butPrint.Name = "butPrint";
 			this.butPrint.Size = new System.Drawing.Size(79, 24);
 			this.butPrint.TabIndex = 5;
@@ -89,23 +89,23 @@ namespace OpenPmsDental{
 			// butRefresh
 			// 
 			this.butRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butRefresh.Location = new System.Drawing.Point(710, 15);
+			this.butRefresh.Location = new System.Drawing.Point(710, 8);
 			this.butRefresh.Name = "butRefresh";
-			this.butRefresh.Size = new System.Drawing.Size(75, 24);
+			this.butRefresh.Size = new System.Drawing.Size(75, 23);
 			this.butRefresh.TabIndex = 3;
 			this.butRefresh.Text = "Refresh";
 			this.butRefresh.Click += new System.EventHandler(this.butRefresh_Click);
 			// 
 			// textDateFrom
 			// 
-			this.textDateFrom.Location = new System.Drawing.Point(110, 19);
+			this.textDateFrom.Location = new System.Drawing.Point(110, 8);
 			this.textDateFrom.Name = "textDateFrom";
 			this.textDateFrom.Size = new System.Drawing.Size(100, 20);
 			this.textDateFrom.TabIndex = 0;
 			// 
 			// textDateTo
 			// 
-			this.textDateTo.Location = new System.Drawing.Point(311, 18);
+			this.textDateTo.Location = new System.Drawing.Point(311, 8);
 			this.textDateTo.Name = "textDateTo";
 			this.textDateTo.Size = new System.Drawing.Size(100, 20);
 			this.textDateTo.TabIndex = 1;

@@ -39,16 +39,16 @@ namespace OpenPmsDental {
 			// 
 			// checkHidden
 			// 
-			this.checkHidden.Location = new System.Drawing.Point(390, 14);
+			this.checkHidden.Location = new System.Drawing.Point(362, 9);
 			this.checkHidden.Name = "checkHidden";
-			this.checkHidden.Size = new System.Drawing.Size(124, 18);
+			this.checkHidden.Size = new System.Drawing.Size(62, 20);
 			this.checkHidden.TabIndex = 1;
 			this.checkHidden.Text = "Hidden";
 			// 
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(680, 486);
+			this.butSave.Location = new System.Drawing.Point(680, 521);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 26);
 			this.butSave.TabIndex = 19;
@@ -57,34 +57,34 @@ namespace OpenPmsDental {
 			// 
 			// textDescript
 			// 
-			this.textDescript.Location = new System.Drawing.Point(148, 16);
+			this.textDescript.Location = new System.Drawing.Point(148, 8);
 			this.textDescript.Name = "textDescript";
-			this.textDescript.Size = new System.Drawing.Size(210, 20);
+			this.textDescript.Size = new System.Drawing.Size(208, 23);
 			this.textDescript.TabIndex = 22;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(20, 20);
+			this.label1.Location = new System.Drawing.Point(70, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(122, 18);
+			this.label1.Size = new System.Drawing.Size(72, 23);
 			this.label1.TabIndex = 23;
 			this.label1.Text = "Description";
-			this.label1.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label2
 			// 
 			this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.label2.Location = new System.Drawing.Point(421, 475);
+			this.label2.Location = new System.Drawing.Point(428, 518);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(246, 48);
+			this.label2.Size = new System.Drawing.Size(246, 31);
 			this.label2.TabIndex = 26;
 			this.label2.Text = "Items are saved as they are changed.\r\nThe Save button is for the 3 fields at the " +
     "top.";
-			this.label2.TextAlign = System.Drawing.ContentAlignment.BottomRight;
+			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(36, 72);
+			this.label3.Location = new System.Drawing.Point(36, 59);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(436, 18);
 			this.label3.TabIndex = 27;
@@ -95,7 +95,7 @@ namespace OpenPmsDental {
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(163, 486);
+			this.butDelete.Location = new System.Drawing.Point(163, 521);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(88, 26);
 			this.butDelete.TabIndex = 29;
@@ -107,7 +107,7 @@ namespace OpenPmsDental {
 			this.butAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdd.Location = new System.Drawing.Point(36, 486);
+			this.butAdd.Location = new System.Drawing.Point(36, 521);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(84, 26);
 			this.butAdd.TabIndex = 28;
@@ -116,9 +116,9 @@ namespace OpenPmsDental {
 			// 
 			// checkLessIntrusive
 			// 
-			this.checkLessIntrusive.Location = new System.Drawing.Point(390, 34);
+			this.checkLessIntrusive.Location = new System.Drawing.Point(148, 35);
 			this.checkLessIntrusive.Name = "checkLessIntrusive";
-			this.checkLessIntrusive.Size = new System.Drawing.Size(404, 30);
+			this.checkLessIntrusive.Size = new System.Drawing.Size(574, 20);
 			this.checkLessIntrusive.TabIndex = 30;
 			this.checkLessIntrusive.Text = "Do not check codes in the procedure edit window, but only use this auto code for " +
     "procedure buttons.";
@@ -128,16 +128,16 @@ namespace OpenPmsDental {
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(36, 94);
+			this.gridMain.Location = new System.Drawing.Point(36, 79);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(719, 378);
+			this.gridMain.Size = new System.Drawing.Size(719, 434);
 			this.gridMain.TabIndex = 31;
 			this.gridMain.CellDoubleClick += new OpenPmsDental.UI.ODGridClickEventHandler(this.gridMain_CellDoubleClick);
 			// 
 			// FormAutoCodeEdit
 			// 
 			this.AcceptButton = this.butSave;
-			this.ClientSize = new System.Drawing.Size(794, 524);
+			this.ClientSize = new System.Drawing.Size(794, 555);
 			this.Controls.Add(this.gridMain);
 			this.Controls.Add(this.butSave);
 			this.Controls.Add(this.checkLessIntrusive);

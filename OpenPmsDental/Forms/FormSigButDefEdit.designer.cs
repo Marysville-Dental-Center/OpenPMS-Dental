@@ -57,26 +57,26 @@ namespace OpenPmsDental {
 			// label2
 			// 
 			this.label2.ImageAlign = System.Drawing.ContentAlignment.TopRight;
-			this.label2.Location = new System.Drawing.Point(102, 84);
+			this.label2.Location = new System.Drawing.Point(166, 59);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(100, 20);
+			this.label2.Size = new System.Drawing.Size(32, 23);
 			this.label2.TabIndex = 4;
 			this.label2.Text = "Text";
-			this.label2.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textButtonText
 			// 
-			this.textButtonText.Location = new System.Drawing.Point(204, 81);
+			this.textButtonText.Location = new System.Drawing.Point(204, 59);
 			this.textButtonText.Name = "textButtonText";
-			this.textButtonText.Size = new System.Drawing.Size(105, 20);
+			this.textButtonText.Size = new System.Drawing.Size(120, 23);
 			this.textButtonText.TabIndex = 0;
 			// 
 			// label3
 			// 
 			this.label3.ImageAlign = System.Drawing.ContentAlignment.TopRight;
-			this.label3.Location = new System.Drawing.Point(261, 104);
+			this.label3.Location = new System.Drawing.Point(262, 86);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(304, 43);
+			this.label3.Size = new System.Drawing.Size(304, 47);
 			this.label3.TabIndex = 6;
 			this.label3.Text = "The cell number (1-9) of the main program icon that should light up whenever this" +
     " button lights up.  0 for none.";
@@ -85,9 +85,9 @@ namespace OpenPmsDental {
 			// label5
 			// 
 			this.label5.ImageAlign = System.Drawing.ContentAlignment.TopRight;
-			this.label5.Location = new System.Drawing.Point(102, 114);
+			this.label5.Location = new System.Drawing.Point(134, 86);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(100, 20);
+			this.label5.Size = new System.Drawing.Size(64, 23);
 			this.label5.TabIndex = 8;
 			this.label5.Text = "Sync Icon";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -100,7 +100,7 @@ namespace OpenPmsDental {
 			// 
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(12, 305);
+			this.butDelete.Location = new System.Drawing.Point(8, 309);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(82, 26);
 			this.butDelete.TabIndex = 14;
@@ -109,16 +109,16 @@ namespace OpenPmsDental {
 			// 
 			// textSynchIcon
 			// 
-			this.textSynchIcon.Location = new System.Drawing.Point(204, 114);
+			this.textSynchIcon.Location = new System.Drawing.Point(204, 86);
 			this.textSynchIcon.MaxVal = 9;
 			this.textSynchIcon.Name = "textSynchIcon";
-			this.textSynchIcon.Size = new System.Drawing.Size(51, 20);
+			this.textSynchIcon.Size = new System.Drawing.Size(52, 23);
 			this.textSynchIcon.TabIndex = 1;
 			// 
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(490, 305);
+			this.butSave.Location = new System.Drawing.Point(497, 309);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 26);
 			this.butSave.TabIndex = 2;
@@ -128,10 +128,10 @@ namespace OpenPmsDental {
 			// radioAll
 			// 
 			this.radioAll.AutoCheck = false;
-			this.radioAll.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.radioAll.Location = new System.Drawing.Point(2, 10);
+			this.radioAll.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.radioAll.Location = new System.Drawing.Point(204, 8);
 			this.radioAll.Name = "radioAll";
-			this.radioAll.Size = new System.Drawing.Size(214, 23);
+			this.radioAll.Size = new System.Drawing.Size(153, 20);
 			this.radioAll.TabIndex = 15;
 			this.radioAll.TabStop = true;
 			this.radioAll.Text = "Applies to all computers";
@@ -141,10 +141,10 @@ namespace OpenPmsDental {
 			// radioOne
 			// 
 			this.radioOne.AutoCheck = false;
-			this.radioOne.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.radioOne.Location = new System.Drawing.Point(2, 33);
+			this.radioOne.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.radioOne.Location = new System.Drawing.Point(204, 33);
 			this.radioOne.Name = "radioOne";
-			this.radioOne.Size = new System.Drawing.Size(214, 23);
+			this.radioOne.Size = new System.Drawing.Size(185, 20);
 			this.radioOne.TabIndex = 16;
 			this.radioOne.TabStop = true;
 			this.radioOne.Text = "Only applies to one computer:";
@@ -153,25 +153,25 @@ namespace OpenPmsDental {
 			// 
 			// textComputerName
 			// 
-			this.textComputerName.Location = new System.Drawing.Point(225, 33);
+			this.textComputerName.Location = new System.Drawing.Point(395, 32);
 			this.textComputerName.Name = "textComputerName";
 			this.textComputerName.ReadOnly = true;
-			this.textComputerName.Size = new System.Drawing.Size(154, 20);
+			this.textComputerName.Size = new System.Drawing.Size(152, 23);
 			this.textComputerName.TabIndex = 17;
 			// 
 			// comboTo
 			// 
-			this.comboTo.Location = new System.Drawing.Point(204, 147);
+			this.comboTo.Location = new System.Drawing.Point(204, 137);
 			this.comboTo.Name = "comboTo";
-			this.comboTo.Size = new System.Drawing.Size(121, 21);
+			this.comboTo.Size = new System.Drawing.Size(120, 23);
 			this.comboTo.TabIndex = 18;
 			// 
 			// label4
 			// 
 			this.label4.ImageAlign = System.Drawing.ContentAlignment.TopRight;
-			this.label4.Location = new System.Drawing.Point(102, 148);
+			this.label4.Location = new System.Drawing.Point(146, 137);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(100, 20);
+			this.label4.Size = new System.Drawing.Size(52, 23);
 			this.label4.TabIndex = 19;
 			this.label4.Text = "To User";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -179,35 +179,35 @@ namespace OpenPmsDental {
 			// label10
 			// 
 			this.label10.ImageAlign = System.Drawing.ContentAlignment.TopRight;
-			this.label10.Location = new System.Drawing.Point(102, 183);
+			this.label10.Location = new System.Drawing.Point(154, 164);
 			this.label10.Name = "label10";
-			this.label10.Size = new System.Drawing.Size(100, 20);
+			this.label10.Size = new System.Drawing.Size(44, 23);
 			this.label10.TabIndex = 24;
 			this.label10.Text = "Extras";
 			this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// comboExtras
 			// 
-			this.comboExtras.Location = new System.Drawing.Point(204, 182);
+			this.comboExtras.Location = new System.Drawing.Point(204, 164);
 			this.comboExtras.Name = "comboExtras";
-			this.comboExtras.Size = new System.Drawing.Size(121, 21);
+			this.comboExtras.Size = new System.Drawing.Size(120, 23);
 			this.comboExtras.TabIndex = 23;
 			// 
 			// label11
 			// 
 			this.label11.ImageAlign = System.Drawing.ContentAlignment.TopRight;
-			this.label11.Location = new System.Drawing.Point(102, 217);
+			this.label11.Location = new System.Drawing.Point(138, 191);
 			this.label11.Name = "label11";
-			this.label11.Size = new System.Drawing.Size(100, 20);
+			this.label11.Size = new System.Drawing.Size(60, 23);
 			this.label11.TabIndex = 26;
 			this.label11.Text = "Message";
 			this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// comboMessage
 			// 
-			this.comboMessage.Location = new System.Drawing.Point(204, 216);
+			this.comboMessage.Location = new System.Drawing.Point(204, 191);
 			this.comboMessage.Name = "comboMessage";
-			this.comboMessage.Size = new System.Drawing.Size(121, 21);
+			this.comboMessage.Size = new System.Drawing.Size(120, 23);
 			this.comboMessage.TabIndex = 25;
 			// 
 			// FormSigButDefEdit

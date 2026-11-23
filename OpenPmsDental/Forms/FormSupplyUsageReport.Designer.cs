@@ -38,59 +38,59 @@ namespace OpenPmsDental {
 			//
 			// labelFrom
 			//
-			this.labelFrom.Location = new System.Drawing.Point(12, 12);
+			this.labelFrom.Location = new System.Drawing.Point(8, 8);
 			this.labelFrom.Name = "labelFrom";
-			this.labelFrom.Size = new System.Drawing.Size(40, 18);
+			this.labelFrom.Size = new System.Drawing.Size(40, 23);
 			this.labelFrom.TabIndex = 0;
 			this.labelFrom.Text = "From";
 			this.labelFrom.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			//
 			// textDateFrom
 			//
-			this.textDateFrom.Location = new System.Drawing.Point(54, 11);
+			this.textDateFrom.Location = new System.Drawing.Point(54, 8);
 			this.textDateFrom.Name = "textDateFrom";
 			this.textDateFrom.Size = new System.Drawing.Size(80, 20);
 			this.textDateFrom.TabIndex = 1;
 			//
 			// labelTo
 			//
-			this.labelTo.Location = new System.Drawing.Point(138, 12);
+			this.labelTo.Location = new System.Drawing.Point(150, 8);
 			this.labelTo.Name = "labelTo";
-			this.labelTo.Size = new System.Drawing.Size(24, 18);
+			this.labelTo.Size = new System.Drawing.Size(24, 23);
 			this.labelTo.TabIndex = 2;
 			this.labelTo.Text = "To";
 			this.labelTo.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			//
 			// textDateTo
 			//
-			this.textDateTo.Location = new System.Drawing.Point(164, 11);
+			this.textDateTo.Location = new System.Drawing.Point(180, 8);
 			this.textDateTo.Name = "textDateTo";
 			this.textDateTo.Size = new System.Drawing.Size(80, 20);
 			this.textDateTo.TabIndex = 3;
 			//
 			// radioByItem
 			//
-			this.radioByItem.Location = new System.Drawing.Point(262, 12);
+			this.radioByItem.Location = new System.Drawing.Point(266, 9);
 			this.radioByItem.Name = "radioByItem";
-			this.radioByItem.Size = new System.Drawing.Size(80, 24);
+			this.radioByItem.Size = new System.Drawing.Size(65, 20);
 			this.radioByItem.TabIndex = 4;
 			this.radioByItem.Text = "By item";
 			this.radioByItem.Click += new System.EventHandler(this.radio_Click);
 			//
 			// radioByCode
 			//
-			this.radioByCode.Location = new System.Drawing.Point(346, 12);
+			this.radioByCode.Location = new System.Drawing.Point(337, 9);
 			this.radioByCode.Name = "radioByCode";
-			this.radioByCode.Size = new System.Drawing.Size(140, 24);
+			this.radioByCode.Size = new System.Drawing.Size(124, 20);
 			this.radioByCode.TabIndex = 5;
 			this.radioByCode.Text = "By procedure code";
 			this.radioByCode.Click += new System.EventHandler(this.radio_Click);
 			//
 			// butRefresh
 			//
-			this.butRefresh.Location = new System.Drawing.Point(492, 9);
+			this.butRefresh.Location = new System.Drawing.Point(467, 8);
 			this.butRefresh.Name = "butRefresh";
-			this.butRefresh.Size = new System.Drawing.Size(75, 24);
+			this.butRefresh.Size = new System.Drawing.Size(75, 23);
 			this.butRefresh.TabIndex = 6;
 			this.butRefresh.Text = "&Refresh";
 			this.butRefresh.Click += new System.EventHandler(this.butRefresh_Click);
@@ -100,7 +100,7 @@ namespace OpenPmsDental {
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(12, 40);
+			this.gridMain.Location = new System.Drawing.Point(12, 35);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.Size = new System.Drawing.Size(696, 420);
 			this.gridMain.TabIndex = 7;
@@ -110,7 +110,7 @@ namespace OpenPmsDental {
 			// labelTotal
 			//
 			this.labelTotal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.labelTotal.Location = new System.Drawing.Point(12, 468);
+			this.labelTotal.Location = new System.Drawing.Point(12, 459);
 			this.labelTotal.Name = "labelTotal";
 			this.labelTotal.Size = new System.Drawing.Size(300, 18);
 			this.labelTotal.TabIndex = 8;
@@ -122,7 +122,7 @@ namespace OpenPmsDental {
 			this.butPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butPrint.Icon = OpenPmsDental.UI.EnumIcons.Print;
 			this.butPrint.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butPrint.Location = new System.Drawing.Point(552, 466);
+			this.butPrint.Location = new System.Drawing.Point(552, 489);
 			this.butPrint.Name = "butPrint";
 			this.butPrint.Size = new System.Drawing.Size(75, 24);
 			this.butPrint.TabIndex = 9;
@@ -132,7 +132,7 @@ namespace OpenPmsDental {
 			// butClose
 			//
 			this.butClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butClose.Location = new System.Drawing.Point(633, 466);
+			this.butClose.Location = new System.Drawing.Point(637, 489);
 			this.butClose.Name = "butClose";
 			this.butClose.Size = new System.Drawing.Size(75, 24);
 			this.butClose.TabIndex = 10;
@@ -141,7 +141,7 @@ namespace OpenPmsDental {
 			//
 			// FormSupplyUsageReport
 			//
-			this.ClientSize = new System.Drawing.Size(720, 500);
+			this.ClientSize = new System.Drawing.Size(720, 521);
 			this.Controls.Add(this.butClose);
 			this.Controls.Add(this.butPrint);
 			this.Controls.Add(this.labelTotal);

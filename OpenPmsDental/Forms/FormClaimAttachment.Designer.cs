@@ -60,7 +60,7 @@
 			// 
 			// labelNarrative
 			// 
-			this.labelNarrative.Location = new System.Drawing.Point(11, 248);
+			this.labelNarrative.Location = new System.Drawing.Point(8, 243);
 			this.labelNarrative.Name = "labelNarrative";
 			this.labelNarrative.Size = new System.Drawing.Size(121, 16);
 			this.labelNarrative.TabIndex = 12;
@@ -69,7 +69,7 @@
 			// labelPasteImage
 			// 
 			this.labelPasteImage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelPasteImage.Location = new System.Drawing.Point(485, 98);
+			this.labelPasteImage.Location = new System.Drawing.Point(495, 92);
 			this.labelPasteImage.Name = "labelPasteImage";
 			this.labelPasteImage.Size = new System.Drawing.Size(103, 18);
 			this.labelPasteImage.TabIndex = 16;
@@ -79,9 +79,9 @@
 			// butPasteImage
 			// 
 			this.butPasteImage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butPasteImage.Location = new System.Drawing.Point(492, 71);
+			this.butPasteImage.Location = new System.Drawing.Point(495, 64);
 			this.butPasteImage.Name = "butPasteImage";
-			this.butPasteImage.Size = new System.Drawing.Size(85, 24);
+			this.butPasteImage.Size = new System.Drawing.Size(103, 24);
 			this.butPasteImage.TabIndex = 15;
 			this.butPasteImage.Text = "Paste Image";
 			this.butPasteImage.UseVisualStyleBackColor = true;
@@ -90,7 +90,7 @@
 			// labelCharCount
 			// 
 			this.labelCharCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelCharCount.Location = new System.Drawing.Point(184, 248);
+			this.labelCharCount.Location = new System.Drawing.Point(193, 243);
 			this.labelCharCount.Name = "labelCharCount";
 			this.labelCharCount.Size = new System.Drawing.Size(76, 16);
 			this.labelCharCount.TabIndex = 14;
@@ -100,7 +100,7 @@
 			// label1
 			// 
 			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.label1.Location = new System.Drawing.Point(287, 248);
+			this.label1.Location = new System.Drawing.Point(275, 243);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(135, 16);
 			this.label1.TabIndex = 13;
@@ -114,12 +114,12 @@
 			this.textClaimStatus.BackColor = System.Drawing.SystemColors.Control;
 			this.textClaimStatus.DetectLinksEnabled = false;
 			this.textClaimStatus.DetectUrls = false;
-			this.textClaimStatus.Location = new System.Drawing.Point(290, 264);
+			this.textClaimStatus.Location = new System.Drawing.Point(275, 263);
 			this.textClaimStatus.Name = "textClaimStatus";
 			this.textClaimStatus.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Claim;
 			this.textClaimStatus.ReadOnly = true;
 			this.textClaimStatus.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textClaimStatus.Size = new System.Drawing.Size(301, 91);
+			this.textClaimStatus.Size = new System.Drawing.Size(323, 91);
 			this.textClaimStatus.TabIndex = 6;
 			this.textClaimStatus.Text = "";
 			// 
@@ -128,9 +128,9 @@
 			this.gridAttachedImages.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridAttachedImages.ContextMenuStrip = this.contextMenuStrip1;
-			this.gridAttachedImages.Location = new System.Drawing.Point(10, 12);
+			this.gridAttachedImages.Location = new System.Drawing.Point(8, 8);
 			this.gridAttachedImages.Name = "gridAttachedImages";
-			this.gridAttachedImages.Size = new System.Drawing.Size(460, 231);
+			this.gridAttachedImages.Size = new System.Drawing.Size(481, 231);
 			this.gridAttachedImages.TabIndex = 10;
 			this.gridAttachedImages.Title = "Images to Send";
 			this.gridAttachedImages.TranslationName = "TableImagesToSend";
@@ -140,9 +140,9 @@
 			// butSnipTool
 			// 
 			this.butSnipTool.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSnipTool.Location = new System.Drawing.Point(492, 41);
+			this.butSnipTool.Location = new System.Drawing.Point(495, 36);
 			this.butSnipTool.Name = "butSnipTool";
-			this.butSnipTool.Size = new System.Drawing.Size(85, 24);
+			this.butSnipTool.Size = new System.Drawing.Size(103, 24);
 			this.butSnipTool.TabIndex = 0;
 			this.butSnipTool.Text = "Snipping Tool";
 			this.butSnipTool.UseVisualStyleBackColor = true;
@@ -151,9 +151,9 @@
 			// butAddImage
 			// 
 			this.butAddImage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butAddImage.Location = new System.Drawing.Point(492, 12);
+			this.butAddImage.Location = new System.Drawing.Point(495, 8);
 			this.butAddImage.Name = "butAddImage";
-			this.butAddImage.Size = new System.Drawing.Size(85, 24);
+			this.butAddImage.Size = new System.Drawing.Size(103, 24);
 			this.butAddImage.TabIndex = 2;
 			this.butAddImage.Text = "Add Image";
 			this.butAddImage.UseVisualStyleBackColor = true;
@@ -168,7 +168,7 @@
 			this.textNarrative.BackColor = System.Drawing.SystemColors.Window;
 			this.textNarrative.DetectLinksEnabled = false;
 			this.textNarrative.DetectUrls = false;
-			this.textNarrative.Location = new System.Drawing.Point(10, 264);
+			this.textNarrative.Location = new System.Drawing.Point(8, 263);
 			this.textNarrative.MaxLength = 2000;
 			this.textNarrative.Name = "textNarrative";
 			this.textNarrative.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Claim;
@@ -182,7 +182,7 @@
 			// 
 			this.labelClaimAttachWarning.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelClaimAttachWarning.ForeColor = System.Drawing.Color.DarkRed;
-			this.labelClaimAttachWarning.Location = new System.Drawing.Point(7, 359);
+			this.labelClaimAttachWarning.Location = new System.Drawing.Point(8, 360);
 			this.labelClaimAttachWarning.Name = "labelClaimAttachWarning";
 			this.labelClaimAttachWarning.Size = new System.Drawing.Size(355, 34);
 			this.labelClaimAttachWarning.TabIndex = 15;
@@ -193,7 +193,7 @@
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(516, 365);
+			this.butSave.Location = new System.Drawing.Point(523, 398);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 4;
@@ -213,16 +213,16 @@
 			// labelSave
 			// 
 			this.labelSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelSave.Location = new System.Drawing.Point(396, 368);
+			this.labelSave.Location = new System.Drawing.Point(403, 398);
 			this.labelSave.Name = "labelSave";
-			this.labelSave.Size = new System.Drawing.Size(114, 18);
+			this.labelSave.Size = new System.Drawing.Size(114, 24);
 			this.labelSave.TabIndex = 17;
 			this.labelSave.Text = "(sends attachment)";
 			this.labelSave.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// FormClaimAttachment
 			// 
-			this.ClientSize = new System.Drawing.Size(606, 399);
+			this.ClientSize = new System.Drawing.Size(606, 430);
 			this.Controls.Add(this.labelSave);
 			this.Controls.Add(this.labelPasteImage);
 			this.Controls.Add(this.butPasteImage);

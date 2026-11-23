@@ -117,7 +117,7 @@ namespace UiRefreshTests {
 								GridStyleGallery.ScaleFontsAsWindowsDoes(root,scale);
 							}
 							HideDatePickerCalendars(root);
-							FillSampleContent(root,window);
+							FillSampleContent(root,window,state);
 							List<string[]> listOwnerHere=controlPicture==root ? listOwner.Where(x => x[1]==window).ToList() : new List<string[]>();
 							using(Bitmap bitmap=DesignSheetWindows.Capture(controlPicture,Rectangle.Empty)) {
 								string name=window.Substring(window.LastIndexOf('.')+1);
@@ -202,7 +202,7 @@ namespace UiRefreshTests {
 		///which the harness does not run): FormAutoNotes' tree (groups with notes, one expanded, one selected), FormQuery's result grid (columns,
 		///rows and its caption) and FormProcButtons' list of buttons
 		///(a category selected, as SetVisibility shows a category other than the quick buttons).</summary>
-		public static void FillSampleContent(Control root,string window) {
+		public static void FillSampleContent(Control root,string window,string state="") {
 			if(window=="OpenPmsDental.FormAutoNotes" && FindByName(root,"treeNotes") is TreeView treeView) {
 				treeView.Nodes.Clear();
 				string[] arrayGroups=new string[] { "Exams","Fillings","Crowns","Endo","Hygiene" };
@@ -222,14 +222,15 @@ namespace UiRefreshTests {
 				//stands on the Provider and Billing Type column; the picture shows it so.
 				comboBoxClinicPicker.IsMultiSelect=true;
 			}
-			if(window=="OpenPmsDental.FormReportSetup") {
+			if(window=="OpenPmsDental.FormReportSetup" || window=="OpenPmsDental.User_Controls.UserControlReportSetup") {
 				//UI-12 slice 1: UserControlReportSetup shows its instructions on the Display Settings page and its user group row on the Security
-				//Permissions page (InitializeOnStartup sets Visible by the mode, never both); the first page shows the display mode.
-				foreach(string name in new string[] { "labelUserGroup","comboUserGroup","butSetAll","butSetNone","labelAllowedCount" }) {
-					if(FindByName(root,name) is Control control) {
-						control.Visible=false;
-					}
-				}
+				//Permissions page (InitializeOnStartup sets Visible by the mode, never both); the first page shows the display mode. UI-12 slice 4
+				//fix round: the page alone too (its permission mode is the state "permission").
+				SetReportSetupMode(root,isPermissionMode:state=="permission");
+			}
+			if(window=="CentralManager.FormCentralReportSetup") {
+				//UI-12 slice 4 fix round: both callers open it in permission mode (FormCentralManager, FormCentralSecurity).
+				SetReportSetupMode(root,isPermissionMode:true);
 			}
 			if(window=="OpenPmsDental.FormScheduleDayEdit" && FindByName(root,"labelDate") is Label labelDate) {
 				//UI-12 slice 1 (fix round 8): Load and the day arrows set the day of the week over the short date, two lines (the designer's text is
@@ -335,7 +336,26 @@ namespace UiRefreshTests {
 				SelectTabPage(root,"tabControl1","tabPageArchive");
 				return root;
 			}
+			if(window=="OpenPmsDental.User_Controls.UserControlReportSetup" && state=="permission") {
+				//UI-12 slice 4 fix round: the page in permission mode (FillSampleContent sets the mode's Visible flags).
+				return root;
+			}
 			throw new ArgumentException("No gallery state "+state+" for "+window+".");
+		}
+
+		///<summary>UI-12 slice 4 fix round: UserControlReportSetup's two modes as InitializeOnStartup shows them (its Visible flags; the harness
+		///builds the page without it): the instructions with Up and Down, or the user group row with Set All, Set None and the allowed count.</summary>
+		private static void SetReportSetupMode(Control root,bool isPermissionMode) {
+			foreach(string name in new string[] { "butUp","butDown","labelInstructions" }) {
+				if(FindByName(root,name) is Control control) {
+					control.Visible=!isPermissionMode;
+				}
+			}
+			foreach(string name in new string[] { "butSetAll","butSetNone","comboUserGroup","labelUserGroup","labelAllowedCount" }) {
+				if(FindByName(root,name) is Control control) {
+					control.Visible=isPermissionMode;
+				}
+			}
 		}
 
 		///<summary>Shows the tab control's page as a click on its tab does, without SelectedIndexChanged (the windows' handlers read the database,

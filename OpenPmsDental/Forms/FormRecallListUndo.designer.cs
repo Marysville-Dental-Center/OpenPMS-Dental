@@ -35,7 +35,7 @@ namespace OpenPmsDental{
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(447, 227);
+			this.butOK.Location = new System.Drawing.Point(451, 229);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 24);
 			this.butOK.TabIndex = 3;
@@ -46,7 +46,7 @@ namespace OpenPmsDental{
 			// 
 			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.label1.Location = new System.Drawing.Point(12, 9);
+			this.label1.Location = new System.Drawing.Point(12, 8);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(510, 66);
 			this.label1.TabIndex = 4;
@@ -58,15 +58,15 @@ namespace OpenPmsDental{
 			this.odDatePicker.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
 			this.odDatePicker.Location = new System.Drawing.Point(24, 76);
 			this.odDatePicker.Name = "odDatePicker";
-			this.odDatePicker.Size = new System.Drawing.Size(227, 23);
+			this.odDatePicker.Size = new System.Drawing.Size(165, 23);
 			this.odDatePicker.TabIndex = 9;
 			this.odDatePicker.DateTextChanged += new System.EventHandler(this.odDatePicker_DateTextChanged);
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(18, 78);
+			this.label2.Location = new System.Drawing.Point(45, 76);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(68, 18);
+			this.label2.Size = new System.Drawing.Size(36, 23);
 			this.label2.TabIndex = 6;
 			this.label2.Text = "Date";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -74,9 +74,9 @@ namespace OpenPmsDental{
 			// label3
 			// 
 			this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.label3.Location = new System.Drawing.Point(268, 230);
+			this.label3.Location = new System.Drawing.Point(299, 229);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(108, 18);
+			this.label3.Size = new System.Drawing.Size(104, 24);
 			this.label3.TabIndex = 7;
 			this.label3.Text = "Patients Affected:";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -84,9 +84,9 @@ namespace OpenPmsDental{
 			// labelCount
 			// 
 			this.labelCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelCount.Location = new System.Drawing.Point(375, 230);
+			this.labelCount.Location = new System.Drawing.Point(409, 229);
 			this.labelCount.Name = "labelCount";
-			this.labelCount.Size = new System.Drawing.Size(68, 18);
+			this.labelCount.Size = new System.Drawing.Size(36, 24);
 			this.labelCount.TabIndex = 8;
 			this.labelCount.Text = "100";
 			this.labelCount.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;

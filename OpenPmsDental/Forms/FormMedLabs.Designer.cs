@@ -45,9 +45,9 @@
 			// 
 			// checkIncludeNoPat
 			// 
-			this.checkIncludeNoPat.Location = new System.Drawing.Point(567, 14);
+			this.checkIncludeNoPat.Location = new System.Drawing.Point(576, 23);
 			this.checkIncludeNoPat.Name = "checkIncludeNoPat";
-			this.checkIncludeNoPat.Size = new System.Drawing.Size(150, 18);
+			this.checkIncludeNoPat.Size = new System.Drawing.Size(152, 20);
 			this.checkIncludeNoPat.TabIndex = 7;
 			this.checkIncludeNoPat.Text = "Include unattached labs";
 			this.checkIncludeNoPat.Click += new System.EventHandler(this.checkIncludeNoPat_Click);
@@ -71,9 +71,9 @@
 			this.groupBox1.Controls.Add(this.textPatient);
 			this.groupBox1.Controls.Add(this.labelPatient);
 			this.groupBox1.Controls.Add(this.labelStartDate);
-			this.groupBox1.Location = new System.Drawing.Point(12, 7);
+			this.groupBox1.Location = new System.Drawing.Point(8, 8);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(950, 68);
+			this.groupBox1.Size = new System.Drawing.Size(958, 82);
 			this.groupBox1.TabIndex = 337;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "View";
@@ -81,43 +81,43 @@
 			// comboClinic
 			// 
 			this.comboClinic.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.comboClinic.Location = new System.Drawing.Point(784, 40);
+			this.comboClinic.Location = new System.Drawing.Point(784, 51);
 			this.comboClinic.Name = "comboClinic";
-			this.comboClinic.Size = new System.Drawing.Size(160, 21);
+			this.comboClinic.Size = new System.Drawing.Size(160, 23);
 			this.comboClinic.TabIndex = 76;
 			this.comboClinic.SelectedIndexChanged += new System.EventHandler(this.comboClinic_SelectedIndexChanged);
 			// 
 			// labelClinic
 			// 
 			this.labelClinic.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelClinic.Location = new System.Drawing.Point(723, 42);
+			this.labelClinic.Location = new System.Drawing.Point(734, 51);
 			this.labelClinic.Name = "labelClinic";
-			this.labelClinic.Size = new System.Drawing.Size(60, 17);
+			this.labelClinic.Size = new System.Drawing.Size(44, 23);
 			this.labelClinic.TabIndex = 77;
 			this.labelClinic.Text = "Clinic";
 			this.labelClinic.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// checkOnlyNoPat
 			// 
-			this.checkOnlyNoPat.Location = new System.Drawing.Point(567, 40);
+			this.checkOnlyNoPat.Location = new System.Drawing.Point(576, 47);
 			this.checkOnlyNoPat.Name = "checkOnlyNoPat";
-			this.checkOnlyNoPat.Size = new System.Drawing.Size(150, 18);
+			this.checkOnlyNoPat.Size = new System.Drawing.Size(138, 20);
 			this.checkOnlyNoPat.TabIndex = 11;
 			this.checkOnlyNoPat.Text = "Only unattached labs";
 			this.checkOnlyNoPat.Click += new System.EventHandler(this.checkOnlyNoPat_Click);
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(151, 23);
+			this.label1.Location = new System.Drawing.Point(158, 23);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(145, 29);
+			this.label1.Size = new System.Drawing.Size(145, 32);
 			this.label1.TabIndex = 10;
 			this.label1.Text = "Filtered by most recent date and time reported.";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// butCurrent
 			// 
-			this.butCurrent.Location = new System.Drawing.Point(356, 37);
+			this.butCurrent.Location = new System.Drawing.Point(361, 50);
 			this.butCurrent.Name = "butCurrent";
 			this.butCurrent.Size = new System.Drawing.Size(64, 24);
 			this.butCurrent.TabIndex = 4;
@@ -127,7 +127,7 @@
 			// butRefresh
 			// 
 			this.butRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butRefresh.Location = new System.Drawing.Point(880, 12);
+			this.butRefresh.Location = new System.Drawing.Point(880, 23);
 			this.butRefresh.Name = "butRefresh";
 			this.butRefresh.Size = new System.Drawing.Size(64, 24);
 			this.butRefresh.TabIndex = 9;
@@ -136,7 +136,7 @@
 			// 
 			// butAll
 			// 
-			this.butAll.Location = new System.Drawing.Point(492, 37);
+			this.butAll.Location = new System.Drawing.Point(501, 50);
 			this.butAll.Name = "butAll";
 			this.butAll.Size = new System.Drawing.Size(64, 24);
 			this.butAll.TabIndex = 6;
@@ -145,7 +145,7 @@
 			// 
 			// butFind
 			// 
-			this.butFind.Location = new System.Drawing.Point(424, 37);
+			this.butFind.Location = new System.Drawing.Point(431, 50);
 			this.butFind.Name = "butFind";
 			this.butFind.Size = new System.Drawing.Size(64, 24);
 			this.butFind.TabIndex = 5;
@@ -154,23 +154,23 @@
 			// 
 			// textDateEnd
 			// 
-			this.textDateEnd.Location = new System.Drawing.Point(71, 40);
+			this.textDateEnd.Location = new System.Drawing.Point(78, 50);
 			this.textDateEnd.Name = "textDateEnd";
-			this.textDateEnd.Size = new System.Drawing.Size(77, 20);
+			this.textDateEnd.Size = new System.Drawing.Size(76, 23);
 			this.textDateEnd.TabIndex = 2;
 			// 
 			// textDateStart
 			// 
-			this.textDateStart.Location = new System.Drawing.Point(71, 14);
+			this.textDateStart.Location = new System.Drawing.Point(78, 23);
 			this.textDateStart.Name = "textDateStart";
-			this.textDateStart.Size = new System.Drawing.Size(77, 20);
+			this.textDateStart.Size = new System.Drawing.Size(76, 23);
 			this.textDateStart.TabIndex = 1;
 			// 
 			// labelEndDate
 			// 
-			this.labelEndDate.Location = new System.Drawing.Point(6, 41);
+			this.labelEndDate.Location = new System.Drawing.Point(12, 50);
 			this.labelEndDate.Name = "labelEndDate";
-			this.labelEndDate.Size = new System.Drawing.Size(64, 17);
+			this.labelEndDate.Size = new System.Drawing.Size(60, 23);
 			this.labelEndDate.TabIndex = 8;
 			this.labelEndDate.Text = "End Date";
 			this.labelEndDate.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -178,7 +178,7 @@
 			// textPatient
 			// 
 			this.textPatient.BackColor = System.Drawing.SystemColors.Window;
-			this.textPatient.Location = new System.Drawing.Point(356, 13);
+			this.textPatient.Location = new System.Drawing.Point(361, 23);
 			this.textPatient.Name = "textPatient";
 			this.textPatient.ReadOnly = true;
 			this.textPatient.Size = new System.Drawing.Size(200, 20);
@@ -187,18 +187,18 @@
 			// 
 			// labelPatient
 			// 
-			this.labelPatient.Location = new System.Drawing.Point(296, 14);
+			this.labelPatient.Location = new System.Drawing.Point(307, 23);
 			this.labelPatient.Name = "labelPatient";
-			this.labelPatient.Size = new System.Drawing.Size(59, 17);
+			this.labelPatient.Size = new System.Drawing.Size(48, 23);
 			this.labelPatient.TabIndex = 8;
 			this.labelPatient.Text = "Patient";
 			this.labelPatient.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// labelStartDate
 			// 
-			this.labelStartDate.Location = new System.Drawing.Point(6, 15);
+			this.labelStartDate.Location = new System.Drawing.Point(8, 23);
 			this.labelStartDate.Name = "labelStartDate";
-			this.labelStartDate.Size = new System.Drawing.Size(64, 17);
+			this.labelStartDate.Size = new System.Drawing.Size(64, 23);
 			this.labelStartDate.TabIndex = 8;
 			this.labelStartDate.Text = "Start Date";
 			this.labelStartDate.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -210,9 +210,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridMain.HScrollVisible = true;
-			this.gridMain.Location = new System.Drawing.Point(12, 80);
+			this.gridMain.Location = new System.Drawing.Point(8, 98);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(950, 469);
+			this.gridMain.Size = new System.Drawing.Size(958, 469);
 			this.gridMain.TabIndex = 5;
 			this.gridMain.Title = "Labs";
 			this.gridMain.TranslationName = "TableLabs";
@@ -221,7 +221,7 @@
 			// FormMedLabs
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(974, 561);
+			this.ClientSize = new System.Drawing.Size(974, 575);
 			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.gridMain);
 			this.Name = "FormMedLabs";

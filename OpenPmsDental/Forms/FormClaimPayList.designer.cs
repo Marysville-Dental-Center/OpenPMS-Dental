@@ -38,25 +38,25 @@ namespace OpenPmsDental{
 			// 
 			// butPickPaymentGroup
 			// 
-			this.butPickPaymentGroup.Location = new System.Drawing.Point(551, 32);
+			this.butPickPaymentGroup.Location = new System.Drawing.Point(553, 35);
 			this.butPickPaymentGroup.Name = "butPickPaymentGroup";
-			this.butPickPaymentGroup.Size = new System.Drawing.Size(23, 21);
+			this.butPickPaymentGroup.Size = new System.Drawing.Size(23, 23);
 			this.butPickPaymentGroup.TabIndex = 47;
 			this.butPickPaymentGroup.Text = "...";
 			this.butPickPaymentGroup.Click += new System.EventHandler(this.butPickPaymentGroup_Click);
 			// 
 			// comboPayGroup
 			// 
-			this.comboPayGroup.Location = new System.Drawing.Point(367, 32);
+			this.comboPayGroup.Location = new System.Drawing.Point(367, 35);
 			this.comboPayGroup.Name = "comboPayGroup";
-			this.comboPayGroup.Size = new System.Drawing.Size(181, 21);
+			this.comboPayGroup.Size = new System.Drawing.Size(180, 23);
 			this.comboPayGroup.TabIndex = 26;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(236, 36);
+			this.label1.Location = new System.Drawing.Point(265, 35);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(129, 18);
+			this.label1.Size = new System.Drawing.Size(96, 23);
 			this.label1.TabIndex = 25;
 			this.label1.Text = "Payment Group";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -64,9 +64,9 @@ namespace OpenPmsDental{
 			// butRefresh
 			// 
 			this.butRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butRefresh.Location = new System.Drawing.Point(779, 29);
+			this.butRefresh.Location = new System.Drawing.Point(779, 35);
 			this.butRefresh.Name = "butRefresh";
-			this.butRefresh.Size = new System.Drawing.Size(84, 24);
+			this.butRefresh.Size = new System.Drawing.Size(84, 23);
 			this.butRefresh.TabIndex = 24;
 			this.butRefresh.Text = "&Refresh";
 			this.butRefresh.Click += new System.EventHandler(this.butRefresh_Click);
@@ -74,9 +74,9 @@ namespace OpenPmsDental{
 			// comboClinic
 			// 
 			this.comboClinic.IncludeAll = true;
-			this.comboClinic.Location = new System.Drawing.Point(331, 6);
+			this.comboClinic.Location = new System.Drawing.Point(324, 8);
 			this.comboClinic.Name = "comboClinic";
-			this.comboClinic.Size = new System.Drawing.Size(217, 21);
+			this.comboClinic.Size = new System.Drawing.Size(219, 23);
 			this.comboClinic.TabIndex = 23;
 			// 
 			// gridMain
@@ -84,7 +84,7 @@ namespace OpenPmsDental{
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(12, 60);
+			this.gridMain.Location = new System.Drawing.Point(12, 62);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.Size = new System.Drawing.Size(851, 508);
 			this.gridMain.TabIndex = 4;
@@ -94,9 +94,9 @@ namespace OpenPmsDental{
 			// 
 			// textDateTo
 			// 
-			this.textDateTo.Location = new System.Drawing.Point(121, 33);
+			this.textDateTo.Location = new System.Drawing.Point(121, 35);
 			this.textDateTo.Name = "textDateTo";
-			this.textDateTo.Size = new System.Drawing.Size(94, 20);
+			this.textDateTo.Size = new System.Drawing.Size(96, 23);
 			this.textDateTo.TabIndex = 14;
 			// 
 			// butAdd
@@ -104,7 +104,7 @@ namespace OpenPmsDental{
 			this.butAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdd.Location = new System.Drawing.Point(12, 576);
+			this.butAdd.Location = new System.Drawing.Point(12, 574);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(75, 24);
 			this.butAdd.TabIndex = 2;
@@ -113,25 +113,25 @@ namespace OpenPmsDental{
 			// 
 			// textDateFrom
 			// 
-			this.textDateFrom.Location = new System.Drawing.Point(121, 10);
+			this.textDateFrom.Location = new System.Drawing.Point(121, 8);
 			this.textDateFrom.Name = "textDateFrom";
-			this.textDateFrom.Size = new System.Drawing.Size(94, 20);
+			this.textDateFrom.Size = new System.Drawing.Size(96, 23);
 			this.textDateFrom.TabIndex = 13;
 			// 
 			// labelToDate
 			// 
-			this.labelToDate.Location = new System.Drawing.Point(30, 35);
+			this.labelToDate.Location = new System.Drawing.Point(63, 35);
 			this.labelToDate.Name = "labelToDate";
-			this.labelToDate.Size = new System.Drawing.Size(88, 18);
+			this.labelToDate.Size = new System.Drawing.Size(52, 23);
 			this.labelToDate.TabIndex = 12;
 			this.labelToDate.Text = "To Date";
 			this.labelToDate.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// labelFromDate
 			// 
-			this.labelFromDate.Location = new System.Drawing.Point(30, 13);
+			this.labelFromDate.Location = new System.Drawing.Point(47, 8);
 			this.labelFromDate.Name = "labelFromDate";
-			this.labelFromDate.Size = new System.Drawing.Size(88, 18);
+			this.labelFromDate.Size = new System.Drawing.Size(68, 23);
 			this.labelFromDate.TabIndex = 11;
 			this.labelFromDate.Text = "From Date";
 			this.labelFromDate.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

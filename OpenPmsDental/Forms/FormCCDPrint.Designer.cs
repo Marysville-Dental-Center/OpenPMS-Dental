@@ -39,16 +39,17 @@ namespace OpenPmsDental {
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.printPreviewControl1.Location = new System.Drawing.Point(0, 0);
 			this.printPreviewControl1.Name = "printPreviewControl1";
-			this.printPreviewControl1.Size = new System.Drawing.Size(888, 657);
+			this.printPreviewControl1.Size = new System.Drawing.Size(888, 650);
 			this.printPreviewControl1.TabIndex = 0;
 			// 
 			// labelPage
 			// 
 			this.labelPage.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
 			this.labelPage.AutoSize = false;
-			this.labelPage.Location = new System.Drawing.Point(442, 667);
+			this.labelPage.Location = new System.Drawing.Point(364, 658);
+			this.labelPage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.labelPage.Name = "labelPage";
-			this.labelPage.Size = new System.Drawing.Size(22, 20);
+			this.labelPage.Size = new System.Drawing.Size(44, 24);
 			this.labelPage.TabIndex = 3;
 			this.labelPage.Text = "0/0";
 			// 
@@ -56,9 +57,9 @@ namespace OpenPmsDental {
 			// 
 			this.butForward.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
 			this.butForward.AutoSize = false;
-			this.butForward.Location = new System.Drawing.Point(472, 662);
+			this.butForward.Location = new System.Drawing.Point(414, 658);
 			this.butForward.Name = "butForward";
-			this.butForward.Size = new System.Drawing.Size(75, 26);
+			this.butForward.Size = new System.Drawing.Size(75, 24);
 			this.butForward.TabIndex = 6;
 			this.butForward.Text = "Forward";
 			this.butForward.UseVisualStyleBackColor = true;
@@ -68,9 +69,9 @@ namespace OpenPmsDental {
 			// 
 			this.butBack.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
 			this.butBack.AutoSize = false;
-			this.butBack.Location = new System.Drawing.Point(361, 662);
+			this.butBack.Location = new System.Drawing.Point(283, 658);
 			this.butBack.Name = "butBack";
-			this.butBack.Size = new System.Drawing.Size(75, 27);
+			this.butBack.Size = new System.Drawing.Size(75, 24);
 			this.butBack.TabIndex = 5;
 			this.butBack.Text = "Back";
 			this.butBack.UseVisualStyleBackColor = true;
@@ -79,9 +80,9 @@ namespace OpenPmsDental {
 			// butPrint
 			// 
 			this.butPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butPrint.Location = new System.Drawing.Point(638, 663);
+			this.butPrint.Location = new System.Drawing.Point(642, 658);
 			this.butPrint.Name = "butPrint";
-			this.butPrint.Size = new System.Drawing.Size(116, 23);
+			this.butPrint.Size = new System.Drawing.Size(116, 24);
 			this.butPrint.TabIndex = 4;
 			this.butPrint.Text = "Print Patient Copy";
 			this.butPrint.UseVisualStyleBackColor = true;
@@ -90,9 +91,9 @@ namespace OpenPmsDental {
 			// butPrintDentist
 			// 
 			this.butPrintDentist.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butPrintDentist.Location = new System.Drawing.Point(760, 663);
+			this.butPrintDentist.Location = new System.Drawing.Point(764, 658);
 			this.butPrintDentist.Name = "butPrintDentist";
-			this.butPrintDentist.Size = new System.Drawing.Size(116, 23);
+			this.butPrintDentist.Size = new System.Drawing.Size(116, 24);
 			this.butPrintDentist.TabIndex = 7;
 			this.butPrintDentist.Text = "Print Dentist Copy";
 			this.butPrintDentist.UseVisualStyleBackColor = true;
@@ -101,9 +102,9 @@ namespace OpenPmsDental {
 			// butOverride
 			// 
 			this.butOverride.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butOverride.Location = new System.Drawing.Point(2, 662);
+			this.butOverride.Location = new System.Drawing.Point(8, 658);
 			this.butOverride.Name = "butOverride";
-			this.butOverride.Size = new System.Drawing.Size(163, 23);
+			this.butOverride.Size = new System.Drawing.Size(163, 24);
 			this.butOverride.TabIndex = 8;
 			this.butOverride.Text = "Write Amounts To Claim";
 			this.butOverride.UseVisualStyleBackColor = true;

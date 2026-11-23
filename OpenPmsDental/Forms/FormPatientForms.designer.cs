@@ -43,7 +43,7 @@ namespace OpenPmsDental{
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(12, 123);
+			this.gridMain.Location = new System.Drawing.Point(12, 140);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.Size = new System.Drawing.Size(832, 563);
 			this.gridMain.TabIndex = 4;
@@ -73,18 +73,18 @@ namespace OpenPmsDental{
 			this.groupSortBy.BackColor = System.Drawing.Color.White;
 			this.groupSortBy.Controls.Add(this.radioSortByDateTime);
 			this.groupSortBy.Controls.Add(this.radioSortByDescDateT);
-			this.groupSortBy.Location = new System.Drawing.Point(12, 55);
+			this.groupSortBy.Location = new System.Drawing.Point(12, 57);
 			this.groupSortBy.Name = "groupSortBy";
-			this.groupSortBy.Size = new System.Drawing.Size(290, 62);
+			this.groupSortBy.Size = new System.Drawing.Size(290, 75);
 			this.groupSortBy.TabIndex = 251;
 			this.groupSortBy.Text = "Sort forms by";
 			//
 			// radioSortByDateTime
 			//
 			this.radioSortByDateTime.Checked = true;
-			this.radioSortByDateTime.Location = new System.Drawing.Point(24, 18);
+			this.radioSortByDateTime.Location = new System.Drawing.Point(8, 23);
 			this.radioSortByDateTime.Name = "radioSortByDateTime";
-			this.radioSortByDateTime.Size = new System.Drawing.Size(184, 20);
+			this.radioSortByDateTime.Size = new System.Drawing.Size(102, 20);
 			this.radioSortByDateTime.TabIndex = 252;
 			this.radioSortByDateTime.TabStop = true;
 			this.radioSortByDateTime.Text = "Date and Time";
@@ -93,9 +93,9 @@ namespace OpenPmsDental{
 			//
 			// radioSortByDescDateT
 			//
-			this.radioSortByDescDateT.Location = new System.Drawing.Point(24, 38);
+			this.radioSortByDescDateT.Location = new System.Drawing.Point(8, 47);
 			this.radioSortByDescDateT.Name = "radioSortByDescDateT";
-			this.radioSortByDescDateT.Size = new System.Drawing.Size(236, 24);
+			this.radioSortByDescDateT.Size = new System.Drawing.Size(174, 20);
 			this.radioSortByDescDateT.TabIndex = 251;
 			this.radioSortByDescDateT.Text = "Description, then Date/Time";
 			this.radioSortByDescDateT.UseVisualStyleBackColor = true;
@@ -107,18 +107,18 @@ namespace OpenPmsDental{
 			this.groupShow.Controls.Add(this.radioShowBoth);
 			this.groupShow.Controls.Add(this.radioShowSheets);
 			this.groupShow.Controls.Add(this.radioShowEForms);
-			this.groupShow.Location = new System.Drawing.Point(312, 55);
+			this.groupShow.Location = new System.Drawing.Point(310, 57);
 			this.groupShow.Name = "groupShow";
-			this.groupShow.Size = new System.Drawing.Size(250, 62);
+			this.groupShow.Size = new System.Drawing.Size(250, 75);
 			this.groupShow.TabIndex = 253;
 			this.groupShow.Text = "Show";
 			//
 			// radioShowBoth
 			//
 			this.radioShowBoth.Checked = true;
-			this.radioShowBoth.Location = new System.Drawing.Point(16, 18);
+			this.radioShowBoth.Location = new System.Drawing.Point(8, 23);
 			this.radioShowBoth.Name = "radioShowBoth";
-			this.radioShowBoth.Size = new System.Drawing.Size(110, 20);
+			this.radioShowBoth.Size = new System.Drawing.Size(50, 20);
 			this.radioShowBoth.TabIndex = 254;
 			this.radioShowBoth.TabStop = true;
 			this.radioShowBoth.Text = "Both";
@@ -127,9 +127,9 @@ namespace OpenPmsDental{
 			//
 			// radioShowSheets
 			//
-			this.radioShowSheets.Location = new System.Drawing.Point(16, 38);
+			this.radioShowSheets.Location = new System.Drawing.Point(8, 47);
 			this.radioShowSheets.Name = "radioShowSheets";
-			this.radioShowSheets.Size = new System.Drawing.Size(110, 22);
+			this.radioShowSheets.Size = new System.Drawing.Size(59, 20);
 			this.radioShowSheets.TabIndex = 255;
 			this.radioShowSheets.Text = "Sheets";
 			this.radioShowSheets.UseVisualStyleBackColor = true;
@@ -137,9 +137,9 @@ namespace OpenPmsDental{
 			//
 			// radioShowEForms
 			//
-			this.radioShowEForms.Location = new System.Drawing.Point(130, 18);
+			this.radioShowEForms.Location = new System.Drawing.Point(130, 23);
 			this.radioShowEForms.Name = "radioShowEForms";
-			this.radioShowEForms.Size = new System.Drawing.Size(110, 22);
+			this.radioShowEForms.Size = new System.Drawing.Size(64, 20);
 			this.radioShowEForms.TabIndex = 256;
 			this.radioShowEForms.Text = "eForms";
 			this.radioShowEForms.UseVisualStyleBackColor = true;
@@ -147,7 +147,7 @@ namespace OpenPmsDental{
 			//
 			// FormPatientForms
 			//
-			this.ClientSize = new System.Drawing.Size(855, 696);
+			this.ClientSize = new System.Drawing.Size(855, 711);
 			this.Controls.Add(this.groupShow);
 			this.Controls.Add(this.groupSortBy);
 			this.Controls.Add(this.gridMain);

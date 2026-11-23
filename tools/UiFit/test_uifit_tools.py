@@ -235,5 +235,42 @@ class TemplateTests(unittest.TestCase):
         self.assertFalse(grid_templates.settled([(w, ".", "overlapping items kept as drawn: a, b")]))
 
 
+class AnchorTests(unittest.TestCase):
+    """UI-12 slice 4 fix round: the designer's anchors (the tree has LayoutManager's reset Top|Left) and the bottom-anchor check."""
+    DESIGNER = (
+        "\t\t\tthis.gridMain = new OpenPmsDental.UI.GridOD();\r\n"
+        "\t\t\tthis.butAdd = new OpenPmsDental.UI.Button();\r\n"
+        "\t\t\tthis.butDelete = new OpenPmsDental.UI.Button();\r\n"
+        "\t\t\tthis.butClose = new OpenPmsDental.UI.Button();\r\n"
+        "\t\t\tthis.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) \r\n"
+        "            | System.Windows.Forms.AnchorStyles.Left) \r\n"
+        "            | System.Windows.Forms.AnchorStyles.Right)));\r\n"
+        "\t\t\tthis.butAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));\r\n"
+        "\t\t\tthis.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));\r\n"
+        "\t\t\tthis.butClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));\r\n")
+
+    def designer(self):
+        tmp = tempfile.mkdtemp(prefix="ui12-anchor-")
+        self.addCleanup(shutil.rmtree, tmp, True)
+        with open(os.path.join(tmp, "FormX.designer.cs"), "wb") as f:
+            f.write(self.DESIGNER.encode("latin-1"))
+        return grid_tools.Designer(tmp, "FormX.designer.cs")
+
+    def test_reads_the_designer_anchor(self):
+        d = self.designer()
+        self.assertEqual(15, d.anchor("gridMain"))
+        self.assertEqual(10, d.anchor("butAdd"))
+        self.assertEqual(5, d.anchor("labelNone"))
+
+    def test_flags_a_bottom_anchored_button_at_the_top(self):
+        d = self.designer()
+        root = node("", "N.FormX", 0, 0, 600, 400)
+        node("gridMain", "OpenPmsDental.UI.GridOD", 8, 8, 480, 100, root)
+        node("butAdd", "OpenPmsDental.UI.Button", 500, 8, 75, 24, root)        # bottom-anchored at the top: flagged
+        node("butDelete", "OpenPmsDental.UI.Button", 400, 112, 75, 24, root)   # under the grid's stretching bottom edge: not flagged
+        node("butClose", "OpenPmsDental.UI.Button", 500, 368, 75, 24, root)    # in the bottom bar: not flagged
+        self.assertEqual(["butAdd"], [r[1] for r in grid_tools.bottom_anchored_high(root, d)])
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -47,7 +47,7 @@ namespace OpenDentalImaging{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(439, 205);
+			this.butSave.Location = new System.Drawing.Point(478, 209);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 3;
@@ -59,7 +59,7 @@ namespace OpenDentalImaging{
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(12, 205);
+			this.butDelete.Location = new System.Drawing.Point(8, 209);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(75, 24);
 			this.butDelete.TabIndex = 4;
@@ -68,60 +68,60 @@ namespace OpenDentalImaging{
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(43, 32);
+			this.label1.Location = new System.Drawing.Point(48, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(82, 18);
+			this.label1.Size = new System.Drawing.Size(72, 23);
 			this.label1.TabIndex = 6;
 			this.label1.Text = "Description";
-			this.label1.TextAlign = System.Drawing.ContentAlignment.BottomRight;
+			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textDescription
 			// 
 			this.textDescription.AutoSize = false;
-			this.textDescription.Location = new System.Drawing.Point(126, 33);
+			this.textDescription.Location = new System.Drawing.Point(126, 8);
 			this.textDescription.Name = "textDescription";
-			this.textDescription.Size = new System.Drawing.Size(339, 20);
+			this.textDescription.Size = new System.Drawing.Size(340, 23);
 			this.textDescription.TabIndex = 5;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(24, 58);
+			this.label2.Location = new System.Drawing.Point(20, 35);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(101, 18);
+			this.label2.Size = new System.Drawing.Size(100, 23);
 			this.label2.TabIndex = 8;
 			this.label2.Text = "Computer Name";
-			this.label2.TextAlign = System.Drawing.ContentAlignment.BottomRight;
+			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textComputerName
 			// 
-			this.textComputerName.Location = new System.Drawing.Point(126, 59);
+			this.textComputerName.Location = new System.Drawing.Point(126, 35);
 			this.textComputerName.Name = "textComputerName";
-			this.textComputerName.Size = new System.Drawing.Size(182, 20);
+			this.textComputerName.Size = new System.Drawing.Size(184, 23);
 			this.textComputerName.TabIndex = 7;
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(372, 54);
+			this.label6.Location = new System.Drawing.Point(377, 35);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(154, 29);
+			this.label6.Size = new System.Drawing.Size(154, 32);
 			this.label6.TabIndex = 17;
 			this.label6.Text = "Leave blank to make available on all computers";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// label9
 			// 
-			this.label9.Location = new System.Drawing.Point(43, 137);
+			this.label9.Location = new System.Drawing.Point(40, 135);
 			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(82, 18);
+			this.label9.Size = new System.Drawing.Size(80, 23);
 			this.label9.TabIndex = 21;
 			this.label9.Text = "Twain Name";
-			this.label9.TextAlign = System.Drawing.ContentAlignment.BottomRight;
+			this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// butThis
 			// 
-			this.butThis.Location = new System.Drawing.Point(314, 57);
+			this.butThis.Location = new System.Drawing.Point(316, 35);
 			this.butThis.Name = "butThis";
-			this.butThis.Size = new System.Drawing.Size(55, 24);
+			this.butThis.Size = new System.Drawing.Size(55, 23);
 			this.butThis.TabIndex = 23;
 			this.butThis.Text = "This";
 			this.butThis.Click += new System.EventHandler(this.butThis_Click);
@@ -130,25 +130,25 @@ namespace OpenDentalImaging{
 			// 
 			this.comboTwainName.DropDownHeight = 150;
 			this.comboTwainName.IntegralHeight = false;
-			this.comboTwainName.Location = new System.Drawing.Point(126, 139);
+			this.comboTwainName.Location = new System.Drawing.Point(126, 135);
 			this.comboTwainName.MaxDropDownItems = 100;
 			this.comboTwainName.Name = "comboTwainName";
-			this.comboTwainName.Size = new System.Drawing.Size(339, 21);
+			this.comboTwainName.Size = new System.Drawing.Size(340, 23);
 			this.comboTwainName.TabIndex = 25;
 			this.comboTwainName.DropDown += new System.EventHandler(this.comboTwainName_DropDown);
 			// 
 			// checkShowTwainUI
 			// 
-			this.checkShowTwainUI.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkShowTwainUI.Location = new System.Drawing.Point(24, 164);
+			this.checkShowTwainUI.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkShowTwainUI.Location = new System.Drawing.Point(126, 162);
 			this.checkShowTwainUI.Name = "checkShowTwainUI";
-			this.checkShowTwainUI.Size = new System.Drawing.Size(116, 20);
+			this.checkShowTwainUI.Size = new System.Drawing.Size(102, 20);
 			this.checkShowTwainUI.TabIndex = 26;
 			this.checkShowTwainUI.Text = "Show Twain UI";
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(141, 167);
+			this.label3.Location = new System.Drawing.Point(234, 163);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(319, 18);
 			this.label3.TabIndex = 27;
@@ -158,26 +158,26 @@ namespace OpenDentalImaging{
 			// 
 			this.groupBoxOD1.Controls.Add(this.radioTwainMulti);
 			this.groupBoxOD1.Controls.Add(this.radioTwain);
-			this.groupBoxOD1.Location = new System.Drawing.Point(126, 88);
+			this.groupBoxOD1.Location = new System.Drawing.Point(126, 71);
 			this.groupBoxOD1.Name = "groupBoxOD1";
-			this.groupBoxOD1.Size = new System.Drawing.Size(243, 44);
+			this.groupBoxOD1.Size = new System.Drawing.Size(243, 60);
 			this.groupBoxOD1.TabIndex = 28;
 			this.groupBoxOD1.Text = "";
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(24, 90);
+			this.label4.Location = new System.Drawing.Point(20, 71);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(101, 18);
+			this.label4.Size = new System.Drawing.Size(100, 18);
 			this.label4.TabIndex = 29;
 			this.label4.Text = "Device Type";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// radioTwain
 			// 
-			this.radioTwain.Location = new System.Drawing.Point(5, 4);
+			this.radioTwain.Location = new System.Drawing.Point(8, 8);
 			this.radioTwain.Name = "radioTwain";
-			this.radioTwain.Size = new System.Drawing.Size(134, 19);
+			this.radioTwain.Size = new System.Drawing.Size(120, 20);
 			this.radioTwain.TabIndex = 0;
 			this.radioTwain.TabStop = true;
 			this.radioTwain.Text = "Twain Radiograph";
@@ -185,9 +185,9 @@ namespace OpenDentalImaging{
 			// 
 			// radioTwainMulti
 			// 
-			this.radioTwainMulti.Location = new System.Drawing.Point(5, 23);
+			this.radioTwainMulti.Location = new System.Drawing.Point(8, 32);
 			this.radioTwainMulti.Name = "radioTwainMulti";
-			this.radioTwainMulti.Size = new System.Drawing.Size(235, 21);
+			this.radioTwainMulti.Size = new System.Drawing.Size(227, 20);
 			this.radioTwainMulti.TabIndex = 1;
 			this.radioTwainMulti.TabStop = true;
 			this.radioTwainMulti.Text = "Twain Multi (example: phosphor plate)";
@@ -196,7 +196,7 @@ namespace OpenDentalImaging{
 			// butTestCapture
 			// 
 			this.butTestCapture.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butTestCapture.Location = new System.Drawing.Point(93, 205);
+			this.butTestCapture.Location = new System.Drawing.Point(89, 209);
 			this.butTestCapture.Name = "butTestCapture";
 			this.butTestCapture.Size = new System.Drawing.Size(90, 24);
 			this.butTestCapture.TabIndex = 30;
@@ -206,7 +206,7 @@ namespace OpenDentalImaging{
 			// butCaptureSettings
 			// 
 			this.butCaptureSettings.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butCaptureSettings.Location = new System.Drawing.Point(189, 205);
+			this.butCaptureSettings.Location = new System.Drawing.Point(185, 209);
 			this.butCaptureSettings.Name = "butCaptureSettings";
 			this.butCaptureSettings.Size = new System.Drawing.Size(110, 24);
 			this.butCaptureSettings.TabIndex = 31;
@@ -215,7 +215,7 @@ namespace OpenDentalImaging{
 			// 
 			// FormImagingDeviceEdit
 			// 
-			this.ClientSize = new System.Drawing.Size(526, 241);
+			this.ClientSize = new System.Drawing.Size(561, 241);
 			this.Controls.Add(this.butCaptureSettings);
 			this.Controls.Add(this.butTestCapture);
 			this.Controls.Add(this.label4);
