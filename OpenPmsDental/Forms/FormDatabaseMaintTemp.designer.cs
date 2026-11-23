@@ -208,7 +208,7 @@ namespace OpenPmsDental{
 			this.label5.TabIndex = 13;
 			this.label5.Text = "Step 5.  Make a backup.  A backup must be made before any of the buttons at the r" +
     "ight will be available.";
-			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.label5.TextAlign = System.Drawing.ContentAlignment.TopLeft;
 			// 
 			// butPrint
 			// 

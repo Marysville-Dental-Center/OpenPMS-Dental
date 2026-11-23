@@ -15,7 +15,7 @@ def layout(h):
     g = h.n("gridMain")
     h.set("gridMain", 8, None, 249, e.bottom_edge(h) - g.ny)
     bx = 8 + 249 + 8
-    h.set("butAdd", bx, None)
+    h.set("butAdd", bx, h.n("textCustom").ny + (23 - h.n("butAdd").nh) // 2)
     h.set("butDelete", bx, e.bottom_edge(h) - h.n("butDelete").nh)
     cx = bx + 75 + 8
     h.set("label4", cx, None, R - cx, None)

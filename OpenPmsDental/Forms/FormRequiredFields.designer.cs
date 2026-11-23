@@ -165,7 +165,7 @@ namespace OpenPmsDental {
 			// 
 			this.comboFieldTypes.Location = new System.Drawing.Point(8, 27);
 			this.comboFieldTypes.Name = "comboFieldTypes";
-			this.comboFieldTypes.Size = new System.Drawing.Size(120, 23);
+			this.comboFieldTypes.Size = new System.Drawing.Size(158, 23);
 			this.comboFieldTypes.TabIndex = 217;
 			this.comboFieldTypes.SelectedIndexChanged += new System.EventHandler(this.comboFieldTypes_SelectedIndexChanged);
 			// 

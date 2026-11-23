@@ -14,12 +14,13 @@ def layout(h):
     R = e.right_edge(h)
     B = e.bottom_edge(h)
     cx = R - 217
+    T = 8 + 34 + 8
     gr = cx - 8
-    h.set("label3", gr - 175, 8, 175, 45)
+    h.set("label3", gr - 175, 8, 175, 34)
     h.set("label8", 8, 8, gr - 175 - 8 - 8, 34)
-    h.set("gridMain", 8, 57, gr - 8, B - 57)
-    h.set("butAdd", cx, 57)
-    h.set("pictureAdd", cx + 82 + 6, 57 + 3)
-    h.set("label2", cx, 57 + 26 + 4, 217, 32)
-    h.set("label4", cx, 57 + 26 + 4 + 32 + 2, 217, 62)
-    h.set("butAdvanced", cx, 57 + 26 + 4 + 32 + 2 + 62 + 4)
+    h.set("gridMain", 8, T, gr - 8, B - T)
+    h.set("butAdd", cx, T)
+    h.set("pictureAdd", cx + 82 + 6, T + 3)
+    h.set("label2", cx, T + 26 + 4, 217, 32)
+    h.set("label4", cx, T + 26 + 4 + 32 + 2, 217, 62)
+    h.set("butAdvanced", cx, T + 26 + 4 + 32 + 2 + 62 + 4)

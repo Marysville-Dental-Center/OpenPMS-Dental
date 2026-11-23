@@ -16,7 +16,7 @@ def layout(h):
     R = e.right_edge(h)
     B = e.bottom_edge(h)
     h.set("labelFieldType", 8, 8, 158, 17)
-    h.set("comboFieldTypes", 8, 27)
+    h.set("comboFieldTypes", 8, 27, 158, None)
     h.set("label1", 8, 58, 158, 17)
     h.set("listAvailableFields", 8, 77, 158, B - 77)
     xa = 8 + 158 + 8

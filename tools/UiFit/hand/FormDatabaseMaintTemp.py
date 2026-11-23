@@ -47,4 +47,5 @@ def layout(h):
         h.set(lab, fx - 6 - h.n(lab).nw, yy)
         yy += 27
     h.set("label5", 8, 23)
+    h.text_align("label5", "TopLeft")
     h.set("butBackup", 8 + h.n("label5").nw + 6, 23)
