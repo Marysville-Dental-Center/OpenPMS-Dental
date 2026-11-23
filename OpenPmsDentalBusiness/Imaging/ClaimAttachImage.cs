@@ -36,7 +36,17 @@ namespace OpenPmsDentalBusiness {
 				|| document.DegreesRotated!=0
 				|| document.IsFlipped
 				|| document.WindowingMax!=0
-				|| document.WindowingMin!=0;
+				|| document.WindowingMin!=0
+				|| HasAdjustFilters(document);
+		}
+
+		///<summary>True when the document has saved adjust filters (IMG-P3), so its attachment is the filtered copy, as the module shows it.</summary>
+		private static bool HasAdjustFilters(Document document) {
+			if(document.DocNum==0) {
+				return false;
+			}
+			ImageAdjustSettings imageAdjustSettings=DocumentAdjusts.GetForDoc(document.DocNum)?.ToSettings();
+			return imageAdjustSettings!=null && !imageAdjustSettings.IsNeutral();
 		}
 
 		///<summary>The image format an edited copy of the file is written in: the format of its extension (JPEG, PNG, BMP, GIF, TIFF), or PNG for an

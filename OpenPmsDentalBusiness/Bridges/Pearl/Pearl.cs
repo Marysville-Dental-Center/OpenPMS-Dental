@@ -109,7 +109,8 @@ Examples:
 			Pearl pearl=new Pearl();
 			pearl.Patient_=patient;
 			if(mountItem!=null) {
-				pearl.Bitmap_=ImageHelper.ApplyDocumentSettingsToImage(document,bitmap,ImageSettingFlags.ALL);//Creates copy of bitmap
+				//The AI service gets the image itself: crop, rotation and brightness/contrast as before, never the adjust filters (IMG-P3).
+				pearl.Bitmap_=ImageHelper.ApplyDocumentSettingsToImage(document,bitmap,ImageSettingFlags.ALL,doApplyAdjust:false);//Creates copy of bitmap
 			}
 			else {
 				pearl.Bitmap_=(Bitmap)bitmap.Clone();//Creates copy of bitmap

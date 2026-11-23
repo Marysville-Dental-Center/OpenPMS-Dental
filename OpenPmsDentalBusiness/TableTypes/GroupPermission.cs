@@ -893,7 +893,7 @@ namespace OpenPmsDentalBusiness{
 		AdvancedTextingAccountEdit=277,
 		//10000 and up: this program's own values, so that Open Dental's later values never collide with them (docs/port-notes/FORK-ENUMS.md).
 		//Code must not loop over 0..count-1 of this enum; use Enum.GetValues. 10000 to 10049: routine maintenance; 10050 to 10099: inventory
-		//tracking; 10100 to 10149: SSH host keys.
+		//tracking; 10100 to 10149: SSH host keys; 10150 to 10199: Imaging.
 		///<summary>10000 - Routine maintenance (fork only): add, edit, hide and delete maintenance items, their checklists and result fields.</summary>
 		[Description("Maintenance Setup")]
 		MaintenanceSetup=10000,
@@ -910,6 +910,11 @@ namespace OpenPmsDentalBusiness{
 		///security tree; changing stored keys needs SecurityAdmin.</summary>
 		[Description("SSH Host Keys")]
 		SshHostKeys=10100,
+		///<summary>10150 - Imaging (fork only): create, change or delete the Imaging module's adjust presets (ImageAdjustPresets), the saved
+		///brightness, contrast and filter settings in the image adjust tools. The built-in presets cannot be changed. Granted by fork migration
+		///2026112303 to every user group that has Setup.</summary>
+		[Description("Image Adjust Presets")]
+		ImageAdjustPresets=10150,
 	}
 }
 

@@ -30,7 +30,7 @@ namespace AdoptionValidation {
 	///- grouppermission: the 25.4 blockout permission split that migration-preview lists (Migration26_1Plan): the Open Dental 25.3 PhoneExtension
 	///  grants move from 272 to 274 (PermType only), and each planned BlockoutAdd and BlockoutDelete grant is added as a copy of its Blockouts grant;
 	///  and the UDS+ step's report permissions: one Reports grant for the added row (FKey its DisplayReportNum, no date limit) per planned user group;
-	///  and the routine maintenance grant step's rows (MaintenanceGrantPlan): Maintenance Setup and Maintenance Record Completion (FKey 0, no date
+	///  and the Image Adjust Presets grant step's rows (ImageAdjustGrantPlan), and the routine maintenance grant step's rows (MaintenanceGrantPlan): Maintenance Setup and Maintenance Record Completion (FKey 0, no date
 	///  limit) for each planned user group with Security Admin; no other row may change, be added or go;
 	///- codegroup: what the Insurance History step plans (InsHistCodeGroupPlan): each planned new group (since 2026-11-07 the step only adds groups used
 	///  for Insurance History) is one added row with the planned values; a planned update (none since then) may change only ProcCodes and the three
@@ -115,6 +115,10 @@ namespace AdoptionValidation {
 			public MaintenanceGrantPlan.Plan PlanMaintGrants;
 			///<summary>Routine maintenance grants the step added, all of them planned.</summary>
 			public int CountMaintGrantsAdded;
+			///<summary>The Image Adjust Presets grant step's plan made from the original (what migration-preview lists for it).</summary>
+			public ImageAdjustGrantPlan.Plan PlanImageAdjustGrants;
+			///<summary>Image Adjust Presets grants the step added, all of them planned.</summary>
+			public int CountImageAdjustGrantsAdded;
 			///<summary>claimpayment notes that were NULL and are now empty.</summary>
 			public long CountNotesBlanked;
 			///<summary>The new columns checked (table.column), each holding its default in every row, or for the ones in ListColumnsAlterTime the one
@@ -144,6 +148,7 @@ namespace AdoptionValidation {
 			result.PlanDxc=DxcCreditScorePlan.Make(db,original);
 			result.PlanTrojan=TrojanExpressCollectPlan.Make(db,original);
 			result.PlanMaintGrants=MaintenanceGrantPlan.Make(db,original);
+			result.PlanImageAdjustGrants=ImageAdjustGrantPlan.Make(db,original);
 			result.PlanInventory=InventoryPlan.Make(db,original);
 			CheckPreferences(db,original,adopted,result);
 			CheckDocumentMisc(db,original,adopted,result);
@@ -478,7 +483,8 @@ namespace AdoptionValidation {
 		///(Migration26_1Plan): the Open Dental 25.3 PhoneExtension rows (272) move to 274, PermType only, and each planned BlockoutAdd and BlockoutDelete
 		///grant is one added row, a copy of its Blockouts row (user group, FKey, date limits) with the new PermType. The UDS+ step's Reports grants and
 		///the routine maintenance grant step's rows (MaintenanceGrantPlan: Maintenance Setup and Maintenance Record Completion, FKey 0, no date limit,
-		///for the planned Security Admin groups) are added rows too. Nothing else in grouppermission may change, be added or go.</summary>
+		///for the planned Security Admin groups) and the Image Adjust Presets grant step's rows (ImageAdjustGrantPlan: FKey 0, no date limit, for the
+		///planned Setup groups) are added rows too. Nothing else in grouppermission may change, be added or go.</summary>
 		private static void CheckGroupPermission(Db db,string original,string adopted,Result result) {
 			bool hasOriginal=Migration26_1Plan.HasTable(db,original,"grouppermission");
 			bool hasAdopted=Migration26_1Plan.HasTable(db,adopted,"grouppermission");
@@ -540,6 +546,10 @@ namespace AdoptionValidation {
 			List<MaintPermissionGrants.Grant> listMaintGrants=result.PlanMaintGrants?.ListGrants??new List<MaintPermissionGrants.Grant>();
 			listExpected.AddRange(listMaintGrants.Select(x => (new Migration26_1Plan.GroupPermRow { UserGroupNum=x.UserGroupNum,FKey=0,NewerDate=DateTime.MinValue,
 				NewerDays=0 }.Describe((int)x.PermType),PermNameMaintenanceGrants)));
+			//The Image Adjust Presets grant step's rows: Image Adjust Presets (FKey 0, no date limit) for the planned Setup groups.
+			List<ImageAdjustPresetGrants.Grant> listImageAdjustGrants=result.PlanImageAdjustGrants?.ListGrants??new List<ImageAdjustPresetGrants.Grant>();
+			listExpected.AddRange(listImageAdjustGrants.Select(x => (new Migration26_1Plan.GroupPermRow { UserGroupNum=x.UserGroupNum,FKey=0,NewerDate=DateTime.MinValue,
+				NewerDays=0 }.Describe((int)x.PermType),PermNameImageAdjustGrants)));
 			int countExpected=listExpected.Count;
 			if(diff.CountOnlySecond>diff.ListOnlySecond.Count) {
 				result.ListFailures.Add(diff.CountOnlySecond+" grouppermission rows were added; the fork migration adds "+countExpected+".");
@@ -554,7 +564,7 @@ namespace AdoptionValidation {
 						int index=listExpected.FindIndex(x => x.describe==describe);
 						if(index<0) {
 							result.ListFailures.Add("grouppermission row "+row.GroupPermNum+" ("+describe+") was added; the fork migration adds only the BlockoutAdd and "
-								+"BlockoutDelete grants, the UDS+ report's Reports grants and the routine maintenance grants migration-preview lists for "+original+".");
+								+"BlockoutDelete grants, the UDS+ report's Reports grants, the routine maintenance grants and the Image Adjust Presets grants migration-preview lists for "+original+".");
 							continue;
 						}
 						string permName=listExpected[index].permName;
@@ -563,6 +573,9 @@ namespace AdoptionValidation {
 						}
 						else if(permName==PermNameMaintenanceGrants) {
 							result.CountMaintGrantsAdded++;
+						}
+						else if(permName==PermNameImageAdjustGrants) {
+							result.CountImageAdjustGrantsAdded++;
 						}
 						else {
 							result.DictPermsGranted[permName]=(result.DictPermsGranted.TryGetValue(permName,out int countSoFar) ? countSoFar : 0)+1;
@@ -588,6 +601,8 @@ namespace AdoptionValidation {
 					+result.CountReportPermsCopied+" of the "+listGroupsUds.Count+" user group(s) that may run the FQHC Dental Sealant Measure, as migration-preview lists")
 				+(listMaintGrants.Count==0 ? "" : "; "+string.Join(" and ",MaintPermissionGrants.ArrayPermTypes)+" for the user groups with Security Admin: "
 					+result.CountMaintGrantsAdded+" of the "+listMaintGrants.Count+" planned row(s) added (FKey 0, no date limit), as migration-preview lists")
+				+(listImageAdjustGrants.Count==0 ? "" : "; "+string.Join(" and ",ImageAdjustPresetGrants.ArrayPermTypes)+" for the user groups with Setup: "
+					+result.CountImageAdjustGrantsAdded+" of the "+listImageAdjustGrants.Count+" planned row(s) added (FKey 0, no date limit), as migration-preview lists")
 				+(isClean ? "; no other row changed, added or removed." : " (see the failures)."));
 		}
 
@@ -595,6 +610,8 @@ namespace AdoptionValidation {
 		private const string PermNameUdsPlusReports="UdsPlusReports";
 		///<summary>The name under which the expected grants list the routine maintenance grant step's rows (MaintenanceGrantPlan).</summary>
 		private const string PermNameMaintenanceGrants="MaintenanceGrants";
+		///<summary>The name under which the expected grants list the Image Adjust Presets grant step's rows (ImageAdjustGrantPlan).</summary>
+		private const string PermNameImageAdjustGrants="ImageAdjustGrants";
 
 		///<summary>The columns whose stored values the 25.4 and 26.1 steps change with their definition (Migration26_1Plan.ArrayValueChangingColumns):
 		///claimpayment.Note only from NULL to an empty string, as many as migration-preview counts; insverify and insverifyhist.DateLastAssigned only from a

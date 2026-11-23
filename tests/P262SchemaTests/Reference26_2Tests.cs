@@ -300,6 +300,7 @@ namespace P262SchemaTests {
 			Assert.AreEqual(114,(int)UserOdFkeyType.PatientFormsView);
 			Assert.AreEqual(10000,(int)EnumPermType.MaintenanceSetup);
 			Assert.AreEqual(10100,(int)EnumPermType.SshHostKeys);
+			Assert.AreEqual(10150,(int)EnumPermType.ImageAdjustPresets);
 			//DefCat stays contiguous: the definition cache sizes its arrays by the number of categories and indexes them by category.
 			int[] arrayDefCats=Enum.GetValues(typeof(DefCat)).Cast<int>().OrderBy(x => x).ToArray();
 			CollectionAssert.AreEqual(Enumerable.Range(0,58).ToArray(),arrayDefCats);

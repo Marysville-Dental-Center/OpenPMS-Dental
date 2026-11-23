@@ -512,6 +512,8 @@ namespace OpenPmsDental {
 				node.Nodes.Add(node2);
 				node2=SetNode(EnumPermType.ImageExport);
 				node.Nodes.Add(node2);
+				node2=SetNode(EnumPermType.ImageAdjustPresets);
+				node.Nodes.Add(node2);
 			treePermissions.Nodes.Add(node);
 			#endregion
 			#region Manage Module

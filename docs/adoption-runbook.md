@@ -56,7 +56,9 @@ same code):
    groups among them, are not changed (owner decision of 2026-11-07); the preferences themselves are kept. Then the routine
    maintenance steps create this program's own maintenance tables (empty) and give every user group that has Security Admin the two new
    routine maintenance permissions (Maintenance Setup and Maintenance Record Completion), and the SSH host keys step creates the empty table
-   in which the program remembers each SSH server's host key. The settings step (2026110731) moves only rows that release 0.0 wrote under
+   in which the program remembers each SSH server's host key. The Imaging adjust tools steps create two more empty tables of this program (each
+   image's saved display filters and the office's own adjust presets) and give every user group that has Setup the new Image Adjust Presets
+   permission. The settings step (2026110731) moves only rows that release 0.0 wrote under
    names of its own, which an Open Dental database never has, so it changes nothing here. Step 0.2 lists all these changes in advance
    (`migration-preview`); step 4 checks that adoption made exactly them.
 7. records the finish and adds a security log entry
@@ -676,9 +678,10 @@ prints each step with its time; `adoption-log.txt` keeps everything. Expect, in 
   lists deleted (ToolButItemNum N)", after the DXC part if there is one), "Changed columns:" ("claimpayment.Note: N of the N NULL note(s)
   migration-preview counts now empty, every other note unchanged", and `insverify` and `insverifyhist.DateLastAssigned` "the original date at
   midnight in all N row(s)"), "New tables and columns:" ("8 new table(s), all empty (...); 35 new column(s) in 24 table(s) hold their default
-  in every row (insbluebook.DateTStamp: one time in every row, that of the ALTER TABLE)."), "Fork tables:" ("12 new table(s) of this program, all empty (maintfield, maintitem, maintrecord, maintrecordvalue,
+  in every row (insbluebook.DateTStamp: one time in every row, that of the ALTER TABLE)."), "Fork tables:" ("14 new table(s) of this program, all empty (documentadjust, imageadjustpreset, maintfield, maintitem, maintrecord, maintrecordvalue,
   maintstep, sshhostkey, supplycount, supplycountline, supplylot, supplyproccode, supplyprocpending, supplysetting).": the routine maintenance
-  tables, the SSH host keys table (no server's key is stored yet: the first connection to each server stores it) and the inventory tables
+  tables, the SSH host keys table (no server's key is stored yet: the first connection to each server stores it), the Imaging adjust tables
+  (no image has saved filters and the office has no preset yet) and the inventory tables
   but the stock ledger, so no stock count is open), "Stock ledger:" ("supplyledger added (inventory tracking), N of the N
   opening balance row(s) migration-preview lists and no other row.") and `updatehistory` ("identical row by row")
 - "Adopt: PASS." with the report rows renamed (or "the fork migration renamed no report row"), the UDS+ report row added and, if step 0.2
@@ -748,6 +751,9 @@ person reads them all):
   `maintrecordvalue` and `maintstep` (0 rows); step 4's row check printed them under "Fork tables:", all empty;
 - this program's own table of SSH host keys (step 2026110221): `TableAdded` for `sshhostkey` (0 rows); step 4's row check printed it under
   "Fork tables:", empty;
+- this program's own tables of the Imaging adjust tools (steps 2026112301 and 2026112302): `TableAdded` for `documentadjust` and
+  `imageadjustpreset` (0 rows); step 4's row check printed them under "Fork tables:", empty. Step 2026112303 adds one `grouppermission` row (Image
+  Adjust Presets, FKey 0, no date limit) for each user group with Setup, as step 0.2 lists; step 4's row check requires exactly those rows;
 - `ChecksumTableChanged` lines "explained by the differences listed for this table", for the tables above.
 
 A line for any other table in the Allowed section: stop, go to Rollback, and give `compare.txt` to the developers. Every business total
