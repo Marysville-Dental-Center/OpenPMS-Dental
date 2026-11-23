@@ -47,7 +47,7 @@ namespace OpenPmsDental{
 			this.gridMain.Location = new System.Drawing.Point(8, 36);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.OneCell;
-			this.gridMain.Size = new System.Drawing.Size(573, 385);
+			this.gridMain.Size = new System.Drawing.Size(573, 394);
 			this.gridMain.TabIndex = 4;
 			this.gridMain.Title = " Substitution Codes";
 			this.gridMain.TranslationName = "TableSubstitutionCodes";

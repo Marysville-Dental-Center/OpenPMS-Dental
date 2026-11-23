@@ -60,7 +60,7 @@ namespace OpenPmsDental {
 			this.gridMain.Location = new System.Drawing.Point(8, 35);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridMain.Size = new System.Drawing.Size(848, 432);
+			this.gridMain.Size = new System.Drawing.Size(859, 443);
 			this.gridMain.TabIndex = 11;
 			this.gridMain.Title = "Operatories";
 			this.gridMain.TranslationName = "TableOperatories";
@@ -70,7 +70,7 @@ namespace OpenPmsDental {
 			// 
 			this.comboClinic.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.comboClinic.IncludeAll = true;
-			this.comboClinic.Location = new System.Drawing.Point(621, 8);
+			this.comboClinic.Location = new System.Drawing.Point(632, 8);
 			this.comboClinic.Name = "comboClinic";
 			this.comboClinic.Size = new System.Drawing.Size(235, 23);
 			this.comboClinic.TabIndex = 119;

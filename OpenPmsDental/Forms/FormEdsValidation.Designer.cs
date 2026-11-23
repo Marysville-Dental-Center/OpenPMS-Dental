@@ -40,7 +40,7 @@ namespace OpenPmsDental {
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridMain.Location = new System.Drawing.Point(8, 56);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(868, 368);
+			this.gridMain.Size = new System.Drawing.Size(868, 373);
 			this.gridMain.TabIndex = 1;
 			this.gridMain.Title = "EDS Claim Validation";
 			this.gridMain.TranslationName = "TableEdsValidation";

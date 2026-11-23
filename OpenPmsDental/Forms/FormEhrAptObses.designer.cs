@@ -35,7 +35,7 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridObservations.Location = new System.Drawing.Point(8, 8);
 			this.gridObservations.Name = "gridObservations";
-			this.gridObservations.Size = new System.Drawing.Size(629, 429);
+			this.gridObservations.Size = new System.Drawing.Size(629, 431);
 			this.gridObservations.TabIndex = 4;
 			this.gridObservations.Title = null;
 			this.gridObservations.TranslationName = "TableOservations";

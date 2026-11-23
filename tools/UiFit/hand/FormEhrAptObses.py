@@ -1,5 +1,6 @@
 """FormEhrAptObses on the grid (UI-12 slice 7, layout script on the planner's tree). The grid stood 12 px from the edges against Add's 8: on
-the content edges."""
+the content edges. The grid ends 12 px over the bottom bar (the
+section gap the planner keeps there; it stood 15 to 24 px over it)."""
 import importlib.util
 import os
 
@@ -10,3 +11,4 @@ _spec.loader.exec_module(s)
 
 def layout(h):
     s.span(h, "gridObservations", x=8, r=s.right(h))
+    s.span(h, "gridObservations", b=h.n("butAdd").ny - 12)

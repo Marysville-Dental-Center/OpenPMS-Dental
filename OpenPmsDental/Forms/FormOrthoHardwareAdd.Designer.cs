@@ -36,7 +36,7 @@ namespace OpenPmsDental{
 			this.gridMain.Location = new System.Drawing.Point(8, 26);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridMain.Size = new System.Drawing.Size(547, 591);
+			this.gridMain.Size = new System.Drawing.Size(547, 597);
 			this.gridMain.TabIndex = 32;
 			this.gridMain.TranslationName = "TableOrthoHardwareSpecs";
 			this.gridMain.CellDoubleClick += new OpenPmsDental.UI.ODGridClickEventHandler(this.gridMain_CellDoubleClick);

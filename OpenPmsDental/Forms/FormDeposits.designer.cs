@@ -80,7 +80,7 @@ namespace OpenPmsDental {
 			// 
 			this.comboClinics.IncludeAll = true;
 			this.comboClinics.IncludeUnassigned = true;
-			this.comboClinics.Location = new System.Drawing.Point(72, 8);
+			this.comboClinics.Location = new System.Drawing.Point(157, 8);
 			this.comboClinics.Name = "comboClinics";
 			this.comboClinics.IsMultiSelect = true;
 			this.comboClinics.Size = new System.Drawing.Size(200, 23);

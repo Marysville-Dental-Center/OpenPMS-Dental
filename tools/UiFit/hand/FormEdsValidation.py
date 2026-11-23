@@ -1,5 +1,6 @@
 """FormEdsValidation on the grid (UI-12 slice 7, layout script on the planner's tree). The header and the grid stood 12 px from the left and
-right against the buttons' 8: on the content edges."""
+right against the buttons' 8: on the content edges. The grid ends 12 px over the bottom bar (the
+section gap the planner keeps there; it stood 15 to 24 px over it)."""
 import importlib.util
 import os
 
@@ -12,3 +13,4 @@ def layout(h):
     R = s.right(h)
     s.span(h, "labelHeader", x=8, r=R)
     s.span(h, "gridMain", x=8, r=R)
+    s.span(h, "gridMain", b=h.n("butClose").ny - 12)

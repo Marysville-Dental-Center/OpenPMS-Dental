@@ -38,7 +38,7 @@ namespace OpenPmsDental{
 			this.gridMain.Location = new System.Drawing.Point(8, 35);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridMain.Size = new System.Drawing.Size(923, 429);
+			this.gridMain.Size = new System.Drawing.Size(923, 431);
 			this.gridMain.TabIndex = 4;
 			this.gridMain.Title = "Claims to be Created";
 			this.gridMain.TranslationName = "TableAutoOrthoClaims";

@@ -1,5 +1,6 @@
 """FormLabCases on the grid (UI-12 slice 7, layout script on the planner's tree). The grid stood 17 px from the left against Print's 8 and the
-clinic picker ended 4 px short of the right edge: the grid on the content edges, the picker on the right edge."""
+clinic picker ended 4 px short of the right edge: the grid on the content edges, the picker on the right edge. The grid ends 12 px over the bottom bar (the
+section gap the planner keeps there; it stood 15 to 24 px over it)."""
 import importlib.util
 import os
 
@@ -13,3 +14,4 @@ def layout(h):
     c = h.n("comboClinic")
     s.move(h, "comboClinic", x=R - c.nw)
     s.span(h, "gridMain", x=8, r=R)
+    s.span(h, "gridMain", b=h.n("butPrint").ny - 12)

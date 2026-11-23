@@ -34,7 +34,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridMain.Location = new System.Drawing.Point(8, 8);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(864, 449);
+			this.gridMain.Size = new System.Drawing.Size(864, 457);
 			this.gridMain.TabIndex = 8;
 			this.gridMain.Title = "Select the Operatory to Keep";
 			this.gridMain.TranslationName = "TableOperatories";

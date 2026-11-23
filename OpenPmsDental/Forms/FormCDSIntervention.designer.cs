@@ -35,7 +35,7 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridMain.Location = new System.Drawing.Point(8, 8);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(907, 233);
+			this.gridMain.Size = new System.Drawing.Size(907, 235);
 			this.gridMain.TabIndex = 5;
 			this.gridMain.Title = "CDS Interventions";
 			this.gridMain.TranslationName = "";

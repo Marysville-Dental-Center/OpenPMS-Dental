@@ -1,5 +1,6 @@
 """FormOrthoHardwareAdd on the grid (UI-12 slice 7, layout script on the planner's tree). The caption stood 39 px from the left over a grid at
-12 that ended 4 px short of OK's edge: the caption and the grid on the content edges."""
+12 that ended 4 px short of OK's edge: the caption and the grid on the content edges. The grid ends 12 px over the bottom bar (the
+section gap the planner keeps there; it stood 15 to 24 px over it)."""
 import importlib.util
 import os
 
@@ -11,3 +12,4 @@ _spec.loader.exec_module(s)
 def layout(h):
     s.move(h, "labelComments", x=8)
     s.span(h, "gridMain", x=8, r=s.right(h))
+    s.span(h, "gridMain", b=h.n("butOK").ny - 12)

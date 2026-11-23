@@ -53,7 +53,7 @@ namespace OpenPmsDental{
 			this.gridInsPlanFiles.Location = new System.Drawing.Point(8, 136);
 			this.gridInsPlanFiles.Name = "gridInsPlanFiles";
 			this.gridInsPlanFiles.SelectionMode = OpenPmsDental.UI.GridSelectionMode.None;
-			this.gridInsPlanFiles.Size = new System.Drawing.Size(958, 509);
+			this.gridInsPlanFiles.Size = new System.Drawing.Size(958, 516);
 			this.gridInsPlanFiles.TabIndex = 8;
 			this.gridInsPlanFiles.Title = "Ins Plan Files To Import";
 			this.gridInsPlanFiles.TranslationName = "TableImport";
