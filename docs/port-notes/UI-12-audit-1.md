@@ -223,3 +223,47 @@ in both bins), so the 150% pictures are `b5`'s.
 At 150% the clinic picker's label, like the text in the text boxes, date pickers and up-down boxes, is drawn at the font Windows gives the
 scaled control, the harness's other labels at its zoom font (UI-12.md, "Slice 1, continuation", the 150% pictures), so "Clinic" reads larger
 than the labels beside it in the 150% pictures only. The pass finds nothing more: `b6` is the gallery's after set.
+
+## Pass 6 (`c1`, `c2`, `c3`): fix round 8, the lead's review of 23 findings (UI-12.md, "Slice 1, fix round 8")
+
+The capture session now draws text without font smoothing, so every `c` picture differs from `b6` in its text pixels; the pass compares
+layouts with `work/tdiff.py` (the trees) and pictures with `work/pixdiff.py` (pixels). The 25 windows whose tree equals `b5`'s (FormArManager,
+FormClaimProc, FormCodeGroupEdit, FormDispensary, FormEbillSetup, FormEhrLabOrderEdit2014, FormEmailMessageEdit, FormEmployeeEdit,
+FormInsRemain, FormMedical, FormPayPlan, FormPayPlanTemplateEdit, FormPaySplitEdit, FormProviderSetup, FormRpAging, FormRpCustomAging,
+FormRpEraAutoProcessed, FormRpLaserLabels, FormRpPaySheet, FormRpProcNotBilledIns, FormRpProcNote, FormRpTreatmentFinder, FormRxDefEdit,
+FormTransworldSetup, FormAllocationsSetup) are pass 5's pictures with unsmoothed text: FormEmployeeEdit opened side by side with `b6` to
+confirm. `c2` and `c3` are pixel-identical (`c3` changed FormRpUnearnedIncome's Unallocated Balances page, which the picture does not show).
+Opened: every picture whose layout changed, at 100% and at 150%, and ControlTreat at 150% (`c3-ct150`, outside the gallery's set).
+
+| Picture | Found | Fixed by |
+|---|---|---|
+| FormCarrierEdit (`c1`) | The Carrier Group row's place under Consolidate Ortho Ins Payments (hidden in the designer, an empty row as on main), Supported Transaction Types to the CDAnet group's content edge | nothing |
+| FormScheduleDayEdit (`c1`) | "Wednesday" over "12/30/2026" whole, centred between the arrows; the right groups' content 8 px inside both sides | nothing |
+| FormFamilyBalancer (`c1`) | The three lines of the Changed Since check box with its warning; Delete All Transfers' box 6 px left of the box column | round 8 second pass: on the column (`c2`) |
+| FormFamilyBalancer (`c3`) | Both check boxes and the date boxes on one column, the note's three lines | nothing |
+| FormASAP (`c1`) | The filter row: label + 6 + box, 16-17 px between filters, "Clinic" on the row's centre like Provider and Site | nothing |
+| ControlTreat (`c1`), ControlTreat-150 (`c3-ct150`) | "Ded Remain" whole in the individual insurance summary | nothing |
+| FormReportSetup (`c1`) | The report grid and Up/Down 8 px from the page's sides; the instructions' second line touching its label's bottom | round 8 second pass: the label 31 px (`c2`) |
+| FormReportSetup (`c3`) | The instructions' two lines whole, the grid 8 px from the page | nothing |
+| FormClearinghouseEdit (`c1`) | The X12 group, its Hexadecimal Delimiters group and the picker on the content edge; the Sender ID group 12 px inside the X12 group (8 on the right) | round 8 second pass: on the padding, its fields on the column (`c2`) |
+| FormClearinghouseEdit (`c3`), -150 | One right edge, the inner groups 8 px from the X12 group's sides | nothing |
+| FormEhrLabResultEdit2014 (`c1`), -150 | Three columns 8 px apart, the right column on Save's edge, its nested groups and fields with it | nothing |
+| FormInsVerificationList (`c1`) | The groups 8 px apart, one bottom for Insurance Plan and Subscriber + Pat Birthdate; the Pat Birthdate box 3 px wider than the subscriber fields | round 8 second pass: their width (`c2`) |
+| FormInsVerificationList (`c3`), -150 | As above, one right edge in the Subscriber column | nothing |
+| FormRecallSetup (`c1`) | Recall List Default View and Adjust Postcard Position one height, the right column under them | nothing |
+| FormClaimPayEdit (`c1`) | Note and the card group on Pick's edge; the group's last button 18 px inside it | round 8 second pass: the buttons spread, the last 8 px inside (`c2`) |
+| FormClaimPayEdit (`c3`) | One right edge, the card buttons over the group | nothing |
+| FormRxEdit (`c1`) | The bottom bar's four buttons 6 px apart | nothing |
+| FormRpDPPOvercharged, FormRpProcOverpaid (`c1`, `c3`) | The Clinics box on both of Providers' edges | nothing |
+| FormOrthoCase (`c1`) | Payment Plan on the grid's right edge | nothing |
+| FormRpOutstandingIns (`c1`) | Zero Claims 8 px before the groups, the groups one height; GridRulesTests: the groups' fields off the filter group's columns (they moved right) | round 8 second pass: the groups kept, the two buttons narrower (`c2`) |
+| FormRpOutstandingIns (`c2`), -150 | Assign User, Zero Claims, 8 px (12 at 150%), the three groups one height on their columns | nothing |
+| FormEtrans835Edit (`c1`) | The Balancing group to the payer column with its sums spread; GridRulesTests: the middle sum off the payer column | round 8 second pass: the middle sum on the column, the group to its content (`c2`) |
+| FormEtrans835Edit (`c2`) | The captions over their boxes, the group's content 8 px inside both sides | nothing |
+| FormPayPlanDynamic (`c3`), -150 | Handle Treatment Planned to the Terms group's content edge, the three button rows on one right edge | nothing |
+| FormCloneAdd (`c3`) | Primary Provider on the patient fields' edge, "..." 6 px after it | nothing |
+| FormClinicEdit (`c3`), -150 | The address pages' labels 100 px (the Canadian text's width), the fields on the column at 114 | nothing |
+| FormCarrierEdit-150 | The whole window, the Carrier Group row's place, CDAnet's inner group on its content edge | nothing |
+| FormAdjust (`c3`), FormRpUnearnedIncome (`c3`) | The changes stand on hidden controls and pages (the percent amount label, the Unallocated Balances note): the pictures show the same layout as `b6` | nothing |
+
+The pass finds nothing more: `c3` (with `c3-150`) is the gallery's after set.
