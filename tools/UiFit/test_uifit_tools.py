@@ -14,6 +14,7 @@ import unittest
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import fit_tools  # noqa: E402
+import grid_templates  # noqa: E402
 import grid_tools  # noqa: E402
 import plan_batches  # noqa: E402
 import slice_data as sd  # noqa: E402
@@ -170,6 +171,68 @@ class BatchTests(unittest.TestCase):
         rows = sd.read_dicts(os.path.join(ROOT, "docs", "port-notes", "UI-12-batches.tsv"))
         self.assertEqual([f for _, _, fs in self.batches for f in fs], [r["designer_file"] for r in rows],
                          "run python tools/UiFit/plan_batches.py")
+
+
+def node(name, type_, x, y, w, h, parent=None, text_w=0, anchor=5):
+    """A control tree node as GridDump writes it (the columns the templates read)."""
+    r = dict((c, "0") for c in ("index", "client_x", "client_y", "client_width", "client_height", "auto_size", "sizes_itself",
+                                "layout_panel_child", "multiline", "font_height", "text_width", "text_height", "title_bottom", "preferred_height"))
+    r.update({"window": "N.FormX", "path": name, "name": name, "type": type_, "x": str(x), "y": str(y), "width": str(w), "height": str(h),
+              "visible": "1", "dock": "None", "anchor": str(anchor), "check_align": "", "text_align": "", "text": name, "text_width": str(text_w)})
+    if parent is None:
+        r.update({"client_width": str(w), "client_height": str(h)})
+    n = grid_tools.Node(r)
+    n.editable = True
+    if parent is not None:
+        n.parent = parent
+        parent.children.append(n)
+    return n
+
+
+class TemplateTests(unittest.TestCase):
+    def test_detects_a_list_window(self):
+        root = node("", "N.FormX", 0, 0, 600, 400)
+        node("gridMain", "OpenPmsDental.UI.GridOD", 8, 8, 480, 340, root, anchor=15)
+        node("butAdd", "OpenPmsDental.UI.Button", 500, 8, 75, 24, root)
+        node("butClose", "OpenPmsDental.UI.Button", 500, 360, 75, 24, root)
+        self.assertEqual("list", grid_templates.detect(root))
+
+    def test_detects_a_report_filter(self):
+        root = node("", "N.FormRpX", 0, 0, 400, 300)
+        node("datePickerFrom", "OpenPmsDental.UI.ODDatePicker", 8, 8, 227, 23, root)
+        node("comboClinic", "OpenPmsDental.UI.ComboBoxClinicPicker", 8, 40, 200, 21, root)
+        node("checkDetail", "OpenPmsDental.UI.CheckBox", 8, 70, 120, 18, root)
+        node("butOK", "OpenPmsDental.UI.Button", 300, 260, 75, 24, root)
+        self.assertEqual("report", grid_templates.detect(root))
+
+    def test_detects_a_simple_edit_dialog_and_not_a_module(self):
+        root = node("", "N.FormXEdit", 0, 0, 400, 200)
+        node("label1", "System.Windows.Forms.Label", 8, 8, 100, 18, root)
+        node("textName", "System.Windows.Forms.TextBox", 114, 8, 200, 20, root)
+        node("butOK", "OpenPmsDental.UI.Button", 300, 160, 75, 24, root)
+        self.assertEqual("edit", grid_templates.detect(root))
+        node("toothChart", "SparksToothChart.ToothChartWrapper", 8, 40, 200, 100, root)
+        self.assertIsNone(grid_templates.detect(root))
+
+    def test_untangle_parts_a_label_from_its_field(self):
+        root = node("", "N.FormXEdit", 0, 0, 400, 200)
+        lb = node("label1", "System.Windows.Forms.Label", 8, 8, 120, 20, root, text_w=60)
+        lb.text_align = "MiddleRight"  # its text drawn at its right end, under the field
+        node("textName", "System.Windows.Forms.TextBox", 110, 8, 200, 20, root)
+        self.assertEqual(["label1"], grid_templates.untangle(root, "edit"))
+        self.assertEqual(110 - grid_tools.GRID["label_gap"] - 8, lb.w)
+
+    def test_untangle_moves_a_radio_button_drawn_into_the_one_above(self):
+        root = node("", "N.FormXEdit", 0, 0, 400, 200)
+        node("radioA", "System.Windows.Forms.RadioButton", 8, 8, 120, 20, root, text_w=60)
+        b = node("radioB", "System.Windows.Forms.RadioButton", 8, 24, 120, 20, root, text_w=60)
+        self.assertEqual(["radioB"], grid_templates.untangle(root, "edit"))
+        self.assertEqual(28, b.y)
+
+    def test_settled_ignores_the_informational_rows(self):
+        w = "N.FormX"
+        self.assertTrue(grid_templates.settled([(w, ".", "the code sizes the window at run time (check ...)"), (w, ".", "template list: ...")]))
+        self.assertFalse(grid_templates.settled([(w, ".", "overlapping items kept as drawn: a, b")]))
 
 
 if __name__ == "__main__":

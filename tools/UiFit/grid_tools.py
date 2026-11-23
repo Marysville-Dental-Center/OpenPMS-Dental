@@ -11,6 +11,7 @@
 #   grid_tools.py apply --plan <plan.tsv>            (also the hand plan, the folder tests/UiRefreshTests/Data/grid-hand)
 import argparse
 import collections
+import copy
 import csv
 import math
 import os
@@ -21,6 +22,7 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import fit_tools  # noqa: E402
 import slice_data  # noqa: E402
+import grid_templates  # noqa: E402
 
 csv.field_size_limit(1 << 24)
 
@@ -1473,6 +1475,8 @@ class Planner:
         self.hints = {}          # field name -> the x (window coordinates) of the column it shares with other containers' columns
         self.col_records = []    # this pass's field columns: (stack, x in window coordinates, field names)
         self.scopes = {}         # window -> [(container path, control names or None, keep width)] (Data/grid-scope.tsv)
+        self.template = None     # UI-12T: the window-family template this plan of a window uses (grid_templates.py), or None
+        self.template_moved = []  # the controls its untangling moved
         self.keep_width = False  # a scope that keeps its width: fields shrink to the room, containers grow only down
         self.in_scope = False    # laying out a scope: its panels fit their content like group boxes
 
@@ -1549,6 +1553,11 @@ class Planner:
         orig = {id(n): (n.x, n.y, n.w, n.h, n.check_align, n.text_align, n.autosize) for n in nodes}
         rules = {id(n): collections.OrderedDict() for n in nodes}
         flags = {id(n): [None, None, False] for n in nodes}
+        if self.template:
+            # UI-12T: a window-family template (grid_templates.py) starts the passes from the window with its drawn overlaps taken apart;
+            # the rows are still measured against the drawn window (orig).
+            for name in grid_templates.untangle(tree, self.template):
+                self.template_moved.append(name)
         self.hints = {}
         self.prefs_F = None
         for npass in range(MAX_PASSES):
@@ -1559,6 +1568,8 @@ class Planner:
                 self.layout_scoped(tree, self.scopes[window], window)
             else:
                 self.layout_tree(tree, is_root=True, window=window)
+            if self.template == "list":
+                grid_templates.list_frame(self, tree)
             hints_before = self.hints
             self.hints = self.column_hints()
             changed = self.hints != hints_before  # columns that now share an edge are laid out again
@@ -1845,6 +1856,10 @@ class Planner:
         """The planned layout's own problems: siblings that overlap, controls past their container's client edge."""
         out = []
         for c in walk(tree):
+            if c is not tree and (c.kind == "field" or not any(k.editable for k in c.children)):
+                # UI-12T: a control's own parts are its control's, not the window's layout: a field's (ODDatePicker's box and its hidden
+                # calendar) and those of a control whose children this window's designer does not add (ODDateRangePicker's two pickers).
+                continue
             kids = [k for k in c.children if k.dock in ("None", "") and k.visible and not k.in_layout_panel and c.kind not in ("tabs",)]
             for i, a in enumerate(kids):
                 for b in kids[i + 1:]:
@@ -2253,7 +2268,14 @@ def cmd_plan(args):
         for r in fit_tools.read_tsv(scope_file):
             names = [x.strip() for x in (r.get("controls") or "").split(",") if x.strip()]
             planner.scopes.setdefault(r["window"], []).append((r["container"], names or None, (r.get("keep") or "") == "width"))
-    for w, tree in trees.items():
+    # The windows a person decided on (UI-12T templates leave them alone): a layout script, or hand rows.
+    hand_windows = set(r["window"] for r in slice_data.read_dicts(os.path.join(slice_data.data_dir(root), "grid-hand")))
+    hand_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "hand")
+    if os.path.isdir(hand_dir):
+        scripts = set(f[:-3] for f in os.listdir(hand_dir) if f.endswith(".py"))
+        hand_windows.update(w for w in trees if w.split(".")[-1] in scripts)
+    templated = []
+    for w, tree in list(trees.items()):
         mode, note = modes.get(w, ("tool", ""))
         # The window's code sizes the window itself (Width, Height, Size, ClientSize set on the form): listed, tool and hand windows alike,
         # so the slice checks each size against the new layout (the planner does not change code).
@@ -2268,10 +2290,41 @@ def cmd_plan(args):
             planner.unplaced.append((w, "", "no designer file"))
             continue
         designer = Designer(root, files[0])
+        rows_at, unplaced_at = len(planner.rows), len(planner.unplaced)
+        drawn = copy.deepcopy(tree) if args.templates else None
         planner.measure(tree)
         planner.plan_window(w, tree, designer, w.split(".")[-1])
         problems = planner.check(w, tree)
         planner.unplaced.extend(problems)
+        # UI-12T: a window the general rules leave with unplaced rows, and that no person has decided on (no layout script, hand rows or
+        # scope), gets its family's template when it has one (grid_templates.py); the template's plan is taken when it settles the window.
+        family = None
+        if (args.templates and w not in planner.scopes and w not in hand_windows and not grid_templates.settled(planner.unplaced[unplaced_at:])):
+            family = grid_templates.detect(drawn)
+        if family:
+            rows_general, unplaced_general = planner.rows[rows_at:], planner.unplaced[unplaced_at:]
+            del planner.rows[rows_at:]
+            del planner.unplaced[unplaced_at:]
+            planner.template, planner.template_moved = family, []
+            planner.measure(drawn)
+            planner.plan_window(w, drawn, Designer(root, files[0]), w.split(".")[-1])
+            planner.template = None
+            problems2 = planner.check(w, drawn)
+            planner.unplaced.extend(problems2)
+            unplaced_template = [r[2] for r in planner.unplaced[unplaced_at:] if not grid_templates.settled([r])]
+            if not unplaced_template:
+                trees[w] = drawn
+                templated.append((w, family))
+                planner.unplaced.append((w, ".", "template %s: laid out by the %s template (untangled: %s)" % (
+                    family, family, ", ".join(planner.template_moved) or "nothing")))
+                problems = problems2
+            else:
+                del planner.rows[rows_at:]
+                del planner.unplaced[unplaced_at:]
+                planner.rows.extend(rows_general)
+                planner.unplaced.extend(unplaced_general)
+                planner.unplaced.append((w, ".", "the %s template does not settle it either (%s): the general plan" % (
+                    family, "; ".join(unplaced_template[:3]))))
         if problems:
             print("%-45s %d planned-layout problems" % (w, len(problems)))
     if args.tree_out:
@@ -2286,6 +2339,8 @@ def cmd_plan(args):
             for r in planner.unplaced:
                 f.write("\t".join(x.replace("\t", " ") for x in r) + "\n")
     print("rows", len(planner.rows), "windows", len(trees), "listed", len(planner.unplaced))
+    if templated:
+        print("templates:", ", ".join("%s (%s)" % (w.split(".")[-1], f) for w, f in templated))
 
 
 # ---------------------------------------------------------------------------------------------------------------------------------------
@@ -2419,6 +2474,8 @@ def main():
     a.add_argument("--unplaced")
     a.add_argument("--tree-out", help="write the planned trees (the input of --simulate)")
     a.add_argument("--simulate", action="store_true", help="plan a --tree-out file without designer checks: the idempotence check")
+    a.add_argument("--no-templates", dest="templates", action="store_false",
+                   help="UI-12T: the general rules only (by default a window they do not settle gets its family's template)")
     b = sub.add_parser("apply")
     b.add_argument("--plan", required=True)
     args = p.parse_args()

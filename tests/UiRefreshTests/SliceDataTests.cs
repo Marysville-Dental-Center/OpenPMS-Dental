@@ -70,6 +70,32 @@ namespace UiRefreshTests {
 			Assert.AreEqual(0,arrayMarked.Length,"fit-fixes.tsv notes carry the superseded mark again (list them in fit-fixes-superseded): "+string.Join("; ",arrayMarked.Take(5)));
 		}
 
+		///<summary>UI-12T item 5: docs\port-notes\UI-12-batches.tsv (tools/UiFit/plan_batches.py): every designer file in one batch, none that a
+		///slice laid out already, and a group's files (a window and its user controls) in one batch.</summary>
+		[TestMethod]
+		public void Batches_EachFileOnceNoneLaidOut() {
+			string path=Path.Combine(RepoPaths.Root(),"docs","port-notes","UI-12-batches.tsv");
+			string[] arrayLines=File.ReadAllLines(path);
+			Assert.AreEqual("batch\tkind\trank\tdesigner_file\twindow\tcontrols\tgroup",arrayLines[0]);
+			SliceData.SnapshotOwners snapshotOwners=SliceData.SnapshotOwners.FromData();
+			Dictionary<string,string> dictBatchOfFile=new Dictionary<string,string>();
+			Dictionary<string,string> dictBatchOfGroup=new Dictionary<string,string>();
+			foreach(string line in arrayLines.Skip(1).Where(x => x.Trim()!="")) {
+				string[] arrayFields=line.Split('\t');
+				Assert.AreEqual(7,arrayFields.Length,line);
+				Assert.IsFalse(dictBatchOfFile.ContainsKey(arrayFields[3]),"A designer file in two batches: "+line);
+				dictBatchOfFile[arrayFields[3]]=arrayFields[0];
+				Assert.AreEqual(SliceData.UNSLICED,snapshotOwners.Owner(arrayFields[3]),"A batch names a file a slice laid out (rerun plan_batches.py): "+line);
+				Assert.IsTrue(arrayFields[1]=="small" || arrayFields[1]=="large",line);
+				string batchOfGroup;
+				if(dictBatchOfGroup.TryGetValue(arrayFields[6],out batchOfGroup)) {
+					Assert.AreEqual(batchOfGroup,arrayFields[0],"A group in two batches: "+line);
+				}
+				dictBatchOfGroup[arrayFields[6]]=arrayFields[0];
+			}
+			Assert.IsTrue(dictBatchOfFile.Count>100,"Batched files: "+dictBatchOfFile.Count);
+		}
+
 		[TestMethod]
 		public void SliceOrder_PilotNumbersOthersUnsliced() {
 			List<string> listSlices=new List<string> { SliceData.UNSLICED,"10","2","pilot","x","1" };
