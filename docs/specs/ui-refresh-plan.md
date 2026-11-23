@@ -1619,6 +1619,10 @@ own 26.2 overlap check before it starts. The first cut is below; a brief that fi
   columns, one right edge and one group height where the slice had broken them, UserControlReportSetup anchored to its page, the
   individual insurance summary's labels whole; GridRulesTests checks no cut text in the grid windows, the pickers' columns and
   FormCarrierEdit's client area outside Canada; audit pass 6 (UI-12.md, "Slice 1, fix round 8").
+  Slice 1 fix round 9 (branch `ui/ui12-1-3`, the lead's review of 21 findings): the clinic picker's label drawn as a WinForms Label draws
+  (no padding, so it ends on the label column; GridRulesTests checks its ink), right-to-left labels the grid aligns cleared, four new layout
+  scripts (FormArManager, FormEmailMessageEdit, FormPaySplitEdit, FormRpTreatmentFinder) and ten changed; gallery redrawn from `d2`, audit
+  pass 7 (UI-12.md, "Slice 1, fix round 9").
 - Gallery: G-UI3 per slice, the owner's rows first.
 
 **UI-13: every element type in the new look (the owner, 2026-11-22: "Overall make sure you modernize all element types")**
