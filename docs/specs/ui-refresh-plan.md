@@ -1683,6 +1683,14 @@ own 26.2 overlap check before it starts. The first cut is below; a brief that fi
   (UI-12.md section 7, "Slice 6 (batch 2)"). Fix round (`ui/ui12-6-2`, the lead's 17 findings): 89 layout scripts (six new), the
   discount summary 174 x 108 at 0, 0 with ControlTreat and ControlAccount sized to it, icon buttons kept at 24 px, inner margins and
   rows of 18 windows; re-plans unchanged, gallery and audit updated ("Slice 6, fix round").
+  Slice 8 (UI-12-8, branch `ui/ui12-8-1`, batch 4 of `UI-12-batches.tsv`, the small windows): 102 windows on the grid (the planner and
+  its templates, 73 of them with a layout script on the planner's tree: margins and right edges, lists grown to the bottom bar, side-by-side
+  lists on one top and width, window sizes the planner grew for hidden controls, browser padding or frame panels back at main's, covered
+  notes and run-time captions), 18 files skipped (the plain exes and CodeBase forms, two windows the harness cannot build, three designer
+  files named otherwise than their class, the imaging surfaces, the print previews, two browsers under a toolbar); the lead's two items:
+  slice 6 re-planned with the stored anchors (389 rows, 75 pins; slice 3 44 rows, 6 pins) and FormBlockoutCutCopyPaste and
+  FormEhrLabResultEdit back at main's size; re-plans 239 / 509 / 203 / 316 / 335 unchanged; gallery G-UI3-ui12-8 (102 windows, 15 at 150%,
+  2 earlier-slice fixes), audit `UI-12-audit-8.md` (UI-12.md section 7, "Slice 8 (batch 4)").
 - Gallery: G-UI3 per slice, the owner's rows first.
 
 **UI-13: every element type in the new look (the owner, 2026-11-22: "Overall make sure you modernize all element types")**
