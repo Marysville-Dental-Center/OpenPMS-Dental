@@ -365,7 +365,6 @@ namespace OpenPmsDental {
 			// 
 			// butUpdate
 			// 
-			this.butUpdate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butUpdate.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butUpdate.Location = new System.Drawing.Point(789, 295);
 			this.butUpdate.Name = "butUpdate";

@@ -44,8 +44,10 @@ def designer_files(root):
     return [x for x in out if re.search(r"\.designer\.cs$", x, re.I)]
 
 
-def window_files(root, windows):
-    """Window type full name -> designer files whose base name is the type's simple name (in the type's assembly folder when it is ambiguous)."""
+def window_files(root, windows, declared=False):
+    """Window type full name -> designer files whose base name is the type's simple name (in the type's assembly folder when it is ambiguous).
+    declared=True (the grid tools, UI-12 slice 9): a window whose designer file is named otherwise (FormTaskListBlocks in
+    FormTaskListBlock.designer.cs, FormSubscriberMove in "FormSubscriberMove .designer.cs") takes the designer files that declare its class."""
     files = designer_files(root)
     by_name = collections.defaultdict(list)
     for f in files:
@@ -64,6 +66,8 @@ def window_files(root, windows):
             cand = by_name.get(simple, []) + code_files_with_designer_code(root).get(simple, [])
             if not cand:
                 cand = files_declaring(root, files, simple)
+        elif not cand and declared:
+            cand = files_declaring(root, files, simple)
         if len(cand) > 1:
             narrowed = [c for c in cand if c.lower().startswith(asm.lower())]
             cand = narrowed or cand

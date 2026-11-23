@@ -457,7 +457,7 @@ def run(tree_path, window_simple, part=None):
         tree.parent = None
         window = full_name(part_class)
         window_simple = window.split(".")[-1]
-    wf = fit_tools.window_files(root, [window])
+    wf = fit_tools.window_files(root, [window], declared=True)
     designer = g.Designer(root, wf[window][0])
     for n in g.walk(tree):
         if n is not tree and n.name in designer.name_to_field and n.name not in designer.declared:
