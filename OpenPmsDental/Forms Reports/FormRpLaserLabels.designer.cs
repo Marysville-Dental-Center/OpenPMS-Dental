@@ -315,9 +315,9 @@ namespace OpenPmsDental {
 			// 
 			// butInsCoEnd
 			// 
-			this.butInsCoEnd.Location = new System.Drawing.Point(303, 75);
+			this.butInsCoEnd.Location = new System.Drawing.Point(346, 74);
 			this.butInsCoEnd.Name = "butInsCoEnd";
-			this.butInsCoEnd.Size = new System.Drawing.Size(21, 20);
+			this.butInsCoEnd.Size = new System.Drawing.Size(21, 23);
 			this.butInsCoEnd.TabIndex = 12;
 			this.butInsCoEnd.Text = "...";
 			this.butInsCoEnd.UseVisualStyleBackColor = true;
@@ -354,15 +354,16 @@ namespace OpenPmsDental {
 			// labInsCoSingle
 			// 
 			this.labInsCoSingle.AutoSize = false;
-			this.labInsCoSingle.Location = new System.Drawing.Point(36, 75);
+			this.labInsCoSingle.Location = new System.Drawing.Point(73, 74);
+			this.labInsCoSingle.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.labInsCoSingle.Name = "labInsCoSingle";
-			this.labInsCoSingle.Size = new System.Drawing.Size(74, 17);
+			this.labInsCoSingle.Size = new System.Drawing.Size(80, 23);
 			this.labInsCoSingle.TabIndex = 7;
 			this.labInsCoSingle.Text = "Label Count:";
 			// 
 			// numericInsCoSingle
 			// 
-			this.numericInsCoSingle.Location = new System.Drawing.Point(116, 74);
+			this.numericInsCoSingle.Location = new System.Drawing.Point(159, 74);
 			this.numericInsCoSingle.Maximum = new decimal(new int[] {
             90,
             0,
@@ -384,19 +385,20 @@ namespace OpenPmsDental {
 			// 
 			// labInsCoEnd
 			// 
-			this.labInsCoEnd.AutoSize = true;
-			this.labInsCoEnd.Location = new System.Drawing.Point(43, 75);
+			this.labInsCoEnd.AutoSize = false;
+			this.labInsCoEnd.Location = new System.Drawing.Point(81, 74);
+			this.labInsCoEnd.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.labInsCoEnd.Name = "labInsCoEnd";
-			this.labInsCoEnd.Size = new System.Drawing.Size(60, 13);
+			this.labInsCoEnd.Size = new System.Drawing.Size(72, 23);
 			this.labInsCoEnd.TabIndex = 5;
 			this.labInsCoEnd.Text = "End Name:";
 			this.labInsCoEnd.Visible = false;
 			// 
 			// textInsCoEnd
 			// 
-			this.textInsCoEnd.Location = new System.Drawing.Point(116, 74);
+			this.textInsCoEnd.Location = new System.Drawing.Point(159, 74);
 			this.textInsCoEnd.Name = "textInsCoEnd";
-			this.textInsCoEnd.Size = new System.Drawing.Size(181, 20);
+			this.textInsCoEnd.Size = new System.Drawing.Size(181, 23);
 			this.textInsCoEnd.TabIndex = 4;
 			this.textInsCoEnd.Visible = false;
 			this.textInsCoEnd.WordWrap = false;
@@ -535,15 +537,15 @@ namespace OpenPmsDental {
 			// 
 			// textStartName
 			// 
-			this.textStartName.Location = new System.Drawing.Point(159, 8);
+			this.textStartName.Location = new System.Drawing.Point(202, 8);
 			this.textStartName.Name = "textStartName";
-			this.textStartName.Size = new System.Drawing.Size(172, 20);
+			this.textStartName.Size = new System.Drawing.Size(172, 23);
 			this.textStartName.TabIndex = 7;
 			this.textStartName.WordWrap = false;
 			// 
 			// butStartName
 			// 
-			this.butStartName.Location = new System.Drawing.Point(337, 8);
+			this.butStartName.Location = new System.Drawing.Point(380, 8);
 			this.butStartName.Name = "butStartName";
 			this.butStartName.Size = new System.Drawing.Size(19, 23);
 			this.butStartName.TabIndex = 6;
@@ -594,7 +596,7 @@ namespace OpenPmsDental {
 			// labStartName
 			// 
 			this.labStartName.AutoSize = false;
-			this.labStartName.Location = new System.Drawing.Point(49, 8);
+			this.labStartName.Location = new System.Drawing.Point(92, 8);
 			this.labStartName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.labStartName.Name = "labStartName";
 			this.labStartName.Size = new System.Drawing.Size(104, 23);

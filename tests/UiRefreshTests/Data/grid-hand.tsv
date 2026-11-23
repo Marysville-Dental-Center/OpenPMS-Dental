@@ -1845,6 +1845,15 @@ OpenPmsDental/User Controls/EmailPreviewControl.Designer.cs	OpenPmsDental.FormEm
 OpenPmsDental/User Controls/EmailPreviewControl.Designer.cs	OpenPmsDental.FormEmailInbox	labelSent	Location	0,34	0,36	by hand (fix round): the Username, Sent/Received and Date / Time lines 4 px apart and 4 px over the From row, as every item of the column (they stood 2 and 1 px apart), their labels centred on them
 OpenPmsDental/User Controls/EmailPreviewControl.Designer.cs	OpenPmsDental.FormEmailInbox	textSentOrReceived	Location	89,18	89,20	by hand (fix round): the Username, Sent/Received and Date / Time lines 4 px apart and 4 px over the From row, as every item of the column (they stood 2 and 1 px apart), their labels centred on them
 OpenPmsDental/User Controls/EmailPreviewControl.Designer.cs	OpenPmsDental.FormEmailInbox	textMsgDateTime	Location	89,35	89,37	by hand (fix round): the Username, Sent/Received and Date / Time lines 4 px apart and 4 px over the From row, as every item of the column (they stood 2 and 1 px apart), their labels centred on them
+OpenPmsDental/Forms/FormReportSetup.designer.cs	OpenPmsDental.FormReportSetup	textSslCaPem	Size	386,20	416,23	by hand: the planner's fixed point, pinned (a second run of the planner on its own result rounds this 1-2 px: its first run starts the field widths from the drawn ones)
+OpenPmsDental/Forms/FormReportSetup.designer.cs	OpenPmsDental.FormReportSetup	groupConnectionSettings	Size	405,216	416,211	by hand: the planner's fixed point, pinned (a second run of the planner on its own result rounds this 1-2 px: its first run starts the field widths from the drawn ones)
+OpenPmsDental/Forms/FormReportSetup.designer.cs	OpenPmsDental.FormReportSetup	groupMiddleTier	Size	405,90	416,110	by hand: the planner's fixed point, pinned (a second run of the planner on its own result rounds this 1-2 px: its first run starts the field widths from the drawn ones)
+OpenPmsDental/Forms/FormCloneAdd.designer.cs	OpenPmsDental.FormCloneAdd	textAge	Size	86,20	90,23	by hand: the planner's fixed point, pinned (a second run of the planner on its own result rounds this 1-2 px: its first run starts the field widths from the drawn ones)
+OpenPmsDental/Forms/FormCloneAdd.designer.cs	OpenPmsDental.FormCloneAdd	textLName	Size	232,20	240,23	by hand: the planner's fixed point, pinned (a second run of the planner on its own result rounds this 1-2 px: its first run starts the field widths from the drawn ones)
+OpenPmsDental/Forms/FormCloneAdd.designer.cs	OpenPmsDental.FormCloneAdd	textFName	Size	232,20	240,23	by hand: the planner's fixed point, pinned (a second run of the planner on its own result rounds this 1-2 px: its first run starts the field widths from the drawn ones)
+OpenPmsDental/Forms/FormCloneAdd.designer.cs	OpenPmsDental.FormCloneAdd	textMiddleI	Size	86,20	90,23	by hand: the planner's fixed point, pinned (a second run of the planner on its own result rounds this 1-2 px: its first run starts the field widths from the drawn ones)
+OpenPmsDental/Forms/FormReportSetup.designer.cs	OpenPmsDental.FormReportSetup	checkBenefitAssumeGeneral	Size	521,17	532,40	by hand: the planner's fixed point, pinned (a second run of the planner on its own result widens this wrapped check box to its page's grown content width)
+
 OpenPmsDental/Forms/FormCodeGroupEdit.Designer.cs	OpenPmsDental.FormCodeGroupEdit	checkShowInAgeLim	Location	29,28	122,8	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormCodeGroupEdit.Designer.cs	OpenPmsDental.FormCodeGroupEdit	checkShowInAgeLim	Size	134,23	128,18	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormCodeGroupEdit.Designer.cs	OpenPmsDental.FormCodeGroupEdit	checkShowInAgeLim	CheckAlign	MiddleRight	MiddleLeft	by hand (layout script): the box on the left of its text
@@ -2548,6 +2557,22 @@ OpenPmsDental/Forms Reports/FormRpLaserLabels.designer.cs	OpenPmsDental.FormRpLa
 OpenPmsDental/Forms Reports/FormRpLaserLabels.designer.cs	OpenPmsDental.FormRpLaserLabels	labEndName	Size	60,13	61,20	by hand (layout script): on the grid
 OpenPmsDental/Forms Reports/FormRpLaserLabels.designer.cs	OpenPmsDental.FormRpLaserLabels	tabLabelSetup	Location	13,13	8,8	by hand (layout script): on the grid
 OpenPmsDental/Forms Reports/FormRpLaserLabels.designer.cs	OpenPmsDental.FormRpLaserLabels	tabLabelSetup	Size	423,345	428,349	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpLaserLabels.designer.cs	OpenPmsDental.FormRpLaserLabels	textStartName	Location	121,10	202,8	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpLaserLabels.designer.cs	OpenPmsDental.FormRpLaserLabels	textStartName	Size	172,20	172,23	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpLaserLabels.designer.cs	OpenPmsDental.FormRpLaserLabels	butStartName	Location	296,10	380,8	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpLaserLabels.designer.cs	OpenPmsDental.FormRpLaserLabels	labStartName	Location	19,14	92,8	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpLaserLabels.designer.cs	OpenPmsDental.FormRpLaserLabels	numericInsCoSingle	Location	113,84	159,74	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpLaserLabels.designer.cs	OpenPmsDental.FormRpLaserLabels	textInsCoEnd	Location	113,84	159,74	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpLaserLabels.designer.cs	OpenPmsDental.FormRpLaserLabels	textInsCoEnd	Size	181,20	181,23	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpLaserLabels.designer.cs	OpenPmsDental.FormRpLaserLabels	butInsCoEnd	Location	301,84	346,74	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpLaserLabels.designer.cs	OpenPmsDental.FormRpLaserLabels	butInsCoEnd	Size	21,20	21,23	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpLaserLabels.designer.cs	OpenPmsDental.FormRpLaserLabels	labInsCoSingle	Location	36,91	73,74	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpLaserLabels.designer.cs	OpenPmsDental.FormRpLaserLabels	labInsCoSingle	Size	74,17	80,23	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpLaserLabels.designer.cs	OpenPmsDental.FormRpLaserLabels	labInsCoSingle	TextAlign	TopLeft	MiddleRight	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpLaserLabels.designer.cs	OpenPmsDental.FormRpLaserLabels	labInsCoEnd	Location	43,91	81,74	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpLaserLabels.designer.cs	OpenPmsDental.FormRpLaserLabels	labInsCoEnd	Size	60,13	72,23	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpLaserLabels.designer.cs	OpenPmsDental.FormRpLaserLabels	labInsCoEnd	AutoSize	true	false	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpLaserLabels.designer.cs	OpenPmsDental.FormRpLaserLabels	labInsCoEnd	TextAlign	TopLeft	MiddleRight	by hand (layout script): on the grid
 OpenPmsDental/Forms Reports/FormRpUnearnedIncome.designer.cs	OpenPmsDental.FormRpUnearnedIncome	label1	Location	18,11	8,8	by hand (layout script): on the grid
 OpenPmsDental/Forms Reports/FormRpUnearnedIncome.designer.cs	OpenPmsDental.FormRpUnearnedIncome	checkUnearnedAcctAllClins	Location	21,114	8,90	by hand (layout script): on the grid
 OpenPmsDental/Forms Reports/FormRpUnearnedIncome.designer.cs	OpenPmsDental.FormRpUnearnedIncome	listUnearnedAcctClins	Location	21,131	8,114	by hand (layout script): on the grid
@@ -3039,6 +3064,11 @@ OpenPmsDental/Forms/FormFamilyBalancer.designer.cs	OpenPmsDental.FormFamilyBalan
 OpenPmsDental/Forms/FormInsRemain.designer.cs	OpenPmsDental.FormInsRemain	gridRemainTimeUnits	Location	12,5	8,8	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormInsRemain.designer.cs	OpenPmsDental.FormInsRemain	gridRemainTimeUnits	Size	563,397	567,397	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormRxDefEdit.designer.cs	OpenPmsDental.FormRxDefEdit	butDelete	Location	36,551	8,592	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormRxDefEdit.designer.cs	OpenPmsDental.FormRxDefEdit	textSig	Location	134,84	134,83	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormRxDefEdit.designer.cs	OpenPmsDental.FormRxDefEdit	textSig	Size	254,44	256,44	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormRxDefEdit.designer.cs	OpenPmsDental.FormRxDefEdit	butRxNormSelect	Location	498,170	496,185	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormRxDefEdit.designer.cs	OpenPmsDental.FormRxDefEdit	textRxCui	Location	134,171	134,185	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormRxDefEdit.designer.cs	OpenPmsDental.FormRxDefEdit	textRxCui	Size	358,20	356,23	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormEmployeeEdit.designer.cs	OpenPmsDental.FormEmployeeEdit	butDelete	Location	45,389	8,398	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormOrthoCase.designer.cs	OpenPmsDental.FormOrthoCase	groupFee	Location	9,45	8,35	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormOrthoCase.designer.cs	OpenPmsDental.FormOrthoCase	groupFee	Size	489,117	509,155	by hand (layout script): on the grid
@@ -3103,11 +3133,19 @@ OpenPmsDental/Main Modules/ControlTreat.designer.cs	OpenPmsDental.ControlTreat	r
 OpenPmsDental/Main Modules/ControlTreat.designer.cs	OpenPmsDental.ControlTreat	radioTreatPlanSortOrder	Size	126,23	126,17	by hand (layout script): on the grid
 OpenPmsDental/Main Modules/ControlTreat.designer.cs	OpenPmsDental.ControlTreat	checkPrintClassic	Location	7,12	5,4	by hand (layout script): on the grid
 OpenPmsDental/Main Modules/ControlTreat.designer.cs	OpenPmsDental.ControlTreat	checkPrintClassic	Size	146,18	146,17	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormReportSetup.designer.cs	OpenPmsDental.FormReportSetup	textSslCaPem	Size	386,20	416,23	by hand: the planner's fixed point, pinned (a second run of the planner on its own result rounds this 1-2 px: its first run starts the field widths from the drawn ones)
-OpenPmsDental/Forms/FormReportSetup.designer.cs	OpenPmsDental.FormReportSetup	groupConnectionSettings	Size	405,216	416,211	by hand: the planner's fixed point, pinned (a second run of the planner on its own result rounds this 1-2 px: its first run starts the field widths from the drawn ones)
-OpenPmsDental/Forms/FormReportSetup.designer.cs	OpenPmsDental.FormReportSetup	groupMiddleTier	Size	405,90	416,110	by hand: the planner's fixed point, pinned (a second run of the planner on its own result rounds this 1-2 px: its first run starts the field widths from the drawn ones)
-OpenPmsDental/Forms/FormCloneAdd.designer.cs	OpenPmsDental.FormCloneAdd	textAge	Size	86,20	90,23	by hand: the planner's fixed point, pinned (a second run of the planner on its own result rounds this 1-2 px: its first run starts the field widths from the drawn ones)
-OpenPmsDental/Forms/FormCloneAdd.designer.cs	OpenPmsDental.FormCloneAdd	textLName	Size	232,20	240,23	by hand: the planner's fixed point, pinned (a second run of the planner on its own result rounds this 1-2 px: its first run starts the field widths from the drawn ones)
-OpenPmsDental/Forms/FormCloneAdd.designer.cs	OpenPmsDental.FormCloneAdd	textFName	Size	232,20	240,23	by hand: the planner's fixed point, pinned (a second run of the planner on its own result rounds this 1-2 px: its first run starts the field widths from the drawn ones)
-OpenPmsDental/Forms/FormCloneAdd.designer.cs	OpenPmsDental.FormCloneAdd	textMiddleI	Size	86,20	90,23	by hand: the planner's fixed point, pinned (a second run of the planner on its own result rounds this 1-2 px: its first run starts the field widths from the drawn ones)
-OpenPmsDental/Forms/FormReportSetup.designer.cs	OpenPmsDental.FormReportSetup	checkBenefitAssumeGeneral	Size	521,17	532,40	by hand: the planner's fixed point, pinned (a second run of the planner on its own result widens this wrapped check box to its page's grown content width)
+OpenPmsDental/Forms/FormCloneAdd.designer.cs	OpenPmsDental.FormCloneAdd	comboSpecialty	Location	196,149	196,178	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormCloneAdd.designer.cs	OpenPmsDental.FormCloneAdd	comboSpecialty	Size	232,21	232,23	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormCloneAdd.designer.cs	OpenPmsDental.FormCloneAdd	labelSpecialty	Location	83,151	130,178	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormCloneAdd.designer.cs	OpenPmsDental.FormCloneAdd	labelSpecialty	Size	110,16	60,23	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormCloneAdd.designer.cs	OpenPmsDental.FormCloneAdd	comboClinic	Location	196,174	196,205	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormCloneAdd.designer.cs	OpenPmsDental.FormCloneAdd	comboClinic	Size	232,21	232,23	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormCloneAdd.designer.cs	OpenPmsDental.FormCloneAdd	labelClinic	Location	83,176	146,205	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormCloneAdd.designer.cs	OpenPmsDental.FormCloneAdd	labelClinic	Size	110,16	44,23	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormCloneAdd.designer.cs	OpenPmsDental.FormCloneAdd	butClone	Location	434,212	438,232	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormMedical.designer.cs	OpenPmsDental.FormMedical	label2	Location	7,34	8,43	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormMedical.designer.cs	OpenPmsDental.FormMedical	label3	Location	288,34	289,43	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormMedical.designer.cs	OpenPmsDental.FormMedical	textService	Location	288,53	289,63	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormMedical.designer.cs	OpenPmsDental.FormMedical	textService	Size	490,171	586,173	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormMedical.designer.cs	OpenPmsDental.FormMedical	textMedicalComp	Location	9,246	8,260	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormMedical.designer.cs	OpenPmsDental.FormMedical	textMedicalComp	Size	769,173	867,173	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormMedical.designer.cs	OpenPmsDental.FormMedical	groupMedsDocumented	Location	619,14	716,8	by hand (layout script): on the grid

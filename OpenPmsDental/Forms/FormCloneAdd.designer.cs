@@ -48,7 +48,7 @@ namespace OpenPmsDental{
 			// butClone
 			// 
 			this.butClone.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butClone.Location = new System.Drawing.Point(434, 178);
+			this.butClone.Location = new System.Drawing.Point(438, 232);
 			this.butClone.Name = "butClone";
 			this.butClone.Size = new System.Drawing.Size(75, 24);
 			this.butClone.TabIndex = 3;
@@ -57,7 +57,7 @@ namespace OpenPmsDental{
 			// 
 			// labelSpecialty
 			// 
-			this.labelSpecialty.Location = new System.Drawing.Point(130, 206);
+			this.labelSpecialty.Location = new System.Drawing.Point(130, 178);
 			this.labelSpecialty.Name = "labelSpecialty";
 			this.labelSpecialty.Size = new System.Drawing.Size(60, 23);
 			this.labelSpecialty.TabIndex = 66;
@@ -67,7 +67,7 @@ namespace OpenPmsDental{
 			// 
 			// labelClinic
 			// 
-			this.labelClinic.Location = new System.Drawing.Point(146, 233);
+			this.labelClinic.Location = new System.Drawing.Point(146, 205);
 			this.labelClinic.Name = "labelClinic";
 			this.labelClinic.Size = new System.Drawing.Size(44, 23);
 			this.labelClinic.TabIndex = 67;
@@ -77,7 +77,7 @@ namespace OpenPmsDental{
 			// 
 			// comboClinic
 			// 
-			this.comboClinic.Location = new System.Drawing.Point(196, 233);
+			this.comboClinic.Location = new System.Drawing.Point(196, 205);
 			this.comboClinic.Name = "comboClinic";
 			this.comboClinic.Size = new System.Drawing.Size(232, 23);
 			this.comboClinic.TabIndex = 68;
@@ -85,7 +85,7 @@ namespace OpenPmsDental{
 			// 
 			// comboSpecialty
 			// 
-			this.comboSpecialty.Location = new System.Drawing.Point(196, 206);
+			this.comboSpecialty.Location = new System.Drawing.Point(196, 178);
 			this.comboSpecialty.Name = "comboSpecialty";
 			this.comboSpecialty.Size = new System.Drawing.Size(232, 23);
 			this.comboSpecialty.TabIndex = 69;

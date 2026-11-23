@@ -133,7 +133,7 @@ namespace OpenPmsDental {
 			this.textSig.Location = new System.Drawing.Point(134, 83);
 			this.textSig.Multiline = true;
 			this.textSig.Name = "textSig";
-			this.textSig.Size = new System.Drawing.Size(252, 44);
+			this.textSig.Size = new System.Drawing.Size(256, 44);
 			this.textSig.TabIndex = 3;
 			// 
 			// butSave
@@ -216,7 +216,7 @@ namespace OpenPmsDental {
 			// 
 			// butRxNormSelect
 			// 
-			this.butRxNormSelect.Location = new System.Drawing.Point(500, 185);
+			this.butRxNormSelect.Location = new System.Drawing.Point(496, 185);
 			this.butRxNormSelect.Name = "butRxNormSelect";
 			this.butRxNormSelect.Size = new System.Drawing.Size(22, 23);
 			this.butRxNormSelect.TabIndex = 260;
@@ -229,7 +229,7 @@ namespace OpenPmsDental {
 			this.textRxCui.Location = new System.Drawing.Point(134, 185);
 			this.textRxCui.Name = "textRxCui";
 			this.textRxCui.ReadOnly = true;
-			this.textRxCui.Size = new System.Drawing.Size(360, 23);
+			this.textRxCui.Size = new System.Drawing.Size(356, 23);
 			this.textRxCui.TabIndex = 6;
 			// 
 			// butAddProblem

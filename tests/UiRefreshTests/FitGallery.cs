@@ -192,6 +192,15 @@ namespace UiRefreshTests {
 				//stands on the Provider and Billing Type column; the picture shows it so.
 				comboBoxClinicPicker.IsMultiSelect=true;
 			}
+			if(window=="OpenPmsDental.FormReportSetup") {
+				//UI-12 slice 1: UserControlReportSetup shows its instructions on the Display Settings page and its user group row on the Security
+				//Permissions page (InitializeOnStartup sets Visible by the mode, never both); the first page shows the display mode.
+				foreach(string name in new string[] { "labelUserGroup","comboUserGroup","butSetAll","butSetNone","labelAllowedCount" }) {
+					if(FindByName(root,name) is Control control) {
+						control.Visible=false;
+					}
+				}
+			}
 			if(window=="OpenPmsDental.FormQuery" && FindByName(root,"grid2") is DataGridView dataGridView) {
 				//A result as the window shows it after a query: its caption over the grid, columns and rows.
 				if(FindByName(root,"labelGridCaption") is Label labelCaption) {

@@ -12300,7 +12300,7 @@ OpenPmsDental/Forms/FormReportSetup.designer.cs	textIncompleteProcsExcludeCodes	
 OpenPmsDental/Forms/FormReportSetup.designer.cs	checkReportDisplayUnearnedTP	17,340	483,20	
 OpenPmsDental/Forms/FormReportSetup.designer.cs	comboReportWriteoff	17,408	172,23	
 OpenPmsDental/Forms/FormReportSetup.designer.cs	checkOutstandingRpDateTab	17,316	351,20	
-OpenPmsDental/Forms/FormReportSetup.designer.cs	checkBenefitAssumeGeneral	17,272	516,40	
+OpenPmsDental/Forms/FormReportSetup.designer.cs	checkBenefitAssumeGeneral	17,272	532,40	
 OpenPmsDental/Forms/FormReportSetup.designer.cs	checkReportsIncompleteProcsUnsigned	17,224	485,20	
 OpenPmsDental/Forms/FormReportSetup.designer.cs	checkReportsIncompleteProcsAllNoNotes	17,248	424,20	
 OpenPmsDental/Forms/FormReportSetup.designer.cs	checkReportsIncompleteProcsNoNotes	17,200	413,20	

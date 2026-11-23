@@ -319,7 +319,7 @@ namespace OpenPmsDental {
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(8, 36);
+			this.label2.Location = new System.Drawing.Point(8, 43);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(131, 18);
 			this.label2.TabIndex = 86;
@@ -328,7 +328,7 @@ namespace OpenPmsDental {
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(288, 28);
+			this.label3.Location = new System.Drawing.Point(289, 43);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(151, 18);
 			this.label3.TabIndex = 87;
@@ -381,7 +381,7 @@ namespace OpenPmsDental {
 			this.textService.Name = "textService";
 			this.textService.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.ServiceNotes;
 			this.textService.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textService.Size = new System.Drawing.Size(490, 171);
+			this.textService.Size = new System.Drawing.Size(586, 173);
 			this.textService.TabIndex = 3;
 			this.textService.Text = "";
 			// 
@@ -464,7 +464,7 @@ namespace OpenPmsDental {
 			this.textMedicalComp.Name = "textMedicalComp";
 			this.textMedicalComp.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.MedicalHistory;
 			this.textMedicalComp.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textMedicalComp.Size = new System.Drawing.Size(769, 173);
+			this.textMedicalComp.Size = new System.Drawing.Size(867, 173);
 			this.textMedicalComp.TabIndex = 4;
 			this.textMedicalComp.Text = "";
 			// 
