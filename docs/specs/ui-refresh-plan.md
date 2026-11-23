@@ -1602,6 +1602,11 @@ own 26.2 overlap check before it starts. The first cut is below; a brief that fi
   ones too (FormEmailInbox's address and subject boxes, ControlChart's search box); the message preview's address rows on the grid (23 px
   at a 27 px pitch, 8 px before the Attachments tab control); GridRulesTests' `unframed` rule; gallery G-UI3-ui12p redrawn from round 7
   (UI-12.md section 4, "Round 7").
+  Slice 1 (UI-12-1, branch `ui/ui12-1-1`, after the owner approved the pilot's look through G-UI3-ui13): the next 50 designer files of
+  `fit-scan-files.tsv` (ranks 7 to 81); 47 windows in `grid-windows.tsv` with slice 1: 38 laid out by the planner (24 of them touched by a
+  layout script on the planner's tree), 8 by their own layout script (mode hand), ControlTreat kept as on main for a later round; left out:
+  the Central Manager's two plain forms, the dashboard surface, EmailPreviewControl (the pilot's); FormPayPlan.cs moves two controls by the
+  layout's offsets; gallery G-UI3-ui12-1 (47 windows before/after, 12 at 150%), audit `UI-12-audit-1.md` (UI-12.md, "Slice 1").
 - Gallery: G-UI3 per slice, the owner's rows first.
 
 **UI-13: every element type in the new look (the owner, 2026-11-22: "Overall make sure you modernize all element types")**
