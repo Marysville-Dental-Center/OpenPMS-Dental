@@ -157,6 +157,11 @@ namespace OpenPmsDentalBusiness {
 					}
 				}
 			}
+			//IMG-P3: the image's saved adjust filters (gamma, sharpen, smooth, auto contrast, invert) after brightness/contrast, as the module shows
+			//them, so print and export match the screen. The file on disk never changes.
+			if((imageSettingFlags & ImageSettingFlags.COLORFUNCTION)!=0 && document.DocNum>0) {
+				ImageAdjust.Apply(bitmap,DocumentAdjusts.GetForDoc(document.DocNum)?.ToSettings());
+			}
 			return bitmap;
 		}
 

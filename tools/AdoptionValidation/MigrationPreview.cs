@@ -26,6 +26,8 @@ namespace AdoptionValidation {
 	///  later Public Health rows down one place and copies the sealant measure's report permissions to it (UdsPlusRowPlan);
 	///- the Insurance History step (InsHistCodeGroupsStep, M2-HIST) marks the code groups of the InsHist*Codes preferences Show In History, adds
 	///  their codes and creates a group for a category without one (InsHistCodeGroupPlan);
+	///- the Image Adjust Presets grant step (ImageAdjustPresetGrantStep) gives every user group with Setup that permission, the rows it lacks
+	///  (ImageAdjustGrantPlan). The Imaging adjust tables are created empty.
 	///- the routine maintenance grant step (MaintPermissionGrantStep) gives every user group with Security Admin Maintenance Setup and Maintenance
 	///  Record Completion, the rows it lacks (MaintenanceGrantPlan). The routine maintenance tables are created empty.
 	///adopt's row check (AdoptionRowCheck) holds the adopted copy to the same plans, made from the original. Two lines are about settings
@@ -55,6 +57,8 @@ namespace AdoptionValidation {
 			public InsHistCodeGroupPlan.Plan PlanInsHist=new InsHistCodeGroupPlan.Plan();
 			///<summary>What the routine maintenance grant step changes.</summary>
 			public MaintenanceGrantPlan.Plan PlanMaintGrants=new MaintenanceGrantPlan.Plan();
+			///<summary>What the Image Adjust Presets grant step changes.</summary>
+			public ImageAdjustGrantPlan.Plan PlanImageAdjustGrants=new ImageAdjustGrantPlan.Plan();
 			///<summary>What the inventory tracking steps change (the opening balance rows of the new stock ledger).</summary>
 			public InventoryPlan.Plan PlanInventory=new InventoryPlan.Plan();
 			///<summary>The program rows that name a plug-in DLL (PluginDllName), in ProgramNum order. Adoption changes none of them; it is listed so
@@ -100,6 +104,7 @@ namespace AdoptionValidation {
 				listLines.AddRange(PlanUdsPlus.Lines());
 				listLines.AddRange(PlanInsHist.Lines());
 				listLines.AddRange(PlanMaintGrants.Lines());
+				listLines.AddRange(PlanImageAdjustGrants.Lines());
 				listLines.AddRange(PlanInventory.Lines());
 				listLines.Add(GetSettingsReadLine(ListSettingReads));
 				listLines.Add(GetSettingsMoveLine(ListSettingMoves));
@@ -210,6 +215,7 @@ namespace AdoptionValidation {
 			result.PlanUdsPlus=UdsPlusRowPlan.Make(db,database,listRows,result.ListPlans,result.Plan26_1.IsFromBefore25_4);
 			result.PlanInsHist=InsHistCodeGroupPlan.Make(db,database,result.Plan26_1.IsFromBefore25_4);
 			result.PlanMaintGrants=MaintenanceGrantPlan.Make(db,database);
+			result.PlanImageAdjustGrants=ImageAdjustGrantPlan.Make(db,database);
 			result.PlanInventory=InventoryPlan.Make(db,database);
 			Dictionary<string,string> dictPrefValues=ReadPrefValues(db,database);
 			Func<string,string> funcGetRaw=x => dictPrefValues.TryGetValue(x,out string value) ? value : null;

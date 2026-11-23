@@ -235,6 +235,7 @@ namespace OpenPmsDentalBusiness {
 				return;
 			}
 			Crud.DocumentCrud.Delete(document.DocNum);
+			DocumentAdjusts.DeleteForDoc(document.DocNum);//the image's saved adjust filters
 		}
 
 		///<summary>This is used by FormImageViewer to get a list of paths based on supplied list of DocNums. The reason is that later we will allow sharing of documents, so the paths may not be in the current patient folder.</summary>

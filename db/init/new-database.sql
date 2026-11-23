@@ -1,7 +1,7 @@
 /*
 Open PMS - Dental: a new database.
 
-Creates the 458 tables of a database at fork schema level 2026111401 (the Open Dental 26.2.0 schema and the
+Creates the 460 tables of a database at fork schema level 2026112303 (the Open Dental 26.2.0 schema and the
 fork's), with the rows the program needs to start: preferences, definitions, user groups and permissions, the user Admin,
 program links (all off) and procedure codes (named by their code only). No patients and no office data. Admin has a blank
 password, which the program asks to set at the first logon.
@@ -4194,6 +4194,22 @@ CREATE TABLE `document` (
   KEY `FileName` (`FileName`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
+/*Table structure for table `documentadjust` */
+
+CREATE TABLE `documentadjust` (
+  `DocumentAdjustNum` bigint(20) NOT NULL AUTO_INCREMENT,
+  `DocNum` bigint(20) NOT NULL,
+  `Gamma` double NOT NULL,
+  `Sharpen` int(11) NOT NULL,
+  `Smooth` tinyint(4) NOT NULL,
+  `IsAutoContrast` tinyint(4) NOT NULL,
+  `IsInverted` tinyint(4) NOT NULL,
+  `TrimStartMs` int(11) NOT NULL,
+  `TrimEndMs` int(11) NOT NULL,
+  PRIMARY KEY (`DocumentAdjustNum`),
+  UNIQUE KEY `DocNum` (`DocNum`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+
 /*Table structure for table `documentmisc` */
 
 CREATE TABLE `documentmisc` (
@@ -6797,7 +6813,8 @@ INSERT INTO `grouppermission` (`GroupPermNum`,`NewerDate`,`NewerDays`,`UserGroup
 (337,'0001-01-01',0,1,273,0),
 (338,'0001-01-01',0,1,22,62),
 (339,'0001-01-01',0,1,10000,0),
-(340,'0001-01-01',0,1,10001,0);
+(340,'0001-01-01',0,1,10001,0),
+(341,'0001-01-01',0,1,10150,0);
 
 /*Table structure for table `guardian` */
 
@@ -22694,6 +22711,23 @@ INSERT INTO `icd9` (`ICD9Num`,`ICD9Code`,`Description`,`DateTStamp`) VALUES
 (15650,'V43.22','ORGAN OR TISSUE REPLACED BY OTHER MEANS, FULLY IMP','2021-03-21 08:17:52'),
 (15651,'V45.85','INSULIN PUMP STATUS','2021-03-21 08:17:52');
 
+/*Table structure for table `imageadjustpreset` */
+
+CREATE TABLE `imageadjustpreset` (
+  `ImageAdjustPresetNum` bigint(20) NOT NULL AUTO_INCREMENT,
+  `Description` varchar(255) NOT NULL,
+  `ItemOrder` int(11) NOT NULL,
+  `WindowingMin` int(11) NOT NULL,
+  `WindowingMax` int(11) NOT NULL,
+  `Gamma` double NOT NULL,
+  `Sharpen` int(11) NOT NULL,
+  `Smooth` tinyint(4) NOT NULL,
+  `IsAutoContrast` tinyint(4) NOT NULL,
+  `IsInverted` tinyint(4) NOT NULL,
+  `IsHidden` tinyint(4) NOT NULL,
+  PRIMARY KEY (`ImageAdjustPresetNum`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+
 /*Table structure for table `imagedraw` */
 
 CREATE TABLE `imagedraw` (
@@ -25888,11 +25922,11 @@ INSERT INTO `preference` (`PrefName`,`ValueString`,`PrefNum`,`Comments`) VALUES
 ('BackupIndexesDisabled','1',1163,NULL),
 ('InsOutOfNetworkBlankLikeZero','0',1164,NULL),
 ('EformsSpaceToRightEachField','10',1165,NULL),
-('ForkAdoptedFrom','new=1;source=24.3.63.0;level=2026111401;adopted=db/init/new-database.sql',1166,''),
+('ForkAdoptedFrom','new=1;source=24.3.63.0;level=2026112303;adopted=db/init/new-database.sql',1166,''),
 ('OdSchemaCompat','26.2.0',1167,''),
-('ForkSchemaLevel','2026111401',1168,''),
+('ForkSchemaLevel','2026112303',1168,''),
 ('ForkMigrationInProgress','',1169,NULL),
-('ForkMigrationsApplied','2026101901,2026101902,2026101903,2026101904,2026101905,2026101906,2026101907,2026101951,2026101971,2026102401,2026102402,2026102403,2026102501,2026110101,2026110103,2026110104,2026110201,2026110202,2026110203,2026110204,2026110205,2026110206,2026110207,2026110211,2026110212,2026110213,2026110221,2026110701,2026110731,2026110781,2026110801,2026111401',1170,NULL),
+('ForkMigrationsApplied','2026101901,2026101902,2026101903,2026101904,2026101905,2026101906,2026101907,2026101951,2026101971,2026102401,2026102402,2026102403,2026102501,2026110101,2026110103,2026110104,2026110201,2026110202,2026110203,2026110204,2026110205,2026110206,2026110207,2026110211,2026110212,2026110213,2026110221,2026110701,2026110731,2026110781,2026110801,2026111401,2026112301,2026112302,2026112303',1170,NULL),
 ('ApptMirrorSecondary','0',1171,NULL),
 ('TaskCategoryShow','0',1172,NULL),
 ('IncomeTransfersLimitToPatPayments','0',1173,NULL),

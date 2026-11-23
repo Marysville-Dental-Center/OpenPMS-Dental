@@ -140,6 +140,9 @@ Here is the desired behavior:
 		private string _stringMeasure;
 		///<summary>Displays PDFs.</summary>
 		private ODWebView2 _odWebView2=null;
+		///<summary>The saved adjust filters (IMG-P3) of the documents showing, by DocNum; null for a document without any. Read once per document
+		///(a mount's in one query) and emptied by ClearObjects.</summary>
+		private Dictionary<long,ImageAdjustSettings> _dictAdjustSettings=new Dictionary<long,ImageAdjustSettings>();
 		///<summary>The right-click menu's Teeth item (imaging design P2), made in code after Info.</summary>
 		private ToolStripMenuItem _menuItemTeeth;
 		///<summary>The browser that prints PDFs (PrintPDF), in no window. Disposed with this control. Null until the first print.</summary>
@@ -547,6 +550,7 @@ Here is the desired behavior:
 				if(_bitmapDicomRaw!=null){
 					SetBitmapShowing(0,DicomHelper.ApplyWindowing(_bitmapDicomRaw,GetDocumentShowing(0).WindowingMin,GetDocumentShowing(0).WindowingMax));
 				}
+				ApplyAdjust(0);
 				panelMain.Invalidate();
 			}
 			if(IsMountItemSelected()){
@@ -559,6 +563,7 @@ Here is the desired behavior:
 					_bitmapArrayShowing[_idxSelectedInMount]=new Bitmap(bitmapTemp);
 					bitmapTemp.Dispose();//this is not efficient
 				}
+				ApplyAdjust(_idxSelectedInMount);
 				panelMain.Invalidate();
 				//eventually: only invalidate the rectangle of single mount item
 			}
@@ -1006,6 +1011,7 @@ Here is the desired behavior:
 				_nodeTypeKeyCatSelected=new NodeTypeKeyCat();
 				_nodeTypeKeyCatSelected.ImageNodeType=EnumImageNodeType.Document;
 				ImageHelper.ApplyColorSettings(_bitmapArrayShowing[0],listDocuments[i].WindowingMin,listDocuments[i].WindowingMax);
+				ImageAdjust.Apply(_bitmapArrayShowing[0],GetAdjustSettings(listDocuments[i]));//IMG-P3, as the screen shows it
 				_documentArrayShowing[0]=listDocuments[i];
 				DrawHeaderAndImageToPDF(listDocuments[i],rectangle,xg,xFontTitle,xFontSubTitle);
 				if(memoryStream!=null) {
@@ -1386,6 +1392,48 @@ Here is the desired behavior:
 			panelMain.Invalidate();
 		}
 		#endregion Methods - Public - Image viewer window
+
+		#region Methods - Public - Adjust filters
+		///<summary>The saved adjust filters (IMG-P3) of document, or null when it has none. Read from the database once per document showing.</summary>
+		public ImageAdjustSettings GetAdjustSettings(Document document){
+			if(document==null || document.DocNum==0){
+				return null;
+			}
+			if(!_dictAdjustSettings.TryGetValue(document.DocNum,out ImageAdjustSettings imageAdjustSettings)){
+				if(IsMountShowing() && _documentArrayShowing!=null){
+					//a mount's documents in one query
+					List<long> listDocNums=_documentArrayShowing.Where(x => x!=null && x.DocNum>0 && !_dictAdjustSettings.ContainsKey(x.DocNum))
+						.Select(x => x.DocNum).Distinct().ToList();
+					if(!listDocNums.Contains(document.DocNum)){
+						listDocNums.Add(document.DocNum);
+					}
+					List<DocumentAdjust> listDocumentAdjusts=DocumentAdjusts.GetForDocs(listDocNums);
+					foreach(long docNum in listDocNums){
+						_dictAdjustSettings[docNum]=listDocumentAdjusts.FirstOrDefault(x => x.DocNum==docNum)?.ToSettings();
+					}
+				}
+				else{
+					_dictAdjustSettings[document.DocNum]=DocumentAdjusts.GetForDoc(document.DocNum)?.ToSettings();
+				}
+				imageAdjustSettings=_dictAdjustSettings[document.DocNum];
+			}
+			return imageAdjustSettings;
+		}
+
+		///<summary>True when document has no adjust filter, so the picture showing is only its brightness/contrast.</summary>
+		public bool IsAdjustNeutral(Document document){
+			ImageAdjustSettings imageAdjustSettings=GetAdjustSettings(document);
+			return imageAdjustSettings==null || imageAdjustSettings.IsNeutral();
+		}
+
+		///<summary>Applies the saved adjust filters of the document at idx to its picture showing, after brightness/contrast.</summary>
+		private void ApplyAdjust(int idx){
+			if(_documentArrayShowing==null || _bitmapArrayShowing==null || idx<0 || idx>_documentArrayShowing.Length-1 || idx>_bitmapArrayShowing.Length-1){
+				return;
+			}
+			ImageAdjust.Apply(_bitmapArrayShowing[idx],GetAdjustSettings(_documentArrayShowing[idx]));
+		}
+		#endregion Methods - Public - Adjust filters
 
 		#region Methods - Public - Teeth
 		///<summary>Opens the tooth picker for the image at idx (a mount item, or 0 for a single image) and saves its teeth, and with the picker's
@@ -3967,6 +4015,7 @@ Here is the desired behavior:
 
 		///<summary>Mostly to dispose of the old bitmaps all in one place.</summary>
 		public void ClearObjects(){
+			_dictAdjustSettings.Clear();
 			_bitmapRaw?.Dispose();
 			_bitmapRaw=null;
 			if(_bitmapArrayShowing!=null && _bitmapArrayShowing.Length>0){
@@ -4779,7 +4828,10 @@ Here is the desired behavior:
 				_bitmapDicomRaw=null;
 			}
 			if(loadBitmapType==EnumLoadBitmapType.OnlyRaw){
-				if(_documentArrayShowing[idx].WindowingMax==0 || (_documentArrayShowing[idx].WindowingMax==255 && _documentArrayShowing[idx].WindowingMin==0)){
+				//The picture showing is the raw image only when neither brightness/contrast nor an adjust filter (IMG-P3) changed it.
+				if((_documentArrayShowing[idx].WindowingMax==0 || (_documentArrayShowing[idx].WindowingMax==255 && _documentArrayShowing[idx].WindowingMin==0))
+					&& IsAdjustNeutral(_documentArrayShowing[idx]))
+				{
 					if(_bitmapArrayShowing[idx]==null){
 						return;//we should already have an image showing, so this shouldn't happen
 					}
@@ -4818,6 +4870,7 @@ Here is the desired behavior:
 				//single images simply load up the whole unscaled image. Mounts load the whole image, but maybe at a different scale to match mount scale.
 				if(_documentArrayShowing[idx].FileName.EndsWith(".dcm")){
 					_bitmapArrayShowing[idx]=DicomHelper.ApplyWindowing(_bitmapDicomRaw,_documentArrayShowing[idx].WindowingMin,_documentArrayShowing[idx].WindowingMax);
+					ApplyAdjust(idx);
 					return;
 				}
 				try{
@@ -4825,6 +4878,7 @@ Here is the desired behavior:
 					//jordan I redid my math a few months later, and it's WxHx4, not 24.  Size in memory should not be a problem, 
 					//so now I don't know why it chokes on large images or why I've watched my memory usage climb to 1G when loading images.  Revisit.
 					ImageHelper.ApplyColorSettings(_bitmapArrayShowing[idx],_documentArrayShowing[idx].WindowingMin,_documentArrayShowing[idx].WindowingMax);
+					ApplyAdjust(idx);
 					_bitmapRaw=new Bitmap(bitmapTemp);//or it can crash here
 					bitmapTemp.Dispose();//frees up the lock on the file on disk
 				}
@@ -4860,6 +4914,7 @@ Here is the desired behavior:
 					_bitmapArrayShowing[idx]=new Bitmap(bitmapTemp);
 					ImageHelper.ApplyColorSettings(_bitmapArrayShowing[idx],_documentArrayShowing[idx].WindowingMin,_documentArrayShowing[idx].WindowingMax);
 				}
+				ApplyAdjust(idx);
 			}
 			if(loadBitmapType==EnumLoadBitmapType.IdxAndRaw || loadBitmapType==EnumLoadBitmapType.OnlyRaw){
 				if(_documentArrayShowing[idx].FileName.EndsWith(".dcm")){

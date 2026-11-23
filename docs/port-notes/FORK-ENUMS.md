@@ -10,7 +10,8 @@ fork-only values start at 10000.
 | 10000-10049 | Routine maintenance             |
 | 10050-10099 | Inventory tracking              |
 | 10100-10149 | SSH host keys                   |
-| 10150-      | Free; reserve a range here first |
+| 10150-10199 | Imaging                         |
+| 10200-      | Free; reserve a range here first |
 
 Rules:
 
@@ -68,6 +69,7 @@ release channel keeps one block, 100 to 103, below every range; `ForkEnums.ListE
 | EnumPermType     | 10001 | MaintenanceRecord     | Routine maintenance |
 | EnumPermType     | 10050 | InventoryAdjust       | Inventory tracking  |
 | EnumPermType     | 10100 | SshHostKeys           | SSH host keys       |
+| EnumPermType     | 10150 | ImageAdjustPresets    | Imaging             |
 | AlertType        | 127   | MaintenanceDueSoon    | Routine maintenance |
 | AlertType        | 126   | MaintenanceOverdue    | Routine maintenance |
 | AlertType        | 119   | InventoryLowStock     | Inventory tracking  |
