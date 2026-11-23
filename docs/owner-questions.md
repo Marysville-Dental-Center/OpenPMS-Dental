@@ -1138,6 +1138,14 @@ and E-10b), where each is set out in full with its recommendation. You first ans
   Software\TROJAN BENEFIT SERVICE (as before) and also under Software\Trojan (the name Open Dental's manual gives), in the 32-bit and then
   the 64-bit registry view. **Answered on 2026-11-15: keep both.**
 
+- **Imaging camera and video: three choices made while building it** (IMG-P4b-1 to IMG-P4d, [port-notes/IMG-P4d.md](port-notes/IMG-P4d.md)). Each
+  can be overruled.
+  - *The camera shortcut is Ctrl+Shift+P*, not the design's Ctrl+Shift+C, which already opens Lists > Contacts in the main window.
+  - *Retake keeps the old photo* as an unmounted "Retake: <slot>" image in the same mount, as the X-ray session's Retake does: Open PMS has
+    no image trash (design decision C7 asked for one). A real trash would be a feature of its own.
+  - *Export of a trimmed video* writes the whole file; the trim plays in the module only. Writing the trimmed clip (design section 4) needs
+    the MP4 remuxed or re-encoded: recommended as a small later package if videos are exported often.
+
 ## Not asked again (already settled)
 
 - How package migration levels are numbered (B-ACCT 2, B-PRINT 1, B-SHELL 6, M2-EST 1, M2-UDS 1, V-BRIDGE1 2, V-PEARL2 1, M2-SHELL's old question 4): decided on 2026-11-01 and done: the package steps now have dated levels 2026110101 to 2026110104, and new steps always go above the highest one.

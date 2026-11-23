@@ -631,6 +631,18 @@ namespace OpenPmsDental {
 			VideoFiles.Delete(_pathRecording);
 			_docNumLast=document.DocNum;
 			_model.AddVideo(document.DocNum);
+			if(result.FrameFirst!=null) {
+				//IMG-P4d: the tree's picture of the video, its first frame with a play mark and its length
+				try {
+					string patFolder=ImageStore.GetPatientFolder(_patient,ImageStore.GetPreferredAtoZpath());
+					using(Bitmap bitmapFrame=result.FrameFirst.ToBitmap()) {
+						VideoMedia.SaveThumbnail(document,patFolder,bitmapFrame,(int)result.Duration.TotalMilliseconds);
+					}
+				}
+				catch(Exception ex) {
+					ex.DoNothing();//the player saves it when the video is first shown
+				}
+			}
 			if(_model.IsQuickPhotos && result.FrameFirst!=null) {
 				using(Bitmap bitmapFirst=result.FrameFirst.ToBitmap()) {
 					Bitmap bitmapThumb=MakeThumb(bitmapFirst,false,0,_funcScale(160));

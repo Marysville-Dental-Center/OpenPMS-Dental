@@ -579,6 +579,7 @@ namespace OpenPmsDental{
 		///<summary></summary>
 		public void ModuleUnselected(){
 			_controlCameraSession?.End(isModuleLeft:true);//leaving the Imaging module releases the camera
+			controlImageDock.ControlImageDisplay_?.StopVideo();//and stops a video playing in it (floaters keep theirs)
 			_familyCur=null;
 			//We will not close any undocked floaters here.
 			//So _listFormImageFloats remains valid and still has all the floaters in it, even when we are in the Chart module. 

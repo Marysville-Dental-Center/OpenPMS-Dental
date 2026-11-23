@@ -3,6 +3,7 @@
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Text;
 using System.Threading;
@@ -156,6 +157,101 @@ namespace ImagingCapture.Tests {
 			Assert.AreEqual(1000,denominator);
 			Mp4Writer.GetFrameRate(0,out numerator,out denominator);
 			Assert.AreEqual(30000,numerator);
+		}
+
+		[TestMethod]
+		public void FrameReader_ReadsAFrameAtFullSize_RightWayUp_AtThePosition() {
+			string folder=Path.Combine(Path.GetTempPath(),"opms-frame-"+Guid.NewGuid().ToString("N"));
+			Directory.CreateDirectory(folder);
+			string path=Path.Combine(folder,"frames.mp4");
+			try {
+				Mp4Writer writer;
+				try {
+					writer=Mp4Writer.Create(path,320,240,15);
+				}
+				catch(MfException ex) {
+					Assert.Inconclusive("No H.264 encoder here: "+ex.Message);
+					return;
+				}
+				using(writer) {
+					byte[] arrayPixels=new byte[320*240*4];
+					for(int i=0;i<30;i++) {
+						for(int p=0;p<arrayPixels.Length;p+=4) {
+							bool isTop=p/4/320<120;
+							bool isSecondHalf=i>=15;
+							arrayPixels[p]=(byte)(!isTop ? 220 : 20);//blue: the bottom
+							arrayPixels[p+1]=(byte)(isSecondHalf ? 200 : 20);//green: the second second
+							arrayPixels[p+2]=(byte)(isTop ? 220 : 20);//red: the top
+							arrayPixels[p+3]=255;
+						}
+						writer.WriteFrame(arrayPixels,320*4,i*666667L,666667L);
+					}
+					writer.Finish();
+				}
+				int durationMs;
+				using(Bitmap bitmap=VideoFrameReader.ReadFrame(path,0,out durationMs)) {
+					Assert.AreEqual(320,bitmap.Width);
+					Assert.AreEqual(240,bitmap.Height);
+					Color colorTop=bitmap.GetPixel(160,40);
+					Color colorBottom=bitmap.GetPixel(160,200);
+					Assert.IsTrue(colorTop.R>150 && colorTop.B<100,"Red at the top: "+colorTop);
+					Assert.IsTrue(colorBottom.B>150 && colorBottom.R<100,"Blue at the bottom: "+colorBottom);
+					Assert.IsTrue(colorTop.G<100,"The first second has no green: "+colorTop);
+				}
+				Assert.IsTrue(Math.Abs(durationMs-2000)<=200,"Length "+durationMs+" ms");
+				using(Bitmap bitmap=VideoFrameReader.ReadFrame(path,1500,out durationMs)) {
+					Color colorTop=bitmap.GetPixel(160,40);
+					Assert.IsTrue(colorTop.G>150,"At 1.5 s the frame is from the second second: "+colorTop);
+				}
+				using(Bitmap bitmap=VideoFrameReader.ReadFrame(path,60000,out durationMs)) {
+					Assert.IsNotNull(bitmap,"Past the end: the last frame.");
+				}
+			}
+			finally {
+				Directory.Delete(folder,true);
+			}
+		}
+
+		[TestMethod]
+		public void FrameReader_1080p_CroppedToThePicture_TheFrameShownAtThePosition() {
+			string folder=Path.Combine(Path.GetTempPath(),"opms-frame1080-"+Guid.NewGuid().ToString("N"));
+			Directory.CreateDirectory(folder);
+			string path=Path.Combine(folder,"hd.mp4");
+			try {
+				Mp4Writer writer;
+				try {
+					writer=Mp4Writer.Create(path,1920,1080,10);
+				}
+				catch(MfException ex) {
+					Assert.Inconclusive("No H.264 encoder for 1080p here: "+ex.Message);
+					return;
+				}
+				using(writer) {
+					byte[] arrayPixels=new byte[1920*1080*4];
+					for(int i=0;i<10;i++) {
+						for(int p=0;p<arrayPixels.Length;p+=4) {
+							arrayPixels[p]=(byte)(i*25);//blue grows frame by frame (10 fps: frame i starts at i*100 ms)
+							arrayPixels[p+1]=60;
+							arrayPixels[p+2]=60;
+							arrayPixels[p+3]=255;
+						}
+						writer.WriteFrame(arrayPixels,1920*4,i*1000000L,1000000L);
+					}
+					writer.Finish();
+				}
+				int durationMs;
+				using(Bitmap bitmap=VideoFrameReader.ReadFrame(path,450,out durationMs)) {
+					Assert.AreEqual(1920,bitmap.Width);
+					Assert.AreEqual(1080,bitmap.Height,"The visible picture, not the decoder's 1088 rows.");
+					Color colorBottom=bitmap.GetPixel(960,1079);
+					Assert.IsTrue(Math.Abs(colorBottom.G-60)<30,"The last row is picture, not padding: "+colorBottom);
+					int blue=bitmap.GetPixel(960,540).B;
+					Assert.IsTrue(Math.Abs(blue-100)<20,"At 450 ms the frame shown starts at 400 ms (blue 100), not the one at 500 ms: "+blue);
+				}
+			}
+			finally {
+				Directory.Delete(folder,true);
+			}
 		}
 
 		[TestMethod]

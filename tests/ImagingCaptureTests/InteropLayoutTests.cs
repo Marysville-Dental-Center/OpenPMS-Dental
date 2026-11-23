@@ -151,11 +151,15 @@ namespace ImagingCapture.Tests {
 			Tuple.Create(typeof(IAMVideoProcAmp),"Unused_Set",4),
 			Tuple.Create(typeof(IAMVideoProcAmp),"Get",5),
 			//Media Foundation (IMG-P4c video recording; mfobjects.h and mfreadwrite.h, SDK 10.0.26100): IMFAttributes' 30 methods come first in IMFSample.
+			Tuple.Create(typeof(IMFAttributes),"GetUINT32",7),
+			Tuple.Create(typeof(IMFAttributes),"GetUINT64",8),
+			Tuple.Create(typeof(IMFAttributes),"GetBlob",15),
 			Tuple.Create(typeof(IMFAttributes),"SetUINT32",21),
 			Tuple.Create(typeof(IMFAttributes),"SetUINT64",22),
 			Tuple.Create(typeof(IMFAttributes),"SetGUID",24),
 			Tuple.Create(typeof(IMFSample),"SetSampleTime",36),
 			Tuple.Create(typeof(IMFSample),"SetSampleDuration",38),
+			Tuple.Create(typeof(IMFSample),"ConvertToContiguousBuffer",41),
 			Tuple.Create(typeof(IMFSample),"AddBuffer",42),
 			Tuple.Create(typeof(IMFMediaBuffer),"Lock",3),
 			Tuple.Create(typeof(IMFMediaBuffer),"Unlock",4),
@@ -165,6 +169,13 @@ namespace ImagingCapture.Tests {
 			Tuple.Create(typeof(IMFSinkWriter),"BeginWriting",5),
 			Tuple.Create(typeof(IMFSinkWriter),"WriteSample",6),
 			Tuple.Create(typeof(IMFSinkWriter),"FinalizeWriting",11),
+			//IMFSourceReader (IMG-P4d frames)
+			Tuple.Create(typeof(IMFSourceReader),"SetStreamSelection",4),
+			Tuple.Create(typeof(IMFSourceReader),"GetCurrentMediaType",6),
+			Tuple.Create(typeof(IMFSourceReader),"SetCurrentMediaType",7),
+			Tuple.Create(typeof(IMFSourceReader),"SetCurrentPosition",8),
+			Tuple.Create(typeof(IMFSourceReader),"ReadSample",9),
+			Tuple.Create(typeof(IMFSourceReader),"GetPresentationAttribute",12),
 		};
 
 		///<summary>The interface's methods in the order they are declared, which is the order of their vtable slots: the runtime lays out a COM
@@ -205,7 +216,7 @@ namespace ImagingCapture.Tests {
 			List<Type> listTypes=typeof(Ds).Assembly.GetTypes()
 				.Where(x => x.IsInterface && x.Namespace==typeof(Ds).Namespace && x.IsDefined(typeof(ComImportAttribute),false))
 				.ToList();
-			Assert.AreEqual(20,listTypes.Count,"COM interfaces declared in ImagingCapture.Uvc.Interop (16 DirectShow, 4 Media Foundation).");
+			Assert.AreEqual(21,listTypes.Count,"COM interfaces declared in ImagingCapture.Uvc.Interop (16 DirectShow, 5 Media Foundation).");
 			foreach(Type type in listTypes) {
 				MethodInfo[] arrayMethods=type.GetMethods();
 				Assert.IsTrue(arrayMethods.Length>0,type.Name);
