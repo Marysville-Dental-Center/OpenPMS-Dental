@@ -246,6 +246,14 @@ namespace UiRefreshTests.Toolbars {
 
 		[TestMethod]
 		public void MenuStripAndToolStrip_DrawInTheTokens() {
+			//A disconnected session reports a screen of 0 bits per pixel; Windows Forms then counts the display as low resolution (8 bits or less:
+			//DisplayInformation.LowResolution) and ToolStripProfessionalRenderer hands the strips' drawing to its low-resolution renderer, which
+			//draws them in system colors (the menu bar in SystemColors.Control). The drawing waits for a session with a real color depth.
+			int bitsPerPixel=Screen.PrimaryScreen?.BitsPerPixel ?? 0;
+			if(bitsPerPixel<=8) {
+				Assert.Inconclusive("The screen reports "+bitsPerPixel+" bits per pixel (a disconnected session): Windows Forms draws tool strips with its "
+					+"low-resolution renderer in system colors, so the token drawing waits for a connected session.");
+			}
 			StaRunnerHelpers.RunSta(() => {
 				UiTheme.InitWinForms();
 				using(Form form=new Form())

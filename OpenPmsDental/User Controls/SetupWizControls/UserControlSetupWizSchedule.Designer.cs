@@ -68,9 +68,9 @@
 			// 
 			// butPrevProv
 			// 
-			this.butPrevProv.Location = new System.Drawing.Point(766, 8);
+			this.butPrevProv.Location = new System.Drawing.Point(774, 8);
 			this.butPrevProv.Name = "butPrevProv";
-			this.butPrevProv.Size = new System.Drawing.Size(75, 24);
+			this.butPrevProv.Size = new System.Drawing.Size(75, 19);
 			this.butPrevProv.TabIndex = 105;
 			this.butPrevProv.Text = "Prev Prov";
 			this.butPrevProv.UseVisualStyleBackColor = true;
@@ -78,18 +78,18 @@
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(8, 36);
+			this.label2.Location = new System.Drawing.Point(432, 7);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(304, 23);
+			this.label2.Size = new System.Drawing.Size(342, 20);
 			this.label2.TabIndex = 104;
 			this.label2.Text = "When you are done with this provider, click \'Next Prov\'.";
-			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// butNextProv
 			// 
-			this.butNextProv.Location = new System.Drawing.Point(847, 8);
+			this.butNextProv.Location = new System.Drawing.Point(851, 8);
 			this.butNextProv.Name = "butNextProv";
-			this.butNextProv.Size = new System.Drawing.Size(75, 24);
+			this.butNextProv.Size = new System.Drawing.Size(75, 19);
 			this.butNextProv.TabIndex = 103;
 			this.butNextProv.Text = "Next Prov";
 			this.butNextProv.UseVisualStyleBackColor = true;
@@ -97,63 +97,63 @@
 			// 
 			// checkSaturday
 			// 
-			this.checkSaturday.Location = new System.Drawing.Point(361, 297);
+			this.checkSaturday.Location = new System.Drawing.Point(368, 280);
 			this.checkSaturday.Name = "checkSaturday";
-			this.checkSaturday.Size = new System.Drawing.Size(70, 20);
+			this.checkSaturday.Size = new System.Drawing.Size(150, 20);
 			this.checkSaturday.TabIndex = 99;
 			this.checkSaturday.Text = "Saturday";
 			this.checkSaturday.Click += new System.EventHandler(this.checkSaturday_CheckedChanged);
 			// 
 			// labelProv
 			// 
-			this.labelProv.Location = new System.Drawing.Point(8, 8);
+			this.labelProv.Location = new System.Drawing.Point(3, 7);
 			this.labelProv.Name = "labelProv";
-			this.labelProv.Size = new System.Drawing.Size(568, 24);
+			this.labelProv.Size = new System.Drawing.Size(243, 20);
 			this.labelProv.TabIndex = 76;
 			this.labelProv.Text = "Let\'s set up schedules for ";
-			this.labelProv.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.labelProv.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// checkWednesday
 			// 
-			this.checkWednesday.Location = new System.Drawing.Point(476, 66);
+			this.checkWednesday.Location = new System.Drawing.Point(476, 58);
 			this.checkWednesday.Name = "checkWednesday";
-			this.checkWednesday.Size = new System.Drawing.Size(86, 20);
+			this.checkWednesday.Size = new System.Drawing.Size(150, 20);
 			this.checkWednesday.TabIndex = 60;
 			this.checkWednesday.Text = "Wednesday";
 			this.checkWednesday.Click += new System.EventHandler(this.checkWednesday_CheckedChanged);
 			// 
 			// checkThursday
 			// 
-			this.checkThursday.Location = new System.Drawing.Point(706, 66);
+			this.checkThursday.Location = new System.Drawing.Point(709, 58);
 			this.checkThursday.Name = "checkThursday";
-			this.checkThursday.Size = new System.Drawing.Size(72, 20);
+			this.checkThursday.Size = new System.Drawing.Size(150, 20);
 			this.checkThursday.TabIndex = 59;
 			this.checkThursday.Text = "Thursday";
 			this.checkThursday.Click += new System.EventHandler(this.checkThursday_CheckedChanged);
 			// 
 			// checkFriday
 			// 
-			this.checkFriday.Location = new System.Drawing.Point(131, 297);
+			this.checkFriday.Location = new System.Drawing.Point(109, 280);
 			this.checkFriday.Name = "checkFriday";
-			this.checkFriday.Size = new System.Drawing.Size(55, 20);
+			this.checkFriday.Size = new System.Drawing.Size(150, 20);
 			this.checkFriday.TabIndex = 58;
 			this.checkFriday.Text = "Friday";
 			this.checkFriday.Click += new System.EventHandler(this.checkFriday_CheckedChanged);
 			// 
 			// checkTuesday
 			// 
-			this.checkTuesday.Location = new System.Drawing.Point(246, 66);
+			this.checkTuesday.Location = new System.Drawing.Point(243, 58);
 			this.checkTuesday.Name = "checkTuesday";
-			this.checkTuesday.Size = new System.Drawing.Size(67, 20);
+			this.checkTuesday.Size = new System.Drawing.Size(150, 20);
 			this.checkTuesday.TabIndex = 57;
 			this.checkTuesday.Text = "Tuesday";
 			this.checkTuesday.Click += new System.EventHandler(this.checkTuesday_CheckedChanged);
 			// 
 			// checkSunday
 			// 
-			this.checkSunday.Location = new System.Drawing.Point(591, 297);
+			this.checkSunday.Location = new System.Drawing.Point(628, 280);
 			this.checkSunday.Name = "checkSunday";
-			this.checkSunday.Size = new System.Drawing.Size(63, 20);
+			this.checkSunday.Size = new System.Drawing.Size(150, 20);
 			this.checkSunday.TabIndex = 55;
 			this.checkSunday.Text = "Sunday";
 			this.checkSunday.Click += new System.EventHandler(this.checkSunday_CheckedChanged);
@@ -162,27 +162,27 @@
 			// 
 			this.groupMon.Controls.Add(this.gridMonday);
 			this.groupMon.Controls.Add(this.butAddMonday);
-			this.groupMon.Location = new System.Drawing.Point(8, 67);
+			this.groupMon.Location = new System.Drawing.Point(4, 58);
 			this.groupMon.Name = "groupMon";
-			this.groupMon.Size = new System.Drawing.Size(222, 223);
+			this.groupMon.Size = new System.Drawing.Size(222, 211);
 			this.groupMon.TabIndex = 106;
 			this.groupMon.TabStop = false;
 			this.groupMon.Visible = false;
 			// 
 			// gridMonday
 			// 
-			this.gridMonday.Location = new System.Drawing.Point(8, 22);
+			this.gridMonday.Location = new System.Drawing.Point(7, 22);
 			this.gridMonday.Name = "gridMonday";
-			this.gridMonday.Size = new System.Drawing.Size(206, 161);
+			this.gridMonday.Size = new System.Drawing.Size(210, 160);
 			this.gridMonday.TabIndex = 70;
 			this.gridMonday.Title = null;
 			this.gridMonday.TranslationName = "TableMonday";
 			// 
 			// butAddMonday
 			// 
-			this.butAddMonday.Location = new System.Drawing.Point(8, 191);
+			this.butAddMonday.Location = new System.Drawing.Point(7, 183);
 			this.butAddMonday.Name = "butAddMonday";
-			this.butAddMonday.Size = new System.Drawing.Size(75, 24);
+			this.butAddMonday.Size = new System.Drawing.Size(75, 23);
 			this.butAddMonday.TabIndex = 94;
 			this.butAddMonday.Text = "Add";
 			this.butAddMonday.UseVisualStyleBackColor = true;
@@ -190,9 +190,9 @@
 			// 
 			// checkMonday
 			// 
-			this.checkMonday.Location = new System.Drawing.Point(16, 66);
+			this.checkMonday.Location = new System.Drawing.Point(10, 59);
 			this.checkMonday.Name = "checkMonday";
-			this.checkMonday.Size = new System.Drawing.Size(67, 20);
+			this.checkMonday.Size = new System.Drawing.Size(150, 20);
 			this.checkMonday.TabIndex = 56;
 			this.checkMonday.Text = "Monday";
 			this.checkMonday.Click += new System.EventHandler(this.checkMonday_CheckedChanged);
@@ -201,27 +201,27 @@
 			// 
 			this.groupSun.Controls.Add(this.gridSunday);
 			this.groupSun.Controls.Add(this.butAddSunday);
-			this.groupSun.Location = new System.Drawing.Point(583, 298);
+			this.groupSun.Location = new System.Drawing.Point(622, 280);
 			this.groupSun.Name = "groupSun";
-			this.groupSun.Size = new System.Drawing.Size(222, 223);
+			this.groupSun.Size = new System.Drawing.Size(222, 211);
 			this.groupSun.TabIndex = 110;
 			this.groupSun.TabStop = false;
 			this.groupSun.Visible = false;
 			// 
 			// gridSunday
 			// 
-			this.gridSunday.Location = new System.Drawing.Point(8, 22);
+			this.gridSunday.Location = new System.Drawing.Point(7, 22);
 			this.gridSunday.Name = "gridSunday";
-			this.gridSunday.Size = new System.Drawing.Size(206, 161);
+			this.gridSunday.Size = new System.Drawing.Size(210, 160);
 			this.gridSunday.TabIndex = 69;
 			this.gridSunday.Title = null;
 			this.gridSunday.TranslationName = "TableSunday";
 			// 
 			// butAddSunday
 			// 
-			this.butAddSunday.Location = new System.Drawing.Point(8, 191);
+			this.butAddSunday.Location = new System.Drawing.Point(7, 183);
 			this.butAddSunday.Name = "butAddSunday";
-			this.butAddSunday.Size = new System.Drawing.Size(75, 24);
+			this.butAddSunday.Size = new System.Drawing.Size(75, 23);
 			this.butAddSunday.TabIndex = 93;
 			this.butAddSunday.Text = "Add";
 			this.butAddSunday.UseVisualStyleBackColor = true;
@@ -231,27 +231,27 @@
 			// 
 			this.groupSat.Controls.Add(this.gridSaturday);
 			this.groupSat.Controls.Add(this.butAddSaturday);
-			this.groupSat.Location = new System.Drawing.Point(353, 298);
+			this.groupSat.Location = new System.Drawing.Point(362, 280);
 			this.groupSat.Name = "groupSat";
-			this.groupSat.Size = new System.Drawing.Size(222, 223);
+			this.groupSat.Size = new System.Drawing.Size(222, 211);
 			this.groupSat.TabIndex = 110;
 			this.groupSat.TabStop = false;
 			this.groupSat.Visible = false;
 			// 
 			// gridSaturday
 			// 
-			this.gridSaturday.Location = new System.Drawing.Point(8, 22);
+			this.gridSaturday.Location = new System.Drawing.Point(7, 22);
 			this.gridSaturday.Name = "gridSaturday";
-			this.gridSaturday.Size = new System.Drawing.Size(206, 161);
+			this.gridSaturday.Size = new System.Drawing.Size(210, 160);
 			this.gridSaturday.TabIndex = 100;
 			this.gridSaturday.Title = null;
 			this.gridSaturday.TranslationName = "TableSaturday";
 			// 
 			// butAddSaturday
 			// 
-			this.butAddSaturday.Location = new System.Drawing.Point(8, 191);
+			this.butAddSaturday.Location = new System.Drawing.Point(7, 183);
 			this.butAddSaturday.Name = "butAddSaturday";
-			this.butAddSaturday.Size = new System.Drawing.Size(75, 24);
+			this.butAddSaturday.Size = new System.Drawing.Size(75, 23);
 			this.butAddSaturday.TabIndex = 101;
 			this.butAddSaturday.Text = "Add";
 			this.butAddSaturday.UseVisualStyleBackColor = true;
@@ -261,27 +261,27 @@
 			// 
 			this.groupFri.Controls.Add(this.gridFriday);
 			this.groupFri.Controls.Add(this.butAddFriday);
-			this.groupFri.Location = new System.Drawing.Point(123, 298);
+			this.groupFri.Location = new System.Drawing.Point(102, 280);
 			this.groupFri.Name = "groupFri";
-			this.groupFri.Size = new System.Drawing.Size(222, 223);
+			this.groupFri.Size = new System.Drawing.Size(222, 211);
 			this.groupFri.TabIndex = 110;
 			this.groupFri.TabStop = false;
 			this.groupFri.Visible = false;
 			// 
 			// gridFriday
 			// 
-			this.gridFriday.Location = new System.Drawing.Point(8, 22);
+			this.gridFriday.Location = new System.Drawing.Point(7, 22);
 			this.gridFriday.Name = "gridFriday";
-			this.gridFriday.Size = new System.Drawing.Size(206, 161);
+			this.gridFriday.Size = new System.Drawing.Size(210, 160);
 			this.gridFriday.TabIndex = 74;
 			this.gridFriday.Title = null;
 			this.gridFriday.TranslationName = "TableFriday";
 			// 
 			// butAddFriday
 			// 
-			this.butAddFriday.Location = new System.Drawing.Point(8, 191);
+			this.butAddFriday.Location = new System.Drawing.Point(7, 183);
 			this.butAddFriday.Name = "butAddFriday";
-			this.butAddFriday.Size = new System.Drawing.Size(75, 24);
+			this.butAddFriday.Size = new System.Drawing.Size(75, 23);
 			this.butAddFriday.TabIndex = 98;
 			this.butAddFriday.Text = "Add";
 			this.butAddFriday.UseVisualStyleBackColor = true;
@@ -291,27 +291,27 @@
 			// 
 			this.groupThu.Controls.Add(this.gridThursday);
 			this.groupThu.Controls.Add(this.butAddThursday);
-			this.groupThu.Location = new System.Drawing.Point(698, 67);
+			this.groupThu.Location = new System.Drawing.Point(703, 58);
 			this.groupThu.Name = "groupThu";
-			this.groupThu.Size = new System.Drawing.Size(222, 223);
+			this.groupThu.Size = new System.Drawing.Size(222, 211);
 			this.groupThu.TabIndex = 109;
 			this.groupThu.TabStop = false;
 			this.groupThu.Visible = false;
 			// 
 			// gridThursday
 			// 
-			this.gridThursday.Location = new System.Drawing.Point(8, 22);
+			this.gridThursday.Location = new System.Drawing.Point(7, 22);
 			this.gridThursday.Name = "gridThursday";
-			this.gridThursday.Size = new System.Drawing.Size(206, 161);
+			this.gridThursday.Size = new System.Drawing.Size(210, 160);
 			this.gridThursday.TabIndex = 73;
 			this.gridThursday.Title = null;
 			this.gridThursday.TranslationName = "TableThursday";
 			// 
 			// butAddThursday
 			// 
-			this.butAddThursday.Location = new System.Drawing.Point(8, 191);
+			this.butAddThursday.Location = new System.Drawing.Point(7, 183);
 			this.butAddThursday.Name = "butAddThursday";
-			this.butAddThursday.Size = new System.Drawing.Size(75, 24);
+			this.butAddThursday.Size = new System.Drawing.Size(75, 23);
 			this.butAddThursday.TabIndex = 97;
 			this.butAddThursday.Text = "Add";
 			this.butAddThursday.UseVisualStyleBackColor = true;
@@ -321,27 +321,27 @@
 			// 
 			this.groupWed.Controls.Add(this.gridWednesday);
 			this.groupWed.Controls.Add(this.butAddWednesday);
-			this.groupWed.Location = new System.Drawing.Point(468, 67);
+			this.groupWed.Location = new System.Drawing.Point(470, 58);
 			this.groupWed.Name = "groupWed";
-			this.groupWed.Size = new System.Drawing.Size(222, 223);
+			this.groupWed.Size = new System.Drawing.Size(222, 211);
 			this.groupWed.TabIndex = 108;
 			this.groupWed.TabStop = false;
 			this.groupWed.Visible = false;
 			// 
 			// gridWednesday
 			// 
-			this.gridWednesday.Location = new System.Drawing.Point(8, 22);
+			this.gridWednesday.Location = new System.Drawing.Point(7, 22);
 			this.gridWednesday.Name = "gridWednesday";
-			this.gridWednesday.Size = new System.Drawing.Size(206, 161);
+			this.gridWednesday.Size = new System.Drawing.Size(210, 160);
 			this.gridWednesday.TabIndex = 72;
 			this.gridWednesday.Title = null;
 			this.gridWednesday.TranslationName = "TableWednesday";
 			// 
 			// butAddWednesday
 			// 
-			this.butAddWednesday.Location = new System.Drawing.Point(8, 191);
+			this.butAddWednesday.Location = new System.Drawing.Point(7, 183);
 			this.butAddWednesday.Name = "butAddWednesday";
-			this.butAddWednesday.Size = new System.Drawing.Size(75, 24);
+			this.butAddWednesday.Size = new System.Drawing.Size(75, 23);
 			this.butAddWednesday.TabIndex = 96;
 			this.butAddWednesday.Text = "Add";
 			this.butAddWednesday.UseVisualStyleBackColor = true;
@@ -351,27 +351,27 @@
 			// 
 			this.groupTue.Controls.Add(this.gridTuesday);
 			this.groupTue.Controls.Add(this.butAddTuesday);
-			this.groupTue.Location = new System.Drawing.Point(238, 67);
+			this.groupTue.Location = new System.Drawing.Point(237, 58);
 			this.groupTue.Name = "groupTue";
-			this.groupTue.Size = new System.Drawing.Size(222, 223);
+			this.groupTue.Size = new System.Drawing.Size(222, 211);
 			this.groupTue.TabIndex = 107;
 			this.groupTue.TabStop = false;
 			this.groupTue.Visible = false;
 			// 
 			// gridTuesday
 			// 
-			this.gridTuesday.Location = new System.Drawing.Point(8, 22);
+			this.gridTuesday.Location = new System.Drawing.Point(7, 22);
 			this.gridTuesday.Name = "gridTuesday";
-			this.gridTuesday.Size = new System.Drawing.Size(206, 161);
+			this.gridTuesday.Size = new System.Drawing.Size(210, 160);
 			this.gridTuesday.TabIndex = 71;
 			this.gridTuesday.Title = null;
 			this.gridTuesday.TranslationName = "TableTuesday";
 			// 
 			// butAddTuesday
 			// 
-			this.butAddTuesday.Location = new System.Drawing.Point(8, 191);
+			this.butAddTuesday.Location = new System.Drawing.Point(7, 183);
 			this.butAddTuesday.Name = "butAddTuesday";
-			this.butAddTuesday.Size = new System.Drawing.Size(75, 24);
+			this.butAddTuesday.Size = new System.Drawing.Size(75, 23);
 			this.butAddTuesday.TabIndex = 95;
 			this.butAddTuesday.Text = "Add";
 			this.butAddTuesday.UseVisualStyleBackColor = true;
