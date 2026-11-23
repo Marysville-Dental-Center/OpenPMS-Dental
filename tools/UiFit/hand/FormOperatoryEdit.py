@@ -1,7 +1,7 @@
 """FormOperatoryEdit on the grid (UI-12 slice 3, layout script of grid_hand.py on the planner's tree). The planner kept the notes beside the
 check boxes, Update All and Op Type at main's x and 1-2 px off their rows, and widened the window to 665 for a note 363 px wide: each note
 6 px after the text or box it explains, on its row (centred, MiddleLeft), as wide as its text; the window as wide as its widest row + the
-padding (617; main 589), Save at its right edge."""
+padding (618; main 589), Save at its right edge."""
 
 
 def layout(h):

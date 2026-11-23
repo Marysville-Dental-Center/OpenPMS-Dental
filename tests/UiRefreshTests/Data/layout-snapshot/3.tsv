@@ -549,7 +549,7 @@ OpenPmsDental/Forms/FormEhrSettings.designer.cs	groupEncounter	8,94	752,303
 OpenPmsDental/Forms/FormEhrSettings.designer.cs	label7	89,271	655,24	
 OpenPmsDental/Forms/FormEhrSettings.designer.cs	butEncounterTool	8,271	75,24	
 OpenPmsDental/Forms/FormEhrSettings.designer.cs	textEncCodeDescript	142,104	602,46	
-OpenPmsDental/Forms/FormEhrSettings.designer.cs	butEncCpt	306,174	75,24	
+OpenPmsDental/Forms/FormEhrSettings.designer.cs	butEncCpt	317,174	75,24	
 OpenPmsDental/Forms/FormEhrSettings.designer.cs	comboEncCodes	142,77	158,23	
 OpenPmsDental/Forms/FormEhrSettings.designer.cs	label5	8,202	128,23	
 OpenPmsDental/Forms/FormEhrSettings.designer.cs	labelEncWarning	142,229	602,34	
@@ -558,10 +558,10 @@ OpenPmsDental/Forms/FormEhrSettings.designer.cs	textEncCodeValue	142,202	158,23
 OpenPmsDental/Forms/FormEhrSettings.designer.cs	label1	8,23	736,50	
 OpenPmsDental/Forms/FormEhrSettings.designer.cs	label2	8,104	128,23	
 OpenPmsDental/Forms/FormEhrSettings.designer.cs	label4	8,77	128,23	
-OpenPmsDental/Forms/FormEhrSettings.designer.cs	butEncHcpcs	387,174	75,24	
+OpenPmsDental/Forms/FormEhrSettings.designer.cs	butEncHcpcs	398,174	75,24	
 OpenPmsDental/Forms/FormEhrSettings.designer.cs	label3	142,152	602,18	
-OpenPmsDental/Forms/FormEhrSettings.designer.cs	butEncSnomed	142,174	77,24	
-OpenPmsDental/Forms/FormEhrSettings.designer.cs	butEncCdt	225,174	75,24	
+OpenPmsDental/Forms/FormEhrSettings.designer.cs	butEncSnomed	142,174	88,24	
+OpenPmsDental/Forms/FormEhrSettings.designer.cs	butEncCdt	236,174	75,24	
 OpenPmsDental/Forms/FormEhrSettings.designer.cs	groupPregnancy	8,405	752,287	
 OpenPmsDental/Forms/FormEhrSettings.designer.cs	textPregCodeDescript	142,104	602,46	
 OpenPmsDental/Forms/FormEhrSettings.designer.cs	comboPregCodes	142,77	158,23	
@@ -570,9 +570,9 @@ OpenPmsDental/Forms/FormEhrSettings.designer.cs	label8	306,77	168,23
 OpenPmsDental/Forms/FormEhrSettings.designer.cs	label9	8,218	128,23	
 OpenPmsDental/Forms/FormEhrSettings.designer.cs	textPregCodeValue	142,218	158,23	
 OpenPmsDental/Forms/FormEhrSettings.designer.cs	label10	8,104	128,23	
-OpenPmsDental/Forms/FormEhrSettings.designer.cs	butPregIcd9	225,190	75,24	
-OpenPmsDental/Forms/FormEhrSettings.designer.cs	butPregSnomed	142,190	77,24	
-OpenPmsDental/Forms/FormEhrSettings.designer.cs	butPregIcd10	306,190	75,24	
+OpenPmsDental/Forms/FormEhrSettings.designer.cs	butPregIcd9	236,190	75,24	
+OpenPmsDental/Forms/FormEhrSettings.designer.cs	butPregSnomed	142,190	88,24	
+OpenPmsDental/Forms/FormEhrSettings.designer.cs	butPregIcd10	317,190	75,24	
 OpenPmsDental/Forms/FormEhrSettings.designer.cs	label11	8,23	736,50	
 OpenPmsDental/Forms/FormEhrSettings.designer.cs	label12	8,77	128,23	
 OpenPmsDental/Forms/FormEhrSettings.designer.cs	label13	142,152	602,34	
@@ -611,7 +611,7 @@ OpenPmsDental/Forms/FormEmailAddressEdit.designer.cs	labelUserod	154,0	36,23
 OpenPmsDental/Forms/FormEmailAddressEdit.designer.cs	textUserod	196,0	218,23	
 OpenPmsDental/Forms/FormEmailAddressEdit.designer.cs	labelGmailStatusCaption	8,51	148,20	
 OpenPmsDental/Forms/FormEmailAddressEdit.designer.cs	labelGmailStatus	162,53	281,52	
-OpenPmsDental/Forms/FormEmailAddressEdit.designer.cs	groupGmail	556,23	518,278	
+OpenPmsDental/Forms/FormEmailAddressEdit.designer.cs	groupGmail	556,23	574,278	
 OpenPmsDental/Forms/FormEmailAddressEdit.designer.cs	labelDownloadGmail	338,135	172,20	
 OpenPmsDental/Forms/FormEmailAddressEdit.designer.cs	butAuthGoogle	162,23	115,24	
 OpenPmsDental/Forms/FormEmailAddressEdit.designer.cs	checkUnreadGmail	162,250	136,20	
@@ -800,15 +800,15 @@ OpenPmsDental/Forms/FormInsPlansOverrides.designer.cs	groupBox2	690,23	157,51
 OpenPmsDental/Forms/FormInsPlansOverrides.designer.cs	radioOrderCarrier	89,23	60,20	
 OpenPmsDental/Forms/FormInsPlansOverrides.designer.cs	radioOrderEmp	8,23	75,20	
 OpenPmsDental/Forms/FormInsPlansOverrides.designer.cs	groupBoxFilters	8,8	971,82	
-OpenPmsDental/Forms/FormInsPlansOverrides.designer.cs	groupOverrides	741,98	231,153	
-OpenPmsDental/Forms/FormInsPlansOverrides.designer.cs	groupNoBillInsOverrides	8,23	215,122	
-OpenPmsDental/Forms/FormInsPlansOverrides.designer.cs	labelNoBillIns	92,51	115,35	
-OpenPmsDental/Forms/FormInsPlansOverrides.designer.cs	labelBillToIns	92,26	96,17	
-OpenPmsDental/Forms/FormInsPlansOverrides.designer.cs	labelDeleteNoBillIns	92,93	115,17	
+OpenPmsDental/Forms/FormInsPlansOverrides.designer.cs	groupOverrides	743,98	236,153	
+OpenPmsDental/Forms/FormInsPlansOverrides.designer.cs	groupNoBillInsOverrides	8,23	220,122	
+OpenPmsDental/Forms/FormInsPlansOverrides.designer.cs	labelNoBillIns	92,51	120,35	
+OpenPmsDental/Forms/FormInsPlansOverrides.designer.cs	labelBillToIns	92,26	120,17	
+OpenPmsDental/Forms/FormInsPlansOverrides.designer.cs	labelDeleteNoBillIns	92,93	120,17	
 OpenPmsDental/Forms/FormInsPlansOverrides.designer.cs	butDelete	8,90	78,24	
 OpenPmsDental/Forms/FormInsPlansOverrides.designer.cs	ButDontBill	8,56	78,24	
 OpenPmsDental/Forms/FormInsPlansOverrides.designer.cs	butBillIns	8,23	78,24	
-OpenPmsDental/Forms/FormInsPlansOverrides.designer.cs	butSelectAll	660,680	78,24	
+OpenPmsDental/Forms/FormInsPlansOverrides.designer.cs	butSelectAll	657,680	78,24	
 OpenPmsDental/Forms/FormInsPlansOverrides.designer.cs	.			987,712
 OpenPmsDental/Forms/FormMaintItemEdit.Designer.cs	labelName	8,8	92,23	
 OpenPmsDental/Forms/FormMaintItemEdit.Designer.cs	textName	106,8	356,23	
