@@ -34,6 +34,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\CodeBase\xCodeBase.csproj" />
     <ProjectReference Include="..\..\DataConnectionBase\xDataConnectionBase.csproj" />
+    <ProjectReference Include="..\..\ImagingCapture\xImagingCapture.csproj" />
     <ProjectReference Include="..\..\OpenPmsDentalBusiness\OpenPmsDentalBusiness.csproj" />
     <!-- The program's windows and UserControls are built in this test process, never shown. -->
     <ProjectReference Include="..\..\OpenPmsDental\OpenPmsDental.csproj" />
