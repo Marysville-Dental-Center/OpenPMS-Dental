@@ -574,9 +574,12 @@ namespace OpenPmsDental{
 					_listFormImageFloats[i].Close();//remove gets handled automatically here
 				}
 			}
-			//The image viewer window shows the previous patient's image too.
+			//The image viewer window shows the previous patient's image too, and the Enhance window would change it.
 			if(_formImageViewer!=null && !_formImageViewer.IsDisposed){
 				_formImageViewer.Close();
+			}
+			if(_formImageEnhance!=null && !_formImageEnhance.IsDisposed){
+				_formImageEnhance.Close();
 			}
 		}
 
@@ -2208,6 +2211,10 @@ namespace OpenPmsDental{
 				InvalidateSettingsColor();
 				//We will not update the mount thumbnail for such a minor change
 			}
+			//IMG-P3b: the Enhance window takes this saved window, so its brightness/contrast neither undo it nor log it as theirs.
+			if(_formImageEnhance!=null && !_formImageEnhance.IsDisposed){
+				_formImageEnhance.SyncWindowFromImage();
+			}
 		}
 
 		private void zoomSlider_EventResetTranslation(object sender, EventArgs e){
@@ -2390,12 +2397,13 @@ namespace OpenPmsDental{
 		}
 
 		private void ToolBarEnhance_Click(object sender, EventArgs e){
-			ShowEnhance();
+			ShowEnhance(null);
 		}
 
 		///<summary>Opens the Enhance window (IMG-P3b), or brings it forward, on the selected image. One window, owned by the main window, at the
 		///right edge of the module the first time.</summary>
-		private void ShowEnhance(){
+		///<param name="controlImageDisplay">The display that asked (the A key, also from the image viewer window); null for the selected one.</param>
+		private void ShowEnhance(ControlImageDisplay controlImageDisplay){
 			if(_formImageEnhance==null || _formImageEnhance.IsDisposed){
 				_formImageEnhance=new FormImageEnhance();
 				Rectangle rectangleModule=RectangleToScreen(ClientRectangle);
@@ -2405,7 +2413,7 @@ namespace OpenPmsDental{
 				_formImageEnhance.Location=new Point(Math.Max(rectangleArea.Left,x),y);
 				_formImageEnhance.Show(FindForm());
 			}
-			_formImageEnhance.SetTarget(GetControlImageDisplaySelected());
+			_formImageEnhance.SetTarget(controlImageDisplay??GetControlImageDisplaySelected());
 			_formImageEnhance.Activate();
 		}
 
@@ -3008,7 +3016,7 @@ namespace OpenPmsDental{
 			};
 			controlImageDisplay.EventZoomSliderSetValueAndMax+=(sender,newVal)=>zoomSlider.SetValueAndMax(newVal);
 			//The double-click arrives in the middle of the mouse sequence, so the window opens once it is finished.
-			controlImageDisplay.EventEnhanceRequested+=(sender,idx)=>BeginInvoke(new Action(ShowEnhance));
+			controlImageDisplay.EventEnhanceRequested+=(sender,idx)=>BeginInvoke(new Action(() => ShowEnhance((ControlImageDisplay)sender)));
 			controlImageDisplay.EventViewerRequested+=(sender,idx)=>BeginInvoke(new Action(() => ShowImageViewer((ControlImageDisplay)sender,idx)));
 			//controlImageDisplay.IsImageFloatDockedChanged+=FormImageFloat_IsImageFloatDockedChanged;
 			return controlImageDisplay;

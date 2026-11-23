@@ -53,19 +53,38 @@ namespace ImagingTests {
 		}
 
 		[TestMethod]
-		public void Save_ChecksTheEditPermissions_Logs_KeepsTheTrim_RemakesTheThumbnail() {
+		public void Save_ByDocument_ThroughOneSaveThatChecksThePermissionAgain() {
 			string display=Display();
 			StringAssert.Contains(MethodBody(display,"public bool CanEditImage("),"ImageSignaturePermissions.IsAuthorizedToEdit(document,suppressMessage);");
-			string body=MethodBody(display,"public void SaveAdjust(");
-			StringAssert.Contains(body,"Documents.Update(document,documentOld);");
-			StringAssert.Contains(body,"DocumentAdjusts.Upsert(documentAdjust);");
-			StringAssert.Contains(body,"documentAdjust.TrimStartMs=documentAdjustOld.TrimStartMs;","A video's trim stays.");
-			StringAssert.Contains(body,"SecurityLogs.MakeLogEntry(EnumPermType.ImageEdit,PatientCur.PatNum,logText);");
-			StringAssert.Contains(body,"ImageSignaturePermissions.LogSignedImageEdited(document,\"enhanced\");");
-			StringAssert.Contains(body,"ImageStore.DeleteThumbnailImage(document,PatFolder);");
+			string body=MethodBody(display,"public bool SaveAdjust(Document document,");
+			StringAssert.Contains(body,"if(!ImageEnhance.Save(document,documentOld,settingsOld,settingsNew,PatientCur.PatNum,PatFolder)){");
+			Assert.IsFalse(body.Contains("ThumbnailRefresh();\r\n\t\t\tSetWindowingSlider") && !body.Contains("if(!IsMountShowing()){"),"A mount's thumbnail is left.");
+			string save=MethodBody(Read("OpenPmsDentalBusiness","Imaging","ImageEnhance.cs"),"public static bool Save(");
+			Assert.IsTrue(save.IndexOf("ImageSignaturePermissions.IsAuthorizedToEdit(document,suppressMessage:true)")<save.IndexOf("Documents.Update("),
+				"The permission first (a signing while the window is open).");
+			StringAssert.Contains(save,"documentAdjust.TrimStartMs=documentAdjustOld.TrimStartMs;","A video's trim stays.");
+			StringAssert.Contains(save,"SecurityLogs.MakeLogEntry(EnumPermType.ImageEdit,patNum,logText);");
+			StringAssert.Contains(save,"ImageSignaturePermissions.LogSignedImageEdited(document,\"enhanced\");");
 			string window=Window();
 			StringAssert.Contains(window,"_isEditable=_controlImageDisplay.CanEditImage(_idx,suppressMessage:true);");
-			StringAssert.Contains(MethodBody(window,"private void SaveIfChanged("),"if(_document==null || !_isEditable");
+			string bodySave=MethodBody(window,"private void SaveIfChanged(");
+			StringAssert.Contains(bodySave,"_controlImageDisplay.SaveAdjust(_document,_documentOld,_settingsOld,_settings);","By document, not by index.");
+			StringAssert.Contains(bodySave,"ImageEnhance.Save(_document,_documentOld,_settingsOld,_settings,_document.PatNum,patFolder);","Without the display.");
+		}
+
+		[TestMethod]
+		public void Window_RechecksThePermission_FlushesBeforeItMovesOn_FollowsTheModulesSlider_ClosesOnAPatientChange() {
+			string window=Window();
+			string bodyTarget=MethodBody(window,"public void SetTarget(");
+			Assert.IsTrue(bodyTarget.IndexOf("bool isEditable=_controlImageDisplay.CanEditImage(_idx,suppressMessage:true);")<bodyTarget.IndexOf("FlushPending();"),
+				"The same image: the permission again (signed in place).");
+			StringAssert.Contains(MethodBody(window,"protected override void OnFormClosing("),"FlushPending();");
+			StringAssert.Contains(MethodBody(window,"private void FlushPending("),"Preview(doFilter:true);","Shown with its filters.");
+			StringAssert.Contains(MethodBody(window,"private void timerFilter_Tick("),"SaveIfChanged();","The wheel and keys have no MouseUp.");
+			string module=Module();
+			StringAssert.Contains(MethodBody(module,"private void windowingSlider_ScrollComplete("),"_formImageEnhance.SyncWindowFromImage();");
+			StringAssert.Contains(MethodBody(module,"public void CloseFloaters("),"_formImageEnhance.Close();");
+			StringAssert.Contains(module,"ShowEnhance((ControlImageDisplay)sender)","The display that asked.");
 		}
 
 		[TestMethod]
@@ -88,7 +107,7 @@ namespace ImagingTests {
 			string window=Window();
 			StringAssert.Contains(MethodBody(window,"private void track_ValueChanged("),"_timerFilter.Start();");
 			StringAssert.Contains(MethodBody(window,"private void track_Commit("),"SaveIfChanged();");
-			StringAssert.Contains(MethodBody(window,"private void Preview("),"if(!_isDicom && _isWindowTouched){",
+			StringAssert.Contains(MethodBody(window,"private void Preview("),"if(!_isDicom && (_isWindowTouched || _windowFixed!=null)){",
 				"A filter change keeps the window exactly; a DICOM window stays on the module's slider.");
 		}
 

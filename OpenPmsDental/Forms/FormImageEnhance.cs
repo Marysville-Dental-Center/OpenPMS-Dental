@@ -37,6 +37,9 @@ namespace OpenPmsDental {
 		///<summary>True once brightness or contrast was changed for this image (a slider, a preset, Reset). Until then a filter change keeps the
 		///image's window exactly: not every window has an exact brightness/contrast pair.</summary>
 		private bool _isWindowTouched;
+		///<summary>A preset's window, used exactly until brightness or contrast is moved (the bars cannot hold every window exactly).</summary>
+		private (int Min,int Max)? _windowFixed;
+		private Font _fontTarget;
 		private Label labelNote;
 		private Label labelTarget;
 		private List<Label> _listLabelsValue=new List<Label>();
@@ -72,16 +75,22 @@ namespace OpenPmsDental {
 				document=idx>-1 ? controlImageDisplay.GetDocumentShowing(idx) : null;
 			}
 			if(controlImageDisplay==_controlImageDisplay && document==_document && idx==_idx && document!=null){
+				//The same image. Its permission can change meanwhile (signed in place by Sign), so it is checked again.
+				bool isEditable=_controlImageDisplay.CanEditImage(_idx,suppressMessage:true);
+				if(isEditable!=_isEditable){
+					_isEditable=isEditable;
+					FillNote();
+					EnableControls();
+				}
 				return;
 			}
-			SaveIfChanged();//a change still waiting for its save (a key on a slider) goes to the image it was made on
+			FlushPending();//a change still waiting goes to the image it was made on, shown with its filters
 			_controlImageDisplay=document==null ? null : controlImageDisplay;
 			_document=document;
 			_idx=document==null ? -1 : idx;
-			_timerFilter?.Stop();
 			if(_document==null){
 				labelTarget.Text=Lan.g(this,"No image selected");
-				labelNote.Text=Lan.g(this,"Select one image: a single image, or an image in a mount.");
+				FillNote();
 				_isEditable=false;
 				_arrayHistogram=null;
 				EnableControls();
@@ -90,6 +99,7 @@ namespace OpenPmsDental {
 			}
 			_documentOld=_document.Copy();
 			_isWindowTouched=false;
+			_windowFixed=null;
 			_settings=(_controlImageDisplay.GetAdjustSettings(_document)??new ImageAdjustSettings()).Copy();
 			_settingsOld=_settings.Copy();
 			_isDicom=_document.FileName!=null && _document.FileName.ToLower().EndsWith(".dcm");
@@ -99,18 +109,30 @@ namespace OpenPmsDental {
 			}
 			labelTarget.Text=target;
 			_isEditable=_controlImageDisplay.CanEditImage(_idx,suppressMessage:true);
-			if(!_isEditable){
-				labelNote.Text=Lan.g(this,"Changing this image needs the Image Edit permission (and Signed Image Edit for a signed image).");
-			}
-			else if(_isDicom){
-				labelNote.Text=Lan.g(this,"DICOM: brightness and contrast are on the module's slider.");
-			}
-			else{
-				labelNote.Text="";
-			}
+			FillNote();
 			FillControls();
 			EnableControls();
 			RefreshHistogram();
+		}
+
+		///<summary>The module's windowing slider saved a new window for the image (ControlImages.windowingSlider_ScrollComplete): it becomes this
+		///window's saved state, and brightness/contrast show it. A filter change still waiting is kept.</summary>
+		public void SyncWindowFromImage(){
+			if(_document==null){
+				return;
+			}
+			_documentOld.WindowingMin=_document.WindowingMin;
+			_documentOld.WindowingMax=_document.WindowingMax;
+			_isWindowTouched=false;
+			_windowFixed=null;
+			if(!_isDicom){
+				ImageEnhance.FromWindowing(_document.WindowingMin,_document.WindowingMax,out int brightness,out int contrast);
+				_isFilling=true;
+				trackBrightness.Value=brightness;
+				trackContrast.Value=contrast;
+				_isFilling=false;
+				FillValueLabels();
+			}
 		}
 		#endregion Methods - Public
 
@@ -125,9 +147,9 @@ namespace OpenPmsDental {
 			}
 			ImageAdjustPreset imageAdjustPreset=(ImageAdjustPreset)((Control)sender).Tag;
 			_settings=imageAdjustPreset.ToSettings();
-			if(!_isDicom){
+			if(!_isDicom && imageAdjustPreset.WindowingMax!=0){//WindowingMax 0: the preset leaves the window (one saved from a DICOM image)
 				ImageEnhance.FromWindowing(imageAdjustPreset.WindowingMin,imageAdjustPreset.WindowingMax,out int brightness,out int contrast);
-				_isWindowTouched=true;
+				_windowFixed=(imageAdjustPreset.WindowingMin,imageAdjustPreset.WindowingMax);
 				_isFilling=true;
 				trackBrightness.Value=brightness;
 				trackContrast.Value=contrast;
@@ -147,6 +169,7 @@ namespace OpenPmsDental {
 				return;//a supplied preset cannot be renamed or deleted
 			}
 			ContextMenuStrip contextMenuStrip=new ContextMenuStrip();
+			contextMenuStrip.Closed+=(s,a) => BeginInvoke(new Action(contextMenuStrip.Dispose));
 			contextMenuStrip.Items.Add(Lan.g(this,"Rename..."),null,(s,a) => RenamePreset(imageAdjustPreset));
 			contextMenuStrip.Items.Add(Lan.g(this,"Update to the current settings"),null,(s,a) => UpdatePreset(imageAdjustPreset));
 			contextMenuStrip.Items.Add(Lan.g(this,"Delete"),null,(s,a) => DeletePreset(imageAdjustPreset));
@@ -160,6 +183,7 @@ namespace OpenPmsDental {
 			_settings=new ImageAdjustSettings();
 			if(!_isDicom){
 				_isWindowTouched=true;
+				_windowFixed=null;
 				_isFilling=true;
 				trackBrightness.Value=0;
 				trackContrast.Value=0;
@@ -217,6 +241,10 @@ namespace OpenPmsDental {
 		private void timerFilter_Tick(object sender,EventArgs e) {
 			_timerFilter.Stop();
 			Preview(doFilter:true);
+			//The wheel and some keys change a slider with no MouseUp: saved once the value rests, unless a drag is still under way.
+			if(Control.MouseButtons==MouseButtons.None){
+				SaveIfChanged();
+			}
 		}
 
 		private void track_Commit(object sender,EventArgs e) {
@@ -236,22 +264,26 @@ namespace OpenPmsDental {
 			}
 			if(sender==trackBrightness || sender==trackContrast){
 				_isWindowTouched=true;
+				_windowFixed=null;
 			}
 			_settings.Gamma=trackGamma.Value/100.0;
 			_settings.Sharpen=trackSharpen.Value;
 			_settings.Smooth=(ImageSmooth)trackSmooth.Value;
 			//brightness/contrast at once (cheap); the filters once the slider rests
 			Preview(doFilter:_settings.IsNeutral());
-			if(!_settings.IsNeutral()){
-				_timerFilter.Stop();
-				_timerFilter.Start();
-			}
+			_timerFilter.Stop();
+			_timerFilter.Start();
 		}
 
 		protected override void OnFormClosing(FormClosingEventArgs e) {
-			SaveIfChanged();
-			_timerFilter.Stop();
+			FlushPending();
 			base.OnFormClosing(e);
+		}
+
+		protected override void OnFormClosed(FormClosedEventArgs e) {
+			base.OnFormClosed(e);
+			_timerFilter.Dispose();
+			_fontTarget?.Dispose();
 		}
 		#endregion Methods - Event Handlers
 
@@ -262,7 +294,8 @@ namespace OpenPmsDental {
 			SuspendLayout();
 			int y=8;
 			labelTarget=new Label { Location=new Point(8,y),Size=new Size(WIDTH_CONTENT,20),Name="labelTarget",TextAlign=ContentAlignment.MiddleLeft };
-			labelTarget.Font=new Font(UiTheme.FontBody,FontStyle.Bold);
+			_fontTarget=new Font(UiTheme.FontBody,FontStyle.Bold);
+			labelTarget.Font=_fontTarget;
 			Controls.Add(labelTarget);
 			y+=24;
 			flowPresets=new FlowLayoutPanel { Location=new Point(8,y),Size=new Size(WIDTH_CONTENT,54),Name="flowPresets",WrapContents=true,AutoScroll=true };
@@ -340,7 +373,12 @@ namespace OpenPmsDental {
 			imageAdjustPreset.Smooth=_settings.Smooth;
 			imageAdjustPreset.IsAutoContrast=_settings.IsAutoContrast;
 			imageAdjustPreset.IsInverted=_settings.IsInverted;
-			ImageEnhance.ToWindowing(trackBrightness.Value,trackContrast.Value,out int windowingMin,out int windowingMax);
+			if(_isDicom){
+				imageAdjustPreset.WindowingMin=0;//no window: a DICOM window is on its own scale, so the preset leaves an image's window
+				imageAdjustPreset.WindowingMax=0;
+				return;
+			}
+			GetWindow(out int windowingMin,out int windowingMax);
 			imageAdjustPreset.WindowingMin=windowingMin;
 			imageAdjustPreset.WindowingMax=windowingMax;
 		}
@@ -359,7 +397,8 @@ namespace OpenPmsDental {
 
 		private void EnableControls(){
 			bool isEnabled=_document!=null && _isEditable;
-			foreach(Control control in new Control[] { trackGamma,trackSharpen,trackSmooth,checkAutoContrast,checkInvert,butReset,flowPresets }){
+			//flowPresets stays enabled: a right-click manages presets (Image Adjust Presets) even on an image this user may not change.
+			foreach(Control control in new Control[] { trackGamma,trackSharpen,trackSmooth,checkAutoContrast,checkInvert,butReset }){
 				control.Enabled=isEnabled;
 			}
 			trackBrightness.Enabled=isEnabled && !_isDicom;
@@ -438,8 +477,8 @@ namespace OpenPmsDental {
 			}
 			int windowingMin=_document.WindowingMin;
 			int windowingMax=_document.WindowingMax;
-			if(!_isDicom && _isWindowTouched){
-				ImageEnhance.ToWindowing(trackBrightness.Value,trackContrast.Value,out windowingMin,out windowingMax);
+			if(!_isDicom && (_isWindowTouched || _windowFixed!=null)){
+				GetWindow(out windowingMin,out windowingMax);
 				if(windowingMin==0 && windowingMax==255 && _documentOld.WindowingMax==0){
 					windowingMax=0;//never set stays never set
 				}
@@ -481,9 +520,59 @@ namespace OpenPmsDental {
 			if(!isWindowChanged && !isFilterChanged){
 				return;
 			}
-			_controlImageDisplay.SaveAdjust(_idx,_documentOld,_settingsOld);
+			bool isSaved;
+			if(_controlImageDisplay!=null && !_controlImageDisplay.IsDisposed){
+				isSaved=_controlImageDisplay.SaveAdjust(_document,_documentOld,_settingsOld,_settings);
+			}
+			else{
+				//The display went away (another image opened in its place) with a change still waiting: saved without it.
+				Patient patient=Patients.GetPat(_document.PatNum);
+				string patFolder=patient==null ? null : ImageStore.GetPatientFolder(patient,ImageStore.GetPreferredAtoZpath());
+				isSaved=ImageEnhance.Save(_document,_documentOld,_settingsOld,_settings,_document.PatNum,patFolder);
+			}
+			if(!isSaved){
+				//The permission changed (for example the image was signed): nothing saved, and the window stops changing it.
+				_isEditable=false;
+				FillNote();
+				EnableControls();
+				return;
+			}
 			_documentOld=_document.Copy();
 			_settingsOld=_settings.Copy();
+		}
+
+		///<summary>A change still waiting is shown with its filters and saved: before the window changes image or closes.</summary>
+		private void FlushPending(){
+			if(_timerFilter!=null && _timerFilter.Enabled){
+				_timerFilter.Stop();
+				Preview(doFilter:true);
+			}
+			SaveIfChanged();
+		}
+
+		///<summary>The window brightness/contrast stand for: a preset's exact window until they are moved, else ToWindowing of the bars.</summary>
+		private void GetWindow(out int windowingMin,out int windowingMax){
+			if(_windowFixed!=null){
+				windowingMin=_windowFixed.Value.Min;
+				windowingMax=_windowFixed.Value.Max;
+				return;
+			}
+			ImageEnhance.ToWindowing(trackBrightness.Value,trackContrast.Value,out windowingMin,out windowingMax);
+		}
+
+		private void FillNote(){
+			if(_document==null){
+				labelNote.Text=Lan.g(this,"Select one image: a single image, or an image in a mount.");
+			}
+			else if(!_isEditable){
+				labelNote.Text=Lan.g(this,"Changing this image needs the Image Edit permission (and Signed Image Edit for a signed image).");
+			}
+			else if(_isDicom){
+				labelNote.Text=Lan.g(this,"DICOM: brightness and contrast are on the module's slider.");
+			}
+			else{
+				labelNote.Text="";
+			}
 		}
 
 		private void UpdatePreset(ImageAdjustPreset imageAdjustPreset){

@@ -90,3 +90,26 @@ Audit round 1 found the track bars set their size before turning AutoSize off. W
 four sliders and the Auto contrast box were hidden. That would have happened in the program too. Fixed: AutoSize off first, 23 px.
 
 Round 2 found one nit, left as it is: the shared track bar look draws a disabled slider like an enabled one, though it cannot move.
+
+## Review (one independent review, 2026-11-23)
+
+Fixed:
+
+- **Saving moved into one method that checks again.** `ImageEnhance.Save` (business layer) checks Image Edit and Signed Image Edit
+  again, writes the window and the filters (keeping a video's trim), logs and removes the thumbnail. The display's
+  `SaveAdjust(document, ...)` calls it, and the window falls back to it when the display is gone. Tested in `EnhanceSaveDbTests`.
+  - A change made with the wheel or keys (no MouseUp) could be lost when the selection moved, or logged against the image now at that
+    index. It is now saved by the timer once the value rests and no button is down, and saving is by document, not by index.
+  - A signing while the window was open left it editable for a user without Signed Image Edit. `SetTarget` now checks the permission again
+    on every call, and the save checks it too: a refused save disables the window.
+- **The module's slider is no longer undone.** A window saved with the module's slider was reverted by the window's stale
+  brightness/contrast, or logged as an Enhance change. `windowingSlider_ScrollComplete` now calls `SyncWindowFromImage`.
+- **The window closes on a patient change** (`CloseFloaters`).
+- **A change waiting is shown with its filters** before the window moves to another image or closes (`FlushPending`).
+- **Nits:**
+  - A preset's window is used exactly (`_windowFixed`).
+  - A preset saved from a DICOM image has no window (WindowingMax 0) and leaves an image's window.
+  - The presets stay usable for managing on an image the user may not change.
+  - The A key opens on the display that asked.
+  - The context menu and the bold font are disposed.
+  - A mount's thumbnail is not redrawn on every save, as the slider never did.

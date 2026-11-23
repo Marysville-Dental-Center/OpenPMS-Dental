@@ -44,6 +44,41 @@ namespace OpenPmsDentalBusiness {
 			brightness=Math.Max(-100,Math.Min(100,(int)Math.Round((127.5-centre)/1.275)));
 		}
 
+		///<summary>Saves an image's window and filters as the Enhance window set them (IMG-P3b): the document's window when it changed (documentOld is
+		///the row before), the documentadjust row (a video's trim kept), the security log (ImageEdit, with the old and new values, and
+		///SignedImageEdit for a signed image) and, with patFolder, the thumbnail removed so it is made again. Checks Image Edit (and Signed Image
+		///Edit for a signed image) again first, without a message: false when the user may not change the image, and nothing is saved. Works
+		///without the module's display, so a change still waiting when the display goes away is not lost.</summary>
+		public static bool Save(Document document,Document documentOld,ImageAdjustSettings settingsOld,ImageAdjustSettings settingsNew,long patNum,
+			string patFolder)
+		{
+			if(document==null || documentOld==null) {
+				return false;
+			}
+			if(!ImageSignaturePermissions.IsAuthorizedToEdit(document,suppressMessage:true)) {
+				return false;
+			}
+			settingsNew=settingsNew??new ImageAdjustSettings();
+			if(document.WindowingMin!=documentOld.WindowingMin || document.WindowingMax!=documentOld.WindowingMax) {
+				Documents.Update(document,documentOld);
+			}
+			DocumentAdjust documentAdjust=DocumentAdjust.FromSettings(document.DocNum,settingsNew);
+			DocumentAdjust documentAdjustOld=DocumentAdjusts.GetForDoc(document.DocNum);
+			if(documentAdjustOld!=null) {
+				documentAdjust.TrimStartMs=documentAdjustOld.TrimStartMs;
+				documentAdjust.TrimEndMs=documentAdjustOld.TrimEndMs;
+			}
+			DocumentAdjusts.Upsert(documentAdjust);
+			string logText="Document Edited: "+document.FileName+" enhanced: window "+documentOld.WindowingMin+"-"+documentOld.WindowingMax+" to "
+				+document.WindowingMin+"-"+document.WindowingMax+", filters '"+Describe(settingsOld)+"' to '"+Describe(settingsNew)+"'";
+			SecurityLogs.MakeLogEntry(EnumPermType.ImageEdit,patNum,logText);
+			ImageSignaturePermissions.LogSignedImageEdited(document,"enhanced");
+			if(!string.IsNullOrEmpty(patFolder)) {
+				ImageStore.DeleteThumbnailImage(document,patFolder);
+			}
+			return true;
+		}
+
 		///<summary>A short description of the filters for the security log, for example "gamma 1.20, sharpen 40, auto contrast"; "none" when
 		///neutral.</summary>
 		public static string Describe(ImageAdjustSettings settings) {

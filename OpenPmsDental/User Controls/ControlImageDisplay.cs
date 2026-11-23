@@ -1481,37 +1481,26 @@ Here is the desired behavior:
 			SetWindowingSlider();
 		}
 
-		///<summary>Saves the image at idx as previewed: its window (documentOld is the row before) and its filters (settingsOld before), keeping a
-		///video's trim. Logged like the module's other edits; the thumbnail is made again.</summary>
-		public void SaveAdjust(int idx,Document documentOld,ImageAdjustSettings settingsOld){
-			Document document=GetDocumentShowing(idx);
-			if(document==null){
-				return;
+		///<summary>Saves document as the Enhance window set it (ImageEnhance.Save, which checks the permission again), then shows it: the cache of
+		///its filters, the single image's thumbnail (a mount's is left, as the windowing slider leaves it), the module's slider, the image viewer
+		///window. By document, not by index, so a change waiting while the selection moved still goes to its own image. False when nothing was
+		///saved (no permission).</summary>
+		public bool SaveAdjust(Document document,Document documentOld,ImageAdjustSettings settingsOld,ImageAdjustSettings settingsNew){
+			if(!ImageEnhance.Save(document,documentOld,settingsOld,settingsNew,PatientCur.PatNum,PatFolder)){
+				return false;
 			}
-			ImageAdjustSettings imageAdjustSettings=GetAdjustSettings(document)??new ImageAdjustSettings();
-			if(document.WindowingMin!=documentOld.WindowingMin || document.WindowingMax!=documentOld.WindowingMax){
-				Documents.Update(document,documentOld);
+			_dictAdjustSettings[document.DocNum]=settingsNew?.Copy();
+			if(!IsMountShowing()){
+				ThumbnailRefresh();
 			}
-			DocumentAdjust documentAdjust=DocumentAdjust.FromSettings(document.DocNum,imageAdjustSettings);
-			DocumentAdjust documentAdjustOld=DocumentAdjusts.GetForDoc(document.DocNum);
-			if(documentAdjustOld!=null){
-				documentAdjust.TrimStartMs=documentAdjustOld.TrimStartMs;
-				documentAdjust.TrimEndMs=documentAdjustOld.TrimEndMs;
-			}
-			DocumentAdjusts.Upsert(documentAdjust);
-			string logText="Document Edited: "+document.FileName+" enhanced: window "+documentOld.WindowingMin+"-"+documentOld.WindowingMax+" to "
-				+document.WindowingMin+"-"+document.WindowingMax+", filters '"+ImageEnhance.Describe(settingsOld)+"' to '"+ImageEnhance.Describe(imageAdjustSettings)+"'";
-			SecurityLogs.MakeLogEntry(EnumPermType.ImageEdit,PatientCur.PatNum,logText);
-			ImageSignaturePermissions.LogSignedImageEdited(document,"enhanced");
-			ImageStore.DeleteThumbnailImage(document,PatFolder);
-			ThumbnailRefresh();
 			SetWindowingSlider();
 			panelMain.Invalidate();
 			EventAdjustSaved?.Invoke(this,EventArgs.Empty);
+			return true;
 		}
 
-		///<summary>The histogram of the picture showing at idx (after brightness/contrast and filters), 256 bins of the grey value, from every
-		///other pixel in each direction; null when there is none.</summary>
+		///<summary>The histogram of the picture showing at idx (after brightness/contrast and filters), 256 bins of the grey value, from a copy at
+		///half the size; null when there is none.</summary>
 		public int[] GetHistogram(int idx){
 			if(_bitmapArrayShowing==null || idx<0 || idx>_bitmapArrayShowing.Length-1 || _bitmapArrayShowing[idx]==null){
 				return null;
