@@ -153,7 +153,7 @@ namespace OpenPmsDental {
 			this.panelRepeating.Controls.Add(this.labelDateAdvice);
 			this.panelRepeating.Location = new System.Drawing.Point(365, 8);
 			this.panelRepeating.Name = "panelRepeating";
-			this.panelRepeating.Size = new System.Drawing.Size(313, 90);
+			this.panelRepeating.Size = new System.Drawing.Size(313, 117);
 			this.panelRepeating.TabIndex = 170;
 			// 
 			// labelDateTask
@@ -216,7 +216,7 @@ namespace OpenPmsDental {
 			this.groupReminder.Controls.Add(this.panelReminderDays);
 			this.groupReminder.Location = new System.Drawing.Point(365, 8);
 			this.groupReminder.Name = "groupReminder";
-			this.groupReminder.Size = new System.Drawing.Size(313, 90);
+			this.groupReminder.Size = new System.Drawing.Size(313, 117);
 			this.groupReminder.TabIndex = 169;
 			this.groupReminder.Text = "Reminder";
 			this.groupReminder.Visible = false;
@@ -238,7 +238,7 @@ namespace OpenPmsDental {
 			this.panelReminderFrequency.Controls.Add(this.label2);
 			this.panelReminderFrequency.Location = new System.Drawing.Point(8, 50);
 			this.panelReminderFrequency.Name = "panelReminderFrequency";
-			this.panelReminderFrequency.Size = new System.Drawing.Size(297, 32);
+			this.panelReminderFrequency.Size = new System.Drawing.Size(297, 23);
 			this.panelReminderFrequency.TabIndex = 2;
 			this.panelReminderFrequency.TabStop = true;
 			// 
@@ -302,7 +302,7 @@ namespace OpenPmsDental {
 			this.panelReminderDays.Controls.Add(this.checkReminderRepeatWednesday);
 			this.panelReminderDays.Controls.Add(this.checkReminderRepeatFriday);
 			this.panelReminderDays.Controls.Add(this.checkReminderRepeatThursday);
-			this.panelReminderDays.Location = new System.Drawing.Point(8, 50);
+			this.panelReminderDays.Location = new System.Drawing.Point(8, 77);
 			this.panelReminderDays.Name = "panelReminderDays";
 			this.panelReminderDays.Size = new System.Drawing.Size(297, 32);
 			this.panelReminderDays.TabIndex = 3;
@@ -800,7 +800,7 @@ namespace OpenPmsDental {
 			this.gridMain.DoShowRightClickLinks = true;
 			this.gridMain.Location = new System.Drawing.Point(0, 0);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(986, 296);
+			this.gridMain.Size = new System.Drawing.Size(986, 283);
 			this.gridMain.TabIndex = 149;
 			this.gridMain.Title = "Notes";
 			this.gridMain.TranslationName = "FormTaskEdit";
@@ -914,12 +914,12 @@ namespace OpenPmsDental {
 			this.splitContainer.Controls.Add(this.splitterPanel1);
 			this.splitContainer.Controls.Add(this.splitterPanel2);
 			this.splitContainer.Cursor = System.Windows.Forms.Cursors.Default;
-			this.splitContainer.Location = new System.Drawing.Point(8, 120);
+			this.splitContainer.Location = new System.Drawing.Point(8, 133);
 			this.splitContainer.Name = "splitContainer";
 			this.splitContainer.Orientation = System.Windows.Forms.Orientation.Horizontal;
 			this.splitContainer.Panel1 = this.splitterPanel1;
 			this.splitContainer.Panel2 = this.splitterPanel2;
-			this.splitContainer.Size = new System.Drawing.Size(986, 447);
+			this.splitContainer.Size = new System.Drawing.Size(986, 434);
 			this.splitContainer.SplitterDistance = 147;
 			this.splitContainer.TabIndex = 184;
 			// 
@@ -943,7 +943,7 @@ namespace OpenPmsDental {
 			this.splitterPanel2.Controls.Add(this.gridMain);
 			this.splitterPanel2.Location = new System.Drawing.Point(0, 151);
 			this.splitterPanel2.Name = "splitterPanel2";
-			this.splitterPanel2.Size = new System.Drawing.Size(986, 296);
+			this.splitterPanel2.Size = new System.Drawing.Size(986, 283);
 			this.splitterPanel2.TabIndex = 14;
 			// 
 			// butSubscribers

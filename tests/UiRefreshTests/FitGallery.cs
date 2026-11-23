@@ -212,6 +212,26 @@ namespace UiRefreshTests {
 				//summaries, never both; the discount summary stands on the family summary's place. The picture shows the insurance summaries.
 				controlDiscount.Visible=false;
 			}
+			if(window=="OpenPmsDental.FormTaskEdit" && FindByName(root,"groupReminder") is Control groupReminder && FindByName(root,"panelRepeating") is Control panelRepeating) {
+				//UI-12 slice 2 continuation: LoadTask shows the reminder group or the repeating panel (TasksUseRepeating, off by default), both on one
+				//bounds; the picture shows the default, a weekly reminder (the frequency panel with the day panel under it).
+				groupReminder.Visible=true;
+				panelRepeating.Visible=false;
+			}
+			if(window=="OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizSchedule") {
+				//UI-12 slice 2 continuation: LoadProv names the provider, and a day's box shows its group (each day checked).
+				if(FindByName(root,"labelProv") is Label labelProv) {
+					labelProv.Text="Let's set up schedules for DMD123.";
+				}
+				foreach(string day in new string[] { "Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday" }) {
+					if(FindByName(root,"check"+day) is OpenPmsDental.UI.CheckBox checkBox) {
+						checkBox.Checked=true;
+					}
+					if(FindByName(root,"group"+day.Substring(0,3)) is Control groupDay) {
+						groupDay.Visible=true;
+					}
+				}
+			}
 			if(window=="OpenPmsDental.FormQuery" && FindByName(root,"grid2") is DataGridView dataGridView) {
 				//A result as the window shows it after a query: its caption over the grid, columns and rows.
 				if(FindByName(root,"labelGridCaption") is Label labelCaption) {

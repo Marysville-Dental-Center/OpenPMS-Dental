@@ -6,8 +6,8 @@ TasksUseRepeating preference) and the category field (the TaskCategoryShow prefe
 Refresh and the object panel by the task's state; it sets no position.
 The top band: New, Done with its note and Read Only on one row at the content edge, Date/Time Created, Date/Time Task and Date/Time Finished
 under it on one field column (each label right-aligned 6 px before its box, Now 6 px after the box); 16 px after them the reminder group and
-the repeating panel on one bounds with one field column (the group: Type with its box, under it on one bounds the frequency panel, the date
-and time pickers and the day panel; the panel: Date and Date Type, Is From Repeating after the type box, the date note on two lines under
+the repeating panel on one bounds with one field column (the group: Type with its box, under it the frequency panel or the date and time
+pickers (on one row), the day panel under them; the panel: Date and Date Type, Is From Repeating after the type box, the date note on two lines under
 them); From User (with its pick button), Task List, Task Priority (with its color button) and Category on one field column at the right
 content edge. The split container 8 px under the band from the content edge to the right content edge: in its top panel the Description
 label with Edit Auto Note and Auto Note under it in the date fields' label column (the hidden Red and Blue buttons on the row after them), the
@@ -59,9 +59,10 @@ def layout(h):
     h.set("butNowFinished", xe + 6, y1 + 2 * P, 62, 24)
     yl = y1 + 2 * P + H
     # The reminder group and the repeating panel on one bounds (the code shows one or the other: TasksUseRepeating), one field column for
-    # both: Type with its box; under it, on one bounds inside the group's padding, the frequency panel (Every, its box and the unit), the date
-    # and time pickers and the day panel (Days, the seven boxes 14 px apart and their key); in the panel Date and Date Type at the group's
-    # padding, Is From Repeating after the type box, the date note on two lines under them at the column.
+    # both: Type with its box; under it, inside the group's padding, the frequency panel (Every, its box and the unit) or the date and time
+    # pickers, the day panel (Days, the seven boxes 14 px apart and their key) under them; in the panel Date and Date Type at the group's
+    # padding, Is From Repeating after the type box, the date note on two lines under them at the column. The frequency panel and the pickers
+    # are alternatives (RefreshReminderGroup: Once shows the pickers); a weekly reminder shows the day panel under the frequency panel.
     xg = xe + 6 + 62 + 16
     top = (h.n("groupReminder").title_bottom or 18) + 4
     lr = max(h.lw(n) for n in ("labelReminderRepeat", "label2", "labelReminderRepeatDays", "labelDateTask", "labelDateType"))
@@ -76,7 +77,7 @@ def layout(h):
     wu = h.lw("labelRemindFrequency")
     h.set("labelRemindFrequency", Fr - 8 + 50 + 6, 0, wu, H)
     h.text_align("labelRemindFrequency", "MiddleLeft")
-    h.set("panelReminderFrequency", 8, y2, pw_, 32)
+    h.set("panelReminderFrequency", 8, y2, pw_, H)
     h.set("datePickerReminder", 8, y2, 159, H)
     h.set("timePickerReminder", 8 + 159 + 6, y2, 96, H)
     h.set("labelReminderRepeatDays", 0, 0, lr, 15)
@@ -84,7 +85,7 @@ def layout(h):
     for i, d in enumerate(("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")):
         h.set("checkReminderRepeat" + d, Fr - 8 + i * 14, 0, 13, 15)
     h.set("labelReminderRepeatDayKey", Fr - 8 - 1, 17, 109, 15)
-    h.set("panelReminderDays", 8, y2, pw_, 32)
+    h.set("panelReminderDays", 8, y2 + P, pw_, 32)
     h.watch("groupReminder", "panelReminderFrequency", "panelReminderDays")
     lf(h, "labelDateTask", "textDateTask", 8, 0, lr, 100)
     lf(h, "labelDateType", "comboDateType", 8, P, lr, 100)
@@ -92,7 +93,7 @@ def layout(h):
     h.set("checkFromNum", Fr + 100 + 6, P + (H - CH) // 2, h.cw("checkFromNum"), CH)
     h.set("labelDateAdvice", Fr, 2 * P, gw - 8 - Fr, 34)
     h.text_align("labelDateAdvice", "TopLeft")
-    gh2 = max(y2 + 32 + 8, 2 * P + 34)
+    gh2 = max(y2 + P + 32 + 8, 2 * P + 34)
     h.set("panelRepeating", xg, 8, gw, gh2)
     h.set("groupReminder", xg, 8, gw, gh2)
     h.watch("panelRepeating")
