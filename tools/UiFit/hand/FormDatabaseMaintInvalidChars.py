@@ -11,7 +11,7 @@ _spec.loader.exec_module(e)
 def layout(h):
     e.frame(h)
     R = e.right_edge(h)
-    eh = h.note_h("labelExplain", R - 8)
+    eh = 3 * 16 + 2  # the run-time text: three lines at this width (GridRulesTests sets it)
     h.set("labelExplain", None, 8, None, eh)
     dy = 8 + eh + 4 - h.n("gridColumns").ny
     if dy:

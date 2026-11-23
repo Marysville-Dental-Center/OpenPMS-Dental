@@ -12,6 +12,6 @@ _spec.loader.exec_module(e)
 def layout(h):
     R = e.right_edge(h)
     l7 = h.n("label7")
-    h.set("label7", None, None, None, h.note_h("label7", l7.nw))
+    h.set("label7", None, None, None, h.note_h("label7", l7.nw) + 8)
     b = h.n("textBody")
     h.set("textBody", None, None, R - b.nx, h.n("butSave").ny - 8 - b.ny)

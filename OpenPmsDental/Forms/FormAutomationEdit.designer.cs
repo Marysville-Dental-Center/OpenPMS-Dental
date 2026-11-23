@@ -118,9 +118,9 @@ namespace OpenPmsDental {
 			// 
 			// labelActionObject
 			// 
-			this.labelActionObject.Location = new System.Drawing.Point(52, 270);
+			this.labelActionObject.Location = new System.Drawing.Point(44, 270);
 			this.labelActionObject.Name = "labelActionObject";
-			this.labelActionObject.Size = new System.Drawing.Size(104, 23);
+			this.labelActionObject.Size = new System.Drawing.Size(112, 23);
 			this.labelActionObject.TabIndex = 22;
 			this.labelActionObject.Text = "Action Object";
 			this.labelActionObject.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

@@ -10,7 +10,7 @@ _spec.loader.exec_module(e)
 
 def layout(h):
     n = h.n("label1")
-    nh = h.note_h("label1", n.nw)
+    nh = h.note_h("label1", n.nw) + 10
     g = h.n("groupBox3")
     gh = n.ny + nh + 8
     h.set("label1", None, None, None, nh)

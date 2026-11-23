@@ -14,7 +14,7 @@ _spec.loader.exec_module(e)
 
 def layout(h):
     R = e.right_edge(h)
-    F = 108
+    F = 116
     gx = R - 220
     h.set("butAttach", gx, 8)
     h.set("gridAttachments", gx, 8 + 20 + 4)

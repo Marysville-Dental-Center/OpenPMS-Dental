@@ -12,7 +12,7 @@ _spec.loader.exec_module(e)
 
 def layout(h):
     R = e.right_edge(h)
-    lh = h.note_h("label1", R - 8)
+    lh = h.note_h("label1", R - 8) + 8
     h.set("label1", 8, 8, R - 8, lh)
     top = 8 + lh + 8
     bot = h.n("butSave").ny - 8

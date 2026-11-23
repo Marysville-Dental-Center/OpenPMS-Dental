@@ -36,7 +36,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(203, 156);
+			this.butSave.Location = new System.Drawing.Point(203, 161);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 3;
@@ -52,7 +52,7 @@ namespace OpenPmsDental{
 			this.groupBox3.Controls.Add(this.label15);
 			this.groupBox3.Location = new System.Drawing.Point(8, 8);
 			this.groupBox3.Name = "groupBox3";
-			this.groupBox3.Size = new System.Drawing.Size(270, 135);
+			this.groupBox3.Size = new System.Drawing.Size(270, 145);
 			this.groupBox3.TabIndex = 55;
 			this.groupBox3.Text = "Default Dates";
 			// 
@@ -61,7 +61,7 @@ namespace OpenPmsDental{
 			this.label1.AutoSize = false;
 			this.label1.Location = new System.Drawing.Point(8, 77);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(253, 50);
+			this.label1.Size = new System.Drawing.Size(253, 60);
 			this.label1.TabIndex = 67;
 			this.label1.Text = "Leaving these fields blank will result in the date\r\n filter not being set when th" +
     "e unscheduled list\r\n is first opened.";
@@ -106,7 +106,7 @@ namespace OpenPmsDental{
 			// 
 			// FormUnschedListSetup
 			// 
-			this.ClientSize = new System.Drawing.Size(286, 188);
+			this.ClientSize = new System.Drawing.Size(286, 193);
 			this.Controls.Add(this.butSave);
 			this.Controls.Add(this.groupBox3);
 			this.Name = "FormUnschedListSetup";

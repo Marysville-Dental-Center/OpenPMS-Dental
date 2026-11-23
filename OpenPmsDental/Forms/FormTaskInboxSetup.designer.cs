@@ -35,15 +35,15 @@ namespace OpenPmsDental{
 			// 
 			this.label1.Location = new System.Drawing.Point(8, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(655, 114);
+			this.label1.Size = new System.Drawing.Size(655, 122);
 			this.label1.TabIndex = 4;
 			this.label1.Text = resources.GetString("label1.Text");
 			// 
 			// gridMain
 			// 
-			this.gridMain.Location = new System.Drawing.Point(8, 130);
+			this.gridMain.Location = new System.Drawing.Point(8, 138);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(444, 369);
+			this.gridMain.Size = new System.Drawing.Size(444, 361);
 			this.gridMain.TabIndex = 5;
 			this.gridMain.Title = null;
 			this.gridMain.TranslationName = "TableInboxAssignments";
@@ -60,16 +60,16 @@ namespace OpenPmsDental{
 			// 
 			// listMain
 			// 
-			this.listMain.Location = new System.Drawing.Point(543, 130);
+			this.listMain.Location = new System.Drawing.Point(543, 138);
 			this.listMain.Name = "listMain";
-			this.listMain.Size = new System.Drawing.Size(120, 369);
+			this.listMain.Size = new System.Drawing.Size(120, 361);
 			this.listMain.TabIndex = 6;
 			// 
 			// butSet
 			// 
 			this.butSet.Icon = OpenPmsDental.UI.EnumIcons.ArrowLeft;
 			this.butSet.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butSet.Location = new System.Drawing.Point(460, 130);
+			this.butSet.Location = new System.Drawing.Point(460, 138);
 			this.butSet.Name = "butSet";
 			this.butSet.Size = new System.Drawing.Size(75, 24);
 			this.butSet.TabIndex = 7;

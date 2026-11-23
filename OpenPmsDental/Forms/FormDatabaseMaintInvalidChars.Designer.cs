@@ -30,7 +30,7 @@ namespace OpenPmsDental {
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelExplain.Location = new System.Drawing.Point(8, 8);
 			this.labelExplain.Name = "labelExplain";
-			this.labelExplain.Size = new System.Drawing.Size(884, 18);
+			this.labelExplain.Size = new System.Drawing.Size(884, 50);
 			this.labelExplain.TabIndex = 0;
 			this.labelExplain.Text = "labelExplain";
 			//
@@ -38,7 +38,7 @@ namespace OpenPmsDental {
 			//
 			this.gridColumns.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridColumns.Location = new System.Drawing.Point(8, 30);
+			this.gridColumns.Location = new System.Drawing.Point(8, 62);
 			this.gridColumns.Name = "gridColumns";
 			this.gridColumns.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
 			this.gridColumns.Size = new System.Drawing.Size(884, 230);
@@ -51,10 +51,10 @@ namespace OpenPmsDental {
 			this.gridPreview.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridPreview.Location = new System.Drawing.Point(8, 286);
+			this.gridPreview.Location = new System.Drawing.Point(8, 318);
 			this.gridPreview.Name = "gridPreview";
 			this.gridPreview.SelectionMode = OpenPmsDental.UI.GridSelectionMode.OneRow;
-			this.gridPreview.Size = new System.Drawing.Size(884, 296);
+			this.gridPreview.Size = new System.Drawing.Size(884, 264);
 			this.gridPreview.TabIndex = 3;
 			this.gridPreview.Title = "First 50 affected values (invalid characters shown as [U+XXXX])";
 			this.gridPreview.TranslationName = "TableDbmInvalidCharsPreview";
@@ -63,7 +63,7 @@ namespace OpenPmsDental {
 			//
 			this.labelSummary.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelSummary.Location = new System.Drawing.Point(8, 264);
+			this.labelSummary.Location = new System.Drawing.Point(8, 296);
 			this.labelSummary.Name = "labelSummary";
 			this.labelSummary.Size = new System.Drawing.Size(884, 20);
 			this.labelSummary.TabIndex = 2;
