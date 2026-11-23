@@ -92,6 +92,11 @@ namespace OpenPmsDental.UI {
 		///<summary>The flags a WinForms Label with TextAlign MiddleRight draws its text with: the label is measured and drawn with them.</summary>
 		private const TextFormatFlags _textFormatFlagsLabel=TextFormatFlags.Right|TextFormatFlags.VerticalCenter|TextFormatFlags.WordBreak
 			|TextFormatFlags.TextBoxControl|TextFormatFlags.NoPrefix;
+		///<summary>WidthLabelArea, measured for the label's text, the font and the scale beside it (it is read on every paint and mouse move).</summary>
+		private int _widthLabelAreaCached=-1;
+		private Font _fontLabelAreaCached;
+		private float _scaleLabelAreaCached;
+		private string _textLabelAreaCached;
 		#endregion Fields - Private
 
 		#region Constructor
@@ -382,13 +387,30 @@ namespace OpenPmsDental.UI {
 		///grid, docs/port-notes/UI-12.md): sized from the label's measured text, as a WinForms Label measures it at the control's font, plus the
 		///grid's 6 px label gap, so the label stands right-aligned 6 px before the box like the labels of the rows around it and "Clinics" is never
 		///cut. At Segoe UI 9 and 96 dpi: "Clinic" 43, "Clinics" 48 (the planner's CLINIC_LABEL_W, tools/UiFit/grid_tools.py). It was a fixed
-		///37, which cut "Clinics" at its left and drew "Clinic" 2 px from the box.</summary>
+		///37, which cut "Clinics" at its left and drew "Clinic" 2 px from the box.
+		///Scaled, the width is the 96 dpi width scaled as LayoutManager scales the bounds of the controls around it (the text measured at the font
+		///less the scale), so the box stays on its column at every scale (a text measured at 150% is a few pixels narrower than 1.5 times its
+		///100% width); never narrower than the text at the control's font and the scaled gap, so the label is never cut.</summary>
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public int WidthLabelArea {
 			get {
-				int widthText=TextRenderer.MeasureText(labelFake.Text,Font,new Size(int.MaxValue,Math.Max(1,Height)),_textFormatFlagsLabel).Width;
-				return widthText+LayoutManager.Scale(6);
+				float scale=LayoutManager.ScaleMy();
+				if(_widthLabelAreaCached>=0 && _textLabelAreaCached==labelFake.Text && _fontLabelAreaCached==Font && _scaleLabelAreaCached==scale) {
+					return _widthLabelAreaCached;
+				}
+				Size sizeMax=new Size(int.MaxValue,int.MaxValue);
+				int widthText=TextRenderer.MeasureText(labelFake.Text,Font,sizeMax,_textFormatFlagsLabel).Width;
+				int widthText96=widthText;
+				if(scale>0 && scale!=1f) {
+					using Font font96=new Font(Font.FontFamily,Font.Size/scale,Font.Style,Font.Unit);
+					widthText96=TextRenderer.MeasureText(labelFake.Text,font96,sizeMax,_textFormatFlagsLabel).Width;
+				}
+				_widthLabelAreaCached=Math.Max(LayoutManager.Scale(widthText96+6),widthText+LayoutManager.Scale(6));
+				_textLabelAreaCached=labelFake.Text;
+				_fontLabelAreaCached=Font;
+				_scaleLabelAreaCached=scale;
+				return _widthLabelAreaCached;
 			}
 		}
 		#endregion Properties - Public not browsable
