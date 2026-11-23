@@ -1873,9 +1873,9 @@ OpenPmsDental/Forms/FormInfobutton.designer.cs	OpenPmsDental.FormInfobutton	radi
 OpenPmsDental/Forms/FormInfobutton.designer.cs	OpenPmsDental.FormInfobutton	radioRecProv	Size	124,17	69,18	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormInfobutton.designer.cs	OpenPmsDental.FormInfobutton	groupBox2	Location	150,275	152,360	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormInfobutton.designer.cs	OpenPmsDental.FormInfobutton	groupBox2	Size	136,54	136,71	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormInfobutton.designer.cs	OpenPmsDental.FormInfobutton	comboTask	Location	399,280	493,383	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormInfobutton.designer.cs	OpenPmsDental.FormInfobutton	comboTask	Location	399,280	501,383	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormInfobutton.designer.cs	OpenPmsDental.FormInfobutton	comboTask	Size	159,21	137,23	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormInfobutton.designer.cs	OpenPmsDental.FormInfobutton	label17	Location	317,282	419,383	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormInfobutton.designer.cs	OpenPmsDental.FormInfobutton	label17	Location	317,282	427,383	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormInfobutton.designer.cs	OpenPmsDental.FormInfobutton	label17	Size	76,18	68,23	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormInfobutton.designer.cs	OpenPmsDental.FormInfobutton	groupBoxContext	Location	12,12	8,8	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormInfobutton.designer.cs	OpenPmsDental.FormInfobutton	groupBoxContext	Size	564,337	654,439	by hand (layout script): on the grid

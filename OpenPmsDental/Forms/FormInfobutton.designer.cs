@@ -465,7 +465,7 @@ namespace OpenPmsDental{
 			// comboTask
 			// 
 			this.comboTask.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.comboTask.Location = new System.Drawing.Point(493, 383);
+			this.comboTask.Location = new System.Drawing.Point(501, 383);
 			this.comboTask.MaxDropDownItems = 30;
 			this.comboTask.Name = "comboTask";
 			this.comboTask.Size = new System.Drawing.Size(137, 23);
@@ -475,7 +475,7 @@ namespace OpenPmsDental{
 			// label17
 			// 
 			this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label17.Location = new System.Drawing.Point(419, 383);
+			this.label17.Location = new System.Drawing.Point(427, 383);
 			this.label17.Name = "label17";
 			this.label17.Size = new System.Drawing.Size(68, 23);
 			this.label17.TabIndex = 129;
