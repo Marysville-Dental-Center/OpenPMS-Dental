@@ -1084,7 +1084,7 @@ OpenPmsDental/Forms/FormASAP.designer.cs	OpenPmsDental.FormASAP	label1	Location	
 OpenPmsDental/Forms/FormASAP.designer.cs	OpenPmsDental.FormASAP	label2	Location	6,32	68,35	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormASAP.designer.cs	OpenPmsDental.FormASAP	checkGroupFamilies	Location	279,5	276,9	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormASAP.designer.cs	OpenPmsDental.FormASAP	butRefresh	Location	966,85	994,73	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormASAP.designer.cs	OpenPmsDental.FormASAP	butPrint	Location	967,506	994,101	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormASAP.designer.cs	OpenPmsDental.FormASAP	butPrint	Location	967,506	994,638	by hand (layout script): Print List anchored to the bottom (Bottom|Right): at the bottom of the side column on the split container's bottom edge (slice 5, the anchor check)
 OpenPmsDental/Forms/FormASAP.designer.cs	OpenPmsDental.FormASAP	splitContainer	Location	12,78	8,73	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormASAP.designer.cs	OpenPmsDental.FormASAP	splitContainer	Size	920,546	978,589	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormASAP.designer.cs	OpenPmsDental.FormASAP	codeRangeFilter	Location	903,32	931,32	by hand (layout script): on the grid

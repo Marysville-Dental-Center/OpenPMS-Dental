@@ -144,7 +144,7 @@ namespace OpenPmsDental {
 			// 
 			// panelRepeating
 			// 
-			this.panelRepeating.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.panelRepeating.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)));
 			this.panelRepeating.Controls.Add(this.labelDateTask);
 			this.panelRepeating.Controls.Add(this.labelDateType);
 			this.panelRepeating.Controls.Add(this.checkFromNum);

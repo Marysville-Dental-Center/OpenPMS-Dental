@@ -45,7 +45,7 @@ namespace OpenPmsDental{
 			// butRun
 			// 
 			this.butRun.Anchor=((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom|System.Windows.Forms.AnchorStyles.Right)));
-			this.butRun.Location=new System.Drawing.Point(625,85);
+			this.butRun.Location=new System.Drawing.Point(625,449);
 			this.butRun.Name="butRun";
 			this.butRun.Size=new System.Drawing.Size(92,24);
 			this.butRun.TabIndex=26;
@@ -55,7 +55,7 @@ namespace OpenPmsDental{
 			// butCopy
 			// 
 			this.butCopy.Anchor=((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom|System.Windows.Forms.AnchorStyles.Right)));
-			this.butCopy.Location=new System.Drawing.Point(625,57);
+			this.butCopy.Location=new System.Drawing.Point(625,421);
 			this.butCopy.Name="butCopy";
 			this.butCopy.Size=new System.Drawing.Size(92,24);
 			this.butCopy.TabIndex=25;
@@ -136,7 +136,7 @@ namespace OpenPmsDental{
 			// butFinished
 			// 
 			this.butFinished.Anchor=((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom|System.Windows.Forms.AnchorStyles.Right)));
-			this.butFinished.Location=new System.Drawing.Point(625,113);
+			this.butFinished.Location=new System.Drawing.Point(625,477);
 			this.butFinished.Name="butFinished";
 			this.butFinished.Size=new System.Drawing.Size(92,24);
 			this.butFinished.TabIndex=17;

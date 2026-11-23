@@ -68,3 +68,7 @@ def layout(h):
     dx2 = xw - (sc.nx + tc.x + pg.x + h.n("textDateStart").nx)
     for name in ("textDateStart", "textDateEnd", "label1", "label2", "checkGroupFamilies"):
         h.set(name, h.n(name).nx + dx2, None)
+    # Slice 5 (the anchor check): Print List is anchored to the bottom (Bottom|Right; main drew it low in the side column, at 506 of 635);
+    # under Refresh at the top it left its place on every resize (onto Refresh when the window got shorter). At the bottom of the side column, on the
+    # split container's bottom edge: a taller window moves it down the empty side column, past nothing.
+    h.set("butPrint", None, sc.ny + sc.nh - pr.nh)

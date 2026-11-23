@@ -73,10 +73,10 @@ namespace OpenPmsDental {
 			this.label15.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.label15.Location = new System.Drawing.Point(9, 331);
 			this.label15.Name = "label15";
-			this.label15.Size = new System.Drawing.Size(91, 32);
+			this.label15.Size = new System.Drawing.Size(91, 81);
 			this.label15.TabIndex = 79;
 			this.label15.Text = "Signature /\r\nInitials";
-			this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.label15.TextAlign = System.Drawing.ContentAlignment.TopRight;
 			// 
 			// label16
 			// 
