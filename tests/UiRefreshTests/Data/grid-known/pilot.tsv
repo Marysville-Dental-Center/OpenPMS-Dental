@@ -20,7 +20,6 @@ OpenPmsDental.ControlAccount	label-gap	label15 textPriPend	the insurance and dis
 OpenPmsDental.ControlAccount	label-gap	label17 textFamPriDed	the insurance and discount summary groups are kept as on main: hidden in the designer, the module's code shows them over its grids
 OpenPmsDental.ControlAccount	label-gap	label18 textPriDedRem	the insurance and discount summary groups are kept as on main: hidden in the designer, the module's code shows them over its grids
 OpenPmsDental.ControlAccount	label-gap	label8 textFamPriMax	the insurance and discount summary groups are kept as on main: hidden in the designer, the module's code shows them over its grids
-OpenPmsDental.ControlAccount	overlap	textAccumulatedAdj textRemainingAdj	the insurance and discount summary groups are kept as on main: hidden in the designer, the module's code shows them over its grids
 OpenPmsDental.ControlAccount	title	groupBox2 textDateAutoOrthoPlacement	the Auto Ortho tab page under the aging strip is kept as on main (the module lays its pages out with its grids; a rollout slice)
 OpenPmsDental.ControlAccount	title	groupBoxFamilyIns label4	the insurance and discount summary groups are kept as on main: hidden in the designer, the module's code shows them over its grids
 OpenPmsDental.ControlAccount	title	groupBoxFamilyIns label9	the insurance and discount summary groups are kept as on main: hidden in the designer, the module's code shows them over its grids
