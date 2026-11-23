@@ -1647,6 +1647,11 @@ own 26.2 overlap check before it starts. The first cut is below; a brief that fi
   inside the earlier windows, the Family module laid out by its code); FormReconcileProblem's stray textless button removed; no planner
   rule added; re-plans 243 / 461 / 179 as recorded; gallery G-UI3-ui12-4 (104 windows, 16 at 150%, the two hosts), audit
   `UI-12-audit-4.md` (UI-12.md section 7, "Slice 4 (batch 2)").
+  Slice 4 fix round (branch `ui/ui12-4-2`, the lead's review, 35 findings): 66 of the 104 windows now with a layout script (26 new:
+  bottom-anchored buttons back on their bottom edge, side-by-side tops, calendar captions, hidden pairs, right edges and margins, the five
+  windows the planner gave no fixed point); FormReplicationSetup_Load sizes the window from the designer; `grid_tools.py anchors` flags a
+  bottom-anchored control in the upper half of its container (the designer's anchor); the gallery draws UserControlReportSetup's two modes
+  apart; the windows without a script re-plan 0 rows; re-plans 243 / 461 / 179 unchanged (UI-12.md section 7, "Slice 4, fix round").
 - Gallery: G-UI3 per slice, the owner's rows first.
 
 **UI-13: every element type in the new look (the owner, 2026-11-22: "Overall make sure you modernize all element types")**
