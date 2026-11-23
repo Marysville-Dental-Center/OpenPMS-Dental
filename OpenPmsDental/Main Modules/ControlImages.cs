@@ -3010,7 +3010,7 @@ namespace OpenPmsDental{
 				contextMenuCamera.Add(Lan.g(this,"Unsaved photos")+" ("+countUnsaved+")...",menuCameraUnsaved_Click);
 			}
 			contextMenuCamera.AddSeparator();
-			contextMenuCamera.Add(Lan.g(this,"Video window (camera settings, Learn)..."),menuCameraVideo_Click);
+			contextMenuCamera.Add(Lan.g(this,"Video window (single photos)..."),menuCameraVideo_Click);
 		}
 
 		private void menuCameraMount_Click(object sender,System.Windows.RoutedEventArgs e){

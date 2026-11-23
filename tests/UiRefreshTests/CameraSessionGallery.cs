@@ -53,6 +53,7 @@ namespace UiRefreshTests {
 				Save(folder,"camera-asleep",listFailed,StandardTemplateKind.PhotoIntraoral5,countFilled:2,idxNext:2,VideoStatusText.Streaming(),"",isAsleep:true);
 				Save(folder,"camera-unsaved",listFailed,StandardTemplateKind.PhotoIntraoral5,countFilled:2,idxNext:2,VideoStatusText.Streaming(),"",
 					alert:"Photo could not be saved. It is kept on this computer; Camera, Unsaved photos files it later.\r\nThe photo could not be saved: the A to Z folder is not reachable.");
+				SaveSettings(folder,"camera-settings",listFailed);
 			});
 			DesignSheetWindows.IsPrintingWithoutChildren=false;
 			File.WriteAllLines(Path.Combine(folder,"gallery-camera-failed.txt"),listFailed);
@@ -173,6 +174,25 @@ namespace UiRefreshTests {
 				using Bitmap bitmapPicture=DesignSheetWindows.Capture(controlCameraSession,Rectangle.Empty);
 				bitmapPicture.Save(Path.Combine(folder,name+".png"),ImageFormat.Png);
 				controlCameraSession.End();
+			}
+			catch(Exception exception) {
+				listFailed.Add(name+": "+exception);
+			}
+		}
+
+		///<summary>The camera settings window (IMG-P4e) with a made-up camera and its picture sizes.</summary>
+		private static void SaveSettings(string folder,string name,List<string> listFailed) {
+			try {
+				List<ImagingCapture.Uvc.UvcDeviceInfo> listDevices=new List<ImagingCapture.Uvc.UvcDeviceInfo>();
+				ImagingCapture.Camera.CameraConfig cameraConfig=new ImagingCapture.Camera.CameraConfig();
+				using FormCameraSettings formCameraSettings=new FormCameraSettings(listDevices,null,null,false,cameraConfig,
+					new PhotoSessionConfig { IsFreezeFirst=true,VideoLimitSeconds=90 },
+					new List<string> { "Camera button: still pin (learned).","Foot pedal: F8 takes a photo." },0,null);
+				object layoutManager=typeof(FormODBase).GetField("LayoutManager",BindingFlags.Instance|BindingFlags.NonPublic|BindingFlags.Public).GetValue(formCameraSettings);
+				layoutManager.GetType().GetMethod("SetPanelClient").Invoke(layoutManager,new object[] { formCameraSettings });
+				Control root=formCameraSettings.PanelClient ?? (Control)formCameraSettings;
+				using Bitmap bitmapPicture=DesignSheetWindows.Capture(root,Rectangle.Empty);
+				bitmapPicture.Save(Path.Combine(folder,name+".png"),ImageFormat.Png);
 			}
 			catch(Exception exception) {
 				listFailed.Add(name+": "+exception);

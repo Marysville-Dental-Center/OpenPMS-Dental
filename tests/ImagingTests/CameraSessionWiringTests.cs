@@ -151,6 +151,26 @@ namespace ImagingTests {
 		}
 
 		[TestMethod]
+		public void Settings_FreezeFirst_Limit_Setup_AndTheWindowInCode() {
+			string session=Session();
+			string capture=MethodBody(session,"public void RequestCapture(");
+			Assert.IsTrue(capture.IndexOf("_photoSessionConfig.IsFreezeFirst && !IsFrozen")<capture.IndexOf("BeginCaptureFrozen("),
+				"Freeze first: the first press freezes, before any photo is taken.");
+			StringAssert.Contains(MethodBody(session,"private void ToggleRecording("),"_photoSessionConfig.VideoLimitSeconds");
+			StringAssert.Contains(MethodBody(session,"public string Start("),"PhotoSessionConfig.Read(localCaptureConfig)");
+			string open=MethodBody(session,"private void OpenSettings(");
+			StringAssert.Contains(open,"if(IsRecording) {");
+			string apply=MethodBody(session,"private void ApplySettings(");
+			StringAssert.Contains(apply,"SecurityLogs.MakeLogEntry(EnumPermType.Setup,");
+			StringAssert.Contains(apply,"Prefs.UpdateLong(PrefName.VideoImageCategoryDefault,");
+			StringAssert.Contains(apply,"DataValid.SetInvalid(InvalidType.Prefs);");
+			string form=Read("OpenPmsDental","Forms","FormCameraSettings.cs");
+			StringAssert.Contains(MethodBody(form,"private void butOK_Click("),"Security.IsAuthorized(EnumPermType.Setup)");
+			Assert.IsFalse(File.Exists(Path.Combine(Path.GetDirectoryName(TestDb.FindRepoFile(Path.Combine("OpenPmsDental","Forms","FormCameraSettings.cs"))),
+				"FormCameraSettings.Designer.cs")),"Built in code.");
+		}
+
+		[TestMethod]
 		public void Capture_PlansTheSlotFirst_ThenSaves_AndReleasesTheGate() {
 			string capture=MethodBody(Session(),"public void RequestCapture(");
 			int idxPlan=capture.IndexOf("_model.PlanShot()");
