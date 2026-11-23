@@ -129,24 +129,27 @@ namespace OpenPmsDentalBusiness {
 		///(ImageHelper.GetImageCroppedDicom). Drawings are not included, as the Edit Claim attachment of any other image leaves them out.
 		///Rendered on a copy of the document, so the document and its file stay exactly as they were, even for a pre-21.4 crop. The caller
 		///disposes the bitmap.</summary>
-		public static Bitmap Render(Document document,BitmapDicom bitmapDicom) {
+		///<param name="imageAdjustSettings">The document's saved adjust filters (IMG-P3), or null for none. Passed in, so this render needs no
+		///database.</param>
+		public static Bitmap Render(Document document,BitmapDicom bitmapDicom,ImageAdjustSettings imageAdjustSettings=null) {
 			if(document==null || bitmapDicom==null) {
 				return null;
 			}
 			Document documentCopy=document.Copy();
-			return ImageHelper.GetImageCroppedDicom(documentCopy,bitmapDicom,doSaveCropConversion:false);
+			return ImageHelper.GetImageCroppedDicom(documentCopy,bitmapDicom,doSaveCropConversion:false,imageAdjustSettings);
 		}
 
 		///<summary>Render with the document's drawings, as the DentalXChange image picker sends every other image
 		///(ImageHelper.GetBitmapOfDocumentFromDb). listImageDraws may be null or empty. The caller disposes the bitmap.</summary>
-		public static Bitmap Render(Document document,BitmapDicom bitmapDicom,List<ImageDraw> listImageDraws) {
+		public static Bitmap Render(Document document,BitmapDicom bitmapDicom,List<ImageDraw> listImageDraws,ImageAdjustSettings imageAdjustSettings=null) {
 			if(document==null || bitmapDicom==null) {
 				return null;
 			}
 			Document documentCopy=document.Copy();
 			using Bitmap bitmapWindowed=DicomHelper.ApplyWindowing(bitmapDicom,documentCopy.WindowingMin,documentCopy.WindowingMax);
 			ImageHelper.ConvertCropIfNeeded(documentCopy,bitmapWindowed,doSave:false);
-			return ImageHelper.GetBitmapOfDocument(documentCopy,bitmapWindowed,listImageDraws??new List<ImageDraw>());
+			using Bitmap bitmapFiltered=ImageAdjust.ApplyToCopy(bitmapWindowed,imageAdjustSettings);//IMG-P3, before the crop and rotation
+			return ImageHelper.GetBitmapOfDocument(documentCopy,bitmapFiltered??bitmapWindowed,listImageDraws??new List<ImageDraw>());
 		}
 
 		///<summary>The 8-bit copy of a DICOM file that is not one of the patient's documents (chosen from disk or pasted as a file): windowed with

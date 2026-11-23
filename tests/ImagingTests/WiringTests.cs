@@ -48,8 +48,8 @@ namespace ImagingTests {
 			string source=Read("OpenPmsDental","User Controls","ControlImageDisplay.cs");
 			Assert.AreEqual(0,Regex.Matches(source,@"Security\.IsAuthorized\(EnumPermType\.ImageEdit,(?!_mountShowing)").Count,
 				"Every document ImageEdit check goes through ImageSignaturePermissions.IsAuthorizedToEdit.");
-			Assert.AreEqual(12,Count(source,"ImageSignaturePermissions.IsAuthorizedToEdit("),"Flip, rotate L/R/180 and size (doc and mount item), crop, teeth (IMG-P2).");
-			Assert.AreEqual(13,Count(source,"ImageSignaturePermissions.LogSignedImageEdited("),"One SignedImageEdit log per ImageEdit log.");
+			Assert.AreEqual(13,Count(source,"ImageSignaturePermissions.IsAuthorizedToEdit("),"Flip, rotate L/R/180 and size (doc and mount item), crop, teeth (IMG-P2), enhance (IMG-P3b, CanEditImage; its save checks again in ImageEnhance.Save).");
+			Assert.AreEqual(13,Count(source,"ImageSignaturePermissions.LogSignedImageEdited("),"One SignedImageEdit log per ImageEdit log (enhance logs in ImageEnhance.Save).");
 			Assert.AreEqual(Count(source,"SecurityLogs.MakeLogEntry(EnumPermType.ImageEdit,PatientCur.PatNum,logText);"),
 				Count(source,"ImageSignaturePermissions.LogSignedImageEdited("));
 			StringAssert.Contains(source,"ImageSignaturePermissions.IsAuthorizedToDelete(document)");

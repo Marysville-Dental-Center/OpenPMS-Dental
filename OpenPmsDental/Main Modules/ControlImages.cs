@@ -45,6 +45,8 @@ namespace OpenPmsDental{
 		private List<FormImageFloat> _listFormImageFloats=new List<FormImageFloat>();
 		///<summary>The image viewer window a double-click opens. One window is reused. Null or disposed when none is open.</summary>
 		private FormImageViewer _formImageViewer;
+		///<summary>The Enhance window (IMG-P3b). One window, following the selection. Null or disposed when none is open.</summary>
+		private FormImageEnhance _formImageEnhance;
 		private bool _initializedOnStartup=false;
 		///<summary>Gets set to true when acquiring so that the unmounted bar will show.  Once you click on an image in the tree, this is set back to false.</summary>
 		private bool _isAcquiring;
@@ -185,6 +187,7 @@ namespace OpenPmsDental{
 			Delete,
 			Info,
 			Teeth,
+			Enhance,
 			Sign,
 			//ScanDoc,
 			//ScanMultiDoc,
@@ -270,6 +273,7 @@ namespace OpenPmsDental{
 			toolBarMain.Add(Lan.g(this,"Print"),ToolBarPrint_Click,WpfControls.UI.EnumIcons.Print,tag:TB.Print.ToString(),toolBarButtonStyle:WpfControls.UI.ToolBarButtonStyle.DropDownButton,contextMenuDropDown:contextMenuPrint);
 			toolBarMain.Add(Lan.g(this,"Delete"),ToolBarDelete_Click,WpfControls.UI.EnumIcons.DeleteX,tag:TB.Delete.ToString());
 			toolBarMain.Add(Lan.g(this,"Info"),ToolBarInfo_Click,WpfControls.UI.EnumIcons.Info,tag:TB.Info.ToString());
+			toolBarMain.Add(Lan.g(this,"Enhance"),ToolBarEnhance_Click,WpfControls.UI.EnumIcons.Image,tag:TB.Enhance.ToString(),toolTipText:Lan.g(this,"Brightness, contrast, filters and presets of the selected image (A)"));
 			toolBarMain.Add(Lan.g(this,"Teeth"),ToolBarTeeth_Click,WpfControls.UI.EnumIcons.Chart32G,tag:TB.Teeth.ToString(),toolTipText:Lan.g(this,"Change the teeth of the selected image (T)"));
 			toolBarMain.Add(Lan.g(this,"Sign"),ToolBarSign_Click,tag:TB.Sign.ToString());
 			toolBarMain.AddSeparator();
@@ -570,9 +574,12 @@ namespace OpenPmsDental{
 					_listFormImageFloats[i].Close();//remove gets handled automatically here
 				}
 			}
-			//The image viewer window shows the previous patient's image too.
+			//The image viewer window shows the previous patient's image too, and the Enhance window would change it.
 			if(_formImageViewer!=null && !_formImageViewer.IsDisposed){
 				_formImageViewer.Close();
+			}
+			if(_formImageEnhance!=null && !_formImageEnhance.IsDisposed){
+				_formImageEnhance.Close();
 			}
 		}
 
@@ -2179,14 +2186,14 @@ namespace OpenPmsDental{
 			if(IsDocumentShowing()) {
 				GetDocumentShowing(0).WindowingMin=windowingSlider.MinVal;
 				GetDocumentShowing(0).WindowingMax=windowingSlider.MaxVal;
-				InvalidateSettingsColor();
+				InvalidateSettingsColor(doApplyAdjust:false);//IMG-P3b: the filters when the slider is let go (ScrollComplete)
 			}
 			if(IsMountItemSelected()) {
 				int idx=GetIdxSelectedInMount();
 				Document document=GetDocumentShowing(idx);
 				document.WindowingMin=windowingSlider.MinVal;
 				document.WindowingMax=windowingSlider.MaxVal;
-				InvalidateSettingsColor();
+				InvalidateSettingsColor(doApplyAdjust:false);
 			}
 		}
 
@@ -2203,6 +2210,10 @@ namespace OpenPmsDental{
 				ImageStore.DeleteThumbnailImage(GetDocumentShowing(GetIdxSelectedInMount()),_patFolder);
 				InvalidateSettingsColor();
 				//We will not update the mount thumbnail for such a minor change
+			}
+			//IMG-P3b: the Enhance window takes this saved window, so its brightness/contrast neither undo it nor log it as theirs.
+			if(_formImageEnhance!=null && !_formImageEnhance.IsDisposed){
+				_formImageEnhance.SyncWindowFromImage();
 			}
 		}
 
@@ -2383,6 +2394,27 @@ namespace OpenPmsDental{
 		
 		private void ToolBarInfo_Click(object sender, EventArgs e){
 			GetOrMakeControlImageDisplay().ToolBarInfo_Click(sender,e);
+		}
+
+		private void ToolBarEnhance_Click(object sender, EventArgs e){
+			ShowEnhance(null);
+		}
+
+		///<summary>Opens the Enhance window (IMG-P3b), or brings it forward, on the selected image. One window, owned by the main window, at the
+		///right edge of the module the first time.</summary>
+		///<param name="controlImageDisplay">The display that asked (the A key, also from the image viewer window); null for the selected one.</param>
+		private void ShowEnhance(ControlImageDisplay controlImageDisplay){
+			if(_formImageEnhance==null || _formImageEnhance.IsDisposed){
+				_formImageEnhance=new FormImageEnhance();
+				Rectangle rectangleModule=RectangleToScreen(ClientRectangle);
+				Rectangle rectangleArea=System.Windows.Forms.Screen.FromControl(this).WorkingArea;
+				int x=Math.Min(rectangleModule.Right,rectangleArea.Right)-_formImageEnhance.Width-16;
+				int y=Math.Max(rectangleArea.Top,rectangleModule.Top+80);
+				_formImageEnhance.Location=new Point(Math.Max(rectangleArea.Left,x),y);
+				_formImageEnhance.Show(FindForm());
+			}
+			_formImageEnhance.SetTarget(controlImageDisplay??GetControlImageDisplaySelected());
+			_formImageEnhance.Activate();
 		}
 
 		private void ToolBarTeeth_Click(object sender, EventArgs e){
@@ -2984,6 +3016,7 @@ namespace OpenPmsDental{
 			};
 			controlImageDisplay.EventZoomSliderSetValueAndMax+=(sender,newVal)=>zoomSlider.SetValueAndMax(newVal);
 			//The double-click arrives in the middle of the mouse sequence, so the window opens once it is finished.
+			controlImageDisplay.EventEnhanceRequested+=(sender,idx)=>BeginInvoke(new Action(() => ShowEnhance((ControlImageDisplay)sender)));
 			controlImageDisplay.EventViewerRequested+=(sender,idx)=>BeginInvoke(new Action(() => ShowImageViewer((ControlImageDisplay)sender,idx)));
 			//controlImageDisplay.IsImageFloatDockedChanged+=FormImageFloat_IsImageFloatDockedChanged;
 			return controlImageDisplay;
@@ -3051,6 +3084,11 @@ namespace OpenPmsDental{
 			toolBarMain.SetEnabled(TB.Info.ToString(),toolBarButtonState.Info);
 			//Teeth is for one image, as Flip is: a single image or a selected mount item.
 			toolBarMain.SetEnabled(TB.Teeth.ToString(),toolBarButtonState.Flip);
+			toolBarMain.SetEnabled(TB.Enhance.ToString(),toolBarButtonState.Flip);
+			//The Enhance window follows the selection (IMG-P3b).
+			if(_formImageEnhance!=null && !_formImageEnhance.IsDisposed){
+				_formImageEnhance.SetTarget(GetControlImageDisplaySelected());
+			}
 			toolBarMain.SetEnabled(TB.Sign.ToString(),toolBarButtonState.Sign);
 			toolBarMain.SetEnabled(TB.Export.ToString(),toolBarButtonState.Export);
 			toolBarMain.SetEnabled(TB.Copy.ToString(),toolBarButtonState.Copy);
@@ -3285,12 +3323,12 @@ namespace OpenPmsDental{
 		}
 
 		///<summary>Invalidates the color image setting and recalculates.  This is not on a separate thread.  Instead, it's just designed to run no more than about every 300ms, which completely avoids any lockup.</summary>
-		private void InvalidateSettingsColor() {
+		private void InvalidateSettingsColor(bool doApplyAdjust=true) {
 			ControlImageDisplay controlImageDisplay=GetControlImageDisplaySelected();
 			if(controlImageDisplay is null){
 				return;
 			}
-			controlImageDisplay.InvalidateSettingsColor();
+			controlImageDisplay.InvalidateSettingsColor(doApplyAdjust);
 		}
 
 		///<summary>Returns true if a valid document is showing.  This is very different from testing the property _documentShowing, which would return true for mounts.</summary>

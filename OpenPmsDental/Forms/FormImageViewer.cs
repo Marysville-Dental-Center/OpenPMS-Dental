@@ -90,8 +90,12 @@ namespace OpenPmsDental {
 			if(_controlImageDisplay!=null){
 				_controlImageDisplay.Disposed-=controlImageDisplay_Disposed;
 			}
+			if(_controlImageDisplay!=null){
+				_controlImageDisplay.EventAdjustSaved-=controlImageDisplay_EventAdjustSaved;
+			}
 			_controlImageDisplay=controlImageDisplay;
 			_controlImageDisplay.Disposed+=controlImageDisplay_Disposed;
+			_controlImageDisplay.EventAdjustSaved+=controlImageDisplay_EventAdjustSaved;
 			_nodeTypeAndKeySource=controlImageDisplay.GetNodeTypeAndKey();
 			ShowIdx(idx);
 			//The Activated that follows (Show, or Activate on reuse) needs no second render; an active window gets no Activated.
@@ -174,6 +178,12 @@ namespace OpenPmsDental {
 			}
 		}
 
+		private void controlImageDisplay_EventAdjustSaved(object sender,EventArgs e) {
+			if(!IsDisposed){
+				ShowIdx(_idxShowing,keepZoom:true);
+			}
+		}
+
 		private void FormImageViewer_Activated(object sender,EventArgs e) {
 			//Picks up changes made in the module while this window was in the background, such as a rotation or brightness.
 			if(_isJustLoaded){
@@ -195,6 +205,7 @@ namespace OpenPmsDental {
 		private void FormImageViewer_FormClosed(object sender,FormClosedEventArgs e) {
 			if(_controlImageDisplay!=null){
 				_controlImageDisplay.Disposed-=controlImageDisplay_Disposed;
+				_controlImageDisplay.EventAdjustSaved-=controlImageDisplay_EventAdjustSaved;
 			}
 			_bitmap?.Dispose();
 			_bitmap=null;
@@ -246,6 +257,13 @@ namespace OpenPmsDental {
 					return true;
 				case Keys.Home:
 					ResetZoom();
+					return true;
+				case Keys.A:
+					//Enhance (IMG-P3b): the module selects this image and opens the Enhance window on it; a save shows here (EventAdjustSaved).
+					if(IsSourceValid()){
+						_controlImageDisplay.SelectFromViewer(_idxShowing);
+						_controlImageDisplay.RequestEnhance(_idxShowing);
+					}
 					return true;
 				case Keys.T:
 					//The teeth of the image showing (imaging design P2): the module's picker saves them; this window then shows the new teeth.
@@ -308,6 +326,7 @@ namespace OpenPmsDental {
 			}
 			listParts.Add(Lan.g(this,"Wheel: zoom, Home: fit"));
 			listParts.Add(Lan.g(this,"T: teeth"));
+			listParts.Add(Lan.g(this,"A: enhance"));
 			listParts.Add(Lan.g(this,"Double-click or Esc: close"));
 			labelInfo.Text=string.Join("   |   ",listParts);
 			canvas.Invalidate();
