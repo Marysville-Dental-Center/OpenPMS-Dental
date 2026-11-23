@@ -60,7 +60,7 @@ namespace OpenPmsDental{
 			// butSave
 			//
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(790, 568);
+			this.butSave.Location = new System.Drawing.Point(4014, 596);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 5;
@@ -70,7 +70,7 @@ namespace OpenPmsDental{
 			// butEbill
 			//
 			this.butEbill.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butEbill.Location = new System.Drawing.Point(12, 568);
+			this.butEbill.Location = new System.Drawing.Point(8, 596);
 			this.butEbill.Name = "butEbill";
 			this.butEbill.Size = new System.Drawing.Size(130, 24);
 			this.butEbill.TabIndex = 4;
@@ -80,7 +80,7 @@ namespace OpenPmsDental{
 			// butSendSetup
 			//
 			this.butSendSetup.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butSendSetup.Location = new System.Drawing.Point(148, 568);
+			this.butSendSetup.Location = new System.Drawing.Point(144, 596);
 			this.butSendSetup.Name = "butSendSetup";
 			this.butSendSetup.Size = new System.Drawing.Size(98, 24);
 			this.butSendSetup.TabIndex = 9;
@@ -91,17 +91,17 @@ namespace OpenPmsDental{
 			//
 			this.comboClinic.HqDescription = "Practice Defaults";
 			this.comboClinic.IncludeUnassigned = true;
-			this.comboClinic.Location = new System.Drawing.Point(12, 10);
+			this.comboClinic.Location = new System.Drawing.Point(12, 8);
 			this.comboClinic.Name = "comboClinic";
-			this.comboClinic.Size = new System.Drawing.Size(250, 21);
+			this.comboClinic.Size = new System.Drawing.Size(251, 23);
 			this.comboClinic.TabIndex = 0;
 			this.comboClinic.SelectionChangeCommitted += new System.EventHandler(this.comboClinic_SelectionChangeCommitted);
 			//
 			// checkUsePracticeDefaults
 			//
-			this.checkUsePracticeDefaults.Location = new System.Drawing.Point(280, 11);
+			this.checkUsePracticeDefaults.Location = new System.Drawing.Point(269, 9);
 			this.checkUsePracticeDefaults.Name = "checkUsePracticeDefaults";
-			this.checkUsePracticeDefaults.Size = new System.Drawing.Size(420, 18);
+			this.checkUsePracticeDefaults.Size = new System.Drawing.Size(229, 20);
 			this.checkUsePracticeDefaults.TabIndex = 1;
 			this.checkUsePracticeDefaults.Text = "Use the practice defaults for this clinic";
 			this.checkUsePracticeDefaults.Visible = false;
@@ -118,50 +118,50 @@ namespace OpenPmsDental{
 			this.groupStatements.Controls.Add(this.label1);
 			this.groupStatements.Controls.Add(this.checkBoxBillShowTransSinceZero);
 			this.groupStatements.Controls.Add(this.checkInserterBarcode);
-			this.groupStatements.Location = new System.Drawing.Point(12, 38);
+			this.groupStatements.Location = new System.Drawing.Point(8, 39);
 			this.groupStatements.Name = "groupStatements";
-			this.groupStatements.Size = new System.Drawing.Size(853, 70);
+			this.groupStatements.Size = new System.Drawing.Size(4081, 78);
 			this.groupStatements.TabIndex = 2;
 			this.groupStatements.Text = "Statements";
 			//
 			// checkIntermingled
 			//
-			this.checkIntermingled.Location = new System.Drawing.Point(12, 18);
+			this.checkIntermingled.Location = new System.Drawing.Point(3125, 24);
 			this.checkIntermingled.Name = "checkIntermingled";
-			this.checkIntermingled.Size = new System.Drawing.Size(216, 20);
+			this.checkIntermingled.Size = new System.Drawing.Size(176, 20);
 			this.checkIntermingled.TabIndex = 0;
 			this.checkIntermingled.Text = "Intermingle family members";
 			//
 			// checkSinglePatient
 			//
-			this.checkSinglePatient.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkSinglePatient.Location = new System.Drawing.Point(240, 19);
+			this.checkSinglePatient.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkSinglePatient.Location = new System.Drawing.Point(3307, 24);
 			this.checkSinglePatient.Name = "checkSinglePatient";
-			this.checkSinglePatient.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-			this.checkSinglePatient.Size = new System.Drawing.Size(158, 17);
+			this.checkSinglePatient.RightToLeft = System.Windows.Forms.RightToLeft.No;
+			this.checkSinglePatient.Size = new System.Drawing.Size(124, 20);
 			this.checkSinglePatient.TabIndex = 1;
 			this.checkSinglePatient.Text = "Single patient only";
 			this.checkSinglePatient.Visible = false;
 			//
 			// labelStartDate
 			//
-			this.labelStartDate.Location = new System.Drawing.Point(480, 20);
+			this.labelStartDate.Location = new System.Drawing.Point(3447, 23);
 			this.labelStartDate.Name = "labelStartDate";
-			this.labelStartDate.Size = new System.Drawing.Size(147, 18);
+			this.labelStartDate.Size = new System.Drawing.Size(88, 23);
 			this.labelStartDate.TabIndex = 2;
 			this.labelStartDate.Text = "Start Date Last";
 			this.labelStartDate.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			//
 			// textDays
 			//
-			this.textDays.Location = new System.Drawing.Point(629, 18);
+			this.textDays.Location = new System.Drawing.Point(3541, 23);
 			this.textDays.Name = "textDays";
-			this.textDays.Size = new System.Drawing.Size(44, 20);
+			this.textDays.Size = new System.Drawing.Size(45, 23);
 			this.textDays.TabIndex = 3;
 			//
 			// label1
 			//
-			this.label1.Location = new System.Drawing.Point(675, 20);
+			this.label1.Location = new System.Drawing.Point(3592, 25);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(65, 18);
 			this.label1.TabIndex = 4;
@@ -170,17 +170,17 @@ namespace OpenPmsDental{
 			//
 			// checkBoxBillShowTransSinceZero
 			//
-			this.checkBoxBillShowTransSinceZero.Location = new System.Drawing.Point(12, 43);
+			this.checkBoxBillShowTransSinceZero.Location = new System.Drawing.Point(3541, 50);
 			this.checkBoxBillShowTransSinceZero.Name = "checkBoxBillShowTransSinceZero";
-			this.checkBoxBillShowTransSinceZero.Size = new System.Drawing.Size(330, 18);
+			this.checkBoxBillShowTransSinceZero.Size = new System.Drawing.Size(305, 20);
 			this.checkBoxBillShowTransSinceZero.TabIndex = 5;
 			this.checkBoxBillShowTransSinceZero.Text = "Show all transactions since zero or negative balance";
 			//
 			// checkInserterBarcode
 			//
-			this.checkInserterBarcode.Location = new System.Drawing.Point(420, 43);
+			this.checkInserterBarcode.Location = new System.Drawing.Point(3852, 50);
 			this.checkInserterBarcode.Name = "checkInserterBarcode";
-			this.checkInserterBarcode.Size = new System.Drawing.Size(320, 18);
+			this.checkInserterBarcode.Size = new System.Drawing.Size(221, 20);
 			this.checkInserterBarcode.TabIndex = 6;
 			this.checkInserterBarcode.Text = "Print inserter barcode on statements";
 			//
@@ -194,15 +194,15 @@ namespace OpenPmsDental{
 			this.groupMessages.Controls.Add(this.groupBox3);
 			this.groupMessages.Controls.Add(this.label11);
 			this.groupMessages.Controls.Add(this.textInvoiceNote);
-			this.groupMessages.Location = new System.Drawing.Point(12, 114);
+			this.groupMessages.Location = new System.Drawing.Point(8, 125);
 			this.groupMessages.Name = "groupMessages";
-			this.groupMessages.Size = new System.Drawing.Size(853, 446);
+			this.groupMessages.Size = new System.Drawing.Size(4081, 459);
 			this.groupMessages.TabIndex = 3;
 			this.groupMessages.Text = "Messages";
 			//
 			// label4
 			//
-			this.label4.Location = new System.Drawing.Point(11, 16);
+			this.label4.Location = new System.Drawing.Point(8, 23);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(842, 32);
 			this.label4.TabIndex = 0;
@@ -219,7 +219,7 @@ namespace OpenPmsDental{
 			this.textNote.BackColor = System.Drawing.SystemColors.Window;
 			this.textNote.DetectLinksEnabled = false;
 			this.textNote.DetectUrls = false;
-			this.textNote.Location = new System.Drawing.Point(12, 49);
+			this.textNote.Location = new System.Drawing.Point(8, 57);
 			this.textNote.Name = "textNote";
 			this.textNote.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Statement;
 			this.textNote.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
@@ -240,9 +240,9 @@ namespace OpenPmsDental{
 			this.groupBox3.Controls.Add(this.labelBillingEmailType);
 			this.groupBox3.Controls.Add(this.comboBillingEmailType);
 			this.groupBox3.Controls.Add(this.butBillingEmailEditHtml);
-			this.groupBox3.Location = new System.Drawing.Point(6, 122);
+			this.groupBox3.Location = new System.Drawing.Point(8, 131);
 			this.groupBox3.Name = "groupBox3";
-			this.groupBox3.Size = new System.Drawing.Size(841, 210);
+			this.groupBox3.Size = new System.Drawing.Size(993, 228);
 			this.groupBox3.TabIndex = 2;
 			this.groupBox3.Text = "Email Statements";
 			//
@@ -250,15 +250,15 @@ namespace OpenPmsDental{
 			//
 			this.label10.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.label10.Location = new System.Drawing.Point(11, 15);
+			this.label10.Location = new System.Drawing.Point(8, 23);
 			this.label10.Name = "label10";
-			this.label10.Size = new System.Drawing.Size(830, 29);
+			this.label10.Size = new System.Drawing.Size(830, 32);
 			this.label10.TabIndex = 0;
 			this.label10.Text = resources.GetString("label10.Text");
 			//
 			// label9
 			//
-			this.label9.Location = new System.Drawing.Point(11, 45);
+			this.label9.Location = new System.Drawing.Point(8, 57);
 			this.label9.Name = "label9";
 			this.label9.Size = new System.Drawing.Size(218, 16);
 			this.label9.TabIndex = 1;
@@ -270,15 +270,15 @@ namespace OpenPmsDental{
 			this.textBillingEmailSubject.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.textBillingEmailSubject.AutoSize = false;
-			this.textBillingEmailSubject.Location = new System.Drawing.Point(12, 62);
+			this.textBillingEmailSubject.Location = new System.Drawing.Point(8, 75);
 			this.textBillingEmailSubject.MaxLength = 200;
 			this.textBillingEmailSubject.Name = "textBillingEmailSubject";
-			this.textBillingEmailSubject.Size = new System.Drawing.Size(816, 20);
+			this.textBillingEmailSubject.Size = new System.Drawing.Size(816, 23);
 			this.textBillingEmailSubject.TabIndex = 2;
 			//
 			// label8
 			//
-			this.label8.Location = new System.Drawing.Point(11, 83);
+			this.label8.Location = new System.Drawing.Point(8, 102);
 			this.label8.Name = "label8";
 			this.label8.Size = new System.Drawing.Size(87, 17);
 			this.label8.TabIndex = 3;
@@ -293,7 +293,7 @@ namespace OpenPmsDental{
 			this.textBillingEmailBody.BackColor = System.Drawing.SystemColors.Window;
 			this.textBillingEmailBody.DetectLinksEnabled = false;
 			this.textBillingEmailBody.DetectUrls = false;
-			this.textBillingEmailBody.Location = new System.Drawing.Point(12, 100);
+			this.textBillingEmailBody.Location = new System.Drawing.Point(8, 121);
 			this.textBillingEmailBody.Name = "textBillingEmailBody";
 			this.textBillingEmailBody.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Statement;
 			this.textBillingEmailBody.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
@@ -303,40 +303,40 @@ namespace OpenPmsDental{
 			//
 			// checkBillingEmailIncludeAutograph
 			//
-			this.checkBillingEmailIncludeAutograph.Location = new System.Drawing.Point(12, 181);
+			this.checkBillingEmailIncludeAutograph.Location = new System.Drawing.Point(392, 198);
 			this.checkBillingEmailIncludeAutograph.Name = "checkBillingEmailIncludeAutograph";
-			this.checkBillingEmailIncludeAutograph.Size = new System.Drawing.Size(270, 18);
+			this.checkBillingEmailIncludeAutograph.Size = new System.Drawing.Size(257, 20);
 			this.checkBillingEmailIncludeAutograph.TabIndex = 5;
 			this.checkBillingEmailIncludeAutograph.Text = "Include Email Autograph of sender address";
 			//
 			// labelBillingEmailType
 			//
-			this.labelBillingEmailType.Location = new System.Drawing.Point(296, 181);
+			this.labelBillingEmailType.Location = new System.Drawing.Point(665, 197);
 			this.labelBillingEmailType.Name = "labelBillingEmailType";
-			this.labelBillingEmailType.Size = new System.Drawing.Size(94, 18);
+			this.labelBillingEmailType.Size = new System.Drawing.Size(68, 23);
 			this.labelBillingEmailType.TabIndex = 6;
 			this.labelBillingEmailType.Text = "Email type";
 			this.labelBillingEmailType.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			//
 			// comboBillingEmailType
 			//
-			this.comboBillingEmailType.Location = new System.Drawing.Point(392, 180);
+			this.comboBillingEmailType.Location = new System.Drawing.Point(739, 197);
 			this.comboBillingEmailType.Name = "comboBillingEmailType";
-			this.comboBillingEmailType.Size = new System.Drawing.Size(140, 21);
+			this.comboBillingEmailType.Size = new System.Drawing.Size(140, 23);
 			this.comboBillingEmailType.TabIndex = 7;
 			//
 			// butBillingEmailEditHtml
 			//
-			this.butBillingEmailEditHtml.Location = new System.Drawing.Point(540, 178);
+			this.butBillingEmailEditHtml.Location = new System.Drawing.Point(885, 197);
 			this.butBillingEmailEditHtml.Name = "butBillingEmailEditHtml";
-			this.butBillingEmailEditHtml.Size = new System.Drawing.Size(100, 24);
+			this.butBillingEmailEditHtml.Size = new System.Drawing.Size(100, 23);
 			this.butBillingEmailEditHtml.TabIndex = 8;
 			this.butBillingEmailEditHtml.Text = "Edit HTML...";
 			this.butBillingEmailEditHtml.Click += new System.EventHandler(this.butBillingEmailEditHtml_Click);
 			//
 			// label11
 			//
-			this.label11.Location = new System.Drawing.Point(11, 338);
+			this.label11.Location = new System.Drawing.Point(8, 367);
 			this.label11.Name = "label11";
 			this.label11.Size = new System.Drawing.Size(152, 16);
 			this.label11.TabIndex = 3;
@@ -351,7 +351,7 @@ namespace OpenPmsDental{
 			this.textInvoiceNote.BackColor = System.Drawing.SystemColors.Window;
 			this.textInvoiceNote.DetectLinksEnabled = false;
 			this.textInvoiceNote.DetectUrls = false;
-			this.textInvoiceNote.Location = new System.Drawing.Point(12, 355);
+			this.textInvoiceNote.Location = new System.Drawing.Point(8, 385);
 			this.textInvoiceNote.Name = "textInvoiceNote";
 			this.textInvoiceNote.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Statement;
 			this.textInvoiceNote.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
@@ -361,7 +361,7 @@ namespace OpenPmsDental{
 			//
 			// FormBillingDefaults
 			//
-			this.ClientSize = new System.Drawing.Size(877, 602);
+			this.ClientSize = new System.Drawing.Size(4097, 628);
 			this.Controls.Add(this.butSave);
 			this.Controls.Add(this.butEbill);
 			this.Controls.Add(this.butSendSetup);

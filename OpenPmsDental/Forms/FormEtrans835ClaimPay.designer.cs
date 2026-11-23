@@ -55,20 +55,20 @@ namespace OpenPmsDental {
 			// textInsPayAllowed
 			// 
 			this.textInsPayAllowed.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.textInsPayAllowed.Location = new System.Drawing.Point(485, 608);
+			this.textInsPayAllowed.Location = new System.Drawing.Point(497, 601);
 			this.textInsPayAllowed.Name = "textInsPayAllowed";
 			this.textInsPayAllowed.ReadOnly = true;
-			this.textInsPayAllowed.Size = new System.Drawing.Size(62, 20);
+			this.textInsPayAllowed.Size = new System.Drawing.Size(64, 23);
 			this.textInsPayAllowed.TabIndex = 116;
 			this.textInsPayAllowed.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			// 
 			// textClaimFee
 			// 
 			this.textClaimFee.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.textClaimFee.Location = new System.Drawing.Point(361, 608);
+			this.textClaimFee.Location = new System.Drawing.Point(361, 601);
 			this.textClaimFee.Name = "textClaimFee";
 			this.textClaimFee.ReadOnly = true;
-			this.textClaimFee.Size = new System.Drawing.Size(62, 20);
+			this.textClaimFee.Size = new System.Drawing.Size(64, 23);
 			this.textClaimFee.TabIndex = 118;
 			this.textClaimFee.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			// 
@@ -76,19 +76,19 @@ namespace OpenPmsDental {
 			// 
 			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label1.Location = new System.Drawing.Point(207, 611);
+			this.label1.Location = new System.Drawing.Point(311, 601);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(150, 16);
+			this.label1.Size = new System.Drawing.Size(44, 23);
 			this.label1.TabIndex = 117;
 			this.label1.Text = "Totals";
-			this.label1.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label2
 			// 
 			this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.label2.Location = new System.Drawing.Point(567, 658);
+			this.label2.Location = new System.Drawing.Point(567, 664);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(311, 39);
+			this.label2.Size = new System.Drawing.Size(311, 32);
 			this.label2.TabIndex = 122;
 			this.label2.Text = "Before you click Save, the Deductible and the Ins Pay amounts should exactly match " +
     "the insurance EOB.";
@@ -97,7 +97,7 @@ namespace OpenPmsDental {
 			// label3
 			// 
 			this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label3.Location = new System.Drawing.Point(20, 622);
+			this.label3.Location = new System.Drawing.Point(20, 617);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(116, 34);
 			this.label3.TabIndex = 123;
@@ -107,9 +107,9 @@ namespace OpenPmsDental {
 			// label4
 			// 
 			this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label4.Location = new System.Drawing.Point(164, 627);
+			this.label4.Location = new System.Drawing.Point(164, 628);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(190, 29);
+			this.label4.Size = new System.Drawing.Size(190, 32);
 			this.label4.TabIndex = 124;
 			this.label4.Text = "On all unpaid procedure amounts:";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -118,7 +118,7 @@ namespace OpenPmsDental {
 			// 
 			this.gridClaimAdjustments.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridClaimAdjustments.Location = new System.Drawing.Point(9, 12);
+			this.gridClaimAdjustments.Location = new System.Drawing.Point(8, 8);
 			this.gridClaimAdjustments.Name = "gridClaimAdjustments";
 			this.gridClaimAdjustments.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
 			this.gridClaimAdjustments.Size = new System.Drawing.Size(956, 100);
@@ -132,7 +132,7 @@ namespace OpenPmsDental {
 			// 
 			this.gridProcedureBreakdown.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridProcedureBreakdown.Location = new System.Drawing.Point(9, 118);
+			this.gridProcedureBreakdown.Location = new System.Drawing.Point(8, 112);
 			this.gridProcedureBreakdown.Name = "gridProcedureBreakdown";
 			this.gridProcedureBreakdown.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
 			this.gridProcedureBreakdown.Size = new System.Drawing.Size(956, 168);
@@ -147,7 +147,7 @@ namespace OpenPmsDental {
 			this.gridPayments.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridPayments.Location = new System.Drawing.Point(9, 345);
+			this.gridPayments.Location = new System.Drawing.Point(8, 340);
 			this.gridPayments.Name = "gridPayments";
 			this.gridPayments.SelectionMode = OpenPmsDental.UI.GridSelectionMode.OneCell;
 			this.gridPayments.Size = new System.Drawing.Size(956, 257);
@@ -162,10 +162,10 @@ namespace OpenPmsDental {
 			// 
 			this.textDedApplied.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.textDedApplied.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.textDedApplied.Location = new System.Drawing.Point(423, 608);
+			this.textDedApplied.Location = new System.Drawing.Point(429, 601);
 			this.textDedApplied.Name = "textDedApplied";
 			this.textDedApplied.ReadOnly = true;
-			this.textDedApplied.Size = new System.Drawing.Size(62, 20);
+			this.textDedApplied.Size = new System.Drawing.Size(64, 23);
 			this.textDedApplied.TabIndex = 202;
 			this.textDedApplied.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			// 
@@ -173,65 +173,65 @@ namespace OpenPmsDental {
 			// 
 			this.textInsPayAmt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.textInsPayAmt.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.textInsPayAmt.Location = new System.Drawing.Point(547, 608);
+			this.textInsPayAmt.Location = new System.Drawing.Point(565, 601);
 			this.textInsPayAmt.Name = "textInsPayAmt";
 			this.textInsPayAmt.ReadOnly = true;
-			this.textInsPayAmt.Size = new System.Drawing.Size(62, 20);
+			this.textInsPayAmt.Size = new System.Drawing.Size(64, 23);
 			this.textInsPayAmt.TabIndex = 203;
 			this.textInsPayAmt.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			// 
 			// textEobInsPayAmt
 			// 
 			this.textEobInsPayAmt.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.textEobInsPayAmt.Location = new System.Drawing.Point(517, 292);
+			this.textEobInsPayAmt.Location = new System.Drawing.Point(571, 284);
 			this.textEobInsPayAmt.Name = "textEobInsPayAmt";
 			this.textEobInsPayAmt.ReadOnly = true;
-			this.textEobInsPayAmt.Size = new System.Drawing.Size(62, 20);
+			this.textEobInsPayAmt.Size = new System.Drawing.Size(64, 23);
 			this.textEobInsPayAmt.TabIndex = 209;
 			this.textEobInsPayAmt.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			// 
 			// textEobDedApplied
 			// 
 			this.textEobDedApplied.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.textEobDedApplied.Location = new System.Drawing.Point(393, 292);
+			this.textEobDedApplied.Location = new System.Drawing.Point(431, 284);
 			this.textEobDedApplied.Name = "textEobDedApplied";
 			this.textEobDedApplied.ReadOnly = true;
-			this.textEobDedApplied.Size = new System.Drawing.Size(62, 20);
+			this.textEobDedApplied.Size = new System.Drawing.Size(64, 23);
 			this.textEobDedApplied.TabIndex = 208;
 			this.textEobDedApplied.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			// 
 			// textEobInsPayAllowed
 			// 
-			this.textEobInsPayAllowed.Location = new System.Drawing.Point(455, 292);
+			this.textEobInsPayAllowed.Location = new System.Drawing.Point(501, 284);
 			this.textEobInsPayAllowed.Name = "textEobInsPayAllowed";
 			this.textEobInsPayAllowed.ReadOnly = true;
-			this.textEobInsPayAllowed.Size = new System.Drawing.Size(62, 20);
+			this.textEobInsPayAllowed.Size = new System.Drawing.Size(64, 23);
 			this.textEobInsPayAllowed.TabIndex = 204;
 			this.textEobInsPayAllowed.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			// 
 			// textEobClaimFee
 			// 
-			this.textEobClaimFee.Location = new System.Drawing.Point(331, 292);
+			this.textEobClaimFee.Location = new System.Drawing.Point(361, 284);
 			this.textEobClaimFee.Name = "textEobClaimFee";
 			this.textEobClaimFee.ReadOnly = true;
-			this.textEobClaimFee.Size = new System.Drawing.Size(62, 20);
+			this.textEobClaimFee.Size = new System.Drawing.Size(64, 23);
 			this.textEobClaimFee.TabIndex = 206;
 			this.textEobClaimFee.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			// 
 			// label5
 			// 
 			this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label5.Location = new System.Drawing.Point(177, 295);
+			this.label5.Location = new System.Drawing.Point(283, 284);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(150, 16);
+			this.label5.Size = new System.Drawing.Size(72, 23);
 			this.label5.TabIndex = 205;
 			this.label5.Text = "EOB Totals";
-			this.label5.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// butViewEobDetails
 			// 
 			this.butViewEobDetails.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butViewEobDetails.Location = new System.Drawing.Point(331, 659);
+			this.butViewEobDetails.Location = new System.Drawing.Point(316, 708);
 			this.butViewEobDetails.Name = "butViewEobDetails";
 			this.butViewEobDetails.Size = new System.Drawing.Size(135, 25);
 			this.butViewEobDetails.TabIndex = 201;
@@ -241,7 +241,7 @@ namespace OpenPmsDental {
 			// butWriteOff
 			// 
 			this.butWriteOff.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butWriteOff.Location = new System.Drawing.Point(163, 659);
+			this.butWriteOff.Location = new System.Drawing.Point(148, 708);
 			this.butWriteOff.Name = "butWriteOff";
 			this.butWriteOff.Size = new System.Drawing.Size(90, 25);
 			this.butWriteOff.TabIndex = 121;
@@ -251,7 +251,7 @@ namespace OpenPmsDental {
 			// butDeductible
 			// 
 			this.butDeductible.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butDeductible.Location = new System.Drawing.Point(23, 659);
+			this.butDeductible.Location = new System.Drawing.Point(8, 708);
 			this.butDeductible.Name = "butDeductible";
 			this.butDeductible.Size = new System.Drawing.Size(92, 25);
 			this.butDeductible.TabIndex = 120;
@@ -261,19 +261,19 @@ namespace OpenPmsDental {
 			// textWriteOff
 			// 
 			this.textWriteOff.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.textWriteOff.Location = new System.Drawing.Point(609, 608);
+			this.textWriteOff.Location = new System.Drawing.Point(633, 601);
 			this.textWriteOff.MaxVal = 100000000D;
 			this.textWriteOff.MinVal = -100000000D;
 			this.textWriteOff.Name = "textWriteOff";
 			this.textWriteOff.ReadOnly = true;
-			this.textWriteOff.Size = new System.Drawing.Size(62, 20);
+			this.textWriteOff.Size = new System.Drawing.Size(64, 23);
 			this.textWriteOff.TabIndex = 119;
 			this.textWriteOff.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			// 
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(890, 659);
+			this.butSave.Location = new System.Drawing.Point(891, 708);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 25);
 			this.butSave.TabIndex = 1;
@@ -282,9 +282,9 @@ namespace OpenPmsDental {
 			// 
 			// checkIncludeWOPercCoPay
 			// 
-			this.checkIncludeWOPercCoPay.Location = new System.Drawing.Point(9, 322);
+			this.checkIncludeWOPercCoPay.Location = new System.Drawing.Point(361, 313);
 			this.checkIncludeWOPercCoPay.Name = "checkIncludeWOPercCoPay";
-			this.checkIncludeWOPercCoPay.Size = new System.Drawing.Size(570, 19);
+			this.checkIncludeWOPercCoPay.Size = new System.Drawing.Size(428, 20);
 			this.checkIncludeWOPercCoPay.TabIndex = 210;
 			this.checkIncludeWOPercCoPay.Text = "Include Write-offs for Category Percentage and Medicaid/Flat CoPay plans";
 			this.checkIncludeWOPercCoPay.CheckedChanged += new System.EventHandler(this.checkIncludeWOPercCoPay_CheckedChanged);
@@ -292,7 +292,7 @@ namespace OpenPmsDental {
 			// butSplitProcs
 			// 
 			this.butSplitProcs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSplitProcs.Location = new System.Drawing.Point(868, 318);
+			this.butSplitProcs.Location = new System.Drawing.Point(868, 311);
 			this.butSplitProcs.Name = "butSplitProcs";
 			this.butSplitProcs.Size = new System.Drawing.Size(97, 25);
 			this.butSplitProcs.TabIndex = 210;
@@ -301,7 +301,7 @@ namespace OpenPmsDental {
 			// 
 			// FormEtrans835ClaimPay
 			// 
-			this.ClientSize = new System.Drawing.Size(974, 696);
+			this.ClientSize = new System.Drawing.Size(974, 741);
 			this.Controls.Add(this.butSave);
 			this.Controls.Add(this.checkIncludeWOPercCoPay);
 			this.Controls.Add(this.butSplitProcs);

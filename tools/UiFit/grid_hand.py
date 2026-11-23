@@ -409,12 +409,22 @@ def full_name(window):
     return window if window.startswith("OpenPmsDental.") else "OpenPmsDental." + window
 
 
-def run(tree_path, window_simple):
+def run(tree_path, window_simple, part=None):
+    """part (UI-12 slice 3): (path in the window's tree, the part's class name): the script lays out a user control the window hosts and
+    that the harness cannot build alone (UserControlSecurityUserGroup adds controls in code, which LayoutManager allows only in its host).
+    The tree is the host's from the part's node down, the designer the part's, the script tools/UiFit/hand/<part class>.py; the rows are
+    written under the host window (its slice file), with the part's designer file."""
     root = fit_tools.repo_root()
     window = full_name(window_simple)
     window_simple = window.split(".")[-1]
     trees = g.load_tree(tree_path, {window})
     tree = trees[window]
+    if part:
+        path, part_class = part
+        tree = next(n for n in g.walk(tree) if n.path == path)
+        tree.parent = None
+        window = full_name(part_class)
+        window_simple = window.split(".")[-1]
     wf = fit_tools.window_files(root, [window])
     designer = g.Designer(root, wf[window][0])
     for n in g.walk(tree):
@@ -433,14 +443,18 @@ def main():
     a.add_argument("--hand-file", help="default: the window's slice file, tests/UiRefreshTests/Data/grid-hand/<slice>.tsv (UI-12T)")
     a.add_argument("--tree-out", help="write the laid-out tree (GridDump format) for render.py")
     a.add_argument("--dry", action="store_true", help="print the rows, do not write the hand file")
+    a.add_argument("--part", help="a hosted user control the harness cannot build alone: its path in the window's tree (run's part)")
+    a.add_argument("--part-class", help="with --part: the user control's class name (its script is hand/<class>.py)")
     args = a.parse_args()
-    hand, designer = run(args.tree, args.window)
+    part = (args.part, args.part_class) if args.part else None
+    hand, designer = run(args.tree, args.window, part)
     rows = hand.rows()
     window = full_name(args.window)
+    tree_window = full_name(args.part_class) if part else window
     for p in hand.check():
         print("check:", p)
     if args.tree_out:
-        g.write_tree(args.tree_out, {window: hand.tree})
+        g.write_tree(args.tree_out, {tree_window: hand.tree})
     if args.dry:
         for r in rows:
             print("\t".join(r))
@@ -452,7 +466,8 @@ def main():
             text = f.read()
     nl = "\r\n" if "\r\n" in text else "\n"
     lines = text.split(nl)
-    keep = [ln for ln in lines if ln and not (ln.split("\t")[1:2] == [window] and "\t" + RULE in ln)]
+    # The script's earlier rows: the window's rows of the same designer file (a hosted part's rows and the window's own are apart).
+    keep = [ln for ln in lines if ln and not (ln.split("\t")[0:2] == [designer.rel, window] and "\t" + RULE in ln)]
     keep += ["\t".join((designer.rel, window) + r) for r in rows]
     with open(path, "w", encoding="utf-8", newline="") as f:
         f.write(nl.join(keep) + nl)

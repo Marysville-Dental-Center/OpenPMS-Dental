@@ -52,7 +52,7 @@ namespace OpenPmsDental{
 			this.listBoxEmployee.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.listBoxEmployee.IntegralHeight = false;
-			this.listBoxEmployee.Location = new System.Drawing.Point(12, 126);
+			this.listBoxEmployee.Location = new System.Drawing.Point(11, 150);
 			this.listBoxEmployee.Name = "listBoxEmployee";
 			this.listBoxEmployee.Size = new System.Drawing.Size(120, 524);
 			this.listBoxEmployee.TabIndex = 3;
@@ -72,7 +72,7 @@ namespace OpenPmsDental{
 			// 
 			// listBoxCategories
 			// 
-			this.listBoxCategories.Location = new System.Drawing.Point(148, 126);
+			this.listBoxCategories.Location = new System.Drawing.Point(147, 135);
 			this.listBoxCategories.Name = "listBoxCategories";
 			this.listBoxCategories.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
 			this.listBoxCategories.Size = new System.Drawing.Size(120, 316);
@@ -82,7 +82,7 @@ namespace OpenPmsDental{
 			// 
 			// butSetup
 			// 
-			this.butSetup.Location = new System.Drawing.Point(11, 2);
+			this.butSetup.Location = new System.Drawing.Point(11, 8);
 			this.butSetup.Name = "butSetup";
 			this.butSetup.Size = new System.Drawing.Size(75, 24);
 			this.butSetup.TabIndex = 8;
@@ -91,7 +91,7 @@ namespace OpenPmsDental{
 			// 
 			// labelEmployee
 			// 
-			this.labelEmployee.Location = new System.Drawing.Point(11, 105);
+			this.labelEmployee.Location = new System.Drawing.Point(11, 130);
 			this.labelEmployee.Name = "labelEmployee";
 			this.labelEmployee.Size = new System.Drawing.Size(100, 18);
 			this.labelEmployee.TabIndex = 50;
@@ -100,7 +100,7 @@ namespace OpenPmsDental{
 			// 
 			// labelCategories
 			// 
-			this.labelCategories.Location = new System.Drawing.Point(147, 105);
+			this.labelCategories.Location = new System.Drawing.Point(147, 115);
 			this.labelCategories.Name = "labelCategories";
 			this.labelCategories.Size = new System.Drawing.Size(100, 18);
 			this.labelCategories.TabIndex = 51;
@@ -112,9 +112,9 @@ namespace OpenPmsDental{
 			this.groupBoxOrderBy.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(249)))), ((int)(((byte)(249)))));
 			this.groupBoxOrderBy.Controls.Add(this.radioCategory);
 			this.groupBoxOrderBy.Controls.Add(this.radioCertification);
-			this.groupBoxOrderBy.Location = new System.Drawing.Point(150, 21);
+			this.groupBoxOrderBy.Location = new System.Drawing.Point(147, 32);
 			this.groupBoxOrderBy.Name = "groupBoxOrderBy";
-			this.groupBoxOrderBy.Size = new System.Drawing.Size(120, 70);
+			this.groupBoxOrderBy.Size = new System.Drawing.Size(120, 75);
 			this.groupBoxOrderBy.TabIndex = 5;
 			this.groupBoxOrderBy.TabStop = false;
 			this.groupBoxOrderBy.Text = "View by";
@@ -122,9 +122,9 @@ namespace OpenPmsDental{
 			// radioCategory
 			// 
 			this.radioCategory.Checked = true;
-			this.radioCategory.Location = new System.Drawing.Point(6, 22);
+			this.radioCategory.Location = new System.Drawing.Point(8, 23);
 			this.radioCategory.Name = "radioCategory";
-			this.radioCategory.Size = new System.Drawing.Size(97, 21);
+			this.radioCategory.Size = new System.Drawing.Size(73, 20);
 			this.radioCategory.TabIndex = 1;
 			this.radioCategory.TabStop = true;
 			this.radioCategory.Text = "Category";
@@ -133,9 +133,9 @@ namespace OpenPmsDental{
 			// 
 			// radioCertification
 			// 
-			this.radioCertification.Location = new System.Drawing.Point(6, 43);
+			this.radioCertification.Location = new System.Drawing.Point(8, 47);
 			this.radioCertification.Name = "radioCertification";
-			this.radioCertification.Size = new System.Drawing.Size(99, 24);
+			this.radioCertification.Size = new System.Drawing.Size(102, 20);
 			this.radioCertification.TabIndex = 2;
 			this.radioCertification.Text = "Cert Complete";
 			this.radioCertification.UseVisualStyleBackColor = true;
@@ -161,9 +161,9 @@ namespace OpenPmsDental{
 			// 
 			// labelEmpSearch
 			// 
-			this.labelEmpSearch.Location = new System.Drawing.Point(11, 26);
+			this.labelEmpSearch.Location = new System.Drawing.Point(11, 36);
 			this.labelEmpSearch.Name = "labelEmpSearch";
-			this.labelEmpSearch.Size = new System.Drawing.Size(100, 18);
+			this.labelEmpSearch.Size = new System.Drawing.Size(104, 18);
 			this.labelEmpSearch.TabIndex = 14;
 			this.labelEmpSearch.Text = "Employee Search";
 			this.labelEmpSearch.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -171,9 +171,9 @@ namespace OpenPmsDental{
 			// textEmpSearch
 			// 
 			this.textEmpSearch.AutoSize = false;
-			this.textEmpSearch.Location = new System.Drawing.Point(12, 47);
+			this.textEmpSearch.Location = new System.Drawing.Point(11, 56);
 			this.textEmpSearch.Name = "textEmpSearch";
-			this.textEmpSearch.Size = new System.Drawing.Size(120, 20);
+			this.textEmpSearch.Size = new System.Drawing.Size(120, 23);
 			this.textEmpSearch.TabIndex = 1;
 			this.textEmpSearch.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textEmpSearch_KeyUp);
 			// 
@@ -182,7 +182,7 @@ namespace OpenPmsDental{
 			this.butPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butPrint.Icon = OpenPmsDental.UI.EnumIcons.Print;
 			this.butPrint.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butPrint.Location = new System.Drawing.Point(1014, 595);
+			this.butPrint.Location = new System.Drawing.Point(1014, 600);
 			this.butPrint.Name = "butPrint";
 			this.butPrint.Size = new System.Drawing.Size(75, 24);
 			this.butPrint.TabIndex = 9;
@@ -191,9 +191,9 @@ namespace OpenPmsDental{
 			// 
 			// checkIncomplete
 			// 
-			this.checkIncomplete.Location = new System.Drawing.Point(288, 7);
+			this.checkIncomplete.Location = new System.Drawing.Point(288, 8);
 			this.checkIncomplete.Name = "checkIncomplete";
-			this.checkIncomplete.Size = new System.Drawing.Size(150, 18);
+			this.checkIncomplete.Size = new System.Drawing.Size(146, 20);
 			this.checkIncomplete.TabIndex = 6;
 			this.checkIncomplete.Text = "Show Only Incomplete";
 			this.checkIncomplete.Click += new System.EventHandler(this.checkIncomplete_Click);
@@ -228,16 +228,16 @@ namespace OpenPmsDental{
 			// 
 			// comboSupervisor
 			// 
-			this.comboSupervisor.Location = new System.Drawing.Point(12, 86);
+			this.comboSupervisor.Location = new System.Drawing.Point(11, 103);
 			this.comboSupervisor.Name = "comboSupervisor";
-			this.comboSupervisor.Size = new System.Drawing.Size(121, 21);
+			this.comboSupervisor.Size = new System.Drawing.Size(120, 23);
 			this.comboSupervisor.TabIndex = 2;
 			this.comboSupervisor.Text = "comboBoxOD1";
 			this.comboSupervisor.SelectionChangeCommitted += new System.EventHandler(this.comboSupervisor_SelectionChangeCommitted);
 			// 
 			// labelReportsTo
 			// 
-			this.labelReportsTo.Location = new System.Drawing.Point(11, 65);
+			this.labelReportsTo.Location = new System.Drawing.Point(11, 83);
 			this.labelReportsTo.Name = "labelReportsTo";
 			this.labelReportsTo.Size = new System.Drawing.Size(100, 18);
 			this.labelReportsTo.TabIndex = 33;
@@ -255,7 +255,7 @@ namespace OpenPmsDental{
 			// 
 			// FormCertifications
 			// 
-			this.ClientSize = new System.Drawing.Size(1095, 663);
+			this.ClientSize = new System.Drawing.Size(1097, 682);
 			this.Controls.Add(this.checkSortDateCertComplete);
 			this.Controls.Add(this.textEmpSearch);
 			this.Controls.Add(this.butSetup);

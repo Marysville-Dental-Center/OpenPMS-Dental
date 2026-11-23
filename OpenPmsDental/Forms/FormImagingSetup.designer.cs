@@ -57,9 +57,9 @@ namespace OpenPmsDental {
 			// 
 			// label12
 			// 
-			this.label12.Location = new System.Drawing.Point(17, 42);
+			this.label12.Location = new System.Drawing.Point(27, 49);
 			this.label12.Name = "label12";
-			this.label12.Size = new System.Drawing.Size(254, 18);
+			this.label12.Size = new System.Drawing.Size(240, 23);
 			this.label12.TabIndex = 14;
 			this.label12.Text = "JPEG Compression - Quality After Scanning";
 			this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -74,19 +74,19 @@ namespace OpenPmsDental {
 			this.groupBox1.Controls.Add(this.label7);
 			this.groupBox1.Controls.Add(this.textScanDocQuality);
 			this.groupBox1.Controls.Add(this.label12);
-			this.groupBox1.Location = new System.Drawing.Point(20, 52);
+			this.groupBox1.Location = new System.Drawing.Point(8, 40);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(622, 197);
+			this.groupBox1.Size = new System.Drawing.Size(633, 241);
 			this.groupBox1.TabIndex = 17;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Documents - Settings apply only to this workstation";
 			// 
 			// radioScanDocUseOptionsBelow
 			// 
-			this.radioScanDocUseOptionsBelow.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.radioScanDocUseOptionsBelow.Location = new System.Drawing.Point(85, 81);
+			this.radioScanDocUseOptionsBelow.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.radioScanDocUseOptionsBelow.Location = new System.Drawing.Point(273, 100);
 			this.radioScanDocUseOptionsBelow.Name = "radioScanDocUseOptionsBelow";
-			this.radioScanDocUseOptionsBelow.Size = new System.Drawing.Size(202, 19);
+			this.radioScanDocUseOptionsBelow.Size = new System.Drawing.Size(144, 20);
 			this.radioScanDocUseOptionsBelow.TabIndex = 26;
 			this.radioScanDocUseOptionsBelow.TabStop = true;
 			this.radioScanDocUseOptionsBelow.Text = "Use the Options Below";
@@ -95,10 +95,10 @@ namespace OpenPmsDental {
 			// 
 			// radioScanDocShowOptions
 			// 
-			this.radioScanDocShowOptions.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.radioScanDocShowOptions.Location = new System.Drawing.Point(67, 63);
+			this.radioScanDocShowOptions.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.radioScanDocShowOptions.Location = new System.Drawing.Point(273, 76);
 			this.radioScanDocShowOptions.Name = "radioScanDocShowOptions";
-			this.radioScanDocShowOptions.Size = new System.Drawing.Size(220, 18);
+			this.radioScanDocShowOptions.Size = new System.Drawing.Size(191, 20);
 			this.radioScanDocShowOptions.TabIndex = 25;
 			this.radioScanDocShowOptions.TabStop = true;
 			this.radioScanDocShowOptions.Text = "Show Scanner Options Window";
@@ -114,18 +114,18 @@ namespace OpenPmsDental {
 			this.groupScanningOptions.Controls.Add(this.label6);
 			this.groupScanningOptions.Controls.Add(this.textScanDocResolution);
 			this.groupScanningOptions.Controls.Add(this.checkScanDocGrayscale);
-			this.groupScanningOptions.Location = new System.Drawing.Point(32, 100);
+			this.groupScanningOptions.Location = new System.Drawing.Point(8, 128);
 			this.groupScanningOptions.Name = "groupScanningOptions";
-			this.groupScanningOptions.Size = new System.Drawing.Size(584, 90);
+			this.groupScanningOptions.Size = new System.Drawing.Size(617, 105);
 			this.groupScanningOptions.TabIndex = 24;
 			this.groupScanningOptions.TabStop = false;
 			this.groupScanningOptions.Text = "Scanning Options";
 			// 
 			// label8
 			// 
-			this.label8.Location = new System.Drawing.Point(260, 9);
+			this.label8.Location = new System.Drawing.Point(260, 23);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(260, 52);
+			this.label8.Size = new System.Drawing.Size(260, 47);
 			this.label8.TabIndex = 23;
 			this.label8.Text = "If this setting causes your scanner to malfunction, use the \"Show Scanner Options" +
     " Window\" instead";
@@ -133,25 +133,25 @@ namespace OpenPmsDental {
 			// 
 			// checkScanDocDuplex
 			// 
-			this.checkScanDocDuplex.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkScanDocDuplex.Location = new System.Drawing.Point(9, 19);
+			this.checkScanDocDuplex.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkScanDocDuplex.Location = new System.Drawing.Point(9, 23);
 			this.checkScanDocDuplex.Name = "checkScanDocDuplex";
-			this.checkScanDocDuplex.Size = new System.Drawing.Size(247, 18);
+			this.checkScanDocDuplex.Size = new System.Drawing.Size(221, 20);
 			this.checkScanDocDuplex.TabIndex = 21;
 			this.checkScanDocDuplex.Text = "Multipage Scans Duplex (both sides)";
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(52, 66);
+			this.label5.Location = new System.Drawing.Point(191, 74);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(186, 19);
+			this.label5.Size = new System.Drawing.Size(68, 23);
 			this.label5.TabIndex = 15;
 			this.label5.Text = "Resolution";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(313, 65);
+			this.label6.Location = new System.Drawing.Point(339, 76);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(180, 19);
 			this.label6.TabIndex = 15;
@@ -160,7 +160,7 @@ namespace OpenPmsDental {
 			// 
 			// textScanDocResolution
 			// 
-			this.textScanDocResolution.Location = new System.Drawing.Point(241, 65);
+			this.textScanDocResolution.Location = new System.Drawing.Point(265, 74);
 			this.textScanDocResolution.MaxVal = 1000;
 			this.textScanDocResolution.MinVal = 51;
 			this.textScanDocResolution.Name = "textScanDocResolution";
@@ -169,25 +169,25 @@ namespace OpenPmsDental {
 			// 
 			// checkScanDocGrayscale
 			// 
-			this.checkScanDocGrayscale.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkScanDocGrayscale.Location = new System.Drawing.Point(110, 47);
+			this.checkScanDocGrayscale.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkScanDocGrayscale.Location = new System.Drawing.Point(9, 47);
 			this.checkScanDocGrayscale.Name = "checkScanDocGrayscale";
-			this.checkScanDocGrayscale.Size = new System.Drawing.Size(146, 18);
+			this.checkScanDocGrayscale.Size = new System.Drawing.Size(74, 20);
 			this.checkScanDocGrayscale.TabIndex = 22;
 			this.checkScanDocGrayscale.Text = "Grayscale";
 			// 
 			// checkScanDocSelectSource
 			// 
-			this.checkScanDocSelectSource.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkScanDocSelectSource.Location = new System.Drawing.Point(32, 19);
+			this.checkScanDocSelectSource.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkScanDocSelectSource.Location = new System.Drawing.Point(273, 24);
 			this.checkScanDocSelectSource.Name = "checkScanDocSelectSource";
-			this.checkScanDocSelectSource.Size = new System.Drawing.Size(256, 18);
+			this.checkScanDocSelectSource.Size = new System.Drawing.Size(183, 20);
 			this.checkScanDocSelectSource.TabIndex = 23;
 			this.checkScanDocSelectSource.Text = "Show Select Scanner Window";
 			// 
 			// butScanDocSelectSourceDetails
 			// 
-			this.butScanDocSelectSourceDetails.Location = new System.Drawing.Point(294, 17);
+			this.butScanDocSelectSourceDetails.Location = new System.Drawing.Point(462, 23);
 			this.butScanDocSelectSourceDetails.Name = "butScanDocSelectSourceDetails";
 			this.butScanDocSelectSourceDetails.Size = new System.Drawing.Size(60, 22);
 			this.butScanDocSelectSourceDetails.TabIndex = 27;
@@ -196,7 +196,7 @@ namespace OpenPmsDental {
 			// 
 			// label7
 			// 
-			this.label7.Location = new System.Drawing.Point(345, 42);
+			this.label7.Location = new System.Drawing.Point(347, 51);
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(274, 18);
 			this.label7.TabIndex = 23;
@@ -205,7 +205,7 @@ namespace OpenPmsDental {
 			// 
 			// textScanDocQuality
 			// 
-			this.textScanDocQuality.Location = new System.Drawing.Point(273, 40);
+			this.textScanDocQuality.Location = new System.Drawing.Point(273, 49);
 			this.textScanDocQuality.MaxVal = 100;
 			this.textScanDocQuality.MinVal = 0;
 			this.textScanDocQuality.Name = "textScanDocQuality";
@@ -217,16 +217,16 @@ namespace OpenPmsDental {
 			this.groupBox2.Controls.Add(this.label1);
 			this.groupBox2.Controls.Add(this.labelPanoBW);
 			this.groupBox2.Controls.Add(this.slider);
-			this.groupBox2.Location = new System.Drawing.Point(20, 258);
+			this.groupBox2.Location = new System.Drawing.Point(8, 289);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(484, 96);
+			this.groupBox2.Size = new System.Drawing.Size(633, 94);
 			this.groupBox2.TabIndex = 18;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Radiographs";
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(13, 14);
+			this.label1.Location = new System.Drawing.Point(13, 23);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(425, 19);
 			this.label1.TabIndex = 22;
@@ -235,7 +235,7 @@ namespace OpenPmsDental {
 			// 
 			// labelPanoBW
 			// 
-			this.labelPanoBW.Location = new System.Drawing.Point(13, 65);
+			this.labelPanoBW.Location = new System.Drawing.Point(13, 62);
 			this.labelPanoBW.Name = "labelPanoBW";
 			this.labelPanoBW.Size = new System.Drawing.Size(465, 24);
 			this.labelPanoBW.TabIndex = 15;
@@ -243,7 +243,7 @@ namespace OpenPmsDental {
 			// 
 			// slider
 			// 
-			this.slider.Location = new System.Drawing.Point(14, 38);
+			this.slider.Location = new System.Drawing.Point(13, 44);
 			this.slider.MaxVal = 128;
 			this.slider.Name = "slider";
 			this.slider.Size = new System.Drawing.Size(194, 14);
@@ -252,16 +252,16 @@ namespace OpenPmsDental {
 			// groupBox3
 			// 
 			this.groupBox3.Controls.Add(this.label37);
-			this.groupBox3.Location = new System.Drawing.Point(20, 360);
+			this.groupBox3.Location = new System.Drawing.Point(8, 391);
 			this.groupBox3.Name = "groupBox3";
-			this.groupBox3.Size = new System.Drawing.Size(484, 43);
+			this.groupBox3.Size = new System.Drawing.Size(633, 51);
 			this.groupBox3.TabIndex = 19;
 			this.groupBox3.TabStop = false;
 			this.groupBox3.Text = "Photos";
 			// 
 			// label37
 			// 
-			this.label37.Location = new System.Drawing.Point(14, 18);
+			this.label37.Location = new System.Drawing.Point(14, 23);
 			this.label37.Name = "label37";
 			this.label37.Size = new System.Drawing.Size(464, 20);
 			this.label37.TabIndex = 15;
@@ -269,7 +269,7 @@ namespace OpenPmsDental {
 			// 
 			// butSetScanner
 			// 
-			this.butSetScanner.Location = new System.Drawing.Point(21, 12);
+			this.butSetScanner.Location = new System.Drawing.Point(8, 8);
 			this.butSetScanner.Name = "butSetScanner";
 			this.butSetScanner.Size = new System.Drawing.Size(112, 24);
 			this.butSetScanner.TabIndex = 22;
@@ -279,7 +279,7 @@ namespace OpenPmsDental {
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(562, 519);
+			this.butSave.Location = new System.Drawing.Point(566, 523);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 2;

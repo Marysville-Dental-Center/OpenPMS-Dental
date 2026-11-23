@@ -77,7 +77,8 @@ namespace OpenPmsDental{
 			}
 			if(PrefC.AtoZfolderUsed!=DataStorageType.InDatabase) {
 				radioDatabaseStorage.Visible=false;
-				LayoutManager.MoveLocation(radioSftp,new Point(LayoutManager.Scale(9),LayoutManager.Scale(38)));
+				//UI-12: SFTP takes the hidden database choice's place (the designer's grid row), not literal numbers.
+				LayoutManager.MoveLocation(radioSftp,radioDatabaseStorage.Location);
 			}
 		}
 

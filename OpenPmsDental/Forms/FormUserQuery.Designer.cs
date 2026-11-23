@@ -74,7 +74,7 @@ namespace OpenPmsDental {
 			// 
 			this.butPaste.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Paste,22,22);
 			this.butPaste.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butPaste.Location = new System.Drawing.Point(78, 56);
+			this.butPaste.Location = new System.Drawing.Point(86, 62);
 			this.butPaste.Name = "butPaste";
 			this.butPaste.Size = new System.Drawing.Size(65, 23);
 			this.butPaste.TabIndex = 11;
@@ -85,7 +85,7 @@ namespace OpenPmsDental {
 			// 
 			this.butCopy.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Copy,22,22);
 			this.butCopy.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butCopy.Location = new System.Drawing.Point(3, 56);
+			this.butCopy.Location = new System.Drawing.Point(8, 62);
 			this.butCopy.Name = "butCopy";
 			this.butCopy.Size = new System.Drawing.Size(72, 23);
 			this.butCopy.TabIndex = 10;
@@ -94,23 +94,23 @@ namespace OpenPmsDental {
 			// 
 			// textTitle
 			// 
-			this.textTitle.Location = new System.Drawing.Point(64, 2);
+			this.textTitle.Location = new System.Drawing.Point(64, 8);
 			this.textTitle.Name = "textTitle";
-			this.textTitle.Size = new System.Drawing.Size(219, 20);
+			this.textTitle.Size = new System.Drawing.Size(220, 23);
 			this.textTitle.TabIndex = 1;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(4, 4);
+			this.label1.Location = new System.Drawing.Point(22, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(54, 17);
+			this.label1.Size = new System.Drawing.Size(36, 23);
 			this.label1.TabIndex = 9;
 			this.label1.Text = "Title";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// butAdd
 			// 
-			this.butAdd.Location = new System.Drawing.Point(3, 32);
+			this.butAdd.Location = new System.Drawing.Point(8, 35);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(140, 23);
 			this.butAdd.TabIndex = 3;
@@ -119,7 +119,7 @@ namespace OpenPmsDental {
 			// 
 			// butFavorite
 			// 
-			this.butFavorite.Location = new System.Drawing.Point(3, 8);
+			this.butFavorite.Location = new System.Drawing.Point(8, 8);
 			this.butFavorite.Name = "butFavorite";
 			this.butFavorite.Size = new System.Drawing.Size(140, 23);
 			this.butFavorite.TabIndex = 2;
@@ -134,26 +134,26 @@ namespace OpenPmsDental {
 			this.groupBox1.Controls.Add(this.checkNumberedRows);
 			this.groupBox1.Controls.Add(this.radioRaw);
 			this.groupBox1.Controls.Add(this.checkWordWrap);
-			this.groupBox1.Location = new System.Drawing.Point(194, 3);
+			this.groupBox1.Location = new System.Drawing.Point(194, 8);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(394, 85);
+			this.groupBox1.Size = new System.Drawing.Size(629, 102);
 			this.groupBox1.TabIndex = 5;
 			this.groupBox1.Text = "Format";
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(132, 16);
+			this.label2.Location = new System.Drawing.Point(379, 23);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(113, 18);
+			this.label2.Size = new System.Drawing.Size(116, 23);
 			this.label2.TabIndex = 18;
 			this.label2.Text = "Column Alignment";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// comboAlignment
 			// 
-			this.comboAlignment.Location = new System.Drawing.Point(248, 14);
+			this.comboAlignment.Location = new System.Drawing.Point(501, 23);
 			this.comboAlignment.Name = "comboAlignment";
-			this.comboAlignment.Size = new System.Drawing.Size(121, 21);
+			this.comboAlignment.Size = new System.Drawing.Size(120, 23);
 			this.comboAlignment.TabIndex = 18;
 			this.comboAlignment.Text = "comboBoxOD1";
 			this.comboAlignment.SelectionChangeCommitted += new System.EventHandler(this.comboAlignment_SelectionChangeCommitted);
@@ -161,9 +161,9 @@ namespace OpenPmsDental {
 			// radioHuman
 			// 
 			this.radioHuman.Checked = true;
-			this.radioHuman.Location = new System.Drawing.Point(6, 20);
+			this.radioHuman.Location = new System.Drawing.Point(248, 24);
 			this.radioHuman.Name = "radioHuman";
-			this.radioHuman.Size = new System.Drawing.Size(125, 19);
+			this.radioHuman.Size = new System.Drawing.Size(115, 20);
 			this.radioHuman.TabIndex = 0;
 			this.radioHuman.TabStop = true;
 			this.radioHuman.Text = "Human-readable";
@@ -171,29 +171,29 @@ namespace OpenPmsDental {
 			// 
 			// checkNumberedRows
 			// 
-			this.checkNumberedRows.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkNumberedRows.Location = new System.Drawing.Point(125, 39);
+			this.checkNumberedRows.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkNumberedRows.Location = new System.Drawing.Point(125, 50);
 			this.checkNumberedRows.Name = "checkNumberedRows";
-			this.checkNumberedRows.Size = new System.Drawing.Size(138, 18);
+			this.checkNumberedRows.Size = new System.Drawing.Size(133, 20);
 			this.checkNumberedRows.TabIndex = 21;
 			this.checkNumberedRows.Text = "Show Row Numbers";
 			this.checkNumberedRows.Click += new System.EventHandler(this.checkNumberedRows_Clicked);
 			// 
 			// radioRaw
 			// 
-			this.radioRaw.Location = new System.Drawing.Point(6, 43);
+			this.radioRaw.Location = new System.Drawing.Point(8, 50);
 			this.radioRaw.Name = "radioRaw";
-			this.radioRaw.Size = new System.Drawing.Size(104, 22);
+			this.radioRaw.Size = new System.Drawing.Size(47, 20);
 			this.radioRaw.TabIndex = 1;
 			this.radioRaw.Text = "Raw";
 			this.radioRaw.Click += new System.EventHandler(this.radioRaw_Click);
 			// 
 			// checkWordWrap
 			// 
-			this.checkWordWrap.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkWordWrap.Location = new System.Drawing.Point(125, 59);
+			this.checkWordWrap.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkWordWrap.Location = new System.Drawing.Point(125, 74);
 			this.checkWordWrap.Name = "checkWordWrap";
-			this.checkWordWrap.Size = new System.Drawing.Size(138, 18);
+			this.checkWordWrap.Size = new System.Drawing.Size(120, 20);
 			this.checkWordWrap.TabIndex = 20;
 			this.checkWordWrap.Text = "Enable word wrap";
 			this.checkWordWrap.CheckedChanged += new System.EventHandler(this.checkWordWrap_CheckedChanged);
@@ -201,7 +201,7 @@ namespace OpenPmsDental {
 			// butSubmit
 			// 
 			this.butSubmit.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.butSubmit.Location = new System.Drawing.Point(3, 80);
+			this.butSubmit.Location = new System.Drawing.Point(8, 89);
 			this.butSubmit.Name = "butSubmit";
 			this.butSubmit.Size = new System.Drawing.Size(102, 23);
 			this.butSubmit.TabIndex = 6;
@@ -223,7 +223,7 @@ namespace OpenPmsDental {
 			this.butPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butPrint.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Print,16,16);
 			this.butPrint.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butPrint.Location = new System.Drawing.Point(1203, 690);
+			this.butPrint.Location = new System.Drawing.Point(1203, 735);
 			this.butPrint.Name = "butPrint";
 			this.butPrint.Size = new System.Drawing.Size(70, 24);
 			this.butPrint.TabIndex = 13;
@@ -235,7 +235,7 @@ namespace OpenPmsDental {
 			this.butExportTxt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butExportTxt.Icon = OpenPmsDental.UI.EnumIcons.Export;
 			this.butExportTxt.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butExportTxt.Location = new System.Drawing.Point(1114, 690);
+			this.butExportTxt.Location = new System.Drawing.Point(1114, 735);
 			this.butExportTxt.Name = "butExportTxt";
 			this.butExportTxt.Size = new System.Drawing.Size(83, 24);
 			this.butExportTxt.TabIndex = 14;
@@ -247,7 +247,7 @@ namespace OpenPmsDental {
 			this.butPrintPreview.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butPrintPreview.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Preview,17,16);
 			this.butPrintPreview.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butPrintPreview.Location = new System.Drawing.Point(919, 690);
+			this.butPrintPreview.Location = new System.Drawing.Point(919, 735);
 			this.butPrintPreview.Name = "butPrintPreview";
 			this.butPrintPreview.Size = new System.Drawing.Size(94, 24);
 			this.butPrintPreview.TabIndex = 16;
@@ -262,7 +262,7 @@ namespace OpenPmsDental {
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.textQuery.DetectUrls = false;
 			this.textQuery.Font = new System.Drawing.Font("Courier New", 9F);
-			this.textQuery.Location = new System.Drawing.Point(3, 7);
+			this.textQuery.Location = new System.Drawing.Point(8, 8);
 			this.textQuery.Name = "textQuery";
 			this.textQuery.Size = new System.Drawing.Size(666, 260);
 			this.textQuery.TabIndex = 0;
@@ -282,16 +282,16 @@ namespace OpenPmsDental {
 			this.panel1.Controls.Add(this.butSubmit);
 			this.panel1.Controls.Add(this.butCopy);
 			this.panel1.Controls.Add(this.groupBox1);
-			this.panel1.Location = new System.Drawing.Point(676, 7);
+			this.panel1.Location = new System.Drawing.Point(680, 8);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(591, 162);
+			this.panel1.Size = new System.Drawing.Size(831, 166);
 			this.panel1.TabIndex = 17;
 			// 
 			// radioLandscape
 			// 
-			this.radioLandscape.Location = new System.Drawing.Point(273, 108);
+			this.radioLandscape.Location = new System.Drawing.Point(264, 138);
 			this.radioLandscape.Name = "radioLandscape";
-			this.radioLandscape.Size = new System.Drawing.Size(90, 23);
+			this.radioLandscape.Size = new System.Drawing.Size(81, 20);
 			this.radioLandscape.TabIndex = 21;
 			this.radioLandscape.Text = "Landscape";
 			this.radioLandscape.UseVisualStyleBackColor = true;
@@ -299,9 +299,9 @@ namespace OpenPmsDental {
 			// radioPortrait
 			// 
 			this.radioPortrait.Checked = true;
-			this.radioPortrait.Location = new System.Drawing.Point(200, 108);
+			this.radioPortrait.Location = new System.Drawing.Point(194, 138);
 			this.radioPortrait.Name = "radioPortrait";
-			this.radioPortrait.Size = new System.Drawing.Size(67, 23);
+			this.radioPortrait.Size = new System.Drawing.Size(64, 20);
 			this.radioPortrait.TabIndex = 20;
 			this.radioPortrait.TabStop = true;
 			this.radioPortrait.Text = "Portrait";
@@ -309,7 +309,7 @@ namespace OpenPmsDental {
 			// 
 			// labelPrintOrientation
 			// 
-			this.labelPrintOrientation.Location = new System.Drawing.Point(197, 89);
+			this.labelPrintOrientation.Location = new System.Drawing.Point(194, 118);
 			this.labelPrintOrientation.Name = "labelPrintOrientation";
 			this.labelPrintOrientation.Size = new System.Drawing.Size(113, 18);
 			this.labelPrintOrientation.TabIndex = 19;
@@ -318,16 +318,16 @@ namespace OpenPmsDental {
 			// 
 			// checkReportServer
 			// 
-			this.checkReportServer.Location = new System.Drawing.Point(5, 106);
+			this.checkReportServer.Location = new System.Drawing.Point(8, 116);
 			this.checkReportServer.Name = "checkReportServer";
-			this.checkReportServer.Size = new System.Drawing.Size(183, 23);
+			this.checkReportServer.Size = new System.Drawing.Size(135, 20);
 			this.checkReportServer.TabIndex = 12;
 			this.checkReportServer.Text = "Run on report server";
 			this.checkReportServer.Visible = false;
 			// 
 			// labelRowCount
 			// 
-			this.labelRowCount.Location = new System.Drawing.Point(289, 0);
+			this.labelRowCount.Location = new System.Drawing.Point(290, 8);
 			this.labelRowCount.Name = "labelRowCount";
 			this.labelRowCount.Size = new System.Drawing.Size(245, 23);
 			this.labelRowCount.TabIndex = 18;
@@ -344,7 +344,7 @@ namespace OpenPmsDental {
 			this._gridResults.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this._gridResults.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this._gridResults.HScrollVisible = true;
-			this._gridResults.Location = new System.Drawing.Point(0, 27);
+			this._gridResults.Location = new System.Drawing.Point(8, 35);
 			this._gridResults.Name = "_gridResults";
 			this._gridResults.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
 			this._gridResults.Size = new System.Drawing.Size(1271, 384);
@@ -360,12 +360,12 @@ namespace OpenPmsDental {
 			this.splitContainer.Controls.Add(this.splitterPanel1);
 			this.splitContainer.Controls.Add(this.splitterPanel2);
 			this.splitContainer.Cursor = System.Windows.Forms.Cursors.Default;
-			this.splitContainer.Location = new System.Drawing.Point(2, 0);
+			this.splitContainer.Location = new System.Drawing.Point(8, 8);
 			this.splitContainer.Name = "splitContainer";
 			this.splitContainer.Orientation = System.Windows.Forms.Orientation.Horizontal;
 			this.splitContainer.Panel1 = this.splitterPanel1;
 			this.splitContainer.Panel2 = this.splitterPanel2;
-			this.splitContainer.Size = new System.Drawing.Size(1274, 684);
+			this.splitContainer.Size = new System.Drawing.Size(1535, 723);
 			this.splitContainer.SplitterDistance = 268;
 			this.splitContainer.TabIndex = 18;
 			// 
@@ -373,9 +373,9 @@ namespace OpenPmsDental {
 			// 
 			this.splitterPanel1.Controls.Add(this.panel1);
 			this.splitterPanel1.Controls.Add(this.textQuery);
-			this.splitterPanel1.Location = new System.Drawing.Point(0, 0);
+			this.splitterPanel1.Location = new System.Drawing.Point(8, 8);
 			this.splitterPanel1.Name = "splitterPanel1";
-			this.splitterPanel1.Size = new System.Drawing.Size(1274, 268);
+			this.splitterPanel1.Size = new System.Drawing.Size(1519, 276);
 			this.splitterPanel1.TabIndex = 13;
 			// 
 			// splitterPanel2
@@ -384,9 +384,9 @@ namespace OpenPmsDental {
 			this.splitterPanel2.Controls.Add(this._gridResults);
 			this.splitterPanel2.Controls.Add(this.label1);
 			this.splitterPanel2.Controls.Add(this.textTitle);
-			this.splitterPanel2.Location = new System.Drawing.Point(0, 272);
+			this.splitterPanel2.Location = new System.Drawing.Point(8, 288);
 			this.splitterPanel2.Name = "splitterPanel2";
-			this.splitterPanel2.Size = new System.Drawing.Size(1274, 412);
+			this.splitterPanel2.Size = new System.Drawing.Size(1287, 427);
 			this.splitterPanel2.TabIndex = 14;
 			// 
 			// butExportCsv
@@ -394,7 +394,7 @@ namespace OpenPmsDental {
 			this.butExportCsv.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butExportCsv.Icon = OpenPmsDental.UI.EnumIcons.Export;
 			this.butExportCsv.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butExportCsv.Location = new System.Drawing.Point(1019, 690);
+			this.butExportCsv.Location = new System.Drawing.Point(1019, 735);
 			this.butExportCsv.Name = "butExportCsv";
 			this.butExportCsv.Size = new System.Drawing.Size(89, 24);
 			this.butExportCsv.TabIndex = 19;
@@ -403,7 +403,7 @@ namespace OpenPmsDental {
 			// 
 			// FormUserQuery
 			// 
-			this.ClientSize = new System.Drawing.Size(1276, 720);
+			this.ClientSize = new System.Drawing.Size(1551, 767);
 			this.Controls.Add(this.butExportCsv);
 			this.Controls.Add(this.splitContainer);
 			this.Controls.Add(this.butPrintPreview);

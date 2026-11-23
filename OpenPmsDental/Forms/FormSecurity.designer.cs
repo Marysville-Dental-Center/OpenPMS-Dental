@@ -33,7 +33,7 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.userControlSecurityUserGroup.IsForCEMT = false;
-			this.userControlSecurityUserGroup.Location = new System.Drawing.Point(3, 26);
+			this.userControlSecurityUserGroup.Location = new System.Drawing.Point(8, 32);
 			this.userControlSecurityUserGroup.Name = "userControlSecurityUserGroup";
 			this.userControlSecurityUserGroup.SelectedUser = null;
 			this.userControlSecurityUserGroup.SelectedUserGroup = null;
@@ -58,7 +58,7 @@ namespace OpenPmsDental{
 			// 
 			// FormSecurity
 			// 
-			this.ClientSize = new System.Drawing.Size(984, 696);
+			this.ClientSize = new System.Drawing.Size(985, 696);
 			this.Controls.Add(this.userControlSecurityUserGroup);
 			this.Controls.Add(this.menuMain);
 			this.Name = "FormSecurity";
