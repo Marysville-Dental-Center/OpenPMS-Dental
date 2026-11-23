@@ -93,7 +93,7 @@ namespace OpenPmsDental{
 			this.groupBox1.Controls.Add(this.label3);
 			this.groupBox1.Location = new System.Drawing.Point(188, 70);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(283, 159);
+			this.groupBox1.Size = new System.Drawing.Size(287, 159);
 			this.groupBox1.TabIndex = 88;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Font";
@@ -121,7 +121,7 @@ namespace OpenPmsDental{
 			// 
 			this.comboTextAlign.Location = new System.Drawing.Point(80, 128);
 			this.comboTextAlign.Name = "comboTextAlign";
-			this.comboTextAlign.Size = new System.Drawing.Size(195, 23);
+			this.comboTextAlign.Size = new System.Drawing.Size(199, 23);
 			this.comboTextAlign.TabIndex = 111;
 			// 
 			// label10
@@ -162,7 +162,7 @@ namespace OpenPmsDental{
 			// 
 			this.comboFontName.Location = new System.Drawing.Point(80, 23);
 			this.comboFontName.Name = "comboFontName";
-			this.comboFontName.Size = new System.Drawing.Size(195, 23);
+			this.comboFontName.Size = new System.Drawing.Size(199, 23);
 			this.comboFontName.TabIndex = 88;
 			// 
 			// label3
@@ -214,7 +214,7 @@ namespace OpenPmsDental{
 			// 
 			this.comboGrowthBehavior.Location = new System.Drawing.Point(268, 237);
 			this.comboGrowthBehavior.Name = "comboGrowthBehavior";
-			this.comboGrowthBehavior.Size = new System.Drawing.Size(196, 23);
+			this.comboGrowthBehavior.Size = new System.Drawing.Size(207, 23);
 			this.comboGrowthBehavior.TabIndex = 99;
 			// 
 			// label9
@@ -299,7 +299,7 @@ namespace OpenPmsDental{
 			this.textUiLabelMobile.Location = new System.Drawing.Point(268, 43);
 			this.textUiLabelMobile.MaxLength = 65535;
 			this.textUiLabelMobile.Name = "textUiLabelMobile";
-			this.textUiLabelMobile.Size = new System.Drawing.Size(196, 23);
+			this.textUiLabelMobile.Size = new System.Drawing.Size(207, 23);
 			this.textUiLabelMobile.TabIndex = 241;
 			// 
 			// labelUiLabelMobile

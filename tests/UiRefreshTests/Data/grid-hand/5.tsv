@@ -120,9 +120,6 @@ OpenPmsDental/Forms/FormSheetDefDefaults.designer.cs	OpenPmsDental.FormSheetDefD
 OpenPmsDental/Forms/FormSheetDefDefaults.designer.cs	OpenPmsDental.FormSheetDefDefaults	labelTreatmentPlan	Location	8,62	39,62	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormSheetDefDefaults.designer.cs	OpenPmsDental.FormSheetDefDefaults	groupBoxOD1	Location	39,278	8,296	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormSheetDefDefaults.designer.cs	OpenPmsDental.FormSheetDefDefaults	groupBoxOD1	Size	323,93	345,93	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormSheetFieldOutput.designer.cs	OpenPmsDental.FormSheetFieldOutput	label1	Location	13,8	8,8	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormSheetFieldOutput.designer.cs	OpenPmsDental.FormSheetFieldOutput	label2	Location	13,46	8,46	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormSheetFieldOutput.designer.cs	OpenPmsDental.FormSheetFieldOutput	listFields	Location	15,70	8,70	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormTreatPlanEdit.designer.cs	OpenPmsDental.FormTreatPlanEdit	textHeading	Size	488,23	515,23	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormTreatPlanEdit.designer.cs	OpenPmsDental.FormTreatPlanEdit	textNote	Size	489,181	515,181	by hand (layout script): on the grid
 OpenPmsDental/Forms Reports/FormRpPatients.designer.cs	OpenPmsDental.FormRpPatients	tabPatients	Location	16,8	8,8	by hand (layout script): on the grid
@@ -629,3 +626,11 @@ OpenPmsDental/Forms/FormGlobalPaymentsV2Setup.Designer.cs	OpenPmsDental.FormGlob
 OpenPmsDental/Forms/FormGlobalPaymentsV2Setup.Designer.cs	OpenPmsDental.FormGlobalPaymentsV2Setup	groupTerminals	Location	8,414	8,414	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormGlobalPaymentsV2Setup.Designer.cs	OpenPmsDental.FormGlobalPaymentsV2Setup	butSave	Location	557,597	557,597	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormGlobalPaymentsV2Setup.Designer.cs	OpenPmsDental.FormGlobalPaymentsV2Setup	.	ClientSize	640,629	640,629	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldOutput.designer.cs	OpenPmsDental.FormSheetFieldOutput	label1	Location	8,8	8,8	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldOutput.designer.cs	OpenPmsDental.FormSheetFieldOutput	label2	Location	8,46	8,46	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldOutput.designer.cs	OpenPmsDental.FormSheetFieldOutput	listFields	Location	8,70	8,70	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldOutput.designer.cs	OpenPmsDental.FormSheetFieldOutput	groupBox1	Size	283,159	287,159	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldOutput.designer.cs	OpenPmsDental.FormSheetFieldOutput	textUiLabelMobile	Size	196,23	207,23	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldOutput.designer.cs	OpenPmsDental.FormSheetFieldOutput	comboGrowthBehavior	Size	196,23	207,23	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldOutput.designer.cs	OpenPmsDental.FormSheetFieldOutput	comboFontName	Size	195,23	199,23	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldOutput.designer.cs	OpenPmsDental.FormSheetFieldOutput	comboTextAlign	Size	195,23	199,23	by hand (layout script): on the grid
