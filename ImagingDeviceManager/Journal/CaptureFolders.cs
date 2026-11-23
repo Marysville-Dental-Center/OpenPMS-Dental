@@ -6,8 +6,9 @@ using ImagingDeviceManager.Config;
 
 namespace ImagingDeviceManager.Journal {
 	///<summary>The capture folders under %ProgramData%\OpenPMS-Dental\Imaging (design 6.1 and 7.12): Capture\journal, Capture\quarantine
-	///and Capture itself for the capture log. They are created only through LocalCaptureConfig.EnsureImagingFolder, which gives the local
-	///Users group Modify, because every Windows user of the computer must be able to write and recover them.</summary>
+	///and Capture itself for the capture log. They are created only through LocalCaptureConfig.EnsureImagingFolder, which gives Capture
+	///ImagingFolderAcl's access list (SYSTEM, Administrators and the people who use Open PMS - Dental, Modify), because they hold X-ray
+	///images not yet filed and every person who uses the program on this computer must be able to write and recover them.</summary>
 	internal sealed class CaptureFolders {
 		public const string SubfolderCapture="Capture";
 		public const string SubfolderJournal=@"Capture\journal";

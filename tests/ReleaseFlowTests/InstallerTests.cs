@@ -471,6 +471,33 @@ namespace ReleaseFlowTests {
 		}
 
 		[TestMethod]
+		public void Iss_LimitsTheFoldersOfUnfiledImages_ToSystemAdministratorsAndTheProgramsUsers() {
+			//IMG-ACL (docs/port-notes/IMG-ACL.md): as ImagingFolderAcl does in the program (ImagingFolderAclTests), on the folders that exist.
+			string iss=ReadIss();
+			StringAssert.Contains(iss,"ImagingAccessGroup = 'OpenPMS-Dental Users';");
+			StringAssert.Contains(iss,"'localgroup ' + AddQuotes(ImagingAccessGroup)");
+			StringAssert.Contains(iss,"AddQuotes(GetComputerNameString + '\\' + ImagingAccessGroup + ':(OI)(CI)M')");
+			StringAssert.Contains(iss,"Result := '*S-1-5-32-545:(OI)(CI)M';");
+			StringAssert.Contains(iss,"' /inheritance:r /grant:r *S-1-5-18:(OI)(CI)F *S-1-5-32-544:(OI)(CI)F ' + AccessGrant + ' /Q'");
+			StringAssert.Contains(iss,"AddQuotes(Dirs[I]) + ' /reset /Q'");
+			//Never through a junction or link: no /T, and nothing changed when one is in the path or inside (an ordinary user can put one there).
+			Assert.IsFalse(Regex.IsMatch(iss,@"(?i)'[^'\n]*\s/T[\s']"),"icacls never gets /T.");
+			StringAssert.Contains(iss,"AttrReparsePoint = $400;");
+			StringAssert.Contains(iss,"if IsReparsePoint(Parent) then begin");
+			StringAssert.Contains(iss,"if not ListFoldersWithoutReparsePoints(Dir, Dirs) then begin");
+			Assert.IsTrue(iss.IndexOf("' /inheritance:r /grant:r",StringComparison.Ordinal)<iss.IndexOf("' /reset /Q'",StringComparison.Ordinal),
+				"The folder's own list first, then the folders inside reset to inherit it, so a failure never leaves it wider than before.");
+			StringAssert.Contains(iss,"ExpandConstant('{commonappdata}\\OpenPMS-Dental\\Imaging')");
+			foreach(string subfolder in new[] { @"\Photos\unsaved",@"\Video\recording",@"\Capture" }) {
+				StringAssert.Contains(iss,"LimitImagingFolder(Imaging + '"+subfolder+"', AccessGrant);");
+			}
+			StringAssert.Contains(iss,"if not DirExists(Dir) then");
+			Assert.IsTrue(Regex.IsMatch(iss,@"CurStep = ssPostInstall then begin\s+LimitImagingFolders;\s+SetUpConnection;"),
+				"After the files are in, before the connection settings.");
+			Assert.IsFalse(iss.Contains("/add"),"Setup never makes the group or adds anyone to one.");
+		}
+
+		[TestMethod]
 		public void Iss_SetsUpTheConnectionWithTheSettingsTool_AndNeverPassesASecret() {
 			string iss=ReadIss();
 			StringAssert.Contains(iss,"#define DbSettingsExeName \""+ProgramNames.DbSettingsExeFileName+"\"");

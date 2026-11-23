@@ -258,20 +258,39 @@ namespace ImagingDeviceManager.Config {
 		///the folder is usable, but other Windows users may not be able to change the files in it until an administrator gives the
 		///Users group Modify on it. Returns false, with error, when the folder could not be created, when this call created it and
 		///could not add the rule (it removes the folder again, so a later call tries again), or when subfolderRelative is not a
-		///relative path inside the Imaging folder. Never throws.</summary>
+		///relative path inside the Imaging folder. Never throws.
+		///The folders that hold patient images not yet filed (ImagingFolderAcl.ListPrivateRoots: Photos\unsaved, Video\recording, Capture
+		///and what is under them) get ImagingFolderAcl's own access list instead of the Users rule: SYSTEM, Administrators, and the people
+		///who use Open PMS - Dental. For a folder under one of them, the root gets it first, and the folder then inherits it. When the list
+		///cannot be set (the folder belongs to another Windows user and this process is not elevated), the folder is still usable and
+		///error is a warning to log; setup sets the list as administrator.</summary>
 		public static bool EnsureImagingFolder(string subfolderRelative,out string error) {
 			string pathDefault=DefaultPath;
 			if(pathDefault==null) {
 				error="The ProgramData folder could not be determined.";
 				return false;
 			}
-			return EnsureImagingFolder(Path.GetDirectoryName(pathDefault),subfolderRelative,GrantUsersModify,HasUsersModify,out error);
+			return EnsureImagingFolder(Path.GetDirectoryName(pathDefault),subfolderRelative,GrantUsersModify,HasUsersModify,
+				folder => ImagingFolderAcl.MakePrivate(folder,ImagingFolderAcl.GetAccessSid()),
+				folder => ImagingFolderAcl.IsPrivate(folder,ImagingFolderAcl.GetAccessSid()),
+				() => ImagingFolderAcl.IsCurrentUserAllowed(ImagingFolderAcl.GetAccessSid()),out error);
 		}
 
 		///<summary>EnsureImagingFolder with an explicit Imaging folder and the steps that check for and add the Users rule, for tests.
-		///The rule is checked on the Imaging folder and on the requested folder; folders in between are only created.</summary>
+		///The rule is checked on the Imaging folder and on the requested folder; folders in between are only created. The private folders
+		///get no access list of their own here (see the overload with funcMakePrivate).</summary>
 		internal static bool EnsureImagingFolder(string folderImaging,string subfolderRelative,Func<string,string> funcGrantUsersModify,
 			Func<string,bool> funcHasUsersModify,out string error)
+		{
+			return EnsureImagingFolder(folderImaging,subfolderRelative,funcGrantUsersModify,funcHasUsersModify,null,null,null,out error);
+		}
+
+		///<summary>EnsureImagingFolder with an explicit Imaging folder and every step given, for tests. When funcMakePrivate is set, a
+		///private folder (ImagingFolderAcl.GetPrivateRoot) is handled by EnsurePrivateFolder; funcIsPrivate may be null (never private), and
+		///funcIsUserAllowed null (this user is allowed).</summary>
+		internal static bool EnsureImagingFolder(string folderImaging,string subfolderRelative,Func<string,string> funcGrantUsersModify,
+			Func<string,bool> funcHasUsersModify,Func<string,string> funcMakePrivate,Func<string,bool> funcIsPrivate,Func<bool> funcIsUserAllowed,
+			out string error)
 		{
 			error="";
 			try {
@@ -293,6 +312,26 @@ namespace ImagingDeviceManager.Config {
 				if(subfolder=="") {
 					error=errorImaging;
 					return true;
+				}
+				string rootPrivate=funcMakePrivate==null ? null : ImagingFolderAcl.GetPrivateRoot(subfolder);
+				if(rootPrivate!=null) {
+					//The root first, so a folder under it inherits the list and needs none of its own.
+					string errorRoot;
+					if(!EnsurePrivateFolder(folderImaging,Path.Combine(folderImaging,rootPrivate),funcMakePrivate,funcIsPrivate,funcIsUserAllowed,
+						out errorRoot))
+					{
+						error=errorRoot;
+						return false;
+					}
+					if(subfolder.Length==rootPrivate.Length) {
+						error=errorRoot;
+						return true;
+					}
+					string errorSubfolder;
+					bool isUsable=EnsurePrivateFolder(folderImaging,Path.Combine(folderImaging,subfolder),funcMakePrivate,funcIsPrivate,
+						funcIsUserAllowed,out errorSubfolder);
+					error=!isUsable || errorRoot=="" ? errorSubfolder : (errorSubfolder=="" ? errorRoot : errorRoot+" "+errorSubfolder);
+					return isUsable;
 				}
 				//When the Imaging folder has the rule, the subfolder inherits it and needs no rule of its own. When it does not (an
 				//administrator created it and this user cannot change its ACL), the subfolder gets its own rule, which works for a
@@ -353,6 +392,57 @@ namespace ImagingDeviceManager.Config {
 			catch {
 			}
 			return false;
+		}
+
+		///<summary>Creates the private folder if it is missing and gives it ImagingFolderAcl's access list unless funcIsPrivate finds it
+		///already has it (inherited counts). The list is not set when this Windows user is not one of the people it lets in
+		///(funcIsUserAllowed: not in the group, or added to it without signing in again), since that would lock this user out, nor
+		///through a junction or link (ImagingFolderAcl.HasReparsePoint). In those cases, and when setting it fails, the folder keeps the
+		///access it has, so capture still works: returns true with a warning in error. Returns false, with error, when the folder does not
+		///exist afterwards, or when it is private already and this user is not let in: writing there would fail.</summary>
+		private static bool EnsurePrivateFolder(string folderImaging,string folder,Func<string,string> funcMakePrivate,Func<string,bool> funcIsPrivate,
+			Func<bool> funcIsUserAllowed,out string error)
+		{
+			error="";
+			if(!Directory.Exists(folder)) {
+				try {
+					Directory.CreateDirectory(folder);
+				}
+				catch(Exception ex) {
+					error="Could not create "+folder+": "+ex.Message;
+					return false;
+				}
+			}
+			string errorAcl;
+			try {
+				bool isUserAllowed=funcIsUserAllowed==null || funcIsUserAllowed();
+				if(funcIsPrivate!=null && funcIsPrivate(folder)) {
+					if(isUserAllowed) {
+						return true;
+					}
+					error="This Windows user may not use "+folder+": it is open only to administrators and the members of the Windows group \""
+						+ImagingFolderAcl.GroupName+"\". Ask an administrator to add this user to that group, then sign out of Windows and in again.";
+					return false;
+				}
+				if(!isUserAllowed) {
+					errorAcl="this Windows user is not in the group \""+ImagingFolderAcl.GroupName+"\" (or has not signed in again since being added),"
+						+" and would be locked out";
+				}
+				else if(ImagingFolderAcl.HasReparsePoint(folderImaging,folder)) {
+					errorAcl="the folder, or one above it, is a junction or link";
+				}
+				else {
+					errorAcl=funcMakePrivate(folder) ?? "";
+				}
+			}
+			catch(Exception ex) {
+				errorAcl=ex.Message;
+			}
+			if(errorAcl!="") {
+				error="Could not limit access to "+folder+" to administrators and the people who use Open PMS - Dental ("+errorAcl
+					+"). The folder is usable; running setup again as administrator sets it.";
+			}
+			return true;
 		}
 
 		///<summary>Adds the Users Modify rule to the folder or file unless it already has one. Returns "" or the error.</summary>
