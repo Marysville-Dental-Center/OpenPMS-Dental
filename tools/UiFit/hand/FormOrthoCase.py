@@ -7,3 +7,6 @@ def layout(h):
         g = h.n(name)
         if g.x != 8:
             h.set(name, 8, None, g.w + g.x - 8, None)
+    # Fix round 8: Payment Plan on the Ortho Schedule grid's right edge (main: so; the window grew and the button stayed).
+    gr, pp = h.n("gridOrthoSchedule"), h.n("butPatPayPlan")
+    h.set("butPatPayPlan", gr.nx + gr.nw - pp.nw, None)

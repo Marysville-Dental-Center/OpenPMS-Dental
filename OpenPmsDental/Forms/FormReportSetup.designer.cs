@@ -106,9 +106,9 @@ namespace OpenPmsDental{
 			// 
 			this.userControlReportSetup.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.userControlReportSetup.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-			this.userControlReportSetup.Location = new System.Drawing.Point(8, 8);
+			this.userControlReportSetup.Location = new System.Drawing.Point(5, 5);
 			this.userControlReportSetup.Name = "userControlReportSetup";
-			this.userControlReportSetup.Size = new System.Drawing.Size(525, 607);
+			this.userControlReportSetup.Size = new System.Drawing.Size(547, 613);
 			this.userControlReportSetup.TabIndex = 1;
 			// 
 			// tabReportPermissions

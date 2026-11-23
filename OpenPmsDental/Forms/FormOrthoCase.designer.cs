@@ -816,7 +816,7 @@ namespace OpenPmsDental{
 			// butPatPayPlan
 			// 
 			this.butPatPayPlan.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butPatPayPlan.Location = new System.Drawing.Point(916, 8);
+			this.butPatPayPlan.Location = new System.Drawing.Point(935, 8);
 			this.butPatPayPlan.Name = "butPatPayPlan";
 			this.butPatPayPlan.Size = new System.Drawing.Size(92, 23);
 			this.butPatPayPlan.TabIndex = 240;

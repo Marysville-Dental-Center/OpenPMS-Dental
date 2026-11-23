@@ -249,7 +249,7 @@
 			this.textObsValue.Location = new System.Drawing.Point(152, 158);
 			this.textObsValue.Multiline = true;
 			this.textObsValue.Name = "textObsValue";
-			this.textObsValue.Size = new System.Drawing.Size(157, 48);
+			this.textObsValue.Size = new System.Drawing.Size(156, 48);
 			this.textObsValue.TabIndex = 4;
 			// 
 			// groupUnitsOfMeasure
@@ -425,9 +425,9 @@
 			this.groupOrganization.Controls.Add(this.groupBox5);
 			this.groupOrganization.Controls.Add(this.groupBox3);
 			this.groupOrganization.Controls.Add(this.groupBox2);
-			this.groupOrganization.Location = new System.Drawing.Point(637, 8);
+			this.groupOrganization.Location = new System.Drawing.Point(639, 8);
 			this.groupOrganization.Name = "groupOrganization";
-			this.groupOrganization.Size = new System.Drawing.Size(320, 873);
+			this.groupOrganization.Size = new System.Drawing.Size(327, 873);
 			this.groupOrganization.TabIndex = 3;
 			this.groupOrganization.TabStop = false;
 			this.groupOrganization.Text = "Performing Organization";
@@ -453,7 +453,7 @@
 			this.groupBox5.Controls.Add(this.groupBox4);
 			this.groupBox5.Location = new System.Drawing.Point(8, 506);
 			this.groupBox5.Name = "groupBox5";
-			this.groupBox5.Size = new System.Drawing.Size(304, 359);
+			this.groupBox5.Size = new System.Drawing.Size(311, 359);
 			this.groupBox5.TabIndex = 2;
 			this.groupBox5.TabStop = false;
 			this.groupBox5.Text = "Medical Director";
@@ -463,7 +463,7 @@
 			this.comboMedDirIdType.FormattingEnabled = true;
 			this.comboMedDirIdType.Location = new System.Drawing.Point(146, 23);
 			this.comboMedDirIdType.Name = "comboMedDirIdType";
-			this.comboMedDirIdType.Size = new System.Drawing.Size(150, 23);
+			this.comboMedDirIdType.Size = new System.Drawing.Size(157, 23);
 			this.comboMedDirIdType.TabIndex = 0;
 			// 
 			// label33
@@ -480,7 +480,7 @@
 			this.comboMedDirNameType.FormattingEnabled = true;
 			this.comboMedDirNameType.Location = new System.Drawing.Point(146, 77);
 			this.comboMedDirNameType.Name = "comboMedDirNameType";
-			this.comboMedDirNameType.Size = new System.Drawing.Size(150, 23);
+			this.comboMedDirNameType.Size = new System.Drawing.Size(157, 23);
 			this.comboMedDirNameType.TabIndex = 2;
 			// 
 			// label32
@@ -515,7 +515,7 @@
 			this.textMedDirSuffix.AutoSize = false;
 			this.textMedDirSuffix.Location = new System.Drawing.Point(146, 212);
 			this.textMedDirSuffix.Name = "textMedDirSuffix";
-			this.textMedDirSuffix.Size = new System.Drawing.Size(150, 23);
+			this.textMedDirSuffix.Size = new System.Drawing.Size(157, 23);
 			this.textMedDirSuffix.TabIndex = 7;
 			// 
 			// textMedDirPrefix
@@ -523,7 +523,7 @@
 			this.textMedDirPrefix.AutoSize = false;
 			this.textMedDirPrefix.Location = new System.Drawing.Point(146, 185);
 			this.textMedDirPrefix.Name = "textMedDirPrefix";
-			this.textMedDirPrefix.Size = new System.Drawing.Size(150, 23);
+			this.textMedDirPrefix.Size = new System.Drawing.Size(157, 23);
 			this.textMedDirPrefix.TabIndex = 6;
 			// 
 			// label25
@@ -540,7 +540,7 @@
 			this.textMedDirMiddleName.AutoSize = false;
 			this.textMedDirMiddleName.Location = new System.Drawing.Point(146, 158);
 			this.textMedDirMiddleName.Name = "textMedDirMiddleName";
-			this.textMedDirMiddleName.Size = new System.Drawing.Size(150, 23);
+			this.textMedDirMiddleName.Size = new System.Drawing.Size(157, 23);
 			this.textMedDirMiddleName.TabIndex = 5;
 			// 
 			// label29
@@ -557,7 +557,7 @@
 			this.textMedDirFirstName.AutoSize = false;
 			this.textMedDirFirstName.Location = new System.Drawing.Point(146, 131);
 			this.textMedDirFirstName.Name = "textMedDirFirstName";
-			this.textMedDirFirstName.Size = new System.Drawing.Size(150, 23);
+			this.textMedDirFirstName.Size = new System.Drawing.Size(157, 23);
 			this.textMedDirFirstName.TabIndex = 4;
 			// 
 			// label30
@@ -574,7 +574,7 @@
 			this.textMedDirLastName.AutoSize = false;
 			this.textMedDirLastName.Location = new System.Drawing.Point(146, 104);
 			this.textMedDirLastName.Name = "textMedDirLastName";
-			this.textMedDirLastName.Size = new System.Drawing.Size(150, 23);
+			this.textMedDirLastName.Size = new System.Drawing.Size(157, 23);
 			this.textMedDirLastName.TabIndex = 3;
 			// 
 			// label31
@@ -591,7 +591,7 @@
 			this.textMedDirIdentifier.AutoSize = false;
 			this.textMedDirIdentifier.Location = new System.Drawing.Point(146, 50);
 			this.textMedDirIdentifier.Name = "textMedDirIdentifier";
-			this.textMedDirIdentifier.Size = new System.Drawing.Size(150, 23);
+			this.textMedDirIdentifier.Size = new System.Drawing.Size(157, 23);
 			this.textMedDirIdentifier.TabIndex = 1;
 			// 
 			// groupBox4
@@ -604,7 +604,7 @@
 			this.groupBox4.Controls.Add(this.textMedDirUniversalID);
 			this.groupBox4.Location = new System.Drawing.Point(8, 243);
 			this.groupBox4.Name = "groupBox4";
-			this.groupBox4.Size = new System.Drawing.Size(288, 108);
+			this.groupBox4.Size = new System.Drawing.Size(295, 108);
 			this.groupBox4.TabIndex = 245;
 			this.groupBox4.TabStop = false;
 			this.groupBox4.Text = "Assigning Authority";
@@ -614,7 +614,7 @@
 			this.textMedDirAssignIdType.Location = new System.Drawing.Point(138, 23);
 			this.textMedDirAssignIdType.Multiline = true;
 			this.textMedDirAssignIdType.Name = "textMedDirAssignIdType";
-			this.textMedDirAssignIdType.Size = new System.Drawing.Size(142, 23);
+			this.textMedDirAssignIdType.Size = new System.Drawing.Size(149, 23);
 			this.textMedDirAssignIdType.TabIndex = 0;
 			// 
 			// label42
@@ -640,7 +640,7 @@
 			this.textMedDirNamespaceID.Location = new System.Drawing.Point(138, 50);
 			this.textMedDirNamespaceID.Multiline = true;
 			this.textMedDirNamespaceID.Name = "textMedDirNamespaceID";
-			this.textMedDirNamespaceID.Size = new System.Drawing.Size(142, 23);
+			this.textMedDirNamespaceID.Size = new System.Drawing.Size(149, 23);
 			this.textMedDirNamespaceID.TabIndex = 1;
 			// 
 			// label22
@@ -657,7 +657,7 @@
 			this.textMedDirUniversalID.Location = new System.Drawing.Point(138, 77);
 			this.textMedDirUniversalID.Multiline = true;
 			this.textMedDirUniversalID.Name = "textMedDirUniversalID";
-			this.textMedDirUniversalID.Size = new System.Drawing.Size(142, 23);
+			this.textMedDirUniversalID.Size = new System.Drawing.Size(149, 23);
 			this.textMedDirUniversalID.TabIndex = 2;
 			// 
 			// groupBox3
@@ -680,7 +680,7 @@
 			this.groupBox3.Controls.Add(this.textPerfOrgStreet);
 			this.groupBox3.Location = new System.Drawing.Point(8, 255);
 			this.groupBox3.Name = "groupBox3";
-			this.groupBox3.Size = new System.Drawing.Size(304, 243);
+			this.groupBox3.Size = new System.Drawing.Size(311, 243);
 			this.groupBox3.TabIndex = 1;
 			this.groupBox3.TabStop = false;
 			this.groupBox3.Text = "Address";
@@ -690,7 +690,7 @@
 			this.comboPerfOrgState.FormattingEnabled = true;
 			this.comboPerfOrgState.Location = new System.Drawing.Point(146, 104);
 			this.comboPerfOrgState.Name = "comboPerfOrgState";
-			this.comboPerfOrgState.Size = new System.Drawing.Size(150, 23);
+			this.comboPerfOrgState.Size = new System.Drawing.Size(157, 23);
 			this.comboPerfOrgState.TabIndex = 3;
 			// 
 			// comboPerfOrgAddressType
@@ -698,7 +698,7 @@
 			this.comboPerfOrgAddressType.FormattingEnabled = true;
 			this.comboPerfOrgAddressType.Location = new System.Drawing.Point(146, 23);
 			this.comboPerfOrgAddressType.Name = "comboPerfOrgAddressType";
-			this.comboPerfOrgAddressType.Size = new System.Drawing.Size(150, 23);
+			this.comboPerfOrgAddressType.Size = new System.Drawing.Size(157, 23);
 			this.comboPerfOrgAddressType.TabIndex = 0;
 			// 
 			// label20
@@ -715,7 +715,7 @@
 			this.textPerfOrgCounty.AutoSize = false;
 			this.textPerfOrgCounty.Location = new System.Drawing.Point(146, 185);
 			this.textPerfOrgCounty.Name = "textPerfOrgCounty";
-			this.textPerfOrgCounty.Size = new System.Drawing.Size(150, 23);
+			this.textPerfOrgCounty.Size = new System.Drawing.Size(157, 23);
 			this.textPerfOrgCounty.TabIndex = 6;
 			// 
 			// label26
@@ -741,7 +741,7 @@
 			this.textPerfOrgCountry.AutoSize = false;
 			this.textPerfOrgCountry.Location = new System.Drawing.Point(146, 158);
 			this.textPerfOrgCountry.Name = "textPerfOrgCountry";
-			this.textPerfOrgCountry.Size = new System.Drawing.Size(150, 23);
+			this.textPerfOrgCountry.Size = new System.Drawing.Size(157, 23);
 			this.textPerfOrgCountry.TabIndex = 5;
 			// 
 			// label28
@@ -758,7 +758,7 @@
 			this.textPerfOrgZip.AutoSize = false;
 			this.textPerfOrgZip.Location = new System.Drawing.Point(146, 131);
 			this.textPerfOrgZip.Name = "textPerfOrgZip";
-			this.textPerfOrgZip.Size = new System.Drawing.Size(150, 23);
+			this.textPerfOrgZip.Size = new System.Drawing.Size(157, 23);
 			this.textPerfOrgZip.TabIndex = 4;
 			// 
 			// label19
@@ -775,7 +775,7 @@
 			this.textPerfOrgOtherDesignation.AutoSize = false;
 			this.textPerfOrgOtherDesignation.Location = new System.Drawing.Point(146, 212);
 			this.textPerfOrgOtherDesignation.Name = "textPerfOrgOtherDesignation";
-			this.textPerfOrgOtherDesignation.Size = new System.Drawing.Size(150, 23);
+			this.textPerfOrgOtherDesignation.Size = new System.Drawing.Size(157, 23);
 			this.textPerfOrgOtherDesignation.TabIndex = 7;
 			// 
 			// label17
@@ -801,7 +801,7 @@
 			this.textPerfOrgCity.AutoSize = false;
 			this.textPerfOrgCity.Location = new System.Drawing.Point(146, 77);
 			this.textPerfOrgCity.Name = "textPerfOrgCity";
-			this.textPerfOrgCity.Size = new System.Drawing.Size(150, 23);
+			this.textPerfOrgCity.Size = new System.Drawing.Size(157, 23);
 			this.textPerfOrgCity.TabIndex = 2;
 			// 
 			// label16
@@ -818,7 +818,7 @@
 			this.textPerfOrgStreet.AutoSize = false;
 			this.textPerfOrgStreet.Location = new System.Drawing.Point(146, 50);
 			this.textPerfOrgStreet.Name = "textPerfOrgStreet";
-			this.textPerfOrgStreet.Size = new System.Drawing.Size(150, 23);
+			this.textPerfOrgStreet.Size = new System.Drawing.Size(157, 23);
 			this.textPerfOrgStreet.TabIndex = 1;
 			// 
 			// groupBox2
@@ -832,7 +832,7 @@
 			this.groupBox2.Controls.Add(this.comboPerfOrgIdType);
 			this.groupBox2.Location = new System.Drawing.Point(8, 23);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(304, 224);
+			this.groupBox2.Size = new System.Drawing.Size(311, 224);
 			this.groupBox2.TabIndex = 0;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Name";
@@ -856,7 +856,7 @@
 			this.groupBox1.Controls.Add(this.textPerfOrgUniversalID);
 			this.groupBox1.Location = new System.Drawing.Point(8, 108);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(288, 108);
+			this.groupBox1.Size = new System.Drawing.Size(295, 108);
 			this.groupBox1.TabIndex = 3;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Assigning Authority";
@@ -866,7 +866,7 @@
 			this.textPerfOrgAssignIdType.Location = new System.Drawing.Point(138, 23);
 			this.textPerfOrgAssignIdType.Multiline = true;
 			this.textPerfOrgAssignIdType.Name = "textPerfOrgAssignIdType";
-			this.textPerfOrgAssignIdType.Size = new System.Drawing.Size(142, 23);
+			this.textPerfOrgAssignIdType.Size = new System.Drawing.Size(149, 23);
 			this.textPerfOrgAssignIdType.TabIndex = 0;
 			// 
 			// label41
@@ -892,7 +892,7 @@
 			this.textPerfOrgNamespaceID.Location = new System.Drawing.Point(138, 50);
 			this.textPerfOrgNamespaceID.Multiline = true;
 			this.textPerfOrgNamespaceID.Name = "textPerfOrgNamespaceID";
-			this.textPerfOrgNamespaceID.Size = new System.Drawing.Size(142, 23);
+			this.textPerfOrgNamespaceID.Size = new System.Drawing.Size(149, 23);
 			this.textPerfOrgNamespaceID.TabIndex = 1;
 			// 
 			// label13
@@ -909,7 +909,7 @@
 			this.textPerfOrgUniversalID.Location = new System.Drawing.Point(138, 77);
 			this.textPerfOrgUniversalID.Multiline = true;
 			this.textPerfOrgUniversalID.Name = "textPerfOrgUniversalID";
-			this.textPerfOrgUniversalID.Size = new System.Drawing.Size(142, 23);
+			this.textPerfOrgUniversalID.Size = new System.Drawing.Size(149, 23);
 			this.textPerfOrgUniversalID.TabIndex = 2;
 			// 
 			// textPerfOrgIdentifier
@@ -917,7 +917,7 @@
 			this.textPerfOrgIdentifier.Location = new System.Drawing.Point(146, 77);
 			this.textPerfOrgIdentifier.Multiline = true;
 			this.textPerfOrgIdentifier.Name = "textPerfOrgIdentifier";
-			this.textPerfOrgIdentifier.Size = new System.Drawing.Size(150, 23);
+			this.textPerfOrgIdentifier.Size = new System.Drawing.Size(157, 23);
 			this.textPerfOrgIdentifier.TabIndex = 2;
 			// 
 			// textPerfOrgName
@@ -925,7 +925,7 @@
 			this.textPerfOrgName.AutoSize = false;
 			this.textPerfOrgName.Location = new System.Drawing.Point(146, 23);
 			this.textPerfOrgName.Name = "textPerfOrgName";
-			this.textPerfOrgName.Size = new System.Drawing.Size(150, 23);
+			this.textPerfOrgName.Size = new System.Drawing.Size(157, 23);
 			this.textPerfOrgName.TabIndex = 0;
 			// 
 			// label14
@@ -951,7 +951,7 @@
 			this.comboPerfOrgIdType.FormattingEnabled = true;
 			this.comboPerfOrgIdType.Location = new System.Drawing.Point(146, 50);
 			this.comboPerfOrgIdType.Name = "comboPerfOrgIdType";
-			this.comboPerfOrgIdType.Size = new System.Drawing.Size(150, 23);
+			this.comboPerfOrgIdType.Size = new System.Drawing.Size(157, 23);
 			this.comboPerfOrgIdType.TabIndex = 1;
 			// 
 			// comboObsValueType
@@ -1189,7 +1189,7 @@
 			this.groupBox7.Controls.Add(this.label2);
 			this.groupBox7.Controls.Add(this.label9);
 			this.groupBox7.Controls.Add(this.groupUnitsOfMeasure);
-			this.groupBox7.Location = new System.Drawing.Point(305, 8);
+			this.groupBox7.Location = new System.Drawing.Point(307, 8);
 			this.groupBox7.Name = "groupBox7";
 			this.groupBox7.Size = new System.Drawing.Size(324, 805);
 			this.groupBox7.TabIndex = 2;
@@ -1458,7 +1458,7 @@
 			// butAddNote
 			// 
 			this.butAddNote.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butAddNote.Location = new System.Drawing.Point(305, 893);
+			this.butAddNote.Location = new System.Drawing.Point(307, 893);
 			this.butAddNote.Name = "butAddNote";
 			this.butAddNote.Size = new System.Drawing.Size(75, 28);
 			this.butAddNote.TabIndex = 255;

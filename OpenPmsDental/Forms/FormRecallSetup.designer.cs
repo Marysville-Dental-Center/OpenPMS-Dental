@@ -135,7 +135,7 @@ namespace OpenPmsDental {
             this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox4.Controls.Add(this.radioUseEmailFalse);
             this.groupBox4.Controls.Add(this.radioUseEmailTrue);
-            this.groupBox4.Location = new System.Drawing.Point(691, 565);
+            this.groupBox4.Location = new System.Drawing.Point(691, 589);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(226, 75);
             this.groupBox4.TabIndex = 70;
@@ -168,7 +168,7 @@ namespace OpenPmsDental {
             this.groupBox2.Controls.Add(this.label13);
             this.groupBox2.Location = new System.Drawing.Point(691, 476);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(226, 81);
+            this.groupBox2.Size = new System.Drawing.Size(226, 105);
             this.groupBox2.TabIndex = 48;
             this.groupBox2.Text = "Adjust Postcard Position in Inches";
             // 
@@ -355,7 +355,7 @@ namespace OpenPmsDental {
             // 
             this.textMaxReminders.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.textMaxReminders.AutoSize = false;
-            this.textMaxReminders.Location = new System.Drawing.Point(837, 683);
+            this.textMaxReminders.Location = new System.Drawing.Point(837, 707);
             this.textMaxReminders.MaxVal = 10000;
             this.textMaxReminders.Name = "textMaxReminders";
             this.textMaxReminders.ShowZero = false;
@@ -365,7 +365,7 @@ namespace OpenPmsDental {
             // label4
             // 
             this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.label4.Location = new System.Drawing.Point(687, 683);
+            this.label4.Location = new System.Drawing.Point(687, 707);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(144, 23);
             this.label4.TabIndex = 67;
@@ -414,7 +414,7 @@ namespace OpenPmsDental {
             // butSave
             // 
             this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.butSave.Location = new System.Drawing.Point(842, 738);
+            this.butSave.Location = new System.Drawing.Point(842, 762);
             this.butSave.Name = "butSave";
             this.butSave.Size = new System.Drawing.Size(75, 24);
             this.butSave.TabIndex = 3;
@@ -463,7 +463,7 @@ namespace OpenPmsDental {
             // 
             this.textMaxAutoReminders.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.textMaxAutoReminders.AutoSize = false;
-            this.textMaxAutoReminders.Location = new System.Drawing.Point(837, 656);
+            this.textMaxAutoReminders.Location = new System.Drawing.Point(837, 680);
             this.textMaxAutoReminders.MaxVal = 10000;
             this.textMaxAutoReminders.Name = "textMaxAutoReminders";
             this.textMaxAutoReminders.ShowZero = false;
@@ -473,7 +473,7 @@ namespace OpenPmsDental {
             // label7
             // 
             this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.label7.Location = new System.Drawing.Point(699, 656);
+            this.label7.Location = new System.Drawing.Point(699, 680);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(132, 23);
             this.label7.TabIndex = 79;
@@ -501,7 +501,7 @@ namespace OpenPmsDental {
             // 
             // FormRecallSetup
             // 
-            this.ClientSize = new System.Drawing.Size(925, 770);
+            this.ClientSize = new System.Drawing.Size(925, 794);
             this.Controls.Add(this.labelLanguage);
             this.Controls.Add(this.comboLanguage);
             this.Controls.Add(this.textMaxReminders);

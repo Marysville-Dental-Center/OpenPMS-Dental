@@ -220,10 +220,10 @@ namespace OpenPmsDental {
 			// textAddress
 			// 
 			this.textAddress.AutoSize = false;
-			this.textAddress.Location = new System.Drawing.Point(90, 50);
+			this.textAddress.Location = new System.Drawing.Point(114, 50);
 			this.textAddress.MaxLength = 255;
 			this.textAddress.Name = "textAddress";
-			this.textAddress.Size = new System.Drawing.Size(358, 23);
+			this.textAddress.Size = new System.Drawing.Size(334, 23);
 			this.textAddress.TabIndex = 0;
 			// 
 			// label3
@@ -231,7 +231,7 @@ namespace OpenPmsDental {
 			this.label3.BackColor = System.Drawing.Color.Transparent;
 			this.label3.Location = new System.Drawing.Point(8, 50);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(76, 23);
+			this.label3.Size = new System.Drawing.Size(100, 23);
 			this.label3.TabIndex = 0;
 			this.label3.Text = "Address";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -241,7 +241,7 @@ namespace OpenPmsDental {
 			this.label4.BackColor = System.Drawing.Color.Transparent;
 			this.label4.Location = new System.Drawing.Point(8, 77);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(76, 23);
+			this.label4.Size = new System.Drawing.Size(100, 23);
 			this.label4.TabIndex = 0;
 			this.label4.Text = "Address 2";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -249,10 +249,10 @@ namespace OpenPmsDental {
 			// textCity
 			// 
 			this.textCity.AutoSize = false;
-			this.textCity.Location = new System.Drawing.Point(90, 104);
+			this.textCity.Location = new System.Drawing.Point(114, 104);
 			this.textCity.MaxLength = 255;
 			this.textCity.Name = "textCity";
-			this.textCity.Size = new System.Drawing.Size(210, 23);
+			this.textCity.Size = new System.Drawing.Size(186, 23);
 			this.textCity.TabIndex = 2;
 			// 
 			// label11
@@ -260,7 +260,7 @@ namespace OpenPmsDental {
 			this.label11.BackColor = System.Drawing.Color.Transparent;
 			this.label11.Location = new System.Drawing.Point(8, 104);
 			this.label11.Name = "label11";
-			this.label11.Size = new System.Drawing.Size(76, 23);
+			this.label11.Size = new System.Drawing.Size(100, 23);
 			this.label11.TabIndex = 0;
 			this.label11.Text = "City, ST, Zip";
 			this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -277,10 +277,10 @@ namespace OpenPmsDental {
 			// textAddress2
 			// 
 			this.textAddress2.AutoSize = false;
-			this.textAddress2.Location = new System.Drawing.Point(90, 77);
+			this.textAddress2.Location = new System.Drawing.Point(114, 77);
 			this.textAddress2.MaxLength = 255;
 			this.textAddress2.Name = "textAddress2";
-			this.textAddress2.Size = new System.Drawing.Size(358, 23);
+			this.textAddress2.Size = new System.Drawing.Size(334, 23);
 			this.textAddress2.TabIndex = 1;
 			// 
 			// textZip
@@ -334,7 +334,7 @@ namespace OpenPmsDental {
 			// 
 			this.label20.Location = new System.Drawing.Point(8, 104);
 			this.label20.Name = "label20";
-			this.label20.Size = new System.Drawing.Size(76, 23);
+			this.label20.Size = new System.Drawing.Size(100, 23);
 			this.label20.TabIndex = 0;
 			this.label20.Text = "City, ST, Zip";
 			this.label20.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -343,7 +343,7 @@ namespace OpenPmsDental {
 			// 
 			this.label16.Location = new System.Drawing.Point(8, 77);
 			this.label16.Name = "label16";
-			this.label16.Size = new System.Drawing.Size(76, 23);
+			this.label16.Size = new System.Drawing.Size(100, 23);
 			this.label16.TabIndex = 0;
 			this.label16.Text = "Address 2";
 			this.label16.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -352,7 +352,7 @@ namespace OpenPmsDental {
 			// 
 			this.label19.Location = new System.Drawing.Point(8, 50);
 			this.label19.Name = "label19";
-			this.label19.Size = new System.Drawing.Size(76, 23);
+			this.label19.Size = new System.Drawing.Size(100, 23);
 			this.label19.TabIndex = 0;
 			this.label19.Text = "Address";
 			this.label19.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -368,9 +368,9 @@ namespace OpenPmsDental {
 			// textBillingAddress
 			// 
 			this.textBillingAddress.AutoSize = false;
-			this.textBillingAddress.Location = new System.Drawing.Point(90, 50);
+			this.textBillingAddress.Location = new System.Drawing.Point(114, 50);
 			this.textBillingAddress.Name = "textBillingAddress";
-			this.textBillingAddress.Size = new System.Drawing.Size(358, 23);
+			this.textBillingAddress.Size = new System.Drawing.Size(334, 23);
 			this.textBillingAddress.TabIndex = 2;
 			// 
 			// textBillingST
@@ -384,17 +384,17 @@ namespace OpenPmsDental {
 			// textBillingAddress2
 			// 
 			this.textBillingAddress2.AutoSize = false;
-			this.textBillingAddress2.Location = new System.Drawing.Point(90, 77);
+			this.textBillingAddress2.Location = new System.Drawing.Point(114, 77);
 			this.textBillingAddress2.Name = "textBillingAddress2";
-			this.textBillingAddress2.Size = new System.Drawing.Size(358, 23);
+			this.textBillingAddress2.Size = new System.Drawing.Size(334, 23);
 			this.textBillingAddress2.TabIndex = 3;
 			// 
 			// textBillingCity
 			// 
 			this.textBillingCity.AutoSize = false;
-			this.textBillingCity.Location = new System.Drawing.Point(90, 104);
+			this.textBillingCity.Location = new System.Drawing.Point(114, 104);
 			this.textBillingCity.Name = "textBillingCity";
-			this.textBillingCity.Size = new System.Drawing.Size(210, 23);
+			this.textBillingCity.Size = new System.Drawing.Size(186, 23);
 			this.textBillingCity.TabIndex = 4;
 			// 
 			// PayToAddress
@@ -430,7 +430,7 @@ namespace OpenPmsDental {
 			// 
 			this.label13.Location = new System.Drawing.Point(8, 77);
 			this.label13.Name = "label13";
-			this.label13.Size = new System.Drawing.Size(76, 23);
+			this.label13.Size = new System.Drawing.Size(100, 23);
 			this.label13.TabIndex = 0;
 			this.label13.Text = "Address 2";
 			this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -439,7 +439,7 @@ namespace OpenPmsDental {
 			// 
 			this.label15.Location = new System.Drawing.Point(8, 104);
 			this.label15.Name = "label15";
-			this.label15.Size = new System.Drawing.Size(76, 23);
+			this.label15.Size = new System.Drawing.Size(100, 23);
 			this.label15.TabIndex = 0;
 			this.label15.Text = "City, ST, Zip";
 			this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -456,7 +456,7 @@ namespace OpenPmsDental {
 			// 
 			this.label14.Location = new System.Drawing.Point(8, 50);
 			this.label14.Name = "label14";
-			this.label14.Size = new System.Drawing.Size(76, 23);
+			this.label14.Size = new System.Drawing.Size(100, 23);
 			this.label14.TabIndex = 0;
 			this.label14.Text = "Address";
 			this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -472,25 +472,25 @@ namespace OpenPmsDental {
 			// textPayToAddress
 			// 
 			this.textPayToAddress.AutoSize = false;
-			this.textPayToAddress.Location = new System.Drawing.Point(90, 50);
+			this.textPayToAddress.Location = new System.Drawing.Point(114, 50);
 			this.textPayToAddress.Name = "textPayToAddress";
-			this.textPayToAddress.Size = new System.Drawing.Size(358, 23);
+			this.textPayToAddress.Size = new System.Drawing.Size(334, 23);
 			this.textPayToAddress.TabIndex = 1;
 			// 
 			// textPayToCity
 			// 
 			this.textPayToCity.AutoSize = false;
-			this.textPayToCity.Location = new System.Drawing.Point(90, 104);
+			this.textPayToCity.Location = new System.Drawing.Point(114, 104);
 			this.textPayToCity.Name = "textPayToCity";
-			this.textPayToCity.Size = new System.Drawing.Size(210, 23);
+			this.textPayToCity.Size = new System.Drawing.Size(186, 23);
 			this.textPayToCity.TabIndex = 3;
 			// 
 			// textPayToAddress2
 			// 
 			this.textPayToAddress2.AutoSize = false;
-			this.textPayToAddress2.Location = new System.Drawing.Point(90, 77);
+			this.textPayToAddress2.Location = new System.Drawing.Point(114, 77);
 			this.textPayToAddress2.Name = "textPayToAddress2";
-			this.textPayToAddress2.Size = new System.Drawing.Size(358, 23);
+			this.textPayToAddress2.Size = new System.Drawing.Size(334, 23);
 			this.textPayToAddress2.TabIndex = 2;
 			// 
 			// tabSpecialty

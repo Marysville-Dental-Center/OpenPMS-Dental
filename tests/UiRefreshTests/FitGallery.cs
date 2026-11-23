@@ -201,6 +201,12 @@ namespace UiRefreshTests {
 					}
 				}
 			}
+			if(window=="OpenPmsDental.FormScheduleDayEdit" && FindByName(root,"labelDate") is Label labelDate) {
+				//UI-12 slice 1 (fix round 8): Load and the day arrows set the day of the week over the short date, two lines (the designer's text is
+				//a one-line placeholder); the picture shows the widest day name.
+				DateTime date=new DateTime(2026,12,30);
+				labelDate.Text=date.ToString("dddd")+"\r\n"+date.ToShortDateString();
+			}
 			if(window=="OpenPmsDental.ControlTreat" && FindByName(root,"userControlIndDis") is Control controlDiscount) {
 				//UI-12 slice 1: FillSummary shows the discount plan summary (a patient with a discount plan) or the family and individual insurance
 				//summaries, never both; the discount summary stands on the family summary's place. The picture shows the insurance summaries.

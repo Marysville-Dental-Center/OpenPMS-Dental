@@ -79,7 +79,7 @@ namespace OpenPmsDental{
 			// 
 			this.comboClinic.Location = new System.Drawing.Point(196, 205);
 			this.comboClinic.Name = "comboClinic";
-			this.comboClinic.Size = new System.Drawing.Size(232, 23);
+			this.comboClinic.Size = new System.Drawing.Size(240, 23);
 			this.comboClinic.TabIndex = 68;
 			this.comboClinic.Visible = false;
 			// 
@@ -87,7 +87,7 @@ namespace OpenPmsDental{
 			// 
 			this.comboSpecialty.Location = new System.Drawing.Point(196, 178);
 			this.comboSpecialty.Name = "comboSpecialty";
-			this.comboSpecialty.Size = new System.Drawing.Size(232, 23);
+			this.comboSpecialty.Size = new System.Drawing.Size(240, 23);
 			this.comboSpecialty.TabIndex = 69;
 			this.comboSpecialty.Visible = false;
 			this.comboSpecialty.SelectionChangeCommitted += new System.EventHandler(this.comboSpecialty_SelectionChangeCommitted);
@@ -218,7 +218,7 @@ namespace OpenPmsDental{
 			// 
 			// butPickPrimary
 			// 
-			this.butPickPrimary.Location = new System.Drawing.Point(434, 151);
+			this.butPickPrimary.Location = new System.Drawing.Point(442, 151);
 			this.butPickPrimary.Name = "butPickPrimary";
 			this.butPickPrimary.Size = new System.Drawing.Size(23, 23);
 			this.butPickPrimary.TabIndex = 83;
@@ -229,7 +229,7 @@ namespace OpenPmsDental{
 			// 
 			this.comboPriProv.Location = new System.Drawing.Point(196, 151);
 			this.comboPriProv.Name = "comboPriProv";
-			this.comboPriProv.Size = new System.Drawing.Size(232, 23);
+			this.comboPriProv.Size = new System.Drawing.Size(240, 23);
 			this.comboPriProv.TabIndex = 84;
 			this.comboPriProv.SelectionChangeCommitted += new System.EventHandler(this.comboPriProv_SelectionChangeCommitted);
 			// 

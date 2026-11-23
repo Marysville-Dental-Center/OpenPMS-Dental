@@ -94,7 +94,7 @@ namespace OpenPmsDental{
 			// 
 			// butRigorous
 			// 
-			this.butRigorous.Location = new System.Drawing.Point(8, 318);
+			this.butRigorous.Location = new System.Drawing.Point(8, 348);
 			this.butRigorous.Name = "butRigorous";
 			this.butRigorous.Size = new System.Drawing.Size(93, 26);
 			this.butRigorous.TabIndex = 5;
@@ -113,7 +113,7 @@ namespace OpenPmsDental{
 			// progressBarTransfer
 			// 
 			this.progressBarTransfer.Anchor = System.Windows.Forms.AnchorStyles.Top;
-			this.progressBarTransfer.Location = new System.Drawing.Point(8, 411);
+			this.progressBarTransfer.Location = new System.Drawing.Point(8, 441);
 			this.progressBarTransfer.Name = "progressBarTransfer";
 			this.progressBarTransfer.Size = new System.Drawing.Size(1210, 22);
 			this.progressBarTransfer.TabIndex = 153;
@@ -125,7 +125,7 @@ namespace OpenPmsDental{
 			// labelProgress
 			// 
 			this.labelProgress.Anchor = System.Windows.Forms.AnchorStyles.Top;
-			this.labelProgress.Location = new System.Drawing.Point(8, 391);
+			this.labelProgress.Location = new System.Drawing.Point(8, 421);
 			this.labelProgress.Name = "labelProgress";
 			this.labelProgress.Size = new System.Drawing.Size(555, 15);
 			this.labelProgress.TabIndex = 154;
@@ -135,7 +135,7 @@ namespace OpenPmsDental{
 			// labelPayments
 			// 
 			this.labelPayments.Anchor = System.Windows.Forms.AnchorStyles.Top;
-			this.labelPayments.Location = new System.Drawing.Point(730, 391);
+			this.labelPayments.Location = new System.Drawing.Point(730, 421);
 			this.labelPayments.Name = "labelPayments";
 			this.labelPayments.Size = new System.Drawing.Size(468, 16);
 			this.labelPayments.TabIndex = 155;
@@ -170,7 +170,7 @@ namespace OpenPmsDental{
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(107, 322);
+			this.label5.Location = new System.Drawing.Point(107, 352);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(341, 18);
 			this.label5.TabIndex = 159;
@@ -179,7 +179,7 @@ namespace OpenPmsDental{
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(117, 348);
+			this.label6.Location = new System.Drawing.Point(117, 378);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(344, 23);
 			this.label6.TabIndex = 161;
@@ -188,7 +188,7 @@ namespace OpenPmsDental{
 			// 
 			// butFIFO
 			// 
-			this.butFIFO.Location = new System.Drawing.Point(8, 348);
+			this.butFIFO.Location = new System.Drawing.Point(8, 378);
 			this.butFIFO.Name = "butFIFO";
 			this.butFIFO.Size = new System.Drawing.Size(93, 23);
 			this.butFIFO.TabIndex = 6;
@@ -209,7 +209,7 @@ namespace OpenPmsDental{
 			// 
 			this.labelAsOfDateDesc.Location = new System.Drawing.Point(278, 172);
 			this.labelAsOfDateDesc.Name = "labelAsOfDateDesc";
-			this.labelAsOfDateDesc.Size = new System.Drawing.Size(310, 47);
+			this.labelAsOfDateDesc.Size = new System.Drawing.Size(320, 47);
 			this.labelAsOfDateDesc.TabIndex = 166;
 			this.labelAsOfDateDesc.Text = "Account entries after this date are ignored during transfers.\r\nFor conversions, s" +
     "et this to the date of the conversion.\r\nFor bi-weekly usage, use today\'s date.";
@@ -255,13 +255,13 @@ namespace OpenPmsDental{
 			this.groupBoxIncomeTransfers.Controls.Add(this.labelDeleteTransfers);
 			this.groupBoxIncomeTransfers.Location = new System.Drawing.Point(8, 8);
 			this.groupBoxIncomeTransfers.Name = "groupBoxIncomeTransfers";
-			this.groupBoxIncomeTransfers.Size = new System.Drawing.Size(606, 379);
+			this.groupBoxIncomeTransfers.Size = new System.Drawing.Size(606, 409);
 			this.groupBoxIncomeTransfers.TabIndex = 0;
 			this.groupBoxIncomeTransfers.Text = "Income Transfers";
 			// 
 			// butConfigureAuto
 			// 
-			this.butConfigureAuto.Location = new System.Drawing.Point(467, 348);
+			this.butConfigureAuto.Location = new System.Drawing.Point(467, 378);
 			this.butConfigureAuto.Name = "butConfigureAuto";
 			this.butConfigureAuto.Size = new System.Drawing.Size(127, 23);
 			this.butConfigureAuto.TabIndex = 173;
@@ -275,7 +275,7 @@ namespace OpenPmsDental{
 			this.checkChangedSinceDate.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
 			this.checkChangedSinceDate.Location = new System.Drawing.Point(140, 267);
 			this.checkChangedSinceDate.Name = "checkChangedSinceDate";
-			this.checkChangedSinceDate.Size = new System.Drawing.Size(426, 20);
+			this.checkChangedSinceDate.Size = new System.Drawing.Size(426, 50);
 			this.checkChangedSinceDate.TabIndex = 3;
 			this.checkChangedSinceDate.Text = resources.GetString("checkChangedSinceDate.Text");
 			this.checkChangedSinceDate.CheckedChanged += new System.EventHandler(this.checkChangedSinceDate_CheckedChanged);
@@ -284,7 +284,7 @@ namespace OpenPmsDental{
 			// 
 			this.datePickerChangedSinceDate.Enabled = false;
 			this.datePickerChangedSinceDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-			this.datePickerChangedSinceDate.Location = new System.Drawing.Point(140, 291);
+			this.datePickerChangedSinceDate.Location = new System.Drawing.Point(140, 321);
 			this.datePickerChangedSinceDate.Name = "datePickerChangedSinceDate";
 			this.datePickerChangedSinceDate.Size = new System.Drawing.Size(132, 20);
 			this.datePickerChangedSinceDate.TabIndex = 4;
@@ -292,7 +292,7 @@ namespace OpenPmsDental{
 			// labelChangedSinceDate
 			// 
 			this.labelChangedSinceDate.Enabled = false;
-			this.labelChangedSinceDate.Location = new System.Drawing.Point(14, 291);
+			this.labelChangedSinceDate.Location = new System.Drawing.Point(14, 321);
 			this.labelChangedSinceDate.Name = "labelChangedSinceDate";
 			this.labelChangedSinceDate.Size = new System.Drawing.Size(120, 23);
 			this.labelChangedSinceDate.TabIndex = 172;
@@ -377,7 +377,7 @@ namespace OpenPmsDental{
 			// 
 			// label15
 			// 
-			this.label15.Location = new System.Drawing.Point(8, 437);
+			this.label15.Location = new System.Drawing.Point(8, 467);
 			this.label15.Name = "label15";
 			this.label15.Size = new System.Drawing.Size(555, 16);
 			this.label15.TabIndex = 169;
@@ -391,7 +391,7 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.textOutput.BackColor = System.Drawing.SystemColors.Control;
-			this.textOutput.Location = new System.Drawing.Point(8, 455);
+			this.textOutput.Location = new System.Drawing.Point(8, 485);
 			this.textOutput.Multiline = true;
 			this.textOutput.Name = "textOutput";
 			this.textOutput.ReadOnly = true;
@@ -402,7 +402,7 @@ namespace OpenPmsDental{
 			// checkOutputVerbose
 			// 
 			this.checkOutputVerbose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.checkOutputVerbose.Location = new System.Drawing.Point(8, 614);
+			this.checkOutputVerbose.Location = new System.Drawing.Point(8, 644);
 			this.checkOutputVerbose.Name = "checkOutputVerbose";
 			this.checkOutputVerbose.Size = new System.Drawing.Size(67, 20);
 			this.checkOutputVerbose.TabIndex = 3;
@@ -417,7 +417,7 @@ namespace OpenPmsDental{
 			// butLog
 			// 
 			this.butLog.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-			this.butLog.Location = new System.Drawing.Point(567, 611);
+			this.butLog.Location = new System.Drawing.Point(567, 641);
 			this.butLog.Name = "butLog";
 			this.butLog.Size = new System.Drawing.Size(75, 26);
 			this.butLog.TabIndex = 4;
@@ -513,7 +513,7 @@ namespace OpenPmsDental{
 			// 
 			// FormFamilyBalancer
 			// 
-			this.ClientSize = new System.Drawing.Size(1226, 661);
+			this.ClientSize = new System.Drawing.Size(1226, 691);
 			this.Controls.Add(this.groupBoxInsuranceOverpayments);
 			this.Controls.Add(this.butLog);
 			this.Controls.Add(this.checkOutputVerbose);

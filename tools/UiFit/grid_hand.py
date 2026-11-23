@@ -25,6 +25,25 @@ GRID = g.GRID
 RULE = "by hand (layout script): "
 
 
+def read_runtime_texts():
+    """(window, control) -> [width]: the runtime texts of tests/UiRefreshTests/Data/grid-runtime-texts.tsv."""
+    out = collections.defaultdict(list)
+    p = os.path.join(fit_tools.repo_root(), "tests", "UiRefreshTests", "Data", "grid-runtime-texts.tsv")
+    if not os.path.exists(p):
+        return out
+    with open(p, encoding="utf-8") as f:
+        for ln in f:
+            ln = ln.rstrip("\r\n")
+            if not ln or ln.startswith("#") or ln.startswith("window\t"):
+                continue
+            r = ln.split("\t")
+            out[(r[0], r[1])].append(int(r[3]))
+    return out
+
+
+RUNTIME = read_runtime_texts()
+
+
 class Hand:
     def __init__(self, window, tree, designer):
         self.window = window
@@ -89,9 +108,15 @@ class Hand:
         self.touched[id(n)] = n
 
     def lw(self, name):
-        """The width a label needs for its text on one line (snapped up to the grid)."""
+        """The width a label needs for its text on one line (snapped up to the grid): the widest of its designer text and the texts the code
+        gives it at run time (tests/UiRefreshTests/Data/grid-runtime-texts.tsv, slice 1 fix round 8)."""
         n = self.n(name)
-        return g.snap_up(n.text_w + 4) if n.text_w else n.w
+        tw = max([n.text_w or 0] + self.runtime_widths(name))
+        return g.snap_up(tw + 4) if tw else n.w
+
+    def runtime_widths(self, name):
+        """The widths (px on one line at Segoe UI 9) of the texts the window's code gives the control (grid-runtime-texts.tsv)."""
+        return [w for (win, ctl), ws in RUNTIME.items() if win == self.window and ctl == name for w in ws]
 
     def cw(self, name):
         n = self.n(name)

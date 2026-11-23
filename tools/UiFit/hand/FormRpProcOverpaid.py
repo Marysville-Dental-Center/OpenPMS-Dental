@@ -17,3 +17,8 @@ def layout(h):
         if name in h.by_name:
             b = h.n(name)
             h.set(name, 8 if name == "butPrint" else b.x, yb, b.w, 24)
+    # Fix round 8: the Clinics picker's box on the Providers column above it (its left and right edges; the planner left it 9 px left):
+    # its bounds start its measured label area before the column.
+    pv = h.n("comboBoxMultiProv")
+    cw = h.clinic_w("comboBoxMultiClinics")
+    h.set("comboBoxMultiClinics", pv.nx - cw, None, pv.nw + cw, None)

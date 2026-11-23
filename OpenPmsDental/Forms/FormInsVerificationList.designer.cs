@@ -225,7 +225,7 @@ namespace OpenPmsDental{
 			// 
 			// textPatBirthdate
 			// 
-			this.textPatBirthdate.Location = new System.Drawing.Point(605, 510);
+			this.textPatBirthdate.Location = new System.Drawing.Point(609, 506);
 			this.textPatBirthdate.Name = "textPatBirthdate";
 			this.textPatBirthdate.ReadOnly = true;
 			this.textPatBirthdate.Size = new System.Drawing.Size(116, 20);
@@ -233,7 +233,7 @@ namespace OpenPmsDental{
 			// 
 			// labelPatBirthdate
 			// 
-			this.labelPatBirthdate.Location = new System.Drawing.Point(519, 510);
+			this.labelPatBirthdate.Location = new System.Drawing.Point(523, 506);
 			this.labelPatBirthdate.Name = "labelPatBirthdate";
 			this.labelPatBirthdate.Size = new System.Drawing.Size(80, 23);
 			this.labelPatBirthdate.TabIndex = 228;
@@ -296,7 +296,7 @@ namespace OpenPmsDental{
 			this.groupSubscriber.Controls.Add(this.labelSSN);
 			this.groupSubscriber.Controls.Add(this.labelBirthdate);
 			this.groupSubscriber.Controls.Add(this.labelName);
-			this.groupSubscriber.Location = new System.Drawing.Point(494, 367);
+			this.groupSubscriber.Location = new System.Drawing.Point(498, 367);
 			this.groupSubscriber.Name = "groupSubscriber";
 			this.groupSubscriber.Size = new System.Drawing.Size(232, 135);
 			this.groupSubscriber.TabIndex = 91;
@@ -304,7 +304,7 @@ namespace OpenPmsDental{
 			//
 			// warningIntegrity1
 			//
-			this.warningIntegrity1.Location = new System.Drawing.Point(730, 395);
+			this.warningIntegrity1.Location = new System.Drawing.Point(734, 395);
 			this.warningIntegrity1.Name = "warningIntegrity1";
 			this.warningIntegrity1.Size = new System.Drawing.Size(18, 18);
 			this.warningIntegrity1.TabIndex = 220;
@@ -398,7 +398,7 @@ namespace OpenPmsDental{
 			this.groupInsurancePlan.Controls.Add(this.labelCarrierName);
 			this.groupInsurancePlan.Location = new System.Drawing.Point(8, 367);
 			this.groupInsurancePlan.Name = "groupInsurancePlan";
-			this.groupInsurancePlan.Size = new System.Drawing.Size(482, 171);
+			this.groupInsurancePlan.Size = new System.Drawing.Size(482, 162);
 			this.groupInsurancePlan.TabIndex = 99;
 			this.groupInsurancePlan.Text = "Insurance Plan";
 			// 
@@ -424,7 +424,7 @@ namespace OpenPmsDental{
 			// textInsPlanGroupNumber
 			// 
 			this.textInsPlanGroupNumber.AutoSize = false;
-			this.textInsPlanGroupNumber.Location = new System.Drawing.Point(127, 140);
+			this.textInsPlanGroupNumber.Location = new System.Drawing.Point(127, 131);
 			this.textInsPlanGroupNumber.Name = "textInsPlanGroupNumber";
 			this.textInsPlanGroupNumber.ReadOnly = true;
 			this.textInsPlanGroupNumber.Size = new System.Drawing.Size(116, 23);
@@ -477,7 +477,7 @@ namespace OpenPmsDental{
 			// 
 			// labelGroupNumber
 			// 
-			this.labelGroupNumber.Location = new System.Drawing.Point(29, 140);
+			this.labelGroupNumber.Location = new System.Drawing.Point(29, 131);
 			this.labelGroupNumber.Name = "labelGroupNumber";
 			this.labelGroupNumber.Size = new System.Drawing.Size(92, 23);
 			this.labelGroupNumber.TabIndex = 98;

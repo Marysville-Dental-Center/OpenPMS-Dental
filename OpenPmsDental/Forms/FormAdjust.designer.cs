@@ -607,7 +607,7 @@
 			// 
 			this.labelPercentOfFeeAmount.Location = new System.Drawing.Point(210, 89);
 			this.labelPercentOfFeeAmount.Name = "labelPercentOfFeeAmount";
-			this.labelPercentOfFeeAmount.Size = new System.Drawing.Size(56, 23);
+			this.labelPercentOfFeeAmount.Size = new System.Drawing.Size(116, 23);
 			this.labelPercentOfFeeAmount.TabIndex = 174;
 			this.labelPercentOfFeeAmount.Text = "Amount";
 			this.labelPercentOfFeeAmount.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;

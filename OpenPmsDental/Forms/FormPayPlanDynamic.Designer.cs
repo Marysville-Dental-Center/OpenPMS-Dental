@@ -363,7 +363,7 @@ namespace OpenPmsDental {
 			// 
 			this.butTemplates.Location = new System.Drawing.Point(240, 104);
 			this.butTemplates.Name = "butTemplates";
-			this.butTemplates.Size = new System.Drawing.Size(103, 23);
+			this.butTemplates.Size = new System.Drawing.Size(107, 23);
 			this.butTemplates.TabIndex = 203;
 			this.butTemplates.Text = "Templates";
 			this.butTemplates.UseVisualStyleBackColor = true;
@@ -375,7 +375,7 @@ namespace OpenPmsDental {
 			this.groupTreatmentPlanned.Controls.Add(this.radioTpAwaitComplete);
 			this.groupTreatmentPlanned.Location = new System.Drawing.Point(166, 270);
 			this.groupTreatmentPlanned.Name = "groupTreatmentPlanned";
-			this.groupTreatmentPlanned.Size = new System.Drawing.Size(193, 161);
+			this.groupTreatmentPlanned.Size = new System.Drawing.Size(206, 161);
 			this.groupTreatmentPlanned.TabIndex = 202;
 			this.groupTreatmentPlanned.Text = "Handle Treatment Planned";
 			// 
@@ -674,7 +674,7 @@ namespace OpenPmsDental {
 			// 
 			this.butCreateSched.Location = new System.Drawing.Point(240, 23);
 			this.butCreateSched.Name = "butCreateSched";
-			this.butCreateSched.Size = new System.Drawing.Size(103, 23);
+			this.butCreateSched.Size = new System.Drawing.Size(107, 23);
 			this.butCreateSched.TabIndex = 10;
 			this.butCreateSched.Text = "Create Schedule";
 			this.butCreateSched.Click += new System.EventHandler(this.butCreateSched_Click);

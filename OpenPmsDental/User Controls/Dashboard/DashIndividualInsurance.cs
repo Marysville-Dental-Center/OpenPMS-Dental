@@ -67,13 +67,18 @@ namespace OpenPmsDental {
 			g.DrawString(Lan.g(this,"Primary"),font,Brushes.Black,rectangle,stringFormat);
 			rectangle=new Rectangle(LayoutManager.Scale(131),LayoutManager.Scale(16),LayoutManager.Scale(60),LayoutManager.Scale(15));
 			g.DrawString(Lan.g(this,"Secondary"),font,Brushes.Black,rectangle,stringFormat);
+			//UI-12 slice 1 (fix round 8): the row labels on one line, right-aligned on the boxes' left (70 px), drawn whole: a label wider than its
+			//rectangle ("Ded Remain" at the font GDI+ measures) was wrapped and cut ("Ded Remai"); the rectangles start at the control's left edge.
+			using StringFormat stringFormatLabel=new StringFormat(StringFormatFlags.NoWrap|StringFormatFlags.NoClip);
+			stringFormatLabel.Alignment=StringAlignment.Far;
+			stringFormatLabel.LineAlignment=StringAlignment.Center;
 			//row 1-----------------------------------------------------------------------
 			stringFormat?.Dispose();
 			stringFormat=new StringFormat();
 			stringFormat.Alignment=StringAlignment.Far;
 			stringFormat.LineAlignment=StringAlignment.Center;
-			rectangle=new Rectangle(LayoutManager.Scale(4),LayoutManager.Scale(37),LayoutManager.Scale(66),LayoutManager.Scale(15));
-			g.DrawString(Lan.g(this,"AnnualMax"),font,Brushes.Black,rectangle,stringFormat);
+			rectangle=new Rectangle(0,LayoutManager.Scale(37),LayoutManager.Scale(70),LayoutManager.Scale(15));
+			g.DrawString(Lan.g(this,"AnnualMax"),font,Brushes.Black,rectangle,stringFormatLabel);
 			rectangle=new Rectangle(LayoutManager.Scale(73),LayoutManager.Scale(36),LayoutManager.Scale(58),LayoutManager.Scale(18));
 			g.FillRectangle(Brushes.White,rectangle);
 			g.DrawRectangle(penOutline,rectangle);
@@ -83,8 +88,8 @@ namespace OpenPmsDental {
 			g.DrawRectangle(penOutline,rectangle);
 			g.DrawString(_strSecMax,font,Brushes.Black,rectangle,stringFormat);
 			//row 2-------------------------------------------------------------------------
-			rectangle=new Rectangle(LayoutManager.Scale(4),LayoutManager.Scale(57),LayoutManager.Scale(66),LayoutManager.Scale(15));
-			g.DrawString(Lan.g(this,"Deductible"),font,Brushes.Black,rectangle,stringFormat);
+			rectangle=new Rectangle(0,LayoutManager.Scale(57),LayoutManager.Scale(70),LayoutManager.Scale(15));
+			g.DrawString(Lan.g(this,"Deductible"),font,Brushes.Black,rectangle,stringFormatLabel);
 			rectangle=new Rectangle(LayoutManager.Scale(73),LayoutManager.Scale(56),LayoutManager.Scale(58),LayoutManager.Scale(18));
 			g.FillRectangle(Brushes.White,rectangle);
 			g.DrawRectangle(penOutline,rectangle);
@@ -94,8 +99,8 @@ namespace OpenPmsDental {
 			g.DrawRectangle(penOutline,rectangle);
 			g.DrawString(_strSecDed,font,Brushes.Black,rectangle,stringFormat);
 			//row 3-------------------------------------------------------------------------
-			rectangle=new Rectangle(LayoutManager.Scale(4),LayoutManager.Scale(77),LayoutManager.Scale(66),LayoutManager.Scale(15));
-			g.DrawString(Lan.g(this,"Ded Remain"),font,Brushes.Black,rectangle,stringFormat);
+			rectangle=new Rectangle(0,LayoutManager.Scale(77),LayoutManager.Scale(70),LayoutManager.Scale(15));
+			g.DrawString(Lan.g(this,"Ded Remain"),font,Brushes.Black,rectangle,stringFormatLabel);
 			rectangle=new Rectangle(LayoutManager.Scale(73),LayoutManager.Scale(76),LayoutManager.Scale(58),LayoutManager.Scale(18));
 			g.FillRectangle(Brushes.White,rectangle);
 			g.DrawRectangle(penOutline,rectangle);
@@ -105,8 +110,8 @@ namespace OpenPmsDental {
 			g.DrawRectangle(penOutline,rectangle);
 			g.DrawString(_strSecDedRem,font,Brushes.Black,rectangle,stringFormat);
 			//row 4-------------------------------------------------------------------------
-			rectangle=new Rectangle(LayoutManager.Scale(4),LayoutManager.Scale(97),LayoutManager.Scale(66),LayoutManager.Scale(15));
-			g.DrawString(Lan.g(this,"Ins Used"),font,Brushes.Black,rectangle,stringFormat);
+			rectangle=new Rectangle(0,LayoutManager.Scale(97),LayoutManager.Scale(70),LayoutManager.Scale(15));
+			g.DrawString(Lan.g(this,"Ins Used"),font,Brushes.Black,rectangle,stringFormatLabel);
 			rectangle=new Rectangle(LayoutManager.Scale(73),LayoutManager.Scale(96),LayoutManager.Scale(58),LayoutManager.Scale(18));
 			g.FillRectangle(Brushes.White,rectangle);
 			g.DrawRectangle(penOutline,rectangle);
@@ -116,8 +121,8 @@ namespace OpenPmsDental {
 			g.DrawRectangle(penOutline,rectangle);
 			g.DrawString(_strSecUsed,font,Brushes.Black,rectangle,stringFormat);
 			//row 5-------------------------------------------------------------------------
-			rectangle=new Rectangle(LayoutManager.Scale(4),LayoutManager.Scale(117),LayoutManager.Scale(66),LayoutManager.Scale(15));
-			g.DrawString(Lan.g(this,"Pending"),font,Brushes.Black,rectangle,stringFormat);
+			rectangle=new Rectangle(0,LayoutManager.Scale(117),LayoutManager.Scale(70),LayoutManager.Scale(15));
+			g.DrawString(Lan.g(this,"Pending"),font,Brushes.Black,rectangle,stringFormatLabel);
 			rectangle=new Rectangle(LayoutManager.Scale(73),LayoutManager.Scale(116),LayoutManager.Scale(58),LayoutManager.Scale(18));
 			g.FillRectangle(Brushes.White,rectangle);
 			g.DrawRectangle(penOutline,rectangle);
@@ -127,8 +132,8 @@ namespace OpenPmsDental {
 			g.DrawRectangle(penOutline,rectangle);
 			g.DrawString(_strSecPend,font,Brushes.Black,rectangle,stringFormat);
 			//row 6-------------------------------------------------------------------------
-			rectangle=new Rectangle(LayoutManager.Scale(4),LayoutManager.Scale(137),LayoutManager.Scale(66),LayoutManager.Scale(15));
-			g.DrawString(Lan.g(this,"Remain"),font,Brushes.Black,rectangle,stringFormat);
+			rectangle=new Rectangle(0,LayoutManager.Scale(137),LayoutManager.Scale(70),LayoutManager.Scale(15));
+			g.DrawString(Lan.g(this,"Remain"),font,Brushes.Black,rectangle,stringFormatLabel);
 			rectangle=new Rectangle(LayoutManager.Scale(73),LayoutManager.Scale(136),LayoutManager.Scale(58),LayoutManager.Scale(18));
 			g.FillRectangle(Brushes.White,rectangle);
 			g.DrawRectangle(penOutline,rectangle);

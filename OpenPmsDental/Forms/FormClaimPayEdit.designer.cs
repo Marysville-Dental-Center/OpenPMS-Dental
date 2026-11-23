@@ -116,7 +116,7 @@ namespace OpenPmsDental {
 			this.textNote.Multiline = true;
 			this.textNote.Name = "textNote";
 			this.textNote.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.textNote.Size = new System.Drawing.Size(325, 73);
+			this.textNote.Size = new System.Drawing.Size(339, 73);
 			this.textNote.TabIndex = 7;
 			// 
 			// label6
@@ -332,7 +332,7 @@ namespace OpenPmsDental {
 			this.groupPrepaid.Controls.Add(this.panelXcharge);
 			this.groupPrepaid.Location = new System.Drawing.Point(152, 350);
 			this.groupPrepaid.Name = "groupPrepaid";
-			this.groupPrepaid.Size = new System.Drawing.Size(335, 57);
+			this.groupPrepaid.Size = new System.Drawing.Size(339, 57);
 			this.groupPrepaid.TabIndex = 120;
 			this.groupPrepaid.TabStop = false;
 			this.groupPrepaid.Text = "Virtual Credit Card Payment";

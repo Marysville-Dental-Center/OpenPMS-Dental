@@ -25,3 +25,11 @@ def layout(h):
     for k in h.tree.children:
         if k.y >= t.y + t.h and k.y + k.h + dy <= bar - 4 and k.dock in ("None", "") and k.name not in ("butSave", "butDelete"):
             h.set(k.name, None, k.y + dy)
+    # Fix round 8: one right edge. The DentalXChange group (shown with ClaimConnect, beside Save DXC Transmissions) sets the window's width
+    # (1022); the X12 Required Fields group to the window's content edge (main ended it on the clinic picker's and Save's edge), its
+    # Hexadecimal Delimiters group to the group's content edge, the clinic picker ending on the same edge.
+    R = h.tree.nw - 8
+    g1, g3, c = h.n("groupBox1"), h.n("groupBox3"), h.n("comboClinic")
+    h.set("groupBox1", None, None, R - g1.nx, None)
+    h.set("groupBox3", None, None, (R - g1.nx) - 8 - g3.nx, None)
+    h.set("comboClinic", R - c.nw, None)

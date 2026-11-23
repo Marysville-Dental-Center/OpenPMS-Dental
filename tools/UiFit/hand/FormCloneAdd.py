@@ -9,10 +9,17 @@ def layout(h):
     H = h.H
     root = h.tree
     prov = h.n("comboPriProv")
+    # Fix round 8: Primary Provider on the patient group's field column and its right edge (the fields' widths are the planner's fixed point,
+    # pinned in grid-hand.tsv: 240 and 90 px, ending 240 px after the column), its picker button 6 px after it, as FormAdjust's Provider row.
+    g = h.n("groupBox1")
+    R = g.nx + h.n("textLName").nx + 240
+    h.set("comboPriProv", None, None, R - prov.nx, None)
+    bp = h.n("butPickPrimary")
+    h.set("butPickPrimary", R + 6, None)
     y = prov.y + H + 4
     for label, field in (("labelSpecialty", "comboSpecialty"), ("labelClinic", "comboClinic")):
         lb = h.n(label)
-        h.set(field, prov.x, y, prov.w, H)
+        h.set(field, prov.x, y, prov.nw, H)
         h.set(label, prov.x - 6 - lb.w, y, lb.w, H)
         y += H + 4
     b = h.n("butClone")

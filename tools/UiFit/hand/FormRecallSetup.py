@@ -19,3 +19,12 @@ def layout(h):
                 h.set(k.name, k.x - shrink, None)
             elif k.kind == "label" and (k.text_align or "").endswith("Right"):
                 h.set(k.name, k.x - shrink, None)
+    # Fix round 8: Adjust Postcard Position as tall as Recall List Default View beside it (one height for groups side by side); what stands
+    # under it in the right column (Use email if, the Max # rows) moves down by as much, the window and its bottom bar too.
+    g2, g3 = h.n("groupBox2"), h.n("groupBox3")
+    dy = g3.nh - g2.nh
+    if dy > 0:
+        h.set("groupBox2", None, None, None, g3.nh)
+        for name in ("groupBox4", "label7", "label4", "textMaxAutoReminders", "textMaxReminders", "butSave"):
+            h.set(name, None, h.n(name).ny + dy)
+        h.set(".", None, None, h.tree.nw, h.tree.nh + dy)

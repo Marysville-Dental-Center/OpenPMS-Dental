@@ -57,6 +57,124 @@ namespace UiRefreshTests {
 			return hashSetKnown;
 		}
 
+		///<summary>UI-12 slice 1 (fix round 8): the texts a window's code gives a label or check box at run time (Data\grid-runtime-texts.tsv:
+		///window, control, text with \n for a line break, its width on one line at Segoe UI 9, why). The layout scripts size the control for the
+		///widest of its texts (grid_hand.py's Hand.lw); the test sets each text and measures it in the laid-out control.</summary>
+		public static List<string[]> ReadRuntimeTexts() {
+			List<string[]> listRows=new List<string[]>();
+			string[] arrayLines=File.ReadAllLines(RepoPaths.DataFile("grid-runtime-texts.tsv"));
+			foreach(string line in arrayLines) {
+				if(line.Trim()=="" || line.StartsWith("#")) {
+					continue;
+				}
+				if(line.StartsWith("window\t")) {
+					Assert.AreEqual("window\tcontrol\ttext\twidth\twhy",line,"grid-runtime-texts.tsv's header.");
+					continue;
+				}
+				string[] arrayFields=line.Split('\t');
+				Assert.AreEqual(5,arrayFields.Length,"grid-runtime-texts.tsv needs window, control, text, width and why: "+line);
+				listRows.Add(arrayFields);
+			}
+			return listRows;
+		}
+
+		///<summary>UI-12 slice 1 (fix round 8): no covered text (the owner's addition of 2026-11-21) in the grid windows, measured as the text-fit
+		///scan measures it (TextFitMeasurer at the program's font): every label and check box or radio button the designer shows holds its text,
+		///on one line or wrapped in its height (a check box of three lines kept three lines tall: FormFamilyBalancer's Changed Since check box);
+		///and every text of grid-runtime-texts.tsv fits the control the code gives it to (FormClinicEdit's Canadian address labels,
+		///FormScheduleDayEdit's two-line day).</summary>
+		private static void CheckText(GridWindow gridWindow,Control root,List<string[]> listRuntimeTexts,List<string> listFindings) {
+			string window=gridWindow.Window;
+			foreach(Control control in Walk(root)) {
+				if(control==root || !(control is Label || IsCheck(control)) || string.IsNullOrWhiteSpace(control.Text) || control.Width<=0 || control.Height<=0) {
+					continue;
+				}
+				if(control.Dock!=DockStyle.None || !TextFitBoundsRecord.IsDesignedVisible(control) || control.Name=="") {
+					continue;
+				}
+				if(IsCut(control)) {
+					listFindings.Add(window+"\ttext\t"+control.Name);
+				}
+			}
+			foreach(string[] arrayRow in listRuntimeTexts.Where(x => x[0]==window)) {
+				Control control=Walk(root).FirstOrDefault(x => x.Name==arrayRow[1]);
+				Assert.IsNotNull(control,"grid-runtime-texts.tsv names a control the window does not have: "+string.Join(" ",arrayRow.Take(2)));
+				string textDesigner=control.Text;
+				try {
+					control.Text=arrayRow[2].Replace("\\n","\r\n");
+					int width=TextFitMeasurer.MeasureLineGdi(control.Text.Split(new string[] { "\r\n" },StringSplitOptions.None).OrderByDescending(x => x.Length).First(),
+						control.Font,TextFitMeasurer.GetStockFlags(control)).Width;
+					if(Math.Abs(width-int.Parse(arrayRow[3]))>2 && !control.Text.Contains("\r\n")) {
+						listFindings.Add(window+"\truntime-width\t"+control.Name+" measures "+width);
+					}
+					if(IsCut(control)) {
+						listFindings.Add(window+"\truntime-text\t"+control.Name);
+					}
+				}
+				finally {
+					control.Text=textDesigner;
+				}
+			}
+		}
+
+		///<summary>The control's text does not fit it: too wide for its one line, or more lines than its height holds (an ink check of 1-2 px
+		///tall lines as the scan does it).</summary>
+		private static bool IsCut(Control control) {
+			TextFitResult result=TextFitMeasurer.Measure(control,1f);
+			if(result.Method==TextFitMethod.None) {
+				return false;
+			}
+			return result.Kind==TextFitKind.Width || result.Kind==TextFitKind.Line || (result.Kind==TextFitKind.Height && result.IsInkChecked && result.IsInkClipped);
+		}
+
+		///<summary>UI-12 slice 1 (fix round 8): outside Canada FormCarrierEdit's Load hides the CDAnet group and the Is CDAnet Carrier check box and
+		///sets the window 560 px wide and their heights less tall (this.Height-groupCDAnet.Height-checkIsCDAnet.Height). Every other control, the
+		///Carrier Group row Load shows when a CarrierGroupNames definition exists too, stays inside the smaller client area above the bottom bar
+		///(the bar is anchored to the bottom and moves up with it).</summary>
+		[TestMethod]
+		public void FormCarrierEdit_OutsideCanada_EveryControlFits() {
+			List<string> listProblems=new List<string>();
+			StaRunner.Run(() => {
+				NoDatabaseGuard.Install();
+				ScanType scanType=WindowBuilder.GetScanTypes().First(x => x.WindowKey=="OpenPmsDental.FormCarrierEdit");
+				FitGallery.SetGalleryFont("program");
+				try {
+					using(BuiltWindow builtWindow=WindowBuilder.Build(scanType)) {
+						Control root=((FormODBase)builtWindow.Root).PanelClient;
+						Control groupCDAnet=root.Controls["groupCDAnet"];
+						Control checkIsCDAnet=root.Controls["checkIsCDAnet"];
+						int heightClient=root.Height-groupCDAnet.Height-checkIsCDAnet.Height;
+						int widthClient=560-(builtWindow.Form.Width-root.Width);
+						Assert.IsTrue(widthClient>500 && widthClient<=560,"The client width at 560 px: "+widthClient);
+						List<Control> listBar=root.Controls.Cast<Control>().Where(x => x.Anchor.HasFlag(AnchorStyles.Bottom) && !x.Anchor.HasFlag(AnchorStyles.Top)).ToList();
+						Assert.IsTrue(listBar.Count>=2,"Save and Delete are anchored to the bottom.");
+						int yBar=listBar.Min(x => x.Top)-(root.Height-heightClient);
+						foreach(Control control in root.Controls) {
+							if(control==groupCDAnet || control==checkIsCDAnet || listBar.Contains(control)) {
+								continue;
+							}
+							if(!TextFitBoundsRecord.IsDesignedVisible(control) && control.Name!="labelCarrierGroupName" && control.Name!="comboCarrierGroupName") {
+								continue;
+							}
+							if(control.Bottom>yBar-8 || control.Right>widthClient-8) {
+								listProblems.Add(control.Name+" "+control.Bounds+" (client "+widthClient+" x "+heightClient+", bar at "+yBar+")");
+							}
+						}
+						foreach(Control control in listBar) {
+							if(control.Right-(root.Width-widthClient)<8 && control.Anchor.HasFlag(AnchorStyles.Right)) {
+								listProblems.Add(control.Name+" past the left edge");
+							}
+						}
+					}
+				}
+				finally {
+					UiTheme.SetFontForTest(null);
+					DefaultFontOverride.Set(TextFitFontOption.Today,1f);
+				}
+			});
+			Assert.AreEqual(0,listProblems.Count,"Controls outside FormCarrierEdit's client area outside Canada: "+string.Join("; ",listProblems));
+		}
+
 		[TestMethod]
 		public void GridWindows_DataFilesAgree() {
 			List<GridWindow> listWindows=ReadGridWindows();
@@ -109,6 +227,7 @@ namespace UiRefreshTests {
 		public void GridWindows_FollowTheRules() {
 			List<GridWindow> listWindows=ReadGridWindows();
 			HashSet<string> hashSetKnown=ReadKnown();
+			List<string[]> listRuntimeTexts=ReadRuntimeTexts();
 			List<string> listFindings=new List<string>();
 			List<string> listFailed=new List<string>();
 			StaRunner.Run(() => {
@@ -129,6 +248,7 @@ namespace UiRefreshTests {
 							}
 							CheckWindow(gridWindow,root,listFindings);
 							CheckColumns(gridWindow,root,listFindings);
+							CheckText(gridWindow,root,listRuntimeTexts,listFindings);
 						}
 					}
 					catch(Exception exception) {
@@ -284,6 +404,25 @@ namespace UiRefreshTests {
 					int gap=field.Left-label.Right;
 					if(gap<4 || gap>8) {
 						listFindings.Add(window+"\tlabel-gap\t"+label.Name+" "+field.Name);
+					}
+				}
+				//UI-12 slice 1 (fix round 8): a clinic picker under a field of a column (the next row, its box within 40 px of the field's left edge)
+				//has its box on that column: the same left edge, and under a combo box of about its width the same right edge too
+				//(FormRpDPPOvercharged's and FormRpProcOverpaid's Clinics under Providers). The column check does not see a picker: it names
+				//itself, no label stands before it.
+				foreach(Control picker in listKids.Where(x => x is OpenPmsDental.UI.ComboBoxClinicPicker comboBoxClinicPicker && comboBoxClinicPicker.ShowLabel)) {
+					Rectangle rectangleBox=GetBox(picker);
+					Control fieldAbove=listKids.Where(x => x!=picker && IsSingleLineField(x) && x.Bottom<=picker.Top+1 && picker.Top-x.Bottom<12
+						&& Math.Abs(GetBox(x).Left-rectangleBox.Left)<=40).OrderByDescending(x => x.Bottom).FirstOrDefault();
+					if(fieldAbove==null) {
+						continue;
+					}
+					Rectangle rectangleAbove=GetBox(fieldAbove);
+					bool isComboAbove=fieldAbove is System.Windows.Forms.ComboBox || fieldAbove.GetType().Name.Contains("ComboBox");
+					if(Math.Abs(rectangleAbove.Left-rectangleBox.Left)>1
+						|| (isComboAbove && Math.Abs(rectangleAbove.Right-rectangleBox.Right)<=40 && Math.Abs(rectangleAbove.Right-rectangleBox.Right)>1))
+					{
+						listFindings.Add(window+"\tpicker-column\t"+picker.Name+" "+fieldAbove.Name);
 					}
 				}
 			}

@@ -163,7 +163,7 @@ namespace OpenPmsDental {
 			this.comboClinic.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.comboClinic.HqDescription = "Unassigned/Default";
 			this.comboClinic.IncludeUnassigned = true;
-			this.comboClinic.Location = new System.Drawing.Point(669, 8);
+			this.comboClinic.Location = new System.Drawing.Point(803, 8);
 			this.comboClinic.Name = "comboClinic";
 			this.comboClinic.Size = new System.Drawing.Size(211, 23);
 			this.comboClinic.TabIndex = 15;
@@ -217,7 +217,7 @@ namespace OpenPmsDental {
 			this.groupBox1.Controls.Add(this.label5);
 			this.groupBox1.Location = new System.Drawing.Point(8, 39);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(948, 384);
+			this.groupBox1.Size = new System.Drawing.Size(1006, 384);
 			this.groupBox1.TabIndex = 2;
 			this.groupBox1.Text = "X12 Required Fields - Provided by Clearinghouse or Carrier";
 			// 
@@ -234,7 +234,7 @@ namespace OpenPmsDental {
 			this.groupBox3.Controls.Add(this.label34);
 			this.groupBox3.Location = new System.Drawing.Point(505, 108);
 			this.groupBox3.Name = "groupBox3";
-			this.groupBox3.Size = new System.Drawing.Size(435, 156);
+			this.groupBox3.Size = new System.Drawing.Size(493, 156);
 			this.groupBox3.TabIndex = 5;
 			this.groupBox3.Text = "Hexadecimal Delimiters (Always blank except for Denti-Cal)";
 			// 

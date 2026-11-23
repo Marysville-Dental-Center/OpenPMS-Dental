@@ -38,3 +38,29 @@ def layout(h):
     h.set("label9", fi - 6 - l9, None, l9)
     h.set("textPlans", fi, None, 36)
     h.set("comboPlans", fi + 36 + 6, None, R - 8 - 8 - (fi + 36 + 6))
+    # Fix round 8: the Canadian texts Load gives the City and Electronic ID labels (grid-runtime-texts.tsv) fit, right-aligned on the column.
+    for name in ("labelCitySt", "labelElectID"):
+        lw = h.lw(name)
+        h.set(name, F - 6 - lw, None, lw)
+    # The Supported Transaction Types group to the CDAnet group's content edge (the planner widened CDAnet to the window's content edge).
+    cd, g3 = h.n("groupCDAnet"), h.n("groupBox3")
+    h.set("groupBox3", None, None, cd.nw - 8 - g3.nx, None)
+    # Fix round 8: the Carrier Group row (Load shows it when a CarrierGroupNames definition exists) on its main row under Consolidate Ortho Ins
+    # Payments; the planner put the hidden row at the end of its column, under the CDAnet group, which Load hides outside Canada and takes off
+    # the window's height (GridRulesTests.FormCarrierEdit_OutsideCanada_EveryControlFits). The rows under it move down one pitch.
+    P = H + 4
+    yo = h.n("comboOrthoConsolidate").ny + P
+    bar = ("butSave", "butDelete")
+    for k in h.tree.children:
+        if k.dock in ("None", "") and k.name not in ("labelCarrierGroupName", "comboCarrierGroupName") + bar and k.ny >= yo:
+            h.set(k.name, None, k.ny + P)
+    lc = h.lw("labelCarrierGroupName")
+    h.set("labelCarrierGroupName", F - 6 - lc, yo, lc, H)
+    h.text_align("labelCarrierGroupName", "MiddleRight")
+    h.set("comboCarrierGroupName", F, yo, h.n("comboCarrierGroupName").nw, H)
+    # The bottom bar 12 px under the content (the CDAnet group), as the planner sets it, the window to its bottom padding.
+    content = max(k.ny + k.nh for k in h.tree.children if k.dock in ("None", "") and k.visible and k.name not in bar)
+    yb = content + 12
+    for name in bar:
+        h.set(name, None, yb)
+    h.set(".", None, None, h.tree.nw, yb + h.n("butSave").nh + 8)

@@ -187,9 +187,9 @@ namespace OpenPmsDental {
 			// 
 			// labelElectID
 			// 
-			this.labelElectID.Location = new System.Drawing.Point(124, 170);
+			this.labelElectID.Location = new System.Drawing.Point(36, 170);
 			this.labelElectID.Name = "labelElectID";
-			this.labelElectID.Size = new System.Drawing.Size(80, 23);
+			this.labelElectID.Size = new System.Drawing.Size(168, 23);
 			this.labelElectID.TabIndex = 0;
 			this.labelElectID.Text = "Electronic ID";
 			this.labelElectID.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -207,7 +207,7 @@ namespace OpenPmsDental {
 			this.groupBox1.Controls.Add(this.comboPlans);
 			this.groupBox1.Controls.Add(this.textPlans);
 			this.groupBox1.Controls.Add(this.label9);
-			this.groupBox1.Location = new System.Drawing.Point(8, 463);
+			this.groupBox1.Location = new System.Drawing.Point(8, 490);
 			this.groupBox1.Name = "groupBox1";
 			this.groupBox1.Size = new System.Drawing.Size(494, 54);
 			this.groupBox1.TabIndex = 17;
@@ -269,16 +269,16 @@ namespace OpenPmsDental {
 			// 
 			// labelCitySt
 			// 
-			this.labelCitySt.Location = new System.Drawing.Point(128, 143);
+			this.labelCitySt.Location = new System.Drawing.Point(60, 143);
 			this.labelCitySt.Name = "labelCitySt";
-			this.labelCitySt.Size = new System.Drawing.Size(76, 23);
+			this.labelCitySt.Size = new System.Drawing.Size(144, 23);
 			this.labelCitySt.TabIndex = 0;
 			this.labelCitySt.Text = "City, ST, Zip";
 			this.labelCitySt.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// checkIsCDAnet
 			// 
-			this.checkIsCDAnet.Location = new System.Drawing.Point(210, 565);
+			this.checkIsCDAnet.Location = new System.Drawing.Point(210, 592);
 			this.checkIsCDAnet.Name = "checkIsCDAnet";
 			this.checkIsCDAnet.Size = new System.Drawing.Size(116, 20);
 			this.checkIsCDAnet.TabIndex = 18;
@@ -304,7 +304,7 @@ namespace OpenPmsDental {
 			this.groupCDAnet.Controls.Add(this.label5);
 			this.groupCDAnet.Controls.Add(this.textVersion);
 			this.groupCDAnet.Controls.Add(this.label1);
-			this.groupCDAnet.Location = new System.Drawing.Point(8, 593);
+			this.groupCDAnet.Location = new System.Drawing.Point(8, 620);
 			this.groupCDAnet.Name = "groupCDAnet";
 			this.groupCDAnet.Size = new System.Drawing.Size(686, 325);
 			this.groupCDAnet.TabIndex = 19;
@@ -374,7 +374,7 @@ namespace OpenPmsDental {
 			this.groupBox3.Controls.Add(this.check08);
 			this.groupBox3.Location = new System.Drawing.Point(346, 50);
 			this.groupBox3.Name = "groupBox3";
-			this.groupBox3.Size = new System.Drawing.Size(312, 267);
+			this.groupBox3.Size = new System.Drawing.Size(332, 267);
 			this.groupBox3.TabIndex = 6;
 			this.groupBox3.Text = "Supported Transaction Types";
 			// 
@@ -576,7 +576,7 @@ namespace OpenPmsDental {
 			// checkIsHidden
 			// 
 			this.checkIsHidden.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkIsHidden.Location = new System.Drawing.Point(210, 305);
+			this.checkIsHidden.Location = new System.Drawing.Point(210, 332);
 			this.checkIsHidden.Name = "checkIsHidden";
 			this.checkIsHidden.Size = new System.Drawing.Size(62, 20);
 			this.checkIsHidden.TabIndex = 13;
@@ -587,7 +587,7 @@ namespace OpenPmsDental {
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(8, 961);
+			this.butDelete.Location = new System.Drawing.Point(8, 957);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(78, 26);
 			this.butDelete.TabIndex = 20;
@@ -597,7 +597,7 @@ namespace OpenPmsDental {
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(616, 961);
+			this.butSave.Location = new System.Drawing.Point(616, 957);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(78, 26);
 			this.butSave.TabIndex = 21;
@@ -626,7 +626,7 @@ namespace OpenPmsDental {
 			// 
 			// labelCarrierGroupName
 			// 
-			this.labelCarrierGroupName.Location = new System.Drawing.Point(120, 926);
+			this.labelCarrierGroupName.Location = new System.Drawing.Point(120, 305);
 			this.labelCarrierGroupName.Name = "labelCarrierGroupName";
 			this.labelCarrierGroupName.Size = new System.Drawing.Size(84, 23);
 			this.labelCarrierGroupName.TabIndex = 0;
@@ -636,7 +636,7 @@ namespace OpenPmsDental {
 			// 
 			// labelColor
 			// 
-			this.labelColor.Location = new System.Drawing.Point(8, 353);
+			this.labelColor.Location = new System.Drawing.Point(8, 380);
 			this.labelColor.Name = "labelColor";
 			this.labelColor.Size = new System.Drawing.Size(196, 23);
 			this.labelColor.TabIndex = 0;
@@ -645,7 +645,7 @@ namespace OpenPmsDental {
 			// 
 			// comboCarrierGroupName
 			// 
-			this.comboCarrierGroupName.Location = new System.Drawing.Point(210, 926);
+			this.comboCarrierGroupName.Location = new System.Drawing.Point(210, 305);
 			this.comboCarrierGroupName.Name = "comboCarrierGroupName";
 			this.comboCarrierGroupName.Size = new System.Drawing.Size(224, 23);
 			this.comboCarrierGroupName.TabIndex = 12;
@@ -655,7 +655,7 @@ namespace OpenPmsDental {
 			// 
 			this.groupBox2.Controls.Add(this.radioBenefitSendsPat);
 			this.groupBox2.Controls.Add(this.radioBenefitSendsIns);
-			this.groupBox2.Location = new System.Drawing.Point(210, 380);
+			this.groupBox2.Location = new System.Drawing.Point(210, 407);
 			this.groupBox2.Name = "groupBox2";
 			this.groupBox2.Size = new System.Drawing.Size(292, 75);
 			this.groupBox2.TabIndex = 16;
@@ -700,7 +700,7 @@ namespace OpenPmsDental {
 			// checkRealTimeEligibility
 			// 
 			this.checkRealTimeEligibility.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkRealTimeEligibility.Location = new System.Drawing.Point(210, 329);
+			this.checkRealTimeEligibility.Location = new System.Drawing.Point(210, 356);
 			this.checkRealTimeEligibility.Name = "checkRealTimeEligibility";
 			this.checkRealTimeEligibility.Size = new System.Drawing.Size(197, 20);
 			this.checkRealTimeEligibility.TabIndex = 14;
@@ -709,7 +709,7 @@ namespace OpenPmsDental {
 			// odColorPickerBack
 			// 
 			this.odColorPickerBack.BackgroundColor = System.Drawing.Color.Empty;
-			this.odColorPickerBack.Location = new System.Drawing.Point(210, 354);
+			this.odColorPickerBack.Location = new System.Drawing.Point(210, 381);
 			this.odColorPickerBack.Name = "odColorPickerBack";
 			this.odColorPickerBack.Size = new System.Drawing.Size(74, 21);
 			this.odColorPickerBack.TabIndex = 15;
@@ -764,7 +764,7 @@ namespace OpenPmsDental {
 			//
 			// labelPreAuthCodes
 			//
-			this.labelPreAuthCodes.Location = new System.Drawing.Point(22, 525);
+			this.labelPreAuthCodes.Location = new System.Drawing.Point(22, 552);
 			this.labelPreAuthCodes.Name = "labelPreAuthCodes";
 			this.labelPreAuthCodes.Size = new System.Drawing.Size(182, 34);
 			this.labelPreAuthCodes.TabIndex = 0;
@@ -773,7 +773,7 @@ namespace OpenPmsDental {
 			//
 			// textPreAuthCodes
 			//
-			this.textPreAuthCodes.Location = new System.Drawing.Point(210, 525);
+			this.textPreAuthCodes.Location = new System.Drawing.Point(210, 552);
 			this.textPreAuthCodes.Multiline = true;
 			this.textPreAuthCodes.Name = "textPreAuthCodes";
 			this.textPreAuthCodes.Size = new System.Drawing.Size(285, 36);
@@ -781,7 +781,7 @@ namespace OpenPmsDental {
 			//
 			// butPreAuthCodes
 			//
-			this.butPreAuthCodes.Location = new System.Drawing.Point(501, 531);
+			this.butPreAuthCodes.Location = new System.Drawing.Point(501, 558);
 			this.butPreAuthCodes.Name = "butPreAuthCodes";
 			this.butPreAuthCodes.Size = new System.Drawing.Size(24, 23);
 			this.butPreAuthCodes.TabIndex = 279;
@@ -790,7 +790,7 @@ namespace OpenPmsDental {
 			//
 			// FormCarrierEdit
 			//
-			this.ClientSize = new System.Drawing.Size(702, 995);
+			this.ClientSize = new System.Drawing.Size(702, 991);
 			this.Controls.Add(this.butPreAuthCodes);
 			this.Controls.Add(this.textPreAuthCodes);
 			this.Controls.Add(this.labelPreAuthCodes);

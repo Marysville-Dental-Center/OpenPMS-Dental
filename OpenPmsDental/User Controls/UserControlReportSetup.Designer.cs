@@ -45,6 +45,7 @@
 			//
 			// labelAllowedCount
 			//
+			this.labelAllowedCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelAllowedCount.Location = new System.Drawing.Point(376, 5);
 			this.labelAllowedCount.Name = "labelAllowedCount";
 			this.labelAllowedCount.Size = new System.Drawing.Size(146, 24);
@@ -72,6 +73,9 @@
 			//
 			// gridReports
 			//
+			this.gridReports.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridReports.Location = new System.Drawing.Point(3, 35);
 			this.gridReports.Name = "gridReports";
 			this.gridReports.SelectionMode = OpenPmsDental.UI.GridSelectionMode.OneCell;
@@ -86,6 +90,7 @@
 			//
 			this.butDown.Icon = OpenPmsDental.UI.EnumIcons.Down;
 			this.butDown.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.butDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butDown.Location = new System.Drawing.Point(459, 5);
 			this.butDown.Name = "butDown";
 			this.butDown.Size = new System.Drawing.Size(63, 24);
@@ -97,6 +102,7 @@
 			//
 			this.butUp.Icon = OpenPmsDental.UI.EnumIcons.Up;
 			this.butUp.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.butUp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butUp.Location = new System.Drawing.Point(392, 5);
 			this.butUp.Name = "butUp";
 			this.butUp.Size = new System.Drawing.Size(63, 24);

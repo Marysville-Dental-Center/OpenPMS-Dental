@@ -19,3 +19,13 @@ def layout(h):
     # The groups beside the bottom buttons move left with them (their fields keep their distance to the filter group's columns).
     for name in ("groupBox1", "groupBox3", "groupBoxUpdateCustomTracking"):
         h.set(name, h.n(name).x - dx, None)
+    # Fix round 8: Zero Claims 6 px after Assign User on its row, the three groups 8 px after it (frame_left moved the groups but not Zero
+    # Claims: they touched), and the Custom Tracking group as tall as the two info groups beside it (one height for groups side by side).
+    au, zc = h.n("butAssignUser"), h.n("butZeroClaims")
+    xz = au.nx + au.nw + 6
+    h.set("butZeroClaims", xz, None)
+    xg = xz + zc.nw + 8
+    dxg = xg - h.n("groupBox1").nx
+    for name in ("groupBox1", "groupBox3", "groupBoxUpdateCustomTracking"):
+        h.set(name, h.n(name).nx + dxg, None)
+    h.set("groupBoxUpdateCustomTracking", None, None, None, h.n("groupBox1").nh)
