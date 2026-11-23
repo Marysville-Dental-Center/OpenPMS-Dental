@@ -1613,6 +1613,12 @@ own 26.2 overlap check before it starts. The first cut is below; a brief that fi
   layout script, the planner's rounding rows pinned, the whole window at 150% (before pictures from a build of main); fix rounds 5 to 7 of
   the audit (FormCloneAdd, FormMedical, FormRpLaserLabels, FormRxDefEdit, ControlTreat and its picture); gallery G-UI3-ui12-1 redrawn (63
   pictures with the clinic picker's style pictures), audit passes 4 and 5 (UI-12.md, "Slice 1, continuation").
+  Slice 1 fix round 8 (branch `ui/ui12-1-2`, the lead's review of 23 findings): FormCarrierEdit's Carrier Group row back above the CDAnet
+  group (outside Canada Load took it off the window), the labels whose text the code sets sized for it (`grid-runtime-texts.tsv`: the
+  Canadian address labels, the two-line day of FormScheduleDayEdit), FormFamilyBalancer's three-line check box, the pickers on their
+  columns, one right edge and one group height where the slice had broken them, UserControlReportSetup anchored to its page, the
+  individual insurance summary's labels whole; GridRulesTests checks no cut text in the grid windows, the pickers' columns and
+  FormCarrierEdit's client area outside Canada; audit pass 6 (UI-12.md, "Slice 1, fix round 8").
 - Gallery: G-UI3 per slice, the owner's rows first.
 
 **UI-13: every element type in the new look (the owner, 2026-11-22: "Overall make sure you modernize all element types")**

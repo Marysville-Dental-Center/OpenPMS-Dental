@@ -119,15 +119,40 @@ namespace UiRefreshTests {
 			}
 		}
 
-		///<summary>The control's text does not fit it: too wide for its one line, or more lines than its height holds (an ink check of 1-2 px
-		///tall lines as the scan does it).</summary>
+		///<summary>The control's text does not fit it. A label as the text-fit scan measures it (TextFitMeasurer): wrapped lines that need more
+		///height than it has, or a line 3 px or more too wide or too tall for it (1-2 px is the measure's rounding, the scan's "fixable" class).
+		///A check box or radio button: its text wrapped as it draws it (the program's check box: GDI+ in its width less the 12 px box and 3 px;
+		///a stock one: TextRenderer in its width less what its preferred size adds to the text, 2 px of rounding allowed as for labels), its line
+		///breaks kept; two lines or more that
+		///its height does not hold are cut (one line is the grid's 18 and 20 px row, whatever the measure's line spacing). The scan's own
+		///classification measures a text with line breaks on one line, so it would read FormFamilyBalancer's three-line check box as too wide
+		///rather than too short.</summary>
 		private static bool IsCut(Control control,out string detail) {
+			if(IsCheck(control)) {
+				Size sizeWrapped;
+				Size sizeLine;
+				if(TextFitMeasurer.IsOfType(control,TextFitMeasurer.TYPE_UI_CHECKBOX)) {
+					using(StringFormat stringFormat=new StringFormat()) {
+						sizeWrapped=TextFitMeasurer.MeasureWrappedGdiPlus(control.Text,control.Font,control.Width-12-3,stringFormat);
+						sizeLine=TextFitMeasurer.MeasureWrappedGdiPlus("Ag",control.Font,1000,stringFormat);
+					}
+				}
+				else {
+					TextFormatFlags flags=TextFitMeasurer.GetStockFlags(control);
+					int widthExtra=Math.Max(0,control.GetPreferredSize(Size.Empty).Width-TextFitMeasurer.MeasureLineGdi(control.Text,control.Font,flags).Width);
+					sizeWrapped=TextFitMeasurer.MeasureWrappedGdi(control.Text,control.Font,control.Width-widthExtra+2,flags);
+					sizeLine=TextFitMeasurer.MeasureLineGdi("Ag",control.Font,flags);
+				}
+				int countLines=(int)Math.Round(sizeWrapped.Height/(double)Math.Max(1,sizeLine.Height));
+				detail="wrapped "+sizeWrapped.Width+"x"+sizeWrapped.Height+" ("+countLines+" lines of "+sizeLine.Height+") in "+control.Width+"x"+control.Height;
+				return countLines>=2 && sizeWrapped.Height>control.Height+3;
+			}
 			TextFitResult result=TextFitMeasurer.Measure(control,1f);
 			detail=result.Kind+" "+control.Width+"x"+control.Height+" needs +"+result.NeedWidth+" x +"+result.NeedHeight;
 			if(result.Method==TextFitMethod.None) {
 				return false;
 			}
-			return result.Kind==TextFitKind.Width || result.Kind==TextFitKind.Line || (result.Kind==TextFitKind.Height && result.IsInkChecked && result.IsInkClipped);
+			return result.Kind==TextFitKind.Line || (result.Kind==TextFitKind.Width && (result.NeedWidth>=3 || result.NeedHeight>=3));
 		}
 
 		///<summary>The measurements of the text findings, for the failure message.</summary>

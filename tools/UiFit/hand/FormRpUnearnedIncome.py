@@ -30,3 +30,7 @@ def layout(h):
     yl = y + 18 + 2 + h.CH + 2
     h.set("listLineItemClins", None, yl, None, bottom - yl)
     h.set("tabControlMain", 8, None, wt, None)
+    # Fix round 8: the Unallocated Balances page's note to the page's content edge, where its text takes three lines (at 571 px it took four
+    # in its 57 px, the last cut).
+    p = h.n("tabPageUnallocatedBalances")
+    h.set("label4", None, None, wt - (tc.w - p.w) - 16, None)
