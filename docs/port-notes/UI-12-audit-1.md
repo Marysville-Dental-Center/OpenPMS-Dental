@@ -194,3 +194,32 @@ report windows on the 8 px margin, ControlTreat's layout script, the rounding ro
 | FormPayPlanDynamic-150 | the whole window | nothing |
 | FormPaySplitEdit-150 | rows, the tab page | the picker as FormAdjust-150 |
 | FormRpOutstandingIns-150 | the whole window | the picker as FormAdjust-150 |
+
+## Pass 5 (`b5`, then `b6`): the continuation's final build
+
+Compared with `cmp`: of the `b5` pictures only ControlTreat differs from `b4` (fix round 6); the other 46 slice pictures, the 12 at 150%, the
+8 style pictures and the 25 list-control strips are byte-identical to `b4`. Opened again: every picture that changed after pass 4's `b2`
+pictures (the fix rounds 5 and 6: five at 100%, five at 150%) and the four style pictures of the gallery, which pass 4 did not list. `b6`
+(fix round 7, a harness change only) differs from `b5` in ControlTreat alone; its OpenPmsDental.dll is `b5`'s (sha256 `a1da07e6ad6f2cbc`
+in both bins), so the 150% pictures are `b5`'s.
+
+| Picture | Found | Fixed by |
+|---|---|---|
+| ControlTreat (`b5`) | The top row on one top and height (155), the Show page's seven check boxes 18 px apart, the right column's captions 2 px over their list and date, the summaries stacked; but the discount plan summary drawn over the family insurance summary on its place ("ary" of Secondary showing past it): FillSummary shows one or the other, the harness drew both (main's picture too) | Fix round 7: the gallery hides the discount summary, as FillSummary does for a patient without a discount plan (`FitGallery.FillSampleContent`, `b6`) |
+| ControlTreat (`b6`) | The family and individual insurance summaries 4 px apart, Set Priority's list 4 px over them, the Procedures grid 4 px from the right column; "Ded Remai" is DashIndividualInsurance's own drawing (the dashboard surface, owner-drawn, left out of the slice; the same on main) | nothing (the "Ded Remain" cut: for the lead) |
+| FormCloneAdd | Specialty and Clinic rows' place under Primary Provider (shown by Load), Clone at the bottom right | nothing |
+| FormMedical | The captions 2 px over their boxes, Service Notes and Medical History to the page's content edge, Service Notes ending on Medical Summary's bottom | nothing |
+| FormReportSetup | The Display Settings page in its display mode (the instructions, no user group row), Up and Down ending on the grid's edge | nothing |
+| FormRpLaserLabels | One field column on Patient Labels (the boxes, the check boxes) | nothing |
+| FormRxDefEdit | Sig as wide as Drug, the RxNorm button ending on the notes' edge | nothing |
+| FormAdjust-150 | The whole window; the picker's box 1 px left of the Provider column (170 against 171: LayoutManager rounds the picker's left, 106.5, and its label area, 64.5, each on its own, as it rounds any control at an odd 96 dpi position; 0 px at 100%) | nothing (rounding) |
+| FormClearinghouseEdit-150 | The whole window (1335 px), the picker's box after "Clinic" | nothing |
+| FormPayPlan-150 | The whole window; the picker in its group, its box 1 px left of the Provider column (as FormAdjust-150) | nothing (rounding) |
+| FormPaySplitEdit-150 | The whole window, the picker's box on the field column | nothing |
+| FormRpOutstandingIns-150 | The whole window, "Clinics" whole, the box on the Treat Provs column | nothing |
+| clinic-picker-100, clinic-picker-150 (styles) | The WinForms picker's states: "Clinic" right-aligned before the box; the second row (the WPF ComboClinic, WpfControlsOD) byte-identical to main's | nothing |
+| FormPayment-inputs-100, FormPayment-inputs-150 (styles) | Every input kind of FormPayment, the picker's box on the field column; "Clinic"'s ink 10 px from its box, the labels under it 7-8 (the picker draws its text with TextRenderer 1 px left of where a Label draws it, and "c" ends 1 px inside its cell: the drawing the pilot's fix round 2 set and the owner approved) | nothing |
+
+At 150% the clinic picker's label, like the text in the text boxes, date pickers and up-down boxes, is drawn at the font Windows gives the
+scaled control, the harness's other labels at its zoom font (UI-12.md, "Slice 1, continuation", the 150% pictures), so "Clinic" reads larger
+than the labels beside it in the 150% pictures only. The pass finds nothing more: `b6` is the gallery's after set.
