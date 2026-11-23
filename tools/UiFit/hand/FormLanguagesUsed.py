@@ -2,7 +2,8 @@
 caption, list, Custom Language group), the right column 8 px short of the right padding, the captions 4 px over their lists, and Delete,
 Up and Down in a row 72 px short of the list's right edge: the note, the All Languages column and the group on the padding; the
 Languages used column on the right padding; Add centred between the two lists; Delete under the right list on its left edge, Up and Down
-on its right edge; the captions 2 px over their lists."""
+on its right edge; the captions 2 px over their lists. The custom Add button keeps the 24 px of an icon button (at 23 its arrow
+paints over the right border at 150%)."""
 import importlib.util
 import os
 
@@ -36,3 +37,4 @@ def layout(h):
     h.set("label5", xr, y5, lu.nw, None)
     h.set("comboLanguagesIndicateNone", xr, y5 + l5.nh + 2, lu.nw, None)
     h.set("groupBox1", 8, None)
+    s.e.icon_buttons(h)
