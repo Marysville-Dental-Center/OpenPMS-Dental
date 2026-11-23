@@ -265,6 +265,13 @@ namespace OpenPmsDental {
 						_controlImageDisplay.RequestEnhance(_idxShowing);
 					}
 					return true;
+				case Keys.Control|Keys.Z:
+				case Keys.Control|Keys.Y:
+					//IMG-P3c: the Enhance window's undo and redo
+					if(IsSourceValid()){
+						_controlImageDisplay.RequestUndo(keyData==(Keys.Control|Keys.Y));
+					}
+					return true;
 				case Keys.T:
 					//The teeth of the image showing (imaging design P2): the module's picker saves them; this window then shows the new teeth.
 					if(IsSourceValid()){

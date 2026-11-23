@@ -143,6 +143,22 @@ Here is the desired behavior:
 		///<summary>The saved adjust filters (IMG-P3) of the documents showing, by DocNum; null for a document without any. Read once per document
 		///(a mount's in one query) and emptied by ClearObjects.</summary>
 		private Dictionary<long,ImageAdjustSettings> _dictAdjustSettings=new Dictionary<long,ImageAdjustSettings>();
+		///<summary>IMG-P3c, the viewing aids: the magnifier's zoom (0 off, 2 or 4; the M key), the spot enhancer (the S key) and its radius in
+		///panel pixels (Ctrl+wheel), the last pointer position over the image, and showing the selected image's original (the O key).</summary>
+		private int _magnifierZoom;
+		private bool _isSpotEnhance;
+		private int _spotRadius=80;
+		private Point _pointMouseLast;
+		private bool _isMouseInPanel;
+		private bool _isShowingOriginal;
+		///<summary>IMG-P3c, right-drag brightness/contrast: where the right button went down, whether it has dragged, the window and the bars'
+		///values at the start, the row before.</summary>
+		private Point _pointRightDown;
+		private bool _isRightDown;
+		private bool _isRightDragging;
+		private int _brightnessDragStart;
+		private int _contrastDragStart;
+		private Document _documentDragOld;
 		///<summary>The right-click menu's Teeth item (imaging design P2), made in code after Info.</summary>
 		private ToolStripMenuItem _menuItemTeeth;
 		///<summary>The browser that prints PDFs (PrintPDF), in no window. Disposed with this control. Null until the first print.</summary>
@@ -205,6 +221,10 @@ Here is the desired behavior:
 		public event EventHandler<int> EventEnhanceRequested;
 		///<summary>An image's brightness/contrast or filters were saved (IMG-P3b): the image viewer window shows them.</summary>
 		public event EventHandler EventAdjustSaved;
+		///<summary>Ctrl+Z (false) or Ctrl+Y (true) on the image: the Enhance window's undo or redo (IMG-P3c).</summary>
+		public event EventHandler<bool> EventUndoRequested;
+		///<summary>A right-drag saved a new window for the selected image (IMG-P3c): the Enhance window shows it.</summary>
+		public event EventHandler EventWindowDragged;
 		///<summary>This event bubbles up to the parent, which then sets the property here.</summary>
 		public event EventHandler<EnumCropPanAdj> EventSetCropPanEditAdj;
 		///<summary>This event bubbles up to the parent, which then calls SetDrawMode() here.</summary>
@@ -546,6 +566,10 @@ Here is the desired behavior:
 		///<param name="doApplyAdjust">False shows brightness/contrast only, without the saved filters: the fast preview while a slider moves
 		///(IMG-P3b). The next call with true shows them.</param>
 		public void InvalidateSettingsColor(bool doApplyAdjust=true) {
+			if(_isShowingOriginal){
+				ShowOriginalPicture();
+				return;
+			}
 			if(IsDocumentShowing()){
 				//if((imageSettingFlags & ImageSettingFlags.COLORFUNCTION) !=0 || (imageSettingFlags & ImageSettingFlags.CROP) !=0){
 				//We don't do any flip, rotate, or crop here
@@ -1546,6 +1570,19 @@ Here is the desired behavior:
 			else if(IsDocumentShowing() && !IsAdjustNeutral(GetDocumentShowing(0))){
 				listPointFs.Add(new PointF(panelMain.Width,panelMain.Height));
 			}
+			if(_isShowingOriginal){
+				//IMG-P3c: the selected image shows its original (the O key)
+				System.Drawing.Drawing2D.Matrix matrixSaved=g.Transform;
+				g.ResetTransform();
+				string textOriginal=Lan.g(this,"Original (O to return)");
+				Size sizeOriginal=TextRenderer.MeasureText(textOriginal,UiTheme.FontBody);
+				Rectangle rectangleOriginal=new Rectangle(6,6,sizeOriginal.Width+6,sizeOriginal.Height+2);
+				using SolidBrush solidBrushOriginal=new SolidBrush(UiTheme.Accent);
+				g.FillRectangle(solidBrushOriginal,rectangleOriginal);
+				TextRenderer.DrawText(g,textOriginal,UiTheme.FontBody,rectangleOriginal,UiTheme.TextOnAccent,TextFormatFlags.HorizontalCenter|TextFormatFlags.VerticalCenter);
+				g.Transform=matrixSaved;
+				matrixSaved.Dispose();
+			}
 			if(listPointFs.Count==0){
 				return;
 			}
@@ -1557,6 +1594,202 @@ Here is the desired behavior:
 				Rectangle rectangle=new Rectangle((int)pointF.X-sizeText.Width-10,(int)pointF.Y-sizeText.Height-6,sizeText.Width+6,sizeText.Height+2);
 				g.FillRectangle(solidBrushBack,rectangle);
 				TextRenderer.DrawText(g,text,UiTheme.FontBody,rectangle,UiTheme.TextOnAccent,TextFormatFlags.HorizontalCenter|TextFormatFlags.VerticalCenter);
+			}
+		}
+		///<summary>Ctrl+Z/Ctrl+Y need the Enhance window's history; the image viewer window and the module route them here too.</summary>
+		public void RequestUndo(bool isRedo){
+			EventUndoRequested?.Invoke(this,isRedo);
+		}
+
+		///<summary>Saves this window and these filters for every image of the mount (the Enhance window's All in mount, IMG-P3c). windowingMax 0
+		///with windowingMin 0 leaves each image's window (and a DICOM image's window always stays). Each image is saved through ImageEnhance.Save,
+		///which checks its permission; returns how many were saved.</summary>
+		public int ApplyAdjustToMount(int windowingMin,int windowingMax,ImageAdjustSettings imageAdjustSettings){
+			if(!IsMountShowing() || _listMountItems==null || _documentArrayShowing==null){
+				return 0;
+			}
+			int countSaved=0;
+			List<int> listIdxs=GetViewerIndexes();
+			foreach(int idx in listIdxs){
+				Document document=_documentArrayShowing[idx];
+				Document documentOld=document.Copy();
+				ImageAdjustSettings settingsOld=GetAdjustSettings(document)??new ImageAdjustSettings();
+				bool isDicom=document.FileName!=null && document.FileName.ToLower().EndsWith(".dcm");
+				if(!isDicom && !(windowingMin==0 && windowingMax==0)){
+					document.WindowingMin=windowingMin;
+					document.WindowingMax=windowingMax;
+				}
+				if(!ImageEnhance.Save(document,documentOld,settingsOld,imageAdjustSettings,PatientCur.PatNum,PatFolder)){
+					document.WindowingMin=documentOld.WindowingMin;
+					document.WindowingMax=documentOld.WindowingMax;
+					continue;
+				}
+				_dictAdjustSettings[document.DocNum]=imageAdjustSettings?.Copy();
+				LoadBitmap(idx,EnumLoadBitmapType.OnlyIdx);
+				countSaved++;
+			}
+			if(_idxSelectedInMount>-1){
+				LoadBitmap(_idxSelectedInMount,EnumLoadBitmapType.OnlyRaw);
+			}
+			SetWindowingSlider();
+			panelMain.Invalidate();
+			EventAdjustSaved?.Invoke(this,EventArgs.Empty);
+			return countSaved;
+		}
+
+		///<summary>Shows the selected image's original (the O key, IMG-P3c): the file as it is, without brightness/contrast and without filters (a
+		///DICOM image keeps its window, which is how it is read). On the screen only; nothing is saved. Ends with false, or any click.</summary>
+		private void SetShowingOriginal(bool isShowingOriginal){
+			if(isShowingOriginal==_isShowingOriginal){
+				return;
+			}
+			_isShowingOriginal=isShowingOriginal;
+			InvalidateSettingsColor();
+		}
+
+		private void ShowOriginalPicture(){
+			int idx=GetTeethIdx();
+			Document document=GetDocumentShowing(idx);
+			if(document==null || _bitmapArrayShowing==null || idx>_bitmapArrayShowing.Length-1){
+				return;
+			}
+			Bitmap bitmapOriginal=null;
+			if(_bitmapRaw!=null){
+				bitmapOriginal=new Bitmap(_bitmapRaw);
+			}
+			else if(_bitmapDicomRaw!=null){
+				bitmapOriginal=DicomHelper.ApplyWindowing(_bitmapDicomRaw,document.WindowingMin,document.WindowingMax);
+			}
+			if(bitmapOriginal==null){
+				return;
+			}
+			_bitmapArrayShowing[idx]?.Dispose();
+			_bitmapArrayShowing[idx]=bitmapOriginal;
+			panelMain.Invalidate();
+		}
+
+		///<summary>A right-drag on the selected image (IMG-P3c): sideways changes contrast, up and down brightness, previewed without the filters
+		///(as the slider). False when this is not a brightness/contrast drag (no image selected, a DICOM image, no permission, or not moved far
+		///enough yet), so the move goes on to the usual handling.</summary>
+		private bool RightDrag(Point point){
+			int idx=GetTeethIdx();
+			Document document=GetDocumentShowing(idx);
+			if(document==null || (document.FileName!=null && document.FileName.ToLower().EndsWith(".dcm"))){
+				return false;
+			}
+			if(!_isRightDragging){
+				if(Math.Abs(point.X-_pointRightDown.X)<5 && Math.Abs(point.Y-_pointRightDown.Y)<5){
+					return false;
+				}
+				if(!CanEditImage(idx,suppressMessage:true)){
+					_isRightDown=false;
+					return false;
+				}
+				_isRightDragging=true;
+				panelMain.ContextMenuStrip=null;//no menu on this release (MouseUp puts it back)
+				_documentDragOld=document.Copy();
+				ImageEnhance.FromWindowing(document.WindowingMin,document.WindowingMax,out _brightnessDragStart,out _contrastDragStart);
+			}
+			int brightness=_brightnessDragStart-(point.Y-_pointRightDown.Y)/2;
+			int contrast=_contrastDragStart+(point.X-_pointRightDown.X)/3;
+			ImageEnhance.ToWindowing(brightness,contrast,out int windowingMin,out int windowingMax);
+			document.WindowingMin=windowingMin;
+			document.WindowingMax=windowingMax;
+			InvalidateSettingsColor(doApplyAdjust:false);
+			SetWindowingSlider();
+			return true;
+		}
+
+		///<summary>The end of a right-drag: the filters again, and the new window saved (ImageEnhance.Save checks the permission again).</summary>
+		private void RightDragEnd(){
+			int idx=GetTeethIdx();
+			Document document=GetDocumentShowing(idx);
+			if(document==null || _documentDragOld==null){
+				return;
+			}
+			ImageAdjustSettings imageAdjustSettings=GetAdjustSettings(document);
+			if(!ImageEnhance.Save(document,_documentDragOld,imageAdjustSettings,imageAdjustSettings,PatientCur.PatNum,PatFolder)){
+				document.WindowingMin=_documentDragOld.WindowingMin;
+				document.WindowingMax=_documentDragOld.WindowingMax;
+			}
+			_documentDragOld=null;
+			InvalidateSettingsColor();
+			SetWindowingSlider();
+			if(!IsMountShowing()){
+				ThumbnailRefresh();
+			}
+			EventWindowDragged?.Invoke(this,EventArgs.Empty);
+			EventAdjustSaved?.Invoke(this,EventArgs.Empty);
+		}
+
+		///<summary>The view's transform from the panel to the picture, as panelMain_Paint sets it.</summary>
+		private void ApplyViewTransform(Graphics g){
+			g.TranslateTransform(panelMain.Width/2,panelMain.Height/2);
+			float scaleFactor=ZoomSliderValue/100f;
+			g.ScaleTransform(scaleFactor,scaleFactor);
+			g.TranslateTransform(_pointTranslation.X,_pointTranslation.Y);
+		}
+
+		///<summary>Draws the picture as the panel shows it, under g's current transform (which the caller sets up from the panel's pixels).</summary>
+		private void DrawPictureForAid(Graphics g){
+			ApplyViewTransform(g);
+			if(IsDocumentShowing() && GetBitmapShowing(0)!=null){
+				DrawDocument(g);
+			}
+			if(IsMountShowing()){
+				DrawMount(g);
+			}
+		}
+
+		///<summary>IMG-P3c, the viewing aids at the pointer, on the screen only: the magnifier (a circle of the picture at 2x or 4x, drawn again at
+		///that scale, so it is sharp) and the spot enhancer (a circle with its grey values stretched to the full range, ImageAdjust.StretchContrast).
+		///</summary>
+		private void DrawViewingAids(Graphics g){
+			if(!_isMouseInPanel || (_magnifierZoom==0 && !_isSpotEnhance)){
+				return;
+			}
+			g.ResetTransform();
+			g.ResetClip();
+			if(_isSpotEnhance){
+				Rectangle rectangleSpot=new Rectangle(_pointMouseLast.X-_spotRadius,_pointMouseLast.Y-_spotRadius,2*_spotRadius,2*_spotRadius);
+				using Bitmap bitmapSpot=new Bitmap(rectangleSpot.Width,rectangleSpot.Height,System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+				using(Graphics graphicsSpot=Graphics.FromImage(bitmapSpot)){
+					graphicsSpot.Clear(IsMountShowing() ? _mountShowing.ColorBack : Color.White);
+					graphicsSpot.TranslateTransform(-rectangleSpot.X,-rectangleSpot.Y);
+					DrawPictureForAid(graphicsSpot);
+				}
+				ImageAdjust.StretchContrast(bitmapSpot);
+				using(System.Drawing.Drawing2D.GraphicsPath graphicsPath=new System.Drawing.Drawing2D.GraphicsPath()){
+					graphicsPath.AddEllipse(rectangleSpot);
+					g.SetClip(graphicsPath);
+					g.DrawImage(bitmapSpot,rectangleSpot);
+					g.ResetClip();
+				}
+				using Pen penSpot=new Pen(UiTheme.Warning,2);
+				g.DrawEllipse(penSpot,rectangleSpot);
+			}
+			if(_magnifierZoom>0){
+				int radius=LayoutManager.Scale(90);
+				Rectangle rectangleLoupe=new Rectangle(_pointMouseLast.X-radius,_pointMouseLast.Y-radius,2*radius,2*radius);
+				System.Drawing.Drawing2D.GraphicsState graphicsState=g.Save();
+				using(System.Drawing.Drawing2D.GraphicsPath graphicsPath=new System.Drawing.Drawing2D.GraphicsPath()){
+					graphicsPath.AddEllipse(rectangleLoupe);
+					g.SetClip(graphicsPath);
+					using SolidBrush solidBrushBack=new SolidBrush(IsMountShowing() ? _mountShowing.ColorBack : Color.White);
+					g.FillRectangle(solidBrushBack,rectangleLoupe);
+					g.InterpolationMode=System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+					//scale about the pointer, then the view's own transform
+					g.TranslateTransform(_pointMouseLast.X,_pointMouseLast.Y);
+					g.ScaleTransform(_magnifierZoom,_magnifierZoom);
+					g.TranslateTransform(-_pointMouseLast.X,-_pointMouseLast.Y);
+					DrawPictureForAid(g);
+				}
+				g.Restore(graphicsState);
+				using Pen penLoupe=new Pen(UiTheme.Accent,2);
+				g.DrawEllipse(penLoupe,rectangleLoupe);
+			}
+			if(_isShowingOriginal){
+				//nothing more: the tag below says so
 			}
 		}
 		#endregion Methods - Public - Adjust filters
@@ -3004,6 +3237,25 @@ Here is the desired behavior:
 				EventEnhanceRequested?.Invoke(this,GetTeethIdx());
 				return true;
 			}
+			//IMG-P3c, the viewing aids: M cycles the magnifier (2x, 4x, off), S the spot enhancer, O the selected image's original.
+			if(keyData==Keys.M && (IsDocumentShowing() || IsMountShowing())){
+				_magnifierZoom=_magnifierZoom==0 ? 2 : (_magnifierZoom==2 ? 4 : 0);
+				panelMain.Invalidate();
+				return true;
+			}
+			if(keyData==Keys.S && (IsDocumentShowing() || IsMountShowing())){
+				_isSpotEnhance=!_isSpotEnhance;
+				panelMain.Invalidate();
+				return true;
+			}
+			if(keyData==Keys.O && GetTeethIdx()>-1){
+				SetShowingOriginal(!_isShowingOriginal);
+				return true;
+			}
+			if(keyData==(Keys.Control|Keys.Z) || keyData==(Keys.Control|Keys.Y)){
+				EventUndoRequested?.Invoke(this,keyData==(Keys.Control|Keys.Y));
+				return true;
+			}
 			return base.ProcessCmdKey(ref msg,keyData);
 		}
 
@@ -3013,6 +3265,12 @@ Here is the desired behavior:
 			//MsgBox.Show(idxT.ToString());
 			//return;
 			EventGotODFocus?.Invoke(this,new EventArgs());
+			if(_isShowingOriginal){
+				SetShowingOriginal(false);//IMG-P3c: a click can select another image
+			}
+			_isRightDown=e.Button==MouseButtons.Right;
+			_isRightDragging=false;
+			_pointRightDown=e.Location;
 			if(IsDocumentShowing() && _cropPanAdj==EnumCropPanAdj.Crop) {
 				if(!ImageSignaturePermissions.IsAuthorizedToEdit(_documentArrayShowing[0])) {
 					return;
@@ -3433,9 +3691,22 @@ Here is the desired behavior:
 
 		private void panelMain_MouseLeave(object sender,EventArgs e) {
 			panelHover.Visible=false;
+			_isMouseInPanel=false;
+			if(_magnifierZoom>0 || _isSpotEnhance){
+				panelMain.Invalidate();
+			}
 		}
 
 		private void panelMain_MouseMove(object sender, MouseEventArgs e){
+			//IMG-P3c: the viewing aids follow the pointer; a right-drag changes brightness/contrast.
+			_pointMouseLast=e.Location;
+			_isMouseInPanel=true;
+			if(_magnifierZoom>0 || _isSpotEnhance){
+				panelMain.Invalidate();
+			}
+			if(_isRightDown && (e.Button & MouseButtons.Right)!=0 && RightDrag(e.Location)){
+				return;
+			}
 			//panelMain.Focus();//otherwise, the buttons in the parent form might have focus and then the shift key won't fire
 			//That didn't work.  It resulted in automatic floater selection, which is bad.
 			//New plan: pass the shift event down from the module.
@@ -3696,6 +3967,15 @@ Here is the desired behavior:
 		}
 
 		private void panelMain_MouseUp(object sender, MouseEventArgs e){
+			if(e.Button==MouseButtons.Right && _isRightDragging){
+				_isRightDown=false;
+				_isRightDragging=false;
+				RightDragEnd();
+				//The menu was taken off while dragging, so the release (WM_CONTEXTMENU, right after this) opens none; it comes back after.
+				BeginInvoke(new Action(() => panelMain.ContextMenuStrip=menuPanelMain));
+				return;
+			}
+			_isRightDown=false;
 			if(GetSelectedType()==EnumImageNodeType.None){
 				return;
 			}
@@ -4040,6 +4320,7 @@ Here is the desired behavior:
 					DrawMount(g);
 				}
 				DrawAdjustedTags(g);
+				DrawViewingAids(g);
 			}
 			catch{
 				//one of the objects above might get damaged in the middle of a paint.
@@ -4047,6 +4328,12 @@ Here is the desired behavior:
 		}
 
 		private void panelMain_MouseWheel(object sender, MouseEventArgs e){
+			if(_isSpotEnhance && ModifierKeys==Keys.Control){
+				//IMG-P3c: Ctrl+wheel sizes the spot enhancer.
+				_spotRadius=Math.Max(30,Math.Min(300,_spotRadius+Math.Sign(e.Delta)*15));
+				panelMain.Invalidate();
+				return;
+			}
 			if(GetSelectedType()==EnumImageNodeType.None) {
 				return;
 			}

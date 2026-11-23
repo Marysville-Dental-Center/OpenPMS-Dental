@@ -158,6 +158,69 @@ namespace OpenPmsDentalBusiness {
 			return bitmapCopy;
 		}
 
+		///<summary>The spot enhancer (IMG-P3c, Apteryx's Spot Enhancer): stretches the picture's grey values so that its darkest and lightest
+		///percent (by luminance) reach black and white, the same mapping for every channel. In place; 24 or 32-bit only. Display only: nothing is
+		///saved.</summary>
+		public static void StretchContrast(Bitmap bitmap) {
+			if(bitmap==null || !IsFormatSupported(bitmap.PixelFormat) || bitmap.Width<1 || bitmap.Height<1) {
+				return;
+			}
+			Rectangle rectangle=new Rectangle(0,0,bitmap.Width,bitmap.Height);
+			BitmapData bitmapData=bitmap.LockBits(rectangle,ImageLockMode.ReadWrite,bitmap.PixelFormat);
+			try {
+				int bytesPerPixel=Image.GetPixelFormatSize(bitmap.PixelFormat)/8;
+				int strideAbs=Math.Abs(bitmapData.Stride);
+				IntPtr pointerFirstInMemory=bitmapData.Stride>=0 ? bitmapData.Scan0 : IntPtr.Add(bitmapData.Scan0,bitmapData.Stride*(bitmap.Height-1));
+				byte[] arrayBytes=new byte[strideAbs*bitmap.Height];
+				Marshal.Copy(pointerFirstInMemory,arrayBytes,0,arrayBytes.Length);
+				int[] arrayHistogram=new int[256];
+				int count=bitmap.Width*bitmap.Height;
+				for(int y=0;y<bitmap.Height;y++) {
+					for(int x=0;x<bitmap.Width;x++) {
+						int i=y*strideAbs+x*bytesPerPixel;
+						arrayHistogram[(int)Math.Round(0.114*arrayBytes[i]+0.587*arrayBytes[i+1]+0.299*arrayBytes[i+2])]++;
+					}
+				}
+				int low=0;
+				int high=255;
+				int cumulative=0;
+				for(int v=0;v<256;v++) {
+					cumulative+=arrayHistogram[v];
+					if(cumulative>count/100) {
+						low=v;
+						break;
+					}
+				}
+				cumulative=0;
+				for(int v=255;v>=0;v--) {
+					cumulative+=arrayHistogram[v];
+					if(cumulative>count/100) {
+						high=v;
+						break;
+					}
+				}
+				if(high-low<2) {
+					return;//flat: nothing to stretch
+				}
+				byte[] arrayLut=new byte[256];
+				for(int v=0;v<256;v++) {
+					arrayLut[v]=ClampByte(255.0*(v-low)/(high-low));
+				}
+				for(int y=0;y<bitmap.Height;y++) {
+					for(int x=0;x<bitmap.Width;x++) {
+						int i=y*strideAbs+x*bytesPerPixel;
+						arrayBytes[i]=arrayLut[arrayBytes[i]];
+						arrayBytes[i+1]=arrayLut[arrayBytes[i+1]];
+						arrayBytes[i+2]=arrayLut[arrayBytes[i+2]];
+					}
+				}
+				Marshal.Copy(arrayBytes,0,pointerFirstInMemory,arrayBytes.Length);
+			}
+			finally {
+				bitmap.UnlockBits(bitmapData);
+			}
+		}
+
 		///<summary>The pixel formats Apply filters in place: 24-bit RGB and 32-bit RGB or ARGB (not premultiplied).</summary>
 		public static bool IsFormatSupported(PixelFormat pixelFormat) {
 			return pixelFormat==PixelFormat.Format24bppRgb || pixelFormat==PixelFormat.Format32bppArgb || pixelFormat==PixelFormat.Format32bppRgb;
