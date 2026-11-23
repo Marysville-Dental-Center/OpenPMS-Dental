@@ -189,6 +189,8 @@ Here is the desired behavior:
 		public event EventHandler EventGotODFocus;
 		///<summary>Use this to trigger a SelectTreeNode in the parent. When refreshing a mount, it must be done at parent level instead of here in order to include unmounted bar, etc. Pass null to reselect current node.</summary>
 		public event EventHandler<NodeTypeAndKey> EventSelectTreeNode;
+		///<summary>A double-click on an image asks for the image viewer window (owner, 2026-11-22). The int is the image's index in this display (0 for a single image). ControlImages opens or reuses the window.</summary>
+		public event EventHandler<int> EventViewerRequested;
 		///<summary>This event bubbles up to the parent, which then sets the property here.</summary>
 		public event EventHandler<EnumCropPanAdj> EventSetCropPanEditAdj;
 		///<summary>This event bubbles up to the parent, which then calls SetDrawMode() here.</summary>
@@ -1244,6 +1246,132 @@ Here is the desired behavior:
 			_idxSelectedInMount=idx;
 			panelMain.Invalidate();
 		}
+
+		#region Methods - Public - Image viewer window
+		///<summary>The image viewer window's background: the mount's background colour, or white behind a single image, as this display paints them.</summary>
+		public Color GetViewerBackColor(){
+			if(IsMountShowing()){
+				return _mountShowing.ColorBack;
+			}
+			return Color.White;
+		}
+
+		///<summary>The image at idx as this display shows it, at the image's full resolution: rotated, flipped and cropped, with its brightness/contrast and the drawings shown on it. Null when it is not loaded. The caller disposes it.</summary>
+		public Bitmap GetViewerBitmap(int idx){
+			if(_documentArrayShowing==null || _bitmapArrayShowing==null || idx<0 || idx>_documentArrayShowing.Length-1 || idx>_bitmapArrayShowing.Length-1){
+				return null;
+			}
+			Document document=_documentArrayShowing[idx];
+			Bitmap bitmapShowing=_bitmapArrayShowing[idx];
+			if(document==null || bitmapShowing==null){
+				return null;
+			}
+			Size size;
+			if(document.CropW>0 && document.CropH>0){
+				size=new Size(document.CropW,document.CropH);
+			}
+			else{
+				size=ImageHelper.CalcSizeFit(bitmapShowing.Width,bitmapShowing.Height,document.DegreesRotated);
+			}
+			if(size.Width<1 || size.Height<1){
+				return null;
+			}
+			Bitmap bitmap=new Bitmap(size.Width,size.Height);
+			using Graphics g=Graphics.FromImage(bitmap);
+			g.InterpolationMode=InterpolationMode.HighQualityBicubic;
+			//to the centre of the crop area, in image coordinates, as Copy does
+			g.TranslateTransform(size.Width/2f,size.Height/2f);
+			if(!IsMountShowing()){
+				DrawDocument(g);//including drawings
+				return bitmap;
+			}
+			ImageHelper.DrawDocument(g,document,bitmapShowing,new List<ImageDraw>());
+			//The mount's drawings are in mount coordinates. Map the mount item onto this bitmap, the way DrawMountOne maps the image onto the item, and draw them on top.
+			MountItem mountItem=_listMountItems[idx];
+			float scale;
+			if(document.CropW>0 && document.CropH>0){
+				scale=(float)mountItem.Width/document.CropW;
+			}
+			else{
+				scale=ImageTools.CalcScaleFit(new Size(mountItem.Width,mountItem.Height),bitmapShowing.Size,document.DegreesRotated);
+			}
+			if(scale<=0){
+				return bitmap;
+			}
+			g.ResetTransform();
+			g.ResetClip();
+			g.TranslateTransform(size.Width/2f,size.Height/2f);
+			g.ScaleTransform(1/scale,1/scale);
+			g.TranslateTransform(-(mountItem.Xpos+mountItem.Width/2f),-(mountItem.Ypos+mountItem.Height/2f));
+			DrawDrawings(0,g);
+			return bitmap;
+		}
+
+		///<summary>The indexes the image viewer window can show, in viewing order: the mount's filled image slots by item order, or 0 for a single image. Empty when nothing can be shown.</summary>
+		public List<int> GetViewerIndexes(){
+			List<int> listIdxs=new List<int>();
+			if(IsMountShowing()){
+				if(_listMountItems==null || _documentArrayShowing==null || _bitmapArrayShowing==null){
+					return listIdxs;
+				}
+				for(int i=0;i<_listMountItems.Count && i<_documentArrayShowing.Length && i<_bitmapArrayShowing.Length;i++){
+					if(_listMountItems[i].ItemOrder==0 || _documentArrayShowing[i]==null || _bitmapArrayShowing[i]==null){//text items and empty slots
+						continue;
+					}
+					listIdxs.Add(i);
+				}
+				return listIdxs.OrderBy(x => _listMountItems[x].ItemOrder).ToList();
+			}
+			if(IsBitmapShowing()){
+				listIdxs.Add(0);
+			}
+			return listIdxs;
+		}
+
+		///<summary>The image viewer window's line under its title for the image at idx: when it was taken (mount items) and its teeth. Can be empty.</summary>
+		public string GetViewerText(int idx){
+			Document document=GetDocumentShowing(idx);
+			if(document==null){
+				return "";
+			}
+			List<string> listParts=new List<string>();
+			if(IsMountShowing()){
+				listParts.Add(Lan.g(this,"Taken")+" "+document.DateCreated.ToShortDateString());
+			}
+			if(document.ToothNumbers!=""){
+				string label=document.ToothNumbers.Contains(",") ? Lan.g(this,"Teeth") : Lan.g(this,"Tooth");
+				listParts.Add(label+": "+Tooth.DisplayRange(document.ToothNumbers));
+			}
+			return string.Join(", ",listParts);
+		}
+
+		///<summary>The image viewer window's title: the patient, then the mount's or the image's date and description, as the module's title shows them.</summary>
+		public string GetViewerTitle(){
+			string text=PatientCur==null ? "" : PatientCur.GetNameFL();
+			if(IsMountShowing()){
+				return text+" - "+_mountShowing.DateCreated.ToShortDateString()+": "+_mountShowing.Description;
+			}
+			Document document=GetDocumentShowing(0);
+			if(document!=null){
+				return text+" - "+document.DateCreated.ToShortDateString()+": "+document.Description;
+			}
+			return text;
+		}
+
+		///<summary>When the image viewer window closes, the mount selects the image it showed last, as a click on that image would.</summary>
+		public void SelectFromViewer(int idx){
+			if(!IsMountShowing() || _documentArrayShowing==null || idx<0 || idx>_documentArrayShowing.Length-1){
+				return;
+			}
+			if(_idxSelectedInMount!=idx){
+				_idxSelectedInMount=idx;
+				LoadBitmap(idx,EnumLoadBitmapType.OnlyRaw);
+			}
+			EnableToolBarButtons();
+			SetWindowingSlider();
+			panelMain.Invalidate();
+		}
+		#endregion Methods - Public - Image viewer window
 
 		public void SetMountShowing(Mount mount){
 			_mountShowing=mount;
@@ -2572,7 +2700,11 @@ Here is the desired behavior:
 				panelMain.Invalidate();
 				return;
 			}
-			//From here down is ordinary double click on an empty spot to bring up the Info window.
+			//From here down is an ordinary double-click. On an image it opens the image viewer window, never Item Info (owner, 2026-11-22).
+			//Item Info stays on the Info button, the right-click menu and Alt+Enter; Info with no mount item selected edits the mount.
+			if(e.Button!=MouseButtons.Left){
+				return;
+			}
 			if(IsMountShowing()){
 				if(_idxSelectedInMount==-1){
 					int idx=HitTestInMount(e.X,e.Y,includeText:true);
@@ -2584,33 +2716,27 @@ Here is the desired behavior:
 							panelMain.Invalidate();
 						}
 					}
-					else{
-						FrmMountEdit frmMountEdit=new FrmMountEdit();
-						frmMountEdit.MountCur=_mountShowing;
-						frmMountEdit.ShowDialog();
-						//Always reload because layout could have changed
-						EventFillTree?.Invoke(this,true);
-						EventSelectTreeNode?.Invoke(this,null);
-					}
+					//A double-click on the mount's background does nothing.
+					return;
 				}
-				else{//mount item
-					if(_documentArrayShowing[_idxSelectedInMount]!=null){
-						FrmDocInfo frmDocInfo=new FrmDocInfo(PatientCur,_documentArrayShowing[_idxSelectedInMount]);
-						frmDocInfo.IsMountItem=true;
-						frmDocInfo.ShowDialog();
-						//nothing to refresh
-					}
+				//An empty slot does nothing.
+				if(GetViewerIndexes().Contains(_idxSelectedInMount)){
+					EventViewerRequested?.Invoke(this,_idxSelectedInMount);
 				}
+				return;
 			}
-			else{
-				if(GetDocumentShowing(0)!=null) {
-					FrmDocInfo frmDocInfo=new FrmDocInfo(PatientCur,GetDocumentShowing(0));
-					frmDocInfo.ShowDialog();
-					if(frmDocInfo.IsDialogOK){
-						EventFillTree?.Invoke(this,true);
-					}
-				}
+			if(IsBitmapShowing()){
+				EventViewerRequested?.Invoke(this,0);
 			}
+		}
+
+		///<summary>Alt+Enter opens Item Info, as the Info button does, now that a double-click opens the image viewer window.</summary>
+		protected override bool ProcessCmdKey(ref Message msg,Keys keyData) {
+			if(keyData==(Keys.Alt|Keys.Enter)){
+				ToolBarInfo_Click(this,EventArgs.Empty);
+				return true;
+			}
+			return base.ProcessCmdKey(ref msg,keyData);
 		}
 
 		private void panelMain_MouseDown(object sender, MouseEventArgs e){
