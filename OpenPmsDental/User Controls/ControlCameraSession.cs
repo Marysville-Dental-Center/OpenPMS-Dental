@@ -12,6 +12,7 @@ using System.Windows.Forms;
 using CodeBase;
 using ImagingCapture.Camera;
 using ImagingCapture.Photo;
+using ImagingCapture.UI;
 using ImagingCapture.Uvc;
 using ImagingCapture.Uvc.DirectShow;
 using ImagingCapture.Video;
@@ -92,6 +93,17 @@ namespace OpenPmsDental {
 		///<summary>True while the camera is released for being idle; Capture, Space or Wake opens it again.</summary>
 		private bool _isAsleep;
 		private int _countKept;
+		///<summary>This computer's session settings (capture.ini [Photo] and [Video]; IMG-P4e).</summary>
+		private PhotoSessionConfig _photoSessionConfig=new PhotoSessionConfig();
+		private UI.Button butSettings;
+		///<summary>True while Learn or the button test has the camera; a camera error waits for it to close.</summary>
+		private bool _isLearnOpen;
+		private object _senderErrorPending;
+		private UvcErrorEventArgs _uvcErrorEventArgsPending;
+		///<summary>End was asked for while Learn had the camera (a patient change): it runs when Learn has closed.</summary>
+		private bool _isEndPending;
+		private bool _isEndPendingPatientChange;
+		private bool _isEndPendingModuleLeft;
 		private VideoStatusAction _videoStatusAction;
 		private Label labelBanner;
 		private Panel panelLive;
@@ -172,6 +184,7 @@ namespace OpenPmsDental {
 			labelTitle.Text=_mount==null ? Lan.g(this,"Quick photos") : _mount.Description;
 			RefreshGuide();
 			LocalCaptureConfig localCaptureConfig=LocalCaptureConfig.Load();
+			ApplySessionConfig(PhotoSessionConfig.Read(localCaptureConfig));
 			_videoCaptureSession=new VideoCaptureSession(new DirectShowUvcBackend(),localCaptureConfig,patient.PatNum);
 			_videoCaptureSession.FuncIsWindowEnabled=IsEnabledForCapture;
 			_videoCaptureSession.FrameReady+=videoCaptureSession_FrameReady;
@@ -195,6 +208,13 @@ namespace OpenPmsDental {
 		///<summary>Ends the session: releases the camera and raises EventEnded once. Everything is saved already.</summary>
 		public void End(bool isPatientChange=false,bool isModuleLeft=false) {
 			if(_isEnded) {
+				return;
+			}
+			if(_isLearnOpen) {
+				//Learn is using the camera under its own window: the session ends when it has closed
+				_isEndPending=true;
+				_isEndPendingPatientChange|=isPatientChange;
+				_isEndPendingModuleLeft|=isModuleLeft;
 				return;
 			}
 			_isEnded=true;
@@ -403,6 +423,10 @@ namespace OpenPmsDental {
 				ShowInfo(Lan.g(this,"Every slot is filled. End the session (Esc)."));
 				return;
 			}
+			if(_photoSessionConfig.IsFreezeFirst && !IsFrozen) {
+				ToggleFreeze(frameStill);//this computer freezes first (decision C2's setting): the next press saves the frozen picture
+				return;
+			}
 			bool isFrozen=IsFrozen;
 			CaptureStart captureStart=isFrozen ? videoCaptureSession.BeginCaptureFrozen(captureRequestSource,_bitmapFrozen)
 				: videoCaptureSession.BeginCapture(captureRequestSource,frameStill);
@@ -514,6 +538,226 @@ namespace OpenPmsDental {
 		}
 		#endregion Methods - Capture
 
+		#region Methods - Settings (IMG-P4e)
+		private void ApplySessionConfig(PhotoSessionConfig photoSessionConfig) {
+			_photoSessionConfig=photoSessionConfig??new PhotoSessionConfig();
+			IsClickOn=_photoSessionConfig.IsClickOn;
+			MinutesIdle=_photoSessionConfig.MinutesIdle;
+		}
+
+		///<summary>Camera settings (design section 5): the window shows this computer's settings with the session's open camera; after OK they are
+		///applied here and logged under Setup. Not while recording.</summary>
+		private void OpenSettings() {
+			_dateTimeActivity=DateTime.Now;
+			VideoCaptureSession videoCaptureSession=_videoCaptureSession;
+			if(videoCaptureSession==null || _isEnded) {
+				return;
+			}
+			if(IsRecording) {
+				ShowInfo(Lan.g(this,"Stop the recording first."));
+				return;
+			}
+			if(_isAsleep) {
+				RefreshCamera();//the settings need the camera open (its sizes and still pin); a released camera wakes
+			}
+			Unfreeze();
+			IFrameSource frameSource=videoCaptureSession.FrameSource;
+			long categoryDefNum=0;
+			try {
+				categoryDefNum=PrefC.GetLong(PrefName.VideoImageCategoryDefault);
+			}
+			catch(Exception ex) {
+				ex.DoNothing();
+			}
+			PhotoSessionConfig photoSessionConfigOld=_photoSessionConfig.Copy();
+			using FormCameraSettings formCameraSettings=new FormCameraSettings(videoCaptureSession.Devices,videoCaptureSession.Device,frameSource?.Modes,
+				frameSource!=null && frameSource.HasStillPin,videoCaptureSession.CameraConfig,photoSessionConfigOld,videoCaptureSession.GetTriggerNotes(),
+				categoryDefNum,videoCaptureSession.IsStreaming ? (Func<CaptureLearnMode,List<string>>)OpenLearn : null);
+			if(formCameraSettings.ShowDialog()!=DialogResult.OK || _videoCaptureSession==null) {
+				return;
+			}
+			ApplySettings(formCameraSettings,photoSessionConfigOld,categoryDefNum);
+		}
+
+		private void ApplySettings(FormCameraSettings formCameraSettings,PhotoSessionConfig photoSessionConfigOld,long categoryDefNumOld) {
+			VideoCaptureSession videoCaptureSession=_videoCaptureSession;
+			List<string> listChanges=new List<string>();
+			List<string> listErrors=new List<string>();
+			string error;
+			string warning;
+			bool isCameraFailed=false;
+			if(formCameraSettings.DeviceSelected!=null && !formCameraSettings.DeviceSelected.IsSameDevice(videoCaptureSession.Device)) {
+				VideoStatus videoStatus=videoCaptureSession.SelectDevice(formCameraSettings.DeviceSelected,out error,out warning);
+				_isPreviewPaused=false;
+				ShowStatus(videoStatus);
+				if(error!="" || !videoStatus.IsStreaming) {
+					isCameraFailed=true;//the camera's own settings are not saved for a camera that did not open
+					listErrors.Add(error!="" ? error : Lan.g(this,"The camera did not open."));
+				}
+				else {
+					listChanges.Add("Camera: "+formCameraSettings.DeviceSelected.FriendlyName);
+				}
+				if(warning!="") {
+					listErrors.Add(warning);
+				}
+			}
+			UvcMode modeSelected=formCameraSettings.ModeSelected;
+			bool isModeChanged=formCameraSettings.IsModeChanged;
+			CameraConfig cameraConfigOld=videoCaptureSession.CameraConfig;
+			if(!isCameraFailed && (isModeChanged || cameraConfigOld.PhotoSource!=formCameraSettings.PhotoSource
+				|| cameraConfigOld.MainWindowSpace!=formCameraSettings.IsMainWindowSpace))
+			{
+				bool isSaved=videoCaptureSession.SaveSettings(x => {
+					if(isModeChanged) {
+						ResolutionChoice.Apply(x,modeSelected);//null: Automatic
+					}
+					x.PhotoSource=formCameraSettings.PhotoSource;
+					x.MainWindowSpace=formCameraSettings.IsMainWindowSpace;
+				},out error,out warning);
+				if(!isSaved) {
+					listErrors.Add(error);
+				}
+				else {
+					if(warning!="") {
+						listErrors.Add(warning);//saved to this user's file, which the computer's file overrides
+					}
+					if(isModeChanged) {
+						listChanges.Add("Picture size: "+(modeSelected==null ? "Automatic" : modeSelected.ToString()));
+					}
+					if(cameraConfigOld.PhotoSource!=formCameraSettings.PhotoSource) {
+						listChanges.Add("Photos from: "+formCameraSettings.PhotoSource);
+					}
+					if(cameraConfigOld.MainWindowSpace!=formCameraSettings.IsMainWindowSpace) {
+						listChanges.Add("Space in the main window: "+(formCameraSettings.IsMainWindowSpace ? "on" : "off"));
+					}
+					Cursor=Cursors.WaitCursor;
+					try {
+						VideoStatus videoStatusApplied=videoCaptureSession.ApplySettings();//reopens the camera when the picture size or the still choice changed
+						_isPreviewPaused=false;//the triggers restarted: a held pause level is read again
+						ShowStatus(videoStatusApplied);
+					}
+					finally {
+						Cursor=Cursors.Default;
+					}
+				}
+			}
+			string changesSession=PhotoSessionConfig.DescribeChanges(photoSessionConfigOld,formCameraSettings.PhotoSessionConfigNew);
+			if(changesSession!="") {
+				if(formCameraSettings.PhotoSessionConfigNew.Write(videoCaptureSession.LocalCaptureConfig,out error)) {
+					ApplySessionConfig(formCameraSettings.PhotoSessionConfigNew);
+					listChanges.Add(changesSession);
+				}
+				else {
+					listErrors.Add(error);
+				}
+			}
+			if(formCameraSettings.CategoryDefNum!=categoryDefNumOld) {
+				try {
+					Prefs.UpdateLong(PrefName.VideoImageCategoryDefault,formCameraSettings.CategoryDefNum);
+					DataValid.SetInvalid(InvalidType.Prefs);
+					string categoryName=formCameraSettings.CategoryDefNum==0 ? "the selected category"
+						: Defs.GetName(DefCat.ImageCats,formCameraSettings.CategoryDefNum);
+					listChanges.Add("Quick photos and videos category: "+categoryName);
+					if(_mount==null && formCameraSettings.CategoryDefNum>0) {
+						_categoryDefNum=formCameraSettings.CategoryDefNum;//this quick-photo session saves there from now on
+					}
+				}
+				catch(Exception ex) {
+					listErrors.Add(ex.Message);
+				}
+			}
+			if(listChanges.Count>0) {
+				try {
+					SecurityLogs.MakeLogEntry(EnumPermType.Setup,0,"Camera settings changed on "+Environment.MachineName+": "+string.Join("; ",listChanges));
+				}
+				catch(Exception ex) {
+					ex.DoNothing();//the settings are saved; the log entry is missing
+				}
+			}
+			labelCamera.Text=GetCameraText();
+			RefreshGuide();
+			if(listErrors.Count>0) {
+				ShowAlert(Lan.g(this,"Some settings could not be saved")+": "+string.Join(" ",listErrors));
+				return;
+			}
+			ShowInfo(listChanges.Count>0 ? Lan.g(this,"Camera settings saved.") : "");
+		}
+
+		///<summary>Learn or test the camera's button on the session's camera (as the Video window does): the triggers stop while it is open and the
+		///camera is reopened with its still pin when needed.</summary>
+		private List<string> OpenLearn(CaptureLearnMode captureLearnMode) {
+			VideoCaptureSession videoCaptureSession=_videoCaptureSession;
+			if(videoCaptureSession==null || !videoCaptureSession.IsStreaming) {
+				return null;
+			}
+			if(captureLearnMode==CaptureLearnMode.Learn && !Security.IsAuthorized(EnumPermType.Setup)) {
+				return null;//Learn saves the camera's button settings at once: Setup, as the other camera settings
+			}
+			bool isSaved=false;
+			_isLearnOpen=true;
+			_isPreviewPaused=false;
+			try {
+				VideoStatus videoStatus;
+				Cursor=Cursors.WaitCursor;
+				try {
+					videoStatus=videoCaptureSession.PrepareForLearn();
+				}
+				finally {
+					Cursor=Cursors.Default;
+				}
+				ShowStatus(videoStatus);
+				IFrameSource frameSource=videoCaptureSession.FrameSource;
+				if(!videoStatus.IsStreaming || frameSource==null) {
+					return null;
+				}
+				FrmCaptureLearn frmCaptureLearn=new FrmCaptureLearn(frameSource,videoCaptureSession.LocalCaptureConfig,
+					captureLearnMode);
+				frmCaptureLearn.ShowDialog();
+				isSaved=captureLearnMode==CaptureLearnMode.Learn && frmCaptureLearn.IsDialogOK && frmCaptureLearn.CameraConfigSaved!=null;
+			}
+			finally {
+				_isLearnOpen=false;
+				FinishLearn(isSaved);
+			}
+			if(isSaved) {
+				try {
+					SecurityLogs.MakeLogEntry(EnumPermType.Setup,0,"Camera button learned on "+Environment.MachineName+": "
+						+string.Join(" ",_videoCaptureSession?.GetTriggerNotes()??new List<string>()));
+				}
+				catch(Exception ex) {
+					ex.DoNothing();
+				}
+			}
+			return _videoCaptureSession?.GetTriggerNotes();
+		}
+
+		private void FinishLearn(bool isSaved) {
+			if(IsDisposed || _videoCaptureSession==null) {
+				return;
+			}
+			if(_isEndPending) {
+				_isEndPending=false;
+				End(_isEndPendingPatientChange,_isEndPendingModuleLeft);//asked for while Learn had the camera
+				return;
+			}
+			if(_uvcErrorEventArgsPending!=null) {
+				object senderError=_senderErrorPending;
+				UvcErrorEventArgs uvcErrorEventArgs=_uvcErrorEventArgsPending;
+				_senderErrorPending=null;
+				_uvcErrorEventArgsPending=null;
+				HandleCameraError(senderError,uvcErrorEventArgs);
+			}
+			Cursor=Cursors.WaitCursor;
+			try {
+				ShowStatus(_videoCaptureSession.FinishLearn(isSaved));
+			}
+			finally {
+				Cursor=Cursors.Default;
+			}
+			labelCamera.Text=GetCameraText();
+		}
+		#endregion Methods - Settings (IMG-P4e)
+
 		#region Methods - Video recording (IMG-P4c)
 		///<summary>R: starts or stops a recording. Needs the live picture and 2 GB free on this computer.</summary>
 		private void ToggleRecording() {
@@ -547,7 +791,8 @@ namespace OpenPmsDental {
 				return;
 			}
 			double framesPerSecond=_videoCaptureSession.ModeChoice?.Mode?.MaxFramesPerSecond??30;
-			VideoRecorder recorder=new VideoRecorder((width,height) => Mp4Writer.Create(path,width,height,framesPerSecond),framesPerSecond);
+			VideoRecorder recorder=new VideoRecorder((width,height) => Mp4Writer.Create(path,width,height,framesPerSecond),framesPerSecond,
+				_photoSessionConfig.VideoLimitSeconds);
 			recorder.Start();
 			_recorder=recorder;
 			_pathRecording=path;
@@ -785,11 +1030,24 @@ namespace OpenPmsDental {
 		#region Methods - Freeze, Teeth, Retake, Shot menu
 		///<summary>F: freezes the picture on screen (yellow border); Capture saves it, F or Esc goes back to live. Not while the camera has no
 		///picture.</summary>
-		private void ToggleFreeze() {
+		private void ToggleFreeze(UvcFrame frameStill=null) {
 			_dateTimeActivity=DateTime.Now;
 			if(IsFrozen) {
 				Unfreeze();
 				return;
+			}
+			if(frameStill!=null && _videoCaptureSession?.CameraConfig.PhotoSource==ImagingCapture.Camera.CameraPhotoSource.Still) {
+				//the camera button's still image, which this computer takes photos from, is what the second press saves
+				try {
+					_bitmapFrozen=frameStill.ToBitmap();
+					_idxFrozen=_model?.IdxNext??-1;
+					ShowInfo(Lan.g(this,"Frozen: Capture saves it, F goes live."));
+					RefreshGuide();
+					return;
+				}
+				catch(Exception ex) {
+					ex.DoNothing();//freeze the preview instead
+				}
 			}
 			if(pictureLive.Image==null || _videoCaptureSession==null || !_videoCaptureSession.IsStreaming) {
 				ShowInfo(Lan.g(this,"No picture to freeze."));
@@ -1120,6 +1378,12 @@ namespace OpenPmsDental {
 			if(IsDisposed || _videoCaptureSession==null) {
 				return;
 			}
+			if(_isLearnOpen) {
+				//Learn is using this camera and closes itself on the same error: handled when Learn has closed
+				_senderErrorPending=sender;
+				_uvcErrorEventArgsPending=uvcErrorEventArgs;
+				return;
+			}
 			if(_frameSourceRecording!=null && sender==_frameSourceRecording) {
 				StopRecording();//the camera stopped: the clip is saved up to here
 			}
@@ -1327,7 +1591,9 @@ namespace OpenPmsDental {
 			panelMount.MouseClick+=panelMount_MouseClick;
 			labelHint=new Label { AutoSize=false,Font=UiTheme.FontBody,ForeColor=UiTheme.TextSecondary,UseMnemonic=false };
 			labelCamera=new Label { AutoSize=false,Font=UiTheme.FontBody,ForeColor=UiTheme.Text,UseMnemonic=false,AutoEllipsis=true };
-			panelRight.Controls.AddRange(new Control[] { labelTitle,labelProgress,panelMount,labelHint,labelCamera });
+			butSettings=new UI.Button { Text=Lan.g(this,"Camera settings..."),TabStop=false };
+			butSettings.Click+=(sender,e) => OpenSettings();
+			panelRight.Controls.AddRange(new Control[] { labelTitle,labelProgress,panelMount,labelHint,labelCamera,butSettings });
 			Controls.Add(panelLive);
 			Controls.Add(panelBar);
 			Controls.Add(panelRight);
@@ -1403,6 +1669,8 @@ namespace OpenPmsDental {
 			panelMount.Bounds=new Rectangle(pad,labelProgress.Bottom+pad,widthInner,heightMount);
 			labelHint.Bounds=new Rectangle(pad,panelMount.Bottom+pad,widthInner,_funcScale(66));
 			labelCamera.Bounds=new Rectangle(pad,labelHint.Bottom+pad,widthInner,_funcScale(48));
+			butSettings.Bounds=new Rectangle(pad,labelCamera.Bottom+pad,Math.Min(widthInner,TextRenderer.MeasureText(butSettings.Text,UiTheme.FontBody).Width
+				+_funcScale(24)),_funcScale(26));
 		}
 		#endregion Methods - Layout
 
