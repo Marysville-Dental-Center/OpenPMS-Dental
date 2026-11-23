@@ -13,7 +13,8 @@ freeze, retake, teeth, the shot strip, F11, flash and sound, the idle timeout an
    - The button itself:
      - if the selected mount is today's photo mount with an empty photo slot, it carries on filling it;
      - otherwise it starts the last kind of session used, else the first photo mount, else quick photos.
-   - **Ctrl+Shift+C** does the same anywhere in the module.
+   - **Ctrl+Shift+P** (photo) does the same anywhere in the module. The design named Ctrl+Shift+C, but that is already Lists, Contacts in
+     the main window, so it was moved.
 2. **The session covers the module** (`OpenPmsDental/User Controls/ControlCameraSession.cs`, built in code, no designer file):
    - a blue banner with the patient's name, date of birth, chart number (or PatNum), the mount and the date;
    - the live picture. For a mirror slot it is shown flipped, so what you see is what is saved;
@@ -41,7 +42,14 @@ freeze, retake, teeth, the shot strip, F11, flash and sound, the idle timeout an
    - In use by another program: Try again.
    - Disconnected: Reconnect.
    - Other errors keep their text.
-6. **Permission:** ImageCreate, the standard Open Dental one. No new permission and no schema change.
+6. **Review fixes:**
+   - A photo saved but not placed in its slot leaves the slot as the next one, so it can be retaken.
+   - A held Space takes one photo, not one per key repeat.
+   - The live picture and the guide show the flip of a mount that flips on acquire.
+   - Texts built from slot labels, teeth and counts are not passed to the translation table.
+   - Leaving the module does not reload it.
+   - A photo mount the session made is deleted again when the session ends without a photo in it.
+7. **Permission:** ImageCreate, the standard Open Dental one. No new permission and no schema change.
 
 ## Files outside imaging
 

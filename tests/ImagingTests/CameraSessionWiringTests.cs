@@ -56,7 +56,7 @@ namespace ImagingTests {
 		public void Session_EndsOnAPatientChange_LeavingTheModule_AndCoversTheModule() {
 			string images=Images();
 			StringAssert.Contains(MethodBody(images,"public void CloseFloaters("),"_controlCameraSession?.End(isPatientChange:true);");
-			StringAssert.Contains(MethodBody(images,"public void ModuleUnselected("),"_controlCameraSession?.End();");
+			StringAssert.Contains(MethodBody(images,"public void ModuleUnselected("),"_controlCameraSession?.End(isModuleLeft:true);");
 			StringAssert.Contains(MethodBody(images,"public void LayoutControls("),"_controlCameraSession.Bounds=new Rectangle(0,0,Width,Height);");
 			StringAssert.Contains(MethodBody(images,"public void ControlImages_KeyDown("),"if(_controlCameraSession!=null){");
 			string session=Session();
@@ -74,7 +74,8 @@ namespace ImagingTests {
 			}
 			Assert.IsFalse(File.Exists(Path.Combine(Path.GetDirectoryName(TestDb.FindRepoFile(Path.Combine("OpenPmsDental","User Controls","ControlCameraSession.cs"))),
 				"ControlCameraSession.Designer.cs")),"Built in code, so the UI rollout's designer data needs no rows.");
-			StringAssert.Contains(MethodBody(Images(),"protected override bool ProcessCmdKey("),"Keys.Control|Keys.Shift|Keys.C");
+			StringAssert.Contains(MethodBody(Images(),"protected override bool ProcessCmdKey("),"Keys.Control|Keys.Shift|Keys.P");
+			StringAssert.Contains(keys,"0x40000000","A held Space takes one photo.");
 		}
 
 		[TestMethod]
@@ -86,6 +87,9 @@ namespace ImagingTests {
 			int idxEnd=capture.IndexOf("EndCapture(captureStart)");
 			Assert.IsTrue(idxPlan>0 && idxBegin>idxPlan && idxSave>idxBegin && idxEnd>idxSave,"Plan, take, save, release.");
 			Assert.IsFalse(capture.Contains("MessageBox") || capture.Contains("MsgBox"),"No message box in the middle of a session (design section 6).");
+			int idxPlaced=capture.IndexOf("if(!photoSaveResult.IsPlaced) {");
+			int idxMark=capture.IndexOf("_model.MarkSaved(photoShotPlan);");
+			Assert.IsTrue(idxPlaced>0 && idxMark>idxPlaced,"A photo that is not in its slot leaves the slot next.");
 		}
 	}
 }

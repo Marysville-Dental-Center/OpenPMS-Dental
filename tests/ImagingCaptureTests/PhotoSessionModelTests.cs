@@ -49,7 +49,11 @@ namespace ImagingCapture.Tests {
 			Assert.AreEqual("Next: Upper occlusal (mirror shot, saved flipped, rotated 180 degrees, teeth 2-4)",model.GetGuideText(x => "2-4"));
 			Assert.IsTrue(model.SelectSlot(0));
 			Assert.IsFalse(model.PlanShot().IsFlipped);
-			Assert.IsTrue(new PhotoSessionModel(Intraoral5(),isFlipOnAcquire:true).PlanShot().IsFlipped,"A mount that flips on acquire flips every photo.");
+			Assert.IsFalse(model.IsNextFlipped);
+			PhotoSessionModel modelFlip=new PhotoSessionModel(Intraoral5(),isFlipOnAcquire:true);
+			Assert.IsTrue(modelFlip.PlanShot().IsFlipped,"A mount that flips on acquire flips every photo.");
+			Assert.IsTrue(modelFlip.IsNextFlipped,"The live picture shows it flipped too.");
+			Assert.AreEqual("Next: Frontal (saved flipped, as the mount flips on acquire)",modelFlip.GetGuideText());
 		}
 
 		[TestMethod]

@@ -24,6 +24,8 @@ namespace OpenPmsDental {
 		public int CountSaved { get; set; }
 		///<summary>True when the session ended because the patient changed.</summary>
 		public bool IsPatientChange { get; set; }
+		///<summary>True when the session ended because the user left the Imaging module: the module is not refreshed.</summary>
+		public bool IsModuleLeft { get; set; }
 	}
 
 	///<summary>The camera session inside the Imaging module (owner imaging design, camera and video, section 2; IMG-P4b): it covers the module
@@ -136,7 +138,7 @@ namespace OpenPmsDental {
 		}
 
 		///<summary>Ends the session: releases the camera and raises EventEnded once. Everything is saved already.</summary>
-		public void End(bool isPatientChange=false) {
+		public void End(bool isPatientChange=false,bool isModuleLeft=false) {
 			if(_isEnded) {
 				return;
 			}
@@ -147,6 +149,7 @@ namespace OpenPmsDental {
 				DocNumLast=_docNumLast,
 				CountSaved=_model?.CountSaved??0,
 				IsPatientChange=isPatientChange,
+				IsModuleLeft=isModuleLeft,
 			});
 		}
 
@@ -188,7 +191,10 @@ namespace OpenPmsDental {
 		protected override bool ProcessCmdKey(ref Message msg,Keys keyData) {
 			switch(keyData) {
 				case Keys.Space:
-					RequestCapture(CaptureRequestSource.SpaceInWindow,null);
+					//A held Space repeats: only the first press takes a photo, or one held key would fill the whole mount.
+					if((msg.LParam.ToInt64() & 0x40000000)==0) {
+						RequestCapture(CaptureRequestSource.SpaceInWindow,null);
+					}
 					return true;
 				case Keys.Right:
 					Skip(isForward:true);
@@ -298,14 +304,19 @@ namespace OpenPmsDental {
 			try {
 				PhotoSaveResult photoSaveResult=PhotoSaver.Save(_store,captureStart.Bitmap,photoShotPlan,_patient.PatNum,_categoryDefNum);
 				if(photoSaveResult.Document==null) {
-					ShowInfo(Lan.g(this,photoSaveResult.Error));
+					ShowInfo(photoSaveResult.Error);//holds the exception's message: not a translation key
 					return;
 				}
 				_docNumLast=photoSaveResult.Document.DocNum;
+				if(!photoSaveResult.IsPlaced) {
+					//Saved, but unmounted: the slot is still empty, so it stays the next one and the photo can be retaken.
+					ShowInfo(photoSaveResult.Error);
+					return;
+				}
 				_model.MarkSaved(photoShotPlan);
 				AddThumb(photoShotPlan,captureStart.Bitmap);
 				string textSaved=photoShotPlan.GuideLabel!="" ? Lan.g(this,"Saved")+": "+photoShotPlan.GuideLabel : Lan.g(this,"Photo saved");
-				ShowInfo(photoSaveResult.Error=="" ? textSaved : Lan.g(this,photoSaveResult.Error));
+				ShowInfo(textSaved);
 				RefreshGuide();
 			}
 			finally {
@@ -413,7 +424,7 @@ namespace OpenPmsDental {
 				ex.DoNothing();//out of memory for one frame: the next one tries again
 				return;
 			}
-			if(_model?.SlotNext?.IsMirror==true) {
+			if(_model?.IsNextFlipped==true) {
 				bitmap.RotateFlip(RotateFlipType.RotateNoneFlipX);//what you see is what is saved (design section 2, mirror shots)
 			}
 			SetLiveImage(bitmap);
@@ -536,8 +547,9 @@ namespace OpenPmsDental {
 			if(_model==null) {
 				return;
 			}
-			labelGuide.Text=Lan.g(this,_model.GetGuideText(FuncDisplayTeeth));
-			labelProgress.Text=Lan.g(this,_model.GetProgressText());
+			//Built from slot labels, teeth and counts: not translation keys (Lan.g would add a language row for each).
+			labelGuide.Text=_model.GetGuideText(FuncDisplayTeeth);
+			labelProgress.Text=_model.GetProgressText();
 			labelHint.Text=_model.IsQuickPhotos ? Lan.g(this,"Each photo is saved unmounted in the photo category.")
 				: Lan.g(this,"Yellow is next. Click an empty slot to shoot it next. Arrows skip a slot.");
 			panelMount.SetSlots(_model,_mount,_dictThumbs,_listThumbsQuick);

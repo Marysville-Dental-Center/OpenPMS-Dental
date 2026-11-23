@@ -77,6 +77,9 @@ namespace ImagingCapture.Photo {
 		///<summary>The slot the next photo fills, -1 when none (quick photos, or every slot is filled).</summary>
 		public int IdxNext { get; private set; }
 		public PhotoSlot SlotNext => IdxNext>=0 ? _listSlots[IdxNext] : null;
+		///<summary>True when the next photo is saved flipped: a mirror slot, or a mount that flips on acquire. The live picture is shown the same
+		///way, so what you see is what is saved.</summary>
+		public bool IsNextFlipped => SlotNext!=null && (SlotNext.IsMirror || _isFlipOnAcquire);
 		///<summary>Photos saved in this session.</summary>
 		public int CountSaved { get; private set; }
 
@@ -182,6 +185,9 @@ namespace ImagingCapture.Photo {
 			List<string> listParts=new List<string>();
 			if(slot.IsMirror) {
 				listParts.Add("mirror shot, saved flipped");
+			}
+			else if(_isFlipOnAcquire) {
+				listParts.Add("saved flipped, as the mount flips on acquire");
 			}
 			if(slot.RotateOnAcquire!=0) {
 				listParts.Add("rotated "+slot.RotateOnAcquire.ToString(CultureInfo.InvariantCulture)+" degrees");

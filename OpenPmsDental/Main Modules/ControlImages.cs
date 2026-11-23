@@ -44,6 +44,9 @@ namespace OpenPmsDental{
 		///<summary>The kind of camera session the Camera button starts: a photo mount definition's MountDefNum, 0 for quick photos, -1 when none
 		///was started yet in this run (then the first photo mount, else quick photos).</summary>
 		private long _mountDefNumCameraLast=-1;
+		///<summary>The photo mount the running session made, 0 when it fills an existing one or takes quick photos. Removed again when the session
+		///ends without a photo.</summary>
+		private long _mountNumCameraCreated;
 		private FrmPearlLayers _frmPearlLayers;
 		private WpfControls.UI.ImageSelector imageSelector;
 		///<summary>A list of the forms that are currently floating. Can be empty.  When a form is closed, it is removed from the list at FormImageFloat_FormClosed.</summary>
@@ -298,7 +301,7 @@ namespace OpenPmsDental{
 			contextMenuCamera.Opened+=contextMenuCamera_Opened;
 			FillCameraMenu(contextMenuCamera,new List<MountDef>());
 			toolBarMain.Add(Lan.g(this,"Camera"),ToolBarCamera_Click,WpfControls.UI.EnumIcons.Video,WpfControls.UI.ToolBarButtonStyle.DropDownButton,
-				Lan.g(this,"Intraoral camera: photo series, quick photos (Ctrl+Shift+C)"),contextMenuCamera);
+				Lan.g(this,"Intraoral camera: photo series, quick photos (Ctrl+Shift+P)"),contextMenuCamera);
 			toolBarMain.AddSeparator();
 			WpfControls.UI.ContextMenu contextMenuImport = new WpfControls.UI.ContextMenu();
 			contextMenuImport.Add(new WpfControls.UI.MenuItem(Lan.g(this,"Import Automatically"),ToolBarImportAuto));
@@ -573,7 +576,7 @@ namespace OpenPmsDental{
 		
 		///<summary></summary>
 		public void ModuleUnselected(){
-			_controlCameraSession?.End();//leaving the Imaging module releases the camera
+			_controlCameraSession?.End(isModuleLeft:true);//leaving the Imaging module releases the camera
 			_familyCur=null;
 			//We will not close any undocked floaters here.
 			//So _listFormImageFloats remains valid and still has all the floaters in it, even when we are in the Chart module. 
@@ -2987,6 +2990,7 @@ namespace OpenPmsDental{
 		///<summary>The Camera menu: a new photo mount of each photo mount definition (owner design: photo series), Quick photos, and the Video
 		///window.</summary>
 		private void FillCameraMenu(WpfControls.UI.ContextMenu contextMenuCamera,List<MountDef> listMountDefs){
+			contextMenuCamera.ClearMenuItemsClickEvent();
 			contextMenuCamera.Items.Clear();
 			for(int i=0;i<listMountDefs.Count;i++){
 				contextMenuCamera.Add(listMountDefs[i].Description,menuCameraMount_Click,listMountDefs[i]);
@@ -3072,11 +3076,15 @@ namespace OpenPmsDental{
 			FillImageSelector(false);
 			SelectTreeNode1(new NodeTypeAndKey(EnumImageNodeType.Mount,mount.MountNum));
 			StartCameraSessionCore(mount,mount.DocCategory);
+			if(_controlCameraSession!=null){
+				_mountNumCameraCreated=mount.MountNum;
+			}
 		}
 
 		///<summary>Covers the module with the session for mount (null: quick photos) and opens the camera once it is painted.</summary>
 		private void StartCameraSessionCore(Mount mount,long defNumCategory){
 			_controlCameraSession?.End();
+			_mountNumCameraCreated=0;
 			if(_formLauncherVideo!=null && !_formLauncherVideo.IsNullDisposedOrNotVis()){
 				_formLauncherVideo.Close();//the Video window would hold the camera
 			}
@@ -3104,10 +3112,20 @@ namespace OpenPmsDental{
 			if(_controlCameraSession==controlCameraSession){
 				_controlCameraSession=null;
 			}
+			long mountNumCreated=_mountNumCameraCreated;
+			_mountNumCameraCreated=0;
+			bool isMountRemoved=false;
+			if(mountNumCreated!=0 && e.MountNum==mountNumCreated && e.CountSaved==0){
+				isMountRemoved=RemoveEmptyCameraMount(mountNumCreated,controlCameraSession.Patient?.PatNum??0);
+			}
 			BeginInvoke((Action)(() => {
 				Controls.Remove(controlCameraSession);
 				controlCameraSession.Dispose();
-				if(e.IsPatientChange || _patient==null){
+				if(e.IsPatientChange || e.IsModuleLeft || _patient==null){
+					return;
+				}
+				if(isMountRemoved){
+					FillImageSelector(false);
 					return;
 				}
 				FillImageSelector(false);
@@ -3121,9 +3139,32 @@ namespace OpenPmsDental{
 			}));
 		}
 
-		///<summary>Ctrl+Shift+C anywhere in the module starts the camera (design section 1).</summary>
+		///<summary>The photo mount a session made and left without a photo (no camera, or ended at once) is deleted again, so no empty mount of
+		///today stays behind. Only when nothing at all is in it. True when deleted.</summary>
+		private bool RemoveEmptyCameraMount(long mountNum,long patNum){
+			try{
+				List<MountItem> listMountItems=MountItems.GetItemsForMount(mountNum);
+				if(Documents.GetDocumentsForMountItems(listMountItems).Any(x => x!=null)){
+					return false;
+				}
+				Mount mount=Mounts.GetByNum(mountNum);
+				if(mount.MountNum==0){
+					return false;
+				}
+				Mounts.Delete(mount);
+				SecurityLogs.MakeLogEntry(EnumPermType.ImageCreate,patNum,"Mount removed again: "+mount.Description+", the camera session ended without a photo");
+				return true;
+			}
+			catch(Exception ex){
+				ex.DoNothing();//the empty mount stays; it can be deleted by hand
+				return false;
+			}
+		}
+
+		///<summary>Ctrl+Shift+P (photo) anywhere in the module starts the camera (design section 1 named Ctrl+Shift+C, which is Lists, Contacts).
+		///</summary>
 		protected override bool ProcessCmdKey(ref Message msg,Keys keyData){
-			if(keyData==(Keys.Control|Keys.Shift|Keys.C) && _controlCameraSession==null){
+			if(keyData==(Keys.Control|Keys.Shift|Keys.P) && _controlCameraSession==null){
 				ToolBarCamera_Click(this,EventArgs.Empty);
 				return true;
 			}
