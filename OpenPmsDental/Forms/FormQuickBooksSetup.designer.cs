@@ -59,7 +59,7 @@ namespace OpenPmsDental{
 			// 
 			// buttonRemoveClassRefQB
 			// 
-			this.buttonRemoveClassRefQB.Location = new System.Drawing.Point(435, 432);
+			this.buttonRemoveClassRefQB.Location = new System.Drawing.Point(435, 448);
 			this.buttonRemoveClassRefQB.Name = "buttonRemoveClassRefQB";
 			this.buttonRemoveClassRefQB.Size = new System.Drawing.Size(75, 24);
 			this.buttonRemoveClassRefQB.TabIndex = 12;
@@ -69,7 +69,7 @@ namespace OpenPmsDental{
 			// 
 			// buttonAddClassRefQB
 			// 
-			this.buttonAddClassRefQB.Location = new System.Drawing.Point(435, 404);
+			this.buttonAddClassRefQB.Location = new System.Drawing.Point(435, 420);
 			this.buttonAddClassRefQB.Name = "buttonAddClassRefQB";
 			this.buttonAddClassRefQB.Size = new System.Drawing.Size(75, 24);
 			this.buttonAddClassRefQB.TabIndex = 11;
@@ -79,7 +79,7 @@ namespace OpenPmsDental{
 			// 
 			// listBoxClassRefsQB
 			// 
-			this.listBoxClassRefsQB.Location = new System.Drawing.Point(203, 404);
+			this.listBoxClassRefsQB.Location = new System.Drawing.Point(203, 420);
 			this.listBoxClassRefsQB.Name = "listBoxClassRefsQB";
 			this.listBoxClassRefsQB.Size = new System.Drawing.Size(226, 108);
 			this.listBoxClassRefsQB.TabIndex = 10;
@@ -87,7 +87,7 @@ namespace OpenPmsDental{
 			// 
 			// labelClass
 			// 
-			this.labelClass.Location = new System.Drawing.Point(137, 404);
+			this.labelClass.Location = new System.Drawing.Point(137, 420);
 			this.labelClass.Name = "labelClass";
 			this.labelClass.Size = new System.Drawing.Size(60, 53);
 			this.labelClass.TabIndex = 78;
@@ -97,7 +97,7 @@ namespace OpenPmsDental{
 			// 
 			// butRemoveIncomeQB
 			// 
-			this.butRemoveIncomeQB.Location = new System.Drawing.Point(435, 296);
+			this.butRemoveIncomeQB.Location = new System.Drawing.Point(435, 312);
 			this.butRemoveIncomeQB.Name = "butRemoveIncomeQB";
 			this.butRemoveIncomeQB.Size = new System.Drawing.Size(75, 24);
 			this.butRemoveIncomeQB.TabIndex = 8;
@@ -107,7 +107,7 @@ namespace OpenPmsDental{
 			// checkQuickBooksClassRefsEnabled
 			// 
 			this.checkQuickBooksClassRefsEnabled.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkQuickBooksClassRefsEnabled.Location = new System.Drawing.Point(203, 380);
+			this.checkQuickBooksClassRefsEnabled.Location = new System.Drawing.Point(203, 396);
 			this.checkQuickBooksClassRefsEnabled.Name = "checkQuickBooksClassRefsEnabled";
 			this.checkQuickBooksClassRefsEnabled.Size = new System.Drawing.Size(183, 20);
 			this.checkQuickBooksClassRefsEnabled.TabIndex = 9;
@@ -116,7 +116,7 @@ namespace OpenPmsDental{
 			// 
 			// butAddIncomeQB
 			// 
-			this.butAddIncomeQB.Location = new System.Drawing.Point(435, 268);
+			this.butAddIncomeQB.Location = new System.Drawing.Point(435, 284);
 			this.butAddIncomeQB.Name = "butAddIncomeQB";
 			this.butAddIncomeQB.Size = new System.Drawing.Size(75, 24);
 			this.butAddIncomeQB.TabIndex = 7;
@@ -125,7 +125,7 @@ namespace OpenPmsDental{
 			// 
 			// listBoxIncomeAccountsQB
 			// 
-			this.listBoxIncomeAccountsQB.Location = new System.Drawing.Point(203, 268);
+			this.listBoxIncomeAccountsQB.Location = new System.Drawing.Point(203, 284);
 			this.listBoxIncomeAccountsQB.Name = "listBoxIncomeAccountsQB";
 			this.listBoxIncomeAccountsQB.Size = new System.Drawing.Size(226, 108);
 			this.listBoxIncomeAccountsQB.TabIndex = 6;
@@ -153,7 +153,7 @@ namespace OpenPmsDental{
 			// 
 			// labelIncomeAccountQB
 			// 
-			this.labelIncomeAccountQB.Location = new System.Drawing.Point(20, 268);
+			this.labelIncomeAccountQB.Location = new System.Drawing.Point(20, 284);
 			this.labelIncomeAccountQB.Name = "labelIncomeAccountQB";
 			this.labelIncomeAccountQB.Size = new System.Drawing.Size(177, 32);
 			this.labelIncomeAccountQB.TabIndex = 72;
@@ -163,7 +163,7 @@ namespace OpenPmsDental{
 			// labelWarning
 			// 
 			this.labelWarning.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.labelWarning.Location = new System.Drawing.Point(52, 516);
+			this.labelWarning.Location = new System.Drawing.Point(52, 532);
 			this.labelWarning.Name = "labelWarning";
 			this.labelWarning.Size = new System.Drawing.Size(476, 32);
 			this.labelWarning.TabIndex = 71;
@@ -207,14 +207,14 @@ namespace OpenPmsDental{
 			// 
 			// listBoxDepositAccountsQB
 			// 
-			this.listBoxDepositAccountsQB.Location = new System.Drawing.Point(203, 156);
+			this.listBoxDepositAccountsQB.Location = new System.Drawing.Point(203, 172);
 			this.listBoxDepositAccountsQB.Name = "listBoxDepositAccountsQB";
 			this.listBoxDepositAccountsQB.Size = new System.Drawing.Size(226, 108);
 			this.listBoxDepositAccountsQB.TabIndex = 3;
 			// 
 			// butRemoveDepositQB
 			// 
-			this.butRemoveDepositQB.Location = new System.Drawing.Point(435, 184);
+			this.butRemoveDepositQB.Location = new System.Drawing.Point(435, 200);
 			this.butRemoveDepositQB.Name = "butRemoveDepositQB";
 			this.butRemoveDepositQB.Size = new System.Drawing.Size(75, 24);
 			this.butRemoveDepositQB.TabIndex = 5;
@@ -223,7 +223,7 @@ namespace OpenPmsDental{
 			// 
 			// butAddDepositQB
 			// 
-			this.butAddDepositQB.Location = new System.Drawing.Point(435, 156);
+			this.butAddDepositQB.Location = new System.Drawing.Point(435, 172);
 			this.butAddDepositQB.Name = "butAddDepositQB";
 			this.butAddDepositQB.Size = new System.Drawing.Size(75, 24);
 			this.butAddDepositQB.TabIndex = 4;
@@ -232,7 +232,7 @@ namespace OpenPmsDental{
 			// 
 			// label7
 			// 
-			this.label7.Location = new System.Drawing.Point(20, 156);
+			this.label7.Location = new System.Drawing.Point(20, 172);
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(177, 32);
 			this.label7.TabIndex = 62;

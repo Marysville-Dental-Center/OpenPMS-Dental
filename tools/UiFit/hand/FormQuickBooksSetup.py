@@ -11,8 +11,7 @@ BELOW = ("label7", "listBoxDepositAccountsQB", "butAddDepositQB", "butRemoveDepo
 def layout(h):
     h.set("checkQuickBooksClassRefsEnabled", h.n("listBoxIncomeAccountsQB").nx, None)
     R = h.tree.nw - 8
-    d = h.n("labelDepositsQB")
+    dy = 48 - h.n("labelDepositsQB").nh
     h.set("labelDepositsQB", 8, None, R - 8, 48)
-    dy = 48 - d.nh
     for name in BELOW:
         h.set(name, None, h.n(name).ny + dy)
