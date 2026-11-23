@@ -136,7 +136,7 @@ styles and the pilot follow-up byte-identical to `a6`'s, so their lines above st
 
 UI-12.md, "Slice 2, fix round". The after pictures: `a8` (every slice window, the pilot follow-up and its states at 100%, the 150% windows),
 `a9` (FormFeeScheds, FormClaimsSend, ControlChart and its states, redrawn after pass 1), `a10` (the five states at 150%, after the gallery
-set the state ahead of the font pass). The before pictures: as above for the slice's windows; the states and the hosted controls at 150%
+set the state ahead of the font pass), `a11` (ControlChart and its states after the Draw note's fix, at 100% and 150%). The before pictures: as above for the slice's windows; the states and the hosted controls at 150%
 from main's product with this branch's harness (`b2`, `b3`: `fc35c0ab7`'s OpenPmsDental). `work/pixdiff.py a7 a8` and `a7-150 a8-150`: only
 the 16 windows of the findings and the four hosted 150% pictures differ; every other picture is byte-identical to `a7`, so its line above
 stands. All under ClearType (no setting changed).
@@ -147,7 +147,9 @@ as finding 9), ControlChart's Show page (now drawn): Down's text wrapped under i
 the descenders (Commlog's g, Appointments' p, Family's y); and in the 150% state pictures the tab pages' text at the 100% size (the state
 was set after the font pass). Fixes: Clean Up Allowed 115 px, the BackColor row, Down 76 px with the grid to the page's edge and the check
 boxes 15 px tall, the state set before the font pass.
-**Pass 2** (`a9`, `a10`): nothing found. GridRulesTests and the layout snapshot pass on `a8` and `a9`.
+**Pass 2** (`a9`, `a10`): at 150% the Draw page's note cut its last line's descenders at the page's bottom (six lines in 135 px): 96 px
+from under the color square.
+**Pass 3** (`a11`): nothing found. GridRulesTests and the layout snapshot pass on `a8`, `a9` and `a11`.
 
 **Corrections to the lines above.** FormFeeScheds (pass 2 said "the centred notes under their buttons are main's"): main had the buttons and
 notes left-aligned at 383; the planner centred them. FormClaimEdit (both pictures, "the missing teeth note is on the General tab, not the tab
@@ -188,7 +190,7 @@ below.
 | 4-pilot-follow-up/ControlAccount-totalowed-150.png | new | at 150%: the same. Nothing found. |
 | 4-pilot-follow-up/ControlChart-show.png | new | the Show page: Super Family and Show Auto Commlogs whole on one line (main cut them: "Super Famil", "Show Auto Comml"), every check box 15 px tall with its descenders whole; the Chart Views grid to the page's edge, Add, Up and Down (76 px) whole. Nothing found. |
 | 4-pilot-follow-up/ControlChart-show-150.png | new | at 150%: the same at the scaled font. Nothing found. |
-| 4-pilot-follow-up/ControlChart-draw.png | new | the Draw page: the note's six lines whole in its 90 px (main cut its last line); the color buttons, the radio list, the text list, Add and Delete. Nothing found. |
-| 4-pilot-follow-up/ControlChart-draw-150.png | new | at 150%: the same at the scaled font. Nothing found. |
+| 4-pilot-follow-up/ControlChart-draw.png | new | the Draw page: the note's six lines whole in its 96 px, 4 px under the color square (main cut its last line); the color buttons, the radio list, the text list, Add and Delete. Nothing found. |
+| 4-pilot-follow-up/ControlChart-draw-150.png | new | at 150%: the note's six lines whole down to the page's bottom (pass 2 cut the last line's descenders), the radio list and the color buttons at the scaled font. Nothing found. |
 | 4-pilot-follow-up/FormBackup-archive.png | new | the Archive page: the Backup Connection Settings group's Server Name note on its two lines, whole in the 508 px group; the User and Password notes and boxes. Nothing found. |
 | 4-pilot-follow-up/FormBackup-archive-150.png | new | at 150%: the same. Nothing found. |
