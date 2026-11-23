@@ -1,0 +1,38 @@
+window	slice	mode	note
+OpenPmsDental.FormSecurity	3	tool	UI-12-3 batch 1
+OpenPmsDental.FormUserEdit	3	hand	UI-12-3 batch 1; its layout script (tools/UiFit/hand/FormUserEdit.py)
+OpenPmsDental.UserControlSecurityTree	3	tool	UI-12-3 batch 1
+OpenPmsDental.FormBillingOptions	3	hand	UI-12-3 batch 1; its layout script (tools/UiFit/hand/FormBillingOptions.py)
+OpenPmsDental.FormChooseDatabase	3	hand	UI-12-3 batch 1; its layout script (tools/UiFit/hand/FormChooseDatabase.py)
+OpenPmsDental.FormEClinicalWorks	3	hand	UI-12-3 batch 1; its layout script (tools/UiFit/hand/FormEClinicalWorks.py)
+OpenPmsDental.FormEhrLabPanelEdit	3	hand	UI-12-3 batch 1; its layout script (tools/UiFit/hand/FormEhrLabPanelEdit.py)
+OpenPmsDental.FormEmailAddressEdit	3	hand	UI-12-3 batch 1; its layout script (tools/UiFit/hand/FormEmailAddressEdit.py)
+OpenPmsDental.FormInsPlans	3	tool	UI-12-3 batch 1
+OpenPmsDental.FormInsPlansOverrides	3	tool	UI-12-3 batch 1
+OpenPmsDental.FormPayConnect2	3	hand	UI-12-3 batch 1; its layout script (tools/UiFit/hand/FormPayConnect2.py)
+OpenPmsDental.FormPayPeriodManager	3	hand	UI-12-3 batch 1; its layout script (tools/UiFit/hand/FormPayPeriodManager.py)
+OpenPmsDental.FormTsiHistory	3	tool	UI-12-3 batch 1
+OpenPmsDental.FormUserQuery	3	hand	UI-12-3 batch 1; its layout script (tools/UiFit/hand/FormUserQuery.py)
+OpenPmsDental.FormRpProdGoal	3	hand	UI-12-3 batch 1; its layout script (tools/UiFit/hand/FormRpProdGoal.py)
+OpenPmsDental.FormApptSearchAdvanced	3	hand	UI-12-3 batch 1; its layout script (tools/UiFit/hand/FormApptSearchAdvanced.py)
+OpenPmsDental.FormCertifications	3	hand	UI-12-3 batch 1; its layout script (tools/UiFit/hand/FormCertifications.py)
+OpenPmsDental.FormCreditCardEdit	3	hand	UI-12-3 batch 1; its layout script (tools/UiFit/hand/FormCreditCardEdit.py)
+OpenPmsDental.FormDatabaseMaintenance	3	hand	UI-12-3 batch 1; its layout script (tools/UiFit/hand/FormDatabaseMaintenance.py)
+OpenPmsDental.FormEhrPatientSmoking	3	hand	UI-12-3 batch 1; its layout script (tools/UiFit/hand/FormEhrPatientSmoking.py)
+OpenPmsDental.FormOperatoryEdit	3	tool	UI-12-3 batch 1
+OpenPmsDental.FormPath	3	hand	UI-12-3 batch 1; its layout script (tools/UiFit/hand/FormPath.py)
+OpenPmsDental.FormAdjMulti	3	hand	UI-12-3 batch 1; its layout script (tools/UiFit/hand/FormAdjMulti.py)
+OpenPmsDental.FormBillingDefaults	3	hand	UI-12-3 batch 1; its layout script (tools/UiFit/hand/FormBillingDefaults.py)
+OpenPmsDental.FormClockEventEdit	3	hand	UI-12-3 batch 1; its layout script (tools/UiFit/hand/FormClockEventEdit.py)
+OpenPmsDental.FormDatabaseMaintenancePat	3	hand	UI-12-3 batch 1; its layout script (tools/UiFit/hand/FormDatabaseMaintenancePat.py)
+OpenPmsDental.FormDepositEdit	3	tool	UI-12-3 batch 1
+OpenPmsDental.FormDisplayFieldOrthoEdit	3	tool	UI-12-3 batch 1
+OpenPmsDental.FormEhrSettings	3	hand	UI-12-3 batch 1; its layout script (tools/UiFit/hand/FormEhrSettings.py)
+OpenPmsDental.FormEtrans835ClaimPay	3	hand	UI-12-3 batch 1; its layout script (tools/UiFit/hand/FormEtrans835ClaimPay.py)
+OpenPmsDental.FormEtransEdit	3	hand	UI-12-3 batch 1; its layout script (tools/UiFit/hand/FormEtransEdit.py)
+OpenPmsDental.FormImagingSetup	3	tool	UI-12-3 batch 1
+OpenPmsDental.FormInfobutton	3	hand	UI-12-3 batch 1; its layout script (tools/UiFit/hand/FormInfobutton.py)
+OpenPmsDental.FormMaintItemEdit	3	hand	UI-12-3 batch 1; its layout script (tools/UiFit/hand/FormMaintItemEdit.py)
+OpenPmsDental.FormMedPat	3	tool	UI-12-3 batch 1
+OpenPmsDental.FormOrthoChart	3	hand	UI-12-3 batch 1; its layout script (tools/UiFit/hand/FormOrthoChart.py)
+OpenPmsDental.FormProcButtonEdit	3	hand	UI-12-3 batch 1; its layout script (tools/UiFit/hand/FormProcButtonEdit.py)

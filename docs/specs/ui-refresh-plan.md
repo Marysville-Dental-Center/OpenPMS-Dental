@@ -1652,6 +1652,17 @@ own 26.2 overlap check before it starts. The first cut is below; a brief that fi
   windows the planner gave no fixed point); FormReplicationSetup_Load sizes the window from the designer; `grid_tools.py anchors` flags a
   bottom-anchored control in the upper half of its container (the designer's anchor); the gallery draws UserControlReportSetup's two modes
   apart; the windows without a script re-plan 0 rows; re-plans 243 / 461 / 179 unchanged (UI-12.md section 7, "Slice 4, fix round").
+  Slice 3 (UI-12-3, branch `ui/ui12-3-1`, batch 1 of `UI-12-batches.tsv`, the large windows): 37 windows on the grid (10 by the
+  planner, 7 of them with a layout script on its tree; 27 by their own layout script from main's arrangement), UserControlSecurityUserGroup
+  laid out as a part of FormSecurity (`grid_hand.py --part`: the harness cannot build it alone), 12 files skipped (the Central Manager's
+  plain forms, ControlAppt, the dashboard graph and its print windows, the claim form editor); code on the grid (FormEmailAddressEdit's
+  authentication layout numbers from `UiGrid`, FormSecurity's bottom padding, FormCreditCardEdit's hidden band and FormPath's SFTP place
+  from the designer); no planner rule added (re-plans 243 / 461 / 179 as recorded); gallery G-UI3-ui12-3 (37 windows, 6 at 150%),
+  audit `UI-12-audit-3.md` (UI-12.md section 7, "Slice 3 (batch 1)"). Fix round (branch `ui/ui12-3-2`, the lead's 12 findings):
+  FormUserQuery's button panel within the 140 px Load gives it and its split frame unbroken, FormCertifications' Cert Complete view hidden
+  in the designer, note boxes and tab pages in their background, caption gaps and edges in FormDepositEdit, FormInsPlans(Overrides),
+  FormOperatoryEdit, FormEhrPatientSmoking, FormMedPat's height; the gallery draws the 11 other tab pages and the Cert Complete view (59
+  pictures); re-plans 243 / 461 / 179 unchanged (UI-12.md section 7, "Slice 3, fix round").
 - Gallery: G-UI3 per slice, the owner's rows first.
 
 **UI-13: every element type in the new look (the owner, 2026-11-22: "Overall make sure you modernize all element types")**

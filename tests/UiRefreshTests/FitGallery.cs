@@ -314,7 +314,10 @@ namespace UiRefreshTests {
 		///ControlAccount "summary": the family and individual insurance summaries (labelInsRem_MouseEnter shows them; hidden in the designer)
 		///with their Annual Max captions. ControlAccount "totalowed": the TOTAL Owed panel drawn alone (the designer puts it 41 px above the
 		///aging strip, where the program never shows it, on main too). ControlChart "show" and "draw": the procedure tab control on its Show and
-		///Draw pages (the Show page's check boxes, the Draw page's note). FormBackup "archive": its Archive page (the Server Name note).</summary>
+		///Draw pages (the Show page's check boxes, the Draw page's note). FormBackup "archive": its Archive page (the Server Name note).
+		///<para>UI-12 slice 3 fix round: the other tab pages of FormDatabaseMaintenance (hidden, old, tools), FormDatabaseMaintenancePat (hidden,
+		///old), FormPath (database, removed, sftp), FormUserEdit (clinics, alertsubs) and FormSecurity (usergroups, its user control's User Groups
+		///page), and FormCertifications "certcomplete": its Cert Complete view as radioCertification_Click shows it.</para></summary>
 		public static Control FillSampleState(Control root,string window,string state) {
 			if(state=="") {
 				return root;
@@ -340,6 +343,25 @@ namespace UiRefreshTests {
 				//UI-12 slice 4 fix round: the page in permission mode (FillSampleContent sets the mode's Visible flags).
 				return root;
 			}
+			//UI-12 slice 3 fix round (review of 2026-11-23): the slice's other tab pages and views, laid out by its scripts.
+			string[] arrayTab=GetSliceThreeTabState(window,state);
+			if(arrayTab!=null) {
+				SelectTabPage(root,arrayTab[0],arrayTab[1]);
+				return root;
+			}
+			if(window=="OpenPmsDental.FormCertifications" && state=="certcomplete") {
+				//As radioCertification_Click shows it (the harness runs no Load, which hides the Cert Complete view; the designer hides it too).
+				foreach(string name in new string[] { "labelEmpSearch","textEmpSearch","labelCategories","listBoxCategories","labelEmployee","listBoxEmployee",
+					"labelReportsTo","comboSupervisor","checkIncomplete","checkSortDate" })
+				{
+					FindByName(root,name).Visible=false;
+				}
+				foreach(string name in new string[] { "labelCertification","listBoxCertification","labelCategories2","listBoxCategories2","checkSortDateCertComplete" }) {
+					FindByName(root,name).Visible=true;
+				}
+				((System.Windows.Forms.RadioButton)FindByName(root,"radioCertification")).Checked=true;
+				return root;
+			}
 			throw new ArgumentException("No gallery state "+state+" for "+window+".");
 		}
 
@@ -356,6 +378,25 @@ namespace UiRefreshTests {
 					control.Visible=isPermissionMode;
 				}
 			}
+		}
+
+		///<summary>UI-12 slice 3 fix round: the tab control and page of a slice 3 window's state ("<window>#<state>"), or null. FormSecurity
+		///"usergroups" is the User Groups page of its hosted UserControlSecurityUserGroup.</summary>
+		private static string[] GetSliceThreeTabState(string window,string state) {
+			switch(window+"#"+state) {
+				case "OpenPmsDental.FormDatabaseMaintenance#hidden": return new string[] { "tabControlDBM","tabHidden" };
+				case "OpenPmsDental.FormDatabaseMaintenance#old": return new string[] { "tabControlDBM","tabOld" };
+				case "OpenPmsDental.FormDatabaseMaintenance#tools": return new string[] { "tabControlDBM","tabTools" };
+				case "OpenPmsDental.FormDatabaseMaintenancePat#hidden": return new string[] { "tabControlDBM","tabHidden" };
+				case "OpenPmsDental.FormDatabaseMaintenancePat#old": return new string[] { "tabControlDBM","tabOld" };
+				case "OpenPmsDental.FormPath#database": return new string[] { "tabControlDataStorageType","tabInDatabase" };
+				case "OpenPmsDental.FormPath#removed": return new string[] { "tabControlDataStorageType","tabStorageRemoved" };
+				case "OpenPmsDental.FormPath#sftp": return new string[] { "tabControlDataStorageType","tabSftp" };
+				case "OpenPmsDental.FormUserEdit#clinics": return new string[] { "tabControl1","tabClinics" };
+				case "OpenPmsDental.FormUserEdit#alertsubs": return new string[] { "tabControl1","tabAlertSubs" };
+				case "OpenPmsDental.FormSecurity#usergroups": return new string[] { "tabControlMain","tabPageUserGroups" };
+			}
+			return null;
 		}
 
 		///<summary>Shows the tab control's page as a click on its tab does, without SelectedIndexChanged (the windows' handlers read the database,

@@ -80,7 +80,9 @@ namespace OpenPmsDental {
 			else {//This will hide the recurring section and change the window size.
 				groupRecurringCharges.Visible=false;
 				groupChargeFrequency.Visible=false;
-				this.ClientSize=new System.Drawing.Size(this.ClientSize.Width,this.ClientSize.Height-486);
+				//UI-12: the band from the recurring group's top to the bottom bar goes (no longer a literal 486): the buttons, anchored to the bottom,
+				//come up to where the group started, the grid's gap under the card's fields.
+				this.ClientSize=new System.Drawing.Size(this.ClientSize.Width,this.ClientSize.Height-(butSave.Top-groupRecurringCharges.Top));
 			}
 			if(_isPaySimpleEnabled && !CreditCardCur.IsNew) {
 				labelAcctType.Visible=true;

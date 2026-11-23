@@ -77,28 +77,29 @@ namespace OpenPmsDental {
 			this.groupBox3.Controls.Add(this.textDaysAfterPayPeriod);
 			this.groupBox3.Controls.Add(this.label4);
 			this.groupBox3.Controls.Add(this.label2);
-			this.groupBox3.Location = new System.Drawing.Point(40, 256);
+			this.groupBox3.Location = new System.Drawing.Point(8, 329);
 			this.groupBox3.Name = "groupBox3";
-			this.groupBox3.Size = new System.Drawing.Size(250, 160);
+			this.groupBox3.Size = new System.Drawing.Size(280, 174);
 			this.groupBox3.TabIndex = 7;
 			this.groupBox3.TabStop = false;
 			this.groupBox3.Text = "Pay Day";
 			// 
 			// label3
 			// 
-			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(78, 51);
+			this.label3.AutoSize = false;
+			this.label3.Location = new System.Drawing.Point(24, 50);
+			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(23, 13);
+			this.label3.Size = new System.Drawing.Size(28, 17);
 			this.label3.TabIndex = 26;
 			this.label3.Text = "OR";
 			// 
 			// radioPayBefore
 			// 
-			this.radioPayBefore.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.radioPayBefore.Location = new System.Drawing.Point(81, 120);
+			this.radioPayBefore.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.radioPayBefore.Location = new System.Drawing.Point(8, 122);
 			this.radioPayBefore.Name = "radioPayBefore";
-			this.radioPayBefore.Size = new System.Drawing.Size(129, 17);
+			this.radioPayBefore.Size = new System.Drawing.Size(133, 20);
 			this.radioPayBefore.TabIndex = 24;
 			this.radioPayBefore.TabStop = true;
 			this.radioPayBefore.Text = "Pay Before Weekend";
@@ -107,10 +108,10 @@ namespace OpenPmsDental {
 			// 
 			// radioPayAfter
 			// 
-			this.radioPayAfter.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.radioPayAfter.Location = new System.Drawing.Point(90, 138);
+			this.radioPayAfter.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.radioPayAfter.Location = new System.Drawing.Point(8, 146);
 			this.radioPayAfter.Name = "radioPayAfter";
-			this.radioPayAfter.Size = new System.Drawing.Size(120, 17);
+			this.radioPayAfter.Size = new System.Drawing.Size(125, 20);
 			this.radioPayAfter.TabIndex = 25;
 			this.radioPayAfter.TabStop = true;
 			this.radioPayAfter.Text = "Pay After Weekend";
@@ -119,58 +120,58 @@ namespace OpenPmsDental {
 			// 
 			// checkExcludeWeekends
 			// 
-			this.checkExcludeWeekends.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkExcludeWeekends.Location = new System.Drawing.Point(92, 100);
+			this.checkExcludeWeekends.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkExcludeWeekends.Location = new System.Drawing.Point(8, 98);
 			this.checkExcludeWeekends.Name = "checkExcludeWeekends";
-			this.checkExcludeWeekends.Size = new System.Drawing.Size(122, 18);
+			this.checkExcludeWeekends.Size = new System.Drawing.Size(124, 20);
 			this.checkExcludeWeekends.TabIndex = 23;
 			this.checkExcludeWeekends.Text = "Exclude Weekends";
 			this.checkExcludeWeekends.CheckedChanged += new System.EventHandler(this.checkExcludeWeekends_CheckedChanged);
 			// 
 			// comboDay
 			// 
-			this.comboDay.Location = new System.Drawing.Point(91, 21);
+			this.comboDay.Location = new System.Drawing.Point(178, 23);
 			this.comboDay.Name = "comboDay";
-			this.comboDay.Size = new System.Drawing.Size(94, 21);
+			this.comboDay.Size = new System.Drawing.Size(94, 23);
 			this.comboDay.TabIndex = 22;
 			this.comboDay.SelectionChangeCommitted += new System.EventHandler(this.comboDay_SelectionChangeCommitted);
 			// 
 			// textDaysAfterPayPeriod
 			// 
-			this.textDaysAfterPayPeriod.Location = new System.Drawing.Point(170, 73);
+			this.textDaysAfterPayPeriod.Location = new System.Drawing.Point(178, 71);
 			this.textDaysAfterPayPeriod.MaxVal = 200;
 			this.textDaysAfterPayPeriod.MinVal = 1;
 			this.textDaysAfterPayPeriod.Name = "textDaysAfterPayPeriod";
-			this.textDaysAfterPayPeriod.Size = new System.Drawing.Size(40, 20);
+			this.textDaysAfterPayPeriod.Size = new System.Drawing.Size(40, 23);
 			this.textDaysAfterPayPeriod.TabIndex = 21;
 			this.textDaysAfterPayPeriod.TextChanged += new System.EventHandler(this.numDaysAfterPayPeriod_TextChanged);
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(44, 74);
+			this.label4.Location = new System.Drawing.Point(24, 71);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(126, 17);
+			this.label4.Size = new System.Drawing.Size(148, 23);
 			this.label4.TabIndex = 2;
 			this.label4.Text = "# Days After Pay Period";
-			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(4, 22);
+			this.label2.Location = new System.Drawing.Point(24, 23);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(81, 17);
+			this.label2.Size = new System.Drawing.Size(148, 23);
 			this.label2.TabIndex = 0;
 			this.label2.Text = "Day of Week";
-			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(3, 21);
+			this.label1.Location = new System.Drawing.Point(8, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(81, 20);
+			this.label1.Size = new System.Drawing.Size(280, 17);
 			this.label1.TabIndex = 6;
 			this.label1.Text = "Start Date";
-			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.label1.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// groupBox2
 			// 
@@ -183,9 +184,9 @@ namespace OpenPmsDental {
 			this.groupBox2.Controls.Add(this.radioMonthly);
 			this.groupBox2.Controls.Add(this.label5);
 			this.groupBox2.Controls.Add(this.radioBiWeekly);
-			this.groupBox2.Location = new System.Drawing.Point(40, 44);
+			this.groupBox2.Location = new System.Drawing.Point(8, 58);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(250, 209);
+			this.groupBox2.Size = new System.Drawing.Size(280, 263);
 			this.groupBox2.TabIndex = 5;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Interval";
@@ -199,28 +200,28 @@ namespace OpenPmsDental {
 			this.groupBoxSemiMonthly.Controls.Add(this.textDay1);
 			this.groupBoxSemiMonthly.Controls.Add(this.radioPayDate);
 			this.groupBoxSemiMonthly.Controls.Add(this.radioEndDate);
-			this.groupBoxSemiMonthly.Location = new System.Drawing.Point(7, 121);
+			this.groupBoxSemiMonthly.Location = new System.Drawing.Point(8, 150);
 			this.groupBoxSemiMonthly.Name = "groupBoxSemiMonthly";
-			this.groupBoxSemiMonthly.Size = new System.Drawing.Size(233, 83);
+			this.groupBoxSemiMonthly.Size = new System.Drawing.Size(264, 105);
 			this.groupBoxSemiMonthly.TabIndex = 32;
 			this.groupBoxSemiMonthly.TabStop = false;
 			this.groupBoxSemiMonthly.Text = "Semi-Monthly Settings";
 			// 
 			// checkLast
 			// 
-			this.checkLast.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkLast.Location = new System.Drawing.Point(27, 62);
+			this.checkLast.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkLast.Location = new System.Drawing.Point(94, 77);
 			this.checkLast.Name = "checkLast";
-			this.checkLast.Size = new System.Drawing.Size(82, 18);
+			this.checkLast.Size = new System.Drawing.Size(68, 20);
 			this.checkLast.TabIndex = 27;
 			this.checkLast.Text = "Last Day";
 			this.checkLast.Click += new System.EventHandler(this.checkLast_Click);
 			// 
 			// labelPeriod2Day
 			// 
-			this.labelPeriod2Day.Location = new System.Drawing.Point(2, 38);
+			this.labelPeriod2Day.Location = new System.Drawing.Point(8, 50);
 			this.labelPeriod2Day.Name = "labelPeriod2Day";
-			this.labelPeriod2Day.Size = new System.Drawing.Size(80, 18);
+			this.labelPeriod2Day.Size = new System.Drawing.Size(80, 23);
 			this.labelPeriod2Day.TabIndex = 40;
 			this.labelPeriod2Day.Text = "Period 2 Day";
 			this.labelPeriod2Day.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -228,20 +229,20 @@ namespace OpenPmsDental {
 			// textDay2
 			// 
 			this.textDay2.AutoSize = false;
-			this.textDay2.Location = new System.Drawing.Point(83, 37);
+			this.textDay2.Location = new System.Drawing.Point(94, 50);
 			this.textDay2.MaxVal = 28;
 			this.textDay2.MinVal = 1;
 			this.textDay2.Name = "textDay2";
 			this.textDay2.ShowZero = false;
-			this.textDay2.Size = new System.Drawing.Size(26, 20);
+			this.textDay2.Size = new System.Drawing.Size(32, 23);
 			this.textDay2.TabIndex = 39;
 			this.textDay2.Text = "16";
 			// 
 			// labelPeriod1Day
 			// 
-			this.labelPeriod1Day.Location = new System.Drawing.Point(3, 16);
+			this.labelPeriod1Day.Location = new System.Drawing.Point(8, 23);
 			this.labelPeriod1Day.Name = "labelPeriod1Day";
-			this.labelPeriod1Day.Size = new System.Drawing.Size(79, 18);
+			this.labelPeriod1Day.Size = new System.Drawing.Size(80, 23);
 			this.labelPeriod1Day.TabIndex = 38;
 			this.labelPeriod1Day.Text = "Period 1 Day";
 			this.labelPeriod1Day.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -249,21 +250,21 @@ namespace OpenPmsDental {
 			// textDay1
 			// 
 			this.textDay1.AutoSize = false;
-			this.textDay1.Location = new System.Drawing.Point(83, 15);
+			this.textDay1.Location = new System.Drawing.Point(94, 23);
 			this.textDay1.MaxVal = 28;
 			this.textDay1.MinVal = 1;
 			this.textDay1.Name = "textDay1";
-			this.textDay1.Size = new System.Drawing.Size(26, 20);
+			this.textDay1.Size = new System.Drawing.Size(32, 23);
 			this.textDay1.TabIndex = 37;
 			this.textDay1.Text = "1";
 			// 
 			// radioPayDate
 			// 
-			this.radioPayDate.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.radioPayDate.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.radioPayDate.Checked = true;
-			this.radioPayDate.Location = new System.Drawing.Point(136, 37);
+			this.radioPayDate.Location = new System.Drawing.Point(142, 51);
 			this.radioPayDate.Name = "radioPayDate";
-			this.radioPayDate.Size = new System.Drawing.Size(77, 17);
+			this.radioPayDate.Size = new System.Drawing.Size(71, 20);
 			this.radioPayDate.TabIndex = 36;
 			this.radioPayDate.TabStop = true;
 			this.radioPayDate.Text = "Pay Date";
@@ -272,10 +273,10 @@ namespace OpenPmsDental {
 			// 
 			// radioEndDate
 			// 
-			this.radioEndDate.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.radioEndDate.Location = new System.Drawing.Point(136, 17);
+			this.radioEndDate.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.radioEndDate.Location = new System.Drawing.Point(142, 24);
 			this.radioEndDate.Name = "radioEndDate";
-			this.radioEndDate.Size = new System.Drawing.Size(77, 17);
+			this.radioEndDate.Size = new System.Drawing.Size(72, 20);
 			this.radioEndDate.TabIndex = 35;
 			this.radioEndDate.Text = "End Date";
 			this.radioEndDate.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -283,28 +284,28 @@ namespace OpenPmsDental {
 			// 
 			// label7
 			// 
-			this.label7.Location = new System.Drawing.Point(128, 69);
+			this.label7.Location = new System.Drawing.Point(115, 95);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(119, 17);
+			this.label7.Size = new System.Drawing.Size(96, 20);
 			this.label7.TabIndex = 31;
 			this.label7.Text = "(twice a month)";
 			this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(128, 50);
+			this.label6.Location = new System.Drawing.Point(92, 71);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(102, 17);
+			this.label6.Size = new System.Drawing.Size(92, 20);
 			this.label6.TabIndex = 30;
 			this.label6.Text = "(every 2 weeks)";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// radioSemiMonthly
 			// 
-			this.radioSemiMonthly.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.radioSemiMonthly.Location = new System.Drawing.Point(22, 69);
+			this.radioSemiMonthly.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.radioSemiMonthly.Location = new System.Drawing.Point(8, 95);
 			this.radioSemiMonthly.Name = "radioSemiMonthly";
-			this.radioSemiMonthly.Size = new System.Drawing.Size(102, 17);
+			this.radioSemiMonthly.Size = new System.Drawing.Size(101, 20);
 			this.radioSemiMonthly.TabIndex = 29;
 			this.radioSemiMonthly.Text = "Semi-Monthly";
 			this.radioSemiMonthly.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -313,10 +314,10 @@ namespace OpenPmsDental {
 			// 
 			// radioWeekly
 			// 
-			this.radioWeekly.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.radioWeekly.Location = new System.Drawing.Point(51, 15);
+			this.radioWeekly.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.radioWeekly.Location = new System.Drawing.Point(8, 23);
 			this.radioWeekly.Name = "radioWeekly";
-			this.radioWeekly.Size = new System.Drawing.Size(73, 17);
+			this.radioWeekly.Size = new System.Drawing.Size(63, 20);
 			this.radioWeekly.TabIndex = 1;
 			this.radioWeekly.Text = "Weekly";
 			this.radioWeekly.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -325,18 +326,18 @@ namespace OpenPmsDental {
 			// 
 			// textPayPeriods
 			// 
-			this.textPayPeriods.Location = new System.Drawing.Point(134, 94);
+			this.textPayPeriods.Location = new System.Drawing.Point(178, 119);
 			this.textPayPeriods.MaxVal = 200;
 			this.textPayPeriods.Name = "textPayPeriods";
-			this.textPayPeriods.Size = new System.Drawing.Size(51, 20);
+			this.textPayPeriods.Size = new System.Drawing.Size(51, 23);
 			this.textPayPeriods.TabIndex = 22;
 			// 
 			// radioMonthly
 			// 
-			this.radioMonthly.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.radioMonthly.Location = new System.Drawing.Point(43, 33);
+			this.radioMonthly.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.radioMonthly.Location = new System.Drawing.Point(8, 47);
 			this.radioMonthly.Name = "radioMonthly";
-			this.radioMonthly.Size = new System.Drawing.Size(81, 17);
+			this.radioMonthly.Size = new System.Drawing.Size(70, 20);
 			this.radioMonthly.TabIndex = 3;
 			this.radioMonthly.Text = "Monthly";
 			this.radioMonthly.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -345,19 +346,19 @@ namespace OpenPmsDental {
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(5, 95);
+			this.label5.Location = new System.Drawing.Point(24, 119);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(144, 17);
+			this.label5.Size = new System.Drawing.Size(148, 23);
 			this.label5.TabIndex = 10;
 			this.label5.Text = "# Pay Periods to Generate";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// radioBiWeekly
 			// 
-			this.radioBiWeekly.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.radioBiWeekly.Location = new System.Drawing.Point(30, 51);
+			this.radioBiWeekly.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.radioBiWeekly.Location = new System.Drawing.Point(8, 71);
 			this.radioBiWeekly.Name = "radioBiWeekly";
-			this.radioBiWeekly.Size = new System.Drawing.Size(94, 17);
+			this.radioBiWeekly.Size = new System.Drawing.Size(78, 20);
 			this.radioBiWeekly.TabIndex = 2;
 			this.radioBiWeekly.Text = "Bi-Weekly";
 			this.radioBiWeekly.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -367,18 +368,18 @@ namespace OpenPmsDental {
 			// dateTimeStart
 			// 
 			this.dateTimeStart.CustomFormat = "";
-			this.dateTimeStart.Location = new System.Drawing.Point(90, 21);
+			this.dateTimeStart.Location = new System.Drawing.Point(8, 27);
 			this.dateTimeStart.Name = "dateTimeStart";
-			this.dateTimeStart.Size = new System.Drawing.Size(200, 20);
+			this.dateTimeStart.Size = new System.Drawing.Size(280, 23);
 			this.dateTimeStart.TabIndex = 0;
 			// 
 			// gridMain
 			// 
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-			this.gridMain.Location = new System.Drawing.Point(327, 20);
+			this.gridMain.Location = new System.Drawing.Point(296, 8);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(291, 485);
+			this.gridMain.Size = new System.Drawing.Size(346, 511);
 			this.gridMain.TabIndex = 11;
 			this.gridMain.Title = "Pay Periods";
 			this.gridMain.TranslationName = "TablePayPeriods";
@@ -387,7 +388,7 @@ namespace OpenPmsDental {
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(543, 523);
+			this.butSave.Location = new System.Drawing.Point(567, 527);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 18;
@@ -398,7 +399,7 @@ namespace OpenPmsDental {
 			// 
 			this.butGenerate.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butGenerate.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butGenerate.Location = new System.Drawing.Point(204, 422);
+			this.butGenerate.Location = new System.Drawing.Point(202, 511);
 			this.butGenerate.Name = "butGenerate";
 			this.butGenerate.Size = new System.Drawing.Size(86, 24);
 			this.butGenerate.TabIndex = 10;

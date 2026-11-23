@@ -52,9 +52,9 @@ namespace OpenPmsDental{
 			this.listBoxEmployee.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.listBoxEmployee.IntegralHeight = false;
-			this.listBoxEmployee.Location = new System.Drawing.Point(12, 126);
+			this.listBoxEmployee.Location = new System.Drawing.Point(8, 159);
 			this.listBoxEmployee.Name = "listBoxEmployee";
-			this.listBoxEmployee.Size = new System.Drawing.Size(120, 524);
+			this.listBoxEmployee.Size = new System.Drawing.Size(120, 464);
 			this.listBoxEmployee.TabIndex = 3;
 			this.listBoxEmployee.Text = "listBoxOD1";
 			this.listBoxEmployee.SelectionChangeCommitted += new System.EventHandler(this.listBoxEmployee_SelectionChangeCommitted);
@@ -64,25 +64,25 @@ namespace OpenPmsDental{
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(288, 29);
+			this.gridMain.Location = new System.Drawing.Point(264, 40);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(708, 620);
+			this.gridMain.Size = new System.Drawing.Size(823, 583);
 			this.gridMain.TabIndex = 5;
 			this.gridMain.CellDoubleClick += new OpenPmsDental.UI.ODGridClickEventHandler(this.gridMain_CellDoubleClick);
 			// 
 			// listBoxCategories
 			// 
-			this.listBoxCategories.Location = new System.Drawing.Point(148, 126);
+			this.listBoxCategories.Location = new System.Drawing.Point(136, 159);
 			this.listBoxCategories.Name = "listBoxCategories";
 			this.listBoxCategories.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
-			this.listBoxCategories.Size = new System.Drawing.Size(120, 316);
+			this.listBoxCategories.Size = new System.Drawing.Size(120, 464);
 			this.listBoxCategories.TabIndex = 4;
 			this.listBoxCategories.Text = "listBoxOD1";
 			this.listBoxCategories.SelectionChangeCommitted += new System.EventHandler(this.listBoxCategories_SelectionChangeCommitted);
 			// 
 			// butSetup
 			// 
-			this.butSetup.Location = new System.Drawing.Point(11, 2);
+			this.butSetup.Location = new System.Drawing.Point(8, 8);
 			this.butSetup.Name = "butSetup";
 			this.butSetup.Size = new System.Drawing.Size(75, 24);
 			this.butSetup.TabIndex = 8;
@@ -91,18 +91,18 @@ namespace OpenPmsDental{
 			// 
 			// labelEmployee
 			// 
-			this.labelEmployee.Location = new System.Drawing.Point(11, 105);
+			this.labelEmployee.Location = new System.Drawing.Point(8, 140);
 			this.labelEmployee.Name = "labelEmployee";
-			this.labelEmployee.Size = new System.Drawing.Size(100, 18);
+			this.labelEmployee.Size = new System.Drawing.Size(120, 17);
 			this.labelEmployee.TabIndex = 50;
 			this.labelEmployee.Text = "Employee";
 			this.labelEmployee.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// labelCategories
 			// 
-			this.labelCategories.Location = new System.Drawing.Point(147, 105);
+			this.labelCategories.Location = new System.Drawing.Point(136, 140);
 			this.labelCategories.Name = "labelCategories";
-			this.labelCategories.Size = new System.Drawing.Size(100, 18);
+			this.labelCategories.Size = new System.Drawing.Size(120, 17);
 			this.labelCategories.TabIndex = 51;
 			this.labelCategories.Text = "Categories";
 			this.labelCategories.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -112,9 +112,9 @@ namespace OpenPmsDental{
 			this.groupBoxOrderBy.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(249)))), ((int)(((byte)(249)))));
 			this.groupBoxOrderBy.Controls.Add(this.radioCategory);
 			this.groupBoxOrderBy.Controls.Add(this.radioCertification);
-			this.groupBoxOrderBy.Location = new System.Drawing.Point(150, 21);
+			this.groupBoxOrderBy.Location = new System.Drawing.Point(136, 40);
 			this.groupBoxOrderBy.Name = "groupBoxOrderBy";
-			this.groupBoxOrderBy.Size = new System.Drawing.Size(120, 70);
+			this.groupBoxOrderBy.Size = new System.Drawing.Size(120, 92);
 			this.groupBoxOrderBy.TabIndex = 5;
 			this.groupBoxOrderBy.TabStop = false;
 			this.groupBoxOrderBy.Text = "View by";
@@ -122,9 +122,9 @@ namespace OpenPmsDental{
 			// radioCategory
 			// 
 			this.radioCategory.Checked = true;
-			this.radioCategory.Location = new System.Drawing.Point(6, 22);
+			this.radioCategory.Location = new System.Drawing.Point(8, 23);
 			this.radioCategory.Name = "radioCategory";
-			this.radioCategory.Size = new System.Drawing.Size(97, 21);
+			this.radioCategory.Size = new System.Drawing.Size(73, 20);
 			this.radioCategory.TabIndex = 1;
 			this.radioCategory.TabStop = true;
 			this.radioCategory.Text = "Category";
@@ -133,9 +133,9 @@ namespace OpenPmsDental{
 			// 
 			// radioCertification
 			// 
-			this.radioCertification.Location = new System.Drawing.Point(6, 43);
+			this.radioCertification.Location = new System.Drawing.Point(8, 47);
 			this.radioCertification.Name = "radioCertification";
-			this.radioCertification.Size = new System.Drawing.Size(99, 24);
+			this.radioCertification.Size = new System.Drawing.Size(102, 20);
 			this.radioCertification.TabIndex = 2;
 			this.radioCertification.Text = "Cert Complete";
 			this.radioCertification.UseVisualStyleBackColor = true;
@@ -143,27 +143,29 @@ namespace OpenPmsDental{
 			// 
 			// labelCertification
 			// 
-			this.labelCertification.Location = new System.Drawing.Point(420, 105);
+			this.labelCertification.Location = new System.Drawing.Point(136, 140);
+			this.labelCertification.Visible = false;
 			this.labelCertification.Name = "labelCertification";
-			this.labelCertification.Size = new System.Drawing.Size(100, 18);
+			this.labelCertification.Size = new System.Drawing.Size(120, 17);
 			this.labelCertification.TabIndex = 53;
 			this.labelCertification.Text = "Certifications";
 			this.labelCertification.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// listBoxCertification
 			// 
-			this.listBoxCertification.Location = new System.Drawing.Point(421, 126);
+			this.listBoxCertification.Location = new System.Drawing.Point(136, 159);
+			this.listBoxCertification.Visible = false;
 			this.listBoxCertification.Name = "listBoxCertification";
-			this.listBoxCertification.Size = new System.Drawing.Size(120, 524);
+			this.listBoxCertification.Size = new System.Drawing.Size(120, 464);
 			this.listBoxCertification.TabIndex = 32;
 			this.listBoxCertification.Text = "listBoxOD1";
 			this.listBoxCertification.SelectionChangeCommitted += new System.EventHandler(this.listBoxCertification_SelectionChangeCommitted);
 			// 
 			// labelEmpSearch
 			// 
-			this.labelEmpSearch.Location = new System.Drawing.Point(11, 26);
+			this.labelEmpSearch.Location = new System.Drawing.Point(8, 40);
 			this.labelEmpSearch.Name = "labelEmpSearch";
-			this.labelEmpSearch.Size = new System.Drawing.Size(100, 18);
+			this.labelEmpSearch.Size = new System.Drawing.Size(120, 17);
 			this.labelEmpSearch.TabIndex = 14;
 			this.labelEmpSearch.Text = "Employee Search";
 			this.labelEmpSearch.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -171,9 +173,9 @@ namespace OpenPmsDental{
 			// textEmpSearch
 			// 
 			this.textEmpSearch.AutoSize = false;
-			this.textEmpSearch.Location = new System.Drawing.Point(12, 47);
+			this.textEmpSearch.Location = new System.Drawing.Point(8, 59);
 			this.textEmpSearch.Name = "textEmpSearch";
-			this.textEmpSearch.Size = new System.Drawing.Size(120, 20);
+			this.textEmpSearch.Size = new System.Drawing.Size(120, 23);
 			this.textEmpSearch.TabIndex = 1;
 			this.textEmpSearch.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textEmpSearch_KeyUp);
 			// 
@@ -182,7 +184,7 @@ namespace OpenPmsDental{
 			this.butPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butPrint.Icon = OpenPmsDental.UI.EnumIcons.Print;
 			this.butPrint.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butPrint.Location = new System.Drawing.Point(1014, 595);
+			this.butPrint.Location = new System.Drawing.Point(1012, 631);
 			this.butPrint.Name = "butPrint";
 			this.butPrint.Size = new System.Drawing.Size(75, 24);
 			this.butPrint.TabIndex = 9;
@@ -191,64 +193,67 @@ namespace OpenPmsDental{
 			// 
 			// checkIncomplete
 			// 
-			this.checkIncomplete.Location = new System.Drawing.Point(288, 7);
+			this.checkIncomplete.Location = new System.Drawing.Point(264, 10);
 			this.checkIncomplete.Name = "checkIncomplete";
-			this.checkIncomplete.Size = new System.Drawing.Size(150, 18);
+			this.checkIncomplete.Size = new System.Drawing.Size(154, 20);
 			this.checkIncomplete.TabIndex = 6;
 			this.checkIncomplete.Text = "Show Only Incomplete";
 			this.checkIncomplete.Click += new System.EventHandler(this.checkIncomplete_Click);
 			// 
 			// checkSortDate
 			// 
-			this.checkSortDate.Location = new System.Drawing.Point(444, 7);
+			this.checkSortDate.Location = new System.Drawing.Point(434, 10);
 			this.checkSortDate.Name = "checkSortDate";
-			this.checkSortDate.Size = new System.Drawing.Size(151, 18);
+			this.checkSortDate.Size = new System.Drawing.Size(154, 20);
 			this.checkSortDate.TabIndex = 7;
 			this.checkSortDate.Text = "Sort By Date Completed";
 			this.checkSortDate.Click += new System.EventHandler(this.checkSortDate_Click);
 			// 
 			// labelCategories2
 			// 
-			this.labelCategories2.Location = new System.Drawing.Point(294, 105);
+			this.labelCategories2.Location = new System.Drawing.Point(8, 140);
+			this.labelCategories2.Visible = false;
 			this.labelCategories2.Name = "labelCategories2";
-			this.labelCategories2.Size = new System.Drawing.Size(100, 18);
+			this.labelCategories2.Size = new System.Drawing.Size(120, 17);
 			this.labelCategories2.TabIndex = 52;
 			this.labelCategories2.Text = "Categories";
 			this.labelCategories2.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// listBoxCategories2
 			// 
-			this.listBoxCategories2.Location = new System.Drawing.Point(295, 126);
+			this.listBoxCategories2.Location = new System.Drawing.Point(8, 159);
+			this.listBoxCategories2.Visible = false;
 			this.listBoxCategories2.Name = "listBoxCategories2";
 			this.listBoxCategories2.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
-			this.listBoxCategories2.Size = new System.Drawing.Size(120, 316);
+			this.listBoxCategories2.Size = new System.Drawing.Size(120, 464);
 			this.listBoxCategories2.TabIndex = 31;
 			this.listBoxCategories2.Text = "listBoxOD1";
 			this.listBoxCategories2.SelectionChangeCommitted += new System.EventHandler(this.listBoxCategories2_SelectionChangeCommitted);
 			// 
 			// comboSupervisor
 			// 
-			this.comboSupervisor.Location = new System.Drawing.Point(12, 86);
+			this.comboSupervisor.Location = new System.Drawing.Point(8, 109);
 			this.comboSupervisor.Name = "comboSupervisor";
-			this.comboSupervisor.Size = new System.Drawing.Size(121, 21);
+			this.comboSupervisor.Size = new System.Drawing.Size(120, 23);
 			this.comboSupervisor.TabIndex = 2;
 			this.comboSupervisor.Text = "comboBoxOD1";
 			this.comboSupervisor.SelectionChangeCommitted += new System.EventHandler(this.comboSupervisor_SelectionChangeCommitted);
 			// 
 			// labelReportsTo
 			// 
-			this.labelReportsTo.Location = new System.Drawing.Point(11, 65);
+			this.labelReportsTo.Location = new System.Drawing.Point(8, 90);
 			this.labelReportsTo.Name = "labelReportsTo";
-			this.labelReportsTo.Size = new System.Drawing.Size(100, 18);
+			this.labelReportsTo.Size = new System.Drawing.Size(120, 17);
 			this.labelReportsTo.TabIndex = 33;
 			this.labelReportsTo.Text = "Reports To";
 			this.labelReportsTo.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// checkSortDateCertComplete
 			// 
-			this.checkSortDateCertComplete.Location = new System.Drawing.Point(586, 6);
+			this.checkSortDateCertComplete.Location = new System.Drawing.Point(264, 10);
+			this.checkSortDateCertComplete.Visible = false;
 			this.checkSortDateCertComplete.Name = "checkSortDateCertComplete";
-			this.checkSortDateCertComplete.Size = new System.Drawing.Size(151, 18);
+			this.checkSortDateCertComplete.Size = new System.Drawing.Size(154, 20);
 			this.checkSortDateCertComplete.TabIndex = 54;
 			this.checkSortDateCertComplete.Text = "Sort By Date Completed";
 			this.checkSortDateCertComplete.Click += new System.EventHandler(this.checkSortDateCertComplete_Click);

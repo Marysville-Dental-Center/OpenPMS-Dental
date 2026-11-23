@@ -2473,6 +2473,25 @@ def apply_row(text, control, prop, new):
         if m:
             return text[:m.start()] + text[m.end():], None
         return text, None
+    if prop == "BackColor" and re.match(r"^\d+,\d+,\d+$", new):
+        # A hand row only (UI-12 slice 3 fix round: FormDatabaseMaintenancePat's borderless note boxes drew white rectangles on the window
+        # and its pages): the control's BackColor set to that colour, as FormDatabaseMaintenance's note boxes have theirs. A second run finds
+        # the line as it writes it and changes nothing.
+        value = "System.Drawing.Color.FromArgb(%s)" % ", ".join("((int)(((byte)(%s))))" % c for c in new.split(","))
+        pat = re.compile(r"(%sBackColor ?= ?)([^;\r\n]+)(;)" % re.escape(target))
+        m = pat.search(text)
+        if m:
+            return text[:m.start(2)] + value + text[m.end(2):], None
+        return insert_before_name_line(text, control, "this.%s.BackColor = %s;" % (control, value))
+    if prop == "Visible":
+        # A hand row only (UI-12 slice 3 fix round: FormCertifications' Cert Complete view, which Load hides): the control's Visible line.
+        pat = re.compile(r"(%sVisible ?= ?)(true|false)(;)" % re.escape(target))
+        m = pat.search(text)
+        if m:
+            return text[:m.start(2)] + new + text[m.end(2):], None
+        if new == "true":
+            return text, None  # the default
+        return insert_before_name_line(text, control, "this.%s.Visible = %s;" % (control, new))
     if prop in ("CheckAlign", "TextAlign"):
         pat = re.compile(r"(%s%s ?= ?System\.Drawing\.ContentAlignment\.)(\w+)(;)" % (re.escape(target), prop))
         m = pat.search(text)

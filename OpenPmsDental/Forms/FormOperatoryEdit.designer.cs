@@ -62,18 +62,18 @@ namespace OpenPmsDental {
 			// 
 			// butPickHyg
 			// 
-			this.butPickHyg.Location = new System.Drawing.Point(412, 124);
+			this.butPickHyg.Location = new System.Drawing.Point(440, 140);
 			this.butPickHyg.Name = "butPickHyg";
-			this.butPickHyg.Size = new System.Drawing.Size(23, 21);
+			this.butPickHyg.Size = new System.Drawing.Size(23, 23);
 			this.butPickHyg.TabIndex = 6;
 			this.butPickHyg.Text = "...";
 			this.butPickHyg.Click += new System.EventHandler(this.butPickHyg_Click);
 			// 
 			// butPickProv
 			// 
-			this.butPickProv.Location = new System.Drawing.Point(412, 103);
+			this.butPickProv.Location = new System.Drawing.Point(440, 113);
 			this.butPickProv.Name = "butPickProv";
-			this.butPickProv.Size = new System.Drawing.Size(23, 21);
+			this.butPickProv.Size = new System.Drawing.Size(23, 23);
 			this.butPickProv.TabIndex = 5;
 			this.butPickProv.Text = "...";
 			this.butPickProv.Click += new System.EventHandler(this.butPickProv_Click);
@@ -82,97 +82,100 @@ namespace OpenPmsDental {
 			// 
 			this.comboClinic.HqDescription = "None";
 			this.comboClinic.IncludeUnassigned = true;
-			this.comboClinic.Location = new System.Drawing.Point(123, 82);
+			this.comboClinic.Location = new System.Drawing.Point(139, 86);
 			this.comboClinic.Name = "comboClinic";
-			this.comboClinic.Size = new System.Drawing.Size(289, 21);
+			this.comboClinic.Size = new System.Drawing.Size(295, 23);
 			this.comboClinic.TabIndex = 4;
 			this.comboClinic.TabStop = false;
 			this.comboClinic.SelectionChangeCommitted += new System.EventHandler(this.ComboClinic_SelectionChangeCommitted);
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(178, 170);
+			this.label3.Location = new System.Drawing.Point(294, 191);
+			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(363, 18);
+			this.label3.Size = new System.Drawing.Size(316, 20);
 			this.label3.TabIndex = 117;
 			this.label3.Text = "Change status of patients in this operatory to Prospective.";
 			// 
 			// label9
 			// 
-			this.label9.Location = new System.Drawing.Point(178, 151);
+			this.label9.Location = new System.Drawing.Point(267, 167);
+			this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(363, 18);
+			this.label9.Size = new System.Drawing.Size(340, 20);
 			this.label9.TabIndex = 117;
 			this.label9.Text = "The hygienist will be considered the main provider for this op.";
 			// 
 			// checkSetProspective
 			// 
-			this.checkSetProspective.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkSetProspective.Location = new System.Drawing.Point(69, 169);
+			this.checkSetProspective.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkSetProspective.Location = new System.Drawing.Point(182, 191);
 			this.checkSetProspective.Name = "checkSetProspective";
-			this.checkSetProspective.Size = new System.Drawing.Size(104, 18);
+			this.checkSetProspective.Size = new System.Drawing.Size(106, 20);
 			this.checkSetProspective.TabIndex = 8;
 			this.checkSetProspective.TabStop = false;
 			this.checkSetProspective.Text = "Set Prospective";
 			// 
 			// checkIsHygiene
 			// 
-			this.checkIsHygiene.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkIsHygiene.Location = new System.Drawing.Point(69, 150);
+			this.checkIsHygiene.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkIsHygiene.Location = new System.Drawing.Point(182, 167);
 			this.checkIsHygiene.Name = "checkIsHygiene";
-			this.checkIsHygiene.Size = new System.Drawing.Size(104, 18);
+			this.checkIsHygiene.Size = new System.Drawing.Size(79, 20);
 			this.checkIsHygiene.TabIndex = 7;
 			this.checkIsHygiene.TabStop = false;
 			this.checkIsHygiene.Text = "Is Hygiene";
 			// 
 			// label8
 			// 
-			this.label8.Location = new System.Drawing.Point(178, 65);
+			this.label8.Location = new System.Drawing.Point(262, 62);
+			this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(316, 17);
+			this.label8.Size = new System.Drawing.Size(180, 20);
 			this.label8.TabIndex = 115;
 			this.label8.Text = "(Operatories cannot be deleted)";
 			// 
 			// comboHyg
 			// 
-			this.comboHyg.Location = new System.Drawing.Point(160, 124);
+			this.comboHyg.Location = new System.Drawing.Point(182, 140);
 			this.comboHyg.Name = "comboHyg";
-			this.comboHyg.Size = new System.Drawing.Size(252, 21);
+			this.comboHyg.Size = new System.Drawing.Size(252, 23);
 			this.comboHyg.TabIndex = 6;
 			this.comboHyg.TabStop = false;
 			// 
 			// comboProv
 			// 
-			this.comboProv.Location = new System.Drawing.Point(160, 103);
+			this.comboProv.Location = new System.Drawing.Point(182, 113);
 			this.comboProv.Name = "comboProv";
-			this.comboProv.Size = new System.Drawing.Size(252, 21);
+			this.comboProv.Size = new System.Drawing.Size(252, 23);
 			this.comboProv.TabIndex = 5;
 			this.comboProv.TabStop = false;
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(36, 126);
+			this.label6.Location = new System.Drawing.Point(112, 140);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(123, 18);
+			this.label6.Size = new System.Drawing.Size(64, 23);
 			this.label6.TabIndex = 112;
 			this.label6.Text = "Hygienist";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label7
 			// 
-			this.label7.Location = new System.Drawing.Point(25, 105);
+			this.label7.Location = new System.Drawing.Point(120, 113);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(134, 16);
+			this.label7.Size = new System.Drawing.Size(56, 23);
 			this.label7.TabIndex = 111;
 			this.label7.Text = "Provider";
 			this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// checkIsHidden
 			// 
-			this.checkIsHidden.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkIsHidden.Location = new System.Drawing.Point(69, 64);
+			this.checkIsHidden.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkIsHidden.Location = new System.Drawing.Point(182, 62);
 			this.checkIsHidden.Name = "checkIsHidden";
-			this.checkIsHidden.Size = new System.Drawing.Size(104, 18);
+			this.checkIsHidden.Size = new System.Drawing.Size(74, 20);
 			this.checkIsHidden.TabIndex = 3;
 			this.checkIsHidden.TabStop = false;
 			this.checkIsHidden.Text = "Is Hidden";
@@ -180,54 +183,54 @@ namespace OpenPmsDental {
 			// textAbbrev
 			// 
 			this.textAbbrev.AutoSize = false;
-			this.textAbbrev.Location = new System.Drawing.Point(160, 41);
+			this.textAbbrev.Location = new System.Drawing.Point(182, 35);
 			this.textAbbrev.MaxLength = 5;
 			this.textAbbrev.Name = "textAbbrev";
-			this.textAbbrev.Size = new System.Drawing.Size(78, 20);
+			this.textAbbrev.Size = new System.Drawing.Size(80, 23);
 			this.textAbbrev.TabIndex = 1;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(8, 44);
+			this.label2.Location = new System.Drawing.Point(56, 35);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(151, 17);
+			this.label2.Size = new System.Drawing.Size(120, 23);
 			this.label2.TabIndex = 99;
 			this.label2.Text = "Abbrev (max 5 char)";
-			this.label2.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textOpName
 			// 
 			this.textOpName.AutoSize = false;
-			this.textOpName.Location = new System.Drawing.Point(160, 20);
+			this.textOpName.Location = new System.Drawing.Point(182, 8);
 			this.textOpName.MaxLength = 255;
 			this.textOpName.Name = "textOpName";
-			this.textOpName.Size = new System.Drawing.Size(252, 20);
+			this.textOpName.Size = new System.Drawing.Size(252, 23);
 			this.textOpName.TabIndex = 0;
 			// 
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(502, 265);
+			this.butSave.Location = new System.Drawing.Point(535, 279);
 			this.butSave.Name = "butSave";
-			this.butSave.Size = new System.Drawing.Size(75, 26);
+			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 9;
 			this.butSave.Text = "&Save";
 			this.butSave.Click += new System.EventHandler(this.butSave_Click);
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(9, 21);
+			this.label1.Location = new System.Drawing.Point(112, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(148, 17);
+			this.label1.Size = new System.Drawing.Size(64, 23);
 			this.label1.TabIndex = 2;
 			this.label1.Text = "Op Name";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// butUpdateProvs
 			// 
-			this.butUpdateProvs.Location = new System.Drawing.Point(160, 195);
+			this.butUpdateProvs.Location = new System.Drawing.Point(182, 215);
 			this.butUpdateProvs.Name = "butUpdateProvs";
-			this.butUpdateProvs.Size = new System.Drawing.Size(75, 26);
+			this.butUpdateProvs.Size = new System.Drawing.Size(75, 23);
 			this.butUpdateProvs.TabIndex = 129;
 			this.butUpdateProvs.TabStop = false;
 			this.butUpdateProvs.Text = "Update All";
@@ -235,50 +238,51 @@ namespace OpenPmsDental {
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(-1, 200);
+			this.label5.Location = new System.Drawing.Point(8, 215);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(161, 17);
+			this.label5.Size = new System.Drawing.Size(168, 23);
 			this.label5.TabIndex = 130;
 			this.label5.Text = "Update provs on future appts";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label11
 			// 
-			this.label11.Location = new System.Drawing.Point(240, 202);
+			this.label11.Location = new System.Drawing.Point(263, 215);
+			this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.label11.Name = "label11";
-			this.label11.Size = new System.Drawing.Size(160, 21);
+			this.label11.Size = new System.Drawing.Size(112, 23);
 			this.label11.TabIndex = 131;
 			this.label11.Text = "for this operatory.  ";
 			// 
 			// comboOpType
 			// 
-			this.comboOpType.Location = new System.Drawing.Point(160, 227);
+			this.comboOpType.Location = new System.Drawing.Point(182, 242);
 			this.comboOpType.Name = "comboOpType";
-			this.comboOpType.Size = new System.Drawing.Size(252, 21);
+			this.comboOpType.Size = new System.Drawing.Size(252, 23);
 			this.comboOpType.TabIndex = 1;
 			this.comboOpType.TabStop = false;
 			// 
 			// label12
 			// 
-			this.label12.Location = new System.Drawing.Point(23, 229);
+			this.label12.Location = new System.Drawing.Point(120, 242);
 			this.label12.Name = "label12";
-			this.label12.Size = new System.Drawing.Size(134, 18);
+			this.label12.Size = new System.Drawing.Size(56, 23);
 			this.label12.TabIndex = 133;
 			this.label12.Text = "Op Type";
 			this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label13
 			// 
-			this.label13.Location = new System.Drawing.Point(416, 229);
+			this.label13.Location = new System.Drawing.Point(440, 242);
 			this.label13.Name = "label13";
-			this.label13.Size = new System.Drawing.Size(150, 18);
+			this.label13.Size = new System.Drawing.Size(112, 23);
 			this.label13.TabIndex = 134;
 			this.label13.Text = "Not normally used";
 			this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// FormOperatoryEdit
 			// 
-			this.ClientSize = new System.Drawing.Size(589, 303);
+			this.ClientSize = new System.Drawing.Size(618, 311);
 			this.Controls.Add(this.label13);
 			this.Controls.Add(this.label12);
 			this.Controls.Add(this.comboOpType);

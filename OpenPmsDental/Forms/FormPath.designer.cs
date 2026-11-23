@@ -75,94 +75,94 @@ namespace OpenPmsDental {
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(588, 588);
+			this.butOK.Location = new System.Drawing.Point(592, 594);
 			this.butOK.Name = "butOK";
-			this.butOK.Size = new System.Drawing.Size(75, 26);
+			this.butOK.Size = new System.Drawing.Size(75, 24);
 			this.butOK.TabIndex = 2;
 			this.butOK.Text = "&Save";
 			this.butOK.Click += new System.EventHandler(this.butSave_Click);
 			// 
 			// textDocPath
 			// 
-			this.textDocPath.Location = new System.Drawing.Point(7, 60);
+			this.textDocPath.Location = new System.Drawing.Point(8, 60);
 			this.textDocPath.Name = "textDocPath";
-			this.textDocPath.Size = new System.Drawing.Size(497, 20);
+			this.textDocPath.Size = new System.Drawing.Size(541, 23);
 			this.textDocPath.TabIndex = 1;
 			// 
 			// textExportPath
 			// 
-			this.textExportPath.Location = new System.Drawing.Point(19, 452);
+			this.textExportPath.Location = new System.Drawing.Point(8, 449);
 			this.textExportPath.Name = "textExportPath";
-			this.textExportPath.Size = new System.Drawing.Size(515, 20);
+			this.textExportPath.Size = new System.Drawing.Size(577, 23);
 			this.textExportPath.TabIndex = 1;
 			// 
 			// butBrowseExport
 			// 
-			this.butBrowseExport.Location = new System.Drawing.Point(538, 450);
+			this.butBrowseExport.Location = new System.Drawing.Point(591, 449);
 			this.butBrowseExport.Name = "butBrowseExport";
-			this.butBrowseExport.Size = new System.Drawing.Size(76, 25);
+			this.butBrowseExport.Size = new System.Drawing.Size(76, 23);
 			this.butBrowseExport.TabIndex = 91;
 			this.butBrowseExport.Text = "Browse";
 			this.butBrowseExport.Click += new System.EventHandler(this.butBrowseExport_Click);
 			// 
 			// butBrowseDoc
 			// 
-			this.butBrowseDoc.Location = new System.Drawing.Point(510, 56);
+			this.butBrowseDoc.Location = new System.Drawing.Point(555, 60);
 			this.butBrowseDoc.Name = "butBrowseDoc";
-			this.butBrowseDoc.Size = new System.Drawing.Size(76, 25);
+			this.butBrowseDoc.Size = new System.Drawing.Size(76, 23);
 			this.butBrowseDoc.TabIndex = 2;
 			this.butBrowseDoc.Text = "&Browse";
 			this.butBrowseDoc.Click += new System.EventHandler(this.butBrowseDoc_Click);
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(20, 381);
+			this.label1.Location = new System.Drawing.Point(8, 397);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(596, 69);
+			this.label1.Size = new System.Drawing.Size(659, 50);
 			this.label1.TabIndex = 92;
 			this.label1.Text = resources.GetString("label1.Text");
 			this.label1.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// labelPathSameForAll
 			// 
-			this.labelPathSameForAll.Location = new System.Drawing.Point(7, 4);
+			this.labelPathSameForAll.Location = new System.Drawing.Point(8, 8);
 			this.labelPathSameForAll.Name = "labelPathSameForAll";
-			this.labelPathSameForAll.Size = new System.Drawing.Size(579, 52);
+			this.labelPathSameForAll.Size = new System.Drawing.Size(623, 50);
 			this.labelPathSameForAll.TabIndex = 93;
 			this.labelPathSameForAll.Text = resources.GetString("labelPathSameForAll.Text");
 			this.labelPathSameForAll.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(20, 476);
+			this.label3.Location = new System.Drawing.Point(8, 480);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(596, 69);
+			this.label3.Size = new System.Drawing.Size(659, 50);
 			this.label3.TabIndex = 96;
 			this.label3.Text = resources.GetString("label3.Text");
 			this.label3.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// butBrowseLetter
 			// 
-			this.butBrowseLetter.Location = new System.Drawing.Point(538, 545);
+			this.butBrowseLetter.Location = new System.Drawing.Point(591, 532);
 			this.butBrowseLetter.Name = "butBrowseLetter";
-			this.butBrowseLetter.Size = new System.Drawing.Size(76, 25);
+			this.butBrowseLetter.Size = new System.Drawing.Size(76, 23);
 			this.butBrowseLetter.TabIndex = 95;
 			this.butBrowseLetter.Text = "Browse";
 			this.butBrowseLetter.Click += new System.EventHandler(this.butBrowseLetter_Click);
 			// 
 			// textLetterMergePath
 			// 
-			this.textLetterMergePath.Location = new System.Drawing.Point(19, 548);
+			this.textLetterMergePath.Location = new System.Drawing.Point(8, 532);
 			this.textLetterMergePath.Name = "textLetterMergePath";
-			this.textLetterMergePath.Size = new System.Drawing.Size(515, 20);
+			this.textLetterMergePath.Size = new System.Drawing.Size(577, 23);
 			this.textLetterMergePath.TabIndex = 94;
 			// 
 			// checkMultiplePaths
 			// 
 			this.checkMultiplePaths.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
-			this.checkMultiplePaths.Location = new System.Drawing.Point(7, 86);
+			this.checkMultiplePaths.Location = new System.Drawing.Point(8, 91);
 			this.checkMultiplePaths.Name = "checkMultiplePaths";
-			this.checkMultiplePaths.Size = new System.Drawing.Size(580, 50);
+			this.checkMultiplePaths.Size = new System.Drawing.Size(623, 50);
 			this.checkMultiplePaths.TabIndex = 98;
 			this.checkMultiplePaths.Text = resources.GetString("checkMultiplePaths.Text");
 			// 
@@ -172,17 +172,17 @@ namespace OpenPmsDental {
 			this.groupbox1.Controls.Add(this.tabControlDataStorageType);
 			this.groupbox1.Controls.Add(this.radioDatabaseStorage);
 			this.groupbox1.Controls.Add(this.radioUseFolder);
-			this.groupbox1.Location = new System.Drawing.Point(10, 12);
+			this.groupbox1.Location = new System.Drawing.Point(8, 8);
 			this.groupbox1.Name = "groupbox1";
-			this.groupbox1.Size = new System.Drawing.Size(624, 365);
+			this.groupbox1.Size = new System.Drawing.Size(659, 381);
 			this.groupbox1.TabIndex = 0;
 			this.groupbox1.Text = "A to Z Images Folder for storing images and documents";
 			// 
 			// radioSftp
 			// 
-			this.radioSftp.Location = new System.Drawing.Point(9, 57);
+			this.radioSftp.Location = new System.Drawing.Point(8, 71);
 			this.radioSftp.Name = "radioSftp";
-			this.radioSftp.Size = new System.Drawing.Size(569, 24);
+			this.radioSftp.Size = new System.Drawing.Size(346, 20);
 			this.radioSftp.TabIndex = 103;
 			this.radioSftp.Text = "Store images on a server via SSH File Transfer Protocol (SFTP)";
 			this.radioSftp.UseVisualStyleBackColor = true;
@@ -194,9 +194,9 @@ namespace OpenPmsDental {
 			this.tabControlDataStorageType.Controls.Add(this.tabInDatabase);
 			this.tabControlDataStorageType.Controls.Add(this.tabStorageRemoved);
 			this.tabControlDataStorageType.Controls.Add(this.tabSftp);
-			this.tabControlDataStorageType.Location = new System.Drawing.Point(11, 100);
+			this.tabControlDataStorageType.Location = new System.Drawing.Point(8, 99);
 			this.tabControlDataStorageType.Name = "tabControlDataStorageType";
-			this.tabControlDataStorageType.Size = new System.Drawing.Size(606, 256);
+			this.tabControlDataStorageType.Size = new System.Drawing.Size(643, 274);
 			this.tabControlDataStorageType.TabIndex = 97;
 			this.tabControlDataStorageType.TabStop = false;
 			// 
@@ -216,58 +216,58 @@ namespace OpenPmsDental {
 			this.tabAtoZ.Location = new System.Drawing.Point(2, 21);
 			this.tabAtoZ.Name = "tabAtoZ";
 			this.tabAtoZ.Padding = new System.Windows.Forms.Padding(3);
-			this.tabAtoZ.Size = new System.Drawing.Size(602, 233);
+			this.tabAtoZ.Size = new System.Drawing.Size(639, 251);
 			this.tabAtoZ.TabIndex = 0;
 			this.tabAtoZ.Text = "AtoZ";
 			// 
 			// butBrowseLocal
 			// 
-			this.butBrowseLocal.Location = new System.Drawing.Point(510, 202);
+			this.butBrowseLocal.Location = new System.Drawing.Point(555, 220);
 			this.butBrowseLocal.Name = "butBrowseLocal";
-			this.butBrowseLocal.Size = new System.Drawing.Size(76, 25);
+			this.butBrowseLocal.Size = new System.Drawing.Size(76, 23);
 			this.butBrowseLocal.TabIndex = 103;
 			this.butBrowseLocal.Text = "Browse";
 			this.butBrowseLocal.Click += new System.EventHandler(this.butBrowseLocal_Click);
 			// 
 			// butBrowseServer
 			// 
-			this.butBrowseServer.Location = new System.Drawing.Point(510, 156);
+			this.butBrowseServer.Location = new System.Drawing.Point(555, 169);
 			this.butBrowseServer.Name = "butBrowseServer";
-			this.butBrowseServer.Size = new System.Drawing.Size(76, 25);
+			this.butBrowseServer.Size = new System.Drawing.Size(76, 23);
 			this.butBrowseServer.TabIndex = 106;
 			this.butBrowseServer.Text = "Browse";
 			this.butBrowseServer.Click += new System.EventHandler(this.butBrowseServer_Click);
 			// 
 			// labelServerPath
 			// 
-			this.labelServerPath.Location = new System.Drawing.Point(7, 140);
+			this.labelServerPath.Location = new System.Drawing.Point(8, 149);
 			this.labelServerPath.Name = "labelServerPath";
-			this.labelServerPath.Size = new System.Drawing.Size(488, 17);
+			this.labelServerPath.Size = new System.Drawing.Size(623, 18);
 			this.labelServerPath.TabIndex = 107;
 			this.labelServerPath.Text = "Path override for this server.  Usually leave blank.";
 			this.labelServerPath.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// textServerPath
 			// 
-			this.textServerPath.Location = new System.Drawing.Point(7, 160);
+			this.textServerPath.Location = new System.Drawing.Point(8, 169);
 			this.textServerPath.Name = "textServerPath";
-			this.textServerPath.Size = new System.Drawing.Size(497, 20);
+			this.textServerPath.Size = new System.Drawing.Size(541, 23);
 			this.textServerPath.TabIndex = 105;
 			// 
 			// labelLocalPath
 			// 
-			this.labelLocalPath.Location = new System.Drawing.Point(7, 186);
+			this.labelLocalPath.Location = new System.Drawing.Point(8, 200);
 			this.labelLocalPath.Name = "labelLocalPath";
-			this.labelLocalPath.Size = new System.Drawing.Size(498, 17);
+			this.labelLocalPath.Size = new System.Drawing.Size(623, 18);
 			this.labelLocalPath.TabIndex = 104;
 			this.labelLocalPath.Text = "Path override for this computer.  Usually leave blank.";
 			this.labelLocalPath.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// textLocalPath
 			// 
-			this.textLocalPath.Location = new System.Drawing.Point(7, 206);
+			this.textLocalPath.Location = new System.Drawing.Point(8, 220);
 			this.textLocalPath.Name = "textLocalPath";
-			this.textLocalPath.Size = new System.Drawing.Size(497, 20);
+			this.textLocalPath.Size = new System.Drawing.Size(541, 23);
 			this.textLocalPath.TabIndex = 102;
 			// 
 			// tabInDatabase
@@ -277,15 +277,15 @@ namespace OpenPmsDental {
 			this.tabInDatabase.Location = new System.Drawing.Point(2, 21);
 			this.tabInDatabase.Name = "tabInDatabase";
 			this.tabInDatabase.Padding = new System.Windows.Forms.Padding(3);
-			this.tabInDatabase.Size = new System.Drawing.Size(602, 233);
+			this.tabInDatabase.Size = new System.Drawing.Size(639, 251);
 			this.tabInDatabase.TabIndex = 1;
 			this.tabInDatabase.Text = "Database";
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(6, 7);
+			this.label2.Location = new System.Drawing.Point(8, 8);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(583, 124);
+			this.label2.Size = new System.Drawing.Size(623, 235);
 			this.label2.TabIndex = 97;
 			this.label2.Text = resources.GetString("label2.Text");
 			// 
@@ -296,15 +296,15 @@ namespace OpenPmsDental {
 			this.tabStorageRemoved.Location = new System.Drawing.Point(2, 21);
 			this.tabStorageRemoved.Name = "tabStorageRemoved";
 			this.tabStorageRemoved.Padding = new System.Windows.Forms.Padding(3);
-			this.tabStorageRemoved.Size = new System.Drawing.Size(602, 233);
+			this.tabStorageRemoved.Size = new System.Drawing.Size(639, 251);
 			this.tabStorageRemoved.TabIndex = 2;
 			this.tabStorageRemoved.Text = "Removed";
 			// 
 			// labelStorageRemoved
 			// 
-			this.labelStorageRemoved.Location = new System.Drawing.Point(6, 7);
+			this.labelStorageRemoved.Location = new System.Drawing.Point(8, 8);
 			this.labelStorageRemoved.Name = "labelStorageRemoved";
-			this.labelStorageRemoved.Size = new System.Drawing.Size(583, 124);
+			this.labelStorageRemoved.Size = new System.Drawing.Size(623, 235);
 			this.labelStorageRemoved.TabIndex = 93;
 			this.labelStorageRemoved.Text = "The A to Z storage type saved in this database is no longer supported.";
 			// 
@@ -325,116 +325,116 @@ namespace OpenPmsDental {
 			this.tabSftp.Controls.Add(this.textSftpHostname);
 			this.tabSftp.Location = new System.Drawing.Point(2, 21);
 			this.tabSftp.Name = "tabSftp";
-			this.tabSftp.Size = new System.Drawing.Size(602, 233);
+			this.tabSftp.Size = new System.Drawing.Size(639, 251);
 			this.tabSftp.TabIndex = 3;
 			this.tabSftp.Text = "SFTP";
 			// 
 			// label11
 			// 
-			this.label11.Location = new System.Drawing.Point(66, 25);
+			this.label11.Location = new System.Drawing.Point(8, 29);
 			this.label11.Name = "label11";
-			this.label11.Size = new System.Drawing.Size(523, 29);
+			this.label11.Size = new System.Drawing.Size(623, 18);
 			this.label11.TabIndex = 137;
 			this.label11.Text = "Any subfolders defined in the AtoZ Path must be separated with the forward slash " +
     "\" / \" character.";
-			this.label11.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+			this.label11.TextAlign = System.Drawing.ContentAlignment.TopLeft;
 			// 
 			// butSftpClear
 			// 
-			this.butSftpClear.Location = new System.Drawing.Point(384, 135);
+			this.butSftpClear.Location = new System.Drawing.Point(388, 136);
 			this.butSftpClear.Name = "butSftpClear";
-			this.butSftpClear.Size = new System.Drawing.Size(56, 24);
+			this.butSftpClear.Size = new System.Drawing.Size(56, 23);
 			this.butSftpClear.TabIndex = 97;
 			this.butSftpClear.Text = "Clear";
 			this.butSftpClear.Click += new System.EventHandler(this.butSftpClear_Click);
 			//
 			// butSshHostKeys
 			//
-			this.butSshHostKeys.Location = new System.Drawing.Point(246, 167);
+			this.butSshHostKeys.Location = new System.Drawing.Point(82, 163);
 			this.butSshHostKeys.Name = "butSshHostKeys";
-			this.butSshHostKeys.Size = new System.Drawing.Size(134, 24);
+			this.butSshHostKeys.Size = new System.Drawing.Size(134, 23);
 			this.butSshHostKeys.TabIndex = 98;
 			this.butSshHostKeys.Text = "SSH Host Keys";
 			this.butSshHostKeys.Click += new System.EventHandler(this.butSshHostKeys_Click);
 			// 
 			// label10
 			// 
-			this.label10.Location = new System.Drawing.Point(6, 3);
+			this.label10.Location = new System.Drawing.Point(8, 8);
 			this.label10.Name = "label10";
-			this.label10.Size = new System.Drawing.Size(525, 18);
+			this.label10.Size = new System.Drawing.Size(623, 17);
 			this.label10.TabIndex = 136;
 			this.label10.Text = "Store images on a server via SSH File Transfer Protocol (SFTP). ";
 			this.label10.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// label9
 			// 
-			this.label9.Location = new System.Drawing.Point(115, 138);
+			this.label9.Location = new System.Drawing.Point(8, 136);
 			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(129, 19);
+			this.label9.Size = new System.Drawing.Size(68, 23);
 			this.label9.TabIndex = 135;
 			this.label9.Text = "Password";
 			this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textSftpPassword
 			// 
-			this.textSftpPassword.Location = new System.Drawing.Point(246, 137);
+			this.textSftpPassword.Location = new System.Drawing.Point(82, 136);
 			this.textSftpPassword.Name = "textSftpPassword";
-			this.textSftpPassword.Size = new System.Drawing.Size(134, 20);
+			this.textSftpPassword.Size = new System.Drawing.Size(300, 23);
 			this.textSftpPassword.TabIndex = 134;
 			// 
 			// label8
 			// 
-			this.label8.Location = new System.Drawing.Point(115, 112);
+			this.label8.Location = new System.Drawing.Point(8, 109);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(129, 19);
+			this.label8.Size = new System.Drawing.Size(68, 23);
 			this.label8.TabIndex = 133;
 			this.label8.Text = "Username";
 			this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textSftpUsername
 			// 
-			this.textSftpUsername.Location = new System.Drawing.Point(246, 111);
+			this.textSftpUsername.Location = new System.Drawing.Point(82, 109);
 			this.textSftpUsername.Name = "textSftpUsername";
-			this.textSftpUsername.Size = new System.Drawing.Size(134, 20);
+			this.textSftpUsername.Size = new System.Drawing.Size(300, 23);
 			this.textSftpUsername.TabIndex = 132;
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(115, 60);
+			this.label6.Location = new System.Drawing.Point(8, 55);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(129, 19);
+			this.label6.Size = new System.Drawing.Size(68, 23);
 			this.label6.TabIndex = 131;
 			this.label6.Text = "AtoZ Path";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textSftpAtoZ
 			// 
-			this.textSftpAtoZ.Location = new System.Drawing.Point(246, 59);
+			this.textSftpAtoZ.Location = new System.Drawing.Point(82, 55);
 			this.textSftpAtoZ.Name = "textSftpAtoZ";
-			this.textSftpAtoZ.Size = new System.Drawing.Size(134, 20);
+			this.textSftpAtoZ.Size = new System.Drawing.Size(300, 23);
 			this.textSftpAtoZ.TabIndex = 128;
 			// 
 			// label7
 			// 
-			this.label7.Location = new System.Drawing.Point(115, 86);
+			this.label7.Location = new System.Drawing.Point(8, 82);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(129, 19);
+			this.label7.Size = new System.Drawing.Size(68, 23);
 			this.label7.TabIndex = 129;
 			this.label7.Text = "Hostname";
 			this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textSftpHostname
 			// 
-			this.textSftpHostname.Location = new System.Drawing.Point(246, 85);
+			this.textSftpHostname.Location = new System.Drawing.Point(82, 82);
 			this.textSftpHostname.Name = "textSftpHostname";
-			this.textSftpHostname.Size = new System.Drawing.Size(134, 20);
+			this.textSftpHostname.Size = new System.Drawing.Size(300, 23);
 			this.textSftpHostname.TabIndex = 130;
 			// 
 			// radioDatabaseStorage
 			// 
-			this.radioDatabaseStorage.Location = new System.Drawing.Point(9, 38);
+			this.radioDatabaseStorage.Location = new System.Drawing.Point(8, 47);
 			this.radioDatabaseStorage.Name = "radioDatabaseStorage";
-			this.radioDatabaseStorage.Size = new System.Drawing.Size(537, 19);
+			this.radioDatabaseStorage.Size = new System.Drawing.Size(475, 20);
 			this.radioDatabaseStorage.TabIndex = 101;
 			this.radioDatabaseStorage.Text = "Store images directly in database.  No AtoZ folder. (Some features will be unavai" +
     "lable)";
@@ -444,9 +444,9 @@ namespace OpenPmsDental {
 			// radioUseFolder
 			// 
 			this.radioUseFolder.Checked = true;
-			this.radioUseFolder.Location = new System.Drawing.Point(9, 19);
+			this.radioUseFolder.Location = new System.Drawing.Point(8, 23);
 			this.radioUseFolder.Name = "radioUseFolder";
-			this.radioUseFolder.Size = new System.Drawing.Size(333, 19);
+			this.radioUseFolder.Size = new System.Drawing.Size(330, 20);
 			this.radioUseFolder.TabIndex = 0;
 			this.radioUseFolder.TabStop = true;
 			this.radioUseFolder.Text = "Store images and documents on a local or network folder.";

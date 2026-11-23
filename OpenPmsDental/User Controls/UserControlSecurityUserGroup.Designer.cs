@@ -108,14 +108,14 @@
 			this.panelUserGroups.Controls.Add(this.listUserTabUserGroups);
 			this.panelUserGroups.Controls.Add(this.butAddUser);
 			this.panelUserGroups.Controls.Add(this.labelUserTabUserGroups);
-			this.panelUserGroups.Location = new System.Drawing.Point(454, 103);
+			this.panelUserGroups.Location = new System.Drawing.Point(445, 135);
 			this.panelUserGroups.Name = "panelUserGroups";
-			this.panelUserGroups.Size = new System.Drawing.Size(150, 330);
+			this.panelUserGroups.Size = new System.Drawing.Size(150, 318);
 			this.panelUserGroups.TabIndex = 257;
 			// 
 			// butCopyUser
 			// 
-			this.butCopyUser.Location = new System.Drawing.Point(2, 26);
+			this.butCopyUser.Location = new System.Drawing.Point(0, 28);
 			this.butCopyUser.Name = "butCopyUser";
 			this.butCopyUser.Size = new System.Drawing.Size(79, 24);
 			this.butCopyUser.TabIndex = 257;
@@ -127,9 +127,9 @@
 			// 
 			// labelUserCurr
 			// 
-			this.labelUserCurr.Location = new System.Drawing.Point(3, 69);
+			this.labelUserCurr.Location = new System.Drawing.Point(0, 77);
 			this.labelUserCurr.Name = "labelUserCurr";
-			this.labelUserCurr.Size = new System.Drawing.Size(145, 15);
+			this.labelUserCurr.Size = new System.Drawing.Size(150, 17);
 			this.labelUserCurr.TabIndex = 256;
 			this.labelUserCurr.Text = "None";
 			this.labelUserCurr.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -140,16 +140,16 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.listUserTabUserGroups.IntegralHeight = false;
-			this.listUserTabUserGroups.Location = new System.Drawing.Point(2, 87);
+			this.listUserTabUserGroups.Location = new System.Drawing.Point(0, 96);
 			this.listUserTabUserGroups.Name = "listUserTabUserGroups";
 			this.listUserTabUserGroups.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
-			this.listUserTabUserGroups.Size = new System.Drawing.Size(146, 243);
+			this.listUserTabUserGroups.Size = new System.Drawing.Size(150, 222);
 			this.listUserTabUserGroups.TabIndex = 5;
 			this.listUserTabUserGroups.SelectedIndexChanged += new System.EventHandler(this.listUserTabUserGroups_SelectedIndexChanged);
 			// 
 			// butAddUser
 			// 
-			this.butAddUser.Location = new System.Drawing.Point(2, 0);
+			this.butAddUser.Location = new System.Drawing.Point(0, 0);
 			this.butAddUser.Name = "butAddUser";
 			this.butAddUser.Size = new System.Drawing.Size(79, 24);
 			this.butAddUser.TabIndex = 255;
@@ -158,9 +158,9 @@
 			// 
 			// labelUserTabUserGroups
 			// 
-			this.labelUserTabUserGroups.Location = new System.Drawing.Point(1, 54);
+			this.labelUserTabUserGroups.Location = new System.Drawing.Point(0, 60);
 			this.labelUserTabUserGroups.Name = "labelUserTabUserGroups";
-			this.labelUserTabUserGroups.Size = new System.Drawing.Size(145, 15);
+			this.labelUserTabUserGroups.Size = new System.Drawing.Size(150, 17);
 			this.labelUserTabUserGroups.TabIndex = 12;
 			this.labelUserTabUserGroups.Text = "User Groups for:";
 			this.labelUserTabUserGroups.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -172,9 +172,9 @@
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.gridUsers.HasMultilineHeaders = true;
 			this.gridUsers.HScrollVisible = true;
-			this.gridUsers.Location = new System.Drawing.Point(0, 103);
+			this.gridUsers.Location = new System.Drawing.Point(8, 135);
 			this.gridUsers.Name = "gridUsers";
-			this.gridUsers.Size = new System.Drawing.Size(454, 330);
+			this.gridUsers.Size = new System.Drawing.Size(429, 318);
 			this.gridUsers.TabIndex = 254;
 			this.gridUsers.Title = "Users";
 			this.gridUsers.TranslationName = "TableUsers";
@@ -187,11 +187,11 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.securityTreeUser.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-			this.securityTreeUser.Location = new System.Drawing.Point(605, 23);
+			this.securityTreeUser.Location = new System.Drawing.Point(603, 27);
 			this.securityTreeUser.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
 			this.securityTreeUser.Name = "securityTreeUser";
 			this.securityTreeUser.ReadOnly = true;
-			this.securityTreeUser.Size = new System.Drawing.Size(354, 410);
+			this.securityTreeUser.Size = new System.Drawing.Size(354, 426);
 			this.securityTreeUser.TabIndex = 11;
 			this.securityTreeUser.LocationChanged += new System.EventHandler(this.securityTreeUser_LocationChanged);
 			// 
@@ -208,19 +208,19 @@
 			this.groupBox2.Controls.Add(this.labelPermission);
 			this.groupBox2.Controls.Add(this.comboSchoolClass);
 			this.groupBox2.Controls.Add(this.labelSchoolClass);
-			this.groupBox2.Location = new System.Drawing.Point(6, 6);
+			this.groupBox2.Location = new System.Drawing.Point(8, 8);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(410, 94);
+			this.groupBox2.Size = new System.Drawing.Size(429, 119);
 			this.groupBox2.TabIndex = 248;
 			this.groupBox2.Text = "User Filters";
 			// 
 			// checkShowHidden
 			// 
 			this.checkShowHidden.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.checkShowHidden.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkShowHidden.Location = new System.Drawing.Point(280, 56);
+			this.checkShowHidden.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkShowHidden.Location = new System.Drawing.Point(256, 89);
 			this.checkShowHidden.Name = "checkShowHidden";
-			this.checkShowHidden.Size = new System.Drawing.Size(118, 32);
+			this.checkShowHidden.Size = new System.Drawing.Size(125, 20);
 			this.checkShowHidden.TabIndex = 248;
 			this.checkShowHidden.Text = "Show hidden users";
 			this.checkShowHidden.Click += new System.EventHandler(this.Filter_Changed);
@@ -228,98 +228,98 @@
 			// labelFilterType
 			// 
 			this.labelFilterType.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.labelFilterType.Location = new System.Drawing.Point(6, 52);
+			this.labelFilterType.Location = new System.Drawing.Point(8, 69);
 			this.labelFilterType.Name = "labelFilterType";
-			this.labelFilterType.Size = new System.Drawing.Size(115, 15);
+			this.labelFilterType.Size = new System.Drawing.Size(118, 17);
 			this.labelFilterType.TabIndex = 248;
 			this.labelFilterType.Text = "Username";
-			this.labelFilterType.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.labelFilterType.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(6, 13);
+			this.label5.Location = new System.Drawing.Point(8, 23);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(115, 15);
+			this.label5.Size = new System.Drawing.Size(118, 17);
 			this.label5.TabIndex = 247;
 			this.label5.Text = "Show Only";
-			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.label5.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// comboShowOnly
 			// 
-			this.comboShowOnly.Location = new System.Drawing.Point(6, 29);
+			this.comboShowOnly.Location = new System.Drawing.Point(8, 42);
 			this.comboShowOnly.Name = "comboShowOnly";
-			this.comboShowOnly.Size = new System.Drawing.Size(118, 21);
+			this.comboShowOnly.Size = new System.Drawing.Size(118, 23);
 			this.comboShowOnly.TabIndex = 1;
 			this.comboShowOnly.SelectedIndexChanged += new System.EventHandler(this.comboShowOnly_SelectionIndexChanged);
 			// 
 			// comboClinic
 			// 
-			this.comboClinic.Location = new System.Drawing.Point(280, 29);
+			this.comboClinic.Location = new System.Drawing.Point(256, 42);
 			this.comboClinic.Name = "comboClinic";
-			this.comboClinic.Size = new System.Drawing.Size(118, 21);
+			this.comboClinic.Size = new System.Drawing.Size(118, 23);
 			this.comboClinic.TabIndex = 245;
 			this.comboClinic.Visible = false;
 			this.comboClinic.SelectionChangeCommitted += new System.EventHandler(this.Filter_Changed);
 			// 
 			// textPowerSearch
 			// 
-			this.textPowerSearch.Location = new System.Drawing.Point(6, 68);
+			this.textPowerSearch.Location = new System.Drawing.Point(8, 88);
 			this.textPowerSearch.Name = "textPowerSearch";
-			this.textPowerSearch.Size = new System.Drawing.Size(118, 20);
+			this.textPowerSearch.Size = new System.Drawing.Size(118, 23);
 			this.textPowerSearch.TabIndex = 243;
 			this.textPowerSearch.TextChanged += new System.EventHandler(this.Filter_Changed);
 			// 
 			// labelClinic
 			// 
-			this.labelClinic.Location = new System.Drawing.Point(277, 13);
+			this.labelClinic.Location = new System.Drawing.Point(256, 23);
 			this.labelClinic.Name = "labelClinic";
-			this.labelClinic.Size = new System.Drawing.Size(115, 15);
+			this.labelClinic.Size = new System.Drawing.Size(118, 17);
 			this.labelClinic.TabIndex = 246;
 			this.labelClinic.Text = "Clinic";
-			this.labelClinic.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.labelClinic.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			this.labelClinic.Visible = false;
 			// 
 			// comboGroups
 			// 
-			this.comboGroups.Location = new System.Drawing.Point(143, 29);
+			this.comboGroups.Location = new System.Drawing.Point(132, 42);
 			this.comboGroups.Name = "comboGroups";
-			this.comboGroups.Size = new System.Drawing.Size(118, 21);
+			this.comboGroups.Size = new System.Drawing.Size(118, 23);
 			this.comboGroups.TabIndex = 245;
 			this.comboGroups.SelectionChangeCommitted += new System.EventHandler(this.Filter_Changed);
 			// 
 			// labelPermission
 			// 
-			this.labelPermission.Location = new System.Drawing.Point(140, 13);
+			this.labelPermission.Location = new System.Drawing.Point(132, 23);
 			this.labelPermission.Name = "labelPermission";
-			this.labelPermission.Size = new System.Drawing.Size(115, 15);
+			this.labelPermission.Size = new System.Drawing.Size(118, 17);
 			this.labelPermission.TabIndex = 246;
 			this.labelPermission.Text = "Group";
-			this.labelPermission.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.labelPermission.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// comboSchoolClass
 			// 
-			this.comboSchoolClass.Location = new System.Drawing.Point(143, 67);
+			this.comboSchoolClass.Location = new System.Drawing.Point(132, 88);
 			this.comboSchoolClass.Name = "comboSchoolClass";
-			this.comboSchoolClass.Size = new System.Drawing.Size(118, 21);
+			this.comboSchoolClass.Size = new System.Drawing.Size(118, 23);
 			this.comboSchoolClass.TabIndex = 2;
 			this.comboSchoolClass.Visible = false;
 			this.comboSchoolClass.SelectionChangeCommitted += new System.EventHandler(this.Filter_Changed);
 			// 
 			// labelSchoolClass
 			// 
-			this.labelSchoolClass.Location = new System.Drawing.Point(140, 51);
+			this.labelSchoolClass.Location = new System.Drawing.Point(132, 69);
 			this.labelSchoolClass.Name = "labelSchoolClass";
-			this.labelSchoolClass.Size = new System.Drawing.Size(115, 15);
+			this.labelSchoolClass.Size = new System.Drawing.Size(118, 17);
 			this.labelSchoolClass.TabIndex = 91;
 			this.labelSchoolClass.Text = "Class";
-			this.labelSchoolClass.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.labelSchoolClass.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			this.labelSchoolClass.Visible = false;
 			// 
 			// labelPerm
 			// 
-			this.labelPerm.Location = new System.Drawing.Point(602, 5);
+			this.labelPerm.Location = new System.Drawing.Point(603, 8);
 			this.labelPerm.Name = "labelPerm";
-			this.labelPerm.Size = new System.Drawing.Size(354, 15);
+			this.labelPerm.Size = new System.Drawing.Size(354, 17);
 			this.labelPerm.TabIndex = 10;
 			this.labelPerm.Text = "Effective permissions for user: (Edit from the User Groups tab)";
 			this.labelPerm.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -351,7 +351,7 @@
 			// butSetNone
 			// 
 			this.butSetNone.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butSetNone.Location = new System.Drawing.Point(367, 429);
+			this.butSetNone.Location = new System.Drawing.Point(371, 429);
 			this.butSetNone.Name = "butSetNone";
 			this.butSetNone.Size = new System.Drawing.Size(79, 24);
 			this.butSetNone.TabIndex = 28;
@@ -361,7 +361,7 @@
 			// butExpandAll
 			// 
 			this.butExpandAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butExpandAll.Location = new System.Drawing.Point(601, 429);
+			this.butExpandAll.Location = new System.Drawing.Point(628, 429);
 			this.butExpandAll.Name = "butExpandAll";
 			this.butExpandAll.Size = new System.Drawing.Size(79, 24);
 			this.butExpandAll.TabIndex = 27;
@@ -371,7 +371,7 @@
 			// butCollapseAll
 			// 
 			this.butCollapseAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butCollapseAll.Location = new System.Drawing.Point(516, 429);
+			this.butCollapseAll.Location = new System.Drawing.Point(543, 429);
 			this.butCollapseAll.Name = "butCollapseAll";
 			this.butCollapseAll.Size = new System.Drawing.Size(79, 24);
 			this.butCollapseAll.TabIndex = 26;
@@ -383,7 +383,7 @@
 			this.butEditGroup.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butEditGroup.Icon = OpenPmsDental.UI.EnumIcons.Edit;
 			this.butEditGroup.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butEditGroup.Location = new System.Drawing.Point(189, 429);
+			this.butEditGroup.Location = new System.Drawing.Point(101, 429);
 			this.butEditGroup.Name = "butEditGroup";
 			this.butEditGroup.Size = new System.Drawing.Size(87, 24);
 			this.butEditGroup.TabIndex = 25;
@@ -393,7 +393,7 @@
 			// butSetAll
 			// 
 			this.butSetAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butSetAll.Location = new System.Drawing.Point(282, 429);
+			this.butSetAll.Location = new System.Drawing.Point(286, 429);
 			this.butSetAll.Name = "butSetAll";
 			this.butSetAll.Size = new System.Drawing.Size(79, 24);
 			this.butSetAll.TabIndex = 20;
@@ -405,7 +405,7 @@
 			this.butAddGroup.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butAddGroup.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAddGroup.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAddGroup.Location = new System.Drawing.Point(6, 429);
+			this.butAddGroup.Location = new System.Drawing.Point(8, 429);
 			this.butAddGroup.Name = "butAddGroup";
 			this.butAddGroup.Size = new System.Drawing.Size(87, 24);
 			this.butAddGroup.TabIndex = 18;
@@ -414,9 +414,9 @@
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(3, 1);
+			this.label3.Location = new System.Drawing.Point(8, 8);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(225, 15);
+			this.label3.Size = new System.Drawing.Size(270, 17);
 			this.label3.TabIndex = 24;
 			this.label3.Text = "User Group:";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -427,11 +427,11 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.userControlSecurityTree.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-			this.userControlSecurityTree.Location = new System.Drawing.Point(282, 19);
+			this.userControlSecurityTree.Location = new System.Drawing.Point(286, 27);
 			this.userControlSecurityTree.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
 			this.userControlSecurityTree.Name = "userControlSecurityTree";
 			this.userControlSecurityTree.ReadOnly = false;
-			this.userControlSecurityTree.Size = new System.Drawing.Size(426, 406);
+			this.userControlSecurityTree.Size = new System.Drawing.Size(421, 394);
 			this.userControlSecurityTree.TabIndex = 23;
 			this.userControlSecurityTree.ReportPermissionChecked += new OpenPmsDental.UserControlSecurityTree.SecurityTreeEventHandler(this.securityTreeUserGroup_ReportPermissionChecked);
 			this.userControlSecurityTree.GroupPermissionChecked += new OpenPmsDental.UserControlSecurityTree.SecurityTreeEventHandler(this.securityTreeUserGroup_GroupPermissionChecked);
@@ -442,27 +442,27 @@
 			this.listAssociatedUsers.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.listAssociatedUsers.IntegralHeight = false;
-			this.listAssociatedUsers.Location = new System.Drawing.Point(714, 19);
+			this.listAssociatedUsers.Location = new System.Drawing.Point(715, 27);
 			this.listAssociatedUsers.Name = "listAssociatedUsers";
 			this.listAssociatedUsers.SelectionMode = OpenPmsDental.UI.SelectionMode.None;
-			this.listAssociatedUsers.Size = new System.Drawing.Size(242, 406);
+			this.listAssociatedUsers.Size = new System.Drawing.Size(242, 394);
 			this.listAssociatedUsers.TabIndex = 22;
 			// 
 			// label4
 			// 
 			this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.label4.Location = new System.Drawing.Point(711, 1);
+			this.label4.Location = new System.Drawing.Point(715, 8);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(210, 15);
+			this.label4.Size = new System.Drawing.Size(242, 17);
 			this.label4.TabIndex = 21;
 			this.label4.Text = "Users currently associated:";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(279, 1);
+			this.label6.Location = new System.Drawing.Point(286, 8);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(258, 15);
+			this.label6.Size = new System.Drawing.Size(421, 17);
 			this.label6.TabIndex = 19;
 			this.label6.Text = "Permissions for group:";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -473,9 +473,9 @@
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.listUserGroupTabUserGroups.ImeMode = System.Windows.Forms.ImeMode.On;
 			this.listUserGroupTabUserGroups.IntegralHeight = false;
-			this.listUserGroupTabUserGroups.Location = new System.Drawing.Point(6, 19);
+			this.listUserGroupTabUserGroups.Location = new System.Drawing.Point(8, 27);
 			this.listUserGroupTabUserGroups.Name = "listUserGroupTabUserGroups";
-			this.listUserGroupTabUserGroups.Size = new System.Drawing.Size(270, 406);
+			this.listUserGroupTabUserGroups.Size = new System.Drawing.Size(270, 394);
 			this.listUserGroupTabUserGroups.TabIndex = 17;
 			this.listUserGroupTabUserGroups.SelectedIndexChanged += new System.EventHandler(this.listUserGroupTabUserGroups_SelectedIndexChanged);
 			this.listUserGroupTabUserGroups.DoubleClick += new System.EventHandler(this.listUserGroupTabUserGroups_DoubleClick);

@@ -58,25 +58,26 @@ namespace OpenPmsDental{
 			// 
 			// textConnectionString
 			// 
-			this.textConnectionString.Location = new System.Drawing.Point(376, 419);
+			this.textConnectionString.Location = new System.Drawing.Point(366, 381);
 			this.textConnectionString.Multiline = true;
 			this.textConnectionString.Name = "textConnectionString";
 			this.textConnectionString.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.textConnectionString.Size = new System.Drawing.Size(312, 130);
+			this.textConnectionString.Size = new System.Drawing.Size(349, 130);
 			this.textConnectionString.TabIndex = 34;
 			// 
 			// label8
 			// 
 			this.label8.AutoSize = false;
-			this.label8.Location = new System.Drawing.Point(374, 401);
+			this.label8.Location = new System.Drawing.Point(366, 362);
+			this.label8.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(182, 18);
+			this.label8.Size = new System.Drawing.Size(349, 17);
 			this.label8.TabIndex = 39;
 			this.label8.Text = "Advanced: Use connection string";
 			// 
 			// listType
 			// 
-			this.listType.Location = new System.Drawing.Point(376, 363);
+			this.listType.Location = new System.Drawing.Point(366, 576);
 			this.listType.Name = "listType";
 			this.listType.Size = new System.Drawing.Size(99, 30);
 			this.listType.TabIndex = 38;
@@ -84,9 +85,9 @@ namespace OpenPmsDental{
 			// 
 			// label7
 			// 
-			this.label7.Location = new System.Drawing.Point(373, 341);
+			this.label7.Location = new System.Drawing.Point(366, 557);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(223, 18);
+			this.label7.Size = new System.Drawing.Size(349, 17);
 			this.label7.TabIndex = 37;
 			this.label7.Text = "Database Type";
 			this.label7.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -94,9 +95,9 @@ namespace OpenPmsDental{
 			// 
 			// checkConnectServer
 			// 
-			this.checkConnectServer.Location = new System.Drawing.Point(28, 329);
+			this.checkConnectServer.Location = new System.Drawing.Point(8, 334);
 			this.checkConnectServer.Name = "checkConnectServer";
-			this.checkConnectServer.Size = new System.Drawing.Size(328, 18);
+			this.checkConnectServer.Size = new System.Drawing.Size(191, 20);
 			this.checkConnectServer.TabIndex = 33;
 			this.checkConnectServer.Text = "Connect to Middle Tier instead";
 			this.checkConnectServer.Click += new System.EventHandler(this.checkConnectServer_Click);
@@ -112,84 +113,84 @@ namespace OpenPmsDental{
 			this.groupServer.Controls.Add(this.label11);
 			this.groupServer.Controls.Add(this.label9);
 			this.groupServer.Controls.Add(this.label6);
-			this.groupServer.Location = new System.Drawing.Point(28, 357);
+			this.groupServer.Location = new System.Drawing.Point(8, 362);
 			this.groupServer.Name = "groupServer";
-			this.groupServer.Size = new System.Drawing.Size(336, 218);
+			this.groupServer.Size = new System.Drawing.Size(349, 247);
 			this.groupServer.TabIndex = 32;
 			this.groupServer.Text = "Connect to Middle Tier - Only for advanced users";
 			// 
 			// checkBoxAutomaticLogin
 			// 
-			this.checkBoxAutomaticLogin.Location = new System.Drawing.Point(13, 195);
+			this.checkBoxAutomaticLogin.Location = new System.Drawing.Point(8, 219);
 			this.checkBoxAutomaticLogin.Name = "checkBoxAutomaticLogin";
-			this.checkBoxAutomaticLogin.Size = new System.Drawing.Size(153, 18);
+			this.checkBoxAutomaticLogin.Size = new System.Drawing.Size(156, 20);
 			this.checkBoxAutomaticLogin.TabIndex = 40;
 			this.checkBoxAutomaticLogin.Text = "Log me in automatically.";
 			// 
 			// checkUsingEcw
 			// 
-			this.checkUsingEcw.Location = new System.Drawing.Point(13, 176);
+			this.checkUsingEcw.Location = new System.Drawing.Point(8, 195);
 			this.checkUsingEcw.Name = "checkUsingEcw";
-			this.checkUsingEcw.Size = new System.Drawing.Size(317, 18);
+			this.checkUsingEcw.Size = new System.Drawing.Size(136, 20);
 			this.checkUsingEcw.TabIndex = 10;
 			this.checkUsingEcw.Text = "Using eClinicalWorks";
 			// 
 			// textURI
 			// 
-			this.textURI.Location = new System.Drawing.Point(13, 63);
+			this.textURI.Location = new System.Drawing.Point(8, 64);
 			this.textURI.Name = "textURI";
-			this.textURI.Size = new System.Drawing.Size(309, 20);
+			this.textURI.Size = new System.Drawing.Size(333, 23);
 			this.textURI.TabIndex = 7;
 			// 
 			// textUser2
 			// 
 			this.textUser2.AutoSize = false;
-			this.textUser2.Location = new System.Drawing.Point(13, 106);
+			this.textUser2.Location = new System.Drawing.Point(8, 114);
 			this.textUser2.Name = "textUser2";
-			this.textUser2.Size = new System.Drawing.Size(309, 20);
+			this.textUser2.Size = new System.Drawing.Size(333, 23);
 			this.textUser2.TabIndex = 8;
 			// 
 			// textPassword2
 			// 
-			this.textPassword2.Location = new System.Drawing.Point(13, 147);
+			this.textPassword2.Location = new System.Drawing.Point(8, 164);
 			this.textPassword2.Name = "textPassword2";
 			this.textPassword2.PasswordChar = '*';
-			this.textPassword2.Size = new System.Drawing.Size(309, 20);
+			this.textPassword2.Size = new System.Drawing.Size(333, 23);
 			this.textPassword2.TabIndex = 9;
 			this.textPassword2.UseSystemPasswordChar = true;
 			// 
 			// label10
 			// 
-			this.label10.Location = new System.Drawing.Point(11, 128);
+			this.label10.Location = new System.Drawing.Point(8, 145);
 			this.label10.Name = "label10";
-			this.label10.Size = new System.Drawing.Size(281, 18);
+			this.label10.Size = new System.Drawing.Size(333, 17);
 			this.label10.TabIndex = 11;
 			this.label10.Text = "Password";
 			this.label10.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// label11
 			// 
-			this.label11.Location = new System.Drawing.Point(11, 87);
+			this.label11.Location = new System.Drawing.Point(8, 95);
 			this.label11.Name = "label11";
-			this.label11.Size = new System.Drawing.Size(295, 18);
+			this.label11.Size = new System.Drawing.Size(333, 17);
 			this.label11.TabIndex = 14;
 			this.label11.Text = "Open PMS - Dental User (not MySQL user)";
 			this.label11.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// label9
 			// 
-			this.label9.Location = new System.Drawing.Point(10, 42);
+			this.label9.Location = new System.Drawing.Point(8, 45);
 			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(283, 18);
+			this.label9.Size = new System.Drawing.Size(333, 17);
 			this.label9.TabIndex = 9;
 			this.label9.Text = "URI";
 			this.label9.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(9, 25);
+			this.label6.Location = new System.Drawing.Point(8, 23);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(302, 18);
+			this.label6.Size = new System.Drawing.Size(333, 18);
 			this.label6.TabIndex = 0;
 			this.label6.Text = "Read the manual to learn how to install the middle tier.";
 			// 
@@ -204,9 +205,9 @@ namespace OpenPmsDental{
 			this.groupDirect.Controls.Add(this.label2);
 			this.groupDirect.Controls.Add(this.label3);
 			this.groupDirect.Controls.Add(this.label4);
-			this.groupDirect.Location = new System.Drawing.Point(28, 15);
+			this.groupDirect.Location = new System.Drawing.Point(8, 8);
 			this.groupDirect.Name = "groupDirect";
-			this.groupDirect.Size = new System.Drawing.Size(660, 246);
+			this.groupDirect.Size = new System.Drawing.Size(707, 268);
 			this.groupDirect.TabIndex = 31;
 			this.groupDirect.Text = "Connection Settings - These values will only be used on this computer.  They have" +
     " to be set on each computer";
@@ -214,27 +215,27 @@ namespace OpenPmsDental{
 			// textUser
 			// 
 			this.textUser.AutoSize = false;
-			this.textUser.Location = new System.Drawing.Point(13, 140);
+			this.textUser.Location = new System.Drawing.Point(8, 159);
 			this.textUser.Name = "textUser";
-			this.textUser.Size = new System.Drawing.Size(280, 20);
+			this.textUser.Size = new System.Drawing.Size(280, 23);
 			this.textUser.TabIndex = 3;
 			// 
 			// comboDatabase
 			// 
 			this.comboDatabase.DropDownHeight = 390;
 			this.comboDatabase.IntegralHeight = false;
-			this.comboDatabase.Location = new System.Drawing.Point(13, 98);
+			this.comboDatabase.Location = new System.Drawing.Point(8, 109);
 			this.comboDatabase.MaxDropDownItems = 100;
 			this.comboDatabase.Name = "comboDatabase";
-			this.comboDatabase.Size = new System.Drawing.Size(280, 21);
+			this.comboDatabase.Size = new System.Drawing.Size(280, 23);
 			this.comboDatabase.TabIndex = 2;
 			this.comboDatabase.DropDown += new System.EventHandler(this.comboDatabase_DropDown);
 			// 
 			// checkNoShow
 			// 
-			this.checkNoShow.Location = new System.Drawing.Point(13, 211);
+			this.checkNoShow.Location = new System.Drawing.Point(8, 240);
 			this.checkNoShow.Name = "checkNoShow";
-			this.checkNoShow.Size = new System.Drawing.Size(330, 18);
+			this.checkNoShow.Size = new System.Drawing.Size(333, 20);
 			this.checkNoShow.TabIndex = 5;
 			this.checkNoShow.Text = "Do not show this window on startup (this computer only)";
 			// 
@@ -242,17 +243,17 @@ namespace OpenPmsDental{
 			// 
 			this.comboComputerName.DropDownHeight = 390;
 			this.comboComputerName.IntegralHeight = false;
-			this.comboComputerName.Location = new System.Drawing.Point(13, 56);
+			this.comboComputerName.Location = new System.Drawing.Point(8, 59);
 			this.comboComputerName.MaxDropDownItems = 100;
 			this.comboComputerName.Name = "comboComputerName";
-			this.comboComputerName.Size = new System.Drawing.Size(280, 21);
+			this.comboComputerName.Size = new System.Drawing.Size(280, 23);
 			this.comboComputerName.TabIndex = 1;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(11, 15);
+			this.label1.Location = new System.Drawing.Point(8, 23);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(582, 38);
+			this.label1.Size = new System.Drawing.Size(691, 34);
 			this.label1.TabIndex = 0;
 			this.label1.Text = "Server Name: The name of the computer where the MySQL server and database are loc" +
     "ated.  If you are running this program on a single computer only, then the compu" +
@@ -261,10 +262,10 @@ namespace OpenPmsDental{
 			// 
 			// textPassword
 			// 
-			this.textPassword.Location = new System.Drawing.Point(13, 181);
+			this.textPassword.Location = new System.Drawing.Point(8, 209);
 			this.textPassword.Name = "textPassword";
 			this.textPassword.PasswordChar = '*';
-			this.textPassword.Size = new System.Drawing.Size(280, 20);
+			this.textPassword.Size = new System.Drawing.Size(280, 23);
 			this.textPassword.TabIndex = 4;
 			this.textPassword.UseSystemPasswordChar = true;
 			this.textPassword.TextChanged += new System.EventHandler(this.textPassword_TextChanged);
@@ -272,27 +273,27 @@ namespace OpenPmsDental{
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(11, 162);
+			this.label2.Location = new System.Drawing.Point(8, 190);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(509, 18);
+			this.label2.Size = new System.Drawing.Size(691, 17);
 			this.label2.TabIndex = 2;
 			this.label2.Text = "MySQL Password:";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(11, 121);
+			this.label3.Location = new System.Drawing.Point(8, 140);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(480, 18);
+			this.label3.Size = new System.Drawing.Size(691, 17);
 			this.label3.TabIndex = 4;
 			this.label3.Text = "MySQL User:";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(11, 79);
+			this.label4.Location = new System.Drawing.Point(8, 90);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(582, 18);
+			this.label4.Size = new System.Drawing.Size(691, 17);
 			this.label4.TabIndex = 6;
 			this.label4.Text = "Database: usually opendental unless you changed the name.";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -300,34 +301,34 @@ namespace OpenPmsDental{
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(636, 605);
+			this.butOK.Location = new System.Drawing.Point(640, 617);
 			this.butOK.Name = "butOK";
-			this.butOK.Size = new System.Drawing.Size(75, 25);
+			this.butOK.Size = new System.Drawing.Size(75, 24);
 			this.butOK.TabIndex = 35;
 			this.butOK.Text = "&OK";
 			this.butOK.Click += new System.EventHandler(this.butOK_Click);
 			// 
 			// checkDynamicMode
 			// 
-			this.checkDynamicMode.Location = new System.Drawing.Point(376, 552);
+			this.checkDynamicMode.Location = new System.Drawing.Point(366, 515);
 			this.checkDynamicMode.Name = "checkDynamicMode";
-			this.checkDynamicMode.Size = new System.Drawing.Size(347, 29);
+			this.checkDynamicMode.Size = new System.Drawing.Size(349, 34);
 			this.checkDynamicMode.TabIndex = 41;
 			this.checkDynamicMode.Text = "Dynamic Mode: Automatically downgrades or upgrades to server version.";
 			this.checkDynamicMode.CheckedChanged += new System.EventHandler(this.checkDynamicMode_CheckedChanged);
 			// 
 			// textSslCaPem
 			// 
-			this.textSslCaPem.Location = new System.Drawing.Point(42, 295);
+			this.textSslCaPem.Location = new System.Drawing.Point(8, 303);
 			this.textSslCaPem.Name = "textSslCaPem";
-			this.textSslCaPem.Size = new System.Drawing.Size(527, 20);
+			this.textSslCaPem.Size = new System.Drawing.Size(707, 23);
 			this.textSslCaPem.TabIndex = 8;
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(40, 276);
+			this.label5.Location = new System.Drawing.Point(8, 284);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(509, 18);
+			this.label5.Size = new System.Drawing.Size(707, 17);
 			this.label5.TabIndex = 7;
 			this.label5.Text = "SSL CA certificate (.pem) path";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -335,7 +336,7 @@ namespace OpenPmsDental{
 			// FormChooseDatabase
 			// 
 			this.AcceptButton = this.butOK;
-			this.ClientSize = new System.Drawing.Size(723, 642);
+			this.ClientSize = new System.Drawing.Size(723, 649);
 			this.Controls.Add(this.textSslCaPem);
 			this.Controls.Add(this.checkDynamicMode);
 			this.Controls.Add(this.label5);

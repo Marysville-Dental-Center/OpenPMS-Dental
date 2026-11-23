@@ -115,6 +115,35 @@ class Hand:
         """The widths (px on one line at Segoe UI 9) of the texts the window's code gives the control (grid-runtime-texts.tsv)."""
         return [w for (win, ctl), ws in RUNTIME.items() if win == self.window and ctl == name for w in ws]
 
+    def note_h(self, name, w, line=16, estimate=False):
+        """UI-12 slice 3: a wrapping label's (or check box's text's) height at width w: the lines of the measured word wrap (grid_tools'
+        measured_lines; estimate=True: the larger of it and the word-wrap estimate, which can leave an empty line), at line px a line,
+        + 2. GridRulesTests checks that the text fits."""
+        n = self.n(name)
+        tw = max([n.text_w or 0] + self.runtime_widths(name))
+        lines = g.measured_lines(n.text, tw, w)
+        if estimate:
+            lines = max(lines, g.note_lines(n.text, tw, w))
+        return lines * line + 2
+
+    def captioned(self, cap, box, x, y, w, h=None, after=(), cap_w=None):
+        """UI-12 slice 3: a caption label (as tall as its lines at cap_w, default w; BottomLeft) 2 px over a box at x, y; the box w wide (less
+        the cells of after, each 6 px apart, the last ending at x + w) and h tall (default the field height). Returns the box's bottom."""
+        cw_ = cap_w if cap_w is not None else w
+        ch = self.note_h(cap, cw_, estimate=False) if self.n(cap).text_w and self.n(cap).text_w > cw_ - 2 else 17
+        self.set(cap, x, y, cw_, ch)
+        self.text_align(cap, "BottomLeft")
+        yb = y + ch + GRID["caption_gap"]
+        hh = h if h is not None else self.H
+        right = x + w
+        for name in reversed(list(after)):
+            n = self.n(name)
+            right -= n.nw
+            self.set(name, right, yb, n.nw, self.H)
+            right -= GRID["item_gap"]
+        self.set(box, x, yb, right - x, hh)
+        return yb + hh
+
     def cw(self, name):
         n = self.n(name)
         return g.check_width(n) if n.text_w else 16
@@ -412,12 +441,22 @@ def full_name(window):
     return window if "." in window else "OpenPmsDental." + window
 
 
-def run(tree_path, window_simple):
+def run(tree_path, window_simple, part=None):
+    """part (UI-12 slice 3): (path in the window's tree, the part's class name): the script lays out a user control the window hosts and
+    that the harness cannot build alone (UserControlSecurityUserGroup adds controls in code, which LayoutManager allows only in its host).
+    The tree is the host's from the part's node down, the designer the part's, the script tools/UiFit/hand/<part class>.py; the rows are
+    written under the host window (its slice file), with the part's designer file."""
     root = fit_tools.repo_root()
     window = full_name(window_simple)
     window_simple = window.split(".")[-1]
     trees = g.load_tree(tree_path, {window})
     tree = trees[window]
+    if part:
+        path, part_class = part
+        tree = next(n for n in g.walk(tree) if n.path == path)
+        tree.parent = None
+        window = full_name(part_class)
+        window_simple = window.split(".")[-1]
     wf = fit_tools.window_files(root, [window])
     designer = g.Designer(root, wf[window][0])
     for n in g.walk(tree):
@@ -436,14 +475,18 @@ def main():
     a.add_argument("--hand-file", help="default: the window's slice file, tests/UiRefreshTests/Data/grid-hand/<slice>.tsv (UI-12T)")
     a.add_argument("--tree-out", help="write the laid-out tree (GridDump format) for render.py")
     a.add_argument("--dry", action="store_true", help="print the rows, do not write the hand file")
+    a.add_argument("--part", help="a hosted user control the harness cannot build alone: its path in the window's tree (run's part)")
+    a.add_argument("--part-class", help="with --part: the user control's class name (its script is hand/<class>.py)")
     args = a.parse_args()
-    hand, designer = run(args.tree, args.window)
+    part = (args.part, args.part_class) if args.part else None
+    hand, designer = run(args.tree, args.window, part)
     rows = hand.rows()
     window = full_name(args.window)
+    tree_window = full_name(args.part_class) if part else window
     for p in hand.check():
         print("check:", p)
     if args.tree_out:
-        g.write_tree(args.tree_out, {window: hand.tree})
+        g.write_tree(args.tree_out, {tree_window: hand.tree})
     if args.dry:
         for r in rows:
             print("\t".join(r))
@@ -455,7 +498,8 @@ def main():
             text = f.read()
     nl = "\r\n" if "\r\n" in text else "\n"
     lines = text.split(nl)
-    keep = [ln for ln in lines if ln and not (ln.split("\t")[1:2] == [window] and "\t" + RULE in ln)]
+    # The script's earlier rows: the window's rows of the same designer file (a hosted part's rows and the window's own are apart).
+    keep = [ln for ln in lines if ln and not (ln.split("\t")[0:2] == [designer.rel, window] and "\t" + RULE in ln)]
     keep += ["\t".join((designer.rel, window) + r) for r in rows]
     with open(path, "w", encoding="utf-8", newline="") as f:
         f.write(nl.join(keep) + nl)
