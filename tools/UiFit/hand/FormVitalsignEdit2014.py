@@ -3,7 +3,10 @@ medical-reason check box on one line (388 px), so its Reason Code and Descriptio
 pregnancy column (381); the pregnancy notice (hidden; shown by the code with a pregnancy code) stood over the check box's third and fourth
 lines (main too). The notice under the pregnancy check box's four lines, the medical-reason check box wrapped to the same width under it,
 Reason Code and its Description on the pregnancy column; the group grows by what that adds and everything under it moves down;
-the window at main's width again."""
+the window at main's width again.
+
+Fix round 2: Change Default (89 px for its 89 px text) left its text 2-3 px from the border: its text and 8 px on each side, its right
+edge kept on the Description boxes' edge, the Pregnancy Code box narrower by as much (6 px before it)."""
 
 
 def layout(h):
@@ -38,3 +41,9 @@ def layout(h):
     s = h.n("butSave")
     h.set("butSave", W - 8 - s.nw, None)
     h.set(".", None, None, W, h.tree.nh + dy)
+    b = h.n("butChangeDefault")
+    r = b.nx + b.nw
+    bw = b.text_w + 16
+    h.set("butChangeDefault", r - bw, None, bw, None)
+    pc = h.n("textPregCode")
+    h.set("textPregCode", None, None, r - bw - 6 - pc.nx, None)

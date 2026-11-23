@@ -297,7 +297,7 @@
 			this.textPregCode.Location = new System.Drawing.Point(381, 23);
 			this.textPregCode.Name = "textPregCode";
 			this.textPregCode.ReadOnly = true;
-			this.textPregCode.Size = new System.Drawing.Size(100, 20);
+			this.textPregCode.Size = new System.Drawing.Size(84, 23);
 			this.textPregCode.TabIndex = 0;
 			// 
 			// label6
@@ -334,9 +334,9 @@
 			// butChangeDefault
 			// 
 			this.butChangeDefault.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butChangeDefault.Location = new System.Drawing.Point(487, 23);
+			this.butChangeDefault.Location = new System.Drawing.Point(471, 23);
 			this.butChangeDefault.Name = "butChangeDefault";
-			this.butChangeDefault.Size = new System.Drawing.Size(89, 23);
+			this.butChangeDefault.Size = new System.Drawing.Size(105, 23);
 			this.butChangeDefault.TabIndex = 3;
 			this.butChangeDefault.Text = "Change Default";
 			this.butChangeDefault.Click += new System.EventHandler(this.butChangeDefault_Click);
