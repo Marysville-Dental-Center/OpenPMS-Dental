@@ -59,3 +59,14 @@ powershell -NoProfile -ExecutionPolicy Bypass -File tools/New-UiGallery.ps1 -Aft
 ```
 Audit (before the owner): round 1 found the "This image is not loaded." note grey on a black mount background; it now takes the theme's
 text colour that reads on the background (TextOnAccent on dark, TextSecondary on light). Round 2: no findings.
+
+## Review (one independent review, 2026-11-23)
+
+Fixed: the unmounted images (ItemOrder -1) joined the window's Left/Right sequence ahead of slot 1, and closing on one selected an image
+that is not on the mount (now only ItemOrder 1 and up); the canvas double-click opens the slot under the pointer, not the selection (in the
+drawing modes a click does not select); the tree's double-click opens the window after its mouse sequence (BeginInvoke), as the canvas does;
+the window no longer renders the image twice on open; an image too large for GDI+ shows the not-loaded note instead of an exception; a
+window disposed before it was shown unsubscribes from its display.
+Left as they are (nits): a cropped mount item whose slot was resized after cropping shows its crop, not the slot's clip; a crop rectangle
+being dragged or the measure tool's hover label in a single image are in the window's copy; Alt+Enter needs the image area focused; a tree
+double-click on an image that failed to load does nothing (it used to open Item Info).

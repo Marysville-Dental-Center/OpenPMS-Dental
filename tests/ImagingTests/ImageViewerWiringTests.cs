@@ -36,9 +36,10 @@ namespace ImagingTests {
 		[TestMethod]
 		public void CanvasDoubleClick_OpensTheViewer_NeverItemInfoOrMountEdit() {
 			string body=MethodBody(Display(),"private void panelMain_MouseDoubleClick(");
-			StringAssert.Contains(body,"EventViewerRequested?.Invoke(this,_idxSelectedInMount);","A filled mount slot opens in the viewer.");
+			StringAssert.Contains(body,"int idxHit=HitTestInMount(e.X,e.Y);","The slot under the pointer, not the selection.");
+			StringAssert.Contains(body,"EventViewerRequested?.Invoke(this,idxHit);","A filled mount slot opens in the viewer.");
 			StringAssert.Contains(body,"EventViewerRequested?.Invoke(this,0);","A single image opens in the viewer.");
-			StringAssert.Contains(body,"GetViewerIndexes().Contains(_idxSelectedInMount)","An empty slot opens nothing.");
+			StringAssert.Contains(body,"GetViewerIndexes().Contains(idxHit)","An empty slot opens nothing.");
 			Assert.IsFalse(body.Contains("FrmDocInfo"),"A double-click no longer opens Item Info.");
 			Assert.IsFalse(body.Contains("FrmMountEdit"),"A double-click on the mount's background no longer opens Mount Edit.");
 			StringAssert.Contains(body,"FrmImageDrawEdit","Text drawing mode still edits the text on a double-click.");
@@ -60,7 +61,7 @@ namespace ImagingTests {
 		[TestMethod]
 		public void TreeDoubleClick_OpensAnImageInTheViewer_AndAMountAsAClickDoes() {
 			string body=MethodBody(Module(),"private void imageSelector_ItemDoubleClick(");
-			StringAssert.Contains(body,"ShowImageViewer(controlImageDisplay,0);");
+			StringAssert.Contains(body,"BeginInvoke(new Action(() => ShowImageViewer(controlImageDisplay,0)));","After the tree's mouse sequence.");
 			Assert.IsFalse(body.Contains("FrmDocInfo"),"The tree's double-click no longer opens Item Info.");
 			Assert.IsFalse(body.Contains("FrmMountEdit"),"The tree's double-click no longer opens Mount Edit.");
 			StringAssert.Contains(body,"ODFileUtils.ShellOpen(filePath);","Other files still open in their own program.");
@@ -108,7 +109,8 @@ namespace ImagingTests {
 			StringAssert.Contains(body,"DrawDocument(g);","A single image draws as the module draws it, drawings included.");
 			StringAssert.Contains(body,"ImageHelper.DrawDocument(g,document,bitmapShowing,new List<ImageDraw>());","A mount item: crop, rotation and flip.");
 			StringAssert.Contains(body,"DrawDrawings(0,g);","The mount's drawings over the item.");
-			StringAssert.Contains(MethodBody(Display(),"public List<int> GetViewerIndexes("),"_listMountItems[i].ItemOrder==0","Text items are not images.");
+			StringAssert.Contains(MethodBody(Display(),"public List<int> GetViewerIndexes("),"_listMountItems[i].ItemOrder<1",
+				"Text items (0) and the unmounted images (-1) are not slots of the mount.");
 		}
 	}
 }

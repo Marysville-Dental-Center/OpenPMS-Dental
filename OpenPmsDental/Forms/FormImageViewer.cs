@@ -23,6 +23,8 @@ namespace OpenPmsDental {
 		///<summary>Index in the source's documents of the image showing; -1 for none.</summary>
 		private int _idxShowing=-1;
 		private bool _isPanning;
+		///<summary>True from SetSource until the next Activated, which then needs no second render of the image just loaded.</summary>
+		private bool _isJustLoaded;
 		///<summary>The source's indexes the window can show, in viewing order.</summary>
 		private List<int> _listIdxs=new List<int>();
 		private NodeTypeAndKey _nodeTypeAndKeySource;
@@ -92,6 +94,8 @@ namespace OpenPmsDental {
 			_controlImageDisplay.Disposed+=controlImageDisplay_Disposed;
 			_nodeTypeAndKeySource=controlImageDisplay.GetNodeTypeAndKey();
 			ShowIdx(idx);
+			//The Activated that follows (Show, or Activate on reuse) needs no second render; an active window gets no Activated.
+			_isJustLoaded=Form.ActiveForm!=this;
 		}
 
 		///<summary>Places a window that is not showing yet: the last bounds used this run if they are still on a screen, otherwise about two thirds of the screen the Imaging module is on, centred on it.</summary>
@@ -172,6 +176,10 @@ namespace OpenPmsDental {
 
 		private void FormImageViewer_Activated(object sender,EventArgs e) {
 			//Picks up changes made in the module while this window was in the background, such as a rotation or brightness.
+			if(_isJustLoaded){
+				_isJustLoaded=false;
+				return;
+			}
 			ShowIdx(_idxShowing,keepZoom:true);
 		}
 
@@ -200,6 +208,10 @@ namespace OpenPmsDental {
 				return;
 			}
 			if(!IsHandleCreated){
+				//Never shown, so FormClosed will not run its clean-up.
+				if(_controlImageDisplay!=null){
+					_controlImageDisplay.Disposed-=controlImageDisplay_Disposed;
+				}
 				Dispose();
 				return;
 			}

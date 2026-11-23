@@ -1276,7 +1276,13 @@ Here is the desired behavior:
 			if(size.Width<1 || size.Height<1){
 				return null;
 			}
-			Bitmap bitmap=new Bitmap(size.Width,size.Height);
+			Bitmap bitmap;
+			try{
+				bitmap=new Bitmap(size.Width,size.Height);
+			}
+			catch(ArgumentException){
+				return null;//too large for GDI+ (as LoadBitmap allows for); the viewer says the image is not loaded
+			}
 			using Graphics g=Graphics.FromImage(bitmap);
 			g.InterpolationMode=InterpolationMode.HighQualityBicubic;
 			//to the centre of the crop area, in image coordinates, as Copy does
@@ -1315,7 +1321,8 @@ Here is the desired behavior:
 					return listIdxs;
 				}
 				for(int i=0;i<_listMountItems.Count && i<_documentArrayShowing.Length && i<_bitmapArrayShowing.Length;i++){
-					if(_listMountItems[i].ItemOrder==0 || _documentArrayShowing[i]==null || _bitmapArrayShowing[i]==null){//text items and empty slots
+					//Text items have ItemOrder 0 and the unmounted images -1: neither is a slot of the mount.
+					if(_listMountItems[i].ItemOrder<1 || _documentArrayShowing[i]==null || _bitmapArrayShowing[i]==null){//and empty slots
 						continue;
 					}
 					listIdxs.Add(i);
@@ -2706,6 +2713,15 @@ Here is the desired behavior:
 				return;
 			}
 			if(IsMountShowing()){
+				//The slot under the pointer, not the selection: in the drawing modes a click does not change the selection.
+				int idxHit=HitTestInMount(e.X,e.Y);
+				if(idxHit>-1){
+					//An empty slot does nothing.
+					if(GetViewerIndexes().Contains(idxHit)){
+						EventViewerRequested?.Invoke(this,idxHit);
+					}
+					return;
+				}
 				if(_idxSelectedInMount==-1){
 					int idx=HitTestInMount(e.X,e.Y,includeText:true);
 					if(idx>-1){//double clicked on text
@@ -2716,13 +2732,8 @@ Here is the desired behavior:
 							panelMain.Invalidate();
 						}
 					}
-					//A double-click on the mount's background does nothing.
-					return;
 				}
-				//An empty slot does nothing.
-				if(GetViewerIndexes().Contains(_idxSelectedInMount)){
-					EventViewerRequested?.Invoke(this,_idxSelectedInMount);
-				}
+				//A double-click on the mount's background does nothing.
 				return;
 			}
 			if(IsBitmapShowing()){
