@@ -80,7 +80,7 @@ namespace OpenPmsDental {
 			this.butCleanUp.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butCleanUp.Location = new System.Drawing.Point(380, 318);
 			this.butCleanUp.Name = "butCleanUp";
-			this.butCleanUp.Size = new System.Drawing.Size(102, 24);
+			this.butCleanUp.Size = new System.Drawing.Size(115, 24);
 			this.butCleanUp.TabIndex = 21;
 			this.butCleanUp.Text = "Clean Up Allowed";
 			this.butCleanUp.Click += new System.EventHandler(this.butCleanUp_Click);

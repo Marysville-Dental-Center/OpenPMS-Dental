@@ -31,7 +31,9 @@ def layout(h):
     y = max(h.n("butSetOrder").ny + h.n("butSetOrder").nh, h.n("labelSetOrder").ny + h.n("labelSetOrder").nh) + 4
     for but, note in (("butSort", "labelSort"), ("butAdd", None), ("butCleanUp", "labelCleanUp"), ("butHideUnused", "labelHideUnused")):
         bn = h.n(but)
-        h.set(but, X, y, bn.nw, bn.nh)
+        # A button at least its text + 6 px on each side (Clean Up Allowed's 101 px text filled its 102 px).
+        bw = max(bn.nw, (bn.text_w or 0) + 14)
+        h.set(but, X, y, bw, bn.nh)
         y += bn.nh + 4
         if note:
             ln = h.n(note)
