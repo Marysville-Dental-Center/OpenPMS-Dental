@@ -126,7 +126,7 @@ namespace OpenPmsDental {
 			PaintPreviewPicture();
 		}
 
-		private void splitContainer_SplitterMoved(object sender,SplitterEventArgs e) {
+		private void splitContainer_SplitterMoved(object sender,EventArgs e) {
 			PaintPreviewPicture();
 		}
 		

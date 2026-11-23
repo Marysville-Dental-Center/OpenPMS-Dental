@@ -25,14 +25,15 @@ namespace OpenPmsDental{
 		private void InitializeComponent() {
 			this.picturePreview = new System.Windows.Forms.PictureBox();
 			this.checkWaitingForImages = new OpenPmsDental.UI.CheckBox();
-			this.splitContainer = new System.Windows.Forms.SplitContainer();
+			this.splitContainer = new OpenPmsDental.UI.SplitContainer();
+			this.splitterPanel1 = new OpenPmsDental.UI.SplitterPanel();
+			this.splitterPanel2 = new OpenPmsDental.UI.SplitterPanel();
 			this.gridMain = new OpenPmsDental.UI.GridOD();
 			this.butSave = new OpenPmsDental.UI.Button();
 			((System.ComponentModel.ISupportInitialize)(this.picturePreview)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
-			this.splitContainer.Panel1.SuspendLayout();
-			this.splitContainer.Panel2.SuspendLayout();
 			this.splitContainer.SuspendLayout();
+			this.splitterPanel1.SuspendLayout();
+			this.splitterPanel2.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// picturePreview
@@ -61,23 +62,35 @@ namespace OpenPmsDental{
 			this.splitContainer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.splitContainer.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
+			this.splitContainer.Controls.Add(this.splitterPanel1);
+			this.splitContainer.Controls.Add(this.splitterPanel2);
+			this.splitContainer.Cursor = System.Windows.Forms.Cursors.Default;
 			this.splitContainer.Location = new System.Drawing.Point(7, 34);
 			this.splitContainer.Name = "splitContainer";
 			this.splitContainer.Orientation = System.Windows.Forms.Orientation.Horizontal;
-			// 
-			// splitContainer.Panel1
-			// 
-			this.splitContainer.Panel1.Controls.Add(this.gridMain);
-			// 
-			// splitContainer.Panel2
-			// 
-			this.splitContainer.Panel2.Controls.Add(this.picturePreview);
+			this.splitContainer.Panel1 = this.splitterPanel1;
+			this.splitContainer.Panel2 = this.splitterPanel2;
 			this.splitContainer.Size = new System.Drawing.Size(765, 513);
 			this.splitContainer.SplitterDistance = 193;
 			this.splitContainer.TabIndex = 268;
-			this.splitContainer.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.splitContainer_SplitterMoved);
+			this.splitContainer.SplitterMoved += new System.EventHandler(this.splitContainer_SplitterMoved);
 			this.splitContainer.Resize += new System.EventHandler(this.splitContainer_Resize);
+			// 
+			// splitterPanel1
+			// 
+			this.splitterPanel1.Controls.Add(this.gridMain);
+			this.splitterPanel1.Location = new System.Drawing.Point(0, 0);
+			this.splitterPanel1.Name = "splitterPanel1";
+			this.splitterPanel1.Size = new System.Drawing.Size(765, 193);
+			this.splitterPanel1.TabIndex = 13;
+			// 
+			// splitterPanel2
+			// 
+			this.splitterPanel2.Controls.Add(this.picturePreview);
+			this.splitterPanel2.Location = new System.Drawing.Point(0, 197);
+			this.splitterPanel2.Name = "splitterPanel2";
+			this.splitterPanel2.Size = new System.Drawing.Size(765, 316);
+			this.splitterPanel2.TabIndex = 14;
 			// 
 			// gridMain
 			// 
@@ -112,10 +125,9 @@ namespace OpenPmsDental{
 			this.Text = "Lab Order Image Edit";
 			this.Load += new System.EventHandler(this.FormEhrLabeImageEdit_Load);
 			((System.ComponentModel.ISupportInitialize)(this.picturePreview)).EndInit();
-			this.splitContainer.Panel1.ResumeLayout(false);
-			this.splitContainer.Panel2.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.splitContainer)).EndInit();
 			this.splitContainer.ResumeLayout(false);
+			this.splitterPanel1.ResumeLayout(false);
+			this.splitterPanel2.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
@@ -126,6 +138,8 @@ namespace OpenPmsDental{
 		private System.Windows.Forms.PictureBox picturePreview;
 		private UI.GridOD gridMain;
 		private OpenPmsDental.UI.CheckBox checkWaitingForImages;
-		private System.Windows.Forms.SplitContainer splitContainer;
+		private UI.SplitContainer splitContainer;
+		private UI.SplitterPanel splitterPanel1;
+		private UI.SplitterPanel splitterPanel2;
 	}
 }
