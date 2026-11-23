@@ -36,7 +36,7 @@ namespace OpenPmsDental{
 			// 
 			// butLastMonth
 			// 
-			this.butLastMonth.Location = new System.Drawing.Point(17, 62);
+			this.butLastMonth.Location = new System.Drawing.Point(17, 39);
 			this.butLastMonth.Name = "butLastMonth";
 			this.butLastMonth.Size = new System.Drawing.Size(96, 24);
 			this.butLastMonth.TabIndex = 4;
@@ -45,7 +45,7 @@ namespace OpenPmsDental{
 			// 
 			// butThisMonth
 			// 
-			this.butThisMonth.Location = new System.Drawing.Point(17, 103);
+			this.butThisMonth.Location = new System.Drawing.Point(14, 74);
 			this.butThisMonth.Name = "butThisMonth";
 			this.butThisMonth.Size = new System.Drawing.Size(96, 24);
 			this.butThisMonth.TabIndex = 5;
@@ -54,7 +54,7 @@ namespace OpenPmsDental{
 			// 
 			// labelMessage
 			// 
-			this.labelMessage.Location = new System.Drawing.Point(14, 27);
+			this.labelMessage.Location = new System.Drawing.Point(14, 8);
 			this.labelMessage.Name = "labelMessage";
 			this.labelMessage.Size = new System.Drawing.Size(362, 23);
 			this.labelMessage.TabIndex = 8;
@@ -62,7 +62,7 @@ namespace OpenPmsDental{
 			// 
 			// labelLastMonth
 			// 
-			this.labelLastMonth.Location = new System.Drawing.Point(119, 62);
+			this.labelLastMonth.Location = new System.Drawing.Point(119, 39);
 			this.labelLastMonth.Name = "labelLastMonth";
 			this.labelLastMonth.Size = new System.Drawing.Size(267, 24);
 			this.labelLastMonth.TabIndex = 9;
@@ -71,7 +71,7 @@ namespace OpenPmsDental{
 			// 
 			// labelThisMonth
 			// 
-			this.labelThisMonth.Location = new System.Drawing.Point(119, 103);
+			this.labelThisMonth.Location = new System.Drawing.Point(116, 74);
 			this.labelThisMonth.Name = "labelThisMonth";
 			this.labelThisMonth.Size = new System.Drawing.Size(267, 24);
 			this.labelThisMonth.TabIndex = 10;
@@ -80,7 +80,7 @@ namespace OpenPmsDental{
 			// 
 			// labelMonthSelect
 			// 
-			this.labelMonthSelect.Location = new System.Drawing.Point(138, 56);
+			this.labelMonthSelect.Location = new System.Drawing.Point(138, 33);
 			this.labelMonthSelect.Name = "labelMonthSelect";
 			this.labelMonthSelect.Size = new System.Drawing.Size(238, 23);
 			this.labelMonthSelect.TabIndex = 16;
@@ -90,7 +90,7 @@ namespace OpenPmsDental{
 			// 
 			// comboBoxMonthSelect
 			// 
-			this.comboBoxMonthSelect.Location = new System.Drawing.Point(17, 56);
+			this.comboBoxMonthSelect.Location = new System.Drawing.Point(17, 33);
 			this.comboBoxMonthSelect.Name = "comboBoxMonthSelect";
 			this.comboBoxMonthSelect.Size = new System.Drawing.Size(121, 21);
 			this.comboBoxMonthSelect.TabIndex = 15;
@@ -99,7 +99,7 @@ namespace OpenPmsDental{
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(288, 159);
+			this.butOK.Location = new System.Drawing.Point(311, 163);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 24);
 			this.butOK.TabIndex = 17;
@@ -108,7 +108,7 @@ namespace OpenPmsDental{
 			// 
 			// labelNoDates
 			// 
-			this.labelNoDates.Location = new System.Drawing.Point(45, 80);
+			this.labelNoDates.Location = new System.Drawing.Point(45, 57);
 			this.labelNoDates.Name = "labelNoDates";
 			this.labelNoDates.Size = new System.Drawing.Size(318, 13);
 			this.labelNoDates.TabIndex = 18;
@@ -119,7 +119,7 @@ namespace OpenPmsDental{
 			// FormCreditRecurringDateChoose
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(388, 195);
+			this.ClientSize = new System.Drawing.Size(394, 195);
 			this.Controls.Add(this.labelNoDates);
 			this.Controls.Add(this.butOK);
 			this.Controls.Add(this.labelMonthSelect);

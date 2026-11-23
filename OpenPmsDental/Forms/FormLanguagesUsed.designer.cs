@@ -49,14 +49,14 @@ namespace OpenPmsDental {
 			// 
 			// listAvailable
 			// 
-			this.listAvailable.Location = new System.Drawing.Point(32, 107);
+			this.listAvailable.Location = new System.Drawing.Point(32, 84);
 			this.listAvailable.Name = "listAvailable";
 			this.listAvailable.Size = new System.Drawing.Size(278, 425);
 			this.listAvailable.TabIndex = 1;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(30, 80);
+			this.label1.Location = new System.Drawing.Point(29, 57);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(281, 23);
 			this.label1.TabIndex = 2;
@@ -65,9 +65,9 @@ namespace OpenPmsDental {
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(29, 26);
+			this.label2.Location = new System.Drawing.Point(29, 8);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(474, 53);
+			this.label2.Size = new System.Drawing.Size(474, 47);
 			this.label2.TabIndex = 3;
 			this.label2.Text = "This window lets you define which languages will be available to assign to patien" +
     "ts.\r\nThis will not change the language of the user interface.\r\nIt will only be u" +
@@ -75,7 +75,7 @@ namespace OpenPmsDental {
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(444, 80);
+			this.label3.Location = new System.Drawing.Point(444, 57);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(281, 23);
 			this.label3.TabIndex = 5;
@@ -84,25 +84,25 @@ namespace OpenPmsDental {
 			// 
 			// listUsed
 			// 
-			this.listUsed.Location = new System.Drawing.Point(446, 107);
+			this.listUsed.Location = new System.Drawing.Point(444, 84);
 			this.listUsed.Name = "listUsed";
 			this.listUsed.Size = new System.Drawing.Size(278, 134);
 			this.listUsed.TabIndex = 4;
 			// 
 			// textCustom
 			// 
-			this.textCustom.Location = new System.Drawing.Point(12, 23);
+			this.textCustom.Location = new System.Drawing.Point(8, 23);
 			this.textCustom.Name = "textCustom";
-			this.textCustom.Size = new System.Drawing.Size(267, 20);
+			this.textCustom.Size = new System.Drawing.Size(268, 23);
 			this.textCustom.TabIndex = 11;
 			// 
 			// butAddCustom
 			// 
 			this.butAddCustom.Icon = OpenPmsDental.UI.EnumIcons.ArrowRight;
 			this.butAddCustom.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.butAddCustom.Location = new System.Drawing.Point(308, 19);
+			this.butAddCustom.Location = new System.Drawing.Point(282, 23);
 			this.butAddCustom.Name = "butAddCustom";
-			this.butAddCustom.Size = new System.Drawing.Size(75, 26);
+			this.butAddCustom.Size = new System.Drawing.Size(75, 23);
 			this.butAddCustom.TabIndex = 13;
 			this.butAddCustom.Text = "Add";
 			this.butAddCustom.Click += new System.EventHandler(this.butAddCustom_Click);
@@ -110,7 +110,7 @@ namespace OpenPmsDental {
 			// butDown
 			// 
 			this.butDown.Icon = OpenPmsDental.UI.EnumIcons.Down;
-			this.butDown.Location = new System.Drawing.Point(618, 250);
+			this.butDown.Location = new System.Drawing.Point(592, 222);
 			this.butDown.Name = "butDown";
 			this.butDown.Size = new System.Drawing.Size(53, 26);
 			this.butDown.TabIndex = 10;
@@ -119,7 +119,7 @@ namespace OpenPmsDental {
 			// butUp
 			// 
 			this.butUp.Icon = OpenPmsDental.UI.EnumIcons.Up;
-			this.butUp.Location = new System.Drawing.Point(547, 250);
+			this.butUp.Location = new System.Drawing.Point(533, 222);
 			this.butUp.Name = "butUp";
 			this.butUp.Size = new System.Drawing.Size(53, 26);
 			this.butUp.TabIndex = 9;
@@ -129,7 +129,7 @@ namespace OpenPmsDental {
 			// 
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(446, 250);
+			this.butDelete.Location = new System.Drawing.Point(444, 222);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(83, 26);
 			this.butDelete.TabIndex = 8;
@@ -140,7 +140,7 @@ namespace OpenPmsDental {
 			// 
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.ArrowRight;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.butAdd.Location = new System.Drawing.Point(340, 107);
+			this.butAdd.Location = new System.Drawing.Point(340, 84);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(75, 26);
 			this.butAdd.TabIndex = 7;
@@ -150,7 +150,7 @@ namespace OpenPmsDental {
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(651, 615);
+			this.butSave.Location = new System.Drawing.Point(655, 634);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 26);
 			this.butSave.TabIndex = 6;
@@ -159,25 +159,25 @@ namespace OpenPmsDental {
 			// 
 			// comboLanguagesIndicateNone
 			// 
-			this.comboLanguagesIndicateNone.Location = new System.Drawing.Point(446, 328);
+			this.comboLanguagesIndicateNone.Location = new System.Drawing.Point(444, 286);
 			this.comboLanguagesIndicateNone.Name = "comboLanguagesIndicateNone";
-			this.comboLanguagesIndicateNone.Size = new System.Drawing.Size(278, 21);
+			this.comboLanguagesIndicateNone.Size = new System.Drawing.Size(280, 23);
 			this.comboLanguagesIndicateNone.TabIndex = 163;
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(444, 295);
+			this.label5.Location = new System.Drawing.Point(444, 252);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(281, 30);
+			this.label5.Size = new System.Drawing.Size(281, 32);
 			this.label5.TabIndex = 164;
 			this.label5.Text = "Indicator that patient has no specified language\r\nCustom languages only";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(9, 46);
+			this.label6.Location = new System.Drawing.Point(8, 50);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(272, 46);
+			this.label6.Size = new System.Drawing.Size(272, 47);
 			this.label6.TabIndex = 165;
 			this.label6.Text = "Type in full name of custom language, e.g.:\r\nTamasheq, American Sign Language, Kl" +
     "ingon, etc.\r\nDo not type in an existing language, like Spanish.";
@@ -187,16 +187,16 @@ namespace OpenPmsDental {
 			this.groupBox1.Controls.Add(this.butAddCustom);
 			this.groupBox1.Controls.Add(this.textCustom);
 			this.groupBox1.Controls.Add(this.label6);
-			this.groupBox1.Location = new System.Drawing.Point(32, 546);
+			this.groupBox1.Location = new System.Drawing.Point(29, 517);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(395, 95);
+			this.groupBox1.Size = new System.Drawing.Size(395, 105);
 			this.groupBox1.TabIndex = 167;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Custom Language";
 			// 
 			// FormLanguagesUsed
 			// 
-			this.ClientSize = new System.Drawing.Size(738, 653);
+			this.ClientSize = new System.Drawing.Size(738, 668);
 			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.label5);
 			this.Controls.Add(this.comboLanguagesIndicateNone);

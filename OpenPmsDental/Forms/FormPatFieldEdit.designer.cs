@@ -43,7 +43,7 @@ namespace OpenPmsDental {
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(279, 137);
+			this.butSave.Location = new System.Drawing.Point(292, 141);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 1;
@@ -52,7 +52,7 @@ namespace OpenPmsDental {
 			// 
 			// labelName
 			// 
-			this.labelName.Location = new System.Drawing.Point(19, 17);
+			this.labelName.Location = new System.Drawing.Point(19, 8);
 			this.labelName.Name = "labelName";
 			this.labelName.Size = new System.Drawing.Size(335, 20);
 			this.labelName.TabIndex = 3;
@@ -61,7 +61,7 @@ namespace OpenPmsDental {
 			// 
 			// textValue
 			// 
-			this.textValue.Location = new System.Drawing.Point(21, 40);
+			this.textValue.Location = new System.Drawing.Point(19, 30);
 			this.textValue.Multiline = true;
 			this.textValue.Name = "textValue";
 			this.textValue.Size = new System.Drawing.Size(333, 74);
@@ -70,7 +70,7 @@ namespace OpenPmsDental {
 			// butUseAutoNote
 			// 
 			this.butUseAutoNote.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butUseAutoNote.Location = new System.Drawing.Point(21, 137);
+			this.butUseAutoNote.Location = new System.Drawing.Point(8, 141);
 			this.butUseAutoNote.Name = "butUseAutoNote";
 			this.butUseAutoNote.Size = new System.Drawing.Size(75, 24);
 			this.butUseAutoNote.TabIndex = 4;

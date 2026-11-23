@@ -32,7 +32,7 @@ namespace OpenPmsDental{
 			// 
 			this.textBoxDescript.BackColor = System.Drawing.SystemColors.Window;
 			this.textBoxDescript.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			this.textBoxDescript.Location = new System.Drawing.Point(12, 12);
+			this.textBoxDescript.Location = new System.Drawing.Point(12, 8);
 			this.textBoxDescript.Multiline = true;
 			this.textBoxDescript.Name = "textBoxDescript";
 			this.textBoxDescript.Size = new System.Drawing.Size(399, 72);
@@ -42,7 +42,7 @@ namespace OpenPmsDental{
 			// butRun
 			// 
 			this.butRun.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butRun.Location = new System.Drawing.Point(349, 102);
+			this.butRun.Location = new System.Drawing.Point(349, 106);
 			this.butRun.Name = "butRun";
 			this.butRun.Size = new System.Drawing.Size(75, 24);
 			this.butRun.TabIndex = 3;

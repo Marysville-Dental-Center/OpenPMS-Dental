@@ -45,7 +45,7 @@ namespace OpenPmsDental {
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(430, 218);
+			this.butOK.Location = new System.Drawing.Point(452, 235);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 26);
 			this.butOK.TabIndex = 1;
@@ -54,39 +54,39 @@ namespace OpenPmsDental {
 			// 
 			// comboPayType
 			// 
-			this.comboPayType.Location = new System.Drawing.Point(252, 22);
+			this.comboPayType.Location = new System.Drawing.Point(252, 8);
 			this.comboPayType.Name = "comboPayType";
-			this.comboPayType.Size = new System.Drawing.Size(230, 21);
+			this.comboPayType.Size = new System.Drawing.Size(232, 23);
 			this.comboPayType.TabIndex = 43;
 			// 
 			// label7
 			// 
-			this.label7.Location = new System.Drawing.Point(5, 22);
+			this.label7.Location = new System.Drawing.Point(34, 8);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(245, 19);
+			this.label7.Size = new System.Drawing.Size(212, 23);
 			this.label7.TabIndex = 42;
 			this.label7.Text = "When this type of payment is entered:";
 			this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// listAccounts
 			// 
-			this.listAccounts.Location = new System.Drawing.Point(252, 49);
+			this.listAccounts.Location = new System.Drawing.Point(252, 35);
 			this.listAccounts.Name = "listAccounts";
 			this.listAccounts.Size = new System.Drawing.Size(230, 95);
 			this.listAccounts.TabIndex = 41;
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(85, 49);
+			this.label6.Location = new System.Drawing.Point(81, 35);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(165, 69);
+			this.label6.Size = new System.Drawing.Size(165, 47);
 			this.label6.TabIndex = 40;
 			this.label6.Text = "User will get to pick from this list of accounts to deposit into.";
-			this.label6.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// butRemove
 			// 
-			this.butRemove.Location = new System.Drawing.Point(407, 153);
+			this.butRemove.Location = new System.Drawing.Point(405, 134);
 			this.butRemove.Name = "butRemove";
 			this.butRemove.Size = new System.Drawing.Size(75, 26);
 			this.butRemove.TabIndex = 45;
@@ -95,7 +95,7 @@ namespace OpenPmsDental {
 			// 
 			// butAdd
 			// 
-			this.butAdd.Location = new System.Drawing.Point(324, 153);
+			this.butAdd.Location = new System.Drawing.Point(324, 134);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(75, 26);
 			this.butAdd.TabIndex = 44;
@@ -107,7 +107,7 @@ namespace OpenPmsDental {
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(28, 218);
+			this.butDelete.Location = new System.Drawing.Point(28, 235);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(75, 26);
 			this.butDelete.TabIndex = 46;

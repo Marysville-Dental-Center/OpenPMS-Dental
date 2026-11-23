@@ -36,52 +36,52 @@ namespace OpenPmsDental{
 			// 
 			// textSnomedGoal
 			// 
-			this.textSnomedGoal.Location = new System.Drawing.Point(109, 45);
+			this.textSnomedGoal.Location = new System.Drawing.Point(122, 35);
 			this.textSnomedGoal.Name = "textSnomedGoal";
 			this.textSnomedGoal.ReadOnly = true;
-			this.textSnomedGoal.Size = new System.Drawing.Size(276, 20);
+			this.textSnomedGoal.Size = new System.Drawing.Size(269, 23);
 			this.textSnomedGoal.TabIndex = 25;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(2, 45);
+			this.label1.Location = new System.Drawing.Point(8, 35);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(104, 20);
+			this.label1.Size = new System.Drawing.Size(108, 23);
 			this.label1.TabIndex = 26;
 			this.label1.Text = "SNOMED CT Goal";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textInstructions
 			// 
-			this.textInstructions.Location = new System.Drawing.Point(109, 73);
+			this.textInstructions.Location = new System.Drawing.Point(122, 62);
 			this.textInstructions.Multiline = true;
 			this.textInstructions.Name = "textInstructions";
-			this.textInstructions.Size = new System.Drawing.Size(303, 227);
+			this.textInstructions.Size = new System.Drawing.Size(290, 227);
 			this.textInstructions.TabIndex = 29;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(16, 70);
+			this.label2.Location = new System.Drawing.Point(40, 62);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(90, 20);
+			this.label2.Size = new System.Drawing.Size(76, 23);
 			this.label2.TabIndex = 30;
 			this.label2.Text = "Instructions";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(15, 20);
+			this.label3.Location = new System.Drawing.Point(80, 8);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(91, 20);
+			this.label3.Size = new System.Drawing.Size(36, 23);
 			this.label3.TabIndex = 32;
 			this.label3.Text = "Date";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textDate
 			// 
-			this.textDate.Location = new System.Drawing.Point(109, 20);
+			this.textDate.Location = new System.Drawing.Point(122, 8);
 			this.textDate.Name = "textDate";
-			this.textDate.Size = new System.Drawing.Size(94, 20);
+			this.textDate.Size = new System.Drawing.Size(96, 23);
 			this.textDate.TabIndex = 33;
 			// 
 			// butDelete
@@ -89,7 +89,7 @@ namespace OpenPmsDental{
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(11, 315);
+			this.butDelete.Location = new System.Drawing.Point(8, 323);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(75, 24);
 			this.butDelete.TabIndex = 31;
@@ -98,9 +98,9 @@ namespace OpenPmsDental{
 			// 
 			// butSnomedGoalSelect
 			// 
-			this.butSnomedGoalSelect.Location = new System.Drawing.Point(390, 44);
+			this.butSnomedGoalSelect.Location = new System.Drawing.Point(397, 35);
 			this.butSnomedGoalSelect.Name = "butSnomedGoalSelect";
-			this.butSnomedGoalSelect.Size = new System.Drawing.Size(22, 22);
+			this.butSnomedGoalSelect.Size = new System.Drawing.Size(22, 23);
 			this.butSnomedGoalSelect.TabIndex = 27;
 			this.butSnomedGoalSelect.Text = "...";
 			this.butSnomedGoalSelect.Click += new System.EventHandler(this.butSnomedGoalSelect_Click);
@@ -108,7 +108,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(337, 315);
+			this.butSave.Location = new System.Drawing.Point(344, 323);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 3;

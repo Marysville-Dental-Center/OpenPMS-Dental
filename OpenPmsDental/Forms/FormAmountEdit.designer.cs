@@ -31,7 +31,7 @@ namespace OpenPmsDental{
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(193, 72);
+			this.butOK.Location = new System.Drawing.Point(197, 76);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 24);
 			this.butOK.TabIndex = 1;
@@ -40,16 +40,16 @@ namespace OpenPmsDental{
 			// 
 			// textAmount
 			// 
-			this.textAmount.Location = new System.Drawing.Point(161, 21);
+			this.textAmount.Location = new System.Drawing.Point(161, 8);
 			this.textAmount.Name = "textAmount";
 			this.textAmount.Size = new System.Drawing.Size(84, 20);
 			this.textAmount.TabIndex = 0;
 			// 
 			// labelText
 			// 
-			this.labelText.Location = new System.Drawing.Point(0, 21);
+			this.labelText.Location = new System.Drawing.Point(99, 8);
 			this.labelText.Name = "labelText";
-			this.labelText.Size = new System.Drawing.Size(155, 21);
+			this.labelText.Size = new System.Drawing.Size(56, 23);
 			this.labelText.TabIndex = 3;
 			this.labelText.Text = "Amount";
 			this.labelText.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

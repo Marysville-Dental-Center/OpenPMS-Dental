@@ -36,19 +36,19 @@ namespace OpenPmsDental{
 			// 
 			this.groupBox1.Controls.Add(this.radioMissed);
 			this.groupBox1.Controls.Add(this.radioCancelled);
-			this.groupBox1.Location = new System.Drawing.Point(7, 12);
+			this.groupBox1.Location = new System.Drawing.Point(8, 8);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(191, 47);
+			this.groupBox1.Size = new System.Drawing.Size(190, 51);
 			this.groupBox1.TabIndex = 3;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Broken Procedure Type";
 			// 
 			// radioMissed
 			// 
-			this.radioMissed.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.radioMissed.Location = new System.Drawing.Point(6, 19);
+			this.radioMissed.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.radioMissed.Location = new System.Drawing.Point(8, 23);
 			this.radioMissed.Name = "radioMissed";
-			this.radioMissed.Size = new System.Drawing.Size(75, 17);
+			this.radioMissed.Size = new System.Drawing.Size(62, 20);
 			this.radioMissed.TabIndex = 0;
 			this.radioMissed.TabStop = true;
 			this.radioMissed.Text = "Missed";
@@ -57,10 +57,10 @@ namespace OpenPmsDental{
 			// 
 			// radioCancelled
 			// 
-			this.radioCancelled.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.radioCancelled.Location = new System.Drawing.Point(87, 19);
+			this.radioCancelled.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.radioCancelled.Location = new System.Drawing.Point(76, 23);
 			this.radioCancelled.Name = "radioCancelled";
-			this.radioCancelled.Size = new System.Drawing.Size(93, 17);
+			this.radioCancelled.Size = new System.Drawing.Size(77, 20);
 			this.radioCancelled.TabIndex = 1;
 			this.radioCancelled.TabStop = true;
 			this.radioCancelled.Text = "Cancelled";
@@ -69,7 +69,7 @@ namespace OpenPmsDental{
 			// 
 			// butUnsched
 			// 
-			this.butUnsched.Location = new System.Drawing.Point(29, 65);
+			this.butUnsched.Location = new System.Drawing.Point(29, 67);
 			this.butUnsched.Name = "butUnsched";
 			this.butUnsched.Size = new System.Drawing.Size(143, 23);
 			this.butUnsched.TabIndex = 4;
@@ -89,7 +89,7 @@ namespace OpenPmsDental{
 			// 
 			// butApptBook
 			// 
-			this.butApptBook.Location = new System.Drawing.Point(29, 123);
+			this.butApptBook.Location = new System.Drawing.Point(29, 121);
 			this.butApptBook.Name = "butApptBook";
 			this.butApptBook.Size = new System.Drawing.Size(143, 23);
 			this.butApptBook.TabIndex = 6;

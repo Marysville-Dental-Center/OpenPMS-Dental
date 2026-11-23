@@ -35,7 +35,7 @@
 			// textHash
 			// 
 			this.textHash.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.textHash.Location = new System.Drawing.Point(192, 220);
+			this.textHash.Location = new System.Drawing.Point(192, 219);
 			this.textHash.Name = "textHash";
 			this.textHash.Size = new System.Drawing.Size(357, 20);
 			this.textHash.TabIndex = 1;
@@ -43,7 +43,7 @@
 			// butGererate
 			// 
 			this.butGererate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butGererate.Location = new System.Drawing.Point(12, 218);
+			this.butGererate.Location = new System.Drawing.Point(8, 250);
 			this.butGererate.Name = "butGererate";
 			this.butGererate.Size = new System.Drawing.Size(104, 23);
 			this.butGererate.TabIndex = 2;
@@ -53,7 +53,7 @@
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(10, 14);
+			this.label1.Location = new System.Drawing.Point(8, 8);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(299, 17);
 			this.label1.TabIndex = 3;
@@ -63,7 +63,7 @@
 			// label2
 			// 
 			this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label2.Location = new System.Drawing.Point(27, 244);
+			this.label2.Location = new System.Drawing.Point(23, 243);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(133, 17);
 			this.label2.TabIndex = 4;
@@ -73,7 +73,7 @@
 			// label3
 			// 
 			this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.label3.Location = new System.Drawing.Point(131, 221);
+			this.label3.Location = new System.Drawing.Point(131, 220);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(57, 17);
 			this.label3.TabIndex = 5;
@@ -85,7 +85,7 @@
 			this.textMessage.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textMessage.Location = new System.Drawing.Point(12, 34);
+			this.textMessage.Location = new System.Drawing.Point(8, 27);
 			this.textMessage.Multiline = true;
 			this.textMessage.Name = "textMessage";
 			this.textMessage.Size = new System.Drawing.Size(537, 178);
@@ -94,7 +94,7 @@
 			// butTransmit
 			// 
 			this.butTransmit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butTransmit.Location = new System.Drawing.Point(474, 251);
+			this.butTransmit.Location = new System.Drawing.Point(474, 250);
 			this.butTransmit.Name = "butTransmit";
 			this.butTransmit.Size = new System.Drawing.Size(75, 23);
 			this.butTransmit.TabIndex = 6;

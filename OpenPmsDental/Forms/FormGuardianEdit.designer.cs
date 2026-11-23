@@ -38,67 +38,67 @@ namespace OpenPmsDental{
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(2, 17);
+			this.label1.Location = new System.Drawing.Point(59, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(111, 16);
+			this.label1.Size = new System.Drawing.Size(48, 23);
 			this.label1.TabIndex = 4;
 			this.label1.Text = "Patient";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textPatient
 			// 
-			this.textPatient.Location = new System.Drawing.Point(113, 16);
+			this.textPatient.Location = new System.Drawing.Point(113, 8);
 			this.textPatient.Name = "textPatient";
 			this.textPatient.ReadOnly = true;
-			this.textPatient.Size = new System.Drawing.Size(214, 20);
+			this.textPatient.Size = new System.Drawing.Size(216, 23);
 			this.textPatient.TabIndex = 5;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(2, 42);
+			this.label2.Location = new System.Drawing.Point(11, 35);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(111, 16);
+			this.label2.Size = new System.Drawing.Size(96, 23);
 			this.label2.TabIndex = 7;
 			this.label2.Text = "Family Member";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(2, 86);
+			this.label3.Location = new System.Drawing.Point(31, 86);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(111, 16);
+			this.label3.Size = new System.Drawing.Size(76, 23);
 			this.label3.TabIndex = 8;
 			this.label3.Text = "Relationship";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textFamilyMember
 			// 
-			this.textFamilyMember.Location = new System.Drawing.Point(113, 41);
+			this.textFamilyMember.Location = new System.Drawing.Point(113, 35);
 			this.textFamilyMember.Name = "textFamilyMember";
 			this.textFamilyMember.ReadOnly = true;
-			this.textFamilyMember.Size = new System.Drawing.Size(214, 20);
+			this.textFamilyMember.Size = new System.Drawing.Size(216, 23);
 			this.textFamilyMember.TabIndex = 10;
 			// 
 			// comboRelationship
 			// 
-			this.comboRelationship.Location = new System.Drawing.Point(113, 85);
+			this.comboRelationship.Location = new System.Drawing.Point(113, 86);
 			this.comboRelationship.Name = "comboRelationship";
-			this.comboRelationship.Size = new System.Drawing.Size(214, 21);
+			this.comboRelationship.Size = new System.Drawing.Size(216, 23);
 			this.comboRelationship.TabIndex = 69;
 			// 
 			// checkIsGuardian
 			// 
-			this.checkIsGuardian.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkIsGuardian.Location = new System.Drawing.Point(2, 64);
+			this.checkIsGuardian.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkIsGuardian.Location = new System.Drawing.Point(113, 62);
 			this.checkIsGuardian.Name = "checkIsGuardian";
-			this.checkIsGuardian.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-			this.checkIsGuardian.Size = new System.Drawing.Size(125, 18);
+			this.checkIsGuardian.RightToLeft = System.Windows.Forms.RightToLeft.No;
+			this.checkIsGuardian.Size = new System.Drawing.Size(72, 20);
 			this.checkIsGuardian.TabIndex = 70;
 			this.checkIsGuardian.Text = "Guardian";
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(133, 64);
+			this.label4.Location = new System.Drawing.Point(191, 64);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(245, 16);
 			this.label4.TabIndex = 71;
@@ -110,7 +110,7 @@ namespace OpenPmsDental{
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(12, 128);
+			this.butDelete.Location = new System.Drawing.Point(8, 132);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(75, 24);
 			this.butDelete.TabIndex = 68;
@@ -119,9 +119,9 @@ namespace OpenPmsDental{
 			// 
 			// butPick
 			// 
-			this.butPick.Location = new System.Drawing.Point(331, 41);
+			this.butPick.Location = new System.Drawing.Point(335, 35);
 			this.butPick.Name = "butPick";
-			this.butPick.Size = new System.Drawing.Size(27, 20);
+			this.butPick.Size = new System.Drawing.Size(27, 23);
 			this.butPick.TabIndex = 67;
 			this.butPick.TabStop = false;
 			this.butPick.Text = "...";
@@ -130,7 +130,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(283, 128);
+			this.butSave.Location = new System.Drawing.Point(361, 132);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 3;
@@ -139,7 +139,7 @@ namespace OpenPmsDental{
 			// 
 			// FormGuardianEdit
 			// 
-			this.ClientSize = new System.Drawing.Size(372, 164);
+			this.ClientSize = new System.Drawing.Size(444, 164);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.Controls.Add(this.label4);
 			this.Controls.Add(this.checkIsGuardian);

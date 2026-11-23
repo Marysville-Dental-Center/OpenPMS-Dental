@@ -53,7 +53,7 @@ namespace OpenPmsDental {
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(589, 389);
+			this.butSave.Location = new System.Drawing.Point(634, 399);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 25);
 			this.butSave.TabIndex = 1;
@@ -63,7 +63,7 @@ namespace OpenPmsDental {
 			// butDelete
 			// 
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butDelete.Location = new System.Drawing.Point(42, 389);
+			this.butDelete.Location = new System.Drawing.Point(42, 399);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(75,25);
 			this.butDelete.TabIndex = 2;
@@ -72,82 +72,82 @@ namespace OpenPmsDental {
 			// 
 			// textLName
 			// 
-			this.textLName.Location = new System.Drawing.Point(215,147);
+			this.textLName.Location = new System.Drawing.Point(215,107);
 			this.textLName.Name = "textLName";
-			this.textLName.Size = new System.Drawing.Size(205,20);
+			this.textLName.Size = new System.Drawing.Size(204,23);
 			this.textLName.TabIndex = 3;
 			this.textLName.TextChanged += new System.EventHandler(this.textLName_TextChanged);
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(64,150);
+			this.label1.Location = new System.Drawing.Point(141,107);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(151,17);
+			this.label1.Size = new System.Drawing.Size(68,23);
 			this.label1.TabIndex = 4;
 			this.label1.Text = "Last Name";
-			this.label1.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(63,177);
+			this.label2.Location = new System.Drawing.Point(85,134);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(151,17);
+			this.label2.Size = new System.Drawing.Size(124,23);
 			this.label2.TabIndex = 6;
 			this.label2.Text = "First Name (optional)";
-			this.label2.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textFName
 			// 
-			this.textFName.Location = new System.Drawing.Point(215,173);
+			this.textFName.Location = new System.Drawing.Point(215,134);
 			this.textFName.Name = "textFName";
-			this.textFName.Size = new System.Drawing.Size(205,20);
+			this.textFName.Size = new System.Drawing.Size(204,23);
 			this.textFName.TabIndex = 5;
 			this.textFName.TextChanged += new System.EventHandler(this.textFName_TextChanged);
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(61,203);
+			this.label3.Location = new System.Drawing.Point(141,161);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(151,17);
+			this.label3.Size = new System.Drawing.Size(68,23);
 			this.label3.TabIndex = 8;
 			this.label3.Text = "Wk Phone";
-			this.label3.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textWkPhone
 			// 
-			this.textWkPhone.Location = new System.Drawing.Point(215,199);
+			this.textWkPhone.Location = new System.Drawing.Point(215,161);
 			this.textWkPhone.Name = "textWkPhone";
-			this.textWkPhone.Size = new System.Drawing.Size(205,20);
+			this.textWkPhone.Size = new System.Drawing.Size(204,23);
 			this.textWkPhone.TabIndex = 7;
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(61,228);
+			this.label4.Location = new System.Drawing.Point(181,188);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(151,17);
+			this.label4.Size = new System.Drawing.Size(28,23);
 			this.label4.TabIndex = 10;
 			this.label4.Text = "Fax";
-			this.label4.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textFax
 			// 
-			this.textFax.Location = new System.Drawing.Point(215,225);
+			this.textFax.Location = new System.Drawing.Point(215,188);
 			this.textFax.Name = "textFax";
-			this.textFax.Size = new System.Drawing.Size(205,20);
+			this.textFax.Size = new System.Drawing.Size(204,23);
 			this.textFax.TabIndex = 9;
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(63,250);
+			this.label5.Location = new System.Drawing.Point(165,215);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(151,17);
+			this.label5.Size = new System.Drawing.Size(44,23);
 			this.label5.TabIndex = 12;
 			this.label5.Text = "Notes";
-			this.label5.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textNotes
 			// 
-			this.textNotes.Location = new System.Drawing.Point(215,251);
+			this.textNotes.Location = new System.Drawing.Point(215,215);
 			this.textNotes.Multiline = true;
 			this.textNotes.Name = "textNotes";
 			this.textNotes.Size = new System.Drawing.Size(449,120);
@@ -155,19 +155,19 @@ namespace OpenPmsDental {
 			// 
 			// listCategory
 			// 
-			this.listCategory.Location = new System.Drawing.Point(215,46);
+			this.listCategory.Location = new System.Drawing.Point(215,8);
 			this.listCategory.Name = "listCategory";
 			this.listCategory.Size = new System.Drawing.Size(120,95);
 			this.listCategory.TabIndex = 13;
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(62,48);
+			this.label6.Location = new System.Drawing.Point(149,8);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(151,17);
+			this.label6.Size = new System.Drawing.Size(60,23);
 			this.label6.TabIndex = 14;
 			this.label6.Text = "Category";
-			this.label6.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// FormContactEdit
 			// 

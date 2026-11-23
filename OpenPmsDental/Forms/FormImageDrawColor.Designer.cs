@@ -35,7 +35,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(226, 110);
+			this.butSave.Location = new System.Drawing.Point(230, 121);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 3;
@@ -44,9 +44,9 @@ namespace OpenPmsDental{
 			// 
 			// labelColorFore
 			// 
-			this.labelColorFore.Location = new System.Drawing.Point(12, 53);
+			this.labelColorFore.Location = new System.Drawing.Point(12, 42);
 			this.labelColorFore.Name = "labelColorFore";
-			this.labelColorFore.Size = new System.Drawing.Size(173, 18);
+			this.labelColorFore.Size = new System.Drawing.Size(168, 23);
 			this.labelColorFore.TabIndex = 159;
 			this.labelColorFore.Text = "Text, Line, and Polygon Color";
 			this.labelColorFore.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -54,17 +54,17 @@ namespace OpenPmsDental{
 			// butColorFore
 			// 
 			this.butColorFore.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-			this.butColorFore.Location = new System.Drawing.Point(186, 52);
+			this.butColorFore.Location = new System.Drawing.Point(186, 42);
 			this.butColorFore.Name = "butColorFore";
-			this.butColorFore.Size = new System.Drawing.Size(30, 20);
+			this.butColorFore.Size = new System.Drawing.Size(30, 23);
 			this.butColorFore.TabIndex = 160;
 			this.butColorFore.Click += new System.EventHandler(this.butColorFore_Click);
 			// 
 			// labelColorTextBack
 			// 
-			this.labelColorTextBack.Location = new System.Drawing.Point(34, 79);
+			this.labelColorTextBack.Location = new System.Drawing.Point(48, 69);
 			this.labelColorTextBack.Name = "labelColorTextBack";
-			this.labelColorTextBack.Size = new System.Drawing.Size(151, 18);
+			this.labelColorTextBack.Size = new System.Drawing.Size(132, 23);
 			this.labelColorTextBack.TabIndex = 165;
 			this.labelColorTextBack.Text = "Text Background Color";
 			this.labelColorTextBack.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -72,32 +72,32 @@ namespace OpenPmsDental{
 			// butColorTextBack
 			// 
 			this.butColorTextBack.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-			this.butColorTextBack.Location = new System.Drawing.Point(186, 78);
+			this.butColorTextBack.Location = new System.Drawing.Point(186, 69);
 			this.butColorTextBack.Name = "butColorTextBack";
-			this.butColorTextBack.Size = new System.Drawing.Size(30, 20);
+			this.butColorTextBack.Size = new System.Drawing.Size(30, 23);
 			this.butColorTextBack.TabIndex = 166;
 			this.butColorTextBack.Click += new System.EventHandler(this.butColorTextBack_Click);
 			// 
 			// checkTransparent
 			// 
-			this.checkTransparent.Location = new System.Drawing.Point(224, 80);
+			this.checkTransparent.Location = new System.Drawing.Point(222, 69);
 			this.checkTransparent.Name = "checkTransparent";
-			this.checkTransparent.Size = new System.Drawing.Size(117, 18);
+			this.checkTransparent.Size = new System.Drawing.Size(83, 40);
 			this.checkTransparent.TabIndex = 167;
 			this.checkTransparent.Text = "Transparent";
 			this.checkTransparent.Click += new System.EventHandler(this.checkTransparent_Click);
 			// 
 			// labelMount
 			// 
-			this.labelMount.Location = new System.Drawing.Point(16, 18);
+			this.labelMount.Location = new System.Drawing.Point(16, 8);
 			this.labelMount.Name = "labelMount";
-			this.labelMount.Size = new System.Drawing.Size(238, 31);
+			this.labelMount.Size = new System.Drawing.Size(238, 32);
 			this.labelMount.TabIndex = 170;
 			this.labelMount.Text = "If you want to change the default mount colors, go to the Mount Info window.";
 			// 
 			// FormImageDrawColor
 			// 
-			this.ClientSize = new System.Drawing.Size(313, 146);
+			this.ClientSize = new System.Drawing.Size(313, 153);
 			this.Controls.Add(this.labelMount);
 			this.Controls.Add(this.checkTransparent);
 			this.Controls.Add(this.labelColorTextBack);

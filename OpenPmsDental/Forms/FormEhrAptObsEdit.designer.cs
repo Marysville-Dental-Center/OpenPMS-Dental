@@ -44,14 +44,14 @@ namespace OpenPmsDental{
 			// 
 			this.comboUnits.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboUnits.FormattingEnabled = true;
-			this.comboUnits.Location = new System.Drawing.Point(143, 165);
+			this.comboUnits.Location = new System.Drawing.Point(143, 135);
 			this.comboUnits.Name = "comboUnits";
-			this.comboUnits.Size = new System.Drawing.Size(113, 21);
+			this.comboUnits.Size = new System.Drawing.Size(107, 23);
 			this.comboUnits.TabIndex = 303;
 			// 
 			// labelValueUnitsNote
 			// 
-			this.labelValueUnitsNote.Location = new System.Drawing.Point(262, 165);
+			this.labelValueUnitsNote.Location = new System.Drawing.Point(256, 138);
 			this.labelValueUnitsNote.Name = "labelValueUnitsNote";
 			this.labelValueUnitsNote.Size = new System.Drawing.Size(214, 17);
 			this.labelValueUnitsNote.TabIndex = 298;
@@ -60,41 +60,41 @@ namespace OpenPmsDental{
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(11, 165);
+			this.label5.Location = new System.Drawing.Point(65, 135);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(131, 17);
+			this.label5.Size = new System.Drawing.Size(72, 23);
 			this.label5.TabIndex = 294;
 			this.label5.Text = "Value Units";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textValue
 			// 
-			this.textValue.Location = new System.Drawing.Point(143, 139);
+			this.textValue.Location = new System.Drawing.Point(143, 108);
 			this.textValue.Name = "textValue";
-			this.textValue.Size = new System.Drawing.Size(309, 20);
+			this.textValue.Size = new System.Drawing.Size(308, 23);
 			this.textValue.TabIndex = 291;
 			// 
 			// labelValue
 			// 
-			this.labelValue.Location = new System.Drawing.Point(8, 139);
+			this.labelValue.Location = new System.Drawing.Point(97, 108);
 			this.labelValue.Name = "labelValue";
-			this.labelValue.Size = new System.Drawing.Size(134, 17);
+			this.labelValue.Size = new System.Drawing.Size(40, 23);
 			this.labelValue.TabIndex = 290;
 			this.labelValue.Text = "Value";
 			this.labelValue.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(5, 64);
+			this.label1.Location = new System.Drawing.Point(69, 35);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(137, 17);
+			this.label1.Size = new System.Drawing.Size(68, 23);
 			this.label1.TabIndex = 287;
 			this.label1.Text = "Value Type";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// listValueType
 			// 
-			this.listValueType.Location = new System.Drawing.Point(143, 64);
+			this.listValueType.Location = new System.Drawing.Point(143, 35);
 			this.listValueType.Name = "listValueType";
 			this.listValueType.Size = new System.Drawing.Size(113, 69);
 			this.listValueType.TabIndex = 286;
@@ -102,7 +102,7 @@ namespace OpenPmsDental{
 			// 
 			// butPickValueIcd10
 			// 
-			this.butPickValueIcd10.Location = new System.Drawing.Point(339, 99);
+			this.butPickValueIcd10.Location = new System.Drawing.Point(340, 59);
 			this.butPickValueIcd10.Name = "butPickValueIcd10";
 			this.butPickValueIcd10.Size = new System.Drawing.Size(48, 20);
 			this.butPickValueIcd10.TabIndex = 312;
@@ -111,7 +111,7 @@ namespace OpenPmsDental{
 			// 
 			// butPickValueIcd9
 			// 
-			this.butPickValueIcd9.Location = new System.Drawing.Point(339, 73);
+			this.butPickValueIcd9.Location = new System.Drawing.Point(340, 35);
 			this.butPickValueIcd9.Name = "butPickValueIcd9";
 			this.butPickValueIcd9.Size = new System.Drawing.Size(48, 20);
 			this.butPickValueIcd9.TabIndex = 311;
@@ -120,7 +120,7 @@ namespace OpenPmsDental{
 			// 
 			// butPickValueSnomedct
 			// 
-			this.butPickValueSnomedct.Location = new System.Drawing.Point(259, 99);
+			this.butPickValueSnomedct.Location = new System.Drawing.Point(260, 59);
 			this.butPickValueSnomedct.Name = "butPickValueSnomedct";
 			this.butPickValueSnomedct.Size = new System.Drawing.Size(74, 20);
 			this.butPickValueSnomedct.TabIndex = 310;
@@ -129,7 +129,7 @@ namespace OpenPmsDental{
 			// 
 			// butPickValueLoinc
 			// 
-			this.butPickValueLoinc.Location = new System.Drawing.Point(259, 73);
+			this.butPickValueLoinc.Location = new System.Drawing.Point(260, 35);
 			this.butPickValueLoinc.Name = "butPickValueLoinc";
 			this.butPickValueLoinc.Size = new System.Drawing.Size(74, 20);
 			this.butPickValueLoinc.TabIndex = 309;
@@ -141,7 +141,7 @@ namespace OpenPmsDental{
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(5, 236);
+			this.butDelete.Location = new System.Drawing.Point(5, 240);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(92, 24);
 			this.butDelete.TabIndex = 302;
@@ -151,7 +151,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(391, 236);
+			this.butSave.Location = new System.Drawing.Point(395, 240);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 285;
@@ -162,16 +162,16 @@ namespace OpenPmsDental{
 			// 
 			this.comboObservationQuestion.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboObservationQuestion.FormattingEnabled = true;
-			this.comboObservationQuestion.Location = new System.Drawing.Point(143, 37);
+			this.comboObservationQuestion.Location = new System.Drawing.Point(143, 8);
 			this.comboObservationQuestion.Name = "comboObservationQuestion";
-			this.comboObservationQuestion.Size = new System.Drawing.Size(113, 21);
+			this.comboObservationQuestion.Size = new System.Drawing.Size(112, 23);
 			this.comboObservationQuestion.TabIndex = 314;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(2, 37);
+			this.label2.Location = new System.Drawing.Point(9, 8);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(140, 17);
+			this.label2.Size = new System.Drawing.Size(128, 23);
 			this.label2.TabIndex = 313;
 			this.label2.Text = "Observation Question";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

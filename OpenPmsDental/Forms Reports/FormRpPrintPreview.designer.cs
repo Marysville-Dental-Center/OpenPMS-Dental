@@ -42,7 +42,7 @@ namespace OpenPmsDental {
 			// butNext
 			// 
 			this.butNext.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butNext.Location = new System.Drawing.Point(91, 716);
+			this.butNext.Location = new System.Drawing.Point(89, 715);
 			this.butNext.Name = "butNext";
 			this.butNext.Size = new System.Drawing.Size(75, 23);
 			this.butNext.TabIndex = 8;
@@ -52,7 +52,7 @@ namespace OpenPmsDental {
 			// butPrev
 			// 
 			this.butPrev.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butPrev.Location = new System.Drawing.Point(10, 716);
+			this.butPrev.Location = new System.Drawing.Point(8, 715);
 			this.butPrev.Name = "butPrev";
 			this.butPrev.Size = new System.Drawing.Size(75, 23);
 			this.butPrev.TabIndex = 9;
@@ -61,7 +61,7 @@ namespace OpenPmsDental {
 			// 
 			// FormRpPrintPreview
 			// 
-			this.ClientSize = new System.Drawing.Size(842, 746);
+			this.ClientSize = new System.Drawing.Size(850, 746);
 			this.Controls.Add(this.butPrev);
 			this.Controls.Add(this.butNext);
 			this.Controls.Add(this._printPreviewControl2);

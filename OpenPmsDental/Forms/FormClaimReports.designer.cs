@@ -42,7 +42,7 @@ namespace OpenPmsDental {
 			// labelRetrieving
 			// 
 			this.labelRetrieving.Font = new System.Drawing.Font("Microsoft Sans Serif",8.25F,System.Drawing.FontStyle.Bold,System.Drawing.GraphicsUnit.Point,((byte)(0)));
-			this.labelRetrieving.Location = new System.Drawing.Point(12,72);
+			this.labelRetrieving.Location = new System.Drawing.Point(12,35);
 			this.labelRetrieving.Name = "labelRetrieving";
 			this.labelRetrieving.Size = new System.Drawing.Size(366,20);
 			this.labelRetrieving.TabIndex = 1;
@@ -51,23 +51,23 @@ namespace OpenPmsDental {
 			// 
 			// comboClearhouse
 			// 
-			this.comboClearhouse.Location = new System.Drawing.Point(18,32);
+			this.comboClearhouse.Location = new System.Drawing.Point(12,8);
 			this.comboClearhouse.Name = "comboClearhouse";
-			this.comboClearhouse.Size = new System.Drawing.Size(187,21);
+			this.comboClearhouse.Size = new System.Drawing.Size(188,23);
 			this.comboClearhouse.TabIndex = 2;
 			// 
 			// butRetrieve
 			// 
-			this.butRetrieve.Location = new System.Drawing.Point(222,29);
+			this.butRetrieve.Location = new System.Drawing.Point(206,8);
 			this.butRetrieve.Name = "butRetrieve";
-			this.butRetrieve.Size = new System.Drawing.Size(90,26);
+			this.butRetrieve.Size = new System.Drawing.Size(90,23);
 			this.butRetrieve.TabIndex = 5;
 			this.butRetrieve.Text = "Retrieve";
 			this.butRetrieve.Click += new System.EventHandler(this.butRetrieve_Click);
 			// 
 			// FormClaimReports
 			// 
-			this.ClientSize = new System.Drawing.Size(324, 101);
+			this.ClientSize = new System.Drawing.Size(386, 101);
 			this.AutoScaleBaseSize = new System.Drawing.Size(5,13);
 			this.Controls.Add(this.butRetrieve);
 			this.Controls.Add(this.comboClearhouse);

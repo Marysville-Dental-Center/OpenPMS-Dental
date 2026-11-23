@@ -44,7 +44,7 @@ namespace OpenPmsDental {
 			this.listCategory.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.listCategory.Location = new System.Drawing.Point(23, 34);
+			this.listCategory.Location = new System.Drawing.Point(23, 27);
 			this.listCategory.Name = "listCategory";
 			this.listCategory.Size = new System.Drawing.Size(225, 298);
 			this.listCategory.TabIndex = 57;
@@ -53,7 +53,7 @@ namespace OpenPmsDental {
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(173, 350);
+			this.butOK.Location = new System.Drawing.Point(188, 354);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 24);
 			this.butOK.TabIndex = 56;
@@ -62,7 +62,7 @@ namespace OpenPmsDental {
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(23, 14);
+			this.label1.Location = new System.Drawing.Point(23, 8);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(194, 17);
 			this.label1.TabIndex = 2;

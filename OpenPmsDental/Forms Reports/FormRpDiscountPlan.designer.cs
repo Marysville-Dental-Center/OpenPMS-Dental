@@ -31,7 +31,7 @@ namespace OpenPmsDental {
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(295, 109);
+			this.butOK.Location = new System.Drawing.Point(299, 113);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 24);
 			this.butOK.TabIndex = 1;
@@ -40,9 +40,9 @@ namespace OpenPmsDental {
 			// 
 			// labelDescription
 			// 
-			this.labelDescription.Location = new System.Drawing.Point(12, 19);
+			this.labelDescription.Location = new System.Drawing.Point(8, 8);
 			this.labelDescription.Name = "labelDescription";
-			this.labelDescription.Size = new System.Drawing.Size(256, 73);
+			this.labelDescription.Size = new System.Drawing.Size(256, 47);
 			this.labelDescription.TabIndex = 39;
 			this.labelDescription.Text = "Enter the first few letters of the Discount Plan description or leave blank to vi" +
     "ew all Discount Plans:";
@@ -50,7 +50,7 @@ namespace OpenPmsDental {
 			// 
 			// textDescription
 			// 
-			this.textDescription.Location = new System.Drawing.Point(269, 45);
+			this.textDescription.Location = new System.Drawing.Point(270, 8);
 			this.textDescription.Name = "textDescription";
 			this.textDescription.Size = new System.Drawing.Size(100, 20);
 			this.textDescription.TabIndex = 0;

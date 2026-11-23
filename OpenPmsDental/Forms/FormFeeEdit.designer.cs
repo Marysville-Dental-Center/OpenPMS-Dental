@@ -37,34 +37,34 @@ namespace OpenPmsDental {
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(2,26);
+			this.label1.Location = new System.Drawing.Point(40,8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(72,16);
+			this.label1.Size = new System.Drawing.Size(32,23);
 			this.label1.TabIndex = 0;
 			this.label1.Text = "Fee";
-			this.label1.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textFee
 			// 
-			this.textFee.Location = new System.Drawing.Point(78,22);
+			this.textFee.Location = new System.Drawing.Point(78,8);
 			this.textFee.Name = "textFee";
 			this.textFee.Size = new System.Drawing.Size(72,20);
 			this.textFee.TabIndex = 0;
 			// 
 			// checkDefFee
 			// 
-			this.checkDefFee.Location = new System.Drawing.Point(54,54);
+			this.checkDefFee.Location = new System.Drawing.Point(78,35);
 			this.checkDefFee.Name = "checkDefFee";
-			this.checkDefFee.Size = new System.Drawing.Size(172,24);
+			this.checkDefFee.Size = new System.Drawing.Size(174,20);
 			this.checkDefFee.TabIndex = 1;
 			this.checkDefFee.Text = "Use Default Fee (not visible)";
 			this.checkDefFee.Visible = false;
 			// 
 			// checkDefCov
 			// 
-			this.checkDefCov.Location = new System.Drawing.Point(54,84);
+			this.checkDefCov.Location = new System.Drawing.Point(78,59);
 			this.checkDefCov.Name = "checkDefCov";
-			this.checkDefCov.Size = new System.Drawing.Size(208,24);
+			this.checkDefCov.Size = new System.Drawing.Size(207,20);
 			this.checkDefCov.TabIndex = 2;
 			this.checkDefCov.Text = "Use Default Coverage (not visible)";
 			this.checkDefCov.Visible = false;
@@ -73,7 +73,7 @@ namespace OpenPmsDental {
 			// 
 			this.textBox1.BackColor = System.Drawing.SystemColors.Control;
 			this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			this.textBox1.Location = new System.Drawing.Point(16,132);
+			this.textBox1.Location = new System.Drawing.Point(16,83);
 			this.textBox1.Multiline = true;
 			this.textBox1.Name = "textBox1";
 			this.textBox1.Size = new System.Drawing.Size(512,208);
@@ -84,7 +84,7 @@ namespace OpenPmsDental {
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(287, 95);
+			this.butSave.Location = new System.Drawing.Point(453, 303);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 25);
 			this.butSave.TabIndex = 3;
@@ -96,7 +96,7 @@ namespace OpenPmsDental {
 			this.AcceptButton = this.butSave;
 			this.Controls.Add(this.butSave);
 			this.AutoScaleBaseSize = new System.Drawing.Size(5,13);
-			this.ClientSize = new System.Drawing.Size(374,132);
+			this.ClientSize = new System.Drawing.Size(536,336);
 			this.Controls.Add(this.textBox1);
 			this.Controls.Add(this.textFee);
 			this.Controls.Add(this.checkDefCov);

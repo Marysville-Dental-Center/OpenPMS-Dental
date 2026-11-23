@@ -31,7 +31,7 @@ namespace OpenPmsDental {
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(417, 434);
+			this.butSave.Location = new System.Drawing.Point(421, 438);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 2;
@@ -47,7 +47,7 @@ namespace OpenPmsDental {
 			this.textBoxEditor.BackColor = System.Drawing.SystemColors.Window;
 			this.textBoxEditor.DetectLinksEnabled = false;
 			this.textBoxEditor.DetectUrls = false;
-			this.textBoxEditor.Location = new System.Drawing.Point(12, 12);
+			this.textBoxEditor.Location = new System.Drawing.Point(12, 8);
 			this.textBoxEditor.Name = "textBoxEditor";
 			this.textBoxEditor.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.PayPlan;
 			this.textBoxEditor.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
@@ -58,7 +58,7 @@ namespace OpenPmsDental {
 			// butReplacementText
 			// 
 			this.butReplacementText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butReplacementText.Location = new System.Drawing.Point(12, 434);
+			this.butReplacementText.Location = new System.Drawing.Point(8, 438);
 			this.butReplacementText.Name = "butReplacementText";
 			this.butReplacementText.Size = new System.Drawing.Size(101, 24);
 			this.butReplacementText.TabIndex = 1;

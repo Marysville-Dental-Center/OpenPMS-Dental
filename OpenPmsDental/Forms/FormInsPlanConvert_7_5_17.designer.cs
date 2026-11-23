@@ -33,7 +33,7 @@ namespace OpenPmsDental{
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(482, 249);
+			this.butOK.Location = new System.Drawing.Point(486, 253);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 24);
 			this.butOK.TabIndex = 3;
@@ -42,17 +42,17 @@ namespace OpenPmsDental{
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(12, 9);
+			this.label1.Location = new System.Drawing.Point(12, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(545, 157);
+			this.label1.Size = new System.Drawing.Size(545, 167);
 			this.label1.TabIndex = 4;
 			this.label1.Text = resources.GetString("label1.Text");
 			// 
 			// radioMergeY
 			// 
-			this.radioMergeY.Location = new System.Drawing.Point(42, 169);
+			this.radioMergeY.Location = new System.Drawing.Point(12, 177);
 			this.radioMergeY.Name = "radioMergeY";
-			this.radioMergeY.Size = new System.Drawing.Size(408, 24);
+			this.radioMergeY.Size = new System.Drawing.Size(363, 20);
 			this.radioMergeY.TabIndex = 5;
 			this.radioMergeY.TabStop = true;
 			this.radioMergeY.Text = "Combine identical plans. I will fix benefit information as needed.";
@@ -60,9 +60,9 @@ namespace OpenPmsDental{
 			// 
 			// radioMergeN
 			// 
-			this.radioMergeN.Location = new System.Drawing.Point(42, 206);
+			this.radioMergeN.Location = new System.Drawing.Point(12, 201);
 			this.radioMergeN.Name = "radioMergeN";
-			this.radioMergeN.Size = new System.Drawing.Size(408, 24);
+			this.radioMergeN.Size = new System.Drawing.Size(349, 20);
 			this.radioMergeN.TabIndex = 6;
 			this.radioMergeN.TabStop = true;
 			this.radioMergeN.Text = "Maintain separate plans.  I will combine them later as needed.";

@@ -30,7 +30,7 @@ namespace OpenPmsDental{
 			// 
 			// listBoxPayPlanCharges
 			// 
-			this.listBoxPayPlanCharges.Location = new System.Drawing.Point(12, 12);
+			this.listBoxPayPlanCharges.Location = new System.Drawing.Point(12, 8);
 			this.listBoxPayPlanCharges.Name = "listBoxPayPlanCharges";
 			this.listBoxPayPlanCharges.Size = new System.Drawing.Size(264, 342);
 			this.listBoxPayPlanCharges.TabIndex = 3;
@@ -39,7 +39,7 @@ namespace OpenPmsDental{
 			// 
 			// butZeroOutCharges
 			// 
-			this.butZeroOutCharges.Location = new System.Drawing.Point(12, 374);
+			this.butZeroOutCharges.Location = new System.Drawing.Point(8, 378);
 			this.butZeroOutCharges.Name = "butZeroOutCharges";
 			this.butZeroOutCharges.Size = new System.Drawing.Size(102, 24);
 			this.butZeroOutCharges.TabIndex = 4;
@@ -50,7 +50,7 @@ namespace OpenPmsDental{
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(201, 372);
+			this.butOK.Location = new System.Drawing.Point(205, 376);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 26);
 			this.butOK.TabIndex = 6;

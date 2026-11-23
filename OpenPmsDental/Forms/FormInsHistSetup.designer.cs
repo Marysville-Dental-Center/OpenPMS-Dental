@@ -42,7 +42,7 @@ namespace OpenPmsDental{
 			//
 			// labelHeading
 			//
-			this.labelHeading.Location = new System.Drawing.Point(12, 9);
+			this.labelHeading.Location = new System.Drawing.Point(12, 8);
 			this.labelHeading.Name = "labelHeading";
 			this.labelHeading.Size = new System.Drawing.Size(504, 33);
 			this.labelHeading.TabIndex = 4;
@@ -51,7 +51,7 @@ namespace OpenPmsDental{
 			//
 			// labelMostRecent
 			//
-			this.labelMostRecent.Location = new System.Drawing.Point(146, 45);
+			this.labelMostRecent.Location = new System.Drawing.Point(146, 43);
 			this.labelMostRecent.Name = "labelMostRecent";
 			this.labelMostRecent.Size = new System.Drawing.Size(180, 16);
 			this.labelMostRecent.TabIndex = 5;
@@ -60,7 +60,7 @@ namespace OpenPmsDental{
 			//
 			// labelPrevious
 			//
-			this.labelPrevious.Location = new System.Drawing.Point(336, 45);
+			this.labelPrevious.Location = new System.Drawing.Point(336, 43);
 			this.labelPrevious.Name = "labelPrevious";
 			this.labelPrevious.Size = new System.Drawing.Size(180, 16);
 			this.labelPrevious.TabIndex = 6;

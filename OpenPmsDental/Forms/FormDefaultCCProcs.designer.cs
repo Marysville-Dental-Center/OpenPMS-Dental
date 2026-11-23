@@ -36,14 +36,14 @@ namespace OpenPmsDental{
 			this.listProcs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.listProcs.Location = new System.Drawing.Point(15, 58);
+			this.listProcs.Location = new System.Drawing.Point(15, 43);
 			this.listProcs.Name = "listProcs";
 			this.listProcs.Size = new System.Drawing.Size(220, 407);
 			this.listProcs.TabIndex = 134;
 			// 
 			// label15
 			// 
-			this.label15.Location = new System.Drawing.Point(12, 12);
+			this.label15.Location = new System.Drawing.Point(12, 8);
 			this.label15.Name = "label15";
 			this.label15.Size = new System.Drawing.Size(304, 33);
 			this.label15.TabIndex = 133;
@@ -56,7 +56,7 @@ namespace OpenPmsDental{
 			this.butRemoveProc.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butRemoveProc.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butRemoveProc.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butRemoveProc.Location = new System.Drawing.Point(241, 88);
+			this.butRemoveProc.Location = new System.Drawing.Point(241, 71);
 			this.butRemoveProc.Name = "butRemoveProc";
 			this.butRemoveProc.Size = new System.Drawing.Size(78, 24);
 			this.butRemoveProc.TabIndex = 136;
@@ -68,7 +68,7 @@ namespace OpenPmsDental{
 			this.butAddProc.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butAddProc.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAddProc.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAddProc.Location = new System.Drawing.Point(241, 58);
+			this.butAddProc.Location = new System.Drawing.Point(241, 43);
 			this.butAddProc.Name = "butAddProc";
 			this.butAddProc.Size = new System.Drawing.Size(78, 24);
 			this.butAddProc.TabIndex = 135;
@@ -78,7 +78,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(241, 437);
+			this.butSave.Location = new System.Drawing.Point(246, 464);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(78, 24);
 			this.butSave.TabIndex = 3;
@@ -89,7 +89,7 @@ namespace OpenPmsDental{
 			// 
 			this.butSync.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butSync.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butSync.Location = new System.Drawing.Point(241, 118);
+			this.butSync.Location = new System.Drawing.Point(241, 99);
 			this.butSync.Name = "butSync";
 			this.butSync.Size = new System.Drawing.Size(78, 24);
 			this.butSync.TabIndex = 139;
@@ -98,7 +98,7 @@ namespace OpenPmsDental{
 			// 
 			// FormDefaultCCProcs
 			// 
-			this.ClientSize = new System.Drawing.Size(332, 473);
+			this.ClientSize = new System.Drawing.Size(332, 496);
 			this.Controls.Add(this.butSync);
 			this.Controls.Add(this.listProcs);
 			this.Controls.Add(this.butRemoveProc);

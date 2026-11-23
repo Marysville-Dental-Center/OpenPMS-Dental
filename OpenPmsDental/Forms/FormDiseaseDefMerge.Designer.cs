@@ -25,9 +25,9 @@ namespace OpenPmsDental {
 			//
 			this.labelExplain.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelExplain.Location = new System.Drawing.Point(12, 9);
+			this.labelExplain.Location = new System.Drawing.Point(12, 8);
 			this.labelExplain.Name = "labelExplain";
-			this.labelExplain.Size = new System.Drawing.Size(476, 58);
+			this.labelExplain.Size = new System.Drawing.Size(476, 47);
 			this.labelExplain.TabIndex = 0;
 			this.labelExplain.Text = "Choose the problem to keep. Patient problems, Rx alerts, education resources, family health entries, CDS triggers and reminder rules that use the other problem will use the kept one, and the other problem will be deleted. This cannot be undone.";
 			//
@@ -36,7 +36,7 @@ namespace OpenPmsDental {
 			this.radioKeep1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.radioKeep1.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
-			this.radioKeep1.Location = new System.Drawing.Point(15, 72);
+			this.radioKeep1.Location = new System.Drawing.Point(12, 57);
 			this.radioKeep1.Name = "radioKeep1";
 			this.radioKeep1.Size = new System.Drawing.Size(473, 36);
 			this.radioKeep1.TabIndex = 1;
@@ -48,7 +48,7 @@ namespace OpenPmsDental {
 			this.radioKeep2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.radioKeep2.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
-			this.radioKeep2.Location = new System.Drawing.Point(15, 112);
+			this.radioKeep2.Location = new System.Drawing.Point(12, 97);
 			this.radioKeep2.Name = "radioKeep2";
 			this.radioKeep2.Size = new System.Drawing.Size(473, 36);
 			this.radioKeep2.TabIndex = 2;
@@ -58,7 +58,7 @@ namespace OpenPmsDental {
 			// butOK
 			//
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(332, 162);
+			this.butOK.Location = new System.Drawing.Point(334, 166);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 24);
 			this.butOK.TabIndex = 3;
@@ -68,7 +68,7 @@ namespace OpenPmsDental {
 			// butCancel
 			//
 			this.butCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butCancel.Location = new System.Drawing.Point(413, 162);
+			this.butCancel.Location = new System.Drawing.Point(417, 166);
 			this.butCancel.Name = "butCancel";
 			this.butCancel.Size = new System.Drawing.Size(75, 24);
 			this.butCancel.TabIndex = 4;

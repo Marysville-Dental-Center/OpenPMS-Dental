@@ -51,7 +51,7 @@ namespace OpenPmsDental{
 			// 
 			// labelVersion
 			// 
-			this.labelVersion.Location = new System.Drawing.Point(257, 20);
+			this.labelVersion.Location = new System.Drawing.Point(257, 8);
 			this.labelVersion.Name = "labelVersion";
 			this.labelVersion.Size = new System.Drawing.Size(229, 20);
 			this.labelVersion.TabIndex = 1;
@@ -61,7 +61,7 @@ namespace OpenPmsDental{
 			// labelCopyright
 			// 
 			this.labelCopyright.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.labelCopyright.Location = new System.Drawing.Point(12, 309);
+			this.labelCopyright.Location = new System.Drawing.Point(8, 302);
 			this.labelCopyright.Name = "labelCopyright";
 			this.labelCopyright.Size = new System.Drawing.Size(550, 20);
 			this.labelCopyright.TabIndex = 3;
@@ -71,7 +71,7 @@ namespace OpenPmsDental{
 			// labelMySQLCopyright
 			// 
 			this.labelMySQLCopyright.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.labelMySQLCopyright.Location = new System.Drawing.Point(12, 349);
+			this.labelMySQLCopyright.Location = new System.Drawing.Point(8, 362);
 			this.labelMySQLCopyright.Name = "labelMySQLCopyright";
 			this.labelMySQLCopyright.Size = new System.Drawing.Size(433, 20);
 			this.labelMySQLCopyright.TabIndex = 6;
@@ -81,7 +81,7 @@ namespace OpenPmsDental{
 			// butLicense
 			// 
 			this.butLicense.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butLicense.Location = new System.Drawing.Point(521, 364);
+			this.butLicense.Location = new System.Drawing.Point(521, 377);
 			this.butLicense.Name = "butLicense";
 			this.butLicense.Size = new System.Drawing.Size(88, 25);
 			this.butLicense.TabIndex = 50;
@@ -91,7 +91,7 @@ namespace OpenPmsDental{
 			// label9
 			// 
 			this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label9.Location = new System.Drawing.Point(12, 329);
+			this.label9.Location = new System.Drawing.Point(8, 324);
 			this.label9.Name = "label9";
 			this.label9.Size = new System.Drawing.Size(433, 20);
 			this.label9.TabIndex = 51;
@@ -100,7 +100,7 @@ namespace OpenPmsDental{
 			// 
 			// labelName
 			// 
-			this.labelName.Location = new System.Drawing.Point(10, 43);
+			this.labelName.Location = new System.Drawing.Point(8, 45);
 			this.labelName.Name = "labelName";
 			this.labelName.Size = new System.Drawing.Size(474, 20);
 			this.labelName.TabIndex = 52;
@@ -109,7 +109,7 @@ namespace OpenPmsDental{
 			// 
 			// labelService
 			// 
-			this.labelService.Location = new System.Drawing.Point(10, 93);
+			this.labelService.Location = new System.Drawing.Point(8, 89);
 			this.labelService.Name = "labelService";
 			this.labelService.Size = new System.Drawing.Size(474, 20);
 			this.labelService.TabIndex = 53;
@@ -118,7 +118,7 @@ namespace OpenPmsDental{
 			// 
 			// labelMySqlVersion
 			// 
-			this.labelMySqlVersion.Location = new System.Drawing.Point(10, 121);
+			this.labelMySqlVersion.Location = new System.Drawing.Point(8, 111);
 			this.labelMySqlVersion.Name = "labelMySqlVersion";
 			this.labelMySqlVersion.Size = new System.Drawing.Size(474, 20);
 			this.labelMySqlVersion.TabIndex = 54;
@@ -127,7 +127,7 @@ namespace OpenPmsDental{
 			// 
 			// labelServComment
 			// 
-			this.labelServComment.Location = new System.Drawing.Point(10, 143);
+			this.labelServComment.Location = new System.Drawing.Point(8, 133);
 			this.labelServComment.Name = "labelServComment";
 			this.labelServComment.Size = new System.Drawing.Size(474, 20);
 			this.labelServComment.TabIndex = 55;
@@ -138,9 +138,9 @@ namespace OpenPmsDental{
 			// 
 			this.panelHL.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.panelHL.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.panelHL.Location = new System.Drawing.Point(9, 242);
+			this.panelHL.Location = new System.Drawing.Point(8, 233);
 			this.panelHL.Name = "panelHL";
-			this.panelHL.Size = new System.Drawing.Size(600, 1);
+			this.panelHL.Size = new System.Drawing.Size(612, 1);
 			this.panelHL.TabIndex = 56;
 			// 
 			// groupBox3
@@ -151,15 +151,15 @@ namespace OpenPmsDental{
 			this.groupBox3.Controls.Add(this.labelName);
 			this.groupBox3.Controls.Add(this.labelServComment);
 			this.groupBox3.Controls.Add(this.labelMySqlVersion);
-			this.groupBox3.Location = new System.Drawing.Point(60, 55);
+			this.groupBox3.Location = new System.Drawing.Point(60, 64);
 			this.groupBox3.Name = "groupBox3";
-			this.groupBox3.Size = new System.Drawing.Size(501, 167);
+			this.groupBox3.Size = new System.Drawing.Size(501, 161);
 			this.groupBox3.TabIndex = 57;
 			this.groupBox3.Text = "Current Connection";
 			// 
 			// labelDatabase
 			// 
-			this.labelDatabase.Location = new System.Drawing.Point(10, 68);
+			this.labelDatabase.Location = new System.Drawing.Point(8, 67);
 			this.labelDatabase.Name = "labelDatabase";
 			this.labelDatabase.Size = new System.Drawing.Size(474, 20);
 			this.labelDatabase.TabIndex = 88;
@@ -168,7 +168,7 @@ namespace OpenPmsDental{
 			// 
 			// labelMachineName
 			// 
-			this.labelMachineName.Location = new System.Drawing.Point(10, 18);
+			this.labelMachineName.Location = new System.Drawing.Point(8, 23);
 			this.labelMachineName.Name = "labelMachineName";
 			this.labelMachineName.Size = new System.Drawing.Size(474, 20);
 			this.labelMachineName.TabIndex = 87;
@@ -178,7 +178,7 @@ namespace OpenPmsDental{
 			// labelProductName
 			//
 			this.labelProductName.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-			this.labelProductName.Location = new System.Drawing.Point(12, 10);
+			this.labelProductName.Location = new System.Drawing.Point(8, 8);
 			this.labelProductName.Name = "labelProductName";
 			this.labelProductName.Size = new System.Drawing.Size(239, 40);
 			this.labelProductName.TabIndex = 58;
@@ -188,7 +188,7 @@ namespace OpenPmsDental{
 			// labelAttribution
 			//
 			this.labelAttribution.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.labelAttribution.Location = new System.Drawing.Point(12, 248);
+			this.labelAttribution.Location = new System.Drawing.Point(8, 242);
 			this.labelAttribution.Name = "labelAttribution";
 			this.labelAttribution.Size = new System.Drawing.Size(597, 58);
 			this.labelAttribution.TabIndex = 61;
@@ -198,7 +198,7 @@ namespace OpenPmsDental{
 			// butDiagnostics
 			// 
 			this.butDiagnostics.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butDiagnostics.Location = new System.Drawing.Point(429, 364);
+			this.butDiagnostics.Location = new System.Drawing.Point(429, 377);
 			this.butDiagnostics.Name = "butDiagnostics";
 			this.butDiagnostics.Size = new System.Drawing.Size(88, 25);
 			this.butDiagnostics.TabIndex = 59;
@@ -208,7 +208,7 @@ namespace OpenPmsDental{
 			// labelMariaDBCopyright
 			// 
 			this.labelMariaDBCopyright.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.labelMariaDBCopyright.Location = new System.Drawing.Point(12, 369);
+			this.labelMariaDBCopyright.Location = new System.Drawing.Point(8, 382);
 			this.labelMariaDBCopyright.Name = "labelMariaDBCopyright";
 			this.labelMariaDBCopyright.Size = new System.Drawing.Size(433, 20);
 			this.labelMariaDBCopyright.TabIndex = 60;
@@ -218,7 +218,7 @@ namespace OpenPmsDental{
 			// pictureLogo
 			//
 			this.pictureLogo.HasBorder = false;
-			this.pictureLogo.Location = new System.Drawing.Point(561, 6);
+			this.pictureLogo.Location = new System.Drawing.Point(561, 8);
 			this.pictureLogo.Name = "pictureLogo";
 			this.pictureLogo.Size = new System.Drawing.Size(48, 48);
 			this.pictureLogo.TabIndex = 62;

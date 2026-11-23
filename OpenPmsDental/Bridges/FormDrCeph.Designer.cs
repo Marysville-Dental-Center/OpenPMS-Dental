@@ -41,7 +41,7 @@ namespace OpenPmsDental {
 			// 
 			// labelRace
 			// 
-			this.labelRace.Location = new System.Drawing.Point(182, 28);
+			this.labelRace.Location = new System.Drawing.Point(182, 8);
 			this.labelRace.Name = "labelRace";
 			this.labelRace.Size = new System.Drawing.Size(120, 23);
 			this.labelRace.TabIndex = 1;
@@ -50,25 +50,25 @@ namespace OpenPmsDental {
 			// 
 			// labelDate
 			// 
-			this.labelDate.Location = new System.Drawing.Point(25, 268);
+			this.labelDate.Location = new System.Drawing.Point(76, 201);
 			this.labelDate.Name = "labelDate";
-			this.labelDate.Size = new System.Drawing.Size(151, 23);
+			this.labelDate.Size = new System.Drawing.Size(100, 23);
 			this.labelDate.TabIndex = 2;
 			this.labelDate.Text = "Ceph X-Ray Date";
 			this.labelDate.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// labelXRayPath
 			// 
-			this.labelXRayPath.Location = new System.Drawing.Point(25, 183);
+			this.labelXRayPath.Location = new System.Drawing.Point(52, 147);
 			this.labelXRayPath.Name = "labelXRayPath";
-			this.labelXRayPath.Size = new System.Drawing.Size(151, 23);
+			this.labelXRayPath.Size = new System.Drawing.Size(124, 23);
 			this.labelXRayPath.TabIndex = 3;
 			this.labelXRayPath.Text = "Ceph X-Ray Location";
 			this.labelXRayPath.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// labelTxPhase
 			// 
-			this.labelTxPhase.Location = new System.Drawing.Point(380, 28);
+			this.labelTxPhase.Location = new System.Drawing.Point(380, 8);
 			this.labelTxPhase.Name = "labelTxPhase";
 			this.labelTxPhase.Size = new System.Drawing.Size(120, 23);
 			this.labelTxPhase.TabIndex = 5;
@@ -79,18 +79,18 @@ namespace OpenPmsDental {
 			// 
 			this.dateXRay.CustomFormat = "MMM d, yyyy";
 			this.dateXRay.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-			this.dateXRay.Location = new System.Drawing.Point(182, 269);
+			this.dateXRay.Location = new System.Drawing.Point(182, 201);
 			this.dateXRay.Name = "dateXRay";
-			this.dateXRay.Size = new System.Drawing.Size(159, 20);
+			this.dateXRay.Size = new System.Drawing.Size(160, 23);
 			this.dateXRay.TabIndex = 9;
 			this.dateXRay.TabStop = false;
 			this.dateXRay.Value = new System.DateTime(2021, 8, 19, 0, 0, 0, 0);
 			// 
 			// labelPhotoPath
 			// 
-			this.labelPhotoPath.Location = new System.Drawing.Point(25, 225);
+			this.labelPhotoPath.Location = new System.Drawing.Point(44, 174);
 			this.labelPhotoPath.Name = "labelPhotoPath";
-			this.labelPhotoPath.Size = new System.Drawing.Size(151, 23);
+			this.labelPhotoPath.Size = new System.Drawing.Size(132, 23);
 			this.labelPhotoPath.TabIndex = 10;
 			this.labelPhotoPath.Text = "Lateral Photo Location";
 			this.labelPhotoPath.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -98,7 +98,7 @@ namespace OpenPmsDental {
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(494, 292);
+			this.butSave.Location = new System.Drawing.Point(498, 296);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 11;
@@ -108,9 +108,9 @@ namespace OpenPmsDental {
 			// 
 			// butCephBrowse
 			// 
-			this.butCephBrowse.Location = new System.Drawing.Point(515, 184);
+			this.butCephBrowse.Location = new System.Drawing.Point(508, 147);
 			this.butCephBrowse.Name = "butCephBrowse";
-			this.butCephBrowse.Size = new System.Drawing.Size(27, 20);
+			this.butCephBrowse.Size = new System.Drawing.Size(27, 23);
 			this.butCephBrowse.TabIndex = 13;
 			this.butCephBrowse.Text = "...";
 			this.butCephBrowse.UseVisualStyleBackColor = true;
@@ -118,9 +118,9 @@ namespace OpenPmsDental {
 			// 
 			// butPhotoBrowse
 			// 
-			this.butPhotoBrowse.Location = new System.Drawing.Point(515, 226);
+			this.butPhotoBrowse.Location = new System.Drawing.Point(508, 174);
 			this.butPhotoBrowse.Name = "butPhotoBrowse";
-			this.butPhotoBrowse.Size = new System.Drawing.Size(27, 20);
+			this.butPhotoBrowse.Size = new System.Drawing.Size(27, 23);
 			this.butPhotoBrowse.TabIndex = 14;
 			this.butPhotoBrowse.Text = "...";
 			this.butPhotoBrowse.UseVisualStyleBackColor = true;
@@ -128,28 +128,28 @@ namespace OpenPmsDental {
 			// 
 			// textCephLocation
 			// 
-			this.textCephLocation.Location = new System.Drawing.Point(182, 184);
+			this.textCephLocation.Location = new System.Drawing.Point(182, 147);
 			this.textCephLocation.Name = "textCephLocation";
-			this.textCephLocation.Size = new System.Drawing.Size(318, 20);
+			this.textCephLocation.Size = new System.Drawing.Size(320, 23);
 			this.textCephLocation.TabIndex = 15;
 			// 
 			// textPhotoLocation
 			// 
-			this.textPhotoLocation.Location = new System.Drawing.Point(182, 226);
+			this.textPhotoLocation.Location = new System.Drawing.Point(182, 174);
 			this.textPhotoLocation.Name = "textPhotoLocation";
-			this.textPhotoLocation.Size = new System.Drawing.Size(318, 20);
+			this.textPhotoLocation.Size = new System.Drawing.Size(320, 23);
 			this.textPhotoLocation.TabIndex = 16;
 			// 
 			// listBoxRace
 			// 
-			this.listBoxRace.Location = new System.Drawing.Point(182, 54);
+			this.listBoxRace.Location = new System.Drawing.Point(182, 35);
 			this.listBoxRace.Name = "listBoxRace";
 			this.listBoxRace.Size = new System.Drawing.Size(120, 108);
 			this.listBoxRace.TabIndex = 17;
 			// 
 			// listBoxTxPhase
 			// 
-			this.listBoxTxPhase.Location = new System.Drawing.Point(380, 54);
+			this.listBoxTxPhase.Location = new System.Drawing.Point(380, 35);
 			this.listBoxTxPhase.Name = "listBoxTxPhase";
 			this.listBoxTxPhase.Size = new System.Drawing.Size(120, 108);
 			this.listBoxTxPhase.TabIndex = 18;

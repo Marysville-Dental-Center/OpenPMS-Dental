@@ -33,7 +33,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.webViewMain.AreBrowserKeysEnabled = true;
-			this.webViewMain.Location = new System.Drawing.Point(1, 1);
+			this.webViewMain.Location = new System.Drawing.Point(8, 8);
 			this.webViewMain.Name = "webViewMain";
 			this.webViewMain.Size = new System.Drawing.Size(882, 603);
 			this.webViewMain.TabIndex = 1;
@@ -41,7 +41,7 @@
 			// butPrint
 			// 
 			this.butPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butPrint.Location = new System.Drawing.Point(718, 610);
+			this.butPrint.Location = new System.Drawing.Point(718, 623);
 			this.butPrint.Name = "butPrint";
 			this.butPrint.Size = new System.Drawing.Size(75, 23);
 			this.butPrint.TabIndex = 2;
@@ -52,7 +52,7 @@
 			// FormEhrEduBrowser
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(884, 639);
+			this.ClientSize = new System.Drawing.Size(898, 654);
 			this.Controls.Add(this.butPrint);
 			this.Controls.Add(this.webViewMain);
 			this.Name = "FormEhrEduBrowser";

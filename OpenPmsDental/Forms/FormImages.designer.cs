@@ -35,7 +35,7 @@ namespace OpenPmsDental{
 			//
 			this.elementHostToolBarMain.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.elementHostToolBarMain.Location = new System.Drawing.Point(0, 0);
+			this.elementHostToolBarMain.Location = new System.Drawing.Point(8, 8);
 			this.elementHostToolBarMain.Name = "elementHostToolBarMain";
 			this.elementHostToolBarMain.Size = new System.Drawing.Size(1166, 25);
 			this.elementHostToolBarMain.TabIndex = 0;
@@ -47,7 +47,7 @@ namespace OpenPmsDental{
 			this.listFiles.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.listFiles.ContextMenuStrip = this.contextMenuStripList;
-			this.listFiles.Location = new System.Drawing.Point(2, 29);
+			this.listFiles.Location = new System.Drawing.Point(8, 37);
 			this.listFiles.Name = "listFiles";
 			this.listFiles.Size = new System.Drawing.Size(226, 747);
 			this.listFiles.TabIndex = 1;
@@ -63,7 +63,7 @@ namespace OpenPmsDental{
 			//
 			// elementHostZoomSlider
 			//
-			this.elementHostZoomSlider.Location = new System.Drawing.Point(233, 26);
+			this.elementHostZoomSlider.Location = new System.Drawing.Point(239, 37);
 			this.elementHostZoomSlider.Name = "elementHostZoomSlider";
 			this.elementHostZoomSlider.Size = new System.Drawing.Size(231, 25);
 			this.elementHostZoomSlider.TabIndex = 2;
@@ -75,7 +75,7 @@ namespace OpenPmsDental{
 			this.panelImage.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.panelImage.Location = new System.Drawing.Point(233, 53);
+			this.panelImage.Location = new System.Drawing.Point(239, 66);
 			this.panelImage.Name = "panelImage";
 			this.panelImage.Size = new System.Drawing.Size(931, 723);
 			this.panelImage.TabIndex = 3;
@@ -87,7 +87,7 @@ namespace OpenPmsDental{
 			//
 			// FormImages
 			//
-			this.ClientSize = new System.Drawing.Size(1166, 778);
+			this.ClientSize = new System.Drawing.Size(1182, 797);
 			this.Controls.Add(this.panelImage);
 			this.Controls.Add(this.elementHostZoomSlider);
 			this.Controls.Add(this.listFiles);

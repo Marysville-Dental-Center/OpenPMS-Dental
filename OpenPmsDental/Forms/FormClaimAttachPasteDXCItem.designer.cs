@@ -36,7 +36,7 @@ namespace OpenPmsDental {
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(200, 269);
+			this.butSave.Location = new System.Drawing.Point(211, 273);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 6;
@@ -48,7 +48,7 @@ namespace OpenPmsDental {
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(12, 267);
+			this.butDelete.Location = new System.Drawing.Point(8, 273);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(80, 24);
 			this.butDelete.TabIndex = 5;
@@ -57,7 +57,7 @@ namespace OpenPmsDental {
 			// 
 			// listBoxImageType
 			// 
-			this.listBoxImageType.Location = new System.Drawing.Point(107, 82);
+			this.listBoxImageType.Location = new System.Drawing.Point(107, 62);
 			this.listBoxImageType.Name = "listBoxImageType";
 			this.listBoxImageType.Size = new System.Drawing.Size(139, 145);
 			this.listBoxImageType.TabIndex = 10;
@@ -65,43 +65,46 @@ namespace OpenPmsDental {
 			// 
 			// textFileName
 			// 
-			this.textFileName.Location = new System.Drawing.Point(107, 26);
+			this.textFileName.Location = new System.Drawing.Point(107, 8);
 			this.textFileName.Name = "textFileName";
-			this.textFileName.Size = new System.Drawing.Size(139, 20);
+			this.textFileName.Size = new System.Drawing.Size(140, 23);
 			this.textFileName.TabIndex = 7;
 			this.textFileName.Text = "Attachment";
 			// 
 			// labelDateTimeCreate
 			// 
-			this.labelDateTimeCreate.Location = new System.Drawing.Point(22, 56);
+			this.labelDateTimeCreate.Location = new System.Drawing.Point(21, 35);
+			this.labelDateTimeCreate.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.labelDateTimeCreate.Name = "labelDateTimeCreate";
-			this.labelDateTimeCreate.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-			this.labelDateTimeCreate.Size = new System.Drawing.Size(84, 15);
+			this.labelDateTimeCreate.RightToLeft = System.Windows.Forms.RightToLeft.No;
+			this.labelDateTimeCreate.Size = new System.Drawing.Size(80, 23);
 			this.labelDateTimeCreate.TabIndex = 12;
 			this.labelDateTimeCreate.Text = "Date Created";
 			// 
 			// textDateCreated
 			// 
-			this.textDateCreated.Location = new System.Drawing.Point(107, 53);
+			this.textDateCreated.Location = new System.Drawing.Point(107, 35);
 			this.textDateCreated.Name = "textDateCreated";
-			this.textDateCreated.Size = new System.Drawing.Size(139, 20);
+			this.textDateCreated.Size = new System.Drawing.Size(140, 23);
 			this.textDateCreated.TabIndex = 8;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(22, 29);
+			this.label1.Location = new System.Drawing.Point(37, 8);
+			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label1.Name = "label1";
-			this.label1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-			this.label1.Size = new System.Drawing.Size(84, 15);
+			this.label1.RightToLeft = System.Windows.Forms.RightToLeft.No;
+			this.label1.Size = new System.Drawing.Size(64, 23);
 			this.label1.TabIndex = 11;
 			this.label1.Text = "File Name";
 			// 
 			// labelImageType
 			// 
-			this.labelImageType.Location = new System.Drawing.Point(22, 82);
+			this.labelImageType.Location = new System.Drawing.Point(29, 62);
+			this.labelImageType.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.labelImageType.Name = "labelImageType";
-			this.labelImageType.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-			this.labelImageType.Size = new System.Drawing.Size(84, 15);
+			this.labelImageType.RightToLeft = System.Windows.Forms.RightToLeft.No;
+			this.labelImageType.Size = new System.Drawing.Size(72, 23);
 			this.labelImageType.TabIndex = 9;
 			this.labelImageType.Text = "Image Type";
 			// 

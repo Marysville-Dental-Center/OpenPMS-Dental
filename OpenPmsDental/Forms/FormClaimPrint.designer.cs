@@ -41,7 +41,7 @@ namespace OpenPmsDental {
 			// butPrint
 			// 
 			this.butPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butPrint.Location = new System.Drawing.Point(766,773);
+			this.butPrint.Location = new System.Drawing.Point(766,836);
 			this.butPrint.Name = "butPrint";
 			this.butPrint.Size = new System.Drawing.Size(75,25);
 			this.butPrint.TabIndex = 2;
@@ -52,18 +52,18 @@ namespace OpenPmsDental {
 			// 
 			this.labelTotPages.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelTotPages.Font = new System.Drawing.Font("Microsoft Sans Serif",9F,System.Drawing.FontStyle.Bold,System.Drawing.GraphicsUnit.Point,((byte)(0)));
-			this.labelTotPages.Location = new System.Drawing.Point(776,724);
+			this.labelTotPages.Location = new System.Drawing.Point(790,8);
 			this.labelTotPages.Name = "labelTotPages";
-			this.labelTotPages.Size = new System.Drawing.Size(54,18);
+			this.labelTotPages.Size = new System.Drawing.Size(36,23);
 			this.labelTotPages.TabIndex = 22;
 			this.labelTotPages.Text = "1 / 2";
-			this.labelTotPages.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+			this.labelTotPages.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// butBack
 			// 
 			this.butBack.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butBack.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.ArrowLeft,22,22);
-			this.butBack.Location = new System.Drawing.Point(754,721);
+			this.butBack.Location = new System.Drawing.Point(754,8);
 			this.butBack.Name = "butBack";
 			this.butBack.Size = new System.Drawing.Size(18,23);
 			this.butBack.TabIndex = 23;
@@ -74,7 +74,7 @@ namespace OpenPmsDental {
 			this.butFwd.AdjustImageLocation = new System.Drawing.Point(1,0);
 			this.butFwd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butFwd.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.ArrowRight,22,22);
-			this.butFwd.Location = new System.Drawing.Point(832,721);
+			this.butFwd.Location = new System.Drawing.Point(832,8);
 			this.butFwd.Name = "butFwd";
 			this.butFwd.Size = new System.Drawing.Size(18,23);
 			this.butFwd.TabIndex = 24;
@@ -84,7 +84,7 @@ namespace OpenPmsDental {
 			// 
 			this.AcceptButton = this.butPrint;
 			this.AutoScaleBaseSize = new System.Drawing.Size(5,13);
-			this.ClientSize = new System.Drawing.Size(860,816);
+			this.ClientSize = new System.Drawing.Size(860,869);
 			this.Controls.Add(this.labelTotPages);
 			this.Controls.Add(this.butBack);
 			this.Controls.Add(this.butFwd);

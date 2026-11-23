@@ -36,7 +36,7 @@ namespace OpenPmsDental {
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(444, 243);
+			this.butOK.Location = new System.Drawing.Point(447, 244);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 26);
 			this.butOK.TabIndex = 3;
@@ -45,7 +45,7 @@ namespace OpenPmsDental {
 			// 
 			// monthCalendarStart
 			// 
-			this.monthCalendarStart.Location = new System.Drawing.Point(30, 56);
+			this.monthCalendarStart.Location = new System.Drawing.Point(27, 30);
 			this.monthCalendarStart.Name = "monthCalendarStart";
 			this.monthCalendarStart.Size = new System.Drawing.Size(227, 162);
 			this.monthCalendarStart.TabIndex = 27;
@@ -53,7 +53,7 @@ namespace OpenPmsDental {
 			// 
 			// monthCalendarEnd
 			// 
-			this.monthCalendarEnd.Location = new System.Drawing.Point(270, 56);
+			this.monthCalendarEnd.Location = new System.Drawing.Point(260, 30);
 			this.monthCalendarEnd.Name = "monthCalendarEnd";
 			this.monthCalendarEnd.Size = new System.Drawing.Size(227, 162);
 			this.monthCalendarEnd.TabIndex = 28;
@@ -61,18 +61,18 @@ namespace OpenPmsDental {
 			// 
 			// labelTO
 			// 
-			this.labelTO.Location = new System.Drawing.Point(27, 34);
+			this.labelTO.Location = new System.Drawing.Point(27, 8);
 			this.labelTO.Name = "labelTO";
-			this.labelTO.Size = new System.Drawing.Size(72, 18);
+			this.labelTO.Size = new System.Drawing.Size(227, 18);
 			this.labelTO.TabIndex = 29;
 			this.labelTO.Text = "From";
 			this.labelTO.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(269, 34);
+			this.label1.Location = new System.Drawing.Point(260, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(72, 18);
+			this.label1.Size = new System.Drawing.Size(227, 18);
 			this.label1.TabIndex = 30;
 			this.label1.Text = "To";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.BottomLeft;

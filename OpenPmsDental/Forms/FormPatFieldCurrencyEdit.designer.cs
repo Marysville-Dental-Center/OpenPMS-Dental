@@ -30,7 +30,7 @@ namespace OpenPmsDental{
 			// 
 			// labelName
 			// 
-			this.labelName.Location = new System.Drawing.Point(19, 17);
+			this.labelName.Location = new System.Drawing.Point(19, 8);
 			this.labelName.Name = "labelName";
 			this.labelName.Size = new System.Drawing.Size(241, 20);
 			this.labelName.TabIndex = 5;
@@ -39,7 +39,7 @@ namespace OpenPmsDental{
 			// 
 			// textFieldCurrency
 			// 
-			this.textFieldCurrency.Location = new System.Drawing.Point(22, 43);
+			this.textFieldCurrency.Location = new System.Drawing.Point(19, 30);
 			this.textFieldCurrency.Name = "textFieldCurrency";
 			this.textFieldCurrency.Size = new System.Drawing.Size(108, 20);
 			this.textFieldCurrency.TabIndex = 6;
@@ -47,7 +47,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(185, 80);
+			this.butSave.Location = new System.Drawing.Point(189, 84);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 3;

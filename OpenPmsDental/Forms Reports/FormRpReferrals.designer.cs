@@ -53,7 +53,7 @@ namespace OpenPmsDental {
 			this.tabReferrals.Controls.Add(this.tabData);
 			this.tabReferrals.Controls.Add(this.tabFilters);
 			this.tabReferrals.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-			this.tabReferrals.Location = new System.Drawing.Point(14, 16);
+			this.tabReferrals.Location = new System.Drawing.Point(14, 8);
 			this.tabReferrals.Name = "tabReferrals";
 			this.tabReferrals.Size = new System.Drawing.Size(814, 492);
 			this.tabReferrals.TabIndex = 39;
@@ -81,7 +81,7 @@ namespace OpenPmsDental {
 			// 
 			// butCheckAll
 			// 
-			this.butCheckAll.Location = new System.Drawing.Point(10, 430);
+			this.butCheckAll.Location = new System.Drawing.Point(8, 419);
 			this.butCheckAll.Name = "butCheckAll";
 			this.butCheckAll.Size = new System.Drawing.Size(80, 26);
 			this.butCheckAll.TabIndex = 1;
@@ -90,7 +90,7 @@ namespace OpenPmsDental {
 			// 
 			// butClear
 			// 
-			this.butClear.Location = new System.Drawing.Point(100, 430);
+			this.butClear.Location = new System.Drawing.Point(94, 419);
 			this.butClear.Name = "butClear";
 			this.butClear.Size = new System.Drawing.Size(80, 26);
 			this.butClear.TabIndex = 2;
@@ -117,7 +117,7 @@ namespace OpenPmsDental {
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(7, 13);
+			this.label2.Location = new System.Drawing.Point(8, 8);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(123, 18);
 			this.label2.TabIndex = 35;
@@ -129,7 +129,7 @@ namespace OpenPmsDental {
 			this.butDeleteFilter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butDeleteFilter.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDeleteFilter.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDeleteFilter.Location = new System.Drawing.Point(14, 429);
+			this.butDeleteFilter.Location = new System.Drawing.Point(8, 395);
 			this.butDeleteFilter.Name = "butDeleteFilter";
 			this.butDeleteFilter.Size = new System.Drawing.Size(110, 26);
 			this.butDeleteFilter.TabIndex = 34;
@@ -138,7 +138,7 @@ namespace OpenPmsDental {
 			// 
 			// listOptions
 			// 
-			this.listOptions.Location = new System.Drawing.Point(358, 34);
+			this.listOptions.Location = new System.Drawing.Point(358, 28);
 			this.listOptions.Name = "listOptions";
 			this.listOptions.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
 			this.listOptions.Size = new System.Drawing.Size(266, 186);
@@ -148,7 +148,7 @@ namespace OpenPmsDental {
 			// 
 			// listPrerequisites
 			// 
-			this.listPrerequisites.Location = new System.Drawing.Point(10, 234);
+			this.listPrerequisites.Location = new System.Drawing.Point(8, 218);
 			this.listPrerequisites.Name = "listPrerequisites";
 			this.listPrerequisites.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
 			this.listPrerequisites.Size = new System.Drawing.Size(608, 173);
@@ -158,7 +158,7 @@ namespace OpenPmsDental {
 			// butAddFilter
 			// 
 			this.butAddFilter.Enabled = false;
-			this.butAddFilter.Location = new System.Drawing.Point(664, 34);
+			this.butAddFilter.Location = new System.Drawing.Point(630, 28);
 			this.butAddFilter.Name = "butAddFilter";
 			this.butAddFilter.Size = new System.Drawing.Size(75, 23);
 			this.butAddFilter.TabIndex = 6;
@@ -175,14 +175,14 @@ namespace OpenPmsDental {
         ">=",
         "<=",
         "<>"};
-			this.listConditions.Location = new System.Drawing.Point(232, 34);
+			this.listConditions.Location = new System.Drawing.Point(232, 28);
 			this.listConditions.Name = "listConditions";
 			this.listConditions.Size = new System.Drawing.Size(78, 95);
 			this.listConditions.TabIndex = 5;
 			// 
 			// textBox
 			// 
-			this.textBox.Location = new System.Drawing.Point(358, 34);
+			this.textBox.Location = new System.Drawing.Point(358, 28);
 			this.textBox.Name = "textBox";
 			this.textBox.Size = new System.Drawing.Size(262, 20);
 			this.textBox.TabIndex = 2;
@@ -190,9 +190,9 @@ namespace OpenPmsDental {
 			// 
 			// DropListFilter
 			// 
-			this.DropListFilter.Location = new System.Drawing.Point(8, 34);
+			this.DropListFilter.Location = new System.Drawing.Point(8, 28);
 			this.DropListFilter.Name = "DropListFilter";
-			this.DropListFilter.Size = new System.Drawing.Size(172, 21);
+			this.DropListFilter.Size = new System.Drawing.Size(172, 23);
 			this.DropListFilter.TabIndex = 1;
 			this.DropListFilter.Text = "WHERE";
 			this.DropListFilter.SelectionChangeCommitted += new System.EventHandler(this.DropListFilter_SelectedIndexChanged);
@@ -201,7 +201,7 @@ namespace OpenPmsDental {
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butOK.Enabled = false;
-			this.butOK.Location = new System.Drawing.Point(751, 640);
+			this.butOK.Location = new System.Drawing.Point(759, 649);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 26);
 			this.butOK.TabIndex = 40;
@@ -213,7 +213,7 @@ namespace OpenPmsDental {
 			this.textSQL.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textSQL.Location = new System.Drawing.Point(16, 542);
+			this.textSQL.Location = new System.Drawing.Point(14, 508);
 			this.textSQL.Multiline = true;
 			this.textSQL.Name = "textSQL";
 			this.textSQL.ReadOnly = true;

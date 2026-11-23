@@ -50,16 +50,16 @@ namespace OpenPmsDental {
 			// 
 			// lblInternalName
 			// 
-			this.labelInternalName.Location = new System.Drawing.Point(-1, 16);
+			this.labelInternalName.Location = new System.Drawing.Point(47, 8);
 			this.labelInternalName.Name = "lblInternalName";
-			this.labelInternalName.Size = new System.Drawing.Size(140, 17);
+			this.labelInternalName.Size = new System.Drawing.Size(88, 23);
 			this.labelInternalName.TabIndex = 2;
 			this.labelInternalName.Text = "Internal Name";
 			this.labelInternalName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textInternalName
 			// 
-			this.textInternalName.Location = new System.Drawing.Point(141, 15);
+			this.textInternalName.Location = new System.Drawing.Point(141, 8);
 			this.textInternalName.Name = "textInternalName";
 			this.textInternalName.ReadOnly = true;
 			this.textInternalName.Size = new System.Drawing.Size(348, 20);
@@ -67,50 +67,50 @@ namespace OpenPmsDental {
 			// 
 			// textDescription
 			// 
-			this.textDescription.Location = new System.Drawing.Point(141, 41);
+			this.textDescription.Location = new System.Drawing.Point(141, 35);
 			this.textDescription.Name = "textDescription";
-			this.textDescription.Size = new System.Drawing.Size(348, 20);
+			this.textDescription.Size = new System.Drawing.Size(341, 23);
 			this.textDescription.TabIndex = 5;
 			this.textDescription.TextChanged += new System.EventHandler(this.textDescription_TextChanged);
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(-1, 42);
+			this.label2.Location = new System.Drawing.Point(63, 35);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(140, 17);
+			this.label2.Size = new System.Drawing.Size(72, 23);
 			this.label2.TabIndex = 4;
 			this.label2.Text = "Description";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(-1, 120);
+			this.label3.Location = new System.Drawing.Point(43, 116);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(140, 17);
+			this.label3.Size = new System.Drawing.Size(92, 23);
 			this.label3.TabIndex = 6;
 			this.label3.Text = "Column Width";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textWidthMin
 			// 
-			this.textWidthMin.Location = new System.Drawing.Point(141, 93);
+			this.textWidthMin.Location = new System.Drawing.Point(141, 89);
 			this.textWidthMin.Name = "textWidthMin";
 			this.textWidthMin.ReadOnly = true;
-			this.textWidthMin.Size = new System.Drawing.Size(71, 20);
+			this.textWidthMin.Size = new System.Drawing.Size(72, 23);
 			this.textWidthMin.TabIndex = 9;
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(2, 94);
+			this.label4.Location = new System.Drawing.Point(35, 89);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(137, 17);
+			this.label4.Size = new System.Drawing.Size(100, 23);
 			this.label4.TabIndex = 8;
 			this.label4.Text = "Minimum Width";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(215, 94);
+			this.label5.Location = new System.Drawing.Point(219, 92);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(175, 17);
 			this.label5.TabIndex = 10;
@@ -119,17 +119,17 @@ namespace OpenPmsDental {
 			// 
 			// textWidth
 			// 
-			this.textWidth.Location = new System.Drawing.Point(141, 119);
+			this.textWidth.Location = new System.Drawing.Point(141, 116);
 			this.textWidth.MaxVal = 2000;
 			this.textWidth.MinVal = 1;
 			this.textWidth.Name = "textWidth";
-			this.textWidth.Size = new System.Drawing.Size(71, 20);
+			this.textWidth.Size = new System.Drawing.Size(72, 23);
 			this.textWidth.TabIndex = 7;
 			// 
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(510, 116);
+			this.butSave.Location = new System.Drawing.Point(514, 151);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 26);
 			this.butSave.TabIndex = 1;
@@ -138,7 +138,7 @@ namespace OpenPmsDental {
 			// 
 			// lblDescOption
 			// 
-			this.labelDescriptionOption.Location = new System.Drawing.Point(491, 42);
+			this.labelDescriptionOption.Location = new System.Drawing.Point(488, 38);
 			this.labelDescriptionOption.Name = "lblDescOption";
 			this.labelDescriptionOption.Size = new System.Drawing.Size(101, 17);
 			this.labelDescriptionOption.TabIndex = 95;
@@ -147,7 +147,7 @@ namespace OpenPmsDental {
 			// 
 			// lblDescOverrideOption
 			// 
-			this.labelDescriptionOverrideOption.Location = new System.Drawing.Point(491, 68);
+			this.labelDescriptionOverrideOption.Location = new System.Drawing.Point(488, 65);
 			this.labelDescriptionOverrideOption.Name = "lblDescOverrideOption";
 			this.labelDescriptionOverrideOption.Size = new System.Drawing.Size(101, 17);
 			this.labelDescriptionOverrideOption.TabIndex = 98;
@@ -156,24 +156,24 @@ namespace OpenPmsDental {
 			// 
 			// textDescriptionOverride
 			// 
-			this.textDescriptionOverride.Location = new System.Drawing.Point(141, 67);
+			this.textDescriptionOverride.Location = new System.Drawing.Point(141, 62);
 			this.textDescriptionOverride.Name = "textDescriptionOverride";
-			this.textDescriptionOverride.Size = new System.Drawing.Size(348, 20);
+			this.textDescriptionOverride.Size = new System.Drawing.Size(341, 23);
 			this.textDescriptionOverride.TabIndex = 97;
 			this.textDescriptionOverride.TextChanged += new System.EventHandler(this.textDescriptionOverride_TextChanged);
 			// 
 			// lblDescOverride
 			// 
-			this.labelDescriptionOverride.Location = new System.Drawing.Point(-1, 68);
+			this.labelDescriptionOverride.Location = new System.Drawing.Point(15, 62);
 			this.labelDescriptionOverride.Name = "lblDescOverride";
-			this.labelDescriptionOverride.Size = new System.Drawing.Size(140, 17);
+			this.labelDescriptionOverride.Size = new System.Drawing.Size(120, 23);
 			this.labelDescriptionOverride.TabIndex = 96;
 			this.labelDescriptionOverride.Text = "Description Override";
 			this.labelDescriptionOverride.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// FormDisplayFieldEdit
 			// 
-			this.ClientSize = new System.Drawing.Size(597, 154);
+			this.ClientSize = new System.Drawing.Size(597, 185);
 			this.Controls.Add(this.labelDescriptionOverrideOption);
 			this.Controls.Add(this.textDescriptionOverride);
 			this.Controls.Add(this.labelDescriptionOverride);

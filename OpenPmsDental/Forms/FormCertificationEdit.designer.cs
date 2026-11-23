@@ -37,7 +37,7 @@ namespace OpenPmsDental{
 			// listBoxCategories
 			// 
 			this.listBoxCategories.IntegralHeight = false;
-			this.listBoxCategories.Location = new System.Drawing.Point(115, 73);
+			this.listBoxCategories.Location = new System.Drawing.Point(115, 62);
 			this.listBoxCategories.Name = "listBoxCategories";
 			this.listBoxCategories.Size = new System.Drawing.Size(180, 200);
 			this.listBoxCategories.TabIndex = 3;
@@ -45,17 +45,17 @@ namespace OpenPmsDental{
 			// 
 			// labelCategories
 			// 
-			this.labelCategories.Location = new System.Drawing.Point(12, 77);
+			this.labelCategories.Location = new System.Drawing.Point(49, 62);
 			this.labelCategories.Name = "labelCategories";
-			this.labelCategories.Size = new System.Drawing.Size(102, 34);
+			this.labelCategories.Size = new System.Drawing.Size(60, 34);
 			this.labelCategories.TabIndex = 13;
 			this.labelCategories.Text = "Category";
-			this.labelCategories.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.labelCategories.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(332, 312);
+			this.butSave.Location = new System.Drawing.Point(343, 316);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 6;
@@ -64,32 +64,32 @@ namespace OpenPmsDental{
 			// 
 			// labelDescription
 			// 
-			this.labelDescription.Location = new System.Drawing.Point(12, 27);
+			this.labelDescription.Location = new System.Drawing.Point(37, 8);
 			this.labelDescription.Name = "labelDescription";
-			this.labelDescription.Size = new System.Drawing.Size(102, 17);
+			this.labelDescription.Size = new System.Drawing.Size(72, 23);
 			this.labelDescription.TabIndex = 11;
 			this.labelDescription.Text = "Description";
-			this.labelDescription.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.labelDescription.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textDescription
 			// 
-			this.textDescription.Location = new System.Drawing.Point(115, 23);
+			this.textDescription.Location = new System.Drawing.Point(115, 8);
 			this.textDescription.Name = "textDescription";
 			this.textDescription.Size = new System.Drawing.Size(292, 20);
 			this.textDescription.TabIndex = 1;
 			// 
 			// labelWikiPage
 			// 
-			this.labelWikiPage.Location = new System.Drawing.Point(12, 52);
+			this.labelWikiPage.Location = new System.Drawing.Point(45, 35);
 			this.labelWikiPage.Name = "labelWikiPage";
-			this.labelWikiPage.Size = new System.Drawing.Size(102, 17);
+			this.labelWikiPage.Size = new System.Drawing.Size(64, 23);
 			this.labelWikiPage.TabIndex = 12;
 			this.labelWikiPage.Text = "Wiki Page";
-			this.labelWikiPage.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.labelWikiPage.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textWikiPage
 			// 
-			this.textWikiPage.Location = new System.Drawing.Point(115, 48);
+			this.textWikiPage.Location = new System.Drawing.Point(115, 35);
 			this.textWikiPage.Name = "textWikiPage";
 			this.textWikiPage.Size = new System.Drawing.Size(292, 20);
 			this.textWikiPage.TabIndex = 2;
@@ -99,7 +99,7 @@ namespace OpenPmsDental{
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(12, 310);
+			this.butDelete.Location = new System.Drawing.Point(8, 316);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(80, 24);
 			this.butDelete.TabIndex = 5;
@@ -108,10 +108,10 @@ namespace OpenPmsDental{
 			// 
 			// checkIsHidden
 			// 
-			this.checkIsHidden.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkIsHidden.Location = new System.Drawing.Point(25, 278);
+			this.checkIsHidden.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkIsHidden.Location = new System.Drawing.Point(115, 266);
 			this.checkIsHidden.Name = "checkIsHidden";
-			this.checkIsHidden.Size = new System.Drawing.Size(104, 18);
+			this.checkIsHidden.Size = new System.Drawing.Size(62, 20);
 			this.checkIsHidden.TabIndex = 4;
 			this.checkIsHidden.Text = "Hidden";
 			// 

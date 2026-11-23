@@ -41,7 +41,7 @@ namespace OpenPmsDental {
 			// 
 			// listBoxLicense
 			// 
-			this.listBoxLicense.Location = new System.Drawing.Point(12, 55);
+			this.listBoxLicense.Location = new System.Drawing.Point(10, 27);
 			this.listBoxLicense.Name = "listBoxLicense";
 			this.listBoxLicense.Size = new System.Drawing.Size(144, 395);
 			this.listBoxLicense.TabIndex = 20;
@@ -52,7 +52,7 @@ namespace OpenPmsDental {
 			this.textLicense.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textLicense.Location = new System.Drawing.Point(162, 35);
+			this.textLicense.Location = new System.Drawing.Point(162, 8);
 			this.textLicense.Name = "textLicense";
 			this.textLicense.Size = new System.Drawing.Size(677, 473);
 			this.textLicense.TabIndex = 21;
@@ -60,7 +60,7 @@ namespace OpenPmsDental {
 			// 
 			// labelLicense
 			// 
-			this.labelLicense.Location = new System.Drawing.Point(10, 35);
+			this.labelLicense.Location = new System.Drawing.Point(10, 8);
 			this.labelLicense.Name = "labelLicense";
 			this.labelLicense.Size = new System.Drawing.Size(147, 17);
 			this.labelLicense.TabIndex = 22;

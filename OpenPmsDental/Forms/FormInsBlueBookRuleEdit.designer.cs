@@ -35,7 +35,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(164, 203);
+			this.butSave.Location = new System.Drawing.Point(168, 207);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 3;
@@ -44,7 +44,7 @@ namespace OpenPmsDental{
 			// 
 			// labelLimitType
 			// 
-			this.labelLimitType.Location = new System.Drawing.Point(99, 43);
+			this.labelLimitType.Location = new System.Drawing.Point(114, 35);
 			this.labelLimitType.Name = "labelLimitType";
 			this.labelLimitType.Size = new System.Drawing.Size(124, 18);
 			this.labelLimitType.TabIndex = 269;
@@ -53,7 +53,7 @@ namespace OpenPmsDental{
 			// 
 			// listLimitType
 			// 
-			this.listLimitType.Location = new System.Drawing.Point(99, 62);
+			this.listLimitType.Location = new System.Drawing.Point(114, 55);
 			this.listLimitType.Name = "listLimitType";
 			this.listLimitType.Size = new System.Drawing.Size(124, 82);
 			this.listLimitType.TabIndex = 268;
@@ -61,9 +61,9 @@ namespace OpenPmsDental{
 			// 
 			// labelLimitValue
 			// 
-			this.labelLimitValue.Location = new System.Drawing.Point(22, 155);
+			this.labelLimitValue.Location = new System.Drawing.Point(36, 141);
 			this.labelLimitValue.Name = "labelLimitValue";
-			this.labelLimitValue.Size = new System.Drawing.Size(76, 20);
+			this.labelLimitValue.Size = new System.Drawing.Size(72, 23);
 			this.labelLimitValue.TabIndex = 271;
 			this.labelLimitValue.Text = "Limit Value";
 			this.labelLimitValue.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -73,7 +73,7 @@ namespace OpenPmsDental{
 			this.textRule.BackColor = System.Drawing.SystemColors.Window;
 			this.textRule.Enabled = false;
 			this.textRule.ForeColor = System.Drawing.SystemColors.WindowText;
-			this.textRule.Location = new System.Drawing.Point(99, 12);
+			this.textRule.Location = new System.Drawing.Point(114, 8);
 			this.textRule.Name = "textRule";
 			this.textRule.ReadOnly = true;
 			this.textRule.Size = new System.Drawing.Size(124, 20);
@@ -81,16 +81,16 @@ namespace OpenPmsDental{
 			// 
 			// labelRule
 			// 
-			this.labelRule.Location = new System.Drawing.Point(2, 12);
+			this.labelRule.Location = new System.Drawing.Point(8, 8);
 			this.labelRule.Name = "labelRule";
-			this.labelRule.Size = new System.Drawing.Size(96, 20);
+			this.labelRule.Size = new System.Drawing.Size(100, 23);
 			this.labelRule.TabIndex = 273;
 			this.labelRule.Text = "Rule matches on";
 			this.labelRule.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textLimitValue
 			// 
-			this.textLimitValue.Location = new System.Drawing.Point(99, 156);
+			this.textLimitValue.Location = new System.Drawing.Point(114, 141);
 			this.textLimitValue.MaxVal = 999999;
 			this.textLimitValue.MinVal = 1;
 			this.textLimitValue.Name = "textLimitValue";

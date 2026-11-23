@@ -43,7 +43,7 @@ namespace OpenPmsDental {
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(279, 501);
+			this.butSave.Location = new System.Drawing.Point(292, 505);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 25);
 			this.butSave.TabIndex = 1;
@@ -52,7 +52,7 @@ namespace OpenPmsDental {
 			// 
 			// labelName
 			// 
-			this.labelName.Location = new System.Drawing.Point(19, 17);
+			this.labelName.Location = new System.Drawing.Point(19, 8);
 			this.labelName.Name = "labelName";
 			this.labelName.Size = new System.Drawing.Size(335, 20);
 			this.labelName.TabIndex = 3;
@@ -64,14 +64,14 @@ namespace OpenPmsDental {
 			this.listBoxPick.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.listBoxPick.Location = new System.Drawing.Point(21, 41);
+			this.listBoxPick.Location = new System.Drawing.Point(19, 30);
 			this.listBoxPick.Name = "listBoxPick";
 			this.listBoxPick.Size = new System.Drawing.Size(333, 446);
 			this.listBoxPick.TabIndex = 4;
 			// 
 			// butClear
 			// 
-			this.butClear.Location = new System.Drawing.Point(21, 501);
+			this.butClear.Location = new System.Drawing.Point(8, 506);
 			this.butClear.Name = "butClear";
 			this.butClear.Size = new System.Drawing.Size(75, 24);
 			this.butClear.TabIndex = 5;

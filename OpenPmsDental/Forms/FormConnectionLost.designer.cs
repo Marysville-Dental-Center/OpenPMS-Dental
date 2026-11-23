@@ -31,7 +31,7 @@ namespace OpenPmsDental{
 			// 
 			// labelErrMsg
 			// 
-			this.labelErrMsg.Location = new System.Drawing.Point(12, 9);
+			this.labelErrMsg.Location = new System.Drawing.Point(20, 17);
 			this.labelErrMsg.Name = "labelErrMsg";
 			this.labelErrMsg.Size = new System.Drawing.Size(377, 144);
 			this.labelErrMsg.TabIndex = 4;
@@ -40,7 +40,7 @@ namespace OpenPmsDental{
 			// butRetry
 			// 
 			this.butRetry.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butRetry.Location = new System.Drawing.Point(232, 164);
+			this.butRetry.Location = new System.Drawing.Point(232, 220);
 			this.butRetry.Name = "butRetry";
 			this.butRetry.Size = new System.Drawing.Size(75, 24);
 			this.butRetry.TabIndex = 3;
@@ -50,7 +50,7 @@ namespace OpenPmsDental{
 			// butExit
 			// 
 			this.butExit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butExit.Location = new System.Drawing.Point(313, 164);
+			this.butExit.Location = new System.Drawing.Point(313, 220);
 			this.butExit.Name = "butExit";
 			this.butExit.Size = new System.Drawing.Size(75, 24);
 			this.butExit.TabIndex = 2;
@@ -63,14 +63,14 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.panel1.Location = new System.Drawing.Point(0, 0);
+			this.panel1.Location = new System.Drawing.Point(8, 8);
 			this.panel1.Name = "panel1";
 			this.panel1.Size = new System.Drawing.Size(400, 200);
 			this.panel1.TabIndex = 5;
 			// 
 			// FormConnectionLost
 			// 
-			this.ClientSize = new System.Drawing.Size(400, 200);
+			this.ClientSize = new System.Drawing.Size(416, 252);
 			this.Controls.Add(this.labelErrMsg);
 			this.Controls.Add(this.butRetry);
 			this.Controls.Add(this.butExit);

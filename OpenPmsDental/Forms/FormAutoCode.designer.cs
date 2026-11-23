@@ -32,7 +32,7 @@ namespace OpenPmsDental {
 			// 
 			// listAutoCodes
 			// 
-			this.listAutoCodes.Location = new System.Drawing.Point(28, 26);
+			this.listAutoCodes.Location = new System.Drawing.Point(26, 8);
 			this.listAutoCodes.Name = "listAutoCodes";
 			this.listAutoCodes.Size = new System.Drawing.Size(178, 316);
 			this.listAutoCodes.TabIndex = 0;
@@ -42,7 +42,7 @@ namespace OpenPmsDental {
 			// 
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdd.Location = new System.Drawing.Point(26, 354);
+			this.butAdd.Location = new System.Drawing.Point(26, 328);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(90, 26);
 			this.butAdd.TabIndex = 5;
@@ -53,7 +53,7 @@ namespace OpenPmsDental {
 			// 
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(118, 354);
+			this.butDelete.Location = new System.Drawing.Point(122, 328);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(90, 26);
 			this.butDelete.TabIndex = 6;

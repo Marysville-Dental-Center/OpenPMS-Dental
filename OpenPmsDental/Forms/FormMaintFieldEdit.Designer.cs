@@ -40,50 +40,50 @@ namespace OpenPmsDental {
 			//
 			// labelName
 			//
-			this.labelName.Location = new System.Drawing.Point(12, 18);
+			this.labelName.Location = new System.Drawing.Point(47, 8);
 			this.labelName.Name = "labelName";
-			this.labelName.Size = new System.Drawing.Size(110, 20);
+			this.labelName.Size = new System.Drawing.Size(72, 23);
 			this.labelName.TabIndex = 0;
 			this.labelName.Text = "Field name";
 			this.labelName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			//
 			// textName
 			//
-			this.textName.Location = new System.Drawing.Point(125, 18);
+			this.textName.Location = new System.Drawing.Point(125, 8);
 			this.textName.MaxLength = 255;
 			this.textName.Name = "textName";
-			this.textName.Size = new System.Drawing.Size(250, 20);
+			this.textName.Size = new System.Drawing.Size(248, 23);
 			this.textName.TabIndex = 1;
 			//
 			// labelType
 			//
-			this.labelType.Location = new System.Drawing.Point(12, 46);
+			this.labelType.Location = new System.Drawing.Point(83, 35);
 			this.labelType.Name = "labelType";
-			this.labelType.Size = new System.Drawing.Size(110, 20);
+			this.labelType.Size = new System.Drawing.Size(36, 23);
 			this.labelType.TabIndex = 2;
 			this.labelType.Text = "Type";
 			this.labelType.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			//
 			// comboType
 			//
-			this.comboType.Location = new System.Drawing.Point(125, 46);
+			this.comboType.Location = new System.Drawing.Point(125, 35);
 			this.comboType.Name = "comboType";
-			this.comboType.Size = new System.Drawing.Size(150, 21);
+			this.comboType.Size = new System.Drawing.Size(152, 23);
 			this.comboType.TabIndex = 3;
 			this.comboType.SelectionChangeCommitted += new System.EventHandler(this.comboType_SelectionChangeCommitted);
 			//
 			// labelUnit
 			//
-			this.labelUnit.Location = new System.Drawing.Point(12, 74);
+			this.labelUnit.Location = new System.Drawing.Point(83, 62);
 			this.labelUnit.Name = "labelUnit";
-			this.labelUnit.Size = new System.Drawing.Size(110, 20);
+			this.labelUnit.Size = new System.Drawing.Size(36, 23);
 			this.labelUnit.TabIndex = 4;
 			this.labelUnit.Text = "Unit";
 			this.labelUnit.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			//
 			// textUnit
 			//
-			this.textUnit.Location = new System.Drawing.Point(125, 74);
+			this.textUnit.Location = new System.Drawing.Point(125, 62);
 			this.textUnit.MaxLength = 255;
 			this.textUnit.Name = "textUnit";
 			this.textUnit.Size = new System.Drawing.Size(100, 20);
@@ -91,39 +91,39 @@ namespace OpenPmsDental {
 			//
 			// checkMin
 			//
-			this.checkMin.Location = new System.Drawing.Point(30, 102);
+			this.checkMin.Location = new System.Drawing.Point(30, 89);
 			this.checkMin.Name = "checkMin";
-			this.checkMin.Size = new System.Drawing.Size(92, 20);
+			this.checkMin.Size = new System.Drawing.Size(75, 20);
 			this.checkMin.TabIndex = 6;
 			this.checkMin.Text = "Minimum";
 			this.checkMin.Click += new System.EventHandler(this.checkLimit_Click);
 			//
 			// textMin
 			//
-			this.textMin.Location = new System.Drawing.Point(125, 102);
+			this.textMin.Location = new System.Drawing.Point(125, 89);
 			this.textMin.Name = "textMin";
 			this.textMin.Size = new System.Drawing.Size(100, 20);
 			this.textMin.TabIndex = 7;
 			//
 			// checkMax
 			//
-			this.checkMax.Location = new System.Drawing.Point(30, 130);
+			this.checkMax.Location = new System.Drawing.Point(30, 113);
 			this.checkMax.Name = "checkMax";
-			this.checkMax.Size = new System.Drawing.Size(92, 20);
+			this.checkMax.Size = new System.Drawing.Size(77, 20);
 			this.checkMax.TabIndex = 8;
 			this.checkMax.Text = "Maximum";
 			this.checkMax.Click += new System.EventHandler(this.checkLimit_Click);
 			//
 			// textMax
 			//
-			this.textMax.Location = new System.Drawing.Point(125, 130);
+			this.textMax.Location = new System.Drawing.Point(125, 116);
 			this.textMax.Name = "textMax";
 			this.textMax.Size = new System.Drawing.Size(100, 20);
 			this.textMax.TabIndex = 9;
 			//
 			// labelLimits
 			//
-			this.labelLimits.Location = new System.Drawing.Point(231, 102);
+			this.labelLimits.Location = new System.Drawing.Point(231, 89);
 			this.labelLimits.Name = "labelLimits";
 			this.labelLimits.Size = new System.Drawing.Size(150, 48);
 			this.labelLimits.TabIndex = 10;
@@ -131,15 +131,15 @@ namespace OpenPmsDental {
 			//
 			// checkRequired
 			//
-			this.checkRequired.Location = new System.Drawing.Point(125, 160);
+			this.checkRequired.Location = new System.Drawing.Point(125, 143);
 			this.checkRequired.Name = "checkRequired";
-			this.checkRequired.Size = new System.Drawing.Size(250, 20);
+			this.checkRequired.Size = new System.Drawing.Size(200, 20);
 			this.checkRequired.TabIndex = 11;
 			this.checkRequired.Text = "Required to record a completion";
 			//
 			// butSave
 			//
-			this.butSave.Location = new System.Drawing.Point(300, 196);
+			this.butSave.Location = new System.Drawing.Point(310, 200);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 12;
