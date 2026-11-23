@@ -71,7 +71,7 @@ namespace ImagingCapture.Photo {
 				return result;
 			}
 			result.Document=document;
-			if(plan.MountItemNum==0 && !plan.IsFlipped && plan.DegreesRotated==0 && (plan.ToothNumbers??"")=="") {
+			if(plan.MountItemNum==0 && !plan.IsFlipped && plan.DegreesRotated==0 && (plan.ToothNumbers??"")=="" && plan.DateTimeTaken.Year<1880) {
 				result.IsPlaced=true;//a quick photo with nothing to set
 				return result;
 			}
@@ -95,6 +95,9 @@ namespace ImagingCapture.Photo {
 			}
 			document.DegreesRotated=plan.DegreesRotated;
 			document.ToothNumbers=plan.ToothNumbers??"";
+			if(plan.DateTimeTaken.Year>1880) {
+				document.DateCreated=plan.DateTimeTaken;//the clinical time of the photo, not the time it was filed
+			}
 		}
 
 		///<summary>The category of a quick photo: the Video category preference when set, else categoryDefNumCurrent (as the Video window).</summary>

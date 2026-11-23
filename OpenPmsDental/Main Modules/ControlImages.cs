@@ -47,6 +47,8 @@ namespace OpenPmsDental{
 		///<summary>The photo mount the running session made, 0 when it fills an existing one or takes quick photos. Removed again when the session
 		///ends without a photo.</summary>
 		private long _mountNumCameraCreated;
+		///<summary>The borderless window holding the camera session on the whole monitor (F11), or null while it is in the module.</summary>
+		private Form _formCameraFullScreen;
 		private FrmPearlLayers _frmPearlLayers;
 		private WpfControls.UI.ImageSelector imageSelector;
 		///<summary>A list of the forms that are currently floating. Can be empty.  When a form is closed, it is removed from the list at FormImageFloat_FormClosed.</summary>
@@ -3002,6 +3004,10 @@ namespace OpenPmsDental{
 			}
 			contextMenuCamera.AddSeparator();
 			contextMenuCamera.Add(Lan.g(this,"Quick photos"),menuCameraQuick_Click);
+			int countUnsaved=ImagingCapture.Photo.PhotoQuarantine.List().Count;
+			if(countUnsaved>0){
+				contextMenuCamera.Add(Lan.g(this,"Unsaved photos")+" ("+countUnsaved+")...",menuCameraUnsaved_Click);
+			}
 			contextMenuCamera.AddSeparator();
 			contextMenuCamera.Add(Lan.g(this,"Video window (camera settings, Learn)..."),menuCameraVideo_Click);
 		}
@@ -3015,6 +3021,97 @@ namespace OpenPmsDental{
 
 		private void menuCameraQuick_Click(object sender,System.Windows.RoutedEventArgs e){
 			StartCameraSession(null);
+		}
+
+		///<summary>Files the photos a camera session could not save (IMG-P4b-3), each to the patient it was taken for: into its slot when that is
+		///still empty, else unmounted. Needs ImageCreate.</summary>
+		private void menuCameraUnsaved_Click(object sender,System.Windows.RoutedEventArgs e){
+			if(!Security.IsAuthorized(EnumPermType.ImageCreate)){
+				return;
+			}
+			List<ImagingCapture.Photo.PhotoUnsaved> listPhotos=ImagingCapture.Photo.PhotoQuarantine.List();
+			if(listPhotos.Count==0){
+				return;
+			}
+			string patients=string.Join("\r\n",listPhotos.GroupBy(x => x.PatNum).Select(x => x.First().PatientName+" (PatNum "+x.Key+"): "+x.Count()));
+			if(!MsgBox.Show(MsgBoxButtons.OKCancel,Lan.g(this,"File the unsaved photos to the patients they were taken for?")+"\r\n\r\n"+patients)){
+				return;
+			}
+			ImagingCapture.Photo.OdPhotoStore odPhotoStore=new ImagingCapture.Photo.OdPhotoStore();
+			List<string> listErrors=new List<string>();
+			int countFiled=0;
+			for(int i=0;i<listPhotos.Count;i++){
+				string error=ImagingCapture.Photo.PhotoQuarantine.FileOne(odPhotoStore,listPhotos[i],out bool isFiled);
+				if(isFiled){
+					countFiled++;
+				}
+				if(error!=""){
+					listErrors.Add(System.IO.Path.GetFileName(listPhotos[i].PathImage)+(isFiled ? " ("+Lan.g(this,"filed")+")" : "")+": "+error);
+				}
+			}
+			string result=Lan.g(this,"Photos filed")+": "+countFiled+(listErrors.Count==0 ? "" : "\r\n"+Lan.g(this,"Problems")+":\r\n"+string.Join("\r\n",listErrors));
+			if(_patient!=null && listPhotos.Any(x => x.PatNum==_patient.PatNum)){
+				FillImageSelector(true);
+			}
+			MsgBox.Show(result);
+		}
+
+		private void controlCameraSession_EventFullScreenToggle(object sender,EventArgs e){
+			ControlCameraSession controlCameraSession=_controlCameraSession;
+			if(controlCameraSession==null || controlCameraSession!=sender){
+				return;
+			}
+			if(_formCameraFullScreen!=null){
+				ExitCameraFullScreen();
+				return;
+			}
+			//The whole monitor the module is on (owner design C1); a borderless window owned by the main window, not maximised, not topmost.
+			Form form=new Form();
+			form.FormBorderStyle=FormBorderStyle.None;
+			form.ControlBox=false;//Win+Down and Win+Up must not minimise or maximise it (decision C1: the monitor's bounds)
+			form.MinimizeBox=false;
+			form.MaximizeBox=false;
+			form.StartPosition=FormStartPosition.Manual;
+			form.Bounds=System.Windows.Forms.Screen.FromControl(this).Bounds;
+			form.ShowInTaskbar=false;
+			form.Text=Lan.g(this,"Camera");
+			form.BackColor=Color.Black;
+			form.Resize+=(senderForm,eResize) => {
+				if(_formCameraFullScreen==form && form.WindowState!=FormWindowState.Normal){
+					BeginInvoke((Action)ExitCameraFullScreen);//minimised or maximised anyway: back into the module
+				}
+			};
+			form.FormClosing+=(senderForm,eClosing) => {
+				if(_formCameraFullScreen==form && eClosing.CloseReason==CloseReason.UserClosing){
+					eClosing.Cancel=true;//Alt+F4 goes back to the module; End ends the session
+					BeginInvoke((Action)ExitCameraFullScreen);
+				}
+			};
+			Controls.Remove(controlCameraSession);
+			controlCameraSession.Dock=DockStyle.Fill;
+			form.Controls.Add(controlCameraSession);
+			_formCameraFullScreen=form;
+			form.Show(FindForm());
+			controlCameraSession.Focus();
+		}
+
+		///<summary>Puts the session back into the module and closes the full-screen window.</summary>
+		private void ExitCameraFullScreen(){
+			Form form=_formCameraFullScreen;
+			if(form==null){
+				return;
+			}
+			_formCameraFullScreen=null;
+			ControlCameraSession controlCameraSession=_controlCameraSession;
+			if(controlCameraSession!=null && controlCameraSession.Parent==form){
+				form.Controls.Remove(controlCameraSession);
+				controlCameraSession.Dock=DockStyle.None;
+				Controls.Add(controlCameraSession);
+				LayoutControls();
+				controlCameraSession.Focus();
+			}
+			form.Close();
+			form.Dispose();
 		}
 
 		private void menuCameraVideo_Click(object sender,System.Windows.RoutedEventArgs e){
@@ -3096,6 +3193,7 @@ namespace OpenPmsDental{
 				return;
 			}
 			controlCameraSession.EventEnded+=controlCameraSession_EventEnded;
+			controlCameraSession.EventFullScreenToggle+=controlCameraSession_EventFullScreenToggle;
 			_controlCameraSession=controlCameraSession;
 			Controls.Add(controlCameraSession);
 			LayoutControls();
@@ -3109,13 +3207,17 @@ namespace OpenPmsDental{
 		private void controlCameraSession_EventEnded(object sender,CameraSessionEndedEventArgs e){
 			ControlCameraSession controlCameraSession=(ControlCameraSession)sender;
 			controlCameraSession.EventEnded-=controlCameraSession_EventEnded;
+			controlCameraSession.EventFullScreenToggle-=controlCameraSession_EventFullScreenToggle;
+			if(_controlCameraSession==controlCameraSession){
+				ExitCameraFullScreen();//back into the module before it is removed
+			}
 			if(_controlCameraSession==controlCameraSession){
 				_controlCameraSession=null;
 			}
 			long mountNumCreated=_mountNumCameraCreated;
 			_mountNumCameraCreated=0;
 			bool isMountRemoved=false;
-			if(mountNumCreated!=0 && e.MountNum==mountNumCreated && e.CountShotsLeft==0){//no photo, or all deleted again (retakes stay in the mount)
+			if(mountNumCreated!=0 && e.MountNum==mountNumCreated && e.CountShotsLeft==0 && e.CountKept==0){//kept photos are filed into its slots//no photo, or all deleted again (retakes stay in the mount)
 				isMountRemoved=RemoveEmptyCameraMount(mountNumCreated,controlCameraSession.Patient?.PatNum??0);
 			}
 			BeginInvoke((Action)(() => {
@@ -3668,7 +3770,7 @@ namespace OpenPmsDental{
 				panelMainTop,//used to sit under panelAcquire, but now gets resized
 				Width-panelSplitter.Right-1,
 				elementHostUnmountedBar.Top-panelMainTop-2));
-			if(_controlCameraSession!=null){
+			if(_controlCameraSession!=null && _controlCameraSession.Parent==this){
 				_controlCameraSession.Bounds=new Rectangle(0,0,Width,Height);//the session covers the whole module (design section 2)
 				_controlCameraSession.BringToFront();
 			}

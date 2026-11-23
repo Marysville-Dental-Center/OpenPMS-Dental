@@ -26,6 +26,8 @@ namespace OpenPmsDental {
 		public int CountSaved { get; set; }
 		///<summary>Photos of this session still in it (not deleted or retaken): 0 lets the module remove a mount the session made.</summary>
 		public int CountShotsLeft { get; set; }
+		///<summary>Photos that could not be saved and were kept on this computer: their mount must stay, for filing them into their slots.</summary>
+		public int CountKept { get; set; }
 		///<summary>True when the session ended because the patient changed.</summary>
 		public bool IsPatientChange { get; set; }
 		///<summary>True when the session ended because the user left the Imaging module: the module is not refreshed.</summary>
@@ -74,11 +76,19 @@ namespace OpenPmsDental {
 		private long _docNumUndoable;
 		///<summary>A short click, made once (design section 2: a soft click on every shot).</summary>
 		private static byte[] _arrayBytesClick;
+		///<summary>Idle release (design section 2, "Session timeout"): checks every 30 seconds.</summary>
+		private System.Windows.Forms.Timer timerIdle;
+		private DateTime _dateTimeActivity=DateTime.Now;
+		///<summary>True while the camera is released for being idle; Capture, Space or Wake opens it again.</summary>
+		private bool _isAsleep;
+		private int _countKept;
 		private VideoStatusAction _videoStatusAction;
 		private Label labelBanner;
 		private Panel panelLive;
 		private PictureBox pictureLive;
 		private Label labelGuide;
+		///<summary>A failure that must not be missed (a photo not saved), over the bottom of the live picture until the next photo is saved.</summary>
+		private Label labelAlert;
 		private Label labelStatus;
 		private UI.Button butStatusAction;
 		private Panel panelBar;
@@ -98,6 +108,8 @@ namespace OpenPmsDental {
 		///<summary>Raised once when the session ends (End, Esc, a patient change, or the module closing it). The camera is released before.
 		///</summary>
 		public event EventHandler<CameraSessionEndedEventArgs> EventEnded;
+		///<summary>F11: the module puts the session on the whole monitor, or back into the module (owner design C1).</summary>
+		public event EventHandler EventFullScreenToggle;
 
 		public ControlCameraSession(IPhotoStore store,Func<int,int> funcScale) {
 			_store=store??throw new ArgumentNullException(nameof(store));
@@ -116,6 +128,9 @@ namespace OpenPmsDental {
 		public bool IsFrozen => _bitmapFrozen!=null;
 		///<summary>Plays a click after each saved photo. A setting turns it off later (IMG-P4e).</summary>
 		public bool IsClickOn { get; set; }=true;
+		///<summary>Minutes without a photo or a key after which the camera is released (its light goes off). A setting later (IMG-P4e).</summary>
+		public int MinutesIdle { get; set; }=10;
+		public bool IsAsleep => _isAsleep;
 		///<summary>Shows stored tooth numbers in the office's numbering (Tooth.DisplayRange). Replaceable for pictures made without a database.
 		///</summary>
 		public Func<string,string> FuncDisplayTeeth { get; set; }=x => Tooth.DisplayRange(x);
@@ -154,6 +169,8 @@ namespace OpenPmsDental {
 			_videoCaptureSession.LevelChanged+=videoCaptureSession_LevelChanged;
 			ODEvent.Fired+=ODEvent_Fired;
 			ShowStatus(VideoStatusText.Starting());
+			_dateTimeActivity=DateTime.Now;
+			timerIdle.Start();
 			return "";
 		}
 
@@ -175,12 +192,14 @@ namespace OpenPmsDental {
 				DocNumLast=_docNumLast,
 				CountSaved=_model?.CountSaved??0,
 				CountShotsLeft=_model?.ListShots.Count??0,
+				CountKept=_countKept,
 				IsPatientChange=isPatientChange,
 				IsModuleLeft=isModuleLeft,
 			});
 		}
 
 		private void ReleaseCamera() {
+			timerIdle?.Stop();
 			ODEvent.Fired-=ODEvent_Fired;
 			VideoCaptureSession videoCaptureSession=_videoCaptureSession;
 			_videoCaptureSession=null;
@@ -212,6 +231,7 @@ namespace OpenPmsDental {
 				_bitmapFrozen?.Dispose();
 				_bitmapFrozen=null;
 				timerFlash?.Dispose();
+				timerIdle?.Dispose();
 				contextMenuShot?.Dispose();
 			}
 			base.Dispose(disposing);
@@ -221,7 +241,11 @@ namespace OpenPmsDental {
 		#region Methods - Event Handlers
 		///<summary>Space, the arrows and Esc work wherever the focus is inside the session.</summary>
 		protected override bool ProcessCmdKey(ref Message msg,Keys keyData) {
+			_dateTimeActivity=DateTime.Now;
 			switch(keyData) {
+				case Keys.F11:
+					EventFullScreenToggle?.Invoke(this,EventArgs.Empty);
+					return true;
 				case Keys.Space:
 					//A held Space repeats: only the first press takes a photo, or one held key would fill the whole mount.
 					if((msg.LParam.ToInt64() & 0x40000000)==0) {
@@ -315,6 +339,7 @@ namespace OpenPmsDental {
 		}
 
 		private void panelMount_MouseClick(object sender,MouseEventArgs e) {
+			_dateTimeActivity=DateTime.Now;
 			if(_model==null) {
 				return;
 			}
@@ -344,6 +369,11 @@ namespace OpenPmsDental {
 			if(videoCaptureSession==null || _model==null || _isEnded) {
 				return;
 			}
+			_dateTimeActivity=DateTime.Now;
+			if(_isAsleep) {
+				RefreshCamera();//one press wakes the camera; the next takes the photo
+				return;
+			}
 			PhotoShotPlan photoShotPlan=_model.PlanShot();
 			if(photoShotPlan==null) {
 				ShowInfo(Lan.g(this,"Every slot is filled. End the session (Esc)."));
@@ -359,7 +389,7 @@ namespace OpenPmsDental {
 			try {
 				PhotoSaveResult photoSaveResult=PhotoSaver.Save(_store,captureStart.Bitmap,photoShotPlan,_patient.PatNum,_categoryDefNum);
 				if(photoSaveResult.Document==null) {
-					ShowInfo(photoSaveResult.Error);//holds the exception's message: not a translation key
+					KeepUnsaved(captureStart.Bitmap,photoShotPlan,photoSaveResult.Error);
 					return;
 				}
 				_docNumLast=photoSaveResult.Document.DocNum;
@@ -377,6 +407,7 @@ namespace OpenPmsDental {
 				Flash();
 				string textSaved=photoShotPlan.GuideLabel!="" ? Lan.g(this,"Saved")+": "+photoShotPlan.GuideLabel : Lan.g(this,"Photo saved");
 				ShowInfo(textSaved);
+				ShowAlert("");
 				RefreshGuide();
 			}
 			finally {
@@ -385,6 +416,7 @@ namespace OpenPmsDental {
 		}
 
 		private void Skip(bool isForward) {
+			_dateTimeActivity=DateTime.Now;
 			if(_model==null || _model.IsQuickPhotos) {
 				return;
 			}
@@ -453,10 +485,74 @@ namespace OpenPmsDental {
 		}
 		#endregion Methods - Capture
 
+		#region Methods - Unsaved photos and idle release
+		///<summary>A photo whose save failed is kept on this computer (PhotoQuarantine) for Camera, Unsaved photos; the slot stays empty and next.
+		///</summary>
+		private void KeepUnsaved(Bitmap bitmap,PhotoShotPlan photoShotPlan,string errorSave) {
+			PhotoUnsaved photoUnsaved=new PhotoUnsaved {
+				PatNum=_patient.PatNum,
+				PatientName=_patient.GetNameLF(),
+				MountNum=_mount?.MountNum??0,
+				MountItemNum=photoShotPlan.MountItemNum,
+				Slot=photoShotPlan.GuideLabel,
+				IsFlipped=photoShotPlan.IsFlipped,
+				DegreesRotated=photoShotPlan.DegreesRotated,
+				ToothNumbers=photoShotPlan.ToothNumbers,
+				CategoryDefNum=_categoryDefNum,
+				DateTimeTaken=DateTime.Now,
+				Reason=errorSave,
+			};
+			string error;
+			string path=PhotoQuarantine.Write(bitmap,photoUnsaved,out error);
+			if(path==null) {
+				ShowAlert(errorSave+" "+Lan.g(this,"It could not be kept on this computer either")+": "+error);
+				ShowInfo("");
+				return;
+			}
+			_countKept++;
+			ShowAlert(Lan.g(this,"Photo could not be saved. It is kept on this computer; Camera, Unsaved photos files it later.")+"\r\n"+errorSave);
+			ShowInfo("");
+		}
+
+		private void timerIdle_Tick(object sender,EventArgs e) {
+			if(_isAsleep || _isEnded || _videoCaptureSession==null || !_videoCaptureSession.IsStreaming) {
+				return;
+			}
+			if(!IsEnabledForCapture()) {
+				_dateTimeActivity=DateTime.Now;//a window over the session (the tooth picker, a question) is someone at work
+				return;
+			}
+			if((DateTime.Now-_dateTimeActivity).TotalMinutes<MinutesIdle) {
+				return;
+			}
+			Sleep();
+		}
+
+		///<summary>Releases the camera after MinutesIdle without a photo or a key (design section 2): its light goes off. Capture, Space or Wake
+		///opens it again. The session and its patient stay.</summary>
+		public void Sleep() {
+			if(_videoCaptureSession==null || _isAsleep) {
+				return;
+			}
+			Unfreeze();
+			_videoCaptureSession.CloseCamera();
+			_isAsleep=true;
+			SetLiveImage(null);
+			labelStatus.Text=Lan.g(this,"The camera was released after")+" "+MinutesIdle+" "+Lan.g(this,"minutes without a photo (its light is off).")+"\r\n"
+				+Lan.g(this,"Press Capture or Space to wake it.");
+			labelStatus.Visible=true;
+			butStatusAction.Text=Lan.g(this,"Wake");
+			butStatusAction.Visible=true;
+			butCapture.Enabled=true;//Capture wakes it
+			LayoutControls();
+		}
+		#endregion Methods - Unsaved photos and idle release
+
 		#region Methods - Freeze, Teeth, Retake, Shot menu
 		///<summary>F: freezes the picture on screen (yellow border); Capture saves it, F or Esc goes back to live. Not while the camera has no
 		///picture.</summary>
 		private void ToggleFreeze() {
+			_dateTimeActivity=DateTime.Now;
 			if(IsFrozen) {
 				Unfreeze();
 				return;
@@ -492,6 +588,7 @@ namespace OpenPmsDental {
 
 		///<summary>T: the teeth of the next photo, with the slot's teeth offered (the tooth picker of IMG-P2).</summary>
 		private void PickTeethNext() {
+			_dateTimeActivity=DateTime.Now;
 			if(_model==null || _isEnded || (!_model.IsQuickPhotos && _model.SlotNext==null)) {
 				return;
 			}
@@ -547,6 +644,7 @@ namespace OpenPmsDental {
 		}
 
 		private void ShowShotMenu(Point point) {
+			_dateTimeActivity=DateTime.Now;
 			PhotoShot shot=null;
 			if(_model.IsQuickPhotos) {
 				int idxQuick=panelMount.HitTestQuick(point);
@@ -736,6 +834,8 @@ namespace OpenPmsDental {
 				return;
 			}
 			Unfreeze();
+			_isAsleep=false;
+			_dateTimeActivity=DateTime.Now;
 			ShowStatus(VideoStatusText.Starting());
 			Update();
 			VideoStatus videoStatus;
@@ -905,6 +1005,16 @@ namespace OpenPmsDental {
 			LayoutControls();
 		}
 
+		///<summary>The red notice over the live picture; "" hides it.</summary>
+		private void ShowAlert(string text) {
+			if(IsDisposed) {
+				return;
+			}
+			labelAlert.Text=text;
+			labelAlert.Visible=text!="";
+			LayoutControls();
+		}
+
 		///<summary>A short note under the picture, for example why a press did nothing. "" clears it.</summary>
 		private void ShowInfo(string text) {
 			if(IsDisposed) {
@@ -930,6 +1040,9 @@ namespace OpenPmsDental {
 			panelLive.Controls.Add(butStatusAction);
 			panelLive.Controls.Add(labelStatus);
 			panelLive.Controls.Add(labelGuide);
+			labelAlert=new Label { AutoSize=false,BackColor=UiTheme.DangerSubtle,ForeColor=UiTheme.Danger,Font=UiTheme.FontBody,UseMnemonic=false,
+				TextAlign=ContentAlignment.MiddleLeft,Padding=new Padding(_funcScale(8),0,_funcScale(8),0),Visible=false };
+			panelLive.Controls.Add(labelAlert);
 			panelLive.Controls.Add(pictureLive);
 			panelBar=new Panel { BackColor=UiTheme.SurfaceSubtle };
 			butCapture=new UI.Button { Text=Lan.g(this,"Capture (Space)"),TabStop=false };
@@ -949,6 +1062,8 @@ namespace OpenPmsDental {
 			panelBar.Controls.AddRange(new Control[] { butCapture,butFreeze,butTeeth,butBack,butSkip,butEnd,labelInfo });
 			panelFlash=new Panel { BackColor=Color.White,Visible=false };
 			panelLive.Controls.Add(panelFlash);
+			timerIdle=new System.Windows.Forms.Timer { Interval=30000 };
+			timerIdle.Tick+=timerIdle_Tick;
 			timerFlash=new System.Windows.Forms.Timer { Interval=120 };
 			timerFlash.Tick+=(sender,e) => {
 				timerFlash.Stop();
@@ -1005,6 +1120,14 @@ namespace OpenPmsDental {
 				butStatusAction.BringToFront();
 			}
 			labelGuide.BringToFront();
+			if(labelAlert.Visible) {
+				int widthAlert=Math.Max(_funcScale(60),panelLive.Width-2*pad);
+				Size sizeAlert=TextRenderer.MeasureText(labelAlert.Text,labelAlert.Font,new Size(widthAlert-labelAlert.Padding.Horizontal-_funcScale(14),0),
+					TextFormatFlags.WordBreak|TextFormatFlags.NoPrefix);
+				int heightAlert=sizeAlert.Height+_funcScale(12);
+				labelAlert.Bounds=new Rectangle(pad,Math.Max(0,panelLive.Height-heightAlert-pad),widthAlert,heightAlert);
+				labelAlert.BringToFront();
+			}
 			//bar
 			int x=pad;
 			int heightButton=_funcScale(26);

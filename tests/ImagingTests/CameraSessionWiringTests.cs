@@ -104,6 +104,29 @@ namespace ImagingTests {
 		}
 
 		[TestMethod]
+		public void FullScreen_IdleRelease_UnsavedPhotos() {
+			string session=Session();
+			StringAssert.Contains(MethodBody(session,"protected override bool ProcessCmdKey("),"case Keys.F11:");
+			StringAssert.Contains(MethodBody(session,"private void timerIdle_Tick("),"Sleep();");
+			StringAssert.Contains(MethodBody(session,"public void Sleep("),"_videoCaptureSession.CloseCamera();");
+			StringAssert.Contains(MethodBody(session,"public void RequestCapture("),"if(_isAsleep) {");
+			StringAssert.Contains(MethodBody(session,"public void RequestCapture("),"KeepUnsaved(captureStart.Bitmap,photoShotPlan,photoSaveResult.Error);");
+			StringAssert.Contains(MethodBody(session,"private void KeepUnsaved("),"PhotoQuarantine.Write(");
+			string images=Images();
+			string full=MethodBody(images,"private void controlCameraSession_EventFullScreenToggle(");
+			StringAssert.Contains(full,"form.FormBorderStyle=FormBorderStyle.None;");
+			StringAssert.Contains(full,"form.MinimizeBox=false;");
+			StringAssert.Contains(full,"form.Resize+=");
+			StringAssert.Contains(MethodBody(images,"private void controlCameraSession_EventEnded("),"e.CountKept==0");
+			StringAssert.Contains(MethodBody(session,"private void timerIdle_Tick("),"if(!IsEnabledForCapture()) {");
+			StringAssert.Contains(full,"System.Windows.Forms.Screen.FromControl(this).Bounds");
+			Assert.IsFalse(full.Contains("FormWindowState.Maximized"),"The whole monitor by its bounds, never a maximised window.");
+			StringAssert.Contains(MethodBody(images,"private void controlCameraSession_EventEnded("),"ExitCameraFullScreen();");
+			StringAssert.Contains(MethodBody(images,"private void FillCameraMenu("),"menuCameraUnsaved_Click");
+			StringAssert.Contains(MethodBody(images,"private void menuCameraUnsaved_Click("),"Security.IsAuthorized(EnumPermType.ImageCreate)");
+		}
+
+		[TestMethod]
 		public void Capture_PlansTheSlotFirst_ThenSaves_AndReleasesTheGate() {
 			string capture=MethodBody(Session(),"public void RequestCapture(");
 			int idxPlan=capture.IndexOf("_model.PlanShot()");

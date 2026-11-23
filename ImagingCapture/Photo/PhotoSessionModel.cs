@@ -52,6 +52,9 @@ namespace ImagingCapture.Photo {
 		public int DegreesRotated { get; set; }
 		public string ToothNumbers { get; set; }="";
 		public string GuideLabel { get; set; }="";
+		///<summary>When the photo was taken, set on the document; MinValue keeps the time of saving (a photo saved at once). A photo filed later
+		///from the unsaved photos keeps the time it was taken.</summary>
+		public DateTime DateTimeTaken { get; set; }=DateTime.MinValue;
 	}
 
 	///<summary>The pure logic of a camera session (owner imaging design, camera and video, section 2): which slot the next photo fills, skipping
