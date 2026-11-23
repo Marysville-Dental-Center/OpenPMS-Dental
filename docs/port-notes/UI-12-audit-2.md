@@ -101,3 +101,33 @@ totals group, FormRpPayPlans' options, the presentation reports' OK, FormEtrans2
 | 4-pilot-follow-up/FormMedLabEdit.png | changed | the print note's two lines whole, Show HL7 16 px after it. Nothing found. |
 | 4-pilot-follow-up/FormPractice-150.png | changed | at 150%: the two-line title label whole, centred on its box. Nothing found. |
 | 4-pilot-follow-up/FormPractice.png | changed | the two-line title label whole, centred on its box. Nothing found. |
+
+## Continuation (2026-11-23): the five windows left
+
+The five windows the slice left (UI-12.md, "Slice 2, continuation"), before = main's designers drawn with this branch's harness (`b1`),
+after = `a7`, at 100% and 150%, both under the session's text smoothing of that hour (ClearType: `SystemInformation.FontSmoothingType` 2; no setting changed). The passes: `c1` (the scripts'
+first run), `c2`, `a7`.
+
+**Pass 1** (`c1`): GridRulesTests' column findings (FormClaimPayBatch's filter fields 38 px and 18 px off the Payment Details columns,
+Type/Group 6 px off Claim ID; FormTaskEdit's description, Attachments and Object Type on three columns 12 to 24 px apart, the reminder
+group's and the repeating panel's columns 24 px apart; FormPayConnectSetup's Clinic 8 px off Secret), the reminder group's panels at its
+edge (no padding), FormTaskEdit's unused hidden `textBox1` 72 px over the window; in the pictures the reminder group and the wizard's day
+groups not shown (hidden in the designer). Fixes: one column per side (the scripts), the panels inside the padding, `textBox1` on TaskNum's
+bounds, the gallery draws the default reminder group and the checked days; the weekly day panel under the frequency panel (the code shows
+both: found in `RefreshReminderGroup` while checking the stacked panels).
+**Pass 2** (`c2`): nothing found; GridRulesTests passes on the five.
+**Pass 3** (`a7`, every picture below; the 100% pictures are byte-identical to `c2`'s, and the 80 pictures of the 46 windows, the
+styles and the pilot follow-up byte-identical to `a6`'s, so their lines above stand): nothing found.
+
+| Picture | Status | What was checked and found |
+|---|---|---|
+| 1-slice-windows/FormAdvertisingPatientList.png | changed | User Query; the clinic picker, Patient Age and Appointments one top and one height, the date pickers' boxes on one column after their check boxes' text, the three lists one width with captions 2 px over them; Refresh on the lists' bottom 8 px after the panel; grid to both edges; the bottom bar's count whole. Nothing found. |
+| 1-slice-windows/FormClaimPayBatch.png | changed | the instructions column whole; Payment Details' three field columns at the row pitch, Carrier Name/Note and Type/Group to one edge, Edit on the last row; the arrows, the centred Attach buttons and Total Payments under the grid; the filter fields on the Payment Details columns; both grids to the right edge; View ERA/View EOB on the grids' bottom. Nothing found. |
+| 1-slice-windows/FormPayConnectSetup.png | changed | Enabled, the clinic note (two lines) and Clinic on the Secret column beside the Version 2.0 group (its note's two lines whole); Secret with Test connection, the check boxes under the box; Payment Type and Default Processing Method on one column (the long label on one line), the portal group under them; Terminals to the bottom bar. Nothing found. |
+| 1-slice-windows/FormTaskEdit.png | changed | the check row, the three date rows with Now; the reminder group (Type, Every with its unit, the day boxes and their key) on one column; the right column with its buttons; the description, Short Descript, Attachments and Object Type on the date fields' column; the object panel and TaskNum; the bottom bar. Width 1002 (the code's). Nothing found. |
+| 1-slice-windows/UserControlSetupWizSchedule.png | changed | the provider line and Next Prov note whole (main's picture had SetupWizControl's labels over them: the harness fix); the seven groups one size on the four columns, Friday to Sunday centred, each check box on its group's title band, Add at the bottom left. Nothing found. |
+| 2-at-150/FormAdvertisingPatientList-150.png | changed | at 150%: groups, date pickers, list captions and the count whole and on their columns. Nothing found. |
+| 2-at-150/FormClaimPayBatch-150.png | changed | at 150%: the three field columns, the filter row on them, the instructions' lines, Total Payments whole. Nothing found. |
+| 2-at-150/FormPayConnectSetup-150.png | changed | at 150%: Default Processing Method on one line, both notes whole, Clinic on the Secret column. Nothing found. |
+| 2-at-150/FormTaskEdit-150.png | changed | at 150%: the date rows, the reminder group's rows and day key, the right column, the bottom rows and bar whole. Nothing found. |
+| 2-at-150/UserControlSetupWizSchedule-150.png | changed | at 150%: the layout scales; the page's text stays at its 100% size on both sides (the harness does not scale the fonts of a page the program adds with AddUnscaled; main's picture the same). Nothing found. |

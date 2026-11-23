@@ -1630,6 +1630,11 @@ own 26.2 overlap check before it starts. The first cut is below; a brief that fi
   labels, check boxes, buttons and group titles at the scaled font; the clinic picker's box edge rounded once at 150%; no planner rule
   added (the earlier windows re-plan as recorded); gallery G-UI3-ui12-2 (46 windows, 14 at 150%, styles, the pilot follow-up), audit
   `UI-12-audit-2.md` (UI-12.md section 7).
+  Slice 2 continuation (2026-11-23, same branch): the 5 windows left laid out by their own layout scripts (51 slice windows on the grid);
+  the harness runs a base class's designer only when its constructor does (the setup wizard's pages never had SetupWizControl's title and
+  description labels); RendererTests' menu strip test inconclusive in a session that reports 8 bits per pixel or less (a disconnected one);
+  the re-plan counts recorded as the lead set them (slice 1 = 461, pilot = 243); gallery and audit extended (UI-12.md section 7,
+  "Slice 2, continuation").
 - Gallery: G-UI3 per slice, the owner's rows first.
 
 **UI-13: every element type in the new look (the owner, 2026-11-22: "Overall make sure you modernize all element types")**
