@@ -371,7 +371,7 @@ namespace OpenPmsDental {
 			// 
 			// but10
 			// 
-			this.but10.Location = new System.Drawing.Point(1078, 248);
+			this.but10.Location = new System.Drawing.Point(1077, 245);
 			this.but10.Name = "but10";
 			this.but10.Size = new System.Drawing.Size(32, 32);
 			this.but10.TabIndex = 14;
@@ -848,9 +848,9 @@ namespace OpenPmsDental {
 			// 
 			// but0
 			// 
-			this.but0.Location = new System.Drawing.Point(1005, 248);
+			this.but0.Location = new System.Drawing.Point(1005, 245);
 			this.but0.Name = "but0";
-			this.but0.Size = new System.Drawing.Size(67, 32);
+			this.but0.Size = new System.Drawing.Size(68, 32);
 			this.but0.TabIndex = 13;
 			this.but0.Text = "0";
 			this.but0.Click += new System.EventHandler(this.but0_Click);
@@ -868,7 +868,7 @@ namespace OpenPmsDental {
 			// 
 			// but8
 			// 
-			this.but8.Location = new System.Drawing.Point(1043, 137);
+			this.but8.Location = new System.Drawing.Point(1041, 137);
 			this.but8.Name = "but8";
 			this.but8.Size = new System.Drawing.Size(32, 32);
 			this.but8.TabIndex = 11;
@@ -895,7 +895,7 @@ namespace OpenPmsDental {
 			// 
 			// but9
 			// 
-			this.but9.Location = new System.Drawing.Point(1081, 137);
+			this.but9.Location = new System.Drawing.Point(1077, 137);
 			this.but9.Name = "but9";
 			this.but9.Size = new System.Drawing.Size(32, 32);
 			this.but9.TabIndex = 12;
@@ -950,7 +950,7 @@ namespace OpenPmsDental {
 			// butListen
 			// 
 			this.butListen.Icon = OpenPmsDental.UI.EnumIcons.Microphone;
-			this.butListen.Location = new System.Drawing.Point(1115, 189);
+			this.butListen.Location = new System.Drawing.Point(1115, 210);
 			this.butListen.Name = "butListen";
 			this.butListen.Size = new System.Drawing.Size(30, 30);
 			this.butListen.TabIndex = 3;
@@ -959,7 +959,7 @@ namespace OpenPmsDental {
 			// labelListening
 			// 
 			this.labelListening.ForeColor = System.Drawing.Color.ForestGreen;
-			this.labelListening.Location = new System.Drawing.Point(1150, 197);
+			this.labelListening.Location = new System.Drawing.Point(1151, 216);
 			this.labelListening.Name = "labelListening";
 			this.labelListening.Size = new System.Drawing.Size(67, 19);
 			this.labelListening.TabIndex = 84;
@@ -1056,7 +1056,7 @@ namespace OpenPmsDental {
 			// 
 			this.butBolaLaunch.BackgroundImage = global::OpenPmsDental.Properties.Resources.bola_launch;
 			this.butBolaLaunch.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-			this.butBolaLaunch.Location = new System.Drawing.Point(1116, 245);
+			this.butBolaLaunch.Location = new System.Drawing.Point(1115, 241);
 			this.butBolaLaunch.Name = "butBolaLaunch";
 			this.butBolaLaunch.Size = new System.Drawing.Size(110, 39);
 			this.butBolaLaunch.TabIndex = 141;

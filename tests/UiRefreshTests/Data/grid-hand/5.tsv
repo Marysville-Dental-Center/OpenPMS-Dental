@@ -274,10 +274,6 @@ OpenPmsDental/Forms/FormEmailCertRegister.designer.cs	OpenPmsDental.FormEmailCer
 OpenPmsDental/Forms/FormEmailCertRegister.designer.cs	OpenPmsDental.FormEmailCertRegister	butImportAnchor	Location	512,84	529,84	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormEmailCertRegister.designer.cs	OpenPmsDental.FormEmailCertRegister	textDetails	Size	452,116	469,116	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormEmailCertRegister.designer.cs	OpenPmsDental.FormEmailCertRegister	labelAnchorExplanation	Size	590,32	596,32	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormPerio.designer.cs	OpenPmsDental.FormPerio	label2	Location	369,96	369,94	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormPerio.designer.cs	OpenPmsDental.FormPerio	label5	Location	369,121	369,215	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormPerio.designer.cs	OpenPmsDental.FormPerio	label4	Location	369,146	369,408	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormPerio.designer.cs	OpenPmsDental.FormPerio	label3	Location	369,171	369,542	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormPodiumSetup.designer.cs	OpenPmsDental.FormPodiumSetup	textApptSetComplete	Location	18,23	8,23	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormPodiumSetup.designer.cs	OpenPmsDental.FormPodiumSetup	label4	Location	60,25	50,25	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormPodiumSetup.designer.cs	OpenPmsDental.FormPodiumSetup	textApptTimeArrived	Location	18,50	8,50	by hand (layout script): on the grid
@@ -591,3 +587,15 @@ OpenPmsDental/Forms/FormRecallTypeEdit.designer.cs	OpenPmsDental.FormRecallTypeE
 OpenPmsDental/Forms/FormRecallTypeEdit.designer.cs	OpenPmsDental.FormRecallTypeEdit	butSave	Location	563,667	563,667	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormRecallTypeEdit.designer.cs	OpenPmsDental.FormRecallTypeEdit	labelRestrictToBlockouts	Location	18,159	12,159	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormRecallTypeEdit.designer.cs	OpenPmsDental.FormRecallTypeEdit	labelRestrictToBlockouts	Size	100,34	106,34	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormPerio.designer.cs	OpenPmsDental.FormPerio	label2	Location	369,94	369,94	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormPerio.designer.cs	OpenPmsDental.FormPerio	label5	Location	369,215	369,215	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormPerio.designer.cs	OpenPmsDental.FormPerio	label4	Location	369,408	369,408	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormPerio.designer.cs	OpenPmsDental.FormPerio	label3	Location	369,542	369,542	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormPerio.designer.cs	OpenPmsDental.FormPerio	but8	Location	1043,137	1041,137	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormPerio.designer.cs	OpenPmsDental.FormPerio	but9	Location	1081,137	1077,137	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormPerio.designer.cs	OpenPmsDental.FormPerio	but0	Location	1005,248	1005,245	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormPerio.designer.cs	OpenPmsDental.FormPerio	but0	Size	67,32	68,32	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormPerio.designer.cs	OpenPmsDental.FormPerio	but10	Location	1078,248	1077,245	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormPerio.designer.cs	OpenPmsDental.FormPerio	butListen	Location	1115,189	1115,210	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormPerio.designer.cs	OpenPmsDental.FormPerio	labelListening	Location	1150,197	1151,216	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormPerio.designer.cs	OpenPmsDental.FormPerio	butBolaLaunch	Location	1116,245	1115,241	by hand (layout script): on the grid
