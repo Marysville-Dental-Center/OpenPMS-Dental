@@ -43,7 +43,7 @@ namespace OpenPmsDental{
 			this.textMain.BackColor = System.Drawing.SystemColors.Window;
 			this.textMain.DetectLinksEnabled = false;
 			this.textMain.DetectUrls = false;
-			this.textMain.Location = new System.Drawing.Point(12, 27);
+			this.textMain.Location = new System.Drawing.Point(12, 32);
 			this.textMain.Name = "textMain";
 			this.textMain.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.CommLog;
 			this.textMain.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
@@ -61,7 +61,7 @@ namespace OpenPmsDental{
 			// 
 			// FormSpellChecker
 			// 
-			this.ClientSize = new System.Drawing.Size(842, 603);
+			this.ClientSize = new System.Drawing.Size(842, 604);
 			this.Controls.Add(this.textMain);
 			this.Controls.Add(this.menuMain);
 			this.Name = "FormSpellChecker";

@@ -38,7 +38,7 @@
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(11, 208);
+			this.butDelete.Location = new System.Drawing.Point(8, 212);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(75, 24);
 			this.butDelete.TabIndex = 127;
@@ -48,7 +48,7 @@
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(537, 208);
+			this.butSave.Location = new System.Drawing.Point(541, 212);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 125;
@@ -57,7 +57,7 @@
 			// 
 			// textNote
 			// 
-			this.textNote.Location = new System.Drawing.Point(95, 69);
+			this.textNote.Location = new System.Drawing.Point(95, 62);
 			this.textNote.MaxLength = 2000;
 			this.textNote.Multiline = true;
 			this.textNote.Name = "textNote";
@@ -66,42 +66,42 @@
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(6, 42);
+			this.label2.Location = new System.Drawing.Point(17, 35);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(87, 21);
+			this.label2.Size = new System.Drawing.Size(72, 23);
 			this.label2.TabIndex = 137;
 			this.label2.Text = "Payor Type";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label7
 			// 
-			this.label7.Location = new System.Drawing.Point(7, 16);
+			this.label7.Location = new System.Drawing.Point(25, 8);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(86, 17);
+			this.label7.Size = new System.Drawing.Size(64, 23);
 			this.label7.TabIndex = 136;
 			this.label7.Text = "Start Date";
 			this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(6, 69);
+			this.label5.Location = new System.Drawing.Point(49, 62);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(87, 21);
+			this.label5.Size = new System.Drawing.Size(40, 23);
 			this.label5.TabIndex = 135;
 			this.label5.Text = "Note";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// comboSopCode
 			// 
-			this.comboSopCode.Location = new System.Drawing.Point(95, 42);
+			this.comboSopCode.Location = new System.Drawing.Point(95, 35);
 			this.comboSopCode.Name = "comboSopCode";
-			this.comboSopCode.Size = new System.Drawing.Size(490, 21);
+			this.comboSopCode.Size = new System.Drawing.Size(490, 23);
 			this.comboSopCode.TabIndex = 138;
 			this.comboSopCode.SelectionChangeCommitted += new System.EventHandler(this.comboSopCode_SelectionChangeCommitted);
 			// 
 			// textDate
 			// 
-			this.textDate.Location = new System.Drawing.Point(95, 15);
+			this.textDate.Location = new System.Drawing.Point(95, 8);
 			this.textDate.Name = "textDate";
 			this.textDate.Size = new System.Drawing.Size(100, 20);
 			this.textDate.TabIndex = 139;

@@ -45,7 +45,7 @@ namespace OpenPmsDental {
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(405, 135);
+			this.butSave.Location = new System.Drawing.Point(409, 139);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 26);
 			this.butSave.TabIndex = 0;
@@ -54,42 +54,42 @@ namespace OpenPmsDental {
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(7, 29);
+			this.label1.Location = new System.Drawing.Point(100, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(152, 21);
+			this.label1.Size = new System.Drawing.Size(56, 23);
 			this.label1.TabIndex = 2;
 			this.label1.Text = "Property";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textProperty
 			// 
-			this.textProperty.Location = new System.Drawing.Point(162, 31);
+			this.textProperty.Location = new System.Drawing.Point(162, 8);
 			this.textProperty.Name = "textProperty";
 			this.textProperty.ReadOnly = true;
-			this.textProperty.Size = new System.Drawing.Size(319, 20);
+			this.textProperty.Size = new System.Drawing.Size(320, 23);
 			this.textProperty.TabIndex = 2;
 			// 
 			// textValue
 			// 
-			this.textValue.Location = new System.Drawing.Point(162, 74);
+			this.textValue.Location = new System.Drawing.Point(162, 35);
 			this.textValue.Name = "textValue";
-			this.textValue.Size = new System.Drawing.Size(319, 20);
+			this.textValue.Size = new System.Drawing.Size(320, 23);
 			this.textValue.TabIndex = 3;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(6, 71);
+			this.label2.Location = new System.Drawing.Point(116, 35);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(152, 21);
+			this.label2.Size = new System.Drawing.Size(40, 23);
 			this.label2.TabIndex = 3;
 			this.label2.Text = "Value";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// checkIsHighSecurity
 			// 
-			this.checkIsHighSecurity.Location = new System.Drawing.Point(162, 105);
+			this.checkIsHighSecurity.Location = new System.Drawing.Point(162, 62);
 			this.checkIsHighSecurity.Name = "checkIsHighSecurity";
-			this.checkIsHighSecurity.Size = new System.Drawing.Size(132, 17);
+			this.checkIsHighSecurity.Size = new System.Drawing.Size(95, 20);
 			this.checkIsHighSecurity.TabIndex = 4;
 			this.checkIsHighSecurity.Text = "High Security";
 			this.checkIsHighSecurity.Visible = false;

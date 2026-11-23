@@ -34,7 +34,7 @@ namespace OpenPmsDental {
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(312, 90);
+			this.butOK.Location = new System.Drawing.Point(347, 121);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 24);
 			this.butOK.TabIndex = 2;
@@ -43,7 +43,7 @@ namespace OpenPmsDental {
 			// 
 			// labelDepositAccount
 			// 
-			this.labelDepositAccount.Location = new System.Drawing.Point(12, 35);
+			this.labelDepositAccount.Location = new System.Drawing.Point(12, 26);
 			this.labelDepositAccount.Name = "labelDepositAccount";
 			this.labelDepositAccount.Size = new System.Drawing.Size(289, 16);
 			this.labelDepositAccount.TabIndex = 116;
@@ -52,14 +52,14 @@ namespace OpenPmsDental {
 			// 
 			// comboDepositAccount
 			// 
-			this.comboDepositAccount.Location = new System.Drawing.Point(12, 52);
+			this.comboDepositAccount.Location = new System.Drawing.Point(12, 44);
 			this.comboDepositAccount.Name = "comboDepositAccount";
-			this.comboDepositAccount.Size = new System.Drawing.Size(289, 21);
+			this.comboDepositAccount.Size = new System.Drawing.Size(288, 23);
 			this.comboDepositAccount.TabIndex = 0;
 			// 
 			// labelIncomeAccountQB
 			// 
-			this.labelIncomeAccountQB.Location = new System.Drawing.Point(12, 78);
+			this.labelIncomeAccountQB.Location = new System.Drawing.Point(12, 71);
 			this.labelIncomeAccountQB.Name = "labelIncomeAccountQB";
 			this.labelIncomeAccountQB.Size = new System.Drawing.Size(289, 11);
 			this.labelIncomeAccountQB.TabIndex = 118;
@@ -68,14 +68,14 @@ namespace OpenPmsDental {
 			// 
 			// comboIncomeAccountQB
 			// 
-			this.comboIncomeAccount.Location = new System.Drawing.Point(12, 93);
+			this.comboIncomeAccount.Location = new System.Drawing.Point(12, 84);
 			this.comboIncomeAccount.Name = "comboIncomeAccountQB";
-			this.comboIncomeAccount.Size = new System.Drawing.Size(289, 21);
+			this.comboIncomeAccount.Size = new System.Drawing.Size(288, 23);
 			this.comboIncomeAccount.TabIndex = 1;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(12, 9);
+			this.label1.Location = new System.Drawing.Point(12, 8);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(410, 16);
 			this.label1.TabIndex = 119;
@@ -84,7 +84,7 @@ namespace OpenPmsDental {
 			// 
 			// FormQBAccountSelect
 			// 
-			this.ClientSize = new System.Drawing.Size(399, 127);
+			this.ClientSize = new System.Drawing.Size(430, 153);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.labelDepositAccount);
 			this.Controls.Add(this.comboDepositAccount);

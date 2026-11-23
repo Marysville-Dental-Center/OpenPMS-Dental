@@ -37,7 +37,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(577, 330);
+			this.butSave.Location = new System.Drawing.Point(581, 334);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 1;
@@ -46,12 +46,12 @@ namespace OpenPmsDental{
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(0, 15);
+			this.label2.Location = new System.Drawing.Point(16, 8);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(97, 16);
+			this.label2.Size = new System.Drawing.Size(76, 23);
 			this.label2.TabIndex = 6;
 			this.label2.Text = "Date / Time";
-			this.label2.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textNote
 			// 
@@ -63,7 +63,7 @@ namespace OpenPmsDental{
 			this.textNote.DetectLinksEnabled = false;
 			this.textNote.DetectUrls = false;
 			this.textNote.HasAutoNotes = true;
-			this.textNote.Location = new System.Drawing.Point(98, 63);
+			this.textNote.Location = new System.Drawing.Point(98, 62);
 			this.textNote.Name = "textNote";
 			this.textNote.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Task;
 			this.textNote.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
@@ -73,33 +73,33 @@ namespace OpenPmsDental{
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(3, 66);
+			this.label4.Location = new System.Drawing.Point(52, 62);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(94, 16);
+			this.label4.Size = new System.Drawing.Size(40, 23);
 			this.label4.TabIndex = 9;
 			this.label4.Text = "Note";
-			this.label4.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textUser
 			// 
-			this.textUser.Location = new System.Drawing.Point(98, 37);
+			this.textUser.Location = new System.Drawing.Point(98, 35);
 			this.textUser.Name = "textUser";
 			this.textUser.ReadOnly = true;
-			this.textUser.Size = new System.Drawing.Size(134, 20);
+			this.textUser.Size = new System.Drawing.Size(136, 23);
 			this.textUser.TabIndex = 126;
 			// 
 			// label16
 			// 
-			this.label16.Location = new System.Drawing.Point(2, 39);
+			this.label16.Location = new System.Drawing.Point(56, 35);
 			this.label16.Name = "label16";
-			this.label16.Size = new System.Drawing.Size(94, 16);
+			this.label16.Size = new System.Drawing.Size(36, 23);
 			this.label16.TabIndex = 127;
 			this.label16.Text = "User";
 			this.label16.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textDateTime
 			// 
-			this.textDateTime.Location = new System.Drawing.Point(98, 11);
+			this.textDateTime.Location = new System.Drawing.Point(98, 8);
 			this.textDateTime.Name = "textDateTime";
 			this.textDateTime.Size = new System.Drawing.Size(164, 20);
 			this.textDateTime.TabIndex = 128;
@@ -109,7 +109,7 @@ namespace OpenPmsDental{
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(12, 330);
+			this.butDelete.Location = new System.Drawing.Point(8, 334);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(80, 24);
 			this.butDelete.TabIndex = 129;
@@ -118,9 +118,9 @@ namespace OpenPmsDental{
 			// 
 			// butAutoNote
 			// 
-			this.butAutoNote.Location = new System.Drawing.Point(303, 39);
+			this.butAutoNote.Location = new System.Drawing.Point(303, 35);
 			this.butAutoNote.Name = "butAutoNote";
-			this.butAutoNote.Size = new System.Drawing.Size(80, 22);
+			this.butAutoNote.Size = new System.Drawing.Size(80, 23);
 			this.butAutoNote.TabIndex = 158;
 			this.butAutoNote.Text = "Auto Note";
 			this.butAutoNote.Click += new System.EventHandler(this.butAutoNote_Click);

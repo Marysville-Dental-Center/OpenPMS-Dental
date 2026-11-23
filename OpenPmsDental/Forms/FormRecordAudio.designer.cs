@@ -35,7 +35,7 @@ namespace OpenPmsDental{
 			// labelTimer
 			// 
 			this.labelTimer.ImageAlign = System.Drawing.ContentAlignment.TopRight;
-			this.labelTimer.Location = new System.Drawing.Point(126, 20);
+			this.labelTimer.Location = new System.Drawing.Point(118, 10);
 			this.labelTimer.Name = "labelTimer";
 			this.labelTimer.Size = new System.Drawing.Size(75, 20);
 			this.labelTimer.TabIndex = 7;
@@ -49,7 +49,7 @@ namespace OpenPmsDental{
 			// butPlay
 			// 
 			this.butPlay.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butPlay.Location = new System.Drawing.Point(37, 52);
+			this.butPlay.Location = new System.Drawing.Point(36, 36);
 			this.butPlay.Name = "butPlay";
 			this.butPlay.Size = new System.Drawing.Size(75, 24);
 			this.butPlay.TabIndex = 6;
@@ -60,7 +60,7 @@ namespace OpenPmsDental{
 			// 
 			this.butStart.Icon = OpenPmsDental.UI.EnumIcons.Record;
 			this.butStart.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butStart.Location = new System.Drawing.Point(36, 18);
+			this.butStart.Location = new System.Drawing.Point(36, 8);
 			this.butStart.Name = "butStart";
 			this.butStart.Size = new System.Drawing.Size(76, 24);
 			this.butStart.TabIndex = 5;
@@ -69,7 +69,7 @@ namespace OpenPmsDental{
 			// 
 			// butSave
 			// 
-			this.butSave.Location = new System.Drawing.Point(37, 85);
+			this.butSave.Location = new System.Drawing.Point(37, 89);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 4;
@@ -79,7 +79,7 @@ namespace OpenPmsDental{
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(216, 85);
+			this.butOK.Location = new System.Drawing.Point(220, 89);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 24);
 			this.butOK.TabIndex = 3;

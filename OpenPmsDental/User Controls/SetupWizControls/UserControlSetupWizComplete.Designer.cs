@@ -32,7 +32,7 @@
 			this.labelEnd.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelEnd.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.labelEnd.Location = new System.Drawing.Point(68, 180);
+			this.labelEnd.Location = new System.Drawing.Point(68, 80);
 			this.labelEnd.Name = "labelEnd";
 			this.labelEnd.Size = new System.Drawing.Size(795, 109);
 			this.labelEnd.TabIndex = 1;
@@ -44,7 +44,7 @@
 			this.labelDone.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelDone.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.labelDone.Location = new System.Drawing.Point(68, 37);
+			this.labelDone.Location = new System.Drawing.Point(68, 8);
 			this.labelDone.Name = "labelDone";
 			this.labelDone.Size = new System.Drawing.Size(795, 70);
 			this.labelDone.TabIndex = 0;

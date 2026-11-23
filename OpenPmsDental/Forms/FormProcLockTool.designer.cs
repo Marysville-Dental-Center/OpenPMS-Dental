@@ -34,7 +34,7 @@ namespace OpenPmsDental{
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(243, 83);
+			this.butOK.Location = new System.Drawing.Point(259, 87);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 24);
 			this.butOK.TabIndex = 3;
@@ -43,30 +43,30 @@ namespace OpenPmsDental{
 			// 
 			// textDate2
 			// 
-			this.textDate2.Location = new System.Drawing.Point(200, 45);
+			this.textDate2.Location = new System.Drawing.Point(209, 42);
 			this.textDate2.Name = "textDate2";
 			this.textDate2.Size = new System.Drawing.Size(80, 20);
 			this.textDate2.TabIndex = 11;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(132, 45);
+			this.label2.Location = new System.Drawing.Point(147, 42);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(69, 19);
+			this.label2.Size = new System.Drawing.Size(56, 23);
 			this.label2.TabIndex = 10;
 			this.label2.Text = "through";
-			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textDate1
 			// 
-			this.textDate1.Location = new System.Drawing.Point(51, 45);
+			this.textDate1.Location = new System.Drawing.Point(51, 42);
 			this.textDate1.Name = "textDate1";
 			this.textDate1.Size = new System.Drawing.Size(80, 20);
 			this.textDate1.TabIndex = 9;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(2, 7);
+			this.label1.Location = new System.Drawing.Point(8, 8);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(326, 32);
 			this.label1.TabIndex = 8;
@@ -74,7 +74,7 @@ namespace OpenPmsDental{
 			// 
 			// FormProcLockTool
 			// 
-			this.ClientSize = new System.Drawing.Size(330, 119);
+			this.ClientSize = new System.Drawing.Size(342, 119);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.Controls.Add(this.textDate2);
 			this.Controls.Add(this.label2);

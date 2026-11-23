@@ -32,7 +32,7 @@ namespace OpenPmsDental{
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(410, 630);
+			this.butOK.Location = new System.Drawing.Point(431, 662);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 24);
 			this.butOK.TabIndex = 3;
@@ -44,7 +44,7 @@ namespace OpenPmsDental{
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(12, 12);
+			this.gridMain.Location = new System.Drawing.Point(12, 8);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
 			this.gridMain.Size = new System.Drawing.Size(362, 642);
@@ -56,7 +56,7 @@ namespace OpenPmsDental{
 			// 
 			this.butProvHygenist.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butProvHygenist.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butProvHygenist.Location = new System.Drawing.Point(410, 149);
+			this.butProvHygenist.Location = new System.Drawing.Point(410, 132);
 			this.butProvHygenist.Name = "butProvHygenist";
 			this.butProvHygenist.Size = new System.Drawing.Size(75, 24);
 			this.butProvHygenist.TabIndex = 90;
@@ -67,7 +67,7 @@ namespace OpenPmsDental{
 			// 
 			this.butProvDentist.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butProvDentist.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butProvDentist.Location = new System.Drawing.Point(410, 108);
+			this.butProvDentist.Location = new System.Drawing.Point(410, 104);
 			this.butProvDentist.Name = "butProvDentist";
 			this.butProvDentist.Size = new System.Drawing.Size(75, 24);
 			this.butProvDentist.TabIndex = 89;
@@ -77,7 +77,7 @@ namespace OpenPmsDental{
 			// FormProvidersMultiPick
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(514, 670);
+			this.ClientSize = new System.Drawing.Size(514, 694);
 			this.Controls.Add(this.butOK);
 			this.Controls.Add(this.butProvHygenist);
 			this.Controls.Add(this.butProvDentist);

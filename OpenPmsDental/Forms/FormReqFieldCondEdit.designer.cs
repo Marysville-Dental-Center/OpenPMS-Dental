@@ -50,7 +50,7 @@ namespace OpenPmsDental{
 			// 
 			// listConditionType
 			// 
-			this.listConditionType.Location = new System.Drawing.Point(12, 46);
+			this.listConditionType.Location = new System.Drawing.Point(12, 29);
 			this.listConditionType.Name = "listConditionType";
 			this.listConditionType.Size = new System.Drawing.Size(111, 147);
 			this.listConditionType.TabIndex = 28;
@@ -58,7 +58,7 @@ namespace OpenPmsDental{
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(12, 26);
+			this.label1.Location = new System.Drawing.Point(12, 8);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(111, 17);
 			this.label1.TabIndex = 25;
@@ -75,7 +75,7 @@ namespace OpenPmsDental{
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(145, 51);
+			this.label2.Location = new System.Drawing.Point(145, 63);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(70, 17);
 			this.label2.TabIndex = 24;
@@ -85,7 +85,7 @@ namespace OpenPmsDental{
 			// 
 			// listConditionValues
 			// 
-			this.listConditionValues.Location = new System.Drawing.Point(232, 46);
+			this.listConditionValues.Location = new System.Drawing.Point(232, 29);
 			this.listConditionValues.Name = "listConditionValues";
 			this.listConditionValues.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
 			this.listConditionValues.Size = new System.Drawing.Size(132, 147);
@@ -93,7 +93,7 @@ namespace OpenPmsDental{
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(232, 26);
+			this.label3.Location = new System.Drawing.Point(232, 8);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(111, 17);
 			this.label3.TabIndex = 171;
@@ -102,9 +102,9 @@ namespace OpenPmsDental{
 			// 
 			// comboOperator2
 			// 
-			this.comboOperator2.Location = new System.Drawing.Point(147, 134);
+			this.comboOperator2.Location = new System.Drawing.Point(145, 109);
 			this.comboOperator2.Name = "comboOperator2";
-			this.comboOperator2.Size = new System.Drawing.Size(52, 21);
+			this.comboOperator2.Size = new System.Drawing.Size(52, 23);
 			this.comboOperator2.TabIndex = 173;
 			this.comboOperator2.Visible = false;
 			// 
@@ -118,22 +118,22 @@ namespace OpenPmsDental{
 			// 
 			// comboOperator1
 			// 
-			this.comboOperator1.Location = new System.Drawing.Point(148, 71);
+			this.comboOperator1.Location = new System.Drawing.Point(145, 82);
 			this.comboOperator1.Name = "comboOperator1";
-			this.comboOperator1.Size = new System.Drawing.Size(52, 21);
+			this.comboOperator1.Size = new System.Drawing.Size(52, 23);
 			this.comboOperator1.TabIndex = 178;
 			this.comboOperator1.Visible = false;
 			// 
 			// listRelationships
 			// 
-			this.listRelationships.Location = new System.Drawing.Point(147, 98);
+			this.listRelationships.Location = new System.Drawing.Point(145, 29);
 			this.listRelationships.Name = "listRelationships";
 			this.listRelationships.Size = new System.Drawing.Size(68, 30);
 			this.listRelationships.TabIndex = 179;
 			// 
 			// butPickProv
 			// 
-			this.butPickProv.Location = new System.Drawing.Point(370, 46);
+			this.butPickProv.Location = new System.Drawing.Point(370, 29);
 			this.butPickProv.Name = "butPickProv";
 			this.butPickProv.Size = new System.Drawing.Size(23, 21);
 			this.butPickProv.TabIndex = 170;
@@ -146,7 +146,7 @@ namespace OpenPmsDental{
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(12, 288);
+			this.butDelete.Location = new System.Drawing.Point(8, 296);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(83, 24);
 			this.butDelete.TabIndex = 31;
@@ -156,7 +156,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(318, 288);
+			this.butSave.Location = new System.Drawing.Point(322, 296);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 3;
@@ -165,7 +165,7 @@ namespace OpenPmsDental{
 			// 
 			// FormReqFieldCondEdit
 			// 
-			this.ClientSize = new System.Drawing.Size(405, 324);
+			this.ClientSize = new System.Drawing.Size(405, 328);
 			this.Controls.Add(this.listRelationships);
 			this.Controls.Add(this.comboOperator1);
 			this.Controls.Add(this.textConditionValue2);

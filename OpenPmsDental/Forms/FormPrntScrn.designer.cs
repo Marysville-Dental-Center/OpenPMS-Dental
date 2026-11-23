@@ -68,7 +68,7 @@ namespace OpenPmsDental {
 			// textMouseX
 			// 
 			this.textMouseX.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.textMouseX.Location = new System.Drawing.Point(274,763);
+			this.textMouseX.Location = new System.Drawing.Point(274,773);
 			this.textMouseX.Name = "textMouseX";
 			this.textMouseX.Size = new System.Drawing.Size(56,20);
 			this.textMouseX.TabIndex = 7;
@@ -77,7 +77,7 @@ namespace OpenPmsDental {
 			// textMouseY
 			// 
 			this.textMouseY.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.textMouseY.Location = new System.Drawing.Point(394,763);
+			this.textMouseY.Location = new System.Drawing.Point(394,773);
 			this.textMouseY.Name = "textMouseY";
 			this.textMouseY.Size = new System.Drawing.Size(56,20);
 			this.textMouseY.TabIndex = 8;
@@ -86,7 +86,7 @@ namespace OpenPmsDental {
 			// label2
 			// 
 			this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.label2.Location = new System.Drawing.Point(209,764);
+			this.label2.Location = new System.Drawing.Point(209,774);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(63,17);
 			this.label2.TabIndex = 11;
@@ -97,7 +97,7 @@ namespace OpenPmsDental {
 			// label3
 			// 
 			this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.label3.Location = new System.Drawing.Point(334,763);
+			this.label3.Location = new System.Drawing.Point(334,773);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(56,20);
 			this.label3.TabIndex = 12;
@@ -110,7 +110,7 @@ namespace OpenPmsDental {
 			this.butPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butPrint.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Print,16,16);
 			this.butPrint.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butPrint.Location = new System.Drawing.Point(678,759);
+			this.butPrint.Location = new System.Drawing.Point(678,770);
 			this.butPrint.Name = "butPrint";
 			this.butPrint.Size = new System.Drawing.Size(75,26);
 			this.butPrint.TabIndex = 13;
@@ -122,7 +122,7 @@ namespace OpenPmsDental {
 			this.butZoomIn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butZoomIn.Icon = OpenPmsDental.UI.EnumIcons.ZoomIn;
 			this.butZoomIn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butZoomIn.Location = new System.Drawing.Point(502,759);
+			this.butZoomIn.Location = new System.Drawing.Point(502,770);
 			this.butZoomIn.Name = "butZoomIn";
 			this.butZoomIn.Size = new System.Drawing.Size(77,26);
 			this.butZoomIn.TabIndex = 14;
@@ -134,7 +134,7 @@ namespace OpenPmsDental {
 			this.butZoomOut.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butZoomOut.Icon = OpenPmsDental.UI.EnumIcons.ZoomOut;
 			this.butZoomOut.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butZoomOut.Location = new System.Drawing.Point(591,759);
+			this.butZoomOut.Location = new System.Drawing.Point(591,770);
 			this.butZoomOut.Name = "butZoomOut";
 			this.butZoomOut.Size = new System.Drawing.Size(75,26);
 			this.butZoomOut.TabIndex = 15;
@@ -146,7 +146,7 @@ namespace OpenPmsDental {
 			this.butExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butExport.Icon = OpenPmsDental.UI.EnumIcons.Export;
 			this.butExport.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butExport.Location = new System.Drawing.Point(765,759);
+			this.butExport.Location = new System.Drawing.Point(765,770);
 			this.butExport.Name = "butExport";
 			this.butExport.Size = new System.Drawing.Size(75,26);
 			this.butExport.TabIndex = 16;
@@ -156,7 +156,7 @@ namespace OpenPmsDental {
 			// FormPrntScrn
 			// 
 			this.AcceptButton = this.butPrint;
-			this.ClientSize = new System.Drawing.Size(976, 792);
+			this.ClientSize = new System.Drawing.Size(984, 804);
 			this.AutoScaleBaseSize = new System.Drawing.Size(5,13);
 			this.Controls.Add(this.butExport);
 			this.Controls.Add(this.butZoomOut);

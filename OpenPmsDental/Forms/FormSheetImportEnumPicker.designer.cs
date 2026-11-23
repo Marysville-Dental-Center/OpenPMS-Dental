@@ -31,7 +31,7 @@ namespace OpenPmsDental{
 			// 
 			// labelPrompt
 			// 
-			this.labelPrompt.Location = new System.Drawing.Point(12, 10);
+			this.labelPrompt.Location = new System.Drawing.Point(12, 8);
 			this.labelPrompt.Name = "labelPrompt";
 			this.labelPrompt.Size = new System.Drawing.Size(299, 36);
 			this.labelPrompt.TabIndex = 5;
@@ -41,7 +41,7 @@ namespace OpenPmsDental{
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(227, 304);
+			this.butOK.Location = new System.Drawing.Point(315, 335);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 24);
 			this.butOK.TabIndex = 3;
@@ -51,7 +51,7 @@ namespace OpenPmsDental{
 			// butClear
 			// 
 			this.butClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butClear.Location = new System.Drawing.Point(227, 49);
+			this.butClear.Location = new System.Drawing.Point(315, 48);
 			this.butClear.Name = "butClear";
 			this.butClear.Size = new System.Drawing.Size(75, 24);
 			this.butClear.TabIndex = 6;
@@ -63,7 +63,7 @@ namespace OpenPmsDental{
 			this.listResult.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.listResult.Location = new System.Drawing.Point(12, 49);
+			this.listResult.Location = new System.Drawing.Point(12, 46);
 			this.listResult.Name = "listResult";
 			this.listResult.Size = new System.Drawing.Size(197, 277);
 			this.listResult.TabIndex = 7;
@@ -71,7 +71,7 @@ namespace OpenPmsDental{
 			// 
 			// FormSheetImportEnumPicker
 			// 
-			this.ClientSize = new System.Drawing.Size(314, 340);
+			this.ClientSize = new System.Drawing.Size(398, 367);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.Controls.Add(this.butOK);
 			this.Controls.Add(this.listResult);

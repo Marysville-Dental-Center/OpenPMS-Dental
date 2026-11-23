@@ -37,7 +37,7 @@
 			// 
 			// textDateLastContacted
 			// 
-			this.textDateLastContacted.Location = new System.Drawing.Point(151, 41);
+			this.textDateLastContacted.Location = new System.Drawing.Point(151, 35);
 			this.textDateLastContacted.Name = "textDateLastContacted";
 			this.textDateLastContacted.ReadOnly = true;
 			this.textDateLastContacted.Size = new System.Drawing.Size(188, 20);
@@ -45,37 +45,37 @@
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(16, 41);
+			this.label1.Location = new System.Drawing.Point(25, 35);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(133, 19);
+			this.label1.Size = new System.Drawing.Size(120, 23);
 			this.label1.TabIndex = 2;
 			this.label1.Text = "Date Last Contacted";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label8
 			// 
-			this.label8.Location = new System.Drawing.Point(18, 67);
+			this.label8.Location = new System.Drawing.Point(101, 62);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(131, 19);
+			this.label8.Size = new System.Drawing.Size(44, 23);
 			this.label8.TabIndex = 8;
 			this.label8.Text = "Status";
 			this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// comboStatus
 			// 
-			this.comboStatus.Location = new System.Drawing.Point(151, 67);
+			this.comboStatus.Location = new System.Drawing.Point(151, 62);
 			this.comboStatus.Name = "comboStatus";
-			this.comboStatus.Size = new System.Drawing.Size(188, 21);
+			this.comboStatus.Size = new System.Drawing.Size(188, 23);
 			this.comboStatus.TabIndex = 9;
 			// 
 			// label9
 			// 
-			this.label9.Location = new System.Drawing.Point(59, 117);
+			this.label9.Location = new System.Drawing.Point(59, 113);
 			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(86, 82);
+			this.label9.Size = new System.Drawing.Size(86, 32);
 			this.label9.TabIndex = 11;
 			this.label9.Text = "Administrative Note";
-			this.label9.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textNote
 			// 
@@ -83,7 +83,7 @@
 			this.textNote.BackColor = System.Drawing.SystemColors.Window;
 			this.textNote.DetectLinksEnabled = false;
 			this.textNote.DetectUrls = false;
-			this.textNote.Location = new System.Drawing.Point(151, 119);
+			this.textNote.Location = new System.Drawing.Point(151, 113);
 			this.textNote.Name = "textNote";
 			this.textNote.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Recall;
 			this.textNote.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
@@ -96,7 +96,7 @@
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(21, 231);
+			this.butDelete.Location = new System.Drawing.Point(8, 235);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(83, 24);
 			this.butDelete.TabIndex = 14;
@@ -106,7 +106,7 @@
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(465, 231);
+			this.butSave.Location = new System.Drawing.Point(469, 235);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 13;
@@ -115,16 +115,16 @@
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(12, 15);
+			this.label2.Location = new System.Drawing.Point(61, 8);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(137, 19);
+			this.label2.Size = new System.Drawing.Size(84, 23);
 			this.label2.TabIndex = 16;
 			this.label2.Text = "Patient Name";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textPatName
 			// 
-			this.textPatName.Location = new System.Drawing.Point(151, 15);
+			this.textPatName.Location = new System.Drawing.Point(151, 8);
 			this.textPatName.Name = "textPatName";
 			this.textPatName.ReadOnly = true;
 			this.textPatName.Size = new System.Drawing.Size(188, 20);
@@ -132,9 +132,9 @@
 			// 
 			// checkBoxDNC
 			// 
-			this.checkBoxDNC.Location = new System.Drawing.Point(151, 94);
+			this.checkBoxDNC.Location = new System.Drawing.Point(151, 89);
 			this.checkBoxDNC.Name = "checkBoxDNC";
-			this.checkBoxDNC.Size = new System.Drawing.Size(167, 19);
+			this.checkBoxDNC.Size = new System.Drawing.Size(108, 20);
 			this.checkBoxDNC.TabIndex = 18;
 			this.checkBoxDNC.Text = "Do Not Contact";
 			// 

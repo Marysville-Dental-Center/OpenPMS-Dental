@@ -41,7 +41,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(1143, 660);
+			this.butSave.Location = new System.Drawing.Point(1147, 664);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 4;
@@ -50,36 +50,36 @@ namespace OpenPmsDental{
 			// 
 			// labelTaskNum
 			// 
-			this.labelTaskNum.Location = new System.Drawing.Point(21, 66);
+			this.labelTaskNum.Location = new System.Drawing.Point(21, 62);
 			this.labelTaskNum.Name = "labelTaskNum";
-			this.labelTaskNum.Size = new System.Drawing.Size(67, 19);
+			this.labelTaskNum.Size = new System.Drawing.Size(64, 23);
 			this.labelTaskNum.TabIndex = 15;
 			this.labelTaskNum.Text = "TaskNum";
 			this.labelTaskNum.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// labelDocNum
 			// 
-			this.labelDocNum.Location = new System.Drawing.Point(21, 40);
+			this.labelDocNum.Location = new System.Drawing.Point(25, 35);
 			this.labelDocNum.Name = "labelDocNum";
-			this.labelDocNum.Size = new System.Drawing.Size(67, 19);
+			this.labelDocNum.Size = new System.Drawing.Size(60, 23);
 			this.labelDocNum.TabIndex = 17;
 			this.labelDocNum.Text = "DocNum";
 			this.labelDocNum.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// labelDescription
 			// 
-			this.labelDescription.Location = new System.Drawing.Point(7, 13);
+			this.labelDescription.Location = new System.Drawing.Point(13, 8);
 			this.labelDescription.Name = "labelDescription";
-			this.labelDescription.Size = new System.Drawing.Size(83, 19);
+			this.labelDescription.Size = new System.Drawing.Size(72, 23);
 			this.labelDescription.TabIndex = 58;
 			this.labelDescription.Text = "Description";
 			this.labelDescription.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// butImport
 			// 
-			this.butImport.Location = new System.Drawing.Point(172, 37);
+			this.butImport.Location = new System.Drawing.Point(173, 35);
 			this.butImport.Name = "butImport";
-			this.butImport.Size = new System.Drawing.Size(69, 24);
+			this.butImport.Size = new System.Drawing.Size(69, 23);
 			this.butImport.TabIndex = 1;
 			this.butImport.Text = "Import";
 			this.butImport.UseVisualStyleBackColor = true;
@@ -88,29 +88,29 @@ namespace OpenPmsDental{
 			// textDescription
 			// 
 			this.textDescription.BackColor = System.Drawing.SystemColors.Window;
-			this.textDescription.Location = new System.Drawing.Point(91, 12);
+			this.textDescription.Location = new System.Drawing.Point(91, 8);
 			this.textDescription.MaxLength = 255;
 			this.textDescription.Name = "textDescription";
-			this.textDescription.Size = new System.Drawing.Size(382, 20);
+			this.textDescription.Size = new System.Drawing.Size(384, 23);
 			this.textDescription.TabIndex = 0;
 			// 
 			// textDocNum
 			// 
 			this.textDocNum.BackColor = System.Drawing.SystemColors.Window;
-			this.textDocNum.Location = new System.Drawing.Point(91, 39);
+			this.textDocNum.Location = new System.Drawing.Point(91, 35);
 			this.textDocNum.Name = "textDocNum";
 			this.textDocNum.ReadOnly = true;
-			this.textDocNum.Size = new System.Drawing.Size(75, 20);
+			this.textDocNum.Size = new System.Drawing.Size(76, 23);
 			this.textDocNum.TabIndex = 61;
 			this.textDocNum.TabStop = false;
 			// 
 			// textTaskNum
 			// 
 			this.textTaskNum.BackColor = System.Drawing.SystemColors.Window;
-			this.textTaskNum.Location = new System.Drawing.Point(91, 65);
+			this.textTaskNum.Location = new System.Drawing.Point(91, 62);
 			this.textTaskNum.Name = "textTaskNum";
 			this.textTaskNum.ReadOnly = true;
-			this.textTaskNum.Size = new System.Drawing.Size(75, 20);
+			this.textTaskNum.Size = new System.Drawing.Size(76, 23);
 			this.textTaskNum.TabIndex = 60;
 			this.textTaskNum.TabStop = false;
 			// 
@@ -125,7 +125,7 @@ namespace OpenPmsDental{
 			this.textValue.DetectUrls = true;
 			this.textValue.HasAutoNotes = true;
 			this.textValue.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Task;
-			this.textValue.Location = new System.Drawing.Point(12, 118);
+			this.textValue.Location = new System.Drawing.Point(12, 110);
 			this.textValue.MaxLength = 65535;
 			this.textValue.Multiline = true;
 			this.textValue.Name = "textValue";
@@ -137,7 +137,7 @@ namespace OpenPmsDental{
 			// 
 			// labelText
 			// 
-			this.labelText.Location = new System.Drawing.Point(12, 96);
+			this.labelText.Location = new System.Drawing.Point(12, 89);
 			this.labelText.Name = "labelText";
 			this.labelText.Size = new System.Drawing.Size(66, 19);
 			this.labelText.TabIndex = 63;
@@ -149,7 +149,7 @@ namespace OpenPmsDental{
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(12, 660);
+			this.butDelete.Location = new System.Drawing.Point(8, 664);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(80, 24);
 			this.butDelete.TabIndex = 6;
@@ -158,9 +158,9 @@ namespace OpenPmsDental{
 			// 
 			// butViewDoc
 			// 
-			this.butViewDoc.Location = new System.Drawing.Point(328, 37);
+			this.butViewDoc.Location = new System.Drawing.Point(323, 35);
 			this.butViewDoc.Name = "butViewDoc";
-			this.butViewDoc.Size = new System.Drawing.Size(69, 24);
+			this.butViewDoc.Size = new System.Drawing.Size(69, 23);
 			this.butViewDoc.TabIndex = 2;
 			this.butViewDoc.Text = "View Doc";
 			this.butViewDoc.UseVisualStyleBackColor = true;
@@ -168,9 +168,9 @@ namespace OpenPmsDental{
 			// 
 			// butAttach
 			// 
-			this.butAttach.Location = new System.Drawing.Point(250, 37);
+			this.butAttach.Location = new System.Drawing.Point(248, 35);
 			this.butAttach.Name = "butAttach";
-			this.butAttach.Size = new System.Drawing.Size(69, 24);
+			this.butAttach.Size = new System.Drawing.Size(69, 23);
 			this.butAttach.TabIndex = 65;
 			this.butAttach.Text = "Attach";
 			this.butAttach.UseVisualStyleBackColor = true;

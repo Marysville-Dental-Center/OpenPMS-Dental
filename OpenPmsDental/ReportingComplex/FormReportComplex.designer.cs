@@ -56,7 +56,7 @@ namespace OpenPmsDental.ReportingComplex {
 			// 
 			// FormReportComplex
 			// 
-			this.ClientSize = new System.Drawing.Size(831, 616);
+			this.ClientSize = new System.Drawing.Size(839, 616);
 			this.Controls.Add(this.printPreviewControl2);
 			this.Controls.Add(this.ToolBarMain);
 			this.Name = "FormReportComplex";

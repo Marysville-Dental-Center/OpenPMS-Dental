@@ -35,7 +35,7 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.webView.CreationProperties = null;
 			this.webView.DefaultBackgroundColor = System.Drawing.Color.White;
-			this.webView.Location = new System.Drawing.Point(12, 12);
+			this.webView.Location = new System.Drawing.Point(12, 8);
 			this.webView.Name = "webView";
 			this.webView.Size = new System.Drawing.Size(360, 157);
 			this.webView.TabIndex = 4;

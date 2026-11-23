@@ -45,7 +45,7 @@ namespace OpenPmsDental {
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(360, 92);
+			this.butSave.Location = new System.Drawing.Point(364, 96);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 26);
 			this.butSave.TabIndex = 3;
@@ -54,25 +54,25 @@ namespace OpenPmsDental {
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(5, 22);
+			this.label1.Location = new System.Drawing.Point(104, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(199, 19);
+			this.label1.Size = new System.Drawing.Size(96, 23);
 			this.label1.TabIndex = 2;
 			this.label1.Text = "Graduation Year";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textDescript
 			// 
-			this.textDescript.Location = new System.Drawing.Point(206, 49);
+			this.textDescript.Location = new System.Drawing.Point(206, 35);
 			this.textDescript.Name = "textDescript";
 			this.textDescript.Size = new System.Drawing.Size(196, 20);
 			this.textDescript.TabIndex = 1;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(5, 49);
+			this.label2.Location = new System.Drawing.Point(20, 35);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(199, 19);
+			this.label2.Size = new System.Drawing.Size(180, 23);
 			this.label2.TabIndex = 4;
 			this.label2.Text = "Description (Dental or Hygiene)";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -82,7 +82,7 @@ namespace OpenPmsDental {
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(50, 92);
+			this.butDelete.Location = new System.Drawing.Point(50, 96);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(95, 26);
 			this.butDelete.TabIndex = 2;
@@ -91,12 +91,12 @@ namespace OpenPmsDental {
 			// 
 			// textGradYear
 			// 
-			this.textGradYear.Location = new System.Drawing.Point(206, 20);
+			this.textGradYear.Location = new System.Drawing.Point(206, 8);
 			this.textGradYear.MaxVal = 2075;
 			this.textGradYear.MinVal = 1990;
 			this.textGradYear.Name = "textGradYear";
 			this.textGradYear.ShowZero = false;
-			this.textGradYear.Size = new System.Drawing.Size(71, 20);
+			this.textGradYear.Size = new System.Drawing.Size(72, 23);
 			this.textGradYear.TabIndex = 0;
 			// 
 			// FormSchoolClassEdit

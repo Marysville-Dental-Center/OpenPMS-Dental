@@ -34,7 +34,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(663, 845);
+			this.butSave.Location = new System.Drawing.Point(667, 856);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 3;
@@ -46,7 +46,7 @@ namespace OpenPmsDental{
 			this.treeMain.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.treeMain.HideSelection = false;
-			this.treeMain.Location = new System.Drawing.Point(12, 52);
+			this.treeMain.Location = new System.Drawing.Point(8, 55);
 			this.treeMain.Name = "treeMain";
 			this.treeMain.ShowPlusMinus = false;
 			this.treeMain.Size = new System.Drawing.Size(225, 788);
@@ -58,14 +58,14 @@ namespace OpenPmsDental{
 			// 
 			this.panelMain.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-			this.panelMain.Location = new System.Drawing.Point(244, 4);
+			this.panelMain.Location = new System.Drawing.Point(244, 8);
 			this.panelMain.Name = "panelMain";
 			this.panelMain.Size = new System.Drawing.Size(494, 836);
 			this.panelMain.TabIndex = 5;
 			// 
 			// labelCategories
 			// 
-			this.labelCategories.Location = new System.Drawing.Point(11, 33);
+			this.labelCategories.Location = new System.Drawing.Point(8, 35);
 			this.labelCategories.Name = "labelCategories";
 			this.labelCategories.Size = new System.Drawing.Size(225, 18);
 			this.labelCategories.TabIndex = 236;
@@ -74,25 +74,25 @@ namespace OpenPmsDental{
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(2, 6);
+			this.label1.Location = new System.Drawing.Point(8, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(58, 18);
+			this.label1.Size = new System.Drawing.Size(48, 23);
 			this.label1.TabIndex = 237;
 			this.label1.Text = "Search";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textSearch
 			// 
-			this.textSearch.Location = new System.Drawing.Point(62, 5);
+			this.textSearch.Location = new System.Drawing.Point(62, 8);
 			this.textSearch.MaxLength = 100;
 			this.textSearch.Name = "textSearch";
-			this.textSearch.Size = new System.Drawing.Size(130, 20);
+			this.textSearch.Size = new System.Drawing.Size(128, 23);
 			this.textSearch.TabIndex = 0;
 			this.textSearch.TextChanged += new System.EventHandler(this.textSearch_TextChanged);
 			// 
 			// FormPreferences
 			// 
-			this.ClientSize = new System.Drawing.Size(750, 872);
+			this.ClientSize = new System.Drawing.Size(750, 888);
 			this.Controls.Add(this.textSearch);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.labelCategories);

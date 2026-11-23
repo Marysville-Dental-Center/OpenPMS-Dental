@@ -33,7 +33,7 @@ namespace OpenPmsDental{
 			this.labelWarning.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelWarning.Location = new System.Drawing.Point(15, 29);
+			this.labelWarning.Location = new System.Drawing.Point(15, 8);
 			this.labelWarning.Name = "labelWarning";
 			this.labelWarning.Size = new System.Drawing.Size(539, 122);
 			this.labelWarning.TabIndex = 3;
@@ -42,7 +42,7 @@ namespace OpenPmsDental{
 			// butTryAgain
 			// 
 			this.butTryAgain.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butTryAgain.Location = new System.Drawing.Point(479, 160);
+			this.butTryAgain.Location = new System.Drawing.Point(479, 163);
 			this.butTryAgain.Name = "butTryAgain";
 			this.butTryAgain.Size = new System.Drawing.Size(75, 24);
 			this.butTryAgain.TabIndex = 1;
@@ -52,7 +52,7 @@ namespace OpenPmsDental{
 			// butOverride
 			// 
 			this.butOverride.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butOverride.Location = new System.Drawing.Point(15, 160);
+			this.butOverride.Location = new System.Drawing.Point(8, 163);
 			this.butOverride.Name = "butOverride";
 			this.butOverride.Size = new System.Drawing.Size(75, 24);
 			this.butOverride.TabIndex = 4;

@@ -35,7 +35,7 @@ namespace OpenPmsDental {
 			this.listCats.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.listCats.Location = new System.Drawing.Point(28, 34);
+			this.listCats.Location = new System.Drawing.Point(28, 28);
 			this.listCats.Name = "listCats";
 			this.listCats.Size = new System.Drawing.Size(262, 589);
 			this.listCats.TabIndex = 0;
@@ -43,7 +43,7 @@ namespace OpenPmsDental {
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(28, 12);
+			this.label1.Location = new System.Drawing.Point(28, 8);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(214, 18);
 			this.label1.TabIndex = 1;
@@ -52,7 +52,7 @@ namespace OpenPmsDental {
 			// butExport
 			// 
 			this.butExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butExport.Location = new System.Drawing.Point(310, 194);
+			this.butExport.Location = new System.Drawing.Point(310, 115);
 			this.butExport.Name = "butExport";
 			this.butExport.Size = new System.Drawing.Size(96, 26);
 			this.butExport.TabIndex = 3;
@@ -62,16 +62,16 @@ namespace OpenPmsDental {
 			// label2
 			// 
 			this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.label2.Location = new System.Drawing.Point(310, 226);
+			this.label2.Location = new System.Drawing.Point(310, 145);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(182, 82);
+			this.label2.Size = new System.Drawing.Size(182, 47);
 			this.label2.TabIndex = 5;
 			this.label2.Text = "Creates a file of SQL statements with all translations for the current language/culture.";
 			// 
 			// labelLanguage
 			// 
 			this.labelLanguage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelLanguage.Location = new System.Drawing.Point(310, 34);
+			this.labelLanguage.Location = new System.Drawing.Point(310, 32);
 			this.labelLanguage.Name = "labelLanguage";
 			this.labelLanguage.Size = new System.Drawing.Size(198, 81);
 			this.labelLanguage.TabIndex = 6;

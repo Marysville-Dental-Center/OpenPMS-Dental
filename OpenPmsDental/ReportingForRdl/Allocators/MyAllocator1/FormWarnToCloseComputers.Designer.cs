@@ -44,10 +44,10 @@
 			this.lblMessage.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
 			this.lblMessage.Font = new System.Drawing.Font("Arial Black", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.lblMessage.ForeColor = System.Drawing.Color.Maroon;
-			this.lblMessage.Location = new System.Drawing.Point(54, 34);
+			this.lblMessage.Location = new System.Drawing.Point(54, 8);
 			this.lblMessage.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.lblMessage.Name = "lblMessage";
-			this.lblMessage.Size = new System.Drawing.Size(675, 130);
+			this.lblMessage.Size = new System.Drawing.Size(675, 94);
 			this.lblMessage.TabIndex = 0;
 			this.lblMessage.Text = resources.GetString("lblMessage.Text");
 			// 
@@ -55,16 +55,17 @@
 			// 
 			this.label1.Font = new System.Drawing.Font("Arial Black", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label1.ForeColor = System.Drawing.Color.Maroon;
-			this.label1.Location = new System.Drawing.Point(116, 244);
+			this.label1.Location = new System.Drawing.Point(166, 178);
 			this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(368, 34);
+			this.label1.Size = new System.Drawing.Size(320, 34);
 			this.label1.TabIndex = 1;
 			this.label1.Text = "Is this the only computer running?";
 			// 
 			// butYes
 			// 
-			this.butYes.Location = new System.Drawing.Point(492, 244);
+			this.butYes.Location = new System.Drawing.Point(492, 178);
 			this.butYes.Margin = new System.Windows.Forms.Padding(4);
 			this.butYes.Name = "butYes";
 			this.butYes.Size = new System.Drawing.Size(64, 34);
@@ -75,7 +76,7 @@
 			// 
 			// butNoCancel
 			// 
-			this.butNoCancel.Location = new System.Drawing.Point(564, 244);
+			this.butNoCancel.Location = new System.Drawing.Point(562, 178);
 			this.butNoCancel.Margin = new System.Windows.Forms.Padding(4);
 			this.butNoCancel.Name = "butNoCancel";
 			this.butNoCancel.Size = new System.Drawing.Size(117, 34);
@@ -89,16 +90,16 @@
 			this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
 			this.panel1.Controls.Add(this.label2);
 			this.panel1.Controls.Add(this.imageAnimator1);
-			this.panel1.Location = new System.Drawing.Point(58, 167);
+			this.panel1.Location = new System.Drawing.Point(54, 104);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(671, 61);
+			this.panel1.Size = new System.Drawing.Size(671, 66);
 			this.panel1.TabIndex = 4;
 			// 
 			// label2
 			// 
 			this.label2.Font = new System.Drawing.Font("Arial Black", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label2.ForeColor = System.Drawing.Color.Maroon;
-			this.label2.Location = new System.Drawing.Point(98, 12);
+			this.label2.Location = new System.Drawing.Point(64, 8);
 			this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(368, 34);
@@ -108,7 +109,7 @@
 			// imageAnimator1
 			// 
 			this.imageAnimator1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.imageAnimator1.Location = new System.Drawing.Point(5, 4);
+			this.imageAnimator1.Location = new System.Drawing.Point(8, 8);
 			this.imageAnimator1.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
 			this.imageAnimator1.Name = "imageAnimator1";
 			this.imageAnimator1.SET_IMAGES = null;

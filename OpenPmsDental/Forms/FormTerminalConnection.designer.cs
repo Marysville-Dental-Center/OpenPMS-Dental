@@ -44,7 +44,7 @@ namespace OpenPmsDental {
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(25,0);
+			this.label1.Location = new System.Drawing.Point(25,8);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(100,20);
 			this.label1.TabIndex = 0;
@@ -53,7 +53,7 @@ namespace OpenPmsDental {
 			// 
 			// textTx
 			// 
-			this.textTx.Location = new System.Drawing.Point(25,22);
+			this.textTx.Location = new System.Drawing.Point(25,30);
 			this.textTx.Multiline = true;
 			this.textTx.Name = "textTx";
 			this.textTx.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -62,7 +62,7 @@ namespace OpenPmsDental {
 			// 
 			// textRx
 			// 
-			this.textRx.Location = new System.Drawing.Point(25,83);
+			this.textRx.Location = new System.Drawing.Point(25,84);
 			this.textRx.Multiline = true;
 			this.textRx.Name = "textRx";
 			this.textRx.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -71,7 +71,7 @@ namespace OpenPmsDental {
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(25,61);
+			this.label2.Location = new System.Drawing.Point(25,62);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(100,20);
 			this.label2.TabIndex = 2;
@@ -80,7 +80,7 @@ namespace OpenPmsDental {
 			// 
 			// textProgress
 			// 
-			this.textProgress.Location = new System.Drawing.Point(25,157);
+			this.textProgress.Location = new System.Drawing.Point(25,151);
 			this.textProgress.Multiline = true;
 			this.textProgress.Name = "textProgress";
 			this.textProgress.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -89,7 +89,7 @@ namespace OpenPmsDental {
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(25,135);
+			this.label3.Location = new System.Drawing.Point(25,129);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(100,20);
 			this.label3.TabIndex = 5;

@@ -38,16 +38,16 @@ namespace OpenPmsDental{
 			// 
 			// dateTimePicker
 			// 
-			this.dateTimePicker.Location = new System.Drawing.Point(8, 19);
+			this.dateTimePicker.Location = new System.Drawing.Point(8, 23);
 			this.dateTimePicker.Name = "dateTimePicker";
 			this.dateTimePicker.Size = new System.Drawing.Size(200, 20);
 			this.dateTimePicker.TabIndex = 65;
 			// 
 			// radioPM
 			// 
-			this.radioPM.Location = new System.Drawing.Point(147, 34);
+			this.radioPM.Location = new System.Drawing.Point(102, 50);
 			this.radioPM.Name = "radioPM";
-			this.radioPM.Size = new System.Drawing.Size(70, 17);
+			this.radioPM.Size = new System.Drawing.Size(43, 20);
 			this.radioPM.TabIndex = 63;
 			this.radioPM.Text = "PM";
 			this.radioPM.UseVisualStyleBackColor = true;
@@ -55,9 +55,9 @@ namespace OpenPmsDental{
 			// radioAM
 			// 
 			this.radioAM.Checked = true;
-			this.radioAM.Location = new System.Drawing.Point(147, 13);
+			this.radioAM.Location = new System.Drawing.Point(164, 24);
 			this.radioAM.Name = "radioAM";
-			this.radioAM.Size = new System.Drawing.Size(70, 17);
+			this.radioAM.Size = new System.Drawing.Size(44, 20);
 			this.radioAM.TabIndex = 62;
 			this.radioAM.TabStop = true;
 			this.radioAM.Text = "AM";
@@ -65,33 +65,33 @@ namespace OpenPmsDental{
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(62, 22);
+			this.label1.Location = new System.Drawing.Point(80, 23);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(17, 21);
+			this.label1.Size = new System.Drawing.Size(16, 23);
 			this.label1.TabIndex = 61;
 			this.label1.Text = ":";
-			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// comboMinute
 			// 
-			this.comboMinute.Location = new System.Drawing.Point(79, 22);
+			this.comboMinute.Location = new System.Drawing.Point(102, 23);
 			this.comboMinute.Name = "comboMinute";
-			this.comboMinute.Size = new System.Drawing.Size(54, 21);
+			this.comboMinute.Size = new System.Drawing.Size(56, 23);
 			this.comboMinute.TabIndex = 60;
 			// 
 			// comboHour
 			// 
-			this.comboHour.Location = new System.Drawing.Point(7, 22);
+			this.comboHour.Location = new System.Drawing.Point(8, 23);
 			this.comboHour.Name = "comboHour";
-			this.comboHour.Size = new System.Drawing.Size(54, 21);
+			this.comboHour.Size = new System.Drawing.Size(56, 23);
 			this.comboHour.TabIndex = 59;
 			// 
 			// groupDate
 			// 
 			this.groupDate.Controls.Add(this.dateTimePicker);
-			this.groupDate.Location = new System.Drawing.Point(16, 10);
+			this.groupDate.Location = new System.Drawing.Point(8, 8);
 			this.groupDate.Name = "groupDate";
-			this.groupDate.Size = new System.Drawing.Size(222, 46);
+			this.groupDate.Size = new System.Drawing.Size(237, 54);
 			this.groupDate.TabIndex = 66;
 			this.groupDate.TabStop = false;
 			this.groupDate.Text = "Pick Date";
@@ -103,9 +103,9 @@ namespace OpenPmsDental{
 			this.groupTime.Controls.Add(this.comboMinute);
 			this.groupTime.Controls.Add(this.radioAM);
 			this.groupTime.Controls.Add(this.label1);
-			this.groupTime.Location = new System.Drawing.Point(16, 65);
+			this.groupTime.Location = new System.Drawing.Point(8, 70);
 			this.groupTime.Name = "groupTime";
-			this.groupTime.Size = new System.Drawing.Size(222, 55);
+			this.groupTime.Size = new System.Drawing.Size(237, 78);
 			this.groupTime.TabIndex = 67;
 			this.groupTime.TabStop = false;
 			this.groupTime.Text = "Pick Time";
@@ -113,7 +113,7 @@ namespace OpenPmsDental{
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(163, 135);
+			this.butOK.Location = new System.Drawing.Point(170, 160);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 24);
 			this.butOK.TabIndex = 3;
@@ -123,7 +123,7 @@ namespace OpenPmsDental{
 			// FormTimePick
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(253, 171);
+			this.ClientSize = new System.Drawing.Size(253, 192);
 			this.Controls.Add(this.groupTime);
 			this.Controls.Add(this.groupDate);
 			this.Controls.Add(this.butOK);

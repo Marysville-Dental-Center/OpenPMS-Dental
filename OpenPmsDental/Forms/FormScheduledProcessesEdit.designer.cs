@@ -38,7 +38,7 @@ namespace OpenPmsDental{
 			this.butDeleteSchedProc.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDeleteSchedProc.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDeleteSchedProc.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDeleteSchedProc.Location = new System.Drawing.Point(20, 143);
+			this.butDeleteSchedProc.Location = new System.Drawing.Point(8, 147);
 			this.butDeleteSchedProc.Name = "butDeleteSchedProc";
 			this.butDeleteSchedProc.Size = new System.Drawing.Size(75, 24);
 			this.butDeleteSchedProc.TabIndex = 5;
@@ -49,56 +49,56 @@ namespace OpenPmsDental{
 			// textTimeToRun
 			// 
 			this.textTimeToRun.IsShortTimeString = true;
-			this.textTimeToRun.Location = new System.Drawing.Point(130, 98);
+			this.textTimeToRun.Location = new System.Drawing.Point(130, 62);
 			this.textTimeToRun.Name = "textTimeToRun";
 			this.textTimeToRun.Size = new System.Drawing.Size(120, 20);
 			this.textTimeToRun.TabIndex = 2;
 			// 
 			// labelTimeToRun
 			// 
-			this.labelTimeToRun.Location = new System.Drawing.Point(30, 98);
+			this.labelTimeToRun.Location = new System.Drawing.Point(48, 62);
 			this.labelTimeToRun.Name = "labelTimeToRun";
-			this.labelTimeToRun.Size = new System.Drawing.Size(101, 20);
+			this.labelTimeToRun.Size = new System.Drawing.Size(76, 23);
 			this.labelTimeToRun.TabIndex = 6;
 			this.labelTimeToRun.Text = "Time to Run";
 			this.labelTimeToRun.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// labelFrequencyToRun
 			// 
-			this.labelFrequencyToRun.Location = new System.Drawing.Point(20, 62);
+			this.labelFrequencyToRun.Location = new System.Drawing.Point(20, 35);
 			this.labelFrequencyToRun.Name = "labelFrequencyToRun";
-			this.labelFrequencyToRun.Size = new System.Drawing.Size(110, 20);
+			this.labelFrequencyToRun.Size = new System.Drawing.Size(104, 23);
 			this.labelFrequencyToRun.TabIndex = 7;
 			this.labelFrequencyToRun.Text = "Frequency to Run";
 			this.labelFrequencyToRun.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// labelScheduledAction
 			// 
-			this.labelScheduledAction.Location = new System.Drawing.Point(17, 28);
+			this.labelScheduledAction.Location = new System.Drawing.Point(20, 8);
 			this.labelScheduledAction.Name = "labelScheduledAction";
-			this.labelScheduledAction.Size = new System.Drawing.Size(113, 20);
+			this.labelScheduledAction.Size = new System.Drawing.Size(104, 23);
 			this.labelScheduledAction.TabIndex = 8;
 			this.labelScheduledAction.Text = "Scheduled Action";
 			this.labelScheduledAction.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// comboFrequency
 			// 
-			this.comboFrequency.Location = new System.Drawing.Point(130, 62);
+			this.comboFrequency.Location = new System.Drawing.Point(130, 35);
 			this.comboFrequency.Name = "comboFrequency";
-			this.comboFrequency.Size = new System.Drawing.Size(121, 21);
+			this.comboFrequency.Size = new System.Drawing.Size(120, 23);
 			this.comboFrequency.TabIndex = 1;
 			// 
 			// comboScheduledAction
 			// 
-			this.comboScheduledAction.Location = new System.Drawing.Point(130, 28);
+			this.comboScheduledAction.Location = new System.Drawing.Point(130, 8);
 			this.comboScheduledAction.Name = "comboScheduledAction";
-			this.comboScheduledAction.Size = new System.Drawing.Size(121, 21);
+			this.comboScheduledAction.Size = new System.Drawing.Size(120, 23);
 			this.comboScheduledAction.TabIndex = 0;
 			// 
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(252, 143);
+			this.butSave.Location = new System.Drawing.Point(256, 147);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 3;

@@ -33,7 +33,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(349, 407);
+			this.butSave.Location = new System.Drawing.Point(353, 410);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 3;
@@ -47,7 +47,7 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.treeSubscriptions.CheckBoxes = true;
 			this.treeSubscriptions.FullRowSelect = true;
-			this.treeSubscriptions.Location = new System.Drawing.Point(13, 33);
+			this.treeSubscriptions.Location = new System.Drawing.Point(12, 31);
 			this.treeSubscriptions.Name = "treeSubscriptions";
 			this.treeSubscriptions.Size = new System.Drawing.Size(411, 367);
 			this.treeSubscriptions.TabIndex = 4;
@@ -56,7 +56,7 @@ namespace OpenPmsDental{
 			// butSetAll
 			// 
 			this.butSetAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butSetAll.Location = new System.Drawing.Point(12, 407);
+			this.butSetAll.Location = new System.Drawing.Point(8, 411);
 			this.butSetAll.Name = "butSetAll";
 			this.butSetAll.Size = new System.Drawing.Size(75, 23);
 			this.butSetAll.TabIndex = 5;
@@ -67,7 +67,7 @@ namespace OpenPmsDental{
 			// butSetNone
 			// 
 			this.butSetNone.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butSetNone.Location = new System.Drawing.Point(93, 407);
+			this.butSetNone.Location = new System.Drawing.Point(89, 411);
 			this.butSetNone.Name = "butSetNone";
 			this.butSetNone.Size = new System.Drawing.Size(75, 23);
 			this.butSetNone.TabIndex = 6;
@@ -77,7 +77,7 @@ namespace OpenPmsDental{
 			// 
 			// labelTitle
 			// 
-			this.labelTitle.Location = new System.Drawing.Point(12, 9);
+			this.labelTitle.Location = new System.Drawing.Point(12, 8);
 			this.labelTitle.Name = "labelTitle";
 			this.labelTitle.Size = new System.Drawing.Size(116, 21);
 			this.labelTitle.TabIndex = 7;

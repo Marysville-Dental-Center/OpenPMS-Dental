@@ -42,7 +42,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(322, 171);
+			this.butSave.Location = new System.Drawing.Point(324, 175);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 98;
@@ -54,7 +54,7 @@ namespace OpenPmsDental{
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(15, 171);
+			this.butDelete.Location = new System.Drawing.Point(8, 175);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(77, 24);
 			this.butDelete.TabIndex = 100;
@@ -64,95 +64,95 @@ namespace OpenPmsDental{
 			// label1
 			// 
 			this.label1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.label1.Location = new System.Drawing.Point(204, 67);
+			this.label1.Location = new System.Drawing.Point(204, 62);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(193, 53);
+			this.label1.Size = new System.Drawing.Size(193, 47);
 			this.label1.TabIndex = 0;
 			this.label1.Text = "The line will extend from x,y to x+w,y+h.  So negative width and height are allow" +
     "ed.";
 			// 
 			// textHeight
 			// 
-			this.textHeight.Location = new System.Drawing.Point(129, 90);
+			this.textHeight.Location = new System.Drawing.Point(129, 89);
 			this.textHeight.MaxVal = 2000;
 			this.textHeight.MinVal = -2000;
 			this.textHeight.Name = "textHeight";
-			this.textHeight.Size = new System.Drawing.Size(69, 20);
+			this.textHeight.Size = new System.Drawing.Size(68, 23);
 			this.textHeight.TabIndex = 4;
 			// 
 			// label8
 			// 
 			this.label8.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.label8.Location = new System.Drawing.Point(58, 91);
+			this.label8.Location = new System.Drawing.Point(75, 89);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(71, 16);
+			this.label8.Size = new System.Drawing.Size(48, 23);
 			this.label8.TabIndex = 0;
 			this.label8.Text = "Height";
 			this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textWidth
 			// 
-			this.textWidth.Location = new System.Drawing.Point(129, 64);
+			this.textWidth.Location = new System.Drawing.Point(129, 62);
 			this.textWidth.MaxVal = 2000;
 			this.textWidth.MinVal = -2000;
 			this.textWidth.Name = "textWidth";
-			this.textWidth.Size = new System.Drawing.Size(69, 20);
+			this.textWidth.Size = new System.Drawing.Size(68, 23);
 			this.textWidth.TabIndex = 3;
 			// 
 			// label7
 			// 
 			this.label7.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.label7.Location = new System.Drawing.Point(58, 65);
+			this.label7.Location = new System.Drawing.Point(79, 62);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(71, 16);
+			this.label7.Size = new System.Drawing.Size(44, 23);
 			this.label7.TabIndex = 0;
 			this.label7.Text = "Width";
 			this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textYPos
 			// 
-			this.textYPos.Location = new System.Drawing.Point(129, 38);
+			this.textYPos.Location = new System.Drawing.Point(129, 35);
 			this.textYPos.MaxVal = 2000;
 			this.textYPos.MinVal = -100;
 			this.textYPos.Name = "textYPos";
-			this.textYPos.Size = new System.Drawing.Size(69, 20);
+			this.textYPos.Size = new System.Drawing.Size(68, 23);
 			this.textYPos.TabIndex = 2;
 			// 
 			// label6
 			// 
 			this.label6.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.label6.Location = new System.Drawing.Point(58, 39);
+			this.label6.Location = new System.Drawing.Point(83, 35);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(71, 16);
+			this.label6.Size = new System.Drawing.Size(40, 23);
 			this.label6.TabIndex = 0;
 			this.label6.Text = "Y Pos";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textXPos
 			// 
-			this.textXPos.Location = new System.Drawing.Point(129, 12);
+			this.textXPos.Location = new System.Drawing.Point(129, 8);
 			this.textXPos.MaxVal = 2000;
 			this.textXPos.MinVal = -100;
 			this.textXPos.Name = "textXPos";
-			this.textXPos.Size = new System.Drawing.Size(69, 20);
+			this.textXPos.Size = new System.Drawing.Size(68, 23);
 			this.textXPos.TabIndex = 1;
 			// 
 			// label5
 			// 
 			this.label5.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.label5.Location = new System.Drawing.Point(58, 13);
+			this.label5.Location = new System.Drawing.Point(83, 8);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(71, 16);
+			this.label5.Size = new System.Drawing.Size(40, 23);
 			this.label5.TabIndex = 0;
 			this.label5.Text = "X Pos";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// checkPmtOpt
 			// 
-			this.checkPmtOpt.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkPmtOpt.Location = new System.Drawing.Point(12, 138);
+			this.checkPmtOpt.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkPmtOpt.Location = new System.Drawing.Point(129, 143);
 			this.checkPmtOpt.Name = "checkPmtOpt";
-			this.checkPmtOpt.Size = new System.Drawing.Size(130, 20);
+			this.checkPmtOpt.Size = new System.Drawing.Size(123, 20);
 			this.checkPmtOpt.TabIndex = 6;
 			this.checkPmtOpt.Text = "Is Payment Option";
 			// 
@@ -161,16 +161,16 @@ namespace OpenPmsDental{
 			this.butColor.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
 			this.butColor.Location = new System.Drawing.Point(129, 116);
 			this.butColor.Name = "butColor";
-			this.butColor.Size = new System.Drawing.Size(30, 20);
+			this.butColor.Size = new System.Drawing.Size(30, 23);
 			this.butColor.TabIndex = 5;
 			this.butColor.Click += new System.EventHandler(this.butColor_Click);
 			// 
 			// label2
 			// 
 			this.label2.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.label2.Location = new System.Drawing.Point(52, 116);
+			this.label2.Location = new System.Drawing.Point(83, 116);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(71, 16);
+			this.label2.Size = new System.Drawing.Size(40, 23);
 			this.label2.TabIndex = 0;
 			this.label2.Text = "Color";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

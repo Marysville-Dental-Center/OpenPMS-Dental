@@ -28,7 +28,7 @@ namespace OpenPmsDental{
 			// 
 			// listBoxFavorites
 			// 
-			this.listBoxFavorites.Location = new System.Drawing.Point(13, 12);
+			this.listBoxFavorites.Location = new System.Drawing.Point(13, 8);
 			this.listBoxFavorites.Name = "listBoxFavorites";
 			this.listBoxFavorites.SelectionMode = OpenPmsDental.UI.SelectionMode.None;
 			this.listBoxFavorites.Size = new System.Drawing.Size(351, 605);

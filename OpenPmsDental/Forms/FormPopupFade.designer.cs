@@ -37,7 +37,7 @@ namespace OpenPmsDental {
 			this.labelInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelInfo.Location = new System.Drawing.Point(0, 0);
+			this.labelInfo.Location = new System.Drawing.Point(8, 8);
 			this.labelInfo.Name = "labelInfo";
 			this.labelInfo.Size = new System.Drawing.Size(326, 100);
 			this.labelInfo.TabIndex = 0;
@@ -47,7 +47,7 @@ namespace OpenPmsDental {
 			// FormPopupFade
 			// 
 			this.BackColor = System.Drawing.SystemColors.ControlLight;
-			this.ClientSize = new System.Drawing.Size(326, 100);
+			this.ClientSize = new System.Drawing.Size(342, 116);
 			this.Controls.Add(this.labelInfo);
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;

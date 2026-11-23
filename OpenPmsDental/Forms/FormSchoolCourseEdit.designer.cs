@@ -45,7 +45,7 @@ namespace OpenPmsDental {
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(503, 88);
+			this.butSave.Location = new System.Drawing.Point(507, 92);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 26);
 			this.butSave.TabIndex = 3;
@@ -54,25 +54,25 @@ namespace OpenPmsDental {
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(11, 21);
+			this.label1.Location = new System.Drawing.Point(98, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(155, 19);
+			this.label1.Size = new System.Drawing.Size(64, 23);
 			this.label1.TabIndex = 2;
 			this.label1.Text = "Course ID";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textDescript
 			// 
-			this.textDescript.Location = new System.Drawing.Point(168, 48);
+			this.textDescript.Location = new System.Drawing.Point(168, 35);
 			this.textDescript.Name = "textDescript";
-			this.textDescript.Size = new System.Drawing.Size(381, 20);
+			this.textDescript.Size = new System.Drawing.Size(380, 23);
 			this.textDescript.TabIndex = 1;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(11, 48);
+			this.label2.Location = new System.Drawing.Point(90, 35);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(155, 19);
+			this.label2.Size = new System.Drawing.Size(72, 23);
 			this.label2.TabIndex = 4;
 			this.label2.Text = "Description";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -82,7 +82,7 @@ namespace OpenPmsDental {
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(49, 88);
+			this.butDelete.Location = new System.Drawing.Point(49, 92);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(95, 26);
 			this.butDelete.TabIndex = 2;
@@ -91,7 +91,7 @@ namespace OpenPmsDental {
 			// 
 			// textCourseID
 			// 
-			this.textCourseID.Location = new System.Drawing.Point(168, 19);
+			this.textCourseID.Location = new System.Drawing.Point(168, 8);
 			this.textCourseID.Name = "textCourseID";
 			this.textCourseID.Size = new System.Drawing.Size(144, 20);
 			this.textCourseID.TabIndex = 0;
