@@ -40,10 +40,10 @@ def layout(h):
         h.check_left(name)
         h.set(name, x, y, h.cw(name), CH)
     x3 = 8 + 2 * LW + 8 + 16
-    lw = h.lw("label4")
-    h.set("label4", x3, 8, lw, H)
+    # Today's Date on the date range group's field column (95 px into the group)
+    h.set("label4", x3, 8, 95 - 6, H)
     h.text_align("label4", "MiddleRight")
-    h.set("textToday", x3 + lw + 6, 8, 100, H)
+    h.set("textToday", x3 + 95, 8, 100, H)
     GW = 300
     top = (h.n("groupBox2").title_bottom or 18) + 4
     F = 95

@@ -3,7 +3,7 @@ Range title). As main arranges it, on the grid, three filter columns 16 px apart
 the content edge + 65), the Amount Range group under it (as wide as its title, Min and Max each 6 px after its label) with Control ID 16 px
 after the group on the third row; Carrier, Check# or EFT Trace# and the clinic picker on one field column; the status list with its label,
 and under it Automatable Carriers Only, which shows with the list, on the bounds of Finalized Only, which shows without it (Load switches
-them by the EraShowStatusAndClinic preference). Refresh at the right content edge on the check box row; the grid 8 px under the filters to the
+them by the EraShowStatusAndClinic preference). Refresh at the right content edge on the first row, 16 px after the status list (the window 41 px wider); the grid 8 px under the filters to the
 content's right edge down to 8 px over the bottom bar; Auto Processed Report at the bottom left."""
 
 
@@ -21,6 +21,8 @@ def layout(h):
     x = 8
     for lab, fld in (("labelDaysOldMin", "textRangeMin"), ("labelDaysOldMax", "textRangeMax")):
         lw = h.lw(lab)
+        if fld == "textRangeMin":
+            lw = 65 - 8 - 6  # Min's box on the date range's From box (65 px into the range, the group at the content edge)
         h.set(lab, x, top, lw, H)
         h.text_align(lab, "MiddleRight")
         h.set(fld, x + lw + 6, top, 60, H)
@@ -54,8 +56,12 @@ def layout(h):
     for name in ("checkAutomatableCarriersOnly", "checkShowFinalizedOnly"):
         h.check_left(name)
         h.set(name, x3, yc, wc, CH)
-    h.set("butRefresh", R - 75, yc, 75, 24)
-    yg = max(y1 + gh, yc + 24, y2 + H) + 8
+    # Refresh at the right content edge on the first row, 16 px after the status list: the window grows by what that needs.
+    W = max(root.w, x3 + lws + 6 + 120 + 16 + 75 + 8)
+    R = W - 8
+    h.set(".", None, None, W, None)
+    h.set("butRefresh", R - 75, y0, 75, 24)
+    yg = max(y1 + gh, yc + CH, y2 + H) + 8
     yb = root.h - 8 - 24
     h.set("gridMain", 8, yg, R - 8, yb - 8 - yg)
     h.set("butAutoProcessedEras", 8, yb, None, 24)

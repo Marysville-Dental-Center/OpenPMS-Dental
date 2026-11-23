@@ -248,7 +248,7 @@ namespace OpenPmsDental {
 			// 
 			// textToday
 			// 
-			this.textToday.Location = new System.Drawing.Point(426, 8);
+			this.textToday.Location = new System.Drawing.Point(435, 8);
 			this.textToday.Name = "textToday";
 			this.textToday.ReadOnly = true;
 			this.textToday.Size = new System.Drawing.Size(100, 23);
@@ -258,7 +258,7 @@ namespace OpenPmsDental {
 			// 
 			this.label4.Location = new System.Drawing.Point(340, 8);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(80, 23);
+			this.label4.Size = new System.Drawing.Size(89, 23);
 			this.label4.TabIndex = 41;
 			this.label4.Text = "Today\'s Date";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

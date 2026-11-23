@@ -51,7 +51,7 @@ namespace OpenPmsDental{
 			this.butAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdd.Location = new System.Drawing.Point(459, 378);
+			this.butAdd.Location = new System.Drawing.Point(455, 378);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(75, 24);
 			this.butAdd.TabIndex = 18;
@@ -63,7 +63,7 @@ namespace OpenPmsDental{
 			this.butDuplicate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDuplicate.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butDuplicate.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDuplicate.Location = new System.Drawing.Point(540, 378);
+			this.butDuplicate.Location = new System.Drawing.Point(536, 378);
 			this.butDuplicate.Name = "butDuplicate";
 			this.butDuplicate.Size = new System.Drawing.Size(85, 24);
 			this.butDuplicate.TabIndex = 17;
@@ -75,9 +75,9 @@ namespace OpenPmsDental{
 			this.gridDunning.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridDunning.Location = new System.Drawing.Point(459, 8);
+			this.gridDunning.Location = new System.Drawing.Point(455, 8);
 			this.gridDunning.Name = "gridDunning";
-			this.gridDunning.Size = new System.Drawing.Size(641, 366);
+			this.gridDunning.Size = new System.Drawing.Size(645, 366);
 			this.gridDunning.TabIndex = 15;
 			this.gridDunning.Title = "Messages";
 			this.gridDunning.TranslationName = "TableMessages";
@@ -90,7 +90,7 @@ namespace OpenPmsDental{
 			this.groupBox1.Controls.Add(this.listBill);
 			this.groupBox1.Controls.Add(this.label8);
 			this.groupBox1.Controls.Add(this.comboClinics);
-			this.groupBox1.Location = new System.Drawing.Point(12, 8);
+			this.groupBox1.Location = new System.Drawing.Point(8, 8);
 			this.groupBox1.Name = "groupBox1";
 			this.groupBox1.Size = new System.Drawing.Size(441, 295);
 			this.groupBox1.TabIndex = 20;
@@ -217,7 +217,7 @@ namespace OpenPmsDental{
 			this.listBill.Location = new System.Drawing.Point(8, 54);
 			this.listBill.Name = "listBill";
 			this.listBill.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
-			this.listBill.Size = new System.Drawing.Size(158, 199);
+			this.listBill.Size = new System.Drawing.Size(158, 233);
 			this.listBill.TabIndex = 257;
 			this.listBill.SelectedIndexChanged += new System.EventHandler(this.OnFilterChanged);
 			// 
@@ -228,13 +228,13 @@ namespace OpenPmsDental{
 			this.label8.Size = new System.Drawing.Size(158, 17);
 			this.label8.TabIndex = 258;
 			this.label8.Text = "Billing Type:";
-			this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.label8.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// comboClinics
 			// 
 			this.comboClinics.IncludeAll = true;
 			this.comboClinics.IncludeUnassigned = true;
-			this.comboClinics.Location = new System.Drawing.Point(228, 23);
+			this.comboClinics.Location = new System.Drawing.Point(254, 23);
 			this.comboClinics.Name = "comboClinics";
 			this.comboClinics.Size = new System.Drawing.Size(179, 23);
 			this.comboClinics.TabIndex = 255;

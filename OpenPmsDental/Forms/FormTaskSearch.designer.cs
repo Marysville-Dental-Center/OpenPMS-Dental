@@ -121,7 +121,7 @@ namespace OpenPmsDental{
 			this.textExcluding.AutoSize = false;
 			this.textExcluding.Location = new System.Drawing.Point(82, 50);
 			this.textExcluding.Name = "textExcluding";
-			this.textExcluding.Size = new System.Drawing.Size(88, 23);
+			this.textExcluding.Size = new System.Drawing.Size(104, 23);
 			this.textExcluding.TabIndex = 8;
 			// 
 			// labelIncluding
@@ -138,7 +138,7 @@ namespace OpenPmsDental{
 			this.textIncluding.AutoSize = false;
 			this.textIncluding.Location = new System.Drawing.Point(82, 23);
 			this.textIncluding.Name = "textIncluding";
-			this.textIncluding.Size = new System.Drawing.Size(88, 23);
+			this.textIncluding.Size = new System.Drawing.Size(104, 23);
 			this.textIncluding.TabIndex = 7;
 			// 
 			// checkIncludeAttachments
@@ -187,14 +187,14 @@ namespace OpenPmsDental{
 			// 
 			this.comboUsers.Location = new System.Drawing.Point(82, 47);
 			this.comboUsers.Name = "comboUsers";
-			this.comboUsers.Size = new System.Drawing.Size(78, 23);
+			this.comboUsers.Size = new System.Drawing.Size(74, 23);
 			this.comboUsers.TabIndex = 1;
 			// 
 			// butUserPicker
 			// 
-			this.butUserPicker.Location = new System.Drawing.Point(166, 47);
+			this.butUserPicker.Location = new System.Drawing.Point(162, 47);
 			this.butUserPicker.Name = "butUserPicker";
-			this.butUserPicker.Size = new System.Drawing.Size(20, 23);
+			this.butUserPicker.Size = new System.Drawing.Size(24, 23);
 			this.butUserPicker.TabIndex = 2;
 			this.butUserPicker.Text = "...";
 			this.butUserPicker.UseVisualStyleBackColor = true;
@@ -226,7 +226,7 @@ namespace OpenPmsDental{
 			// 
 			this.comboPriority.Location = new System.Drawing.Point(90, 190);
 			this.comboPriority.Name = "comboPriority";
-			this.comboPriority.Size = new System.Drawing.Size(88, 23);
+			this.comboPriority.Size = new System.Drawing.Size(104, 23);
 			this.comboPriority.TabIndex = 5;
 			// 
 			// label12
@@ -253,7 +253,7 @@ namespace OpenPmsDental{
 			// 
 			// butClearCompleted
 			// 
-			this.butClearCompleted.Location = new System.Drawing.Point(112, 77);
+			this.butClearCompleted.Location = new System.Drawing.Point(130, 77);
 			this.butClearCompleted.Name = "butClearCompleted";
 			this.butClearCompleted.Size = new System.Drawing.Size(56, 20);
 			this.butClearCompleted.TabIndex = 2;
@@ -267,7 +267,7 @@ namespace OpenPmsDental{
 			this.dateCompletedTo.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
 			this.dateCompletedTo.Location = new System.Drawing.Point(82, 50);
 			this.dateCompletedTo.Name = "dateCompletedTo";
-			this.dateCompletedTo.Size = new System.Drawing.Size(100, 23);
+			this.dateCompletedTo.Size = new System.Drawing.Size(104, 23);
 			this.dateCompletedTo.TabIndex = 1;
 			this.dateCompletedTo.ValueChanged += new System.EventHandler(this.dateCompletedTo_ValueChanged);
 			// 
@@ -277,7 +277,7 @@ namespace OpenPmsDental{
 			this.dateCompletedFrom.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
 			this.dateCompletedFrom.Location = new System.Drawing.Point(82, 23);
 			this.dateCompletedFrom.Name = "dateCompletedFrom";
-			this.dateCompletedFrom.Size = new System.Drawing.Size(100, 23);
+			this.dateCompletedFrom.Size = new System.Drawing.Size(104, 23);
 			this.dateCompletedFrom.TabIndex = 0;
 			this.dateCompletedFrom.ValueChanged += new System.EventHandler(this.dateCompletedFrom_ValueChanged);
 			// 
@@ -314,7 +314,7 @@ namespace OpenPmsDental{
 			// 
 			// butClearCreated
 			// 
-			this.butClearCreated.Location = new System.Drawing.Point(112, 77);
+			this.butClearCreated.Location = new System.Drawing.Point(130, 77);
 			this.butClearCreated.Name = "butClearCreated";
 			this.butClearCreated.Size = new System.Drawing.Size(56, 20);
 			this.butClearCreated.TabIndex = 2;
@@ -328,7 +328,7 @@ namespace OpenPmsDental{
 			this.dateCreatedTo.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
 			this.dateCreatedTo.Location = new System.Drawing.Point(82, 50);
 			this.dateCreatedTo.Name = "dateCreatedTo";
-			this.dateCreatedTo.Size = new System.Drawing.Size(100, 23);
+			this.dateCreatedTo.Size = new System.Drawing.Size(104, 23);
 			this.dateCreatedTo.TabIndex = 1;
 			this.dateCreatedTo.ValueChanged += new System.EventHandler(this.dateCreatedTo_ValueChanged);
 			// 
@@ -338,7 +338,7 @@ namespace OpenPmsDental{
 			this.dateCreatedFrom.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
 			this.dateCreatedFrom.Location = new System.Drawing.Point(82, 23);
 			this.dateCreatedFrom.Name = "dateCreatedFrom";
-			this.dateCreatedFrom.Size = new System.Drawing.Size(100, 23);
+			this.dateCreatedFrom.Size = new System.Drawing.Size(104, 23);
 			this.dateCreatedFrom.TabIndex = 0;
 			this.dateCreatedFrom.ValueChanged += new System.EventHandler(this.dateCreatedFrom_ValueChanged);
 			// 
@@ -362,9 +362,9 @@ namespace OpenPmsDental{
 			// 
 			// butPatPicker
 			// 
-			this.butPatPicker.Location = new System.Drawing.Point(182, 163);
+			this.butPatPicker.Location = new System.Drawing.Point(170, 163);
 			this.butPatPicker.Name = "butPatPicker";
-			this.butPatPicker.Size = new System.Drawing.Size(20, 23);
+			this.butPatPicker.Size = new System.Drawing.Size(24, 23);
 			this.butPatPicker.TabIndex = 4;
 			this.butPatPicker.Text = "...";
 			this.butPatPicker.UseVisualStyleBackColor = true;
@@ -375,7 +375,7 @@ namespace OpenPmsDental{
 			this.textPatNum.AutoSize = false;
 			this.textPatNum.Location = new System.Drawing.Point(90, 163);
 			this.textPatNum.Name = "textPatNum";
-			this.textPatNum.Size = new System.Drawing.Size(86, 23);
+			this.textPatNum.Size = new System.Drawing.Size(74, 23);
 			this.textPatNum.TabIndex = 3;
 			// 
 			// label9
@@ -392,7 +392,7 @@ namespace OpenPmsDental{
 			this.textTaskNum.AutoSize = false;
 			this.textTaskNum.Location = new System.Drawing.Point(90, 136);
 			this.textTaskNum.Name = "textTaskNum";
-			this.textTaskNum.Size = new System.Drawing.Size(88, 23);
+			this.textTaskNum.Size = new System.Drawing.Size(104, 23);
 			this.textTaskNum.TabIndex = 2;
 			this.textTaskNum.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textTaskNum_KeyUp);
 			// 
@@ -410,7 +410,7 @@ namespace OpenPmsDental{
 			this.textTaskList.AutoSize = false;
 			this.textTaskList.Location = new System.Drawing.Point(90, 109);
 			this.textTaskList.Name = "textTaskList";
-			this.textTaskList.Size = new System.Drawing.Size(88, 23);
+			this.textTaskList.Size = new System.Drawing.Size(104, 23);
 			this.textTaskList.TabIndex = 1;
 			// 
 			// label3

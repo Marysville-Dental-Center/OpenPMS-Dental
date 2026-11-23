@@ -108,7 +108,7 @@ namespace OpenPmsDental {
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.comboPaymentType.Location = new System.Drawing.Point(202, 77);
 			this.comboPaymentType.Name = "comboPaymentType";
-			this.comboPaymentType.Size = new System.Drawing.Size(192, 23);
+			this.comboPaymentType.Size = new System.Drawing.Size(264, 23);
 			this.comboPaymentType.TabIndex = 3;
 			// 
 			// textPassword
@@ -294,7 +294,7 @@ namespace OpenPmsDental {
 			this.comboClinic.IncludeUnassigned = true;
 			this.comboClinic.Location = new System.Drawing.Point(167, 106);
 			this.comboClinic.Name = "comboClinic";
-			this.comboClinic.Size = new System.Drawing.Size(227, 23);
+			this.comboClinic.Size = new System.Drawing.Size(315, 23);
 			this.comboClinic.TabIndex = 5;
 			this.comboClinic.SelectionChangeCommitted += new System.EventHandler(this.comboClinic_SelectionChangeCommitted);
 			// 

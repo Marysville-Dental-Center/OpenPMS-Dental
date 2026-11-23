@@ -226,7 +226,7 @@ namespace OpenPmsDental {
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridMain.Location = new System.Drawing.Point(8, 114);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(963, 476);
+			this.gridMain.Size = new System.Drawing.Size(963, 474);
 			this.gridMain.TabIndex = 13;
 			this.gridMain.Title = "Time Card";
 			this.gridMain.TranslationName = "TableTimeCard";
@@ -322,10 +322,10 @@ namespace OpenPmsDental {
 			// gridTotals
 			//
 			this.gridTotals.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.gridTotals.Location = new System.Drawing.Point(8, 598);
+			this.gridTotals.Location = new System.Drawing.Point(8, 596);
 			this.gridTotals.Name = "gridTotals";
 			this.gridTotals.SelectionMode = OpenPmsDental.UI.GridSelectionMode.None;
-			this.gridTotals.Size = new System.Drawing.Size(630, 58);
+			this.gridTotals.Size = new System.Drawing.Size(630, 60);
 			this.gridTotals.TabIndex = 131;
 			this.gridTotals.Title = "Totals for Period";
 			this.gridTotals.TranslationName = "TableTimeCardTotals";
@@ -335,9 +335,9 @@ namespace OpenPmsDental {
 			this.groupTotalsFormat.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.groupTotalsFormat.Controls.Add(this.radioTotalsDecimal);
 			this.groupTotalsFormat.Controls.Add(this.radioTotalsColon);
-			this.groupTotalsFormat.Location = new System.Drawing.Point(646, 598);
+			this.groupTotalsFormat.Location = new System.Drawing.Point(646, 596);
 			this.groupTotalsFormat.Name = "groupTotalsFormat";
-			this.groupTotalsFormat.Size = new System.Drawing.Size(120, 58);
+			this.groupTotalsFormat.Size = new System.Drawing.Size(120, 60);
 			this.groupTotalsFormat.TabIndex = 132;
 			//
 			// radioTotalsDecimal

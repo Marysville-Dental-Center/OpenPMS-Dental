@@ -134,14 +134,14 @@ namespace OpenPmsDental {
 			// 
 			// comboProv
 			// 
-			this.comboProv.Location = new System.Drawing.Point(284, 32);
+			this.comboProv.Location = new System.Drawing.Point(308, 32);
 			this.comboProv.Name = "comboProv";
 			this.comboProv.Size = new System.Drawing.Size(181, 23);
 			this.comboProv.TabIndex = 33;
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(222, 32);
+			this.label4.Location = new System.Drawing.Point(246, 32);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(56, 23);
 			this.label4.TabIndex = 32;
@@ -159,14 +159,14 @@ namespace OpenPmsDental {
 			// 
 			// comboSite
 			// 
-			this.comboSite.Location = new System.Drawing.Point(284, 59);
+			this.comboSite.Location = new System.Drawing.Point(308, 59);
 			this.comboSite.Name = "comboSite";
 			this.comboSite.Size = new System.Drawing.Size(181, 23);
 			this.comboSite.TabIndex = 37;
 			// 
 			// labelSite
 			// 
-			this.labelSite.Location = new System.Drawing.Point(222, 59);
+			this.labelSite.Location = new System.Drawing.Point(246, 59);
 			this.labelSite.Name = "labelSite";
 			this.labelSite.Size = new System.Drawing.Size(56, 23);
 			this.labelSite.TabIndex = 36;
@@ -187,14 +187,14 @@ namespace OpenPmsDental {
 			// 
 			this.comboClinic.IncludeAll = true;
 			this.comboClinic.IncludeUnassigned = true;
-			this.comboClinic.Location = new System.Drawing.Point(520, 32);
+			this.comboClinic.Location = new System.Drawing.Point(544, 32);
 			this.comboClinic.Name = "comboClinic";
 			this.comboClinic.Size = new System.Drawing.Size(203, 23);
 			this.comboClinic.TabIndex = 40;
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(481, 59);
+			this.label6.Location = new System.Drawing.Point(505, 59);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(76, 23);
 			this.label6.TabIndex = 43;
@@ -213,7 +213,7 @@ namespace OpenPmsDental {
 			// 
 			// codeRangeFilter
 			// 
-			this.codeRangeFilter.Location = new System.Drawing.Point(563, 59);
+			this.codeRangeFilter.Location = new System.Drawing.Point(587, 59);
 			this.codeRangeFilter.Name = "codeRangeFilter";
 			this.codeRangeFilter.Size = new System.Drawing.Size(160, 37);
 			this.codeRangeFilter.TabIndex = 48;

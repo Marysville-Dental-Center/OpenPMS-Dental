@@ -66,7 +66,7 @@
 			// butRefresh
 			// 
 			this.butRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butRefresh.Location = new System.Drawing.Point(951, 68);
+			this.butRefresh.Location = new System.Drawing.Point(988, 8);
 			this.butRefresh.Name = "butRefresh";
 			this.butRefresh.Size = new System.Drawing.Size(75, 24);
 			this.butRefresh.TabIndex = 82;
@@ -90,7 +90,7 @@
 			// textRangeMin
 			// 
 			this.textRangeMin.CausesValidation = false;
-			this.textRangeMin.Location = new System.Drawing.Point(46, 23);
+			this.textRangeMin.Location = new System.Drawing.Point(65, 23);
 			this.textRangeMin.MaxVal = 50000;
 			this.textRangeMin.Name = "textRangeMin";
 			this.textRangeMin.Size = new System.Drawing.Size(60, 23);
@@ -99,7 +99,7 @@
 			// textRangeMax
 			// 
 			this.textRangeMax.CausesValidation = false;
-			this.textRangeMax.Location = new System.Drawing.Point(164, 23);
+			this.textRangeMax.Location = new System.Drawing.Point(183, 23);
 			this.textRangeMax.MaxVal = 50000;
 			this.textRangeMax.Name = "textRangeMax";
 			this.textRangeMax.Size = new System.Drawing.Size(60, 23);
@@ -107,7 +107,7 @@
 			// 
 			// labelDaysOldMax
 			// 
-			this.labelDaysOldMax.Location = new System.Drawing.Point(122, 23);
+			this.labelDaysOldMax.Location = new System.Drawing.Point(141, 23);
 			this.labelDaysOldMax.Name = "labelDaysOldMax";
 			this.labelDaysOldMax.Size = new System.Drawing.Size(36, 23);
 			this.labelDaysOldMax.TabIndex = 99;
@@ -118,7 +118,7 @@
 			// 
 			this.labelDaysOldMin.Location = new System.Drawing.Point(8, 23);
 			this.labelDaysOldMin.Name = "labelDaysOldMin";
-			this.labelDaysOldMin.Size = new System.Drawing.Size(32, 23);
+			this.labelDaysOldMin.Size = new System.Drawing.Size(51, 23);
 			this.labelDaysOldMin.TabIndex = 100;
 			this.labelDaysOldMin.Text = "Min";
 			this.labelDaysOldMin.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -228,10 +228,10 @@
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(8, 100);
+			this.gridMain.Location = new System.Drawing.Point(8, 97);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridMain.Size = new System.Drawing.Size(1018, 556);
+			this.gridMain.Size = new System.Drawing.Size(1055, 559);
 			this.gridMain.TabIndex = 8;
 			this.gridMain.Title = "ERAs";
 			this.gridMain.TranslationName = "TableEtrans835s";
@@ -268,7 +268,7 @@
 			// 
 			// FormEtrans835s
 			// 
-			this.ClientSize = new System.Drawing.Size(1034, 696);
+			this.ClientSize = new System.Drawing.Size(1071, 696);
 			this.Controls.Add(this.butAutoProcessedEras);
 			this.Controls.Add(this.checkShowFinalizedOnly);
 			this.Controls.Add(this.checkAutomatableCarriersOnly);

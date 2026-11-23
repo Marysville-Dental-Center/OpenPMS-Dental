@@ -120,14 +120,14 @@ namespace OpenPmsDental{
 			this.groupBoxUndo.Controls.Add(this.butUndo);
 			this.groupBoxUndo.Location = new System.Drawing.Point(8, 288);
 			this.groupBoxUndo.Name = "groupBoxUndo";
-			this.groupBoxUndo.Size = new System.Drawing.Size(180, 82);
+			this.groupBoxUndo.Size = new System.Drawing.Size(212, 82);
 			this.groupBoxUndo.TabIndex = 3;
 			this.groupBoxUndo.TabStop = false;
 			this.groupBoxUndo.Text = "Undo late charges";
 			// 
 			// textDateUndo
 			// 
-			this.textDateUndo.Location = new System.Drawing.Point(94, 23);
+			this.textDateUndo.Location = new System.Drawing.Point(126, 23);
 			this.textDateUndo.Name = "textDateUndo";
 			this.textDateUndo.ReadOnly = true;
 			this.textDateUndo.Size = new System.Drawing.Size(78, 23);
@@ -137,14 +137,14 @@ namespace OpenPmsDental{
 			// 
 			this.labelDateUndo.Location = new System.Drawing.Point(8, 23);
 			this.labelDateUndo.Name = "labelDateUndo";
-			this.labelDateUndo.Size = new System.Drawing.Size(80, 23);
+			this.labelDateUndo.Size = new System.Drawing.Size(112, 23);
 			this.labelDateUndo.TabIndex = 32;
 			this.labelDateUndo.Text = "Date to undo";
 			this.labelDateUndo.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// butUndo
 			// 
-			this.butUndo.Location = new System.Drawing.Point(94, 50);
+			this.butUndo.Location = new System.Drawing.Point(126, 50);
 			this.butUndo.Name = "butUndo";
 			this.butUndo.Size = new System.Drawing.Size(78, 24);
 			this.butUndo.TabIndex = 0;
@@ -372,7 +372,7 @@ namespace OpenPmsDental{
 			this.groupBoxAssignCharge.Controls.Add(this.comboSpecificProv);
 			this.groupBoxAssignCharge.Controls.Add(this.radioSpecificProv);
 			this.groupBoxAssignCharge.Controls.Add(this.radioPatPriProv);
-			this.groupBoxAssignCharge.Location = new System.Drawing.Point(196, 288);
+			this.groupBoxAssignCharge.Location = new System.Drawing.Point(228, 288);
 			this.groupBoxAssignCharge.Name = "groupBoxAssignCharge";
 			this.groupBoxAssignCharge.Size = new System.Drawing.Size(309, 82);
 			this.groupBoxAssignCharge.TabIndex = 4;

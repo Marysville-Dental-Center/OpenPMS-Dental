@@ -92,7 +92,7 @@ namespace OpenPmsDental {
 			// dateRangePicker
 			// 
 			this.dateRangePicker.BackColor = System.Drawing.SystemColors.Window;
-			this.dateRangePicker.Location = new System.Drawing.Point(8, 6);
+			this.dateRangePicker.Location = new System.Drawing.Point(21, 6);
 			this.dateRangePicker.MaximumSize = new System.Drawing.Size(0, 185);
 			this.dateRangePicker.MinimumSize = new System.Drawing.Size(453, 22);
 			this.dateRangePicker.Name = "dateRangePicker";

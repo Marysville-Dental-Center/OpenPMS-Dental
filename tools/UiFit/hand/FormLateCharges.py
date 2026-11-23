@@ -3,7 +3,7 @@ As main arranges it, on the grid: Date last run and Date of new charges on one f
 check boxes a list at the content edge, then the amount rows on the 27 px pitch on one field column (each label right-aligned 6 px before
 its box), the statements row on the same column (the second days box on the column, "and" and the first box before it, "days ago" after);
 the billing types caption and list at the group's content edge (as wide as the caption), Save As Default under the list on the last row;
-the undo and assign groups 8 px under it side by side, one height; Run at the bottom right."""
+the undo and assign groups 8 px under it side by side, one height (the undo date on the window's date column); Run at the bottom right."""
 
 
 def layout(h):
@@ -56,8 +56,8 @@ def layout(h):
     h.set("groupLateCharge", 8, yg, gw, gh)
     y2 = yg + gh + 8
     t = (h.n("groupBoxUndo").title_bottom or 18) + 4
-    lwu = h.lw("labelDateUndo")
-    Fu = 8 + lwu + 6
+    Fu = F0 - 8  # the undo date on the window's date column
+    lwu = Fu - 6 - 8
     h.set("labelDateUndo", 8, t, lwu, H)
     h.text_align("labelDateUndo", "MiddleRight")
     h.set("textDateUndo", Fu, t, 78, H)
