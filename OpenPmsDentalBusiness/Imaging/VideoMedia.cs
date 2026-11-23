@@ -108,7 +108,8 @@ namespace OpenPmsDentalBusiness {
 				g.FillPolygon(Brushes.White,new[] { new PointF(44,41),new PointF(44,59),new PointF(59,50) });
 				if(durationMs>0) {
 					string text=FormatTime(durationMs);
-					using(Font font=new Font(FontFamily.GenericSansSerif,8f))
+					//The length label shows in the image tree, so it takes the grid's font token (UI-2a; shared, not disposed here).
+					Font font=UiTheme.FontGrid;
 					using(Brush brushBack=new SolidBrush(Color.FromArgb(170,0,0,0))) {
 						SizeF sizeF=g.MeasureString(text,font);
 						RectangleF rectangleF=new RectangleF(ThumbnailSize-sizeF.Width-4,ThumbnailSize-sizeF.Height-3,sizeF.Width+2,sizeF.Height);
