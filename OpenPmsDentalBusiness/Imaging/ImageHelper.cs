@@ -582,7 +582,18 @@ namespace OpenPmsDentalBusiness {
 		///file shown there as DICOM gets a DICOM thumbnail. DICOM stays out of HasImageExtension on purpose: that method tells callers a file can
 		///be opened by GDI+, which a .dcm file cannot (design 7.8, CAP-W1).</summary>
 		public static bool IsDicomFileName(string fileName) {
-			return fileName!=null && fileName.EndsWith(".dcm");
+			return IsDicomPath(fileName);
+		}
+
+		///<summary>True when a file name or path is a DICOM file: it ends in .dcm or .dicom, in any case, surrounding spaces ignored. The one DICOM
+		///test of the program (the module, the image loaders, mounts, claims, import), so an image imported as "X.DCM" is shown and filtered like
+		///"x.dcm". The stored name is never changed.</summary>
+		public static bool IsDicomPath(string fileName) {
+			if(string.IsNullOrWhiteSpace(fileName)) {
+				return false;
+			}
+			string fileNameTrimmed=fileName.Trim();
+			return fileNameTrimmed.EndsWith(".dcm",StringComparison.OrdinalIgnoreCase) || fileNameTrimmed.EndsWith(".dicom",StringComparison.OrdinalIgnoreCase);
 		}
 
 		///<summary>The explicit .dcm branch of GetImageCropped (design 7.8, CAP-W1): the raw pixels are read through DicomHelper's
@@ -650,7 +661,7 @@ namespace OpenPmsDentalBusiness {
 			Bitmap bitmapTemp=null;
 			Bitmap bitmapResult=null;
 			BitmapDicom bitmapDicomRaw=null;
-			if(document.FileName.EndsWith(".dcm")){
+			if(IsDicomPath(document.FileName)){
 				bitmapDicomRaw=ImageStore.OpenBitmapDicom(document,patFolder);
 				if(bitmapDicomRaw==null){
 					return null;
@@ -665,7 +676,7 @@ namespace OpenPmsDentalBusiness {
 			//if(isSingleDoc
 			//always IdxAndRaw
 			//single images simply load up the whole unscaled image. Mounts load the whole image, but maybe at a different scale to match mount scale.
-			if(document.FileName.EndsWith(".dcm")){
+			if(IsDicomPath(document.FileName)){
 				bitmapTemp?.Dispose();
 				//IMG-P3c-2: noise reduction and sharpening on the 16-bit data, the rest after the window
 				ImageAdjustSettings imageAdjustSettings=document.DocNum>0 ? DocumentAdjusts.GetForDoc(document.DocNum)?.ToSettings() : null;
@@ -698,7 +709,7 @@ namespace OpenPmsDentalBusiness {
 
 		/// <summary>Returns true if the document is an image that has been cropped, rotated, drawn on, or if the image has any windowing applied (brightness and contrast). Otherwise returns false.</summary>
 		public static bool HasImageBeenEdited(Document document) {
-			if(document==null || (!HasImageExtension(document.FileName) && !document.FileName.EndsWith(".dcm"))) {//not an image
+			if(document==null || (!HasImageExtension(document.FileName) && !IsDicomPath(document.FileName))) {//not an image
 				return false;
 			}
 			if(document.CropH!=0 || document.CropW!=0 || document.CropX!=0 || document.CropY!=0 || document.DegreesRotated!=0 || document.IsFlipped==true) {	

@@ -112,6 +112,9 @@ namespace OpenPmsDentalBusiness {
 			if(bitmapDicom.BitsAllocated!=16) {
 				return 1f;
 			}
+			if(bitmapDicom.BitsStored>0 && bitmapDicom.BitsStored<=8) {
+				return 1f;//8 bit data in 16 bit words: values 0-255 already (it showed nearly black when divided by 16)
+			}
 			if(bitmapDicom.BitsStored==16) {
 				return 256f;
 			}

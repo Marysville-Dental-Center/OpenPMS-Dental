@@ -209,7 +209,7 @@ namespace CLAIMDCMTests {
 		public void ReadDocument_UpperCaseExtension_IsReadWithTheSameReader() {
 			byte[] arrayBytes=TestSupport.Write16();
 			Document document=TestSupport.SaveDocument(_patFolder,"UPPER.DCM",arrayBytes);
-			Assert.IsFalse(ImageHelper.IsDicomFileName(document.FileName),"ImageStore.OpenBitmapDicom does not open this name");
+			Assert.IsTrue(ImageHelper.IsDicomFileName(document.FileName),"dicom-fix: the module and ImageStore.OpenBitmapDicom open this name too (one DICOM test, ImageHelper.IsDicomPath)");
 			Assert.IsTrue(ClaimAttachDicom.IsDicomFileName(document.FileName),"ImageStore.Import does import it as DICOM");
 			CollectionAssert.AreEqual(DicomSubsetReader.Read(arrayBytes).BitmapDicom.ArrayDataRaw,ClaimAttachDicom.ReadDocument(document,_patFolder).ArrayDataRaw);
 			Assert.AreEqual("UPPER.jpg",ClaimAttachDicom.BuildClaimAttachFile(document,_patFolder).DisplayedFileName);

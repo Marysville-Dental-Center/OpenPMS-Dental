@@ -70,8 +70,8 @@ namespace M2IMGTests {
 			Assert.AreEqual(1f,DicomHelper.GetRawPerWindowingStep(MakeImage(8,8,0)),"8 bit data is already on the 0-255 scale.");
 			Assert.AreEqual(16f,DicomHelper.GetRawPerWindowingStep(MakeImage(16,12,0)),"12 bit: 4095/255, as in 24.3.");
 			Assert.AreEqual(256f,DicomHelper.GetRawPerWindowingStep(MakeImage(16,16,0)),"True 16 bit: the 12 most significant bits, times 16.");
-			Assert.AreEqual(16f,DicomHelper.GetRawPerWindowingStep(MakeImage(16,8,0)),
-				"8 bits stored in 16 bit words keep the factor they had, so their stored windowing shows as before.");
+			Assert.AreEqual(1f,DicomHelper.GetRawPerWindowingStep(MakeImage(16,8,0)),
+				"8 bits stored in 16 bit words are on the 0-255 scale too (dicom-fix: dividing them by 16 showed them nearly black).");
 		}
 
 		[TestMethod]

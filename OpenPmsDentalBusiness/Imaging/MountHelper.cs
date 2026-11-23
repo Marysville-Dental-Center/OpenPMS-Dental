@@ -187,7 +187,7 @@ namespace OpenPmsDentalBusiness {
 			Bitmap bitmapTemp=null;
 			Bitmap bitmapResult=null;
 			BitmapDicom bitmapDicomRaw=null;
-			if(document.FileName.EndsWith(".dcm")){
+			if(ImageHelper.IsDicomPath(document.FileName)){
 				bitmapDicomRaw=ImageStore.OpenBitmapDicom(document,patFolder);
 				if(bitmapDicomRaw==null){
 					return null;
@@ -202,7 +202,7 @@ namespace OpenPmsDentalBusiness {
 			if(isSingleDoc){
 				//always IdxAndRaw
 				//single images simply load up the whole unscaled image. Mounts load the whole image, but maybe at a different scale to match mount scale.
-				if(document.FileName.EndsWith(".dcm")){
+				if(ImageHelper.IsDicomPath(document.FileName)){
 					bitmapResult=DicomHelper.ApplyWindowing(bitmapDicomRaw,document.WindowingMin,document.WindowingMax);
 					bitmapTemp?.Dispose();
 					return bitmapResult;
@@ -231,7 +231,7 @@ namespace OpenPmsDentalBusiness {
 				return bitmapResult;
 			}
 			//From here down is mount=================================================================================================
-			if(document.FileName.EndsWith(".dcm")){
+			if(ImageHelper.IsDicomPath(document.FileName)){
 				bitmapTemp=DicomHelper.ApplyWindowing(bitmapDicomRaw,document.WindowingMin,document.WindowingMax);
 				bitmapResult=new Bitmap(bitmapTemp);
 			}

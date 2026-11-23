@@ -257,7 +257,7 @@ namespace OpenPmsDentalBusiness {
 
 		///<summary>Can be null. Analogous to OpenImage. OpenBitmapDicomResult says why there is no image.</summary>
 		public static BitmapDicom OpenBitmapDicom(Document doc,string patFolder,string localPath=""){
-			if(!doc.FileName.EndsWith(".dcm")){
+			if(!ImageHelper.IsDicomPath(doc.FileName)){
 				return null;
 			}
 			return OpenBitmapDicomResult(doc,patFolder,localPath).BitmapDicom;
@@ -267,7 +267,7 @@ namespace OpenPmsDentalBusiness {
 		///(the in-house subset reader, then the full reader), with the reason when there is no image: DicomHelper.GetNotReadMessage turns it
 		///into the message the user sees, for example for a compressed format this version does not open.</summary>
 		public static DicomImageReadResult OpenBitmapDicomResult(Document doc,string patFolder,string localPath=""){
-			if(doc==null || doc.FileName==null || !doc.FileName.EndsWith(".dcm")){
+			if(doc==null || doc.FileName==null || !ImageHelper.IsDicomPath(doc.FileName)){
 				return new DicomImageReadResult(DicomImageReadStatus.NotDicom,"The document is not a .dcm file.",null,null);
 			}
 			if(PrefC.AtoZfolderUsed==DataStorageType.LocalAtoZ) {
@@ -592,7 +592,7 @@ namespace OpenPmsDentalBusiness {
 					image.Dispose();//releases file lock
 				}
 			}
-			else if(doc.FileName.ToLower().EndsWith(".dcm")){
+			else if(ImageHelper.IsDicomPath(doc.FileName)){
 				SetDicomImportFields(doc,pathImportFrom);
 			}
 			else {
