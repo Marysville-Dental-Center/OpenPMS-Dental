@@ -700,9 +700,9 @@ namespace OpenPmsDental{
 			this.groupFee.Controls.Add(this.labelTotal);
 			this.groupFee.Controls.Add(this.labelCompleted);
 			this.groupFee.Controls.Add(this.labelRemaining);
-			this.groupFee.Location = new System.Drawing.Point(9, 35);
+			this.groupFee.Location = new System.Drawing.Point(8, 35);
 			this.groupFee.Name = "groupFee";
-			this.groupFee.Size = new System.Drawing.Size(508, 155);
+			this.groupFee.Size = new System.Drawing.Size(509, 155);
 			this.groupFee.TabIndex = 2;
 			this.groupFee.Text = "Fee Details";
 			// 
@@ -769,9 +769,9 @@ namespace OpenPmsDental{
 			this.groupDates.Controls.Add(this.textTreatmentLength);
 			this.groupDates.Controls.Add(this.textExpectedDebondDate);
 			this.groupDates.Controls.Add(this.labelBandingDate);
-			this.groupDates.Location = new System.Drawing.Point(9, 356);
+			this.groupDates.Location = new System.Drawing.Point(8, 356);
 			this.groupDates.Name = "groupDates";
-			this.groupDates.Size = new System.Drawing.Size(508, 108);
+			this.groupDates.Size = new System.Drawing.Size(509, 108);
 			this.groupDates.TabIndex = 5;
 			this.groupDates.Text = "Dates";
 			// 
@@ -789,9 +789,9 @@ namespace OpenPmsDental{
 			this.groupProcBreakdown.Controls.Add(this.textAllVisitsAmount);
 			this.groupProcBreakdown.Controls.Add(this.labelFeesAmount);
 			this.groupProcBreakdown.Controls.Add(this.textBandingPercent);
-			this.groupProcBreakdown.Location = new System.Drawing.Point(9, 198);
+			this.groupProcBreakdown.Location = new System.Drawing.Point(8, 198);
 			this.groupProcBreakdown.Name = "groupProcBreakdown";
-			this.groupProcBreakdown.Size = new System.Drawing.Size(301, 150);
+			this.groupProcBreakdown.Size = new System.Drawing.Size(302, 150);
 			this.groupProcBreakdown.TabIndex = 3;
 			this.groupProcBreakdown.Text = "Procedure Breakdown";
 			// 

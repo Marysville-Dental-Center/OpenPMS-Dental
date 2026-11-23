@@ -2,7 +2,7 @@
 kept most of the window as drawn (two columns of groups at 12 and 229/235, the lists 15 and 6 px apart); the script lays it out on one
 grid: the As Of Date row, two columns of groups of one width with one height per row, the options as a list under the left column, the three
 lists with their captions and All boxes on three columns 8 px apart ending at the content edge and down to the groups' bottom, the bottom
-bar. The hidden notes stand under the groups and under the lists."""
+bar; Only Patients With as tall as Include Patients With, its second check box on one line. The hidden notes stand under the groups and under the lists."""
 
 
 def layout(h):
@@ -35,10 +35,13 @@ def layout(h):
         h.check_left(name)
         h.set(name, xa, yc, min(wg, h.cw(name)), CH)
         yc += CH + 4
-    go = h.n("groupOnlyShow")
-    h.set("groupOnlyShow", xB, y3, wB, go.h)
-    bottom = max(y3 + go.h, yc - 4)
-    h.set("labelAgingExcludeTransfers", xB, y3 + go.h + 8, wB, 40)
+    # Only Patients With as Include Patients With: its second check box on one line (the group is as wide as that text + its padding).
+    gi = h.n("groupIncludePats")
+    h.set("checkOnlyInsNoBal", None, None, h.cw("checkOnlyInsNoBal"), CH)
+    hgo = gi.h
+    h.set("groupOnlyShow", xB, y3, wB, hgo)
+    bottom = max(y3 + hgo, yc - 4)
+    h.set("labelAgingExcludeTransfers", xB, y3 + hgo + 8, wB, 40)
     for cap, chk, lst, i in (("label2", "checkBillTypesAll", "listBillType", 0), ("label3", "checkProvAll", "listProv", 1),
                              ("labelClin", "checkAllClin", "listClin", 2)):
         h.set(cap, xs[i], 8, WL, 18)

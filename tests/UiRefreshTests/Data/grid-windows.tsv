@@ -52,7 +52,7 @@ OpenPmsDental.FormClinicEdit	1	hand	UI-12 slice 1 (fit-scan rank 9); by its layo
 OpenPmsDental.FormInsRemain	1	tool	UI-12 slice 1 (fit-scan rank 11); one touch by its layout script on the planner's tree (tools/UiFit/hand/FormInsRemain.py)
 OpenPmsDental.FormEhrLabOrderEdit2014	1	hand	UI-12 slice 1 (fit-scan rank 14); by its layout script (tools/UiFit/hand/FormEhrLabOrderEdit2014.py): the planner widened the left groups across the window
 OpenPmsDental.FormPayPlanDynamic	1	tool	UI-12 slice 1 (fit-scan rank 16); Change Guarantor on its row by its layout script on the planner's tree (tools/UiFit/hand/FormPayPlanDynamic.py)
-OpenPmsDental.FormOrthoCase	1	tool	UI-12 slice 1 (fit-scan rank 18)
+OpenPmsDental.FormOrthoCase	1	tool	UI-12 slice 1 (fit-scan rank 18); the left column's groups on the content edge by its layout script on the planner's tree (tools/UiFit/hand/FormOrthoCase.py)
 OpenPmsDental.FormPayPlan	1	tool	UI-12 slice 1 (fit-scan rank 20); the totals under the grid's columns, the Tx amount note and the Note box by its layout script on the planner's tree (tools/UiFit/hand/FormPayPlan.py); FormPayPlan.cs moves two controls by the layout's offsets
 OpenPmsDental.FormReportSetup	1	tool	UI-12 slice 1 (fit-scan rank 21)
 OpenPmsDental.FormAllocationsSetup	1	hand	UI-12 slice 1 (fit-scan rank 22); by its layout script (tools/UiFit/hand/FormAllocationsSetup.py): the planner left the radio buttons' descriptions and the check boxes' notes at several x positions

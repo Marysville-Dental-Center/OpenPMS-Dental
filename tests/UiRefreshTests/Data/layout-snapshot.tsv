@@ -537,20 +537,20 @@ OpenPmsDental/Forms Reports/FormRpAging.designer.cs	radio60	8,71	93,20
 OpenPmsDental/Forms Reports/FormRpAging.designer.cs	radioAny	8,23	90,20	
 OpenPmsDental/Forms Reports/FormRpAging.designer.cs	label1	118,8	68,23	
 OpenPmsDental/Forms Reports/FormRpAging.designer.cs	textDate	8,8	104,23	
-OpenPmsDental/Forms Reports/FormRpAging.designer.cs	listBillType	486,50	158,298	
+OpenPmsDental/Forms Reports/FormRpAging.designer.cs	listBillType	486,50	158,295	
 OpenPmsDental/Forms Reports/FormRpAging.designer.cs	label2	486,8	158,18	
 OpenPmsDental/Forms Reports/FormRpAging.designer.cs	checkIncludeNeg	8,23	122,20	
 OpenPmsDental/Forms Reports/FormRpAging.designer.cs	groupIncludePats	235,170	233,75	
 OpenPmsDental/Forms Reports/FormRpAging.designer.cs	checkIncludeInsNoBal	8,47	217,20	
 OpenPmsDental/Forms Reports/FormRpAging.designer.cs	checkOnlyNeg	8,23	122,20	
 OpenPmsDental/Forms Reports/FormRpAging.designer.cs	checkExcludeInactive	8,23	100,20	
-OpenPmsDental/Forms Reports/FormRpAging.designer.cs	listProv	652,50	158,298	
+OpenPmsDental/Forms Reports/FormRpAging.designer.cs	listProv	652,50	158,295	
 OpenPmsDental/Forms Reports/FormRpAging.designer.cs	label3	652,8	158,18	
 OpenPmsDental/Forms Reports/FormRpAging.designer.cs	checkProvAll	652,28	36,20	
 OpenPmsDental/Forms Reports/FormRpAging.designer.cs	checkBillTypesAll	486,28	36,20	
 OpenPmsDental/Forms Reports/FormRpAging.designer.cs	checkBadAddress	8,71	171,20	
 OpenPmsDental/Forms Reports/FormRpAging.designer.cs	checkAllClin	818,28	133,20	
-OpenPmsDental/Forms Reports/FormRpAging.designer.cs	listClin	818,50	158,298	
+OpenPmsDental/Forms Reports/FormRpAging.designer.cs	listClin	818,50	158,295	
 OpenPmsDental/Forms Reports/FormRpAging.designer.cs	labelClin	818,8	158,18	
 OpenPmsDental/Forms Reports/FormRpAging.designer.cs	checkHasDateLastPay	8,277	219,20	
 OpenPmsDental/Forms Reports/FormRpAging.designer.cs	groupGroupBy	8,170	219,75	
@@ -559,13 +559,13 @@ OpenPmsDental/Forms Reports/FormRpAging.designer.cs	radioGroupByFam	8,23	60,20
 OpenPmsDental/Forms Reports/FormRpAging.designer.cs	checkAgeWriteoffs	8,253	150,20	
 OpenPmsDental/Forms Reports/FormRpAging.designer.cs	checkExcludeArchive	8,47	106,20	
 OpenPmsDental/Forms Reports/FormRpAging.designer.cs	butQuery	8,426	91,24	
-OpenPmsDental/Forms Reports/FormRpAging.designer.cs	groupOnlyShow	235,253	233,95	
-OpenPmsDental/Forms Reports/FormRpAging.designer.cs	checkOnlyInsNoBal	8,47	211,40	
+OpenPmsDental/Forms Reports/FormRpAging.designer.cs	groupOnlyShow	235,253	233,75	
+OpenPmsDental/Forms Reports/FormRpAging.designer.cs	checkOnlyInsNoBal	8,47	217,20	
 OpenPmsDental/Forms Reports/FormRpAging.designer.cs	groupExcludePats	235,39	233,123	
 OpenPmsDental/Forms Reports/FormRpAging.designer.cs	checkAgePatPayPlanPayments	8,325	219,20	
-OpenPmsDental/Forms Reports/FormRpAging.designer.cs	labelFutureTrans	652,356	267,18	
+OpenPmsDental/Forms Reports/FormRpAging.designer.cs	labelFutureTrans	652,353	267,18	
 OpenPmsDental/Forms Reports/FormRpAging.designer.cs	checkBoxExcludeIncomeTransfers	8,301	158,20	
-OpenPmsDental/Forms Reports/FormRpAging.designer.cs	labelAgingExcludeTransfers	235,356	233,40	
+OpenPmsDental/Forms Reports/FormRpAging.designer.cs	labelAgingExcludeTransfers	235,336	233,40	
 OpenPmsDental/Forms Reports/FormRpAging.designer.cs	.			984,458
 OpenPmsDental/Forms Reports/FormRpAppointments.designer.cs	listProvs	12,57	120,238	
 OpenPmsDental/Forms Reports/FormRpAppointments.designer.cs	label1	12,18	104,16	
@@ -9285,14 +9285,14 @@ OpenPmsDental/Forms/FormOrthoCase.designer.cs	gridOrthoSchedule	524,35	503,322
 OpenPmsDental/Forms/FormOrthoCase.designer.cs	butCloseOrthoCase	101,476	98,24	
 OpenPmsDental/Forms/FormOrthoCase.designer.cs	butDeleteOrthoCase	8,476	84,24	
 OpenPmsDental/Forms/FormOrthoCase.designer.cs	butDetachProcs	650,476	114,24	
-OpenPmsDental/Forms/FormOrthoCase.designer.cs	groupFee	9,35	508,155	
+OpenPmsDental/Forms/FormOrthoCase.designer.cs	groupFee	8,35	509,155	
 OpenPmsDental/Forms/FormOrthoCase.designer.cs	textSecondaryInsuranceFee	138,124	84,23	
 OpenPmsDental/Forms/FormOrthoCase.designer.cs	textSecondaryInsCompleted	228,124	84,23	
 OpenPmsDental/Forms/FormOrthoCase.designer.cs	textSecondaryInsAR	408,124	84,23	
 OpenPmsDental/Forms/FormOrthoCase.designer.cs	labelSecondaryInsuranceFee	12,124	120,23	
 OpenPmsDental/Forms/FormOrthoCase.designer.cs	textSecondaryInsRemaining	318,124	84,23	
-OpenPmsDental/Forms/FormOrthoCase.designer.cs	groupDates	9,356	508,108	
-OpenPmsDental/Forms/FormOrthoCase.designer.cs	groupProcBreakdown	9,198	301,150	
+OpenPmsDental/Forms/FormOrthoCase.designer.cs	groupDates	8,356	509,108	
+OpenPmsDental/Forms/FormOrthoCase.designer.cs	groupProcBreakdown	8,198	302,150	
 OpenPmsDental/Forms/FormOrthoCase.designer.cs	label3	8,124	285,18	
 OpenPmsDental/Forms/FormOrthoCase.designer.cs	labelBandingProc	29,8	112,23	
 OpenPmsDental/Forms/FormOrthoCase.designer.cs	butPatPayPlan	916,8	92,23	

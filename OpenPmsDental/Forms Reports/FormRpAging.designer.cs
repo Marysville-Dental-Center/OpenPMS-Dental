@@ -145,7 +145,7 @@ namespace OpenPmsDental {
 			this.listBillType.Location = new System.Drawing.Point(486, 50);
 			this.listBillType.Name = "listBillType";
 			this.listBillType.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
-			this.listBillType.Size = new System.Drawing.Size(158, 298);
+			this.listBillType.Size = new System.Drawing.Size(158, 295);
 			this.listBillType.TabIndex = 12;
 			// 
 			// label2
@@ -210,7 +210,7 @@ namespace OpenPmsDental {
 			this.listProv.Location = new System.Drawing.Point(652, 50);
 			this.listProv.Name = "listProv";
 			this.listProv.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
-			this.listProv.Size = new System.Drawing.Size(158, 298);
+			this.listProv.Size = new System.Drawing.Size(158, 295);
 			this.listProv.TabIndex = 14;
 			// 
 			// label3
@@ -272,7 +272,7 @@ namespace OpenPmsDental {
 			this.listClin.Location = new System.Drawing.Point(818, 50);
 			this.listClin.Name = "listClin";
 			this.listClin.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
-			this.listClin.Size = new System.Drawing.Size(158, 298);
+			this.listClin.Size = new System.Drawing.Size(158, 295);
 			this.listClin.TabIndex = 16;
 			this.listClin.Click += new System.EventHandler(this.listClin_Click);
 			// 
@@ -357,7 +357,7 @@ namespace OpenPmsDental {
 			this.groupOnlyShow.Controls.Add(this.checkOnlyNeg);
 			this.groupOnlyShow.Location = new System.Drawing.Point(235, 253);
 			this.groupOnlyShow.Name = "groupOnlyShow";
-			this.groupOnlyShow.Size = new System.Drawing.Size(233, 95);
+			this.groupOnlyShow.Size = new System.Drawing.Size(233, 75);
 			this.groupOnlyShow.TabIndex = 10;
 			this.groupOnlyShow.Text = "Only Patients With";
 			// 
@@ -365,7 +365,7 @@ namespace OpenPmsDental {
 			// 
 			this.checkOnlyInsNoBal.Location = new System.Drawing.Point(8, 47);
 			this.checkOnlyInsNoBal.Name = "checkOnlyInsNoBal";
-			this.checkOnlyInsNoBal.Size = new System.Drawing.Size(211, 40);
+			this.checkOnlyInsNoBal.Size = new System.Drawing.Size(217, 20);
 			this.checkOnlyInsNoBal.TabIndex = 1;
 			this.checkOnlyInsNoBal.Text = "Insurance estimates and no balance";
 			this.checkOnlyInsNoBal.Click += new System.EventHandler(this.checkOnlyInsNoBal_Click);
@@ -394,7 +394,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelFutureTrans.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelFutureTrans.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-			this.labelFutureTrans.Location = new System.Drawing.Point(652, 356);
+			this.labelFutureTrans.Location = new System.Drawing.Point(652, 353);
 			this.labelFutureTrans.Name = "labelFutureTrans";
 			this.labelFutureTrans.Size = new System.Drawing.Size(267, 18);
 			this.labelFutureTrans.TabIndex = 0;
@@ -414,7 +414,7 @@ namespace OpenPmsDental {
 			// labelAgingExcludeTransfers
 			// 
 			this.labelAgingExcludeTransfers.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-			this.labelAgingExcludeTransfers.Location = new System.Drawing.Point(235, 356);
+			this.labelAgingExcludeTransfers.Location = new System.Drawing.Point(235, 336);
 			this.labelAgingExcludeTransfers.Name = "labelAgingExcludeTransfers";
 			this.labelAgingExcludeTransfers.Size = new System.Drawing.Size(233, 40);
 			this.labelAgingExcludeTransfers.TabIndex = 222;
