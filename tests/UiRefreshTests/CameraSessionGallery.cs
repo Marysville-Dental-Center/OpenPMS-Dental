@@ -48,6 +48,9 @@ namespace UiRefreshTests {
 					new VideoStatus(VideoStatusKind.Disconnected,VideoStatusText.TextDisconnected,"",VideoStatusAction.Reconnect),"");
 				Save(folder,"camera-intraoral5-frozen",listFailed,StandardTemplateKind.PhotoIntraoral5,countFilled:3,idxNext:3,VideoStatusText.Streaming(),
 					"Frozen: Capture saves it, F goes live.",isFrozen:true);
+				Save(folder,"camera-asleep",listFailed,StandardTemplateKind.PhotoIntraoral5,countFilled:2,idxNext:2,VideoStatusText.Streaming(),"",isAsleep:true);
+				Save(folder,"camera-unsaved",listFailed,StandardTemplateKind.PhotoIntraoral5,countFilled:2,idxNext:2,VideoStatusText.Streaming(),"",
+					alert:"Photo could not be saved. It is kept on this computer; Camera, Unsaved photos files it later.\r\nThe photo could not be saved: the A to Z folder is not reachable.");
 			});
 			DesignSheetWindows.IsPrintingWithoutChildren=false;
 			File.WriteAllLines(Path.Combine(folder,"gallery-camera-failed.txt"),listFailed);
@@ -95,7 +98,7 @@ namespace UiRefreshTests {
 		}
 
 		private static void Save(string folder,string name,List<string> listFailed,StandardTemplateKind? kind,int countFilled,int idxNext,
-			VideoStatus videoStatus,string info,bool isFrozen=false)
+			VideoStatus videoStatus,string info,bool isFrozen=false,bool isAsleep=false,string alert="")
 		{
 			try {
 				GalleryStore store=new GalleryStore();
@@ -146,6 +149,12 @@ namespace UiRefreshTests {
 				if(isFrozen) {
 					controlCameraSession.GetType().GetField("_bitmapFrozen",BindingFlags.Instance|BindingFlags.NonPublic).SetValue(controlCameraSession,MakePhoto(1280,720,7));
 					Invoke(controlCameraSession,"RefreshGuide");
+				}
+				if(alert!="") {
+					Invoke(controlCameraSession,"ShowAlert",alert);
+				}
+				if(isAsleep) {
+					controlCameraSession.Sleep();
 				}
 				((Label)GetField(controlCameraSession,"labelInfo")).Text=info;
 				controlCameraSession.PerformLayout();
