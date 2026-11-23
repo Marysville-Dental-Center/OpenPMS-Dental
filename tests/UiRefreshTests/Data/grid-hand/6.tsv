@@ -257,9 +257,6 @@ OpenPmsDental/Forms/FormPayorTypes.Designer.cs	OpenPmsDental.FormPayorTypes	labe
 OpenPmsDental/Forms/FormPayorTypes.Designer.cs	OpenPmsDental.FormPayorTypes	butAdd	Location	612,29	619,29	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormPayorTypes.Designer.cs	OpenPmsDental.FormPayorTypes	gridMain	Location	21,29	8,29	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormPayorTypes.Designer.cs	OpenPmsDental.FormPayorTypes	gridMain	Size	585,228	603,234	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormPopupDisplay.designer.cs	OpenPmsDental.FormPopupDisplay	groupBox1	Location	350,20	350,8	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormPopupDisplay.designer.cs	OpenPmsDental.FormPopupDisplay	textDescription	Location	53,89	8,89	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormPopupDisplay.designer.cs	OpenPmsDental.FormPopupDisplay	textDescription	Size	271,91	334,91	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormPrinterEdit.Designer.cs	OpenPmsDental.FormPrinterEdit	label2	Location	12,8	8,8	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormPrinterEdit.Designer.cs	OpenPmsDental.FormPrinterEdit	textSituation	Location	117,29	117,36	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormPrinterEdit.Designer.cs	OpenPmsDental.FormPrinterEdit	labelSituation	Location	51,28	51,35	by hand (layout script): on the grid
@@ -307,8 +304,6 @@ OpenPmsDental/Forms/FormQueryEdit.designer.cs	OpenPmsDental.FormQueryEdit	textTi
 OpenPmsDental/Forms/FormQueryEdit.designer.cs	OpenPmsDental.FormQueryEdit	textTitle	Size	316,23	321,23	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormQueryEdit.designer.cs	OpenPmsDental.FormQueryEdit	label1	Location	13,8	8,8	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormQueryEdit.designer.cs	OpenPmsDental.FormQueryEdit	groupFormat	Size	163,75	167,75	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormQueryParser.Designer.cs	OpenPmsDental.FormQueryParser	splitContainer	Location	12,8	8,8	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormQueryParser.Designer.cs	OpenPmsDental.FormQueryParser	splitContainer	Size	819,667	823,667	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormMaintHistory.Designer.cs	OpenPmsDental.FormMaintHistory	butRefresh	Location	781,8	1017,8	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormMaintHistory.Designer.cs	OpenPmsDental.FormMaintHistory	textDateTo	Location	687,8	923,8	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormMaintHistory.Designer.cs	OpenPmsDental.FormMaintHistory	labelDateTo	Location	657,8	893,8	by hand (layout script): on the grid
@@ -340,14 +335,6 @@ OpenPmsDental/Forms/FormMaintRecordEdit.Designer.cs	OpenPmsDental.FormMaintRecor
 OpenPmsDental/Forms/FormMaintRecordEdit.Designer.cs	OpenPmsDental.FormMaintRecordEdit	textNote	Location	352,505	54,523	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormMaintRecordEdit.Designer.cs	OpenPmsDental.FormMaintRecordEdit	textNote	Size	673,50	698,50	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormMaintRecordEdit.Designer.cs	OpenPmsDental.FormMaintRecordEdit	butSave	Location	950,588	677,588	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormQueryMonitor.designer.cs	OpenPmsDental.FormQueryMonitor	butStart	Location	969,76	975,8	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormQueryMonitor.designer.cs	OpenPmsDental.FormQueryMonitor	buttonClear	Location	969,104	975,36	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormQueryMonitor.designer.cs	OpenPmsDental.FormQueryMonitor	butLog	Location	969,132	975,64	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormQueryMonitor.designer.cs	OpenPmsDental.FormQueryMonitor	butFilter	Location	969,160	975,92	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormQueryMonitor.designer.cs	OpenPmsDental.FormQueryMonitor	labelFilterGroup	Location	963,188	975,120	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormQueryMonitor.designer.cs	OpenPmsDental.FormQueryMonitor	labelFilterGroup	Size	86,32	75,48	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormQueryMonitor.designer.cs	OpenPmsDental.FormQueryMonitor	butCopy	Location	969,222	975,494	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormQueryMonitor.designer.cs	OpenPmsDental.FormQueryMonitor	splitContainer	Size	952,510	959,510	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormReactivationSetup.designer.cs	OpenPmsDental.FormReactivationSetup	gridMain	Location	16,8	8,8	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormReactivationSetup.designer.cs	OpenPmsDental.FormReactivationSetup	gridMain	Size	941,451	949,451	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormReactivationSetup.designer.cs	OpenPmsDental.FormReactivationSetup	groupBox3	Location	477,463	475,463	by hand (layout script): on the grid
@@ -708,3 +695,32 @@ OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizOperatory.Design
 OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizOperatory.Designer.cs	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizOperatory	label2	Size	220,32	217,32	by hand (layout script): on the grid
 OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizOperatory.Designer.cs	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizOperatory	label4	Location	712,132	705,114	by hand (layout script): on the grid
 OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizOperatory.Designer.cs	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizOperatory	butAdvanced	Location	712,196	705,180	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormQueryMonitor.designer.cs	OpenPmsDental.FormQueryMonitor	.	ClientSize	1058,526	1036,512	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormQueryMonitor.designer.cs	OpenPmsDental.FormQueryMonitor	butStart	Location	969,76	953,8	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormQueryMonitor.designer.cs	OpenPmsDental.FormQueryMonitor	buttonClear	Location	969,104	953,36	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormQueryMonitor.designer.cs	OpenPmsDental.FormQueryMonitor	butLog	Location	969,132	953,64	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormQueryMonitor.designer.cs	OpenPmsDental.FormQueryMonitor	butFilter	Location	969,160	953,92	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormQueryMonitor.designer.cs	OpenPmsDental.FormQueryMonitor	labelFilterGroup	Location	963,188	953,120	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormQueryMonitor.designer.cs	OpenPmsDental.FormQueryMonitor	labelFilterGroup	Size	86,32	75,48	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormQueryMonitor.designer.cs	OpenPmsDental.FormQueryMonitor	butCopy	Location	969,222	953,480	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormQueryMonitor.designer.cs	OpenPmsDental.FormQueryMonitor	splitContainer	Size	952,510	937,494	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormQueryMonitor.designer.cs	OpenPmsDental.FormQueryMonitor	splitterPanel1	Location	8,8	0,0	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormQueryMonitor.designer.cs	OpenPmsDental.FormQueryMonitor	splitterPanel1	Size	936,227	937,227	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormQueryMonitor.designer.cs	OpenPmsDental.FormQueryMonitor	splitterPanel2	Location	8,239	0,231	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormQueryMonitor.designer.cs	OpenPmsDental.FormQueryMonitor	splitterPanel2	Size	936,263	937,263	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormQueryParser.Designer.cs	OpenPmsDental.FormQueryParser	.	ClientSize	839,718	817,681	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormQueryParser.Designer.cs	OpenPmsDental.FormQueryParser	butOK	Location	756,687	734,650	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormQueryParser.Designer.cs	OpenPmsDental.FormQueryParser	splitContainer	Location	12,8	8,8	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormQueryParser.Designer.cs	OpenPmsDental.FormQueryParser	splitContainer	Size	819,667	801,634	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormQueryParser.Designer.cs	OpenPmsDental.FormQueryParser	splitterPanel1	Location	8,8	0,0	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormQueryParser.Designer.cs	OpenPmsDental.FormQueryParser	splitterPanel1	Size	803,225	801,212	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormQueryParser.Designer.cs	OpenPmsDental.FormQueryParser	splitterPanel2	Location	8,237	0,216	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormQueryParser.Designer.cs	OpenPmsDental.FormQueryParser	splitterPanel2	Size	803,422	801,418	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormQueryParser.Designer.cs	OpenPmsDental.FormQueryParser	gridMain	Size	787,181	785,168	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormQueryParser.Designer.cs	OpenPmsDental.FormQueryParser	butShowHide	Location	8,193	8,180	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormQueryParser.Designer.cs	OpenPmsDental.FormQueryParser	textQuery	Size	787,388	785,384	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormPopupDisplay.designer.cs	OpenPmsDental.FormPopupDisplay	.	ClientSize	634,240	425,240	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormPopupDisplay.designer.cs	OpenPmsDental.FormPopupDisplay	groupBox1	Location	350,20	350,34	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormPopupDisplay.designer.cs	OpenPmsDental.FormPopupDisplay	textDescription	Location	53,89	8,89	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormPopupDisplay.designer.cs	OpenPmsDental.FormPopupDisplay	textDescription	Size	271,91	409,91	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormPopupDisplay.designer.cs	OpenPmsDental.FormPopupDisplay	butSave	Location	551,208	342,208	by hand (layout script): on the grid

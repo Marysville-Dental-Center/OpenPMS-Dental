@@ -64,7 +64,7 @@ namespace OpenPmsDental {
 			this.groupBox1.Controls.Add(this.butPerm);
 			this.groupBox1.Controls.Add(this.butMinutes);
 			this.groupBox1.Controls.Add(this.butHours);
-			this.groupBox1.Location = new System.Drawing.Point(350, 8);
+			this.groupBox1.Location = new System.Drawing.Point(350, 34);
 			this.groupBox1.Name = "groupBox1";
 			this.groupBox1.Size = new System.Drawing.Size(276, 109);
 			this.groupBox1.TabIndex = 3;
@@ -177,7 +177,7 @@ namespace OpenPmsDental {
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butSave.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.butSave.Location = new System.Drawing.Point(551, 208);
+			this.butSave.Location = new System.Drawing.Point(342, 208);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 1;
@@ -212,14 +212,14 @@ namespace OpenPmsDental {
 			this.textDescription.Name = "textDescription";
 			this.textDescription.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Popup;
 			this.textDescription.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textDescription.Size = new System.Drawing.Size(334, 91);
+			this.textDescription.Size = new System.Drawing.Size(409, 91);
 			this.textDescription.TabIndex = 2;
 			this.textDescription.Text = "";
 			// 
 			// FormPopupDisplay
 			// 
 			this.CancelButton = this.butSave;
-			this.ClientSize = new System.Drawing.Size(634, 240);
+			this.ClientSize = new System.Drawing.Size(425, 240);
 			this.Controls.Add(this.textDescription);
 			this.Controls.Add(this.label6);
 			this.Controls.Add(this.textEditDate);
