@@ -201,6 +201,11 @@ namespace UiRefreshTests {
 					}
 				}
 			}
+			if(window=="OpenPmsDental.ControlTreat" && FindByName(root,"userControlIndDis") is Control controlDiscount) {
+				//UI-12 slice 1: FillSummary shows the discount plan summary (a patient with a discount plan) or the family and individual insurance
+				//summaries, never both; the discount summary stands on the family summary's place. The picture shows the insurance summaries.
+				controlDiscount.Visible=false;
+			}
 			if(window=="OpenPmsDental.FormQuery" && FindByName(root,"grid2") is DataGridView dataGridView) {
 				//A result as the window shows it after a query: its caption over the grid, columns and rows.
 				if(FindByName(root,"labelGridCaption") is Label labelCaption) {
