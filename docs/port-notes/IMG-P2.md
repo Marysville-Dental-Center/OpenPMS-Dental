@@ -75,3 +75,24 @@ Audit round 1 found the hint line wrapping onto a second line and cut off; it is
 pixel by pixel: it is ClearType's colour fringe on dark text, the same text colour as the other buttons.
 
 Round 2: no findings.
+
+## Review (one independent review, 2026-11-23)
+
+Fixed:
+
+- The tooth labels' font took the monitor's dpi twice. It now takes only the zoom (`ScaleFontODZoom`), as LayoutManager's rule says.
+- `Tooth.ParseRange` read the end of a range with `ToInt`, which maps primary C to permanent 6. So "A-C", which DisplayRange itself writes,
+  was refused. That hit the picker's text box and Item Info, which then could not save an image with three primary teeth in a row. It now
+  reads the end by ordinal, as it already read the beginning. Tested in `ToothRangeDbTests` (round trips, and backward ranges still
+  refused).
+- Enter on a focused button other than OK clicks that button. Elsewhere, Enter is OK, reading typed teeth first.
+- The picker is placed beside the pointer in its own Load, after FormODBase has sized it for the monitor's dpi, so it stays on the
+  screen at 150%.
+- A change to the slot's teeth is logged too (ImageEdit, "Mount Edited: ... slot N teeth changed from ... to ...").
+
+Left as they are:
+
+- Haderup labels contain "-", which ParseRange takes for a range. Typing Haderup lower teeth fails, as it already did in Item Info.
+  Clicking works.
+- "Teeth..." shows on an empty slot and does nothing there, as Flip and Rotate do.
+- The teeth a move changes (D6) are not logged, as moves were not before.

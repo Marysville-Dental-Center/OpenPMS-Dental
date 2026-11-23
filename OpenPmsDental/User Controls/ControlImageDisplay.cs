@@ -1405,12 +1405,7 @@ Here is the desired behavior:
 			}
 			ToothNumberingNomenclature toothNumberingNomenclature=(ToothNumberingNomenclature)PrefC.GetInt(PrefName.UseInternationalToothNumbers);
 			using FormToothPicker formToothPicker=new FormToothPicker(document.ToothNumbers,mountItem?.ToothNumbers,toothNumberingNomenclature);
-			//beside the pointer, kept on the screen
-			Rectangle rectangleArea=System.Windows.Forms.Screen.FromPoint(Cursor.Position).WorkingArea;
-			Point point=new Point(Cursor.Position.X+16,Cursor.Position.Y-formToothPicker.Height/2);
-			point.X=Math.Max(rectangleArea.Left,Math.Min(point.X,rectangleArea.Right-formToothPicker.Width));
-			point.Y=Math.Max(rectangleArea.Top,Math.Min(point.Y,rectangleArea.Bottom-formToothPicker.Height));
-			formToothPicker.Location=point;
+			formToothPicker.PointAnchor=Cursor.Position;//beside the pointer, kept on the screen (placed in its Load, after the dpi sizing)
 			if(formToothPicker.ShowDialog()!=DialogResult.OK){
 				return;
 			}
@@ -1425,8 +1420,11 @@ Here is the desired behavior:
 				ImageSignaturePermissions.LogSignedImageEdited(document,"teeth changed");
 			}
 			if(formToothPicker.IsSlotChanged && mountItem!=null && mountItem.ToothNumbers!=toothNumbersNew){
+				string logTextSlot="Mount Edited: "+_mountShowing.Description+", slot "+mountItem.ItemOrder+" teeth changed from '"
+					+Tooth.DisplayRange(mountItem.ToothNumbers)+"' to '"+Tooth.DisplayRange(toothNumbersNew)+"'";
 				mountItem.ToothNumbers=toothNumbersNew;
 				MountItems.Update(mountItem);
+				SecurityLogs.MakeLogEntry(EnumPermType.ImageEdit,PatientCur.PatNum,logTextSlot);
 			}
 			if(!IsMountShowing()){
 				EventFillTree?.Invoke(this,true);//a single image's teeth are in the title

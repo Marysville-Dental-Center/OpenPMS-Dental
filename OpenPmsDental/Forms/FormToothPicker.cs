@@ -19,6 +19,9 @@ namespace OpenPmsDental {
 		public string ToothNumbers="";
 		///<summary>True on OK when the check box asked to change the slot's teeth in this mount too.</summary>
 		public bool IsSlotChanged;
+		///<summary>Where to open: the window goes beside this screen point, kept on its screen. Placed after FormODBase's Load has sized the
+		///window for the monitor's dpi. Null keeps the location set by the caller.</summary>
+		public Point? PointAnchor;
 		#endregion Fields - Public
 
 		#region Fields - Private
@@ -65,6 +68,18 @@ namespace OpenPmsDental {
 		#endregion Constructor
 
 		#region Methods - Event Handlers
+		protected override void OnLoad(EventArgs e) {
+			base.OnLoad(e);//sizes the window for the monitor's dpi
+			if(PointAnchor==null){
+				return;
+			}
+			Point pointAnchor=PointAnchor.Value;
+			Rectangle rectangleArea=System.Windows.Forms.Screen.FromPoint(pointAnchor).WorkingArea;
+			int x=Math.Max(rectangleArea.Left,Math.Min(pointAnchor.X+16,rectangleArea.Right-Width));
+			int y=Math.Max(rectangleArea.Top,Math.Min(pointAnchor.Y-Height/2,rectangleArea.Bottom-Height));
+			Location=new Point(x,y);
+		}
+
 		private void butCancel_Click(object sender,EventArgs e) {
 			DialogResult=DialogResult.Cancel;
 		}
@@ -137,7 +152,8 @@ namespace OpenPmsDental {
 			Graphics g=e.Graphics;
 			g.Clear(UiTheme.Surface);
 			float scale=LayoutManager.ScaleMy();
-			using Font font=new Font(UiTheme.FontBody.FontFamily,UiTheme.FontBody.SizeInPoints*0.9f*scale);
+			//A font takes only the program's zoom: Windows adds the dpi part (LayoutManagerForms' rule, as FormMountDefEdit's labels).
+			using Font font=new Font(UiTheme.FontBody.FontFamily,LayoutManager.ScaleFontODZoom(UiTheme.FontBody.SizeInPoints*0.9f));
 			using SolidBrush solidBrushCell=new SolidBrush(UiTheme.SurfaceRaised);
 			using SolidBrush solidBrushHover=new SolidBrush(UiTheme.SubtleHover);
 			using SolidBrush solidBrushSelected=new SolidBrush(UiTheme.Accent);
@@ -158,13 +174,6 @@ namespace OpenPmsDental {
 				Color colorText=isSelected ? UiTheme.TextOnAccent : UiTheme.Text;
 				TextRenderer.DrawText(g,Tooth.Display(toothCell.ToothNum,_toothNumberingNomenclature),font,rectangle,colorText,
 					TextFormatFlags.HorizontalCenter|TextFormatFlags.VerticalCenter|TextFormatFlags.NoPadding);
-			}
-		}
-
-		private void textTeeth_KeyDown(object sender,KeyEventArgs e) {
-			if(e.KeyCode==Keys.Enter){
-				e.SuppressKeyPress=true;
-				ParseText();
 			}
 		}
 
@@ -257,7 +266,6 @@ namespace OpenPmsDental {
 			textTeeth.Name="textTeeth";
 			textTeeth.TabIndex=10;
 			textTeeth.TextChanged+=textTeeth_TextChanged;
-			textTeeth.KeyDown+=textTeeth_KeyDown;
 			textTeeth.Leave+=textTeeth_Leave;
 			Controls.Add(textTeeth);
 			int yButtons=yTeeth+27+8;//228
@@ -354,7 +362,8 @@ namespace OpenPmsDental {
 				DialogResult=DialogResult.Cancel;
 				return true;
 			}
-			if(keyData==Keys.Enter && !textTeeth.Focused){
+			//Enter is OK (reading typed teeth first), except on a focused button other than OK, which Enter clicks as usual.
+			if(keyData==Keys.Enter && !(ActiveControl is System.Windows.Forms.Button && ActiveControl!=butOK)){
 				butOK_Click(this,EventArgs.Empty);
 				return true;
 			}

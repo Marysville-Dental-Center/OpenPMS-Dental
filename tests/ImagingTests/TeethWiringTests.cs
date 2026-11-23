@@ -62,6 +62,7 @@ namespace ImagingTests {
 			StringAssert.Contains(body,"ImageSignaturePermissions.LogSignedImageEdited(document,\"teeth changed\");");
 			StringAssert.Contains(body,"if(formToothPicker.IsSlotChanged && mountItem!=null && mountItem.ToothNumbers!=toothNumbersNew){");
 			StringAssert.Contains(body,"MountItems.Update(mountItem);");
+			StringAssert.Contains(body,"SecurityLogs.MakeLogEntry(EnumPermType.ImageEdit,PatientCur.PatNum,logTextSlot);","The slot's change is logged too.");
 			Assert.IsFalse(body.Contains("MountItemDef"),"The mount's template is never changed from here.");
 		}
 
