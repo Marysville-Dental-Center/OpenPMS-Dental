@@ -79,61 +79,61 @@ namespace OpenPmsDental {
 			// 
 			// textDate
 			// 
-			this.textDate.Location = new System.Drawing.Point(133, 42);
+			this.textDate.Location = new System.Drawing.Point(165, 35);
 			this.textDate.Name = "textDate";
-			this.textDate.Size = new System.Drawing.Size(78, 20);
+			this.textDate.Size = new System.Drawing.Size(78, 23);
 			this.textDate.TabIndex = 15;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(1, 45);
+			this.label1.Location = new System.Drawing.Point(39, 35);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(130, 18);
+			this.label1.Size = new System.Drawing.Size(120, 23);
 			this.label1.TabIndex = 20;
 			this.label1.Text = "Date of new charges";
-			this.label1.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// groupBox1
 			// 
 			this.groupBox1.Controls.Add(this.radio30);
 			this.groupBox1.Controls.Add(this.radio90);
 			this.groupBox1.Controls.Add(this.radio60);
-			this.groupBox1.Location = new System.Drawing.Point(20, 235);
+			this.groupBox1.Location = new System.Drawing.Point(8, 201);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(174, 82);
+			this.groupBox1.Size = new System.Drawing.Size(174, 99);
 			this.groupBox1.TabIndex = 16;
 			this.groupBox1.Text = "Calculate on balances aged";
 			// 
 			// radio30
 			// 
-			this.radio30.Location = new System.Drawing.Point(13, 17);
+			this.radio30.Location = new System.Drawing.Point(8, 23);
 			this.radio30.Name = "radio30";
-			this.radio30.Size = new System.Drawing.Size(146, 23);
+			this.radio30.Size = new System.Drawing.Size(93, 20);
 			this.radio30.TabIndex = 1;
 			this.radio30.Text = "Over 30 Days";
 			// 
 			// radio90
 			// 
 			this.radio90.Checked = true;
-			this.radio90.Location = new System.Drawing.Point(13, 57);
+			this.radio90.Location = new System.Drawing.Point(8, 71);
 			this.radio90.Name = "radio90";
-			this.radio90.Size = new System.Drawing.Size(146, 23);
+			this.radio90.Size = new System.Drawing.Size(93, 20);
 			this.radio90.TabIndex = 3;
 			this.radio90.TabStop = true;
 			this.radio90.Text = "Over 90 Days";
 			// 
 			// radio60
 			// 
-			this.radio60.Location = new System.Drawing.Point(13, 37);
+			this.radio60.Location = new System.Drawing.Point(8, 47);
 			this.radio60.Name = "radio60";
-			this.radio60.Size = new System.Drawing.Size(146, 23);
+			this.radio60.Size = new System.Drawing.Size(93, 20);
 			this.radio60.TabIndex = 2;
 			this.radio60.Text = "Over 60 Days";
 			// 
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(486, 486);
+			this.butOK.Location = new System.Drawing.Point(490, 517);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 25);
 			this.butOK.TabIndex = 18;
@@ -142,59 +142,60 @@ namespace OpenPmsDental {
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(104, 44);
+			this.label2.Location = new System.Drawing.Point(123, 27);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(43, 18);
+			this.label2.Size = new System.Drawing.Size(36, 23);
 			this.label2.TabIndex = 22;
 			this.label2.Text = "APR";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(189, 46);
+			this.label3.Location = new System.Drawing.Point(213, 27);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(17, 18);
+			this.label3.Size = new System.Drawing.Size(24, 23);
 			this.label3.TabIndex = 23;
 			this.label3.Text = "%";
-			this.label3.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(207, 46);
+			this.label4.Location = new System.Drawing.Point(243, 27);
+			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(110, 18);
+			this.label4.Size = new System.Drawing.Size(104, 23);
 			this.label4.TabIndex = 24;
 			this.label4.Text = "(For Example: 18)";
 			// 
 			// textAPR
 			// 
-			this.textAPR.Location = new System.Drawing.Point(147, 43);
+			this.textAPR.Location = new System.Drawing.Point(165, 27);
 			this.textAPR.Name = "textAPR";
-			this.textAPR.Size = new System.Drawing.Size(42, 20);
+			this.textAPR.Size = new System.Drawing.Size(42, 23);
 			this.textAPR.TabIndex = 26;
 			// 
 			// textDateLastRun
 			// 
-			this.textDateLastRun.Location = new System.Drawing.Point(133, 16);
+			this.textDateLastRun.Location = new System.Drawing.Point(165, 8);
 			this.textDateLastRun.Name = "textDateLastRun";
 			this.textDateLastRun.ReadOnly = true;
-			this.textDateLastRun.Size = new System.Drawing.Size(78, 20);
+			this.textDateLastRun.Size = new System.Drawing.Size(78, 23);
 			this.textDateLastRun.TabIndex = 27;
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(8, 20);
+			this.label5.Location = new System.Drawing.Point(39, 8);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(123, 18);
+			this.label5.Size = new System.Drawing.Size(120, 23);
 			this.label5.TabIndex = 28;
 			this.label5.Text = "Date last run";
-			this.label5.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// butUndo
 			// 
-			this.butUndo.Location = new System.Drawing.Point(88, 45);
+			this.butUndo.Location = new System.Drawing.Point(94, 50);
 			this.butUndo.Name = "butUndo";
-			this.butUndo.Size = new System.Drawing.Size(78, 25);
+			this.butUndo.Size = new System.Drawing.Size(72, 24);
 			this.butUndo.TabIndex = 30;
 			this.butUndo.Text = "Undo";
 			this.butUndo.Click += new System.EventHandler(this.butUndo_Click);
@@ -204,42 +205,42 @@ namespace OpenPmsDental {
 			this.groupBox2.Controls.Add(this.textDateUndo);
 			this.groupBox2.Controls.Add(this.label6);
 			this.groupBox2.Controls.Add(this.butUndo);
-			this.groupBox2.Location = new System.Drawing.Point(20, 323);
+			this.groupBox2.Location = new System.Drawing.Point(8, 308);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(174, 79);
+			this.groupBox2.Size = new System.Drawing.Size(174, 82);
 			this.groupBox2.TabIndex = 31;
 			this.groupBox2.Text = "Undo billing/finance charges";
 			// 
 			// textDateUndo
 			// 
-			this.textDateUndo.Location = new System.Drawing.Point(88, 19);
+			this.textDateUndo.Location = new System.Drawing.Point(94, 23);
 			this.textDateUndo.Name = "textDateUndo";
 			this.textDateUndo.ReadOnly = true;
-			this.textDateUndo.Size = new System.Drawing.Size(78, 20);
+			this.textDateUndo.Size = new System.Drawing.Size(72, 23);
 			this.textDateUndo.TabIndex = 31;
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(2, 22);
+			this.label6.Location = new System.Drawing.Point(8, 23);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(84, 18);
+			this.label6.Size = new System.Drawing.Size(80, 23);
 			this.label6.TabIndex = 32;
 			this.label6.Text = "Date to undo";
-			this.label6.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// listBillType
 			// 
-			this.listBillType.Location = new System.Drawing.Point(386, 34);
+			this.listBillType.Location = new System.Drawing.Point(381, 28);
 			this.listBillType.Name = "listBillType";
 			this.listBillType.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
-			this.listBillType.Size = new System.Drawing.Size(158, 186);
+			this.listBillType.Size = new System.Drawing.Size(184, 165);
 			this.listBillType.TabIndex = 32;
 			// 
 			// label7
 			// 
-			this.label7.Location = new System.Drawing.Point(385, 16);
+			this.label7.Location = new System.Drawing.Point(381, 8);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(187, 18);
+			this.label7.Size = new System.Drawing.Size(184, 18);
 			this.label7.TabIndex = 33;
 			this.label7.Text = "Only apply to these Billing Types";
 			this.label7.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -262,16 +263,16 @@ namespace OpenPmsDental {
 			this.panel1.Controls.Add(this.label3);
 			this.panel1.Controls.Add(this.radioBillingCharge);
 			this.panel1.Controls.Add(this.label4);
-			this.panel1.Location = new System.Drawing.Point(20, 68);
+			this.panel1.Location = new System.Drawing.Point(0, 62);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(319, 152);
+			this.panel1.Size = new System.Drawing.Size(355, 131);
 			this.panel1.TabIndex = 34;
 			// 
 			// labelCompound
 			// 
-			this.labelCompound.Location = new System.Drawing.Point(28, 123);
+			this.labelCompound.Location = new System.Drawing.Point(24, 108);
 			this.labelCompound.Name = "labelCompound";
-			this.labelCompound.Size = new System.Drawing.Size(114, 18);
+			this.labelCompound.Size = new System.Drawing.Size(116, 23);
 			this.labelCompound.TabIndex = 39;
 			this.labelCompound.Text = "Compound interest";
 			this.labelCompound.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -281,7 +282,7 @@ namespace OpenPmsDental {
 			this.checkCompound.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.checkCompound.Checked = true;
 			this.checkCompound.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkCompound.Location = new System.Drawing.Point(145, 124);
+			this.checkCompound.Location = new System.Drawing.Point(165, 112);
 			this.checkCompound.Margin = new System.Windows.Forms.Padding(0);
 			this.checkCompound.Name = "checkCompound";
 			this.checkCompound.Size = new System.Drawing.Size(16, 14);
@@ -289,18 +290,18 @@ namespace OpenPmsDental {
 			// 
 			// label12
 			// 
-			this.label12.Location = new System.Drawing.Point(125, 72);
+			this.label12.Location = new System.Drawing.Point(139, 54);
 			this.label12.Name = "label12";
-			this.label12.Size = new System.Drawing.Size(20, 18);
+			this.label12.Size = new System.Drawing.Size(20, 23);
 			this.label12.TabIndex = 38;
 			this.label12.Text = "$";
 			this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label11
 			// 
-			this.label11.Location = new System.Drawing.Point(125, 99);
+			this.label11.Location = new System.Drawing.Point(139, 81);
 			this.label11.Name = "label11";
-			this.label11.Size = new System.Drawing.Size(20, 18);
+			this.label11.Size = new System.Drawing.Size(20, 23);
 			this.label11.TabIndex = 37;
 			this.label11.Text = "$";
 			this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -308,46 +309,46 @@ namespace OpenPmsDental {
 			// textOver
 			// 
 			this.textOver.BackColor = System.Drawing.SystemColors.Window;
-			this.textOver.Location = new System.Drawing.Point(147, 97);
+			this.textOver.Location = new System.Drawing.Point(165, 81);
 			this.textOver.MaxVal = 100000000D;
 			this.textOver.MinVal = -100000000D;
 			this.textOver.Name = "textOver";
-			this.textOver.Size = new System.Drawing.Size(42, 20);
+			this.textOver.Size = new System.Drawing.Size(42, 23);
 			this.textOver.TabIndex = 36;
 			// 
 			// textAtLeast
 			// 
 			this.textAtLeast.BackColor = System.Drawing.SystemColors.Window;
-			this.textAtLeast.Location = new System.Drawing.Point(147, 70);
+			this.textAtLeast.Location = new System.Drawing.Point(165, 54);
 			this.textAtLeast.MaxVal = 100000000D;
 			this.textAtLeast.MinVal = -100000000D;
 			this.textAtLeast.Name = "textAtLeast";
-			this.textAtLeast.Size = new System.Drawing.Size(42, 20);
+			this.textAtLeast.Size = new System.Drawing.Size(42, 23);
 			this.textAtLeast.TabIndex = 35;
 			// 
 			// labelOver
 			// 
-			this.labelOver.Location = new System.Drawing.Point(28, 98);
+			this.labelOver.Location = new System.Drawing.Point(24, 81);
 			this.labelOver.Name = "labelOver";
-			this.labelOver.Size = new System.Drawing.Size(95, 18);
+			this.labelOver.Size = new System.Drawing.Size(72, 23);
 			this.labelOver.TabIndex = 33;
 			this.labelOver.Text = "Only if over";
 			this.labelOver.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// labelAtLeast
 			// 
-			this.labelAtLeast.Location = new System.Drawing.Point(28, 72);
+			this.labelAtLeast.Location = new System.Drawing.Point(24, 54);
 			this.labelAtLeast.Name = "labelAtLeast";
-			this.labelAtLeast.Size = new System.Drawing.Size(95, 18);
+			this.labelAtLeast.Size = new System.Drawing.Size(92, 23);
 			this.labelAtLeast.TabIndex = 34;
 			this.labelAtLeast.Text = "Charge at least";
 			this.labelAtLeast.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// label8
 			// 
-			this.label8.Location = new System.Drawing.Point(125, 13);
+			this.label8.Location = new System.Drawing.Point(139, 0);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(20, 18);
+			this.label8.Size = new System.Drawing.Size(20, 23);
 			this.label8.TabIndex = 28;
 			this.label8.Text = "$";
 			this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -355,9 +356,9 @@ namespace OpenPmsDental {
 			// radioFinanceCharge
 			// 
 			this.radioFinanceCharge.Checked = true;
-			this.radioFinanceCharge.Location = new System.Drawing.Point(5, 44);
+			this.radioFinanceCharge.Location = new System.Drawing.Point(8, 28);
 			this.radioFinanceCharge.Name = "radioFinanceCharge";
-			this.radioFinanceCharge.Size = new System.Drawing.Size(110, 24);
+			this.radioFinanceCharge.Size = new System.Drawing.Size(107, 20);
 			this.radioFinanceCharge.TabIndex = 0;
 			this.radioFinanceCharge.TabStop = true;
 			this.radioFinanceCharge.Text = "Finance Charge";
@@ -367,19 +368,19 @@ namespace OpenPmsDental {
 			// textBillingCharge
 			// 
 			this.textBillingCharge.BackColor = System.Drawing.SystemColors.Window;
-			this.textBillingCharge.Location = new System.Drawing.Point(147, 12);
+			this.textBillingCharge.Location = new System.Drawing.Point(165, 0);
 			this.textBillingCharge.MaxVal = 100000000D;
 			this.textBillingCharge.MinVal = -100000000D;
 			this.textBillingCharge.Name = "textBillingCharge";
 			this.textBillingCharge.ReadOnly = true;
-			this.textBillingCharge.Size = new System.Drawing.Size(42, 20);
+			this.textBillingCharge.Size = new System.Drawing.Size(42, 23);
 			this.textBillingCharge.TabIndex = 27;
 			// 
 			// radioBillingCharge
 			// 
-			this.radioBillingCharge.Location = new System.Drawing.Point(5, 10);
+			this.radioBillingCharge.Location = new System.Drawing.Point(8, 1);
 			this.radioBillingCharge.Name = "radioBillingCharge";
-			this.radioBillingCharge.Size = new System.Drawing.Size(115, 23);
+			this.radioBillingCharge.Size = new System.Drawing.Size(99, 20);
 			this.radioBillingCharge.TabIndex = 1;
 			this.radioBillingCharge.TabStop = true;
 			this.radioBillingCharge.Text = "Billing Charge";
@@ -388,11 +389,11 @@ namespace OpenPmsDental {
 			// 
 			// checkBadAddress
 			// 
-			this.checkBadAddress.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkBadAddress.Location = new System.Drawing.Point(7, 17);
+			this.checkBadAddress.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkBadAddress.Location = new System.Drawing.Point(8, 23);
 			this.checkBadAddress.Name = "checkBadAddress";
 			this.checkBadAddress.RightToLeft = System.Windows.Forms.RightToLeft.No;
-			this.checkBadAddress.Size = new System.Drawing.Size(295, 18);
+			this.checkBadAddress.Size = new System.Drawing.Size(220, 20);
 			this.checkBadAddress.TabIndex = 39;
 			this.checkBadAddress.Text = "Exclude bad addresses (no zip code)";
 			// 
@@ -409,87 +410,87 @@ namespace OpenPmsDental {
 			this.groupBoxFilters.Controls.Add(this.checkExcludeInsPending);
 			this.groupBoxFilters.Controls.Add(this.checkExcludeInactive);
 			this.groupBoxFilters.Controls.Add(this.checkBadAddress);
-			this.groupBoxFilters.Location = new System.Drawing.Point(200, 226);
+			this.groupBoxFilters.Location = new System.Drawing.Point(190, 201);
 			this.groupBoxFilters.Name = "groupBoxFilters";
 			this.groupBoxFilters.RightToLeft = System.Windows.Forms.RightToLeft.No;
-			this.groupBoxFilters.Size = new System.Drawing.Size(362, 189);
+			this.groupBoxFilters.Size = new System.Drawing.Size(375, 255);
 			this.groupBoxFilters.TabIndex = 40;
 			this.groupBoxFilters.Text = "Billing/Finance Filters";
 			// 
 			// textExcludeLessThan
 			// 
 			this.textExcludeLessThan.BackColor = System.Drawing.SystemColors.Window;
-			this.textExcludeLessThan.Location = new System.Drawing.Point(288, 140);
+			this.textExcludeLessThan.Location = new System.Drawing.Point(187, 183);
 			this.textExcludeLessThan.MaxVal = 100000000D;
 			this.textExcludeLessThan.MinVal = -100000000D;
 			this.textExcludeLessThan.Name = "textExcludeLessThan";
-			this.textExcludeLessThan.Size = new System.Drawing.Size(42, 20);
+			this.textExcludeLessThan.Size = new System.Drawing.Size(42, 23);
 			this.textExcludeLessThan.TabIndex = 54;
 			// 
 			// textExcludeNotBilledSince
 			// 
-			this.textExcludeNotBilledSince.Location = new System.Drawing.Point(288, 164);
+			this.textExcludeNotBilledSince.Location = new System.Drawing.Point(187, 219);
 			this.textExcludeNotBilledSince.Name = "textExcludeNotBilledSince";
-			this.textExcludeNotBilledSince.Size = new System.Drawing.Size(70, 20);
+			this.textExcludeNotBilledSince.Size = new System.Drawing.Size(70, 23);
 			this.textExcludeNotBilledSince.TabIndex = 47;
 			// 
 			// labelExcludeNotBilledSince
 			// 
-			this.labelExcludeNotBilledSince.Location = new System.Drawing.Point(6, 166);
+			this.labelExcludeNotBilledSince.Location = new System.Drawing.Point(24, 215);
 			this.labelExcludeNotBilledSince.Name = "labelExcludeNotBilledSince";
 			this.labelExcludeNotBilledSince.RightToLeft = System.Windows.Forms.RightToLeft.No;
-			this.labelExcludeNotBilledSince.Size = new System.Drawing.Size(281, 16);
+			this.labelExcludeNotBilledSince.Size = new System.Drawing.Size(157, 32);
 			this.labelExcludeNotBilledSince.TabIndex = 48;
 			this.labelExcludeNotBilledSince.Text = "Exclude accounts not billed since";
-			this.labelExcludeNotBilledSince.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.labelExcludeNotBilledSince.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// labelExcludeBalanceLessThan
 			// 
-			this.labelExcludeBalanceLessThan.Location = new System.Drawing.Point(6, 142);
+			this.labelExcludeBalanceLessThan.Location = new System.Drawing.Point(24, 179);
 			this.labelExcludeBalanceLessThan.Name = "labelExcludeBalanceLessThan";
 			this.labelExcludeBalanceLessThan.RightToLeft = System.Windows.Forms.RightToLeft.No;
-			this.labelExcludeBalanceLessThan.Size = new System.Drawing.Size(281, 16);
+			this.labelExcludeBalanceLessThan.Size = new System.Drawing.Size(157, 32);
 			this.labelExcludeBalanceLessThan.TabIndex = 53;
 			this.labelExcludeBalanceLessThan.Text = "Exclude if balance is less than";
-			this.labelExcludeBalanceLessThan.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.labelExcludeBalanceLessThan.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// checkExcludeAccountNoTil
 			// 
-			this.checkExcludeAccountNoTil.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkExcludeAccountNoTil.Location = new System.Drawing.Point(7, 121);
+			this.checkExcludeAccountNoTil.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkExcludeAccountNoTil.Location = new System.Drawing.Point(8, 155);
 			this.checkExcludeAccountNoTil.Name = "checkExcludeAccountNoTil";
 			this.checkExcludeAccountNoTil.RightToLeft = System.Windows.Forms.RightToLeft.No;
-			this.checkExcludeAccountNoTil.Size = new System.Drawing.Size(316, 18);
+			this.checkExcludeAccountNoTil.Size = new System.Drawing.Size(318, 20);
 			this.checkExcludeAccountNoTil.TabIndex = 44;
 			this.checkExcludeAccountNoTil.Text = "Exclude accounts (guarantor) without Truth in Lending";
 			// 
 			// checkIgnoreInPerson
 			// 
-			this.checkIgnoreInPerson.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkIgnoreInPerson.Location = new System.Drawing.Point(7, 101);
+			this.checkIgnoreInPerson.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkIgnoreInPerson.Location = new System.Drawing.Point(8, 131);
 			this.checkIgnoreInPerson.Name = "checkIgnoreInPerson";
 			this.checkIgnoreInPerson.RightToLeft = System.Windows.Forms.RightToLeft.No;
-			this.checkIgnoreInPerson.Size = new System.Drawing.Size(295, 18);
+			this.checkIgnoreInPerson.Size = new System.Drawing.Size(231, 20);
 			this.checkIgnoreInPerson.TabIndex = 43;
 			this.checkIgnoreInPerson.Text = "Ignore walkout (In person) Statements";
 			// 
 			// checkExcludeInsPending
 			// 
-			this.checkExcludeInsPending.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkExcludeInsPending.Location = new System.Drawing.Point(7, 57);
+			this.checkExcludeInsPending.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkExcludeInsPending.Location = new System.Drawing.Point(8, 71);
 			this.checkExcludeInsPending.Name = "checkExcludeInsPending";
 			this.checkExcludeInsPending.RightToLeft = System.Windows.Forms.RightToLeft.No;
-			this.checkExcludeInsPending.Size = new System.Drawing.Size(295, 18);
+			this.checkExcludeInsPending.Size = new System.Drawing.Size(178, 20);
 			this.checkExcludeInsPending.TabIndex = 41;
 			this.checkExcludeInsPending.Text = "Exclude if insurance pending";
 			// 
 			// checkExcludeInactive
 			// 
-			this.checkExcludeInactive.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkExcludeInactive.Location = new System.Drawing.Point(7, 37);
+			this.checkExcludeInactive.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkExcludeInactive.Location = new System.Drawing.Point(8, 47);
 			this.checkExcludeInactive.Name = "checkExcludeInactive";
 			this.checkExcludeInactive.RightToLeft = System.Windows.Forms.RightToLeft.No;
-			this.checkExcludeInactive.Size = new System.Drawing.Size(295, 18);
+			this.checkExcludeInactive.Size = new System.Drawing.Size(154, 20);
 			this.checkExcludeInactive.TabIndex = 40;
 			this.checkExcludeInactive.Text = "Exclude inactive families";
 			// 
@@ -498,33 +499,33 @@ namespace OpenPmsDental {
 			this.groupBoxAssignCharge.Controls.Add(this.comboSpecificProv);
 			this.groupBoxAssignCharge.Controls.Add(this.radioSpecificProv);
 			this.groupBoxAssignCharge.Controls.Add(this.radioPatPriProv);
-			this.groupBoxAssignCharge.Location = new System.Drawing.Point(20, 421);
+			this.groupBoxAssignCharge.Location = new System.Drawing.Point(8, 464);
 			this.groupBoxAssignCharge.Name = "groupBoxAssignCharge";
-			this.groupBoxAssignCharge.Size = new System.Drawing.Size(320, 76);
+			this.groupBoxAssignCharge.Size = new System.Drawing.Size(309, 78);
 			this.groupBoxAssignCharge.TabIndex = 49;
 			this.groupBoxAssignCharge.Text = "Assign charges to:";
 			// 
 			// comboSpecificProv
 			// 
-			this.comboSpecificProv.Location = new System.Drawing.Point(140, 45);
+			this.comboSpecificProv.Location = new System.Drawing.Point(127, 47);
 			this.comboSpecificProv.Name = "comboSpecificProv";
-			this.comboSpecificProv.Size = new System.Drawing.Size(174, 21);
+			this.comboSpecificProv.Size = new System.Drawing.Size(174, 23);
 			this.comboSpecificProv.TabIndex = 4;
 			// 
 			// radioSpecificProv
 			// 
-			this.radioSpecificProv.Location = new System.Drawing.Point(13, 45);
+			this.radioSpecificProv.Location = new System.Drawing.Point(8, 48);
 			this.radioSpecificProv.Name = "radioSpecificProv";
-			this.radioSpecificProv.Size = new System.Drawing.Size(126, 23);
+			this.radioSpecificProv.Size = new System.Drawing.Size(113, 20);
 			this.radioSpecificProv.TabIndex = 1;
 			this.radioSpecificProv.Text = "Specific Provider";
 			this.radioSpecificProv.UseVisualStyleBackColor = true;
 			// 
 			// radioPatPriProv
 			// 
-			this.radioPatPriProv.Location = new System.Drawing.Point(13, 23);
+			this.radioPatPriProv.Location = new System.Drawing.Point(8, 23);
 			this.radioPatPriProv.Name = "radioPatPriProv";
-			this.radioPatPriProv.Size = new System.Drawing.Size(200, 22);
+			this.radioPatPriProv.Size = new System.Drawing.Size(161, 20);
 			this.radioPatPriProv.TabIndex = 0;
 			this.radioPatPriProv.Text = "Patient\'s Primary Provider";
 			this.radioPatPriProv.UseVisualStyleBackColor = true;
@@ -532,27 +533,27 @@ namespace OpenPmsDental {
 			// 
 			// textDaysInsPendingExclude
 			// 
-			this.textDaysInsPendingExclude.Location = new System.Drawing.Point(288, 78);
+			this.textDaysInsPendingExclude.Location = new System.Drawing.Point(187, 99);
 			this.textDaysInsPendingExclude.MaxVal = 50000;
 			this.textDaysInsPendingExclude.Name = "textDaysInsPendingExclude";
 			this.textDaysInsPendingExclude.ShowZero = false;
-			this.textDaysInsPendingExclude.Size = new System.Drawing.Size(54, 20);
+			this.textDaysInsPendingExclude.Size = new System.Drawing.Size(54, 23);
 			this.textDaysInsPendingExclude.TabIndex = 258;
 			// 
 			// labelExcludeIfPendingDays
 			// 
 			this.labelExcludeIfPendingDays.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelExcludeIfPendingDays.Location = new System.Drawing.Point(36, 80);
+			this.labelExcludeIfPendingDays.Location = new System.Drawing.Point(24, 95);
 			this.labelExcludeIfPendingDays.Name = "labelExcludeIfPendingDays";
-			this.labelExcludeIfPendingDays.Size = new System.Drawing.Size(252, 18);
+			this.labelExcludeIfPendingDays.Size = new System.Drawing.Size(157, 32);
 			this.labelExcludeIfPendingDays.TabIndex = 262;
 			this.labelExcludeIfPendingDays.Text = "Exclude if insurance pending _ days or less";
-			this.labelExcludeIfPendingDays.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.labelExcludeIfPendingDays.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// FormFinanceCharges
 			// 
 			this.AcceptButton = this.butOK;
-			this.ClientSize = new System.Drawing.Size(573, 523);
+			this.ClientSize = new System.Drawing.Size(573, 550);
 			this.Controls.Add(this.groupBoxAssignCharge);
 			this.Controls.Add(this.groupBoxFilters);
 			this.Controls.Add(this.panel1);

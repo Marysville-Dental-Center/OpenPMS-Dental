@@ -69,9 +69,9 @@ namespace OpenPmsDental {
 			//
 			// labelIntro
 			//
-			this.labelIntro.Location = new System.Drawing.Point(27, 9);
+			this.labelIntro.Location = new System.Drawing.Point(8, 8);
 			this.labelIntro.Name = "labelIntro";
-			this.labelIntro.Size = new System.Drawing.Size(834, 44);
+			this.labelIntro.Size = new System.Drawing.Size(876, 36);
 			this.labelIntro.TabIndex = 0;
 			this.labelIntro.Text = resources.GetString("labelIntro.Text");
 			//
@@ -80,26 +80,26 @@ namespace OpenPmsDental {
 			this.groupChart3DAll.Controls.Add(this.labelChart3DAll);
 			this.groupChart3DAll.Controls.Add(this.radioChart3DAllUse);
 			this.groupChart3DAll.Controls.Add(this.radioChart3DAllDontUse);
-			this.groupChart3DAll.Location = new System.Drawing.Point(28, 58);
+			this.groupChart3DAll.Location = new System.Drawing.Point(8, 52);
 			this.groupChart3DAll.Name = "groupChart3DAll";
-			this.groupChart3DAll.Size = new System.Drawing.Size(548, 96);
+			this.groupChart3DAll.Size = new System.Drawing.Size(548, 108);
 			this.groupChart3DAll.TabIndex = 1;
 			this.groupChart3DAll.TabStop = false;
 			this.groupChart3DAll.Text = "3D Tooth Chart on all computers";
 			//
 			// labelChart3DAll
 			//
-			this.labelChart3DAll.Location = new System.Drawing.Point(12, 19);
+			this.labelChart3DAll.Location = new System.Drawing.Point(8, 22);
 			this.labelChart3DAll.Name = "labelChart3DAll";
-			this.labelChart3DAll.Size = new System.Drawing.Size(520, 18);
+			this.labelChart3DAll.Size = new System.Drawing.Size(532, 18);
 			this.labelChart3DAll.TabIndex = 0;
 			this.labelChart3DAll.Text = "This option affects all computers in the office.  All other options are specific to this computer.";
 			//
 			// radioChart3DAllUse
 			//
-			this.radioChart3DAllUse.Location = new System.Drawing.Point(15, 38);
+			this.radioChart3DAllUse.Location = new System.Drawing.Point(8, 44);
 			this.radioChart3DAllUse.Name = "radioChart3DAllUse";
-			this.radioChart3DAllUse.Size = new System.Drawing.Size(520, 20);
+			this.radioChart3DAllUse.Size = new System.Drawing.Size(482, 20);
 			this.radioChart3DAllUse.TabIndex = 1;
 			this.radioChart3DAllUse.TabStop = true;
 			this.radioChart3DAllUse.Text = "Use if available.  Advantage is the detailed 3D tooth chart and the graphical perio chart.";
@@ -108,9 +108,9 @@ namespace OpenPmsDental {
 			//
 			// radioChart3DAllDontUse
 			//
-			this.radioChart3DAllDontUse.Location = new System.Drawing.Point(15, 58);
+			this.radioChart3DAllDontUse.Location = new System.Drawing.Point(8, 66);
 			this.radioChart3DAllDontUse.Name = "radioChart3DAllDontUse";
-			this.radioChart3DAllDontUse.Size = new System.Drawing.Size(533, 31);
+			this.radioChart3DAllDontUse.Size = new System.Drawing.Size(532, 34);
 			this.radioChart3DAllDontUse.TabIndex = 2;
 			this.radioChart3DAllDontUse.TabStop = true;
 			this.radioChart3DAllDontUse.Text = "Do not use.  Advantage is that older or underpowered hardware might work better.  This is an easy first step for troubleshooting certain graphics problems.";
@@ -122,18 +122,18 @@ namespace OpenPmsDental {
 			this.groupChart3DThis.Controls.Add(this.radioChart3DThisGlobal);
 			this.groupChart3DThis.Controls.Add(this.radioChart3DThisUse);
 			this.groupChart3DThis.Controls.Add(this.radioChart3DThisDontUse);
-			this.groupChart3DThis.Location = new System.Drawing.Point(28, 159);
+			this.groupChart3DThis.Location = new System.Drawing.Point(8, 168);
 			this.groupChart3DThis.Name = "groupChart3DThis";
-			this.groupChart3DThis.Size = new System.Drawing.Size(180, 75);
+			this.groupChart3DThis.Size = new System.Drawing.Size(180, 94);
 			this.groupChart3DThis.TabIndex = 2;
 			this.groupChart3DThis.TabStop = false;
 			this.groupChart3DThis.Text = "3D Tooth Chart";
 			//
 			// radioChart3DThisGlobal
 			//
-			this.radioChart3DThisGlobal.Location = new System.Drawing.Point(15, 17);
+			this.radioChart3DThisGlobal.Location = new System.Drawing.Point(8, 22);
 			this.radioChart3DThisGlobal.Name = "radioChart3DThisGlobal";
-			this.radioChart3DThisGlobal.Size = new System.Drawing.Size(159, 23);
+			this.radioChart3DThisGlobal.Size = new System.Drawing.Size(139, 20);
 			this.radioChart3DThisGlobal.TabIndex = 0;
 			this.radioChart3DThisGlobal.TabStop = true;
 			this.radioChart3DThisGlobal.Text = "Use the global setting";
@@ -142,9 +142,9 @@ namespace OpenPmsDental {
 			//
 			// radioChart3DThisUse
 			//
-			this.radioChart3DThisUse.Location = new System.Drawing.Point(15, 35);
+			this.radioChart3DThisUse.Location = new System.Drawing.Point(8, 44);
 			this.radioChart3DThisUse.Name = "radioChart3DThisUse";
-			this.radioChart3DThisUse.Size = new System.Drawing.Size(159, 23);
+			this.radioChart3DThisUse.Size = new System.Drawing.Size(103, 20);
 			this.radioChart3DThisUse.TabIndex = 1;
 			this.radioChart3DThisUse.TabStop = true;
 			this.radioChart3DThisUse.Text = "Use if available";
@@ -153,9 +153,9 @@ namespace OpenPmsDental {
 			//
 			// radioChart3DThisDontUse
 			//
-			this.radioChart3DThisDontUse.Location = new System.Drawing.Point(15, 52);
+			this.radioChart3DThisDontUse.Location = new System.Drawing.Point(8, 66);
 			this.radioChart3DThisDontUse.Name = "radioChart3DThisDontUse";
-			this.radioChart3DThisDontUse.Size = new System.Drawing.Size(159, 23);
+			this.radioChart3DThisDontUse.Size = new System.Drawing.Size(82, 20);
 			this.radioChart3DThisDontUse.TabIndex = 2;
 			this.radioChart3DThisDontUse.TabStop = true;
 			this.radioChart3DThisDontUse.Text = "Do not use";
@@ -166,9 +166,9 @@ namespace OpenPmsDental {
 			//
 			this.groupStatus.Controls.Add(this.radioStatusAvailable);
 			this.groupStatus.Controls.Add(this.radioStatusFellBack);
-			this.groupStatus.Location = new System.Drawing.Point(216, 159);
+			this.groupStatus.Location = new System.Drawing.Point(196, 168);
 			this.groupStatus.Name = "groupStatus";
-			this.groupStatus.Size = new System.Drawing.Size(360, 75);
+			this.groupStatus.Size = new System.Drawing.Size(360, 94);
 			this.groupStatus.TabIndex = 3;
 			this.groupStatus.TabStop = false;
 			this.groupStatus.Text = "3D Tooth Chart status on this computer";
@@ -176,9 +176,9 @@ namespace OpenPmsDental {
 			// radioStatusAvailable
 			//
 			this.radioStatusAvailable.AutoCheck = false;
-			this.radioStatusAvailable.Location = new System.Drawing.Point(12, 16);
+			this.radioStatusAvailable.Location = new System.Drawing.Point(8, 22);
 			this.radioStatusAvailable.Name = "radioStatusAvailable";
-			this.radioStatusAvailable.Size = new System.Drawing.Size(340, 19);
+			this.radioStatusAvailable.Size = new System.Drawing.Size(73, 20);
 			this.radioStatusAvailable.TabIndex = 0;
 			this.radioStatusAvailable.Text = "Available";
 			this.radioStatusAvailable.UseVisualStyleBackColor = true;
@@ -187,9 +187,9 @@ namespace OpenPmsDental {
 			//
 			this.radioStatusFellBack.AutoCheck = false;
 			this.radioStatusFellBack.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
-			this.radioStatusFellBack.Location = new System.Drawing.Point(12, 35);
+			this.radioStatusFellBack.Location = new System.Drawing.Point(8, 44);
 			this.radioStatusFellBack.Name = "radioStatusFellBack";
-			this.radioStatusFellBack.Size = new System.Drawing.Size(348, 36);
+			this.radioStatusFellBack.Size = new System.Drawing.Size(344, 36);
 			this.radioStatusFellBack.TabIndex = 1;
 			this.radioStatusFellBack.Text = "Fell back: the 3D tooth chart could not start on this computer, so the Simple 2D chart is used.";
 			this.radioStatusFellBack.TextAlign = System.Drawing.ContentAlignment.TopLeft;
@@ -199,18 +199,18 @@ namespace OpenPmsDental {
 			//
 			this.groupOlder.Controls.Add(this.radioSimpleChart);
 			this.groupOlder.Controls.Add(this.labelOlder);
-			this.groupOlder.Location = new System.Drawing.Point(584, 159);
+			this.groupOlder.Location = new System.Drawing.Point(564, 168);
 			this.groupOlder.Name = "groupOlder";
-			this.groupOlder.Size = new System.Drawing.Size(277, 75);
+			this.groupOlder.Size = new System.Drawing.Size(320, 94);
 			this.groupOlder.TabIndex = 4;
 			this.groupOlder.TabStop = false;
 			this.groupOlder.Text = "Older Tooth Chart Technology";
 			//
 			// radioSimpleChart
 			//
-			this.radioSimpleChart.Location = new System.Drawing.Point(15, 17);
+			this.radioSimpleChart.Location = new System.Drawing.Point(8, 22);
 			this.radioSimpleChart.Name = "radioSimpleChart";
-			this.radioSimpleChart.Size = new System.Drawing.Size(250, 21);
+			this.radioSimpleChart.Size = new System.Drawing.Size(144, 20);
 			this.radioSimpleChart.TabIndex = 0;
 			this.radioSimpleChart.TabStop = true;
 			this.radioSimpleChart.Text = "Simple 2D (pie shapes)";
@@ -218,9 +218,9 @@ namespace OpenPmsDental {
 			//
 			// labelOlder
 			//
-			this.labelOlder.Location = new System.Drawing.Point(15, 38);
+			this.labelOlder.Location = new System.Drawing.Point(24, 44);
 			this.labelOlder.Name = "labelOlder";
-			this.labelOlder.Size = new System.Drawing.Size(262, 32);
+			this.labelOlder.Size = new System.Drawing.Size(288, 32);
 			this.labelOlder.TabIndex = 1;
 			this.labelOlder.Text = "Used when the 3D tooth chart is not used.  The older 3D technologies were retired.";
 			//
@@ -229,35 +229,35 @@ namespace OpenPmsDental {
 			this.groupOptions.Controls.Add(this.labelOptions);
 			this.groupOptions.Controls.Add(this.checkDrawInSoftware);
 			this.groupOptions.Controls.Add(this.labelDrawInSoftware);
-			this.groupOptions.Location = new System.Drawing.Point(28, 240);
+			this.groupOptions.Location = new System.Drawing.Point(8, 270);
 			this.groupOptions.Name = "groupOptions";
-			this.groupOptions.Size = new System.Drawing.Size(395, 150);
+			this.groupOptions.Size = new System.Drawing.Size(442, 393);
 			this.groupOptions.TabIndex = 5;
 			this.groupOptions.TabStop = false;
 			this.groupOptions.Text = "Options For The 3D Tooth Chart";
 			//
 			// labelOptions
 			//
-			this.labelOptions.Location = new System.Drawing.Point(9, 18);
+			this.labelOptions.Location = new System.Drawing.Point(8, 22);
 			this.labelOptions.Name = "labelOptions";
-			this.labelOptions.Size = new System.Drawing.Size(386, 30);
+			this.labelOptions.Size = new System.Drawing.Size(426, 32);
 			this.labelOptions.TabIndex = 0;
 			this.labelOptions.Text = "Most users will never need to change any of these options.  These are only used when the 3D tooth chart is not working properly.";
 			//
 			// checkDrawInSoftware
 			//
-			this.checkDrawInSoftware.Location = new System.Drawing.Point(12, 54);
+			this.checkDrawInSoftware.Location = new System.Drawing.Point(8, 58);
 			this.checkDrawInSoftware.Name = "checkDrawInSoftware";
-			this.checkDrawInSoftware.Size = new System.Drawing.Size(370, 18);
+			this.checkDrawInSoftware.Size = new System.Drawing.Size(114, 20);
 			this.checkDrawInSoftware.TabIndex = 1;
 			this.checkDrawInSoftware.Text = "Draw in software";
 			this.checkDrawInSoftware.Click += new System.EventHandler(this.checkDrawInSoftware_Click);
 			//
 			// labelDrawInSoftware
 			//
-			this.labelDrawInSoftware.Location = new System.Drawing.Point(28, 74);
+			this.labelDrawInSoftware.Location = new System.Drawing.Point(24, 82);
 			this.labelDrawInSoftware.Name = "labelDrawInSoftware";
-			this.labelDrawInSoftware.Size = new System.Drawing.Size(359, 70);
+			this.labelDrawInSoftware.Size = new System.Drawing.Size(410, 70);
 			this.labelDrawInSoftware.TabIndex = 2;
 			this.labelDrawInSoftware.Text = resources.GetString("labelDrawInSoftware.Text");
 			//
@@ -266,30 +266,30 @@ namespace OpenPmsDental {
 			this.groupPreview.Controls.Add(this.toothChartWrapper);
 			this.groupPreview.Controls.Add(this.labelPreviewStatus);
 			this.groupPreview.Controls.Add(this.labelPreview);
-			this.groupPreview.Location = new System.Drawing.Point(431, 240);
+			this.groupPreview.Location = new System.Drawing.Point(458, 270);
 			this.groupPreview.Name = "groupPreview";
-			this.groupPreview.Size = new System.Drawing.Size(430, 392);
+			this.groupPreview.Size = new System.Drawing.Size(426, 393);
 			this.groupPreview.TabIndex = 6;
 			this.groupPreview.TabStop = false;
 			this.groupPreview.Text = "Preview";
 			//
 			// toothChartWrapper
 			//
-			this.toothChartWrapper.Location = new System.Drawing.Point(10, 20);
+			this.toothChartWrapper.Location = new System.Drawing.Point(8, 22);
 			this.toothChartWrapper.Name = "toothChartWrapper";
 			this.toothChartWrapper.Size = new System.Drawing.Size(410, 307);
 			this.toothChartWrapper.TabIndex = 0;
 			//
 			// labelPreviewStatus
 			//
-			this.labelPreviewStatus.Location = new System.Drawing.Point(10, 331);
+			this.labelPreviewStatus.Location = new System.Drawing.Point(8, 333);
 			this.labelPreviewStatus.Name = "labelPreviewStatus";
 			this.labelPreviewStatus.Size = new System.Drawing.Size(410, 30);
 			this.labelPreviewStatus.TabIndex = 1;
 			//
 			// labelPreview
 			//
-			this.labelPreview.Location = new System.Drawing.Point(10, 364);
+			this.labelPreview.Location = new System.Drawing.Point(8, 367);
 			this.labelPreview.Name = "labelPreview";
 			this.labelPreview.Size = new System.Drawing.Size(410, 18);
 			this.labelPreview.TabIndex = 2;
@@ -298,7 +298,7 @@ namespace OpenPmsDental {
 			// butSave
 			//
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(786, 646);
+			this.butSave.Location = new System.Drawing.Point(809, 671);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 26);
 			this.butSave.TabIndex = 7;
@@ -307,7 +307,7 @@ namespace OpenPmsDental {
 			//
 			// FormGraphics
 			//
-			this.ClientSize = new System.Drawing.Size(892, 683);
+			this.ClientSize = new System.Drawing.Size(892, 705);
 			this.Controls.Add(this.butSave);
 			this.Controls.Add(this.groupPreview);
 			this.Controls.Add(this.groupOptions);

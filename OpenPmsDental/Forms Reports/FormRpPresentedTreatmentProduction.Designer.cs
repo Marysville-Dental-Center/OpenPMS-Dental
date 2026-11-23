@@ -82,7 +82,7 @@ namespace OpenPmsDental{
 			this.listClin.Location = new System.Drawing.Point(152, 234);
 			this.listClin.Name = "listClin";
 			this.listClin.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
-			this.listClin.Size = new System.Drawing.Size(137, 188);
+			this.listClin.Size = new System.Drawing.Size(137, 199);
 			this.listClin.TabIndex = 62;
 			this.listClin.Click += new System.EventHandler(this.listClin_Click);
 			// 
@@ -91,7 +91,7 @@ namespace OpenPmsDental{
 			this.listUser.Location = new System.Drawing.Point(8, 234);
 			this.listUser.Name = "listUser";
 			this.listUser.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
-			this.listUser.Size = new System.Drawing.Size(136, 188);
+			this.listUser.Size = new System.Drawing.Size(136, 199);
 			this.listUser.TabIndex = 61;
 			this.listUser.Click += new System.EventHandler(this.listUser_Click);
 			// 
@@ -185,7 +185,7 @@ namespace OpenPmsDental{
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(407, 430);
+			this.butOK.Location = new System.Drawing.Point(407, 441);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 24);
 			this.butOK.TabIndex = 3;
@@ -226,7 +226,7 @@ namespace OpenPmsDental{
 			// FormRpPresentedTreatmentProduction
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(490, 462);
+			this.ClientSize = new System.Drawing.Size(490, 473);
 			this.Controls.Add(this.groupUser);
 			this.Controls.Add(this.checkAllUsers);
 			this.Controls.Add(this.labelClin);
