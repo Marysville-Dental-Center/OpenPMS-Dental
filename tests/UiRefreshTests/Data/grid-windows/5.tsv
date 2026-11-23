@@ -24,12 +24,10 @@ OpenPmsDental.FormQuickBooksSetup	5	tool	UI-12-5 batch 3
 OpenPmsDental.FormRecallEdit	5	tool	UI-12-5 batch 3
 OpenPmsDental.FormRepeatChargeEdit	5	tool	UI-12-5 batch 3
 OpenPmsDental.FormSheetDefDefaults	5	tool	UI-12-5 batch 3
-OpenPmsDental.FormSheetFieldCheckBox	5	tool	UI-12-5 batch 3
 OpenPmsDental.FormSheetFieldOutput	5	tool	UI-12-5 batch 3
 OpenPmsDental.FormTransactionEdit	5	tool	UI-12-5 batch 3
 OpenPmsDental.FormTreatPlanEdit	5	tool	UI-12-5 batch 3
 OpenPmsDental.ControlManage	5	tool	UI-12-5 batch 3
-OpenPmsDental.FormQuery	5	tool	UI-12-5 batch 3
 OpenPmsDental.FormRpPatients	5	tool	UI-12-5 batch 3
 OpenPmsDental.FormAdvertisingPostcardsSend	5	tool	UI-12-5 batch 3
 OpenPmsDental.FormCdsTriggerEdit	5	tool	UI-12-5 batch 3
