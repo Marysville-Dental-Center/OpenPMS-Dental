@@ -184,6 +184,10 @@ namespace ImagingCapture.Tests {
 
 			public void LogEdit(long patNum,string logText,long docNum) {
 			}
+
+			public Document ImportVideo(string pathVideo,long categoryDefNum,long patNum) {
+				throw new NotSupportedException();
+			}
 		}
 
 		[TestMethod]

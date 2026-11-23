@@ -40,6 +40,8 @@ namespace ImagingCapture.Photo {
 		///<summary>The slot's index in the model's ListSlots, -1 for a quick photo.</summary>
 		public int IdxSlot { get; set; }=-1;
 		public string GuideLabel { get; set; }="";
+		///<summary>A video (IMG-P4c) rather than a photo.</summary>
+		public bool IsVideo { get; set; }
 	}
 
 	///<summary>Where and how the next photo is saved: the slot (MountItemNum 0 for a quick photo, which stays unmounted), saved flipped for a
@@ -186,6 +188,15 @@ namespace ImagingCapture.Photo {
 		}
 
 		///<summary>After the photo of plan was saved: its slot is filled and the next empty slot after it becomes the next one.</summary>
+		///<summary>A video of this session (IMG-P4c): saved unmounted, listed with the photos so the right-click menu and the end of the session
+		///see it.</summary>
+		public void AddVideo(long docNum) {
+			CountSaved++;
+			_listShots.Add(new PhotoShot { DocNum=docNum,MountItemNum=0,IdxSlot=-1,GuideLabel=VideoLabel,IsVideo=true });
+		}
+
+		public const string VideoLabel="Video";
+
 		public void MarkSaved(PhotoShotPlan plan,long docNum=0) {
 			if(plan==null) {
 				throw new ArgumentNullException(nameof(plan));

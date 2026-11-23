@@ -70,6 +70,11 @@ namespace ImagingCapture.Uvc {
 		///<summary>Reads a camera control's range with GetRange. Never writes.</summary>
 		UvcControlRange ReadControlRange(UvcControlInterface controlInterface,int property);
 
+		///<summary>Called on the streaming thread with every preview frame, before it is published (IMG-P4c: video recording, which needs every
+		///frame while the preview takes only the newest). The frame is valid only during the call: copy what is needed and return at once.
+		///Null for none.</summary>
+		Action<UvcFrame> FrameTap { get; set; }
+
 		///<summary>A preview frame was published. See TakeLatestFrame.</summary>
 		event EventHandler FrameReady;
 

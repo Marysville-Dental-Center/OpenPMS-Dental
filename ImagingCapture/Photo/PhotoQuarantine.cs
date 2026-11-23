@@ -149,7 +149,8 @@ namespace ImagingCapture.Photo {
 				if(folder==null || !Directory.Exists(folder)) {
 					return listPhotos;
 				}
-				foreach(string pathImage in Directory.GetFiles(folder,"*.jpg").OrderBy(x => x,StringComparer.OrdinalIgnoreCase)) {
+				//photos, and videos whose recording could not be saved (VideoFiles)
+				foreach(string pathImage in Directory.GetFiles(folder,"*.jpg").Concat(Directory.GetFiles(folder,"*.mp4")).OrderBy(x => x,StringComparer.OrdinalIgnoreCase)) {
 					string pathSidecar=Path.ChangeExtension(pathImage,".txt");
 					if(!File.Exists(pathSidecar)) {
 						continue;
@@ -166,11 +167,33 @@ namespace ImagingCapture.Photo {
 			return listPhotos;
 		}
 
+		///<summary>A video: imported unmounted with its teeth and the time it started (IMG-P4c), then the files go.</summary>
+		private static string FileVideo(IPhotoStore store,PhotoUnsaved photoUnsaved,out bool isFiled) {
+			isFiled=false;
+			if(!System.IO.File.Exists(photoUnsaved.PathImage)) {
+				return "The video file is missing.";
+			}
+			string error;
+			Document document=VideoFiles.Import(store,photoUnsaved.PathImage,photoUnsaved.PatNum,photoUnsaved.CategoryDefNum,photoUnsaved.ToothNumbers,
+				photoUnsaved.DateTimeTaken,TimeSpan.Zero,out error);
+			if(document==null) {
+				return error;
+			}
+			isFiled=true;
+			if(!VideoFiles.Delete(photoUnsaved.PathImage)) {
+				return "Filed, but the files could not be removed (file them again only after checking the patient's images).";
+			}
+			return error;
+		}
+
 		///<summary>Files one unsaved photo to its patient, with the time it was taken: into its slot when the slot is still empty and its mount
 		///belongs to the same patient, else unmounted in the same category; then removes the files. isFiled: a document was made (the files are
 		///then removed). Returns "" when filed as planned; otherwise why not, or a warning when it was filed but not placed.</summary>
 		public static string FileOne(IPhotoStore store,PhotoUnsaved photoUnsaved,out bool isFiled) {
 			isFiled=false;
+			if(string.Equals(Path.GetExtension(photoUnsaved.PathImage),".mp4",StringComparison.OrdinalIgnoreCase)) {
+				return FileVideo(store,photoUnsaved,out isFiled);
+			}
 			string warning="";
 			Bitmap bitmap;
 			try {

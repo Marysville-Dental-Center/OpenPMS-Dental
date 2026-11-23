@@ -78,6 +78,18 @@ namespace ImagingCapture.Tests {
 
 			public void LogEdit(long patNum,string logText,long docNum) {
 			}
+
+			public readonly List<string> ListVideosImported=new List<string>();
+
+			public Document ImportVideo(string pathVideo,long categoryDefNum,long patNum) {
+				if(IsImportFailing) {
+					throw new Exception("still not reachable");
+				}
+				ListVideosImported.Add(pathVideo);
+				Document document=new Document { DocNum=100+ListVideosImported.Count,PatNum=patNum,DocCategory=categoryDefNum,FileName="v.mp4" };
+				ListImported.Add(document);
+				return document;
+			}
 		}
 
 		[TestMethod]
@@ -146,6 +158,49 @@ namespace ImagingCapture.Tests {
 			Assert.IsTrue(store.ListUpdated.Single().IsFlipped);
 			photoUnsaved.PathImage=Path.Combine(_folder,"gone.jpg");
 			StringAssert.Contains(PhotoQuarantine.FileOne(store,photoUnsaved,out isFiled),"could not be read");
+		}
+
+		[TestMethod]
+		public void Video_RecordingFile_MovedToUnsaved_Filed() {
+			string folderRecording=Path.Combine(_folder,"recording");
+			string folderUnsaved=Path.Combine(_folder,"unsaved");
+			PhotoUnsaved photoUnsaved=MakeRecord(0);
+			photoUnsaved.Slot="Video";
+			string error;
+			string path=VideoFiles.BeginRecordingFileInFolder(folderRecording,photoUnsaved,out error);
+			Assert.AreEqual("",error);
+			StringAssert.EndsWith(path,"_P7_video.mp4");
+			Assert.IsTrue(File.Exists(Path.ChangeExtension(path,".txt")),"The sidecar is written when the recording starts.");
+			File.WriteAllBytes(path,new byte[] { 0,0,0,24,(byte)'f',(byte)'t',(byte)'y',(byte)'p' });
+			//the program stopped while recording: the next session moves it to the unsaved photos
+			using(FileStream fileStreamOpen=new FileStream(path,FileMode.Open,FileAccess.Read,FileShare.Read)) {
+				Assert.AreEqual(0,VideoFiles.RecoverStale(folderRecording,folderUnsaved),"A recording still being written is left alone.");
+			}
+			Assert.AreEqual(1,VideoFiles.RecoverStale(folderRecording,folderUnsaved));
+			Assert.AreEqual(0,Directory.GetFiles(folderRecording).Length);
+			PhotoUnsaved photoUnsavedMoved=PhotoQuarantine.List(folderUnsaved).Single();
+			StringAssert.EndsWith(photoUnsavedMoved.PathImage,".mp4");
+			Assert.AreEqual(7,photoUnsavedMoved.PatNum);
+			StringAssert.Contains(photoUnsavedMoved.Reason,"stopped while this video was recording");
+			//filed: imported unmounted with its teeth and the time it started, then the files go
+			Store store=new Store();
+			Assert.AreEqual("",PhotoQuarantine.FileOne(store,photoUnsavedMoved,out bool isFiled));
+			Assert.IsTrue(isFiled);
+			Assert.AreEqual(1,store.ListVideosImported.Count);
+			Document document=store.ListUpdated.Single();
+			Assert.AreEqual("2,3",document.ToothNumbers);
+			Assert.AreEqual(new DateTime(2026,11,23,10,14,5),document.DateCreated);
+			StringAssert.StartsWith(document.Description,"Video ");
+			Assert.AreEqual(0,Directory.GetFiles(folderUnsaved).Length);
+		}
+
+		[TestMethod]
+		public void Video_SpaceRule_AndDuration() {
+			Assert.IsTrue(VideoFiles.IsEnoughSpace(3L*1024*1024*1024));
+			Assert.IsFalse(VideoFiles.IsEnoughSpace(1L*1024*1024*1024),"Video is off below 2 GB free.");
+			Assert.IsTrue(VideoFiles.IsEnoughSpace(-1),"Unknown free space: allowed; a write error stops it.");
+			Assert.AreEqual("0:42",VideoFiles.FormatDuration(TimeSpan.FromSeconds(42.3)));
+			Assert.AreEqual("2:00",VideoFiles.FormatDuration(TimeSpan.FromMinutes(2)));
 		}
 
 		[TestMethod]
