@@ -33,7 +33,7 @@ namespace OpenPmsDental{
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(12, 16);
+			this.gridMain.Location = new System.Drawing.Point(12, 8);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.Size = new System.Drawing.Size(335, 235);
 			this.gridMain.TabIndex = 5;
@@ -44,7 +44,7 @@ namespace OpenPmsDental{
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(365, 227);
+			this.butOK.Location = new System.Drawing.Point(369, 255);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 24);
 			this.butOK.TabIndex = 3;
@@ -56,7 +56,7 @@ namespace OpenPmsDental{
 			this.butAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdd.Location = new System.Drawing.Point(365, 16);
+			this.butAdd.Location = new System.Drawing.Point(353, 8);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(75, 24);
 			this.butAdd.TabIndex = 2;
@@ -65,7 +65,7 @@ namespace OpenPmsDental{
 			// 
 			// FormGradingScales
 			// 
-			this.ClientSize = new System.Drawing.Size(452, 263);
+			this.ClientSize = new System.Drawing.Size(452, 287);
 			this.Controls.Add(this.butOK);
 			this.Controls.Add(this.gridMain);
 			this.Controls.Add(this.butAdd);

@@ -39,25 +39,25 @@ namespace OpenPmsDental {
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(111,26);
+			this.label1.Location = new System.Drawing.Point(131,8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(95,18);
+			this.label1.Size = new System.Drawing.Size(72,23);
 			this.label1.TabIndex = 0;
 			this.label1.Text = "Description";
-			this.label1.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(107,51);
+			this.label6.Location = new System.Drawing.Point(111,35);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(100,18);
+			this.label6.Size = new System.Drawing.Size(92,23);
 			this.label6.TabIndex = 5;
 			this.label6.Text = "Default Percent";
-			this.label6.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textDescription
 			// 
-			this.textDescription.Location = new System.Drawing.Point(209,23);
+			this.textDescription.Location = new System.Drawing.Point(209,8);
 			this.textDescription.MaxLength = 50;
 			this.textDescription.Name = "textDescription";
 			this.textDescription.Size = new System.Drawing.Size(100,20);
@@ -66,7 +66,7 @@ namespace OpenPmsDental {
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(392, 152);
+			this.butSave.Location = new System.Drawing.Point(557, 147);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 25);
 			this.butSave.TabIndex = 4;
@@ -75,16 +75,16 @@ namespace OpenPmsDental {
 			// 
 			// checkHidden
 			// 
-			this.checkHidden.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkHidden.Location = new System.Drawing.Point(118,79);
+			this.checkHidden.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkHidden.Location = new System.Drawing.Point(209,62);
 			this.checkHidden.Name = "checkHidden";
-			this.checkHidden.Size = new System.Drawing.Size(105,18);
+			this.checkHidden.Size = new System.Drawing.Size(74,20);
 			this.checkHidden.TabIndex = 3;
 			this.checkHidden.Text = "Is Hidden";
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(229,80);
+			this.label2.Location = new System.Drawing.Point(289,62);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(343,21);
 			this.label2.TabIndex = 12;
@@ -93,7 +93,7 @@ namespace OpenPmsDental {
 			// label3
 			// 
 			this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label3.Location = new System.Drawing.Point(12,152);
+			this.label3.Location = new System.Drawing.Point(8,147);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(203,23);
 			this.label3.TabIndex = 13;
@@ -101,7 +101,7 @@ namespace OpenPmsDental {
 			// 
 			// textPercent
 			// 
-			this.textPercent.Location = new System.Drawing.Point(209,47);
+			this.textPercent.Location = new System.Drawing.Point(209,35);
 			this.textPercent.MaxVal = 255;
 			this.textPercent.MinVal = 0;
 			this.textPercent.Name = "textPercent";
@@ -111,24 +111,24 @@ namespace OpenPmsDental {
 			// 
 			// comboCat
 			// 
-			this.comboCat.Location = new System.Drawing.Point(209,106);
+			this.comboCat.Location = new System.Drawing.Point(209,87);
 			this.comboCat.Name = "comboCat";
-			this.comboCat.Size = new System.Drawing.Size(197,21);
+			this.comboCat.Size = new System.Drawing.Size(196,23);
 			this.comboCat.TabIndex = 14;
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(7,109);
+			this.label4.Location = new System.Drawing.Point(47,87);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(200,18);
+			this.label4.Size = new System.Drawing.Size(156,23);
 			this.label4.TabIndex = 15;
 			this.label4.Text = "Electronic Benefit Category";
-			this.label4.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// FormInsCatEdit
 			// 
 			this.AcceptButton = this.butSave;
-			this.ClientSize = new System.Drawing.Size(476, 180);
+			this.ClientSize = new System.Drawing.Size(640, 180);
 			this.Controls.Add(this.butSave);
 			this.Controls.Add(this.label4);
 			this.Controls.Add(this.comboCat);

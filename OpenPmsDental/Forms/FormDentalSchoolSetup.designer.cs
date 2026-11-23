@@ -38,45 +38,45 @@ namespace OpenPmsDental{
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(12, 65);
+			this.label1.Location = new System.Drawing.Point(37, 72);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(85, 18);
+			this.label1.Size = new System.Drawing.Size(60, 23);
 			this.label1.TabIndex = 104;
 			this.label1.Text = "Students";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(12, 91);
+			this.label2.Location = new System.Drawing.Point(29, 99);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(85, 18);
+			this.label2.Size = new System.Drawing.Size(68, 23);
 			this.label2.TabIndex = 107;
 			this.label2.Text = "Instructors";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textStudents
 			// 
-			this.textStudents.Location = new System.Drawing.Point(103, 63);
+			this.textStudents.Location = new System.Drawing.Point(103, 72);
 			this.textStudents.MaxLength = 255;
 			this.textStudents.Name = "textStudents";
 			this.textStudents.ReadOnly = true;
-			this.textStudents.Size = new System.Drawing.Size(121, 20);
+			this.textStudents.Size = new System.Drawing.Size(120, 23);
 			this.textStudents.TabIndex = 1;
 			// 
 			// textInstructors
 			// 
-			this.textInstructors.Location = new System.Drawing.Point(103, 89);
+			this.textInstructors.Location = new System.Drawing.Point(103, 99);
 			this.textInstructors.MaxLength = 255;
 			this.textInstructors.Name = "textInstructors";
 			this.textInstructors.ReadOnly = true;
-			this.textInstructors.Size = new System.Drawing.Size(121, 20);
+			this.textInstructors.Size = new System.Drawing.Size(120, 23);
 			this.textInstructors.TabIndex = 3;
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(6, 18);
+			this.label3.Location = new System.Drawing.Point(8, 23);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(299, 43);
+			this.label3.Size = new System.Drawing.Size(299, 47);
 			this.label3.TabIndex = 112;
 			this.label3.Text = "Selecting a new user group gives you the opportunity to update all current studen" +
     "ts or instructors to the new group.";
@@ -90,34 +90,34 @@ namespace OpenPmsDental{
 			this.groupBox1.Controls.Add(this.butInstructorPicker);
 			this.groupBox1.Controls.Add(this.textInstructors);
 			this.groupBox1.Controls.Add(this.textStudents);
-			this.groupBox1.Location = new System.Drawing.Point(12, 12);
+			this.groupBox1.Location = new System.Drawing.Point(8, 8);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(311, 129);
+			this.groupBox1.Size = new System.Drawing.Size(327, 130);
 			this.groupBox1.TabIndex = 1;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Default User Groups";
 			// 
 			// butStudentPicker
 			// 
-			this.butStudentPicker.Location = new System.Drawing.Point(230, 61);
+			this.butStudentPicker.Location = new System.Drawing.Point(229, 72);
 			this.butStudentPicker.Name = "butStudentPicker";
-			this.butStudentPicker.Size = new System.Drawing.Size(22, 22);
+			this.butStudentPicker.Size = new System.Drawing.Size(22, 23);
 			this.butStudentPicker.TabIndex = 2;
 			this.butStudentPicker.Text = "...";
 			this.butStudentPicker.Click += new System.EventHandler(this.butStudentPicker_Click);
 			// 
 			// butInstructorPicker
 			// 
-			this.butInstructorPicker.Location = new System.Drawing.Point(230, 87);
+			this.butInstructorPicker.Location = new System.Drawing.Point(229, 99);
 			this.butInstructorPicker.Name = "butInstructorPicker";
-			this.butInstructorPicker.Size = new System.Drawing.Size(22, 22);
+			this.butInstructorPicker.Size = new System.Drawing.Size(22, 23);
 			this.butInstructorPicker.TabIndex = 4;
 			this.butInstructorPicker.Text = "...";
 			this.butInstructorPicker.Click += new System.EventHandler(this.butInstructorPicker_Click);
 			// 
 			// butGradingScales
 			// 
-			this.butGradingScales.Location = new System.Drawing.Point(131, 147);
+			this.butGradingScales.Location = new System.Drawing.Point(131, 146);
 			this.butGradingScales.Name = "butGradingScales";
 			this.butGradingScales.Size = new System.Drawing.Size(105, 24);
 			this.butGradingScales.TabIndex = 3;
@@ -126,7 +126,7 @@ namespace OpenPmsDental{
 			// 
 			// butEvaluation
 			// 
-			this.butEvaluation.Location = new System.Drawing.Point(131, 177);
+			this.butEvaluation.Location = new System.Drawing.Point(131, 174);
 			this.butEvaluation.Name = "butEvaluation";
 			this.butEvaluation.Size = new System.Drawing.Size(105, 24);
 			this.butEvaluation.TabIndex = 4;

@@ -42,7 +42,7 @@ namespace OpenPmsDental {
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(21, 9);
+			this.label1.Location = new System.Drawing.Point(21, 8);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(485, 49);
 			this.label1.TabIndex = 12;
@@ -66,7 +66,7 @@ namespace OpenPmsDental {
 			this.butAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdd.Location = new System.Drawing.Point(21, 444);
+			this.butAdd.Location = new System.Drawing.Point(8, 466);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(80, 26);
 			this.butAdd.TabIndex = 10;

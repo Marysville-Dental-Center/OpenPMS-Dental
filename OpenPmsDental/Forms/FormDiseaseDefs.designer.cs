@@ -65,9 +65,9 @@ namespace OpenPmsDental {
 			this.groupBox1.Controls.Add(this.textICD10);
 			this.groupBox1.Controls.Add(this.label1);
 			this.groupBox1.Controls.Add(this.textICD9);
-			this.groupBox1.Location = new System.Drawing.Point(18, 3);
+			this.groupBox1.Location = new System.Drawing.Point(18, 8);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(537, 128);
+			this.groupBox1.Size = new System.Drawing.Size(537, 159);
 			this.groupBox1.TabIndex = 20;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Search";
@@ -75,21 +75,21 @@ namespace OpenPmsDental {
 			// checkShowHidden
 			// 
 			this.checkShowHidden.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkShowHidden.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkShowHidden.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.checkShowHidden.Checked = true;
 			this.checkShowHidden.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkShowHidden.Location = new System.Drawing.Point(277, 106);
+			this.checkShowHidden.Location = new System.Drawing.Point(88, 131);
 			this.checkShowHidden.Name = "checkShowHidden";
-			this.checkShowHidden.Size = new System.Drawing.Size(252, 18);
+			this.checkShowHidden.Size = new System.Drawing.Size(95, 20);
 			this.checkShowHidden.TabIndex = 28;
 			this.checkShowHidden.Text = "Show Hidden";
 			this.checkShowHidden.CheckedChanged += new System.EventHandler(this.checkShowHidden_CheckedChanged);
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(7, 78);
+			this.label4.Location = new System.Drawing.Point(10, 104);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(79, 20);
+			this.label4.Size = new System.Drawing.Size(72, 23);
 			this.label4.TabIndex = 27;
 			this.label4.Text = "Description";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -103,7 +103,7 @@ namespace OpenPmsDental {
 			this.textSnoMed.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.textSnoMed.DetectLinksEnabled = false;
 			this.textSnoMed.DetectUrls = false;
-			this.textSnoMed.Location = new System.Drawing.Point(88, 59);
+			this.textSnoMed.Location = new System.Drawing.Point(88, 78);
 			this.textSnoMed.Multiline = false;
 			this.textSnoMed.Name = "textSnoMed";
 			this.textSnoMed.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.MedicationEdit;
@@ -121,7 +121,7 @@ namespace OpenPmsDental {
 			this.textDescript.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.textDescript.DetectLinksEnabled = false;
 			this.textDescript.DetectUrls = false;
-			this.textDescript.Location = new System.Drawing.Point(88, 80);
+			this.textDescript.Location = new System.Drawing.Point(88, 105);
 			this.textDescript.Multiline = false;
 			this.textDescript.Name = "textDescript";
 			this.textDescript.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.MedicationEdit;
@@ -132,18 +132,18 @@ namespace OpenPmsDental {
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(7, 59);
+			this.label3.Location = new System.Drawing.Point(22, 77);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(79, 20);
+			this.label3.Size = new System.Drawing.Size(60, 23);
 			this.label3.TabIndex = 24;
 			this.label3.Text = "SNOMED";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(7, 39);
+			this.label2.Location = new System.Drawing.Point(38, 50);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(79, 20);
+			this.label2.Size = new System.Drawing.Size(44, 23);
 			this.label2.TabIndex = 22;
 			this.label2.Text = "ICD10";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -157,7 +157,7 @@ namespace OpenPmsDental {
 			this.textICD10.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.textICD10.DetectLinksEnabled = false;
 			this.textICD10.DetectUrls = false;
-			this.textICD10.Location = new System.Drawing.Point(88, 39);
+			this.textICD10.Location = new System.Drawing.Point(88, 51);
 			this.textICD10.Multiline = false;
 			this.textICD10.Name = "textICD10";
 			this.textICD10.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.MedicationEdit;
@@ -168,9 +168,9 @@ namespace OpenPmsDental {
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(7, 19);
+			this.label1.Location = new System.Drawing.Point(46, 23);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(79, 20);
+			this.label1.Size = new System.Drawing.Size(36, 23);
 			this.label1.TabIndex = 20;
 			this.label1.Text = "ICD9";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -184,7 +184,7 @@ namespace OpenPmsDental {
 			this.textICD9.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.textICD9.DetectLinksEnabled = false;
 			this.textICD9.DetectUrls = false;
-			this.textICD9.Location = new System.Drawing.Point(88, 19);
+			this.textICD9.Location = new System.Drawing.Point(88, 24);
 			this.textICD9.Multiline = false;
 			this.textICD9.Name = "textICD9";
 			this.textICD9.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.MedicationEdit;
@@ -198,7 +198,7 @@ namespace OpenPmsDental {
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(18, 137);
+			this.gridMain.Location = new System.Drawing.Point(18, 175);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.Size = new System.Drawing.Size(537, 548);
 			this.gridMain.TabIndex = 16;
@@ -212,7 +212,7 @@ namespace OpenPmsDental {
 			this.butAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdd.Location = new System.Drawing.Point(561, 137);
+			this.butAdd.Location = new System.Drawing.Point(581, 144);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(79, 26);
 			this.butAdd.TabIndex = 21;
@@ -222,7 +222,7 @@ namespace OpenPmsDental {
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(589, 659);
+			this.butOK.Location = new System.Drawing.Point(601, 735);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(79, 26);
 			this.butOK.TabIndex = 15;
@@ -234,7 +234,7 @@ namespace OpenPmsDental {
 			this.butDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butDown.Icon = OpenPmsDental.UI.EnumIcons.Down;
 			this.butDown.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDown.Location = new System.Drawing.Point(561, 309);
+			this.butDown.Location = new System.Drawing.Point(581, 299);
 			this.butDown.Name = "butDown";
 			this.butDown.Size = new System.Drawing.Size(79, 26);
 			this.butDown.TabIndex = 14;
@@ -246,7 +246,7 @@ namespace OpenPmsDental {
 			this.butUp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butUp.Icon = OpenPmsDental.UI.EnumIcons.Up;
 			this.butUp.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butUp.Location = new System.Drawing.Point(561, 277);
+			this.butUp.Location = new System.Drawing.Point(581, 269);
 			this.butUp.Name = "butUp";
 			this.butUp.Size = new System.Drawing.Size(79, 26);
 			this.butUp.TabIndex = 13;
@@ -258,7 +258,7 @@ namespace OpenPmsDental {
 			this.butAlphabetize.AdjustImageLocation = new System.Drawing.Point(0, 1);
 			this.butAlphabetize.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butAlphabetize.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAlphabetize.Location = new System.Drawing.Point(561, 245);
+			this.butAlphabetize.Location = new System.Drawing.Point(581, 239);
 			this.butAlphabetize.Name = "butAlphabetize";
 			this.butAlphabetize.Size = new System.Drawing.Size(79, 26);
 			this.butAlphabetize.TabIndex = 22;
@@ -268,18 +268,18 @@ namespace OpenPmsDental {
 			// labelAlphabetize
 			// 
 			this.labelAlphabetize.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelAlphabetize.Location = new System.Drawing.Point(561, 209);
+			this.labelAlphabetize.Location = new System.Drawing.Point(561, 204);
 			this.labelAlphabetize.Name = "labelAlphabetize";
 			this.labelAlphabetize.Size = new System.Drawing.Size(119, 33);
 			this.labelAlphabetize.TabIndex = 29;
 			this.labelAlphabetize.Text = "Orders the problem list alphabetically";
-			this.labelAlphabetize.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.labelAlphabetize.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			//
 			// butMerge
 			//
 			this.butMerge.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butMerge.Enabled = false;
-			this.butMerge.Location = new System.Drawing.Point(561, 173);
+			this.butMerge.Location = new System.Drawing.Point(581, 174);
 			this.butMerge.Name = "butMerge";
 			this.butMerge.Size = new System.Drawing.Size(79, 26);
 			this.butMerge.TabIndex = 30;
@@ -288,7 +288,7 @@ namespace OpenPmsDental {
 			//
 			// FormDiseaseDefs
 			// 
-			this.ClientSize = new System.Drawing.Size(680, 697);
+			this.ClientSize = new System.Drawing.Size(688, 769);
 			this.Controls.Add(this.butOK);
 			this.Controls.Add(this.butMerge);
 			this.Controls.Add(this.labelAlphabetize);

@@ -31,7 +31,7 @@
 			// butAdd
 			// 
 			this.butAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butAdd.Location = new System.Drawing.Point(887, 41);
+			this.butAdd.Location = new System.Drawing.Point(887, 35);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(75, 23);
 			this.butAdd.TabIndex = 8;
@@ -42,7 +42,7 @@
 			// butImport
 			// 
 			this.butImport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butImport.Location = new System.Drawing.Point(887, 12);
+			this.butImport.Location = new System.Drawing.Point(887, 8);
 			this.butImport.Name = "butImport";
 			this.butImport.Size = new System.Drawing.Size(75, 23);
 			this.butImport.TabIndex = 7;
@@ -55,7 +55,7 @@
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(12, 12);
+			this.gridMain.Location = new System.Drawing.Point(12, 8);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.Size = new System.Drawing.Size(862, 378);
 			this.gridMain.TabIndex = 5;

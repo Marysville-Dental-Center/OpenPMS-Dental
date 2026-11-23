@@ -44,7 +44,7 @@ namespace OpenPmsDental {
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(581,621);
+			this.butOK.Location = new System.Drawing.Point(609,632);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75,26);
 			this.butOK.TabIndex = 1;
@@ -55,7 +55,7 @@ namespace OpenPmsDental {
 			// 
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(29,40);
+			this.gridMain.Location = new System.Drawing.Point(29,45);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
 			this.gridMain.Size = new System.Drawing.Size(627,322);
@@ -67,7 +67,7 @@ namespace OpenPmsDental {
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(29,2);
+			this.label1.Location = new System.Drawing.Point(29,8);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(627,35);
 			this.label1.TabIndex = 3;
@@ -81,7 +81,7 @@ namespace OpenPmsDental {
 			this.textNote.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textNote.Location = new System.Drawing.Point(29,396);
+			this.textNote.Location = new System.Drawing.Point(29,401);
 			this.textNote.Multiline = true;
 			this.textNote.Name = "textNote";
 			this.textNote.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -90,7 +90,7 @@ namespace OpenPmsDental {
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(29,365);
+			this.label2.Location = new System.Drawing.Point(29,371);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(627,28);
 			this.label2.TabIndex = 5;
@@ -99,7 +99,7 @@ namespace OpenPmsDental {
 			// 
 			// FormNotePick
 			// 
-			this.ClientSize = new System.Drawing.Size(692, 656);
+			this.ClientSize = new System.Drawing.Size(692, 666);
 			this.AutoScaleBaseSize = new System.Drawing.Size(5,13);
 			this.Controls.Add(this.label2);
 			this.Controls.Add(this.textNote);

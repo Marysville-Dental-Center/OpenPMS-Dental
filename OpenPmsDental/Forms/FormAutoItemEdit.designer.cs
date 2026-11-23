@@ -35,7 +35,7 @@ namespace OpenPmsDental {
 			// 
 			// textADA
 			// 
-			this.textADA.Location = new System.Drawing.Point(108,54);
+			this.textADA.Location = new System.Drawing.Point(108,8);
 			this.textADA.Name = "textADA";
 			this.textADA.ReadOnly = true;
 			this.textADA.Size = new System.Drawing.Size(100,20);
@@ -43,16 +43,16 @@ namespace OpenPmsDental {
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(10,58);
+			this.label1.Location = new System.Drawing.Point(62,8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(96,12);
+			this.label1.Size = new System.Drawing.Size(40,23);
 			this.label1.TabIndex = 1;
 			this.label1.Text = "Code";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// listConditions
 			// 
-			this.listConditions.Location = new System.Drawing.Point(108,87);
+			this.listConditions.Location = new System.Drawing.Point(108,35);
 			this.listConditions.Name = "listConditions";
 			this.listConditions.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
 			this.listConditions.Size = new System.Drawing.Size(182,374);
@@ -60,9 +60,9 @@ namespace OpenPmsDental {
 			// 
 			// butChange
 			// 
-			this.butChange.Location = new System.Drawing.Point(214,50);
+			this.butChange.Location = new System.Drawing.Point(214,8);
 			this.butChange.Name = "butChange";
-			this.butChange.Size = new System.Drawing.Size(76,25);
+			this.butChange.Size = new System.Drawing.Size(76,23);
 			this.butChange.TabIndex = 24;
 			this.butChange.Text = "C&hange";
 			this.butChange.Click += new System.EventHandler(this.butChange_Click);
@@ -70,7 +70,7 @@ namespace OpenPmsDental {
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(339,437);
+			this.butSave.Location = new System.Drawing.Point(354,456);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75,26);
 			this.butSave.TabIndex = 22;
@@ -79,9 +79,9 @@ namespace OpenPmsDental {
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(0,87);
+			this.label2.Location = new System.Drawing.Point(30,35);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(107,18);
+			this.label2.Size = new System.Drawing.Size(72,23);
 			this.label2.TabIndex = 25;
 			this.label2.Text = "Conditions";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

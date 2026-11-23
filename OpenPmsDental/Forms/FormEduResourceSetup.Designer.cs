@@ -30,7 +30,7 @@
 			// butAdd
 			// 
 			this.butAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butAdd.Location = new System.Drawing.Point(12, 496);
+			this.butAdd.Location = new System.Drawing.Point(8, 500);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(75, 23);
 			this.butAdd.TabIndex = 4;
@@ -43,7 +43,7 @@
 			this.gridEdu.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridEdu.Location = new System.Drawing.Point(12, 12);
+			this.gridEdu.Location = new System.Drawing.Point(12, 8);
 			this.gridEdu.Name = "gridEdu";
 			this.gridEdu.Size = new System.Drawing.Size(868, 478);
 			this.gridEdu.TabIndex = 3;

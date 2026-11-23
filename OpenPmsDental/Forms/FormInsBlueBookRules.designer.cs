@@ -43,7 +43,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(573, 365);
+			this.butSave.Location = new System.Drawing.Point(577, 375);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 3;
@@ -53,21 +53,21 @@ namespace OpenPmsDental{
 			// checkEnableAnonFeeShare
 			// 
 			this.checkEnableAnonFeeShare.Anchor = System.Windows.Forms.AnchorStyles.None;
-			this.checkEnableAnonFeeShare.Location = new System.Drawing.Point(259, 239);
+			this.checkEnableAnonFeeShare.Location = new System.Drawing.Point(430, 234);
 			this.checkEnableAnonFeeShare.Name = "checkEnableAnonFeeShare";
-			this.checkEnableAnonFeeShare.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-			this.checkEnableAnonFeeShare.Size = new System.Drawing.Size(210, 18);
+			this.checkEnableAnonFeeShare.RightToLeft = System.Windows.Forms.RightToLeft.No;
+			this.checkEnableAnonFeeShare.Size = new System.Drawing.Size(183, 20);
 			this.checkEnableAnonFeeShare.TabIndex = 260;
 			this.checkEnableAnonFeeShare.Text = "Allow anonymous fee sharing";
 			// 
 			// checkUsePlanNumInHierarchy
 			// 
 			this.checkUsePlanNumInHierarchy.Anchor = System.Windows.Forms.AnchorStyles.None;
-			this.checkUsePlanNumInHierarchy.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkUsePlanNumInHierarchy.Location = new System.Drawing.Point(10, 21);
+			this.checkUsePlanNumInHierarchy.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkUsePlanNumInHierarchy.Location = new System.Drawing.Point(8, 23);
 			this.checkUsePlanNumInHierarchy.Name = "checkUsePlanNumInHierarchy";
-			this.checkUsePlanNumInHierarchy.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-			this.checkUsePlanNumInHierarchy.Size = new System.Drawing.Size(197, 18);
+			this.checkUsePlanNumInHierarchy.RightToLeft = System.Windows.Forms.RightToLeft.No;
+			this.checkUsePlanNumInHierarchy.Size = new System.Drawing.Size(192, 20);
 			this.checkUsePlanNumInHierarchy.TabIndex = 261;
 			this.checkUsePlanNumInHierarchy.Text = "Use Insurance Plan in hierarchy";
 			this.checkUsePlanNumInHierarchy.Click += new System.EventHandler(this.checkUsePlanNumInHierarchy_Click);
@@ -75,7 +75,7 @@ namespace OpenPmsDental{
 			// listAllowedFeeMethod
 			// 
 			this.listAllowedFeeMethod.Anchor = System.Windows.Forms.AnchorStyles.None;
-			this.listAllowedFeeMethod.Location = new System.Drawing.Point(10, 195);
+			this.listAllowedFeeMethod.Location = new System.Drawing.Point(10, 207);
 			this.listAllowedFeeMethod.Name = "listAllowedFeeMethod";
 			this.listAllowedFeeMethod.Size = new System.Drawing.Size(145, 56);
 			this.listAllowedFeeMethod.TabIndex = 262;
@@ -83,7 +83,7 @@ namespace OpenPmsDental{
 			// labelAllowedFeeMethod
 			// 
 			this.labelAllowedFeeMethod.Anchor = System.Windows.Forms.AnchorStyles.None;
-			this.labelAllowedFeeMethod.Location = new System.Drawing.Point(10, 176);
+			this.labelAllowedFeeMethod.Location = new System.Drawing.Point(8, 187);
 			this.labelAllowedFeeMethod.Name = "labelAllowedFeeMethod";
 			this.labelAllowedFeeMethod.Size = new System.Drawing.Size(145, 18);
 			this.labelAllowedFeeMethod.TabIndex = 263;
@@ -92,7 +92,7 @@ namespace OpenPmsDental{
 			// 
 			// labelBlueBookFeature
 			// 
-			this.labelBlueBookFeature.Location = new System.Drawing.Point(12, 9);
+			this.labelBlueBookFeature.Location = new System.Drawing.Point(8, 8);
 			this.labelBlueBookFeature.Name = "labelBlueBookFeature";
 			this.labelBlueBookFeature.Size = new System.Drawing.Size(124, 18);
 			this.labelBlueBookFeature.TabIndex = 265;
@@ -101,7 +101,7 @@ namespace OpenPmsDental{
 			// 
 			// listBlueBookFeature
 			// 
-			this.listBlueBookFeature.Location = new System.Drawing.Point(12, 28);
+			this.listBlueBookFeature.Location = new System.Drawing.Point(8, 28);
 			this.listBlueBookFeature.Name = "listBlueBookFeature";
 			this.listBlueBookFeature.Size = new System.Drawing.Size(203, 56);
 			this.listBlueBookFeature.TabIndex = 264;
@@ -112,7 +112,7 @@ namespace OpenPmsDental{
 			this.butDown.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.butDown.Icon = OpenPmsDental.UI.EnumIcons.Down;
 			this.butDown.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDown.Location = new System.Drawing.Point(475, 117);
+			this.butDown.Location = new System.Drawing.Point(516, 119);
 			this.butDown.Name = "butDown";
 			this.butDown.Size = new System.Drawing.Size(75, 24);
 			this.butDown.TabIndex = 269;
@@ -124,7 +124,7 @@ namespace OpenPmsDental{
 			this.butUp.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.butUp.Icon = OpenPmsDental.UI.EnumIcons.Up;
 			this.butUp.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butUp.Location = new System.Drawing.Point(475, 85);
+			this.butUp.Location = new System.Drawing.Point(516, 91);
 			this.butUp.Name = "butUp";
 			this.butUp.Size = new System.Drawing.Size(75, 24);
 			this.butUp.TabIndex = 268;
@@ -134,7 +134,8 @@ namespace OpenPmsDental{
 			// labelArrowButtons
 			// 
 			this.labelArrowButtons.Anchor = System.Windows.Forms.AnchorStyles.None;
-			this.labelArrowButtons.Location = new System.Drawing.Point(475, 144);
+			this.labelArrowButtons.Location = new System.Drawing.Point(475, 147);
+			this.labelArrowButtons.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			this.labelArrowButtons.Name = "labelArrowButtons";
 			this.labelArrowButtons.Size = new System.Drawing.Size(157, 36);
 			this.labelArrowButtons.TabIndex = 270;
@@ -143,20 +144,20 @@ namespace OpenPmsDental{
 			// textUcrFeePercent
 			// 
 			this.textUcrFeePercent.Anchor = System.Windows.Forms.AnchorStyles.None;
-			this.textUcrFeePercent.Location = new System.Drawing.Point(430, 201);
+			this.textUcrFeePercent.Location = new System.Drawing.Point(430, 207);
 			this.textUcrFeePercent.MaxVal = 100;
 			this.textUcrFeePercent.MinVal = 0;
 			this.textUcrFeePercent.Name = "textUcrFeePercent";
-			this.textUcrFeePercent.Size = new System.Drawing.Size(39, 20);
+			this.textUcrFeePercent.Size = new System.Drawing.Size(40, 23);
 			this.textUcrFeePercent.TabIndex = 271;
 			this.textUcrFeePercent.ShowZero = false;
 			// 
 			// labelUcrFeePercent
 			// 
 			this.labelUcrFeePercent.Anchor = System.Windows.Forms.AnchorStyles.None;
-			this.labelUcrFeePercent.Location = new System.Drawing.Point(246, 201);
+			this.labelUcrFeePercent.Location = new System.Drawing.Point(252, 207);
 			this.labelUcrFeePercent.Name = "labelUcrFeePercent";
-			this.labelUcrFeePercent.Size = new System.Drawing.Size(183, 21);
+			this.labelUcrFeePercent.Size = new System.Drawing.Size(172, 23);
 			this.labelUcrFeePercent.TabIndex = 272;
 			this.labelUcrFeePercent.Text = "Standard Provider Fee Percent";
 			this.labelUcrFeePercent.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -174,9 +175,9 @@ namespace OpenPmsDental{
 			this.groupBlueBookSettings.Controls.Add(this.butUp);
 			this.groupBlueBookSettings.Controls.Add(this.labelAllowedFeeMethod);
 			this.groupBlueBookSettings.Controls.Add(this.labelUcrFeePercent);
-			this.groupBlueBookSettings.Location = new System.Drawing.Point(12, 90);
+			this.groupBlueBookSettings.Location = new System.Drawing.Point(8, 92);
 			this.groupBlueBookSettings.Name = "groupBlueBookSettings";
-			this.groupBlueBookSettings.Size = new System.Drawing.Size(636, 268);
+			this.groupBlueBookSettings.Size = new System.Drawing.Size(644, 271);
 			this.groupBlueBookSettings.TabIndex = 273;
 			this.groupBlueBookSettings.TabStop = false;
 			this.groupBlueBookSettings.Text = "Blue Book Settings";
@@ -184,7 +185,7 @@ namespace OpenPmsDental{
 			// gridInsBlueBookRules
 			// 
 			this.gridInsBlueBookRules.Anchor = System.Windows.Forms.AnchorStyles.None;
-			this.gridInsBlueBookRules.Location = new System.Drawing.Point(10, 40);
+			this.gridInsBlueBookRules.Location = new System.Drawing.Point(10, 47);
 			this.gridInsBlueBookRules.Name = "gridInsBlueBookRules";
 			this.gridInsBlueBookRules.Size = new System.Drawing.Size(459, 135);
 			this.gridInsBlueBookRules.TabIndex = 266;
@@ -194,7 +195,7 @@ namespace OpenPmsDental{
 			// 
 			// FormInsBlueBookRules
 			// 
-			this.ClientSize = new System.Drawing.Size(660, 401);
+			this.ClientSize = new System.Drawing.Size(660, 407);
 			this.Controls.Add(this.groupBlueBookSettings);
 			this.Controls.Add(this.butSave);
 			this.Controls.Add(this.labelBlueBookFeature);

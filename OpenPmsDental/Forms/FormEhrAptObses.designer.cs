@@ -33,7 +33,7 @@ namespace OpenPmsDental{
 			this.gridObservations.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridObservations.Location = new System.Drawing.Point(12, 12);
+			this.gridObservations.Location = new System.Drawing.Point(12, 8);
 			this.gridObservations.Name = "gridObservations";
 			this.gridObservations.Size = new System.Drawing.Size(621, 429);
 			this.gridObservations.TabIndex = 4;
@@ -46,7 +46,7 @@ namespace OpenPmsDental{
 			this.butAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdd.Location = new System.Drawing.Point(12, 447);
+			this.butAdd.Location = new System.Drawing.Point(8, 451);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(86, 24);
 			this.butAdd.TabIndex = 73;
@@ -56,7 +56,7 @@ namespace OpenPmsDental{
 			// butExportHL7
 			// 
 			this.butExportHL7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butExportHL7.Location = new System.Drawing.Point(286, 447);
+			this.butExportHL7.Location = new System.Drawing.Point(286, 451);
 			this.butExportHL7.Name = "butExportHL7";
 			this.butExportHL7.Size = new System.Drawing.Size(75, 24);
 			this.butExportHL7.TabIndex = 74;

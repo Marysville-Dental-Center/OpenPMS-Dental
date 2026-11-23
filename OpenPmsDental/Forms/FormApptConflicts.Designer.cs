@@ -36,7 +36,7 @@
 			this.butPrint.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
 			this.butPrint.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Print,16,16);
 			this.butPrint.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butPrint.Location = new System.Drawing.Point(386, 636);
+			this.butPrint.Location = new System.Drawing.Point(386, 640);
 			this.butPrint.Name = "butPrint";
 			this.butPrint.Size = new System.Drawing.Size(87, 24);
 			this.butPrint.TabIndex = 24;
@@ -48,7 +48,7 @@
 			this.gridConflicts.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridConflicts.Location = new System.Drawing.Point(10, 12);
+			this.gridConflicts.Location = new System.Drawing.Point(8, 8);
 			this.gridConflicts.Name = "gridConflicts";
 			this.gridConflicts.Size = new System.Drawing.Size(836, 616);
 			this.gridConflicts.TabIndex = 23;

@@ -46,7 +46,7 @@
 			// 
 			this.listFileNames.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.listFileNames.Location = new System.Drawing.Point(248, 12);
+			this.listFileNames.Location = new System.Drawing.Point(248, 8);
 			this.listFileNames.Name = "listFileNames";
 			this.listFileNames.Size = new System.Drawing.Size(624, 69);
 			this.listFileNames.TabIndex = 337;
@@ -54,13 +54,13 @@
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(12, 12);
+			this.label1.Location = new System.Drawing.Point(12, 8);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(230, 75);
 			this.label1.TabIndex = 338;
 			this.label1.Text = "These are the file names of the HL7 message text files associated with the select" +
     "ed MedLab.\r\nSelect one to display the message text in the box below.";
-			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// FormMedLabHL7MsgText
 			// 

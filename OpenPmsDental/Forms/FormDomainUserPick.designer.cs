@@ -31,7 +31,7 @@ namespace OpenPmsDental{
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(897, 536);
+			this.butOK.Location = new System.Drawing.Point(901, 568);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 24);
 			this.butOK.TabIndex = 3;
@@ -44,7 +44,7 @@ namespace OpenPmsDental{
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(12, 12);
+			this.gridMain.Location = new System.Drawing.Point(12, 8);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.Size = new System.Drawing.Size(879, 548);
 			this.gridMain.TabIndex = 14;
@@ -55,7 +55,7 @@ namespace OpenPmsDental{
 			// butNone
 			// 
 			this.butNone.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butNone.Location = new System.Drawing.Point(897, 171);
+			this.butNone.Location = new System.Drawing.Point(897, 8);
 			this.butNone.Name = "butNone";
 			this.butNone.Size = new System.Drawing.Size(75, 24);
 			this.butNone.TabIndex = 15;
@@ -65,7 +65,7 @@ namespace OpenPmsDental{
 			// FormDomainUserPick
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(984, 572);
+			this.ClientSize = new System.Drawing.Size(984, 600);
 			this.Controls.Add(this.butNone);
 			this.Controls.Add(this.gridMain);
 			this.Controls.Add(this.butOK);

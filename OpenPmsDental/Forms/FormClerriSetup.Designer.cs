@@ -37,16 +37,16 @@ namespace OpenPmsDental {
 			//
 			// checkEnabled
 			//
-			this.checkEnabled.Location = new System.Drawing.Point(150, 12);
+			this.checkEnabled.Location = new System.Drawing.Point(150, 8);
 			this.checkEnabled.Name = "checkEnabled";
-			this.checkEnabled.Size = new System.Drawing.Size(200, 18);
+			this.checkEnabled.Size = new System.Drawing.Size(66, 20);
 			this.checkEnabled.TabIndex = 0;
 			this.checkEnabled.Text = "Enabled";
 			this.checkEnabled.CheckedChanged += new System.EventHandler(this.checkEnabled_CheckedChanged);
 			//
 			// labelDescription
 			//
-			this.labelDescription.Location = new System.Drawing.Point(12, 36);
+			this.labelDescription.Location = new System.Drawing.Point(12, 32);
 			this.labelDescription.Name = "labelDescription";
 			this.labelDescription.Size = new System.Drawing.Size(510, 58);
 			this.labelDescription.TabIndex = 1;
@@ -54,51 +54,51 @@ namespace OpenPmsDental {
 			//
 			// labelProgName
 			//
-			this.labelProgName.Location = new System.Drawing.Point(12, 102);
+			this.labelProgName.Location = new System.Drawing.Point(56, 92);
 			this.labelProgName.Name = "labelProgName";
-			this.labelProgName.Size = new System.Drawing.Size(136, 16);
+			this.labelProgName.Size = new System.Drawing.Size(88, 23);
 			this.labelProgName.TabIndex = 2;
 			this.labelProgName.Text = "Internal Name";
 			this.labelProgName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			//
 			// textProgName
 			//
-			this.textProgName.Location = new System.Drawing.Point(150, 100);
+			this.textProgName.Location = new System.Drawing.Point(150, 92);
 			this.textProgName.Name = "textProgName";
 			this.textProgName.ReadOnly = true;
-			this.textProgName.Size = new System.Drawing.Size(250, 20);
+			this.textProgName.Size = new System.Drawing.Size(248, 23);
 			this.textProgName.TabIndex = 3;
 			this.textProgName.TabStop = false;
 			//
 			// labelProgDesc
 			//
-			this.labelProgDesc.Location = new System.Drawing.Point(12, 128);
+			this.labelProgDesc.Location = new System.Drawing.Point(72, 119);
 			this.labelProgDesc.Name = "labelProgDesc";
-			this.labelProgDesc.Size = new System.Drawing.Size(136, 18);
+			this.labelProgDesc.Size = new System.Drawing.Size(72, 23);
 			this.labelProgDesc.TabIndex = 4;
 			this.labelProgDesc.Text = "Description";
 			this.labelProgDesc.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			//
 			// textProgDesc
 			//
-			this.textProgDesc.Location = new System.Drawing.Point(150, 126);
+			this.textProgDesc.Location = new System.Drawing.Point(150, 119);
 			this.textProgDesc.Name = "textProgDesc";
 			this.textProgDesc.ReadOnly = true;
-			this.textProgDesc.Size = new System.Drawing.Size(250, 20);
+			this.textProgDesc.Size = new System.Drawing.Size(248, 23);
 			this.textProgDesc.TabIndex = 5;
 			this.textProgDesc.TabStop = false;
 			//
 			// checkShowToolbarButton
 			//
-			this.checkShowToolbarButton.Location = new System.Drawing.Point(150, 154);
+			this.checkShowToolbarButton.Location = new System.Drawing.Point(150, 146);
 			this.checkShowToolbarButton.Name = "checkShowToolbarButton";
-			this.checkShowToolbarButton.Size = new System.Drawing.Size(250, 18);
+			this.checkShowToolbarButton.Size = new System.Drawing.Size(138, 20);
 			this.checkShowToolbarButton.TabIndex = 6;
 			this.checkShowToolbarButton.Text = "Show Toolbar Button";
 			//
 			// labelToolbarNote
 			//
-			this.labelToolbarNote.Location = new System.Drawing.Point(150, 174);
+			this.labelToolbarNote.Location = new System.Drawing.Point(150, 170);
 			this.labelToolbarNote.Name = "labelToolbarNote";
 			this.labelToolbarNote.Size = new System.Drawing.Size(372, 18);
 			this.labelToolbarNote.TabIndex = 7;
@@ -106,9 +106,9 @@ namespace OpenPmsDental {
 			//
 			// labelDashboardAddress
 			//
-			this.labelDashboardAddress.Location = new System.Drawing.Point(12, 202);
+			this.labelDashboardAddress.Location = new System.Drawing.Point(28, 190);
 			this.labelDashboardAddress.Name = "labelDashboardAddress";
-			this.labelDashboardAddress.Size = new System.Drawing.Size(136, 16);
+			this.labelDashboardAddress.Size = new System.Drawing.Size(116, 23);
 			this.labelDashboardAddress.TabIndex = 8;
 			this.labelDashboardAddress.Text = "Dashboard Address";
 			this.labelDashboardAddress.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -116,24 +116,24 @@ namespace OpenPmsDental {
 			// textDashboardAddress
 			//
 			this.textDashboardAddress.AutoSize = false;
-			this.textDashboardAddress.Location = new System.Drawing.Point(150, 200);
+			this.textDashboardAddress.Location = new System.Drawing.Point(150, 190);
 			this.textDashboardAddress.Name = "textDashboardAddress";
-			this.textDashboardAddress.Size = new System.Drawing.Size(372, 20);
+			this.textDashboardAddress.Size = new System.Drawing.Size(372, 23);
 			this.textDashboardAddress.TabIndex = 9;
 			//
 			// labelDashboardHint
 			//
-			this.labelDashboardHint.Location = new System.Drawing.Point(150, 222);
+			this.labelDashboardHint.Location = new System.Drawing.Point(150, 217);
 			this.labelDashboardHint.Name = "labelDashboardHint";
-			this.labelDashboardHint.Size = new System.Drawing.Size(384, 30);
+			this.labelDashboardHint.Size = new System.Drawing.Size(384, 32);
 			this.labelDashboardHint.TabIndex = 10;
 			this.labelDashboardHint.Text = "From Clerri. Must start with https://. [ClientKey] and [PatNum] are replaced; nothing else is.";
 			//
 			// labelClinic
 			//
-			this.labelClinic.Location = new System.Drawing.Point(12, 262);
+			this.labelClinic.Location = new System.Drawing.Point(100, 251);
 			this.labelClinic.Name = "labelClinic";
-			this.labelClinic.Size = new System.Drawing.Size(136, 16);
+			this.labelClinic.Size = new System.Drawing.Size(44, 23);
 			this.labelClinic.TabIndex = 11;
 			this.labelClinic.Text = "Clinic";
 			this.labelClinic.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -142,41 +142,41 @@ namespace OpenPmsDental {
 			//
 			this.comboClinic.HqDescription = "Default";
 			this.comboClinic.IncludeUnassigned = true;
-			this.comboClinic.Location = new System.Drawing.Point(150, 260);
+			this.comboClinic.Location = new System.Drawing.Point(107, 251);
 			this.comboClinic.Name = "comboClinic";
-			this.comboClinic.Size = new System.Drawing.Size(200, 21);
+			this.comboClinic.Size = new System.Drawing.Size(199, 23);
 			this.comboClinic.TabIndex = 12;
 			this.comboClinic.SelectionChangeCommitted += new System.EventHandler(this.comboClinic_SelectionChangeCommitted);
 			//
 			// labelClientKey
 			//
-			this.labelClientKey.Location = new System.Drawing.Point(12, 289);
+			this.labelClientKey.Location = new System.Drawing.Point(80, 278);
 			this.labelClientKey.Name = "labelClientKey";
-			this.labelClientKey.Size = new System.Drawing.Size(136, 18);
+			this.labelClientKey.Size = new System.Drawing.Size(64, 23);
 			this.labelClientKey.TabIndex = 13;
 			this.labelClientKey.Text = "Client Key";
 			this.labelClientKey.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			//
 			// textClientKey
 			//
-			this.textClientKey.Location = new System.Drawing.Point(150, 287);
+			this.textClientKey.Location = new System.Drawing.Point(150, 278);
 			this.textClientKey.Name = "textClientKey";
 			this.textClientKey.PasswordChar = '*';
-			this.textClientKey.Size = new System.Drawing.Size(250, 20);
+			this.textClientKey.Size = new System.Drawing.Size(248, 23);
 			this.textClientKey.TabIndex = 14;
 			//
 			// butClearKey
 			//
-			this.butClearKey.Location = new System.Drawing.Point(406, 285);
+			this.butClearKey.Location = new System.Drawing.Point(404, 278);
 			this.butClearKey.Name = "butClearKey";
-			this.butClearKey.Size = new System.Drawing.Size(75, 24);
+			this.butClearKey.Size = new System.Drawing.Size(75, 23);
 			this.butClearKey.TabIndex = 15;
 			this.butClearKey.Text = "Clear";
 			this.butClearKey.Click += new System.EventHandler(this.butClearKey_Click);
 			//
 			// labelKeyStatus
 			//
-			this.labelKeyStatus.Location = new System.Drawing.Point(150, 312);
+			this.labelKeyStatus.Location = new System.Drawing.Point(150, 305);
 			this.labelKeyStatus.Name = "labelKeyStatus";
 			this.labelKeyStatus.Size = new System.Drawing.Size(372, 30);
 			this.labelKeyStatus.TabIndex = 16;
@@ -185,7 +185,7 @@ namespace OpenPmsDental {
 			// butSave
 			//
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(447, 384);
+			this.butSave.Location = new System.Drawing.Point(459, 388);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 17;
@@ -194,7 +194,7 @@ namespace OpenPmsDental {
 			//
 			// FormClerriSetup
 			//
-			this.ClientSize = new System.Drawing.Size(534, 420);
+			this.ClientSize = new System.Drawing.Size(542, 420);
 			this.Controls.Add(this.butSave);
 			this.Controls.Add(this.labelKeyStatus);
 			this.Controls.Add(this.butClearKey);

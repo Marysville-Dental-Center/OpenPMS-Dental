@@ -33,7 +33,7 @@ namespace OpenPmsDental{
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(12, 33);
+			this.gridMain.Location = new System.Drawing.Point(12, 32);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.Size = new System.Drawing.Size(683, 560);
 			this.gridMain.TabIndex = 199;
@@ -48,7 +48,7 @@ namespace OpenPmsDental{
 			this.butAddTrigger.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butAddTrigger.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAddTrigger.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAddTrigger.Location = new System.Drawing.Point(701, 33);
+			this.butAddTrigger.Location = new System.Drawing.Point(701, 32);
 			this.butAddTrigger.Name = "butAddTrigger";
 			this.butAddTrigger.Size = new System.Drawing.Size(75, 23);
 			this.butAddTrigger.TabIndex = 201;

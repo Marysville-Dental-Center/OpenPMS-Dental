@@ -29,7 +29,7 @@ namespace OpenPmsDental{
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(12, 9);
+			this.label1.Location = new System.Drawing.Point(12, 8);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(468, 18);
 			this.label1.TabIndex = 4;
@@ -41,7 +41,7 @@ namespace OpenPmsDental{
 			this.gridEobs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridEobs.Location = new System.Drawing.Point(15, 30);
+			this.gridEobs.Location = new System.Drawing.Point(12, 28);
 			this.gridEobs.Name = "gridEobs";
 			this.gridEobs.Size = new System.Drawing.Size(305, 271);
 			this.gridEobs.TabIndex = 5;
@@ -51,7 +51,7 @@ namespace OpenPmsDental{
 			// 
 			// FormEtrans835PickEob
 			// 
-			this.ClientSize = new System.Drawing.Size(332, 313);
+			this.ClientSize = new System.Drawing.Size(488, 313);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.Controls.Add(this.gridEobs);
 			this.Controls.Add(this.label1);

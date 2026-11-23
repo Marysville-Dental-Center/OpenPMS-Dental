@@ -35,7 +35,7 @@
 			this.labelStatus.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelStatus.ForeColor = System.Drawing.Color.Red;
-			this.labelStatus.Location = new System.Drawing.Point(12, 6);
+			this.labelStatus.Location = new System.Drawing.Point(12, 8);
 			this.labelStatus.Name = "labelStatus";
 			this.labelStatus.Size = new System.Drawing.Size(560, 32);
 			this.labelStatus.TabIndex = 10;
@@ -44,7 +44,7 @@
 			// butGenerateRoot
 			//
 			this.butGenerateRoot.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butGenerateRoot.Location = new System.Drawing.Point(12, 326);
+			this.butGenerateRoot.Location = new System.Drawing.Point(8, 332);
 			this.butGenerateRoot.Name = "butGenerateRoot";
 			this.butGenerateRoot.Size = new System.Drawing.Size(100, 24);
 			this.butGenerateRoot.TabIndex = 4;
@@ -55,7 +55,7 @@
 			// butEnterRoot
 			//
 			this.butEnterRoot.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butEnterRoot.Location = new System.Drawing.Point(118, 326);
+			this.butEnterRoot.Location = new System.Drawing.Point(114, 332);
 			this.butEnterRoot.Name = "butEnterRoot";
 			this.butEnterRoot.Size = new System.Drawing.Size(100, 24);
 			this.butEnterRoot.TabIndex = 5;
@@ -66,7 +66,7 @@
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(497, 326);
+			this.butSave.Location = new System.Drawing.Point(501, 332);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 7;
@@ -90,7 +90,7 @@
 			// FormOIDRegistryInternal
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(584, 362);
+			this.ClientSize = new System.Drawing.Size(584, 364);
 			this.Controls.Add(this.butEnterRoot);
 			this.Controls.Add(this.butGenerateRoot);
 			this.Controls.Add(this.labelStatus);

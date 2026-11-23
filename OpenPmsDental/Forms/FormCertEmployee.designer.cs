@@ -40,78 +40,78 @@ namespace OpenPmsDental{
 			// 
 			// labelEmployee
 			// 
-			this.labelEmployee.Location = new System.Drawing.Point(12, 27);
+			this.labelEmployee.Location = new System.Drawing.Point(45, 8);
 			this.labelEmployee.Name = "labelEmployee";
-			this.labelEmployee.Size = new System.Drawing.Size(102, 17);
+			this.labelEmployee.Size = new System.Drawing.Size(64, 23);
 			this.labelEmployee.TabIndex = 9;
 			this.labelEmployee.Text = "Employee";
-			this.labelEmployee.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.labelEmployee.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textEmployee
 			// 
-			this.textEmployee.Location = new System.Drawing.Point(115, 23);
+			this.textEmployee.Location = new System.Drawing.Point(115, 8);
 			this.textEmployee.Name = "textEmployee";
 			this.textEmployee.ReadOnly = true;
-			this.textEmployee.Size = new System.Drawing.Size(227, 20);
+			this.textEmployee.Size = new System.Drawing.Size(228, 23);
 			this.textEmployee.TabIndex = 6;
 			// 
 			// labelCertCategories
 			// 
-			this.labelCertCategories.Location = new System.Drawing.Point(12, 52);
+			this.labelCertCategories.Location = new System.Drawing.Point(17, 35);
 			this.labelCertCategories.Name = "labelCertCategories";
-			this.labelCertCategories.Size = new System.Drawing.Size(102, 17);
+			this.labelCertCategories.Size = new System.Drawing.Size(92, 23);
 			this.labelCertCategories.TabIndex = 10;
 			this.labelCertCategories.Text = "Cert Categories";
-			this.labelCertCategories.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.labelCertCategories.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textCertCategories
 			// 
-			this.textCertCategories.Location = new System.Drawing.Point(115, 48);
+			this.textCertCategories.Location = new System.Drawing.Point(115, 35);
 			this.textCertCategories.Name = "textCertCategories";
 			this.textCertCategories.ReadOnly = true;
-			this.textCertCategories.Size = new System.Drawing.Size(227, 20);
+			this.textCertCategories.Size = new System.Drawing.Size(228, 23);
 			this.textCertCategories.TabIndex = 7;
 			// 
 			// labelNote
 			// 
-			this.labelNote.Location = new System.Drawing.Point(12, 127);
+			this.labelNote.Location = new System.Drawing.Point(69, 116);
 			this.labelNote.Name = "labelNote";
-			this.labelNote.Size = new System.Drawing.Size(102, 17);
+			this.labelNote.Size = new System.Drawing.Size(40, 23);
 			this.labelNote.TabIndex = 13;
 			this.labelNote.Text = "Note";
-			this.labelNote.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.labelNote.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textNote
 			// 
-			this.textNote.Location = new System.Drawing.Point(115, 123);
+			this.textNote.Location = new System.Drawing.Point(115, 116);
 			this.textNote.Name = "textNote";
-			this.textNote.Size = new System.Drawing.Size(227, 20);
+			this.textNote.Size = new System.Drawing.Size(228, 23);
 			this.textNote.TabIndex = 1;
 			// 
 			// labelDate
 			// 
-			this.labelDate.Location = new System.Drawing.Point(12, 102);
+			this.labelDate.Location = new System.Drawing.Point(9, 89);
 			this.labelDate.Name = "labelDate";
-			this.labelDate.Size = new System.Drawing.Size(102, 17);
+			this.labelDate.Size = new System.Drawing.Size(100, 23);
 			this.labelDate.TabIndex = 12;
 			this.labelDate.Text = "Date Completed";
-			this.labelDate.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.labelDate.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// labelCertification
 			// 
-			this.labelCertification.Location = new System.Drawing.Point(12, 77);
+			this.labelCertification.Location = new System.Drawing.Point(33, 62);
 			this.labelCertification.Name = "labelCertification";
-			this.labelCertification.Size = new System.Drawing.Size(102, 17);
+			this.labelCertification.Size = new System.Drawing.Size(76, 23);
 			this.labelCertification.TabIndex = 11;
 			this.labelCertification.Text = "Certification";
-			this.labelCertification.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.labelCertification.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// butDelete
 			// 
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(15, 158);
+			this.butDelete.Location = new System.Drawing.Point(8, 167);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(80, 24);
 			this.butDelete.TabIndex = 5;
@@ -121,7 +121,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(267, 158);
+			this.butSave.Location = new System.Drawing.Point(294, 167);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 2;
@@ -131,24 +131,24 @@ namespace OpenPmsDental{
 			// textCertification
 			// 
 			this.textCertification.AutoSize = false;
-			this.textCertification.Location = new System.Drawing.Point(115, 73);
+			this.textCertification.Location = new System.Drawing.Point(115, 62);
 			this.textCertification.Name = "textCertification";
 			this.textCertification.ReadOnly = true;
-			this.textCertification.Size = new System.Drawing.Size(227, 20);
+			this.textCertification.Size = new System.Drawing.Size(228, 23);
 			this.textCertification.TabIndex = 8;
 			// 
 			// textDateCompleted
 			// 
-			this.textDateCompleted.Location = new System.Drawing.Point(115, 98);
+			this.textDateCompleted.Location = new System.Drawing.Point(115, 89);
 			this.textDateCompleted.Name = "textDateCompleted";
-			this.textDateCompleted.Size = new System.Drawing.Size(87, 20);
+			this.textDateCompleted.Size = new System.Drawing.Size(88, 23);
 			this.textDateCompleted.TabIndex = 0;
 			// 
 			// butToday
 			// 
-			this.butToday.Location = new System.Drawing.Point(208, 95);
+			this.butToday.Location = new System.Drawing.Point(209, 89);
 			this.butToday.Name = "butToday";
-			this.butToday.Size = new System.Drawing.Size(75, 24);
+			this.butToday.Size = new System.Drawing.Size(75, 23);
 			this.butToday.TabIndex = 4;
 			this.butToday.Text = "Today";
 			this.butToday.Click += new System.EventHandler(this.butToday_Click);

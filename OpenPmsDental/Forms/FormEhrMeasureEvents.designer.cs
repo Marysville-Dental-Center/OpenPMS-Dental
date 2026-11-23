@@ -36,9 +36,9 @@ namespace OpenPmsDental{
 			// 
 			// labelType
 			// 
-			this.labelType.Location = new System.Drawing.Point(-9, 11);
+			this.labelType.Location = new System.Drawing.Point(19, 8);
 			this.labelType.Name = "labelType";
-			this.labelType.Size = new System.Drawing.Size(64, 18);
+			this.labelType.Size = new System.Drawing.Size(36, 23);
 			this.labelType.TabIndex = 33;
 			this.labelType.Text = "Type";
 			this.labelType.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -47,7 +47,7 @@ namespace OpenPmsDental{
 			// 
 			this.comboType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboType.FormattingEnabled = true;
-			this.comboType.Location = new System.Drawing.Point(61, 11);
+			this.comboType.Location = new System.Drawing.Point(61, 8);
 			this.comboType.Name = "comboType";
 			this.comboType.Size = new System.Drawing.Size(156, 21);
 			this.comboType.TabIndex = 6;
@@ -55,18 +55,18 @@ namespace OpenPmsDental{
 			// 
 			// labelEndDate
 			// 
-			this.labelEndDate.Location = new System.Drawing.Point(424, 12);
+			this.labelEndDate.Location = new System.Drawing.Point(452, 8);
 			this.labelEndDate.Name = "labelEndDate";
-			this.labelEndDate.Size = new System.Drawing.Size(88, 18);
+			this.labelEndDate.Size = new System.Drawing.Size(60, 23);
 			this.labelEndDate.TabIndex = 31;
 			this.labelEndDate.Text = "End Date";
 			this.labelEndDate.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// labelStartDate
 			// 
-			this.labelStartDate.Location = new System.Drawing.Point(232, 12);
+			this.labelStartDate.Location = new System.Drawing.Point(248, 8);
 			this.labelStartDate.Name = "labelStartDate";
-			this.labelStartDate.Size = new System.Drawing.Size(80, 18);
+			this.labelStartDate.Size = new System.Drawing.Size(64, 23);
 			this.labelStartDate.TabIndex = 29;
 			this.labelStartDate.Text = "Start Date";
 			this.labelStartDate.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -74,7 +74,7 @@ namespace OpenPmsDental{
 			// butAuditTrail
 			// 
 			this.butAuditTrail.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butAuditTrail.Location = new System.Drawing.Point(355, 405);
+			this.butAuditTrail.Location = new System.Drawing.Point(355, 409);
 			this.butAuditTrail.Name = "butAuditTrail";
 			this.butAuditTrail.Size = new System.Drawing.Size(75, 24);
 			this.butAuditTrail.TabIndex = 4;
@@ -83,14 +83,14 @@ namespace OpenPmsDental{
 			// 
 			// textDateStart
 			// 
-			this.textDateStart.Location = new System.Drawing.Point(318, 12);
+			this.textDateStart.Location = new System.Drawing.Point(318, 8);
 			this.textDateStart.Name = "textDateStart";
 			this.textDateStart.Size = new System.Drawing.Size(100, 20);
 			this.textDateStart.TabIndex = 1;
 			// 
 			// textDateEnd
 			// 
-			this.textDateEnd.Location = new System.Drawing.Point(518, 12);
+			this.textDateEnd.Location = new System.Drawing.Point(518, 8);
 			this.textDateEnd.Name = "textDateEnd";
 			this.textDateEnd.Size = new System.Drawing.Size(100, 20);
 			this.textDateEnd.TabIndex = 2;
@@ -100,7 +100,7 @@ namespace OpenPmsDental{
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(12, 38);
+			this.gridMain.Location = new System.Drawing.Point(12, 35);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.Size = new System.Drawing.Size(746, 361);
 			this.gridMain.TabIndex = 7;
@@ -111,9 +111,9 @@ namespace OpenPmsDental{
 			// butRefresh
 			// 
 			this.butRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butRefresh.Location = new System.Drawing.Point(683, 12);
+			this.butRefresh.Location = new System.Drawing.Point(683, 8);
 			this.butRefresh.Name = "butRefresh";
-			this.butRefresh.Size = new System.Drawing.Size(75, 24);
+			this.butRefresh.Size = new System.Drawing.Size(75, 23);
 			this.butRefresh.TabIndex = 3;
 			this.butRefresh.Text = "Refresh";
 			this.butRefresh.Click += new System.EventHandler(this.butRefresh_Click);

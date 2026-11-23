@@ -48,7 +48,7 @@ namespace OpenPmsDental {
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(852, 607);
+			this.butSave.Location = new System.Drawing.Point(856, 643);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 25);
 			this.butSave.TabIndex = 1;
@@ -57,7 +57,7 @@ namespace OpenPmsDental {
 			// 
 			// labelImageFileName
 			// 
-			this.labelImageFileName.Location = new System.Drawing.Point(12, 12);
+			this.labelImageFileName.Location = new System.Drawing.Point(12, 8);
 			this.labelImageFileName.Name = "labelImageFileName";
 			this.labelImageFileName.Size = new System.Drawing.Size(236, 17);
 			this.labelImageFileName.TabIndex = 2;
@@ -66,23 +66,23 @@ namespace OpenPmsDental {
 			// 
 			// textImageFileName
 			// 
-			this.textImageFileName.Location = new System.Drawing.Point(12, 30);
+			this.textImageFileName.Location = new System.Drawing.Point(12, 29);
 			this.textImageFileName.Name = "textImageFileName";
 			this.textImageFileName.Size = new System.Drawing.Size(236, 20);
 			this.textImageFileName.TabIndex = 3;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(12, 54);
+			this.label2.Location = new System.Drawing.Point(12, 56);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(236, 52);
+			this.label2.Size = new System.Drawing.Size(236, 47);
 			this.label2.TabIndex = 4;
 			this.label2.Text = "This file must be present in the A to Z folder.  \r\nIt should be a gif, jpg, or em" +
     "f.";
 			// 
 			// labelFieldName
 			// 
-			this.labelFieldName.Location = new System.Drawing.Point(254, 12);
+			this.labelFieldName.Location = new System.Drawing.Point(254, 8);
 			this.labelFieldName.Name = "labelFieldName";
 			this.labelFieldName.Size = new System.Drawing.Size(156, 17);
 			this.labelFieldName.TabIndex = 5;
@@ -94,7 +94,7 @@ namespace OpenPmsDental {
 			this.listFieldName.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.listFieldName.Location = new System.Drawing.Point(254, 30);
+			this.listFieldName.Location = new System.Drawing.Point(254, 29);
 			this.listFieldName.MultiColumn = true;
 			this.listFieldName.Name = "listFieldName";
 			this.listFieldName.Size = new System.Drawing.Size(592, 602);
@@ -103,14 +103,14 @@ namespace OpenPmsDental {
 			// 
 			// textFormatString
 			// 
-			this.textFormatString.Location = new System.Drawing.Point(12, 161);
+			this.textFormatString.Location = new System.Drawing.Point(12, 162);
 			this.textFormatString.Name = "textFormatString";
 			this.textFormatString.Size = new System.Drawing.Size(236, 20);
 			this.textFormatString.TabIndex = 8;
 			// 
 			// labelFormatString
 			// 
-			this.labelFormatString.Location = new System.Drawing.Point(12, 106);
+			this.labelFormatString.Location = new System.Drawing.Point(12, 105);
 			this.labelFormatString.Name = "labelFormatString";
 			this.labelFormatString.Size = new System.Drawing.Size(236, 55);
 			this.labelFormatString.TabIndex = 7;
@@ -121,7 +121,7 @@ namespace OpenPmsDental {
 			// butDelete
 			// 
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butDelete.Location = new System.Drawing.Point(12, 607);
+			this.butDelete.Location = new System.Drawing.Point(8, 643);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(80, 25);
 			this.butDelete.TabIndex = 9;
@@ -131,7 +131,7 @@ namespace OpenPmsDental {
 			// FormClaimFormItemEdit
 			// 
 			this.AcceptButton = this.butSave;
-			this.ClientSize = new System.Drawing.Size(939, 644);
+			this.ClientSize = new System.Drawing.Size(939, 676);
 			this.Controls.Add(this.butDelete);
 			this.Controls.Add(this.textFormatString);
 			this.Controls.Add(this.textImageFileName);

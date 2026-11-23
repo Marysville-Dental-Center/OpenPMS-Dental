@@ -35,9 +35,9 @@ namespace OpenPmsDental{
 			// checkShowHidden
 			// 
 			this.checkShowHidden.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkShowHidden.Location = new System.Drawing.Point(296, 68);
+			this.checkShowHidden.Location = new System.Drawing.Point(296, 36);
 			this.checkShowHidden.Name = "checkShowHidden";
-			this.checkShowHidden.Size = new System.Drawing.Size(98, 24);
+			this.checkShowHidden.Size = new System.Drawing.Size(92, 20);
 			this.checkShowHidden.TabIndex = 5;
 			this.checkShowHidden.TabStop = false;
 			this.checkShowHidden.Text = "Show Hidden";
@@ -48,7 +48,7 @@ namespace OpenPmsDental{
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(26, 50);
+			this.gridMain.Location = new System.Drawing.Point(23, 35);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
 			this.gridMain.Size = new System.Drawing.Size(242, 284);
@@ -62,7 +62,7 @@ namespace OpenPmsDental{
 			this.butAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdd.Location = new System.Drawing.Point(296, 24);
+			this.butAdd.Location = new System.Drawing.Point(296, 8);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(75, 24);
 			this.butAdd.TabIndex = 3;
@@ -72,7 +72,7 @@ namespace OpenPmsDental{
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(296, 310);
+			this.butOK.Location = new System.Drawing.Point(313, 331);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 24);
 			this.butOK.TabIndex = 6;
@@ -82,7 +82,7 @@ namespace OpenPmsDental{
 			// buttonMerge
 			// 
 			this.buttonMerge.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.buttonMerge.Location = new System.Drawing.Point(296, 107);
+			this.buttonMerge.Location = new System.Drawing.Point(296, 60);
 			this.buttonMerge.Name = "buttonMerge";
 			this.buttonMerge.Size = new System.Drawing.Size(75, 24);
 			this.buttonMerge.TabIndex = 7;
@@ -91,26 +91,26 @@ namespace OpenPmsDental{
 			// 
 			// labelSearch
 			// 
-			this.labelSearch.Location = new System.Drawing.Point(23, 22);
+			this.labelSearch.Location = new System.Drawing.Point(23, 8);
 			this.labelSearch.Name = "labelSearch";
-			this.labelSearch.Size = new System.Drawing.Size(50, 20);
+			this.labelSearch.Size = new System.Drawing.Size(48, 23);
 			this.labelSearch.TabIndex = 0;
 			this.labelSearch.Text = "Search";
-			this.labelSearch.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.labelSearch.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textSearch
 			// 
 			this.textSearch.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textSearch.Location = new System.Drawing.Point(74, 23);
+			this.textSearch.Location = new System.Drawing.Point(77, 8);
 			this.textSearch.Name = "textSearch";
-			this.textSearch.Size = new System.Drawing.Size(194, 20);
+			this.textSearch.Size = new System.Drawing.Size(192, 23);
 			this.textSearch.TabIndex = 1;
 			this.textSearch.TextChanged += new System.EventHandler(this.textSearch_TextChanged);
 			// 
 			// FormAllergySetup
 			//
-			this.ClientSize = new System.Drawing.Size(396, 361);
+			this.ClientSize = new System.Drawing.Size(396, 363);
 			this.Controls.Add(this.textSearch);
 			this.Controls.Add(this.labelSearch);
 			this.Controls.Add(this.buttonMerge);

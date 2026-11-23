@@ -34,7 +34,7 @@
 			// butSubmitImmunization
 			// 
 			this.butSubmitImmunization.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSubmitImmunization.Location = new System.Drawing.Point(569, 438);
+			this.butSubmitImmunization.Location = new System.Drawing.Point(569, 532);
 			this.butSubmitImmunization.Name = "butSubmitImmunization";
 			this.butSubmitImmunization.Size = new System.Drawing.Size(86, 23);
 			this.butSubmitImmunization.TabIndex = 3;
@@ -45,7 +45,7 @@
 			// butAddVaccine
 			// 
 			this.butAddVaccine.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butAddVaccine.Location = new System.Drawing.Point(569, 12);
+			this.butAddVaccine.Location = new System.Drawing.Point(569, 8);
 			this.butAddVaccine.Name = "butAddVaccine";
 			this.butAddVaccine.Size = new System.Drawing.Size(86, 23);
 			this.butAddVaccine.TabIndex = 2;
@@ -56,7 +56,7 @@
 			// butExport
 			// 
 			this.butExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butExport.Location = new System.Drawing.Point(569, 409);
+			this.butExport.Location = new System.Drawing.Point(569, 35);
 			this.butExport.Name = "butExport";
 			this.butExport.Size = new System.Drawing.Size(86, 23);
 			this.butExport.TabIndex = 5;
@@ -67,7 +67,7 @@
 			// label45
 			// 
 			this.label45.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label45.Location = new System.Drawing.Point(13, 487);
+			this.label45.Location = new System.Drawing.Point(8, 538);
 			this.label45.Name = "label45";
 			this.label45.Size = new System.Drawing.Size(255, 17);
 			this.label45.TabIndex = 130;
@@ -79,7 +79,7 @@
 			this.gridVaccine.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridVaccine.Location = new System.Drawing.Point(12, 12);
+			this.gridVaccine.Location = new System.Drawing.Point(12, 8);
 			this.gridVaccine.Name = "gridVaccine";
 			this.gridVaccine.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
 			this.gridVaccine.Size = new System.Drawing.Size(547, 469);
@@ -96,7 +96,7 @@
             "??",
             "Yes",
             "No"});
-			this.listVacShareOk.Location = new System.Drawing.Point(269, 487);
+			this.listVacShareOk.Location = new System.Drawing.Point(264, 538);
 			this.listVacShareOk.MultiColumn = true;
 			this.listVacShareOk.Name = "listVacShareOk";
 			this.listVacShareOk.Size = new System.Drawing.Size(95, 17);
@@ -106,7 +106,7 @@
 			// FormEhrVaccines
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(663, 516);
+			this.ClientSize = new System.Drawing.Size(663, 563);
 			this.Controls.Add(this.listVacShareOk);
 			this.Controls.Add(this.label45);
 			this.Controls.Add(this.butExport);

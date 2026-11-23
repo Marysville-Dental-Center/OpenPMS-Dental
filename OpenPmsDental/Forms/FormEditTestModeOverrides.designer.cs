@@ -35,7 +35,7 @@ namespace OpenPmsDental{
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butSave.Enabled = false;
-			this.butSave.Location = new System.Drawing.Point(316, 425);
+			this.butSave.Location = new System.Drawing.Point(318, 429);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 3;
@@ -46,7 +46,7 @@ namespace OpenPmsDental{
 			// 
 			this.butClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.butClose.Location = new System.Drawing.Point(397, 425);
+			this.butClose.Location = new System.Drawing.Point(401, 429);
 			this.butClose.Name = "butClose";
 			this.butClose.Size = new System.Drawing.Size(75, 24);
 			this.butClose.TabIndex = 2;
@@ -55,27 +55,27 @@ namespace OpenPmsDental{
 			// 
 			// comboSelectOverride
 			// 
-			this.comboSelectOverride.Location = new System.Drawing.Point(12, 25);
+			this.comboSelectOverride.Location = new System.Drawing.Point(12, 30);
 			this.comboSelectOverride.Name = "comboSelectOverride";
-			this.comboSelectOverride.Size = new System.Drawing.Size(207, 21);
+			this.comboSelectOverride.Size = new System.Drawing.Size(208, 23);
 			this.comboSelectOverride.TabIndex = 4;
 			this.comboSelectOverride.SelectionChangeCommitted += new System.EventHandler(this.comboSelectOverride_SelectionChangeCommitted);
 			// 
 			// label1
 			// 
-			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(12, 9);
+			this.label1.AutoSize = false;
+			this.label1.Location = new System.Drawing.Point(12, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(80, 13);
+			this.label1.Size = new System.Drawing.Size(92, 20);
 			this.label1.TabIndex = 5;
 			this.label1.Text = "Select Override";
 			// 
 			// label2
 			// 
 			this.label2.AutoSize = false;
-			this.label2.Location = new System.Drawing.Point(12, 63);
+			this.label2.Location = new System.Drawing.Point(12, 57);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(67, 17);
+			this.label2.Size = new System.Drawing.Size(72, 17);
 			this.label2.TabIndex = 7;
 			this.label2.Text = "Enter Value";
 			// 
@@ -84,7 +84,7 @@ namespace OpenPmsDental{
 			this.textEnterOverrideValue.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textEnterOverrideValue.Location = new System.Drawing.Point(12, 80);
+			this.textEnterOverrideValue.Location = new System.Drawing.Point(12, 76);
 			this.textEnterOverrideValue.Multiline = true;
 			this.textEnterOverrideValue.Name = "textEnterOverrideValue";
 			this.textEnterOverrideValue.Size = new System.Drawing.Size(460, 339);

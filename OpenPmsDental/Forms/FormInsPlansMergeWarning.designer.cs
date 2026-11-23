@@ -32,7 +32,7 @@ namespace OpenPmsDental {
 			//
 			this.labelWarning.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelWarning.Location = new System.Drawing.Point(12,9);
+			this.labelWarning.Location = new System.Drawing.Point(8,8);
 			this.labelWarning.Name = "labelWarning";
 			this.labelWarning.Size = new System.Drawing.Size(935,56);
 			this.labelWarning.TabIndex = 20;
@@ -43,7 +43,7 @@ namespace OpenPmsDental {
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(11,68);
+			this.gridMain.Location = new System.Drawing.Point(8,66);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.Size = new System.Drawing.Size(936,442);
 			this.gridMain.TabIndex = 19;
@@ -53,7 +53,7 @@ namespace OpenPmsDental {
 			// butCombine
 			//
 			this.butCombine.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butCombine.Location = new System.Drawing.Point(785,520);
+			this.butCombine.Location = new System.Drawing.Point(785,522);
 			this.butCombine.Name = "butCombine";
 			this.butCombine.Size = new System.Drawing.Size(78,26);
 			this.butCombine.TabIndex = 4;
@@ -63,7 +63,7 @@ namespace OpenPmsDental {
 			// butCancel
 			//
 			this.butCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butCancel.Location = new System.Drawing.Point(869,520);
+			this.butCancel.Location = new System.Drawing.Point(876,522);
 			this.butCancel.Name = "butCancel";
 			this.butCancel.Size = new System.Drawing.Size(78,26);
 			this.butCancel.TabIndex = 5;

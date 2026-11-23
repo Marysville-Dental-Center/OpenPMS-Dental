@@ -37,18 +37,18 @@ namespace OpenPmsDental {
 			// 
 			// comboProviders
 			// 
-			this.comboProviders.Location = new System.Drawing.Point(100, 42);
+			this.comboProviders.Location = new System.Drawing.Point(100, 35);
 			this.comboProviders.Name = "comboProviders";
-			this.comboProviders.Size = new System.Drawing.Size(214, 21);
+			this.comboProviders.Size = new System.Drawing.Size(216, 23);
 			this.comboProviders.TabIndex = 1;
 			this.comboProviders.Text = "Providers";
 			this.comboProviders.SelectionChangeCommitted += new System.EventHandler(this.comboProviders_SelectionChangedCommitted);
 			// 
 			// labelProviders
 			// 
-			this.labelProviders.Location = new System.Drawing.Point(5, 43);
+			this.labelProviders.Location = new System.Drawing.Point(38, 35);
 			this.labelProviders.Name = "labelProviders";
-			this.labelProviders.Size = new System.Drawing.Size(93, 16);
+			this.labelProviders.Size = new System.Drawing.Size(56, 23);
 			this.labelProviders.TabIndex = 273;
 			this.labelProviders.Text = "Provider";
 			this.labelProviders.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -57,16 +57,16 @@ namespace OpenPmsDental {
 			// 
 			this.comboClinics.HqDescription = "Headquarters";
 			this.comboClinics.IncludeUnassigned = true;
-			this.comboClinics.Location = new System.Drawing.Point(63, 14);
+			this.comboClinics.Location = new System.Drawing.Point(57, 8);
 			this.comboClinics.Name = "comboClinics";
-			this.comboClinics.Size = new System.Drawing.Size(251, 21);
+			this.comboClinics.Size = new System.Drawing.Size(251, 23);
 			this.comboClinics.TabIndex = 0;
 			this.comboClinics.SelectionChangeCommitted += new System.EventHandler(this.comboClinics_SelectionChangeCommitted);
 			// 
 			// butApply
 			// 
 			this.butApply.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.butApply.Location = new System.Drawing.Point(100, 86);
+			this.butApply.Location = new System.Drawing.Point(100, 62);
 			this.butApply.Name = "butApply";
 			this.butApply.Size = new System.Drawing.Size(75, 24);
 			this.butApply.TabIndex = 2;
@@ -76,7 +76,7 @@ namespace OpenPmsDental {
 			// butLookup
 			// 
 			this.butLookup.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.butLookup.Location = new System.Drawing.Point(100, 127);
+			this.butLookup.Location = new System.Drawing.Point(100, 90);
 			this.butLookup.Name = "butLookup";
 			this.butLookup.Size = new System.Drawing.Size(75, 24);
 			this.butLookup.TabIndex = 3;
@@ -86,7 +86,7 @@ namespace OpenPmsDental {
 			// butTransactions
 			// 
 			this.butTransactions.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.butTransactions.Location = new System.Drawing.Point(34, 248);
+			this.butTransactions.Location = new System.Drawing.Point(34, 194);
 			this.butTransactions.Name = "butTransactions";
 			this.butTransactions.Size = new System.Drawing.Size(90, 24);
 			this.butTransactions.TabIndex = 7;
@@ -96,7 +96,7 @@ namespace OpenPmsDental {
 			// butReport
 			// 
 			this.butReport.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.butReport.Location = new System.Drawing.Point(239, 86);
+			this.butReport.Location = new System.Drawing.Point(239, 62);
 			this.butReport.Name = "butReport";
 			this.butReport.Size = new System.Drawing.Size(75, 24);
 			this.butReport.TabIndex = 5;
@@ -105,7 +105,7 @@ namespace OpenPmsDental {
 			// 
 			// butPromotions
 			// 
-			this.butPromotions.Location = new System.Drawing.Point(239, 127);
+			this.butPromotions.Location = new System.Drawing.Point(239, 90);
 			this.butPromotions.Name = "butPromotions";
 			this.butPromotions.Size = new System.Drawing.Size(75, 24);
 			this.butPromotions.TabIndex = 6;
@@ -115,7 +115,7 @@ namespace OpenPmsDental {
 			// labelMerchantClosedDescription
 			// 
 			this.labelMerchantClosedDescription.ForeColor = System.Drawing.Color.Red;
-			this.labelMerchantClosedDescription.Location = new System.Drawing.Point(74, 170);
+			this.labelMerchantClosedDescription.Location = new System.Drawing.Point(74, 118);
 			this.labelMerchantClosedDescription.Name = "labelMerchantClosedDescription";
 			this.labelMerchantClosedDescription.Size = new System.Drawing.Size(308, 52);
 			this.labelMerchantClosedDescription.TabIndex = 274;
@@ -125,7 +125,7 @@ namespace OpenPmsDental {
 			//
 			// labelApplyRestricted
 			//
-			this.labelApplyRestricted.Location = new System.Drawing.Point(34, 212);
+			this.labelApplyRestricted.Location = new System.Drawing.Point(34, 160);
 			this.labelApplyRestricted.Name = "labelApplyRestricted";
 			this.labelApplyRestricted.Size = new System.Drawing.Size(348, 30);
 			this.labelApplyRestricted.TabIndex = 275;

@@ -35,18 +35,18 @@ namespace OpenPmsDental{
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(47, 13);
+			this.label1.Location = new System.Drawing.Point(71, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(76, 18);
+			this.label1.Size = new System.Drawing.Size(48, 23);
 			this.label1.TabIndex = 15;
 			this.label1.Text = "Search";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textSearch
 			// 
-			this.textSearch.Location = new System.Drawing.Point(125, 12);
+			this.textSearch.Location = new System.Drawing.Point(125, 8);
 			this.textSearch.Name = "textSearch";
-			this.textSearch.Size = new System.Drawing.Size(113, 20);
+			this.textSearch.Size = new System.Drawing.Size(112, 23);
 			this.textSearch.TabIndex = 14;
 			this.textSearch.TextChanged += new System.EventHandler(this.textSearch_TextChanged);
 			// 
@@ -54,7 +54,7 @@ namespace OpenPmsDental{
 			// 
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-			this.gridMain.Location = new System.Drawing.Point(12, 38);
+			this.gridMain.Location = new System.Drawing.Point(12, 35);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.Size = new System.Drawing.Size(248, 444);
 			this.gridMain.TabIndex = 16;
@@ -69,7 +69,7 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.picturePreview.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.picturePreview.Location = new System.Drawing.Point(266, 38);
+			this.picturePreview.Location = new System.Drawing.Point(264, 28);
 			this.picturePreview.Name = "picturePreview";
 			this.picturePreview.Size = new System.Drawing.Size(444, 444);
 			this.picturePreview.TabIndex = 17;
@@ -77,7 +77,7 @@ namespace OpenPmsDental{
 			// 
 			// labelImageSize
 			// 
-			this.labelImageSize.Location = new System.Drawing.Point(263, 13);
+			this.labelImageSize.Location = new System.Drawing.Point(264, 8);
 			this.labelImageSize.Name = "labelImageSize";
 			this.labelImageSize.Size = new System.Drawing.Size(447, 18);
 			this.labelImageSize.TabIndex = 21;
@@ -87,7 +87,7 @@ namespace OpenPmsDental{
 			// butImport
 			// 
 			this.butImport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butImport.Location = new System.Drawing.Point(716, 38);
+			this.butImport.Location = new System.Drawing.Point(717, 32);
 			this.butImport.Name = "butImport";
 			this.butImport.Size = new System.Drawing.Size(75, 24);
 			this.butImport.TabIndex = 20;
@@ -97,7 +97,7 @@ namespace OpenPmsDental{
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(719, 458);
+			this.butOK.Location = new System.Drawing.Point(723, 491);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 24);
 			this.butOK.TabIndex = 19;
@@ -106,7 +106,7 @@ namespace OpenPmsDental{
 			// 
 			// FormImagePicker
 			// 
-			this.ClientSize = new System.Drawing.Size(806, 494);
+			this.ClientSize = new System.Drawing.Size(806, 523);
 			this.Controls.Add(this.labelImageSize);
 			this.Controls.Add(this.butImport);
 			this.Controls.Add(this.butOK);

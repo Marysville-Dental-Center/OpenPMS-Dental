@@ -44,7 +44,7 @@ namespace OpenPmsDental{
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(501, 252);
+			this.butOK.Location = new System.Drawing.Point(516, 256);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 24);
 			this.butOK.TabIndex = 3;
@@ -53,12 +53,12 @@ namespace OpenPmsDental{
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(27, 56);
+			this.label2.Location = new System.Drawing.Point(48, 46);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(61, 17);
+			this.label2.Size = new System.Drawing.Size(36, 23);
 			this.label2.TabIndex = 15;
 			this.label2.Text = "Type";
-			this.label2.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// listType
 			// 
@@ -70,7 +70,7 @@ namespace OpenPmsDental{
             "Comparison (2 side by side)",
             "Blank",
             "Photo Grid"});
-			this.listType.Location = new System.Drawing.Point(90, 56);
+			this.listType.Location = new System.Drawing.Point(90, 46);
 			this.listType.Name = "listType";
 			this.listType.Size = new System.Drawing.Size(158, 95);
 			this.listType.TabIndex = 14;
@@ -78,7 +78,7 @@ namespace OpenPmsDental{
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(12, 9);
+			this.label1.Location = new System.Drawing.Point(12, 8);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(445, 36);
 			this.label1.TabIndex = 16;
@@ -87,7 +87,7 @@ namespace OpenPmsDental{
 			// 
 			// textHeight
 			// 
-			this.textHeight.Location = new System.Drawing.Point(88, 200);
+			this.textHeight.Location = new System.Drawing.Point(90, 172);
 			this.textHeight.MaxVal = 9000000;
 			this.textHeight.MinVal = 1;
 			this.textHeight.Name = "textHeight";
@@ -96,16 +96,16 @@ namespace OpenPmsDental{
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(4, 200);
+			this.label4.Location = new System.Drawing.Point(8, 172);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(82, 17);
+			this.label4.Size = new System.Drawing.Size(76, 23);
 			this.label4.TabIndex = 32;
 			this.label4.Text = "Item Height";
-			this.label4.TextAlign = System.Drawing.ContentAlignment.BottomRight;
+			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textWidth
 			// 
-			this.textWidth.Location = new System.Drawing.Point(88, 177);
+			this.textWidth.Location = new System.Drawing.Point(90, 145);
 			this.textWidth.MaxVal = 9000000;
 			this.textWidth.MinVal = 1;
 			this.textWidth.Name = "textWidth";
@@ -114,16 +114,16 @@ namespace OpenPmsDental{
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(4, 177);
+			this.label3.Location = new System.Drawing.Point(12, 145);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(82, 17);
+			this.label3.Size = new System.Drawing.Size(72, 23);
 			this.label3.TabIndex = 30;
 			this.label3.Text = "Item Width";
-			this.label3.TextAlign = System.Drawing.ContentAlignment.BottomRight;
+			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(139, 175);
+			this.label5.Location = new System.Drawing.Point(142, 145);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(449, 77);
 			this.label5.TabIndex = 34;
@@ -136,16 +136,16 @@ namespace OpenPmsDental{
 			this.groupBoxOD1.Controls.Add(this.label6);
 			this.groupBoxOD1.Controls.Add(this.textColumns);
 			this.groupBoxOD1.Controls.Add(this.label7);
-			this.groupBoxOD1.Location = new System.Drawing.Point(281, 79);
+			this.groupBoxOD1.Location = new System.Drawing.Point(254, 46);
 			this.groupBoxOD1.Name = "groupBoxOD1";
-			this.groupBoxOD1.Size = new System.Drawing.Size(158, 72);
+			this.groupBoxOD1.Size = new System.Drawing.Size(158, 81);
 			this.groupBoxOD1.TabIndex = 35;
 			this.groupBoxOD1.TabStop = false;
 			this.groupBoxOD1.Text = "Photo Grid";
 			// 
 			// textRows
 			// 
-			this.textRows.Location = new System.Drawing.Point(75, 42);
+			this.textRows.Location = new System.Drawing.Point(75, 50);
 			this.textRows.MaxVal = 20;
 			this.textRows.Name = "textRows";
 			this.textRows.ShowZero = false;
@@ -154,16 +154,16 @@ namespace OpenPmsDental{
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(12, 42);
+			this.label6.Location = new System.Drawing.Point(29, 50);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(61, 17);
+			this.label6.Size = new System.Drawing.Size(40, 23);
 			this.label6.TabIndex = 36;
 			this.label6.Text = "Rows";
-			this.label6.TextAlign = System.Drawing.ContentAlignment.BottomRight;
+			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textColumns
 			// 
-			this.textColumns.Location = new System.Drawing.Point(75, 19);
+			this.textColumns.Location = new System.Drawing.Point(75, 23);
 			this.textColumns.MaxVal = 20;
 			this.textColumns.Name = "textColumns";
 			this.textColumns.ShowZero = false;
@@ -172,16 +172,16 @@ namespace OpenPmsDental{
 			// 
 			// label7
 			// 
-			this.label7.Location = new System.Drawing.Point(12, 19);
+			this.label7.Location = new System.Drawing.Point(9, 23);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(61, 17);
+			this.label7.Size = new System.Drawing.Size(60, 23);
 			this.label7.TabIndex = 34;
 			this.label7.Text = "Columns";
-			this.label7.TextAlign = System.Drawing.ContentAlignment.BottomRight;
+			this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// FormMountDefGenerate
 			// 
-			this.ClientSize = new System.Drawing.Size(588, 288);
+			this.ClientSize = new System.Drawing.Size(599, 288);
 			this.Controls.Add(this.groupBoxOD1);
 			this.Controls.Add(this.label5);
 			this.Controls.Add(this.textHeight);

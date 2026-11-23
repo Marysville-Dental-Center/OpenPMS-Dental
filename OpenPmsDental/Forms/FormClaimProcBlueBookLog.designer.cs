@@ -34,7 +34,7 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridInsBlueBookLog.HasMultilineHeaders = true;
-			this.gridInsBlueBookLog.Location = new System.Drawing.Point(12, 12);
+			this.gridInsBlueBookLog.Location = new System.Drawing.Point(12, 8);
 			this.gridInsBlueBookLog.MaximumSize = new System.Drawing.Size(1246, 735);
 			this.gridInsBlueBookLog.Name = "gridInsBlueBookLog";
 			this.gridInsBlueBookLog.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
@@ -46,7 +46,7 @@ namespace OpenPmsDental{
 			// 
 			this.labelBlueBookOff.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.labelBlueBookOff.ForeColor = System.Drawing.Color.Red;
-			this.labelBlueBookOff.Location = new System.Drawing.Point(12, 588);
+			this.labelBlueBookOff.Location = new System.Drawing.Point(12, 576);
 			this.labelBlueBookOff.Name = "labelBlueBookOff";
 			this.labelBlueBookOff.Size = new System.Drawing.Size(959, 24);
 			this.labelBlueBookOff.TabIndex = 268;

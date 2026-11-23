@@ -36,50 +36,50 @@ namespace OpenPmsDental {
 			//
 			// checkEnabled
 			//
-			this.checkEnabled.Location = new System.Drawing.Point(12, 12);
+			this.checkEnabled.Location = new System.Drawing.Point(175, 8);
 			this.checkEnabled.Name = "checkEnabled";
-			this.checkEnabled.Size = new System.Drawing.Size(250, 18);
+			this.checkEnabled.Size = new System.Drawing.Size(66, 20);
 			this.checkEnabled.TabIndex = 0;
 			this.checkEnabled.Text = "Enabled";
 			//
 			// labelDescription
 			//
-			this.labelDescription.Location = new System.Drawing.Point(12, 36);
+			this.labelDescription.Location = new System.Drawing.Point(8, 32);
 			this.labelDescription.Name = "labelDescription";
-			this.labelDescription.Size = new System.Drawing.Size(496, 52);
+			this.labelDescription.Size = new System.Drawing.Size(496, 47);
 			this.labelDescription.TabIndex = 1;
 			this.labelDescription.Text = "Sends email through Microsoft Graph for addresses set to Microsoft sign-in in Setup > Email, and downloads their inbox when the address asks for that. It uses an app registration in the office\'s own Microsoft Entra tenant. There is no client secret.";
 			//
 			// labelClientId
 			//
-			this.labelClientId.Location = new System.Drawing.Point(12, 89);
+			this.labelClientId.Location = new System.Drawing.Point(41, 81);
 			this.labelClientId.Name = "labelClientId";
-			this.labelClientId.Size = new System.Drawing.Size(160, 18);
+			this.labelClientId.Size = new System.Drawing.Size(128, 23);
 			this.labelClientId.TabIndex = 2;
 			this.labelClientId.Text = "Application (client) ID";
 			this.labelClientId.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			//
 			// textClientId
 			//
-			this.textClientId.Location = new System.Drawing.Point(175, 88);
+			this.textClientId.Location = new System.Drawing.Point(175, 81);
 			this.textClientId.Name = "textClientId";
-			this.textClientId.Size = new System.Drawing.Size(330, 20);
+			this.textClientId.Size = new System.Drawing.Size(328, 23);
 			this.textClientId.TabIndex = 3;
 			//
 			// labelTenantId
 			//
-			this.labelTenantId.Location = new System.Drawing.Point(12, 115);
+			this.labelTenantId.Location = new System.Drawing.Point(49, 108);
 			this.labelTenantId.Name = "labelTenantId";
-			this.labelTenantId.Size = new System.Drawing.Size(160, 18);
+			this.labelTenantId.Size = new System.Drawing.Size(120, 23);
 			this.labelTenantId.TabIndex = 4;
 			this.labelTenantId.Text = "Directory (tenant) ID";
 			this.labelTenantId.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			//
 			// textTenantId
 			//
-			this.textTenantId.Location = new System.Drawing.Point(175, 114);
+			this.textTenantId.Location = new System.Drawing.Point(175, 108);
 			this.textTenantId.Name = "textTenantId";
-			this.textTenantId.Size = new System.Drawing.Size(330, 20);
+			this.textTenantId.Size = new System.Drawing.Size(328, 23);
 			this.textTenantId.TabIndex = 5;
 			//
 			// groupAdvanced
@@ -89,49 +89,49 @@ namespace OpenPmsDental {
 			this.groupAdvanced.Controls.Add(this.labelSignInMethod);
 			this.groupAdvanced.Controls.Add(this.comboSignInMethod);
 			this.groupAdvanced.Controls.Add(this.checkAllowPersonal);
-			this.groupAdvanced.Location = new System.Drawing.Point(12, 146);
+			this.groupAdvanced.Location = new System.Drawing.Point(8, 139);
 			this.groupAdvanced.Name = "groupAdvanced";
-			this.groupAdvanced.Size = new System.Drawing.Size(496, 104);
+			this.groupAdvanced.Size = new System.Drawing.Size(504, 105);
 			this.groupAdvanced.TabIndex = 6;
 			this.groupAdvanced.Text = "Advanced";
 			//
 			// labelRedirectUri
 			//
-			this.labelRedirectUri.Location = new System.Drawing.Point(6, 21);
+			this.labelRedirectUri.Location = new System.Drawing.Point(85, 23);
 			this.labelRedirectUri.Name = "labelRedirectUri";
-			this.labelRedirectUri.Size = new System.Drawing.Size(154, 18);
+			this.labelRedirectUri.Size = new System.Drawing.Size(76, 23);
 			this.labelRedirectUri.TabIndex = 0;
 			this.labelRedirectUri.Text = "Redirect URI";
 			this.labelRedirectUri.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			//
 			// textRedirectUri
 			//
-			this.textRedirectUri.Location = new System.Drawing.Point(163, 20);
+			this.textRedirectUri.Location = new System.Drawing.Point(167, 23);
 			this.textRedirectUri.Name = "textRedirectUri";
 			this.textRedirectUri.Size = new System.Drawing.Size(320, 20);
 			this.textRedirectUri.TabIndex = 1;
 			//
 			// labelSignInMethod
 			//
-			this.labelSignInMethod.Location = new System.Drawing.Point(6, 47);
+			this.labelSignInMethod.Location = new System.Drawing.Point(65, 50);
 			this.labelSignInMethod.Name = "labelSignInMethod";
-			this.labelSignInMethod.Size = new System.Drawing.Size(154, 18);
+			this.labelSignInMethod.Size = new System.Drawing.Size(96, 23);
 			this.labelSignInMethod.TabIndex = 2;
 			this.labelSignInMethod.Text = "Sign-in method";
 			this.labelSignInMethod.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			//
 			// comboSignInMethod
 			//
-			this.comboSignInMethod.Location = new System.Drawing.Point(163, 46);
+			this.comboSignInMethod.Location = new System.Drawing.Point(167, 50);
 			this.comboSignInMethod.Name = "comboSignInMethod";
-			this.comboSignInMethod.Size = new System.Drawing.Size(200, 21);
+			this.comboSignInMethod.Size = new System.Drawing.Size(200, 23);
 			this.comboSignInMethod.TabIndex = 3;
 			//
 			// checkAllowPersonal
 			//
-			this.checkAllowPersonal.Location = new System.Drawing.Point(163, 75);
+			this.checkAllowPersonal.Location = new System.Drawing.Point(167, 77);
 			this.checkAllowPersonal.Name = "checkAllowPersonal";
-			this.checkAllowPersonal.Size = new System.Drawing.Size(320, 18);
+			this.checkAllowPersonal.Size = new System.Drawing.Size(210, 20);
 			this.checkAllowPersonal.TabIndex = 4;
 			this.checkAllowPersonal.Text = "Allow personal Microsoft accounts";
 			this.checkAllowPersonal.CheckedChanged += new System.EventHandler(this.checkAllowPersonal_CheckedChanged);
@@ -139,7 +139,7 @@ namespace OpenPmsDental {
 			// labelPersonalWarning
 			//
 			this.labelPersonalWarning.ForeColor = System.Drawing.Color.DarkRed;
-			this.labelPersonalWarning.Location = new System.Drawing.Point(12, 255);
+			this.labelPersonalWarning.Location = new System.Drawing.Point(8, 404);
 			this.labelPersonalWarning.Name = "labelPersonalWarning";
 			this.labelPersonalWarning.Size = new System.Drawing.Size(496, 32);
 			this.labelPersonalWarning.TabIndex = 7;
@@ -148,7 +148,7 @@ namespace OpenPmsDental {
 			//
 			// labelSteps
 			//
-			this.labelSteps.Location = new System.Drawing.Point(12, 292);
+			this.labelSteps.Location = new System.Drawing.Point(8, 252);
 			this.labelSteps.Name = "labelSteps";
 			this.labelSteps.Size = new System.Drawing.Size(496, 18);
 			this.labelSteps.TabIndex = 8;
@@ -157,19 +157,19 @@ namespace OpenPmsDental {
 			// textSteps
 			//
 			this.textSteps.BackColor = System.Drawing.SystemColors.Control;
-			this.textSteps.Location = new System.Drawing.Point(12, 312);
+			this.textSteps.Location = new System.Drawing.Point(8, 272);
 			this.textSteps.Multiline = true;
 			this.textSteps.Name = "textSteps";
 			this.textSteps.ReadOnly = true;
 			this.textSteps.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.textSteps.Size = new System.Drawing.Size(496, 128);
+			this.textSteps.Size = new System.Drawing.Size(495, 128);
 			this.textSteps.TabIndex = 9;
 			this.textSteps.TabStop = false;
 			//
 			// butSave
 			//
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(433, 450);
+			this.butSave.Location = new System.Drawing.Point(437, 454);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 10;
