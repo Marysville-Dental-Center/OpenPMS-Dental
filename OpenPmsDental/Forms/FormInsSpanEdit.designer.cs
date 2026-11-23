@@ -32,31 +32,31 @@ namespace OpenPmsDental {
 			// 
 			// textTo
 			// 
-			this.textTo.Location = new System.Drawing.Point(119, 28);
+			this.textTo.Location = new System.Drawing.Point(127, 28);
 			this.textTo.Name = "textTo";
-			this.textTo.Size = new System.Drawing.Size(100, 23);
+			this.textTo.Size = new System.Drawing.Size(111, 23);
 			this.textTo.TabIndex = 1;
 			// 
 			// textFrom
 			// 
-			this.textFrom.Location = new System.Drawing.Point(13, 28);
+			this.textFrom.Location = new System.Drawing.Point(8, 28);
 			this.textFrom.Name = "textFrom";
-			this.textFrom.Size = new System.Drawing.Size(100, 20);
+			this.textFrom.Size = new System.Drawing.Size(111, 23);
 			this.textFrom.TabIndex = 0;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(119, 8);
+			this.label2.Location = new System.Drawing.Point(127, 8);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(100, 16);
+			this.label2.Size = new System.Drawing.Size(111, 16);
 			this.label2.TabIndex = 8;
 			this.label2.Text = "To Code";
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(13, 8);
+			this.label3.Location = new System.Drawing.Point(8, 8);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(100, 16);
+			this.label3.Size = new System.Drawing.Size(111, 16);
 			this.label3.TabIndex = 9;
 			this.label3.Text = "From Code";
 			// 

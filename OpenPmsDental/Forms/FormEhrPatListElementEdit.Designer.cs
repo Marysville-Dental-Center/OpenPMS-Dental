@@ -39,7 +39,7 @@
 			// 
 			// labelOperand
 			// 
-			this.labelOperand.Location = new System.Drawing.Point(83, 81);
+			this.labelOperand.Location = new System.Drawing.Point(83, 84);
 			this.labelOperand.Name = "labelOperand";
 			this.labelOperand.Size = new System.Drawing.Size(60, 23);
 			this.labelOperand.TabIndex = 10;
@@ -80,7 +80,7 @@
 			// 
 			// labelCompareString
 			// 
-			this.labelCompareString.Location = new System.Drawing.Point(11, 128);
+			this.labelCompareString.Location = new System.Drawing.Point(11, 143);
 			this.labelCompareString.Name = "labelCompareString";
 			this.labelCompareString.Size = new System.Drawing.Size(132, 23);
 			this.labelCompareString.TabIndex = 9;
@@ -89,14 +89,14 @@
 			// 
 			// textCompareString
 			// 
-			this.textCompareString.Location = new System.Drawing.Point(149, 128);
+			this.textCompareString.Location = new System.Drawing.Point(149, 143);
 			this.textCompareString.Name = "textCompareString";
 			this.textCompareString.Size = new System.Drawing.Size(117, 23);
 			this.textCompareString.TabIndex = 1;
 			// 
 			// labelLabValue
 			// 
-			this.labelLabValue.Location = new System.Drawing.Point(79, 179);
+			this.labelLabValue.Location = new System.Drawing.Point(79, 194);
 			this.labelLabValue.Name = "labelLabValue";
 			this.labelLabValue.Size = new System.Drawing.Size(64, 23);
 			this.labelLabValue.TabIndex = 14;
@@ -107,7 +107,7 @@
 			// checkOrderBy
 			// 
 			this.checkOrderBy.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkOrderBy.Location = new System.Drawing.Point(149, 155);
+			this.checkOrderBy.Location = new System.Drawing.Point(149, 170);
 			this.checkOrderBy.Name = "checkOrderBy";
 			this.checkOrderBy.Size = new System.Drawing.Size(71, 20);
 			this.checkOrderBy.TabIndex = 16;
@@ -115,9 +115,9 @@
 			// 
 			// textLabValue
 			// 
-			this.textLabValue.Location = new System.Drawing.Point(149, 179);
+			this.textLabValue.Location = new System.Drawing.Point(149, 194);
 			this.textLabValue.Name = "textLabValue";
-			this.textLabValue.Size = new System.Drawing.Size(128, 20);
+			this.textLabValue.Size = new System.Drawing.Size(128, 23);
 			this.textLabValue.TabIndex = 2;
 			this.textLabValue.Visible = false;
 			// 
@@ -131,7 +131,7 @@
         "Gender"};
 			this.listRestriction.Location = new System.Drawing.Point(149, 8);
 			this.listRestriction.Name = "listRestriction";
-			this.listRestriction.Size = new System.Drawing.Size(117, 69);
+			this.listRestriction.Size = new System.Drawing.Size(117, 72);
 			this.listRestriction.TabIndex = 18;
 			this.listRestriction.SelectedIndexChanged += new System.EventHandler(this.listRestriction_SelectedIndexChanged);
 			// 
@@ -141,14 +141,14 @@
         "GreaterThan",
         "LessThan",
         "Equals"};
-			this.listOperand.Location = new System.Drawing.Point(149, 81);
+			this.listOperand.Location = new System.Drawing.Point(149, 84);
 			this.listOperand.Name = "listOperand";
-			this.listOperand.Size = new System.Drawing.Size(117, 43);
+			this.listOperand.Size = new System.Drawing.Size(117, 55);
 			this.listOperand.TabIndex = 19;
 			// 
 			// labelExample
 			// 
-			this.labelExample.Location = new System.Drawing.Point(272, 131);
+			this.labelExample.Location = new System.Drawing.Point(272, 146);
 			this.labelExample.Name = "labelExample";
 			this.labelExample.Size = new System.Drawing.Size(119, 17);
 			this.labelExample.TabIndex = 20;

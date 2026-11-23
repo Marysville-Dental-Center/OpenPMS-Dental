@@ -64,16 +64,16 @@ namespace OpenPmsDental {
 			this.groupBox2.Controls.Add(this.label2);
 			this.groupBox2.Controls.Add(this.label1);
 			this.groupBox2.Controls.Add(this.textDateTo);
-			this.groupBox2.Location = new System.Drawing.Point(8,34);
+			this.groupBox2.Location = new System.Drawing.Point(8,73);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(393,81);
+			this.groupBox2.Size = new System.Drawing.Size(470,81);
 			this.groupBox2.TabIndex = 8;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Date Range";
 			// 
 			// butAll
 			// 
-			this.butAll.Location = new System.Drawing.Point(263,50);
+			this.butAll.Location = new System.Drawing.Point(369,50);
 			this.butAll.Name = "butAll";
 			this.butAll.Size = new System.Drawing.Size(93,23);
 			this.butAll.TabIndex = 8;
@@ -82,7 +82,7 @@ namespace OpenPmsDental {
 			// 
 			// but7
 			// 
-			this.but7.Location = new System.Drawing.Point(263,23);
+			this.but7.Location = new System.Drawing.Point(369,23);
 			this.but7.Name = "but7";
 			this.but7.Size = new System.Drawing.Size(93,23);
 			this.but7.TabIndex = 7;

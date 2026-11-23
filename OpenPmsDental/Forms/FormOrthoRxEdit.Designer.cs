@@ -61,7 +61,7 @@ namespace OpenPmsDental{
 			// 
 			// comboHardwareSpec
 			// 
-			this.comboHardwareSpec.Location = new System.Drawing.Point(143, 35);
+			this.comboHardwareSpec.Location = new System.Drawing.Point(143, 69);
 			this.comboHardwareSpec.Name = "comboHardwareSpec";
 			this.comboHardwareSpec.Size = new System.Drawing.Size(292, 23);
 			this.comboHardwareSpec.TabIndex = 85;
@@ -70,7 +70,7 @@ namespace OpenPmsDental{
 			// label4
 			// 
 			this.label4.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.label4.Location = new System.Drawing.Point(45, 35);
+			this.label4.Location = new System.Drawing.Point(45, 69);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(92, 23);
 			this.label4.TabIndex = 84;
@@ -79,7 +79,7 @@ namespace OpenPmsDental{
 			// 
 			// labelComments
 			// 
-			this.labelComments.Location = new System.Drawing.Point(143, 89);
+			this.labelComments.Location = new System.Drawing.Point(143, 157);
 			this.labelComments.Name = "labelComments";
 			this.labelComments.Size = new System.Drawing.Size(104, 23);
 			this.labelComments.TabIndex = 107;
@@ -88,7 +88,7 @@ namespace OpenPmsDental{
 			// 
 			// labelTeeth
 			// 
-			this.labelTeeth.Location = new System.Drawing.Point(57, 62);
+			this.labelTeeth.Location = new System.Drawing.Point(57, 130);
 			this.labelTeeth.Name = "labelTeeth";
 			this.labelTeeth.Size = new System.Drawing.Size(80, 23);
 			this.labelTeeth.TabIndex = 106;
@@ -97,14 +97,14 @@ namespace OpenPmsDental{
 			// 
 			// textToothRange
 			// 
-			this.textToothRange.Location = new System.Drawing.Point(143, 62);
+			this.textToothRange.Location = new System.Drawing.Point(143, 130);
 			this.textToothRange.Name = "textToothRange";
 			this.textToothRange.Size = new System.Drawing.Size(424, 23);
 			this.textToothRange.TabIndex = 105;
 			// 
 			// butUpper
 			// 
-			this.butUpper.Location = new System.Drawing.Point(330, 89);
+			this.butUpper.Location = new System.Drawing.Point(330, 157);
 			this.butUpper.Name = "butUpper";
 			this.butUpper.Size = new System.Drawing.Size(75, 23);
 			this.butUpper.TabIndex = 108;
@@ -113,7 +113,7 @@ namespace OpenPmsDental{
 			// 
 			// butLower
 			// 
-			this.butLower.Location = new System.Drawing.Point(411, 89);
+			this.butLower.Location = new System.Drawing.Point(411, 157);
 			this.butLower.Name = "butLower";
 			this.butLower.Size = new System.Drawing.Size(75, 23);
 			this.butLower.TabIndex = 109;
@@ -122,7 +122,7 @@ namespace OpenPmsDental{
 			// 
 			// butAll
 			// 
-			this.butAll.Location = new System.Drawing.Point(492, 89);
+			this.butAll.Location = new System.Drawing.Point(492, 157);
 			this.butAll.Name = "butAll";
 			this.butAll.Size = new System.Drawing.Size(75, 23);
 			this.butAll.TabIndex = 110;

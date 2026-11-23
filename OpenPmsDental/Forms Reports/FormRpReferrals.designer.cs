@@ -75,24 +75,24 @@ namespace OpenPmsDental {
 			this.listSelect.Location = new System.Drawing.Point(8, 8);
 			this.listSelect.Name = "listSelect";
 			this.listSelect.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
-			this.listSelect.Size = new System.Drawing.Size(184, 407);
+			this.listSelect.Size = new System.Drawing.Size(184, 423);
 			this.listSelect.TabIndex = 3;
 			this.listSelect.SelectedIndexChanged += new System.EventHandler(this.listSelect_SelectedIndexChanged);
 			// 
 			// butCheckAll
 			// 
-			this.butCheckAll.Location = new System.Drawing.Point(8, 419);
+			this.butCheckAll.Location = new System.Drawing.Point(8, 435);
 			this.butCheckAll.Name = "butCheckAll";
-			this.butCheckAll.Size = new System.Drawing.Size(80, 26);
+			this.butCheckAll.Size = new System.Drawing.Size(89, 26);
 			this.butCheckAll.TabIndex = 1;
 			this.butCheckAll.Text = "&All";
 			this.butCheckAll.Click += new System.EventHandler(this.butAll_Click);
 			// 
 			// butClear
 			// 
-			this.butClear.Location = new System.Drawing.Point(94, 419);
+			this.butClear.Location = new System.Drawing.Point(103, 435);
 			this.butClear.Name = "butClear";
-			this.butClear.Size = new System.Drawing.Size(80, 26);
+			this.butClear.Size = new System.Drawing.Size(89, 26);
 			this.butClear.TabIndex = 2;
 			this.butClear.Text = "&None";
 			this.butClear.Click += new System.EventHandler(this.butNone_Click);

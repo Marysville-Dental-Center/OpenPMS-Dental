@@ -33,7 +33,7 @@ namespace OpenPmsDental{
 			//
 			// butSave
 			//
-			this.butSave.Location = new System.Drawing.Point(441, 312);
+			this.butSave.Location = new System.Drawing.Point(447, 312);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 100;
@@ -42,16 +42,16 @@ namespace OpenPmsDental{
 			//
 			// labelHeading
 			//
-			this.labelHeading.Location = new System.Drawing.Point(12, 8);
+			this.labelHeading.Location = new System.Drawing.Point(8, 8);
 			this.labelHeading.Name = "labelHeading";
-			this.labelHeading.Size = new System.Drawing.Size(504, 33);
+			this.labelHeading.Size = new System.Drawing.Size(514, 33);
 			this.labelHeading.TabIndex = 4;
 			this.labelHeading.Text = "Rows come from code groups marked Show In History.  Adding a date creates an Existing Other procedure." +
     "  Dates from completed procedures are edited in the Chart.";
 			//
 			// labelMostRecent
 			//
-			this.labelMostRecent.Location = new System.Drawing.Point(146, 43);
+			this.labelMostRecent.Location = new System.Drawing.Point(140, 43);
 			this.labelMostRecent.Name = "labelMostRecent";
 			this.labelMostRecent.Size = new System.Drawing.Size(180, 16);
 			this.labelMostRecent.TabIndex = 5;
@@ -60,7 +60,7 @@ namespace OpenPmsDental{
 			//
 			// labelPrevious
 			//
-			this.labelPrevious.Location = new System.Drawing.Point(336, 43);
+			this.labelPrevious.Location = new System.Drawing.Point(334, 43);
 			this.labelPrevious.Name = "labelPrevious";
 			this.labelPrevious.Size = new System.Drawing.Size(180, 16);
 			this.labelPrevious.TabIndex = 6;

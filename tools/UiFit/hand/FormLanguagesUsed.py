@@ -3,7 +3,11 @@ caption, list, Custom Language group), the right column 8 px short of the right 
 Up and Down in a row 72 px short of the list's right edge: the note, the All Languages column and the group on the padding; the
 Languages used column on the right padding; Add centred between the two lists; Delete under the right list on its left edge, Up and Down
 on its right edge; the captions 2 px over their lists. The custom Add button keeps the 24 px of an icon button (at 23 its arrow
-paints over the right border at 150%)."""
+paints over the right border at 150%).
+Fix round (ui/ui12-8-2): the Custom Language group was the stock GroupBox (square frame, title cut into the line; now OpenPmsDental.UI.
+GroupBox in the designer) and spanned 8..402 with its content ending at 364 and its bottom 13 px over Save's row: the group under the All
+Languages list at the list's width (8..286), the text box and Add on its 8 px content edges under the title band, the note under them
+as tall as its lines, the group's bottom on Save's bottom and the list down to 8 px over the group."""
 import importlib.util
 import os
 
@@ -36,5 +40,18 @@ def layout(h):
     y5 = yb + h.n("butDelete").nh + 4
     h.set("label5", xr, y5, lu.nw, None)
     h.set("comboLanguagesIndicateNone", xr, y5 + l5.nh + 2, lu.nw, None)
-    h.set("groupBox1", 8, None)
     s.e.icon_buttons(h)
+    gw = la.nw
+    cr = gw - 8
+    ac = h.n("butAddCustom")
+    y = 19 + 4  # the title band (UI.GroupBox, 19 px) and the title gap
+    h.set("butAddCustom", cr - ac.nw, y)
+    h.set("textCustom", 8, y, cr - ac.nw - 6 - 8, None)
+    y += max(ac.nh, h.n("textCustom").nh) + 4
+    nh = h.note_h("label6", cr - 8)
+    h.set("label6", 8, y, cr - 8, nh)
+    gh = y + nh + 8
+    sv = h.n("butSave")
+    gy = sv.ny + sv.nh - gh
+    h.set("groupBox1", 8, gy, gw, gh)
+    h.set("listAvailable", None, None, None, gy - 8 - top)

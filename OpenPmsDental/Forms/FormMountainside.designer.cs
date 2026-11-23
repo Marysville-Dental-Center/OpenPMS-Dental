@@ -78,14 +78,14 @@ namespace OpenPmsDental {
 			this.textProgName.Location = new System.Drawing.Point(246, 8);
 			this.textProgName.Name = "textProgName";
 			this.textProgName.ReadOnly = true;
-			this.textProgName.Size = new System.Drawing.Size(276, 23);
+			this.textProgName.Size = new System.Drawing.Size(300, 23);
 			this.textProgName.TabIndex = 45;
 			// 
 			// textProgDesc
 			// 
 			this.textProgDesc.Location = new System.Drawing.Point(246, 35);
 			this.textProgDesc.Name = "textProgDesc";
-			this.textProgDesc.Size = new System.Drawing.Size(276, 23);
+			this.textProgDesc.Size = new System.Drawing.Size(300, 23);
 			this.textProgDesc.TabIndex = 47;
 			// 
 			// label2
@@ -101,7 +101,7 @@ namespace OpenPmsDental {
 			// 
 			this.textHL7FolderOut.Location = new System.Drawing.Point(238, 43);
 			this.textHL7FolderOut.Name = "textHL7FolderOut";
-			this.textHL7FolderOut.Size = new System.Drawing.Size(276, 23);
+			this.textHL7FolderOut.Size = new System.Drawing.Size(300, 23);
 			this.textHL7FolderOut.TabIndex = 51;
 			// 
 			// labelHL7FolderOut

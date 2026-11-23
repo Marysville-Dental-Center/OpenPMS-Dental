@@ -89,19 +89,19 @@ namespace OpenPmsDental {
 			//
 			// labelProviders
 			//
-			this.labelProviders.Location = new System.Drawing.Point(12, 121);
+			this.labelProviders.Location = new System.Drawing.Point(8, 121);
 			this.labelProviders.Name = "labelProviders";
-			this.labelProviders.Size = new System.Drawing.Size(400, 17);
+			this.labelProviders.Size = new System.Drawing.Size(408, 17);
 			this.labelProviders.TabIndex = 7;
 			this.labelProviders.Text = "Default account of these providers\' lab cases";
 			this.labelProviders.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			//
 			// listProviders
 			//
-			this.listProviders.Location = new System.Drawing.Point(12, 140);
+			this.listProviders.Location = new System.Drawing.Point(8, 140);
 			this.listProviders.Name = "listProviders";
 			this.listProviders.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
-			this.listProviders.Size = new System.Drawing.Size(400, 186);
+			this.listProviders.Size = new System.Drawing.Size(408, 186);
 			this.listProviders.TabIndex = 8;
 			//
 			// butDelete

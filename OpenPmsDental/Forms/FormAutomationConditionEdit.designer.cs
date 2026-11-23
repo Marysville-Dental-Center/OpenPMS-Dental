@@ -40,10 +40,10 @@ namespace OpenPmsDental{
 			// 
 			this.labelCompareString.Location = new System.Drawing.Point(343, 8);
 			this.labelCompareString.Name = "labelCompareString";
-			this.labelCompareString.Size = new System.Drawing.Size(195, 20);
+			this.labelCompareString.Size = new System.Drawing.Size(195, 22);
 			this.labelCompareString.TabIndex = 4;
 			this.labelCompareString.Text = "Text";
-			this.labelCompareString.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.labelCompareString.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// textCompareString
 			// 
@@ -56,19 +56,19 @@ namespace OpenPmsDental{
 			// 
 			this.labelCompareField.Location = new System.Drawing.Point(8, 8);
 			this.labelCompareField.Name = "labelCompareField";
-			this.labelCompareField.Size = new System.Drawing.Size(181, 20);
+			this.labelCompareField.Size = new System.Drawing.Size(181, 22);
 			this.labelCompareField.TabIndex = 31;
 			this.labelCompareField.Text = "Field";
-			this.labelCompareField.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.labelCompareField.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// labelComparison
 			// 
 			this.labelComparison.Location = new System.Drawing.Point(197, 8);
 			this.labelComparison.Name = "labelComparison";
-			this.labelComparison.Size = new System.Drawing.Size(138, 20);
+			this.labelComparison.Size = new System.Drawing.Size(138, 22);
 			this.labelComparison.TabIndex = 32;
 			this.labelComparison.Text = "Comparison";
-			this.labelComparison.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.labelComparison.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// listCompareField
 			// 

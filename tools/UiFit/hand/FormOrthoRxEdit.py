@@ -2,7 +2,9 @@
 it the tooth example, "Example: 6,27,28") for the caption of the Upper, Lower and All buttons, and kept Delete at x 25: the example on the
 field column under Teeth, left-aligned, as wide as its widest text; Upper, Lower and All on its row ending on the Teeth box's right edge,
 6 px apart; Delete on the padding.
-The Teeth caption takes the code's texts ("Tooth Range"): as wide as the widest, its right edge kept."""
+The Teeth caption takes the code's texts ("Tooth Range"): as wide as the widest, its right edge kept.
+Fix round (ui/ui12-8-2): the rows ended at y 111 over a 107 px empty band: the height the content does not fill shared out as equal
+gaps between the Description row, the Hardware Spec row, the Teeth row with its example and buttons, and the bar (s.spread)."""
 import importlib.util
 import os
 
@@ -26,3 +28,6 @@ def layout(h):
     lt = h.n("labelTeeth")
     lw = h.lw("labelTeeth")
     h.set("labelTeeth", lt.nx + lt.nw - lw, None, lw, None)
+    yb = h.n("butSave").ny
+    s.spread(h, [["label1", "textDescription"], ["label4", "comboHardwareSpec"],
+                 ["labelTeeth", "textToothRange", "labelComments", "butUpper", "butLower", "butAll"]], 8, yb)

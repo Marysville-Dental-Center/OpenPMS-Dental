@@ -43,14 +43,14 @@ namespace OpenPmsDental {
 			// 
 			this.labelRace.Location = new System.Drawing.Point(182, 8);
 			this.labelRace.Name = "labelRace";
-			this.labelRace.Size = new System.Drawing.Size(120, 23);
+			this.labelRace.Size = new System.Drawing.Size(120, 18);
 			this.labelRace.TabIndex = 1;
 			this.labelRace.Text = "Patient Race";
-			this.labelRace.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.labelRace.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// labelDate
 			// 
-			this.labelDate.Location = new System.Drawing.Point(76, 201);
+			this.labelDate.Location = new System.Drawing.Point(76, 261);
 			this.labelDate.Name = "labelDate";
 			this.labelDate.Size = new System.Drawing.Size(100, 23);
 			this.labelDate.TabIndex = 2;
@@ -59,7 +59,7 @@ namespace OpenPmsDental {
 			// 
 			// labelXRayPath
 			// 
-			this.labelXRayPath.Location = new System.Drawing.Point(52, 147);
+			this.labelXRayPath.Location = new System.Drawing.Point(52, 207);
 			this.labelXRayPath.Name = "labelXRayPath";
 			this.labelXRayPath.Size = new System.Drawing.Size(124, 23);
 			this.labelXRayPath.TabIndex = 3;
@@ -70,16 +70,16 @@ namespace OpenPmsDental {
 			// 
 			this.labelTxPhase.Location = new System.Drawing.Point(380, 8);
 			this.labelTxPhase.Name = "labelTxPhase";
-			this.labelTxPhase.Size = new System.Drawing.Size(120, 23);
+			this.labelTxPhase.Size = new System.Drawing.Size(120, 18);
 			this.labelTxPhase.TabIndex = 5;
 			this.labelTxPhase.Text = "Treatment Phase";
-			this.labelTxPhase.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.labelTxPhase.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// dateXRay
 			// 
 			this.dateXRay.CustomFormat = "MMM d, yyyy";
 			this.dateXRay.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-			this.dateXRay.Location = new System.Drawing.Point(182, 201);
+			this.dateXRay.Location = new System.Drawing.Point(182, 261);
 			this.dateXRay.Name = "dateXRay";
 			this.dateXRay.Size = new System.Drawing.Size(160, 23);
 			this.dateXRay.TabIndex = 9;
@@ -88,7 +88,7 @@ namespace OpenPmsDental {
 			// 
 			// labelPhotoPath
 			// 
-			this.labelPhotoPath.Location = new System.Drawing.Point(44, 174);
+			this.labelPhotoPath.Location = new System.Drawing.Point(44, 234);
 			this.labelPhotoPath.Name = "labelPhotoPath";
 			this.labelPhotoPath.Size = new System.Drawing.Size(132, 23);
 			this.labelPhotoPath.TabIndex = 10;
@@ -108,7 +108,7 @@ namespace OpenPmsDental {
 			// 
 			// butCephBrowse
 			// 
-			this.butCephBrowse.Location = new System.Drawing.Point(508, 147);
+			this.butCephBrowse.Location = new System.Drawing.Point(546, 207);
 			this.butCephBrowse.Name = "butCephBrowse";
 			this.butCephBrowse.Size = new System.Drawing.Size(27, 23);
 			this.butCephBrowse.TabIndex = 13;
@@ -118,7 +118,7 @@ namespace OpenPmsDental {
 			// 
 			// butPhotoBrowse
 			// 
-			this.butPhotoBrowse.Location = new System.Drawing.Point(508, 174);
+			this.butPhotoBrowse.Location = new System.Drawing.Point(546, 234);
 			this.butPhotoBrowse.Name = "butPhotoBrowse";
 			this.butPhotoBrowse.Size = new System.Drawing.Size(27, 23);
 			this.butPhotoBrowse.TabIndex = 14;
@@ -128,30 +128,30 @@ namespace OpenPmsDental {
 			// 
 			// textCephLocation
 			// 
-			this.textCephLocation.Location = new System.Drawing.Point(182, 147);
+			this.textCephLocation.Location = new System.Drawing.Point(182, 207);
 			this.textCephLocation.Name = "textCephLocation";
-			this.textCephLocation.Size = new System.Drawing.Size(320, 23);
+			this.textCephLocation.Size = new System.Drawing.Size(358, 23);
 			this.textCephLocation.TabIndex = 15;
 			// 
 			// textPhotoLocation
 			// 
-			this.textPhotoLocation.Location = new System.Drawing.Point(182, 174);
+			this.textPhotoLocation.Location = new System.Drawing.Point(182, 234);
 			this.textPhotoLocation.Name = "textPhotoLocation";
-			this.textPhotoLocation.Size = new System.Drawing.Size(320, 23);
+			this.textPhotoLocation.Size = new System.Drawing.Size(358, 23);
 			this.textPhotoLocation.TabIndex = 16;
 			// 
 			// listBoxRace
 			// 
-			this.listBoxRace.Location = new System.Drawing.Point(182, 35);
+			this.listBoxRace.Location = new System.Drawing.Point(182, 28);
 			this.listBoxRace.Name = "listBoxRace";
-			this.listBoxRace.Size = new System.Drawing.Size(120, 108);
+			this.listBoxRace.Size = new System.Drawing.Size(120, 167);
 			this.listBoxRace.TabIndex = 17;
 			// 
 			// listBoxTxPhase
 			// 
-			this.listBoxTxPhase.Location = new System.Drawing.Point(380, 35);
+			this.listBoxTxPhase.Location = new System.Drawing.Point(380, 28);
 			this.listBoxTxPhase.Name = "listBoxTxPhase";
-			this.listBoxTxPhase.Size = new System.Drawing.Size(120, 108);
+			this.listBoxTxPhase.Size = new System.Drawing.Size(120, 167);
 			this.listBoxTxPhase.TabIndex = 18;
 			// 
 			// FormDrCeph

@@ -47,11 +47,11 @@ namespace OpenPmsDental {
 			this.textBoxEditor.BackColor = System.Drawing.SystemColors.Window;
 			this.textBoxEditor.DetectLinksEnabled = false;
 			this.textBoxEditor.DetectUrls = false;
-			this.textBoxEditor.Location = new System.Drawing.Point(12, 8);
+			this.textBoxEditor.Location = new System.Drawing.Point(8, 8);
 			this.textBoxEditor.Name = "textBoxEditor";
 			this.textBoxEditor.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.PayPlan;
 			this.textBoxEditor.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textBoxEditor.Size = new System.Drawing.Size(480, 416);
+			this.textBoxEditor.Size = new System.Drawing.Size(488, 422);
 			this.textBoxEditor.TabIndex = 0;
 			this.textBoxEditor.Text = "";
 			// 

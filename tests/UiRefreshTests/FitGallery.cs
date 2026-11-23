@@ -101,6 +101,7 @@ namespace UiRefreshTests {
 					}
 					SetGalleryFont(font);
 					try {
+						FillSampleCache(window,state);
 						using(BuiltWindow builtWindow=WindowBuilder.Build(scanType)) {
 							Control root=builtWindow.Root;
 							if(root is FormODBase formODBase && formODBase.PanelClient!=null) {
@@ -156,6 +157,7 @@ namespace UiRefreshTests {
 						listFailed.Add(window+": "+TierOneScan.Describe(exception));
 					}
 					finally {
+						ClearSampleCache(window,state);
 						UiTheme.SetFontForTest(null);
 						DefaultFontOverride.Set(TextFitFontOption.Today,1f);
 					}
@@ -273,6 +275,16 @@ namespace UiRefreshTests {
 				//summaries, never both; the discount summary stands on the family summary's place. The picture shows the insurance summaries.
 				controlDiscount.Visible=false;
 			}
+			//UI-12 slice 8 fix round: a radio button or check box with no designer text whose text the code sets (grid-runtime-texts) draws
+			//with that text, so the picture shows whether it fits beside its box (FormDiseaseDefMerge's two merge choices).
+			foreach(string[] arrayRow in GridRulesTests.ReadRuntimeTexts().Where(x => x[0]==window)) {
+				Control controlChoice=FindByName(root,arrayRow[1]);
+				if((controlChoice is RadioButton || controlChoice is System.Windows.Forms.CheckBox || controlChoice is OpenPmsDental.UI.CheckBox)
+					&& controlChoice.Text=="")
+				{
+					controlChoice.Text=arrayRow[2].Replace("\\n","\r\n");
+				}
+			}
 			if(_listRuntimeTextWindows.Contains(window)) {
 				//UI-12 slice 6: Load gives these labels their text (the designer's is a placeholder or empty), and their rows stand where that text
 				//goes; the picture shows the first text of each label in grid-runtime-texts (the one the layout script sized it for).
@@ -348,6 +360,35 @@ namespace UiRefreshTests {
 			}
 		}
 
+		///<summary>UI-12 slice 8 fix round: synthetic cache content a window's constructor reads before it is drawn, for a state of the window
+		///list. FormInsHistSetup "rows": AddCategoryRows makes a row per code group marked Show In History (four for a Perio Four Quadrants
+		///group); without code groups it shows only its note. ClearSampleCache empties the cache again after the picture.</summary>
+		public static void FillSampleCache(string window,string state) {
+			if(window=="OpenPmsDental.FormInsHistSetup" && state=="rows") {
+				List<OpenPmsDentalBusiness.CodeGroup> listCodeGroups=new List<OpenPmsDentalBusiness.CodeGroup>();
+				string[] arrayNames=new string[] { "Exam","Prophylaxis","Fluoride","Bitewing X-rays","Pano/FMX","Perio Scaling" };
+				for(int i=0;i<arrayNames.Length;i++) {
+					OpenPmsDentalBusiness.CodeGroup codeGroup=new OpenPmsDentalBusiness.CodeGroup();
+					codeGroup.CodeGroupNum=i+1;
+					codeGroup.GroupName=arrayNames[i];
+					codeGroup.ProcCodes="D0120";
+					codeGroup.ItemOrder=i;
+					codeGroup.ShowInHistory=true;
+					codeGroup.HistProcCode="D0120";
+					codeGroup.IsPerioFourQuads=arrayNames[i]=="Perio Scaling";
+					listCodeGroups.Add(codeGroup);
+				}
+				OpenPmsDentalBusiness.CodeGroups.FillCacheFromTable(OpenPmsDentalBusiness.Crud.CodeGroupCrud.ListToTable(listCodeGroups));
+			}
+		}
+
+		///<summary>UI-12 slice 8 fix round: the cache FillSampleCache filled, back to empty (it fills again from the database when read).</summary>
+		public static void ClearSampleCache(string window,string state) {
+			if(window=="OpenPmsDental.FormInsHistSetup" && state=="rows") {
+				OpenPmsDentalBusiness.CodeGroups.ClearCache();
+			}
+		}
+
 		///<summary>UI-12 slice 2 fix round (review of 2026-11-23): the states of the pilot follow-up windows whose fixed texts the default
 		///picture does not show, named in the window list as "<window>#<state>". Returns the control to draw: the root, or the part drawn alone.
 		///ControlAccount "summary": the family and individual insurance summaries (labelInsRem_MouseEnter shows them; hidden in the designer)
@@ -407,6 +448,10 @@ namespace UiRefreshTests {
 			}
 			if(window=="OpenPmsDental.FormTransactionEdit" && state=="compound") {
 				//UI-12 slice 5 fix round 2: the compound panel (FillSampleContent sets the Visible flags).
+				return root;
+			}
+			if(window=="OpenPmsDental.FormInsHistSetup" && state=="rows") {
+				//UI-12 slice 8 fix round: the rows the constructor makes from the code groups FillSampleCache puts in the cache.
 				return root;
 			}
 			throw new ArgumentException("No gallery state "+state+" for "+window+".");

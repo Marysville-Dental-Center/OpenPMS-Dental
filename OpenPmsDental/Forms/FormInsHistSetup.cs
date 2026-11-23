@@ -25,10 +25,10 @@ namespace OpenPmsDental {
 		private ContextMenuStrip _contextMenuDate;
 		private ToolStripMenuItem _menuItemEdit;
 		private ToolStripMenuItem _menuItemRemove;
-		private const int ROW_TOP=64;
-		private const int ROW_HEIGHT=24;
-		///<summary>Space between the last row (or the note shown without rows) and the Save button, and below the button.</summary>
-		private const int SAVE_GAP=8;
+		///<summary>A row's date box, and its Edit and Remove buttons after it (UiGrid.ITEM_GAP apart).</summary>
+		private const int WIDTH_DATE=80;
+		private const int WIDTH_EDIT=40;
+		private const int WIDTH_REMOVE=56;
 
 		public FormInsHistSetup(long patNum,InsSub insSub) {
 			InitializeComponent();
@@ -52,23 +52,30 @@ namespace OpenPmsDental {
 			_contextMenuDate.Opening+=contextMenuDate_Popup;
 			Disposed+=(sender,e) => _contextMenuDate.Dispose();
 			List<InsHistCategory> listInsHistCategories=InsHistCategories.GetAll();
-			int y=ROW_TOP;
+			//The layout grid (UI-12, CodeBase.UiGrid), in the designer's units: the rows start the caption gap under the Most Recent and Previous
+			//captions, one per row pitch; the two date slots stand the item gap apart with the second ending on the right padding (the captions
+			//stand over the slots); each row's label runs from the padding to the label gap before the first slot.
+			int widthSlot=WIDTH_DATE+UiGrid.ITEM_GAP+WIDTH_EDIT+UiGrid.ITEM_GAP+WIDTH_REMOVE;
+			int xSlotFirst=ClientSize.Width-UiGrid.PAD-InsHistDates.DATES_PER_CATEGORY*widthSlot-(InsHistDates.DATES_PER_CATEGORY-1)*UiGrid.ITEM_GAP;
+			labelMostRecent.Left=xSlotFirst;
+			labelPrevious.Left=xSlotFirst+widthSlot+UiGrid.ITEM_GAP;
+			int y=labelMostRecent.Bottom+UiGrid.CAPTION_GAP;
 			int tabIndex=10;
 			for(int i=0;i<listInsHistCategories.Count;i++) {
 				CategoryRow categoryRow=new CategoryRow();
 				categoryRow.InsHistCategory=listInsHistCategories[i];
 				categoryRow.Label=new Label();
-				categoryRow.Label.Location=new Point(7,y+2);
-				categoryRow.Label.Size=new Size(138,17);
+				categoryRow.Label.Location=new Point(UiGrid.PAD,y);
+				categoryRow.Label.Size=new Size(xSlotFirst-UiGrid.LABEL_GAP-UiGrid.PAD,UiGrid.FIELD_HEIGHT);
 				categoryRow.Label.Text=listInsHistCategories[i].Description;
 				categoryRow.Label.TextAlign=ContentAlignment.MiddleRight;
 				categoryRow.Label.Name="labelInsHist"+i.ToString();
 				Controls.Add(categoryRow.Label);
 				for(int slot=0;slot<InsHistDates.DATES_PER_CATEGORY;slot++) {
-					int x=146+slot*190;
+					int x=xSlotFirst+slot*(widthSlot+UiGrid.ITEM_GAP);
 					TextBox textBox=new TextBox();
 					textBox.Location=new Point(x,y);
-					textBox.Size=new Size(80,20);
+					textBox.Size=new Size(WIDTH_DATE,UiGrid.FIELD_HEIGHT);
 					textBox.Name="textDate"+i.ToString()+"_"+slot.ToString();
 					textBox.TabIndex=tabIndex++;
 					textBox.ContextMenuStrip=_contextMenuDate;
@@ -76,16 +83,16 @@ namespace OpenPmsDental {
 					textBox.TextChanged+=textDate_TextChanged;
 					Controls.Add(textBox);
 					UI.Button butEdit=new UI.Button();
-					butEdit.Location=new Point(x+82,y-1);
-					butEdit.Size=new Size(40,22);
+					butEdit.Location=new Point(textBox.Right+UiGrid.ITEM_GAP,y);
+					butEdit.Size=new Size(WIDTH_EDIT,UiGrid.FIELD_HEIGHT);
 					butEdit.Text="Edit";
 					butEdit.Name="butEdit"+i.ToString()+"_"+slot.ToString();
 					butEdit.TabIndex=tabIndex++;
 					butEdit.Click+=butEdit_Click;
 					Controls.Add(butEdit);
 					UI.Button butRemove=new UI.Button();
-					butRemove.Location=new Point(x+124,y-1);
-					butRemove.Size=new Size(56,22);
+					butRemove.Location=new Point(butEdit.Right+UiGrid.ITEM_GAP,y);
+					butRemove.Size=new Size(WIDTH_REMOVE,UiGrid.FIELD_HEIGHT);
 					butRemove.Text="Remove";
 					butRemove.Name="butRemove"+i.ToString()+"_"+slot.ToString();
 					butRemove.TabIndex=tabIndex++;
@@ -102,22 +109,23 @@ namespace OpenPmsDental {
 					categoryRow.ListDateSlots.Add(dateSlot);
 				}
 				_listCategoryRows.Add(categoryRow);
-				y+=ROW_HEIGHT;
+				y+=UiGrid.PITCH;
 			}
 			labelMostRecent.Visible=_listCategoryRows.Count>0;
 			labelPrevious.Visible=_listCategoryRows.Count>0;
+			int yBottom=y-UiGrid.ROW_GAP;//the last row's bottom
 			if(_listCategoryRows.Count==0) {
 				Label labelNone=new Label();
-				labelNone.Location=new Point(12,y);
-				labelNone.Size=new Size(504,33);
+				labelNone.Location=new Point(UiGrid.PAD,y);
+				labelNone.Size=new Size(ClientSize.Width-2*UiGrid.PAD,33);
 				labelNone.Text=Lan.g(this,"No code group is marked Show In History. Set up the rows in Setup, Code Groups.");
 				labelNone.Name="labelNoCategories";
 				Controls.Add(labelNone);
-				y+=labelNone.Height;
+				yBottom=labelNone.Bottom;
 			}
 			butSave.TabIndex=tabIndex;
-			butSave.Location=new Point(441,y+SAVE_GAP);
-			ClientSize=new Size(530,butSave.Bottom+SAVE_GAP+4);
+			butSave.Location=new Point(ClientSize.Width-UiGrid.PAD-butSave.Width,yBottom+UiGrid.SECTION_GAP);
+			ClientSize=new Size(ClientSize.Width,butSave.Bottom+UiGrid.PAD);
 		}
 
 		private void FormInsHistSetup_Load(object sender,EventArgs e) {

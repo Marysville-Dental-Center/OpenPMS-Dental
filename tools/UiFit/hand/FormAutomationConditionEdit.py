@@ -2,7 +2,9 @@
 to 881 px for the warning label hidden in the designer (the code shows it in place of the text box) and left the lists at x 24 and 211:
 main's width; the Field and Comparison lists from the padding 8 px apart, down to 8 px over Delete and Save, their captions over them;
 the Text column 8 px after them: the text box to 6 px before its "..." button on the right padding, the warning over the same column as
-tall as the lists."""
+tall as the lists.
+Fix round (ui/ui12-8-2): Field and Comparison were centred over their lists while Text started at its box, and the captions stood 4 px
+over the boxes: the three captions start where their boxes start (BottomLeft), 2 px over them."""
 import importlib.util
 import os
 
@@ -31,3 +33,6 @@ def layout(h):
     h.set("textCompareString", x, top, R - sel.nw - 6 - x, None)
     h.set("labelCompareString", x, None)
     h.set("labelWarning", x, top, R - x, lh)
+    for cap in ("labelCompareField", "labelComparison", "labelCompareString"):
+        h.text_align(cap, "BottomLeft")
+        h.set(cap, None, 8, None, top - 2 - 8)

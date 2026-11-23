@@ -44,14 +44,14 @@ namespace OpenPmsDental{
 			// 
 			this.comboUnits.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboUnits.FormattingEnabled = true;
-			this.comboUnits.Location = new System.Drawing.Point(143, 135);
+			this.comboUnits.Location = new System.Drawing.Point(143, 192);
 			this.comboUnits.Name = "comboUnits";
 			this.comboUnits.Size = new System.Drawing.Size(107, 23);
 			this.comboUnits.TabIndex = 303;
 			// 
 			// labelValueUnitsNote
 			// 
-			this.labelValueUnitsNote.Location = new System.Drawing.Point(256, 138);
+			this.labelValueUnitsNote.Location = new System.Drawing.Point(256, 195);
 			this.labelValueUnitsNote.Name = "labelValueUnitsNote";
 			this.labelValueUnitsNote.Size = new System.Drawing.Size(214, 17);
 			this.labelValueUnitsNote.TabIndex = 298;
@@ -60,7 +60,7 @@ namespace OpenPmsDental{
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(65, 135);
+			this.label5.Location = new System.Drawing.Point(65, 192);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(72, 23);
 			this.label5.TabIndex = 294;
@@ -69,14 +69,14 @@ namespace OpenPmsDental{
 			// 
 			// textValue
 			// 
-			this.textValue.Location = new System.Drawing.Point(143, 108);
+			this.textValue.Location = new System.Drawing.Point(143, 146);
 			this.textValue.Name = "textValue";
 			this.textValue.Size = new System.Drawing.Size(308, 23);
 			this.textValue.TabIndex = 291;
 			// 
 			// labelValue
 			// 
-			this.labelValue.Location = new System.Drawing.Point(29, 108);
+			this.labelValue.Location = new System.Drawing.Point(29, 146);
 			this.labelValue.Name = "labelValue";
 			this.labelValue.Size = new System.Drawing.Size(108, 23);
 			this.labelValue.TabIndex = 290;
@@ -85,7 +85,7 @@ namespace OpenPmsDental{
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(69, 35);
+			this.label1.Location = new System.Drawing.Point(69, 54);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(68, 23);
 			this.label1.TabIndex = 287;
@@ -94,7 +94,7 @@ namespace OpenPmsDental{
 			// 
 			// listValueType
 			// 
-			this.listValueType.Location = new System.Drawing.Point(143, 35);
+			this.listValueType.Location = new System.Drawing.Point(143, 54);
 			this.listValueType.Name = "listValueType";
 			this.listValueType.Size = new System.Drawing.Size(113, 69);
 			this.listValueType.TabIndex = 286;
@@ -102,7 +102,7 @@ namespace OpenPmsDental{
 			// 
 			// butPickValueIcd10
 			// 
-			this.butPickValueIcd10.Location = new System.Drawing.Point(340, 59);
+			this.butPickValueIcd10.Location = new System.Drawing.Point(340, 78);
 			this.butPickValueIcd10.Name = "butPickValueIcd10";
 			this.butPickValueIcd10.Size = new System.Drawing.Size(48, 20);
 			this.butPickValueIcd10.TabIndex = 312;
@@ -111,7 +111,7 @@ namespace OpenPmsDental{
 			// 
 			// butPickValueIcd9
 			// 
-			this.butPickValueIcd9.Location = new System.Drawing.Point(340, 35);
+			this.butPickValueIcd9.Location = new System.Drawing.Point(340, 54);
 			this.butPickValueIcd9.Name = "butPickValueIcd9";
 			this.butPickValueIcd9.Size = new System.Drawing.Size(48, 20);
 			this.butPickValueIcd9.TabIndex = 311;
@@ -120,7 +120,7 @@ namespace OpenPmsDental{
 			// 
 			// butPickValueSnomedct
 			// 
-			this.butPickValueSnomedct.Location = new System.Drawing.Point(260, 59);
+			this.butPickValueSnomedct.Location = new System.Drawing.Point(260, 78);
 			this.butPickValueSnomedct.Name = "butPickValueSnomedct";
 			this.butPickValueSnomedct.Size = new System.Drawing.Size(74, 20);
 			this.butPickValueSnomedct.TabIndex = 310;
@@ -129,7 +129,7 @@ namespace OpenPmsDental{
 			// 
 			// butPickValueLoinc
 			// 
-			this.butPickValueLoinc.Location = new System.Drawing.Point(260, 35);
+			this.butPickValueLoinc.Location = new System.Drawing.Point(260, 54);
 			this.butPickValueLoinc.Name = "butPickValueLoinc";
 			this.butPickValueLoinc.Size = new System.Drawing.Size(74, 20);
 			this.butPickValueLoinc.TabIndex = 309;

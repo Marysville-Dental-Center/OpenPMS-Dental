@@ -58,12 +58,12 @@ namespace OpenPmsDental {
 			// 
 			// labelName
 			// 
-			this.labelName.Location = new System.Drawing.Point(30, 8);
+			this.labelName.Location = new System.Drawing.Point(22, 8);
 			this.labelName.Name = "labelName";
-			this.labelName.Size = new System.Drawing.Size(229, 20);
+			this.labelName.Size = new System.Drawing.Size(237, 20);
 			this.labelName.TabIndex = 3;
 			this.labelName.Text = "Field Name";
-			this.labelName.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+			this.labelName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// FormPatFieldCheckEdit
 			// 
