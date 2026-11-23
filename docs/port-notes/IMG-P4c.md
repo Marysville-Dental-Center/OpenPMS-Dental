@@ -36,6 +36,19 @@ follows with playback, trim and "save frame as photo" in the module; IMG-P4e wit
 7. In quick-photo sessions a video shows among the photos with a play mark. Right-click offers Teeth and Delete; Rotate is for photos
    only.
 
+8. **Review fixes:**
+   - The sink writer's throttling stays on. Turning it off had let it queue raw frames without limit on a slow encoder; now the recording
+     thread waits, its small queue fills, and frames are left out.
+   - A stop that times out leaves the file for the next session instead of importing it half-written.
+   - A failed writer (no encoder, disk full) ends the recording at once and says why.
+   - A held R or P acts once.
+   - Video pictures count in the 12 quick-photo pictures.
+   - A recording whose sidecar is lost takes its patient and time from its file name; one of unknown patient is not moved.
+   - An orphan sidecar is cleared after an hour.
+   - Another Windows user's open recording counts as in use.
+   - A video filed later keeps its length.
+   - A change of picture size ends the video with a clear reason.
+
 ## Files
 
 New:
@@ -77,7 +90,7 @@ Targeted x64 run:
 
 | Suite | Passed | Total |
 |---|---|---|
-| ImagingCaptureTests | 839 | 839 |
+| ImagingCaptureTests | 841 | 841 |
 | ImagingTests | 170 | 170 |
 | WindowChecksTests | 30 (44 skipped) | 74 |
 | NoHqTests | 127 | 127 |

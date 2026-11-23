@@ -15,6 +15,9 @@ namespace ImagingCapture.Video {
 		///<summary>"" or why the file is incomplete or missing.</summary>
 		public string Error { get; set; }="";
 		public bool IsLimitReached { get; set; }
+		///<summary>True when the recording thread had not finished the file when Stop gave up waiting: the file may still be open and incomplete.
+		///</summary>
+		public bool IsTimedOut { get; set; }
 		///<summary>A copy of the first frame written, for the picture of the video; null when none was written.</summary>
 		public UvcFrame FrameFirst { get; set; }
 	}
@@ -53,6 +56,9 @@ namespace ImagingCapture.Video {
 		private long _framesDropped;
 		private string _error="";
 		private UvcFrame _frameFirst;
+		private bool _isTimedOut;
+		private int _widthFirst;
+		private int _heightFirst;
 
 		private sealed class Item {
 			public byte[] Pixels;
@@ -74,6 +80,8 @@ namespace ImagingCapture.Video {
 		public bool IsRecording { get { lock(_lock) { return _isRecording; } } }
 		public bool IsPaused { get { lock(_lock) { return _isPaused; } } }
 		public bool IsLimitReached { get { lock(_lock) { return _isLimitReached; } } }
+		///<summary>True when the writer failed (no encoder, disk full): nothing more is recorded; the window stops and says why.</summary>
+		public bool IsFailed { get { lock(_lock) { return _error!=""; } } }
 		public int LimitSeconds => _limitSeconds;
 
 		///<summary>The recorded time so far (pauses left out).</summary>
@@ -182,8 +190,13 @@ namespace ImagingCapture.Video {
 				thread=_thread;
 			}
 			_autoResetEvent.Set();
-			if(thread!=null && !thread.Join(TimeSpan.FromSeconds(20))) {
+			bool isWaited;
+			lock(_lock) {
+				isWaited=_isTimedOut;
+			}
+			if(thread!=null && thread.IsAlive && !isWaited && !thread.Join(TimeSpan.FromSeconds(20))) {
 				lock(_lock) {
+					_isTimedOut=true;
 					_error=_error!="" ? _error : "The recording did not finish in time.";
 				}
 			}
@@ -195,6 +208,7 @@ namespace ImagingCapture.Video {
 					Duration=_timestampLast100ns<0 ? TimeSpan.Zero : TimeSpan.FromTicks(_timestampLast100ns+_frameDuration100ns),
 					Error=_error,
 					IsLimitReached=_isLimitReached,
+					IsTimedOut=_isTimedOut,
 					FrameFirst=_frameFirst,
 				};
 			}
@@ -250,6 +264,11 @@ namespace ImagingCapture.Video {
 			if(!isFailed) {
 				if(_writer==null) {
 					_writer=_funcCreateWriter(item.Width,item.Height);
+					_widthFirst=item.Width;
+					_heightFirst=item.Height;
+				}
+				else if(item.Width!=_widthFirst || item.Height!=_heightFirst) {
+					throw new InvalidOperationException("The picture size changed while recording; the video ends here.");
 				}
 				_writer.WriteFrame(item.Pixels,item.Stride,item.Timestamp100ns,_frameDuration100ns);
 				lock(_lock) {
@@ -264,8 +283,10 @@ namespace ImagingCapture.Video {
 		}
 
 		public void Dispose() {
-			Stop();
-			_autoResetEvent.Dispose();
+			Stop();//waits only when the thread is still running and was not waited for yet
+			if(_thread==null || !_thread.IsAlive) {
+				_autoResetEvent.Dispose();//else the late thread still uses it; the GC takes it
+			}
 		}
 	}
 }

@@ -130,6 +130,23 @@ namespace ImagingCapture.Tests {
 		}
 
 		[TestMethod]
+		public void SizeChange_EndsTheVideo_IsFailedSet() {
+			FakeWriter writer=new FakeWriter();
+			VideoRecorder recorder=new VideoRecorder((w,h) => writer,framesPerSecond:10);
+			recorder.Start();
+			recorder.OfferFrame(Frame(0,8,6));
+			WaitFor(() => writer.ListTimestamps.Count==1);
+			recorder.OfferFrame(Frame(0.1,10,6));
+			WaitFor(() => recorder.IsFailed);
+			Assert.IsTrue(recorder.IsFailed,"The window stops the recording and says why.");
+			VideoRecordingResult result=recorder.Stop();
+			StringAssert.Contains(result.Error,"picture size changed");
+			Assert.AreEqual(1,result.FramesWritten);
+			Assert.IsFalse(result.IsTimedOut);
+			recorder.Dispose();
+		}
+
+		[TestMethod]
 		public void BitRateAndFrameRate() {
 			Assert.AreEqual(8000000,Mp4Writer.GetBitRate(1920,1080,30));
 			Assert.AreEqual(1000000,Mp4Writer.GetBitRate(320,240,30),"At least 1 Mbit/s.");

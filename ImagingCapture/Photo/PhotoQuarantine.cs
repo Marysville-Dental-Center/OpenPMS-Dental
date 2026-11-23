@@ -28,6 +28,8 @@ namespace ImagingCapture.Photo {
 		public long CategoryDefNum { get; set; }
 		public DateTime DateTimeTaken { get; set; }
 		public string Reason { get; set; }="";
+		///<summary>A video's length in seconds when known, else 0.</summary>
+		public int DurationSeconds { get; set; }
 
 		public string PathSidecar => Path.ChangeExtension(PathImage,".txt");
 	}
@@ -107,6 +109,9 @@ namespace ImagingCapture.Photo {
 			Add("Taken",photoUnsaved.DateTimeTaken.ToString("yyyy-MM-dd HH:mm:ss",CultureInfo.InvariantCulture));
 			Add("Computer",Environment.MachineName);
 			Add("Reason",photoUnsaved.Reason);
+			if(photoUnsaved.DurationSeconds>0) {
+				Add("DurationSeconds",photoUnsaved.DurationSeconds.ToString(CultureInfo.InvariantCulture));
+			}
 			return stringBuilder.ToString();
 		}
 
@@ -131,13 +136,14 @@ namespace ImagingCapture.Photo {
 			int.TryParse(Get("DegreesRotated"),NumberStyles.Integer,CultureInfo.InvariantCulture,out int degreesRotated);
 			long.TryParse(Get("CategoryDefNum"),NumberStyles.Integer,CultureInfo.InvariantCulture,out long categoryDefNum);
 			DateTime.TryParseExact(Get("Taken"),"yyyy-MM-dd HH:mm:ss",CultureInfo.InvariantCulture,DateTimeStyles.None,out DateTime dateTimeTaken);
+			int.TryParse(Get("DurationSeconds"),NumberStyles.Integer,CultureInfo.InvariantCulture,out int durationSeconds);
 			if(patNum<=0) {
 				return null;
 			}
 			return new PhotoUnsaved {
 				PathImage=pathImage,PatNum=patNum,PatientName=Get("Patient"),MountNum=mountNum,MountItemNum=mountItemNum,Slot=Get("Slot"),
 				IsFlipped=Get("IsFlipped")=="1",DegreesRotated=degreesRotated,ToothNumbers=Get("ToothNumbers"),CategoryDefNum=categoryDefNum,
-				DateTimeTaken=dateTimeTaken,Reason=Get("Reason"),
+				DateTimeTaken=dateTimeTaken,Reason=Get("Reason"),DurationSeconds=durationSeconds,
 			};
 		}
 
@@ -175,7 +181,7 @@ namespace ImagingCapture.Photo {
 			}
 			string error;
 			Document document=VideoFiles.Import(store,photoUnsaved.PathImage,photoUnsaved.PatNum,photoUnsaved.CategoryDefNum,photoUnsaved.ToothNumbers,
-				photoUnsaved.DateTimeTaken,TimeSpan.Zero,out error);
+				photoUnsaved.DateTimeTaken,TimeSpan.FromSeconds(photoUnsaved.DurationSeconds),out error);
 			if(document==null) {
 				return error;
 			}

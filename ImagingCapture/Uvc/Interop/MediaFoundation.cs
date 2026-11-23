@@ -26,7 +26,6 @@ namespace ImagingCapture.Uvc.Interop {
 		public static readonly Guid MF_MT_DEFAULT_STRIDE=new Guid("644b4e48-1e02-4516-b0eb-c01ca9d49ac6");
 		public static readonly Guid MF_READWRITE_ENABLE_HARDWARE_TRANSFORMS=new Guid("a634a91c-822b-41b9-a494-4de4643612b0");
 		public static readonly Guid MF_TRANSCODE_CONTAINERTYPE=new Guid("150ff23f-4abc-478b-ac4f-e1916fba1cca");
-		public static readonly Guid MF_SINK_WRITER_DISABLE_THROTTLING=new Guid("08b845d8-2b74-4afe-9d53-be16d2d5ae4f");
 		///<summary>Fragmented MP4: what is written stays playable if the program or Windows stops before the file is finished.</summary>
 		public static readonly Guid MFTranscodeContainerType_FMPEG4=new Guid("9ba876f1-419f-4b77-a1e0-35959d9d4004");
 		public static readonly Guid MFTranscodeContainerType_MPEG4=new Guid("dc6cd05d-b9d0-40ef-bd35-fa622c1ab28a");

@@ -190,8 +190,43 @@ namespace ImagingCapture.Tests {
 			Document document=store.ListUpdated.Single();
 			Assert.AreEqual("2,3",document.ToothNumbers);
 			Assert.AreEqual(new DateTime(2026,11,23,10,14,5),document.DateCreated);
-			StringAssert.StartsWith(document.Description,"Video ");
+			Assert.AreEqual("Video",document.Description,"A recording cut off by a stop has no known length.");
 			Assert.AreEqual(0,Directory.GetFiles(folderUnsaved).Length);
+		}
+
+		[TestMethod]
+		public void Video_LostSidecar_FromTheFileName_DurationKept_OrphanSidecarRemoved() {
+			string folderRecording=Path.Combine(_folder,"recording");
+			string folderUnsaved=Path.Combine(_folder,"unsaved");
+			Directory.CreateDirectory(folderRecording);
+			string pathVideo=Path.Combine(folderRecording,"20261123-101405-120_P7_video.mp4");
+			File.WriteAllBytes(pathVideo,new byte[] { 1,2,3 });
+			string error;
+			string pathMoved=VideoFiles.MoveToUnsaved(pathVideo,"The import failed.",out error,folderUnsaved,TimeSpan.FromSeconds(42));
+			Assert.IsNotNull(pathMoved,error);
+			PhotoUnsaved photoUnsaved=PhotoQuarantine.List(folderUnsaved).Single();
+			Assert.AreEqual(7,photoUnsaved.PatNum,"The patient from the file's name when the sidecar is lost.");
+			Assert.AreEqual(new DateTime(2026,11,23,10,14,5),photoUnsaved.DateTimeTaken);
+			Assert.AreEqual(42,photoUnsaved.DurationSeconds);
+			Store store=new Store();
+			PhotoQuarantine.FileOne(store,photoUnsaved,out bool isFiled);
+			Assert.IsTrue(isFiled);
+			Assert.AreEqual("Video 0:42",store.ListUpdated.Single().Description,"The length is kept for filing later.");
+			//a file of unknown patient is not moved
+			string pathOther=Path.Combine(folderRecording,"other.mp4");
+			File.WriteAllBytes(pathOther,new byte[] { 1 });
+			Assert.IsNull(VideoFiles.MoveToUnsaved(pathOther,"x",out error,folderUnsaved));
+			Assert.IsTrue(File.Exists(pathOther));
+			//an old sidecar whose video never started is removed; a new one stays (a recording just starting)
+			string pathOrphanOld=Path.Combine(folderRecording,"20261122-090000-000_P7_video.txt");
+			string pathOrphanNew=Path.Combine(folderRecording,"20261123-090000-000_P7_video.txt");
+			File.WriteAllText(pathOrphanOld,"x");
+			File.SetLastWriteTime(pathOrphanOld,DateTime.Now.AddHours(-2));
+			File.WriteAllText(pathOrphanNew,"x");
+			File.Delete(pathOther);
+			VideoFiles.RecoverStale(folderRecording,folderUnsaved);
+			Assert.IsFalse(File.Exists(pathOrphanOld));
+			Assert.IsTrue(File.Exists(pathOrphanNew));
 		}
 
 		[TestMethod]

@@ -103,7 +103,7 @@ namespace ImagingCapture.Photo {
 
 		///<summary>Moves a recording and its sidecar to the unsaved photos folder (folderUnsaved: null for the default), with the reason in the
 		///sidecar. Returns the new path, or null with error (the files then stay where they are).</summary>
-		public static string MoveToUnsaved(string pathVideo,string reason,out string error,string folderUnsaved=null) {
+		public static string MoveToUnsaved(string pathVideo,string reason,out string error,string folderUnsaved=null,TimeSpan? duration=null) {
 			error="";
 			try {
 				if(folderUnsaved==null) {
@@ -117,15 +117,32 @@ namespace ImagingCapture.Photo {
 				Directory.CreateDirectory(folderUnsaved);
 				string pathSidecar=Path.ChangeExtension(pathVideo,".txt");
 				PhotoUnsaved photoUnsaved=File.Exists(pathSidecar) ? PhotoQuarantine.ParseSidecar(File.ReadAllText(pathSidecar),pathVideo) : null;
+				if(photoUnsaved==null) {
+					photoUnsaved=ParseFileName(pathVideo);//the sidecar is lost: the patient and time from the file's name
+				}
+				if(photoUnsaved==null) {
+					error="The video's patient is not known (no sidecar): it stays in "+Path.GetDirectoryName(pathVideo)+".";
+					return null;
+				}
 				string pathNew=Path.Combine(folderUnsaved,Path.GetFileName(pathVideo));
 				for(int i=2;File.Exists(pathNew);i++) {
 					pathNew=Path.Combine(folderUnsaved,Path.GetFileNameWithoutExtension(pathVideo)+"_"+i.ToString(CultureInfo.InvariantCulture)+".mp4");
 				}
-				File.Move(pathVideo,pathNew);
-				if(photoUnsaved!=null) {
-					photoUnsaved.PathImage=pathNew;
-					photoUnsaved.Reason=reason??"";
-					File.WriteAllText(photoUnsaved.PathSidecar,PhotoQuarantine.BuildSidecar(photoUnsaved),Encoding.UTF8);
+				photoUnsaved.PathImage=pathNew;
+				photoUnsaved.Reason=reason??"";
+				if(duration!=null) {
+					photoUnsaved.DurationSeconds=(int)Math.Round(duration.Value.TotalSeconds);
+				}
+				//the sidecar first, so the video is never there without one
+				File.WriteAllText(photoUnsaved.PathSidecar,PhotoQuarantine.BuildSidecar(photoUnsaved),Encoding.UTF8);
+				try {
+					File.Move(pathVideo,pathNew);
+				}
+				catch {
+					File.Delete(photoUnsaved.PathSidecar);
+					throw;
+				}
+				if(File.Exists(pathSidecar)) {
 					File.Delete(pathSidecar);
 				}
 				return pathNew;
@@ -134,6 +151,19 @@ namespace ImagingCapture.Photo {
 				error=ex.Message;
 				return null;
 			}
+		}
+
+		///<summary>The patient and time of a recording from its file name (yyyyMMdd-HHmmss-fff_P{PatNum}_video), or null.</summary>
+		public static PhotoUnsaved ParseFileName(string pathVideo) {
+			string name=Path.GetFileNameWithoutExtension(pathVideo)??"";
+			System.Text.RegularExpressions.Match match=System.Text.RegularExpressions.Regex.Match(name,@"^(\d{8}-\d{6}-\d{3})_P(\d+)_video");
+			if(!match.Success) {
+				return null;
+			}
+			long patNum=long.Parse(match.Groups[2].Value,CultureInfo.InvariantCulture);
+			DateTime dateTimeTaken;
+			DateTime.TryParseExact(match.Groups[1].Value,"yyyyMMdd-HHmmss-fff",CultureInfo.InvariantCulture,DateTimeStyles.None,out dateTimeTaken);
+			return patNum>0 ? new PhotoUnsaved { PatNum=patNum,PathImage=pathVideo,Slot=PhotoSessionModel.VideoLabel,DateTimeTaken=dateTimeTaken } : null;
 		}
 
 		///<summary>Recordings left in the recording folder (folder: null for the default) by a program that stopped while recording: those not
@@ -154,6 +184,17 @@ namespace ImagingCapture.Photo {
 						count++;
 					}
 				}
+				//a sidecar without its video: the program stopped before the first frame (an hour old, so never a recording just starting)
+				foreach(string pathSidecar in Directory.GetFiles(folder,"*.txt")) {
+					if(!File.Exists(Path.ChangeExtension(pathSidecar,".mp4")) && File.GetLastWriteTime(pathSidecar)<DateTime.Now.AddHours(-1)) {
+						try {
+							File.Delete(pathSidecar);
+						}
+						catch(Exception exDelete) {
+							exDelete.DoNothing();
+						}
+					}
+				}
 			}
 			catch(Exception ex) {
 				ex.DoNothing();
@@ -169,6 +210,9 @@ namespace ImagingCapture.Photo {
 			}
 			catch(IOException) {
 				return true;
+			}
+			catch(UnauthorizedAccessException) {
+				return true;//another Windows user's recording on this computer
 			}
 		}
 
@@ -193,7 +237,7 @@ namespace ImagingCapture.Photo {
 				return null;
 			}
 			Document documentOld=document.Copy();
-			document.Description="Video "+FormatDuration(duration);
+			document.Description=duration>TimeSpan.Zero ? "Video "+FormatDuration(duration) : "Video";
 			document.ToothNumbers=toothNumbers??"";
 			if(dateTimeStarted.Year>1880) {
 				document.DateCreated=dateTimeStarted;

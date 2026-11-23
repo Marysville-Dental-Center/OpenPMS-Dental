@@ -261,10 +261,14 @@ namespace OpenPmsDental {
 					EventFullScreenToggle?.Invoke(this,EventArgs.Empty);
 					return true;
 				case Keys.R:
-					ToggleRecording();
+					if((msg.LParam.ToInt64() & 0x40000000)==0) {//a held R does not start and stop again
+						ToggleRecording();
+					}
 					return true;
 				case Keys.P:
-					TogglePause();
+					if((msg.LParam.ToInt64() & 0x40000000)==0) {
+						TogglePause();
+					}
 					return true;
 				case Keys.Space:
 					//A held Space repeats: only the first press takes a photo, or one held key would fill the whole mount.
@@ -448,6 +452,17 @@ namespace OpenPmsDental {
 			RefreshGuide();
 		}
 
+		///<summary>The quick photos' small pictures: the newest 12.</summary>
+		private void AddQuickThumb(Bitmap bitmapThumb,long docNum) {
+			_listThumbsQuick.Add(bitmapThumb);
+			_listDocNumsQuick.Add(docNum);
+			while(_listThumbsQuick.Count>12) {
+				_listThumbsQuick[0].Dispose();
+				_listThumbsQuick.RemoveAt(0);
+				_listDocNumsQuick.RemoveAt(0);
+			}
+		}
+
 		///<summary>A small copy of the saved photo as it will show: flipped for a mirror shot and rotated as the slot says.</summary>
 		private void AddThumb(PhotoShotPlan photoShotPlan,Bitmap bitmap,long docNum) {
 			Bitmap bitmapThumb=MakeThumb(bitmap,photoShotPlan.IsFlipped,photoShotPlan.DegreesRotated,_funcScale(160));
@@ -455,13 +470,7 @@ namespace OpenPmsDental {
 				return;
 			}
 			if(photoShotPlan.MountItemNum==0) {
-				_listThumbsQuick.Add(bitmapThumb);
-				_listDocNumsQuick.Add(docNum);
-				while(_listThumbsQuick.Count>12) {
-					_listThumbsQuick[0].Dispose();
-					_listThumbsQuick.RemoveAt(0);
-					_listDocNumsQuick.RemoveAt(0);
-				}
+				AddQuickThumb(bitmapThumb,docNum);
 				return;
 			}
 			if(_dictThumbs.TryGetValue(photoShotPlan.MountItemNum,out Bitmap bitmapOld)) {
@@ -595,6 +604,11 @@ namespace OpenPmsDental {
 				return;
 			}
 			RefreshRecording();
+			if(result.IsTimedOut) {
+				//the file may still be open: it is not imported now; the next session moves it to the unsaved photos
+				ShowAlert(Lan.g(this,"The video is still being finished. It will be under Camera, Unsaved photos after the next camera session starts."));
+				return;
+			}
 			if(result.FramesWritten==0) {
 				VideoFiles.Delete(_pathRecording);
 				ShowInfo(Lan.g(this,"Nothing was recorded.")+(result.Error=="" ? "" : " "+result.Error));
@@ -605,7 +619,7 @@ namespace OpenPmsDental {
 				result.Duration,out error);
 			if(document==null) {
 				string errorMove;
-				string pathKept=VideoFiles.MoveToUnsaved(_pathRecording,error,out errorMove);
+				string pathKept=VideoFiles.MoveToUnsaved(_pathRecording,error,out errorMove,duration:result.Duration);
 				if(pathKept==null) {
 					ShowAlert(error+" "+Lan.g(this,"The file stays in")+" "+_pathRecording+": "+errorMove);
 					return;
@@ -622,8 +636,7 @@ namespace OpenPmsDental {
 					Bitmap bitmapThumb=MakeThumb(bitmapFirst,false,0,_funcScale(160));
 					if(bitmapThumb!=null) {
 						MarkAsVideo(bitmapThumb);
-						_listThumbsQuick.Add(bitmapThumb);
-						_listDocNumsQuick.Add(document.DocNum);
+						AddQuickThumb(bitmapThumb,document.DocNum);
 					}
 				}
 			}
@@ -664,8 +677,8 @@ namespace OpenPmsDental {
 				return;
 			}
 			_dateTimeActivity=DateTime.Now;//recording is activity
-			if(recorder.IsLimitReached) {
-				StopRecording();
+			if(recorder.IsLimitReached || recorder.IsFailed) {
+				StopRecording();//a failed writer (no encoder, disk full) ends it at once and says why
 				return;
 			}
 			RefreshRecording();

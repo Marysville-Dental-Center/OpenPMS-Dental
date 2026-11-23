@@ -143,7 +143,10 @@ namespace ImagingTests {
 			Assert.IsTrue(release.IndexOf("StopRecording();")<release.IndexOf("videoCaptureSession.Dispose();"),"The clip is saved before the camera goes.");
 			StringAssert.Contains(MethodBody(session,"private void RefreshCamera("),"StopRecording();");
 			StringAssert.Contains(MethodBody(session,"private void HandleCameraError("),"StopRecording();");
-			StringAssert.Contains(MethodBody(session,"private void timerRec_Tick("),"recorder.IsLimitReached");
+			StringAssert.Contains(MethodBody(session,"private void timerRec_Tick("),"recorder.IsLimitReached || recorder.IsFailed");
+			StringAssert.Contains(stop,"if(result.IsTimedOut) {");
+			int idxR=keys.IndexOf("case Keys.R:");
+			Assert.IsTrue(keys.IndexOf("0x40000000",idxR)>idxR,"A held R starts or stops once.");
 			StringAssert.Contains(MethodBody(session,"private void timerIdle_Tick("),"IsRecording");
 		}
 

@@ -73,11 +73,12 @@ namespace ImagingCapture.Video {
 			int fpsDenominator;
 			GetFrameRate(framesPerSecond,out fpsNumerator,out fpsDenominator);
 			IMFAttributes attributes;
-			Mf.Check(Mf.MFCreateAttributes(out attributes,3),"MFCreateAttributes");
+			Mf.Check(Mf.MFCreateAttributes(out attributes,2),"MFCreateAttributes");
 			try {
 				Mf.Check(attributes.SetGUID(Mf.MF_TRANSCODE_CONTAINERTYPE,Mf.MFTranscodeContainerType_FMPEG4),"Container type");
 				Mf.Check(attributes.SetUINT32(Mf.MF_READWRITE_ENABLE_HARDWARE_TRANSFORMS,1),"Hardware transforms");
-				Mf.Check(attributes.SetUINT32(Mf.MF_SINK_WRITER_DISABLE_THROTTLING,1),"Throttling");
+				//Throttling stays on: WriteSample then blocks the recording thread while the encoder is behind, VideoRecorder's small queue fills
+				//and frames are left out, instead of the sink writer holding raw frames without limit.
 				Mf.Check(Mf.MFCreateSinkWriterFromURL(path,IntPtr.Zero,attributes,out _sinkWriter),"MFCreateSinkWriterFromURL");
 			}
 			finally {
