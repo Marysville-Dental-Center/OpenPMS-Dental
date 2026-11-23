@@ -20,8 +20,8 @@ def layout(h):
     g = h.n("groupBox3")
     top = (g.title_bottom or 18) + 4
     lw = max(h.lw(n) for n in ("labelAdjDate", "labelAmount", "label3"))
-    F = PAD + lw + 6
-    h.set("labelAdjDate", PAD, top, lw, H)
+    F = 2 * PAD + lw + 6  # the window's column: the inner groups' labels keep their padding
+    h.set("labelAdjDate", PAD, top, F - 6 - PAD, H)
     h.text_align("labelAdjDate", "MiddleRight")
     h.set("dateAdjustment", F, top, h.n("dateAdjustment").nw, H)
     tsx = F + h.n("dateAdjustment").nw + 16

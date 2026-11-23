@@ -3,8 +3,8 @@
 content edge, the labels where their text starts, every field on one column, the combo boxes and the billing type list to the content's
 right edge, the clinic picker's box on the column with Use clinic default billing options under it, Save As Default on the column with its
 note under it. The right column 8 px after the group: the dunning note over the dunning grid; under the grid the Account History Date
-Range group (Start and End Date on one column, the four range buttons after them, the zero balance check box under the boxes) with Defaults
-and Setup Dunning at the right edge on its top; Intermingle family members and Service Date View, Group by Super Family (and Single patient
+Range group (Start and End Date on one column, the four range buttons after them, the zero balance check box under the boxes) with Setup Dunning
+and Defaults one under the other at the right edge on its top; Intermingle family members and Service Date View, Group by Super Family (and Single patient
 only, shown by the code) under it; the general message (on two lines, main cut it) over its box (the multi-clinic note, shown by the code in
 the box's place, on the box's top); Undo Billing and Create List on the bottom bar. The window grows right by the group's width."""
 
@@ -66,9 +66,10 @@ def layout(h):
     y += CH + 4
     h.set("butSaveDefault", F, y, h.n("butSaveDefault").nw, 24)
     y += 24 + 2
-    h.set("labelSaveDefaults", F, y, RR - F, 17)
+    sdh = h.note_h("labelSaveDefaults", RR - F)  # the note with clinics wraps (grid-runtime-texts)
+    h.set("labelSaveDefaults", F, y, RR - F, sdh)
     h.text_align("labelSaveDefaults", "TopLeft")
-    y += 17
+    y += sdh
     gh = y + PAD
     # The right column.
     x0 = PAD + gw + GAP
@@ -118,8 +119,9 @@ def layout(h):
         h.set(name, x, yy, h.cw(name), CH)
     gdy = cy1 - GAP - gdh
     h.set("groupDateRange", x0, gdy, gdw, gdh)
-    h.set("butDunningSetup", R - h.n("butDunningSetup").nw, gdy, None, 24)
-    h.set("butDefaults", R - h.n("butDunningSetup").nw - 6 - h.n("butDefaults").nw, gdy, None, 24)
+    sw = 98  # Setup Dunning's text (86 px) filled its 87 px button: 6 px on each side
+    h.set("butDunningSetup", R - sw, gdy, sw, 24)
+    h.set("butDefaults", R - sw, gdy + 28, sw, 24)  # under Setup Dunning: one column at the right edge
     h.set("label3", x0, PAD, rw, 17)
     h.text_align("label3", "BottomLeft")
     h.set("gridDunning", x0, PAD + 17 + 2, rw, gdy - GAP - (PAD + 17 + 2))

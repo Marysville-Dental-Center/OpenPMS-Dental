@@ -22,11 +22,8 @@ def layout(h):
     F = LX + lw + 6
     gw = F + h.n("comboDay").nw + PAD
     L = PAD + gw  # the left column's right edge
-    # Start Date.
-    l1 = h.lw("label1")
-    h.set("label1", PAD, PAD, l1, H)
-    h.text_align("label1", "MiddleRight")
-    h.set("dateTimeStart", PAD + l1 + 6, PAD, L - (PAD + l1 + 6), H)
+    # Start Date: a captioned box (a label column here would stand 32 px from the Semi-Monthly boxes' column).
+    sy = h.captioned("label1", "dateTimeStart", PAD, PAD, L - PAD)
     # Interval.
     g2 = h.n("groupBox2")
     top = (g2.title_bottom or 18) + 4
@@ -61,7 +58,7 @@ def layout(h):
     sh = yy + CH + PAD
     h.set("groupBoxSemiMonthly", PAD, y, gw - 2 * PAD, sh)
     g2h = y + sh + PAD
-    gy = PAD + H + GAP
+    gy = sy + GAP
     h.set("groupBox2", PAD, gy, gw, g2h)
     # Pay Day.
     g3 = h.n("groupBox3")

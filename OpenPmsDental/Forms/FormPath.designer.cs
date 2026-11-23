@@ -75,7 +75,7 @@ namespace OpenPmsDental {
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(592, 595);
+			this.butOK.Location = new System.Drawing.Point(592, 594);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 24);
 			this.butOK.TabIndex = 2;
@@ -91,14 +91,14 @@ namespace OpenPmsDental {
 			// 
 			// textExportPath
 			// 
-			this.textExportPath.Location = new System.Drawing.Point(8, 465);
+			this.textExportPath.Location = new System.Drawing.Point(8, 449);
 			this.textExportPath.Name = "textExportPath";
 			this.textExportPath.Size = new System.Drawing.Size(577, 23);
 			this.textExportPath.TabIndex = 1;
 			// 
 			// butBrowseExport
 			// 
-			this.butBrowseExport.Location = new System.Drawing.Point(591, 465);
+			this.butBrowseExport.Location = new System.Drawing.Point(591, 449);
 			this.butBrowseExport.Name = "butBrowseExport";
 			this.butBrowseExport.Size = new System.Drawing.Size(76, 23);
 			this.butBrowseExport.TabIndex = 91;
@@ -118,7 +118,7 @@ namespace OpenPmsDental {
 			// 
 			this.label1.Location = new System.Drawing.Point(8, 397);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(659, 66);
+			this.label1.Size = new System.Drawing.Size(659, 50);
 			this.label1.TabIndex = 92;
 			this.label1.Text = resources.GetString("label1.Text");
 			this.label1.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -134,16 +134,16 @@ namespace OpenPmsDental {
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(8, 496);
+			this.label3.Location = new System.Drawing.Point(8, 480);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(659, 66);
+			this.label3.Size = new System.Drawing.Size(659, 50);
 			this.label3.TabIndex = 96;
 			this.label3.Text = resources.GetString("label3.Text");
 			this.label3.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// butBrowseLetter
 			// 
-			this.butBrowseLetter.Location = new System.Drawing.Point(591, 564);
+			this.butBrowseLetter.Location = new System.Drawing.Point(591, 532);
 			this.butBrowseLetter.Name = "butBrowseLetter";
 			this.butBrowseLetter.Size = new System.Drawing.Size(76, 23);
 			this.butBrowseLetter.TabIndex = 95;
@@ -152,7 +152,7 @@ namespace OpenPmsDental {
 			// 
 			// textLetterMergePath
 			// 
-			this.textLetterMergePath.Location = new System.Drawing.Point(8, 564);
+			this.textLetterMergePath.Location = new System.Drawing.Point(8, 532);
 			this.textLetterMergePath.Name = "textLetterMergePath";
 			this.textLetterMergePath.Size = new System.Drawing.Size(577, 23);
 			this.textLetterMergePath.TabIndex = 94;
@@ -456,7 +456,7 @@ namespace OpenPmsDental {
 			// FormPath
 			// 
 			this.AcceptButton = this.butOK;
-			this.ClientSize = new System.Drawing.Size(675, 627);
+			this.ClientSize = new System.Drawing.Size(675, 626);
 			this.Controls.Add(this.groupbox1);
 			this.Controls.Add(this.butBrowseLetter);
 			this.Controls.Add(this.butBrowseExport);

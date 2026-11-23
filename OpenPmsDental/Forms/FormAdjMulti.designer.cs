@@ -74,7 +74,7 @@ namespace OpenPmsDental {
 			this.comboClinic.ForceShowUnassigned = true;
 			this.comboClinic.HqDescription = "Inherit";
 			this.comboClinic.IncludeUnassigned = true;
-			this.comboClinic.Location = new System.Drawing.Point(19, 50);
+			this.comboClinic.Location = new System.Drawing.Point(27, 50);
 			this.comboClinic.Name = "comboClinic";
 			this.comboClinic.Size = new System.Drawing.Size(326, 23);
 			this.comboClinic.TabIndex = 45;
@@ -90,7 +90,7 @@ namespace OpenPmsDental {
 			// 
 			// comboProv
 			// 
-			this.comboProv.Location = new System.Drawing.Point(62, 23);
+			this.comboProv.Location = new System.Drawing.Point(70, 23);
 			this.comboProv.Name = "comboProv";
 			this.comboProv.Size = new System.Drawing.Size(283, 23);
 			this.comboProv.TabIndex = 42;
@@ -99,7 +99,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelAdjDate.Location = new System.Drawing.Point(8, 23);
 			this.labelAdjDate.Name = "labelAdjDate";
-			this.labelAdjDate.Size = new System.Drawing.Size(56, 23);
+			this.labelAdjDate.Size = new System.Drawing.Size(64, 23);
 			this.labelAdjDate.TabIndex = 36;
 			this.labelAdjDate.Text = "Date";
 			this.labelAdjDate.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -171,7 +171,7 @@ namespace OpenPmsDental {
 			// 
 			// butPickProv
 			// 
-			this.butPickProv.Location = new System.Drawing.Point(351, 23);
+			this.butPickProv.Location = new System.Drawing.Point(359, 23);
 			this.butPickProv.Name = "butPickProv";
 			this.butPickProv.Size = new System.Drawing.Size(24, 23);
 			this.butPickProv.TabIndex = 43;
@@ -180,7 +180,7 @@ namespace OpenPmsDental {
 			// 
 			// dateAdjustment
 			// 
-			this.dateAdjustment.Location = new System.Drawing.Point(70, 23);
+			this.dateAdjustment.Location = new System.Drawing.Point(78, 23);
 			this.dateAdjustment.Name = "dateAdjustment";
 			this.dateAdjustment.Size = new System.Drawing.Size(80, 23);
 			this.dateAdjustment.TabIndex = 54;
@@ -188,7 +188,7 @@ namespace OpenPmsDental {
 			// radioFixedAmt
 			// 
 			this.radioFixedAmt.Checked = true;
-			this.radioFixedAmt.Location = new System.Drawing.Point(146, 24);
+			this.radioFixedAmt.Location = new System.Drawing.Point(154, 24);
 			this.radioFixedAmt.Name = "radioFixedAmt";
 			this.radioFixedAmt.Size = new System.Drawing.Size(99, 20);
 			this.radioFixedAmt.TabIndex = 161;
@@ -199,7 +199,7 @@ namespace OpenPmsDental {
 			// 
 			// radioPercentRemBal
 			// 
-			this.radioPercentRemBal.Location = new System.Drawing.Point(146, 48);
+			this.radioPercentRemBal.Location = new System.Drawing.Point(154, 48);
 			this.radioPercentRemBal.Name = "radioPercentRemBal";
 			this.radioPercentRemBal.Size = new System.Drawing.Size(183, 20);
 			this.radioPercentRemBal.TabIndex = 160;
@@ -208,7 +208,7 @@ namespace OpenPmsDental {
 			// 
 			// textAmt
 			// 
-			this.textAmt.Location = new System.Drawing.Point(62, 23);
+			this.textAmt.Location = new System.Drawing.Point(70, 23);
 			this.textAmt.MaxVal = 100000000D;
 			this.textAmt.MinVal = -100000000D;
 			this.textAmt.Name = "textAmt";
@@ -217,7 +217,7 @@ namespace OpenPmsDental {
 			// 
 			// radioPercentProcFee
 			// 
-			this.radioPercentProcFee.Location = new System.Drawing.Point(146, 72);
+			this.radioPercentProcFee.Location = new System.Drawing.Point(154, 72);
 			this.radioPercentProcFee.Name = "radioPercentProcFee";
 			this.radioPercentProcFee.Size = new System.Drawing.Size(100, 20);
 			this.radioPercentProcFee.TabIndex = 160;
@@ -242,7 +242,7 @@ namespace OpenPmsDental {
 			this.groupBox1.Controls.Add(this.radioPercentProcFee);
 			this.groupBox1.Location = new System.Drawing.Point(8, 54);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(383, 100);
+			this.groupBox1.Size = new System.Drawing.Size(391, 100);
 			this.groupBox1.TabIndex = 162;
 			this.groupBox1.Text = "Adjust Per Procedure";
 			// 
@@ -254,41 +254,41 @@ namespace OpenPmsDental {
 			this.groupBox2.Controls.Add(this.comboClinic);
 			this.groupBox2.Location = new System.Drawing.Point(8, 162);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(383, 81);
+			this.groupBox2.Size = new System.Drawing.Size(391, 81);
 			this.groupBox2.TabIndex = 163;
 			this.groupBox2.Text = "Override";
 			// 
 			// listTypePos
 			// 
-			this.listTypePos.Location = new System.Drawing.Point(407, 42);
+			this.listTypePos.Location = new System.Drawing.Point(415, 42);
 			this.listTypePos.Name = "listTypePos";
-			this.listTypePos.Size = new System.Drawing.Size(217, 201);
+			this.listTypePos.Size = new System.Drawing.Size(213, 201);
 			this.listTypePos.TabIndex = 164;
 			this.listTypePos.SelectedIndexChanged += new System.EventHandler(this.listTypePos_SelectedIndexChanged);
 			// 
 			// labelAdditions
 			// 
-			this.labelAdditions.Location = new System.Drawing.Point(407, 23);
+			this.labelAdditions.Location = new System.Drawing.Point(415, 23);
 			this.labelAdditions.Name = "labelAdditions";
-			this.labelAdditions.Size = new System.Drawing.Size(217, 17);
+			this.labelAdditions.Size = new System.Drawing.Size(213, 17);
 			this.labelAdditions.TabIndex = 166;
 			this.labelAdditions.Text = "Additions";
 			this.labelAdditions.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// labelSubtractions
 			// 
-			this.labelSubtractions.Location = new System.Drawing.Point(632, 23);
+			this.labelSubtractions.Location = new System.Drawing.Point(636, 23);
 			this.labelSubtractions.Name = "labelSubtractions";
-			this.labelSubtractions.Size = new System.Drawing.Size(217, 17);
+			this.labelSubtractions.Size = new System.Drawing.Size(213, 17);
 			this.labelSubtractions.TabIndex = 167;
 			this.labelSubtractions.Text = "Subtractions";
 			this.labelSubtractions.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// listTypeNeg
 			// 
-			this.listTypeNeg.Location = new System.Drawing.Point(632, 42);
+			this.listTypeNeg.Location = new System.Drawing.Point(636, 42);
 			this.listTypeNeg.Name = "listTypeNeg";
-			this.listTypeNeg.Size = new System.Drawing.Size(217, 201);
+			this.listTypeNeg.Size = new System.Drawing.Size(213, 201);
 			this.listTypeNeg.TabIndex = 165;
 			this.listTypeNeg.SelectedIndexChanged += new System.EventHandler(this.listTypeNeg_SelectedIndexChanged);
 			// 
@@ -312,7 +312,7 @@ namespace OpenPmsDental {
 			// checkOnlyTsiExcludedAdjTypes
 			// 
 			this.checkOnlyTsiExcludedAdjTypes.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkOnlyTsiExcludedAdjTypes.Location = new System.Drawing.Point(166, 24);
+			this.checkOnlyTsiExcludedAdjTypes.Location = new System.Drawing.Point(174, 24);
 			this.checkOnlyTsiExcludedAdjTypes.Name = "checkOnlyTsiExcludedAdjTypes";
 			this.checkOnlyTsiExcludedAdjTypes.Size = new System.Drawing.Size(217, 20);
 			this.checkOnlyTsiExcludedAdjTypes.TabIndex = 172;

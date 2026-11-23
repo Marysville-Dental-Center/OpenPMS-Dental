@@ -98,8 +98,8 @@ def layout(h):
         h.set(cap2, PAD + w + GAP, PAD, w, 17)
         h.text_align(cap2, "BottomLeft")
         h.set(l2, PAD + w + GAP, PAD + 19, w, ph - PAD - (PAD + 19))
-    h.set("butPassword", PAD, by, None, 24)
-    h.set("butUnlock", PAD + h.n("butPassword").nw + 6, by, None, 24)
+    h.set("butPassword", PAD, by, 116, 24)  # Change Password's text (101 px) filled its 103 px button
+    h.set("butUnlock", PAD + 116 + 6, by, None, 24)
     h.set("butSave", R - h.n("butSave").nw, by, None, 24)
     h.set(".", None, None, W, HH)
     h.watch(".", "tabUser", "tabClinics", "tabAlertSubs")

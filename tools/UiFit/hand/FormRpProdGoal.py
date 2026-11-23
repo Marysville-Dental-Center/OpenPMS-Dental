@@ -28,8 +28,9 @@ def layout(h):
     # Date Range.
     g = h.n("groupBox2")
     top = (g.title_bottom or 18) + 4
-    dl = max(h.lw("label2"), h.lw("label3"))
-    DF = PAD + dl + 6
+    DF = l4 + 6  # the From and To boxes on Today's Date box's column (window coordinates)
+    dl = DF - 6 - PAD
+    assert dl >= max(h.lw("label2"), h.lw("label3"))
     h.set("butLeft", DF, top, 45, 26)
     h.set("butThis", DF + 51, top, 101, 26)
     h.set("butRight", DF + 158, top, 45, 26)

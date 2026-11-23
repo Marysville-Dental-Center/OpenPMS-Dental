@@ -89,10 +89,10 @@
 			// 
 			this.textLabName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textLabName.Location = new System.Drawing.Point(134, 299);
+			this.textLabName.Location = new System.Drawing.Point(142, 299);
 			this.textLabName.Multiline = true;
 			this.textLabName.Name = "textLabName";
-			this.textLabName.Size = new System.Drawing.Size(430, 36);
+			this.textLabName.Size = new System.Drawing.Size(422, 36);
 			this.textLabName.TabIndex = 5;
 			// 
 			// label1
@@ -108,7 +108,7 @@
 			// 
 			this.label2.Location = new System.Drawing.Point(8, 302);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(120, 17);
+			this.label2.Size = new System.Drawing.Size(128, 17);
 			this.label2.TabIndex = 7;
 			this.label2.Text = "Lab Name / Address";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -117,14 +117,14 @@
 			// 
 			this.label3.Location = new System.Drawing.Point(8, 339);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(120, 23);
+			this.label3.Size = new System.Drawing.Size(128, 23);
 			this.label3.TabIndex = 9;
 			this.label3.Text = "Specimen Condition";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textSpecimenCondition
 			// 
-			this.textSpecimenCondition.Location = new System.Drawing.Point(134, 339);
+			this.textSpecimenCondition.Location = new System.Drawing.Point(142, 339);
 			this.textSpecimenCondition.Name = "textSpecimenCondition";
 			this.textSpecimenCondition.Size = new System.Drawing.Size(158, 23);
 			this.textSpecimenCondition.TabIndex = 8;
@@ -142,7 +142,7 @@
 			// textSpecimenSourceCode
 			// 
 			this.textSpecimenSourceCode.AutoSize = false;
-			this.textSpecimenSourceCode.Location = new System.Drawing.Point(126, 23);
+			this.textSpecimenSourceCode.Location = new System.Drawing.Point(134, 23);
 			this.textSpecimenSourceCode.Name = "textSpecimenSourceCode";
 			this.textSpecimenSourceCode.Size = new System.Drawing.Size(64, 23);
 			this.textSpecimenSourceCode.TabIndex = 10;
@@ -176,17 +176,17 @@
 			// 
 			this.label5.Location = new System.Drawing.Point(8, 179);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(120, 23);
+			this.label5.Size = new System.Drawing.Size(128, 23);
 			this.label5.TabIndex = 15;
 			this.label5.Text = "Patient Name";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textName
 			// 
-			this.textName.Location = new System.Drawing.Point(134, 179);
+			this.textName.Location = new System.Drawing.Point(142, 179);
 			this.textName.Name = "textName";
 			this.textName.ReadOnly = true;
-			this.textName.Size = new System.Drawing.Size(430, 23);
+			this.textName.Size = new System.Drawing.Size(422, 23);
 			this.textName.TabIndex = 14;
 			this.textName.WordWrap = false;
 			// 
@@ -206,7 +206,7 @@
 			// 
 			// label7
 			// 
-			this.label7.Location = new System.Drawing.Point(196, 23);
+			this.label7.Location = new System.Drawing.Point(204, 23);
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(100, 23);
 			this.label7.TabIndex = 14;
@@ -216,9 +216,9 @@
 			// textSpecimenLocation
 			// 
 			this.textSpecimenLocation.AutoSize = false;
-			this.textSpecimenLocation.Location = new System.Drawing.Point(126, 50);
+			this.textSpecimenLocation.Location = new System.Drawing.Point(134, 50);
 			this.textSpecimenLocation.Name = "textSpecimenLocation";
-			this.textSpecimenLocation.Size = new System.Drawing.Size(422, 23);
+			this.textSpecimenLocation.Size = new System.Drawing.Size(414, 23);
 			this.textSpecimenLocation.TabIndex = 12;
 			this.textSpecimenLocation.WordWrap = false;
 			// 
@@ -247,7 +247,7 @@
 			// textServiceID
 			// 
 			this.textServiceID.AutoSize = false;
-			this.textServiceID.Location = new System.Drawing.Point(126, 23);
+			this.textServiceID.Location = new System.Drawing.Point(134, 23);
 			this.textServiceID.Name = "textServiceID";
 			this.textServiceID.Size = new System.Drawing.Size(106, 23);
 			this.textServiceID.TabIndex = 0;
@@ -264,9 +264,9 @@
 			// textServiceName
 			// 
 			this.textServiceName.AutoSize = false;
-			this.textServiceName.Location = new System.Drawing.Point(126, 50);
+			this.textServiceName.Location = new System.Drawing.Point(134, 50);
 			this.textServiceName.Name = "textServiceName";
-			this.textServiceName.Size = new System.Drawing.Size(422, 23);
+			this.textServiceName.Size = new System.Drawing.Size(414, 23);
 			this.textServiceName.TabIndex = 1;
 			// 
 			// label9

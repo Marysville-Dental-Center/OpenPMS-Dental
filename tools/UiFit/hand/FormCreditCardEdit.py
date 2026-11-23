@@ -1,7 +1,7 @@
 """FormCreditCardEdit on the grid (UI-12 slice 3, mode hand). Main's arrangement on the grid's numbers, one field column for the window and
 its groups: Card Number, Exp (MMYY), Address (to the right edge) and Zip; Clinic, Account Type and Card Holder (shown by the code) on a right
 field column on the same rows. The Authorized Recurring Charges group: Payment Plan, Payment Type Override, Charge Amount with Clear, Date
-Start with Today, Date Stop and Note on the column; Run charge even if no family balance (two lines) and Is Recurring Active, Next Charge
+Start with Today, Date Stop, Run charge even if no family balance present and Note on the column; Is Recurring Active, Next Charge
 Date and Previous Start Date (shown by the code) in a right column. The Charge Frequency group: the frequency in words, the two kinds of
 frequency side by side with their boxes under them, Add Day and Clear under the day box. The Authorized Procedures group (shown by the code):
 the note before the list, Exclude from proc sync, Add and Remove after it. Delete and Save on the bottom bar. FormCreditCardEdit.cs hides
@@ -47,14 +47,10 @@ def layout(h):
     rli = max(h.lw("labelNextChargeDate"), h.lw("labelPreviousStartDate"))
     RC = rfi - 6 - rli  # the right column's start
     cbw = RC - 16 - Fi
-    chk_h = max(CH, h.note_h("checkChrgWithNoBal", cr - RC - 16))
     yy = top
-    r1 = max(H, chk_h)
-    h.set("labelPayPlan", PAD, yy + (r1 - H) // 2, ilw, H)
-    h.set("comboPaymentPlans", Fi, yy + (r1 - H) // 2, cbw, H)
-    h.check_left("checkChrgWithNoBal")
-    h.set("checkChrgWithNoBal", RC, yy + (r1 - chk_h) // 2, cr - RC, chk_h)
-    yy += r1 + 4
+    h.set("labelPayPlan", PAD, yy, ilw, H)
+    h.set("comboPaymentPlans", Fi, yy, cbw, H)
+    yy += P
     h.set("label9", PAD, yy, ilw, H)
     h.set("comboPaymentType", Fi, yy, cbw, H)
     h.check_left("checkIsRecurringActive")
@@ -73,6 +69,9 @@ def layout(h):
             h.text_align(rl, "MiddleRight")
             h.set(rf, rfi, yy, 82, H)
         yy += P
+    h.check_left("checkChrgWithNoBal")
+    h.set("checkChrgWithNoBal", Fi, yy, h.cw("checkChrgWithNoBal"), CH)
+    yy += CH + 4
     h.set("label7", PAD, yy, ilw, H)
     h.text_align("label7", "MiddleRight")
     h.set("textNote", Fi, yy, cr - Fi, h.n("textNote").nh)

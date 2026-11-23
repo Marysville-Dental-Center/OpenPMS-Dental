@@ -75,6 +75,17 @@ def layout(h):
         grids.append((grid, t))
         gx = max(gx, right + 16)
         h.set(grp, PAD, top + k * (ih + GAP), iw, ih)
+    # The grids keep their designer MinimumSize (559 px): the window grows right when the fields need more room.
+    need = gx + max(h.n(g_).nw for g_, t in grids) + PAD
+    if need > iw:
+        iw = need
+        gw = iw + 2 * PAD
+        W = gw + 2 * PAD
+        R = W - PAD
+        h.set("groupTobaccoUse", PAD, gy, gw, gh)
+        for k, (g_, t) in enumerate(grids):
+            h.set(("groupAssessment", "groupIntervention")[k], PAD, top + k * (ih + GAP), iw, ih)
+        h.set(".", None, None, W, HH)
     for grid, t in grids:  # both grids on one column
         h.set(grid, gx, t, iw - PAD - gx, ih - t - PAD)
     h.set("butSave", R - 76, by, 76, 24)

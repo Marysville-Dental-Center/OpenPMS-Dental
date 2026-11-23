@@ -77,7 +77,7 @@ namespace OpenPmsDental {
 			this.groupBox3.Controls.Add(this.textDaysAfterPayPeriod);
 			this.groupBox3.Controls.Add(this.label4);
 			this.groupBox3.Controls.Add(this.label2);
-			this.groupBox3.Location = new System.Drawing.Point(8, 310);
+			this.groupBox3.Location = new System.Drawing.Point(8, 329);
 			this.groupBox3.Name = "groupBox3";
 			this.groupBox3.Size = new System.Drawing.Size(280, 174);
 			this.groupBox3.TabIndex = 7;
@@ -168,10 +168,10 @@ namespace OpenPmsDental {
 			// 
 			this.label1.Location = new System.Drawing.Point(8, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(64, 23);
+			this.label1.Size = new System.Drawing.Size(280, 17);
 			this.label1.TabIndex = 6;
 			this.label1.Text = "Start Date";
-			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.label1.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// groupBox2
 			// 
@@ -184,7 +184,7 @@ namespace OpenPmsDental {
 			this.groupBox2.Controls.Add(this.radioMonthly);
 			this.groupBox2.Controls.Add(this.label5);
 			this.groupBox2.Controls.Add(this.radioBiWeekly);
-			this.groupBox2.Location = new System.Drawing.Point(8, 39);
+			this.groupBox2.Location = new System.Drawing.Point(8, 58);
 			this.groupBox2.Name = "groupBox2";
 			this.groupBox2.Size = new System.Drawing.Size(280, 263);
 			this.groupBox2.TabIndex = 5;
@@ -368,9 +368,9 @@ namespace OpenPmsDental {
 			// dateTimeStart
 			// 
 			this.dateTimeStart.CustomFormat = "";
-			this.dateTimeStart.Location = new System.Drawing.Point(78, 8);
+			this.dateTimeStart.Location = new System.Drawing.Point(8, 27);
 			this.dateTimeStart.Name = "dateTimeStart";
-			this.dateTimeStart.Size = new System.Drawing.Size(210, 23);
+			this.dateTimeStart.Size = new System.Drawing.Size(280, 23);
 			this.dateTimeStart.TabIndex = 0;
 			// 
 			// gridMain
@@ -399,7 +399,7 @@ namespace OpenPmsDental {
 			// 
 			this.butGenerate.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butGenerate.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butGenerate.Location = new System.Drawing.Point(202, 492);
+			this.butGenerate.Location = new System.Drawing.Point(202, 511);
 			this.butGenerate.Name = "butGenerate";
 			this.butGenerate.Size = new System.Drawing.Size(86, 24);
 			this.butGenerate.TabIndex = 10;

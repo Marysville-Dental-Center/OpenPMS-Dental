@@ -155,7 +155,7 @@
 			this.groupTobaccoUse.Controls.Add(this.groupAssessment);
 			this.groupTobaccoUse.Location = new System.Drawing.Point(8, 39);
 			this.groupTobaccoUse.Name = "groupTobaccoUse";
-			this.groupTobaccoUse.Size = new System.Drawing.Size(951, 445);
+			this.groupTobaccoUse.Size = new System.Drawing.Size(1015, 445);
 			this.groupTobaccoUse.TabIndex = 2;
 			this.groupTobaccoUse.TabStop = false;
 			this.groupTobaccoUse.Text = "Tobacco Use Screening and Cessation Intervention (CQM)";
@@ -178,7 +178,7 @@
 			this.groupIntervention.Controls.Add(this.comboInterventionCode);
 			this.groupIntervention.Location = new System.Drawing.Point(8, 234);
 			this.groupIntervention.Name = "groupIntervention";
-			this.groupIntervention.Size = new System.Drawing.Size(935, 203);
+			this.groupIntervention.Size = new System.Drawing.Size(999, 203);
 			this.groupIntervention.TabIndex = 2;
 			this.groupIntervention.TabStop = false;
 			this.groupIntervention.Text = "Cessation Intervention";
@@ -219,7 +219,7 @@
 			this.gridInterventions.MinimumSize = new System.Drawing.Size(559, 160);
 			this.gridInterventions.Name = "gridInterventions";
 			this.gridInterventions.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridInterventions.Size = new System.Drawing.Size(495, 172);
+			this.gridInterventions.Size = new System.Drawing.Size(559, 172);
 			this.gridInterventions.TabIndex = 9;
 			this.gridInterventions.Title = "Intervention History";
 			this.gridInterventions.TranslationName = "TableIntervention";
@@ -320,7 +320,7 @@
 			this.groupAssessment.Controls.Add(this.comboTobaccoStatus);
 			this.groupAssessment.Location = new System.Drawing.Point(8, 23);
 			this.groupAssessment.Name = "groupAssessment";
-			this.groupAssessment.Size = new System.Drawing.Size(935, 203);
+			this.groupAssessment.Size = new System.Drawing.Size(999, 203);
 			this.groupAssessment.TabIndex = 1;
 			this.groupAssessment.TabStop = false;
 			this.groupAssessment.Text = "Tobacco Use Assessment";
@@ -352,7 +352,7 @@
 			this.gridAssessments.MinimumSize = new System.Drawing.Size(559, 160);
 			this.gridAssessments.Name = "gridAssessments";
 			this.gridAssessments.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridAssessments.Size = new System.Drawing.Size(495, 172);
+			this.gridAssessments.Size = new System.Drawing.Size(559, 172);
 			this.gridAssessments.TabIndex = 9;
 			this.gridAssessments.Title = "Assessment History";
 			this.gridAssessments.TranslationName = "TableAssessment";
@@ -400,7 +400,7 @@
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(883, 492);
+			this.butSave.Location = new System.Drawing.Point(947, 492);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(76, 24);
 			this.butSave.TabIndex = 3;
@@ -410,7 +410,7 @@
 			// FormEhrPatientSmoking
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(967, 524);
+			this.ClientSize = new System.Drawing.Size(1031, 524);
 			this.Controls.Add(this.butSave);
 			this.Controls.Add(this.groupTobaccoUse);
 			this.Controls.Add(this.label1);

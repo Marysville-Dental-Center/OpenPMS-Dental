@@ -14,14 +14,15 @@ def layout(h):
     R = W - PAD
     H = h.H
     lw = max(h.lw(n) for n in ("label5", "label3", "label2", "label8", "label9", "label4", "label6"))
-    F = PAD + lw + 6
+    F = 2 * PAD + lw + 6  # the window's column: the groups' labels keep their padding
     Fi = F - PAD
+    olw = F - 6 - PAD
     y = h.captioned("label1", "textRawMsg", PAD, PAD, R - PAD, h.n("textRawMsg").nh) + 4
 
     def row(lab, fld, w, fh=None, x0=PAD, f=F, ta="MiddleRight"):
         nonlocal y
         fh = fh or H
-        h.set(lab, x0, y, lw, H if ta == "MiddleRight" else 17)
+        h.set(lab, x0, y, olw, H if ta == "MiddleRight" else 17)
         h.text_align(lab, ta)
         h.set(fld, f, y, w, fh)
         y += fh + 4
@@ -42,7 +43,7 @@ def layout(h):
     h.set("groupBox2", PAD, y, gw, gh)
     y += gh + GAP
     lh = h.n("textLabName").nh
-    h.set("label2", PAD, y + 3, lw, 17)
+    h.set("label2", PAD, y + 3, olw, 17)
     h.text_align("label2", "TopRight")
     h.set("textLabName", F, y, R - F, lh)
     y += lh + 4

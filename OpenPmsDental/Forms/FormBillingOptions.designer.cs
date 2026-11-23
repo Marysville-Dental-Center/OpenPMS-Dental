@@ -76,7 +76,7 @@ namespace OpenPmsDental {
 			// butCreate
 			// 
 			this.butCreate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butCreate.Location = new System.Drawing.Point(928, 687);
+			this.butCreate.Location = new System.Drawing.Point(928, 704);
 			this.butCreate.Name = "butCreate";
 			this.butCreate.Size = new System.Drawing.Size(92, 24);
 			this.butCreate.TabIndex = 11;
@@ -149,7 +149,7 @@ namespace OpenPmsDental {
 			this.groupBox2.Controls.Add(this.listBillType);
 			this.groupBox2.Location = new System.Drawing.Point(8, 8);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(443, 671);
+			this.groupBox2.Size = new System.Drawing.Size(443, 688);
 			this.groupBox2.TabIndex = 0;
 			this.groupBox2.Text = "Filter";
 			// 
@@ -238,7 +238,7 @@ namespace OpenPmsDental {
 			this.labelSaveDefaults.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelSaveDefaults.Location = new System.Drawing.Point(266, 646);
 			this.labelSaveDefaults.Name = "labelSaveDefaults";
-			this.labelSaveDefaults.Size = new System.Drawing.Size(169, 17);
+			this.labelSaveDefaults.Size = new System.Drawing.Size(169, 34);
 			this.labelSaveDefaults.TabIndex = 246;
 			this.labelSaveDefaults.Text = "(except the date at the top)";
 			this.labelSaveDefaults.TextAlign = System.Drawing.ContentAlignment.TopLeft;
@@ -353,7 +353,7 @@ namespace OpenPmsDental {
 			// 
 			this.gridDunning.Location = new System.Drawing.Point(459, 27);
 			this.gridDunning.Name = "gridDunning";
-			this.gridDunning.Size = new System.Drawing.Size(561, 353);
+			this.gridDunning.Size = new System.Drawing.Size(561, 370);
 			this.gridDunning.TabIndex = 1;
 			this.gridDunning.Title = "Dunning Messages";
 			this.gridDunning.TranslationName = "TableBillingMessages";
@@ -361,9 +361,9 @@ namespace OpenPmsDental {
 			// 
 			// butDunningSetup
 			// 
-			this.butDunningSetup.Location = new System.Drawing.Point(933, 388);
+			this.butDunningSetup.Location = new System.Drawing.Point(922, 405);
 			this.butDunningSetup.Name = "butDunningSetup";
-			this.butDunningSetup.Size = new System.Drawing.Size(87, 24);
+			this.butDunningSetup.Size = new System.Drawing.Size(98, 24);
 			this.butDunningSetup.TabIndex = 3;
 			this.butDunningSetup.Text = "Setup Dunning";
 			this.butDunningSetup.Click += new System.EventHandler(this.butDunningSetup_Click);
@@ -379,7 +379,7 @@ namespace OpenPmsDental {
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(459, 553);
+			this.label4.Location = new System.Drawing.Point(459, 570);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(561, 34);
 			this.label4.TabIndex = 26;
@@ -393,7 +393,7 @@ namespace OpenPmsDental {
 			this.textNote.BackColor = System.Drawing.SystemColors.Window;
 			this.textNote.DetectLinksEnabled = false;
 			this.textNote.DetectUrls = false;
-			this.textNote.Location = new System.Drawing.Point(459, 589);
+			this.textNote.Location = new System.Drawing.Point(459, 606);
 			this.textNote.Name = "textNote";
 			this.textNote.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Statement;
 			this.textNote.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
@@ -412,7 +412,7 @@ namespace OpenPmsDental {
 			this.groupDateRange.Controls.Add(this.but45days);
 			this.groupDateRange.Controls.Add(this.but90days);
 			this.groupDateRange.Controls.Add(this.butDatesAll);
-			this.groupDateRange.Location = new System.Drawing.Point(459, 388);
+			this.groupDateRange.Location = new System.Drawing.Point(459, 405);
 			this.groupDateRange.Name = "groupDateRange";
 			this.groupDateRange.Size = new System.Drawing.Size(391, 105);
 			this.groupDateRange.TabIndex = 2;
@@ -490,7 +490,7 @@ namespace OpenPmsDental {
 			// 
 			// checkIntermingled
 			// 
-			this.checkIntermingled.Location = new System.Drawing.Point(459, 501);
+			this.checkIntermingled.Location = new System.Drawing.Point(459, 518);
 			this.checkIntermingled.Name = "checkIntermingled";
 			this.checkIntermingled.Size = new System.Drawing.Size(176, 20);
 			this.checkIntermingled.TabIndex = 5;
@@ -499,9 +499,9 @@ namespace OpenPmsDental {
 			// 
 			// butDefaults
 			// 
-			this.butDefaults.Location = new System.Drawing.Point(851, 388);
+			this.butDefaults.Location = new System.Drawing.Point(922, 433);
 			this.butDefaults.Name = "butDefaults";
-			this.butDefaults.Size = new System.Drawing.Size(76, 24);
+			this.butDefaults.Size = new System.Drawing.Size(98, 24);
 			this.butDefaults.TabIndex = 4;
 			this.butDefaults.Text = "Defaults";
 			this.butDefaults.Click += new System.EventHandler(this.butDefaults_Click);
@@ -509,7 +509,7 @@ namespace OpenPmsDental {
 			// butUndo
 			// 
 			this.butUndo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butUndo.Location = new System.Drawing.Point(8, 687);
+			this.butUndo.Location = new System.Drawing.Point(8, 704);
 			this.butUndo.Name = "butUndo";
 			this.butUndo.Size = new System.Drawing.Size(88, 24);
 			this.butUndo.TabIndex = 10;
@@ -518,7 +518,7 @@ namespace OpenPmsDental {
 			// 
 			// checkSuperFam
 			// 
-			this.checkSuperFam.Location = new System.Drawing.Point(459, 525);
+			this.checkSuperFam.Location = new System.Drawing.Point(459, 542);
 			this.checkSuperFam.Name = "checkSuperFam";
 			this.checkSuperFam.Size = new System.Drawing.Size(147, 20);
 			this.checkSuperFam.TabIndex = 6;
@@ -528,7 +528,7 @@ namespace OpenPmsDental {
 			// checkSinglePatient
 			// 
 			this.checkSinglePatient.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkSinglePatient.Location = new System.Drawing.Point(651, 525);
+			this.checkSinglePatient.Location = new System.Drawing.Point(651, 542);
 			this.checkSinglePatient.Name = "checkSinglePatient";
 			this.checkSinglePatient.RightToLeft = System.Windows.Forms.RightToLeft.No;
 			this.checkSinglePatient.Size = new System.Drawing.Size(124, 20);
@@ -539,7 +539,7 @@ namespace OpenPmsDental {
 			// 
 			// checkServiceDateView
 			// 
-			this.checkServiceDateView.Location = new System.Drawing.Point(651, 501);
+			this.checkServiceDateView.Location = new System.Drawing.Point(651, 518);
 			this.checkServiceDateView.Name = "checkServiceDateView";
 			this.checkServiceDateView.Size = new System.Drawing.Size(119, 20);
 			this.checkServiceDateView.TabIndex = 8;
@@ -547,7 +547,7 @@ namespace OpenPmsDental {
 			// 
 			// labelMultiClinicGenMsg
 			// 
-			this.labelMultiClinicGenMsg.Location = new System.Drawing.Point(459, 589);
+			this.labelMultiClinicGenMsg.Location = new System.Drawing.Point(459, 606);
 			this.labelMultiClinicGenMsg.Name = "labelMultiClinicGenMsg";
 			this.labelMultiClinicGenMsg.Size = new System.Drawing.Size(561, 34);
 			this.labelMultiClinicGenMsg.TabIndex = 256;
@@ -559,7 +559,7 @@ namespace OpenPmsDental {
 			// FormBillingOptions
 			// 
 			this.AcceptButton = this.butCreate;
-			this.ClientSize = new System.Drawing.Size(1028, 719);
+			this.ClientSize = new System.Drawing.Size(1028, 736);
 			this.Controls.Add(this.labelMultiClinicGenMsg);
 			this.Controls.Add(this.checkServiceDateView);
 			this.Controls.Add(this.checkSinglePatient);

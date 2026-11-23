@@ -136,7 +136,7 @@ namespace OpenPmsDental {
 			this.groupBox1.Controls.Add(this.checkWordWrap);
 			this.groupBox1.Location = new System.Drawing.Point(148, 0);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(443, 102);
+			this.groupBox1.Size = new System.Drawing.Size(443, 100);
 			this.groupBox1.TabIndex = 5;
 			this.groupBox1.Text = "Format";
 			// 
@@ -172,7 +172,7 @@ namespace OpenPmsDental {
 			// checkNumberedRows
 			// 
 			this.checkNumberedRows.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkNumberedRows.Location = new System.Drawing.Point(139, 50);
+			this.checkNumberedRows.Location = new System.Drawing.Point(139, 48);
 			this.checkNumberedRows.Name = "checkNumberedRows";
 			this.checkNumberedRows.Size = new System.Drawing.Size(133, 20);
 			this.checkNumberedRows.TabIndex = 21;
@@ -181,7 +181,7 @@ namespace OpenPmsDental {
 			// 
 			// radioRaw
 			// 
-			this.radioRaw.Location = new System.Drawing.Point(8, 50);
+			this.radioRaw.Location = new System.Drawing.Point(8, 48);
 			this.radioRaw.Name = "radioRaw";
 			this.radioRaw.Size = new System.Drawing.Size(47, 20);
 			this.radioRaw.TabIndex = 1;
@@ -191,7 +191,7 @@ namespace OpenPmsDental {
 			// checkWordWrap
 			// 
 			this.checkWordWrap.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkWordWrap.Location = new System.Drawing.Point(139, 74);
+			this.checkWordWrap.Location = new System.Drawing.Point(139, 72);
 			this.checkWordWrap.Name = "checkWordWrap";
 			this.checkWordWrap.Size = new System.Drawing.Size(120, 20);
 			this.checkWordWrap.TabIndex = 20;
@@ -284,12 +284,12 @@ namespace OpenPmsDental {
 			this.panel1.Controls.Add(this.groupBox1);
 			this.panel1.Location = new System.Drawing.Point(669, 0);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(591, 149);
+			this.panel1.Size = new System.Drawing.Size(591, 147);
 			this.panel1.TabIndex = 17;
 			// 
 			// radioLandscape
 			// 
-			this.radioLandscape.Location = new System.Drawing.Point(228, 129);
+			this.radioLandscape.Location = new System.Drawing.Point(228, 127);
 			this.radioLandscape.Name = "radioLandscape";
 			this.radioLandscape.Size = new System.Drawing.Size(81, 20);
 			this.radioLandscape.TabIndex = 21;
@@ -299,7 +299,7 @@ namespace OpenPmsDental {
 			// radioPortrait
 			// 
 			this.radioPortrait.Checked = true;
-			this.radioPortrait.Location = new System.Drawing.Point(148, 129);
+			this.radioPortrait.Location = new System.Drawing.Point(148, 127);
 			this.radioPortrait.Name = "radioPortrait";
 			this.radioPortrait.Size = new System.Drawing.Size(64, 20);
 			this.radioPortrait.TabIndex = 20;
@@ -309,7 +309,7 @@ namespace OpenPmsDental {
 			// 
 			// labelPrintOrientation
 			// 
-			this.labelPrintOrientation.Location = new System.Drawing.Point(148, 110);
+			this.labelPrintOrientation.Location = new System.Drawing.Point(148, 108);
 			this.labelPrintOrientation.Name = "labelPrintOrientation";
 			this.labelPrintOrientation.Size = new System.Drawing.Size(100, 17);
 			this.labelPrintOrientation.TabIndex = 19;
@@ -375,7 +375,7 @@ namespace OpenPmsDental {
 			this.splitterPanel1.Controls.Add(this.textQuery);
 			this.splitterPanel1.Location = new System.Drawing.Point(0, 0);
 			this.splitterPanel1.Name = "splitterPanel1";
-			this.splitterPanel1.Size = new System.Drawing.Size(1274, 268);
+			this.splitterPanel1.Size = new System.Drawing.Size(1260, 268);
 			this.splitterPanel1.TabIndex = 13;
 			// 
 			// splitterPanel2
@@ -386,7 +386,7 @@ namespace OpenPmsDental {
 			this.splitterPanel2.Controls.Add(this.textTitle);
 			this.splitterPanel2.Location = new System.Drawing.Point(0, 272);
 			this.splitterPanel2.Name = "splitterPanel2";
-			this.splitterPanel2.Size = new System.Drawing.Size(1274, 412);
+			this.splitterPanel2.Size = new System.Drawing.Size(1260, 400);
 			this.splitterPanel2.TabIndex = 14;
 			// 
 			// butExportCsv

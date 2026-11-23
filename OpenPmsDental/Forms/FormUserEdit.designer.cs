@@ -468,7 +468,7 @@ namespace OpenPmsDental {
 			this.butPassword.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butPassword.Location = new System.Drawing.Point(8, 662);
 			this.butPassword.Name = "butPassword";
-			this.butPassword.Size = new System.Drawing.Size(103, 24);
+			this.butPassword.Size = new System.Drawing.Size(116, 24);
 			this.butPassword.TabIndex = 155;
 			this.butPassword.Text = "Change Password";
 			this.butPassword.Click += new System.EventHandler(this.butPassword_Click);
@@ -476,7 +476,7 @@ namespace OpenPmsDental {
 			// butUnlock
 			// 
 			this.butUnlock.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butUnlock.Location = new System.Drawing.Point(117, 662);
+			this.butUnlock.Location = new System.Drawing.Point(130, 662);
 			this.butUnlock.Name = "butUnlock";
 			this.butUnlock.Size = new System.Drawing.Size(103, 24);
 			this.butUnlock.TabIndex = 168;

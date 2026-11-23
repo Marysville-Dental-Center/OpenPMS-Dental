@@ -25,6 +25,9 @@ def layout(h):
     p2 = h.n("splitterPanel2")
     p2h = sh - p2.ny
     p1h = h.n("splitterPanel1").nh
+    # The program's SplitContainer keeps its panels' sizes in the designer: they follow the container.
+    h.set("splitterPanel1", None, None, sw, p1h)
+    h.set("splitterPanel2", None, None, sw, p2h)
     # The button panel.
     pn = h.n("panel1")
     pw = pn.nw
@@ -53,7 +56,7 @@ def layout(h):
     h.set("label2", C, top, lw, H)
     h.text_align("label2", "MiddleLeft")
     h.set("comboAlignment", C + lw + 6, top, gw - PAD - (C + lw + 6), H)
-    y2 = top + H + 4
+    y2 = top + (H - CH) // 2 + CH + 4  # the list pitch under Human-readable
     h.check_left("radioRaw")
     h.set("radioRaw", PAD, y2, h.cw("radioRaw"), CH)
     for i, c in enumerate(("checkNumberedRows", "checkWordWrap")):

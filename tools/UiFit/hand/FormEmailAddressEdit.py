@@ -4,7 +4,7 @@ TopPassword, TopSignInBox, MarginBottom, GapBelow; S0FTests' EmailAddressLayoutT
 with its box, Use SSL under the box; the Email Authentication group at the padding: the three choices a list at the content edge, the
 password panel at (LeftDetails, TopPassword) (its label and box on the Password choice's row), the Microsoft 365 box under it and the Gmail
 box at TopSignInBox right of them (the code puts the chosen one at LeftDetails), the group as tall as with Gmail chosen; the incoming and
-outgoing settings side by side GapBelow under it, one height, one field column, the example notes under the server boxes, the port and
+outgoing settings side by side GapBelow under it, one width and height, sharing the window's width, one field column, the example notes under the server boxes, the port and
 sender notes after their boxes; the user panel under the incoming settings with its box on their column; Delete and Certificate at the
 bottom left, Save at the bottom right. Inside the sign-in boxes: the buttons, the status and the inbox search box on one column, the status
 caption and the search caption before it, the download check box on the column with its note after it."""
@@ -102,8 +102,10 @@ def layout(h):
     # Incoming and outgoing settings.
     sy = ay + ah + GAP  # GapBelow
     labels = ["label8", "label11", "label1", "label5", "label2"]
-    slw = max(h.lw(n) for n in labels)
-    SF = PAD + slw + 6
+    # The settings' field column on Username's (window coordinates): their labels end 6 px before it.
+    SF = F0 - PAD
+    slw = SF - 6 - PAD
+    assert slw >= max(h.lw(n) for n in labels)
     gin = h.n("groupIncoming")
     stop = (gin.title_bottom or 18) + 4
 
@@ -138,8 +140,10 @@ def layout(h):
     ow, oh = settings([("field", "label1", "textSMTPserver", None), ("note", "label13", None, None),
                        ("field", "label5", "textPort", "label6"), ("field", "label2", "textSender", "label9")])
     gh2 = max(ih, oh)
-    h.set("groupIncoming", PAD, sy, iw, gh2)
-    h.set("groupOutgoing", PAD + iw + GAP, sy, ow, gh2)
+    half = (R - PAD - GAP) // 2  # the two settings groups share the window's width (one width, as the group above spans it)
+    assert half >= max(iw, ow)
+    h.set("groupIncoming", PAD, sy, half, gh2)
+    h.set("groupOutgoing", R - half, sy, half, gh2)
     # The user panel under the incoming settings, its box on their column.
     uy = sy + gh2 + GAP
     ulw = h.lw("labelUserod")

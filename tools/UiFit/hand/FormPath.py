@@ -13,7 +13,7 @@ GAP = 8
 
 def caption_box(h, cap, box, but, x, y, w):
     """A caption (as tall as its lines) 2 px over a box with its Browse button 6 px after it, the button ending at x + w. Returns the bottom."""
-    ch = h.note_h(cap, w)
+    ch = h.note_h(cap, w, estimate=False)
     h.set(cap, x, y, w, ch)
     h.text_align(cap, "BottomLeft")
     yb = y + ch + 2

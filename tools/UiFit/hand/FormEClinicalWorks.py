@@ -1,7 +1,7 @@
 """FormEClinicalWorks (the eClinicalWorks program link) on the grid (UI-12 slice 3, mode hand: the planner left the HL7 server row taller
 than its pitch and the HL7 Sync Folders group 34 px in). Main's arrangement on the grid's numbers, one field column for the window and its
 group: Internal Name and Description; Enabled and the three modes a list on the column; the four server rows and Medical Panel URL with their
-notes 6 px after the boxes (the HL7 server's note on two lines, its row as tall); Exclude LBSESSIONID with its note; the HL7 definition
+notes 6 px after the boxes on one line (the window 742 px wide for the HL7 server's); Exclude LBSESSIONID with its note; the HL7 definition
 warning (shown by the code) in its own row; the HL7 Sync Folders group at the padding to the right edge (its note, In and Out on the
 column); Default User Group; the six check boxes a list on the column (the HL7 note after Patient Fee Schedules); Diagnostic Tool at the
 bottom left, Save at the bottom right."""
@@ -12,14 +12,15 @@ GAP = 8
 
 def layout(h):
     root = h.tree
-    W = root.w
-    R = W - PAD
     H = h.H
     CH = h.CH
     labels = ["label1", "label2", "label3", "label6", "label7", "label4", "label11", "labelDefaultUserGroup", "labelHL7FolderIn",
               "labelHL7FolderOut"]
     lw = max(h.lw(n) for n in labels)
     F = PAD + lw + 6
+    # The window as wide as the notes after the boxes on one line (the HL7 server's wrapped to two, its row off the pitch).
+    W = max(root.w, F + 181 + 6 + h.lw("label8") + PAD, F + 287 + 6 + h.lw("label10") + PAD)
+    R = W - PAD
     y = PAD
 
     def field(lab, fld, w, note=None):

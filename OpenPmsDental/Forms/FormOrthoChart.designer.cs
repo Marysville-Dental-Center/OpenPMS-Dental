@@ -260,7 +260,7 @@ namespace OpenPmsDental{
 			this.labelLocked.Location = new System.Drawing.Point(276, 655);
 			this.labelLocked.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.labelLocked.Name = "labelLocked";
-			this.labelLocked.Size = new System.Drawing.Size(124, 24);
+			this.labelLocked.Size = new System.Drawing.Size(144, 24);
 			this.labelLocked.TabIndex = 214;
 			this.labelLocked.Text = "Locked by UserName";
 			// 
@@ -273,7 +273,7 @@ namespace OpenPmsDental{
 			// buttonTakeControl
 			// 
 			this.buttonTakeControl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.buttonTakeControl.Location = new System.Drawing.Point(406, 655);
+			this.buttonTakeControl.Location = new System.Drawing.Point(426, 655);
 			this.buttonTakeControl.Name = "buttonTakeControl";
 			this.buttonTakeControl.Size = new System.Drawing.Size(85, 24);
 			this.buttonTakeControl.TabIndex = 215;

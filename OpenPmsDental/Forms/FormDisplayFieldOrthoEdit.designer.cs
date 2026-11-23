@@ -210,7 +210,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelDefaultMode.Location = new System.Drawing.Point(222, 89);
 			this.labelDefaultMode.Name = "labelDefaultMode";
-			this.labelDefaultMode.Size = new System.Drawing.Size(56, 23);
+			this.labelDefaultMode.Size = new System.Drawing.Size(84, 23);
 			this.labelDefaultMode.TabIndex = 95;
 			this.labelDefaultMode.Text = "(default)";
 			this.labelDefaultMode.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;

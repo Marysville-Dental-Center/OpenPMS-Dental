@@ -1,8 +1,8 @@
 """FormInfobutton on the grid (UI-12 slice 3, mode hand: the planner left the Provider and Organization fields on two columns and the add
 buttons' texts against their icons). Main's arrangement on the grid's numbers: the Context group at the padding to the right edge: the
 Patient group (the picker button, Name, Birthday and Language on a field column, the Administrative Gender group at its right edge); the
-Provider and Organization groups side by side, one width and height, on the same field column; the Encounter group (its own, wider label
-column); Requestor and Recipient side by side and Task Code with its box at the right edge. Under the group the add buttons in two rows of
+Provider and Organization groups side by side, one width and height; the Encounter group; one field column for all of them (the
+window 90 px wider for the Encounter labels); Requestor and Recipient side by side and Task Code with its box at the right edge. Under the group the add buttons in two rows of
 four, one width with 6 px between the icon and the text (Lab Result, shown by the code, in the first row); the grid; Preview XML (shown by
 the code) and Preview Request at the bottom left, Send at the bottom right."""
 
@@ -12,14 +12,19 @@ GAP = 8
 
 def layout(h):
     root = h.tree
-    W = root.w
-    R = W - PAD
     H = h.H
     CH = h.CH
-    gw = R - PAD
-    cw = gw - 2 * PAD  # the Context group's content width
-    lw = max(h.lw(n) for n in ("label1", "label3", "label4", "label5", "label6", "label7", "label10", "label9"))
-    Fi = PAD + 24 + 6 + lw + 6
+    lw0 = max(h.lw(n) for n in ("label1", "label3", "label4", "label5", "label6", "label7", "label10", "label9"))
+    elw = max(h.lw("label26"), h.lw("label8"))
+    # One field column for every group (the Encounter labels are the widest); the labels end 6 px before it.
+    Fi = max(PAD + 24 + 6 + lw0 + 6, PAD + elw + 6)
+    lw = Fi - 6 - (PAD + 24 + 6)
+    fw = 137
+    half = Fi + fw + PAD  # the Provider and Organization groups
+    cw = max(root.w - 4 * PAD, 2 * half + GAP)  # the Context group's content width
+    gw = cw + 2 * PAD
+    W = gw + 2 * PAD
+    R = W - PAD
     ctx = h.n("groupBoxContext")
     ct = (ctx.title_bottom or 18) + 4
     # Patient.
@@ -47,7 +52,6 @@ def layout(h):
     h.set("groupBox3", PAD, ct, cw, gph)
     yc = ct + gph + GAP
     # Provider and Organization.
-    half = (cw - GAP) // 2
     rows = {"groupBox6": (("label5", "textProvName"), ("label6", "textProvID"), ("label7", "comboProvLang")),
             "groupBox7": (("label10", "textOrgName"), ("label9", "textOrgID"))}
     tpv = (h.n("groupBox6").title_bottom or 18) + 4
@@ -65,8 +69,8 @@ def layout(h):
     yc += ph + GAP
     # Encounter.
     te = (h.n("groupBox5").title_bottom or 18) + 4
-    elw = max(h.lw("label26"), h.lw("label8"))
-    Fe = PAD + elw + 6
+    elw = Fi - 6 - PAD
+    Fe = Fi
     for i, (lab, fld, w) in enumerate((("label26", "comboEncType", 151), ("label8", "textEncLocID", 151))):
         h.set(lab, PAD, te + i * (H + 4), elw, H)
         h.text_align(lab, "MiddleRight")

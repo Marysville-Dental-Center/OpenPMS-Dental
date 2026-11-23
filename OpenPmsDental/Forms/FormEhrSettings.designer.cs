@@ -94,7 +94,7 @@ namespace OpenPmsDental{
 			this.groupEncounter.Controls.Add(this.butEncCdt);
 			this.groupEncounter.Location = new System.Drawing.Point(8, 94);
 			this.groupEncounter.Name = "groupEncounter";
-			this.groupEncounter.Size = new System.Drawing.Size(752, 319);
+			this.groupEncounter.Size = new System.Drawing.Size(752, 303);
 			this.groupEncounter.TabIndex = 119;
 			this.groupEncounter.TabStop = false;
 			this.groupEncounter.Text = "Default Encounter Code";
@@ -102,7 +102,7 @@ namespace OpenPmsDental{
 			// label7
 			// 
 			this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label7.Location = new System.Drawing.Point(89, 287);
+			this.label7.Location = new System.Drawing.Point(89, 271);
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(655, 24);
 			this.label7.TabIndex = 131;
@@ -112,7 +112,7 @@ namespace OpenPmsDental{
 			// butEncounterTool
 			// 
 			this.butEncounterTool.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butEncounterTool.Location = new System.Drawing.Point(8, 287);
+			this.butEncounterTool.Location = new System.Drawing.Point(8, 271);
 			this.butEncounterTool.Name = "butEncounterTool";
 			this.butEncounterTool.Size = new System.Drawing.Size(75, 24);
 			this.butEncounterTool.TabIndex = 122;
@@ -133,7 +133,7 @@ namespace OpenPmsDental{
 			// 
 			// butEncCpt
 			// 
-			this.butEncCpt.Location = new System.Drawing.Point(306, 190);
+			this.butEncCpt.Location = new System.Drawing.Point(306, 174);
 			this.butEncCpt.Name = "butEncCpt";
 			this.butEncCpt.Size = new System.Drawing.Size(75, 24);
 			this.butEncCpt.TabIndex = 130;
@@ -152,7 +152,7 @@ namespace OpenPmsDental{
 			// label5
 			// 
 			this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label5.Location = new System.Drawing.Point(8, 218);
+			this.label5.Location = new System.Drawing.Point(8, 202);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(128, 23);
 			this.label5.TabIndex = 127;
@@ -162,7 +162,7 @@ namespace OpenPmsDental{
 			// labelEncWarning
 			// 
 			this.labelEncWarning.ForeColor = System.Drawing.Color.Red;
-			this.labelEncWarning.Location = new System.Drawing.Point(142, 245);
+			this.labelEncWarning.Location = new System.Drawing.Point(142, 229);
 			this.labelEncWarning.Name = "labelEncWarning";
 			this.labelEncWarning.Size = new System.Drawing.Size(602, 34);
 			this.labelEncWarning.TabIndex = 129;
@@ -182,7 +182,7 @@ namespace OpenPmsDental{
 			// 
 			// textEncCodeValue
 			// 
-			this.textEncCodeValue.Location = new System.Drawing.Point(142, 218);
+			this.textEncCodeValue.Location = new System.Drawing.Point(142, 202);
 			this.textEncCodeValue.Name = "textEncCodeValue";
 			this.textEncCodeValue.ReadOnly = true;
 			this.textEncCodeValue.Size = new System.Drawing.Size(158, 23);
@@ -217,7 +217,7 @@ namespace OpenPmsDental{
 			// 
 			// butEncHcpcs
 			// 
-			this.butEncHcpcs.Location = new System.Drawing.Point(387, 190);
+			this.butEncHcpcs.Location = new System.Drawing.Point(387, 174);
 			this.butEncHcpcs.Name = "butEncHcpcs";
 			this.butEncHcpcs.Size = new System.Drawing.Size(75, 24);
 			this.butEncHcpcs.TabIndex = 124;
@@ -228,14 +228,14 @@ namespace OpenPmsDental{
 			// 
 			this.label3.Location = new System.Drawing.Point(142, 152);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(602, 34);
+			this.label3.Size = new System.Drawing.Size(602, 18);
 			this.label3.TabIndex = 113;
 			this.label3.Text = "Choosing a code not in the recommended list might make it more difficult to incre" +
     "ase your CQM percentages.";
 			// 
 			// butEncSnomed
 			// 
-			this.butEncSnomed.Location = new System.Drawing.Point(142, 190);
+			this.butEncSnomed.Location = new System.Drawing.Point(142, 174);
 			this.butEncSnomed.Name = "butEncSnomed";
 			this.butEncSnomed.Size = new System.Drawing.Size(77, 24);
 			this.butEncSnomed.TabIndex = 125;
@@ -244,7 +244,7 @@ namespace OpenPmsDental{
 			// 
 			// butEncCdt
 			// 
-			this.butEncCdt.Location = new System.Drawing.Point(225, 190);
+			this.butEncCdt.Location = new System.Drawing.Point(225, 174);
 			this.butEncCdt.Name = "butEncCdt";
 			this.butEncCdt.Size = new System.Drawing.Size(75, 24);
 			this.butEncCdt.TabIndex = 123;
@@ -266,7 +266,7 @@ namespace OpenPmsDental{
 			this.groupPregnancy.Controls.Add(this.label11);
 			this.groupPregnancy.Controls.Add(this.label12);
 			this.groupPregnancy.Controls.Add(this.label13);
-			this.groupPregnancy.Location = new System.Drawing.Point(8, 421);
+			this.groupPregnancy.Location = new System.Drawing.Point(8, 405);
 			this.groupPregnancy.Name = "groupPregnancy";
 			this.groupPregnancy.Size = new System.Drawing.Size(752, 287);
 			this.groupPregnancy.TabIndex = 120;
@@ -432,7 +432,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(685, 716);
+			this.butSave.Location = new System.Drawing.Point(685, 700);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 3;
@@ -442,7 +442,7 @@ namespace OpenPmsDental{
 			// FormEhrSettings
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(768, 748);
+			this.ClientSize = new System.Drawing.Size(768, 732);
 			this.Controls.Add(this.groupGlobalSettings);
 			this.Controls.Add(this.groupPregnancy);
 			this.Controls.Add(this.groupEncounter);

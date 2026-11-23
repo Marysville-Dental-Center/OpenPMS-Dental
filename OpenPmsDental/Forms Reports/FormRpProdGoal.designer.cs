@@ -118,7 +118,7 @@ namespace OpenPmsDental {
 			// butRight
 			// 
 			this.butRight.Icon = OpenPmsDental.UI.EnumIcons.ArrowRight;
-			this.butRight.Location = new System.Drawing.Point(212, 23);
+			this.butRight.Location = new System.Drawing.Point(244, 23);
 			this.butRight.Name = "butRight";
 			this.butRight.Size = new System.Drawing.Size(45, 26);
 			this.butRight.TabIndex = 2;
@@ -126,7 +126,7 @@ namespace OpenPmsDental {
 			// 
 			// butThis
 			// 
-			this.butThis.Location = new System.Drawing.Point(105, 23);
+			this.butThis.Location = new System.Drawing.Point(137, 23);
 			this.butThis.Name = "butThis";
 			this.butThis.Size = new System.Drawing.Size(101, 26);
 			this.butThis.TabIndex = 1;
@@ -137,21 +137,21 @@ namespace OpenPmsDental {
 			// 
 			this.label2.Location = new System.Drawing.Point(8, 53);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(40, 23);
+			this.label2.Size = new System.Drawing.Size(72, 23);
 			this.label2.TabIndex = 37;
 			this.label2.Text = "From";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textDateFrom
 			// 
-			this.textDateFrom.Location = new System.Drawing.Point(54, 53);
+			this.textDateFrom.Location = new System.Drawing.Point(86, 53);
 			this.textDateFrom.Name = "textDateFrom";
 			this.textDateFrom.Size = new System.Drawing.Size(100, 23);
 			this.textDateFrom.TabIndex = 3;
 			// 
 			// textDateTo
 			// 
-			this.textDateTo.Location = new System.Drawing.Point(54, 80);
+			this.textDateTo.Location = new System.Drawing.Point(86, 80);
 			this.textDateTo.Name = "textDateTo";
 			this.textDateTo.Size = new System.Drawing.Size(100, 23);
 			this.textDateTo.TabIndex = 4;
@@ -160,7 +160,7 @@ namespace OpenPmsDental {
 			// 
 			this.label3.Location = new System.Drawing.Point(8, 80);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(40, 23);
+			this.label3.Size = new System.Drawing.Size(72, 23);
 			this.label3.TabIndex = 39;
 			this.label3.Text = "To";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -168,7 +168,7 @@ namespace OpenPmsDental {
 			// butLeft
 			// 
 			this.butLeft.Icon = OpenPmsDental.UI.EnumIcons.ArrowLeft;
-			this.butLeft.Location = new System.Drawing.Point(54, 23);
+			this.butLeft.Location = new System.Drawing.Point(86, 23);
 			this.butLeft.Name = "butLeft";
 			this.butLeft.Size = new System.Drawing.Size(45, 26);
 			this.butLeft.TabIndex = 0;
