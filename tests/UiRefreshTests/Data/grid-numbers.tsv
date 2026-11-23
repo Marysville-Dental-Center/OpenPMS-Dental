@@ -1,0 +1,34 @@
+# UI-12T item 2: the layout grid's numbers, in px at 96 dpi for Segoe UI 9 pt (docs/port-notes/UI-12.md sections 1 and 1.1), in one place.
+# tools/UiFit/grid_tools.py (GRID) and grid_hand.py read this file; CodeBase/UI/UiGrid.cs has the same numbers as constants for product code
+# (the name in upper case), and GridNumbersTests fails when the two differ. pitch and list_pitch are the sums the planner checks them against.
+name	value	why
+pad	8	container padding on every side
+title_gap	4	a group box's content starts this far below its title band (measured: 8 px below the ink, section 1.1)
+label_gap	6	a label sits this far before its field
+row_gap	4	between field rows (the owner, 2026-11-21: fields 23 px, row pitch 27)
+pitch	27	the row pitch: field_height + row_gap
+list_gap	4	between consecutive check boxes or radio buttons
+list_pitch	22	a check box or radio button list's pitch: check_height + list_gap
+caption_gap	2	a caption label above the control it names
+section_gap	12	rows that were clearly apart (a gap of section_from or more) stay apart by this
+section_from	12	not above section_gap: a gap the grid made stays what it is on the next run
+sibling_gap	8	between containers side by side or stacked (the gutter)
+item_gap	6	between items of one row (a field and its button or its unit label)
+band_gap	16	between two label + field bands of one row (the gutter between field columns)
+edge_snap	16	right edges of one column within this share one edge
+edge_grow	32	polish round: a wide field this much short of its column's right edge grows to it (never shrinks this far)
+column_snap	16	left edges (anchors) within this are one column
+field_column_snap	40	and for the fields of label + field rows (a label column right-aligned to them)
+span_snap	32	a container within this of its parent's content edges spans the content
+snap	4	widths snap to this
+field_height	23	a single-line field; the planner uses the measured height of a text box at the program's font
+check_height	18	a check box or radio button row (UI.CheckBox's own height); at least the text line + 2
+check_box	13	UI.CheckBox's box (12 + the 1 px line)
+check_text	3	between the box and the text
+dialog_gap	8	between dialog buttons
+scroll_bar	17	a vertical scroll bar at 96 dpi (SystemInformation.VerticalScrollBarWidth)
+label_lead	16	Preferences style: a label starts where the check box text beside it starts (UI.CheckBox: 13 px box + 3)
+label_cap	0.5	Preferences style: the field column stays within this share of the content width; a longer label wraps
+wide_field	120	Preferences style: a text field this wide or wider ends at the content's right edge, like the combo boxes
+hint_snap	40	field columns of different containers within this (window coordinates) share one left edge
+check_slack	3	a check box whose one line needs at most this much more than its row has stays one line (GDI+ measures 2-3 px wide)

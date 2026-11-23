@@ -1,0 +1,14 @@
+# UI-12: the grid findings GridRulesTests allows on the grid windows, each with why (the planner lists them in its run; UI-12.md section 4).
+# The test fails on a finding not listed here and on a row that no longer happens, so this list only shrinks.
+window	rule	key	why
+OpenPmsDental.FormProcGroup	overlap	butClearSig signatureBox	UI-12 slice 2: SignatureBoxWrapper's own clear button over its signature box (the wrapper's designer, another user control; unchanged)
+OpenPmsDental.FormProcGroup	overlap	butTopazSign signatureBox	UI-12 slice 2: SignatureBoxWrapper's own Topaz button over its signature box (the wrapper's designer, another user control; unchanged)
+OpenPmsDental.FormProgramLinkEdit	gap	textOverride textCommandLine	UI-12 slice 2: the command line label wraps onto two lines beside its field (main's text), so its row is taller than the pitch
+OpenPmsDental.FormUnsched	frame	codeRangeFilter labelExample	UI-12 slice 2: ODCodeRangeFilter's own example line (another designer) ends 2 px under the filter's bottom on main too; drawn whole
+OpenPmsDental.FormUnsched	hidden-frame	dateRangePicker panelWeek	UI-12 slice 2: ODDateRangePicker's own week buttons (another designer, hidden unless the picker shows them); unchanged
+OpenPmsDental.FormTrackNext	frame	codeRangeFilter labelExample	UI-12 slice 2: ODCodeRangeFilter's own example line (another designer) ends 2 px under the filter's bottom on main too; drawn whole
+OpenPmsDental.FormTrackNext	hidden-frame	dateRangePicker panelWeek	UI-12 slice 2: ODDateRangePicker's own week buttons (another designer, hidden unless the picker shows them); unchanged
+OpenPmsDental.FormTrackNext	overlap	butAllDates dateRangePicker	UI-12 slice 2: All Dates stands where main has it, in the date range picker's bounds kept for its hidden week buttons (FormTrackNext shows the picker without them)
+OpenPmsDental.FormCareCreditTransactions	overlap	dateRangePicker labelStatus	UI-12 slice 2: the date range picker's bounds keep room for its hidden week buttons past its To box; the Status label stands in that room (main too)
+OpenPmsDental.FormClaimsSend	frame	PanelClient label6	UI-12 slice 2: a label main keeps outside the window (y -44, never seen); unchanged
+OpenPmsDental.FormRpProcedures	hidden-frame	dateRangePicker panelWeek	UI-12 slice 2: ODDateRangePicker's own week buttons (another designer, hidden unless the picker shows them); unchanged

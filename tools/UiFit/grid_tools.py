@@ -6,11 +6,12 @@
 # line, one alignment word, or inserting one line with its neighbour's line end, so every line end and the BOM stay. Deterministic: a plan made
 # from the tree of the applied windows is empty. Plain Python 3, no packages.
 #
-#   grid_tools.py plan  --tree <grid-tree.tsv> [--windows-file tests/UiRefreshTests/Data/grid-windows.tsv] [--windows A,B] --out <plan.tsv>
+#   grid_tools.py plan  --tree <grid-tree.tsv> [--windows-file tests/UiRefreshTests/Data/grid-windows] [--windows A,B] --out <plan.tsv>
 #                       [--unplaced <tsv>]
-#   grid_tools.py apply --plan <plan.tsv>            (also the hand plan, tests/UiRefreshTests/Data/grid-hand.tsv)
+#   grid_tools.py apply --plan <plan.tsv>            (also the hand plan, the folder tests/UiRefreshTests/Data/grid-hand)
 import argparse
 import collections
+import copy
 import csv
 import math
 import os
@@ -20,40 +21,33 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import fit_tools  # noqa: E402
+import slice_data  # noqa: E402
+import grid_templates  # noqa: E402
 
 csv.field_size_limit(1 << 24)
 
-# The grid, in px at 96 dpi for Segoe UI 9 pt (UI-12.md section 1 and 1.1).
-GRID = {
-    "pad": 8,                 # container padding on every side
-    "title_gap": 4,           # a group box's content starts this far below its title band (measured: 8 px below the ink, section 1.1)
-    "label_gap": 6,           # a label sits this far before its field
-    "row_gap": 4,             # between field rows (the owner, 2026-11-21: fields 23 px, row pitch 27)
-    "list_gap": 4,            # between consecutive check boxes or radio buttons
-    "caption_gap": 2,         # a caption label above the control it names
-    "section_gap": 12,        # rows that were clearly apart (a gap of section_from or more) stay apart by this
-    "section_from": 12,       # not above section_gap: a gap the grid made stays what it is on the next run
-    "sibling_gap": 8,         # between containers side by side or stacked
-    "item_gap": 6,            # between items of one row (a field and its button or its unit label)
-    "band_gap": 16,           # between two label + field bands of one row
-    "edge_snap": 16,          # right edges of one column within this share one edge
-    "edge_grow": 32,          # polish round: a wide field this much short of its column's right edge grows to it (never shrinks this far)
-    "column_snap": 16,        # left edges (anchors) within this are one column
-    "field_column_snap": 40,  # ... and for the fields of label + field rows (a label column right-aligned to them)
-    "span_snap": 32,          # a container within this of its parent's content edges spans the content
-    "snap": 4,                # widths snap to this
-    "field_height": 23,       # a single-line field; replaced by the measured height of a text box at the program's font
-    "check_height": 18,       # a check box or radio button row (UI.CheckBox's own height); at least the text line + 2
-    "check_box": 13,          # UI.CheckBox's box (12 + the 1 px line)
-    "check_text": 3,          # between the box and the text
-    "dialog_gap": 8,          # between dialog buttons
-    "scroll_bar": 17,         # a vertical scroll bar at 96 dpi (SystemInformation.VerticalScrollBarWidth)
-    "label_lead": 16,         # Preferences style: a label starts where the check box text beside it starts (UI.CheckBox: 13 px box + 3)
-    "label_cap": 0.5,         # Preferences style: the field column stays within this share of the content width; a longer label wraps
-    "wide_field": 120,        # Preferences style: a text field this wide or wider ends at the content's right edge, like the combo boxes
-    "hint_snap": 40,          # field columns of different containers within this (window coordinates) share one left edge
-    "check_slack": 3,         # a check box whose one line needs at most this much more than its row has stays one line (GDI+ measures 2-3 px wide)
-}
+# The grid, in px at 96 dpi for Segoe UI 9 pt (UI-12.md section 1 and 1.1). UI-12T: the numbers live in one data file,
+# tests/UiRefreshTests/Data/grid-numbers.tsv (name, value, why), which CodeBase/UI/UiGrid.cs mirrors for product code (GridNumbersTests).
+GRID_NUMBERS = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
+                            "tests", "UiRefreshTests", "Data", "grid-numbers.tsv")
+
+
+def load_grid(path=GRID_NUMBERS):
+    """name -> number (int, or float for a share such as label_cap) from grid-numbers.tsv; pitch and list_pitch are checked, not used."""
+    grid = {}
+    with open(path, encoding="utf-8") as f:
+        for ln in f:
+            ln = ln.rstrip("\r\n")
+            if not ln or ln.startswith("#") or ln.startswith("name\t"):
+                continue
+            name, value = ln.split("\t")[:2]
+            grid[name] = float(value) if "." in value else int(value)
+    if grid["pitch"] != grid["field_height"] + grid["row_gap"] or grid["list_pitch"] != grid["check_height"] + grid["list_gap"]:
+        raise ValueError("grid-numbers.tsv: pitch is field_height + row_gap and list_pitch is check_height + list_gap")
+    return grid
+
+
+GRID = load_grid()
 
 LABEL_TYPES = ("System.Windows.Forms.Label", "System.Windows.Forms.LinkLabel")
 CHECK_TYPES = ("OpenPmsDental.UI.CheckBox", "System.Windows.Forms.CheckBox")
@@ -1481,6 +1475,8 @@ class Planner:
         self.hints = {}          # field name -> the x (window coordinates) of the column it shares with other containers' columns
         self.col_records = []    # this pass's field columns: (stack, x in window coordinates, field names)
         self.scopes = {}         # window -> [(container path, control names or None, keep width)] (Data/grid-scope.tsv)
+        self.template = None     # UI-12T: the window-family template this plan of a window uses (grid_templates.py), or None
+        self.template_moved = []  # the controls its untangling moved
         self.keep_width = False  # a scope that keeps its width: fields shrink to the room, containers grow only down
         self.in_scope = False    # laying out a scope: its panels fit their content like group boxes
 
@@ -1557,6 +1553,11 @@ class Planner:
         orig = {id(n): (n.x, n.y, n.w, n.h, n.check_align, n.text_align, n.autosize) for n in nodes}
         rules = {id(n): collections.OrderedDict() for n in nodes}
         flags = {id(n): [None, None, False] for n in nodes}
+        if self.template:
+            # UI-12T: a window-family template (grid_templates.py) starts the passes from the window with its drawn overlaps taken apart;
+            # the rows are still measured against the drawn window (orig).
+            for name in grid_templates.untangle(tree, self.template):
+                self.template_moved.append(name)
         self.hints = {}
         self.prefs_F = None
         for npass in range(MAX_PASSES):
@@ -1567,6 +1568,8 @@ class Planner:
                 self.layout_scoped(tree, self.scopes[window], window)
             else:
                 self.layout_tree(tree, is_root=True, window=window)
+            if self.template == "list":
+                grid_templates.list_frame(self, tree)
             hints_before = self.hints
             self.hints = self.column_hints()
             changed = self.hints != hints_before  # columns that now share an edge are laid out again
@@ -1853,6 +1856,10 @@ class Planner:
         """The planned layout's own problems: siblings that overlap, controls past their container's client edge."""
         out = []
         for c in walk(tree):
+            if c is not tree and (c.kind == "field" or not any(k.editable for k in c.children)):
+                # UI-12T: a control's own parts are its control's, not the window's layout: a field's (ODDatePicker's box and its hidden
+                # calendar) and those of a control whose children this window's designer does not add (ODDateRangePicker's two pickers).
+                continue
             kids = [k for k in c.children if k.dock in ("None", "") and k.visible and not k.in_layout_panel and c.kind not in ("tabs",)]
             for i, a in enumerate(kids):
                 for b in kids[i + 1:]:
@@ -2248,7 +2255,7 @@ def cmd_plan(args):
     root = fit_tools.repo_root()
     # The windows and their mode: tool (the planner lays it out) or hand (listed; its edits are in grid-hand.tsv).
     modes = collections.OrderedDict()
-    for r in fit_tools.read_tsv(os.path.join(root, args.windows_file)):
+    for r in slice_data.read_dicts(slice_data.resolve(root, args.windows_file)):
         modes[r["window"]] = (r.get("mode") or "tool", r.get("note") or "")
     windows = set(modes.keys())
     if args.windows:
@@ -2261,7 +2268,14 @@ def cmd_plan(args):
         for r in fit_tools.read_tsv(scope_file):
             names = [x.strip() for x in (r.get("controls") or "").split(",") if x.strip()]
             planner.scopes.setdefault(r["window"], []).append((r["container"], names or None, (r.get("keep") or "") == "width"))
-    for w, tree in trees.items():
+    # The windows a person decided on (UI-12T templates leave them alone): a layout script, or hand rows.
+    hand_windows = set(r["window"] for r in slice_data.read_dicts(os.path.join(slice_data.data_dir(root), "grid-hand")))
+    hand_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "hand")
+    if os.path.isdir(hand_dir):
+        scripts = set(f[:-3] for f in os.listdir(hand_dir) if f.endswith(".py"))
+        hand_windows.update(w for w in trees if w.split(".")[-1] in scripts)
+    templated = []
+    for w, tree in list(trees.items()):
         mode, note = modes.get(w, ("tool", ""))
         # The window's code sizes the window itself (Width, Height, Size, ClientSize set on the form): listed, tool and hand windows alike,
         # so the slice checks each size against the new layout (the planner does not change code).
@@ -2276,10 +2290,41 @@ def cmd_plan(args):
             planner.unplaced.append((w, "", "no designer file"))
             continue
         designer = Designer(root, files[0])
+        rows_at, unplaced_at = len(planner.rows), len(planner.unplaced)
+        drawn = copy.deepcopy(tree) if args.templates else None
         planner.measure(tree)
         planner.plan_window(w, tree, designer, w.split(".")[-1])
         problems = planner.check(w, tree)
         planner.unplaced.extend(problems)
+        # UI-12T: a window the general rules leave with unplaced rows, and that no person has decided on (no layout script, hand rows or
+        # scope), gets its family's template when it has one (grid_templates.py); the template's plan is taken when it settles the window.
+        family = None
+        if (args.templates and w not in planner.scopes and w not in hand_windows and not grid_templates.settled(planner.unplaced[unplaced_at:])):
+            family = grid_templates.detect(drawn)
+        if family:
+            rows_general, unplaced_general = planner.rows[rows_at:], planner.unplaced[unplaced_at:]
+            del planner.rows[rows_at:]
+            del planner.unplaced[unplaced_at:]
+            planner.template, planner.template_moved = family, []
+            planner.measure(drawn)
+            planner.plan_window(w, drawn, Designer(root, files[0]), w.split(".")[-1])
+            planner.template = None
+            problems2 = planner.check(w, drawn)
+            planner.unplaced.extend(problems2)
+            unplaced_template = [r[2] for r in planner.unplaced[unplaced_at:] if not grid_templates.settled([r])]
+            if not unplaced_template:
+                trees[w] = drawn
+                templated.append((w, family))
+                planner.unplaced.append((w, ".", "template %s: laid out by the %s template (untangled: %s)" % (
+                    family, family, ", ".join(planner.template_moved) or "nothing")))
+                problems = problems2
+            else:
+                del planner.rows[rows_at:]
+                del planner.unplaced[unplaced_at:]
+                planner.rows.extend(rows_general)
+                planner.unplaced.extend(unplaced_general)
+                planner.unplaced.append((w, ".", "the %s template does not settle it either (%s): the general plan" % (
+                    family, "; ".join(unplaced_template[:3]))))
         if problems:
             print("%-45s %d planned-layout problems" % (w, len(problems)))
     if args.tree_out:
@@ -2294,6 +2339,8 @@ def cmd_plan(args):
             for r in planner.unplaced:
                 f.write("\t".join(x.replace("\t", " ") for x in r) + "\n")
     print("rows", len(planner.rows), "windows", len(trees), "listed", len(planner.unplaced))
+    if templated:
+        print("templates:", ", ".join("%s (%s)" % (w.split(".")[-1], f) for w, f in templated))
 
 
 # ---------------------------------------------------------------------------------------------------------------------------------------
@@ -2396,7 +2443,8 @@ def apply_row(text, control, prop, new):
 
 def cmd_apply(args):
     root = fit_tools.repo_root()
-    rows = fit_tools.read_tsv(args.plan)
+    # A plan file, or a folder of them (the hand plan: tests/UiRefreshTests/Data/grid-hand, one file per slice; UI-12T).
+    rows = slice_data.read_dicts(args.plan) if os.path.isdir(args.plan) else fit_tools.read_tsv(args.plan)
     by_file = collections.OrderedDict()
     for r in rows:
         by_file.setdefault(r["designer_file"], []).append(r)
@@ -2428,12 +2476,14 @@ def main():
     a = sub.add_parser("plan")
     a.add_argument("--tree", required=True)
     a.add_argument("--windows")
-    a.add_argument("--windows-file", default="tests/UiRefreshTests/Data/grid-windows.tsv")
+    a.add_argument("--windows-file", default="tests/UiRefreshTests/Data/grid-windows")
     a.add_argument("--scope-file", default="tests/UiRefreshTests/Data/grid-scope.tsv")
     a.add_argument("--out", required=True)
     a.add_argument("--unplaced")
     a.add_argument("--tree-out", help="write the planned trees (the input of --simulate)")
     a.add_argument("--simulate", action="store_true", help="plan a --tree-out file without designer checks: the idempotence check")
+    a.add_argument("--no-templates", dest="templates", action="store_false",
+                   help="UI-12T: the general rules only (by default a window they do not settle gets its family's template)")
     b = sub.add_parser("apply")
     b.add_argument("--plan", required=True)
     args = p.parse_args()
