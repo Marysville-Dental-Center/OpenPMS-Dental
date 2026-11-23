@@ -59,9 +59,14 @@ def layout(h):
     root = h.tree
     H = h.H
     CH = h.CH
-    # Username and Use SSL.
-    lw = h.lw("label3")
-    F0 = PAD + lw + 6
+    # Username and Use SSL. One field column for the window: the password box's (the authentication group's padding + LeftDetails +
+    # the password label + 6), which Username, the incoming and outgoing settings and User share (GridRulesTests: field columns within
+    # 40 px share one edge).
+    ga0 = h.n("groupAuthentication")
+    left0 = PAD + max(h.cw(r) for r in ("radioPassword", "radioGmail", "radioMicrosoft")) + 16
+    F0 = PAD + left0 + h.lw("labelPassword") + 6
+    lw = F0 - 6 - PAD
+    assert lw >= h.lw("label3")
     h.set("label3", PAD, PAD, lw, H)
     h.text_align("label3", "MiddleRight")
     h.set("textUsername", F0, PAD, h.n("textUsername").nw, H)
@@ -141,7 +146,11 @@ def layout(h):
                        ("field", "label5", "textPort", "label6"), ("field", "label2", "textSender", "label9")])
     gh2 = max(ih, oh)
     half = (R - PAD - GAP) // 2  # the two settings groups share the window's width (one width, as the group above spans it)
-    assert half >= max(iw, ow)
+    if half < max(iw, ow):  # the window grows right for the outgoing settings
+        half = max(iw, ow)
+        W = PAD + 2 * half + GAP + PAD
+        R = W - PAD
+        h.set("groupAuthentication", PAD, ay, R - PAD, ah)
     h.set("groupIncoming", PAD, sy, half, gh2)
     h.set("groupOutgoing", R - half, sy, half, gh2)
     # The user panel under the incoming settings, its box on their column.

@@ -101,18 +101,18 @@ namespace OpenPmsDental {
 			// 
 			// comboClassRefs
 			// 
-			this.comboClassRefs.Location = new System.Drawing.Point(185, 88);
+			this.comboClassRefs.Location = new System.Drawing.Point(187, 88);
 			this.comboClassRefs.Name = "comboClassRefs";
-			this.comboClassRefs.Size = new System.Drawing.Size(172, 23);
+			this.comboClassRefs.Size = new System.Drawing.Size(170, 23);
 			this.comboClassRefs.TabIndex = 0;
 			this.comboClassRefs.TabStop = false;
 			this.comboClassRefs.Visible = false;
 			// 
 			// labelClassRef
 			// 
-			this.labelClassRef.Location = new System.Drawing.Point(182, 68);
+			this.labelClassRef.Location = new System.Drawing.Point(187, 68);
 			this.labelClassRef.Name = "labelClassRef";
-			this.labelClassRef.Size = new System.Drawing.Size(102, 16);
+			this.labelClassRef.Size = new System.Drawing.Size(170, 16);
 			this.labelClassRef.TabIndex = 0;
 			this.labelClassRef.Text = "Class";
 			this.labelClassRef.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -120,18 +120,18 @@ namespace OpenPmsDental {
 			// 
 			// listInsPayType
 			// 
-			this.listInsPayType.Location = new System.Drawing.Point(185, 136);
+			this.listInsPayType.Location = new System.Drawing.Point(187, 136);
 			this.listInsPayType.Name = "listInsPayType";
 			this.listInsPayType.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
-			this.listInsPayType.Size = new System.Drawing.Size(172, 147);
+			this.listInsPayType.Size = new System.Drawing.Size(170, 147);
 			this.listInsPayType.TabIndex = 0;
 			this.listInsPayType.TabStop = false;
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(185, 115);
+			this.label6.Location = new System.Drawing.Point(187, 115);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(172, 17);
+			this.label6.Size = new System.Drawing.Size(170, 17);
 			this.label6.TabIndex = 0;
 			this.label6.Text = "Insurance Payment Types";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -149,7 +149,7 @@ namespace OpenPmsDental {
 			// textDateStart
 			// 
 			this.textDateStart.AutoSize = false;
-			this.textDateStart.Location = new System.Drawing.Point(14, 41);
+			this.textDateStart.Location = new System.Drawing.Point(8, 41);
 			this.textDateStart.Name = "textDateStart";
 			this.textDateStart.Size = new System.Drawing.Size(96, 23);
 			this.textDateStart.TabIndex = 0;
@@ -157,7 +157,7 @@ namespace OpenPmsDental {
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(14, 23);
+			this.label5.Location = new System.Drawing.Point(8, 23);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(118, 16);
 			this.label5.TabIndex = 0;
@@ -167,16 +167,16 @@ namespace OpenPmsDental {
 			// comboClinic
 			// 
 			this.comboClinic.IncludeAll = true;
-			this.comboClinic.Location = new System.Drawing.Point(14, 88);
+			this.comboClinic.Location = new System.Drawing.Point(8, 88);
 			this.comboClinic.Name = "comboClinic";
 			this.comboClinic.ShowLabel = false;
-			this.comboClinic.Size = new System.Drawing.Size(165, 23);
+			this.comboClinic.Size = new System.Drawing.Size(170, 23);
 			this.comboClinic.TabIndex = 0;
 			this.comboClinic.TabStop = false;
 			// 
 			// labelClinic
 			// 
-			this.labelClinic.Location = new System.Drawing.Point(14, 68);
+			this.labelClinic.Location = new System.Drawing.Point(8, 68);
 			this.labelClinic.Name = "labelClinic";
 			this.labelClinic.Size = new System.Drawing.Size(102, 16);
 			this.labelClinic.TabIndex = 0;
@@ -185,18 +185,18 @@ namespace OpenPmsDental {
 			// 
 			// listPayType
 			// 
-			this.listPayType.Location = new System.Drawing.Point(14, 136);
+			this.listPayType.Location = new System.Drawing.Point(8, 136);
 			this.listPayType.Name = "listPayType";
 			this.listPayType.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
-			this.listPayType.Size = new System.Drawing.Size(165, 147);
+			this.listPayType.Size = new System.Drawing.Size(170, 147);
 			this.listPayType.TabIndex = 0;
 			this.listPayType.TabStop = false;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(14, 115);
+			this.label2.Location = new System.Drawing.Point(8, 115);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(165, 17);
+			this.label2.Size = new System.Drawing.Size(170, 17);
 			this.label2.TabIndex = 0;
 			this.label2.Text = "Patient Payment Types";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.BottomLeft;

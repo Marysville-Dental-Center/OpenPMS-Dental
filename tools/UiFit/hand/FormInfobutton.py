@@ -87,10 +87,10 @@ def layout(h):
             h.set(r, PAD, tr + i * (CH + 4), h.cw(r), CH)
         h.set(grp, PAD + k * (rw + GAP), yc, rw, tr + 2 * CH + 4 + PAD)
     rh = tr + 2 * CH + 4 + PAD
-    tc = h.n("comboTask")
-    h.set("comboTask", cw - PAD - tc.nw, yc + tr, tc.nw, H)
+    tx = cw - half + Fi  # Task Code's box on the Organization group's field column, to its edge
+    h.set("comboTask", tx, yc + tr, fw, H)
     tl = h.lw("label17")
-    h.set("label17", cw - PAD - tc.nw - 6 - tl, yc + tr, tl, H)
+    h.set("label17", tx - 6 - tl, yc + tr, tl, H)
     h.text_align("label17", "MiddleRight")
     yc += rh + PAD
     h.set("groupBoxContext", PAD, PAD, gw, yc)
