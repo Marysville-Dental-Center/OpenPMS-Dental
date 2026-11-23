@@ -637,3 +637,8 @@ OpenPmsDental/Forms/FormVitalsignEdit2014.Designer.cs	OpenPmsDental.FormVitalsig
 OpenPmsDental/Forms/FormVitalsignEdit2014.Designer.cs	OpenPmsDental.FormVitalsignEdit2014	butChangeDefault	Location	487,23	471,23	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormVitalsignEdit2014.Designer.cs	OpenPmsDental.FormVitalsignEdit2014	butChangeDefault	Size	89,23	105,23	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormVitalsignEdit2014.Designer.cs	OpenPmsDental.FormVitalsignEdit2014	textPregCode	Size	100,20	84,23	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormTransactionEdit.designer.cs	OpenPmsDental.FormTransactionEdit	gridMain	Size	498,199	508,199	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormTransactionEdit.designer.cs	OpenPmsDental.FormTransactionEdit	textSourceDeposit	Size	232,23	216,23	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormTransactionEdit.designer.cs	OpenPmsDental.FormTransactionEdit	butAttachDep	Location	340,23	324,23	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormTransactionEdit.designer.cs	OpenPmsDental.FormTransactionEdit	textSourcePay	Size	232,23	216,23	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormTransactionEdit.designer.cs	OpenPmsDental.FormTransactionEdit	butAttachPay	Location	340,50	324,50	by hand (layout script): on the grid

@@ -245,9 +245,16 @@ namespace UiRefreshTests {
 					controlAgeLimit.Visible=isChildProphy;
 				}
 			}
-			if(window=="OpenPmsDental.FormTransactionEdit" && FindByName(root,"panelCompound") is Control controlCompound) {
-				//UI-12 slice 5: Load shows the simple panel or the compound one (FillSimple, FillCompound), never both; the picture shows the simple.
-				controlCompound.Visible=false;
+			if(window=="OpenPmsDental.FormTransactionEdit") {
+				//UI-12 slice 5: Load shows the simple panel or the compound one (FillSimple, FillCompound), never both; the picture shows the simple,
+				//or (fix round 2, the state "compound", every compound transaction) the compound.
+				bool isCompound=state=="compound";
+				if(FindByName(root,"panelSimple") is Control controlSimple) {
+					controlSimple.Visible=!isCompound;
+				}
+				if(FindByName(root,"panelCompound") is Control controlCompound) {
+					controlCompound.Visible=isCompound;
+				}
 			}
 			if(window=="OpenPmsDental.FormScheduleDayEdit" && FindByName(root,"labelDate") is Label labelDate) {
 				//UI-12 slice 1 (fix round 8): Load and the day arrows set the day of the week over the short date, two lines (the designer's text is
@@ -359,6 +366,10 @@ namespace UiRefreshTests {
 			}
 			if(window=="OpenPmsDental.FormRecallTypeEdit" && state=="childprophy") {
 				//UI-12 slice 5: the Child Prophy special type (FillSampleContent sets the Visible flags).
+				return root;
+			}
+			if(window=="OpenPmsDental.FormTransactionEdit" && state=="compound") {
+				//UI-12 slice 5 fix round 2: the compound panel (FillSampleContent sets the Visible flags).
 				return root;
 			}
 			throw new ArgumentException("No gallery state "+state+" for "+window+".");

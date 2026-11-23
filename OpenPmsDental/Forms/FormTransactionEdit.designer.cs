@@ -353,7 +353,7 @@ namespace OpenPmsDental {
 			// 
 			this.gridMain.Location = new System.Drawing.Point(8, 8);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(498, 199);
+			this.gridMain.Size = new System.Drawing.Size(508, 199);
 			this.gridMain.TabIndex = 2;
 			this.gridMain.Title = "Splits";
 			this.gridMain.TranslationName = "TableTransSplits";
@@ -440,12 +440,12 @@ namespace OpenPmsDental {
 			this.textSourcePay.Name = "textSourcePay";
 			this.textSourcePay.ReadOnly = true;
 			this.textSourcePay.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.textSourcePay.Size = new System.Drawing.Size(232, 23);
+			this.textSourcePay.Size = new System.Drawing.Size(216, 23);
 			this.textSourcePay.TabIndex = 10;
 			// 
 			// butAttachPay
 			// 
-			this.butAttachPay.Location = new System.Drawing.Point(340, 50);
+			this.butAttachPay.Location = new System.Drawing.Point(324, 50);
 			this.butAttachPay.Name = "butAttachPay";
 			this.butAttachPay.Size = new System.Drawing.Size(58, 23);
 			this.butAttachPay.TabIndex = 1;
@@ -457,13 +457,13 @@ namespace OpenPmsDental {
 			this.textSourceDeposit.Location = new System.Drawing.Point(102, 23);
 			this.textSourceDeposit.Name = "textSourceDeposit";
 			this.textSourceDeposit.ReadOnly = true;
-			this.textSourceDeposit.Size = new System.Drawing.Size(232, 23);
+			this.textSourceDeposit.Size = new System.Drawing.Size(216, 23);
 			this.textSourceDeposit.TabIndex = 8;
 			this.textSourceDeposit.TabStop = false;
 			// 
 			// butAttachDep
 			// 
-			this.butAttachDep.Location = new System.Drawing.Point(340, 23);
+			this.butAttachDep.Location = new System.Drawing.Point(324, 23);
 			this.butAttachDep.Name = "butAttachDep";
 			this.butAttachDep.Size = new System.Drawing.Size(58, 23);
 			this.butAttachDep.TabIndex = 0;
