@@ -254,10 +254,6 @@ OpenPmsDental/Forms/FormTimeAdjustEdit.designer.cs	OpenPmsDental.FormTimeAdjustE
 OpenPmsDental/Forms/FormTimeAdjustEdit.designer.cs	OpenPmsDental.FormTimeAdjustEdit	textUser	Location	164,180	164,185	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormTimeAdjustEdit.designer.cs	OpenPmsDental.FormTimeAdjustEdit	label4	Location	118,207	118,212	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormTimeAdjustEdit.designer.cs	OpenPmsDental.FormTimeAdjustEdit	textNote	Location	164,207	164,212	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormTimeCardManage.designer.cs	OpenPmsDental.FormTimeCardManage	butClearManual	Location	920,32	909,32	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormTimeCardManage.designer.cs	OpenPmsDental.FormTimeCardManage	butClearManual	Size	120,24	132,24	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormTimeCardManage.designer.cs	OpenPmsDental.FormTimeCardManage	butClearAuto	Location	920,60	909,60	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormTimeCardManage.designer.cs	OpenPmsDental.FormTimeCardManage	butClearAuto	Size	117,24	132,24	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormWikiListHeaders.designer.cs	OpenPmsDental.FormWikiListHeaders	butAdd	Location	675,160	672,160	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormWikiListHeaders.designer.cs	OpenPmsDental.FormWikiListHeaders	butAdd	Size	75,23	84,23	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormWikiListHeaders.designer.cs	OpenPmsDental.FormWikiListHeaders	butRemove	Location	675,187	672,187	by hand (layout script): on the grid
@@ -336,3 +332,7 @@ OpenPmsDental/Forms Reports/FormRpPPOwriteoffs.designer.cs	OpenPmsDental.FormRpP
 OpenPmsDental/Forms Reports/FormRpPPOwriteoffs.designer.cs	OpenPmsDental.FormRpPPOwriteoffs	textCarrier	Location	8,260	8,274	by hand (layout script): on the grid
 OpenPmsDental/Forms Reports/FormRpPPOwriteoffs.designer.cs	OpenPmsDental.FormRpPPOwriteoffs	groupBox3	Location	238,192	238,192	by hand (layout script): on the grid
 OpenPmsDental/Forms Reports/FormRpPPOwriteoffs.designer.cs	OpenPmsDental.FormRpPPOwriteoffs	groupBox3	Size	573,120	573,120	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormTimeCardManage.designer.cs	OpenPmsDental.FormTimeCardManage	butClearManual	Location	909,32	905,32	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormTimeCardManage.designer.cs	OpenPmsDental.FormTimeCardManage	butClearManual	Size	132,24	132,24	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormTimeCardManage.designer.cs	OpenPmsDental.FormTimeCardManage	butClearAuto	Location	909,60	905,60	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormTimeCardManage.designer.cs	OpenPmsDental.FormTimeCardManage	butClearAuto	Size	132,24	132,24	by hand (layout script): on the grid

@@ -187,7 +187,7 @@ namespace OpenPmsDental{
 			// 
 			this.butClearAuto.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butClearAuto.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butClearAuto.Location = new System.Drawing.Point(909, 60);
+			this.butClearAuto.Location = new System.Drawing.Point(905, 60);
 			this.butClearAuto.Name = "butClearAuto";
 			this.butClearAuto.Size = new System.Drawing.Size(132, 24);
 			this.butClearAuto.TabIndex = 122;
@@ -198,7 +198,7 @@ namespace OpenPmsDental{
 			// 
 			this.butClearManual.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butClearManual.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butClearManual.Location = new System.Drawing.Point(909, 32);
+			this.butClearManual.Location = new System.Drawing.Point(905, 32);
 			this.butClearManual.Name = "butClearManual";
 			this.butClearManual.Size = new System.Drawing.Size(132, 24);
 			this.butClearManual.TabIndex = 123;
