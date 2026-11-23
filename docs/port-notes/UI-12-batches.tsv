@@ -290,85 +290,15 @@ batch	kind	rank	designer_file	window	controls	group
 3	small		OpenPmsDental/Forms/FormPayConnect2iFrame.Designer.cs	OpenPmsDental.FormPayConnect2iFrame	1	OpenPmsDental.FormPayConnect2iFrame
 3	small		OpenPmsDental/Forms/FormPayPeriodEdit.designer.cs	OpenPmsDental.FormPayPeriodEdit	7	OpenPmsDental.FormPayPeriodEdit
 3	small		OpenPmsDental/Forms/FormPayPlanChargeSelection.Designer.cs	OpenPmsDental.FormPayPlanChargeSelection	3	OpenPmsDental.FormPayPlanChargeSelection
-4	small		OpenPmsDental/Forms/FormPayTerminalEdit.Designer.cs	OpenPmsDental.FormPayTerminalEdit	7	OpenPmsDental.FormPayTerminalEdit
-4	small		OpenPmsDental/Forms/FormPayorTypeEdit.Designer.cs	OpenPmsDental.FormPayorTypeEdit	8	OpenPmsDental.FormPayorTypeEdit
-4	small		OpenPmsDental/Forms/FormPdmpClientCertificate.Designer.cs	OpenPmsDental.FormPdmpClientCertificate	14	OpenPmsDental.FormPdmpClientCertificate
-4	small		OpenPmsDental/Forms/FormPerioEdit.designer.cs	OpenPmsDental.FormPerioEdit	7	OpenPmsDental.FormPerioEdit
 4	small		OpenPmsDental/Forms/FormPopupFade.designer.cs	OpenPmsDental.FormPopupFade	1	OpenPmsDental.FormPopupFade
-4	small		OpenPmsDental/Forms/FormPreferences.Designer.cs	OpenPmsDental.FormPreferences	6	OpenPmsDental.FormPreferences
-4	small		OpenPmsDental/Forms/FormPrepaymentEdit.designer.cs	OpenPmsDental.FormPrepaymentEdit	3	OpenPmsDental.FormPrepaymentEdit
 4	small		OpenPmsDental/Forms/FormPrntScrn.designer.cs	OpenPmsDental.FormPrntScrn	10	OpenPmsDental.FormPrntScrn
-4	small		OpenPmsDental/Forms/FormProcButtons.designer.cs	OpenPmsDental.FormProcButtons	11	OpenPmsDental.FormProcButtons
-4	small		OpenPmsDental/Forms/FormProcLockTool.designer.cs	OpenPmsDental.FormProcLockTool	5	OpenPmsDental.FormProcLockTool
-4	small		OpenPmsDental/Forms/FormProgramLinkOutputFile .designer.cs	OpenPmsDental.FormProgramLinkOutputFile	8	OpenPmsDental.FormProgramLinkOutputFile
-4	small		OpenPmsDental/Forms/FormProgramProperty.designer.cs	OpenPmsDental.FormProgramProperty	6	OpenPmsDental.FormProgramProperty
-4	small		OpenPmsDental/Forms/FormProvStudentEdit.designer.cs	OpenPmsDental.FormProvStudentEdit	16	OpenPmsDental.FormProvStudentEdit
-4	small		OpenPmsDental/Forms/FormProviderMultiPick.designer.cs	OpenPmsDental.FormProvidersMultiPick	4	OpenPmsDental.FormProvidersMultiPick
-4	small		OpenPmsDental/Forms/FormQBAccountSelect.designer.cs	OpenPmsDental.FormQBAccountSelect	6	OpenPmsDental.FormQBAccountSelect
-4	small		OpenPmsDental/Forms/FormQuestionDefEdit.designer.cs	OpenPmsDental.FormQuestionDefEdit	6	OpenPmsDental.FormQuestionDefEdit
-4	small		OpenPmsDental/Forms/FormQuickBooksOnlineAuthorization.designer.cs	OpenPmsDental.FormQuickBooksOnlineAuthorization	8	OpenPmsDental.FormQuickBooksOnlineAuthorization
-4	small		OpenPmsDental/Forms/FormReactivationEdit.designer.cs	OpenPmsDental.FormReactivationEdit	11	OpenPmsDental.FormReactivationEdit
-4	small		OpenPmsDental/Forms/FormRecordAudio.designer.cs	OpenPmsDental.FormRecordAudio	5	OpenPmsDental.FormRecordAudio
-4	small		OpenPmsDental/Forms/FormRecurringChargeFailEmailTemplate.Designer.cs	OpenPmsDental.FormRecurringChargeFailEmailTemplate	8	OpenPmsDental.FormRecurringChargeFailEmailTemplate
-4	small		OpenPmsDental/Forms/FormReportsFiltered.designer.cs	OpenPmsDental.FormReportsFiltered	1	OpenPmsDental.FormReportsFiltered
-4	small		OpenPmsDental/Forms/FormReqFieldCondEdit.designer.cs	OpenPmsDental.FormReqFieldCondEdit	14	OpenPmsDental.FormReqFieldCondEdit
-4	small		OpenPmsDental/Forms/FormReqNeededEdit.designer.cs	OpenPmsDental.FormReqNeededEdit	4	OpenPmsDental.FormReqNeededEdit
-4	small		OpenPmsDental/Forms/FormReqStudentEdit.designer.cs	OpenPmsDental.FormReqStudentEdit	20	OpenPmsDental.FormReqStudentEdit
-4	small		OpenPmsDental/Forms/FormScheduleBlockEdit.designer.cs	OpenPmsDental.FormScheduleBlockEdit	12	OpenPmsDental.FormScheduleBlockEdit
-4	small		OpenPmsDental/Forms/FormScheduledProcessesEdit.designer.cs	OpenPmsDental.FormScheduledProcessesEdit	8	OpenPmsDental.FormScheduledProcessesEdit
-4	small		OpenPmsDental/Forms/FormSchoolClassEdit.designer.cs	OpenPmsDental.FormSchoolClassEdit	6	OpenPmsDental.FormSchoolClassEdit
-4	small		OpenPmsDental/Forms/FormSchoolClasses.designer.cs	OpenPmsDental.FormSchoolClasses	2	OpenPmsDental.FormSchoolClasses
-4	small		OpenPmsDental/Forms/FormSchoolCourseEdit.designer.cs	OpenPmsDental.FormSchoolCourseEdit	6	OpenPmsDental.FormSchoolCourseEdit
-4	small		OpenPmsDental/Forms/FormSetupWizardProgress.designer.cs	OpenPmsDental.FormSetupWizardProgress	5	OpenPmsDental.FormSetupWizardProgress
-4	small		OpenPmsDental/Forms/FormSheetFieldAdd.designer.cs	OpenPmsDental.FormSheetFieldAdd	2	OpenPmsDental.FormSheetFieldAdd
-4	small		OpenPmsDental/Forms/FormSheetFieldChart.designer.cs	OpenPmsDental.FormSheetFieldChart	5	OpenPmsDental.FormSheetFieldChart
-4	small		OpenPmsDental/Forms/FormSheetFieldEditPatImage.designer.cs	OpenPmsDental.FormSheetFieldEditPatImage	16	OpenPmsDental.FormSheetFieldEditPatImage
-4	small		OpenPmsDental/Forms/FormSheetFieldExam.designer.cs	OpenPmsDental.FormSheetFieldExam	6	OpenPmsDental.FormSheetFieldExam
-4	small		OpenPmsDental/Forms/FormSheetFieldGrid.designer.cs	OpenPmsDental.FormSheetFieldGrid	16	OpenPmsDental.FormSheetFieldGrid
-4	small		OpenPmsDental/Forms/FormSheetFieldLine.designer.cs	OpenPmsDental.FormSheetFieldLine	14	OpenPmsDental.FormSheetFieldLine
-4	small		OpenPmsDental/Forms/FormSheetFieldPatImage.designer.cs	OpenPmsDental.FormSheetFieldPatImage	13	OpenPmsDental.FormSheetFieldPatImage
-4	small		OpenPmsDental/Forms/FormSheetFieldRect.designer.cs	OpenPmsDental.FormSheetFieldRect	12	OpenPmsDental.FormSheetFieldRect
-4	small		OpenPmsDental/Forms/FormSheetFieldSpecial.designer.cs	OpenPmsDental.FormSheetFieldSpecial	15	OpenPmsDental.FormSheetFieldSpecial
-4	small		OpenPmsDental/Forms/FormSheetImportEnumPicker.designer.cs	OpenPmsDental.FormSheetImportEnumPicker	4	OpenPmsDental.FormSheetImportEnumPicker
-4	small		OpenPmsDental/Forms/FormSheetTools.designer.cs	OpenPmsDental.FormSheetTools	4	OpenPmsDental.FormSheetTools
-4	small		OpenPmsDental/Forms/FormSpellChecker.designer.cs	OpenPmsDental.FormSpellChecker	3	OpenPmsDental.FormSpellChecker
-4	small		OpenPmsDental/Forms/FormSplash.Designer.cs	OpenPmsDental.FormSplash	0	OpenPmsDental.FormSplash
-4	small		OpenPmsDental/Forms/FormStateAbbrEdit.designer.cs	OpenPmsDental.FormStateAbbrEdit	8	OpenPmsDental.FormStateAbbrEdit
-4	small		OpenPmsDental/Forms/FormSubscriberMove .designer.cs	OpenPmsDental.FormSubscriberMove	10	OpenPmsDental.FormSubscriberMove
-4	small		OpenPmsDental/Forms/FormSubscriberSelect.designer.cs	OpenPmsDental.FormSubscriberSelect	4	OpenPmsDental.FormSubscriberSelect
-4	small		OpenPmsDental/Forms/FormSupplierEdit.Designer.cs	OpenPmsDental.FormSupplierEdit	16	OpenPmsDental.FormSupplierEdit
-4	small		OpenPmsDental/Forms/FormSupplyAdjust.Designer.cs	OpenPmsDental.FormSupplyAdjust	10	OpenPmsDental.FormSupplyAdjust
 4	small		OpenPmsDental/Forms/FormTPsign.designer.cs	OpenPmsDental.FormTPsign	12	OpenPmsDental.FormTPsign
-4	small		OpenPmsDental/Forms/FormTaskAttachmentEdit.Designer.cs	OpenPmsDental.FormTaskAttachmentEdit	13	OpenPmsDental.FormTaskAttachmentEdit
-4	small		OpenPmsDental/Forms/FormTaskListBlock.designer.cs	OpenPmsDental.FormTaskListBlocks	5	OpenPmsDental.FormTaskListBlocks
-4	small		OpenPmsDental/Forms/FormTaskListEdit.designer.cs	OpenPmsDental.FormTaskListEdit	15	OpenPmsDental.FormTaskListEdit
-4	small		OpenPmsDental/Forms/FormTaskNoteEdit.designer.cs	OpenPmsDental.FormTaskNoteEdit	9	OpenPmsDental.FormTaskNoteEdit
-4	small		OpenPmsDental/Forms/FormTelephone.designer.cs	OpenPmsDental.FormTelephone	2	OpenPmsDental.FormTelephone
 4	small		OpenPmsDental/Forms/FormTerminal.designer.cs	OpenPmsDental.FormTerminal	7	OpenPmsDental.FormTerminal
-4	small		OpenPmsDental/Forms/FormTerminalConnection.designer.cs	OpenPmsDental.FormTerminalConnection	6	OpenPmsDental.FormTerminalConnection
-4	small		OpenPmsDental/Forms/FormTimePick.designer.cs	OpenPmsDental.FormTimePick	9	OpenPmsDental.FormTimePick
-4	small		OpenPmsDental/Forms/FormTranslationCat.designer.cs	OpenPmsDental.FormTranslationCat	5	OpenPmsDental.FormTranslationCat
-4	small		OpenPmsDental/Forms/FormTreatPlanDiscount.designer.cs	OpenPmsDental.FormTreatmentPlanDiscount	5	OpenPmsDental.FormTreatmentPlanDiscount
-4	small		OpenPmsDental/Forms/FormUpdateInProgress.designer.cs	OpenPmsDental.FormUpdateInProgress	3	OpenPmsDental.FormUpdateInProgress
-4	small		OpenPmsDental/Forms/FormUserPassword.designer.cs	OpenPmsDental.FormUserPassword	8	OpenPmsDental.FormUserPassword
-4	small		OpenPmsDental/Forms/FormUspsAddressSetup.Designer.cs	OpenPmsDental.FormUspsAddressSetup	12	OpenPmsDental.FormUspsAddressSetup
-4	small		OpenPmsDental/Forms/FormVaccineDefEdit.designer.cs	OpenPmsDental.FormVaccineDefEdit	9	OpenPmsDental.FormVaccineDefEdit
-4	small		OpenPmsDental/Forms/FormVaccineDefSetup.designer.cs	OpenPmsDental.FormVaccineDefSetup	2	OpenPmsDental.FormVaccineDefSetup
-4	small		OpenPmsDental/Forms/FormVaccineObsEdit.designer.cs	OpenPmsDental.FormVaccineObsEdit	20	OpenPmsDental.FormVaccineObsEdit
-4	small		OpenPmsDental/Forms/FormVideo.designer.cs	OpenPmsDental.FormVideo	9	OpenPmsDental.FormVideo
-4	small		OpenPmsDental/Forms/FormWebBrowserPrefs.designer.cs	OpenPmsDental.FormWebBrowserPrefs	1	OpenPmsDental.FormWebBrowserPrefs
 4	small		OpenPmsDental/Forms/FormWebView.designer.cs	OpenPmsDental.FormWebView	2	OpenPmsDental.FormWebView
 4	small		OpenPmsDental/Forms/FormWiki.designer.cs	OpenPmsDental.FormWiki	3	OpenPmsDental.FormWiki
 4	small		OpenPmsDental/Forms/FormWikiEdit.designer.cs	OpenPmsDental.FormWikiEdit	10	OpenPmsDental.FormWikiEdit
-4	small		OpenPmsDental/Forms/FormWikiFileFolder.designer.cs	OpenPmsDental.FormWikiFileFolder	5	OpenPmsDental.FormWikiFileFolder
-4	small		OpenPmsDental/Forms/FormWikiLists.designer.cs	OpenPmsDental.FormWikiLists	2	OpenPmsDental.FormWikiLists
-4	small		OpenPmsDental/Main Modules/FormCommandLinePassOff.Designer.cs	OpenPmsDental.FormCommandLinePassOff	0	OpenPmsDental.FormCommandLinePassOff
 4	small		OpenPmsDental/Main Modules/FormOpenDental.Designer.cs	OpenPmsDental.FormOpenDental	6	OpenPmsDental.FormOpenDental
 4	small		OpenPmsDental/ReportingComplex/FormReportComplex.designer.cs	OpenPmsDental.ReportingComplex.FormReportComplex	2	OpenPmsDental.ReportingComplex.FormReportComplex
-4	small		OpenPmsDental/ReportingForRdl/Allocators/FormProgressViewer.designer.cs	OpenPmsDental.Reporting.Allocators.MyAllocator1.FormProgressViewer	9	OpenPmsDental.Reporting.Allocators.MyAllocator1.FormProgressViewer
-4	small		OpenPmsDental/ReportingForRdl/Allocators/MyAllocator1/FormReport_GuarantorAllocationCheck.designer.cs	OpenPmsDental.Reporting.Allocators.MyAllocator1.FormReport_GuarantorAllocationCheck	15	OpenPmsDental.Reporting.Allocators.MyAllocator1.FormReport_GuarantorAllocationCheck
-4	small		OpenPmsDental/ReportingForRdl/Allocators/MyAllocator1/FormReport_ProviderIncomeReport.Designer.cs	OpenPmsDental.Reporting.Allocators.MyAllocator1.FormReport_ProviderIncomeReport	3	OpenPmsDental.Reporting.Allocators.MyAllocator1.FormReport_ProviderIncomeReport
-4	small		OpenPmsDental/ReportingForRdl/Allocators/MyAllocator1/FormWarnToCloseComputers.Designer.cs	OpenPmsDental.Reporting.Allocators.MyAllocator1.FormWarnToCloseComputers	7	OpenPmsDental.Reporting.Allocators.MyAllocator1.FormWarnToCloseComputers
 4	small		OpenPmsDental/ReportingForRdl/Allocators/MyAllocator1/Images/ImageAnimator.Designer.cs	OpenPmsDental.Reporting.Allocators.MyAllocator1.Images.ImageAnimator	1	OpenPmsDental.Reporting.Allocators.MyAllocator1.FormWarnToCloseComputers
 4	small		OpenPmsDental/ReportingForRdl/FormReportCustom.designer.cs	OpenPmsDental.FormReportCustom	2	OpenPmsDental.FormReportCustom
 4	small		OpenPmsDental/ReportingForRdl/FormReportForRdl.designer.cs	OpenPmsDental.FormReportForRdl	2	OpenPmsDental.FormReportForRdl
@@ -376,24 +306,12 @@ batch	kind	rank	designer_file	window	controls	group
 4	small		OpenPmsDental/UI/Appt/ControlApptPanel.Designer.cs	OpenPmsDental.UI.ControlApptPanel	2	OpenPmsDental.UI.ControlApptPanel
 4	small		OpenPmsDental/UI/BordersDpi/FormODBase.cs	OpenPmsDental.formodbase	0	OpenPmsDental.formodbase
 4	small		OpenPmsDental/UI/ClinicSelector/ComboBoxClinicPicker.Designer.cs	OpenPmsDental.UI.ComboBoxClinicPicker	2	OpenPmsDental.UI.ComboBoxClinicPicker
-4	small		OpenPmsDental/UI/ClinicSelector/FormComboPicker.Designer.cs	OpenPmsDental.UI.FormComboPicker	0	OpenPmsDental.UI.FormComboPicker
-4	small		OpenPmsDental/UI/FormPrintPreview.designer.cs	OpenPmsDental.UI.FormPrintPreview	2	OpenPmsDental.UI.FormPrintPreview
 4	small		OpenPmsDental/UI/ImagesModule/UnmountedBar.Designer.cs	OpenPmsDental.UI.UnmountedBar	0	OpenPmsDental.UI.UnmountedBar
 4	small		OpenPmsDental/UI/ImagesModule/WindowingSlider.Designer.cs	OpenPmsDental.UI.WindowingSlider	0	OpenPmsDental.UI.WindowingSlider
 4	small		OpenPmsDental/UI/ODCodeRangeFilter.Designer.cs	OpenPmsDental.UI.ODCodeRangeFilter	2	OpenPmsDental.UI.ODCodeRangeFilter
 4	small		OpenPmsDental/UI/ODColorPicker.Designer.cs	OpenPmsDental.UI.ODColorPicker	2	OpenPmsDental.UI.ODColorPicker
 4	small		OpenPmsDental/UI/ODDatePicker.Designer.cs	OpenPmsDental.UI.ODDatePicker	3	OpenPmsDental.UI.ODDatePicker
-4	small		OpenPmsDental/UI/ToolTipOD.Designer.cs	OpenPmsDental.UI.ToolTipOD	0	OpenPmsDental.UI.ToolTipOD
-4	small		OpenPmsDental/UI/Voice/FormMsgBox.Designer.cs	OpenPmsDental.UI.Voice.FormMsgBox	3	OpenPmsDental.UI.Voice.FormMsgBox
-4	small		OpenPmsDental/User Controls/ContrFamilyEcw.Designer.cs	OpenPmsDental.ControlFamilyEcw	2	OpenPmsDental.ControlFamilyEcw
-4	small		OpenPmsDental/User Controls/ControlImageDisplay.Designer.cs	OpenPmsDental.ControlImageDisplay	1	OpenPmsDental.ControlImageDisplay
 4	small		OpenPmsDental/User Controls/Dashboard/DashFamilyInsurance.Designer.cs	OpenPmsDental.DashFamilyInsurance	0	OpenPmsDental.DashFamilyInsurance
-4	small		OpenPmsDental/User Controls/Dashboard/UserControlDashboard.Designer.cs	OpenPmsDental.UserControlDashboard	3	OpenPmsDental.UserControlDashboard
-4	small		OpenPmsDental/User Controls/Dashboard/UserControlDashboardWidget.Designer.cs	OpenPmsDental.UserControlDashboardWidget	3	OpenPmsDental.UserControlDashboardWidget
-4	small		OpenPmsDental/User Controls/SetupWizControls/SetupWizControl.Designer.cs	OpenPmsDental.User_Controls.SetupWizard.SetupWizControl	2	OpenPmsDental.User_Controls.SetupWizard.SetupWizControl
-4	small		OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizComplete.Designer.cs	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizComplete	2	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizComplete
-4	small		OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizIntro.Designer.cs	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizIntro	2	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizIntro
-4	small		OpenPmsDental/User Controls/UserControlEmailTemplate.Designer.cs	OpenPmsDental.UserControlEmailTemplate	6	OpenPmsDental.UserControlEmailTemplate
 4	small		OpenPmsDentalBusiness/UI/ODGridPageNav.cs	OpenPmsDental.UI.odgridpagenav	10	OpenPmsDental.UI.odgridpagenav
 4	small		OpenPmsDentalBusiness/UI/SignatureBoxWrapper.Designer.cs	OpenPmsDental.UI.SignatureBoxWrapper	5	OpenPmsDental.UI.SignatureBoxWrapper
 4	small		OpenPmsDentalGraph/Concrete/HqMessagesRealTimeOptionsCtrl.Designer.cs	OpenPmsDentalGraph.HqMessagesRealTimeOptionsCtrl	4	OpenPmsDentalGraph.HqMessagesRealTimeOptionsCtrl
