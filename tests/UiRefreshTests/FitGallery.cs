@@ -232,6 +232,23 @@ namespace UiRefreshTests {
 				//UI-12 slice 4 fix round: both callers open it in permission mode (FormCentralManager, FormCentralSecurity).
 				SetReportSetupMode(root,isPermissionMode:true);
 			}
+			if(window=="OpenPmsDental.FormRecallTypeEdit") {
+				//UI-12 slice 5: the special type shows the trigger rows and the Default Interval group, or (Child Prophy, the state "childprophy")
+				//the Child Prophy group on their band (comboSpecial_SelectionChangeCommitted sets Visible, never both).
+				bool isChildProphy=state=="childprophy";
+				foreach(string name in new string[] { "listTriggers","labelTriggers","labelTriggerDisable","butAddTrigger","butRemoveTrigger","groupInterval" }) {
+					if(FindByName(root,name) is Control control) {
+						control.Visible=!isChildProphy;
+					}
+				}
+				if(FindByName(root,"groupAgeLimit") is Control controlAgeLimit) {
+					controlAgeLimit.Visible=isChildProphy;
+				}
+			}
+			if(window=="OpenPmsDental.FormTransactionEdit" && FindByName(root,"panelCompound") is Control controlCompound) {
+				//UI-12 slice 5: Load shows the simple panel or the compound one (FillSimple, FillCompound), never both; the picture shows the simple.
+				controlCompound.Visible=false;
+			}
 			if(window=="OpenPmsDental.FormScheduleDayEdit" && FindByName(root,"labelDate") is Label labelDate) {
 				//UI-12 slice 1 (fix round 8): Load and the day arrows set the day of the week over the short date, two lines (the designer's text is
 				//a one-line placeholder); the picture shows the widest day name.
@@ -338,6 +355,10 @@ namespace UiRefreshTests {
 			}
 			if(window=="OpenPmsDental.User_Controls.UserControlReportSetup" && state=="permission") {
 				//UI-12 slice 4 fix round: the page in permission mode (FillSampleContent sets the mode's Visible flags).
+				return root;
+			}
+			if(window=="OpenPmsDental.FormRecallTypeEdit" && state=="childprophy") {
+				//UI-12 slice 5: the Child Prophy special type (FillSampleContent sets the Visible flags).
 				return root;
 			}
 			throw new ArgumentException("No gallery state "+state+" for "+window+".");

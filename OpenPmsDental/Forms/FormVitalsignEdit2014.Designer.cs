@@ -326,7 +326,7 @@
 			this.groupExclusion.Controls.Add(this.checkPregnant);
 			this.groupExclusion.Location = new System.Drawing.Point(8, 174);
 			this.groupExclusion.Name = "groupExclusion";
-			this.groupExclusion.Size = new System.Drawing.Size(701, 213);
+			this.groupExclusion.Size = new System.Drawing.Size(586, 213);
 			this.groupExclusion.TabIndex = 9;
 			this.groupExclusion.TabStop = false;
 			this.groupExclusion.Text = "Exclusion From BMI Exam";
@@ -428,7 +428,7 @@
 			this.groupInterventions.Controls.Add(this.gridInterventions);
 			this.groupInterventions.Location = new System.Drawing.Point(8, 395);
 			this.groupInterventions.Name = "groupInterventions";
-			this.groupInterventions.Size = new System.Drawing.Size(701, 200);
+			this.groupInterventions.Size = new System.Drawing.Size(586, 200);
 			this.groupInterventions.TabIndex = 10;
 			this.groupInterventions.TabStop = false;
 			this.groupInterventions.Text = "Interventions";
@@ -515,7 +515,7 @@
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(634, 706);
+			this.butSave.Location = new System.Drawing.Point(519, 706);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 11;
@@ -543,7 +543,7 @@
 			//
 			// FormVitalsignEdit2014
 			//
-			this.ClientSize = new System.Drawing.Size(717, 738);
+			this.ClientSize = new System.Drawing.Size(602, 738);
 			this.Controls.Add(this.textNotes);
 			this.Controls.Add(this.labelNotes);
 			this.Controls.Add(this.butSave);

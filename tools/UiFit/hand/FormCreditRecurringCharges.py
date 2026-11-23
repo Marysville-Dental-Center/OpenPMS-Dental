@@ -1,7 +1,7 @@
 """FormCreditRecurringCharges on the grid (UI-12 slice 5, layout script on the planner's tree). The grid stood at 12 and ended 55 px over
 the bottom bar; the side column's groups ended at three x (1050, 1040, 967) with Refresh centred over them: the grid from the content edge
 to 8 px before the side column and down to 8 px over the bar; Refresh, the Date Filter, Clinic Filter and Counts groups one width to the
-right content edge (Today on the date group's content edge, the clinic list to its content edge)."""
+right content edge, Counts down to the grid's bottom (Today on the date group's content edge, the clinic list to its content edge)."""
 
 
 def layout(h):
@@ -20,3 +20,5 @@ def layout(h):
         h.set(name, None, None, w - 16, None)
     bar = h.n("butAll").ny
     h.set("gridMain", 8, 8, x - 8 - 8, bar - 8 - 8)
+    c = h.n("groupCounts")
+    h.set("groupCounts", None, None, None, bar - 8 - c.ny)

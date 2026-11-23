@@ -101,7 +101,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridMain.Location = new System.Drawing.Point(8, 111);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(680, 503);
+			this.gridMain.Size = new System.Drawing.Size(672, 503);
 			this.gridMain.TabIndex = 140;
 			this.gridMain.Title = "Procedures";
 			this.gridMain.TranslationName = "TableProcSelect";
@@ -190,9 +190,9 @@
 			this.groupBreakdown.Controls.Add(this.label7);
 			this.groupBreakdown.Controls.Add(this.labelPayPlanProduction);
 			this.groupBreakdown.Controls.Add(this.label5);
-			this.groupBreakdown.Location = new System.Drawing.Point(696, 111);
+			this.groupBreakdown.Location = new System.Drawing.Point(688, 111);
 			this.groupBreakdown.Name = "groupBreakdown";
-			this.groupBreakdown.Size = new System.Drawing.Size(171, 273);
+			this.groupBreakdown.Size = new System.Drawing.Size(179, 273);
 			this.groupBreakdown.TabIndex = 144;
 			this.groupBreakdown.TabStop = false;
 			this.groupBreakdown.Text = "Breakdown";
@@ -210,7 +210,7 @@
 			// 
 			this.labelCurrentSplits.Location = new System.Drawing.Point(100, 221);
 			this.labelCurrentSplits.Name = "labelCurrentSplits";
-			this.labelCurrentSplits.Size = new System.Drawing.Size(61, 18);
+			this.labelCurrentSplits.Size = new System.Drawing.Size(71, 18);
 			this.labelCurrentSplits.TabIndex = 151;
 			this.labelCurrentSplits.Text = "0.00";
 			this.labelCurrentSplits.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -220,7 +220,7 @@
 			this.label8.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
 			this.label8.Location = new System.Drawing.Point(8, 243);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(155, 2);
+			this.label8.Size = new System.Drawing.Size(163, 2);
 			this.label8.TabIndex = 150;
 			// 
 			// label9
@@ -238,7 +238,7 @@
 			this.labelAmtEnd.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.labelAmtEnd.Location = new System.Drawing.Point(100, 247);
 			this.labelAmtEnd.Name = "labelAmtEnd";
-			this.labelAmtEnd.Size = new System.Drawing.Size(61, 18);
+			this.labelAmtEnd.Size = new System.Drawing.Size(71, 18);
 			this.labelAmtEnd.TabIndex = 148;
 			this.labelAmtEnd.Text = "0.00";
 			this.labelAmtEnd.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -256,7 +256,7 @@
 			// 
 			this.labelWriteOffEst.Location = new System.Drawing.Point(100, 199);
 			this.labelWriteOffEst.Name = "labelWriteOffEst";
-			this.labelWriteOffEst.Size = new System.Drawing.Size(61, 18);
+			this.labelWriteOffEst.Size = new System.Drawing.Size(71, 18);
 			this.labelWriteOffEst.TabIndex = 146;
 			this.labelWriteOffEst.Text = "0.00";
 			this.labelWriteOffEst.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -274,7 +274,7 @@
 			// 
 			this.labelWriteOff.Location = new System.Drawing.Point(100, 155);
 			this.labelWriteOff.Name = "labelWriteOff";
-			this.labelWriteOff.Size = new System.Drawing.Size(61, 18);
+			this.labelWriteOff.Size = new System.Drawing.Size(71, 18);
 			this.labelWriteOff.TabIndex = 144;
 			this.labelWriteOff.Text = "0.00";
 			this.labelWriteOff.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -292,7 +292,7 @@
 			// 
 			this.labelInsEst.Location = new System.Drawing.Point(100, 177);
 			this.labelInsEst.Name = "labelInsEst";
-			this.labelInsEst.Size = new System.Drawing.Size(61, 18);
+			this.labelInsEst.Size = new System.Drawing.Size(71, 18);
 			this.labelInsEst.TabIndex = 22;
 			this.labelInsEst.Text = "0.00";
 			this.labelInsEst.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -311,7 +311,7 @@
 			// 
 			this.labelPaySplits.Location = new System.Drawing.Point(100, 111);
 			this.labelPaySplits.Name = "labelPaySplits";
-			this.labelPaySplits.Size = new System.Drawing.Size(61, 18);
+			this.labelPaySplits.Size = new System.Drawing.Size(71, 18);
 			this.labelPaySplits.TabIndex = 14;
 			this.labelPaySplits.Text = "0.00";
 			this.labelPaySplits.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -321,7 +321,7 @@
 			this.labelAmtOriginal.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.labelAmtOriginal.Location = new System.Drawing.Point(100, 23);
 			this.labelAmtOriginal.Name = "labelAmtOriginal";
-			this.labelAmtOriginal.Size = new System.Drawing.Size(61, 18);
+			this.labelAmtOriginal.Size = new System.Drawing.Size(71, 18);
 			this.labelAmtOriginal.TabIndex = 26;
 			this.labelAmtOriginal.Text = "0.00";
 			this.labelAmtOriginal.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -339,7 +339,7 @@
 			// 
 			this.labelPositiveAdjs.Location = new System.Drawing.Point(100, 45);
 			this.labelPositiveAdjs.Name = "labelPositiveAdjs";
-			this.labelPositiveAdjs.Size = new System.Drawing.Size(61, 18);
+			this.labelPositiveAdjs.Size = new System.Drawing.Size(71, 18);
 			this.labelPositiveAdjs.TabIndex = 16;
 			this.labelPositiveAdjs.Text = "0.00";
 			this.labelPositiveAdjs.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -366,7 +366,7 @@
 			// 
 			this.labelInsPay.Location = new System.Drawing.Point(100, 133);
 			this.labelInsPay.Name = "labelInsPay";
-			this.labelInsPay.Size = new System.Drawing.Size(61, 18);
+			this.labelInsPay.Size = new System.Drawing.Size(71, 18);
 			this.labelInsPay.TabIndex = 24;
 			this.labelInsPay.Text = "0.00";
 			this.labelInsPay.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -375,7 +375,7 @@
 			// 
 			this.labelNegativeAdjs.Location = new System.Drawing.Point(100, 67);
 			this.labelNegativeAdjs.Name = "labelNegativeAdjs";
-			this.labelNegativeAdjs.Size = new System.Drawing.Size(61, 18);
+			this.labelNegativeAdjs.Size = new System.Drawing.Size(71, 18);
 			this.labelNegativeAdjs.TabIndex = 18;
 			this.labelNegativeAdjs.Text = "0.00";
 			this.labelNegativeAdjs.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -393,7 +393,7 @@
 			// 
 			this.labelPayPlanProduction.Location = new System.Drawing.Point(100, 89);
 			this.labelPayPlanProduction.Name = "labelPayPlanProduction";
-			this.labelPayPlanProduction.Size = new System.Drawing.Size(61, 18);
+			this.labelPayPlanProduction.Size = new System.Drawing.Size(71, 18);
 			this.labelPayPlanProduction.TabIndex = 20;
 			this.labelPayPlanProduction.Text = "0.00";
 			this.labelPayPlanProduction.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;

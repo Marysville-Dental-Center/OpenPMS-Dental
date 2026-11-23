@@ -70,7 +70,7 @@
 			this.textPatName.Location = new System.Drawing.Point(124, 23);
 			this.textPatName.Name = "textPatName";
 			this.textPatName.ReadOnly = true;
-			this.textPatName.Size = new System.Drawing.Size(303, 23);
+			this.textPatName.Size = new System.Drawing.Size(319, 23);
 			this.textPatName.TabIndex = 1;
 			// 
 			// textPatIDNum
@@ -149,7 +149,7 @@
 			this.groupBox1.Controls.Add(this.label4);
 			this.groupBox1.Location = new System.Drawing.Point(8, 244);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(435, 232);
+			this.groupBox1.Size = new System.Drawing.Size(451, 232);
 			this.groupBox1.TabIndex = 13;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Info From Incoming Message";
@@ -179,7 +179,7 @@
 			this.groupBox2.Controls.Add(this.label7);
 			this.groupBox2.Location = new System.Drawing.Point(44, 135);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(381, 81);
+			this.groupBox2.Size = new System.Drawing.Size(399, 81);
 			this.groupBox2.TabIndex = 8;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Service";
@@ -206,7 +206,7 @@
 			this.textServiceName.Location = new System.Drawing.Point(80, 50);
 			this.textServiceName.Name = "textServiceName";
 			this.textServiceName.ReadOnly = true;
-			this.textServiceName.Size = new System.Drawing.Size(284, 20);
+			this.textServiceName.Size = new System.Drawing.Size(311, 23);
 			this.textServiceName.TabIndex = 1;
 			// 
 			// label7

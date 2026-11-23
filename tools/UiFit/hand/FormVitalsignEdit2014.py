@@ -2,7 +2,8 @@
 medical-reason check box on one line (388 px), so its Reason Code and Description stood on a second field column (498) beside the
 pregnancy column (381); the pregnancy notice (hidden; shown by the code with a pregnancy code) stood over the check box's third and fourth
 lines (main too). The notice under the pregnancy check box's four lines, the medical-reason check box wrapped to the same width under it,
-Reason Code and its Description on the pregnancy column; the group grows by what that adds and everything under it moves down."""
+Reason Code and its Description on the pregnancy column; the group grows by what that adds and everything under it moves down;
+the window at main's width again."""
 
 
 def layout(h):
@@ -29,4 +30,11 @@ def layout(h):
     for name in ("groupInterventions", "labelNotes", "textNotes", "labelBMIPercentile", "textBMIPercentile", "labelBMIPercentileCode",
                  "textBMIPercentileCode", "butDelete", "butSave"):
         h.set(name, None, h.n(name).ny + dy)
-    h.set(".", None, None, None, h.tree.nh + dy)
+    # With the reason check box wrapped nothing needs the 717 px the planner gave the window: main's 602 again, the two groups to its
+    # content edge and Save on it.
+    W = 602
+    for name in ("groupExclusion", "groupInterventions"):
+        h.set(name, None, None, W - 8 - 8, None)
+    s = h.n("butSave")
+    h.set("butSave", W - 8 - s.nw, None)
+    h.set(".", None, None, W, h.tree.nh + dy)

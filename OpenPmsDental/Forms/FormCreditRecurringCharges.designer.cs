@@ -73,7 +73,7 @@ namespace OpenPmsDental{
 			this.groupCounts.Controls.Add(this.labelTotal);
 			this.groupCounts.Location = new System.Drawing.Point(867, 414);
 			this.groupCounts.Name = "groupCounts";
-			this.groupCounts.Size = new System.Drawing.Size(183, 123);
+			this.groupCounts.Size = new System.Drawing.Size(183, 127);
 			this.groupCounts.TabIndex = 34;
 			this.groupCounts.TabStop = false;
 			this.groupCounts.Text = "Counts";
