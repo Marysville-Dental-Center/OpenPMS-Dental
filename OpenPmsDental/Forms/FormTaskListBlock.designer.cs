@@ -47,9 +47,9 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.treeSubscriptions.CheckBoxes = true;
 			this.treeSubscriptions.FullRowSelect = true;
-			this.treeSubscriptions.Location = new System.Drawing.Point(12, 31);
+			this.treeSubscriptions.Location = new System.Drawing.Point(8, 31);
 			this.treeSubscriptions.Name = "treeSubscriptions";
-			this.treeSubscriptions.Size = new System.Drawing.Size(411, 367);
+			this.treeSubscriptions.Size = new System.Drawing.Size(420, 368);
 			this.treeSubscriptions.TabIndex = 4;
 			this.treeSubscriptions.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeSubscriptions_NodeMouseClick);
 			// 
@@ -77,7 +77,7 @@ namespace OpenPmsDental{
 			// 
 			// labelTitle
 			// 
-			this.labelTitle.Location = new System.Drawing.Point(12, 8);
+			this.labelTitle.Location = new System.Drawing.Point(8, 8);
 			this.labelTitle.Name = "labelTitle";
 			this.labelTitle.Size = new System.Drawing.Size(116, 21);
 			this.labelTitle.TabIndex = 7;

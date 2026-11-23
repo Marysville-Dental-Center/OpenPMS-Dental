@@ -71,10 +71,10 @@ namespace OpenPmsDental{
 			// 
 			// textCarrierNameInto
 			// 
-			this.textCarrierNameInto.Location = new System.Drawing.Point(93, 23);
+			this.textCarrierNameInto.Location = new System.Drawing.Point(8, 23);
 			this.textCarrierNameInto.Name = "textCarrierNameInto";
 			this.textCarrierNameInto.ReadOnly = true;
-			this.textCarrierNameInto.Size = new System.Drawing.Size(267, 23);
+			this.textCarrierNameInto.Size = new System.Drawing.Size(352, 23);
 			this.textCarrierNameInto.TabIndex = 1;
 			// 
 			// groupBox2
@@ -111,10 +111,10 @@ namespace OpenPmsDental{
 			// 
 			// textCarrierNameFrom
 			// 
-			this.textCarrierNameFrom.Location = new System.Drawing.Point(93, 23);
+			this.textCarrierNameFrom.Location = new System.Drawing.Point(8, 23);
 			this.textCarrierNameFrom.Name = "textCarrierNameFrom";
 			this.textCarrierNameFrom.ReadOnly = true;
-			this.textCarrierNameFrom.Size = new System.Drawing.Size(267, 23);
+			this.textCarrierNameFrom.Size = new System.Drawing.Size(352, 23);
 			this.textCarrierNameFrom.TabIndex = 1;
 			// 
 			// butSave

@@ -32,7 +32,7 @@ namespace OpenPmsDental{
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(50, 8);
+			this.label1.Location = new System.Drawing.Point(8, 8);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(36, 23);
 			this.label1.TabIndex = 15;
@@ -43,15 +43,15 @@ namespace OpenPmsDental{
 			// 
 			this.textLink.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textLink.Location = new System.Drawing.Point(92, 8);
+			this.textLink.Location = new System.Drawing.Point(50, 8);
 			this.textLink.Name = "textLink";
-			this.textLink.Size = new System.Drawing.Size(344, 20);
+			this.textLink.Size = new System.Drawing.Size(559, 23);
 			this.textLink.TabIndex = 14;
 			// 
 			// butBrowse
 			// 
 			this.butBrowse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butBrowse.Location = new System.Drawing.Point(442, 8);
+			this.butBrowse.Location = new System.Drawing.Point(615, 8);
 			this.butBrowse.Name = "butBrowse";
 			this.butBrowse.Size = new System.Drawing.Size(23, 23);
 			this.butBrowse.TabIndex = 18;
@@ -70,9 +70,9 @@ namespace OpenPmsDental{
 			// 
 			// labelReadOnlyCopy
 			// 
-			this.labelReadOnlyCopy.Location = new System.Drawing.Point(92, 35);
+			this.labelReadOnlyCopy.Location = new System.Drawing.Point(50, 35);
 			this.labelReadOnlyCopy.Name = "labelReadOnlyCopy";
-			this.labelReadOnlyCopy.Size = new System.Drawing.Size(320, 47);
+			this.labelReadOnlyCopy.Size = new System.Drawing.Size(588, 34);
 			this.labelReadOnlyCopy.TabIndex = 19;
 			this.labelReadOnlyCopy.Text = "Read-only copy of the wiki: files in the wiki folder are copied into it. Files anywhere else are linked, so they open only while their folder can be reached.";
 			this.labelReadOnlyCopy.Visible = false;

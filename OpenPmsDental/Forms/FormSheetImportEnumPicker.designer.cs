@@ -31,7 +31,7 @@ namespace OpenPmsDental{
 			// 
 			// labelPrompt
 			// 
-			this.labelPrompt.Location = new System.Drawing.Point(12, 8);
+			this.labelPrompt.Location = new System.Drawing.Point(8, 8);
 			this.labelPrompt.Name = "labelPrompt";
 			this.labelPrompt.Size = new System.Drawing.Size(299, 36);
 			this.labelPrompt.TabIndex = 5;
@@ -51,7 +51,7 @@ namespace OpenPmsDental{
 			// butClear
 			// 
 			this.butClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butClear.Location = new System.Drawing.Point(315, 48);
+			this.butClear.Location = new System.Drawing.Point(315, 46);
 			this.butClear.Name = "butClear";
 			this.butClear.Size = new System.Drawing.Size(75, 24);
 			this.butClear.TabIndex = 6;
@@ -63,9 +63,9 @@ namespace OpenPmsDental{
 			this.listResult.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.listResult.Location = new System.Drawing.Point(12, 46);
+			this.listResult.Location = new System.Drawing.Point(8, 46);
 			this.listResult.Name = "listResult";
-			this.listResult.Size = new System.Drawing.Size(197, 277);
+			this.listResult.Size = new System.Drawing.Size(299, 277);
 			this.listResult.TabIndex = 7;
 			this.listResult.DoubleClick += new System.EventHandler(this.listResult_DoubleClick);
 			// 

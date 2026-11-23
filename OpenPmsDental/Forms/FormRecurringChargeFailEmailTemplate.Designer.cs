@@ -27,9 +27,9 @@ namespace OpenPmsDental {
 			//
 			// labelIntro
 			//
-			this.labelIntro.Location = new System.Drawing.Point(12, 8);
+			this.labelIntro.Location = new System.Drawing.Point(8, 8);
 			this.labelIntro.Name = "labelIntro";
-			this.labelIntro.Size = new System.Drawing.Size(536, 32);
+			this.labelIntro.Size = new System.Drawing.Size(540, 32);
 			this.labelIntro.TabIndex = 0;
 			this.labelIntro.Text = "Sent from the office\'s own e-mail address to the patient, or to the guarantor when the patient has no address, when a recurring charge is declined.";
 			//

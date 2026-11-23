@@ -31,7 +31,7 @@ namespace OpenPmsDental {
 			//
 			// checkEnabled
 			//
-			this.checkEnabled.Location = new System.Drawing.Point(144, 8);
+			this.checkEnabled.Location = new System.Drawing.Point(8, 8);
 			this.checkEnabled.Name = "checkEnabled";
 			this.checkEnabled.Size = new System.Drawing.Size(66, 20);
 			this.checkEnabled.TabIndex = 0;
@@ -82,13 +82,13 @@ namespace OpenPmsDental {
 			//
 			this.labelSecretStatus.Location = new System.Drawing.Point(144, 146);
 			this.labelSecretStatus.Name = "labelSecretStatus";
-			this.labelSecretStatus.Size = new System.Drawing.Size(320, 30);
+			this.labelSecretStatus.Size = new System.Drawing.Size(320, 34);
 			this.labelSecretStatus.TabIndex = 6;
 			this.labelSecretStatus.Text = "Not set.";
 			//
 			// labelEnvironment
 			//
-			this.labelEnvironment.Location = new System.Drawing.Point(58, 178);
+			this.labelEnvironment.Location = new System.Drawing.Point(58, 188);
 			this.labelEnvironment.Name = "labelEnvironment";
 			this.labelEnvironment.Size = new System.Drawing.Size(80, 23);
 			this.labelEnvironment.TabIndex = 7;
@@ -97,14 +97,14 @@ namespace OpenPmsDental {
 			//
 			// comboEnvironment
 			//
-			this.comboEnvironment.Location = new System.Drawing.Point(144, 178);
+			this.comboEnvironment.Location = new System.Drawing.Point(144, 188);
 			this.comboEnvironment.Name = "comboEnvironment";
 			this.comboEnvironment.Size = new System.Drawing.Size(152, 23);
 			this.comboEnvironment.TabIndex = 8;
 			//
 			// butTest
 			//
-			this.butTest.Location = new System.Drawing.Point(144, 205);
+			this.butTest.Location = new System.Drawing.Point(144, 215);
 			this.butTest.Name = "butTest";
 			this.butTest.Size = new System.Drawing.Size(110, 24);
 			this.butTest.TabIndex = 9;
@@ -113,7 +113,7 @@ namespace OpenPmsDental {
 			//
 			// labelTestResult
 			//
-			this.labelTestResult.Location = new System.Drawing.Point(12, 233);
+			this.labelTestResult.Location = new System.Drawing.Point(8, 243);
 			this.labelTestResult.Name = "labelTestResult";
 			this.labelTestResult.Size = new System.Drawing.Size(470, 64);
 			this.labelTestResult.TabIndex = 10;

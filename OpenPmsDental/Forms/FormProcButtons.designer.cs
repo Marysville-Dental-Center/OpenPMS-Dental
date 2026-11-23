@@ -41,25 +41,25 @@ namespace OpenPmsDental {
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(324, 8);
+			this.label1.Location = new System.Drawing.Point(338, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(237, 22);
+			this.label1.Size = new System.Drawing.Size(234, 18);
 			this.label1.TabIndex = 36;
 			this.label1.Text = "Buttons for the selected category";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(36, 8);
+			this.label2.Location = new System.Drawing.Point(8, 8);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(237, 22);
+			this.label2.Size = new System.Drawing.Size(234, 18);
 			this.label2.TabIndex = 38;
 			this.label2.Text = "Button Categories";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// listCategories
 			// 
-			this.listCategories.Location = new System.Drawing.Point(36, 32);
+			this.listCategories.Location = new System.Drawing.Point(8, 28);
 			this.listCategories.Name = "listCategories";
 			this.listCategories.Size = new System.Drawing.Size(234, 316);
 			this.listCategories.TabIndex = 37;
@@ -73,7 +73,7 @@ namespace OpenPmsDental {
             this.columnHeader1});
 			this.listViewButtons.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
 			this.listViewButtons.HideSelection = false;
-			this.listViewButtons.Location = new System.Drawing.Point(326, 59);
+			this.listViewButtons.Location = new System.Drawing.Point(338, 28);
 			this.listViewButtons.MultiSelect = false;
 			this.listViewButtons.Name = "listViewButtons";
 			this.listViewButtons.Size = new System.Drawing.Size(234, 316);
@@ -95,9 +95,9 @@ namespace OpenPmsDental {
 			// 
 			// labelEdit
 			// 
-			this.labelEdit.Location = new System.Drawing.Point(326, 259);
+			this.labelEdit.Location = new System.Drawing.Point(338, 228);
 			this.labelEdit.Name = "labelEdit";
-			this.labelEdit.Size = new System.Drawing.Size(235, 72);
+			this.labelEdit.Size = new System.Drawing.Size(234, 72);
 			this.labelEdit.TabIndex = 204;
 			this.labelEdit.Text = "The Quick Buttons category allows custom placement of buttons and labels.  Double" +
     " click anywhere on panel above to add or edit an item.";
@@ -105,7 +105,7 @@ namespace OpenPmsDental {
 			// panelQuickButtons
 			// 
 			this.panelQuickButtons.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.5F);
-			this.panelQuickButtons.Location = new System.Drawing.Point(326, 59);
+			this.panelQuickButtons.Location = new System.Drawing.Point(338, 28);
 			this.panelQuickButtons.Name = "panelQuickButtons";
 			this.panelQuickButtons.Size = new System.Drawing.Size(199, 192);
 			this.panelQuickButtons.TabIndex = 203;
@@ -115,7 +115,7 @@ namespace OpenPmsDental {
 			// 
 			this.butEdit.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butEdit.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butEdit.Location = new System.Drawing.Point(36, 352);
+			this.butEdit.Location = new System.Drawing.Point(8, 352);
 			this.butEdit.Name = "butEdit";
 			this.butEdit.Size = new System.Drawing.Size(109, 26);
 			this.butEdit.TabIndex = 39;
@@ -126,7 +126,7 @@ namespace OpenPmsDental {
 			// 
 			this.butDown.Icon = OpenPmsDental.UI.EnumIcons.Down;
 			this.butDown.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDown.Location = new System.Drawing.Point(478, 409);
+			this.butDown.Location = new System.Drawing.Point(490, 382);
 			this.butDown.Name = "butDown";
 			this.butDown.Size = new System.Drawing.Size(82, 26);
 			this.butDown.TabIndex = 34;
@@ -137,7 +137,7 @@ namespace OpenPmsDental {
 			// 
 			this.butUp.Icon = OpenPmsDental.UI.EnumIcons.Up;
 			this.butUp.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butUp.Location = new System.Drawing.Point(478, 379);
+			this.butUp.Location = new System.Drawing.Point(490, 352);
 			this.butUp.Name = "butUp";
 			this.butUp.Size = new System.Drawing.Size(82, 26);
 			this.butUp.TabIndex = 35;
@@ -148,7 +148,7 @@ namespace OpenPmsDental {
 			// 
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdd.Location = new System.Drawing.Point(324, 379);
+			this.butAdd.Location = new System.Drawing.Point(338, 352);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(82, 26);
 			this.butAdd.TabIndex = 32;
@@ -159,7 +159,7 @@ namespace OpenPmsDental {
 			// 
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(324, 409);
+			this.butDelete.Location = new System.Drawing.Point(338, 382);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(82, 26);
 			this.butDelete.TabIndex = 33;

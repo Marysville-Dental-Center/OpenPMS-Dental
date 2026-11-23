@@ -81,7 +81,7 @@ namespace OpenPmsDental{
 			this.comboClinic.IncludeUnassigned = true;
 			this.comboClinic.Location = new System.Drawing.Point(75, 62);
 			this.comboClinic.Name = "comboClinic";
-			this.comboClinic.Size = new System.Drawing.Size(195, 23);
+			this.comboClinic.Size = new System.Drawing.Size(203, 23);
 			this.comboClinic.TabIndex = 93;
 			// 
 			// butDelete

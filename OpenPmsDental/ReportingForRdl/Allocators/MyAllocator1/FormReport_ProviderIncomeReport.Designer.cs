@@ -43,7 +43,7 @@ namespace OpenPmsDental.Reporting.Allocators.MyAllocator1
 			this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.dataGridView1.Location = new System.Drawing.Point(8, 21);
 			this.dataGridView1.Name = "dataGridView1";
-			this.dataGridView1.Size = new System.Drawing.Size(797, 483);
+			this.dataGridView1.Size = new System.Drawing.Size(789, 475);
 			this.dataGridView1.TabIndex = 0;
 			// 
 			// panel1
@@ -55,7 +55,7 @@ namespace OpenPmsDental.Reporting.Allocators.MyAllocator1
 			this.panel1.Controls.Add(this.lblDgvHeader);
 			this.panel1.Location = new System.Drawing.Point(8, 8);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(821, 512);
+			this.panel1.Size = new System.Drawing.Size(805, 504);
 			this.panel1.TabIndex = 1;
 			// 
 			// lblDgvHeader

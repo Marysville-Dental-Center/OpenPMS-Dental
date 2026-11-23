@@ -36,21 +36,21 @@ namespace OpenPmsDental {
 			//
 			this.labelIntro.Location = new System.Drawing.Point(8, 8);
 			this.labelIntro.Name = "labelIntro";
-			this.labelIntro.Size = new System.Drawing.Size(496, 47);
+			this.labelIntro.Size = new System.Drawing.Size(504, 34);
 			this.labelIntro.TabIndex = 0;
 			this.labelIntro.Text = "The prescription monitoring service identifies this program by a client certificate. Import the certificate file issued for this software, or use one already in the Windows certificate store.";
 			//
 			// labelClinic
 			//
-			this.labelClinic.Location = new System.Drawing.Point(8, 57);
+			this.labelClinic.Location = new System.Drawing.Point(8, 46);
 			this.labelClinic.Name = "labelClinic";
-			this.labelClinic.Size = new System.Drawing.Size(496, 18);
+			this.labelClinic.Size = new System.Drawing.Size(504, 18);
 			this.labelClinic.TabIndex = 1;
 			this.labelClinic.Text = "Clinic: Default";
 			//
 			// labelCurrent
 			//
-			this.labelCurrent.Location = new System.Drawing.Point(8, 77);
+			this.labelCurrent.Location = new System.Drawing.Point(8, 68);
 			this.labelCurrent.Name = "labelCurrent";
 			this.labelCurrent.Size = new System.Drawing.Size(200, 18);
 			this.labelCurrent.TabIndex = 2;
@@ -59,7 +59,7 @@ namespace OpenPmsDental {
 			//
 			// textCurrent
 			//
-			this.textCurrent.Location = new System.Drawing.Point(8, 97);
+			this.textCurrent.Location = new System.Drawing.Point(8, 88);
 			this.textCurrent.Multiline = true;
 			this.textCurrent.Name = "textCurrent";
 			this.textCurrent.ReadOnly = true;
@@ -74,7 +74,7 @@ namespace OpenPmsDental {
 			this.groupImport.Controls.Add(this.labelPassword);
 			this.groupImport.Controls.Add(this.textPassword);
 			this.groupImport.Controls.Add(this.butImport);
-			this.groupImport.Location = new System.Drawing.Point(8, 153);
+			this.groupImport.Location = new System.Drawing.Point(8, 144);
 			this.groupImport.Name = "groupImport";
 			this.groupImport.Size = new System.Drawing.Size(504, 81);
 			this.groupImport.TabIndex = 4;
@@ -134,7 +134,7 @@ namespace OpenPmsDental {
 			//
 			// butStore
 			//
-			this.butStore.Location = new System.Drawing.Point(8, 242);
+			this.butStore.Location = new System.Drawing.Point(8, 233);
 			this.butStore.Name = "butStore";
 			this.butStore.Size = new System.Drawing.Size(220, 24);
 			this.butStore.TabIndex = 5;
@@ -143,7 +143,7 @@ namespace OpenPmsDental {
 			//
 			// butRemove
 			//
-			this.butRemove.Location = new System.Drawing.Point(234, 242);
+			this.butRemove.Location = new System.Drawing.Point(234, 233);
 			this.butRemove.Name = "butRemove";
 			this.butRemove.Size = new System.Drawing.Size(75, 24);
 			this.butRemove.TabIndex = 6;

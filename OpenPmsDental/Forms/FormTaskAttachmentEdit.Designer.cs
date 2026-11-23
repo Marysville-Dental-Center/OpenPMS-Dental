@@ -125,19 +125,19 @@ namespace OpenPmsDental{
 			this.textValue.DetectUrls = true;
 			this.textValue.HasAutoNotes = true;
 			this.textValue.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Task;
-			this.textValue.Location = new System.Drawing.Point(12, 110);
+			this.textValue.Location = new System.Drawing.Point(8, 110);
 			this.textValue.MaxLength = 65535;
 			this.textValue.Multiline = true;
 			this.textValue.Name = "textValue";
 			this.textValue.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Task;
 			this.textValue.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textValue.Size = new System.Drawing.Size(1174, 519);
+			this.textValue.Size = new System.Drawing.Size(1214, 519);
 			this.textValue.TabIndex = 3;
 			this.textValue.Text = "";
 			// 
 			// labelText
 			// 
-			this.labelText.Location = new System.Drawing.Point(12, 89);
+			this.labelText.Location = new System.Drawing.Point(8, 89);
 			this.labelText.Name = "labelText";
 			this.labelText.Size = new System.Drawing.Size(66, 19);
 			this.labelText.TabIndex = 63;

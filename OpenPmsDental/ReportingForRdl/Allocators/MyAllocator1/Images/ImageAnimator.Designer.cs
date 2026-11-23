@@ -40,7 +40,7 @@
 			// 
 			// ImageBox
 			// 
-			this.ImageBox.Location = new System.Drawing.Point(8, 8);
+			this.ImageBox.Location = new System.Drawing.Point(0, 0);
 			this.ImageBox.Margin = new System.Windows.Forms.Padding(0);
 			this.ImageBox.Name = "ImageBox";
 			this.ImageBox.Size = new System.Drawing.Size(50, 50);
@@ -52,7 +52,7 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.Controls.Add(this.ImageBox);
 			this.Name = "ImageAnimator";
-			this.Size = new System.Drawing.Size(66, 66);
+			this.Size = new System.Drawing.Size(50, 50);
 			this.SizeChanged += new System.EventHandler(this.ImageAnimator_SizeChanged);
 			((System.ComponentModel.ISupportInitialize)(this.ImageBox)).EndInit();
 			this.ResumeLayout(false);

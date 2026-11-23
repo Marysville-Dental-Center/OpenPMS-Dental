@@ -124,7 +124,7 @@ namespace OpenPmsDental {
 			// 
 			this.listType.Location = new System.Drawing.Point(313, 38);
 			this.listType.Name = "listType";
-			this.listType.Size = new System.Drawing.Size(115, 134);
+			this.listType.Size = new System.Drawing.Size(115, 137);
 			this.listType.TabIndex = 19;
 			// 
 			// labelType

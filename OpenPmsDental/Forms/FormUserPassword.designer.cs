@@ -46,9 +46,9 @@ namespace OpenPmsDental {
 			// 
 			// labelNew
 			// 
-			this.labelNew.Location = new System.Drawing.Point(78, 62);
+			this.labelNew.Location = new System.Drawing.Point(58, 62);
 			this.labelNew.Name = "labelNew";
-			this.labelNew.Size = new System.Drawing.Size(88, 23);
+			this.labelNew.Size = new System.Drawing.Size(108, 23);
 			this.labelNew.TabIndex = 2;
 			this.labelNew.Text = "New Password";
 			this.labelNew.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -71,9 +71,9 @@ namespace OpenPmsDental {
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(130, 8);
+			this.label3.Location = new System.Drawing.Point(58, 8);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(36, 23);
+			this.label3.Size = new System.Drawing.Size(108, 23);
 			this.label3.TabIndex = 6;
 			this.label3.Text = "User";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -88,9 +88,9 @@ namespace OpenPmsDental {
 			// 
 			// labelCurrent
 			// 
-			this.labelCurrent.Location = new System.Drawing.Point(62, 35);
+			this.labelCurrent.Location = new System.Drawing.Point(58, 35);
 			this.labelCurrent.Name = "labelCurrent";
-			this.labelCurrent.Size = new System.Drawing.Size(104, 23);
+			this.labelCurrent.Size = new System.Drawing.Size(108, 23);
 			this.labelCurrent.TabIndex = 8;
 			this.labelCurrent.Text = "Current Password";
 			this.labelCurrent.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

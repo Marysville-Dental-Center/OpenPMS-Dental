@@ -57,9 +57,9 @@ namespace OpenPmsDental{
 			// 
 			this.groupBox1.Controls.Add(this.radioPermanent);
 			this.groupBox1.Controls.Add(this.radioPrimary);
-			this.groupBox1.Location = new System.Drawing.Point(88, 8);
+			this.groupBox1.Location = new System.Drawing.Point(8, 8);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(225, 75);
+			this.groupBox1.Size = new System.Drawing.Size(387, 75);
 			this.groupBox1.TabIndex = 101;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Chart Type";

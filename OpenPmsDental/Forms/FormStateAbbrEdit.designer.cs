@@ -35,32 +35,32 @@ namespace OpenPmsDental{
 			// 
 			// textAbbr
 			// 
-			this.textAbbr.Location = new System.Drawing.Point(103, 35);
+			this.textAbbr.Location = new System.Drawing.Point(130, 35);
 			this.textAbbr.Name = "textAbbr";
 			this.textAbbr.Size = new System.Drawing.Size(100, 20);
 			this.textAbbr.TabIndex = 2;
 			// 
 			// textDescription
 			// 
-			this.textDescription.Location = new System.Drawing.Point(103, 8);
+			this.textDescription.Location = new System.Drawing.Point(130, 8);
 			this.textDescription.Name = "textDescription";
-			this.textDescription.Size = new System.Drawing.Size(280, 23);
+			this.textDescription.Size = new System.Drawing.Size(273, 23);
 			this.textDescription.TabIndex = 1;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(25, 8);
+			this.label1.Location = new System.Drawing.Point(8, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(72, 23);
+			this.label1.Size = new System.Drawing.Size(116, 23);
 			this.label1.TabIndex = 18;
 			this.label1.Text = "Description";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(17, 35);
+			this.label2.Location = new System.Drawing.Point(8, 35);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(80, 23);
+			this.label2.Size = new System.Drawing.Size(116, 23);
 			this.label2.TabIndex = 19;
 			this.label2.Text = "Abbreviation";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -89,16 +89,16 @@ namespace OpenPmsDental{
 			// 
 			// labelMedIDLength
 			// 
-			this.labelMedIDLength.Location = new System.Drawing.Point(12, 62);
+			this.labelMedIDLength.Location = new System.Drawing.Point(8, 62);
 			this.labelMedIDLength.Name = "labelMedIDLength";
-			this.labelMedIDLength.Size = new System.Drawing.Size(85, 33);
+			this.labelMedIDLength.Size = new System.Drawing.Size(116, 23);
 			this.labelMedIDLength.TabIndex = 21;
 			this.labelMedIDLength.Text = "Medicaid ID Length";
 			this.labelMedIDLength.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textMedIDLength
 			// 
-			this.textMedIDLength.Location = new System.Drawing.Point(103, 67);
+			this.textMedIDLength.Location = new System.Drawing.Point(130, 62);
 			this.textMedIDLength.MaxVal = 255;
 			this.textMedIDLength.MinVal = 0;
 			this.textMedIDLength.Name = "textMedIDLength";

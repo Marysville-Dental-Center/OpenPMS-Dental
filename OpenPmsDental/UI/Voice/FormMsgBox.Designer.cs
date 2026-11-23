@@ -32,7 +32,7 @@ namespace OpenPmsDental.UI.Voice {
 			// 
 			this.labelText.Location = new System.Drawing.Point(8, 8);
 			this.labelText.Name = "labelText";
-			this.labelText.Size = new System.Drawing.Size(267, 65);
+			this.labelText.Size = new System.Drawing.Size(268, 57);
 			this.labelText.TabIndex = 0;
 			this.labelText.Text = "Message text";
 			this.labelText.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -40,7 +40,7 @@ namespace OpenPmsDental.UI.Voice {
 			// butCancel
 			// 
 			this.butCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butCancel.Location = new System.Drawing.Point(201, 127);
+			this.butCancel.Location = new System.Drawing.Point(201, 73);
 			this.butCancel.Name = "butCancel";
 			this.butCancel.Size = new System.Drawing.Size(75, 23);
 			this.butCancel.TabIndex = 1;
@@ -51,7 +51,7 @@ namespace OpenPmsDental.UI.Voice {
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(117, 71);
+			this.butOK.Location = new System.Drawing.Point(118, 73);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 23);
 			this.butOK.TabIndex = 2;
@@ -62,7 +62,7 @@ namespace OpenPmsDental.UI.Voice {
 			// FormMsgBox
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(284, 158);
+			this.ClientSize = new System.Drawing.Size(284, 104);
 			this.Controls.Add(this.butOK);
 			this.Controls.Add(this.butCancel);
 			this.Controls.Add(this.labelText);

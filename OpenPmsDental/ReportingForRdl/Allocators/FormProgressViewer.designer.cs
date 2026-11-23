@@ -47,7 +47,7 @@ namespace OpenPmsDental.Reporting.Allocators.MyAllocator1
 			// butOK
 			// 
 			this.butOK.Enabled = false;
-			this.butOK.Location = new System.Drawing.Point(8, 62);
+			this.butOK.Location = new System.Drawing.Point(8, 99);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 23);
 			this.butOK.TabIndex = 0;
@@ -78,7 +78,7 @@ namespace OpenPmsDental.Reporting.Allocators.MyAllocator1
 			// 
 			// butViewLog
 			// 
-			this.butViewLog.Location = new System.Drawing.Point(8, 8);
+			this.butViewLog.Location = new System.Drawing.Point(8, 0);
 			this.butViewLog.Name = "butViewLog";
 			this.butViewLog.Size = new System.Drawing.Size(75, 23);
 			this.butViewLog.TabIndex = 4;
@@ -97,7 +97,7 @@ namespace OpenPmsDental.Reporting.Allocators.MyAllocator1
 			// butCancel
 			// 
 			this.butCancel.Enabled = false;
-			this.butCancel.Location = new System.Drawing.Point(89, 62);
+			this.butCancel.Location = new System.Drawing.Point(89, 99);
 			this.butCancel.Name = "butCancel";
 			this.butCancel.Size = new System.Drawing.Size(75, 23);
 			this.butCancel.TabIndex = 1;
@@ -107,7 +107,7 @@ namespace OpenPmsDental.Reporting.Allocators.MyAllocator1
 			// 
 			// butStart
 			// 
-			this.butStart.Location = new System.Drawing.Point(8, 35);
+			this.butStart.Location = new System.Drawing.Point(8, 27);
 			this.butStart.Name = "butStart";
 			this.butStart.Size = new System.Drawing.Size(75, 23);
 			this.butStart.TabIndex = 3;

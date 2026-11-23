@@ -29,7 +29,7 @@
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(43,8);
+			this.label1.Location = new System.Drawing.Point(8,8);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(80,23);
 			this.label1.TabIndex = 1;
@@ -40,7 +40,7 @@
 			// 
 			this.comboFeeSched.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboFeeSched.FormattingEnabled = true;
-			this.comboFeeSched.Location = new System.Drawing.Point(129,8);
+			this.comboFeeSched.Location = new System.Drawing.Point(94,8);
 			this.comboFeeSched.MaxDropDownItems = 30;
 			this.comboFeeSched.Name = "comboFeeSched";
 			this.comboFeeSched.Size = new System.Drawing.Size(200,23);

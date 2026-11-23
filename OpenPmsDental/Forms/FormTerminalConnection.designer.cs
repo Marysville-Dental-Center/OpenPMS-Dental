@@ -44,54 +44,54 @@ namespace OpenPmsDental {
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(25,8);
+			this.label1.Location = new System.Drawing.Point(8,8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(100,20);
+			this.label1.Size = new System.Drawing.Size(100,18);
 			this.label1.TabIndex = 0;
 			this.label1.Text = "Sent";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// textTx
 			// 
-			this.textTx.Location = new System.Drawing.Point(25,30);
+			this.textTx.Location = new System.Drawing.Point(8,28);
 			this.textTx.Multiline = true;
 			this.textTx.Name = "textTx";
 			this.textTx.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.textTx.Size = new System.Drawing.Size(452,28);
+			this.textTx.Size = new System.Drawing.Size(621,28);
 			this.textTx.TabIndex = 1;
 			// 
 			// textRx
 			// 
-			this.textRx.Location = new System.Drawing.Point(25,84);
+			this.textRx.Location = new System.Drawing.Point(8,84);
 			this.textRx.Multiline = true;
 			this.textRx.Name = "textRx";
 			this.textRx.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.textRx.Size = new System.Drawing.Size(452,41);
+			this.textRx.Size = new System.Drawing.Size(621,41);
 			this.textRx.TabIndex = 3;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(25,62);
+			this.label2.Location = new System.Drawing.Point(8,64);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(100,20);
+			this.label2.Size = new System.Drawing.Size(100,18);
 			this.label2.TabIndex = 2;
 			this.label2.Text = "Received";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// textProgress
 			// 
-			this.textProgress.Location = new System.Drawing.Point(25,151);
+			this.textProgress.Location = new System.Drawing.Point(8,153);
 			this.textProgress.Multiline = true;
 			this.textProgress.Name = "textProgress";
 			this.textProgress.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.textProgress.Size = new System.Drawing.Size(452,418);
+			this.textProgress.Size = new System.Drawing.Size(621,451);
 			this.textProgress.TabIndex = 6;
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(25,129);
+			this.label3.Location = new System.Drawing.Point(8,133);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(100,20);
+			this.label3.Size = new System.Drawing.Size(100,18);
 			this.label3.TabIndex = 5;
 			this.label3.Text = "Progress";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.BottomLeft;

@@ -82,7 +82,7 @@ namespace OpenPmsDental {
 			// panelClose
 			// 
 			this.panelClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.panelClose.Location = new System.Drawing.Point(799, 612);
+			this.panelClose.Location = new System.Drawing.Point(799, 628);
 			this.panelClose.Name = "panelClose";
 			this.panelClose.Size = new System.Drawing.Size(66, 59);
 			this.panelClose.TabIndex = 7;

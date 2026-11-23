@@ -47,18 +47,18 @@ namespace OpenPmsDental {
 			// 
 			// textTypeSigPractice
 			// 
-			this.textTypeSigPractice.Location = new System.Drawing.Point(655, 91);
+			this.textTypeSigPractice.Location = new System.Drawing.Point(651, 86);
 			this.textTypeSigPractice.Name = "textTypeSigPractice";
-			this.textTypeSigPractice.Size = new System.Drawing.Size(332, 23);
+			this.textTypeSigPractice.Size = new System.Drawing.Size(331, 20);
 			this.textTypeSigPractice.TabIndex = 228;
 			this.textTypeSigPractice.Visible = false;
 			this.textTypeSigPractice.TextChanged += new System.EventHandler(this.textTypeSigPractice_TextChanged);
 			// 
 			// labelTypeSigPractice
 			// 
-			this.labelTypeSigPractice.Location = new System.Drawing.Point(553, 91);
+			this.labelTypeSigPractice.Location = new System.Drawing.Point(502, 87);
 			this.labelTypeSigPractice.Name = "labelTypeSigPractice";
-			this.labelTypeSigPractice.Size = new System.Drawing.Size(96, 23);
+			this.labelTypeSigPractice.Size = new System.Drawing.Size(147, 17);
 			this.labelTypeSigPractice.TabIndex = 229;
 			this.labelTypeSigPractice.Text = "Type name here";
 			this.labelTypeSigPractice.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -67,9 +67,9 @@ namespace OpenPmsDental {
 			// signatureBoxWrapperPractice
 			// 
 			this.signatureBoxWrapperPractice.BackColor = System.Drawing.SystemColors.ControlDark;
-			this.signatureBoxWrapperPractice.Location = new System.Drawing.Point(655, 8);
+			this.signatureBoxWrapperPractice.Location = new System.Drawing.Point(651, 3);
 			this.signatureBoxWrapperPractice.Name = "signatureBoxWrapperPractice";
-			this.signatureBoxWrapperPractice.Size = new System.Drawing.Size(327, 79);
+			this.signatureBoxWrapperPractice.Size = new System.Drawing.Size(331, 79);
 			this.signatureBoxWrapperPractice.TabIndex = 182;
 			this.signatureBoxWrapperPractice.UserSig = null;
 			this.signatureBoxWrapperPractice.Visible = false;
@@ -78,12 +78,12 @@ namespace OpenPmsDental {
 			// labelSigPractice
 			// 
 			this.labelSigPractice.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.labelSigPractice.Location = new System.Drawing.Point(509, 8);
+			this.labelSigPractice.Location = new System.Drawing.Point(496, 4);
 			this.labelSigPractice.Name = "labelSigPractice";
-			this.labelSigPractice.Size = new System.Drawing.Size(140, 41);
+			this.labelSigPractice.Size = new System.Drawing.Size(153, 41);
 			this.labelSigPractice.TabIndex = 92;
 			this.labelSigPractice.Text = "Practice Sign Here --->";
-			this.labelSigPractice.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.labelSigPractice.TextAlign = System.Drawing.ContentAlignment.TopRight;
 			this.labelSigPractice.Visible = false;
 			// 
 			// panelSig
@@ -105,18 +105,18 @@ namespace OpenPmsDental {
 			// 
 			// textTypeSig
 			// 
-			this.textTypeSig.Location = new System.Drawing.Point(162, 91);
+			this.textTypeSig.Location = new System.Drawing.Point(162, 88);
 			this.textTypeSig.Name = "textTypeSig";
-			this.textTypeSig.Size = new System.Drawing.Size(332, 23);
+			this.textTypeSig.Size = new System.Drawing.Size(331, 20);
 			this.textTypeSig.TabIndex = 230;
 			this.textTypeSig.Visible = false;
 			this.textTypeSig.TextChanged += new System.EventHandler(this.textTypeSig_TextChanged);
 			// 
 			// labelTypeSig
 			// 
-			this.labelTypeSig.Location = new System.Drawing.Point(60, 91);
+			this.labelTypeSig.Location = new System.Drawing.Point(13, 89);
 			this.labelTypeSig.Name = "labelTypeSig";
-			this.labelTypeSig.Size = new System.Drawing.Size(96, 23);
+			this.labelTypeSig.Size = new System.Drawing.Size(147, 17);
 			this.labelTypeSig.TabIndex = 231;
 			this.labelTypeSig.Text = "Type name here";
 			this.labelTypeSig.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -125,7 +125,7 @@ namespace OpenPmsDental {
 			// signatureBoxWrapper
 			// 
 			this.signatureBoxWrapper.BackColor = System.Drawing.SystemColors.ControlDark;
-			this.signatureBoxWrapper.Location = new System.Drawing.Point(162, 8);
+			this.signatureBoxWrapper.Location = new System.Drawing.Point(162, 3);
 			this.signatureBoxWrapper.Name = "signatureBoxWrapper";
 			this.signatureBoxWrapper.Size = new System.Drawing.Size(331, 79);
 			this.signatureBoxWrapper.TabIndex = 182;
@@ -135,9 +135,9 @@ namespace OpenPmsDental {
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(993, 91);
+			this.butSave.Location = new System.Drawing.Point(1012, 78);
 			this.butSave.Name = "butSave";
-			this.butSave.Size = new System.Drawing.Size(75, 23);
+			this.butSave.Size = new System.Drawing.Size(75, 25);
 			this.butSave.TabIndex = 93;
 			this.butSave.Text = "Save";
 			this.butSave.UseVisualStyleBackColor = true;
@@ -146,12 +146,12 @@ namespace OpenPmsDental {
 			// labelSig
 			// 
 			this.labelSig.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.labelSig.Location = new System.Drawing.Point(24, 8);
+			this.labelSig.Location = new System.Drawing.Point(7, 4);
 			this.labelSig.Name = "labelSig";
-			this.labelSig.Size = new System.Drawing.Size(132, 41);
+			this.labelSig.Size = new System.Drawing.Size(153, 41);
 			this.labelSig.TabIndex = 92;
 			this.labelSig.Text = "Please Sign Here --->";
-			this.labelSig.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.labelSig.TextAlign = System.Drawing.ContentAlignment.TopRight;
 			// 
 			// ToolBarMain
 			// 
@@ -173,7 +173,7 @@ namespace OpenPmsDental {
 			// 
 			// FormTPsign
 			// 
-			this.ClientSize = new System.Drawing.Size(1117, 696);
+			this.ClientSize = new System.Drawing.Size(1099, 696);
 			this.Controls.Add(this.panelSig);
 			this.Controls.Add(this.ToolBarMain);
 			this.Controls.Add(this.previewContr);

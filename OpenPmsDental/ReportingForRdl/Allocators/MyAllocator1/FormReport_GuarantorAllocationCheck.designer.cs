@@ -50,7 +50,7 @@ namespace OpenPmsDental.Reporting.Allocators.MyAllocator1
 			// 
 			// textBox1
 			// 
-			this.textBox1.Location = new System.Drawing.Point(874, 31);
+			this.textBox1.Location = new System.Drawing.Point(872, 28);
 			this.textBox1.Name = "textBox1";
 			this.textBox1.Size = new System.Drawing.Size(116, 20);
 			this.textBox1.TabIndex = 1;
@@ -58,7 +58,7 @@ namespace OpenPmsDental.Reporting.Allocators.MyAllocator1
 			// 
 			// butFillReport
 			// 
-			this.butFillReport.Location = new System.Drawing.Point(874, 58);
+			this.butFillReport.Location = new System.Drawing.Point(872, 55);
 			this.butFillReport.Name = "butFillReport";
 			this.butFillReport.Size = new System.Drawing.Size(116, 23);
 			this.butFillReport.TabIndex = 2;
@@ -69,9 +69,9 @@ namespace OpenPmsDental.Reporting.Allocators.MyAllocator1
 			// label2
 			// 
 			this.label2.BackColor = System.Drawing.Color.White;
-			this.label2.Location = new System.Drawing.Point(874, 8);
+			this.label2.Location = new System.Drawing.Point(872, 8);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(119, 21);
+			this.label2.Size = new System.Drawing.Size(116, 18);
 			this.label2.TabIndex = 3;
 			this.label2.Text = "Guarantor";
 			// 
@@ -83,17 +83,17 @@ namespace OpenPmsDental.Reporting.Allocators.MyAllocator1
 			this.panel1.Controls.Add(this.dgridView_ReportData);
 			this.panel1.Controls.Add(this.lblTitle);
 			this.panel1.Controls.Add(this.lblSummary);
-			this.panel1.Location = new System.Drawing.Point(12, 8);
+			this.panel1.Location = new System.Drawing.Point(8, 8);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(856, 949);
+			this.panel1.Size = new System.Drawing.Size(856, 957);
 			this.panel1.TabIndex = 4;
 			// 
 			// dgvSummary
 			// 
 			this.dgvSummary.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			this.dgvSummary.Location = new System.Drawing.Point(8, 539);
+			this.dgvSummary.Location = new System.Drawing.Point(8, 593);
 			this.dgvSummary.Name = "dgvSummary";
-			this.dgvSummary.Size = new System.Drawing.Size(840, 316);
+			this.dgvSummary.Size = new System.Drawing.Size(840, 356);
 			this.dgvSummary.TabIndex = 4;
 			// 
 			// label3
@@ -119,9 +119,9 @@ namespace OpenPmsDental.Reporting.Allocators.MyAllocator1
 			// dgridView_ReportData
 			// 
 			this.dgridView_ReportData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			this.dgridView_ReportData.Location = new System.Drawing.Point(8, 95);
+			this.dgridView_ReportData.Location = new System.Drawing.Point(8, 101);
 			this.dgridView_ReportData.Name = "dgridView_ReportData";
-			this.dgridView_ReportData.Size = new System.Drawing.Size(840, 411);
+			this.dgridView_ReportData.Size = new System.Drawing.Size(840, 461);
 			this.dgridView_ReportData.TabIndex = 1;
 			// 
 			// lblTitle
@@ -130,14 +130,14 @@ namespace OpenPmsDental.Reporting.Allocators.MyAllocator1
 			this.lblTitle.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.lblTitle.Location = new System.Drawing.Point(8, 8);
 			this.lblTitle.Name = "lblTitle";
-			this.lblTitle.Size = new System.Drawing.Size(838, 85);
+			this.lblTitle.Size = new System.Drawing.Size(840, 85);
 			this.lblTitle.TabIndex = 0;
 			this.lblTitle.Text = "Put Title Text Here";
 			this.lblTitle.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			// 
 			// lblSummary
 			// 
-			this.lblSummary.Location = new System.Drawing.Point(8, 514);
+			this.lblSummary.Location = new System.Drawing.Point(8, 570);
 			this.lblSummary.Name = "lblSummary";
 			this.lblSummary.Size = new System.Drawing.Size(840, 21);
 			this.lblSummary.TabIndex = 5;
@@ -146,7 +146,7 @@ namespace OpenPmsDental.Reporting.Allocators.MyAllocator1
 			// 
 			// butPrintPreview
 			// 
-			this.butPrintPreview.Location = new System.Drawing.Point(874, 85);
+			this.butPrintPreview.Location = new System.Drawing.Point(872, 82);
 			this.butPrintPreview.Name = "butPrintPreview";
 			this.butPrintPreview.Size = new System.Drawing.Size(116, 23);
 			this.butPrintPreview.TabIndex = 5;
@@ -157,7 +157,7 @@ namespace OpenPmsDental.Reporting.Allocators.MyAllocator1
 			// dateTimePicker1_FromDate
 			// 
 			this.dateTimePicker1_FromDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-			this.dateTimePicker1_FromDate.Location = new System.Drawing.Point(924, 112);
+			this.dateTimePicker1_FromDate.Location = new System.Drawing.Point(922, 109);
 			this.dateTimePicker1_FromDate.Name = "dateTimePicker1_FromDate";
 			this.dateTimePicker1_FromDate.Size = new System.Drawing.Size(88, 23);
 			this.dateTimePicker1_FromDate.TabIndex = 6;
@@ -165,7 +165,7 @@ namespace OpenPmsDental.Reporting.Allocators.MyAllocator1
 			// label5
 			// 
 			this.label5.AutoSize = false;
-			this.label5.Location = new System.Drawing.Point(874, 112);
+			this.label5.Location = new System.Drawing.Point(872, 109);
 			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(44, 23);
@@ -175,17 +175,17 @@ namespace OpenPmsDental.Reporting.Allocators.MyAllocator1
 			// label6
 			// 
 			this.label6.AutoSize = false;
-			this.label6.Location = new System.Drawing.Point(894, 139);
+			this.label6.Location = new System.Drawing.Point(872, 136);
 			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(24, 23);
+			this.label6.Size = new System.Drawing.Size(44, 23);
 			this.label6.TabIndex = 10;
 			this.label6.Text = "To";
 			// 
 			// dateTimePicker1
 			// 
 			this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-			this.dateTimePicker1.Location = new System.Drawing.Point(924, 139);
+			this.dateTimePicker1.Location = new System.Drawing.Point(922, 136);
 			this.dateTimePicker1.Name = "dateTimePicker1";
 			this.dateTimePicker1.Size = new System.Drawing.Size(88, 23);
 			this.dateTimePicker1.TabIndex = 9;

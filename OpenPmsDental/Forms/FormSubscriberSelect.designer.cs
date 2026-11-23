@@ -55,16 +55,16 @@ namespace OpenPmsDental {
 			this.listPats.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.listPats.Location = new System.Drawing.Point(32, 42);
+			this.listPats.Location = new System.Drawing.Point(8, 42);
 			this.listPats.Name = "listPats";
-			this.listPats.Size = new System.Drawing.Size(185, 183);
+			this.listPats.Size = new System.Drawing.Size(242, 186);
 			this.listPats.TabIndex = 2;
 			this.listPats.DoubleClick += new System.EventHandler(this.listPats_DoubleClick);
 			// 
 			// butMore
 			// 
 			this.butMore.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butMore.Location = new System.Drawing.Point(223, 42);
+			this.butMore.Location = new System.Drawing.Point(258, 42);
 			this.butMore.Name = "butMore";
 			this.butMore.Size = new System.Drawing.Size(92, 26);
 			this.butMore.TabIndex = 3;
@@ -73,9 +73,9 @@ namespace OpenPmsDental {
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(32, 8);
+			this.label1.Location = new System.Drawing.Point(8, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(287, 32);
+			this.label1.Size = new System.Drawing.Size(342, 32);
 			this.label1.TabIndex = 4;
 			this.label1.Text = "If subscriber has not been entered, cancel and add them before continuing.";
 			// 

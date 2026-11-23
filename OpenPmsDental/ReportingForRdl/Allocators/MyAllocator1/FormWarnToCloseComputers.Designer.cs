@@ -44,10 +44,10 @@
 			this.lblMessage.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
 			this.lblMessage.Font = new System.Drawing.Font("Arial Black", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.lblMessage.ForeColor = System.Drawing.Color.Maroon;
-			this.lblMessage.Location = new System.Drawing.Point(54, 8);
+			this.lblMessage.Location = new System.Drawing.Point(8, 8);
 			this.lblMessage.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.lblMessage.Name = "lblMessage";
-			this.lblMessage.Size = new System.Drawing.Size(675, 94);
+			this.lblMessage.Size = new System.Drawing.Size(767, 94);
 			this.lblMessage.TabIndex = 0;
 			this.lblMessage.Text = resources.GetString("lblMessage.Text");
 			// 
@@ -55,7 +55,7 @@
 			// 
 			this.label1.Font = new System.Drawing.Font("Arial Black", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label1.ForeColor = System.Drawing.Color.Maroon;
-			this.label1.Location = new System.Drawing.Point(166, 178);
+			this.label1.Location = new System.Drawing.Point(260, 255);
 			this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label1.Name = "label1";
@@ -65,7 +65,7 @@
 			// 
 			// butYes
 			// 
-			this.butYes.Location = new System.Drawing.Point(492, 178);
+			this.butYes.Location = new System.Drawing.Point(586, 255);
 			this.butYes.Margin = new System.Windows.Forms.Padding(4);
 			this.butYes.Name = "butYes";
 			this.butYes.Size = new System.Drawing.Size(64, 34);
@@ -76,7 +76,7 @@
 			// 
 			// butNoCancel
 			// 
-			this.butNoCancel.Location = new System.Drawing.Point(562, 178);
+			this.butNoCancel.Location = new System.Drawing.Point(658, 255);
 			this.butNoCancel.Margin = new System.Windows.Forms.Padding(4);
 			this.butNoCancel.Name = "butNoCancel";
 			this.butNoCancel.Size = new System.Drawing.Size(117, 34);
@@ -90,9 +90,9 @@
 			this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
 			this.panel1.Controls.Add(this.label2);
 			this.panel1.Controls.Add(this.imageAnimator1);
-			this.panel1.Location = new System.Drawing.Point(54, 104);
+			this.panel1.Location = new System.Drawing.Point(8, 110);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(671, 66);
+			this.panel1.Size = new System.Drawing.Size(767, 66);
 			this.panel1.TabIndex = 4;
 			// 
 			// label2

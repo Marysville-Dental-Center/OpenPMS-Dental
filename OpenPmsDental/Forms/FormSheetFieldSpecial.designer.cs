@@ -42,7 +42,7 @@ namespace OpenPmsDental{
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(13, 8);
+			this.label2.Location = new System.Drawing.Point(8, 8);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(123, 15);
 			this.label2.TabIndex = 86;
@@ -50,7 +50,7 @@ namespace OpenPmsDental{
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(235, 57);
+			this.label5.Location = new System.Drawing.Point(235, 66);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(40, 23);
 			this.label5.TabIndex = 90;
@@ -59,7 +59,7 @@ namespace OpenPmsDental{
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(235, 84);
+			this.label6.Location = new System.Drawing.Point(235, 93);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(40, 23);
 			this.label6.TabIndex = 92;
@@ -68,7 +68,7 @@ namespace OpenPmsDental{
 			// 
 			// label7
 			// 
-			this.label7.Location = new System.Drawing.Point(231, 111);
+			this.label7.Location = new System.Drawing.Point(231, 120);
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(44, 23);
 			this.label7.TabIndex = 94;
@@ -77,7 +77,7 @@ namespace OpenPmsDental{
 			// 
 			// label8
 			// 
-			this.label8.Location = new System.Drawing.Point(227, 138);
+			this.label8.Location = new System.Drawing.Point(227, 147);
 			this.label8.Name = "label8";
 			this.label8.Size = new System.Drawing.Size(48, 23);
 			this.label8.TabIndex = 96;
@@ -86,7 +86,7 @@ namespace OpenPmsDental{
 			// 
 			// textHeight
 			// 
-			this.textHeight.Location = new System.Drawing.Point(281, 138);
+			this.textHeight.Location = new System.Drawing.Point(281, 147);
 			this.textHeight.MaxVal = 2000;
 			this.textHeight.MinVal = -100;
 			this.textHeight.Name = "textHeight";
@@ -95,7 +95,7 @@ namespace OpenPmsDental{
 			// 
 			// textWidth
 			// 
-			this.textWidth.Location = new System.Drawing.Point(281, 111);
+			this.textWidth.Location = new System.Drawing.Point(281, 120);
 			this.textWidth.MaxVal = 2000;
 			this.textWidth.MinVal = -100;
 			this.textWidth.Name = "textWidth";
@@ -104,7 +104,7 @@ namespace OpenPmsDental{
 			// 
 			// textYPos
 			// 
-			this.textYPos.Location = new System.Drawing.Point(281, 84);
+			this.textYPos.Location = new System.Drawing.Point(281, 93);
 			this.textYPos.MaxVal = 2000;
 			this.textYPos.MinVal = -100;
 			this.textYPos.Name = "textYPos";
@@ -113,7 +113,7 @@ namespace OpenPmsDental{
 			// 
 			// textXPos
 			// 
-			this.textXPos.Location = new System.Drawing.Point(281, 57);
+			this.textXPos.Location = new System.Drawing.Point(281, 66);
 			this.textXPos.MaxVal = 2000;
 			this.textXPos.MinVal = -100;
 			this.textXPos.Name = "textXPos";
@@ -146,13 +146,13 @@ namespace OpenPmsDental{
 			// 
 			this.labelSpecialInfo.Location = new System.Drawing.Point(175, 8);
 			this.labelSpecialInfo.Name = "labelSpecialInfo";
-			this.labelSpecialInfo.Size = new System.Drawing.Size(207, 47);
+			this.labelSpecialInfo.Size = new System.Drawing.Size(295, 50);
 			this.labelSpecialInfo.TabIndex = 101;
 			this.labelSpecialInfo.Text = "Will contain information pertaining to the type of special field selected.";
 			// 
 			// listBoxAvailable
 			// 
-			this.listBoxAvailable.Location = new System.Drawing.Point(13, 25);
+			this.listBoxAvailable.Location = new System.Drawing.Point(8, 25);
 			this.listBoxAvailable.Name = "listBoxAvailable";
 			this.listBoxAvailable.Size = new System.Drawing.Size(153, 173);
 			this.listBoxAvailable.TabIndex = 103;
@@ -160,7 +160,7 @@ namespace OpenPmsDental{
 			// 
 			// comboGrowthBehavior
 			// 
-			this.comboGrowthBehavior.Location = new System.Drawing.Point(281, 165);
+			this.comboGrowthBehavior.Location = new System.Drawing.Point(281, 174);
 			this.comboGrowthBehavior.Name = "comboGrowthBehavior";
 			this.comboGrowthBehavior.Size = new System.Drawing.Size(189, 23);
 			this.comboGrowthBehavior.TabIndex = 116;
@@ -168,7 +168,7 @@ namespace OpenPmsDental{
 			// 
 			// labelGrowth
 			// 
-			this.labelGrowth.Location = new System.Drawing.Point(175, 165);
+			this.labelGrowth.Location = new System.Drawing.Point(175, 174);
 			this.labelGrowth.Name = "labelGrowth";
 			this.labelGrowth.Size = new System.Drawing.Size(100, 23);
 			this.labelGrowth.TabIndex = 115;
