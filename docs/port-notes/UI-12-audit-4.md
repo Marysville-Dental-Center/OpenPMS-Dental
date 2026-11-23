@@ -160,5 +160,5 @@ grid's edge (on it now). All fixed.
 
 | Picture | Status | What was checked and found |
 |---|---|---|
-| FormReportSetup (slice 1) | ok | UserControlReportSetup's row within the page now (its allowed count was past the page's edge); before = slice 1's after picture. |
-| FormScheduleDayEdit (slice 1) | ok | GraphScheduleDay's options row on the grid (its check boxes were box-right, the hour labels on the title); before = slice 1's after picture. |
+| FormReportSetup (slice 1) | ok | The page in its display mode (instructions, Up and Down at the page's right edge, the grid under them); before = slice 1's after picture. |
+| FormScheduleDayEdit (slice 1) | ok | The window opens on its List tab (GraphScheduleDay is on the Graph tab), so the picture is the same as slice 1's after picture; the graph's options row is GraphScheduleDay's picture above. |

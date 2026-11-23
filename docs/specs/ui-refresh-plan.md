@@ -1641,6 +1641,12 @@ own 26.2 overlap check before it starts. The first cut is below; a brief that fi
   150% gallery draws hosted modules and pages at the scaled font (the insurance summaries at the scale's dpi) and the pilot follow-up's
   states (ControlAccount's summaries and TOTAL Owed panel, ControlChart's Show and Draw pages, FormBackup's Archive page); ControlChart's
   Show page check boxes and Down whole; re-plans 461 / 243 as recorded (UI-12.md section 7, "Slice 2, fix round").
+  Slice 4 (UI-12-4, branch `ui/ui12-4-1`, batch 2 of UI-12-batches.tsv): 104 windows on the grid (the planner and its templates, 40
+  of them with a layout script on the planner's tree: cut notes, radio lists drawn into each other, the report calendars' captions,
+  columns, margins, the reconcile windows), 16 files skipped (the plain exes and the graph project for their own slice, ODDateRangePicker
+  inside the earlier windows, the Family module laid out by its code); FormReconcileProblem's stray textless button removed; no planner
+  rule added; re-plans 243 / 461 / 179 as recorded; gallery G-UI3-ui12-4 (104 windows, 16 at 150%, the two hosts), audit
+  `UI-12-audit-4.md` (UI-12.md section 7, "Slice 4 (batch 2)").
 - Gallery: G-UI3 per slice, the owner's rows first.
 
 **UI-13: every element type in the new look (the owner, 2026-11-22: "Overall make sure you modernize all element types")**
