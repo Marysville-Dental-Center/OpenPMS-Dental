@@ -65,7 +65,7 @@ OpenPmsDental.FormRpCustomAging	1	tool	UI-12 slice 1 (fit-scan rank 37); the win
 OpenPmsDental.FormRpLaserLabels	1	tool	UI-12 slice 1 (fit-scan rank 38); the off-page End Name label kept where main has it by its layout script on the planner's tree (tools/UiFit/hand/FormRpLaserLabels.py)
 OpenPmsDental.FormCarrierEdit	1	tool	UI-12 slice 1 (fit-scan rank 40); the rows between Consolidate Ortho Ins Payments and the pre-authorization codes by its layout script on the planner's tree (tools/UiFit/hand/FormCarrierEdit.py)
 OpenPmsDental.FormPaySplitEdit	1	tool	UI-12 slice 1 (fit-scan rank 41)
-OpenPmsDental.ControlTreat	1	hand	UI-12 slice 1 (fit-scan rank 43); kept as on main in this slice: a module whose insurance and discount summaries the code stacks and switches (userControlIndDis over userControlIndIns) and whose grids LayoutManager places at run time; for a later round
+OpenPmsDental.ControlTreat	1	hand	UI-12 slice 1 (fit-scan rank 43); a module laid out by its layout script (tools/UiFit/hand/ControlTreat.py): the parts its code does not move; the code switches its insurance and discount summaries by Visible, LayoutManager keeps its anchored grids on the module's edges
 OpenPmsDental.FormRpUnearnedIncome	1	tool	UI-12 slice 1 (fit-scan rank 47); the pages' OK buttons and the Line Item page's clinic list by its layout script on the planner's tree (tools/UiFit/hand/FormRpUnearnedIncome.py)
 OpenPmsDental.FormEtrans835Edit	1	tool	UI-12 slice 1 (fit-scan rank 48); the right column's first two fields by its layout script on the planner's tree (tools/UiFit/hand/FormEtrans835Edit.py)
 OpenPmsDental.FormEmailMessageEdit	1	tool	UI-12 slice 1 (fit-scan rank 51)

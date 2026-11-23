@@ -74,7 +74,7 @@ namespace OpenPmsDental {
 			// label1
 			// 
 			this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label1.Location = new System.Drawing.Point(799, 184);
+			this.label1.Location = new System.Drawing.Point(799, 188);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(92, 17);
 			this.label1.TabIndex = 4;
@@ -83,9 +83,9 @@ namespace OpenPmsDental {
 			// 
 			// listSetPr
 			// 
-			this.listSetPr.Location = new System.Drawing.Point(799, 203);
+			this.listSetPr.Location = new System.Drawing.Point(799, 207);
 			this.listSetPr.Name = "listSetPr";
-			this.listSetPr.Size = new System.Drawing.Size(92, 199);
+			this.listSetPr.Size = new System.Drawing.Size(92, 195);
 			this.listSetPr.TabIndex = 5;
 			this.listSetPr.MouseDown += new System.Windows.Forms.MouseEventHandler(this.listSetPr_MouseDown);
 			// 
@@ -94,10 +94,10 @@ namespace OpenPmsDental {
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.gridMain.HScrollVisible = true;
-			this.gridMain.Location = new System.Drawing.Point(0, 184);
+			this.gridMain.Location = new System.Drawing.Point(0, 188);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridMain.Size = new System.Drawing.Size(795, 466);
+			this.gridMain.Size = new System.Drawing.Size(795, 462);
 			this.gridMain.TabIndex = 59;
 			this.gridMain.Title = "Procedures";
 			this.gridMain.TranslationName = "TableTP";
@@ -119,7 +119,7 @@ namespace OpenPmsDental {
 			this.gridPreAuth.DoAddGridItemsToContextMenuStrip = true;
 			this.gridPreAuth.Location = new System.Drawing.Point(694, 29);
 			this.gridPreAuth.Name = "gridPreAuth";
-			this.gridPreAuth.Size = new System.Drawing.Size(298, 151);
+			this.gridPreAuth.Size = new System.Drawing.Size(298, 155);
 			this.gridPreAuth.TabIndex = 62;
 			this.gridPreAuth.Title = "Pre Authorizations";
 			this.gridPreAuth.TranslationName = "TablePreAuth";
@@ -159,7 +159,7 @@ namespace OpenPmsDental {
 			// 
 			this.gridPlans.Location = new System.Drawing.Point(0, 29);
 			this.gridPlans.Name = "gridPlans";
-			this.gridPlans.Size = new System.Drawing.Size(426, 151);
+			this.gridPlans.Size = new System.Drawing.Size(426, 155);
 			this.gridPlans.TabIndex = 60;
 			this.gridPlans.Title = "Treatment Plans";
 			this.gridPlans.TranslationName = "TableTPList";
@@ -169,7 +169,7 @@ namespace OpenPmsDental {
 			// dateTimeTP
 			// 
 			this.dateTimeTP.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-			this.dateTimeTP.Location = new System.Drawing.Point(899, 203);
+			this.dateTimeTP.Location = new System.Drawing.Point(899, 207);
 			this.dateTimeTP.Name = "dateTimeTP";
 			this.dateTimeTP.Size = new System.Drawing.Size(93, 23);
 			this.dateTimeTP.TabIndex = 71;
@@ -182,7 +182,7 @@ namespace OpenPmsDental {
 			this.tabControlShowSort.Controls.Add(this.tabPagePrint);
 			this.tabControlShowSort.Location = new System.Drawing.Point(524, 29);
 			this.tabControlShowSort.Name = "tabControlShowSort";
-			this.tabControlShowSort.Size = new System.Drawing.Size(166, 151);
+			this.tabControlShowSort.Size = new System.Drawing.Size(166, 155);
 			this.tabControlShowSort.TabIndex = 73;
 			// 
 			// tabPageShow
@@ -197,7 +197,7 @@ namespace OpenPmsDental {
 			this.tabPageShow.Location = new System.Drawing.Point(2, 21);
 			this.tabPageShow.Name = "tabPageShow";
 			this.tabPageShow.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPageShow.Size = new System.Drawing.Size(162, 128);
+			this.tabPageShow.Size = new System.Drawing.Size(162, 132);
 			this.tabPageShow.TabIndex = 0;
 			this.tabPageShow.Text = "Show";
 			// 
@@ -205,9 +205,9 @@ namespace OpenPmsDental {
 			// 
 			this.checkShowDiscount.Checked = true;
 			this.checkShowDiscount.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkShowDiscount.Location = new System.Drawing.Point(23, 72);
+			this.checkShowDiscount.Location = new System.Drawing.Point(23, 75);
 			this.checkShowDiscount.Name = "checkShowDiscount";
-			this.checkShowDiscount.Size = new System.Drawing.Size(128, 17);
+			this.checkShowDiscount.Size = new System.Drawing.Size(128, 18);
 			this.checkShowDiscount.TabIndex = 32;
 			this.checkShowDiscount.Text = "Discount";
 			this.checkShowDiscount.Click += new System.EventHandler(this.checkShowDiscount_Click);
@@ -216,9 +216,9 @@ namespace OpenPmsDental {
 			// 
 			this.checkShowTotals.Checked = true;
 			this.checkShowTotals.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkShowTotals.Location = new System.Drawing.Point(23, 106);
+			this.checkShowTotals.Location = new System.Drawing.Point(23, 111);
 			this.checkShowTotals.Name = "checkShowTotals";
-			this.checkShowTotals.Size = new System.Drawing.Size(128, 17);
+			this.checkShowTotals.Size = new System.Drawing.Size(128, 18);
 			this.checkShowTotals.TabIndex = 31;
 			this.checkShowTotals.Text = "Totals";
 			this.checkShowTotals.Click += new System.EventHandler(this.checkShowTotals_Click);
@@ -229,7 +229,7 @@ namespace OpenPmsDental {
 			this.checkShowMaxDed.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.checkShowMaxDed.Location = new System.Drawing.Point(5, 21);
 			this.checkShowMaxDed.Name = "checkShowMaxDed";
-			this.checkShowMaxDed.Size = new System.Drawing.Size(152, 17);
+			this.checkShowMaxDed.Size = new System.Drawing.Size(152, 18);
 			this.checkShowMaxDed.TabIndex = 30;
 			this.checkShowMaxDed.Text = "Use Ins Max and Deduct";
 			this.checkShowMaxDed.Click += new System.EventHandler(this.checkShowMaxDed_Click);
@@ -238,9 +238,9 @@ namespace OpenPmsDental {
 			// 
 			this.checkShowSubtotals.Checked = true;
 			this.checkShowSubtotals.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkShowSubtotals.Location = new System.Drawing.Point(23, 89);
+			this.checkShowSubtotals.Location = new System.Drawing.Point(23, 93);
 			this.checkShowSubtotals.Name = "checkShowSubtotals";
-			this.checkShowSubtotals.Size = new System.Drawing.Size(128, 17);
+			this.checkShowSubtotals.Size = new System.Drawing.Size(128, 18);
 			this.checkShowSubtotals.TabIndex = 29;
 			this.checkShowSubtotals.Text = "Subtotals";
 			this.checkShowSubtotals.Click += new System.EventHandler(this.checkShowSubtotals_Click);
@@ -249,9 +249,9 @@ namespace OpenPmsDental {
 			// 
 			this.checkShowFees.Checked = true;
 			this.checkShowFees.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkShowFees.Location = new System.Drawing.Point(5, 38);
+			this.checkShowFees.Location = new System.Drawing.Point(5, 39);
 			this.checkShowFees.Name = "checkShowFees";
-			this.checkShowFees.Size = new System.Drawing.Size(146, 17);
+			this.checkShowFees.Size = new System.Drawing.Size(146, 18);
 			this.checkShowFees.TabIndex = 28;
 			this.checkShowFees.Text = "Fees";
 			this.checkShowFees.Click += new System.EventHandler(this.checkShowFees_Click);
@@ -260,9 +260,9 @@ namespace OpenPmsDental {
 			// 
 			this.checkShowIns.Checked = true;
 			this.checkShowIns.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkShowIns.Location = new System.Drawing.Point(23, 55);
+			this.checkShowIns.Location = new System.Drawing.Point(23, 57);
 			this.checkShowIns.Name = "checkShowIns";
-			this.checkShowIns.Size = new System.Drawing.Size(128, 17);
+			this.checkShowIns.Size = new System.Drawing.Size(128, 18);
 			this.checkShowIns.TabIndex = 27;
 			this.checkShowIns.Text = "Insurance Estimates";
 			this.checkShowIns.Click += new System.EventHandler(this.checkShowIns_Click);
@@ -271,9 +271,9 @@ namespace OpenPmsDental {
 			// 
 			this.checkShowCompleted.Checked = true;
 			this.checkShowCompleted.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkShowCompleted.Location = new System.Drawing.Point(5, 4);
+			this.checkShowCompleted.Location = new System.Drawing.Point(5, 3);
 			this.checkShowCompleted.Name = "checkShowCompleted";
-			this.checkShowCompleted.Size = new System.Drawing.Size(150, 17);
+			this.checkShowCompleted.Size = new System.Drawing.Size(150, 18);
 			this.checkShowCompleted.TabIndex = 26;
 			this.checkShowCompleted.Text = "Graphical Completed Tx";
 			this.checkShowCompleted.Click += new System.EventHandler(this.checkShowCompleted_Click);
@@ -286,15 +286,15 @@ namespace OpenPmsDental {
 			this.tabPageSort.Location = new System.Drawing.Point(2, 21);
 			this.tabPageSort.Name = "tabPageSort";
 			this.tabPageSort.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPageSort.Size = new System.Drawing.Size(162, 128);
+			this.tabPageSort.Size = new System.Drawing.Size(162, 132);
 			this.tabPageSort.TabIndex = 1;
 			this.tabPageSort.Text = "Sort by";
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(5, 4);
+			this.label6.Location = new System.Drawing.Point(3, 3);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(154, 33);
+			this.label6.Size = new System.Drawing.Size(159, 33);
 			this.label6.TabIndex = 74;
 			this.label6.Text = "Order procedures by priority, then date, then";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -302,9 +302,9 @@ namespace OpenPmsDental {
 			// radioTreatPlanSortTooth
 			// 
 			this.radioTreatPlanSortTooth.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.radioTreatPlanSortTooth.Location = new System.Drawing.Point(5, 39);
+			this.radioTreatPlanSortTooth.Location = new System.Drawing.Point(5, 38);
 			this.radioTreatPlanSortTooth.Name = "radioTreatPlanSortTooth";
-			this.radioTreatPlanSortTooth.Size = new System.Drawing.Size(116, 17);
+			this.radioTreatPlanSortTooth.Size = new System.Drawing.Size(116, 18);
 			this.radioTreatPlanSortTooth.TabIndex = 73;
 			this.radioTreatPlanSortTooth.Text = "Tooth";
 			this.radioTreatPlanSortTooth.UseVisualStyleBackColor = true;
@@ -316,7 +316,7 @@ namespace OpenPmsDental {
 			this.radioTreatPlanSortOrder.Checked = true;
 			this.radioTreatPlanSortOrder.Location = new System.Drawing.Point(5, 56);
 			this.radioTreatPlanSortOrder.Name = "radioTreatPlanSortOrder";
-			this.radioTreatPlanSortOrder.Size = new System.Drawing.Size(126, 17);
+			this.radioTreatPlanSortOrder.Size = new System.Drawing.Size(126, 18);
 			this.radioTreatPlanSortOrder.TabIndex = 72;
 			this.radioTreatPlanSortOrder.TabStop = true;
 			this.radioTreatPlanSortOrder.Text = "Order Entered";
@@ -329,22 +329,22 @@ namespace OpenPmsDental {
 			this.tabPagePrint.Location = new System.Drawing.Point(2, 21);
 			this.tabPagePrint.Name = "tabPagePrint";
 			this.tabPagePrint.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPagePrint.Size = new System.Drawing.Size(162, 128);
+			this.tabPagePrint.Size = new System.Drawing.Size(162, 132);
 			this.tabPagePrint.TabIndex = 2;
 			this.tabPagePrint.Text = "Printing";
 			// 
 			// checkPrintClassic
 			// 
-			this.checkPrintClassic.Location = new System.Drawing.Point(5, 4);
+			this.checkPrintClassic.Location = new System.Drawing.Point(5, 3);
 			this.checkPrintClassic.Name = "checkPrintClassic";
-			this.checkPrintClassic.Size = new System.Drawing.Size(146, 17);
+			this.checkPrintClassic.Size = new System.Drawing.Size(146, 18);
 			this.checkPrintClassic.TabIndex = 27;
 			this.checkPrintClassic.Text = "Print using classic view";
 			// 
 			// labelCheckInsFrequency
 			// 
 			this.labelCheckInsFrequency.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.labelCheckInsFrequency.Location = new System.Drawing.Point(899, 184);
+			this.labelCheckInsFrequency.Location = new System.Drawing.Point(899, 188);
 			this.labelCheckInsFrequency.Name = "labelCheckInsFrequency";
 			this.labelCheckInsFrequency.Size = new System.Drawing.Size(93, 17);
 			this.labelCheckInsFrequency.TabIndex = 74;
@@ -369,7 +369,7 @@ namespace OpenPmsDental {
 			// 
 			this.butPlannedAppt.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butPlannedAppt.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butPlannedAppt.Location = new System.Drawing.Point(430, 157);
+			this.butPlannedAppt.Location = new System.Drawing.Point(430, 161);
 			this.butPlannedAppt.Name = "butPlannedAppt";
 			this.butPlannedAppt.Size = new System.Drawing.Size(90, 23);
 			this.butPlannedAppt.TabIndex = 75;
@@ -379,7 +379,7 @@ namespace OpenPmsDental {
 			// butRefresh
 			// 
 			this.butRefresh.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butRefresh.Location = new System.Drawing.Point(430, 130);
+			this.butRefresh.Location = new System.Drawing.Point(430, 134);
 			this.butRefresh.Name = "butRefresh";
 			this.butRefresh.Size = new System.Drawing.Size(90, 23);
 			this.butRefresh.TabIndex = 72;
