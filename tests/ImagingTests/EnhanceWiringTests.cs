@@ -125,7 +125,7 @@ namespace ImagingTests {
 			StringAssert.Contains(logic,"ClaimAttachDicom.Render(document,bitmapDicom,ImageDraws.RefreshForDoc(document.DocNum),imageAdjustSettings);");
 			StringAssert.Contains(logic,"ClaimAttachDicom.Render(document,bitmapDicom,imageAdjustSettings);");
 			StringAssert.Contains(logic,"ClaimAttachDicom.Render(document,bitmapDicom,GetAdjustSettings(document));");
-			StringAssert.Contains(Read("OpenPmsDentalBusiness","Imaging","ClaimAttachDicom.cs"),"ImageAdjust.ApplyToCopy(bitmapWindowed,imageAdjustSettings);");
+			StringAssert.Contains(Read("OpenPmsDentalBusiness","Imaging","ClaimAttachDicom.cs"),"ImageAdjust.WindowDicom(bitmapDicom,documentCopy.WindowingMin,documentCopy.WindowingMax,imageAdjustSettings);");
 		}
 	}
 }

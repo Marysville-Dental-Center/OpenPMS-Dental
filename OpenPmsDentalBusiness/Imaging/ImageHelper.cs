@@ -614,11 +614,11 @@ namespace OpenPmsDentalBusiness {
 			if(document==null || bitmapDicom==null) {
 				return null;
 			}
-			using Bitmap bitmapWindowed=DicomHelper.ApplyWindowing(bitmapDicom,document.WindowingMin,document.WindowingMax);
+			//IMG-P3: the window and the saved adjust filters (noise reduction and sharpening on the 16-bit data, IMG-P3c-2), before the crop and
+			//rotation, as the module shows a DICOM image.
+			using Bitmap bitmapWindowed=ImageAdjust.WindowDicom(bitmapDicom,document.WindowingMin,document.WindowingMax,imageAdjustSettings);
 			ConvertCropIfNeeded(document,bitmapWindowed,doSaveCropConversion);
-			//IMG-P3: the saved adjust filters on the windowed image, before the crop and rotation, as the module shows a DICOM image.
-			using Bitmap bitmapFiltered=ImageAdjust.ApplyToCopy(bitmapWindowed,imageAdjustSettings);
-			return ApplyDocumentSettingsToImage(document,bitmapFiltered??bitmapWindowed,ImageSettingFlags.CROP | ImageSettingFlags.FLIP | ImageSettingFlags.ROTATE);
+			return ApplyDocumentSettingsToImage(document,bitmapWindowed,ImageSettingFlags.CROP | ImageSettingFlags.FLIP | ImageSettingFlags.ROTATE);
 		}
 
 		///<summary>Returns true if the given filename contains a supported file image extension.</summary>
@@ -666,9 +666,10 @@ namespace OpenPmsDentalBusiness {
 			//always IdxAndRaw
 			//single images simply load up the whole unscaled image. Mounts load the whole image, but maybe at a different scale to match mount scale.
 			if(document.FileName.EndsWith(".dcm")){
-				bitmapResult=DicomHelper.ApplyWindowing(bitmapDicomRaw,document.WindowingMin,document.WindowingMax);
 				bitmapTemp?.Dispose();
-				return WithAdjust(bitmapResult,document);
+				//IMG-P3c-2: noise reduction and sharpening on the 16-bit data, the rest after the window
+				ImageAdjustSettings imageAdjustSettings=document.DocNum>0 ? DocumentAdjusts.GetForDoc(document.DocNum)?.ToSettings() : null;
+				return ImageAdjust.WindowDicom(bitmapDicomRaw,document.WindowingMin,document.WindowingMax,imageAdjustSettings);
 			}
 			try{
 				bitmapResult=new Bitmap(bitmapTemp);//can crash here on a large image (WxHx24 > 250M)
