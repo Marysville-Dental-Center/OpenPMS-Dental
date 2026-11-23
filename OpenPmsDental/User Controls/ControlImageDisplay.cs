@@ -1011,7 +1011,12 @@ Here is the desired behavior:
 				_nodeTypeKeyCatSelected=new NodeTypeKeyCat();
 				_nodeTypeKeyCatSelected.ImageNodeType=EnumImageNodeType.Document;
 				ImageHelper.ApplyColorSettings(_bitmapArrayShowing[0],listDocuments[i].WindowingMin,listDocuments[i].WindowingMax);
-				ImageAdjust.Apply(_bitmapArrayShowing[0],GetAdjustSettings(listDocuments[i]));//IMG-P3, as the screen shows it
+				//IMG-P3, as the screen shows it. The PDF loader keeps the file's pixel format (an 8-bit greyscale JPEG), so a filtered 32-bit copy.
+				Bitmap bitmapFiltered=ImageAdjust.ApplyToCopy(_bitmapArrayShowing[0],GetAdjustSettings(listDocuments[i]));
+				if(bitmapFiltered!=null){
+					_bitmapArrayShowing[0].Dispose();
+					_bitmapArrayShowing[0]=bitmapFiltered;
+				}
 				_documentArrayShowing[0]=listDocuments[i];
 				DrawHeaderAndImageToPDF(listDocuments[i],rectangle,xg,xFontTitle,xFontSubTitle);
 				if(memoryStream!=null) {

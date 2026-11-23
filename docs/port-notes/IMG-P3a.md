@@ -78,3 +78,29 @@ The schema follows the coordinator's plan: fork-only tables, no column on an Ope
 The data layer's own run, before the display wiring, also passed: InventoryTests 93/93, EhrTests 328 (2 skipped), SshHostKeyTests 46/46, AdoptionValidation.Tests 69/69.
 
 There is no gallery: P3a changes nothing visible.
+
+## Review (one independent review, 2026-11-23)
+
+Fixed. These bugs could only show once P3b saves a filter:
+
+- **Filters now run before the crop and rotation** in `ApplyDocumentSettingsToImage`. The path now windows and filters a 32-bit copy of
+  the whole image first, then crops and rotates it, as the screen does, and skips its own color function. Before, it filtered the cropped
+  and rotated canvas, so CLAHE's tiles and the rotation's black corners made exports, sheets and claims differ from the screen.
+- **Print to PDF filters 8-bit images.** The category's PDF print loads 8-bit indexed greyscale JPEGs, which `Apply` skips. It now filters
+  a 32-bit copy (`ImageAdjust.ApplyToCopy`).
+- **DICOM thumbnails are filtered** through `GetImageCroppedDicom`, which takes the settings as a parameter. `ClaimAttachDicom.Render`
+  stays without the database by design, so DICOM claim copies are not filtered yet; their callers pass the settings in P3b.
+- **Filtered images are attached filtered.** `ClaimAttachImage.HasImageSettings` counts saved filters, so a filtered image is attached as
+  its filtered copy, not as the raw file.
+- **Pearl gets the plain image.** It is sent the image without the filters (`doApplyAdjust:false`), as single images always were.
+- **GetBitmapOfDocumentFromDb filters**, which covers email attachments, sheet image fields and the pickers (`WithAdjust`).
+- **A negative stride is read** from the right end of memory.
+- **32bppPArgb is filtered through a copy**; it was filtered without un-premultiplying.
+- **A colour image is smoothed before its local contrast map is made.**
+- **Upsert retries as an update** when another workstation inserted the row first (the unique key DocNum).
+
+For P3b:
+
+- Each brightness/contrast slider step reruns the whole filter chain on the UI thread, which is slow with every filter on. P3b should
+  filter on release, or at a lower resolution while dragging.
+- Regenerate the saved thumbnail whenever a filter changes.

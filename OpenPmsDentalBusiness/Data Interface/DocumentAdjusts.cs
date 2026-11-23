@@ -45,8 +45,17 @@ namespace OpenPmsDentalBusiness {
 			DocumentAdjust documentAdjustOld=GetForDoc(documentAdjust.DocNum);
 			if(documentAdjustOld==null) {
 				documentAdjust.DocumentAdjustNum=0;
-				Crud.DocumentAdjustCrud.Insert(documentAdjust);
-				return;
+				try {
+					Crud.DocumentAdjustCrud.Insert(documentAdjust);
+					return;
+				}
+				catch(Exception) {
+					//Another workstation inserted the row for this image in the meantime (the unique key DocNum; MyISAM has no transaction): update it.
+					documentAdjustOld=GetForDoc(documentAdjust.DocNum);
+					if(documentAdjustOld==null) {
+						throw;
+					}
+				}
 			}
 			documentAdjust.DocumentAdjustNum=documentAdjustOld.DocumentAdjustNum;
 			Crud.DocumentAdjustCrud.Update(documentAdjust,documentAdjustOld);

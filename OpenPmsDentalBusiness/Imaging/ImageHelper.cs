@@ -61,7 +61,9 @@ namespace OpenPmsDentalBusiness {
 		}
 
 		///<summary>Applies cropping, flip, rotation, and windowing (brightness/contrast) to the bitmap and returns the resulting bitmap. Zoom and translation must be handled by the calling code. The returned image is always a new image that can be modified without affecting the original image.  No longer honors ImageSettingFlag.  Always performs all actions.</summary>
-		public static Bitmap ApplyDocumentSettingsToImage(Document document, Bitmap bitmapRaw, ImageSettingFlags imageSettingFlags) {
+		///<param name="doApplyAdjust">False leaves out the image's saved adjust filters (IMG-P3), for a copy that must show the image itself, such
+		///as the one sent to an AI service.</param>
+		public static Bitmap ApplyDocumentSettingsToImage(Document document, Bitmap bitmapRaw, ImageSettingFlags imageSettingFlags,bool doApplyAdjust=true) {
 			if(bitmapRaw==null) {
 				return null;
 			}
@@ -69,6 +71,21 @@ namespace OpenPmsDentalBusiness {
 				//return (Bitmap)image.Clone();//this would keep the original resolution, which causes problems.
 				return new Bitmap(bitmapRaw);//resets the resolution to 96, just like it does for docs 20 lines down.
 			}
+			//IMG-P3: the image's saved adjust filters, as the module shows them: brightness/contrast and then the filters on the whole image, before
+			//the crop and rotation, so an export, a print or a claim copy matches the screen. The file on disk never changes.
+			Bitmap bitmapFiltered=null;
+			if(doApplyAdjust && (imageSettingFlags & ImageSettingFlags.COLORFUNCTION)!=0 && document.DocNum>0) {
+				ImageAdjustSettings imageAdjustSettings=DocumentAdjusts.GetForDoc(document.DocNum)?.ToSettings();
+				if(imageAdjustSettings!=null && !imageAdjustSettings.IsNeutral()) {
+					using Bitmap bitmapWindowed=new Bitmap(bitmapRaw.Width,bitmapRaw.Height,PixelFormat.Format32bppArgb);
+					using(Graphics graphicsCopy=Graphics.FromImage(bitmapWindowed)) {
+						graphicsCopy.DrawImage(bitmapRaw,new Rectangle(0,0,bitmapRaw.Width,bitmapRaw.Height));
+					}
+					ApplyColorSettings(bitmapWindowed,document.WindowingMin,document.WindowingMax);
+					bitmapFiltered=ImageAdjust.ApplyToCopy(bitmapWindowed,imageAdjustSettings);
+				}
+			}
+			Bitmap bitmapSource=bitmapFiltered??bitmapRaw;
 			Bitmap bitmap=null;
 			if(document.CropW > 0 && document.CropH > 0){
 				bitmap=new Bitmap(document.CropW,document.CropH);
@@ -94,12 +111,12 @@ namespace OpenPmsDentalBusiness {
 			}
 			//Translate from center of image to UL corner of image
 			g.TranslateTransform(-bitmapRaw.Width/2,-bitmapRaw.Height/2);
-			g.DrawImage(bitmapRaw,0,0,bitmapRaw.Width,bitmapRaw.Height);
+			g.DrawImage(bitmapSource,0,0,bitmapRaw.Width,bitmapRaw.Height);
 			//DrawDrawings(g);//can't do this here because our drawing routine is in OD proper.
 			//If needed, it's subsequent step.
 			//APPLY BRIGHTNESS AND CONTRAST - 
 			//(create inputValues and outputValues from stored db function/table).
-			if((imageSettingFlags & ImageSettingFlags.COLORFUNCTION) != 0 &&
+			if((imageSettingFlags & ImageSettingFlags.COLORFUNCTION) != 0 && bitmapFiltered==null &&//a filtered source already has its window
 				document.WindowingMax != 0 && //Do not apply color function if brightness/contrast have never been set (assume normal settings).
 				!(document.WindowingMax == 255 && document.WindowingMin == 0)) {//Don't apply if brightness/contrast settings are normal.
 				float[] inputValues = new float[] {
@@ -157,11 +174,7 @@ namespace OpenPmsDentalBusiness {
 					}
 				}
 			}
-			//IMG-P3: the image's saved adjust filters (gamma, sharpen, smooth, auto contrast, invert) after brightness/contrast, as the module shows
-			//them, so print and export match the screen. The file on disk never changes.
-			if((imageSettingFlags & ImageSettingFlags.COLORFUNCTION)!=0 && document.DocNum>0) {
-				ImageAdjust.Apply(bitmap,DocumentAdjusts.GetForDoc(document.DocNum)?.ToSettings());
-			}
+			bitmapFiltered?.Dispose();
 			return bitmap;
 		}
 
@@ -588,18 +601,24 @@ namespace OpenPmsDentalBusiness {
 		///8 bit color function of ApplyDocumentSettingsToImage is left out, because the window already is the image's brightness and contrast.
 		///The returned image is new; bitmapDicom is not changed.</summary>
 		public static Bitmap GetImageCroppedDicom(Document document,BitmapDicom bitmapDicom) {
-			return GetImageCroppedDicom(document,bitmapDicom,doSaveCropConversion:true);
+			//IMG-P3: the saved adjust filters, read here (this path has the database: thumbnails through GetImageCropped).
+			ImageAdjustSettings imageAdjustSettings=document!=null && document.DocNum>0 ? DocumentAdjusts.GetForDoc(document.DocNum)?.ToSettings() : null;
+			return GetImageCroppedDicom(document,bitmapDicom,doSaveCropConversion:true,imageAdjustSettings);
 		}
 
 		///<summary>GetImageCroppedDicom. With doSaveCropConversion false, a pre-21.4 crop is converted in the document passed in only and nothing is
 		///saved to the db (ConvertCropIfNeeded with doSave false; CLAIM-DCM renders claim copies on a copy of the document).</summary>
-		public static Bitmap GetImageCroppedDicom(Document document,BitmapDicom bitmapDicom,bool doSaveCropConversion) {
+		///<param name="imageAdjustSettings">The document's saved adjust filters (IMG-P3), applied to the windowed image before the crop and
+		///rotation; null for none. Passed in, so that a render without the database (ClaimAttachDicom.Render) stays without it.</param>
+		public static Bitmap GetImageCroppedDicom(Document document,BitmapDicom bitmapDicom,bool doSaveCropConversion,ImageAdjustSettings imageAdjustSettings=null) {
 			if(document==null || bitmapDicom==null) {
 				return null;
 			}
 			using Bitmap bitmapWindowed=DicomHelper.ApplyWindowing(bitmapDicom,document.WindowingMin,document.WindowingMax);
 			ConvertCropIfNeeded(document,bitmapWindowed,doSaveCropConversion);
-			return ApplyDocumentSettingsToImage(document,bitmapWindowed,ImageSettingFlags.CROP | ImageSettingFlags.FLIP | ImageSettingFlags.ROTATE);
+			//IMG-P3: the saved adjust filters on the windowed image, before the crop and rotation, as the module shows a DICOM image.
+			using Bitmap bitmapFiltered=ImageAdjust.ApplyToCopy(bitmapWindowed,imageAdjustSettings);
+			return ApplyDocumentSettingsToImage(document,bitmapFiltered??bitmapWindowed,ImageSettingFlags.CROP | ImageSettingFlags.FLIP | ImageSettingFlags.ROTATE);
 		}
 
 		///<summary>Returns true if the given filename contains a supported file image extension.</summary>
@@ -609,6 +628,20 @@ namespace OpenPmsDentalBusiness {
 			//==02/25/2014 - Added .tig as an accepted image extention for tigerview enhancement.
 			return (ext == ".jpg" || ext == ".jpeg" || ext == ".tga" || ext == ".bmp" || ext == ".tif" ||
 				ext == ".tiff" || ext == ".gif" || ext == ".emf" || ext == ".exif" || ext == ".ico" || ext == ".png" || ext == ".wmf"|| ext == ".tig");
+		}
+
+		///<summary>bitmap with the document's saved adjust filters (IMG-P3), after its brightness/contrast. Returns bitmap itself when there are
+		///none; otherwise a filtered copy, and bitmap is disposed.</summary>
+		private static Bitmap WithAdjust(Bitmap bitmap,Document document) {
+			if(bitmap==null || document==null || document.DocNum==0) {
+				return bitmap;
+			}
+			Bitmap bitmapFiltered=ImageAdjust.ApplyToCopy(bitmap,DocumentAdjusts.GetForDoc(document.DocNum)?.ToSettings());
+			if(bitmapFiltered==null) {
+				return bitmap;
+			}
+			bitmap.Dispose();
+			return bitmapFiltered;
 		}
 
 		///<summary>Loads bitmap from disk, resizes, applies bright/contrast. Does not rotate or crop</summary>
@@ -635,13 +668,14 @@ namespace OpenPmsDentalBusiness {
 			if(document.FileName.EndsWith(".dcm")){
 				bitmapResult=DicomHelper.ApplyWindowing(bitmapDicomRaw,document.WindowingMin,document.WindowingMax);
 				bitmapTemp?.Dispose();
-				return bitmapResult;
+				return WithAdjust(bitmapResult,document);
 			}
 			try{
 				bitmapResult=new Bitmap(bitmapTemp);//can crash here on a large image (WxHx24 > 250M)
 				//jordan I redid my math a few months later, and it's WxHx4, not 24.  Size in memory should not be a problem, 
 				//so now I don't know why it chokes on large images or why I've watched my memory usage climb to 1G when loading images.  Revisit.
 				ApplyColorSettings(bitmapResult,document.WindowingMin,document.WindowingMax);
+				bitmapResult=WithAdjust(bitmapResult,document);//IMG-P3
 				//_bitmapRaw=new Bitmap(bitmapTemp);//or it can crash here
 				bitmapTemp.Dispose();//frees up the lock on the file on disk
 			}

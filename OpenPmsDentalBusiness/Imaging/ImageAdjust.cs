@@ -56,10 +56,8 @@ namespace OpenPmsDentalBusiness {
 			if(bitmap==null || settings==null || settings.IsNeutral()) {
 				return;
 			}
-			if(bitmap.PixelFormat!=PixelFormat.Format24bppRgb && bitmap.PixelFormat!=PixelFormat.Format32bppArgb
-				&& bitmap.PixelFormat!=PixelFormat.Format32bppRgb && bitmap.PixelFormat!=PixelFormat.Format32bppPArgb)
-			{
-				return;
+			if(!IsFormatSupported(bitmap.PixelFormat)) {
+				return;//ApplyToCopy filters a copy of any other format
 			}
 			int width=bitmap.Width;
 			int height=bitmap.Height;
@@ -71,14 +69,18 @@ namespace OpenPmsDentalBusiness {
 			try {
 				int bytesPerPixel=Image.GetPixelFormatSize(bitmap.PixelFormat)/8;
 				int stride=bitmapData.Stride;
-				byte[] arrayBytes=new byte[Math.Abs(stride)*height];
-				Marshal.Copy(bitmapData.Scan0,arrayBytes,0,arrayBytes.Length);
+				int strideAbs=Math.Abs(stride);
+				//A negative stride is a bottom-up bitmap: Scan0 is the top row, and the rows run backwards in memory from the last one.
+				IntPtr pointerFirstInMemory=stride>=0 ? bitmapData.Scan0 : IntPtr.Add(bitmapData.Scan0,stride*(height-1));
+				Func<int,int> funcRowOffset=y => stride>=0 ? y*strideAbs : (height-1-y)*strideAbs;
+				byte[] arrayBytes=new byte[strideAbs*height];
+				Marshal.Copy(pointerFirstInMemory,arrayBytes,0,arrayBytes.Length);
 				byte[] planeB=new byte[width*height];
 				byte[] planeG=new byte[width*height];
 				byte[] planeR=new byte[width*height];
 				bool isGrey=true;
 				for(int y=0;y<height;y++) {
-					int row=y*Math.Abs(stride);
+					int row=funcRowOffset(y);
 					for(int x=0;x<width;x++) {
 						int i=row+x*bytesPerPixel;
 						int p=y*width+x;
@@ -97,7 +99,17 @@ namespace OpenPmsDentalBusiness {
 					planeR=plane;
 				}
 				else {
-					//Colour: the local contrast map comes from the luminance, so every channel gets the same correction and the hue stays.
+					//Colour: smoothed first, per channel, so the local contrast map comes from the smoothed luminance; that map is added to every
+					//channel, so the hue stays.
+					ImageAdjustSettings settingsAfterSmooth=settings;
+					if(settings.Smooth!=ImageSmooth.Off) {
+						int radius=settings.Smooth==ImageSmooth.Low ? 1 : 2;
+						planeB=Median(planeB,width,height,radius);
+						planeG=Median(planeG,width,height,radius);
+						planeR=Median(planeR,width,height,radius);
+						settingsAfterSmooth=settings.Copy();
+						settingsAfterSmooth.Smooth=ImageSmooth.Off;
+					}
 					short[] arrayDeltaContrast=null;
 					if(settings.IsAutoContrast) {
 						byte[] planeY=new byte[width*height];
@@ -110,12 +122,12 @@ namespace OpenPmsDentalBusiness {
 							arrayDeltaContrast[p]=(short)(planeYContrast[p]-planeY[p]);
 						}
 					}
-					planeB=FilterPlane(planeB,width,height,settings,arrayDeltaContrast);
-					planeG=FilterPlane(planeG,width,height,settings,arrayDeltaContrast);
-					planeR=FilterPlane(planeR,width,height,settings,arrayDeltaContrast);
+					planeB=FilterPlane(planeB,width,height,settingsAfterSmooth,arrayDeltaContrast);
+					planeG=FilterPlane(planeG,width,height,settingsAfterSmooth,arrayDeltaContrast);
+					planeR=FilterPlane(planeR,width,height,settingsAfterSmooth,arrayDeltaContrast);
 				}
 				for(int y=0;y<height;y++) {
-					int row=y*Math.Abs(stride);
+					int row=funcRowOffset(y);
 					for(int x=0;x<width;x++) {
 						int i=row+x*bytesPerPixel;
 						int p=y*width+x;
@@ -124,11 +136,31 @@ namespace OpenPmsDentalBusiness {
 						arrayBytes[i+2]=planeR[p];
 					}
 				}
-				Marshal.Copy(arrayBytes,0,bitmapData.Scan0,arrayBytes.Length);
+				Marshal.Copy(arrayBytes,0,pointerFirstInMemory,arrayBytes.Length);
 			}
 			finally {
 				bitmap.UnlockBits(bitmapData);
 			}
+		}
+
+		///<summary>A filtered 32-bit copy of bitmap, for a picture whose pixel format Apply does not filter in place (an 8-bit indexed greyscale
+		///JPEG, for example) or that must stay unchanged. Null when there is nothing to do (null bitmap, null or neutral settings); the caller then
+		///keeps its bitmap. The caller disposes the copy.</summary>
+		public static Bitmap ApplyToCopy(Bitmap bitmap,ImageAdjustSettings settings) {
+			if(bitmap==null || settings==null || settings.IsNeutral()) {
+				return null;
+			}
+			Bitmap bitmapCopy=new Bitmap(bitmap.Width,bitmap.Height,PixelFormat.Format32bppArgb);
+			using(Graphics g=Graphics.FromImage(bitmapCopy)) {
+				g.DrawImage(bitmap,new Rectangle(0,0,bitmap.Width,bitmap.Height));
+			}
+			Apply(bitmapCopy,settings);
+			return bitmapCopy;
+		}
+
+		///<summary>The pixel formats Apply filters in place: 24-bit RGB and 32-bit RGB or ARGB (not premultiplied).</summary>
+		public static bool IsFormatSupported(PixelFormat pixelFormat) {
+			return pixelFormat==PixelFormat.Format24bppRgb || pixelFormat==PixelFormat.Format32bppArgb || pixelFormat==PixelFormat.Format32bppRgb;
 		}
 
 		///<summary>The filters on one 8-bit plane, in order: smooth, local contrast (from arrayDeltaContrast for a colour image, else CLAHE of this

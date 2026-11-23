@@ -111,6 +111,36 @@ namespace ImagingTests {
 		}
 
 		[TestMethod]
+		public void ApplyToCopy_FiltersAnIndexedGreyscalePicture_AndLeavesTheOriginal() {
+			using Bitmap bitmapIndexed=new Bitmap(8,8,PixelFormat.Format8bppIndexed);
+			ColorPalette colorPalette=bitmapIndexed.Palette;
+			for(int i=0;i<256;i++) {
+				colorPalette.Entries[i]=Color.FromArgb(i,i,i);
+			}
+			bitmapIndexed.Palette=colorPalette;//every pixel is index 0, black
+			Assert.IsNull(ImageAdjust.ApplyToCopy(bitmapIndexed,new ImageAdjustSettings()),"Nothing to do: no copy.");
+			using Bitmap bitmapCopy=ImageAdjust.ApplyToCopy(bitmapIndexed,new ImageAdjustSettings { IsInverted=true });
+			Assert.AreEqual(PixelFormat.Format32bppArgb,bitmapCopy.PixelFormat);
+			Assert.AreEqual(255,bitmapCopy.GetPixel(3,3).R,"Inverted black.");
+			Assert.AreEqual(0,bitmapIndexed.GetPixel(3,3).R,"The original is unchanged.");
+		}
+
+		[TestMethod]
+		public void Colour_SmoothedBeforeTheLocalContrast() {
+			using Bitmap bitmap=new Bitmap(24,24,PixelFormat.Format32bppArgb);
+			for(int y=0;y<24;y++) {
+				for(int x=0;x<24;x++) {
+					bool isNoise=x==12 && y==12;
+					bitmap.SetPixel(x,y,isNoise ? Color.FromArgb(255,255,255) : Color.FromArgb(150+x,100,80));
+				}
+			}
+			ImageAdjust.Apply(bitmap,new ImageAdjustSettings { Smooth=ImageSmooth.Low,IsAutoContrast=true });
+			Color colorNoise=bitmap.GetPixel(12,12);
+			Color colorLeft=bitmap.GetPixel(11,12);
+			Assert.IsTrue(Math.Abs(colorNoise.G-colorLeft.G)<20,"The white speck is gone before the contrast map is made: "+colorNoise+" beside "+colorLeft);
+		}
+
+		[TestMethod]
 		public void ASensorSizedPicture_TakesUnderTwoSecondsWithEveryFilter() {
 			using Bitmap bitmap=new Bitmap(1300,1800,PixelFormat.Format32bppArgb);
 			using(Graphics g=Graphics.FromImage(bitmap)) {
