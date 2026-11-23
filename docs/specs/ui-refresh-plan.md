@@ -1690,7 +1690,9 @@ own 26.2 overlap check before it starts. The first cut is below; a brief that fi
   files named otherwise than their class, the imaging surfaces, the print previews, two browsers under a toolbar); the lead's two items:
   slice 6 re-planned with the stored anchors (389 rows, 75 pins; slice 3 44 rows, 6 pins) and FormBlockoutCutCopyPaste and
   FormEhrLabResultEdit back at main's size; re-plans 239 / 509 / 203 / 316 / 335 unchanged; gallery G-UI3-ui12-8 (102 windows, 15 at 150%,
-  2 earlier-slice fixes), audit `UI-12-audit-8.md` (UI-12.md section 7, "Slice 8 (batch 4)").
+  2 earlier-slice fixes), audit `UI-12-audit-8.md` (UI-12.md section 7, "Slice 8 (batch 4)"); fix round `ui/ui12-8-2` (the lead's 17 findings: FormInsHistSetup's
+  code rows on `UiGrid`, the last stock GroupBox, equal gaps for spare height, edges; the gallery fills radio texts and draws
+  FormInsHistSetup with rows; UI-12.md "Slice 8, fix round").
 - Gallery: G-UI3 per slice, the owner's rows first.
 
 **UI-13: every element type in the new look (the owner, 2026-11-22: "Overall make sure you modernize all element types")**
