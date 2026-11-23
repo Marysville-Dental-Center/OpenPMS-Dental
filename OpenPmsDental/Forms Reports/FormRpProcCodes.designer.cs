@@ -53,7 +53,7 @@ namespace OpenPmsDental {
 			// 
 			this.listBoxFeeSched.Location = new System.Drawing.Point(8, 32);
 			this.listBoxFeeSched.Name = "listBoxFeeSched";
-			this.listBoxFeeSched.Size = new System.Drawing.Size(129, 173);
+			this.listBoxFeeSched.Size = new System.Drawing.Size(130, 173);
 			this.listBoxFeeSched.TabIndex = 0;
 			// 
 			// radioCategories
@@ -78,39 +78,39 @@ namespace OpenPmsDental {
 			// 
 			this.label1.Location = new System.Drawing.Point(8, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(129, 22);
+			this.label1.Size = new System.Drawing.Size(130, 22);
 			this.label1.TabIndex = 4;
 			this.label1.Text = "Fee Schedule";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// listBoxClinics
 			// 
-			this.listBoxClinics.Location = new System.Drawing.Point(143, 34);
+			this.listBoxClinics.Location = new System.Drawing.Point(146, 32);
 			this.listBoxClinics.Name = "listBoxClinics";
-			this.listBoxClinics.Size = new System.Drawing.Size(129, 173);
+			this.listBoxClinics.Size = new System.Drawing.Size(130, 173);
 			this.listBoxClinics.TabIndex = 5;
 			// 
 			// listBoxProviders
 			// 
-			this.listBoxProviders.Location = new System.Drawing.Point(278, 34);
+			this.listBoxProviders.Location = new System.Drawing.Point(284, 32);
 			this.listBoxProviders.Name = "listBoxProviders";
-			this.listBoxProviders.Size = new System.Drawing.Size(129, 173);
+			this.listBoxProviders.Size = new System.Drawing.Size(132, 173);
 			this.listBoxProviders.TabIndex = 6;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(143, 8);
+			this.label2.Location = new System.Drawing.Point(146, 8);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(129, 22);
+			this.label2.Size = new System.Drawing.Size(130, 22);
 			this.label2.TabIndex = 7;
 			this.label2.Text = "Clinic";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(278, 8);
+			this.label3.Location = new System.Drawing.Point(284, 8);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(129, 22);
+			this.label3.Size = new System.Drawing.Size(132, 22);
 			this.label3.TabIndex = 8;
 			this.label3.Text = "Provider";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -127,7 +127,7 @@ namespace OpenPmsDental {
 			// 
 			this.groupBox5.Controls.Add(this.radioCategories);
 			this.groupBox5.Controls.Add(this.radioCode);
-			this.groupBox5.Location = new System.Drawing.Point(217, 215);
+			this.groupBox5.Location = new System.Drawing.Point(146, 209);
 			this.groupBox5.Name = "groupBox5";
 			this.groupBox5.Size = new System.Drawing.Size(114, 60);
 			this.groupBox5.TabIndex = 31;

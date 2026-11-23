@@ -52,19 +52,19 @@ namespace OpenPmsDental {
 			// 
 			// labelName
 			// 
-			this.labelName.Location = new System.Drawing.Point(19, 8);
+			this.labelName.Location = new System.Drawing.Point(8, 8);
 			this.labelName.Name = "labelName";
-			this.labelName.Size = new System.Drawing.Size(335, 20);
+			this.labelName.Size = new System.Drawing.Size(359, 20);
 			this.labelName.TabIndex = 3;
 			this.labelName.Text = "Field Name";
 			this.labelName.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// textValue
 			// 
-			this.textValue.Location = new System.Drawing.Point(19, 30);
+			this.textValue.Location = new System.Drawing.Point(8, 30);
 			this.textValue.Multiline = true;
 			this.textValue.Name = "textValue";
-			this.textValue.Size = new System.Drawing.Size(333, 74);
+			this.textValue.Size = new System.Drawing.Size(359, 103);
 			this.textValue.TabIndex = 0;
 			// 
 			// butUseAutoNote

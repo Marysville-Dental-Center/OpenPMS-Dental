@@ -39,10 +39,10 @@ namespace OpenPmsDental{
 			// 
 			this.textBoxDescript.BackColor = System.Drawing.SystemColors.Window;
 			this.textBoxDescript.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			this.textBoxDescript.Location = new System.Drawing.Point(36, 8);
+			this.textBoxDescript.Location = new System.Drawing.Point(8, 8);
 			this.textBoxDescript.Multiline = true;
 			this.textBoxDescript.Name = "textBoxDescript";
-			this.textBoxDescript.Size = new System.Drawing.Size(393, 47);
+			this.textBoxDescript.Size = new System.Drawing.Size(421, 47);
 			this.textBoxDescript.TabIndex = 5;
 			this.textBoxDescript.Text = resources.GetString("textBoxDescript.Text");
 			// 
@@ -81,7 +81,7 @@ namespace OpenPmsDental{
 			// 
 			// checkNoShow
 			// 
-			this.checkNoShow.Location = new System.Drawing.Point(85, 140);
+			this.checkNoShow.Location = new System.Drawing.Point(8, 140);
 			this.checkNoShow.Name = "checkNoShow";
 			this.checkNoShow.Size = new System.Drawing.Size(333, 20);
 			this.checkNoShow.TabIndex = 108;

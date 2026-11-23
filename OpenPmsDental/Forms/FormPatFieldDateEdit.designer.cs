@@ -42,7 +42,7 @@ namespace OpenPmsDental {
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(193, 83);
+			this.butSave.Location = new System.Drawing.Point(189, 83);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 25);
 			this.butSave.TabIndex = 1;
@@ -51,16 +51,16 @@ namespace OpenPmsDental {
 			// 
 			// labelName
 			// 
-			this.labelName.Location = new System.Drawing.Point(19,8);
+			this.labelName.Location = new System.Drawing.Point(8,8);
 			this.labelName.Name = "labelName";
-			this.labelName.Size = new System.Drawing.Size(249,20);
+			this.labelName.Size = new System.Drawing.Size(256,20);
 			this.labelName.TabIndex = 3;
 			this.labelName.Text = "Field Name";
 			this.labelName.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// textFieldDate
 			// 
-			this.textFieldDate.Location = new System.Drawing.Point(19,30);
+			this.textFieldDate.Location = new System.Drawing.Point(8,30);
 			this.textFieldDate.Name = "textFieldDate";
 			this.textFieldDate.Size = new System.Drawing.Size(108,20);
 			this.textFieldDate.TabIndex = 4;
@@ -68,7 +68,7 @@ namespace OpenPmsDental {
 			// FormPatFieldDateEdit
 			// 
 			this.AcceptButton = this.butSave;
-			this.ClientSize = new System.Drawing.Size(276,116);
+			this.ClientSize = new System.Drawing.Size(272,116);
 			this.AutoScaleBaseSize = new System.Drawing.Size(5,13);
 			this.Controls.Add(this.textFieldDate);
 			this.Controls.Add(this.labelName);

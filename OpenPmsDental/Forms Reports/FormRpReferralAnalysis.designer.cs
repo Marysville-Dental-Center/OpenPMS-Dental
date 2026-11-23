@@ -44,7 +44,7 @@ namespace OpenPmsDental {
 			// 
 			// listProv
 			// 
-			this.listProv.Location = new System.Drawing.Point(41, 73);
+			this.listProv.Location = new System.Drawing.Point(8, 73);
 			this.listProv.Name = "listProv";
 			this.listProv.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
 			this.listProv.Size = new System.Drawing.Size(165, 186);
@@ -52,7 +52,7 @@ namespace OpenPmsDental {
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(41, 49);
+			this.label1.Location = new System.Drawing.Point(8, 49);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(104, 16);
 			this.label1.TabIndex = 35;
@@ -68,7 +68,7 @@ namespace OpenPmsDental {
 			this.groupBox2.Controls.Add(this.textDateTo);
 			this.groupBox2.Controls.Add(this.label3);
 			this.groupBox2.Controls.Add(this.butLeft);
-			this.groupBox2.Location = new System.Drawing.Point(271, 73);
+			this.groupBox2.Location = new System.Drawing.Point(366, 73);
 			this.groupBox2.Name = "groupBox2";
 			this.groupBox2.Size = new System.Drawing.Size(281, 109);
 			this.groupBox2.TabIndex = 46;
@@ -136,7 +136,7 @@ namespace OpenPmsDental {
 			// 
 			// textToday
 			// 
-			this.textToday.Location = new System.Drawing.Point(366, 46);
+			this.textToday.Location = new System.Drawing.Point(461, 46);
 			this.textToday.Name = "textToday";
 			this.textToday.ReadOnly = true;
 			this.textToday.Size = new System.Drawing.Size(100, 20);
@@ -144,7 +144,7 @@ namespace OpenPmsDental {
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(280, 46);
+			this.label4.Location = new System.Drawing.Point(375, 46);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(80, 23);
 			this.label4.TabIndex = 44;
@@ -154,16 +154,16 @@ namespace OpenPmsDental {
 			// checkAddress
 			// 
 			this.checkAddress.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
-			this.checkAddress.Location = new System.Drawing.Point(41, 263);
+			this.checkAddress.Location = new System.Drawing.Point(8, 263);
 			this.checkAddress.Name = "checkAddress";
-			this.checkAddress.Size = new System.Drawing.Size(420, 20);
+			this.checkAddress.Size = new System.Drawing.Size(639, 20);
 			this.checkAddress.TabIndex = 47;
 			this.checkAddress.Text = "Include address information.  Useful if you are exporting for letter merge.";
 			this.checkAddress.CheckedChanged += new System.EventHandler(this.checkAddress_CheckedChanged);
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(41, 8);
+			this.label5.Location = new System.Drawing.Point(8, 8);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(585, 36);
 			this.label5.TabIndex = 48;
@@ -184,7 +184,7 @@ namespace OpenPmsDental {
 			// checkNewPat
 			// 
 			this.checkNewPat.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
-			this.checkNewPat.Location = new System.Drawing.Point(41, 311);
+			this.checkNewPat.Location = new System.Drawing.Point(8, 311);
 			this.checkNewPat.Name = "checkNewPat";
 			this.checkNewPat.Size = new System.Drawing.Size(166, 20);
 			this.checkNewPat.TabIndex = 49;
@@ -193,7 +193,7 @@ namespace OpenPmsDental {
 			// checkLandscape
 			// 
 			this.checkLandscape.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
-			this.checkLandscape.Location = new System.Drawing.Point(41, 287);
+			this.checkLandscape.Location = new System.Drawing.Point(8, 287);
 			this.checkLandscape.Name = "checkLandscape";
 			this.checkLandscape.Size = new System.Drawing.Size(117, 20);
 			this.checkLandscape.TabIndex = 51;

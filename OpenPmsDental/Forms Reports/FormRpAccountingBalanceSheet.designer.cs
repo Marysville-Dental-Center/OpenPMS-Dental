@@ -33,7 +33,7 @@ namespace OpenPmsDental {
 			// 
 			// labelTO
 			// 
-			this.labelTO.Location = new System.Drawing.Point(29, 8);
+			this.labelTO.Location = new System.Drawing.Point(8, 8);
 			this.labelTO.Name = "labelTO";
 			this.labelTO.Size = new System.Drawing.Size(72, 18);
 			this.labelTO.TabIndex = 22;
@@ -52,7 +52,7 @@ namespace OpenPmsDental {
 			// 
 			// monthCalendar
 			// 
-			this.monthCalendar.Location = new System.Drawing.Point(29, 28);
+			this.monthCalendar.Location = new System.Drawing.Point(8, 28);
 			this.monthCalendar.Name = "monthCalendar";
 			this.monthCalendar.Size = new System.Drawing.Size(227, 162);
 			this.monthCalendar.TabIndex = 28;

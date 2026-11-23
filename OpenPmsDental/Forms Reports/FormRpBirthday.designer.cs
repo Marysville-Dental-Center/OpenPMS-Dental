@@ -53,7 +53,7 @@ namespace OpenPmsDental {
 			// butSave
 			// 
 			butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			butSave.Location = new System.Drawing.Point(202, 34);
+			butSave.Location = new System.Drawing.Point(247, 34);
 			butSave.Name = "butSave";
 			butSave.Size = new System.Drawing.Size(87, 26);
 			butSave.TabIndex = 44;
@@ -97,7 +97,7 @@ namespace OpenPmsDental {
 			this.groupBox1.Controls.Add(this.butLeft);
 			this.groupBox1.Controls.Add(this.label3);
 			this.groupBox1.Controls.Add(this.label2);
-			this.groupBox1.Location = new System.Drawing.Point(21, 8);
+			this.groupBox1.Location = new System.Drawing.Point(8, 8);
 			this.groupBox1.Name = "groupBox1";
 			this.groupBox1.Size = new System.Drawing.Size(286, 137);
 			this.groupBox1.TabIndex = 45;
@@ -151,9 +151,9 @@ namespace OpenPmsDental {
 			this.groupBox4.Controls.Add(butSave);
 			this.groupBox4.Controls.Add(this.label4);
 			this.groupBox4.Controls.Add(this.butPostcards);
-			this.groupBox4.Location = new System.Drawing.Point(315, 8);
+			this.groupBox4.Location = new System.Drawing.Point(302, 8);
 			this.groupBox4.Name = "groupBox4";
-			this.groupBox4.Size = new System.Drawing.Size(306, 137);
+			this.groupBox4.Size = new System.Drawing.Size(342, 137);
 			this.groupBox4.TabIndex = 46;
 			this.groupBox4.TabStop = false;
 			this.groupBox4.Text = "Postcards";
@@ -164,7 +164,7 @@ namespace OpenPmsDental {
 			this.textPostcardMsg.Location = new System.Drawing.Point(8, 42);
 			this.textPostcardMsg.Multiline = true;
 			this.textPostcardMsg.Name = "textPostcardMsg";
-			this.textPostcardMsg.Size = new System.Drawing.Size(186, 87);
+			this.textPostcardMsg.Size = new System.Drawing.Size(231, 87);
 			this.textPostcardMsg.TabIndex = 45;
 			this.textPostcardMsg.Text = "Dear ?FName,  Happy ?AgeOrdinal Birthday!  Now, you\'re ?Age years old.";
 			// 
@@ -181,7 +181,7 @@ namespace OpenPmsDental {
 			// 
 			this.butPostcards.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Print,16,16);
 			this.butPostcards.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butPostcards.Location = new System.Drawing.Point(202, 64);
+			this.butPostcards.Location = new System.Drawing.Point(247, 64);
 			this.butPostcards.Name = "butPostcards";
 			this.butPostcards.Size = new System.Drawing.Size(87, 26);
 			this.butPostcards.TabIndex = 16;

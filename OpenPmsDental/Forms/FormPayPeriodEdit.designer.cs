@@ -50,7 +50,7 @@ namespace OpenPmsDental {
 			butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			butDelete.Location = new System.Drawing.Point(12, 143);
+			butDelete.Location = new System.Drawing.Point(8, 147);
 			butDelete.Name = "butDelete";
 			butDelete.Size = new System.Drawing.Size(75, 26);
 			butDelete.TabIndex = 16;

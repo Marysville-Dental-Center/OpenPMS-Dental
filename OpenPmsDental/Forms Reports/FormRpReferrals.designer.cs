@@ -53,9 +53,9 @@ namespace OpenPmsDental {
 			this.tabReferrals.Controls.Add(this.tabData);
 			this.tabReferrals.Controls.Add(this.tabFilters);
 			this.tabReferrals.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-			this.tabReferrals.Location = new System.Drawing.Point(14, 8);
+			this.tabReferrals.Location = new System.Drawing.Point(8, 8);
 			this.tabReferrals.Name = "tabReferrals";
-			this.tabReferrals.Size = new System.Drawing.Size(814, 492);
+			this.tabReferrals.Size = new System.Drawing.Size(826, 492);
 			this.tabReferrals.TabIndex = 39;
 			// 
 			// tabData
@@ -213,11 +213,11 @@ namespace OpenPmsDental {
 			this.textSQL.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textSQL.Location = new System.Drawing.Point(14, 508);
+			this.textSQL.Location = new System.Drawing.Point(8, 508);
 			this.textSQL.Multiline = true;
 			this.textSQL.Name = "textSQL";
 			this.textSQL.ReadOnly = true;
-			this.textSQL.Size = new System.Drawing.Size(692, 124);
+			this.textSQL.Size = new System.Drawing.Size(826, 133);
 			this.textSQL.TabIndex = 42;
 			// 
 			// FormRpReferrals

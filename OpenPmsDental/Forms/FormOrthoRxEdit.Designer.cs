@@ -52,7 +52,7 @@ namespace OpenPmsDental{
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(25, 219);
+			this.butDelete.Location = new System.Drawing.Point(8, 219);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(88, 24);
 			this.butDelete.TabIndex = 31;
@@ -79,12 +79,12 @@ namespace OpenPmsDental{
 			// 
 			// labelComments
 			// 
-			this.labelComments.Location = new System.Drawing.Point(65, 89);
+			this.labelComments.Location = new System.Drawing.Point(143, 89);
 			this.labelComments.Name = "labelComments";
-			this.labelComments.Size = new System.Drawing.Size(72, 23);
+			this.labelComments.Size = new System.Drawing.Size(104, 23);
 			this.labelComments.TabIndex = 107;
 			this.labelComments.Text = "Comments";
-			this.labelComments.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.labelComments.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// labelTeeth
 			// 
@@ -104,7 +104,7 @@ namespace OpenPmsDental{
 			// 
 			// butUpper
 			// 
-			this.butUpper.Location = new System.Drawing.Point(143, 89);
+			this.butUpper.Location = new System.Drawing.Point(330, 89);
 			this.butUpper.Name = "butUpper";
 			this.butUpper.Size = new System.Drawing.Size(75, 23);
 			this.butUpper.TabIndex = 108;
@@ -113,7 +113,7 @@ namespace OpenPmsDental{
 			// 
 			// butLower
 			// 
-			this.butLower.Location = new System.Drawing.Point(224, 89);
+			this.butLower.Location = new System.Drawing.Point(411, 89);
 			this.butLower.Name = "butLower";
 			this.butLower.Size = new System.Drawing.Size(75, 23);
 			this.butLower.TabIndex = 109;
@@ -122,7 +122,7 @@ namespace OpenPmsDental{
 			// 
 			// butAll
 			// 
-			this.butAll.Location = new System.Drawing.Point(305, 89);
+			this.butAll.Location = new System.Drawing.Point(492, 89);
 			this.butAll.Name = "butAll";
 			this.butAll.Size = new System.Drawing.Size(75, 23);
 			this.butAll.TabIndex = 110;

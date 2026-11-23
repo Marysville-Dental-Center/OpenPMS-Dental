@@ -50,7 +50,7 @@ namespace OpenPmsDental {
 			this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.panel1.Controls.Add(this.radioDrug);
 			this.panel1.Controls.Add(this.radioPatient);
-			this.panel1.Location = new System.Drawing.Point(478, 8);
+			this.panel1.Location = new System.Drawing.Point(482, 8);
 			this.panel1.Name = "panel1";
 			this.panel1.Size = new System.Drawing.Size(104, 60);
 			this.panel1.TabIndex = 1;

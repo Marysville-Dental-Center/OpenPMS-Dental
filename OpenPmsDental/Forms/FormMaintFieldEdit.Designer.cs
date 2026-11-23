@@ -91,7 +91,7 @@ namespace OpenPmsDental {
 			//
 			// checkMin
 			//
-			this.checkMin.Location = new System.Drawing.Point(30, 89);
+			this.checkMin.Location = new System.Drawing.Point(42, 90);
 			this.checkMin.Name = "checkMin";
 			this.checkMin.Size = new System.Drawing.Size(75, 20);
 			this.checkMin.TabIndex = 6;
@@ -107,7 +107,7 @@ namespace OpenPmsDental {
 			//
 			// checkMax
 			//
-			this.checkMax.Location = new System.Drawing.Point(30, 113);
+			this.checkMax.Location = new System.Drawing.Point(42, 117);
 			this.checkMax.Name = "checkMax";
 			this.checkMax.Size = new System.Drawing.Size(77, 20);
 			this.checkMax.TabIndex = 8;

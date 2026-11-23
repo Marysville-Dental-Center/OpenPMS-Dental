@@ -136,7 +136,7 @@ namespace OpenPmsDental{
 			// 
 			// checkIsHidden
 			// 
-			this.checkIsHidden.Location = new System.Drawing.Point(135, 116);
+			this.checkIsHidden.Location = new System.Drawing.Point(131, 117);
 			this.checkIsHidden.Name = "checkIsHidden";
 			this.checkIsHidden.Size = new System.Drawing.Size(78, 20);
 			this.checkIsHidden.TabIndex = 105;
@@ -144,9 +144,9 @@ namespace OpenPmsDental{
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(48, 118);
+			this.label1.Location = new System.Drawing.Point(44, 116);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(81, 16);
+			this.label1.Size = new System.Drawing.Size(81, 23);
 			this.label1.TabIndex = 106;
 			this.label1.Text = "Hidden";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

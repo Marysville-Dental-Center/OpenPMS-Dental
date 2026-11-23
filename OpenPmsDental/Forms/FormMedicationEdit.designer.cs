@@ -118,7 +118,7 @@ namespace OpenPmsDental {
 			this.textNotes.Name = "textNotes";
 			this.textNotes.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.MedicationEdit;
 			this.textNotes.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textNotes.Size = new System.Drawing.Size(419, 194);
+			this.textNotes.Size = new System.Drawing.Size(426, 194);
 			this.textNotes.TabIndex = 9;
 			this.textNotes.Text = "";
 			// 
@@ -144,14 +144,14 @@ namespace OpenPmsDental {
 			// 
 			// comboPatients
 			// 
-			this.comboPatients.Location = new System.Drawing.Point(144, 23);
+			this.comboPatients.Location = new System.Drawing.Point(179, 23);
 			this.comboPatients.Name = "comboPatients";
-			this.comboPatients.Size = new System.Drawing.Size(300, 23);
+			this.comboPatients.Size = new System.Drawing.Size(418, 23);
 			this.comboPatients.TabIndex = 34;
 			// 
 			// labelPatients
 			// 
-			this.labelPatients.Location = new System.Drawing.Point(26, 23);
+			this.labelPatients.Location = new System.Drawing.Point(61, 23);
 			this.labelPatients.Name = "labelPatients";
 			this.labelPatients.Size = new System.Drawing.Size(112, 23);
 			this.labelPatients.TabIndex = 35;
@@ -160,7 +160,7 @@ namespace OpenPmsDental {
 			// 
 			// labelBrands
 			// 
-			this.labelBrands.Location = new System.Drawing.Point(90, 77);
+			this.labelBrands.Location = new System.Drawing.Point(125, 77);
 			this.labelBrands.Name = "labelBrands";
 			this.labelBrands.Size = new System.Drawing.Size(48, 23);
 			this.labelBrands.TabIndex = 37;
@@ -169,9 +169,9 @@ namespace OpenPmsDental {
 			// 
 			// comboBrands
 			// 
-			this.comboBrands.Location = new System.Drawing.Point(144, 77);
+			this.comboBrands.Location = new System.Drawing.Point(179, 77);
 			this.comboBrands.Name = "comboBrands";
-			this.comboBrands.Size = new System.Drawing.Size(300, 23);
+			this.comboBrands.Size = new System.Drawing.Size(418, 23);
 			this.comboBrands.TabIndex = 36;
 			// 
 			// groupBox1
@@ -182,16 +182,16 @@ namespace OpenPmsDental {
 			this.groupBox1.Controls.Add(this.comboPatients);
 			this.groupBox1.Controls.Add(this.labelBrands);
 			this.groupBox1.Controls.Add(this.comboBrands);
-			this.groupBox1.Location = new System.Drawing.Point(43, 300);
+			this.groupBox1.Location = new System.Drawing.Point(8, 300);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(462, 108);
+			this.groupBox1.Size = new System.Drawing.Size(605, 108);
 			this.groupBox1.TabIndex = 38;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Dependencies";
 			// 
 			// labelPatientAllergy
 			// 
-			this.labelPatientAllergy.Location = new System.Drawing.Point(50, 50);
+			this.labelPatientAllergy.Location = new System.Drawing.Point(85, 50);
 			this.labelPatientAllergy.Name = "labelPatientAllergy";
 			this.labelPatientAllergy.Size = new System.Drawing.Size(88, 23);
 			this.labelPatientAllergy.TabIndex = 39;
@@ -200,9 +200,9 @@ namespace OpenPmsDental {
 			// 
 			// comboPatientAllergy
 			// 
-			this.comboPatientAllergy.Location = new System.Drawing.Point(144, 50);
+			this.comboPatientAllergy.Location = new System.Drawing.Point(179, 50);
 			this.comboPatientAllergy.Name = "comboPatientAllergy";
-			this.comboPatientAllergy.Size = new System.Drawing.Size(300, 23);
+			this.comboPatientAllergy.Size = new System.Drawing.Size(418, 23);
 			this.comboPatientAllergy.TabIndex = 38;
 			// 
 			// labelRxNorm
