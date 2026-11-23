@@ -132,6 +132,14 @@ namespace UiRefreshTests {
 		///<summary>The control's caption on one line, measured the way the control draws it (TextFitMeasurer's method by type); empty for a control
 		///without a measured caption.</summary>
 		private static Size MeasureText(Control control) {
+			//UI-12 slice 1: a clinic picker's label area is sized from its label's text; the planner reads the text's width here (its box starts
+			//6 px after it). A tree without it is of a build before slice 1 (main's fixed 37 px label area).
+			if(control is OpenPmsDental.UI.ComboBoxClinicPicker comboBoxClinicPicker) {
+				if(!comboBoxClinicPicker.ShowLabel) {
+					return Size.Empty;
+				}
+				return new Size(comboBoxClinicPicker.WidthLabelArea-comboBoxClinicPicker.LayoutManager.Scale(6),0);
+			}
 			if(string.IsNullOrWhiteSpace(control.Text)) {
 				return Size.Empty;
 			}

@@ -81,6 +81,15 @@ namespace UiRefreshTests.Scan {
 			int height=LayoutManager.Scale(LayoutManager.SizeClientOriginal.Height)+widthBorder+LayoutManager.GetHeightTitleBar();
 			formODBase.Bounds=new Rectangle(formODBase.Left,formODBase.Top,width,height);
 			LayoutManager.LayoutFormBoundsAndFonts(formODBase);
+			//UI-12 slice 1: Windows keeps a window within its largest track size (the screen and the frame: 1170 px high on the capture machine),
+			//so a window taller or wider than that at 150% was laid out and drawn cut. The pictures draw the client panel, not the window: the
+			//panel gets its whole scaled size and LayoutManager lays its children out in it, as on a screen large enough for the window.
+			Size sizeClient=new Size(LayoutManager.Scale(LayoutManager.SizeClientOriginal.Width),LayoutManager.Scale(LayoutManager.SizeClientOriginal.Height));
+			Control panelClient=formODBase.PanelClient;
+			if(panelClient!=null && (panelClient.Width<sizeClient.Width || panelClient.Height<sizeClient.Height)) {
+				panelClient.Size=new Size(Math.Max(panelClient.Width,sizeClient.Width),Math.Max(panelClient.Height,sizeClient.Height));
+				LayoutManager.LayoutControlBoundsAndFonts(panelClient);
+			}
 		}
 
 		public void Dispose() {

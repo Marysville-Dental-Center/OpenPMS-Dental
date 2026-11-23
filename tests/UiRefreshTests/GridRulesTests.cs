@@ -396,7 +396,7 @@ namespace UiRefreshTests {
 		///<summary>The input box a field column aligns: a clinic picker's box after its label area; otherwise the ink.</summary>
 		private static Rectangle GetBox(Control control) {
 			if(control is OpenPmsDental.UI.ComboBoxClinicPicker comboBoxClinicPicker && comboBoxClinicPicker.ShowLabel) {
-				int widthLabel=(int)Math.Round(37*comboBoxClinicPicker.DeviceDpi/96f);
+				int widthLabel=comboBoxClinicPicker.WidthLabelArea;
 				return new Rectangle(control.Left+widthLabel,control.Top,control.Width-widthLabel,control.Height);
 			}
 			return GetInk(control);
@@ -410,8 +410,9 @@ namespace UiRefreshTests {
 				return new Rectangle(rectangle.X+controlDate.Left,rectangle.Y,controlDate.Width,rectangle.Height);
 			}
 			if(control is OpenPmsDental.UI.ComboBoxClinicPicker comboBoxClinicPicker && comboBoxClinicPicker.ShowLabel) {
-				//Fix round: its box and its own label, which it draws right-aligned 6 px before the box (another control over the label covers it).
-				int widthLabel=(int)Math.Round(37*comboBoxClinicPicker.DeviceDpi/96f);
+				//Fix round: its box and its own label, which it draws right-aligned 6 px before the box (another control over the label covers it); slice 1:
+				//its label area is sized from the text (WidthLabelArea).
+				int widthLabel=comboBoxClinicPicker.WidthLabelArea;
 				int widthText;
 				using(StringFormat stringFormat=new StringFormat(StringFormat.GenericTypographic)) {
 					widthText=TextFitMeasurer.MeasureLineGdiPlus(comboBoxClinicPicker.IsMultiSelect ? "Clinics" : "Clinic",comboBoxClinicPicker.Font,stringFormat).Width;

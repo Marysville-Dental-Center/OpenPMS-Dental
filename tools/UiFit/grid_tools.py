@@ -224,6 +224,8 @@ class Designer:
         # Check boxes and radio buttons drawn right to left (RightToLeft.Yes): their box or circle is on the right like CheckAlign MiddleRight.
         self.rtl = set(re.findall(r"this\.(\w+)\.RightToLeft ?= ?System\.Windows\.Forms\.RightToLeft\.Yes;", self.text))
         self.no_label = set(re.findall(r"this\.(\w+)\.ShowLabel ?= ?false;", self.text))
+        # Clinic pickers that select several clinics: their label reads "Clinics" (slice 1: the label area is sized from its text).
+        self.multi_pickers = set(re.findall(r"this\.(\w+)\.IsMultiSelect ?= ?true;", self.text))
         self.adds = {}
         for m in re.finditer(r"this\.(?:(\w+)\.)?Controls\.Add\(this\.(\w+)\)", self.text):
             self.adds[m.group(2)] = m.group(1) or "."
@@ -246,6 +248,16 @@ def code_files_for(root, simple):
     except subprocess.CalledProcessError:
         return []
     return [x for x in out.splitlines() if x and not re.search(r"\.designer\.cs$", x, re.I)]
+
+
+def multi_pickers_in_code(root, simple):
+    """Clinic pickers the window's code sets to select several clinics (comboClinics.IsMultiSelect=true; in Load): their label reads
+    "Clinics" like a designer's IsMultiSelect (FormRpTreatmentFinder)."""
+    found = set()
+    for f in code_files_for(root, simple):
+        with open(os.path.join(root, f), "rb") as fh:
+            found.update(re.findall(r"\b(\w+)\s*\.\s*IsMultiSelect\s*=\s*true\s*;", fh.read().decode("latin-1")))
+    return found
 
 
 def runtime_positioned(root, simple, names):
@@ -505,8 +517,9 @@ def ink_x(i):
         # ODDatePicker lays its date box out itself, 63 px from its left edge (OnSizeChanged): the box is what the column aligns.
         return i.x + DATE_BOX_X, min(i.w - DATE_BOX_X, DATE_BOX_W)
     if "ComboBoxClinicPicker" in getattr(i, "type", "") and getattr(i, "name", "") not in NO_LABEL_PICKERS:
-        # The clinic picker draws its own "Clinic" label in its first 37 px and its box after it.
-        return i.x + CLINIC_LABEL_W, i.w - CLINIC_LABEL_W
+        # The clinic picker draws its own "Clinic" label in its label area and its box after it (clinic_label_w).
+        lw = clinic_label_w(i)
+        return i.x + lw, i.w - lw
     if k == "label" and i.text_w and i.text_w + 4 < i.w:
         ta = i.text_align or ""
         tw = i.text_w + 4
@@ -1492,6 +1505,16 @@ class Planner:
         fixed = runtime_positioned(self.root, simple, [x for x in names if x in designer.declared])
         NO_LABEL_PICKERS.clear()
         NO_LABEL_PICKERS.update(designer.no_label)
+        MULTI_PICKERS.clear()
+        MULTI_PICKERS.update(designer.multi_pickers)
+        MULTI_PICKERS.update(multi_pickers_in_code(self.root, simple))
+        for n in walk(tree):
+            if "ComboBoxClinicPicker" in n.type and n.name not in NO_LABEL_PICKERS and not n.text_w:
+                # A tree of a build before slice 1 (GridDump wrote no label width for a clinic picker): its box was drawn after main's fixed
+                # 37 px label area. The box keeps its drawn width (w0: the width the field rules start from); the planned tree carries the
+                # label's text width as GridDump writes it now.
+                n.w0 = n.w - 37 + clinic_label_w(n)
+                n.text_w = clinic_label_w(n) - GRID["label_gap"]
         for n in walk(tree):
             if n.name in designer.rtl and n.kind in ("check", "radio") and n is not tree and not SIMULATE:
                 n.rtl = True
@@ -2176,8 +2199,16 @@ def walk(n):
 
 
 SIMULATE = False
-CLINIC_LABEL_W = 37  # ComboBoxClinicPicker's own label area (_widthLabelArea) before its box, when ShowLabel
+# ComboBoxClinicPicker's own label area before its box, when ShowLabel: since slice 1 its measured text (as a Label measures it, Segoe UI 9)
+# + the 6 px label gap (ComboBoxClinicPicker.WidthLabelArea, the lead's answer of 2026-11-22); main's fixed 37 cut "Clinics" at its left.
+CLINIC_LABEL_W = {"Clinic": 43, "Clinics": 48}
 NO_LABEL_PICKERS = set()  # this window's clinic pickers with ShowLabel = false
+MULTI_PICKERS = set()  # this window's clinic pickers with IsMultiSelect = true (the label "Clinics")
+
+
+def clinic_label_w(i):
+    """The label area of a clinic picker (its box starts this far into its bounds)."""
+    return CLINIC_LABEL_W["Clinics" if getattr(i, "name", "") in MULTI_PICKERS else "Clinic"]
 DATE_BOX_X = 63   # ODDatePicker's date box: its x in the picker and its width at 96 dpi (ODDatePicker.OnSizeChanged)
 DATE_BOX_W = 102
 PREFS_PAGE_HEIGHT = 836  # FormPreferences' panelMain: the page area (UI-12 round 2: grown to the tallest page, a 872 px client area; the owner allows about 1000)

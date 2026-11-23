@@ -179,7 +179,7 @@ namespace UiRefreshTests {
 		}
 
 		///<summary>ComboBoxClinicPicker (200 x 21 at 96 DPI, its label shown, test mode: no database) in the state. label: the label's text ("" for the
-		///chrome). Returns the box's rectangle (right of the label area).</summary>
+		///chrome: the label area of "Clinic", left empty). Returns the box's rectangle (right of the label area).</summary>
 		public static Bitmap RenderWinFormsClinicPicker(SheetState sheetState,string label,float scale,out Rectangle rectangleBox) {
 			System.Windows.Forms.Panel panel;
 			using(Form form=MakeHost(out panel)) {
@@ -190,7 +190,9 @@ namespace UiRefreshTests {
 				clinicPicker.Bounds=new Rectangle(10,10,UiTheme.ScaleI(200,scale),UiTheme.ScaleI(21,scale));
 				panel.Controls.Add(clinicPicker);
 				IntPtr handle=clinicPicker.Handle;
-				GetPrivate<System.Windows.Forms.Label>(clinicPicker,"labelFake").Text=label;
+				//UI-12 slice 1: the label area is sized from the label's text (WidthLabelArea), so the chrome is drawn with the label of the text picture
+				//and its label area cleared: both pictures have the box at one x.
+				GetPrivate<System.Windows.Forms.Label>(clinicPicker,"labelFake").Text=label=="" ? "Clinic" : label;
 				switch(sheetState) {
 					case SheetState.Hover:
 						clinicPicker.Hover();
@@ -202,9 +204,16 @@ namespace UiRefreshTests {
 						clinicPicker.Enabled=false;
 						break;
 				}
-				int xBox=UiTheme.ScaleI(GetPrivate<int>(clinicPicker,"_widthLabelArea"),scale);
+				int xBox=clinicPicker.WidthLabelArea;
 				rectangleBox=new Rectangle(xBox,0,clinicPicker.Width-xBox,clinicPicker.Height);
-				return Draw(clinicPicker);
+				Bitmap bitmap=Draw(clinicPicker);
+				if(label=="") {
+					using(Graphics g=Graphics.FromImage(bitmap))
+					using(SolidBrush solidBrush=new SolidBrush(bitmap.GetPixel(0,0))) {
+						g.FillRectangle(solidBrush,0,0,xBox,bitmap.Height);
+					}
+				}
+				return bitmap;
 			}
 		}
 

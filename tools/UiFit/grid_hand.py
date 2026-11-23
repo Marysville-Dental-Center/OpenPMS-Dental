@@ -30,6 +30,12 @@ class Hand:
         self.window = window
         self.tree = tree
         self.designer = designer
+        # The window's clinic pickers, as the planner reads them (their label areas: clinic_w).
+        g.NO_LABEL_PICKERS.clear()
+        g.NO_LABEL_PICKERS.update(getattr(designer, "no_label", ()))
+        g.MULTI_PICKERS.clear()
+        g.MULTI_PICKERS.update(getattr(designer, "multi_pickers", ()))
+        g.MULTI_PICKERS.update(g.multi_pickers_in_code(fit_tools.repo_root(), window.split(".")[-1]))
         self.by_name = {}
         for n in g.walk(tree):
             if n is not tree and n.name:
@@ -90,6 +96,10 @@ class Hand:
     def cw(self, name):
         n = self.n(name)
         return g.check_width(n) if n.text_w else 16
+
+    def clinic_w(self, name):
+        """A clinic picker's label area: its box starts this far into its bounds (grid_tools.clinic_label_w)."""
+        return g.clinic_label_w(self.n(name))
 
     def group_rows(self, gname, x, y, w, button=None, align=None, hidden_first=None):
         """UI-12 slice 1: lays out a group box of label + field rows in their drawn order: one field column, a picker button (24 px) on the
