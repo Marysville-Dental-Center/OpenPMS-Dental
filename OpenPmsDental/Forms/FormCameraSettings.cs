@@ -23,7 +23,10 @@ namespace OpenPmsDental {
 		private readonly IReadOnlyList<UvcDeviceInfo> _listDevices;
 		private readonly List<ResolutionChoice> _listResolutionChoices;
 		private readonly List<long> _listCategoryDefNums=new List<long>();
-		private readonly Action<CaptureLearnMode> _actionLearn;
+		private readonly Func<CaptureLearnMode,List<string>> _funcLearn;
+		///<summary>The photo source as saved: kept when the camera is not open to choose another.</summary>
+		private readonly CameraPhotoSource _photoSourceSaved;
+		private int _idxCameraOpen=-1;
 		private UI.ComboBox comboCamera;
 		private UI.ComboBox comboResolution;
 		private UI.ComboBox comboPhotoSource;
@@ -42,8 +45,10 @@ namespace OpenPmsDental {
 
 		///<summary>The camera chosen, or null when it did not change.</summary>
 		public UvcDeviceInfo DeviceSelected { get; private set; }
-		///<summary>The picture size chosen, or null when it did not change.</summary>
+		///<summary>The picture size chosen when IsModeChanged; null is Automatic.</summary>
 		public UvcMode ModeSelected { get; private set; }
+		///<summary>True when another picture size (or Automatic) was chosen for the open camera.</summary>
+		public bool IsModeChanged { get; private set; }
 		public CameraPhotoSource PhotoSource { get; private set; }
 		public bool IsMainWindowSpace { get; private set; }
 		public PhotoSessionConfig PhotoSessionConfigNew { get; private set; }
@@ -52,15 +57,18 @@ namespace OpenPmsDental {
 
 		///<param name="listDevices">The cameras found. deviceCurrent: the one open, or null.</param>
 		///<param name="listModes">The open camera's picture sizes (empty without a camera).</param>
-		///<param name="actionLearn">Opens Learn or the button test on the session's camera (null: not available now).</param>
+		///<param name="funcLearn">Opens Learn or the button test on the session's camera and returns the trigger notes after it (null: not available
+		///now).</param>
 		public FormCameraSettings(IReadOnlyList<UvcDeviceInfo> listDevices,UvcDeviceInfo deviceCurrent,IEnumerable<UvcMode> listModes,bool hasStillPin,
-			CameraConfig cameraConfig,PhotoSessionConfig photoSessionConfig,List<string> listTriggerNotes,long categoryDefNum,Action<CaptureLearnMode> actionLearn)
+			CameraConfig cameraConfig,PhotoSessionConfig photoSessionConfig,List<string> listTriggerNotes,long categoryDefNum,
+			Func<CaptureLearnMode,List<string>> funcLearn)
 		{
 			_listDevices=listDevices??new List<UvcDeviceInfo>();
 			_listResolutionChoices=listModes==null ? new List<ResolutionChoice>() : ResolutionChoice.GetChoices(listModes,cameraConfig);
-			_actionLearn=actionLearn;
+			_funcLearn=funcLearn;
 			PhotoSessionConfigNew=(photoSessionConfig??new PhotoSessionConfig()).Copy();
 			PhotoSource=cameraConfig?.PhotoSource??CameraPhotoSource.Preview;
+			_photoSourceSaved=PhotoSource;
 			IsMainWindowSpace=cameraConfig?.MainWindowSpace??true;
 			CategoryDefNum=categoryDefNum;
 			BuildControls();
@@ -110,10 +118,10 @@ namespace OpenPmsDental {
 			AddHeading("labelHeadingButton","Camera button and pedal",y);
 			y+=24;
 			butLearn=new UI.Button { Name="butLearn",Text="Learn button...",Location=new Point(xField,y),Size=new Size(120,24),TabIndex=5 };
-			butLearn.Click+=(sender,e) => _actionLearn?.Invoke(CaptureLearnMode.Learn);
+			butLearn.Click+=(sender,e) => Learn(CaptureLearnMode.Learn);
 			Controls.Add(butLearn);
 			butButtonTest=new UI.Button { Name="butButtonTest",Text="Test button...",Location=new Point(xField+128,y),Size=new Size(110,24),TabIndex=6 };
-			butButtonTest.Click+=(sender,e) => _actionLearn?.Invoke(CaptureLearnMode.ButtonTest);
+			butButtonTest.Click+=(sender,e) => Learn(CaptureLearnMode.ButtonTest);
 			Controls.Add(butButtonTest);
 			y+=pitch+2;
 			labelTriggerNotes=new Label { Name="labelTriggerNotes",Text="",Location=new Point(xField,y),Size=new Size(widthField,48),ForeColor=UiTheme.TextSecondary };
@@ -175,6 +183,7 @@ namespace OpenPmsDental {
 				comboCamera.Items.Add(listNames[i]);
 				if(deviceCurrent!=null && _listDevices[i].IsSameDevice(deviceCurrent)) {
 					comboCamera.SelectedIndex=i;
+					_idxCameraOpen=i;
 				}
 			}
 			if(_listDevices.Count==0) {
@@ -182,6 +191,8 @@ namespace OpenPmsDental {
 				comboCamera.SelectedIndex=0;
 			}
 			comboCamera.Enabled=_listDevices.Count>0;
+			//the picture sizes are the open camera's: another camera chooses its own, after it opens
+			comboCamera.SelectionChangeCommitted+=(sender,e) => comboResolution.Enabled=comboCamera.SelectedIndex==_idxCameraOpen && _listResolutionChoices.Count>0;
 			for(int i=0;i<_listResolutionChoices.Count;i++) {
 				comboResolution.Items.Add(_listResolutionChoices[i].Text);
 				if(_listResolutionChoices[i].IsSelected) {
@@ -198,8 +209,8 @@ namespace OpenPmsDental {
 			comboPhotoSource.SelectedIndex=PhotoSource==CameraPhotoSource.Still && hasStillPin ? 1 : 0;
 			comboPhotoSource.Enabled=hasStillPin;
 			checkMainWindowSpace.Checked=IsMainWindowSpace;
-			butLearn.Enabled=_actionLearn!=null;
-			butButtonTest.Enabled=_actionLearn!=null;
+			butLearn.Enabled=_funcLearn!=null;
+			butButtonTest.Enabled=_funcLearn!=null;
 			labelTriggerNotes.Text=string.Join("\r\n",listTriggerNotes??new List<string>());
 			comboAfterCapture.Items.Add(Lan.g(this,"Save the photo at once"));
 			comboAfterCapture.Items.Add(Lan.g(this,"Freeze first, save on the second press"));
@@ -225,6 +236,16 @@ namespace OpenPmsDental {
 		}
 		#endregion Methods - Build
 
+		private void Learn(CaptureLearnMode captureLearnMode) {
+			if(_funcLearn==null) {
+				return;
+			}
+			List<string> listNotes=_funcLearn(captureLearnMode);
+			if(listNotes!=null) {
+				labelTriggerNotes.Text=string.Join("\r\n",listNotes);//what Learn saved
+			}
+		}
+
 		private void butOK_Click(object sender,EventArgs e) {
 			if(!textIdleMinutes.IsValid() || !textLimitSeconds.IsValid()) {
 				MsgBox.Show(this,"Please fix data entry errors first.");
@@ -235,10 +256,12 @@ namespace OpenPmsDental {
 			}
 			int idxCamera=comboCamera.SelectedIndex;
 			DeviceSelected=idxCamera>=0 && idxCamera<_listDevices.Count ? _listDevices[idxCamera] : null;
+			bool isCameraChanged=DeviceSelected!=null && idxCamera!=_idxCameraOpen;
 			int idxResolution=comboResolution.SelectedIndex;
-			ModeSelected=idxResolution>=0 && idxResolution<_listResolutionChoices.Count && !_listResolutionChoices[idxResolution].IsSelected
-				? _listResolutionChoices[idxResolution].Mode : null;
-			PhotoSource=comboPhotoSource.SelectedIndex==1 ? CameraPhotoSource.Still : CameraPhotoSource.Preview;
+			IsModeChanged=!isCameraChanged && idxResolution>=0 && idxResolution<_listResolutionChoices.Count && !_listResolutionChoices[idxResolution].IsSelected;
+			ModeSelected=IsModeChanged ? _listResolutionChoices[idxResolution].Mode : null;//null with IsModeChanged: Automatic
+			//without the camera open the source cannot be chosen: the saved one stays
+			PhotoSource=comboPhotoSource.Enabled ? (comboPhotoSource.SelectedIndex==1 ? CameraPhotoSource.Still : CameraPhotoSource.Preview) : _photoSourceSaved;
 			IsMainWindowSpace=checkMainWindowSpace.Checked;
 			PhotoSessionConfigNew.IsFreezeFirst=comboAfterCapture.SelectedIndex==1;
 			PhotoSessionConfigNew.IsClickOn=checkClick.Checked;

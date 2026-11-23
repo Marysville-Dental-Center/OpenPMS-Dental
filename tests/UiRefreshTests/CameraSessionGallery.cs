@@ -187,7 +187,7 @@ namespace UiRefreshTests {
 				ImagingCapture.Camera.CameraConfig cameraConfig=new ImagingCapture.Camera.CameraConfig();
 				using FormCameraSettings formCameraSettings=new FormCameraSettings(listDevices,null,null,false,cameraConfig,
 					new PhotoSessionConfig { IsFreezeFirst=true,VideoLimitSeconds=90 },
-					new List<string> { "Camera button: still pin (learned).","Foot pedal: F8 takes a photo." },0,null);
+					new List<string> { "Camera button: still pin (learned).","Foot pedal: F8 takes a photo." },0,(Func<ImagingCapture.UI.CaptureLearnMode,List<string>>)null);
 				object layoutManager=typeof(FormODBase).GetField("LayoutManager",BindingFlags.Instance|BindingFlags.NonPublic|BindingFlags.Public).GetValue(formCameraSettings);
 				layoutManager.GetType().GetMethod("SetPanelClient").Invoke(layoutManager,new object[] { formCameraSettings });
 				Control root=formCameraSettings.PanelClient ?? (Control)formCameraSettings;

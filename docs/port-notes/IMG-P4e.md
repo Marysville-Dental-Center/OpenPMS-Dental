@@ -39,6 +39,20 @@ per-computer setting) and C5 (a 2-minute video). This finishes the camera and vi
 5. The Camera menu's "Video window (camera settings, Learn)..." is now "Video window (single photos)...". The Video window still has its
    own settings menu, unchanged.
 
+6. **Review fixes:**
+   - "Automatic" picture size can be chosen again after a fixed size was saved.
+   - With the camera released, failed or in use, the saved photo source stays as it is, and is not set to the preview.
+   - The settings wake a released camera first, so its sizes and still pin are offered and the idle release keeps working.
+   - Freeze first keeps the camera button's still image when photos come from it.
+   - A running quick-photo session follows a new category.
+   - Choosing another camera ignores the old camera's sizes. Nothing more is saved for a camera that did not open, and only cameras that
+     opened are logged.
+   - The preview pause is cleared when the triggers restart.
+   - Learn needs Setup (it saves the button settings at once) and is logged.
+   - A warning from saving is shown.
+   - The trigger notes refresh after Learn.
+   - A patient change while Learn is open ends the session when Learn closes.
+
 ## Tests
 
 - `tests/ImagingCaptureTests/PhotoSessionConfigTests.cs` (3, capture.ini in a temporary folder):

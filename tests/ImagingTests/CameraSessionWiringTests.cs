@@ -160,12 +160,20 @@ namespace ImagingTests {
 			StringAssert.Contains(MethodBody(session,"public string Start("),"PhotoSessionConfig.Read(localCaptureConfig)");
 			string open=MethodBody(session,"private void OpenSettings(");
 			StringAssert.Contains(open,"if(IsRecording) {");
+			StringAssert.Contains(open,"if(_isAsleep) {");
+			StringAssert.Contains(MethodBody(session,"private List<string> OpenLearn("),"Security.IsAuthorized(EnumPermType.Setup)");
+			StringAssert.Contains(MethodBody(session,"public void End("),"if(_isLearnOpen) {");
 			string apply=MethodBody(session,"private void ApplySettings(");
 			StringAssert.Contains(apply,"SecurityLogs.MakeLogEntry(EnumPermType.Setup,");
 			StringAssert.Contains(apply,"Prefs.UpdateLong(PrefName.VideoImageCategoryDefault,");
 			StringAssert.Contains(apply,"DataValid.SetInvalid(InvalidType.Prefs);");
+			StringAssert.Contains(apply,"if(!isCameraFailed && (isModeChanged");
+			StringAssert.Contains(apply,"ResolutionChoice.Apply(x,modeSelected);//null: Automatic");
 			string form=Read("OpenPmsDental","Forms","FormCameraSettings.cs");
-			StringAssert.Contains(MethodBody(form,"private void butOK_Click("),"Security.IsAuthorized(EnumPermType.Setup)");
+			string ok=MethodBody(form,"private void butOK_Click(");
+			StringAssert.Contains(ok,"Security.IsAuthorized(EnumPermType.Setup)");
+			StringAssert.Contains(ok,"comboPhotoSource.Enabled ?","Without the camera open the saved source stays.");
+			StringAssert.Contains(ok,"IsModeChanged=!isCameraChanged");
 			Assert.IsFalse(File.Exists(Path.Combine(Path.GetDirectoryName(TestDb.FindRepoFile(Path.Combine("OpenPmsDental","Forms","FormCameraSettings.cs"))),
 				"FormCameraSettings.Designer.cs")),"Built in code.");
 		}
