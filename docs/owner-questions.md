@@ -1146,9 +1146,16 @@ and E-10b), where each is set out in full with its recommendation. You first ans
     no image trash (design decision C7 asked for one). A real trash would be a feature of its own.
   - *Export of a trimmed video* writes the whole file; the trim plays in the module only. Writing the trimmed clip (design section 4) needs
     the MP4 remuxed or re-encoded: recommended as a small later package if videos are exported often.
+  - **Answered on 2026-11-23:** all three approved as built (Ctrl+Shift+P; retake keeps the old photo; the trimmed export stays a possible
+    later package). Video sound: **not wanted at all** ("No need to capture sound at all"). Videos stay silent, and the design's sound
+    setting (decision C6) is dropped, not postponed.
+  - **Imaging galleries approved on 2026-11-23** ("Approve all"): every picture of G-IMG1 to G-IMG10. That covers the image viewer, the teeth
+    picker, the adjust tools, the camera session and its problem states, recording, the video player and the camera settings.
 
 - **Who can open unfiled patient images on a computer** (IMG-ACL, [port-notes/IMG-ACL.md](port-notes/IMG-ACL.md)). Recommended, and built
-  that way; it can be overruled.
+  that way; it can be overruled. **Answered on 2026-11-23: no group for now**, as recommended. The office keeps its shared Windows logins,
+  so the folders stay open to every local user (the Users group). The protection takes effect on any computer where the group is made
+  later.
   - *What changes:* three folders under `C:\ProgramData\OpenPMS-Dental\Imaging` hold patient images that are not filed yet. They are the
     camera photos and videos that could not be saved (`Photos\unsaved`), a recording in progress (`Video\recording`), and the X-ray
     capture journal and quarantine (`Capture`). Each now gets its own access list: SYSTEM, Administrators, and the people who use Open PMS.
