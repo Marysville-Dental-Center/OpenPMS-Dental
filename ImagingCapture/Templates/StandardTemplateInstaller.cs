@@ -20,6 +20,8 @@ namespace ImagingCapture.Templates {
 		long InsertMountDef(MountDef mountDef);
 		///<summary>MountItemDefs.Insert. Throws on failure.</summary>
 		long InsertMountItemDef(MountItemDef mountItemDef);
+		///<summary>MountItemDefGuides.Upsert: a photo slot's guide (IMG-P4a). Throws on failure.</summary>
+		void InsertMountItemDefGuide(MountItemDefGuide mountItemDefGuide);
 		///<summary>MountDefs.Delete, which deletes its items too. Throws on failure.</summary>
 		void DeleteMountDef(long mountDefNum);
 		///<summary>SecurityLogs.MakeLogEntry(permType,patNum,logText,fKey,DateTime.MinValue). Throws on failure.</summary>
@@ -52,6 +54,10 @@ namespace ImagingCapture.Templates {
 			return MountItemDefs.Insert(mountItemDef);
 		}
 
+		public void InsertMountItemDefGuide(MountItemDefGuide mountItemDefGuide) {
+			MountItemDefGuides.Upsert(mountItemDefGuide);
+		}
+
 		public void DeleteMountDef(long mountDefNum) {
 			MountDefs.Delete(mountDefNum);
 		}
@@ -68,6 +74,8 @@ namespace ImagingCapture.Templates {
 	///<summary>One template of a plan: added, or left alone because a mount definition with its Description exists.</summary>
 	public sealed class StandardTemplatePlanItem {
 		public StandardTemplate Template { get; set; }
+		///<summary>The image category the template saves into: the X-ray category, or the photo category for a photo template (IMG-P4a).</summary>
+		public long CategoryDefNum { get; set; }
 		///<summary>The mount definition with the same Description (trimmed, ignoring case), or null: then the template is added.</summary>
 		public MountDef MountDefExisting { get; set; }
 
@@ -91,12 +99,21 @@ namespace ImagingCapture.Templates {
 
 		///<summary>The plan for listMountDefsExisting: a template whose Description an existing mount definition has (trimmed, ignoring case) is
 		///left alone.</summary>
-		public static StandardTemplatePlan Plan(IEnumerable<MountDef> listMountDefsExisting,long categoryDefNum) {
+		///<param name="photoCategoryDefNum">IMG-P4a: the photo category; above 0, the photo templates are planned too, saving into it.</param>
+		public static StandardTemplatePlan Plan(IEnumerable<MountDef> listMountDefsExisting,long categoryDefNum,long photoCategoryDefNum=0) {
 			List<MountDef> listMountDefs=(listMountDefsExisting??Enumerable.Empty<MountDef>()).Where(x => x!=null).ToList();
 			StandardTemplatePlan plan=new StandardTemplatePlan { CategoryDefNum=categoryDefNum };
-			foreach(StandardTemplate template in StandardMountTemplates.ListTemplates) {
+			List<StandardTemplate> listTemplates=new List<StandardTemplate>();
+			if(categoryDefNum>0 || photoCategoryDefNum<=0) {
+				listTemplates.AddRange(StandardMountTemplates.ListTemplates);//the X-ray ones, as before
+			}
+			if(photoCategoryDefNum>0) {
+				listTemplates.AddRange(StandardMountTemplates.ListPhotoTemplates);
+			}
+			foreach(StandardTemplate template in listTemplates) {
 				plan.ListItems.Add(new StandardTemplatePlanItem {
 					Template=template,
+					CategoryDefNum=template.IsPhoto ? photoCategoryDefNum : categoryDefNum,
 					MountDefExisting=listMountDefs.FirstOrDefault(x => string.Equals((x.Description??"").Trim(),template.Description,StringComparison.OrdinalIgnoreCase)),
 				});
 			}
@@ -166,7 +183,8 @@ namespace ImagingCapture.Templates {
 				"ScaleValue="+(template.ScaleValue=="" ? "(none)" : template.ScaleValue),
 				"FlipOnAcquire=0",
 				"AdjModeAfterSeries=0",
-				"SlotList="+string.Join("|",template.ListSlots.Select(x => ToText(x.ItemOrder)+":"+x.ToothNumbers.Replace(",","/")+":"+ToText(x.RotateOnAcquire))),
+				"SlotList="+string.Join("|",template.ListSlots.Select(x => ToText(x.ItemOrder)+":"+x.ToothNumbers.Replace(",","/")+":"+ToText(x.RotateOnAcquire)
+					+(x.GuideLabel=="" ? "" : ":"+x.GuideLabel+(x.IsMirror ? " (mirror)" : "")+" "+x.SlotKind))),
 			};
 			return LogPrefix+string.Join("; ",listParts);
 		}
@@ -200,28 +218,36 @@ namespace ImagingCapture.Templates {
 		}
 
 		///<summary>The plan for the mount definitions in the database now. Throws when they cannot be read.</summary>
-		public StandardTemplatePlan GetPlan(long categoryDefNum) {
-			return StandardTemplatePlanner.Plan(_store.GetMountDefs(),categoryDefNum);
+		public StandardTemplatePlan GetPlan(long categoryDefNum,long photoCategoryDefNum=0) {
+			return StandardTemplatePlanner.Plan(_store.GetMountDefs(),categoryDefNum,photoCategoryDefNum);
 		}
 
 		///<summary>Adds the templates that do not exist yet. categoryName is for the log only. Never throws.</summary>
-		public StandardTemplateResult Install(long categoryDefNum,string categoryName) {
+		///<param name="photoCategoryDefNum">IMG-P4a: above 0, the photo templates are added too, saving into it; categoryDefNum may then be 0 for
+		///photo templates only.</param>
+		public StandardTemplateResult Install(long categoryDefNum,string categoryName,long photoCategoryDefNum=0,string photoCategoryName="") {
 			StandardTemplateResult result=new StandardTemplateResult();
 			try {
 				if(!_store.IsAuthorized(EnumPermType.Setup)) {
 					result.Error="Not authorized for Setup: no mount template was added.";
 					return result;
 				}
-				if(categoryDefNum<=0 || !_store.IsCategoryValid(categoryDefNum)) {
+				bool isXray=categoryDefNum>0;
+				bool isPhoto=photoCategoryDefNum>0;
+				if((!isXray && !isPhoto) || (isXray && !_store.IsCategoryValid(categoryDefNum))) {
 					result.Error="Choose the X-ray category the templates save into.";
 					return result;
 				}
+				if(isPhoto && !_store.IsCategoryValid(photoCategoryDefNum)) {
+					result.Error="Choose the photo category the photo templates save into.";
+					return result;
+				}
 				List<MountDef> listMountDefs=_store.GetMountDefs()??new List<MountDef>();
-				result.Plan=StandardTemplatePlanner.Plan(listMountDefs,categoryDefNum);
+				result.Plan=StandardTemplatePlanner.Plan(listMountDefs,categoryDefNum,photoCategoryDefNum);
 				int itemOrder=listMountDefs.Count;
 				foreach(StandardTemplatePlanItem item in result.Plan.ListToAdd) {
 					string error;
-					MountDef mountDef=Add(item.Template,categoryDefNum,itemOrder,out error);
+					MountDef mountDef=Add(item.Template,item.CategoryDefNum,itemOrder,out error);
 					if(mountDef==null) {
 						result.Error=error;
 						break;
@@ -229,7 +255,8 @@ namespace ImagingCapture.Templates {
 					itemOrder++;
 					result.ListAdded.Add(mountDef);
 					try {
-						_store.MakeLogEntry(EnumPermType.Setup,0,StandardTemplatePlanner.BuildLogText(item.Template,mountDef,categoryName),mountDef.MountDefNum);
+						_store.MakeLogEntry(EnumPermType.Setup,0,StandardTemplatePlanner.BuildLogText(item.Template,mountDef,item.Template.IsPhoto ? photoCategoryName : categoryName),
+							mountDef.MountDefNum);
 					}
 					catch(Exception ex) {
 						result.ListWarnings.Add("The security-log entry for \""+item.Template.Description+"\" could not be written: "+ex.Message);
@@ -264,8 +291,16 @@ namespace ImagingCapture.Templates {
 				return null;
 			}
 			try {
-				foreach(MountItemDef mountItemDef in StandardTemplatePlanner.BuildMountItemDefs(template,mountDef.MountDefNum)) {
-					_store.InsertMountItemDef(mountItemDef);
+				List<MountItemDef> listMountItemDefs=StandardTemplatePlanner.BuildMountItemDefs(template,mountDef.MountDefNum);
+				for(int i=0;i<listMountItemDefs.Count;i++) {
+					long mountItemDefNum=_store.InsertMountItemDef(listMountItemDefs[i]);
+					//the slots come first, in ListSlots' order (BuildMountItemDefs), then the text item
+					StandardTemplateSlot slot=i<template.ListSlots.Count ? template.ListSlots[i] : null;
+					if(slot!=null && slot.SlotKind!=MountSlotKind.Radiograph) {
+						//IMG-P4a: the photo slot's guide for the camera session
+						_store.InsertMountItemDefGuide(new MountItemDefGuide { MountItemDefNum=mountItemDefNum,GuideLabel=slot.GuideLabel,IsMirror=slot.IsMirror,
+							SlotKind=slot.SlotKind });
+					}
 				}
 			}
 			catch(Exception ex) {

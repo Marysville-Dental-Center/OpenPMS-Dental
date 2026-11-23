@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 using ImagingCapture.Dicom;
+using OpenPmsDentalBusiness;
 
 namespace ImagingCapture.Templates {
 	///<summary>The standard X-ray mount templates (design 9.4 "Standard mount templates", option a).</summary>
@@ -18,6 +19,12 @@ namespace ImagingCapture.Templates {
 		FourBitewingsHorizontal,
 		///<summary>4 vertical bitewings.</summary>
 		FourBitewingsVertical,
+		///<summary>IMG-P4a: the 5 intraoral photos (frontal, right and left buccal, upper and lower occlusal).</summary>
+		PhotoIntraoral5,
+		///<summary>IMG-P4a: the orthodontic record set: 3 extraoral and the 5 intraoral photos.</summary>
+		PhotoOrtho8,
+		///<summary>IMG-P4a: before and after, 2 photos.</summary>
+		PhotoBeforeAfter,
 	}
 
 	///<summary>The intraoral sensor a slot is taken with, by the film-size convention: size 1 for anterior periapicals, size 2 for bitewings and
@@ -38,7 +45,26 @@ namespace ImagingCapture.Templates {
 			RotateOnAcquire=rotateOnAcquire;
 			ToothNumbers=toothNumbers;
 			SensorSize=GetSensorSize(toothNumbers);
+			GuideLabel="";
+			SlotKind=MountSlotKind.Radiograph;
 		}
+
+		///<summary>A photo slot (IMG-P4a): its guide for the camera session (what to shoot, whether it is a mirror shot, intraoral or extraoral).
+		///</summary>
+		public StandardTemplateSlot(int itemOrder,int xpos,int ypos,int width,int height,string toothNumbers,string guideLabel,bool isMirror,
+			MountSlotKind slotKind)
+			:this(itemOrder,xpos,ypos,width,height,0,toothNumbers)
+		{
+			GuideLabel=guideLabel;
+			IsMirror=isMirror;
+			SlotKind=slotKind;
+		}
+
+		///<summary>The camera session's guide, for example "Upper occlusal"; "" for a radiograph slot.</summary>
+		public string GuideLabel { get; }
+		///<summary>A mirror shot: the photo is saved flipped (the existing flip flag), so it reads the right way round.</summary>
+		public bool IsMirror { get; }
+		public MountSlotKind SlotKind { get; }
 
 		///<summary>The exposure order (1-based).</summary>
 		public int ItemOrder { get; }
@@ -99,6 +125,9 @@ namespace ImagingCapture.Templates {
 			ScaleNote=scaleNote;
 		}
 
+		///<summary>True for a photo template (IMG-P4a): its slots are intraoral or extraoral photos, not radiographs.</summary>
+		public bool IsPhoto => ListSlots.Any(x => x.SlotKind!=MountSlotKind.Radiograph);
+
 		public StandardTemplateKind Kind { get; }
 		///<summary>The mount definition's Description, which "Add standard templates" is idempotent by.</summary>
 		public string Description { get; }
@@ -155,6 +184,10 @@ namespace ImagingCapture.Templates {
 		///gets a scale: a wrong one would make every measurement wrong. The clinic sets ScaleValue once the slots are sized to its sensor's measured
 		///image (the CAP-0 runbook).</summary>
 		private static string GetScaleValue(IList<StandardTemplateSlot> listSlots,out string scaleNote) {
+			if(listSlots.Any(x => x.SlotKind!=MountSlotKind.Radiograph)) {
+				scaleNote="No scale: photo slots.";
+				return "";
+			}
 			bool isOneSensor=listSlots.Select(x => x.SensorSize).Distinct().Count()==1;
 			string advice=" Set the mount's scale ("+StandardMountTemplates.ScaleValueOneToOne+" for 0.02 mm pixels) only after its slots are sized to the "
 				+"sensor's measured image, as the clinic runbook describes.";
@@ -200,9 +233,79 @@ namespace ImagingCapture.Templates {
 			Build4Bw(StandardTemplateKind.FourBitewingsVertical),
 		});
 
+		public const string DescriptionPhotoIntraoral5="Intraoral photos 5";
+		public const string DescriptionPhotoOrtho8="Ortho photos 8";
+		public const string DescriptionPhotoBeforeAfter="Before and after photos";
+		///<summary>A landscape photo slot, 4:3.</summary>
+		public const int PhotoWidth=1600;
+		public const int PhotoHeight=1200;
+
+		///<summary>IMG-P4a: the photo templates of the camera session (imaging design C4), apart from the X-ray ones, which keep their own list and
+		///category. Starting points: each slot's guide, mirror and teeth can be changed in Setup, Mounts.</summary>
+		public static readonly ReadOnlyCollection<StandardTemplate> ListPhotoTemplates=new ReadOnlyCollection<StandardTemplate>(new List<StandardTemplate> {
+			BuildPhotoIntraoral5(),
+			BuildPhotoOrtho8(),
+			BuildPhotoBeforeAfter(),
+		});
+
 		public static StandardTemplate Get(StandardTemplateKind kind) {
-			return ListTemplates.First(x => x.Kind==kind);
+			return ListTemplates.Concat(ListPhotoTemplates).First(x => x.Kind==kind);
 		}
+
+		///<summary>The five intraoral photos in a 3 by 3 grid: frontal at the top, the buccals left and right of the upper occlusal, the lower occlusal
+		///at the bottom; the text item top left. Shot in ItemOrder: frontal, right buccal, left buccal, upper occlusal, lower occlusal. The occlusal
+		///views are mirror shots.</summary>
+		private static StandardTemplate BuildPhotoIntraoral5() {
+			int w=PhotoWidth;
+			int h=PhotoHeight;
+			List<StandardTemplateSlot> listSlots=new List<StandardTemplateSlot> {
+				new StandardTemplateSlot(1,w,0,w,h,TeethFrontal,"Frontal",false,MountSlotKind.Intraoral),
+				new StandardTemplateSlot(2,0,h,w,h,TeethRightBuccal,"Right buccal",false,MountSlotKind.Intraoral),
+				new StandardTemplateSlot(3,2*w,h,w,h,TeethLeftBuccal,"Left buccal",false,MountSlotKind.Intraoral),
+				new StandardTemplateSlot(4,w,h,w,h,TeethUpper,"Upper occlusal",true,MountSlotKind.Intraoral),
+				new StandardTemplateSlot(5,w,2*h,w,h,TeethLower,"Lower occlusal",true,MountSlotKind.Intraoral),
+			};
+			return new StandardTemplate(StandardTemplateKind.PhotoIntraoral5,DescriptionPhotoIntraoral5,3*w,3*h,listSlots,new StandardTemplateText(0,0,w,h));
+		}
+
+		///<summary>The orthodontic record set: the three extraoral photos (portrait) on the top row with the text item, then the buccals and frontal,
+		///then the two occlusal views (mirror shots).</summary>
+		private static StandardTemplate BuildPhotoOrtho8() {
+			int w=PhotoWidth;
+			int h=PhotoHeight;
+			int width=3*h+w;//three portrait slots (h wide) and the text item
+			int xRow2=(width-3*w)/2;
+			int xRow3=(width-2*w)/2;
+			List<StandardTemplateSlot> listSlots=new List<StandardTemplateSlot> {
+				new StandardTemplateSlot(1,0,0,h,w,"","Face frontal",false,MountSlotKind.Extraoral),
+				new StandardTemplateSlot(2,h,0,h,w,"","Smile",false,MountSlotKind.Extraoral),
+				new StandardTemplateSlot(3,2*h,0,h,w,"","Profile right",false,MountSlotKind.Extraoral),
+				new StandardTemplateSlot(4,xRow2,w,w,h,TeethRightBuccal,"Right buccal",false,MountSlotKind.Intraoral),
+				new StandardTemplateSlot(5,xRow2+w,w,w,h,TeethFrontal,"Frontal",false,MountSlotKind.Intraoral),
+				new StandardTemplateSlot(6,xRow2+2*w,w,w,h,TeethLeftBuccal,"Left buccal",false,MountSlotKind.Intraoral),
+				new StandardTemplateSlot(7,xRow3,w+h,w,h,TeethUpper,"Upper occlusal",true,MountSlotKind.Intraoral),
+				new StandardTemplateSlot(8,xRow3+w,w+h,w,h,TeethLower,"Lower occlusal",true,MountSlotKind.Intraoral),
+			};
+			return new StandardTemplate(StandardTemplateKind.PhotoOrtho8,DescriptionPhotoOrtho8,width,w+2*h,listSlots,new StandardTemplateText(3*h,0,w,w));
+		}
+
+		///<summary>Before and after: two photos side by side. Their teeth are set in the camera session (no default).</summary>
+		private static StandardTemplate BuildPhotoBeforeAfter() {
+			int w=PhotoWidth;
+			int h=PhotoHeight;
+			List<StandardTemplateSlot> listSlots=new List<StandardTemplateSlot> {
+				new StandardTemplateSlot(1,0,0,w,h,"","Before",false,MountSlotKind.Intraoral),
+				new StandardTemplateSlot(2,w,0,w,h,"","After",false,MountSlotKind.Intraoral),
+			};
+			return new StandardTemplate(StandardTemplateKind.PhotoBeforeAfter,DescriptionPhotoBeforeAfter,2*w,h,listSlots,null);
+		}
+
+		//The photo slots' default teeth (Universal), as a starting point.
+		private const string TeethFrontal="6,7,8,9,10,11,22,23,24,25,26,27";
+		private const string TeethRightBuccal="2,3,4,5,6,27,28,29,30,31";
+		private const string TeethLeftBuccal="11,12,13,14,15,18,19,20,21,22";
+		private const string TeethUpper="2,3,4,5,6,7,8,9,10,11,12,13,14,15";
+		private const string TeethLower="18,19,20,21,22,23,24,25,26,27,28,29,30,31";
 
 		///<summary>FormMountDefGenerate, list items 0 (FMX horiz BW) and 1 (FMX vert BW).</summary>
 		private static StandardTemplate BuildFmx(StandardTemplateKind kind) {

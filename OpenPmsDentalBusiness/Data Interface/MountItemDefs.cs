@@ -52,6 +52,7 @@ namespace OpenPmsDentalBusiness {
 			}
 			string command="DELETE FROM mountitemdef WHERE MountItemDefNum="+POut.Long(mountItemDefNum);
 			Db.NonQ(command);
+			MountItemDefGuides.DeleteForMountItemDef(mountItemDefNum);//the slot's camera guide
 		}
 
 		///<summary></summary>
@@ -60,6 +61,7 @@ namespace OpenPmsDentalBusiness {
 				Meth.GetVoid(MethodBase.GetCurrentMethod(),mountDefNum);
 				return;
 			}
+			MountItemDefGuides.DeleteForMountDef(mountDefNum);//the slots' camera guides, before the slots they are found through
 			string command="DELETE FROM mountitemdef WHERE MountDefNum="+POut.Long(mountDefNum);
 			Db.NonQ(command);
 		}	

@@ -12,7 +12,8 @@ namespace ImagingCapture.Templates {
 			+"horizontal or vertical, with the slots of the program's own mount generator (the Generate button in the mount editor). The slots are in "
 			+"exposure order, grouped by sensor size, "
 			+"so the sensor is changed at most once. A template whose name a mount already has is left alone. The rotations are starting values: "
-			+"confirm them for each sensor size on the phantom.";
+			+"confirm them for each sensor size on the phantom. Choose a photo category to add the photo templates as well (intraoral 5, ortho 8, "
+			+"before and after), whose slots guide the camera session; choose only a photo category to add just those.";
 
 		///<summary>One paragraph per template: its slots, its sensor order, its scale, and whether it is added or left alone.</summary>
 		public static string GetPlanText(StandardTemplatePlan plan) {
@@ -31,6 +32,11 @@ namespace ImagingCapture.Templates {
 
 		///<summary>"FMX horizontal BW: 18 slots; sensor: size 2 for slots 1-12, then size 1 for slots 13-18 (1 change). No scale: ...".</summary>
 		public static string GetTemplateText(StandardTemplate template) {
+			if(template.IsPhoto) {
+				//IMG-P4a: "Intraoral photos 5: 5 photo slots: Frontal, Right buccal, ... Upper occlusal (mirror), .... No scale: photo slots."
+				return template.Description+": "+template.ListSlots.Count.ToString(CultureInfo.InvariantCulture)+" photo slots: "
+					+string.Join(", ",template.ListSlots.Select(x => x.GuideLabel+(x.IsMirror ? " (mirror)" : "")))+".\r\n  "+template.ScaleNote;
+			}
 			int countSwaps=template.CountSensorSwaps;
 			return template.Description+": "+template.ListSlots.Count.ToString(CultureInfo.InvariantCulture)+" slots; sensor: "+template.GetSensorOrderText()
 				+" ("+(countSwaps==0 ? "no change" : countSwaps==1 ? "1 change" : countSwaps.ToString(CultureInfo.InvariantCulture)+" changes")+").\r\n  "

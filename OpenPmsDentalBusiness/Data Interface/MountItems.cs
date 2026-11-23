@@ -37,6 +37,7 @@ namespace OpenPmsDentalBusiness {
 			}
 			command="DELETE FROM mountitem WHERE MountItemNum='"+POut.Long(mountItem.MountItemNum)+"'";
 			Db.NonQ(command);
+			MountItemGuides.DeleteForMountItem(mountItem.MountItemNum);//the slot's camera guide
 		}
 
 		///<summary>Returns the list of mount items associated with the given mount key. In order by ItemOrder, which is 1-indexed.</summary>

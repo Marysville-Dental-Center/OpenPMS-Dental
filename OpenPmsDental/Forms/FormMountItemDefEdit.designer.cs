@@ -44,6 +44,11 @@ namespace OpenPmsDental{
 			this.textFontSize = new OpenPmsDental.ValidDouble();
 			this.label8 = new System.Windows.Forms.Label();
 			this.label9 = new System.Windows.Forms.Label();
+			this.labelGuideLabel = new System.Windows.Forms.Label();
+			this.textGuideLabel = new System.Windows.Forms.TextBox();
+			this.labelSlotKind = new System.Windows.Forms.Label();
+			this.comboSlotKind = new OpenPmsDental.UI.ComboBox();
+			this.checkMirror = new OpenPmsDental.UI.CheckBox();
 			this.SuspendLayout();
 			// 
 			// butSave
@@ -235,9 +240,57 @@ namespace OpenPmsDental{
 			this.label9.Text = "Decimals are allowed. Scale is mount pixels, so it will tend to be a very large n" +
     "umber.";
 			// 
+			// labelGuideLabel
+			// 
+			this.labelGuideLabel.Location = new System.Drawing.Point(276, 27);
+			this.labelGuideLabel.Name = "labelGuideLabel";
+			this.labelGuideLabel.Size = new System.Drawing.Size(123, 17);
+			this.labelGuideLabel.TabIndex = 60;
+			this.labelGuideLabel.Text = "Camera guide";
+			this.labelGuideLabel.TextAlign = System.Drawing.ContentAlignment.BottomRight;
+			// 
+			// textGuideLabel
+			// 
+			this.textGuideLabel.Location = new System.Drawing.Point(400, 27);
+			this.textGuideLabel.MaxLength = 255;
+			this.textGuideLabel.Name = "textGuideLabel";
+			this.textGuideLabel.Size = new System.Drawing.Size(180, 20);
+			this.textGuideLabel.TabIndex = 61;
+			// 
+			// labelSlotKind
+			// 
+			this.labelSlotKind.Location = new System.Drawing.Point(276, 50);
+			this.labelSlotKind.Name = "labelSlotKind";
+			this.labelSlotKind.Size = new System.Drawing.Size(123, 17);
+			this.labelSlotKind.TabIndex = 62;
+			this.labelSlotKind.Text = "Slot kind";
+			this.labelSlotKind.TextAlign = System.Drawing.ContentAlignment.BottomRight;
+			// 
+			// comboSlotKind
+			// 
+			this.comboSlotKind.Location = new System.Drawing.Point(400, 50);
+			this.comboSlotKind.Name = "comboSlotKind";
+			this.comboSlotKind.Size = new System.Drawing.Size(120, 21);
+			this.comboSlotKind.TabIndex = 63;
+			this.comboSlotKind.Text = "comboSlotKind";
+			// 
+			// checkMirror
+			// 
+			this.checkMirror.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkMirror.Location = new System.Drawing.Point(276, 73);
+			this.checkMirror.Name = "checkMirror";
+			this.checkMirror.Size = new System.Drawing.Size(138, 17);
+			this.checkMirror.TabIndex = 64;
+			this.checkMirror.Text = "Mirror shot";
+			// 
 			// FormMountItemDefEdit
 			// 
 			this.ClientSize = new System.Drawing.Size(592, 455);
+			this.Controls.Add(this.checkMirror);
+			this.Controls.Add(this.comboSlotKind);
+			this.Controls.Add(this.labelSlotKind);
+			this.Controls.Add(this.textGuideLabel);
+			this.Controls.Add(this.labelGuideLabel);
 			this.Controls.Add(this.label9);
 			this.Controls.Add(this.textFontSize);
 			this.Controls.Add(this.label8);
@@ -290,5 +343,10 @@ namespace OpenPmsDental{
 		private ValidDouble textFontSize;
 		private System.Windows.Forms.Label label8;
 		private System.Windows.Forms.Label label9;
+		private System.Windows.Forms.Label labelGuideLabel;
+		private System.Windows.Forms.TextBox textGuideLabel;
+		private System.Windows.Forms.Label labelSlotKind;
+		private UI.ComboBox comboSlotKind;
+		private UI.CheckBox checkMirror;
 	}
 }

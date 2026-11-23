@@ -5684,6 +5684,11 @@ OpenPmsDental/Forms/FormMountItemDefEdit.designer.cs	butAddField	85,220	74,24
 OpenPmsDental/Forms/FormMountItemDefEdit.designer.cs	textFontSize	164,350	42,20	
 OpenPmsDental/Forms/FormMountItemDefEdit.designer.cs	label8	85,350	78,18	
 OpenPmsDental/Forms/FormMountItemDefEdit.designer.cs	label9	215,347	250,36	
+OpenPmsDental/Forms/FormMountItemDefEdit.designer.cs	labelGuideLabel	276,27	123,17	
+OpenPmsDental/Forms/FormMountItemDefEdit.designer.cs	textGuideLabel	400,27	180,20	
+OpenPmsDental/Forms/FormMountItemDefEdit.designer.cs	labelSlotKind	276,50	123,17	
+OpenPmsDental/Forms/FormMountItemDefEdit.designer.cs	comboSlotKind	400,50	120,21	
+OpenPmsDental/Forms/FormMountItemDefEdit.designer.cs	checkMirror	276,73	138,17	
 OpenPmsDental/Forms/FormMountItemDefEdit.designer.cs	.			592,455
 OpenPmsDental/Forms/FormMountainside.designer.cs	butSave	475,189	75,24	
 OpenPmsDental/Forms/FormMountainside.designer.cs	checkEnabled	161,60	98,18	
