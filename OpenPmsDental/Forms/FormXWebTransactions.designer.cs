@@ -105,7 +105,7 @@ namespace OpenPmsDental{
 			this.gridMain.ContextMenuStrip = this.contextMenu;
 			this.gridMain.Location = new System.Drawing.Point(12, 35);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(789, 488);
+			this.gridMain.Size = new System.Drawing.Size(789, 510);
 			this.gridMain.TabIndex = 140;
 			this.gridMain.Title = "Patient Portal Transactions";
 			this.gridMain.TranslationName = "TableXWebTrans";

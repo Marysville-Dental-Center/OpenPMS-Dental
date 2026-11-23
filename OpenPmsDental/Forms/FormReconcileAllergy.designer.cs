@@ -98,7 +98,7 @@ namespace OpenPmsDental{
 			this.butAddNew.Size = new System.Drawing.Size(72, 24);
 			this.butAddNew.TabIndex = 80;
 			this.butAddNew.Text = "Add";
-			this.butAddNew.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.butAddNew.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.butAddNew.Click += new System.EventHandler(this.butAddNew_Click);
 			// 
 			// butAddExist
@@ -111,7 +111,7 @@ namespace OpenPmsDental{
 			this.butAddExist.Size = new System.Drawing.Size(72, 24);
 			this.butAddExist.TabIndex = 79;
 			this.butAddExist.Text = "Add";
-			this.butAddExist.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.butAddExist.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.butAddExist.Click += new System.EventHandler(this.butAddExist_Click);
 			// 
 			// gridAllergyReconcile
