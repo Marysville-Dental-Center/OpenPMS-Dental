@@ -5,25 +5,62 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Open PMS - Dental: free, open-source dental practice management software</title>
 <meta name="description" content="Open PMS - Dental is free, open-source practice management software for dental offices on Windows: scheduling, charting, billing, insurance claims, imaging and reports. A GPL fork of Open Dental on .NET 10, 64-bit, that never phones home.">
-<meta name="keywords" content="dental practice management software, open source dental software, free dental software, dental PMS, Open Dental fork, dental charting, dental billing, dental insurance claims, GPL">
+<meta name="keywords" content="OpenPMS, Open PMS Dental, dental practice management software, open source dental software, free dental software, dental PMS, Open Dental fork, dental charting, dental billing, dental insurance claims, GPL">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<!-- The site's address and the verification line below are filled in at deploy (.github/workflows/pages.yml). -->
+<link rel="canonical" href="__BASE_URL__/">
+<!-- site-verification -->
 <meta property="og:type" content="website">
-<meta property="og:title" content="Open PMS - Dental">
+<meta property="og:site_name" content="Open PMS - Dental">
+<meta property="og:locale" content="en_US">
+<meta property="og:url" content="__BASE_URL__/">
+<meta property="og:title" content="Open PMS - Dental: free, open-source dental practice management software">
 <meta property="og:description" content="Free, open-source dental practice management software for Windows. Scheduling, charting, billing, insurance, imaging and reports, with nothing phoning home.">
+<meta property="og:image" content="__BASE_URL__/logo-256.png">
+<meta property="og:image:width" content="256">
+<meta property="og:image:height" content="256">
+<meta property="og:image:alt" content="The Open PMS - Dental logo">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Open PMS - Dental">
+<meta name="twitter:description" content="Free, open-source dental practice management software for Windows, with nothing phoning home.">
+<meta name="twitter:image" content="__BASE_URL__/logo-256.png">
 <meta name="color-scheme" content="light dark">
 <link rel="icon" href="logo.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="logo-256.png">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  "name": "Open PMS - Dental",
-  "applicationCategory": "BusinessApplication",
-  "applicationSubCategory": "Dental practice management software",
-  "operatingSystem": "Windows 11 (64-bit)",
-  "description": "Free, open-source practice management software for dental offices: scheduling, charting, billing, insurance claims, imaging and reports. A GPL fork of Open Dental.",
-  "license": "https://github.com/Marysville-Dental-Center/OpenPMS-Dental/blob/main/LICENSE",
-  "codeRepository": "https://github.com/Marysville-Dental-Center/OpenPMS-Dental",
-  "programmingLanguage": "C#",
-  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "__BASE_URL__/#website",
+      "url": "__BASE_URL__/",
+      "name": "Open PMS - Dental",
+      "alternateName": ["OpenPMS", "OpenPMS Dental", "Open PMS Dental"],
+      "inLanguage": "en"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "__BASE_URL__/#software",
+      "name": "Open PMS - Dental",
+      "alternateName": ["OpenPMS", "OpenPMS Dental", "Open PMS Dental"],
+      "url": "__BASE_URL__/",
+      "image": "__BASE_URL__/logo-256.png",
+      "applicationCategory": "BusinessApplication",
+      "applicationSubCategory": "Dental practice management software",
+      "operatingSystem": "Windows 11 (64-bit)",
+      "description": "Free, open-source practice management software for dental offices: scheduling, charting, billing, insurance claims, imaging and reports. A GPL fork of Open Dental.",
+      "featureList": ["Appointment scheduling and recall", "Patient records and medical history", "3D tooth chart and perio chart", "Treatment plans and prescriptions", "TWAIN scanning, sensor capture and DICOM imaging", "Billing, payments and statements", "Insurance estimates and electronic claims (X12)", "Standard and custom reports", "Multiple clinics, users, permissions and audit trail"],
+      "isAccessibleForFree": true,
+      "license": "https://github.com/Marysville-Dental-Center/OpenPMS-Dental/blob/main/LICENSE",
+      "codeRepository": "https://github.com/Marysville-Dental-Center/OpenPMS-Dental",
+      "downloadUrl": "https://github.com/Marysville-Dental-Center/OpenPMS-Dental/releases",
+      "softwareHelp": { "@type": "CreativeWork", "url": "https://github.com/Marysville-Dental-Center/OpenPMS-Dental/blob/main/docs/installing.md" },
+      "sameAs": ["https://github.com/Marysville-Dental-Center/OpenPMS-Dental"],
+      "programmingLanguage": "C#",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    }
+  ]
 }
 </script>
 <style>
@@ -108,7 +145,7 @@ footer p { margin: 0 0 8px; max-width: 80ch; }
 <body>
 <header class="top">
   <div class="wrap">
-    <a class="brand" href="#"><img src="logo.svg" alt="" width="28" height="28">Open PMS - Dental</a>
+    <a class="brand" href="./"><img src="logo.svg" alt="" width="28" height="28">Open PMS - Dental</a>
     <nav class="top" aria-label="Sections">
       <a href="#philosophy">Philosophy</a>
       <a href="#features">Features</a>
@@ -123,7 +160,7 @@ footer p { margin: 0 0 8px; max-width: 80ch; }
   <div class="wrap hero">
     <div class="hero-text">
     <h1>Free, open-source practice management for dental offices</h1>
-    <p class="lead">Open PMS - Dental runs a dental practice on Windows: scheduling, charting, billing, insurance, imaging and reports. It grew from the Open Dental source code, rebuilt in the open, on a modern 64-bit .NET, and it never phones home.</p>
+    <p class="lead">Open PMS - Dental (OpenPMS) runs a dental practice on Windows: scheduling, charting, billing, insurance, imaging and reports. It grew from the Open Dental source code, rebuilt in the open, on a modern 64-bit .NET, and it never phones home.</p>
     <div class="actions">
       <a class="btn primary" href="https://github.com/Marysville-Dental-Center/OpenPMS-Dental/releases">Releases</a>
       <a class="btn secondary" href="https://github.com/Marysville-Dental-Center/OpenPMS-Dental">Source code</a>
