@@ -278,19 +278,6 @@ OpenPmsDental/Forms/FormPodiumSetup.designer.cs	OpenPmsDental.FormPodiumSetup	te
 OpenPmsDental/Forms/FormPodiumSetup.designer.cs	OpenPmsDental.FormPodiumSetup	label1	Location	60,52	50,52	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormPodiumSetup.designer.cs	OpenPmsDental.FormPodiumSetup	textApptTimeDismissed	Location	18,77	8,77	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormPodiumSetup.designer.cs	OpenPmsDental.FormPodiumSetup	label2	Location	60,79	50,79	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormSheetDef.designer.cs	OpenPmsDental.FormSheetDef	groupBox2	Location	395,316	395,279	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormSheetDef.designer.cs	OpenPmsDental.FormSheetDef	groupBox1	Size	283,81	283,105	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormSheetDef.designer.cs	OpenPmsDental.FormSheetDef	label7	Location	122,368	122,392	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormSheetDef.designer.cs	OpenPmsDental.FormSheetDef	textWidth	Location	172,368	172,392	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormSheetDef.designer.cs	OpenPmsDental.FormSheetDef	label8	Location	118,395	118,419	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormSheetDef.designer.cs	OpenPmsDental.FormSheetDef	textHeight	Location	172,395	172,419	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormSheetDef.designer.cs	OpenPmsDental.FormSheetDef	checkIsLandscape	Location	172,422	172,446	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormSheetDef.designer.cs	OpenPmsDental.FormSheetDef	checkHasMobileLayout	Location	172,446	172,470	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormSheetDef.designer.cs	OpenPmsDental.FormSheetDef	checkAutoSaveCheck	Location	172,470	172,494	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormSheetDef.designer.cs	OpenPmsDental.FormSheetDef	labelAutoSaveOverride	Location	12,494	12,518	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormSheetDef.designer.cs	OpenPmsDental.FormSheetDef	comboAutoSaveOverride	Location	172,496	172,520	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormSheetDef.designer.cs	OpenPmsDental.FormSheetDef	butSave	Location	490,534	490,558	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormSheetDef.designer.cs	OpenPmsDental.FormSheetDef	.	ClientSize	573,566	573,590	by hand (layout script): on the grid
 OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizPrinter.Designer.cs	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizPrinter	label11	Location	8,23	8,22	by hand (layout script): on the grid
 OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizPrinter.Designer.cs	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizPrinter	label11	Size	531,32	498,32	by hand (layout script): on the grid
 OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizPrinter.Designer.cs	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizPrinter	label1	Location	8,57	8,58	by hand (layout script): on the grid
@@ -624,3 +611,17 @@ OpenPmsDental/Forms/FormShowFeatures.designer.cs	OpenPmsDental.FormShowFeatures	
 OpenPmsDental/Forms/FormShowFeatures.designer.cs	OpenPmsDental.FormShowFeatures	groupSpecialUseOnly	Size	249,171	249,171	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormShowFeatures.designer.cs	OpenPmsDental.FormShowFeatures	groupBoxCharges	Location	47,23	8,23	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormShowFeatures.designer.cs	OpenPmsDental.FormShowFeatures	groupBoxCharges	Size	190,60	229,60	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetDef.designer.cs	OpenPmsDental.FormSheetDef	groupBox2	Location	395,279	395,279	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetDef.designer.cs	OpenPmsDental.FormSheetDef	groupBox1	Size	283,105	295,105	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetDef.designer.cs	OpenPmsDental.FormSheetDef	label7	Location	122,392	122,392	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetDef.designer.cs	OpenPmsDental.FormSheetDef	textWidth	Location	172,392	172,392	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetDef.designer.cs	OpenPmsDental.FormSheetDef	label8	Location	118,419	118,419	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetDef.designer.cs	OpenPmsDental.FormSheetDef	textHeight	Location	172,419	172,419	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetDef.designer.cs	OpenPmsDental.FormSheetDef	checkIsLandscape	Location	172,446	172,446	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetDef.designer.cs	OpenPmsDental.FormSheetDef	checkHasMobileLayout	Location	172,470	172,470	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetDef.designer.cs	OpenPmsDental.FormSheetDef	checkAutoSaveCheck	Location	172,494	172,494	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetDef.designer.cs	OpenPmsDental.FormSheetDef	labelAutoSaveOverride	Location	12,518	12,518	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetDef.designer.cs	OpenPmsDental.FormSheetDef	comboAutoSaveOverride	Location	172,520	172,520	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetDef.designer.cs	OpenPmsDental.FormSheetDef	butSave	Location	490,558	490,558	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetDef.designer.cs	OpenPmsDental.FormSheetDef	.	ClientSize	573,590	573,590	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetDef.designer.cs	OpenPmsDental.FormSheetDef	comboFontName	Size	195,23	207,23	by hand (layout script): on the grid

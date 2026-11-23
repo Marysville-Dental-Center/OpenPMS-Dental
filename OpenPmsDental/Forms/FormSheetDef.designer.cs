@@ -76,7 +76,7 @@ namespace OpenPmsDental{
 			this.groupBox1.Controls.Add(this.label3);
 			this.groupBox1.Location = new System.Drawing.Point(92, 279);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(283, 105);
+			this.groupBox1.Size = new System.Drawing.Size(295, 105);
 			this.groupBox1.TabIndex = 88;
 			this.groupBox1.Text = "Default Font";
 			// 
@@ -100,7 +100,7 @@ namespace OpenPmsDental{
 			// 
 			this.comboFontName.Location = new System.Drawing.Point(80, 23);
 			this.comboFontName.Name = "comboFontName";
-			this.comboFontName.Size = new System.Drawing.Size(195, 23);
+			this.comboFontName.Size = new System.Drawing.Size(207, 23);
 			this.comboFontName.TabIndex = 88;
 			// 
 			// label3
