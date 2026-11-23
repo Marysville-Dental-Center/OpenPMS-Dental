@@ -1158,9 +1158,13 @@ and E-10b), where each is set out in full with its recommendation. You first ans
   - *Recommended for the office:* leave the group out while each workstation has one shared Windows login. Make it (`net localgroup
     "OpenPMS-Dental Users" /add`, then add the staff accounts) on any computer where people who must not see patient images also sign in
     to Windows, and run setup again so the folders change over.
+  - *With the group, everyone who runs Open PMS on that computer must be in it,* and must sign out of Windows and in again after being
+    added (a shared login that stays signed in too). Otherwise X-ray capture and unsaved photos on that computer stop with a message that
+    names the group. The program never sets the list for a user it would lock out.
   - *Where it is set:* by the program when it creates one of these folders, and by setup, as administrator, on the folders that exist
     already. When a folder belongs to another Windows account and the program is not elevated, it cannot change the list. The folder then
-    keeps its old access and works as before, and running setup again fixes it.
+    keeps its old access and works as before, and running setup again fixes it. Neither one changes a folder that is, or has inside it, a
+    junction or link, so nothing outside these folders is ever changed.
   - *Not changed:* the rest of the Imaging folder (`capture.ini`, the settings), the patients' image folder (the A to Z folder or the
     database), and any other folder or Windows setting.
 

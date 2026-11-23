@@ -272,7 +272,8 @@ namespace ImagingDeviceManager.Config {
 			}
 			return EnsureImagingFolder(Path.GetDirectoryName(pathDefault),subfolderRelative,GrantUsersModify,HasUsersModify,
 				folder => ImagingFolderAcl.MakePrivate(folder,ImagingFolderAcl.GetAccessSid()),
-				folder => ImagingFolderAcl.IsPrivate(folder,ImagingFolderAcl.GetAccessSid()),out error);
+				folder => ImagingFolderAcl.IsPrivate(folder,ImagingFolderAcl.GetAccessSid()),
+				() => ImagingFolderAcl.IsCurrentUserAllowed(ImagingFolderAcl.GetAccessSid()),out error);
 		}
 
 		///<summary>EnsureImagingFolder with an explicit Imaging folder and the steps that check for and add the Users rule, for tests.
@@ -281,13 +282,15 @@ namespace ImagingDeviceManager.Config {
 		internal static bool EnsureImagingFolder(string folderImaging,string subfolderRelative,Func<string,string> funcGrantUsersModify,
 			Func<string,bool> funcHasUsersModify,out string error)
 		{
-			return EnsureImagingFolder(folderImaging,subfolderRelative,funcGrantUsersModify,funcHasUsersModify,null,null,out error);
+			return EnsureImagingFolder(folderImaging,subfolderRelative,funcGrantUsersModify,funcHasUsersModify,null,null,null,out error);
 		}
 
 		///<summary>EnsureImagingFolder with an explicit Imaging folder and every step given, for tests. When funcMakePrivate is set, a
-		///private folder (ImagingFolderAcl.GetPrivateRoot) is handled by EnsurePrivateFolder; funcIsPrivate may be null (never private).</summary>
+		///private folder (ImagingFolderAcl.GetPrivateRoot) is handled by EnsurePrivateFolder; funcIsPrivate may be null (never private), and
+		///funcIsUserAllowed null (this user is allowed).</summary>
 		internal static bool EnsureImagingFolder(string folderImaging,string subfolderRelative,Func<string,string> funcGrantUsersModify,
-			Func<string,bool> funcHasUsersModify,Func<string,string> funcMakePrivate,Func<string,bool> funcIsPrivate,out string error)
+			Func<string,bool> funcHasUsersModify,Func<string,string> funcMakePrivate,Func<string,bool> funcIsPrivate,Func<bool> funcIsUserAllowed,
+			out string error)
 		{
 			error="";
 			try {
@@ -314,7 +317,9 @@ namespace ImagingDeviceManager.Config {
 				if(rootPrivate!=null) {
 					//The root first, so a folder under it inherits the list and needs none of its own.
 					string errorRoot;
-					if(!EnsurePrivateFolder(Path.Combine(folderImaging,rootPrivate),funcMakePrivate,funcIsPrivate,out errorRoot)) {
+					if(!EnsurePrivateFolder(folderImaging,Path.Combine(folderImaging,rootPrivate),funcMakePrivate,funcIsPrivate,funcIsUserAllowed,
+						out errorRoot))
+					{
 						error=errorRoot;
 						return false;
 					}
@@ -323,8 +328,9 @@ namespace ImagingDeviceManager.Config {
 						return true;
 					}
 					string errorSubfolder;
-					bool isUsable=EnsurePrivateFolder(Path.Combine(folderImaging,subfolder),funcMakePrivate,funcIsPrivate,out errorSubfolder);
-					error=errorSubfolder;
+					bool isUsable=EnsurePrivateFolder(folderImaging,Path.Combine(folderImaging,subfolder),funcMakePrivate,funcIsPrivate,
+						funcIsUserAllowed,out errorSubfolder);
+					error=!isUsable || errorRoot=="" ? errorSubfolder : (errorSubfolder=="" ? errorRoot : errorRoot+" "+errorSubfolder);
 					return isUsable;
 				}
 				//When the Imaging folder has the rule, the subfolder inherits it and needs no rule of its own. When it does not (an
@@ -389,9 +395,14 @@ namespace ImagingDeviceManager.Config {
 		}
 
 		///<summary>Creates the private folder if it is missing and gives it ImagingFolderAcl's access list unless funcIsPrivate finds it
-		///already has it (inherited counts). Returns false, with error, only when the folder does not exist afterwards. When the list
-		///cannot be set, the folder keeps the access it has, so capture still works: returns true with a warning in error.</summary>
-		private static bool EnsurePrivateFolder(string folder,Func<string,string> funcMakePrivate,Func<string,bool> funcIsPrivate,out string error) {
+		///already has it (inherited counts). The list is not set when this Windows user is not one of the people it lets in
+		///(funcIsUserAllowed: not in the group, or added to it without signing in again), since that would lock this user out, nor
+		///through a junction or link (ImagingFolderAcl.HasReparsePoint). In those cases, and when setting it fails, the folder keeps the
+		///access it has, so capture still works: returns true with a warning in error. Returns false, with error, when the folder does not
+		///exist afterwards, or when it is private already and this user is not let in: writing there would fail.</summary>
+		private static bool EnsurePrivateFolder(string folderImaging,string folder,Func<string,string> funcMakePrivate,Func<string,bool> funcIsPrivate,
+			Func<bool> funcIsUserAllowed,out string error)
+		{
 			error="";
 			if(!Directory.Exists(folder)) {
 				try {
@@ -404,10 +415,25 @@ namespace ImagingDeviceManager.Config {
 			}
 			string errorAcl;
 			try {
+				bool isUserAllowed=funcIsUserAllowed==null || funcIsUserAllowed();
 				if(funcIsPrivate!=null && funcIsPrivate(folder)) {
-					return true;
+					if(isUserAllowed) {
+						return true;
+					}
+					error="This Windows user may not use "+folder+": it is open only to administrators and the members of the Windows group \""
+						+ImagingFolderAcl.GroupName+"\". Ask an administrator to add this user to that group, then sign out of Windows and in again.";
+					return false;
 				}
-				errorAcl=funcMakePrivate(folder) ?? "";
+				if(!isUserAllowed) {
+					errorAcl="this Windows user is not in the group \""+ImagingFolderAcl.GroupName+"\" (or has not signed in again since being added),"
+						+" and would be locked out";
+				}
+				else if(ImagingFolderAcl.HasReparsePoint(folderImaging,folder)) {
+					errorAcl="the folder, or one above it, is a junction or link";
+				}
+				else {
+					errorAcl=funcMakePrivate(folder) ?? "";
+				}
 			}
 			catch(Exception ex) {
 				errorAcl=ex.Message;

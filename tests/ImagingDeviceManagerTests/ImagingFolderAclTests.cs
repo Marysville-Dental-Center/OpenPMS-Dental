@@ -140,7 +140,7 @@ namespace ImagingDeviceManager.Tests {
 			string error;
 			Assert.IsTrue(LocalCaptureConfig.EnsureImagingFolder(folderImaging,CaptureFolders.SubfolderJournal,
 				path => { listUsersGrants.Add(path); return ""; },path => listUsersGrants.Contains(path),
-				path => ImagingFolderAcl.MakePrivate(path,_sidMe),path => ImagingFolderAcl.IsPrivate(path,_sidMe),out error));
+				path => ImagingFolderAcl.MakePrivate(path,_sidMe),path => ImagingFolderAcl.IsPrivate(path,_sidMe),() => true,out error));
 			Assert.AreEqual("",error);
 			CollectionAssert.AreEqual(new[] { folderImaging },listUsersGrants,"Only the Imaging folder gets the Users rule.");
 			Assert.IsTrue(new DirectoryInfo(Path.Combine(folderImaging,"Capture")).GetAccessControl(AccessControlSections.Access).AreAccessRulesProtected);
@@ -197,6 +197,81 @@ namespace ImagingDeviceManager.Tests {
 		}
 
 		[TestMethod]
+		public void EnsureImagingFolder_AUserTheListWouldNotLetIn_NeverSetsIt_AndIsToldWhenItIsSetAlready() {
+			string folderImaging=Path.Combine(_tempDir,"Imaging");
+			FakeAcl fakeAcl=new FakeAcl { IsUserAllowed=false };
+			string error;
+			//Not private yet: left as it is (inherited access), so this user is not locked out. A warning says why.
+			Assert.IsTrue(fakeAcl.Ensure(folderImaging,@"Capture\journal",out error));
+			Assert.AreEqual(0,fakeAcl.ListMakePrivateCalls.Count);
+			StringAssert.Contains(error,ImagingFolderAcl.GroupName);
+			Assert.IsTrue(Directory.Exists(Path.Combine(folderImaging,"Capture","journal")));
+			//Private already (made by a member, or by setup): this user could not write there, so the folder is not usable, with what to do.
+			FakeAcl fakeAclMember=new FakeAcl();
+			Assert.IsTrue(fakeAclMember.Ensure(folderImaging,"Photos/unsaved",out error));
+			fakeAclMember.IsUserAllowed=false;
+			Assert.IsFalse(fakeAclMember.Ensure(folderImaging,"Photos/unsaved",out error));
+			StringAssert.Contains(error,ImagingFolderAcl.GroupName);
+			StringAssert.Contains(error,"sign out");
+		}
+
+		[TestMethod]
+		public void EnsureImagingFolder_JoinsTheRootsWarning_WithTheSubfoldersOwn() {
+			string folderImaging=Path.Combine(_tempDir,"Imaging");
+			string folderCapture=Path.Combine(folderImaging,"Capture");
+			FakeAcl fakeAcl=new FakeAcl { FuncMakePrivateResult=path => path==folderCapture ? "Access is denied." : "" };
+			string error;
+			Assert.IsTrue(fakeAcl.Ensure(folderImaging,@"Capture\quarantine",out error));
+			StringAssert.Contains(error,folderCapture+" ","The root's warning is kept even though the subfolder got its list.");
+			CollectionAssert.AreEqual(new[] { folderCapture,Path.Combine(folderCapture,"quarantine") },fakeAcl.ListMakePrivateCalls);
+		}
+
+		[TestMethod]
+		public void RealAcl_AJunctionInTheWay_IsNeverFollowed() {
+			string folderImaging=Path.Combine(_tempDir,"Imaging");
+			string folderTarget=Path.Combine(_tempDir,"Elsewhere");
+			Directory.CreateDirectory(folderImaging);
+			Directory.CreateDirectory(folderTarget);
+			string folderJunction=Path.Combine(folderImaging,"Capture");
+			MakeJunction(folderJunction,folderTarget);
+			try {
+				Assert.IsTrue(ImagingFolderAcl.HasReparsePoint(folderImaging,folderJunction));
+				Assert.IsTrue(ImagingFolderAcl.HasReparsePoint(folderImaging,Path.Combine(folderJunction,"journal")));
+				Assert.IsFalse(ImagingFolderAcl.HasReparsePoint(_tempDir,folderImaging));
+				Assert.IsTrue(ImagingFolderAcl.HasReparsePoint(folderImaging,folderTarget),"Not inside the top folder.");
+				string sddlBefore=new DirectoryInfo(folderTarget).GetAccessControl(AccessControlSections.Access).GetSecurityDescriptorSddlForm(AccessControlSections.Access);
+				List<string> listMakePrivate=new List<string>();
+				string error;
+				Assert.IsTrue(LocalCaptureConfig.EnsureImagingFolder(folderImaging,@"Capture\journal",path => "",path => true,
+					path => { listMakePrivate.Add(path); return ImagingFolderAcl.MakePrivate(path,_sidMe); },path => false,() => true,out error));
+				Assert.AreEqual(0,listMakePrivate.Count,"No list is set through the junction.");
+				StringAssert.Contains(error,"junction");
+				Assert.AreEqual(sddlBefore,new DirectoryInfo(folderTarget).GetAccessControl(AccessControlSections.Access)
+					.GetSecurityDescriptorSddlForm(AccessControlSections.Access));
+			}
+			finally {
+				Directory.Delete(folderJunction);//removes the junction only
+			}
+		}
+
+		[TestMethod]
+		public void RealAcl_FullControlForTheAccessGroup_IsNotPrivate() {
+			string folder=Path.Combine(_tempDir,"Capture");
+			Directory.CreateDirectory(folder);
+			Assert.AreEqual("",ImagingFolderAcl.MakePrivate(folder,_sidMe));
+			AddRule(folder,new FileSystemAccessRule(_sidMe,FileSystemRights.ChangePermissions,AccessControlType.Allow));
+			Assert.IsFalse(ImagingFolderAcl.IsPrivate(folder,_sidMe),"A member who may change the list could open it again.");
+		}
+
+		[TestMethod]
+		public void IsCurrentUserAllowed_IsTrueForTheUsersGroup_AndFalseForAGroupThisUserIsNotIn() {
+			Assert.IsTrue(ImagingFolderAcl.IsCurrentUserAllowed(_sidUsers));
+			Assert.IsTrue(ImagingFolderAcl.IsCurrentUserAllowed(_sidMe));
+			bool isElevated=new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(_sidAdministrators);
+			Assert.AreEqual(isElevated,ImagingFolderAcl.IsCurrentUserAllowed(new SecurityIdentifier("S-1-5-21-1-2-3-1009")));
+		}
+
+		[TestMethod]
 		public void EnsureImagingFolder_WithoutThePrivateSteps_KeepsTheUsersRuleOnly() {
 			//The overload the capture folder tests use (CaptureFolders.CreateForFolder) changes no list of its own.
 			string folderImaging=Path.Combine(_tempDir,"Imaging");
@@ -217,9 +292,11 @@ namespace ImagingDeviceManager.Tests {
 			public readonly List<string> ListMakePrivateCalls=new List<string>();
 			private readonly HashSet<string> _hashSetPrivate=new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 			public Func<string,string> FuncMakePrivateResult=path => "";
+			///<summary>Whether this Windows user is one of the people the list lets in.</summary>
+			public bool IsUserAllowed=true;
 
 			public bool Ensure(string folderImaging,string subfolder,out string error) {
-				return LocalCaptureConfig.EnsureImagingFolder(folderImaging,subfolder,Grant,Has,MakePrivate,IsPrivate,out error);
+				return LocalCaptureConfig.EnsureImagingFolder(folderImaging,subfolder,Grant,Has,MakePrivate,IsPrivate,() => IsUserAllowed,out error);
 			}
 
 			private string Grant(string path) {
@@ -249,6 +326,16 @@ namespace ImagingDeviceManager.Tests {
 					yield return pathCur;
 				}
 			}
+		}
+
+		///<summary>A directory junction (no privilege needed), made with cmd's mklink /J.</summary>
+		private static void MakeJunction(string pathJunction,string pathTarget) {
+			System.Diagnostics.ProcessStartInfo processStartInfo=new System.Diagnostics.ProcessStartInfo("cmd.exe",
+				"/c mklink /J \""+pathJunction+"\" \""+pathTarget+"\"") { UseShellExecute=false,CreateNoWindow=true };
+			using(System.Diagnostics.Process process=System.Diagnostics.Process.Start(processStartInfo)) {
+				process.WaitForExit(10000);
+			}
+			Assert.IsTrue((File.GetAttributes(pathJunction) & FileAttributes.ReparsePoint)!=0,"The junction was made.");
 		}
 
 		private static void AddRule(string folder,FileSystemAccessRule fileSystemAccessRule) {

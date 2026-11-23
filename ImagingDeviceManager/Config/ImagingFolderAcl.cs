@@ -48,10 +48,67 @@ namespace ImagingDeviceManager.Config {
 			return null;
 		}
 
+		///<summary>The last look-up of the group, and when it was made (UTC). GetAccessSid reuses it for a minute: it is asked for every
+		///capture folder on every write.</summary>
+		private static SecurityIdentifier _sidAccessCached;
+		private static DateTime _dateTimeCachedUtc=DateTime.MinValue;
+		private static readonly object _lockCache=new object();
+
 		///<summary>The SID that gets Modify: the local group GroupName when it exists on this computer, otherwise the local Users group
-		///(S-1-5-32-545). Never throws.</summary>
+		///(S-1-5-32-545). Looked up at most once a minute. Never throws.</summary>
 		public static SecurityIdentifier GetAccessSid() {
-			return GetAccessSid(LookUpGroup);
+			lock(_lockCache) {
+				DateTime dateTimeNowUtc=DateTime.UtcNow;
+				if(_sidAccessCached==null || dateTimeNowUtc-_dateTimeCachedUtc>TimeSpan.FromMinutes(1) || dateTimeNowUtc<_dateTimeCachedUtc) {
+					_sidAccessCached=GetAccessSid(LookUpGroup);
+					_dateTimeCachedUtc=dateTimeNowUtc;
+				}
+				return _sidAccessCached;
+			}
+		}
+
+		///<summary>True when this Windows user may use a private folder: sidAccess, Administrators or SYSTEM is an enabled group of this
+		///process's token. An administrator's unelevated token does not count as Administrators. A user just added to the group counts
+		///only after signing out and in again, since the token is made at sign-in. Never throws; false when it cannot be checked.</summary>
+		public static bool IsCurrentUserAllowed(SecurityIdentifier sidAccess) {
+			try {
+				using(WindowsIdentity windowsIdentity=WindowsIdentity.GetCurrent()) {
+					WindowsPrincipal windowsPrincipal=new WindowsPrincipal(windowsIdentity);
+					return (sidAccess!=null && windowsPrincipal.IsInRole(sidAccess)) || windowsPrincipal.IsInRole(_sidAdministrators)
+						|| _sidSystem.Equals(windowsIdentity.User);
+				}
+			}
+			catch {
+				return false;
+			}
+		}
+
+		///<summary>True when folder, or a folder between it and folderTop (folderTop included), is a reparse point: a junction or symbolic
+		///link, which anyone allowed to change the Imaging folder can put there. Setting an access list through one would change the
+		///folder it points to, so nothing is set. Also true when folder is not inside folderTop, or when an attribute cannot be read.
+		///Never throws.</summary>
+		public static bool HasReparsePoint(string folderTop,string folder) {
+			try {
+				string pathTop=Path.GetFullPath(folderTop).TrimEnd(Path.DirectorySeparatorChar);
+				string pathCur=Path.GetFullPath(folder).TrimEnd(Path.DirectorySeparatorChar);
+				if(!pathCur.Equals(pathTop,StringComparison.OrdinalIgnoreCase)
+					&& !pathCur.StartsWith(pathTop+Path.DirectorySeparatorChar,StringComparison.OrdinalIgnoreCase))
+				{
+					return true;
+				}
+				while(true) {
+					if((File.GetAttributes(pathCur) & FileAttributes.ReparsePoint)!=0) {
+						return true;
+					}
+					if(pathCur.Length<=pathTop.Length) {
+						return false;
+					}
+					pathCur=Path.GetDirectoryName(pathCur);
+				}
+			}
+			catch {
+				return true;
+			}
 		}
 
 		///<summary>GetAccessSid with the group look-up given, for tests. funcLookUpGroup returns the group's SID or null; an exception counts
@@ -80,9 +137,10 @@ namespace ImagingDeviceManager.Config {
 		}
 
 		///<summary>True when every Allow rule on the folder, its own or inherited, is for SYSTEM, Administrators or sidAccess, and SYSTEM and
-		///Administrators have Full control and sidAccess Modify, each for the folder and everything in it. A folder inside a private
-		///folder passes through the rules it inherits. Deny rules are ignored (they only take access away). False when the folder is missing
-		///or its access list cannot be read. Never throws.</summary>
+		///Administrators have Full control and sidAccess Modify, each for the folder and everything in it, and sidAccess has no more than
+		///Modify in any of its rules (Full control would let any member change the list). A folder inside a private folder passes through
+		///the rules it inherits. Deny rules are ignored (they only take access away). False when the folder is missing or its access list
+		///cannot be read. Never throws.</summary>
 		public static bool IsPrivate(string folder,SecurityIdentifier sidAccess) {
 			try {
 				if(sidAccess==null || !Directory.Exists(folder)) {
@@ -102,6 +160,11 @@ namespace ImagingDeviceManager.Config {
 					}
 					SecurityIdentifier sid=fileSystemAccessRule.IdentityReference as SecurityIdentifier;
 					if(sid==null || !dictRights.ContainsKey(sid)) {
+						return false;
+					}
+					if(sid.Equals(sidAccess) && !sid.Equals(_sidSystem) && !sid.Equals(_sidAdministrators)
+						&& (fileSystemAccessRule.FileSystemRights & ~(FileSystemRights.Modify|FileSystemRights.Synchronize))!=0)
+					{
 						return false;
 					}
 					if((fileSystemAccessRule.InheritanceFlags & inheritanceFlagsBoth)!=inheritanceFlagsBoth

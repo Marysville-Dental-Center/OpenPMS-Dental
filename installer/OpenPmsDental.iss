@@ -219,6 +219,9 @@ const
   { The local group whose members are the people who use Open PMS - Dental on this computer (ImagingFolderAcl.GroupName). Optional: an
     administrator makes it; setup never does. }
   ImagingAccessGroup = 'OpenPMS-Dental Users';
+  { File attributes (FindFirst): a reparse point is a junction or symbolic link. }
+  AttrDirectory = $10;
+  AttrReparsePoint = $400;
 
 var
   ConfigPage: TInputQueryWizardPage;
@@ -927,25 +930,96 @@ begin
     Result := '*S-1-5-32-545:(OI)(CI)M';
 end;
 
+{ True when the file or folder is a reparse point (a junction or symbolic link), or cannot be read. }
+function IsReparsePoint(const Path: String): Boolean;
+var
+  FindRec: TFindRec;
+begin
+  Result := True;
+  if FindFirst(Path, FindRec) then begin
+    try
+      Result := (FindRec.Attributes and AttrReparsePoint) <> 0;
+    finally
+      FindClose(FindRec);
+    end;
+  end;
+end;
+
+{ Adds every folder under Dir to Dirs, parents before their subfolders. Returns False, and logs it, when anything under Dir is a
+  reparse point: an ordinary user may put a junction there, and resetting through it would change the folder it points to. }
+function ListFoldersWithoutReparsePoints(const Dir: String; Dirs: TStringList): Boolean;
+var
+  FindRec: TFindRec;
+  Path: String;
+  More: Boolean;
+begin
+  Result := True;
+  if FindFirst(Dir + '\*', FindRec) then begin
+    try
+      More := True;
+      while More and Result do begin
+        if (FindRec.Name <> '.') and (FindRec.Name <> '..') then begin
+          Path := Dir + '\' + FindRec.Name;
+          if (FindRec.Attributes and AttrReparsePoint) <> 0 then begin
+            Log('A junction or link is in the way: ' + Path + '.');
+            Result := False;
+          end
+          else if (FindRec.Attributes and AttrDirectory) <> 0 then begin
+            Dirs.Add(Path);
+            Result := ListFoldersWithoutReparsePoints(Path, Dirs);
+          end;
+        end;
+        if Result then
+          More := FindNext(FindRec);
+      end;
+    finally
+      FindClose(FindRec);
+    end;
+  end;
+end;
+
 { Gives one folder that holds patient images not yet filed its own access list, as ImagingFolderAcl.MakePrivate does: SYSTEM and
-  Administrators Full control, the people who use the program Modify, nothing inherited from ProgramData. Everything inside is first
-  reset to inherit, so it takes the new list. Only a folder that exists is changed; the program sets the list on the folders it creates.
-  A failure is logged and does not stop setup: the folder keeps the access it had. }
+  Administrators Full control, the people who use the program Modify, nothing inherited from ProgramData. Then each folder inside is
+  reset to inherit it (files made by the program inherit already, and Windows passes the new list on to them). Only a folder that exists
+  is changed; the program sets the list on the folders it creates. icacls never gets /T, and nothing is changed when the folder, a folder
+  above it up to ProgramData, or anything inside it is a junction or link, so setup never changes a folder outside these. A failure is
+  logged and does not stop setup. }
 procedure LimitImagingFolder(const Dir, AccessGrant: String);
 var
-  Icacls: String;
-  ResultCode: Integer;
+  Icacls, Parent, Top: String;
+  Dirs: TStringList;
+  I, ResultCode: Integer;
 begin
   if not DirExists(Dir) then
     exit;
-  Icacls := ExpandConstant('{sys}\icacls.exe');
-  if not Exec(Icacls, AddQuotes(Dir) + ' /reset /T /C /Q', '', SW_HIDE, ewWaitUntilTerminated, ResultCode) or (ResultCode <> 0) then
-    Log('icacls /reset of ' + Dir + ' ended with ' + IntToStr(ResultCode) + '.');
-  if Exec(Icacls, AddQuotes(Dir) + ' /inheritance:r /grant:r *S-1-5-18:(OI)(CI)F *S-1-5-32-544:(OI)(CI)F ' + AccessGrant + ' /Q', '',
-    SW_HIDE, ewWaitUntilTerminated, ResultCode) and (ResultCode = 0) then
-    Log('Access to ' + Dir + ' limited to SYSTEM, Administrators and ' + AccessGrant + '.')
-  else
-    Log('Could not limit access to ' + Dir + ' (icacls ' + IntToStr(ResultCode) + '); it keeps the access it had.');
+  Top := ExpandConstant('{commonappdata}');
+  Parent := Dir;
+  while Length(Parent) > Length(Top) do begin
+    if IsReparsePoint(Parent) then begin
+      Log('Access to ' + Dir + ' not changed: ' + Parent + ' is a junction or link.');
+      exit;
+    end;
+    Parent := ExtractFileDir(Parent);
+  end;
+  Dirs := TStringList.Create;
+  try
+    if not ListFoldersWithoutReparsePoints(Dir, Dirs) then begin
+      Log('Access to ' + Dir + ' not changed: something inside it is a junction or link.');
+      exit;
+    end;
+    Icacls := ExpandConstant('{sys}\icacls.exe');
+    if not Exec(Icacls, AddQuotes(Dir) + ' /inheritance:r /grant:r *S-1-5-18:(OI)(CI)F *S-1-5-32-544:(OI)(CI)F ' + AccessGrant + ' /Q', '',
+      SW_HIDE, ewWaitUntilTerminated, ResultCode) or (ResultCode <> 0) then begin
+      Log('Could not limit access to ' + Dir + ' (icacls ' + IntToStr(ResultCode) + '); it keeps the access it had.');
+      exit;
+    end;
+    Log('Access to ' + Dir + ' limited to SYSTEM, Administrators and ' + AccessGrant + '.');
+    for I := 0 to Dirs.Count - 1 do
+      if not Exec(Icacls, AddQuotes(Dirs[I]) + ' /reset /Q', '', SW_HIDE, ewWaitUntilTerminated, ResultCode) or (ResultCode <> 0) then
+        Log('icacls /reset of ' + Dirs[I] + ' ended with ' + IntToStr(ResultCode) + '; it keeps its own list.');
+  finally
+    Dirs.Free;
+  end;
 end;
 
 { IMG-ACL: the folders under ProgramData that hold patient images not yet filed (ImagingFolderAcl.ListPrivateRoots). }
