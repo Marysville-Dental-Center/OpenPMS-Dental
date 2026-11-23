@@ -43,6 +43,8 @@ namespace OpenPmsDental{
 		private WpfControls.UI.ImageSelector imageSelector;
 		///<summary>A list of the forms that are currently floating. Can be empty.  When a form is closed, it is removed from the list at FormImageFloat_FormClosed.</summary>
 		private List<FormImageFloat> _listFormImageFloats=new List<FormImageFloat>();
+		///<summary>The image viewer window a double-click opens. One window is reused. Null or disposed when none is open.</summary>
+		private FormImageViewer _formImageViewer;
 		private bool _initializedOnStartup=false;
 		///<summary>Gets set to true when acquiring so that the unmounted bar will show.  Once you click on an image in the tree, this is set back to false.</summary>
 		private bool _isAcquiring;
@@ -565,6 +567,10 @@ namespace OpenPmsDental{
 				if(!_listFormImageFloats[i].IsDisposed){
 					_listFormImageFloats[i].Close();//remove gets handled automatically here
 				}
+			}
+			//The image viewer window shows the previous patient's image too.
+			if(_formImageViewer!=null && !_formImageViewer.IsDisposed){
+				_formImageViewer.Close();
 			}
 		}
 
@@ -1288,21 +1294,9 @@ namespace OpenPmsDental{
 				return;
 			}
 			ControlImageDisplay controlImageDisplay=GetControlImageDisplaySelected();
+			//A double-click never opens Mount Edit or Item Info any more (owner, 2026-11-22): both stay on the Info button, the right-click menu and Alt+Enter.
 			if(imageSelector.GetSelectedType()==EnumImageNodeType.Mount) {
-				FrmMountEdit frmMountEdit=new FrmMountEdit();
-				frmMountEdit.MountCur=GetMountShowing();
-				frmMountEdit.ShowDialog();//Edits the MountSelected object directly and updates and changes to the database as well.
-				//Always reload because layout could have changed
-				FillImageSelector(true);//in case description for the mount changed.
-				imageSelector.SetSelected(EnumImageNodeType.Mount,GetMountShowing().MountNum);//Need to update _nodeObjTagSelected in case category changed
-				controlImageDisplay.ClearObjects();
-				NodeTypeAndKey nodeTypeAndKey=controlImageDisplay.GetNodeTypeAndKey();
-				SetDocumentOrMount(nodeTypeAndKey,controlImageDisplay);
-				//Jordan 2024-08-05 I suspect we might need to be calling SelectTreeNode1 here instead. Maybe.
-				controlImageDisplay.SelectTreeNode2(nodeTypeAndKey);
-				unmountedBar.SetObjects(controlImageDisplay.GetUmountedObjs());
-				unmountedBar.SetColorBack(ColorOD.ToWpf(GetMountShowing().ColorBack));
-				return;			
+				return;//the first click already opened the mount in the module
 			}
 			//From here down is Document=================================================================================================
 			Document document=GetDocumentShowing(0);
@@ -1312,13 +1306,11 @@ namespace OpenPmsDental{
 			string ext=ImageStore.GetExtension(document);
 			List<string> listImageExtensions=new List<string> {".bmp",".dcm",".dicom",".gif",".jpg",".jpeg",".png",".tif",".tiff"};
 			if(listImageExtensions.Contains(ext)) {
-				FrmDocInfo frmDocInfo=new FrmDocInfo(_patient,GetDocumentShowing(0));
-				frmDocInfo.ShowDialog();
-				if(frmDocInfo.IsDialogCancel) {
-					return;
+				//An image opens in the image viewer window.
+				//After the tree's mouse sequence, as the canvas does, so the window is not left behind the main window.
+				if(controlImageDisplay!=null && controlImageDisplay.IsBitmapShowing()){
+					BeginInvoke(new Action(() => ShowImageViewer(controlImageDisplay,0)));
 				}
-				FillImageSelector(true);
-				imageSelector.SetSelected(EnumImageNodeType.Document,GetDocumentShowing(0).DocNum);//Need to update _nodeObjTagSelected in case category changed
 				return;
 			}
 			//from here down is attempting to launch document in separate external software=========================================================
@@ -2985,8 +2977,32 @@ namespace OpenPmsDental{
 				((ControlImageDisplay)sender).ZoomSliderValue=zoomSlider.Value;
 			};
 			controlImageDisplay.EventZoomSliderSetValueAndMax+=(sender,newVal)=>zoomSlider.SetValueAndMax(newVal);
+			//The double-click arrives in the middle of the mouse sequence, so the window opens once it is finished.
+			controlImageDisplay.EventViewerRequested+=(sender,idx)=>BeginInvoke(new Action(() => ShowImageViewer((ControlImageDisplay)sender,idx)));
 			//controlImageDisplay.IsImageFloatDockedChanged+=FormImageFloat_IsImageFloatDockedChanged;
 			return controlImageDisplay;
+		}
+
+		///<summary>Opens the image viewer window on the image at idx of controlImageDisplay, or shows that image in the window already open (one window is reused). It opens at normal size, never maximised (owner, 2026-11-22).</summary>
+		private void ShowImageViewer(ControlImageDisplay controlImageDisplay,int idx){
+			if(controlImageDisplay==null || controlImageDisplay.IsDisposed || !controlImageDisplay.GetViewerIndexes().Contains(idx)){
+				return;
+			}
+			if(_formImageViewer==null || _formImageViewer.IsDisposed){
+				_formImageViewer=new FormImageViewer();
+				_formImageViewer.SetStartBounds(controlImageDisplay);
+				_formImageViewer.SetSource(controlImageDisplay,idx);
+				if(_formImageViewer.IsDisposed){
+					return;//nothing to show after all
+				}
+				_formImageViewer.Show();
+				return;
+			}
+			_formImageViewer.SetSource(controlImageDisplay,idx);
+			if(_formImageViewer.WindowState==FormWindowState.Minimized){
+				_formImageViewer.WindowState=FormWindowState.Normal;
+			}
+			_formImageViewer.Activate();
 		}
 
 		///<summary>Deletes the specified document from the database and refreshes the tree view. Set securityCheck false when creating a new document that might get cancelled.  Document is passed in because it might not be in the tree if the image folder it belongs to is now hidden.</summary>
