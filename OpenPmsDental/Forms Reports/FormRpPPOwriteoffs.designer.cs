@@ -107,7 +107,7 @@ namespace OpenPmsDental {
 			// 
 			// textCarrier
 			// 
-			this.textCarrier.Location = new System.Drawing.Point(8, 260);
+			this.textCarrier.Location = new System.Drawing.Point(8, 274);
 			this.textCarrier.Name = "textCarrier";
 			this.textCarrier.Size = new System.Drawing.Size(176, 23);
 			this.textCarrier.TabIndex = 34;
@@ -116,7 +116,7 @@ namespace OpenPmsDental {
 			// 
 			this.label1.Location = new System.Drawing.Point(8, 240);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(252, 18);
+			this.label1.Size = new System.Drawing.Size(214, 32);
 			this.label1.TabIndex = 35;
 			this.label1.Text = "Enter a few letters of the carrier to limit results";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.BottomLeft;

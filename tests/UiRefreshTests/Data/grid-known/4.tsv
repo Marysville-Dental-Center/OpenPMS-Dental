@@ -1,0 +1,15 @@
+# UI-12: the grid findings GridRulesTests allows on the grid windows, each with why (the planner lists them in its run; UI-12.md section 4).
+# The test fails on a finding not listed here and on a row that no longer happens, so this list only shrinks.
+window	rule	key	why
+OpenPmsDental.FormInsEditPatLog	hidden-frame	dateRangePicker panelWeek	UI-12 slice 4: ODDateRangePicker's own week buttons (another designer, hidden unless the picker shows them); unchanged
+OpenPmsDental.FormRecurringChargesHistory	hidden-frame	datePicker panelWeek	UI-12 slice 4: ODDateRangePicker's own week buttons (another designer, hidden unless the picker shows them); unchanged
+OpenPmsDental.FormRpInsPendingSupplementals	hidden-frame	dateRangePicker panelWeek	UI-12 slice 4: ODDateRangePicker's own week buttons (another designer, hidden unless the picker shows them); unchanged
+OpenPmsDental.FormRpUdsPlus	hidden-frame	dateRangePicker panelWeek	UI-12 slice 4: ODDateRangePicker's own week buttons (another designer, hidden unless the picker shows them); unchanged
+OpenPmsDental.User_Controls.UserControlReportSetup	overlap	butSetAll labelInstructions	UI-12 slice 4: UserControlReportSetup shows the instructions or the user group row (Load, _isPermissionMode), never both; the harness draws both
+OpenPmsDental.User_Controls.UserControlReportSetup	overlap	butSetNone labelInstructions	UI-12 slice 4: UserControlReportSetup shows the instructions or the user group row (Load, _isPermissionMode), never both; the harness draws both
+OpenPmsDental.User_Controls.UserControlReportSetup	overlap	comboUserGroup labelInstructions	UI-12 slice 4: UserControlReportSetup shows the instructions or the user group row (Load, _isPermissionMode), never both; the harness draws both
+OpenPmsDental.User_Controls.UserControlReportSetup	overlap	labelInstructions labelUserGroup	UI-12 slice 4: UserControlReportSetup shows the instructions or the user group row (Load, _isPermissionMode), never both; the harness draws both
+CentralManager.FormCentralReportSetup	overlap	butSetAll labelInstructions	UI-12 slice 4: UserControlReportSetup shows the instructions or the user group row (Load, _isPermissionMode), never both; the harness draws both
+CentralManager.FormCentralReportSetup	overlap	butSetNone labelInstructions	UI-12 slice 4: UserControlReportSetup shows the instructions or the user group row (Load, _isPermissionMode), never both; the harness draws both
+CentralManager.FormCentralReportSetup	overlap	comboUserGroup labelInstructions	UI-12 slice 4: UserControlReportSetup shows the instructions or the user group row (Load, _isPermissionMode), never both; the harness draws both
+CentralManager.FormCentralReportSetup	overlap	labelInstructions labelUserGroup	UI-12 slice 4: UserControlReportSetup shows the instructions or the user group row (Load, _isPermissionMode), never both; the harness draws both

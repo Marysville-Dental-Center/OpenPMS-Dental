@@ -1,7 +1,7 @@
 """FormRpPPOwriteoffs on the grid (UI-12 slice 4, layout script on the planner's tree). A month calendar takes 190 x 176 px when its handle
 is made (slice 2, FormRpBrokenAppointments); the planner put the Individual Claims radio button on the first calendar's Today line. The two
 calendars at the content top with TO between them (6 px each side, centred on them); 8 px under their drawn height the left column (the
-two radio buttons as a list, the carrier caption 8 px under them, its box 2 px under it) and the Show Insurance Write-offs group on the
+two radio buttons as a list, the carrier caption 8 px under them on two lines (it ran into the group at one), its box 2 px under it) and the Show Insurance Write-offs group on the
 second calendar's x to the right content edge; OK at the bottom right as the planner placed it."""
 
 
@@ -23,8 +23,8 @@ def layout(h):
         h.set(r, 8, y, h.cw(r), CH)
         y += CH + 4
     y += 4
-    h.set("label1", 8, y, h.lw("label1"), 18)
+    h.set("label1", 8, y, x2 - 16 - 8, 32)
     h.text_align("label1", "BottomLeft")
-    h.set("textCarrier", 8, y + 18 + 2, None, H)
+    h.set("textCarrier", 8, y + 32 + 2, None, H)
     g = h.n("groupBox3")
     h.set("groupBox3", x2, yc + CAL_H + 8, R - x2, None)
