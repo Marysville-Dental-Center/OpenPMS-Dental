@@ -45,9 +45,9 @@ namespace OpenPmsDental{
 			// butRun
 			// 
 			this.butRun.Anchor=((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom|System.Windows.Forms.AnchorStyles.Right)));
-			this.butRun.Location=new System.Drawing.Point(625,80);
+			this.butRun.Location=new System.Drawing.Point(625,85);
 			this.butRun.Name="butRun";
-			this.butRun.Size=new System.Drawing.Size(75,24);
+			this.butRun.Size=new System.Drawing.Size(92,24);
 			this.butRun.TabIndex=26;
 			this.butRun.Text="Run";
 			this.butRun.Click+=new System.EventHandler(this.butRun_Click);
@@ -55,9 +55,9 @@ namespace OpenPmsDental{
 			// butCopy
 			// 
 			this.butCopy.Anchor=((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom|System.Windows.Forms.AnchorStyles.Right)));
-			this.butCopy.Location=new System.Drawing.Point(625,52);
+			this.butCopy.Location=new System.Drawing.Point(625,57);
 			this.butCopy.Name="butCopy";
-			this.butCopy.Size=new System.Drawing.Size(83,24);
+			this.butCopy.Size=new System.Drawing.Size(92,24);
 			this.butCopy.TabIndex=25;
 			this.butCopy.Text="Copy Log Text";
 			this.butCopy.Click+=new System.EventHandler(this.butCopy_Click);
@@ -65,7 +65,7 @@ namespace OpenPmsDental{
 			// textEncounterFile
 			// 
 			this.textEncounterFile.AutoSize=false;
-			this.textEncounterFile.Location=new System.Drawing.Point(9,75);
+			this.textEncounterFile.Location=new System.Drawing.Point(8,75);
 			this.textEncounterFile.Name="textEncounterFile";
 			this.textEncounterFile.ReadOnly=true;
 			this.textEncounterFile.Size=new System.Drawing.Size(164,23);
@@ -75,7 +75,7 @@ namespace OpenPmsDental{
 			// label3
 			// 
 			this.label3.AutoSize=false;
-			this.label3.Location=new System.Drawing.Point(9,56);
+			this.label3.Location=new System.Drawing.Point(8,56);
 			this.label3.Name="label3";
 			this.label3.Size=new System.Drawing.Size(108,17);
 			this.label3.TabIndex=23;
@@ -84,7 +84,7 @@ namespace OpenPmsDental{
 			// label2
 			// 
 			this.label2.AutoSize=false;
-			this.label2.Location=new System.Drawing.Point(9,191);
+			this.label2.Location=new System.Drawing.Point(8,191);
 			this.label2.Name="label2";
 			this.label2.Size=new System.Drawing.Size(72,18);
 			this.label2.TabIndex=22;
@@ -95,20 +95,20 @@ namespace OpenPmsDental{
 			this.textLog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textLog.Location=new System.Drawing.Point(9,211);
+			this.textLog.Location=new System.Drawing.Point(8,211);
 			this.textLog.Multiline=true;
 			this.textLog.Name="textLog";
 			this.textLog.ReadOnly=true;
 			this.textLog.ScrollBars=System.Windows.Forms.ScrollBars.Vertical;
-			this.textLog.Size=new System.Drawing.Size(608,290);
+			this.textLog.Size=new System.Drawing.Size(609,290);
 			this.textLog.TabIndex=21;
 			// 
 			// butBrowse
 			// 
 			this.butBrowse.Anchor=((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top|System.Windows.Forms.AnchorStyles.Right)));
-			this.butBrowse.Location=new System.Drawing.Point(625,24);
+			this.butBrowse.Location=new System.Drawing.Point(625,29);
 			this.butBrowse.Name="butBrowse";
-			this.butBrowse.Size=new System.Drawing.Size(75,24);
+			this.butBrowse.Size=new System.Drawing.Size(92,24);
 			this.butBrowse.TabIndex=20;
 			this.butBrowse.Text="Browse";
 			this.butBrowse.Click+=new System.EventHandler(this.butBrowse_Click);
@@ -116,7 +116,7 @@ namespace OpenPmsDental{
 			// label1
 			// 
 			this.label1.AutoSize=false;
-			this.label1.Location=new System.Drawing.Point(9,8);
+			this.label1.Location=new System.Drawing.Point(8,8);
 			this.label1.Name="label1";
 			this.label1.Size=new System.Drawing.Size(88,19);
 			this.label1.TabIndex=19;
@@ -127,18 +127,18 @@ namespace OpenPmsDental{
 			this.textEncounterFolder.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.textEncounterFolder.AutoSize=false;
-			this.textEncounterFolder.Location=new System.Drawing.Point(9,29);
+			this.textEncounterFolder.Location=new System.Drawing.Point(8,29);
 			this.textEncounterFolder.Name="textEncounterFolder";
-			this.textEncounterFolder.Size=new System.Drawing.Size(608,23);
+			this.textEncounterFolder.Size=new System.Drawing.Size(609,23);
 			this.textEncounterFolder.TabIndex=18;
 			this.textEncounterFolder.Text="C:\\Temp";
 			// 
 			// butFinished
 			// 
 			this.butFinished.Anchor=((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom|System.Windows.Forms.AnchorStyles.Right)));
-			this.butFinished.Location=new System.Drawing.Point(625,108);
+			this.butFinished.Location=new System.Drawing.Point(625,113);
 			this.butFinished.Name="butFinished";
-			this.butFinished.Size=new System.Drawing.Size(75,24);
+			this.butFinished.Size=new System.Drawing.Size(92,24);
 			this.butFinished.TabIndex=17;
 			this.butFinished.Text="&Finished";
 			this.butFinished.Click+=new System.EventHandler(this.butFinished_Click);
@@ -151,9 +151,9 @@ namespace OpenPmsDental{
 			this.groupBox1.Controls.Add(this.dateTimeTo);
 			this.groupBox1.Controls.Add(this.label4);
 			this.groupBox1.Controls.Add(this.dateTimeFrom);
-			this.groupBox1.Location=new System.Drawing.Point(9,106);
+			this.groupBox1.Location=new System.Drawing.Point(8,106);
 			this.groupBox1.Name="groupBox1";
-			this.groupBox1.Size=new System.Drawing.Size(608,77);
+			this.groupBox1.Size=new System.Drawing.Size(609,77);
 			this.groupBox1.TabIndex=27;
 			this.groupBox1.TabStop=false;
 			this.groupBox1.Text="Date of Last Completed Appointment";

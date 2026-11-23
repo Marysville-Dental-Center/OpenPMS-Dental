@@ -4475,16 +4475,16 @@ OpenPmsDental/Forms/FormTimeCard.designer.cs	OpenPmsDental.FormTimeCard	radioBre
 OpenPmsDental/Forms/FormTimeCard.designer.cs	OpenPmsDental.FormTimeCard	radioBreaks	Size	97,23	59,18	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormTimeCard.designer.cs	OpenPmsDental.FormTimeCard	groupBox2	Location	816,3	831,8	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormTimeCard.designer.cs	OpenPmsDental.FormTimeCard	groupBox2	Size	140,71	140,98	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormTimeCard.designer.cs	OpenPmsDental.FormTimeCard	gridTotals	Location	18,572	8,596	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormTimeCard.designer.cs	OpenPmsDental.FormTimeCard	gridTotals	Size	630,58	630,60	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormTimeCard.designer.cs	OpenPmsDental.FormTimeCard	radioTotalsDecimal	Location	10,12	8,8	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormTimeCard.designer.cs	OpenPmsDental.FormTimeCard	gridTotals	Location	18,572	8,586	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormTimeCard.designer.cs	OpenPmsDental.FormTimeCard	gridTotals	Size	630,58	630,70	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormTimeCard.designer.cs	OpenPmsDental.FormTimeCard	radioTotalsDecimal	Location	10,12	8,22	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormTimeCard.designer.cs	OpenPmsDental.FormTimeCard	radioTotalsDecimal	Size	107,20	109,18	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormTimeCard.designer.cs	OpenPmsDental.FormTimeCard	radioTotalsColon	Location	10,32	8,30	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormTimeCard.designer.cs	OpenPmsDental.FormTimeCard	radioTotalsColon	Location	10,32	8,44	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormTimeCard.designer.cs	OpenPmsDental.FormTimeCard	radioTotalsColon	Size	105,23	98,18	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormTimeCard.designer.cs	OpenPmsDental.FormTimeCard	groupTotalsFormat	Location	654,572	646,596	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormTimeCard.designer.cs	OpenPmsDental.FormTimeCard	groupTotalsFormat	Size	120,58	120,60	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormTimeCard.designer.cs	OpenPmsDental.FormTimeCard	groupTotalsFormat	Location	654,572	646,586	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormTimeCard.designer.cs	OpenPmsDental.FormTimeCard	groupTotalsFormat	Size	120,58	120,70	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormTimeCard.designer.cs	OpenPmsDental.FormTimeCard	gridMain	Location	18,80	8,114	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormTimeCard.designer.cs	OpenPmsDental.FormTimeCard	gridMain	Size	939,488	963,474	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormTimeCard.designer.cs	OpenPmsDental.FormTimeCard	gridMain	Size	939,488	963,464	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormTimeCard.designer.cs	OpenPmsDental.FormTimeCard	butAdj	Location	18,662	8,664	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormTimeCard.designer.cs	OpenPmsDental.FormTimeCard	butCalcWeekOT	Location	139,662	130,664	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormTimeCard.designer.cs	OpenPmsDental.FormTimeCard	butCalcDaily	Location	139,633	226,664	by hand (layout script): on the grid
@@ -4862,9 +4862,10 @@ OpenPmsDental/Forms/FormEtrans270Edit.designer.cs	OpenPmsDental.FormEtrans270Edi
 OpenPmsDental/Forms/FormEtrans270Edit.designer.cs	OpenPmsDental.FormEtrans270Edit	labelImport	TextAlign	TopRight	MiddleLeft	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormEtrans270Edit.designer.cs	OpenPmsDental.FormEtrans270Edit	gridBen	Location	582,393	600,426	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormEtrans270Edit.designer.cs	OpenPmsDental.FormEtrans270Edit	gridBen	Size	383,246	366,208	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormEtrans270Edit.designer.cs	OpenPmsDental.FormEtrans270Edit	textNote	Location	9,600	8,594	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormEtrans270Edit.designer.cs	OpenPmsDental.FormEtrans270Edit	labelNote	Location	6,580	8,575	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormEtrans270Edit.designer.cs	OpenPmsDental.FormEtrans270Edit	labelNote	Location	6,580	8,504	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormEtrans270Edit.designer.cs	OpenPmsDental.FormEtrans270Edit	labelNote	Size	100,17	40,17	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormEtrans270Edit.designer.cs	OpenPmsDental.FormEtrans270Edit	textNote	Location	9,600	8,523	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormEtrans270Edit.designer.cs	OpenPmsDental.FormEtrans270Edit	textNote	Size	355,40	576,111	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormEtrans270Edit.designer.cs	OpenPmsDental.FormEtrans270Edit	butDelete	Location	9,645	8,642	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormEtrans270Edit.designer.cs	OpenPmsDental.FormEtrans270Edit	butSave	Location	890,645	891,642	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormLetterMergeEdit.designer.cs	OpenPmsDental.FormLetterMergeEdit	textBox1	Location	190,158	190,190	by hand (layout script): on the grid
@@ -4974,3 +4975,89 @@ OpenPmsDental/Forms/FormXchargeSetup.designer.cs	OpenPmsDental.FormXchargeSetup	
 OpenPmsDental/Forms/FormXchargeSetup.designer.cs	OpenPmsDental.FormXchargeSetup	comboClinic	Size	229,21	315,23	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormXchargeSetup.designer.cs	OpenPmsDental.FormXchargeSetup	comboPaymentType	Location	175,65	202,77	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormXchargeSetup.designer.cs	OpenPmsDental.FormXchargeSetup	comboPaymentType	Size	192,21	264,23	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpArizonaPrimaryCareEligibility.designer.cs	OpenPmsDental.FormRpArizonaPrimaryCareEligibility	label1	Location	12,12	8,8	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpArizonaPrimaryCareEligibility.designer.cs	OpenPmsDental.FormRpArizonaPrimaryCareEligibility	label3	Location	13,57	8,56	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpArizonaPrimaryCareEligibility.designer.cs	OpenPmsDental.FormRpArizonaPrimaryCareEligibility	label2	Location	13,176	8,191	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpArizonaPrimaryCareEligibility.designer.cs	OpenPmsDental.FormRpArizonaPrimaryCareEligibility	textEligibilityFolder	Location	12,31	8,29	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpArizonaPrimaryCareEligibility.designer.cs	OpenPmsDental.FormRpArizonaPrimaryCareEligibility	textEligibilityFolder	Size	607,20	609,23	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpArizonaPrimaryCareEligibility.designer.cs	OpenPmsDental.FormRpArizonaPrimaryCareEligibility	textEligibilityFile	Location	12,74	8,75	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpArizonaPrimaryCareEligibility.designer.cs	OpenPmsDental.FormRpArizonaPrimaryCareEligibility	groupBox1	Location	12,100	8,106	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpArizonaPrimaryCareEligibility.designer.cs	OpenPmsDental.FormRpArizonaPrimaryCareEligibility	groupBox1	Size	603,71	609,77	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpArizonaPrimaryCareEligibility.designer.cs	OpenPmsDental.FormRpArizonaPrimaryCareEligibility	textLog	Location	12,194	8,211	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpArizonaPrimaryCareEligibility.designer.cs	OpenPmsDental.FormRpArizonaPrimaryCareEligibility	textLog	Size	607,284	609,286	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpArizonaPrimaryCareEligibility.designer.cs	OpenPmsDental.FormRpArizonaPrimaryCareEligibility	butBrowse	Location	625,28	625,29	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpArizonaPrimaryCareEligibility.designer.cs	OpenPmsDental.FormRpArizonaPrimaryCareEligibility	butBrowse	Size	75,24	92,24	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpArizonaPrimaryCareEligibility.designer.cs	OpenPmsDental.FormRpArizonaPrimaryCareEligibility	butCopy	Location	625,323	625,57	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpArizonaPrimaryCareEligibility.designer.cs	OpenPmsDental.FormRpArizonaPrimaryCareEligibility	butCopy	Size	83,24	92,24	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpArizonaPrimaryCareEligibility.designer.cs	OpenPmsDental.FormRpArizonaPrimaryCareEligibility	butRun	Location	625,369	625,85	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpArizonaPrimaryCareEligibility.designer.cs	OpenPmsDental.FormRpArizonaPrimaryCareEligibility	butRun	Size	75,24	92,24	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpArizonaPrimaryCareEligibility.designer.cs	OpenPmsDental.FormRpArizonaPrimaryCareEligibility	butFinished	Location	625,413	625,113	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpArizonaPrimaryCareEligibility.designer.cs	OpenPmsDental.FormRpArizonaPrimaryCareEligibility	butFinished	Size	75,24	92,24	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpArizonaPrimaryCareEncounter.Designer.cs	OpenPmsDental.FormRpArizonaPrimaryCareEncounter	label1	Location	12,14	8,8	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpArizonaPrimaryCareEncounter.Designer.cs	OpenPmsDental.FormRpArizonaPrimaryCareEncounter	label3	Location	13,59	8,56	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpArizonaPrimaryCareEncounter.Designer.cs	OpenPmsDental.FormRpArizonaPrimaryCareEncounter	label2	Location	9,178	8,191	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpArizonaPrimaryCareEncounter.Designer.cs	OpenPmsDental.FormRpArizonaPrimaryCareEncounter	textEncounterFolder	Location	12,33	8,29	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpArizonaPrimaryCareEncounter.Designer.cs	OpenPmsDental.FormRpArizonaPrimaryCareEncounter	textEncounterFolder	Size	607,20	609,23	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpArizonaPrimaryCareEncounter.Designer.cs	OpenPmsDental.FormRpArizonaPrimaryCareEncounter	textEncounterFile	Location	12,76	8,75	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpArizonaPrimaryCareEncounter.Designer.cs	OpenPmsDental.FormRpArizonaPrimaryCareEncounter	groupBox1	Location	12,102	8,106	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpArizonaPrimaryCareEncounter.Designer.cs	OpenPmsDental.FormRpArizonaPrimaryCareEncounter	groupBox1	Size	603,71	609,77	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpArizonaPrimaryCareEncounter.Designer.cs	OpenPmsDental.FormRpArizonaPrimaryCareEncounter	textLog	Location	12,196	8,211	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpArizonaPrimaryCareEncounter.Designer.cs	OpenPmsDental.FormRpArizonaPrimaryCareEncounter	textLog	Size	607,290	609,290	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpArizonaPrimaryCareEncounter.Designer.cs	OpenPmsDental.FormRpArizonaPrimaryCareEncounter	butBrowse	Location	625,30	625,29	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpArizonaPrimaryCareEncounter.Designer.cs	OpenPmsDental.FormRpArizonaPrimaryCareEncounter	butBrowse	Size	75,24	92,24	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpArizonaPrimaryCareEncounter.Designer.cs	OpenPmsDental.FormRpArizonaPrimaryCareEncounter	butCopy	Location	625,325	625,57	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpArizonaPrimaryCareEncounter.Designer.cs	OpenPmsDental.FormRpArizonaPrimaryCareEncounter	butCopy	Size	83,24	92,24	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpArizonaPrimaryCareEncounter.Designer.cs	OpenPmsDental.FormRpArizonaPrimaryCareEncounter	butRun	Location	625,371	625,85	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpArizonaPrimaryCareEncounter.Designer.cs	OpenPmsDental.FormRpArizonaPrimaryCareEncounter	butRun	Size	75,24	92,24	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpArizonaPrimaryCareEncounter.Designer.cs	OpenPmsDental.FormRpArizonaPrimaryCareEncounter	butFinished	Location	625,422	625,113	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpArizonaPrimaryCareEncounter.Designer.cs	OpenPmsDental.FormRpArizonaPrimaryCareEncounter	butFinished	Size	75,24	92,24	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpHiddenPaySplits.Designer.cs	OpenPmsDental.FormRpHiddenPaySplits	label1	Location	10,54	8,40	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpHiddenPaySplits.Designer.cs	OpenPmsDental.FormRpHiddenPaySplits	label1	Size	104,16	163,18	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpHiddenPaySplits.Designer.cs	OpenPmsDental.FormRpHiddenPaySplits	checkAllProv	Location	13,74	8,60	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpHiddenPaySplits.Designer.cs	OpenPmsDental.FormRpHiddenPaySplits	checkAllProv	Size	159,18	36,20	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpHiddenPaySplits.Designer.cs	OpenPmsDental.FormRpHiddenPaySplits	listBoxProv	Location	12,93	8,82	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpHiddenPaySplits.Designer.cs	OpenPmsDental.FormRpHiddenPaySplits	listBoxProv	Size	160,199	163,213	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpHiddenPaySplits.Designer.cs	OpenPmsDental.FormRpHiddenPaySplits	label3	Location	175,54	179,40	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpHiddenPaySplits.Designer.cs	OpenPmsDental.FormRpHiddenPaySplits	label3	Size	104,18	163,18	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpHiddenPaySplits.Designer.cs	OpenPmsDental.FormRpHiddenPaySplits	checkAllUnearnedTypes	Location	178,73	179,60	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpHiddenPaySplits.Designer.cs	OpenPmsDental.FormRpHiddenPaySplits	checkAllUnearnedTypes	Size	163,18	36,20	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpHiddenPaySplits.Designer.cs	OpenPmsDental.FormRpHiddenPaySplits	listBoxUnearnedTypes	Location	178,93	179,82	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpHiddenPaySplits.Designer.cs	OpenPmsDental.FormRpHiddenPaySplits	listBoxUnearnedTypes	Size	163,199	163,213	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpHiddenPaySplits.Designer.cs	OpenPmsDental.FormRpHiddenPaySplits	labelClinic	Location	344,56	350,40	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpHiddenPaySplits.Designer.cs	OpenPmsDental.FormRpHiddenPaySplits	labelClinic	Size	104,16	164,18	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpHiddenPaySplits.Designer.cs	OpenPmsDental.FormRpHiddenPaySplits	checkAllClinics	Location	347,74	350,60	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpHiddenPaySplits.Designer.cs	OpenPmsDental.FormRpHiddenPaySplits	checkAllClinics	Size	160,16	133,20	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpHiddenPaySplits.Designer.cs	OpenPmsDental.FormRpHiddenPaySplits	listBoxClinic	Location	347,93	350,82	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpHiddenPaySplits.Designer.cs	OpenPmsDental.FormRpHiddenPaySplits	listBoxClinic	Size	160,199	164,213	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpHiddenPaySplits.Designer.cs	OpenPmsDental.FormRpHiddenPaySplits	butOK	Location	435,299	439,303	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpPayPlans.designer.cs	OpenPmsDental.FormRpPayPlans	label2	Location	47,8	8,8	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpPayPlans.designer.cs	OpenPmsDental.FormRpPayPlans	label2	Size	100,23	68,17	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpPayPlans.designer.cs	OpenPmsDental.FormRpPayPlans	label2	TextAlign	MiddleLeft	BottomLeft	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpPayPlans.designer.cs	OpenPmsDental.FormRpPayPlans	dateStart	Location	47,32	8,27	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpPayPlans.designer.cs	OpenPmsDental.FormRpPayPlans	dateStart	Size	224,20	224,23	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpPayPlans.designer.cs	OpenPmsDental.FormRpPayPlans	label3	Location	315,8	248,8	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpPayPlans.designer.cs	OpenPmsDental.FormRpPayPlans	label3	Size	100,23	64,17	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpPayPlans.designer.cs	OpenPmsDental.FormRpPayPlans	label3	TextAlign	MiddleLeft	BottomLeft	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpPayPlans.designer.cs	OpenPmsDental.FormRpPayPlans	dateEnd	Location	315,32	248,27	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpPayPlans.designer.cs	OpenPmsDental.FormRpPayPlans	dateEnd	Size	224,20	224,23	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpPayPlans.designer.cs	OpenPmsDental.FormRpPayPlans	groupBox1	Location	23,75	8,58	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpPayPlans.designer.cs	OpenPmsDental.FormRpPayPlans	groupBox1	Size	173,87	173,99	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpPayPlans.designer.cs	OpenPmsDental.FormRpPayPlans	checkHideCompletePlans	Location	31,168	8,165	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpPayPlans.designer.cs	OpenPmsDental.FormRpPayPlans	checkHideCompletePlans	Size	216,18	194,20	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpPayPlans.designer.cs	OpenPmsDental.FormRpPayPlans	checkShowFamilyBalance	Location	31,189	8,189	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpPayPlans.designer.cs	OpenPmsDental.FormRpPayPlans	checkShowFamilyBalance	Size	216,18	136,20	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpPayPlans.designer.cs	OpenPmsDental.FormRpPayPlans	checkHasDateRange	Location	31,210	8,213	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpPayPlans.designer.cs	OpenPmsDental.FormRpPayPlans	checkHasDateRange	Size	219,18	222,20	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpPayPlans.designer.cs	OpenPmsDental.FormRpPayPlans	label1	Location	249,74	197,58	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpPayPlans.designer.cs	OpenPmsDental.FormRpPayPlans	label1	Size	104,16	186,18	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpPayPlans.designer.cs	OpenPmsDental.FormRpPayPlans	checkAllProv	Location	252,93	197,78	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpPayPlans.designer.cs	OpenPmsDental.FormRpPayPlans	checkAllProv	Size	95,18	36,20	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpPayPlans.designer.cs	OpenPmsDental.FormRpPayPlans	listProv	Location	251,113	197,100	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpPayPlans.designer.cs	OpenPmsDental.FormRpPayPlans	listProv	Size	163,199	186,221	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpPayPlans.designer.cs	OpenPmsDental.FormRpPayPlans	labelClin	Location	417,76	391,58	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpPayPlans.designer.cs	OpenPmsDental.FormRpPayPlans	labelClin	Size	104,16	187,18	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpPayPlans.designer.cs	OpenPmsDental.FormRpPayPlans	checkAllClin	Location	420,94	391,78	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpPayPlans.designer.cs	OpenPmsDental.FormRpPayPlans	checkAllClin	Size	154,18	134,20	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpPayPlans.designer.cs	OpenPmsDental.FormRpPayPlans	listClin	Location	420,113	391,100	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpPayPlans.designer.cs	OpenPmsDental.FormRpPayPlans	listClin	Size	154,199	187,221	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpPayPlans.designer.cs	OpenPmsDental.FormRpPayPlans	butOK	Location	499,325	503,329	by hand (layout script): on the grid

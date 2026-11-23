@@ -57,7 +57,7 @@ namespace OpenPmsDental {
 			// 
 			// checkHideCompletePlans
 			// 
-			this.checkHideCompletePlans.Location = new System.Drawing.Point(23, 169);
+			this.checkHideCompletePlans.Location = new System.Drawing.Point(8, 165);
 			this.checkHideCompletePlans.Name = "checkHideCompletePlans";
 			this.checkHideCompletePlans.Size = new System.Drawing.Size(194, 20);
 			this.checkHideCompletePlans.TabIndex = 45;
@@ -65,7 +65,7 @@ namespace OpenPmsDental {
 			// 
 			// checkAllProv
 			// 
-			this.checkAllProv.Location = new System.Drawing.Point(249, 80);
+			this.checkAllProv.Location = new System.Drawing.Point(197, 78);
 			this.checkAllProv.Name = "checkAllProv";
 			this.checkAllProv.Size = new System.Drawing.Size(36, 20);
 			this.checkAllProv.TabIndex = 48;
@@ -74,18 +74,18 @@ namespace OpenPmsDental {
 			// 
 			// listProv
 			// 
-			this.listProv.Location = new System.Drawing.Point(249, 104);
+			this.listProv.Location = new System.Drawing.Point(197, 100);
 			this.listProv.Name = "listProv";
 			this.listProv.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
-			this.listProv.Size = new System.Drawing.Size(163, 199);
+			this.listProv.Size = new System.Drawing.Size(186, 221);
 			this.listProv.TabIndex = 47;
 			this.listProv.Click += new System.EventHandler(this.listProv_Click);
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(249, 62);
+			this.label1.Location = new System.Drawing.Point(197, 58);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(104, 16);
+			this.label1.Size = new System.Drawing.Size(186, 18);
 			this.label1.TabIndex = 46;
 			this.label1.Text = "Providers";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -95,7 +95,7 @@ namespace OpenPmsDental {
 			this.groupBox1.Controls.Add(this.radioBoth);
 			this.groupBox1.Controls.Add(this.radioPatient);
 			this.groupBox1.Controls.Add(this.radioInsurance);
-			this.groupBox1.Location = new System.Drawing.Point(23, 62);
+			this.groupBox1.Location = new System.Drawing.Point(8, 58);
 			this.groupBox1.Name = "groupBox1";
 			this.groupBox1.Size = new System.Drawing.Size(173, 99);
 			this.groupBox1.TabIndex = 49;
@@ -133,7 +133,7 @@ namespace OpenPmsDental {
 			// 
 			// checkShowFamilyBalance
 			// 
-			this.checkShowFamilyBalance.Location = new System.Drawing.Point(23, 193);
+			this.checkShowFamilyBalance.Location = new System.Drawing.Point(8, 189);
 			this.checkShowFamilyBalance.Name = "checkShowFamilyBalance";
 			this.checkShowFamilyBalance.Size = new System.Drawing.Size(136, 20);
 			this.checkShowFamilyBalance.TabIndex = 52;
@@ -141,7 +141,7 @@ namespace OpenPmsDental {
 			// 
 			// checkAllClin
 			// 
-			this.checkAllClin.Location = new System.Drawing.Point(417, 80);
+			this.checkAllClin.Location = new System.Drawing.Point(391, 78);
 			this.checkAllClin.Name = "checkAllClin";
 			this.checkAllClin.Size = new System.Drawing.Size(134, 20);
 			this.checkAllClin.TabIndex = 57;
@@ -150,18 +150,18 @@ namespace OpenPmsDental {
 			// 
 			// listClin
 			// 
-			this.listClin.Location = new System.Drawing.Point(417, 104);
+			this.listClin.Location = new System.Drawing.Point(391, 100);
 			this.listClin.Name = "listClin";
 			this.listClin.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
-			this.listClin.Size = new System.Drawing.Size(154, 199);
+			this.listClin.Size = new System.Drawing.Size(187, 221);
 			this.listClin.TabIndex = 56;
 			this.listClin.Click += new System.EventHandler(this.listClin_Click);
 			// 
 			// labelClin
 			// 
-			this.labelClin.Location = new System.Drawing.Point(417, 62);
+			this.labelClin.Location = new System.Drawing.Point(391, 58);
 			this.labelClin.Name = "labelClin";
-			this.labelClin.Size = new System.Drawing.Size(104, 16);
+			this.labelClin.Size = new System.Drawing.Size(187, 18);
 			this.labelClin.TabIndex = 55;
 			this.labelClin.Text = "Clinics";
 			this.labelClin.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -170,7 +170,7 @@ namespace OpenPmsDental {
 			// 
 			this.checkHasDateRange.Checked = true;
 			this.checkHasDateRange.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkHasDateRange.Location = new System.Drawing.Point(23, 217);
+			this.checkHasDateRange.Location = new System.Drawing.Point(8, 213);
 			this.checkHasDateRange.Name = "checkHasDateRange";
 			this.checkHasDateRange.Size = new System.Drawing.Size(222, 20);
 			this.checkHasDateRange.TabIndex = 58;
@@ -179,35 +179,35 @@ namespace OpenPmsDental {
 			// 
 			// dateStart
 			// 
-			this.dateStart.Location = new System.Drawing.Point(47, 35);
+			this.dateStart.Location = new System.Drawing.Point(8, 27);
 			this.dateStart.Name = "dateStart";
-			this.dateStart.Size = new System.Drawing.Size(224, 20);
+			this.dateStart.Size = new System.Drawing.Size(224, 23);
 			this.dateStart.TabIndex = 59;
 			// 
 			// dateEnd
 			// 
-			this.dateEnd.Location = new System.Drawing.Point(315, 35);
+			this.dateEnd.Location = new System.Drawing.Point(248, 27);
 			this.dateEnd.Name = "dateEnd";
-			this.dateEnd.Size = new System.Drawing.Size(224, 20);
+			this.dateEnd.Size = new System.Drawing.Size(224, 23);
 			this.dateEnd.TabIndex = 60;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(47, 8);
+			this.label2.Location = new System.Drawing.Point(8, 8);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(100, 23);
+			this.label2.Size = new System.Drawing.Size(68, 17);
 			this.label2.TabIndex = 61;
 			this.label2.Text = "Date Start:";
-			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.label2.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(315, 8);
+			this.label3.Location = new System.Drawing.Point(248, 8);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(100, 23);
+			this.label3.Size = new System.Drawing.Size(64, 17);
 			this.label3.TabIndex = 62;
 			this.label3.Text = "Date End:";
-			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.label3.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// FormRpPayPlans
 			// 

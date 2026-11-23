@@ -61,7 +61,7 @@ namespace OpenPmsDental{
 			// labelNote
 			// 
 			this.labelNote.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.labelNote.Location = new System.Drawing.Point(8, 575);
+			this.labelNote.Location = new System.Drawing.Point(8, 504);
 			this.labelNote.Name = "labelNote";
 			this.labelNote.Size = new System.Drawing.Size(40, 17);
 			this.labelNote.TabIndex = 15;
@@ -71,10 +71,10 @@ namespace OpenPmsDental{
 			// textNote
 			// 
 			this.textNote.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.textNote.Location = new System.Drawing.Point(8, 594);
+			this.textNote.Location = new System.Drawing.Point(8, 523);
 			this.textNote.Multiline = true;
 			this.textNote.Name = "textNote";
-			this.textNote.Size = new System.Drawing.Size(355, 40);
+			this.textNote.Size = new System.Drawing.Size(576, 111);
 			this.textNote.TabIndex = 14;
 			// 
 			// groupBox2

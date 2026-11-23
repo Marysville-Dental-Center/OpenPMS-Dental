@@ -61,7 +61,7 @@ namespace OpenPmsDental {
 			// 
 			this.checkAllProv.Checked = true;
 			this.checkAllProv.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkAllProv.Location = new System.Drawing.Point(8, 58);
+			this.checkAllProv.Location = new System.Drawing.Point(8, 60);
 			this.checkAllProv.Name = "checkAllProv";
 			this.checkAllProv.Size = new System.Drawing.Size(36, 20);
 			this.checkAllProv.TabIndex = 62;
@@ -73,34 +73,34 @@ namespace OpenPmsDental {
 			this.listBoxProv.Location = new System.Drawing.Point(8, 82);
 			this.listBoxProv.Name = "listBoxProv";
 			this.listBoxProv.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
-			this.listBoxProv.Size = new System.Drawing.Size(160, 199);
+			this.listBoxProv.Size = new System.Drawing.Size(163, 213);
 			this.listBoxProv.TabIndex = 61;
 			this.listBoxProv.Click += new System.EventHandler(this.ListBoxProv_Click);
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(8, 37);
+			this.label1.Location = new System.Drawing.Point(8, 40);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(104, 16);
+			this.label1.Size = new System.Drawing.Size(163, 18);
 			this.label1.TabIndex = 60;
 			this.label1.Text = "Providers";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// listBoxClinic
 			// 
-			this.listBoxClinic.Location = new System.Drawing.Point(343, 82);
+			this.listBoxClinic.Location = new System.Drawing.Point(350, 82);
 			this.listBoxClinic.Name = "listBoxClinic";
 			this.listBoxClinic.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
-			this.listBoxClinic.Size = new System.Drawing.Size(160, 199);
+			this.listBoxClinic.Size = new System.Drawing.Size(164, 213);
 			this.listBoxClinic.TabIndex = 53;
 			this.listBoxClinic.Visible = false;
 			this.listBoxClinic.Click += new System.EventHandler(this.ListBoxClinic_Click);
 			// 
 			// labelClinic
 			// 
-			this.labelClinic.Location = new System.Drawing.Point(343, 37);
+			this.labelClinic.Location = new System.Drawing.Point(350, 40);
 			this.labelClinic.Name = "labelClinic";
-			this.labelClinic.Size = new System.Drawing.Size(104, 16);
+			this.labelClinic.Size = new System.Drawing.Size(164, 18);
 			this.labelClinic.TabIndex = 52;
 			this.labelClinic.Text = "Clinics";
 			this.labelClinic.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -108,7 +108,7 @@ namespace OpenPmsDental {
 			// 
 			// checkAllClinics
 			// 
-			this.checkAllClinics.Location = new System.Drawing.Point(343, 58);
+			this.checkAllClinics.Location = new System.Drawing.Point(350, 60);
 			this.checkAllClinics.Name = "checkAllClinics";
 			this.checkAllClinics.Size = new System.Drawing.Size(133, 20);
 			this.checkAllClinics.TabIndex = 54;
@@ -120,7 +120,7 @@ namespace OpenPmsDental {
 			// 
 			this.checkAllUnearnedTypes.Checked = true;
 			this.checkAllUnearnedTypes.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkAllUnearnedTypes.Location = new System.Drawing.Point(174, 58);
+			this.checkAllUnearnedTypes.Location = new System.Drawing.Point(179, 60);
 			this.checkAllUnearnedTypes.Name = "checkAllUnearnedTypes";
 			this.checkAllUnearnedTypes.Size = new System.Drawing.Size(36, 20);
 			this.checkAllUnearnedTypes.TabIndex = 64;
@@ -129,18 +129,18 @@ namespace OpenPmsDental {
 			// 
 			// listBoxUnearnedTypes
 			// 
-			this.listBoxUnearnedTypes.Location = new System.Drawing.Point(174, 82);
+			this.listBoxUnearnedTypes.Location = new System.Drawing.Point(179, 82);
 			this.listBoxUnearnedTypes.Name = "listBoxUnearnedTypes";
 			this.listBoxUnearnedTypes.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
-			this.listBoxUnearnedTypes.Size = new System.Drawing.Size(163, 199);
+			this.listBoxUnearnedTypes.Size = new System.Drawing.Size(163, 213);
 			this.listBoxUnearnedTypes.TabIndex = 63;
 			this.listBoxUnearnedTypes.Click += new System.EventHandler(this.ListBoxUnearnedTypes_Click);
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(174, 36);
+			this.label3.Location = new System.Drawing.Point(179, 40);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(104, 18);
+			this.label3.Size = new System.Drawing.Size(163, 18);
 			this.label3.TabIndex = 65;
 			this.label3.Text = "Unearned Types";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.BottomLeft;

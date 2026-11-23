@@ -52,14 +52,17 @@ def layout(h):
     for g in ("groupBox1", "groupEmployee", "groupBox2"):
         h.watch(g)
     yb = root.h - 8 - 24
-    yt = yb - 8 - 60
-    h.set("gridTotals", 8, yt, 630, 60)
-    y = 8
+    # The totals format group draws its (empty) title band like every group: its radio buttons start under it; the totals grid as tall.
+    tt = (h.n("groupTotalsFormat").title_bottom or 18) + 4
+    th = tt + 2 * CH + 4 + 8
+    yt = yb - 8 - th
+    h.set("gridTotals", 8, yt, 630, th)
+    y = tt
     for r in ("radioTotalsDecimal", "radioTotalsColon"):
         h.check_left(r)
         h.set(r, 8, y, h.cw(r), CH)
         y += CH + 4
-    h.set("groupTotalsFormat", 8 + 630 + 8, yt, 120, 60)
+    h.set("groupTotalsFormat", 8 + 630 + 8, yt, 120, th)
     h.watch("groupTotalsFormat")
     yg = 8 + GH + 8
     h.set("gridMain", 8, yg, R - 8, yt - 8 - yg)

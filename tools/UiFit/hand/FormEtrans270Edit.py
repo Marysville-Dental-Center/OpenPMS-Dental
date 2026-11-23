@@ -3,8 +3,8 @@ two widths). The top band from 8: the dates grid at the content edge, the viewin
 each as tall as its two radio buttons), the raw message group at the right content edge with Print 8 px under it; the band as tall as the two
 stacked groups (the dates grid with it). The main grid 8 px under the band to both content edges. Under it: the coinsurance group at the
 content edge (as wide as its radio buttons), the two group number rows 16 px after it on one field column, Import and its Selected Benefits
-note 16 px after them, the current benefits grid to the right content edge down to 8 px over the bottom bar; the Note caption and box at
-the content edge ending 8 px over the bar; Delete and Save on the bar."""
+note 16 px after them, the current benefits grid to the right content edge down to 8 px over the bottom bar; the Note caption 8 px under the
+coinsurance group and its box under it to 8 px over the bar, as wide as the part left of the benefits grid; Delete and Save on the bar."""
 
 
 def layout(h):
@@ -59,8 +59,10 @@ def layout(h):
     h.text_align("labelImport", "MiddleLeft")
     xb = max(xi + 81, xi + h.lw("labelImport")) + 16
     h.set("gridBen", xb, yB, R - xb, yb - 8 - yB)
-    h.set("textNote", 8, yb - 8 - 40, 355, 40)
-    h.set("labelNote", 8, yb - 8 - 40 - 2 - 17, h.lw("labelNote"), 17)
+    # The Note box fills the room under the coinsurance group (its caption 8 px under the group) to 8 px over the bar, as wide as the left part.
+    yn = yB + t + 2 * CH + 4 + 8 + 8
+    h.set("labelNote", 8, yn, h.lw("labelNote"), 17)
+    h.set("textNote", 8, yn + 17 + 2, xb - 16 - 8, yb - 8 - (yn + 17 + 2))
     h.text_align("labelNote", "BottomLeft")
     h.set("butDelete", 8, yb, 81, 24)
     h.set("butSave", R - 75, yb, 75, 24)
