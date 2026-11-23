@@ -110,10 +110,12 @@ namespace UiRefreshTests {
 		///<summary>The date pickers and up-down boxes get the zoom only from LayoutManager and their dpi scaling from Windows; at 96 dpi this harness
 		///scales their fonts by the scale, so they take the height Windows gives them at that dpi. UI-12 slice 1: the clinic picker too, whose
 		///label area is sized from its label's text at its font (ComboBoxClinicPicker.WidthLabelArea): with the font of the scale its box stands
-		///where the program draws it, on its column.</summary>
+		///where the program draws it, on its column. UI-12 slice 2: the plain labels too (System.Windows.Forms.Label and its subclasses):
+		///LayoutManager gives them the zoom font only and leaves the dpi part to Windows, so at 96 dpi the harness drew them at the 100% size
+		///beside inputs at the 150% size; with the font of the scale the labels and the inputs beside them match, as on a 150% screen.</summary>
 		internal static void ScaleFontsAsWindowsDoes(Control control,float scale) {
 			foreach(Control child in control.Controls) {
-				if(child is DateTimePicker || child is UpDownBase || child is OpenPmsDental.UI.ComboBoxClinicPicker) {
+				if(child is DateTimePicker || child is UpDownBase || child is OpenPmsDental.UI.ComboBoxClinicPicker || child is Label) {
 					child.Font=new Font(child.Font.FontFamily,child.Font.Size*scale,child.Font.Style);
 				}
 				else {

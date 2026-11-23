@@ -97,6 +97,7 @@ namespace OpenPmsDental.UI {
 		private Font _fontLabelAreaCached;
 		private float _scaleLabelAreaCached;
 		private string _textLabelAreaCached;
+		private int _leftLabelAreaCached;
 		#endregion Fields - Private
 
 		#region Constructor
@@ -390,13 +391,18 @@ namespace OpenPmsDental.UI {
 		///37, which cut "Clinics" at its left and drew "Clinic" 2 px from the box.
 		///Scaled, the width is the 96 dpi width scaled as LayoutManager scales the bounds of the controls around it (the text measured at the font
 		///less the scale), so the box stays on its column at every scale (a text measured at 150% is a few pixels narrower than 1.5 times its
-		///100% width); never narrower than the text at the control's font and the scaled gap, so the label is never cut.</summary>
+		///100% width); never narrower than the text at the control's font and the scaled gap, so the label is never cut.
+		///UI-12 slice 2: scaled, the box's edge comes from one rounded value, the 96 dpi edge (the control's 96 dpi x + the 96 dpi area) scaled
+		///once, as LayoutManager places the field of the column at Scale(its x): the control's x and the area rounded on their own put the box
+		///1 px off its column at 150% where both rounded the same way.</summary>
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public int WidthLabelArea {
 			get {
 				float scale=LayoutManager.ScaleMy();
-				if(_widthLabelAreaCached>=0 && _textLabelAreaCached==labelFake.Text && _fontLabelAreaCached==Font && _scaleLabelAreaCached==scale) {
+				if(_widthLabelAreaCached>=0 && _textLabelAreaCached==labelFake.Text && _fontLabelAreaCached==Font && _scaleLabelAreaCached==scale
+					&& _leftLabelAreaCached==Left)
+				{
 					return _widthLabelAreaCached;
 				}
 				Size sizeMax=new Size(int.MaxValue,int.MaxValue);
@@ -406,7 +412,14 @@ namespace OpenPmsDental.UI {
 					using Font font96=new Font(Font.FontFamily,Font.Size/scale,Font.Style,Font.Unit);
 					widthText96=TextRenderer.MeasureText(labelFake.Text,font96,sizeMax,_textFormatFlagsLabel).Width;
 				}
-				_widthLabelAreaCached=Math.Max(LayoutManager.Scale(widthText96+6),widthText+LayoutManager.Scale(6));
+				int widthArea=LayoutManager.Scale(widthText96+6);
+				if(scale>1f) {
+					//The control's x at 96 dpi: LayoutManager set Left to Scale(x96), and above 100% that rounding is undone by one more rounding.
+					int left96=(int)Math.Round(Left/scale);
+					widthArea=LayoutManager.Scale(left96+widthText96+6)-Left;
+				}
+				_widthLabelAreaCached=Math.Max(widthArea,widthText+LayoutManager.Scale(6));
+				_leftLabelAreaCached=Left;
 				_textLabelAreaCached=labelFake.Text;
 				_fontLabelAreaCached=Font;
 				_scaleLabelAreaCached=scale;
