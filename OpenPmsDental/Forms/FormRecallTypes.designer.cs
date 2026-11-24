@@ -44,16 +44,17 @@ namespace OpenPmsDental {
 			// label1
 			// 
 			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label1.Location = new System.Drawing.Point(290, 298);
+			this.label1.Location = new System.Drawing.Point(175, 300);
+			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(337, 23);
+			this.label1.Size = new System.Drawing.Size(337, 24);
 			this.label1.TabIndex = 17;
 			this.label1.Text = "Forces a resynchronization of recall for all patients.";
 			// 
 			// butSynch
 			// 
 			this.butSynch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butSynch.Location = new System.Drawing.Point(211, 292);
+			this.butSynch.Location = new System.Drawing.Point(94, 300);
 			this.butSynch.Name = "butSynch";
 			this.butSynch.Size = new System.Drawing.Size(75, 24);
 			this.butSynch.TabIndex = 16;
@@ -65,9 +66,9 @@ namespace OpenPmsDental {
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(17, 12);
+			this.gridMain.Location = new System.Drawing.Point(8, 8);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(842, 262);
+			this.gridMain.Size = new System.Drawing.Size(871, 280);
 			this.gridMain.TabIndex = 11;
 			this.gridMain.Title = "RecallTypes";
 			this.gridMain.TranslationName = "TableRecallTypes";
@@ -78,7 +79,7 @@ namespace OpenPmsDental {
 			this.butAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdd.Location = new System.Drawing.Point(17, 292);
+			this.butAdd.Location = new System.Drawing.Point(8, 300);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(80, 24);
 			this.butAdd.TabIndex = 10;
@@ -88,7 +89,7 @@ namespace OpenPmsDental {
 			// checkAutoSwitchProphyPerio
 			//
 			this.checkAutoSwitchProphyPerio.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.checkAutoSwitchProphyPerio.Location = new System.Drawing.Point(17, 328);
+			this.checkAutoSwitchProphyPerio.Location = new System.Drawing.Point(8, 332);
 			this.checkAutoSwitchProphyPerio.Name = "checkAutoSwitchProphyPerio";
 			this.checkAutoSwitchProphyPerio.Size = new System.Drawing.Size(610, 18);
 			this.checkAutoSwitchProphyPerio.TabIndex = 18;

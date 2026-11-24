@@ -38,7 +38,7 @@
 			// butShow
 			// 
 			this.butShow.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butShow.Location = new System.Drawing.Point(660, 445);
+			this.butShow.Location = new System.Drawing.Point(664, 499);
 			this.butShow.Name = "butShow";
 			this.butShow.Size = new System.Drawing.Size(75, 23);
 			this.butShow.TabIndex = 15;
@@ -49,7 +49,7 @@
 			// butGender
 			// 
 			this.butGender.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butGender.Location = new System.Drawing.Point(660, 205);
+			this.butGender.Location = new System.Drawing.Point(664, 143);
 			this.butGender.Name = "butGender";
 			this.butGender.Size = new System.Drawing.Size(75, 23);
 			this.butGender.TabIndex = 18;
@@ -60,7 +60,7 @@
 			// butLabResult
 			// 
 			this.butLabResult.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butLabResult.Location = new System.Drawing.Point(660, 172);
+			this.butLabResult.Location = new System.Drawing.Point(664, 116);
 			this.butLabResult.Name = "butLabResult";
 			this.butLabResult.Size = new System.Drawing.Size(75, 23);
 			this.butLabResult.TabIndex = 19;
@@ -71,7 +71,7 @@
 			// butMedication
 			// 
 			this.butMedication.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butMedication.Location = new System.Drawing.Point(660, 139);
+			this.butMedication.Location = new System.Drawing.Point(664, 89);
 			this.butMedication.Name = "butMedication";
 			this.butMedication.Size = new System.Drawing.Size(75, 23);
 			this.butMedication.TabIndex = 20;
@@ -82,7 +82,7 @@
 			// butDisease
 			// 
 			this.butDisease.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butDisease.Location = new System.Drawing.Point(660, 106);
+			this.butDisease.Location = new System.Drawing.Point(664, 62);
 			this.butDisease.Name = "butDisease";
 			this.butDisease.Size = new System.Drawing.Size(75, 23);
 			this.butDisease.TabIndex = 21;
@@ -93,7 +93,7 @@
 			// butBirthdate
 			// 
 			this.butBirthdate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butBirthdate.Location = new System.Drawing.Point(660, 73);
+			this.butBirthdate.Location = new System.Drawing.Point(664, 35);
 			this.butBirthdate.Name = "butBirthdate";
 			this.butBirthdate.Size = new System.Drawing.Size(75, 23);
 			this.butBirthdate.TabIndex = 22;
@@ -104,7 +104,7 @@
 			// butAllergy
 			// 
 			this.butAllergy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butAllergy.Location = new System.Drawing.Point(660, 269);
+			this.butAllergy.Location = new System.Drawing.Point(664, 197);
 			this.butAllergy.Name = "butAllergy";
 			this.butAllergy.Size = new System.Drawing.Size(75, 23);
 			this.butAllergy.TabIndex = 23;
@@ -115,7 +115,7 @@
 			// butCommPref
 			// 
 			this.butCommPref.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butCommPref.Location = new System.Drawing.Point(660, 237);
+			this.butCommPref.Location = new System.Drawing.Point(664, 170);
 			this.butCommPref.Name = "butCommPref";
 			this.butCommPref.Size = new System.Drawing.Size(75, 23);
 			this.butCommPref.TabIndex = 24;
@@ -128,9 +128,9 @@
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(2, 2);
+			this.gridMain.Location = new System.Drawing.Point(8, 8);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(642, 527);
+			this.gridMain.Size = new System.Drawing.Size(648, 514);
 			this.gridMain.TabIndex = 10;
 			this.gridMain.Title = "Data Elements";
 			this.gridMain.TranslationName = "FormPatientList";
@@ -140,7 +140,7 @@
 			// butClear
 			// 
 			this.butClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butClear.Location = new System.Drawing.Point(660, 12);
+			this.butClear.Location = new System.Drawing.Point(664, 8);
 			this.butClear.Name = "butClear";
 			this.butClear.Size = new System.Drawing.Size(75, 23);
 			this.butClear.TabIndex = 25;

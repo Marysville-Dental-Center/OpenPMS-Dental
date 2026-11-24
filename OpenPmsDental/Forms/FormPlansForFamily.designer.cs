@@ -40,9 +40,9 @@ namespace OpenPmsDental {
 			// 
 			// gridMain
 			// 
-			this.gridMain.Location = new System.Drawing.Point(12,57);
+			this.gridMain.Location = new System.Drawing.Point(8,45);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(538,181);
+			this.gridMain.Size = new System.Drawing.Size(548,200);
 			this.gridMain.TabIndex = 1;
 			this.gridMain.Title = "Insurance Plans for Family";
 			this.gridMain.TranslationName = "TableInsPlans";
@@ -50,7 +50,7 @@ namespace OpenPmsDental {
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(12,9);
+			this.label1.Location = new System.Drawing.Point(8,8);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(481,35);
 			this.label1.TabIndex = 2;

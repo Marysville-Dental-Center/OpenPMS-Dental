@@ -45,7 +45,7 @@
 			// 
 			this.butAdvanced.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butAdvanced.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdvanced.Location = new System.Drawing.Point(797, 481);
+			this.butAdvanced.Location = new System.Drawing.Point(793, 240);
 			this.butAdvanced.Name = "butAdvanced";
 			this.butAdvanced.Size = new System.Drawing.Size(82, 26);
 			this.butAdvanced.TabIndex = 112;
@@ -54,9 +54,9 @@
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(616, 7);
+			this.label3.Location = new System.Drawing.Point(604, 8);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(175, 45);
+			this.label3.Size = new System.Drawing.Size(175, 32);
 			this.label3.TabIndex = 34;
 			this.label3.Text = "Items that need attention are highlighted in red.";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -64,16 +64,16 @@
 			// label2
 			// 
 			this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.label2.Location = new System.Drawing.Point(794, 83);
+			this.label2.Location = new System.Drawing.Point(793, 90);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(129, 77);
+			this.label2.Size = new System.Drawing.Size(129, 62);
 			this.label2.TabIndex = 30;
 			this.label2.Text = "Double click a row to set up the specific provider.\r\n";
 			// 
 			// label1
 			// 
 			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.label1.Location = new System.Drawing.Point(794, 401);
+			this.label1.Location = new System.Drawing.Point(793, 156);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(129, 80);
 			this.label1.TabIndex = 29;
@@ -85,7 +85,7 @@
 			this.butAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdd.Location = new System.Drawing.Point(797, 54);
+			this.butAdd.Location = new System.Drawing.Point(793, 60);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(82, 26);
 			this.butAdd.TabIndex = 28;
@@ -94,7 +94,7 @@
 			// 
 			// label8
 			// 
-			this.label8.Location = new System.Drawing.Point(20, 7);
+			this.label8.Location = new System.Drawing.Point(8, 8);
 			this.label8.Name = "label8";
 			this.label8.Size = new System.Drawing.Size(590, 48);
 			this.label8.TabIndex = 27;
@@ -108,10 +108,10 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridMain.HScrollVisible = true;
-			this.gridMain.Location = new System.Drawing.Point(20, 55);
+			this.gridMain.Location = new System.Drawing.Point(8, 60);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridMain.Size = new System.Drawing.Size(771, 472);
+			this.gridMain.Size = new System.Drawing.Size(777, 462);
 			this.gridMain.TabIndex = 14;
 			this.gridMain.Title = "Providers";
 			this.gridMain.TranslationName = "TableProviderSetup";
@@ -122,7 +122,7 @@
 			this.pictureAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.pictureAdd.HasBorder = false;
 			this.pictureAdd.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.ArrowLeft,22,22);
-			this.pictureAdd.Location = new System.Drawing.Point(876, 57);
+			this.pictureAdd.Location = new System.Drawing.Point(881, 63);
 			this.pictureAdd.Name = "pictureAdd";
 			this.pictureAdd.Size = new System.Drawing.Size(22, 20);
 			this.pictureAdd.TabIndex = 31;

@@ -33,10 +33,10 @@ namespace OpenPmsDental {
 			this.gridLan.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridLan.Location = new System.Drawing.Point(18, 12);
+			this.gridLan.Location = new System.Drawing.Point(8, 8);
 			this.gridLan.Name = "gridLan";
 			this.gridLan.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridLan.Size = new System.Drawing.Size(905, 643);
+			this.gridLan.Size = new System.Drawing.Size(942, 656);
 			this.gridLan.TabIndex = 7;
 			this.gridLan.Title = "Translations";
 			this.gridLan.TranslationName = "TableLan";
@@ -47,7 +47,7 @@ namespace OpenPmsDental {
 			this.butDeleteUnused.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDeleteUnused.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDeleteUnused.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDeleteUnused.Location = new System.Drawing.Point(18, 682);
+			this.butDeleteUnused.Location = new System.Drawing.Point(126, 676);
 			this.butDeleteUnused.Name = "butDeleteUnused";
 			this.butDeleteUnused.Size = new System.Drawing.Size(111, 24);
 			this.butDeleteUnused.TabIndex = 13;
@@ -57,7 +57,7 @@ namespace OpenPmsDental {
 			// label1
 			// 
 			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label1.Location = new System.Drawing.Point(135, 672);
+			this.label1.Location = new System.Drawing.Point(243, 679);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(447, 18);
 			this.label1.TabIndex = 12;
@@ -69,7 +69,7 @@ namespace OpenPmsDental {
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(18, 657);
+			this.butDelete.Location = new System.Drawing.Point(8, 676);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(112, 24);
 			this.butDelete.TabIndex = 11;

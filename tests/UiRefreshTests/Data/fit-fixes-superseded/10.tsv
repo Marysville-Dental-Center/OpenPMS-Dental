@@ -1,0 +1,61 @@
+# UI-12T: the rows of fit-fixes.tsv the UI-12 grid superseded (its layout replaced the fit fix), one file per rollout slice; a slice
+# adds its rows here instead of editing the notes of fit-fixes.tsv. Each row names a fit-fixes.tsv row (designer_file, window, control).
+designer_file	window	control
+OpenPmsDental/Forms/FormPayPlanChargeEdit.designer.cs	OpenPmsDental.FormPayPlanChargeEdit	label9
+OpenPmsDental/Forms/FormPayPlanChargeEdit.designer.cs	OpenPmsDental.FormPayPlanChargeEdit	label5
+OpenPmsDental/Forms/FormPayPlanChargeEdit.designer.cs	OpenPmsDental.FormPayPlanChargeEdit	label6
+OpenPmsDental/Forms/FormPerioGraphical.designer.cs	OpenPmsDental.FormPerioGraphical	butSave
+OpenPmsDental/Forms/FormPerioGraphicalSetup.designer.cs	OpenPmsDental.FormPerioGraphicalSetup	label5
+OpenPmsDental/Forms/FormProcApptColors.designer.cs	OpenPmsDental.FormProcApptColors	label1
+OpenPmsDental/Forms/FormProcCodeNoteEdit.designer.cs	OpenPmsDental.FormProcCodeNoteEdit	label10
+OpenPmsDental/Forms/FormProcNoteAppend.designer.cs	OpenPmsDental.FormProcNoteAppend	label1
+OpenPmsDental/Forms/FormProcNoteAppend.designer.cs	OpenPmsDental.FormProcNoteAppend	label7
+OpenPmsDental/Forms/FormProcNoteAppend.designer.cs	OpenPmsDental.FormProcNoteAppend	textUser
+OpenPmsDental/Forms/FormProcTools.designer.cs	OpenPmsDental.FormProcTools	checkProcButtons
+OpenPmsDental/Forms/FormProgramLinkHideClinics.designer.cs	OpenPmsDental.FormProgramLinkHideClinics	label3
+OpenPmsDental/Forms/FormProvAdditional.designer.cs	OpenPmsDental.FormProvAdditional	labelMerchantClosedDescription
+OpenPmsDental/Forms/FormRadOrderList.designer.cs	OpenPmsDental.FormRadOrderList	label1
+OpenPmsDental/Forms/FormRegistrationKey.designer.cs	OpenPmsDental.FormRegistrationKey	labelLicenseAgree
+OpenPmsDental/Forms/FormRepeatChargeEditMulti.Designer.cs	OpenPmsDental.FormRepeatChargeEditMulti	label6
+OpenPmsDental/Forms/FormRepeatChargeEditMulti.Designer.cs	OpenPmsDental.FormRepeatChargeEditMulti	label4
+OpenPmsDental/Forms/FormRepeatChargeEditMulti.Designer.cs	OpenPmsDental.FormRepeatChargeEditMulti	label11
+OpenPmsDental/Forms/FormRepeatChargeEditMulti.Designer.cs	OpenPmsDental.FormRepeatChargeEditMulti	label12
+OpenPmsDental/Forms/FormRepeatChargeEditMulti.Designer.cs	OpenPmsDental.FormRepeatChargeEditMulti	label2
+OpenPmsDental/Forms/FormRepeatChargeEditMulti.Designer.cs	OpenPmsDental.FormRepeatChargeEditMulti	label3
+OpenPmsDental/Forms/FormRepeatChargeEditMulti.Designer.cs	OpenPmsDental.FormRepeatChargeEditMulti	label7
+OpenPmsDental/Forms/FormRepeatChargeEditMulti.Designer.cs	OpenPmsDental.FormRepeatChargeEditMulti	label9
+OpenPmsDental/Forms/FormRepeatChargesUpdate.designer.cs	OpenPmsDental.FormRepeatChargesUpdate	checkRunAging
+OpenPmsDental/Forms/FormRepeatChargesUpdate.designer.cs	OpenPmsDental.FormRepeatChargesUpdate	labelDescription
+OpenPmsDental/Forms/FormReplicationEdit.designer.cs	OpenPmsDental.FormReplicationEdit	label8
+OpenPmsDental/Forms/FormReplicationEdit.designer.cs	OpenPmsDental.FormReplicationEdit	label11
+OpenPmsDental/Forms/FormReplicationEdit.designer.cs	OpenPmsDental.FormReplicationEdit	label1
+OpenPmsDental/Forms/FormRxAlertEdit.designer.cs	OpenPmsDental.FormRxAlertEdit	labelMessage
+OpenPmsDental/Forms/FormRxAlertEdit.designer.cs	OpenPmsDental.FormRxAlertEdit	label1
+OpenPmsDental/Forms/FormRxSelect.designer.cs	OpenPmsDental.FormRxSelect	label1
+OpenPmsDental/Forms/FormRxSelect.designer.cs	OpenPmsDental.FormRxSelect	label2
+OpenPmsDental/Forms/FormRxSelect.designer.cs	OpenPmsDental.FormRxSelect	labelInstructions
+OpenPmsDental/Forms/FormScheduleEdit.designer.cs	OpenPmsDental.FormScheduleEdit	labelOps
+OpenPmsDental/Forms/FormScheduleEdit.designer.cs	OpenPmsDental.FormScheduleEdit	labelStop
+OpenPmsDental/Forms/FormSigElementDefEdit.designer.cs	OpenPmsDental.FormSigElementDefEdit	butRecord
+OpenPmsDental/Forms/FormSnomeds.designer.cs	OpenPmsDental.FormSnomeds	label1
+OpenPmsDental/Forms/FormSshHostKeys.Designer.cs	OpenPmsDental.FormSshHostKeys	labelIntro
+OpenPmsDental/Forms/FormSupplyOrderItemEdit.Designer.cs	OpenPmsDental.FormSupplyOrderItemEdit	label9
+OpenPmsDental/Forms/FormSupplyProcPendings.Designer.cs	OpenPmsDental.FormSupplyProcPendings	labelInstructions
+OpenPmsDental/Forms/FormTasksForAppt.Designer.cs	OpenPmsDental.FormTasksForAppt	label10
+OpenPmsDental/Forms/FormTaxAddress.designer.cs	OpenPmsDental.FormTaxAddress	label1
+OpenPmsDental/Forms/FormTrackNextSetup.designer.cs	OpenPmsDental.FormTrackNextSetup	textDaysFuture
+OpenPmsDental/Forms/FormTrackNextSetup.designer.cs	OpenPmsDental.FormTrackNextSetup	textDaysPast
+OpenPmsDental/Forms/FormTranslation.designer.cs	OpenPmsDental.FormTranslation	butDelete
+OpenPmsDental/Forms/FormTranslationEdit.designer.cs	OpenPmsDental.FormTranslationEdit	label4
+OpenPmsDental/Forms/FormUcums.designer.cs	OpenPmsDental.FormUcums	label1
+OpenPmsDental/Forms/FormXWeb.designer.cs	OpenPmsDental.FormXWeb	label1
+OpenPmsDental/Forms/FormXWeb.designer.cs	OpenPmsDental.FormXWeb	label4
+OpenPmsDental/Forms/FormXWeb.designer.cs	OpenPmsDental.FormXWeb	label6
+OpenPmsDental/Forms/FormXWeb.designer.cs	OpenPmsDental.FormXWeb	label7
+OpenPmsDental/Forms/FormXWeb.designer.cs	OpenPmsDental.FormXWeb	radioReturn
+OpenPmsDental/Forms/FormXchargeTokenTool.designer.cs	OpenPmsDental.FormXchargeTokenTool	labelWarning
+OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizEmployee.Designer.cs	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizEmployee	label8
+OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizFeatures.Designer.cs	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizFeatures	labelFieldType
+OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizFeatures.Designer.cs	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizFeatures	label1
+OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizProvider.Designer.cs	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizProvider	label1
+OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizProvider.Designer.cs	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizProvider	label8

@@ -40,9 +40,9 @@ namespace OpenPmsDental{
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(12, 83);
+			this.gridMain.Location = new System.Drawing.Point(8, 75);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(701, 370);
+			this.gridMain.Size = new System.Drawing.Size(709, 362);
 			this.gridMain.TabIndex = 68;
 			this.gridMain.Title = "Invalid X-Charge Tokens";
 			this.gridMain.TranslationName = "FormDisplayFields";
@@ -50,16 +50,16 @@ namespace OpenPmsDental{
 			// 
 			// labelWarning
 			// 
-			this.labelWarning.Location = new System.Drawing.Point(9, 17);
+			this.labelWarning.Location = new System.Drawing.Point(8, 8);
 			this.labelWarning.Name = "labelWarning";
-			this.labelWarning.Size = new System.Drawing.Size(704, 65);
+			this.labelWarning.Size = new System.Drawing.Size(709, 65);
 			this.labelWarning.TabIndex = 69;
 			this.labelWarning.Text = resources.GetString("labelWarning.Text");
 			// 
 			// butCheck
 			// 
 			this.butCheck.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butCheck.Location = new System.Drawing.Point(12, 498);
+			this.butCheck.Location = new System.Drawing.Point(8, 502);
 			this.butCheck.Name = "butCheck";
 			this.butCheck.Size = new System.Drawing.Size(75, 24);
 			this.butCheck.TabIndex = 3;
@@ -69,9 +69,9 @@ namespace OpenPmsDental{
 			// labelTotal
 			// 
 			this.labelTotal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.labelTotal.Location = new System.Drawing.Point(105, 461);
+			this.labelTotal.Location = new System.Drawing.Point(114, 449);
 			this.labelTotal.Name = "labelTotal";
-			this.labelTotal.Size = new System.Drawing.Size(89, 16);
+			this.labelTotal.Size = new System.Drawing.Size(76, 23);
 			this.labelTotal.TabIndex = 70;
 			this.labelTotal.Text = "Total Cards:";
 			this.labelTotal.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -79,9 +79,9 @@ namespace OpenPmsDental{
 			// labelVerified
 			// 
 			this.labelVerified.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.labelVerified.Location = new System.Drawing.Point(105, 485);
+			this.labelVerified.Location = new System.Drawing.Point(134, 476);
 			this.labelVerified.Name = "labelVerified";
-			this.labelVerified.Size = new System.Drawing.Size(89, 16);
+			this.labelVerified.Size = new System.Drawing.Size(56, 23);
 			this.labelVerified.TabIndex = 71;
 			this.labelVerified.Text = "Verified:";
 			this.labelVerified.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -89,9 +89,9 @@ namespace OpenPmsDental{
 			// labelInvalid
 			// 
 			this.labelInvalid.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.labelInvalid.Location = new System.Drawing.Point(105, 510);
+			this.labelInvalid.Location = new System.Drawing.Point(138, 503);
 			this.labelInvalid.Name = "labelInvalid";
-			this.labelInvalid.Size = new System.Drawing.Size(89, 16);
+			this.labelInvalid.Size = new System.Drawing.Size(52, 23);
 			this.labelInvalid.TabIndex = 72;
 			this.labelInvalid.Text = "Invalid:";
 			this.labelInvalid.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -100,27 +100,27 @@ namespace OpenPmsDental{
 			// 
 			this.textTotal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.textTotal.Enabled = false;
-			this.textTotal.Location = new System.Drawing.Point(200, 460);
+			this.textTotal.Location = new System.Drawing.Point(196, 449);
 			this.textTotal.Name = "textTotal";
-			this.textTotal.Size = new System.Drawing.Size(64, 20);
+			this.textTotal.Size = new System.Drawing.Size(64, 23);
 			this.textTotal.TabIndex = 73;
 			// 
 			// textVerified
 			// 
 			this.textVerified.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.textVerified.Enabled = false;
-			this.textVerified.Location = new System.Drawing.Point(200, 484);
+			this.textVerified.Location = new System.Drawing.Point(196, 476);
 			this.textVerified.Name = "textVerified";
-			this.textVerified.Size = new System.Drawing.Size(64, 20);
+			this.textVerified.Size = new System.Drawing.Size(64, 23);
 			this.textVerified.TabIndex = 74;
 			// 
 			// textInvalid
 			// 
 			this.textInvalid.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.textInvalid.Enabled = false;
-			this.textInvalid.Location = new System.Drawing.Point(200, 509);
+			this.textInvalid.Location = new System.Drawing.Point(196, 503);
 			this.textInvalid.Name = "textInvalid";
-			this.textInvalid.Size = new System.Drawing.Size(64, 20);
+			this.textInvalid.Size = new System.Drawing.Size(64, 23);
 			this.textInvalid.TabIndex = 75;
 			// 
 			// FormXchargeTokenTool

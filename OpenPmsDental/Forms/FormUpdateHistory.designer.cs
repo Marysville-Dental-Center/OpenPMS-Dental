@@ -31,9 +31,9 @@ namespace OpenPmsDental{
 			// 
 			this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label1.ForeColor = System.Drawing.Color.Firebrick;
-			this.label1.Location = new System.Drawing.Point(14, 13);
+			this.label1.Location = new System.Drawing.Point(8, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(302, 33);
+			this.label1.Size = new System.Drawing.Size(313, 33);
 			this.label1.TabIndex = 3;
 			this.label1.Text = "Updates prior to version 16.1 are not shown.";
 			// 
@@ -42,9 +42,9 @@ namespace OpenPmsDental{
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(17, 49);
+			this.gridMain.Location = new System.Drawing.Point(8, 43);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(299, 414);
+			this.gridMain.Size = new System.Drawing.Size(313, 424);
 			this.gridMain.TabIndex = 4;
 			this.gridMain.Title = null;
 			this.gridMain.TranslationName = "TablePreviousVersions";

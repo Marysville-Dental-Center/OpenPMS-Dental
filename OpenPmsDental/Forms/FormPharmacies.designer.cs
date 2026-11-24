@@ -44,7 +44,7 @@ namespace OpenPmsDental {
 			// 
 			this.butNone.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butNone.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butNone.Location = new System.Drawing.Point(482, 594);
+			this.butNone.Location = new System.Drawing.Point(482, 598);
 			this.butNone.Name = "butNone";
 			this.butNone.Size = new System.Drawing.Size(68, 24);
 			this.butNone.TabIndex = 16;
@@ -54,7 +54,7 @@ namespace OpenPmsDental {
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(747, 594);
+			this.butOK.Location = new System.Drawing.Point(751, 598);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 24);
 			this.butOK.TabIndex = 15;
@@ -66,9 +66,9 @@ namespace OpenPmsDental {
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(12, 12);
+			this.gridMain.Location = new System.Drawing.Point(8, 8);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(810, 576);
+			this.gridMain.Size = new System.Drawing.Size(818, 578);
 			this.gridMain.TabIndex = 11;
 			this.gridMain.Title = "Pharmacies";
 			this.gridMain.TranslationName = "TablePharmacies";
@@ -80,7 +80,7 @@ namespace OpenPmsDental {
 			this.butAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdd.Location = new System.Drawing.Point(12, 594);
+			this.butAdd.Location = new System.Drawing.Point(8, 598);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(80, 24);
 			this.butAdd.TabIndex = 10;

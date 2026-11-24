@@ -47,9 +47,9 @@
 			this.butPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butPrint.Icon = OpenPmsDental.UI.EnumIcons.Print;
 			this.butPrint.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butPrint.Location = new System.Drawing.Point(672, 108);
+			this.butPrint.Location = new System.Drawing.Point(672, 64);
 			this.butPrint.Name = "butPrint";
-			this.butPrint.Size = new System.Drawing.Size(84, 24);
+			this.butPrint.Size = new System.Drawing.Size(88, 24);
 			this.butPrint.TabIndex = 220;
 			this.butPrint.Text = "Print";
 			this.butPrint.Click += new System.EventHandler(this.butPrint_Click);
@@ -57,7 +57,7 @@
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(672, 56);
+			this.butSave.Location = new System.Drawing.Point(672, 36);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(88, 24);
 			this.butSave.TabIndex = 219;
@@ -67,9 +67,9 @@
 			// butSetup
 			// 
 			this.butSetup.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSetup.Location = new System.Drawing.Point(672, 5);
+			this.butSetup.Location = new System.Drawing.Point(672, 8);
 			this.butSetup.Name = "butSetup";
-			this.butSetup.Size = new System.Drawing.Size(84, 24);
+			this.butSetup.Size = new System.Drawing.Size(88, 24);
 			this.butSetup.TabIndex = 221;
 			this.butSetup.Text = "Setup Colors";
 			this.butSetup.Click += new System.EventHandler(this.butSetup_Click);
@@ -78,9 +78,10 @@
 			// 
 			this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label1.ForeColor = System.Drawing.Color.Red;
-			this.label1.Location = new System.Drawing.Point(664, 211);
+			this.label1.Location = new System.Drawing.Point(672, 96);
+			this.label1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(100, 166);
+			this.label1.Size = new System.Drawing.Size(88, 121);
 			this.label1.TabIndex = 223;
 			this.label1.Text = "Do NOT\r\nchange the\r\nsize of this \r\nform or the\r\nmain control\r\nto the left\r\n-Jorda" +
     "n";

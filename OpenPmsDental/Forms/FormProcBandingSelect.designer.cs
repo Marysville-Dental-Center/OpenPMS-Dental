@@ -30,7 +30,7 @@ namespace OpenPmsDental{
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(474, 395);
+			this.butOK.Location = new System.Drawing.Point(478, 399);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 24);
 			this.butOK.TabIndex = 3;
@@ -42,9 +42,9 @@ namespace OpenPmsDental{
 			this.gridTpBandingProcs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridTpBandingProcs.Location = new System.Drawing.Point(11, 14);
+			this.gridTpBandingProcs.Location = new System.Drawing.Point(8, 8);
 			this.gridTpBandingProcs.Name = "gridTpBandingProcs";
-			this.gridTpBandingProcs.Size = new System.Drawing.Size(538, 375);
+			this.gridTpBandingProcs.Size = new System.Drawing.Size(545, 379);
 			this.gridTpBandingProcs.TabIndex = 140;
 			this.gridTpBandingProcs.Title = "Treatment Planned Banding Procedures";
 			this.gridTpBandingProcs.TranslationName = "TableBandingProcs";

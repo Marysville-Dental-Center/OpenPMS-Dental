@@ -30,7 +30,7 @@ namespace OpenPmsDental{
 			//
 			// labelInstructions
 			//
-			this.labelInstructions.Location = new System.Drawing.Point(12, 9);
+			this.labelInstructions.Location = new System.Drawing.Point(8, 8);
 			this.labelInstructions.Name = "labelInstructions";
 			this.labelInstructions.Size = new System.Drawing.Size(560, 18);
 			this.labelInstructions.TabIndex = 0;
@@ -42,9 +42,9 @@ namespace OpenPmsDental{
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(12, 30);
+			this.gridMain.Location = new System.Drawing.Point(8, 28);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(600, 262);
+			this.gridMain.Size = new System.Drawing.Size(608, 266);
 			this.gridMain.TabIndex = 1;
 			this.gridMain.Title = "Statement Options";
 			this.gridMain.TranslationName = "TableStatementChoices";
@@ -54,7 +54,7 @@ namespace OpenPmsDental{
 			// butOK
 			//
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(537, 302);
+			this.butOK.Location = new System.Drawing.Point(541, 306);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 24);
 			this.butOK.TabIndex = 2;

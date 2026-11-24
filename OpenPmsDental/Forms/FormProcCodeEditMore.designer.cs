@@ -31,18 +31,18 @@ namespace OpenPmsDental{
 			// 
 			// labelProvider
 			// 
-			this.labelProvider.Location = new System.Drawing.Point(9, 13);
+			this.labelProvider.Location = new System.Drawing.Point(8, 8);
 			this.labelProvider.Name = "labelProvider";
-			this.labelProvider.Size = new System.Drawing.Size(55, 17);
+			this.labelProvider.Size = new System.Drawing.Size(56, 23);
 			this.labelProvider.TabIndex = 5;
 			this.labelProvider.Text = "Provider";
 			this.labelProvider.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// comboProvider
 			// 
-			this.comboProvider.Location = new System.Drawing.Point(66, 12);
+			this.comboProvider.Location = new System.Drawing.Point(70, 8);
 			this.comboProvider.Name = "comboProvider";
-			this.comboProvider.Size = new System.Drawing.Size(160, 21);
+			this.comboProvider.Size = new System.Drawing.Size(160, 23);
 			this.comboProvider.TabIndex = 0;
 			this.comboProvider.SelectionChangeCommitted += new System.EventHandler(this.comboFilter_SelectionChangeCommitted);
 			// 
@@ -51,9 +51,9 @@ namespace OpenPmsDental{
 			this.comboClinic.HqDescription = "Default";
 			this.comboClinic.IncludeAll = true;
 			this.comboClinic.IncludeUnassigned = true;
-			this.comboClinic.Location = new System.Drawing.Point(240, 12);
+			this.comboClinic.Location = new System.Drawing.Point(245, 8);
 			this.comboClinic.Name = "comboClinic";
-			this.comboClinic.Size = new System.Drawing.Size(308, 21);
+			this.comboClinic.Size = new System.Drawing.Size(307, 23);
 			this.comboClinic.TabIndex = 1;
 			this.comboClinic.SelectionChangeCommitted += new System.EventHandler(this.comboFilter_SelectionChangeCommitted);
 			// 
@@ -62,9 +62,9 @@ namespace OpenPmsDental{
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(12, 42);
+			this.gridMain.Location = new System.Drawing.Point(8, 35);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(536, 452);
+			this.gridMain.Size = new System.Drawing.Size(544, 463);
 			this.gridMain.TabIndex = 4;
 			this.gridMain.Title = "Fees";
 			this.gridMain.TranslationName = "TableFees";

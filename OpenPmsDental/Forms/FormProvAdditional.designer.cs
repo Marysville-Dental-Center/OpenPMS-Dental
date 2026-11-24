@@ -33,10 +33,10 @@ namespace OpenPmsDental {
 			this.gridProvProperties.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridProvProperties.Location = new System.Drawing.Point(12, 12);
+			this.gridProvProperties.Location = new System.Drawing.Point(8, 8);
 			this.gridProvProperties.Name = "gridProvProperties";
 			this.gridProvProperties.SelectionMode = OpenPmsDental.UI.GridSelectionMode.OneCell;
-			this.gridProvProperties.Size = new System.Drawing.Size(760, 397);
+			this.gridProvProperties.Size = new System.Drawing.Size(768, 403);
 			this.gridProvProperties.TabIndex = 4;
 			this.gridProvProperties.Title = "Additional Provider Properties";
 			this.gridProvProperties.TranslationName = "TableProviderProperties";
@@ -45,7 +45,7 @@ namespace OpenPmsDental {
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(697, 422);
+			this.butOK.Location = new System.Drawing.Point(701, 426);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 24);
 			this.butOK.TabIndex = 3;
@@ -56,7 +56,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelMerchantClosedDescription.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.labelMerchantClosedDescription.ForeColor = System.Drawing.Color.Red;
-			this.labelMerchantClosedDescription.Location = new System.Drawing.Point(12, 415);
+			this.labelMerchantClosedDescription.Location = new System.Drawing.Point(8, 419);
 			this.labelMerchantClosedDescription.Name = "labelMerchantClosedDescription";
 			this.labelMerchantClosedDescription.Size = new System.Drawing.Size(661, 31);
 			this.labelMerchantClosedDescription.TabIndex = 276;

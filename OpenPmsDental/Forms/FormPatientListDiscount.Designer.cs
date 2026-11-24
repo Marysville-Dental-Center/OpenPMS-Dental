@@ -31,9 +31,9 @@ namespace OpenPmsDental{
 			this.gridMain.AccessibleDescription = "";
 			this.gridMain.AccessibleName = "";
 			this.gridMain.AllowSortingByColumn = true;
-			this.gridMain.Location = new System.Drawing.Point(22, 26);
+			this.gridMain.Location = new System.Drawing.Point(8, 8);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(475, 595);
+			this.gridMain.Size = new System.Drawing.Size(501, 618);
 			this.gridMain.TabIndex = 4;
 			this.gridMain.Tag = "";
 			this.gridMain.Title = "Patients";

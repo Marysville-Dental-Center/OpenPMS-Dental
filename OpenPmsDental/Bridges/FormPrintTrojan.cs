@@ -358,7 +358,7 @@ namespace OpenPmsDental {
 				PageHeight=900;
 			}
 			printPanel.Width=this.Width-42;
-			vScroll.Location=new Point(this.Width-29,33);
+			vScroll.Location=new Point(this.Width-29,printPanel.Top);//UI-12: from the page's top (it was 33, 2 px over the page on the grid)
 		}
 
 		public bool Landscape{

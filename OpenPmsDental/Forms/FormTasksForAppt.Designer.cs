@@ -34,12 +34,12 @@ namespace OpenPmsDental {
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridMain.DoShowRightClickLinks = true;
-			this.gridMain.Location = new System.Drawing.Point(12, 29);
+			this.gridMain.Location = new System.Drawing.Point(8, 28);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.NoteSpanStart = 2;
 			this.gridMain.NoteSpanStop = 2;
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridMain.Size = new System.Drawing.Size(934, 651);
+			this.gridMain.Size = new System.Drawing.Size(942, 656);
 			this.gridMain.TabIndex = 1;
 			this.gridMain.Title = "Tasks";
 			this.gridMain.TranslationName = "TableProg";
@@ -47,7 +47,7 @@ namespace OpenPmsDental {
 			// 
 			// label10
 			// 
-			this.label10.Location = new System.Drawing.Point(12, 8);
+			this.label10.Location = new System.Drawing.Point(8, 8);
 			this.label10.Name = "label10";
 			this.label10.Size = new System.Drawing.Size(416, 18);
 			this.label10.TabIndex = 183;

@@ -32,9 +32,9 @@
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(12, 12);
+			this.gridMain.Location = new System.Drawing.Point(8, 8);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(572, 315);
+			this.gridMain.Size = new System.Drawing.Size(578, 317);
 			this.gridMain.TabIndex = 0;
 			this.gridMain.Title = "Unscheduled Appointments";
 			this.gridMain.TranslationName = "TableUnschedForPat";
@@ -43,7 +43,7 @@
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(492, 333);
+			this.butOK.Location = new System.Drawing.Point(494, 337);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(92, 24);
 			this.butOK.TabIndex = 35;

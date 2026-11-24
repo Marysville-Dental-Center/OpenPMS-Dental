@@ -67,7 +67,11 @@ namespace OpenPmsDental {
 		///<summary>Resize text boxes to each occupy ~1/2 of screen from top to bottom.</summary>
 		private void ResizeControls() {
 			//assuming gridMain, textNumbers do not change width or location.
-			Rectangle rectangleWorkingArea=new Rectangle(294,12,ClientSize.Width-397,ClientSize.Height-24);
+			//UI-12: the working area runs from the line numbers' box (the text box covers its right 18 px, as drawn) to UiGrid.SIBLING_GAP before
+			//the button column, UiGrid.PAD from the top and the bottom (it was 294, 12 to 103 px before the right edge, 12 from the bottom).
+			int xLeft=textNumbers.Right-LayoutManager.Scale(18);
+			int pad=LayoutManager.Scale(UiGrid.PAD);
+			Rectangle rectangleWorkingArea=new Rectangle(xLeft,pad,butEdit.Left-LayoutManager.Scale(UiGrid.SIBLING_GAP)-xLeft,ClientSize.Height-2*pad);
 			//textNumbers resize
 			LayoutManager.MoveHeight(textNumbers,rectangleWorkingArea.Height);
 			//text resize

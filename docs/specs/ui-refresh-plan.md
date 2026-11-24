@@ -1707,6 +1707,15 @@ own 26.2 overlap check before it starts. The first cut is below; a brief that fi
   designer code in `.cs` files); re-plans 239 / 509 / 203 / 44 / 316 / 335 / 389 / 204 / 246 unchanged; audit `UI-12-audit-11.md`
   (UI-12.md section 7, "Slice 11"). Fix round (`ui/ui12-11-2`): 8 run-time texts recorded and sized for, FormQuickBooksOnlineSetup's
   list rows; gallery `G-UI3-ui12-11`.
+  Slice 10 (UI-12-10, branch `ui/ui12-10-1`, batches 2 and 6 of UI-12-batches.tsv at the branch point `9817dee17`, the small windows): 86
+  windows on the grid (81 with a layout script, shared helper `hand/_s10.py`: list windows' margins and grid edges, windows the planner
+  grew back at main's size, overlapping bars and rows, columns, cut notes), 67 files skipped with their reasons (the plain exes, the graph
+  project, fyiReporting, the WPF frame, the tooth chart, PrintPanel, DashApptGrid, FormInstallAllocator_Provider, ...); FormWikiDrafts',
+  FormWikiHistory's and FormPrintTrojan's code layout on UiGrid; 8 runtime texts, 7 known findings; gallery G-UI3-ui12-10 (86 windows,
+  14 at 150%), audit `UI-12-audit-10.md` (UI-12.md section 7, "Slice 10 (batch 2 and 6)"). Fix round (`ui/ui12-10-2`, the lead's 14
+  findings): 12 fixed (83 scripts; FormPrintTrojan's page counter sized for its runtime text, now a `grid-runtime-texts` row; six
+  windows end at their content), 2 shown not real (FormPayPlanChargeEdit's date-and-time boxes, FormPerioGraphicalSetup's label
+  width); UI-12.md section 7, "Slice 10, fix round".
 - Gallery: G-UI3 per slice, the owner's rows first.
 
 **UI-13: every element type in the new look (the owner, 2026-11-22: "Overall make sure you modernize all element types")**

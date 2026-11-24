@@ -40,18 +40,18 @@ namespace OpenPmsDental {
 			// 
 			// labelStop
 			// 
-			this.labelStop.Location = new System.Drawing.Point(6, 39);
+			this.labelStop.Location = new System.Drawing.Point(23, 35);
 			this.labelStop.Name = "labelStop";
-			this.labelStop.Size = new System.Drawing.Size(89, 18);
+			this.labelStop.Size = new System.Drawing.Size(68, 23);
 			this.labelStop.TabIndex = 9;
 			this.labelStop.Text = "Stop Time";
 			this.labelStop.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// labelStart
 			// 
-			this.labelStart.Location = new System.Drawing.Point(6, 12);
+			this.labelStart.Location = new System.Drawing.Point(23, 8);
 			this.labelStart.Name = "labelStart";
-			this.labelStart.Size = new System.Drawing.Size(89, 16);
+			this.labelStart.Size = new System.Drawing.Size(68, 23);
 			this.labelStart.TabIndex = 7;
 			this.labelStart.Text = "Start Time";
 			this.labelStart.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -62,7 +62,7 @@ namespace OpenPmsDental {
 			this.textNote.BackColor = System.Drawing.SystemColors.Window;
 			this.textNote.DetectLinksEnabled = false;
 			this.textNote.DetectUrls = false;
-			this.textNote.Location = new System.Drawing.Point(97, 92);
+			this.textNote.Location = new System.Drawing.Point(97, 62);
 			this.textNote.Name = "textNote";
 			this.textNote.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Schedule;
 			this.textNote.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
@@ -72,9 +72,9 @@ namespace OpenPmsDental {
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(6, 93);
+			this.label4.Location = new System.Drawing.Point(51, 62);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(89, 16);
+			this.label4.Size = new System.Drawing.Size(40, 23);
 			this.label4.TabIndex = 16;
 			this.label4.Text = "Note";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -82,7 +82,7 @@ namespace OpenPmsDental {
 			// comboStop
 			// 
 			this.comboStop.FormattingEnabled = true;
-			this.comboStop.Location = new System.Drawing.Point(97, 38);
+			this.comboStop.Location = new System.Drawing.Point(97, 35);
 			this.comboStop.MaxDropDownItems = 48;
 			this.comboStop.Name = "comboStop";
 			this.comboStop.Size = new System.Drawing.Size(120, 21);
@@ -91,7 +91,7 @@ namespace OpenPmsDental {
 			// comboStart
 			// 
 			this.comboStart.FormattingEnabled = true;
-			this.comboStart.Location = new System.Drawing.Point(97, 11);
+			this.comboStart.Location = new System.Drawing.Point(97, 8);
 			this.comboStart.MaxDropDownItems = 48;
 			this.comboStart.Name = "comboStart";
 			this.comboStart.Size = new System.Drawing.Size(120, 21);
@@ -103,17 +103,17 @@ namespace OpenPmsDental {
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.listBoxOps.IntegralHeight = false;
-			this.listBoxOps.Location = new System.Drawing.Point(348, 34);
+			this.listBoxOps.Location = new System.Drawing.Point(348, 57);
 			this.listBoxOps.Name = "listBoxOps";
 			this.listBoxOps.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
-			this.listBoxOps.Size = new System.Drawing.Size(243, 349);
+			this.listBoxOps.Size = new System.Drawing.Size(255, 349);
 			this.listBoxOps.TabIndex = 27;
 			// 
 			// labelOps
 			// 
-			this.labelOps.Location = new System.Drawing.Point(348, 2);
+			this.labelOps.Location = new System.Drawing.Point(348, 8);
 			this.labelOps.Name = "labelOps";
-			this.labelOps.Size = new System.Drawing.Size(255, 28);
+			this.labelOps.Size = new System.Drawing.Size(255, 47);
 			this.labelOps.TabIndex = 26;
 			this.labelOps.Text = "Operatories. Usually, do not select operatories.  Only used to override default o" +
     "peratory provider.";
@@ -122,7 +122,7 @@ namespace OpenPmsDental {
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(516, 393);
+			this.butSave.Location = new System.Drawing.Point(528, 418);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 26);
 			this.butSave.TabIndex = 12;
@@ -133,15 +133,15 @@ namespace OpenPmsDental {
 			// 
 			this.comboClinic.HqDescription = "Headquarters";
 			this.comboClinic.IncludeUnassigned = true;
-			this.comboClinic.Location = new System.Drawing.Point(61, 65);
+			this.comboClinic.Location = new System.Drawing.Point(62, 179);
 			this.comboClinic.Name = "comboClinic";
-			this.comboClinic.Size = new System.Drawing.Size(234, 21);
+			this.comboClinic.Size = new System.Drawing.Size(235, 23);
 			this.comboClinic.TabIndex = 94;
 			this.comboClinic.Visible = false;
 			// 
 			// FormScheduleEdit
 			// 
-			this.ClientSize = new System.Drawing.Size(603, 431);
+			this.ClientSize = new System.Drawing.Size(611, 452);
 			this.Controls.Add(this.comboClinic);
 			this.Controls.Add(this.listBoxOps);
 			this.Controls.Add(this.labelOps);

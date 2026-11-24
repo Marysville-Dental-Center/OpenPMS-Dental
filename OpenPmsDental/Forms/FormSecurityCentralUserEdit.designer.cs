@@ -30,7 +30,7 @@ namespace OpenPmsDental{
 			// butEdit
 			// 
 			this.butEdit.Anchor = System.Windows.Forms.AnchorStyles.Right;
-			this.butEdit.Location = new System.Drawing.Point(350, 191);
+			this.butEdit.Location = new System.Drawing.Point(354, 8);
 			this.butEdit.Name = "butEdit";
 			this.butEdit.Size = new System.Drawing.Size(75, 24);
 			this.butEdit.TabIndex = 3;
@@ -42,9 +42,9 @@ namespace OpenPmsDental{
 			this.gridCentralUsers.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.gridCentralUsers.HeadersVisible = false;
-			this.gridCentralUsers.Location = new System.Drawing.Point(12, 9);
+			this.gridCentralUsers.Location = new System.Drawing.Point(8, 8);
 			this.gridCentralUsers.Name = "gridCentralUsers";
-			this.gridCentralUsers.Size = new System.Drawing.Size(327, 386);
+			this.gridCentralUsers.Size = new System.Drawing.Size(338, 391);
 			this.gridCentralUsers.TabIndex = 4;
 			this.gridCentralUsers.Title = "Users";
 			this.gridCentralUsers.TranslationName = "TableCentralUsers";
