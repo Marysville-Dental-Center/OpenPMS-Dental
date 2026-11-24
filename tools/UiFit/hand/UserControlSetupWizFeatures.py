@@ -1,8 +1,9 @@
-"""UserControlSetupWizFeatures on the grid (UI-12 slice 10, layout script on the planner's tree). The planner packed the check boxes (24 px
+"""UserControlSetupWizFeatures on the grid (UI-12 slice 10, layout script on the planner's tree). The instructions over the check boxes stood
+right-aligned in a 469 px label (their text 230 px to the right of the boxes): left-aligned. The planner packed the check boxes (24 px
 apart) and the info icons beside them (22 px apart) separately: the seventh icon stood 12 px over its check box. Each icon now on its check
 box's row in a column 6 px after the widest check box, the Feature Information group 8 px after it to the right padding; the explanation
-label covered the group's title (main too): inside the group's content box; the further-modifications note and Advanced under the group on
-the right padding."""
+label, docked to fill the group, covers its title (main too; the grid keeps Dock: a grid-known row); the further-modifications note and
+Advanced under the group on the right padding."""
 import importlib.util
 import os
 
@@ -14,6 +15,7 @@ _spec.loader.exec_module(s)
 def layout(h):
     R = s.right(h)
     h.set("labelFieldType", 8, 8, None, None)
+    h.text_align("labelFieldType", "MiddleLeft")
     checks = ("checkCapitation", "checkMedicaid", "checkInsurance", "checkClinical", "checkNoClinics", "checkMedicalIns", "checkEhr")
     icons = ("labelInfoCapitation", "labelInfoMedicaid", "labelInfoInsurance", "labelInfoClinical", "labelInfoClinics", "labelInfoMedIns", "labelInfoEHR")
     y0 = 8 + h.n("labelFieldType").nh + 8
@@ -27,6 +29,5 @@ def layout(h):
     gx = px + 36 + 8
     h.set("groupBox1", gx, y0 - 8, R - gx, None)
     g = h.n("groupBox1")
-    h.set("labelExplanation", 8, 23, g.nw - 16, g.nh - 23 - 8)
     h.set("label1", R - h.n("label1").nw, g.ny + g.nh + 8, None, None)
     h.set("butAdvanced", R - h.n("butAdvanced").nw, h.n("label1").ny + h.n("label1").nh + 4, None, None)

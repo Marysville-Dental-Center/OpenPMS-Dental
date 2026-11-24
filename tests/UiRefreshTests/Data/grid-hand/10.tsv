@@ -151,16 +151,6 @@ OpenPmsDental/Forms/FormWikiIncomingLinks.designer.cs	OpenPmsDental.FormWikiInco
 OpenPmsDental/Forms/FormWikiIncomingLinks.designer.cs	OpenPmsDental.FormWikiIncomingLinks	gridMain	Size	248,621	248,629	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormWikiIncomingLinks.designer.cs	OpenPmsDental.FormWikiIncomingLinks	webViewWiki	Location	266,8	262,8	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormWikiIncomingLinks.designer.cs	OpenPmsDental.FormWikiIncomingLinks	webViewWiki	Size	634,621	681,629	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormWikiHistory.designer.cs	OpenPmsDental.FormWikiHistory	butCompare	Location	12,9	8,8	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormWikiHistory.designer.cs	OpenPmsDental.FormWikiHistory	butRevert	Location	93,9	89,8	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormWikiHistory.designer.cs	OpenPmsDental.FormWikiHistory	labelNotAuthorized	Location	174,8	170,8	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormWikiHistory.designer.cs	OpenPmsDental.FormWikiHistory	labelNotAuthorized	Size	887,27	976,24	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormWikiHistory.designer.cs	OpenPmsDental.FormWikiHistory	gridMain	Location	12,42	8,40	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormWikiHistory.designer.cs	OpenPmsDental.FormWikiHistory	gridMain	Size	248,584	248,590	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormWikiHistory.designer.cs	OpenPmsDental.FormWikiHistory	textContent	Location	266,42	262,40	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormWikiHistory.designer.cs	OpenPmsDental.FormWikiHistory	textContent	Size	435,584	442,590	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormWikiHistory.designer.cs	OpenPmsDental.FormWikiHistory	webViewWiki	Location	707,42	704,40	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormWikiHistory.designer.cs	OpenPmsDental.FormWikiHistory	webViewWiki	Size	435,584	442,590	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormPharmacies.designer.cs	OpenPmsDental.FormPharmacies	gridMain	Location	12,8	8,8	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormPharmacies.designer.cs	OpenPmsDental.FormPharmacies	gridMain	Size	810,576	818,578	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormSetupWizard.designer.cs	OpenPmsDental.FormSetupWizard	gridMain	Size	388,289	395,299	by hand (layout script): on the grid
@@ -290,7 +280,6 @@ OpenPmsDental/Forms/FormPatListEHR2014.Designer.cs	OpenPmsDental.FormPatListEHR2
 OpenPmsDental/Forms/FormPatListEHR2014.Designer.cs	OpenPmsDental.FormPatListEHR2014	butAllergy	Location	666,197	664,197	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormPatListEHR2014.Designer.cs	OpenPmsDental.FormPatListEHR2014	butShow	Location	666,224	664,499	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormPatListEHR2014.Designer.cs	OpenPmsDental.FormPatListEHR2014	gridMain	Size	642,527	648,514	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormPayPlanChargeEdit.designer.cs	OpenPmsDental.FormPayPlanChargeEdit	comboBoxClinic	Location	68,229	72,229	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormPreAuthReminder.Designer.cs	OpenPmsDental.FormPreAuthReminder	labelExplain	Location	12,8	8,8	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormPreAuthReminder.Designer.cs	OpenPmsDental.FormPreAuthReminder	labelExplain	Size	600,36	608,36	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormPreAuthReminder.Designer.cs	OpenPmsDental.FormPreAuthReminder	gridMain	Location	12,46	8,46	by hand (layout script): on the grid
@@ -317,21 +306,6 @@ OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizDefinitions.Desi
 OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizDefinitions.Designer.cs	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizDefinitions	label14	Size	98,23	68,17	by hand (layout script): on the grid
 OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizDefinitions.Designer.cs	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizDefinitions	textGuide	Location	128,362	8,381	by hand (layout script): on the grid
 OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizDefinitions.Designer.cs	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizDefinitions	textGuide	Size	698,64	818,64	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormRepeatChargeEditMulti.Designer.cs	OpenPmsDental.FormRepeatChargeEditMulti	textProcCode	Size	100,20	101,23	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormRepeatChargeEditMulti.Designer.cs	OpenPmsDental.FormRepeatChargeEditMulti	label5	Location	290,10	291,11	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormRepeatChargeEditMulti.Designer.cs	OpenPmsDental.FormRepeatChargeEditMulti	label5	Size	333,18	346,18	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormRepeatChargeEditMulti.Designer.cs	OpenPmsDental.FormRepeatChargeEditMulti	label6	Location	291,36	291,38	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormRepeatChargeEditMulti.Designer.cs	OpenPmsDental.FormRepeatChargeEditMulti	textChargeAmountNew	Size	100,20	101,23	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormRepeatChargeEditMulti.Designer.cs	OpenPmsDental.FormRepeatChargeEditMulti	label10	Location	290,63	291,65	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormRepeatChargeEditMulti.Designer.cs	OpenPmsDental.FormRepeatChargeEditMulti	label10	Size	333,20	346,20	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormRepeatChargeEditMulti.Designer.cs	OpenPmsDental.FormRepeatChargeEditMulti	textPatNumSuperFamilyHead	Location	184,93	184,89	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormRepeatChargeEditMulti.Designer.cs	OpenPmsDental.FormRepeatChargeEditMulti	label4	Location	291,89	291,92	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormRepeatChargeEditMulti.Designer.cs	OpenPmsDental.FormRepeatChargeEditMulti	comboIsEnabled	Location	184,130	184,128	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormRepeatChargeEditMulti.Designer.cs	OpenPmsDental.FormRepeatChargeEditMulti	label12	Location	54,125	54,128	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormRepeatChargeEditMulti.Designer.cs	OpenPmsDental.FormRepeatChargeEditMulti	label7	Location	291,125	291,131	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormRepeatChargeEditMulti.Designer.cs	OpenPmsDental.FormRepeatChargeEditMulti	textDateStart	Location	184,167	184,168	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormRepeatChargeEditMulti.Designer.cs	OpenPmsDental.FormRepeatChargeEditMulti	label8	Location	114,162	114,168	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormRepeatChargeEditMulti.Designer.cs	OpenPmsDental.FormRepeatChargeEditMulti	label9	Location	291,162	291,171	by hand (layout script): on the grid
 OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizEmployee.Designer.cs	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizEmployee	label3	Location	8,87	8,89	by hand (layout script): on the grid
 OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizEmployee.Designer.cs	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizEmployee	butAdd	Location	699,28	699,8	by hand (layout script): on the grid
 OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizEmployee.Designer.cs	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizEmployee	label2	Location	699,58	699,38	by hand (layout script): on the grid
@@ -341,28 +315,6 @@ OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizEmployee.Designe
 OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizEmployee.Designer.cs	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizEmployee	pictureAdd	Location	787,31	787,11	by hand (layout script): on the grid
 OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizEmployee.Designer.cs	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizEmployee	gridMain	Location	229,28	231,8	by hand (layout script): on the grid
 OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizEmployee.Designer.cs	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizEmployee	gridMain	Size	460,472	460,514	by hand (layout script): on the grid
-OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizFeatures.Designer.cs	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizFeatures	labelFieldType	Location	28,8	8,8	by hand (layout script): on the grid
-OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizFeatures.Designer.cs	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizFeatures	checkCapitation	Location	8,39	8,45	by hand (layout script): on the grid
-OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizFeatures.Designer.cs	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizFeatures	checkMedicaid	Location	8,63	8,69	by hand (layout script): on the grid
-OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizFeatures.Designer.cs	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizFeatures	checkInsurance	Location	8,87	8,93	by hand (layout script): on the grid
-OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizFeatures.Designer.cs	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizFeatures	checkClinical	Location	8,111	8,117	by hand (layout script): on the grid
-OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizFeatures.Designer.cs	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizFeatures	checkNoClinics	Location	8,135	8,141	by hand (layout script): on the grid
-OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizFeatures.Designer.cs	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizFeatures	checkMedicalIns	Location	8,159	8,165	by hand (layout script): on the grid
-OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizFeatures.Designer.cs	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizFeatures	checkEhr	Location	8,183	8,189	by hand (layout script): on the grid
-OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizFeatures.Designer.cs	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizFeatures	panelInfo	Location	293,39	215,37	by hand (layout script): on the grid
-OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizFeatures.Designer.cs	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizFeatures	panelInfo	Size	36,358	36,180	by hand (layout script): on the grid
-OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizFeatures.Designer.cs	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizFeatures	labelInfoMedicaid	Location	8,30	8,32	by hand (layout script): on the grid
-OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizFeatures.Designer.cs	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizFeatures	labelInfoInsurance	Location	8,52	8,56	by hand (layout script): on the grid
-OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizFeatures.Designer.cs	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizFeatures	labelInfoClinical	Location	8,74	8,80	by hand (layout script): on the grid
-OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizFeatures.Designer.cs	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizFeatures	labelInfoClinics	Location	8,96	8,104	by hand (layout script): on the grid
-OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizFeatures.Designer.cs	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizFeatures	labelInfoMedIns	Location	8,118	8,128	by hand (layout script): on the grid
-OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizFeatures.Designer.cs	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizFeatures	labelInfoEHR	Location	8,140	8,152	by hand (layout script): on the grid
-OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizFeatures.Designer.cs	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizFeatures	groupBox1	Location	337,87	259,37	by hand (layout script): on the grid
-OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizFeatures.Designer.cs	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizFeatures	groupBox1	Size	542,229	663,229	by hand (layout script): on the grid
-OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizFeatures.Designer.cs	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizFeatures	labelExplanation	Location	3,16	8,23	by hand (layout script): on the grid
-OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizFeatures.Designer.cs	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizFeatures	labelExplanation	Size	536,210	647,198	by hand (layout script): on the grid
-OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizFeatures.Designer.cs	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizFeatures	label1	Location	631,324	626,274	by hand (layout script): on the grid
-OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizFeatures.Designer.cs	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizFeatures	butAdvanced	Location	845,401	840,325	by hand (layout script): on the grid
 OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizFeeSched.Designer.cs	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizFeeSched	gridMain	Location	21,8	8,8	by hand (layout script): on the grid
 OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizFeeSched.Designer.cs	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizFeeSched	gridMain	Size	372,489	372,514	by hand (layout script): on the grid
 OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizFeeSched.Designer.cs	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizFeeSched	butAdd	Location	400,24	388,8	by hand (layout script): on the grid
@@ -455,11 +407,6 @@ OpenPmsDental/Forms/FormPopupsForFam.designer.cs	OpenPmsDental.FormPopupsForFam	
 OpenPmsDental/Forms/FormPopupsForFam.designer.cs	OpenPmsDental.FormPopupsForFam	gridMain	Location	24,8	8,8	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormPopupsForFam.designer.cs	OpenPmsDental.FormPopupsForFam	gridMain	Size	630,325	663,339	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormRxCombine.Designer.cs	OpenPmsDental.FormRxCombine	gridMain	Size	970,356	976,371	by hand (layout script): on the grid
-OpenPmsDental/ReportingForRdl/Allocators/MyAllocator1/FormInstallAllocator_Provider.Designer.cs	OpenPmsDental.Reporting.Allocators.MyAllocator1.FormInstallAllocator_Provider	label1	Location	9,8	8,8	by hand (layout script): on the grid
-OpenPmsDental/ReportingForRdl/Allocators/MyAllocator1/FormInstallAllocator_Provider.Designer.cs	OpenPmsDental.Reporting.Allocators.MyAllocator1.FormInstallAllocator_Provider	richTextBox1	Location	9,42	8,42	by hand (layout script): on the grid
-OpenPmsDental/ReportingForRdl/Allocators/MyAllocator1/FormInstallAllocator_Provider.Designer.cs	OpenPmsDental.Reporting.Allocators.MyAllocator1.FormInstallAllocator_Provider	panel2	Location	12,210	8,210	by hand (layout script): on the grid
-OpenPmsDental/ReportingForRdl/Allocators/MyAllocator1/FormInstallAllocator_Provider.Designer.cs	OpenPmsDental.Reporting.Allocators.MyAllocator1.FormInstallAllocator_Provider	rbIhaveNotRead	Size	198,20	218,20	by hand (layout script): on the grid
-OpenPmsDental/ReportingForRdl/Allocators/MyAllocator1/FormInstallAllocator_Provider.Designer.cs	OpenPmsDental.Reporting.Allocators.MyAllocator1.FormInstallAllocator_Provider	rbutIHaveRead	Size	168,20	218,20	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormStatementChoices.Designer.cs	OpenPmsDental.FormStatementChoices	labelInstructions	Location	12,8	8,8	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormStatementChoices.Designer.cs	OpenPmsDental.FormStatementChoices	gridMain	Location	12,28	8,28	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormStatementChoices.Designer.cs	OpenPmsDental.FormStatementChoices	gridMain	Size	600,262	608,266	by hand (layout script): on the grid
@@ -498,3 +445,59 @@ OpenPmsDental/Forms/FormWikiDrafts.designer.cs	OpenPmsDental.FormWikiDrafts	text
 OpenPmsDental/Forms/FormWikiDrafts.designer.cs	OpenPmsDental.FormWikiDrafts	textContent	Size	384,622	384,622	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormWikiDrafts.designer.cs	OpenPmsDental.FormWikiDrafts	webViewWiki	Location	678,8	678,8	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormWikiDrafts.designer.cs	OpenPmsDental.FormWikiDrafts	webViewWiki	Size	384,622	384,622	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormPayPlanChargeEdit.designer.cs	OpenPmsDental.FormPayPlanChargeEdit	comboBoxClinic	Location	68,229	76,229	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormPayPlanChargeEdit.designer.cs	OpenPmsDental.FormPayPlanChargeEdit	comboBoxClinic	Size	239,23	235,23	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormRepeatChargeEditMulti.Designer.cs	OpenPmsDental.FormRepeatChargeEditMulti	textProcCode	Size	100,20	101,23	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormRepeatChargeEditMulti.Designer.cs	OpenPmsDental.FormRepeatChargeEditMulti	label5	Location	290,10	291,11	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormRepeatChargeEditMulti.Designer.cs	OpenPmsDental.FormRepeatChargeEditMulti	label5	Size	333,18	346,18	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormRepeatChargeEditMulti.Designer.cs	OpenPmsDental.FormRepeatChargeEditMulti	label6	Location	291,36	291,38	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormRepeatChargeEditMulti.Designer.cs	OpenPmsDental.FormRepeatChargeEditMulti	label6	Size	346,20	346,34	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormRepeatChargeEditMulti.Designer.cs	OpenPmsDental.FormRepeatChargeEditMulti	textChargeAmountNew	Location	184,62	184,76	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormRepeatChargeEditMulti.Designer.cs	OpenPmsDental.FormRepeatChargeEditMulti	textChargeAmountNew	Size	100,20	101,23	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormRepeatChargeEditMulti.Designer.cs	OpenPmsDental.FormRepeatChargeEditMulti	label11	Location	54,62	54,76	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormRepeatChargeEditMulti.Designer.cs	OpenPmsDental.FormRepeatChargeEditMulti	label10	Location	290,63	291,79	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormRepeatChargeEditMulti.Designer.cs	OpenPmsDental.FormRepeatChargeEditMulti	label10	Size	333,20	346,18	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormRepeatChargeEditMulti.Designer.cs	OpenPmsDental.FormRepeatChargeEditMulti	textPatNumSuperFamilyHead	Location	184,93	184,103	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormRepeatChargeEditMulti.Designer.cs	OpenPmsDental.FormRepeatChargeEditMulti	label3	Location	66,89	66,103	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormRepeatChargeEditMulti.Designer.cs	OpenPmsDental.FormRepeatChargeEditMulti	label4	Location	291,89	291,106	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormRepeatChargeEditMulti.Designer.cs	OpenPmsDental.FormRepeatChargeEditMulti	label4	Size	346,32	346,34	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormRepeatChargeEditMulti.Designer.cs	OpenPmsDental.FormRepeatChargeEditMulti	comboIsEnabled	Location	184,130	184,144	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormRepeatChargeEditMulti.Designer.cs	OpenPmsDental.FormRepeatChargeEditMulti	label12	Location	54,125	54,144	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormRepeatChargeEditMulti.Designer.cs	OpenPmsDental.FormRepeatChargeEditMulti	label7	Location	291,125	291,147	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormRepeatChargeEditMulti.Designer.cs	OpenPmsDental.FormRepeatChargeEditMulti	label7	Size	346,33	346,34	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormRepeatChargeEditMulti.Designer.cs	OpenPmsDental.FormRepeatChargeEditMulti	textDateStart	Location	184,167	184,185	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormRepeatChargeEditMulti.Designer.cs	OpenPmsDental.FormRepeatChargeEditMulti	label8	Location	114,162	114,185	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormRepeatChargeEditMulti.Designer.cs	OpenPmsDental.FormRepeatChargeEditMulti	label9	Location	291,162	291,188	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormRepeatChargeEditMulti.Designer.cs	OpenPmsDental.FormRepeatChargeEditMulti	label9	Size	346,33	346,34	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormWikiHistory.designer.cs	OpenPmsDental.FormWikiHistory	butCompare	Location	12,9	8,8	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormWikiHistory.designer.cs	OpenPmsDental.FormWikiHistory	butRevert	Location	93,9	89,8	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormWikiHistory.designer.cs	OpenPmsDental.FormWikiHistory	labelNotAuthorized	Location	174,8	170,8	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormWikiHistory.designer.cs	OpenPmsDental.FormWikiHistory	labelNotAuthorized	Size	887,27	976,24	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormWikiHistory.designer.cs	OpenPmsDental.FormWikiHistory	labelNotAuthorized	TextAlign	TopLeft	MiddleLeft	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormWikiHistory.designer.cs	OpenPmsDental.FormWikiHistory	gridMain	Location	12,42	8,40	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormWikiHistory.designer.cs	OpenPmsDental.FormWikiHistory	gridMain	Size	248,584	248,590	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormWikiHistory.designer.cs	OpenPmsDental.FormWikiHistory	textContent	Location	266,42	262,40	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormWikiHistory.designer.cs	OpenPmsDental.FormWikiHistory	textContent	Size	435,584	442,590	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormWikiHistory.designer.cs	OpenPmsDental.FormWikiHistory	webViewWiki	Location	707,42	704,40	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormWikiHistory.designer.cs	OpenPmsDental.FormWikiHistory	webViewWiki	Size	435,584	442,590	by hand (layout script): on the grid
+OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizFeatures.Designer.cs	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizFeatures	labelFieldType	Location	28,8	8,8	by hand (layout script): on the grid
+OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizFeatures.Designer.cs	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizFeatures	labelFieldType	TextAlign	MiddleRight	MiddleLeft	by hand (layout script): on the grid
+OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizFeatures.Designer.cs	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizFeatures	checkCapitation	Location	8,39	8,45	by hand (layout script): on the grid
+OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizFeatures.Designer.cs	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizFeatures	checkMedicaid	Location	8,63	8,69	by hand (layout script): on the grid
+OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizFeatures.Designer.cs	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizFeatures	checkInsurance	Location	8,87	8,93	by hand (layout script): on the grid
+OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizFeatures.Designer.cs	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizFeatures	checkClinical	Location	8,111	8,117	by hand (layout script): on the grid
+OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizFeatures.Designer.cs	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizFeatures	checkNoClinics	Location	8,135	8,141	by hand (layout script): on the grid
+OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizFeatures.Designer.cs	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizFeatures	checkMedicalIns	Location	8,159	8,165	by hand (layout script): on the grid
+OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizFeatures.Designer.cs	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizFeatures	checkEhr	Location	8,183	8,189	by hand (layout script): on the grid
+OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizFeatures.Designer.cs	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizFeatures	panelInfo	Location	293,39	215,37	by hand (layout script): on the grid
+OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizFeatures.Designer.cs	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizFeatures	panelInfo	Size	36,358	36,180	by hand (layout script): on the grid
+OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizFeatures.Designer.cs	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizFeatures	labelInfoMedicaid	Location	8,30	8,32	by hand (layout script): on the grid
+OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizFeatures.Designer.cs	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizFeatures	labelInfoInsurance	Location	8,52	8,56	by hand (layout script): on the grid
+OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizFeatures.Designer.cs	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizFeatures	labelInfoClinical	Location	8,74	8,80	by hand (layout script): on the grid
+OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizFeatures.Designer.cs	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizFeatures	labelInfoClinics	Location	8,96	8,104	by hand (layout script): on the grid
+OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizFeatures.Designer.cs	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizFeatures	labelInfoMedIns	Location	8,118	8,128	by hand (layout script): on the grid
+OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizFeatures.Designer.cs	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizFeatures	labelInfoEHR	Location	8,140	8,152	by hand (layout script): on the grid
+OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizFeatures.Designer.cs	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizFeatures	groupBox1	Location	337,87	259,37	by hand (layout script): on the grid
+OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizFeatures.Designer.cs	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizFeatures	groupBox1	Size	542,229	663,229	by hand (layout script): on the grid
+OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizFeatures.Designer.cs	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizFeatures	label1	Location	631,324	626,274	by hand (layout script): on the grid
+OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizFeatures.Designer.cs	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizFeatures	butAdvanced	Location	845,401	840,325	by hand (layout script): on the grid

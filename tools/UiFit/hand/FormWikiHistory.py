@@ -17,6 +17,7 @@ def layout(h):
     h.set("butRevert", 8 + h.n("butCompare").nw + 6, 8, None, None)
     x = h.n("butRevert").nx + h.n("butRevert").nw + 6
     h.set("labelNotAuthorized", x, 8, R - x, 24)
+    h.text_align("labelNotAuthorized", "MiddleLeft")
     g = h.set("gridMain", 8, 40, None, B - 40)
     left = 8 + g.nw + 6
     d = (R - left) // 2

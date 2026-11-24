@@ -64,9 +64,9 @@
 			this.labelExplanation.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.labelExplanation.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.labelExplanation.ImageKey = "(none)";
-			this.labelExplanation.Location = new System.Drawing.Point(8, 23);
+			this.labelExplanation.Location = new System.Drawing.Point(3, 16);
 			this.labelExplanation.Name = "labelExplanation";
-			this.labelExplanation.Size = new System.Drawing.Size(647, 198);
+			this.labelExplanation.Size = new System.Drawing.Size(536, 210);
 			this.labelExplanation.TabIndex = 106;
 			this.labelExplanation.Text = "Click on an info icon to view information about the item clicked.";
 			this.labelExplanation.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -173,7 +173,7 @@
 			this.labelFieldType.TabIndex = 89;
 			this.labelFieldType.Text = "Check the boxes that apply to your practice. \r\nThese settings will apply to all c" +
     "omputers.";
-			this.labelFieldType.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.labelFieldType.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// checkEhr
 			// 

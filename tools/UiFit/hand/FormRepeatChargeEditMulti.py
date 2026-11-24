@@ -18,5 +18,6 @@ def layout(h):
     for f, l, n in rows:
         h.set(f, x, y, 101, 23)
         s.label_before(h, l, f)
-        h.set(n, x + 101 + 6, y + 3, R - (x + 101 + 6), None)
+        nw = R - (x + 101 + 6)
+        h.set(n, x + 101 + 6, y + 3, nw, max(18, h.note_h(n, nw)))
         y += max(27, 3 + h.n(n).nh + 4)

@@ -1,0 +1,10 @@
+# UI-12: the grid findings GridRulesTests allows on the grid windows, each with why (the planner lists them in its run; UI-12.md section 4).
+# The test fails on a finding not listed here and on a row that no longer happens, so this list only shrinks.
+window	rule	key	why
+OpenPmsDental.FormProcCodeNoteEdit	overlap	butSlider tbTime	UI-12 slice 10: the time pattern's slider handle stands on the time bar (the code places it under the pattern's last cell, TableTimeBar.GetSliderLocation), as on main
+OpenPmsDental.FormProcCodeNoteEdit	hidden-frame	tbTime panelHead	UI-12 slice 10: TableTimeBar's own hidden head panel (the bar's designer, another control; unchanged)
+OpenPmsDental.FormProcNoteAppend	overlap	butClearSig signatureBox	UI-12 slice 10: SignatureBoxWrapper's own clear button over its signature box (the wrapper's designer, another user control; unchanged)
+OpenPmsDental.FormProcNoteAppend	overlap	butTopazSign signatureBox	UI-12 slice 10: SignatureBoxWrapper's own Topaz button over its signature box (the wrapper's designer, another user control; unchanged)
+OpenPmsDental.FormWikiDrafts	overlap	textContent textNumbers	UI-12 slice 10: the draft's text box covers the line numbers' right 18 px (their border), as on main; the code lays both out from that edge (ResizeControls)
+OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizFeatures	title	groupBox1 labelExplanation	UI-12 slice 10: the explanation label is docked to fill the group (Dock, which the grid keeps), so it covers the title band, as on main
+OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizFeatures	padding	groupBox1 labelExplanation	UI-12 slice 10: the explanation label is docked to fill the group (Dock, which the grid keeps), as on main

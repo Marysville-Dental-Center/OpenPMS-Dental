@@ -34,6 +34,7 @@ namespace OpenPmsDental{
 			// labelNotAuthorized
 			// 
 			this.labelNotAuthorized.Location = new System.Drawing.Point(170, 8);
+			this.labelNotAuthorized.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.labelNotAuthorized.Name = "labelNotAuthorized";
 			this.labelNotAuthorized.Size = new System.Drawing.Size(976, 24);
 			this.labelNotAuthorized.TabIndex = 85;
