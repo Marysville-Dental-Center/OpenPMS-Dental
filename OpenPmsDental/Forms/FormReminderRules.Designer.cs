@@ -45,7 +45,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridMain.Location = new System.Drawing.Point(8, 8);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(654, 363);
+			this.gridMain.Size = new System.Drawing.Size(654, 359);
 			this.gridMain.TabIndex = 2;
 			this.gridMain.Title = "Reminder Rules";
 			this.gridMain.TranslationName = "TableRules";

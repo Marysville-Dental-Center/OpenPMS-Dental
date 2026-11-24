@@ -122,7 +122,7 @@ namespace OpenPmsDental{
 			this.gridMain.Location = new System.Drawing.Point(18, 89);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridMain.Size = new System.Drawing.Size(590, 365);
+			this.gridMain.Size = new System.Drawing.Size(590, 357);
 			this.gridMain.TabIndex = 10;
 			this.gridMain.Title = "Patient Export List";
 			this.gridMain.TranslationName = "TablePatientExport";

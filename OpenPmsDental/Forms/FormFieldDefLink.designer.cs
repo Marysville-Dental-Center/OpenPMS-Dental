@@ -49,7 +49,7 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.gridDisplayed.Location = new System.Drawing.Point(8, 69);
 			this.gridDisplayed.Name = "gridDisplayed";
-			this.gridDisplayed.Size = new System.Drawing.Size(286, 391);
+			this.gridDisplayed.Size = new System.Drawing.Size(286, 387);
 			this.gridDisplayed.TabIndex = 4;
 			this.gridDisplayed.Title = "Visible Fields";
 			this.gridDisplayed.TranslationName = "TableVisible";
@@ -60,7 +60,7 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.gridHidden.Location = new System.Drawing.Point(344, 69);
 			this.gridHidden.Name = "gridHidden";
-			this.gridHidden.Size = new System.Drawing.Size(286, 391);
+			this.gridHidden.Size = new System.Drawing.Size(286, 387);
 			this.gridHidden.TabIndex = 5;
 			this.gridHidden.Title = "Hidden Fields ";
 			this.gridHidden.TranslationName = "TableHidden";

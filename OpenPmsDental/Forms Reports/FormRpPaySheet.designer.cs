@@ -152,7 +152,7 @@ namespace OpenPmsDental {
 			this.listPatientTypes.Location = new System.Drawing.Point(418, 214);
 			this.listPatientTypes.Name = "listPatientTypes";
 			this.listPatientTypes.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
-			this.listPatientTypes.Size = new System.Drawing.Size(205, 253);
+			this.listPatientTypes.Size = new System.Drawing.Size(205, 249);
 			this.listPatientTypes.TabIndex = 46;
 			// 
 			// checkInsuranceTypes
@@ -208,7 +208,7 @@ namespace OpenPmsDental {
 			this.listInsuranceTypes.Location = new System.Drawing.Point(206, 214);
 			this.listInsuranceTypes.Name = "listInsuranceTypes";
 			this.listInsuranceTypes.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
-			this.listInsuranceTypes.Size = new System.Drawing.Size(204, 253);
+			this.listInsuranceTypes.Size = new System.Drawing.Size(204, 249);
 			this.listInsuranceTypes.TabIndex = 55;
 			// 
 			// checkAllClaimPayGroups
@@ -227,7 +227,7 @@ namespace OpenPmsDental {
 			this.listClaimPayGroups.Location = new System.Drawing.Point(631, 214);
 			this.listClaimPayGroups.Name = "listClaimPayGroups";
 			this.listClaimPayGroups.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
-			this.listClaimPayGroups.Size = new System.Drawing.Size(205, 253);
+			this.listClaimPayGroups.Size = new System.Drawing.Size(205, 249);
 			this.listClaimPayGroups.TabIndex = 57;
 			// 
 			// checkUnearned

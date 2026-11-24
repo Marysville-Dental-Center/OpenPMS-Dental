@@ -97,7 +97,7 @@ namespace OpenPmsDental {
 			this.listFieldName.Location = new System.Drawing.Point(254, 29);
 			this.listFieldName.MultiColumn = true;
 			this.listFieldName.Name = "listFieldName";
-			this.listFieldName.Size = new System.Drawing.Size(677, 606);
+			this.listFieldName.Size = new System.Drawing.Size(677, 602);
 			this.listFieldName.TabIndex = 6;
 			this.listFieldName.DoubleClick += new System.EventHandler(this.listFieldName_DoubleClick);
 			// 

@@ -46,7 +46,7 @@ namespace OpenPmsDental{
 			this.gridProcs.Location = new System.Drawing.Point(8, 31);
 			this.gridProcs.Name = "gridProcs";
 			this.gridProcs.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridProcs.Size = new System.Drawing.Size(634, 625);
+			this.gridProcs.Size = new System.Drawing.Size(634, 621);
 			this.gridProcs.TabIndex = 70;
 			this.gridProcs.Title = "Procedures";
 			this.gridProcs.TranslationName = "Table Procedures";

@@ -55,14 +55,14 @@ namespace OpenPmsDental {
 			this.listRelat.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.listRelat.Location = new System.Drawing.Point(606, 32);
 			this.listRelat.Name = "listRelat";
-			this.listRelat.Size = new System.Drawing.Size(180, 212);
+			this.listRelat.Size = new System.Drawing.Size(180, 208);
 			this.listRelat.TabIndex = 9;
 			// 
 			// gridMain
 			// 
 			this.gridMain.Location = new System.Drawing.Point(8, 32);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(590, 212);
+			this.gridMain.Size = new System.Drawing.Size(590, 208);
 			this.gridMain.TabIndex = 10;
 			this.gridMain.Title = "Insurance Plans for Family";
 			this.gridMain.TranslationName = "TableInsPlans";

@@ -57,7 +57,7 @@ namespace OpenPmsDental {
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.listButtons.Location = new System.Drawing.Point(296, 26);
 			this.listButtons.Name = "listButtons";
-			this.listButtons.Size = new System.Drawing.Size(280, 315);
+			this.listButtons.Size = new System.Drawing.Size(280, 311);
 			this.listButtons.TabIndex = 12;
 			this.listButtons.DoubleClick += new System.EventHandler(this.listButtons_DoubleClick);
 			// 
@@ -67,7 +67,7 @@ namespace OpenPmsDental {
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.listComputers.Location = new System.Drawing.Point(8, 26);
 			this.listComputers.Name = "listComputers";
-			this.listComputers.Size = new System.Drawing.Size(280, 315);
+			this.listComputers.Size = new System.Drawing.Size(280, 311);
 			this.listComputers.TabIndex = 23;
 			this.listComputers.Click += new System.EventHandler(this.listComputers_Click);
 			// 

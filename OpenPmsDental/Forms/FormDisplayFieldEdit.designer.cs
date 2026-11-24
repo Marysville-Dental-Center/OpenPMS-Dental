@@ -84,7 +84,7 @@ namespace OpenPmsDental {
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(43, 116);
+			this.label3.Location = new System.Drawing.Point(43, 124);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(92, 23);
 			this.label3.TabIndex = 6;
@@ -119,7 +119,7 @@ namespace OpenPmsDental {
 			// 
 			// textWidth
 			// 
-			this.textWidth.Location = new System.Drawing.Point(141, 116);
+			this.textWidth.Location = new System.Drawing.Point(141, 124);
 			this.textWidth.MaxVal = 2000;
 			this.textWidth.MinVal = 1;
 			this.textWidth.Name = "textWidth";
@@ -129,7 +129,7 @@ namespace OpenPmsDental {
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(514, 120);
+			this.butSave.Location = new System.Drawing.Point(514, 128);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 26);
 			this.butSave.TabIndex = 1;
@@ -173,7 +173,7 @@ namespace OpenPmsDental {
 			// 
 			// FormDisplayFieldEdit
 			// 
-			this.ClientSize = new System.Drawing.Size(597, 154);
+			this.ClientSize = new System.Drawing.Size(597, 162);
 			this.Controls.Add(this.labelDescriptionOverrideOption);
 			this.Controls.Add(this.textDescriptionOverride);
 			this.Controls.Add(this.labelDescriptionOverride);

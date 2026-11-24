@@ -46,7 +46,7 @@ namespace OpenPmsDental {
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.listCategory.Location = new System.Drawing.Point(8, 27);
 			this.listCategory.Name = "listCategory";
-			this.listCategory.Size = new System.Drawing.Size(255, 319);
+			this.listCategory.Size = new System.Drawing.Size(255, 315);
 			this.listCategory.TabIndex = 57;
 			this.listCategory.DoubleClick += new System.EventHandler(this.listCategory_DoubleClick);
 			// 

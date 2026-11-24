@@ -76,7 +76,7 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.listCompareField.Location = new System.Drawing.Point(8, 32);
 			this.listCompareField.Name = "listCompareField";
-			this.listCompareField.Size = new System.Drawing.Size(181,243);
+			this.listCompareField.Size = new System.Drawing.Size(181,239);
 			this.listCompareField.TabIndex = 71;
 			this.listCompareField.Click += new System.EventHandler(this.listCompareField_Click);
 			// 
@@ -86,7 +86,7 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.listComparison.Location = new System.Drawing.Point(197, 32);
 			this.listComparison.Name = "listComparison";
-			this.listComparison.Size = new System.Drawing.Size(138,243);
+			this.listComparison.Size = new System.Drawing.Size(138,239);
 			this.listComparison.TabIndex = 72;
 			// 
 			// labelWarning

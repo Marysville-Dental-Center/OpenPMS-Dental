@@ -44,7 +44,7 @@ namespace OpenPmsDental{
 			this.gridCustom.Location = new System.Drawing.Point(480, 35);
 			this.gridCustom.Name = "gridCustom";
 			this.gridCustom.SelectionMode = OpenPmsDental.UI.GridSelectionMode.OneCell;
-			this.gridCustom.Size = new System.Drawing.Size(381, 590);
+			this.gridCustom.Size = new System.Drawing.Size(381, 586);
 			this.gridCustom.TabIndex = 233;
 			this.gridCustom.Title = "Custom";
 			this.gridCustom.TranslationName = "TablePermissions";
@@ -83,7 +83,7 @@ namespace OpenPmsDental{
 			this.gridInternal.HasMultilineHeaders = true;
 			this.gridInternal.Location = new System.Drawing.Point(8, 35);
 			this.gridInternal.Name = "gridInternal";
-			this.gridInternal.Size = new System.Drawing.Size(381, 590);
+			this.gridInternal.Size = new System.Drawing.Size(381, 586);
 			this.gridInternal.TabIndex = 234;
 			this.gridInternal.Title = "Internal";
 			this.gridInternal.TranslationName = "TableInternal";

@@ -379,7 +379,7 @@ namespace OpenPmsDental {
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.gridMain.Location = new System.Drawing.Point(296, 8);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(346, 511);
+			this.gridMain.Size = new System.Drawing.Size(346, 507);
 			this.gridMain.TabIndex = 11;
 			this.gridMain.Title = "Pay Periods";
 			this.gridMain.TranslationName = "TablePayPeriods";

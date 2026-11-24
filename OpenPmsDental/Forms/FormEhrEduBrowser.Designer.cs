@@ -35,7 +35,7 @@
 			this.webViewMain.AreBrowserKeysEnabled = true;
 			this.webViewMain.Location = new System.Drawing.Point(8, 8);
 			this.webViewMain.Name = "webViewMain";
-			this.webViewMain.Size = new System.Drawing.Size(868, 592);
+			this.webViewMain.Size = new System.Drawing.Size(868, 588);
 			this.webViewMain.TabIndex = 1;
 			// 
 			// butPrint

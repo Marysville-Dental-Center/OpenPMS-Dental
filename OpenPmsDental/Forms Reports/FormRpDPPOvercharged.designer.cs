@@ -58,7 +58,7 @@
 			this.gridMain.Location = new System.Drawing.Point(8, 97);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridMain.Size = new System.Drawing.Size(1173, 575);
+			this.gridMain.Size = new System.Drawing.Size(1173, 571);
 			this.gridMain.TabIndex = 69;
 			this.gridMain.Title = "Overcharged Production";
 			this.gridMain.TranslationName = "TableProcedures";

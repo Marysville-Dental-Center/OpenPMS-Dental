@@ -45,7 +45,7 @@ namespace OpenPmsDental {
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(452, 235);
+			this.butOK.Location = new System.Drawing.Point(452, 239);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 26);
 			this.butOK.TabIndex = 1;
@@ -107,7 +107,7 @@ namespace OpenPmsDental {
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(8, 235);
+			this.butDelete.Location = new System.Drawing.Point(8, 239);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(75, 26);
 			this.butDelete.TabIndex = 46;
@@ -116,7 +116,7 @@ namespace OpenPmsDental {
 			// 
 			// FormAccountingAutoPayEdit
 			// 
-			this.ClientSize = new System.Drawing.Size(535, 269);
+			this.ClientSize = new System.Drawing.Size(535, 273);
 			this.Controls.Add(this.butDelete);
 			this.Controls.Add(this.butRemove);
 			this.Controls.Add(this.butAdd);

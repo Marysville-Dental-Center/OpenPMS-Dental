@@ -87,7 +87,7 @@ namespace OpenPmsDental {
 			this.dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle4;
 			this.dataGridView1.RowTemplate.ReadOnly = true;
 			this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.dataGridView1.Size = new System.Drawing.Size(798, 415);
+			this.dataGridView1.Size = new System.Drawing.Size(798, 411);
 			this.dataGridView1.TabIndex = 11;
 			// 
 			// MyPrintDocument

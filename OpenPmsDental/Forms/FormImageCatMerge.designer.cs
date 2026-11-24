@@ -40,7 +40,7 @@ namespace OpenPmsDental{
 			// 
 			this.butMerge.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butMerge.Enabled = false;
-			this.butMerge.Location = new System.Drawing.Point(517,176);
+			this.butMerge.Location = new System.Drawing.Point(517,180);
 			this.butMerge.Name = "butMerge";
 			this.butMerge.Size = new System.Drawing.Size(75, 24);
 			this.butMerge.TabIndex = 3;
@@ -129,7 +129,7 @@ namespace OpenPmsDental{
 			// 
 			// FormImageCatMerge
 			// 
-			this.ClientSize = new System.Drawing.Size(600, 249);
+			this.ClientSize = new System.Drawing.Size(600, 253);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.Controls.Add(this.groupBoxFrom);
 			this.Controls.Add(this.groupBoxInto);

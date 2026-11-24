@@ -77,7 +77,7 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridDunning.Location = new System.Drawing.Point(455, 8);
 			this.gridDunning.Name = "gridDunning";
-			this.gridDunning.Size = new System.Drawing.Size(645, 366);
+			this.gridDunning.Size = new System.Drawing.Size(645, 358);
 			this.gridDunning.TabIndex = 15;
 			this.gridDunning.Title = "Messages";
 			this.gridDunning.TranslationName = "TableMessages";

@@ -32,7 +32,7 @@ namespace OpenPmsDental{
 			// 
 			this.listBoxPayPlanCharges.Location = new System.Drawing.Point(8, 8);
 			this.listBoxPayPlanCharges.Name = "listBoxPayPlanCharges";
-			this.listBoxPayPlanCharges.Size = new System.Drawing.Size(272, 360);
+			this.listBoxPayPlanCharges.Size = new System.Drawing.Size(272, 356);
 			this.listBoxPayPlanCharges.TabIndex = 3;
 			this.listBoxPayPlanCharges.Text = "listBox1";
 			this.listBoxPayPlanCharges.DoubleClick += new System.EventHandler(this.listBoxPayPlanCharges_DoubleClick);

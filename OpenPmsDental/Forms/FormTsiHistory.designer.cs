@@ -252,7 +252,7 @@ namespace OpenPmsDental{
 			this.gridMain.Location = new System.Drawing.Point(8, 233);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridMain.Size = new System.Drawing.Size(1214, 454);
+			this.gridMain.Size = new System.Drawing.Size(1214, 446);
 			this.gridMain.TabIndex = 3;
 			this.gridMain.Title = "Messages";
 			this.gridMain.TranslationName = "TableTsiHistory";

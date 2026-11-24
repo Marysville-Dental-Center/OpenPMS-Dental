@@ -231,7 +231,7 @@
 			this.gridMain.Location = new System.Drawing.Point(8, 101);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridMain.Size = new System.Drawing.Size(1055, 555);
+			this.gridMain.Size = new System.Drawing.Size(1055, 551);
 			this.gridMain.TabIndex = 8;
 			this.gridMain.Title = "ERAs";
 			this.gridMain.TranslationName = "TableEtrans835s";

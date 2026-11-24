@@ -525,19 +525,19 @@ OpenPmsDental/Forms/FormRepeatChargeEditMulti.Designer.cs	OpenPmsDental.FormRepe
 OpenPmsDental/Forms/FormRepeatChargeEditMulti.Designer.cs	OpenPmsDental.FormRepeatChargeEditMulti	label9	Size	346,33	346,34	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormRepeatChargeEditMulti.Designer.cs	OpenPmsDental.FormRepeatChargeEditMulti	butRun	Location	558,273	562,273	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormReplicationEdit.designer.cs	OpenPmsDental.FormReplicationEdit	label7	Location	353,167	420,187	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormReplicationEdit.designer.cs	OpenPmsDental.FormReplicationEdit	label11	Location	420,219	420,244	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormReplicationEdit.designer.cs	OpenPmsDental.FormReplicationEdit	label3	Location	172,35	172,40	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormReplicationEdit.designer.cs	OpenPmsDental.FormReplicationEdit	textServerId	Location	238,35	238,40	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormReplicationEdit.designer.cs	OpenPmsDental.FormReplicationEdit	label1	Location	344,35	344,40	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormReplicationEdit.designer.cs	OpenPmsDental.FormReplicationEdit	label4	Location	160,86	160,96	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormReplicationEdit.designer.cs	OpenPmsDental.FormReplicationEdit	textRangeStart	Location	238,86	238,96	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormReplicationEdit.designer.cs	OpenPmsDental.FormReplicationEdit	label5	Location	164,113	164,123	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormReplicationEdit.designer.cs	OpenPmsDental.FormReplicationEdit	textRangeEnd	Location	238,113	238,123	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormReplicationEdit.designer.cs	OpenPmsDental.FormReplicationEdit	label8	Location	420,116	420,126	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormReplicationEdit.designer.cs	OpenPmsDental.FormReplicationEdit	label6	Location	112,140	112,155	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormReplicationEdit.designer.cs	OpenPmsDental.FormReplicationEdit	textAtoZpath	Location	238,140	238,155	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormReplicationEdit.designer.cs	OpenPmsDental.FormReplicationEdit	label11	Location	420,219	420,243	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormReplicationEdit.designer.cs	OpenPmsDental.FormReplicationEdit	label3	Location	172,35	172,39	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormReplicationEdit.designer.cs	OpenPmsDental.FormReplicationEdit	textServerId	Location	238,35	238,39	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormReplicationEdit.designer.cs	OpenPmsDental.FormReplicationEdit	label1	Location	344,35	344,39	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormReplicationEdit.designer.cs	OpenPmsDental.FormReplicationEdit	label4	Location	160,86	160,94	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormReplicationEdit.designer.cs	OpenPmsDental.FormReplicationEdit	textRangeStart	Location	238,86	238,94	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormReplicationEdit.designer.cs	OpenPmsDental.FormReplicationEdit	label5	Location	164,113	164,125	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormReplicationEdit.designer.cs	OpenPmsDental.FormReplicationEdit	textRangeEnd	Location	238,113	238,125	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormReplicationEdit.designer.cs	OpenPmsDental.FormReplicationEdit	label8	Location	420,116	420,128	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormReplicationEdit.designer.cs	OpenPmsDental.FormReplicationEdit	label6	Location	112,140	112,156	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormReplicationEdit.designer.cs	OpenPmsDental.FormReplicationEdit	textAtoZpath	Location	238,140	238,156	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormReplicationEdit.designer.cs	OpenPmsDental.FormReplicationEdit	checkUpdateBlocked	Location	238,167	238,187	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormReplicationEdit.designer.cs	OpenPmsDental.FormReplicationEdit	checkTempTablesAllowedServer	Location	238,219	238,244	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormReplicationEdit.designer.cs	OpenPmsDental.FormReplicationEdit	checkTempTablesAllowedServer	Location	238,219	238,243	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormRxAlertEdit.designer.cs	OpenPmsDental.FormRxAlertEdit	groupBox	Location	8,39	8,61	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormRxAlertEdit.designer.cs	OpenPmsDental.FormRxAlertEdit	groupBox	Size	636,54	681,54	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormRxAlertEdit.designer.cs	OpenPmsDental.FormRxAlertEdit	textRxName	Size	308,20	359,23	by hand (layout script): on the grid
@@ -566,3 +566,20 @@ OpenPmsDental/Forms/FormSigElementDefEdit.designer.cs	OpenPmsDental.FormSigEleme
 OpenPmsDental/Forms/FormSigElementDefEdit.designer.cs	OpenPmsDental.FormSigElementDefEdit	textLightRow	Location	168,238	168,263	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormSigElementDefEdit.designer.cs	OpenPmsDental.FormSigElementDefEdit	label6	Location	90,265	90,290	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormSigElementDefEdit.designer.cs	OpenPmsDental.FormSigElementDefEdit	butColor	Location	168,265	168,290	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormPerioGraphical.designer.cs	OpenPmsDental.FormPerioGraphical	label1	Location	672,96	672,104	by hand (UI-12F): the bottom bar a section gap (12 px) under the content above it (UI-12.md section 1)
+OpenPmsDental/Forms/FormPerioGraphical.designer.cs	OpenPmsDental.FormPerioGraphical	butPrint	Location	672,64	672,72	by hand (UI-12F): the bottom bar a section gap (12 px) under the content above it (UI-12.md section 1)
+OpenPmsDental/Forms/FormPerioGraphical.designer.cs	OpenPmsDental.FormPerioGraphical	butSave	Location	672,36	672,44	by hand (UI-12F): the bottom bar a section gap (12 px) under the content above it (UI-12.md section 1)
+OpenPmsDental/Forms/FormPerioGraphical.designer.cs	OpenPmsDental.FormPerioGraphical	.	ClientSize	768,696	768,704	by hand (UI-12F): the bottom bar a section gap (12 px) under the content above it (UI-12.md section 1)
+OpenPmsDental/Forms/FormProcCodeNoteEdit.designer.cs	OpenPmsDental.FormProcCodeNoteEdit	butSave	Location	563,612	563,617	by hand (UI-12F): the bottom bar a section gap (12 px) under the content above it (UI-12.md section 1)
+OpenPmsDental/Forms/FormProcCodeNoteEdit.designer.cs	OpenPmsDental.FormProcCodeNoteEdit	butDelete	Location	207,612	207,617	by hand (UI-12F): the bottom bar a section gap (12 px) under the content above it (UI-12.md section 1)
+OpenPmsDental/Forms/FormProcCodeNoteEdit.designer.cs	OpenPmsDental.FormProcCodeNoteEdit	label11	Location	74,616	74,621	by hand (UI-12F): the bottom bar a section gap (12 px) under the content above it (UI-12.md section 1)
+OpenPmsDental/Forms/FormProcCodeNoteEdit.designer.cs	OpenPmsDental.FormProcCodeNoteEdit	textTime2	Location	8,613	8,618	by hand (UI-12F): the bottom bar a section gap (12 px) under the content above it (UI-12.md section 1)
+OpenPmsDental/Forms/FormProcCodeNoteEdit.designer.cs	OpenPmsDental.FormProcCodeNoteEdit	.	ClientSize	646,646	646,651	by hand (UI-12F): the bottom bar a section gap (12 px) under the content above it (UI-12.md section 1)
+OpenPmsDental/Forms/FormQueryFavorites.designer.cs	OpenPmsDental.FormQueryFavorites	splitContainer	Size	1068,608	1068,604	by hand (UI-12F): the bottom bar a section gap (12 px) under the content above it (UI-12.md section 1)
+OpenPmsDental/Forms/FormQuestionDefs.designer.cs	OpenPmsDental.FormQuestionDefs	gridMain	Size	735,625	735,633	by hand (UI-12F): the bottom bar a section gap (12 px) under the content above it (UI-12.md section 1)
+OpenPmsDental/Forms/FormQuestionDefs.designer.cs	OpenPmsDental.FormQuestionDefs	butDown	Location	751,641	751,649	by hand (UI-12F): the bottom bar a section gap (12 px) under the content above it (UI-12.md section 1)
+OpenPmsDental/Forms/FormQuestionDefs.designer.cs	OpenPmsDental.FormQuestionDefs	.	ClientSize	838,675	838,683	by hand (UI-12F): the bottom bar a section gap (12 px) under the content above it (UI-12.md section 1)
+OpenPmsDental/Forms/FormXchargeTokenTool.designer.cs	OpenPmsDental.FormXchargeTokenTool	textInvalid	Location	196,503	196,512	by hand (UI-12F): the bottom bar a section gap (12 px) under the content above it (UI-12.md section 1)
+OpenPmsDental/Forms/FormXchargeTokenTool.designer.cs	OpenPmsDental.FormXchargeTokenTool	labelInvalid	Location	138,503	138,512	by hand (UI-12F): the bottom bar a section gap (12 px) under the content above it (UI-12.md section 1)
+OpenPmsDental/Forms/FormXchargeTokenTool.designer.cs	OpenPmsDental.FormXchargeTokenTool	butCheck	Location	8,502	8,511	by hand (UI-12F): the bottom bar a section gap (12 px) under the content above it (UI-12.md section 1)
+OpenPmsDental/Forms/FormXchargeTokenTool.designer.cs	OpenPmsDental.FormXchargeTokenTool	.	ClientSize	725,534	725,543	by hand (UI-12F): the bottom bar a section gap (12 px) under the content above it (UI-12.md section 1)

@@ -67,7 +67,7 @@ namespace OpenPmsDental {
 			this.butDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butDown.Icon = OpenPmsDental.UI.EnumIcons.Down;
 			this.butDown.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDown.Location = new System.Drawing.Point(751, 641);
+			this.butDown.Location = new System.Drawing.Point(751, 649);
 			this.butDown.Name = "butDown";
 			this.butDown.Size = new System.Drawing.Size(79, 26);
 			this.butDown.TabIndex = 14;
@@ -93,7 +93,7 @@ namespace OpenPmsDental {
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridMain.Location = new System.Drawing.Point(8, 42);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(735, 625);
+			this.gridMain.Size = new System.Drawing.Size(735, 633);
 			this.gridMain.TabIndex = 15;
 			this.gridMain.Title = "Questions";
 			this.gridMain.TranslationName = "TableQuestionDefs";
@@ -101,7 +101,7 @@ namespace OpenPmsDental {
 			// 
 			// FormQuestionDefs
 			// 
-			this.ClientSize = new System.Drawing.Size(838, 675);
+			this.ClientSize = new System.Drawing.Size(838, 683);
 			this.Controls.Add(this.gridMain);
 			this.Controls.Add(this.butDown);
 			this.Controls.Add(this.butUp);

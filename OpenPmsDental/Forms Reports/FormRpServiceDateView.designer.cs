@@ -53,7 +53,7 @@ namespace OpenPmsDental{
 			this.gridMain.Location = new System.Drawing.Point(12, 63);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.None;
-			this.gridMain.Size = new System.Drawing.Size(963, 373);
+			this.gridMain.Size = new System.Drawing.Size(963, 365);
 			this.gridMain.TabIndex = 29;
 			this.gridMain.Title = "Service View";
 			this.gridMain.TranslationName = "TableServiceView";

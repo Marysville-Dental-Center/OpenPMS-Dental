@@ -59,7 +59,7 @@ namespace OpenPmsDental {
 			// 
 			this.listBoxImageType.Location = new System.Drawing.Point(107, 62);
 			this.listBoxImageType.Name = "listBoxImageType";
-			this.listBoxImageType.Size = new System.Drawing.Size(139, 203);
+			this.listBoxImageType.Size = new System.Drawing.Size(139, 199);
 			this.listBoxImageType.TabIndex = 10;
 			this.listBoxImageType.Text = "Image Type";
 			// 

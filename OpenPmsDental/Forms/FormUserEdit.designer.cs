@@ -453,7 +453,7 @@ namespace OpenPmsDental {
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(961, 662);
+			this.butSave.Location = new System.Drawing.Point(961, 666);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 150;
@@ -463,7 +463,7 @@ namespace OpenPmsDental {
 			// butPassword
 			// 
 			this.butPassword.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butPassword.Location = new System.Drawing.Point(8, 662);
+			this.butPassword.Location = new System.Drawing.Point(8, 666);
 			this.butPassword.Name = "butPassword";
 			this.butPassword.Size = new System.Drawing.Size(116, 24);
 			this.butPassword.TabIndex = 155;
@@ -473,7 +473,7 @@ namespace OpenPmsDental {
 			// butUnlock
 			// 
 			this.butUnlock.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butUnlock.Location = new System.Drawing.Point(130, 662);
+			this.butUnlock.Location = new System.Drawing.Point(130, 666);
 			this.butUnlock.Name = "butUnlock";
 			this.butUnlock.Size = new System.Drawing.Size(103, 24);
 			this.butUnlock.TabIndex = 168;
@@ -482,7 +482,7 @@ namespace OpenPmsDental {
 			// 
 			// FormUserEdit
 			// 
-			this.ClientSize = new System.Drawing.Size(1044, 694);
+			this.ClientSize = new System.Drawing.Size(1044, 698);
 			this.Controls.Add(this.butUnlock);
 			this.Controls.Add(this.tabControl1);
 			this.Controls.Add(this.butSave);

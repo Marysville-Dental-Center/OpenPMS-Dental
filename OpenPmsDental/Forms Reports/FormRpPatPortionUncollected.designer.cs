@@ -68,7 +68,7 @@ namespace OpenPmsDental {
 			this.gridOD.ContextMenuStrip = this.contextMenuStrip1;
 			this.gridOD.Location = new System.Drawing.Point(12, 60);
 			this.gridOD.Name = "gridOD";
-			this.gridOD.Size = new System.Drawing.Size(836, 392);
+			this.gridOD.Size = new System.Drawing.Size(836, 384);
 			this.gridOD.TabIndex = 57;
 			this.gridOD.Text = "gridOD";
 			this.gridOD.TitleVisible = false;

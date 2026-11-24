@@ -72,7 +72,7 @@ namespace OpenPmsDental {
 			this.textNotes.Name = "textNotes";
 			this.textNotes.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.ClaimCustomTrack;
 			this.textNotes.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textNotes.Size = new System.Drawing.Size(345, 183);
+			this.textNotes.Size = new System.Drawing.Size(345, 179);
 			this.textNotes.TabIndex = 56;
 			this.textNotes.Text = "";
 			// 

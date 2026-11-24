@@ -85,7 +85,7 @@ namespace OpenPmsDental {
 			// 
 			// textBoxInput
 			// 
-			this.textBoxInput.Location = new System.Drawing.Point(295, 8);
+			this.textBoxInput.Location = new System.Drawing.Point(295, 11);
 			this.textBoxInput.Name = "textBoxInput";
 			this.textBoxInput.Size = new System.Drawing.Size(116, 20);
 			this.textBoxInput.TabIndex = 0;

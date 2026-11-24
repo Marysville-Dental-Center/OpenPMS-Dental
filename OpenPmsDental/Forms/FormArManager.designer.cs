@@ -181,7 +181,7 @@ namespace OpenPmsDental{
 			// butHistory
 			// 
 			this.butHistory.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butHistory.Location = new System.Drawing.Point(578, 678);
+			this.butHistory.Location = new System.Drawing.Point(578, 682);
 			this.butHistory.Name = "butHistory";
 			this.butHistory.Size = new System.Drawing.Size(75, 24);
 			this.butHistory.TabIndex = 33;
@@ -1493,7 +1493,7 @@ namespace OpenPmsDental{
 			// 
 			// FormArManager
 			// 
-			this.ClientSize = new System.Drawing.Size(1250, 710);
+			this.ClientSize = new System.Drawing.Size(1250, 714);
 			this.Controls.Add(this.menuMain);
 			this.Controls.Add(this.butHistory);
 			this.Controls.Add(this.tabControlMain);

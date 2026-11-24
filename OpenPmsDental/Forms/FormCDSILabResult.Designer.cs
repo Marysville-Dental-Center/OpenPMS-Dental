@@ -51,7 +51,7 @@
 			// butOk
 			// 
 			this.butOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOk.Location = new System.Drawing.Point(328, 328);
+			this.butOk.Location = new System.Drawing.Point(328, 332);
 			this.butOk.Name = "butOk";
 			this.butOk.Size = new System.Drawing.Size(75, 28);
 			this.butOk.TabIndex = 5;
@@ -62,7 +62,7 @@
 			// butDelete
 			// 
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butDelete.Location = new System.Drawing.Point(8, 328);
+			this.butDelete.Location = new System.Drawing.Point(8, 332);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(75, 28);
 			this.butDelete.TabIndex = 7;
@@ -237,7 +237,7 @@
 			// FormCDSILabResult
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(415, 364);
+			this.ClientSize = new System.Drawing.Size(415, 368);
 			this.Controls.Add(this.groupBox2);
 			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.groupBox5);

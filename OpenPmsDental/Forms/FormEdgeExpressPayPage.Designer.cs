@@ -33,7 +33,7 @@ namespace OpenPmsDental {
 			this.webViewMain.DefaultBackgroundColor = System.Drawing.Color.White;
 			this.webViewMain.Location = new System.Drawing.Point(8, 8);
 			this.webViewMain.Name = "webViewMain";
-			this.webViewMain.Size = new System.Drawing.Size(668, 570);
+			this.webViewMain.Size = new System.Drawing.Size(668, 566);
 			this.webViewMain.TabIndex = 0;
 			this.webViewMain.ZoomFactor = 1D;
 			//

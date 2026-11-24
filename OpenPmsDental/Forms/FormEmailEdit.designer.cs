@@ -64,7 +64,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(1147, 663);
+			this.butSave.Location = new System.Drawing.Point(1147, 667);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 25);
 			this.butSave.TabIndex = 87;
@@ -114,7 +114,7 @@ namespace OpenPmsDental{
 			// checkIsRaw
 			// 
 			this.checkIsRaw.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.checkIsRaw.Location = new System.Drawing.Point(8, 666);
+			this.checkIsRaw.Location = new System.Drawing.Point(8, 670);
 			this.checkIsRaw.Name = "checkIsRaw";
 			this.checkIsRaw.RightToLeft = System.Windows.Forms.RightToLeft.No;
 			this.checkIsRaw.Size = new System.Drawing.Size(319, 18);
@@ -124,7 +124,7 @@ namespace OpenPmsDental{
 			// 
 			// FormEmailEdit
 			// 
-			this.ClientSize = new System.Drawing.Size(1230, 696);
+			this.ClientSize = new System.Drawing.Size(1230, 700);
 			this.Controls.Add(this.butSave);
 			this.Controls.Add(this.checkIsRaw);
 			this.Controls.Add(this.textContentEmail);

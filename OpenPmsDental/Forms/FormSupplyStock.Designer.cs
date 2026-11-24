@@ -46,7 +46,7 @@ namespace OpenPmsDental {
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.gridLots.Location = new System.Drawing.Point(8, 32);
 			this.gridLots.Name = "gridLots";
-			this.gridLots.Size = new System.Drawing.Size(300, 400);
+			this.gridLots.Size = new System.Drawing.Size(300, 396);
 			this.gridLots.TabIndex = 1;
 			this.gridLots.Title = "Lots";
 			this.gridLots.TranslationName = "TableSupplyLots";
@@ -69,7 +69,7 @@ namespace OpenPmsDental {
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridLedger.Location = new System.Drawing.Point(316, 32);
 			this.gridLedger.Name = "gridLedger";
-			this.gridLedger.Size = new System.Drawing.Size(760, 400);
+			this.gridLedger.Size = new System.Drawing.Size(760, 396);
 			this.gridLedger.TabIndex = 3;
 			this.gridLedger.Title = "Stock Ledger";
 			this.gridLedger.TranslationName = "TableSupplyLedger";

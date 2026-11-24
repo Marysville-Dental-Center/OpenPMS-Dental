@@ -77,7 +77,7 @@ namespace OpenPmsDental {
 			// 
 			// label11
 			// 
-			this.label11.Location = new System.Drawing.Point(74, 616);
+			this.label11.Location = new System.Drawing.Point(74, 621);
 			this.label11.Name = "label11";
 			this.label11.Size = new System.Drawing.Size(102, 16);
 			this.label11.TabIndex = 52;
@@ -86,7 +86,7 @@ namespace OpenPmsDental {
 			// textTime2
 			// 
 			this.textTime2.Enabled = false;
-			this.textTime2.Location = new System.Drawing.Point(8, 613);
+			this.textTime2.Location = new System.Drawing.Point(8, 618);
 			this.textTime2.Name = "textTime2";
 			this.textTime2.Size = new System.Drawing.Size(60, 20);
 			this.textTime2.TabIndex = 51;
@@ -137,7 +137,7 @@ namespace OpenPmsDental {
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(563, 612);
+			this.butSave.Location = new System.Drawing.Point(563, 617);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 26);
 			this.butSave.TabIndex = 1;
@@ -149,7 +149,7 @@ namespace OpenPmsDental {
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(207, 612);
+			this.butDelete.Location = new System.Drawing.Point(207, 617);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(82, 26);
 			this.butDelete.TabIndex = 55;
@@ -158,7 +158,7 @@ namespace OpenPmsDental {
 			// 
 			// FormProcCodeNoteEdit
 			// 
-			this.ClientSize = new System.Drawing.Size(646, 646);
+			this.ClientSize = new System.Drawing.Size(646, 651);
 			this.Controls.Add(this.butSave);
 			this.Controls.Add(this.butDelete);
 			this.Controls.Add(this.textNote);

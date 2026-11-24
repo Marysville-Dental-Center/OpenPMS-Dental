@@ -63,7 +63,7 @@ namespace OpenPmsDental{
 			// butRun
 			// 
 			this.butRun.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butRun.Location = new System.Drawing.Point(519, 376);
+			this.butRun.Location = new System.Drawing.Point(519, 382);
 			this.butRun.Name = "butRun";
 			this.butRun.Size = new System.Drawing.Size(75, 24);
 			this.butRun.TabIndex = 5;
@@ -381,7 +381,7 @@ namespace OpenPmsDental{
 			// 
 			// FormLateCharges
 			// 
-			this.ClientSize = new System.Drawing.Size(602, 408);
+			this.ClientSize = new System.Drawing.Size(602, 414);
 			this.Controls.Add(this.groupLateCharge);
 			this.Controls.Add(this.groupBoxAssignCharge);
 			this.Controls.Add(this.groupBoxUndo);

@@ -86,7 +86,7 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridMain.Location = new System.Drawing.Point(12, 62);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(851, 508);
+			this.gridMain.Size = new System.Drawing.Size(851, 500);
 			this.gridMain.TabIndex = 4;
 			this.gridMain.Title = "Insurance Payments (EOBs)";
 			this.gridMain.TranslationName = "FormClaimPayList";

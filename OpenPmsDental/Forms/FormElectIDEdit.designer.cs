@@ -124,7 +124,7 @@ namespace OpenPmsDental{
 			// 
 			this.gridAttributes.Location = new System.Drawing.Point(442, 35);
 			this.gridAttributes.Name = "gridAttributes";
-			this.gridAttributes.Size = new System.Drawing.Size(260, 316);
+			this.gridAttributes.Size = new System.Drawing.Size(260, 312);
 			this.gridAttributes.TabIndex = 13;
 			this.gridAttributes.Title = "Attributes";
 			// 

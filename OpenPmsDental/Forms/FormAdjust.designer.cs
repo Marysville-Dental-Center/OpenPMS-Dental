@@ -256,7 +256,7 @@
 			this.textNote.Name = "textNote";
 			this.textNote.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Adjustment;
 			this.textNote.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textNote.Size = new System.Drawing.Size(715, 79);
+			this.textNote.Size = new System.Drawing.Size(715, 75);
 			this.textNote.TabIndex = 5;
 			this.textNote.Text = "";
 			// 

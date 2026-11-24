@@ -61,7 +61,7 @@
 			this.textInput.Multiline = true;
 			this.textInput.Name = "textInput";
 			this.textInput.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.textInput.Size = new System.Drawing.Size(273, 234);
+			this.textInput.Size = new System.Drawing.Size(273, 226);
 			this.textInput.TabIndex = 3;
 			// 
 			// textResult
@@ -72,7 +72,7 @@
 			this.textResult.Multiline = true;
 			this.textResult.Name = "textResult";
 			this.textResult.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.textResult.Size = new System.Drawing.Size(275, 234);
+			this.textResult.Size = new System.Drawing.Size(275, 226);
 			this.textResult.TabIndex = 4;
 			// 
 			// labelInput

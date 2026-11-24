@@ -89,7 +89,7 @@ namespace OpenPmsDental {
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(1071, 597);
+			this.butSave.Location = new System.Drawing.Point(1071, 599);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 6;
@@ -200,7 +200,7 @@ namespace OpenPmsDental {
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(8, 597);
+			this.butDelete.Location = new System.Drawing.Point(8, 599);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(75, 24);
 			this.butDelete.TabIndex = 8;
@@ -309,7 +309,7 @@ namespace OpenPmsDental {
 			// butRegisterCertificate
 			// 
 			this.butRegisterCertificate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butRegisterCertificate.Location = new System.Drawing.Point(89, 597);
+			this.butRegisterCertificate.Location = new System.Drawing.Point(89, 599);
 			this.butRegisterCertificate.Name = "butRegisterCertificate";
 			this.butRegisterCertificate.Size = new System.Drawing.Size(122, 24);
 			this.butRegisterCertificate.TabIndex = 9;
@@ -587,7 +587,7 @@ namespace OpenPmsDental {
 			// FormEmailAddressEdit
 			// 
 			this.AcceptButton = this.butSave;
-			this.ClientSize = new System.Drawing.Size(1154, 629);
+			this.ClientSize = new System.Drawing.Size(1154, 631);
 			this.Controls.Add(this.groupAuthentication);
 			this.Controls.Add(this.panelUserod);
 			this.Controls.Add(this.butSave);

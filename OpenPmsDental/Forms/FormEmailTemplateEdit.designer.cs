@@ -88,7 +88,7 @@ namespace OpenPmsDental {
 			this.textBodyText.Name = "textBodyText";
 			this.textBodyText.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Email;
 			this.textBodyText.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textBodyText.Size = new System.Drawing.Size(851, 572);
+			this.textBodyText.Size = new System.Drawing.Size(851, 568);
 			this.textBodyText.TabIndex = 3;
 			this.textBodyText.Text = "";
 			this.textBodyText.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBodyText_KeyDown);

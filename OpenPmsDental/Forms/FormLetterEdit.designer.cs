@@ -84,7 +84,7 @@ namespace OpenPmsDental {
 			this.textBody.Name = "textBody";
 			this.textBody.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Letter;
 			this.textBody.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textBody.Size = new System.Drawing.Size(663,386);
+			this.textBody.Size = new System.Drawing.Size(663,382);
 			this.textBody.TabIndex = 8;
 			// 
 			// FormLetterEdit

@@ -60,7 +60,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(287, 630);
+			this.butSave.Location = new System.Drawing.Point(287, 634);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 3;
@@ -343,7 +343,7 @@ namespace OpenPmsDental{
 			//
 			// FormGlobalSecurity
 			//
-			this.ClientSize = new System.Drawing.Size(370, 662);
+			this.ClientSize = new System.Drawing.Size(370, 666);
 			this.Controls.Add(this.checkAuditPatientSelected);
 			this.Controls.Add(this.checkBadgeLogIn);
 			this.Controls.Add(this.checkMaintainPatient);

@@ -193,7 +193,7 @@ namespace OpenPmsDental {
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(935, 692);
+			this.butSave.Location = new System.Drawing.Point(935, 696);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 13;
@@ -323,7 +323,7 @@ namespace OpenPmsDental {
 			// butOkSchedule
 			// 
 			this.butOkSchedule.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOkSchedule.Location = new System.Drawing.Point(807, 692);
+			this.butOkSchedule.Location = new System.Drawing.Point(807, 696);
 			this.butOkSchedule.Name = "butOkSchedule";
 			this.butOkSchedule.Size = new System.Drawing.Size(122, 24);
 			this.butOkSchedule.TabIndex = 40;
@@ -350,7 +350,7 @@ namespace OpenPmsDental {
 			// 
 			// FormScheduleDayEdit
 			// 
-			this.ClientSize = new System.Drawing.Size(1018, 724);
+			this.ClientSize = new System.Drawing.Size(1018, 728);
 			this.Controls.Add(this.labelSearch);
 			this.Controls.Add(this.textSearch);
 			this.Controls.Add(this.butOkSchedule);

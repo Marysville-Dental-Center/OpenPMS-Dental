@@ -52,7 +52,7 @@ namespace OpenPmsDental{
 			this.webViewWiki.IsContextMenuEnabled = false;
 			this.webViewWiki.Location = new System.Drawing.Point(266, 32);
 			this.webViewWiki.Name = "webViewWiki";
-			this.webViewWiki.Size = new System.Drawing.Size(655, 646);
+			this.webViewWiki.Size = new System.Drawing.Size(655, 642);
 			this.webViewWiki.TabIndex = 9;
 			// 
 			// gridMain
@@ -61,7 +61,7 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.gridMain.Location = new System.Drawing.Point(8, 35);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(252, 643);
+			this.gridMain.Size = new System.Drawing.Size(252, 639);
 			this.gridMain.TabIndex = 8;
 			this.gridMain.Title = "All Wiki Pages";
 			this.gridMain.TranslationName = "TableWikiHistory";

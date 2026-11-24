@@ -45,7 +45,7 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.gridMain.Location = new System.Drawing.Point(8, 62);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(252, 592);
+			this.gridMain.Size = new System.Drawing.Size(252, 588);
 			this.gridMain.TabIndex = 10;
 			this.gridMain.Title = "Wiki Pages";
 			this.gridMain.TranslationName = "TableWikiSearchPages";

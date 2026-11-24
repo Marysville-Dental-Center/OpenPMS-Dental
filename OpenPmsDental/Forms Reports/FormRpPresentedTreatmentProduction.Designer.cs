@@ -185,7 +185,7 @@ namespace OpenPmsDental{
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(407, 441);
+			this.butOK.Location = new System.Drawing.Point(407, 445);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 24);
 			this.butOK.TabIndex = 3;
@@ -226,7 +226,7 @@ namespace OpenPmsDental{
 			// FormRpPresentedTreatmentProduction
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(490, 473);
+			this.ClientSize = new System.Drawing.Size(490, 477);
 			this.Controls.Add(this.groupUser);
 			this.Controls.Add(this.checkAllUsers);
 			this.Controls.Add(this.labelClin);

@@ -105,7 +105,7 @@ namespace OpenPmsDental {
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(931, 735);
+			this.butOK.Location = new System.Drawing.Point(931, 743);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 24);
 			this.butOK.TabIndex = 20;
@@ -294,7 +294,7 @@ namespace OpenPmsDental {
 			this.gridMain.Location = new System.Drawing.Point(189, 8);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.OneCell;
-			this.gridMain.Size = new System.Drawing.Size(559, 751);
+			this.gridMain.Size = new System.Drawing.Size(559, 759);
 			this.gridMain.TabIndex = 19;
 			this.gridMain.Title = "Procedures";
 			this.gridMain.TranslationName = "TableProcedures";
@@ -363,7 +363,7 @@ namespace OpenPmsDental {
 			this.groupProcCodeSetup.Controls.Add(this.butImport);
 			this.groupProcCodeSetup.Controls.Add(this.butExport);
 			this.groupProcCodeSetup.Controls.Add(this.butNew);
-			this.groupProcCodeSetup.Location = new System.Drawing.Point(8, 676);
+			this.groupProcCodeSetup.Location = new System.Drawing.Point(8, 684);
 			this.groupProcCodeSetup.Name = "groupProcCodeSetup";
 			this.groupProcCodeSetup.Size = new System.Drawing.Size(173, 83);
 			this.groupProcCodeSetup.TabIndex = 26;
@@ -825,7 +825,7 @@ namespace OpenPmsDental {
 			// labelFeesAsOf
 			//
 			this.labelFeesAsOf.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelFeesAsOf.Location = new System.Drawing.Point(756, 735);
+			this.labelFeesAsOf.Location = new System.Drawing.Point(756, 743);
 			this.labelFeesAsOf.Name = "labelFeesAsOf";
 			this.labelFeesAsOf.Size = new System.Drawing.Size(64, 23);
 			this.labelFeesAsOf.TabIndex = 31;
@@ -835,7 +835,7 @@ namespace OpenPmsDental {
 			// textFeesAsOf
 			//
 			this.textFeesAsOf.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.textFeesAsOf.Location = new System.Drawing.Point(826, 735);
+			this.textFeesAsOf.Location = new System.Drawing.Point(826, 743);
 			this.textFeesAsOf.Name = "textFeesAsOf";
 			this.textFeesAsOf.Size = new System.Drawing.Size(76, 23);
 			this.textFeesAsOf.TabIndex = 32;
@@ -844,7 +844,7 @@ namespace OpenPmsDental {
 			//
 			// FormProcCodes
 			//
-			this.ClientSize = new System.Drawing.Size(1014, 767);
+			this.ClientSize = new System.Drawing.Size(1014, 775);
 			this.Controls.Add(this.labelFeesAsOf);
 			this.Controls.Add(this.textFeesAsOf);
 			this.Controls.Add(this.butTools);

@@ -59,7 +59,7 @@ namespace OpenPmsDental {
 			this.textBenefitNotes.Multiline = true;
 			this.textBenefitNotes.Name = "textBenefitNotes";
 			this.textBenefitNotes.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this.textBenefitNotes.Size = new System.Drawing.Size(545,610);
+			this.textBenefitNotes.Size = new System.Drawing.Size(545,606);
 			this.textBenefitNotes.TabIndex = 2;
 			// 
 			// FormInsBenefitNotes

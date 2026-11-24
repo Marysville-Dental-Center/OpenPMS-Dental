@@ -73,7 +73,7 @@ namespace OpenPmsDental {
 			this.listBoxProv.Location = new System.Drawing.Point(8, 82);
 			this.listBoxProv.Name = "listBoxProv";
 			this.listBoxProv.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
-			this.listBoxProv.Size = new System.Drawing.Size(163, 213);
+			this.listBoxProv.Size = new System.Drawing.Size(163, 209);
 			this.listBoxProv.TabIndex = 61;
 			this.listBoxProv.Click += new System.EventHandler(this.ListBoxProv_Click);
 			// 
@@ -132,7 +132,7 @@ namespace OpenPmsDental {
 			this.listBoxUnearnedTypes.Location = new System.Drawing.Point(179, 82);
 			this.listBoxUnearnedTypes.Name = "listBoxUnearnedTypes";
 			this.listBoxUnearnedTypes.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
-			this.listBoxUnearnedTypes.Size = new System.Drawing.Size(163, 213);
+			this.listBoxUnearnedTypes.Size = new System.Drawing.Size(163, 209);
 			this.listBoxUnearnedTypes.TabIndex = 63;
 			this.listBoxUnearnedTypes.Click += new System.EventHandler(this.ListBoxUnearnedTypes_Click);
 			// 

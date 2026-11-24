@@ -396,7 +396,7 @@ namespace OpenPmsDental{
 			this.textOutput.Name = "textOutput";
 			this.textOutput.ReadOnly = true;
 			this.textOutput.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.textOutput.Size = new System.Drawing.Size(1210, 152);
+			this.textOutput.Size = new System.Drawing.Size(1210, 144);
 			this.textOutput.TabIndex = 170;
 			// 
 			// checkOutputVerbose

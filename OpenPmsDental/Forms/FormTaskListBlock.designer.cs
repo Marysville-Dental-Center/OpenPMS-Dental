@@ -49,7 +49,7 @@ namespace OpenPmsDental{
 			this.treeSubscriptions.FullRowSelect = true;
 			this.treeSubscriptions.Location = new System.Drawing.Point(8, 31);
 			this.treeSubscriptions.Name = "treeSubscriptions";
-			this.treeSubscriptions.Size = new System.Drawing.Size(420, 368);
+			this.treeSubscriptions.Size = new System.Drawing.Size(420, 367);
 			this.treeSubscriptions.TabIndex = 4;
 			this.treeSubscriptions.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeSubscriptions_NodeMouseClick);
 			// 

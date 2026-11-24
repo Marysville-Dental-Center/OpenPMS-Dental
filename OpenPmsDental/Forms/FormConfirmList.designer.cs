@@ -240,7 +240,7 @@ namespace OpenPmsDental {
 			this.gridMain.Location = new System.Drawing.Point(8, 97);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridMain.Size = new System.Drawing.Size(1099, 577);
+			this.gridMain.Size = new System.Drawing.Size(1099, 569);
 			this.gridMain.TabIndex = 0;
 			this.gridMain.Title = "Confirmation List";
 			this.gridMain.TranslationName = "TableConfirmList";

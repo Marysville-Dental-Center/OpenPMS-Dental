@@ -99,7 +99,7 @@ namespace OpenPmsDental{
 			this.gridAll.Location = new System.Drawing.Point(487, 124);
 			this.gridAll.Name = "gridAll";
 			this.gridAll.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridAll.Size = new System.Drawing.Size(428, 476);
+			this.gridAll.Size = new System.Drawing.Size(428, 472);
 			this.gridAll.TabIndex = 59;
 			this.gridAll.Title = "Available Procedures";
 			this.gridAll.TranslationName = "FormDisplayFields";
@@ -114,7 +114,7 @@ namespace OpenPmsDental{
 			this.gridTP.Location = new System.Drawing.Point(8, 124);
 			this.gridTP.Name = "gridTP";
 			this.gridTP.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridTP.Size = new System.Drawing.Size(428, 476);
+			this.gridTP.Size = new System.Drawing.Size(428, 472);
 			this.gridTP.TabIndex = 56;
 			this.gridTP.Title = "Treatment Planned Procedures";
 			this.gridTP.TranslationName = "FormDisplayFields";

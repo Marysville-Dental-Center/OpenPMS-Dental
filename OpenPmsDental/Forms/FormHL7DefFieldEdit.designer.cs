@@ -54,7 +54,7 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.listFieldNames.Location = new System.Drawing.Point(136, 116);
 			this.listFieldNames.Name = "listFieldNames";
-			this.listFieldNames.Size = new System.Drawing.Size(196, 522);
+			this.listFieldNames.Size = new System.Drawing.Size(196, 518);
 			this.listFieldNames.TabIndex = 13;
 			this.listFieldNames.Click += new System.EventHandler(this.listFieldNames_Click);
 			// 

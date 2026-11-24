@@ -100,7 +100,7 @@ namespace OpenPmsDental{
 			this.textLog.Name="textLog";
 			this.textLog.ReadOnly=true;
 			this.textLog.ScrollBars=System.Windows.Forms.ScrollBars.Vertical;
-			this.textLog.Size=new System.Drawing.Size(609,290);
+			this.textLog.Size=new System.Drawing.Size(609,298);
 			this.textLog.TabIndex=21;
 			// 
 			// butBrowse
@@ -136,7 +136,7 @@ namespace OpenPmsDental{
 			// butFinished
 			// 
 			this.butFinished.Anchor=((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom|System.Windows.Forms.AnchorStyles.Right)));
-			this.butFinished.Location=new System.Drawing.Point(625,477);
+			this.butFinished.Location=new System.Drawing.Point(625,485);
 			this.butFinished.Name="butFinished";
 			this.butFinished.Size=new System.Drawing.Size(92,24);
 			this.butFinished.TabIndex=17;
@@ -193,7 +193,7 @@ namespace OpenPmsDental{
 			// FormRpArizonaPrimaryCareEncounter
 			// 
 			this.AutoScaleMode=System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize=new System.Drawing.Size(725,509);
+			this.ClientSize=new System.Drawing.Size(725,517);
 			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.butRun);
 			this.Controls.Add(this.butCopy);

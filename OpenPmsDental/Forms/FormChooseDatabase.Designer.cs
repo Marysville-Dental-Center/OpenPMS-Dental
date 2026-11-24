@@ -301,7 +301,7 @@ namespace OpenPmsDental{
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(640, 617);
+			this.butOK.Location = new System.Drawing.Point(640, 621);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 24);
 			this.butOK.TabIndex = 35;
@@ -336,7 +336,7 @@ namespace OpenPmsDental{
 			// FormChooseDatabase
 			// 
 			this.AcceptButton = this.butOK;
-			this.ClientSize = new System.Drawing.Size(723, 649);
+			this.ClientSize = new System.Drawing.Size(723, 653);
 			this.Controls.Add(this.textSslCaPem);
 			this.Controls.Add(this.checkDynamicMode);
 			this.Controls.Add(this.label5);

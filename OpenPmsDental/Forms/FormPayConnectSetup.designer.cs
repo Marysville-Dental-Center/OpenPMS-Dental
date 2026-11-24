@@ -225,7 +225,7 @@ namespace OpenPmsDental {
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(693, 676);
+			this.butSave.Location = new System.Drawing.Point(693, 680);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 6;
@@ -325,7 +325,7 @@ namespace OpenPmsDental {
 			// butErrorLog
 			// 
 			this.butErrorLog.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butErrorLog.Location = new System.Drawing.Point(8, 676);
+			this.butErrorLog.Location = new System.Drawing.Point(8, 680);
 			this.butErrorLog.Name = "butErrorLog";
 			this.butErrorLog.Size = new System.Drawing.Size(110, 24);
 			this.butErrorLog.TabIndex = 20;
@@ -334,7 +334,7 @@ namespace OpenPmsDental {
 			// 
 			// FormPayConnectSetup
 			// 
-			this.ClientSize = new System.Drawing.Size(776, 708);
+			this.ClientSize = new System.Drawing.Size(776, 712);
 			this.Controls.Add(this.butErrorLog);
 			this.Controls.Add(this.groupBoxTerminals);
 			this.Controls.Add(this.butSave);

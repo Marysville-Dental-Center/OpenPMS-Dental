@@ -145,7 +145,7 @@
 			// butOk
 			// 
 			this.butOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOk.Location = new System.Drawing.Point(891, 794);
+			this.butOk.Location = new System.Drawing.Point(891, 798);
 			this.butOk.Name = "butOk";
 			this.butOk.Size = new System.Drawing.Size(75, 24);
 			this.butOk.TabIndex = 9;
@@ -156,7 +156,7 @@
 			// butDelete
 			// 
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butDelete.Location = new System.Drawing.Point(8, 794);
+			this.butDelete.Location = new System.Drawing.Point(8, 798);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(75, 24);
 			this.butDelete.TabIndex = 3;
@@ -1167,7 +1167,7 @@
 			// butManageImages
 			// 
 			this.butManageImages.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butManageImages.Location = new System.Drawing.Point(330, 794);
+			this.butManageImages.Location = new System.Drawing.Point(330, 798);
 			this.butManageImages.Name = "butManageImages";
 			this.butManageImages.Size = new System.Drawing.Size(93, 24);
 			this.butManageImages.TabIndex = 264;
@@ -1178,7 +1178,7 @@
 			// labelManageImages
 			// 
 			this.labelManageImages.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.labelManageImages.Location = new System.Drawing.Point(429, 794);
+			this.labelManageImages.Location = new System.Drawing.Point(429, 798);
 			this.labelManageImages.Name = "labelManageImages";
 			this.labelManageImages.Size = new System.Drawing.Size(300, 24);
 			this.labelManageImages.TabIndex = 269;
@@ -1276,7 +1276,7 @@
 			// FormEhrLabOrderEdit2014
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(974, 826);
+			this.ClientSize = new System.Drawing.Size(974, 830);
 			this.Controls.Add(this.labelManageImages);
 			this.Controls.Add(this.butManageImages);
 			this.Controls.Add(this.butViewParent);

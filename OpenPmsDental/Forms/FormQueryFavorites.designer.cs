@@ -172,7 +172,7 @@ namespace OpenPmsDental {
 			this.splitContainer.Name = "splitContainer";
 			this.splitContainer.Panel1 = this.splitterPanel1;
 			this.splitContainer.Panel2 = this.splitterPanel2;
-			this.splitContainer.Size = new System.Drawing.Size(1068, 608);
+			this.splitContainer.Size = new System.Drawing.Size(1068, 604);
 			this.splitContainer.SplitterDistance = 454;
 			this.splitContainer.SplitterWidth = 1;
 			this.splitContainer.TabIndex = 40;

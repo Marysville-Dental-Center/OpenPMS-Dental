@@ -43,7 +43,7 @@ namespace OpenPmsDental{
 			// 
 			this.gridMain.Location = new System.Drawing.Point(8, 138);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(444, 361);
+			this.gridMain.Size = new System.Drawing.Size(444, 357);
 			this.gridMain.TabIndex = 5;
 			this.gridMain.Title = null;
 			this.gridMain.TranslationName = "TableInboxAssignments";
@@ -62,7 +62,7 @@ namespace OpenPmsDental{
 			// 
 			this.listMain.Location = new System.Drawing.Point(543, 138);
 			this.listMain.Name = "listMain";
-			this.listMain.Size = new System.Drawing.Size(120, 361);
+			this.listMain.Size = new System.Drawing.Size(120, 357);
 			this.listMain.TabIndex = 6;
 			// 
 			// butSet

@@ -74,7 +74,7 @@ namespace OpenPmsDental {
 			// 
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdd.Location = new System.Drawing.Point(205, 400);
+			this.butAdd.Location = new System.Drawing.Point(205, 404);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(79, 24);
 			this.butAdd.TabIndex = 7;
@@ -112,7 +112,7 @@ namespace OpenPmsDental {
 			// butEditCats
 			// 
 			this.butEditCats.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butEditCats.Location = new System.Drawing.Point(14, 400);
+			this.butEditCats.Location = new System.Drawing.Point(14, 404);
 			this.butEditCats.Name = "butEditCats";
 			this.butEditCats.Size = new System.Drawing.Size(98, 24);
 			this.butEditCats.TabIndex = 20;
@@ -133,7 +133,7 @@ namespace OpenPmsDental {
 			// 
 			this.butEditTemplate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butEditTemplate.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butEditTemplate.Location = new System.Drawing.Point(449, 309);
+			this.butEditTemplate.Location = new System.Drawing.Point(449, 313);
 			this.butEditTemplate.Name = "butEditTemplate";
 			this.butEditTemplate.Size = new System.Drawing.Size(92, 24);
 			this.butEditTemplate.TabIndex = 22;
@@ -203,7 +203,7 @@ namespace OpenPmsDental {
 			//
 			// FormLetterMerges
 			//
-			this.ClientSize = new System.Drawing.Size(581, 446);
+			this.ClientSize = new System.Drawing.Size(581, 450);
 			this.Controls.Add(this.butChartLetter);
 			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.butEditTemplate);

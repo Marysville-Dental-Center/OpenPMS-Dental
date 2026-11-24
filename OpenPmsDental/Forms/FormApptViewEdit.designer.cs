@@ -84,7 +84,7 @@ namespace OpenPmsDental {
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(1009, 693);
+			this.butSave.Location = new System.Drawing.Point(1009, 697);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 7;
@@ -96,7 +96,7 @@ namespace OpenPmsDental {
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(8, 693);
+			this.butDelete.Location = new System.Drawing.Point(8, 697);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(87, 24);
 			this.butDelete.TabIndex = 6;
@@ -497,7 +497,7 @@ namespace OpenPmsDental {
 			// FormApptViewEdit
 			// 
 			this.AcceptButton = this.butSave;
-			this.ClientSize = new System.Drawing.Size(1092, 725);
+			this.ClientSize = new System.Drawing.Size(1092, 729);
 			this.Controls.Add(this.label7);
 			this.Controls.Add(this.listWaitingRmNameFormat);
 			this.Controls.Add(this.butSave);

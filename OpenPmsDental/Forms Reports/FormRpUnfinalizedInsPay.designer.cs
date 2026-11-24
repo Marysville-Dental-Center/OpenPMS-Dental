@@ -73,7 +73,7 @@ namespace OpenPmsDental {
 			this.gridMain.ContextMenuStrip = this.contextMenuStrip1;
 			this.gridMain.Location = new System.Drawing.Point(8, 70);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(965, 393);
+			this.gridMain.Size = new System.Drawing.Size(965, 385);
 			this.gridMain.TabIndex = 65;
 			this.gridMain.Title = "Unfinalized Insurance Payment";
 			this.gridMain.TranslationName = "TableUnfinalizedInsPay";

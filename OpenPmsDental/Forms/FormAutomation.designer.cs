@@ -54,7 +54,7 @@ namespace OpenPmsDental {
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridMain.Location = new System.Drawing.Point(8, 32);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(772, 428);
+			this.gridMain.Size = new System.Drawing.Size(772, 424);
 			this.gridMain.TabIndex = 11;
 			this.gridMain.Title = "Automation";
 			this.gridMain.TranslationName = "FormAutomation";
