@@ -147,3 +147,9 @@ Full x64 build through the lane at `aa78eaee8`: 0 errors. Targeted run `test-res
 worktree's test folders still hold the x86 test hosts of an older build, which make an x86 run load nothing): P262BillingTests 54 passed;
 PrintGuardTests 19 passed, 1 skipped; NoHqTests 134 passed; WindowChecksTests 31 passed, 44 skipped (desktop-only); UnitTests 1728
 passed, 3 skipped; UiRefreshTests 374 passed, 52 skipped (opt-in galleries and desktop pictures; the UI-BRAND gallery ran); 0 failed.
+
+Fix round (`ui/uibrand-2`, the review's finding: `PrefInfos.xml` ships): full x64 build through the lane at `9d3c8c4a1`: 0 errors.
+Targeted run `test-results/uibrand-targeted-2.txt` (`-Platform x64`): P262BillingTests 54 passed; PrintGuardTests 19 passed, 1 skipped;
+NoHqTests 135 passed (the new `PrefInfosLexer_ReadsHelpTextsAndLinksApart`); WindowChecksTests 31 passed, 44 skipped; UnitTests 1728
+passed, 3 skipped; UiRefreshTests 373 passed, 53 skipped (the opt-in UI-BRAND gallery not run again: no window text changed); 0 failed.
+Test-NoEolFlips against `642322a74`: 0 files changed their line ends.
