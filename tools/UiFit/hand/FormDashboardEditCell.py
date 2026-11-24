@@ -12,5 +12,7 @@ _spec.loader.exec_module(s)
 
 def layout(h):
     W = h.n("splitContainer").nw
-    h.set("butCancel", W - s.PAD - 75, None)
-    h.set("butOk", W - s.PAD - 75 - s.GAP - 75, None)
+    # main's designer y 2: the strip's anchors draw the buttons 3 px lower (the tree's y 5); writing the tree's y would put them 3 px
+    # past the strip's bottom (review finding 2)
+    h.set("butCancel", W - s.PAD - 75, 2)
+    h.set("butOk", W - s.PAD - 75 - s.GAP - 75, 2)

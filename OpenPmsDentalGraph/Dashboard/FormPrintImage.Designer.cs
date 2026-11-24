@@ -289,8 +289,8 @@
 			// splitContainer1.Panel2
 			// 
 			this.splitContainer1.Panel2.Controls.Add(this.butClose);
-			this.splitContainer1.Size = new System.Drawing.Size(831, 555);
-			this.splitContainer1.SplitterDistance = 529;
+			this.splitContainer1.Size = new System.Drawing.Size(831, 547);
+			this.splitContainer1.SplitterDistance = 521;
 			this.splitContainer1.SplitterWidth = 1;
 			this.splitContainer1.TabIndex = 0;
 			// 
@@ -306,7 +306,7 @@
 			// 
 			this.butClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.butClose.Location = new System.Drawing.Point(748, 3);
+			this.butClose.Location = new System.Drawing.Point(748, 0);
 			this.butClose.Name = "butClose";
 			this.butClose.Size = new System.Drawing.Size(75, 23);
 			this.butClose.TabIndex = 0;

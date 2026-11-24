@@ -3,7 +3,7 @@ a split container, which the planner does not lay out: main's groups from x 10 w
 groups from the padding, 8 px apart, at one top and one height, each with its two rows at the pitch and its labels right-aligned 6 px before
 one field column; Export and Print beside them at the band gap on the groups' first and second rows, Landscape after Print; the panel as
 tall as the groups and the padding. The preview (drawn by the print preview control) fills the second panel; Close ends on the right
-padding of the strip under it."""
+padding of the strip under it, at main's height in it."""
 import importlib.util
 import os
 
@@ -33,6 +33,13 @@ def layout(h):
     p = h.n("butPrint")
     h.check_left("checkLandscape")
     h.set("checkLandscape", bx + p.nw + s.LGAP, p.ny + (h.H - h.CH) // 2, h.cw("checkLandscape"), h.CH)
-    h.splitter("splitContainer", top + gh + s.PAD)
+    d = top + gh + s.PAD
+    h.splitter("splitContainer", d)
+    # the inner container (preview over the Close strip) loses what the settings panel gains: its first panel shrinks by as much, so the
+    # fixed strip keeps main's height (main: 89 and 529; review finding 3)
+    h.splitter("splitContainer1", 529 - (d - 89), "the preview panel shorter by what the settings panel grew: the Close strip keeps its height")
+    h.set("splitContainer1", None, None, None, 555 - (d - 89))  # its designer size: the second panel's height (docked, main 555)
     W = h.n("splitContainer").nw
-    h.set("butClose", W - s.PAD - 75, None)
+    # main's designer y 0: the strip's anchors draw Close 3 px lower (the tree's y 3), centred in the 28 px strip; writing the tree's y
+    # would put it 3 px past the strip's bottom
+    h.set("butClose", W - s.PAD - 75, 0)
