@@ -76,6 +76,24 @@ namespace UiRefreshTests {
 					methodInfoAdd.Invoke(root,new object[] { "Files","Copying the files","",0,100,"",CodeBase.ProgBarStyle.Marquee,30,false,false,true });
 					root.PerformLayout();
 					return root;
+				case "CodeBase.FormProgressStatus#history":
+					//The constructor with hasHistory: the window 60 px wider and 120 px taller, the history box in place of the message.
+					Form formStatus=root.FindForm() ?? (Form)root;
+					formStatus.Height+=120;
+					formStatus.Width+=60;
+					Find(root,"labelMsg").Visible=false;
+					Find(root,"textHistoryMsg").Visible=true;
+					return root;
+				case "ServiceManager.FormWebConfigSettings#service":
+					//A service other than the replication service (the constructor): the one-way check box and the master group hidden, the window
+					//shorter by them, as the constructor does since slice 14 (main: Height=375).
+					Form formSettings=root.FindForm() ?? (Form)root;
+					Control groupMaster=Find(root,"groupReplicationMaster");
+					int heightLess=groupMaster.Bottom-Find(root,"textPEM").Bottom;
+					formSettings.Height-=heightLess;
+					Find(root,"checkIsOneWayReplication").Visible=false;
+					groupMaster.Visible=false;
+					return root;
 				case "OpenPmsDental.ControlFamily#superclones":
 					//A patient with a super family and clones: the pane beside the insurance grid (RefreshModuleScreen).
 					Control splitContainerSuperClones=Find(root,"splitContainerSuperClones");

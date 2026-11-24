@@ -19,7 +19,9 @@ namespace ServiceManager {
 			if(_serviceFile.Name!="OpenDentalReplicationService.exe") {
 				//The replication service controls are shwoing by default. 
 				//Don't show the replciation service controls.
-				Height=375;
+				//UI-12 slice 14: the window shorter by the hidden rows (the one-way check box and the master group), so the bottom bar keeps its
+				//section gap under the PEM row at any layout (main: a fixed 375 px window).
+				Height-=groupReplicationMaster.Bottom-textPEM.Bottom;
 				checkIsOneWayReplication.Visible=false;
 				groupReplicationMaster.Visible=false;
 			}
