@@ -125,6 +125,59 @@ namespace UiRefreshTests {
 			});
 		}
 
+		///<summary>UI-11-final: the radio buttons of one parent are one tab stop, as in WinForms: the first in tab order while none is checked,
+		///then the checked one (Space, an arrow key or code); a disabled or hidden one is never the stop; another parent is another group; the
+		///reading order (UiTabOrder) orders every radio button and leaves the first in reading order the stop.</summary>
+		[TestMethod]
+		public void RadioButton_Group_IsOneTabStop_TheCheckedOne() {
+			IconRendererTests.RunSta(() => {
+				NoDatabaseGuard.Install();
+				System.Windows.Controls.Grid grid=new System.Windows.Controls.Grid();
+				List<WpfControls.UI.RadioButton> listRadioButtons=new List<WpfControls.UI.RadioButton>();
+				for(int i=0;i<3;i++) {
+					WpfControls.UI.RadioButton radioButton=new WpfControls.UI.RadioButton();
+					grid.Children.Add(radioButton);
+					listRadioButtons.Add(radioButton);
+				}
+				WpfControls.UI.GroupBox groupBox=new WpfControls.UI.GroupBox();
+				WpfControls.UI.RadioButton radioButtonOther=new WpfControls.UI.RadioButton();
+				groupBox.Items.Add(radioButtonOther);
+				grid.Children.Add(groupBox);
+				WpfControls.UI.RadioButton.UpdateGroupTabStops(grid);
+				WpfControls.UI.RadioButton.UpdateGroupTabStops(groupBox);
+				Func<List<bool>> funcStops=() => listRadioButtons.Select(x => KeyboardNavigation.GetIsTabStop(x)).ToList();
+				CollectionAssert.AreEqual(new[] { true,false,false },funcStops(),"none checked: the first");
+				Assert.IsTrue(KeyboardNavigation.GetIsTabStop(radioButtonOther),"another parent is another group");
+				listRadioButtons[2].Checked=true;
+				CollectionAssert.AreEqual(new[] { false,false,true },funcStops(),"the checked one");
+				Assert.IsTrue(RaiseKeyDown(listRadioButtons[2],Key.Down));
+				CollectionAssert.AreEqual(new[] { true,false,false },funcStops(),"the arrow key moves the stop with the check");
+				Assert.IsTrue(KeyboardNavigation.GetIsTabStop(radioButtonOther),"the other group keeps its stop");
+				listRadioButtons[0].IsEnabled=false;
+				CollectionAssert.AreEqual(new[] { false,true,false },funcStops(),"a disabled checked one is not the stop: the first enabled one is");
+				listRadioButtons[0].IsEnabled=true;
+				listRadioButtons[0].Checked=false;
+				listRadioButtons[1].Visibility=Visibility.Collapsed;
+				KeyboardNavigation.SetTabIndex(listRadioButtons[2],1);
+				KeyboardNavigation.SetTabIndex(listRadioButtons[0],2);
+				WpfControls.UI.RadioButton.UpdateGroupTabStops(grid);
+				CollectionAssert.AreEqual(new[] { false,false,true },funcStops(),"none checked: the first in tab order");
+				//The reading order orders both radio buttons of the scrambled window's group box and leaves the left one (first) the stop.
+				System.Windows.Controls.Grid gridScrambled=BuildScrambledContent();
+				gridScrambled.Measure(new Size(400,300));
+				gridScrambled.Arrange(new Rect(0,0,400,300));
+				gridScrambled.UpdateLayout();
+				List<UIElement> listOrdered=WpfControls.UI.UiTabOrder.Apply(gridScrambled);
+				WpfControls.UI.RadioButton radioLeft=(WpfControls.UI.RadioButton)listOrdered.Single(x => GetName(x)=="radioLeft");
+				WpfControls.UI.RadioButton radioRight=(WpfControls.UI.RadioButton)listOrdered.Single(x => GetName(x)=="radioRight");
+				Assert.IsTrue(KeyboardNavigation.GetIsTabStop(radioLeft));
+				Assert.IsFalse(KeyboardNavigation.GetIsTabStop(radioRight));
+				radioRight.Checked=true;
+				Assert.IsFalse(KeyboardNavigation.GetIsTabStop(radioLeft));
+				Assert.IsTrue(KeyboardNavigation.GetIsTabStop(radioRight));
+			});
+		}
+
 		[TestMethod]
 		public void TabOrder_ReadingOrder_RowsTopToBottomLeftToRight() {
 			List<Rect> listRects=new List<Rect> {
@@ -242,7 +295,7 @@ namespace UiRefreshTests {
 						return;
 					}
 					listNames=new List<string>();
-					for(int i=0;i<7;i++) {
+					for(int i=0;i<6;i++) {
 						listNames.Add(GetName((DependencyObject)Keyboard.FocusedElement));
 						((UIElement)Keyboard.FocusedElement).MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
 					}
@@ -254,7 +307,8 @@ namespace UiRefreshTests {
 			if(!isFocused) {
 				Assert.Inconclusive("The session gave the off-screen window no keyboard focus; the order itself is checked in TabOrder_Apply.");
 			}
-			CollectionAssert.AreEqual(new[] { "textDescription","radioLeft","radioRight","checkInactive","butDelete","butSave","textDescription" },listNames,
+			//UI-11-final: the group box's two radio buttons are one tab stop (none checked: the left one, first in reading order).
+			CollectionAssert.AreEqual(new[] { "textDescription","radioLeft","checkInactive","butDelete","butSave","textDescription" },listNames,
 				string.Join(",",listNames));
 		}
 

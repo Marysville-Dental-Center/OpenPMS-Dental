@@ -72,6 +72,10 @@ namespace WpfControls.UI{
 				return listOrdered;
 			}
 			OrderGroup(frameworkElementRoot,listOrdered);
+			//UI-11-final: with the indexes set, each radio button group's stop is the checked one or the first in the new order.
+			foreach(DependencyObject dependencyObjectParent in listOrdered.OfType<RadioButton>().Select(x => x.Parent).Distinct().ToList()){
+				RadioButton.UpdateGroupTabStops(dependencyObjectParent);
+			}
 			return listOrdered;
 		}
 
@@ -113,7 +117,9 @@ namespace WpfControls.UI{
 					continue;
 				}
 				bool isHiddenChild=isHidden || uIElement.Visibility!=Visibility.Visible;
-				if(IsNestedContainer(uIElement) || (uIElement.Focusable && KeyboardNavigation.GetIsTabStop(uIElement))){
+				//UI-11-final: a radio button is ordered whether or not it is its group's one tab stop now (RadioButton.UpdateGroupTabStops), as
+				//the stop moves to the one checked.
+				if(IsNestedContainer(uIElement) || (uIElement.Focusable && (KeyboardNavigation.GetIsTabStop(uIElement) || uIElement is RadioButton))){
 					listMembers.Add(new Member { UIElement=uIElement,IsHidden=isHiddenChild });
 					continue;
 				}

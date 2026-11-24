@@ -100,6 +100,18 @@ namespace UiRefreshTests {
 						.Select(x => x.WindowKey+"#frame"));
 					arrayWindows=listExpanded.ToArray();
 				}
+				//UI-11-final: "@all" stands for every scanned type (the final sweep's pictures at 100%), "@densest" for the tenth of them with the
+				//most controls (the sweep's 150% pictures; FinalSweep.GetDensest).
+				if(arrayWindows.Contains("@all") || arrayWindows.Contains("@densest")) {
+					List<string> listExpanded=arrayWindows.Where(x => x!="@all" && x!="@densest").ToList();
+					if(arrayWindows.Contains("@all")) {
+						listExpanded.AddRange(FinalSweep.GetSweepTypes(listScanTypes).Select(x => x.WindowKey));
+					}
+					if(arrayWindows.Contains("@densest")) {
+						listExpanded.AddRange(FinalSweep.GetDensest(listScanTypes,0.1));
+					}
+					arrayWindows=listExpanded.Distinct().ToArray();
+				}
 				foreach(string windowAndState in arrayWindows) {
 					//UI-12 slice 2 fix round: "<window>#<state>" draws the window in one of the states of FillSampleState, named <window>-<state>.
 					string window=windowAndState;

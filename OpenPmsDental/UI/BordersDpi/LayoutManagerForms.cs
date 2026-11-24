@@ -168,6 +168,8 @@ Scrollable Control: For example, a panel that's set to AutoScroll=true.  These c
 		public static void SetLooksScale(){
 			UiLooks.FuncGetScaleWindow=control => control.FindForm() is FormODBase formODBase ? formODBase.GetScaleMy() : 0;
 			UiLooks.FuncGetZoom=GetZoomOfLooks;
+			//UI-11-final: the report viewer's dialogs (its messages and data source pass phrase) in the look of the plain windows.
+			fyiReporting.RdlViewer.RdlViewer.ActionAttachLook=form => UiPlainWindow.Attach(form);
 		}
 
 		///<summary>The zoom the looks draw at: the ScaleMy of a LayoutManager without a dpi of its own, made once.</summary>

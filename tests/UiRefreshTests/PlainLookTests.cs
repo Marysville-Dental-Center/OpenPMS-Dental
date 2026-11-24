@@ -158,7 +158,7 @@ namespace UiRefreshTests {
 				try {
 					WindowBuilder.IsBuildingByConstructor=true;
 					List<ScanType> listScanTypes=WindowBuilder.GetScanTypes().Where(x => x.Kind==BuildKind.PlainWindow && WindowBuilder.IsBuiltByItsConstructor(x.Type)).ToList();
-					Assert.AreEqual(3,listScanTypes.Count,"FormDbSettings, FormSecretPrompt and the report designer's main window");
+					Assert.AreEqual(6,listScanTypes.Count,"FormDbSettings, FormSecretPrompt, the report designer's main window, (UI-11-final) the report viewer's two dialogs and the program's MsgBoxCopyPaste");
 					foreach(ScanType scanType in listScanTypes) {
 						//UI-PLAIN-2 fix round: RdlDesigner attaches its own copy of the looks.
 						System.Reflection.Assembly assemblyLooks=scanType.Type.Assembly;
