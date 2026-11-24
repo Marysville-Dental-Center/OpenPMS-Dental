@@ -50,6 +50,7 @@ namespace fyiReporting.RdlViewer
 			// Required for Windows Form Designer support
 			//
 			InitializeComponent();
+			RdlViewer.ActionAttachLook?.Invoke(this);//UI-11-final: the program's look, from the host
 
 		}
 

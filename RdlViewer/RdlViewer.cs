@@ -38,6 +38,10 @@ namespace fyiReporting.RdlViewer
 	/// </summary>
 	public class RdlViewer : System.Windows.Forms.Control
 	{
+		///<summary>UI-11-final (docs/port-notes/UI-11-final.md): gives this library's dialogs (DialogMessages, DataSourcePassword) the look of the
+		///program's windows. This library does not reference CodeBase, so the host sets it: the program to CodeBase.UiPlainWindow.Attach
+		///(LayoutManagerForms.SetLooksScale), the report designer to its own copy's. Null leaves them in Windows' look.</summary>
+		public static Action<System.Windows.Forms.Form> ActionAttachLook;
 		public NeedPassword GetDataSourceReferencePassword=null;
 		bool _InPaint=false;
 		bool _InLoading=false;
