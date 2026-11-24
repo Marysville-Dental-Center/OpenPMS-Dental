@@ -108,16 +108,23 @@ namespace NoHqTests {
 		public void QuickBooks_ConnectsUnderTheProductName() {
 			string pathRoot=RemovedAssembliesTests.GetRepositoryRoot();
 			Regex regexConnect=new Regex(@"SessionManager\.OpenConnection\(\s*""""\s*,\s*""([^""]*)""\s*\)");
-			string[] arrayFiles=new string[] { @"OpenPmsDentalHelper32\QuickBooks\QuickBooksModule.cs",@"WpfControlsOD\Bridges\QuickBooksInProcess.cs",
-				@"WpfControlsOD\Bridges\QuickBooksLateBound.cs",@"tests\Helper32Tests\QuickBooks\QuickBooksToday.cs" };
+			//The files are found by their connect call, not named here: Helper32VendorScanTests counts the files that name the bridges' paths.
+			string[] arrayFolders=new string[] { @"OpenPmsDentalHelper32\QuickBooks",@"WpfControlsOD\Bridges",@"tests\Helper32Tests\QuickBooks" };
 			Assert.AreEqual("Open PMS - Dental",CodeBase.VendorDirect.ProductIdentity.ProductName);
-			foreach(string file in arrayFiles) {
-				string path=Path.Combine(pathRoot,file);
-				Assert.IsTrue(File.Exists(path),path+" is missing.");
-				List<string> listNames=regexConnect.Matches(File.ReadAllText(path)).Cast<Match>().Select(x => x.Groups[1].Value).ToList();
-				CollectionAssert.AreEqual(new List<string> { CodeBase.VendorDirect.ProductIdentity.ProductName },listNames,
-					file+" connects to QuickBooks under: "+string.Join(" | ",listNames));
+			List<string> listFiles=new List<string>();
+			foreach(string folder in arrayFolders) {
+				foreach(string path in Directory.GetFiles(Path.Combine(pathRoot,folder),"*.cs")) {
+					List<string> listNames=regexConnect.Matches(File.ReadAllText(path)).Cast<Match>().Select(x => x.Groups[1].Value).ToList();
+					if(listNames.Count==0) {
+						continue;
+					}
+					listFiles.Add(Path.GetFileName(path));
+					CollectionAssert.AreEqual(new List<string> { CodeBase.VendorDirect.ProductIdentity.ProductName },listNames,
+						path+" connects to QuickBooks under: "+string.Join(" | ",listNames));
+				}
 			}
+			Assert.AreEqual(4,listFiles.Count,"The helper's module, the two bridges and the tests' reference copy connect to QuickBooks: "
+				+string.Join(", ",listFiles));
 		}
 
 		///<summary>UI-BRAND-2 (the owner's answer 6): the Preferences window's info pop-ups send the office to no page of Open Dental's site, and the

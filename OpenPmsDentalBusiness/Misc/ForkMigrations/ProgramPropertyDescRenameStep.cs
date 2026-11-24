@@ -14,7 +14,7 @@ namespace OpenPmsDentalBusiness.ForkMigrations.FeatureSteps {
 	///Open Dental 25.3.48 one included (Open Dental's own conversions wrote both rows into every database: ConvertDatabases3). The rule is
 	///ProgramPropertyDescRenames.Plan, which AdoptionValidation's migration-preview prints and adopt's row check holds the adopted copy to; a second
 	///run finds no old text and changes nothing.</summary>
-	[ForkMigration(2026112451,"Rename the program property descriptions that named Open Dental")]
+	[ForkMigration(2026112451,"Rename the Dental Studio and Podium program property descriptions")]
 	public class ProgramPropertyDescRenameStep:ForkMigrationStep {
 		public override void Apply(ForkMigrationContext context) {
 			if(!context.TableExists("program") || !context.TableExists("programproperty")) {
