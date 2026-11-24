@@ -47,12 +47,12 @@
 			this.checkIncludeAdjustments.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.checkIncludeAdjustments.Checked = true;
 			this.checkIncludeAdjustments.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkIncludeAdjustments.Location = new System.Drawing.Point(136, 23);
+			this.checkIncludeAdjustments.Location = new System.Drawing.Point(134, 23);
 			this.checkIncludeAdjustments.Name = "checkIncludeAdjustments";
 			this.checkIncludeAdjustments.Size = new System.Drawing.Size(98, 18);
 			this.checkIncludeAdjustments.TabIndex = 3;
 			this.checkIncludeAdjustments.Text = "Adjustments";
-			this.checkIncludeAdjustments.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkIncludeAdjustments.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.checkIncludeAdjustments.UseVisualStyleBackColor = true;
 			this.checkIncludeAdjustments.CheckedChanged += new System.EventHandler(this.OnProductionGraphInputsChanged);
 			// 
@@ -66,7 +66,7 @@
 			this.checkIncludeCompletedProcs.Size = new System.Drawing.Size(122, 18);
 			this.checkIncludeCompletedProcs.TabIndex = 5;
 			this.checkIncludeCompletedProcs.Text = "Completed Procs";
-			this.checkIncludeCompletedProcs.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkIncludeCompletedProcs.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.checkIncludeCompletedProcs.UseVisualStyleBackColor = true;
 			this.checkIncludeCompletedProcs.CheckedChanged += new System.EventHandler(this.OnProductionGraphInputsChanged);
 			// 
@@ -75,12 +75,12 @@
 			this.checkIncludeWriteoffs.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.checkIncludeWriteoffs.Checked = true;
 			this.checkIncludeWriteoffs.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkIncludeWriteoffs.Location = new System.Drawing.Point(240, 23);
+			this.checkIncludeWriteoffs.Location = new System.Drawing.Point(236, 23);
 			this.checkIncludeWriteoffs.Name = "checkIncludeWriteoffs";
 			this.checkIncludeWriteoffs.Size = new System.Drawing.Size(79, 18);
 			this.checkIncludeWriteoffs.TabIndex = 4;
 			this.checkIncludeWriteoffs.Text = "Writeoffs";
-			this.checkIncludeWriteoffs.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkIncludeWriteoffs.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.checkIncludeWriteoffs.UseVisualStyleBackColor = true;
 			this.checkIncludeWriteoffs.CheckedChanged += new System.EventHandler(this.OnProductionGraphInputsChanged);
 			// 

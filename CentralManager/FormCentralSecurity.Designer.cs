@@ -117,7 +117,7 @@
 			// 
 			this.label4.Location = new System.Drawing.Point(8, 152);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(152, 23);
+			this.label4.Size = new System.Drawing.Size(36, 23);
 			this.label4.TabIndex = 66;
 			this.label4.Text = "Days";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -126,14 +126,14 @@
 			// 
 			this.label3.Location = new System.Drawing.Point(8, 125);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(152, 23);
+			this.label3.Size = new System.Drawing.Size(36, 23);
 			this.label3.TabIndex = 65;
 			this.label3.Text = "Date";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textDays
 			// 
-			this.textDays.Location = new System.Drawing.Point(166, 152);
+			this.textDays.Location = new System.Drawing.Point(50, 152);
 			this.textDays.Name = "textDays";
 			this.textDays.Size = new System.Drawing.Size(46, 23);
 			this.textDays.TabIndex = 2;
@@ -141,7 +141,7 @@
 			// 
 			// textDate
 			// 
-			this.textDate.Location = new System.Drawing.Point(166, 125);
+			this.textDate.Location = new System.Drawing.Point(50, 125);
 			this.textDate.Name = "textDate";
 			this.textDate.Size = new System.Drawing.Size(100, 23);
 			this.textDate.TabIndex = 1;
@@ -149,7 +149,7 @@
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(218, 152);
+			this.label2.Location = new System.Drawing.Point(102, 152);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(116, 23);
 			this.label2.TabIndex = 68;

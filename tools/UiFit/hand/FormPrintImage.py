@@ -23,7 +23,7 @@ def layout(h):
         labels = [r[0] for r in rows_]
         fx = s.col_x(h, labels)
         yb = s.rows(h, rows_, s.TITLE, fx)
-        w = fx + h.n(rows_[0][1]).nw + s.PAD
+        w = max(fx + h.n(rows_[0][1]).nw + s.PAD, h.n(grp).text_w + 24)  # the title on one line (Image Position)
         h.set(grp, x, top, w, yb + s.PAD)
         x += w + s.GAP
     gh = h.n(GROUPS[0][0]).nh

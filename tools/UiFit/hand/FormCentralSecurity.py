@@ -14,6 +14,16 @@ s = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(s)
 
 
+def walk(n):
+    yield n
+    for k in n.children:
+        yield from walk(k)
+
+
+def snap4(v):
+    return (v + 3) // 4 * 4
+
+
 def layout(h):
     Wd = 984
     R = Wd - s.PAD
@@ -24,7 +34,10 @@ def layout(h):
     w1 = 399
     c1 = w1 - 2 * s.PAD
     y = s.note(h, "label1", s.PAD, s.TITLE, c1, estimate=True) + s.ROWGAP
-    fx = s.col_x(h, ["label3", "label4"])
+    # The users and groups control has a label3 and a label4 of its own (found first by name): the Date and Days labels' widths are
+    # read from this window's nodes (groupBox1/label3, groupBox1/label4).
+    mine = [n for n in walk(h.tree) if n.path in ("groupBox1/label3", "groupBox1/label4")]
+    fx = s.PAD + max(snap4(n.text_w + 4) for n in mine) + s.LGAP
     s.row(h, "label3", "textDate", y, fx)
     yb = s.row(h, "label4", "textDays", y + h.H + s.ROWGAP, fx)
     d = h.n("textDays")

@@ -67,7 +67,7 @@
 			// splitContainerOptions.Panel1
 			// 
 			this.splitContainerOptions.Panel1.Controls.Add(this.groupingOptionsCtrl1);
-			this.splitContainerOptions.Size = new System.Drawing.Size(788, 60);
+			this.splitContainerOptions.Size = new System.Drawing.Size(788, 87);
 			this.splitContainerOptions.SplitterDistance = 108;
 			this.splitContainerOptions.TabIndex = 0;
 			// 

@@ -14,3 +14,4 @@ def layout(h):
     h.set("groupingOptionsCtrl1", 0, 0, 108, 87)
     h.splitter("splitContainerOptions", 108)
     h.splitter("splitContainer", 87)
+    h.set("splitContainerOptions", None, None, None, 87)  # docked to fill the first panel: its designer size is that panel

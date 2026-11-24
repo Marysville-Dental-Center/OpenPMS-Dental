@@ -31,7 +31,8 @@ def layout(h):
     for chk in ("checkAddToConvertScript", "checkRunQueries"):
         h.check_left(chk)
         h.text_align(chk, "MiddleLeft")
-        h.set(chk, s.PAD, y, h.cw(chk), h.CH)
+        # Run queries' text draws wider than its measured width (the gallery cut its last letter at the text + 24): 8 px more.
+        h.set(chk, s.PAD, y, h.cw(chk) + (8 if chk == "checkRunQueries" else 0), h.CH)
         y += h.CH + s.ROWGAP
     h.set("butRun", fx, y, None, h.H)
     left_bottom = y + h.H

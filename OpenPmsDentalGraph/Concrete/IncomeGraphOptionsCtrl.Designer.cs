@@ -50,7 +50,7 @@
 			this.checkIncludeInsuranceClaimPayments.Size = new System.Drawing.Size(171, 18);
 			this.checkIncludeInsuranceClaimPayments.TabIndex = 3;
 			this.checkIncludeInsuranceClaimPayments.Text = "Insurance Claim Payments";
-			this.checkIncludeInsuranceClaimPayments.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkIncludeInsuranceClaimPayments.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.checkIncludeInsuranceClaimPayments.UseVisualStyleBackColor = true;
 			this.checkIncludeInsuranceClaimPayments.Click += new System.EventHandler(this.OnIncomeGraphInputsChanged);
 			// 
@@ -64,7 +64,7 @@
 			this.checkIncludePaySplits.Size = new System.Drawing.Size(81, 18);
 			this.checkIncludePaySplits.TabIndex = 5;
 			this.checkIncludePaySplits.Text = "Pay Splits";
-			this.checkIncludePaySplits.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkIncludePaySplits.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.checkIncludePaySplits.UseVisualStyleBackColor = true;
 			this.checkIncludePaySplits.Click += new System.EventHandler(this.OnIncomeGraphInputsChanged);
 			// 

@@ -214,7 +214,7 @@ namespace xCrudGenerator {
 			this.checkRunQueries.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.checkRunQueries.Location = new System.Drawing.Point(8, 155);
 			this.checkRunQueries.Name = "checkRunQueries";
-			this.checkRunQueries.Size = new System.Drawing.Size(242, 18);
+			this.checkRunQueries.Size = new System.Drawing.Size(250, 18);
 			this.checkRunQueries.TabIndex = 26;
 			this.checkRunQueries.Text = "Run queries generated for convert script";
 			this.checkRunQueries.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;

@@ -91,7 +91,7 @@
 			// 
 			// butExport
 			// 
-			this.butExport.Location = new System.Drawing.Point(389, 31);
+			this.butExport.Location = new System.Drawing.Point(404, 31);
 			this.butExport.Name = "butExport";
 			this.butExport.Size = new System.Drawing.Size(83, 23);
 			this.butExport.TabIndex = 3;
@@ -101,7 +101,7 @@
 			// 
 			// butPrint
 			// 
-			this.butPrint.Location = new System.Drawing.Point(389, 58);
+			this.butPrint.Location = new System.Drawing.Point(404, 58);
 			this.butPrint.Name = "butPrint";
 			this.butPrint.Size = new System.Drawing.Size(83, 23);
 			this.butPrint.TabIndex = 4;
@@ -117,7 +117,7 @@
 			this.groupChartPosition.Controls.Add(this.label2);
 			this.groupChartPosition.Location = new System.Drawing.Point(278, 8);
 			this.groupChartPosition.Name = "groupChartPosition";
-			this.groupChartPosition.Size = new System.Drawing.Size(95, 81);
+			this.groupChartPosition.Size = new System.Drawing.Size(110, 81);
 			this.groupChartPosition.TabIndex = 2;
 			this.groupChartPosition.TabStop = false;
 			this.groupChartPosition.Text = "Image Position";
@@ -164,7 +164,7 @@
 			// 
 			this.checkLandscape.Checked = true;
 			this.checkLandscape.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkLandscape.Location = new System.Drawing.Point(478, 60);
+			this.checkLandscape.Location = new System.Drawing.Point(493, 60);
 			this.checkLandscape.Name = "checkLandscape";
 			this.checkLandscape.Size = new System.Drawing.Size(87, 18);
 			this.checkLandscape.TabIndex = 5;
