@@ -34,25 +34,25 @@
 			// listMain
 			// 
 			this.listMain.FormattingEnabled = true;
-			this.listMain.Location = new System.Drawing.Point(23, 117);
+			this.listMain.Location = new System.Drawing.Point(8, 142);
 			this.listMain.Name = "listMain";
-			this.listMain.Size = new System.Drawing.Size(174, 303);
+			this.listMain.Size = new System.Drawing.Size(174, 283);
 			this.listMain.TabIndex = 1;
 			this.listMain.DoubleClick += new System.EventHandler(this.listMain_DoubleClick);
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(23, 8);
+			this.label1.Location = new System.Drawing.Point(8, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(318, 107);
+			this.label1.Size = new System.Drawing.Size(337, 130);
 			this.label1.TabIndex = 2;
 			this.label1.Text = resources.GetString("label1.Text");
 			// 
 			// butAdd
 			// 
-			this.butAdd.Location = new System.Drawing.Point(23, 424);
+			this.butAdd.Location = new System.Drawing.Point(8, 437);
 			this.butAdd.Name = "butAdd";
-			this.butAdd.Size = new System.Drawing.Size(75, 23);
+			this.butAdd.Size = new System.Drawing.Size(75, 24);
 			this.butAdd.TabIndex = 3;
 			this.butAdd.Text = "Add";
 			this.butAdd.UseVisualStyleBackColor = true;

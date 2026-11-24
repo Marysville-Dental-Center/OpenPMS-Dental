@@ -51,7 +51,10 @@ def layout(h):
     x0 = xm + LW + 8
     lw = max(h.lw(n) for n in ("labelMobileMedicalNameOverride", "labelMobileCheckOverride", "labelUiLabelMobileCheckBoxNonMisc",
                                "labelReportableName", "labelTabOrder", "label5", "label7"))
-    fx = x0 + lw + 6
+    # one field column for the column and the groups' rows (GridRulesTests' columns: fields within 40 px share one left edge)
+    glw_all = max(h.lw(n) for n in ("label3", "labelUiLabelMobileMisc", "labelUiLabelMobileRadioButtonMisc", "labelUiLabelMobile",
+                                    "labelItemOverride"))
+    fx = max(x0 + lw + 6, x0 + PAD + glw_all + 6)
     fw = R - fx
     NW = 68
     f2 = R - NW
@@ -67,15 +70,13 @@ def layout(h):
     yslot = yreq + max(18, h.n("labelRequired").nh) + SECTION
     # the misc group
     gw = R - x0
-    glw = max(h.lw(n) for n in ("label3", "labelUiLabelMobileMisc", "labelUiLabelMobileRadioButtonMisc"))
-    gfx = PAD + glw + 6
+    gfx = fx - x0
+    glw = gfx - 6 - PAD
     for i, (lb, f) in enumerate((("label3", "comboRadioGroupNameMisc"), ("labelUiLabelMobileMisc", "textUiLabelMobileMisc"),
                                  ("labelUiLabelMobileRadioButtonMisc", "textUiLabelMobileRadioButtonMisc"))):
         row(h, lb, f, PAD, gfx, 22 + 27 * i, gw - PAD - gfx)
     h.set("groupRadioMisc", x0, yslot, gw, 22 + 27 * 2 + H + PAD)
     # the radio group
-    glw = max(h.lw(n) for n in ("labelUiLabelMobile", "labelItemOverride", "labelAlsoActs"))
-    gfx = PAD + glw + 6
     row(h, "labelUiLabelMobile", "textUiLabelMobile", PAD, gfx, 22, gw - PAD - gfx)
     yl = 22 + 27
     h.set("listRadio", gfx, yl, gw - PAD - gfx, 56)

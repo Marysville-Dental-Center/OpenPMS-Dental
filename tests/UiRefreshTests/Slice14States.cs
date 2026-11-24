@@ -37,10 +37,12 @@ namespace UiRefreshTests {
 				case "OpenPmsDental.FormSheetFieldCheckBox#misc":
 					return ShowSheetCheck(root,"labelMiscInstructions","labelReportableName","textReportableName","groupRadioMisc","labelRequired","checkRequired");
 				case "OpenPmsDental.FormSheetFieldCheckBox#allergy":
+					Find(root,"labelMedical").Text="Allergies";//as the handler sets it
 					return ShowSheetCheck(root,"labelRequired","checkRequired","labelMedical","listMedical","radioYes","radioNo","labelYesNo","butAddAllergy",
 						"labelMobileCheckOverride","textMobileCheckOverride","labelMobileMedicalNameOverride","textMobileMedicalNameOverride");
 				case "OpenPmsDental.FormSheetFieldCheckBox#problem":
 					Find(root,"butAddProblem").Location=Find(root,"butAddAllergy").Location;//as the handler places it
+					Find(root,"labelMedical").Text="Problems";
 					return ShowSheetCheck(root,"labelRequired","checkRequired","labelMedical","listMedical","radioYes","radioNo","labelYesNo","butAddProblem",
 						"labelMobileCheckOverride","textMobileCheckOverride","labelMobileMedicalNameOverride","textMobileMedicalNameOverride");
 				case "OpenPmsDental.FormSheetFieldCheckBox#single":

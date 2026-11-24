@@ -97,7 +97,7 @@ namespace OpenPmsDental{
 			this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.label5.Location = new System.Drawing.Point(308, 8);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(132, 23);
+			this.label5.Size = new System.Drawing.Size(140, 23);
 			this.label5.TabIndex = 90;
 			this.label5.Text = "X Pos";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -105,9 +105,9 @@ namespace OpenPmsDental{
 			// label6
 			// 
 			this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.label6.Location = new System.Drawing.Point(530, 8);
+			this.label6.Location = new System.Drawing.Point(538, 8);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(63, 23);
+			this.label6.Size = new System.Drawing.Size(55, 23);
 			this.label6.TabIndex = 92;
 			this.label6.Text = "Y Pos";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -117,7 +117,7 @@ namespace OpenPmsDental{
 			this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.label7.Location = new System.Drawing.Point(308, 35);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(132, 23);
+			this.label7.Size = new System.Drawing.Size(140, 23);
 			this.label7.TabIndex = 94;
 			this.label7.Text = "Width";
 			this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -125,9 +125,9 @@ namespace OpenPmsDental{
 			// label8
 			// 
 			this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.label8.Location = new System.Drawing.Point(530, 35);
+			this.label8.Location = new System.Drawing.Point(538, 35);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(63, 23);
+			this.label8.Size = new System.Drawing.Size(55, 23);
 			this.label8.TabIndex = 96;
 			this.label8.Text = "Height";
 			this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -144,7 +144,7 @@ namespace OpenPmsDental{
 			// checkRequired
 			// 
 			this.checkRequired.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkRequired.Location = new System.Drawing.Point(446, 70);
+			this.checkRequired.Location = new System.Drawing.Point(454, 70);
 			this.checkRequired.Name = "checkRequired";
 			this.checkRequired.RightToLeft = System.Windows.Forms.RightToLeft.No;
 			this.checkRequired.Size = new System.Drawing.Size(72, 18);
@@ -160,7 +160,7 @@ namespace OpenPmsDental{
 			this.groupRadioMisc.Controls.Add(this.textUiLabelMobileRadioButtonMisc);
 			this.groupRadioMisc.Controls.Add(this.labelUiLabelMobileRadioButtonMisc);
 			this.groupRadioMisc.Controls.Add(this.label3);
-			this.groupRadioMisc.Location = new System.Drawing.Point(308, 100);
+			this.groupRadioMisc.Location = new System.Drawing.Point(308, 116);
 			this.groupRadioMisc.Name = "groupRadioMisc";
 			this.groupRadioMisc.Size = new System.Drawing.Size(359, 107);
 			this.groupRadioMisc.TabIndex = 4;
@@ -211,9 +211,9 @@ namespace OpenPmsDental{
 			// 
 			// listRadio
 			// 
-			this.listRadio.Location = new System.Drawing.Point(218, 49);
+			this.listRadio.Location = new System.Drawing.Point(146, 49);
 			this.listRadio.Name = "listRadio";
-			this.listRadio.Size = new System.Drawing.Size(133, 56);
+			this.listRadio.Size = new System.Drawing.Size(205, 56);
 			this.listRadio.TabIndex = 0;
 			this.listRadio.Click += new System.EventHandler(this.listRadio_Click);
 			// 
@@ -226,7 +226,7 @@ namespace OpenPmsDental{
 			this.groupRadio.Controls.Add(this.textUiLabelMobile);
 			this.groupRadio.Controls.Add(this.labelUiLabelMobile);
 			this.groupRadio.Controls.Add(this.listRadio);
-			this.groupRadio.Location = new System.Drawing.Point(308, 100);
+			this.groupRadio.Location = new System.Drawing.Point(308, 116);
 			this.groupRadio.Name = "groupRadio";
 			this.groupRadio.Size = new System.Drawing.Size(359, 140);
 			this.groupRadio.TabIndex = 8;
@@ -238,7 +238,7 @@ namespace OpenPmsDental{
 			this.labelItemOverride.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelItemOverride.Location = new System.Drawing.Point(8, 109);
 			this.labelItemOverride.Name = "labelItemOverride";
-			this.labelItemOverride.Size = new System.Drawing.Size(204, 23);
+			this.labelItemOverride.Size = new System.Drawing.Size(132, 23);
 			this.labelItemOverride.TabIndex = 125;
 			this.labelItemOverride.Text = "Item Caption Override";
 			this.labelItemOverride.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -246,9 +246,9 @@ namespace OpenPmsDental{
 			// textItemOverride
 			// 
 			this.textItemOverride.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.textItemOverride.Location = new System.Drawing.Point(218, 109);
+			this.textItemOverride.Location = new System.Drawing.Point(146, 109);
 			this.textItemOverride.Name = "textItemOverride";
-			this.textItemOverride.Size = new System.Drawing.Size(133, 23);
+			this.textItemOverride.Size = new System.Drawing.Size(205, 23);
 			this.textItemOverride.TabIndex = 124;
 			// 
 			// labelAlsoActs
@@ -256,16 +256,16 @@ namespace OpenPmsDental{
 			this.labelAlsoActs.Location = new System.Drawing.Point(8, 51);
 			this.labelAlsoActs.TextAlign = System.Drawing.ContentAlignment.TopRight;
 			this.labelAlsoActs.Name = "labelAlsoActs";
-			this.labelAlsoActs.Size = new System.Drawing.Size(204, 34);
+			this.labelAlsoActs.Size = new System.Drawing.Size(132, 34);
 			this.labelAlsoActs.TabIndex = 123;
 			this.labelAlsoActs.Text = "Also acts as the\r\nMobile Item Caption";
 			// 
 			// textUiLabelMobile
 			// 
 			this.textUiLabelMobile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.textUiLabelMobile.Location = new System.Drawing.Point(218, 22);
+			this.textUiLabelMobile.Location = new System.Drawing.Point(146, 22);
 			this.textUiLabelMobile.Name = "textUiLabelMobile";
-			this.textUiLabelMobile.Size = new System.Drawing.Size(133, 23);
+			this.textUiLabelMobile.Size = new System.Drawing.Size(205, 23);
 			this.textUiLabelMobile.TabIndex = 121;
 			// 
 			// labelUiLabelMobile
@@ -273,7 +273,7 @@ namespace OpenPmsDental{
 			this.labelUiLabelMobile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelUiLabelMobile.Location = new System.Drawing.Point(8, 22);
 			this.labelUiLabelMobile.Name = "labelUiLabelMobile";
-			this.labelUiLabelMobile.Size = new System.Drawing.Size(204, 23);
+			this.labelUiLabelMobile.Size = new System.Drawing.Size(132, 23);
 			this.labelUiLabelMobile.TabIndex = 122;
 			this.labelUiLabelMobile.Text = "Mobile Group Caption";
 			this.labelUiLabelMobile.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -283,7 +283,7 @@ namespace OpenPmsDental{
 			this.labelTabOrder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelTabOrder.Location = new System.Drawing.Point(308, 629);
 			this.labelTabOrder.Name = "labelTabOrder";
-			this.labelTabOrder.Size = new System.Drawing.Size(132, 23);
+			this.labelTabOrder.Size = new System.Drawing.Size(140, 23);
 			this.labelTabOrder.TabIndex = 108;
 			this.labelTabOrder.Text = "Tab Order";
 			this.labelTabOrder.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -311,7 +311,7 @@ namespace OpenPmsDental{
 			// 
 			this.radioYes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.radioYes.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.radioYes.Location = new System.Drawing.Point(446, 100);
+			this.radioYes.Location = new System.Drawing.Point(454, 116);
 			this.radioYes.Name = "radioYes";
 			this.radioYes.Size = new System.Drawing.Size(56, 18);
 			this.radioYes.TabIndex = 6;
@@ -326,7 +326,7 @@ namespace OpenPmsDental{
 			// 
 			this.radioNo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.radioNo.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.radioNo.Location = new System.Drawing.Point(446, 122);
+			this.radioNo.Location = new System.Drawing.Point(454, 138);
 			this.radioNo.Name = "radioNo";
 			this.radioNo.Size = new System.Drawing.Size(56, 18);
 			this.radioNo.TabIndex = 7;
@@ -340,18 +340,18 @@ namespace OpenPmsDental{
 			// labelRequired
 			// 
 			this.labelRequired.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelRequired.Location = new System.Drawing.Point(524, 71);
+			this.labelRequired.Location = new System.Drawing.Point(532, 71);
 			this.labelRequired.Name = "labelRequired";
-			this.labelRequired.Size = new System.Drawing.Size(143, 18);
+			this.labelRequired.Size = new System.Drawing.Size(135, 34);
 			this.labelRequired.TabIndex = 116;
 			this.labelRequired.Text = "Same for the whole group";
 			// 
 			// textReportableName
 			// 
 			this.textReportableName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.textReportableName.Location = new System.Drawing.Point(446, 602);
+			this.textReportableName.Location = new System.Drawing.Point(454, 602);
 			this.textReportableName.Name = "textReportableName";
-			this.textReportableName.Size = new System.Drawing.Size(221, 23);
+			this.textReportableName.Size = new System.Drawing.Size(213, 23);
 			this.textReportableName.TabIndex = 9;
 			// 
 			// labelReportableName
@@ -359,7 +359,7 @@ namespace OpenPmsDental{
 			this.labelReportableName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelReportableName.Location = new System.Drawing.Point(308, 602);
 			this.labelReportableName.Name = "labelReportableName";
-			this.labelReportableName.Size = new System.Drawing.Size(132, 23);
+			this.labelReportableName.Size = new System.Drawing.Size(140, 23);
 			this.labelReportableName.TabIndex = 108;
 			this.labelReportableName.Text = "Reportable Name";
 			this.labelReportableName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -367,9 +367,9 @@ namespace OpenPmsDental{
 			// labelMiscInstructions
 			// 
 			this.labelMiscInstructions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelMiscInstructions.Location = new System.Drawing.Point(446, 580);
+			this.labelMiscInstructions.Location = new System.Drawing.Point(454, 580);
 			this.labelMiscInstructions.Name = "labelMiscInstructions";
-			this.labelMiscInstructions.Size = new System.Drawing.Size(221, 18);
+			this.labelMiscInstructions.Size = new System.Drawing.Size(213, 18);
 			this.labelMiscInstructions.TabIndex = 117;
 			this.labelMiscInstructions.Text = "One Reportable Name per button";
 			this.labelMiscInstructions.Visible = false;
@@ -377,9 +377,9 @@ namespace OpenPmsDental{
 			// labelYesNo
 			// 
 			this.labelYesNo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelYesNo.Location = new System.Drawing.Point(508, 101);
+			this.labelYesNo.Location = new System.Drawing.Point(516, 117);
 			this.labelYesNo.Name = "labelYesNo";
-			this.labelYesNo.Size = new System.Drawing.Size(159, 18);
+			this.labelYesNo.Size = new System.Drawing.Size(151, 18);
 			this.labelYesNo.TabIndex = 118;
 			this.labelYesNo.Text = "Pair with a \"No\" box";
 			this.labelYesNo.Visible = false;
@@ -387,7 +387,7 @@ namespace OpenPmsDental{
 			// textTabOrder
 			// 
 			this.textTabOrder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.textTabOrder.Location = new System.Drawing.Point(446, 629);
+			this.textTabOrder.Location = new System.Drawing.Point(454, 629);
 			this.textTabOrder.MaxVal = 2000;
 			this.textTabOrder.MinVal = -100;
 			this.textTabOrder.Name = "textTabOrder";
@@ -419,7 +419,7 @@ namespace OpenPmsDental{
 			// textWidth
 			// 
 			this.textWidth.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.textWidth.Location = new System.Drawing.Point(446, 35);
+			this.textWidth.Location = new System.Drawing.Point(454, 35);
 			this.textWidth.MaxVal = 2000;
 			this.textWidth.MinVal = 1;
 			this.textWidth.Name = "textWidth";
@@ -439,7 +439,7 @@ namespace OpenPmsDental{
 			// textXPos
 			// 
 			this.textXPos.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.textXPos.Location = new System.Drawing.Point(446, 8);
+			this.textXPos.Location = new System.Drawing.Point(454, 8);
 			this.textXPos.MaxVal = 2000;
 			this.textXPos.MinVal = -100;
 			this.textXPos.Name = "textXPos";
@@ -459,17 +459,17 @@ namespace OpenPmsDental{
 			// textUiLabelMobileCheckBoxNonMisc
 			// 
 			this.textUiLabelMobileCheckBoxNonMisc.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.textUiLabelMobileCheckBoxNonMisc.Location = new System.Drawing.Point(446, 100);
+			this.textUiLabelMobileCheckBoxNonMisc.Location = new System.Drawing.Point(454, 116);
 			this.textUiLabelMobileCheckBoxNonMisc.Name = "textUiLabelMobileCheckBoxNonMisc";
-			this.textUiLabelMobileCheckBoxNonMisc.Size = new System.Drawing.Size(221, 23);
+			this.textUiLabelMobileCheckBoxNonMisc.Size = new System.Drawing.Size(213, 23);
 			this.textUiLabelMobileCheckBoxNonMisc.TabIndex = 119;
 			// 
 			// labelUiLabelMobileCheckBoxNonMisc
 			// 
 			this.labelUiLabelMobileCheckBoxNonMisc.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelUiLabelMobileCheckBoxNonMisc.Location = new System.Drawing.Point(308, 100);
+			this.labelUiLabelMobileCheckBoxNonMisc.Location = new System.Drawing.Point(308, 116);
 			this.labelUiLabelMobileCheckBoxNonMisc.Name = "labelUiLabelMobileCheckBoxNonMisc";
-			this.labelUiLabelMobileCheckBoxNonMisc.Size = new System.Drawing.Size(132, 23);
+			this.labelUiLabelMobileCheckBoxNonMisc.Size = new System.Drawing.Size(140, 23);
 			this.labelUiLabelMobileCheckBoxNonMisc.TabIndex = 120;
 			this.labelUiLabelMobileCheckBoxNonMisc.Text = "Mobile Item Caption";
 			this.labelUiLabelMobileCheckBoxNonMisc.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -512,16 +512,16 @@ namespace OpenPmsDental{
 			// 
 			// textMobileMedicalNameOverride
 			// 
-			this.textMobileMedicalNameOverride.Location = new System.Drawing.Point(446, 179);
+			this.textMobileMedicalNameOverride.Location = new System.Drawing.Point(454, 195);
 			this.textMobileMedicalNameOverride.Name = "textMobileMedicalNameOverride";
-			this.textMobileMedicalNameOverride.Size = new System.Drawing.Size(221, 23);
+			this.textMobileMedicalNameOverride.Size = new System.Drawing.Size(213, 23);
 			this.textMobileMedicalNameOverride.TabIndex = 131;
 			// 
 			// labelMobileMedicalNameOverride
 			// 
-			this.labelMobileMedicalNameOverride.Location = new System.Drawing.Point(308, 179);
+			this.labelMobileMedicalNameOverride.Location = new System.Drawing.Point(308, 195);
 			this.labelMobileMedicalNameOverride.Name = "labelMobileMedicalNameOverride";
-			this.labelMobileMedicalNameOverride.Size = new System.Drawing.Size(132, 23);
+			this.labelMobileMedicalNameOverride.Size = new System.Drawing.Size(140, 23);
 			this.labelMobileMedicalNameOverride.TabIndex = 130;
 			this.labelMobileMedicalNameOverride.Text = "Mobile Group Caption";
 			this.labelMobileMedicalNameOverride.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -529,19 +529,19 @@ namespace OpenPmsDental{
 			// textMobileCheckOverride
 			// 
 			this.textMobileCheckOverride.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.textMobileCheckOverride.Location = new System.Drawing.Point(446, 152);
+			this.textMobileCheckOverride.Location = new System.Drawing.Point(454, 168);
 			this.textMobileCheckOverride.MaxLength = 65535;
 			this.textMobileCheckOverride.Name = "textMobileCheckOverride";
-			this.textMobileCheckOverride.Size = new System.Drawing.Size(221, 23);
+			this.textMobileCheckOverride.Size = new System.Drawing.Size(213, 23);
 			this.textMobileCheckOverride.TabIndex = 128;
 			this.textMobileCheckOverride.Visible = false;
 			// 
 			// labelMobileCheckOverride
 			// 
 			this.labelMobileCheckOverride.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelMobileCheckOverride.Location = new System.Drawing.Point(308, 152);
+			this.labelMobileCheckOverride.Location = new System.Drawing.Point(308, 168);
 			this.labelMobileCheckOverride.Name = "labelMobileCheckOverride";
-			this.labelMobileCheckOverride.Size = new System.Drawing.Size(132, 23);
+			this.labelMobileCheckOverride.Size = new System.Drawing.Size(140, 23);
 			this.labelMobileCheckOverride.TabIndex = 129;
 			this.labelMobileCheckOverride.Text = "Mobile Y/N Override";
 			this.labelMobileCheckOverride.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

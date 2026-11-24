@@ -137,6 +137,15 @@ namespace UiRefreshTests.Scan {
 			return null;
 		}
 
+		///<summary>UI-12 slice 14: runs on a UserControl the builder has hosted and laid out (WindowBuilder.HostInFormODBase). UserControlTasks lays
+		///its tabs, calendar, tree and grid out in its Resize handler, which a host that sizes it raises (FormTasks docks it, the main window moves
+		///it); hosted at its own size it gets none, so the handler runs here as a host's sizing runs it.</summary>
+		public static void AfterHosting(UserControl userControl) {
+			if(userControl.GetType().FullName=="OpenPmsDental.UserControlTasks") {
+				userControl.GetType().GetMethod("UserControlTasks_Resize",FLAGS).Invoke(userControl,new object[] { userControl,EventArgs.Empty });
+			}
+		}
+
 		private static void SuspendTabControls(Control control,List<Control> listSuspended) {
 			foreach(Control child in control.Controls) {
 				if(child is OpenPmsDental.UI.TabControl) {

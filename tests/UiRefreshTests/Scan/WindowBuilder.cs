@@ -547,6 +547,7 @@ namespace UiRefreshTests.Scan {
 			disposableSample?.Dispose();
 			layoutManager.LayoutControlBoundsAndFonts(hostFormOD.PanelClient);
 			builtWindow.LayOutAt(1f);
+			SampleData.AfterHosting(userControl);//UI-12 slice 14
 		}
 
 		///<summary>A FormODBase window made by its own constructor (a test window), laid out at 100% the way FormODBase.OnLoad does it, without

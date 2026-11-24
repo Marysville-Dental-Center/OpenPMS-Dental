@@ -381,16 +381,20 @@ namespace OpenPmsDental {
 			Controls.Add(labelNote);
 			y+=34+UiGrid.SECTION_GAP;
 			int yBar=y+26+UiGrid.DIALOG_GAP;//the bottom row: Save as preset and Close
-			butReset=new UI.Button { Location=new Point(x,y),Size=new Size(75,26),Name="butReset",Text="Reset" };
+			//The two rows of buttons are the bottom bar: each button anchored to the bottom, All in mount over Close on the right edge.
+			butReset=new UI.Button { Location=new Point(x,y),Size=new Size(75,26),Name="butReset",Text="Reset",Anchor=AnchorStyles.Bottom|AnchorStyles.Left };
 			butReset.Click+=butReset_Click;
 			Controls.Add(butReset);
-			butSavePreset=new UI.Button { Location=new Point(x,yBar),Size=new Size(120,26),Name="butSavePreset",Text="Save as preset..." };
-			butAllInMount=new UI.Button { Location=new Point(butReset.Right+UiGrid.DIALOG_GAP,y),Size=new Size(120,26),Name="butAllInMount",Text="All in mount..." };
+			butSavePreset=new UI.Button { Location=new Point(x,yBar),Size=new Size(120,26),Name="butSavePreset",Text="Save as preset...",
+				Anchor=AnchorStyles.Bottom|AnchorStyles.Left };
+			butAllInMount=new UI.Button { Location=new Point(x+WIDTH_CONTENT-120,y),Size=new Size(120,26),Name="butAllInMount",Text="All in mount...",
+				Anchor=AnchorStyles.Bottom|AnchorStyles.Right };
 			butAllInMount.Click+=butAllInMount_Click;
 			Controls.Add(butAllInMount);
 			butSavePreset.Click+=butSavePreset_Click;
 			Controls.Add(butSavePreset);
-			butClose=new UI.Button { Location=new Point(x+WIDTH_CONTENT-75,yBar),Size=new Size(75,26),Name="butClose",Text="Close" };//bottom right
+			butClose=new UI.Button { Location=new Point(x+WIDTH_CONTENT-75,yBar),Size=new Size(75,26),Name="butClose",Text="Close",
+				Anchor=AnchorStyles.Bottom|AnchorStyles.Right };//bottom right
 			butClose.Click+=butClose_Click;
 			Controls.Add(butClose);
 			ClientSize=new Size(WIDTH_CONTENT+2*UiGrid.PAD,yBar+26+UiGrid.PAD);

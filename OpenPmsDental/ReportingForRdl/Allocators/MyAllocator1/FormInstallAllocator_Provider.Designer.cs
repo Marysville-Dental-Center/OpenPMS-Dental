@@ -51,7 +51,7 @@ namespace OpenPmsDental.Reporting.Allocators.MyAllocator1
 			this.label1.AutoSize = true;
 			this.label1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label1.ForeColor = System.Drawing.Color.Maroon;
-			this.label1.Location = new System.Drawing.Point(9, 8);
+			this.label1.Location = new System.Drawing.Point(8, 8);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(244, 26);
 			this.label1.TabIndex = 0;
@@ -61,9 +61,9 @@ namespace OpenPmsDental.Reporting.Allocators.MyAllocator1
 			// 
 			this.richTextBox1.BackColor = System.Drawing.Color.White;
 			this.richTextBox1.ForeColor = System.Drawing.Color.Maroon;
-			this.richTextBox1.Location = new System.Drawing.Point(9, 46);
+			this.richTextBox1.Location = new System.Drawing.Point(8, 48);
 			this.richTextBox1.Name = "richTextBox1";
-			this.richTextBox1.Size = new System.Drawing.Size(383, 164);
+			this.richTextBox1.Size = new System.Drawing.Size(466, 197);
 			this.richTextBox1.TabIndex = 1;
 			this.richTextBox1.Text = resources.GetString("richTextBox1.Text");
 			// 
@@ -74,7 +74,7 @@ namespace OpenPmsDental.Reporting.Allocators.MyAllocator1
 			this.panel1.Controls.Add(this.butProviderIncomeReport);
 			this.panel1.Controls.Add(this.butGuarnDetailReport);
 			this.panel1.Controls.Add(this.butUneardedIncomeReport);
-			this.panel1.Location = new System.Drawing.Point(475, 56);
+			this.panel1.Location = new System.Drawing.Point(482, 48);
 			this.panel1.Name = "panel1";
 			this.panel1.Size = new System.Drawing.Size(159, 120);
 			this.panel1.TabIndex = 2;
@@ -137,7 +137,7 @@ namespace OpenPmsDental.Reporting.Allocators.MyAllocator1
 			this.butRunAllocatorTool.Enabled = false;
 			this.butRunAllocatorTool.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.butRunAllocatorTool.ForeColor = System.Drawing.Color.Maroon;
-			this.butRunAllocatorTool.Location = new System.Drawing.Point(252, 214);
+			this.butRunAllocatorTool.Location = new System.Drawing.Point(250, 253);
 			this.butRunAllocatorTool.Name = "butRunAllocatorTool";
 			this.butRunAllocatorTool.Size = new System.Drawing.Size(143, 23);
 			this.butRunAllocatorTool.TabIndex = 4;
@@ -149,9 +149,9 @@ namespace OpenPmsDental.Reporting.Allocators.MyAllocator1
 			// 
 			this.rbIhaveNotRead.AutoSize = false;
 			this.rbIhaveNotRead.Checked = true;
-			this.rbIhaveNotRead.Location = new System.Drawing.Point(8, 8);
+			this.rbIhaveNotRead.Location = new System.Drawing.Point(0, 0);
 			this.rbIhaveNotRead.Name = "rbIhaveNotRead";
-			this.rbIhaveNotRead.Size = new System.Drawing.Size(198, 20);
+			this.rbIhaveNotRead.Size = new System.Drawing.Size(204, 18);
 			this.rbIhaveNotRead.TabIndex = 5;
 			this.rbIhaveNotRead.TabStop = true;
 			this.rbIhaveNotRead.Text = "I Have NOT Read The Above Text";
@@ -161,17 +161,17 @@ namespace OpenPmsDental.Reporting.Allocators.MyAllocator1
 			// 
 			this.panel2.Controls.Add(this.rbutIHaveRead);
 			this.panel2.Controls.Add(this.rbIhaveNotRead);
-			this.panel2.Location = new System.Drawing.Point(12, 214);
+			this.panel2.Location = new System.Drawing.Point(8, 253);
 			this.panel2.Name = "panel2";
-			this.panel2.Size = new System.Drawing.Size(234, 60);
+			this.panel2.Size = new System.Drawing.Size(234, 40);
 			this.panel2.TabIndex = 6;
 			// 
 			// rbutIHaveRead
 			// 
 			this.rbutIHaveRead.AutoSize = false;
-			this.rbutIHaveRead.Location = new System.Drawing.Point(8, 32);
+			this.rbutIHaveRead.Location = new System.Drawing.Point(0, 22);
 			this.rbutIHaveRead.Name = "rbutIHaveRead";
-			this.rbutIHaveRead.Size = new System.Drawing.Size(168, 20);
+			this.rbutIHaveRead.Size = new System.Drawing.Size(204, 18);
 			this.rbutIHaveRead.TabIndex = 6;
 			this.rbutIHaveRead.Text = "I Have Read the Above Text";
 			this.rbutIHaveRead.UseVisualStyleBackColor = true;
@@ -182,9 +182,9 @@ namespace OpenPmsDental.Reporting.Allocators.MyAllocator1
 			this.lblAllocatorStatus.AutoSize = false;
 			this.lblAllocatorStatus.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.lblAllocatorStatus.ForeColor = System.Drawing.Color.Maroon;
-			this.lblAllocatorStatus.Location = new System.Drawing.Point(252, 241);
+			this.lblAllocatorStatus.Location = new System.Drawing.Point(250, 280);
 			this.lblAllocatorStatus.Name = "lblAllocatorStatus";
-			this.lblAllocatorStatus.Size = new System.Drawing.Size(124, 20);
+			this.lblAllocatorStatus.Size = new System.Drawing.Size(143, 20);
 			this.lblAllocatorStatus.TabIndex = 7;
 			this.lblAllocatorStatus.Text = "Current Tool Status:";
 			// 

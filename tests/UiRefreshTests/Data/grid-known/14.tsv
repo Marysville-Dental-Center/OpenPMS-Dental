@@ -1,0 +1,4 @@
+# UI-12: the grid findings GridRulesTests allows on the grid windows, each with why (the planner lists them in its run; UI-12.md section 4).
+# The test fails on a finding not listed here and on a row that no longer happens, so this list only shrinks.
+window	rule	key	why
+OpenPmsDental.UserControlSecurityUserGroup	hidden-frame	securityTreeUser textXpos	UI-12 slice 14: UserControlSecurityTree's own hidden text box over its tree (another designer, never shown), as in FormSecurity, FormUserEdit and FormCentralSecurity, which host it
