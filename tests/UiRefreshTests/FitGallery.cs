@@ -655,6 +655,11 @@ namespace UiRefreshTests {
 				//UI-12 slice 4 fix round: the page in permission mode (FillSampleContent sets the mode's Visible flags).
 				return root;
 			}
+			//UI-12 slice 16: the parts of the slice's windows that their code shows (hidden in the designer), laid out by the slice's scripts.
+			Control controlSixteen=GetSliceSixteenState(root,window,state);
+			if(controlSixteen!=null) {
+				return controlSixteen;
+			}
 			//UI-12 slice 3 fix round (review of 2026-11-23): the slice's other tab pages and views, laid out by its scripts.
 			string[] arrayTab=GetSliceThreeTabState(window,state) ?? GetSliceElevenTabState(window,state) ?? GetSliceThirteenTabState(window,state)
 				?? GetSliceFifteenTabState(window,state);
@@ -758,6 +763,87 @@ namespace UiRefreshTests {
 				case "OpenPmsDental.FormFeeSchedTools#copycode": return new string[] { "tabControlTools","tabPageCopyCode" };
 			}
 			return null;
+		}
+
+		///<summary>UI-12 slice 16: the states the slice's windows show at run time. ControlAppt "search": the search group where ShowSearch puts it
+		///(under the pinboard, over the lower calendar panel). ControlImages "note", "import" and "pearl": the note panel, the automatic import
+		///panel and the Pearl panel, drawn alone (LayoutControls places them at run time). FormTPsign "typed": both signature boxes with their
+		///typed-signature rows; "changeuser" also the Change User buttons and signers' names of an electronic sheet signature box. FormSheetFillEdit "buttons": every button of the rows under the sheet (Load shows some by the sheet's state).
+		///FormClaimFormEdit "internal": the internal form's note. FormTerminal "done": the thank-you line the kiosk shows when the forms are done.
+		///Null for any other window and state.</summary>
+		private static Control GetSliceSixteenState(Control root,string window,string state) {
+			switch(window+"#"+state) {
+				case "OpenPmsDental.ControlAppt#search":
+					Control panelCalendar=FindByName(root,"panelCalendar");
+					Control groupSearch=FindByName(root,"groupSearch");
+					//As ControlAppt.LayoutSearch places it (ShowSearch): under the pinboard, the column's width, down to the tabs' bottom.
+					LayoutManagerForms layoutManagerSearch=root.FindForm() is FormODBase formODBase ? WindowBuilder.GetLayoutManager(formODBase) : null;
+					int ySearch=panelCalendar.Top+FindByName(root,"panelCalendarLower").Top+FindByName(root,"pinBoard").Bottom
+						+(layoutManagerSearch==null ? UiGrid.ROW_GAP : layoutManagerSearch.Scale(UiGrid.ROW_GAP));
+					int heightSearch=Math.Max(layoutManagerSearch==null ? 385 : layoutManagerSearch.Scale(385),FindByName(root,"tabControl").Bottom-ySearch);
+					Rectangle rectangleSearch=new Rectangle(panelCalendar.Left,ySearch,panelCalendar.Width,heightSearch);
+					if(layoutManagerSearch!=null) {
+						layoutManagerSearch.Move(groupSearch,rectangleSearch);//the harness lays the window out again
+					}
+					else {
+						groupSearch.Bounds=rectangleSearch;
+					}
+					groupSearch.Visible=true;
+					groupSearch.BringToFront();
+					return root;
+				case "OpenPmsDental.ControlImages#note":
+					return ShowPart(root,"panelNote");
+				case "OpenPmsDental.ControlImages#import":
+					return ShowPart(root,"panelImportAuto");
+				case "OpenPmsDental.ControlImages#pearl":
+					return ShowPart(root,"panelPearl");
+				case "OpenPmsDental.FormTPsign#typed":
+				case "OpenPmsDental.FormTPsign#changeuser":
+					foreach(string name in new string[] { "labelTypeSig","textTypeSig","labelSigPractice","signatureBoxWrapperPractice","labelTypeSigPractice","textTypeSigPractice" }) {
+						FindByName(root,name).Visible=true;
+					}
+					if(state=="changeuser") {
+						//UI-12 slice 16 fix round: the Change User button and the signer's name beside both boxes, as AddChangeUserButton places them for a
+						//sheet signature box that may be signed electronically (the signer's name as ChangeSigBoxUser writes it, synthetic).
+						Form formTPsign=root.FindForm() ?? (Form)root;
+						System.Reflection.MethodInfo methodInfo=formTPsign.GetType().GetMethod("AddChangeUserButton",
+							System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.NonPublic);
+						Control panelSig=FindByName(root,"panelSig");
+						foreach((string nameBox,OpenPmsDentalBusiness.SheetFieldType sheetFieldType,string user) in new[] {
+							("signatureBoxWrapper",OpenPmsDentalBusiness.SheetFieldType.SigBox,"patient1"),
+							("signatureBoxWrapperPractice",OpenPmsDentalBusiness.SheetFieldType.SigBoxPractice,"provider1") })
+						{
+							int countBefore=panelSig.Controls.Count;
+							OpenPmsDentalBusiness.SheetField sheetField=new OpenPmsDentalBusiness.SheetField { FieldType=sheetFieldType,CanElectronicallySign=true };
+							methodInfo.Invoke(formTPsign,new object[] { sheetField,FindByName(root,nameBox) });
+							foreach(Control control in panelSig.Controls.Cast<Control>().Skip(countBefore).OfType<Label>()) {
+								control.Text="Signer: "+user;
+							}
+						}
+					}
+					return root;
+				case "OpenPmsDental.FormSheetFillEdit#buttons":
+					foreach(Control control in FindByName(root,"butOK").Parent.Controls) {
+						if(control is OpenPmsDental.UI.Button || control is OpenPmsDental.UI.CheckBox) {
+							control.Visible=true;
+						}
+					}
+					return root;
+				case "OpenPmsDental.FormClaimFormEdit#internal":
+					FindByName(root,"labelInternal").Visible=true;
+					return root;
+				case "OpenPmsDental.FormTerminal#done":
+					FindByName(root,"labelThankYou").Visible=true;
+					return root;
+			}
+			return null;
+		}
+
+		///<summary>UI-12 slice 16: a panel the code shows, made visible and drawn alone.</summary>
+		private static Control ShowPart(Control root,string name) {
+			Control control=FindByName(root,name);
+			control.Visible=true;
+			return control;
 		}
 
 		///<summary>UI-12 slice 13: the other tab pages of FormRecallList (its program tab control) and of the report designer's FindTab,

@@ -1798,6 +1798,14 @@ own 26.2 overlap check before it starts. The first cut is below; a brief that fi
   section 7, "Slice 15"). Fix round (`ui/ui12-15-2`, the review's 14 points): CodeCtl and TableRowCtl within the tab page's 440 px,
   GroupingCtl's columns and buttons, three list boxes without IntegralHeight, two captions at the content edge, DialogAbout's version
   lines, every font of a property page at 150% in the gallery (`FitGallery.ScaleEveryFont`).
+  Slice 16 (UI-12-16, branch `ui/ui12-16-1`, the owner's "Fix all of them" of 2026-11-24 for the sweep's off-grid windows): the 54
+  drawn-surface windows and shared controls on the grid list: print previews, browsers, the imaging and appointment modules, the sheet
+  and claim form editors, the kiosk, the signing window and the big tooth chart with the grid's padding around the surface the code
+  draws (their layout code on UiGrid's numbers, 24 layout scripts); the date and colour pickers and the code range filter on the grid;
+  the harness builds ODDatePicker, ToothChartWrapper and ComboBoxClinicPicker; 13 known rows with their reasons; gallery
+  `G-UI3-ui12-16`, audit `UI-12-audit-16.md` (UI-12.md section 7, "Slice 16"). Review fix round `ui/ui12-16-2`: ten findings fixed
+  (the big tooth chart back to main's Dock Fill, owner question on a margin; the search group, the calendar column, the claim form's note,
+  the statement's page buttons, the imaging note, the sheet's button column; the missing imaging and Change User pictures).
 - Gallery: G-UI3 per slice, the owner's rows first.
 
 **UI-13: every element type in the new look (the owner, 2026-11-22: "Overall make sure you modernize all element types")**

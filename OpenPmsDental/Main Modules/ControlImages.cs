@@ -3704,14 +3704,23 @@ namespace OpenPmsDental{
 
 		///<summary>Resizes all controls in the image module to fit inside the current window, including controls which have varying visibility.</summary>
 		public void LayoutControls(){
+			//UI-12 slice 16: the module on the grid. The two toolbars stay edge to edge across the top (window chrome); the sliders start
+			//UiGrid.PAD from the left with UiGrid.ITEM_GAP between them and the paint toolbar; the tree, the Pearl panel, the image area, the
+			//unmounted bar and the note panel keep UiGrid.PAD from the module's edges and UiGrid.SIBLING_GAP between them (they stood edge to
+			//edge). The images inside the image area are drawn by its code as before.
+			int pad=LayoutManager.Scale(UiGrid.PAD);
+			int gap=LayoutManager.Scale(UiGrid.SIBLING_GAP);
+			int itemGap=LayoutManager.Scale(UiGrid.ITEM_GAP);
 			LayoutManager.Move(elementHostToolBarMain,new Rectangle(0,0,Width,LayoutManager.Scale(25)));
-			LayoutManager.Move(elementHostWindowingSlider,new Rectangle(4,elementHostToolBarMain.Bottom+2,LayoutManager.Scale(154),LayoutManager.Scale(20)));
-			LayoutManager.Move(elementHostZoomSlider,new Rectangle(elementHostWindowingSlider.Right+4,elementHostToolBarMain.Bottom,LayoutManager.Scale(231),LayoutManager.Scale(25)));
-			LayoutManager.Move(toolBarPaint,new Rectangle(elementHostZoomSlider.Right+1,elementHostToolBarMain.Bottom,Width-(elementHostZoomSlider.Right+1),LayoutManager.Scale(25)));
+			LayoutManager.Move(elementHostWindowingSlider,new Rectangle(pad,elementHostToolBarMain.Bottom+2,LayoutManager.Scale(154),LayoutManager.Scale(20)));
+			LayoutManager.Move(elementHostZoomSlider,new Rectangle(elementHostWindowingSlider.Right+itemGap,elementHostToolBarMain.Bottom,LayoutManager.Scale(231),LayoutManager.Scale(25)));
+			LayoutManager.Move(toolBarPaint,new Rectangle(elementHostZoomSlider.Right+itemGap,elementHostToolBarMain.Bottom,Width-(elementHostZoomSlider.Right+itemGap),LayoutManager.Scale(25)));
+			int yTop=toolBarPaint.Bottom+pad;
+			int yBottom=Height-pad;
 			if(_isTreeDockerCollapsed){
 				imageSelector.Visible=false;
 				panelPearl.Visible=false;
-				LayoutManager.Move(panelSplitter,new Rectangle(0,toolBarPaint.Bottom,10,Height-toolBarPaint.Bottom));
+				LayoutManager.Move(panelSplitter,new Rectangle(pad,yTop,10,yBottom-yTop));
 				panelSplitter.Invalidate();
 			}
 			else{
@@ -3720,57 +3729,48 @@ namespace OpenPmsDental{
 				if(LayoutManager.Scale(_widthTree96)>Width-LayoutManager.Scale(150)){//this is the min set in FormODBase for FormImageFloat
 					_widthTree96=Width-LayoutManager.Scale(150);
 				}
-				int heightPanelPearl=LayoutManager.Scale(62);
-				if(!panelPearl.Visible) {
+				int heightPanelPearl=LayoutManager.Scale(70);//its group on the grid: the title, two check boxes a list, the padding (62 before)
+				int bottomTree=yBottom;
+				if(panelPearl.Visible) {
+					bottomTree=yBottom-heightPanelPearl-gap;
+				}
+				else{
 					heightPanelPearl=0;
 				}
-				LayoutManager.Move(panelPearl,new Rectangle(0,Height-heightPanelPearl,LayoutManager.Scale(_widthTree96),heightPanelPearl));
-				LayoutManager.Move(elementHostImageSelector,new Rectangle(0,toolBarPaint.Bottom,LayoutManager.Scale(_widthTree96),Height-heightPanelPearl-toolBarPaint.Bottom));
-				LayoutManager.Move(panelSplitter,new Rectangle(elementHostImageSelector.Width+1,toolBarPaint.Bottom,10,Height-toolBarPaint.Bottom));
+				LayoutManager.Move(panelPearl,new Rectangle(pad,yBottom-heightPanelPearl,LayoutManager.Scale(_widthTree96),heightPanelPearl));
+				LayoutManager.Move(elementHostImageSelector,new Rectangle(pad,yTop,LayoutManager.Scale(_widthTree96),bottomTree-yTop));
+				LayoutManager.Move(panelSplitter,new Rectangle(elementHostImageSelector.Right+1,yTop,10,yBottom-yTop));
 				panelSplitter.Invalidate();
 			}
-			int heightPanelNote=Math.Min(114,Height-toolBarPaint.Bottom);
+			int xRight=panelSplitter.Right+1;
+			int widthRight=Width-pad-xRight;
+			int heightPanelNote=Math.Min(LayoutManager.Scale(97),yBottom-yTop);//UI-12 slice 16: as tall as its content (the captions and the 79 px note and signature boxes), scaled
 			if(!panelNote.Visible){
 				heightPanelNote=0;
 			}
-			LayoutManager.Move(panelNote,new Rectangle(
-				panelSplitter.Right+1,
-				Height-heightPanelNote-1,
-				Width-panelSplitter.Right-1,
-				heightPanelNote
-				));
-			int heightUnmountedBar=Math.Min(LayoutManager.Scale(200),Height-toolBarPaint.Bottom-heightPanelNote);
+			LayoutManager.Move(panelNote,new Rectangle(xRight,yBottom-heightPanelNote,widthRight,heightPanelNote));
+			int bottomArea=yBottom;
+			if(panelNote.Visible){
+				bottomArea=panelNote.Top-gap;
+			}
+			int heightUnmountedBar=Math.Min(LayoutManager.Scale(200),bottomArea-yTop);
 			if(!elementHostUnmountedBar.Visible){
 				heightUnmountedBar=0;
 			}
-			LayoutManager.Move(elementHostUnmountedBar,new Rectangle(
-				panelSplitter.Right+1,
-				Height-heightPanelNote-heightUnmountedBar-1,
-				Width-panelSplitter.Right-1,
-				heightUnmountedBar
-				));
-			int panelMainTop=toolBarPaint.Bottom;
+			LayoutManager.Move(elementHostUnmountedBar,new Rectangle(xRight,bottomArea-heightUnmountedBar,widthRight,heightUnmountedBar));
+			if(elementHostUnmountedBar.Visible){
+				bottomArea=elementHostUnmountedBar.Top-gap;
+			}
+			int panelMainTop=yTop;
 			if(panelImportAuto.Visible){
-				LayoutManager.Move(panelImportAuto,new Rectangle(
-					panelSplitter.Right+1,
-					toolBarPaint.Bottom,
-					Width-panelSplitter.Right-1,
-					LayoutManager.Scale(44)));	
-				panelMainTop=panelImportAuto.Bottom;
+				LayoutManager.Move(panelImportAuto,new Rectangle(xRight,yTop,widthRight,LayoutManager.Scale(44)));	
+				panelMainTop=panelImportAuto.Bottom+gap;
 			}
 			if(panelDraw.Visible){
-				LayoutManager.Move(panelDraw,new Rectangle(
-					panelSplitter.Right+1,
-					toolBarPaint.Bottom,
-					Width-panelSplitter.Right-1,
-					LayoutManager.Scale(25)));	
-				panelMainTop=panelDraw.Bottom;
+				LayoutManager.Move(panelDraw,new Rectangle(xRight,yTop,widthRight,LayoutManager.Scale(25)));	
+				panelMainTop=panelDraw.Bottom;//the drawing tools' toolbar stays on the image area's top edge
 			}
-			LayoutManager.Move(controlImageDock,new Rectangle(
-				panelSplitter.Right+1,
-				panelMainTop,//used to sit under panelAcquire, but now gets resized
-				Width-panelSplitter.Right-1,
-				elementHostUnmountedBar.Top-panelMainTop-2));
+			LayoutManager.Move(controlImageDock,new Rectangle(xRight,panelMainTop,widthRight,bottomArea-panelMainTop));
 			if(_controlCameraSession!=null && _controlCameraSession.Parent==this){
 				_controlCameraSession.Bounds=new Rectangle(0,0,Width,Height);//the session covers the whole module (design section 2)
 				_controlCameraSession.BringToFront();

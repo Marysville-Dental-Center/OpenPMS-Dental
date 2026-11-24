@@ -41,7 +41,7 @@
 			// 
 			this.butDrop.FlatAppearance.BorderSize = 0;
 			this.butDrop.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.butDrop.Location = new System.Drawing.Point(148, 2);
+			this.butDrop.Location = new System.Drawing.Point(148, 1);
 			this.butDrop.Name = "butDrop";
 			this.butDrop.Size = new System.Drawing.Size(16, 18);
 			this.butDrop.TabIndex = 63;
@@ -50,7 +50,7 @@
 			// 
 			// textDate
 			// 
-			this.textDate.Location = new System.Drawing.Point(63, 1);
+			this.textDate.Location = new System.Drawing.Point(63, 0);
 			this.textDate.Name = "textDate";
 			this.textDate.Size = new System.Drawing.Size(102, 20);
 			this.textDate.TabIndex = 59;

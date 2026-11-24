@@ -108,9 +108,9 @@
 			this.panelNote.Controls.Add(this.label15);
 			this.panelNote.Controls.Add(this.label1);
 			this.panelNote.Controls.Add(this.textNote);
-			this.panelNote.Location = new System.Drawing.Point(230, 494);
+			this.panelNote.Location = new System.Drawing.Point(248, 490);
 			this.panelNote.Name = "panelNote";
-			this.panelNote.Size = new System.Drawing.Size(834, 93);
+			this.panelNote.Size = new System.Drawing.Size(1065, 97);
 			this.panelNote.TabIndex = 23;
 			this.panelNote.Visible = false;
 			this.panelNote.DoubleClick += new System.EventHandler(this.panelNote_DoubleClick);
@@ -118,7 +118,7 @@
 			// labelInvalidSig
 			// 
 			this.labelInvalidSig.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.labelInvalidSig.Location = new System.Drawing.Point(398, 31);
+			this.labelInvalidSig.Location = new System.Drawing.Point(393, 28);
 			this.labelInvalidSig.Name = "labelInvalidSig";
 			this.labelInvalidSig.Size = new System.Drawing.Size(196, 59);
 			this.labelInvalidSig.TabIndex = 94;
@@ -128,7 +128,7 @@
 			// 
 			// sigBox
 			// 
-			this.sigBox.Location = new System.Drawing.Point(308, 20);
+			this.sigBox.Location = new System.Drawing.Point(310, 18);
 			this.sigBox.Name = "sigBox";
 			this.sigBox.Size = new System.Drawing.Size(362, 79);
 			this.sigBox.TabIndex = 90;
@@ -136,9 +136,9 @@
 			// 
 			// label15
 			// 
-			this.label15.Location = new System.Drawing.Point(305, 0);
+			this.label15.Location = new System.Drawing.Point(310, 0);
 			this.label15.Name = "label15";
-			this.label15.Size = new System.Drawing.Size(63, 18);
+			this.label15.Size = new System.Drawing.Size(63, 16);
 			this.label15.TabIndex = 87;
 			this.label15.Text = "Signature";
 			this.label15.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -148,7 +148,7 @@
 			// 
 			this.label1.Location = new System.Drawing.Point(0, 0);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(38, 18);
+			this.label1.Size = new System.Drawing.Size(38, 16);
 			this.label1.TabIndex = 1;
 			this.label1.Text = "Note";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -157,7 +157,7 @@
 			// textNote
 			// 
 			this.textNote.BackColor = System.Drawing.SystemColors.Window;
-			this.textNote.Location = new System.Drawing.Point(0, 20);
+			this.textNote.Location = new System.Drawing.Point(0, 18);
 			this.textNote.Multiline = true;
 			this.textNote.Name = "textNote";
 			this.textNote.ReadOnly = true;
@@ -173,60 +173,60 @@
 			this.panelImportAuto.Controls.Add(this.butBrowse);
 			this.panelImportAuto.Controls.Add(this.textImportAuto);
 			this.panelImportAuto.Controls.Add(this.label3);
-			this.panelImportAuto.Location = new System.Drawing.Point(262, 102);
+			this.panelImportAuto.Location = new System.Drawing.Point(248, 58);
 			this.panelImportAuto.Name = "panelImportAuto";
-			this.panelImportAuto.Size = new System.Drawing.Size(813, 44);
+			this.panelImportAuto.Size = new System.Drawing.Size(1065, 44);
 			this.panelImportAuto.TabIndex = 34;
 			this.panelImportAuto.Visible = false;
 			// 
 			// butGoTo
 			// 
-			this.butGoTo.Location = new System.Drawing.Point(610, 21);
+			this.butGoTo.Location = new System.Drawing.Point(620, 18);
 			this.butGoTo.Name = "butGoTo";
-			this.butGoTo.Size = new System.Drawing.Size(60, 20);
+			this.butGoTo.Size = new System.Drawing.Size(60, 23);
 			this.butGoTo.TabIndex = 43;
 			this.butGoTo.Text = "Go To";
 			this.butGoTo.Click += new System.EventHandler(this.butGoTo_Click);
 			// 
 			// butImportStart
 			// 
-			this.butImportStart.Location = new System.Drawing.Point(670, 21);
+			this.butImportStart.Location = new System.Drawing.Point(686, 18);
 			this.butImportStart.Name = "butImportStart";
-			this.butImportStart.Size = new System.Drawing.Size(60, 20);
+			this.butImportStart.Size = new System.Drawing.Size(60, 23);
 			this.butImportStart.TabIndex = 42;
 			this.butImportStart.Text = "Start";
 			this.butImportStart.Click += new System.EventHandler(this.butImportStart_Click);
 			// 
 			// butImportClose
 			// 
-			this.butImportClose.Location = new System.Drawing.Point(730, 21);
+			this.butImportClose.Location = new System.Drawing.Point(752, 18);
 			this.butImportClose.Name = "butImportClose";
-			this.butImportClose.Size = new System.Drawing.Size(60, 20);
+			this.butImportClose.Size = new System.Drawing.Size(60, 23);
 			this.butImportClose.TabIndex = 41;
 			this.butImportClose.Text = "Close";
 			this.butImportClose.Click += new System.EventHandler(this.butImportClose_Click);
 			// 
 			// butBrowse
 			// 
-			this.butBrowse.Location = new System.Drawing.Point(550, 21);
+			this.butBrowse.Location = new System.Drawing.Point(554, 18);
 			this.butBrowse.Name = "butBrowse";
-			this.butBrowse.Size = new System.Drawing.Size(60, 20);
+			this.butBrowse.Size = new System.Drawing.Size(60, 23);
 			this.butBrowse.TabIndex = 40;
 			this.butBrowse.Text = "Change";
 			this.butBrowse.Click += new System.EventHandler(this.butBrowse_Click);
 			// 
 			// textImportAuto
 			// 
-			this.textImportAuto.Location = new System.Drawing.Point(0, 22);
+			this.textImportAuto.Location = new System.Drawing.Point(0, 18);
 			this.textImportAuto.Name = "textImportAuto";
-			this.textImportAuto.Size = new System.Drawing.Size(548, 20);
+			this.textImportAuto.Size = new System.Drawing.Size(548, 23);
 			this.textImportAuto.TabIndex = 39;
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(1, 3);
+			this.label3.Location = new System.Drawing.Point(0, 0);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(616, 16);
+			this.label3.Size = new System.Drawing.Size(813, 16);
 			this.label3.TabIndex = 38;
 			this.label3.Text = "Automatically import files from the following folder as they appear.  Existing fi" +
     "les will be ignored.  Imported files will be deleted.";
@@ -235,9 +235,9 @@
 			// panelDraw
 			// 
 			this.panelDraw.Controls.Add(this.toolBarDraw);
-			this.panelDraw.Location = new System.Drawing.Point(250, 161);
+			this.panelDraw.Location = new System.Drawing.Point(248, 58);
 			this.panelDraw.Name = "panelDraw";
-			this.panelDraw.Size = new System.Drawing.Size(1056, 25);
+			this.panelDraw.Size = new System.Drawing.Size(1065, 25);
 			this.panelDraw.TabIndex = 36;
 			this.panelDraw.Visible = false;
 			// 
@@ -252,16 +252,16 @@
 			// 
 			// elementHostImageSelector
 			// 
-			this.elementHostImageSelector.Location = new System.Drawing.Point(15, 123);
+			this.elementHostImageSelector.Location = new System.Drawing.Point(8, 58);
 			this.elementHostImageSelector.Name = "elementHostImageSelector";
-			this.elementHostImageSelector.Size = new System.Drawing.Size(200, 365);
+			this.elementHostImageSelector.Size = new System.Drawing.Size(228, 529);
 			this.elementHostImageSelector.TabIndex = 38;
 			this.elementHostImageSelector.Text = "elementHost1";
 			this.elementHostImageSelector.Child = null;
 			// 
 			// elementHostZoomSlider
 			// 
-			this.elementHostZoomSlider.Location = new System.Drawing.Point(162, 25);
+			this.elementHostZoomSlider.Location = new System.Drawing.Point(168, 25);
 			this.elementHostZoomSlider.Name = "elementHostZoomSlider";
 			this.elementHostZoomSlider.Size = new System.Drawing.Size(231, 25);
 			this.elementHostZoomSlider.TabIndex = 39;
@@ -270,7 +270,7 @@
 			// 
 			// elementHostWindowingSlider
 			// 
-			this.elementHostWindowingSlider.Location = new System.Drawing.Point(4, 27);
+			this.elementHostWindowingSlider.Location = new System.Drawing.Point(8, 27);
 			this.elementHostWindowingSlider.Name = "elementHostWindowingSlider";
 			this.elementHostWindowingSlider.Size = new System.Drawing.Size(154, 20);
 			this.elementHostWindowingSlider.TabIndex = 169;
@@ -279,9 +279,9 @@
 			// 
 			// panelSplitter
 			// 
-			this.panelSplitter.Location = new System.Drawing.Point(233, 69);
+			this.panelSplitter.Location = new System.Drawing.Point(237, 58);
 			this.panelSplitter.Name = "panelSplitter";
-			this.panelSplitter.Size = new System.Drawing.Size(8, 434);
+			this.panelSplitter.Size = new System.Drawing.Size(10, 529);
 			this.panelSplitter.TabIndex = 24;
 			this.panelSplitter.Paint += new System.Windows.Forms.PaintEventHandler(this.panelSplitter_Paint);
 			this.panelSplitter.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panelSplitter_MouseDown);
@@ -292,9 +292,9 @@
 			// toolBarPaint
 			// 
 			this.toolBarPaint.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-			this.toolBarPaint.Location = new System.Drawing.Point(393, 25);
+			this.toolBarPaint.Location = new System.Drawing.Point(405, 25);
 			this.toolBarPaint.Name = "toolBarPaint";
-			this.toolBarPaint.Size = new System.Drawing.Size(674, 25);
+			this.toolBarPaint.Size = new System.Drawing.Size(916, 25);
 			this.toolBarPaint.TabIndex = 15;
 			this.toolBarPaint.ButtonClick += new OpenPmsDental.UI.ODToolBarButtonClickEventHandler(this.toolBarPaint_ButtonClick);
 			// 
@@ -302,26 +302,26 @@
 			// 
 			this.controlImageDock.AllowDrop = true;
 			this.controlImageDock.BackColor = System.Drawing.Color.White;
-			this.controlImageDock.Location = new System.Drawing.Point(254, 192);
+			this.controlImageDock.Location = new System.Drawing.Point(248, 58);
 			this.controlImageDock.Name = "controlImageDock";
-			this.controlImageDock.Size = new System.Drawing.Size(813, 240);
+			this.controlImageDock.Size = new System.Drawing.Size(1065, 321);
 			this.controlImageDock.TabIndex = 20;
 			this.controlImageDock.Paint += new System.Windows.Forms.PaintEventHandler(this.panelMain_Paint);
 			// 
 			// elementHostUnmountedBar
 			// 
-			this.elementHostUnmountedBar.Location = new System.Drawing.Point(250, 438);
+			this.elementHostUnmountedBar.Location = new System.Drawing.Point(248, 387);
 			this.elementHostUnmountedBar.Name = "elementHostUnmountedBar";
-			this.elementHostUnmountedBar.Size = new System.Drawing.Size(923, 50);
+			this.elementHostUnmountedBar.Size = new System.Drawing.Size(1065, 200);
 			this.elementHostUnmountedBar.TabIndex = 170;
 			this.elementHostUnmountedBar.Text = "elementHost1";
 			this.elementHostUnmountedBar.Child = null;
 			// 
 			// elementHostToolBarMain
 			// 
-			this.elementHostToolBarMain.Location = new System.Drawing.Point(3, -6);
+			this.elementHostToolBarMain.Location = new System.Drawing.Point(0, 0);
 			this.elementHostToolBarMain.Name = "elementHostToolBarMain";
-			this.elementHostToolBarMain.Size = new System.Drawing.Size(1318, 25);
+			this.elementHostToolBarMain.Size = new System.Drawing.Size(1321, 25);
 			this.elementHostToolBarMain.TabIndex = 171;
 			this.elementHostToolBarMain.Text = "elementHost1";
 			this.elementHostToolBarMain.Child = null;
@@ -329,9 +329,9 @@
 			// panelPearl
 			// 
 			this.panelPearl.Controls.Add(this.groupPearl);
-			this.panelPearl.Location = new System.Drawing.Point(15, 522);
+			this.panelPearl.Location = new System.Drawing.Point(8, 517);
 			this.panelPearl.Name = "panelPearl";
-			this.panelPearl.Size = new System.Drawing.Size(200, 62);
+			this.panelPearl.Size = new System.Drawing.Size(228, 70);
 			this.panelPearl.TabIndex = 54;
 			this.panelPearl.Visible = false;
 			// 
@@ -345,17 +345,17 @@
 			this.groupPearl.Controls.Add(this.butPearlLayers);
 			this.groupPearl.Controls.Add(this.checkPearlToothParts);
 			this.groupPearl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.groupPearl.Location = new System.Drawing.Point(3, 3);
+			this.groupPearl.Location = new System.Drawing.Point(0, 0);
 			this.groupPearl.Name = "groupPearl";
-			this.groupPearl.Size = new System.Drawing.Size(194, 56);
+			this.groupPearl.Size = new System.Drawing.Size(228, 70);
 			this.groupPearl.TabIndex = 3;
 			this.groupPearl.Text = "Pearl AI";
 			// 
 			// labelAIProcessing
 			//
-			this.labelAIProcessing.Location = new System.Drawing.Point(7, 20);
+			this.labelAIProcessing.Location = new System.Drawing.Point(8, 22);
 			this.labelAIProcessing.Name = "labelAIProcessing";
-			this.labelAIProcessing.Size = new System.Drawing.Size(182, 32);
+			this.labelAIProcessing.Size = new System.Drawing.Size(212, 32);
 			this.labelAIProcessing.TabIndex = 3;
 			this.labelAIProcessing.Text = "Processing...";
 			this.labelAIProcessing.Visible = false;
@@ -364,7 +364,7 @@
 			// 
 			this.checkPearlShow.Checked = true;
 			this.checkPearlShow.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkPearlShow.Location = new System.Drawing.Point(7, 17);
+			this.checkPearlShow.Location = new System.Drawing.Point(8, 22);
 			this.checkPearlShow.Name = "checkPearlShow";
 			this.checkPearlShow.Size = new System.Drawing.Size(83, 18);
 			this.checkPearlShow.TabIndex = 0;
@@ -373,7 +373,7 @@
 			// 
 			// butPearlLayers
 			// 
-			this.butPearlLayers.Location = new System.Drawing.Point(137, 16);
+			this.butPearlLayers.Location = new System.Drawing.Point(166, 22);
 			this.butPearlLayers.Name = "butPearlLayers";
 			this.butPearlLayers.Size = new System.Drawing.Size(54, 24);
 			this.butPearlLayers.TabIndex = 2;
@@ -383,7 +383,7 @@
 			// 
 			// checkPearlToothParts
 			// 
-			this.checkPearlToothParts.Location = new System.Drawing.Point(7, 35);
+			this.checkPearlToothParts.Location = new System.Drawing.Point(8, 44);
 			this.checkPearlToothParts.Name = "checkPearlToothParts";
 			this.checkPearlToothParts.Size = new System.Drawing.Size(83, 18);
 			this.checkPearlToothParts.TabIndex = 1;

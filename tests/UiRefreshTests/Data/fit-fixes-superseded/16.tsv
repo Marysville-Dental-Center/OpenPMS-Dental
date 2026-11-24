@@ -1,0 +1,23 @@
+# UI-12T: the rows of fit-fixes.tsv the UI-12 grid superseded (its layout replaced the fit fix), one file per rollout slice; a slice
+# adds its rows here instead of editing the notes of fit-fixes.tsv. Each row names a fit-fixes.tsv row (designer_file, window, control).
+designer_file	window	control
+OpenPmsDental/Main Modules/ControlAppt.Designer.cs	OpenPmsDental.ControlAppt	labelProdGoal
+OpenPmsDental/Main Modules/ControlAppt.Designer.cs	OpenPmsDental.ControlAppt	labelProduction
+OpenPmsDental/Main Modules/ControlAppt.Designer.cs	OpenPmsDental.ControlAppt	textBefore
+OpenPmsDental/Main Modules/ControlAppt.Designer.cs	OpenPmsDental.ControlAppt	textAfter
+OpenPmsDental/Main Modules/ControlAppt.Designer.cs	OpenPmsDental.ControlAppt	textLab
+OpenPmsDental/Main Modules/ControlAppt.Designer.cs	OpenPmsDental.ControlAppt	textProduction
+OpenPmsDental/Main Modules/ControlAppt.Designer.cs	OpenPmsDental.ControlAppt	textProdGoal
+OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	OpenPmsDental.FormClaimFormEdit	checkIsHidden
+OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	OpenPmsDental.FormClaimFormEdit	checkPrintImages
+OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	OpenPmsDental.FormClaimFormEdit	textDescription
+OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	OpenPmsDental.FormClaimFormEdit	textFormWidth
+OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	OpenPmsDental.FormClaimFormEdit	textFormHeight
+OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	OpenPmsDental.FormClaimFormEdit	textHeight
+OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	OpenPmsDental.FormClaimFormEdit	textWidth
+OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	OpenPmsDental.FormClaimFormEdit	textOffsetX
+OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	OpenPmsDental.FormClaimFormEdit	textOffsetY
+OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	OpenPmsDental.FormClaimFormEdit	textYPos
+OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	OpenPmsDental.FormClaimFormEdit	textXPos
+OpenPmsDental/Forms/FormSheetFillEdit.designer.cs	OpenPmsDental.FormSheetFillEdit	labelDescription
+OpenPmsDental/Forms/FormSheetFillEdit.designer.cs	OpenPmsDental.FormSheetFillEdit	textDateTime

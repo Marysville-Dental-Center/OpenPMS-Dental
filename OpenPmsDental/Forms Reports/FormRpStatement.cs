@@ -44,10 +44,16 @@ namespace OpenPmsDental{
 		}
 		
 		private void FormRpStatement_Layout(object sender, System.Windows.Forms.LayoutEventArgs e) {
-			printPreviewControl2.Location=new Point(0,0);
-			printPreviewControl2.Height=ClientSize.Height-39;
-			printPreviewControl2.Width=ClientSize.Width;	
-			panelZoom.Location=new Point(ClientSize.Width-620,ClientSize.Height-38);
+			//UI-12 slice 16: the page buttons UiGrid.PAD over the bottom, centred on what the user sees (the arrows and the page count; the panel
+			//also holds butPrint, which is never shown); the preview with the grid's padding on every side, a section gap over the panel (the page
+			//inside it is drawn by the preview as before).
+			if(LayoutManager==null) {
+				return;
+			}
+			int pad=LayoutManager.Scale(UiGrid.PAD);
+			int widthVisible=butFwd.Right-butBack.Left;
+			LayoutManager.MoveLocation(panelZoom,new Point((ClientSize.Width-widthVisible)/2-butBack.Left,ClientSize.Height-pad-panelZoom.Height));
+			LayoutManager.Move(printPreviewControl2,new Rectangle(pad,pad,ClientSize.Width-2*pad,panelZoom.Top-LayoutManager.Scale(UiGrid.SECTION_GAP)-pad));
 		}
 
 		private void FormRpStatement_Load(object sender, System.EventArgs e) {

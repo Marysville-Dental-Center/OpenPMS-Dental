@@ -239,9 +239,11 @@ namespace OpenPmsDental.UI {
 		protected override void OnSizeChanged(EventArgs e) {
 			base.OnSizeChanged(e);//16x18
 			//float scale=LayoutManager.ScaleF(1);
+			//UI-12 slice 16: the box at the top of the picker (y 0): the text box takes the field height (UiGrid.FIELD_HEIGHT, 23 px) from its
+			//font, the picker's own height, so at y 1 its bottom line was cut by 1 px.
 			Rectangle bounds=new Rectangle(
 				LayoutManager.Scale(63),
-				1,
+				0,
 				LayoutManager.Scale(102),
 				LayoutManager.Scale(20));//height gets ignored
 			LayoutManager.Move(textDate,bounds);

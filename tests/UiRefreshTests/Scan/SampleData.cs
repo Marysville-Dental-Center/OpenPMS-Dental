@@ -23,6 +23,48 @@ namespace UiRefreshTests.Scan {
 
 		private const BindingFlags FLAGS=BindingFlags.Instance|BindingFlags.NonPublic|BindingFlags.Public;
 
+		///<summary>UI-12 slice 16: the shared controls of the slice whose InitializeComponent raises a handler that reads a field its declaration
+		///initializes (the builder makes the object without running field initializers or the constructor): ODDatePicker's OnSizeChanged moves
+		///its box with its LayoutManager; ToothChartWrapper's OnResize writes the chart data's size (the constructor's 2D chart and data);
+		///ComboBoxClinicPicker draws its text from its clinic lists (empty, in its no-database mode, with its label as declared). Runs after the
+		///base constructor and before InitializeComponent (WindowBuilder.CreateBare). Does nothing for any other type.</summary>
+		public static void BeforeInitializeComponent(object obj) {
+			switch(obj.GetType().FullName) {
+				case "OpenPmsDental.UI.ODDatePicker":
+					SetField(obj,"LayoutManager",new LayoutManagerForms());
+					SetField(obj,"_dateTimeDefault",new DateTime(DateTime.Today.Year,1,1));
+					SetField(obj,"_hideCalendarOnLeave",true);
+					break;
+				case "SparksToothChart.ToothChartWrapper":
+					SetField(obj,"drawMode",DrawingMode.Simple2D);
+					FieldInfo fieldInfoEngine=obj.GetType().GetField("_engine",FLAGS);
+					fieldInfoEngine.SetValue(obj,Enum.Parse(fieldInfoEngine.FieldType,"Simple2D"));
+					FieldInfo fieldInfoData=obj.GetType().GetField("tcData",FLAGS);//the test project does not reference SparksToothChart
+					fieldInfoData.SetValue(obj,Activator.CreateInstance(fieldInfoData.FieldType));
+					break;
+				case "OpenPmsDental.UI.ComboBoxClinicPicker":
+					SetField(obj,"LayoutManager",new LayoutManagerForms());
+					SetField(obj,"_listClinics",new List<Clinic>());
+					SetField(obj,"_listIndicesSelected",new List<int>());
+					SetField(obj,"_hqDescription","Unassigned");
+					SetField(obj,"_showLabel",true);
+					((OpenPmsDental.UI.ComboBoxClinicPicker)obj).IsTestModeNoDb=true;
+					break;
+			}
+		}
+
+		///<summary>UI-12 slice 16 fix round: runs after the object's InitializeComponent (WindowBuilder.CreateBare). The Imaging module's Resize
+		///handler (LayoutControls) reads the image selector and the Pearl program that its constructor and Load set up, which the builder does
+		///not run; it is detached, so the module can be laid out at 150% (its designer already holds the places LayoutControls gives its parts,
+		///hand/ControlImages.py). Does nothing for any other type.</summary>
+		public static void AfterInitializeComponent(object obj) {
+			switch(obj.GetType().FullName) {
+				case "OpenPmsDental.ControlImages":
+					Detach((Control)obj,"Resize","ContrImages_Resize");
+					break;
+			}
+		}
+
 		///<summary>Runs on a LayoutManager window after its InitializeComponent and before InitializeLayoutManager (WindowBuilder.Build): the
 		///sample objects of the window's handlers. Does nothing for any other window.</summary>
 		public static void BeforeLayoutManager(FormODBase formODBase) {
@@ -200,11 +242,11 @@ namespace UiRefreshTests.Scan {
 			fieldInfo.SetValue(obj,value);
 		}
 
-		///<summary>Removes the window's own handler nameMethod from its event nameEvent (an EventHandler).</summary>
-		private static void Detach(Form form,string nameEvent,string nameMethod) {
+		///<summary>Removes the window's (or control's) own handler nameMethod from its event nameEvent (an EventHandler).</summary>
+		private static void Detach(Control control,string nameEvent,string nameMethod) {
 			EventInfo eventInfo=typeof(Control).GetEvent(nameEvent);
-			Delegate handler=Delegate.CreateDelegate(eventInfo.EventHandlerType,form,nameMethod);
-			eventInfo.RemoveEventHandler(form,handler);
+			Delegate handler=Delegate.CreateDelegate(eventInfo.EventHandlerType,control,nameMethod);
+			eventInfo.RemoveEventHandler(control,handler);
 		}
 	}
 }

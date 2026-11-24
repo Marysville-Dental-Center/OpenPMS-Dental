@@ -1,0 +1,16 @@
+# UI-12: the grid findings GridRulesTests allows on the grid windows, each with why (the planner lists them in its run; UI-12.md section 4).
+# The test fails on a finding not listed here and on a row that no longer happens, so this list only shrinks.
+window	rule	key	why
+OpenPmsDental.ControlAppt	overlap	contrApptPanel labelNoneView	UI-12 slice 16: the module's code switches the two by Visible (no clinic or view chosen: the note in place of the book, ControlAppt.cs), the note centred over the book's area as on main.
+OpenPmsDental.FormPrntScrn	overlap	label1 printPreviewControl2	UI-12 slice 16: label1 (a note from the window's first version) lies under the preview, behind it in the z-order, and is never seen; kept as on main (never cut).
+OpenPmsDental.FormTPsign	overlap	butClearSig signatureBox	UI-12 slice 16: the signature box's Clear button stands in the box's top right corner, over the signing surface, as SignatureBoxWrapper draws it (the shared control's hosts give it 364 x 81).
+OpenPmsDental.FormTPsign	overlap	butTopazSign signatureBox	UI-12 slice 16: the signature box's Topaz button stands in the box's top right corner beside Clear, over the signing surface, as SignatureBoxWrapper draws it.
+OpenPmsDental.ScreenToothChart	hidden-frame	ScreenToothChart controlToothA	UI-12 slice 16: the screening chart is a sheet field drawn at the sheet's coordinates; the primary teeth (A, J, K, T and their labels) stand past its right edge, hidden, until its code shows them for a primary chart and moves the row 72 px (ScreenToothChart.cs).
+OpenPmsDental.ScreenToothChart	hidden-frame	ScreenToothChart controlToothJ	UI-12 slice 16: as controlToothA (the primary teeth the code shows and moves into the row).
+OpenPmsDental.ScreenToothChart	hidden-frame	ScreenToothChart controlToothK	UI-12 slice 16: as controlToothA (the primary teeth the code shows and moves into the row).
+OpenPmsDental.ScreenToothChart	hidden-frame	ScreenToothChart controlToothT	UI-12 slice 16: as controlToothA (the primary teeth the code shows and moves into the row).
+OpenPmsDental.ScreenToothChart	hidden-frame	ScreenToothChart labelA	UI-12 slice 16: as controlToothA (the primary teeth's labels the code shows and moves into the row).
+OpenPmsDental.ScreenToothChart	hidden-frame	ScreenToothChart labelJ	UI-12 slice 16: as controlToothA (the primary teeth's labels the code shows and moves into the row).
+OpenPmsDental.ScreenToothChart	hidden-frame	ScreenToothChart labelK	UI-12 slice 16: as controlToothA (the primary teeth's labels the code shows and moves into the row).
+OpenPmsDental.ScreenToothChart	hidden-frame	ScreenToothChart labelT	UI-12 slice 16: as controlToothA (the primary teeth's labels the code shows and moves into the row).
+OpenPmsDental.UI.ODGridPageNav	overlap	panelPageLinks textJumpToPage	UI-12 slice 16: the current page's box stands in the gap the page links leave in the middle of their panel (1, 2, the box, 3, 4), as the pager draws them.

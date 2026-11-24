@@ -1605,7 +1605,9 @@ namespace OpenPmsDental {
 			if(labelBanner==null || Width<1 || Height<1) {
 				return;
 			}
-			int pad=_funcScale(8);
+			//UI-12 slice 16: the grid's numbers: UiGrid.PAD around and between the parts and the bar's buttons (UiGrid.DIALOG_GAP), the
+			//progress line UiGrid.CAPTION_GAP under the title it belongs to (it touched it). The live picture is drawn as before.
+			int pad=_funcScale(UiGrid.PAD);
 			int heightBanner=_funcScale(28);
 			int widthRight=Math.Min(_funcScale(260),Width/2);
 			int heightBar=_funcScale(40);
@@ -1658,13 +1660,13 @@ namespace OpenPmsDental {
 				}
 				int widthButton=TextRenderer.MeasureText(button.Text,UiTheme.FontBody).Width+_funcScale(24);
 				button.Bounds=new Rectangle(x,y,widthButton,heightButton);
-				x+=widthButton+pad;
+				x+=widthButton+_funcScale(UiGrid.DIALOG_GAP);
 			}
 			labelInfo.Bounds=new Rectangle(x,y,Math.Max(0,widthLeft-x-pad),heightButton);
 			//right panel
 			int widthInner=panelRight.Width-2*pad;
 			labelTitle.Bounds=new Rectangle(pad,pad,widthInner,_funcScale(24));
-			labelProgress.Bounds=new Rectangle(pad,labelTitle.Bottom,widthInner,_funcScale(20));
+			labelProgress.Bounds=new Rectangle(pad,labelTitle.Bottom+_funcScale(UiGrid.CAPTION_GAP),widthInner,_funcScale(20));
 			int heightMount=Math.Max(_funcScale(80),Math.Min(widthInner*3/4,panelRight.Height/2));
 			panelMount.Bounds=new Rectangle(pad,labelProgress.Bottom+pad,widthInner,heightMount);
 			labelHint.Bounds=new Rectangle(pad,panelMount.Bottom+pad,widthInner,_funcScale(66));

@@ -52,9 +52,9 @@ namespace OpenPmsDental {
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.printPreviewControl2.AutoZoom = false;
-			this.printPreviewControl2.Location = new System.Drawing.Point(0,0);
+			this.printPreviewControl2.Location = new System.Drawing.Point(8,8);
 			this.printPreviewControl2.Name = "printPreviewControl2";
-			this.printPreviewControl2.Size = new System.Drawing.Size(842,538);
+			this.printPreviewControl2.Size = new System.Drawing.Size(960,740);
 			this.printPreviewControl2.TabIndex = 1;
 			this.printPreviewControl2.Zoom = 1;
 			this.printPreviewControl2.MouseMove += new System.Windows.Forms.MouseEventHandler(this.printPreviewControl2_MouseMove);
@@ -68,27 +68,27 @@ namespace OpenPmsDental {
 			// textMouseX
 			// 
 			this.textMouseX.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.textMouseX.Location = new System.Drawing.Point(274,763);
+			this.textMouseX.Location = new System.Drawing.Point(436,760);
 			this.textMouseX.Name = "textMouseX";
-			this.textMouseX.Size = new System.Drawing.Size(56,20);
+			this.textMouseX.Size = new System.Drawing.Size(56,23);
 			this.textMouseX.TabIndex = 7;
 			this.textMouseX.Visible = false;
 			// 
 			// textMouseY
 			// 
 			this.textMouseY.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.textMouseY.Location = new System.Drawing.Point(394,763);
+			this.textMouseY.Location = new System.Drawing.Point(570,760);
 			this.textMouseY.Name = "textMouseY";
-			this.textMouseY.Size = new System.Drawing.Size(56,20);
+			this.textMouseY.Size = new System.Drawing.Size(56,23);
 			this.textMouseY.TabIndex = 8;
 			this.textMouseY.Visible = false;
 			// 
 			// label2
 			// 
 			this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.label2.Location = new System.Drawing.Point(209,764);
+			this.label2.Location = new System.Drawing.Point(370,760);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(63,17);
+			this.label2.Size = new System.Drawing.Size(60,23);
 			this.label2.TabIndex = 11;
 			this.label2.Text = "Mouse X";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -97,9 +97,9 @@ namespace OpenPmsDental {
 			// label3
 			// 
 			this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.label3.Location = new System.Drawing.Point(334,763);
+			this.label3.Location = new System.Drawing.Point(508,760);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(56,20);
+			this.label3.Size = new System.Drawing.Size(56,23);
 			this.label3.TabIndex = 12;
 			this.label3.Text = "MouseY";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -110,9 +110,9 @@ namespace OpenPmsDental {
 			this.butPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butPrint.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Print,16,16);
 			this.butPrint.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butPrint.Location = new System.Drawing.Point(678,759);
+			this.butPrint.Location = new System.Drawing.Point(810,760);
 			this.butPrint.Name = "butPrint";
-			this.butPrint.Size = new System.Drawing.Size(75,26);
+			this.butPrint.Size = new System.Drawing.Size(75,24);
 			this.butPrint.TabIndex = 13;
 			this.butPrint.Text = "&Print";
 			this.butPrint.Click += new System.EventHandler(this.butPrint_Click);
@@ -122,9 +122,9 @@ namespace OpenPmsDental {
 			this.butZoomIn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butZoomIn.Icon = OpenPmsDental.UI.EnumIcons.ZoomIn;
 			this.butZoomIn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butZoomIn.Location = new System.Drawing.Point(502,759);
+			this.butZoomIn.Location = new System.Drawing.Point(642,760);
 			this.butZoomIn.Name = "butZoomIn";
-			this.butZoomIn.Size = new System.Drawing.Size(77,26);
+			this.butZoomIn.Size = new System.Drawing.Size(77,24);
 			this.butZoomIn.TabIndex = 14;
 			this.butZoomIn.Text = "&Zoom +";
 			this.butZoomIn.Click += new System.EventHandler(this.butZoomIn_Click);
@@ -134,9 +134,9 @@ namespace OpenPmsDental {
 			this.butZoomOut.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butZoomOut.Icon = OpenPmsDental.UI.EnumIcons.ZoomOut;
 			this.butZoomOut.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butZoomOut.Location = new System.Drawing.Point(591,759);
+			this.butZoomOut.Location = new System.Drawing.Point(727,760);
 			this.butZoomOut.Name = "butZoomOut";
-			this.butZoomOut.Size = new System.Drawing.Size(75,26);
+			this.butZoomOut.Size = new System.Drawing.Size(75,24);
 			this.butZoomOut.TabIndex = 15;
 			this.butZoomOut.Text = "Zoom -";
 			this.butZoomOut.Click += new System.EventHandler(this.butZoomOut_Click);
@@ -146,9 +146,9 @@ namespace OpenPmsDental {
 			this.butExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butExport.Icon = OpenPmsDental.UI.EnumIcons.Export;
 			this.butExport.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butExport.Location = new System.Drawing.Point(765,759);
+			this.butExport.Location = new System.Drawing.Point(893,760);
 			this.butExport.Name = "butExport";
-			this.butExport.Size = new System.Drawing.Size(75,26);
+			this.butExport.Size = new System.Drawing.Size(75,24);
 			this.butExport.TabIndex = 16;
 			this.butExport.Text = "&Export";
 			this.butExport.Click += new System.EventHandler(this.butExport_Click);

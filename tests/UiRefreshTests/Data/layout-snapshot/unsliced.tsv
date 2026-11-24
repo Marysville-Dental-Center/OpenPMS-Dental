@@ -3,8 +3,6 @@
 # LayoutSnapshotTests with OPMS_UI_LAYOUT_SNAPSHOT_WRITE=1; the test fails on any change that Data/fit-fixes.tsv does not list.
 # One file per rollout slice (UI-12T): the designer files a slice owns; unsliced.tsv the rest (a slice file wins over it).
 file	control	location	size	client_size
-CodeBase/Controls/PrintPanel.Designer.cs	panelSurface	0,0	850,1100	
-CodeBase/Controls/PrintPanel.Designer.cs	.		850,1100	
 CodeBase/Progress/FormProgressExtended.designer.cs	textMsg	12,25	439,70	
 CodeBase/Progress/FormProgressExtended.designer.cs	label4	9,3	93,19	
 CodeBase/Progress/FormProgressExtended.designer.cs	labelWarning	9,98	292,17	
@@ -32,9 +30,6 @@ CodeBase/Utilities/MsgBoxCopyPaste.cs	textMain	12,12	678,588
 CodeBase/Utilities/MsgBoxCopyPaste.cs	butPrint	530,606	79,26	
 CodeBase/Utilities/MsgBoxCopyPaste.cs	butCopyAll	126,606	79,28	
 CodeBase/Utilities/MsgBoxCopyPaste.cs	.			702,644
-ODR/ComboBoxMulti.cs	dropButton	102,1	17,19	
-ODR/ComboBoxMulti.cs	textMain	3,4	95,13	
-ODR/ComboBoxMulti.cs	.		120,21	
 OpenPmsDental/Forms Reports/FormQuery.designer.cs	grid2	1,45	1225,449	
 OpenPmsDental/Forms Reports/FormQuery.designer.cs	labelGridCaption	1,26	1225,19	
 OpenPmsDental/Forms Reports/FormQuery.designer.cs	textQuery	2,1	557,156	
@@ -65,83 +60,6 @@ OpenPmsDental/Forms Reports/FormQuery.designer.cs	splitContainer	1,1	1228,659
 OpenPmsDental/Forms Reports/FormQuery.designer.cs	splitterPanel1	0,0	1228,159	
 OpenPmsDental/Forms Reports/FormQuery.designer.cs	splitterPanel2	0,163	1228,496	
 OpenPmsDental/Forms Reports/FormQuery.designer.cs	.			1230,696
-OpenPmsDental/Forms Reports/FormRpPrintPreview.designer.cs	_printPreviewControl2	0,0	842,538	
-OpenPmsDental/Forms Reports/FormRpPrintPreview.designer.cs	butNext	91,716	75,23	
-OpenPmsDental/Forms Reports/FormRpPrintPreview.designer.cs	butPrev	10,716	75,23	
-OpenPmsDental/Forms Reports/FormRpPrintPreview.designer.cs	.			842,746
-OpenPmsDental/Forms Reports/FormRpStatement.designer.cs	printPreviewControl2	-116,-7	842,538	
-OpenPmsDental/Forms Reports/FormRpStatement.designer.cs	butPrint	340,5	85,27	
-OpenPmsDental/Forms Reports/FormRpStatement.designer.cs	panelZoom	35,419	436,37	
-OpenPmsDental/Forms Reports/FormRpStatement.designer.cs	butFwd	195,7	18,22	
-OpenPmsDental/Forms Reports/FormRpStatement.designer.cs	butBack	123,7	18,22	
-OpenPmsDental/Forms Reports/FormRpStatement.designer.cs	labelTotPages	143,9	47,18	
-OpenPmsDental/Forms Reports/FormRpStatement.designer.cs	.			787,610
-OpenPmsDental/Forms/FormCareCreditWeb.designer.cs	ToolBarMain	0,0	974,25	
-OpenPmsDental/Forms/FormCareCreditWeb.designer.cs	webViewMain	0,26	974,669	
-OpenPmsDental/Forms/FormCareCreditWeb.designer.cs	.			974,696
-OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	butSave	64,715	59,26	
-OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	pictureBoxClaimForm	0,0	735,643	
-OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	textDescription	3,21	119,20	
-OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	label1	3,3	119,17	
-OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	checkIsHidden	3,88	119,18	
-OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	label2	3,205	76,17	
-OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	listItems	3,223	119,369	
-OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	butAdd	85,201	37,20	
-OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	label4	3,596	52,17	
-OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	label5	3,618	52,17	
-OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	label6	3,640	52,17	
-OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	label7	3,662	52,17	
-OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	textXPos	56,594	66,20	
-OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	textYPos	56,616	66,20	
-OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	textWidth	56,638	66,20	
-OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	textHeight	56,660	66,20	
-OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	butFont	3,129	119,21	
-OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	butPrint	2,715	59,26	
-OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	checkPrintImages	3,108	119,18	
-OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	label3	3,156	52,17	
-OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	label8	3,178	52,17	
-OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	textOffsetX	56,154	66,20	
-OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	textOffsetY	56,176	66,20	
-OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	labelInternal	3,685	119,55	
-OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	label9	3,45	52,17	
-OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	label10	3,67	52,17	
-OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	textFormHeight	56,65	66,20	
-OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	textFormWidth	56,43	66,20	
-OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	panelControls	867,0	125,745	
-OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	panel1	0,0	865,743	
-OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	.			992,745
-OpenPmsDental/Forms/FormClaimPrint.designer.cs	Preview2	0,0	738,798	
-OpenPmsDental/Forms/FormClaimPrint.designer.cs	butPrint	766,773	75,25	
-OpenPmsDental/Forms/FormClaimPrint.designer.cs	labelTotPages	776,724	54,18	
-OpenPmsDental/Forms/FormClaimPrint.designer.cs	butBack	754,721	18,23	
-OpenPmsDental/Forms/FormClaimPrint.designer.cs	butFwd	832,721	18,23	
-OpenPmsDental/Forms/FormClaimPrint.designer.cs	.			860,816
-OpenPmsDental/Forms/FormErx.designer.cs	ToolBarMain	0,0	974,25	
-OpenPmsDental/Forms/FormErx.designer.cs	webViewMain	0,26	974,669	
-OpenPmsDental/Forms/FormErx.designer.cs	.			974,696
-OpenPmsDental/Forms/FormImagePickerPatient.designer.cs	butOK	1143,660	75,24	
-OpenPmsDental/Forms/FormImagePickerPatient.designer.cs	pictureBox	254,12	883,672	
-OpenPmsDental/Forms/FormImagePickerPatient.designer.cs	elementHostImageSelector	11,12	237,672	
-OpenPmsDental/Forms/FormImagePickerPatient.designer.cs	.			1230,696
-OpenPmsDental/Forms/FormImages.designer.cs	elementHostToolBarMain	0,0	1166,25	
-OpenPmsDental/Forms/FormImages.designer.cs	listFiles	2,29	226,747	
-OpenPmsDental/Forms/FormImages.designer.cs	contextMenuStripList		61,4	
-OpenPmsDental/Forms/FormImages.designer.cs	elementHostZoomSlider	233,26	231,25	
-OpenPmsDental/Forms/FormImages.designer.cs	panelImage	233,53	931,723	
-OpenPmsDental/Forms/FormImages.designer.cs	.			1166,778
-OpenPmsDental/Forms/FormPopupFade.designer.cs	labelInfo	0,0	326,100	
-OpenPmsDental/Forms/FormPopupFade.designer.cs	.			326,100
-OpenPmsDental/Forms/FormPrntScrn.designer.cs	label1	190,100	416,23	
-OpenPmsDental/Forms/FormPrntScrn.designer.cs	printPreviewControl2	0,0	842,538	
-OpenPmsDental/Forms/FormPrntScrn.designer.cs	textMouseX	274,763	56,20	
-OpenPmsDental/Forms/FormPrntScrn.designer.cs	textMouseY	394,763	56,20	
-OpenPmsDental/Forms/FormPrntScrn.designer.cs	label2	209,764	63,17	
-OpenPmsDental/Forms/FormPrntScrn.designer.cs	label3	334,763	56,20	
-OpenPmsDental/Forms/FormPrntScrn.designer.cs	butPrint	678,759	75,26	
-OpenPmsDental/Forms/FormPrntScrn.designer.cs	butZoomIn	502,759	77,26	
-OpenPmsDental/Forms/FormPrntScrn.designer.cs	butZoomOut	591,759	75,26	
-OpenPmsDental/Forms/FormPrntScrn.designer.cs	butExport	765,759	75,26	
-OpenPmsDental/Forms/FormPrntScrn.designer.cs	.			976,792
 OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	label2	13,18	108,16	
 OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	listBoxFields	15,37	142,511	
 OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	label5	385,7	71,16	
@@ -190,60 +108,11 @@ OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	labelMobileMedicalNameOve
 OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	textMobileCheckOverride	459,308	194,20	
 OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	labelMobileCheckOverride	340,311	119,13	
 OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	.			675,696
-OpenPmsDental/Forms/FormSheetFillEdit.designer.cs	textNote	163,608	146,90	
-OpenPmsDental/Forms/FormSheetFillEdit.designer.cs	labelNote	164,590	147,16	
-OpenPmsDental/Forms/FormSheetFillEdit.designer.cs	labelDateTime	10,589	84,16	
-OpenPmsDental/Forms/FormSheetFillEdit.designer.cs	panelScroll	3,3	879,580	
-OpenPmsDental/Forms/FormSheetFillEdit.designer.cs	panelMain	0,0	560,494	
-OpenPmsDental/Forms/FormSheetFillEdit.designer.cs	checkErase	321,617	89,20	
-OpenPmsDental/Forms/FormSheetFillEdit.designer.cs	textDescription	11,649	146,20	
-OpenPmsDental/Forms/FormSheetFillEdit.designer.cs	labelDescription	10,630	147,18	
-OpenPmsDental/Forms/FormSheetFillEdit.designer.cs	labelShowInTerminal	10,679	120,16	
-OpenPmsDental/Forms/FormSheetFillEdit.designer.cs	textDateTime	13,608	144,20	
-OpenPmsDental/Forms/FormSheetFillEdit.designer.cs	butUnlock	321,646	81,24	
-OpenPmsDental/Forms/FormSheetFillEdit.designer.cs	textShowInTerminal	128,678	29,20	
-OpenPmsDental/Forms/FormSheetFillEdit.designer.cs	butDelete	794,616	81,24	
-OpenPmsDental/Forms/FormSheetFillEdit.designer.cs	butPrintOrEmail	321,676	81,24	
-OpenPmsDental/Forms/FormSheetFillEdit.designer.cs	butOK	794,676	81,24	
-OpenPmsDental/Forms/FormSheetFillEdit.designer.cs	butChangePat	521,616	81,24	
-OpenPmsDental/Forms/FormSheetFillEdit.designer.cs	butRestore	521,646	81,24	
-OpenPmsDental/Forms/FormSheetFillEdit.designer.cs	butSave	794,646	81,24	
-OpenPmsDental/Forms/FormSheetFillEdit.designer.cs	butPrint	421,676	81,23	
-OpenPmsDental/Forms/FormSheetFillEdit.designer.cs	butEmail	521,676	81,23	
-OpenPmsDental/Forms/FormSheetFillEdit.designer.cs	butToKiosk	521,589	81,23	
-OpenPmsDental/Forms/FormSheetFillEdit.designer.cs	butPDF	421,646	81,24	
-OpenPmsDental/Forms/FormSheetFillEdit.designer.cs	butAddField	621,616	81,24	
-OpenPmsDental/Forms/FormSheetFillEdit.designer.cs	butReduceFontSize	621,646	98,24	
-OpenPmsDental/Forms/FormSheetFillEdit.designer.cs	butFontAbout	722,646	24,24	
-OpenPmsDental/Forms/FormSheetFillEdit.designer.cs	.			887,712
-OpenPmsDental/Forms/FormTPsign.designer.cs	textTypeSigPractice	651,86	331,20	
-OpenPmsDental/Forms/FormTPsign.designer.cs	labelTypeSigPractice	502,87	147,17	
-OpenPmsDental/Forms/FormTPsign.designer.cs	signatureBoxWrapperPractice	651,3	331,79	
-OpenPmsDental/Forms/FormTPsign.designer.cs	labelSigPractice	496,4	153,41	
-OpenPmsDental/Forms/FormTPsign.designer.cs	panelSig	0,581	1099,115	
-OpenPmsDental/Forms/FormTPsign.designer.cs	textTypeSig	162,88	331,20	
-OpenPmsDental/Forms/FormTPsign.designer.cs	labelTypeSig	13,89	147,17	
-OpenPmsDental/Forms/FormTPsign.designer.cs	signatureBoxWrapper	162,3	331,79	
-OpenPmsDental/Forms/FormTPsign.designer.cs	butSave	1012,78	75,25	
-OpenPmsDental/Forms/FormTPsign.designer.cs	labelSig	7,4	153,41	
-OpenPmsDental/Forms/FormTPsign.designer.cs	ToolBarMain	0,0	1099,25	
-OpenPmsDental/Forms/FormTPsign.designer.cs	previewContr	10,41	806,423	
-OpenPmsDental/Forms/FormTPsign.designer.cs	.			1099,696
 OpenPmsDental/Forms/FormTasks.designer.cs	userControlTasks1	0,0	1230,539	
 OpenPmsDental/Forms/FormTasks.designer.cs	splitContainer	0,0	1230,696	
 OpenPmsDental/Forms/FormTasks.designer.cs	splitterPanel1	0,0	1230,539	
 OpenPmsDental/Forms/FormTasks.designer.cs	splitterPanel2	0,543	1230,153	
 OpenPmsDental/Forms/FormTasks.designer.cs	.			1230,696
-OpenPmsDental/Forms/FormTerminal.designer.cs	labelWelcome	235,149	366,169	
-OpenPmsDental/Forms/FormTerminal.designer.cs	labelConnection	196,650	444,29	
-OpenPmsDental/Forms/FormTerminal.designer.cs	listForms	343,361	149,173	
-OpenPmsDental/Forms/FormTerminal.designer.cs	labelForms	329,341	175,17	
-OpenPmsDental/Forms/FormTerminal.designer.cs	panelClose	799,628	66,59	
-OpenPmsDental/Forms/FormTerminal.designer.cs	labelThankYou	367,534	100,17	
-OpenPmsDental/Forms/FormTerminal.designer.cs	butDone	380,551	75,24	
-OpenPmsDental/Forms/FormTerminal.designer.cs	.			864,686
-OpenPmsDental/Forms/FormToothChartBig.designer.cs	toothChartWrapper	0,0	926,858	
-OpenPmsDental/Forms/FormToothChartBig.designer.cs	.			926,858
 OpenPmsDental/Forms/FormUpdate.designer.cs	labelVersion	74,35	280,20	
 OpenPmsDental/Forms/FormUpdate.designer.cs	label1	0,0	100,23	
 OpenPmsDental/Forms/FormUpdate.designer.cs	textUpdateCode	129,100	113,20	
@@ -282,13 +151,6 @@ OpenPmsDental/Forms/FormUpdate.designer.cs	butInstallAlpha	398,60	73,24
 OpenPmsDental/Forms/FormUpdate.designer.cs	label7	6,16	465,15	
 OpenPmsDental/Forms/FormUpdate.designer.cs	menuMain	0,0	647,24	
 OpenPmsDental/Forms/FormUpdate.designer.cs	.			647,586
-OpenPmsDental/Forms/FormWebView.designer.cs	ToolBarMain	0,0	974,25	
-OpenPmsDental/Forms/FormWebView.designer.cs	webViewMain	0,26	974,669	
-OpenPmsDental/Forms/FormWebView.designer.cs	.			974,696
-OpenPmsDental/Forms/FormWiki.designer.cs	labelStatus	-3,686	947,18	
-OpenPmsDental/Forms/FormWiki.designer.cs	ToolBarMain	0,0	944,25	
-OpenPmsDental/Forms/FormWiki.designer.cs	webViewWiki	0,28	944,657	
-OpenPmsDental/Forms/FormWiki.designer.cs	.			944,704
 OpenPmsDental/Forms/FormWikiEdit.designer.cs	contextMenuMain		104,98	
 OpenPmsDental/Forms/FormWikiEdit.designer.cs	menuItemCut		103,22	
 OpenPmsDental/Forms/FormWikiEdit.designer.cs	menuItemCopy		103,22	
@@ -300,77 +162,6 @@ OpenPmsDental/Forms/FormWikiEdit.designer.cs	webViewWiki	474,58	470,514
 OpenPmsDental/Forms/FormWikiEdit.designer.cs	ToolBarMain	0,0	944,25	
 OpenPmsDental/Forms/FormWikiEdit.designer.cs	textContent	0,57	472,515	
 OpenPmsDental/Forms/FormWikiEdit.designer.cs	.			944,573
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	panelCalendar	833,46	219,509	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	panelCalendarLower	0,188	219,317	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	label1	5,204	79,30	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	textProdGoal	84,182	133,20	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	labelProdGoal	4,186	79,17	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	label2	16,125	66,16	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	textProduction	84,164	133,20	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	labelProduction	1,168	82,18	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	textLab	84,144	133,20	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	labelDate2	51,3	82,20	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	labelDate	2,3	56,19	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	tabControl	833,565	219,166	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	tabWaiting	4,22	211,140	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	gridWaiting	0,0	211,140	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	tabSched	4,22	211,140	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	gridEmpSched	0,0	211,140	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	tabProv	4,22	211,140	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	gridProv	0,0	211,140	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	tabReminders	4,22	211,140	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	gridReminders	0,0	211,140	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	labelNoneView	171,284	324,66	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	menuBlockout		61,4	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	_menuOp		61,4	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	menuApt		61,4	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	groupSearch	600,365	219,367	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	groupBox1	130,253	85,63	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	butProvHygenist	6,37	73,22	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	butProvDentist	6,14	73,22	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	butProvPick	6,340	82,22	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	butRefresh	153,317	62,22	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	listSearchResults	6,32	193,134	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	_listBoxProviders	6,269	118,69	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	butSearchClose	153,342	62,22	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	groupBox2	6,168	193,84	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	textAfter	57,60	44,20	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	label11	1,62	53,16	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	radioBeforePM	151,41	39,20	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	radioBeforeAM	106,41	39,20	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	textBefore	57,38	44,20	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	label10	1,40	53,16	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	panel1	105,60	84,20	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	radioAfterAM	0,2	39,20	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	radioAfterPM	46,2	39,20	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	dateSearch	57,16	130,20	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	label9	1,19	54,16	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	label8	6,251	92,16	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	butSearchCloseX	185,7	16,16	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	butSearchNext	111,9	71,22	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	toolBarMain	0,0	1076,25	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	toggleDayWeek	17,27	80,40	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	butFwd4	178,0	19,22	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	butFwd6	197,0	19,22	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	butFwd3	159,0	19,22	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	pinBoard	118,24	99,96	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	listConfirmed	84,202	86,113	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	butAdvSearch	2,96	63,24	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	butFwdMonth	140,0	19,22	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	butBackMonth	1,0	19,22	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	butBackWeek	20,0	19,22	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	butFwdWeek	121,0	19,22	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	butToday	58,0	44,22	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	butFwd	102,0	19,22	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	butBack	39,0	19,22	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	butLab	2,144	79,21	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	butClearPin	42,71	75,24	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	butSearch	66,96	51,24	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	comboView	84,123	133,21	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	butMonth	152,1	65,22	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	monthCalendarOD	0,22	227,162	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	contrApptPanel	0,38	594,703	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	.		1076,741	
 OpenPmsDental/Main Modules/ControlFamily.designer.cs	gridSuperFam	0,0	329,285	
 OpenPmsDental/Main Modules/ControlFamily.designer.cs	gridRecall	585,27	354,100	
 OpenPmsDental/Main Modules/ControlFamily.designer.cs	gridFamily	103,27	480,100	
@@ -383,36 +174,6 @@ OpenPmsDental/Main Modules/ControlFamily.designer.cs	splitContainerSuperClones	2
 OpenPmsDental/Main Modules/ControlFamily.designer.cs	splitterPanel1	0,0	329,285	
 OpenPmsDental/Main Modules/ControlFamily.designer.cs	splitterPanel2	0,289	329,290	
 OpenPmsDental/Main Modules/ControlFamily.designer.cs	.		939,708	
-OpenPmsDental/Main Modules/ControlImages.Designer.cs	panelNote	230,494	834,93	
-OpenPmsDental/Main Modules/ControlImages.Designer.cs	labelInvalidSig	398,31	196,59	
-OpenPmsDental/Main Modules/ControlImages.Designer.cs	sigBox	308,20	362,79	
-OpenPmsDental/Main Modules/ControlImages.Designer.cs	label15	305,0	63,18	
-OpenPmsDental/Main Modules/ControlImages.Designer.cs	label1	0,0	38,18	
-OpenPmsDental/Main Modules/ControlImages.Designer.cs	textNote	0,20	302,79	
-OpenPmsDental/Main Modules/ControlImages.Designer.cs	panelImportAuto	262,102	813,44	
-OpenPmsDental/Main Modules/ControlImages.Designer.cs	butGoTo	610,21	60,20	
-OpenPmsDental/Main Modules/ControlImages.Designer.cs	butImportStart	670,21	60,20	
-OpenPmsDental/Main Modules/ControlImages.Designer.cs	butImportClose	730,21	60,20	
-OpenPmsDental/Main Modules/ControlImages.Designer.cs	butBrowse	550,21	60,20	
-OpenPmsDental/Main Modules/ControlImages.Designer.cs	textImportAuto	0,22	548,20	
-OpenPmsDental/Main Modules/ControlImages.Designer.cs	label3	1,3	616,16	
-OpenPmsDental/Main Modules/ControlImages.Designer.cs	panelDraw	250,161	1056,25	
-OpenPmsDental/Main Modules/ControlImages.Designer.cs	toolBarDraw	0,0	817,25	
-OpenPmsDental/Main Modules/ControlImages.Designer.cs	elementHostImageSelector	15,123	200,365	
-OpenPmsDental/Main Modules/ControlImages.Designer.cs	elementHostZoomSlider	162,25	231,25	
-OpenPmsDental/Main Modules/ControlImages.Designer.cs	elementHostWindowingSlider	4,27	154,20	
-OpenPmsDental/Main Modules/ControlImages.Designer.cs	panelSplitter	233,69	8,434	
-OpenPmsDental/Main Modules/ControlImages.Designer.cs	toolBarPaint	393,25	674,25	
-OpenPmsDental/Main Modules/ControlImages.Designer.cs	controlImageDock	254,192	813,240	
-OpenPmsDental/Main Modules/ControlImages.Designer.cs	elementHostUnmountedBar	250,438	923,50	
-OpenPmsDental/Main Modules/ControlImages.Designer.cs	elementHostToolBarMain	3,-6	1318,25	
-OpenPmsDental/Main Modules/ControlImages.Designer.cs	panelPearl	15,522	200,62	
-OpenPmsDental/Main Modules/ControlImages.Designer.cs	groupPearl	3,3	194,56	
-OpenPmsDental/Main Modules/ControlImages.Designer.cs	labelAIProcessing	7,20	182,32	
-OpenPmsDental/Main Modules/ControlImages.Designer.cs	checkPearlShow	7,17	83,18	
-OpenPmsDental/Main Modules/ControlImages.Designer.cs	butPearlLayers	137,16	54,24	
-OpenPmsDental/Main Modules/ControlImages.Designer.cs	checkPearlToothParts	7,35	83,18	
-OpenPmsDental/Main Modules/ControlImages.Designer.cs	.		1321,595	
 OpenPmsDental/Main Modules/FormOpenDental.Designer.cs	panelSplitter	71,568	769,7	
 OpenPmsDental/Main Modules/FormOpenDental.Designer.cs	lightSignalGrid1	0,489	50,206	
 OpenPmsDental/Main Modules/FormOpenDental.Designer.cs	menuMain	0,0	1230,24	
@@ -420,9 +181,6 @@ OpenPmsDental/Main Modules/FormOpenDental.Designer.cs	splitContainer	297,67	491,
 OpenPmsDental/Main Modules/FormOpenDental.Designer.cs	splitterPanel1	0,0	314,268	
 OpenPmsDental/Main Modules/FormOpenDental.Designer.cs	splitterPanel2	318,0	173,268	
 OpenPmsDental/Main Modules/FormOpenDental.Designer.cs	.			1230,696
-OpenPmsDental/ReportingComplex/FormReportComplex.designer.cs	printPreviewControl2	0,25	831,591	
-OpenPmsDental/ReportingComplex/FormReportComplex.designer.cs	ToolBarMain	0,0	831,25	
-OpenPmsDental/ReportingComplex/FormReportComplex.designer.cs	.			831,616
 OpenPmsDental/ReportingForRdl/Allocators/MyAllocator1/FormInstallAllocator_Provider.Designer.cs	label1	9,23	244,26	
 OpenPmsDental/ReportingForRdl/Allocators/MyAllocator1/FormInstallAllocator_Provider.Designer.cs	richTextBox1	12,69	383,164	
 OpenPmsDental/ReportingForRdl/Allocators/MyAllocator1/FormInstallAllocator_Provider.Designer.cs	panel1	475,69	145,94	
@@ -442,87 +200,9 @@ OpenPmsDental/ReportingForRdl/FormReportCustom.designer.cs	.			987,712
 OpenPmsDental/ReportingForRdl/FormReportForRdl.designer.cs	viewer	45,56	856,453	
 OpenPmsDental/ReportingForRdl/FormReportForRdl.designer.cs	ToolBarMain	0,0	987,25	
 OpenPmsDental/ReportingForRdl/FormReportForRdl.designer.cs	.			987,712
-OpenPmsDental/SheetFramework/ScreenToothChart.Designer.cs	label2	6,8	90,15	
-OpenPmsDental/SheetFramework/ScreenToothChart.Designer.cs	label3	95,8	90,15	
-OpenPmsDental/SheetFramework/ScreenToothChart.Designer.cs	label4	184,8	90,15	
-OpenPmsDental/SheetFramework/ScreenToothChart.Designer.cs	label5	273,8	90,15	
-OpenPmsDental/SheetFramework/ScreenToothChart.Designer.cs	label12	362,8	90,15	
-OpenPmsDental/SheetFramework/ScreenToothChart.Designer.cs	label13	451,8	90,15	
-OpenPmsDental/SheetFramework/ScreenToothChart.Designer.cs	label14	540,8	90,15	
-OpenPmsDental/SheetFramework/ScreenToothChart.Designer.cs	label15	629,8	90,15	
-OpenPmsDental/SheetFramework/ScreenToothChart.Designer.cs	label18	629,108	90,15	
-OpenPmsDental/SheetFramework/ScreenToothChart.Designer.cs	label19	540,108	90,15	
-OpenPmsDental/SheetFramework/ScreenToothChart.Designer.cs	label20	451,108	90,15	
-OpenPmsDental/SheetFramework/ScreenToothChart.Designer.cs	label21	362,108	90,15	
-OpenPmsDental/SheetFramework/ScreenToothChart.Designer.cs	label28	273,108	90,15	
-OpenPmsDental/SheetFramework/ScreenToothChart.Designer.cs	label29	184,108	90,15	
-OpenPmsDental/SheetFramework/ScreenToothChart.Designer.cs	label30	95,108	90,15	
-OpenPmsDental/SheetFramework/ScreenToothChart.Designer.cs	label31	6,108	90,15	
-OpenPmsDental/SheetFramework/ScreenToothChart.Designer.cs	controlTooth4	184,23	90,43	
-OpenPmsDental/SheetFramework/ScreenToothChart.Designer.cs	controlTooth5	273,23	90,43	
-OpenPmsDental/SheetFramework/ScreenToothChart.Designer.cs	controlTooth12	362,23	90,43	
-OpenPmsDental/SheetFramework/ScreenToothChart.Designer.cs	controlTooth13	451,23	90,43	
-OpenPmsDental/SheetFramework/ScreenToothChart.Designer.cs	controlTooth20	451,65	90,43	
-OpenPmsDental/SheetFramework/ScreenToothChart.Designer.cs	controlTooth21	362,65	90,43	
-OpenPmsDental/SheetFramework/ScreenToothChart.Designer.cs	controlTooth28	273,65	90,43	
-OpenPmsDental/SheetFramework/ScreenToothChart.Designer.cs	controlTooth29	184,65	90,43	
-OpenPmsDental/SheetFramework/ScreenToothChart.Designer.cs	controlTooth18	629,65	90,43	
-OpenPmsDental/SheetFramework/ScreenToothChart.Designer.cs	controlTooth19	540,65	90,43	
-OpenPmsDental/SheetFramework/ScreenToothChart.Designer.cs	controlTooth30	95,65	90,43	
-OpenPmsDental/SheetFramework/ScreenToothChart.Designer.cs	controlTooth31	6,65	90,43	
-OpenPmsDental/SheetFramework/ScreenToothChart.Designer.cs	controlTooth15	629,23	90,43	
-OpenPmsDental/SheetFramework/ScreenToothChart.Designer.cs	controlTooth14	540,23	90,43	
-OpenPmsDental/SheetFramework/ScreenToothChart.Designer.cs	controlTooth3	95,23	90,43	
-OpenPmsDental/SheetFramework/ScreenToothChart.Designer.cs	controlTooth2	6,23	90,43	
-OpenPmsDental/SheetFramework/ScreenToothChart.Designer.cs	controlToothT	-66,65	90,43	
-OpenPmsDental/SheetFramework/ScreenToothChart.Designer.cs	controlToothA	-66,23	90,43	
-OpenPmsDental/SheetFramework/ScreenToothChart.Designer.cs	controlToothK	707,65	90,43	
-OpenPmsDental/SheetFramework/ScreenToothChart.Designer.cs	controlToothJ	707,23	90,43	
-OpenPmsDental/SheetFramework/ScreenToothChart.Designer.cs	labelK	707,108	90,15	
-OpenPmsDental/SheetFramework/ScreenToothChart.Designer.cs	labelJ	707,8	90,15	
-OpenPmsDental/SheetFramework/ScreenToothChart.Designer.cs	labelT	-66,108	90,15	
-OpenPmsDental/SheetFramework/ScreenToothChart.Designer.cs	labelA	-66,8	90,15	
-OpenPmsDental/SheetFramework/ScreenToothChart.Designer.cs	.		731,128	
-OpenPmsDental/SheetFramework/UserControlScreenTooth.Designer.cs	sheetComboBox3	0,22	90,21	
-OpenPmsDental/SheetFramework/UserControlScreenTooth.Designer.cs	sheetComboBox2	45,0	45,23	
-OpenPmsDental/SheetFramework/UserControlScreenTooth.Designer.cs	sheetComboBox1	0,0	45,23	
-OpenPmsDental/SheetFramework/UserControlScreenTooth.Designer.cs	.		90,43	
-OpenPmsDental/Tables Old Grids/ContrTable.cs	panelScroll	0,100	464,160	
-OpenPmsDental/Tables Old Grids/ContrTable.cs	vScrollBar1	445,0	17,158	
-OpenPmsDental/Tables Old Grids/ContrTable.cs	panelTable	0,0	420,168	
-OpenPmsDental/Tables Old Grids/ContrTable.cs	panelHead	1,1	436,84	
-OpenPmsDental/Tables Old Grids/ContrTable.cs	.		484,356	
-OpenPmsDental/UI/Appt/ControlApptPanel.Designer.cs	vScrollBar1	620,74	17,560	
-OpenPmsDental/UI/Appt/ControlApptPanel.Designer.cs	hScrollBar1	33,448	630,17	
-OpenPmsDental/UI/Appt/ControlApptPanel.Designer.cs	.		774,737	
 OpenPmsDental/UI/BordersDpi/FormODBase.cs	.			284,261
-OpenPmsDental/UI/ClinicSelector/ComboBoxClinicPicker.Designer.cs	labelFake	-2,2	37,18	
-OpenPmsDental/UI/ClinicSelector/ComboBoxClinicPicker.Designer.cs	comboFake	35,0	165,21	
-OpenPmsDental/UI/ClinicSelector/ComboBoxClinicPicker.Designer.cs	.		200,21	
 OpenPmsDental/UI/ImagesModule/UnmountedBar.Designer.cs	.		100,50	
 OpenPmsDental/UI/ImagesModule/WindowingSlider.Designer.cs	.		100,50	
-OpenPmsDental/UI/ODCodeRangeFilter.Designer.cs	textCodeRange	0,0	150,20	
-OpenPmsDental/UI/ODCodeRangeFilter.Designer.cs	labelExample	2,23	108,16	
-OpenPmsDental/UI/ODCodeRangeFilter.Designer.cs	.		150,37	
-OpenPmsDental/UI/ODColorPicker.Designer.cs	butColor	1,0	30,20	
-OpenPmsDental/UI/ODColorPicker.Designer.cs	butNone	34,0	40,21	
-OpenPmsDental/UI/ODColorPicker.Designer.cs	.		74,21	
-OpenPmsDental/UI/ODDatePicker.Designer.cs	monthCalendarOD	0,21	227,162	
-OpenPmsDental/UI/ODDatePicker.Designer.cs	butDrop	148,2	16,18	
-OpenPmsDental/UI/ODDatePicker.Designer.cs	textDate	63,1	102,20	
-OpenPmsDental/UI/ODDatePicker.Designer.cs	.		227,23	
-OpenPmsDental/UI/ODDateRangePicker.Designer.cs	label1	17,2	47,18	
-OpenPmsDental/UI/ODDateRangePicker.Designer.cs	label2	263,2	36,18	
-OpenPmsDental/UI/ODDateRangePicker.Designer.cs	panelWeek	193,-1	80,24	
-OpenPmsDental/UI/ODDateRangePicker.Designer.cs	butWeekPrevious	5,1	33,22	
-OpenPmsDental/UI/ODDateRangePicker.Designer.cs	butWeekNext	43,1	33,22	
-OpenPmsDental/UI/ODDateRangePicker.Designer.cs	datePickerFrom	2,1	227,23	
-OpenPmsDental/UI/ODDateRangePicker.Designer.cs	datePickerTo	237,1	227,23	
-OpenPmsDental/UI/ODDateRangePicker.Designer.cs	.		453,24	
-OpenPmsDental/User Controls/ControlImageDock.Designer.cs	elementHostImageDockHeader	0,0	664,23	
-OpenPmsDental/User Controls/ControlImageDock.Designer.cs	.		664,427	
-OpenPmsDental/User Controls/Dashboard/DashApptGrid.Designer.cs	gridMain	0,0	897,398	
-OpenPmsDental/User Controls/Dashboard/DashApptGrid.Designer.cs	.		897,398	
 OpenPmsDental/User Controls/Dashboard/DashFamilyInsurance.Designer.cs	.		193,80	
 OpenPmsDental/User Controls/UserControlTasks.Designer.cs	monthCalendar	0,69	227,162	
 OpenPmsDental/User Controls/UserControlTasks.Designer.cs	tree	0,206	941,98	
@@ -548,23 +228,6 @@ OpenPmsDental/User Controls/UserControlTasks.Designer.cs	tabWeek	2,21	937,0
 OpenPmsDental/User Controls/UserControlTasks.Designer.cs	tabMonth	2,21	937,0	
 OpenPmsDental/User Controls/UserControlTasks.Designer.cs	ToolBarMain	0,0	941,25	
 OpenPmsDental/User Controls/UserControlTasks.Designer.cs	.		941,510	
-OpenPmsDentalBusiness/UI/ODGridPageNav.cs	textJumpToPage	123,3	34,20	
-OpenPmsDentalBusiness/UI/ODGridPageNav.cs	panelPageLinks	55,3	170,20	
-OpenPmsDentalBusiness/UI/ODGridPageNav.cs	linkOne	1,1	33,17	
-OpenPmsDentalBusiness/UI/ODGridPageNav.cs	linkTwo	34,1	34,17	
-OpenPmsDentalBusiness/UI/ODGridPageNav.cs	linkThree	102,1	34,17	
-OpenPmsDentalBusiness/UI/ODGridPageNav.cs	linkFour	136,1	33,17	
-OpenPmsDentalBusiness/UI/ODGridPageNav.cs	butFirst	0,0	27,26	
-OpenPmsDentalBusiness/UI/ODGridPageNav.cs	butLast	253,0	27,26	
-OpenPmsDentalBusiness/UI/ODGridPageNav.cs	butRight	227,0	26,26	
-OpenPmsDentalBusiness/UI/ODGridPageNav.cs	butLeft	27,0	26,26	
-OpenPmsDentalBusiness/UI/ODGridPageNav.cs	.		280,26	
-OpenPmsDentalBusiness/UI/SignatureBoxWrapper.Designer.cs	butTopazSign	326,0	20,20	
-OpenPmsDentalBusiness/UI/SignatureBoxWrapper.Designer.cs	butClearSig	344,0	20,20	
-OpenPmsDentalBusiness/UI/SignatureBoxWrapper.Designer.cs	butESign	0,0	20,20	
-OpenPmsDentalBusiness/UI/SignatureBoxWrapper.Designer.cs	labelInvalidSig	84,11	196,59	
-OpenPmsDentalBusiness/UI/SignatureBoxWrapper.Designer.cs	signatureBox	1,1	362,79	
-OpenPmsDentalBusiness/UI/SignatureBoxWrapper.Designer.cs	.		364,81	
 RdlDesign/MDIChild.cs	.			292,266
 ServiceManager/FormMain.Designer.cs	listMain	26,114	174,303	
 ServiceManager/FormMain.Designer.cs	label1	23,13	318,98	
@@ -617,12 +280,6 @@ ServiceManager/FormWebConfigSettings.Designer.cs	checkIsOneWayReplication	27,296
 ServiceManager/FormWebConfigSettings.Designer.cs	textPEM	156,264	189,20	
 ServiceManager/FormWebConfigSettings.Designer.cs	labelpem	27,266	122,18	
 ServiceManager/FormWebConfigSettings.Designer.cs	.			379,528
-SparksToothChart/ToothChart2D.Designer.cs	pictBox	0,0	410,307	
-SparksToothChart/ToothChart2D.Designer.cs	.		410,307	
-SparksToothChart/ToothChartWrapper.Designer.cs	toothChart2D	0,0	410,307	
-SparksToothChart/ToothChartWrapper.Designer.cs	.		544,351	
 UpdateFileCopier/FormMain.Designer.cs	labelFile	12,9	360,87	
 UpdateFileCopier/FormMain.Designer.cs	butRetry	155,106	75,23	
 UpdateFileCopier/FormMain.Designer.cs	.			384,141
-WpfControlsOD/Frame/FormFrame.cs	.			284,261
-WpfControlsOD/Frame/FormSnap.Designer.cs	.			625,358

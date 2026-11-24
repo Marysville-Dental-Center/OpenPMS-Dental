@@ -47,9 +47,9 @@ namespace OpenPmsDental{
 			this.listFiles.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.listFiles.ContextMenuStrip = this.contextMenuStripList;
-			this.listFiles.Location = new System.Drawing.Point(2, 29);
+			this.listFiles.Location = new System.Drawing.Point(8, 33);
 			this.listFiles.Name = "listFiles";
-			this.listFiles.Size = new System.Drawing.Size(226, 747);
+			this.listFiles.Size = new System.Drawing.Size(226, 737);
 			this.listFiles.TabIndex = 1;
 			this.listFiles.SelectionChangeCommitted += new System.EventHandler(this.listFiles_SelectionChangeCommitted);
 			this.listFiles.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listFiles_MouseDoubleClick);
@@ -63,7 +63,7 @@ namespace OpenPmsDental{
 			//
 			// elementHostZoomSlider
 			//
-			this.elementHostZoomSlider.Location = new System.Drawing.Point(233, 26);
+			this.elementHostZoomSlider.Location = new System.Drawing.Point(242, 33);
 			this.elementHostZoomSlider.Name = "elementHostZoomSlider";
 			this.elementHostZoomSlider.Size = new System.Drawing.Size(231, 25);
 			this.elementHostZoomSlider.TabIndex = 2;
@@ -75,9 +75,9 @@ namespace OpenPmsDental{
 			this.panelImage.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.panelImage.Location = new System.Drawing.Point(233, 53);
+			this.panelImage.Location = new System.Drawing.Point(242, 66);
 			this.panelImage.Name = "panelImage";
-			this.panelImage.Size = new System.Drawing.Size(931, 723);
+			this.panelImage.Size = new System.Drawing.Size(916, 704);
 			this.panelImage.TabIndex = 3;
 			this.panelImage.SizeChanged += new System.EventHandler(this.panelImage_SizeChanged);
 			this.panelImage.Paint += new System.Windows.Forms.PaintEventHandler(this.panelImage_Paint);

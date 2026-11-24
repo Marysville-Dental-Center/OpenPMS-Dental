@@ -522,23 +522,26 @@ namespace OpenPmsDental {
 			if(panelBar==null || Width<1 || Height<1) {
 				return;
 			}
-			int pad=_funcScale(6);
+			//UI-12 slice 16: the bar on the grid: UiGrid.PAD from its edges, UiGrid.ITEM_GAP between the scrub bar, the buttons and the message
+			//and between the buttons (6 px everywhere before). The video above it is drawn by the web view as before.
+			int pad=_funcScale(UiGrid.PAD);
+			int gap=_funcScale(UiGrid.ITEM_GAP);
 			int heightButton=_funcScale(26);
 			int heightScrub=_funcScale(24);
 			int heightMessage=labelMessage.Visible ? _funcScale(26) : 0;
-			int heightBar=pad+heightScrub+pad+heightButton+pad+(heightMessage>0 ? heightMessage+pad : 0);
+			int heightBar=pad+heightScrub+gap+heightButton+pad+(heightMessage>0 ? heightMessage+gap : 0);
 			panelBar.Bounds=new Rectangle(0,Math.Max(0,Height-heightBar),Width,heightBar);
 			_odWebView2.Bounds=new Rectangle(0,0,Width,Math.Max(0,Height-heightBar));
 			panelScrub.Bounds=new Rectangle(pad,pad,Math.Max(0,Width-2*pad),heightScrub);
 			int x=pad;
-			int y=panelScrub.Bottom+pad;
+			int y=panelScrub.Bottom+gap;
 			foreach(UI.Button button in new[] { butPlay,butFrameBack,butFrameForward,butSpeed,butTrimStart,butTrimEnd,butTrimClear,butSaveFrame }) {
 				int widthButton=TextRenderer.MeasureText(button==butSpeed ? "0.5x" : button==butPlay ? "Pause" : button.Text,UiTheme.FontBody).Width+_funcScale(22);
 				button.Bounds=new Rectangle(x,y,widthButton,heightButton);
-				x+=widthButton+pad;
+				x+=widthButton+gap;
 			}
 			labelTime.Bounds=new Rectangle(x,y,Math.Max(0,Width-x-pad),heightButton);
-			labelMessage.Bounds=new Rectangle(pad,y+heightButton+pad,Math.Max(0,Width-2*pad),heightMessage);
+			labelMessage.Bounds=new Rectangle(pad,y+heightButton+gap,Math.Max(0,Width-2*pad),heightMessage);
 		}
 		#endregion Methods - Show
 

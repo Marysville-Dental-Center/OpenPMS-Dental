@@ -3635,7 +3635,7 @@ namespace OpenPmsDental {
 		private void ShowSearch() {
 			_listProvidersSearch=new List<Provider>();
 			List<Provider> listProvidersShort=Providers.GetDeepCopy(true);
-			LayoutManager.MoveLocation(groupSearch,new Point(panelCalendar.Location.X,panelCalendar.Location.Y+panelCalendarLower.Location.Y+pinBoard.Bottom+2));
+			LayoutSearch();//UI-12 slice 16: under the pinboard, the column's width, down to the tabs' bottom
 			textBefore.Text="";
 			textAfter.Text="";
 			_listBoxProviders.Items.Clear();
@@ -3945,14 +3945,31 @@ namespace OpenPmsDental {
 		}
 
 		public void LayoutControls(){
+			//UI-12 slice 16: the module on the grid. The toolbar stays edge to edge across the top; the appointment book (drawn by its own code,
+			//unchanged inside) and the calendar column keep UiGrid.PAD from the module's edges and UiGrid.SIBLING_GAP between them, the tabs
+			//UiGrid.SIBLING_GAP under the column (they stood edge to edge); the calendar UiGrid.ROW_GAP under the date, the lower panel
+			//UiGrid.ROW_GAP under the calendar.
+			int pad=LayoutManager.Scale(UiGrid.PAD);
+			int gap=LayoutManager.Scale(UiGrid.SIBLING_GAP);
 			Size sizeMonthCalendar=monthCalendarOD.GetDefaultSize();
-			LayoutManager.Move(monthCalendarOD,new Rectangle(0,labelDate.Bottom+LayoutManager.Scale(3),
+			LayoutManager.Move(monthCalendarOD,new Rectangle(0,labelDate.Bottom+LayoutManager.Scale(UiGrid.ROW_GAP),
 				LayoutManager.Scale(sizeMonthCalendar.Width),LayoutManager.Scale(sizeMonthCalendar.Height)));
 			int w=monthCalendarOD.Width;//a number of things will be set to this width
-			LayoutManager.Move(panelCalendarLower,new Rectangle(0,monthCalendarOD.Bottom+1,w,LayoutManager.Scale(317)));
-			LayoutManager.Move(panelCalendar,new Rectangle(Width-w,toolBarMain.Bottom,w,panelCalendarLower.Bottom));
-			LayoutManager.Move(tabControl,new Rectangle(panelCalendar.Left,panelCalendar.Bottom,Width-tabControl.Left,Height-tabControl.Top));
-			LayoutManager.Move(contrApptPanel,new Rectangle(0,toolBarMain.Height,panelCalendar.Left,Height-toolBarMain.Height));
+			LayoutManager.Move(panelCalendarLower,new Rectangle(0,monthCalendarOD.Bottom+LayoutManager.Scale(UiGrid.ROW_GAP),w,LayoutManager.Scale(351)));//its rows at the grid's pitch (317 before)
+			LayoutManager.Move(panelCalendar,new Rectangle(Width-pad-w,toolBarMain.Bottom+pad,w,panelCalendarLower.Bottom));
+			LayoutManager.Move(tabControl,new Rectangle(panelCalendar.Left,panelCalendar.Bottom+gap,w,Math.Max(0,Height-pad-(panelCalendar.Bottom+gap))));
+			LayoutManager.Move(contrApptPanel,new Rectangle(pad,toolBarMain.Bottom+pad,Math.Max(0,panelCalendar.Left-gap-pad),Math.Max(0,Height-toolBarMain.Bottom-2*pad)));
+			if(groupSearch.Visible) {
+				LayoutSearch();
+			}
+		}
+
+		///<summary>UI-12 slice 16: the search group UiGrid.ROW_GAP under the pinboard, the calendar column's width, and down to the tabs' bottom so
+		///it covers them (never shorter than its designer height; its results list takes the height it gains).</summary>
+		private void LayoutSearch() {
+			int y=panelCalendar.Top+panelCalendarLower.Top+pinBoard.Bottom+LayoutManager.Scale(UiGrid.ROW_GAP);
+			int height=Math.Max(LayoutManager.Scale(385),tabControl.Bottom-y);
+			LayoutManager.Move(groupSearch,new Rectangle(panelCalendar.Left,y,panelCalendar.Width,height));
 		}
 
 		///<summary>Used for the UpdateProvs tool to reassign all future appointments for one op to another prov.

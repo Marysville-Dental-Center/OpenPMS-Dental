@@ -53,7 +53,7 @@ namespace OpenPmsDental {
 			labelInfo=new Label();
 			labelInfo.Dock=DockStyle.Top;
 			labelInfo.Name="labelInfo";
-			labelInfo.Padding=new Padding(8,0,8,0);
+			labelInfo.Padding=new Padding(UiGrid.PAD,0,UiGrid.PAD,0);
 			labelInfo.Size=new Size(800,30);
 			labelInfo.TabIndex=0;
 			labelInfo.TextAlign=ContentAlignment.MiddleLeft;

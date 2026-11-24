@@ -41,7 +41,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelWelcome.Anchor = System.Windows.Forms.AnchorStyles.Top;
 			this.labelWelcome.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.labelWelcome.Location = new System.Drawing.Point(235, 149);
+			this.labelWelcome.Location = new System.Drawing.Point(249, 149);
 			this.labelWelcome.Name = "labelWelcome";
 			this.labelWelcome.Size = new System.Drawing.Size(366, 169);
 			this.labelWelcome.TabIndex = 3;
@@ -53,7 +53,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelConnection.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
 			this.labelConnection.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.labelConnection.Location = new System.Drawing.Point(196, 650);
+			this.labelConnection.Location = new System.Drawing.Point(210, 649);
 			this.labelConnection.Name = "labelConnection";
 			this.labelConnection.Size = new System.Drawing.Size(444, 29);
 			this.labelConnection.TabIndex = 4;
@@ -63,7 +63,7 @@ namespace OpenPmsDental {
 			// listForms
 			// 
 			this.listForms.Anchor = System.Windows.Forms.AnchorStyles.Top;
-			this.listForms.Location = new System.Drawing.Point(343, 361);
+			this.listForms.Location = new System.Drawing.Point(358, 349);
 			this.listForms.Name = "listForms";
 			this.listForms.Size = new System.Drawing.Size(149, 173);
 			this.listForms.TabIndex = 5;
@@ -72,7 +72,7 @@ namespace OpenPmsDental {
 			// labelForms
 			// 
 			this.labelForms.Anchor = System.Windows.Forms.AnchorStyles.Top;
-			this.labelForms.Location = new System.Drawing.Point(329, 341);
+			this.labelForms.Location = new System.Drawing.Point(345, 330);
 			this.labelForms.Name = "labelForms";
 			this.labelForms.Size = new System.Drawing.Size(175, 17);
 			this.labelForms.TabIndex = 6;
@@ -82,7 +82,7 @@ namespace OpenPmsDental {
 			// panelClose
 			// 
 			this.panelClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.panelClose.Location = new System.Drawing.Point(799, 628);
+			this.panelClose.Location = new System.Drawing.Point(790, 619);
 			this.panelClose.Name = "panelClose";
 			this.panelClose.Size = new System.Drawing.Size(66, 59);
 			this.panelClose.TabIndex = 7;
@@ -91,7 +91,7 @@ namespace OpenPmsDental {
 			// labelThankYou
 			// 
 			this.labelThankYou.Anchor = System.Windows.Forms.AnchorStyles.Top;
-			this.labelThankYou.Location = new System.Drawing.Point(367, 534);
+			this.labelThankYou.Location = new System.Drawing.Point(382, 530);
 			this.labelThankYou.Name = "labelThankYou";
 			this.labelThankYou.Size = new System.Drawing.Size(100, 17);
 			this.labelThankYou.TabIndex = 8;
@@ -102,7 +102,7 @@ namespace OpenPmsDental {
 			// butDone
 			// 
 			this.butDone.Anchor = System.Windows.Forms.AnchorStyles.Top;
-			this.butDone.Location = new System.Drawing.Point(380, 551);
+			this.butDone.Location = new System.Drawing.Point(395, 553);
 			this.butDone.Name = "butDone";
 			this.butDone.Size = new System.Drawing.Size(75, 24);
 			this.butDone.TabIndex = 1;

@@ -32,7 +32,7 @@ namespace OpenPmsDental{
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(1143, 660);
+			this.butOK.Location = new System.Drawing.Point(1147, 664);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 24);
 			this.butOK.TabIndex = 19;
@@ -41,18 +41,18 @@ namespace OpenPmsDental{
 			// 
 			// pictureBox
 			// 
-			this.pictureBox.Location = new System.Drawing.Point(254, 12);
+			this.pictureBox.Location = new System.Drawing.Point(253, 8);
 			this.pictureBox.Name = "pictureBox";
-			this.pictureBox.Size = new System.Drawing.Size(883, 672);
+			this.pictureBox.Size = new System.Drawing.Size(886, 680);
 			this.pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
 			this.pictureBox.TabIndex = 22;
 			this.pictureBox.TabStop = false;
 			// 
 			// elementHostImageSelector
 			// 
-			this.elementHostImageSelector.Location = new System.Drawing.Point(11, 12);
+			this.elementHostImageSelector.Location = new System.Drawing.Point(8, 8);
 			this.elementHostImageSelector.Name = "elementHostImageSelector";
-			this.elementHostImageSelector.Size = new System.Drawing.Size(237, 672);
+			this.elementHostImageSelector.Size = new System.Drawing.Size(237, 680);
 			this.elementHostImageSelector.TabIndex = 39;
 			this.elementHostImageSelector.Text = "elementHost1";
 			this.elementHostImageSelector.Child = null;

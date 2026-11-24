@@ -36,9 +36,9 @@ namespace OpenPmsDental{
 			// 
 			this.labelStatus.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelStatus.Location = new System.Drawing.Point(-3, 686);
+			this.labelStatus.Location = new System.Drawing.Point(8, 678);
 			this.labelStatus.Name = "labelStatus";
-			this.labelStatus.Size = new System.Drawing.Size(947, 18);
+			this.labelStatus.Size = new System.Drawing.Size(928, 18);
 			this.labelStatus.TabIndex = 73;
 			this.labelStatus.Text = "Status Bar";
 			this.labelStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -62,9 +62,9 @@ namespace OpenPmsDental{
 			this.webViewWiki.AreBrowserKeysEnabled = true;
 			this.webViewWiki.CreationProperties = null;
 			this.webViewWiki.DefaultBackgroundColor = System.Drawing.Color.White;
-			this.webViewWiki.Location = new System.Drawing.Point(0, 28);
+			this.webViewWiki.Location = new System.Drawing.Point(8, 33);
 			this.webViewWiki.Name = "webViewWiki";
-			this.webViewWiki.Size = new System.Drawing.Size(944, 657);
+			this.webViewWiki.Size = new System.Drawing.Size(928, 641);
 			this.webViewWiki.TabIndex = 0;
 			this.webViewWiki.ZoomFactor = 1D;
 			this.webViewWiki.LinkClicked += new System.EventHandler<CodeBase.Controls.ODWebView2LinkEventArgs>(this.webViewWiki_LinkClicked);

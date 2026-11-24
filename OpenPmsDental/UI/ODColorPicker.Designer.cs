@@ -31,9 +31,9 @@
 			// butColor
 			// 
 			this.butColor.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-			this.butColor.Location = new System.Drawing.Point(1, 0);
+			this.butColor.Location = new System.Drawing.Point(0, 0);
 			this.butColor.Name = "butColor";
-			this.butColor.Size = new System.Drawing.Size(30, 20);
+			this.butColor.Size = new System.Drawing.Size(28, 21);
 			this.butColor.TabIndex = 1;
 			this.butColor.UseVisualStyleBackColor = true;
 			this.butColor.Click += new System.EventHandler(this.butColor_Click);
