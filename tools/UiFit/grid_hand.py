@@ -48,6 +48,7 @@ class Hand:
         g.MULTI_PICKERS.clear()
         g.MULTI_PICKERS.update(getattr(designer, "multi_pickers", ()))
         g.MULTI_PICKERS.update(g.multi_pickers_in_code(fit_tools.repo_root(), window.split(".")[-1]))
+        g.PLAIN_WINDOW[0] = g.is_plain_window(fit_tools.repo_root(), designer.rel, window.split(".")[-1])
         self.by_name = {}
         for n in g.walk(tree):
             if n is not tree and n.name:

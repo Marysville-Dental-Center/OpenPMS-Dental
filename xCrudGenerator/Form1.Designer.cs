@@ -214,7 +214,7 @@ namespace xCrudGenerator {
 			this.checkRunQueries.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.checkRunQueries.Location = new System.Drawing.Point(8, 138);
 			this.checkRunQueries.Name = "checkRunQueries";
-			this.checkRunQueries.Size = new System.Drawing.Size(238, 18);
+			this.checkRunQueries.Size = new System.Drawing.Size(240, 18);
 			this.checkRunQueries.TabIndex = 26;
 			this.checkRunQueries.Text = "Run queries generated for convert script";
 			this.checkRunQueries.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -227,7 +227,7 @@ namespace xCrudGenerator {
 			this.checkAddToConvertScript.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.checkAddToConvertScript.Location = new System.Drawing.Point(8, 116);
 			this.checkAddToConvertScript.Name = "checkAddToConvertScript";
-			this.checkAddToConvertScript.Size = new System.Drawing.Size(179, 18);
+			this.checkAddToConvertScript.Size = new System.Drawing.Size(181, 18);
 			this.checkAddToConvertScript.TabIndex = 27;
 			this.checkAddToConvertScript.Text = "Add queries to convert script";
 			this.checkAddToConvertScript.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

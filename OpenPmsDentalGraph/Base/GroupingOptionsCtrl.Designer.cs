@@ -44,7 +44,7 @@
 			// 
 			this.radioGroupClinics.Location = new System.Drawing.Point(8, 45);
 			this.radioGroupClinics.Name = "radioGroupClinics";
-			this.radioGroupClinics.Size = new System.Drawing.Size(55, 18);
+			this.radioGroupClinics.Size = new System.Drawing.Size(59, 18);
 			this.radioGroupClinics.TabIndex = 2;
 			this.radioGroupClinics.Text = "Clinic";
 			this.radioGroupClinics.UseVisualStyleBackColor = true;
@@ -55,7 +55,7 @@
 			this.radioGroupProvs.Checked = true;
 			this.radioGroupProvs.Location = new System.Drawing.Point(8, 23);
 			this.radioGroupProvs.Name = "radioGroupProvs";
-			this.radioGroupProvs.Size = new System.Drawing.Size(69, 18);
+			this.radioGroupProvs.Size = new System.Drawing.Size(73, 18);
 			this.radioGroupProvs.TabIndex = 0;
 			this.radioGroupProvs.TabStop = true;
 			this.radioGroupProvs.Text = "Provider";

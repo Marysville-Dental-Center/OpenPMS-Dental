@@ -376,7 +376,7 @@
 			this.checkLimit.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.checkLimit.Location = new System.Drawing.Point(1591, 655);
 			this.checkLimit.Name = "checkLimit";
-			this.checkLimit.Size = new System.Drawing.Size(197, 18);
+			this.checkLimit.Size = new System.Drawing.Size(199, 18);
 			this.checkLimit.TabIndex = 234;
 			this.checkLimit.Text = "Limit 30 patients per connection";
 			// 
@@ -457,7 +457,7 @@
 			this.checkGuarantors.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.checkGuarantors.Location = new System.Drawing.Point(8, 445);
 			this.checkGuarantors.Name = "checkGuarantors";
-			this.checkGuarantors.Size = new System.Drawing.Size(145, 18);
+			this.checkGuarantors.Size = new System.Drawing.Size(147, 18);
 			this.checkGuarantors.TabIndex = 49;
 			this.checkGuarantors.Text = "Show Guarantors Only";
 			// 
@@ -551,7 +551,7 @@
 			this.checkHideArchived.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.checkHideArchived.Location = new System.Drawing.Point(8, 489);
 			this.checkHideArchived.Name = "checkHideArchived";
-			this.checkHideArchived.Size = new System.Drawing.Size(157, 18);
+			this.checkHideArchived.Size = new System.Drawing.Size(159, 18);
 			this.checkHideArchived.TabIndex = 25;
 			this.checkHideArchived.Text = "Hide Archived/Deceased";
 			// 
@@ -645,7 +645,7 @@
 			this.checkHideInactive.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.checkHideInactive.Location = new System.Drawing.Point(8, 467);
 			this.checkHideInactive.Name = "checkHideInactive";
-			this.checkHideInactive.Size = new System.Drawing.Size(141, 18);
+			this.checkHideInactive.Size = new System.Drawing.Size(143, 18);
 			this.checkHideInactive.TabIndex = 44;
 			this.checkHideInactive.Text = "Hide Inactive Patients";
 			// 

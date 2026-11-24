@@ -50,7 +50,7 @@
 			this.groupBox3.Controls.Add(this.radioRunProcs);
 			this.groupBox3.Location = new System.Drawing.Point(8, 8);
 			this.groupBox3.Name = "groupBox3";
-			this.groupBox3.Size = new System.Drawing.Size(403, 147);
+			this.groupBox3.Size = new System.Drawing.Size(407, 147);
 			this.groupBox3.TabIndex = 4;
 			this.groupBox3.TabStop = false;
 			this.groupBox3.Text = "Count By";
@@ -68,7 +68,7 @@
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(106, 94);
+			this.label3.Location = new System.Drawing.Point(110, 94);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(280, 18);
 			this.label3.TabIndex = 8;
@@ -77,7 +77,7 @@
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(115, 72);
+			this.label2.Location = new System.Drawing.Point(119, 72);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(280, 18);
 			this.label2.TabIndex = 7;
@@ -86,7 +86,7 @@
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(98, 23);
+			this.label1.Location = new System.Drawing.Point(102, 23);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(297, 18);
 			this.label1.TabIndex = 6;
@@ -109,7 +109,7 @@
 			this.radioRunAdjs.AutoSize = false;
 			this.radioRunAdjs.Location = new System.Drawing.Point(8, 94);
 			this.radioRunAdjs.Name = "radioRunAdjs";
-			this.radioRunAdjs.Size = new System.Drawing.Size(92, 18);
+			this.radioRunAdjs.Size = new System.Drawing.Size(96, 18);
 			this.radioRunAdjs.TabIndex = 4;
 			this.radioRunAdjs.Text = "Adjustments";
 			this.radioRunAdjs.UseVisualStyleBackColor = true;
@@ -120,7 +120,7 @@
 			this.radioRunApts.AutoSize = false;
 			this.radioRunApts.Location = new System.Drawing.Point(8, 72);
 			this.radioRunApts.Name = "radioRunApts";
-			this.radioRunApts.Size = new System.Drawing.Size(101, 18);
+			this.radioRunApts.Size = new System.Drawing.Size(105, 18);
 			this.radioRunApts.TabIndex = 1;
 			this.radioRunApts.Text = "Appointments";
 			this.radioRunApts.UseVisualStyleBackColor = true;
@@ -132,7 +132,7 @@
 			this.radioRunProcs.Checked = true;
 			this.radioRunProcs.Location = new System.Drawing.Point(8, 23);
 			this.radioRunProcs.Name = "radioRunProcs";
-			this.radioRunProcs.Size = new System.Drawing.Size(84, 18);
+			this.radioRunProcs.Size = new System.Drawing.Size(88, 18);
 			this.radioRunProcs.TabIndex = 3;
 			this.radioRunProcs.TabStop = true;
 			this.radioRunProcs.Text = "Procedures";
@@ -144,7 +144,7 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
 			this.Controls.Add(this.groupBox3);
 			this.Name = "BrokenApptGraphOptionsCtrl";
-			this.Size = new System.Drawing.Size(419, 163);
+			this.Size = new System.Drawing.Size(423, 163);
 			this.Load += new System.EventHandler(this.BrokenApptGraphOptionsCtrl_Load);
 			this.groupBox3.ResumeLayout(false);
 			this.groupBox3.PerformLayout();

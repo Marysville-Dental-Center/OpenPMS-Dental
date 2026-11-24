@@ -421,6 +421,10 @@ def check_width(n, text_room=None):
     """The width a check box or radio button needs for its box and its text on one line."""
     # UI.CheckBox and, from round 3, the stock radio button (UiRadioLook) put the text 16 px from the left; the stock check box 18 px.
     lead = GRID["check_box"] + GRID["check_text"] if n.type in ("OpenPmsDental.UI.CheckBox",) + RADIO_TYPES else 18
+    if PLAIN_WINDOW[0] and n.type in ("System.Windows.Forms.CheckBox",) + RADIO_TYPES:
+        # UI-12 slice 12: in a plain window (no FormODBase, no UiRadioLook) the stock check box and radio button draw as Windows draws
+        # them: their preferred width is the text + 22 (the box, its gap and the focus margins), so the lead is 20.
+        lead = 20
     return lead + n.text_w + 2 if n.text_w else n.w
 
 
@@ -1587,6 +1591,7 @@ class Planner:
         MULTI_PICKERS.clear()
         MULTI_PICKERS.update(designer.multi_pickers)
         MULTI_PICKERS.update(multi_pickers_in_code(self.root, simple))
+        PLAIN_WINDOW[0] = is_plain_window(self.root, designer.rel, simple)
         for n in walk(tree):
             if "ComboBoxClinicPicker" in n.type and n.name not in NO_LABEL_PICKERS and not n.text_w:
                 # A tree of a build before slice 1 (GridDump wrote no label width for a clinic picker): its box was drawn after main's fixed
@@ -2302,6 +2307,24 @@ SIMULATE = False
 CLINIC_LABEL_W = {"Clinic": 43, "Clinics": 48}
 NO_LABEL_PICKERS = set()  # this window's clinic pickers with ShowLabel = false
 MULTI_PICKERS = set()  # this window's clinic pickers with IsMultiSelect = true (the label "Clinics")
+PLAIN_WINDOW = [False]  # UI-12 slice 12: the window being planned is a plain window (is_plain_window)
+# The plain exes' and plain libraries' folders (tests/UiRefreshTests/Scan/WindowBuilder.cs, ArrayPlainExes and ArrayPlainLibraries).
+PLAIN_FOLDERS = ("CentralManager", "DatabaseIntegrityCheck", "DocumentationBuilder", "MySQLManager", "OpenPmsDentalDbSettings",
+                 "OpenPmsDentalHL7", "RdlDesign", "ServiceManager", "UpdateFileCopier", "xCrudGenerator", "OpenPmsDentalGraph")
+
+
+def is_plain_window(root, designer_rel, simple):
+    """UI-12 slice 12: a plain window, a Form that is not a FormODBase or a UserControl of a plain exe or library (GridRulesTests.IsPlain):
+    its designer is in a plain exe's or library's folder and no code file of the class derives it from FormODBase (the Central Manager's
+    FormCentralSecurity and FormCentralReportSetup are FormODBase windows)."""
+    if designer_rel.replace("\\", "/").split("/")[0] not in PLAIN_FOLDERS:
+        return False
+    files = code_files_for(root, simple) + [designer_rel]
+    for f in files:
+        with open(os.path.join(root, f), "rb") as fh:
+            if re.search(r"class\s+%s\s*:\s*(OpenPmsDental\.)?FormODBase\b" % re.escape(simple), fh.read().decode("latin-1")):
+                return False
+    return True
 
 
 def clinic_label_w(i):

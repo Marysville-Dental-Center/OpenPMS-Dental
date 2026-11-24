@@ -201,7 +201,7 @@
 			this.checkIsAutoLogon.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.checkIsAutoLogon.Location = new System.Drawing.Point(8, 61);
 			this.checkIsAutoLogon.Name = "checkIsAutoLogon";
-			this.checkIsAutoLogon.Size = new System.Drawing.Size(143, 18);
+			this.checkIsAutoLogon.Size = new System.Drawing.Size(145, 18);
 			this.checkIsAutoLogon.TabIndex = 230;
 			this.checkIsAutoLogon.Text = "Automatically Log On";
 			this.checkIsAutoLogon.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
