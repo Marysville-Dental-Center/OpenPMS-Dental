@@ -109,7 +109,6 @@ namespace OpenPmsDental{
 			// 
 			// groupBoxOrderBy
 			// 
-			this.groupBoxOrderBy.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(249)))), ((int)(((byte)(249)))));
 			this.groupBoxOrderBy.Controls.Add(this.radioCategory);
 			this.groupBoxOrderBy.Controls.Add(this.radioCertification);
 			this.groupBoxOrderBy.Location = new System.Drawing.Point(136, 40);

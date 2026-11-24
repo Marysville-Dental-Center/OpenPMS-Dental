@@ -120,7 +120,6 @@ namespace OpenPmsDental{
 			// 
 			this.panelFilterControls.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.panelFilterControls.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.panelFilterControls.Controls.Add(this.groupAppt);
 			this.panelFilterControls.Controls.Add(this.labelPatBillingType);
 			this.panelFilterControls.Controls.Add(this.listBoxPatientBillingType);
@@ -231,7 +230,6 @@ namespace OpenPmsDental{
 			// 
 			// groupBox1
 			// 
-			this.groupBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.groupBox1.Controls.Add(this.textPatientAgeTo);
 			this.groupBox1.Controls.Add(this.label3);
 			this.groupBox1.Controls.Add(this.label4);
@@ -290,7 +288,6 @@ namespace OpenPmsDental{
 			// 
 			// panelUserQuery
 			// 
-			this.panelUserQuery.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.panelUserQuery.Controls.Add(this.butFavorite);
 			this.panelUserQuery.Controls.Add(this.labelUserQuery);
 			this.panelUserQuery.Controls.Add(this.textUserQuery);

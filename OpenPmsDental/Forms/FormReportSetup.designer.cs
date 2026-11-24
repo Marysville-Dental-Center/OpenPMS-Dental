@@ -104,7 +104,6 @@ namespace OpenPmsDental{
 			// 
 			// userControlReportSetup
 			// 
-			this.userControlReportSetup.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.userControlReportSetup.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
 			this.userControlReportSetup.Location = new System.Drawing.Point(5, 5);
 			this.userControlReportSetup.Name = "userControlReportSetup";
@@ -121,7 +120,6 @@ namespace OpenPmsDental{
 			// 
 			// tabReportServer
 			// 
-			this.tabReportServer.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.tabReportServer.Controls.Add(this.label8);
 			this.tabReportServer.Controls.Add(this.textSslCaPem);
 			this.tabReportServer.Controls.Add(this.checkUseReportServer);
@@ -315,7 +313,6 @@ namespace OpenPmsDental{
 			// 
 			// tabMiscOptions
 			// 
-			this.tabMiscOptions.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.tabMiscOptions.Controls.Add(this.checkUserQueryDefaultRaw);
 			this.tabMiscOptions.Controls.Add(this.butIncompleteProcsExcludeCodes);
 			this.tabMiscOptions.Controls.Add(this.label7);

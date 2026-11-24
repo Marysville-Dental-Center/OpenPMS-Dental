@@ -404,7 +404,6 @@
 			// labelUnearned
 			// 
 			this.labelUnearned.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.labelUnearned.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.labelUnearned.Location = new System.Drawing.Point(622, 2);
 			this.labelUnearned.Name = "labelUnearned";
 			this.labelUnearned.Size = new System.Drawing.Size(76, 14);
@@ -643,7 +642,6 @@
 			// 
 			// tabMain
 			// 
-			this.tabMain.BackColor = System.Drawing.Color.Transparent;
 			this.tabMain.Controls.Add(this.gridAcctPat);
 			this.tabMain.Controls.Add(this.butCreditCard);
 			this.tabMain.Controls.Add(this.textUrgFinNote);
@@ -728,7 +726,6 @@
 			// 
 			// checkUseSuperFam
 			// 
-			this.checkUseSuperFam.BackColor = System.Drawing.SystemColors.Window;
 			this.checkUseSuperFam.Location = new System.Drawing.Point(8, 345);
 			this.checkUseSuperFam.Name = "checkUseSuperFam";
 			this.checkUseSuperFam.Size = new System.Drawing.Size(122, 20);
@@ -738,7 +735,6 @@
 			// 
 			// tabShow
 			// 
-			this.tabShow.BackColor = System.Drawing.Color.Transparent;
 			this.tabShow.Controls.Add(this.checkShowCommAuto);
 			this.tabShow.Controls.Add(this.checkShowCompletePayPlans);
 			this.tabShow.Controls.Add(this.checkShowFamilyComm);
@@ -761,7 +757,6 @@
 			// 
 			// checkShowCommAuto
 			// 
-			this.checkShowCommAuto.BackColor = System.Drawing.SystemColors.Window;
 			this.checkShowCommAuto.Location = new System.Drawing.Point(4, 249);
 			this.checkShowCommAuto.Name = "checkShowCommAuto";
 			this.checkShowCommAuto.Size = new System.Drawing.Size(178, 20);
@@ -771,7 +766,6 @@
 			// 
 			// checkShowCompletePayPlans
 			// 
-			this.checkShowCompletePayPlans.BackColor = System.Drawing.SystemColors.Window;
 			this.checkShowCompletePayPlans.Location = new System.Drawing.Point(4, 273);
 			this.checkShowCompletePayPlans.Name = "checkShowCompletePayPlans";
 			this.checkShowCompletePayPlans.Size = new System.Drawing.Size(170, 20);
@@ -781,7 +775,6 @@
 			// 
 			// checkShowFamilyComm
 			// 
-			this.checkShowFamilyComm.BackColor = System.Drawing.SystemColors.Window;
 			this.checkShowFamilyComm.Location = new System.Drawing.Point(4, 225);
 			this.checkShowFamilyComm.Name = "checkShowFamilyComm";
 			this.checkShowFamilyComm.Size = new System.Drawing.Size(170, 20);
@@ -791,7 +784,6 @@
 			// 
 			// checkShowDetail
 			// 
-			this.checkShowDetail.BackColor = System.Drawing.SystemColors.Window;
 			this.checkShowDetail.Checked = true;
 			this.checkShowDetail.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.checkShowDetail.Location = new System.Drawing.Point(4, 201);
@@ -1013,7 +1005,6 @@
 			// 
 			// groupBoxFamilyIns
 			// 
-			this.groupBoxFamilyIns.BackColor = System.Drawing.Color.White;
 			this.groupBoxFamilyIns.Controls.Add(this.textFamPriMax);
 			this.groupBoxFamilyIns.Controls.Add(this.textFamPriDed);
 			this.groupBoxFamilyIns.Controls.Add(this.label4);
@@ -1111,7 +1102,6 @@
 			// 
 			// groupBoxIndIns
 			// 
-			this.groupBoxIndIns.BackColor = System.Drawing.Color.White;
 			this.groupBoxIndIns.Controls.Add(this.textPriDed);
 			this.groupBoxIndIns.Controls.Add(this.textPriUsed);
 			this.groupBoxIndIns.Controls.Add(this.textPriDedRem);
@@ -1383,7 +1373,6 @@
 			// 
 			this.tabPagePatAccount.Controls.Add(this.gridAccount);
 			this.tabPagePatAccount.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.tabPagePatAccount.ForeColor = System.Drawing.Color.Black;
 			this.tabPagePatAccount.Location = new System.Drawing.Point(1, 20);
 			this.tabPagePatAccount.Margin = new System.Windows.Forms.Padding(0);
 			this.tabPagePatAccount.Name = "tabPagePatAccount";
@@ -1436,7 +1425,6 @@
 			// 
 			// splitterPanel1
 			// 
-			this.splitterPanel1.BackColor = System.Drawing.Color.White;
 			this.splitterPanel1.Controls.Add(this.gridAutoOrtho);
 			this.splitterPanel1.Location = new System.Drawing.Point(0, 0);
 			this.splitterPanel1.Name = "splitterPanel1";
@@ -1459,7 +1447,6 @@
 			// 
 			// splitterPanel2
 			// 
-			this.splitterPanel2.BackColor = System.Drawing.Color.White;
 			this.splitterPanel2.Controls.Add(this.groupBox2);
 			this.splitterPanel2.Controls.Add(this.groupBox1);
 			this.splitterPanel2.Location = new System.Drawing.Point(336, 0);
@@ -1469,7 +1456,6 @@
 			// 
 			// groupBox2
 			// 
-			this.groupBox2.BackColor = System.Drawing.Color.White;
 			this.groupBox2.Controls.Add(this.butAutoOrthoDefaultPlacement);
 			this.groupBox2.Controls.Add(this.textDateAutoOrthoPlacement);
 			this.groupBox2.Controls.Add(this.butEditAutoOrthoPlacement);
@@ -1509,7 +1495,6 @@
 			// 
 			// groupBox1
 			// 
-			this.groupBox1.BackColor = System.Drawing.Color.White;
 			this.groupBox1.Controls.Add(this.textAutoOrthoMonthsTreat);
 			this.groupBox1.Controls.Add(this.butAutoOrthoDefaultMonthsTreat);
 			this.groupBox1.Controls.Add(this.butAutoOrthoEditMonthsTreat);
@@ -1559,7 +1544,6 @@
 			// 
 			// splitContainerOrthoCases
 			// 
-			this.splitContainerOrthoCases.BackColor = System.Drawing.Color.White;
 			this.splitContainerOrthoCases.Controls.Add(this.splitterPanel3);
 			this.splitContainerOrthoCases.Controls.Add(this.splitterPanel4);
 			this.splitContainerOrthoCases.Cursor = System.Windows.Forms.Cursors.Default;
@@ -1791,7 +1775,6 @@
 			// 
 			// ControlAccount
 			// 
-			this.BackColor = System.Drawing.Color.White;
 			this.Controls.Add(this.groupBoxIndDis);
 			this.Controls.Add(this.groupBoxFamilyIns);
 			this.Controls.Add(this.groupBoxIndIns);

@@ -71,7 +71,6 @@
 			// 
 			// userControlReportSetup
 			// 
-			this.userControlReportSetup.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.userControlReportSetup.Location = new System.Drawing.Point(8, 8);
 			this.userControlReportSetup.Name = "userControlReportSetup";
 			this.userControlReportSetup.Size = new System.Drawing.Size(525, 607);

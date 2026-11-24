@@ -52,7 +52,6 @@ namespace OpenPmsDental {
 			// 
 			// groupBoxDiscountPlanFreqLimit
 			// 
-			this.groupBoxDiscountPlanFreqLimit.BackColor = System.Drawing.Color.White;
 			this.groupBoxDiscountPlanFreqLimit.Controls.Add(this.textDiscountPACodes);
 			this.groupBoxDiscountPlanFreqLimit.Controls.Add(this.textDiscountXrayCodes);
 			this.groupBoxDiscountPlanFreqLimit.Controls.Add(this.textDiscountPerioCodes);
@@ -221,7 +220,6 @@ namespace OpenPmsDental {
 			// 
 			// groupBoxInsHist
 			// 
-			this.groupBoxInsHist.BackColor = System.Drawing.Color.White;
 			this.groupBoxInsHist.Controls.Add(this.labelInsHistPerioScalingCode);
 			this.groupBoxInsHist.Controls.Add(this.textInsHistPerioScalingCode);
 			this.groupBoxInsHist.Controls.Add(this.butInsHistPerioScalingCode);
@@ -270,7 +268,6 @@ namespace OpenPmsDental {
 			// UserControlTreatPlanFreqLimit
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.BackColor = System.Drawing.Color.White;
 			this.Controls.Add(this.groupBoxDiscountPlanFreqLimit);
 			this.Controls.Add(this.checkFrequency);
 			this.Controls.Add(this.groupBoxInsHist);

@@ -90,7 +90,6 @@ namespace OpenPmsDental{
 			// 
 			// tabPageUnearnedAccounts
 			// 
-			this.tabPageUnearnedAccounts.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.tabPageUnearnedAccounts.Controls.Add(this.butUnearnedAcctOk);
 			this.tabPageUnearnedAccounts.Controls.Add(this.label1);
 			this.tabPageUnearnedAccounts.Controls.Add(this.checkUnearnedAcctAllClins);
@@ -155,7 +154,6 @@ namespace OpenPmsDental{
 			// 
 			// tabPageUnallocatedBalances
 			// 
-			this.tabPageUnallocatedBalances.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.tabPageUnallocatedBalances.Controls.Add(this.checkUnearnedAllocationShowProv);
 			this.tabPageUnallocatedBalances.Controls.Add(this.label4);
 			this.tabPageUnallocatedBalances.Controls.Add(this.checkUnearnedAllocationExcludeZero);
@@ -304,7 +302,6 @@ namespace OpenPmsDental{
 			// 
 			// tabPageNetUnearned
 			// 
-			this.tabPageNetUnearned.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.tabPageNetUnearned.Controls.Add(this.checkNetUnearnedExcludeZero);
 			this.tabPageNetUnearned.Controls.Add(this.label5);
 			this.tabPageNetUnearned.Controls.Add(this.butNetUnearnedOK);
@@ -444,7 +441,6 @@ namespace OpenPmsDental{
 			// 
 			// tabPageLineItemUnearned
 			// 
-			this.tabPageLineItemUnearned.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.tabPageLineItemUnearned.Controls.Add(this.checkLineItemShowProv);
 			this.tabPageLineItemUnearned.Controls.Add(this.label7);
 			this.tabPageLineItemUnearned.Controls.Add(this.butLineItemOK);

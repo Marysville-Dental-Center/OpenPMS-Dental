@@ -296,7 +296,6 @@ namespace OpenPmsDental {
 			// UserControlEnterpriseAccount
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.BackColor = System.Drawing.Color.White;
 			this.Controls.Add(this.checkAgingCalculateOnBatchClaimReceipt);
 			this.Controls.Add(this.label13);
 			this.Controls.Add(this.label27);

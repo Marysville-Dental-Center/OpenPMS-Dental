@@ -213,7 +213,6 @@ namespace OpenPmsDental {
 			// 
 			// groupProvClin
 			// 
-			this.groupProvClin.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.groupProvClin.Controls.Add(this.comboClinic);
 			this.groupProvClin.Controls.Add(this.butPickProv);
 			this.groupProvClin.Controls.Add(this.comboProv);
@@ -493,7 +492,6 @@ namespace OpenPmsDental {
 			// 
 			// groupTerms
 			// 
-			this.groupTerms.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.groupTerms.Controls.Add(this.labelDateInterestStart);
 			this.groupTerms.Controls.Add(this.textDateInterestStart);
 			this.groupTerms.Controls.Add(this.textInterestDelay);
@@ -596,7 +594,6 @@ namespace OpenPmsDental {
 			// 
 			// groupBox3
 			// 
-			this.groupBox3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.groupBox3.Controls.Add(this.textPaymentCount);
 			this.groupBox3.Controls.Add(this.label7);
 			this.groupBox3.Controls.Add(this.textPeriodPayment);

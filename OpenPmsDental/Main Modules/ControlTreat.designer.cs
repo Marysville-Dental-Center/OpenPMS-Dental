@@ -460,7 +460,6 @@ namespace OpenPmsDental {
 			// 
 			// ControlTreat
 			// 
-			this.BackColor = System.Drawing.Color.White;
 			this.Controls.Add(this.userControlIndDis);
 			this.Controls.Add(this.butInsRem);
 			this.Controls.Add(this.userControlIndIns);

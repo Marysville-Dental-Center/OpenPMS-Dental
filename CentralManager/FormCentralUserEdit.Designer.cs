@@ -137,7 +137,6 @@
 			// 
 			// tabUser
 			// 
-			this.tabUser.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.tabUser.Controls.Add(this.butPickDomainUser);
 			this.tabUser.Controls.Add(this.textDomainUser);
 			this.tabUser.Controls.Add(this.securityTreeUser);
@@ -192,7 +191,6 @@
 			// 
 			// tabAlertSubs
 			// 
-			this.tabAlertSubs.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.tabAlertSubs.Controls.Add(this.listAlertSubMulti);
 			this.tabAlertSubs.Controls.Add(this.label7);
 			this.tabAlertSubs.Location = new System.Drawing.Point(2, 21);
@@ -235,7 +233,6 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.ClientSize = new System.Drawing.Size(610, 551);
 			this.Controls.Add(this.butUnlock);
 			this.Controls.Add(this.tabControl);

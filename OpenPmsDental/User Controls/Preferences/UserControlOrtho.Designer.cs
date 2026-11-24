@@ -388,7 +388,6 @@ namespace OpenPmsDental {
 			// UserControlOrtho
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.BackColor = System.Drawing.Color.White;
 			this.Controls.Add(this.checkOrthoChartLoggingOn);
 			this.Controls.Add(this.label5);
 			this.Controls.Add(this.butOrthoPrescriptions);

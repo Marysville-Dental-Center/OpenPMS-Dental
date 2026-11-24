@@ -86,7 +86,6 @@
 			// 
 			// tabPageBackup
 			// 
-			this.tabPageBackup.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.tabPageBackup.Controls.Add(this.label1);
 			this.tabPageBackup.Controls.Add(this.checkExcludeImages);
 			this.tabPageBackup.Controls.Add(this.butSave);
@@ -324,7 +323,6 @@
 			// 
 			// tabPageArchive
 			// 
-			this.tabPageArchive.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.tabPageArchive.Controls.Add(this.checkOptimize);
 			this.tabPageArchive.Controls.Add(this.checkTaskHist);
 			this.tabPageArchive.Controls.Add(this.checkWikiPageHist);

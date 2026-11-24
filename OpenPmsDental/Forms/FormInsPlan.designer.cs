@@ -899,7 +899,6 @@ namespace OpenPmsDental {
 			// 
 			// panelPlan
 			// 
-			this.panelPlan.BackColor = System.Drawing.Color.White;
 			this.panelPlan.Controls.Add(this.checkUseBlueBook);
 			this.panelPlan.Controls.Add(this.groupCarrierAllowedAmounts);
 			this.panelPlan.Controls.Add(this.comboFeeSched);
@@ -1440,7 +1439,6 @@ namespace OpenPmsDental {
 			// 
 			// panelOrthInfo
 			// 
-			this.panelOrthInfo.BackColor = System.Drawing.Color.White;
 			this.panelOrthInfo.Controls.Add(this.butSubstCodes);
 			this.panelOrthInfo.Controls.Add(this.label41);
 			this.panelOrthInfo.Controls.Add(this.label40);
@@ -1846,7 +1844,6 @@ namespace OpenPmsDental {
 			// 
 			// panelOrtho
 			// 
-			this.panelOrtho.BackColor = System.Drawing.Color.White;
 			this.panelOrtho.Controls.Add(this.textOrthoAutoFee);
 			this.panelOrtho.Controls.Add(this.labelOrthoAutoFee);
 			this.panelOrtho.Controls.Add(this.butDefaultAutoOrthoProc);

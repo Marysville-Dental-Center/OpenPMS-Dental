@@ -54,7 +54,6 @@ namespace OpenPmsDental {
 			// 
 			// groupRecurringCharges
 			// 
-			this.groupRecurringCharges.BackColor = System.Drawing.Color.White;
 			this.groupRecurringCharges.Controls.Add(this.comboRecurringChargePayType);
 			this.groupRecurringCharges.Controls.Add(this.textRecurringChargesTime);
 			this.groupRecurringCharges.Controls.Add(this.checkRecurringChargesShowInactive);
@@ -194,7 +193,6 @@ namespace OpenPmsDental {
 			// 
 			// groupRepeatingCharges
 			// 
-			this.groupRepeatingCharges.BackColor = System.Drawing.Color.White;
 			this.groupRepeatingCharges.Controls.Add(this.textRepeatingChargesAutomatedTime);
 			this.groupRepeatingCharges.Controls.Add(this.labelRepeatingChargesAutomatedTime);
 			this.groupRepeatingCharges.Controls.Add(this.checkRepeatingChargesRunAging);
@@ -315,7 +313,6 @@ namespace OpenPmsDental {
 			// UserControlAccountRecAndRepCharges
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.BackColor = System.Drawing.Color.White;
 			this.Controls.Add(this.labelRecurringChargesUseTransDateDetails);
 			this.Controls.Add(this.labelRepeatingChargesAutomatedTimeDetails);
 			this.Controls.Add(this.labelRecurringChargesInactivateDeclinedCardsDetails);

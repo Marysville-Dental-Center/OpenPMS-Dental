@@ -215,7 +215,6 @@ namespace OpenPmsDental{
 			// 
 			// groupBoxOD4
 			// 
-			this.groupBoxOD4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(249)))), ((int)(((byte)(249)))));
 			this.groupBoxOD4.Controls.Add(this.textDiscountPAFreq);
 			this.groupBoxOD4.Controls.Add(this.textDiscountXrayFreq);
 			this.groupBoxOD4.Controls.Add(this.textDiscountLimitedFreq);

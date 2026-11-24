@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CodeBase;
 
 namespace OpenPmsDental {
 	public class ColorOD {
@@ -30,23 +31,22 @@ if(color.ToArgb()==Color.Empty.ToArgb()){
 Or, in WPF, test if(color.ToString()==Color.Transparent.ToString()){  //this works because ToString always give the hex value (#1FA313)
 */
 
-		#region Fields - Public
-		//Yes, these are public static fields, an exception to the rule because they are unchanging and truly globally used.
-		///<summary>252,253,254. This slightly bluish off-white looks more pure than white and keeps the contrast intact.</summary>
-		public static Color Background=Color.FromArgb(252,253,254);
-//todo: Why does this line cause a change in size of font in textboxes?
-		//public static System.Windows.Media.Color BackgroundW=System.Windows.Media.Color.FromRgb(252,253,254);
-		///<summary>This replaces SystemColors.Control.  Gray 240.</summary>
-		public static Color Control=Gray(240);
-		///<summary>This is for gridlines where the background is white.  It's gray 180.  GridOD is currently 180.</summary>
-		public static Color Gridline=Gray(180);
-		///<summary>This is a pale blue color to help give users feedback when the hover over normally white areas.  Used in ListBoxOD, ImageSelector, and MonthCalendar so far.  229,239,251. It doesn't look good in all situations, so there are still some custom hover colors.</summary>
-		public static Color Hover=Color.FromArgb(229,239,251);//#E5EFFB
-		///<summary>This is for outlines of some controls.  It's gray 90.</summary>
-		public static Color Outline=Gray(90);
-		///<summary>Gray 160 to match MS.</summary>
-		public static Color DisabledText=Gray(160);
-		#endregion Fields - Public
+		#region Properties - Public
+		//UI-11 (docs/port-notes/UI-11.md, docs/specs/ui-refresh-plan.md section 6): the palette points at the UiTheme tokens by role, so what still
+		//uses it draws in the new look and in Windows' high-contrast colours where the tokens do. They were public static fields with fixed values.
+		///<summary>The window background token, Surface (#FAFAFA; was 252,253,254, the slightly bluish off-white of the old look).</summary>
+		public static Color Background => UiTheme.GetColor(EnumUiColor.Surface);
+		///<summary>The controls' grey, SurfaceSubtle (#F3F3F3; was gray 240, SystemColors.Control's place).</summary>
+		public static Color Control => UiTheme.GetColor(EnumUiColor.SurfaceSubtle);
+		///<summary>Gridlines on white, the Gridline token (#E0E0E0; was gray 180).</summary>
+		public static Color Gridline => UiTheme.GetColor(EnumUiColor.Gridline);
+		///<summary>The hover fill of normally white areas, RowHover (#F0F4FA; was 229,239,251).</summary>
+		public static Color Hover => UiTheme.GetColor(EnumUiColor.RowHover);
+		///<summary>The outline of some controls, StrokeStrong (#8A8A8A; was gray 90).</summary>
+		public static Color Outline => UiTheme.GetColor(EnumUiColor.StrokeStrong);
+		///<summary>Disabled text, TextDisabled (#A0A0A0, gray 160 as before).</summary>
+		public static Color DisabledText => UiTheme.GetColor(EnumUiColor.TextDisabled);
+		#endregion Properties - Public
 
 		#region Methods
 		///<summary>Examples, dark to light: Gray=128, Silver=192, LightGray=211, Control=240</summary>
@@ -55,8 +55,8 @@ Or, in WPF, test if(color.ToString()==Color.Transparent.ToString()){  //this wor
 		}
 
 		public static System.Windows.Media.Color GetColorBackground(){
-			//method to avoid the problem noted above with public static fields.
-			return System.Windows.Media.Color.FromRgb(252,253,254);
+			//The WPF window background token, Surface (UI-11; was 252,253,254).
+			return UiTheme.GetColorWpf(EnumUiColor.Surface);
 		}
 
 		/// <summary>Example: amounts of 1 and 4 will be more like the second color.  Amounts of 5 and 1 will be more like the first color.</summary>

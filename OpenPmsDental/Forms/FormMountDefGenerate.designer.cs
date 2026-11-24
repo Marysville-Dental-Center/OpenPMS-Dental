@@ -131,7 +131,6 @@ namespace OpenPmsDental{
 			// 
 			// groupBoxOD1
 			// 
-			this.groupBoxOD1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(249)))), ((int)(((byte)(249)))));
 			this.groupBoxOD1.Controls.Add(this.textRows);
 			this.groupBoxOD1.Controls.Add(this.label6);
 			this.groupBoxOD1.Controls.Add(this.textColumns);

@@ -1564,6 +1564,17 @@ own 26.2 overlap check before it starts. The first cut is below; a brief that fi
 - Work: the sweep of every window (G-UI4), fixes it finds, the notes: the classic look is gone; no conversion; Misc Colors still work.
 - Tests: the whole Full run; the source scans' allow lists at their final size.
 - Gallery: G-UI3 slices for the `BackColor` slices; **G-UI4** for UI-11-final, including the files that still use `ColorOD`.
+- Status (2026-11-24, branch `ui/ui11-1`, the BackColor slices in one package): `tools/UiFit/colour_literals.py` lists every literal
+  BackColor and ForeColor of the program's projects (1095 on `main`) and decides each by role; 220 chrome designer lines removed in 94
+  files (white module and preference pages, tab pages and group boxes in 252,253,254 or Windows' grey, white plan panels: each takes its
+  parent's token), the code's chrome resets to the parent's colour, `UiLooks.SetCaptionBoxLook` for borderless caption boxes, `ColorOD`
+  pointing at the tokens (so its users follow high contrast); the 874 literals that stay (content, states, status colours, system colours
+  the looks read) listed with their reasons in the UI-11 section of `colour-literals.tsv`; NoHqTests' `ChromeColourScanTests` fails on a new
+  chrome literal. Gallery G-UI3-ui11 (106 pictures, 86 changed), audit `UI-11-audit.md`. Note: [UI-11.md](../port-notes/UI-11.md).
+  Fix round (branch `ui/ui11-2`): the scan reads every literal of an assignment (each branch of a `?:`, `Color.FromName`,
+  `Color.FromKnownColor`; 897 literals listed); no UI.CheckBox or UI.GroupBox left on a transparent tab page (ControlAccount, FormClaimEdit;
+  a new test); FormRpPatients' hint and EmailPreviewControl's caption boxes take the page's colour; FormExamSheets' preview clears to the token.
+  Gallery after the fix round: 108 pictures, 89 changed.
 
 **UI-12: the layout grid (the owner's decision of 2026-11-21, section 1)**
 - Rules: [UI-12.md](../port-notes/UI-12.md) section 1 (8 px container padding, labels 6 px before their fields and right-aligned, one

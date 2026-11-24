@@ -25,7 +25,7 @@ namespace OpenPmsDental {
 				panelEmergencyNow.BackColor=Color.Red;
 			}
 			else {
-				panelEmergencyNow.BackColor=SystemColors.Control;
+				panelEmergencyNow.BackColor=Color.Empty;//UI-11: the parent's colour (the window background token), was SystemColors.Control
 			}
 			if(!Security.IsAuthorized(EnumPermType.Setup,true)) {
 				//Hide all the buttons except Emergency Now and Close.
@@ -98,7 +98,7 @@ namespace OpenPmsDental {
 
 		private void butEmergencyNow_Click(object sender,EventArgs e) {
 			if(PrefC.GetBool(PrefName.EhrEmergencyNow)) {
-				panelEmergencyNow.BackColor=SystemColors.Control;
+				panelEmergencyNow.BackColor=Color.Empty;//UI-11: the parent's colour
 				Prefs.UpdateBool(PrefName.EhrEmergencyNow,false);
 			}
 			else {

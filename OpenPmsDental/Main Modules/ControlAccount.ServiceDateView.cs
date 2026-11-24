@@ -54,7 +54,6 @@ namespace OpenPmsDental {
 			LayoutManager.Add(gridServiceDateView,tabPagePatAccount);
 			checkServiceDateViewDetails=new OpenPmsDental.UI.CheckBox();
 			checkServiceDateViewDetails.Name="checkServiceDateViewDetails";
-			checkServiceDateViewDetails.BackColor=SystemColors.Window;
 			checkServiceDateViewDetails.Location=new Point(6,288);//Below checkShowCompletePayPlans (6,265).
 			checkServiceDateViewDetails.Size=new Size(168,18);
 			checkServiceDateViewDetails.Text="Service Date View details";

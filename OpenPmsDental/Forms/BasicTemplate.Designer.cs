@@ -101,7 +101,6 @@ namespace OpenPmsDental{
 			// 
 			// tabPage1
 			// 
-			this.tabPage1.BackColor = System.Drawing.SystemColors.Window;
 			this.tabPage1.Location = new System.Drawing.Point(2, 21);
 			this.tabPage1.Name = "tabPage1";
 			this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
@@ -111,7 +110,6 @@ namespace OpenPmsDental{
 			// 
 			// tabPage2
 			// 
-			this.tabPage2.BackColor = System.Drawing.SystemColors.Window;
 			this.tabPage2.Location = new System.Drawing.Point(2, 21);
 			this.tabPage2.Name = "tabPage2";
 			this.tabPage2.Padding = new System.Windows.Forms.Padding(3);

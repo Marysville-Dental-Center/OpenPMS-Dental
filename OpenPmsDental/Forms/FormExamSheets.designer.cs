@@ -87,7 +87,6 @@ namespace OpenPmsDental{
 			this.panelSheetPreview.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.panelSheetPreview.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.panelSheetPreview.Location = new System.Drawing.Point(439, 3);
 			this.panelSheetPreview.Name = "panelSheetPreview";
 			this.panelSheetPreview.Size = new System.Drawing.Size(534, 692);

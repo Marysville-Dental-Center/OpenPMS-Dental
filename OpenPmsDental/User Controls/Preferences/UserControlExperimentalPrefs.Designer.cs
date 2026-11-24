@@ -52,7 +52,6 @@ namespace OpenPmsDental {
 			// UserControlExperimentalPrefs
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.BackColor = System.Drawing.Color.White;
 			this.Controls.Add(this.checkAgingProcLifo);
 			this.Controls.Add(this.labelCommLogAutoSaveDetails);
 			this.Name = "UserControlExperimentalPrefs";

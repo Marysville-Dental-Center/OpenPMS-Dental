@@ -133,7 +133,6 @@ namespace OpenPmsDental {
 			// 
 			// groupProcNotes
 			// 
-			this.groupProcNotes.BackColor = System.Drawing.Color.White;
 			this.groupProcNotes.Controls.Add(this.checkProcNoteSigsBlocked);
 			this.groupProcNotes.Controls.Add(this.checkProcsPromptForAutoNote);
 			this.groupProcNotes.Controls.Add(this.checkSignatureAllowDigital);
@@ -208,7 +207,6 @@ namespace OpenPmsDental {
 			// UserControlChartProcedures
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.BackColor = System.Drawing.Color.White;
 			this.Controls.Add(this.groupBoxProcedures);
 			this.Controls.Add(this.groupProcNotes);
 			this.Name = "UserControlChartProcedures";

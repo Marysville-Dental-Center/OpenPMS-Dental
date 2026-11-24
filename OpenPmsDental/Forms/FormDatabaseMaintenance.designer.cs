@@ -201,7 +201,6 @@ namespace OpenPmsDental {
 			this.tabControlDBM.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.tabControlDBM.BackColor = System.Drawing.SystemColors.Control;
 			this.tabControlDBM.Controls.Add(this.tabChecks);
 			this.tabControlDBM.Controls.Add(this.tabHidden);
 			this.tabControlDBM.Controls.Add(this.tabOld);
@@ -214,7 +213,6 @@ namespace OpenPmsDental {
 			// 
 			// tabChecks
 			// 
-			this.tabChecks.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.tabChecks.Controls.Add(this.butExplainChecks);
 			this.tabChecks.Controls.Add(this.butStopDBM);
 			this.tabChecks.Controls.Add(this.textChecks);
@@ -255,7 +253,6 @@ namespace OpenPmsDental {
 			// 
 			// tabHidden
 			// 
-			this.tabHidden.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.tabHidden.Controls.Add(this.butExplainHidden);
 			this.tabHidden.Controls.Add(this.butSelectAll);
 			this.tabHidden.Controls.Add(this.textHidden);
@@ -319,7 +316,6 @@ namespace OpenPmsDental {
 			// 
 			// tabOld
 			// 
-			this.tabOld.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.tabOld.Controls.Add(this.butExplainOld);
 			this.tabOld.Controls.Add(this.checkShowHidden);
 			this.tabOld.Controls.Add(this.butStopDBMOld);
@@ -446,7 +442,6 @@ namespace OpenPmsDental {
 			// 
 			// tabTools
 			// 
-			this.tabTools.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.tabTools.Controls.Add(this.butFixTools);
 			this.tabTools.Controls.Add(this.gridTools);
 			this.tabTools.Controls.Add(this.groupBoxUpdateInProg);
@@ -477,7 +472,6 @@ namespace OpenPmsDental {
 			// 
 			// groupBoxUpdateInProg
 			// 
-			this.groupBoxUpdateInProg.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.groupBoxUpdateInProg.Controls.Add(this.labelUpdateInProgress);
 			this.groupBoxUpdateInProg.Controls.Add(this.textBoxUpdateInProg);
 			this.groupBoxUpdateInProg.Controls.Add(this.butClearUpdateInProgress);

@@ -222,7 +222,6 @@ namespace OpenPmsDental {
 			// 
 			// tabPageAppts
 			// 
-			this.tabPageAppts.BackColor = System.Drawing.SystemColors.Window;
 			this.tabPageAppts.ColorTab = System.Drawing.Color.Empty;
 			this.tabPageAppts.Controls.Add(this.label5);
 			this.tabPageAppts.Controls.Add(this.comboShowHygiene);
@@ -289,7 +288,6 @@ namespace OpenPmsDental {
 			// 
 			// tabPageRecalls
 			// 
-			this.tabPageRecalls.BackColor = System.Drawing.SystemColors.Window;
 			this.tabPageRecalls.ColorTab = System.Drawing.Color.Empty;
 			this.tabPageRecalls.Controls.Add(this.gridRecalls);
 			this.tabPageRecalls.Controls.Add(this.textDateStart);

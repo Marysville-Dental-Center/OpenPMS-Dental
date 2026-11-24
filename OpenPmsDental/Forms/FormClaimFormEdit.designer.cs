@@ -395,7 +395,6 @@ namespace OpenPmsDental {
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.panel1.AutoScroll = true;
-			this.panel1.BackColor = System.Drawing.Color.WhiteSmoke;
 			this.panel1.Controls.Add(this.pictureBoxClaimForm);
 			this.panel1.Location = new System.Drawing.Point(0, 0);
 			this.panel1.Name = "panel1";

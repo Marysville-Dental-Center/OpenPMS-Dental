@@ -910,7 +910,6 @@
 			// ControlAppt
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.BackColor = System.Drawing.Color.White;
 			this.Controls.Add(this.groupSearch);
 			this.Controls.Add(this.toolBarMain);
 			this.Controls.Add(this.panelCalendar);

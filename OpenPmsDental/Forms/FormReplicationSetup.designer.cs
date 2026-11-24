@@ -185,7 +185,6 @@ namespace OpenPmsDental{
 			// 
 			// label6
 			// 
-			this.label6.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.label6.Location = new System.Drawing.Point(8, 23);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(172, 23);

@@ -81,7 +81,6 @@ namespace OpenPmsDental {
 			// UserControlEnterpriseAppts
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.BackColor = System.Drawing.Color.White;
 			this.Controls.Add(this.checkEnterpriseHygProcUsePriProvFee);
 			this.Controls.Add(this.checkEnterpriseNoneApptViewDefaultDisabled);
 			this.Controls.Add(this.checkEnterpriseApptList);

@@ -69,7 +69,6 @@ namespace OpenPmsDental {
 			// UserControlEnterpriseManage
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.BackColor = System.Drawing.Color.White;
 			this.Controls.Add(this.checkEnterpriseManualRefreshMainTaskLists);
 			this.Controls.Add(this.checkEraStrictClaimMatching);
 			this.Controls.Add(this.checkEraRefreshOnLoad);

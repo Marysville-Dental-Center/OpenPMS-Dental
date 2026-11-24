@@ -76,7 +76,6 @@
 			// 
 			// groupBox2
 			// 
-			this.groupBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.groupBox2.Controls.Add(this.textRangeMin);
 			this.groupBox2.Controls.Add(this.textRangeMax);
 			this.groupBox2.Controls.Add(this.labelDaysOldMax);

@@ -58,7 +58,6 @@
 			// 
 			// label1
 			// 
-			this.label1.BackColor = System.Drawing.Color.White;
 			this.label1.Location = new System.Drawing.Point(26, 24);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(553, 17);
@@ -68,7 +67,6 @@
 			// 
 			// labelTitleNew
 			// 
-			this.labelTitleNew.BackColor = System.Drawing.Color.White;
 			this.labelTitleNew.Location = new System.Drawing.Point(600, 24);
 			this.labelTitleNew.Name = "labelTitleNew";
 			this.labelTitleNew.Size = new System.Drawing.Size(552, 17);
@@ -99,7 +97,6 @@
 			// FormWikiCompare
 			// 
 			this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.ClientSize = new System.Drawing.Size(1164, 661);
 			this.Controls.Add(this.labelTitleNew);
 			this.Controls.Add(this.labelHelpNew);

@@ -57,7 +57,6 @@ namespace OpenPmsDental{
 			// 
 			// groupBoxInto
 			// 
-			this.groupBoxInto.BackColor = System.Drawing.Color.White;
 			this.groupBoxInto.Controls.Add(this.textItemValueInto);
 			this.groupBoxInto.Controls.Add(this.labelItemValueInto);
 			this.groupBoxInto.Controls.Add(this.textNameInto);
@@ -135,7 +134,6 @@ namespace OpenPmsDental{
 			// 
 			// groupBoxFrom
 			// 
-			this.groupBoxFrom.BackColor = System.Drawing.Color.White;
 			this.groupBoxFrom.Controls.Add(this.textItemValueFrom);
 			this.groupBoxFrom.Controls.Add(this.labelItemValueFrom);
 			this.groupBoxFrom.Controls.Add(this.textNameFrom);

@@ -217,7 +217,6 @@ namespace OpenPmsDental {
 			// 
 			// groupBoxOD1
 			// 
-			this.groupBoxOD1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(249)))), ((int)(((byte)(249)))));
 			this.groupBoxOD1.Controls.Add(this.radioProvider);
 			this.groupBoxOD1.Controls.Add(this.radioSignature);
 			this.groupBoxOD1.Controls.Add(this.radioPickList);

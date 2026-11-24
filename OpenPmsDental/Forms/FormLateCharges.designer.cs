@@ -114,7 +114,6 @@ namespace OpenPmsDental{
 			// 
 			// groupBoxUndo
 			// 
-			this.groupBoxUndo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(249)))), ((int)(((byte)(249)))));
 			this.groupBoxUndo.Controls.Add(this.textDateUndo);
 			this.groupBoxUndo.Controls.Add(this.labelDateUndo);
 			this.groupBoxUndo.Controls.Add(this.butUndo);
@@ -304,7 +303,6 @@ namespace OpenPmsDental{
 			// 
 			// groupLateCharge
 			// 
-			this.groupLateCharge.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(249)))), ((int)(((byte)(249)))));
 			this.groupLateCharge.Controls.Add(this.checkExcludeExistingLateCharges);
 			this.groupLateCharge.Controls.Add(this.checkExcludeAccountNoTil);
 			this.groupLateCharge.Controls.Add(this.listBillType);
@@ -368,7 +366,6 @@ namespace OpenPmsDental{
 			// 
 			// groupBoxAssignCharge
 			// 
-			this.groupBoxAssignCharge.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(249)))), ((int)(((byte)(249)))));
 			this.groupBoxAssignCharge.Controls.Add(this.comboSpecificProv);
 			this.groupBoxAssignCharge.Controls.Add(this.radioSpecificProv);
 			this.groupBoxAssignCharge.Controls.Add(this.radioPatPriProv);

@@ -300,6 +300,9 @@ namespace NoHqTests {
 			bool isHeaderSeen=false;
 			for(int i=0;i<arrayLines.Length;i++) {
 				string line=arrayLines[i];
+				if(line.StartsWith(ChromeColourScanTests.SECTION_MARK,StringComparison.Ordinal)) {
+					break;//UI-11's section (ChromeColourScanTests) follows the table
+				}
 				if(line.Trim()=="" || line.StartsWith("#")) {
 					continue;
 				}
@@ -336,11 +339,20 @@ namespace NoHqTests {
 			return listProblems;
 		}
 
-		///<summary>Writes the allow list from the source, keeping the line ends the file already has (LF for a new file), UTF-8 without a BOM.</summary>
+		///<summary>Writes the allow list from the source, keeping the line ends the file already has (LF for a new file), UTF-8 without a BOM. UI-11's
+		///section (ChromeColourScanTests, written by tools/UiFit/colour_literals.py) stays as it is after the table.</summary>
 		private static void WriteColourLiterals(string pathList,SortedDictionary<string,int> dictFound) {
 			string lineEnd="\n";
-			if(File.Exists(pathList) && File.ReadAllText(pathList).Contains("\r\n")) {
-				lineEnd="\r\n";
+			string section="";
+			if(File.Exists(pathList)) {
+				string textOld=File.ReadAllText(pathList);
+				if(textOld.Contains("\r\n")) {
+					lineEnd="\r\n";
+				}
+				int indexSection=textOld.IndexOf(ChromeColourScanTests.SECTION_MARK,StringComparison.Ordinal);
+				if(indexSection>=0) {
+					section=textOld.Substring(indexSection);
+				}
 			}
 			StringBuilder stringBuilder=new StringBuilder();
 			foreach(string line in new string[] {
@@ -356,6 +368,7 @@ namespace NoHqTests {
 			foreach(KeyValuePair<string,int> pair in dictFound) {
 				stringBuilder.Append(pair.Key).Append('\t').Append(pair.Value).Append(lineEnd);
 			}
+			stringBuilder.Append(section);
 			File.WriteAllText(pathList,stringBuilder.ToString(),new UTF8Encoding(false));
 		}
 		#endregion Colour literals

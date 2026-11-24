@@ -200,7 +200,6 @@ namespace OpenPmsDental {
 			// UserControlEnterpriseReports
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.BackColor = System.Drawing.Color.White;
 			this.Controls.Add(this.checkReportingServerCompNameOrURI);
 			this.Controls.Add(this.radioReportServerMiddleTier);
 			this.Controls.Add(this.radioReportServerDirect);

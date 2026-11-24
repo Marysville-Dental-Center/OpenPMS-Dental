@@ -145,7 +145,6 @@
 			// 
 			// tabPageRecalls
 			// 
-			this.tabPageRecalls.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.tabPageRecalls.Controls.Add(this.groupEmailFromRecalls);
 			this.tabPageRecalls.Controls.Add(this.butUndo);
 			this.tabPageRecalls.Controls.Add(this.butGotoFamily);
@@ -558,7 +557,6 @@
 			// 
 			// tabPageReminders
 			// 
-			this.tabPageReminders.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.tabPageReminders.Controls.Add(this.gridReminders);
 			this.tabPageReminders.Controls.Add(this.groupViewRemind);
 			this.tabPageReminders.Location = new System.Drawing.Point(2, 21);
@@ -626,7 +624,6 @@
 			// 
 			// tabPageReactivations
 			// 
-			this.tabPageReactivations.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.tabPageReactivations.Controls.Add(this.groupEmailFromReact);
 			this.tabPageReactivations.Controls.Add(this.butReactGoToFam);
 			this.tabPageReactivations.Controls.Add(this.butReactComm);

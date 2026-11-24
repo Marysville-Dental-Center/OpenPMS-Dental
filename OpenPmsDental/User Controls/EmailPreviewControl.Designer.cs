@@ -74,7 +74,6 @@
 			// 
 			// textMsgDateTime
 			// 
-			this.textMsgDateTime.BackColor = System.Drawing.SystemColors.Window;
 			this.textMsgDateTime.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			this.textMsgDateTime.ForeColor = System.Drawing.Color.Red;
 			this.textMsgDateTime.Location = new System.Drawing.Point(89, 37);
@@ -146,7 +145,6 @@
 			// 
 			// textSentOrReceived
 			// 
-			this.textSentOrReceived.BackColor = System.Drawing.SystemColors.Window;
 			this.textSentOrReceived.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			this.textSentOrReceived.AutoSize = false;
 			this.textSentOrReceived.Location = new System.Drawing.Point(89, 20);
@@ -194,7 +192,6 @@
 			// 
 			// textUserName
 			// 
-			this.textUserName.BackColor = System.Drawing.SystemColors.Window;
 			this.textUserName.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			this.textUserName.AutoSize = false;
 			this.textUserName.Location = new System.Drawing.Point(89, 3);

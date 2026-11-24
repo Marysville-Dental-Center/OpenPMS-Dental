@@ -110,7 +110,6 @@ namespace OpenPmsDental{
 			// 
 			// emailPreviewControlInbox
 			// 
-			this.emailPreviewControlInbox.BackColor = System.Drawing.SystemColors.Control;
 			this.emailPreviewControlInbox.BccAddress = "";
 			this.emailPreviewControlInbox.BodyText = "";
 			this.emailPreviewControlInbox.CcAddress = "";
@@ -412,7 +411,6 @@ namespace OpenPmsDental{
 			// 
 			// emailPreviewControlSent
 			// 
-			this.emailPreviewControlSent.BackColor = System.Drawing.SystemColors.Control;
 			this.emailPreviewControlSent.BccAddress = "";
 			this.emailPreviewControlSent.BodyText = "";
 			this.emailPreviewControlSent.CcAddress = "";
@@ -576,7 +574,6 @@ namespace OpenPmsDental{
 			// 
 			// tabPage3
 			// 
-			this.tabPage3.BackColor = System.Drawing.SystemColors.Window;
 			this.tabPage3.Controls.Add(this.splitContainerInbox);
 			this.tabPage3.Location = new System.Drawing.Point(71, 2);
 			this.tabPage3.Name = "tabPage3";
@@ -618,7 +615,6 @@ namespace OpenPmsDental{
 			// 
 			// tabPage4
 			// 
-			this.tabPage4.BackColor = System.Drawing.SystemColors.Window;
 			this.tabPage4.Controls.Add(this.splitContainerSent);
 			this.tabPage4.Location = new System.Drawing.Point(71, 2);
 			this.tabPage4.Name = "tabPage4";

@@ -844,7 +844,6 @@ namespace OpenPmsDental {
 			// 
 			// tabSchedule
 			// 
-			this.tabSchedule.BackColor = System.Drawing.SystemColors.Control;
 			this.tabSchedule.Controls.Add(this.butAddCharge);
 			this.tabSchedule.Controls.Add(this.checkUngrouped);
 			this.tabSchedule.Controls.Add(this.textBalanceSum);
@@ -981,7 +980,6 @@ namespace OpenPmsDental {
 			// 
 			// tabProduction
 			// 
-			this.tabProduction.BackColor = System.Drawing.SystemColors.Control;
 			this.tabProduction.Controls.Add(this.checkShowAttachedPnI);
 			this.tabProduction.Controls.Add(this.butAddProd);
 			this.tabProduction.Controls.Add(this.butDeleteProduction);
@@ -1123,7 +1121,6 @@ namespace OpenPmsDental {
 			// 
 			// FormPayPlanDynamic
 			// 
-			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.ClientSize = new System.Drawing.Size(1087, 901);
 			this.Controls.Add(this.warningIntegrity1);
 			this.Controls.Add(this.labelSheetDef);

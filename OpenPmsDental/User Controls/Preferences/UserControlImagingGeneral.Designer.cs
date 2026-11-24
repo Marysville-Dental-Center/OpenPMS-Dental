@@ -221,7 +221,6 @@ namespace OpenPmsDental {
 			// 
 			// groupBoxOD2
 			// 
-			this.groupBoxOD2.BackColor = System.Drawing.Color.White;
 			this.groupBoxOD2.Controls.Add(this.textDecimals);
 			this.groupBoxOD2.Controls.Add(this.textScale);
 			this.groupBoxOD2.Controls.Add(this.textUnits);
@@ -295,7 +294,6 @@ namespace OpenPmsDental {
 			// UserControlImagingGeneral
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.BackColor = System.Drawing.Color.White;
 			this.Controls.Add(this.groupBoxFunctionality);
 			this.Controls.Add(this.groupImport);
 			this.Controls.Add(this.groupBoxOD2);

@@ -118,7 +118,6 @@ namespace CodeBase {
 			// FormProgressStatus
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.BackColor = System.Drawing.SystemColors.ControlLight;
 			this.ClientSize = new System.Drawing.Size(469, 117);
 			this.Controls.Add(this.panelMinimize);
 			this.Controls.Add(this.butCopyToClipboard);

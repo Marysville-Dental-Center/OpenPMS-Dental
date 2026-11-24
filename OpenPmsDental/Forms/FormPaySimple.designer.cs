@@ -274,7 +274,6 @@ namespace OpenPmsDental{
 			// 
 			// tabCredit
 			// 
-			this.tabCredit.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.tabCredit.Controls.Add(this.checkPrintReceipt);
 			this.tabCredit.Controls.Add(this.groupTransType);
 			this.tabCredit.Controls.Add(this.checkOneTimePayment);
@@ -309,7 +308,6 @@ namespace OpenPmsDental{
 			// 
 			// tabACH
 			// 
-			this.tabACH.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.tabACH.Controls.Add(this.checkPrintReceiptACH);
 			this.tabACH.Controls.Add(this.labelAmountACH);
 			this.tabACH.Controls.Add(this.textAmountACH);

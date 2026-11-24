@@ -76,7 +76,6 @@ namespace OpenPmsDental {
 			// 
 			// tabData
 			// 
-			this.tabData.BackColor = System.Drawing.SystemColors.Window;
 			this.tabData.Controls.Add(this.listBoxRefType);
 			this.tabData.Controls.Add(this.label1);
 			this.tabData.Controls.Add(this.textBox1);
@@ -115,6 +114,7 @@ namespace OpenPmsDental {
 			this.textBox1.Location = new System.Drawing.Point(220, 24);
 			this.textBox1.Multiline = true;
 			this.textBox1.Name = "textBox1";
+			this.textBox1.ReadOnly = true;
 			this.textBox1.Size = new System.Drawing.Size(714, 38);
 			this.textBox1.TabIndex = 13;
 			this.textBox1.Text = resources.GetString("textBox1.Text");
@@ -157,7 +157,6 @@ namespace OpenPmsDental {
 			// 
 			// tabFilters
 			// 
-			this.tabFilters.BackColor = System.Drawing.SystemColors.Window;
 			this.tabFilters.Controls.Add(this.label2);
 			this.tabFilters.Controls.Add(this.labelHelp);
 			this.tabFilters.Controls.Add(this.listBoxColumns);
