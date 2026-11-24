@@ -1,7 +1,7 @@
 """ControlAppt (the Appointments module) on the grid (UI-12 slice 16). The module's LayoutControls places the book, the calendar column and
 the tabs at run time (with UiGrid's numbers since this slice: 8 px from the module's edges, 8 px between the book and the column, the tabs
 8 px under it); here the parts the designer places inside them.
-The lower calendar panel (219 px, the calendar's width; LayoutControls gives it 351 px, from 317): the navigation strip at its top (a
+The lower calendar panel (227 px, the calendar's width; LayoutControls gives it 351 px, from 317): the navigation strip at its top (a
 segmented strip, its buttons edge to edge, unchanged); the day/week toggle, Clear and Advanced/Search in a column on the left, 4 px apart,
 the pinboard on the right ending on the panel's edge, both 4 px under the strip; then the field rows at the 27 px pitch (View, Lab Cases,
 Daily Prod, Daily Goal), labels and the Lab Cases button right-aligned 6 px before one field column ending on the panel's edge; the
@@ -21,7 +21,7 @@ KEEP_BAR_GAP = True  # a module: no dialog bar
 def layout(h):
     H = h.H
     B = s.BUTTON_H
-    W = 219
+    W = h.n("monthCalendarOD").nw  # the column is as wide as the calendar (LayoutControls)
     # the lower calendar panel
     y = 22 + 4
     h.set("toggleDayWeek", 0, y, 80, 40)
@@ -46,10 +46,20 @@ def layout(h):
     h.set("label1", 0, yList, fx - s.ITEM, 30)
     h.set("listConfirmed", fx, yList, 86, 351 - yList)
     h.set("panelCalendarLower", None, None, W, 351)
+    # the module's parts where LayoutControls puts them (the designer as the module draws at its designer size): the calendar column 8 px
+    # from the right and under the toolbar, the tabs 8 px under it down to the bottom padding, the book 8 px before the column
+    root = h.tree
+    top = h.n("toolBarMain").nh + s.PAD
+    pc = h.n("panelCalendar")
+    hc = h.n("panelCalendarLower").ny + 351
+    xc = root.w - s.PAD - W
+    h.set("panelCalendar", xc, top, W, hc)
+    h.set("tabControl", xc, top + hc + s.GAP, W, root.h - s.PAD - (top + hc + s.GAP))
+    h.set("contrApptPanel", s.PAD, top, xc - s.GAP - s.PAD, root.h - s.PAD - top)
     # the search group
     G = 219
     R = G - s.PAD
-    h.set("groupSearch", None, None, G, 380)
+    h.set("groupSearch", None, 741 - 8 - 380, G, 380)  # shown by ShowSearch; in the designer within the module (it ran 4 px past it)
     h.set("butSearchCloseX", R - 16, 22 + 4, 16, 16)
     h.set("butSearchNext", R - 16 - s.ITEM - 71, 22, 71, B)
     h.set("listSearchResults", s.PAD, 22 + B + 4, R - s.PAD, 89)

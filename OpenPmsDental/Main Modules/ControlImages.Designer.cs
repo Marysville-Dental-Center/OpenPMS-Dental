@@ -226,7 +226,7 @@
 			// 
 			this.label3.Location = new System.Drawing.Point(0, 0);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(616, 16);
+			this.label3.Size = new System.Drawing.Size(813, 16);
 			this.label3.TabIndex = 38;
 			this.label3.Text = "Automatically import files from the following folder as they appear.  Existing fi" +
     "les will be ignored.  Imported files will be deleted.";
@@ -331,7 +331,7 @@
 			this.panelPearl.Controls.Add(this.groupPearl);
 			this.panelPearl.Location = new System.Drawing.Point(15, 522);
 			this.panelPearl.Name = "panelPearl";
-			this.panelPearl.Size = new System.Drawing.Size(200, 62);
+			this.panelPearl.Size = new System.Drawing.Size(200, 70);
 			this.panelPearl.TabIndex = 54;
 			this.panelPearl.Visible = false;
 			// 
@@ -345,17 +345,17 @@
 			this.groupPearl.Controls.Add(this.butPearlLayers);
 			this.groupPearl.Controls.Add(this.checkPearlToothParts);
 			this.groupPearl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.groupPearl.Location = new System.Drawing.Point(3, 3);
+			this.groupPearl.Location = new System.Drawing.Point(0, 0);
 			this.groupPearl.Name = "groupPearl";
-			this.groupPearl.Size = new System.Drawing.Size(194, 56);
+			this.groupPearl.Size = new System.Drawing.Size(200, 70);
 			this.groupPearl.TabIndex = 3;
 			this.groupPearl.Text = "Pearl AI";
 			// 
 			// labelAIProcessing
 			//
-			this.labelAIProcessing.Location = new System.Drawing.Point(7, 20);
+			this.labelAIProcessing.Location = new System.Drawing.Point(8, 22);
 			this.labelAIProcessing.Name = "labelAIProcessing";
-			this.labelAIProcessing.Size = new System.Drawing.Size(182, 32);
+			this.labelAIProcessing.Size = new System.Drawing.Size(184, 32);
 			this.labelAIProcessing.TabIndex = 3;
 			this.labelAIProcessing.Text = "Processing...";
 			this.labelAIProcessing.Visible = false;
@@ -364,7 +364,7 @@
 			// 
 			this.checkPearlShow.Checked = true;
 			this.checkPearlShow.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkPearlShow.Location = new System.Drawing.Point(7, 17);
+			this.checkPearlShow.Location = new System.Drawing.Point(8, 22);
 			this.checkPearlShow.Name = "checkPearlShow";
 			this.checkPearlShow.Size = new System.Drawing.Size(83, 18);
 			this.checkPearlShow.TabIndex = 0;
@@ -373,7 +373,7 @@
 			// 
 			// butPearlLayers
 			// 
-			this.butPearlLayers.Location = new System.Drawing.Point(137, 16);
+			this.butPearlLayers.Location = new System.Drawing.Point(138, 22);
 			this.butPearlLayers.Name = "butPearlLayers";
 			this.butPearlLayers.Size = new System.Drawing.Size(54, 24);
 			this.butPearlLayers.TabIndex = 2;
@@ -383,7 +383,7 @@
 			// 
 			// checkPearlToothParts
 			// 
-			this.checkPearlToothParts.Location = new System.Drawing.Point(7, 35);
+			this.checkPearlToothParts.Location = new System.Drawing.Point(8, 44);
 			this.checkPearlToothParts.Name = "checkPearlToothParts";
 			this.checkPearlToothParts.Size = new System.Drawing.Size(83, 18);
 			this.checkPearlToothParts.TabIndex = 1;

@@ -28,3 +28,13 @@ def layout(h):
     for b in ("butBrowse", "butGoTo", "butImportStart", "butImportClose"):
         h.set(b, x, 18, 60, h.H)
         x += 60 + s.ITEM
+    # the import caption as wide as its panel (its text needs 677 px; it was cut at 616)
+    h.set("label3", 0, 0, h.n("panelImportAuto").nw, 16)
+    # the Pearl panel (LayoutControls gives it 70 px, from 62): its group fills it; Show and Tooth Parts a list under the title, Layers on the
+    # first row at the group's right padding
+    h.set("panelPearl", None, None, 200, 70)
+    h.set("groupPearl", 0, 0, 200, 70)
+    h.set("checkPearlShow", s.PAD, 22, 83, 18)
+    h.set("checkPearlToothParts", s.PAD, 44, 83, 18)
+    h.set("butPearlLayers", 200 - s.PAD - 54, 22, 54, s.BUTTON_H)
+    h.set("labelAIProcessing", s.PAD, 22, 200 - 2 * s.PAD, 32)

@@ -3729,7 +3729,7 @@ namespace OpenPmsDental{
 				if(LayoutManager.Scale(_widthTree96)>Width-LayoutManager.Scale(150)){//this is the min set in FormODBase for FormImageFloat
 					_widthTree96=Width-LayoutManager.Scale(150);
 				}
-				int heightPanelPearl=LayoutManager.Scale(62);
+				int heightPanelPearl=LayoutManager.Scale(70);//its group on the grid: the title, two check boxes a list, the padding (62 before)
 				int bottomTree=yBottom;
 				if(panelPearl.Visible) {
 					bottomTree=yBottom-heightPanelPearl-gap;

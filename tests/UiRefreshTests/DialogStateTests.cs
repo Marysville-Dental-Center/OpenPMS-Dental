@@ -60,7 +60,7 @@ namespace UiRefreshTests {
 			IconRendererTests.RunSta(() => {
 				using(OpenPmsDental.UI.ODColorPicker colorPicker=new OpenPmsDental.UI.ODColorPicker()) {
 					System.Windows.Forms.Button butColor=ListStateControls.GetPrivate<System.Windows.Forms.Button>(colorPicker,"butColor");
-					Assert.AreEqual(new Rectangle(1,0,30,20),butColor.Bounds,"The colour button keeps its designer bounds.");
+					Assert.AreEqual(new Rectangle(0,0,28,21),butColor.Bounds,"The colour button keeps its designer bounds (UI-12 slice 16: at 0, 0 as tall as None, 6 px before it).");
 					Assert.AreEqual(new Size(74,21),colorPicker.Size);
 					colorPicker.BackgroundColor=DialogControls.ColorSwatch;
 					Assert.AreEqual(DialogControls.ColorSwatch,colorPicker.BackgroundColor,"The colour is the office's data and comes back as set.");
@@ -148,7 +148,7 @@ namespace UiRefreshTests {
 				using(OpenPmsDental.UI.ODCodeRangeFilter codeRangeFilter=new OpenPmsDental.UI.ODCodeRangeFilter()) {
 					System.Windows.Forms.Label labelExample=ListStateControls.GetPrivate<System.Windows.Forms.Label>(codeRangeFilter,"labelExample");
 					Assert.AreEqual(UiTheme.TextSecondary.ToArgb(),labelExample.ForeColor.ToArgb());
-					Assert.AreEqual(new Rectangle(2,23,108,16),labelExample.Bounds,"The example keeps its place.");
+					Assert.AreEqual(new Rectangle(0,23,150,14),labelExample.Bounds,"The example keeps its place (UI-12 slice 16: on the box's left edge, within the control's 37 px).");
 				}
 			});
 		}

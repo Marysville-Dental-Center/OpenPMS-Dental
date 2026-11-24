@@ -93,7 +93,9 @@ namespace UiRefreshTests {
 				}
 				dictBatchOfGroup[arrayFields[6]]=arrayFields[0];
 			}
-			Assert.IsTrue(dictBatchOfFile.Count>100,"Batched files: "+dictBatchOfFile.Count);
+			//UI-12 slice 16: slices 14 to 16 lay out the windows UI-11-FINAL's sweep left off the grid, so the list keeps only the designer files no
+			//slice owns (63 after slice 16, from more than 100): the guard against an unread file is that it lists any.
+			Assert.IsTrue(dictBatchOfFile.Count>0,"Batched files: "+dictBatchOfFile.Count);
 		}
 
 		[TestMethod]

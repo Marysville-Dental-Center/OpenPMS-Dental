@@ -122,9 +122,9 @@
 			this.panelCalendar.Controls.Add(this.monthCalendarOD);
 			this.panelCalendar.Controls.Add(this.labelDate2);
 			this.panelCalendar.Controls.Add(this.labelDate);
-			this.panelCalendar.Location = new System.Drawing.Point(833, 46);
+			this.panelCalendar.Location = new System.Drawing.Point(841, 33);
 			this.panelCalendar.Name = "panelCalendar";
-			this.panelCalendar.Size = new System.Drawing.Size(219, 509);
+			this.panelCalendar.Size = new System.Drawing.Size(227, 539);
 			this.panelCalendar.TabIndex = 47;
 			// 
 			// panelCalendarLower
@@ -158,7 +158,7 @@
 			this.panelCalendarLower.Controls.Add(this.textLab);
 			this.panelCalendarLower.Location = new System.Drawing.Point(0, 188);
 			this.panelCalendarLower.Name = "panelCalendarLower";
-			this.panelCalendarLower.Size = new System.Drawing.Size(219, 351);
+			this.panelCalendarLower.Size = new System.Drawing.Size(227, 351);
 			this.panelCalendarLower.TabIndex = 88;
 			// 
 			// label1
@@ -177,7 +177,7 @@
 			this.textProdGoal.Location = new System.Drawing.Point(84, 211);
 			this.textProdGoal.Name = "textProdGoal";
 			this.textProdGoal.ReadOnly = true;
-			this.textProdGoal.Size = new System.Drawing.Size(135, 23);
+			this.textProdGoal.Size = new System.Drawing.Size(143, 23);
 			this.textProdGoal.TabIndex = 93;
 			this.textProdGoal.Text = "$100";
 			this.textProdGoal.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -207,7 +207,7 @@
 			this.textProduction.Location = new System.Drawing.Point(84, 184);
 			this.textProduction.Name = "textProduction";
 			this.textProduction.ReadOnly = true;
-			this.textProduction.Size = new System.Drawing.Size(135, 23);
+			this.textProduction.Size = new System.Drawing.Size(143, 23);
 			this.textProduction.TabIndex = 38;
 			this.textProduction.Text = "$100";
 			this.textProduction.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -228,7 +228,7 @@
 			this.textLab.Location = new System.Drawing.Point(84, 157);
 			this.textLab.Name = "textLab";
 			this.textLab.ReadOnly = true;
-			this.textLab.Size = new System.Drawing.Size(135, 23);
+			this.textLab.Size = new System.Drawing.Size(143, 23);
 			this.textLab.TabIndex = 36;
 			this.textLab.Text = "All Received";
 			this.textLab.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -259,11 +259,11 @@
 			this.tabControl.Controls.Add(this.tabSched);
 			this.tabControl.Controls.Add(this.tabProv);
 			this.tabControl.Controls.Add(this.tabReminders);
-			this.tabControl.Location = new System.Drawing.Point(833, 565);
+			this.tabControl.Location = new System.Drawing.Point(841, 580);
 			this.tabControl.Margin = new System.Windows.Forms.Padding(0);
 			this.tabControl.Name = "tabControl";
 			this.tabControl.SelectedIndex = 0;
-			this.tabControl.Size = new System.Drawing.Size(219, 166);
+			this.tabControl.Size = new System.Drawing.Size(227, 153);
 			this.tabControl.TabIndex = 84;
 			// 
 			// tabWaiting
@@ -426,7 +426,7 @@
 			this.groupSearch.Controls.Add(this.label8);
 			this.groupSearch.Controls.Add(this.butSearchCloseX);
 			this.groupSearch.Controls.Add(this.butSearchNext);
-			this.groupSearch.Location = new System.Drawing.Point(600, 365);
+			this.groupSearch.Location = new System.Drawing.Point(600, 353);
 			this.groupSearch.Name = "groupSearch";
 			this.groupSearch.Size = new System.Drawing.Size(219, 380);
 			this.groupSearch.TabIndex = 86;
@@ -716,7 +716,7 @@
 			// 
 			// pinBoard
 			// 
-			this.pinBoard.Location = new System.Drawing.Point(120, 26);
+			this.pinBoard.Location = new System.Drawing.Point(128, 26);
 			this.pinBoard.Name = "pinBoard";
 			this.pinBoard.Size = new System.Drawing.Size(99, 96);
 			this.pinBoard.TabIndex = 89;
@@ -861,7 +861,7 @@
 			// 
 			this.comboView.Location = new System.Drawing.Point(84, 130);
 			this.comboView.Name = "comboView";
-			this.comboView.Size = new System.Drawing.Size(135, 23);
+			this.comboView.Size = new System.Drawing.Size(143, 23);
 			this.comboView.TabIndex = 35;
 			this.comboView.SelectionChangeCommitted += new System.EventHandler(this.comboView_SelectionChangeCommitted);
 			// 
@@ -890,9 +890,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.contrApptPanel.DateSelected = new System.DateTime(((long)(0)));
-			this.contrApptPanel.Location = new System.Drawing.Point(0, 38);
+			this.contrApptPanel.Location = new System.Drawing.Point(8, 33);
 			this.contrApptPanel.Name = "contrApptPanel";
-			this.contrApptPanel.Size = new System.Drawing.Size(594, 703);
+			this.contrApptPanel.Size = new System.Drawing.Size(825, 700);
 			this.contrApptPanel.TabIndex = 0;
 			this.contrApptPanel.TableWaitingRoom = null;
 			this.contrApptPanel.ApptDoubleClicked += new System.EventHandler<OpenPmsDental.UI.ApptEventArgs>(this.contrApptPanel_ApptDoubleClicked);
