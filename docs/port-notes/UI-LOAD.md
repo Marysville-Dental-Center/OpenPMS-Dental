@@ -87,4 +87,9 @@ tools/New-UiGallery.ps1 -Before <W>/before -After <W>/after -Name G-UI3 -Out .gi
 
 ## 5. Results
 
-See section 6 (filled in at the end of the package).
+Full x64 build through the lane at `d578813e3` (the last code change is the audit commit `b2b1fb36a`; the commits after it are notes):
+0 errors. Targeted x64 run (`.git/od-tools/test-results/uiload-run3.txt`, 2026-11-24): UiRefreshTests 359 passed, 51 skipped (the WPF
+pictures of a disconnected session and the opt-in galleries, the UI-LOAD gallery among them), 0 failed; WindowChecksTests 31 passed, 44
+skipped (opt-in); UnitTests 1728 passed, 3 skipped; PrintGuardTests 19 passed, 1 skipped; NoHqTests 130 passed.
+`tools/Test-NoEolFlips.ps1 -Base 6bd8e0d64`: 0 flips. `python tools/UiFit/element_inventory.py --check` and
+`python tools/UiFit/colour_literals.py --check`: match.
