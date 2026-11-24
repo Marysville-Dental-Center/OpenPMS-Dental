@@ -168,7 +168,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// bDelete
 			// 
-			this.bDelete.Location = new System.Drawing.Point(392, 40);
+			this.bDelete.Location = new System.Drawing.Point(392, 28);
 			this.bDelete.Name = "bDelete";
 			this.bDelete.Size = new System.Drawing.Size(48, 23);
 			this.bDelete.TabIndex = 2;
@@ -177,7 +177,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// bUp
 			// 
-			this.bUp.Location = new System.Drawing.Point(392, 72);
+			this.bUp.Location = new System.Drawing.Point(392, 55);
 			this.bUp.Name = "bUp";
 			this.bUp.Size = new System.Drawing.Size(48, 23);
 			this.bUp.TabIndex = 3;
@@ -186,7 +186,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// bDown
 			// 
-			this.bDown.Location = new System.Drawing.Point(392, 104);
+			this.bDown.Location = new System.Drawing.Point(392, 82);
 			this.bDown.Name = "bDown";
 			this.bDown.Size = new System.Drawing.Size(48, 23);
 			this.bDown.TabIndex = 4;
@@ -196,7 +196,7 @@ namespace fyiReporting.RdlDesign
 			// bValueExpr
 			// 
 			this.bValueExpr.Font = new System.Drawing.Font("Arial", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-			this.bValueExpr.Location = new System.Drawing.Point(392, 16);
+			this.bValueExpr.Location = new System.Drawing.Point(392, 8);
 			this.bValueExpr.Name = "bValueExpr";
 			this.bValueExpr.Size = new System.Drawing.Size(22, 16);
 			this.bValueExpr.TabIndex = 1;

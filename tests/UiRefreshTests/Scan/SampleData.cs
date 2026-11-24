@@ -108,6 +108,26 @@ namespace UiRefreshTests.Scan {
 			}
 		}
 
+		///<summary>UI-12 slice 15: runs on a plain user control after its InitializeComponent and before the builder adds it to its test form
+		///(WindowBuilder.Build, UserControlPlain): the sample objects of the handlers that adding it runs. The report designer's DataSetRowsCtl
+		///(PropertyDialog's Data page) compares its data table with the data set's fields in VisibleChanged; the harness gives it a data set with
+		///no fields and an empty table, as its constructor makes them for a new data set (CreateDataTable). Does nothing for any other control.</summary>
+		public static void BeforePlainHost(UserControl userControl) {
+			if(userControl.GetType().FullName!="fyiReporting.RdlDesign.DataSetRowsCtl") {
+				return;
+			}
+			Type typeValues=userControl.GetType().Assembly.GetType("fyiReporting.RdlDesign.DataSetValues",true);
+			object dataSetValues=Activator.CreateInstance(typeValues,FLAGS,null,new object[] { "DataSet1" },null);
+			DataTable tableFields=new DataTable();
+			tableFields.Columns.Add(new DataColumn("Name",typeof(string)));
+			tableFields.Columns.Add(new DataColumn("QueryName",typeof(string)));
+			tableFields.Columns.Add(new DataColumn("Value",typeof(string)));
+			tableFields.Columns.Add(new DataColumn("TypeName",typeof(string)));
+			typeValues.GetProperty("Fields",FLAGS).SetValue(dataSetValues,tableFields);
+			SetField(userControl,"_dsv",dataSetValues);
+			SetField(userControl,"_DataTable",new DataTable());
+		}
+
 		///<summary>The preferences a window's InitializeComponent reads, in the preference cache while it runs (Dispose takes them out again and
 		///leaves the cache as it was). FormRecallList: its clinic pickers' IncludeAll setters read EasyNoClinics (PrefC.HasClinicsEnabled) before
 		///the builder can set their no-database mode; "1" (clinics off) reads no clinic cache. Null for every other window.</summary>

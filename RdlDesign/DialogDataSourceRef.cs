@@ -99,9 +99,9 @@ namespace fyiReporting.RdlDesign
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(8, 16);
+			this.label1.Location = new System.Drawing.Point(8, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(440, 40);
+			this.label1.Size = new System.Drawing.Size(440, 50);
 			this.label1.TabIndex = 0;
 			this.label1.Text = "Enter (twice) a pass phrase used to encrypt the data source reference file.   You" +
 				" should use the same password you\'ve used to create previous files, as only one " +
@@ -109,34 +109,35 @@ namespace fyiReporting.RdlDesign
 			// 
 			// tbPassword
 			// 
-			this.tbPassword.Location = new System.Drawing.Point(16, 56);
+			this.tbPassword.Location = new System.Drawing.Point(8, 66);
 			this.tbPassword.Name = "tbPassword";
 			this.tbPassword.PasswordChar = '*';
-			this.tbPassword.Size = new System.Drawing.Size(184, 20);
+			this.tbPassword.Size = new System.Drawing.Size(185, 23);
 			this.tbPassword.TabIndex = 0;
 			this.tbPassword.Text = "";
 			this.tbPassword.TextChanged += new System.EventHandler(this.validate_TextChanged);
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(8, 88);
+			this.label2.Location = new System.Drawing.Point(8, 97);
+			this.label2.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(408, 16);
+			this.label2.Size = new System.Drawing.Size(440, 17);
 			this.label2.TabIndex = 4;
 			this.label2.Text = "Enter the file name that will hold the encrypted data source information";
 			// 
 			// tbFilename
 			// 
-			this.tbFilename.Location = new System.Drawing.Point(16, 112);
+			this.tbFilename.Location = new System.Drawing.Point(8, 116);
 			this.tbFilename.Name = "tbFilename";
-			this.tbFilename.Size = new System.Drawing.Size(392, 20);
+			this.tbFilename.Size = new System.Drawing.Size(410, 23);
 			this.tbFilename.TabIndex = 2;
 			this.tbFilename.Text = "";
 			this.tbFilename.TextChanged += new System.EventHandler(this.validate_TextChanged);
 			// 
 			// bGetFilename
 			// 
-			this.bGetFilename.Location = new System.Drawing.Point(424, 112);
+			this.bGetFilename.Location = new System.Drawing.Point(424, 116);
 			this.bGetFilename.Name = "bGetFilename";
 			this.bGetFilename.Size = new System.Drawing.Size(24, 23);
 			this.bGetFilename.TabIndex = 3;
@@ -145,66 +146,69 @@ namespace fyiReporting.RdlDesign
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(8, 152);
+			this.label3.Location = new System.Drawing.Point(8, 147);
+			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(80, 23);
+			this.label3.Size = new System.Drawing.Size(82, 23);
 			this.label3.TabIndex = 7;
 			this.label3.Text = "Data provider";
 			// 
 			// cbDataProvider
 			// 
 			this.cbDataProvider.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cbDataProvider.Location = new System.Drawing.Point(80, 152);
+			this.cbDataProvider.Location = new System.Drawing.Point(96, 147);
 			this.cbDataProvider.Name = "cbDataProvider";
-			this.cbDataProvider.Size = new System.Drawing.Size(104, 21);
+			this.cbDataProvider.Size = new System.Drawing.Size(120, 23);
 			this.cbDataProvider.TabIndex = 4;
 			this.cbDataProvider.SelectedIndexChanged += new System.EventHandler(this.cbDataProvider_SelectedIndexChanged);
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(8, 192);
+			this.label4.Location = new System.Drawing.Point(8, 184);
+			this.label4.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(102, 16);
+			this.label4.Size = new System.Drawing.Size(273, 17);
 			this.label4.TabIndex = 10;
 			this.label4.Text = "Connection string";
 			// 
 			// tbConnection
 			// 
-			this.tbConnection.Location = new System.Drawing.Point(16, 216);
+			this.tbConnection.Location = new System.Drawing.Point(8, 203);
 			this.tbConnection.Multiline = true;
 			this.tbConnection.Name = "tbConnection";
-			this.tbConnection.Size = new System.Drawing.Size(424, 40);
+			this.tbConnection.Size = new System.Drawing.Size(440, 78);
 			this.tbConnection.TabIndex = 7;
 			this.tbConnection.Text = "";
 			this.tbConnection.TextChanged += new System.EventHandler(this.validate_TextChanged);
 			// 
 			// ckbIntSecurity
 			// 
-			this.ckbIntSecurity.Location = new System.Drawing.Point(296, 184);
+			this.ckbIntSecurity.Location = new System.Drawing.Point(297, 180);
 			this.ckbIntSecurity.Name = "ckbIntSecurity";
-			this.ckbIntSecurity.Size = new System.Drawing.Size(149, 24);
+			this.ckbIntSecurity.Size = new System.Drawing.Size(151, 18);
 			this.ckbIntSecurity.TabIndex = 6;
 			this.ckbIntSecurity.Text = "Use integrated security";
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(8, 272);
+			this.label5.Location = new System.Drawing.Point(8, 289);
+			this.label5.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(432, 16);
+			this.label5.Size = new System.Drawing.Size(440, 17);
 			this.label5.TabIndex = 12;
 			this.label5.Text = "(Optional) Enter the prompt displayed when asking for database credentials ";
 			// 
 			// tbPrompt
 			// 
-			this.tbPrompt.Location = new System.Drawing.Point(16, 296);
+			this.tbPrompt.Location = new System.Drawing.Point(8, 308);
 			this.tbPrompt.Name = "tbPrompt";
-			this.tbPrompt.Size = new System.Drawing.Size(424, 20);
+			this.tbPrompt.Size = new System.Drawing.Size(440, 23);
 			this.tbPrompt.TabIndex = 8;
 			this.tbPrompt.Text = "";
 			// 
 			// bOK
 			// 
-			this.bOK.Location = new System.Drawing.Point(272, 344);
+			this.bOK.Location = new System.Drawing.Point(290, 343);
 			this.bOK.Name = "bOK";
 			this.bOK.TabIndex = 10;
 			this.bOK.Text = "OK";
@@ -213,24 +217,25 @@ namespace fyiReporting.RdlDesign
 			// bCancel
 			// 
 			this.bCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.bCancel.Location = new System.Drawing.Point(368, 344);
+			this.bCancel.Location = new System.Drawing.Point(373, 343);
 			this.bCancel.Name = "bCancel";
 			this.bCancel.TabIndex = 11;
 			this.bCancel.Text = "Cancel";
 			// 
 			// tbPassword2
 			// 
-			this.tbPassword2.Location = new System.Drawing.Point(256, 56);
+			this.tbPassword2.Location = new System.Drawing.Point(263, 66);
 			this.tbPassword2.Name = "tbPassword2";
 			this.tbPassword2.PasswordChar = '*';
-			this.tbPassword2.Size = new System.Drawing.Size(184, 20);
+			this.tbPassword2.Size = new System.Drawing.Size(185, 23);
 			this.tbPassword2.TabIndex = 1;
 			this.tbPassword2.Text = "";
 			this.tbPassword2.TextChanged += new System.EventHandler(this.validate_TextChanged);
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(208, 64);
+			this.label6.Location = new System.Drawing.Point(209, 66);
+			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(48, 23);
 			this.label6.TabIndex = 2;
@@ -238,7 +243,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// bTestConnection
 			// 
-			this.bTestConnection.Location = new System.Drawing.Point(16, 344);
+			this.bTestConnection.Location = new System.Drawing.Point(8, 343);
 			this.bTestConnection.Name = "bTestConnection";
 			this.bTestConnection.Size = new System.Drawing.Size(96, 23);
 			this.bTestConnection.TabIndex = 9;
@@ -248,18 +253,19 @@ namespace fyiReporting.RdlDesign
 			// cbOdbcNames
 			// 
 			this.cbOdbcNames.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cbOdbcNames.Location = new System.Drawing.Point(296, 152);
+			this.cbOdbcNames.Location = new System.Drawing.Point(354, 147);
 			this.cbOdbcNames.Name = "cbOdbcNames";
-			this.cbOdbcNames.Size = new System.Drawing.Size(152, 21);
+			this.cbOdbcNames.Size = new System.Drawing.Size(94, 23);
 			this.cbOdbcNames.Sorted = true;
 			this.cbOdbcNames.TabIndex = 5;
 			this.cbOdbcNames.SelectedIndexChanged += new System.EventHandler(this.cbOdbcNames_SelectedIndexChanged);
 			// 
 			// lODBC
 			// 
-			this.lODBC.Location = new System.Drawing.Point(184, 152);
+			this.lODBC.Location = new System.Drawing.Point(232, 147);
+			this.lODBC.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.lODBC.Name = "lODBC";
-			this.lODBC.Size = new System.Drawing.Size(112, 23);
+			this.lODBC.Size = new System.Drawing.Size(116, 23);
 			this.lODBC.TabIndex = 17;
 			this.lODBC.Text = "ODBC Data Sources";
 			// 

@@ -399,6 +399,16 @@ class CodeFileTests(unittest.TestCase):
                              "\t\t\tthis.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;\r\n\t\t\tthis.label1.Name = \"label1\";\r\n"))
         self.assertEqual(expected.encode("utf-8"), after)
 
+    def test_the_applier_writes_integral_height(self):
+        """UI-12 slice 15 fix round: a list box's IntegralHeight false is written before its Name line, a second run changes nothing, and
+        true (the default) writes no line."""
+        text = "\t\t\tthis.lb.Location = new System.Drawing.Point(8, 8);\r\n\t\t\tthis.lb.Name = \"lb\";\r\n"
+        once, err = grid_tools.apply_row(text, "lb", "IntegralHeight", "false")
+        self.assertIsNone(err)
+        self.assertEqual(text.replace("\t\t\tthis.lb.Name", "\t\t\tthis.lb.IntegralHeight = false;\r\n\t\t\tthis.lb.Name"), once)
+        self.assertEqual((once, None), grid_tools.apply_row(once, "lb", "IntegralHeight", "false"))
+        self.assertEqual((text, None), grid_tools.apply_row(text, "lb", "IntegralHeight", "true"))
+
     def test_runtime_code_leaves_out_initialize_component(self):
         code = fit_tools.runtime_code("DialogX.cs", self.CODE)
         self.assertIn("Point(3, 3)", code)

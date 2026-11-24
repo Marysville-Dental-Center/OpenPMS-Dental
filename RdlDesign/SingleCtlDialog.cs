@@ -112,14 +112,14 @@ namespace fyiReporting.RdlDesign
 			this.panel1.Controls.Add(this.bOK);
 			this.panel1.Controls.Add(this.bCancel);
 			this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.panel1.Location = new System.Drawing.Point(0, 310);
+			this.panel1.Location = new System.Drawing.Point(0, 323);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(458, 56);
+			this.panel1.Size = new System.Drawing.Size(458, 43);
 			this.panel1.TabIndex = 1;
 			// 
 			// bApply
 			// 
-			this.bApply.Location = new System.Drawing.Point(376, 16);
+			this.bApply.Location = new System.Drawing.Point(375, 12);
 			this.bApply.Name = "bApply";
 			this.bApply.TabIndex = 2;
 			this.bApply.Text = "Apply";
@@ -127,7 +127,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// bOK
 			// 
-			this.bOK.Location = new System.Drawing.Point(200, 17);
+			this.bOK.Location = new System.Drawing.Point(209, 12);
 			this.bOK.Name = "bOK";
 			this.bOK.TabIndex = 0;
 			this.bOK.Text = "OK";
@@ -137,7 +137,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.bCancel.CausesValidation = false;
 			this.bCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.bCancel.Location = new System.Drawing.Point(288, 16);
+			this.bCancel.Location = new System.Drawing.Point(292, 12);
 			this.bCancel.Name = "bCancel";
 			this.bCancel.TabIndex = 1;
 			this.bCancel.Text = "Cancel";

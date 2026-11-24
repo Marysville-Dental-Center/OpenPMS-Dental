@@ -88,7 +88,7 @@ namespace fyiReporting.RdlViewer
 			// bOK
 			// 
 			this.bOK.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.bOK.Location = new System.Drawing.Point(200,208);
+			this.bOK.Location = new System.Drawing.Point(399,209);
 			this.bOK.Name = "bOK";
 			this.bOK.Size = new System.Drawing.Size(75,23);
 			this.bOK.TabIndex = 0;
@@ -96,12 +96,12 @@ namespace fyiReporting.RdlViewer
 			// 
 			// tbMessages
 			// 
-			this.tbMessages.Location = new System.Drawing.Point(16,16);
+			this.tbMessages.Location = new System.Drawing.Point(8,8);
 			this.tbMessages.Multiline = true;
 			this.tbMessages.Name = "tbMessages";
 			this.tbMessages.ReadOnly = true;
 			this.tbMessages.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this.tbMessages.Size = new System.Drawing.Size(448,176);
+			this.tbMessages.Size = new System.Drawing.Size(466,189);
 			this.tbMessages.TabIndex = 9;
 			// 
 			// DialogMessages

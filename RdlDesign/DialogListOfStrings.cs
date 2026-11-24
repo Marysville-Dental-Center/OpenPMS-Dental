@@ -113,25 +113,25 @@ namespace fyiReporting.RdlDesign
 			// bOK
 			// 
 			this.bOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-			this.bOK.Location = new System.Drawing.Point(96, 192);
+			this.bOK.Location = new System.Drawing.Point(116, 193);
 			this.bOK.Name = "bOK";
 			this.bOK.TabIndex = 0;
 			this.bOK.Text = "OK";
 			// 
 			// tbStrings
 			// 
-			this.tbStrings.Location = new System.Drawing.Point(8, 40);
+			this.tbStrings.Location = new System.Drawing.Point(8, 27);
 			this.tbStrings.Multiline = true;
 			this.tbStrings.Name = "tbStrings";
 			this.tbStrings.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this.tbStrings.Size = new System.Drawing.Size(256, 144);
+			this.tbStrings.Size = new System.Drawing.Size(266, 154);
 			this.tbStrings.TabIndex = 9;
 			this.tbStrings.Text = "";
 			// 
 			// bCancel
 			// 
 			this.bCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.bCancel.Location = new System.Drawing.Point(192, 192);
+			this.bCancel.Location = new System.Drawing.Point(199, 193);
 			this.bCancel.Name = "bCancel";
 			this.bCancel.TabIndex = 10;
 			this.bCancel.Text = "Cancel";
@@ -139,8 +139,9 @@ namespace fyiReporting.RdlDesign
 			// label1
 			// 
 			this.label1.Location = new System.Drawing.Point(8, 8);
+			this.label1.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(243, 23);
+			this.label1.Size = new System.Drawing.Size(266, 17);
 			this.label1.TabIndex = 11;
 			this.label1.Text = "Enter separate values on multiple lines below";
 			// 

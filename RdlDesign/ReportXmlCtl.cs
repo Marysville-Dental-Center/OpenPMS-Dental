@@ -106,15 +106,16 @@ namespace fyiReporting.RdlDesign
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(16, 32);
+			this.label1.Location = new System.Drawing.Point(14, 8);
+			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(112, 23);
+			this.label1.Size = new System.Drawing.Size(116, 23);
 			this.label1.TabIndex = 0;
 			this.label1.Text = "XSL Data Transform";
 			// 
 			// tbDataTransform
 			// 
-			this.tbDataTransform.Location = new System.Drawing.Point(136, 32);
+			this.tbDataTransform.Location = new System.Drawing.Point(136, 8);
 			this.tbDataTransform.Name = "tbDataTransform";
 			this.tbDataTransform.Size = new System.Drawing.Size(248, 20);
 			this.tbDataTransform.TabIndex = 1;
@@ -122,7 +123,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// tbDataSchema
 			// 
-			this.tbDataSchema.Location = new System.Drawing.Point(136, 72);
+			this.tbDataSchema.Location = new System.Drawing.Point(136, 35);
 			this.tbDataSchema.Name = "tbDataSchema";
 			this.tbDataSchema.Size = new System.Drawing.Size(248, 20);
 			this.tbDataSchema.TabIndex = 3;
@@ -130,15 +131,16 @@ namespace fyiReporting.RdlDesign
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(16, 72);
+			this.label2.Location = new System.Drawing.Point(50, 35);
+			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(88, 23);
+			this.label2.Size = new System.Drawing.Size(80, 23);
 			this.label2.TabIndex = 2;
 			this.label2.Text = "Data Schema";
 			// 
 			// tbDataElementName
 			// 
-			this.tbDataElementName.Location = new System.Drawing.Point(136, 112);
+			this.tbDataElementName.Location = new System.Drawing.Point(136, 62);
 			this.tbDataElementName.Name = "tbDataElementName";
 			this.tbDataElementName.Size = new System.Drawing.Size(248, 20);
 			this.tbDataElementName.TabIndex = 5;
@@ -146,17 +148,19 @@ namespace fyiReporting.RdlDesign
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(16, 112);
+			this.label3.Location = new System.Drawing.Point(18, 62);
+			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(108, 23);
+			this.label3.Size = new System.Drawing.Size(112, 23);
 			this.label3.TabIndex = 4;
 			this.label3.Text = "Top Element Name";
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(16, 152);
+			this.label4.Location = new System.Drawing.Point(46, 89);
+			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(88, 23);
+			this.label4.Size = new System.Drawing.Size(84, 23);
 			this.label4.TabIndex = 6;
 			this.label4.Text = "Element Style";
 			// 
@@ -166,14 +170,14 @@ namespace fyiReporting.RdlDesign
 			this.cbElementStyle.Items.AddRange(new object[] {
 																"AttributeNormal",
 																"ElementNormal"});
-			this.cbElementStyle.Location = new System.Drawing.Point(136, 152);
+			this.cbElementStyle.Location = new System.Drawing.Point(136, 89);
 			this.cbElementStyle.Name = "cbElementStyle";
 			this.cbElementStyle.Size = new System.Drawing.Size(144, 21);
 			this.cbElementStyle.TabIndex = 7;
 			// 
 			// bOpenXsl
 			// 
-			this.bOpenXsl.Location = new System.Drawing.Point(400, 32);
+			this.bOpenXsl.Location = new System.Drawing.Point(390, 8);
 			this.bOpenXsl.Name = "bOpenXsl";
 			this.bOpenXsl.Size = new System.Drawing.Size(24, 23);
 			this.bOpenXsl.TabIndex = 8;

@@ -248,7 +248,7 @@ namespace UiRefreshTests {
 			}
 			Assert.IsTrue(countWindows>=1000,"The sweep built "+countWindows+" windows. Failed: "+string.Join("; ",listFailed.Take(20)));
 			//Only the types the harness cannot build may fail (UI-11-final.md; the lead after the review): any other failure is a lapse in coverage.
-			string[] arrayUnbuildable=new[] { "ODDatePicker","ToothChartWrapper","UserControlSecurityUserGroup","DataSetRowsCtl" };
+			string[] arrayUnbuildable=new[] { "ODDatePicker","ToothChartWrapper","UserControlSecurityUserGroup" };//UI-12 slice 15: DataSetRowsCtl builds (SampleData.BeforePlainHost)
 			List<string> listFailedOther=listFailed.Where(x => !arrayUnbuildable.Contains(x.Split(':')[0].Split('.').Last().Split('@')[0])).ToList();
 			Assert.AreEqual(0,listFailedOther.Count,"Windows the sweep could not check: "+string.Join("; ",listFailedOther.Take(20)));
 			List<string> listNew=listFindings.Where(x => !hashSetKnown.Contains(x)).ToList();

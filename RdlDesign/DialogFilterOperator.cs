@@ -97,7 +97,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.bOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.bOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-			this.bOK.Location = new System.Drawing.Point(88, 168);
+			this.bOK.Location = new System.Drawing.Point(108, 170);
 			this.bOK.Name = "bOK";
 			this.bOK.TabIndex = 3;
 			this.bOK.Text = "OK";
@@ -107,7 +107,7 @@ namespace fyiReporting.RdlDesign
 			this.bCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.bCancel.CausesValidation = false;
 			this.bCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.bCancel.Location = new System.Drawing.Point(176, 168);
+			this.bCancel.Location = new System.Drawing.Point(191, 170);
 			this.bCancel.Name = "bCancel";
 			this.bCancel.TabIndex = 4;
 			this.bCancel.Text = "Cancel";
@@ -115,8 +115,9 @@ namespace fyiReporting.RdlDesign
 			// lOp
 			// 
 			this.lOp.Location = new System.Drawing.Point(8, 8);
+			this.lOp.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.lOp.Name = "lOp";
-			this.lOp.Size = new System.Drawing.Size(112, 16);
+			this.lOp.Size = new System.Drawing.Size(124, 23);
 			this.lOp.TabIndex = 13;
 			this.lOp.Text = "Select Filter Operator";
 			// 
@@ -137,7 +138,7 @@ namespace fyiReporting.RdlDesign
 															"BottomPercent",
 															"In",
 															"Between"});
-			this.cbOperator.Location = new System.Drawing.Point(120, 8);
+			this.cbOperator.Location = new System.Drawing.Point(138, 8);
 			this.cbOperator.Name = "cbOperator";
 			this.cbOperator.Size = new System.Drawing.Size(128, 150);
 			this.cbOperator.TabIndex = 14;
@@ -149,7 +150,7 @@ namespace fyiReporting.RdlDesign
 			this.AcceptButton = this.bOK;
 			this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
 			this.CancelButton = this.bCancel;
-			this.ClientSize = new System.Drawing.Size(256, 198);
+			this.ClientSize = new System.Drawing.Size(274, 201);
 			this.Controls.Add(this.cbOperator);
 			this.Controls.Add(this.lOp);
 			this.Controls.Add(this.bCancel);

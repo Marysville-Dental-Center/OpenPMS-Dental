@@ -161,45 +161,45 @@ namespace fyiReporting.RdlDesign
 			this.groupBox1.Controls.Add(this.rbDatabase);
 			this.groupBox1.Controls.Add(this.rbEmbedded);
 			this.groupBox1.Controls.Add(this.rbExternal);
-			this.groupBox1.Location = new System.Drawing.Point(16, 16);
+			this.groupBox1.Location = new System.Drawing.Point(8, 8);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(408, 152);
+			this.groupBox1.Size = new System.Drawing.Size(432, 135);
 			this.groupBox1.TabIndex = 0;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Source";
 			// 
 			// bEmbedded
 			// 
-			this.bEmbedded.Location = new System.Drawing.Point(378, 58);
+			this.bEmbedded.Location = new System.Drawing.Point(402, 50);
 			this.bEmbedded.Name = "bEmbedded";
-			this.bEmbedded.Size = new System.Drawing.Size(22, 16);
+			this.bEmbedded.Size = new System.Drawing.Size(22, 23);
 			this.bEmbedded.TabIndex = 8;
 			this.bEmbedded.Text = "...";
 			this.bEmbedded.Click += new System.EventHandler(this.bEmbedded_Click);
 			// 
 			// bExternal
 			// 
-			this.bExternal.Location = new System.Drawing.Point(378, 26);
+			this.bExternal.Location = new System.Drawing.Point(402, 23);
 			this.bExternal.Name = "bExternal";
-			this.bExternal.Size = new System.Drawing.Size(22, 16);
+			this.bExternal.Size = new System.Drawing.Size(22, 23);
 			this.bExternal.TabIndex = 7;
 			this.bExternal.Text = "...";
 			this.bExternal.Click += new System.EventHandler(this.bExternal_Click);
 			// 
 			// tbValueExternal
 			// 
-			this.tbValueExternal.Location = new System.Drawing.Point(88, 24);
+			this.tbValueExternal.Location = new System.Drawing.Point(102, 23);
 			this.tbValueExternal.Name = "tbValueExternal";
-			this.tbValueExternal.Size = new System.Drawing.Size(256, 20);
+			this.tbValueExternal.Size = new System.Drawing.Size(266, 23);
 			this.tbValueExternal.TabIndex = 6;
 			this.tbValueExternal.Text = "";
 			this.tbValueExternal.TextChanged += new System.EventHandler(this.Value_TextChanged);
 			// 
 			// cbValueDatabase
 			// 
-			this.cbValueDatabase.Location = new System.Drawing.Point(88, 120);
+			this.cbValueDatabase.Location = new System.Drawing.Point(102, 104);
 			this.cbValueDatabase.Name = "cbValueDatabase";
-			this.cbValueDatabase.Size = new System.Drawing.Size(256, 21);
+			this.cbValueDatabase.Size = new System.Drawing.Size(266, 23);
 			this.cbValueDatabase.TabIndex = 5;
 			this.cbValueDatabase.TextChanged += new System.EventHandler(this.Value_TextChanged);
 			// 
@@ -211,53 +211,54 @@ namespace fyiReporting.RdlDesign
 															"image/gif",
 															"image/png",
 															"image/x-png"});
-			this.cbMIMEType.Location = new System.Drawing.Point(88, 88);
+			this.cbMIMEType.Location = new System.Drawing.Point(102, 77);
 			this.cbMIMEType.Name = "cbMIMEType";
-			this.cbMIMEType.Size = new System.Drawing.Size(88, 21);
+			this.cbMIMEType.Size = new System.Drawing.Size(88, 23);
 			this.cbMIMEType.TabIndex = 4;
 			this.cbMIMEType.Text = "image/jpeg";
 			this.cbMIMEType.SelectedIndexChanged += new System.EventHandler(this.cbMIMEType_SelectedIndexChanged);
 			// 
 			// cbValueEmbedded
 			// 
-			this.cbValueEmbedded.Location = new System.Drawing.Point(88, 56);
+			this.cbValueEmbedded.Location = new System.Drawing.Point(102, 50);
 			this.cbValueEmbedded.Name = "cbValueEmbedded";
-			this.cbValueEmbedded.Size = new System.Drawing.Size(256, 21);
+			this.cbValueEmbedded.Size = new System.Drawing.Size(266, 23);
 			this.cbValueEmbedded.TabIndex = 3;
 			this.cbValueEmbedded.TextChanged += new System.EventHandler(this.Value_TextChanged);
 			// 
 			// rbDatabase
 			// 
-			this.rbDatabase.Location = new System.Drawing.Point(8, 88);
+			this.rbDatabase.Location = new System.Drawing.Point(8, 79);
 			this.rbDatabase.Name = "rbDatabase";
-			this.rbDatabase.Size = new System.Drawing.Size(80, 24);
+			this.rbDatabase.Size = new System.Drawing.Size(79, 18);
 			this.rbDatabase.TabIndex = 2;
 			this.rbDatabase.Text = "Database";
 			this.rbDatabase.CheckedChanged += new System.EventHandler(this.rbSource_CheckedChanged);
 			// 
 			// rbEmbedded
 			// 
-			this.rbEmbedded.Location = new System.Drawing.Point(8, 56);
+			this.rbEmbedded.Location = new System.Drawing.Point(8, 52);
 			this.rbEmbedded.Name = "rbEmbedded";
-			this.rbEmbedded.Size = new System.Drawing.Size(80, 24);
+			this.rbEmbedded.Size = new System.Drawing.Size(88, 18);
 			this.rbEmbedded.TabIndex = 1;
 			this.rbEmbedded.Text = "Embedded";
 			this.rbEmbedded.CheckedChanged += new System.EventHandler(this.rbSource_CheckedChanged);
 			// 
 			// rbExternal
 			// 
-			this.rbExternal.Location = new System.Drawing.Point(8, 24);
+			this.rbExternal.Location = new System.Drawing.Point(8, 25);
 			this.rbExternal.Name = "rbExternal";
-			this.rbExternal.Size = new System.Drawing.Size(80, 24);
+			this.rbExternal.Size = new System.Drawing.Size(72, 18);
 			this.rbExternal.TabIndex = 0;
 			this.rbExternal.Text = "External";
 			this.rbExternal.CheckedChanged += new System.EventHandler(this.rbSource_CheckedChanged);
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(24, 184);
+			this.label1.Location = new System.Drawing.Point(60, 151);
+			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(40, 23);
+			this.label1.Size = new System.Drawing.Size(44, 23);
 			this.label1.TabIndex = 1;
 			this.label1.Text = "Sizing";
 			// 
@@ -269,18 +270,18 @@ namespace fyiReporting.RdlDesign
 														  "Fit",
 														  "FitProportional",
 														  "Clip"});
-			this.cbSizing.Location = new System.Drawing.Point(72, 184);
+			this.cbSizing.Location = new System.Drawing.Point(110, 151);
 			this.cbSizing.Name = "cbSizing";
-			this.cbSizing.Size = new System.Drawing.Size(96, 21);
+			this.cbSizing.Size = new System.Drawing.Size(96, 23);
 			this.cbSizing.TabIndex = 2;
 			this.cbSizing.SelectedIndexChanged += new System.EventHandler(this.cbSizing_SelectedIndexChanged);
 			// 
 			// bDatabaseExpr
 			// 
 			this.bDatabaseExpr.Font = new System.Drawing.Font("Arial", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-			this.bDatabaseExpr.Location = new System.Drawing.Point(352, 122);
+			this.bDatabaseExpr.Location = new System.Drawing.Point(374, 104);
 			this.bDatabaseExpr.Name = "bDatabaseExpr";
-			this.bDatabaseExpr.Size = new System.Drawing.Size(22, 16);
+			this.bDatabaseExpr.Size = new System.Drawing.Size(22, 23);
 			this.bDatabaseExpr.TabIndex = 9;
 			this.bDatabaseExpr.Tag = "database";
 			this.bDatabaseExpr.Text = "fx";
@@ -290,9 +291,9 @@ namespace fyiReporting.RdlDesign
 			// bMimeExpr
 			// 
 			this.bMimeExpr.Font = new System.Drawing.Font("Arial", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-			this.bMimeExpr.Location = new System.Drawing.Point(184, 90);
+			this.bMimeExpr.Location = new System.Drawing.Point(196, 77);
 			this.bMimeExpr.Name = "bMimeExpr";
-			this.bMimeExpr.Size = new System.Drawing.Size(22, 16);
+			this.bMimeExpr.Size = new System.Drawing.Size(22, 23);
 			this.bMimeExpr.TabIndex = 10;
 			this.bMimeExpr.Tag = "mime";
 			this.bMimeExpr.Text = "fx";
@@ -302,9 +303,9 @@ namespace fyiReporting.RdlDesign
 			// bEmbeddedExpr
 			// 
 			this.bEmbeddedExpr.Font = new System.Drawing.Font("Arial", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-			this.bEmbeddedExpr.Location = new System.Drawing.Point(352, 58);
+			this.bEmbeddedExpr.Location = new System.Drawing.Point(374, 50);
 			this.bEmbeddedExpr.Name = "bEmbeddedExpr";
-			this.bEmbeddedExpr.Size = new System.Drawing.Size(22, 16);
+			this.bEmbeddedExpr.Size = new System.Drawing.Size(22, 23);
 			this.bEmbeddedExpr.TabIndex = 11;
 			this.bEmbeddedExpr.Tag = "embedded";
 			this.bEmbeddedExpr.Text = "fx";
@@ -314,9 +315,9 @@ namespace fyiReporting.RdlDesign
 			// bExternalExpr
 			// 
 			this.bExternalExpr.Font = new System.Drawing.Font("Arial", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-			this.bExternalExpr.Location = new System.Drawing.Point(352, 26);
+			this.bExternalExpr.Location = new System.Drawing.Point(374, 23);
 			this.bExternalExpr.Name = "bExternalExpr";
-			this.bExternalExpr.Size = new System.Drawing.Size(22, 16);
+			this.bExternalExpr.Size = new System.Drawing.Size(22, 23);
 			this.bExternalExpr.TabIndex = 12;
 			this.bExternalExpr.Tag = "external";
 			this.bExternalExpr.Text = "fx";

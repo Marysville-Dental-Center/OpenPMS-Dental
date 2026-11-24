@@ -163,7 +163,12 @@ namespace UiRefreshTests {
 							Control controlPicture=FillSampleState(root,window,state);
 							ProgressRingGallery.Prepare(root);//UI-LOAD: every ring at one frame; the old indicator in the before pictures
 							if(scale!=1f && !isScaledAsPlainExe) {
-								GridStyleGallery.ScaleFontsAsWindowsDoes(root,scale);
+								if(IsPropertyPage(builtWindow)) {
+									ScaleEveryFont(root,scale);
+								}
+								else {
+									GridStyleGallery.ScaleFontsAsWindowsDoes(root,scale);
+								}
 							}
 							HideDatePickerCalendars(root);
 							FillSampleContent(root,window,state);
@@ -320,6 +325,27 @@ namespace UiRefreshTests {
 				tuple.Item1.Font=new Font(tuple.Item2.FontFamily,tuple.Item2.Size*scale,tuple.Item2.Style);
 			}
 			form.Scale(new SizeF(scale,scale));
+		}
+
+		///<summary>UI-12 slice 15 fix round: whether the window is one of the report designer's property pages (BuiltWindow.IsPropertyDialogPage).
+		///</summary>
+		public static bool IsPropertyPage(BuiltWindow builtWindow) {
+			return builtWindow.ScanType!=null && builtWindow.ScanType.Kind==BuildKind.UserControlPlain && BuiltWindow.IsPropertyDialogPage(builtWindow.ScanType.Type);
+		}
+
+		///<summary>UI-12 slice 15 fix round: a report designer property page at a scale as a screen of that dpi draws it: every font of the page
+		///at the scale (the designer is per-monitor aware, and Windows draws a point size at the dpi), its text boxes and combo boxes too. The
+		///font pass of the program's windows (GridStyleGallery.ScaleFontsAsWindowsDoes) scales only the labels, buttons, check boxes and group
+		///boxes, since LayoutManager gives a program window's inputs their fonts: on a property page it left the boxes at the top level at
+		///their 100% text and height (about 22 px) beside labels at 150%, while the boxes in a group box took the group's scaled font. The bounds
+		///are scaled before (BuiltWindow.ScalePlainBounds, as PropertyDialog.ScaleToDpi does). Every font is read before any is set (ambient
+		///fonts).</summary>
+		public static void ScaleEveryFont(Control control,float scale) {
+			List<Tuple<Control,Font>> listFonts=new List<Tuple<Control,Font>>();
+			CollectEveryFont(control,listFonts);
+			foreach(Tuple<Control,Font> tuple in listFonts) {
+				tuple.Item1.Font=new Font(tuple.Item2.FontFamily,tuple.Item2.Size*scale,tuple.Item2.Style);
+			}
 		}
 
 		private static void CollectEveryFont(Control control,List<Tuple<Control,Font>> listFonts) {
@@ -630,7 +656,8 @@ namespace UiRefreshTests {
 				return root;
 			}
 			//UI-12 slice 3 fix round (review of 2026-11-23): the slice's other tab pages and views, laid out by its scripts.
-			string[] arrayTab=GetSliceThreeTabState(window,state) ?? GetSliceElevenTabState(window,state) ?? GetSliceThirteenTabState(window,state);
+			string[] arrayTab=GetSliceThreeTabState(window,state) ?? GetSliceElevenTabState(window,state) ?? GetSliceThirteenTabState(window,state)
+				?? GetSliceFifteenTabState(window,state);
 			if(arrayTab!=null) {
 				if(FindByName(root,arrayTab[0]) is System.Windows.Forms.TabControl) {
 					SelectStockTabPage(root,arrayTab[0],arrayTab[1]);
@@ -746,6 +773,15 @@ namespace UiRefreshTests {
 				case "fyiReporting.RdlDesign.DialogDatabase#connection": return new string[] { "tcDialog","DBConnection" };
 				case "fyiReporting.RdlDesign.DialogDatabase#parameters": return new string[] { "tcDialog","ReportParameters" };
 				case "fyiReporting.RdlDesign.DialogDatabase#grouping": return new string[] { "tcDialog","TabularGroup" };
+			}
+			return null;
+		}
+
+		///<summary>UI-12 slice 15: the report designer's RdlEditPreview, its Editor and Browser pages (stock tab control).</summary>
+		private static string[] GetSliceFifteenTabState(string window,string state) {
+			switch(window+"#"+state) {
+				case "fyiReporting.RdlDesign.RdlEditPreview#editor": return new string[] { "tcEHP","tpEditor" };
+				case "fyiReporting.RdlDesign.RdlEditPreview#browser": return new string[] { "tcEHP","tpBrowser" };
 			}
 			return null;
 		}

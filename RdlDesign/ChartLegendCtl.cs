@@ -105,17 +105,19 @@ namespace fyiReporting.RdlDesign
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(16, 18);
+			this.label1.Location = new System.Drawing.Point(38, 8);
+			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(104, 16);
+			this.label1.Size = new System.Drawing.Size(100, 23);
 			this.label1.TabIndex = 0;
 			this.label1.Text = "Position in Chart";
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(16, 50);
+			this.label2.Location = new System.Drawing.Point(10, 35);
+			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(121, 16);
+			this.label2.Size = new System.Drawing.Size(128, 23);
 			this.label2.TabIndex = 1;
 			this.label2.Text = "Layout within Legend";
 			// 
@@ -135,9 +137,9 @@ namespace fyiReporting.RdlDesign
 															"BottomRight",
 															"BottomCenter",
 															"BottomLeft"});
-			this.cbPosition.Location = new System.Drawing.Point(144, 16);
+			this.cbPosition.Location = new System.Drawing.Point(144, 8);
 			this.cbPosition.Name = "cbPosition";
-			this.cbPosition.Size = new System.Drawing.Size(121, 21);
+			this.cbPosition.Size = new System.Drawing.Size(120, 23);
 			this.cbPosition.TabIndex = 4;
 			this.cbPosition.SelectedIndexChanged += new System.EventHandler(this.cbPosition_SelectedIndexChanged);
 			// 
@@ -148,26 +150,26 @@ namespace fyiReporting.RdlDesign
 														  "Column",
 														  "Row",
 														  "Table"});
-			this.cbLayout.Location = new System.Drawing.Point(144, 48);
+			this.cbLayout.Location = new System.Drawing.Point(144, 35);
 			this.cbLayout.Name = "cbLayout";
-			this.cbLayout.Size = new System.Drawing.Size(121, 21);
+			this.cbLayout.Size = new System.Drawing.Size(120, 23);
 			this.cbLayout.TabIndex = 6;
 			this.cbLayout.SelectedIndexChanged += new System.EventHandler(this.cbLayout_SelectedIndexChanged);
 			// 
 			// chkVisible
 			// 
-			this.chkVisible.Location = new System.Drawing.Point(16, 80);
+			this.chkVisible.Location = new System.Drawing.Point(144, 62);
 			this.chkVisible.Name = "chkVisible";
-			this.chkVisible.Size = new System.Drawing.Size(136, 24);
+			this.chkVisible.Size = new System.Drawing.Size(65, 18);
 			this.chkVisible.TabIndex = 14;
 			this.chkVisible.Text = "Visible";
 			this.chkVisible.CheckedChanged += new System.EventHandler(this.chkVisible_CheckedChanged);
 			// 
 			// chkInsidePlotArea
 			// 
-			this.chkInsidePlotArea.Location = new System.Drawing.Point(16, 112);
+			this.chkInsidePlotArea.Location = new System.Drawing.Point(144, 84);
 			this.chkInsidePlotArea.Name = "chkInsidePlotArea";
-			this.chkInsidePlotArea.Size = new System.Drawing.Size(140, 24);
+			this.chkInsidePlotArea.Size = new System.Drawing.Size(143, 18);
 			this.chkInsidePlotArea.TabIndex = 15;
 			this.chkInsidePlotArea.Text = "Draw Inside Plot Area";
 			this.chkInsidePlotArea.CheckedChanged += new System.EventHandler(this.chkInsidePlotArea_CheckedChanged);

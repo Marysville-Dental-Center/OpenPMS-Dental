@@ -117,6 +117,14 @@ class Hand:
         if old != str(distance):
             self.extra.append((name, "SplitterDistance", old, str(distance), RULE + why))
 
+    def integral_height_off(self, name, why="the list as tall as laid out (the stock list box snaps its height down to whole items)"):
+        """UI-12 slice 15 fix round: a list box's IntegralHeight false (a hand row; the applier writes the line). With it on, the stock list
+        box snapped the height the script gave it down to whole items, so the list ended short of the button or the list it lines up with."""
+        m = re.search(r"this\.%s\.IntegralHeight ?= ?(true|false);" % re.escape(name), self.designer.text)
+        old = m.group(1) if m else "true"
+        if old != "false":
+            self.extra.append((name, "IntegralHeight", old, "false", RULE + why))
+
     def lw(self, name):
         """The width a label needs for its text on one line (snapped up to the grid): the widest of its designer text and the texts the code
         gives it at run time (tests/UiRefreshTests/Data/grid-runtime-texts.tsv, slice 1 fix round 8)."""

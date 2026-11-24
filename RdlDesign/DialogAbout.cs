@@ -127,27 +127,28 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.";
 			// bOK
 			// 
 			this.bOK.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.bOK.Location = new System.Drawing.Point(200, 272);
+			this.bOK.Location = new System.Drawing.Point(383, 273);
 			this.bOK.Name = "bOK";
 			this.bOK.TabIndex = 0;
 			this.bOK.Text = "OK";
 			// 
 			// tbLicense
 			// 
-			this.tbLicense.Location = new System.Drawing.Point(8, 120);
+			this.tbLicense.Location = new System.Drawing.Point(8, 146);
 			this.tbLicense.Multiline = true;
 			this.tbLicense.Name = "tbLicense";
 			this.tbLicense.ReadOnly = true;
 			this.tbLicense.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this.tbLicense.Size = new System.Drawing.Size(448, 136);
+			this.tbLicense.Size = new System.Drawing.Size(450, 115);
 			this.tbLicense.TabIndex = 9;
 			this.tbLicense.Text = "";
 			// 
 			// linkLabel3
 			// 
-			this.linkLabel3.Location = new System.Drawing.Point(280, 88);
+			this.linkLabel3.Location = new System.Drawing.Point(70, 115);
+			this.linkLabel3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.linkLabel3.Name = "linkLabel3";
-			this.linkLabel3.Size = new System.Drawing.Size(164, 16);
+			this.linkLabel3.Size = new System.Drawing.Size(172, 23);
 			this.linkLabel3.TabIndex = 15;
 			this.linkLabel3.TabStop = true;
 			this.linkLabel3.Tag = "mailto:comments@fyireporting.com";
@@ -156,9 +157,10 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.";
 			// 
 			// linkLabel4
 			// 
-			this.linkLabel4.Location = new System.Drawing.Point(72, 88);
+			this.linkLabel4.Location = new System.Drawing.Point(70, 88);
+			this.linkLabel4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.linkLabel4.Name = "linkLabel4";
-			this.linkLabel4.Size = new System.Drawing.Size(161, 16);
+			this.linkLabel4.Size = new System.Drawing.Size(169, 23);
 			this.linkLabel4.TabIndex = 14;
 			this.linkLabel4.TabStop = true;
 			this.linkLabel4.Tag = "http://www.fyireporting.com";
@@ -167,15 +169,17 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.";
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(240, 88);
+			this.label5.Location = new System.Drawing.Point(8, 115);
+			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(40, 23);
+			this.label5.Size = new System.Drawing.Size(56, 23);
 			this.label5.TabIndex = 13;
 			this.label5.Text = "E-mail:";
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(16, 88);
+			this.label6.Location = new System.Drawing.Point(8, 88);
+			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(56, 23);
 			this.label6.TabIndex = 12;
@@ -183,9 +187,9 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.";
 			// 
 			// lVersion
 			// 
-			this.lVersion.Location = new System.Drawing.Point(264, 40);
+			this.lVersion.Location = new System.Drawing.Point(240, 34);
 			this.lVersion.Name = "lVersion";
-			this.lVersion.Size = new System.Drawing.Size(136, 16);
+			this.lVersion.Size = new System.Drawing.Size(184, 16);
 			this.lVersion.TabIndex = 11;
 			this.lVersion.Text = "Version x.x.x";
 			this.lVersion.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -193,7 +197,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.";
 			// label8
 			// 
 			this.label8.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-			this.label8.Location = new System.Drawing.Point(240, 16);
+			this.label8.Location = new System.Drawing.Point(240, 8);
 			this.label8.Name = "label8";
 			this.label8.Size = new System.Drawing.Size(184, 24);
 			this.label8.TabIndex = 10;
@@ -211,9 +215,9 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.";
 			// 
 			// lVMVersion
 			// 
-			this.lVMVersion.Location = new System.Drawing.Point(256, 64);
+			this.lVMVersion.Location = new System.Drawing.Point(240, 52);
 			this.lVMVersion.Name = "lVMVersion";
-			this.lVMVersion.Size = new System.Drawing.Size(144, 16);
+			this.lVMVersion.Size = new System.Drawing.Size(184, 16);
 			this.lVMVersion.TabIndex = 17;
 			this.lVMVersion.Text = ".NET x.x.xxxx.xxxx";
 			this.lVMVersion.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;

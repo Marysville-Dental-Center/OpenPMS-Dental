@@ -544,14 +544,14 @@ namespace fyiReporting.RdlDesign
 			this.panel1.Controls.Add(this.bOK);
 			this.panel1.Controls.Add(this.bCancel);
 			this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.panel1.Location = new System.Drawing.Point(0, 326);
+			this.panel1.Location = new System.Drawing.Point(0, 334);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(458, 40);
+			this.panel1.Size = new System.Drawing.Size(474, 43);
 			this.panel1.TabIndex = 1;
 			// 
 			// bDelete
 			// 
-			this.bDelete.Location = new System.Drawing.Point(8, 8);
+			this.bDelete.Location = new System.Drawing.Point(8, 12);
 			this.bDelete.Name = "bDelete";
 			this.bDelete.TabIndex = 3;
 			this.bDelete.Text = "Delete";
@@ -560,7 +560,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// bApply
 			// 
-			this.bApply.Location = new System.Drawing.Point(376, 8);
+			this.bApply.Location = new System.Drawing.Point(391, 12);
 			this.bApply.Name = "bApply";
 			this.bApply.TabIndex = 2;
 			this.bApply.Text = "Apply";
@@ -568,7 +568,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// bOK
 			// 
-			this.bOK.Location = new System.Drawing.Point(216, 8);
+			this.bOK.Location = new System.Drawing.Point(225, 12);
 			this.bOK.Name = "bOK";
 			this.bOK.TabIndex = 0;
 			this.bOK.Text = "OK";
@@ -578,15 +578,17 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.bCancel.CausesValidation = false;
 			this.bCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.bCancel.Location = new System.Drawing.Point(296, 8);
+			this.bCancel.Location = new System.Drawing.Point(308, 12);
 			this.bCancel.Name = "bCancel";
 			this.bCancel.TabIndex = 1;
 			this.bCancel.Text = "Cancel";
 			// 
 			// tcProps
 			// 
-			this.tcProps.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tcProps.Location = new System.Drawing.Point(0, 0);
+			this.tcProps.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+			| System.Windows.Forms.AnchorStyles.Left) 
+			| System.Windows.Forms.AnchorStyles.Right)));
+			this.tcProps.Location = new System.Drawing.Point(8, 8);
 			this.tcProps.Multiline = true;
 			this.tcProps.Name = "tcProps";
 			this.tcProps.SelectedIndex = 0;
@@ -599,7 +601,7 @@ namespace fyiReporting.RdlDesign
 			this.AutoScaleMode = AutoScaleMode.None;
 			this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
 			this.CancelButton = this.bCancel;
-			this.ClientSize = new System.Drawing.Size(458, 366);
+			this.ClientSize = new System.Drawing.Size(474, 377);
 			this.Controls.Add(this.tcProps);
 			this.Controls.Add(this.panel1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;

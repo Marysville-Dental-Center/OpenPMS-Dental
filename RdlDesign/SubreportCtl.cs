@@ -172,30 +172,31 @@ namespace fyiReporting.RdlDesign
 			this.dgParms.AutoGenerateColumns = false;
 			this.dgParms.DataMember = "";
 			this.dgParms.ColumnHeadersDefaultCellStyle.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.dgParms.Location = new System.Drawing.Point(8, 112);
+			this.dgParms.Location = new System.Drawing.Point(8, 93);
 			this.dgParms.Name = "dgParms";
-			this.dgParms.Size = new System.Drawing.Size(384, 168);
+			this.dgParms.Size = new System.Drawing.Size(368, 199);
 			this.dgParms.TabIndex = 2;
 			// 
 			// label1
 			// 
 			this.label1.Location = new System.Drawing.Point(8, 8);
+			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(92, 23);
+			this.label1.Size = new System.Drawing.Size(104, 23);
 			this.label1.TabIndex = 3;
 			this.label1.Text = "Subreport name";
 			// 
 			// tbReportFile
 			// 
-			this.tbReportFile.Location = new System.Drawing.Point(104, 8);
+			this.tbReportFile.Location = new System.Drawing.Point(118, 8);
 			this.tbReportFile.Name = "tbReportFile";
-			this.tbReportFile.Size = new System.Drawing.Size(312, 20);
+			this.tbReportFile.Size = new System.Drawing.Size(292, 23);
 			this.tbReportFile.TabIndex = 4;
 			this.tbReportFile.Text = "";
 			// 
 			// bFile
 			// 
-			this.bFile.Location = new System.Drawing.Point(424, 8);
+			this.bFile.Location = new System.Drawing.Point(416, 8);
 			this.bFile.Name = "bFile";
 			this.bFile.Size = new System.Drawing.Size(24, 23);
 			this.bFile.TabIndex = 5;
@@ -204,31 +205,32 @@ namespace fyiReporting.RdlDesign
 			// 
 			// tbNoRows
 			// 
-			this.tbNoRows.Location = new System.Drawing.Point(104, 40);
+			this.tbNoRows.Location = new System.Drawing.Point(118, 35);
 			this.tbNoRows.Name = "tbNoRows";
-			this.tbNoRows.Size = new System.Drawing.Size(312, 20);
+			this.tbNoRows.Size = new System.Drawing.Size(322, 23);
 			this.tbNoRows.TabIndex = 7;
 			this.tbNoRows.Text = "";
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(8, 40);
+			this.label2.Location = new System.Drawing.Point(8, 35);
+			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(96, 23);
+			this.label2.Size = new System.Drawing.Size(104, 23);
 			this.label2.TabIndex = 8;
 			this.label2.Text = "No rows message";
 			// 
 			// chkMergeTrans
 			// 
-			this.chkMergeTrans.Location = new System.Drawing.Point(8, 72);
+			this.chkMergeTrans.Location = new System.Drawing.Point(8, 64);
 			this.chkMergeTrans.Name = "chkMergeTrans";
-			this.chkMergeTrans.Size = new System.Drawing.Size(386, 24);
+			this.chkMergeTrans.Size = new System.Drawing.Size(387, 18);
 			this.chkMergeTrans.TabIndex = 9;
 			this.chkMergeTrans.Text = "Use same Data Source connections as parent report when possible";
 			// 
 			// bRefreshParms
 			// 
-			this.bRefreshParms.Location = new System.Drawing.Point(392, 120);
+			this.bRefreshParms.Location = new System.Drawing.Point(384, 93);
 			this.bRefreshParms.Name = "bRefreshParms";
 			this.bRefreshParms.Size = new System.Drawing.Size(56, 23);
 			this.bRefreshParms.TabIndex = 10;

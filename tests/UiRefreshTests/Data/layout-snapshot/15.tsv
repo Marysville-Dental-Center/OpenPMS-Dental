@@ -1,0 +1,398 @@
+# The layout snapshot of the UI refresh (docs/specs/ui-refresh-plan.md section 3.7, docs/port-notes/UI-0b.md): every designer
+# control's Location, Size and ClientSize as InitializeComponent sets them, "." for the window or UserControl itself. Written by
+# LayoutSnapshotTests with OPMS_UI_LAYOUT_SNAPSHOT_WRITE=1; the test fails on any change that Data/fit-fixes.tsv does not list.
+# One file per rollout slice (UI-12T): the designer files a slice owns; unsliced.tsv the rest (a slice file wins over it).
+file	control	location	size	client_size
+RdlDesign/BodyCtl.cs	label1	60,8	48,23	
+RdlDesign/BodyCtl.cs	label2	48,35	60,23	
+RdlDesign/BodyCtl.cs	label3	8,62	100,23	
+RdlDesign/BodyCtl.cs	tbHeight	114,8		
+RdlDesign/BodyCtl.cs	tbColumns	114,35		
+RdlDesign/BodyCtl.cs	tbColumnSpacing	114,62		
+RdlDesign/BodyCtl.cs	.		472,288	
+RdlDesign/ChartCtl.cs	label1	8,8	124,23	
+RdlDesign/ChartCtl.cs	label2	8,35	124,23	
+RdlDesign/ChartCtl.cs	label3	8,62	124,23	
+RdlDesign/ChartCtl.cs	label4	8,89	424,17	
+RdlDesign/ChartCtl.cs	cbChartType	138,8	120,23	
+RdlDesign/ChartCtl.cs	cbSubType	340,8	92,23	
+RdlDesign/ChartCtl.cs	cbPalette	138,35	120,23	
+RdlDesign/ChartCtl.cs	cbRenderElement	138,62	120,23	
+RdlDesign/ChartCtl.cs	label5	274,8	60,23	
+RdlDesign/ChartCtl.cs	tbPercentWidth	8,108	64,23	
+RdlDesign/ChartCtl.cs	label6	8,135	124,23	
+RdlDesign/ChartCtl.cs	tbNoRows	138,135	294,23	
+RdlDesign/ChartCtl.cs	label7	8,162	124,23	
+RdlDesign/ChartCtl.cs	cbDataSet	138,162	120,23	
+RdlDesign/ChartCtl.cs	chkPageBreakStart	138,218	129,18	
+RdlDesign/ChartCtl.cs	chkPageBreakEnd	283,218	125,18	
+RdlDesign/ChartCtl.cs	cbChartData	138,189	294,23	
+RdlDesign/ChartCtl.cs	label8	8,189	124,23	
+RdlDesign/ChartCtl.cs	.		440,288	
+RdlDesign/ChartLegendCtl.cs	label1	38,8	100,23	
+RdlDesign/ChartLegendCtl.cs	label2	10,35	128,23	
+RdlDesign/ChartLegendCtl.cs	cbPosition	144,8	120,23	
+RdlDesign/ChartLegendCtl.cs	cbLayout	144,35	120,23	
+RdlDesign/ChartLegendCtl.cs	chkVisible	144,62	65,18	
+RdlDesign/ChartLegendCtl.cs	chkInsidePlotArea	144,84	143,18	
+RdlDesign/ChartLegendCtl.cs	.		440,288	
+RdlDesign/CodeCtl.cs	label1	98,11	156,16	
+RdlDesign/CodeCtl.cs	bCheckSyntax	358,8	82,23	
+RdlDesign/CodeCtl.cs	panel1	8,39	432,252	
+RdlDesign/CodeCtl.cs	tbCode	87,0	345,252	
+RdlDesign/CodeCtl.cs	splitter1	82,0	5,252	
+RdlDesign/CodeCtl.cs	lbErrors	0,0	82,252	
+RdlDesign/CodeCtl.cs	label2	8,12	69,15	
+RdlDesign/CodeCtl.cs	.		472,299	
+RdlDesign/CustomReportItemCtl.cs	pgProps	8,8	404,284	
+RdlDesign/CustomReportItemCtl.cs	bExpr	418,8	22,23	
+RdlDesign/CustomReportItemCtl.cs	.		464,304	
+RdlDesign/DataSetRowsCtl.cs	dgRows	8,35	324,215	
+RdlDesign/DataSetRowsCtl.cs	bDelete	340,35	100,23	
+RdlDesign/DataSetRowsCtl.cs	bUp	340,62	100,23	
+RdlDesign/DataSetRowsCtl.cs	bDown	340,89	100,23	
+RdlDesign/DataSetRowsCtl.cs	chkRowsFile	8,10	140,18	
+RdlDesign/DataSetRowsCtl.cs	tbRowsFile	154,8	256,23	
+RdlDesign/DataSetRowsCtl.cs	bRowsFile	416,8	24,23	
+RdlDesign/DataSetRowsCtl.cs	label1	8,258	432,34	
+RdlDesign/DataSetRowsCtl.cs	bLoad	340,143	100,23	
+RdlDesign/DataSetRowsCtl.cs	bClear	340,116	100,23	
+RdlDesign/DataSetRowsCtl.cs	.		488,304	
+RdlDesign/DataSetsCtl.cs	cbDataSource	280,8	160,23	
+RdlDesign/DataSetsCtl.cs	lDataSource	198,8	76,23	
+RdlDesign/DataSetsCtl.cs	tbDSName	58,8	124,23	
+RdlDesign/DataSetsCtl.cs	lDataSetName	8,8	44,23	
+RdlDesign/DataSetsCtl.cs	label1	8,41	100,17	
+RdlDesign/DataSetsCtl.cs	tbSQL	8,60	328,80	
+RdlDesign/DataSetsCtl.cs	label2	8,148	100,17	
+RdlDesign/DataSetsCtl.cs	dgFields	8,167	328,125	
+RdlDesign/DataSetsCtl.cs	bDeleteField	344,167	96,23	
+RdlDesign/DataSetsCtl.cs	bEditSQL	344,60	96,23	
+RdlDesign/DataSetsCtl.cs	bRefresh	344,87	96,23	
+RdlDesign/DataSetsCtl.cs	label3	218,35	56,23	
+RdlDesign/DataSetsCtl.cs	tbTimeout	280,35	80,23	
+RdlDesign/DataSetsCtl.cs	.		448,304	
+RdlDesign/DialogAbout.cs	bOK	383,273		
+RdlDesign/DialogAbout.cs	tbLicense	8,146	450,115	
+RdlDesign/DialogAbout.cs	linkLabel3	70,115	172,23	
+RdlDesign/DialogAbout.cs	linkLabel4	70,88	169,23	
+RdlDesign/DialogAbout.cs	label5	8,115	56,23	
+RdlDesign/DialogAbout.cs	label6	8,88	56,23	
+RdlDesign/DialogAbout.cs	lVersion	240,34	184,16	
+RdlDesign/DialogAbout.cs	label8	240,8	184,24	
+RdlDesign/DialogAbout.cs	pictureBox2	8,8	212,72	
+RdlDesign/DialogAbout.cs	lVMVersion	240,52	184,16	
+RdlDesign/DialogAbout.cs	.			466,304
+RdlDesign/DialogDataSourceRef.cs	label1	8,8	440,50	
+RdlDesign/DialogDataSourceRef.cs	tbPassword	8,66	185,23	
+RdlDesign/DialogDataSourceRef.cs	label2	8,97	440,17	
+RdlDesign/DialogDataSourceRef.cs	tbFilename	8,116	410,23	
+RdlDesign/DialogDataSourceRef.cs	bGetFilename	424,116	24,23	
+RdlDesign/DialogDataSourceRef.cs	label3	8,147	82,23	
+RdlDesign/DialogDataSourceRef.cs	cbDataProvider	96,147	120,23	
+RdlDesign/DialogDataSourceRef.cs	label4	8,184	273,17	
+RdlDesign/DialogDataSourceRef.cs	tbConnection	8,203	440,78	
+RdlDesign/DialogDataSourceRef.cs	ckbIntSecurity	297,180	151,18	
+RdlDesign/DialogDataSourceRef.cs	label5	8,289	440,17	
+RdlDesign/DialogDataSourceRef.cs	tbPrompt	8,308	440,23	
+RdlDesign/DialogDataSourceRef.cs	bOK	290,343		
+RdlDesign/DialogDataSourceRef.cs	bCancel	373,343		
+RdlDesign/DialogDataSourceRef.cs	tbPassword2	263,66	185,23	
+RdlDesign/DialogDataSourceRef.cs	label6	209,66	48,23	
+RdlDesign/DialogDataSourceRef.cs	bTestConnection	8,343	96,23	
+RdlDesign/DialogDataSourceRef.cs	cbOdbcNames	354,147	94,23	
+RdlDesign/DialogDataSourceRef.cs	lODBC	232,147	116,23	
+RdlDesign/DialogDataSourceRef.cs	.			456,374
+RdlDesign/DialogDataSources.cs	tbFilename	202,66	216,23	
+RdlDesign/DialogDataSources.cs	bGetFilename	424,66	24,23	
+RdlDesign/DialogDataSources.cs	lDataProvider	8,93	82,23	
+RdlDesign/DialogDataSources.cs	cbDataProvider	96,93	144,23	
+RdlDesign/DialogDataSources.cs	lConnectionString	8,126	402,17	
+RdlDesign/DialogDataSources.cs	tbConnection	8,145	440,136	
+RdlDesign/DialogDataSources.cs	ckbIntSecurity	256,95	151,18	
+RdlDesign/DialogDataSources.cs	lPrompt	8,289	440,17	
+RdlDesign/DialogDataSources.cs	tbPrompt	8,308	440,23	
+RdlDesign/DialogDataSources.cs	bOK	290,343		
+RdlDesign/DialogDataSources.cs	bCancel	373,343		
+RdlDesign/DialogDataSources.cs	bTestConnection	8,343	96,23	
+RdlDesign/DialogDataSources.cs	lbDataSources	8,8	120,50	
+RdlDesign/DialogDataSources.cs	bRemove	136,35	64,23	
+RdlDesign/DialogDataSources.cs	bAdd	136,8	64,23	
+RdlDesign/DialogDataSources.cs	chkSharedDataSource	8,68	188,18	
+RdlDesign/DialogDataSources.cs	label1	216,8	232,17	
+RdlDesign/DialogDataSources.cs	tbDSName	216,27	232,23	
+RdlDesign/DialogDataSources.cs	bExprConnect	426,120	22,23	
+RdlDesign/DialogDataSources.cs	.			456,374
+RdlDesign/DialogEmbeddedImages.cs	lDataProvider	216,58	76,23	
+RdlDesign/DialogEmbeddedImages.cs	bOK	290,343		
+RdlDesign/DialogEmbeddedImages.cs	bCancel	373,343		
+RdlDesign/DialogEmbeddedImages.cs	lbImages	8,8	120,77	
+RdlDesign/DialogEmbeddedImages.cs	bRemove	136,62	64,23	
+RdlDesign/DialogEmbeddedImages.cs	bImport	136,8	64,23	
+RdlDesign/DialogEmbeddedImages.cs	label1	216,8	232,17	
+RdlDesign/DialogEmbeddedImages.cs	tbEIName	216,27	232,23	
+RdlDesign/DialogEmbeddedImages.cs	bPaste	136,35	64,23	
+RdlDesign/DialogEmbeddedImages.cs	pictureImage	8,97	440,234	
+RdlDesign/DialogEmbeddedImages.cs	lbMIMEType	298,58	150,23	
+RdlDesign/DialogEmbeddedImages.cs	.			456,374
+RdlDesign/DialogExprEditor.cs	bOK	274,279		
+RdlDesign/DialogExprEditor.cs	tbExpr	242,27	190,240	
+RdlDesign/DialogExprEditor.cs	bCancel	357,279		
+RdlDesign/DialogExprEditor.cs	tvOp	8,27	190,240	
+RdlDesign/DialogExprEditor.cs	lExpr	242,8	190,17	
+RdlDesign/DialogExprEditor.cs	lOp	8,8	190,17	
+RdlDesign/DialogExprEditor.cs	bCopy	204,27	32,23	
+RdlDesign/DialogExprEditor.cs	.			440,310
+RdlDesign/DialogFilterOperator.cs	bOK	108,170		
+RdlDesign/DialogFilterOperator.cs	bCancel	191,170		
+RdlDesign/DialogFilterOperator.cs	lOp	8,8	124,23	
+RdlDesign/DialogFilterOperator.cs	cbOperator	138,8	128,150	
+RdlDesign/DialogFilterOperator.cs	.			274,201
+RdlDesign/DialogListOfStrings.cs	bOK	116,193		
+RdlDesign/DialogListOfStrings.cs	tbStrings	8,27	266,154	
+RdlDesign/DialogListOfStrings.cs	bCancel	199,193		
+RdlDesign/DialogListOfStrings.cs	label1	8,8	266,17	
+RdlDesign/DialogListOfStrings.cs	.			282,224
+RdlDesign/DialogNew.cs	listNewChoices	8,8	432,315	
+RdlDesign/DialogNew.cs	btnOK	282,12		
+RdlDesign/DialogNew.cs	btnCancel	365,12		
+RdlDesign/DialogNew.cs	panel1	0,323	448,43	
+RdlDesign/DialogNew.cs	.			448,366
+RdlDesign/DialogNewMatrix.cs	bOK	290,369		
+RdlDesign/DialogNewMatrix.cs	bCancel	373,369		
+RdlDesign/DialogNewMatrix.cs	label1	8,8	51,23	
+RdlDesign/DialogNewMatrix.cs	cbDataSets	65,8	383,23	
+RdlDesign/DialogNewMatrix.cs	label2	8,39	160,17	
+RdlDesign/DialogNewMatrix.cs	label3	216,39	232,17	
+RdlDesign/DialogNewMatrix.cs	lbFields	8,58	160,249	
+RdlDesign/DialogNewMatrix.cs	lbMatrixColumns	216,58	160,111	
+RdlDesign/DialogNewMatrix.cs	bColumnUp	384,58	64,28	
+RdlDesign/DialogNewMatrix.cs	bColumnDown	384,90	64,28	
+RdlDesign/DialogNewMatrix.cs	bColumn	176,58	32,28	
+RdlDesign/DialogNewMatrix.cs	bRowSelect	176,196	32,28	
+RdlDesign/DialogNewMatrix.cs	lbMatrixRows	216,196	160,111	
+RdlDesign/DialogNewMatrix.cs	bColumnDelete	384,122	64,28	
+RdlDesign/DialogNewMatrix.cs	bRowDelete	384,260	64,28	
+RdlDesign/DialogNewMatrix.cs	bRowDown	384,228	64,28	
+RdlDesign/DialogNewMatrix.cs	bRowUp	384,196	64,28	
+RdlDesign/DialogNewMatrix.cs	label4	216,177	232,17	
+RdlDesign/DialogNewMatrix.cs	label5	8,315	440,17	
+RdlDesign/DialogNewMatrix.cs	cbMatrixCell	8,334	440,23	
+RdlDesign/DialogNewMatrix.cs	.			456,400
+RdlDesign/DialogValidValues.cs	dgParms	8,8	320,171	
+RdlDesign/DialogValidValues.cs	bOK	226,191		
+RdlDesign/DialogValidValues.cs	bCancel	309,191		
+RdlDesign/DialogValidValues.cs	bDelete	336,8	48,23	
+RdlDesign/DialogValidValues.cs	.			392,222
+RdlDesign/DialogValidateRdl.cs	bClose	420,244		
+RdlDesign/DialogValidateRdl.cs	lbSchemaErrors	8,66	487,166	
+RdlDesign/DialogValidateRdl.cs	label1	8,8	487,50	
+RdlDesign/DialogValidateRdl.cs	bValidate	337,244		
+RdlDesign/DialogValidateRdl.cs	.			503,275
+RdlDesign/DrillParametersDialog.cs	dgParms	8,35	384,170	
+RdlDesign/DrillParametersDialog.cs	label1	8,8	80,23	
+RdlDesign/DrillParametersDialog.cs	tbReportFile	94,8	332,23	
+RdlDesign/DrillParametersDialog.cs	bFile	432,8	24,23	
+RdlDesign/DrillParametersDialog.cs	bRefreshParms	400,35	56,23	
+RdlDesign/DrillParametersDialog.cs	bOK	298,217	75,23	
+RdlDesign/DrillParametersDialog.cs	bCancel	381,217	75,23	
+RdlDesign/DrillParametersDialog.cs	.			464,248
+RdlDesign/FiltersCtl.cs	dgFilters	8,8	376,264	
+RdlDesign/FiltersCtl.cs	bDelete	392,28	48,23	
+RdlDesign/FiltersCtl.cs	bUp	392,55	48,23	
+RdlDesign/FiltersCtl.cs	bDown	392,82	48,23	
+RdlDesign/FiltersCtl.cs	bValueExpr	392,8	22,16	
+RdlDesign/FiltersCtl.cs	.		488,304	
+RdlDesign/GroupingCtl.cs	dgGroup	8,53	378,104	
+RdlDesign/GroupingCtl.cs	bDelete	392,80	48,23	
+RdlDesign/GroupingCtl.cs	bUp	392,107	48,23	
+RdlDesign/GroupingCtl.cs	bDown	392,134	48,23	
+RdlDesign/GroupingCtl.cs	label1	12,8	44,23	
+RdlDesign/GroupingCtl.cs	tbName	62,8	324,23	
+RdlDesign/GroupingCtl.cs	label2	16,169	40,23	
+RdlDesign/GroupingCtl.cs	label3	8,35	60,16	
+RdlDesign/GroupingCtl.cs	cbLabelExpr	62,169	324,23	
+RdlDesign/GroupingCtl.cs	cbParentExpr	62,196	324,23	
+RdlDesign/GroupingCtl.cs	lParent	8,196	48,23	
+RdlDesign/GroupingCtl.cs	chkPBS	62,223	129,18	
+RdlDesign/GroupingCtl.cs	chkPBE	212,223	125,18	
+RdlDesign/GroupingCtl.cs	chkRepeatHeader	212,245	141,18	
+RdlDesign/GroupingCtl.cs	chkGrpHeader	62,245	144,18	
+RdlDesign/GroupingCtl.cs	chkRepeatFooter	212,267	137,18	
+RdlDesign/GroupingCtl.cs	chkGrpFooter	62,267	140,18	
+RdlDesign/GroupingCtl.cs	bValueExpr	392,53	22,23	
+RdlDesign/GroupingCtl.cs	bLabelExpr	392,169	22,23	
+RdlDesign/GroupingCtl.cs	bParentExpr	392,196	22,23	
+RdlDesign/GroupingCtl.cs	.		488,304	
+RdlDesign/ImageCtl.cs	groupBox1	8,8	432,135	
+RdlDesign/ImageCtl.cs	bEmbedded	402,50	22,23	
+RdlDesign/ImageCtl.cs	bExternal	402,23	22,23	
+RdlDesign/ImageCtl.cs	tbValueExternal	102,23	266,23	
+RdlDesign/ImageCtl.cs	cbValueDatabase	102,104	266,23	
+RdlDesign/ImageCtl.cs	cbMIMEType	102,77	88,23	
+RdlDesign/ImageCtl.cs	cbValueEmbedded	102,50	266,23	
+RdlDesign/ImageCtl.cs	rbDatabase	8,79	79,18	
+RdlDesign/ImageCtl.cs	rbEmbedded	8,52	88,18	
+RdlDesign/ImageCtl.cs	rbExternal	8,25	72,18	
+RdlDesign/ImageCtl.cs	label1	60,151	44,23	
+RdlDesign/ImageCtl.cs	cbSizing	110,151	96,23	
+RdlDesign/ImageCtl.cs	bDatabaseExpr	374,104	22,23	
+RdlDesign/ImageCtl.cs	bMimeExpr	196,77	22,23	
+RdlDesign/ImageCtl.cs	bEmbeddedExpr	374,50	22,23	
+RdlDesign/ImageCtl.cs	bExternalExpr	374,23	22,23	
+RdlDesign/ImageCtl.cs	.		472,288	
+RdlDesign/ListCtl.cs	label2	26,8	88,23	
+RdlDesign/ListCtl.cs	cbDataSet	120,8	304,21	
+RdlDesign/ListCtl.cs	groupBox1	24,66	400,49	
+RdlDesign/ListCtl.cs	chkPBAfter	192,23	108,18	
+RdlDesign/ListCtl.cs	chkPBBefore	8,23	118,18	
+RdlDesign/ListCtl.cs	bGroups	24,207	120,23	
+RdlDesign/ListCtl.cs	label1	10,35	104,23	
+RdlDesign/ListCtl.cs	tbNoRows	120,35	304,20	
+RdlDesign/ListCtl.cs	tbDataInstanceName	146,45	240,23	
+RdlDesign/ListCtl.cs	chkXmlInstances	146,23	138,18	
+RdlDesign/ListCtl.cs	label3	20,45	120,23	
+RdlDesign/ListCtl.cs	groupBox2	24,123	400,76	
+RdlDesign/ListCtl.cs	.		472,288	
+RdlDesign/MatrixCtl.cs	label2	8,8	120,23	
+RdlDesign/MatrixCtl.cs	cbDataSet	134,8	306,23	
+RdlDesign/MatrixCtl.cs	groupBox1	8,62	432,54	
+RdlDesign/MatrixCtl.cs	chkPBAfter	157,25	123,18	
+RdlDesign/MatrixCtl.cs	chkPBBefore	8,25	133,18	
+RdlDesign/MatrixCtl.cs	label1	8,35	120,23	
+RdlDesign/MatrixCtl.cs	tbNoRows	134,35	306,23	
+RdlDesign/MatrixCtl.cs	tbCellDataElementName	126,50	298,23	
+RdlDesign/MatrixCtl.cs	chkCellContents	126,25	138,18	
+RdlDesign/MatrixCtl.cs	label3	8,50	112,23	
+RdlDesign/MatrixCtl.cs	groupBox2	8,124	432,81	
+RdlDesign/MatrixCtl.cs	.		472,288	
+RdlDesign/ModulesClassesCtl.cs	label1	8,8	448,23	
+RdlDesign/ModulesClassesCtl.cs	bDeleteCM	390,33	48,20	
+RdlDesign/ModulesClassesCtl.cs	dgCodeModules	8,33	376,88	
+RdlDesign/ModulesClassesCtl.cs	bDeleteClass	390,150	48,20	
+RdlDesign/ModulesClassesCtl.cs	dgClasses	8,150	376,88	
+RdlDesign/ModulesClassesCtl.cs	label2	8,125	448,23	
+RdlDesign/ModulesClassesCtl.cs	.		472,288	
+RdlDesign/PropertyDialog.cs	panel1	0,334	474,43	
+RdlDesign/PropertyDialog.cs	bDelete	8,12		
+RdlDesign/PropertyDialog.cs	bApply	391,12		
+RdlDesign/PropertyDialog.cs	bOK	225,12		
+RdlDesign/PropertyDialog.cs	bCancel	308,12		
+RdlDesign/PropertyDialog.cs	tcProps	8,8	458,326	
+RdlDesign/PropertyDialog.cs	.			474,377
+RdlDesign/QueryParametersCtl.cs	dgParms	8,8	384,168	
+RdlDesign/QueryParametersCtl.cs	.		464,304	
+RdlDesign/RdlDesigner.cs	bTable	585,8		
+RdlDesign/RdlDesigner.cs	bLine	585,224		
+RdlDesign/RdlDesigner.cs	bImage	585,197		
+RdlDesign/RdlDesigner.cs	bRectangle	585,170		
+RdlDesign/RdlDesigner.cs	bSubreport	585,143		
+RdlDesign/RdlDesigner.cs	bList	585,116		
+RdlDesign/RdlDesigner.cs	bChart	585,89		
+RdlDesign/RdlDesigner.cs	bText	585,62		
+RdlDesign/RdlDesigner.cs	bMatrix	585,35		
+RdlDesign/RdlDesigner.cs	bPrint	504,143		
+RdlDesign/RdlDesigner.cs	bSave	504,116		
+RdlDesign/RdlDesigner.cs	bOpen	504,89		
+RdlDesign/RdlDesigner.cs	bPaste	504,62		
+RdlDesign/RdlDesigner.cs	bCopy	504,35		
+RdlDesign/RdlDesigner.cs	bCut	504,8		
+RdlDesign/RdlDesigner.cs	bNew	504,170		
+RdlDesign/RdlDesigner.cs	bUndo	504,197		
+RdlDesign/RdlDesigner.cs	bPdf	504,251		
+RdlDesign/RdlDesigner.cs	bXml	504,224		
+RdlDesign/RdlDesigner.cs	bHtml	585,251		
+RdlDesign/RdlDesigner.cs	bMht	504,278		
+RdlDesign/RdlDesigner.cs	.			712,470
+RdlDesign/RdlEditPreview.cs	tcEHP	0,0	488,376	
+RdlDesign/RdlEditPreview.cs	tpDesign	4,4	480,350	
+RdlDesign/RdlEditPreview.cs	tpEditor	4,4	480,350	
+RdlDesign/RdlEditPreview.cs	tbEditor	32,0	448,350	
+RdlDesign/RdlEditPreview.cs	pbLines	0,0	32,350	
+RdlDesign/RdlEditPreview.cs	tpBrowser	4,4	480,350	
+RdlDesign/RdlEditPreview.cs	rdlPreview	0,0	480,350	
+RdlDesign/RdlEditPreview.cs	.		488,376	
+RdlDesign/ReportXmlCtl.cs	label1	14,8	116,23	
+RdlDesign/ReportXmlCtl.cs	tbDataTransform	136,8	248,20	
+RdlDesign/ReportXmlCtl.cs	tbDataSchema	136,35	248,20	
+RdlDesign/ReportXmlCtl.cs	label2	50,35	80,23	
+RdlDesign/ReportXmlCtl.cs	tbDataElementName	136,62	248,20	
+RdlDesign/ReportXmlCtl.cs	label3	18,62	112,23	
+RdlDesign/ReportXmlCtl.cs	label4	46,89	84,23	
+RdlDesign/ReportXmlCtl.cs	cbElementStyle	136,89	144,21	
+RdlDesign/ReportXmlCtl.cs	bOpenXsl	390,8	24,23	
+RdlDesign/ReportXmlCtl.cs	.		472,288	
+RdlDesign/SQLCtl.cs	tbSQL	188,8	284,131	
+RdlDesign/SQLCtl.cs	tvTablesColumns	8,8	136,131	
+RdlDesign/SQLCtl.cs	panel1	0,139	480,43	
+RdlDesign/SQLCtl.cs	bOK	314,12		
+RdlDesign/SQLCtl.cs	bCancel	397,12		
+RdlDesign/SQLCtl.cs	bMove	150,8	32,23	
+RdlDesign/SQLCtl.cs	.			480,182
+RdlDesign/SingleCtlDialog.cs	panel1	0,323	458,43	
+RdlDesign/SingleCtlDialog.cs	bApply	375,12		
+RdlDesign/SingleCtlDialog.cs	bOK	209,12		
+RdlDesign/SingleCtlDialog.cs	bCancel	292,12		
+RdlDesign/SingleCtlDialog.cs	panelMain	0,0	458,310	
+RdlDesign/SingleCtlDialog.cs	.			458,366
+RdlDesign/SortingCtl.cs	dgSorting	8,8	376,264	
+RdlDesign/SortingCtl.cs	bDelete	392,28	48,23	
+RdlDesign/SortingCtl.cs	bUp	392,55	48,23	
+RdlDesign/SortingCtl.cs	bDown	392,82	48,23	
+RdlDesign/SortingCtl.cs	bValueExpr	392,8	22,16	
+RdlDesign/SortingCtl.cs	.		488,304	
+RdlDesign/SubreportCtl.cs	dgParms	8,93	368,199	
+RdlDesign/SubreportCtl.cs	label1	8,8	104,23	
+RdlDesign/SubreportCtl.cs	tbReportFile	118,8	292,23	
+RdlDesign/SubreportCtl.cs	bFile	416,8	24,23	
+RdlDesign/SubreportCtl.cs	tbNoRows	118,35	322,23	
+RdlDesign/SubreportCtl.cs	label2	8,35	104,23	
+RdlDesign/SubreportCtl.cs	chkMergeTrans	8,64	387,18	
+RdlDesign/SubreportCtl.cs	bRefreshParms	384,93	56,23	
+RdlDesign/SubreportCtl.cs	.		464,304	
+RdlDesign/TableColumnCtl.cs	grpBoxVisibility	8,8	432,81	
+RdlDesign/TableColumnCtl.cs	bHidden	402,23	22,23	
+RdlDesign/TableColumnCtl.cs	cbToggle	174,50	152,23	
+RdlDesign/TableColumnCtl.cs	tbHidden	174,23	222,23	
+RdlDesign/TableColumnCtl.cs	label3	8,50	160,23	
+RdlDesign/TableColumnCtl.cs	label2	8,23	160,23	
+RdlDesign/TableColumnCtl.cs	label1	84,97	92,23	
+RdlDesign/TableColumnCtl.cs	tbColumnWidth	182,97		
+RdlDesign/TableColumnCtl.cs	chkFixedHeader	182,126	99,18	
+RdlDesign/TableColumnCtl.cs	label4	182,151	258,50	
+RdlDesign/TableColumnCtl.cs	.		472,288	
+RdlDesign/TableCtl.cs	label2	26,8	88,23	
+RdlDesign/TableCtl.cs	cbDataSet	120,8	304,21	
+RdlDesign/TableCtl.cs	groupBox1	24,66	400,49	
+RdlDesign/TableCtl.cs	chkPBAfter	192,23	118,18	
+RdlDesign/TableCtl.cs	chkPBBefore	8,23	128,18	
+RdlDesign/TableCtl.cs	label1	10,35	104,23	
+RdlDesign/TableCtl.cs	tbNoRows	120,35	304,20	
+RdlDesign/TableCtl.cs	groupBox2	24,180	400,103	
+RdlDesign/TableCtl.cs	tbDetailCollectionName	160,72	224,20	
+RdlDesign/TableCtl.cs	tbDetailElementName	160,45	224,20	
+RdlDesign/TableCtl.cs	chkRenderDetails	160,23	160,18	
+RdlDesign/TableCtl.cs	label4	18,72	136,23	
+RdlDesign/TableCtl.cs	label3	30,45	124,23	
+RdlDesign/TableCtl.cs	groupBox3	24,123	400,49	
+RdlDesign/TableCtl.cs	chkFooterRows	212,23	96,18	
+RdlDesign/TableCtl.cs	chkHeaderRows	106,23	100,18	
+RdlDesign/TableCtl.cs	chkDetails	8,23	92,18	
+RdlDesign/TableCtl.cs	.		472,291	
+RdlDesign/TableRowCtl.cs	grpBoxVisibility	8,8	432,81	
+RdlDesign/TableRowCtl.cs	bHidden	402,23	22,23	
+RdlDesign/TableRowCtl.cs	cbToggle	174,50	152,23	
+RdlDesign/TableRowCtl.cs	tbHidden	174,23	222,23	
+RdlDesign/TableRowCtl.cs	label3	8,50	160,23	
+RdlDesign/TableRowCtl.cs	label2	8,23	160,23	
+RdlDesign/TableRowCtl.cs	label1	100,97	76,23	
+RdlDesign/TableRowCtl.cs	tbRowHeight	182,97		
+RdlDesign/TableRowCtl.cs	.		472,288	
+RdlViewer/DataSourcePassword.cs	label1	8,8	290,17	
+RdlViewer/DataSourcePassword.cs	bOK	140,81	75,23	
+RdlViewer/DataSourcePassword.cs	bCancel	223,81	75,23	
+RdlViewer/DataSourcePassword.cs	tbPassPhrase	8,27	290,23	
+RdlViewer/DataSourcePassword.cs	.			306,112
+RdlViewer/DialogMessages.cs	bOK	399,209	75,23	
+RdlViewer/DialogMessages.cs	tbMessages	8,8	466,189	
+RdlViewer/DialogMessages.cs	.			482,240

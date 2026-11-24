@@ -1790,6 +1790,14 @@ own 26.2 overlap check before it starts. The first cut is below; a brief that fi
   Fix round (`ui/ui12f-2`): the review's thirteen findings (FormProgressViewer's size limits after the dpi is applied,
   FormWarnToCloseComputers in Segoe UI bold, the allocator's REPORTS header scaled, FormFeesForIns added to the gallery, seven windows'
   gaps and margins, `_s10.keep_main` sharing the spare height by what the blocks draw).
+  Slice 15 (UI-12-15, branch `ui/ui12-15-1`, the owner's "Fix all of them" for the sweep's off-grid windows): the report designer's and
+  viewer's 42 remaining dialogs and property pages on the grid (26 layout scripts on `hand/_s15.py`, 13 by the planner alone, three
+  drawing surfaces with no controls); DialogExprEditor's Layout handler on the grid's numbers in the client area; PropertyDialog's tab
+  control, DialogNew's list and SQLCtl's tree on the padding (anchored, no longer docked to the window's edges); the harness builds
+  DataSetRowsCtl (sample data); their `grid` rows out of `sweep-known.tsv`; gallery `G-UI3-ui12-15`, audit `UI-12-audit-15.md` (UI-12.md
+  section 7, "Slice 15"). Fix round (`ui/ui12-15-2`, the review's 14 points): CodeCtl and TableRowCtl within the tab page's 440 px,
+  GroupingCtl's columns and buttons, three list boxes without IntegralHeight, two captions at the content edge, DialogAbout's version
+  lines, every font of a property page at 150% in the gallery (`FitGallery.ScaleEveryFont`).
 - Gallery: G-UI3 per slice, the owner's rows first.
 
 **UI-13: every element type in the new look (the owner, 2026-11-22: "Overall make sure you modernize all element types")**

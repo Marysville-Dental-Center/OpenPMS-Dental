@@ -197,7 +197,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// bDeleteCM
 			// 
-			this.bDeleteCM.Location = new System.Drawing.Point(400, 32);
+			this.bDeleteCM.Location = new System.Drawing.Point(390, 33);
 			this.bDeleteCM.Name = "bDeleteCM";
 			this.bDeleteCM.Size = new System.Drawing.Size(48, 20);
 			this.bDeleteCM.TabIndex = 4;
@@ -209,14 +209,14 @@ namespace fyiReporting.RdlDesign
 			this.dgCodeModules.AutoGenerateColumns = false;
 			this.dgCodeModules.DataMember = "";
 			this.dgCodeModules.ColumnHeadersDefaultCellStyle.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.dgCodeModules.Location = new System.Drawing.Point(16, 32);
+			this.dgCodeModules.Location = new System.Drawing.Point(8, 33);
 			this.dgCodeModules.Name = "dgCodeModules";
 			this.dgCodeModules.Size = new System.Drawing.Size(376, 88);
 			this.dgCodeModules.TabIndex = 3;
 			// 
 			// bDeleteClass
 			// 
-			this.bDeleteClass.Location = new System.Drawing.Point(400, 160);
+			this.bDeleteClass.Location = new System.Drawing.Point(390, 150);
 			this.bDeleteClass.Name = "bDeleteClass";
 			this.bDeleteClass.Size = new System.Drawing.Size(48, 20);
 			this.bDeleteClass.TabIndex = 7;
@@ -228,14 +228,14 @@ namespace fyiReporting.RdlDesign
 			this.dgClasses.AutoGenerateColumns = false;
 			this.dgClasses.DataMember = "";
 			this.dgClasses.ColumnHeadersDefaultCellStyle.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.dgClasses.Location = new System.Drawing.Point(16, 160);
+			this.dgClasses.Location = new System.Drawing.Point(8, 150);
 			this.dgClasses.Name = "dgClasses";
 			this.dgClasses.Size = new System.Drawing.Size(376, 88);
 			this.dgClasses.TabIndex = 6;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(8, 136);
+			this.label2.Location = new System.Drawing.Point(8, 125);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(448, 23);
 			this.label2.TabIndex = 5;

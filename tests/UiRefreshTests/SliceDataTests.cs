@@ -93,7 +93,11 @@ namespace UiRefreshTests {
 				}
 				dictBatchOfGroup[arrayFields[6]]=arrayFields[0];
 			}
-			Assert.IsTrue(dictBatchOfFile.Count>100,"Batched files: "+dictBatchOfFile.Count);
+			//UI-12 slice 15: the rollout lays out the last windows (slices 14 to 16), so the batches shrink towards none; the count of more than
+			//100 files (UI-12T) is no longer a floor. Every batched file is a designer file of the repository.
+			foreach(string designerFile in dictBatchOfFile.Keys) {
+				Assert.IsTrue(File.Exists(Path.Combine(RepoPaths.Root(),designerFile.Replace('/',Path.DirectorySeparatorChar))),"A batched file that does not exist: "+designerFile);
+			}
 		}
 
 		[TestMethod]

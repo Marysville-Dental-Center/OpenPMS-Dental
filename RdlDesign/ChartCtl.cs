@@ -177,33 +177,37 @@ namespace fyiReporting.RdlDesign
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(16, 18);
+			this.label1.Location = new System.Drawing.Point(8, 8);
+			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(72, 16);
+			this.label1.Size = new System.Drawing.Size(124, 23);
 			this.label1.TabIndex = 0;
 			this.label1.Text = "Chart Type";
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(16, 50);
+			this.label2.Location = new System.Drawing.Point(8, 35);
+			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(72, 16);
+			this.label2.Size = new System.Drawing.Size(124, 23);
 			this.label2.TabIndex = 1;
 			this.label2.Text = "Palette";
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(16, 88);
+			this.label3.Location = new System.Drawing.Point(8, 62);
+			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(128, 16);
+			this.label3.Size = new System.Drawing.Size(124, 23);
 			this.label3.TabIndex = 2;
 			this.label3.Text = "Render XML Element";
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(16, 120);
+			this.label4.Location = new System.Drawing.Point(8, 89);
+			this.label4.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(382, 16);
+			this.label4.Size = new System.Drawing.Size(424, 17);
 			this.label4.TabIndex = 3;
 			this.label4.Text = "Percent width for Bars/Columns (>100% will cause overlap of columns)";
 			// 
@@ -217,18 +221,18 @@ namespace fyiReporting.RdlDesign
 															 "Doughnut",
 															 "Line",
 															 "Pie"});
-			this.cbChartType.Location = new System.Drawing.Point(136, 16);
+			this.cbChartType.Location = new System.Drawing.Point(138, 8);
 			this.cbChartType.Name = "cbChartType";
-			this.cbChartType.Size = new System.Drawing.Size(121, 21);
+			this.cbChartType.Size = new System.Drawing.Size(120, 23);
 			this.cbChartType.TabIndex = 4;
 			this.cbChartType.SelectedIndexChanged += new System.EventHandler(this.cbChartType_SelectedIndexChanged);
 			// 
 			// cbSubType
 			// 
 			this.cbSubType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cbSubType.Location = new System.Drawing.Point(336, 16);
+			this.cbSubType.Location = new System.Drawing.Point(340, 8);
 			this.cbSubType.Name = "cbSubType";
-			this.cbSubType.Size = new System.Drawing.Size(80, 21);
+			this.cbSubType.Size = new System.Drawing.Size(92, 23);
 			this.cbSubType.TabIndex = 5;
 			this.cbSubType.SelectedIndexChanged += new System.EventHandler(this.cbSubType_SelectedIndexChanged);
 			// 
@@ -243,9 +247,9 @@ namespace fyiReporting.RdlDesign
 														   "Light",
 														   "Pastel",
 														   "SemiTransparent"});
-			this.cbPalette.Location = new System.Drawing.Point(136, 48);
+			this.cbPalette.Location = new System.Drawing.Point(138, 35);
 			this.cbPalette.Name = "cbPalette";
-			this.cbPalette.Size = new System.Drawing.Size(121, 21);
+			this.cbPalette.Size = new System.Drawing.Size(120, 23);
 			this.cbPalette.TabIndex = 6;
 			this.cbPalette.SelectedIndexChanged += new System.EventHandler(this.cbPalette_SelectedIndexChanged);
 			// 
@@ -255,47 +259,52 @@ namespace fyiReporting.RdlDesign
 			this.cbRenderElement.Items.AddRange(new object[] {
 																 "Output",
 																 "NoOutput"});
-			this.cbRenderElement.Location = new System.Drawing.Point(136, 86);
+			this.cbRenderElement.Location = new System.Drawing.Point(138, 62);
 			this.cbRenderElement.Name = "cbRenderElement";
-			this.cbRenderElement.Size = new System.Drawing.Size(121, 21);
+			this.cbRenderElement.Size = new System.Drawing.Size(120, 23);
 			this.cbRenderElement.TabIndex = 7;
 			this.cbRenderElement.SelectedIndexChanged += new System.EventHandler(this.cbRenderElement_SelectedIndexChanged);
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(272, 15);
+			this.label5.Location = new System.Drawing.Point(274, 8);
+			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(64, 23);
+			this.label5.Size = new System.Drawing.Size(60, 23);
 			this.label5.TabIndex = 8;
 			this.label5.Text = "Sub-type";
 			// 
 			// tbPercentWidth
 			// 
-			this.tbPercentWidth.Location = new System.Drawing.Point(368, 118);
+			this.tbPercentWidth.Location = new System.Drawing.Point(8, 108);
 			this.tbPercentWidth.Name = "tbPercentWidth";
-			this.tbPercentWidth.Size = new System.Drawing.Size(48, 20);
+			this.tbPercentWidth.Size = new System.Drawing.Size(64, 23);
 			this.tbPercentWidth.TabIndex = 9;
 			this.tbPercentWidth.ValueChanged += new System.EventHandler(this.tbPercentWidth_ValueChanged);
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(16, 152);
+			this.label6.Location = new System.Drawing.Point(8, 135);
+			this.label6.Size = new System.Drawing.Size(124, 23);
+			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label6.Name = "label6";
 			this.label6.TabIndex = 10;
 			this.label6.Text = "No Rows Message";
 			// 
 			// tbNoRows
 			// 
-			this.tbNoRows.Location = new System.Drawing.Point(144, 152);
+			this.tbNoRows.Location = new System.Drawing.Point(138, 135);
 			this.tbNoRows.Name = "tbNoRows";
-			this.tbNoRows.Size = new System.Drawing.Size(272, 20);
+			this.tbNoRows.Size = new System.Drawing.Size(294, 23);
 			this.tbNoRows.TabIndex = 11;
 			this.tbNoRows.Text = "";
 			this.tbNoRows.TextChanged += new System.EventHandler(this.tbNoRows_TextChanged);
 			// 
 			// label7
 			// 
-			this.label7.Location = new System.Drawing.Point(16, 184);
+			this.label7.Location = new System.Drawing.Point(8, 162);
+			this.label7.Size = new System.Drawing.Size(124, 23);
+			this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label7.Name = "label7";
 			this.label7.TabIndex = 12;
 			this.label7.Text = "Data Set Name";
@@ -303,41 +312,43 @@ namespace fyiReporting.RdlDesign
 			// cbDataSet
 			// 
 			this.cbDataSet.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cbDataSet.Location = new System.Drawing.Point(144, 184);
+			this.cbDataSet.Location = new System.Drawing.Point(138, 162);
 			this.cbDataSet.Name = "cbDataSet";
-			this.cbDataSet.Size = new System.Drawing.Size(121, 21);
+			this.cbDataSet.Size = new System.Drawing.Size(120, 23);
 			this.cbDataSet.TabIndex = 13;
 			this.cbDataSet.SelectedIndexChanged += new System.EventHandler(this.cbDataSet_SelectedIndexChanged);
 			// 
 			// chkPageBreakStart
 			// 
-			this.chkPageBreakStart.Location = new System.Drawing.Point(16, 256);
+			this.chkPageBreakStart.Location = new System.Drawing.Point(138, 218);
 			this.chkPageBreakStart.Name = "chkPageBreakStart";
-			this.chkPageBreakStart.Size = new System.Drawing.Size(136, 24);
+			this.chkPageBreakStart.Size = new System.Drawing.Size(129, 18);
 			this.chkPageBreakStart.TabIndex = 15;
 			this.chkPageBreakStart.Text = "Page Break at Start";
 			this.chkPageBreakStart.CheckedChanged += new System.EventHandler(this.chkPageBreakStart_CheckedChanged);
 			// 
 			// chkPageBreakEnd
 			// 
-			this.chkPageBreakEnd.Location = new System.Drawing.Point(280, 256);
+			this.chkPageBreakEnd.Location = new System.Drawing.Point(283, 218);
 			this.chkPageBreakEnd.Name = "chkPageBreakEnd";
-			this.chkPageBreakEnd.Size = new System.Drawing.Size(136, 24);
+			this.chkPageBreakEnd.Size = new System.Drawing.Size(125, 18);
 			this.chkPageBreakEnd.TabIndex = 16;
 			this.chkPageBreakEnd.Text = "Page Break at End";
 			this.chkPageBreakEnd.CheckedChanged += new System.EventHandler(this.chkPageBreakEnd_CheckedChanged);
 			// 
 			// cbChartData
 			// 
-			this.cbChartData.Location = new System.Drawing.Point(144, 216);
+			this.cbChartData.Location = new System.Drawing.Point(138, 189);
 			this.cbChartData.Name = "cbChartData";
-			this.cbChartData.Size = new System.Drawing.Size(272, 21);
+			this.cbChartData.Size = new System.Drawing.Size(294, 23);
 			this.cbChartData.TabIndex = 14;
 			this.cbChartData.TextChanged += new System.EventHandler(this.cbChartData_Changed);
 			// 
 			// label8
 			// 
-			this.label8.Location = new System.Drawing.Point(16, 216);
+			this.label8.Location = new System.Drawing.Point(8, 189);
+			this.label8.Size = new System.Drawing.Size(124, 23);
+			this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label8.Name = "label8";
 			this.label8.TabIndex = 16;
 			this.label8.Text = "Chart Data";
