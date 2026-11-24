@@ -22,11 +22,12 @@ def layout(h):
     yb = s.row(h, "label7", "textPassword", s.PAD + 54, fx)
     y = yb + s.ROWGAP
     for lab, chk in (("label9", "checkRunSchema"), ("label8", "checkRun")):
-        h.set(lab, s.PAD, y, fx - s.LGAP - s.PAD, h.H)
+        # Check box rows (the list pitch): the label as tall as the check box, centred on it.
+        h.set(lab, s.PAD, y, fx - s.LGAP - s.PAD, h.CH)
         h.text_align(lab, "MiddleRight")
         h.check_left(chk)
-        h.set(chk, fx, y + (h.H - h.CH) // 2, 16, h.CH)
-        y += h.H + s.ROWGAP
+        h.set(chk, fx, y, 16, h.CH)
+        y += h.CH + s.ROWGAP
     for chk in ("checkAddToConvertScript", "checkRunQueries"):
         h.check_left(chk)
         h.text_align(chk, "MiddleLeft")

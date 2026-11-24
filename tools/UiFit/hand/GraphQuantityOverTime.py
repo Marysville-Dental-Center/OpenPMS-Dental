@@ -15,10 +15,11 @@ _spec.loader.exec_module(s)
 
 def settings(h, split, prefix=""):
     """Lays out the settings panel; returns the panel height it needs."""
-    fxt = s.col_x(h, ["label8"])
     top = s.PAD + h.H + s.GAP
     # Chart Options.
     fx1 = s.col_x(h, ["label5", "label6", "label1", "label7"])
+    # The Chart Title box on the Chart Options group's field column (the window's first field column).
+    fxt = max(s.col_x(h, ["label8"]), s.PAD + fx1)
     yb1 = s.rows(h, [("label5", "comboQuantityType"), ("label6", "comboChartType"), ("label1", "comboGroupBy"), ("label7", "comboLegendDock")],
                  s.TITLE, fx1)
     w1 = fx1 + h.n("comboQuantityType").nw + s.PAD

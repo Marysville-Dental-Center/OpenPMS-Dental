@@ -186,7 +186,7 @@
 			this.checkShowDailyLabels.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.checkShowDailyLabels.Location = new System.Drawing.Point(8, 25);
 			this.checkShowDailyLabels.Name = "checkShowDailyLabels";
-			this.checkShowDailyLabels.Size = new System.Drawing.Size(123, 18);
+			this.checkShowDailyLabels.Size = new System.Drawing.Size(125, 18);
 			this.checkShowDailyLabels.TabIndex = 5;
 			this.checkShowDailyLabels.Text = "Show Daily Labels";
 			this.checkShowDailyLabels.UseVisualStyleBackColor = true;
@@ -198,9 +198,9 @@
 			this.checkShowGroupLabels.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.checkShowGroupLabels.Checked = true;
 			this.checkShowGroupLabels.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkShowGroupLabels.Location = new System.Drawing.Point(137, 25);
+			this.checkShowGroupLabels.Location = new System.Drawing.Point(139, 25);
 			this.checkShowGroupLabels.Name = "checkShowGroupLabels";
-			this.checkShowGroupLabels.Size = new System.Drawing.Size(130, 18);
+			this.checkShowGroupLabels.Size = new System.Drawing.Size(132, 18);
 			this.checkShowGroupLabels.TabIndex = 6;
 			this.checkShowGroupLabels.Text = "Show Group Labels";
 			this.checkShowGroupLabels.UseVisualStyleBackColor = true;
@@ -208,7 +208,7 @@
 			// 
 			// numberDailyLabelDensity
 			// 
-			this.numberDailyLabelDensity.Location = new System.Drawing.Point(405, 23);
+			this.numberDailyLabelDensity.Location = new System.Drawing.Point(409, 23);
 			this.numberDailyLabelDensity.Minimum = new decimal(new int[] {
             5,
             0,
@@ -227,7 +227,7 @@
 			// label2
 			// 
 			this.label2.AutoSize = false;
-			this.label2.Location = new System.Drawing.Point(283, 23);
+			this.label2.Location = new System.Drawing.Point(287, 23);
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(116, 23);
@@ -258,7 +258,7 @@
 			this.groupBox2.Controls.Add(this.label6);
 			this.groupBox2.Controls.Add(this.dateTimeTo);
 			this.groupBox2.Controls.Add(this.dateTimeFrom);
-			this.groupBox2.Location = new System.Drawing.Point(575, 8);
+			this.groupBox2.Location = new System.Drawing.Point(579, 8);
 			this.groupBox2.Name = "groupBox2";
 			this.groupBox2.Size = new System.Drawing.Size(321, 54);
 			this.groupBox2.TabIndex = 17;
@@ -303,7 +303,7 @@
 			this.groupBox1.Controls.Add(this.numberDailyLabelDensity);
 			this.groupBox1.Location = new System.Drawing.Point(114, 8);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(453, 54);
+			this.groupBox1.Size = new System.Drawing.Size(457, 54);
 			this.groupBox1.TabIndex = 18;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "View";

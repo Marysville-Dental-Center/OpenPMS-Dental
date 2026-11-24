@@ -40,7 +40,7 @@
 			this.checkShow.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.checkShow.Location = new System.Drawing.Point(118, 89);
 			this.checkShow.Name = "checkShow";
-			this.checkShow.Size = new System.Drawing.Size(58, 18);
+			this.checkShow.Size = new System.Drawing.Size(60, 18);
 			this.checkShow.TabIndex = 18;
 			this.checkShow.Text = "Show";
 			this.checkShow.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

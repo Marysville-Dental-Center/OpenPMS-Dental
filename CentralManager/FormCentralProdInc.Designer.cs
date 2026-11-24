@@ -97,7 +97,7 @@ namespace CentralManager {
 			this.radioWriteoffProc.Checked = true;
 			this.radioWriteoffProc.Location = new System.Drawing.Point(8, 45);
 			this.radioWriteoffProc.Name = "radioWriteoffProc";
-			this.radioWriteoffProc.Size = new System.Drawing.Size(145, 18);
+			this.radioWriteoffProc.Size = new System.Drawing.Size(147, 18);
 			this.radioWriteoffProc.TabIndex = 1;
 			this.radioWriteoffProc.TabStop = true;
 			this.radioWriteoffProc.Text = "Using procedure date.";
@@ -109,7 +109,7 @@ namespace CentralManager {
 			this.radioWriteoffPay.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
 			this.radioWriteoffPay.Location = new System.Drawing.Point(8, 23);
 			this.radioWriteoffPay.Name = "radioWriteoffPay";
-			this.radioWriteoffPay.Size = new System.Drawing.Size(192, 18);
+			this.radioWriteoffPay.Size = new System.Drawing.Size(194, 18);
 			this.radioWriteoffPay.TabIndex = 0;
 			this.radioWriteoffPay.Text = "Using insurance payment date.";
 			this.radioWriteoffPay.TextAlign = System.Drawing.ContentAlignment.TopLeft;
@@ -224,7 +224,7 @@ namespace CentralManager {
 			// 
 			this.radioProvider.Location = new System.Drawing.Point(8, 89);
 			this.radioProvider.Name = "radioProvider";
-			this.radioProvider.Size = new System.Drawing.Size(73, 18);
+			this.radioProvider.Size = new System.Drawing.Size(75, 18);
 			this.radioProvider.TabIndex = 36;
 			this.radioProvider.Text = "Provider";
 			this.radioProvider.Click += new System.EventHandler(this.radioProvider_Click);
@@ -234,7 +234,7 @@ namespace CentralManager {
 			this.radioAnnual.Checked = true;
 			this.radioAnnual.Location = new System.Drawing.Point(8, 67);
 			this.radioAnnual.Name = "radioAnnual";
-			this.radioAnnual.Size = new System.Drawing.Size(67, 18);
+			this.radioAnnual.Size = new System.Drawing.Size(69, 18);
 			this.radioAnnual.TabIndex = 35;
 			this.radioAnnual.TabStop = true;
 			this.radioAnnual.Text = "Annual";
@@ -244,7 +244,7 @@ namespace CentralManager {
 			// 
 			this.radioDaily.Location = new System.Drawing.Point(8, 23);
 			this.radioDaily.Name = "radioDaily";
-			this.radioDaily.Size = new System.Drawing.Size(55, 18);
+			this.radioDaily.Size = new System.Drawing.Size(57, 18);
 			this.radioDaily.TabIndex = 34;
 			this.radioDaily.Text = "Daily";
 			this.radioDaily.Click += new System.EventHandler(this.radioDaily_Click);
@@ -253,7 +253,7 @@ namespace CentralManager {
 			// 
 			this.radioMonthly.Location = new System.Drawing.Point(8, 45);
 			this.radioMonthly.Name = "radioMonthly";
-			this.radioMonthly.Size = new System.Drawing.Size(74, 18);
+			this.radioMonthly.Size = new System.Drawing.Size(76, 18);
 			this.radioMonthly.TabIndex = 33;
 			this.radioMonthly.Text = "Monthly";
 			this.radioMonthly.Click += new System.EventHandler(this.radioMonthly_Click);
@@ -264,7 +264,7 @@ namespace CentralManager {
 			this.checkShowUnearned.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.checkShowUnearned.Location = new System.Drawing.Point(147, 279);
 			this.checkShowUnearned.Name = "checkShowUnearned";
-			this.checkShowUnearned.Size = new System.Drawing.Size(122, 18);
+			this.checkShowUnearned.Size = new System.Drawing.Size(124, 18);
 			this.checkShowUnearned.TabIndex = 53;
 			this.checkShowUnearned.Text = "Include Unearned";
 			// 

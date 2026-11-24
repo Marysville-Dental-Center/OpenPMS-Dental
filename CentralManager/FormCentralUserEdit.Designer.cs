@@ -51,7 +51,7 @@
 			this.checkIsHidden.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.checkIsHidden.Location = new System.Drawing.Point(8, 8);
 			this.checkIsHidden.Name = "checkIsHidden";
-			this.checkIsHidden.Size = new System.Drawing.Size(79, 18);
+			this.checkIsHidden.Size = new System.Drawing.Size(81, 18);
 			this.checkIsHidden.TabIndex = 33;
 			this.checkIsHidden.Text = "Is Hidden";
 			this.checkIsHidden.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

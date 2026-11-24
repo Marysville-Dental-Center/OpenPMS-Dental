@@ -62,7 +62,7 @@ namespace xCrudGenerator {
 			// 
 			// butRun
 			// 
-			this.butRun.Location = new System.Drawing.Point(154, 187);
+			this.butRun.Location = new System.Drawing.Point(154, 177);
 			this.butRun.Name = "butRun";
 			this.butRun.Size = new System.Drawing.Size(98, 23);
 			this.butRun.TabIndex = 1;
@@ -90,7 +90,7 @@ namespace xCrudGenerator {
 			// label2
 			// 
 			this.label2.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label2.Location = new System.Drawing.Point(181, 222);
+			this.label2.Location = new System.Drawing.Point(181, 212);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(72, 17);
 			this.label2.TabIndex = 9;
@@ -138,11 +138,11 @@ namespace xCrudGenerator {
 			// textSnippet
 			// 
 			this.textSnippet.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.textSnippet.Location = new System.Drawing.Point(181, 241);
+			this.textSnippet.Location = new System.Drawing.Point(181, 231);
 			this.textSnippet.Multiline = true;
 			this.textSnippet.Name = "textSnippet";
 			this.textSnippet.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this.textSnippet.Size = new System.Drawing.Size(972, 485);
+			this.textSnippet.Size = new System.Drawing.Size(972, 495);
 			this.textSnippet.TabIndex = 14;
 			this.textSnippet.WordWrap = false;
 			// 
@@ -161,14 +161,14 @@ namespace xCrudGenerator {
 			this.listClass.FormattingEnabled = true;
 			this.listClass.Location = new System.Drawing.Point(8, 169);
 			this.listClass.Name = "listClass";
-			this.listClass.Size = new System.Drawing.Size(149, 327);
+			this.listClass.Size = new System.Drawing.Size(149, 337);
 			this.listClass.TabIndex = 16;
 			// 
 			// checkRun
 			// 
 			this.checkRun.Checked = true;
 			this.checkRun.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkRun.Location = new System.Drawing.Point(154, 118);
+			this.checkRun.Location = new System.Drawing.Point(154, 111);
 			this.checkRun.Name = "checkRun";
 			this.checkRun.Size = new System.Drawing.Size(16, 18);
 			this.checkRun.TabIndex = 19;
@@ -176,9 +176,9 @@ namespace xCrudGenerator {
 			// 
 			// label8
 			// 
-			this.label8.Location = new System.Drawing.Point(8, 116);
+			this.label8.Location = new System.Drawing.Point(8, 111);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(140, 23);
+			this.label8.Size = new System.Drawing.Size(140, 18);
 			this.label8.TabIndex = 21;
 			this.label8.Text = "Run";
 			this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -187,14 +187,14 @@ namespace xCrudGenerator {
 			// 
 			this.label9.Location = new System.Drawing.Point(8, 89);
 			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(140, 23);
+			this.label9.Size = new System.Drawing.Size(140, 18);
 			this.label9.TabIndex = 22;
 			this.label9.Text = "Schema (no db needed)";
 			this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// checkRunSchema
 			// 
-			this.checkRunSchema.Location = new System.Drawing.Point(154, 91);
+			this.checkRunSchema.Location = new System.Drawing.Point(154, 89);
 			this.checkRunSchema.Name = "checkRunSchema";
 			this.checkRunSchema.Size = new System.Drawing.Size(16, 18);
 			this.checkRunSchema.TabIndex = 23;
@@ -212,9 +212,9 @@ namespace xCrudGenerator {
 			// checkRunQueries
 			// 
 			this.checkRunQueries.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkRunQueries.Location = new System.Drawing.Point(8, 165);
+			this.checkRunQueries.Location = new System.Drawing.Point(8, 155);
 			this.checkRunQueries.Name = "checkRunQueries";
-			this.checkRunQueries.Size = new System.Drawing.Size(240, 18);
+			this.checkRunQueries.Size = new System.Drawing.Size(242, 18);
 			this.checkRunQueries.TabIndex = 26;
 			this.checkRunQueries.Text = "Run queries generated for convert script";
 			this.checkRunQueries.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -225,9 +225,9 @@ namespace xCrudGenerator {
 			this.checkAddToConvertScript.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.checkAddToConvertScript.Checked = true;
 			this.checkAddToConvertScript.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkAddToConvertScript.Location = new System.Drawing.Point(8, 143);
+			this.checkAddToConvertScript.Location = new System.Drawing.Point(8, 133);
 			this.checkAddToConvertScript.Name = "checkAddToConvertScript";
-			this.checkAddToConvertScript.Size = new System.Drawing.Size(181, 18);
+			this.checkAddToConvertScript.Size = new System.Drawing.Size(183, 18);
 			this.checkAddToConvertScript.TabIndex = 27;
 			this.checkAddToConvertScript.Text = "Add queries to convert script";
 			this.checkAddToConvertScript.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -287,9 +287,9 @@ namespace xCrudGenerator {
 			this.groupBox1.Controls.Add(this.listClass);
 			this.groupBox1.Controls.Add(this.label4);
 			this.groupBox1.Controls.Add(this.label6);
-			this.groupBox1.Location = new System.Drawing.Point(8, 222);
+			this.groupBox1.Location = new System.Drawing.Point(8, 212);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(165, 504);
+			this.groupBox1.Size = new System.Drawing.Size(165, 514);
 			this.groupBox1.TabIndex = 34;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Create Snippet Tool";

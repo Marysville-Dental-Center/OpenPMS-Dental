@@ -199,7 +199,7 @@
 			this.groupBoxBreakdown.Controls.Add(this.radBreakdownTop);
 			this.groupBoxBreakdown.Location = new System.Drawing.Point(488, 39);
 			this.groupBoxBreakdown.Name = "groupBoxBreakdown";
-			this.groupBoxBreakdown.Size = new System.Drawing.Size(259, 135);
+			this.groupBoxBreakdown.Size = new System.Drawing.Size(261, 135);
 			this.groupBoxBreakdown.TabIndex = 1;
 			this.groupBoxBreakdown.TabStop = false;
 			this.groupBoxBreakdown.Text = "Series Grouping";
@@ -209,7 +209,7 @@
 			this.radBreakdownNone.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.radBreakdownNone.Location = new System.Drawing.Point(8, 72);
 			this.radBreakdownNone.Name = "radBreakdownNone";
-			this.radBreakdownNone.Size = new System.Drawing.Size(58, 18);
+			this.radBreakdownNone.Size = new System.Drawing.Size(60, 18);
 			this.radBreakdownNone.TabIndex = 2;
 			this.radBreakdownNone.Text = "None";
 			this.radBreakdownNone.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -220,7 +220,7 @@
 			// 
 			this.comboBreakdownBy.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboBreakdownBy.FormattingEnabled = true;
-			this.comboBreakdownBy.Location = new System.Drawing.Point(134, 45);
+			this.comboBreakdownBy.Location = new System.Drawing.Point(136, 45);
 			this.comboBreakdownBy.Name = "comboBreakdownBy";
 			this.comboBreakdownBy.Size = new System.Drawing.Size(117, 23);
 			this.comboBreakdownBy.TabIndex = 3;
@@ -228,7 +228,7 @@
 			// 
 			// numericTop
 			// 
-			this.numericTop.Location = new System.Drawing.Point(72, 45);
+			this.numericTop.Location = new System.Drawing.Point(74, 45);
 			this.numericTop.Minimum = new decimal(new int[] {
             1,
             0,
@@ -249,7 +249,7 @@
 			this.radBreakdownAll.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.radBreakdownAll.Location = new System.Drawing.Point(8, 23);
 			this.radBreakdownAll.Name = "radBreakdownAll";
-			this.radBreakdownAll.Size = new System.Drawing.Size(43, 18);
+			this.radBreakdownAll.Size = new System.Drawing.Size(45, 18);
 			this.radBreakdownAll.TabIndex = 0;
 			this.radBreakdownAll.Text = "All";
 			this.radBreakdownAll.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -262,7 +262,7 @@
 			this.radBreakdownTop.Checked = true;
 			this.radBreakdownTop.Location = new System.Drawing.Point(8, 47);
 			this.radBreakdownTop.Name = "radBreakdownTop";
-			this.radBreakdownTop.Size = new System.Drawing.Size(49, 18);
+			this.radBreakdownTop.Size = new System.Drawing.Size(51, 18);
 			this.radBreakdownTop.TabIndex = 1;
 			this.radBreakdownTop.TabStop = true;
 			this.radBreakdownTop.Text = "Top";
@@ -414,9 +414,9 @@
 			// 
 			// textChartTitle
 			// 
-			this.textChartTitle.Location = new System.Drawing.Point(86, 8);
+			this.textChartTitle.Location = new System.Drawing.Point(94, 8);
 			this.textChartTitle.Name = "textChartTitle";
-			this.textChartTitle.Size = new System.Drawing.Size(661, 23);
+			this.textChartTitle.Size = new System.Drawing.Size(655, 23);
 			this.textChartTitle.TabIndex = 5;
 			this.textChartTitle.TextChanged += new System.EventHandler(this.textChartTitle_TextChanged);
 			// 
@@ -424,7 +424,7 @@
 			// 
 			this.label8.Location = new System.Drawing.Point(8, 8);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(72, 23);
+			this.label8.Size = new System.Drawing.Size(80, 23);
 			this.label8.TabIndex = 4;
 			this.label8.Text = "Chart Title:";
 			this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

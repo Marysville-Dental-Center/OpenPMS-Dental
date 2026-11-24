@@ -194,7 +194,7 @@ namespace CentralManager{
 			this.checkWebServiceIsEcw.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.checkWebServiceIsEcw.Location = new System.Drawing.Point(127, 50);
 			this.checkWebServiceIsEcw.Name = "checkWebServiceIsEcw";
-			this.checkWebServiceIsEcw.Size = new System.Drawing.Size(140, 18);
+			this.checkWebServiceIsEcw.Size = new System.Drawing.Size(142, 18);
 			this.checkWebServiceIsEcw.TabIndex = 1;
 			this.checkWebServiceIsEcw.Text = "Using eClinicalWorks";
 			this.checkWebServiceIsEcw.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -231,7 +231,7 @@ namespace CentralManager{
 			this.checkClinicBreakdown.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.checkClinicBreakdown.Location = new System.Drawing.Point(135, 254);
 			this.checkClinicBreakdown.Name = "checkClinicBreakdown";
-			this.checkClinicBreakdown.Size = new System.Drawing.Size(208, 18);
+			this.checkClinicBreakdown.Size = new System.Drawing.Size(210, 18);
 			this.checkClinicBreakdown.TabIndex = 221;
 			this.checkClinicBreakdown.Text = "Show clinic breakdown on reports";
 			this.checkClinicBreakdown.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

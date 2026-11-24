@@ -34,7 +34,7 @@
 			// 
 			this.radioCustomer.Location = new System.Drawing.Point(8, 23);
 			this.radioCustomer.Name = "radioCustomer";
-			this.radioCustomer.Size = new System.Drawing.Size(81, 18);
+			this.radioCustomer.Size = new System.Drawing.Size(83, 18);
 			this.radioCustomer.TabIndex = 0;
 			this.radioCustomer.TabStop = true;
 			this.radioCustomer.Text = "Customer";
@@ -45,7 +45,7 @@
 			// 
 			this.radioMsgType.Location = new System.Drawing.Point(8, 45);
 			this.radioMsgType.Name = "radioMsgType";
-			this.radioMsgType.Size = new System.Drawing.Size(77, 18);
+			this.radioMsgType.Size = new System.Drawing.Size(79, 18);
 			this.radioMsgType.TabIndex = 1;
 			this.radioMsgType.TabStop = true;
 			this.radioMsgType.Text = "MsgType";
@@ -54,9 +54,9 @@
 			// 
 			// radioCountryCode
 			// 
-			this.radioCountryCode.Location = new System.Drawing.Point(91, 45);
+			this.radioCountryCode.Location = new System.Drawing.Point(93, 45);
 			this.radioCountryCode.Name = "radioCountryCode";
-			this.radioCountryCode.Size = new System.Drawing.Size(103, 18);
+			this.radioCountryCode.Size = new System.Drawing.Size(105, 18);
 			this.radioCountryCode.TabIndex = 3;
 			this.radioCountryCode.TabStop = true;
 			this.radioCountryCode.Text = "Country Code";

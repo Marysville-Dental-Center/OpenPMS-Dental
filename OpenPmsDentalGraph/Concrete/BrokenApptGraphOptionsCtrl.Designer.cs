@@ -50,7 +50,7 @@
 			this.groupBox3.Controls.Add(this.radioRunProcs);
 			this.groupBox3.Location = new System.Drawing.Point(8, 8);
 			this.groupBox3.Name = "groupBox3";
-			this.groupBox3.Size = new System.Drawing.Size(427, 147);
+			this.groupBox3.Size = new System.Drawing.Size(429, 147);
 			this.groupBox3.TabIndex = 4;
 			this.groupBox3.TabStop = false;
 			this.groupBox3.Text = "Count By";
@@ -60,7 +60,7 @@
 			this.comboBrokenProcType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboBrokenProcType.Enabled = false;
 			this.comboBrokenProcType.FormattingEnabled = true;
-			this.comboBrokenProcType.Location = new System.Drawing.Point(119, 45);
+			this.comboBrokenProcType.Location = new System.Drawing.Point(121, 45);
 			this.comboBrokenProcType.Name = "comboBrokenProcType";
 			this.comboBrokenProcType.Size = new System.Drawing.Size(216, 23);
 			this.comboBrokenProcType.TabIndex = 9;
@@ -68,7 +68,7 @@
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(119, 94);
+			this.label3.Location = new System.Drawing.Point(121, 94);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(204, 18);
 			this.label3.TabIndex = 8;
@@ -77,7 +77,7 @@
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(119, 72);
+			this.label2.Location = new System.Drawing.Point(121, 72);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(272, 18);
 			this.label2.TabIndex = 7;
@@ -86,7 +86,7 @@
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(119, 23);
+			this.label1.Location = new System.Drawing.Point(121, 23);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(300, 18);
 			this.label1.TabIndex = 6;
@@ -98,7 +98,7 @@
 			this.comboAdjType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboAdjType.Enabled = false;
 			this.comboAdjType.FormattingEnabled = true;
-			this.comboAdjType.Location = new System.Drawing.Point(119, 116);
+			this.comboAdjType.Location = new System.Drawing.Point(121, 116);
 			this.comboAdjType.Name = "comboAdjType";
 			this.comboAdjType.Size = new System.Drawing.Size(216, 23);
 			this.comboAdjType.TabIndex = 5;
@@ -109,7 +109,7 @@
 			this.radioRunAdjs.AutoSize = false;
 			this.radioRunAdjs.Location = new System.Drawing.Point(8, 94);
 			this.radioRunAdjs.Name = "radioRunAdjs";
-			this.radioRunAdjs.Size = new System.Drawing.Size(96, 18);
+			this.radioRunAdjs.Size = new System.Drawing.Size(98, 18);
 			this.radioRunAdjs.TabIndex = 4;
 			this.radioRunAdjs.Text = "Adjustments";
 			this.radioRunAdjs.UseVisualStyleBackColor = true;
@@ -120,7 +120,7 @@
 			this.radioRunApts.AutoSize = false;
 			this.radioRunApts.Location = new System.Drawing.Point(8, 72);
 			this.radioRunApts.Name = "radioRunApts";
-			this.radioRunApts.Size = new System.Drawing.Size(105, 18);
+			this.radioRunApts.Size = new System.Drawing.Size(107, 18);
 			this.radioRunApts.TabIndex = 1;
 			this.radioRunApts.Text = "Appointments";
 			this.radioRunApts.UseVisualStyleBackColor = true;
@@ -132,7 +132,7 @@
 			this.radioRunProcs.Checked = true;
 			this.radioRunProcs.Location = new System.Drawing.Point(8, 23);
 			this.radioRunProcs.Name = "radioRunProcs";
-			this.radioRunProcs.Size = new System.Drawing.Size(88, 18);
+			this.radioRunProcs.Size = new System.Drawing.Size(90, 18);
 			this.radioRunProcs.TabIndex = 3;
 			this.radioRunProcs.TabStop = true;
 			this.radioRunProcs.Text = "Procedures";
@@ -144,7 +144,7 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
 			this.Controls.Add(this.groupBox3);
 			this.Name = "BrokenApptGraphOptionsCtrl";
-			this.Size = new System.Drawing.Size(443, 163);
+			this.Size = new System.Drawing.Size(445, 163);
 			this.Load += new System.EventHandler(this.BrokenApptGraphOptionsCtrl_Load);
 			this.groupBox3.ResumeLayout(false);
 			this.groupBox3.PerformLayout();

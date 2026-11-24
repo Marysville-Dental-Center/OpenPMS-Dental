@@ -423,8 +423,9 @@ def check_width(n, text_room=None):
     lead = GRID["check_box"] + GRID["check_text"] if n.type in ("OpenPmsDental.UI.CheckBox",) + RADIO_TYPES else 18
     if PLAIN_WINDOW[0] and n.type in ("System.Windows.Forms.CheckBox",) + RADIO_TYPES:
         # UI-12 slice 12: in a plain window (no FormODBase, no UiRadioLook) the stock check box and radio button draw as Windows draws
-        # them: their preferred width is the text + 22 (the box, its gap and the focus margins), so the lead is 20.
-        lead = 20
+        # them: their preferred width is the text + 22 to 25 (the box, its gap and the focus margins; GridRulesTests wraps the text in
+        # the width less what the preferred width adds), so the lead is 22 (the text + 24).
+        lead = 22
     return lead + n.text_w + 2 if n.text_w else n.w
 
 
