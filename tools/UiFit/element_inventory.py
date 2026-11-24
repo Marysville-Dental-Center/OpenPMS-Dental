@@ -9,7 +9,8 @@ whether it is in the new look and by which code, its row in tests/UiRefreshTests
     python tools/UiFit/element_inventory.py --check    compares with the committed file (exit 1 when it differs)
 
 No packages; deterministic (sorted). The counts: "designer" counts `this.<name> = new <Type>();` lines in the designer files of the program's
-projects (OpenPmsDental, OpenPmsDentalBusiness, CodeBase, SparksToothChart); "code" counts `new <Type>(` in their other .cs files, by name
+projects (OpenPmsDental, OpenPmsDentalBusiness, CodeBase, SparksToothChart, and since UI-PLAIN the plain exes and the graph library:
+PLAIN_ROOTS); "code" counts `new <Type>(` in their other .cs files, by name
 (so a type whose short name is also another library's counts those too: the number is a size, not an exact census). NoHqTests' coverage
 test and UiRefreshTests' ElementInventoryTests read the file: every row is styled (yes) with its code and coverage row, or carries a reason.
 """
@@ -20,7 +21,11 @@ import os
 import re
 import sys
 
-ROOTS = ["OpenPmsDental", "OpenPmsDentalBusiness", "CodeBase", "SparksToothChart"]
+# UI-PLAIN (docs/port-notes/UI-PLAIN.md): the plain windows count too: the plain exes' and the graph library's designer files (RdlDesign, the
+# report designer, is its own slice).
+PLAIN_ROOTS = ["CentralManager", "DatabaseIntegrityCheck", "DocumentationBuilder", "MySQLManager", "OpenPmsDentalDbSettings", "OpenPmsDentalGraph",
+               "OpenPmsDentalHL7", "ServiceManager", "UpdateFileCopier", "xCrudGenerator"]
+ROOTS = ["OpenPmsDental", "OpenPmsDentalBusiness", "CodeBase", "SparksToothChart"] + PLAIN_ROOTS
 OUT = "docs/port-notes/UI-13-inventory.tsv"
 COLUMNS = ["type", "drawn", "designer", "code", "styled", "by", "coverage", "fix_or_reason"]
 
@@ -31,7 +36,7 @@ STOCK_CODE = ["Label", "TextBox", "Button", "CheckBox", "RadioButton", "ComboBox
               "ProgressBar", "TrackBar", "VScrollBar", "HScrollBar", "LinkLabel", "ContextMenuStrip", "MenuStrip", "ToolStrip", "StatusStrip",
               "ToolTip", "WebBrowser", "PropertyGrid", "PrintPreviewControl", "ElementHost"]
 
-NO_COVERAGE = "(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)"
+NO_COVERAGE = "(outside coverage.tsv: it lists OpenPmsDental/UI, CodeBase/UI, WpfControlsOD/UI and WpfControlsOD/Themes)"
 WINDOWS_LOOK = "keeps Windows' own look (docs/specs/ui-refresh-plan.md section 1: the Windows dialogs and message boxes)"
 NONVISUAL = "draws nothing (a component, a data holder or a part of another row's control)"
 COMPOSITE = "draws nothing of its own: a user control whose children are rows of this list"
@@ -40,34 +45,34 @@ COMPOSITE = "draws nothing of its own: a user control whose children are rows of
 LOOKS = {
     # ---- stock Windows Forms types --------------------------------------------------------------------------------------------------------
     "System.Windows.Forms.Label": ("yes", "UI-2a fonts; plain text in Text on the container", NO_COVERAGE, "a label draws its text only: the font tokens (UI-2a/UI-2b) and the grid (UI-12); a LightGray block label gets UiBlockLook, an ActiveCaption grid title UiCaptionLook (Accent, TextOnAccent, the title font) (UI-13)"),
-    "System.Windows.Forms.TextBox": ("yes", "UiInputFrame (UI-12) frame; UiScrollLook (UI-13) scroll bars", "OpenPmsDental/UI/UiInputFrame", "single- and multi-line boxes framed like the combo box; their scroll bars in the Fluent look"),
-    "System.Windows.Forms.RichTextBox": ("yes", "UiInputFrame (UI-12) frame; UiScrollLook (UI-13) scroll bars", "OpenPmsDental/UI/UiInputFrame", "framed; scroll bars in the Fluent look"),
-    "System.Windows.Forms.Button": ("yes", "UiButtonLook (UI-13)", "OpenPmsDental/UI/UiLooks", "the program's button look (flat SurfaceRaised, Stroke, 4 px corners); a button with its own colour as a rounded swatch"),
-    "System.Windows.Forms.CheckBox": ("yes", "UiCheckLook (UI-13)", "OpenPmsDental/UI/UiLooks", "the program's check box (box left, the tokens)"),
-    "System.Windows.Forms.RadioButton": ("yes", "UiRadioLook (UI-12)", "OpenPmsDental/UI/UiRadioLook", "drawn like the program's check box"),
-    "System.Windows.Forms.ComboBox": ("yes", "UiInputFrame (UI-12)", "OpenPmsDental/UI/UiInputFrame", "the combo box's frame and chevron over the stock combo"),
-    "System.Windows.Forms.ListBox": ("yes", "UiScrollLook (UI-13) scroll bars; UiBorderLook-free (Windows' flat list border)", "OpenPmsDental/UI/UiScrollLook", "its scroll bars in the Fluent look; the items keep Windows' list (the program's own list is UI.ListBox)"),
-    "System.Windows.Forms.GroupBox": ("keeps", "", NO_COVERAGE, "one use (a hidden legacy group); Windows' themed group frame. Its windows use UI.GroupBox (UI-4a)"),
-    "System.Windows.Forms.Panel": ("yes", "UiBorderLook (UI-13) for bordered panels; UiScrollLook (UI-13) for scrolling ones", "OpenPmsDental/UI/UiLooks", "a 3-D or black border flat StrokeStrong; AutoScroll bars in the Fluent look; a thin dark childless panel (a divider) one 1 px Stroke line (UiSeparatorLook); a plain panel draws only its colour"),
-    "System.Windows.Forms.PictureBox": ("yes", "UiBorderLook (UI-13)", "OpenPmsDental/UI/UiLooks", "a 3-D or black border flat StrokeStrong; the picture is content"),
-    "System.Windows.Forms.NumericUpDown": ("yes", "UiInputFrame and UiUpDownLook (UI-12)", "OpenPmsDental/UI/UiUpDownLook", "framed; its arrows as the combo box's chevrons"),
-    "System.Windows.Forms.DomainUpDown": ("yes", "UiInputFrame and UiUpDownLook (UI-12)", "OpenPmsDental/UI/UiUpDownLook", "framed; its arrows as the combo box's chevrons"),
-    "System.Windows.Forms.DateTimePicker": ("yes", "UiInputFrame (UI-12; UI-13 fix round 2: the themed picker's whole drop button covered, the value in Text)", "OpenPmsDental/UI/UiInputFrame", "framed with the combo box's chevron over Windows' whole drop button (DTM_GETDATETIMEPICKERINFO), the value recoloured to the Text token, a disabled picker's box in the disabled grey; its drop-down calendar is the next row"),
-    "System.Windows.Forms.DateTimePicker (drop-down calendar)": ("yes", "UiLooks.SetDateTimePickerLook (UI-13): the token colours", "OpenPmsDental/UI/UiLooks", "Windows' own calendar pop-up (a window the picker owns; no paint hook): with Windows 11's theme Windows draws its themed calendar, without a theme (the gallery's harness) the token colours (title Accent, days Text on SurfaceRaised, other months TextDisabled); the program's ODDatePicker (UI-4b) is the date picker drawn in the tokens"),
-    "System.Windows.Forms.MonthCalendar": ("yes", "UiLooks.SetMonthCalendarLook (UI-13): the token colours", "OpenPmsDental/UI/UiLooks", "Windows' month calendar control (no owner drawing: Windows draws the days, header and hot tracking in one window): Windows 11's themed calendar (flat arrows, today in a themed frame; the gallery draws it with visual styles), and the token colours where Windows draws it without a theme; the program's own calendar is MonthCalendarOD (UI-4b), but swapping the 33 stock ones is a behaviour change (their events and selection ranges differ)"),
-    "System.Windows.Forms.TreeView": ("yes", "UiLooks.AttachExplorerTheme and UiScrollLook (UI-13)", "OpenPmsDental/UI/UiLooks", "Windows 11's Explorer theme (its flat hover and selection, the theme's expand glyph), no dotted lines (ShowLines off); scroll bars in the Fluent look"),
-    "System.Windows.Forms.ListView": ("yes", "UiLooks.AttachExplorerTheme and UiScrollLook (UI-13)", "OpenPmsDental/UI/UiLooks", "Windows 11's Explorer theme; scroll bars in the Fluent look"),
-    "System.Windows.Forms.DataGridView": ("yes", "UiLooks.SetDataGridViewLook (UI-13); its scroll bars UiScrollLook", "OpenPmsDental/UI/UiLooks", "header SurfaceSubtle with single Gridline lines (no 3-D bevel), lines Gridline, selection AccentSubtle, its frame StrokeStrong"),
-    "System.Windows.Forms.ProgressBar": ("yes", "UiProgressLook (UI-13)", "OpenPmsDental/UI/UiLooks", "a rounded Stroke track with the Accent fill"),
-    "System.Windows.Forms.TrackBar": ("yes", "UiTrackBarLook (UI-13)", "OpenPmsDental/UI/UiTrackBarLook", "the Fluent slider: thin Stroke track, Accent fill, round thumb, StrokeStrong ticks"),
-    "System.Windows.Forms.VScrollBar": ("yes", "UiScrollLook (UI-13)", "OpenPmsDental/UI/UiScrollLook", "flat Surface track, StrokeStrong pill thumb, Fluent chevrons"),
-    "System.Windows.Forms.HScrollBar": ("yes", "UiScrollLook (UI-13)", "OpenPmsDental/UI/UiScrollLook", "flat Surface track, StrokeStrong pill thumb, Fluent chevrons"),
-    "System.Windows.Forms.LinkLabel": ("yes", "UiLooks.SetLinkLabelLook (UI-13)", "OpenPmsDental/UI/UiLooks", "links in Accent"),
+    "System.Windows.Forms.TextBox": ("yes", "UiInputFrame (UI-12) frame; UiScrollLook (UI-13) scroll bars", "CodeBase/UI/UiInputFrame", "single- and multi-line boxes framed like the combo box; their scroll bars in the Fluent look"),
+    "System.Windows.Forms.RichTextBox": ("yes", "UiInputFrame (UI-12) frame; UiScrollLook (UI-13) scroll bars", "CodeBase/UI/UiInputFrame", "framed; scroll bars in the Fluent look"),
+    "System.Windows.Forms.Button": ("yes", "UiButtonLook (UI-13)", "CodeBase/UI/UiLooks", "the program's button look (flat SurfaceRaised, Stroke, 4 px corners); a button with its own colour as a rounded swatch"),
+    "System.Windows.Forms.CheckBox": ("yes", "UiCheckLook (UI-13)", "CodeBase/UI/UiLooks", "the program's check box (box left, the tokens)"),
+    "System.Windows.Forms.RadioButton": ("yes", "UiRadioLook (UI-12)", "CodeBase/UI/UiRadioLook", "drawn like the program's check box"),
+    "System.Windows.Forms.ComboBox": ("yes", "UiInputFrame (UI-12)", "CodeBase/UI/UiInputFrame", "the combo box's frame and chevron over the stock combo"),
+    "System.Windows.Forms.ListBox": ("yes", "UiScrollLook (UI-13) scroll bars; UiBorderLook-free (Windows' flat list border)", "CodeBase/UI/UiScrollLook", "its scroll bars in the Fluent look; the items keep Windows' list (the program's own list is UI.ListBox)"),
+    "System.Windows.Forms.GroupBox": ("yes", "UiGroupBoxLook (UI-PLAIN)", "CodeBase/UI/UiLooks", "the plain windows' group boxes (and the program's one hidden legacy group) drawn like UI.GroupBox: 6 px corners, 1 px Stroke, the title inside at the top left"),
+    "System.Windows.Forms.Panel": ("yes", "UiBorderLook (UI-13) for bordered panels; UiScrollLook (UI-13) for scrolling ones", "CodeBase/UI/UiLooks", "a 3-D or black border flat StrokeStrong; AutoScroll bars in the Fluent look; a thin dark childless panel (a divider) one 1 px Stroke line (UiSeparatorLook); a plain panel draws only its colour"),
+    "System.Windows.Forms.PictureBox": ("yes", "UiBorderLook (UI-13)", "CodeBase/UI/UiLooks", "a 3-D or black border flat StrokeStrong; the picture is content"),
+    "System.Windows.Forms.NumericUpDown": ("yes", "UiInputFrame and UiUpDownLook (UI-12)", "CodeBase/UI/UiUpDownLook", "framed; its arrows as the combo box's chevrons"),
+    "System.Windows.Forms.DomainUpDown": ("yes", "UiInputFrame and UiUpDownLook (UI-12)", "CodeBase/UI/UiUpDownLook", "framed; its arrows as the combo box's chevrons"),
+    "System.Windows.Forms.DateTimePicker": ("yes", "UiInputFrame (UI-12; UI-13 fix round 2: the themed picker's whole drop button covered, the value in Text)", "CodeBase/UI/UiInputFrame", "framed with the combo box's chevron over Windows' whole drop button (DTM_GETDATETIMEPICKERINFO), the value recoloured to the Text token, a disabled picker's box in the disabled grey; its drop-down calendar is the next row"),
+    "System.Windows.Forms.DateTimePicker (drop-down calendar)": ("yes", "UiLooks.SetDateTimePickerLook (UI-13): the token colours", "CodeBase/UI/UiLooks", "Windows' own calendar pop-up (a window the picker owns; no paint hook): with Windows 11's theme Windows draws its themed calendar, without a theme (the gallery's harness) the token colours (title Accent, days Text on SurfaceRaised, other months TextDisabled); the program's ODDatePicker (UI-4b) is the date picker drawn in the tokens"),
+    "System.Windows.Forms.MonthCalendar": ("yes", "UiLooks.SetMonthCalendarLook (UI-13): the token colours", "CodeBase/UI/UiLooks", "Windows' month calendar control (no owner drawing: Windows draws the days, header and hot tracking in one window): Windows 11's themed calendar (flat arrows, today in a themed frame; the gallery draws it with visual styles), and the token colours where Windows draws it without a theme; the program's own calendar is MonthCalendarOD (UI-4b), but swapping the 33 stock ones is a behaviour change (their events and selection ranges differ)"),
+    "System.Windows.Forms.TreeView": ("yes", "UiLooks.AttachExplorerTheme and UiScrollLook (UI-13)", "CodeBase/UI/UiLooks", "Windows 11's Explorer theme (its flat hover and selection, the theme's expand glyph), no dotted lines (ShowLines off); scroll bars in the Fluent look"),
+    "System.Windows.Forms.ListView": ("yes", "UiLooks.AttachExplorerTheme and UiScrollLook (UI-13)", "CodeBase/UI/UiLooks", "Windows 11's Explorer theme; scroll bars in the Fluent look"),
+    "System.Windows.Forms.DataGridView": ("yes", "UiLooks.SetDataGridViewLook (UI-13); its scroll bars UiScrollLook", "CodeBase/UI/UiLooks", "header SurfaceSubtle with single Gridline lines (no 3-D bevel), lines Gridline, selection AccentSubtle, its frame StrokeStrong"),
+    "System.Windows.Forms.ProgressBar": ("yes", "UiProgressLook (UI-13)", "CodeBase/UI/UiLooks", "a rounded Stroke track with the Accent fill"),
+    "System.Windows.Forms.TrackBar": ("yes", "UiTrackBarLook (UI-13)", "CodeBase/UI/UiTrackBarLook", "the Fluent slider: thin Stroke track, Accent fill, round thumb, StrokeStrong ticks"),
+    "System.Windows.Forms.VScrollBar": ("yes", "UiScrollLook (UI-13)", "CodeBase/UI/UiScrollLook", "flat Surface track, StrokeStrong pill thumb, Fluent chevrons"),
+    "System.Windows.Forms.HScrollBar": ("yes", "UiScrollLook (UI-13)", "CodeBase/UI/UiScrollLook", "flat Surface track, StrokeStrong pill thumb, Fluent chevrons"),
+    "System.Windows.Forms.LinkLabel": ("yes", "UiLooks.SetLinkLabelLook (UI-13)", "CodeBase/UI/UiLooks", "links in Accent"),
     "System.Windows.Forms.TableLayoutPanel": ("n/a", "", NO_COVERAGE, "draws nothing: a layout container"),
     "System.Windows.Forms.FlowLayoutPanel": ("n/a", "", NO_COVERAGE, "draws nothing: a layout container"),
-    "System.Windows.Forms.SplitContainer": ("keeps", "", NO_COVERAGE, "one use; Windows Forms draws its splitter flat in the container's colour (no bevel); the program's own is UI.SplitContainer (UI-4b)"),
-    "System.Windows.Forms.TabControl": ("keeps", "", NO_COVERAGE, "the program's windows use UI.TabControl (UI-4b); a stock one made in code keeps Windows' themed tabs"),
-    "System.Windows.Forms.TabPage": ("n/a", "", NO_COVERAGE, "draws its colour only; its tab is drawn by its tab control"),
+    "System.Windows.Forms.SplitContainer": ("yes", "UiPlainWindow (UI-PLAIN): the window background token", "CodeBase/UI/UiPlainWindow", "Windows Forms draws its splitter flat in the container's colour (no bevel), the window background token in the plain windows (their graph and dashboard settings panels); the program's own is UI.SplitContainer (UI-4b)"),
+    "System.Windows.Forms.TabControl": ("yes", "UiTabLook (UI-PLAIN)", "CodeBase/UI/UiTabLook", "the dashboard's stock tab control (and one made in code) painted over in the program's tab look: the strip SurfaceSubtle, the page's Stroke border, the selected tab's Accent line, at Windows' tab rectangles; bottom, side and button tabs keep Windows' drawing (none in use)"),
+    "System.Windows.Forms.TabPage": ("n/a", "", NO_COVERAGE, "draws its colour only (UiTabLook gives a stock page the colour behind its tab control); its tab is drawn by its tab control"),
     "System.Windows.Forms.ContextMenuStrip": ("yes", "UiToolStripRenderer (UI-6)", NO_COVERAGE, "the token renderer every tool strip of the UI thread uses (ToolStripManager.Renderer)"),
     "System.Windows.Forms.MenuStrip": ("yes", "UiToolStripRenderer (UI-6)", NO_COVERAGE, "the token renderer"),
     "System.Windows.Forms.ToolStrip": ("yes", "UiToolStripRenderer (UI-6)", NO_COVERAGE, "the token renderer"),
@@ -76,7 +81,7 @@ LOOKS = {
     "System.Windows.Forms.ToolStripSeparator": ("yes", "UiToolStripRenderer (UI-6)", NO_COVERAGE, "a menu separator: the token renderer draws it"),
     "System.Windows.Forms.ToolTip": ("keeps", "", NO_COVERAGE, "a component, not a control: Windows 11 draws its themed tooltip (rounded, flat); the program's own is ToolTipOD (UI-4a)"),
     "System.Windows.Forms.ErrorProvider": ("keeps", "", NO_COVERAGE, "Windows' error icon beside a field (a component)"),
-    "System.Windows.Forms.PrintPreviewControl": ("yes", "UiScrollLook (UI-13) scroll bars", "OpenPmsDental/UI/UiScrollLook", "the pages are documents; the scroll bars in the Fluent look (the program's own is ODPrintPreviewControl, UI-4c)"),
+    "System.Windows.Forms.PrintPreviewControl": ("yes", "UiScrollLook (UI-13) scroll bars", "CodeBase/UI/UiScrollLook", "the pages are documents; the scroll bars in the Fluent look (the program's own is ODPrintPreviewControl, UI-4c)"),
     "System.Windows.Forms.PrintPreviewDialog": ("keeps", "", NO_COVERAGE, WINDOWS_LOOK),
     "System.Windows.Forms.Integration.ElementHost": ("n/a", "", NO_COVERAGE, "hosts a WPF control: the WPF rows below"),
     "System.Windows.Forms.ColorDialog": ("keeps", "", NO_COVERAGE, WINDOWS_LOOK),
@@ -88,8 +93,8 @@ LOOKS = {
     "System.Windows.Forms.PageSetupDialog": ("keeps", "", NO_COVERAGE, WINDOWS_LOOK),
     "System.Windows.Forms.MessageBox": ("keeps", "", "OpenPmsDental/UI/MessageBox", WINDOWS_LOOK),
     "System.Windows.Forms.WebBrowser": ("keeps", "", NO_COVERAGE, "web content (section 1: HTML is out of scope)"),
-    "System.Windows.Forms.CheckedListBox": ("yes", "UiScrollLook (UI-13) scroll bars", "OpenPmsDental/UI/UiScrollLook", "scroll bars in the Fluent look; its items keep Windows' list"),
-    "System.Windows.Forms.MaskedTextBox": ("yes", "UiInputFrame (UI-12)", "OpenPmsDental/UI/UiInputFrame", "framed like the combo box"),
+    "System.Windows.Forms.CheckedListBox": ("yes", "UiScrollLook (UI-13) scroll bars", "CodeBase/UI/UiScrollLook", "scroll bars in the Fluent look; its items keep Windows' list"),
+    "System.Windows.Forms.MaskedTextBox": ("yes", "UiInputFrame (UI-12)", "CodeBase/UI/UiInputFrame", "framed like the combo box"),
     "System.Windows.Forms.Splitter": ("keeps", "", NO_COVERAGE, "Windows Forms draws it flat in the container's colour"),
     "System.Windows.Forms.PropertyGrid": ("keeps", "", NO_COVERAGE, "a developer tool's grid"),
     "System.Windows.Forms.DataGridViewCellStyle": ("n/a", "", NO_COVERAGE, NONVISUAL),
@@ -100,6 +105,10 @@ LOOKS = {
     "System.ComponentModel.Container": ("n/a", "", NO_COVERAGE, NONVISUAL),
     "System.ComponentModel.BackgroundWorker": ("n/a", "", NO_COVERAGE, NONVISUAL),
     "System.Drawing.Printing.PrintDocument": ("n/a", "", NO_COVERAGE, NONVISUAL),
+    "System.Windows.Forms.DataVisualization.Charting.Chart": ("keeps", "", NO_COVERAGE, "the graph library's charts (GraphQuantityOverTime, GraphIncome): content (section 1: reports and graphs), drawn by the chart library in the graph's own colours"),
+    # ---- the graph library (UI-PLAIN) -------------------------------------------------------------------------------------------------------
+    "OpenPmsDentalGraph.Legend": ("keeps", "", NO_COVERAGE, "the graph's legend: chart content (the series' colour keys); its four scroll buttons are stock buttons in the program's look (UiButtonLook)"),
+    "OpenPmsDentalGraph.Legend.PanelNoFlicker": ("keeps", "", NO_COVERAGE, "the legend's drawing surface: chart content"),
     # ---- the program's own controls -----------------------------------------------------------------------------------------------------
     "OpenPmsDental.UI.Button": ("yes", "UI.Button (UI-4a)", "OpenPmsDental/UI/Button", ""),
     "OpenPmsDental.UI.CheckBox": ("yes", "UI.CheckBox (UI-4a)", "OpenPmsDental/UI/CheckBox", ""),
@@ -135,14 +144,14 @@ LOOKS = {
     "OpenPmsDental.UI.GridOld": ("yes", "GridOld's scroll bars UiScrollLook (UI-13)", NO_COVERAGE, "the old grid (one use) keeps its cell drawing; its scroll bars in the Fluent look"),
     "OpenPmsDental.UI.SignatureBoxWrapper": ("yes", "SignatureBoxWrapper (UI-4c)", NO_COVERAGE, "border only; the signature is content"),
     "OpenPmsDental.UI.SignatureBox": ("keeps", "", NO_COVERAGE, "the signature pad: content"),
-    "OpenPmsDental.ValidDouble": ("yes", "UiInputFrame (UI-12)", "OpenPmsDental/UI/UiInputFrame", "a text box: framed like the combo box"),
-    "OpenPmsDental.ValidNum": ("yes", "UiInputFrame (UI-12)", "OpenPmsDental/UI/UiInputFrame", "a text box: framed like the combo box"),
-    "OpenPmsDental.ValidDate": ("yes", "UiInputFrame (UI-12)", "OpenPmsDental/UI/UiInputFrame", "a text box: framed like the combo box"),
-    "OpenPmsDental.ValidPhone": ("yes", "UiInputFrame (UI-12)", "OpenPmsDental/UI/UiInputFrame", "a text box: framed like the combo box"),
-    "OpenPmsDental.ValidTime": ("yes", "UiInputFrame (UI-12)", "OpenPmsDental/UI/UiInputFrame", "a text box: framed like the combo box"),
-    "OpenPmsDental.ODtextBox": ("yes", "UiInputFrame (UI-12); UiScrollLook (UI-13)", "OpenPmsDental/UI/UiInputFrame", "a rich text box: framed; scroll bars in the Fluent look"),
-    "OpenPmsDental.ODcodeBox": ("yes", "UiInputFrame (UI-12); UiScrollLook (UI-13)", "OpenPmsDental/UI/UiInputFrame", "a rich text box: framed; scroll bars in the Fluent look"),
-    "OpenPmsDental.TextBoxWiki": ("yes", "UiInputFrame (UI-12); UiScrollLook (UI-13)", "OpenPmsDental/UI/UiInputFrame", "a rich text box: framed; scroll bars in the Fluent look"),
+    "OpenPmsDental.ValidDouble": ("yes", "UiInputFrame (UI-12)", "CodeBase/UI/UiInputFrame", "a text box: framed like the combo box"),
+    "OpenPmsDental.ValidNum": ("yes", "UiInputFrame (UI-12)", "CodeBase/UI/UiInputFrame", "a text box: framed like the combo box"),
+    "OpenPmsDental.ValidDate": ("yes", "UiInputFrame (UI-12)", "CodeBase/UI/UiInputFrame", "a text box: framed like the combo box"),
+    "OpenPmsDental.ValidPhone": ("yes", "UiInputFrame (UI-12)", "CodeBase/UI/UiInputFrame", "a text box: framed like the combo box"),
+    "OpenPmsDental.ValidTime": ("yes", "UiInputFrame (UI-12)", "CodeBase/UI/UiInputFrame", "a text box: framed like the combo box"),
+    "OpenPmsDental.ODtextBox": ("yes", "UiInputFrame (UI-12); UiScrollLook (UI-13)", "CodeBase/UI/UiInputFrame", "a rich text box: framed; scroll bars in the Fluent look"),
+    "OpenPmsDental.ODcodeBox": ("yes", "UiInputFrame (UI-12); UiScrollLook (UI-13)", "CodeBase/UI/UiInputFrame", "a rich text box: framed; scroll bars in the Fluent look"),
+    "OpenPmsDental.TextBoxWiki": ("yes", "UiInputFrame (UI-12); UiScrollLook (UI-13)", "CodeBase/UI/UiInputFrame", "a rich text box: framed; scroll bars in the Fluent look"),
     "OpenPmsDental.TableTimeBar": ("yes", "TableTimeBar.PaintModern (UI-13)", NO_COVERAGE, "a framed column of 5-minute cells, filled cells Accent/AccentSubtle, cells, letters and slider steps at the window's scale (owner row 'Time pattern on the left looks odd')"),
     "OpenPmsDental.ToothChartTextBelowStrip": ("yes", "ToothChartTextBelowStrip (UI-4c)", NO_COVERAGE, ""),
     "OpenPmsDental.ContrPerio": ("keeps", "", NO_COVERAGE, "the perio chart: clinical content (section 1)"),
@@ -169,7 +178,7 @@ LOOKS = {
 PARTS = [
     ("part: GridOD header and title", "OpenPmsDental.UI.GridOD", "yes", "GridScreenLook (UI-5)", NO_COVERAGE, ""),
     ("part: GridOD rows, selection and lines", "OpenPmsDental.UI.GridOD", "yes", "GridScreenLook (UI-5)", NO_COVERAGE, ""),
-    ("part: GridOD scroll bars", "OpenPmsDental.UI.GridOD", "yes", "UiScrollLook (UI-13); the corner square in the track colour", "OpenPmsDental/UI/UiScrollLook", "owner rows 'Scrolling still using old style', 'Scrolling bar style is old'"),
+    ("part: GridOD scroll bars", "OpenPmsDental.UI.GridOD", "yes", "UiScrollLook (UI-13); the corner square in the track colour", "CodeBase/UI/UiScrollLook", "owner rows 'Scrolling still using old style', 'Scrolling bar style is old'"),
     ("part: GridOD page bar (ODGridPageNav)", "OpenPmsDental.UI.ODGridPageNav", "yes", "ODGridPageNav (UI-12 pilot)", NO_COVERAGE, ""),
     ("part: tab strips", "OpenPmsDental.UI.TabControl", "yes", "UI.TabControl (UI-4b)", "OpenPmsDental/UI/TabControl/*", ""),
     ("part: menus and context menus", "OpenPmsDental.UI.MenuOD", "yes", "MenuOD and UiToolStripRenderer (UI-6)", "OpenPmsDental/UI/MenuOD", ""),
@@ -180,15 +189,15 @@ PARTS = [
     ("part: splitters (UI.SplitContainer)", "OpenPmsDental.UI.SplitContainer", "yes", "UI.SplitContainer (UI-4b)", "OpenPmsDental/UI/Splitters/*", ""),
     ("part: progress bars (OdProgressBar)", "", "yes", "OdProgressBar (UI-4c)", "OpenPmsDental/UI/OdProgressBar", ""),
     ("part: the time pattern bar", "OpenPmsDental.TableTimeBar", "yes", "TableTimeBar.PaintModern (UI-13)", NO_COVERAGE, "owner row 'Time pattern on the left looks odd'"),
-    ("part: the time pattern's slider handle (a stock button)", "OpenPmsDental.TableTimeBar", "yes", "UiButtonLook swatch (UI-13)", "OpenPmsDental/UI/UiLooks", ""),
-    ("part: colour buttons (stock buttons showing a colour)", "", "yes", "UiButtonLook swatch (UI-13)", "OpenPmsDental/UI/UiLooks", "a rounded swatch with a StrokeStrong edge"),
+    ("part: the time pattern's slider handle (a stock button)", "OpenPmsDental.TableTimeBar", "yes", "UiButtonLook swatch (UI-13)", "CodeBase/UI/UiLooks", ""),
+    ("part: colour buttons (stock buttons showing a colour)", "", "yes", "UiButtonLook swatch (UI-13)", "CodeBase/UI/UiLooks", "a rounded swatch with a StrokeStrong edge"),
     ("part: the status strip", "", "yes", "UiToolStripRenderer (UI-6)", NO_COVERAGE, ""),
     ("part: message boxes", "", "keeps", "", "OpenPmsDental/UI/MessageBox", WINDOWS_LOOK + "; the copyable one is MsgBoxCopyPaste (UI-4c)"),
-    ("part: the aging strip's grey blocks (Ins Rem, DPlan Rem)", "", "yes", "UiBlockLook (UI-13)", "OpenPmsDental/UI/UiLooks", "owner row 'Check spacing top left'"),
-    ("part: frame scroll bars of text boxes, lists, tree and list views, scrolling panels", "", "yes", "UiScrollLook (UI-13)", "OpenPmsDental/UI/UiScrollLook", ""),
-    ("part: dividers drawn as thin dark panels (FormInsPlan's)", "", "yes", "UiSeparatorLook (UI-13)", "OpenPmsDental/UI/UiLooks", "a 1 px Stroke line in the panel's middle on the parent's colour"),
-    ("part: grid titles drawn as ActiveCaption labels (FormQuery's)", "", "yes", "UiCaptionLook (UI-13)", "OpenPmsDental/UI/UiLooks", "Accent with TextOnAccent in the title font token, as GridOD's title"),
-    ("part: the input frame's corners printed through WM_PRINT", "", "yes", "UiInputFrame (UI-12; UI-13 clears Windows' corner pixel)", "OpenPmsDental/UI/UiInputFrame", "the dark pixel the Windows border left in each outer corner"),
+    ("part: the aging strip's grey blocks (Ins Rem, DPlan Rem)", "", "yes", "UiBlockLook (UI-13)", "CodeBase/UI/UiLooks", "owner row 'Check spacing top left'"),
+    ("part: frame scroll bars of text boxes, lists, tree and list views, scrolling panels", "", "yes", "UiScrollLook (UI-13)", "CodeBase/UI/UiScrollLook", ""),
+    ("part: dividers drawn as thin dark panels (FormInsPlan's)", "", "yes", "UiSeparatorLook (UI-13)", "CodeBase/UI/UiLooks", "a 1 px Stroke line in the panel's middle on the parent's colour"),
+    ("part: grid titles drawn as ActiveCaption labels (FormQuery's)", "", "yes", "UiCaptionLook (UI-13)", "CodeBase/UI/UiLooks", "Accent with TextOnAccent in the title font token, as GridOD's title"),
+    ("part: the input frame's corners printed through WM_PRINT", "", "yes", "UiInputFrame (UI-12; UI-13 clears Windows' corner pixel)", "CodeBase/UI/UiInputFrame", "the dark pixel the Windows border left in each outer corner"),
 ]
 
 # WPF controls of the program's WPF windows (counted as XAML elements ui:<Type> in WpfControlsOD and OpenPmsDental).

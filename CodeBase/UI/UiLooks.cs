@@ -18,7 +18,7 @@
 // - the stock data grid view: the grid's tokens (header SurfaceSubtle, lines Gridline, selection AccentSubtle) where it has Windows' defaults;
 // - the link label: Accent links where it has Windows' default blue;
 // - UI-PLAIN: the stock group box (the plain windows' 36): the program's group box (UI.GroupBox: 6 px corners, 1 px Stroke, the title inside
-//   the box at its top left), UiGroupBoxLook.
+//   the box at its top left), UiGroupBoxLook; the stock tab control with its tabs on top: the program's tab control (UiTabLook, its own file).
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Drawing;
@@ -91,6 +91,9 @@ namespace CodeBase {
 			}
 			if(UiGroupBoxLook.IsDrawn(control)) {
 				UiGroupBoxLook.Attach(control);
+			}
+			if(UiTabLook.IsDrawn(control)) {
+				UiTabLook.Attach(control);
 			}
 		}
 

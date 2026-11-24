@@ -14,8 +14,11 @@ using UiRefreshTests.Scan;
 namespace UiRefreshTests {
 	[TestClass]
 	public class ElementInventoryTests {
-		///<summary>The projects whose designer files the tool reads (element_inventory.py's ROOTS).</summary>
-		private static readonly string[] _arrayRoots=new string[] { "OpenPmsDental","OpenPmsDentalBusiness","CodeBase","SparksToothChart" };
+		///<summary>The projects whose designer files the tool reads (element_inventory.py's ROOTS): the program's, and since UI-PLAIN the plain exes'
+		///and the graph library's (PLAIN_ROOTS), so the plain windows' element types count too.</summary>
+		private static readonly string[] _arrayRoots=new string[] { "OpenPmsDental","OpenPmsDentalBusiness","CodeBase","SparksToothChart",
+			"CentralManager","DatabaseIntegrityCheck","DocumentationBuilder","MySQLManager","OpenPmsDentalDbSettings","OpenPmsDentalGraph","OpenPmsDentalHL7",
+			"ServiceManager","UpdateFileCopier","xCrudGenerator" };
 		private const string NO_COVERAGE_PREFIX="(outside coverage.tsv";
 
 		private static List<string[]> ReadInventory() {

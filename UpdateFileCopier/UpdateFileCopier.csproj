@@ -199,6 +199,12 @@
     <Compile Include="..\CodeBase\UI\UiUpDownLook.cs">
       <Link>CodeBase\UI\UiUpDownLook.cs</Link>
     </Compile>
+    <Compile Include="..\CodeBase\UI\UiTabPaint.cs">
+      <Link>CodeBase\UI\UiTabPaint.cs</Link>
+    </Compile>
+    <Compile Include="..\CodeBase\UI\UiTabLook.cs">
+      <Link>CodeBase\UI\UiTabLook.cs</Link>
+    </Compile>
     <Compile Include="..\CodeBase\UI\UiPlainWindow.cs">
       <Link>CodeBase\UI\UiPlainWindow.cs</Link>
     </Compile>

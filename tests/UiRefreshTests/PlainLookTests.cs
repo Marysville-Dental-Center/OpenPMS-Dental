@@ -24,8 +24,8 @@ namespace UiRefreshTests {
 		///<summary>Plain forms of those assemblies that are not windows of their own: the progress windows' base class (its two windows call
 		///Attach).</summary>
 		public static readonly string[] ArrayNotWindows=new string[] { "CodeBase.FormProgressBase" };
-		///<summary>The most of a plain window's picture that may be the classic window grey (SystemColors.Control): the disabled inputs' fill
-		///and Windows' own parts (the stock tab control's strip, a print preview's surround) are that grey.</summary>
+		///<summary>The most of a plain window's picture outside its inputs that may be the classic window grey (SystemColors.Control). A read-only
+		///or disabled input is that grey in the program's windows too (its area is taken off the count).</summary>
 		private const double MAX_SHARE_CLASSIC_GREY=0.10;
 
 		[TestMethod]
@@ -73,7 +73,7 @@ namespace UiRefreshTests {
 							}
 							countFramed+=CheckTree(gridWindow.Window,builtWindow.Root,listProblems);
 							using(Bitmap bitmap=DesignSheetWindows.Capture(builtWindow.Root,Rectangle.Empty)) {
-								double share=GetShare(bitmap,SystemColors.Control);
+								double share=GetShareOutsideInputs(bitmap,SystemColors.Control,builtWindow.Root);
 								if(share>MAX_SHARE_CLASSIC_GREY) {
 									listProblems.Add(gridWindow.Window+": "+Math.Round(share*100)+"% of the picture is the classic grey");
 								}
@@ -116,6 +116,9 @@ namespace UiRefreshTests {
 				if(UiGroupBoxLook.IsDrawn(control) && !UiGroupBoxLook.IsAttached(control)) {
 					listProblems.Add(name+": a stock group box in Windows' look");
 				}
+				if(UiTabLook.IsDrawn(control) && !UiTabLook.IsAttached(control)) {
+					listProblems.Add(name+": a stock tab control in Windows' look");
+				}
 				if(control!=root && UiScrollLook.IsScrolled(control) && !UiScrollLook.IsAttached(control)) {
 					listProblems.Add(name+": scroll bars in Windows' look");
 				}
@@ -132,7 +135,9 @@ namespace UiRefreshTests {
 			}
 		}
 
-		private static double GetShare(Bitmap bitmap,Color color) {
+		///<summary>The share of the picture in the colour, less the visible inputs' area (text boxes, lists, combo boxes, up-down boxes, date
+		///pickers: a read-only or disabled one is the classic grey in the program's windows too).</summary>
+		private static double GetShareOutsideInputs(Bitmap bitmap,Color color,Control root) {
 			int argb=color.ToArgb();
 			long count=0;
 			for(int y=0;y<bitmap.Height;y++) {
@@ -142,6 +147,9 @@ namespace UiRefreshTests {
 					}
 				}
 			}
+			long areaInputs=Walk(root).Where(x => x!=root && (x is TextBoxBase || x is ListBox || x is ComboBox || x is UpDownBase
+				|| x is DateTimePicker)).Sum(x => (long)x.Width*x.Height);
+			count=Math.Max(0,count-areaInputs);
 			return bitmap.Width*bitmap.Height==0 ? 0 : (double)count/(bitmap.Width*bitmap.Height);
 		}
 
@@ -230,6 +238,42 @@ namespace UiRefreshTests {
 						//The title inside the box at its top left, in Text.
 						Assert.IsTrue(HasDark(bitmap,new Rectangle(4,2,70,14)),"the title");
 						Assert.IsFalse(HasDark(bitmap,new Rectangle(4,30,150,50)),"nothing else inside");
+					}
+				}
+			});
+		}
+
+		[TestMethod]
+		public void TabLook_TheProgramsTabs() {
+			StaRunner.Run(() => {
+				using(Form form=new Form { BackColor=UiTheme.Surface,ClientSize=new Size(320,200) })
+				using(System.Windows.Forms.TabControl tabControl=new System.Windows.Forms.TabControl { Bounds=new Rectangle(10,10,300,180) }) {
+					form.Controls.Add(tabControl);
+					tabControl.TabPages.Add(new System.Windows.Forms.TabPage("First"));
+					Assert.IsTrue(UiTabLook.IsDrawn(tabControl));
+					UiTabLook.Attach(tabControl);
+					System.Windows.Forms.TabPage tabPageLater=new System.Windows.Forms.TabPage("Second");
+					tabControl.TabPages.Add(tabPageLater);
+					Assert.AreEqual(UiTheme.Surface,tabControl.TabPages[0].BackColor,"A page shows the colour behind the tab control.");
+					Assert.AreEqual(UiTheme.Surface,tabPageLater.BackColor,"A page added later too.");
+					tabControl.Alignment=TabAlignment.Bottom;
+					Assert.IsFalse(UiTabLook.IsDrawn(tabControl),"Bottom tabs keep Windows' drawing.");
+					tabControl.Alignment=TabAlignment.Top;
+					tabControl.SelectedIndex=0;
+					Rectangle rectangleFirst=tabControl.GetTabRect(0);
+					Rectangle rectangleSecond=tabControl.GetTabRect(1);
+					using(Bitmap bitmap=new Bitmap(300,180,PixelFormat.Format24bppRgb))
+					using(Graphics g=Graphics.FromImage(bitmap)) {
+						g.Clear(Color.Magenta);
+						UiTabLook.PaintTabControl(g,tabControl,idxHover:-1);
+						int yStrip=rectangleFirst.Top+2;
+						AssertNear(UiTheme.GetColor(EnumUiColor.SurfaceSubtle),bitmap.GetPixel(290,yStrip),"the strip beside the tabs");
+						AssertNear(UiTheme.GetColor(EnumUiColor.Accent),bitmap.GetPixel(rectangleFirst.Left+rectangleFirst.Width/2,rectangleFirst.Bottom-1),"the selected tab's line");
+						AssertNear(UiTheme.GetColor(EnumUiColor.SurfaceSubtle),bitmap.GetPixel(rectangleSecond.Left+2,rectangleSecond.Bottom-2),"no line under the other tab");
+						AssertNear(UiTheme.GetColor(EnumUiColor.Stroke),bitmap.GetPixel(0,120),"the page's left border");
+						AssertNear(UiTheme.GetColor(EnumUiColor.Stroke),bitmap.GetPixel(150,179),"the page's bottom border");
+						AssertNear(UiTheme.Surface,bitmap.GetPixel(150,120),"the page area: the colour behind");
+						Assert.IsTrue(HasDark(bitmap,rectangleFirst),"the first tab's text");
 					}
 				}
 			});

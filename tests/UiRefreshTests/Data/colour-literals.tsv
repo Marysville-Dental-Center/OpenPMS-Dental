@@ -1,9 +1,11 @@
 # The colour literals the shared controls have today (docs/specs/ui-refresh-plan.md section 9; package UI-1): Color.FromArgb, FromRgb and
-# FromScRgb calls and hex colours in OpenPmsDental/UI, OpenPmsDentalBusiness/UI/GridOD.cs and WpfControlsOD/UI/Controls. NoHqTests'
+# FromScRgb calls and hex colours in OpenPmsDental/UI, the shared looks of CodeBase/UI (UI-PLAIN), OpenPmsDentalBusiness/UI/GridOD.cs and
+# WpfControlsOD/UI/Controls. NoHqTests'
 # UiThemeScanTests fails on a literal that is not here (use a UiTheme token) and on a row the source no longer has as often (cut the list):
 # each control package shrinks it. OPMS_UI_COLOUR_LITERALS_WRITE=1 writes it again from the source.
 # file: relative to the repository root, forward slashes. literal: the call without whitespace, or the hex colour in capitals. count: how often.
 file	literal	count
+CodeBase/UI/UiPlainWindow.cs	Color.FromArgb(252,253,254)	1
 OpenPmsDental/UI/Appt/ControlApptPanel.PreAuth.cs	Color.FromArgb(PIn.Int(argb,false))	1
 OpenPmsDental/UI/Appt/ControlApptPanel.cs	Color.FromArgb(00,00,00)	1
 OpenPmsDental/UI/Appt/ControlApptPanel.cs	Color.FromArgb(00,170,00)	1
