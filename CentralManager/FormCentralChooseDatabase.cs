@@ -157,7 +157,7 @@ namespace OpenPmsDental {
 			// 
 			this.butCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.butCancel.Location = new System.Drawing.Point(277,208);
+			this.butCancel.Location = new System.Drawing.Point(277,207);
 			this.butCancel.Name = "butCancel";
 			this.butCancel.Size = new System.Drawing.Size(75,24);
 			this.butCancel.TabIndex = 13;
@@ -167,7 +167,7 @@ namespace OpenPmsDental {
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(194,208);
+			this.butOK.Location = new System.Drawing.Point(194,207);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75,24);
 			this.butOK.TabIndex = 12;
@@ -178,7 +178,7 @@ namespace OpenPmsDental {
 			// 
 			this.checkAutoLogin.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.checkAutoLogin.AutoSize = false;
-			this.checkAutoLogin.Location = new System.Drawing.Point(8,211);
+			this.checkAutoLogin.Location = new System.Drawing.Point(8,210);
 			this.checkAutoLogin.Name = "checkAutoLogin";
 			this.checkAutoLogin.Size = new System.Drawing.Size(159,18);
 			this.checkAutoLogin.TabIndex = 14;
@@ -189,7 +189,7 @@ namespace OpenPmsDental {
 			// 
 			this.AcceptButton = this.butOK;
 			this.AutoScaleBaseSize = new System.Drawing.Size(5,13);
-			this.ClientSize = new System.Drawing.Size(360,240);
+			this.ClientSize = new System.Drawing.Size(360,239);
 			this.Controls.Add(this.checkAutoLogin);
 			this.Controls.Add(this.groupServer);
 			this.Controls.Add(this.butCancel);

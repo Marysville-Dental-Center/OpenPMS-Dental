@@ -43,7 +43,7 @@
 			// 
 			this.butCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.butCancel.Location = new System.Drawing.Point(304, 42);
+			this.butCancel.Location = new System.Drawing.Point(304, 43);
 			this.butCancel.Name = "butCancel";
 			this.butCancel.Size = new System.Drawing.Size(75, 24);
 			this.butCancel.TabIndex = 2;
@@ -54,7 +54,7 @@
 			// 
 			this.butOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butOk.DialogResult = System.Windows.Forms.DialogResult.OK;
-			this.butOk.Location = new System.Drawing.Point(221, 42);
+			this.butOk.Location = new System.Drawing.Point(221, 43);
 			this.butOk.Name = "butOk";
 			this.butOk.Size = new System.Drawing.Size(75, 24);
 			this.butOk.TabIndex = 1;
@@ -76,7 +76,7 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
 			this.CancelButton = this.butCancel;
-			this.ClientSize = new System.Drawing.Size(387, 74);
+			this.ClientSize = new System.Drawing.Size(387, 75);
 			this.Controls.Add(this.textBoxTabName);
 			this.Controls.Add(this.butOk);
 			this.Controls.Add(this.butCancel);

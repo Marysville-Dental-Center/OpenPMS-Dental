@@ -12,8 +12,9 @@ _spec.loader.exec_module(s)
 
 
 def layout(h):
+    s.size(h, 464, 378)  # main's size (the planner grew it 12 px)
     R = s.W(h) - s.PAD
-    B = s.H(h) - s.PAD
+    B = 378 - s.PAD
     lw = 180
     yb = h.captioned("label1", "listUser", s.PAD, s.PAD, lw, h=B - (s.PAD + 17 + s.CAPGAP))
     top = h.n("listUser").ny

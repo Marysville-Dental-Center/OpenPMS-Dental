@@ -17,6 +17,7 @@ def layout(h):
     for cap, box in (("label9", "textURI"), ("label11", "textUser2"), ("label10", "textPassword2")):
         y = h.captioned(cap, box, s.PAD, y, cw) + s.ROWGAP
     h.set("groupServer", s.PAD, s.PAD, R - s.PAD, y - s.ROWGAP + s.PAD)
+    s.size(h, s.W(h), s.PAD + h.n("groupServer").nh + s.SECTION + 24 + s.PAD)  # the section gap over the bar
     yb = s.bar(h, right=("butOK", "butCancel"), bh=24)
     h.check_left("checkAutoLogin")
     h.set("checkAutoLogin", s.PAD, yb + (24 - h.CH) // 2, h.cw("checkAutoLogin"), h.CH)

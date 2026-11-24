@@ -9,6 +9,7 @@ _spec.loader.exec_module(s)
 
 
 def layout(h):
+    s.size(h, 387, 8 + 23 + s.SECTION + 24 + 8)  # the section gap over the bar (main 71, the planner 74)
     R = s.W(h) - s.PAD
     fx = s.col_x(h, ["label1"])
     s.row(h, "label1", "textBoxTabName", s.PAD, fx, R - fx)

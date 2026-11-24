@@ -10,6 +10,7 @@ _spec.loader.exec_module(s)
 
 
 def layout(h):
+    s.size(h, 294, 145)  # main's size (the planner grew it 3 px)
     R = s.W(h) - s.PAD
     fx = s.col_x(h, ["label3"])
     yb = s.row(h, "label3", "textUserName", s.PAD, fx, R - fx)
