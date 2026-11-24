@@ -11,3 +11,4 @@ OpenPmsDental.FormProcTools	checkRecallTypes	Recall Types - Resets the recall ty
 OpenPmsDental.FormProcTools	checkCodeImport	CDA Codes - Add any missing CDA codes from a licensed code file that you supply. Existing codes are not changed.	616	UI-12 slice 10: the Canadian code import (FormProcTools.cs, Load)
 OpenPmsDental.FormPerioGraphicalSetup	label4	Recession	59	UI-12 slice 10: the gingival margin row shown as recession (FormPerioGraphicalSetup.cs)
 OpenPmsDental.FormRxSelect	labelInstructions	Please select a Prescription from the list.	218	UI-12 slice 10: the instructions in selection mode (FormRxSelect.cs, Load)
+OpenPmsDental.FormPrintTrojan	labPageNum	Page: 12\12	68	UI-12 slice 10: the page counter, page n of m (FormPrintTrojan.cs, CalculatePageOffset; the digits are one width, so Page: 99\99 measures the same)

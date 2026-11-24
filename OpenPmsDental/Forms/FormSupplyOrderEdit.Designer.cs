@@ -90,7 +90,7 @@ namespace OpenPmsDental{
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(264, 37);
+			this.label3.Location = new System.Drawing.Point(272, 37);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(443, 18);
 			this.label3.TabIndex = 8;
@@ -102,7 +102,7 @@ namespace OpenPmsDental{
 			// 
 			this.textDatePlaced.Location = new System.Drawing.Point(166, 35);
 			this.textDatePlaced.Name = "textDatePlaced";
-			this.textDatePlaced.Size = new System.Drawing.Size(92, 23);
+			this.textDatePlaced.Size = new System.Drawing.Size(100, 23);
 			this.textDatePlaced.TabIndex = 0;
 			// 
 			// butDelete
@@ -120,7 +120,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(632, 318);
+			this.butSave.Location = new System.Drawing.Point(640, 318);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 15;
@@ -220,7 +220,7 @@ namespace OpenPmsDental{
 			// 
 			// FormSupplyOrderEdit
 			// 
-			this.ClientSize = new System.Drawing.Size(715, 350);
+			this.ClientSize = new System.Drawing.Size(723, 350);
 			this.Controls.Add(this.butToday);
 			this.Controls.Add(this.labelDateReceived);
 			this.Controls.Add(this.textDateReceived);

@@ -53,9 +53,9 @@ namespace OpenPmsDental{
 			this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.groupBox3.Controls.Add(this.butHistory);
 			this.groupBox3.Controls.Add(this.butRenameList);
-			this.groupBox3.Location = new System.Drawing.Point(857, 36);
+			this.groupBox3.Location = new System.Drawing.Point(856, 36);
 			this.groupBox3.Name = "groupBox3";
-			this.groupBox3.Size = new System.Drawing.Size(87, 83);
+			this.groupBox3.Size = new System.Drawing.Size(88, 83);
 			this.groupBox3.TabIndex = 6;
 			this.groupBox3.TabStop = false;
 			this.groupBox3.Text = "List";
@@ -65,7 +65,7 @@ namespace OpenPmsDental{
 			this.butHistory.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butHistory.Location = new System.Drawing.Point(8, 51);
 			this.butHistory.Name = "butHistory";
-			this.butHistory.Size = new System.Drawing.Size(71, 24);
+			this.butHistory.Size = new System.Drawing.Size(72, 24);
 			this.butHistory.TabIndex = 1;
 			this.butHistory.Text = "History";
 			this.butHistory.Click += new System.EventHandler(this.butHistory_Click);
@@ -75,7 +75,7 @@ namespace OpenPmsDental{
 			this.butRenameList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butRenameList.Location = new System.Drawing.Point(8, 23);
 			this.butRenameList.Name = "butRenameList";
-			this.butRenameList.Size = new System.Drawing.Size(71, 24);
+			this.butRenameList.Size = new System.Drawing.Size(72, 24);
 			this.butRenameList.TabIndex = 0;
 			this.butRenameList.Text = "Rename";
 			this.butRenameList.Click += new System.EventHandler(this.butRenameList_Click);
@@ -84,9 +84,9 @@ namespace OpenPmsDental{
 			// 
 			this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.groupBox2.Controls.Add(this.butAddItem);
-			this.groupBox2.Location = new System.Drawing.Point(857, 274);
+			this.groupBox2.Location = new System.Drawing.Point(856, 274);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(87, 55);
+			this.groupBox2.Size = new System.Drawing.Size(88, 55);
 			this.groupBox2.TabIndex = 8;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Rows";
@@ -96,7 +96,7 @@ namespace OpenPmsDental{
 			this.butAddItem.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butAddItem.Location = new System.Drawing.Point(8, 23);
 			this.butAddItem.Name = "butAddItem";
-			this.butAddItem.Size = new System.Drawing.Size(71, 24);
+			this.butAddItem.Size = new System.Drawing.Size(72, 24);
 			this.butAddItem.TabIndex = 31;
 			this.butAddItem.Text = "Add";
 			this.butAddItem.Click += new System.EventHandler(this.butAddItem_Click);
@@ -137,9 +137,9 @@ namespace OpenPmsDental{
 			this.groupBox1.Controls.Add(this.butColumnInsert);
 			this.groupBox1.Controls.Add(this.butColumnRight);
 			this.groupBox1.Controls.Add(this.butColumnLeft);
-			this.groupBox1.Location = new System.Drawing.Point(857, 127);
+			this.groupBox1.Location = new System.Drawing.Point(856, 127);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(87, 139);
+			this.groupBox1.Size = new System.Drawing.Size(88, 139);
 			this.groupBox1.TabIndex = 7;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Columns";
@@ -148,7 +148,7 @@ namespace OpenPmsDental{
 			// 
 			this.butColumnDelete.Location = new System.Drawing.Point(8, 107);
 			this.butColumnDelete.Name = "butColumnDelete";
-			this.butColumnDelete.Size = new System.Drawing.Size(71, 24);
+			this.butColumnDelete.Size = new System.Drawing.Size(72, 24);
 			this.butColumnDelete.TabIndex = 34;
 			this.butColumnDelete.Text = "Delete";
 			this.butColumnDelete.Click += new System.EventHandler(this.butColumnDelete_Click);
@@ -157,7 +157,7 @@ namespace OpenPmsDental{
 			// 
 			this.butHeaders.Location = new System.Drawing.Point(8, 51);
 			this.butHeaders.Name = "butHeaders";
-			this.butHeaders.Size = new System.Drawing.Size(71, 24);
+			this.butHeaders.Size = new System.Drawing.Size(72, 24);
 			this.butHeaders.TabIndex = 31;
 			this.butHeaders.Text = "Edit";
 			this.butHeaders.Click += new System.EventHandler(this.butColumnEdit_Click);
@@ -166,16 +166,16 @@ namespace OpenPmsDental{
 			// 
 			this.butColumnInsert.Location = new System.Drawing.Point(8, 79);
 			this.butColumnInsert.Name = "butColumnInsert";
-			this.butColumnInsert.Size = new System.Drawing.Size(71, 24);
+			this.butColumnInsert.Size = new System.Drawing.Size(72, 24);
 			this.butColumnInsert.TabIndex = 33;
 			this.butColumnInsert.Text = "Add";
 			this.butColumnInsert.Click += new System.EventHandler(this.butColumnAdd_Click);
 			// 
 			// butColumnRight
 			// 
-			this.butColumnRight.Location = new System.Drawing.Point(44, 23);
+			this.butColumnRight.Location = new System.Drawing.Point(47, 23);
 			this.butColumnRight.Name = "butColumnRight";
-			this.butColumnRight.Size = new System.Drawing.Size(30, 24);
+			this.butColumnRight.Size = new System.Drawing.Size(33, 24);
 			this.butColumnRight.TabIndex = 30;
 			this.butColumnRight.Text = "R";
 			this.butColumnRight.Click += new System.EventHandler(this.butColumnRight_Click);
@@ -184,7 +184,7 @@ namespace OpenPmsDental{
 			// 
 			this.butColumnLeft.Location = new System.Drawing.Point(8, 23);
 			this.butColumnLeft.Name = "butColumnLeft";
-			this.butColumnLeft.Size = new System.Drawing.Size(30, 24);
+			this.butColumnLeft.Size = new System.Drawing.Size(33, 24);
 			this.butColumnLeft.TabIndex = 29;
 			this.butColumnLeft.Text = "L";
 			this.butColumnLeft.Click += new System.EventHandler(this.butColumnLeft_Click);
@@ -211,7 +211,7 @@ namespace OpenPmsDental{
 			this.gridMain.Location = new System.Drawing.Point(8, 35);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.OneCell;
-			this.gridMain.Size = new System.Drawing.Size(841, 549);
+			this.gridMain.Size = new System.Drawing.Size(840, 549);
 			this.gridMain.TabIndex = 5;
 			this.gridMain.CellDoubleClick += new OpenPmsDental.UI.ODGridClickEventHandler(this.gridMain_CellDoubleClick);
 			// 

@@ -165,7 +165,7 @@ namespace OpenPmsDental{
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(8, 321);
+			this.butDelete.Location = new System.Drawing.Point(8, 296);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(86, 24);
 			this.butDelete.TabIndex = 12;
@@ -183,7 +183,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(713, 321);
+			this.butSave.Location = new System.Drawing.Point(713, 296);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 10;
@@ -218,7 +218,7 @@ namespace OpenPmsDental{
 			// 
 			// FormReplicationEdit
 			// 
-			this.ClientSize = new System.Drawing.Size(796, 353);
+			this.ClientSize = new System.Drawing.Size(796, 328);
 			this.Controls.Add(this.butThisComputerDesc);
 			this.Controls.Add(this.checkTempTablesAllowedServer);
 			this.Controls.Add(this.label11);

@@ -68,7 +68,7 @@ namespace OpenPmsDental{
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(8, 314);
+			this.butDelete.Location = new System.Drawing.Point(8, 250);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(85, 24);
 			this.butDelete.TabIndex = 4;
@@ -78,7 +78,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(614, 314);
+			this.butSave.Location = new System.Drawing.Point(614, 250);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 3;
@@ -112,7 +112,7 @@ namespace OpenPmsDental{
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(56, 101);
+			this.label1.Location = new System.Drawing.Point(62, 101);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(254, 20);
 			this.label1.TabIndex = 13;
@@ -141,7 +141,7 @@ namespace OpenPmsDental{
 			// 
 			// FormRxAlertEdit
 			// 
-			this.ClientSize = new System.Drawing.Size(697, 346);
+			this.ClientSize = new System.Drawing.Size(697, 282);
 			this.Controls.Add(this.checkIsHighSignificance);
 			this.Controls.Add(this.groupBox);
 			this.Controls.Add(this.label1);

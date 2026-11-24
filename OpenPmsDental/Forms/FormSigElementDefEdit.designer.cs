@@ -70,7 +70,7 @@ namespace OpenPmsDental {
 			// 
 			this.listType.Location = new System.Drawing.Point(168, 8);
 			this.listType.Name = "listType";
-			this.listType.Size = new System.Drawing.Size(106, 43);
+			this.listType.Size = new System.Drawing.Size(104, 43);
 			this.listType.TabIndex = 3;
 			// 
 			// label2
@@ -158,7 +158,7 @@ namespace OpenPmsDental {
 			// 
 			this.butRecordNew.Location = new System.Drawing.Point(108, 50);
 			this.butRecordNew.Name = "butRecordNew";
-			this.butRecordNew.Size = new System.Drawing.Size(105, 23);
+			this.butRecordNew.Size = new System.Drawing.Size(108, 23);
 			this.butRecordNew.TabIndex = 20;
 			this.butRecordNew.Text = "Record New";
 			this.butRecordNew.Click += new System.EventHandler(this.butRecordNew_Click);
