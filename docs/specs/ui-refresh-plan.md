@@ -1688,6 +1688,12 @@ own 26.2 overlap check before it starts. The first cut is below; a brief that fi
   edges, margins and grid edges; shared helper `hand/_s7.py`), 20 runtime texts; slice 3 re-planned with the stored anchors (44 rows,
   its 6 new rows pinned in `grid-hand/3.tsv`), the other re-plans unchanged (239 / 509 / 203 / 316 / 335); gallery G-UI3-ui12-7 (120
   windows, 18 at 150%), audit `UI-12-audit-7.md` (UI-12.md section 7, "Slice 7 (batch 3)").
+  Slice 10 (UI-12-10, branch `ui/ui12-10-1`, batches 2 and 6 of UI-12-batches.tsv at the branch point `9817dee17`, the small windows): 86
+  windows on the grid (81 with a layout script, shared helper `hand/_s10.py`: list windows' margins and grid edges, windows the planner
+  grew back at main's size, overlapping bars and rows, columns, cut notes), 67 files skipped with their reasons (the plain exes, the graph
+  project, fyiReporting, the WPF frame, the tooth chart, PrintPanel, DashApptGrid, FormInstallAllocator_Provider, ...); FormWikiDrafts',
+  FormWikiHistory's and FormPrintTrojan's code layout on UiGrid; 8 runtime texts, 7 known findings; gallery G-UI3-ui12-10 (86 windows,
+  14 at 150%), audit `UI-12-audit-10.md` (UI-12.md section 7, "Slice 10 (batch 2 and 6)").
 - Gallery: G-UI3 per slice, the owner's rows first.
 
 **UI-13: every element type in the new look (the owner, 2026-11-22: "Overall make sure you modernize all element types")**
