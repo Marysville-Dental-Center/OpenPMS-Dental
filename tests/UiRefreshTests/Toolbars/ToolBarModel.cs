@@ -138,6 +138,27 @@ namespace UiRefreshTests.Toolbars {
 			return list;
 		}
 
+		///<summary>The WPF toolbar laid out at the width by WPF's layout (UI-OVF): the indexes of the source's items in its overflow button's
+		///drop-down (ToolBarItemsPanel), and the number of items that drop-down has. Call on an STA thread.</summary>
+		public static List<int> GetOverflowWpf(ToolBarSource toolBarSource,int width,out int countMenuItems) {
+			WpfControls.UI.ToolBar toolBar=BuildToolBarWpf(toolBarSource);
+			toolBar.Measure(new System.Windows.Size(width,HEIGHT_TOOLBAR));
+			toolBar.Arrange(new System.Windows.Rect(0,0,width,HEIGHT_TOOLBAR));
+			int countOverflowed=toolBar.GetItemsOverflowed().Count;
+			int countItems=toolBarSource.ListButtons.Count;
+			countMenuItems=toolBar.GetOverflowMenu().GetMenuItems().Count;
+			return Enumerable.Range(countItems-countOverflowed,countOverflowed).ToList();
+		}
+
+		///<summary>The ToolBarOD laid out (LayOut first) (UI-OVF): the indexes of its buttons in its overflow button's drop-down, and the number of
+		///items that drop-down has (separators not counted).</summary>
+		public static List<int> GetOverflowToolBarOD(ToolBarOD toolBarOD,out int countMenuItems) {
+			List<int> listIndexes=toolBarOD.GetButtonsOverflowed().Select(x => toolBarOD.Buttons.IndexOf(x)).ToList();
+			ContextMenuStrip contextMenuStrip=toolBarOD.GetOverflowMenu();//the toolbar's own: disposed with it
+			countMenuItems=contextMenuStrip.Items.OfType<ToolStripMenuItem>().Count();
+			return listIndexes;
+		}
+
 		///<summary>A WPF ToolBar with the source's buttons. Call on an STA thread.</summary>
 		public static WpfControls.UI.ToolBar BuildToolBarWpf(ToolBarSource toolBarSource) {
 			WpfControls.UI.ToolBar toolBar=new WpfControls.UI.ToolBar();
