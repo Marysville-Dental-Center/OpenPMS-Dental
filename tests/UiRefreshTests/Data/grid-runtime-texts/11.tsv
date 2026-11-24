@@ -1,0 +1,13 @@
+# UI-12 slice 1 (fix round 8): texts a grid window's code gives a label or check box at run time, other than its designer text (UI-12.md
+# section 2, "Labels whose text the code sets"). The layout scripts size the control for the widest of its texts (grid_hand.py's Hand.lw reads
+# the width); GridRulesTests sets each text in the laid-out window and fails when it is cut or its width here is stale. text: \n is a line
+# break (the width is then the widest line's). width: px on one line at Segoe UI 9, 96 dpi (TextRenderer, the Label's flags).
+window	control	text	width	why
+OpenPmsDental.FormAutoNoteControlEdit	labelResponses	Possible responses (one line per item)	205	UI-12 slice 11 fix round: comboType_SelectedIndexChanged (run by Load) for a OneResponse or MultiResponse control (FormAutoNoteControlEdit.cs); two lines TopRight beside the box
+OpenPmsDental.FormPatListElementEditEHR2014	labelCompareString	Medication Name	102	UI-12 slice 11 fix round: the caption for a medication restriction (FormPatListElementEditEHR2014.cs)
+OpenPmsDental.FormPatListElementEditEHR2014	labelCompareString	For display and sorting	127	UI-12 slice 11 fix round: the caption for a lab result restriction (FormPatListElementEditEHR2014.cs)
+OpenPmsDental.FormPatListElementEditEHR2014	labelCompareString	Allergy Description (exact)	145	UI-12 slice 11 fix round: the caption for an allergy restriction (FormPatListElementEditEHR2014.cs)
+OpenPmsDental.FormPatListElementEditEHR2014	labelCompareString	Communication Preference	153	UI-12 slice 11 fix round: the caption for a communication preference restriction, the widest (FormPatListElementEditEHR2014.cs)
+OpenPmsDental.FormSheetFieldStatic	labelTextW	TextW: 9999	69	UI-12 slice 11 fix round: UpdateTextSizeLabels' measured text width readout, its widest sample (FormSheetFieldStatic.cs)
+OpenPmsDental.FormSheetFieldStatic	labelTextH	TextH: 9999	67	UI-12 slice 11 fix round: UpdateTextSizeLabels' measured text height readout, its widest sample (FormSheetFieldStatic.cs)
+OpenPmsDental.FormUpdateSetup	labelRecopy	Recopy all of the files from C:\Program Files (x86)\Open PMS - Dental\ into a special place in the database for future use in updating other computers.	796	UI-12 slice 11 fix round: Load's note when the A to Z folder is not local (database storage, FormUpdateSetup.cs); four lines at the note's width

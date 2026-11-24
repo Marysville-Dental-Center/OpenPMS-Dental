@@ -63,7 +63,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(399, 464);
+			this.butSave.Location = new System.Drawing.Point(421, 490);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 14;
@@ -72,84 +72,84 @@ namespace OpenPmsDental{
 			// 
 			// textDescript
 			// 
-			this.textDescript.Location = new System.Drawing.Point(126, 57);
+			this.textDescript.Location = new System.Drawing.Point(126, 59);
 			this.textDescript.Name = "textDescript";
-			this.textDescript.Size = new System.Drawing.Size(267, 20);
+			this.textDescript.Size = new System.Drawing.Size(268, 23);
 			this.textDescript.TabIndex = 1;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(13, 58);
+			this.label1.Location = new System.Drawing.Point(48, 59);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(113, 18);
+			this.label1.Size = new System.Drawing.Size(72, 23);
 			this.label1.TabIndex = 20;
 			this.label1.Text = "Description";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textFeeSched
 			// 
-			this.textFeeSched.Location = new System.Drawing.Point(126, 83);
+			this.textFeeSched.Location = new System.Drawing.Point(126, 86);
 			this.textFeeSched.Name = "textFeeSched";
 			this.textFeeSched.ReadOnly = true;
-			this.textFeeSched.Size = new System.Drawing.Size(241, 20);
+			this.textFeeSched.Size = new System.Drawing.Size(240, 23);
 			this.textFeeSched.TabIndex = 244;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(13, 84);
+			this.label2.Location = new System.Drawing.Point(40, 86);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(113, 18);
+			this.label2.Size = new System.Drawing.Size(80, 23);
 			this.label2.TabIndex = 17;
 			this.label2.Text = "Fee Schedule";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// butFeeSched
 			// 
-			this.butFeeSched.Location = new System.Drawing.Point(372, 83);
+			this.butFeeSched.Location = new System.Drawing.Point(372, 86);
 			this.butFeeSched.Name = "butFeeSched";
-			this.butFeeSched.Size = new System.Drawing.Size(20, 20);
+			this.butFeeSched.Size = new System.Drawing.Size(20, 23);
 			this.butFeeSched.TabIndex = 2;
 			this.butFeeSched.Text = "...";
 			this.butFeeSched.Click += new System.EventHandler(this.butFeeSched_Click);
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(13, 110);
+			this.label3.Location = new System.Drawing.Point(16, 113);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(113, 18);
+			this.label3.Size = new System.Drawing.Size(104, 23);
 			this.label3.TabIndex = 18;
 			this.label3.Text = "Adjustment Type";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// comboBoxAdjType
 			// 
-			this.comboBoxAdjType.Location = new System.Drawing.Point(126, 109);
+			this.comboBoxAdjType.Location = new System.Drawing.Point(126, 113);
 			this.comboBoxAdjType.Name = "comboBoxAdjType";
-			this.comboBoxAdjType.Size = new System.Drawing.Size(267, 21);
+			this.comboBoxAdjType.Size = new System.Drawing.Size(268, 23);
 			this.comboBoxAdjType.TabIndex = 3;
 			// 
 			// checkHidden
 			// 
-			this.checkHidden.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkHidden.Location = new System.Drawing.Point(36, 10);
+			this.checkHidden.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkHidden.Location = new System.Drawing.Point(126, 8);
 			this.checkHidden.Name = "checkHidden";
-			this.checkHidden.Size = new System.Drawing.Size(104, 18);
+			this.checkHidden.Size = new System.Drawing.Size(62, 20);
 			this.checkHidden.TabIndex = 15;
 			this.checkHidden.Text = "Hidden";
 			this.checkHidden.Click += new System.EventHandler(this.checkHidden_Click);
 			// 
 			// butListPatients
 			// 
-			this.butListPatients.Location = new System.Drawing.Point(399, 136);
+			this.butListPatients.Location = new System.Drawing.Point(400, 140);
 			this.butListPatients.Name = "butListPatients";
-			this.butListPatients.Size = new System.Drawing.Size(75, 21);
+			this.butListPatients.Size = new System.Drawing.Size(75, 23);
 			this.butListPatients.TabIndex = 22;
 			this.butListPatients.Text = "List Patients";
 			this.butListPatients.Click += new System.EventHandler(this.butListPatients_Click);
 			// 
 			// textNumPatients
 			// 
-			this.textNumPatients.Location = new System.Drawing.Point(127, 137);
+			this.textNumPatients.Location = new System.Drawing.Point(126, 140);
 			this.textNumPatients.Name = "textNumPatients";
 			this.textNumPatients.ReadOnly = true;
 			this.textNumPatients.Size = new System.Drawing.Size(72, 20);
@@ -157,18 +157,18 @@ namespace OpenPmsDental{
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(13, 139);
+			this.label4.Location = new System.Drawing.Point(64, 140);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(113, 18);
+			this.label4.Size = new System.Drawing.Size(56, 23);
 			this.label4.TabIndex = 20;
 			this.label4.Text = "Patients";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// comboPatient
 			// 
-			this.comboPatient.Location = new System.Drawing.Point(205, 136);
+			this.comboPatient.Location = new System.Drawing.Point(204, 140);
 			this.comboPatient.Name = "comboPatient";
-			this.comboPatient.Size = new System.Drawing.Size(188, 21);
+			this.comboPatient.Size = new System.Drawing.Size(190, 23);
 			this.comboPatient.TabIndex = 95;
 			// 
 			// textPlanNote
@@ -177,19 +177,19 @@ namespace OpenPmsDental{
 			this.textPlanNote.BackColor = System.Drawing.SystemColors.Window;
 			this.textPlanNote.DetectLinksEnabled = false;
 			this.textPlanNote.DetectUrls = false;
-			this.textPlanNote.Location = new System.Drawing.Point(127, 163);
+			this.textPlanNote.Location = new System.Drawing.Point(126, 167);
 			this.textPlanNote.Name = "textPlanNote";
 			this.textPlanNote.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.InsPlan;
 			this.textPlanNote.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textPlanNote.Size = new System.Drawing.Size(265, 60);
+			this.textPlanNote.Size = new System.Drawing.Size(268, 60);
 			this.textPlanNote.TabIndex = 6;
 			this.textPlanNote.Text = "";
 			// 
 			// labelPlanNote
 			// 
-			this.labelPlanNote.Location = new System.Drawing.Point(12, 163);
+			this.labelPlanNote.Location = new System.Drawing.Point(56, 167);
 			this.labelPlanNote.Name = "labelPlanNote";
-			this.labelPlanNote.Size = new System.Drawing.Size(114, 20);
+			this.labelPlanNote.Size = new System.Drawing.Size(64, 23);
 			this.labelPlanNote.TabIndex = 24;
 			this.labelPlanNote.Text = "Plan Note";
 			this.labelPlanNote.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -198,7 +198,7 @@ namespace OpenPmsDental{
 			// 
 			this.textPlanNum.AcceptsTab = true;
 			this.textPlanNum.BackColor = System.Drawing.SystemColors.Control;
-			this.textPlanNum.Location = new System.Drawing.Point(126, 31);
+			this.textPlanNum.Location = new System.Drawing.Point(126, 32);
 			this.textPlanNum.Name = "textPlanNum";
 			this.textPlanNum.ReadOnly = true;
 			this.textPlanNum.Size = new System.Drawing.Size(100, 20);
@@ -206,9 +206,9 @@ namespace OpenPmsDental{
 			// 
 			// labelPlanNum
 			// 
-			this.labelPlanNum.Location = new System.Drawing.Point(16, 31);
+			this.labelPlanNum.Location = new System.Drawing.Point(20, 32);
 			this.labelPlanNum.Name = "labelPlanNum";
-			this.labelPlanNum.Size = new System.Drawing.Size(110, 20);
+			this.labelPlanNum.Size = new System.Drawing.Size(100, 23);
 			this.labelPlanNum.TabIndex = 26;
 			this.labelPlanNum.Text = "Discount Plan ID";
 			this.labelPlanNum.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -230,141 +230,141 @@ namespace OpenPmsDental{
 			this.groupBoxOD4.Controls.Add(this.labelDiscountProphyFreq);
 			this.groupBoxOD4.Controls.Add(this.labelDiscountFluorideFreq);
 			this.groupBoxOD4.Controls.Add(this.labelDiscountExamFreq);
-			this.groupBoxOD4.Location = new System.Drawing.Point(127, 256);
+			this.groupBoxOD4.Location = new System.Drawing.Point(126, 262);
 			this.groupBoxOD4.Name = "groupBoxOD4";
-			this.groupBoxOD4.Size = new System.Drawing.Size(226, 188);
+			this.groupBoxOD4.Size = new System.Drawing.Size(226, 216);
 			this.groupBoxOD4.TabIndex = 8;
 			this.groupBoxOD4.Text = "Frequency Limitations";
 			// 
 			// textDiscountPAFreq
 			// 
-			this.textDiscountPAFreq.Location = new System.Drawing.Point(154, 162);
+			this.textDiscountPAFreq.Location = new System.Drawing.Point(154, 185);
 			this.textDiscountPAFreq.MinVal = -1;
 			this.textDiscountPAFreq.Name = "textDiscountPAFreq";
 			this.textDiscountPAFreq.ShowZero = false;
-			this.textDiscountPAFreq.Size = new System.Drawing.Size(42, 20);
+			this.textDiscountPAFreq.Size = new System.Drawing.Size(40, 23);
 			this.textDiscountPAFreq.TabIndex = 261;
 			// 
 			// textDiscountXrayFreq
 			// 
-			this.textDiscountXrayFreq.Location = new System.Drawing.Point(154, 139);
+			this.textDiscountXrayFreq.Location = new System.Drawing.Point(154, 158);
 			this.textDiscountXrayFreq.MinVal = -1;
 			this.textDiscountXrayFreq.Name = "textDiscountXrayFreq";
 			this.textDiscountXrayFreq.ShowZero = false;
-			this.textDiscountXrayFreq.Size = new System.Drawing.Size(42, 20);
+			this.textDiscountXrayFreq.Size = new System.Drawing.Size(40, 23);
 			this.textDiscountXrayFreq.TabIndex = 260;
 			// 
 			// textDiscountLimitedFreq
 			// 
-			this.textDiscountLimitedFreq.Location = new System.Drawing.Point(154, 116);
+			this.textDiscountLimitedFreq.Location = new System.Drawing.Point(154, 131);
 			this.textDiscountLimitedFreq.MinVal = -1;
 			this.textDiscountLimitedFreq.Name = "textDiscountLimitedFreq";
 			this.textDiscountLimitedFreq.ShowZero = false;
-			this.textDiscountLimitedFreq.Size = new System.Drawing.Size(42, 20);
+			this.textDiscountLimitedFreq.Size = new System.Drawing.Size(40, 23);
 			this.textDiscountLimitedFreq.TabIndex = 259;
 			// 
 			// textDiscountPerioFreq
 			// 
-			this.textDiscountPerioFreq.Location = new System.Drawing.Point(154, 93);
+			this.textDiscountPerioFreq.Location = new System.Drawing.Point(154, 104);
 			this.textDiscountPerioFreq.MinVal = -1;
 			this.textDiscountPerioFreq.Name = "textDiscountPerioFreq";
 			this.textDiscountPerioFreq.ShowZero = false;
-			this.textDiscountPerioFreq.Size = new System.Drawing.Size(42, 20);
+			this.textDiscountPerioFreq.Size = new System.Drawing.Size(40, 23);
 			this.textDiscountPerioFreq.TabIndex = 258;
 			// 
 			// textDiscountFluorideFreq
 			// 
-			this.textDiscountFluorideFreq.Location = new System.Drawing.Point(154, 70);
+			this.textDiscountFluorideFreq.Location = new System.Drawing.Point(154, 77);
 			this.textDiscountFluorideFreq.MinVal = -1;
 			this.textDiscountFluorideFreq.Name = "textDiscountFluorideFreq";
 			this.textDiscountFluorideFreq.ShowZero = false;
-			this.textDiscountFluorideFreq.Size = new System.Drawing.Size(42, 20);
+			this.textDiscountFluorideFreq.Size = new System.Drawing.Size(40, 23);
 			this.textDiscountFluorideFreq.TabIndex = 257;
 			// 
 			// textDiscountProphyFreq
 			// 
-			this.textDiscountProphyFreq.Location = new System.Drawing.Point(154, 47);
+			this.textDiscountProphyFreq.Location = new System.Drawing.Point(154, 50);
 			this.textDiscountProphyFreq.MinVal = -1;
 			this.textDiscountProphyFreq.Name = "textDiscountProphyFreq";
 			this.textDiscountProphyFreq.ShowZero = false;
-			this.textDiscountProphyFreq.Size = new System.Drawing.Size(42, 20);
+			this.textDiscountProphyFreq.Size = new System.Drawing.Size(40, 23);
 			this.textDiscountProphyFreq.TabIndex = 256;
 			// 
 			// textDiscountExamFreq
 			// 
-			this.textDiscountExamFreq.Location = new System.Drawing.Point(154, 24);
+			this.textDiscountExamFreq.Location = new System.Drawing.Point(154, 23);
 			this.textDiscountExamFreq.MinVal = -1;
 			this.textDiscountExamFreq.Name = "textDiscountExamFreq";
 			this.textDiscountExamFreq.ShowZero = false;
-			this.textDiscountExamFreq.Size = new System.Drawing.Size(42, 20);
+			this.textDiscountExamFreq.Size = new System.Drawing.Size(40, 23);
 			this.textDiscountExamFreq.TabIndex = 255;
 			// 
 			// labelDiscountPAFreq
 			// 
-			this.labelDiscountPAFreq.Location = new System.Drawing.Point(6, 164);
+			this.labelDiscountPAFreq.Location = new System.Drawing.Point(52, 185);
 			this.labelDiscountPAFreq.Name = "labelDiscountPAFreq";
-			this.labelDiscountPAFreq.Size = new System.Drawing.Size(148, 17);
+			this.labelDiscountPAFreq.Size = new System.Drawing.Size(96, 23);
 			this.labelDiscountPAFreq.TabIndex = 241;
 			this.labelDiscountPAFreq.Text = "Periapical X-Ray";
 			this.labelDiscountPAFreq.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// labelDiscountXrayFreq
 			// 
-			this.labelDiscountXrayFreq.Location = new System.Drawing.Point(6, 141);
+			this.labelDiscountXrayFreq.Location = new System.Drawing.Point(104, 158);
 			this.labelDiscountXrayFreq.Name = "labelDiscountXrayFreq";
-			this.labelDiscountXrayFreq.Size = new System.Drawing.Size(148, 17);
+			this.labelDiscountXrayFreq.Size = new System.Drawing.Size(44, 23);
 			this.labelDiscountXrayFreq.TabIndex = 239;
 			this.labelDiscountXrayFreq.Text = "X-Ray";
 			this.labelDiscountXrayFreq.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// labelDiscountPerioFreq
 			// 
-			this.labelDiscountPerioFreq.Location = new System.Drawing.Point(6, 95);
+			this.labelDiscountPerioFreq.Location = new System.Drawing.Point(36, 104);
 			this.labelDiscountPerioFreq.Name = "labelDiscountPerioFreq";
-			this.labelDiscountPerioFreq.Size = new System.Drawing.Size(148, 17);
+			this.labelDiscountPerioFreq.Size = new System.Drawing.Size(112, 23);
 			this.labelDiscountPerioFreq.TabIndex = 233;
 			this.labelDiscountPerioFreq.Text = "Perio Maintenance";
 			this.labelDiscountPerioFreq.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// labelDiscountLimitedFreq
 			// 
-			this.labelDiscountLimitedFreq.Location = new System.Drawing.Point(6, 118);
+			this.labelDiscountLimitedFreq.Location = new System.Drawing.Point(64, 131);
 			this.labelDiscountLimitedFreq.Name = "labelDiscountLimitedFreq";
-			this.labelDiscountLimitedFreq.Size = new System.Drawing.Size(148, 17);
+			this.labelDiscountLimitedFreq.Size = new System.Drawing.Size(84, 23);
 			this.labelDiscountLimitedFreq.TabIndex = 231;
 			this.labelDiscountLimitedFreq.Text = "Limited Exam";
 			this.labelDiscountLimitedFreq.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// labelDiscountProphyFreq
 			// 
-			this.labelDiscountProphyFreq.Location = new System.Drawing.Point(6, 49);
+			this.labelDiscountProphyFreq.Location = new System.Drawing.Point(76, 50);
 			this.labelDiscountProphyFreq.Name = "labelDiscountProphyFreq";
-			this.labelDiscountProphyFreq.Size = new System.Drawing.Size(148, 17);
+			this.labelDiscountProphyFreq.Size = new System.Drawing.Size(72, 23);
 			this.labelDiscountProphyFreq.TabIndex = 229;
 			this.labelDiscountProphyFreq.Text = "Prophylaxis";
 			this.labelDiscountProphyFreq.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// labelDiscountFluorideFreq
 			// 
-			this.labelDiscountFluorideFreq.Location = new System.Drawing.Point(6, 72);
+			this.labelDiscountFluorideFreq.Location = new System.Drawing.Point(92, 77);
 			this.labelDiscountFluorideFreq.Name = "labelDiscountFluorideFreq";
-			this.labelDiscountFluorideFreq.Size = new System.Drawing.Size(148, 17);
+			this.labelDiscountFluorideFreq.Size = new System.Drawing.Size(56, 23);
 			this.labelDiscountFluorideFreq.TabIndex = 228;
 			this.labelDiscountFluorideFreq.Text = "Fluoride";
 			this.labelDiscountFluorideFreq.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// labelDiscountExamFreq
 			// 
-			this.labelDiscountExamFreq.Location = new System.Drawing.Point(6, 26);
+			this.labelDiscountExamFreq.Location = new System.Drawing.Point(108, 23);
 			this.labelDiscountExamFreq.Name = "labelDiscountExamFreq";
-			this.labelDiscountExamFreq.Size = new System.Drawing.Size(148, 17);
+			this.labelDiscountExamFreq.Size = new System.Drawing.Size(40, 23);
 			this.labelDiscountExamFreq.TabIndex = 227;
 			this.labelDiscountExamFreq.Text = "Exam";
 			this.labelDiscountExamFreq.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textAnnualMax
 			// 
-			this.textAnnualMax.Location = new System.Drawing.Point(126, 229);
+			this.textAnnualMax.Location = new System.Drawing.Point(126, 231);
 			this.textAnnualMax.MaxVal = 100000000D;
 			this.textAnnualMax.MinVal = -1D;
 			this.textAnnualMax.Name = "textAnnualMax";
@@ -373,16 +373,16 @@ namespace OpenPmsDental{
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(6, 228);
+			this.label5.Location = new System.Drawing.Point(44, 231);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(114, 20);
+			this.label5.Size = new System.Drawing.Size(76, 23);
 			this.label5.TabIndex = 246;
 			this.label5.Text = "Annual Max";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// FormDiscountPlanEdit
 			// 
-			this.ClientSize = new System.Drawing.Size(504, 500);
+			this.ClientSize = new System.Drawing.Size(504, 522);
 			this.Controls.Add(this.label5);
 			this.Controls.Add(this.textAnnualMax);
 			this.Controls.Add(this.groupBoxOD4);

@@ -35,9 +35,9 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(777, 511);
+			this.butSave.Location = new System.Drawing.Point(781, 531);
 			this.butSave.Name = "butSave";
-			this.butSave.Size = new System.Drawing.Size(75, 27);
+			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 97;
 			this.butSave.Text = "&Save";
 			this.butSave.Click += new System.EventHandler(this.butSave_Click);
@@ -47,9 +47,9 @@ namespace OpenPmsDental{
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(12, 44);
+			this.gridMain.Location = new System.Drawing.Point(8, 8);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(840, 435);
+			this.gridMain.Size = new System.Drawing.Size(848, 484);
 			this.gridMain.TabIndex = 87;
 			this.gridMain.Title = "Messages";
 			this.gridMain.TranslationName = "TableConfirmMsgs";
@@ -59,45 +59,45 @@ namespace OpenPmsDental{
 			// 
 			this.comboStatusTextMessagedConfirm.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.comboStatusTextMessagedConfirm.Location = new System.Drawing.Point(291, 517);
+			this.comboStatusTextMessagedConfirm.Location = new System.Drawing.Point(226, 531);
 			this.comboStatusTextMessagedConfirm.Name = "comboStatusTextMessagedConfirm";
-			this.comboStatusTextMessagedConfirm.Size = new System.Drawing.Size(233, 21);
+			this.comboStatusTextMessagedConfirm.Size = new System.Drawing.Size(233, 23);
 			this.comboStatusTextMessagedConfirm.TabIndex = 91;
 			// 
 			// label6
 			// 
 			this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label6.Location = new System.Drawing.Point(13, 521);
+			this.label6.Location = new System.Drawing.Point(8, 531);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(276, 19);
+			this.label6.Size = new System.Drawing.Size(212, 23);
 			this.label6.TabIndex = 89;
 			this.label6.Text = "Status for text messaged confirmation";
-			this.label6.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// comboStatusEmailedConfirm
 			// 
 			this.comboStatusEmailedConfirm.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.comboStatusEmailedConfirm.Location = new System.Drawing.Point(291, 495);
+			this.comboStatusEmailedConfirm.Location = new System.Drawing.Point(226, 504);
 			this.comboStatusEmailedConfirm.Name = "comboStatusEmailedConfirm";
-			this.comboStatusEmailedConfirm.Size = new System.Drawing.Size(233, 21);
+			this.comboStatusEmailedConfirm.Size = new System.Drawing.Size(233, 23);
 			this.comboStatusEmailedConfirm.TabIndex = 90;
 			// 
 			// label5
 			// 
 			this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label5.Location = new System.Drawing.Point(13, 499);
+			this.label5.Location = new System.Drawing.Point(8, 504);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(276, 19);
+			this.label5.Size = new System.Drawing.Size(212, 23);
 			this.label5.TabIndex = 88;
 			this.label5.Text = "Status for e-mailed confirmation";
-			this.label5.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// checkGroupFamilies
 			// 
-			this.checkGroupFamilies.Location = new System.Drawing.Point(696, 485);
+			this.checkGroupFamilies.Location = new System.Drawing.Point(752, 505);
 			this.checkGroupFamilies.Name = "checkGroupFamilies";
-			this.checkGroupFamilies.Size = new System.Drawing.Size(110, 20);
+			this.checkGroupFamilies.Size = new System.Drawing.Size(104, 20);
 			this.checkGroupFamilies.TabIndex = 99;
 			this.checkGroupFamilies.Text = "Group Families";
 			// 

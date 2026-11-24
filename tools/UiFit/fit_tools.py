@@ -64,6 +64,10 @@ def window_files(root, windows):
             cand = by_name.get(simple, []) + code_files_with_designer_code(root).get(simple, [])
             if not cand:
                 cand = files_declaring(root, files, simple)
+        elif not cand:
+            # UI-12 slice 11 (the lead's decision of slice 8): a designer file named otherwise than its class (FormConfirmationSetup in
+            # FormConfirmationsSetup.designer.cs, FormCvxs in FormCvx.designer.cs) is the designer file that declares the class.
+            cand = files_declaring(root, files, simple)
         if len(cand) > 1:
             narrowed = [c for c in cand if c.lower().startswith(asm.lower())]
             cand = narrowed or cand

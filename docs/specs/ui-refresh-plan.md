@@ -1698,6 +1698,15 @@ own 26.2 overlap check before it starts. The first cut is below; a brief that fi
   2 earlier-slice fixes), audit `UI-12-audit-8.md` (UI-12.md section 7, "Slice 8 (batch 4)"); fix round `ui/ui12-8-2` (the lead's 17 findings: FormInsHistSetup's
   code rows on `UiGrid`, the last stock GroupBox, equal gaps for spare height, edges; the gallery fills radio texts and draws
   FormInsHistSetup with rows; UI-12.md "Slice 8, fix round").
+  Slice 11 (UI-12-11, branch `ui/ui12-11-1`, the lead's list of the large windows and the earlier skips, 72 designer files): 26
+  windows on the grid (23 with a layout script, among them FormProcCodes in three columns, FormFeeSchedTools with its six tab pages drawn,
+  the setup wizard's Practice page and the three windows whose designer file is named otherwise than the class); the lead's decisions of
+  slice 8 (`fit_tools.window_files` falls back to the declaring designer file; FormEhrLabImageEdit on `UI.SplitContainer`); the fee
+  schedule group combos placed in code at their clinic rows; 46 files skipped with one reason each (owner-drawn and imaging surfaces,
+  print previews, browsers, code-laid and multi-state windows, seven the harness cannot build, the report designer and ODR with their
+  designer code in `.cs` files); re-plans 239 / 509 / 203 / 44 / 316 / 335 / 389 / 204 / 246 unchanged; audit `UI-12-audit-11.md`
+  (UI-12.md section 7, "Slice 11"). Fix round (`ui/ui12-11-2`): 8 run-time texts recorded and sized for, FormQuickBooksOnlineSetup's
+  list rows; gallery `G-UI3-ui12-11`.
 - Gallery: G-UI3 per slice, the owner's rows first.
 
 **UI-13: every element type in the new look (the owner, 2026-11-22: "Overall make sure you modernize all element types")**

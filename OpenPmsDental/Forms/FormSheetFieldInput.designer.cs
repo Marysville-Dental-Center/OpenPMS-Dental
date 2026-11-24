@@ -59,62 +59,62 @@ namespace OpenPmsDental{
 			// 
 			// textUiLabelMobile
 			// 
-			this.textUiLabelMobile.Location = new System.Drawing.Point(268, 43);
+			this.textUiLabelMobile.Location = new System.Drawing.Point(269, 35);
 			this.textUiLabelMobile.MaxLength = 0;
 			this.textUiLabelMobile.Name = "textUiLabelMobile";
-			this.textUiLabelMobile.Size = new System.Drawing.Size(197, 20);
+			this.textUiLabelMobile.Size = new System.Drawing.Size(196, 23);
 			this.textUiLabelMobile.TabIndex = 106;
 			// 
 			// labelUiLabelMobile
 			// 
-			this.labelUiLabelMobile.Location = new System.Drawing.Point(163, 44);
+			this.labelUiLabelMobile.Location = new System.Drawing.Point(167, 35);
 			this.labelUiLabelMobile.Name = "labelUiLabelMobile";
-			this.labelUiLabelMobile.Size = new System.Drawing.Size(105, 18);
+			this.labelUiLabelMobile.Size = new System.Drawing.Size(96, 23);
 			this.labelUiLabelMobile.TabIndex = 107;
 			this.labelUiLabelMobile.Text = "Mobile Caption";
 			this.labelUiLabelMobile.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textReportableName
 			// 
-			this.textReportableName.Location = new System.Drawing.Point(268, 17);
+			this.textReportableName.Location = new System.Drawing.Point(269, 8);
 			this.textReportableName.Name = "textReportableName";
-			this.textReportableName.Size = new System.Drawing.Size(197, 20);
+			this.textReportableName.Size = new System.Drawing.Size(196, 23);
 			this.textReportableName.TabIndex = 104;
 			// 
 			// labelReportableName
 			// 
-			this.labelReportableName.Location = new System.Drawing.Point(127, 18);
+			this.labelReportableName.Location = new System.Drawing.Point(159, 8);
 			this.labelReportableName.Name = "labelReportableName";
-			this.labelReportableName.Size = new System.Drawing.Size(141, 18);
+			this.labelReportableName.Size = new System.Drawing.Size(104, 23);
 			this.labelReportableName.TabIndex = 105;
 			this.labelReportableName.Text = "Reportable Name";
 			this.labelReportableName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textTabOrder
 			// 
-			this.textTabOrder.Location = new System.Drawing.Point(268, 326);
+			this.textTabOrder.Location = new System.Drawing.Point(269, 338);
 			this.textTabOrder.MaxVal = 2000;
 			this.textTabOrder.MinVal = -100;
 			this.textTabOrder.Name = "textTabOrder";
-			this.textTabOrder.Size = new System.Drawing.Size(69, 20);
+			this.textTabOrder.Size = new System.Drawing.Size(68, 23);
 			this.textTabOrder.TabIndex = 103;
 			// 
 			// labelTabOrder
 			// 
-			this.labelTabOrder.Location = new System.Drawing.Point(197, 327);
+			this.labelTabOrder.Location = new System.Drawing.Point(199, 338);
 			this.labelTabOrder.Name = "labelTabOrder";
-			this.labelTabOrder.Size = new System.Drawing.Size(71, 16);
+			this.labelTabOrder.Size = new System.Drawing.Size(64, 23);
 			this.labelTabOrder.TabIndex = 102;
 			this.labelTabOrder.Text = "Tab Order";
 			this.labelTabOrder.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// checkRequired
 			// 
-			this.checkRequired.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkRequired.Location = new System.Drawing.Point(196, 303);
+			this.checkRequired.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkRequired.Location = new System.Drawing.Point(269, 314);
 			this.checkRequired.Name = "checkRequired";
-			this.checkRequired.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-			this.checkRequired.Size = new System.Drawing.Size(85, 18);
+			this.checkRequired.RightToLeft = System.Windows.Forms.RightToLeft.No;
+			this.checkRequired.Size = new System.Drawing.Size(72, 20);
 			this.checkRequired.TabIndex = 101;
 			this.checkRequired.Text = "Required";
 			// 
@@ -123,7 +123,7 @@ namespace OpenPmsDental{
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(15, 401);
+			this.butDelete.Location = new System.Drawing.Point(8, 405);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(77, 24);
 			this.butDelete.TabIndex = 100;
@@ -132,88 +132,88 @@ namespace OpenPmsDental{
 			// 
 			// comboGrowthBehavior
 			// 
-			this.comboGrowthBehavior.Location = new System.Drawing.Point(268, 171);
+			this.comboGrowthBehavior.Location = new System.Drawing.Point(269, 179);
 			this.comboGrowthBehavior.Name = "comboGrowthBehavior";
-			this.comboGrowthBehavior.Size = new System.Drawing.Size(197, 21);
+			this.comboGrowthBehavior.Size = new System.Drawing.Size(196, 23);
 			this.comboGrowthBehavior.TabIndex = 99;
 			// 
 			// label9
 			// 
-			this.label9.Location = new System.Drawing.Point(161, 172);
+			this.label9.Location = new System.Drawing.Point(163, 179);
 			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(107, 16);
+			this.label9.Size = new System.Drawing.Size(100, 23);
 			this.label9.TabIndex = 98;
 			this.label9.Text = "Growth Behavior";
 			this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textHeight
 			// 
-			this.textHeight.Location = new System.Drawing.Point(268, 277);
+			this.textHeight.Location = new System.Drawing.Point(269, 287);
 			this.textHeight.MaxVal = 2000;
 			this.textHeight.MinVal = 1;
 			this.textHeight.Name = "textHeight";
-			this.textHeight.Size = new System.Drawing.Size(69, 20);
+			this.textHeight.Size = new System.Drawing.Size(68, 23);
 			this.textHeight.TabIndex = 97;
 			// 
 			// label8
 			// 
-			this.label8.Location = new System.Drawing.Point(197, 278);
+			this.label8.Location = new System.Drawing.Point(215, 287);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(71, 18);
+			this.label8.Size = new System.Drawing.Size(48, 23);
 			this.label8.TabIndex = 96;
 			this.label8.Text = "Height";
 			this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textWidth
 			// 
-			this.textWidth.Location = new System.Drawing.Point(268, 251);
+			this.textWidth.Location = new System.Drawing.Point(269, 260);
 			this.textWidth.MaxVal = 2000;
 			this.textWidth.MinVal = 1;
 			this.textWidth.Name = "textWidth";
-			this.textWidth.Size = new System.Drawing.Size(69, 20);
+			this.textWidth.Size = new System.Drawing.Size(68, 23);
 			this.textWidth.TabIndex = 95;
 			// 
 			// label7
 			// 
-			this.label7.Location = new System.Drawing.Point(197, 252);
+			this.label7.Location = new System.Drawing.Point(219, 260);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(71, 16);
+			this.label7.Size = new System.Drawing.Size(44, 23);
 			this.label7.TabIndex = 94;
 			this.label7.Text = "Width";
 			this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textYPos
 			// 
-			this.textYPos.Location = new System.Drawing.Point(268, 225);
+			this.textYPos.Location = new System.Drawing.Point(269, 233);
 			this.textYPos.MaxVal = 2000;
 			this.textYPos.MinVal = -100;
 			this.textYPos.Name = "textYPos";
-			this.textYPos.Size = new System.Drawing.Size(69, 20);
+			this.textYPos.Size = new System.Drawing.Size(68, 23);
 			this.textYPos.TabIndex = 93;
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(197, 226);
+			this.label6.Location = new System.Drawing.Point(223, 233);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(71, 16);
+			this.label6.Size = new System.Drawing.Size(40, 23);
 			this.label6.TabIndex = 92;
 			this.label6.Text = "Y Pos";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textXPos
 			// 
-			this.textXPos.Location = new System.Drawing.Point(268, 199);
+			this.textXPos.Location = new System.Drawing.Point(269, 206);
 			this.textXPos.MaxVal = 2000;
 			this.textXPos.MinVal = -100;
 			this.textXPos.Name = "textXPos";
-			this.textXPos.Size = new System.Drawing.Size(69, 20);
+			this.textXPos.Size = new System.Drawing.Size(68, 23);
 			this.textXPos.TabIndex = 91;
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(197, 200);
+			this.label5.Location = new System.Drawing.Point(223, 206);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(71, 16);
+			this.label5.Size = new System.Drawing.Size(40, 23);
 			this.label5.TabIndex = 90;
 			this.label5.Text = "X Pos";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -225,56 +225,56 @@ namespace OpenPmsDental{
 			this.groupBox1.Controls.Add(this.label4);
 			this.groupBox1.Controls.Add(this.comboFontName);
 			this.groupBox1.Controls.Add(this.label3);
-			this.groupBox1.Location = new System.Drawing.Point(182, 69);
+			this.groupBox1.Location = new System.Drawing.Point(182, 66);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(283, 96);
+			this.groupBox1.Size = new System.Drawing.Size(283, 105);
 			this.groupBox1.TabIndex = 88;
 			this.groupBox1.Text = "Font";
 			// 
 			// checkFontIsBold
 			// 
-			this.checkFontIsBold.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkFontIsBold.Location = new System.Drawing.Point(16, 66);
+			this.checkFontIsBold.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkFontIsBold.Location = new System.Drawing.Point(87, 77);
 			this.checkFontIsBold.Name = "checkFontIsBold";
-			this.checkFontIsBold.Size = new System.Drawing.Size(85, 20);
+			this.checkFontIsBold.Size = new System.Drawing.Size(47, 20);
 			this.checkFontIsBold.TabIndex = 90;
 			this.checkFontIsBold.Text = "Bold";
 			// 
 			// textFontSize
 			// 
-			this.textFontSize.Location = new System.Drawing.Point(86, 40);
+			this.textFontSize.Location = new System.Drawing.Point(87, 50);
 			this.textFontSize.Name = "textFontSize";
 			this.textFontSize.Size = new System.Drawing.Size(44, 20);
 			this.textFontSize.TabIndex = 89;
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(13, 41);
+			this.label4.Location = new System.Drawing.Point(49, 50);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(71, 16);
+			this.label4.Size = new System.Drawing.Size(32, 23);
 			this.label4.TabIndex = 89;
 			this.label4.Text = "Size";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// comboFontName
 			// 
-			this.comboFontName.Location = new System.Drawing.Point(86, 14);
+			this.comboFontName.Location = new System.Drawing.Point(87, 23);
 			this.comboFontName.Name = "comboFontName";
-			this.comboFontName.Size = new System.Drawing.Size(191, 21);
+			this.comboFontName.Size = new System.Drawing.Size(188, 23);
 			this.comboFontName.TabIndex = 88;
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(13, 15);
+			this.label3.Location = new System.Drawing.Point(37, 23);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(71, 16);
+			this.label3.Size = new System.Drawing.Size(44, 23);
 			this.label3.TabIndex = 87;
 			this.label3.Text = "Name";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(13, 18);
+			this.label2.Location = new System.Drawing.Point(8, 8);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(108, 16);
 			this.label2.TabIndex = 86;
@@ -283,9 +283,9 @@ namespace OpenPmsDental{
 			// 
 			// listFields
 			// 
-			this.listFields.Location = new System.Drawing.Point(15, 37);
+			this.listFields.Location = new System.Drawing.Point(8, 26);
 			this.listFields.Name = "listFields";
-			this.listFields.Size = new System.Drawing.Size(142, 352);
+			this.listFields.Size = new System.Drawing.Size(142, 367);
 			this.listFields.TabIndex = 85;
 			this.listFields.SelectionChangeCommitted += new System.EventHandler(this.listFields_SelectionChangeCommitted);
 			this.listFields.DoubleClick += new System.EventHandler(this.listFields_DoubleClick);
@@ -293,7 +293,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(484, 401);
+			this.butSave.Location = new System.Drawing.Point(488, 405);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 3;
@@ -302,7 +302,7 @@ namespace OpenPmsDental{
 			// 
 			// butAutoNote
 			// 
-			this.butAutoNote.Location = new System.Drawing.Point(470, 350);
+			this.butAutoNote.Location = new System.Drawing.Point(471, 365);
 			this.butAutoNote.Name = "butAutoNote";
 			this.butAutoNote.Size = new System.Drawing.Size(25, 24);
 			this.butAutoNote.TabIndex = 108;
@@ -311,9 +311,9 @@ namespace OpenPmsDental{
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(197, 354);
+			this.label1.Location = new System.Drawing.Point(195, 365);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(71, 16);
+			this.label1.Size = new System.Drawing.Size(68, 23);
 			this.label1.TabIndex = 110;
 			this.label1.Text = "Auto Note";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -321,7 +321,7 @@ namespace OpenPmsDental{
 			// butClearAutoNote
 			// 
 			this.butClearAutoNote.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
-			this.butClearAutoNote.Location = new System.Drawing.Point(500, 350);
+			this.butClearAutoNote.Location = new System.Drawing.Point(502, 365);
 			this.butClearAutoNote.Name = "butClearAutoNote";
 			this.butClearAutoNote.Size = new System.Drawing.Size(24, 24);
 			this.butClearAutoNote.TabIndex = 111;
@@ -329,11 +329,11 @@ namespace OpenPmsDental{
 			// 
 			// textAutoNote
 			// 
-			this.textAutoNote.Location = new System.Drawing.Point(268, 352);
+			this.textAutoNote.Location = new System.Drawing.Point(269, 365);
 			this.textAutoNote.MaxLength = 0;
 			this.textAutoNote.Name = "textAutoNote";
 			this.textAutoNote.ReadOnly = true;
-			this.textAutoNote.Size = new System.Drawing.Size(197, 20);
+			this.textAutoNote.Size = new System.Drawing.Size(196, 23);
 			this.textAutoNote.TabIndex = 112;
 			// 
 			// FormSheetFieldInput

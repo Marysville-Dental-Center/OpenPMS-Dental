@@ -50,8 +50,8 @@ OpenPmsDental.UI.PanelOD	own control	14	1	yes	PanelOD (UI-4a)	OpenPmsDental/UI/P
 OpenPmsDental.UI.PinBoard	own control	1	0	yes	PinBoard (UI-4c)	OpenPmsDental/UI/Appt/PinBoard	
 OpenPmsDental.UI.SignatureBox	own control	2	0	keeps		(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	the signature pad: content
 OpenPmsDental.UI.SignatureBoxWrapper	own control	10	1	yes	SignatureBoxWrapper (UI-4c)	(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	border only; the signature is content
-OpenPmsDental.UI.SplitContainer	own control	18	0	yes	UI.SplitContainer (UI-4b)	OpenPmsDental/UI/Splitters/*	
-OpenPmsDental.UI.SplitterPanel	own control	36	0	yes	UI.SplitterPanel (UI-4b)	OpenPmsDental/UI/Splitters/*	
+OpenPmsDental.UI.SplitContainer	own control	19	0	yes	UI.SplitContainer (UI-4b)	OpenPmsDental/UI/Splitters/*	
+OpenPmsDental.UI.SplitterPanel	own control	38	0	yes	UI.SplitterPanel (UI-4b)	OpenPmsDental/UI/Splitters/*	
 OpenPmsDental.UI.TabControl	own control	49	1	yes	UI.TabControl (UI-4b)	OpenPmsDental/UI/TabControl/*	
 OpenPmsDental.UI.TabPage	own control	157	6	yes	UI.TabPage (UI-4b)	OpenPmsDental/UI/TabControl/*	
 OpenPmsDental.UI.ToggleDayWeek	own control	1	0	yes	ToggleDayWeek (UI-4c)	OpenPmsDental/UI/Appt/ToggleDayWeek	
@@ -105,7 +105,6 @@ System.Windows.Forms.ProgressBar	stock	4	0	yes	UiProgressLook (UI-13)	OpenPmsDen
 System.Windows.Forms.RadioButton	stock	425	1	yes	UiRadioLook (UI-12)	OpenPmsDental/UI/UiRadioLook	drawn like the program's check box
 System.Windows.Forms.RichTextBox	stock	8	9	yes	UiInputFrame (UI-12) frame; UiScrollLook (UI-13) scroll bars	OpenPmsDental/UI/UiInputFrame	framed; scroll bars in the Fluent look
 System.Windows.Forms.SaveFileDialog	stock	4	30	keeps		(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	keeps Windows' own look (docs/specs/ui-refresh-plan.md section 1: the Windows dialogs and message boxes)
-System.Windows.Forms.SplitContainer	stock	1	0	keeps		(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	one use; Windows Forms draws its splitter flat in the container's colour (no bevel); the program's own is UI.SplitContainer (UI-4b)
 System.Windows.Forms.TabControl	stock	0	1	keeps		(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	the program's windows use UI.TabControl (UI-4b); a stock one made in code keeps Windows' themed tabs
 System.Windows.Forms.TableLayoutPanel	stock	2	0	n/a		(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	draws nothing: a layout container
 System.Windows.Forms.TextBox	stock	1893	13	yes	UiInputFrame (UI-12) frame; UiScrollLook (UI-13) scroll bars	OpenPmsDental/UI/UiInputFrame	single- and multi-line boxes framed like the combo box; their scroll bars in the Fluent look
@@ -126,7 +125,7 @@ part: toolbars	owner-drawn part	27	0	yes	ToolBarOD (UI-6)	OpenPmsDental/UI/ToolB
 part: the module bar	owner-drawn part	0	0	yes	ModuleBar (UI-6)	OpenPmsDental/UI/ModuleBar	
 part: the date picker's calendar drop-down (ODDatePicker)	owner-drawn part	15	0	yes	MonthCalendarOD (UI-4b)	OpenPmsDental/UI/MonthCalendarOD	
 part: tooltips (ToolTipOD)	owner-drawn part	0	0	yes	ToolTipOD (UI-4a)	OpenPmsDental/UI/ToolTipOD	
-part: splitters (UI.SplitContainer)	owner-drawn part	18	0	yes	UI.SplitContainer (UI-4b)	OpenPmsDental/UI/Splitters/*	
+part: splitters (UI.SplitContainer)	owner-drawn part	19	0	yes	UI.SplitContainer (UI-4b)	OpenPmsDental/UI/Splitters/*	
 part: progress bars (OdProgressBar)	owner-drawn part	0	0	yes	OdProgressBar (UI-4c)	OpenPmsDental/UI/OdProgressBar	
 part: the time pattern bar	owner-drawn part	3	0	yes	TableTimeBar.PaintModern (UI-13)	(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	owner row 'Time pattern on the left looks odd'
 part: the time pattern's slider handle (a stock button)	owner-drawn part	3	0	yes	UiButtonLook swatch (UI-13)	OpenPmsDental/UI/UiLooks	
