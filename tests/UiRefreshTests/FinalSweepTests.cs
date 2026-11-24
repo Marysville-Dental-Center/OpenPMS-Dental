@@ -171,19 +171,23 @@ namespace UiRefreshTests {
 
 		///<summary>The report viewer library's two dialogs (its messages, the data source pass phrase) take the look from their host: the program
 		///sets RdlViewer.ActionAttachLook with the looks' scale (LayoutManagerForms.SetLooksScale), and each dialog's constructor calls it. The
-		///harness builds them without their constructor, so the sweep lists them in sweep-known.tsv.</summary>
+		///sweep and the gallery build them by their constructor (WindowBuilder's list), so the sweep checks them too.</summary>
 		[TestMethod]
 		public void ReportViewerDialogs_TakeTheLookFromTheHost() {
 			StaRunner.Run(() => {
 				NoDatabaseGuard.Install();
 				LayoutManagerForms.SetLooksScale();
-				Assert.IsNotNull(fyiReporting.RdlViewer.RdlViewer.ActionAttachLook,"the program sets the hook");
-				using(fyiReporting.RdlViewer.DialogMessages dialogMessages=new fyiReporting.RdlViewer.DialogMessages(new System.Collections.ArrayList { "A message" })) {
-					Assert.IsTrue(UiPlainWindow.IsAttached(dialogMessages),"DialogMessages");
-					Assert.AreEqual(UiTheme.Surface.ToArgb(),dialogMessages.BackColor.ToArgb());
+				//The report viewer library by reflection: this project references the program, not the library itself.
+				Type typeViewer=Type.GetType("fyiReporting.RdlViewer.RdlViewer, RdlViewer",throwOnError:true);
+				Assert.IsNotNull(typeViewer.GetField("ActionAttachLook").GetValue(null),"the program sets the hook");
+				using(Form formMessages=(Form)Activator.CreateInstance(typeViewer.Assembly.GetType("fyiReporting.RdlViewer.DialogMessages",true),
+					new System.Collections.ArrayList { "A message" }))
+				{
+					Assert.IsTrue(UiPlainWindow.IsAttached(formMessages),"DialogMessages");
+					Assert.AreEqual(UiTheme.Surface.ToArgb(),formMessages.BackColor.ToArgb());
 				}
-				using(fyiReporting.RdlViewer.DataSourcePassword dataSourcePassword=new fyiReporting.RdlViewer.DataSourcePassword()) {
-					Assert.IsTrue(UiPlainWindow.IsAttached(dataSourcePassword),"DataSourcePassword");
+				using(Form formPassword=(Form)Activator.CreateInstance(typeViewer.Assembly.GetType("fyiReporting.RdlViewer.DataSourcePassword",true))) {
+					Assert.IsTrue(UiPlainWindow.IsAttached(formPassword),"DataSourcePassword");
 				}
 			});
 		}

@@ -438,6 +438,9 @@ namespace UiRefreshTests.Scan {
 			//toolbar panel with its buttons and tab strip, the status strip, the MDI area); not mono. It reads designerstate.xml next to the test
 			//host if there is one and opens no file.
 			{ "fyiReporting.RdlDesign.RdlDesigner",new object[] { false } },
+			//UI-11-final: the report viewer library's two dialogs, whose constructors take the look from the host (RdlViewer.ActionAttachLook).
+			{ "fyiReporting.RdlViewer.DialogMessages",new object[] { new System.Collections.ArrayList { "A synthetic message of the report." } } },
+			{ "fyiReporting.RdlViewer.DataSourcePassword",new object[0] },
 		};
 
 		///<summary>True while the gallery (FitGallery) and PlainLookTests build: the windows of _dictBuiltByConstructor are made by their
@@ -453,6 +456,10 @@ namespace UiRefreshTests.Scan {
 		///<summary>The window made by its public constructor with the synthetic arguments of _dictBuiltByConstructor.</summary>
 		public static Form CreateByItsConstructor(Type type) {
 			object[] arrayArgs=_dictBuiltByConstructor[type.FullName];
+			if(type.Assembly.GetName().Name=="RdlViewer") {
+				//UI-11-final: the hook the program sets once its looks have their scale (any FormODBase or LayoutManagerForms does).
+				LayoutManagerForms.SetLooksScale();
+			}
 			ConstructorInfo constructorInfo=type.GetConstructors(BindingFlags.Instance|BindingFlags.Public).First(x => x.GetParameters().Length==arrayArgs.Length);
 			try {
 				return (Form)constructorInfo.Invoke(arrayArgs);

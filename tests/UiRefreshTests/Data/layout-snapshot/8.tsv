@@ -725,16 +725,16 @@ OpenPmsDental/Forms/FormLabCaseProductEdit.Designer.cs	labelProductListValue	104
 OpenPmsDental/Forms/FormLabCaseProductEdit.Designer.cs	butDelete	8,213	81,24	
 OpenPmsDental/Forms/FormLabCaseProductEdit.Designer.cs	butSave	333,213	75,24	
 OpenPmsDental/Forms/FormLabCaseProductEdit.Designer.cs	.			416,245
-OpenPmsDental/Forms/FormLanguageAndRegion.designer.cs	textBoxDescript	8,8	421,47	
-OpenPmsDental/Forms/FormLanguageAndRegion.designer.cs	textLARDB	189,86	212,20	
-OpenPmsDental/Forms/FormLanguageAndRegion.designer.cs	label1	39,86	144,23	
-OpenPmsDental/Forms/FormLanguageAndRegion.designer.cs	comboLanguageAndRegion	189,113	212,23	
-OpenPmsDental/Forms/FormLanguageAndRegion.designer.cs	labelNewLAR	55,113	128,23	
-OpenPmsDental/Forms/FormLanguageAndRegion.designer.cs	checkNoShow	8,140	333,20	
-OpenPmsDental/Forms/FormLanguageAndRegion.designer.cs	textLARLocal	189,59	212,20	
-OpenPmsDental/Forms/FormLanguageAndRegion.designer.cs	label2	35,59	148,23	
-OpenPmsDental/Forms/FormLanguageAndRegion.designer.cs	butSave	354,181	75,24	
-OpenPmsDental/Forms/FormLanguageAndRegion.designer.cs	.			437,213
+OpenPmsDental/Forms/FormLanguageAndRegion.designer.cs	textBoxDescript	8,8	421,59	
+OpenPmsDental/Forms/FormLanguageAndRegion.designer.cs	textLARDB	189,98	212,20	
+OpenPmsDental/Forms/FormLanguageAndRegion.designer.cs	label1	39,98	144,23	
+OpenPmsDental/Forms/FormLanguageAndRegion.designer.cs	comboLanguageAndRegion	189,125	212,23	
+OpenPmsDental/Forms/FormLanguageAndRegion.designer.cs	labelNewLAR	55,125	128,23	
+OpenPmsDental/Forms/FormLanguageAndRegion.designer.cs	checkNoShow	8,152	333,20	
+OpenPmsDental/Forms/FormLanguageAndRegion.designer.cs	textLARLocal	189,71	212,20	
+OpenPmsDental/Forms/FormLanguageAndRegion.designer.cs	label2	35,71	148,23	
+OpenPmsDental/Forms/FormLanguageAndRegion.designer.cs	butSave	354,193	75,24	
+OpenPmsDental/Forms/FormLanguageAndRegion.designer.cs	.			437,225
 OpenPmsDental/Forms/FormLanguagesUsed.designer.cs	listAvailable	8,84	288,459	
 OpenPmsDental/Forms/FormLanguagesUsed.designer.cs	label1	8,59	281,23	
 OpenPmsDental/Forms/FormLanguagesUsed.designer.cs	label2	8,8	474,47	

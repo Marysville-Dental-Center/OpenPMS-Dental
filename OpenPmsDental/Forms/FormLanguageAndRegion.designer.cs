@@ -41,13 +41,13 @@ namespace OpenPmsDental{
 			this.textBoxDescript.Location = new System.Drawing.Point(8, 8);
 			this.textBoxDescript.Multiline = true;
 			this.textBoxDescript.Name = "textBoxDescript";
-			this.textBoxDescript.Size = new System.Drawing.Size(421, 47);
+			this.textBoxDescript.Size = new System.Drawing.Size(421, 59);
 			this.textBoxDescript.TabIndex = 5;
 			this.textBoxDescript.Text = resources.GetString("textBoxDescript.Text");
 			// 
 			// textLARDB
 			// 
-			this.textLARDB.Location = new System.Drawing.Point(189, 86);
+			this.textLARDB.Location = new System.Drawing.Point(189, 98);
 			this.textLARDB.Name = "textLARDB";
 			this.textLARDB.ReadOnly = true;
 			this.textLARDB.Size = new System.Drawing.Size(212, 20);
@@ -55,7 +55,7 @@ namespace OpenPmsDental{
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(39, 86);
+			this.label1.Location = new System.Drawing.Point(39, 98);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(144, 23);
 			this.label1.TabIndex = 17;
@@ -64,14 +64,14 @@ namespace OpenPmsDental{
 			// 
 			// comboLanguageAndRegion
 			// 
-			this.comboLanguageAndRegion.Location = new System.Drawing.Point(189, 113);
+			this.comboLanguageAndRegion.Location = new System.Drawing.Point(189, 125);
 			this.comboLanguageAndRegion.Name = "comboLanguageAndRegion";
 			this.comboLanguageAndRegion.Size = new System.Drawing.Size(212, 23);
 			this.comboLanguageAndRegion.TabIndex = 105;
 			// 
 			// labelNewLAR
 			// 
-			this.labelNewLAR.Location = new System.Drawing.Point(55, 113);
+			this.labelNewLAR.Location = new System.Drawing.Point(55, 125);
 			this.labelNewLAR.Name = "labelNewLAR";
 			this.labelNewLAR.Size = new System.Drawing.Size(128, 23);
 			this.labelNewLAR.TabIndex = 106;
@@ -80,7 +80,7 @@ namespace OpenPmsDental{
 			// 
 			// checkNoShow
 			// 
-			this.checkNoShow.Location = new System.Drawing.Point(8, 140);
+			this.checkNoShow.Location = new System.Drawing.Point(8, 152);
 			this.checkNoShow.Name = "checkNoShow";
 			this.checkNoShow.Size = new System.Drawing.Size(333, 20);
 			this.checkNoShow.TabIndex = 108;
@@ -88,7 +88,7 @@ namespace OpenPmsDental{
 			// 
 			// textLARLocal
 			// 
-			this.textLARLocal.Location = new System.Drawing.Point(189, 59);
+			this.textLARLocal.Location = new System.Drawing.Point(189, 71);
 			this.textLARLocal.Name = "textLARLocal";
 			this.textLARLocal.ReadOnly = true;
 			this.textLARLocal.Size = new System.Drawing.Size(212, 20);
@@ -96,7 +96,7 @@ namespace OpenPmsDental{
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(35, 59);
+			this.label2.Location = new System.Drawing.Point(35, 71);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(148, 23);
 			this.label2.TabIndex = 110;
@@ -106,7 +106,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(354, 181);
+			this.butSave.Location = new System.Drawing.Point(354, 193);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 3;
@@ -115,7 +115,7 @@ namespace OpenPmsDental{
 			// 
 			// FormLanguageAndRegion
 			// 
-			this.ClientSize = new System.Drawing.Size(437, 213);
+			this.ClientSize = new System.Drawing.Size(437, 225);
 			this.Controls.Add(this.textLARLocal);
 			this.Controls.Add(this.label2);
 			this.Controls.Add(this.checkNoShow);
