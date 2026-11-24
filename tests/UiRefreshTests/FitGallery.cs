@@ -264,6 +264,10 @@ namespace UiRefreshTests {
 			//The handles of the window and its controls, the MDI area's among them, which the child is made in (Show makes them all on screen;
 			//the window's handle alone leaves the MDI area without one, and the child's handle then fails when it is activated).
 			DesignSheetWindows.CreateHandles(form);
+			//The window has loaded (its frame on, its content below the band) before a report is opened, as on screen.
+			if(PlainLookCopy.IsTrue(form.GetType().Assembly,"UiPlainFrame","IsAttached",form)) {
+				PlainLookCopy.Call(form.GetType().Assembly,"UiPlainFrame","LayOutAsOnLoad",form);
+			}
 			System.Reflection.MethodInfo methodInfo=form.GetType().GetMethod("CreateMDIChild",System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.NonPublic);
 			object mdiChild=methodInfo.Invoke(form,new object[] { null,SAMPLE_REPORT_RDL,false });
 			if(mdiChild==null) {

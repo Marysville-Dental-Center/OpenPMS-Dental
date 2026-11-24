@@ -246,3 +246,51 @@ pictures; the title-bar before pictures are Windows' frame as Windows prints it 
 passed, 49 skipped (opt-in), 0 failed; `WindowChecksTests` 30 passed (44 opt-in skipped); `UnitTests` 1728 passed (3 skipped);
 `PrintGuardTests` 19 passed (1 skipped); `NoHqTests` 127 passed. The gallery runs (`work/tests-*.txt`): UiRefreshTests 312 passed each.
 `tools/Test-NoEolFlips.ps1 -Base 857b85266`: 0 flips. `element_inventory.py --check`: matches.
+
+## 9. UI-PLAIN-2 fix round (branch `ui/uiplain2-2`, the review of `ui/uiplain2-1`)
+
+Three findings, all real, fixed:
+1. **The frame at Load.** The frame took the window when its handle was made. The report designer's dialogs (all but PropertyDialog and
+   SingleCtlDialog) and ODR's FormParameterInput keep Windows Forms' old AutoScale (their designer code sets only AutoScaleBaseSize):
+   Form.OnLoad scales them (ApplyAutoScaling, about 1.3 under Segoe UI 9) and sets ClientSize, which Windows Forms turns into a window size
+   with Windows' standard caption and borders (SizeFromClientSize); with the frame already on (8 px of border below, none on top) the client
+   area came out about 31 px taller at 100%, before the band was added. `UiPlainFrame` now turns on at Load (its Load handler runs after
+   Form.OnLoad's scaling and after the window's own designer-subscribed Load handlers, before the window shows): it reads the client area,
+   hooks the handle (SWP_FRAMECHANGED), sets the window's size so that client area is kept within its borders (a centred window keeps its
+   centre), then adds the band. A handle made again after Load is hooked at once and keeps its size. `PlainFrameTests`
+   (`Frame_LegacyAutoScale_ClientAreaIsTheScaledDesignAndTheBand`): a window with only AutoScaleBaseSize(5,13) under Segoe UI 9, sizable
+   and a fixed dialog, through Form.OnLoad by reflection: its client area is the scaled design (as the same window without the frame gets
+   it) plus 26, its bottom-anchored button at its scaled distance.
+2. **The band's icon.** The band showed the window's own icon where Windows showed one: Windows Forms' default icon (two windows) on many
+   plain windows, the tooth on some, nothing on dialogs. It now shows what FormODBase shows (ShowIcon as the window has it, whatever its
+   border): the window's own icon on a normal frame, else the program icon (`UiPlainFrame.IconProgram`: branding/app.ico, which CodeBase now
+   embeds as `CodeBase.Branding.app.ico`; in a linked copy (RdlDesign, UpdateFileCopier) the exe's own icon, the program's in
+   OpenPmsDental.exe), never the default icon. Only the band's picture changes; the window's Icon (taskbar, Alt+Tab) stays. The gallery
+   harness, whose exe is the test host, gives the copies the program icon (`IconProgramForTest`). `Frame_Icon_TheProgramIconNeverTheDefault`.
+3. **The report designer's main window.** The gallery builds RdlDesigner by its constructor (`new RdlDesigner(false)`: menus, toolbar,
+   tab strip, status strip, MDI area; `WindowBuilder` and `PlainLookTests` too) and draws it with one new report open (`RdlDesigner#report`:
+   CreateMDIChild with a synthetic RDL, activated as Windows activates it on screen). What still showed the old look, fixed:
+   - the MDI area: Windows' AppWorkspace grey with a sunken 3D edge: the background token, flat (`UiPlainWindow`: WS_EX_CLIENTEDGE taken off
+     at every handle);
+   - the maximized report's minimize, restore and close buttons, which Windows Forms merges into the menu bar as classic caption button
+     pictures: the title bar's Fluent glyphs (`UiToolStripRenderer.OnRenderItemImage`, by the system command each sends);
+   - the Designer, RDL Text and Preview tabs along the report's bottom (Windows' classic tabs): `UiTabLook` draws bottom tabs too, mirrored;
+   - the toolbar's buttons (`SimpleButton`, `SimpleToggle`): LightGray tiles when disabled, a blue rectangle on hover, Azure when checked:
+     the toolbar's colour, SubtleHover, SubtlePressed, checked in AccentSubtle with the Accent border (the token renderer's tool buttons), a
+     disabled picture faded; their BackColor values, events and behaviour unchanged;
+   - the status panels' 3D borders (BorderSides): a flat Stroke line (`UiToolStripRenderer`; no other status label in the repository has one).
+   The gallery now draws the plain windows' menus and strips with the token renderer, as their Main sets it (the stock renderer in the
+   before pictures). Tests: `Frame_ReportDesignerMainWindow_MdiAreaAndMergedButtons` (the MDI area's colour and edge, the three merged
+   buttons and their glyphs), `PlainWindows_BuiltByTheirConstructor_DrawTheNewLook` (RdlDesigner by its constructor, its MDI area),
+   `TabLook_TheProgramsTabs` (bottom tabs).
+
+Harness: a maximized MDI child is drawn as the screen shows it (its client area over the MDI area; Windows places its frame outside it);
+the gallery makes every handle and lays the window out as its Load does before it opens the report; each failure's whole exception goes to
+`gallery-failed-detail.txt`.
+
+**Seen, for the lead**
+- A plain window whose constructor subscribes Load after Attach, or that overrides OnLoad and sets ClientSize after base.OnLoad, would set
+  it with the frame on (a client area a caption taller); none found.
+- The merged MDI system menu shows the report window's own icon (MDIChild.resx, the report designer's icon, kept by BrandingTests).
+- In the program the report designer's dialogs open at their AutoScale size (about 1.3 times the designer's under Segoe UI 9); the gallery
+  draws them at the designer's size at 100%, as slice 13 did (it runs no OnLoad).
