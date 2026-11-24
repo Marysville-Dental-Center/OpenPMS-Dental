@@ -69,6 +69,8 @@ namespace UiRefreshTests {
 					return root;
 				case "CodeBase.FormProgressExtended#bars":
 					//Two progress bars, as UpdateProgress adds them (AddNewProgressBar): a block bar and a marquee.
+					//The list its field initializer makes (the builder runs no initializers), then the bars.
+					root.GetType().GetField("_listProgressBars",FLAGS).SetValue(root,new List<CodeBase.ODProgressBar>());
 					MethodInfo methodInfoAdd=root.GetType().GetMethod("AddNewProgressBar",FLAGS);
 					methodInfoAdd.Invoke(root,new object[] { "Tables","Checking the tables","40%",40,100,"",CodeBase.ProgBarStyle.Blocks,0,false,false,false });
 					methodInfoAdd.Invoke(root,new object[] { "Files","Copying the files","",0,100,"",CodeBase.ProgBarStyle.Marquee,30,false,false,true });
@@ -80,7 +82,7 @@ namespace UiRefreshTests {
 					splitContainerSuperClones.Visible=true;
 					MethodInfo methodInfoLayout=root.GetType().GetMethod("LayoutSuperClones",FLAGS);
 					if(methodInfoLayout!=null) {
-						methodInfoLayout.Invoke(root,null);
+						methodInfoLayout.Invoke(root,new object[] { true });
 					}
 					else {//main's RefreshModuleScreen: the insurance grid 2 px right of the pane, to the module's edge
 						Control gridIns=Find(root,"gridIns");

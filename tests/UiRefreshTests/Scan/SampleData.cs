@@ -124,6 +124,11 @@ namespace UiRefreshTests.Scan {
 				case "OpenPmsDental.UserControlTasks":
 					SetField(userControl,"_listTaskListTreeHistory",new List<TaskList>());
 					return null;
+				case "OpenPmsDental.ControlFamily":
+					//RefreshModuleScreen with no patient (or none with a super family or clones) hides the super family and clones pane; the
+					//insurance grid stands in its place.
+					((Control)userControl.GetType().GetField("splitContainerSuperClones",FLAGS).GetValue(userControl)).Visible=false;
+					return null;
 				case "OpenPmsDental.UserControlSecurityUserGroup":
 					List<Control> listSuspended=new List<Control>();
 					SuspendTabControls(userControl,listSuspended);
