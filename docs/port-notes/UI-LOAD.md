@@ -107,3 +107,8 @@ pictures of a disconnected session and the opt-in galleries, the UI-LOAD gallery
 skipped (opt-in); UnitTests 1728 passed, 3 skipped; PrintGuardTests 19 passed, 1 skipped; NoHqTests 130 passed.
 `tools/Test-NoEolFlips.ps1 -Base 6bd8e0d64`: 0 flips. `python tools/UiFit/element_inventory.py --check` and
 `python tools/UiFit/colour_literals.py --check`: match.
+
+Review fix (`ui/uiload-2`, 2026-11-24: the ring's timer only while it is in a window, section 2): full x64 build through the lane, 0
+errors. Targeted x64 run (`.git/od-tools/test-results/uiload-2.txt`): UiRefreshTests 361 passed, 51 skipped, 0 failed; WindowChecksTests
+31 passed, 44 skipped; UnitTests 1728 passed, 3 skipped; PrintGuardTests 19 passed, 1 skipped; NoHqTests 130 passed.
+`tools/Test-NoEolFlips.ps1 -Base 6bd8e0d64`: 0 flips. `element_inventory.py --check` and `colour_literals.py --check`: match.
