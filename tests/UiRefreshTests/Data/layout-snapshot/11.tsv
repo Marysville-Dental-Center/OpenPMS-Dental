@@ -103,6 +103,18 @@ OpenPmsDental/Forms/FormDiscountPlanEdit.designer.cs	labelDiscountExamFreq	108,2
 OpenPmsDental/Forms/FormDiscountPlanEdit.designer.cs	textAnnualMax	126,231	100,20	
 OpenPmsDental/Forms/FormDiscountPlanEdit.designer.cs	label5	44,231	76,23	
 OpenPmsDental/Forms/FormDiscountPlanEdit.designer.cs	.			504,522
+OpenPmsDental/Forms/FormDoseSpotProperyEdit.designer.cs	butSave	251,167	91,24	
+OpenPmsDental/Forms/FormDoseSpotProperyEdit.designer.cs	textClinicID	78,59	167,23	
+OpenPmsDental/Forms/FormDoseSpotProperyEdit.designer.cs	label1	8,59	64,23	
+OpenPmsDental/Forms/FormDoseSpotProperyEdit.designer.cs	label2	8,86	64,23	
+OpenPmsDental/Forms/FormDoseSpotProperyEdit.designer.cs	textClinicKey	78,86	167,23	
+OpenPmsDental/Forms/FormDoseSpotProperyEdit.designer.cs	checkShowKey	78,113	74,20	
+OpenPmsDental/Forms/FormDoseSpotProperyEdit.designer.cs	label3	8,32	64,23	
+OpenPmsDental/Forms/FormDoseSpotProperyEdit.designer.cs	textClinicAbbr	78,32	167,23	
+OpenPmsDental/Forms/FormDoseSpotProperyEdit.designer.cs	butRegisterClinic	251,32	91,23	
+OpenPmsDental/Forms/FormDoseSpotProperyEdit.designer.cs	butClear	251,59	91,23	
+OpenPmsDental/Forms/FormDoseSpotProperyEdit.designer.cs	menuMain	0,0	350,24	
+OpenPmsDental/Forms/FormDoseSpotProperyEdit.designer.cs	.			350,199
 OpenPmsDental/Forms/FormEduResourceEdit.Designer.cs	butProblemSelect	565,23	29,23	
 OpenPmsDental/Forms/FormEduResourceEdit.Designer.cs	textProblem	167,23	392,20	
 OpenPmsDental/Forms/FormEduResourceEdit.Designer.cs	label1	101,23	60,23	
@@ -130,14 +142,14 @@ OpenPmsDental/Forms/FormEduResourceEdit.Designer.cs	label9	25,151	144,23
 OpenPmsDental/Forms/FormEduResourceEdit.Designer.cs	textTobaccoAssessment	175,151	392,20	
 OpenPmsDental/Forms/FormEduResourceEdit.Designer.cs	butTobaccoCodeSelect	573,151	29,23	
 OpenPmsDental/Forms/FormEduResourceEdit.Designer.cs	.			623,383
-OpenPmsDental/Forms/FormEhrLabImageEdit.designer.cs	picturePreview	8,8	759,310	
+OpenPmsDental/Forms/FormEhrLabImageEdit.designer.cs	picturePreview	8,8	752,296	
 OpenPmsDental/Forms/FormEhrLabImageEdit.designer.cs	checkWaitingForImages	8,8	476,20	
-OpenPmsDental/Forms/FormEhrLabImageEdit.designer.cs	splitContainer	8,32	791,549	
-OpenPmsDental/Forms/FormEhrLabImageEdit.designer.cs	splitterPanel1	8,8	775,203	
-OpenPmsDental/Forms/FormEhrLabImageEdit.designer.cs	splitterPanel2	8,215	775,326	
-OpenPmsDental/Forms/FormEhrLabImageEdit.designer.cs	gridMain	8,8	759,187	
-OpenPmsDental/Forms/FormEhrLabImageEdit.designer.cs	butSave	724,593	75,24	
-OpenPmsDental/Forms/FormEhrLabImageEdit.designer.cs	.			807,625
+OpenPmsDental/Forms/FormEhrLabImageEdit.designer.cs	splitContainer	8,36	768,509	
+OpenPmsDental/Forms/FormEhrLabImageEdit.designer.cs	splitterPanel1	0,0	768,193	
+OpenPmsDental/Forms/FormEhrLabImageEdit.designer.cs	splitterPanel2	0,197	768,312	
+OpenPmsDental/Forms/FormEhrLabImageEdit.designer.cs	gridMain	8,8	752,177	
+OpenPmsDental/Forms/FormEhrLabImageEdit.designer.cs	butSave	701,557	75,24	
+OpenPmsDental/Forms/FormEhrLabImageEdit.designer.cs	.			784,589
 OpenPmsDental/Forms/FormEquipmentEdit.Designer.cs	label1	72,35	72,23	
 OpenPmsDental/Forms/FormEquipmentEdit.Designer.cs	textDescription	150,35	397,23	
 OpenPmsDental/Forms/FormEquipmentEdit.Designer.cs	textSerialNumber	150,62	144,20	
@@ -634,17 +646,17 @@ OpenPmsDental/Forms/FormTestLatency.designer.cs	butSpeed	8,165	70,24
 OpenPmsDental/Forms/FormTestLatency.designer.cs	label4	70,82	53,17	
 OpenPmsDental/Forms/FormTestLatency.designer.cs	textSpeed	8,79	56,23	
 OpenPmsDental/Forms/FormTestLatency.designer.cs	labelAverageExplain	8,23	172,34	
-OpenPmsDental/Forms/FormTestLatency.designer.cs	labelAverageCount	28,57	72,23	
-OpenPmsDental/Forms/FormTestLatency.designer.cs	labelAverage	44,84	56,23	
-OpenPmsDental/Forms/FormTestLatency.designer.cs	labelAverageMs	168,87	30,17	
-OpenPmsDental/Forms/FormTestLatency.designer.cs	labelAverageMin	52,111	48,23	
-OpenPmsDental/Forms/FormTestLatency.designer.cs	labelAverageMinMs	168,114	30,17	
-OpenPmsDental/Forms/FormTestLatency.designer.cs	labelAverageMax	48,138	52,23	
-OpenPmsDental/Forms/FormTestLatency.designer.cs	labelAverageMaxMs	168,141	30,17	
-OpenPmsDental/Forms/FormTestLatency.designer.cs	textAverageCount	106,57	44,23	
-OpenPmsDental/Forms/FormTestLatency.designer.cs	textAverage	106,84	56,23	
-OpenPmsDental/Forms/FormTestLatency.designer.cs	textAverageMin	106,111	56,23	
-OpenPmsDental/Forms/FormTestLatency.designer.cs	textAverageMax	106,138	56,23	
+OpenPmsDental/Forms/FormTestLatency.designer.cs	labelAverageCount	8,57	72,23	
+OpenPmsDental/Forms/FormTestLatency.designer.cs	labelAverage	24,84	56,23	
+OpenPmsDental/Forms/FormTestLatency.designer.cs	labelAverageMs	148,87	30,17	
+OpenPmsDental/Forms/FormTestLatency.designer.cs	labelAverageMin	32,111	48,23	
+OpenPmsDental/Forms/FormTestLatency.designer.cs	labelAverageMinMs	148,114	30,17	
+OpenPmsDental/Forms/FormTestLatency.designer.cs	labelAverageMax	28,138	52,23	
+OpenPmsDental/Forms/FormTestLatency.designer.cs	labelAverageMaxMs	148,141	30,17	
+OpenPmsDental/Forms/FormTestLatency.designer.cs	textAverageCount	86,57	44,23	
+OpenPmsDental/Forms/FormTestLatency.designer.cs	textAverage	86,84	56,23	
+OpenPmsDental/Forms/FormTestLatency.designer.cs	textAverageMin	86,111	56,23	
+OpenPmsDental/Forms/FormTestLatency.designer.cs	textAverageMax	86,138	56,23	
 OpenPmsDental/Forms/FormTestLatency.designer.cs	butAverage	8,165	70,24	
 OpenPmsDental/Forms/FormTestLatency.designer.cs	groupBoxAverage	396,8	188,197	
 OpenPmsDental/Forms/FormTestLatency.designer.cs	.			592,213

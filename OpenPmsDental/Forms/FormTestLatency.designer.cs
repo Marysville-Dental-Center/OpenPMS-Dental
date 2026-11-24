@@ -59,7 +59,7 @@ namespace OpenPmsDental{
 			this.label1.Size = new System.Drawing.Size(170, 50);
 			this.label1.TabIndex = 5;
 			this.label1.Text = "Roundtrip time for a very small query to the database.";
-			this.label1.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+			this.label1.TextAlign = System.Drawing.ContentAlignment.TopLeft;
 			// 
 			// textLatency
 			// 
@@ -122,7 +122,7 @@ namespace OpenPmsDental{
 			this.label3.Size = new System.Drawing.Size(170, 50);
 			this.label3.TabIndex = 5;
 			this.label3.Text = "For a larger database query.  The latency time is already subtracted.";
-			this.label3.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+			this.label3.TextAlign = System.Drawing.ContentAlignment.TopLeft;
 			// 
 			// butSpeed
 			// 

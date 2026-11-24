@@ -587,16 +587,16 @@ OpenPmsDental/Forms/FormDiscountPlanEdit.designer.cs	labelDiscountExamFreq	6,26	
 OpenPmsDental/Forms/FormDiscountPlanEdit.designer.cs	textAnnualMax	126,229	100,20	
 OpenPmsDental/Forms/FormDiscountPlanEdit.designer.cs	label5	6,228	114,20	
 OpenPmsDental/Forms/FormDiscountPlanEdit.designer.cs	.			504,500
-OpenPmsDental/Forms/FormDoseSpotProperyEdit.designer.cs	butSave	251,167	91,24	
-OpenPmsDental/Forms/FormDoseSpotProperyEdit.designer.cs	textClinicID	101,59	120,20	
-OpenPmsDental/Forms/FormDoseSpotProperyEdit.designer.cs	label1	39,59	56,23	
-OpenPmsDental/Forms/FormDoseSpotProperyEdit.designer.cs	label2	31,86	64,23	
-OpenPmsDental/Forms/FormDoseSpotProperyEdit.designer.cs	textClinicKey	101,86	120,20	
-OpenPmsDental/Forms/FormDoseSpotProperyEdit.designer.cs	checkShowKey	101,113	74,20	
-OpenPmsDental/Forms/FormDoseSpotProperyEdit.designer.cs	label3	51,32	44,23	
-OpenPmsDental/Forms/FormDoseSpotProperyEdit.designer.cs	textClinicAbbr	101,32	120,20	
-OpenPmsDental/Forms/FormDoseSpotProperyEdit.designer.cs	butRegisterClinic	227,32	91,23	
-OpenPmsDental/Forms/FormDoseSpotProperyEdit.designer.cs	butClear	227,59	91,23	
+OpenPmsDental/Forms/FormDoseSpotProperyEdit.designer.cs	butSave	247,163	91,24	
+OpenPmsDental/Forms/FormDoseSpotProperyEdit.designer.cs	textClinicID	101,63	120,20	
+OpenPmsDental/Forms/FormDoseSpotProperyEdit.designer.cs	label1	13,63	82,20	
+OpenPmsDental/Forms/FormDoseSpotProperyEdit.designer.cs	label2	10,89	85,20	
+OpenPmsDental/Forms/FormDoseSpotProperyEdit.designer.cs	textClinicKey	101,89	120,20	
+OpenPmsDental/Forms/FormDoseSpotProperyEdit.designer.cs	checkShowKey	101,113	120,18	
+OpenPmsDental/Forms/FormDoseSpotProperyEdit.designer.cs	label3	13,37	82,20	
+OpenPmsDental/Forms/FormDoseSpotProperyEdit.designer.cs	textClinicAbbr	101,37	120,20	
+OpenPmsDental/Forms/FormDoseSpotProperyEdit.designer.cs	butRegisterClinic	247,34	91,24	
+OpenPmsDental/Forms/FormDoseSpotProperyEdit.designer.cs	butClear	247,59	91,24	
 OpenPmsDental/Forms/FormDoseSpotProperyEdit.designer.cs	menuMain	0,0	350,24	
 OpenPmsDental/Forms/FormDoseSpotProperyEdit.designer.cs	.			350,199
 OpenPmsDental/Forms/FormEduResourceEdit.Designer.cs	butProblemSelect	558,18	29,23	

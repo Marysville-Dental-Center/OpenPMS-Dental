@@ -17,6 +17,7 @@ batch	kind	rank	designer_file	window	controls	group
 1	large	435	CentralManager/FormCentralProdInc.Designer.cs	CentralManager.FormCentralProdInc	22	CentralManager.FormCentralProdInc
 1	large	440	OpenPmsDental/Forms Reports/FormQuery.designer.cs	OpenPmsDental.FormQuery	29	OpenPmsDental.FormQuery
 1	large	630	OpenPmsDental/Forms/FormSheetFillEdit.designer.cs	OpenPmsDental.FormSheetFillEdit	25	OpenPmsDental.FormSheetFillEdit
+1	large	654	OpenPmsDental/Forms/FormUpdate.designer.cs	OpenPmsDental.FormUpdate	37	OpenPmsDental.FormUpdate
 1	large		OpenPmsDental/Forms/FormEtrans835ClaimEdit.designer.cs	OpenPmsDental.FormEtrans835ClaimEdit	34	OpenPmsDental.FormEtrans835ClaimEdit
 1	large		OpenPmsDental/Forms/FormEtrans835ProcEdit.designer.cs	OpenPmsDental.FormEtrans835ProcEdit	32	OpenPmsDental.FormEtrans835ProcEdit
 1	large		OpenPmsDental/Forms/FormMountDefEdit.designer.cs	OpenPmsDental.FormMountDefEdit	40	OpenPmsDental.FormMountDefEdit
@@ -147,6 +148,8 @@ batch	kind	rank	designer_file	window	controls	group
 2	small		CentralManager/FormCentralUserGroups.Designer.cs	CentralManager.FormCentralUserGroups	3	CentralManager.FormCentralUserGroups
 2	small		CodeBase/Controls/PrintPanel.Designer.cs	CodeBase.PrintPanel	1	CodeBase.PrintPanel
 2	small		OpenPmsDental/Bridges/FormPrintTrojan.designer.cs	OpenPmsDental.FormPrintTrojan	6	CodeBase.PrintPanel
+3	small		CodeBase/Progress/FormProgressExtended.designer.cs	CodeBase.FormProgressExtended	8	CodeBase.FormProgressExtended
+3	small		CodeBase/Progress/FormProgressStatus.designer.cs	CodeBase.FormProgressStatus	7	CodeBase.FormProgressStatus
 3	small		CodeBase/Utilities/MsgBoxCopyPaste.cs	CodeBase.msgboxcopypaste	4	CodeBase.msgboxcopypaste
 3	small		MySQLManager/FormMySQLManager.Designer.cs	MySQLManager.FormMySQLUserManager	16	MySQLManager.FormMySQLUserManager
 3	small		ODR/ComboBoxMulti.cs	ODR.comboboxmulti	2	ODR.comboboxmulti
@@ -328,3 +331,4 @@ batch	kind	rank	designer_file	window	controls	group
 5	large		RdlDesign/StyleBorderCtl.cs	fyiReporting.RdlDesign.styleborderctl	43	fyiReporting.RdlDesign.styleborderctl
 5	large		RdlDesign/StyleCtl.cs	fyiReporting.RdlDesign.stylectl	30	fyiReporting.RdlDesign.stylectl
 5	large		RdlDesign/StyleTextCtl.cs	fyiReporting.RdlDesign.styletextctl	39	fyiReporting.RdlDesign.styletextctl
+5	large		ServiceManager/FormWebConfigSettings.Designer.cs	ServiceManager.FormWebConfigSettings	33	ServiceManager.FormWebConfigSettings
