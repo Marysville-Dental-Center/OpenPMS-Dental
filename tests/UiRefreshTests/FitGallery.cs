@@ -433,7 +433,7 @@ namespace UiRefreshTests {
 				return root;
 			}
 			//UI-12 slice 3 fix round (review of 2026-11-23): the slice's other tab pages and views, laid out by its scripts.
-			string[] arrayTab=GetSliceThreeTabState(window,state);
+			string[] arrayTab=GetSliceThreeTabState(window,state) ?? GetSliceElevenTabState(window,state);
 			if(arrayTab!=null) {
 				SelectTabPage(root,arrayTab[0],arrayTab[1]);
 				return root;
@@ -496,6 +496,18 @@ namespace UiRefreshTests {
 				case "OpenPmsDental.FormUserEdit#clinics": return new string[] { "tabControl1","tabClinics" };
 				case "OpenPmsDental.FormUserEdit#alertsubs": return new string[] { "tabControl1","tabAlertSubs" };
 				case "OpenPmsDental.FormSecurity#usergroups": return new string[] { "tabControlMain","tabPageUserGroups" };
+			}
+			return null;
+		}
+
+		///<summary>UI-12 slice 11: the other tab pages of FormFeeSchedTools ("<window>#<state>"), laid out by its script, or null.</summary>
+		private static string[] GetSliceElevenTabState(string window,string state) {
+			switch(window+"#"+state) {
+				case "OpenPmsDental.FormFeeSchedTools#increase": return new string[] { "tabControlTools","tabPageIncrease" };
+				case "OpenPmsDental.FormFeeSchedTools#clear": return new string[] { "tabControlTools","tabPageClear" };
+				case "OpenPmsDental.FormFeeSchedTools#exportimport": return new string[] { "tabControlTools","tabPageExportImport" };
+				case "OpenPmsDental.FormFeeSchedTools#globalupdates": return new string[] { "tabControlTools","tabPageGlobalUpdates" };
+				case "OpenPmsDental.FormFeeSchedTools#copycode": return new string[] { "tabControlTools","tabPageCopyCode" };
 			}
 			return null;
 		}

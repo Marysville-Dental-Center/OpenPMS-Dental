@@ -45,8 +45,9 @@ namespace OpenPmsDental {
 			}
 			//Only unrestricted users should be using fee tools with feeschedgroups.
 			checkShowGroups.Visible=(PrefC.GetBool(PrefName.ShowFeeSchedGroups) && !Security.CurUser.ClinicIsRestricted);
-			LayoutManager.MoveLocation(comboGroup,new Point(LayoutManager.Scale(100),LayoutManager.Scale(46)));
-			LayoutManager.MoveLocation(comboGroupTo,new Point(LayoutManager.Scale(100),LayoutManager.Scale(45)));
+			//UI-12 slice 11: each group combo in its clinic picker's row at the field column (was the literal 100, 46 and 100, 45).
+			LayoutManager.MoveLocation(comboGroup,new Point(comboFeeSched.Left,comboClinic.Top));
+			LayoutManager.MoveLocation(comboGroupTo,new Point(comboFeeSchedTo.Left,comboClinicTo.Top));
 			FillComboBoxes();
 			if(RemotingClient.MiddleTierRole==MiddleTierRole.ClientMT) {
 				groupGlobalUpdateFees.Enabled=false;

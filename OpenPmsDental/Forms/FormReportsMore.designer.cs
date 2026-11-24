@@ -58,7 +58,7 @@ namespace OpenPmsDental {
 			// groupBusiness
 			// 
 			this.groupBusiness.Controls.Add(this.picturePracticeByNumbers);
-			this.groupBusiness.Location = new System.Drawing.Point(532, 80);
+			this.groupBusiness.Location = new System.Drawing.Point(524, 80);
 			this.groupBusiness.Name = "groupBusiness";
 			this.groupBusiness.Size = new System.Drawing.Size(120, 55);
 			this.groupBusiness.TabIndex = 28;
@@ -77,7 +77,7 @@ namespace OpenPmsDental {
 			// 
 			// labelArizonaPrimaryCare
 			// 
-			this.labelArizonaPrimaryCare.Location = new System.Drawing.Point(281, 428);
+			this.labelArizonaPrimaryCare.Location = new System.Drawing.Point(266, 428);
 			this.labelArizonaPrimaryCare.Name = "labelArizonaPrimaryCare";
 			this.labelArizonaPrimaryCare.Size = new System.Drawing.Size(156, 18);
 			this.labelArizonaPrimaryCare.TabIndex = 20;
@@ -96,7 +96,7 @@ namespace OpenPmsDental {
 			// 
 			// labelDaily
 			// 
-			this.labelDaily.Location = new System.Drawing.Point(9, 205);
+			this.labelDaily.Location = new System.Drawing.Point(8, 205);
 			this.labelDaily.Name = "labelDaily";
 			this.labelDaily.Size = new System.Drawing.Size(118, 18);
 			this.labelDaily.TabIndex = 15;
@@ -105,7 +105,7 @@ namespace OpenPmsDental {
 			// 
 			// labelProdInc
 			// 
-			this.labelProdInc.Location = new System.Drawing.Point(9, 60);
+			this.labelProdInc.Location = new System.Drawing.Point(8, 60);
 			this.labelProdInc.Name = "labelProdInc";
 			this.labelProdInc.Size = new System.Drawing.Size(207, 18);
 			this.labelProdInc.TabIndex = 13;
@@ -114,7 +114,7 @@ namespace OpenPmsDental {
 			// 
 			// labelMonthly
 			// 
-			this.labelMonthly.Location = new System.Drawing.Point(9, 350);
+			this.labelMonthly.Location = new System.Drawing.Point(8, 350);
 			this.labelMonthly.Name = "labelMonthly";
 			this.labelMonthly.Size = new System.Drawing.Size(118, 18);
 			this.labelMonthly.TabIndex = 6;
@@ -123,7 +123,7 @@ namespace OpenPmsDental {
 			// 
 			// labelLists
 			// 
-			this.labelLists.Location = new System.Drawing.Point(281, 60);
+			this.labelLists.Location = new System.Drawing.Point(266, 60);
 			this.labelLists.Name = "labelLists";
 			this.labelLists.Size = new System.Drawing.Size(118, 18);
 			this.labelLists.TabIndex = 4;
@@ -132,7 +132,7 @@ namespace OpenPmsDental {
 			// 
 			// labelPublicHealth
 			// 
-			this.labelPublicHealth.Location = new System.Drawing.Point(281, 322);
+			this.labelPublicHealth.Location = new System.Drawing.Point(266, 322);
 			this.labelPublicHealth.Name = "labelPublicHealth";
 			this.labelPublicHealth.Size = new System.Drawing.Size(118, 18);
 			this.labelPublicHealth.TabIndex = 2;
@@ -141,9 +141,9 @@ namespace OpenPmsDental {
 			// 
 			// butPatExport
 			// 
-			this.butPatExport.Location = new System.Drawing.Point(532, 171);
+			this.butPatExport.Location = new System.Drawing.Point(524, 171);
 			this.butPatExport.Name = "butPatExport";
-			this.butPatExport.Size = new System.Drawing.Size(101, 24);
+			this.butPatExport.Size = new System.Drawing.Size(120, 24);
 			this.butPatExport.TabIndex = 24;
 			this.butPatExport.Text = "EHR Pat Export";
 			this.butPatExport.Visible = false;
@@ -151,9 +151,9 @@ namespace OpenPmsDental {
 			// 
 			// butPatList
 			// 
-			this.butPatList.Location = new System.Drawing.Point(532, 143);
+			this.butPatList.Location = new System.Drawing.Point(524, 143);
 			this.butPatList.Name = "butPatList";
-			this.butPatList.Size = new System.Drawing.Size(101, 24);
+			this.butPatList.Size = new System.Drawing.Size(120, 24);
 			this.butPatList.TabIndex = 23;
 			this.butPatList.Text = "EHR Patient List";
 			this.butPatList.Visible = false;
@@ -161,7 +161,7 @@ namespace OpenPmsDental {
 			// 
 			// listArizonaPrimaryCare
 			// 
-			this.listArizonaPrimaryCare.Location = new System.Drawing.Point(281, 448);
+			this.listArizonaPrimaryCare.Location = new System.Drawing.Point(266, 448);
 			this.listArizonaPrimaryCare.Name = "listArizonaPrimaryCare";
 			this.listArizonaPrimaryCare.SelectionMode = OpenPmsDental.UI.SelectionMode.None;
 			this.listArizonaPrimaryCare.Size = new System.Drawing.Size(242, 43);
@@ -171,7 +171,7 @@ namespace OpenPmsDental {
 			// 
 			// butLaserLabels
 			// 
-			this.butLaserLabels.Location = new System.Drawing.Point(281, 32);
+			this.butLaserLabels.Location = new System.Drawing.Point(266, 32);
 			this.butLaserLabels.Name = "butLaserLabels";
 			this.butLaserLabels.Size = new System.Drawing.Size(81, 24);
 			this.butLaserLabels.TabIndex = 18;
@@ -181,7 +181,7 @@ namespace OpenPmsDental {
 			// 
 			// listDaily
 			// 
-			this.listDaily.Location = new System.Drawing.Point(9, 225);
+			this.listDaily.Location = new System.Drawing.Point(8, 225);
 			this.listDaily.Name = "listDaily";
 			this.listDaily.SelectionMode = OpenPmsDental.UI.SelectionMode.None;
 			this.listDaily.Size = new System.Drawing.Size(242, 121);
@@ -190,7 +190,7 @@ namespace OpenPmsDental {
 			// 
 			// listProdInc
 			// 
-			this.listProdInc.Location = new System.Drawing.Point(9, 80);
+			this.listProdInc.Location = new System.Drawing.Point(8, 80);
 			this.listProdInc.Name = "listProdInc";
 			this.listProdInc.SelectionMode = OpenPmsDental.UI.SelectionMode.None;
 			this.listProdInc.Size = new System.Drawing.Size(242, 121);
@@ -199,7 +199,7 @@ namespace OpenPmsDental {
 			// 
 			// butPW
 			// 
-			this.butPW.Location = new System.Drawing.Point(99, 32);
+			this.butPW.Location = new System.Drawing.Point(98, 32);
 			this.butPW.Name = "butPW";
 			this.butPW.Size = new System.Drawing.Size(84, 24);
 			this.butPW.TabIndex = 12;
@@ -208,7 +208,7 @@ namespace OpenPmsDental {
 			// 
 			// butUserQuery
 			// 
-			this.butUserQuery.Location = new System.Drawing.Point(9, 32);
+			this.butUserQuery.Location = new System.Drawing.Point(8, 32);
 			this.butUserQuery.Name = "butUserQuery";
 			this.butUserQuery.Size = new System.Drawing.Size(84, 24);
 			this.butUserQuery.TabIndex = 11;
@@ -217,7 +217,7 @@ namespace OpenPmsDental {
 			// 
 			// listPublicHealth
 			// 
-			this.listPublicHealth.Location = new System.Drawing.Point(281, 342);
+			this.listPublicHealth.Location = new System.Drawing.Point(266, 342);
 			this.listPublicHealth.Name = "listPublicHealth";
 			this.listPublicHealth.SelectionMode = OpenPmsDental.UI.SelectionMode.None;
 			this.listPublicHealth.Size = new System.Drawing.Size(242, 82);
@@ -226,7 +226,7 @@ namespace OpenPmsDental {
 			// 
 			// listLists
 			// 
-			this.listLists.Location = new System.Drawing.Point(281, 80);
+			this.listLists.Location = new System.Drawing.Point(266, 80);
 			this.listLists.Name = "listLists";
 			this.listLists.SelectionMode = OpenPmsDental.UI.SelectionMode.None;
 			this.listLists.Size = new System.Drawing.Size(242, 238);
@@ -235,7 +235,7 @@ namespace OpenPmsDental {
 			// 
 			// listMonthly
 			// 
-			this.listMonthly.Location = new System.Drawing.Point(9, 370);
+			this.listMonthly.Location = new System.Drawing.Point(8, 370);
 			this.listMonthly.Name = "listMonthly";
 			this.listMonthly.SelectionMode = OpenPmsDental.UI.SelectionMode.None;
 			this.listMonthly.Size = new System.Drawing.Size(242, 199);

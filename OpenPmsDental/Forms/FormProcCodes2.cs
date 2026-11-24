@@ -123,9 +123,10 @@ namespace OpenPmsDental {
 			checkGroups1.Visible=isShowingGroups;
 			checkGroups2.Visible=isShowingGroups;
 			checkGroups3.Visible=isShowingGroups;
-			LayoutManager.MoveLocation(comboFeeSchedGroup1,new Point(LayoutManager.Scale(14),LayoutManager.Scale(96)));
-			LayoutManager.MoveLocation(comboFeeSchedGroup2,new Point(LayoutManager.Scale(14),LayoutManager.Scale(96)));
-			LayoutManager.MoveLocation(comboFeeSchedGroup3,new Point(LayoutManager.Scale(14),LayoutManager.Scale(96)));
+			//UI-12 slice 11: each fee schedule group combo in its clinic picker's place (was the literal 14, 96).
+			LayoutManager.MoveLocation(comboFeeSchedGroup1,comboClinic1.Location);
+			LayoutManager.MoveLocation(comboFeeSchedGroup2,comboClinic2.Location);
+			LayoutManager.MoveLocation(comboFeeSchedGroup3,comboClinic3.Location);
 			FillComboBoxes();
 			textFeesAsOf.Text=_dateFeesAsOf.ToShortDateString();
 			_menuItemFeeSchedNotes=new ToolStripMenuItem(Lan.g(this,"View Fee Schedule Notes"),null,menuItemFeeSchedNotes_Click);

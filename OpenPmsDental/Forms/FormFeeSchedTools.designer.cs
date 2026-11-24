@@ -141,7 +141,7 @@ namespace OpenPmsDental {
 			this.comboClinicTo.HqDescription = "Default";
 			this.comboClinicTo.IncludeUnassigned = true;
 			this.comboClinicTo.IsMultiSelect = true;
-			this.comboClinicTo.Location = new System.Drawing.Point(83, 50);
+			this.comboClinicTo.Location = new System.Drawing.Point(96, 50);
 			this.comboClinicTo.Name = "comboClinicTo";
 			this.comboClinicTo.Size = new System.Drawing.Size(300, 23);
 			this.comboClinicTo.TabIndex = 2;
@@ -174,9 +174,9 @@ namespace OpenPmsDental {
 			// 
 			// comboGroup
 			// 
-			this.comboGroup.Location = new System.Drawing.Point(-160, 43);
+			this.comboGroup.Location = new System.Drawing.Point(141, 50);
 			this.comboGroup.Name = "comboGroup";
-			this.comboGroup.Size = new System.Drawing.Size(174, 21);
+			this.comboGroup.Size = new System.Drawing.Size(264, 23);
 			this.comboGroup.TabIndex = 41;
 			this.comboGroup.Visible = false;
 			// 
@@ -184,7 +184,7 @@ namespace OpenPmsDental {
 			// 
 			this.comboClinic.HqDescription = "Default";
 			this.comboClinic.IncludeUnassigned = true;
-			this.comboClinic.Location = new System.Drawing.Point(98, 50);
+			this.comboClinic.Location = new System.Drawing.Point(106, 50);
 			this.comboClinic.Name = "comboClinic";
 			this.comboClinic.Size = new System.Drawing.Size(299, 23);
 			this.comboClinic.TabIndex = 2;
@@ -217,7 +217,7 @@ namespace OpenPmsDental {
 			// 
 			// butPickGroup
 			// 
-			this.butPickGroup.Location = new System.Drawing.Point(403, 50);
+			this.butPickGroup.Location = new System.Drawing.Point(411, 50);
 			this.butPickGroup.Name = "butPickGroup";
 			this.butPickGroup.Size = new System.Drawing.Size(23, 23);
 			this.butPickGroup.TabIndex = 3;
@@ -262,16 +262,16 @@ namespace OpenPmsDental {
 			this.groupGlobalUpdateFees.Controls.Add(this.butUpdate);
 			this.groupGlobalUpdateFees.Location = new System.Drawing.Point(8, 8);
 			this.groupGlobalUpdateFees.Name = "groupGlobalUpdateFees";
-			this.groupGlobalUpdateFees.Size = new System.Drawing.Size(255, 209);
+			this.groupGlobalUpdateFees.Size = new System.Drawing.Size(463, 182);
 			this.groupGlobalUpdateFees.TabIndex = 5;
 			this.groupGlobalUpdateFees.TabStop = false;
 			this.groupGlobalUpdateFees.Text = "Global Updates";
 			// 
 			// label9
 			// 
-			this.label9.Location = new System.Drawing.Point(7, 98);
+			this.label9.Location = new System.Drawing.Point(8, 98);
 			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(239, 77);
+			this.label9.Size = new System.Drawing.Size(447, 50);
 			this.label9.TabIndex = 6;
 			this.label9.Text = "Only for offices that run reports after updating fee schedules and before selecti" +
     "ng patients. Recalculates treatment planned estimates, write-offs, ortho cases, " +
@@ -280,7 +280,7 @@ namespace OpenPmsDental {
 			// 
 			// butUpdateWriteoffs
 			// 
-			this.butUpdateWriteoffs.Location = new System.Drawing.Point(61, 177);
+			this.butUpdateWriteoffs.Location = new System.Drawing.Point(8, 150);
 			this.butUpdateWriteoffs.Name = "butUpdateWriteoffs";
 			this.butUpdateWriteoffs.Size = new System.Drawing.Size(130, 24);
 			this.butUpdateWriteoffs.TabIndex = 3;
@@ -292,14 +292,14 @@ namespace OpenPmsDental {
 			this.comboGlobalUpdateClinics.IncludeAll = true;
 			this.comboGlobalUpdateClinics.IncludeUnassigned = true;
 			this.comboGlobalUpdateClinics.IsMultiSelect = true;
-			this.comboGlobalUpdateClinics.Location = new System.Drawing.Point(6, 23);
+			this.comboGlobalUpdateClinics.Location = new System.Drawing.Point(8, 23);
 			this.comboGlobalUpdateClinics.Name = "comboGlobalUpdateClinics";
 			this.comboGlobalUpdateClinics.Size = new System.Drawing.Size(232, 23);
 			this.comboGlobalUpdateClinics.TabIndex = 0;
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(22, 50);
+			this.label4.Location = new System.Drawing.Point(8, 50);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(208, 18);
 			this.label4.TabIndex = 5;
@@ -308,7 +308,7 @@ namespace OpenPmsDental {
 			// 
 			// butUpdate
 			// 
-			this.butUpdate.Location = new System.Drawing.Point(61, 70);
+			this.butUpdate.Location = new System.Drawing.Point(8, 70);
 			this.butUpdate.Name = "butUpdate";
 			this.butUpdate.Size = new System.Drawing.Size(130, 24);
 			this.butUpdate.TabIndex = 2;
@@ -324,7 +324,7 @@ namespace OpenPmsDental {
 			this.groupBox5.Controls.Add(this.textDateEffectiveImport);
 			this.groupBox5.Location = new System.Drawing.Point(8, 8);
 			this.groupBox5.Name = "groupBox5";
-			this.groupBox5.Size = new System.Drawing.Size(415, 78);
+			this.groupBox5.Size = new System.Drawing.Size(463, 78);
 			this.groupBox5.TabIndex = 3;
 			this.groupBox5.TabStop = false;
 			this.groupBox5.Text = "Export/Import";
@@ -362,7 +362,7 @@ namespace OpenPmsDental {
 			this.groupBox3.Controls.Add(this.labelDateAsOfNote);
 			this.groupBox3.Location = new System.Drawing.Point(8, 8);
 			this.groupBox3.Name = "groupBox3";
-			this.groupBox3.Size = new System.Drawing.Size(385, 247);
+			this.groupBox3.Size = new System.Drawing.Size(463, 247);
 			this.groupBox3.TabIndex = 2;
 			this.groupBox3.TabStop = false;
 			this.groupBox3.Text = "Increase by %";
@@ -454,7 +454,7 @@ namespace OpenPmsDental {
 			this.groupBox2.Controls.Add(this.butClear);
 			this.groupBox2.Location = new System.Drawing.Point(8, 8);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(216, 89);
+			this.groupBox2.Size = new System.Drawing.Size(463, 75);
 			this.groupBox2.TabIndex = 4;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Clear";
@@ -463,13 +463,13 @@ namespace OpenPmsDental {
 			// 
 			this.label11.Location = new System.Drawing.Point(8, 23);
 			this.label11.Name = "label11";
-			this.label11.Size = new System.Drawing.Size(200, 32);
+			this.label11.Size = new System.Drawing.Size(447, 18);
 			this.label11.TabIndex = 7;
 			this.label11.Text = "Clears all values from selected fee sched for selected prov and clinic";
 			// 
 			// butClear
 			// 
-			this.butClear.Location = new System.Drawing.Point(8, 57);
+			this.butClear.Location = new System.Drawing.Point(8, 43);
 			this.butClear.Name = "butClear";
 			this.butClear.Size = new System.Drawing.Size(75, 24);
 			this.butClear.TabIndex = 0;
@@ -494,14 +494,14 @@ namespace OpenPmsDental {
 			this.groupBox1.Controls.Add(this.labelDateEffectiveCopyNote);
 			this.groupBox1.Location = new System.Drawing.Point(8, 8);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(433, 163);
+			this.groupBox1.Size = new System.Drawing.Size(463, 163);
 			this.groupBox1.TabIndex = 1;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Copy To";
 			// 
 			// butPickGroupTo
 			// 
-			this.butPickGroupTo.Location = new System.Drawing.Point(389, 50);
+			this.butPickGroupTo.Location = new System.Drawing.Point(402, 50);
 			this.butPickGroupTo.Name = "butPickGroupTo";
 			this.butPickGroupTo.Size = new System.Drawing.Size(23, 23);
 			this.butPickGroupTo.TabIndex = 43;
@@ -521,9 +521,9 @@ namespace OpenPmsDental {
 			// 
 			// comboGroupTo
 			// 
-			this.comboGroupTo.Location = new System.Drawing.Point(-160, 47);
+			this.comboGroupTo.Location = new System.Drawing.Point(131, 50);
 			this.comboGroupTo.Name = "comboGroupTo";
-			this.comboGroupTo.Size = new System.Drawing.Size(173, 21);
+			this.comboGroupTo.Size = new System.Drawing.Size(265, 23);
 			this.comboGroupTo.TabIndex = 42;
 			this.comboGroupTo.Visible = false;
 			// 
@@ -607,7 +607,7 @@ namespace OpenPmsDental {
 			//
 			this.labelDateAsOfNote.Location = new System.Drawing.Point(212, 164);
 			this.labelDateAsOfNote.Name = "labelDateAsOfNote";
-			this.labelDateAsOfNote.Size = new System.Drawing.Size(165, 17);
+			this.labelDateAsOfNote.Size = new System.Drawing.Size(243, 17);
 			this.labelDateAsOfNote.TabIndex = 43;
 			this.labelDateAsOfNote.Text = "increases the fees in effect then";
 			this.labelDateAsOfNote.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -765,7 +765,7 @@ namespace OpenPmsDental {
 			this.groupBoxCopyCode.Controls.Add(this.butCopyCode);
 			this.groupBoxCopyCode.Location = new System.Drawing.Point(8, 8);
 			this.groupBoxCopyCode.Name = "groupBoxCopyCode";
-			this.groupBoxCopyCode.Size = new System.Drawing.Size(391, 221);
+			this.groupBoxCopyCode.Size = new System.Drawing.Size(463, 209);
 			this.groupBoxCopyCode.TabIndex = 0;
 			this.groupBoxCopyCode.TabStop = false;
 			this.groupBoxCopyCode.Text = "Copy fees from one procedure code to another";
@@ -774,13 +774,13 @@ namespace OpenPmsDental {
 			//
 			this.labelCopyCodeExplain.Location = new System.Drawing.Point(8, 23);
 			this.labelCopyCodeExplain.Name = "labelCopyCodeExplain";
-			this.labelCopyCodeExplain.Size = new System.Drawing.Size(375, 62);
+			this.labelCopyCodeExplain.Size = new System.Drawing.Size(447, 50);
 			this.labelCopyCodeExplain.TabIndex = 0;
 			this.labelCopyCodeExplain.Text = "In each fee schedule where the From code has fees, the To code gets the same fees for every clinic, provider and effective date, and its other fees in that fee schedule are deleted. Fee schedules where the From code has no fee are not changed.";
 			//
 			// labelCodeFrom
 			//
-			this.labelCodeFrom.Location = new System.Drawing.Point(57, 87);
+			this.labelCodeFrom.Location = new System.Drawing.Point(57, 75);
 			this.labelCodeFrom.Name = "labelCodeFrom";
 			this.labelCodeFrom.Size = new System.Drawing.Size(68, 23);
 			this.labelCodeFrom.TabIndex = 1;
@@ -789,14 +789,14 @@ namespace OpenPmsDental {
 			//
 			// textCodeFrom
 			//
-			this.textCodeFrom.Location = new System.Drawing.Point(131, 87);
+			this.textCodeFrom.Location = new System.Drawing.Point(131, 75);
 			this.textCodeFrom.Name = "textCodeFrom";
 			this.textCodeFrom.Size = new System.Drawing.Size(100, 20);
 			this.textCodeFrom.TabIndex = 2;
 			//
 			// butPickCodeFrom
 			//
-			this.butPickCodeFrom.Location = new System.Drawing.Point(237, 87);
+			this.butPickCodeFrom.Location = new System.Drawing.Point(237, 75);
 			this.butPickCodeFrom.Name = "butPickCodeFrom";
 			this.butPickCodeFrom.Size = new System.Drawing.Size(23, 23);
 			this.butPickCodeFrom.TabIndex = 3;
@@ -805,7 +805,7 @@ namespace OpenPmsDental {
 			//
 			// labelCodeTo
 			//
-			this.labelCodeTo.Location = new System.Drawing.Point(69, 114);
+			this.labelCodeTo.Location = new System.Drawing.Point(69, 102);
 			this.labelCodeTo.Name = "labelCodeTo";
 			this.labelCodeTo.Size = new System.Drawing.Size(56, 23);
 			this.labelCodeTo.TabIndex = 4;
@@ -814,14 +814,14 @@ namespace OpenPmsDental {
 			//
 			// textCodeTo
 			//
-			this.textCodeTo.Location = new System.Drawing.Point(131, 114);
+			this.textCodeTo.Location = new System.Drawing.Point(131, 102);
 			this.textCodeTo.Name = "textCodeTo";
 			this.textCodeTo.Size = new System.Drawing.Size(100, 20);
 			this.textCodeTo.TabIndex = 5;
 			//
 			// butPickCodeTo
 			//
-			this.butPickCodeTo.Location = new System.Drawing.Point(237, 114);
+			this.butPickCodeTo.Location = new System.Drawing.Point(237, 102);
 			this.butPickCodeTo.Name = "butPickCodeTo";
 			this.butPickCodeTo.Size = new System.Drawing.Size(23, 23);
 			this.butPickCodeTo.TabIndex = 6;
@@ -831,7 +831,7 @@ namespace OpenPmsDental {
 			// radioCopyCodeAllScheds
 			//
 			this.radioCopyCodeAllScheds.Checked = true;
-			this.radioCopyCodeAllScheds.Location = new System.Drawing.Point(131, 141);
+			this.radioCopyCodeAllScheds.Location = new System.Drawing.Point(131, 129);
 			this.radioCopyCodeAllScheds.Name = "radioCopyCodeAllScheds";
 			this.radioCopyCodeAllScheds.Size = new System.Drawing.Size(122, 20);
 			this.radioCopyCodeAllScheds.TabIndex = 7;
@@ -840,7 +840,7 @@ namespace OpenPmsDental {
 			//
 			// radioCopyCodeOneSched
 			//
-			this.radioCopyCodeOneSched.Location = new System.Drawing.Point(131, 165);
+			this.radioCopyCodeOneSched.Location = new System.Drawing.Point(131, 153);
 			this.radioCopyCodeOneSched.Name = "radioCopyCodeOneSched";
 			this.radioCopyCodeOneSched.Size = new System.Drawing.Size(233, 20);
 			this.radioCopyCodeOneSched.TabIndex = 8;
@@ -848,7 +848,7 @@ namespace OpenPmsDental {
 			//
 			// butCopyCode
 			//
-			this.butCopyCode.Location = new System.Drawing.Point(131, 189);
+			this.butCopyCode.Location = new System.Drawing.Point(131, 177);
 			this.butCopyCode.Name = "butCopyCode";
 			this.butCopyCode.Size = new System.Drawing.Size(75, 24);
 			this.butCopyCode.TabIndex = 9;
