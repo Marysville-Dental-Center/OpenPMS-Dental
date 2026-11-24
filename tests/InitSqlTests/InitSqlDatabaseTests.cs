@@ -163,7 +163,7 @@ namespace InitSqlTests {
 			{
 				Assert.AreEqual("",Pref(prefName),prefName);
 			}
-			Assert.AreEqual(@"C:\OpenDentImages\",Pref("DocPath"),"DocPath as the seed dump has it.");
+			Assert.AreEqual(@"C:\OpenPmsImages\",Pref("DocPath"),"DocPath of a new database (UI-BRAND-2).");
 			DataTable table=DataCore.GetTable("SELECT Abbr,LName,FName,MI,SSN,StateLicense,DEANum,NationalProvID,MedicaidID FROM provider ORDER BY ProvNum");
 			Assert.IsTrue(table.Rows.Count>0,"A provider to start from.");
 			foreach(DataRow row in table.Rows) {
@@ -188,7 +188,7 @@ namespace InitSqlTests {
 		[TestMethod]
 		public void BusinessLayer_ReadsThePreferences() {
 			Cache.Refresh(InvalidType.Prefs);
-			Assert.AreEqual(@"C:\OpenDentImages\",PrefC.GetString(PrefName.DocPath));
+			Assert.AreEqual(@"C:\OpenPmsImages\",PrefC.GetString(PrefName.DocPath));
 			Assert.AreEqual(1,PrefC.GetLong(PrefName.PracticeDefaultProv));
 		}
 

@@ -16,8 +16,8 @@ namespace DevDbTool {
 		///<summary>Replaces every timestamp the build run wrote (the ON UPDATE stamps the convert scripts touched, the update history row, dates
 		///the convert scripts put into preferences), so the same source always gives the same file.</summary>
 		public static readonly DateTime FixedDateTime=new DateTime(2026,1,1,0,0,0);
-		///<summary>DocPath as the seed dump has it.</summary>
-		public const string SeedDocPath=@"C:\OpenDentImages\";
+		///<summary>DocPath of a new database: the product's default A to Z folder (UI-BRAND-2, owner 2026-11-24: new installs use OpenPmsImages).</summary>
+		public const string SeedDocPath=@"C:\OpenPmsImages\";
 		///<summary>The ForkAdoptedFrom value of a new database, for this build's latest fork schema level. "new=1" says the database was created from
 		///the file, not copied from an Open Dental database. "source" keeps the line its rows come from, the fork's own 24.3.63 compatibility line
 		///that the seed dump is converted on, because the fork migration steps decide what a database still needs from it
