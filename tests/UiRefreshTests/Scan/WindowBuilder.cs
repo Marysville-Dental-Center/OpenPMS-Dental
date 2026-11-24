@@ -585,6 +585,7 @@ namespace UiRefreshTests.Scan {
 					}
 					methodInfo?.Invoke(obj,null);
 				}
+				SampleData.AfterInitializeComponent(obj);//UI-12 slice 16 fix round: a handler InitializeComponent attaches that reads what the builder skips
 			}
 			catch(TargetInvocationException targetInvocationException) {
 				(obj as IDisposable)?.Dispose();

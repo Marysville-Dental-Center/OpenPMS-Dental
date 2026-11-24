@@ -53,6 +53,18 @@ namespace UiRefreshTests.Scan {
 			}
 		}
 
+		///<summary>UI-12 slice 16 fix round: runs after the object's InitializeComponent (WindowBuilder.CreateBare). The Imaging module's Resize
+		///handler (LayoutControls) reads the image selector and the Pearl program that its constructor and Load set up, which the builder does
+		///not run; it is detached, so the module can be laid out at 150% (its designer already holds the places LayoutControls gives its parts,
+		///hand/ControlImages.py). Does nothing for any other type.</summary>
+		public static void AfterInitializeComponent(object obj) {
+			switch(obj.GetType().FullName) {
+				case "OpenPmsDental.ControlImages":
+					Detach((Control)obj,"Resize","ContrImages_Resize");
+					break;
+			}
+		}
+
 		///<summary>Runs on a LayoutManager window after its InitializeComponent and before InitializeLayoutManager (WindowBuilder.Build): the
 		///sample objects of the window's handlers. Does nothing for any other window.</summary>
 		public static void BeforeLayoutManager(FormODBase formODBase) {
@@ -210,11 +222,11 @@ namespace UiRefreshTests.Scan {
 			fieldInfo.SetValue(obj,value);
 		}
 
-		///<summary>Removes the window's own handler nameMethod from its event nameEvent (an EventHandler).</summary>
-		private static void Detach(Form form,string nameEvent,string nameMethod) {
+		///<summary>Removes the window's (or control's) own handler nameMethod from its event nameEvent (an EventHandler).</summary>
+		private static void Detach(Control control,string nameEvent,string nameMethod) {
 			EventInfo eventInfo=typeof(Control).GetEvent(nameEvent);
-			Delegate handler=Delegate.CreateDelegate(eventInfo.EventHandlerType,form,nameMethod);
-			eventInfo.RemoveEventHandler(form,handler);
+			Delegate handler=Delegate.CreateDelegate(eventInfo.EventHandlerType,control,nameMethod);
+			eventInfo.RemoveEventHandler(control,handler);
 		}
 	}
 }
