@@ -51,7 +51,7 @@ def load(root):
             controls[f] += 1
     win_slices = sd.window_slices(root)
     hand = sd.read_dicts(os.path.join(data, "grid-hand"))
-    owners = sd.snapshot_owners(win_slices, hand)
+    owners = sd.snapshot_owners(win_slices, hand, root)
     laid = set(f for f in seen if sd.snapshot_owner(f, owners) != sd.UNSLICED)
     ranked = []
     with open(os.path.join(data, "fit-scan-files.tsv"), encoding="utf-8") as f:

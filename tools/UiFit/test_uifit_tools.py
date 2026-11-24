@@ -110,6 +110,30 @@ class SplitTests(unittest.TestCase):
     def test_slice_order(self):
         self.assertEqual(["pilot", "1", "2", "10", "x", "unsliced"], sorted(["unsliced", "10", "2", "pilot", "x", "1"], key=sd.slice_key))
 
+    def test_snapshot_owner_by_the_declared_class(self):
+        # UI-12 slice 13: a designer file named otherwise than its class (FormCvxs in FormCvx.designer.cs) belongs to the window's slice
+        # without a hand row; the file name and the hand rows still count, and the first slice wins.
+        win = {"N.FormCvxs": "11", "N.FormA": "2", "N.FormB": "1"}
+        declared = {"P/FormCvx.designer.cs": ["formcvxs"], "P/FormA.Designer.cs": ["forma"], "P/Other.Designer.cs": ["formb", "formd"]}
+        hand = [{"designer_file": "P/UserControlC.Designer.cs", "window": "N.FormB"}]
+        owners = sd.snapshot_owners(win, hand, declared=lambda rel: declared.get(rel, []))
+        self.assertEqual("11", sd.snapshot_owner("P/FormCvx.designer.cs", owners))
+        self.assertEqual("2", sd.snapshot_owner("P/FormA.Designer.cs", owners))
+        self.assertEqual("1", sd.snapshot_owner("P/Other.Designer.cs", owners))
+        self.assertEqual("1", sd.snapshot_owner("P/UserControlC.Designer.cs", owners))
+        self.assertEqual(sd.UNSLICED, sd.snapshot_owner("P/FormD.Designer.cs", owners))
+
+    def test_declared_classes_reads_the_file(self):
+        tmp = tempfile.mkdtemp(prefix="ui12-13-")
+        self.addCleanup(shutil.rmtree, tmp, True)
+        path = os.path.join(tmp, "FormCvx.designer.cs")
+        with open(path, "wb") as f:
+            f.write(b"namespace N {\r\n\tpartial class FormCvxs {\r\n\t\tprivate void InitializeComponent() { }\r\n\t}\r\n}\r\n")
+        self.assertEqual(["formcvxs"], sd.declared_classes(path))
+        self.assertEqual([], sd.declared_classes(os.path.join(tmp, "missing.cs")))
+        owners = sd.snapshot_owners({"N.FormCvxs": "11"}, [], root=tmp)
+        self.assertEqual("11", sd.snapshot_owner("FormCvx.designer.cs", owners))
+
 
 class NumbersTests(unittest.TestCase):
     def test_grid_is_the_data_file(self):

@@ -118,12 +118,16 @@ namespace UiRefreshTests.Scan {
 		}
 
 		///<summary>The owner of each designer file for the layout snapshot: the first slice (in slice order) with a window of the file's class name
-		///or a grid-hand row in the file; UNSLICED when none. slice_data.py's snapshot_owner is the same rule.</summary>
+		///(its base name, or since UI-12 slice 13 a class the file declares: FormCvxs in FormCvx.designer.cs) or a grid-hand row in the file;
+		///UNSLICED when none. slice_data.py's snapshot_owner is the same rule.</summary>
 		public class SnapshotOwners {
 			private readonly Dictionary<string,string> _dictByName=new Dictionary<string,string>();
 			private readonly Dictionary<string,string> _dictByFile=new Dictionary<string,string>();
+			private readonly Func<string,IEnumerable<string>> _funcDeclared;
 
-			public SnapshotOwners(Dictionary<string,string> dictWindowSlices,IEnumerable<string[]> listHandRows) {
+			///<summary>funcDeclared gives the class names (lower case) a designer file declares; null reads the file in the repository.</summary>
+			public SnapshotOwners(Dictionary<string,string> dictWindowSlices,IEnumerable<string[]> listHandRows,Func<string,IEnumerable<string>> funcDeclared=null) {
+				_funcDeclared=funcDeclared??DeclaredClassesInRepository;
 				foreach(KeyValuePair<string,string> pair in dictWindowSlices) {
 					Add(_dictByName,pair.Key.Split('.').Last().ToLowerInvariant(),pair.Value);
 				}
@@ -145,13 +149,38 @@ namespace UiRefreshTests.Scan {
 			public string Owner(string designerFile) {
 				string slice=UNSLICED;
 				string sliceFound;
-				if(_dictByName.TryGetValue(DesignerBase(designerFile),out sliceFound) && CompareSlices(sliceFound,slice)<0) {
-					slice=sliceFound;
+				foreach(string name in new[] { DesignerBase(designerFile) }.Concat(_funcDeclared(designerFile))) {
+					if(_dictByName.TryGetValue(name,out sliceFound) && CompareSlices(sliceFound,slice)<0) {
+						slice=sliceFound;
+					}
 				}
 				if(_dictByFile.TryGetValue(designerFile,out sliceFound) && CompareSlices(sliceFound,slice)<0) {
 					slice=sliceFound;
 				}
 				return slice;
+			}
+
+			private static readonly Dictionary<string,List<string>> _dictDeclared=new Dictionary<string,List<string>>();
+
+			///<summary>The class names (lower case) the designer file (relative to the repository) declares; none when it is not there.</summary>
+			public static List<string> DeclaredClassesInRepository(string designerFile) {
+				lock(_dictDeclared) {
+					List<string> listNames;
+					if(!_dictDeclared.TryGetValue(designerFile,out listNames)) {
+						listNames=DeclaredClasses(Path.Combine(RepoPaths.Root(),designerFile.Replace('/',Path.DirectorySeparatorChar)));
+						_dictDeclared[designerFile]=listNames;
+					}
+					return listNames;
+				}
+			}
+
+			///<summary>The class names (lower case) a C# file declares; none when the file is not there. slice_data.py's declared_classes.</summary>
+			public static List<string> DeclaredClasses(string path) {
+				if(!File.Exists(path)) {
+					return new List<string>();
+				}
+				return Regex.Matches(File.ReadAllText(path),@"\bclass\s+(\w+)").Cast<Match>().Select(x => x.Groups[1].Value.ToLowerInvariant())
+					.Distinct().OrderBy(x => x,StringComparer.Ordinal).ToList();
 			}
 
 			///<summary>The owners from the repository's Data\grid-windows and Data\grid-hand.</summary>

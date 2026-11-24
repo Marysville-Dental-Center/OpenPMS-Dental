@@ -293,6 +293,7 @@ namespace UiRefreshTests.Scan {
 						builtWindow.Form=formODBase;
 						builtWindow.Root=formODBase;
 						MarkContentAsTheConstructorDoes(formODBase);
+						SampleData.BeforeLayoutManager(formODBase);//UI-12 slice 13: the sample objects seven windows' handlers read
 						ActionBeforeLayoutManager?.Invoke(formODBase);
 						InvokeNonPublic(formODBase,typeof(FormODBase),"InitializeLayoutManager",new object[] { false,false });
 						builtWindow.LayoutManager=GetLayoutManager(formODBase);
