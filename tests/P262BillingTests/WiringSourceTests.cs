@@ -40,7 +40,8 @@ namespace P262BillingTests {
 		public void StatementButton_ArrowOpensTheStatementOptionsWindow() {
 			string account=Read("OpenPmsDental","Main Modules","ControlAccount.cs");
 			string layout=GetMethodBody(account,"public void LayoutToolBar() {");
-			int indexButton=layout.IndexOf("new ODToolBarButton(Lan.g(this,\"Statement\"),4,\"\",\"Statement\");",StringComparison.Ordinal);
+			//The button takes an icon since UI-9b-1 (it took the ImageList's picture 4 before).
+			int indexButton=layout.IndexOf("new ODToolBarButton(Lan.g(this,\"Statement\"),EnumIcons.Print,\"\",\"Statement\");",StringComparison.Ordinal);
 			Assert.IsTrue(indexButton>0);
 			string statementButton=layout.Substring(indexButton,layout.IndexOf("ToolBarMain.Buttons.Add(toolBarButton);",indexButton,StringComparison.Ordinal)-indexButton);
 			StringAssert.Contains(statementButton,"toolBarButton.Style=ODToolBarButtonStyle.DropDownButton;");

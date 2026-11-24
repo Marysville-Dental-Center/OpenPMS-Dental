@@ -24,10 +24,19 @@ Now the buttons that do not fit go into a **» overflow button** at the toolbar'
   while pushed; a click does what a click on the button does (a toggle flips first; `ButtonClick` or the button's own handler). A label is a
   disabled item; a drop-down's notification text shows at the item's right; an error (`IsRed`) button's text is `Danger`. Separators stay
   between groups (none first or last). The page navigation (print previews) is left out: its text box cannot move into a menu.
-  - WinForms drop-down button: the item's sub-menu **is** the button's own `ContextMenuStripDropDown` (same items, handlers and `Opening`
-    event), given back to the button when the drop-down closes (after the click that closed it) or is built again; a click on the item itself
-    is the button's main part. A drop-down button whose arrow opens a window (`ButtonDropDownClick`, the Account module's Statement since
-    P262-BILLING) gets one sub-item, "<text>...", for the arrow.
+  - WinForms drop-down button (fix round, `ui/uiovf-2`): **two items**, as the main part and the arrow are two targets on the bar. First the
+    main part (text, picture; its click is the button's click), then the same text whose sub-menu **is** the button's own
+    `ContextMenuStripDropDown` (same items, handlers and `Opening` event) and which has no click of its own. Windows Forms opens an item's
+    sub-menu on Enter, Space, Right and a mouse click and never raises that item's `Click`, so one item with both a sub-menu and a click
+    (the first version) left the main part out of reach from the keyboard, and a mouse click on it ran the main part instead of opening the
+    sub-menu. The menu is given back to the button when the drop-down closes (after the click that closed it) or is built again. Many of the
+    program's menus are empty until their `Opening` handler clears and fills them (FormOpenDental's Email, Letter and Label, Chart's and
+    Treatment Plan's Consent and Ortho Chart, Account's quick procedures, Send Claims' Status): such a menu gets a disabled "..." placeholder
+    while it is an overflow sub-menu, so the item shows its arrow and opens it (hover, Right, Enter), `Opening` runs and the program's handler
+    clears and fills it; the toolbar's own `Opening` handler (after the program's) takes out a placeholder still there and cancels the opening
+    of a menu that stays empty, as the button's own empty menu shows nothing. The placeholder and that handler go when the menu is given back.
+    A drop-down button whose arrow opens a window (`ButtonDropDownClick`, the Account module's Statement since P262-BILLING) gets a second
+    plain item, "<text>...", for the arrow (through `ShowDropDown`, as the arrow on the bar).
   - WPF drop-down button: a WPF menu item cannot have two parents, so the sub-menu is the button's main part, a separator, then copies of
     its menu's items (the menu's `Opened` handlers run first, so a menu filled on opening, like the Camera menu, is filled); a copy's click
     raises the original item's `Click` (a checkable one flips first).
@@ -36,8 +45,11 @@ Now the buttons that do not fit go into a **» overflow button** at the toolbar'
   End go to the first and the last, Enter and Space click (open the overflow button's drop-down with its first item selected), Down opens a
   drop-down button's menu. The 2 px `Accent` focus ring (section 3.6) shows on that button. A toolbar focused by a mouse click leaves Enter to
   the window's default button and the arrows to the next control, as before. The WPF toolbar is one tab stop (`TabNavigation=Once`); its
-  buttons are focusable with the shared focus visual style, Left/Right/Home/End move between them and the overflow button, Enter and Space
-  click, Down opens a drop-down button's menu or the overflow drop-down.
+  buttons are focusable tab stops (`IsTabStop`: a UserControl is none by default, so in the first version Tab could not enter the toolbar)
+  with the shared focus visual style; the toolbar takes the tab stop off its labels ("Scan:") and the buttons in its overflow drop-down, and
+  hands the focus to the overflow button when the focused button goes into the drop-down. Tab lands on the first button (or the one the
+  keyboard was on last), Left/Right/Home/End move between them and the overflow button, Enter and Space click, Down opens a drop-down
+  button's menu or the overflow drop-down.
 - **Accessibility.** `ToolBarOD` has an accessible object of role `ToolBar` whose children are its buttons on the bar (name: the text, or
   the tooltip of an icon-only button; role push button, drop-down button, check button or static text; states unavailable, checked,
   focused, has popup, hot) and the overflow button: name "More buttons" (`Lan.g`), role `ButtonMenu`, state has popup, default action
@@ -80,11 +92,15 @@ it as a behaviour change). Now they take the focus with Tab like the WinForms on
 ## 3. Tests
 
 `UiRefreshTests`: `Toolbars/ToolBarOverflowTests` (ToolBarOD: fits, separators only, the overflowed buttons and the drop-down's items at
-100% and 150%, each item does what its button does and the button's own menu is given back, the keys, the accessible objects, the glyph and
+100% and 150%, each item does what its button does and the button's own menu is given back, Enter on a drop-down button's main part and
+"<text>..." items (`ProcessDialogKey`, as the drop-down sends it) and its menu item without a click, a menu filled in `Opening` (the
+placeholder, filled, cancelled when empty, given back clean), the keys, the accessible objects, the glyph and
 nothing drawn past the last button; a stock tool strip's overflow button; the WPF toolbar's overflow and drop-down; the WPF toolbar button's
 keys), `WpfFocusTests` (tab stops with the focus visual, Button/CheckBox/RadioButton keys, the reading order, `UiTabOrder.Apply` with a nested
 group, hidden controls, an own order and office content, a real Tab walk in a window shown off screen (inconclusive when the session gives
-it no keyboard focus), the Frms' PreviewKeyDown Enter list), `Toolbars/ToolBarFitTests` (above), `Toolbars/OverflowGallery` (opt-in).
+it no keyboard focus), the toolbar's tab stops (not on a label or an overflowed button) and a real Tab walk into a narrow toolbar (Tab lands
+on its first button, Right skips the label, End reaches the overflow button, Left wraps to it, Tab leaves, Shift+Tab comes back to it, Enter
+clicks), the Frms' PreviewKeyDown Enter list), `Toolbars/ToolBarFitTests` (above), `Toolbars/OverflowGallery` (opt-in).
 `Data/coverage.tsv`: `UiTabOrder` (no-drawing).
 
 Targeted run (x64, 2026-11-24, `.git/od-tools/test-results/uiovf-run3.txt`): UiRefreshTests 337 passed, 49 skipped (the WPF
@@ -95,7 +111,9 @@ pictures of a disconnected session and opt-in galleries), 0 failed; WindowChecks
 
 `OPMS_UI_OVF_GALLERY=<folder>` with a Targeted UiRefreshTests run; `tools/New-UiGallery.ps1` makes the page. For each toolbar and font of
 `toolbar-overflow.tsv` at 1024 px, at 100% and 150%: `<toolbar>-<font>-<scale>-before.png` (laid out wide and cut to the width: main's
-picture), `-after.png` (the overflow button) and `-after-open.png` (its drop-down drawn under it, right-aligned). `wpf-focus-<scale>.png`: a
+picture), `-after.png` (the overflow button), `-after-open.png` (its drop-down drawn under it, right-aligned) and `-after-open-sub.png` (the
+first drop-down button's menu item selected and its sub-menu open beside it, where Windows Forms puts it: `DropDownLocation`). Each drop-down
+button gets a small menu of its own ("Menu item one", "two", a separator, "three"), as the program's have. `wpf-focus-<scale>.png`: a
 WPF button, the default button, a check box, a radio button and a toolbar's overflow button with the focus ring (the shared style laid over
 each, as WPF's adorner draws it). The WPF pictures (the Imaging toolbar and `wpf-focus`) need a session WPF draws in: this run's session was
 disconnected, so `notes.txt` lists them as not drawn; a connected run of the same command draws them.

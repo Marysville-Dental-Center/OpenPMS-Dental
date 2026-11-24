@@ -141,11 +141,11 @@ namespace UiRefreshTests.Toolbars {
 								contextMenuSub.Size=sizeSub;
 								contextMenuSub.CreateControl();
 								Point pointSub=GetSubMenuOffset(contextMenuStrip,itemSub);
-								using(Bitmap bitmapMenu=new Bitmap(size.Width,size.Height,PixelFormat.Format24bppRgb))
+								using(Bitmap bitmapMenuSelected=new Bitmap(size.Width,size.Height,PixelFormat.Format24bppRgb))
 								using(Bitmap bitmapSub=new Bitmap(sizeSub.Width,sizeSub.Height,PixelFormat.Format24bppRgb)) {
-									contextMenuStrip.DrawToBitmap(bitmapMenu,new Rectangle(0,0,size.Width,size.Height));
+									contextMenuStrip.DrawToBitmap(bitmapMenuSelected,new Rectangle(0,0,size.Width,size.Height));
 									contextMenuSub.DrawToBitmap(bitmapSub,new Rectangle(0,0,sizeSub.Width,sizeSub.Height));
-									using(Bitmap bitmapOpenSub=ComposeSub(bitmapPressed,bitmapMenu,toolBarOD.BoundsOverflow.Right,bitmapSub,pointSub)) {
+									using(Bitmap bitmapOpenSub=ComposeSub(bitmapPressed,bitmapMenuSelected,toolBarOD.BoundsOverflow.Right,bitmapSub,pointSub)) {
 										Save(folder,name+"-after-open-sub.png",bitmapOpenSub,listWritten);
 									}
 								}

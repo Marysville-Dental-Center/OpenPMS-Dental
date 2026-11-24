@@ -168,6 +168,7 @@ namespace UiRefreshTests.Toolbars {
 					string.Join(",",listTexts)+": Echo's arrow item, as ButtonDropDownClick is handled");
 				Assert.IsFalse(((ToolStripMenuItem)contextMenuOverflow.Items[6]).HasDropDownItems,"a plain item, not a sub-menu");
 				contextMenuOverflow.Items[5].PerformClick();//Echo's main part
+				toolBarOD.Buttons[6].DateTimeLastClicked=DateTime.MinValue;//not a double click (the toolbar ignores one on the same button)
 				contextMenuOverflow.Items[6].PerformClick();//Echo's arrow
 				contextMenuOverflow.Items[9].PerformClick();//Hotel
 				CollectionAssert.AreEqual(new[] { "click Bravo","click Delta","click Echo","arrow Echo","click Hotel" },listClicked,string.Join(", ",listClicked));
@@ -218,6 +219,7 @@ namespace UiRefreshTests.Toolbars {
 				ToolStripMenuItem itemEchoArrow=(ToolStripMenuItem)contextMenuOverflow.Items[6];
 				Assert.AreEqual("Echo...",itemEchoArrow.Text);
 				Assert.IsTrue(ProcessItemKey(itemEchoArrow,Keys.Enter));
+				toolBarOD.Buttons[6].DateTimeLastClicked=DateTime.MinValue;//not a double click (the toolbar ignores one on the same button)
 				Assert.IsTrue(ProcessItemKey(contextMenuOverflow.Items[5],Keys.Enter));
 				CollectionAssert.AreEqual(new[] { "click Delta","arrow Echo","click Echo" },listClicked,string.Join(", ",listClicked));
 			}
