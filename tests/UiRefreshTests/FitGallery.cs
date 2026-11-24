@@ -82,6 +82,7 @@ namespace UiRefreshTests {
 					listFailed.Add("Windows' visual styles could not be activated.");
 				}
 				CodeBase.UiLooks.IsOffForGallery=isLooksOff;
+				WindowBuilder.IsBuildingByConstructor=true;//UI-PLAIN fix round: OpenPmsDentalDbSettings' windows with their controls
 				DesignSheetWindows.IsPrintingWithoutChildren=true;
 				DesignSheetWindows.PaintDpiScale=scale;//the insurance summaries' text at the scale's dpi (DesignSheetWindows.PaintDpiScale)
 				List<ScanType> listScanTypes=WindowBuilder.GetScanTypes();
@@ -171,6 +172,7 @@ namespace UiRefreshTests {
 			DesignSheetWindows.IsPrintingWithoutChildren=false;
 			DesignSheetWindows.PaintDpiScale=1f;
 			CodeBase.UiLooks.IsOffForGallery=false;
+			WindowBuilder.IsBuildingByConstructor=false;
 			File.WriteAllLines(Path.Combine(folder,"gallery-failed.txt"),listFailed);
 			Assert.IsTrue(countPictures>0,"No picture made: "+string.Join("; ",listFailed));
 		}
@@ -477,6 +479,10 @@ namespace UiRefreshTests {
 				//UI-12 slice 8 fix round: the rows the constructor makes from the code groups FillSampleCache puts in the cache.
 				return root;
 			}
+			if(window=="OpenPmsDentalGraph.DashboardTabCtrl" && state=="setup") {
+				SetDashboardSetupMode(root);
+				return root;
+			}
 			throw new ArgumentException("No gallery state "+state+" for "+window+".");
 		}
 
@@ -567,6 +573,23 @@ namespace UiRefreshTests {
 			}
 			DefaultFontOverride.Set(TextFitFontOption.Segoe9,1f);
 			UiTheme.SetFontForTest(UiFontOption.UI2b);
+		}
+
+		///<summary>UI-PLAIN fix round: the dashboard in its setup mode (the state "setup"), as IsEditMode makes it for dashboard tabs from the
+		///database: the two synthetic tabs with the delete X (ImageIndex 1, the second under the mouse: 2) and the "Add Tab" tab with the add icon
+		///(ImageIndex 0) at the end. IsEditMode gives the tab control its ImageList; it adds the "Add Tab" tab and the X only to tabs that hold a
+		///dashboard panel, so the builder adds them to the synthetic ones as it would.</summary>
+		public static void SetDashboardSetupMode(Control root) {
+			if(!(FindByName(root,"tabControl") is System.Windows.Forms.TabControl tabControl)) {
+				throw new InvalidOperationException("DashboardTabCtrl has no tabControl.");
+			}
+			tabControl.TabPages.Add(new System.Windows.Forms.TabPage("Production"));
+			tabControl.TabPages.Add(new System.Windows.Forms.TabPage("Appointments"));
+			root.GetType().GetProperty("IsEditMode").SetValue(root,true);
+			tabControl.TabPages.Add(new System.Windows.Forms.TabPage { ImageIndex=0,BackColor=SystemColors.Control,Text="Add Tab" });
+			tabControl.TabPages[0].ImageIndex=1;
+			tabControl.TabPages[1].ImageIndex=2;
+			tabControl.SelectedIndex=0;
 		}
 
 		private static Control FindByName(Control root,string name) {

@@ -281,7 +281,7 @@ namespace UiRefreshTests {
 			CreateHandles(control);
 			using(Bitmap bitmapAll=new Bitmap(control.Width,control.Height,PixelFormat.Format24bppRgb)) {
 				using(Graphics g=Graphics.FromImage(bitmapAll)) {
-					g.Clear(SystemColors.Control);
+					g.Clear(GetColorBehind(control));
 					DrawTree(g,control,Point.Empty);
 				}
 				if(rectangleCrop.IsEmpty) {
@@ -428,7 +428,7 @@ namespace UiRefreshTests {
 
 		private static void PrintWithoutChildren(Control control,Bitmap bitmap) {
 			using(Graphics g=Graphics.FromImage(bitmap)) {
-				g.Clear(SystemColors.Control);
+				g.Clear(GetColorBehind(control));
 				IntPtr hdc=g.GetHdc();
 				try {
 					SendMessage(control.Handle,WM_PRINT,hdc,(IntPtr)(PRF_NONCLIENT|PRF_CLIENT|PRF_ERASEBKGND));
@@ -437,6 +437,19 @@ namespace UiRefreshTests {
 					g.ReleaseHdc(hdc);
 				}
 			}
+		}
+
+		///<summary>UI-PLAIN fix round: what shows through a control drawn alone: the classic grey (as before) behind an opaque control, which paints
+		///its whole background itself; behind a transparent one (the graph's GraphIncome, BackColor Transparent) the first opaque colour of its
+		///parents, the background it stands on in the window (its host's window background token), as Windows Forms paints a transparent control's
+		///parent through it on screen. Printed alone, its parent was never asked, so it showed the classic grey.</summary>
+		public static Color GetColorBehind(Control control) {
+			for(Control controlBehind=control;controlBehind!=null;controlBehind=controlBehind.Parent) {
+				if(controlBehind.BackColor.A==255) {
+					return controlBehind==control ? SystemColors.Control : controlBehind.BackColor;
+				}
+			}
+			return SystemColors.Control;
 		}
 
 		///<summary>Where the control's client area starts inside its window (its border and title before it), from the window's handle.</summary>

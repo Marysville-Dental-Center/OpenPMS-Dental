@@ -357,6 +357,12 @@ namespace UiRefreshTests.Scan {
 						builtWindow.Root=builtWindow.Form;
 						break;
 					case BuildKind.PlainWindow:
+						if(IsBuiltByItsConstructor(scanType.Type)) {
+							//UI-PLAIN fix round: its controls are made in its constructor, which calls Attach itself.
+							builtWindow.Form=CreateByItsConstructor(scanType.Type);
+							builtWindow.Root=builtWindow.Form;
+							break;
+						}
 						builtWindow.Form=(Form)CreateBare(scanType.Type,typeof(Form));
 						builtWindow.Root=builtWindow.Form;
 						AttachPlainLookAsTheConstructorDoes(builtWindow.Form);
@@ -385,6 +391,36 @@ namespace UiRefreshTests.Scan {
 				throw;
 			}
 			return builtWindow;
+		}
+
+		///<summary>UI-PLAIN fix round: the plain windows that have no InitializeComponent and make their controls in their constructor
+		///(OpenPmsDentalDbSettings' two windows), with the synthetic arguments the builder passes: their constructors only keep them and build the
+		///controls (no file, database or network; FormDbSettings reads its file in Load, which the builder does not raise).</summary>
+		private static readonly Dictionary<string,object[]> _dictBuiltByConstructor=new Dictionary<string,object[]> {
+			{ "OpenPmsDentalDbSettings.FormDbSettings",new object[] { "",null,null } },
+			{ "OpenPmsDentalDbSettings.FormSecretPrompt",new object[] { "Password of the client certificate file:" } },
+		};
+
+		///<summary>True while the gallery (FitGallery) and PlainLookTests build: the windows of _dictBuiltByConstructor are made by their
+		///constructor. Off, the scans build them as before (InitializeComponent, which they do not have: an empty window), so the recorded
+		///scans do not change.</summary>
+		public static bool IsBuildingByConstructor;
+
+		///<summary>True for a plain window the builder makes with its own constructor (_dictBuiltByConstructor, IsBuildingByConstructor).</summary>
+		public static bool IsBuiltByItsConstructor(Type type) {
+			return IsBuildingByConstructor && _dictBuiltByConstructor.ContainsKey(type.FullName);
+		}
+
+		///<summary>The window made by its public constructor with the synthetic arguments of _dictBuiltByConstructor.</summary>
+		public static Form CreateByItsConstructor(Type type) {
+			object[] arrayArgs=_dictBuiltByConstructor[type.FullName];
+			ConstructorInfo constructorInfo=type.GetConstructors(BindingFlags.Instance|BindingFlags.Public).First(x => x.GetParameters().Length==arrayArgs.Length);
+			try {
+				return (Form)constructorInfo.Invoke(arrayArgs);
+			}
+			catch(TargetInvocationException targetInvocationException) {
+				throw Unwrap(targetInvocationException);
+			}
 		}
 
 		///<summary>UI-PLAIN: the builder runs a plain window's InitializeComponent, not its constructor; when the window's own constructor calls

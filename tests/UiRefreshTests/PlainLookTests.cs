@@ -72,12 +72,7 @@ namespace UiRefreshTests {
 								listProblems.Add(gridWindow.Window+": no UiPlainWindow.Attach");
 							}
 							countFramed+=CheckTree(gridWindow.Window,builtWindow.Root,listProblems);
-							using(Bitmap bitmap=DesignSheetWindows.Capture(builtWindow.Root,Rectangle.Empty)) {
-								double share=GetShareOutsideInputs(bitmap,SystemColors.Control,builtWindow.Root);
-								if(share>MAX_SHARE_CLASSIC_GREY) {
-									listProblems.Add(gridWindow.Window+": "+Math.Round(share*100)+"% of the picture is the classic grey");
-								}
-							}
+							CheckClassicGrey(gridWindow.Window,builtWindow.Root,listProblems);
 						}
 					}
 					catch(Exception exception) {
@@ -87,6 +82,59 @@ namespace UiRefreshTests {
 			});
 			Assert.AreEqual(0,listProblems.Count,string.Join(Environment.NewLine,listProblems));
 			Assert.IsTrue(countFramed>=50,"The plain windows' framed inputs: "+countFramed);
+		}
+
+		///<summary>UI-PLAIN fix round: the picture as the gallery draws it (each control printed alone, DesignSheetWindows.IsPrintingWithoutChildren:
+		///a transparent control such as GraphIncome on the background behind it) has at most MAX_SHARE_CLASSIC_GREY of the classic grey outside
+		///its inputs. The test drew with DrawToBitmap before, which is not the gallery's picture.</summary>
+		private static void CheckClassicGrey(string window,Control root,List<string> listProblems) {
+			bool isPrintingWithoutChildrenBefore=DesignSheetWindows.IsPrintingWithoutChildren;
+			try {
+				DesignSheetWindows.IsPrintingWithoutChildren=true;
+				using(Bitmap bitmap=DesignSheetWindows.Capture(root,Rectangle.Empty)) {
+					double share=GetShareOutsideInputs(bitmap,SystemColors.Control,root);
+					if(share>MAX_SHARE_CLASSIC_GREY) {
+						listProblems.Add(window+": "+Math.Round(share*100)+"% of the picture is the classic grey");
+					}
+				}
+			}
+			finally {
+				DesignSheetWindows.IsPrintingWithoutChildren=isPrintingWithoutChildrenBefore;
+			}
+		}
+
+		///<summary>UI-PLAIN fix round: OpenPmsDentalDbSettings' two windows make their controls in their constructors (not in grid-windows/12.tsv):
+		///built by their constructor (WindowBuilder.IsBuildingByConstructor), they have the look as the slice 12 windows do.</summary>
+		[TestMethod]
+		public void PlainWindows_BuiltByTheirConstructor_DrawTheNewLook() {
+			List<string> listProblems=new List<string>();
+			int countFramed=0;
+			StaRunner.Run(() => {
+				NoDatabaseGuard.Install();
+				bool isBuildingBefore=WindowBuilder.IsBuildingByConstructor;
+				try {
+					WindowBuilder.IsBuildingByConstructor=true;
+					List<ScanType> listScanTypes=WindowBuilder.GetScanTypes().Where(x => x.Kind==BuildKind.PlainWindow && WindowBuilder.IsBuiltByItsConstructor(x.Type)).ToList();
+					Assert.AreEqual(2,listScanTypes.Count,"FormDbSettings and FormSecretPrompt");
+					foreach(ScanType scanType in listScanTypes) {
+						using(BuiltWindow builtWindow=WindowBuilder.Build(scanType)) {
+							if(!UiPlainWindow.IsAttached(builtWindow.Form)) {
+								listProblems.Add(scanType.WindowKey+": no UiPlainWindow.Attach");
+							}
+							if(builtWindow.Form.Controls.Count==0) {
+								listProblems.Add(scanType.WindowKey+": built without its controls");
+							}
+							countFramed+=CheckTree(scanType.WindowKey,builtWindow.Root,listProblems);
+							CheckClassicGrey(scanType.WindowKey,builtWindow.Root,listProblems);
+						}
+					}
+				}
+				finally {
+					WindowBuilder.IsBuildingByConstructor=isBuildingBefore;
+				}
+			});
+			Assert.AreEqual(0,listProblems.Count,string.Join(Environment.NewLine,listProblems));
+			Assert.IsTrue(countFramed>=4,"Their framed inputs: "+countFramed);
 		}
 
 		///<summary>The window's problems: an old background on a control that shows the window's background, a framed input or a stock control
@@ -345,6 +393,163 @@ namespace UiRefreshTests {
 						AssertNear(UiTheme.Surface,bitmap.GetPixel(150,120),"the page area: the colour behind");
 						Assert.IsTrue(HasDark(bitmap,rectangleFirst),"the first tab's text");
 					}
+				}
+			});
+		}
+
+		///<summary>UI-PLAIN fix round: a tab's ImageList image (DashboardTabCtrl's add tab and delete X in its setup mode) is drawn where Windows
+		///puts it, 6 px in and centred top to bottom, the text after it, painted and printed (WM_PRINT); an ImageList given after the look was
+		///attached (the dashboard switches it at run time) too, and a new ImageIndex shows. A tab without an image has none.</summary>
+		[TestMethod]
+		public void TabLook_TheTabsImages() {
+			StaRunner.Run(() => {
+				Color colorRed=Color.FromArgb(220,0,0);
+				Color colorGreen=Color.FromArgb(0,160,0);
+				using(Form form=new Form { BackColor=UiTheme.Surface,ClientSize=new Size(320,200) })
+				using(System.Windows.Forms.TabControl tabControl=new System.Windows.Forms.TabControl { Bounds=new Rectangle(10,10,300,180) })
+				using(ImageList imageList=new ImageList { ColorDepth=ColorDepth.Depth32Bit,ImageSize=new Size(11,30) })
+				using(Bitmap bitmapGreen=new Bitmap(11,30))
+				using(Bitmap bitmapRed=new Bitmap(11,30)) {
+					using(Graphics gGreen=Graphics.FromImage(bitmapGreen)) {
+						gGreen.Clear(colorGreen);
+					}
+					using(Graphics gRed=Graphics.FromImage(bitmapRed)) {
+						gRed.Clear(colorRed);
+					}
+					imageList.Images.Add(bitmapGreen);
+					imageList.Images.Add(bitmapRed);
+					form.Controls.Add(tabControl);
+					tabControl.TabPages.Add(new System.Windows.Forms.TabPage("Production"));
+					tabControl.TabPages.Add(new System.Windows.Forms.TabPage("Appointments"));
+					UiTabLook.Attach(tabControl);
+					tabControl.ImageList=imageList;//after Attach, as the dashboard's setup mode does
+					tabControl.TabPages[0].ImageIndex=1;
+					Assert.IsTrue(UiTabLook.IsDrawn(tabControl),"A tab control with images keeps the look.");
+					Rectangle rectangleHeader=tabControl.GetTabRect(0);
+					Rectangle rectangleImage=UiTabLook.GetImageRectangle(tabControl,0);
+					Assert.AreEqual(rectangleHeader.X+6,rectangleImage.X,"6 px in from the header's left");
+					Assert.IsTrue(UiTabLook.GetImageRectangle(tabControl,1).IsEmpty,"The second tab has no image.");
+					Point pointMiddle=new Point(rectangleImage.X+rectangleImage.Width/2,
+						Math.Max(rectangleHeader.Top+2,Math.Min(rectangleHeader.Bottom-3,rectangleImage.Y+rectangleImage.Height/2)));
+					using(Bitmap bitmap=new Bitmap(300,180,PixelFormat.Format24bppRgb))
+					using(Graphics g=Graphics.FromImage(bitmap)) {
+						g.Clear(Color.Magenta);
+						UiTabLook.PaintTabControl(g,tabControl,idxHover:-1);
+						AssertNear(colorRed,bitmap.GetPixel(pointMiddle.X,pointMiddle.Y),"the first tab's image (ImageIndex 1)");
+						Assert.IsTrue(HasDark(bitmap,Rectangle.FromLTRB(rectangleImage.Right,rectangleHeader.Top,rectangleHeader.Right,rectangleHeader.Bottom-3)),
+							"the first tab's text after its image");
+						Assert.IsFalse(HasDark(bitmap,Rectangle.FromLTRB(rectangleHeader.Left,rectangleHeader.Top,rectangleImage.Left,rectangleHeader.Bottom-3)),
+							"no text left of the image");
+						//The image follows ImageIndex (the dashboard's X under the mouse).
+						tabControl.TabPages[0].ImageIndex=0;
+						UiTabLook.PaintTabControl(g,tabControl,idxHover:-1);
+						AssertNear(colorGreen,bitmap.GetPixel(pointMiddle.X,pointMiddle.Y),"the first tab's image (ImageIndex 0)");
+					}
+					//Printed (WM_PRINT, the gallery's way): the same image.
+					using(Bitmap bitmapPrinted=new Bitmap(300,180,PixelFormat.Format24bppRgb)) {
+						tabControl.DrawToBitmap(bitmapPrinted,new Rectangle(0,0,300,180));
+						AssertNear(colorGreen,bitmapPrinted.GetPixel(pointMiddle.X,pointMiddle.Y),"printed: the first tab's image");
+					}
+				}
+			});
+		}
+
+		///<summary>UI-PLAIN fix round: an enabled stock DropDownList combo box's face in the input fill (the text boxes' white) with its text in Text,
+		///as the program's ComboBox; Windows drew it as a grey read-only button. A disabled, editable or owner-drawn one keeps Windows' face.</summary>
+		[TestMethod]
+		public void InputFrame_DropDownListFaceInTheInputFill() {
+			StaRunner.Run(() => {
+				using(Form form=new Form { BackColor=UiTheme.Surface,ClientSize=new Size(200,60) })
+				using(System.Windows.Forms.ComboBox comboBox=new System.Windows.Forms.ComboBox { DropDownStyle=ComboBoxStyle.DropDownList,Bounds=new Rectangle(10,10,150,21) }) {
+					form.Controls.Add(comboBox);
+					comboBox.Items.AddRange(new object[] { "Weekly","Monthly" });
+					comboBox.SelectedIndex=0;
+					Assert.IsTrue(UiInputFrame.IsFaceDrawn(comboBox));
+					Rectangle rectangle=new Rectangle(0,0,comboBox.Width,comboBox.Height);
+					Rectangle rectangleInner=UiInputFrame.GetInnerRectangle(rectangle,comboBox);
+					using(Bitmap bitmap=new Bitmap(comboBox.Width,comboBox.Height,PixelFormat.Format24bppRgb))
+					using(Graphics g=Graphics.FromImage(bitmap)) {
+						g.Clear(Color.FromArgb(240,240,240));//Windows' read-only face
+						UiInputFrame.PaintFrame(g,rectangle,comboBox,isFocused:false);
+						AssertNear(SystemColors.Window,bitmap.GetPixel(rectangleInner.Right-3,rectangleInner.Top+rectangleInner.Height/2),"the face right of the text");
+						AssertNear(SystemColors.Window,bitmap.GetPixel(rectangleInner.Left+1,rectangleInner.Top+1),"the face's top left");
+						Assert.IsTrue(HasDark(bitmap,rectangleInner),"the selected item's text");
+					}
+					comboBox.Enabled=false;
+					Assert.IsFalse(UiInputFrame.IsFaceDrawn(comboBox),"A disabled combo box keeps Windows' grey.");
+					comboBox.Enabled=true;
+					comboBox.DrawMode=DrawMode.OwnerDrawFixed;
+					Assert.IsFalse(UiInputFrame.IsFaceDrawn(comboBox),"An owner-drawn combo box keeps its owner's face.");
+					comboBox.DrawMode=DrawMode.Normal;
+					comboBox.DropDownStyle=ComboBoxStyle.DropDown;
+					Assert.IsFalse(UiInputFrame.IsFaceDrawn(comboBox),"An editable combo box's face is its white edit.");
+				}
+			});
+		}
+
+		///<summary>UI-PLAIN fix round: a stock button that is its window's AcceptButton draws as the program's default button (filled Accent, as
+		///UI.Button.IsPrimary), the other buttons plain.</summary>
+		[TestMethod]
+		public void ButtonLook_AcceptButtonIsPrimary() {
+			StaRunner.Run(() => {
+				using(Form form=new Form { BackColor=UiTheme.Surface,ClientSize=new Size(200,60) })
+				using(System.Windows.Forms.Button butOK=new System.Windows.Forms.Button { Name="butOK",Text="OK",Bounds=new Rectangle(10,10,75,26) })
+				using(System.Windows.Forms.Button butCancel=new System.Windows.Forms.Button { Name="butCancel",Text="Cancel",Bounds=new Rectangle(100,10,75,26) }) {
+					form.Controls.Add(butOK);
+					form.Controls.Add(butCancel);
+					form.AcceptButton=butOK;
+					form.CancelButton=butCancel;
+					Assert.IsTrue(UiButtonLook.IsPrimary(butOK));
+					Assert.IsFalse(UiButtonLook.IsPrimary(butCancel));
+					Color colorAccent=UiTheme.GetColor(UiControlPaint.GetButtonFill(EnumUiButtonState.Normal,isPrimary:true));
+					Color colorPlain=UiTheme.GetColor(UiControlPaint.GetButtonFill(EnumUiButtonState.Normal,isPrimary:false));
+					using(Bitmap bitmap=new Bitmap(75,26,PixelFormat.Format24bppRgb))
+					using(Graphics g=Graphics.FromImage(bitmap)) {
+						UiButtonLook.PaintButton(g,butOK,EnumUiButtonState.Normal,isFocused:false);
+						AssertNear(colorAccent,bitmap.GetPixel(6,6),"the AcceptButton's fill");
+						UiButtonLook.PaintButton(g,butCancel,EnumUiButtonState.Normal,isFocused:false);
+						AssertNear(colorPlain,bitmap.GetPixel(6,6),"the other button's fill");
+					}
+				}
+			});
+		}
+
+		///<summary>UI-PLAIN fix round: inside the program a plain window (MsgBoxCopyPaste, the progress windows, the dashboard's dialogs) is not
+		///zoomed by any LayoutManager, so its looks draw at the control's dpi without the program's zoom; a control in a window without the look
+		///keeps the zoom, as before.</summary>
+		[TestMethod]
+		public void PlainWindow_LooksIgnoreTheProgramsZoom() {
+			StaRunner.Run(() => {
+				Func<float> funcGetZoomBefore=UiLooks.FuncGetZoom;
+				try {
+					UiLooks.FuncGetZoom=() => 1.25f;
+					using(Form formPlain=new Form { ClientSize=new Size(200,60) })
+					using(Form formOther=new Form { ClientSize=new Size(200,60) })
+					using(CheckBox checkBoxPlain=new CheckBox { Text="Show",Bounds=new Rectangle(10,10,120,20) })
+					using(CheckBox checkBoxOther=new CheckBox { Text="Show",Bounds=new Rectangle(10,10,120,20) }) {
+						formPlain.Controls.Add(checkBoxPlain);
+						formOther.Controls.Add(checkBoxOther);
+						UiPlainWindow.Attach(formPlain);
+						float scaleDpi=Math.Max(1f,checkBoxPlain.DeviceDpi/96f);
+						Assert.AreEqual(scaleDpi,UiLooks.GetScale(checkBoxPlain),0.001f,"a check box in a plain window: the dpi alone");
+						Assert.AreEqual(scaleDpi*1.25f,UiLooks.GetScale(checkBoxOther),0.001f,"a check box in a window without the look: the zoom as before");
+						Assert.IsTrue(UiCheckLook.IsAttached(checkBoxPlain));
+						//Drawn: the same picture as at zoom 1.
+						using(Bitmap bitmapZoom=new Bitmap(120,20,PixelFormat.Format24bppRgb))
+						using(Bitmap bitmapOne=new Bitmap(120,20,PixelFormat.Format24bppRgb)) {
+							checkBoxPlain.DrawToBitmap(bitmapZoom,new Rectangle(0,0,120,20));
+							UiLooks.FuncGetZoom=() => 1f;
+							checkBoxPlain.DrawToBitmap(bitmapOne,new Rectangle(0,0,120,20));
+							for(int y=0;y<20;y++) {
+								for(int x=0;x<120;x++) {
+									Assert.AreEqual(bitmapOne.GetPixel(x,y).ToArgb(),bitmapZoom.GetPixel(x,y).ToArgb(),"the check box at zoom 1.25 as at 1, pixel "+x+","+y);
+								}
+							}
+						}
+					}
+				}
+				finally {
+					UiLooks.FuncGetZoom=funcGetZoomBefore;
 				}
 			});
 		}
