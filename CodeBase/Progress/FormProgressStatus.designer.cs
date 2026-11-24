@@ -47,7 +47,8 @@ namespace CodeBase {
 			// 
 			// progressBar
 			// 
-			this.progressBar.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+			this.progressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.progressBar.Location = new System.Drawing.Point(8, 86);
 			this.progressBar.MarqueeAnimationSpeed = 50;
 			this.progressBar.Name = "progressBar";

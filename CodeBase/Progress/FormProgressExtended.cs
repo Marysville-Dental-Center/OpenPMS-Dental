@@ -17,6 +17,11 @@ namespace CodeBase {
 		private bool _isPaused;
 		/// <summary>True if progress has been completed and the Done event has been called. </summary>
 		private bool _isDone;
+		///<summary>UI-12 slice 14 fix round: the warning's row, its height and the row gap over it. The designer lays the log panel out without it (the
+		///buttons a section gap under the log box); ShowWarning adds it while the warning shows.</summary>
+		private int _heightWarningRow;
+		///<summary>True while the log panel holds the warning's row.</summary>
+		private bool _isWarningRowShown;
 
 		///<summary>Do not instatiate this class.  It is not meant for public use.  Use ODProgress.ShowProgressExtended() instead.
 		///Launches a progress window that will constantly spin and display status updates for global ODEvents with corresponding name.
@@ -24,6 +29,10 @@ namespace CodeBase {
 		public FormProgressExtended(bool hasHistory=false,string cancelButtonText=null) {
 			InitializeComponent();
 			UiPlainWindow.Attach(this);//UI-PLAIN: the look of the program's windows (docs/port-notes/UI-PLAIN.md)
+			_heightWarningRow=labelWarning.Height+UiGrid.ROW_GAP;
+			//UI-12 slice 14 fix round: the window as tall as its content, a padding under the buttons, also when a bar or the warning is added. Not
+			//AutoSize: with the program's frame on, Windows Forms sized an AutoSize window for Windows' title bar too (22 px of empty band).
+			flowLayoutPanel1.SizeChanged+=(sender,e) => FitHeightToContent();
 			if(!string.IsNullOrEmpty(cancelButtonText)) {
 				butCancel.Text=cancelButtonText;
 			}
@@ -43,6 +52,27 @@ namespace CodeBase {
 			tableLayoutPanel1.Controls.Add(pbar,1,rowLocation);
 			pbar.Name="pbar"+rowLocation;
 			return pbar;
+		}
+
+		///<summary>UI-12 slice 14 fix round: the window's height for its content: the flow panel's log panel ends a padding over the bottom. The
+		///window's height changes by the difference, so the program's frame (its title band in the client area) is kept.</summary>
+		private void FitHeightToContent() {
+			int heightClient=flowLayoutPanel1.Top+panel1.Bottom+UiGrid.PAD;
+			if(ClientSize.Height!=heightClient) {
+				Height+=heightClient-ClientSize.Height;
+			}
+		}
+
+		///<summary>UI-12 slice 14 fix round: shows or hides the warning with its row: the log panel grows or shrinks by the row, and the buttons and
+		///the warning, anchored to its bottom, follow (the window follows the flow panel, FitHeightToContent).</summary>
+		private void ShowWarning(bool isShown) {
+			labelWarning.Visible=isShown;
+			if(isShown==_isWarningRowShown) {
+				return;
+			}
+			_isWarningRowShown=isShown;
+			panel1.Height+=isShown ? _heightWarningRow : -_heightWarningRow;
+			FitHeightToContent();//the flow panel grows with the log panel, but never shrinks (AutoSize GrowOnly)
 		}
 
 		private void UpdateProgressBar(ODProgressBar progBar, ProgressBarHelper progHelper) {
@@ -69,7 +99,7 @@ namespace CodeBase {
 						break;
 					case ProgBarEventType.WarningOff:
 					case ProgBarEventType.AllowResume:
-						labelWarning.Visible=false;
+						ShowWarning(false);
 						butPause.Enabled=true;
 						if(_isPaused) {
 							butPause.Text="Resume";
@@ -116,7 +146,7 @@ namespace CodeBase {
 				//We are not going to allow the user to immediately unpause because we want to allow the instantiator of this form to get itself into a state
 				//where it can be unpaused. When it is ready to be unpaused, it will fire an event with the tag "AllowResume".
 				butPause.Enabled=false;
-				labelWarning.Visible=true;
+				ShowWarning(true);
 			}
 			else {
 				butPause.Text="Pause";
@@ -133,7 +163,7 @@ namespace CodeBase {
 			else {
 				butCancel.Enabled=false;
 				butPause.Enabled=false;
-				labelWarning.Visible=true; 
+				ShowWarning(true);
 			}
 		}
 

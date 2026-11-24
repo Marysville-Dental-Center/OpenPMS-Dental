@@ -97,6 +97,8 @@ namespace UiRefreshTests {
 					methodInfoAdd.Invoke(root,new object[] { "Tables","Checking the tables","40%",40,100,"",CodeBase.ProgBarStyle.Blocks,0,false,false,false });
 					methodInfoAdd.Invoke(root,new object[] { "Files","Copying the files","",0,100,"",CodeBase.ProgBarStyle.Marquee,30,false,false,true });
 					root.PerformLayout();
+					//Fix round: the window follows its flow panel (the constructor's SizeChanged handler, which the builder does not run).
+					root.GetType().GetMethod("FitHeightToContent",FLAGS)?.Invoke(root,null);
 					return root;
 				case "CodeBase.FormProgressStatus#history":
 					//The constructor with hasHistory: the window 60 px wider and 120 px taller, the history box in place of the message.

@@ -37,8 +37,7 @@ namespace CodeBase {
 			// 
 			// textMsg
 			// 
-			this.textMsg.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+			this.textMsg.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.textMsg.Location = new System.Drawing.Point(0, 19);
 			this.textMsg.Multiline = true;
@@ -60,7 +59,7 @@ namespace CodeBase {
 			// labelWarning
 			// 
 			this.labelWarning.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.labelWarning.Location = new System.Drawing.Point(0, 93);
+			this.labelWarning.Location = new System.Drawing.Point(0, 72);
 			this.labelWarning.Name = "labelWarning";
 			this.labelWarning.Size = new System.Drawing.Size(292, 17);
 			this.labelWarning.TabIndex = 0;
@@ -78,13 +77,13 @@ namespace CodeBase {
 			this.panel1.Controls.Add(this.labelWarning);
 			this.panel1.Location = new System.Drawing.Point(3, 9);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(460, 145);
+			this.panel1.Size = new System.Drawing.Size(460, 124);
 			this.panel1.TabIndex = 0;
 			// 
 			// butCancel
 			// 
 			this.butCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butCancel.Location = new System.Drawing.Point(385, 122);
+			this.butCancel.Location = new System.Drawing.Point(385, 101);
 			this.butCancel.Name = "butCancel";
 			this.butCancel.Size = new System.Drawing.Size(75, 23);
 			this.butCancel.TabIndex = 1;
@@ -95,7 +94,7 @@ namespace CodeBase {
 			// butPause
 			// 
 			this.butPause.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butPause.Location = new System.Drawing.Point(0, 122);
+			this.butPause.Location = new System.Drawing.Point(0, 101);
 			this.butPause.Name = "butPause";
 			this.butPause.Size = new System.Drawing.Size(75, 23);
 			this.butPause.TabIndex = 0;
@@ -112,7 +111,7 @@ namespace CodeBase {
 			this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
 			this.flowLayoutPanel1.Location = new System.Drawing.Point(8, 8);
 			this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-			this.flowLayoutPanel1.Size = new System.Drawing.Size(466, 157);
+			this.flowLayoutPanel1.Size = new System.Drawing.Size(466, 136);
 			this.flowLayoutPanel1.TabIndex = 0;
 			this.flowLayoutPanel1.WrapContents = false;
 			// 
@@ -135,8 +134,8 @@ namespace CodeBase {
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.AutoScroll = true;
-			this.AutoSize = true;
-			this.ClientSize = new System.Drawing.Size(482, 173);
+			this.AutoSize = false;
+			this.ClientSize = new System.Drawing.Size(482, 149);
 			this.Controls.Add(this.flowLayoutPanel1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.MinimumSize = new System.Drawing.Size(100, 100);

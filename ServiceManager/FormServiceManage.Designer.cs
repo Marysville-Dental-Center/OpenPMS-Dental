@@ -50,7 +50,8 @@
 			// 
 			// butStop
 			// 
-			this.butStop.Location = new System.Drawing.Point(359, 89);
+			this.butStop.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.butStop.Location = new System.Drawing.Point(251, 135);
 			this.butStop.Name = "butStop";
 			this.butStop.Size = new System.Drawing.Size(75, 23);
 			this.butStop.TabIndex = 3;
@@ -60,7 +61,8 @@
 			// 
 			// butStart
 			// 
-			this.butStart.Location = new System.Drawing.Point(278, 89);
+			this.butStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.butStart.Location = new System.Drawing.Point(170, 135);
 			this.butStart.Name = "butStart";
 			this.butStart.Size = new System.Drawing.Size(75, 23);
 			this.butStart.TabIndex = 2;
@@ -70,7 +72,8 @@
 			// 
 			// butUninstall
 			// 
-			this.butUninstall.Location = new System.Drawing.Point(197, 89);
+			this.butUninstall.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.butUninstall.Location = new System.Drawing.Point(89, 135);
 			this.butUninstall.Name = "butUninstall";
 			this.butUninstall.Size = new System.Drawing.Size(75, 23);
 			this.butUninstall.TabIndex = 1;
@@ -80,7 +83,8 @@
 			// 
 			// butInstall
 			// 
-			this.butInstall.Location = new System.Drawing.Point(116, 89);
+			this.butInstall.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.butInstall.Location = new System.Drawing.Point(8, 135);
 			this.butInstall.Name = "butInstall";
 			this.butInstall.Size = new System.Drawing.Size(75, 23);
 			this.butInstall.TabIndex = 0;

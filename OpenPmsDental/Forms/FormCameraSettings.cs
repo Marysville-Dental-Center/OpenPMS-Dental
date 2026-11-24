@@ -71,14 +71,14 @@ namespace OpenPmsDental {
 			_photoSourceSaved=PhotoSource;
 			IsMainWindowSpace=cameraConfig?.MainWindowSpace??true;
 			CategoryDefNum=categoryDefNum;
-			BuildControls();
+			BuildControls(listTriggerNotes);
 			Fill(deviceCurrent,hasStillPin,listTriggerNotes);
 			InitializeLayoutManager();
 			Lan.F(this);
 		}
 
 		#region Methods - Build
-		private void BuildControls() {
+		private void BuildControls(List<string> listTriggerNotes) {
 			SuspendLayout();
 			//UI-12 slice 14: on the layout grid (UiGrid): label + field rows one pitch apart, the fields and labels the field height, a check box
 			//row the check box height, each section a section gap under the one before with its heading a row gap over its rows, the bar a
@@ -129,9 +129,13 @@ namespace OpenPmsDental {
 			butButtonTest.Click+=(sender,e) => Learn(CaptureLearnMode.ButtonTest);
 			Controls.Add(butButtonTest);
 			y+=pitch;
-			labelTriggerNotes=new Label { Name="labelTriggerNotes",Text="",Location=new Point(xField,y),Size=new Size(widthField,48),ForeColor=UiTheme.TextSecondary };
+			//Fix round: the notes as tall as their lines (GetHeightTriggerNotes), so the Photos heading is a section gap under the last line, as
+			//every heading is under the content before it.
+			labelTriggerNotes=new Label { Name="labelTriggerNotes",Text=GetTextTriggerNotes(listTriggerNotes),Location=new Point(xField,y),
+				Size=new Size(widthField,UiGrid.CHECK_HEIGHT),ForeColor=UiTheme.TextSecondary };
 			Controls.Add(labelTriggerNotes);
-			y+=48+UiGrid.SECTION_GAP;
+			labelTriggerNotes.Height=GetHeightTriggerNotes();
+			y+=labelTriggerNotes.Height+UiGrid.SECTION_GAP;
 			AddHeading("labelHeadingPhotos","Photos",y);
 			y+=heightHeading+UiGrid.ROW_GAP;
 			AddLabel("labelAfterCapture","After a press of Capture",y);
@@ -154,10 +158,11 @@ namespace OpenPmsDental {
 				MaxVal=PhotoSessionConfig.LimitSecondsMax,TabIndex=10 };
 			Controls.Add(textLimitSeconds);
 			y+=pitch;
-			Label labelSound=new Label { Name="labelSound",Text="Videos are recorded without sound.",Location=new Point(xField,y),Size=new Size(widthField,UiGrid.FIELD_HEIGHT),
+			//Fix round: the one-line notes one line tall (the check box height), so the next heading is a section gap under their text.
+			Label labelSound=new Label { Name="labelSound",Text="Videos are recorded without sound.",Location=new Point(xField,y),Size=new Size(widthField,UiGrid.CHECK_HEIGHT),
 				ForeColor=UiTheme.TextSecondary,TextAlign=ContentAlignment.MiddleLeft };
 			Controls.Add(labelSound);
-			y+=UiGrid.FIELD_HEIGHT+UiGrid.SECTION_GAP;
+			y+=UiGrid.CHECK_HEIGHT+UiGrid.SECTION_GAP;
 			AddHeading("labelHeadingCategories","Categories (all computers)",y);
 			y+=heightHeading+UiGrid.ROW_GAP;
 			AddLabel("labelCategory","Quick photos and videos",y);
@@ -165,9 +170,9 @@ namespace OpenPmsDental {
 			Controls.Add(comboCategory);
 			y+=pitch;
 			Label labelCategoryNote=new Label { Name="labelCategoryNote",Text="Photo mounts save into their mount's category.",Location=new Point(xField,y),
-				Size=new Size(widthField,UiGrid.FIELD_HEIGHT),ForeColor=UiTheme.TextSecondary,TextAlign=ContentAlignment.MiddleLeft };
+				Size=new Size(widthField,UiGrid.CHECK_HEIGHT),ForeColor=UiTheme.TextSecondary,TextAlign=ContentAlignment.MiddleLeft };
 			Controls.Add(labelCategoryNote);
-			y+=UiGrid.FIELD_HEIGHT+UiGrid.SECTION_GAP;
+			y+=UiGrid.CHECK_HEIGHT+UiGrid.SECTION_GAP;
 			int xRight=xField+widthField;
 			butCancel=new UI.Button { Name="butCancel",Text="Cancel",Location=new Point(xRight-75,y),Size=new Size(75,26),TabIndex=21 };
 			butCancel.Click+=(sender,e) => { DialogResult=DialogResult.Cancel; };
@@ -216,7 +221,7 @@ namespace OpenPmsDental {
 			checkMainWindowSpace.Checked=IsMainWindowSpace;
 			butLearn.Enabled=_funcLearn!=null;
 			butButtonTest.Enabled=_funcLearn!=null;
-			labelTriggerNotes.Text=string.Join("\r\n",listTriggerNotes??new List<string>());
+			labelTriggerNotes.Text=GetTextTriggerNotes(listTriggerNotes);
 			comboAfterCapture.Items.Add(Lan.g(this,"Save the photo at once"));
 			comboAfterCapture.Items.Add(Lan.g(this,"Freeze first, save on the second press"));
 			comboAfterCapture.SelectedIndex=PhotoSessionConfigNew.IsFreezeFirst ? 1 : 0;
@@ -247,8 +252,37 @@ namespace OpenPmsDental {
 			}
 			List<string> listNotes=_funcLearn(captureLearnMode);
 			if(listNotes!=null) {
-				labelTriggerNotes.Text=string.Join("\r\n",listNotes);//what Learn saved
+				labelTriggerNotes.Text=GetTextTriggerNotes(listNotes);//what Learn saved
+				SizeTriggerNotes();
 			}
+		}
+
+		private static string GetTextTriggerNotes(List<string> listTriggerNotes) {
+			return string.Join("\r\n",listTriggerNotes??new List<string>());
+		}
+
+		///<summary>UI-12 slice 14 fix round: the trigger notes' height for their text at the label's width and font (one line at least).</summary>
+		private int GetHeightTriggerNotes() {
+			int heightLine=labelTriggerNotes.GetPreferredSize(new Size(labelTriggerNotes.Width,0)).Height;
+			return Math.Max(LayoutManager==null ? UiGrid.CHECK_HEIGHT : LayoutManager.Scale(UiGrid.CHECK_HEIGHT),heightLine);
+		}
+
+		///<summary>UI-12 slice 14 fix round: after Learn changes the notes, the label as tall as its new lines; the sections under it and the
+		///window move by the difference, so the Photos heading stays a section gap under the last line.</summary>
+		private void SizeTriggerNotes() {
+			int heightNew=GetHeightTriggerNotes();
+			int shift=heightNew-labelTriggerNotes.Height;
+			if(shift==0) {
+				return;
+			}
+			int bottomOld=labelTriggerNotes.Bottom;
+			foreach(Control control in labelTriggerNotes.Parent.Controls) {
+				if(control.Top>=bottomOld) {
+					LayoutManager.MoveLocation(control,new Point(control.Left,control.Top+shift));
+				}
+			}
+			LayoutManager.MoveHeight(labelTriggerNotes,heightNew);
+			Height+=shift;//The window grows or shrinks at its bottom, under the user's eyes.
 		}
 
 		private void butOK_Click(object sender,EventArgs e) {
