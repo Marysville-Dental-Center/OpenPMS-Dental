@@ -358,6 +358,44 @@ namespace UiRefreshTests {
 			});
 		}
 
+		///<summary>UI-12F: the report designer's PropertyDialog (AutoScaleMode None, in a per-monitor aware exe) scales itself and the property
+		///pages it hosts by the screen's dpi once they are added (ScaleToDpi): at 144 dpi its client area and a page's controls are 1.5 times
+		///their 96 dpi bounds (at 150% their text was cut: 'Nam', 'Alignm'); at 96 dpi nothing changes. The harness knows its pages
+		///(BuiltWindow.IsPropertyDialogPage) and draws them scaled only on a build whose dialog scales them.</summary>
+		[TestMethod]
+		public void PropertyDialog_ScalesItsPagesByTheDpi() {
+			StaRunner.Run(() => {
+				NoDatabaseGuard.Install();
+				ScanType scanTypePage=WindowBuilder.GetScanTypes().First(x => x.WindowKey=="fyiReporting.RdlDesign.ReportParameterCtl");
+				Assert.IsTrue(BuiltWindow.IsPropertyDialogPage(scanTypePage.Type),"ReportParameterCtl is one of PropertyDialog's pages.");
+				Assert.IsFalse(BuiltWindow.IsPropertyDialogPage(typeof(UserControl)));
+				Assert.IsTrue(BuiltWindow.PropertyDialogScalesPages(scanTypePage.Type.Assembly),"This build's PropertyDialog scales its pages.");
+				Type typeDialog=scanTypePage.Type.Assembly.GetType("fyiReporting.RdlDesign.PropertyDialog");
+				System.Reflection.MethodInfo methodAddTab=typeDialog.GetMethod("AddTab",System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.NonPublic);
+				System.Reflection.MethodInfo methodScale=typeDialog.GetMethod("ScaleToDpi",System.Reflection.BindingFlags.Static|System.Reflection.BindingFlags.NonPublic);
+				System.Reflection.FieldInfo fieldPanels=typeDialog.GetField("_TabPanels",System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.NonPublic);
+				foreach(int dpi in new int[] { 96,144 }) {
+					using(Form form=(Form)WindowBuilder.CreateBare(typeDialog,typeof(Form)))
+					using(UserControl page=(UserControl)WindowBuilder.CreateBare(scanTypePage.Type,typeof(UserControl)))
+					{
+						fieldPanels.SetValue(form,new List<UserControl>());//a field initializer: CreateBare runs no constructor of the dialog's own
+						methodAddTab.Invoke(form,new object[] { "Parameters",page });
+						Size sizeClient=form.ClientSize;
+						Control controlInPage=page.Controls.Cast<Control>().Where(x => x.Dock==DockStyle.None && x is Button && !x.AutoSize)
+							.OrderBy(x => x.Name,StringComparer.Ordinal).First();//a button: its size is its bounds (a text box takes its height from its font)
+						Rectangle rectangle=controlInPage.Bounds;
+						methodScale.Invoke(null,new object[] { form,dpi });
+						float factor=dpi/96f;
+						Assert.IsTrue(Math.Abs(form.ClientSize.Width-sizeClient.Width*factor)<=1 && Math.Abs(form.ClientSize.Height-sizeClient.Height*factor)<=1,
+							"dpi "+dpi+": the client area "+sizeClient+" -> "+form.ClientSize);
+						Assert.IsTrue(Math.Abs(controlInPage.Left-rectangle.Left*factor)<=1 && Math.Abs(controlInPage.Top-rectangle.Top*factor)<=1
+							&& Math.Abs(controlInPage.Width-rectangle.Width*factor)<=1 && Math.Abs(controlInPage.Height-rectangle.Height*factor)<=1,
+							"dpi "+dpi+": "+controlInPage.Name+" "+rectangle+" -> "+controlInPage.Bounds);
+					}
+				}
+			});
+		}
+
 		[TestMethod]
 		public void InputFrame_SingleLineODtextBox_IsFramed() {
 			StaRunner.Run(() => {
