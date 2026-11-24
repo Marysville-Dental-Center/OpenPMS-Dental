@@ -15,6 +15,11 @@ _spec.loader.exec_module(s)
 def radios(h, names, y):
     for name in names:
         h.check_left(name)
+        # Fix round: the write-off radio buttons kept main's TopLeft circle and text; Windows draws a TopLeft text a few px low, and at
+        # 150% its descenders were cut at the bottom of the 18 px row (Using, payment): centred in the row as the Report Type radios.
+        if h.n(name).check_align == "TopLeft":
+            h.n(name).new_check_align = "MiddleLeft"
+            h.text_align(name, "MiddleLeft")
         h.set(name, s.PAD, y, h.cw(name), h.CH)
         y += h.CH + s.ROWGAP
     return y - s.ROWGAP

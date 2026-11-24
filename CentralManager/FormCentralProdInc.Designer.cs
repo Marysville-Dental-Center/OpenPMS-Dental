@@ -93,7 +93,7 @@ namespace CentralManager {
 			// 
 			// radioWriteoffProc
 			// 
-			this.radioWriteoffProc.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
+			this.radioWriteoffProc.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.radioWriteoffProc.Checked = true;
 			this.radioWriteoffProc.Location = new System.Drawing.Point(8, 45);
 			this.radioWriteoffProc.Name = "radioWriteoffProc";
@@ -101,18 +101,18 @@ namespace CentralManager {
 			this.radioWriteoffProc.TabIndex = 1;
 			this.radioWriteoffProc.TabStop = true;
 			this.radioWriteoffProc.Text = "Using procedure date.";
-			this.radioWriteoffProc.TextAlign = System.Drawing.ContentAlignment.TopLeft;
+			this.radioWriteoffProc.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.radioWriteoffProc.UseVisualStyleBackColor = true;
 			// 
 			// radioWriteoffPay
 			// 
-			this.radioWriteoffPay.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
+			this.radioWriteoffPay.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.radioWriteoffPay.Location = new System.Drawing.Point(8, 23);
 			this.radioWriteoffPay.Name = "radioWriteoffPay";
 			this.radioWriteoffPay.Size = new System.Drawing.Size(194, 18);
 			this.radioWriteoffPay.TabIndex = 0;
 			this.radioWriteoffPay.Text = "Using insurance payment date.";
-			this.radioWriteoffPay.TextAlign = System.Drawing.ContentAlignment.TopLeft;
+			this.radioWriteoffPay.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.radioWriteoffPay.UseVisualStyleBackColor = true;
 			// 
 			// groupBox2
