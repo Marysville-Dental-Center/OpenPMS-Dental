@@ -265,6 +265,13 @@ namespace UiRefreshTests {
 			if(mdiChild==null) {
 				throw new InvalidOperationException("RdlDesigner.CreateMDIChild opened no report.");
 			}
+			//A hidden MDI window activates no child (Windows does on screen): activated as Windows Forms does it on WM_MDIACTIVATE, which merges
+			//the maximized child's caption buttons into the menu bar and raises MdiChildActivate (the designer's toolbar follows the report).
+			if(form.ActiveMdiChild==null) {
+				System.Reflection.MethodInfo methodInfoActivate=typeof(Form).GetMethod("ActivateMdiChild",
+					System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.Public|System.Reflection.BindingFlags.NonPublic,null,new Type[] { typeof(Form) },null);
+				methodInfoActivate.Invoke(form,new object[] { mdiChild });
+			}
 			Application.DoEvents();
 		}
 

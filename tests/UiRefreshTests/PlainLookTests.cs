@@ -429,8 +429,24 @@ namespace UiRefreshTests {
 					tabControl.TabPages.Add(tabPageLater);
 					Assert.AreEqual(UiTheme.Surface,tabControl.TabPages[0].BackColor,"A page shows the colour behind the tab control.");
 					Assert.AreEqual(UiTheme.Surface,tabPageLater.BackColor,"A page added later too.");
+					tabControl.Alignment=TabAlignment.Left;
+					Assert.IsFalse(UiTabLook.IsDrawn(tabControl),"Side tabs keep Windows' drawing.");
+					//UI-PLAIN-2 fix round: bottom tabs (the report designer's Designer, RDL Text and Preview) in the look, mirrored.
 					tabControl.Alignment=TabAlignment.Bottom;
-					Assert.IsFalse(UiTabLook.IsDrawn(tabControl),"Bottom tabs keep Windows' drawing.");
+					Assert.IsTrue(UiTabLook.IsDrawn(tabControl),"Bottom tabs in the look.");
+					tabControl.SelectedIndex=0;
+					Rectangle rectangleFirstBottom=tabControl.GetTabRect(0);
+					using(Bitmap bitmap=new Bitmap(300,180,PixelFormat.Format24bppRgb))
+					using(Graphics g=Graphics.FromImage(bitmap)) {
+						g.Clear(Color.Magenta);
+						UiTabLook.PaintTabControl(g,tabControl,idxHover:-1);
+						AssertNear(UiTheme.GetColor(EnumUiColor.SurfaceSubtle),bitmap.GetPixel(290,rectangleFirstBottom.Bottom-3),"the bottom strip beside the tabs");
+						AssertNear(UiTheme.GetColor(EnumUiColor.Accent),bitmap.GetPixel(rectangleFirstBottom.Left+rectangleFirstBottom.Width/2,rectangleFirstBottom.Top),
+							"the selected tab's line along its top");
+						AssertNear(UiTheme.GetColor(EnumUiColor.Stroke),bitmap.GetPixel(150,0),"the page's top border");
+						AssertNear(UiTheme.Surface,bitmap.GetPixel(150,60),"the page area: the colour behind");
+						Assert.IsTrue(HasDark(bitmap,rectangleFirstBottom),"the first tab's text");
+					}
 					tabControl.Alignment=TabAlignment.Top;
 					tabControl.SelectedIndex=0;
 					Rectangle rectangleFirst=tabControl.GetTabRect(0);

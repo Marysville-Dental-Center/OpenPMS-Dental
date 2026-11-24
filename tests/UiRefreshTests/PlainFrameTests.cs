@@ -23,6 +23,9 @@ namespace UiRefreshTests {
 		[DllImport("user32.dll")]
 		private static extern IntPtr SendMessage(IntPtr hWnd,int msg,IntPtr wParam,IntPtr lParam);
 
+		[DllImport("user32.dll")]
+		private static extern int GetWindowLong(IntPtr hWnd,int nIndex);
+
 		///<summary>A plain test window: 300 by 200 client, a button at the top left, a panel docked at the top, a list anchored to all four sides
 		///and an OK button anchored to the bottom right, as a designer makes them, with the look and frame attached as a constructor does.</summary>
 		private static Form MakeWindow(FormBorderStyle formBorderStyle=FormBorderStyle.Sizable) {
@@ -392,6 +395,7 @@ namespace UiRefreshTests {
 						Assert.IsNotNull(form.MainMenuStrip,"its constructor made the menus");
 						MdiClient mdiClient=form.Controls.OfType<MdiClient>().Single();
 						Assert.AreEqual(UiTheme.Surface.ToArgb(),mdiClient.BackColor.ToArgb(),"the MDI area in the background token, not AppWorkspace");
+						Assert.AreEqual(0,GetWindowLong(mdiClient.Handle,-20) & 0x200,"the MDI area flat: no sunken 3D edge (WS_EX_CLIENTEDGE)");
 						FitGallery.OpenSampleReport(form);
 						Assert.AreEqual(1,form.MdiChildren.Length,"one report open");
 						Assert.AreEqual(FormWindowState.Maximized,form.MdiChildren[0].WindowState,"the tabbed interface maximizes it");
