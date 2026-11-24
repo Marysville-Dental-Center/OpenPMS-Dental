@@ -206,3 +206,15 @@ tools/New-UiGallery.ps1 -Before <W>/before -After <W>/after -Name G-UI3 -Out .gi
 
 **Question for the coordinator.** Should the regenerated init database's `DocPath` seed become `C:\OpenPmsImages\`
 (`InitSqlScrub.SeedDocPath` and the InitSqlTests that expect the seed)? UI-BRAND-2 left it, because the brief lists only the four sites.
+
+**Results.** Targeted run `test-results/uibrand2-targeted-1.txt` (`-Platform x64`): P262BillingTests 54 passed; PrintGuardTests 19 passed,
+1 skipped; NoHqTests 137 passed; WindowChecksTests 31 passed, 44 skipped (desktop-only); UnitTests 1728 passed, 3 skipped; UiRefreshTests
+374 passed, 54 skipped; Helper32Tests 122 passed; ForkMigrationTests 41 passed, 2 skipped, 1 failed; InitSqlTests 18 passed, 3 failed. The
+four failures all say the same: `db/init/new-database.sql` does not have step 2026112451 yet (`Generator_WritesExactlyTheCommittedFile`,
+`VersionGuard_ProceedsWithNoPendingAndNoUnknownLevel`, `AdoptionRecord_SaysNewDatabase`, `File_HeaderNamesThisBuildsForkLevelAndSchema`);
+the brief leaves the regeneration to the coordinator, once every schema package is merged. The step's own tests
+(`ProgramPropertyDescRenameStepTests`, 4) pass. The opt-in gallery run (`uibrand2-uirefresh-2.txt`, with `OPMS_UI_BRAND2_GALLERY`) had one
+failure, `ElementLookTests.InputFrame_ThemedDatePicker_WholeButtonCoveredAndTextInTheToken` (the themed date picker reported no drop
+button), which passes on its own and in the run without the gallery: it follows the opt-in gallery windows in the same test host, not this
+package's code. Test-NoEolFlips against `b1fa6c0d4`: 28 changed text files, 0 changed their line ends.
+Full x64 build through the lane at `af63510a0`: 0 errors.
