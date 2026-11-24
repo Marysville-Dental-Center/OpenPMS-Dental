@@ -35,12 +35,24 @@ namespace WpfControls.UI{
 		private ToolTip _toolTip;
 		private string _toolTipText;
 
+		///<summary>The » glyph's two chevrons when this is a toolbar's overflow button (UI-OVF, SetGlyphOverflow), else empty.</summary>
+		private List<System.Windows.Shapes.Path> _listPathsOverflow=new List<System.Windows.Shapes.Path>();
+		///<summary>The menu this button opened is open (the overflow drop-down, UI-OVF): drawn pressed meanwhile.</summary>
+		private bool _isMenuOpen;
+
 		public ToolBarButton(){
 			InitializeComponent();
 			grid.ColumnDefinitions[2].Width=new GridLength(0);//hide the dropdown button
 			pathChevron.Data=UiIcons.GetGeometryWpf(UiGlyph.ChevronDown,UiTheme.SIZE_CHEVRON);
 			pathChevron.Visibility=Visibility.Collapsed;
 			IsEnabledChanged+=This_IsEnabledChanged;
+			//UI-OVF: reachable from the keyboard like the WinForms toolbar's buttons. The toolbar is one tab stop (ToolBar: TabNavigation Once) and
+			//the arrow keys move between its buttons; the shared focus ring shows only with keyboard cues (FocusVisualStyle, section 3.6).
+			//A UserControl is no tab stop by default: Tab could not enter the toolbar. The toolbar takes it off its labels and the buttons in its
+			//overflow button's drop-down (ToolBar.SetTabStops).
+			Focusable=true;
+			IsTabStop=true;
+			UiLook.SetFocusVisualStyle(this,onAccent:false);
 			SetColors();
 		}
 
@@ -147,6 +159,110 @@ namespace WpfControls.UI{
 			image.Height=22;
 			gridImage.Children.Add(image);
 			SetMargins();
+		}
+
+		///<summary>The button's tooltip text, or null.</summary>
+		public string ToolTipText=>_toolTipText;
+
+		///<summary>True when the button has a click handler (a button without one is a label: "Scan:").</summary>
+		public bool HasClick=>Click!=null;
+
+		///<summary>Makes this the toolbar's » overflow button (UI-OVF): no text, the » glyph (two 12 px Fluent chevrons right, the second 4 px to the
+		///right of the first, as UiToolStripRenderer.DrawOverflowGlyph) in the 22 px image slot, in the text's colour of the state.</summary>
+		internal void SetGlyphOverflow(){
+			gridImage.Children.Clear();
+			gridImage.Width=22;
+			gridImage.Height=22;
+			_listPathsOverflow.Clear();
+			for(int i=0;i<2;i++){
+				System.Windows.Shapes.Path path=new System.Windows.Shapes.Path();
+				path.Data=UiIcons.GetGeometryWpf(UiGlyph.ChevronRight,UiTheme.SIZE_CHEVRON);
+				path.Width=UiTheme.SIZE_CHEVRON;
+				path.Height=UiTheme.SIZE_CHEVRON;
+				path.Stretch=Stretch.None;
+				path.HorizontalAlignment=HorizontalAlignment.Left;
+				path.VerticalAlignment=VerticalAlignment.Center;
+				path.Margin=new Thickness(3+4*i,0,0,0);//(22-12-4)/2=3: the pair centred in the slot
+				path.IsHitTestVisible=false;
+				gridImage.Children.Add(path);
+				_listPathsOverflow.Add(path);
+			}
+			SetMargins();
+			SetColors();
+		}
+
+		///<summary>Draws the button pressed while the menu it opened is open (UI-OVF).</summary>
+		internal void SetMenuOpen(bool isMenuOpen){
+			_isMenuOpen=isMenuOpen;
+			SetColors();
+		}
+
+		///<summary>A copy of the button's picture for a menu item (UI-OVF, the overflow drop-down), at the size: the icon drawn again, or the
+		///bitmap's source. Null when the button has none.</summary>
+		internal UIElement GetMenuIcon(double size){
+			if(_icon!=EnumIcons.None){
+				System.Windows.Controls.Grid gridIcon=new System.Windows.Controls.Grid();
+				gridIcon.Width=size;
+				gridIcon.Height=size;
+				IconLibrary.DrawWpf(_icon,gridIcon);
+				return gridIcon;
+			}
+			for(int i=0;i<gridImage.Children.Count;i++){
+				if(gridImage.Children[i] is Image image && image.Source!=null){
+					Image imageCopy=new Image();
+					imageCopy.Source=image.Source;
+					imageCopy.Width=size;
+					imageCopy.Height=size;
+					return imageCopy;
+				}
+			}
+			return null;
+		}
+
+		///<summary>What a click on the button's main part does (the mouse, the keyboard and the toolbar's overflow drop-down): a toggle button flips,
+		///then Click. Nothing when disabled or without a click handler (a label).</summary>
+		public void PerformClick(){
+			if(!IsEnabled || Click==null){
+				return;
+			}
+			if(ToolBarButtonStyle==ToolBarButtonStyle.ToggleButton){
+				IsTogglePushed=!IsTogglePushed;
+				SetColors();
+			}
+			Click?.Invoke(this,new EventArgs());
+		}
+
+		///<summary>Opens the drop-down button's menu below it (the arrow's click). False when there is none.</summary>
+		public bool ShowDropDown(){
+			if(ToolBarButtonStyle!=ToolBarButtonStyle.DropDownButton || ContextMenuDropDown==null || !IsEnabled){
+				return false;
+			}
+			ContextMenuDropDown.PlacementTarget=this;
+			ContextMenuDropDown.Placement=System.Windows.Controls.Primitives.PlacementMode.Bottom;
+			ContextMenuDropDown.IsOpen=true;
+			return true;
+		}
+
+		///<summary>Enter and Space click the focused button; Down (or Alt+Down) opens a drop-down button's menu (UI-OVF). The toolbar handles the
+		///arrow keys between its buttons and its overflow button's keys.</summary>
+		protected override void OnKeyDown(KeyEventArgs e) {
+			base.OnKeyDown(e);
+			if(e.Handled){
+				return;
+			}
+			Key key=e.Key==Key.System ? e.SystemKey : e.Key;
+			if((key==Key.Enter || key==Key.Space) && Keyboard.Modifiers==ModifierKeys.None){
+				if(Click!=null){
+					PerformClick();
+					e.Handled=true;
+				}
+				return;
+			}
+			if(key==Key.Down && (Keyboard.Modifiers==ModifierKeys.None || Keyboard.Modifiers==ModifierKeys.Alt)){
+				if(ShowDropDown()){
+					e.Handled=true;
+				}
+			}
 		}
 
 		public void SetToolTipText(string toolTipText){
@@ -291,7 +407,7 @@ namespace WpfControls.UI{
 				borderOverlay.BorderBrush=UiTheme.GetBrushWpf(EnumUiColor.Accent);
 				brushText=UiTheme.GetBrushWpf(EnumUiColor.TextSelected);
 			}
-			else if(_isPressed){
+			else if(_isPressed || _isMenuOpen){
 				borderOverlay.Background=UiTheme.GetBrushWpf(EnumUiColor.SubtlePressed);
 			}
 			else if(_isHover){
@@ -299,6 +415,9 @@ namespace WpfControls.UI{
 			}
 			textBlock.Foreground=brushText;
 			pathChevron.Fill=brushText;
+			for(int i=0;i<_listPathsOverflow.Count;i++){
+				_listPathsOverflow[i].Fill=brushText;
+			}
 			if(_icon!=EnumIcons.None && _isIconDisabled==IsEnabled){
 				_isIconDisabled=!IsEnabled;
 				DrawIcon();

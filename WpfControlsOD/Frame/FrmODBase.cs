@@ -757,6 +757,9 @@ How to:
 			//Remember that this Load happens after the frm (UserControl) Loaded, which we totally ignore because this one is far more meaningful.
 			Load?.Invoke(this,new EventArgs());//This is where the Frm's Load (not Loaded) event happens
 			SetFocusToFirst();
+			//UI-OVF (docs/port-notes/UI-OVF.md): buttons, check boxes and radio buttons are tab stops now, so a Frm without a tab order of its own
+			//tabs in reading order (UiTabOrder). After SetFocusToFirst, so the control that gets the focus first is the same as before; once laid out.
+			Dispatcher.BeginInvoke((Action)(() => UiTabOrder.Apply(this)),DispatcherPriority.Loaded);
 			//Queue this action to run when the application becomes idle, which is after rendering.
 			//This worked, but it was easier to just do it when the form is shown.
 			//Action action=() => Shown?.Invoke(this,EventArgs.Empty);

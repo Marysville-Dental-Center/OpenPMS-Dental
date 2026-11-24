@@ -1,5 +1,8 @@
 // UI-6's toolbar test (docs/specs/ui-refresh-plan.md, section 7's UI-6 row and section 9; docs/port-notes/UI-6.md): every module toolbar and the
-// main menu at window widths 1024, 1366 and 1920 px keep their order and fit, or the overflow is listed for the owner. The buttons come from the
+// main menu at window widths 1024, 1366 and 1920 px keep their order and fit, or the overflow is listed for the owner. Since UI-OVF
+// (docs/port-notes/UI-OVF.md) a toolbar whose buttons do not fit shows a » overflow button at its right end that holds them: the list names the
+// buttons in that drop-down (the toolbar's own decision, ToolBarOD.GetButtonsOverflowed and the WPF ToolBarItemsPanel), each of which must be an
+// item of the drop-down, and no button left on the bar may run under the overflow button. The menu has no overflow button: it must fit. The buttons come from the
 // modules' own LayoutToolBar code (ToolBarSources, every button the code can add), laid out by the toolbars' own code (ToolBarModel), at 100% in
 // today's font and in Segoe UI 9 (UI-2b's font, so the owner sees now what the flip will push past the right edge, UQ-9). A toolbar's width
 // comes from the main window's layout: the window less its two 5 px borders and the 51 px module bar. Data\toolbar-overflow.tsv lists the
@@ -36,6 +39,11 @@ namespace UiRefreshTests.Toolbars {
 			public int WidthNeeded;
 			public List<string> ListOverflow;
 			public List<LaidOutItem> ListItems;
+			///<summary>The items of the overflow button's drop-down (UI-OVF); -1 for the menu, which has none.</summary>
+			public int CountMenuItems=-1;
+			///<summary>The right edge of the last button left on the bar; the overflow button's left edge (UI-OVF), or the width when none.</summary>
+			public int RightVisible;
+			public int LeftOverflowButton;
 
 			public string Key {
 				get { return Id+"\t"+Font+"\t"+WidthWindow; }
@@ -67,16 +75,30 @@ namespace UiRefreshTests.Toolbars {
 						foreach(int widthWindow in ToolBarSources.ArrayWindowWidths) {
 							int widthAvailable=toolBarSource.FuncWidth(ToolBarSources.GetModuleWidth(widthWindow));
 							List<LaidOutItem> listItems;
+							List<int> listIndexesOverflow;
+							int countMenuItems;
+							int leftOverflowButton=widthAvailable;
 							if(toolBarSource.IsWpf) {
 								listItems=ToolBarModel.LayOutWpf(toolBarSource);
+								listIndexesOverflow=ToolBarModel.GetOverflowWpf(toolBarSource,widthAvailable,out countMenuItems);
+								if(listIndexesOverflow.Count>0) {
+									leftOverflowButton=widthAvailable-UiToolStripRenderer.WIDTH_OVERFLOW_BUTTON96;
+								}
 							}
 							else {
 								using(ToolBarOD toolBarOD=ToolBarModel.BuildToolBarOD(toolBarSource,imageList,widthAvailable,tupleFont.Item2)) {
 									listItems=ToolBarModel.LayOut(toolBarOD,toolBarSource);
+									listIndexesOverflow=ToolBarModel.GetOverflowToolBarOD(toolBarOD,out countMenuItems);
+									if(toolBarOD.IsOverflowing) {
+										leftOverflowButton=toolBarOD.BoundsOverflow.Left;
+									}
 								}
 							}
+							List<string> listOverflow=listIndexesOverflow.Where(x => !listItems[x].IsSeparator).Select(x => listItems[x].Text).ToList();
+							int rightVisible=listItems.Where((x,i) => !listIndexesOverflow.Contains(i)).Select(x => x.Right).DefaultIfEmpty(0).Max();
 							listRows.Add(new FitRow { Id=toolBarSource.Id,Font=tupleFont.Item1,WidthWindow=widthWindow,WidthAvailable=widthAvailable,
-								WidthNeeded=listItems.Count==0 ? 0 : listItems.Max(x => x.Right),ListOverflow=ToolBarModel.GetOverflow(listItems,widthAvailable),ListItems=listItems });
+								WidthNeeded=listItems.Count==0 ? 0 : listItems.Max(x => x.Right),ListOverflow=listOverflow,ListItems=listItems,
+								CountMenuItems=countMenuItems,RightVisible=rightVisible,LeftOverflowButton=leftOverflowButton });
 						}
 					}
 					finally {
@@ -91,7 +113,8 @@ namespace UiRefreshTests.Toolbars {
 				foreach(int widthWindow in ToolBarSources.ArrayWindowWidths) {
 					int widthAvailable=ToolBarSources.GetMenuWidth(widthWindow);
 					listRows.Add(new FitRow { Id="menu",Font=tupleFont.Item1,WidthWindow=widthWindow,WidthAvailable=widthAvailable,
-						WidthNeeded=listItems.Max(x => x.Right),ListOverflow=ToolBarModel.GetOverflow(listItems,widthAvailable),ListItems=listItems });
+						WidthNeeded=listItems.Max(x => x.Right),ListOverflow=ToolBarModel.GetOverflow(listItems,widthAvailable),ListItems=listItems,
+						RightVisible=listItems.Max(x => x.Right),LeftOverflowButton=widthAvailable });
 				}
 			}
 			return listRows;
@@ -100,7 +123,7 @@ namespace UiRefreshTests.Toolbars {
 		///<summary>The report for people: per toolbar, font and width, the room, the width the buttons need and what runs past the edge.</summary>
 		public static string GetReport(List<FitRow> listRows) {
 			StringBuilder stringBuilder=new StringBuilder();
-			stringBuilder.AppendLine("toolbar\tfont\twindow\tavailable\tneeded\toverflow");
+			stringBuilder.AppendLine("toolbar\tfont\twindow\tavailable\tneeded\tin the overflow button");
 			foreach(FitRow fitRow in listRows) {
 				stringBuilder.AppendLine(fitRow.Id+"\t"+fitRow.Font+"\t"+fitRow.WidthWindow+"\t"+fitRow.WidthAvailable+"\t"+fitRow.WidthNeeded+"\t"
 					+string.Join(" | ",fitRow.ListOverflow));
@@ -127,10 +150,12 @@ namespace UiRefreshTests.Toolbars {
 
 		public static void WriteOverflowList(List<FitRow> listRows) {
 			StringBuilder stringBuilder=new StringBuilder();
-			stringBuilder.Append("# The toolbars and the main menu whose items run past the right edge (UI-6, docs/port-notes/UI-6.md; ToolBarFitTests): toolbar, font\r\n");
-			stringBuilder.Append("# (today: Microsoft Sans Serif 8.25; segoe9: UI-2b's Segoe UI 9), window width in px at 100%, the captions past the edge. Written by\r\n");
-			stringBuilder.Append("# the test with OPMS_UI6_WRITE_OVERFLOW=1. Every button the code can add is counted (also those behind a preference); the office's\r\n");
-			stringBuilder.Append("# program link buttons come after them. For the owner (UQ-9): a toolbar does not wrap or scroll, so what does not fit is cut off at the right edge.\r\n");
+			stringBuilder.Append("# The toolbars whose buttons do not all fit (UI-6, docs/port-notes/UI-6.md; UI-OVF, docs/port-notes/UI-OVF.md; ToolBarFitTests): toolbar,\r\n");
+			stringBuilder.Append("# font (today: Microsoft Sans Serif 8.25; segoe9: UI-2b's Segoe UI 9), window width in px at 100%, the captions of the buttons in the toolbar's\r\n");
+			stringBuilder.Append("# >> overflow button. Written by the test with OPMS_UI6_WRITE_OVERFLOW=1. Every button the code can add is counted (also those behind a\r\n");
+			stringBuilder.Append("# preference); the office's program link buttons come after them. Since UI-OVF these buttons are not lost: the overflow button at the toolbar's\r\n");
+			stringBuilder.Append("# right end opens a drop-down with each of them (same text, icon, enabled and checked state, click, sub-menu). The main menu has no overflow\r\n");
+			stringBuilder.Append("# button and must fit (no menu row).\r\n");
 			foreach(FitRow fitRow in listRows.Where(x => x.ListOverflow.Count>0)) {
 				stringBuilder.Append(fitRow.Key+"\t"+string.Join(" | ",fitRow.ListOverflow)+"\r\n");
 			}
@@ -189,6 +214,16 @@ namespace UiRefreshTests.Toolbars {
 			Dictionary<string,string> dictListed=ReadOverflowList();
 			List<string> listProblems=new List<string>();
 			foreach(FitRow fitRow in listRows) {
+				//UI-OVF: what does not fit is reachable, and what stays on the bar is not under the overflow button.
+				if(fitRow.Id=="menu" && fitRow.ListOverflow.Count>0) {
+					listProblems.Add(fitRow.Key.Replace("\t"," ")+" px: the main menu has no overflow button, but runs past the edge: "+string.Join(" | ",fitRow.ListOverflow));
+				}
+				if(fitRow.Id!="menu" && fitRow.CountMenuItems!=fitRow.ListOverflow.Count) {
+					listProblems.Add(fitRow.Key.Replace("\t"," ")+" px: "+fitRow.ListOverflow.Count+" buttons in the overflow button, but its drop-down has "+fitRow.CountMenuItems+" items");
+				}
+				if(fitRow.RightVisible>fitRow.LeftOverflowButton) {
+					listProblems.Add(fitRow.Key.Replace("\t"," ")+" px: a button on the bar ends at "+fitRow.RightVisible+", under the overflow button at "+fitRow.LeftOverflowButton);
+				}
 				string overflow=string.Join(" | ",fitRow.ListOverflow);
 				string listed;
 				bool isListed=dictListed.TryGetValue(fitRow.Key,out listed);

@@ -80,7 +80,10 @@ How to use the Button control:
 
 		public Button(){
 			InitializeComponent();
-			Focusable=false;
+			//UI-OVF (docs/port-notes/UI-OVF.md): a tab stop like the WinForms button; Enter and Space click it (OnKeyDown) and the shared focus ring
+			//shows only with keyboard cues (FocusVisualStyle, section 3.6). The window's tab order: UiTabOrder.
+			Focusable=true;
+			IsTabStop=true;
 			_brushBackgroundClassic=grid.Background;
 			UiLook.SetFocusVisualStyle(this,onAccent:false);
 			SetColors();
@@ -406,6 +409,20 @@ How to use the Button control:
 				_isPressed=false;
 				SetColors();
 			}
+		}
+
+		///<summary>Enter and Space click the focused button (UI-OVF), as on a WinForms button: the key is handled, so the window's own Enter (a Frm's
+		///KeyDown, which bubbles after this) does not run as well. Esc is left to the window.</summary>
+		protected override void OnKeyDown(KeyEventArgs e) {
+			base.OnKeyDown(e);
+			if(e.Handled || !IsEnabled || Keyboard.Modifiers!=ModifierKeys.None){
+				return;
+			}
+			if(e.Key!=Key.Enter && e.Key!=Key.Space){
+				return;
+			}
+			e.Handled=true;
+			Click?.Invoke(this,new EventArgs());
 		}
 
 		protected override void OnMouseMove(MouseEventArgs e) {

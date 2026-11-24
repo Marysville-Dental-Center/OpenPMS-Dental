@@ -13,11 +13,13 @@
 		</Style>
 	</UserControl.Style>
 	
-	<Grid>
+	<Grid Name="gridMain" x:FieldModifier="internal">
 		<Border Name="border" x:FieldModifier="internal" BorderBrush="Silver" BorderThickness="0,0,0,1" Background="#FFEEF5FD"/>
-		<StackPanel Name="stackPanel" x:FieldModifier="internal" Orientation="Horizontal">
+		<!--UI-OVF (docs/port-notes/UI-OVF.md): the buttons left to right; those that do not fit go into the overflow button's drop-down, which the
+		code puts at the right end over this panel.-->
+		<local:ToolBarItemsPanel x:Name="stackPanel" x:FieldModifier="internal">
 			<TextBlock Margin="6,4,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">ToolBar</TextBlock>
-		</StackPanel>
+		</local:ToolBarItemsPanel>
 		
 	
 

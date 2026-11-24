@@ -124,7 +124,7 @@ namespace UiRefreshTests.Toolbars {
 		public static List<LaidOutItem> LayOutWpf(ToolBarSource toolBarSource) {
 			WpfControls.UI.ToolBar toolBar=BuildToolBarWpf(toolBarSource);
 			toolBar.Measure(new System.Windows.Size(double.PositiveInfinity,HEIGHT_TOOLBAR));
-			System.Windows.Controls.StackPanel stackPanel=(System.Windows.Controls.StackPanel)toolBar.FindName("stackPanel");
+			System.Windows.Controls.Panel stackPanel=(System.Windows.Controls.Panel)toolBar.FindName("stackPanel");//ToolBarItemsPanel since UI-OVF
 			List<LaidOutItem> list=new List<LaidOutItem>();
 			double x=0;
 			for(int i=0;i<stackPanel.Children.Count;i++) {
@@ -138,8 +138,30 @@ namespace UiRefreshTests.Toolbars {
 			return list;
 		}
 
-		///<summary>A WPF ToolBar with the source's buttons. Call on an STA thread.</summary>
-		public static WpfControls.UI.ToolBar BuildToolBarWpf(ToolBarSource toolBarSource) {
+		///<summary>The WPF toolbar laid out at the width by WPF's layout (UI-OVF): the indexes of the source's items in its overflow button's
+		///drop-down (ToolBarItemsPanel), and the number of items that drop-down has. Call on an STA thread.</summary>
+		public static List<int> GetOverflowWpf(ToolBarSource toolBarSource,int width,out int countMenuItems) {
+			WpfControls.UI.ToolBar toolBar=BuildToolBarWpf(toolBarSource);
+			toolBar.Measure(new System.Windows.Size(width,HEIGHT_TOOLBAR));
+			toolBar.Arrange(new System.Windows.Rect(0,0,width,HEIGHT_TOOLBAR));
+			int countOverflowed=toolBar.GetItemsOverflowed().Count;
+			int countItems=toolBarSource.ListButtons.Count;
+			countMenuItems=toolBar.GetOverflowMenu().GetMenuItems().Count;
+			return Enumerable.Range(countItems-countOverflowed,countOverflowed).ToList();
+		}
+
+		///<summary>The ToolBarOD laid out (LayOut first) (UI-OVF): the indexes of its buttons in its overflow button's drop-down, and the number of
+		///buttons that drop-down has items for (separators not counted; a drop-down button's main part and arrow items count once).</summary>
+		public static List<int> GetOverflowToolBarOD(ToolBarOD toolBarOD,out int countMenuItems) {
+			List<int> listIndexes=toolBarOD.GetButtonsOverflowed().Select(x => toolBarOD.Buttons.IndexOf(x)).ToList();
+			ContextMenuStrip contextMenuStrip=toolBarOD.GetOverflowMenu();//the toolbar's own: disposed with it
+			countMenuItems=contextMenuStrip.Items.OfType<ToolStripMenuItem>().Select(x => x.Tag).Distinct().Count();
+			return listIndexes;
+		}
+
+		///<summary>A WPF ToolBar with the source's buttons; withMenus gives each drop-down button a small menu, as the program does (the
+		///gallery's open sub-menu, UI-OVF). Call on an STA thread.</summary>
+		public static WpfControls.UI.ToolBar BuildToolBarWpf(ToolBarSource toolBarSource,bool withMenus=false) {
 			WpfControls.UI.ToolBar toolBar=new WpfControls.UI.ToolBar();
 			foreach(ToolBarButtonSource toolBarButtonSource in toolBarSource.ListButtons) {
 				if(toolBarButtonSource.Style=="Separator") {
@@ -150,7 +172,15 @@ namespace UiRefreshTests.Toolbars {
 					: (WpfControls.UI.EnumIcons)Enum.Parse(typeof(WpfControls.UI.EnumIcons),toolBarButtonSource.Icon);
 				WpfControls.UI.ToolBarButtonStyle style=(WpfControls.UI.ToolBarButtonStyle)Enum.Parse(typeof(WpfControls.UI.ToolBarButtonStyle),toolBarButtonSource.Style);
 				EventHandler eventHandler=(sender,e) => { };
-				toolBar.Add(toolBarButtonSource.Text,eventHandler,icon,style);
+				WpfControls.UI.ContextMenu contextMenu=null;
+				if(withMenus && style==WpfControls.UI.ToolBarButtonStyle.DropDownButton) {
+					contextMenu=new WpfControls.UI.ContextMenu();
+					contextMenu.Add("Menu item one",(sender,e) => { });
+					contextMenu.Add("Menu item two",(sender,e) => { });
+					contextMenu.AddSeparator();
+					contextMenu.Add("Menu item three",(sender,e) => { });
+				}
+				toolBar.Add(toolBarButtonSource.Text,eventHandler,icon,style,contextMenuDropDown:contextMenu);
 			}
 			return toolBar;
 		}

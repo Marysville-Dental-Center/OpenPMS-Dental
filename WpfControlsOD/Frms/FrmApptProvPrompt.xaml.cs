@@ -48,7 +48,7 @@ namespace OpenPmsDental {
 		}
 
 		private void FrmApptProvPrompt_PreviewKeyDown(object sender,KeyEventArgs e) {
-			if(e.Key==Key.Enter){
+			if(e.Key==Key.Enter && !(Keyboard.FocusedElement is WpfControls.UI.Button)){//UI-OVF: a focused button takes Enter itself
 				if(EnumApptProvPrompt_==EnumApptProvPrompt.PromptDefaultYes) {
 					//Pressing enter selects the yes button
 					butYes_Click(this,new EventArgs());

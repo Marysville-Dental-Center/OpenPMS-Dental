@@ -48,6 +48,10 @@ How to use the CheckBox control:
 			grid.MouseLeave+=Grid_MouseLeave;
 			IsEnabledChanged+=CheckBox_IsEnabledChanged;
 			UiLook.SetFocusVisualStyle(this,onAccent:false);
+			//UI-OVF (docs/port-notes/UI-OVF.md): a tab stop like the WinForms check box; Space toggles it (OnKeyDown) and the shared focus ring shows
+			//only with keyboard cues (FocusVisualStyle, section 3.6). The window's tab order: UiTabOrder.
+			Focusable=true;
+			IsTabStop=true;
 			SetColors();
 		}
 
@@ -238,6 +242,21 @@ How to use the CheckBox control:
 
 		private void grid_MouseDown(object sender,MouseButtonEventArgs e) {
 			//This does not actually fire unless a control inside the grid is clicked.
+			Toggle();
+		}
+
+		///<summary>Space toggles the focused check box (UI-OVF), as a click does.</summary>
+		protected override void OnKeyDown(KeyEventArgs e) {
+			base.OnKeyDown(e);
+			if(e.Handled || !IsEnabled || e.Key!=Key.Space || Keyboard.Modifiers!=ModifierKeys.None){
+				return;
+			}
+			e.Handled=true;
+			Toggle();
+		}
+
+		///<summary>What a click does: unchecked, checked, then indeterminate when IsThreeState, then Click.</summary>
+		private void Toggle(){
 			//order is unchecked-checked-indeterm
 			if(Checked==false){
 				Checked=true;
