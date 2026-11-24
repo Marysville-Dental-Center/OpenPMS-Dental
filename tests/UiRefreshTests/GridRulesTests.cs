@@ -331,6 +331,30 @@ namespace UiRefreshTests {
 			});
 		}
 
+		///<summary>UI-12 slice 12 fix round: a plain window laid out at 150% (BuiltWindow.LayOutAt) has its client size and every child's bounds
+		///scaled, as Windows' DPI autoscale does on a 150% screen, so the plain windows can join the 150% galleries; back at 100% it is as
+		///built. A program window's kinds are LayoutManager's (not tested here).</summary>
+		[TestMethod]
+		public void PlainWindow_LayOutAt150_ScalesBounds() {
+			StaRunner.Run(() => {
+				using(Form form=new Form { ClientSize=new Size(300,200) })
+				using(Button button=new Button { Name="butOK",Text="OK",Bounds=new Rectangle(216,168,76,24),Anchor=AnchorStyles.Bottom|AnchorStyles.Right })
+				using(ListBox listBox=new ListBox { Name="listMain",IntegralHeight=false,Bounds=new Rectangle(8,8,200,152) })
+				{
+					form.Controls.Add(button);
+					form.Controls.Add(listBox);
+					BuiltWindow builtWindow=new BuiltWindow { Form=form,Root=form,ScanType=new ScanType { Type=typeof(Form),Kind=BuildKind.PlainWindow } };
+					builtWindow.LayOutAt(1.5f);
+					Assert.AreEqual(new Size(450,300),form.ClientSize);
+					Assert.AreEqual(new Rectangle(324,252,114,36),button.Bounds,"The bottom-right button scaled with the window.");
+					Assert.AreEqual(new Rectangle(12,12,300,228),listBox.Bounds);
+					builtWindow.LayOutAt(1f);
+					Assert.AreEqual(new Size(300,200),form.ClientSize);
+					Assert.AreEqual(new Rectangle(8,8,200,152),listBox.Bounds);
+				}
+			});
+		}
+
 		[TestMethod]
 		public void InputFrame_SingleLineODtextBox_IsFramed() {
 			StaRunner.Run(() => {
