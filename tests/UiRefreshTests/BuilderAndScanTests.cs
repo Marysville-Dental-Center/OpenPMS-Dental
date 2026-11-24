@@ -28,8 +28,9 @@ namespace UiRefreshTests {
 		public const string VARIABLE_SCAN_OUT="OPMS_UI_SCAN_OUT";
 		public const string VARIABLE_SCAN_SWAP="OPMS_UI_SCAN_SWAP";
 		public const string VARIABLE_SCAN_OVERRIDE="OPMS_UI_SCAN_OVERRIDE";
-		///<summary>The five FormODBase windows whose constructor never calls InitializeLayoutManager on main (section 5.1).</summary>
-		private static readonly string[] _arrayWindowsWithoutLayoutManager=new string[] { "FormProgressViewer","FormInstallAllocator_Provider",
+		///<summary>The five FormODBase windows whose constructor never called InitializeLayoutManager (section 5.1); since UI-12F (the grid's final
+		///consistency pass) they call it, so they scale at 150% like every FormODBase window.</summary>
+		private static readonly string[] _arrayAllocatorWindows=new string[] { "FormProgressViewer","FormInstallAllocator_Provider",
 			"FormReport_GuarantorAllocationCheck","FormReport_ProviderIncomeReport","FormWarnToCloseComputers" };
 
 		[TestMethod]
@@ -47,15 +48,22 @@ namespace UiRefreshTests {
 				NoDatabaseGuard.Install();
 				DefaultFontOverride.Set(TextFitFontOption.Today,1f);
 				List<ScanType> listScanTypes=WindowBuilder.GetScanTypes();
-				foreach(string name in _arrayWindowsWithoutLayoutManager) {
-					ScanType scanTypeWithout=listScanTypes.Single(x => x.Type.Name==name);
-					Assert.AreEqual(BuildKind.WindowWithoutLayoutManager,scanTypeWithout.Kind,name);
+				//UI-12F: the five allocator windows call InitializeLayoutManager now, and no FormODBase window is without it.
+				foreach(string name in _arrayAllocatorWindows) {
+					ScanType scanTypeAllocator=listScanTypes.Single(x => x.Type.Name==name);
+					Assert.AreEqual(BuildKind.LayoutManagerWindow,scanTypeAllocator.Kind,name);
 				}
-				List<string> listOthers=listScanTypes.Where(x => x.Kind==BuildKind.WindowWithoutLayoutManager).Select(x => x.Type.Name)
-					.Except(_arrayWindowsWithoutLayoutManager).ToList();
-				Assert.AreEqual(0,listOthers.Count,"Other FormODBase windows without InitializeLayoutManager: "+string.Join(", ",listOthers));
+				List<string> listWithout=listScanTypes.Where(x => x.Kind==BuildKind.WindowWithoutLayoutManager).Select(x => x.Type.Name).ToList();
+				Assert.AreEqual(0,listWithout.Count,"FormODBase windows without InitializeLayoutManager: "+string.Join(", ",listWithout));
 				ScanType scanType=listScanTypes.Single(x => x.Type.Name=="FormInstallAllocator_Provider");
 				using(BuiltWindow builtWindow=WindowBuilder.Build(scanType)) {
+					Assert.IsNotNull(builtWindow.LayoutManager,"An allocator window is built with its LayoutManager.");
+					Assert.IsNotNull(((FormODBase)builtWindow.Form).PanelClient);
+					Assert.IsFalse(builtWindow.Form.IsHandleCreated);
+				}
+				//The builder's path for a FormODBase window whose constructor does not call it stays: built like a plain form, no LayoutManager.
+				ScanType scanTypeWithout=new ScanType { Type=scanType.Type,Assembly=scanType.Assembly,Kind=BuildKind.WindowWithoutLayoutManager };
+				using(BuiltWindow builtWindow=WindowBuilder.Build(scanTypeWithout)) {
 					Assert.IsNull(builtWindow.LayoutManager);
 					Assert.IsNull(TextFitFontSwap.GetLayoutManager(builtWindow.Form),"No LayoutManagerForms after the build.");
 					Assert.IsTrue(builtWindow.Form.Controls.Count>0,"InitializeComponent ran.");

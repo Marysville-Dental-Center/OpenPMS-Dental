@@ -16,6 +16,7 @@ namespace OpenPmsDental.Reporting.Allocators.MyAllocator1
 		public FormWarnToCloseComputers()
 		{
 			InitializeComponent();
+			InitializeLayoutManager();
 		}
 
 		private void FormWarnToCloseComputers_Load(object sender, EventArgs e)

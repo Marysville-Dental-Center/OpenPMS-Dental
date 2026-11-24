@@ -610,11 +610,12 @@ namespace UiRefreshTests {
 			Assert.IsTrue(dictClasses["OpenPmsDental.FormSplash"],"FormSplash is a plain Form: its designer code is in the scope.");
 			Assert.IsFalse(dictClasses["OpenPmsDental.FormDisplayFieldEdit"],"A LayoutManager window's designer code is exempt.");
 			Assert.IsFalse(dictClasses["OpenPmsDental.FormSheetFillEdit"],"A LayoutManager window's designer code is exempt.");
-			//UI-2a-5: the five allocator windows without InitializeLayoutManager (5.1) are in scope; a module and a graph UserControl are found.
+			//UI-2a-5: the five allocator windows without InitializeLayoutManager (5.1) were in scope; since UI-12F (the grid's final consistency pass)
+			//they call it, so their designer code is exempt like every LayoutManager window's. A module and a graph UserControl are found.
 			foreach(string name in new string[] { "FormProgressViewer","FormInstallAllocator_Provider","FormReport_GuarantorAllocationCheck",
 				"FormReport_ProviderIncomeReport","FormWarnToCloseComputers" })
 			{
-				Assert.IsTrue(dictClasses["OpenPmsDental.Reporting.Allocators.MyAllocator1."+name],name+" calls no InitializeLayoutManager: in scope.");
+				Assert.IsFalse(dictClasses["OpenPmsDental.Reporting.Allocators.MyAllocator1."+name],name+" calls InitializeLayoutManager: exempt.");
 			}
 			Assert.IsFalse(dictClasses["OpenPmsDental.ControlAccount"],"A module is hosted through LayoutManager: exempt.");
 			Assert.IsTrue(dictClasses["OpenPmsDentalGraph.FormDashboardEditTab"],"The graph's forms are plain forms: in scope.");

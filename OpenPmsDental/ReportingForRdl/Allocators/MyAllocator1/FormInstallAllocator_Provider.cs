@@ -13,6 +13,7 @@ namespace OpenPmsDental.Reporting.Allocators.MyAllocator1 {
 
 		public FormInstallAllocator_Provider() {
 			InitializeComponent();
+			InitializeLayoutManager();
 
 		}
 

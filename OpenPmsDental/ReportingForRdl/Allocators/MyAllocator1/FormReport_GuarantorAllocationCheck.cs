@@ -15,10 +15,12 @@ namespace OpenPmsDental.Reporting.Allocators.MyAllocator1
 		public FormReport_GuarantorAllocationCheck()
 		{
 			InitializeComponent();
+			InitializeLayoutManager();
 		}
 		public FormReport_GuarantorAllocationCheck(int Guarantor)
 		{
 			InitializeComponent();
+			InitializeLayoutManager();
 		}
 		private void butFillReport_Click(object sender, EventArgs e)
 		{

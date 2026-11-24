@@ -66,6 +66,7 @@ namespace OpenPmsDental.Reporting.Allocators.MyAllocator1
 		public FormProgressViewer()
 		{
 			InitializeComponent();
+			InitializeLayoutManager();
 
 		}
 		#region Public Methods and Properties
