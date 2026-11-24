@@ -1605,6 +1605,13 @@ own 26.2 overlap check before it starts. The first cut is below; a brief that fi
   (QuickBooks' application name, two program property keys, Practice by Numbers' link, `OpenDentImages`, vendor fields, the 54 links
   to Open Dental's site and the Open Dental mentions in the Preferences pop-ups).
   Note: [UI-BRAND.md](../port-notes/UI-BRAND.md); gallery G-UI3-uibrand (4 pictures, 4 changed), audit `UI-BRAND-audit.md`.
+- Status UI-BRAND-2 (2026-11-24, branch `ui/uibrand2-1`, the owner took every recommendation of UI-BRAND's six questions): QuickBooks
+  connects as "Open PMS - Dental" (the Setup QuickBooks window and the release notes say its administrator allows the program once
+  more); the 54 links to Open Dental's site are gone from the Preferences pop-ups, whose texts say plainly what belongs to Open Dental
+  and that nothing is sent; new A to Z folders are OpenPmsImages (`ProgramNames.DefaultAtoZFolderName`); ServiceManager's help names
+  the services as they are named; fork migration step 2026112451 renames the Dental Studio and Podium program property descriptions;
+  Practice by Numbers' button opens its own site; vendor and protocol fields kept until the vendor confirms. brand-kept.tsv 255 rows.
+  Note: [UI-BRAND.md](../port-notes/UI-BRAND.md) section 10; gallery G-UI3-uibrand2, audit `UI-BRAND2-audit.md`.
 
 **UI-12: the layout grid (the owner's decision of 2026-11-21, section 1)**
 - Rules: [UI-12.md](../port-notes/UI-12.md) section 1 (8 px container padding, labels 6 px before their fields and right-aligned, one

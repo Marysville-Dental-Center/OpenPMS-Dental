@@ -87,6 +87,8 @@ prefix and the `OpenDentImages` folder name (section 5).
 
 ## 5. Questions for the owner
 
+The owner answered all six on 2026-11-24 by taking every recommendation; UI-BRAND-2 carried them out (section 10).
+
 1. **QuickBooks' application name** is still "Open Dental" (`QuickBooksModule`, `QuickBooksInProcess`, `QuickBooksLateBound`, and the
    tests' reference copy). QuickBooks shows it when it asks the administrator to allow the connection and keeps the authorization under it
    in the company file. Change it to "Open PMS - Dental"? The office's QuickBooks administrator then allows the program once more.
@@ -153,3 +155,52 @@ Targeted run `test-results/uibrand-targeted-2.txt` (`-Platform x64`): P262Billin
 NoHqTests 135 passed (the new `PrefInfosLexer_ReadsHelpTextsAndLinksApart`); WindowChecksTests 31 passed, 44 skipped; UnitTests 1728
 passed, 3 skipped; UiRefreshTests 373 passed, 53 skipped (the opt-in UI-BRAND gallery not run again: no window text changed); 0 failed.
 Test-NoEolFlips against `642322a74`: 0 files changed their line ends.
+
+## 10. The owner's answers (UI-BRAND-2)
+
+The owner answered the six questions of section 5 on 2026-11-24 by taking every recommendation. Branch `ui/uibrand2-1` from `b1fa6c0d4`.
+
+| Question | Answer | What changed |
+|---|---|---|
+| 1. QuickBooks' application name | "Open PMS - Dental" | The four `SessionManager.OpenConnection` calls (`QuickBooksModule` in the 32-bit helper, `QuickBooksInProcess`, `QuickBooksLateBound`, the tests' reference copy `QuickBooksToday`) and the Helper32Tests expectations. The office's QuickBooks administrator allows the program once more: the Setup QuickBooks window (`FormQuickBooksSetup.labelConnectQB`) and the release notes (`next.md`, QuickBooks Desktop; `ui-refresh.md`, the name) say so. |
+| 2. Program property descriptions | Rename with a fork migration step | Step 2026112451, `ProgramPropertyDescRenameStep` (README of the fork migrations): Dental Studio's `UserName (clear to use OD username)` becomes `UserName (clear to use the Open PMS username)`, Podium's `Enter 0 to use Open Dental for sending review invitations, or 1 to use the Service` becomes `Enter 0 to use Open PMS for sending review invitations, or 1 to use the Service`. PropertyDesc only, by key, so the office's values stay; idempotent. `DentalStudio.SendData` and `Podium.PropertyDescs.UseService` read the new texts (`ProgramPropertyDescRenames`). The adoption tools plan it (`ProgramPropertyDescPlan`, printed by migration-preview), adopt's row check holds `programproperty` to the plan (`AdoptionRowCheck.CheckProgramProperty`), and `allowed-differences.adoption.json` allows `programproperty.PropertyDesc`. |
+| 3. Practice by Numbers' link | Practice by Numbers' own site | The button opens `https://www.practicebynumbers.com/`, their public home page, in place of Open Dental's manual page. |
+| 4. `OpenDentImages` and ServiceManager | Rename both | `ProgramNames.DefaultAtoZFolderName` = `OpenPmsImages`: the Create AtoZ Folder window's default name and the share it creates (`FrmAtoZFoldersCreate`), the examples of the Paths window (`C:\OpenPmsImages`, `\\SERVER\OpenPmsImages`) and the Backup window (`C:\OpenPmsImages\`), and UpdateFileCopier's debugging default. An office's configured folder (`DocPath`) is read as it is: no move, no rename. ServiceManager's help text names the services as `ServicesHelper.GetAllOpenDentServices` finds them: "begin with "OpenPmsDental..." (this program's) or "OpenDent..." (Open Dental's, marked so in the list)" (`ProgramNames.ServicePrefix` and `LegacyServicePrefix`; the list marks Open Dental's with " (Open Dental)"). |
+| 5. Vendor and protocol fields | Keep until the vendor confirms | DemandForce `managementSystemName`, the CallFire campaign name, the Sirona and Vipersoft station names, the HL7 fields, the Direct MDN reporting agent and the Infobutton requester stay; their 21 rows in `brand-kept.tsv` say "kept until the vendor confirms another name". |
+| 6. The Preferences pop-ups | Strip the links, keep the texts readable | `PrefInfos.xml`: the 54 links to opendental.com are gone (52 manual pages, 2 unit test documentation), each link's text kept as plain text; the texts that were only a pointer ("see Auto Ortho", "See Report Server") say what the option does, and pointer sentences ("See Claim Snapshot.", "See Troubleshooting Slowness ...", "See Payment Plan Q and A ...") are dropped. The hidden `checkSubmitExceptions` says "Nothing is sent. This program never sends unhandled exception errors anywhere; this option has no effect." The Open Dental service (claim reports, Claim Snapshot, the radiology alerts) and Open Dental Cloud (Read-Only Server) are named as Open Dental's, which this program does not ship. |
+
+**Not changed, on purpose.** The init database's `DocPath` seed (`C:\OpenDentImages\`, `db/init/new-database.sql`, written by the seed
+dump and `tools/DevDbTool/InitSqlScrub.SeedDocPath`): a new install sets its A to Z folder in the Paths window or with Create AtoZ
+Folder, whose default is now OpenPmsImages; the seed value is the coordinator's call when the init file is regenerated (question below).
+Open Dental's conversion history (`ConvertDatabases3` and `4` write the old property texts; this program never runs them) and code
+comments that mention `OpenDentImages` stay. The Program Links property texts in the init database are renamed by the step when the
+init file is regenerated.
+
+**Fit.** Measured with TextRenderer: the Setup QuickBooks label (397 x 47) holds the new text in 3 lines, 391 x 45 px in Segoe UI 9 and 392 x
+39 in its designer font (Microsoft Sans Serif 8.25), as the old text did (388 x 45). ServiceManager's help label (337 x 155) gains one
+line. The Backup window's example box and the Create AtoZ Folder name box are as wide as before and the new name is shorter.
+
+**Translations.** The changed window texts (Setup QuickBooks, ServiceManager, Paths, Backup) have no translated row in the init database;
+an office's own translations of them show in English until translated again. The two Program Links property texts are keys, not
+translated texts.
+
+**Tests.** `NoHqTests.BrandTests`: `QuickBooks_ConnectsUnderTheProductName` (every QuickBooks connection, found by its connect call, uses
+`ProductIdentity.ProductName`) and `PrefInfos_LinkToNoOpenDentalPage_AndSendNothing`; `brand-kept.tsv` 255 rows (was 260: the
+QuickBooks, Dental Studio, Podium, Practice by Numbers rows and the `PrefInfos.xml` link and headquarters rows went; the step's two old
+texts, ServiceManager's help text and two `PrefInfos.xml` texts that now say what belongs to Open Dental came). `ForkMigrationTests.ProgramPropertyDescRenameStepTests`:
+a new database (the init file's `program` and `programproperty` tables) and an existing office's rows, each run twice, in scratch databases
+`uibrand2_*` that are dropped afterwards, and the plan on rows alone. `UiRefreshTests.Brand2Tests.AtoZFolder_NewInstallsDefaultToOpenPmsImages`
+(the Create AtoZ Folder window's default built in the test, and the other sites). Helper32Tests' expected calls name "Open PMS - Dental".
+
+**Gallery G-UI3-uibrand2.** `.git/od-tools/test-results/G-UI3-uibrand2` (zip beside it), at 100%: Setup QuickBooks, Paths, Backup,
+ServiceManager and Create AtoZ Folder, before and after. The before pictures come from this branch's build with
+`OPMS_UI_BRAND2_GALLERY_BEFORE` (`tests/UiRefreshTests/Brand2Gallery.cs` puts the old words back). `<W>` is
+`.git/od-tools/test-results/G-UI3-uibrand2-src`.
+
+```
+OPMS_UI_BRAND2_GALLERY=<W> run-tests.ps1 -Mode Targeted -Platform x64 -Include UiRefreshTests
+tools/New-UiGallery.ps1 -Before <W>/before -After <W>/after -Name G-UI3 -Out .git/od-tools/test-results/G-UI3-uibrand2
+```
+
+**Question for the coordinator.** Should the regenerated init database's `DocPath` seed become `C:\OpenPmsImages\`
+(`InitSqlScrub.SeedDocPath` and the InitSqlTests that expect the seed)? UI-BRAND-2 left it, because the brief lists only the four sites.
