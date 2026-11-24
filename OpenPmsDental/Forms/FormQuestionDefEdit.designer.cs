@@ -57,7 +57,7 @@ namespace OpenPmsDental {
 			this.textQuestion.Location = new System.Drawing.Point(118, 42);
 			this.textQuestion.Multiline = true;
 			this.textQuestion.Name = "textQuestion";
-			this.textQuestion.Size = new System.Drawing.Size(475, 151);
+			this.textQuestion.Size = new System.Drawing.Size(475, 186);
 			this.textQuestion.TabIndex = 0;
 			// 
 			// buttonDelete
@@ -65,7 +65,7 @@ namespace OpenPmsDental {
 			this.buttonDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.buttonDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.buttonDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.buttonDelete.Location = new System.Drawing.Point(64, 240);
+			this.buttonDelete.Location = new System.Drawing.Point(8, 240);
 			this.buttonDelete.Name = "buttonDelete";
 			this.buttonDelete.Size = new System.Drawing.Size(82, 25);
 			this.buttonDelete.TabIndex = 3;

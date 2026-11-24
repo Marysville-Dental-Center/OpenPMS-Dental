@@ -31,8 +31,8 @@
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormWarnToCloseComputers));
 			this.lblMessage = new System.Windows.Forms.Label();
 			this.label1 = new System.Windows.Forms.Label();
-			this.butYes = new System.Windows.Forms.Button();
-			this.butNoCancel = new System.Windows.Forms.Button();
+			this.butYes = new OpenPmsDental.UI.Button();
+			this.butNoCancel = new OpenPmsDental.UI.Button();
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.label2 = new System.Windows.Forms.Label();
 			this.imageAnimator1 = new OpenPmsDental.Reporting.Allocators.MyAllocator1.Images.ImageAnimator();
@@ -46,8 +46,9 @@
 			this.lblMessage.ForeColor = System.Drawing.Color.Maroon;
 			this.lblMessage.Location = new System.Drawing.Point(8, 8);
 			this.lblMessage.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			this.lblMessage.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.lblMessage.Name = "lblMessage";
-			this.lblMessage.Size = new System.Drawing.Size(767, 94);
+			this.lblMessage.Size = new System.Drawing.Size(767, 161);
 			this.lblMessage.TabIndex = 0;
 			this.lblMessage.Text = resources.GetString("lblMessage.Text");
 			// 
@@ -90,7 +91,7 @@
 			this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
 			this.panel1.Controls.Add(this.label2);
 			this.panel1.Controls.Add(this.imageAnimator1);
-			this.panel1.Location = new System.Drawing.Point(8, 110);
+			this.panel1.Location = new System.Drawing.Point(8, 177);
 			this.panel1.Name = "panel1";
 			this.panel1.Size = new System.Drawing.Size(767, 66);
 			this.panel1.TabIndex = 4;
@@ -140,8 +141,8 @@
 
 		private System.Windows.Forms.Label lblMessage;
 		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.Button butYes;
-		private System.Windows.Forms.Button butNoCancel;
+		private OpenPmsDental.UI.Button butYes;
+		private OpenPmsDental.UI.Button butNoCancel;
 		private System.Windows.Forms.Panel panel1;
 		private System.Windows.Forms.Label label2;
 		private OpenPmsDental.Reporting.Allocators.MyAllocator1.Images.ImageAnimator imageAnimator1;

@@ -4,7 +4,9 @@ the report grid 8 px under it, the Summary caption 8 px under that and the summa
 two grids share the room as on main, 411 to 316); the right column 8 px after the panel to the right content edge (191 px): the Guarantor
 caption, its box, Fill Report and Print Preview, the From and To rows, 4 px apart. The window does not scale its positions (no
 LayoutManager), so the column is as wide as the room allows: at 150% main cut Print Preview, From and the dates; the caption 24 px tall for
-the same reason."""
+the same reason.
+Fix round: at 150% the fonts grow and the positions do not, so Fill Report's descender and Print Preview's top were cut: the two
+buttons 30 px tall (room for the 150% font), the rows 4 px apart as before."""
 import importlib.util
 import os
 
@@ -32,7 +34,7 @@ def layout(h):
     h.set("label2", X, 8, CW2, 24)
     y = 8 + 24 + 2
     for name in ("textBox1", "butFillReport", "butPrintPreview"):
-        h.set(name, X, y, CW2, None)
+        h.set(name, X, y, CW2, 30 if name.startswith("but") else None)
         y += h.n(name).nh + 4
     lw = 60
     for lab, box in (("label5", "dateTimePicker1_FromDate"), ("label6", "dateTimePicker1")):

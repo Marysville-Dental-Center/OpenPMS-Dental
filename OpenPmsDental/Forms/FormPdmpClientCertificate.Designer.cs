@@ -63,7 +63,7 @@ namespace OpenPmsDental {
 			this.textCurrent.Multiline = true;
 			this.textCurrent.Name = "textCurrent";
 			this.textCurrent.ReadOnly = true;
-			this.textCurrent.Size = new System.Drawing.Size(504, 48);
+			this.textCurrent.Size = new System.Drawing.Size(504, 76);
 			this.textCurrent.TabIndex = 3;
 			//
 			// groupImport
@@ -74,7 +74,7 @@ namespace OpenPmsDental {
 			this.groupImport.Controls.Add(this.labelPassword);
 			this.groupImport.Controls.Add(this.textPassword);
 			this.groupImport.Controls.Add(this.butImport);
-			this.groupImport.Location = new System.Drawing.Point(8, 144);
+			this.groupImport.Location = new System.Drawing.Point(8, 172);
 			this.groupImport.Name = "groupImport";
 			this.groupImport.Size = new System.Drawing.Size(504, 81);
 			this.groupImport.TabIndex = 4;
@@ -134,7 +134,7 @@ namespace OpenPmsDental {
 			//
 			// butStore
 			//
-			this.butStore.Location = new System.Drawing.Point(8, 233);
+			this.butStore.Location = new System.Drawing.Point(8, 261);
 			this.butStore.Name = "butStore";
 			this.butStore.Size = new System.Drawing.Size(220, 24);
 			this.butStore.TabIndex = 5;
@@ -143,7 +143,7 @@ namespace OpenPmsDental {
 			//
 			// butRemove
 			//
-			this.butRemove.Location = new System.Drawing.Point(234, 233);
+			this.butRemove.Location = new System.Drawing.Point(234, 261);
 			this.butRemove.Name = "butRemove";
 			this.butRemove.Size = new System.Drawing.Size(75, 24);
 			this.butRemove.TabIndex = 6;

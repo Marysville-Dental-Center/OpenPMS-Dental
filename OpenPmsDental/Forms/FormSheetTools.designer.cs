@@ -32,7 +32,7 @@ namespace OpenPmsDental{
 			// butExport
 			// 
 			this.butExport.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butExport.Location = new System.Drawing.Point(21, 72);
+			this.butExport.Location = new System.Drawing.Point(8, 72);
 			this.butExport.Name = "butExport";
 			this.butExport.Size = new System.Drawing.Size(80, 24);
 			this.butExport.TabIndex = 2;
@@ -42,7 +42,7 @@ namespace OpenPmsDental{
 			// butImport
 			// 
 			this.butImport.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butImport.Location = new System.Drawing.Point(21, 8);
+			this.butImport.Location = new System.Drawing.Point(8, 8);
 			this.butImport.Name = "butImport";
 			this.butImport.Size = new System.Drawing.Size(80, 24);
 			this.butImport.TabIndex = 1;
@@ -51,18 +51,18 @@ namespace OpenPmsDental{
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(107, 8);
+			this.label2.Location = new System.Drawing.Point(94, 8);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(251, 60);
+			this.label2.Size = new System.Drawing.Size(268, 60);
 			this.label2.TabIndex = 27;
 			this.label2.Text = "Import a sheet file in xml format that has been exported from another Open PMS - Dental or Open Dental" +
     " database.\r\n";
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(107, 72);
+			this.label1.Location = new System.Drawing.Point(94, 72);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(251, 47);
+			this.label1.Size = new System.Drawing.Size(268, 47);
 			this.label1.TabIndex = 28;
 			this.label1.Text = "Export a custom sheet to an xml file so that you can later import it to any other" +
     " Open PMS - Dental database.";

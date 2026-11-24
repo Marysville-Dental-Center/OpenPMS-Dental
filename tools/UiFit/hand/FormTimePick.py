@@ -1,6 +1,8 @@
 """FormTimePick on the grid (UI-12 slice 9, layout script on the planner's tree): the planner put AM after the minute box and PM under the
 minute box, 62 px apart: the hour box, the colon and the minute box on one row, AM and PM a list 8 px after the minute box (AM on the row,
-PM 4 px under it), the group as tall as the list, OK 12 px under the group."""
+PM 4 px under it), the group as tall as the list, OK 12 px under the group.
+Fix round: the date picker (200 px) left 7 px on the left and 28 on the right of Pick Date: it ends on the group's content edge (8 px
+from its right edge); Pick Time keeps its compact row."""
 import importlib.util
 import os
 
@@ -10,6 +12,8 @@ _spec.loader.exec_module(s)
 
 
 def layout(h):
+    gd = h.n("groupDate")
+    s.span(h, "dateTimePicker", x=8, r=gd.nw - 8)
     g = h.n("groupTime")
     top = h.n("comboHour").ny
     s.move(h, "comboHour", x=8, y=top)

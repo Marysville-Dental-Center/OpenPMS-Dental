@@ -33,16 +33,16 @@ namespace OpenPmsDental{
 			this.labelWarning.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelWarning.Location = new System.Drawing.Point(15, 8);
+			this.labelWarning.Location = new System.Drawing.Point(8, 8);
 			this.labelWarning.Name = "labelWarning";
-			this.labelWarning.Size = new System.Drawing.Size(539, 122);
+			this.labelWarning.Size = new System.Drawing.Size(550, 122);
 			this.labelWarning.TabIndex = 3;
 			this.labelWarning.Text = "labelWarning";
 			// 
 			// butTryAgain
 			// 
 			this.butTryAgain.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butTryAgain.Location = new System.Drawing.Point(479, 163);
+			this.butTryAgain.Location = new System.Drawing.Point(483, 163);
 			this.butTryAgain.Name = "butTryAgain";
 			this.butTryAgain.Size = new System.Drawing.Size(75, 24);
 			this.butTryAgain.TabIndex = 1;

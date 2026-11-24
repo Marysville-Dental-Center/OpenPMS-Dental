@@ -51,7 +51,7 @@ namespace OpenPmsDental{
 			//
 			this.labelWaiting.Location = new System.Drawing.Point(8, 8);
 			this.labelWaiting.Name = "labelWaiting";
-			this.labelWaiting.Size = new System.Drawing.Size(509, 44);
+			this.labelWaiting.Size = new System.Drawing.Size(517, 44);
 			this.labelWaiting.TabIndex = 130;
 			this.labelWaiting.Text = "After approving, copy the full address from your browser\'s address bar and paste it here.";
 			this.labelWaiting.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -61,7 +61,7 @@ namespace OpenPmsDental{
 			this.textAddress.Location = new System.Drawing.Point(8, 54);
 			this.textAddress.MaxLength = 99999;
 			this.textAddress.Name = "textAddress";
-			this.textAddress.Size = new System.Drawing.Size(508, 23);
+			this.textAddress.Size = new System.Drawing.Size(517, 23);
 			this.textAddress.TabIndex = 0;
 			//
 			// groupSeparate
@@ -81,14 +81,14 @@ namespace OpenPmsDental{
 			this.textAuthCode.Location = new System.Drawing.Point(8, 50);
 			this.textAuthCode.MaxLength = 99999;
 			this.textAuthCode.Name = "textAuthCode";
-			this.textAuthCode.Size = new System.Drawing.Size(488, 23);
+			this.textAuthCode.Size = new System.Drawing.Size(501, 23);
 			this.textAuthCode.TabIndex = 0;
 			//
 			// labelAuthCode
 			//
 			this.labelAuthCode.Location = new System.Drawing.Point(8, 23);
 			this.labelAuthCode.Name = "labelAuthCode";
-			this.labelAuthCode.Size = new System.Drawing.Size(489, 25);
+			this.labelAuthCode.Size = new System.Drawing.Size(501, 25);
 			this.labelAuthCode.TabIndex = 130;
 			this.labelAuthCode.Text = "Authorization Code (the code value in the address)";
 			this.labelAuthCode.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -97,7 +97,7 @@ namespace OpenPmsDental{
 			//
 			this.labelRealmId.Location = new System.Drawing.Point(8, 77);
 			this.labelRealmId.Name = "labelRealmId";
-			this.labelRealmId.Size = new System.Drawing.Size(489, 25);
+			this.labelRealmId.Size = new System.Drawing.Size(501, 25);
 			this.labelRealmId.TabIndex = 131;
 			this.labelRealmId.Text = "Realm ID (the realmId value in the address)";
 			this.labelRealmId.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -107,7 +107,7 @@ namespace OpenPmsDental{
 			this.textRealmId.Location = new System.Drawing.Point(8, 104);
 			this.textRealmId.MaxLength = 99999;
 			this.textRealmId.Name = "textRealmId";
-			this.textRealmId.Size = new System.Drawing.Size(488, 23);
+			this.textRealmId.Size = new System.Drawing.Size(501, 23);
 			this.textRealmId.TabIndex = 1;
 			//
 			// FormQuickBooksOnlineAuthorization

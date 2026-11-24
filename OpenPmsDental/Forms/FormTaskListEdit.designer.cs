@@ -138,7 +138,7 @@ namespace OpenPmsDental {
 			// 
 			// textDateTL
 			// 
-			this.textDateTL.Location = new System.Drawing.Point(127, 113);
+			this.textDateTL.Location = new System.Drawing.Point(127, 109);
 			this.textDateTL.Name = "textDateTL";
 			this.textDateTL.Size = new System.Drawing.Size(88, 23);
 			this.textDateTL.TabIndex = 1;

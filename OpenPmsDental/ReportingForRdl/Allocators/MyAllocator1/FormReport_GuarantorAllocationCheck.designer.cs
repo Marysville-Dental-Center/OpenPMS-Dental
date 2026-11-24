@@ -29,7 +29,7 @@ namespace OpenPmsDental.Reporting.Allocators.MyAllocator1
 		private void InitializeComponent()
 		{
 			this.textBox1 = new System.Windows.Forms.TextBox();
-			this.butFillReport = new System.Windows.Forms.Button();
+			this.butFillReport = new OpenPmsDental.UI.Button();
 			this.label2 = new System.Windows.Forms.Label();
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.dgvSummary = new System.Windows.Forms.DataGridView();
@@ -38,7 +38,7 @@ namespace OpenPmsDental.Reporting.Allocators.MyAllocator1
 			this.dgridView_ReportData = new System.Windows.Forms.DataGridView();
 			this.lblTitle = new System.Windows.Forms.Label();
 			this.lblSummary = new System.Windows.Forms.Label();
-			this.butPrintPreview = new System.Windows.Forms.Button();
+			this.butPrintPreview = new OpenPmsDental.UI.Button();
 			this.dateTimePicker1_FromDate = new System.Windows.Forms.DateTimePicker();
 			this.label5 = new System.Windows.Forms.Label();
 			this.label6 = new System.Windows.Forms.Label();
@@ -60,7 +60,7 @@ namespace OpenPmsDental.Reporting.Allocators.MyAllocator1
 			// 
 			this.butFillReport.Location = new System.Drawing.Point(872, 61);
 			this.butFillReport.Name = "butFillReport";
-			this.butFillReport.Size = new System.Drawing.Size(191, 23);
+			this.butFillReport.Size = new System.Drawing.Size(191, 30);
 			this.butFillReport.TabIndex = 2;
 			this.butFillReport.Text = "Fill Report";
 			this.butFillReport.UseVisualStyleBackColor = true;
@@ -146,9 +146,9 @@ namespace OpenPmsDental.Reporting.Allocators.MyAllocator1
 			// 
 			// butPrintPreview
 			// 
-			this.butPrintPreview.Location = new System.Drawing.Point(872, 88);
+			this.butPrintPreview.Location = new System.Drawing.Point(872, 95);
 			this.butPrintPreview.Name = "butPrintPreview";
-			this.butPrintPreview.Size = new System.Drawing.Size(191, 23);
+			this.butPrintPreview.Size = new System.Drawing.Size(191, 30);
 			this.butPrintPreview.TabIndex = 5;
 			this.butPrintPreview.Text = "Print Preview";
 			this.butPrintPreview.UseVisualStyleBackColor = true;
@@ -157,7 +157,7 @@ namespace OpenPmsDental.Reporting.Allocators.MyAllocator1
 			// dateTimePicker1_FromDate
 			// 
 			this.dateTimePicker1_FromDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-			this.dateTimePicker1_FromDate.Location = new System.Drawing.Point(938, 115);
+			this.dateTimePicker1_FromDate.Location = new System.Drawing.Point(938, 129);
 			this.dateTimePicker1_FromDate.Name = "dateTimePicker1_FromDate";
 			this.dateTimePicker1_FromDate.Size = new System.Drawing.Size(125, 23);
 			this.dateTimePicker1_FromDate.TabIndex = 6;
@@ -165,7 +165,7 @@ namespace OpenPmsDental.Reporting.Allocators.MyAllocator1
 			// label5
 			// 
 			this.label5.AutoSize = false;
-			this.label5.Location = new System.Drawing.Point(872, 115);
+			this.label5.Location = new System.Drawing.Point(872, 129);
 			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(60, 23);
@@ -175,7 +175,7 @@ namespace OpenPmsDental.Reporting.Allocators.MyAllocator1
 			// label6
 			// 
 			this.label6.AutoSize = false;
-			this.label6.Location = new System.Drawing.Point(872, 142);
+			this.label6.Location = new System.Drawing.Point(872, 156);
 			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(60, 23);
@@ -185,7 +185,7 @@ namespace OpenPmsDental.Reporting.Allocators.MyAllocator1
 			// dateTimePicker1
 			// 
 			this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-			this.dateTimePicker1.Location = new System.Drawing.Point(938, 142);
+			this.dateTimePicker1.Location = new System.Drawing.Point(938, 156);
 			this.dateTimePicker1.Name = "dateTimePicker1";
 			this.dateTimePicker1.Size = new System.Drawing.Size(125, 23);
 			this.dateTimePicker1.TabIndex = 9;
@@ -217,10 +217,10 @@ namespace OpenPmsDental.Reporting.Allocators.MyAllocator1
 		#endregion
 
 		private System.Windows.Forms.TextBox textBox1;
-		private System.Windows.Forms.Button butFillReport;
+		private OpenPmsDental.UI.Button butFillReport;
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.Button butPrintPreview;
+		private OpenPmsDental.UI.Button butPrintPreview;
 		private System.Windows.Forms.DataGridView dgridView_ReportData;
 		private System.Windows.Forms.Label lblTitle;
 		private System.Windows.Forms.Label label1;

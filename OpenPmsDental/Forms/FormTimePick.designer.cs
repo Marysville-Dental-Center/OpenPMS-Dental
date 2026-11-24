@@ -40,7 +40,7 @@ namespace OpenPmsDental{
 			// 
 			this.dateTimePicker.Location = new System.Drawing.Point(8, 23);
 			this.dateTimePicker.Name = "dateTimePicker";
-			this.dateTimePicker.Size = new System.Drawing.Size(200, 20);
+			this.dateTimePicker.Size = new System.Drawing.Size(221, 23);
 			this.dateTimePicker.TabIndex = 65;
 			// 
 			// radioPM

@@ -78,7 +78,7 @@ namespace OpenPmsDental {
 			this.textNote.Name = "textNote";
 			this.textNote.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Schedule;
 			this.textNote.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textNote.Size = new System.Drawing.Size(213, 113);
+			this.textNote.Size = new System.Drawing.Size(213, 288);
 			this.textNote.TabIndex = 15;
 			this.textNote.Text = "";
 			// 
@@ -105,33 +105,33 @@ namespace OpenPmsDental {
 			// 
 			// listOp
 			// 
-			this.listOp.Location = new System.Drawing.Point(444, 38);
+			this.listOp.Location = new System.Drawing.Point(442, 38);
 			this.listOp.Name = "listOp";
 			this.listOp.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
-			this.listOp.Size = new System.Drawing.Size(171, 290);
+			this.listOp.Size = new System.Drawing.Size(188, 312);
 			this.listOp.TabIndex = 21;
 			// 
 			// labelOp
 			// 
-			this.labelOp.Location = new System.Drawing.Point(444, 20);
+			this.labelOp.Location = new System.Drawing.Point(442, 20);
 			this.labelOp.Name = "labelOp";
-			this.labelOp.Size = new System.Drawing.Size(128, 16);
+			this.labelOp.Size = new System.Drawing.Size(188, 16);
 			this.labelOp.TabIndex = 20;
 			this.labelOp.Text = "Operatories";
 			this.labelOp.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// listType
 			// 
-			this.listType.Location = new System.Drawing.Point(313, 38);
+			this.listType.Location = new System.Drawing.Point(311, 38);
 			this.listType.Name = "listType";
-			this.listType.Size = new System.Drawing.Size(115, 137);
+			this.listType.Size = new System.Drawing.Size(115, 312);
 			this.listType.TabIndex = 19;
 			// 
 			// labelType
 			// 
-			this.labelType.Location = new System.Drawing.Point(313, 20);
+			this.labelType.Location = new System.Drawing.Point(311, 20);
 			this.labelType.Name = "labelType";
-			this.labelType.Size = new System.Drawing.Size(127, 16);
+			this.labelType.Size = new System.Drawing.Size(115, 16);
 			this.labelType.TabIndex = 18;
 			this.labelType.Text = "Blockout Type";
 			this.labelType.TextAlign = System.Drawing.ContentAlignment.BottomLeft;

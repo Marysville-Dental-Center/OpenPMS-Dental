@@ -61,7 +61,7 @@
 			this.textNote.MaxLength = 2000;
 			this.textNote.Multiline = true;
 			this.textNote.Name = "textNote";
-			this.textNote.Size = new System.Drawing.Size(490, 105);
+			this.textNote.Size = new System.Drawing.Size(490, 138);
 			this.textNote.TabIndex = 134;
 			// 
 			// label2

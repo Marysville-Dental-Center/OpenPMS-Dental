@@ -117,7 +117,7 @@ namespace OpenPmsDental {
 			this.butEdit.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butEdit.Location = new System.Drawing.Point(8, 411);
 			this.butEdit.Name = "butEdit";
-			this.butEdit.Size = new System.Drawing.Size(109, 26);
+			this.butEdit.Size = new System.Drawing.Size(124, 26);
 			this.butEdit.TabIndex = 39;
 			this.butEdit.Text = "Edit Categories";
 			this.butEdit.Click += new System.EventHandler(this.butEdit_Click);

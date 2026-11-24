@@ -2,7 +2,8 @@
 buttons list (the stacked Quick Buttons panel and note made another row) and drew the note into the list. Main's two columns on the grid:
 each caption over its list (the two lists one top and one height), Edit Categories under the left list, Add and Delete, Up and Down under
 the right one; the Quick Buttons panel and its note, which the code shows instead of the list, on the list's place (the panel at its top,
-the note 8 px under the panel); the lists down to the buttons under them, which end 8 px over the bottom (no empty band)."""
+the note 8 px under the panel); the lists down to the buttons under them, which end 8 px over the bottom (no empty band).
+Fix round: Edit Categories (109 px) drew its plus icon 3 px before its text: 124 px wide, so the text stands clear of the icon."""
 import importlib.util
 import os
 
@@ -28,7 +29,7 @@ def layout(h):
     pq = h.n("panelQuickButtons")
     h.set("labelEdit", x2, top + pq.nh + 8, RW, None)
     yb = top + LH + 8
-    s.move(h, "butEdit", x=x1, y=yb)
+    h.set("butEdit", x1, yb, 124, None)
     s.move(h, "butAdd", x=x2, y=yb)
     s.move(h, "butDelete", x=x2, y=yb + h.n("butAdd").nh + 4)
     xr = x2 + RW - h.n("butUp").nw

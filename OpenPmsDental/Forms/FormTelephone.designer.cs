@@ -38,7 +38,7 @@ namespace OpenPmsDental {
 			// 
 			// butReformat
 			// 
-			this.butReformat.Location = new System.Drawing.Point(17, 8);
+			this.butReformat.Location = new System.Drawing.Point(8, 8);
 			this.butReformat.Name = "butReformat";
 			this.butReformat.Size = new System.Drawing.Size(108, 26);
 			this.butReformat.TabIndex = 1;
@@ -47,9 +47,9 @@ namespace OpenPmsDental {
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(131, 8);
+			this.label1.Location = new System.Drawing.Point(122, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(478, 47);
+			this.label1.Size = new System.Drawing.Size(512, 47);
 			this.label1.TabIndex = 2;
 			this.label1.Text = "Reformat all phone numbers in the database to (###)###-####.  Only certain matche" +
     "s will be reformatted.  No numbers will be lost, and no trailing comments will b" +

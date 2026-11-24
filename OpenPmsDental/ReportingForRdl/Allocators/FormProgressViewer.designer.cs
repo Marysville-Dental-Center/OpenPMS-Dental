@@ -29,13 +29,13 @@ namespace OpenPmsDental.Reporting.Allocators.MyAllocator1
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			this.butOK = new System.Windows.Forms.Button();
+			this.butOK = new OpenPmsDental.UI.Button();
 			this.lblMessages = new System.Windows.Forms.Label();
 			this.richTextBox1 = new System.Windows.Forms.RichTextBox();
-			this.butViewLog = new System.Windows.Forms.Button();
+			this.butViewLog = new OpenPmsDental.UI.Button();
 			this.progressBar1 = new System.Windows.Forms.ProgressBar();
-			this.butCancel = new System.Windows.Forms.Button();
-			this.butStart = new System.Windows.Forms.Button();
+			this.butCancel = new OpenPmsDental.UI.Button();
+			this.butStart = new OpenPmsDental.UI.Button();
 			this.timer1 = new System.Windows.Forms.Timer(this.components);
 			this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
 			this.panel1 = new System.Windows.Forms.Panel();
@@ -47,7 +47,7 @@ namespace OpenPmsDental.Reporting.Allocators.MyAllocator1
 			// butOK
 			// 
 			this.butOK.Enabled = false;
-			this.butOK.Location = new System.Drawing.Point(8, 99);
+			this.butOK.Location = new System.Drawing.Point(0, 105);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 23);
 			this.butOK.TabIndex = 0;
@@ -78,7 +78,7 @@ namespace OpenPmsDental.Reporting.Allocators.MyAllocator1
 			// 
 			// butViewLog
 			// 
-			this.butViewLog.Location = new System.Drawing.Point(8, 0);
+			this.butViewLog.Location = new System.Drawing.Point(0, 0);
 			this.butViewLog.Name = "butViewLog";
 			this.butViewLog.Size = new System.Drawing.Size(75, 23);
 			this.butViewLog.TabIndex = 4;
@@ -97,7 +97,7 @@ namespace OpenPmsDental.Reporting.Allocators.MyAllocator1
 			// butCancel
 			// 
 			this.butCancel.Enabled = false;
-			this.butCancel.Location = new System.Drawing.Point(89, 99);
+			this.butCancel.Location = new System.Drawing.Point(81, 105);
 			this.butCancel.Name = "butCancel";
 			this.butCancel.Size = new System.Drawing.Size(75, 23);
 			this.butCancel.TabIndex = 1;
@@ -107,7 +107,7 @@ namespace OpenPmsDental.Reporting.Allocators.MyAllocator1
 			// 
 			// butStart
 			// 
-			this.butStart.Location = new System.Drawing.Point(8, 27);
+			this.butStart.Location = new System.Drawing.Point(0, 27);
 			this.butStart.Name = "butStart";
 			this.butStart.Size = new System.Drawing.Size(75, 23);
 			this.butStart.TabIndex = 3;
@@ -133,9 +133,9 @@ namespace OpenPmsDental.Reporting.Allocators.MyAllocator1
 			this.panel1.Controls.Add(this.richTextBox1);
 			this.panel1.Controls.Add(this.progressBar1);
 			this.panel1.Controls.Add(this.lblMessages);
-			this.panel1.Location = new System.Drawing.Point(12, 8);
+			this.panel1.Location = new System.Drawing.Point(8, 8);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(409, 122);
+			this.panel1.Size = new System.Drawing.Size(416, 128);
 			this.panel1.TabIndex = 6;
 			// 
 			// panel3
@@ -146,9 +146,9 @@ namespace OpenPmsDental.Reporting.Allocators.MyAllocator1
 			this.panel3.Controls.Add(this.butOK);
 			this.panel3.Controls.Add(this.butCancel);
 			this.panel3.Controls.Add(this.butStart);
-			this.panel3.Location = new System.Drawing.Point(429, 8);
+			this.panel3.Location = new System.Drawing.Point(432, 8);
 			this.panel3.Name = "panel3";
-			this.panel3.Size = new System.Drawing.Size(172, 122);
+			this.panel3.Size = new System.Drawing.Size(156, 128);
 			this.panel3.TabIndex = 8;
 			// 
 			// FormProgressViewer
@@ -169,13 +169,13 @@ namespace OpenPmsDental.Reporting.Allocators.MyAllocator1
 
 		#endregion
 
-		private System.Windows.Forms.Button butOK;
+		private OpenPmsDental.UI.Button butOK;
 		private System.Windows.Forms.Label lblMessages;
 		private System.Windows.Forms.RichTextBox richTextBox1;
-		private System.Windows.Forms.Button butViewLog;
+		private OpenPmsDental.UI.Button butViewLog;
 		private System.Windows.Forms.ProgressBar progressBar1;
-		private System.Windows.Forms.Button butCancel;
-		private System.Windows.Forms.Button butStart;
+		private OpenPmsDental.UI.Button butCancel;
+		private OpenPmsDental.UI.Button butStart;
 		private System.Windows.Forms.Timer timer1;
 		public System.ComponentModel.BackgroundWorker backgroundWorker1;
 		private System.Windows.Forms.Panel panel1;

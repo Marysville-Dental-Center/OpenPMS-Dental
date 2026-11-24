@@ -72,9 +72,9 @@ namespace OpenPmsDental{
 			// butReplacements
 			// 
 			this.butReplacements.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butReplacements.Location = new System.Drawing.Point(114, 594);
+			this.butReplacements.Location = new System.Drawing.Point(118, 594);
 			this.butReplacements.Name = "butReplacements";
-			this.butReplacements.Size = new System.Drawing.Size(82, 24);
+			this.butReplacements.Size = new System.Drawing.Size(86, 24);
 			this.butReplacements.TabIndex = 14;
 			this.butReplacements.Text = "Replacements";
 			this.butReplacements.Click += new System.EventHandler(this.butReplacements_Click);
