@@ -1087,6 +1087,7 @@ namespace ImagingCapture.Session {
 			}
 			if(status.DeviceEvent!=null) {
 				ShowDeviceEvent(record,status.DeviceEvent.Value);
+				NotifyChanged();//the window repaints from Changed only
 				return;
 			}
 			bool isSavedShowing=record.CountSaved>0 && IndicatorState==CaptureIndicatorState.Saved;
@@ -1171,8 +1172,6 @@ namespace ImagingCapture.Session {
 			return _hashSetSkipped.Contains(idx) ? CaptureSessionText.OnlySkippedLeftContinuous : null;
 		}
 
-		///<summary>The indicator while record's enable waits for an exposure (design 7.3 step 3): where its next image goes, or, when it has no
-		///slot left for it (GetNoSlotLeftText), that its images go to unassigned captures, in a state that never invites an exposure.</summary>
 		///<summary>A device event of the running enable ([Device.N] DeviceEvents=1, twain-contract 1.3 section 10.6). Offline and removed show
 		///an error, but stop nothing: the source decides what happens to the enable, and images already saved stay. Ready and captured change the
 		///waiting and receiving texts, never while the session is stopping, paused after a failed save, or after an unreadable layout.</summary>
@@ -1198,10 +1197,14 @@ namespace ImagingCapture.Session {
 			}
 			if(code==TwainDeviceEvent.ImageCaptured) {
 				record.IsSensorReady=false;
-				SetIndicator(CaptureIndicatorState.Receiving,CaptureSessionText.ExposureCaptured);
+				if(GetNoSlotLeftText(record)==null) {//with no slot left, the error that the image goes to unassigned captures stays
+					SetIndicator(CaptureIndicatorState.Receiving,CaptureSessionText.ExposureCaptured);
+				}
 			}
 		}
 
+		///<summary>The indicator while record's enable waits for an exposure (design 7.3 step 3): where its next image goes, or, when it has no
+		///slot left for it (GetNoSlotLeftText), that its images go to unassigned captures, in a state that never invites an exposure.</summary>
 		private void ShowWaitingForExposure(CaptureEnableRecord record) {
 			if(record?.LayoutUnusableText!=null) {
 				SetIndicator(CaptureIndicatorState.Error,CaptureSessionText.GetLayoutUnusableContinuousText(record.LayoutUnusableText));
@@ -1219,6 +1222,9 @@ namespace ImagingCapture.Session {
 		private void OnImageAcquired(ITwainCaptureSession session,AcquiredImage image) {
 			if(image==null) {
 				return;
+			}
+			if(image.Tag is CaptureEnableRecord recordOfImage) {
+				recordOfImage.IsSensorReady=false;//an image came: "ready" is said again only by the source's next event
 			}
 			if(session==_session && Phase!=CaptureSessionPhase.Finished) {
 				NoteActivity();

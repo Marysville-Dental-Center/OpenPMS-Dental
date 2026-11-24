@@ -282,7 +282,17 @@ namespace ImagingDeviceManager.TwainProtocol {
 					twEvent=(TW_EVENT)Marshal.PtrToStructure(pEvent,typeof(TW_EVENT));
 					ushort notification=notificationPolled!=Tw.MSG_NULL ? notificationPolled : twEvent.TWMessage;
 					if(twEvent.TWMessage==Tw.MSG_DEVICEEVENT) {
-						ReadDeviceEvent();//twain-contract 1.3 section 10.6: reported, then the loop goes on
+						//twain-contract 1.3 section 10.6: reported, then the loop goes on. A source may report it on a message of the program's
+						//(a new event after the poll above): that message is dispatched all the same, whatever rc says, so that it is never lost.
+						ReadDeviceEvent();
+						if(hwndMsg!=hwndProxy) {
+							NativeMethods.TranslateMessage(pMsg);
+							NativeMethods.DispatchMessage(pMsg);
+						}
+						if(notificationPolled==Tw.MSG_XFERREADY || notificationPolled==Tw.MSG_CLOSEDSREQ) {
+							return notificationPolled;
+						}
+						continue;
 					}
 					if(notification==Tw.MSG_XFERREADY || notification==Tw.MSG_CLOSEDSREQ) {
 						if(rc!=Tw.TWRC_DSEVENT) {
@@ -358,15 +368,22 @@ namespace ImagingDeviceManager.TwainProtocol {
 				}
 				Marshal.WriteIntPtr(pMsg,NativeMethods.MsgOffsetHwnd,_proxyWindow.Handle);
 				Marshal.WriteInt32(pMsg,NativeMethods.MsgOffsetMessage,NativeMethods.WM_NULL);
-				Marshal.StructureToPtr(new TW_EVENT { pEvent=pMsg,TWMessage=Tw.MSG_NULL },pEvent,false);
-				ushort rc=SourceEntry(Tw.DG_CONTROL,Tw.DAT_EVENT,Tw.MSG_PROCESSEVENT,pEvent);
-				TW_EVENT twEvent=(TW_EVENT)Marshal.PtrToStructure(pEvent,typeof(TW_EVENT));
-				if(twEvent.TWMessage==Tw.MSG_DEVICEEVENT) {
-					ReadDeviceEvent();
-				}
-				//Whatever rc says, as in the message loop: a source that sets the notification has moved on (to state 6 for MSG_XFERREADY).
-				if(twEvent.TWMessage==Tw.MSG_XFERREADY || twEvent.TWMessage==Tw.MSG_CLOSEDSREQ) {
-					return twEvent.TWMessage;
+				//Device events (twain-contract 1.3 section 10.6) come before a notification the source already has: each is read and the source
+				//asked again, so that the notification behind them is not missed (at most a few times: a source that keeps reporting events has
+				//nothing else to say).
+				for(int i=0;i<8;i++) {
+					Marshal.StructureToPtr(new TW_EVENT { pEvent=pMsg,TWMessage=Tw.MSG_NULL },pEvent,false);
+					SourceEntry(Tw.DG_CONTROL,Tw.DAT_EVENT,Tw.MSG_PROCESSEVENT,pEvent);
+					TW_EVENT twEvent=(TW_EVENT)Marshal.PtrToStructure(pEvent,typeof(TW_EVENT));
+					if(twEvent.TWMessage==Tw.MSG_DEVICEEVENT) {
+						ReadDeviceEvent();
+						continue;
+					}
+					//Whatever rc says, as in the message loop: a source that sets the notification has moved on (to state 6 for MSG_XFERREADY).
+					if(twEvent.TWMessage==Tw.MSG_XFERREADY || twEvent.TWMessage==Tw.MSG_CLOSEDSREQ) {
+						return twEvent.TWMessage;
+					}
+					return Tw.MSG_NULL;
 				}
 				return Tw.MSG_NULL;
 			}

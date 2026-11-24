@@ -327,7 +327,7 @@ namespace ImagingDeviceManager.Helper32 {
 				Capture=capture;
 				capture.StatusChanged+=status => {
 					TwainCaptureStatus statusSent=new TwainCaptureStatus { State=status.State,EnableId=ToProgram(status.EnableId),Text=status.Text,
-						IsSafeDisableInEffect=status.IsSafeDisableInEffect,LayoutUnusableText=status.LayoutUnusableText };
+						IsSafeDisableInEffect=status.IsSafeDisableInEffect,LayoutUnusableText=status.LayoutUnusableText,DeviceEvent=status.DeviceEvent };
 					Queue(new TwainHelperEvent { Kind=TwainHelperEventKind.Status,Status=statusSent });
 				};
 				capture.Ended+=ended => {

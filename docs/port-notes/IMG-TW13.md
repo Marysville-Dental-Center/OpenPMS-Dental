@@ -14,10 +14,10 @@ the session detects each feature and never assumes it.
    - gamma (a number).
 
    A key that is missing or null, or that holds its neutral value (false, [0, 255], 0, 0, 1.0), stays neutral. These make the image count as
-   adjusted, each with a warning:
+   adjusted:
    - any other value;
-   - a value that cannot be read;
-   - a member this version does not know (names compared as written).
+   - a value that cannot be read (with a warning);
+   - a member this version does not know (with a warning; names compared as written).
 
    Out-of-range values are kept and warned about. Orientation neutrality still looks at rotate and flip only.
 2. **Device events** (twain-contract 1.3 section 10.6), opt-in with `[Device.N] DeviceEvents=1`:
@@ -26,8 +26,10 @@ the session detects each feature and never assumes it.
    - Before each enable, in state 4, the session sets `CAP_DEVICEEVENT` (a TW_ARRAY of DEVICEREADY, IMAGECAPTURED, DEVICEOFFLINE and
      DEVICEREMOVED). No MSG_QUERYSUPPORT is sent first: a 1.2 source answers TWCC_CAPUNSUPPORTED, which is logged, and nothing changes.
    - The message loop, and its one-shot poll, read each `MSG_DEVICEEVENT` with `DAT_DEVICEEVENT` / MSG_GET, using only the Event field.
-     They pass it on as a `TwainCaptureStatus` with `DeviceEvent` set and the state unchanged. Over the helper wire, the status carries the
-     code too.
+     They pass it on as a `TwainCaptureStatus` with `DeviceEvent` set and the state unchanged. The 32-bit helper passes the code on
+     with the status, over its wire (the round trip is tested; the helper end to end with events is not).
+   - A device event that comes before a notification never hides it: the one-shot poll asks again after each event, and a program message
+     that a source answers with an event is dispatched all the same.
    - The capture session shows it:
      - "Sensor ready, waiting for exposure: <target>", until the next exposure;
      - "Exposure captured, receiving the image";

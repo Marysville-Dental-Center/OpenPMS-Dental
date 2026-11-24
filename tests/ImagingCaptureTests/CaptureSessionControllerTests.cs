@@ -596,9 +596,11 @@ namespace ImagingCapture.Tests {
 			_harness.Started();
 			_harness.Status(TwainCaptureState.WaitingForImage);
 			Assert.AreEqual(CaptureSessionText.WaitingForExposure+": 1 of 3: Max R, #1,2,3",Controller.IndicatorText,"No event yet: no claim the sensor is ready.");
+			int versionBefore=Controller.Version;
 			_harness.Twain.RaiseDeviceEvent(TwainDeviceEvent.Ready);
 			_harness.Dispatcher.RunPending();
 			Assert.AreEqual(CaptureSessionText.SensorReady+": 1 of 3: Max R, #1,2,3",Controller.IndicatorText);
+			Assert.IsTrue(Controller.Version>versionBefore,"The window repaints from Changed only.");
 			Assert.AreEqual(CaptureIndicatorState.WaitingForExposure,Controller.IndicatorState);
 			_harness.Twain.RaiseDeviceEvent(TwainDeviceEvent.ImageCaptured);
 			_harness.Dispatcher.RunPending();
