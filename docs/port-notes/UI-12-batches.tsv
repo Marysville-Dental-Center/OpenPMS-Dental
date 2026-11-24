@@ -28,6 +28,23 @@ batch	kind	rank	designer_file	window	controls	group
 1	large		OpenPmsDental/User Controls/ControlImageDock.Designer.cs	OpenPmsDental.ControlImageDock	1	OpenPmsDental.ControlImages
 1	large		OpenPmsDental/SheetFramework/ScreenToothChart.Designer.cs	OpenPmsDental.ScreenToothChart	40	OpenPmsDental.ScreenToothChart
 1	large		OpenPmsDental/SheetFramework/UserControlScreenTooth.Designer.cs	OpenPmsDental.UserControlScreenTooth	3	OpenPmsDental.ScreenToothChart
+1	large		OpenPmsDentalGraph/Dashboard/DashboardCellCtrl.Designer.cs	OpenPmsDentalGraph.DashboardCellCtrl	17	OpenPmsDentalGraph.DashboardCellCtrl
+1	large		OpenPmsDentalGraph/Dashboard/DashboardPanelCtrl.Designer.cs	OpenPmsDentalGraph.DashboardPanelCtrl	7	OpenPmsDentalGraph.DashboardCellCtrl
+1	large		RdlDesign/ChartAxisCtl.cs	fyiReporting.RdlDesign.chartaxisctl	40	fyiReporting.RdlDesign.chartaxisctl
+1	large		RdlDesign/DialogDatabase.cs	fyiReporting.RdlDesign.dialogdatabase	65	fyiReporting.RdlDesign.dialogdatabase
+1	large		RdlDesign/DialogNewChart.cs	fyiReporting.RdlDesign.dialognewchart	24	fyiReporting.RdlDesign.dialognewchart
+1	large		RdlDesign/DialogNewTable.cs	fyiReporting.RdlDesign.dialognewtable	21	fyiReporting.RdlDesign.dialognewtable
+1	large		RdlDesign/DialogToolOptions.cs	fyiReporting.RdlDesign.dialogtooloptions	32	fyiReporting.RdlDesign.dialogtooloptions
+1	large		RdlDesign/FindTab.cs	fyiReporting.RdlDesign.findtab	25	fyiReporting.RdlDesign.findtab
+1	large		RdlDesign/InteractivityCtl.cs	fyiReporting.RdlDesign.interactivityctl	21	fyiReporting.RdlDesign.interactivityctl
+1	large		RdlDesign/PositionCtl.cs	fyiReporting.RdlDesign.positionctl	24	fyiReporting.RdlDesign.positionctl
+1	large		RdlDesign/RdlDesigner.cs	fyiReporting.RdlDesign.rdldesigner	21	fyiReporting.RdlDesign.rdldesigner
+1	large		RdlDesign/ReportCtl.cs	fyiReporting.RdlDesign.reportctl	26	fyiReporting.RdlDesign.reportctl
+1	large		RdlDesign/ReportParameterCtl.cs	fyiReporting.RdlDesign.reportparameterctl	32	fyiReporting.RdlDesign.reportparameterctl
+1	large		RdlDesign/StyleBorderCtl.cs	fyiReporting.RdlDesign.styleborderctl	43	fyiReporting.RdlDesign.styleborderctl
+1	large		RdlDesign/StyleCtl.cs	fyiReporting.RdlDesign.stylectl	30	fyiReporting.RdlDesign.stylectl
+1	large		RdlDesign/StyleTextCtl.cs	fyiReporting.RdlDesign.styletextctl	39	fyiReporting.RdlDesign.styletextctl
+1	large		ServiceManager/FormWebConfigSettings.Designer.cs	ServiceManager.FormWebConfigSettings	33	ServiceManager.FormWebConfigSettings
 2	small	68	OpenPmsDentalGraph/Dashboard/FormDashboardEditTab.Designer.cs	OpenPmsDentalGraph.FormDashboardEditTab	14	OpenPmsDentalGraph.FormDashboardEditTab
 2	small		OpenPmsDentalGraph/Dashboard/DashboardTabCtrl.Designer.cs	OpenPmsDentalGraph.DashboardTabCtrl	2	OpenPmsDentalGraph.FormDashboardEditTab
 2	small	135	DocumentationBuilder/Form1.Designer.cs	DocumentationBuilder.Form1	15	DocumentationBuilder.Form1
@@ -264,10 +281,10 @@ batch	kind	rank	designer_file	window	controls	group
 3	small		OpenPmsDental/User Controls/Dashboard/UserControlDashboardWidget.Designer.cs	OpenPmsDental.UserControlDashboardWidget	3	OpenPmsDental.UserControlDashboardWidget
 3	small		OpenPmsDental/User Controls/SetupWizControls/SetupWizControl.Designer.cs	OpenPmsDental.User_Controls.SetupWizard.SetupWizControl	2	OpenPmsDental.User_Controls.SetupWizard.SetupWizControl
 3	small		OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizComplete.Designer.cs	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizComplete	2	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizComplete
-4	small		OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizIntro.Designer.cs	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizIntro	2	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizIntro
-4	small		OpenPmsDental/User Controls/UserControlEmailTemplate.Designer.cs	OpenPmsDental.UserControlEmailTemplate	6	OpenPmsDental.UserControlEmailTemplate
-4	small		OpenPmsDentalBusiness/UI/ODGridPageNav.cs	OpenPmsDental.UI.odgridpagenav	10	OpenPmsDental.UI.odgridpagenav
-4	small		OpenPmsDentalBusiness/UI/SignatureBoxWrapper.Designer.cs	OpenPmsDental.UI.SignatureBoxWrapper	5	OpenPmsDental.UI.SignatureBoxWrapper
+3	small		OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizIntro.Designer.cs	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizIntro	2	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizIntro
+3	small		OpenPmsDental/User Controls/UserControlEmailTemplate.Designer.cs	OpenPmsDental.UserControlEmailTemplate	6	OpenPmsDental.UserControlEmailTemplate
+3	small		OpenPmsDentalBusiness/UI/ODGridPageNav.cs	OpenPmsDental.UI.odgridpagenav	10	OpenPmsDental.UI.odgridpagenav
+3	small		OpenPmsDentalBusiness/UI/SignatureBoxWrapper.Designer.cs	OpenPmsDental.UI.SignatureBoxWrapper	5	OpenPmsDental.UI.SignatureBoxWrapper
 4	small		OpenPmsDentalGraph/Concrete/HqMessagesRealTimeOptionsCtrl.Designer.cs	OpenPmsDentalGraph.HqMessagesRealTimeOptionsCtrl	4	OpenPmsDentalGraph.HqMessagesRealTimeOptionsCtrl
 4	small		OpenPmsDentalGraph/Dashboard/FormDashboardEditCell.Designer.cs	OpenPmsDentalGraph.FormDashboardEditCell	5	OpenPmsDentalGraph.FormDashboardEditCell
 4	small		OpenPmsDentalGraph/Dashboard/FormDashboardNamePrompt.Designer.cs	OpenPmsDentalGraph.FormDashboardNamePrompt	4	OpenPmsDentalGraph.FormDashboardNamePrompt
@@ -315,20 +332,3 @@ batch	kind	rank	designer_file	window	controls	group
 4	small		UpdateFileCopier/FormMain.Designer.cs	UpdateFileCopier.FormMain	2	UpdateFileCopier.FormMain
 4	small		WpfControlsOD/Frame/FormFrame.cs	OpenPmsDental.formframe	0	OpenPmsDental.formframe
 4	small		WpfControlsOD/Frame/FormSnap.Designer.cs	OpenPmsDental.FormSnap	0	OpenPmsDental.FormSnap
-5	large		OpenPmsDentalGraph/Dashboard/DashboardCellCtrl.Designer.cs	OpenPmsDentalGraph.DashboardCellCtrl	17	OpenPmsDentalGraph.DashboardCellCtrl
-5	large		OpenPmsDentalGraph/Dashboard/DashboardPanelCtrl.Designer.cs	OpenPmsDentalGraph.DashboardPanelCtrl	7	OpenPmsDentalGraph.DashboardCellCtrl
-5	large		RdlDesign/ChartAxisCtl.cs	fyiReporting.RdlDesign.chartaxisctl	40	fyiReporting.RdlDesign.chartaxisctl
-5	large		RdlDesign/DialogDatabase.cs	fyiReporting.RdlDesign.dialogdatabase	65	fyiReporting.RdlDesign.dialogdatabase
-5	large		RdlDesign/DialogNewChart.cs	fyiReporting.RdlDesign.dialognewchart	24	fyiReporting.RdlDesign.dialognewchart
-5	large		RdlDesign/DialogNewTable.cs	fyiReporting.RdlDesign.dialognewtable	21	fyiReporting.RdlDesign.dialognewtable
-5	large		RdlDesign/DialogToolOptions.cs	fyiReporting.RdlDesign.dialogtooloptions	32	fyiReporting.RdlDesign.dialogtooloptions
-5	large		RdlDesign/FindTab.cs	fyiReporting.RdlDesign.findtab	25	fyiReporting.RdlDesign.findtab
-5	large		RdlDesign/InteractivityCtl.cs	fyiReporting.RdlDesign.interactivityctl	21	fyiReporting.RdlDesign.interactivityctl
-5	large		RdlDesign/PositionCtl.cs	fyiReporting.RdlDesign.positionctl	24	fyiReporting.RdlDesign.positionctl
-5	large		RdlDesign/RdlDesigner.cs	fyiReporting.RdlDesign.rdldesigner	21	fyiReporting.RdlDesign.rdldesigner
-5	large		RdlDesign/ReportCtl.cs	fyiReporting.RdlDesign.reportctl	26	fyiReporting.RdlDesign.reportctl
-5	large		RdlDesign/ReportParameterCtl.cs	fyiReporting.RdlDesign.reportparameterctl	32	fyiReporting.RdlDesign.reportparameterctl
-5	large		RdlDesign/StyleBorderCtl.cs	fyiReporting.RdlDesign.styleborderctl	43	fyiReporting.RdlDesign.styleborderctl
-5	large		RdlDesign/StyleCtl.cs	fyiReporting.RdlDesign.stylectl	30	fyiReporting.RdlDesign.stylectl
-5	large		RdlDesign/StyleTextCtl.cs	fyiReporting.RdlDesign.styletextctl	39	fyiReporting.RdlDesign.styletextctl
-5	large		ServiceManager/FormWebConfigSettings.Designer.cs	ServiceManager.FormWebConfigSettings	33	ServiceManager.FormWebConfigSettings
