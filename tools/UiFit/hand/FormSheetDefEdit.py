@@ -8,7 +8,10 @@ side by side: Show's All and None first, then each Show check box on its Add Fie
 kinds of field, the hidden Special and ScreenChart buttons keeping their rows, which the code shows by sheet type); MobileHeader as wide as
 its text; Language (Sync matched fields over the language box) and Pages under them, the internal-sheet note on Tab Order's row (Load shows
 one or the other), Delete and Save on the bar under the section gap. The column needs 954 px (main's 696 cut nothing only because the
-rows touched): the window grows to it; the code's height is the screen's for a letter sheet."""
+rows touched): the window grows to it; the code's height is the screen's for a letter sheet.
+UI-12F (the final consistency pass; the lead's decision on slice 13's question): the Fields list at least main's 151 px (it was 92). The
+tool column widens by the 59 px it needs (284 -> 343), taken from the sheet area (544 -> 485; the window keeps main's 828), and Load's
+window size adds the column's width instead of main's 284 in its constant (the sheet keeps its room at run time)."""
 import importlib.util
 import os
 
@@ -16,7 +19,7 @@ _spec = importlib.util.spec_from_file_location("_s13", os.path.join(os.path.dirn
 s = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(s)
 
-PW = 284  # panelRight (main)
+PW = 343  # panelRight: main's 284 and the 59 px the Fields list needs for main's 151 (UI-12F)
 CW = PW - 16
 PITCH = 28
 KIND_GAP = 8
