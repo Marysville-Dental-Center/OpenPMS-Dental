@@ -21,6 +21,7 @@ def layout(h):
     h.set("tbReportFile", fx, 8, R - 24 - s.ITEM - fx, h.H)
     s.row(h, "label2", "tbNoRows", 8, lw, R - fx, 35)
     s.chk(h, "chkMergeTrans", 8, 62)  # from the padding: its 379 px pass the content edge from the field column
+    h.set("chkMergeTrans", None, None, s.check_w(h, "chkMergeTrans") + 8, None)  # its long text: the stock box draws it 7 px wider than GDI+ measures it
     y = 62 + h.H + 8
     h.set("bRefreshParms", R - 56, y, 56, h.H)
     h.set("dgParms", 8, y, R - 56 - 8 - 8, s.PAGE_B - y)

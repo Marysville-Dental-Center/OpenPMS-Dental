@@ -224,7 +224,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.chkMergeTrans.Location = new System.Drawing.Point(8, 64);
 			this.chkMergeTrans.Name = "chkMergeTrans";
-			this.chkMergeTrans.Size = new System.Drawing.Size(379, 18);
+			this.chkMergeTrans.Size = new System.Drawing.Size(387, 18);
 			this.chkMergeTrans.TabIndex = 9;
 			this.chkMergeTrans.Text = "Use same Data Source connections as parent report when possible";
 			// 

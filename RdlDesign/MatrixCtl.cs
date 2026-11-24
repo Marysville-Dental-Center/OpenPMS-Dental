@@ -125,16 +125,16 @@ namespace fyiReporting.RdlDesign
 			this.label2.Location = new System.Drawing.Point(8, 8);
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(104, 23);
+			this.label2.Size = new System.Drawing.Size(120, 23);
 			this.label2.TabIndex = 0;
 			this.label2.Text = "DataSet Name";
 			// 
 			// cbDataSet
 			// 
 			this.cbDataSet.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cbDataSet.Location = new System.Drawing.Point(118, 8);
+			this.cbDataSet.Location = new System.Drawing.Point(134, 8);
 			this.cbDataSet.Name = "cbDataSet";
-			this.cbDataSet.Size = new System.Drawing.Size(322, 23);
+			this.cbDataSet.Size = new System.Drawing.Size(306, 23);
 			this.cbDataSet.TabIndex = 1;
 			this.cbDataSet.SelectedIndexChanged += new System.EventHandler(this.cbDataSet_SelectedIndexChanged);
 			// 
@@ -172,15 +172,15 @@ namespace fyiReporting.RdlDesign
 			this.label1.Location = new System.Drawing.Point(8, 35);
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(104, 23);
+			this.label1.Size = new System.Drawing.Size(120, 23);
 			this.label1.TabIndex = 2;
 			this.label1.Text = "No rows message";
 			// 
 			// tbNoRows
 			// 
-			this.tbNoRows.Location = new System.Drawing.Point(118, 35);
+			this.tbNoRows.Location = new System.Drawing.Point(134, 35);
 			this.tbNoRows.Name = "tbNoRows";
-			this.tbNoRows.Size = new System.Drawing.Size(322, 23);
+			this.tbNoRows.Size = new System.Drawing.Size(306, 23);
 			this.tbNoRows.TabIndex = 3;
 			this.tbNoRows.Text = "textBox1";
 			this.tbNoRows.TextChanged += new System.EventHandler(this.tbNoRows_TextChanged);

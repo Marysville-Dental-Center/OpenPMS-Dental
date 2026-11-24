@@ -11,7 +11,6 @@ batch	kind	rank	designer_file	window	controls	group
 1	large		OpenPmsDental/User Controls/ControlImageDock.Designer.cs	OpenPmsDental.ControlImageDock	1	OpenPmsDental.ControlImages
 1	large		OpenPmsDental/SheetFramework/ScreenToothChart.Designer.cs	OpenPmsDental.ScreenToothChart	40	OpenPmsDental.ScreenToothChart
 1	large		OpenPmsDental/SheetFramework/UserControlScreenTooth.Designer.cs	OpenPmsDental.UserControlScreenTooth	3	OpenPmsDental.ScreenToothChart
-1	large		RdlDesign/RdlDesigner.cs	fyiReporting.RdlDesign.rdldesigner	21	fyiReporting.RdlDesign.rdldesigner
 1	large		ServiceManager/FormWebConfigSettings.Designer.cs	ServiceManager.FormWebConfigSettings	33	ServiceManager.FormWebConfigSettings
 2	small	161	OpenPmsDental/Main Modules/ControlFamily.designer.cs	OpenPmsDental.ControlFamily	11	OpenPmsDental.ControlFamily
 2	small	231	OpenPmsDental/UI/ODDateRangePicker.Designer.cs	OpenPmsDental.UI.ODDateRangePicker	7	OpenPmsDental.UI.ODDateRangePicker
@@ -57,45 +56,7 @@ batch	kind	rank	designer_file	window	controls	group
 2	small		OpenPmsDental/User Controls/Dashboard/DashFamilyInsurance.Designer.cs	OpenPmsDental.DashFamilyInsurance	0	OpenPmsDental.DashFamilyInsurance
 2	small		OpenPmsDentalBusiness/UI/ODGridPageNav.cs	OpenPmsDental.UI.odgridpagenav	10	OpenPmsDental.UI.odgridpagenav
 2	small		OpenPmsDentalBusiness/UI/SignatureBoxWrapper.Designer.cs	OpenPmsDental.UI.SignatureBoxWrapper	5	OpenPmsDental.UI.SignatureBoxWrapper
-2	small		RdlDesign/BodyCtl.cs	fyiReporting.RdlDesign.bodyctl	6	fyiReporting.RdlDesign.bodyctl
-2	small		RdlDesign/ChartCtl.cs	fyiReporting.RdlDesign.chartctl	18	fyiReporting.RdlDesign.chartctl
-2	small		RdlDesign/ChartLegendCtl.cs	fyiReporting.RdlDesign.chartlegendctl	6	fyiReporting.RdlDesign.chartlegendctl
-2	small		RdlDesign/CodeCtl.cs	fyiReporting.RdlDesign.codectl	7	fyiReporting.RdlDesign.codectl
-2	small		RdlDesign/CustomReportItemCtl.cs	fyiReporting.RdlDesign.customreportitemctl	2	fyiReporting.RdlDesign.customreportitemctl
-2	small		RdlDesign/DataSetRowsCtl.cs	fyiReporting.RdlDesign.datasetrowsctl	10	fyiReporting.RdlDesign.datasetrowsctl
-2	small		RdlDesign/DataSetsCtl.cs	fyiReporting.RdlDesign.datasetsctl	13	fyiReporting.RdlDesign.datasetsctl
-2	small		RdlDesign/DialogAbout.cs	fyiReporting.RdlDesign.dialogabout	10	fyiReporting.RdlDesign.dialogabout
-2	small		RdlDesign/DialogDataSourceRef.cs	fyiReporting.RdlDesign.dialogdatasourceref	19	fyiReporting.RdlDesign.dialogdatasourceref
-2	small		RdlDesign/DialogDataSources.cs	fyiReporting.RdlDesign.dialogdatasources	19	fyiReporting.RdlDesign.dialogdatasources
-2	small		RdlDesign/DialogEmbeddedImages.cs	fyiReporting.RdlDesign.dialogembeddedimages	11	fyiReporting.RdlDesign.dialogembeddedimages
-2	small		RdlDesign/DialogExprEditor.cs	fyiReporting.RdlDesign.dialogexpreditor	7	fyiReporting.RdlDesign.dialogexpreditor
-2	small		RdlDesign/DialogFilterOperator.cs	fyiReporting.RdlDesign.dialogfilteroperator	4	fyiReporting.RdlDesign.dialogfilteroperator
-2	small		RdlDesign/DialogListOfStrings.cs	fyiReporting.RdlDesign.dialoglistofstrings	4	fyiReporting.RdlDesign.dialoglistofstrings
-2	small		RdlDesign/DialogNew.cs	fyiReporting.RdlDesign.dialognew	4	fyiReporting.RdlDesign.dialognew
-2	small		RdlDesign/DialogNewMatrix.cs	fyiReporting.RdlDesign.dialognewmatrix	20	fyiReporting.RdlDesign.dialognewmatrix
-2	small		RdlDesign/DialogValidValues.cs	fyiReporting.RdlDesign.dialogvalidvalues	4	fyiReporting.RdlDesign.dialogvalidvalues
-2	small		RdlDesign/DialogValidateRdl.cs	fyiReporting.RdlDesign.dialogvalidaterdl	4	fyiReporting.RdlDesign.dialogvalidaterdl
-2	small		RdlDesign/DrillParametersDialog.cs	fyiReporting.RdlDesign.drillparametersdialog	7	fyiReporting.RdlDesign.drillparametersdialog
-2	small		RdlDesign/FiltersCtl.cs	fyiReporting.RdlDesign.filtersctl	5	fyiReporting.RdlDesign.filtersctl
-2	small		RdlDesign/GroupingCtl.cs	fyiReporting.RdlDesign.groupingctl	20	fyiReporting.RdlDesign.groupingctl
-2	small		RdlDesign/ImageCtl.cs	fyiReporting.RdlDesign.imagectl	16	fyiReporting.RdlDesign.imagectl
-2	small		RdlDesign/ListCtl.cs	fyiReporting.RdlDesign.listctl	12	fyiReporting.RdlDesign.listctl
 2	small		RdlDesign/MDIChild.cs	fyiReporting.RdlDesign.mdichild	0	fyiReporting.RdlDesign.mdichild
-2	small		RdlDesign/MatrixCtl.cs	fyiReporting.RdlDesign.matrixctl	11	fyiReporting.RdlDesign.matrixctl
-2	small		RdlDesign/ModulesClassesCtl.cs	fyiReporting.RdlDesign.modulesclassesctl	6	fyiReporting.RdlDesign.modulesclassesctl
-2	small		RdlDesign/PropertyDialog.cs	fyiReporting.RdlDesign.propertydialog	6	fyiReporting.RdlDesign.propertydialog
-2	small		RdlDesign/QueryParametersCtl.cs	fyiReporting.RdlDesign.queryparametersctl	1	fyiReporting.RdlDesign.queryparametersctl
-2	small		RdlDesign/RdlEditPreview.cs	fyiReporting.RdlDesign.rdleditpreview	7	fyiReporting.RdlDesign.rdleditpreview
-2	small		RdlDesign/ReportXmlCtl.cs	fyiReporting.RdlDesign.reportxmlctl	9	fyiReporting.RdlDesign.reportxmlctl
-2	small		RdlDesign/SQLCtl.cs	fyiReporting.RdlDesign.sqlctl	6	fyiReporting.RdlDesign.sqlctl
-2	small		RdlDesign/SingleCtlDialog.cs	fyiReporting.RdlDesign.singlectldialog	5	fyiReporting.RdlDesign.singlectldialog
-2	small		RdlDesign/SortingCtl.cs	fyiReporting.RdlDesign.sortingctl	5	fyiReporting.RdlDesign.sortingctl
-2	small		RdlDesign/SubreportCtl.cs	fyiReporting.RdlDesign.subreportctl	8	fyiReporting.RdlDesign.subreportctl
-2	small		RdlDesign/TableColumnCtl.cs	fyiReporting.RdlDesign.tablecolumnctl	10	fyiReporting.RdlDesign.tablecolumnctl
-2	small		RdlDesign/TableCtl.cs	fyiReporting.RdlDesign.tablectl	17	fyiReporting.RdlDesign.tablectl
-2	small		RdlDesign/TableRowCtl.cs	fyiReporting.RdlDesign.tablerowctl	8	fyiReporting.RdlDesign.tablerowctl
-2	small		RdlViewer/DataSourcePassword.cs	fyiReporting.RdlViewer.datasourcepassword	4	fyiReporting.RdlViewer.datasourcepassword
-2	small		RdlViewer/DialogMessages.cs	fyiReporting.RdlViewer.dialogmessages	2	fyiReporting.RdlViewer.dialogmessages
 2	small		ServiceManager/FormMain.Designer.cs	ServiceManager.FormMain	3	ServiceManager.FormMain
 2	small		ServiceManager/FormServiceManage.Designer.cs	ServiceManager.FormServiceManage	12	ServiceManager.FormServiceManage
 2	small		UpdateFileCopier/FormMain.Designer.cs	UpdateFileCopier.FormMain	2	UpdateFileCopier.FormMain
