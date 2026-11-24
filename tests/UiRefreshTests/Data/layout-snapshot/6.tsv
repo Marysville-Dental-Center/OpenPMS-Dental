@@ -150,19 +150,19 @@ OpenPmsDental/Forms/FormClaimPayTotal.designer.cs	label1	355,269	44,23
 OpenPmsDental/Forms/FormClaimPayTotal.designer.cs	label2	405,300	348,32	
 OpenPmsDental/Forms/FormClaimPayTotal.designer.cs	label3	8,322	116,34	
 OpenPmsDental/Forms/FormClaimPayTotal.designer.cs	label4	132,322	132,34	
-OpenPmsDental/Forms/FormClaimPayTotal.designer.cs	butWriteOff	132,368	90,25	
-OpenPmsDental/Forms/FormClaimPayTotal.designer.cs	butDeductible	8,368	92,25	
-OpenPmsDental/Forms/FormClaimPayTotal.designer.cs	butPayLabs	228,368	90,25	
+OpenPmsDental/Forms/FormClaimPayTotal.designer.cs	butWriteOff	132,358	90,25	
+OpenPmsDental/Forms/FormClaimPayTotal.designer.cs	butDeductible	8,358	92,25	
+OpenPmsDental/Forms/FormClaimPayTotal.designer.cs	butPayLabs	228,358	90,25	
 OpenPmsDental/Forms/FormClaimPayTotal.designer.cs	textWriteOff	715,269	63,23	
 OpenPmsDental/Forms/FormClaimPayTotal.designer.cs	textInsPayAmt	653,269	63,23	
 OpenPmsDental/Forms/FormClaimPayTotal.designer.cs	textDedApplied	529,269	63,23	
-OpenPmsDental/Forms/FormClaimPayTotal.designer.cs	butSave	1075,368	75,25	
+OpenPmsDental/Forms/FormClaimPayTotal.designer.cs	butSave	1075,358	75,25	
 OpenPmsDental/Forms/FormClaimPayTotal.designer.cs	textLabFees	467,269	63,23	
 OpenPmsDental/Forms/FormClaimPayTotal.designer.cs	gridMain	8,8	1142,257	
 OpenPmsDental/Forms/FormClaimPayTotal.designer.cs	textClaimFee	405,269	63,23	
 OpenPmsDental/Forms/FormClaimPayTotal.designer.cs	textInsPayAllowed	591,269	63,23	
 OpenPmsDental/Forms/FormClaimPayTotal.designer.cs	textPatResp	777,269	63,23	
-OpenPmsDental/Forms/FormClaimPayTotal.designer.cs	.			1158,401
+OpenPmsDental/Forms/FormClaimPayTotal.designer.cs	.			1158,391
 OpenPmsDental/Forms/FormClaimResend.designer.cs	radioClaimOriginal	8,8	341,20	
 OpenPmsDental/Forms/FormClaimResend.designer.cs	radioClaimReplacement	8,32	392,34	
 OpenPmsDental/Forms/FormClaimResend.designer.cs	butSend	310,78	86,24	
@@ -456,9 +456,9 @@ OpenPmsDental/Forms/FormImageCatMerge.designer.cs	buttonChangeFrom	501,35	75,24
 OpenPmsDental/Forms/FormImageCatMerge.designer.cs	textBoxFrom	8,45	236,23	
 OpenPmsDental/Forms/FormImageCatMerge.designer.cs	labelFrom	8,23	132,20	
 OpenPmsDental/Forms/FormImageCatMerge.designer.cs	.			600,253
-OpenPmsDental/Forms/FormImagePickerDXC.designer.cs	butSend	1147,672	75,24	
-OpenPmsDental/Forms/FormImagePickerDXC.designer.cs	pictureBox	256,8	730,688	
-OpenPmsDental/Forms/FormImagePickerDXC.designer.cs	elementHostImageSelector	8,8	240,688	
+OpenPmsDental/Forms/FormImagePickerDXC.designer.cs	butSend	1147,664	75,24	
+OpenPmsDental/Forms/FormImagePickerDXC.designer.cs	pictureBox	256,8	730,680	
+OpenPmsDental/Forms/FormImagePickerDXC.designer.cs	elementHostImageSelector	8,8	240,680	
 OpenPmsDental/Forms/FormImagePickerDXC.designer.cs	checkIsXrayMirrored	1080,216	131,20	
 OpenPmsDental/Forms/FormImagePickerDXC.designer.cs	listBoxImageType	1080,62	142,150	
 OpenPmsDental/Forms/FormImagePickerDXC.designer.cs	textFileName	1080,8	142,23	
@@ -472,8 +472,8 @@ OpenPmsDental/Forms/FormImagePickerDXC.designer.cs	butSendAndAgain	1083,636	139,
 OpenPmsDental/Forms/FormImagePickerDXC.designer.cs	textNarrative	994,375	228,253	
 OpenPmsDental/Forms/FormImagePickerDXC.designer.cs	labelNarrative	994,353	88,18	
 OpenPmsDental/Forms/FormImagePickerDXC.designer.cs	labelCharCount	1146,353	76,18	
-OpenPmsDental/Forms/FormImagePickerDXC.designer.cs	butSendFile	1028,672	113,24	
-OpenPmsDental/Forms/FormImagePickerDXC.designer.cs	.			1230,704
+OpenPmsDental/Forms/FormImagePickerDXC.designer.cs	butSendFile	1028,664	113,24	
+OpenPmsDental/Forms/FormImagePickerDXC.designer.cs	.			1230,696
 OpenPmsDental/Forms/FormInnoDb.designer.cs	textBox1	8,30	709,460	
 OpenPmsDental/Forms/FormInnoDb.designer.cs	label1	8,8	507,20	
 OpenPmsDental/Forms/FormInnoDb.designer.cs	butToMyIsam	8,502	108,24	
@@ -816,8 +816,8 @@ OpenPmsDental/Forms/FormSheetProcSelect.Designer.cs	.			650,696
 OpenPmsDental/Forms/FormShutdown.designer.cs	gridActiveInstances	8,28	514,432	
 OpenPmsDental/Forms/FormShutdown.designer.cs	label1	8,8	510,18	
 OpenPmsDental/Forms/FormShutdown.designer.cs	butCloseSessions	530,408	110,24	
-OpenPmsDental/Forms/FormShutdown.designer.cs	butShutdown	530,444	110,24	
-OpenPmsDental/Forms/FormShutdown.designer.cs	.			648,476
+OpenPmsDental/Forms/FormShutdown.designer.cs	butShutdown	530,436	110,24	
+OpenPmsDental/Forms/FormShutdown.designer.cs	.			648,468
 OpenPmsDental/Forms/FormSpellCheck.designer.cs	label4	348,32	179,23	
 OpenPmsDental/Forms/FormSpellCheck.designer.cs	textCustom	348,57	179,23	
 OpenPmsDental/Forms/FormSpellCheck.designer.cs	checkBox1	8,8	132,20	

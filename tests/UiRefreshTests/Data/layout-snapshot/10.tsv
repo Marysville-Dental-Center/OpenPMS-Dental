@@ -78,11 +78,11 @@ OpenPmsDental/Forms/FormPayPlanTemplates.Designer.cs	butAddTemplate	891,8	73,23
 OpenPmsDental/Forms/FormPayPlanTemplates.Designer.cs	checkShowHidden	217,9	95,20	
 OpenPmsDental/Forms/FormPayPlanTemplates.Designer.cs	.			972,516
 OpenPmsDental/Forms/FormPerioGraphical.designer.cs	toothChartWrapper	0,0	649,696	
-OpenPmsDental/Forms/FormPerioGraphical.designer.cs	butPrint	672,72	88,24	
-OpenPmsDental/Forms/FormPerioGraphical.designer.cs	butSave	672,44	88,24	
+OpenPmsDental/Forms/FormPerioGraphical.designer.cs	butPrint	672,64	88,24	
+OpenPmsDental/Forms/FormPerioGraphical.designer.cs	butSave	672,36	88,24	
 OpenPmsDental/Forms/FormPerioGraphical.designer.cs	butSetup	672,8	88,24	
-OpenPmsDental/Forms/FormPerioGraphical.designer.cs	label1	672,104	88,121	
-OpenPmsDental/Forms/FormPerioGraphical.designer.cs	.			768,704
+OpenPmsDental/Forms/FormPerioGraphical.designer.cs	label1	672,96	88,121	
+OpenPmsDental/Forms/FormPerioGraphical.designer.cs	.			768,696
 OpenPmsDental/Forms/FormPerioGraphicalSetup.designer.cs	label9	323,77	76,23	
 OpenPmsDental/Forms/FormPerioGraphicalSetup.designer.cs	butColorProbingRed	405,77	22,23	
 OpenPmsDental/Forms/FormPerioGraphicalSetup.designer.cs	label8	343,50	56,23	
@@ -137,15 +137,15 @@ OpenPmsDental/Forms/FormProcCodeEditMore.designer.cs	.			560,506
 OpenPmsDental/Forms/FormProcCodeNoteEdit.designer.cs	listProv	91,44	176,199	
 OpenPmsDental/Forms/FormProcCodeNoteEdit.designer.cs	label15	91,24	100,18	
 OpenPmsDental/Forms/FormProcCodeNoteEdit.designer.cs	butSlider	14,49	12,15	
-OpenPmsDental/Forms/FormProcCodeNoteEdit.designer.cs	label11	74,621	102,16	
-OpenPmsDental/Forms/FormProcCodeNoteEdit.designer.cs	textTime2	8,618	60,20	
+OpenPmsDental/Forms/FormProcCodeNoteEdit.designer.cs	label11	74,616	102,16	
+OpenPmsDental/Forms/FormProcCodeNoteEdit.designer.cs	textTime2	8,613	60,20	
 OpenPmsDental/Forms/FormProcCodeNoteEdit.designer.cs	label6	8,8	53,32	
 OpenPmsDental/Forms/FormProcCodeNoteEdit.designer.cs	label10	91,251	148,18	
 OpenPmsDental/Forms/FormProcCodeNoteEdit.designer.cs	textNote	91,271	547,333	
 OpenPmsDental/Forms/FormProcCodeNoteEdit.designer.cs	tbTime	12,44	15,561	
-OpenPmsDental/Forms/FormProcCodeNoteEdit.designer.cs	butSave	563,617	75,26	
-OpenPmsDental/Forms/FormProcCodeNoteEdit.designer.cs	butDelete	207,617	82,26	
-OpenPmsDental/Forms/FormProcCodeNoteEdit.designer.cs	.			646,651
+OpenPmsDental/Forms/FormProcCodeNoteEdit.designer.cs	butSave	563,612	75,26	
+OpenPmsDental/Forms/FormProcCodeNoteEdit.designer.cs	butDelete	207,612	82,26	
+OpenPmsDental/Forms/FormProcCodeNoteEdit.designer.cs	.			646,646
 OpenPmsDental/Forms/FormProcNoteAppend.designer.cs	butSave	489,452	75,24	
 OpenPmsDental/Forms/FormProcNoteAppend.designer.cs	signatureBoxWrapper	110,335	364,81	
 OpenPmsDental/Forms/FormProcNoteAppend.designer.cs	label15	110,315	136,18	
@@ -205,10 +205,10 @@ OpenPmsDental/Forms/FormQueryFavorites.designer.cs	splitterPanel2	455,0	613,608
 OpenPmsDental/Forms/FormQueryFavorites.designer.cs	.			1084,656
 OpenPmsDental/Forms/FormQuestionDefs.designer.cs	label1	8,8	822,32	
 OpenPmsDental/Forms/FormQuestionDefs.designer.cs	butAdd	751,581	79,26	
-OpenPmsDental/Forms/FormQuestionDefs.designer.cs	butDown	751,649	79,26	
+OpenPmsDental/Forms/FormQuestionDefs.designer.cs	butDown	751,641	79,26	
 OpenPmsDental/Forms/FormQuestionDefs.designer.cs	butUp	751,611	79,26	
-OpenPmsDental/Forms/FormQuestionDefs.designer.cs	gridMain	8,42	735,633	
-OpenPmsDental/Forms/FormQuestionDefs.designer.cs	.			838,683
+OpenPmsDental/Forms/FormQuestionDefs.designer.cs	gridMain	8,42	735,625	
+OpenPmsDental/Forms/FormQuestionDefs.designer.cs	.			838,675
 OpenPmsDental/Forms/FormRadOrderList.designer.cs	gridMain	8,42	851,646	
 OpenPmsDental/Forms/FormRadOrderList.designer.cs	label1	8,8	958,32	
 OpenPmsDental/Forms/FormRadOrderList.designer.cs	butSelected	13,23	75,24	

@@ -5,7 +5,7 @@
 file	control	location	size	client_size
 OpenPmsDental/Forms Reports/FormRpArizonaPrimaryCareEligibility.designer.cs	textEligibilityFolder	8,29	609,23	
 OpenPmsDental/Forms Reports/FormRpArizonaPrimaryCareEligibility.designer.cs	label1	8,8	88,19	
-OpenPmsDental/Forms Reports/FormRpArizonaPrimaryCareEligibility.designer.cs	textLog	8,211	609,294	
+OpenPmsDental/Forms Reports/FormRpArizonaPrimaryCareEligibility.designer.cs	textLog	8,211	609,286	
 OpenPmsDental/Forms Reports/FormRpArizonaPrimaryCareEligibility.designer.cs	label2	8,191	72,18	
 OpenPmsDental/Forms Reports/FormRpArizonaPrimaryCareEligibility.designer.cs	label3	8,56	108,17	
 OpenPmsDental/Forms Reports/FormRpArizonaPrimaryCareEligibility.designer.cs	textEligibilityFile	8,75	164,23	
@@ -17,24 +17,24 @@ OpenPmsDental/Forms Reports/FormRpArizonaPrimaryCareEligibility.designer.cs	labe
 OpenPmsDental/Forms Reports/FormRpArizonaPrimaryCareEligibility.designer.cs	butRun	625,445	92,24	
 OpenPmsDental/Forms Reports/FormRpArizonaPrimaryCareEligibility.designer.cs	butCopy	625,417	92,24	
 OpenPmsDental/Forms Reports/FormRpArizonaPrimaryCareEligibility.designer.cs	butBrowse	625,29	92,24	
-OpenPmsDental/Forms Reports/FormRpArizonaPrimaryCareEligibility.designer.cs	butFinished	625,481	92,24	
-OpenPmsDental/Forms Reports/FormRpArizonaPrimaryCareEligibility.designer.cs	.			725,513
+OpenPmsDental/Forms Reports/FormRpArizonaPrimaryCareEligibility.designer.cs	butFinished	625,473	92,24	
+OpenPmsDental/Forms Reports/FormRpArizonaPrimaryCareEligibility.designer.cs	.			725,505
 OpenPmsDental/Forms Reports/FormRpArizonaPrimaryCareEncounter.Designer.cs	butRun	625,449	92,24	
 OpenPmsDental/Forms Reports/FormRpArizonaPrimaryCareEncounter.Designer.cs	butCopy	625,421	92,24	
 OpenPmsDental/Forms Reports/FormRpArizonaPrimaryCareEncounter.Designer.cs	textEncounterFile	8,75	164,23	
 OpenPmsDental/Forms Reports/FormRpArizonaPrimaryCareEncounter.Designer.cs	label3	8,56	108,17	
 OpenPmsDental/Forms Reports/FormRpArizonaPrimaryCareEncounter.Designer.cs	label2	8,191	72,18	
-OpenPmsDental/Forms Reports/FormRpArizonaPrimaryCareEncounter.Designer.cs	textLog	8,211	609,298	
+OpenPmsDental/Forms Reports/FormRpArizonaPrimaryCareEncounter.Designer.cs	textLog	8,211	609,290	
 OpenPmsDental/Forms Reports/FormRpArizonaPrimaryCareEncounter.Designer.cs	butBrowse	625,29	92,24	
 OpenPmsDental/Forms Reports/FormRpArizonaPrimaryCareEncounter.Designer.cs	label1	8,8	88,19	
 OpenPmsDental/Forms Reports/FormRpArizonaPrimaryCareEncounter.Designer.cs	textEncounterFolder	8,29	609,23	
-OpenPmsDental/Forms Reports/FormRpArizonaPrimaryCareEncounter.Designer.cs	butFinished	625,485	92,24	
+OpenPmsDental/Forms Reports/FormRpArizonaPrimaryCareEncounter.Designer.cs	butFinished	625,477	92,24	
 OpenPmsDental/Forms Reports/FormRpArizonaPrimaryCareEncounter.Designer.cs	groupBox1	8,106	609,77	
 OpenPmsDental/Forms Reports/FormRpArizonaPrimaryCareEncounter.Designer.cs	label5	262,23	24,19	
 OpenPmsDental/Forms Reports/FormRpArizonaPrimaryCareEncounter.Designer.cs	dateTimeTo	262,46	200,20	
 OpenPmsDental/Forms Reports/FormRpArizonaPrimaryCareEncounter.Designer.cs	label4	8,23	40,19	
 OpenPmsDental/Forms Reports/FormRpArizonaPrimaryCareEncounter.Designer.cs	dateTimeFrom	8,46	200,20	
-OpenPmsDental/Forms Reports/FormRpArizonaPrimaryCareEncounter.Designer.cs	.			725,517
+OpenPmsDental/Forms Reports/FormRpArizonaPrimaryCareEncounter.Designer.cs	.			725,509
 OpenPmsDental/Forms Reports/FormRpBrokenAppointments.Designer.cs	checkAllProvs	8,238	36,20	
 OpenPmsDental/Forms Reports/FormRpBrokenAppointments.Designer.cs	checkAllClinics	136,238	134,20	
 OpenPmsDental/Forms Reports/FormRpBrokenAppointments.Designer.cs	listClinics	136,260	120,178	

@@ -304,10 +304,10 @@ OpenPmsDental/Forms/FormClaimReports.designer.cs	comboClearhouse	8,8	210,23
 OpenPmsDental/Forms/FormClaimReports.designer.cs	butRetrieve	226,8	90,23	
 OpenPmsDental/Forms/FormClaimReports.designer.cs	.			324,101
 OpenPmsDental/Forms/FormConnectionLost.designer.cs	labelErrMsg	8,8	384,152	
-OpenPmsDental/Forms/FormConnectionLost.designer.cs	butRetry	234,172	75,24	
-OpenPmsDental/Forms/FormConnectionLost.designer.cs	butExit	317,172	75,24	
-OpenPmsDental/Forms/FormConnectionLost.designer.cs	panel1	0,0	400,204	
-OpenPmsDental/Forms/FormConnectionLost.designer.cs	.			400,204
+OpenPmsDental/Forms/FormConnectionLost.designer.cs	butRetry	234,168	75,24	
+OpenPmsDental/Forms/FormConnectionLost.designer.cs	butExit	317,168	75,24	
+OpenPmsDental/Forms/FormConnectionLost.designer.cs	panel1	0,0	400,200	
+OpenPmsDental/Forms/FormConnectionLost.designer.cs	.			400,200
 OpenPmsDental/Forms/FormContactEdit.designer.cs	butSave	634,399	75,25	
 OpenPmsDental/Forms/FormContactEdit.designer.cs	butDelete	8,399	75,25	
 OpenPmsDental/Forms/FormContactEdit.designer.cs	textLName	215,107	204,23	
@@ -323,11 +323,11 @@ OpenPmsDental/Forms/FormContactEdit.designer.cs	textNotes	215,215	494,172
 OpenPmsDental/Forms/FormContactEdit.designer.cs	listCategory	215,8	120,95	
 OpenPmsDental/Forms/FormContactEdit.designer.cs	label6	149,8	60,23	
 OpenPmsDental/Forms/FormContactEdit.designer.cs	.			717,432
-OpenPmsDental/Forms/FormCounties.designer.cs	listCounties	8,29	354,617	
-OpenPmsDental/Forms/FormCounties.designer.cs	butDelete	370,620	86,26	
+OpenPmsDental/Forms/FormCounties.designer.cs	listCounties	8,29	354,609	
+OpenPmsDental/Forms/FormCounties.designer.cs	butDelete	370,612	86,26	
 OpenPmsDental/Forms/FormCounties.designer.cs	butAdd	370,582	86,26	
 OpenPmsDental/Forms/FormCounties.designer.cs	label1	8,8	437,19	
-OpenPmsDental/Forms/FormCounties.designer.cs	.			464,654
+OpenPmsDental/Forms/FormCounties.designer.cs	.			464,646
 OpenPmsDental/Forms/FormCreditRecurringDateChoose.designer.cs	butLastMonth	8,35	96,24	
 OpenPmsDental/Forms/FormCreditRecurringDateChoose.designer.cs	butThisMonth	8,63	96,24	
 OpenPmsDental/Forms/FormCreditRecurringDateChoose.designer.cs	labelMessage	8,8	362,23	
@@ -384,17 +384,17 @@ OpenPmsDental/Forms/FormDisplayFieldEdit.designer.cs	labelInternalName	47,8	88,2
 OpenPmsDental/Forms/FormDisplayFieldEdit.designer.cs	textInternalName	141,8	341,23	
 OpenPmsDental/Forms/FormDisplayFieldEdit.designer.cs	textDescription	141,35	341,23	
 OpenPmsDental/Forms/FormDisplayFieldEdit.designer.cs	label2	63,35	72,23	
-OpenPmsDental/Forms/FormDisplayFieldEdit.designer.cs	label3	43,124	92,23	
+OpenPmsDental/Forms/FormDisplayFieldEdit.designer.cs	label3	43,116	92,23	
 OpenPmsDental/Forms/FormDisplayFieldEdit.designer.cs	textWidthMin	141,89	72,23	
 OpenPmsDental/Forms/FormDisplayFieldEdit.designer.cs	label4	35,89	100,23	
 OpenPmsDental/Forms/FormDisplayFieldEdit.designer.cs	label5	219,92	175,17	
-OpenPmsDental/Forms/FormDisplayFieldEdit.designer.cs	textWidth	141,124	72,23	
-OpenPmsDental/Forms/FormDisplayFieldEdit.designer.cs	butSave	514,128	75,26	
+OpenPmsDental/Forms/FormDisplayFieldEdit.designer.cs	textWidth	141,116	72,23	
+OpenPmsDental/Forms/FormDisplayFieldEdit.designer.cs	butSave	514,120	75,26	
 OpenPmsDental/Forms/FormDisplayFieldEdit.designer.cs	labelDescriptionOption	488,38	101,17	
 OpenPmsDental/Forms/FormDisplayFieldEdit.designer.cs	labelDescriptionOverrideOption	488,65	101,17	
 OpenPmsDental/Forms/FormDisplayFieldEdit.designer.cs	textDescriptionOverride	141,62	341,23	
 OpenPmsDental/Forms/FormDisplayFieldEdit.designer.cs	labelDescriptionOverride	15,62	120,23	
-OpenPmsDental/Forms/FormDisplayFieldEdit.designer.cs	.			597,162
+OpenPmsDental/Forms/FormDisplayFieldEdit.designer.cs	.			597,154
 OpenPmsDental/Forms/FormDrugManufacturerSetup.designer.cs	listMain	8,8	308,310	
 OpenPmsDental/Forms/FormDrugManufacturerSetup.designer.cs	butAdd	8,330	79,24	
 OpenPmsDental/Forms/FormDrugManufacturerSetup.designer.cs	.			324,362

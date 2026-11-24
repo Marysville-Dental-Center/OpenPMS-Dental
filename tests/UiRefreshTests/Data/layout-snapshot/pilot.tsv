@@ -754,7 +754,7 @@ OpenPmsDental/Forms/FormInsPlan.designer.cs	butAdjAdd	965,8	59,23
 OpenPmsDental/Forms/FormInsPlan.designer.cs	butDrop	8,89	72,23	
 OpenPmsDental/Forms/FormInsPlan.designer.cs	label18	904,670	64,23	
 OpenPmsDental/Forms/FormInsPlan.designer.cs	radioChangeAll	186,3	187,20	
-OpenPmsDental/Forms/FormInsPlan.designer.cs	groupChanges	992,878	381,26	
+OpenPmsDental/Forms/FormInsPlan.designer.cs	groupChanges	992,869	381,26	
 OpenPmsDental/Forms/FormInsPlan.designer.cs	radioCreateNew	8,3	162,20	
 OpenPmsDental/Forms/FormInsPlan.designer.cs	groupBox1	1229,8	227,81	
 OpenPmsDental/Forms/FormInsPlan.designer.cs	label34	1032,97	129,23	
@@ -763,9 +763,9 @@ OpenPmsDental/Forms/FormInsPlan.designer.cs	butVerifyBenefits	1253,97	32,23
 OpenPmsDental/Forms/FormInsPlan.designer.cs	textDateLastVerifiedBenefits	1167,97	80,23	
 OpenPmsDental/Forms/FormInsPlan.designer.cs	butAudit	267,8	69,23	
 OpenPmsDental/Forms/FormInsPlan.designer.cs	butPick	342,8	90,23	
-OpenPmsDental/Forms/FormInsPlan.designer.cs	butSave	1381,879	75,24	
-OpenPmsDental/Forms/FormInsPlan.designer.cs	butLabel	97,879	81,24	
-OpenPmsDental/Forms/FormInsPlan.designer.cs	butDelete	8,879	81,24	
+OpenPmsDental/Forms/FormInsPlan.designer.cs	butSave	1381,870	75,24	
+OpenPmsDental/Forms/FormInsPlan.designer.cs	butLabel	97,870	81,24	
+OpenPmsDental/Forms/FormInsPlan.designer.cs	butDelete	8,870	81,24	
 OpenPmsDental/Forms/FormInsPlan.designer.cs	panelPlan	0,130	448,736	
 OpenPmsDental/Forms/FormInsPlan.designer.cs	checkUseBlueBook	334,419	101,20	
 OpenPmsDental/Forms/FormInsPlan.designer.cs	groupCarrierAllowedAmounts	8,476	432,81	
@@ -879,7 +879,7 @@ OpenPmsDental/Forms/FormInsPlan.designer.cs	textPlanNote	904,697	552,72
 OpenPmsDental/Forms/FormInsPlan.designer.cs	labelOtherInsInfo	8,8	108,23	
 OpenPmsDental/Forms/FormInsPlan.designer.cs	groupOrtho	8,553	432,175	
 OpenPmsDental/Forms/FormInsPlan.designer.cs	butBenefits	1366,670	90,23	
-OpenPmsDental/Forms/FormInsPlan.designer.cs	.			1464,911
+OpenPmsDental/Forms/FormInsPlan.designer.cs	.			1464,902
 OpenPmsDental/Forms/FormMedLabEdit.designer.cs	labelTotalVol	343,232	80,23	
 OpenPmsDental/Forms/FormMedLabEdit.designer.cs	textTotVol	429,232	128,23	
 OpenPmsDental/Forms/FormMedLabEdit.designer.cs	textDateTCollect	429,151	128,23	
@@ -1116,11 +1116,11 @@ OpenPmsDental/Forms/FormPatientEdit.Designer.cs	comboPreferredPronouns	186,194	1
 OpenPmsDental/Forms/FormPatientEdit.Designer.cs	labelPreferredPronouns	72,194	108,23	
 OpenPmsDental/Forms/FormPatientEdit.Designer.cs	textBirthdateMask	186,339	102,20	
 OpenPmsDental/Forms/FormPatientEdit.Designer.cs	.			998,956
-OpenPmsDental/Forms/FormPayment.designer.cs	label9	98,742	203,30	
-OpenPmsDental/Forms/FormPayment.designer.cs	butSave	1028,748	75,24	
-OpenPmsDental/Forms/FormPayment.designer.cs	butDeletePayment	8,748	84,24	
-OpenPmsDental/Forms/FormPayment.designer.cs	butPrintReceipt	389,748	101,24	
-OpenPmsDental/Forms/FormPayment.designer.cs	butEmailReceipt	499,748	113,24	
+OpenPmsDental/Forms/FormPayment.designer.cs	label9	98,739	203,30	
+OpenPmsDental/Forms/FormPayment.designer.cs	butSave	1028,745	75,24	
+OpenPmsDental/Forms/FormPayment.designer.cs	butDeletePayment	8,745	84,24	
+OpenPmsDental/Forms/FormPayment.designer.cs	butPrintReceipt	389,745	101,24	
+OpenPmsDental/Forms/FormPayment.designer.cs	butEmailReceipt	499,745	113,24	
 OpenPmsDental/Forms/FormPayment.designer.cs	butCareCredit	650,17	75,26	
 OpenPmsDental/Forms/FormPayment.designer.cs	butPaySimple	877,17	75,26	
 OpenPmsDental/Forms/FormPayment.designer.cs	labelPaySimpleAchStatus	984,49	124,17	
@@ -1223,7 +1223,7 @@ OpenPmsDental/Forms/FormPayment.designer.cs	labelTransactionCompleted	272,94	190
 OpenPmsDental/Forms/FormPayment.designer.cs	labelSurchargeFee	259,62	100,16	
 OpenPmsDental/Forms/FormPayment.designer.cs	textSurcharge	362,59	100,20	
 OpenPmsDental/Forms/FormPayment.designer.cs	butPayConnect	958,17	75,26	
-OpenPmsDental/Forms/FormPayment.designer.cs	.			1111,780
+OpenPmsDental/Forms/FormPayment.designer.cs	.			1111,777
 OpenPmsDental/Forms/FormPractice.designer.cs	listBillType	482,27	144,147	
 OpenPmsDental/Forms/FormPractice.designer.cs	label12	482,8	154,17	
 OpenPmsDental/Forms/FormPractice.designer.cs	label10	634,131	110,16	
