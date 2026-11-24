@@ -413,6 +413,7 @@ namespace UiRefreshTests.Scan {
 						Form formPlain=new Form();
 						formPlain.ClientSize=userControlPlain.Size;
 						builtWindow.Form=formPlain;
+						SampleData.BeforePlainHost(userControlPlain);//UI-12 slice 15: DataSetRowsCtl's VisibleChanged
 						formPlain.Controls.Add(userControlPlain);
 						//UI-PLAIN: the plain windows that host these controls (the graph's dashboard dialogs) and the program's windows give them the
 						//look; the test form does what a plain host's constructor does. UI-PLAIN-2: with the control's own library's copy of the look

@@ -624,7 +624,8 @@ namespace UiRefreshTests {
 				return root;
 			}
 			//UI-12 slice 3 fix round (review of 2026-11-23): the slice's other tab pages and views, laid out by its scripts.
-			string[] arrayTab=GetSliceThreeTabState(window,state) ?? GetSliceElevenTabState(window,state) ?? GetSliceThirteenTabState(window,state);
+			string[] arrayTab=GetSliceThreeTabState(window,state) ?? GetSliceElevenTabState(window,state) ?? GetSliceThirteenTabState(window,state)
+				?? GetSliceFifteenTabState(window,state);
 			if(arrayTab!=null) {
 				if(FindByName(root,arrayTab[0]) is System.Windows.Forms.TabControl) {
 					SelectStockTabPage(root,arrayTab[0],arrayTab[1]);
@@ -729,6 +730,15 @@ namespace UiRefreshTests {
 				case "fyiReporting.RdlDesign.DialogDatabase#connection": return new string[] { "tcDialog","DBConnection" };
 				case "fyiReporting.RdlDesign.DialogDatabase#parameters": return new string[] { "tcDialog","ReportParameters" };
 				case "fyiReporting.RdlDesign.DialogDatabase#grouping": return new string[] { "tcDialog","TabularGroup" };
+			}
+			return null;
+		}
+
+		///<summary>UI-12 slice 15: the report designer's RdlEditPreview, its Editor and Browser pages (stock tab control).</summary>
+		private static string[] GetSliceFifteenTabState(string window,string state) {
+			switch(window+"#"+state) {
+				case "fyiReporting.RdlDesign.RdlEditPreview#editor": return new string[] { "tcEHP","tpEditor" };
+				case "fyiReporting.RdlDesign.RdlEditPreview#browser": return new string[] { "tcEHP","tpBrowser" };
 			}
 			return null;
 		}
