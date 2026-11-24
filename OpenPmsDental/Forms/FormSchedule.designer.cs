@@ -79,18 +79,18 @@ namespace OpenPmsDental {
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(101, 51);
+			this.label2.Location = new System.Drawing.Point(119, 55);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(87, 15);
+			this.label2.Size = new System.Drawing.Size(103, 17);
 			this.label2.TabIndex = 9;
 			this.label2.Text = "To Date";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(8, 51);
+			this.label1.Location = new System.Drawing.Point(8, 55);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(87, 15);
+			this.label1.Size = new System.Drawing.Size(103, 17);
 			this.label1.TabIndex = 7;
 			this.label1.Text = "From Date";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -121,9 +121,9 @@ namespace OpenPmsDental {
 			// 
 			this.checkPracticeNotes.Checked = true;
 			this.checkPracticeNotes.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkPracticeNotes.Location = new System.Drawing.Point(8, 97);
+			this.checkPracticeNotes.Location = new System.Drawing.Point(8, 105);
 			this.checkPracticeNotes.Name = "checkPracticeNotes";
-			this.checkPracticeNotes.Size = new System.Drawing.Size(190, 40);
+			this.checkPracticeNotes.Size = new System.Drawing.Size(214, 20);
 			this.checkPracticeNotes.TabIndex = 28;
 			this.checkPracticeNotes.Text = "Show Practice Holidays and Notes";
 			this.checkPracticeNotes.Click += new System.EventHandler(this.checkPracticeNotes_Click);
@@ -144,9 +144,9 @@ namespace OpenPmsDental {
 			// 
 			this.tabControl1.Controls.Add(this.tabPageProv);
 			this.tabControl1.Controls.Add(this.tabPageEmp);
-			this.tabControl1.Location = new System.Drawing.Point(8, 240);
+			this.tabControl1.Location = new System.Drawing.Point(8, 216);
 			this.tabControl1.Name = "tabControl1";
-			this.tabControl1.Size = new System.Drawing.Size(190, 180);
+			this.tabControl1.Size = new System.Drawing.Size(214, 180);
 			this.tabControl1.TabIndex = 36;
 			// 
 			// tabPageProv
@@ -173,9 +173,9 @@ namespace OpenPmsDental {
 			// 
 			this.checkClinicNotes.Checked = true;
 			this.checkClinicNotes.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkClinicNotes.Location = new System.Drawing.Point(8, 141);
+			this.checkClinicNotes.Location = new System.Drawing.Point(8, 129);
 			this.checkClinicNotes.Name = "checkClinicNotes";
-			this.checkClinicNotes.Size = new System.Drawing.Size(190, 40);
+			this.checkClinicNotes.Size = new System.Drawing.Size(214, 20);
 			this.checkClinicNotes.TabIndex = 37;
 			this.checkClinicNotes.Text = "Show Clinic Holidays and Notes";
 			this.checkClinicNotes.Click += new System.EventHandler(this.checkClinicNotes_Click);
@@ -184,7 +184,7 @@ namespace OpenPmsDental {
 			// 
 			this.butClearWeek.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butClearWeek.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butClearWeek.Location = new System.Drawing.Point(8, 428);
+			this.butClearWeek.Location = new System.Drawing.Point(8, 404);
 			this.butClearWeek.Name = "butClearWeek";
 			this.butClearWeek.Size = new System.Drawing.Size(119, 24);
 			this.butClearWeek.TabIndex = 27;
@@ -196,7 +196,7 @@ namespace OpenPmsDental {
 			this.butPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butPrint.Icon = OpenPmsDental.UI.EnumIcons.Print;
 			this.butPrint.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butPrint.Location = new System.Drawing.Point(921, 831);
+			this.butPrint.Location = new System.Drawing.Point(925, 807);
 			this.butPrint.Name = "butPrint";
 			this.butPrint.Size = new System.Drawing.Size(90, 24);
 			this.butPrint.TabIndex = 26;
@@ -205,21 +205,21 @@ namespace OpenPmsDental {
 			// 
 			// textDateTo
 			// 
-			this.textDateTo.Location = new System.Drawing.Point(98, 70);
+			this.textDateTo.Location = new System.Drawing.Point(119, 74);
 			this.textDateTo.Name = "textDateTo";
-			this.textDateTo.Size = new System.Drawing.Size(84, 23);
+			this.textDateTo.Size = new System.Drawing.Size(103, 23);
 			this.textDateTo.TabIndex = 10;
 			// 
 			// textDateFrom
 			// 
-			this.textDateFrom.Location = new System.Drawing.Point(8, 70);
+			this.textDateFrom.Location = new System.Drawing.Point(8, 74);
 			this.textDateFrom.Name = "textDateFrom";
-			this.textDateFrom.Size = new System.Drawing.Size(84, 23);
+			this.textDateFrom.Size = new System.Drawing.Size(103, 23);
 			this.textDateFrom.TabIndex = 8;
 			// 
 			// butRefresh
 			// 
-			this.butRefresh.Location = new System.Drawing.Point(45, 23);
+			this.butRefresh.Location = new System.Drawing.Point(8, 23);
 			this.butRefresh.Name = "butRefresh";
 			this.butRefresh.Size = new System.Drawing.Size(75, 24);
 			this.butRefresh.TabIndex = 11;
@@ -231,10 +231,10 @@ namespace OpenPmsDental {
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(226, 8);
+			this.gridMain.Location = new System.Drawing.Point(246, 8);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.OneCell;
-			this.gridMain.Size = new System.Drawing.Size(761, 649);
+			this.gridMain.Size = new System.Drawing.Size(769, 787);
 			this.gridMain.TabIndex = 0;
 			this.gridMain.Title = "Schedule";
 			this.gridMain.TranslationName = "TableSchedule";
@@ -245,17 +245,17 @@ namespace OpenPmsDental {
 			// 
 			this.comboClinic.HqDescription = "Headquarters";
 			this.comboClinic.IncludeUnassigned = true;
-			this.comboClinic.Location = new System.Drawing.Point(2, 185);
+			this.comboClinic.Location = new System.Drawing.Point(8, 157);
 			this.comboClinic.Name = "comboClinic";
-			this.comboClinic.Size = new System.Drawing.Size(187, 23);
+			this.comboClinic.Size = new System.Drawing.Size(214, 23);
 			this.comboClinic.TabIndex = 35;
 			this.comboClinic.SelectionChangeCommitted += new System.EventHandler(this.comboClinic_SelectionChangeCommitted);
 			// 
 			// checkShowClinicSchedules
 			// 
-			this.checkShowClinicSchedules.Location = new System.Drawing.Point(8, 212);
+			this.checkShowClinicSchedules.Location = new System.Drawing.Point(8, 188);
 			this.checkShowClinicSchedules.Name = "checkShowClinicSchedules";
-			this.checkShowClinicSchedules.Size = new System.Drawing.Size(135, 20);
+			this.checkShowClinicSchedules.Size = new System.Drawing.Size(214, 20);
 			this.checkShowClinicSchedules.TabIndex = 38;
 			this.checkShowClinicSchedules.Text = "Limit to Ops in Clinic";
 			this.checkShowClinicSchedules.CheckedChanged += new System.EventHandler(this.checkShowClinicSchedules_CheckedChanged);
@@ -266,9 +266,9 @@ namespace OpenPmsDental {
 			this.groupCopy.Controls.Add(this.butCopyDay);
 			this.groupCopy.Controls.Add(this.textClipboard);
 			this.groupCopy.Controls.Add(this.label3);
-			this.groupCopy.Location = new System.Drawing.Point(8, 583);
+			this.groupCopy.Location = new System.Drawing.Point(8, 559);
 			this.groupCopy.Name = "groupCopy";
-			this.groupCopy.Size = new System.Drawing.Size(206, 98);
+			this.groupCopy.Size = new System.Drawing.Size(230, 98);
 			this.groupCopy.TabIndex = 39;
 			this.groupCopy.Text = "Copy";
 			// 
@@ -295,7 +295,7 @@ namespace OpenPmsDental {
 			this.textClipboard.Location = new System.Drawing.Point(8, 39);
 			this.textClipboard.Name = "textClipboard";
 			this.textClipboard.ReadOnly = true;
-			this.textClipboard.Size = new System.Drawing.Size(176, 20);
+			this.textClipboard.Size = new System.Drawing.Size(214, 23);
 			this.textClipboard.TabIndex = 26;
 			// 
 			// label3
@@ -315,9 +315,9 @@ namespace OpenPmsDental {
 			this.groupPaste.Controls.Add(this.checkReplace);
 			this.groupPaste.Controls.Add(this.textRepeat);
 			this.groupPaste.Controls.Add(this.butPaste);
-			this.groupPaste.Location = new System.Drawing.Point(8, 689);
+			this.groupPaste.Location = new System.Drawing.Point(8, 665);
 			this.groupPaste.Name = "groupPaste";
-			this.groupPaste.Size = new System.Drawing.Size(206, 130);
+			this.groupPaste.Size = new System.Drawing.Size(230, 130);
 			this.groupPaste.TabIndex = 40;
 			this.groupPaste.Text = "Paste";
 			// 
@@ -382,7 +382,7 @@ namespace OpenPmsDental {
 			this.groupBoxFilter.Controls.Add(this.label2);
 			this.groupBoxFilter.Location = new System.Drawing.Point(8, 8);
 			this.groupBoxFilter.Name = "groupBoxFilter";
-			this.groupBoxFilter.Size = new System.Drawing.Size(206, 567);
+			this.groupBoxFilter.Size = new System.Drawing.Size(230, 543);
 			this.groupBoxFilter.TabIndex = 49;
 			this.groupBoxFilter.Text = "Filters";
 			// 
@@ -391,9 +391,9 @@ namespace OpenPmsDental {
 			this.groupBoxWeekFilter.Controls.Add(this.radioButtonWeekEnd);
 			this.groupBoxWeekFilter.Controls.Add(this.radioButtonFullWeek);
 			this.groupBoxWeekFilter.Controls.Add(this.radioButtonWorkWeek);
-			this.groupBoxWeekFilter.Location = new System.Drawing.Point(8, 460);
+			this.groupBoxWeekFilter.Location = new System.Drawing.Point(8, 436);
 			this.groupBoxWeekFilter.Name = "groupBoxWeekFilter";
-			this.groupBoxWeekFilter.Size = new System.Drawing.Size(190, 99);
+			this.groupBoxWeekFilter.Size = new System.Drawing.Size(214, 99);
 			this.groupBoxWeekFilter.TabIndex = 50;
 			this.groupBoxWeekFilter.Text = "Week Filter";
 			// 
@@ -435,7 +435,7 @@ namespace OpenPmsDental {
 			// 
 			// FormSchedule
 			// 
-			this.ClientSize = new System.Drawing.Size(1023, 863);
+			this.ClientSize = new System.Drawing.Size(1023, 839);
 			this.Controls.Add(this.groupBoxFilter);
 			this.Controls.Add(this.groupCopy);
 			this.Controls.Add(this.groupPaste);

@@ -62,7 +62,7 @@ namespace OpenPmsDental{
 			// 
 			// textPatientName
 			// 
-			this.textPatientName.Location = new System.Drawing.Point(166, 35);
+			this.textPatientName.Location = new System.Drawing.Point(130, 35);
 			this.textPatientName.Name = "textPatientName";
 			this.textPatientName.ReadOnly = true;
 			this.textPatientName.Size = new System.Drawing.Size(324, 23);
@@ -70,33 +70,33 @@ namespace OpenPmsDental{
 			// 
 			// label8
 			// 
-			this.label8.Location = new System.Drawing.Point(112, 35);
+			this.label8.Location = new System.Drawing.Point(8, 35);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(48, 23);
+			this.label8.Size = new System.Drawing.Size(116, 23);
 			this.label8.TabIndex = 150;
 			this.label8.Text = "Patient";
 			this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textDateService
 			// 
-			this.textDateService.Location = new System.Drawing.Point(626, 8);
+			this.textDateService.Location = new System.Drawing.Point(600, 8);
 			this.textDateService.Name = "textDateService";
 			this.textDateService.ReadOnly = true;
-			this.textDateService.Size = new System.Drawing.Size(90, 20);
+			this.textDateService.Size = new System.Drawing.Size(98, 23);
 			this.textDateService.TabIndex = 153;
 			// 
 			// label9
 			// 
-			this.label9.Location = new System.Drawing.Point(544, 8);
+			this.label9.Location = new System.Drawing.Point(470, 8);
 			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(76, 23);
+			this.label9.Size = new System.Drawing.Size(124, 23);
 			this.label9.TabIndex = 152;
 			this.label9.Text = "Date Service";
 			this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textClaimIdentifier
 			// 
-			this.textClaimIdentifier.Location = new System.Drawing.Point(166, 62);
+			this.textClaimIdentifier.Location = new System.Drawing.Point(130, 62);
 			this.textClaimIdentifier.Name = "textClaimIdentifier";
 			this.textClaimIdentifier.ReadOnly = true;
 			this.textClaimIdentifier.Size = new System.Drawing.Size(324, 23);
@@ -104,16 +104,16 @@ namespace OpenPmsDental{
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(68, 62);
+			this.label1.Location = new System.Drawing.Point(8, 62);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(92, 23);
+			this.label1.Size = new System.Drawing.Size(116, 23);
 			this.label1.TabIndex = 185;
 			this.label1.Text = "Claim Identfier";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textPayorControlNum
 			// 
-			this.textPayorControlNum.Location = new System.Drawing.Point(166, 89);
+			this.textPayorControlNum.Location = new System.Drawing.Point(130, 89);
 			this.textPayorControlNum.Name = "textPayorControlNum";
 			this.textPayorControlNum.ReadOnly = true;
 			this.textPayorControlNum.Size = new System.Drawing.Size(324, 23);
@@ -121,7 +121,7 @@ namespace OpenPmsDental{
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(44, 89);
+			this.label2.Location = new System.Drawing.Point(8, 89);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(116, 23);
 			this.label2.TabIndex = 187;
@@ -130,7 +130,7 @@ namespace OpenPmsDental{
 			// 
 			// textStatus
 			// 
-			this.textStatus.Location = new System.Drawing.Point(166, 116);
+			this.textStatus.Location = new System.Drawing.Point(130, 116);
 			this.textStatus.Name = "textStatus";
 			this.textStatus.ReadOnly = true;
 			this.textStatus.Size = new System.Drawing.Size(324, 23);
@@ -138,16 +138,16 @@ namespace OpenPmsDental{
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(116, 116);
+			this.label4.Location = new System.Drawing.Point(8, 116);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(44, 23);
+			this.label4.Size = new System.Drawing.Size(116, 23);
 			this.label4.TabIndex = 189;
 			this.label4.Text = "Status";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textClaimFee
 			// 
-			this.textClaimFee.Location = new System.Drawing.Point(626, 35);
+			this.textClaimFee.Location = new System.Drawing.Point(600, 35);
 			this.textClaimFee.Name = "textClaimFee";
 			this.textClaimFee.ReadOnly = true;
 			this.textClaimFee.Size = new System.Drawing.Size(98, 23);
@@ -155,16 +155,16 @@ namespace OpenPmsDental{
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(556, 35);
+			this.label5.Location = new System.Drawing.Point(470, 35);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(64, 23);
+			this.label5.Size = new System.Drawing.Size(124, 23);
 			this.label5.TabIndex = 191;
 			this.label5.Text = "Claim Fee";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textInsPaid
 			// 
-			this.textInsPaid.Location = new System.Drawing.Point(626, 62);
+			this.textInsPaid.Location = new System.Drawing.Point(600, 62);
 			this.textInsPaid.Name = "textInsPaid";
 			this.textInsPaid.ReadOnly = true;
 			this.textInsPaid.Size = new System.Drawing.Size(98, 23);
@@ -172,24 +172,24 @@ namespace OpenPmsDental{
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(568, 62);
+			this.label6.Location = new System.Drawing.Point(470, 62);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(52, 23);
+			this.label6.Size = new System.Drawing.Size(124, 23);
 			this.label6.TabIndex = 193;
 			this.label6.Text = "Ins Paid";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textPatResp
 			// 
-			this.textPatResp.Location = new System.Drawing.Point(636, 89);
+			this.textPatResp.Location = new System.Drawing.Point(600, 89);
 			this.textPatResp.Name = "textPatResp";
 			this.textPatResp.ReadOnly = true;
-			this.textPatResp.Size = new System.Drawing.Size(88, 23);
+			this.textPatResp.Size = new System.Drawing.Size(98, 23);
 			this.textPatResp.TabIndex = 196;
 			// 
 			// label7
 			// 
-			this.label7.Location = new System.Drawing.Point(506, 89);
+			this.label7.Location = new System.Drawing.Point(470, 89);
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(124, 23);
 			this.label7.TabIndex = 195;
@@ -300,7 +300,7 @@ namespace OpenPmsDental{
 			// 
 			this.gridAdjudicationInfo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridAdjudicationInfo.Location = new System.Drawing.Point(8, 507);
+			this.gridAdjudicationInfo.Location = new System.Drawing.Point(8, 515);
 			this.gridAdjudicationInfo.Name = "gridAdjudicationInfo";
 			this.gridAdjudicationInfo.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
 			this.gridAdjudicationInfo.Size = new System.Drawing.Size(958, 100);
@@ -315,7 +315,7 @@ namespace OpenPmsDental{
 			this.gridProcedureBreakdown.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridProcedureBreakdown.Location = new System.Drawing.Point(8, 335);
+			this.gridProcedureBreakdown.Location = new System.Drawing.Point(8, 339);
 			this.gridProcedureBreakdown.Name = "gridProcedureBreakdown";
 			this.gridProcedureBreakdown.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
 			this.gridProcedureBreakdown.Size = new System.Drawing.Size(958, 168);
@@ -329,7 +329,7 @@ namespace OpenPmsDental{
 			// 
 			this.gridSupplementalInfo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridSupplementalInfo.Location = new System.Drawing.Point(8, 619);
+			this.gridSupplementalInfo.Location = new System.Drawing.Point(8, 623);
 			this.gridSupplementalInfo.Name = "gridSupplementalInfo";
 			this.gridSupplementalInfo.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
 			this.gridSupplementalInfo.Size = new System.Drawing.Size(956, 80);
@@ -341,24 +341,24 @@ namespace OpenPmsDental{
 			// 
 			// textDatePayerReceived
 			// 
-			this.textDatePayerReceived.Location = new System.Drawing.Point(636, 116);
+			this.textDatePayerReceived.Location = new System.Drawing.Point(600, 116);
 			this.textDatePayerReceived.Name = "textDatePayerReceived";
 			this.textDatePayerReceived.ReadOnly = true;
-			this.textDatePayerReceived.Size = new System.Drawing.Size(88, 23);
+			this.textDatePayerReceived.Size = new System.Drawing.Size(98, 23);
 			this.textDatePayerReceived.TabIndex = 213;
 			// 
 			// label11
 			// 
-			this.label11.Location = new System.Drawing.Point(510, 116);
+			this.label11.Location = new System.Drawing.Point(470, 116);
 			this.label11.Name = "label11";
-			this.label11.Size = new System.Drawing.Size(120, 23);
+			this.label11.Size = new System.Drawing.Size(124, 23);
 			this.label11.TabIndex = 212;
 			this.label11.Text = "Date Payer Received";
 			this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textSubscriberName
 			// 
-			this.textSubscriberName.Location = new System.Drawing.Point(166, 8);
+			this.textSubscriberName.Location = new System.Drawing.Point(130, 8);
 			this.textSubscriberName.Name = "textSubscriberName";
 			this.textSubscriberName.ReadOnly = true;
 			this.textSubscriberName.Size = new System.Drawing.Size(324, 23);
@@ -366,9 +366,9 @@ namespace OpenPmsDental{
 			// 
 			// label12
 			// 
-			this.label12.Location = new System.Drawing.Point(92, 8);
+			this.label12.Location = new System.Drawing.Point(8, 8);
 			this.label12.Name = "label12";
-			this.label12.Size = new System.Drawing.Size(68, 23);
+			this.label12.Size = new System.Drawing.Size(116, 23);
 			this.label12.TabIndex = 214;
 			this.label12.Text = "Subscriber";
 			this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -378,7 +378,7 @@ namespace OpenPmsDental{
 			this.butPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butPrint.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Print,16,16);
 			this.butPrint.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butPrint.Location = new System.Drawing.Point(8, 705);
+			this.butPrint.Location = new System.Drawing.Point(8, 715);
 			this.butPrint.Name = "butPrint";
 			this.butPrint.Size = new System.Drawing.Size(79, 26);
 			this.butPrint.TabIndex = 216;
@@ -388,7 +388,7 @@ namespace OpenPmsDental{
 			// FormEtrans835ClaimEdit
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(974, 739);
+			this.ClientSize = new System.Drawing.Size(974, 749);
 			this.Controls.Add(this.butPrint);
 			this.Controls.Add(this.textSubscriberName);
 			this.Controls.Add(this.label12);

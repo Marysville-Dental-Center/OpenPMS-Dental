@@ -139,7 +139,7 @@
 			this.tabControl.Controls.Add(this.tabPageReactivations);
 			this.tabControl.Location = new System.Drawing.Point(8, 8);
 			this.tabControl.Name = "tabControl";
-			this.tabControl.Size = new System.Drawing.Size(991, 781);
+			this.tabControl.Size = new System.Drawing.Size(1051, 781);
 			this.tabControl.TabIndex = 3;
 			this.tabControl.SelectedIndexChanged += new System.EventHandler(this.tabControl_SelectedIndexChanged);
 			// 
@@ -175,7 +175,7 @@
 			// groupEmailFromRecalls
 			// 
 			this.groupEmailFromRecalls.Controls.Add(this.comboEmailFromRecalls);
-			this.groupEmailFromRecalls.Location = new System.Drawing.Point(743, 70);
+			this.groupEmailFromRecalls.Location = new System.Drawing.Point(811, 70);
 			this.groupEmailFromRecalls.Name = "groupEmailFromRecalls";
 			this.groupEmailFromRecalls.Size = new System.Drawing.Size(228, 54);
 			this.groupEmailFromRecalls.TabIndex = 125;
@@ -191,7 +191,7 @@
 			// butUndo
 			// 
 			this.butUndo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butUndo.Location = new System.Drawing.Point(8, 706);
+			this.butUndo.Location = new System.Drawing.Point(8, 726);
 			this.butUndo.Name = "butUndo";
 			this.butUndo.Size = new System.Drawing.Size(119, 24);
 			this.butUndo.TabIndex = 137;
@@ -202,7 +202,7 @@
 			// 
 			this.butGotoFamily.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butGotoFamily.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butGotoFamily.Location = new System.Drawing.Point(448, 678);
+			this.butGotoFamily.Location = new System.Drawing.Point(456, 698);
 			this.butGotoFamily.Name = "butGotoFamily";
 			this.butGotoFamily.Size = new System.Drawing.Size(96, 24);
 			this.butGotoFamily.TabIndex = 136;
@@ -214,7 +214,7 @@
 			this.butCommlog.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butCommlog.Icon = OpenPmsDental.UI.EnumIcons.CommLog;
 			this.butCommlog.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butCommlog.Location = new System.Drawing.Point(550, 706);
+			this.butCommlog.Location = new System.Drawing.Point(560, 726);
 			this.butCommlog.Name = "butCommlog";
 			this.butCommlog.Size = new System.Drawing.Size(88, 24);
 			this.butCommlog.TabIndex = 135;
@@ -225,7 +225,7 @@
 			// 
 			this.butGotoAccount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butGotoAccount.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butGotoAccount.Location = new System.Drawing.Point(448, 706);
+			this.butGotoAccount.Location = new System.Drawing.Point(456, 726);
 			this.butGotoAccount.Name = "butGotoAccount";
 			this.butGotoAccount.Size = new System.Drawing.Size(96, 24);
 			this.butGotoAccount.TabIndex = 134;
@@ -237,7 +237,7 @@
 			this.butSchedFam.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butSchedFam.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Pin,19,22);
 			this.butSchedFam.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butSchedFam.Location = new System.Drawing.Point(644, 706);
+			this.butSchedFam.Location = new System.Drawing.Point(656, 726);
 			this.butSchedFam.Name = "butSchedFam";
 			this.butSchedFam.Size = new System.Drawing.Size(114, 24);
 			this.butSchedFam.TabIndex = 129;
@@ -250,7 +250,7 @@
 			this.butLabelOne.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butLabelOne.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Label,18,16);
 			this.butLabelOne.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butLabelOne.Location = new System.Drawing.Point(133, 678);
+			this.butLabelOne.Location = new System.Drawing.Point(135, 698);
 			this.butLabelOne.Name = "butLabelOne";
 			this.butLabelOne.Size = new System.Drawing.Size(119, 24);
 			this.butLabelOne.TabIndex = 133;
@@ -262,7 +262,7 @@
 			this.butSchedPat.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butSchedPat.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Pin,19,22);
 			this.butSchedPat.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butSchedPat.Location = new System.Drawing.Point(639, 678);
+			this.butSchedPat.Location = new System.Drawing.Point(656, 698);
 			this.butSchedPat.Name = "butSchedPat";
 			this.butSchedPat.Size = new System.Drawing.Size(114, 24);
 			this.butSchedPat.TabIndex = 128;
@@ -273,18 +273,18 @@
 			// labelPatientCount
 			// 
 			this.labelPatientCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelPatientCount.Location = new System.Drawing.Point(860, 683);
+			this.labelPatientCount.Location = new System.Drawing.Point(951, 698);
 			this.labelPatientCount.Name = "labelPatientCount";
-			this.labelPatientCount.Size = new System.Drawing.Size(114, 14);
+			this.labelPatientCount.Size = new System.Drawing.Size(88, 24);
 			this.labelPatientCount.TabIndex = 132;
 			this.labelPatientCount.Text = "Patient Count:";
-			this.labelPatientCount.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.labelPatientCount.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// butECards
 			// 
 			this.butECards.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butECards.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butECards.Location = new System.Drawing.Point(258, 678);
+			this.butECards.Location = new System.Drawing.Point(262, 698);
 			this.butECards.Name = "butECards";
 			this.butECards.Size = new System.Drawing.Size(91, 24);
 			this.butECards.TabIndex = 130;
@@ -297,7 +297,7 @@
 			this.butEmail.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butEmail.Icon = OpenPmsDental.UI.EnumIcons.Email;
 			this.butEmail.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butEmail.Location = new System.Drawing.Point(258, 706);
+			this.butEmail.Location = new System.Drawing.Point(262, 726);
 			this.butEmail.Name = "butEmail";
 			this.butEmail.Size = new System.Drawing.Size(91, 24);
 			this.butEmail.TabIndex = 131;
@@ -309,7 +309,7 @@
 			this.butPostcards.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butPostcards.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Preview,17,16);
 			this.butPostcards.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butPostcards.Location = new System.Drawing.Point(8, 678);
+			this.butPostcards.Location = new System.Drawing.Point(8, 698);
 			this.butPostcards.Name = "butPostcards";
 			this.butPostcards.Size = new System.Drawing.Size(119, 24);
 			this.butPostcards.TabIndex = 124;
@@ -321,7 +321,7 @@
 			this.butPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butPrint.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Print,16,16);
 			this.butPrint.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butPrint.Location = new System.Drawing.Point(355, 706);
+			this.butPrint.Location = new System.Drawing.Point(361, 726);
 			this.butPrint.Name = "butPrint";
 			this.butPrint.Size = new System.Drawing.Size(87, 24);
 			this.butPrint.TabIndex = 127;
@@ -335,10 +335,10 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridRecalls.HScrollVisible = true;
-			this.gridRecalls.Location = new System.Drawing.Point(8, 178);
+			this.gridRecalls.Location = new System.Drawing.Point(8, 132);
 			this.gridRecalls.Name = "gridRecalls";
 			this.gridRecalls.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridRecalls.Size = new System.Drawing.Size(971, 496);
+			this.gridRecalls.Size = new System.Drawing.Size(1031, 558);
 			this.gridRecalls.TabIndex = 126;
 			this.gridRecalls.Title = "Recall List";
 			this.gridRecalls.TranslationName = "TableRecallList";
@@ -349,7 +349,7 @@
 			// 
 			this.groupSetStatusRecalls.Controls.Add(this.comboSetStatusRecalls);
 			this.groupSetStatusRecalls.Controls.Add(this.butSetStatusRecalls);
-			this.groupSetStatusRecalls.Location = new System.Drawing.Point(743, 8);
+			this.groupSetStatusRecalls.Location = new System.Drawing.Point(811, 8);
 			this.groupSetStatusRecalls.Name = "groupSetStatusRecalls";
 			this.groupSetStatusRecalls.Size = new System.Drawing.Size(228, 54);
 			this.groupSetStatusRecalls.TabIndex = 123;
@@ -376,7 +376,7 @@
 			this.butLabels.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butLabels.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Label,18,16);
 			this.butLabels.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butLabels.Location = new System.Drawing.Point(133, 706);
+			this.butLabels.Location = new System.Drawing.Point(135, 726);
 			this.butLabels.Name = "butLabels";
 			this.butLabels.Size = new System.Drawing.Size(119, 24);
 			this.butLabels.TabIndex = 122;
@@ -386,7 +386,7 @@
 			// butReport
 			// 
 			this.butReport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butReport.Location = new System.Drawing.Point(355, 678);
+			this.butReport.Location = new System.Drawing.Point(361, 698);
 			this.butReport.Name = "butReport";
 			this.butReport.Size = new System.Drawing.Size(87, 24);
 			this.butReport.TabIndex = 121;
@@ -413,27 +413,27 @@
 			this.groupViewRecalls.Controls.Add(this.comboSortRecalls);
 			this.groupViewRecalls.Location = new System.Drawing.Point(8, 8);
 			this.groupViewRecalls.Name = "groupViewRecalls";
-			this.groupViewRecalls.Size = new System.Drawing.Size(729, 166);
+			this.groupViewRecalls.Size = new System.Drawing.Size(795, 116);
 			this.groupViewRecalls.TabIndex = 120;
 			this.groupViewRecalls.Text = "View";
 			// 
 			// comboShowReminders
 			// 
-			this.comboShowReminders.Location = new System.Drawing.Point(286, 23);
+			this.comboShowReminders.Location = new System.Drawing.Point(298, 23);
 			this.comboShowReminders.Name = "comboShowReminders";
 			this.comboShowReminders.Size = new System.Drawing.Size(104, 23);
 			this.comboShowReminders.TabIndex = 39;
 			// 
 			// comboProviderRecalls
 			// 
-			this.comboProviderRecalls.Location = new System.Drawing.Point(458, 23);
+			this.comboProviderRecalls.Location = new System.Drawing.Point(480, 23);
 			this.comboProviderRecalls.Name = "comboProviderRecalls";
-			this.comboProviderRecalls.Size = new System.Drawing.Size(160, 23);
+			this.comboProviderRecalls.Size = new System.Drawing.Size(140, 23);
 			this.comboProviderRecalls.TabIndex = 41;
 			// 
 			// comboRecallTypes
 			// 
-			this.comboRecallTypes.Location = new System.Drawing.Point(286, 50);
+			this.comboRecallTypes.Location = new System.Drawing.Point(298, 50);
 			this.comboRecallTypes.Name = "comboRecallTypes";
 			this.comboRecallTypes.SelectionModeMulti = true;
 			this.comboRecallTypes.Size = new System.Drawing.Size(104, 23);
@@ -441,9 +441,9 @@
 			// 
 			// labelRecallTypes
 			// 
-			this.labelRecallTypes.Location = new System.Drawing.Point(208, 50);
+			this.labelRecallTypes.Location = new System.Drawing.Point(192, 50);
 			this.labelRecallTypes.Name = "labelRecallTypes";
-			this.labelRecallTypes.Size = new System.Drawing.Size(72, 23);
+			this.labelRecallTypes.Size = new System.Drawing.Size(100, 23);
 			this.labelRecallTypes.TabIndex = 43;
 			this.labelRecallTypes.Text = "Recall Type";
 			this.labelRecallTypes.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -451,33 +451,33 @@
 			// checkIncludeReminded
 			// 
 			this.checkIncludeReminded.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkIncludeReminded.Location = new System.Drawing.Point(244, 111);
+			this.checkIncludeReminded.Location = new System.Drawing.Point(636, 71);
 			this.checkIncludeReminded.Name = "checkIncludeReminded";
-			this.checkIncludeReminded.Size = new System.Drawing.Size(121, 20);
+			this.checkIncludeReminded.Size = new System.Drawing.Size(123, 20);
 			this.checkIncludeReminded.TabIndex = 42;
 			this.checkIncludeReminded.Text = "Include Reminded";
 			// 
 			// labelSortRecalls
 			// 
-			this.labelSortRecalls.Location = new System.Drawing.Point(206, 135);
+			this.labelSortRecalls.Location = new System.Drawing.Point(192, 77);
 			this.labelSortRecalls.Name = "labelSortRecalls";
-			this.labelSortRecalls.Size = new System.Drawing.Size(32, 23);
+			this.labelSortRecalls.Size = new System.Drawing.Size(100, 23);
 			this.labelSortRecalls.TabIndex = 36;
 			this.labelSortRecalls.Text = "Sort";
 			this.labelSortRecalls.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// comboSiteRecalls
 			// 
-			this.comboSiteRecalls.Location = new System.Drawing.Point(458, 135);
+			this.comboSiteRecalls.Location = new System.Drawing.Point(480, 77);
 			this.comboSiteRecalls.Name = "comboSiteRecalls";
-			this.comboSiteRecalls.Size = new System.Drawing.Size(160, 23);
+			this.comboSiteRecalls.Size = new System.Drawing.Size(140, 23);
 			this.comboSiteRecalls.TabIndex = 25;
 			// 
 			// labelSiteRecalls
 			// 
-			this.labelSiteRecalls.Location = new System.Drawing.Point(420, 135);
+			this.labelSiteRecalls.Location = new System.Drawing.Point(418, 77);
 			this.labelSiteRecalls.Name = "labelSiteRecalls";
-			this.labelSiteRecalls.Size = new System.Drawing.Size(32, 23);
+			this.labelSiteRecalls.Size = new System.Drawing.Size(56, 23);
 			this.labelSiteRecalls.TabIndex = 24;
 			this.labelSiteRecalls.Text = "Site";
 			this.labelSiteRecalls.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -486,14 +486,14 @@
 			// 
 			this.comboClinicRecalls.IncludeAll = true;
 			this.comboClinicRecalls.IncludeUnassigned = true;
-			this.comboClinicRecalls.Location = new System.Drawing.Point(415, 50);
+			this.comboClinicRecalls.Location = new System.Drawing.Point(437, 50);
 			this.comboClinicRecalls.Name = "comboClinicRecalls";
-			this.comboClinicRecalls.Size = new System.Drawing.Size(195, 23);
+			this.comboClinicRecalls.Size = new System.Drawing.Size(183, 23);
 			this.comboClinicRecalls.TabIndex = 23;
 			// 
 			// labelProviderRecalls
 			// 
-			this.labelProviderRecalls.Location = new System.Drawing.Point(396, 23);
+			this.labelProviderRecalls.Location = new System.Drawing.Point(418, 23);
 			this.labelProviderRecalls.Name = "labelProviderRecalls";
 			this.labelProviderRecalls.Size = new System.Drawing.Size(56, 23);
 			this.labelProviderRecalls.TabIndex = 20;
@@ -503,16 +503,16 @@
 			// checkShowConflictingTypes
 			// 
 			this.checkShowConflictingTypes.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkShowConflictingTypes.Location = new System.Drawing.Point(622, 67);
+			this.checkShowConflictingTypes.Location = new System.Drawing.Point(636, 47);
 			this.checkShowConflictingTypes.Name = "checkShowConflictingTypes";
-			this.checkShowConflictingTypes.Size = new System.Drawing.Size(99, 40);
+			this.checkShowConflictingTypes.Size = new System.Drawing.Size(151, 20);
 			this.checkShowConflictingTypes.TabIndex = 40;
 			this.checkShowConflictingTypes.Text = "Show Conflicting Types";
 			this.checkShowConflictingTypes.Click += new System.EventHandler(this.checkShowConflictingTypes_Click);
 			// 
 			// butRefreshRecalls
 			// 
-			this.butRefreshRecalls.Location = new System.Drawing.Point(624, 135);
+			this.butRefreshRecalls.Location = new System.Drawing.Point(8, 77);
 			this.butRefreshRecalls.Name = "butRefreshRecalls";
 			this.butRefreshRecalls.Size = new System.Drawing.Size(80, 23);
 			this.butRefreshRecalls.TabIndex = 2;
@@ -521,7 +521,7 @@
 			// 
 			// labelShowReminders
 			// 
-			this.labelShowReminders.Location = new System.Drawing.Point(180, 23);
+			this.labelShowReminders.Location = new System.Drawing.Point(192, 23);
 			this.labelShowReminders.Name = "labelShowReminders";
 			this.labelShowReminders.Size = new System.Drawing.Size(100, 23);
 			this.labelShowReminders.TabIndex = 38;
@@ -531,9 +531,9 @@
 			// checkGroupFamiliesRecalls
 			// 
 			this.checkGroupFamiliesRecalls.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkGroupFamiliesRecalls.Location = new System.Drawing.Point(622, 23);
+			this.checkGroupFamiliesRecalls.Location = new System.Drawing.Point(636, 23);
 			this.checkGroupFamiliesRecalls.Name = "checkGroupFamiliesRecalls";
-			this.checkGroupFamiliesRecalls.Size = new System.Drawing.Size(99, 40);
+			this.checkGroupFamiliesRecalls.Size = new System.Drawing.Size(106, 20);
 			this.checkGroupFamiliesRecalls.TabIndex = 19;
 			this.checkGroupFamiliesRecalls.Text = "Group Families";
 			this.checkGroupFamiliesRecalls.Click += new System.EventHandler(this.checkGroupFamilies_Click);
@@ -551,7 +551,7 @@
 			// 
 			// comboSortRecalls
 			// 
-			this.comboSortRecalls.Location = new System.Drawing.Point(244, 135);
+			this.comboSortRecalls.Location = new System.Drawing.Point(298, 77);
 			this.comboSortRecalls.Name = "comboSortRecalls";
 			this.comboSortRecalls.Size = new System.Drawing.Size(104, 23);
 			this.comboSortRecalls.TabIndex = 37;
@@ -578,7 +578,7 @@
 			this.gridReminders.HScrollVisible = true;
 			this.gridReminders.Location = new System.Drawing.Point(8, 93);
 			this.gridReminders.Name = "gridReminders";
-			this.gridReminders.Size = new System.Drawing.Size(971, 587);
+			this.gridReminders.Size = new System.Drawing.Size(1031, 657);
 			this.gridReminders.TabIndex = 127;
 			this.gridReminders.Title = "Reminder List";
 			this.gridReminders.TranslationName = "TableReminderList";
@@ -590,13 +590,13 @@
 			this.groupViewRemind.Controls.Add(this.datePickerRemind);
 			this.groupViewRemind.Location = new System.Drawing.Point(8, 8);
 			this.groupViewRemind.Name = "groupViewRemind";
-			this.groupViewRemind.Size = new System.Drawing.Size(464, 77);
+			this.groupViewRemind.Size = new System.Drawing.Size(471, 77);
 			this.groupViewRemind.TabIndex = 121;
 			this.groupViewRemind.Text = "View";
 			// 
 			// butRefreshRemind
 			// 
-			this.butRefreshRemind.Location = new System.Drawing.Point(344, 34);
+			this.butRefreshRemind.Location = new System.Drawing.Point(383, 23);
 			this.butRefreshRemind.Name = "butRefreshRemind";
 			this.butRefreshRemind.Size = new System.Drawing.Size(80, 23);
 			this.butRefreshRemind.TabIndex = 2;
@@ -607,9 +607,9 @@
 			// 
 			this.comboClinicRemind.IncludeAll = true;
 			this.comboClinicRemind.IncludeUnassigned = true;
-			this.comboClinicRemind.Location = new System.Drawing.Point(139, 34);
+			this.comboClinicRemind.Location = new System.Drawing.Point(192, 23);
 			this.comboClinicRemind.Name = "comboClinicRemind";
-			this.comboClinicRemind.Size = new System.Drawing.Size(199, 23);
+			this.comboClinicRemind.Size = new System.Drawing.Size(183, 23);
 			this.comboClinicRemind.TabIndex = 23;
 			// 
 			// datePickerRemind
@@ -653,7 +653,7 @@
 			// groupEmailFromReact
 			// 
 			this.groupEmailFromReact.Controls.Add(this.comboEmailFromReact);
-			this.groupEmailFromReact.Location = new System.Drawing.Point(743, 70);
+			this.groupEmailFromReact.Location = new System.Drawing.Point(811, 70);
 			this.groupEmailFromReact.Name = "groupEmailFromReact";
 			this.groupEmailFromReact.Size = new System.Drawing.Size(228, 54);
 			this.groupEmailFromReact.TabIndex = 163;
@@ -670,7 +670,7 @@
 			// 
 			this.butReactGoToFam.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butReactGoToFam.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butReactGoToFam.Location = new System.Drawing.Point(443, 678);
+			this.butReactGoToFam.Location = new System.Drawing.Point(456, 698);
 			this.butReactGoToFam.Name = "butReactGoToFam";
 			this.butReactGoToFam.Size = new System.Drawing.Size(96, 24);
 			this.butReactGoToFam.TabIndex = 162;
@@ -682,7 +682,7 @@
 			this.butReactComm.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butReactComm.Icon = OpenPmsDental.UI.EnumIcons.CommLog;
 			this.butReactComm.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butReactComm.Location = new System.Drawing.Point(545, 706);
+			this.butReactComm.Location = new System.Drawing.Point(560, 726);
 			this.butReactComm.Name = "butReactComm";
 			this.butReactComm.Size = new System.Drawing.Size(88, 24);
 			this.butReactComm.TabIndex = 161;
@@ -693,7 +693,7 @@
 			// 
 			this.butReactGoToAcct.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butReactGoToAcct.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butReactGoToAcct.Location = new System.Drawing.Point(443, 706);
+			this.butReactGoToAcct.Location = new System.Drawing.Point(456, 726);
 			this.butReactGoToAcct.Name = "butReactGoToAcct";
 			this.butReactGoToAcct.Size = new System.Drawing.Size(96, 24);
 			this.butReactGoToAcct.TabIndex = 160;
@@ -705,7 +705,7 @@
 			this.butReactSchedFam.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butReactSchedFam.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Pin,19,22);
 			this.butReactSchedFam.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butReactSchedFam.Location = new System.Drawing.Point(639, 706);
+			this.butReactSchedFam.Location = new System.Drawing.Point(656, 726);
 			this.butReactSchedFam.Name = "butReactSchedFam";
 			this.butReactSchedFam.Size = new System.Drawing.Size(114, 24);
 			this.butReactSchedFam.TabIndex = 156;
@@ -718,7 +718,7 @@
 			this.butReactSingleLabels.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butReactSingleLabels.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Label,18,16);
 			this.butReactSingleLabels.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butReactSingleLabels.Location = new System.Drawing.Point(133, 678);
+			this.butReactSingleLabels.Location = new System.Drawing.Point(135, 698);
 			this.butReactSingleLabels.Name = "butReactSingleLabels";
 			this.butReactSingleLabels.Size = new System.Drawing.Size(119, 24);
 			this.butReactSingleLabels.TabIndex = 159;
@@ -730,7 +730,7 @@
 			this.butReactSchedPat.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butReactSchedPat.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Pin,19,22);
 			this.butReactSchedPat.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butReactSchedPat.Location = new System.Drawing.Point(639, 678);
+			this.butReactSchedPat.Location = new System.Drawing.Point(656, 698);
 			this.butReactSchedPat.Name = "butReactSchedPat";
 			this.butReactSchedPat.Size = new System.Drawing.Size(114, 24);
 			this.butReactSchedPat.TabIndex = 155;
@@ -743,7 +743,7 @@
 			this.butReactEmail.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butReactEmail.Icon = OpenPmsDental.UI.EnumIcons.Email;
 			this.butReactEmail.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butReactEmail.Location = new System.Drawing.Point(253, 706);
+			this.butReactEmail.Location = new System.Drawing.Point(262, 726);
 			this.butReactEmail.Name = "butReactEmail";
 			this.butReactEmail.Size = new System.Drawing.Size(91, 24);
 			this.butReactEmail.TabIndex = 158;
@@ -755,7 +755,7 @@
 			this.butReactPostcardPreview.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butReactPostcardPreview.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Preview,17,16);
 			this.butReactPostcardPreview.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butReactPostcardPreview.Location = new System.Drawing.Point(8, 678);
+			this.butReactPostcardPreview.Location = new System.Drawing.Point(8, 698);
 			this.butReactPostcardPreview.Name = "butReactPostcardPreview";
 			this.butReactPostcardPreview.Size = new System.Drawing.Size(119, 24);
 			this.butReactPostcardPreview.TabIndex = 153;
@@ -767,7 +767,7 @@
 			this.butReactPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butReactPrint.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Print,16,16);
 			this.butReactPrint.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butReactPrint.Location = new System.Drawing.Point(350, 706);
+			this.butReactPrint.Location = new System.Drawing.Point(361, 726);
 			this.butReactPrint.Name = "butReactPrint";
 			this.butReactPrint.Size = new System.Drawing.Size(87, 24);
 			this.butReactPrint.TabIndex = 154;
@@ -779,7 +779,7 @@
 			this.butReactLabelPreview.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butReactLabelPreview.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Label,18,16);
 			this.butReactLabelPreview.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butReactLabelPreview.Location = new System.Drawing.Point(128, 706);
+			this.butReactLabelPreview.Location = new System.Drawing.Point(135, 726);
 			this.butReactLabelPreview.Name = "butReactLabelPreview";
 			this.butReactLabelPreview.Size = new System.Drawing.Size(119, 24);
 			this.butReactLabelPreview.TabIndex = 152;
@@ -789,12 +789,12 @@
 			// labelReactPatCount
 			// 
 			this.labelReactPatCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelReactPatCount.Location = new System.Drawing.Point(860, 683);
+			this.labelReactPatCount.Location = new System.Drawing.Point(951, 698);
 			this.labelReactPatCount.Name = "labelReactPatCount";
-			this.labelReactPatCount.Size = new System.Drawing.Size(114, 14);
+			this.labelReactPatCount.Size = new System.Drawing.Size(88, 24);
 			this.labelReactPatCount.TabIndex = 151;
 			this.labelReactPatCount.Text = "Patient Count:";
-			this.labelReactPatCount.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.labelReactPatCount.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// gridReactivations
 			// 
@@ -803,10 +803,10 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridReactivations.HScrollVisible = true;
-			this.gridReactivations.Location = new System.Drawing.Point(8, 178);
+			this.gridReactivations.Location = new System.Drawing.Point(8, 132);
 			this.gridReactivations.Name = "gridReactivations";
 			this.gridReactivations.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridReactivations.Size = new System.Drawing.Size(971, 496);
+			this.gridReactivations.Size = new System.Drawing.Size(1031, 558);
 			this.gridReactivations.TabIndex = 145;
 			this.gridReactivations.Title = "Reactivation List";
 			this.gridReactivations.TranslationName = "TableReactivationList";
@@ -817,7 +817,7 @@
 			// 
 			this.groupSetStatusReact.Controls.Add(this.comboSetStatusReact);
 			this.groupSetStatusReact.Controls.Add(this.butSetStatusReact);
-			this.groupSetStatusReact.Location = new System.Drawing.Point(743, 8);
+			this.groupSetStatusReact.Location = new System.Drawing.Point(811, 8);
 			this.groupSetStatusReact.Name = "groupSetStatusReact";
 			this.groupSetStatusReact.Size = new System.Drawing.Size(228, 54);
 			this.groupSetStatusReact.TabIndex = 142;
@@ -859,15 +859,15 @@
 			this.groupViewReact.Controls.Add(this.butRefreshReact);
 			this.groupViewReact.Location = new System.Drawing.Point(8, 8);
 			this.groupViewReact.Name = "groupViewReact";
-			this.groupViewReact.Size = new System.Drawing.Size(729, 166);
+			this.groupViewReact.Size = new System.Drawing.Size(795, 116);
 			this.groupViewReact.TabIndex = 139;
 			this.groupViewReact.Text = "View";
 			// 
 			// comboProviderReact
 			// 
-			this.comboProviderReact.Location = new System.Drawing.Point(458, 23);
+			this.comboProviderReact.Location = new System.Drawing.Point(480, 23);
 			this.comboProviderReact.Name = "comboProviderReact";
-			this.comboProviderReact.Size = new System.Drawing.Size(160, 23);
+			this.comboProviderReact.Size = new System.Drawing.Size(140, 23);
 			this.comboProviderReact.TabIndex = 43;
 			// 
 			// datePickerReact
@@ -884,58 +884,58 @@
 			// checkExcludeInactive
 			// 
 			this.checkExcludeInactive.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkExcludeInactive.Location = new System.Drawing.Point(244, 111);
+			this.checkExcludeInactive.Location = new System.Drawing.Point(636, 71);
 			this.checkExcludeInactive.Name = "checkExcludeInactive";
-			this.checkExcludeInactive.Size = new System.Drawing.Size(109, 20);
+			this.checkExcludeInactive.Size = new System.Drawing.Size(111, 20);
 			this.checkExcludeInactive.TabIndex = 47;
 			this.checkExcludeInactive.Text = "Exclude Inactive";
 			// 
 			// checkShowDoNotContact
 			// 
 			this.checkShowDoNotContact.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkShowDoNotContact.Location = new System.Drawing.Point(624, 67);
+			this.checkShowDoNotContact.Location = new System.Drawing.Point(636, 47);
 			this.checkShowDoNotContact.Name = "checkShowDoNotContact";
-			this.checkShowDoNotContact.Size = new System.Drawing.Size(97, 40);
+			this.checkShowDoNotContact.Size = new System.Drawing.Size(143, 20);
 			this.checkShowDoNotContact.TabIndex = 42;
 			this.checkShowDoNotContact.Text = "Show Do Not Contact";
 			// 
 			// checkGroupFamiliesReact
 			// 
 			this.checkGroupFamiliesReact.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkGroupFamiliesReact.Location = new System.Drawing.Point(624, 23);
+			this.checkGroupFamiliesReact.Location = new System.Drawing.Point(636, 23);
 			this.checkGroupFamiliesReact.Name = "checkGroupFamiliesReact";
 			this.checkGroupFamiliesReact.RightToLeft = System.Windows.Forms.RightToLeft.No;
-			this.checkGroupFamiliesReact.Size = new System.Drawing.Size(97, 40);
+			this.checkGroupFamiliesReact.Size = new System.Drawing.Size(106, 20);
 			this.checkGroupFamiliesReact.TabIndex = 44;
 			this.checkGroupFamiliesReact.Text = "Group Families";
 			this.checkGroupFamiliesReact.MouseClick += new System.Windows.Forms.MouseEventHandler(this.checkGroupFamilies_Click);
 			// 
 			// comboBillingTypes
 			// 
-			this.comboBillingTypes.Location = new System.Drawing.Point(286, 50);
+			this.comboBillingTypes.Location = new System.Drawing.Point(298, 50);
 			this.comboBillingTypes.Name = "comboBillingTypes";
 			this.comboBillingTypes.Size = new System.Drawing.Size(104, 23);
 			this.comboBillingTypes.TabIndex = 41;
 			// 
 			// labelBillingTypes
 			// 
-			this.labelBillingTypes.Location = new System.Drawing.Point(208, 50);
+			this.labelBillingTypes.Location = new System.Drawing.Point(192, 50);
 			this.labelBillingTypes.Name = "labelBillingTypes";
-			this.labelBillingTypes.Size = new System.Drawing.Size(72, 23);
+			this.labelBillingTypes.Size = new System.Drawing.Size(100, 23);
 			this.labelBillingTypes.TabIndex = 40;
 			this.labelBillingTypes.Text = "Billing Type";
 			this.labelBillingTypes.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// comboShowReactivate
 			// 
-			this.comboShowReactivate.Location = new System.Drawing.Point(286, 23);
+			this.comboShowReactivate.Location = new System.Drawing.Point(298, 23);
 			this.comboShowReactivate.Name = "comboShowReactivate";
 			this.comboShowReactivate.Size = new System.Drawing.Size(104, 23);
 			this.comboShowReactivate.TabIndex = 39;
 			// 
 			// labelShowReactivate
 			// 
-			this.labelShowReactivate.Location = new System.Drawing.Point(180, 23);
+			this.labelShowReactivate.Location = new System.Drawing.Point(192, 23);
 			this.labelShowReactivate.Name = "labelShowReactivate";
 			this.labelShowReactivate.Size = new System.Drawing.Size(100, 23);
 			this.labelShowReactivate.TabIndex = 38;
@@ -944,32 +944,32 @@
 			// 
 			// comboSortReact
 			// 
-			this.comboSortReact.Location = new System.Drawing.Point(244, 135);
+			this.comboSortReact.Location = new System.Drawing.Point(298, 77);
 			this.comboSortReact.Name = "comboSortReact";
 			this.comboSortReact.Size = new System.Drawing.Size(104, 23);
 			this.comboSortReact.TabIndex = 37;
 			// 
 			// labelSortByReact
 			// 
-			this.labelSortByReact.Location = new System.Drawing.Point(206, 135);
+			this.labelSortByReact.Location = new System.Drawing.Point(192, 77);
 			this.labelSortByReact.Name = "labelSortByReact";
-			this.labelSortByReact.Size = new System.Drawing.Size(32, 23);
+			this.labelSortByReact.Size = new System.Drawing.Size(100, 23);
 			this.labelSortByReact.TabIndex = 36;
 			this.labelSortByReact.Text = "Sort";
 			this.labelSortByReact.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// comboSiteReact
 			// 
-			this.comboSiteReact.Location = new System.Drawing.Point(458, 135);
+			this.comboSiteReact.Location = new System.Drawing.Point(480, 77);
 			this.comboSiteReact.Name = "comboSiteReact";
-			this.comboSiteReact.Size = new System.Drawing.Size(160, 23);
+			this.comboSiteReact.Size = new System.Drawing.Size(140, 23);
 			this.comboSiteReact.TabIndex = 25;
 			// 
 			// labelSiteReact
 			// 
-			this.labelSiteReact.Location = new System.Drawing.Point(420, 135);
+			this.labelSiteReact.Location = new System.Drawing.Point(418, 77);
 			this.labelSiteReact.Name = "labelSiteReact";
-			this.labelSiteReact.Size = new System.Drawing.Size(32, 23);
+			this.labelSiteReact.Size = new System.Drawing.Size(56, 23);
 			this.labelSiteReact.TabIndex = 24;
 			this.labelSiteReact.Text = "Site";
 			this.labelSiteReact.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -978,14 +978,14 @@
 			// 
 			this.comboClinicReact.IncludeAll = true;
 			this.comboClinicReact.IncludeUnassigned = true;
-			this.comboClinicReact.Location = new System.Drawing.Point(415, 50);
+			this.comboClinicReact.Location = new System.Drawing.Point(437, 50);
 			this.comboClinicReact.Name = "comboClinicReact";
-			this.comboClinicReact.Size = new System.Drawing.Size(195, 23);
+			this.comboClinicReact.Size = new System.Drawing.Size(183, 23);
 			this.comboClinicReact.TabIndex = 23;
 			// 
 			// labelProviderReact
 			// 
-			this.labelProviderReact.Location = new System.Drawing.Point(396, 23);
+			this.labelProviderReact.Location = new System.Drawing.Point(418, 23);
 			this.labelProviderReact.Name = "labelProviderReact";
 			this.labelProviderReact.Size = new System.Drawing.Size(56, 23);
 			this.labelProviderReact.TabIndex = 20;
@@ -994,7 +994,7 @@
 			// 
 			// butRefreshReact
 			// 
-			this.butRefreshReact.Location = new System.Drawing.Point(624, 135);
+			this.butRefreshReact.Location = new System.Drawing.Point(8, 77);
 			this.butRefreshReact.Name = "butRefreshReact";
 			this.butRefreshReact.Size = new System.Drawing.Size(80, 23);
 			this.butRefreshReact.TabIndex = 2;
@@ -1003,7 +1003,7 @@
 			// 
 			// FormRecallList
 			// 
-			this.ClientSize = new System.Drawing.Size(1007, 797);
+			this.ClientSize = new System.Drawing.Size(1067, 797);
 			this.Controls.Add(this.tabControl);
 			this.Name = "FormRecallList";
 			this.Text = "Recall List";

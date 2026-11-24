@@ -156,32 +156,32 @@ namespace fyiReporting.RdlDesign
 			// 
 			// tbReportAuthor
 			// 
-			this.tbReportAuthor.Location = new System.Drawing.Point(96, 8);
+			this.tbReportAuthor.Location = new System.Drawing.Point(90, 8);
 			this.tbReportAuthor.Name = "tbReportAuthor";
-			this.tbReportAuthor.Size = new System.Drawing.Size(304, 20);
+			this.tbReportAuthor.Size = new System.Drawing.Size(358, 23);
 			this.tbReportAuthor.TabIndex = 0;
 			this.tbReportAuthor.Text = "";
 			// 
 			// tbReportDescription
 			// 
-			this.tbReportDescription.Location = new System.Drawing.Point(96, 35);
+			this.tbReportDescription.Location = new System.Drawing.Point(90, 35);
 			this.tbReportDescription.Name = "tbReportDescription";
-			this.tbReportDescription.Size = new System.Drawing.Size(304, 20);
+			this.tbReportDescription.Size = new System.Drawing.Size(358, 23);
 			this.tbReportDescription.TabIndex = 1;
 			this.tbReportDescription.Text = "";
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(38, 8);
+			this.label3.Location = new System.Drawing.Point(8, 8);
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(52, 23);
+			this.label3.Size = new System.Drawing.Size(76, 23);
 			this.label3.TabIndex = 9;
 			this.label3.Text = "Author:";
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(14, 35);
+			this.label2.Location = new System.Drawing.Point(8, 35);
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(76, 23);
@@ -194,18 +194,18 @@ namespace fyiReporting.RdlDesign
 			this.groupBox1.Controls.Add(this.tbPageWidth);
 			this.groupBox1.Controls.Add(this.label4);
 			this.groupBox1.Controls.Add(this.label1);
-			this.groupBox1.Location = new System.Drawing.Point(16, 93);
+			this.groupBox1.Location = new System.Drawing.Point(8, 93);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(384, 54);
+			this.groupBox1.Size = new System.Drawing.Size(284, 71);
 			this.groupBox1.TabIndex = 3;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Page";
 			// 
 			// tbPageHeight
 			// 
-			this.tbPageHeight.Location = new System.Drawing.Point(224, 23);
+			this.tbPageHeight.Location = new System.Drawing.Point(204, 23);
 			this.tbPageHeight.Name = "tbPageHeight";
-			this.tbPageHeight.Size = new System.Drawing.Size(72, 20);
+			this.tbPageHeight.Size = new System.Drawing.Size(72, 23);
 			this.tbPageHeight.TabIndex = 1;
 			this.tbPageHeight.Tag = "Page Height";
 			this.tbPageHeight.Text = "";
@@ -213,9 +213,9 @@ namespace fyiReporting.RdlDesign
 			// 
 			// tbPageWidth
 			// 
-			this.tbPageWidth.Location = new System.Drawing.Point(80, 23);
+			this.tbPageWidth.Location = new System.Drawing.Point(58, 23);
 			this.tbPageWidth.Name = "tbPageWidth";
-			this.tbPageWidth.Size = new System.Drawing.Size(72, 20);
+			this.tbPageWidth.Size = new System.Drawing.Size(72, 23);
 			this.tbPageWidth.TabIndex = 0;
 			this.tbPageWidth.Tag = "Page Width";
 			this.tbPageWidth.Text = "";
@@ -223,16 +223,16 @@ namespace fyiReporting.RdlDesign
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(170, 23);
+			this.label4.Location = new System.Drawing.Point(146, 23);
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(48, 23);
+			this.label4.Size = new System.Drawing.Size(52, 23);
 			this.label4.TabIndex = 2;
 			this.label4.Text = "Height";
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(30, 23);
+			this.label1.Location = new System.Drawing.Point(8, 23);
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(44, 23);
@@ -249,18 +249,18 @@ namespace fyiReporting.RdlDesign
 			this.groupBox2.Controls.Add(this.label6);
 			this.groupBox2.Controls.Add(this.tbMarginLeft);
 			this.groupBox2.Controls.Add(this.label5);
-			this.groupBox2.Location = new System.Drawing.Point(16, 155);
+			this.groupBox2.Location = new System.Drawing.Point(8, 172);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(384, 81);
+			this.groupBox2.Size = new System.Drawing.Size(284, 81);
 			this.groupBox2.TabIndex = 4;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Margins";
 			// 
 			// tbMarginBottom
 			// 
-			this.tbMarginBottom.Location = new System.Drawing.Point(226, 50);
+			this.tbMarginBottom.Location = new System.Drawing.Point(204, 50);
 			this.tbMarginBottom.Name = "tbMarginBottom";
-			this.tbMarginBottom.Size = new System.Drawing.Size(72, 20);
+			this.tbMarginBottom.Size = new System.Drawing.Size(72, 23);
 			this.tbMarginBottom.TabIndex = 3;
 			this.tbMarginBottom.Tag = "Bottom Margin";
 			this.tbMarginBottom.Text = "";
@@ -268,7 +268,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// label7
 			// 
-			this.label7.Location = new System.Drawing.Point(168, 50);
+			this.label7.Location = new System.Drawing.Point(146, 50);
 			this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(52, 23);
@@ -277,9 +277,9 @@ namespace fyiReporting.RdlDesign
 			// 
 			// tbMarginTop
 			// 
-			this.tbMarginTop.Location = new System.Drawing.Point(80, 50);
+			this.tbMarginTop.Location = new System.Drawing.Point(58, 50);
 			this.tbMarginTop.Name = "tbMarginTop";
-			this.tbMarginTop.Size = new System.Drawing.Size(72, 20);
+			this.tbMarginTop.Size = new System.Drawing.Size(72, 23);
 			this.tbMarginTop.TabIndex = 2;
 			this.tbMarginTop.Tag = "Top Margin";
 			this.tbMarginTop.Text = "";
@@ -287,18 +287,18 @@ namespace fyiReporting.RdlDesign
 			// 
 			// label8
 			// 
-			this.label8.Location = new System.Drawing.Point(42, 50);
+			this.label8.Location = new System.Drawing.Point(8, 50);
 			this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(32, 23);
+			this.label8.Size = new System.Drawing.Size(44, 23);
 			this.label8.TabIndex = 4;
 			this.label8.Text = "Top";
 			// 
 			// tbMarginRight
 			// 
-			this.tbMarginRight.Location = new System.Drawing.Point(224, 23);
+			this.tbMarginRight.Location = new System.Drawing.Point(204, 23);
 			this.tbMarginRight.Name = "tbMarginRight";
-			this.tbMarginRight.Size = new System.Drawing.Size(74, 23);
+			this.tbMarginRight.Size = new System.Drawing.Size(72, 23);
 			this.tbMarginRight.TabIndex = 1;
 			this.tbMarginRight.Tag = "Right Margin";
 			this.tbMarginRight.Text = "";
@@ -306,18 +306,18 @@ namespace fyiReporting.RdlDesign
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(178, 23);
+			this.label6.Location = new System.Drawing.Point(146, 23);
 			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(40, 23);
+			this.label6.Size = new System.Drawing.Size(52, 23);
 			this.label6.TabIndex = 2;
 			this.label6.Text = "Right";
 			// 
 			// tbMarginLeft
 			// 
-			this.tbMarginLeft.Location = new System.Drawing.Point(80, 23);
+			this.tbMarginLeft.Location = new System.Drawing.Point(58, 23);
 			this.tbMarginLeft.Name = "tbMarginLeft";
-			this.tbMarginLeft.Size = new System.Drawing.Size(72, 20);
+			this.tbMarginLeft.Size = new System.Drawing.Size(72, 23);
 			this.tbMarginLeft.TabIndex = 0;
 			this.tbMarginLeft.Tag = "Left Margin";
 			this.tbMarginLeft.Text = "";
@@ -325,18 +325,18 @@ namespace fyiReporting.RdlDesign
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(42, 23);
+			this.label5.Location = new System.Drawing.Point(8, 23);
 			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(32, 23);
+			this.label5.Size = new System.Drawing.Size(44, 23);
 			this.label5.TabIndex = 0;
 			this.label5.Text = "Left";
 			// 
 			// tbWidth
 			// 
-			this.tbWidth.Location = new System.Drawing.Point(96, 62);
+			this.tbWidth.Location = new System.Drawing.Point(90, 62);
 			this.tbWidth.Name = "tbWidth";
-			this.tbWidth.Size = new System.Drawing.Size(72, 20);
+			this.tbWidth.Size = new System.Drawing.Size(72, 23);
 			this.tbWidth.TabIndex = 2;
 			this.tbWidth.Tag = "Width";
 			this.tbWidth.Text = "";
@@ -344,10 +344,10 @@ namespace fyiReporting.RdlDesign
 			// 
 			// label9
 			// 
-			this.label9.Location = new System.Drawing.Point(46, 62);
+			this.label9.Location = new System.Drawing.Point(8, 62);
 			this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(44, 23);
+			this.label9.Size = new System.Drawing.Size(76, 23);
 			this.label9.TabIndex = 15;
 			this.label9.Text = "Width";
 			// 
@@ -355,18 +355,18 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.groupBox3.Controls.Add(this.chkPHLast);
 			this.groupBox3.Controls.Add(this.chkPHFirst);
-			this.groupBox3.Location = new System.Drawing.Point(16, 244);
+			this.groupBox3.Location = new System.Drawing.Point(300, 93);
 			this.groupBox3.Name = "groupBox3";
-			this.groupBox3.Size = new System.Drawing.Size(262, 49);
+			this.groupBox3.Size = new System.Drawing.Size(148, 71);
 			this.groupBox3.TabIndex = 5;
 			this.groupBox3.TabStop = false;
 			this.groupBox3.Text = "Page Header";
 			// 
 			// chkPHLast
 			// 
-			this.chkPHLast.Location = new System.Drawing.Point(135, 23);
+			this.chkPHLast.Location = new System.Drawing.Point(8, 45);
 			this.chkPHLast.Name = "chkPHLast";
-			this.chkPHLast.Size = new System.Drawing.Size(119, 18);
+			this.chkPHLast.Size = new System.Drawing.Size(132, 18);
 			this.chkPHLast.TabIndex = 2;
 			this.chkPHLast.Text = "Print on last page";
 			// 
@@ -374,7 +374,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.chkPHFirst.Location = new System.Drawing.Point(8, 23);
 			this.chkPHFirst.Name = "chkPHFirst";
-			this.chkPHFirst.Size = new System.Drawing.Size(121, 18);
+			this.chkPHFirst.Size = new System.Drawing.Size(132, 18);
 			this.chkPHFirst.TabIndex = 1;
 			this.chkPHFirst.Text = "Print on first page";
 			// 
@@ -382,18 +382,18 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.groupBox4.Controls.Add(this.chkPFLast);
 			this.groupBox4.Controls.Add(this.chkPFFirst);
-			this.groupBox4.Location = new System.Drawing.Point(286, 244);
+			this.groupBox4.Location = new System.Drawing.Point(300, 172);
 			this.groupBox4.Name = "groupBox4";
-			this.groupBox4.Size = new System.Drawing.Size(262, 49);
+			this.groupBox4.Size = new System.Drawing.Size(148, 81);
 			this.groupBox4.TabIndex = 6;
 			this.groupBox4.TabStop = false;
 			this.groupBox4.Text = "Page Footer";
 			// 
 			// chkPFLast
 			// 
-			this.chkPFLast.Location = new System.Drawing.Point(135, 23);
+			this.chkPFLast.Location = new System.Drawing.Point(8, 45);
 			this.chkPFLast.Name = "chkPFLast";
-			this.chkPFLast.Size = new System.Drawing.Size(119, 18);
+			this.chkPFLast.Size = new System.Drawing.Size(132, 18);
 			this.chkPFLast.TabIndex = 1;
 			this.chkPFLast.Text = "Print on last page";
 			// 
@@ -401,7 +401,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.chkPFFirst.Location = new System.Drawing.Point(8, 23);
 			this.chkPFFirst.Name = "chkPFFirst";
-			this.chkPFFirst.Size = new System.Drawing.Size(121, 18);
+			this.chkPFFirst.Size = new System.Drawing.Size(132, 18);
 			this.chkPFFirst.TabIndex = 0;
 			this.chkPFFirst.Text = "Print on first page";
 			// 
@@ -418,7 +418,7 @@ namespace fyiReporting.RdlDesign
 			this.Controls.Add(this.label3);
 			this.Controls.Add(this.label2);
 			this.Name = "ReportCtl";
-			this.Size = new System.Drawing.Size(556, 311);
+			this.Size = new System.Drawing.Size(472, 288);
 			this.groupBox1.ResumeLayout(false);
 			this.groupBox2.ResumeLayout(false);
 			this.groupBox3.ResumeLayout(false);

@@ -284,7 +284,7 @@ namespace fyiReporting.RdlDesign
             // 
             // label6
             // 
-            this.label6.Location = new System.Drawing.Point(318, 8);
+            this.label6.Location = new System.Drawing.Point(346, 8);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(56, 16);
             this.label6.TabIndex = 6;
@@ -292,7 +292,7 @@ namespace fyiReporting.RdlDesign
             // 
             // label7
             // 
-            this.label7.Location = new System.Drawing.Point(160, 8);
+            this.label7.Location = new System.Drawing.Point(188, 8);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(56, 16);
             this.label7.TabIndex = 7;

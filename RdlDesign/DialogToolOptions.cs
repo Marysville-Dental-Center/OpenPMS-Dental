@@ -565,7 +565,7 @@ namespace fyiReporting.RdlDesign
             this.AcceptButton = this.bOK;
             this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
             this.CancelButton = this.bCancel;
-            this.ClientSize = new System.Drawing.Size(519, 304);
+            this.ClientSize = new System.Drawing.Size(535, 317);
             this.Controls.Add(this.bApply);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.bCancel);

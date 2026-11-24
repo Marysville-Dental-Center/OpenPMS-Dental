@@ -181,7 +181,7 @@ namespace fyiReporting.RdlDesign
             // 
             // label11
             // 
-            this.label11.Location = new System.Drawing.Point(10, 23);
+            this.label11.Location = new System.Drawing.Point(8, 23);
             this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(32, 23);
@@ -190,16 +190,16 @@ namespace fyiReporting.RdlDesign
             // 
             // label12
             // 
-            this.label12.Location = new System.Drawing.Point(220, 23);
+            this.label12.Location = new System.Drawing.Point(218, 23);
             this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(40, 23);
+            this.label12.Size = new System.Drawing.Size(52, 23);
             this.label12.TabIndex = 21;
             this.label12.Text = "Right";
             // 
             // label13
             // 
-            this.label13.Location = new System.Drawing.Point(10, 50);
+            this.label13.Location = new System.Drawing.Point(8, 50);
             this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(32, 23);
@@ -208,7 +208,7 @@ namespace fyiReporting.RdlDesign
             // 
             // label14
             // 
-            this.label14.Location = new System.Drawing.Point(220, 50);
+            this.label14.Location = new System.Drawing.Point(218, 50);
             this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(52, 23);
@@ -217,33 +217,33 @@ namespace fyiReporting.RdlDesign
             // 
             // tbPadLeft
             // 
-            this.tbPadLeft.Location = new System.Drawing.Point(48, 23);
+            this.tbPadLeft.Location = new System.Drawing.Point(46, 23);
             this.tbPadLeft.Name = "tbPadLeft";
-            this.tbPadLeft.Size = new System.Drawing.Size(128, 20);
+            this.tbPadLeft.Size = new System.Drawing.Size(128, 23);
             this.tbPadLeft.TabIndex = 0;
             this.tbPadLeft.TextChanged += new System.EventHandler(this.tbPadLeft_TextChanged);
             // 
             // tbPadRight
             // 
-            this.tbPadRight.Location = new System.Drawing.Point(266, 23);
+            this.tbPadRight.Location = new System.Drawing.Point(276, 23);
             this.tbPadRight.Name = "tbPadRight";
-            this.tbPadRight.Size = new System.Drawing.Size(128, 20);
+            this.tbPadRight.Size = new System.Drawing.Size(128, 23);
             this.tbPadRight.TabIndex = 2;
             this.tbPadRight.TextChanged += new System.EventHandler(this.tbPadRight_TextChanged);
             // 
             // tbPadTop
             // 
-            this.tbPadTop.Location = new System.Drawing.Point(48, 50);
+            this.tbPadTop.Location = new System.Drawing.Point(46, 50);
             this.tbPadTop.Name = "tbPadTop";
-            this.tbPadTop.Size = new System.Drawing.Size(128, 20);
+            this.tbPadTop.Size = new System.Drawing.Size(128, 23);
             this.tbPadTop.TabIndex = 4;
             this.tbPadTop.TextChanged += new System.EventHandler(this.tbPadTop_TextChanged);
             // 
             // tbPadBottom
             // 
-            this.tbPadBottom.Location = new System.Drawing.Point(278, 50);
+            this.tbPadBottom.Location = new System.Drawing.Point(276, 50);
             this.tbPadBottom.Name = "tbPadBottom";
-            this.tbPadBottom.Size = new System.Drawing.Size(128, 20);
+            this.tbPadBottom.Size = new System.Drawing.Size(128, 23);
             this.tbPadBottom.TabIndex = 6;
             this.tbPadBottom.TextChanged += new System.EventHandler(this.tbPadBottom_TextChanged);
             // 
@@ -271,7 +271,7 @@ namespace fyiReporting.RdlDesign
             // button3
             // 
             this.button3.Font = new System.Drawing.Font("Arial", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button3.Location = new System.Drawing.Point(400, 23);
+            this.button3.Location = new System.Drawing.Point(410, 23);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(22, 23);
             this.button3.TabIndex = 3;
@@ -283,7 +283,7 @@ namespace fyiReporting.RdlDesign
             // button2
             // 
             this.button2.Font = new System.Drawing.Font("Arial", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button2.Location = new System.Drawing.Point(412, 50);
+            this.button2.Location = new System.Drawing.Point(410, 50);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(22, 23);
             this.button2.TabIndex = 7;
@@ -295,7 +295,7 @@ namespace fyiReporting.RdlDesign
             // button1
             // 
             this.button1.Font = new System.Drawing.Font("Arial", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(182, 50);
+            this.button1.Location = new System.Drawing.Point(180, 50);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(22, 23);
             this.button1.TabIndex = 5;
@@ -307,7 +307,7 @@ namespace fyiReporting.RdlDesign
             // bValueExpr
             // 
             this.bValueExpr.Font = new System.Drawing.Font("Arial", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.bValueExpr.Location = new System.Drawing.Point(182, 23);
+            this.bValueExpr.Location = new System.Drawing.Point(180, 23);
             this.bValueExpr.Name = "bValueExpr";
             this.bValueExpr.Size = new System.Drawing.Size(22, 23);
             this.bValueExpr.TabIndex = 1;
@@ -471,7 +471,7 @@ namespace fyiReporting.RdlDesign
             "NoOutput",
             "ContentsOnly",
             "Auto"});
-            this.cbDEOutput.Location = new System.Drawing.Point(137, 50);
+            this.cbDEOutput.Location = new System.Drawing.Point(130, 50);
             this.cbDEOutput.Name = "cbDEOutput";
             this.cbDEOutput.Size = new System.Drawing.Size(116, 23);
             this.cbDEOutput.TabIndex = 3;
@@ -479,16 +479,16 @@ namespace fyiReporting.RdlDesign
             // 
             // tbDEName
             // 
-            this.tbDEName.Location = new System.Drawing.Point(137, 23);
+            this.tbDEName.Location = new System.Drawing.Point(130, 23);
             this.tbDEName.Name = "tbDEName";
-            this.tbDEName.Size = new System.Drawing.Size(280, 23);
+            this.tbDEName.Size = new System.Drawing.Size(318, 23);
             this.tbDEName.TabIndex = 2;
             this.tbDEName.Text = "textBox1";
             this.tbDEName.TextChanged += new System.EventHandler(this.tbDEName_TextChanged);
             // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(15, 50);
+            this.label2.Location = new System.Drawing.Point(8, 50);
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(116, 23);
@@ -497,10 +497,10 @@ namespace fyiReporting.RdlDesign
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(19, 23);
+            this.label1.Location = new System.Drawing.Point(8, 23);
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(112, 23);
+            this.label1.Size = new System.Drawing.Size(116, 23);
             this.label1.TabIndex = 0;
             this.label1.Text = "DataElementName";
             // 

@@ -66,7 +66,7 @@ namespace ODR{
 			// 
 			this.butCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.butCancel.Location = new System.Drawing.Point(561,318);
+			this.butCancel.Location = new System.Drawing.Point(545,279);
 			this.butCancel.Name = "butCancel";
 			this.butCancel.Size = new System.Drawing.Size(75,28);
 			this.butCancel.TabIndex = 0;
@@ -76,7 +76,7 @@ namespace ODR{
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(478,318);
+			this.butOK.Location = new System.Drawing.Point(462,279);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75,28);
 			this.butOK.TabIndex = 1;
@@ -89,9 +89,9 @@ namespace ODR{
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.panelMain.AutoScroll = true;
-			this.panelMain.Location = new System.Drawing.Point(20,8);
+			this.panelMain.Location = new System.Drawing.Point(8,8);
 			this.panelMain.Name = "panelMain";
-			this.panelMain.Size = new System.Drawing.Size(580,247);
+			this.panelMain.Size = new System.Drawing.Size(612,259);
 			this.panelMain.TabIndex = 2;
 			// 
 			// FormParameterInput

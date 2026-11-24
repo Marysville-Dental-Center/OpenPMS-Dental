@@ -198,6 +198,12 @@ def load_tree(path, windows=None):
             if p is not None:
                 n.parent = p
                 p.children.append(n)
+        # UI-12 slice 13 (the plain-Form rule; slice 12 adds the same for the plain exes' windows): the root of a plain Form (no FormODBase
+        # client panel) is the window with its frame, and its controls stand in its client area: the planner lays them out in the client
+        # area (a frame is 8 px or more on both axes; a FormODBase's client panel and a UserControl have their client area as their bounds).
+        if root is not None and root.cw and root.ch and root.w - root.cw >= 8 and root.h - root.ch >= 8:
+            root.w, root.h = root.cw, root.ch
+            root.nw, root.nh = root.cw, root.ch
         trees[w] = root
     return trees
 

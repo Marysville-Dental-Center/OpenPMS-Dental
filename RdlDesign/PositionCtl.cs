@@ -208,25 +208,25 @@ namespace fyiReporting.RdlDesign
 			this.gbPosition.Controls.Add(this.label5);
 			this.gbPosition.Controls.Add(this.label9);
 			this.gbPosition.Controls.Add(this.tbZIndex);
-			this.gbPosition.Location = new System.Drawing.Point(24, 39);
+			this.gbPosition.Location = new System.Drawing.Point(8, 39);
 			this.gbPosition.Name = "gbPosition";
-			this.gbPosition.Size = new System.Drawing.Size(384, 108);
+			this.gbPosition.Size = new System.Drawing.Size(432, 108);
 			this.gbPosition.TabIndex = 14;
 			this.gbPosition.TabStop = false;
 			this.gbPosition.Text = "Position";
 			// 
 			// tbHeight
 			// 
-			this.tbHeight.Location = new System.Drawing.Point(224, 50);
+			this.tbHeight.Location = new System.Drawing.Point(208, 50);
 			this.tbHeight.Name = "tbHeight";
-			this.tbHeight.Size = new System.Drawing.Size(72, 20);
+			this.tbHeight.Size = new System.Drawing.Size(72, 23);
 			this.tbHeight.TabIndex = 5;
 			this.tbHeight.Text = "";
 			this.tbHeight.TextChanged += new System.EventHandler(this.tbHeight_TextChanged);
 			// 
 			// label7
 			// 
-			this.label7.Location = new System.Drawing.Point(170, 50);
+			this.label7.Location = new System.Drawing.Point(154, 50);
 			this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(48, 23);
@@ -235,61 +235,61 @@ namespace fyiReporting.RdlDesign
 			// 
 			// tbWidth
 			// 
-			this.tbWidth.Location = new System.Drawing.Point(72, 50);
+			this.tbWidth.Location = new System.Drawing.Point(66, 50);
 			this.tbWidth.Name = "tbWidth";
-			this.tbWidth.Size = new System.Drawing.Size(72, 20);
+			this.tbWidth.Size = new System.Drawing.Size(72, 23);
 			this.tbWidth.TabIndex = 3;
 			this.tbWidth.Text = "";
 			this.tbWidth.TextChanged += new System.EventHandler(this.tbWidth_TextChanged);
 			// 
 			// label8
 			// 
-			this.label8.Location = new System.Drawing.Point(22, 50);
+			this.label8.Location = new System.Drawing.Point(8, 50);
 			this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(44, 23);
+			this.label8.Size = new System.Drawing.Size(52, 23);
 			this.label8.TabIndex = 4;
 			this.label8.Text = "Width";
 			// 
 			// tbTop
 			// 
-			this.tbTop.Location = new System.Drawing.Point(224, 23);
+			this.tbTop.Location = new System.Drawing.Point(208, 23);
 			this.tbTop.Name = "tbTop";
-			this.tbTop.Size = new System.Drawing.Size(72, 20);
+			this.tbTop.Size = new System.Drawing.Size(72, 23);
 			this.tbTop.TabIndex = 2;
 			this.tbTop.Text = "";
 			this.tbTop.TextChanged += new System.EventHandler(this.tbTop_TextChanged);
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(186, 23);
+			this.label6.Location = new System.Drawing.Point(154, 23);
 			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(32, 23);
+			this.label6.Size = new System.Drawing.Size(48, 23);
 			this.label6.TabIndex = 1;
 			this.label6.Text = "Top";
 			// 
 			// tbLeft
 			// 
-			this.tbLeft.Location = new System.Drawing.Point(72, 23);
+			this.tbLeft.Location = new System.Drawing.Point(66, 23);
 			this.tbLeft.Name = "tbLeft";
-			this.tbLeft.Size = new System.Drawing.Size(72, 20);
+			this.tbLeft.Size = new System.Drawing.Size(72, 23);
 			this.tbLeft.TabIndex = 0;
 			this.tbLeft.Text = "";
 			this.tbLeft.TextChanged += new System.EventHandler(this.tbLeft_TextChanged);
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(34, 23);
+			this.label5.Location = new System.Drawing.Point(8, 23);
 			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(32, 23);
+			this.label5.Size = new System.Drawing.Size(52, 23);
 			this.label5.TabIndex = 0;
 			this.label5.Text = "Left";
 			// 
 			// label9
 			// 
-			this.label9.Location = new System.Drawing.Point(14, 77);
+			this.label9.Location = new System.Drawing.Point(8, 77);
 			this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label9.Name = "label9";
 			this.label9.Size = new System.Drawing.Size(52, 23);
@@ -298,26 +298,26 @@ namespace fyiReporting.RdlDesign
 			// 
 			// tbZIndex
 			// 
-			this.tbZIndex.Location = new System.Drawing.Point(72, 77);
+			this.tbZIndex.Location = new System.Drawing.Point(66, 77);
 			this.tbZIndex.Name = "tbZIndex";
-			this.tbZIndex.Size = new System.Drawing.Size(72, 20);
+			this.tbZIndex.Size = new System.Drawing.Size(72, 23);
 			this.tbZIndex.TabIndex = 6;
 			this.tbZIndex.ValueChanged += new System.EventHandler(this.tbZIndex_ValueChanged);
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(46, 8);
+			this.label1.Location = new System.Drawing.Point(8, 8);
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(44, 23);
+			this.label1.Size = new System.Drawing.Size(60, 23);
 			this.label1.TabIndex = 15;
 			this.label1.Text = "Name";
 			// 
 			// tbName
 			// 
-			this.tbName.Location = new System.Drawing.Point(96, 8);
+			this.tbName.Location = new System.Drawing.Point(74, 8);
 			this.tbName.Name = "tbName";
-			this.tbName.Size = new System.Drawing.Size(128, 20);
+			this.tbName.Size = new System.Drawing.Size(128, 23);
 			this.tbName.TabIndex = 0;
 			this.tbName.Text = "textBox1";
 			this.tbName.Validating += new System.ComponentModel.CancelEventHandler(this.tbName_Validating);
@@ -325,7 +325,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// lblColSpan
 			// 
-			this.lblColSpan.Location = new System.Drawing.Point(240, 8);
+			this.lblColSpan.Location = new System.Drawing.Point(218, 8);
 			this.lblColSpan.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.lblColSpan.Name = "lblColSpan";
 			this.lblColSpan.Size = new System.Drawing.Size(120, 23);
@@ -334,7 +334,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// tbColSpan
 			// 
-			this.tbColSpan.Location = new System.Drawing.Point(366, 8);
+			this.tbColSpan.Location = new System.Drawing.Point(344, 8);
 			this.tbColSpan.Maximum = new System.Decimal(new int[] {
 																	  1000,
 																	  0,
@@ -346,7 +346,7 @@ namespace fyiReporting.RdlDesign
 																	  0,
 																	  0});
 			this.tbColSpan.Name = "tbColSpan";
-			this.tbColSpan.Size = new System.Drawing.Size(48, 20);
+			this.tbColSpan.Size = new System.Drawing.Size(48, 23);
 			this.tbColSpan.TabIndex = 1;
 			this.tbColSpan.Value = new System.Decimal(new int[] {
 																	1,
@@ -365,9 +365,9 @@ namespace fyiReporting.RdlDesign
 			this.gbText.Controls.Add(this.label2);
 			this.gbText.Controls.Add(this.chkCanShrink);
 			this.gbText.Controls.Add(this.chkCanGrow);
-			this.gbText.Location = new System.Drawing.Point(24, 168);
+			this.gbText.Location = new System.Drawing.Point(8, 155);
 			this.gbText.Name = "gbText";
-			this.gbText.Size = new System.Drawing.Size(384, 112);
+			this.gbText.Size = new System.Drawing.Size(432, 108);
 			this.gbText.TabIndex = 18;
 			this.gbText.TabStop = false;
 			this.gbText.Text = "Text Processing";
@@ -378,9 +378,9 @@ namespace fyiReporting.RdlDesign
 															   "",
 															   "true",
 															   "false"});
-			this.cbToggleImage.Location = new System.Drawing.Point(120, 80);
+			this.cbToggleImage.Location = new System.Drawing.Point(126, 77);
 			this.cbToggleImage.Name = "cbToggleImage";
-			this.cbToggleImage.Size = new System.Drawing.Size(256, 21);
+			this.cbToggleImage.Size = new System.Drawing.Size(298, 23);
 			this.cbToggleImage.TabIndex = 7;
 			this.cbToggleImage.TextChanged += new System.EventHandler(this.cbToggleImage_Changed);
 			this.cbToggleImage.SelectedIndexChanged += new System.EventHandler(this.cbToggleImage_Changed);
@@ -388,9 +388,10 @@ namespace fyiReporting.RdlDesign
 			// label4
 			// 
 			this.label4.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.label4.Location = new System.Drawing.Point(16, 80);
+			this.label4.Location = new System.Drawing.Point(8, 77);
+			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(104, 23);
+			this.label4.Size = new System.Drawing.Size(112, 23);
 			this.label4.TabIndex = 6;
 			this.label4.Text = "Toggle Image";
 			// 
@@ -401,43 +402,45 @@ namespace fyiReporting.RdlDesign
 																	"Auto",
 																	"AttributeNormal",
 																	"ElementNormal"});
-			this.cbDataElementStyle.Location = new System.Drawing.Point(120, 48);
+			this.cbDataElementStyle.Location = new System.Drawing.Point(126, 50);
 			this.cbDataElementStyle.Name = "cbDataElementStyle";
-			this.cbDataElementStyle.Size = new System.Drawing.Size(120, 21);
+			this.cbDataElementStyle.Size = new System.Drawing.Size(120, 23);
 			this.cbDataElementStyle.TabIndex = 5;
 			this.cbDataElementStyle.SelectedIndexChanged += new System.EventHandler(this.cbDataElementStyle_SelectedIndexChanged);
 			// 
 			// label3
 			// 
 			this.label3.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.label3.Location = new System.Drawing.Point(16, 48);
+			this.label3.Location = new System.Drawing.Point(8, 50);
+			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(104, 23);
+			this.label3.Size = new System.Drawing.Size(112, 23);
 			this.label3.TabIndex = 4;
 			this.label3.Text = "XML Element Style";
 			// 
 			// cbHideDuplicates
 			// 
 			this.cbHideDuplicates.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cbHideDuplicates.Location = new System.Drawing.Point(264, 16);
+			this.cbHideDuplicates.Location = new System.Drawing.Point(305, 23);
 			this.cbHideDuplicates.Name = "cbHideDuplicates";
-			this.cbHideDuplicates.Size = new System.Drawing.Size(112, 21);
+			this.cbHideDuplicates.Size = new System.Drawing.Size(119, 23);
 			this.cbHideDuplicates.TabIndex = 3;
 			this.cbHideDuplicates.SelectedIndexChanged += new System.EventHandler(this.cbHideDuplicates_SelectedIndexChanged);
 			// 
 			// label2
 			// 
 			this.label2.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.label2.Location = new System.Drawing.Point(184, 18);
+			this.label2.Location = new System.Drawing.Point(203, 23);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(90, 22);
+			this.label2.Size = new System.Drawing.Size(96, 23);
 			this.label2.TabIndex = 2;
 			this.label2.Text = "Hide Duplicates";
-			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// chkCanShrink
 			// 
-			this.chkCanShrink.Location = new System.Drawing.Point(96, 16);
+			this.chkCanShrink.Location = new System.Drawing.Point(103, 25);
+			this.chkCanShrink.Size = new System.Drawing.Size(84, 18);
 			this.chkCanShrink.Name = "chkCanShrink";
 			this.chkCanShrink.TabIndex = 1;
 			this.chkCanShrink.Text = "Can Shrink";
@@ -445,9 +448,9 @@ namespace fyiReporting.RdlDesign
 			// 
 			// chkCanGrow
 			// 
-			this.chkCanGrow.Location = new System.Drawing.Point(16, 16);
+			this.chkCanGrow.Location = new System.Drawing.Point(8, 25);
 			this.chkCanGrow.Name = "chkCanGrow";
-			this.chkCanGrow.Size = new System.Drawing.Size(80, 24);
+			this.chkCanGrow.Size = new System.Drawing.Size(79, 18);
 			this.chkCanGrow.TabIndex = 0;
 			this.chkCanGrow.Text = "Can Grow";
 			this.chkCanGrow.CheckedChanged += new System.EventHandler(this.chkCanGrow_CheckedChanged);

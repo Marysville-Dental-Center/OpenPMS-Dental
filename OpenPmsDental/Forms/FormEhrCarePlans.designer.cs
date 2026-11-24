@@ -32,9 +32,9 @@ namespace OpenPmsDental{
 			this.gridCarePlans.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridCarePlans.Location = new System.Drawing.Point(12, 8);
+			this.gridCarePlans.Location = new System.Drawing.Point(8, 8);
 			this.gridCarePlans.Name = "gridCarePlans";
-			this.gridCarePlans.Size = new System.Drawing.Size(958, 653);
+			this.gridCarePlans.Size = new System.Drawing.Size(966, 655);
 			this.gridCarePlans.TabIndex = 4;
 			this.gridCarePlans.Title = null;
 			this.gridCarePlans.TranslationName = "TableCarePlans";

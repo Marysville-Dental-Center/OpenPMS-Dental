@@ -238,7 +238,7 @@ namespace fyiReporting.RdlDesign
             // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(214, 8);
+            this.label2.Location = new System.Drawing.Point(226, 8);
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(104, 23);
@@ -255,7 +255,7 @@ namespace fyiReporting.RdlDesign
             "Cross"});
             this.cbMajorTickMarks.Location = new System.Drawing.Point(118, 8);
             this.cbMajorTickMarks.Name = "cbMajorTickMarks";
-            this.cbMajorTickMarks.Size = new System.Drawing.Size(80, 21);
+            this.cbMajorTickMarks.Size = new System.Drawing.Size(80, 23);
             this.cbMajorTickMarks.TabIndex = 2;
             this.cbMajorTickMarks.SelectedIndexChanged += new System.EventHandler(this.cbMajorTickMarks_SelectedIndexChanged);
             // 
@@ -267,15 +267,15 @@ namespace fyiReporting.RdlDesign
             "Inside",
             "Outside",
             "Cross"});
-            this.cbMinorTickMarks.Location = new System.Drawing.Point(324, 8);
+            this.cbMinorTickMarks.Location = new System.Drawing.Point(336, 8);
             this.cbMinorTickMarks.Name = "cbMinorTickMarks";
-            this.cbMinorTickMarks.Size = new System.Drawing.Size(80, 21);
+            this.cbMinorTickMarks.Size = new System.Drawing.Size(80, 23);
             this.cbMinorTickMarks.TabIndex = 4;
             this.cbMinorTickMarks.SelectedIndexChanged += new System.EventHandler(this.cbMinorTickMarks_SelectedIndexChanged);
             // 
             // chkVisible
             // 
-            this.chkVisible.Location = new System.Drawing.Point(118, 219);
+            this.chkVisible.Location = new System.Drawing.Point(118, 231);
             this.chkVisible.Name = "chkVisible";
             this.chkVisible.Size = new System.Drawing.Size(61, 18);
             this.chkVisible.TabIndex = 19;
@@ -284,7 +284,7 @@ namespace fyiReporting.RdlDesign
             // 
             // chkMargin
             // 
-            this.chkMargin.Location = new System.Drawing.Point(268, 219);
+            this.chkMargin.Location = new System.Drawing.Point(329, 231);
             this.chkMargin.Name = "chkMargin";
             this.chkMargin.Size = new System.Drawing.Size(65, 18);
             this.chkMargin.TabIndex = 21;
@@ -293,7 +293,7 @@ namespace fyiReporting.RdlDesign
             // 
             // chkReverse
             // 
-            this.chkReverse.Location = new System.Drawing.Point(182, 241);
+            this.chkReverse.Location = new System.Drawing.Point(195, 253);
             this.chkReverse.Name = "chkReverse";
             this.chkReverse.Size = new System.Drawing.Size(118, 18);
             this.chkReverse.TabIndex = 23;
@@ -302,16 +302,16 @@ namespace fyiReporting.RdlDesign
             // 
             // chkInterlaced
             // 
-            this.chkInterlaced.Location = new System.Drawing.Point(440, 248);
+            this.chkInterlaced.Location = new System.Drawing.Point(329, 253);
             this.chkInterlaced.Name = "chkInterlaced";
-            this.chkInterlaced.Size = new System.Drawing.Size(77, 18);
+            this.chkInterlaced.Size = new System.Drawing.Size(79, 18);
             this.chkInterlaced.TabIndex = 23;
             this.chkInterlaced.Text = "Interlaced";
             this.chkInterlaced.CheckedChanged += new System.EventHandler(this.chkInterlaced_CheckedChanged);
             // 
             // chkScalar
             // 
-            this.chkScalar.Location = new System.Drawing.Point(118, 241);
+            this.chkScalar.Location = new System.Drawing.Point(118, 253);
             this.chkScalar.Name = "chkScalar";
             this.chkScalar.Size = new System.Drawing.Size(58, 18);
             this.chkScalar.TabIndex = 22;
@@ -320,7 +320,7 @@ namespace fyiReporting.RdlDesign
             // 
             // chkLogScale
             // 
-            this.chkLogScale.Location = new System.Drawing.Point(185, 219);
+            this.chkLogScale.Location = new System.Drawing.Point(195, 231);
             this.chkLogScale.Name = "chkLogScale";
             this.chkLogScale.Size = new System.Drawing.Size(77, 18);
             this.chkLogScale.TabIndex = 20;
@@ -339,42 +339,42 @@ namespace fyiReporting.RdlDesign
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Location = new System.Drawing.Point(8, 39);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(428, 55);
+            this.groupBox1.Size = new System.Drawing.Size(424, 55);
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Major Grid Lines";
             // 
             // chkMajorGLShow
             // 
-            this.chkMajorGLShow.Location = new System.Drawing.Point(8, 23);
+            this.chkMajorGLShow.Location = new System.Drawing.Point(8, 25);
             this.chkMajorGLShow.Name = "chkMajorGLShow";
-            this.chkMajorGLShow.Size = new System.Drawing.Size(56, 18);
+            this.chkMajorGLShow.Size = new System.Drawing.Size(54, 18);
             this.chkMajorGLShow.TabIndex = 0;
             this.chkMajorGLShow.Text = "Show";
             this.chkMajorGLShow.CheckedChanged += new System.EventHandler(this.chkMajorGLShow_CheckedChanged);
             // 
             // tbMajorGLWidth
             // 
-            this.tbMajorGLWidth.Location = new System.Drawing.Point(380, 23);
+            this.tbMajorGLWidth.Location = new System.Drawing.Point(376, 23);
             this.tbMajorGLWidth.Name = "tbMajorGLWidth";
-            this.tbMajorGLWidth.Size = new System.Drawing.Size(40, 20);
+            this.tbMajorGLWidth.Size = new System.Drawing.Size(40, 23);
             this.tbMajorGLWidth.TabIndex = 7;
             this.tbMajorGLWidth.TextChanged += new System.EventHandler(this.tbMajorGLWidth_TextChanged);
             // 
             // bMajorGLColor
             // 
-            this.bMajorGLColor.Location = new System.Drawing.Point(316, 23);
+            this.bMajorGLColor.Location = new System.Drawing.Point(296, 23);
             this.bMajorGLColor.Name = "bMajorGLColor";
-            this.bMajorGLColor.Size = new System.Drawing.Size(24, 24);
+            this.bMajorGLColor.Size = new System.Drawing.Size(24, 23);
             this.bMajorGLColor.TabIndex = 5;
             this.bMajorGLColor.Text = "...";
             this.bMajorGLColor.Click += new System.EventHandler(this.bMajorGLColor_Click);
             // 
             // cbMajorGLColor
             // 
-            this.cbMajorGLColor.Location = new System.Drawing.Point(236, 23);
+            this.cbMajorGLColor.Location = new System.Drawing.Point(226, 23);
             this.cbMajorGLColor.Name = "cbMajorGLColor";
-            this.cbMajorGLColor.Size = new System.Drawing.Size(72, 21);
+            this.cbMajorGLColor.Size = new System.Drawing.Size(64, 23);
             this.cbMajorGLColor.TabIndex = 4;
             this.cbMajorGLColor.SelectedIndexChanged += new System.EventHandler(this.cbMajorGLColor_SelectedIndexChanged);
             // 
@@ -393,13 +393,13 @@ namespace fyiReporting.RdlDesign
             "Outset"});
             this.cbMajorGLStyle.Location = new System.Drawing.Point(110, 23);
             this.cbMajorGLStyle.Name = "cbMajorGLStyle";
-            this.cbMajorGLStyle.Size = new System.Drawing.Size(72, 21);
+            this.cbMajorGLStyle.Size = new System.Drawing.Size(64, 23);
             this.cbMajorGLStyle.TabIndex = 2;
             this.cbMajorGLStyle.SelectedIndexChanged += new System.EventHandler(this.cbMajorGLStyle_SelectedIndexChanged);
             // 
             // label7
             // 
-            this.label7.Location = new System.Drawing.Point(190, 23);
+            this.label7.Location = new System.Drawing.Point(180, 23);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(40, 23);
             this.label7.TabIndex = 3;
@@ -408,12 +408,12 @@ namespace fyiReporting.RdlDesign
             // 
             // label6
             // 
-            this.label6.Location = new System.Drawing.Point(348, 25);
+            this.label6.Location = new System.Drawing.Point(326, 23);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(39, 16);
+            this.label6.Size = new System.Drawing.Size(44, 23);
             this.label6.TabIndex = 6;
             this.label6.Text = "Width";
-            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label3
             // 
@@ -436,42 +436,42 @@ namespace fyiReporting.RdlDesign
             this.groupBox2.Controls.Add(this.label8);
             this.groupBox2.Location = new System.Drawing.Point(8, 102);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(428, 55);
+            this.groupBox2.Size = new System.Drawing.Size(424, 55);
             this.groupBox2.TabIndex = 6;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Minor Grid Lines";
             // 
             // chkMinorGLShow
             // 
-            this.chkMinorGLShow.Location = new System.Drawing.Point(8, 23);
+            this.chkMinorGLShow.Location = new System.Drawing.Point(8, 25);
             this.chkMinorGLShow.Name = "chkMinorGLShow";
-            this.chkMinorGLShow.Size = new System.Drawing.Size(56, 18);
+            this.chkMinorGLShow.Size = new System.Drawing.Size(54, 18);
             this.chkMinorGLShow.TabIndex = 0;
             this.chkMinorGLShow.Text = "Show";
             this.chkMinorGLShow.CheckedChanged += new System.EventHandler(this.chkMinorGLShow_CheckedChanged);
             // 
             // tbMinorGLWidth
             // 
-            this.tbMinorGLWidth.Location = new System.Drawing.Point(366, 23);
+            this.tbMinorGLWidth.Location = new System.Drawing.Point(376, 23);
             this.tbMinorGLWidth.Name = "tbMinorGLWidth";
-            this.tbMinorGLWidth.Size = new System.Drawing.Size(40, 20);
+            this.tbMinorGLWidth.Size = new System.Drawing.Size(40, 23);
             this.tbMinorGLWidth.TabIndex = 7;
             this.tbMinorGLWidth.TextChanged += new System.EventHandler(this.tbMinorGLWidth_TextChanged);
             // 
             // bMinorGLColor
             // 
-            this.bMinorGLColor.Location = new System.Drawing.Point(302, 23);
+            this.bMinorGLColor.Location = new System.Drawing.Point(296, 23);
             this.bMinorGLColor.Name = "bMinorGLColor";
-            this.bMinorGLColor.Size = new System.Drawing.Size(24, 24);
+            this.bMinorGLColor.Size = new System.Drawing.Size(24, 23);
             this.bMinorGLColor.TabIndex = 5;
             this.bMinorGLColor.Text = "...";
             this.bMinorGLColor.Click += new System.EventHandler(this.bMinorGLColor_Click);
             // 
             // cbMinorGLColor
             // 
-            this.cbMinorGLColor.Location = new System.Drawing.Point(222, 23);
+            this.cbMinorGLColor.Location = new System.Drawing.Point(226, 23);
             this.cbMinorGLColor.Name = "cbMinorGLColor";
-            this.cbMinorGLColor.Size = new System.Drawing.Size(72, 21);
+            this.cbMinorGLColor.Size = new System.Drawing.Size(64, 23);
             this.cbMinorGLColor.TabIndex = 4;
             this.cbMinorGLColor.SelectedIndexChanged += new System.EventHandler(this.cbMinorGLColor_SelectedIndexChanged);
             // 
@@ -490,27 +490,27 @@ namespace fyiReporting.RdlDesign
             "Outset"});
             this.cbMinorGLStyle.Location = new System.Drawing.Point(110, 23);
             this.cbMinorGLStyle.Name = "cbMinorGLStyle";
-            this.cbMinorGLStyle.Size = new System.Drawing.Size(72, 21);
+            this.cbMinorGLStyle.Size = new System.Drawing.Size(64, 23);
             this.cbMinorGLStyle.TabIndex = 2;
             this.cbMinorGLStyle.SelectedIndexChanged += new System.EventHandler(this.cbMinorGLStyle_SelectedIndexChanged);
             // 
             // label4
             // 
-            this.label4.Location = new System.Drawing.Point(190, 25);
+            this.label4.Location = new System.Drawing.Point(180, 23);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(40, 16);
+            this.label4.Size = new System.Drawing.Size(40, 23);
             this.label4.TabIndex = 3;
             this.label4.Text = "Color";
-            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label5
             // 
-            this.label5.Location = new System.Drawing.Point(334, 25);
+            this.label5.Location = new System.Drawing.Point(326, 23);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(39, 16);
+            this.label5.Size = new System.Drawing.Size(44, 23);
             this.label5.TabIndex = 6;
             this.label5.Text = "Width";
-            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label8
             // 
@@ -523,16 +523,16 @@ namespace fyiReporting.RdlDesign
             // 
             // label9
             // 
-            this.label9.Location = new System.Drawing.Point(28, 165);
+            this.label9.Location = new System.Drawing.Point(8, 173);
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(84, 23);
+            this.label9.Size = new System.Drawing.Size(104, 23);
             this.label9.TabIndex = 7;
             this.label9.Text = "Major Interval";
             // 
             // tbMajorInterval
             // 
-            this.tbMajorInterval.Location = new System.Drawing.Point(118, 165);
+            this.tbMajorInterval.Location = new System.Drawing.Point(118, 173);
             this.tbMajorInterval.Name = "tbMajorInterval";
             this.tbMajorInterval.Size = new System.Drawing.Size(64, 23);
             this.tbMajorInterval.TabIndex = 8;
@@ -540,7 +540,7 @@ namespace fyiReporting.RdlDesign
             // 
             // tbMinorInterval
             // 
-            this.tbMinorInterval.Location = new System.Drawing.Point(324, 165);
+            this.tbMinorInterval.Location = new System.Drawing.Point(336, 173);
             this.tbMinorInterval.Name = "tbMinorInterval";
             this.tbMinorInterval.Size = new System.Drawing.Size(64, 23);
             this.tbMinorInterval.TabIndex = 11;
@@ -548,16 +548,16 @@ namespace fyiReporting.RdlDesign
             // 
             // label10
             // 
-            this.label10.Location = new System.Drawing.Point(230, 165);
+            this.label10.Location = new System.Drawing.Point(226, 173);
             this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(88, 23);
+            this.label10.Size = new System.Drawing.Size(104, 23);
             this.label10.TabIndex = 10;
             this.label10.Text = "Minor Interval";
             // 
             // tbMax
             // 
-            this.tbMax.Location = new System.Drawing.Point(328, 192);
+            this.tbMax.Location = new System.Drawing.Point(336, 200);
             this.tbMax.Name = "tbMax";
             this.tbMax.Size = new System.Drawing.Size(64, 23);
             this.tbMax.TabIndex = 17;
@@ -565,16 +565,16 @@ namespace fyiReporting.RdlDesign
             // 
             // label11
             // 
-            this.label11.Location = new System.Drawing.Point(226, 192);
+            this.label11.Location = new System.Drawing.Point(226, 200);
             this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(96, 23);
+            this.label11.Size = new System.Drawing.Size(104, 23);
             this.label11.TabIndex = 16;
             this.label11.Text = "Maximum Value";
             // 
             // tbMin
             // 
-            this.tbMin.Location = new System.Drawing.Point(118, 192);
+            this.tbMin.Location = new System.Drawing.Point(118, 200);
             this.tbMin.Name = "tbMin";
             this.tbMin.Size = new System.Drawing.Size(64, 23);
             this.tbMin.TabIndex = 14;
@@ -582,17 +582,17 @@ namespace fyiReporting.RdlDesign
             // 
             // label12
             // 
-            this.label12.Location = new System.Drawing.Point(16, 192);
+            this.label12.Location = new System.Drawing.Point(8, 200);
             this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(96, 23);
+            this.label12.Size = new System.Drawing.Size(104, 23);
             this.label12.TabIndex = 13;
             this.label12.Text = "Minimum Value";
             // 
             // bMinorIntervalExpr
             // 
             this.bMinorIntervalExpr.Font = new System.Drawing.Font("Arial", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.bMinorIntervalExpr.Location = new System.Drawing.Point(394, 165);
+            this.bMinorIntervalExpr.Location = new System.Drawing.Point(406, 173);
             this.bMinorIntervalExpr.Name = "bMinorIntervalExpr";
             this.bMinorIntervalExpr.Size = new System.Drawing.Size(22, 23);
             this.bMinorIntervalExpr.TabIndex = 12;
@@ -604,7 +604,7 @@ namespace fyiReporting.RdlDesign
             // bMajorIntervalExpr
             // 
             this.bMajorIntervalExpr.Font = new System.Drawing.Font("Arial", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.bMajorIntervalExpr.Location = new System.Drawing.Point(188, 165);
+            this.bMajorIntervalExpr.Location = new System.Drawing.Point(188, 173);
             this.bMajorIntervalExpr.Name = "bMajorIntervalExpr";
             this.bMajorIntervalExpr.Size = new System.Drawing.Size(22, 23);
             this.bMajorIntervalExpr.TabIndex = 9;
@@ -616,7 +616,7 @@ namespace fyiReporting.RdlDesign
             // bMinExpr
             // 
             this.bMinExpr.Font = new System.Drawing.Font("Arial", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.bMinExpr.Location = new System.Drawing.Point(188, 192);
+            this.bMinExpr.Location = new System.Drawing.Point(188, 200);
             this.bMinExpr.Name = "bMinExpr";
             this.bMinExpr.Size = new System.Drawing.Size(22, 23);
             this.bMinExpr.TabIndex = 15;
@@ -628,7 +628,7 @@ namespace fyiReporting.RdlDesign
             // bMaxExpr
             // 
             this.bMaxExpr.Font = new System.Drawing.Font("Arial", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.bMaxExpr.Location = new System.Drawing.Point(398, 192);
+            this.bMaxExpr.Location = new System.Drawing.Point(406, 200);
             this.bMaxExpr.Name = "bMaxExpr";
             this.bMaxExpr.Size = new System.Drawing.Size(22, 23);
             this.bMaxExpr.TabIndex = 18;
@@ -664,7 +664,7 @@ namespace fyiReporting.RdlDesign
             this.Controls.Add(this.tbMajorInterval);
             this.Controls.Add(this.label9);
             this.Name = "ChartAxisCtl";
-            this.Size = new System.Drawing.Size(525, 288);
+            this.Size = new System.Drawing.Size(440, 288);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);

@@ -206,9 +206,9 @@ namespace fyiReporting.RdlDesign
 			this.grpBoxVisibility.Controls.Add(this.tbHidden);
 			this.grpBoxVisibility.Controls.Add(this.label3);
 			this.grpBoxVisibility.Controls.Add(this.label2);
-			this.grpBoxVisibility.Location = new System.Drawing.Point(8, 146);
+			this.grpBoxVisibility.Location = new System.Drawing.Point(8, 151);
 			this.grpBoxVisibility.Name = "grpBoxVisibility";
-			this.grpBoxVisibility.Size = new System.Drawing.Size(456, 81);
+			this.grpBoxVisibility.Size = new System.Drawing.Size(440, 81);
 			this.grpBoxVisibility.TabIndex = 1;
 			this.grpBoxVisibility.TabStop = false;
 			this.grpBoxVisibility.Text = "Visibility";
@@ -216,7 +216,7 @@ namespace fyiReporting.RdlDesign
 			// bHidden
 			// 
 			this.bHidden.Font = new System.Drawing.Font("Arial", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-			this.bHidden.Location = new System.Drawing.Point(404, 23);
+			this.bHidden.Location = new System.Drawing.Point(410, 23);
 			this.bHidden.Name = "bHidden";
 			this.bHidden.Size = new System.Drawing.Size(22, 23);
 			this.bHidden.TabIndex = 1;
@@ -229,7 +229,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.cbToggle.Location = new System.Drawing.Point(174, 50);
 			this.cbToggle.Name = "cbToggle";
-			this.cbToggle.Size = new System.Drawing.Size(152, 21);
+			this.cbToggle.Size = new System.Drawing.Size(152, 23);
 			this.cbToggle.TabIndex = 2;
 			this.cbToggle.TextChanged += new System.EventHandler(this.cbToggle_SelectedIndexChanged);
 			this.cbToggle.SelectedIndexChanged += new System.EventHandler(this.cbToggle_SelectedIndexChanged);
@@ -238,7 +238,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.tbHidden.Location = new System.Drawing.Point(174, 23);
 			this.tbHidden.Name = "tbHidden";
-			this.tbHidden.Size = new System.Drawing.Size(224, 20);
+			this.tbHidden.Size = new System.Drawing.Size(230, 23);
 			this.tbHidden.TabIndex = 0;
 			this.tbHidden.Text = "";
 			this.tbHidden.TextChanged += new System.EventHandler(this.tbHidden_TextChanged);
@@ -254,10 +254,10 @@ namespace fyiReporting.RdlDesign
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(32, 23);
+			this.label2.Location = new System.Drawing.Point(8, 23);
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(136, 23);
+			this.label2.Size = new System.Drawing.Size(160, 23);
 			this.label2.TabIndex = 0;
 			this.label2.Text = "Hidden (initial visibility)";
 			// 
@@ -276,7 +276,7 @@ namespace fyiReporting.RdlDesign
 			this.groupBox1.Controls.Add(this.rbHyperlink);
 			this.groupBox1.Location = new System.Drawing.Point(8, 8);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(456, 130);
+			this.groupBox1.Size = new System.Drawing.Size(440, 135);
 			this.groupBox1.TabIndex = 0;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Action";
@@ -284,7 +284,7 @@ namespace fyiReporting.RdlDesign
 			// bBookmarkLink
 			// 
 			this.bBookmarkLink.Font = new System.Drawing.Font("Arial", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-			this.bBookmarkLink.Location = new System.Drawing.Point(388, 72);
+			this.bBookmarkLink.Location = new System.Drawing.Point(410, 77);
 			this.bBookmarkLink.Name = "bBookmarkLink";
 			this.bBookmarkLink.Size = new System.Drawing.Size(22, 23);
 			this.bBookmarkLink.TabIndex = 3;
@@ -296,7 +296,7 @@ namespace fyiReporting.RdlDesign
 			// bHyperlink
 			// 
 			this.bHyperlink.Font = new System.Drawing.Font("Arial", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-			this.bHyperlink.Location = new System.Drawing.Point(360, 45);
+			this.bHyperlink.Location = new System.Drawing.Point(410, 50);
 			this.bHyperlink.Name = "bHyperlink";
 			this.bHyperlink.Size = new System.Drawing.Size(22, 23);
 			this.bHyperlink.TabIndex = 1;
@@ -307,8 +307,8 @@ namespace fyiReporting.RdlDesign
 			// 
 			// rbNoAction
 			// 
-			this.rbNoAction.Location = new System.Drawing.Point(8, 23);
-			this.rbNoAction.Size = new System.Drawing.Size(54, 18);
+			this.rbNoAction.Location = new System.Drawing.Point(8, 25);
+			this.rbNoAction.Size = new System.Drawing.Size(106, 18);
 			this.rbNoAction.Name = "rbNoAction";
 			this.rbNoAction.TabIndex = 5;
 			this.rbNoAction.Text = "None";
@@ -316,7 +316,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// bParameters
 			// 
-			this.bParameters.Location = new System.Drawing.Point(321, 99);
+			this.bParameters.Location = new System.Drawing.Point(352, 104);
 			this.bParameters.Name = "bParameters";
 			this.bParameters.Size = new System.Drawing.Size(80, 23);
 			this.bParameters.TabIndex = 6;
@@ -325,7 +325,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// bDrillthrough
 			// 
-			this.bDrillthrough.Location = new System.Drawing.Point(291, 99);
+			this.bDrillthrough.Location = new System.Drawing.Point(322, 104);
 			this.bDrillthrough.Name = "bDrillthrough";
 			this.bDrillthrough.Size = new System.Drawing.Size(24, 23);
 			this.bDrillthrough.TabIndex = 5;
@@ -334,35 +334,35 @@ namespace fyiReporting.RdlDesign
 			// 
 			// tbDrillthrough
 			// 
-			this.tbDrillthrough.Location = new System.Drawing.Point(109, 99);
+			this.tbDrillthrough.Location = new System.Drawing.Point(120, 104);
 			this.tbDrillthrough.Name = "tbDrillthrough";
-			this.tbDrillthrough.Size = new System.Drawing.Size(176, 20);
+			this.tbDrillthrough.Size = new System.Drawing.Size(196, 23);
 			this.tbDrillthrough.TabIndex = 4;
 			this.tbDrillthrough.Text = "";
 			this.tbDrillthrough.TextChanged += new System.EventHandler(this.tbAction_TextChanged);
 			// 
 			// tbBookmarkLink
 			// 
-			this.tbBookmarkLink.Location = new System.Drawing.Point(118, 72);
+			this.tbBookmarkLink.Location = new System.Drawing.Point(120, 77);
 			this.tbBookmarkLink.Name = "tbBookmarkLink";
-			this.tbBookmarkLink.Size = new System.Drawing.Size(264, 20);
+			this.tbBookmarkLink.Size = new System.Drawing.Size(284, 23);
 			this.tbBookmarkLink.TabIndex = 2;
 			this.tbBookmarkLink.Text = "";
 			this.tbBookmarkLink.TextChanged += new System.EventHandler(this.tbAction_TextChanged);
 			// 
 			// tbHyperlink
 			// 
-			this.tbHyperlink.Location = new System.Drawing.Point(90, 45);
+			this.tbHyperlink.Location = new System.Drawing.Point(120, 50);
 			this.tbHyperlink.Name = "tbHyperlink";
-			this.tbHyperlink.Size = new System.Drawing.Size(264, 20);
+			this.tbHyperlink.Size = new System.Drawing.Size(284, 23);
 			this.tbHyperlink.TabIndex = 0;
 			this.tbHyperlink.Text = "";
 			this.tbHyperlink.TextChanged += new System.EventHandler(this.tbAction_TextChanged);
 			// 
 			// rbDrillthrough
 			// 
-			this.rbDrillthrough.Location = new System.Drawing.Point(8, 101);
-			this.rbDrillthrough.Size = new System.Drawing.Size(95, 18);
+			this.rbDrillthrough.Location = new System.Drawing.Point(8, 106);
+			this.rbDrillthrough.Size = new System.Drawing.Size(106, 18);
 			this.rbDrillthrough.Name = "rbDrillthrough";
 			this.rbDrillthrough.TabIndex = 2;
 			this.rbDrillthrough.Text = "Drill Through";
@@ -370,8 +370,8 @@ namespace fyiReporting.RdlDesign
 			// 
 			// rbBookmarkLink
 			// 
-			this.rbBookmarkLink.Location = new System.Drawing.Point(8, 74);
-			this.rbBookmarkLink.Size = new System.Drawing.Size(104, 18);
+			this.rbBookmarkLink.Location = new System.Drawing.Point(8, 79);
+			this.rbBookmarkLink.Size = new System.Drawing.Size(106, 18);
 			this.rbBookmarkLink.Name = "rbBookmarkLink";
 			this.rbBookmarkLink.TabIndex = 1;
 			this.rbBookmarkLink.Text = "Bookmark Link";
@@ -379,8 +379,8 @@ namespace fyiReporting.RdlDesign
 			// 
 			// rbHyperlink
 			// 
-			this.rbHyperlink.Location = new System.Drawing.Point(8, 47);
-			this.rbHyperlink.Size = new System.Drawing.Size(76, 18);
+			this.rbHyperlink.Location = new System.Drawing.Point(8, 52);
+			this.rbHyperlink.Size = new System.Drawing.Size(106, 18);
 			this.rbHyperlink.Name = "rbHyperlink";
 			this.rbHyperlink.TabIndex = 0;
 			this.rbHyperlink.Text = "Hyperlink";
@@ -388,25 +388,25 @@ namespace fyiReporting.RdlDesign
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(43, 235);
+			this.label1.Location = new System.Drawing.Point(8, 240);
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(68, 23);
+			this.label1.Size = new System.Drawing.Size(168, 23);
 			this.label1.TabIndex = 2;
 			this.label1.Text = "Bookmark";
 			// 
 			// tbBookmark
 			// 
-			this.tbBookmark.Location = new System.Drawing.Point(117, 235);
+			this.tbBookmark.Location = new System.Drawing.Point(182, 240);
 			this.tbBookmark.Name = "tbBookmark";
-			this.tbBookmark.Size = new System.Drawing.Size(312, 20);
+			this.tbBookmark.Size = new System.Drawing.Size(238, 23);
 			this.tbBookmark.TabIndex = 3;
 			this.tbBookmark.Text = "";
 			// 
 			// bBookmark
 			// 
 			this.bBookmark.Font = new System.Drawing.Font("Arial", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-			this.bBookmark.Location = new System.Drawing.Point(435, 235);
+			this.bBookmark.Location = new System.Drawing.Point(426, 240);
 			this.bBookmark.Name = "bBookmark";
 			this.bBookmark.Size = new System.Drawing.Size(22, 23);
 			this.bBookmark.TabIndex = 4;
