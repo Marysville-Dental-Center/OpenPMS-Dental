@@ -148,7 +148,7 @@ namespace fyiReporting.RdlDesign
 			this.tcFRG.Location = new System.Drawing.Point(8, 8);
 			this.tcFRG.Name = "tcFRG";
 			this.tcFRG.SelectedIndex = 0;
-			this.tcFRG.Size = new System.Drawing.Size(432, 192);
+			this.tcFRG.Size = new System.Drawing.Size(432, 190);
 			this.tcFRG.TabIndex = 0;
 			this.tcFRG.Enter += new System.EventHandler(this.tcFRG_Enter);
 			this.tcFRG.SelectedIndexChanged += new System.EventHandler(this.tcFRG_SelectedIndexChanged);
@@ -163,7 +163,7 @@ namespace fyiReporting.RdlDesign
 			this.tabFind.Controls.Add(this.txtFind);
 			this.tabFind.Location = new System.Drawing.Point(4, 22);
 			this.tabFind.Name = "tabFind";
-			this.tabFind.Size = new System.Drawing.Size(424, 166);
+			this.tabFind.Size = new System.Drawing.Size(427, 164);
 			this.tabFind.TabIndex = 0;
 			this.tabFind.Tag = "find";
 			this.tabFind.Text = "Find";
@@ -171,7 +171,7 @@ namespace fyiReporting.RdlDesign
 			// btnCancel
 			// 
 			this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.btnCancel.Location = new System.Drawing.Point(344, 128);
+			this.btnCancel.Location = new System.Drawing.Point(341, 35);
 			this.btnCancel.Name = "btnCancel";
 			this.btnCancel.TabIndex = 3;
 			this.btnCancel.Text = "Close";
@@ -180,7 +180,7 @@ namespace fyiReporting.RdlDesign
 			// btnNext
 			// 
 			this.btnNext.Enabled = false;
-			this.btnNext.Location = new System.Drawing.Point(344, 16);
+			this.btnNext.Location = new System.Drawing.Point(341, 8);
 			this.btnNext.Name = "btnNext";
 			this.btnNext.TabIndex = 1;
 			this.btnNext.Text = "Find Next";
@@ -188,9 +188,9 @@ namespace fyiReporting.RdlDesign
 			// 
 			// chkCase
 			// 
-			this.chkCase.Location = new System.Drawing.Point(208, 72);
+			this.chkCase.Location = new System.Drawing.Point(94, 37);
 			this.chkCase.Name = "chkCase";
-			this.chkCase.Size = new System.Drawing.Size(88, 24);
+			this.chkCase.Size = new System.Drawing.Size(89, 18);
 			this.chkCase.TabIndex = 2;
 			this.chkCase.Text = "Match Case";
 			// 
@@ -198,43 +198,44 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.groupBox1.Controls.Add(this.radioUp);
 			this.groupBox1.Controls.Add(this.radioDown);
-			this.groupBox1.Location = new System.Drawing.Point(16, 48);
+			this.groupBox1.Location = new System.Drawing.Point(94, 66);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(176, 64);
+			this.groupBox1.Size = new System.Drawing.Size(124, 49);
 			this.groupBox1.TabIndex = 2;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Search Direction";
 			// 
 			// radioUp
 			// 
-			this.radioUp.Location = new System.Drawing.Point(16, 24);
+			this.radioUp.Location = new System.Drawing.Point(8, 23);
 			this.radioUp.Name = "radioUp";
-			this.radioUp.Size = new System.Drawing.Size(56, 24);
+			this.radioUp.Size = new System.Drawing.Size(40, 18);
 			this.radioUp.TabIndex = 0;
 			this.radioUp.Text = "Up";
 			this.radioUp.CheckedChanged += new System.EventHandler(this.radioUp_CheckedChanged);
 			// 
 			// radioDown
 			// 
-			this.radioDown.Location = new System.Drawing.Point(104, 24);
+			this.radioDown.Location = new System.Drawing.Point(64, 23);
 			this.radioDown.Name = "radioDown";
-			this.radioDown.Size = new System.Drawing.Size(56, 24);
+			this.radioDown.Size = new System.Drawing.Size(56, 18);
 			this.radioDown.TabIndex = 1;
 			this.radioDown.Text = "Down";
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(12, 16);
+			this.label1.Location = new System.Drawing.Point(8, 8);
+			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(76, 23);
+			this.label1.Size = new System.Drawing.Size(80, 23);
 			this.label1.TabIndex = 0;
 			this.label1.Text = "Find";
 			// 
 			// txtFind
 			// 
-			this.txtFind.Location = new System.Drawing.Point(96, 16);
+			this.txtFind.Location = new System.Drawing.Point(94, 8);
 			this.txtFind.Name = "txtFind";
-			this.txtFind.Size = new System.Drawing.Size(216, 20);
+			this.txtFind.Size = new System.Drawing.Size(231, 23);
 			this.txtFind.TabIndex = 0;
 			this.txtFind.Text = "";
 			this.txtFind.TextChanged += new System.EventHandler(this.txtFind_TextChanged);
@@ -252,14 +253,14 @@ namespace fyiReporting.RdlDesign
 			this.tabReplace.Controls.Add(this.txtReplace);
 			this.tabReplace.Location = new System.Drawing.Point(4, 22);
 			this.tabReplace.Name = "tabReplace";
-			this.tabReplace.Size = new System.Drawing.Size(424, 166);
+			this.tabReplace.Size = new System.Drawing.Size(427, 164);
 			this.tabReplace.TabIndex = 1;
 			this.tabReplace.Tag = "replace";
 			this.tabReplace.Text = "Replace";
 			// 
 			// bCloseReplace
 			// 
-			this.bCloseReplace.Location = new System.Drawing.Point(344, 128);
+			this.bCloseReplace.Location = new System.Drawing.Point(341, 89);
 			this.bCloseReplace.Name = "bCloseReplace";
 			this.bCloseReplace.TabIndex = 6;
 			this.bCloseReplace.Text = "Close";
@@ -268,7 +269,7 @@ namespace fyiReporting.RdlDesign
 			// btnFindNext
 			// 
 			this.btnFindNext.Enabled = false;
-			this.btnFindNext.Location = new System.Drawing.Point(344, 16);
+			this.btnFindNext.Location = new System.Drawing.Point(341, 8);
 			this.btnFindNext.Name = "btnFindNext";
 			this.btnFindNext.TabIndex = 3;
 			this.btnFindNext.Text = "FindNext";
@@ -276,7 +277,8 @@ namespace fyiReporting.RdlDesign
 			// 
 			// chkMatchCase
 			// 
-			this.chkMatchCase.Location = new System.Drawing.Point(8, 88);
+			this.chkMatchCase.Location = new System.Drawing.Point(94, 64);
+			this.chkMatchCase.Size = new System.Drawing.Size(89, 18);
 			this.chkMatchCase.Name = "chkMatchCase";
 			this.chkMatchCase.TabIndex = 2;
 			this.chkMatchCase.Text = "Match Case";
@@ -284,7 +286,7 @@ namespace fyiReporting.RdlDesign
 			// btnReplaceAll
 			// 
 			this.btnReplaceAll.Enabled = false;
-			this.btnReplaceAll.Location = new System.Drawing.Point(344, 80);
+			this.btnReplaceAll.Location = new System.Drawing.Point(341, 62);
 			this.btnReplaceAll.Name = "btnReplaceAll";
 			this.btnReplaceAll.TabIndex = 5;
 			this.btnReplaceAll.Text = "ReplaceAll";
@@ -293,7 +295,7 @@ namespace fyiReporting.RdlDesign
 			// btnReplace
 			// 
 			this.btnReplace.Enabled = false;
-			this.btnReplace.Location = new System.Drawing.Point(344, 48);
+			this.btnReplace.Location = new System.Drawing.Point(341, 35);
 			this.btnReplace.Name = "btnReplace";
 			this.btnReplace.TabIndex = 4;
 			this.btnReplace.Text = "Replace";
@@ -301,34 +303,36 @@ namespace fyiReporting.RdlDesign
 			// 
 			// txtFindR
 			// 
-			this.txtFindR.Location = new System.Drawing.Point(96, 16);
+			this.txtFindR.Location = new System.Drawing.Point(94, 8);
 			this.txtFindR.Name = "txtFindR";
-			this.txtFindR.Size = new System.Drawing.Size(224, 20);
+			this.txtFindR.Size = new System.Drawing.Size(231, 23);
 			this.txtFindR.TabIndex = 0;
 			this.txtFindR.Text = "";
 			this.txtFindR.TextChanged += new System.EventHandler(this.txtFindR_TextChanged);
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(14, 16);
+			this.label3.Location = new System.Drawing.Point(8, 8);
+			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(76, 23);
+			this.label3.Size = new System.Drawing.Size(80, 23);
 			this.label3.TabIndex = 0;
 			this.label3.Text = "Find";
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(14, 56);
+			this.label2.Location = new System.Drawing.Point(8, 35);
+			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(76, 23);
+			this.label2.Size = new System.Drawing.Size(80, 23);
 			this.label2.TabIndex = 5;
 			this.label2.Text = "Replace With";
 			// 
 			// txtReplace
 			// 
-			this.txtReplace.Location = new System.Drawing.Point(96, 56);
+			this.txtReplace.Location = new System.Drawing.Point(94, 35);
 			this.txtReplace.Name = "txtReplace";
-			this.txtReplace.Size = new System.Drawing.Size(224, 20);
+			this.txtReplace.Size = new System.Drawing.Size(231, 23);
 			this.txtReplace.TabIndex = 1;
 			this.txtReplace.Text = "";
 			// 
@@ -340,14 +344,14 @@ namespace fyiReporting.RdlDesign
 			this.tabGoTo.Controls.Add(this.btnGoto);
 			this.tabGoTo.Location = new System.Drawing.Point(4, 22);
 			this.tabGoTo.Name = "tabGoTo";
-			this.tabGoTo.Size = new System.Drawing.Size(424, 166);
+			this.tabGoTo.Size = new System.Drawing.Size(427, 164);
 			this.tabGoTo.TabIndex = 2;
 			this.tabGoTo.Tag = "goto";
 			this.tabGoTo.Text = "GoTo";
 			// 
 			// bCloseGoto
 			// 
-			this.bCloseGoto.Location = new System.Drawing.Point(344, 128);
+			this.bCloseGoto.Location = new System.Drawing.Point(341, 35);
 			this.bCloseGoto.Name = "bCloseGoto";
 			this.bCloseGoto.TabIndex = 2;
 			this.bCloseGoto.Text = "Close";
@@ -355,21 +359,23 @@ namespace fyiReporting.RdlDesign
 			// 
 			// txtLine
 			// 
-			this.txtLine.Location = new System.Drawing.Point(96, 16);
+			this.txtLine.Location = new System.Drawing.Point(94, 8);
 			this.txtLine.Name = "txtLine";
 			this.txtLine.TabIndex = 0;
 			this.txtLine.Text = "";
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(16, 16);
+			this.label4.Location = new System.Drawing.Point(8, 8);
+			this.label4.Size = new System.Drawing.Size(80, 23);
+			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label4.Name = "label4";
 			this.label4.TabIndex = 2;
 			this.label4.Text = "Line Number";
 			// 
 			// btnGoto
 			// 
-			this.btnGoto.Location = new System.Drawing.Point(344, 16);
+			this.btnGoto.Location = new System.Drawing.Point(341, 8);
 			this.btnGoto.Name = "btnGoto";
 			this.btnGoto.TabIndex = 1;
 			this.btnGoto.Text = "GoTo";

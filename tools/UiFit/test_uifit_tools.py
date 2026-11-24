@@ -110,6 +110,30 @@ class SplitTests(unittest.TestCase):
     def test_slice_order(self):
         self.assertEqual(["pilot", "1", "2", "10", "x", "unsliced"], sorted(["unsliced", "10", "2", "pilot", "x", "1"], key=sd.slice_key))
 
+    def test_snapshot_owner_by_the_declared_class(self):
+        # UI-12 slice 13: a designer file named otherwise than its class (FormCvxs in FormCvx.designer.cs) belongs to the window's slice
+        # without a hand row; the file name and the hand rows still count, and the first slice wins.
+        win = {"N.FormCvxs": "11", "N.FormA": "2", "N.FormB": "1"}
+        declared = {"P/FormCvx.designer.cs": ["formcvxs"], "P/FormA.Designer.cs": ["forma"], "P/Other.Designer.cs": ["formb", "formd"]}
+        hand = [{"designer_file": "P/UserControlC.Designer.cs", "window": "N.FormB"}]
+        owners = sd.snapshot_owners(win, hand, declared=lambda rel: declared.get(rel, []))
+        self.assertEqual("11", sd.snapshot_owner("P/FormCvx.designer.cs", owners))
+        self.assertEqual("2", sd.snapshot_owner("P/FormA.Designer.cs", owners))
+        self.assertEqual("1", sd.snapshot_owner("P/Other.Designer.cs", owners))
+        self.assertEqual("1", sd.snapshot_owner("P/UserControlC.Designer.cs", owners))
+        self.assertEqual(sd.UNSLICED, sd.snapshot_owner("P/FormD.Designer.cs", owners))
+
+    def test_declared_classes_reads_the_file(self):
+        tmp = tempfile.mkdtemp(prefix="ui12-13-")
+        self.addCleanup(shutil.rmtree, tmp, True)
+        path = os.path.join(tmp, "FormCvx.designer.cs")
+        with open(path, "wb") as f:
+            f.write(b"namespace N {\r\n\tpartial class FormCvxs {\r\n\t\tprivate void InitializeComponent() { }\r\n\t}\r\n}\r\n")
+        self.assertEqual(["formcvxs"], sd.declared_classes(path))
+        self.assertEqual([], sd.declared_classes(os.path.join(tmp, "missing.cs")))
+        owners = sd.snapshot_owners({"N.FormCvxs": "11"}, [], root=tmp)
+        self.assertEqual("11", sd.snapshot_owner("FormCvx.designer.cs", owners))
+
 
 class NumbersTests(unittest.TestCase):
     def test_grid_is_the_data_file(self):
@@ -295,6 +319,115 @@ class AnchorTests(unittest.TestCase):
         node("butDelete", "OpenPmsDental.UI.Button", 400, 112, 75, 24, root)   # under the grid's stretching bottom edge: not flagged
         node("butClose", "OpenPmsDental.UI.Button", 500, 368, 75, 24, root)    # in the bottom bar: not flagged
         self.assertEqual(["butAdd"], [r[1] for r in grid_tools.bottom_anchored_high(root, d)])
+
+
+class CodeFileTests(unittest.TestCase):
+    """UI-12 slice 13: windows whose designer code is in their own .cs file (the report designer's dialogs, ODR's controls): the planner
+    reads InitializeComponent's body there and the applier edits only that body, byte for byte."""
+    CODE = (
+        "﻿/* licence header: { not code } */\r\n"
+        "namespace N {\r\n"
+        "\tinternal class DialogX : System.Windows.Forms.Form {\r\n"
+        "\t\tprivate System.Windows.Forms.Label label1;\r\n"
+        "\t\tpublic DialogX() {\r\n"
+        "\t\t\tInitializeComponent();\r\n"
+        "\t\t\tthis.label1.Location = new System.Drawing.Point(3, 3);// code after InitializeComponent: not designer code\r\n"
+        "\t\t\tthis.Size = new System.Drawing.Size(300, 200);\r\n"
+        "\t\t}\r\n"
+        "\t\tprivate void InitializeComponent() {\r\n"
+        "\t\t\tthis.label1 = new System.Windows.Forms.Label();\r\n"
+        "\t\t\t// a comment with a brace }\r\n"
+        "\t\t\tthis.label1.Location = new System.Drawing.Point(16, 16);\r\n"
+        "\t\t\tthis.label1.Name = \"label1\";\r\n"
+        "\t\t\tthis.label1.Size = new System.Drawing.Size(48, 23);\r\n"
+        "\t\t\tthis.label1.Text = \"Braces { in a string }\";\r\n"
+        "\t\t\tthis.ClientSize = new System.Drawing.Size(456, 342);\r\n"
+        "\t\t\tthis.Controls.Add(this.label1);\r\n"
+        "\t\t}\r\n"
+        "\t\tprivate void Other() { this.label1.Location = new System.Drawing.Point(1, 1); }\r\n"
+        "\t}\r\n"
+        "}\n")
+
+    def write(self):
+        tmp = tempfile.mkdtemp(prefix="ui12-13-code-")
+        self.addCleanup(shutil.rmtree, tmp, True)
+        with open(os.path.join(tmp, "DialogX.cs"), "wb") as f:
+            f.write(self.CODE.encode("utf-8"))
+        return tmp
+
+    def test_the_body_of_initialize_component(self):
+        start, end = fit_tools.initialize_component_span(self.CODE)
+        body = self.CODE[start:end]
+        self.assertIn("Point(16, 16)", body)
+        self.assertIn("ClientSize", body)
+        self.assertNotIn("Other", body)
+        self.assertNotIn("Point(3, 3)", body)
+        self.assertEqual((0, len("x")), fit_tools.designer_code("a/FormX.Designer.cs", "x"))
+        self.assertIsNone(fit_tools.initialize_component_span("class N { }"))
+
+    def test_the_designer_reads_only_initialize_component(self):
+        tmp = self.write()
+        d = grid_tools.Designer(tmp, "DialogX.cs")
+        self.assertEqual((16, 16), d.point("label1"))
+        self.assertEqual((456, 342), d.size(".", "ClientSize"))
+        self.assertEqual("System.Windows.Forms.Label", d.declared["label1"])
+
+    def test_the_applier_edits_only_the_body(self):
+        tmp = self.write()
+        plan = os.path.join(tmp, "plan.tsv")
+        with open(plan, "w", encoding="utf-8", newline="\n") as f:
+            f.write("designer_file\twindow\tcontrol\tproperty\told\tnew\trule\n")
+            f.write("DialogX.cs\tN.DialogX\tlabel1\tLocation\t16,16\t8,12\tt\n")
+            f.write("DialogX.cs\tN.DialogX\tlabel1\tSize\t48,23\t52,23\tt\n")
+            f.write("DialogX.cs\tN.DialogX\t.\tClientSize\t456,342\t460,350\tt\n")
+            f.write("DialogX.cs\tN.DialogX\tlabel1\tTextAlign\t\tMiddleRight\tt\n")
+        old_root = fit_tools.repo_root
+        fit_tools.repo_root = lambda: tmp
+        try:
+            args = type("A", (), {"plan": plan})()
+            grid_tools.cmd_apply(args)
+            with open(os.path.join(tmp, "DialogX.cs"), "rb") as f:
+                after = f.read()
+            grid_tools.cmd_apply(args)  # a second run changes nothing
+            with open(os.path.join(tmp, "DialogX.cs"), "rb") as f:
+                self.assertEqual(after, f.read())
+        finally:
+            fit_tools.repo_root = old_root
+        expected = (self.CODE.replace("Point(16, 16)", "Point(8, 12)").replace("Size(48, 23)", "Size(52, 23)")
+                    .replace("Size(456, 342)", "Size(460, 350)")
+                    .replace("\t\t\tthis.label1.Name = \"label1\";\r\n",
+                             "\t\t\tthis.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;\r\n\t\t\tthis.label1.Name = \"label1\";\r\n"))
+        self.assertEqual(expected.encode("utf-8"), after)
+
+    def test_runtime_code_leaves_out_initialize_component(self):
+        code = fit_tools.runtime_code("DialogX.cs", self.CODE)
+        self.assertIn("Point(3, 3)", code)
+        self.assertIn("Point(1, 1)", code)
+        self.assertNotIn("Point(16, 16)", code)
+
+    def test_a_plain_form_is_laid_out_in_its_client_area(self):
+        # UI-12 slice 13 (the plain-Form rule): a plain Form's root is the window with its frame; a UserControl's root is its client area.
+        cols = ["window", "path", "name", "type", "index", "x", "y", "width", "height", "client_x", "client_y", "client_width", "client_height",
+                "visible", "dock", "anchor", "auto_size", "sizes_itself", "layout_panel_child", "check_align", "text_align", "multiline",
+                "font_height", "text_width", "text_height", "title_bottom", "preferred_height", "text"]
+        rows = [("N.DialogX", ".", "DialogX", "N.DialogX", 0, 0, 0, 482, 343, 0, 0, 466, 304),
+                ("N.CtlY", ".", "CtlY", "N.CtlY", 0, 0, 0, 472, 288, 0, 0, 472, 288)]
+        tmp = tempfile.mkdtemp(prefix="ui12-13-tree-")
+        self.addCleanup(shutil.rmtree, tmp, True)
+        path = os.path.join(tmp, "tree.tsv")
+        with open(path, "w", encoding="utf-8", newline="\n") as f:
+            f.write("\t".join(cols) + "\n")
+            for r in rows:
+                f.write("\t".join(str(x) for x in r) + "\t1\tNone\t5\t0\t0\t0\t\t\t0\t16\t0\t0\t0\t0\t\n")
+        trees = grid_tools.load_tree(path)
+        self.assertEqual((466, 304), (trees["N.DialogX"].nw, trees["N.DialogX"].nh))
+        self.assertEqual((472, 288), (trees["N.CtlY"].nw, trees["N.CtlY"].nh))
+
+    def test_a_report_designer_window_finds_its_code_file(self):
+        wf = fit_tools.window_files(ROOT, ["fyiReporting.RdlDesign.DialogNewTable", "ODR.FormParameterInput", "OpenPmsDental.FormCvxs"])
+        self.assertEqual(["RdlDesign/DialogNewTable.cs"], wf["fyiReporting.RdlDesign.DialogNewTable"])
+        self.assertEqual(["ODR/FormParameterInput.cs"], wf["ODR.FormParameterInput"])
+        self.assertEqual(["OpenPmsDental/Forms/FormCvx.designer.cs"], wf["OpenPmsDental.FormCvxs"])
 
 
 if __name__ == "__main__":

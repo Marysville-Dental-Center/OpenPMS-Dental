@@ -72,6 +72,12 @@ def window_files(root, windows, declared=False):
             # UI-12 slice 11 (the lead's decision of slice 8): a designer file named otherwise than its class (FormConfirmationSetup in
             # FormConfirmationsSetup.designer.cs, FormCvxs in FormCvx.designer.cs) is the designer file that declares the class.
             cand = files_declaring(root, files, simple)
+            if not cand:
+                # UI-12 slice 13: no designer file declares the class: the window's designer code is in its own .cs file (the report
+                # designer's dialogs, ODR's controls), read and edited there (InitializeComponent's body only: designer_code).
+                simple = simple.split("@")[0]
+                code = all_code_files_with_designer_code(root)
+                cand = code.get(simple, []) or [f for f in sorted(set(x for fs in code.values() for x in fs)) if _declares(root, f, simple)]
         if len(cand) > 1:
             narrowed = [c for c in cand if c.lower().startswith(asm.lower())]
             cand = narrowed or cand
@@ -82,10 +88,77 @@ def window_files(root, windows, declared=False):
 _code_files_cache = {}
 
 
-def code_files_with_designer_code(root):
-    """Simple type name -> .cs files (not .designer.cs) of that base name that define InitializeComponent, for --code-files only."""
-    if not ALLOW_CODE_FILES:
-        return {}
+def is_code_file(rel):
+    """True for a window's .cs file that is not a designer file (its designer code, InitializeComponent, sits among its other code)."""
+    return not re.search(r"\.designer\.cs$", rel, re.I)
+
+
+_INIT = re.compile(r"\bvoid\s+InitializeComponent\s*\(\s*\)\s*\{")
+
+
+def initialize_component_span(text):
+    """UI-12 slice 13: (start, end) of the body of InitializeComponent in a C# text (after its opening brace, at its closing brace), or None.
+    The braces are counted outside strings ("...", @"...", '.'), line comments and block comments."""
+    m = _INIT.search(text)
+    if not m:
+        return None
+    i, n, depth = m.end(), len(text), 1
+    while i < n:
+        c = text[i]
+        if c == "/" and text.startswith("//", i):
+            e = text.find("\n", i)
+            i = n if e < 0 else e
+            continue
+        if c == "/" and text.startswith("/*", i):
+            e = text.find("*/", i + 2)
+            i = n if e < 0 else e + 2
+            continue
+        if c == "@" and text.startswith('@"', i):
+            i += 2
+            while i < n:
+                if text[i] == '"':
+                    if text.startswith('""', i):
+                        i += 2
+                        continue
+                    break
+                i += 1
+            i += 1
+            continue
+        if c in "\"'":
+            i += 1
+            while i < n and text[i] != c and text[i] != "\n":
+                i += 2 if text[i] == "\\" else 1
+            i += 1
+            continue
+        if c == "{":
+            depth += 1
+        elif c == "}":
+            depth -= 1
+            if depth == 0:
+                return m.end(), i
+        i += 1
+    return None
+
+
+def designer_code(rel, text):
+    """The part of a window file the layout tools read and edit: a designer file whole; in a code file (the report designer's dialogs, ODR's
+    controls) only InitializeComponent's body. Returns (start, end) into text."""
+    if not is_code_file(rel):
+        return 0, len(text)
+    span = initialize_component_span(text)
+    return span if span else (0, 0)
+
+
+def runtime_code(rel, text):
+    """A window file's code that runs after InitializeComponent: a code file without InitializeComponent's body (its designer code)."""
+    if not is_code_file(rel):
+        return ""
+    span = initialize_component_span(text)
+    return text[:span[0]] + text[span[1]:] if span else text
+
+
+def all_code_files_with_designer_code(root):
+    """Simple type name -> .cs files (not .designer.cs) of that base name that define InitializeComponent."""
     if root not in _code_files_cache:
         out = subprocess.check_output(["git", "ls-files", "-z", "*.cs"], cwd=root).decode("utf-8").split("\0")
         by_name = collections.defaultdict(list)
@@ -97,6 +170,16 @@ def code_files_with_designer_code(root):
                     by_name[os.path.basename(f)[:-3].lower()].append(f)
         _code_files_cache[root] = by_name
     return _code_files_cache[root]
+
+
+def code_files_with_designer_code(root):
+    """all_code_files_with_designer_code for --code-files only (UI-2b's ranking)."""
+    return all_code_files_with_designer_code(root) if ALLOW_CODE_FILES else {}
+
+
+def _declares(root, f, simple):
+    with open(os.path.join(root, f), "rb") as fh:
+        return re.search(rb"\bclass\s+" + re.escape(simple.encode("utf-8")) + rb"\b", fh.read(), re.I) is not None
 
 
 def files_declaring(root, files, simple):

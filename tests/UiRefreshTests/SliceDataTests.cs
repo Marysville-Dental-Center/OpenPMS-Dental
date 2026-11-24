@@ -115,6 +115,24 @@ namespace UiRefreshTests {
 		}
 
 		[TestMethod]
+		public void SnapshotOwners_TheClassTheFileDeclares() {
+			//UI-12 slice 13: a designer file named otherwise than its class (FormCvxs in FormCvx.designer.cs) belongs to the window's slice without
+			//a hand row; the file name still counts, and the first slice wins.
+			Dictionary<string,string> dictWindows=new Dictionary<string,string> { { "N.FormCvxs","11" },{ "N.FormA","2" },{ "N.FormB","1" } };
+			Dictionary<string,string[]> dictDeclared=new Dictionary<string,string[]> {
+				{ "P/FormCvx.designer.cs",new[] { "formcvxs" } },{ "P/FormA.Designer.cs",new[] { "forma" } },{ "P/Other.Designer.cs",new[] { "formb","formd" } } };
+			SliceData.SnapshotOwners snapshotOwners=new SliceData.SnapshotOwners(dictWindows,new List<string[]>(),
+				x => dictDeclared.TryGetValue(x,out string[] arrayNames) ? arrayNames : new string[0]);
+			Assert.AreEqual("11",snapshotOwners.Owner("P/FormCvx.designer.cs"));
+			Assert.AreEqual("2",snapshotOwners.Owner("P/FormA.Designer.cs"));
+			Assert.AreEqual("1",snapshotOwners.Owner("P/Other.Designer.cs"));
+			Assert.AreEqual(SliceData.UNSLICED,snapshotOwners.Owner("P/FormD.Designer.cs"));
+			//Read from the repository: FormCvx.designer.cs declares FormCvxs.
+			CollectionAssert.Contains(SliceData.SnapshotOwners.DeclaredClassesInRepository("OpenPmsDental/Forms/FormCvx.designer.cs"),"formcvxs");
+			CollectionAssert.AreEqual(new List<string>(),SliceData.SnapshotOwners.DeclaredClassesInRepository("OpenPmsDental/Forms/NoSuchFile.Designer.cs"));
+		}
+
+		[TestMethod]
 		public void WriteFolder_ASliceWritesOnlyItsOwnFile() {
 			string folder=Path.Combine(Path.GetTempPath(),"UiRefreshTests-"+Guid.NewGuid().ToString("N"));
 			try {

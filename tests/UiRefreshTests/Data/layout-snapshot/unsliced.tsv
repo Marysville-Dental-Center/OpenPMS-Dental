@@ -35,10 +35,6 @@ CodeBase/Utilities/MsgBoxCopyPaste.cs	.			702,644
 ODR/ComboBoxMulti.cs	dropButton	102,1	17,19	
 ODR/ComboBoxMulti.cs	textMain	3,4	95,13	
 ODR/ComboBoxMulti.cs	.		120,21	
-ODR/FormParameterInput.cs	butCancel	525,275	75,28	
-ODR/FormParameterInput.cs	butOK	435,275	75,28	
-ODR/FormParameterInput.cs	panelMain	20,12	580,247	
-ODR/FormParameterInput.cs	.			628,315
 OpenPmsDental/Forms Reports/FormQuery.designer.cs	grid2	1,45	1225,449	
 OpenPmsDental/Forms Reports/FormQuery.designer.cs	labelGridCaption	1,26	1225,19	
 OpenPmsDental/Forms Reports/FormQuery.designer.cs	textQuery	2,1	557,156	
@@ -120,80 +116,9 @@ OpenPmsDental/Forms/FormClaimPrint.designer.cs	labelTotPages	776,724	54,18
 OpenPmsDental/Forms/FormClaimPrint.designer.cs	butBack	754,721	18,23	
 OpenPmsDental/Forms/FormClaimPrint.designer.cs	butFwd	832,721	18,23	
 OpenPmsDental/Forms/FormClaimPrint.designer.cs	.			860,816
-OpenPmsDental/Forms/FormEhrCarePlans.designer.cs	gridCarePlans	12,12	958,653	
-OpenPmsDental/Forms/FormEhrCarePlans.designer.cs	butAdd	12,671	86,24	
-OpenPmsDental/Forms/FormEhrCarePlans.designer.cs	.			982,707
 OpenPmsDental/Forms/FormErx.designer.cs	ToolBarMain	0,0	974,25	
 OpenPmsDental/Forms/FormErx.designer.cs	webViewMain	0,26	974,669	
 OpenPmsDental/Forms/FormErx.designer.cs	.			974,696
-OpenPmsDental/Forms/FormEtrans835ClaimEdit.designer.cs	textPatientName	140,31	325,20	
-OpenPmsDental/Forms/FormEtrans835ClaimEdit.designer.cs	label8	2,31	138,20	
-OpenPmsDental/Forms/FormEtrans835ClaimEdit.designer.cs	textDateService	626,11	90,20	
-OpenPmsDental/Forms/FormEtrans835ClaimEdit.designer.cs	label9	488,11	138,20	
-OpenPmsDental/Forms/FormEtrans835ClaimEdit.designer.cs	textClaimIdentifier	140,51	325,20	
-OpenPmsDental/Forms/FormEtrans835ClaimEdit.designer.cs	label1	2,51	138,20	
-OpenPmsDental/Forms/FormEtrans835ClaimEdit.designer.cs	textPayorControlNum	140,71	325,20	
-OpenPmsDental/Forms/FormEtrans835ClaimEdit.designer.cs	label2	2,71	138,20	
-OpenPmsDental/Forms/FormEtrans835ClaimEdit.designer.cs	textStatus	140,91	325,20	
-OpenPmsDental/Forms/FormEtrans835ClaimEdit.designer.cs	label4	2,91	138,20	
-OpenPmsDental/Forms/FormEtrans835ClaimEdit.designer.cs	textClaimFee	626,31	90,20	
-OpenPmsDental/Forms/FormEtrans835ClaimEdit.designer.cs	label5	488,31	138,20	
-OpenPmsDental/Forms/FormEtrans835ClaimEdit.designer.cs	textInsPaid	626,51	90,20	
-OpenPmsDental/Forms/FormEtrans835ClaimEdit.designer.cs	label6	488,51	138,20	
-OpenPmsDental/Forms/FormEtrans835ClaimEdit.designer.cs	textPatResp	626,71	90,20	
-OpenPmsDental/Forms/FormEtrans835ClaimEdit.designer.cs	label7	488,71	138,20	
-OpenPmsDental/Forms/FormEtrans835ClaimEdit.designer.cs	label18	119,37	12,20	
-OpenPmsDental/Forms/FormEtrans835ClaimEdit.designer.cs	textClaimAdjAmtSum	136,37	110,20	
-OpenPmsDental/Forms/FormEtrans835ClaimEdit.designer.cs	textClaimFee2	5,37	110,20	
-OpenPmsDental/Forms/FormEtrans835ClaimEdit.designer.cs	labelEquation	6,16	501,20	
-OpenPmsDental/Forms/FormEtrans835ClaimEdit.designer.cs	label3	249,37	12,20	
-OpenPmsDental/Forms/FormEtrans835ClaimEdit.designer.cs	label10	379,37	12,20	
-OpenPmsDental/Forms/FormEtrans835ClaimEdit.designer.cs	textInsPaidCalc	397,37	110,20	
-OpenPmsDental/Forms/FormEtrans835ClaimEdit.designer.cs	textProcAdjAmtSum	265,37	110,20	
-OpenPmsDental/Forms/FormEtrans835ClaimEdit.designer.cs	groupBalancing	9,121	956,65	
-OpenPmsDental/Forms/FormEtrans835ClaimEdit.designer.cs	gridClaimAdjustments	9,192	956,100	
-OpenPmsDental/Forms/FormEtrans835ClaimEdit.designer.cs	gridAdjudicationInfo	9,472	956,100	
-OpenPmsDental/Forms/FormEtrans835ClaimEdit.designer.cs	gridProcedureBreakdown	9,298	956,168	
-OpenPmsDental/Forms/FormEtrans835ClaimEdit.designer.cs	gridSupplementalInfo	9,578	956,80	
-OpenPmsDental/Forms/FormEtrans835ClaimEdit.designer.cs	textDatePayerReceived	626,91	90,20	
-OpenPmsDental/Forms/FormEtrans835ClaimEdit.designer.cs	label11	488,91	138,20	
-OpenPmsDental/Forms/FormEtrans835ClaimEdit.designer.cs	textSubscriberName	140,11	325,20	
-OpenPmsDental/Forms/FormEtrans835ClaimEdit.designer.cs	label12	2,11	138,20	
-OpenPmsDental/Forms/FormEtrans835ClaimEdit.designer.cs	butPrint	9,664	79,26	
-OpenPmsDental/Forms/FormEtrans835ClaimEdit.designer.cs	.			974,696
-OpenPmsDental/Forms/FormEtrans835ProcEdit.designer.cs	textProcSubmitted	140,31	325,20	
-OpenPmsDental/Forms/FormEtrans835ProcEdit.designer.cs	label8	2,31	138,20	
-OpenPmsDental/Forms/FormEtrans835ProcEdit.designer.cs	textProcAdjudicated	140,11	325,20	
-OpenPmsDental/Forms/FormEtrans835ProcEdit.designer.cs	label9	2,11	138,20	
-OpenPmsDental/Forms/FormEtrans835ProcEdit.designer.cs	textProcNum	626,51	90,20	
-OpenPmsDental/Forms/FormEtrans835ProcEdit.designer.cs	label5	488,51	138,20	
-OpenPmsDental/Forms/FormEtrans835ProcEdit.designer.cs	textProcFee	5,37	110,20	
-OpenPmsDental/Forms/FormEtrans835ProcEdit.designer.cs	label3	119,37	12,20	
-OpenPmsDental/Forms/FormEtrans835ProcEdit.designer.cs	label10	645,37	12,20	
-OpenPmsDental/Forms/FormEtrans835ProcEdit.designer.cs	textInsPaidCalc	662,37	110,20	
-OpenPmsDental/Forms/FormEtrans835ProcEdit.designer.cs	groupBalancing	9,81	956,65	
-OpenPmsDental/Forms/FormEtrans835ProcEdit.designer.cs	labelEquation6	662,16	110,20	
-OpenPmsDental/Forms/FormEtrans835ProcEdit.designer.cs	labelEquation5	514,16	142,20	
-OpenPmsDental/Forms/FormEtrans835ProcEdit.designer.cs	labelEquation4	396,16	110,20	
-OpenPmsDental/Forms/FormEtrans835ProcEdit.designer.cs	labelEquation3	254,16	135,20	
-OpenPmsDental/Forms/FormEtrans835ProcEdit.designer.cs	labelEquation2	137,16	110,20	
-OpenPmsDental/Forms/FormEtrans835ProcEdit.designer.cs	labelEquation1	5,16	110,20	
-OpenPmsDental/Forms/FormEtrans835ProcEdit.designer.cs	textOtherAdjustmentSum	529,37	110,20	
-OpenPmsDental/Forms/FormEtrans835ProcEdit.designer.cs	label11	511,37	12,20	
-OpenPmsDental/Forms/FormEtrans835ProcEdit.designer.cs	textPatRespSum	137,37	110,20	
-OpenPmsDental/Forms/FormEtrans835ProcEdit.designer.cs	textContractualObligSum	265,37	110,20	
-OpenPmsDental/Forms/FormEtrans835ProcEdit.designer.cs	textPayorReductionSum	396,37	110,20	
-OpenPmsDental/Forms/FormEtrans835ProcEdit.designer.cs	label12	251,37	12,20	
-OpenPmsDental/Forms/FormEtrans835ProcEdit.designer.cs	label13	377,37	12,20	
-OpenPmsDental/Forms/FormEtrans835ProcEdit.designer.cs	textInsPaid	626,31	90,20	
-OpenPmsDental/Forms/FormEtrans835ProcEdit.designer.cs	label1	488,31	138,20	
-OpenPmsDental/Forms/FormEtrans835ProcEdit.designer.cs	textDateService	626,11	90,20	
-OpenPmsDental/Forms/FormEtrans835ProcEdit.designer.cs	label2	488,11	138,20	
-OpenPmsDental/Forms/FormEtrans835ProcEdit.designer.cs	gridSupplementalInfo	9,384	956,100	
-OpenPmsDental/Forms/FormEtrans835ProcEdit.designer.cs	gridProcedureAdjustments	9,152	956,120	
-OpenPmsDental/Forms/FormEtrans835ProcEdit.designer.cs	gridRemarks	9,278	956,100	
-OpenPmsDental/Forms/FormEtrans835ProcEdit.designer.cs	butPrint	9,490	79,26	
-OpenPmsDental/Forms/FormEtrans835ProcEdit.designer.cs	.			974,522
 OpenPmsDental/Forms/FormImagePickerPatient.designer.cs	butOK	1143,660	75,24	
 OpenPmsDental/Forms/FormImagePickerPatient.designer.cs	pictureBox	254,12	883,672	
 OpenPmsDental/Forms/FormImagePickerPatient.designer.cs	elementHostImageSelector	11,12	237,672	
@@ -204,47 +129,6 @@ OpenPmsDental/Forms/FormImages.designer.cs	contextMenuStripList		61,4
 OpenPmsDental/Forms/FormImages.designer.cs	elementHostZoomSlider	233,26	231,25	
 OpenPmsDental/Forms/FormImages.designer.cs	panelImage	233,53	931,723	
 OpenPmsDental/Forms/FormImages.designer.cs	.			1166,778
-OpenPmsDental/Forms/FormMountDefEdit.designer.cs	butSave	126,665	75,24	
-OpenPmsDental/Forms/FormMountDefEdit.designer.cs	butDelete	7,665	75,24	
-OpenPmsDental/Forms/FormMountDefEdit.designer.cs	textDescription	1072,4	155,20	
-OpenPmsDental/Forms/FormMountDefEdit.designer.cs	label1	1,5	50,17	
-OpenPmsDental/Forms/FormMountDefEdit.designer.cs	label3	1102,48	52,17	
-OpenPmsDental/Forms/FormMountDefEdit.designer.cs	textWidth	1157,48	48,20	
-OpenPmsDental/Forms/FormMountDefEdit.designer.cs	textHeight	1157,69	48,20	
-OpenPmsDental/Forms/FormMountDefEdit.designer.cs	label4	1102,69	52,17	
-OpenPmsDental/Forms/FormMountDefEdit.designer.cs	butGenerate	18,296	65,24	
-OpenPmsDental/Forms/FormMountDefEdit.designer.cs	panelRight	1022,0	208,696	
-OpenPmsDental/Forms/FormMountDefEdit.designer.cs	checkAdjModeAfterSeries	18,190	164,17	
-OpenPmsDental/Forms/FormMountDefEdit.designer.cs	checkFlipOnAcquire	61,172	121,17	
-OpenPmsDental/Forms/FormMountDefEdit.designer.cs	comboDefaultCat	71,24	133,21	
-OpenPmsDental/Forms/FormMountDefEdit.designer.cs	label13	1,26	72,17	
-OpenPmsDental/Forms/FormMountDefEdit.designer.cs	groupBoxOD1	5,211	196,82	
-OpenPmsDental/Forms/FormMountDefEdit.designer.cs	textDecimals	129,58	48,20	
-OpenPmsDental/Forms/FormMountDefEdit.designer.cs	textScale	129,37	48,20	
-OpenPmsDental/Forms/FormMountDefEdit.designer.cs	textUnits	129,16	48,20	
-OpenPmsDental/Forms/FormMountDefEdit.designer.cs	label12	4,38	124,17	
-OpenPmsDental/Forms/FormMountDefEdit.designer.cs	label11	10,17	118,17	
-OpenPmsDental/Forms/FormMountDefEdit.designer.cs	label10	28,59	100,17	
-OpenPmsDental/Forms/FormMountDefEdit.designer.cs	groupBox1	5,357	196,140	
-OpenPmsDental/Forms/FormMountDefEdit.designer.cs	labelReorder	7,108	183,30	
-OpenPmsDental/Forms/FormMountDefEdit.designer.cs	butReorder	9,79	78,24	
-OpenPmsDental/Forms/FormMountDefEdit.designer.cs	label7	76,52	58,18	
-OpenPmsDental/Forms/FormMountDefEdit.designer.cs	label6	76,20	58,18	
-OpenPmsDental/Forms/FormMountDefEdit.designer.cs	butUp	9,19	65,24	
-OpenPmsDental/Forms/FormMountDefEdit.designer.cs	butDown	9,49	65,24	
-OpenPmsDental/Forms/FormMountDefEdit.designer.cs	butAdd	18,327	81,24	
-OpenPmsDental/Forms/FormMountDefEdit.designer.cs	butColorTextBack	152,132	30,20	
-OpenPmsDental/Forms/FormMountDefEdit.designer.cs	label2	86,292	90,34	
-OpenPmsDental/Forms/FormMountDefEdit.designer.cs	label9	24,134	125,16	
-OpenPmsDental/Forms/FormMountDefEdit.designer.cs	butColorFore	152,111	30,20	
-OpenPmsDental/Forms/FormMountDefEdit.designer.cs	label8	24,113	125,16	
-OpenPmsDental/Forms/FormMountDefEdit.designer.cs	butColorBack	152,90	30,20	
-OpenPmsDental/Forms/FormMountDefEdit.designer.cs	labelColor	24,92	125,16	
-OpenPmsDental/Forms/FormMountDefEdit.designer.cs	label5	6,603	122,49	
-OpenPmsDental/Forms/FormMountDefEdit.designer.cs	labelWarning	3,495	202,69	
-OpenPmsDental/Forms/FormMountDefEdit.designer.cs	controlDrawing	1,0	1021,694	
-OpenPmsDental/Forms/FormMountDefEdit.designer.cs	checkTransparent	33,154	149,17	
-OpenPmsDental/Forms/FormMountDefEdit.designer.cs	.			1230,696
 OpenPmsDental/Forms/FormPopupFade.designer.cs	labelInfo	0,0	326,100	
 OpenPmsDental/Forms/FormPopupFade.designer.cs	.			326,100
 OpenPmsDental/Forms/FormPrntScrn.designer.cs	label1	190,100	416,23	
@@ -258,187 +142,6 @@ OpenPmsDental/Forms/FormPrntScrn.designer.cs	butZoomIn	502,759	77,26
 OpenPmsDental/Forms/FormPrntScrn.designer.cs	butZoomOut	591,759	75,26	
 OpenPmsDental/Forms/FormPrntScrn.designer.cs	butExport	765,759	75,26	
 OpenPmsDental/Forms/FormPrntScrn.designer.cs	.			976,792
-OpenPmsDental/Forms/FormRecallList.designer.cs	tabControl	2,2	981,692	
-OpenPmsDental/Forms/FormRecallList.designer.cs	tabPageRecalls	2,21	977,669	
-OpenPmsDental/Forms/FormRecallList.designer.cs	groupEmailFromRecalls	739,62	228,44	
-OpenPmsDental/Forms/FormRecallList.designer.cs	comboEmailFromRecalls	6,17	216,21	
-OpenPmsDental/Forms/FormRecallList.designer.cs	butUndo	3,639	119,24	
-OpenPmsDental/Forms/FormRecallList.designer.cs	butGotoFamily	443,613	96,24	
-OpenPmsDental/Forms/FormRecallList.designer.cs	butCommlog	545,639	88,24	
-OpenPmsDental/Forms/FormRecallList.designer.cs	butGotoAccount	443,639	96,24	
-OpenPmsDental/Forms/FormRecallList.designer.cs	butSchedFam	639,639	114,24	
-OpenPmsDental/Forms/FormRecallList.designer.cs	butLabelOne	128,613	119,24	
-OpenPmsDental/Forms/FormRecallList.designer.cs	butSchedPat	639,613	114,24	
-OpenPmsDental/Forms/FormRecallList.designer.cs	labelPatientCount	860,611	114,14	
-OpenPmsDental/Forms/FormRecallList.designer.cs	butECards	253,613	91,24	
-OpenPmsDental/Forms/FormRecallList.designer.cs	butEmail	253,639	91,24	
-OpenPmsDental/Forms/FormRecallList.designer.cs	butPostcards	3,613	119,24	
-OpenPmsDental/Forms/FormRecallList.designer.cs	butPrint	350,639	87,24	
-OpenPmsDental/Forms/FormRecallList.designer.cs	gridRecalls	3,112	971,496	
-OpenPmsDental/Forms/FormRecallList.designer.cs	groupSetStatusRecalls	739,6	228,47	
-OpenPmsDental/Forms/FormRecallList.designer.cs	comboSetStatusRecalls	6,19	160,21	
-OpenPmsDental/Forms/FormRecallList.designer.cs	butSetStatusRecalls	172,17	50,24	
-OpenPmsDental/Forms/FormRecallList.designer.cs	butLabels	128,639	119,24	
-OpenPmsDental/Forms/FormRecallList.designer.cs	butReport	350,613	87,24	
-OpenPmsDental/Forms/FormRecallList.designer.cs	groupViewRecalls	6,6	727,100	
-OpenPmsDental/Forms/FormRecallList.designer.cs	comboShowReminders	244,14	102,21	
-OpenPmsDental/Forms/FormRecallList.designer.cs	comboProviderRecalls	420,14	160,21	
-OpenPmsDental/Forms/FormRecallList.designer.cs	comboRecallTypes	244,37	102,21	
-OpenPmsDental/Forms/FormRecallList.designer.cs	labelRecallTypes	151,39	92,17	
-OpenPmsDental/Forms/FormRecallList.designer.cs	checkIncludeReminded	586,48	135,16	
-OpenPmsDental/Forms/FormRecallList.designer.cs	labelSortRecalls	151,62	92,17	
-OpenPmsDental/Forms/FormRecallList.designer.cs	comboSiteRecalls	420,60	160,21	
-OpenPmsDental/Forms/FormRecallList.designer.cs	labelSiteRecalls	352,62	67,17	
-OpenPmsDental/Forms/FormRecallList.designer.cs	comboClinicRecalls	383,37	197,21	
-OpenPmsDental/Forms/FormRecallList.designer.cs	labelProviderRecalls	352,16	67,17	
-OpenPmsDental/Forms/FormRecallList.designer.cs	checkShowConflictingTypes	581,31	140,16	
-OpenPmsDental/Forms/FormRecallList.designer.cs	butRefreshRecalls	641,70	80,24	
-OpenPmsDental/Forms/FormRecallList.designer.cs	labelShowReminders	151,16	92,17	
-OpenPmsDental/Forms/FormRecallList.designer.cs	checkGroupFamiliesRecalls	586,14	135,16	
-OpenPmsDental/Forms/FormRecallList.designer.cs	datePickerRecalls	-20,12	168,46	
-OpenPmsDental/Forms/FormRecallList.designer.cs	comboSortRecalls	244,60	102,21	
-OpenPmsDental/Forms/FormRecallList.designer.cs	tabPageReminders	2,21	977,669	
-OpenPmsDental/Forms/FormRecallList.designer.cs	gridReminders	3,76	971,587	
-OpenPmsDental/Forms/FormRecallList.designer.cs	groupViewRemind	6,6	464,64	
-OpenPmsDental/Forms/FormRecallList.designer.cs	butRefreshRemind	378,34	80,24	
-OpenPmsDental/Forms/FormRecallList.designer.cs	comboClinicRemind	160,14	198,21	
-OpenPmsDental/Forms/FormRecallList.designer.cs	datePickerRemind	-20,12	168,46	
-OpenPmsDental/Forms/FormRecallList.designer.cs	tabPageReactivations	2,21	977,669	
-OpenPmsDental/Forms/FormRecallList.designer.cs	groupEmailFromReact	739,62	228,44	
-OpenPmsDental/Forms/FormRecallList.designer.cs	comboEmailFromReact	6,17	216,21	
-OpenPmsDental/Forms/FormRecallList.designer.cs	butReactGoToFam	443,613	96,24	
-OpenPmsDental/Forms/FormRecallList.designer.cs	butReactComm	545,639	88,24	
-OpenPmsDental/Forms/FormRecallList.designer.cs	butReactGoToAcct	443,639	96,24	
-OpenPmsDental/Forms/FormRecallList.designer.cs	butReactSchedFam	639,639	114,24	
-OpenPmsDental/Forms/FormRecallList.designer.cs	butReactSingleLabels	128,613	119,24	
-OpenPmsDental/Forms/FormRecallList.designer.cs	butReactSchedPat	639,613	114,24	
-OpenPmsDental/Forms/FormRecallList.designer.cs	butReactEmail	253,639	91,24	
-OpenPmsDental/Forms/FormRecallList.designer.cs	butReactPostcardPreview	3,613	119,24	
-OpenPmsDental/Forms/FormRecallList.designer.cs	butReactPrint	350,639	87,24	
-OpenPmsDental/Forms/FormRecallList.designer.cs	butReactLabelPreview	128,639	119,24	
-OpenPmsDental/Forms/FormRecallList.designer.cs	labelReactPatCount	860,611	114,14	
-OpenPmsDental/Forms/FormRecallList.designer.cs	gridReactivations	3,112	971,496	
-OpenPmsDental/Forms/FormRecallList.designer.cs	groupSetStatusReact	739,6	228,47	
-OpenPmsDental/Forms/FormRecallList.designer.cs	comboSetStatusReact	6,19	160,21	
-OpenPmsDental/Forms/FormRecallList.designer.cs	butSetStatusReact	172,17	50,24	
-OpenPmsDental/Forms/FormRecallList.designer.cs	groupViewReact	6,6	727,100	
-OpenPmsDental/Forms/FormRecallList.designer.cs	comboProviderReact	420,14	160,21	
-OpenPmsDental/Forms/FormRecallList.designer.cs	datePickerReact	-20,12	168,46	
-OpenPmsDental/Forms/FormRecallList.designer.cs	checkExcludeInactive	586,48	135,16	
-OpenPmsDental/Forms/FormRecallList.designer.cs	checkShowDoNotContact	586,31	135,16	
-OpenPmsDental/Forms/FormRecallList.designer.cs	checkGroupFamiliesReact	586,14	135,16	
-OpenPmsDental/Forms/FormRecallList.designer.cs	comboBillingTypes	244,37	102,21	
-OpenPmsDental/Forms/FormRecallList.designer.cs	labelBillingTypes	151,39	92,17	
-OpenPmsDental/Forms/FormRecallList.designer.cs	comboShowReactivate	244,14	102,21	
-OpenPmsDental/Forms/FormRecallList.designer.cs	labelShowReactivate	151,16	92,17	
-OpenPmsDental/Forms/FormRecallList.designer.cs	comboSortReact	244,60	102,21	
-OpenPmsDental/Forms/FormRecallList.designer.cs	labelSortByReact	151,62	92,17	
-OpenPmsDental/Forms/FormRecallList.designer.cs	comboSiteReact	420,60	160,21	
-OpenPmsDental/Forms/FormRecallList.designer.cs	labelSiteReact	352,62	67,17	
-OpenPmsDental/Forms/FormRecallList.designer.cs	comboClinicReact	383,37	197,21	
-OpenPmsDental/Forms/FormRecallList.designer.cs	labelProviderReact	352,16	67,17	
-OpenPmsDental/Forms/FormRecallList.designer.cs	butRefreshReact	641,70	80,24	
-OpenPmsDental/Forms/FormRecallList.designer.cs	.			985,696
-OpenPmsDental/Forms/FormSchedule.designer.cs	label2	94,49	87,15	
-OpenPmsDental/Forms/FormSchedule.designer.cs	label1	4,49	87,15	
-OpenPmsDental/Forms/FormSchedule.designer.cs	listBoxProvs	3,3	164,151	
-OpenPmsDental/Forms/FormSchedule.designer.cs	checkWarnProvOverlap	6,14	176,18	
-OpenPmsDental/Forms/FormSchedule.designer.cs	checkPracticeNotes	6,87	198,17	
-OpenPmsDental/Forms/FormSchedule.designer.cs	listBoxEmps	3,3	164,151	
-OpenPmsDental/Forms/FormSchedule.designer.cs	tabControl1	7,178	174,180	
-OpenPmsDental/Forms/FormSchedule.designer.cs	tabPageProv	2,21	170,157	
-OpenPmsDental/Forms/FormSchedule.designer.cs	tabPageEmp	2,21	170,157	
-OpenPmsDental/Forms/FormSchedule.designer.cs	checkClinicNotes	6,107	199,17	
-OpenPmsDental/Forms/FormSchedule.designer.cs	butClearWeek	14,360	119,24	
-OpenPmsDental/Forms/FormSchedule.designer.cs	butPrint	921,667	90,24	
-OpenPmsDental/Forms/FormSchedule.designer.cs	textDateTo	96,65	85,20	
-OpenPmsDental/Forms/FormSchedule.designer.cs	textDateFrom	6,65	85,20	
-OpenPmsDental/Forms/FormSchedule.designer.cs	butRefresh	51,21	75,24	
-OpenPmsDental/Forms/FormSchedule.designer.cs	gridMain	223,12	761,649	
-OpenPmsDental/Forms/FormSchedule.designer.cs	comboClinic	2,130	189,21	
-OpenPmsDental/Forms/FormSchedule.designer.cs	checkShowClinicSchedules	6,155	189,17	
-OpenPmsDental/Forms/FormSchedule.designer.cs	groupCopy	5,492	206,85	
-OpenPmsDental/Forms/FormSchedule.designer.cs	butCopyWeek	87,56	75,24	
-OpenPmsDental/Forms/FormSchedule.designer.cs	butCopyDay	6,56	75,24	
-OpenPmsDental/Forms/FormSchedule.designer.cs	textClipboard	6,33	176,20	
-OpenPmsDental/Forms/FormSchedule.designer.cs	label3	3,16	146,14	
-OpenPmsDental/Forms/FormSchedule.designer.cs	groupPaste	5,582	206,109	
-OpenPmsDental/Forms/FormSchedule.designer.cs	butRepeat	6,79	75,24	
-OpenPmsDental/Forms/FormSchedule.designer.cs	label4	70,85	37,14	
-OpenPmsDental/Forms/FormSchedule.designer.cs	checkReplace	6,32	146,18	
-OpenPmsDental/Forms/FormSchedule.designer.cs	textRepeat	110,82	39,20	
-OpenPmsDental/Forms/FormSchedule.designer.cs	butPaste	6,52	75,24	
-OpenPmsDental/Forms/FormSchedule.designer.cs	groupBoxFilter	5,8	206,478	
-OpenPmsDental/Forms/FormSchedule.designer.cs	groupBoxWeekFilter	7,390	177,84	
-OpenPmsDental/Forms/FormSchedule.designer.cs	radioButtonWeekEnd	6,65	72,17	
-OpenPmsDental/Forms/FormSchedule.designer.cs	radioButtonFullWeek	6,42	73,17	
-OpenPmsDental/Forms/FormSchedule.designer.cs	radioButtonWorkWeek	6,19	83,17	
-OpenPmsDental/Forms/FormSchedule.designer.cs	.			1023,696
-OpenPmsDental/Forms/FormSheetDefEdit.designer.cs	panelMain	12,13	520,671	
-OpenPmsDental/Forms/FormSheetDefEdit.designer.cs	butAlignTop	149,18	46,24	
-OpenPmsDental/Forms/FormSheetDefEdit.designer.cs	butSave	210,669	72,24	
-OpenPmsDental/Forms/FormSheetDefEdit.designer.cs	groupBoxSubViews	4,567	150,60	
-OpenPmsDental/Forms/FormSheetDefEdit.designer.cs	checkSynchMatchedFields	6,15	142,18	
-OpenPmsDental/Forms/FormSheetDefEdit.designer.cs	comboLanguages	6,35	131,21	
-OpenPmsDental/Forms/FormSheetDefEdit.designer.cs	butAutoSnap	174,77	61,24	
-OpenPmsDental/Forms/FormSheetDefEdit.designer.cs	butMobile	146,27	90,24	
-OpenPmsDental/Forms/FormSheetDefEdit.designer.cs	groupAlignH	4,104	200,46	
-OpenPmsDental/Forms/FormSheetDefEdit.designer.cs	butAlignRight	101,18	46,24	
-OpenPmsDental/Forms/FormSheetDefEdit.designer.cs	butAlignCenterH	51,18	48,24	
-OpenPmsDental/Forms/FormSheetDefEdit.designer.cs	butAlignLeft	3,18	46,24	
-OpenPmsDental/Forms/FormSheetDefEdit.designer.cs	textDescription	4,5	277,20	
-OpenPmsDental/Forms/FormSheetDefEdit.designer.cs	groupPage	158,584	122,43	
-OpenPmsDental/Forms/FormSheetDefEdit.designer.cs	butPageAdd	6,15	42,24	
-OpenPmsDental/Forms/FormSheetDefEdit.designer.cs	butPageRemove	50,15	69,24	
-OpenPmsDental/Forms/FormSheetDefEdit.designer.cs	butDelete	49,669	70,24	
-OpenPmsDental/Forms/FormSheetDefEdit.designer.cs	butTabOrder	5,636	70,24	
-OpenPmsDental/Forms/FormSheetDefEdit.designer.cs	labelInternal	9,630	208,34	
-OpenPmsDental/Forms/FormSheetDefEdit.designer.cs	linkLabelTips	238,639	31,17	
-OpenPmsDental/Forms/FormSheetDefEdit.designer.cs	listBoxFields	4,169	151,392	
-OpenPmsDental/Forms/FormSheetDefEdit.designer.cs	butPaste	82,77	74,24	
-OpenPmsDental/Forms/FormSheetDefEdit.designer.cs	label2	5,152	193,16	
-OpenPmsDental/Forms/FormSheetDefEdit.designer.cs	butCopy	4,77	74,24	
-OpenPmsDental/Forms/FormSheetDefEdit.designer.cs	butEdit	4,27	90,24	
-OpenPmsDental/Forms/FormSheetDefEdit.designer.cs	panelLeft	0,0	544,696	
-OpenPmsDental/Forms/FormSheetDefEdit.designer.cs	panelRight	544,0	284,696	
-OpenPmsDental/Forms/FormSheetDefEdit.designer.cs	groupShowField	240,96	40,482	
-OpenPmsDental/Forms/FormSheetDefEdit.designer.cs	checkShowMobileHeader	13,461	20,18	
-OpenPmsDental/Forms/FormSheetDefEdit.designer.cs	checkShowScreenChart	13,437	20,18	
-OpenPmsDental/Forms/FormSheetDefEdit.designer.cs	checkShowGrid	13,413	20,18	
-OpenPmsDental/Forms/FormSheetDefEdit.designer.cs	checkShowSpecial	13,389	20,18	
-OpenPmsDental/Forms/FormSheetDefEdit.designer.cs	checkShowSigBoxPractice	13,353	20,18	
-OpenPmsDental/Forms/FormSheetDefEdit.designer.cs	checkShowSigBox	13,329	20,18	
-OpenPmsDental/Forms/FormSheetDefEdit.designer.cs	checkShowRectangle	13,293	20,18	
-OpenPmsDental/Forms/FormSheetDefEdit.designer.cs	checkShowLine	13,269	20,18	
-OpenPmsDental/Forms/FormSheetDefEdit.designer.cs	checkShowPatImage	13,233	20,18	
-OpenPmsDental/Forms/FormSheetDefEdit.designer.cs	checkShowImage	13,209	20,18	
-OpenPmsDental/Forms/FormSheetDefEdit.designer.cs	checkShowComboBox	13,173	20,18	
-OpenPmsDental/Forms/FormSheetDefEdit.designer.cs	butShowNone	2,46	36,24	
-OpenPmsDental/Forms/FormSheetDefEdit.designer.cs	butShowAll	2,19	36,24	
-OpenPmsDental/Forms/FormSheetDefEdit.designer.cs	checkShowCheckBox	13,149	20,18	
-OpenPmsDental/Forms/FormSheetDefEdit.designer.cs	checkShowStaticText	13,125	20,18	
-OpenPmsDental/Forms/FormSheetDefEdit.designer.cs	checkShowInputField	13,101	20,18	
-OpenPmsDental/Forms/FormSheetDefEdit.designer.cs	checkShowOutputText	13,77	20,18	
-OpenPmsDental/Forms/FormSheetDefEdit.designer.cs	checkBlue	166,56	56,18	
-OpenPmsDental/Forms/FormSheetDefEdit.designer.cs	groupAddField	158,151	79,427	
-OpenPmsDental/Forms/FormSheetDefEdit.designer.cs	labelMobileHeader	1,405	77,18	
-OpenPmsDental/Forms/FormSheetDefEdit.designer.cs	butScreenChart	2,378	75,24	
-OpenPmsDental/Forms/FormSheetDefEdit.designer.cs	butSpecial	2,330	75,24	
-OpenPmsDental/Forms/FormSheetDefEdit.designer.cs	butGrid	2,354	75,24	
-OpenPmsDental/Forms/FormSheetDefEdit.designer.cs	butSigBox	2,270	75,24	
-OpenPmsDental/Forms/FormSheetDefEdit.designer.cs	butSigBoxPractice	2,294	75,24	
-OpenPmsDental/Forms/FormSheetDefEdit.designer.cs	butLine	2,210	75,24	
-OpenPmsDental/Forms/FormSheetDefEdit.designer.cs	butRectangle	2,234	75,24	
-OpenPmsDental/Forms/FormSheetDefEdit.designer.cs	butPatImage	2,174	75,24	
-OpenPmsDental/Forms/FormSheetDefEdit.designer.cs	butImage	2,150	75,24	
-OpenPmsDental/Forms/FormSheetDefEdit.designer.cs	butComboBox	2,114	75,24	
-OpenPmsDental/Forms/FormSheetDefEdit.designer.cs	butCheckBox	2,90	75,24	
-OpenPmsDental/Forms/FormSheetDefEdit.designer.cs	butStaticText	2,66	75,24	
-OpenPmsDental/Forms/FormSheetDefEdit.designer.cs	butInputField	2,42	75,24	
-OpenPmsDental/Forms/FormSheetDefEdit.designer.cs	butOutputText	2,18	75,24	
-OpenPmsDental/Forms/FormSheetDefEdit.designer.cs	butRedo	82,52	74,24	
-OpenPmsDental/Forms/FormSheetDefEdit.designer.cs	butUndo	4,52	74,24	
-OpenPmsDental/Forms/FormSheetDefEdit.designer.cs	.			828,696
 OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	label2	13,18	108,16	
 OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	listBoxFields	15,37	142,511	
 OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	label5	385,7	71,16	
@@ -871,47 +574,6 @@ RdlDesign/BodyCtl.cs	tbHeight	104,25
 RdlDesign/BodyCtl.cs	tbColumns	104,61		
 RdlDesign/BodyCtl.cs	tbColumnSpacing	104,96		
 RdlDesign/BodyCtl.cs	.		472,288	
-RdlDesign/ChartAxisCtl.cs	label1	16,8	104,16	
-RdlDesign/ChartAxisCtl.cs	label2	224,8	112,16	
-RdlDesign/ChartAxisCtl.cs	cbMajorTickMarks	128,8	80,21	
-RdlDesign/ChartAxisCtl.cs	cbMinorTickMarks	336,8	80,21	
-RdlDesign/ChartAxisCtl.cs	chkVisible	24,224	88,24	
-RdlDesign/ChartAxisCtl.cs	chkMargin	296,224	120,24	
-RdlDesign/ChartAxisCtl.cs	chkReverse	144,248	120,24	
-RdlDesign/ChartAxisCtl.cs	chkInterlaced	296,248	120,24	
-RdlDesign/ChartAxisCtl.cs	chkScalar	24,248	88,24	
-RdlDesign/ChartAxisCtl.cs	chkLogScale	144,224	120,24	
-RdlDesign/ChartAxisCtl.cs	groupBox1	16,32	400,48	
-RdlDesign/ChartAxisCtl.cs	chkMajorGLShow	8,14	56,24	
-RdlDesign/ChartAxisCtl.cs	tbMajorGLWidth	352,16	40,20	
-RdlDesign/ChartAxisCtl.cs	bMajorGLColor	288,14	24,24	
-RdlDesign/ChartAxisCtl.cs	cbMajorGLColor	208,16	72,21	
-RdlDesign/ChartAxisCtl.cs	cbMajorGLStyle	96,16	72,21	
-RdlDesign/ChartAxisCtl.cs	label7	176,18	32,16	
-RdlDesign/ChartAxisCtl.cs	label6	320,18	39,16	
-RdlDesign/ChartAxisCtl.cs	label3	64,18	36,16	
-RdlDesign/ChartAxisCtl.cs	groupBox2	16,88	400,48	
-RdlDesign/ChartAxisCtl.cs	chkMinorGLShow	8,14	56,24	
-RdlDesign/ChartAxisCtl.cs	tbMinorGLWidth	352,16	40,20	
-RdlDesign/ChartAxisCtl.cs	bMinorGLColor	288,14	24,24	
-RdlDesign/ChartAxisCtl.cs	cbMinorGLColor	208,16	72,21	
-RdlDesign/ChartAxisCtl.cs	cbMinorGLStyle	96,16	72,21	
-RdlDesign/ChartAxisCtl.cs	label4	176,18	40,16	
-RdlDesign/ChartAxisCtl.cs	label5	320,18	39,16	
-RdlDesign/ChartAxisCtl.cs	label8	64,18	40,16	
-RdlDesign/ChartAxisCtl.cs	label9	16,154	80,16	
-RdlDesign/ChartAxisCtl.cs	tbMajorInterval	104,152	65,20	
-RdlDesign/ChartAxisCtl.cs	tbMinorInterval	302,152	65,20	
-RdlDesign/ChartAxisCtl.cs	label10	217,154	81,16	
-RdlDesign/ChartAxisCtl.cs	tbMax	302,182	65,20	
-RdlDesign/ChartAxisCtl.cs	label11	216,184	86,16	
-RdlDesign/ChartAxisCtl.cs	tbMin	104,182	65,20	
-RdlDesign/ChartAxisCtl.cs	label12	16,184	88,16	
-RdlDesign/ChartAxisCtl.cs	bMinorIntervalExpr	375,154	22,16	
-RdlDesign/ChartAxisCtl.cs	bMajorIntervalExpr	177,154	22,16	
-RdlDesign/ChartAxisCtl.cs	bMinExpr	177,184	22,16	
-RdlDesign/ChartAxisCtl.cs	bMaxExpr	376,184	22,16	
-RdlDesign/ChartAxisCtl.cs	.		440,288	
 RdlDesign/ChartCtl.cs	label1	16,18	72,16	
 RdlDesign/ChartCtl.cs	label2	16,50	72,16	
 RdlDesign/ChartCtl.cs	label3	16,88	128,16	
@@ -1025,72 +687,6 @@ RdlDesign/DialogDataSources.cs	label1	216,8	105,23
 RdlDesign/DialogDataSources.cs	tbDSName	216,24	216,20	
 RdlDesign/DialogDataSources.cs	bExprConnect	416,192	22,16	
 RdlDesign/DialogDataSources.cs	.			456,374
-RdlDesign/DialogDatabase.cs	tcDialog	0,0	528,326	
-RdlDesign/DialogDatabase.cs	ReportType	4,22	520,300	
-RdlDesign/DialogDatabase.cs	cbOrientation	96,224	168,21	
-RdlDesign/DialogDatabase.cs	label6	16,224	70,23	
-RdlDesign/DialogDatabase.cs	tbReportAuthor	96,192	304,20	
-RdlDesign/DialogDatabase.cs	tbReportDescription	96,160	304,20	
-RdlDesign/DialogDatabase.cs	tbReportName	96,128	304,20	
-RdlDesign/DialogDatabase.cs	label3	16,192	72,23	
-RdlDesign/DialogDatabase.cs	label2	16,160	72,23	
-RdlDesign/DialogDatabase.cs	label1	16,128	64,23	
-RdlDesign/DialogDatabase.cs	groupBox1	16,16	384,104	
-RdlDesign/DialogDatabase.cs	rbChart	168,56		
-RdlDesign/DialogDatabase.cs	rbMatrix	168,24		
-RdlDesign/DialogDatabase.cs	rbList	32,56		
-RdlDesign/DialogDatabase.cs	rbTable	32,24		
-RdlDesign/DialogDatabase.cs	DBConnection	4,22	520,300	
-RdlDesign/DialogDatabase.cs	bShared	216,48	24,16	
-RdlDesign/DialogDatabase.cs	bTestConnection	16,104	104,23	
-RdlDesign/DialogDatabase.cs	cbOdbcNames	352,16	152,21	
-RdlDesign/DialogDatabase.cs	lODBC	240,16	112,23	
-RdlDesign/DialogDatabase.cs	lConnection	16,48	184,16	
-RdlDesign/DialogDatabase.cs	cbConnectionTypes	112,16	128,21	
-RdlDesign/DialogDatabase.cs	label7	16,16	96,23	
-RdlDesign/DialogDatabase.cs	tbConnection	16,72	488,20	
-RdlDesign/DialogDatabase.cs	ReportParameters	4,22	520,300	
-RdlDesign/DialogDatabase.cs	bValidValues	432,152	24,23	
-RdlDesign/DialogDatabase.cs	tbParmDefaultValue	208,200	216,20	
-RdlDesign/DialogDatabase.cs	lDefaultValue	208,184	100,16	
-RdlDesign/DialogDatabase.cs	bParmDown	168,64	24,24	
-RdlDesign/DialogDatabase.cs	bParmUp	168,24	24,24	
-RdlDesign/DialogDatabase.cs	tbParmValidValues	208,152	216,20	
-RdlDesign/DialogDatabase.cs	lbParmValidValues	208,136	100,16	
-RdlDesign/DialogDatabase.cs	ckbParmAllowBlank	288,232	160,24	
-RdlDesign/DialogDatabase.cs	ckbParmAllowNull	208,232	77,24	
-RdlDesign/DialogDatabase.cs	tbParmPrompt	208,104	216,20	
-RdlDesign/DialogDatabase.cs	lParmPrompt	208,88	48,16	
-RdlDesign/DialogDatabase.cs	cbParmType	288,56	80,21	
-RdlDesign/DialogDatabase.cs	lParmType	208,56	56,23	
-RdlDesign/DialogDatabase.cs	tbParmName	288,24	136,20	
-RdlDesign/DialogDatabase.cs	lParmName	208,24	48,16	
-RdlDesign/DialogDatabase.cs	bRemove	104,264	56,23	
-RdlDesign/DialogDatabase.cs	bAdd	16,264	56,23	
-RdlDesign/DialogDatabase.cs	lbParameters	16,16	144,238	
-RdlDesign/DialogDatabase.cs	DBSql	4,22	520,300	
-RdlDesign/DialogDatabase.cs	panel2	0,0	520,300	
-RdlDesign/DialogDatabase.cs	bMove	140,16	32,23	
-RdlDesign/DialogDatabase.cs	tbSQL	176,0	344,300	
-RdlDesign/DialogDatabase.cs	tvTablesColumns	0,0	136,300	
-RdlDesign/DialogDatabase.cs	TabularGroup	4,22	520,300	
-RdlDesign/DialogDatabase.cs	clbSubtotal	232,32	192,139	
-RdlDesign/DialogDatabase.cs	ckbGrandTotal	16,88	160,24	
-RdlDesign/DialogDatabase.cs	label5	232,16	208,23	
-RdlDesign/DialogDatabase.cs	label4	16,16	216,16	
-RdlDesign/DialogDatabase.cs	cbColumnList	16,32	200,21	
-RdlDesign/DialogDatabase.cs	ReportSyntax	4,22	520,300	
-RdlDesign/DialogDatabase.cs	tbReportSyntax	0,0	520,300	
-RdlDesign/DialogDatabase.cs	ReportPreview	4,22	520,300	
-RdlDesign/DialogDatabase.cs	rdlViewer1	0,0	520,300	
-RdlDesign/DialogDatabase.cs	btnCancel	440,10		
-RdlDesign/DialogDatabase.cs	panel1	0,326	528,40	
-RdlDesign/DialogDatabase.cs	btnOK	344,10		
-RdlDesign/DialogDatabase.cs	groupBox2	16,256	384,40	
-RdlDesign/DialogDatabase.cs	rbSchemaNo	8,16	104,16	
-RdlDesign/DialogDatabase.cs	rbSchema2003	120,16	104,16	
-RdlDesign/DialogDatabase.cs	rbSchema2005	248,16	104,16	
-RdlDesign/DialogDatabase.cs	.			528,366
 RdlDesign/DialogEmbeddedImages.cs	lDataProvider	216,72	72,23	
 RdlDesign/DialogEmbeddedImages.cs	bOK	272,344		
 RdlDesign/DialogEmbeddedImages.cs	bCancel	368,344		
@@ -1126,31 +722,6 @@ RdlDesign/DialogNew.cs	btnOK	280,4
 RdlDesign/DialogNew.cs	btnCancel	368,4		
 RdlDesign/DialogNew.cs	panel1	0,334	448,32	
 RdlDesign/DialogNew.cs	.			448,366
-RdlDesign/DialogNewChart.cs	bOK	272,392		
-RdlDesign/DialogNewChart.cs	bCancel	368,392		
-RdlDesign/DialogNewChart.cs	label1	16,16	48,23	
-RdlDesign/DialogNewChart.cs	cbDataSets	80,16	360,21	
-RdlDesign/DialogNewChart.cs	label2	16,80		
-RdlDesign/DialogNewChart.cs	label3	224,80	184,23	
-RdlDesign/DialogNewChart.cs	lbFields	16,104	152,225	
-RdlDesign/DialogNewChart.cs	lbChartCategories	232,104	152,94	
-RdlDesign/DialogNewChart.cs	bCategoryUp	392,104	48,28	
-RdlDesign/DialogNewChart.cs	bCategoryDown	392,136	48,28	
-RdlDesign/DialogNewChart.cs	bCategory	184,112	32,28	
-RdlDesign/DialogNewChart.cs	bSeries	184,240	32,28	
-RdlDesign/DialogNewChart.cs	lbChartSeries	232,232	152,94	
-RdlDesign/DialogNewChart.cs	bCategoryDelete	392,168	50,28	
-RdlDesign/DialogNewChart.cs	bSeriesDelete	392,296	50,28	
-RdlDesign/DialogNewChart.cs	bSeriesDown	392,264	48,28	
-RdlDesign/DialogNewChart.cs	bSeriesUp	392,232	48,28	
-RdlDesign/DialogNewChart.cs	label4	224,208	184,23	
-RdlDesign/DialogNewChart.cs	label5	16,344	120,23	
-RdlDesign/DialogNewChart.cs	cbChartData	16,360	368,21	
-RdlDesign/DialogNewChart.cs	label6	232,48	64,23	
-RdlDesign/DialogNewChart.cs	cbSubType	312,48	80,21	
-RdlDesign/DialogNewChart.cs	cbChartType	96,48	121,21	
-RdlDesign/DialogNewChart.cs	label7	16,48	72,16	
-RdlDesign/DialogNewChart.cs	.			456,424
 RdlDesign/DialogNewMatrix.cs	bOK	272,368		
 RdlDesign/DialogNewMatrix.cs	bCancel	368,368		
 RdlDesign/DialogNewMatrix.cs	label1	16,16	48,23	
@@ -1172,61 +743,6 @@ RdlDesign/DialogNewMatrix.cs	label4	224,184	184,23
 RdlDesign/DialogNewMatrix.cs	label5	16,320	121,23	
 RdlDesign/DialogNewMatrix.cs	cbMatrixCell	16,336	368,21	
 RdlDesign/DialogNewMatrix.cs	.			456,400
-RdlDesign/DialogNewTable.cs	bOK	272,312		
-RdlDesign/DialogNewTable.cs	bCancel	368,312		
-RdlDesign/DialogNewTable.cs	label1	16,16	48,23	
-RdlDesign/DialogNewTable.cs	cbDataSets	80,16	360,21	
-RdlDesign/DialogNewTable.cs	label2	16,88		
-RdlDesign/DialogNewTable.cs	label3	232,88	240,23	
-RdlDesign/DialogNewTable.cs	lbFields	16,112	152,134	
-RdlDesign/DialogNewTable.cs	lbTableColumns	232,112	152,139	
-RdlDesign/DialogNewTable.cs	bUp	392,120	48,28	
-RdlDesign/DialogNewTable.cs	bDown	392,152	48,28	
-RdlDesign/DialogNewTable.cs	bRight	184,120	32,28	
-RdlDesign/DialogNewTable.cs	bAllRight	184,152	32,28	
-RdlDesign/DialogNewTable.cs	bLeft	184,184	32,28	
-RdlDesign/DialogNewTable.cs	bAllLeft	184,216	32,28	
-RdlDesign/DialogNewTable.cs	label4	16,264	216,23	
-RdlDesign/DialogNewTable.cs	cbGroupColumn	16,280	168,21	
-RdlDesign/DialogNewTable.cs	chkGrandTotals	232,280	168,16	
-RdlDesign/DialogNewTable.cs	groupBox1	16,40	424,40	
-RdlDesign/DialogNewTable.cs	rbVert	160,16	120,16	
-RdlDesign/DialogNewTable.cs	rbHorz	8,16	160,16	
-RdlDesign/DialogNewTable.cs	rbVertComp	296,16	112,16	
-RdlDesign/DialogNewTable.cs	.			456,336
-RdlDesign/DialogToolOptions.cs	bOK	210,275	75,23	
-RdlDesign/DialogToolOptions.cs	bCancel	298,275	75,23	
-RdlDesign/DialogToolOptions.cs	tabControl1	3,3	466,269	
-RdlDesign/DialogToolOptions.cs	tpGeneral	4,22	458,243	
-RdlDesign/DialogToolOptions.cs	cbTabInterface	14,189	133,17	
-RdlDesign/DialogToolOptions.cs	cbOutline	14,146	172,17	
-RdlDesign/DialogToolOptions.cs	cbEditLines	14,105	175,17	
-RdlDesign/DialogToolOptions.cs	tbHelpUrl	27,60	404,20	
-RdlDesign/DialogToolOptions.cs	label3	11,40	404,23	
-RdlDesign/DialogToolOptions.cs	label2	100,15	178,23	
-RdlDesign/DialogToolOptions.cs	tbRecentFilesMax	58,11	31,20	
-RdlDesign/DialogToolOptions.cs	label1	11,13	45,23	
-RdlDesign/DialogToolOptions.cs	tpToolbar	4,22	458,243	
-RdlDesign/DialogToolOptions.cs	bRemove	179,74	23,23	
-RdlDesign/DialogToolOptions.cs	bReset	374,104	53,23	
-RdlDesign/DialogToolOptions.cs	bDown	374,65	53,23	
-RdlDesign/DialogToolOptions.cs	bUp	374,35	53,23	
-RdlDesign/DialogToolOptions.cs	bCopyItem	179,40	23,23	
-RdlDesign/DialogToolOptions.cs	label5	213,8	100,23	
-RdlDesign/DialogToolOptions.cs	label4	15,8	112,23	
-RdlDesign/DialogToolOptions.cs	lbToolbar	213,33	152,199	
-RdlDesign/DialogToolOptions.cs	lbOperation	14,33	152,199	
-RdlDesign/DialogToolOptions.cs	tpDesktop	4,22	458,243	
-RdlDesign/DialogToolOptions.cs	bBrowse	411,102	26,19	
-RdlDesign/DialogToolOptions.cs	tbDirectory	68,100	334,20	
-RdlDesign/DialogToolOptions.cs	label9	13,101	58,23	
-RdlDesign/DialogToolOptions.cs	label8	33,156	425,26	
-RdlDesign/DialogToolOptions.cs	label7	10,6	435,60	
-RdlDesign/DialogToolOptions.cs	ckLocal	15,131	195,24	
-RdlDesign/DialogToolOptions.cs	tbPort	44,66	50,20	
-RdlDesign/DialogToolOptions.cs	label6	10,68	33,23	
-RdlDesign/DialogToolOptions.cs	bApply	386,275	75,23	
-RdlDesign/DialogToolOptions.cs	.			466,304
 RdlDesign/DialogValidValues.cs	dgParms	8,8	320,168	
 RdlDesign/DialogValidValues.cs	bOK	216,192		
 RdlDesign/DialogValidValues.cs	bCancel	312,192		
@@ -1251,32 +767,6 @@ RdlDesign/FiltersCtl.cs	bUp	392,71	48,23
 RdlDesign/FiltersCtl.cs	bDown	392,102	48,23	
 RdlDesign/FiltersCtl.cs	bValueExpr	392,16	22,16	
 RdlDesign/FiltersCtl.cs	.		488,304	
-RdlDesign/FindTab.cs	tcFRG	8,8	432,192	
-RdlDesign/FindTab.cs	tabFind	4,22	424,166	
-RdlDesign/FindTab.cs	btnCancel	344,128		
-RdlDesign/FindTab.cs	btnNext	344,16		
-RdlDesign/FindTab.cs	chkCase	208,72	88,24	
-RdlDesign/FindTab.cs	groupBox1	16,48	176,64	
-RdlDesign/FindTab.cs	radioUp	16,24	56,24	
-RdlDesign/FindTab.cs	radioDown	104,24	56,24	
-RdlDesign/FindTab.cs	label1	12,16	76,23	
-RdlDesign/FindTab.cs	txtFind	96,16	216,20	
-RdlDesign/FindTab.cs	tabReplace	4,22	424,166	
-RdlDesign/FindTab.cs	bCloseReplace	344,128		
-RdlDesign/FindTab.cs	btnFindNext	344,16		
-RdlDesign/FindTab.cs	chkMatchCase	8,88		
-RdlDesign/FindTab.cs	btnReplaceAll	344,80		
-RdlDesign/FindTab.cs	btnReplace	344,48		
-RdlDesign/FindTab.cs	txtFindR	96,16	224,20	
-RdlDesign/FindTab.cs	label3	14,16	76,23	
-RdlDesign/FindTab.cs	label2	14,56	76,23	
-RdlDesign/FindTab.cs	txtReplace	96,56	224,20	
-RdlDesign/FindTab.cs	tabGoTo	4,22	424,166	
-RdlDesign/FindTab.cs	bCloseGoto	344,128		
-RdlDesign/FindTab.cs	txtLine	96,16		
-RdlDesign/FindTab.cs	label4	16,16		
-RdlDesign/FindTab.cs	btnGoto	344,16		
-RdlDesign/FindTab.cs	.			448,206
 RdlDesign/GroupingCtl.cs	dgGroup	8,48	376,88	
 RdlDesign/GroupingCtl.cs	bDelete	392,69	48,20	
 RdlDesign/GroupingCtl.cs	bUp	392,94	48,20	
@@ -1315,28 +805,6 @@ RdlDesign/ImageCtl.cs	bMimeExpr	184,90	22,16
 RdlDesign/ImageCtl.cs	bEmbeddedExpr	352,58	22,16	
 RdlDesign/ImageCtl.cs	bExternalExpr	352,26	22,16	
 RdlDesign/ImageCtl.cs	.		472,288	
-RdlDesign/InteractivityCtl.cs	grpBoxVisibility	8,152	432,80	
-RdlDesign/InteractivityCtl.cs	bHidden	400,26	22,16	
-RdlDesign/InteractivityCtl.cs	cbToggle	168,48	152,21	
-RdlDesign/InteractivityCtl.cs	tbHidden	168,24	224,20	
-RdlDesign/InteractivityCtl.cs	label3	16,48	152,23	
-RdlDesign/InteractivityCtl.cs	label2	16,24	132,23	
-RdlDesign/InteractivityCtl.cs	groupBox1	8,8	432,136	
-RdlDesign/InteractivityCtl.cs	bBookmarkLink	400,80	22,16	
-RdlDesign/InteractivityCtl.cs	bHyperlink	400,50	22,16	
-RdlDesign/InteractivityCtl.cs	rbNoAction	16,16		
-RdlDesign/InteractivityCtl.cs	bParameters	344,104	80,23	
-RdlDesign/InteractivityCtl.cs	bDrillthrough	312,104	24,23	
-RdlDesign/InteractivityCtl.cs	tbDrillthrough	128,104	176,20	
-RdlDesign/InteractivityCtl.cs	tbBookmarkLink	128,76	264,20	
-RdlDesign/InteractivityCtl.cs	tbHyperlink	128,47	264,20	
-RdlDesign/InteractivityCtl.cs	rbDrillthrough	16,102		
-RdlDesign/InteractivityCtl.cs	rbBookmarkLink	16,74		
-RdlDesign/InteractivityCtl.cs	rbHyperlink	16,45		
-RdlDesign/InteractivityCtl.cs	label1	8,256	61,16	
-RdlDesign/InteractivityCtl.cs	tbBookmark	88,254	312,20	
-RdlDesign/InteractivityCtl.cs	bBookmark	408,258	22,16	
-RdlDesign/InteractivityCtl.cs	.		472,288	
 RdlDesign/ListCtl.cs	label2	24,16	82,23	
 RdlDesign/ListCtl.cs	cbDataSet	120,16	304,21	
 RdlDesign/ListCtl.cs	groupBox1	24,88	400,48	
@@ -1370,31 +838,6 @@ RdlDesign/ModulesClassesCtl.cs	bDeleteClass	400,160	48,20
 RdlDesign/ModulesClassesCtl.cs	dgClasses	16,160	376,88	
 RdlDesign/ModulesClassesCtl.cs	label2	8,136	448,23	
 RdlDesign/ModulesClassesCtl.cs	.		472,288	
-RdlDesign/PositionCtl.cs	gbPosition	24,48	384,112	
-RdlDesign/PositionCtl.cs	tbHeight	224,48	72,20	
-RdlDesign/PositionCtl.cs	label7	168,48	48,16	
-RdlDesign/PositionCtl.cs	tbWidth	72,48	72,20	
-RdlDesign/PositionCtl.cs	label8	16,48	48,16	
-RdlDesign/PositionCtl.cs	tbTop	224,16	72,20	
-RdlDesign/PositionCtl.cs	label6	168,16	48,16	
-RdlDesign/PositionCtl.cs	tbLeft	72,16	72,20	
-RdlDesign/PositionCtl.cs	label5	16,16	48,16	
-RdlDesign/PositionCtl.cs	label9	16,80	48,23	
-RdlDesign/PositionCtl.cs	tbZIndex	72,80	72,20	
-RdlDesign/PositionCtl.cs	label1	24,15	48,23	
-RdlDesign/PositionCtl.cs	tbName	80,16	128,20	
-RdlDesign/PositionCtl.cs	lblColSpan	232,16	115,23	
-RdlDesign/PositionCtl.cs	tbColSpan	360,16	48,20	
-RdlDesign/PositionCtl.cs	gbText	24,168	384,112	
-RdlDesign/PositionCtl.cs	cbToggleImage	120,80	256,21	
-RdlDesign/PositionCtl.cs	label4	16,80	104,23	
-RdlDesign/PositionCtl.cs	cbDataElementStyle	120,48	120,21	
-RdlDesign/PositionCtl.cs	label3	16,48	104,23	
-RdlDesign/PositionCtl.cs	cbHideDuplicates	264,16	112,21	
-RdlDesign/PositionCtl.cs	label2	184,18	90,22	
-RdlDesign/PositionCtl.cs	chkCanShrink	96,16		
-RdlDesign/PositionCtl.cs	chkCanGrow	16,16	80,24	
-RdlDesign/PositionCtl.cs	.		472,288	
 RdlDesign/PropertyDialog.cs	panel1	0,326	458,40	
 RdlDesign/PropertyDialog.cs	bDelete	8,8		
 RdlDesign/PropertyDialog.cs	bApply	376,8		
@@ -1434,66 +877,6 @@ RdlDesign/RdlEditPreview.cs	pbLines	0,0	32,350
 RdlDesign/RdlEditPreview.cs	tpBrowser	4,4	480,350	
 RdlDesign/RdlEditPreview.cs	rdlPreview	0,0	480,350	
 RdlDesign/RdlEditPreview.cs	.		488,376	
-RdlDesign/ReportCtl.cs	tbReportAuthor	96,9	304,20	
-RdlDesign/ReportCtl.cs	tbReportDescription	96,32	304,20	
-RdlDesign/ReportCtl.cs	label3	16,8	72,23	
-RdlDesign/ReportCtl.cs	label2	16,32	72,23	
-RdlDesign/ReportCtl.cs	groupBox1	16,80	384,48	
-RdlDesign/ReportCtl.cs	tbPageHeight	224,16	72,20	
-RdlDesign/ReportCtl.cs	tbPageWidth	72,16	72,20	
-RdlDesign/ReportCtl.cs	label4	164,16	48,16	
-RdlDesign/ReportCtl.cs	label1	16,16	48,16	
-RdlDesign/ReportCtl.cs	groupBox2	16,136	384,72	
-RdlDesign/ReportCtl.cs	tbMarginBottom	224,40	72,20	
-RdlDesign/ReportCtl.cs	label7	168,40	48,16	
-RdlDesign/ReportCtl.cs	tbMarginTop	72,40	72,20	
-RdlDesign/ReportCtl.cs	label8	16,40	48,16	
-RdlDesign/ReportCtl.cs	tbMarginRight	224,16	72,20	
-RdlDesign/ReportCtl.cs	label6	168,16	48,16	
-RdlDesign/ReportCtl.cs	tbMarginLeft	72,16	72,20	
-RdlDesign/ReportCtl.cs	label5	16,16	48,16	
-RdlDesign/ReportCtl.cs	tbWidth	96,56	72,20	
-RdlDesign/ReportCtl.cs	label9	16,56	72,23	
-RdlDesign/ReportCtl.cs	groupBox3	16,216	184,56	
-RdlDesign/ReportCtl.cs	chkPHLast	96,16	76,28	
-RdlDesign/ReportCtl.cs	chkPHFirst	8,16	76,28	
-RdlDesign/ReportCtl.cs	groupBox4	216,216	184,56	
-RdlDesign/ReportCtl.cs	chkPFLast	96,16	76,28	
-RdlDesign/ReportCtl.cs	chkPFFirst	8,16	76,28	
-RdlDesign/ReportCtl.cs	.		472,288	
-RdlDesign/ReportParameterCtl.cs	bParmDown	128,40	20,24	
-RdlDesign/ReportParameterCtl.cs	bParmUp	128,8	20,24	
-RdlDesign/ReportParameterCtl.cs	tbParmValidValues	72,16	328,20	
-RdlDesign/ReportParameterCtl.cs	ckbParmAllowBlank	222,72	154,24	
-RdlDesign/ReportParameterCtl.cs	tbParmPrompt	208,40	240,20	
-RdlDesign/ReportParameterCtl.cs	lParmPrompt	160,40	48,16	
-RdlDesign/ReportParameterCtl.cs	cbParmType	368,16	80,21	
-RdlDesign/ReportParameterCtl.cs	lParmType	304,16	56,23	
-RdlDesign/ReportParameterCtl.cs	tbParmName	208,16	104,20	
-RdlDesign/ReportParameterCtl.cs	lParmName	160,16	40,16	
-RdlDesign/ReportParameterCtl.cs	bRemove	68,70	54,23	
-RdlDesign/ReportParameterCtl.cs	bAdd	8,70	54,23	
-RdlDesign/ReportParameterCtl.cs	lbParameters	8,8	112,56	
-RdlDesign/ReportParameterCtl.cs	groupBox1	8,184	440,96	
-RdlDesign/ReportParameterCtl.cs	bValidValues	408,16	24,23	
-RdlDesign/ReportParameterCtl.cs	label2	240,72	72,16	
-RdlDesign/ReportParameterCtl.cs	cbValidDisplayField	312,72	112,21	
-RdlDesign/ReportParameterCtl.cs	label1	240,46	64,16	
-RdlDesign/ReportParameterCtl.cs	cbValidFields	312,40	112,21	
-RdlDesign/ReportParameterCtl.cs	cbValidDataSets	112,40	112,21	
-RdlDesign/ReportParameterCtl.cs	rbValues	8,16	64,24	
-RdlDesign/ReportParameterCtl.cs	rbDataSet	8,40	104,24	
-RdlDesign/ReportParameterCtl.cs	groupBox2	8,104	440,72	
-RdlDesign/ReportParameterCtl.cs	tbParmDefaultValue	72,16	328,20	
-RdlDesign/ReportParameterCtl.cs	bDefaultValues	407,16	23,23	
-RdlDesign/ReportParameterCtl.cs	label4	240,46	64,23	
-RdlDesign/ReportParameterCtl.cs	cbDefaultValueField	312,40	112,21	
-RdlDesign/ReportParameterCtl.cs	cbDefaultDataSets	112,40	112,21	
-RdlDesign/ReportParameterCtl.cs	rbDefaultValues	8,16	64,24	
-RdlDesign/ReportParameterCtl.cs	rbDefaultDataSetName	8,40	104,24	
-RdlDesign/ReportParameterCtl.cs	ckbParmAllowNull	150,72	72,24	
-RdlDesign/ReportParameterCtl.cs	ckbParmMultiValue	376,72	80,24	
-RdlDesign/ReportParameterCtl.cs	.		456,296	
 RdlDesign/ReportXmlCtl.cs	label1	16,32	112,23	
 RdlDesign/ReportXmlCtl.cs	tbDataTransform	136,32	248,20	
 RdlDesign/ReportXmlCtl.cs	tbDataSchema	136,72	248,20	
@@ -1523,121 +906,6 @@ RdlDesign/SortingCtl.cs	bUp	392,72	48,23
 RdlDesign/SortingCtl.cs	bDown	392,104	48,23	
 RdlDesign/SortingCtl.cs	bValueExpr	392,16	22,16	
 RdlDesign/SortingCtl.cs	.		488,304	
-RdlDesign/StyleBorderCtl.cs	lLeft	16,74	40,16	
-RdlDesign/StyleBorderCtl.cs	lBottom	16,170	40,16	
-RdlDesign/StyleBorderCtl.cs	lTop	16,138	40,16	
-RdlDesign/StyleBorderCtl.cs	lRight	16,106	40,16	
-RdlDesign/StyleBorderCtl.cs	label2	72,16	56,16	
-RdlDesign/StyleBorderCtl.cs	label6	343,16	56,16	
-RdlDesign/StyleBorderCtl.cs	label7	192,16	56,16	
-RdlDesign/StyleBorderCtl.cs	cbStyleLeft	56,72	88,21	
-RdlDesign/StyleBorderCtl.cs	cbStyleBottom	56,168	88,21	
-RdlDesign/StyleBorderCtl.cs	cbStyleTop	56,136	88,21	
-RdlDesign/StyleBorderCtl.cs	cbStyleRight	56,104	88,21	
-RdlDesign/StyleBorderCtl.cs	bColorLeft	306,74	22,16	
-RdlDesign/StyleBorderCtl.cs	cbColorLeft	176,72	96,21	
-RdlDesign/StyleBorderCtl.cs	bColorRight	306,106	22,16	
-RdlDesign/StyleBorderCtl.cs	cbColorRight	176,104	96,21	
-RdlDesign/StyleBorderCtl.cs	bColorTop	306,138	22,16	
-RdlDesign/StyleBorderCtl.cs	cbColorTop	176,136	96,21	
-RdlDesign/StyleBorderCtl.cs	bColorBottom	306,170	22,16	
-RdlDesign/StyleBorderCtl.cs	cbColorBottom	176,168	96,21	
-RdlDesign/StyleBorderCtl.cs	tbWidthLeft	334,72	64,20	
-RdlDesign/StyleBorderCtl.cs	tbWidthRight	334,104	64,20	
-RdlDesign/StyleBorderCtl.cs	tbWidthTop	334,136	64,20	
-RdlDesign/StyleBorderCtl.cs	tbWidthBottom	334,168	64,20	
-RdlDesign/StyleBorderCtl.cs	tbWidthDefault	334,40	64,20	
-RdlDesign/StyleBorderCtl.cs	bColorDefault	306,42	22,16	
-RdlDesign/StyleBorderCtl.cs	cbColorDefault	176,40	96,21	
-RdlDesign/StyleBorderCtl.cs	cbStyleDefault	56,40	88,21	
-RdlDesign/StyleBorderCtl.cs	label8	16,42	40,16	
-RdlDesign/StyleBorderCtl.cs	bSD	148,42	22,16	
-RdlDesign/StyleBorderCtl.cs	bSL	148,75	22,16	
-RdlDesign/StyleBorderCtl.cs	bSR	148,108	22,16	
-RdlDesign/StyleBorderCtl.cs	bST	148,139	22,16	
-RdlDesign/StyleBorderCtl.cs	bSB	148,171	22,16	
-RdlDesign/StyleBorderCtl.cs	bCD	276,42	22,16	
-RdlDesign/StyleBorderCtl.cs	bCT	276,140	22,16	
-RdlDesign/StyleBorderCtl.cs	bCB	276,171	22,16	
-RdlDesign/StyleBorderCtl.cs	bWB	403,170	22,16	
-RdlDesign/StyleBorderCtl.cs	bWT	403,138	22,16	
-RdlDesign/StyleBorderCtl.cs	bWR	403,107	22,16	
-RdlDesign/StyleBorderCtl.cs	bCR	276,108	22,16	
-RdlDesign/StyleBorderCtl.cs	bWL	403,73	22,16	
-RdlDesign/StyleBorderCtl.cs	bWD	403,42	22,16	
-RdlDesign/StyleBorderCtl.cs	bCL	276,75	22,16	
-RdlDesign/StyleBorderCtl.cs	.		472,312	
-RdlDesign/StyleCtl.cs	label11	8,24	32,16	
-RdlDesign/StyleCtl.cs	label12	224,24	35,16	
-RdlDesign/StyleCtl.cs	label13	8,56	32,16	
-RdlDesign/StyleCtl.cs	label14	216,56	47,16	
-RdlDesign/StyleCtl.cs	tbPadLeft	48,24	128,20	
-RdlDesign/StyleCtl.cs	tbPadRight	264,24	128,20	
-RdlDesign/StyleCtl.cs	tbPadTop	48,56	128,20	
-RdlDesign/StyleCtl.cs	tbPadBottom	264,56	128,20	
-RdlDesign/StyleCtl.cs	grpBoxPadding	16,96	432,88	
-RdlDesign/StyleCtl.cs	button3	400,26	22,16	
-RdlDesign/StyleCtl.cs	button2	400,58	22,16	
-RdlDesign/StyleCtl.cs	button1	184,58	22,16	
-RdlDesign/StyleCtl.cs	bValueExpr	184,26	22,16	
-RdlDesign/StyleCtl.cs	groupBox1	16,8	432,80	
-RdlDesign/StyleCtl.cs	bGradient	253,42	22,16	
-RdlDesign/StyleCtl.cs	bExprBackColor	102,42	22,16	
-RdlDesign/StyleCtl.cs	bExprEndColor	377,42	22,16	
-RdlDesign/StyleCtl.cs	bEndColor	404,42	22,16	
-RdlDesign/StyleCtl.cs	cbBackColor	8,40	88,21	
-RdlDesign/StyleCtl.cs	cbEndColor	286,40	88,21	
-RdlDesign/StyleCtl.cs	label15	286,24	59,16	
-RdlDesign/StyleCtl.cs	cbGradient	161,40	88,21	
-RdlDesign/StyleCtl.cs	label10	161,24	52,16	
-RdlDesign/StyleCtl.cs	bBackColor	128,42	22,16	
-RdlDesign/StyleCtl.cs	label3	8,24	36,16	
-RdlDesign/StyleCtl.cs	gbXML	16,200	432,80	
-RdlDesign/StyleCtl.cs	cbDEOutput	138,48	117,21	
-RdlDesign/StyleCtl.cs	tbDEName	137,20	279,20	
-RdlDesign/StyleCtl.cs	label2	11,48	116,20	
-RdlDesign/StyleCtl.cs	label1	10,25	106,20	
-RdlDesign/StyleCtl.cs	.		472,312	
-RdlDesign/StyleTextCtl.cs	label4	16,232	48,16	
-RdlDesign/StyleTextCtl.cs	label5	216,168	48,16	
-RdlDesign/StyleTextCtl.cs	label6	16,168	63,16	
-RdlDesign/StyleTextCtl.cs	label7	16,200	56,16	
-RdlDesign/StyleTextCtl.cs	label8	216,200	80,16	
-RdlDesign/StyleTextCtl.cs	lFont	16,16	42,16	
-RdlDesign/StyleTextCtl.cs	bFont	401,20	22,16	
-RdlDesign/StyleTextCtl.cs	cbVerticalAlign	304,168	72,21	
-RdlDesign/StyleTextCtl.cs	cbHorzAlign	80,168	64,21	
-RdlDesign/StyleTextCtl.cs	cbFormat	80,232	296,21	
-RdlDesign/StyleTextCtl.cs	cbDirection	80,200	64,21	
-RdlDesign/StyleTextCtl.cs	cbWritingMode	304,200	72,21	
-RdlDesign/StyleTextCtl.cs	label2	224,80	64,23	
-RdlDesign/StyleTextCtl.cs	cbTextDecoration	288,80	80,21	
-RdlDesign/StyleTextCtl.cs	bColor	200,82	22,16	
-RdlDesign/StyleTextCtl.cs	label9	16,80	48,16	
-RdlDesign/StyleTextCtl.cs	cbColor	72,80	96,21	
-RdlDesign/StyleTextCtl.cs	label3	16,48	40,16	
-RdlDesign/StyleTextCtl.cs	cbFontStyle	72,48	96,21	
-RdlDesign/StyleTextCtl.cs	cbFontWeight	264,48	104,21	
-RdlDesign/StyleTextCtl.cs	label10	224,48	40,16	
-RdlDesign/StyleTextCtl.cs	cbFontSize	264,16	104,21	
-RdlDesign/StyleTextCtl.cs	label11	224,16	40,16	
-RdlDesign/StyleTextCtl.cs	cbFontFamily	72,16	96,21	
-RdlDesign/StyleTextCtl.cs	lblValue	8,16	56,23	
-RdlDesign/StyleTextCtl.cs	groupBox1	8,40	432,112	
-RdlDesign/StyleTextCtl.cs	button2	376,82	22,16	
-RdlDesign/StyleTextCtl.cs	bWeight	376,52	22,16	
-RdlDesign/StyleTextCtl.cs	bSize	376,20	22,16	
-RdlDesign/StyleTextCtl.cs	bColorEx	176,82	22,16	
-RdlDesign/StyleTextCtl.cs	bStyle	176,52	22,16	
-RdlDesign/StyleTextCtl.cs	bFamily	176,20	22,16	
-RdlDesign/StyleTextCtl.cs	cbValue	64,16	344,21	
-RdlDesign/StyleTextCtl.cs	bValueExpr	414,19	22,16	
-RdlDesign/StyleTextCtl.cs	bAlignment	152,170	22,16	
-RdlDesign/StyleTextCtl.cs	bDirection	152,202	22,16	
-RdlDesign/StyleTextCtl.cs	bVertical	384,170	22,16	
-RdlDesign/StyleTextCtl.cs	bWrtMode	384,202	22,16	
-RdlDesign/StyleTextCtl.cs	bFormat	384,234	22,16	
-RdlDesign/StyleTextCtl.cs	.		456,280	
 RdlDesign/SubreportCtl.cs	dgParms	8,112	384,168	
 RdlDesign/SubreportCtl.cs	label1	8,8	92,23	
 RdlDesign/SubreportCtl.cs	tbReportFile	104,8	312,20	

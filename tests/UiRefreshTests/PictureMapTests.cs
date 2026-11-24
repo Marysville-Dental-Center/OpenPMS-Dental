@@ -414,6 +414,10 @@ namespace UiRefreshTests {
 		///<summary>Controls that add child controls in code while they are built, which LayoutManager allows only in their host (the Security window):
 		///the builder cannot make them on their own. Their designer lines are checked by Record_EveryConversionIsInItsDesignerLine.</summary>
 		private static readonly string[] _arrayWindowsAddingControlsInCode=new[] { "UserControlSecurityUserGroup" };
+		///<summary>UI-12 slice 13: buttons the window's code makes as locals while it draws, never fields of the built window: FormSheetDefEdit's
+		///ButtonNewTP sheet field (DrawFields' "button", with the Add icon). Since the harness's sample sheet (Scan\SampleData) builds the window, its
+		///other rows are checked here.</summary>
+		private static readonly string[] _arrayLocalsInCode=new[] { "FormSheetDefEdit.button" };
 
 		[TestMethod]
 		public void BuiltWindows_ShowTheIconOrABitmapOfThePicturesSize() {
@@ -457,6 +461,9 @@ namespace UiRefreshTests {
 						countBuilt++;
 						foreach(ConvertedRow row in grouping) {
 							Control control=GetField(builtWindow.Root,row.Control) as Control;
+							if(control==null && _arrayLocalsInCode.Contains(grouping.Key+"."+row.Control)) {
+								continue;//a local of the window's code, not a control of the built window: Record_EveryConversionIsInItsDesignerLine checks its line
+							}
 							if(control==null) {
 								listProblems.Add(row+": no control.");
 								continue;

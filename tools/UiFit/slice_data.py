@@ -151,9 +151,11 @@ def designer_base(rel):
     return re.sub(r"(\.designer)?\.cs$", "", b, flags=re.I).lower()
 
 
-def snapshot_owners(win_slices, hand_rows):
+def snapshot_owners(win_slices, hand_rows, root=None, declared=None):
     """designer file (relative, forward slashes) or class name -> slice: a designer file belongs to the first slice (in slice order) that
-    has a window of its class name or a hand row in it. The C# side (SliceData.SnapshotOwner) uses the same rule."""
+    has a window of its class name (the file's base name, or since UI-12 slice 13 a class the file declares: FormCvxs in
+    FormCvx.designer.cs) or a hand row in it. The C# side (SliceData.SnapshotOwners) uses the same rule. declared (rel -> class names) is
+    for tests; by default the file is read under root (the repository when None); a file that is not there declares nothing."""
     by_name, by_file = {}, {}
     for w, s in sorted(win_slices.items(), key=lambda kv: slice_key(kv[1])):
         by_name.setdefault(w.split(".")[-1].lower(), s)
@@ -161,12 +163,33 @@ def snapshot_owners(win_slices, hand_rows):
         s = win_slices.get(r["window"])
         if s:
             by_file.setdefault(r["designer_file"], s)
-    return by_name, by_file
+    if declared is None:
+        cache = {}
+
+        def declared(rel):
+            if rel not in cache:
+                cache[rel] = declared_classes(os.path.join(root or fit_tools.repo_root(), rel))
+            return cache[rel]
+    return by_name, by_file, declared
+
+
+_CLASS = re.compile(rb"\bclass\s+(\w+)")
+
+
+def declared_classes(path):
+    """The class names a C# file declares (lower case); none when the file is not there."""
+    try:
+        with open(path, "rb") as f:
+            return sorted(set(m.group(1).decode("latin-1").lower() for m in _CLASS.finditer(f.read())))
+    except OSError:
+        return []
 
 
 def snapshot_owner(rel, owners):
-    by_name, by_file = owners
-    cands = [s for s in (by_name.get(designer_base(rel)), by_file.get(rel)) if s]
+    by_name, by_file, declared = owners
+    names = [designer_base(rel)] + [c for c in declared(rel) if c != designer_base(rel)]
+    cands = [by_name.get(n) for n in names] + [by_file.get(rel)]
+    cands = [s for s in cands if s]
     return min(cands, key=slice_key) if cands else UNSLICED
 
 

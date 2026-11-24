@@ -198,6 +198,12 @@ def load_tree(path, windows=None):
             if p is not None:
                 n.parent = p
                 p.children.append(n)
+        # UI-12 slice 13 (the plain-Form rule; slice 12 adds the same for the plain exes' windows): the root of a plain Form (no FormODBase
+        # client panel) is the window with its frame, and its controls stand in its client area: the planner lays them out in the client
+        # area (a frame is 8 px or more on both axes; a FormODBase's client panel and a UserControl have their client area as their bounds).
+        if root is not None and root.cw and root.ch and root.w - root.cw >= 8 and root.h - root.ch >= 8:
+            root.w, root.h = root.cw, root.ch
+            root.nw, root.nh = root.cw, root.ch
         trees[w] = root
     return trees
 
@@ -211,7 +217,10 @@ class Designer:
         self.path = os.path.join(root, rel)
         with open(self.path, "rb") as f:
             self.text = f.read().decode("latin-1")
-        self.declared = {m.group(1): m.group(2) for m in re.finditer(r"this\.(\w+) ?= ?new ([\w.]+)\(", self.text)}
+        # UI-12 slice 13: in a code file (designer code in the window's .cs) only InitializeComponent's body is designer code.
+        start, end = fit_tools.designer_code(rel, self.text)
+        self.text = self.text[start:end]
+        self.declared ={m.group(1): m.group(2) for m in re.finditer(r"this\.(\w+) ?= ?new ([\w.]+)\(", self.text)}
         self.docked = {m.group(1): m.group(2) for m in re.finditer(r"this\.(\w+)\.Dock ?= ?System\.Windows\.Forms\.DockStyle\.(\w+);", self.text)}
         # A control whose Name differs from its field (this.checkLong.Name = "checkShort"): the tree has the Name, the designer the field.
         self.name_to_field = {m.group(2): m.group(1) for m in re.finditer(r'this\.(\w+)\.Name ?= ?"(\w+)";', self.text) if m.group(1) != m.group(2)}
@@ -2376,7 +2385,10 @@ def write_tree(path, trees):
         f.write("\t".join(cols) + "\n")
         for w, t in trees.items():
             for n in walk(t):
-                vals = [n.window, clean(n.path), clean(n.name), n.type, n.index, n.nx, n.ny, n.nw, n.nh, n.cx, n.cy, n.cw, n.ch, int(n.visible), n.dock,
+                # UI-12 slice 13: the root's client area is its planned size (load_tree reads a plain Form's root as its client area), so a
+                # planned tree read again is not taken for a window with a frame.
+                cw, ch = (n.nw, n.nh) if n is t else (n.cw, n.ch)
+                vals = [n.window, clean(n.path), clean(n.name), n.type, n.index, n.nx, n.ny, n.nw, n.nh, n.cx, n.cy, cw, ch, int(n.visible), n.dock,
                         n.anchor, int(n.autosize and not n.autosize_off), int(n.sizes_itself), int(n.in_layout_panel),
                         n.new_check_align or n.check_align, n.new_text_align or n.text_align, int(n.multiline), n.font_h, n.text_w, n.text_h,
                         n.title_bottom, n.pref_h, clean(n.text)]
@@ -2644,7 +2656,15 @@ def cmd_apply(args):
         p = os.path.join(root, rel)
         with open(p, "rb") as f:
             raw = f.read()
-        text = raw.decode("latin-1")
+        whole = raw.decode("latin-1")
+        # UI-12 slice 13: a code file (designer code in the window's .cs: the report designer, ODR) is edited in InitializeComponent's body
+        # only; everything around it stays byte for byte.
+        start, end = fit_tools.designer_code(rel, whole)
+        if end <= start:
+            errors += len(rs)
+            print("%s: no InitializeComponent body" % rel)
+            continue
+        text = whole[start:end]
         for r in rs:
             text2, err = apply_row(text, r["control"], r["property"], r["new"])
             if err:
@@ -2652,7 +2672,7 @@ def cmd_apply(args):
                 print("%s %s %s: %s" % (rel, r["control"], r["property"], err))
                 continue
             text = text2
-        data = text.encode("latin-1")
+        data = (whole[:start] + text + whole[end:]).encode("latin-1")
         if data != raw:
             with open(p, "wb") as f:
                 f.write(data)

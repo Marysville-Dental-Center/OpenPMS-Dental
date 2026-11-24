@@ -178,7 +178,7 @@ class Run:
         hand = self.split_by_window("grid-hand", win_slices)
         self.split_by_window("grid-known", win_slices)
         self.split_by_window("grid-runtime-texts", win_slices)
-        owners = sd.snapshot_owners(win_slices, hand)
+        owners = sd.snapshot_owners(win_slices, hand, self.root)
         self.split_snapshot(owners)
         self.split_superseded(win_slices, owners)
         for name, key in sd.FOLDERS.items():

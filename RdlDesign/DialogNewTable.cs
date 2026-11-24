@@ -312,7 +312,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// bOK
 			// 
-			this.bOK.Location = new System.Drawing.Point(272, 312);
+			this.bOK.Location = new System.Drawing.Point(290, 372);
 			this.bOK.Name = "bOK";
 			this.bOK.TabIndex = 12;
 			this.bOK.Text = "OK";
@@ -321,61 +321,65 @@ namespace fyiReporting.RdlDesign
 			// bCancel
 			// 
 			this.bCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.bCancel.Location = new System.Drawing.Point(368, 312);
+			this.bCancel.Location = new System.Drawing.Point(373, 372);
 			this.bCancel.Name = "bCancel";
 			this.bCancel.TabIndex = 13;
 			this.bCancel.Text = "Cancel";
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(16, 16);
+			this.label1.Location = new System.Drawing.Point(8, 8);
+			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(48, 23);
+			this.label1.Size = new System.Drawing.Size(52, 23);
 			this.label1.TabIndex = 3;
 			this.label1.Text = "DataSet";
 			// 
 			// cbDataSets
 			// 
 			this.cbDataSets.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cbDataSets.Location = new System.Drawing.Point(80, 16);
+			this.cbDataSets.Location = new System.Drawing.Point(66, 8);
 			this.cbDataSets.Name = "cbDataSets";
-			this.cbDataSets.Size = new System.Drawing.Size(360, 21);
+			this.cbDataSets.Size = new System.Drawing.Size(382, 23);
 			this.cbDataSets.TabIndex = 0;
 			this.cbDataSets.SelectedIndexChanged += new System.EventHandler(this.cbDataSets_SelectedIndexChanged);
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(16, 88);
+			this.label2.Location = new System.Drawing.Point(8, 118);
+			this.label2.Size = new System.Drawing.Size(152, 34);
+			this.label2.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			this.label2.Name = "label2";
 			this.label2.TabIndex = 9;
 			this.label2.Text = "DataSet Fields";
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(232, 88);
+			this.label3.Location = new System.Drawing.Point(208, 118);
+			this.label3.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(240, 23);
+			this.label3.Size = new System.Drawing.Size(152, 34);
 			this.label3.TabIndex = 10;
 			this.label3.Text = "Table Columns (check totals when not Down)";
 			// 
 			// lbFields
 			// 
-			this.lbFields.Location = new System.Drawing.Point(16, 112);
+			this.lbFields.Location = new System.Drawing.Point(8, 154);
 			this.lbFields.Name = "lbFields";
 			this.lbFields.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-			this.lbFields.Size = new System.Drawing.Size(152, 134);
+			this.lbFields.Size = new System.Drawing.Size(152, 139);
 			this.lbFields.TabIndex = 2;
 			// 
 			// lbTableColumns
 			// 
-			this.lbTableColumns.Location = new System.Drawing.Point(232, 112);
+			this.lbTableColumns.Location = new System.Drawing.Point(208, 154);
 			this.lbTableColumns.Name = "lbTableColumns";
 			this.lbTableColumns.Size = new System.Drawing.Size(152, 139);
 			this.lbTableColumns.TabIndex = 7;
 			// 
 			// bUp
 			// 
-			this.bUp.Location = new System.Drawing.Point(392, 120);
+			this.bUp.Location = new System.Drawing.Point(368, 154);
 			this.bUp.Name = "bUp";
 			this.bUp.Size = new System.Drawing.Size(48, 28);
 			this.bUp.TabIndex = 8;
@@ -384,7 +388,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// bDown
 			// 
-			this.bDown.Location = new System.Drawing.Point(392, 152);
+			this.bDown.Location = new System.Drawing.Point(368, 186);
 			this.bDown.Name = "bDown";
 			this.bDown.Size = new System.Drawing.Size(48, 28);
 			this.bDown.TabIndex = 9;
@@ -393,7 +397,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// bRight
 			// 
-			this.bRight.Location = new System.Drawing.Point(184, 120);
+			this.bRight.Location = new System.Drawing.Point(168, 154);
 			this.bRight.Name = "bRight";
 			this.bRight.Size = new System.Drawing.Size(32, 28);
 			this.bRight.TabIndex = 3;
@@ -402,7 +406,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// bAllRight
 			// 
-			this.bAllRight.Location = new System.Drawing.Point(184, 152);
+			this.bAllRight.Location = new System.Drawing.Point(168, 186);
 			this.bAllRight.Name = "bAllRight";
 			this.bAllRight.Size = new System.Drawing.Size(32, 28);
 			this.bAllRight.TabIndex = 4;
@@ -411,7 +415,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// bLeft
 			// 
-			this.bLeft.Location = new System.Drawing.Point(184, 184);
+			this.bLeft.Location = new System.Drawing.Point(168, 218);
 			this.bLeft.Name = "bLeft";
 			this.bLeft.Size = new System.Drawing.Size(32, 28);
 			this.bLeft.TabIndex = 5;
@@ -420,7 +424,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// bAllLeft
 			// 
-			this.bAllLeft.Location = new System.Drawing.Point(184, 216);
+			this.bAllLeft.Location = new System.Drawing.Point(168, 250);
 			this.bAllLeft.Name = "bAllLeft";
 			this.bAllLeft.Size = new System.Drawing.Size(32, 28);
 			this.bAllLeft.TabIndex = 6;
@@ -429,26 +433,27 @@ namespace fyiReporting.RdlDesign
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(16, 264);
+			this.label4.Location = new System.Drawing.Point(8, 301);
+			this.label4.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(216, 23);
+			this.label4.Size = new System.Drawing.Size(152, 34);
 			this.label4.TabIndex = 1;
 			this.label4.Text = "Pick a column to group (create hierarchy)";
 			// 
 			// cbGroupColumn
 			// 
 			this.cbGroupColumn.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cbGroupColumn.Location = new System.Drawing.Point(16, 280);
+			this.cbGroupColumn.Location = new System.Drawing.Point(8, 337);
 			this.cbGroupColumn.Name = "cbGroupColumn";
-			this.cbGroupColumn.Size = new System.Drawing.Size(168, 21);
+			this.cbGroupColumn.Size = new System.Drawing.Size(152, 23);
 			this.cbGroupColumn.TabIndex = 10;
 			this.cbGroupColumn.Enter += new System.EventHandler(this.cbGroupColumn_Enter);
 			// 
 			// chkGrandTotals
 			// 
-			this.chkGrandTotals.Location = new System.Drawing.Point(232, 280);
+			this.chkGrandTotals.Location = new System.Drawing.Point(208, 339);
 			this.chkGrandTotals.Name = "chkGrandTotals";
-			this.chkGrandTotals.Size = new System.Drawing.Size(168, 16);
+			this.chkGrandTotals.Size = new System.Drawing.Size(149, 18);
 			this.chkGrandTotals.TabIndex = 11;
 			this.chkGrandTotals.Text = "Calculate Grand Totals";
 			// 
@@ -457,35 +462,35 @@ namespace fyiReporting.RdlDesign
 			this.groupBox1.Controls.Add(this.rbVertComp);
 			this.groupBox1.Controls.Add(this.rbVert);
 			this.groupBox1.Controls.Add(this.rbHorz);
-			this.groupBox1.Location = new System.Drawing.Point(16, 40);
+			this.groupBox1.Location = new System.Drawing.Point(8, 39);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(424, 40);
+			this.groupBox1.Size = new System.Drawing.Size(440, 71);
 			this.groupBox1.TabIndex = 1;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Arrange Fields";
 			// 
 			// rbVert
 			// 
-			this.rbVert.Location = new System.Drawing.Point(160, 16);
+			this.rbVert.Location = new System.Drawing.Point(196, 23);
 			this.rbVert.Name = "rbVert";
-			this.rbVert.Size = new System.Drawing.Size(120, 16);
+			this.rbVert.Size = new System.Drawing.Size(139, 18);
 			this.rbVert.TabIndex = 1;
 			this.rbVert.Text = "Down (row per field)";
 			// 
 			// rbHorz
 			// 
-			this.rbHorz.Location = new System.Drawing.Point(8, 16);
+			this.rbHorz.Location = new System.Drawing.Point(8, 23);
 			this.rbHorz.Name = "rbHorz";
-			this.rbHorz.Size = new System.Drawing.Size(160, 16);
+			this.rbHorz.Size = new System.Drawing.Size(172, 18);
 			this.rbHorz.TabIndex = 0;
 			this.rbHorz.Text = "Across (standard columns)";
 			this.rbHorz.CheckedChanged += new System.EventHandler(this.rbHorz_CheckedChanged);
 			// 
 			// rbVertComp
 			// 
-			this.rbVertComp.Location = new System.Drawing.Point(296, 16);
+			this.rbVertComp.Location = new System.Drawing.Point(196, 45);
 			this.rbVertComp.Name = "rbVertComp";
-			this.rbVertComp.Size = new System.Drawing.Size(112, 16);
+			this.rbVertComp.Size = new System.Drawing.Size(124, 18);
 			this.rbVertComp.TabIndex = 2;
 			this.rbVertComp.Text = "Down (compress)";
 			// 
@@ -494,7 +499,7 @@ namespace fyiReporting.RdlDesign
 			this.AcceptButton = this.bOK;
 			this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
 			this.CancelButton = this.bCancel;
-			this.ClientSize = new System.Drawing.Size(456, 336);
+			this.ClientSize = new System.Drawing.Size(456, 403);
 			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.chkGrandTotals);
 			this.Controls.Add(this.cbGroupColumn);

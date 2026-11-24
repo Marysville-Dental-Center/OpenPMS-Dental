@@ -252,9 +252,9 @@ namespace fyiReporting.RdlDesign
             // bParmDown
             // 
             this.bParmDown.Font = new System.Drawing.Font("Wingdings", 7.25F, System.Drawing.FontStyle.Bold);
-            this.bParmDown.Location = new System.Drawing.Point(128, 40);
+            this.bParmDown.Location = new System.Drawing.Point(126, 35);
             this.bParmDown.Name = "bParmDown";
-            this.bParmDown.Size = new System.Drawing.Size(20, 24);
+            this.bParmDown.Size = new System.Drawing.Size(20, 23);
             this.bParmDown.TabIndex = 4;
             this.bParmDown.Text = "";
             this.bParmDown.Click += new System.EventHandler(this.bParmDown_Click);
@@ -262,47 +262,47 @@ namespace fyiReporting.RdlDesign
             // bParmUp
             // 
             this.bParmUp.Font = new System.Drawing.Font("Wingdings", 7.25F, System.Drawing.FontStyle.Bold);
-            this.bParmUp.Location = new System.Drawing.Point(128, 8);
+            this.bParmUp.Location = new System.Drawing.Point(126, 8);
             this.bParmUp.Name = "bParmUp";
-            this.bParmUp.Size = new System.Drawing.Size(20, 24);
+            this.bParmUp.Size = new System.Drawing.Size(20, 23);
             this.bParmUp.TabIndex = 3;
             this.bParmUp.Text = "";
             this.bParmUp.Click += new System.EventHandler(this.bParmUp_Click);
             // 
             // tbParmValidValues
             // 
-            this.tbParmValidValues.Location = new System.Drawing.Point(72, 16);
+            this.tbParmValidValues.Location = new System.Drawing.Point(119, 23);
             this.tbParmValidValues.Name = "tbParmValidValues";
             this.tbParmValidValues.ReadOnly = true;
-            this.tbParmValidValues.Size = new System.Drawing.Size(328, 20);
+            this.tbParmValidValues.Size = new System.Drawing.Size(283, 23);
             this.tbParmValidValues.TabIndex = 1;
             // 
             // ckbParmAllowBlank
             // 
-            this.ckbParmAllowBlank.Location = new System.Drawing.Point(222, 72);
+            this.ckbParmAllowBlank.Location = new System.Drawing.Point(258, 64);
             this.ckbParmAllowBlank.Name = "ckbParmAllowBlank";
-            this.ckbParmAllowBlank.Size = new System.Drawing.Size(154, 24);
+            this.ckbParmAllowBlank.Size = new System.Drawing.Size(161, 18);
             this.ckbParmAllowBlank.TabIndex = 9;
             this.ckbParmAllowBlank.Text = "Allow blank (strings only)";
             this.ckbParmAllowBlank.CheckedChanged += new System.EventHandler(this.ckbParmAllowBlank_CheckedChanged);
             // 
             // tbParmPrompt
             // 
-            this.tbParmPrompt.Location = new System.Drawing.Point(208, 40);
+            this.tbParmPrompt.Location = new System.Drawing.Point(220, 35);
             this.tbParmPrompt.Name = "tbParmPrompt";
-            this.tbParmPrompt.Size = new System.Drawing.Size(240, 20);
+            this.tbParmPrompt.Size = new System.Drawing.Size(129, 23);
             this.tbParmPrompt.TabIndex = 7;
             this.tbParmPrompt.TextChanged += new System.EventHandler(this.tbParmPrompt_TextChanged);
             // 
             // lParmPrompt
             // 
             this.lParmPrompt.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.lParmPrompt.Location = new System.Drawing.Point(160, 40);
+            this.lParmPrompt.Location = new System.Drawing.Point(162, 35);
             this.lParmPrompt.Name = "lParmPrompt";
-            this.lParmPrompt.Size = new System.Drawing.Size(48, 16);
+            this.lParmPrompt.Size = new System.Drawing.Size(52, 23);
             this.lParmPrompt.TabIndex = 23;
             this.lParmPrompt.Text = "Prompt";
-            this.lParmPrompt.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lParmPrompt.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // cbParmType
             // 
@@ -313,52 +313,52 @@ namespace fyiReporting.RdlDesign
             "Integer",
             "Float",
             "String"});
-            this.cbParmType.Location = new System.Drawing.Point(368, 16);
+            this.cbParmType.Location = new System.Drawing.Point(382, 8);
             this.cbParmType.Name = "cbParmType";
-            this.cbParmType.Size = new System.Drawing.Size(80, 21);
+            this.cbParmType.Size = new System.Drawing.Size(66, 23);
             this.cbParmType.TabIndex = 6;
             this.cbParmType.SelectedIndexChanged += new System.EventHandler(this.cbParmType_SelectedIndexChanged);
             // 
             // lParmType
             // 
-            this.lParmType.Location = new System.Drawing.Point(304, 16);
+            this.lParmType.Location = new System.Drawing.Point(316, 8);
             this.lParmType.Name = "lParmType";
-            this.lParmType.Size = new System.Drawing.Size(56, 23);
+            this.lParmType.Size = new System.Drawing.Size(60, 23);
             this.lParmType.TabIndex = 21;
             this.lParmType.Text = "Datatype";
             this.lParmType.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // tbParmName
             // 
-            this.tbParmName.Location = new System.Drawing.Point(208, 16);
+            this.tbParmName.Location = new System.Drawing.Point(220, 8);
             this.tbParmName.Name = "tbParmName";
-            this.tbParmName.Size = new System.Drawing.Size(104, 20);
+            this.tbParmName.Size = new System.Drawing.Size(80, 23);
             this.tbParmName.TabIndex = 5;
             this.tbParmName.TextChanged += new System.EventHandler(this.tbParmName_TextChanged);
             // 
             // lParmName
             // 
-            this.lParmName.Location = new System.Drawing.Point(160, 16);
+            this.lParmName.Location = new System.Drawing.Point(162, 8);
             this.lParmName.Name = "lParmName";
-            this.lParmName.Size = new System.Drawing.Size(40, 16);
+            this.lParmName.Size = new System.Drawing.Size(52, 23);
             this.lParmName.TabIndex = 19;
             this.lParmName.Text = "Name";
-            this.lParmName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lParmName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // bRemove
             // 
-            this.bRemove.Location = new System.Drawing.Point(68, 70);
+            this.bRemove.Location = new System.Drawing.Point(58, 62);
             this.bRemove.Name = "bRemove";
-            this.bRemove.Size = new System.Drawing.Size(54, 23);
+            this.bRemove.Size = new System.Drawing.Size(62, 23);
             this.bRemove.TabIndex = 2;
             this.bRemove.Text = "Remove";
             this.bRemove.Click += new System.EventHandler(this.bRemove_Click);
             // 
             // bAdd
             // 
-            this.bAdd.Location = new System.Drawing.Point(8, 70);
+            this.bAdd.Location = new System.Drawing.Point(8, 62);
             this.bAdd.Name = "bAdd";
-            this.bAdd.Size = new System.Drawing.Size(54, 23);
+            this.bAdd.Size = new System.Drawing.Size(46, 23);
             this.bAdd.TabIndex = 1;
             this.bAdd.Text = "Add";
             this.bAdd.Click += new System.EventHandler(this.bAdd_Click);
@@ -367,7 +367,7 @@ namespace fyiReporting.RdlDesign
             // 
             this.lbParameters.Location = new System.Drawing.Point(8, 8);
             this.lbParameters.Name = "lbParameters";
-            this.lbParameters.Size = new System.Drawing.Size(112, 56);
+            this.lbParameters.Size = new System.Drawing.Size(112, 50);
             this.lbParameters.TabIndex = 0;
             this.lbParameters.SelectedIndexChanged += new System.EventHandler(this.lbParameters_SelectedIndexChanged);
             // 
@@ -382,16 +382,16 @@ namespace fyiReporting.RdlDesign
             this.groupBox1.Controls.Add(this.rbValues);
             this.groupBox1.Controls.Add(this.rbDataSet);
             this.groupBox1.Controls.Add(this.tbParmValidValues);
-            this.groupBox1.Location = new System.Drawing.Point(8, 184);
+            this.groupBox1.Location = new System.Drawing.Point(8, 182);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(440, 96);
+            this.groupBox1.Size = new System.Drawing.Size(440, 108);
             this.groupBox1.TabIndex = 11;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Valid Values";
             // 
             // bValidValues
             // 
-            this.bValidValues.Location = new System.Drawing.Point(408, 16);
+            this.bValidValues.Location = new System.Drawing.Point(408, 23);
             this.bValidValues.Name = "bValidValues";
             this.bValidValues.Size = new System.Drawing.Size(24, 23);
             this.bValidValues.TabIndex = 2;
@@ -400,61 +400,63 @@ namespace fyiReporting.RdlDesign
             // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(240, 72);
+            this.label2.Location = new System.Drawing.Point(247, 77);
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(72, 16);
+            this.label2.Size = new System.Drawing.Size(80, 23);
             this.label2.TabIndex = 37;
             this.label2.Text = "Display Field";
             // 
             // cbValidDisplayField
             // 
             this.cbValidDisplayField.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbValidDisplayField.Location = new System.Drawing.Point(312, 72);
+            this.cbValidDisplayField.Location = new System.Drawing.Point(333, 77);
             this.cbValidDisplayField.Name = "cbValidDisplayField";
-            this.cbValidDisplayField.Size = new System.Drawing.Size(112, 21);
+            this.cbValidDisplayField.Size = new System.Drawing.Size(99, 23);
             this.cbValidDisplayField.TabIndex = 6;
             this.cbValidDisplayField.SelectedIndexChanged += new System.EventHandler(this.cbValidDisplayField_SelectedIndexChanged);
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(240, 46);
+            this.label1.Location = new System.Drawing.Point(247, 50);
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(64, 16);
+            this.label1.Size = new System.Drawing.Size(80, 23);
             this.label1.TabIndex = 35;
             this.label1.Text = "Value Field";
             // 
             // cbValidFields
             // 
             this.cbValidFields.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbValidFields.Location = new System.Drawing.Point(312, 40);
+            this.cbValidFields.Location = new System.Drawing.Point(333, 50);
             this.cbValidFields.Name = "cbValidFields";
-            this.cbValidFields.Size = new System.Drawing.Size(112, 21);
+            this.cbValidFields.Size = new System.Drawing.Size(99, 23);
             this.cbValidFields.TabIndex = 5;
             this.cbValidFields.SelectedIndexChanged += new System.EventHandler(this.cbValidFields_SelectedIndexChanged);
             // 
             // cbValidDataSets
             // 
             this.cbValidDataSets.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbValidDataSets.Location = new System.Drawing.Point(112, 40);
+            this.cbValidDataSets.Location = new System.Drawing.Point(119, 50);
             this.cbValidDataSets.Name = "cbValidDataSets";
-            this.cbValidDataSets.Size = new System.Drawing.Size(112, 21);
+            this.cbValidDataSets.Size = new System.Drawing.Size(112, 23);
             this.cbValidDataSets.TabIndex = 4;
             this.cbValidDataSets.SelectedIndexChanged += new System.EventHandler(this.cbValidDataSets_SelectedIndexChanged);
             // 
             // rbValues
             // 
-            this.rbValues.Location = new System.Drawing.Point(8, 16);
+            this.rbValues.Location = new System.Drawing.Point(8, 25);
             this.rbValues.Name = "rbValues";
-            this.rbValues.Size = new System.Drawing.Size(64, 24);
+            this.rbValues.Size = new System.Drawing.Size(105, 18);
             this.rbValues.TabIndex = 0;
             this.rbValues.Text = "Values";
             this.rbValues.CheckedChanged += new System.EventHandler(this.rbValues_CheckedChanged);
             // 
             // rbDataSet
             // 
-            this.rbDataSet.Location = new System.Drawing.Point(8, 40);
+            this.rbDataSet.Location = new System.Drawing.Point(8, 52);
             this.rbDataSet.Name = "rbDataSet";
-            this.rbDataSet.Size = new System.Drawing.Size(104, 24);
+            this.rbDataSet.Size = new System.Drawing.Size(105, 18);
             this.rbDataSet.TabIndex = 3;
             this.rbDataSet.Text = "Data Set Name";
             this.rbDataSet.CheckedChanged += new System.EventHandler(this.rbDataSet_CheckedChanged);
@@ -468,88 +470,89 @@ namespace fyiReporting.RdlDesign
             this.groupBox2.Controls.Add(this.cbDefaultDataSets);
             this.groupBox2.Controls.Add(this.rbDefaultValues);
             this.groupBox2.Controls.Add(this.rbDefaultDataSetName);
-            this.groupBox2.Location = new System.Drawing.Point(8, 104);
+            this.groupBox2.Location = new System.Drawing.Point(8, 93);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(440, 72);
+            this.groupBox2.Size = new System.Drawing.Size(440, 81);
             this.groupBox2.TabIndex = 10;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Default Values";
             // 
             // tbParmDefaultValue
             // 
-            this.tbParmDefaultValue.Location = new System.Drawing.Point(72, 16);
+            this.tbParmDefaultValue.Location = new System.Drawing.Point(119, 23);
             this.tbParmDefaultValue.Name = "tbParmDefaultValue";
             this.tbParmDefaultValue.ReadOnly = true;
-            this.tbParmDefaultValue.Size = new System.Drawing.Size(328, 20);
+            this.tbParmDefaultValue.Size = new System.Drawing.Size(283, 23);
             this.tbParmDefaultValue.TabIndex = 1;
             // 
             // bDefaultValues
             // 
-            this.bDefaultValues.Location = new System.Drawing.Point(407, 16);
+            this.bDefaultValues.Location = new System.Drawing.Point(408, 23);
             this.bDefaultValues.Name = "bDefaultValues";
-            this.bDefaultValues.Size = new System.Drawing.Size(23, 23);
+            this.bDefaultValues.Size = new System.Drawing.Size(24, 23);
             this.bDefaultValues.TabIndex = 2;
             this.bDefaultValues.Text = "...";
             this.bDefaultValues.Click += new System.EventHandler(this.bDefaultValues_Click);
             // 
             // label4
             // 
-            this.label4.Location = new System.Drawing.Point(240, 46);
+            this.label4.Location = new System.Drawing.Point(247, 50);
+            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(64, 23);
+            this.label4.Size = new System.Drawing.Size(80, 23);
             this.label4.TabIndex = 35;
             this.label4.Text = "Value Field";
             // 
             // cbDefaultValueField
             // 
             this.cbDefaultValueField.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbDefaultValueField.Location = new System.Drawing.Point(312, 40);
+            this.cbDefaultValueField.Location = new System.Drawing.Point(333, 50);
             this.cbDefaultValueField.Name = "cbDefaultValueField";
-            this.cbDefaultValueField.Size = new System.Drawing.Size(112, 21);
+            this.cbDefaultValueField.Size = new System.Drawing.Size(99, 23);
             this.cbDefaultValueField.TabIndex = 5;
             this.cbDefaultValueField.SelectedIndexChanged += new System.EventHandler(this.cbDefaultValueField_SelectedIndexChanged);
             // 
             // cbDefaultDataSets
             // 
             this.cbDefaultDataSets.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbDefaultDataSets.Location = new System.Drawing.Point(112, 40);
+            this.cbDefaultDataSets.Location = new System.Drawing.Point(119, 50);
             this.cbDefaultDataSets.Name = "cbDefaultDataSets";
-            this.cbDefaultDataSets.Size = new System.Drawing.Size(112, 21);
+            this.cbDefaultDataSets.Size = new System.Drawing.Size(112, 23);
             this.cbDefaultDataSets.TabIndex = 4;
             this.cbDefaultDataSets.SelectedIndexChanged += new System.EventHandler(this.cbDefaultDataSets_SelectedIndexChanged);
             // 
             // rbDefaultValues
             // 
-            this.rbDefaultValues.Location = new System.Drawing.Point(8, 16);
+            this.rbDefaultValues.Location = new System.Drawing.Point(8, 25);
             this.rbDefaultValues.Name = "rbDefaultValues";
-            this.rbDefaultValues.Size = new System.Drawing.Size(64, 24);
+            this.rbDefaultValues.Size = new System.Drawing.Size(105, 18);
             this.rbDefaultValues.TabIndex = 0;
             this.rbDefaultValues.Text = "Values";
             this.rbDefaultValues.CheckedChanged += new System.EventHandler(this.rbDefaultValues_CheckedChanged);
             // 
             // rbDefaultDataSetName
             // 
-            this.rbDefaultDataSetName.Location = new System.Drawing.Point(8, 40);
+            this.rbDefaultDataSetName.Location = new System.Drawing.Point(8, 52);
             this.rbDefaultDataSetName.Name = "rbDefaultDataSetName";
-            this.rbDefaultDataSetName.Size = new System.Drawing.Size(104, 24);
+            this.rbDefaultDataSetName.Size = new System.Drawing.Size(105, 18);
             this.rbDefaultDataSetName.TabIndex = 3;
             this.rbDefaultDataSetName.Text = "Data Set Name";
             this.rbDefaultDataSetName.CheckedChanged += new System.EventHandler(this.rbDefaultDataSetName_CheckedChanged);
             // 
             // ckbParmAllowNull
             // 
-            this.ckbParmAllowNull.Location = new System.Drawing.Point(150, 72);
+            this.ckbParmAllowNull.Location = new System.Drawing.Point(162, 64);
             this.ckbParmAllowNull.Name = "ckbParmAllowNull";
-            this.ckbParmAllowNull.Size = new System.Drawing.Size(72, 24);
+            this.ckbParmAllowNull.Size = new System.Drawing.Size(80, 18);
             this.ckbParmAllowNull.TabIndex = 8;
             this.ckbParmAllowNull.Text = "Allow null";
             this.ckbParmAllowNull.CheckedChanged += new System.EventHandler(this.ckbParmAllowNull_CheckedChanged);
             // 
             // ckbParmMultiValue
             // 
-            this.ckbParmMultiValue.Location = new System.Drawing.Point(376, 72);
+            this.ckbParmMultiValue.Location = new System.Drawing.Point(365, 37);
             this.ckbParmMultiValue.Name = "ckbParmMultiValue";
-            this.ckbParmMultiValue.Size = new System.Drawing.Size(80, 24);
+            this.ckbParmMultiValue.Size = new System.Drawing.Size(83, 18);
             this.ckbParmMultiValue.TabIndex = 24;
             this.ckbParmMultiValue.Text = "MultiValue";
             this.ckbParmMultiValue.CheckedChanged += new System.EventHandler(this.ckbParmMultiValue_CheckedChanged);
@@ -573,7 +576,7 @@ namespace fyiReporting.RdlDesign
             this.Controls.Add(this.lbParameters);
             this.Controls.Add(this.groupBox2);
             this.Name = "ReportParameterCtl";
-            this.Size = new System.Drawing.Size(456, 296);
+            this.Size = new System.Drawing.Size(456, 298);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);

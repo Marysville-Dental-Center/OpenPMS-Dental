@@ -342,10 +342,15 @@ namespace UiRefreshTests.Scan {
 			try {
 				switch(scanType.Kind) {
 					case BuildKind.LayoutManagerWindow:
-						FormODBase formODBase=(FormODBase)CreateBare(scanType.Type,typeof(FormODBase));
-						builtWindow.Form=formODBase;
-						builtWindow.Root=formODBase;
-						MarkContentAsTheConstructorDoes(formODBase);
+						FormODBase formODBase;
+						//UI-12 slice 13: the preferences an InitializeComponent reads, and the sample objects seven windows' handlers read (Scan\SampleData).
+						using(SampleData.PrefsForInitializeComponent(scanType.Type)) {
+							formODBase=(FormODBase)CreateBare(scanType.Type,typeof(FormODBase));
+							builtWindow.Form=formODBase;
+							builtWindow.Root=formODBase;
+							MarkContentAsTheConstructorDoes(formODBase);
+							SampleData.BeforeLayoutManager(formODBase);
+						}
 						ActionBeforeLayoutManager?.Invoke(formODBase);
 						InvokeNonPublic(formODBase,typeof(FormODBase),"InitializeLayoutManager",new object[] { false,false });
 						builtWindow.LayoutManager=GetLayoutManager(formODBase);

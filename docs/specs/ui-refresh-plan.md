@@ -1735,6 +1735,17 @@ own 26.2 overlap check before it starts. The first cut is below; a brief that fi
   CRUD check boxes one list, the harness scales a plain window at 150%); gallery G-UI3-ui12-12 (42 windows, the 9 densest at 150%), audit
   `UI-12-audit-12.md`
   (UI-12.md section 7, "Slice 12").
+  Slice 13 (UI-12-13, branch `ui/ui12-13-1`, the lead's list of the windows the tools could not reach): 21 windows on the grid, each
+  with a layout script: the seven the harness now builds with in-memory sample data (`Scan/SampleData.cs`: FormEhrCarePlans,
+  FormEtrans835ClaimEdit and ProcEdit, FormMountDefEdit, FormRecallList, FormSchedule, FormSheetDefEdit), ODR's FormParameterInput and
+  13 report designer dialogs and controls, read and edited in InitializeComponent's body of their `.cs` files (`fit_tools`/`grid_tools`,
+  with tests); the plain-Form rule (a framed root laid out in its client area; the input frame rule for FormODBase windows only); snapshot
+  ownership by the declared class (C# and Python, with tests); RdlDesigner and ComboBoxMulti skipped with their reasons; re-plans
+  239 / 509 / 203 / 44 / 316 / 335 / 389 / 204 / 246 / 166 unchanged; gallery `G-UI3-ui12-13`, audit `UI-12-audit-13.md` (UI-12.md
+  section 7, "Slice 13").
+  Fix round (`ui/ui12-13-2`): the review's ten findings (Balancing captions and boxes, grid widths, group margins, check box columns,
+  FormSheetDefEdit drawn with Load's visibility, the report designer's dialogs drawn at 150% as their AutoScale scales them;
+  PropertyDialog's pages are not scaled by the exe at 150%: an owner question).
 - Gallery: G-UI3 per slice, the owner's rows first.
 
 **UI-13: every element type in the new look (the owner, 2026-11-22: "Overall make sure you modernize all element types")**

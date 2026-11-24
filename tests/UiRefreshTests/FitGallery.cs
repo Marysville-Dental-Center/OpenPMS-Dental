@@ -113,8 +113,14 @@ namespace UiRefreshTests {
 							SettleAfterHandles(builtWindow);
 							//The state before the 150% font pass: a tab page shown lays its page out again (TabControl.LayoutTabs), with
 							//LayoutManager's zoom-only fonts.
+							//UI-12 slice 13 fix round: a plain exe's Form that scales itself (the report designer's dialogs, per-monitor aware) is
+							//scaled as a whole, its bounds and every font, before its state is shown.
+							bool isScaledAsPlainExe=scale!=1f && IsScaledByItsAutoScale(builtWindow);
+							if(isScaledAsPlainExe) {
+								ScaleAsPlainExe(builtWindow.Form,scale);
+							}
 							Control controlPicture=FillSampleState(root,window,state);
-							if(scale!=1f) {
+							if(scale!=1f && !isScaledAsPlainExe) {
 								GridStyleGallery.ScaleFontsAsWindowsDoes(root,scale);
 							}
 							HideDatePickerCalendars(root);
@@ -173,6 +179,37 @@ namespace UiRefreshTests {
 			OpenPmsDental.UI.UiLooks.IsOffForGallery=false;
 			File.WriteAllLines(Path.Combine(folder,"gallery-failed.txt"),listFailed);
 			Assert.IsTrue(countPictures>0,"No picture made: "+string.Join("; ",listFailed));
+		}
+
+		///<summary>UI-12 slice 13 fix round: whether a plain Form scales itself to the screen's dpi as a whole: the old Form.AutoScale (on for a
+		///Form whose designer code sets only AutoScaleBaseSize, as the report designer's dialogs do; Form.OnLoad scales the window and its
+		///controls by its font's size at the dpi against that base size, about 1.47 at 150% against 100%). A Form that sets AutoScaleMode (None:
+		///the report designer's PropertyDialog, which hosts its property pages unscaled) and the UserControls hosted in a test Form are not.</summary>
+		public static bool IsScaledByItsAutoScale(BuiltWindow builtWindow) {
+			if(builtWindow.ScanType==null || builtWindow.ScanType.Kind!=BuildKind.PlainWindow || builtWindow.Form==null) {
+				return false;
+			}
+			//Read by reflection: the property is obsolete (and hidden) in .NET's Form.
+			return typeof(Form).GetProperty("AutoScale")?.GetValue(builtWindow.Form) is bool isAutoScale && isAutoScale;
+		}
+
+		///<summary>UI-12 slice 13 fix round: a plain exe's Form at a scale as its AutoScale draws it on a screen of that dpi (per-monitor aware,
+		///RdlDesigner's Main): every font of the window at the scale (Windows draws a point size at the dpi), then the window and its controls
+		///scaled by it (Control.Scale, as Form.ApplyAutoScaling does). Every font is read before any is set (ambient fonts).</summary>
+		public static void ScaleAsPlainExe(Form form,float scale) {
+			List<Tuple<Control,Font>> listFonts=new List<Tuple<Control,Font>>();
+			CollectEveryFont(form,listFonts);
+			foreach(Tuple<Control,Font> tuple in listFonts) {
+				tuple.Item1.Font=new Font(tuple.Item2.FontFamily,tuple.Item2.Size*scale,tuple.Item2.Style);
+			}
+			form.Scale(new SizeF(scale,scale));
+		}
+
+		private static void CollectEveryFont(Control control,List<Tuple<Control,Font>> listFonts) {
+			listFonts.Add(Tuple.Create(control,control.Font));
+			foreach(Control child in control.Controls) {
+				CollectEveryFont(child,listFonts);
+			}
 		}
 
 		///<summary>UI-12 fix round: creates the window's handles, then lays the window out again at its scale before it is drawn. Creating the
@@ -267,6 +304,21 @@ namespace UiRefreshTests {
 				}
 				if(FindByName(root,"panelCompound") is Control controlCompound) {
 					controlCompound.Visible=isCompound;
+				}
+			}
+			if(window=="OpenPmsDental.FormSheetDefEdit") {
+				//UI-12 slice 13 fix round: Load shows the internal-sheet note or the editing tools (Tab Order and tips among them), never both
+				//(FormSheetDefEdit.cs, IsInternal): the picture shows a sheet that is not internal, or (the state "internal") an internal one.
+				bool isInternal=state=="internal";
+				foreach(string name in new string[] { "butDelete","butSave","groupAddField","groupShowField","groupPage","groupAlignH","butAlignTop",
+					"linkLabelTips","butCopy","butPaste","butUndo","butRedo","butTabOrder" })
+				{
+					if(FindByName(root,name) is Control control) {
+						control.Visible=!isInternal;
+					}
+				}
+				if(FindByName(root,"labelInternal") is Control controlInternal) {
+					controlInternal.Visible=isInternal;
 				}
 			}
 			if(window=="OpenPmsDental.FormScheduleDayEdit" && FindByName(root,"labelDate") is Label labelDate) {
@@ -438,9 +490,14 @@ namespace UiRefreshTests {
 				return root;
 			}
 			//UI-12 slice 3 fix round (review of 2026-11-23): the slice's other tab pages and views, laid out by its scripts.
-			string[] arrayTab=GetSliceThreeTabState(window,state) ?? GetSliceElevenTabState(window,state);
+			string[] arrayTab=GetSliceThreeTabState(window,state) ?? GetSliceElevenTabState(window,state) ?? GetSliceThirteenTabState(window,state);
 			if(arrayTab!=null) {
-				SelectTabPage(root,arrayTab[0],arrayTab[1]);
+				if(FindByName(root,arrayTab[0]) is System.Windows.Forms.TabControl) {
+					SelectStockTabPage(root,arrayTab[0],arrayTab[1]);
+				}
+				else {
+					SelectTabPage(root,arrayTab[0],arrayTab[1]);
+				}
 				return root;
 			}
 			if(window=="OpenPmsDental.FormCertifications" && state=="certcomplete") {
@@ -462,6 +519,10 @@ namespace UiRefreshTests {
 			}
 			if(window=="OpenPmsDental.FormTransactionEdit" && state=="compound") {
 				//UI-12 slice 5 fix round 2: the compound panel (FillSampleContent sets the Visible flags).
+				return root;
+			}
+			if(window=="OpenPmsDental.FormSheetDefEdit" && state=="internal") {
+				//UI-12 slice 13 fix round: an internal sheet (FillSampleContent sets the Visible flags as Load does).
 				return root;
 			}
 			if(window=="OpenPmsDental.FormInsHistSetup" && state=="rows") {
@@ -515,6 +576,47 @@ namespace UiRefreshTests {
 				case "OpenPmsDental.FormFeeSchedTools#copycode": return new string[] { "tabControlTools","tabPageCopyCode" };
 			}
 			return null;
+		}
+
+		///<summary>UI-12 slice 13: the other tab pages of FormRecallList (its program tab control) and of the report designer's FindTab,
+		///DialogToolOptions and DialogDatabase (stock tab controls).</summary>
+		private static string[] GetSliceThirteenTabState(string window,string state) {
+			switch(window+"#"+state) {
+				case "OpenPmsDental.FormRecallList#reminders": return new string[] { "tabControl","tabPageReminders" };
+				case "OpenPmsDental.FormRecallList#reactivations": return new string[] { "tabControl","tabPageReactivations" };
+				case "fyiReporting.RdlDesign.FindTab#replace": return new string[] { "tcFRG","tabReplace" };
+				case "fyiReporting.RdlDesign.FindTab#goto": return new string[] { "tcFRG","tabGoTo" };
+				case "fyiReporting.RdlDesign.DialogToolOptions#toolbar": return new string[] { "tabControl1","tpToolbar" };
+				case "fyiReporting.RdlDesign.DialogToolOptions#desktop": return new string[] { "tabControl1","tpDesktop" };
+				case "fyiReporting.RdlDesign.DialogDatabase#connection": return new string[] { "tcDialog","DBConnection" };
+				case "fyiReporting.RdlDesign.DialogDatabase#parameters": return new string[] { "tcDialog","ReportParameters" };
+				case "fyiReporting.RdlDesign.DialogDatabase#grouping": return new string[] { "tcDialog","TabularGroup" };
+			}
+			return null;
+		}
+
+		///<summary>UI-12 slice 13: a stock tab control's page shown without the window's SelectedIndexChanged handler (DialogDatabase's builds the
+		///report from its data source): the handlers are taken off the control, then the page is selected.</summary>
+		private static void SelectStockTabPage(Control root,string nameTabControl,string namePage) {
+			System.Windows.Forms.TabControl tabControl=(System.Windows.Forms.TabControl)FindByName(root,nameTabControl);
+			System.Reflection.BindingFlags bindingFlags=System.Reflection.BindingFlags.Static|System.Reflection.BindingFlags.NonPublic;
+			object key=typeof(System.Windows.Forms.TabControl).GetField("s_selectedIndexChangedEvent",bindingFlags)?.GetValue(null)
+				??typeof(System.Windows.Forms.TabControl).GetField("EVENT_SELECTEDINDEXCHANGED",bindingFlags)?.GetValue(null);
+			if(key!=null) {
+				System.ComponentModel.EventHandlerList eventHandlerList=(System.ComponentModel.EventHandlerList)typeof(System.ComponentModel.Component)
+					.GetProperty("Events",System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.NonPublic).GetValue(tabControl);
+				eventHandlerList.RemoveHandler(key,eventHandlerList[key]);
+			}
+			else {
+				//.NET's TabControl keeps the handler in a field of its own (_onSelectedIndexChanged).
+				System.Reflection.FieldInfo fieldInfo=typeof(System.Windows.Forms.TabControl).GetFields(System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.NonPublic)
+					.FirstOrDefault(x => x.FieldType==typeof(EventHandler) && x.Name.IndexOf("SelectedIndexChanged",StringComparison.OrdinalIgnoreCase)>=0);
+				if(fieldInfo==null) {
+					throw new InvalidOperationException("TabControl's SelectedIndexChanged handler not found.");
+				}
+				fieldInfo.SetValue(tabControl,null);
+			}
+			tabControl.SelectedTab=tabControl.TabPages.Cast<System.Windows.Forms.TabPage>().First(x => x.Name==namePage);
 		}
 
 		///<summary>Shows the tab control's page as a click on its tab does, without SelectedIndexChanged (the windows' handlers read the database,
