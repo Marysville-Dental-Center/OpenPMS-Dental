@@ -1761,6 +1761,18 @@ own 26.2 overlap check before it starts. The first cut is below; a brief that fi
 - Gallery: G-UI3-ui13 (the owner's four rows, a style sheet per element type at 100% and 150%, the 47 UI-12 windows, one window per type
   outside the pilot).
 
+**UI-PLAIN: the plain windows in the new look (the owner, 2026-11-22: "Overall make sure you modernize all element types")**
+- Why: slice 12 of UI-12 put the plain exes' windows on the grid (Central Manager, MySQL Manager, the database tools, the CRUD generator,
+  the HL7 debug window, the service manager, the update file copier, the CodeBase progress windows and message box, the graph's dashboard
+  dialogs and controls), but they still drew in the Windows look: no FormODBase attached the looks there. Restyle only. Note:
+  [UI-PLAIN.md](../port-notes/UI-PLAIN.md); audit: `UI-PLAIN-audit.md`.
+- Status (2026-11-23, branch `ui/uiplain-1`): the shared looks moved from OpenPmsDental/UI to CodeBase/UI (the program gives them its window
+  scale and zoom); each plain window calls `UiPlainWindow.Attach` once (the window background token, the inputs' frame and every shared
+  look, on the controls its code adds later too); the stock group box drawn like UI.GroupBox and the stock top tab control like
+  UI.TabControl; a button's image and text laid out by TextImageRelation; access key underlines hidden until Windows shows them; coverage
+  of CodeBase/UI; the element inventory counts the plain windows (180 types); `PlainLookTests`. Gallery G-UI3-uiplain (59 pictures:
+  the 50 plain windows at 100%, the 9 densest at 150%; before = `main` drawn in the same session).
+
 ---
 
 ## 8. Galleries and the owner's approval
