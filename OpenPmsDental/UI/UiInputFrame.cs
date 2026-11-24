@@ -7,7 +7,9 @@
 // round: every multi-line text box and rich text box with a border too (one framed look for every text box), and the up-down boxes' arrow
 // buttons drawn in the theme (UiUpDownLook). UI-13 fix round: the themed date picker's whole drop button is covered (its rectangle from
 // DTM_GETDATETIMEPICKERINFO; Windows 11's calendar button is wider than the scroll bar width the frame covered), and its value is recoloured
-// from Windows' black to the Text token.
+// from Windows' black to the Text token. UI-FOCUS (docs/port-notes/UI-FOCUS.md, the owner's "shaking when a text box is in focus"): Windows
+// never paints its own border under the frame on screen (it flashed for a frame at each of the 4 or 5 steps of Windows 11's focus animation),
+// and a focus change paints only the frame again.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
@@ -30,6 +32,8 @@ namespace OpenPmsDental.UI {
 		private const int RDW_INVALIDATE=0x0001;
 		private const int RDW_FRAME=0x0400;
 		private const int RDW_UPDATENOW=0x0100;
+		private const int RGN_AND=1;
+		private const int RGN_DIFF=4;
 		///<summary>The inputs that have a frame: a control is attached once.</summary>
 		private static readonly ConditionalWeakTable<Control,UiInputFrame> _table=new ConditionalWeakTable<Control,UiInputFrame>();
 		private readonly Control _control;
@@ -42,14 +46,14 @@ namespace OpenPmsDental.UI {
 			}
 			control.HandleCreated+=(sender,e) => AssignHandle(_control.Handle);
 			control.HandleDestroyed+=(sender,e) => ReleaseHandle();
-			control.GotFocus+=(sender,e) => Redraw();
-			control.LostFocus+=(sender,e) => Redraw();
+			control.GotFocus+=(sender,e) => RepaintFocus();
+			control.LostFocus+=(sender,e) => RepaintFocus();
 			control.EnabledChanged+=(sender,e) => Redraw();
 			if(control is UpDownBase) {
 				//The up-down box's text is a child edit: its focus is the box's focus.
 				foreach(Control child in control.Controls) {
-					child.GotFocus+=(sender,e) => Redraw();
-					child.LostFocus+=(sender,e) => Redraw();
+					child.GotFocus+=(sender,e) => RepaintFocus();
+					child.LostFocus+=(sender,e) => RepaintFocus();
 				}
 			}
 		}
@@ -364,14 +368,142 @@ namespace OpenPmsDental.UI {
 			RedrawWindow(_control.Handle,IntPtr.Zero,IntPtr.Zero,RDW_INVALIDATE|RDW_FRAME|RDW_UPDATENOW);
 		}
 
+		///<summary>UI-FOCUS: true when Windows is kept from painting under the frame (WndProc): always, except in high contrast, where Windows
+		///paints its own border first and the frame goes over it, as before.</summary>
+		private static bool IsWindowsBorderSuppressed() {
+			return !UiTheme.IsHighContrast;
+		}
+
+		///<summary>UI-FOCUS: a focus change changes only the frame's focus line, so only the frame is painted again, at once, on the window (the
+		///whole frame, which covers the old line). It used to redraw the whole window (RedrawWindow with RDW_UPDATENOW): Windows painted its
+		///border and the text again and the frame went over them after, one more flash. What Windows changes itself on a focus change (the
+		///themed edit's and combo box's focus animation, a date picker's selected field) it paints in its own WM_NCPAINT and WM_PAINT, which
+		///leave the frame's area alone (WndProc). High contrast: the whole window is redrawn, as before.</summary>
+		private void RepaintFocus() {
+			if(!_control.IsHandleCreated) {
+				return;
+			}
+			if(!IsWindowsBorderSuppressed()) {
+				Redraw();
+				return;
+			}
+			try {
+				PaintOnWindow();
+			}
+			catch(Exception) {
+				//As in WndProc: a frame that cannot be painted leaves what is on the window.
+			}
+		}
+
+		///<summary>UI-FOCUS: the frame's area (the rectangle the frame paints, less GetInnerRectangle, which it leaves as Windows draws it) as a
+		///new GDI region, with the window's top left corner at (x,y). The caller deletes it.</summary>
+		private IntPtr CreateFrameRegion(int x,int y) {
+			Rectangle rectangle=new Rectangle(0,0,_control.Width,_control.Height);
+			Rectangle rectangleInner=GetInnerRectangle(rectangle,_control);
+			IntPtr hRgn=CreateRectRgn(x,y,x+rectangle.Width,y+rectangle.Height);
+			if(rectangleInner.Width>0 && rectangleInner.Height>0) {
+				IntPtr hRgnInner=CreateRectRgn(x+rectangleInner.Left,y+rectangleInner.Top,x+rectangleInner.Right,y+rectangleInner.Bottom);
+				CombineRgn(hRgn,hRgn,hRgnInner,RGN_DIFF);
+				DeleteObject(hRgnInner);
+			}
+			return hRgn;
+		}
+
+		///<summary>UI-FOCUS: the region (screen coordinates) WM_NCPAINT's default painting gets instead of hRgnUpdate (1: the whole window): the
+		///update region less the frame's area and less the frame's scroll bars UiScrollLook paints (it paints them after every WM_NCPAINT). The
+		///themed edit paints its border, and Windows the scroll bars, only inside the region passed, so the stock edge and bars never reach the
+		///screen under the frame and the look; the scroll bars' corner and the rest outside the frame are painted by Windows as before. Zero when
+		///the window has no rectangle. The caller deletes it.</summary>
+		private IntPtr CreateNcPaintRegion(IntPtr hRgnUpdate) {
+			if(!GetWindowRect(Handle,out RECT rectWindow)) {
+				return IntPtr.Zero;
+			}
+			IntPtr hRgn=CreateRectRgn(rectWindow.Left,rectWindow.Top,rectWindow.Right,rectWindow.Bottom);
+			if(hRgn==IntPtr.Zero) {
+				return IntPtr.Zero;
+			}
+			try {
+				if(hRgnUpdate!=IntPtr.Zero && hRgnUpdate!=(IntPtr)1) {
+					CombineRgn(hRgn,hRgn,hRgnUpdate,RGN_AND);
+				}
+				IntPtr hRgnFrame=CreateFrameRegion(rectWindow.Left,rectWindow.Top);
+				CombineRgn(hRgn,hRgn,hRgnFrame,RGN_DIFF);
+				DeleteObject(hRgnFrame);
+				List<Rectangle> listRectanglesOut=new List<Rectangle>(UiScrollLook.GetFrameBarRectanglesScreen(_control));
+				//Both bars: the square between them too (UiScrollLook fills it), so Windows never paints it first (review of UI-FOCUS, point 3).
+				Rectangle rectangleVertical=listRectanglesOut.Find(x => x.Height>x.Width);
+				Rectangle rectangleHorizontal=listRectanglesOut.Find(x => x.Width>x.Height);
+				if(!rectangleVertical.IsEmpty && !rectangleHorizontal.IsEmpty) {
+					listRectanglesOut.Add(Rectangle.FromLTRB(rectangleVertical.Left,rectangleHorizontal.Top,rectangleVertical.Right,rectangleHorizontal.Bottom));
+				}
+				foreach(Rectangle rectangleOut in listRectanglesOut) {
+					IntPtr hRgnOut=CreateRectRgn(rectangleOut.Left,rectangleOut.Top,rectangleOut.Right,rectangleOut.Bottom);
+					CombineRgn(hRgn,hRgn,hRgnOut,RGN_DIFF);
+					DeleteObject(hRgnOut);
+				}
+			}
+			catch {
+				DeleteObject(hRgn);//Not leaked when building the region fails (review of UI-FOCUS, point 2); the caller paints as Windows does.
+				return IntPtr.Zero;
+			}
+			return hRgn;
+		}
+
+		///<summary>UI-FOCUS: before Windows' WM_PAINT, the frame's area inside the client area is taken out of the update region, so the control's
+		///own painting (clipped by BeginPaint to the update region) cannot draw there: the up-down box, the date picker and the combo box draw
+		///their Windows border (the combo box its animated focus line) in the client area. A text box's frame is all in its window frame: nothing
+		///changes for it.</summary>
+		private void ValidateFrameInClient() {
+			Point pointClient=GetClientOffset(Handle);
+			IntPtr hRgn=CreateFrameRegion(-pointClient.X,-pointClient.Y);
+			if(hRgn==IntPtr.Zero) {
+				return;//ValidateRgn with no region would validate the whole client area (review of UI-FOCUS, point 1).
+			}
+			try {
+				ValidateRgn(Handle,hRgn);
+			}
+			finally {
+				DeleteObject(hRgn);
+			}
+		}
+
 		protected override void WndProc(ref Message m) {
+			//UI-FOCUS: Windows' default painting is kept out of the frame's area, so its border is never on screen under the frame between its
+			//paint and the frame's (the frame used to be painted over it after each message, so it flashed: 4 or 5 times on each focus change with
+			//Windows 11's animated focus line).
+			IntPtr wParamNcPaint=m.WParam;
+			IntPtr hRgnNcPaint=IntPtr.Zero;
+			if((m.Msg==WM_NCPAINT || (m.Msg==WM_PAINT && m.WParam==IntPtr.Zero)) && IsWindowsBorderSuppressed()) {
+				try {
+					if(m.Msg==WM_NCPAINT) {
+						hRgnNcPaint=CreateNcPaintRegion(m.WParam);
+						if(hRgnNcPaint!=IntPtr.Zero) {
+							m.WParam=hRgnNcPaint;
+						}
+					}
+					else {
+						ValidateFrameInClient();
+					}
+				}
+				catch(Exception) {
+					//Windows paints as without the suppression; the frame still goes over it.
+				}
+			}
 			//UI-13 fix round: the part of a date picker Windows is about to paint on screen (its update region, in window coordinates), so only the
 			//pixels it paints now get the Text token's colour (RecolorDateText).
 			Rectangle[] arrayRectanglesUpdate=null;
 			if(m.Msg==WM_PAINT && m.WParam==IntPtr.Zero && _control is DateTimePicker) {
 				arrayRectanglesUpdate=GetUpdateRectangles();
 			}
-			base.WndProc(ref m);
+			try {
+				base.WndProc(ref m);
+			}
+			finally {
+				if(hRgnNcPaint!=IntPtr.Zero) {
+					m.WParam=wParamNcPaint;
+					DeleteObject(hRgnNcPaint);
+				}
+			}
 			try {
 				switch(m.Msg) {
 					case WM_NCPAINT:
@@ -397,6 +529,10 @@ namespace OpenPmsDental.UI {
 		}
 
 		private void PaintOnWindow() {
+			if(Handle==IntPtr.Zero) {
+				//GetWindowDC(0) is the whole screen's.
+				return;
+			}
 			IntPtr hdc=GetWindowDC(Handle);
 			if(hdc==IntPtr.Zero) {
 				return;
@@ -512,6 +648,12 @@ namespace OpenPmsDental.UI {
 
 		[DllImport("gdi32.dll")]
 		private static extern IntPtr CreateRectRgn(int left,int top,int right,int bottom);
+
+		[DllImport("gdi32.dll")]
+		private static extern int CombineRgn(IntPtr hRgnDest,IntPtr hRgnSource1,IntPtr hRgnSource2,int mode);
+
+		[DllImport("user32.dll")]
+		private static extern bool ValidateRgn(IntPtr hWnd,IntPtr hRgn);
 
 		[DllImport("gdi32.dll")]
 		private static extern bool DeleteObject(IntPtr hObject);

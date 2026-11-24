@@ -116,6 +116,21 @@ namespace OpenPmsDental.UI {
 			return control!=null && _table.TryGetValue(control,out _);
 		}
 
+		///<summary>UI-FOCUS (docs/port-notes/UI-FOCUS.md): the screen rectangles of the visible scroll bars in the control's window frame that this
+		///look paints (it paints them after every WM_NCPAINT); none when the look is not attached or the control is a scroll bar control.
+		///UiInputFrame leaves them out of Windows' frame painting, so the stock bars never flash under the look.</summary>
+		public static Rectangle[] GetFrameBarRectanglesScreen(Control control) {
+			if(control==null || control is ScrollBar || !control.IsHandleCreated || !IsAttached(control)) {
+				return new Rectangle[0];
+			}
+			BarInfo[] arrayBarInfos=GetBars(control.Handle,isScrollBarControl:false,isVerticalControl:false);
+			Rectangle[] arrayRectangles=new Rectangle[arrayBarInfos.Length];
+			for(int i=0;i<arrayBarInfos.Length;i++) {
+				arrayRectangles[i]=arrayBarInfos[i].RectangleScreen;
+			}
+			return arrayRectangles;
+		}
+
 		///<summary>Paints the look of the control's visible scroll bars into g, whose origin is the control's window's top left corner (as
 		///WM_PRINT draws). For a picture of a control that is painted without WM_PRINT (the gallery harness paints text boxes itself).</summary>
 		public static void PaintOver(Graphics g,Control control,Point pointWindowOrigin) {
