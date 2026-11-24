@@ -20,6 +20,7 @@ using PdfSharp.Pdf;
 using PdfSharp.Pdf.IO;
 using Microsoft.Web.WebView2.Core;
 using System.Threading.Tasks;
+using ImagingCapture.Video;
 
 namespace OpenPmsDental {
 	///<summary>This is the control that shows the actual image or mount for the imaging module. It is always nested either inside FormImageFloat or in ControlImageDock.</summary>
@@ -2264,10 +2265,14 @@ Here is the desired behavior:
 						saveFileDialog.FileName=GetDocumentShowing(0).FileName;
 					}
 				}
+				if(GetVideoTrim(GetDocumentShowing(0))!=null) {
+					saveFileDialog.FileName=Path.ChangeExtension(saveFileDialog.FileName,".mp4");//a trimmed video is written as MP4 (IMG-TRIM)
+				}
 				saveFileDialog.DefaultExt=Path.GetExtension(saveFileDialog.FileName);
 				if(saveFileDialog.ShowDialog()!=DialogResult.OK) {
 					return;
 				}
+				string trimNote="";
 				if(ImageHelper.HasImageExtension(GetDocumentShowing(0).FileName)){
 					using Bitmap bitmapCopy=ImageHelper.CopyWithCropRotate(GetDocumentShowing(0),GetBitmapShowing(0));
 					if(bitmapCopy==null){
@@ -2284,17 +2289,14 @@ Here is the desired behavior:
 				}
 				else{
 					//other files such as pdf will lack a bitmapCopy
-					try {
-						ImageStore.Export(saveFileDialog.FileName,GetDocumentShowing(0),PatientCur);
-					}
-					catch(Exception ex) {
-						MessageBox.Show(Lan.g(this,"Unable to export file, may be in use")+": " + ex.Message);
+					//a trimmed video is written from its trim (IMG-TRIM)
+					if(!ExportFile(GetDocumentShowing(0),saveFileDialog.FileName,out trimNote)) {
 						return;
 					}
 				}				
 				MsgBox.Show(this,"Done.");
 				Def defDocCategory=Defs.GetDef(DefCat.ImageCats,GetDocumentShowing(0).DocCategory);
-				string logText="Document Exported: "+GetDocumentShowing(0).FileName+" with category "
+				string logText="Document Exported: "+GetDocumentShowing(0).FileName+trimNote+" with category "
 					+defDocCategory.ItemName+" to "+Path.GetDirectoryName(saveFileDialog.FileName);
 				SecurityLogs.MakeLogEntry(EnumPermType.ImageExport,PatientCur.PatNum,logText,GetDocumentShowing(0).DocNum,GetDocumentShowing(0).DateTStamp);
 				return;
@@ -2325,10 +2327,14 @@ Here is the desired behavior:
 						saveFileDialog.FileName=GetDocumentShowing(_idxSelectedInMount).FileName;
 					}
 				}
+				if(GetVideoTrim(_documentArrayShowing[_idxSelectedInMount])!=null) {
+					saveFileDialog.FileName=Path.ChangeExtension(saveFileDialog.FileName,".mp4");//a trimmed video is written as MP4 (IMG-TRIM)
+				}
 				saveFileDialog.DefaultExt=Path.GetExtension(saveFileDialog.FileName);
 				if(saveFileDialog.ShowDialog()!=DialogResult.OK) {
 					return;
 				}
+				string trimNote="";
 				if(ImageHelper.HasImageExtension(GetDocumentShowing(_idxSelectedInMount).FileName))
 				{
 					//normal images and dicom will have the bitmap pulled from the screen
@@ -2353,17 +2359,14 @@ Here is the desired behavior:
 				}
 				else{
 					//shouldn't be pdfs, etc in mounts, but just in case:
-					try {
-						ImageStore.Export(saveFileDialog.FileName,_documentArrayShowing[_idxSelectedInMount],PatientCur);
-					}
-					catch(Exception ex) {
-						MessageBox.Show(Lan.g(this,"Unable to export file, May be in use")+": " + ex.Message);
+					//a trimmed video is written from its trim (IMG-TRIM)
+					if(!ExportFile(_documentArrayShowing[_idxSelectedInMount],saveFileDialog.FileName,out trimNote)) {
 						return;
 					}
 				}
 				MsgBox.Show(this,"Done.");
 				Def defDocCategory=Defs.GetDef(DefCat.ImageCats,_documentArrayShowing[_idxSelectedInMount].DocCategory);
-				string logText="Document Exported: "+_documentArrayShowing[_idxSelectedInMount].FileName+" within mount "
+				string logText="Document Exported: "+_documentArrayShowing[_idxSelectedInMount].FileName+trimNote+" within mount "
 					+_mountShowing.Description+" with category "+defDocCategory.ItemName+" to "+Path.GetDirectoryName(saveFileDialog.FileName);
 				SecurityLogs.MakeLogEntry(EnumPermType.ImageExport,PatientCur.PatNum,logText,_documentArrayShowing[_idxSelectedInMount].DocNum,
 					_documentArrayShowing[_idxSelectedInMount].DateTStamp);
@@ -5424,6 +5427,81 @@ Here is the desired behavior:
 			}
 			bitmapTemp?.Dispose();//frees up the lock on the file on disk
 			//_arrayBitmapsRaw[i].Clone(  //don't ever do it this way. Messes up dpi.
+		}
+
+		///<summary>Export of a file that is not an image: the file as it is (ImageStore.Export), except a video with a trim, which is written
+		///from its trim start to its trim end as a new MP4 (IMG-TRIM, VideoTrimmer; the stored file is never cut). The trimmed video is an MP4
+		///whatever extension pathExport has (the save dialog offers .mp4 for it). trimNote is " (trimmed 0:05 to 0:42)" for the security log, or "". False after telling the user
+		///why it failed.</summary>
+		private bool ExportFile(Document document,string pathExport,out string trimNote) {
+			trimNote="";
+			DocumentAdjust documentAdjust=GetVideoTrim(document);
+			if(documentAdjust==null) {
+				try {
+					ImageStore.Export(pathExport,document,PatientCur);
+				}
+				catch(Exception ex) {
+					MessageBox.Show(Lan.g(this,"Unable to export file, may be in use")+": "+ex.Message);
+					return false;
+				}
+				return true;
+			}
+			string pathSource;
+			try {
+				pathSource=GetLocalMediaPath(document,"");//on this thread: a cloud download shows its own progress
+			}
+			catch(Exception ex) {
+				MessageBox.Show(Lan.g(this,"Unable to export the trimmed video")+": "+ex.Message);
+				return false;
+			}
+			if(!File.Exists(pathSource)) {
+				MessageBox.Show(Lan.g(this,"The video file was not found")+": "+document.FileName);
+				return false;
+			}
+			//Every frame of the trim is decoded and encoded again: off the UI thread, with a window that can be cancelled.
+			int durationMs=0;
+			Exception exceptionTrim=null;
+			ProgressWin progressWin=new ProgressWin();
+			progressWin.StartingMessage=Lan.g(this,"Writing the trimmed video...");
+			progressWin.ActionMain=() => {
+				try {
+					CancellationToken cancellationToken=progressWin.CancellationToken;
+					VideoTrimmer.WriteTrimmed(pathSource,pathExport,documentAdjust.TrimStartMs,documentAdjust.TrimEndMs,out durationMs,
+						() => cancellationToken.IsCancellationRequested);
+				}
+				catch(Exception ex) {
+					exceptionTrim=ex;
+				}
+			};
+			progressWin.ShowDialog();
+			if(progressWin.IsCancelled) {
+				return false;
+			}
+			if(exceptionTrim!=null) {
+				MessageBox.Show(Lan.g(this,"Unable to export the trimmed video")+": "+exceptionTrim.Message);
+				return false;
+			}
+			trimNote=" (trimmed "+VideoMedia.FormatTime(documentAdjust.TrimStartMs)+" to "
+				+(documentAdjust.TrimEndMs>0 ? VideoMedia.FormatTime(documentAdjust.TrimEndMs) : "the end")+", "+VideoMedia.FormatTime(durationMs)+" long)";
+			return true;
+		}
+
+		///<summary>The document's documentadjust row when it is a video with a trim (TrimStartMs or TrimEndMs set), else null (IMG-TRIM).</summary>
+		private DocumentAdjust GetVideoTrim(Document document) {
+			if(document==null || !VideoMedia.IsVideoPath(document.FileName)) {
+				return null;
+			}
+			DocumentAdjust documentAdjust=null;
+			try {
+				documentAdjust=DocumentAdjusts.GetForDoc(document.DocNum);
+			}
+			catch(Exception ex) {
+				ex.DoNothing();//no trim then
+			}
+			if(documentAdjust==null || (documentAdjust.TrimStartMs<=0 && documentAdjust.TrimEndMs<=0)) {
+				return null;
+			}
+			return documentAdjust;
 		}
 
 		///<summary>Stops a video being played (leaving the Imaging module).</summary>

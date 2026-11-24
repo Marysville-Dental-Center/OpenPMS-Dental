@@ -17,7 +17,7 @@ namespace ImagingCapture.Video {
 
 		///<summary>The picture's geometry in the decoded RGB32 frames: the buffer's width, height and stride, and the visible area (a 1080-row
 		///picture is decoded in 1088-row frames: MF_MT_MINIMUM_DISPLAY_APERTURE says which rows are the picture).</summary>
-		private sealed class Geometry {
+		internal sealed class Geometry {
 			public int Width;
 			public int Height;
 			public int Stride;
@@ -117,7 +117,7 @@ namespace ImagingCapture.Video {
 			}
 		}
 
-		private static Geometry ReadGeometry(IMFSourceReader sourceReader) {
+		internal static Geometry ReadGeometry(IMFSourceReader sourceReader) {
 			IMFAttributes mediaTypeCurrent;
 			Mf.Check(sourceReader.GetCurrentMediaType(Mf.MF_SOURCE_READER_FIRST_VIDEO_STREAM,out mediaTypeCurrent),"GetCurrentMediaType");
 			try {

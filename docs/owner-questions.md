@@ -1148,8 +1148,9 @@ and E-10b), where each is set out in full with its recommendation. You first ans
   - *Export of a trimmed video* writes the whole file; the trim plays in the module only. Writing the trimmed clip (design section 4) needs
     the MP4 remuxed or re-encoded: recommended as a small later package if videos are exported often.
   - **Answered on 2026-11-23:** all three approved as built (Ctrl+Shift+P; retake keeps the old photo; the trimmed export stays a possible
-    later package). Video sound: **not wanted at all** ("No need to capture sound at all"). Videos stay silent, and the design's sound
-    setting (decision C6) is dropped, not postponed.
+    later package; built on 2026-11-23 as IMG-TRIM, [port-notes/IMG-TRIM.md](port-notes/IMG-TRIM.md): Export now writes the trim). Video
+    sound: **not wanted at all** ("No need to capture sound at all"). Videos stay silent, and the design's sound setting (decision C6) is
+    dropped, not postponed.
   - **Imaging galleries approved on 2026-11-23** ("Approve all"): every picture of G-IMG1 to G-IMG10. That covers the image viewer, the teeth
     picker, the adjust tools, the camera session and its problem states, recording, the video player and the camera settings.
 
