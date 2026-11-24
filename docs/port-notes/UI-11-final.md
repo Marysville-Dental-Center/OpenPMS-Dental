@@ -161,4 +161,7 @@ Full x64 build through the lane at `f20ec8b71` (the last code change; the commit
 session and the opt-in galleries), 0 failed, both real Tab walks passed; WindowChecksTests 31 passed, 44 skipped (opt-in); UnitTests 1728
 passed, 3 skipped; PrintGuardTests 19 passed, 1 skipped; NoHqTests 130 passed; P262BillingTests 54 passed. `tools/Test-NoEolFlips.ps1
 -Base e4eeb6760`: 0 flips. `python tools/UiFit/element_inventory.py --check` and `python tools/UiFit/colour_literals.py --check`: match.
+Fix round (MsgBoxCopyPaste, branch `ui/ui11final-2`): full x64 build through the lane, 0 errors; the same Targeted x64 run
+(`.git/od-tools/test-results/ui11final2-run1.txt`, 2026-11-24): the same counts, 0 failed (PlainLookTests built the six windows; the sweep
+found no row of `sweep-known.tsv` missing and nothing new). `tools/Test-NoEolFlips.ps1 -Base e4eeb6760`: 0 flips.
 On `main` (`ui11final-before100.txt`) the same UiRefreshTests run had only the two new sweep tests failing (before `sweep-known.tsv`).
