@@ -695,7 +695,7 @@ OpenPmsDental/Forms/FormFeesForIns.designer.cs	textCarrierNot	240,84	180,23
 OpenPmsDental/Forms/FormFeesForIns.designer.cs	label6	138,84	96,23	
 OpenPmsDental/Forms/FormFeesForIns.designer.cs	listType	8,8	120,99	
 OpenPmsDental/Forms/FormFeesForIns.designer.cs	butSelectAll	8,674	75,23	
-OpenPmsDental/Forms/FormFeesForIns.designer.cs	gridMain	8,115	808,524	
+OpenPmsDental/Forms/FormFeesForIns.designer.cs	gridMain	8,115	808,520	
 OpenPmsDental/Forms/FormFeesForIns.designer.cs	butChangeFeeSchedule	571,674	74,23	
 OpenPmsDental/Forms/FormFeesForIns.designer.cs	butPrint	89,674	87,23	
 OpenPmsDental/Forms/FormFeesForIns.designer.cs	comboInsPlanTypeWith	588,30	228,23	
