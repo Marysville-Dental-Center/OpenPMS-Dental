@@ -140,18 +140,25 @@ namespace CodeBase {
 
 		///<summary>The scale of the looks for the control being painted: its window's scale when the window is a FormODBase (FormODBase sets its
 		///LayoutManager from the monitor's dpi, SetScaleMS, and LayoutManager.ScaleMy multiplies the program's zoom; FuncGetScaleWindow), else the
-		///control's own dpi (DeviceDpi/96) times the zoom (GetZoom). Never under 1.</summary>
+		///control's own dpi (DeviceDpi/96) times the zoom (GetZoom), without the zoom in a plain window (UiPlainWindow.Attach). Never under 1.</summary>
 		public static float GetScale(Control control) {
 			float scaleWindow=0;
 			int deviceDpi=96;
+			float zoom=GetZoom();
 			if(control!=null) {
 				deviceDpi=control.DeviceDpi;
 				Func<Control,float> funcGetScaleWindow=FuncGetScaleWindow;
 				if(funcGetScaleWindow!=null) {
 					scaleWindow=funcGetScaleWindow(control);
 				}
+				if(scaleWindow<=0 && zoom!=1f && UiPlainWindow.IsAttached(control.FindForm())) {
+					//UI-PLAIN fix round: a plain window inside the program (MsgBoxCopyPaste, the progress windows, the dashboard's dialogs) is not
+					//zoomed by any LayoutManager, so its looks draw at the control's dpi alone, as its input frames do (UiInputFrame.GetScale): with
+					//ComputerPrefs' Zoom above 100% they drew oversized check boxes, radio circles and corners on 100% controls.
+					zoom=1f;
+				}
 			}
-			return GetScale(scaleWindow,deviceDpi,GetZoom());
+			return GetScale(scaleWindow,deviceDpi,zoom);
 		}
 
 		///<summary>The program's zoom (FuncGetZoom: ComputerPrefs' Zoom/100, the zoom of a LayoutManager without a dpi of its own), 1 in a plain
@@ -314,6 +321,10 @@ namespace CodeBase {
 	///<summary>The stock button (System.Windows.Forms.Button, not UI.Button) in the program's button look, or as a rounded colour swatch when it
 	///carries its own colour. Painted in the button's Paint event, after Windows Forms has drawn it.</summary>
 	public class UiButtonLook {
+		///<summary>The AcceptButtons that keep the plain look, as "FormName.buttonName": the ones the owner turns down in gallery G-UI3 (section 3.6).
+		///Empty until those answers. UI-PLAIN fix round: moved here from UI.Button, so the stock buttons of the plain windows (UiButtonLook) and the
+		///program's buttons follow one list.</summary>
+		private static readonly string[] _arrayAcceptButtonsPlain=new string[0];
 		private static readonly ConditionalWeakTable<Control,UiButtonLook> _table=new ConditionalWeakTable<Control,UiButtonLook>();
 		private static readonly PropertyInfo _propertyInfoShowFocusCues=typeof(Control).GetProperty("ShowFocusCues",BindingFlags.Instance|BindingFlags.NonPublic);
 		private readonly System.Windows.Forms.Button _button;
@@ -334,6 +345,18 @@ namespace CodeBase {
 			button.MouseLeave+=(sender,e) => { _isHover=false; _isPressed=false; _button.Invalidate(); };
 			button.MouseDown+=(sender,e) => { if(e.Button==MouseButtons.Left) { _isPressed=true; _button.Invalidate(); } };
 			button.MouseUp+=(sender,e) => { _isPressed=false; _button.Invalidate(); };
+		}
+
+		///<summary>True when the button is its form's AcceptButton, which draws as the default button (section 3.6: filled Accent with the text in
+		///TextOnAccent), unless it is on the list of AcceptButtons the owner keeps plain. Only the look: Enter is handled by the form as before.
+		///UI.Button.IsPrimary and the stock button's look (PaintButton) both ask here.</summary>
+		public static bool IsPrimary(Control button) {
+			Form form=button?.FindForm();
+			if(form==null || form.AcceptButton==null || !ReferenceEquals(form.AcceptButton,button)) {
+				return false;
+			}
+			string name=form.GetType().Name+"."+button.Name;
+			return Array.IndexOf(_arrayAcceptButtonsPlain,name)==-1;
 		}
 
 		///<summary>True for a stock button drawn by Windows Forms (not FlatStyle.System, which Windows draws) and not the program's own UI.Button.
@@ -443,10 +466,12 @@ namespace CodeBase {
 				colorText=button.ForeColor;
 			}
 			else {
-				EnumUiColor uiColorText=UiControlPaint.DrawButton(g,rectangle,buttonState,isPrimary:false,isFocused,scale);
+				//UI-PLAIN fix round: the window's AcceptButton filled Accent, as UI.Button draws it (it was always plain), its text in TextOnAccent.
+				bool isPrimary=IsPrimary(button);
+				EnumUiColor uiColorText=UiControlPaint.DrawButton(g,rectangle,buttonState,isPrimary,isFocused,scale);
 				int argbFore=button.ForeColor.ToArgb();
 				bool isDefaultFore=argbFore==SystemColors.ControlText.ToArgb() || argbFore==Color.Black.ToArgb();
-				colorText=(isDefaultFore || buttonState==EnumUiButtonState.Disabled) ? UiTheme.GetColor(uiColorText) : button.ForeColor;
+				colorText=(isDefaultFore || isPrimary || buttonState==EnumUiButtonState.Disabled) ? UiTheme.GetColor(uiColorText) : button.ForeColor;
 			}
 			Rectangle rectangleContent=Rectangle.Inflate(rectangle,-UiTheme.ScaleI(UiTheme.SPACE_4,scale),-UiTheme.ScaleI(UiTheme.SPACE_2,scale));
 			if(button.BackgroundImage!=null) {

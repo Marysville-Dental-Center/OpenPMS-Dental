@@ -1,7 +1,7 @@
 // UI-PLAIN (docs/port-notes/UI-PLAIN.md): the stock tab control (System.Windows.Forms.TabControl, not the program's UI.TabControl: the
 // dashboard's DashboardTabCtrl and any made in code) drawn like the program's tab control (UI.TabControl, UI-4b, section 3.6): the strip on
 // SurfaceSubtle, the page's 1 px Stroke border, the tabs transparent with TextSecondary, SubtleHover under the mouse, the selected one Text with
-// the 2 px Accent line (UiTabPaint). Painted over Windows' picture after each WM_PAINT and into WM_PRINT, at the tab rectangles Windows
+// the 2 px Accent line (UiTabPaint), a tab's ImageList image where Windows puts it (the dashboard's add tab and delete X). Painted over Windows' picture after each WM_PAINT and into WM_PRINT, at the tab rectangles Windows
 // reports (TabControl.GetTabRect), so a click selects the tab drawn there; Windows keeps the selection, the keys, the events and the pages. The
 // pages (stock TabPage) show the colour behind the tab control, as the program's pages do. Only the top strip with normal tabs (the only kind
 // the plain windows use): bottom, side and button tabs and owner-drawn tab controls keep Windows' drawing.
@@ -90,8 +90,54 @@ namespace CodeBase {
 				bool isEnabled=tabControl.Enabled && tabPage.Enabled;
 				EnumUiColor uiColorText=UiTabPaint.DrawHeader(g,rectangleHeader,EnumUiTabSide.Top,isSelected:tabControl.SelectedIndex==i,isHover:idxHover==i,isEnabled,
 					Color.Empty,scale);
-				TextRenderer.DrawText(g,tabPage.Text,tabControl.Font,rectangleHeader,UiTheme.GetColor(uiColorText),
+				Rectangle rectangleText=rectangleHeader;
+				Rectangle rectangleImage=GetImageRectangle(tabControl,i);
+				if(!rectangleImage.IsEmpty) {
+					//The tab's image (the dashboard's add tab and delete X in its setup mode), where Windows draws it and where the dashboard looks for
+					//the click; the text in the rest of the header.
+					DrawImage(g,tabControl,tabPage,rectangleImage,isEnabled);
+					int left=rectangleImage.Right;
+					rectangleText=new Rectangle(left,rectangleHeader.Y,Math.Max(0,rectangleHeader.Right-left),rectangleHeader.Height);
+				}
+				TextRenderer.DrawText(g,tabPage.Text,tabControl.Font,rectangleText,UiTheme.GetColor(uiColorText),
 					TextFormatFlags.HorizontalCenter|TextFormatFlags.VerticalCenter|TextFormatFlags.SingleLine|TextFormatFlags.EndEllipsis);
+			}
+		}
+
+		///<summary>The rectangle of tab idx's image in the tab control, or empty when it shows none: no ImageList, or the page has no image (ImageIndex
+		///-1 and no ImageKey, or one the list does not have). Windows puts it 6 px in from the header's left (the tab's padding), centred top to
+		///bottom: 2 px down for the dashboard's 30 px tall pictures, where DashboardTabCtrl hit-tests its delete X (header X+6, Y+2).</summary>
+		public static Rectangle GetImageRectangle(System.Windows.Forms.TabControl tabControl,int idx) {
+			if(tabControl.ImageList==null || idx<0 || idx>=tabControl.TabCount || GetImageIndex(tabControl.ImageList,tabControl.TabPages[idx])<0) {
+				return Rectangle.Empty;
+			}
+			Rectangle rectangleHeader=tabControl.GetTabRect(idx);
+			Size size=tabControl.ImageList.ImageSize;
+			return new Rectangle(rectangleHeader.X+6,rectangleHeader.Y+Math.Max(0,(rectangleHeader.Height-size.Height)/2),size.Width,size.Height);
+		}
+
+		///<summary>The page's image in the list: its ImageIndex, else its ImageKey; -1 for none.</summary>
+		private static int GetImageIndex(ImageList imageList,System.Windows.Forms.TabPage tabPage) {
+			int count=imageList.Images.Count;
+			if(tabPage.ImageIndex>=0) {
+				return tabPage.ImageIndex<count ? tabPage.ImageIndex : -1;
+			}
+			if(!string.IsNullOrEmpty(tabPage.ImageKey)) {
+				return imageList.Images.IndexOfKey(tabPage.ImageKey);
+			}
+			return -1;
+		}
+
+		private static void DrawImage(Graphics g,System.Windows.Forms.TabControl tabControl,System.Windows.Forms.TabPage tabPage,Rectangle rectangleImage,
+			bool isEnabled)
+		{
+			int idxImage=GetImageIndex(tabControl.ImageList,tabPage);
+			if(isEnabled) {
+				tabControl.ImageList.Draw(g,rectangleImage.Location,idxImage);
+				return;
+			}
+			using(Image image=tabControl.ImageList.Images[idxImage]) {
+				ControlPaint.DrawImageDisabled(g,image,rectangleImage.X,rectangleImage.Y,GetColorBehind(tabControl));
 			}
 		}
 

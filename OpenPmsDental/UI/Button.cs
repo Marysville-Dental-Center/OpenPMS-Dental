@@ -26,9 +26,6 @@ namespace OpenPmsDental.UI {
 		private static Pen _penBorder=new Pen(_colorBorder);
 		private static Brush _brushText=new SolidBrush(_colorText);
 		private static Brush _brushTextGlow=new SolidBrush(_colorTextGlow);
-		///<summary>The AcceptButtons that keep the plain look, as "FormName.buttonName": the ones the owner turns down in gallery G-UI3 (section 3.6).
-		///Empty until those answers.</summary>
-		private static readonly string[] _arrayAcceptButtonsPlain=new string[0];
 		#endregion Fields - Private Static Colors
 		
 		#region Fields - Private
@@ -100,12 +97,8 @@ namespace OpenPmsDental.UI {
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public bool IsPrimary {
 			get {
-				Form form=FindForm();
-				if(form==null || form.AcceptButton!=this) {
-					return false;
-				}
-				string name=form.GetType().Name+"."+Name;
-				return Array.IndexOf(_arrayAcceptButtonsPlain,name)==-1;
+				//The list of AcceptButtons the owner keeps plain is UiButtonLook's (UI-PLAIN fix round: the stock buttons use it too).
+				return UiButtonLook.IsPrimary(this);
 			}
 		}
 
