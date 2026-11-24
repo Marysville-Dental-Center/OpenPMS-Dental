@@ -4,9 +4,12 @@
 // - The ring is 32 px across with a 4 px round-capped stroke at 96 DPI (Fluent's ProgressRing; DiameterAt96 64 for Fluent's large ring),
 //   scaled by UiLooks.GetScale and never larger than the control; centred in the control.
 // - Indeterminate: one arc whose length breathes (20 to 260 degrees) while it turns, FRAMES_CYCLE frames of FRAME_MS each, so a cycle is
-//   two seconds. The timer runs only while the control is in a window and visible (it has a parent and a window handle, and Visible, which
-//   is false while any parent is hidden) and animation is on; hiding the control, taking it out of its parent, destroying its handle or
-//   disposing it stops the timer. A ring that was built but never put in a window (no handle) does no work and holds nothing.
+//   two seconds. The timer runs only while the control is in a window and visible (IsInWindow: it and every parent have a window handle
+//   and the outermost parent is a top-level window or sits in a window that is not Windows Forms'; and Visible, which is false while any
+//   parent is hidden) and animation is on. The ring follows its parents' ParentChanged, VisibleChanged and handle events, so hiding the
+//   ring or any parent, taking it or a parent out of its window, destroying its handle or disposing it stops the timer. A ring that was
+//   built but never put in a window (Windows Forms parks the handle of a visible control whose parent has none) does no work and holds
+//   nothing.
 // - With Windows' "Show animations in Windows" off (SPI_GETCLIENTAREAANIMATION) nothing moves: a static ring, the whole circle as a track in
 //   AccentSubtle with a quarter arc in Accent.
 // - In a high-contrast theme the colours are Windows': the background Window, the arc Highlight (Accent's partner), the static track
@@ -14,6 +17,7 @@
 // Windows Forms and System.Drawing only.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -50,6 +54,8 @@ namespace CodeBase {
 		private readonly Timer _timer;
 		private int _frame;
 		private int _diameterAt96=DIAMETER_96;
+		///<summary>The parents whose ParentChanged, VisibleChanged, HandleCreated and HandleDestroyed the ring follows (HookParents).</summary>
+		private readonly List<Control> _listControlsParent=new List<Control>();
 
 		public UiProgressRing() {
 			SetStyle(ControlStyles.AllPaintingInWmPaint|ControlStyles.OptimizedDoubleBuffer|ControlStyles.ResizeRedraw|ControlStyles.UserPaint
@@ -97,8 +103,8 @@ namespace CodeBase {
 			}
 		}
 
-		///<summary>True while the timer runs: the control has a parent and a window handle, is visible, is not disposed, and Windows'
-		///animations are on.</summary>
+		///<summary>True while the timer runs: the control is in a window (IsInWindow), is visible, is not disposed, and Windows' animations are
+		///on.</summary>
 		[Browsable(false)]
 		public bool IsAnimating {
 			get { return _timer.Enabled; }
@@ -167,12 +173,12 @@ namespace CodeBase {
 		[return: MarshalAs(UnmanagedType.Bool)]
 		private static extern bool SystemParametersInfo(int uiAction,int uiParam,[MarshalAs(UnmanagedType.Bool)] ref bool pvParam,int fWinIni);
 
-		///<summary>Starts the timer while the control is in a window (a parent and a window handle), visible, and animations are on; stops it
-		///otherwise. Called whenever visibility, the parent or the handle changes. Without a handle the timer never runs: a ring that is built but
-		///never shown (a graph made for a drag that is cancelled) would otherwise tick on the UI thread and, through the enabled timer, keep
-		///itself and everything around it alive.</summary>
+		///<summary>Starts the timer while the control is in a window (IsInWindow), visible, and animations are on; stops it otherwise. Called
+		///whenever the visibility, the parent or the handle of the ring or of any parent changes. Outside a window the timer never runs: a ring
+		///that is built but never shown (a graph made for a drag that is cancelled) would otherwise tick on the UI thread and, through the
+		///enabled timer, keep itself and everything around it alive.</summary>
 		public void UpdateAnimation() {
-			bool isRun=!IsDisposed && !Disposing && Parent!=null && IsHandleCreated && Visible && IsAnimationOn;
+			bool isRun=IsToRun();
 			if(_timer.Enabled==isRun) {
 				return;
 			}
@@ -180,12 +186,77 @@ namespace CodeBase {
 			Invalidate();
 		}
 
+		private bool IsToRun() {
+			return !IsDisposed && !Disposing && Visible && IsAnimationOn && IsInWindow();
+		}
+
+		///<summary>True when the ring is in a window: the ring and every parent have a window handle, and the outermost parent is a top-level
+		///window (a Form) or its handle's parent is a window that is not Windows Forms' (a host such as WPF's WindowsFormsHost). False for a ring
+		///or a parent without a handle, and for one whose outermost parent Windows Forms has parked (a visible control whose parent has no handle
+		///gets a handle in Windows Forms' hidden parking window; so does a control taken out of its window).</summary>
+		public bool IsInWindow() {
+			Control controlRoot=this;
+			for(Control control=this;control!=null;control=control.Parent) {
+				if(control.IsDisposed || !control.IsHandleCreated) {
+					return false;
+				}
+				controlRoot=control;
+			}
+			if(controlRoot.TopLevelControl==controlRoot) {
+				return true;
+			}
+			IntPtr handleParent=GetParent(controlRoot.Handle);
+			if(handleParent==IntPtr.Zero) {
+				return false;
+			}
+			//A Windows Forms control that is not one of the ring's parents: the parking window.
+			return Control.FromHandle(handleParent)==null;
+		}
+
+		[DllImport("user32.dll")]
+		private static extern IntPtr GetParent(IntPtr hWnd);
+
 		private void Timer_Tick(object sender,EventArgs e) {
-			if(IsDisposed || Parent==null || !IsHandleCreated || !Visible || !IsAnimationOn) {
+			if(!IsToRun()) {
 				UpdateAnimation();
 				return;
 			}
 			Frame=_frame+1;
+		}
+
+		///<summary>Follows the ParentChanged, VisibleChanged, HandleCreated and HandleDestroyed of every parent up to the outermost, so the ring
+		///hears when a parent is hidden, shown, given a handle or moved; called again whenever the ring's or a parent's parent changes.</summary>
+		private void HookParents() {
+			UnhookParents();
+			if(IsDisposed || Disposing) {
+				return;
+			}
+			for(Control control=Parent;control!=null;control=control.Parent) {
+				control.ParentChanged+=ControlParent_ParentChanged;
+				control.VisibleChanged+=ControlParent_Changed;
+				control.HandleCreated+=ControlParent_Changed;
+				control.HandleDestroyed+=ControlParent_Changed;
+				_listControlsParent.Add(control);
+			}
+		}
+
+		private void UnhookParents() {
+			for(int i=0;i<_listControlsParent.Count;i++) {
+				_listControlsParent[i].ParentChanged-=ControlParent_ParentChanged;
+				_listControlsParent[i].VisibleChanged-=ControlParent_Changed;
+				_listControlsParent[i].HandleCreated-=ControlParent_Changed;
+				_listControlsParent[i].HandleDestroyed-=ControlParent_Changed;
+			}
+			_listControlsParent.Clear();
+		}
+
+		private void ControlParent_ParentChanged(object sender,EventArgs e) {
+			HookParents();
+			UpdateAnimation();
+		}
+
+		private void ControlParent_Changed(object sender,EventArgs e) {
+			UpdateAnimation();
 		}
 
 		protected override void OnVisibleChanged(EventArgs e) {
@@ -195,6 +266,7 @@ namespace CodeBase {
 
 		protected override void OnParentChanged(EventArgs e) {
 			base.OnParentChanged(e);
+			HookParents();
 			UpdateAnimation();
 		}
 
@@ -212,6 +284,7 @@ namespace CodeBase {
 
 		protected override void Dispose(bool disposing) {
 			if(disposing) {
+				UnhookParents();
 				_timer.Stop();
 				_timer.Tick-=Timer_Tick;
 				_timer.Dispose();
