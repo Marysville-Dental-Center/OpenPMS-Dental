@@ -570,6 +570,8 @@ namespace UiRefreshTests.Scan {
 			ConstructorInfo constructorInfo=typeBase.GetConstructor(BindingFlags.Instance|BindingFlags.Public|BindingFlags.NonPublic,null,Type.EmptyTypes,null);
 			try {
 				constructorInfo.Invoke(obj,null);
+				//UI-12 slice 16: the field initializers three shared controls' InitializeComponent handlers read (Scan\SampleData).
+				SampleData.BeforeInitializeComponent(obj);
 				List<Type> listChain=new List<Type>();
 				for(Type t=type;t!=null && t!=typeBase;t=t.BaseType) {
 					listChain.Add(t);
