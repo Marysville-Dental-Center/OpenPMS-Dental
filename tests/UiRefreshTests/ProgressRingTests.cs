@@ -133,14 +133,16 @@ namespace UiRefreshTests {
 						Point point=GetStrokePoint(rectangleRing,widthStroke,angle);
 						Assert.IsTrue(IsSame(_colorBack,bitmap.GetPixel(point.X,point.Y)),scale+" at "+angle+": "+bitmap.GetPixel(point.X,point.Y));
 					}
-					//The centre is the background, and nothing is drawn outside the ring's square.
+					//The centre is the background, and nothing is drawn outside the ring's square (its anti-aliased edge allowed).
 					Assert.IsTrue(IsSame(_colorBack,bitmap.GetPixel(32,32)));
+					//The square and its anti-aliased edge: GDI+ may leave a faint pixel just outside the stroke's outer edge.
+					Rectangle rectangleSquare=Rectangle.Inflate(rectangleRing,1,1);
 					int countOutside=0;
 					int countAccent=0;
 					for(int x=0;x<64;x++) {
 						for(int y=0;y<64;y++) {
 							Color color=bitmap.GetPixel(x,y);
-							if(!rectangleRing.Contains(x,y) && !IsSame(_colorBack,color)) {
+							if(!rectangleSquare.Contains(x,y) && !IsSame(_colorBack,color)) {
 								countOutside++;
 							}
 							if(IsSame(colorAccent,color)) {
@@ -394,7 +396,8 @@ namespace UiRefreshTests {
 		[TestMethod]
 		public void Scan_NoPictureAnimation() {
 			string root=RepoPaths.Root();
-			Regex regex=new Regex(@"\bImageAnimator\s*\.\s*(Animate|UpdateFrames)\b|\bloadingAnim\b|\bSnuffLight\d");
+			//Code, not comments: the animation calls, the removed resource's property and the animator's frame names.
+			Regex regex=new Regex(@"\bImageAnimator\s*\.\s*(Animate|UpdateFrames)\b|Resources\s*\.\s*loadingAnim\b|""loadingAnim""|""SnuffLight");
 			List<string> listFound=new List<string>();
 			int countFiles=0;
 			foreach(string file in EnumerateFiles(root,"*.cs")) {
@@ -409,7 +412,7 @@ namespace UiRefreshTests {
 			}
 			foreach(string file in EnumerateFiles(root,"*.resx").Concat(EnumerateFiles(root,"*.csproj")).Concat(EnumerateFiles(root,"*.xaml"))) {
 				string text=File.ReadAllText(file);
-				if(Regex.IsMatch(text,@"\bloadingAnim\b|SnuffLight\d")) {
+				if(Regex.IsMatch(text,@"\bloadingAnim\.gif\b|\bSnuffLight\d\.gif\b|""loadingAnim""")) {
 					listFound.Add(file.Substring(root.Length));
 				}
 			}
