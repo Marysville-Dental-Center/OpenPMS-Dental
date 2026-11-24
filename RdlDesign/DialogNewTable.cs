@@ -312,7 +312,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// bOK
 			// 
-			this.bOK.Location = new System.Drawing.Point(290, 350);
+			this.bOK.Location = new System.Drawing.Point(290, 372);
 			this.bOK.Name = "bOK";
 			this.bOK.TabIndex = 12;
 			this.bOK.Text = "OK";
@@ -321,7 +321,7 @@ namespace fyiReporting.RdlDesign
 			// bCancel
 			// 
 			this.bCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.bCancel.Location = new System.Drawing.Point(373, 350);
+			this.bCancel.Location = new System.Drawing.Point(373, 372);
 			this.bCancel.Name = "bCancel";
 			this.bCancel.TabIndex = 13;
 			this.bCancel.Text = "Cancel";
@@ -346,7 +346,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(8, 96);
+			this.label2.Location = new System.Drawing.Point(8, 118);
 			this.label2.Size = new System.Drawing.Size(152, 34);
 			this.label2.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			this.label2.Name = "label2";
@@ -355,7 +355,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(208, 96);
+			this.label3.Location = new System.Drawing.Point(208, 118);
 			this.label3.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(152, 34);
@@ -364,7 +364,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// lbFields
 			// 
-			this.lbFields.Location = new System.Drawing.Point(8, 132);
+			this.lbFields.Location = new System.Drawing.Point(8, 154);
 			this.lbFields.Name = "lbFields";
 			this.lbFields.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
 			this.lbFields.Size = new System.Drawing.Size(152, 139);
@@ -372,14 +372,14 @@ namespace fyiReporting.RdlDesign
 			// 
 			// lbTableColumns
 			// 
-			this.lbTableColumns.Location = new System.Drawing.Point(208, 132);
+			this.lbTableColumns.Location = new System.Drawing.Point(208, 154);
 			this.lbTableColumns.Name = "lbTableColumns";
 			this.lbTableColumns.Size = new System.Drawing.Size(152, 139);
 			this.lbTableColumns.TabIndex = 7;
 			// 
 			// bUp
 			// 
-			this.bUp.Location = new System.Drawing.Point(368, 132);
+			this.bUp.Location = new System.Drawing.Point(368, 154);
 			this.bUp.Name = "bUp";
 			this.bUp.Size = new System.Drawing.Size(48, 28);
 			this.bUp.TabIndex = 8;
@@ -388,7 +388,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// bDown
 			// 
-			this.bDown.Location = new System.Drawing.Point(368, 164);
+			this.bDown.Location = new System.Drawing.Point(368, 186);
 			this.bDown.Name = "bDown";
 			this.bDown.Size = new System.Drawing.Size(48, 28);
 			this.bDown.TabIndex = 9;
@@ -397,7 +397,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// bRight
 			// 
-			this.bRight.Location = new System.Drawing.Point(168, 132);
+			this.bRight.Location = new System.Drawing.Point(168, 154);
 			this.bRight.Name = "bRight";
 			this.bRight.Size = new System.Drawing.Size(32, 28);
 			this.bRight.TabIndex = 3;
@@ -406,7 +406,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// bAllRight
 			// 
-			this.bAllRight.Location = new System.Drawing.Point(168, 164);
+			this.bAllRight.Location = new System.Drawing.Point(168, 186);
 			this.bAllRight.Name = "bAllRight";
 			this.bAllRight.Size = new System.Drawing.Size(32, 28);
 			this.bAllRight.TabIndex = 4;
@@ -415,7 +415,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// bLeft
 			// 
-			this.bLeft.Location = new System.Drawing.Point(168, 196);
+			this.bLeft.Location = new System.Drawing.Point(168, 218);
 			this.bLeft.Name = "bLeft";
 			this.bLeft.Size = new System.Drawing.Size(32, 28);
 			this.bLeft.TabIndex = 5;
@@ -424,7 +424,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// bAllLeft
 			// 
-			this.bAllLeft.Location = new System.Drawing.Point(168, 228);
+			this.bAllLeft.Location = new System.Drawing.Point(168, 250);
 			this.bAllLeft.Name = "bAllLeft";
 			this.bAllLeft.Size = new System.Drawing.Size(32, 28);
 			this.bAllLeft.TabIndex = 6;
@@ -433,7 +433,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(8, 279);
+			this.label4.Location = new System.Drawing.Point(8, 301);
 			this.label4.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(152, 34);
@@ -443,7 +443,7 @@ namespace fyiReporting.RdlDesign
 			// cbGroupColumn
 			// 
 			this.cbGroupColumn.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cbGroupColumn.Location = new System.Drawing.Point(8, 315);
+			this.cbGroupColumn.Location = new System.Drawing.Point(8, 337);
 			this.cbGroupColumn.Name = "cbGroupColumn";
 			this.cbGroupColumn.Size = new System.Drawing.Size(152, 23);
 			this.cbGroupColumn.TabIndex = 10;
@@ -451,7 +451,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// chkGrandTotals
 			// 
-			this.chkGrandTotals.Location = new System.Drawing.Point(208, 317);
+			this.chkGrandTotals.Location = new System.Drawing.Point(208, 339);
 			this.chkGrandTotals.Name = "chkGrandTotals";
 			this.chkGrandTotals.Size = new System.Drawing.Size(149, 18);
 			this.chkGrandTotals.TabIndex = 11;
@@ -464,7 +464,7 @@ namespace fyiReporting.RdlDesign
 			this.groupBox1.Controls.Add(this.rbHorz);
 			this.groupBox1.Location = new System.Drawing.Point(8, 39);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(440, 49);
+			this.groupBox1.Size = new System.Drawing.Size(440, 71);
 			this.groupBox1.TabIndex = 1;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Arrange Fields";
@@ -488,7 +488,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// rbVertComp
 			// 
-			this.rbVertComp.Location = new System.Drawing.Point(351, 23);
+			this.rbVertComp.Location = new System.Drawing.Point(196, 45);
 			this.rbVertComp.Name = "rbVertComp";
 			this.rbVertComp.Size = new System.Drawing.Size(124, 18);
 			this.rbVertComp.TabIndex = 2;
@@ -499,7 +499,7 @@ namespace fyiReporting.RdlDesign
 			this.AcceptButton = this.bOK;
 			this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
 			this.CancelButton = this.bCancel;
-			this.ClientSize = new System.Drawing.Size(456, 381);
+			this.ClientSize = new System.Drawing.Size(456, 403);
 			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.chkGrandTotals);
 			this.Controls.Add(this.cbGroupColumn);

@@ -1,8 +1,8 @@
 """The report designer's ReportParameterCtl on the grid (UI-12 slice 13, layout script on main's layout in the planner's tree; its designer
 code is in ReportParameterCtl.cs, read and edited in InitializeComponent's body). PropertyDialog docks it in a 450 x 300 tab page. The
 planner reached no fixed point (its last pass spread the groups' rows over 2936 px). Three rows at the top: the parameter list over two
-rows with its Up and Down buttons beside them and Add and Remove under it; Name and Datatype, Prompt with Multi Value after it, Allow null
-and Allow blank, on one label column 16 px after the arrows; Default Values and Valid Values over the width, each radio button row with
+rows with its Up and Down buttons beside them and Add and Remove under it; Name and Datatype, Prompt with Multi Value after it on one label column 16 px
+after the arrows; Allow null and Allow blank from that column's left edge (from the field column Allow blank passes the page); Default Values and Valid Values over the width, each radio button row with
 its box (Values with "..." on the content's right edge, Data Set Name with its box and Value Field), Valid Values' Display Field under
 Value Field. Remove as wide as its text (main cut it). Everything fits the page's 450 x 300 (the control 456 x 298, main
 456 x 296; the planner made it 2936 wide)."""
@@ -29,13 +29,13 @@ def chk(h, name, x, y):
 def layout(h):
     R = 448
     h.set(".", None, None, 456, 298)
-    h.set("lbParameters", 8, 8, 120, 27 + h.H)
-    h.set("bParmUp", 134, 8, 20, h.H)
-    h.set("bParmDown", 134, 35, 20, h.H)
-    h.set("bAdd", 8, 62, 54, h.H)
-    h.set("bRemove", 66, 62, 62, h.H)
+    h.set("lbParameters", 8, 8, 112, 27 + h.H)
+    h.set("bParmUp", 126, 8, 20, h.H)
+    h.set("bParmDown", 126, 35, 20, h.H)
+    h.set("bAdd", 8, 62, 46, h.H)
+    h.set("bRemove", 58, 62, 62, h.H)
     lw = max(h.lw(n) for n in ("lParmName", "lParmPrompt"))
-    lx = 134 + 20 + 16
+    lx = 126 + 20 + 16
     fx = lx + lw + 6
     lab(h, "lParmName", lx, 8, lw)
     h.set("tbParmName", fx, 8, 80, h.H)
@@ -46,7 +46,7 @@ def layout(h):
     mw = 16 + h.n("ckbParmMultiValue").text_w + 4
     h.set("tbParmPrompt", fx, 35, R - mw - 16 - fx, h.H)
     chk(h, "ckbParmMultiValue", R - mw, 35)
-    x = chk(h, "ckbParmAllowNull", fx, 62)
+    x = chk(h, "ckbParmAllowNull", lx, 62)  # from the label column: both fit the 450 px page only from there
     chk(h, "ckbParmAllowBlank", x + 16, 62)
     # the two groups
     rw = max(16 + h.n(n).text_w + 4 for n in ("rbDefaultValues", "rbDefaultDataSetName", "rbValues", "rbDataSet"))

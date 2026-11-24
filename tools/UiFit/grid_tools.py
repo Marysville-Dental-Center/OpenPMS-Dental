@@ -2294,7 +2294,10 @@ def write_tree(path, trees):
         f.write("\t".join(cols) + "\n")
         for w, t in trees.items():
             for n in walk(t):
-                vals = [n.window, clean(n.path), clean(n.name), n.type, n.index, n.nx, n.ny, n.nw, n.nh, n.cx, n.cy, n.cw, n.ch, int(n.visible), n.dock,
+                # UI-12 slice 13: the root's client area is its planned size (load_tree reads a plain Form's root as its client area), so a
+                # planned tree read again is not taken for a window with a frame.
+                cw, ch = (n.nw, n.nh) if n is t else (n.cw, n.ch)
+                vals = [n.window, clean(n.path), clean(n.name), n.type, n.index, n.nx, n.ny, n.nw, n.nh, n.cx, n.cy, cw, ch, int(n.visible), n.dock,
                         n.anchor, int(n.autosize and not n.autosize_off), int(n.sizes_itself), int(n.in_layout_panel),
                         n.new_check_align or n.check_align, n.new_text_align or n.text_align, int(n.multiline), n.font_h, n.text_w, n.text_h,
                         n.title_bottom, n.pref_h, clean(n.text)]

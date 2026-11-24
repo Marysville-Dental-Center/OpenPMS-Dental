@@ -6,7 +6,7 @@ from its content edge (the date range, the label + box rows of Show and Recall T
 and Site, the check box list), Refresh List under the date range on the Sort row, Set Status and Email From in a column at the page's right
 padding with View's bottom on Email From's; the grid under them down to the two button rows, the buttons on seven columns 8 px apart,
 Patient Count at the right on the first row. Reminders: the date range, the clinic picker and Refresh List on one row. The window grows
-56 px wider so the check boxes stand on one line."""
+82 px wider than main (985) so the check boxes stand on one line; main's height."""
 import importlib.util
 import os
 
@@ -67,7 +67,11 @@ def buttons(h, rows, page_h):
 
 
 def layout(h):
-    page_h = h.n("tabPageRecalls").nh
+    # main's height (696; the planner grew it to 797 for the check boxes it wrapped): the tab control inside the padding, its pages 23 px
+    # under its top (main's 692 and 669)
+    client_h = 696
+    tab_h = client_h - 16
+    page_h = tab_h - 23
     w1 = view_group(h, "groupViewRecalls", "datePickerRecalls",
                     (("labelShowReminders", "comboShowReminders"), ("labelRecallTypes", "comboRecallTypes"), ("labelSortRecalls", "comboSortRecalls")),
                     (("labelProviderRecalls", "comboProviderRecalls"), (None, "comboClinicRecalls"), ("labelSiteRecalls", "comboSiteRecalls")),
@@ -80,8 +84,8 @@ def layout(h):
     page_w = 8 + vw + 8 + RIGHT_W + 8
     tab_w = page_w + 4
     client_w = 8 + tab_w + 8
-    h.set(".", None, None, client_w, None)
-    h.set("tabControl", 8, 8, tab_w, None)
+    h.set(".", None, None, client_w, client_h)
+    h.set("tabControl", 8, 8, tab_w, tab_h)
     rx = page_w - 8 - RIGHT_W
     view_h = 54 + 8 + 54
     for view, status, combo, but, email, email_combo, grid, count, rows in (

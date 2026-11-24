@@ -541,12 +541,20 @@ namespace UiRefreshTests {
 			System.Reflection.BindingFlags bindingFlags=System.Reflection.BindingFlags.Static|System.Reflection.BindingFlags.NonPublic;
 			object key=typeof(System.Windows.Forms.TabControl).GetField("s_selectedIndexChangedEvent",bindingFlags)?.GetValue(null)
 				??typeof(System.Windows.Forms.TabControl).GetField("EVENT_SELECTEDINDEXCHANGED",bindingFlags)?.GetValue(null);
-			if(key==null) {
-				throw new InvalidOperationException("TabControl's SelectedIndexChanged event key not found.");
+			if(key!=null) {
+				System.ComponentModel.EventHandlerList eventHandlerList=(System.ComponentModel.EventHandlerList)typeof(System.ComponentModel.Component)
+					.GetProperty("Events",System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.NonPublic).GetValue(tabControl);
+				eventHandlerList.RemoveHandler(key,eventHandlerList[key]);
 			}
-			System.ComponentModel.EventHandlerList eventHandlerList=(System.ComponentModel.EventHandlerList)typeof(System.ComponentModel.Component)
-				.GetProperty("Events",System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.NonPublic).GetValue(tabControl);
-			eventHandlerList.RemoveHandler(key,eventHandlerList[key]);
+			else {
+				//.NET's TabControl keeps the handler in a field of its own (_onSelectedIndexChanged).
+				System.Reflection.FieldInfo fieldInfo=typeof(System.Windows.Forms.TabControl).GetFields(System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.NonPublic)
+					.FirstOrDefault(x => x.FieldType==typeof(EventHandler) && x.Name.IndexOf("SelectedIndexChanged",StringComparison.OrdinalIgnoreCase)>=0);
+				if(fieldInfo==null) {
+					throw new InvalidOperationException("TabControl's SelectedIndexChanged handler not found.");
+				}
+				fieldInfo.SetValue(tabControl,null);
+			}
 			tabControl.SelectedTab=tabControl.TabPages.Cast<System.Windows.Forms.TabPage>().First(x => x.Name==namePage);
 		}
 

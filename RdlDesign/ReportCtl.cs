@@ -418,7 +418,7 @@ namespace fyiReporting.RdlDesign
 			this.Controls.Add(this.label3);
 			this.Controls.Add(this.label2);
 			this.Name = "ReportCtl";
-			this.Size = new System.Drawing.Size(556, 311);
+			this.Size = new System.Drawing.Size(472, 288);
 			this.groupBox1.ResumeLayout(false);
 			this.groupBox2.ResumeLayout(false);
 			this.groupBox3.ResumeLayout(false);
