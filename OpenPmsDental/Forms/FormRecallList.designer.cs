@@ -273,9 +273,9 @@
 			// labelPatientCount
 			// 
 			this.labelPatientCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelPatientCount.Location = new System.Drawing.Point(951, 597);
+			this.labelPatientCount.Location = new System.Drawing.Point(919, 597);
 			this.labelPatientCount.Name = "labelPatientCount";
-			this.labelPatientCount.Size = new System.Drawing.Size(88, 24);
+			this.labelPatientCount.Size = new System.Drawing.Size(120, 24);
 			this.labelPatientCount.TabIndex = 132;
 			this.labelPatientCount.Text = "Patient Count:";
 			this.labelPatientCount.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -789,9 +789,9 @@
 			// labelReactPatCount
 			// 
 			this.labelReactPatCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelReactPatCount.Location = new System.Drawing.Point(951, 597);
+			this.labelReactPatCount.Location = new System.Drawing.Point(919, 597);
 			this.labelReactPatCount.Name = "labelReactPatCount";
-			this.labelReactPatCount.Size = new System.Drawing.Size(88, 24);
+			this.labelReactPatCount.Size = new System.Drawing.Size(120, 24);
 			this.labelReactPatCount.TabIndex = 151;
 			this.labelReactPatCount.Text = "Patient Count:";
 			this.labelReactPatCount.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

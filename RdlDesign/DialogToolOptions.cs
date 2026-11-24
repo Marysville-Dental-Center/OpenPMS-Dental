@@ -486,7 +486,7 @@ namespace fyiReporting.RdlDesign
             // 
             // bBrowse
             // 
-            this.bBrowse.Location = new System.Drawing.Point(408, 109);
+            this.bBrowse.Location = new System.Drawing.Point(408, 125);
             this.bBrowse.Name = "bBrowse";
             this.bBrowse.Size = new System.Drawing.Size(26, 23);
             this.bBrowse.TabIndex = 2;
@@ -495,7 +495,7 @@ namespace fyiReporting.RdlDesign
             // 
             // tbDirectory
             // 
-            this.tbDirectory.Location = new System.Drawing.Point(78, 109);
+            this.tbDirectory.Location = new System.Drawing.Point(78, 125);
             this.tbDirectory.Name = "tbDirectory";
             this.tbDirectory.Size = new System.Drawing.Size(324, 23);
             this.tbDirectory.TabIndex = 1;
@@ -504,7 +504,7 @@ namespace fyiReporting.RdlDesign
             // 
             // label9
             // 
-            this.label9.Location = new System.Drawing.Point(8, 109);
+            this.label9.Location = new System.Drawing.Point(8, 125);
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(64, 23);
@@ -513,9 +513,9 @@ namespace fyiReporting.RdlDesign
             // 
             // label8
             // 
-            this.label8.Location = new System.Drawing.Point(78, 166);
+            this.label8.Location = new System.Drawing.Point(8, 182);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(356, 50);
+            this.label8.Size = new System.Drawing.Size(426, 34);
             this.label8.TabIndex = 4;
             this.label8.Text = "Important: Desktop server is not intended to be used as a production web server. " +
                 " Use an ASP enabled server for anything other than local desktop use.";
@@ -524,13 +524,13 @@ namespace fyiReporting.RdlDesign
             // 
             this.label7.Location = new System.Drawing.Point(8, 8);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(426, 66);
+            this.label7.Size = new System.Drawing.Size(426, 82);
             this.label7.TabIndex = 3;
             this.label7.Text = resources.GetString("label7.Text");
             // 
             // ckLocal
             // 
-            this.ckLocal.Location = new System.Drawing.Point(78, 140);
+            this.ckLocal.Location = new System.Drawing.Point(78, 156);
             this.ckLocal.Name = "ckLocal";
             this.ckLocal.Size = new System.Drawing.Size(198, 18);
             this.ckLocal.TabIndex = 3;
@@ -539,7 +539,7 @@ namespace fyiReporting.RdlDesign
             // 
             // tbPort
             // 
-            this.tbPort.Location = new System.Drawing.Point(78, 82);
+            this.tbPort.Location = new System.Drawing.Point(78, 98);
             this.tbPort.Name = "tbPort";
             this.tbPort.Size = new System.Drawing.Size(48, 23);
             this.tbPort.TabIndex = 0;
@@ -547,7 +547,7 @@ namespace fyiReporting.RdlDesign
             // 
             // label6
             // 
-            this.label6.Location = new System.Drawing.Point(8, 82);
+            this.label6.Location = new System.Drawing.Point(8, 98);
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(64, 23);

@@ -609,7 +609,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// bShared
 			// 
-			this.bShared.Location = new System.Drawing.Point(118, 35);
+			this.bShared.Location = new System.Drawing.Point(154, 35);
 			this.bShared.Name = "bShared";
 			this.bShared.Size = new System.Drawing.Size(24, 23);
 			this.bShared.TabIndex = 6;
@@ -628,16 +628,16 @@ namespace fyiReporting.RdlDesign
 			// cbOdbcNames
 			// 
 			this.cbOdbcNames.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cbOdbcNames.Location = new System.Drawing.Point(384, 8);
+			this.cbOdbcNames.Location = new System.Drawing.Point(420, 8);
 			this.cbOdbcNames.Name = "cbOdbcNames";
-			this.cbOdbcNames.Size = new System.Drawing.Size(128, 23);
+			this.cbOdbcNames.Size = new System.Drawing.Size(92, 23);
 			this.cbOdbcNames.Sorted = true;
 			this.cbOdbcNames.TabIndex = 1;
 			this.cbOdbcNames.SelectedIndexChanged += new System.EventHandler(this.cbOdbcNames_SelectedIndexChanged);
 			// 
 			// lODBC
 			// 
-			this.lODBC.Location = new System.Drawing.Point(262, 8);
+			this.lODBC.Location = new System.Drawing.Point(298, 8);
 			this.lODBC.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.lODBC.Name = "lODBC";
 			this.lODBC.Size = new System.Drawing.Size(116, 23);
@@ -649,14 +649,14 @@ namespace fyiReporting.RdlDesign
 			this.lConnection.Location = new System.Drawing.Point(8, 35);
 			this.lConnection.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.lConnection.Name = "lConnection";
-			this.lConnection.Size = new System.Drawing.Size(104, 23);
+			this.lConnection.Size = new System.Drawing.Size(140, 23);
 			this.lConnection.TabIndex = 4;
 			this.lConnection.Text = "Connection:";
 			// 
 			// cbConnectionTypes
 			// 
 			this.cbConnectionTypes.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cbConnectionTypes.Location = new System.Drawing.Point(118, 8);
+			this.cbConnectionTypes.Location = new System.Drawing.Point(154, 8);
 			this.cbConnectionTypes.Name = "cbConnectionTypes";
 			this.cbConnectionTypes.Size = new System.Drawing.Size(128, 23);
 			this.cbConnectionTypes.TabIndex = 0;
@@ -667,7 +667,7 @@ namespace fyiReporting.RdlDesign
 			this.label7.Location = new System.Drawing.Point(8, 8);
 			this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(104, 23);
+			this.label7.Size = new System.Drawing.Size(140, 23);
 			this.label7.TabIndex = 2;
 			this.label7.Text = "Connection Type:";
 			// 
