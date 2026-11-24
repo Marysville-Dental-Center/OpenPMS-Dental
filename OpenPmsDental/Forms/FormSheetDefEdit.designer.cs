@@ -174,9 +174,9 @@ namespace OpenPmsDental{
 			// 
 			// butAutoSnap
 			// 
-			this.butAutoSnap.Location = new System.Drawing.Point(204, 95);
+			this.butAutoSnap.Location = new System.Drawing.Point(230, 95);
 			this.butAutoSnap.Name = "butAutoSnap";
-			this.butAutoSnap.Size = new System.Drawing.Size(131, 24);
+			this.butAutoSnap.Size = new System.Drawing.Size(105, 24);
 			this.butAutoSnap.TabIndex = 99;
 			this.butAutoSnap.TabStop = false;
 			this.butAutoSnap.Text = "Grid Snap";
@@ -184,9 +184,9 @@ namespace OpenPmsDental{
 			// 
 			// butMobile
 			// 
-			this.butMobile.Location = new System.Drawing.Point(106, 39);
+			this.butMobile.Location = new System.Drawing.Point(119, 39);
 			this.butMobile.Name = "butMobile";
-			this.butMobile.Size = new System.Drawing.Size(90, 24);
+			this.butMobile.Size = new System.Drawing.Size(103, 24);
 			this.butMobile.TabIndex = 98;
 			this.butMobile.TabStop = false;
 			this.butMobile.Text = "Show Mobile";
@@ -336,9 +336,9 @@ namespace OpenPmsDental{
 			// 
 			// butPaste
 			// 
-			this.butPaste.Location = new System.Drawing.Point(106, 95);
+			this.butPaste.Location = new System.Drawing.Point(119, 95);
 			this.butPaste.Name = "butPaste";
-			this.butPaste.Size = new System.Drawing.Size(90, 24);
+			this.butPaste.Size = new System.Drawing.Size(103, 24);
 			this.butPaste.TabIndex = 91;
 			this.butPaste.TabStop = false;
 			this.butPaste.Text = "Paste Ctrl-V";
@@ -359,7 +359,7 @@ namespace OpenPmsDental{
 			// 
 			this.butCopy.Location = new System.Drawing.Point(8, 95);
 			this.butCopy.Name = "butCopy";
-			this.butCopy.Size = new System.Drawing.Size(90, 24);
+			this.butCopy.Size = new System.Drawing.Size(103, 24);
 			this.butCopy.TabIndex = 90;
 			this.butCopy.TabStop = false;
 			this.butCopy.Text = "Copy Ctrl-C";
@@ -369,7 +369,7 @@ namespace OpenPmsDental{
 			// 
 			this.butEdit.Location = new System.Drawing.Point(8, 39);
 			this.butEdit.Name = "butEdit";
-			this.butEdit.Size = new System.Drawing.Size(90, 24);
+			this.butEdit.Size = new System.Drawing.Size(103, 24);
 			this.butEdit.TabIndex = 87;
 			this.butEdit.TabStop = false;
 			this.butEdit.Text = "Edit Properties";
@@ -614,7 +614,7 @@ namespace OpenPmsDental{
 			// 
 			// checkBlue
 			// 
-			this.checkBlue.Location = new System.Drawing.Point(204, 69);
+			this.checkBlue.Location = new System.Drawing.Point(230, 69);
 			this.checkBlue.Name = "checkBlue";
 			this.checkBlue.Size = new System.Drawing.Size(46, 20);
 			this.checkBlue.TabIndex = 4;
@@ -809,9 +809,9 @@ namespace OpenPmsDental{
 			// 
 			// butRedo
 			// 
-			this.butRedo.Location = new System.Drawing.Point(106, 67);
+			this.butRedo.Location = new System.Drawing.Point(119, 67);
 			this.butRedo.Name = "butRedo";
-			this.butRedo.Size = new System.Drawing.Size(90, 24);
+			this.butRedo.Size = new System.Drawing.Size(103, 24);
 			this.butRedo.TabIndex = 103;
 			this.butRedo.TabStop = false;
 			this.butRedo.Text = "Redo Ctrl-Y";
@@ -821,7 +821,7 @@ namespace OpenPmsDental{
 			// 
 			this.butUndo.Location = new System.Drawing.Point(8, 67);
 			this.butUndo.Name = "butUndo";
-			this.butUndo.Size = new System.Drawing.Size(90, 24);
+			this.butUndo.Size = new System.Drawing.Size(103, 24);
 			this.butUndo.TabIndex = 102;
 			this.butUndo.TabStop = false;
 			this.butUndo.Text = "Undo Ctrl-Z";

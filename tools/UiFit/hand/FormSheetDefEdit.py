@@ -11,7 +11,8 @@ one or the other), Delete and Save on the bar under the section gap. The column 
 rows touched): the window grows to it; the code's height is the screen's for a letter sheet.
 UI-12F (the final consistency pass; the lead's decision on slice 13's question): the Fields list at least main's 151 px (it was 92). The
 tool column widens by the 59 px it needs (284 -> 343), taken from the sheet area (544 -> 485; the window keeps main's 828), and Load's
-window size adds the column's width instead of main's 284 in its constant (the sheet keeps its room at run time)."""
+window size adds the column's width instead of main's 284 in its constant (the sheet keeps its room at run time). The three button
+columns share the column's width (103 px each, Grid Snap no longer a 131 px button)."""
 import importlib.util
 import os
 
@@ -34,7 +35,7 @@ def layout(h):
     W0 = s.W(h)
     h.set("textDescription", 8, 8, CW, h.H)
     # the three-column button grid
-    bw = 90
+    bw = (CW - 2 * 8) // 3  # UI-12F: the three columns share the wider tool column (90 at main's 284)
     cols = (8, 8 + bw + 8, 8 + 2 * (bw + 8))
     y = 8 + h.H + 8
     rows = (("butEdit", "butMobile", None), ("butUndo", "butRedo", "checkBlue"), ("butCopy", "butPaste", "butAutoSnap"))
