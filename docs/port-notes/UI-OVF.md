@@ -87,6 +87,10 @@ group, hidden controls, an own order and office content, a real Tab walk in a wi
 it no keyboard focus), the Frms' PreviewKeyDown Enter list), `Toolbars/ToolBarFitTests` (above), `Toolbars/OverflowGallery` (opt-in).
 `Data/coverage.tsv`: `UiTabOrder` (no-drawing).
 
+Targeted run (x64, 2026-11-24, `.git/od-tools/test-results/uiovf-run3.txt`): UiRefreshTests 337 passed, 49 skipped (the WPF
+pictures of a disconnected session and opt-in galleries), 0 failed; WindowChecksTests 30/44 skipped; UnitTests 1728/3 skipped; PrintGuardTests
+19/1 skipped; NoHqTests 127; the real Tab walk passed.
+
 ## 4. Gallery G-UI3-uiovf
 
 `OPMS_UI_OVF_GALLERY=<folder>` with a Targeted UiRefreshTests run; `tools/New-UiGallery.ps1` makes the page. For each toolbar and font of
