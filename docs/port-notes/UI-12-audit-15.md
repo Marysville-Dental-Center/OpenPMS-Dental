@@ -12,7 +12,7 @@ gaps, crowding, empty bands, the bar, the window's edges) and what was found. `<
 | BodyCtl | ok | Three label + box rows on one column, labels right-aligned 6 px before the boxes. |
 | ChartCtl | fixed | The percent caption run into its box (overlap); Chart Type and Palette left-aligned, the other labels right-aligned. |
 | ChartLegendCtl | ok | Two label + box rows, the check boxes on the field column. |
-| CodeCtl | ok | Captions over the lists, Check Syntax on the right padding; main cut "Function Code". |
+| CodeCtl | ok, wrong (fix round) | Captions over the lists, Check Syntax on the right padding; main cut "Function Code". Missed: the panel ran to 464, past the tab page's 450 (checked at the page's own 472). |
 | CustomReportItemCtl | fixed | The property grid 13 px in, fx past the page's 440 px content edge. |
 | DataSetRowsCtl | fixed | (Main's layout: the harness builds it since this slice.) Buttons 9 to 20 px apart, Load From SQL on three lines. |
 | DataSetsCtl | fixed | Refresh Fields cut in a 52 px button (on main too). |
@@ -46,7 +46,7 @@ gaps, crowding, empty bands, the bar, the window's edges) and what was found. `<
 | SingleCtlDialog | fixed | A 25 px band under the bar's buttons, Apply 21 px from the right edge. |
 | SubreportCtl | fixed | The grid 4 px under the check box. |
 | TableColumnCtl | fixed | The control 555 px wide (the Fixed Header note beside its check box). |
-| TableCtl, TableRowCtl | ok | Label + box rows, groups over the width (TableRowCtl's Row Height under its group). |
+| TableCtl, TableRowCtl | ok; TableRowCtl wrong (fix round) | Label + box rows, groups over the width (TableRowCtl's Row Height under its group). Missed: TableRowCtl's group ran to 464, past the tab page's 450 (checked at the page's own 472), and Row Height stood off the field column. |
 
 ## Pass 2 (the layout scripts and the code changes, `<W>/a2-100`, then `<W>/a3-100`)
 
@@ -78,3 +78,20 @@ gaps, crowding, empty bands, the bar, the window's edges) and what was found. `<
 |---|---|---|
 | ChartCtl-150, DataSetsCtl-150, GroupingCtl-150, TableCtl-150 | ok | Scaled by PropertyDialog.ScaleToDpi: no cut text; the boxes' own text drawn at the harness's font (as in UI-12F's pictures). |
 | DialogDataSourceRef-150, DialogDataSources-150, DialogNewMatrix-150 | ok | Scaled as a whole by the dialogs' old Form.AutoScale (slice 13): no cut text, the single-line boxes keep their font height. |
+
+## Fix round (`ui/ui12-15-2`, the review's 14 points; `<W>/f3-100`, `<W>/f3-150`)
+
+Each property page checked against PropertyDialog's tab page (about 450 px: the content within 440), not only the page's own width.
+
+| Picture | Status | What was checked and found |
+|---|---|---|
+| CodeCtl | fixed | The panel 8 to 440 (was 464: the code box's scroll bar cut in the tab page); Check Syntax on the panel's right edge (440). |
+| TableRowCtl | fixed | The Visibility group 8 to 440 as TableColumnCtl's, fx 8 px inside it; Row Height right-aligned before its box on the group's field column (182). |
+| GroupingCtl | fixed | Name, the grid, Label and Parent end at 386; fx, Delete, Up, Down at 392; all buttons 23 px, the stack 4 px apart with the grid as tall (104); Label a section gap under it; the second check-box column on one x (212). |
+| DialogAbout | fixed | The two version lines as wide as the title (240, 184), centred under it. |
+| DialogDataSources, DialogDataSourceRef | fixed | Data provider at the content edge (MiddleLeft), its box 6 px after the text. |
+| DialogNewMatrix | fixed | DataSet at the content edge; the three lists without IntegralHeight: the fields list and Matrix Rows end on one y (307). |
+| DialogEmbeddedImages | fixed | The image list without IntegralHeight: it ends with Remove (85). |
+| DialogValidateRdl | fixed | The error list without IntegralHeight: 12 px over Validate and Close. |
+| ChartCtl-150, DataSetsCtl-150, GroupingCtl-150, TableCtl-150 | fixed | Every font at 150% (FitGallery.ScaleEveryFont for the property pages): the text boxes and combo boxes at the top level as tall as the XML group's; label text and box text on one line within 1 px (TableCtl: No rows message 63 / 62, Detail Element Name 348 / 348). |
+| DialogDataSourceRef-150, DialogDataSources-150, DialogNewMatrix-150 | ok | Redrawn for the layout changes above; no cut text. |
