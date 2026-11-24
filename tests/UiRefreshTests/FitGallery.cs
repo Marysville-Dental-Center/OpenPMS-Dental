@@ -162,6 +162,7 @@ namespace UiRefreshTests {
 							}
 							Control controlPicture=FillSampleState(root,window,state);
 							ProgressRingGallery.Prepare(root);//UI-LOAD: every ring at one frame; the old indicator in the before pictures
+							BrandGallery.Prepare(root);//UI-BRAND: the old OD and Open Dental words in the before pictures
 							if(scale!=1f && !isScaledAsPlainExe) {
 								if(IsPropertyPage(builtWindow)) {
 									ScaleEveryFont(root,scale);
