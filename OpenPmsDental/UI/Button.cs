@@ -119,6 +119,19 @@ namespace OpenPmsDental.UI {
 
 		#endregion Properties
 
+		#region Methods - Public Static
+		///<summary>Whether a button with an icon or image and ImageAlign MiddleCenter (the designer's default, which draws the icon alone) also draws
+		///its text: true when the text fits beside the icon, and the button then draws as MiddleLeft (the icon at the left, the text centred in
+		///the rest), the look of the program's other icon buttons. Before UI-12 slice 9 such a button drew only its icon whatever its width
+		///(FormMaintBoard's Add Item, 85 px). A button too narrow for its text keeps the icon alone, centred.</summary>
+		public static bool IsTextShownBesideIcon(int widthClient,int widthIcon,float widthText,int padIcon) {
+			if(widthText<=0) {
+				return false;
+			}
+			return widthText<=widthClient-widthIcon-padIcon;
+		}
+		#endregion Methods - Public Static
+
 		#region Methods - Private
 		private static StringFormat GetStringFormat(ContentAlignment contentAlignment) {
 			if(!Enum.IsDefined(typeof(ContentAlignment),(int)contentAlignment)) {
@@ -336,7 +349,14 @@ namespace OpenPmsDental.UI {
 			else{
 				sizeScaled=new Size(LayoutManager.Scale(Image.Width),LayoutManager.Scale(Image.Height));
 			}
-			switch(this.ImageAlign) {
+			ContentAlignment imageAlign=this.ImageAlign;
+			if(imageAlign==ContentAlignment.MiddleCenter && !string.IsNullOrEmpty(this.Text)) {
+				float widthText=g.MeasureString(this.Text,this.Font,new SizeF(10000,this.ClientRectangle.Height),stringFormat).Width;
+				if(IsTextShownBesideIcon(this.ClientRectangle.Width,sizeScaled.Width,widthText,LayoutManager.Scale(6))) {
+					imageAlign=ContentAlignment.MiddleLeft;
+				}
+			}
+			switch(imageAlign) {
 				case ContentAlignment.MiddleLeft:
 					pointImage.X=6;
 					pointImage.Y=this.ClientRectangle.Height/2-sizeScaled.Height/2;
@@ -393,7 +413,7 @@ namespace OpenPmsDental.UI {
 					bitmapDisabled.Dispose();
 				}
 			}
-			if(this.ImageAlign!=ContentAlignment.MiddleCenter) {
+			if(imageAlign!=ContentAlignment.MiddleCenter) {
 				g.DrawString(this.Text,this.Font,brushText,rectangleText,stringFormat);
 			}
 			stringFormat?.Dispose();

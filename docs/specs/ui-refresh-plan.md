@@ -1716,6 +1716,16 @@ own 26.2 overlap check before it starts. The first cut is below; a brief that fi
   findings): 12 fixed (83 scripts; FormPrintTrojan's page counter sized for its runtime text, now a `grid-runtime-texts` row; six
   windows end at their content), 2 shown not real (FormPayPlanChargeEdit's date-and-time boxes, FormPerioGraphicalSetup's label
   width); UI-12.md section 7, "Slice 10, fix round".
+  Slice 9 (UI-12-9, branch `ui/ui12-9-1`, batch 4 of UI-12-batches.tsv at the branch point, the small windows): 82 windows on the
+  grid (41 with a layout script, 2 of them at the planner's fixed point), 38 skipped with their reasons (the report designer exe, graph
+  files, library controls, owner-drawn and code-laid-out windows), 9 runtime texts; UI.Button draws an icon button's text beside its
+  icon when ImageAlign is the default MiddleCenter and the text fits (FormMaintBoard's Add Item, `ButtonIconTextTests`); FormAdjMulti's
+  Update takes Add's anchor (new Anchor hand row, `grid-hand/3.tsv`); re-plans unchanged (239 / 509 / 203 / 44 / 316 / 335 / 204),
+  slice 6 385 on main's build (298 recorded before the stored anchors: for the lead); gallery G-UI3-ui12-9 (82 windows, 12 at 150%,
+  2 earlier-slice fixes), audit `UI-12-audit-9.md` (UI-12.md section 7, "Slice 9 (batch 4)"). Fix round (`ui/ui12-9-2`, the lead's 23
+  findings): 10 new layout scripts and 9 changed (margins at 8, one right edge, lists of one height, empty bands closed, FormTaskListEdit's
+  Date label on its box's centre), the allocator windows' stock buttons UI.Button, GridRulesTests' label-centre rule (slice 9 on; 14 older
+  labels for the lead); re-plans unchanged, slice 9 106; gallery and audit updated ("Slice 9, fix round").
 - Gallery: G-UI3 per slice, the owner's rows first.
 
 **UI-13: every element type in the new look (the owner, 2026-11-22: "Overall make sure you modernize all element types")**

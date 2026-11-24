@@ -40,54 +40,54 @@ namespace OpenPmsDental{
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(51, 97);
+			this.label5.Location = new System.Drawing.Point(73, 84);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(71, 16);
+			this.label5.Size = new System.Drawing.Size(40, 23);
 			this.label5.TabIndex = 90;
 			this.label5.Text = "X Pos";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(51, 123);
+			this.label6.Location = new System.Drawing.Point(73, 111);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(71, 16);
+			this.label6.Size = new System.Drawing.Size(40, 23);
 			this.label6.TabIndex = 92;
 			this.label6.Text = "Y Pos";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label7
 			// 
-			this.label7.Location = new System.Drawing.Point(51, 149);
+			this.label7.Location = new System.Drawing.Point(69, 138);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(71, 16);
+			this.label7.Size = new System.Drawing.Size(44, 23);
 			this.label7.TabIndex = 94;
 			this.label7.Text = "Width";
 			this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label8
 			// 
-			this.label8.Location = new System.Drawing.Point(51, 175);
+			this.label8.Location = new System.Drawing.Point(65, 165);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(71, 16);
+			this.label8.Size = new System.Drawing.Size(48, 23);
 			this.label8.TabIndex = 96;
 			this.label8.Text = "Height";
 			this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(7, 71);
+			this.label1.Location = new System.Drawing.Point(17, 57);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(113, 16);
+			this.label1.Size = new System.Drawing.Size(96, 23);
 			this.label1.TabIndex = 101;
 			this.label1.Text = "Image Category";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// comboImageCategory
 			// 
-			this.comboImageCategory.Location = new System.Drawing.Point(122, 69);
+			this.comboImageCategory.Location = new System.Drawing.Point(119, 57);
 			this.comboImageCategory.Name = "comboImageCategory";
-			this.comboImageCategory.Size = new System.Drawing.Size(257, 21);
+			this.comboImageCategory.Size = new System.Drawing.Size(256, 23);
 			this.comboImageCategory.TabIndex = 106;
 			// 
 			// butDelete
@@ -95,7 +95,7 @@ namespace OpenPmsDental{
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(15, 227);
+			this.butDelete.Location = new System.Drawing.Point(8, 231);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(77, 24);
 			this.butDelete.TabIndex = 100;
@@ -104,44 +104,44 @@ namespace OpenPmsDental{
 			// 
 			// textHeight
 			// 
-			this.textHeight.Location = new System.Drawing.Point(122, 174);
+			this.textHeight.Location = new System.Drawing.Point(119, 165);
 			this.textHeight.MaxVal = 2000;
 			this.textHeight.MinVal = 1;
 			this.textHeight.Name = "textHeight";
-			this.textHeight.Size = new System.Drawing.Size(51, 20);
+			this.textHeight.Size = new System.Drawing.Size(52, 23);
 			this.textHeight.TabIndex = 97;
 			// 
 			// textWidth
 			// 
-			this.textWidth.Location = new System.Drawing.Point(122, 148);
+			this.textWidth.Location = new System.Drawing.Point(119, 138);
 			this.textWidth.MaxVal = 2000;
 			this.textWidth.MinVal = 1;
 			this.textWidth.Name = "textWidth";
-			this.textWidth.Size = new System.Drawing.Size(51, 20);
+			this.textWidth.Size = new System.Drawing.Size(52, 23);
 			this.textWidth.TabIndex = 95;
 			// 
 			// textYPos
 			// 
-			this.textYPos.Location = new System.Drawing.Point(122, 122);
+			this.textYPos.Location = new System.Drawing.Point(119, 111);
 			this.textYPos.MaxVal = 2000;
 			this.textYPos.MinVal = -100;
 			this.textYPos.Name = "textYPos";
-			this.textYPos.Size = new System.Drawing.Size(51, 20);
+			this.textYPos.Size = new System.Drawing.Size(52, 23);
 			this.textYPos.TabIndex = 93;
 			// 
 			// textXPos
 			// 
-			this.textXPos.Location = new System.Drawing.Point(122, 96);
+			this.textXPos.Location = new System.Drawing.Point(119, 84);
 			this.textXPos.MaxVal = 2000;
 			this.textXPos.MinVal = -100;
 			this.textXPos.Name = "textXPos";
-			this.textXPos.Size = new System.Drawing.Size(51, 20);
+			this.textXPos.Size = new System.Drawing.Size(52, 23);
 			this.textXPos.TabIndex = 91;
 			// 
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(387, 227);
+			this.butSave.Location = new System.Drawing.Point(391, 231);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 3;
@@ -150,9 +150,9 @@ namespace OpenPmsDental{
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(119, 9);
+			this.label2.Location = new System.Drawing.Point(119, 8);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(313, 55);
+			this.label2.Size = new System.Drawing.Size(313, 47);
 			this.label2.TabIndex = 107;
 			this.label2.Text = "The image or mount used will be the most recent one in the following category. A " +
     "different image or mount can be selected after creating the sheet.";

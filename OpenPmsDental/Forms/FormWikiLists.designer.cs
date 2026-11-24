@@ -32,9 +32,9 @@ namespace OpenPmsDental{
 			this.listWikiLists.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.listWikiLists.Location = new System.Drawing.Point(12, 12);
+			this.listWikiLists.Location = new System.Drawing.Point(8, 8);
 			this.listWikiLists.Name = "listBox1";
-			this.listWikiLists.Size = new System.Drawing.Size(197, 511);
+			this.listWikiLists.Size = new System.Drawing.Size(203, 518);
 			this.listWikiLists.TabIndex = 4;
 			this.listWikiLists.DoubleClick += new System.EventHandler(this.listWikiLists_DoubleClick);
 			// 
@@ -43,7 +43,7 @@ namespace OpenPmsDental{
 			this.butAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdd.Location = new System.Drawing.Point(215, 12);
+			this.butAdd.Location = new System.Drawing.Point(219, 8);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(75, 24);
 			this.butAdd.TabIndex = 5;

@@ -36,15 +36,15 @@ namespace OpenPmsDental{
 			// 
 			// comboManufacturer
 			// 
-			this.comboManufacturer.Location = new System.Drawing.Point(101, 83);
+			this.comboManufacturer.Location = new System.Drawing.Point(102, 62);
 			this.comboManufacturer.Name = "comboManufacturer";
-			this.comboManufacturer.Size = new System.Drawing.Size(173, 21);
+			this.comboManufacturer.Size = new System.Drawing.Size(172, 23);
 			this.comboManufacturer.TabIndex = 3;
 			// 
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(283, 132);
+			this.butSave.Location = new System.Drawing.Point(291, 136);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 4;
@@ -53,43 +53,43 @@ namespace OpenPmsDental{
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(1, 83);
+			this.label3.Location = new System.Drawing.Point(12, 62);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(98, 18);
+			this.label3.Size = new System.Drawing.Size(84, 23);
 			this.label3.TabIndex = 22;
 			this.label3.Text = "Manufacturer";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textVaccineName
 			// 
-			this.textVaccineName.Location = new System.Drawing.Point(101, 57);
+			this.textVaccineName.Location = new System.Drawing.Point(102, 35);
 			this.textVaccineName.Name = "textVaccineName";
-			this.textVaccineName.Size = new System.Drawing.Size(229, 20);
+			this.textVaccineName.Size = new System.Drawing.Size(228, 23);
 			this.textVaccineName.TabIndex = 2;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(11, 56);
+			this.label1.Location = new System.Drawing.Point(8, 35);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(88, 20);
+			this.label1.Size = new System.Drawing.Size(88, 23);
 			this.label1.TabIndex = 19;
 			this.label1.Text = "Vaccine Name";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textCVXCode
 			// 
-			this.textCVXCode.Location = new System.Drawing.Point(101, 31);
+			this.textCVXCode.Location = new System.Drawing.Point(102, 8);
 			this.textCVXCode.Name = "textCVXCode";
 			this.textCVXCode.ReadOnly = true;
-			this.textCVXCode.Size = new System.Drawing.Size(229, 20);
+			this.textCVXCode.Size = new System.Drawing.Size(228, 23);
 			this.textCVXCode.TabIndex = 0;
 			this.textCVXCode.TabStop = false;
 			// 
 			// labelCVXCode
 			// 
-			this.labelCVXCode.Location = new System.Drawing.Point(11, 30);
+			this.labelCVXCode.Location = new System.Drawing.Point(32, 8);
 			this.labelCVXCode.Name = "labelCVXCode";
-			this.labelCVXCode.Size = new System.Drawing.Size(88, 20);
+			this.labelCVXCode.Size = new System.Drawing.Size(64, 23);
 			this.labelCVXCode.TabIndex = 17;
 			this.labelCVXCode.Text = "CVX Code";
 			this.labelCVXCode.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -100,7 +100,7 @@ namespace OpenPmsDental{
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(12, 132);
+			this.butDelete.Location = new System.Drawing.Point(8, 136);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(79, 24);
 			this.butDelete.TabIndex = 6;
@@ -109,9 +109,9 @@ namespace OpenPmsDental{
 			// 
 			// butCvxSelect
 			// 
-			this.butCvxSelect.Location = new System.Drawing.Point(336, 30);
+			this.butCvxSelect.Location = new System.Drawing.Point(336, 8);
 			this.butCvxSelect.Name = "butCvxSelect";
-			this.butCvxSelect.Size = new System.Drawing.Size(22, 22);
+			this.butCvxSelect.Size = new System.Drawing.Size(22, 23);
 			this.butCvxSelect.TabIndex = 1;
 			this.butCvxSelect.Text = "...";
 			this.butCvxSelect.Click += new System.EventHandler(this.butCvxSelect_Click);

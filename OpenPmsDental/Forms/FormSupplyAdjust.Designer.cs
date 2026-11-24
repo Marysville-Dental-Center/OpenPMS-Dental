@@ -37,16 +37,16 @@ namespace OpenPmsDental {
 			//
 			// labelSupply
 			//
-			this.labelSupply.Location = new System.Drawing.Point(12, 14);
+			this.labelSupply.Location = new System.Drawing.Point(61, 8);
 			this.labelSupply.Name = "labelSupply";
-			this.labelSupply.Size = new System.Drawing.Size(100, 18);
+			this.labelSupply.Size = new System.Drawing.Size(48, 23);
 			this.labelSupply.TabIndex = 0;
 			this.labelSupply.Text = "Supply";
 			this.labelSupply.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			//
 			// textSupply
 			//
-			this.textSupply.Location = new System.Drawing.Point(115, 13);
+			this.textSupply.Location = new System.Drawing.Point(115, 8);
 			this.textSupply.Name = "textSupply";
 			this.textSupply.ReadOnly = true;
 			this.textSupply.Size = new System.Drawing.Size(300, 20);
@@ -54,41 +54,41 @@ namespace OpenPmsDental {
 			//
 			// labelLot
 			//
-			this.labelLot.Location = new System.Drawing.Point(12, 41);
+			this.labelLot.Location = new System.Drawing.Point(81, 35);
 			this.labelLot.Name = "labelLot";
-			this.labelLot.Size = new System.Drawing.Size(100, 18);
+			this.labelLot.Size = new System.Drawing.Size(28, 23);
 			this.labelLot.TabIndex = 2;
 			this.labelLot.Text = "Lot";
 			this.labelLot.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			//
 			// comboLot
 			//
-			this.comboLot.Location = new System.Drawing.Point(115, 40);
+			this.comboLot.Location = new System.Drawing.Point(115, 35);
 			this.comboLot.Name = "comboLot";
-			this.comboLot.Size = new System.Drawing.Size(300, 21);
+			this.comboLot.Size = new System.Drawing.Size(300, 23);
 			this.comboLot.TabIndex = 3;
 			//
 			// labelChange
 			//
-			this.labelChange.Location = new System.Drawing.Point(12, 68);
+			this.labelChange.Location = new System.Drawing.Point(57, 62);
 			this.labelChange.Name = "labelChange";
-			this.labelChange.Size = new System.Drawing.Size(100, 18);
+			this.labelChange.Size = new System.Drawing.Size(52, 23);
 			this.labelChange.TabIndex = 4;
 			this.labelChange.Text = "Change";
 			this.labelChange.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			//
 			// textChange
 			//
-			this.textChange.Location = new System.Drawing.Point(115, 67);
+			this.textChange.Location = new System.Drawing.Point(115, 62);
 			this.textChange.MaxVal = 1000000D;
 			this.textChange.MinVal = -1000000D;
 			this.textChange.Name = "textChange";
-			this.textChange.Size = new System.Drawing.Size(70, 20);
+			this.textChange.Size = new System.Drawing.Size(73, 23);
 			this.textChange.TabIndex = 5;
 			//
 			// labelChangeNote
 			//
-			this.labelChangeNote.Location = new System.Drawing.Point(190, 68);
+			this.labelChangeNote.Location = new System.Drawing.Point(194, 64);
 			this.labelChangeNote.Name = "labelChangeNote";
 			this.labelChangeNote.Size = new System.Drawing.Size(225, 18);
 			this.labelChangeNote.TabIndex = 6;
@@ -97,16 +97,16 @@ namespace OpenPmsDental {
 			//
 			// labelReason
 			//
-			this.labelReason.Location = new System.Drawing.Point(12, 95);
+			this.labelReason.Location = new System.Drawing.Point(57, 89);
 			this.labelReason.Name = "labelReason";
-			this.labelReason.Size = new System.Drawing.Size(100, 18);
+			this.labelReason.Size = new System.Drawing.Size(52, 23);
 			this.labelReason.TabIndex = 7;
 			this.labelReason.Text = "Reason";
 			this.labelReason.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			//
 			// textReason
 			//
-			this.textReason.Location = new System.Drawing.Point(115, 94);
+			this.textReason.Location = new System.Drawing.Point(115, 89);
 			this.textReason.MaxLength = 255;
 			this.textReason.Name = "textReason";
 			this.textReason.Size = new System.Drawing.Size(300, 20);
@@ -115,7 +115,7 @@ namespace OpenPmsDental {
 			// butSave
 			//
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(340, 130);
+			this.butSave.Location = new System.Drawing.Point(344, 134);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 9;

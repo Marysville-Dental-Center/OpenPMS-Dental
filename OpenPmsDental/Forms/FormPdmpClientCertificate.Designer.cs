@@ -34,23 +34,23 @@ namespace OpenPmsDental {
 			//
 			// labelIntro
 			//
-			this.labelIntro.Location = new System.Drawing.Point(12, 9);
+			this.labelIntro.Location = new System.Drawing.Point(8, 8);
 			this.labelIntro.Name = "labelIntro";
-			this.labelIntro.Size = new System.Drawing.Size(496, 32);
+			this.labelIntro.Size = new System.Drawing.Size(504, 34);
 			this.labelIntro.TabIndex = 0;
 			this.labelIntro.Text = "The prescription monitoring service identifies this program by a client certificate. Import the certificate file issued for this software, or use one already in the Windows certificate store.";
 			//
 			// labelClinic
 			//
-			this.labelClinic.Location = new System.Drawing.Point(12, 44);
+			this.labelClinic.Location = new System.Drawing.Point(8, 46);
 			this.labelClinic.Name = "labelClinic";
-			this.labelClinic.Size = new System.Drawing.Size(496, 18);
+			this.labelClinic.Size = new System.Drawing.Size(504, 18);
 			this.labelClinic.TabIndex = 1;
 			this.labelClinic.Text = "Clinic: Default";
 			//
 			// labelCurrent
 			//
-			this.labelCurrent.Location = new System.Drawing.Point(12, 66);
+			this.labelCurrent.Location = new System.Drawing.Point(8, 68);
 			this.labelCurrent.Name = "labelCurrent";
 			this.labelCurrent.Size = new System.Drawing.Size(200, 18);
 			this.labelCurrent.TabIndex = 2;
@@ -59,11 +59,11 @@ namespace OpenPmsDental {
 			//
 			// textCurrent
 			//
-			this.textCurrent.Location = new System.Drawing.Point(12, 86);
+			this.textCurrent.Location = new System.Drawing.Point(8, 88);
 			this.textCurrent.Multiline = true;
 			this.textCurrent.Name = "textCurrent";
 			this.textCurrent.ReadOnly = true;
-			this.textCurrent.Size = new System.Drawing.Size(496, 48);
+			this.textCurrent.Size = new System.Drawing.Size(504, 76);
 			this.textCurrent.TabIndex = 3;
 			//
 			// groupImport
@@ -74,24 +74,24 @@ namespace OpenPmsDental {
 			this.groupImport.Controls.Add(this.labelPassword);
 			this.groupImport.Controls.Add(this.textPassword);
 			this.groupImport.Controls.Add(this.butImport);
-			this.groupImport.Location = new System.Drawing.Point(12, 144);
+			this.groupImport.Location = new System.Drawing.Point(8, 172);
 			this.groupImport.Name = "groupImport";
-			this.groupImport.Size = new System.Drawing.Size(496, 98);
+			this.groupImport.Size = new System.Drawing.Size(504, 81);
 			this.groupImport.TabIndex = 4;
 			this.groupImport.Text = "Import a .pfx or .p12 file";
 			//
 			// labelFile
 			//
-			this.labelFile.Location = new System.Drawing.Point(6, 22);
+			this.labelFile.Location = new System.Drawing.Point(40, 23);
 			this.labelFile.Name = "labelFile";
-			this.labelFile.Size = new System.Drawing.Size(70, 18);
+			this.labelFile.Size = new System.Drawing.Size(32, 23);
 			this.labelFile.TabIndex = 0;
 			this.labelFile.Text = "File";
 			this.labelFile.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			//
 			// textFile
 			//
-			this.textFile.Location = new System.Drawing.Point(78, 21);
+			this.textFile.Location = new System.Drawing.Point(78, 23);
 			this.textFile.Name = "textFile";
 			this.textFile.ReadOnly = true;
 			this.textFile.Size = new System.Drawing.Size(328, 20);
@@ -99,25 +99,25 @@ namespace OpenPmsDental {
 			//
 			// butBrowse
 			//
-			this.butBrowse.Location = new System.Drawing.Point(412, 18);
+			this.butBrowse.Location = new System.Drawing.Point(412, 23);
 			this.butBrowse.Name = "butBrowse";
-			this.butBrowse.Size = new System.Drawing.Size(75, 24);
+			this.butBrowse.Size = new System.Drawing.Size(75, 23);
 			this.butBrowse.TabIndex = 2;
 			this.butBrowse.Text = "Browse...";
 			this.butBrowse.Click += new System.EventHandler(this.butBrowse_Click);
 			//
 			// labelPassword
 			//
-			this.labelPassword.Location = new System.Drawing.Point(6, 50);
+			this.labelPassword.Location = new System.Drawing.Point(8, 50);
 			this.labelPassword.Name = "labelPassword";
-			this.labelPassword.Size = new System.Drawing.Size(70, 18);
+			this.labelPassword.Size = new System.Drawing.Size(64, 23);
 			this.labelPassword.TabIndex = 3;
 			this.labelPassword.Text = "Password";
 			this.labelPassword.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			//
 			// textPassword
 			//
-			this.textPassword.Location = new System.Drawing.Point(78, 49);
+			this.textPassword.Location = new System.Drawing.Point(78, 50);
 			this.textPassword.Name = "textPassword";
 			this.textPassword.Size = new System.Drawing.Size(200, 20);
 			this.textPassword.TabIndex = 4;
@@ -125,16 +125,16 @@ namespace OpenPmsDental {
 			//
 			// butImport
 			//
-			this.butImport.Location = new System.Drawing.Point(412, 64);
+			this.butImport.Location = new System.Drawing.Point(412, 50);
 			this.butImport.Name = "butImport";
-			this.butImport.Size = new System.Drawing.Size(75, 24);
+			this.butImport.Size = new System.Drawing.Size(75, 23);
 			this.butImport.TabIndex = 5;
 			this.butImport.Text = "Import";
 			this.butImport.Click += new System.EventHandler(this.butImport_Click);
 			//
 			// butStore
 			//
-			this.butStore.Location = new System.Drawing.Point(12, 252);
+			this.butStore.Location = new System.Drawing.Point(8, 261);
 			this.butStore.Name = "butStore";
 			this.butStore.Size = new System.Drawing.Size(220, 24);
 			this.butStore.TabIndex = 5;
@@ -143,7 +143,7 @@ namespace OpenPmsDental {
 			//
 			// butRemove
 			//
-			this.butRemove.Location = new System.Drawing.Point(238, 252);
+			this.butRemove.Location = new System.Drawing.Point(234, 261);
 			this.butRemove.Name = "butRemove";
 			this.butRemove.Size = new System.Drawing.Size(75, 24);
 			this.butRemove.TabIndex = 6;
@@ -153,7 +153,7 @@ namespace OpenPmsDental {
 			// butClose
 			//
 			this.butClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butClose.Location = new System.Drawing.Point(433, 293);
+			this.butClose.Location = new System.Drawing.Point(437, 297);
 			this.butClose.Name = "butClose";
 			this.butClose.Size = new System.Drawing.Size(75, 24);
 			this.butClose.TabIndex = 7;

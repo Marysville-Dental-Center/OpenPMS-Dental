@@ -2304,7 +2304,7 @@ def cmd_plan(args):
     if args.windows:
         windows = set(args.windows.split(","))
     trees = load_tree(args.tree, windows)
-    wf = fit_tools.window_files(root, list(trees.keys()))
+    wf = fit_tools.window_files(root, list(trees.keys()), declared=True)
     planner = Planner(root)
     scope_file = os.path.join(root, args.scope_file)
     if os.path.exists(scope_file):
@@ -2489,6 +2489,28 @@ def apply_row(text, control, prop, new):
         if m:
             return text[:m.start(2)] + value + text[m.end(2):], None
         return insert_before_name_line(text, control, "this.%s.BackColor = %s;" % (control, value))
+    if prop == "Anchor":
+        # A hand row only (UI-12 slice 9, the lead's item: FormAdjMulti's Update, anchored to the bottom beside the grid's top, takes the
+        # anchor of Add above it). The new value names the edges ("Top, Right"); Top, Left is the designer's default, written as no line.
+        # A second run finds the line as it writes it (or none) and changes nothing.
+        edges = [e.strip() for e in new.split(",") if e.strip()]
+        if not edges or any(e not in ANCHOR_BITS for e in edges):
+            return text, "bad Anchor value " + new
+        pat = re.compile(r"^[ \t]*%sAnchor ?= ?[^;]+;(\r\n|\n)" % re.escape(target), re.M)
+        m = pat.search(text)
+        if set(edges) == {"Top", "Left"}:
+            if m:
+                return text[:m.start()] + text[m.end():], None
+            return text, None
+        if len(edges) == 1:
+            value = "System.Windows.Forms.AnchorStyles.%s" % edges[0]
+        else:
+            value = "((System.Windows.Forms.AnchorStyles)((%s)))" % " | ".join("System.Windows.Forms.AnchorStyles.%s" % e for e in edges)
+        line = "this.%s.Anchor = %s;" % (control, value)
+        if m:
+            indent = re.match(r"[ \t]*", text[m.start():]).group(0)
+            return text[:m.start()] + indent + line + m.group(1) + text[m.end():], None
+        return insert_before_name_line(text, control, line)
     if prop == "Visible":
         # A hand row only (UI-12 slice 3 fix round: FormCertifications' Cert Complete view, which Load hides): the control's Visible line.
         pat = re.compile(r"(%sVisible ?= ?)(true|false)(;)" % re.escape(target))
@@ -2545,7 +2567,7 @@ def cmd_anchors(args):
     windows = set(args.windows.split(",")) if args.windows else set(
         r["window"] for r in slice_data.read_dicts(slice_data.resolve(root, args.windows_file)))
     trees = load_tree(args.tree, windows)
-    wf = fit_tools.window_files(root, list(trees.keys()))
+    wf = fit_tools.window_files(root, list(trees.keys()), declared=True)
     found = 0
     for w in sorted(trees):
         files = wf.get(w) or []

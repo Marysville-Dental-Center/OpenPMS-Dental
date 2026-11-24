@@ -44,37 +44,37 @@ namespace OpenPmsDental{
 			this.groupBox1.Controls.Add(this.butViewInsPlanInto);
 			this.groupBox1.Controls.Add(this.butPickInsPlanInto);
 			this.groupBox1.Controls.Add(this.textCarrierNameInto);
-			this.groupBox1.Location = new System.Drawing.Point(9, 32);
+			this.groupBox1.Location = new System.Drawing.Point(8, 30);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(478, 50);
+			this.groupBox1.Size = new System.Drawing.Size(480, 54);
 			this.groupBox1.TabIndex = 2;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Ins plan to move subscribers to.";
 			// 
 			// butViewInsPlanInto
 			// 
-			this.butViewInsPlanInto.Location = new System.Drawing.Point(397, 18);
+			this.butViewInsPlanInto.Location = new System.Drawing.Point(397, 23);
 			this.butViewInsPlanInto.Name = "butViewInsPlanInto";
-			this.butViewInsPlanInto.Size = new System.Drawing.Size(75, 24);
+			this.butViewInsPlanInto.Size = new System.Drawing.Size(75, 23);
 			this.butViewInsPlanInto.TabIndex = 3;
 			this.butViewInsPlanInto.Text = "View";
 			this.butViewInsPlanInto.Click += new System.EventHandler(this.butViewInsPlanInto_Click);
 			// 
 			// butPickInsPlanInto
 			// 
-			this.butPickInsPlanInto.Location = new System.Drawing.Point(369, 18);
+			this.butPickInsPlanInto.Location = new System.Drawing.Point(366, 23);
 			this.butPickInsPlanInto.Name = "butPickInsPlanInto";
-			this.butPickInsPlanInto.Size = new System.Drawing.Size(25, 24);
+			this.butPickInsPlanInto.Size = new System.Drawing.Size(25, 23);
 			this.butPickInsPlanInto.TabIndex = 2;
 			this.butPickInsPlanInto.Text = "...";
 			this.butPickInsPlanInto.Click += new System.EventHandler(this.butChangePatientInto_Click);
 			// 
 			// textCarrierNameInto
 			// 
-			this.textCarrierNameInto.Location = new System.Drawing.Point(93, 20);
+			this.textCarrierNameInto.Location = new System.Drawing.Point(8, 23);
 			this.textCarrierNameInto.Name = "textCarrierNameInto";
 			this.textCarrierNameInto.ReadOnly = true;
-			this.textCarrierNameInto.Size = new System.Drawing.Size(273, 20);
+			this.textCarrierNameInto.Size = new System.Drawing.Size(352, 23);
 			this.textCarrierNameInto.TabIndex = 1;
 			// 
 			// groupBox2
@@ -84,43 +84,43 @@ namespace OpenPmsDental{
 			this.groupBox2.Controls.Add(this.butViewInsPlanFrom);
 			this.groupBox2.Controls.Add(this.butPickInsPlanFrom);
 			this.groupBox2.Controls.Add(this.textCarrierNameFrom);
-			this.groupBox2.Location = new System.Drawing.Point(9, 88);
+			this.groupBox2.Location = new System.Drawing.Point(8, 92);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(478, 50);
+			this.groupBox2.Size = new System.Drawing.Size(480, 54);
 			this.groupBox2.TabIndex = 1;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Ins plan to move subscribers from.  Hidden after subscribers are moved.";
 			// 
 			// butViewInsPlanFrom
 			// 
-			this.butViewInsPlanFrom.Location = new System.Drawing.Point(397, 18);
+			this.butViewInsPlanFrom.Location = new System.Drawing.Point(397, 23);
 			this.butViewInsPlanFrom.Name = "butViewInsPlanFrom";
-			this.butViewInsPlanFrom.Size = new System.Drawing.Size(75, 24);
+			this.butViewInsPlanFrom.Size = new System.Drawing.Size(75, 23);
 			this.butViewInsPlanFrom.TabIndex = 3;
 			this.butViewInsPlanFrom.Text = "View";
 			this.butViewInsPlanFrom.Click += new System.EventHandler(this.butViewInsPlanFrom_Click);
 			// 
 			// butPickInsPlanFrom
 			// 
-			this.butPickInsPlanFrom.Location = new System.Drawing.Point(369, 18);
+			this.butPickInsPlanFrom.Location = new System.Drawing.Point(366, 23);
 			this.butPickInsPlanFrom.Name = "butPickInsPlanFrom";
-			this.butPickInsPlanFrom.Size = new System.Drawing.Size(25, 24);
+			this.butPickInsPlanFrom.Size = new System.Drawing.Size(25, 23);
 			this.butPickInsPlanFrom.TabIndex = 2;
 			this.butPickInsPlanFrom.Text = "...";
 			this.butPickInsPlanFrom.Click += new System.EventHandler(this.butChangePatientFrom_Click);
 			// 
 			// textCarrierNameFrom
 			// 
-			this.textCarrierNameFrom.Location = new System.Drawing.Point(93, 20);
+			this.textCarrierNameFrom.Location = new System.Drawing.Point(8, 23);
 			this.textCarrierNameFrom.Name = "textCarrierNameFrom";
 			this.textCarrierNameFrom.ReadOnly = true;
-			this.textCarrierNameFrom.Size = new System.Drawing.Size(273, 20);
+			this.textCarrierNameFrom.Size = new System.Drawing.Size(352, 23);
 			this.textCarrierNameFrom.TabIndex = 1;
 			// 
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(412, 154);
+			this.butSave.Location = new System.Drawing.Point(413, 158);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 3;
@@ -129,7 +129,7 @@ namespace OpenPmsDental{
 			// 
 			// label7
 			// 
-			this.label7.Location = new System.Drawing.Point(8, 7);
+			this.label7.Location = new System.Drawing.Point(8, 8);
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(471, 20);
 			this.label7.TabIndex = 0;

@@ -32,7 +32,7 @@ namespace OpenPmsDental{
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(12, 18);
+			this.label1.Location = new System.Drawing.Point(12, 8);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(210, 15);
 			this.label1.TabIndex = 106;
@@ -41,16 +41,16 @@ namespace OpenPmsDental{
 			// 
 			// textPercentage
 			// 
-			this.textPercentage.Location = new System.Drawing.Point(15, 36);
+			this.textPercentage.Location = new System.Drawing.Point(12, 25);
 			this.textPercentage.MaxLength = 255;
 			this.textPercentage.Name = "textPercentage";
-			this.textPercentage.Size = new System.Drawing.Size(58, 20);
+			this.textPercentage.Size = new System.Drawing.Size(56, 23);
 			this.textPercentage.TabIndex = 105;
 			// 
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(226, 111);
+			this.butSave.Location = new System.Drawing.Point(230, 115);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 3;
@@ -59,7 +59,7 @@ namespace OpenPmsDental{
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(74, 39);
+			this.label2.Location = new System.Drawing.Point(74, 28);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(175, 17);
 			this.label2.TabIndex = 107;
@@ -67,7 +67,7 @@ namespace OpenPmsDental{
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(12, 73);
+			this.label3.Location = new System.Drawing.Point(12, 52);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(289, 33);
 			this.label3.TabIndex = 108;

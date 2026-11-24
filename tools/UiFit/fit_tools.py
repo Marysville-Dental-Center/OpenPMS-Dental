@@ -44,8 +44,10 @@ def designer_files(root):
     return [x for x in out if re.search(r"\.designer\.cs$", x, re.I)]
 
 
-def window_files(root, windows):
-    """Window type full name -> designer files whose base name is the type's simple name (in the type's assembly folder when it is ambiguous)."""
+def window_files(root, windows, declared=False):
+    """Window type full name -> designer files whose base name is the type's simple name (in the type's assembly folder when it is ambiguous).
+    declared=True (the grid tools, UI-12 slice 9): a window whose designer file is named otherwise (FormTaskListBlocks in
+    FormTaskListBlock.designer.cs, FormSubscriberMove in "FormSubscriberMove .designer.cs") takes the designer files that declare its class."""
     files = designer_files(root)
     by_name = collections.defaultdict(list)
     for f in files:
@@ -65,6 +67,8 @@ def window_files(root, windows):
             if not cand:
                 cand = files_declaring(root, files, simple)
         elif not cand:
+            # (slice 9 made this a declared=True option; slice 11's lead decision made it the rule for every caller, so declared is kept only
+            # for its callers and changes nothing.)
             # UI-12 slice 11 (the lead's decision of slice 8): a designer file named otherwise than its class (FormConfirmationSetup in
             # FormConfirmationsSetup.designer.cs, FormCvxs in FormCvx.designer.cs) is the designer file that declares the class.
             cand = files_declaring(root, files, simple)

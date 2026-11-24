@@ -32,7 +32,7 @@
 			this.labelTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelTitle.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.labelTitle.Location = new System.Drawing.Point(14, 11);
+			this.labelTitle.Location = new System.Drawing.Point(14, 8);
 			this.labelTitle.Name = "labelTitle";
 			this.labelTitle.Size = new System.Drawing.Size(902, 30);
 			this.labelTitle.TabIndex = 0;
@@ -45,7 +45,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelDesc.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.labelDesc.Location = new System.Drawing.Point(14, 79);
+			this.labelDesc.Location = new System.Drawing.Point(14, 40);
 			this.labelDesc.Name = "labelDesc";
 			this.labelDesc.Size = new System.Drawing.Size(902, 339);
 			this.labelDesc.TabIndex = 1;

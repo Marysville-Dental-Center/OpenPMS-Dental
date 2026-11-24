@@ -41,9 +41,9 @@ namespace OpenPmsDental.Reporting.Allocators.MyAllocator1
 						| System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
 			this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			this.dataGridView1.Location = new System.Drawing.Point(0, 13);
+			this.dataGridView1.Location = new System.Drawing.Point(0, 22);
 			this.dataGridView1.Name = "dataGridView1";
-			this.dataGridView1.Size = new System.Drawing.Size(797, 483);
+			this.dataGridView1.Size = new System.Drawing.Size(805, 482);
 			this.dataGridView1.TabIndex = 0;
 			// 
 			// panel1
@@ -53,9 +53,9 @@ namespace OpenPmsDental.Reporting.Allocators.MyAllocator1
 						| System.Windows.Forms.AnchorStyles.Right)));
 			this.panel1.Controls.Add(this.dataGridView1);
 			this.panel1.Controls.Add(this.lblDgvHeader);
-			this.panel1.Location = new System.Drawing.Point(12, 12);
+			this.panel1.Location = new System.Drawing.Point(8, 8);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(797, 496);
+			this.panel1.Size = new System.Drawing.Size(805, 504);
 			this.panel1.TabIndex = 1;
 			// 
 			// lblDgvHeader
@@ -63,7 +63,7 @@ namespace OpenPmsDental.Reporting.Allocators.MyAllocator1
 			this.lblDgvHeader.Dock = System.Windows.Forms.DockStyle.Top;
 			this.lblDgvHeader.Location = new System.Drawing.Point(0, 0);
 			this.lblDgvHeader.Name = "lblDgvHeader";
-			this.lblDgvHeader.Size = new System.Drawing.Size(797, 13);
+			this.lblDgvHeader.Size = new System.Drawing.Size(805, 18);
 			this.lblDgvHeader.TabIndex = 1;
 			this.lblDgvHeader.Text = "Provider Income Report";
 			// 

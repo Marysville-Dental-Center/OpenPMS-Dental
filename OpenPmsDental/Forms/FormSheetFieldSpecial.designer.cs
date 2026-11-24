@@ -42,7 +42,7 @@ namespace OpenPmsDental{
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(13, 23);
+			this.label2.Location = new System.Drawing.Point(8, 8);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(123, 15);
 			this.label2.TabIndex = 86;
@@ -50,80 +50,80 @@ namespace OpenPmsDental{
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(197, 117);
+			this.label5.Location = new System.Drawing.Point(235, 66);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(71, 16);
+			this.label5.Size = new System.Drawing.Size(40, 23);
 			this.label5.TabIndex = 90;
 			this.label5.Text = "X Pos";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(197, 143);
+			this.label6.Location = new System.Drawing.Point(235, 93);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(71, 16);
+			this.label6.Size = new System.Drawing.Size(40, 23);
 			this.label6.TabIndex = 92;
 			this.label6.Text = "Y Pos";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label7
 			// 
-			this.label7.Location = new System.Drawing.Point(197, 169);
+			this.label7.Location = new System.Drawing.Point(231, 120);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(71, 16);
+			this.label7.Size = new System.Drawing.Size(44, 23);
 			this.label7.TabIndex = 94;
 			this.label7.Text = "Width";
 			this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label8
 			// 
-			this.label8.Location = new System.Drawing.Point(197, 195);
+			this.label8.Location = new System.Drawing.Point(227, 147);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(71, 16);
+			this.label8.Size = new System.Drawing.Size(48, 23);
 			this.label8.TabIndex = 96;
 			this.label8.Text = "Height";
 			this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textHeight
 			// 
-			this.textHeight.Location = new System.Drawing.Point(268, 194);
+			this.textHeight.Location = new System.Drawing.Point(281, 147);
 			this.textHeight.MaxVal = 2000;
 			this.textHeight.MinVal = -100;
 			this.textHeight.Name = "textHeight";
-			this.textHeight.Size = new System.Drawing.Size(69, 20);
+			this.textHeight.Size = new System.Drawing.Size(68, 23);
 			this.textHeight.TabIndex = 97;
 			// 
 			// textWidth
 			// 
-			this.textWidth.Location = new System.Drawing.Point(268, 168);
+			this.textWidth.Location = new System.Drawing.Point(281, 120);
 			this.textWidth.MaxVal = 2000;
 			this.textWidth.MinVal = -100;
 			this.textWidth.Name = "textWidth";
-			this.textWidth.Size = new System.Drawing.Size(69, 20);
+			this.textWidth.Size = new System.Drawing.Size(68, 23);
 			this.textWidth.TabIndex = 95;
 			// 
 			// textYPos
 			// 
-			this.textYPos.Location = new System.Drawing.Point(268, 142);
+			this.textYPos.Location = new System.Drawing.Point(281, 93);
 			this.textYPos.MaxVal = 2000;
 			this.textYPos.MinVal = -100;
 			this.textYPos.Name = "textYPos";
-			this.textYPos.Size = new System.Drawing.Size(69, 20);
+			this.textYPos.Size = new System.Drawing.Size(68, 23);
 			this.textYPos.TabIndex = 93;
 			// 
 			// textXPos
 			// 
-			this.textXPos.Location = new System.Drawing.Point(268, 116);
+			this.textXPos.Location = new System.Drawing.Point(281, 66);
 			this.textXPos.MaxVal = 2000;
 			this.textXPos.MinVal = -100;
 			this.textXPos.Name = "textXPos";
-			this.textXPos.Size = new System.Drawing.Size(69, 20);
+			this.textXPos.Size = new System.Drawing.Size(68, 23);
 			this.textXPos.TabIndex = 91;
 			// 
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(391, 235);
+			this.butSave.Location = new System.Drawing.Point(395, 239);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 3;
@@ -135,7 +135,7 @@ namespace OpenPmsDental{
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(15, 235);
+			this.butDelete.Location = new System.Drawing.Point(8, 239);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(77, 24);
 			this.butDelete.TabIndex = 100;
@@ -144,15 +144,15 @@ namespace OpenPmsDental{
 			// 
 			// labelSpecialInfo
 			// 
-			this.labelSpecialInfo.Location = new System.Drawing.Point(175, 22);
+			this.labelSpecialInfo.Location = new System.Drawing.Point(175, 8);
 			this.labelSpecialInfo.Name = "labelSpecialInfo";
-			this.labelSpecialInfo.Size = new System.Drawing.Size(207, 65);
+			this.labelSpecialInfo.Size = new System.Drawing.Size(295, 50);
 			this.labelSpecialInfo.TabIndex = 101;
 			this.labelSpecialInfo.Text = "Will contain information pertaining to the type of special field selected.";
 			// 
 			// listBoxAvailable
 			// 
-			this.listBoxAvailable.Location = new System.Drawing.Point(16, 41);
+			this.listBoxAvailable.Location = new System.Drawing.Point(8, 25);
 			this.listBoxAvailable.Name = "listBoxAvailable";
 			this.listBoxAvailable.Size = new System.Drawing.Size(153, 173);
 			this.listBoxAvailable.TabIndex = 103;
@@ -160,17 +160,17 @@ namespace OpenPmsDental{
 			// 
 			// comboGrowthBehavior
 			// 
-			this.comboGrowthBehavior.Location = new System.Drawing.Point(269, 89);
+			this.comboGrowthBehavior.Location = new System.Drawing.Point(281, 174);
 			this.comboGrowthBehavior.Name = "comboGrowthBehavior";
-			this.comboGrowthBehavior.Size = new System.Drawing.Size(197, 21);
+			this.comboGrowthBehavior.Size = new System.Drawing.Size(189, 23);
 			this.comboGrowthBehavior.TabIndex = 116;
 			this.comboGrowthBehavior.Visible = false;
 			// 
 			// labelGrowth
 			// 
-			this.labelGrowth.Location = new System.Drawing.Point(175, 90);
+			this.labelGrowth.Location = new System.Drawing.Point(175, 174);
 			this.labelGrowth.Name = "labelGrowth";
-			this.labelGrowth.Size = new System.Drawing.Size(94, 16);
+			this.labelGrowth.Size = new System.Drawing.Size(100, 23);
 			this.labelGrowth.TabIndex = 115;
 			this.labelGrowth.Text = "Growth Behavior";
 			this.labelGrowth.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

@@ -33,26 +33,26 @@ namespace OpenPmsDental{
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(13, 47);
+			this.label2.Location = new System.Drawing.Point(8, 43);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(108, 16);
+			this.label2.Size = new System.Drawing.Size(185, 16);
 			this.label2.TabIndex = 86;
 			this.label2.Text = "Exam Sheet";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// listBoxExamSheets
 			// 
-			this.listBoxExamSheets.Location = new System.Drawing.Point(15, 66);
+			this.listBoxExamSheets.Location = new System.Drawing.Point(8, 63);
 			this.listBoxExamSheets.Name = "listBoxExamSheets";
-			this.listBoxExamSheets.Size = new System.Drawing.Size(142, 290);
+			this.listBoxExamSheets.Size = new System.Drawing.Size(185, 290);
 			this.listBoxExamSheets.TabIndex = 85;
 			this.listBoxExamSheets.MouseClick += new System.Windows.Forms.MouseEventHandler(this.listExamSheets_MouseClick);
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(13, 9);
+			this.label1.Location = new System.Drawing.Point(8, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(369, 33);
+			this.label1.Size = new System.Drawing.Size(378, 33);
 			this.label1.TabIndex = 87;
 			this.label1.Text = "The value for this field will be retrieved later from the most recent exam sheet." +
     "";
@@ -60,7 +60,7 @@ namespace OpenPmsDental{
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(307, 376);
+			this.butOK.Location = new System.Drawing.Point(311, 380);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 24);
 			this.butOK.TabIndex = 3;
@@ -69,18 +69,18 @@ namespace OpenPmsDental{
 			// 
 			// label10
 			// 
-			this.label10.Location = new System.Drawing.Point(193, 47);
+			this.label10.Location = new System.Drawing.Point(201, 43);
 			this.label10.Name = "label10";
-			this.label10.Size = new System.Drawing.Size(108, 16);
+			this.label10.Size = new System.Drawing.Size(185, 16);
 			this.label10.TabIndex = 102;
 			this.label10.Text = "Available Fields";
 			this.label10.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// listBoxAvailFields
 			// 
-			this.listBoxAvailFields.Location = new System.Drawing.Point(195, 66);
+			this.listBoxAvailFields.Location = new System.Drawing.Point(201, 63);
 			this.listBoxAvailFields.Name = "listBoxAvailFields";
-			this.listBoxAvailFields.Size = new System.Drawing.Size(142, 290);
+			this.listBoxAvailFields.Size = new System.Drawing.Size(185, 290);
 			this.listBoxAvailFields.TabIndex = 101;
 			this.listBoxAvailFields.DoubleClick += new System.EventHandler(this.listAvailFields_DoubleClick);
 			// 

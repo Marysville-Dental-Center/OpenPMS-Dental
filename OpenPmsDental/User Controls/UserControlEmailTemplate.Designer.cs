@@ -55,7 +55,7 @@
 			// labelNoHtml
 			// 
 			this.labelNoHtml.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelNoHtml.Location = new System.Drawing.Point(705, 0);
+			this.labelNoHtml.Location = new System.Drawing.Point(705, 8);
 			this.labelNoHtml.Name = "labelNoHtml";
 			this.labelNoHtml.Size = new System.Drawing.Size(162, 18);
 			this.labelNoHtml.TabIndex = 112;
@@ -74,7 +74,7 @@
 			this.tableLayoutPanel1.Controls.Add(this.textboxPlainText, 0, 1);
 			this.tableLayoutPanel1.Controls.Add(this.labelHtml, 1, 0);
 			this.tableLayoutPanel1.Controls.Add(this.labelPlainText, 0, 0);
-			this.tableLayoutPanel1.Location = new System.Drawing.Point(6, 21);
+			this.tableLayoutPanel1.Location = new System.Drawing.Point(8, 28);
 			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
 			this.tableLayoutPanel1.RowCount = 2;
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
@@ -117,7 +117,7 @@
 			this.Controls.Add(this.tableLayoutPanel1);
 			this.Controls.Add(this.labelNoHtml);
 			this.Name = "UserControlEmailTemplate";
-			this.Size = new System.Drawing.Size(870, 269);
+			this.Size = new System.Drawing.Size(870, 281);
 			this.tableLayoutPanel1.ResumeLayout(false);
 			this.ResumeLayout(false);
 

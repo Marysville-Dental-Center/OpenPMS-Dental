@@ -31,7 +31,7 @@ namespace OpenPmsDental {
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(140, 47);
+			this.butSave.Location = new System.Drawing.Point(135, 51);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 3;
@@ -40,17 +40,18 @@ namespace OpenPmsDental {
 			// 
 			// textBox1
 			// 
-			this.textBox1.Location = new System.Drawing.Point(68, 12);
+			this.textBox1.Location = new System.Drawing.Point(68, 8);
 			this.textBox1.Name = "textBox1";
 			this.textBox1.Size = new System.Drawing.Size(100, 20);
 			this.textBox1.TabIndex = 4;
 			// 
 			// label1
 			// 
-			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(19, 15);
+			this.label1.AutoSize = false;
+			this.label1.Location = new System.Drawing.Point(10, 8);
+			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(42, 13);
+			this.label1.Size = new System.Drawing.Size(52, 23);
 			this.label1.TabIndex = 5;
 			this.label1.Text = "Months";
 			// 

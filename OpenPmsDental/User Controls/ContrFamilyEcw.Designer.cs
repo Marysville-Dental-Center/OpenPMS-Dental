@@ -29,9 +29,9 @@
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(26,80);
+			this.label1.Location = new System.Drawing.Point(8,8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(100,17);
+			this.label1.Size = new System.Drawing.Size(80,23);
 			this.label1.TabIndex = 1;
 			this.label1.Text = "Fee Schedule";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -40,10 +40,10 @@
 			// 
 			this.comboFeeSched.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboFeeSched.FormattingEnabled = true;
-			this.comboFeeSched.Location = new System.Drawing.Point(129,78);
+			this.comboFeeSched.Location = new System.Drawing.Point(94,8);
 			this.comboFeeSched.MaxDropDownItems = 30;
 			this.comboFeeSched.Name = "comboFeeSched";
-			this.comboFeeSched.Size = new System.Drawing.Size(198,21);
+			this.comboFeeSched.Size = new System.Drawing.Size(200,23);
 			this.comboFeeSched.TabIndex = 21;
 			this.comboFeeSched.SelectionChangeCommitted += new System.EventHandler(this.comboFeeSched_SelectionChangeCommitted);
 			// 

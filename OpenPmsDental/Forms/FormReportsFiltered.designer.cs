@@ -28,10 +28,10 @@ namespace OpenPmsDental{
 			// 
 			// listBoxFavorites
 			// 
-			this.listBoxFavorites.Location = new System.Drawing.Point(13, 12);
+			this.listBoxFavorites.Location = new System.Drawing.Point(8, 8);
 			this.listBoxFavorites.Name = "listBoxFavorites";
 			this.listBoxFavorites.SelectionMode = OpenPmsDental.UI.SelectionMode.None;
-			this.listBoxFavorites.Size = new System.Drawing.Size(351, 605);
+			this.listBoxFavorites.Size = new System.Drawing.Size(375, 622);
 			this.listBoxFavorites.TabIndex = 5;
 			this.listBoxFavorites.MouseDown += new System.Windows.Forms.MouseEventHandler(this.listBoxFavorites_MouseDown);
 			// 

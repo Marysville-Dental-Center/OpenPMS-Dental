@@ -45,7 +45,7 @@ namespace OpenPmsDental {
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(554, 236);
+			this.butSave.Location = new System.Drawing.Point(558, 240);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 25);
 			this.butSave.TabIndex = 1;
@@ -54,10 +54,10 @@ namespace OpenPmsDental {
 			// 
 			// textQuestion
 			// 
-			this.textQuestion.Location = new System.Drawing.Point(118, 68);
+			this.textQuestion.Location = new System.Drawing.Point(118, 42);
 			this.textQuestion.Multiline = true;
 			this.textQuestion.Name = "textQuestion";
-			this.textQuestion.Size = new System.Drawing.Size(475, 151);
+			this.textQuestion.Size = new System.Drawing.Size(475, 186);
 			this.textQuestion.TabIndex = 0;
 			// 
 			// buttonDelete
@@ -65,7 +65,7 @@ namespace OpenPmsDental {
 			this.buttonDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.buttonDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.buttonDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.buttonDelete.Location = new System.Drawing.Point(64, 236);
+			this.buttonDelete.Location = new System.Drawing.Point(8, 240);
 			this.buttonDelete.Name = "buttonDelete";
 			this.buttonDelete.Size = new System.Drawing.Size(82, 25);
 			this.buttonDelete.TabIndex = 3;
@@ -74,25 +74,25 @@ namespace OpenPmsDental {
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(12, 65);
+			this.label1.Location = new System.Drawing.Point(52, 42);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(100, 23);
+			this.label1.Size = new System.Drawing.Size(60, 23);
 			this.label1.TabIndex = 5;
 			this.label1.Text = "Question";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(12, 12);
+			this.label2.Location = new System.Drawing.Point(76, 8);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(100, 23);
+			this.label2.Size = new System.Drawing.Size(36, 23);
 			this.label2.TabIndex = 6;
 			this.label2.Text = "Type";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// listType
 			// 
-			this.listType.Location = new System.Drawing.Point(118, 16);
+			this.listType.Location = new System.Drawing.Point(118, 8);
 			this.listType.Name = "listType";
 			this.listType.Size = new System.Drawing.Size(120, 30);
 			this.listType.TabIndex = 7;

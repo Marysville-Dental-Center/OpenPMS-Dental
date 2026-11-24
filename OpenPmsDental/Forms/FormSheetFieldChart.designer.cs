@@ -34,7 +34,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(316, 137);
+			this.butSave.Location = new System.Drawing.Point(320, 141);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 3;
@@ -46,7 +46,7 @@ namespace OpenPmsDental{
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(12, 137);
+			this.butDelete.Location = new System.Drawing.Point(8, 141);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(77, 24);
 			this.butDelete.TabIndex = 100;
@@ -57,18 +57,18 @@ namespace OpenPmsDental{
 			// 
 			this.groupBox1.Controls.Add(this.radioPermanent);
 			this.groupBox1.Controls.Add(this.radioPrimary);
-			this.groupBox1.Location = new System.Drawing.Point(88, 37);
+			this.groupBox1.Location = new System.Drawing.Point(8, 8);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(225, 74);
+			this.groupBox1.Size = new System.Drawing.Size(387, 75);
 			this.groupBox1.TabIndex = 101;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Chart Type";
 			// 
 			// radioPermanent
 			// 
-			this.radioPermanent.Location = new System.Drawing.Point(17, 44);
+			this.radioPermanent.Location = new System.Drawing.Point(8, 47);
 			this.radioPermanent.Name = "radioPermanent";
-			this.radioPermanent.Size = new System.Drawing.Size(202, 17);
+			this.radioPermanent.Size = new System.Drawing.Size(115, 20);
 			this.radioPermanent.TabIndex = 1;
 			this.radioPermanent.TabStop = true;
 			this.radioPermanent.Text = "Permanent Teeth";
@@ -76,9 +76,9 @@ namespace OpenPmsDental{
 			// 
 			// radioPrimary
 			// 
-			this.radioPrimary.Location = new System.Drawing.Point(17, 21);
+			this.radioPrimary.Location = new System.Drawing.Point(8, 23);
 			this.radioPrimary.Name = "radioPrimary";
-			this.radioPrimary.Size = new System.Drawing.Size(202, 17);
+			this.radioPrimary.Size = new System.Drawing.Size(98, 20);
 			this.radioPrimary.TabIndex = 0;
 			this.radioPrimary.TabStop = true;
 			this.radioPrimary.Text = "Primary Teeth";
