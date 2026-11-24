@@ -241,6 +241,15 @@ namespace UiRefreshTests {
 				//fix round: the page alone too (its permission mode is the state "permission").
 				SetReportSetupMode(root,isPermissionMode:state=="permission");
 			}
+			if(window=="OpenPmsDentalGraph.DashboardTabCtrl" && FindByName(root,"tabControl") is System.Windows.Forms.TabControl tabControlDashboard
+				&& tabControlDashboard.TabCount==0)
+			{
+				//UI-PLAIN: the dashboard adds a page per saved dashboard tab from the database (its Load); the picture shows two synthetic ones, the
+				//first selected, so the stock tab control's look (UiTabLook) shows.
+				tabControlDashboard.TabPages.Add(new System.Windows.Forms.TabPage("Production"));
+				tabControlDashboard.TabPages.Add(new System.Windows.Forms.TabPage("Appointments"));
+				tabControlDashboard.SelectedIndex=0;
+			}
 			if(window=="CentralManager.FormCentralReportSetup") {
 				//UI-12 slice 4 fix round: both callers open it in permission mode (FormCentralManager, FormCentralSecurity).
 				SetReportSetupMode(root,isPermissionMode:true);
