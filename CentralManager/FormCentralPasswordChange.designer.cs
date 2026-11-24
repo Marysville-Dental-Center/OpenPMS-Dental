@@ -61,7 +61,6 @@ namespace CentralManager{
 			// 
 			// label4
 			// 
-			this.label4.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.label4.Location = new System.Drawing.Point(38,84);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(88,23);
@@ -71,7 +70,6 @@ namespace CentralManager{
 			// 
 			// label1
 			// 
-			this.label1.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.label1.Location = new System.Drawing.Point(30,8);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(380,47);
@@ -83,7 +81,6 @@ namespace CentralManager{
 			// 
 			// label2
 			// 
-			this.label2.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.label2.Location = new System.Drawing.Point(46,57);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(80,23);

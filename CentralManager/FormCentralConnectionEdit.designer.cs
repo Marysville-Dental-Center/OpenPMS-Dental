@@ -76,7 +76,6 @@ namespace CentralManager{
 			// 
 			// label2
 			// 
-			this.label2.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.label2.Location = new System.Drawing.Point(45, 23);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(76, 23);
@@ -104,7 +103,6 @@ namespace CentralManager{
 			// 
 			// label4
 			// 
-			this.label4.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.label4.Location = new System.Drawing.Point(41, 23);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(80, 23);
@@ -121,7 +119,6 @@ namespace CentralManager{
 			// 
 			// label5
 			// 
-			this.label5.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.label5.Location = new System.Drawing.Point(61, 50);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(60, 23);
@@ -138,7 +135,6 @@ namespace CentralManager{
 			// 
 			// label6
 			// 
-			this.label6.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.label6.Location = new System.Drawing.Point(49, 77);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(72, 23);
@@ -157,7 +153,6 @@ namespace CentralManager{
 			// 
 			// label7
 			// 
-			this.label7.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.label7.Location = new System.Drawing.Point(21, 104);
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(100, 23);
@@ -197,7 +192,6 @@ namespace CentralManager{
 			// checkWebServiceIsEcw
 			// 
 			this.checkWebServiceIsEcw.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkWebServiceIsEcw.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.checkWebServiceIsEcw.Location = new System.Drawing.Point(127, 50);
 			this.checkWebServiceIsEcw.Name = "checkWebServiceIsEcw";
 			this.checkWebServiceIsEcw.Size = new System.Drawing.Size(140, 18);
@@ -216,7 +210,6 @@ namespace CentralManager{
 			// 
 			// label9
 			// 
-			this.label9.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.label9.Location = new System.Drawing.Point(89, 276);
 			this.label9.Name = "label9";
 			this.label9.Size = new System.Drawing.Size(40, 23);
@@ -226,7 +219,6 @@ namespace CentralManager{
 			// 
 			// label10
 			// 
-			this.label10.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.label10.Location = new System.Drawing.Point(8, 151);
 			this.label10.Name = "label10";
 			this.label10.Size = new System.Drawing.Size(111, 17);
@@ -237,7 +229,6 @@ namespace CentralManager{
 			// checkClinicBreakdown
 			// 
 			this.checkClinicBreakdown.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkClinicBreakdown.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.checkClinicBreakdown.Location = new System.Drawing.Point(135, 254);
 			this.checkClinicBreakdown.Name = "checkClinicBreakdown";
 			this.checkClinicBreakdown.Size = new System.Drawing.Size(208, 18);

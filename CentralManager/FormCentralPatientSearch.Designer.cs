@@ -115,7 +115,6 @@
 			this.groupBox2.Controls.Add(this.label3);
 			this.groupBox2.Controls.Add(this.textLName);
 			this.groupBox2.Controls.Add(this.label1);
-			this.groupBox2.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.groupBox2.Location = new System.Drawing.Point(515, 52);
 			this.groupBox2.Name = "groupBox2";
 			this.groupBox2.Size = new System.Drawing.Size(220, 488);
@@ -125,7 +124,6 @@
 			// 
 			// checkGuarantors
 			// 
-			this.checkGuarantors.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.checkGuarantors.Location = new System.Drawing.Point(8, 418);
 			this.checkGuarantors.Name = "checkGuarantors";
 			this.checkGuarantors.Size = new System.Drawing.Size(147, 18);
@@ -219,7 +217,6 @@
 			// 
 			// checkHideArchived
 			// 
-			this.checkHideArchived.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.checkHideArchived.Location = new System.Drawing.Point(8, 462);
 			this.checkHideArchived.Name = "checkHideArchived";
 			this.checkHideArchived.Size = new System.Drawing.Size(159, 18);
@@ -313,7 +310,6 @@
 			// 
 			// checkHideInactive
 			// 
-			this.checkHideInactive.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.checkHideInactive.Location = new System.Drawing.Point(8, 440);
 			this.checkHideInactive.Name = "checkHideInactive";
 			this.checkHideInactive.Size = new System.Drawing.Size(143, 18);
@@ -412,7 +408,6 @@
 			this.checkLimit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.checkLimit.Checked = true;
 			this.checkLimit.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkLimit.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.checkLimit.Location = new System.Drawing.Point(515, 548);
 			this.checkLimit.Name = "checkLimit";
 			this.checkLimit.Size = new System.Drawing.Size(199, 18);

@@ -308,7 +308,6 @@
 			// checkDomainLoginEnabled
 			// 
 			this.checkDomainLoginEnabled.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkDomainLoginEnabled.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.checkDomainLoginEnabled.Location = new System.Drawing.Point(95, 23);
 			this.checkDomainLoginEnabled.Name = "checkDomainLoginEnabled";
 			this.checkDomainLoginEnabled.Size = new System.Drawing.Size(147, 18);

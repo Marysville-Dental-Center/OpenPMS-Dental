@@ -48,7 +48,6 @@
 			// 
 			// label1
 			// 
-			this.label1.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.label1.Location = new System.Drawing.Point(384, 8);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(48, 23);
@@ -77,7 +76,6 @@
 			// 
 			// label3
 			// 
-			this.label3.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.label3.Location = new System.Drawing.Point(48, 8);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(116, 23);
@@ -100,7 +98,6 @@
 			// 
 			// label2
 			// 
-			this.label2.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.label2.Location = new System.Drawing.Point(91, 82);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(96, 17);
@@ -223,7 +220,6 @@
 			// 
 			// label5
 			// 
-			this.label5.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.label5.Location = new System.Drawing.Point(8, 42);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(165, 17);
@@ -232,7 +228,6 @@
 			// 
 			// label4
 			// 
-			this.label4.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.label4.Location = new System.Drawing.Point(8, 23);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(165, 17);

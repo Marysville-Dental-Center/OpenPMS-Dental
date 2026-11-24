@@ -124,7 +124,6 @@ namespace CentralManager {
 			this.groupBox2.Controls.Add(this.textDateTo);
 			this.groupBox2.Controls.Add(this.label3);
 			this.groupBox2.Controls.Add(this.butLeft);
-			this.groupBox2.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.groupBox2.Location = new System.Drawing.Point(85, 39);
 			this.groupBox2.Name = "groupBox2";
 			this.groupBox2.Size = new System.Drawing.Size(281, 109);
@@ -214,7 +213,6 @@ namespace CentralManager {
 			this.groupBox1.Controls.Add(this.radioAnnual);
 			this.groupBox1.Controls.Add(this.radioDaily);
 			this.groupBox1.Controls.Add(this.radioMonthly);
-			this.groupBox1.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.groupBox1.Location = new System.Drawing.Point(35, 156);
 			this.groupBox1.Name = "groupBox1";
 			this.groupBox1.Size = new System.Drawing.Size(123, 115);
@@ -224,7 +222,6 @@ namespace CentralManager {
 			// 
 			// radioProvider
 			// 
-			this.radioProvider.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.radioProvider.Location = new System.Drawing.Point(8, 89);
 			this.radioProvider.Name = "radioProvider";
 			this.radioProvider.Size = new System.Drawing.Size(73, 18);
@@ -235,7 +232,6 @@ namespace CentralManager {
 			// radioAnnual
 			// 
 			this.radioAnnual.Checked = true;
-			this.radioAnnual.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.radioAnnual.Location = new System.Drawing.Point(8, 67);
 			this.radioAnnual.Name = "radioAnnual";
 			this.radioAnnual.Size = new System.Drawing.Size(67, 18);
@@ -246,7 +242,6 @@ namespace CentralManager {
 			// 
 			// radioDaily
 			// 
-			this.radioDaily.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.radioDaily.Location = new System.Drawing.Point(8, 23);
 			this.radioDaily.Name = "radioDaily";
 			this.radioDaily.Size = new System.Drawing.Size(55, 18);
@@ -256,7 +251,6 @@ namespace CentralManager {
 			// 
 			// radioMonthly
 			// 
-			this.radioMonthly.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.radioMonthly.Location = new System.Drawing.Point(8, 45);
 			this.radioMonthly.Name = "radioMonthly";
 			this.radioMonthly.Size = new System.Drawing.Size(74, 18);
@@ -268,7 +262,6 @@ namespace CentralManager {
 			// 
 			this.checkShowUnearned.Checked = true;
 			this.checkShowUnearned.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkShowUnearned.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.checkShowUnearned.Location = new System.Drawing.Point(164, 256);
 			this.checkShowUnearned.Name = "checkShowUnearned";
 			this.checkShowUnearned.Size = new System.Drawing.Size(122, 18);

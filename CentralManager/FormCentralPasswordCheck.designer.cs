@@ -59,7 +59,6 @@ namespace CentralManager{
 			// 
 			// label4
 			// 
-			this.label4.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.label4.Location = new System.Drawing.Point(28,8);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(92,23);

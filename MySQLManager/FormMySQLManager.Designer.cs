@@ -54,7 +54,6 @@
 			this.groupConnection.Controls.Add(this.textPassword);
 			this.groupConnection.Controls.Add(this.label2);
 			this.groupConnection.Controls.Add(this.label3);
-			this.groupConnection.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.groupConnection.Location = new System.Drawing.Point(8, 8);
 			this.groupConnection.Name = "groupConnection";
 			this.groupConnection.Size = new System.Drawing.Size(608, 152);

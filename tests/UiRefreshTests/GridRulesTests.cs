@@ -130,7 +130,8 @@ namespace UiRefreshTests {
 					sizeLine=TextFitMeasurer.MeasureLineGdi("Ag",control.Font,flags);
 				}
 				int countLines=(int)Math.Round(sizeWrapped.Height/(double)Math.Max(1,sizeLine.Height));
-				detail="wrapped "+sizeWrapped.Width+"x"+sizeWrapped.Height+" ("+countLines+" lines of "+sizeLine.Height+") in "+control.Width+"x"+control.Height;
+				detail="wrapped "+sizeWrapped.Width+"x"+sizeWrapped.Height+" ("+countLines+" lines of "+sizeLine.Height+") in "+control.Width+"x"+control.Height
+					+" (preferred width "+control.GetPreferredSize(Size.Empty).Width+")";
 				return countLines>=2 && sizeWrapped.Height>control.Height+3;
 			}
 			TextFitResult result=TextFitMeasurer.Measure(control,1f);
