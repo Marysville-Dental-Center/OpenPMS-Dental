@@ -108,6 +108,46 @@ namespace UiRefreshTests.Scan {
 			}
 		}
 
+		///<summary>The preferences a window's InitializeComponent reads, in the preference cache while it runs (Dispose takes them out again and
+		///leaves the cache as it was). FormRecallList: its clinic pickers' IncludeAll setters read EasyNoClinics (PrefC.HasClinicsEnabled) before
+		///the builder can set their no-database mode; "1" (clinics off) reads no clinic cache. Null for every other window.</summary>
+		public static IDisposable PrefsForInitializeComponent(Type type) {
+			if(type.FullName!="OpenPmsDental.FormRecallList") {
+				return null;
+			}
+			return new PrefScope(PrefName.EasyNoClinics.ToString(),"1");
+		}
+
+		///<summary>One preference in the cache for a while: the cache filled with it alone when empty (cleared again), else the key added (removed
+		///again) when the cache has not got it.</summary>
+		private class PrefScope:IDisposable {
+			private readonly object _prefCache;
+			private readonly string _key;
+			private readonly bool _wasEmpty;
+			private readonly bool _wasAdded;
+
+			public PrefScope(string key,string value) {
+				_key=key;
+				_prefCache=typeof(Prefs).GetProperty("_prefCache",BindingFlags.Static|BindingFlags.NonPublic).GetValue(null);
+				Pref pref=new Pref { PrefNum=1,PrefName=key,ValueString=value,Comments="" };
+				_wasEmpty=(bool)_prefCache.GetType().GetMethod("DictIsNull").Invoke(_prefCache,null);
+				if(_wasEmpty) {
+					Prefs.FillCacheFromTable(OpenPmsDentalBusiness.Crud.PrefCrud.ListToTable(new List<Pref> { pref }));
+					return;
+				}
+				_wasAdded=(bool)_prefCache.GetType().GetMethod("AddValueForKey").Invoke(_prefCache,new object[] { key,pref,false });
+			}
+
+			public void Dispose() {
+				if(_wasEmpty) {
+					Prefs.ClearCache();
+				}
+				else if(_wasAdded) {
+					_prefCache.GetType().GetMethod("RemoveKey").Invoke(_prefCache,new object[] { _key });
+				}
+			}
+		}
+
 		///<summary>FillCarePlans' columns (FormEhrCarePlans.cs): Date 66 px, Goal and Instructions halves of the rest of the grid's width.</summary>
 		private static void FillCarePlanColumns(FormODBase formODBase) {
 			OpenPmsDental.UI.GridOD gridOD=(OpenPmsDental.UI.GridOD)formODBase.GetType().GetField("gridCarePlans",FLAGS).GetValue(formODBase);
@@ -123,12 +163,12 @@ namespace UiRefreshTests.Scan {
 			gridOD.EndUpdate();
 		}
 
-		private static void SetClinicPickersNoDb(Control control) {
-			foreach(Control child in control.Controls) {
-				if(child is OpenPmsDental.UI.ComboBoxClinicPicker comboBoxClinicPicker) {
+		///<summary>Every clinic picker field of the window (the pickers on tab pages not shown are not in the control tree yet).</summary>
+		private static void SetClinicPickersNoDb(Form form) {
+			foreach(FieldInfo fieldInfo in form.GetType().GetFields(FLAGS)) {
+				if(fieldInfo.GetValue(form) is OpenPmsDental.UI.ComboBoxClinicPicker comboBoxClinicPicker) {
 					comboBoxClinicPicker.IsTestModeNoDb=true;
 				}
-				SetClinicPickersNoDb(child);
 			}
 		}
 
