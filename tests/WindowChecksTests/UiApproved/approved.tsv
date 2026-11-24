@@ -3739,3 +3739,7 @@ windows-100/FormInsPayFix.png	436x138	ba810cf8199671d38657d5412116e9afc2c03e0207
 1-slice-windows/RdlEditPreview.png	488x376	438b9b37ccfddf9a75f37f802f61ffd5ca2a25241b1cc72a36c195fad57c401b	G-UI3-ui12-15	e8ccedbb5	2026-11-24
 1-slice-windows/RdlEditPreview-browser.png	488x376	927119cd6c51e331af0d39c9562c2839cbcd46e7aa4cfcba6ce770f0cfa1c99e	G-UI3-ui12-15	e8ccedbb5	2026-11-24
 1-slice-windows/RdlEditPreview-editor.png	488x376	85d18a39935e0d1e5e7d18c930399a5a154f2bcf5cf6bc0eac62dfe2d62fd6e8	G-UI3-ui12-15	e8ccedbb5	2026-11-24
+windows-100/GraphQuantityOverTime-loading.png	900x463	d720b262a82da28613832ee1b1818d80411de7cd5ab5b4ca8f3be772f0d61415	G-UI3-uiload	3c64a49d1	2026-11-24
+windows-150/GraphQuantityOverTime-loading-150.png	1350x694	b8bb8c4853b6f7000ec8a02c5a36ecf40138e25cb00ca40b6f7b96a91dcbcb2b	G-UI3-uiload	3c64a49d1	2026-11-24
+windows-100/FormWarnToCloseComputers.png	783x297	a394b84891e8a814ad95811bf784ab9ef382b935f630ee8f882d1653bb3af4e5	G-UI3-uiload	3c64a49d1	2026-11-24
+windows-150/FormWarnToCloseComputers-150.png	1174x446	c51154be94c609bddfd260531595219bc7d31c533b476a37222a0ab97d61bdc0	G-UI3-uiload	3c64a49d1	2026-11-24
