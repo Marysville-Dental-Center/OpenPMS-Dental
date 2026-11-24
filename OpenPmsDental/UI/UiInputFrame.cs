@@ -419,16 +419,32 @@ namespace OpenPmsDental.UI {
 				return IntPtr.Zero;
 			}
 			IntPtr hRgn=CreateRectRgn(rectWindow.Left,rectWindow.Top,rectWindow.Right,rectWindow.Bottom);
-			if(hRgnUpdate!=IntPtr.Zero && hRgnUpdate!=(IntPtr)1) {
-				CombineRgn(hRgn,hRgn,hRgnUpdate,RGN_AND);
+			if(hRgn==IntPtr.Zero) {
+				return IntPtr.Zero;
 			}
-			IntPtr hRgnFrame=CreateFrameRegion(rectWindow.Left,rectWindow.Top);
-			CombineRgn(hRgn,hRgn,hRgnFrame,RGN_DIFF);
-			DeleteObject(hRgnFrame);
-			foreach(Rectangle rectangleBar in UiScrollLook.GetFrameBarRectanglesScreen(_control)) {
-				IntPtr hRgnBar=CreateRectRgn(rectangleBar.Left,rectangleBar.Top,rectangleBar.Right,rectangleBar.Bottom);
-				CombineRgn(hRgn,hRgn,hRgnBar,RGN_DIFF);
-				DeleteObject(hRgnBar);
+			try {
+				if(hRgnUpdate!=IntPtr.Zero && hRgnUpdate!=(IntPtr)1) {
+					CombineRgn(hRgn,hRgn,hRgnUpdate,RGN_AND);
+				}
+				IntPtr hRgnFrame=CreateFrameRegion(rectWindow.Left,rectWindow.Top);
+				CombineRgn(hRgn,hRgn,hRgnFrame,RGN_DIFF);
+				DeleteObject(hRgnFrame);
+				List<Rectangle> listRectanglesOut=new List<Rectangle>(UiScrollLook.GetFrameBarRectanglesScreen(_control));
+				//Both bars: the square between them too (UiScrollLook fills it), so Windows never paints it first (review of UI-FOCUS, point 3).
+				Rectangle rectangleVertical=listRectanglesOut.Find(x => x.Height>x.Width);
+				Rectangle rectangleHorizontal=listRectanglesOut.Find(x => x.Width>x.Height);
+				if(!rectangleVertical.IsEmpty && !rectangleHorizontal.IsEmpty) {
+					listRectanglesOut.Add(Rectangle.FromLTRB(rectangleVertical.Left,rectangleHorizontal.Top,rectangleVertical.Right,rectangleHorizontal.Bottom));
+				}
+				foreach(Rectangle rectangleOut in listRectanglesOut) {
+					IntPtr hRgnOut=CreateRectRgn(rectangleOut.Left,rectangleOut.Top,rectangleOut.Right,rectangleOut.Bottom);
+					CombineRgn(hRgn,hRgn,hRgnOut,RGN_DIFF);
+					DeleteObject(hRgnOut);
+				}
+			}
+			catch {
+				DeleteObject(hRgn);//Not leaked when building the region fails (review of UI-FOCUS, point 2); the caller paints as Windows does.
+				return IntPtr.Zero;
 			}
 			return hRgn;
 		}
@@ -440,6 +456,9 @@ namespace OpenPmsDental.UI {
 		private void ValidateFrameInClient() {
 			Point pointClient=GetClientOffset(Handle);
 			IntPtr hRgn=CreateFrameRegion(-pointClient.X,-pointClient.Y);
+			if(hRgn==IntPtr.Zero) {
+				return;//ValidateRgn with no region would validate the whole client area (review of UI-FOCUS, point 1).
+			}
 			try {
 				ValidateRgn(Handle,hRgn);
 			}
