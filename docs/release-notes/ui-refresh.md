@@ -21,6 +21,9 @@ comes with the update, and every setting, colour and picture the office chose st
 - **Toolbars and menus.** Flat light-grey toolbars and menus, the module bar on the left in the same style.
 - **Icons.** Sharp Microsoft Fluent icons in dark grey, with a few colours for their role: red for delete, green for complete, amber for a
   warning, blue for the main action. They stay sharp at every Windows scaling (125%, 150% and more).
+- **Waiting.** Where the program shows that it is busy (a graph while it loads its data, the warning before a report allocator's
+  database task), a thin blue ring turns, sharp at every scaling. With Windows' "Show animations in Windows" turned off it stands still;
+  in a high-contrast theme it takes Windows' colours.
 - **New databases** get new-style pictures on the eight default procedure buttons. The pictures an office chose never change.
 
 ## What changed in the layout
