@@ -46,11 +46,14 @@ namespace UiRefreshTests.Scan {
 		}
 
 		///<summary>The frame's scale in the gallery harness (UiPlainFrame.FuncGetScaleForTest) on CodeBase's frame and on the assembly's copy; 0
-		///clears it.</summary>
+		///clears it. UI-PLAIN-2 fix round: with it the program icon (CodeBase's, branding/app.ico) as the copy's IconProgram, which in the test host
+		///would be the test host's icon (an exe's band shows the exe's icon, the program's).</summary>
 		public static void SetFrameScaleForTest(Assembly assembly,float scale) {
 			Func<Form,float> func=scale>0 ? (form => scale) : (Func<Form,float>)null;
+			System.Drawing.Icon iconProgram=scale>0 ? CodeBase.UiPlainFrame.IconProgram : null;
 			foreach(Type type in new Type[] { GetType(null,"UiPlainFrame"),GetType(assembly,"UiPlainFrame") }.Distinct()) {
 				type.GetField("FuncGetScaleForTest",BindingFlags.Public|BindingFlags.Static).SetValue(null,func);
+				type.GetField("IconProgramForTest",BindingFlags.Public|BindingFlags.Static).SetValue(null,iconProgram);
 			}
 		}
 

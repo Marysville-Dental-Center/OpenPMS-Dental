@@ -80,6 +80,10 @@ namespace CodeBase {
 			if(IsBackground(control) && isOld) {
 				control.BackColor=UiTheme.Surface;
 			}
+			//UI-PLAIN-2 fix round: an MDI window's client area (the report designer's main window) in the background token, not Windows' AppWorkspace grey.
+			if(control is MdiClient && control.BackColor.ToArgb()==SystemColors.AppWorkspace.ToArgb()) {
+				control.BackColor=UiTheme.Surface;
+			}
 			foreach(Control child in control.Controls) {
 				SetBackColor(child);
 			}

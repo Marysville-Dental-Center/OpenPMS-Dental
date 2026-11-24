@@ -6,6 +6,7 @@
 using System;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using CodeBase;
@@ -55,15 +56,18 @@ namespace UiRefreshTests {
 				using(Form form=MakeWindow()) {
 					Assert.IsTrue(UiPlainFrame.IsAttached(form),"Attach gives the frame");
 					IntPtr handle=form.Handle;
-					Assert.IsTrue(UiPlainFrame.IsOn(form),"hooked with the handle");
-					//WM_NCCALCSIZE: the invisible borders left, right and below only (8 px at 96 dpi), the client area as the designer made it.
-					Assert.AreEqual(new Size(300,200),form.ClientSize,"the client area keeps its size when the frame takes the handle");
-					Assert.AreEqual(new Size(316,208),form.Size,"the window: the client area and the invisible borders left, right and below");
+					//UI-PLAIN-2 fix round: Windows' frame until Load, so Windows Forms' scaling in Form.OnLoad sizes the window as before.
+					Assert.IsFalse(UiPlainFrame.IsOn(form),"Windows' frame until the window loads");
+					Assert.AreEqual(new Size(300,200),form.ClientSize);
+					UiPlainFrame.LayOutAsOnLoad(form);
+					Assert.IsTrue(UiPlainFrame.IsOn(form),"hooked at Load");
+					//WM_NCCALCSIZE: the invisible borders left, right and below only (8 px at 96 dpi), the client area as the designer made it and the
+					//band.
 					Assert.AreEqual(new Point(8,0),new Point(form.PointToScreen(Point.Empty).X-form.Left,form.PointToScreen(Point.Empty).Y-form.Top),
 						"the client area starts at the window's top");
-					UiPlainFrame.LayOutAsOnLoad(form);
 					Assert.AreEqual(26,UiPlainFrame.GetContentOffset(form),"the band: 26 px at 96 dpi");
-					Assert.AreEqual(new Size(300,226),form.ClientSize,"the band added to the window");
+					Assert.AreEqual(new Size(300,226),form.ClientSize,"the designer's client area and the band");
+					Assert.AreEqual(new Size(316,234),form.Size,"the window: the client area and the invisible borders left, right and below");
 					Assert.AreEqual(26,form.Padding.Top,"the docked controls keep below the band (Padding)");
 					Assert.AreEqual(new Rectangle(0,26,300,20),form.Controls["panelTop"].Bounds,"the docked panel below the band");
 					Assert.AreEqual(new Rectangle(10,56,75,24),form.Controls["butTopLeft"].Bounds,"a control anchored to the top moves down by the band");
@@ -79,6 +83,98 @@ namespace UiRefreshTests {
 					//Resizing keeps the anchors as before.
 					form.Size=new Size(form.Width+40,form.Height+30);
 					Assert.AreEqual(new Rectangle(10,86,240,130),form.Controls["listBox"].Bounds,"the list grows with the window");
+				}
+			});
+		}
+
+		///<summary>UI-PLAIN-2 fix round (the review of ui/uiplain2-1): a window that keeps Windows Forms' old AutoScale (its designer code sets only
+		///AutoScaleBaseSize, as the report designer's dialogs and ODR's FormParameterInput do) is scaled in Form.OnLoad, which sets its ClientSize
+		///through Windows' standard frame. With the frame turned on at Load, after that, the client area is the scaled design and the band, as a
+		///window without the frame gets the scaled design: not a caption taller.</summary>
+		[TestMethod]
+		public void Frame_LegacyAutoScale_ClientAreaIsTheScaledDesignAndTheBand() {
+			StaRunner.Run(() => {
+				using(Font font=new Font("Segoe UI",9f)) {
+					foreach(FormBorderStyle formBorderStyle in new[] { FormBorderStyle.Sizable,FormBorderStyle.FixedDialog }) {
+						Size sizeScaled;
+						using(Form formWindows=MakeLegacyAutoScaleWindow(font,formBorderStyle,isAttached:false)) {
+							IntPtr handleWindows=formWindows.Handle;
+							CallOnLoad(formWindows);
+							sizeScaled=formWindows.ClientSize;
+						}
+						Assert.IsTrue(sizeScaled.Height>200,formBorderStyle+": Segoe UI 9 against AutoScaleBaseSize(5,13) grows the design: "+sizeScaled);
+						using(Form form=MakeLegacyAutoScaleWindow(font,formBorderStyle,isAttached:true)) {
+							IntPtr handle=form.Handle;
+							Assert.IsFalse(UiPlainFrame.IsOn(form),formBorderStyle+": Windows' frame before Load");
+							CallOnLoad(form);
+							Assert.IsTrue(UiPlainFrame.IsOn(form),formBorderStyle+": the frame from Load");
+							Assert.AreEqual(26,UiPlainFrame.GetContentOffset(form));
+							Assert.AreEqual(new Size(sizeScaled.Width,sizeScaled.Height+26),form.ClientSize,formBorderStyle+": the scaled design and the band");
+							Assert.AreEqual(new Size(sizeScaled.Width+16,sizeScaled.Height+26+8),form.Size,formBorderStyle+": and the invisible borders");
+							Button butOK=(Button)form.Controls["butOK"];
+							Assert.AreEqual(form.ClientSize.Height-butOK.Bottom,sizeScaled.Height-_bottomOKScaled,
+								formBorderStyle+": the bottom-anchored button keeps its scaled distance to the bottom");
+						}
+					}
+				}
+			});
+		}
+
+		///<summary>The OK button's bottom after Load on the last window MakeLegacyAutoScaleWindow made without the frame.</summary>
+		private static int _bottomOKScaled;
+
+		///<summary>A window as the report designer's designer code makes it: the default font (Segoe UI 9, the exes' default), AutoScaleBaseSize
+		///(5,13) only, a 300 by 200 client area, an OK button anchored to the bottom right.</summary>
+		private static Form MakeLegacyAutoScaleWindow(Font font,FormBorderStyle formBorderStyle,bool isAttached) {
+			Form form=new Form();
+			form.Font=font;
+#pragma warning disable CS0618 //AutoScaleBaseSize: the old AutoScale the designer code uses
+			form.AutoScaleBaseSize=new Size(5,13);
+#pragma warning restore CS0618
+			form.FormBorderStyle=formBorderStyle;
+			form.StartPosition=FormStartPosition.Manual;
+			form.Location=new Point(100,100);
+			form.ClientSize=new Size(300,200);
+			form.Text="Legacy AutoScale";
+			Button butOK=new Button { Name="butOK",Text="OK",Bounds=new Rectangle(215,166,75,24),Anchor=AnchorStyles.Bottom|AnchorStyles.Right };
+			form.Controls.Add(butOK);
+			if(isAttached) {
+				UiPlainWindow.Attach(form);
+			}
+			else {
+				form.Load+=(sender,e) => _bottomOKScaled=butOK.Bottom;
+			}
+			return form;
+		}
+
+		///<summary>Form.OnLoad as Show runs it: Windows Forms' scaling (ApplyAutoScaling), then the Load handlers.</summary>
+		private static void CallOnLoad(Form form) {
+			System.Reflection.MethodInfo methodInfo=typeof(Form).GetMethod("OnLoad",System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.NonPublic);
+			methodInfo.Invoke(form,new object[] { EventArgs.Empty });
+		}
+
+		///<summary>UI-PLAIN-2 fix round: the band's icon is FormODBase's: the window's own icon on a normal frame, else the program icon (on a dialog
+		///or tool window frame too), never Windows Forms' default icon.</summary>
+		[TestMethod]
+		public void Frame_Icon_TheProgramIconNeverTheDefault() {
+			StaRunner.Run(() => {
+				Assert.IsNotNull(UiPlainFrame.IconProgram,"CodeBase embeds the program icon (branding/app.ico)");
+				using(Form form=MakeWindow()) {
+					Assert.IsTrue(UiPlainFrame.IsDefaultIcon(form.Icon),"a window that set no icon has Windows Forms' default icon");
+					FramePaintArgs framePaintArgs=UiPlainFrame.GetFramePaintArgs(form);
+					Assert.IsTrue(framePaintArgs.ShowIcon);
+					Assert.AreSame(UiPlainFrame.IconProgram,framePaintArgs.Icon,"no icon of its own: the program icon");
+				}
+				using(Icon iconOwn=new Icon(SystemIcons.Information,16,16))
+				using(Form form=MakeWindow()) {
+					form.Icon=iconOwn;
+					Assert.AreSame(iconOwn,UiPlainFrame.GetFramePaintArgs(form).Icon,"its own icon on a normal frame");
+					form.FormBorderStyle=FormBorderStyle.FixedDialog;
+					Assert.AreSame(UiPlainFrame.IconProgram,UiPlainFrame.GetFramePaintArgs(form).Icon,"a dialog frame: the program icon, as FormODBase");
+					Assert.IsTrue(UiPlainFrame.GetFramePaintArgs(form).ShowIcon,"shown on a dialog too");
+				}
+				using(Form form=MakeWindow(FormBorderStyle.SizableToolWindow)) {
+					Assert.AreSame(UiPlainFrame.IconProgram,UiPlainFrame.GetFramePaintArgs(form).Icon,"a tool window: the program icon");
 				}
 			});
 		}
@@ -276,6 +372,42 @@ namespace UiRefreshTests {
 					}
 				}
 			});
+		}
+
+		///<summary>UI-PLAIN-2 fix round: the report designer's main window built by its constructor with one report open (the tabbed interface: a
+		///maximized MDI child): its MDI area in the background token, and the caption buttons Windows Forms merges into its menu bar drawn as the
+		///title bar's Fluent glyphs by the token renderer.</summary>
+		[TestMethod]
+		public void Frame_ReportDesignerMainWindow_MdiAreaAndMergedButtons() {
+			StaRunner.Run(() => {
+				NoDatabaseGuard.Install();
+				bool isBuildingBefore=WindowBuilder.IsBuildingByConstructor;
+				try {
+					WindowBuilder.IsBuildingByConstructor=true;
+					ScanType scanType=WindowBuilder.GetScanTypes().Find(x => x.WindowKey=="fyiReporting.RdlDesign.RdlDesigner");
+					Assert.IsNotNull(scanType,"RdlDesigner");
+					using(BuiltWindow builtWindow=WindowBuilder.Build(scanType)) {
+						Form form=builtWindow.Form;
+						Assert.IsTrue(form.IsMdiContainer);
+						Assert.IsNotNull(form.MainMenuStrip,"its constructor made the menus");
+						MdiClient mdiClient=form.Controls.OfType<MdiClient>().Single();
+						Assert.AreEqual(UiTheme.Surface.ToArgb(),mdiClient.BackColor.ToArgb(),"the MDI area in the background token, not AppWorkspace");
+						FitGallery.OpenSampleReport(form);
+						Assert.AreEqual(1,form.MdiChildren.Length,"one report open");
+						Assert.AreEqual(FormWindowState.Maximized,form.MdiChildren[0].WindowState,"the tabbed interface maximizes it");
+						Assert.IsFalse(PlainLookCopy.IsTrue(form.GetType().Assembly,"UiPlainFrame","IsOn",form.MdiChildren[0]),"an MDI child keeps Windows' MDI frame");
+						System.Collections.Generic.List<ToolStripItem> listMerged=form.MainMenuStrip.Items.Cast<ToolStripItem>()
+							.Where(x => x.GetType().FullName=="System.Windows.Forms.MdiControlStrip+ControlBoxMenuItem").ToList();
+						Assert.AreEqual(3,listMerged.Count,"minimize, restore and close merged into the menu bar");
+						CollectionAssert.AreEquivalent(new UiGlyph[] { UiGlyph.Subtract,UiGlyph.SquareMultiple,UiGlyph.Dismiss },
+							listMerged.Select(x => UiToolStripRenderer.GetMdiControlGlyph(x).Value).ToArray(),"the title bar's glyphs");
+					}
+				}
+				finally {
+					WindowBuilder.IsBuildingByConstructor=isBuildingBefore;
+				}
+			});
+			Assert.IsNull(UiToolStripRenderer.GetMdiControlGlyph(new ToolStripMenuItem("File")),"any other item keeps its picture");
 		}
 
 		private static Bitmap PaintBand(Form form) {

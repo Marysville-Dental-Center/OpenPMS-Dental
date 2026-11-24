@@ -3,6 +3,12 @@
 // draws with (UiFramePainter), with FormODBase's sizes: the title band 26 px at 96 dpi, its font, the caption buttons, the outline and
 // Windows 11's rounded corners and border colour, the invisible resize borders left, right and below.
 //
+// UI-PLAIN-2 fix round: the frame takes the window at Load, not when its handle is made: Windows Forms' old AutoScale (a window whose
+// designer code sets only AutoScaleBaseSize: the report designer's dialogs, ODR's FormParameterInput) sets the window's ClientSize in
+// Form.OnLoad, before the Load handlers, and turns it into a window size with Windows' standard caption and borders; with the frame already
+// on, that client area came out a caption taller. The title band shows the program icon (IconProgram) where the window has no icon of its
+// own or has a dialog or tool window frame, as FormODBase shows it on every window; never the Windows Forms default icon.
+//
 // How: like FormODBase, the window keeps its Windows styles (so the taskbar entry, the icon, the system menu, Alt+Space, modal dialogs and
 // the fixed borders of a dialog that is not resizable stay Windows') and its client area covers the title band (WM_NCCALCSIZE takes only the
 // invisible resize borders, and on a maximized window the border that hangs past the screen on top too). FormODBase moves its controls into
@@ -21,6 +27,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
@@ -75,6 +82,17 @@ namespace CodeBase {
 		private static bool? _areBordersMS;
 		///<summary>For the gallery harness, which draws in a 96 dpi process: the scale of a window's frame instead of its dpi. Null: the dpi.</summary>
 		public static Func<Form,float> FuncGetScaleForTest;
+		///<summary>For the gallery harness, whose exe is the test host: the program icon to show instead of IconProgram's. Null: IconProgram's.
+		///</summary>
+		public static Icon IconProgramForTest;
+		///<summary>The program icon once read (IconProgram).</summary>
+		private static Icon _iconProgram;
+		private static bool _isIconProgramRead;
+		///<summary>Windows Forms' default window icon (Form.DefaultIcon, internal) once read; null if it cannot be read.</summary>
+		private static Icon _iconDefault;
+		private static bool _isIconDefaultRead;
+		///<summary>The manifest resource name of branding/app.ico in CodeBase (xCodeBase.csproj): the program icon FormODBase shows.</summary>
+		private const string ICON_RESOURCE_NAME="CodeBase.Branding.app.ico";
 		#endregion Fields
 
 		#region Methods - Public
@@ -131,8 +149,60 @@ namespace CodeBase {
 			if(form==null || !_table.TryGetValue(form,out FrameWindow frameWindow)) {
 				return;
 			}
-			IntPtr handle=form.Handle;//makes the handle: HandleCreated hooks the frame
-			frameWindow.ApplyContent();
+			IntPtr handle=form.Handle;//makes the handle
+			frameWindow.TurnOnAtLoad();
+		}
+
+		///<summary>The program icon the title band shows on a window without an icon of its own (or with a dialog or tool window frame), read
+		///once per process: the program icon CodeBase embeds (branding/app.ico, BrandAssets.AppIcon's file), else, in an assembly that compiles
+		///these files in without it (RdlDesign, UpdateFileCopier), the exe's own icon when the exe has one. Null when there is none: the band then
+		///shows no icon rather than Windows Forms' default one. IconProgramForTest in the gallery harness.</summary>
+		public static Icon IconProgram {
+			get {
+				if(IconProgramForTest!=null) {
+					return IconProgramForTest;
+				}
+				if(!_isIconProgramRead) {
+					_iconProgram=ReadIconProgram();
+					_isIconProgramRead=true;
+				}
+				return _iconProgram;
+			}
+		}
+
+		///<summary>True for Windows Forms' default window icon (the two windows of a form that set no icon of its own).</summary>
+		public static bool IsDefaultIcon(Icon icon) {
+			if(icon==null) {
+				return false;
+			}
+			if(!_isIconDefaultRead) {
+				try {
+					PropertyInfo propertyInfo=typeof(Form).GetProperty("DefaultIcon",BindingFlags.NonPublic|BindingFlags.Static);
+					_iconDefault=propertyInfo?.GetValue(null) as Icon;
+				}
+				catch(Exception) {
+					_iconDefault=null;
+				}
+				_isIconDefaultRead=true;
+			}
+			return _iconDefault!=null && ReferenceEquals(icon,_iconDefault);
+		}
+
+		///<summary>The icon the title band shows: the window's own icon on a window with Windows' normal frame that set one, else the program icon
+		///(IconProgram), as FormODBase shows the program icon on every window, dialogs included. Never Windows Forms' default icon.</summary>
+		public static Icon GetBandIcon(Form form) {
+			Icon icon=form.Icon;
+			bool isDefault=IsDefaultIcon(icon);
+			bool isDialogFrame=form.FormBorderStyle==FormBorderStyle.FixedDialog
+				|| form.FormBorderStyle==FormBorderStyle.FixedToolWindow || form.FormBorderStyle==FormBorderStyle.SizableToolWindow;
+			if(icon!=null && !isDefault && !isDialogFrame) {
+				return icon;
+			}
+			Icon iconProgram=IconProgram;
+			if(iconProgram!=null) {
+				return iconProgram;
+			}
+			return isDefault ? null : icon;
 		}
 
 		///<summary>The scale of the window's frame: its dpi over 96 (FuncGetScaleForTest in the gallery harness).</summary>
@@ -183,11 +253,10 @@ namespace CodeBase {
 			framePaintArgs.MaximizeBox=form.MaximizeBox;
 			framePaintArgs.MinimizeBox=form.MinimizeBox;
 			framePaintArgs.IsMaximized=form.WindowState==FormWindowState.Maximized;
-			//The icon where Windows showed one: the window's own icon, none on a dialog frame or a tool window (Windows draws none there), so each
-			//window keeps the icon it had. FormODBase draws the program's icon on every window; a plain window has no program icon of its own.
-			framePaintArgs.ShowIcon=form.ShowIcon && form.FormBorderStyle!=FormBorderStyle.FixedDialog
-				&& form.FormBorderStyle!=FormBorderStyle.FixedToolWindow && form.FormBorderStyle!=FormBorderStyle.SizableToolWindow;
-			framePaintArgs.Icon=form.Icon;
+			//The icon as FormODBase shows it, on every window whatever its border (its ShowIcon): the window's own icon, else the program icon
+			//(GetBandIcon); never Windows Forms' default icon.
+			framePaintArgs.ShowIcon=form.ShowIcon;
+			framePaintArgs.Icon=GetBandIcon(form);
 			if(_table.TryGetValue(form,out FrameWindow frameWindow)) {
 				framePaintArgs.IsHotX=frameWindow.HitHot==HTCLOSE;
 				framePaintArgs.IsHotMax=frameWindow.HitHot==HTMAXBUTTON;
@@ -307,7 +376,35 @@ namespace CodeBase {
 		}
 		#endregion Methods - Public
 
+		///<summary>The program icon embedded in this assembly (CodeBase: branding/app.ico), else the exe's own icon when the exe has one (an exe
+		///without one would give Windows' generic program icon), else null.</summary>
+		private static Icon ReadIconProgram() {
+			try {
+				using(Stream stream=typeof(UiPlainFrame).Assembly.GetManifestResourceStream(ICON_RESOURCE_NAME)) {
+					if(stream!=null) {
+						return new Icon(stream);
+					}
+				}
+			}
+			catch(Exception) {
+				//The exe's icon below.
+			}
+			try {
+				string pathExe=Application.ExecutablePath;
+				if(File.Exists(pathExe) && ExtractIconEx(pathExe,-1,null,null,0)>0) {
+					return Icon.ExtractAssociatedIcon(pathExe);
+				}
+			}
+			catch(Exception) {
+				//No icon: the band shows none.
+			}
+			return null;
+		}
+
 		#region Win32
+		[DllImport("shell32.dll",CharSet=CharSet.Unicode)]
+		private static extern int ExtractIconEx(string lpszFile,int nIconIndex,IntPtr[] phiconLarge,IntPtr[] phiconSmall,int nIcons);
+
 		[StructLayout(LayoutKind.Sequential)]
 		private struct RECT {
 			public int Left,Top,Right,Bottom;
@@ -374,8 +471,9 @@ namespace CodeBase {
 			private readonly Form _form;
 			///<summary>The window's controls moved down by Offset (each control once; a control taken off the window is moved back).</summary>
 			private readonly HashSet<Control> _setMoved=new HashSet<Control>();
-			///<summary>True once the first handle had its size set for the frame (a handle made again keeps the window's size).</summary>
-			private bool _hasSized;
+			///<summary>True once the window loaded and the frame took it (TurnOnAtLoad): a handle made again later is hooked at once and keeps the
+			///window's size.</summary>
+			private bool _isLoaded;
 			///<summary>The hit code of the caption button a mouse button went down on (WM_NCLBUTTONDOWN), 0 for none.</summary>
 			private int _hitPressed;
 			private bool _isTrackingLeave;
@@ -398,8 +496,9 @@ namespace CodeBase {
 				_form.SizeChanged+=Form_InvalidateTitleBar;
 				_form.ControlAdded+=Form_ControlAdded;
 				_form.ControlRemoved+=Form_ControlRemoved;
-				if(_form.IsHandleCreated) {
-					TurnOn();
+				if(_form.IsHandleCreated && _form.Visible) {
+					//Attached to a window already shown: its Load is past.
+					TurnOnAtLoad();
 				}
 			}
 
@@ -409,7 +508,11 @@ namespace CodeBase {
 			}
 
 			private void Form_HandleCreated(object sender,EventArgs e) {
-				TurnOn();
+				//Before Load the window keeps Windows' frame, so Windows Forms' scaling in Form.OnLoad sizes it as it always did (TurnOnAtLoad); a
+				//handle made again after Load is hooked at once.
+				if(_isLoaded) {
+					TurnOn();
+				}
 			}
 
 			private void Form_HandleDestroyed(object sender,EventArgs e) {
@@ -419,15 +522,41 @@ namespace CodeBase {
 				_hitPressed=0;
 			}
 
-			///<summary>Hooks the new handle: the client area over the title band from now on (SWP_FRAMECHANGED makes Windows ask WM_NCCALCSIZE again),
-			///Windows 11's corners and border colour, and on the first handle the window's size, so the client area keeps the size Windows Forms
-			///gave it (the designer's ClientSize).</summary>
+			///<summary>At Load (after Form.OnLoad's scaling and the window's own Load handlers, before the window shows), once: the frame takes the
+			///window, whose size is set so the client area Windows Forms gave it (the designer's ClientSize, scaled) is kept within the frame's
+			///borders (a centred window keeps its centre), then the content moves below the band (ApplyContent).</summary>
+			public void TurnOnAtLoad() {
+				if(_isLoaded || !IsWanted() || !_form.IsHandleCreated) {
+					return;
+				}
+				_isLoaded=true;
+				Size sizeClient=_form.ClientSize;
+				Rectangle boundsBefore=_form.Bounds;
+				TurnOn();
+				if(!IsOn) {
+					return;
+				}
+				if(_form.WindowState==FormWindowState.Normal) {
+					SetClientSize(sizeClient);
+					if(IsCentred()) {
+						Size size=_form.Size;
+						_form.Location=new Point(boundsBefore.X+(boundsBefore.Width-size.Width)/2,boundsBefore.Y+(boundsBefore.Height-size.Height)/2);
+					}
+				}
+				ApplyContent();
+			}
+
+			private bool IsCentred() {
+				return _form.StartPosition==FormStartPosition.CenterScreen || _form.StartPosition==FormStartPosition.CenterParent;
+			}
+
+			///<summary>Hooks the handle: the client area over the title band from now on (SWP_FRAMECHANGED makes Windows ask WM_NCCALCSIZE again)
+			///and Windows 11's corners and border colour. The window's size stays (TurnOnAtLoad sets it once).</summary>
 			private void TurnOn() {
 				if(!IsWanted() || !_form.IsHandleCreated) {
 					return;
 				}
 				try {
-					Size sizeClient=_form.ClientSize;
 					if(Handle!=_form.Handle) {
 						if(Handle!=IntPtr.Zero) {
 							ReleaseHandle();
@@ -437,12 +566,6 @@ namespace CodeBase {
 					IsOn=true;
 					UiFramePainter.ApplyDwmCorners(_form.Handle,false,UiFramePainter.GetWindowColorsStock().Outline);
 					SetWindowPos(_form.Handle,IntPtr.Zero,0,0,0,0,SWP_FRAMECHANGED|SWP_NOMOVE|SWP_NOSIZE|SWP_NOZORDER|SWP_NOACTIVATE|SWP_NOOWNERZORDER);
-					if(!_hasSized) {
-						_hasSized=true;
-						if(_form.WindowState==FormWindowState.Normal) {
-							SetClientSize(new Size(sizeClient.Width,sizeClient.Height+Offset));
-						}
-					}
 				}
 				catch(Exception) {
 					//The frame is only a picture and a hit test: the window works with Windows' frame.
@@ -460,7 +583,7 @@ namespace CodeBase {
 			}
 
 			private void Form_Load(object sender,EventArgs e) {
-				ApplyContent();
+				TurnOnAtLoad();
 			}
 
 			///<summary>Moves the content down below the title band, once: the band's height added to the window (or, on a maximized window, to the
@@ -483,7 +606,7 @@ namespace CodeBase {
 						SetWindowPlacement(_form.Handle,ref windowPlacement);
 					}
 				}
-				MoveContent(offset,grow,isCentred:_form.StartPosition==FormStartPosition.CenterScreen || _form.StartPosition==FormStartPosition.CenterParent);
+				MoveContent(offset,grow,isCentred:IsCentred());
 				Offset=offset;
 				_form.Invalidate(GetTitleBarRectangle(_form));
 			}

@@ -146,7 +146,8 @@ namespace UiRefreshTests {
 		}
 
 		///<summary>UI-PLAIN fix round: OpenPmsDentalDbSettings' two windows make their controls in their constructors (not in grid-windows/12.tsv):
-		///built by their constructor (WindowBuilder.IsBuildingByConstructor), they have the look as the slice 12 windows do.</summary>
+		///built by their constructor (WindowBuilder.IsBuildingByConstructor), they have the look as the slice 12 windows do. UI-PLAIN-2 fix round:
+		///so does the report designer's main window, whose constructor builds its menus, toolbar, status strip and MDI area.</summary>
 		[TestMethod]
 		public void PlainWindows_BuiltByTheirConstructor_DrawTheNewLook() {
 			List<string> listProblems=new List<string>();
@@ -157,17 +158,25 @@ namespace UiRefreshTests {
 				try {
 					WindowBuilder.IsBuildingByConstructor=true;
 					List<ScanType> listScanTypes=WindowBuilder.GetScanTypes().Where(x => x.Kind==BuildKind.PlainWindow && WindowBuilder.IsBuiltByItsConstructor(x.Type)).ToList();
-					Assert.AreEqual(2,listScanTypes.Count,"FormDbSettings and FormSecretPrompt");
+					Assert.AreEqual(3,listScanTypes.Count,"FormDbSettings, FormSecretPrompt and the report designer's main window");
 					foreach(ScanType scanType in listScanTypes) {
+						//UI-PLAIN-2 fix round: RdlDesigner attaches its own copy of the looks.
+						System.Reflection.Assembly assemblyLooks=scanType.Type.Assembly;
 						using(BuiltWindow builtWindow=WindowBuilder.Build(scanType)) {
-							if(!UiPlainWindow.IsAttached(builtWindow.Form)) {
+							if(!PlainLookCopy.IsTrue(assemblyLooks,"UiPlainWindow","IsAttached",builtWindow.Form)) {
 								listProblems.Add(scanType.WindowKey+": no UiPlainWindow.Attach");
 							}
 							if(builtWindow.Form.Controls.Count==0) {
 								listProblems.Add(scanType.WindowKey+": built without its controls");
 							}
-							countFramed+=CheckTree(scanType.WindowKey,builtWindow.Root,listProblems);
+							countFramed+=CheckTree(scanType.WindowKey,builtWindow.Root,listProblems,assemblyLooks);
 							CheckClassicGrey(scanType.WindowKey,builtWindow.Root,listProblems);
+							if(builtWindow.Form.IsMdiContainer) {
+								MdiClient mdiClient=builtWindow.Form.Controls.OfType<MdiClient>().FirstOrDefault();
+								if(mdiClient==null || mdiClient.BackColor.ToArgb()!=UiTheme.Surface.ToArgb()) {
+									listProblems.Add(scanType.WindowKey+": the MDI area is not the background token");
+								}
+							}
 						}
 					}
 				}

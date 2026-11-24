@@ -84,5 +84,10 @@
     <EmbeddedResource Update="Utilities\MsgBoxCopyPaste.resx">
       <DependentUpon>MsgBoxCopyPaste.cs</DependentUpon>
     </EmbeddedResource>
+    <!-- UI-PLAIN-2 fix round: the program icon in a plain window's title band (UI\UiPlainFrame.cs, IconProgram), as FormODBase shows it. -->
+    <EmbeddedResource Include="..\branding\app.ico">
+      <Link>Branding\app.ico</Link>
+      <LogicalName>CodeBase.Branding.app.ico</LogicalName>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>

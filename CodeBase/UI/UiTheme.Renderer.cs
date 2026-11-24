@@ -134,6 +134,22 @@ namespace CodeBase {
 			UiIcons.Draw(e.Graphics,UiGlyph.Checkmark,rectangleGlyph,UiTheme.GetColor(e.Item.Enabled ? EnumUiColor.Text : EnumUiColor.TextDisabled));
 		}
 
+		///<summary>UI-PLAIN-2 fix round: the minimize, restore and close buttons Windows Forms merges into an MDI window's menu bar while a child is
+		///maximized (the report designer's tabbed reports) as the title bar's Fluent glyphs in the Text token, instead of the classic caption
+		///button pictures Windows Forms makes for them (ControlPaint.DrawCaptionButton). Every other picture as before.</summary>
+		protected override void OnRenderItemImage(ToolStripItemImageRenderEventArgs e) {
+			UiGlyph? uiGlyph=GetMdiControlGlyph(e.Item);
+			if(uiGlyph==null) {
+				base.OnRenderItemImage(e);
+				return;
+			}
+			float scale=GetScale(e.ToolStrip);
+			int size=UiTheme.ScaleI(UiTheme.MENU_ICON_COLUMN,scale);
+			Rectangle rectangleItem=new Rectangle(Point.Empty,e.Item.Size);
+			Rectangle rectangleGlyph=new Rectangle(rectangleItem.X+(rectangleItem.Width-size)/2,rectangleItem.Y+(rectangleItem.Height-size)/2,size,size);
+			UiIcons.Draw(e.Graphics,uiGlyph.Value,rectangleGlyph,UiTheme.GetColor(e.Item.Enabled ? EnumUiColor.Text : EnumUiColor.TextDisabled));
+		}
+
 		protected override void OnRenderArrow(ToolStripArrowRenderEventArgs e) {
 			UiGlyph uiGlyph=UiGlyph.ChevronDown;
 			switch(e.Direction) {
@@ -172,6 +188,36 @@ namespace CodeBase {
 		#endregion Items
 
 		#region Helpers
+		///<summary>The glyph of a caption button Windows Forms merges into an MDI window's menu bar (MdiControlStrip's ControlBoxMenuItem, by the
+		///system command it sends: SC_MINIMIZE, SC_RESTORE, SC_CLOSE), as the title bar draws it. Null for any other item.</summary>
+		public static UiGlyph? GetMdiControlGlyph(ToolStripItem toolStripItem) {
+			if(toolStripItem==null || toolStripItem.GetType().FullName!="System.Windows.Forms.MdiControlStrip+ControlBoxMenuItem") {
+				return null;
+			}
+			switch(GetNativeMenuCommandId(toolStripItem)) {
+				case 0xF020://SC_MINIMIZE
+					return UiGlyph.Subtract;
+				case 0xF120://SC_RESTORE
+					return UiGlyph.SquareMultiple;
+				case 0xF030://SC_MAXIMIZE
+					return UiGlyph.Maximize;
+				case 0xF060://SC_CLOSE
+					return UiGlyph.Dismiss;
+				default:
+					return null;
+			}
+		}
+
+		///<summary>The system command a menu item made from a native menu sends (ToolStripMenuItem's private native command id), -1 if unknown.</summary>
+		private static int GetNativeMenuCommandId(ToolStripItem toolStripItem) {
+			foreach(System.Reflection.FieldInfo fieldInfo in typeof(ToolStripMenuItem).GetFields(System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.NonPublic)) {
+				if(fieldInfo.FieldType==typeof(int) && fieldInfo.Name.IndexOf("nativeMenuCommandID",StringComparison.OrdinalIgnoreCase)>=0) {
+					return (int)fieldInfo.GetValue(toolStripItem);
+				}
+			}
+			return -1;
+		}
+
 		///<summary>The strip's scale against 96 DPI (its monitor's DPI).</summary>
 		private static float GetScale(ToolStrip toolStrip) {
 			if(toolStrip==null) {

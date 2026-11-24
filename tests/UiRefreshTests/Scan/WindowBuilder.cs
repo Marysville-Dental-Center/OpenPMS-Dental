@@ -405,6 +405,10 @@ namespace UiRefreshTests.Scan {
 		private static readonly Dictionary<string,object[]> _dictBuiltByConstructor=new Dictionary<string,object[]> {
 			{ "OpenPmsDentalDbSettings.FormDbSettings",new object[] { "",null,null } },
 			{ "OpenPmsDentalDbSettings.FormSecretPrompt",new object[] { "Password of the client certificate file:" } },
+			//UI-PLAIN-2 fix round: the report designer's main window with what its constructor builds after InitializeComponent (the menus, the
+			//toolbar panel with its buttons and tab strip, the status strip, the MDI area); not mono. It reads designerstate.xml next to the test
+			//host if there is one and opens no file.
+			{ "fyiReporting.RdlDesign.RdlDesigner",new object[] { false } },
 		};
 
 		///<summary>True while the gallery (FitGallery) and PlainLookTests build: the windows of _dictBuiltByConstructor are made by their

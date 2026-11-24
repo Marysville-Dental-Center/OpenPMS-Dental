@@ -120,6 +120,12 @@ namespace UiRefreshTests {
 						continue;
 					}
 					SetGalleryFont(font);
+					//UI-PLAIN-2 fix round: a plain exe's menus and tool strips as its Main has them, the token renderer (UiTheme.InitWinForms) in the
+					//after pictures, the stock renderer in the before pictures.
+					ToolStripRenderer toolStripRendererBefore=ToolStripManager.Renderer;
+					if(!isLooksOff && scanType.Kind==BuildKind.PlainWindow) {
+						ToolStripManager.Renderer=new CodeBase.UiToolStripRenderer();
+					}
 					try {
 						//UI-PLAIN-2: the plain windows' frame at the gallery's scale (the harness is a 96 dpi process).
 						PlainLookCopy.SetFrameScaleForTest(scanType.Type.Assembly,scale);
@@ -201,6 +207,7 @@ namespace UiRefreshTests {
 					finally {
 						ClearSampleCache(window,state);
 						PlainLookCopy.SetFrameScaleForTest(scanType.Type.Assembly,0);
+						ToolStripManager.Renderer=toolStripRendererBefore;
 						UiTheme.SetFontForTest(null);
 						DefaultFontOverride.Set(TextFitFontOption.Today,1f);
 					}
@@ -212,6 +219,53 @@ namespace UiRefreshTests {
 			WindowBuilder.IsBuildingByConstructor=false;
 			File.WriteAllLines(Path.Combine(folder,"gallery-failed.txt"),listFailed);
 			Assert.IsTrue(countPictures>0,"No picture made: "+string.Join("; ",listFailed));
+		}
+
+		///<summary>UI-PLAIN-2 fix round: a new report of synthetic content, as the report designer's File, New Report opens the wizard's RDL.</summary>
+		private const string SAMPLE_REPORT_RDL=@"<?xml version='1.0' encoding='UTF-8'?>
+<Report xmlns='http://schemas.microsoft.com/sqlserver/reporting/2005/01/reportdefinition' xmlns:rd='http://schemas.microsoft.com/SQLServer/reporting/reportdesigner'>
+	<Description>Sample</Description>
+	<Width>7.5in</Width>
+	<TopMargin>.25in</TopMargin>
+	<LeftMargin>.25in</LeftMargin>
+	<RightMargin>.25in</RightMargin>
+	<BottomMargin>.25in</BottomMargin>
+	<PageHeader>
+		<Height>.5in</Height>
+		<ReportItems>
+			<Textbox Name='Title'><Top>.1in</Top><Left>.1in</Left><Width>4in</Width><Height>.3in</Height><Value>Sample Report</Value><Style><FontSize>15pt</FontSize><FontWeight>Bold</FontWeight></Style></Textbox>
+		</ReportItems>
+		<PrintOnFirstPage>true</PrintOnFirstPage>
+		<PrintOnLastPage>true</PrintOnLastPage>
+	</PageHeader>
+	<Body>
+		<Height>1.5in</Height>
+		<ReportItems>
+			<Textbox Name='Note'><Top>.2in</Top><Left>.1in</Left><Width>3in</Width><Height>.25in</Height><Value>Synthetic text</Value></Textbox>
+		</ReportItems>
+	</Body>
+	<PageFooter>
+		<Height>.3in</Height>
+		<PrintOnFirstPage>true</PrintOnFirstPage>
+		<PrintOnLastPage>true</PrintOnLastPage>
+	</PageFooter>
+</Report>";
+
+		///<summary>UI-PLAIN-2 fix round, RdlDesigner "report": one new report open, as File, New Report opens it (RdlDesigner.CreateMDIChild with the
+		///RDL): a maximized MDI child (the tabbed interface), its tab in the toolbar's tab strip, its buttons merged into the menu bar. The RDL is
+		///first tried on a child of its own, because CreateMDIChild shows a message box on an error.</summary>
+		internal static void OpenSampleReport(Form form) {
+			Type typeChild=form.GetType().Assembly.GetType("fyiReporting.RdlDesign.MDIChild",throwOnError:true);
+			using(Form formTry=(Form)Activator.CreateInstance(typeChild,new object[] { 400,300 })) {
+				typeChild.GetProperty("SourceRdl").SetValue(formTry,SAMPLE_REPORT_RDL);
+			}
+			IntPtr handle=form.Handle;//the MDI area's handle, which the child is made in
+			System.Reflection.MethodInfo methodInfo=form.GetType().GetMethod("CreateMDIChild",System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.NonPublic);
+			object mdiChild=methodInfo.Invoke(form,new object[] { null,SAMPLE_REPORT_RDL,false });
+			if(mdiChild==null) {
+				throw new InvalidOperationException("RdlDesigner.CreateMDIChild opened no report.");
+			}
+			Application.DoEvents();
 		}
 
 		///<summary>UI-12 slice 13 fix round: whether a plain Form scales itself to the screen's dpi as a whole: the old Form.AutoScale (on for a
@@ -508,6 +562,10 @@ namespace UiRefreshTests {
 		///page), and FormCertifications "certcomplete": its Cert Complete view as radioCertification_Click shows it.</para></summary>
 		public static Control FillSampleState(Control root,string window,string state) {
 			if(state=="") {
+				return root;
+			}
+			if(window=="fyiReporting.RdlDesign.RdlDesigner" && state=="report") {
+				OpenSampleReport((Form)root);
 				return root;
 			}
 			if(window=="OpenPmsDental.ControlAccount" && state=="summary") {
