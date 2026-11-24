@@ -128,7 +128,7 @@
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(682, 516);
+			this.butSave.Location = new System.Drawing.Point(682, 513);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(86, 26);
 			this.butSave.TabIndex = 13;
@@ -149,7 +149,7 @@
 			this.groupBox1.Controls.Add(this.butRestore);
 			this.groupBox1.Location = new System.Drawing.Point(8, 283);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(760, 225);
+			this.groupBox1.Size = new System.Drawing.Size(760, 222);
 			this.groupBox1.TabIndex = 8;
 			this.groupBox1.Text = "Restore";
 			// 
@@ -157,7 +157,7 @@
 			// 
 			this.textBox5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.textBox5.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			this.textBox5.Location = new System.Drawing.Point(8, 155);
+			this.textBox5.Location = new System.Drawing.Point(8, 154);
 			this.textBox5.Multiline = true;
 			this.textBox5.Name = "textBox5";
 			this.textBox5.ReadOnly = true;
@@ -167,7 +167,7 @@
 			// 
 			// butBrowseRestoreAtoZTo
 			// 
-			this.butBrowseRestoreAtoZTo.Location = new System.Drawing.Point(494, 194);
+			this.butBrowseRestoreAtoZTo.Location = new System.Drawing.Point(494, 191);
 			this.butBrowseRestoreAtoZTo.Name = "butBrowseRestoreAtoZTo";
 			this.butBrowseRestoreAtoZTo.Size = new System.Drawing.Size(86, 23);
 			this.butBrowseRestoreAtoZTo.TabIndex = 20;
@@ -176,7 +176,7 @@
 			// 
 			// textBackupRestoreAtoZToPath
 			// 
-			this.textBackupRestoreAtoZToPath.Location = new System.Drawing.Point(8, 194);
+			this.textBackupRestoreAtoZToPath.Location = new System.Drawing.Point(8, 191);
 			this.textBackupRestoreAtoZToPath.Name = "textBackupRestoreAtoZToPath";
 			this.textBackupRestoreAtoZToPath.Size = new System.Drawing.Size(480, 23);
 			this.textBackupRestoreAtoZToPath.TabIndex = 19;
@@ -185,7 +185,7 @@
 			// 
 			this.textBox3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.textBox3.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			this.textBox3.Location = new System.Drawing.Point(8, 89);
+			this.textBox3.Location = new System.Drawing.Point(8, 88);
 			this.textBox3.Multiline = true;
 			this.textBox3.Name = "textBox3";
 			this.textBox3.ReadOnly = true;
@@ -195,7 +195,7 @@
 			// 
 			// butBrowseRestoreTo
 			// 
-			this.butBrowseRestoreTo.Location = new System.Drawing.Point(494, 128);
+			this.butBrowseRestoreTo.Location = new System.Drawing.Point(494, 125);
 			this.butBrowseRestoreTo.Name = "butBrowseRestoreTo";
 			this.butBrowseRestoreTo.Size = new System.Drawing.Size(86, 23);
 			this.butBrowseRestoreTo.TabIndex = 17;
@@ -204,7 +204,7 @@
 			// 
 			// textBackupRestoreToPath
 			// 
-			this.textBackupRestoreToPath.Location = new System.Drawing.Point(8, 128);
+			this.textBackupRestoreToPath.Location = new System.Drawing.Point(8, 125);
 			this.textBackupRestoreToPath.Name = "textBackupRestoreToPath";
 			this.textBackupRestoreToPath.Size = new System.Drawing.Size(480, 23);
 			this.textBackupRestoreToPath.TabIndex = 16;
@@ -213,7 +213,7 @@
 			// 
 			this.textBox4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.textBox4.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			this.textBox4.Location = new System.Drawing.Point(8, 23);
+			this.textBox4.Location = new System.Drawing.Point(8, 22);
 			this.textBox4.Multiline = true;
 			this.textBox4.Name = "textBox4";
 			this.textBox4.ReadOnly = true;
@@ -223,7 +223,7 @@
 			// 
 			// butBrowseRestoreFrom
 			// 
-			this.butBrowseRestoreFrom.Location = new System.Drawing.Point(494, 62);
+			this.butBrowseRestoreFrom.Location = new System.Drawing.Point(494, 59);
 			this.butBrowseRestoreFrom.Name = "butBrowseRestoreFrom";
 			this.butBrowseRestoreFrom.Size = new System.Drawing.Size(86, 23);
 			this.butBrowseRestoreFrom.TabIndex = 14;
@@ -232,7 +232,7 @@
 			// 
 			// textBackupRestoreFromPath
 			// 
-			this.textBackupRestoreFromPath.Location = new System.Drawing.Point(8, 62);
+			this.textBackupRestoreFromPath.Location = new System.Drawing.Point(8, 59);
 			this.textBackupRestoreFromPath.Name = "textBackupRestoreFromPath";
 			this.textBackupRestoreFromPath.Size = new System.Drawing.Size(480, 23);
 			this.textBackupRestoreFromPath.TabIndex = 13;
@@ -240,7 +240,7 @@
 			// butRestore
 			// 
 			this.butRestore.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butRestore.Location = new System.Drawing.Point(666, 194);
+			this.butRestore.Location = new System.Drawing.Point(666, 191);
 			this.butRestore.Name = "butRestore";
 			this.butRestore.Size = new System.Drawing.Size(86, 23);
 			this.butRestore.TabIndex = 6;
@@ -251,7 +251,7 @@
 			// 
 			this.textBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			this.textBox2.Location = new System.Drawing.Point(16, 82);
+			this.textBox2.Location = new System.Drawing.Point(16, 88);
 			this.textBox2.Multiline = true;
 			this.textBox2.Name = "textBox2";
 			this.textBox2.ReadOnly = true;
@@ -262,7 +262,7 @@
 			// 
 			// butBrowseFrom
 			// 
-			this.butBrowseFrom.Location = new System.Drawing.Point(502, 137);
+			this.butBrowseFrom.Location = new System.Drawing.Point(502, 143);
 			this.butBrowseFrom.Name = "butBrowseFrom";
 			this.butBrowseFrom.Size = new System.Drawing.Size(86, 23);
 			this.butBrowseFrom.TabIndex = 11;
@@ -271,7 +271,7 @@
 			// 
 			// butBackup
 			// 
-			this.butBackup.Location = new System.Drawing.Point(674, 238);
+			this.butBackup.Location = new System.Drawing.Point(674, 244);
 			this.butBackup.Name = "butBackup";
 			this.butBackup.Size = new System.Drawing.Size(86, 23);
 			this.butBackup.TabIndex = 1;
@@ -280,14 +280,14 @@
 			// 
 			// textBackupFromPath
 			// 
-			this.textBackupFromPath.Location = new System.Drawing.Point(16, 137);
+			this.textBackupFromPath.Location = new System.Drawing.Point(16, 143);
 			this.textBackupFromPath.Name = "textBackupFromPath";
 			this.textBackupFromPath.Size = new System.Drawing.Size(480, 23);
 			this.textBackupFromPath.TabIndex = 10;
 			// 
 			// textBackupToPath
 			// 
-			this.textBackupToPath.Location = new System.Drawing.Point(16, 238);
+			this.textBackupToPath.Location = new System.Drawing.Point(16, 244);
 			this.textBackupToPath.Name = "textBackupToPath";
 			this.textBackupToPath.Size = new System.Drawing.Size(480, 23);
 			this.textBackupToPath.TabIndex = 4;
@@ -296,7 +296,7 @@
 			// 
 			this.textBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			this.textBox1.Location = new System.Drawing.Point(16, 166);
+			this.textBox1.Location = new System.Drawing.Point(16, 172);
 			this.textBox1.Multiline = true;
 			this.textBox1.Name = "textBox1";
 			this.textBox1.ReadOnly = true;
@@ -306,7 +306,7 @@
 			// 
 			// butBrowseTo
 			// 
-			this.butBrowseTo.Location = new System.Drawing.Point(502, 238);
+			this.butBrowseTo.Location = new System.Drawing.Point(502, 244);
 			this.butBrowseTo.Name = "butBrowseTo";
 			this.butBrowseTo.Size = new System.Drawing.Size(86, 23);
 			this.butBrowseTo.TabIndex = 5;
