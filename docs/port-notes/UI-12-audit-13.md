@@ -74,3 +74,26 @@ Nothing found: the pass is clean.
 FormRecallList, FormSheetDefEdit, DialogDatabase-parameters, ReportParameterCtl, StyleTextCtl opened. The program windows scale as at
 100%. The report designer's plain controls are drawn with their fonts scaled only (no LayoutManager in a plain exe), so their labels cut at
 150% as on main (`<W>/before-150`, cut worse there); the exe's own DPI handling is outside this slice.
+
+## Fix round (the lead's review of 2026-11-23, `ui/ui12-13-2`; `<W>/f5-100` and `<W>/f5-150`)
+
+Ten findings. Pictures byte-compared with `<W>/f4-100`: the 20 unchanged ones are byte-identical (the same logon session); the 11 that
+changed opened.
+
+| Picture | Status | What was checked and found |
+|---|---|---|
+| FormEtrans835ProcEdit | fixed | The six Balancing captions centred over their boxes (they drifted 22 to 97 px left); gridSupplementalInfo 958 wide like the other grids. |
+| FormEtrans835ClaimEdit | fixed | The boxes' left edges 3 px before their caption words (as Claim Fee's box under its word) and the signs' glyphs under the caption's signs (139-141, 285-287, 426-431 in both rows); gridSupplementalInfo 958. |
+| StyleTextCtl | fixed | Family, Style and Color from the Font group's content edge: its left border unbroken from top to bottom. |
+| DialogToolOptions-toolbar | fixed | Lists 163 px wide: Up, Down and Reset end 12 px from the tab control's frame (as the left list starts); IntegralHeight off, the lists end 11 px over its bottom frame (they stood 18 px). |
+| FormRecallList, -reactivations, -reminders | fixed | The View group ends 13 px after the widest check box's text on both pages (18 and 26 before; 4 px after GridRulesTests' text extent, the padding rule's least); Reactivations' third column boxes 8 px wider so its check boxes end where Recalls' do; the window 6 px narrower (1061). |
+| FindTab | fixed | Search Direction 4 px narrower (Down's bounds 4 px inside it, the padding rule's least): Up's circle 9 px from the group's left border, Down's text 12 px from its right border (16 before). |
+| ChartAxisCtl | fixed | Check box columns at 118 (field column), 188 (the fx button column) and 336 (the right band's field column). |
+| FormSheetDefEdit | fixed | Drawn with Load's visibility (not internal): Tab Order and tips on one row, tips whole at the right; the internal-sheet note hidden. |
+| FormSheetDefEdit-internal | ok (new) | Load's internal state: the note whole on two lines, the editing tools hidden. |
+
+150% (`<W>/f5-150`): FormRecallList-150 and FormSheetDefEdit-150 (tips whole at the right of Tab Order's row) opened, ok.
+DialogDatabase-parameters-150 is drawn as the exe scales it: its Form keeps the old Form.AutoScale (only AutoScaleBaseSize in its designer
+code), so Form.OnLoad scales the window and its controls by the font's size at the dpi (808 x 588, every text whole). ReportParameterCtl
+and StyleTextCtl are PropertyDialog's pages: PropertyDialog sets AutoScaleMode None, so the exe does not scale them at 150% (their texts
+are cut there, on main too): their 150% pictures left out of the gallery, an owner question (UI-12.md, slice 13 fix round).
