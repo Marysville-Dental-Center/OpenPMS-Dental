@@ -34,35 +34,35 @@
 			// checkAutoLogin
 			// 
 			this.checkAutoLogin.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.checkAutoLogin.Location = new System.Drawing.Point(62, 50);
+			this.checkAutoLogin.Location = new System.Drawing.Point(59, 35);
 			this.checkAutoLogin.Name = "checkAutoLogin";
-			this.checkAutoLogin.Size = new System.Drawing.Size(203, 22);
+			this.checkAutoLogin.Size = new System.Drawing.Size(155, 18);
 			this.checkAutoLogin.TabIndex = 18;
 			this.checkAutoLogin.Text = "Log me in automatically";
 			this.checkAutoLogin.UseVisualStyleBackColor = true;
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(7, 24);
+			this.label3.Location = new System.Drawing.Point(17, 8);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(49, 18);
+			this.label3.Size = new System.Drawing.Size(36, 23);
 			this.label3.TabIndex = 16;
 			this.label3.Text = "User";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textUserName
 			// 
-			this.textUserName.Location = new System.Drawing.Point(62, 24);
+			this.textUserName.Location = new System.Drawing.Point(59, 8);
 			this.textUserName.Name = "textUserName";
 			this.textUserName.ReadOnly = true;
-			this.textUserName.Size = new System.Drawing.Size(203, 20);
+			this.textUserName.Size = new System.Drawing.Size(204, 23);
 			this.textUserName.TabIndex = 15;
 			// 
 			// labelAutoLogin
 			// 
-			this.labelAutoLogin.Location = new System.Drawing.Point(59, 69);
+			this.labelAutoLogin.Location = new System.Drawing.Point(59, 57);
 			this.labelAutoLogin.Name = "labelAutoLogin";
-			this.labelAutoLogin.Size = new System.Drawing.Size(206, 32);
+			this.labelAutoLogin.Size = new System.Drawing.Size(206, 47);
 			this.labelAutoLogin.TabIndex = 19;
 			this.labelAutoLogin.Text = "Enable automatic log in by checking box \"Log me in automatically\" at next log in." +
     "";
@@ -71,7 +71,7 @@
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(126, 107);
+			this.butOK.Location = new System.Drawing.Point(144, 152);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 24);
 			this.butOK.TabIndex = 12;
@@ -81,7 +81,7 @@
 			// butCancel
 			// 
 			this.butCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butCancel.Location = new System.Drawing.Point(207, 107);
+			this.butCancel.Location = new System.Drawing.Point(227, 152);
 			this.butCancel.Name = "butCancel";
 			this.butCancel.Size = new System.Drawing.Size(75, 24);
 			this.butCancel.TabIndex = 13;

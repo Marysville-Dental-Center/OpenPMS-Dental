@@ -67,16 +67,16 @@
 			this.groupBox1.Controls.Add(this.textDays);
 			this.groupBox1.Controls.Add(this.textDate);
 			this.groupBox1.Controls.Add(this.label2);
-			this.groupBox1.Location = new System.Drawing.Point(12, 492);
+			this.groupBox1.Location = new System.Drawing.Point(8, 588);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(395, 197);
+			this.groupBox1.Size = new System.Drawing.Size(423, 196);
 			this.groupBox1.TabIndex = 106;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Lock Date";
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(5, 19);
+			this.label1.Location = new System.Drawing.Point(8, 23);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(383, 69);
 			this.label1.TabIndex = 100;
@@ -84,7 +84,7 @@
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(196, 144);
+			this.label6.Location = new System.Drawing.Point(157, 148);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(258, 17);
 			this.label6.TabIndex = 105;
@@ -93,10 +93,10 @@
 			// 
 			// checkAdmin
 			// 
-			this.checkAdmin.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkAdmin.Location = new System.Drawing.Point(5, 144);
+			this.checkAdmin.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkAdmin.Location = new System.Drawing.Point(8, 148);
 			this.checkAdmin.Name = "checkAdmin";
-			this.checkAdmin.Size = new System.Drawing.Size(185, 23);
+			this.checkAdmin.Size = new System.Drawing.Size(143, 18);
 			this.checkAdmin.TabIndex = 3;
 			this.checkAdmin.Text = "Lock Includes Admins";
 			this.checkAdmin.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -104,10 +104,10 @@
 			// 
 			// checkEnable
 			// 
-			this.checkEnable.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkEnable.Location = new System.Drawing.Point(5, 167);
+			this.checkEnable.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkEnable.Location = new System.Drawing.Point(8, 170);
 			this.checkEnable.Name = "checkEnable";
-			this.checkEnable.Size = new System.Drawing.Size(191, 24);
+			this.checkEnable.Size = new System.Drawing.Size(188, 18);
 			this.checkEnable.TabIndex = 104;
 			this.checkEnable.Text = "Central Manager Security Lock";
 			this.checkEnable.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -115,7 +115,7 @@
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(24, 115);
+			this.label4.Location = new System.Drawing.Point(8, 122);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(210, 17);
 			this.label4.TabIndex = 66;
@@ -124,7 +124,7 @@
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(28, 88);
+			this.label3.Location = new System.Drawing.Point(8, 94);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(225, 17);
 			this.label3.TabIndex = 65;
@@ -133,7 +133,7 @@
 			// 
 			// textDays
 			// 
-			this.textDays.Location = new System.Drawing.Point(95, 114);
+			this.textDays.Location = new System.Drawing.Point(79, 121);
 			this.textDays.Name = "textDays";
 			this.textDays.Size = new System.Drawing.Size(46, 20);
 			this.textDays.TabIndex = 2;
@@ -141,7 +141,7 @@
 			// 
 			// textDate
 			// 
-			this.textDate.Location = new System.Drawing.Point(95, 88);
+			this.textDate.Location = new System.Drawing.Point(75, 94);
 			this.textDate.Name = "textDate";
 			this.textDate.Size = new System.Drawing.Size(100, 20);
 			this.textDate.TabIndex = 1;
@@ -149,7 +149,7 @@
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(146, 116);
+			this.label2.Location = new System.Drawing.Point(130, 123);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(123, 18);
 			this.label2.TabIndex = 68;
@@ -159,15 +159,15 @@
 			// textSyncCode
 			// 
 			this.textSyncCode.AutoSize = false;
-			this.textSyncCode.Location = new System.Drawing.Point(18, 33);
+			this.textSyncCode.Location = new System.Drawing.Point(15, 41);
 			this.textSyncCode.Name = "textSyncCode";
 			this.textSyncCode.ReadOnly = true;
-			this.textSyncCode.Size = new System.Drawing.Size(122, 20);
+			this.textSyncCode.Size = new System.Drawing.Size(120, 23);
 			this.textSyncCode.TabIndex = 110;
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(15, 16);
+			this.label5.Location = new System.Drawing.Point(15, 23);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(115, 16);
 			this.label5.TabIndex = 111;
@@ -184,16 +184,16 @@
 			this.groupBox2.Controls.Add(this.butPushLocks);
 			this.groupBox2.Controls.Add(this.textSyncCode);
 			this.groupBox2.Controls.Add(this.butPushUsers);
-			this.groupBox2.Location = new System.Drawing.Point(413, 492);
+			this.groupBox2.Location = new System.Drawing.Point(409, 588);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(267, 197);
+			this.groupBox2.Size = new System.Drawing.Size(275, 232);
 			this.groupBox2.TabIndex = 107;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Sync Options";
 			// 
 			// butPushBoth
 			// 
-			this.butPushBoth.Location = new System.Drawing.Point(18, 161);
+			this.butPushBoth.Location = new System.Drawing.Point(15, 200);
 			this.butPushBoth.Name = "butPushBoth";
 			this.butPushBoth.Size = new System.Drawing.Size(75, 24);
 			this.butPushBoth.TabIndex = 114;
@@ -202,15 +202,15 @@
 			// 
 			// label8
 			// 
-			this.label8.Location = new System.Drawing.Point(99, 133);
+			this.label8.Location = new System.Drawing.Point(96, 149);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(168, 31);
+			this.label8.Size = new System.Drawing.Size(168, 47);
 			this.label8.TabIndex = 113;
 			this.label8.Text = "Window will come up to allow selecting databases to push to";
 			// 
 			// label7
 			// 
-			this.label7.Location = new System.Drawing.Point(15, 54);
+			this.label7.Location = new System.Drawing.Point(15, 68);
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(252, 51);
 			this.label7.TabIndex = 112;
@@ -219,7 +219,7 @@
 			// 
 			// butPushLocks
 			// 
-			this.butPushLocks.Location = new System.Drawing.Point(18, 133);
+			this.butPushLocks.Location = new System.Drawing.Point(15, 149);
 			this.butPushLocks.Name = "butPushLocks";
 			this.butPushLocks.Size = new System.Drawing.Size(75, 24);
 			this.butPushLocks.TabIndex = 109;
@@ -228,7 +228,7 @@
 			// 
 			// butPushUsers
 			// 
-			this.butPushUsers.Location = new System.Drawing.Point(18, 105);
+			this.butPushUsers.Location = new System.Drawing.Point(15, 121);
 			this.butPushUsers.Name = "butPushUsers";
 			this.butPushUsers.Size = new System.Drawing.Size(75, 24);
 			this.butPushUsers.TabIndex = 108;
@@ -241,7 +241,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.userControlSecurityTabs.IsForCEMT = true;
-			this.userControlSecurityTabs.Location = new System.Drawing.Point(2, 2);
+			this.userControlSecurityTabs.Location = new System.Drawing.Point(8, 8);
 			this.userControlSecurityTabs.Name = "userControlSecurityTabs";
 			this.userControlSecurityTabs.SelectedUser = null;
 			this.userControlSecurityTabs.SelectedUserGroup = null;
@@ -258,7 +258,7 @@
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(897, 630);
+			this.butOK.Location = new System.Drawing.Point(819, 796);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 24);
 			this.butOK.TabIndex = 107;
@@ -268,7 +268,7 @@
 			// butClose
 			// 
 			this.butClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butClose.Location = new System.Drawing.Point(897, 660);
+			this.butClose.Location = new System.Drawing.Point(902, 796);
 			this.butClose.Name = "butClose";
 			this.butClose.Size = new System.Drawing.Size(75, 24);
 			this.butClose.TabIndex = 65;
@@ -277,17 +277,17 @@
 			// 
 			// textDomainLoginPath
 			// 
-			this.textDomainLoginPath.Location = new System.Drawing.Point(95, 37);
+			this.textDomainLoginPath.Location = new System.Drawing.Point(95, 45);
 			this.textDomainLoginPath.Name = "textDomainLoginPath";
-			this.textDomainLoginPath.Size = new System.Drawing.Size(163, 20);
+			this.textDomainLoginPath.Size = new System.Drawing.Size(161, 23);
 			this.textDomainLoginPath.TabIndex = 271;
 			this.textDomainLoginPath.Leave += new System.EventHandler(this.textDomainLoginPath_Leave);
 			// 
 			// labelDomainPath
 			// 
-			this.labelDomainPath.Location = new System.Drawing.Point(6, 38);
+			this.labelDomainPath.Location = new System.Drawing.Point(9, 45);
 			this.labelDomainPath.Name = "labelDomainPath";
-			this.labelDomainPath.Size = new System.Drawing.Size(89, 18);
+			this.labelDomainPath.Size = new System.Drawing.Size(80, 23);
 			this.labelDomainPath.TabIndex = 272;
 			this.labelDomainPath.Text = "Domain Path";
 			this.labelDomainPath.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -298,20 +298,20 @@
 			this.groupBox3.Controls.Add(this.checkDomainLoginEnabled);
 			this.groupBox3.Controls.Add(this.textDomainLoginPath);
 			this.groupBox3.Controls.Add(this.labelDomainPath);
-			this.groupBox3.Location = new System.Drawing.Point(707, 492);
+			this.groupBox3.Location = new System.Drawing.Point(707, 500);
 			this.groupBox3.Name = "groupBox3";
-			this.groupBox3.Size = new System.Drawing.Size(264, 71);
+			this.groupBox3.Size = new System.Drawing.Size(264, 76);
 			this.groupBox3.TabIndex = 274;
 			this.groupBox3.TabStop = false;
 			this.groupBox3.Text = "Domain Login";
 			// 
 			// checkDomainLoginEnabled
 			// 
-			this.checkDomainLoginEnabled.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkDomainLoginEnabled.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.checkDomainLoginEnabled.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.checkDomainLoginEnabled.Location = new System.Drawing.Point(34, 15);
+			this.checkDomainLoginEnabled.Location = new System.Drawing.Point(95, 23);
 			this.checkDomainLoginEnabled.Name = "checkDomainLoginEnabled";
-			this.checkDomainLoginEnabled.Size = new System.Drawing.Size(224, 16);
+			this.checkDomainLoginEnabled.Size = new System.Drawing.Size(147, 18);
 			this.checkDomainLoginEnabled.TabIndex = 270;
 			this.checkDomainLoginEnabled.Text = "Domain Login Enabled";
 			this.checkDomainLoginEnabled.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -322,7 +322,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-			this.ClientSize = new System.Drawing.Size(984, 696);
+			this.ClientSize = new System.Drawing.Size(985, 828);
 			this.Controls.Add(this.groupBox3);
 			this.Controls.Add(this.userControlSecurityTabs);
 			this.Controls.Add(this.groupBox2);

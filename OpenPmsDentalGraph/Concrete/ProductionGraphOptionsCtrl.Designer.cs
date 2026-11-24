@@ -35,21 +35,21 @@
 			this.groupBox1.Controls.Add(this.checkIncludeAdjustments);
 			this.groupBox1.Controls.Add(this.checkIncludeCompletedProcs);
 			this.groupBox1.Controls.Add(this.checkIncludeWriteoffs);
-			this.groupBox1.Location = new System.Drawing.Point(0, 0);
+			this.groupBox1.Location = new System.Drawing.Point(8, 8);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(300, 42);
+			this.groupBox1.Size = new System.Drawing.Size(315, 49);
 			this.groupBox1.TabIndex = 7;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Included Production Sources";
 			// 
 			// checkIncludeAdjustments
 			// 
-			this.checkIncludeAdjustments.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkIncludeAdjustments.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.checkIncludeAdjustments.Checked = true;
 			this.checkIncludeAdjustments.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkIncludeAdjustments.Location = new System.Drawing.Point(124, 13);
+			this.checkIncludeAdjustments.Location = new System.Drawing.Point(132, 23);
 			this.checkIncludeAdjustments.Name = "checkIncludeAdjustments";
-			this.checkIncludeAdjustments.Size = new System.Drawing.Size(92, 24);
+			this.checkIncludeAdjustments.Size = new System.Drawing.Size(94, 18);
 			this.checkIncludeAdjustments.TabIndex = 3;
 			this.checkIncludeAdjustments.Text = "Adjustments";
 			this.checkIncludeAdjustments.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -58,12 +58,12 @@
 			// 
 			// checkIncludeCompletedProcs
 			// 
-			this.checkIncludeCompletedProcs.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkIncludeCompletedProcs.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.checkIncludeCompletedProcs.Checked = true;
 			this.checkIncludeCompletedProcs.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkIncludeCompletedProcs.Location = new System.Drawing.Point(6, 13);
+			this.checkIncludeCompletedProcs.Location = new System.Drawing.Point(8, 23);
 			this.checkIncludeCompletedProcs.Name = "checkIncludeCompletedProcs";
-			this.checkIncludeCompletedProcs.Size = new System.Drawing.Size(116, 24);
+			this.checkIncludeCompletedProcs.Size = new System.Drawing.Size(118, 18);
 			this.checkIncludeCompletedProcs.TabIndex = 5;
 			this.checkIncludeCompletedProcs.Text = "Completed Procs";
 			this.checkIncludeCompletedProcs.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -72,12 +72,12 @@
 			// 
 			// checkIncludeWriteoffs
 			// 
-			this.checkIncludeWriteoffs.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkIncludeWriteoffs.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.checkIncludeWriteoffs.Checked = true;
 			this.checkIncludeWriteoffs.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkIncludeWriteoffs.Location = new System.Drawing.Point(217, 13);
+			this.checkIncludeWriteoffs.Location = new System.Drawing.Point(232, 23);
 			this.checkIncludeWriteoffs.Name = "checkIncludeWriteoffs";
-			this.checkIncludeWriteoffs.Size = new System.Drawing.Size(73, 24);
+			this.checkIncludeWriteoffs.Size = new System.Drawing.Size(75, 18);
 			this.checkIncludeWriteoffs.TabIndex = 4;
 			this.checkIncludeWriteoffs.Text = "Writeoffs";
 			this.checkIncludeWriteoffs.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -89,7 +89,7 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
 			this.Controls.Add(this.groupBox1);
 			this.Name = "ProductionGraphOptionsCtrl";
-			this.Size = new System.Drawing.Size(300, 42);
+			this.Size = new System.Drawing.Size(331, 65);
 			this.groupBox1.ResumeLayout(false);
 			this.ResumeLayout(false);
 

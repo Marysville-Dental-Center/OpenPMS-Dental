@@ -44,16 +44,16 @@
 			this.groupBox1.Controls.Add(this.label2);
 			this.groupBox1.Controls.Add(this.label3);
 			this.groupBox1.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.groupBox1.Location = new System.Drawing.Point(21, 50);
+			this.groupBox1.Location = new System.Drawing.Point(8, 39);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(433, 126);
+			this.groupBox1.Size = new System.Drawing.Size(475, 117);
 			this.groupBox1.TabIndex = 58;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Only if newer than";
 			// 
 			// textDate
 			// 
-			this.textDate.Location = new System.Drawing.Point(130, 19);
+			this.textDate.Location = new System.Drawing.Point(137, 23);
 			this.textDate.Name = "textDate";
 			this.textDate.Size = new System.Drawing.Size(100, 20);
 			this.textDate.TabIndex = 50;
@@ -61,26 +61,26 @@
 			// 
 			// textDays
 			// 
-			this.textDays.Location = new System.Drawing.Point(130, 45);
+			this.textDays.Location = new System.Drawing.Point(137, 50);
 			this.textDays.Name = "textDays";
-			this.textDays.Size = new System.Drawing.Size(46, 20);
+			this.textDays.Size = new System.Drawing.Size(48, 23);
 			this.textDays.TabIndex = 0;
 			this.textDays.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textDays_KeyDown);
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(7, 19);
+			this.label1.Location = new System.Drawing.Point(95, 23);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(121, 18);
+			this.label1.Size = new System.Drawing.Size(36, 23);
 			this.label1.TabIndex = 46;
 			this.label1.Text = "Date";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(3, 46);
+			this.label2.Location = new System.Drawing.Point(95, 50);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(126, 16);
+			this.label2.Size = new System.Drawing.Size(36, 23);
 			this.label2.TabIndex = 47;
 			this.label2.Text = "Days";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -89,14 +89,14 @@
 			// 
 			this.label3.Location = new System.Drawing.Point(87, 77);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(320, 40);
+			this.label3.Size = new System.Drawing.Size(320, 32);
 			this.label3.TabIndex = 52;
 			this.label3.Text = "For instance, if you set days to 1, then user will only have permission if the da" +
     "te of the item is today";
 			// 
 			// textName
 			// 
-			this.textName.Location = new System.Drawing.Point(145, 17);
+			this.textName.Location = new System.Drawing.Point(145, 8);
 			this.textName.MaxLength = 100;
 			this.textName.Name = "textName";
 			this.textName.ReadOnly = true;
@@ -105,18 +105,18 @@
 			// 
 			// label10
 			// 
-			this.label10.Location = new System.Drawing.Point(48, 20);
+			this.label10.Location = new System.Drawing.Point(103, 8);
 			this.label10.Name = "label10";
-			this.label10.Size = new System.Drawing.Size(95, 15);
+			this.label10.Size = new System.Drawing.Size(36, 23);
 			this.label10.TabIndex = 57;
 			this.label10.Text = "Type";
-			this.label10.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// butCancel
 			// 
 			this.butCancel.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.butCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.butCancel.Location = new System.Drawing.Point(388, 191);
+			this.butCancel.Location = new System.Drawing.Point(408, 236);
 			this.butCancel.Name = "butCancel";
 			this.butCancel.Size = new System.Drawing.Size(75, 24);
 			this.butCancel.TabIndex = 55;
@@ -126,7 +126,7 @@
 			// butOK
 			// 
 			this.butOK.Anchor = System.Windows.Forms.AnchorStyles.None;
-			this.butOK.Location = new System.Drawing.Point(307, 191);
+			this.butOK.Location = new System.Drawing.Point(325, 236);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 24);
 			this.butOK.TabIndex = 54;

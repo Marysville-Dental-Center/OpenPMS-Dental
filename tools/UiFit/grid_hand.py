@@ -427,8 +427,13 @@ class Box:
         return hh
 
 
-def load_script(window_simple):
+def load_script(window_simple, window=None):
+    """hand/<class>.py; UI-12 slice 12: hand/<namespace>.<class>.py first when it exists (two exes' Form1: xCrudGenerator.Form1.py,
+    DocumentationBuilder.Form1.py)."""
     p = os.path.join(os.path.dirname(os.path.abspath(__file__)), "hand", window_simple + ".py")
+    if window and os.path.exists(os.path.join(os.path.dirname(p), window + ".py")):
+        p = os.path.join(os.path.dirname(p), window + ".py")
+        window_simple = window.replace(".", "_")
     spec = importlib.util.spec_from_file_location("hand_" + window_simple, p)
     mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)
@@ -463,7 +468,7 @@ def run(tree_path, window_simple, part=None):
         if n is not tree and n.name in designer.name_to_field and n.name not in designer.declared:
             n.name = designer.name_to_field[n.name]
     hand = Hand(window, tree, designer)
-    mod = load_script(window_simple)
+    mod = load_script(window_simple, window)
     mod.layout(hand)
     return hand, designer
 

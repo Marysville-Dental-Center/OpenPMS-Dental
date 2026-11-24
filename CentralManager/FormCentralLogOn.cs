@@ -71,7 +71,7 @@ namespace CentralManager{
 			// butCancel
 			// 
 			this.butCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butCancel.Location = new System.Drawing.Point(361, 321);
+			this.butCancel.Location = new System.Drawing.Point(361, 85);
 			this.butCancel.Name = "butCancel";
 			this.butCancel.Size = new System.Drawing.Size(75, 24);
 			this.butCancel.TabIndex = 2;
@@ -81,7 +81,7 @@ namespace CentralManager{
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(361, 280);
+			this.butOK.Location = new System.Drawing.Point(361, 57);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 24);
 			this.butOK.TabIndex = 1;
@@ -90,7 +90,7 @@ namespace CentralManager{
 			// 
 			// listUser
 			// 
-			this.listUser.Location = new System.Drawing.Point(31, 31);
+			this.listUser.Location = new System.Drawing.Point(31, 30);
 			this.listUser.Name = "listUser";
 			this.listUser.Size = new System.Drawing.Size(141, 316);
 			this.listUser.TabIndex = 2;
@@ -98,7 +98,7 @@ namespace CentralManager{
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(30, 10);
+			this.label1.Location = new System.Drawing.Point(30, 8);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(122, 18);
 			this.label1.TabIndex = 6;
@@ -107,7 +107,7 @@ namespace CentralManager{
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(188, 10);
+			this.label2.Location = new System.Drawing.Point(188, 8);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(122, 18);
 			this.label2.TabIndex = 7;
@@ -116,15 +116,15 @@ namespace CentralManager{
 			// 
 			// textPassword
 			// 
-			this.textPassword.Location = new System.Drawing.Point(189, 31);
+			this.textPassword.Location = new System.Drawing.Point(189, 30);
 			this.textPassword.Name = "textPassword";
 			this.textPassword.PasswordChar = '*';
-			this.textPassword.Size = new System.Drawing.Size(215, 20);
+			this.textPassword.Size = new System.Drawing.Size(216, 23);
 			this.textPassword.TabIndex = 0;
 			// 
 			// textUser
 			// 
-			this.textUser.Location = new System.Drawing.Point(31, 31);
+			this.textUser.Location = new System.Drawing.Point(31, 30);
 			this.textUser.Name = "textUser";
 			this.textUser.Size = new System.Drawing.Size(141, 20);
 			this.textUser.TabIndex = 8;

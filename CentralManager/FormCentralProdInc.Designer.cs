@@ -54,7 +54,7 @@ namespace CentralManager {
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(313, 305);
+			this.butOK.Location = new System.Drawing.Point(331, 348);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 24);
 			this.butOK.TabIndex = 3;
@@ -64,7 +64,7 @@ namespace CentralManager {
 			// butCancel
 			// 
 			this.butCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butCancel.Location = new System.Drawing.Point(394, 305);
+			this.butCancel.Location = new System.Drawing.Point(414, 348);
 			this.butCancel.Name = "butCancel";
 			this.butCancel.Size = new System.Drawing.Size(75, 24);
 			this.butCancel.TabIndex = 2;
@@ -76,16 +76,16 @@ namespace CentralManager {
 			this.groupBox3.Controls.Add(this.label5);
 			this.groupBox3.Controls.Add(this.radioWriteoffProc);
 			this.groupBox3.Controls.Add(this.radioWriteoffPay);
-			this.groupBox3.Location = new System.Drawing.Point(164, 188);
+			this.groupBox3.Location = new System.Drawing.Point(164, 156);
 			this.groupBox3.Name = "groupBox3";
-			this.groupBox3.Size = new System.Drawing.Size(281, 79);
+			this.groupBox3.Size = new System.Drawing.Size(291, 92);
 			this.groupBox3.TabIndex = 51;
 			this.groupBox3.TabStop = false;
 			this.groupBox3.Text = "Show Insurance Write-offs";
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(6, 59);
+			this.label5.Location = new System.Drawing.Point(8, 67);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(275, 17);
 			this.label5.TabIndex = 2;
@@ -95,9 +95,9 @@ namespace CentralManager {
 			// 
 			this.radioWriteoffProc.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
 			this.radioWriteoffProc.Checked = true;
-			this.radioWriteoffProc.Location = new System.Drawing.Point(9, 36);
+			this.radioWriteoffProc.Location = new System.Drawing.Point(8, 45);
 			this.radioWriteoffProc.Name = "radioWriteoffProc";
-			this.radioWriteoffProc.Size = new System.Drawing.Size(244, 17);
+			this.radioWriteoffProc.Size = new System.Drawing.Size(141, 18);
 			this.radioWriteoffProc.TabIndex = 1;
 			this.radioWriteoffProc.TabStop = true;
 			this.radioWriteoffProc.Text = "Using procedure date.";
@@ -107,9 +107,9 @@ namespace CentralManager {
 			// radioWriteoffPay
 			// 
 			this.radioWriteoffPay.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
-			this.radioWriteoffPay.Location = new System.Drawing.Point(9, 17);
+			this.radioWriteoffPay.Location = new System.Drawing.Point(8, 23);
 			this.radioWriteoffPay.Name = "radioWriteoffPay";
-			this.radioWriteoffPay.Size = new System.Drawing.Size(244, 17);
+			this.radioWriteoffPay.Size = new System.Drawing.Size(188, 18);
 			this.radioWriteoffPay.TabIndex = 0;
 			this.radioWriteoffPay.Text = "Using insurance payment date.";
 			this.radioWriteoffPay.TextAlign = System.Drawing.ContentAlignment.TopLeft;
@@ -125,9 +125,9 @@ namespace CentralManager {
 			this.groupBox2.Controls.Add(this.label3);
 			this.groupBox2.Controls.Add(this.butLeft);
 			this.groupBox2.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.groupBox2.Location = new System.Drawing.Point(85, 38);
+			this.groupBox2.Location = new System.Drawing.Point(85, 39);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(281, 144);
+			this.groupBox2.Size = new System.Drawing.Size(281, 109);
 			this.groupBox2.TabIndex = 50;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Date Range";
@@ -135,7 +135,7 @@ namespace CentralManager {
 			// butRight
 			// 
 			this.butRight.Icon = OpenPmsDental.UI.EnumIcons.ArrowRight;
-			this.butRight.Location = new System.Drawing.Point(205, 30);
+			this.butRight.Location = new System.Drawing.Point(199, 23);
 			this.butRight.Name = "butRight";
 			this.butRight.Size = new System.Drawing.Size(45, 24);
 			this.butRight.TabIndex = 46;
@@ -143,7 +143,7 @@ namespace CentralManager {
 			// 
 			// butThis
 			// 
-			this.butThis.Location = new System.Drawing.Point(95, 30);
+			this.butThis.Location = new System.Drawing.Point(92, 23);
 			this.butThis.Name = "butThis";
 			this.butThis.Size = new System.Drawing.Size(101, 24);
 			this.butThis.TabIndex = 45;
@@ -152,40 +152,40 @@ namespace CentralManager {
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(9, 79);
+			this.label2.Location = new System.Drawing.Point(49, 51);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(82, 18);
+			this.label2.Size = new System.Drawing.Size(40, 23);
 			this.label2.TabIndex = 37;
 			this.label2.Text = "From";
-			this.label2.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textDateFrom
 			// 
-			this.textDateFrom.Location = new System.Drawing.Point(95, 77);
+			this.textDateFrom.Location = new System.Drawing.Point(95, 51);
 			this.textDateFrom.Name = "textDateFrom";
 			this.textDateFrom.Size = new System.Drawing.Size(100, 20);
 			this.textDateFrom.TabIndex = 43;
 			// 
 			// textDateTo
 			// 
-			this.textDateTo.Location = new System.Drawing.Point(95, 104);
+			this.textDateTo.Location = new System.Drawing.Point(95, 78);
 			this.textDateTo.Name = "textDateTo";
 			this.textDateTo.Size = new System.Drawing.Size(100, 20);
 			this.textDateTo.TabIndex = 44;
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(7, 105);
+			this.label3.Location = new System.Drawing.Point(65, 78);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(82, 18);
+			this.label3.Size = new System.Drawing.Size(24, 23);
 			this.label3.TabIndex = 39;
 			this.label3.Text = "To";
-			this.label3.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// butLeft
 			// 
 			this.butLeft.Icon = OpenPmsDental.UI.EnumIcons.ArrowLeft;
-			this.butLeft.Location = new System.Drawing.Point(41, 30);
+			this.butLeft.Location = new System.Drawing.Point(41, 23);
 			this.butLeft.Name = "butLeft";
 			this.butLeft.Size = new System.Drawing.Size(45, 24);
 			this.butLeft.TabIndex = 44;
@@ -193,7 +193,7 @@ namespace CentralManager {
 			// 
 			// textToday
 			// 
-			this.textToday.Location = new System.Drawing.Point(180, 12);
+			this.textToday.Location = new System.Drawing.Point(180, 8);
 			this.textToday.Name = "textToday";
 			this.textToday.ReadOnly = true;
 			this.textToday.Size = new System.Drawing.Size(100, 20);
@@ -201,12 +201,12 @@ namespace CentralManager {
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(51, 14);
+			this.label4.Location = new System.Drawing.Point(94, 8);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(127, 20);
+			this.label4.Size = new System.Drawing.Size(80, 23);
 			this.label4.TabIndex = 48;
 			this.label4.Text = "Today\'s Date";
-			this.label4.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// groupBox1
 			// 
@@ -215,9 +215,9 @@ namespace CentralManager {
 			this.groupBox1.Controls.Add(this.radioDaily);
 			this.groupBox1.Controls.Add(this.radioMonthly);
 			this.groupBox1.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.groupBox1.Location = new System.Drawing.Point(35, 188);
+			this.groupBox1.Location = new System.Drawing.Point(35, 156);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(123, 104);
+			this.groupBox1.Size = new System.Drawing.Size(123, 115);
 			this.groupBox1.TabIndex = 47;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Report Type";
@@ -225,9 +225,9 @@ namespace CentralManager {
 			// radioProvider
 			// 
 			this.radioProvider.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.radioProvider.Location = new System.Drawing.Point(14, 73);
+			this.radioProvider.Location = new System.Drawing.Point(8, 89);
 			this.radioProvider.Name = "radioProvider";
-			this.radioProvider.Size = new System.Drawing.Size(104, 17);
+			this.radioProvider.Size = new System.Drawing.Size(69, 18);
 			this.radioProvider.TabIndex = 36;
 			this.radioProvider.Text = "Provider";
 			this.radioProvider.Click += new System.EventHandler(this.radioProvider_Click);
@@ -236,9 +236,9 @@ namespace CentralManager {
 			// 
 			this.radioAnnual.Checked = true;
 			this.radioAnnual.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.radioAnnual.Location = new System.Drawing.Point(14, 55);
+			this.radioAnnual.Location = new System.Drawing.Point(8, 67);
 			this.radioAnnual.Name = "radioAnnual";
-			this.radioAnnual.Size = new System.Drawing.Size(104, 17);
+			this.radioAnnual.Size = new System.Drawing.Size(63, 18);
 			this.radioAnnual.TabIndex = 35;
 			this.radioAnnual.TabStop = true;
 			this.radioAnnual.Text = "Annual";
@@ -247,9 +247,9 @@ namespace CentralManager {
 			// radioDaily
 			// 
 			this.radioDaily.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.radioDaily.Location = new System.Drawing.Point(14, 17);
+			this.radioDaily.Location = new System.Drawing.Point(8, 23);
 			this.radioDaily.Name = "radioDaily";
-			this.radioDaily.Size = new System.Drawing.Size(104, 17);
+			this.radioDaily.Size = new System.Drawing.Size(51, 18);
 			this.radioDaily.TabIndex = 34;
 			this.radioDaily.Text = "Daily";
 			this.radioDaily.Click += new System.EventHandler(this.radioDaily_Click);
@@ -257,9 +257,9 @@ namespace CentralManager {
 			// radioMonthly
 			// 
 			this.radioMonthly.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.radioMonthly.Location = new System.Drawing.Point(14, 36);
+			this.radioMonthly.Location = new System.Drawing.Point(8, 45);
 			this.radioMonthly.Name = "radioMonthly";
-			this.radioMonthly.Size = new System.Drawing.Size(104, 17);
+			this.radioMonthly.Size = new System.Drawing.Size(70, 18);
 			this.radioMonthly.TabIndex = 33;
 			this.radioMonthly.Text = "Monthly";
 			this.radioMonthly.Click += new System.EventHandler(this.radioMonthly_Click);
@@ -269,9 +269,9 @@ namespace CentralManager {
 			this.checkShowUnearned.Checked = true;
 			this.checkShowUnearned.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.checkShowUnearned.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.checkShowUnearned.Location = new System.Drawing.Point(173, 273);
+			this.checkShowUnearned.Location = new System.Drawing.Point(164, 256);
 			this.checkShowUnearned.Name = "checkShowUnearned";
-			this.checkShowUnearned.Size = new System.Drawing.Size(160, 16);
+			this.checkShowUnearned.Size = new System.Drawing.Size(120, 18);
 			this.checkShowUnearned.TabIndex = 53;
 			this.checkShowUnearned.Text = "Include Unearned";
 			// 

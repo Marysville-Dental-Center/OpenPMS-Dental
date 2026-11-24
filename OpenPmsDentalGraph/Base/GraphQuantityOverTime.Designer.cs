@@ -206,7 +206,7 @@
 			// 
 			// radBreakdownNone
 			// 
-			this.radBreakdownNone.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.radBreakdownNone.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.radBreakdownNone.Location = new System.Drawing.Point(4, 68);
 			this.radBreakdownNone.Name = "radBreakdownNone";
 			this.radBreakdownNone.Size = new System.Drawing.Size(53, 17);
@@ -246,7 +246,7 @@
 			// 
 			// radBreakdownAll
 			// 
-			this.radBreakdownAll.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.radBreakdownAll.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.radBreakdownAll.Location = new System.Drawing.Point(15, 20);
 			this.radBreakdownAll.Name = "radBreakdownAll";
 			this.radBreakdownAll.Size = new System.Drawing.Size(42, 17);
@@ -258,7 +258,7 @@
 			// 
 			// radBreakdownTop
 			// 
-			this.radBreakdownTop.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.radBreakdownTop.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.radBreakdownTop.Checked = true;
 			this.radBreakdownTop.Location = new System.Drawing.Point(12, 43);
 			this.radBreakdownTop.Name = "radBreakdownTop";

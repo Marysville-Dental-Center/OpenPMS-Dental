@@ -48,9 +48,9 @@
 			this.groupBox3.Controls.Add(this.radioRunAdjs);
 			this.groupBox3.Controls.Add(this.radioRunApts);
 			this.groupBox3.Controls.Add(this.radioRunProcs);
-			this.groupBox3.Location = new System.Drawing.Point(0, 0);
+			this.groupBox3.Location = new System.Drawing.Point(8, 8);
 			this.groupBox3.Name = "groupBox3";
-			this.groupBox3.Size = new System.Drawing.Size(391, 131);
+			this.groupBox3.Size = new System.Drawing.Size(403, 147);
 			this.groupBox3.TabIndex = 4;
 			this.groupBox3.TabStop = false;
 			this.groupBox3.Text = "Count By";
@@ -60,15 +60,15 @@
 			this.comboBrokenProcType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboBrokenProcType.Enabled = false;
 			this.comboBrokenProcType.FormattingEnabled = true;
-			this.comboBrokenProcType.Location = new System.Drawing.Point(100, 37);
+			this.comboBrokenProcType.Location = new System.Drawing.Point(97, 45);
 			this.comboBrokenProcType.Name = "comboBrokenProcType";
-			this.comboBrokenProcType.Size = new System.Drawing.Size(214, 21);
+			this.comboBrokenProcType.Size = new System.Drawing.Size(216, 23);
 			this.comboBrokenProcType.TabIndex = 9;
 			this.comboBrokenProcType.SelectedIndexChanged += new System.EventHandler(this.OnBrokenApptGraphOptionsChanged);
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(97, 79);
+			this.label3.Location = new System.Drawing.Point(106, 94);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(280, 18);
 			this.label3.TabIndex = 8;
@@ -77,7 +77,7 @@
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(97, 58);
+			this.label2.Location = new System.Drawing.Point(115, 72);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(280, 18);
 			this.label2.TabIndex = 7;
@@ -86,9 +86,9 @@
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(97, 16);
+			this.label1.Location = new System.Drawing.Point(98, 23);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(294, 18);
+			this.label1.Size = new System.Drawing.Size(297, 18);
 			this.label1.TabIndex = 6;
 			this.label1.Text = "Count completed broken and/or canceled procedures.";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -98,18 +98,18 @@
 			this.comboAdjType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboAdjType.Enabled = false;
 			this.comboAdjType.FormattingEnabled = true;
-			this.comboAdjType.Location = new System.Drawing.Point(100, 100);
+			this.comboAdjType.Location = new System.Drawing.Point(97, 116);
 			this.comboAdjType.Name = "comboAdjType";
-			this.comboAdjType.Size = new System.Drawing.Size(214, 21);
+			this.comboAdjType.Size = new System.Drawing.Size(216, 23);
 			this.comboAdjType.TabIndex = 5;
 			this.comboAdjType.SelectedIndexChanged += new System.EventHandler(this.OnBrokenApptGraphOptionsChanged);
 			// 
 			// radioRunAdjs
 			// 
 			this.radioRunAdjs.AutoSize = false;
-			this.radioRunAdjs.Location = new System.Drawing.Point(6, 80);
+			this.radioRunAdjs.Location = new System.Drawing.Point(8, 94);
 			this.radioRunAdjs.Name = "radioRunAdjs";
-			this.radioRunAdjs.Size = new System.Drawing.Size(91, 22);
+			this.radioRunAdjs.Size = new System.Drawing.Size(92, 18);
 			this.radioRunAdjs.TabIndex = 4;
 			this.radioRunAdjs.Text = "Adjustments";
 			this.radioRunAdjs.UseVisualStyleBackColor = true;
@@ -118,9 +118,9 @@
 			// radioRunApts
 			// 
 			this.radioRunApts.AutoSize = false;
-			this.radioRunApts.Location = new System.Drawing.Point(6, 59);
+			this.radioRunApts.Location = new System.Drawing.Point(8, 72);
 			this.radioRunApts.Name = "radioRunApts";
-			this.radioRunApts.Size = new System.Drawing.Size(94, 20);
+			this.radioRunApts.Size = new System.Drawing.Size(101, 18);
 			this.radioRunApts.TabIndex = 1;
 			this.radioRunApts.Text = "Appointments";
 			this.radioRunApts.UseVisualStyleBackColor = true;
@@ -128,11 +128,11 @@
 			// 
 			// radioRunProcs
 			// 
-			this.radioRunProcs.AutoSize = true;
+			this.radioRunProcs.AutoSize = false;
 			this.radioRunProcs.Checked = true;
-			this.radioRunProcs.Location = new System.Drawing.Point(6, 17);
+			this.radioRunProcs.Location = new System.Drawing.Point(8, 23);
 			this.radioRunProcs.Name = "radioRunProcs";
-			this.radioRunProcs.Size = new System.Drawing.Size(79, 17);
+			this.radioRunProcs.Size = new System.Drawing.Size(84, 18);
 			this.radioRunProcs.TabIndex = 3;
 			this.radioRunProcs.TabStop = true;
 			this.radioRunProcs.Text = "Procedures";
@@ -144,7 +144,7 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
 			this.Controls.Add(this.groupBox3);
 			this.Name = "BrokenApptGraphOptionsCtrl";
-			this.Size = new System.Drawing.Size(394, 131);
+			this.Size = new System.Drawing.Size(419, 163);
 			this.Load += new System.EventHandler(this.BrokenApptGraphOptionsCtrl_Load);
 			this.groupBox3.ResumeLayout(false);
 			this.groupBox3.PerformLayout();

@@ -39,7 +39,7 @@
 			// 
 			this.label1.Anchor = System.Windows.Forms.AnchorStyles.Top;
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(101, 20);
+			this.label1.Location = new System.Drawing.Point(101, 8);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(312, 13);
 			this.label1.TabIndex = 2;
@@ -48,7 +48,7 @@
 			// butStart
 			// 
 			this.butStart.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-			this.butStart.Location = new System.Drawing.Point(190, 313);
+			this.butStart.Location = new System.Drawing.Point(190, 356);
 			this.butStart.Name = "butStart";
 			this.butStart.Size = new System.Drawing.Size(135, 36);
 			this.butStart.TabIndex = 1;
@@ -61,7 +61,7 @@
 			this.textOutput.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textOutput.Location = new System.Drawing.Point(12, 141);
+			this.textOutput.Location = new System.Drawing.Point(8, 135);
 			this.textOutput.Multiline = true;
 			this.textOutput.Name = "textOutput";
 			this.textOutput.ReadOnly = true;
@@ -73,7 +73,7 @@
 			// 
 			this.textServerName.Anchor = System.Windows.Forms.AnchorStyles.Top;
 			this.textServerName.Enabled = false;
-			this.textServerName.Location = new System.Drawing.Point(190, 71);
+			this.textServerName.Location = new System.Drawing.Point(190, 58);
 			this.textServerName.Name = "textServerName";
 			this.textServerName.Size = new System.Drawing.Size(188, 20);
 			this.textServerName.TabIndex = 3;
@@ -83,59 +83,59 @@
 			this.textDatabaseName.Anchor = System.Windows.Forms.AnchorStyles.Top;
 			this.textDatabaseName.Enabled = false;
 			this.textDatabaseName.AutoSize = false;
-			this.textDatabaseName.Location = new System.Drawing.Point(190, 97);
+			this.textDatabaseName.Location = new System.Drawing.Point(190, 85);
 			this.textDatabaseName.Name = "textDatabaseName";
-			this.textDatabaseName.Size = new System.Drawing.Size(188, 20);
+			this.textDatabaseName.Size = new System.Drawing.Size(188, 23);
 			this.textDatabaseName.TabIndex = 4;
 			// 
 			// label2
 			// 
 			this.label2.Anchor = System.Windows.Forms.AnchorStyles.Top;
-			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(115, 74);
+			this.label2.AutoSize = false;
+			this.label2.Location = new System.Drawing.Point(104, 58);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(69, 13);
+			this.label2.Size = new System.Drawing.Size(80, 23);
 			this.label2.TabIndex = 5;
 			this.label2.Text = "Server Name";
-			this.label2.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label3
 			// 
 			this.label3.Anchor = System.Windows.Forms.AnchorStyles.Top;
 			this.label3.AutoSize = false;
-			this.label3.Location = new System.Drawing.Point(100, 100);
+			this.label3.Location = new System.Drawing.Point(88, 85);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(90, 21);
+			this.label3.Size = new System.Drawing.Size(96, 23);
 			this.label3.TabIndex = 6;
 			this.label3.Text = "Database Name";
-			this.label3.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label4
 			// 
 			this.label4.Anchor = System.Windows.Forms.AnchorStyles.Top;
 			this.label4.AutoSize = false;
-			this.label4.Location = new System.Drawing.Point(87, 48);
+			this.label4.Location = new System.Drawing.Point(76, 31);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(103, 21);
+			this.label4.Size = new System.Drawing.Size(108, 23);
 			this.label4.TabIndex = 8;
 			this.label4.Text = "HL7 Service Name";
-			this.label4.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textHL7Name
 			// 
 			this.textHL7Name.Anchor = System.Windows.Forms.AnchorStyles.Top;
 			this.textHL7Name.AutoSize = false;
-			this.textHL7Name.Location = new System.Drawing.Point(190, 45);
+			this.textHL7Name.Location = new System.Drawing.Point(190, 31);
 			this.textHL7Name.Name = "textHL7Name";
-			this.textHL7Name.Size = new System.Drawing.Size(188, 20);
+			this.textHL7Name.Size = new System.Drawing.Size(188, 23);
 			this.textHL7Name.TabIndex = 7;
 			// 
 			// label5
 			// 
-			this.label5.AutoSize = true;
-			this.label5.Location = new System.Drawing.Point(9, 125);
+			this.label5.AutoSize = false;
+			this.label5.Location = new System.Drawing.Point(8, 112);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(39, 13);
+			this.label5.Size = new System.Drawing.Size(52, 21);
 			this.label5.TabIndex = 9;
 			this.label5.Text = "Output";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.TopRight;

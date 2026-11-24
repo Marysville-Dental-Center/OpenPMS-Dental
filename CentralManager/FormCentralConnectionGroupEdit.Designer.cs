@@ -38,24 +38,24 @@
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(5, 11);
+			this.label1.Location = new System.Drawing.Point(8, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(103, 20);
+			this.label1.Size = new System.Drawing.Size(108, 23);
 			this.label1.TabIndex = 0;
 			this.label1.Text = "Group Description";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textDescription
 			// 
-			this.textDescription.Location = new System.Drawing.Point(110, 12);
+			this.textDescription.Location = new System.Drawing.Point(122, 8);
 			this.textDescription.Name = "textDescription";
-			this.textDescription.Size = new System.Drawing.Size(237, 20);
+			this.textDescription.Size = new System.Drawing.Size(236, 23);
 			this.textDescription.TabIndex = 1;
 			// 
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(922, 531);
+			this.butOK.Location = new System.Drawing.Point(956, 573);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 24);
 			this.butOK.TabIndex = 6;
@@ -67,7 +67,7 @@
 			// 
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-			this.gridMain.Location = new System.Drawing.Point(12, 47);
+			this.gridMain.Location = new System.Drawing.Point(12, 35);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
 			this.gridMain.Size = new System.Drawing.Size(465, 457);
@@ -80,7 +80,7 @@
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(12, 531);
+			this.butDelete.Location = new System.Drawing.Point(8, 573);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(83, 24);
 			this.butDelete.TabIndex = 8;
@@ -91,7 +91,7 @@
 			// 
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.ArrowLeft;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdd.Location = new System.Drawing.Point(489, 216);
+			this.butAdd.Location = new System.Drawing.Point(489, 203);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(81, 24);
 			this.butAdd.TabIndex = 219;
@@ -102,7 +102,7 @@
 			// 
 			this.butRemove.Icon = OpenPmsDental.UI.EnumIcons.ArrowRight;
 			this.butRemove.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.butRemove.Location = new System.Drawing.Point(489, 257);
+			this.butRemove.Location = new System.Drawing.Point(489, 231);
 			this.butRemove.Name = "butRemove";
 			this.butRemove.Size = new System.Drawing.Size(81, 24);
 			this.butRemove.TabIndex = 220;
@@ -112,9 +112,9 @@
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(377, 15);
+			this.label2.Location = new System.Drawing.Point(364, 8);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(237, 20);
+			this.label2.Size = new System.Drawing.Size(244, 23);
 			this.label2.TabIndex = 221;
 			this.label2.Text = "Connections can belong to multiple groups";
 			// 
@@ -122,7 +122,7 @@
 			// 
 			this.gridAvail.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-			this.gridAvail.Location = new System.Drawing.Point(584, 47);
+			this.gridAvail.Location = new System.Drawing.Point(584, 35);
 			this.gridAvail.Name = "gridAvail";
 			this.gridAvail.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
 			this.gridAvail.Size = new System.Drawing.Size(465, 457);
@@ -133,7 +133,7 @@
 			// butCancel
 			// 
 			this.butCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butCancel.Location = new System.Drawing.Point(1003, 531);
+			this.butCancel.Location = new System.Drawing.Point(1039, 573);
 			this.butCancel.Name = "butCancel";
 			this.butCancel.Size = new System.Drawing.Size(75, 24);
 			this.butCancel.TabIndex = 223;

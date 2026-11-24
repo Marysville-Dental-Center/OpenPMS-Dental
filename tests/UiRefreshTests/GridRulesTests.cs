@@ -303,6 +303,33 @@ namespace UiRefreshTests {
 		///<summary>UI-12 fix round: the input frame's choice per text box. A rich text box (ODtextBox) with a border is framed whether it is
 		///single-line or multi-line (FormEmailInbox's address and subject boxes, ControlChart's search box); a single-line stock TextBox keeps the
 		///one-line rule (framed with a 3-D border, not with a single line); a borderless box and the text inside an up-down box are not.</summary>
+		///<summary>UI-12 slice 12: a plain window (a Form that is not a FormODBase) is checked by every rule but the input frame one: its framed
+		///text box (a multi-line box with a border) is no finding there, the same box in a program window is one; an overlap is a finding in
+		///both.</summary>
+		[TestMethod]
+		public void PlainWindow_EveryRuleButTheInputFrame() {
+			StaRunner.Run(() => {
+				using(Form form=new Form { ClientSize=new Size(300,200) })
+				using(TextBox textBoxMulti=new TextBox { Name="textNote",Multiline=true,BorderStyle=BorderStyle.FixedSingle,Bounds=new Rectangle(8,8,200,80) })
+				using(Button buttonA=new Button { Name="butA",Text="A",Bounds=new Rectangle(8,100,75,24) })
+				using(Button buttonB=new Button { Name="butB",Text="B",Bounds=new Rectangle(40,104,75,24) })
+				{
+					form.Controls.Add(textBoxMulti);
+					form.Controls.Add(buttonA);
+					form.Controls.Add(buttonB);
+					GridWindow gridWindow=new GridWindow { Window="Test.FormPlain",Mode="tool" };
+					List<string> listPlain=new List<string>();
+					CheckWindow(gridWindow,form,listPlain,isPlain:true);
+					List<string> listProgram=new List<string>();
+					CheckWindow(gridWindow,form,listProgram,isPlain:false);
+					CollectionAssert.DoesNotContain(listPlain,"Test.FormPlain	unframed	textNote","A plain window has no input frame to check.");
+					CollectionAssert.Contains(listProgram,"Test.FormPlain	unframed	textNote","A program window's framed text box draws the input frame.");
+					CollectionAssert.Contains(listPlain,"Test.FormPlain	overlap	butA butB","Every other rule holds in a plain window.");
+					CollectionAssert.Contains(listProgram,"Test.FormPlain	overlap	butA butB");
+				}
+			});
+		}
+
 		[TestMethod]
 		public void InputFrame_SingleLineODtextBox_IsFramed() {
 			StaRunner.Run(() => {
@@ -355,7 +382,7 @@ namespace UiRefreshTests {
 							if(root is FormODBase formODBase && formODBase.PanelClient!=null) {
 								root=formODBase.PanelClient;
 							}
-							CheckWindow(gridWindow,root,listFindings);
+							CheckWindow(gridWindow,root,listFindings,isPlain:IsPlain(scanType));
 							CheckColumns(gridWindow,root,listFindings);
 							CheckText(gridWindow,root,listRuntimeTexts,listFindings);
 						}
@@ -378,7 +405,15 @@ namespace UiRefreshTests {
 		}
 
 		///<summary>Adds the window's findings as "window TAB rule TAB key".</summary>
-		private static void CheckWindow(GridWindow gridWindow,Control root,List<string> listFindings) {
+		///<summary>UI-12 slice 12: a plain window, a System.Windows.Forms.Form that is not a FormODBase (the plain exes' windows, the graph's
+		///dashboard dialogs) or a UserControl only such a form hosts (the graph's controls). It has no FormODBase frame: no title band of its own
+		///(the root is the form's client area, under Windows' title bar) and no input frame (UiInputFrame is attached by FormODBase), so the
+		///input frame rule does not apply to it; every other rule does, with the same numbers.</summary>
+		public static bool IsPlain(ScanType scanType) {
+			return scanType.Kind==BuildKind.PlainWindow || scanType.Kind==BuildKind.UserControlPlain;
+		}
+
+		private static void CheckWindow(GridWindow gridWindow,Control root,List<string> listFindings,bool isPlain=false) {
 			string window=gridWindow.Window;
 			foreach(Control container in Walk(root)) {
 				if(container is OpenPmsDental.UI.ODDatePicker || container is OpenPmsDental.UI.ComboBoxClinicPicker) {
@@ -493,7 +528,8 @@ namespace UiRefreshTests {
 				//rich text boxes too (FormEmailInbox's address boxes and ControlChart's search box are single-line ODtextBoxes and drew plain
 				//white bars). A single-line stock TextBox keeps the one-line rule (framed with a 3-D border), and the text inside an up-down box
 				//has its box's frame. In a window the harness builds as a form, the frame is attached too.
-				foreach(Control control in listKids.Where(x => x is TextBoxBase && !(x.Parent is UpDownBase) && ((TextBoxBase)x).BorderStyle!=BorderStyle.None)) {
+				//UI-12 slice 12: not in a plain window (IsPlain): no FormODBase attaches the frame there.
+				foreach(Control control in listKids.Where(x => !isPlain && x is TextBoxBase && !(x.Parent is UpDownBase) && ((TextBoxBase)x).BorderStyle!=BorderStyle.None)) {
 					if(control is TextBox textBox && (!textBox.Multiline || OpenPmsDental.UI.UiInputFrame.IsOneLineTall(textBox)) && textBox.BorderStyle!=BorderStyle.Fixed3D) {
 						continue;
 					}

@@ -52,7 +52,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
 			this.splitContainer1.IsSplitterFixed = true;
-			this.splitContainer1.Location = new System.Drawing.Point(0, 27);
+			this.splitContainer1.Location = new System.Drawing.Point(8, 36);
 			this.splitContainer1.Name = "splitContainer1";
 			// 
 			// splitContainer1.Panel1
@@ -128,7 +128,7 @@
             this.refreshDataToolStripMenuItem,
             this.menuItemDefaultGraphs,
             this.menuItemResetAR});
-			this.menuStrip.Location = new System.Drawing.Point(0, 0);
+			this.menuStrip.Location = new System.Drawing.Point(8, 8);
 			this.menuStrip.Name = "menuStrip";
 			this.menuStrip.Size = new System.Drawing.Size(142, 24);
 			this.menuStrip.TabIndex = 25;

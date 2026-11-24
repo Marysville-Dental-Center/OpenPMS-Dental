@@ -87,40 +87,40 @@ namespace OpenPmsDental {
 			this.groupServer.Controls.Add(this.label11);
 			this.groupServer.Controls.Add(this.label9);
 			this.groupServer.Controls.Add(this.label6);
-			this.groupServer.Location = new System.Drawing.Point(12,12);
+			this.groupServer.Location = new System.Drawing.Point(8,8);
 			this.groupServer.Name = "groupServer";
-			this.groupServer.Size = new System.Drawing.Size(336,182);
+			this.groupServer.Size = new System.Drawing.Size(360,188);
 			this.groupServer.TabIndex = 2;
 			this.groupServer.TabStop = false;
 			this.groupServer.Text = "Connect to Middle Tier";
 			// 
 			// textURI
 			// 
-			this.textURI.Location = new System.Drawing.Point(13,65);
+			this.textURI.Location = new System.Drawing.Point(8,63);
 			this.textURI.Name = "textURI";
-			this.textURI.Size = new System.Drawing.Size(309,20);
+			this.textURI.Size = new System.Drawing.Size(308,23);
 			this.textURI.TabIndex = 7;
 			// 
 			// textUser2
 			// 
 			this.textUser2.AutoSize = false;
-			this.textUser2.Location = new System.Drawing.Point(13,108);
+			this.textUser2.Location = new System.Drawing.Point(8,110);
 			this.textUser2.Name = "textUser2";
-			this.textUser2.Size = new System.Drawing.Size(309,20);
+			this.textUser2.Size = new System.Drawing.Size(308,23);
 			this.textUser2.TabIndex = 8;
 			// 
 			// textPassword2
 			// 
-			this.textPassword2.Location = new System.Drawing.Point(13,149);
+			this.textPassword2.Location = new System.Drawing.Point(8,157);
 			this.textPassword2.Name = "textPassword2";
 			this.textPassword2.PasswordChar = '*';
-			this.textPassword2.Size = new System.Drawing.Size(309,20);
+			this.textPassword2.Size = new System.Drawing.Size(308,23);
 			this.textPassword2.TabIndex = 9;
 			this.textPassword2.UseSystemPasswordChar = true;
 			// 
 			// label10
 			// 
-			this.label10.Location = new System.Drawing.Point(11,130);
+			this.label10.Location = new System.Drawing.Point(8,137);
 			this.label10.Name = "label10";
 			this.label10.Size = new System.Drawing.Size(281,18);
 			this.label10.TabIndex = 11;
@@ -129,7 +129,7 @@ namespace OpenPmsDental {
 			// 
 			// label11
 			// 
-			this.label11.Location = new System.Drawing.Point(11,89);
+			this.label11.Location = new System.Drawing.Point(8,90);
 			this.label11.Name = "label11";
 			this.label11.Size = new System.Drawing.Size(295,18);
 			this.label11.TabIndex = 14;
@@ -138,7 +138,7 @@ namespace OpenPmsDental {
 			// 
 			// label9
 			// 
-			this.label9.Location = new System.Drawing.Point(10,44);
+			this.label9.Location = new System.Drawing.Point(8,43);
 			this.label9.Name = "label9";
 			this.label9.Size = new System.Drawing.Size(283,18);
 			this.label9.TabIndex = 9;
@@ -147,9 +147,9 @@ namespace OpenPmsDental {
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(9,25);
+			this.label6.Location = new System.Drawing.Point(8,23);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(297,18);
+			this.label6.Size = new System.Drawing.Size(300,18);
 			this.label6.TabIndex = 0;
 			this.label6.Text = "Read the manual to learn how to install the middle tier.";
 			// 
@@ -157,7 +157,7 @@ namespace OpenPmsDental {
 			// 
 			this.butCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.butCancel.Location = new System.Drawing.Point(273,201);
+			this.butCancel.Location = new System.Drawing.Point(293,245);
 			this.butCancel.Name = "butCancel";
 			this.butCancel.Size = new System.Drawing.Size(75,24);
 			this.butCancel.TabIndex = 13;
@@ -167,7 +167,7 @@ namespace OpenPmsDental {
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(192,201);
+			this.butOK.Location = new System.Drawing.Point(210,245);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75,24);
 			this.butOK.TabIndex = 12;
@@ -178,7 +178,7 @@ namespace OpenPmsDental {
 			// 
 			this.checkAutoLogin.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.checkAutoLogin.AutoSize = true;
-			this.checkAutoLogin.Location = new System.Drawing.Point(24,206);
+			this.checkAutoLogin.Location = new System.Drawing.Point(8,250);
 			this.checkAutoLogin.Name = "checkAutoLogin";
 			this.checkAutoLogin.Size = new System.Drawing.Size(136,17);
 			this.checkAutoLogin.TabIndex = 14;

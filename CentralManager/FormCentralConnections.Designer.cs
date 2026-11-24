@@ -49,18 +49,18 @@
 			// label1
 			// 
 			this.label1.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.label1.Location = new System.Drawing.Point(366, 10);
+			this.label1.Location = new System.Drawing.Point(384, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(69, 17);
+			this.label1.Size = new System.Drawing.Size(48, 23);
 			this.label1.TabIndex = 214;
 			this.label1.Text = "Search";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textSearch
 			// 
-			this.textSearch.Location = new System.Drawing.Point(438, 7);
+			this.textSearch.Location = new System.Drawing.Point(438, 8);
 			this.textSearch.Name = "textSearch";
-			this.textSearch.Size = new System.Drawing.Size(190, 20);
+			this.textSearch.Size = new System.Drawing.Size(192, 23);
 			this.textSearch.TabIndex = 213;
 			this.textSearch.TextChanged += new System.EventHandler(this.textSearch_TextChanged);
 			// 
@@ -68,19 +68,19 @@
 			// 
 			this.comboConnectionGroups.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboConnectionGroups.FormattingEnabled = true;
-			this.comboConnectionGroups.Location = new System.Drawing.Point(170, 6);
+			this.comboConnectionGroups.Location = new System.Drawing.Point(170, 8);
 			this.comboConnectionGroups.MaxDropDownItems = 20;
 			this.comboConnectionGroups.Name = "comboConnectionGroups";
-			this.comboConnectionGroups.Size = new System.Drawing.Size(190, 21);
+			this.comboConnectionGroups.Size = new System.Drawing.Size(192, 23);
 			this.comboConnectionGroups.TabIndex = 216;
 			this.comboConnectionGroups.SelectionChangeCommitted += new System.EventHandler(this.comboConnectionGroups_SelectionChangeCommitted);
 			// 
 			// label3
 			// 
 			this.label3.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.label3.Location = new System.Drawing.Point(12, 9);
+			this.label3.Location = new System.Drawing.Point(48, 8);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(155, 17);
+			this.label3.Size = new System.Drawing.Size(116, 23);
 			this.label3.TabIndex = 215;
 			this.label3.Text = "Connection Groups";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -93,7 +93,7 @@
 			this.groupOrdering.Controls.Add(this.butDown);
 			this.groupOrdering.Location = new System.Drawing.Point(647, 88);
 			this.groupOrdering.Name = "groupOrdering";
-			this.groupOrdering.Size = new System.Drawing.Size(200, 125);
+			this.groupOrdering.Size = new System.Drawing.Size(200, 111);
 			this.groupOrdering.TabIndex = 219;
 			this.groupOrdering.TabStop = false;
 			this.groupOrdering.Text = "Conn. Order";
@@ -101,15 +101,15 @@
 			// label2
 			// 
 			this.label2.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.label2.Location = new System.Drawing.Point(88, 95);
+			this.label2.Location = new System.Drawing.Point(91, 82);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(90, 17);
+			this.label2.Size = new System.Drawing.Size(96, 17);
 			this.label2.TabIndex = 220;
 			this.label2.Text = "(based on note)";
 			// 
 			// butAlphabetize
 			// 
-			this.butAlphabetize.Location = new System.Drawing.Point(6, 90);
+			this.butAlphabetize.Location = new System.Drawing.Point(8, 79);
 			this.butAlphabetize.Name = "butAlphabetize";
 			this.butAlphabetize.Size = new System.Drawing.Size(77, 24);
 			this.butAlphabetize.TabIndex = 16;
@@ -120,7 +120,7 @@
 			// 
 			this.butUp.Icon = OpenPmsDental.UI.EnumIcons.Up;
 			this.butUp.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butUp.Location = new System.Drawing.Point(6, 19);
+			this.butUp.Location = new System.Drawing.Point(8, 23);
 			this.butUp.Name = "butUp";
 			this.butUp.Size = new System.Drawing.Size(77, 24);
 			this.butUp.TabIndex = 4;
@@ -131,7 +131,7 @@
 			// 
 			this.butDown.Icon = OpenPmsDental.UI.EnumIcons.Down;
 			this.butDown.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDown.Location = new System.Drawing.Point(6, 51);
+			this.butDown.Location = new System.Drawing.Point(8, 51);
 			this.butDown.Name = "butDown";
 			this.butDown.Size = new System.Drawing.Size(77, 24);
 			this.butDown.TabIndex = 5;
@@ -142,7 +142,7 @@
 			// 
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdd.Location = new System.Drawing.Point(651, 56);
+			this.butAdd.Location = new System.Drawing.Point(647, 56);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(75, 24);
 			this.butAdd.TabIndex = 218;
@@ -153,10 +153,10 @@
 			// 
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-			this.gridMain.Location = new System.Drawing.Point(12, 33);
+			this.gridMain.Location = new System.Drawing.Point(12, 35);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridMain.Size = new System.Drawing.Size(616, 387);
+			this.gridMain.Size = new System.Drawing.Size(618, 387);
 			this.gridMain.TabIndex = 4;
 			this.gridMain.Title = "Connections";
 			this.gridMain.TranslationName = "TableConnections";
@@ -165,7 +165,7 @@
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(772, 416);
+			this.butOK.Location = new System.Drawing.Point(772, 340);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 24);
 			this.butOK.TabIndex = 1;
@@ -176,7 +176,7 @@
 			// butCancel
 			// 
 			this.butCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butCancel.Location = new System.Drawing.Point(772, 448);
+			this.butCancel.Location = new System.Drawing.Point(792, 490);
 			this.butCancel.Name = "butCancel";
 			this.butCancel.Size = new System.Drawing.Size(75, 24);
 			this.butCancel.TabIndex = 0;
@@ -186,10 +186,10 @@
 			// 
 			// checkUseDynamicMode
 			// 
-			this.checkUseDynamicMode.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkUseDynamicMode.Location = new System.Drawing.Point(6, 80);
+			this.checkUseDynamicMode.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkUseDynamicMode.Location = new System.Drawing.Point(8, 83);
 			this.checkUseDynamicMode.Name = "checkUseDynamicMode";
-			this.checkUseDynamicMode.Size = new System.Drawing.Size(188, 31);
+			this.checkUseDynamicMode.Size = new System.Drawing.Size(184, 34);
 			this.checkUseDynamicMode.TabIndex = 231;
 			this.checkUseDynamicMode.Text = "Dynamic Mode\r\n(launch mismatched versions)";
 			this.checkUseDynamicMode.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -198,10 +198,10 @@
 			// 
 			// checkIsAutoLogon
 			// 
-			this.checkIsAutoLogon.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkIsAutoLogon.Location = new System.Drawing.Point(1, 60);
+			this.checkIsAutoLogon.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkIsAutoLogon.Location = new System.Drawing.Point(8, 61);
 			this.checkIsAutoLogon.Name = "checkIsAutoLogon";
-			this.checkIsAutoLogon.Size = new System.Drawing.Size(193, 17);
+			this.checkIsAutoLogon.Size = new System.Drawing.Size(143, 18);
 			this.checkIsAutoLogon.TabIndex = 230;
 			this.checkIsAutoLogon.Text = "Automatically Log On";
 			this.checkIsAutoLogon.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -214,9 +214,9 @@
 			this.groupPrefs.Controls.Add(this.label4);
 			this.groupPrefs.Controls.Add(this.checkIsAutoLogon);
 			this.groupPrefs.Controls.Add(this.checkUseDynamicMode);
-			this.groupPrefs.Location = new System.Drawing.Point(647, 231);
+			this.groupPrefs.Location = new System.Drawing.Point(647, 207);
 			this.groupPrefs.Name = "groupPrefs";
-			this.groupPrefs.Size = new System.Drawing.Size(200, 114);
+			this.groupPrefs.Size = new System.Drawing.Size(200, 125);
 			this.groupPrefs.TabIndex = 232;
 			this.groupPrefs.TabStop = false;
 			this.groupPrefs.Text = "Prefs";
@@ -224,7 +224,7 @@
 			// label5
 			// 
 			this.label5.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.label5.Location = new System.Drawing.Point(10, 33);
+			this.label5.Location = new System.Drawing.Point(8, 42);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(165, 17);
 			this.label5.TabIndex = 232;
@@ -233,7 +233,7 @@
 			// label4
 			// 
 			this.label4.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.label4.Location = new System.Drawing.Point(10, 16);
+			this.label4.Location = new System.Drawing.Point(8, 23);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(165, 17);
 			this.label4.TabIndex = 221;
