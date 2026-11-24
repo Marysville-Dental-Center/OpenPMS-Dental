@@ -90,6 +90,10 @@ namespace CodeBase {
 			if(control is DateTimePicker dateTimePicker) {
 				SetDateTimePickerLook(dateTimePicker);
 			}
+			if(UiDateDropLook.IsDrawn(control)) {
+				//UI-CAL: the drop-down calendar is the program's (MonthCalendarOD), not Windows'.
+				UiDateDropLook.Attach(control);
+			}
 			if(control is TextBoxBase textBoxBase) {
 				SetCaptionBoxLook(textBoxBase);
 			}

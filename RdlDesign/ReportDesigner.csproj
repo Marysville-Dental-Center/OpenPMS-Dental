@@ -105,6 +105,9 @@
     <Compile Include="..\CodeBase\UI\UiInputFrame.cs">
       <Link>CodeBase\UI\UiInputFrame.cs</Link>
     </Compile>
+    <Compile Include="..\CodeBase\UI\UiDateDropLook.cs">
+      <Link>CodeBase\UI\UiDateDropLook.cs</Link>
+    </Compile>
     <Compile Include="..\CodeBase\UI\UiLooks.cs">
       <Link>CodeBase\UI\UiLooks.cs</Link>
     </Compile>

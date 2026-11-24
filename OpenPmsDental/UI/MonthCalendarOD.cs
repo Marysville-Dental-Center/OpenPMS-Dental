@@ -15,7 +15,7 @@ namespace OpenPmsDental.UI{
 	//Jordan is the only one allowed to edit this file.
 
 	///<summary>A replacement for the MS MonthCalendar control.</summary>
-	public partial class MonthCalendarOD : Control{
+	public partial class MonthCalendarOD : Control,IUiDropCalendar{
 		#region Fields - Public
 		///<summary>Set this to false to prevent user from clicking the top text to manually set date. Useful, for example, if this monthCalendar is a dropdown, so there's already a box for that.</summary>
 		public bool AllowClickingTopText=true;
