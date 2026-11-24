@@ -301,51 +301,113 @@ Name=Not gated
 		public void NextStep_LeadsToTheRecord_AfterAPassingImage_UntilItIsWritten() {
 			TestCaptureModel model=Model();
 			Assert.IsFalse(model.IsRecordTheNextStep);
-			StringAssert.StartsWith(model.GetNextStepText(),"Step 1 of 2: take a test image");
-			StringAssert.StartsWith(model.GetVerificationText(),"Not verified in this window");
+			Assert.AreEqual("Step 1 of 2: take a test image of the phantom or the known ramp, asking for 16 bits.",model.GetNextStepText());
+			Assert.AreEqual("Not verified in this window. Until a record matches this driver and these image settings, the session takes 8-bit X-rays.",
+				model.GetVerificationText());
 			model.OnOpenResult(Opened());
 			model.OnEnablePosted(1);
 			model.OnImage(Image16());
 			Assert.IsTrue(model.IsRecordTheNextStep,"The record is the next required action.");
-			Assert.AreEqual("Step 2 of 2, required: tick the byte order and polarity checks below, then click Write verification record (Setup "
-				+"permission). The record unlocks 16-bit X-rays for this device on every computer with the same driver and image settings; without "
-				+"it they stay 8-bit.",model.GetNextStepText());
-			StringAssert.Contains(model.GetVerificationText(),"the capture session takes 8-bit X-rays from it");
+			Assert.AreEqual("Step 2 of 2, required: tick the byte order and polarity checks on the left, then click Write verification record (Setup "
+				+"permission). It unlocks 16-bit X-rays for this device; without it they stay 8-bit.",model.GetNextStepText());
+			Assert.IsFalse(model.IsByteOrderConfirmed,"Working out the step leaves the checks as they were.");
+			Assert.IsFalse(model.IsPolarityConfirmed);
 			model.IsByteOrderConfirmed=true;
-			StringAssert.StartsWith(model.GetNextStepText(),"Step 2 of 2, required: tick the polarity check below, then click Write verification record");
+			StringAssert.StartsWith(model.GetNextStepText(),"Step 2 of 2, required: tick the polarity check on the left, then click Write verification record");
 			model.IsPolarityConfirmed=true;
 			StringAssert.StartsWith(model.GetNextStepText(),"Step 2 of 2, required: click Write verification record");
 			string error;
-			CaptureVerificationRecord record=model.BuildRecord(new DateTime(2026,11,24,9,30,0),out error);
-			model.OnRecordWritten(record);
+			model.OnRecordWritten(model.BuildRecord(new DateTime(2026,11,24,9,30,0),out error));
 			Assert.IsFalse(model.IsRecordTheNextStep,"Written: no longer the next step.");
 			Assert.AreEqual("",model.GetNextStepText());
-			Assert.AreEqual("Verified: record written 2026-11-24 09:30. The capture session can now take 16-bit X-rays from this device.",
-				model.GetVerificationText());
-			//A record that does not verify more than 8 bits says so.
+			Assert.AreEqual("Verified: record written 2026-11-24 09:30. The session can now take 16-bit X-rays from this device.",model.GetVerificationText());
+			//A newer image after a record that unlocks: no prompt, since a later failing record would take it back.
 			model.OnImage(Image16());
-			record=model.BuildRecord(new DateTime(2026,11,24,9,40,0),out error);
-			model.OnRecordWritten(record);
-			Assert.AreEqual("Record written 2026-11-24 09:40, but it does not unlock more than 8 bits: the capture session stays at 8 bits for this "
-				+"device.",model.GetVerificationText());
+			Assert.IsFalse(model.IsRecordTheNextStep);
+			Assert.AreEqual("",model.GetNextStepText());
 		}
 
 		[TestMethod]
-		public void NextStep_8BitImage_SaysToTakeItAgainAtMoreBits_AndUnverifiedSettings_SayToSaveThemFirst() {
+		public void NextStep_ARecordThatUnlocksNothing_ThenANewImage_PromptsAgain() {
 			TestCaptureModel model=Model();
 			model.OnOpenResult(Opened());
 			model.OnEnablePosted(1);
+			model.OnImage(Image16());
+			string error;
+			model.OnRecordWritten(model.BuildRecord(new DateTime(2026,11,24,9,40,0),out error));//"Write it anyway?" without the checks
+			Assert.AreEqual("Record written 2026-11-24 09:40: it unlocks nothing, the session stays at 8 bits for this device.",model.GetVerificationText());
+			Assert.IsFalse(model.IsRecordTheNextStep,"Written for this image.");
+			model.OnImage(Image16());
+			Assert.IsTrue(model.IsRecordTheNextStep,"The retry is where the prompt is needed.");
+			StringAssert.StartsWith(model.GetNextStepText(),"Step 2 of 2, required: tick the byte order and polarity checks");
+		}
+
+		[TestMethod]
+		public void NextStep_SaysWhatARecordWouldReallyUnlock_14Bit_Unlocks14_8BitImage_UnlocksNothing() {
+			TestCaptureModel model14=Model(iniText:Ini.Replace("Bits=16","Bits=14"));
+			model14.OnOpenResult(Opened());
+			model14.OnEnablePosted(1);
+			model14.OnImage(Image14());
+			Assert.IsTrue(model14.IsRecordTheNextStep);
+			StringAssert.Contains(model14.GetNextStepText(),"It unlocks 14-bit X-rays for this device");
+			//Bits=16, the driver gave 14: covers 14.
+			TestCaptureModel model16to14=Model();
+			model16to14.OnOpenResult(Opened());
+			model16to14.OnEnablePosted(1);
+			model16to14.OnImage(Image14(16));
+			StringAssert.Contains(model16to14.GetNextStepText(),"It unlocks 14-bit X-rays for this device");
+			//Bits=16, the operator asked for 14: unlocks nothing; not the primary action.
+			TestCaptureModel modelAsked14=Model();
+			modelAsked14.OnOpenResult(Opened());
+			modelAsked14.OnEnablePosted(1);
+			modelAsked14.OnImage(Image14());
+			Assert.IsFalse(modelAsked14.IsRecordTheNextStep);
+			StringAssert.StartsWith(modelAsked14.GetNextStepText(),"Step 2 of 2: a record from this image would unlock nothing.");
+			StringAssert.EndsWith(modelAsked14.GetNextStepText(),"Take the test image again, asking for 16 bits.");
+			//An 8-bit image: unlocks nothing, says why and what to do.
+			TestCaptureModel model8=Model();
+			model8.OnOpenResult(Opened());
+			model8.OnEnablePosted(1);
 			AcquiredImage image=TestImages.Image8(8,8,(x,y) => (byte)(x*y),TestImages.Json8Bit);
 			image.RequestedBits=16;
 			image.IsDeliveredAs8BitIn16BitEnable=true;
-			model.OnImage(image);
-			StringAssert.StartsWith(model.GetNextStepText(),"Step 2 of 2: this test image is 8-bit");
+			model8.OnImage(image);
+			Assert.IsFalse(model8.IsRecordTheNextStep,"An 8-bit record never gets the primary look.");
+			Assert.AreEqual("Step 2 of 2: a record from this image would unlock nothing. This record does not verify capture of more than 8 bits: the image "
+				+"is 8-bit. Take the test image again, asking for 16 bits.",model8.GetNextStepText());
+		}
+
+		[TestMethod]
+		public void NextStep_8BitsOnThisComputerOrDevice_NothingToUnlock_TheRecordStillTheNextStep() {
+			foreach(string ini in new[] { Ini.Replace("Allow16Bit=1","Allow16Bit=0"),Ini.Replace("Bits=16","Bits=8") }) {
+				TestCaptureModel model=Model(iniText:ini);
+				Assert.AreEqual("Step 1 of 2: take a test image of the phantom or the known ramp.",model.GetNextStepText(),ini);
+				model.OnOpenResult(Opened());
+				model.OnEnablePosted(1);
+				AcquiredImage image=TestImages.Image8(8,8,(x,y) => (byte)(x*y),TestImages.Json8Bit);
+				model.OnImage(image);
+				Assert.IsTrue(model.IsRecordTheNextStep,ini);
+				StringAssert.EndsWith(model.GetNextStepText(),"so the record notes the test and unlocks nothing.",ini);
+			}
+		}
+
+		[TestMethod]
+		public void NextStep_UnverifiedSettings_SayToReopenAfterSaving_NoDriverVersion_SaysWhy() {
 			TestCaptureModel modelUnsaved=Model(isSettingsSaved:false);
+			StringAssert.StartsWith(modelUnsaved.GetNextStepText(),"Close Test capture, save this device in Capture settings, then open Test capture again",
+				"Already before the first image: a test on safe values is wasted.");
 			modelUnsaved.OnOpenResult(Opened());
 			modelUnsaved.OnEnablePosted(1);
 			modelUnsaved.OnImage(Image16());
-			Assert.IsFalse(modelUnsaved.IsRecordTheNextStep,"No record can be written: the button is not the primary action.");
-			StringAssert.StartsWith(modelUnsaved.GetNextStepText(),"Next: save this device in Capture settings");
+			Assert.IsFalse(modelUnsaved.IsRecordTheNextStep);
+			TestCaptureModel modelNoDriver=Model();
+			TwainCaptureOpenResult openedNoDriver=Opened();
+			openedNoDriver.SourceInfo.DriverIdentity=null;
+			modelNoDriver.OnOpenResult(openedNoDriver);
+			modelNoDriver.OnEnablePosted(1);
+			modelNoDriver.OnImage(Image16());
+			Assert.IsFalse(modelNoDriver.IsRecordTheNextStep,"BuildRecord would fail: never the primary action.");
+			StringAssert.StartsWith(modelNoDriver.GetNextStepText(),"No record can be written: The TWAIN source did not report its driver version");
 		}
 
 		[TestMethod]

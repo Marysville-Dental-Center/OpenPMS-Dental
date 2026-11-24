@@ -124,6 +124,8 @@ namespace ImagingCapture.UI {
 		public TestCaptureAnalysis Analysis { get; private set; }
 		///<summary>The last record written in this window, or null.</summary>
 		public CaptureVerificationRecord RecordWritten { get; private set; }
+		///<summary>ImageCount when RecordWritten was written: the record belongs to that image.</summary>
+		private int _imageCountRecordWritten;
 		///<summary>Changes whenever something the window shows changed.</summary>
 		public int Version { get; private set; }
 
@@ -455,42 +457,89 @@ namespace ImagingCapture.UI {
 			return text;
 		}
 
-		///<summary>IMG-TESTCAP: after a test image the record can be written and none was written in this window yet, so writing it is the
-		///window's next required action: the window makes Write verification record its primary button and moves the focus to it (at OP1 on
+		///<summary>IMG-TESTCAP: writing the record is the window's next required action: a record from the current image can be written and would
+		///unlock what the session asks for (or this computer or device takes 8 bits anyway, so there is nothing to unlock), and no record was
+		///written for this image yet. The window then makes Write verification record its primary button and moves the focus to it (at OP1 on
 		///2026-11-22 the step was missed, and the device stayed at 8 bits).</summary>
-		public bool IsRecordTheNextStep => CanWriteRecord && RecordWritten==null;
+		public bool IsRecordTheNextStep => GetRecordStep(out _);
 
-		///<summary>Whether this device is verified, as far as this window knows: a record it wrote (and whether that record unlocks more than 8
-		///bits), or none yet. It cannot see records written earlier or on other computers: the capture session looks those up itself.</summary>
+		///<summary>The depth the capture session asks for on this computer: the device's Bits, or 8 when this computer forces 8 bits.</summary>
+		private int BitsSession => Options.Allow16Bit ? TwainBitDepth.Normalize(Options.Bits) : TwainBitDepth.Bits8;
+
+		///<summary>A record was written for the image now shown (not for an earlier one).</summary>
+		private bool IsRecordForThisImage => RecordWritten!=null && _imageCountRecordWritten==ImageCount;
+
+		///<summary>Whether this device is verified, as far as this window knows: a record it wrote (and what that record unlocks), or none yet. It
+		///cannot see records written earlier or on other computers: the capture session looks those up itself.</summary>
 		public string GetVerificationText() {
 			if(RecordWritten==null) {
-				return "Not verified in this window: no verification record written. Until a record matches this device's driver and image settings, "
-					+"the capture session takes 8-bit X-rays from it.";
+				return "Not verified in this window. Until a record matches this driver and these image settings, the session takes 8-bit X-rays.";
 			}
 			string date=RecordWritten.DateTimeVerified.ToString("yyyy-MM-dd HH:mm",CultureInfo.InvariantCulture);
-			string warning=GetRecordWarning(RecordWritten);
-			int bitsCovered=CaptureBitDepthDecision.GetBitsCovered(RecordWritten,Options.Bits);
-			if(warning=="" && bitsCovered>8) {
-				return "Verified: record written "+date+". The capture session can now take "+bitsCovered+"-bit X-rays from this device.";
+			int bitsCovered=CaptureBitDepthDecision.GetBitsCovered(RecordWritten,BitsSession);
+			if(GetRecordWarning(RecordWritten)=="" && bitsCovered>8) {
+				return "Verified: record written "+date+". The session can now take "+bitsCovered+"-bit X-rays from this device.";
 			}
-			return "Record written "+date+", but it does not unlock more than 8 bits: the capture session stays at 8 bits for this device.";
+			return "Record written "+date+": it unlocks nothing, the session stays at 8 bits for this device.";
 		}
 
-		///<summary>The next thing the operator must do to verify the device, in plain words; "" once a record was written in this window.</summary>
+		///<summary>The next thing the operator must do to verify the device, in plain words, or "" when there is nothing more to do here.</summary>
 		public string GetNextStepText() {
-			if(RecordWritten!=null) {
-				return "";
+			string text;
+			GetRecordStep(out text);
+			return text;
+		}
+
+		///<summary>The record step: true when writing the record is the next required action (IsRecordTheNextStep), with the step's text. The
+		///text names what a record from this image would really unlock, worked out from a trial record with both checks assumed ticked, so that
+		///the step never promises 16 bits that the record would not give.</summary>
+		private bool GetRecordStep(out string text) {
+			int bitsSession=BitsSession;
+			if(!SettingsCheck.IsVerified) {
+				text="Close Test capture, save this device in Capture settings, then open Test capture again: until then no record can be written.";
+				return false;
 			}
 			if(Analysis==null || !Analysis.IsValid) {
-				return "Step 1 of 2: take a test image of the phantom or the known ramp.";
+				text="Step 1 of 2: take a test image of the phantom or the known ramp"+(bitsSession>8 ? ", asking for "+bitsSession+" bits." : ".");
+				return false;
 			}
-			if(!SettingsCheck.IsVerified) {
-				return "Next: save this device in Capture settings (its settings are not verified on this computer), then take the test image again. "
-					+"Until then no verification record can be written.";
+			if(IsRecordForThisImage) {
+				text="";
+				return false;
 			}
-			if(!Analysis.IsGray16) {
-				return "Step 2 of 2: this test image is 8-bit, so a record would not unlock more than 8 bits. Take the test image again asking for "
-					+"16 or 14 bits, or write the record to note the 8-bit result.";
+			if(RecordWritten!=null && GetRecordWarning(RecordWritten)=="" && CaptureBitDepthDecision.GetBitsCovered(RecordWritten,bitsSession)>8) {
+				//A newer image after a record that unlocks: a later record that failed would become the latest and take it back, so no prompt.
+				text="";
+				return false;
+			}
+			CaptureVerificationRecord recordTrial;
+			string error;
+			bool isByteOrderConfirmed=_isByteOrderConfirmed;
+			bool isPolarityConfirmed=_isPolarityConfirmed;
+			try {
+				_isByteOrderConfirmed=true;
+				_isPolarityConfirmed=true;
+				recordTrial=BuildRecord(DateTime.Now,out error);
+			}
+			finally {
+				_isByteOrderConfirmed=isByteOrderConfirmed;
+				_isPolarityConfirmed=isPolarityConfirmed;
+			}
+			if(recordTrial==null) {
+				text="No record can be written: "+error;
+				return false;
+			}
+			if(bitsSession<=8) {
+				text="Step 2 of 2: click Write verification record (Setup permission). "+(Options.Allow16Bit ? "This device's Bits is 8" : "This computer "
+					+"forces 8 bits (Allow16Bit=0)")+", so the record notes the test and unlocks nothing.";
+				return true;
+			}
+			int bitsCovered=CaptureBitDepthDecision.GetBitsCovered(recordTrial,bitsSession);
+			string reason=GetRecordWarning(recordTrial);
+			if(reason!="" || bitsCovered<=8) {
+				text="Step 2 of 2: a record from this image would unlock nothing. "+(reason!="" ? reason+" " : "")+"Take the test image again, asking for "
+					+bitsSession+" bits.";
+				return false;
 			}
 			List<string> listChecks=new List<string>();
 			if(IsByteOrderCheckable && !IsByteOrderConfirmed) {
@@ -499,13 +548,15 @@ namespace ImagingCapture.UI {
 			if(IsPolarityCheckable && !IsPolarityConfirmed) {
 				listChecks.Add("polarity");
 			}
-			string checks=listChecks.Count==0 ? "" : "tick the "+string.Join(" and ",listChecks)+" check"+(listChecks.Count>1 ? "s" : "")+" below, then ";
-			return "Step 2 of 2, required: "+checks+"click Write verification record (Setup permission). The record unlocks 16-bit X-rays for this "
-				+"device on every computer with the same driver and image settings; without it they stay 8-bit.";
+			string checks=listChecks.Count==0 ? "" : "tick the "+string.Join(" and ",listChecks)+" check"+(listChecks.Count>1 ? "s" : "")+" on the left, then ";
+			text="Step 2 of 2, required: "+checks+"click Write verification record (Setup permission). It unlocks "+bitsCovered+"-bit X-rays for this "
+				+"device; without it they stay 8-bit.";
+			return true;
 		}
 
 		public void OnRecordWritten(CaptureVerificationRecord record) {
 			RecordWritten=record;
+			_imageCountRecordWritten=ImageCount;
 			Version++;
 		}
 		#endregion Methods - verification record

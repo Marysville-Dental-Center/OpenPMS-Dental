@@ -325,8 +325,8 @@ namespace ImagingCapture.UI {
 			bool isRecordNext=model.IsRecordTheNextStep;
 			if(butRecord.IsPrimary!=isRecordNext) {
 				butRecord.IsPrimary=isRecordNext;
-				if(isRecordNext) {
-					butRecord.Focus();
+				if(isRecordNext && !comboBits.IsKeyboardFocusWithin && !comboCategory.IsKeyboardFocusWithin) {
+					butRecord.Focus();//not out of a list the operator is using
 				}
 			}
 			checkByteOrder.IsEnabled=model.IsByteOrderCheckable;
