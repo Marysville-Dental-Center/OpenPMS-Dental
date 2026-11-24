@@ -172,9 +172,9 @@ namespace fyiReporting.RdlDesign
 			// lDataProvider
 			// 
 			this.lDataProvider.Location = new System.Drawing.Point(8, 93);
-			this.lDataProvider.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.lDataProvider.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.lDataProvider.Name = "lDataProvider";
-			this.lDataProvider.Size = new System.Drawing.Size(84, 23);
+			this.lDataProvider.Size = new System.Drawing.Size(82, 23);
 			this.lDataProvider.TabIndex = 7;
 			this.lDataProvider.Text = "Data provider";
 			// 
@@ -185,7 +185,7 @@ namespace fyiReporting.RdlDesign
 																"SQL",
 																"ODBC",
 																"OLEDB"});
-			this.cbDataProvider.Location = new System.Drawing.Point(98, 93);
+			this.cbDataProvider.Location = new System.Drawing.Point(96, 93);
 			this.cbDataProvider.Name = "cbDataProvider";
 			this.cbDataProvider.Size = new System.Drawing.Size(144, 23);
 			this.cbDataProvider.TabIndex = 4;
@@ -212,7 +212,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// ckbIntSecurity
 			// 
-			this.ckbIntSecurity.Location = new System.Drawing.Point(258, 95);
+			this.ckbIntSecurity.Location = new System.Drawing.Point(256, 95);
 			this.ckbIntSecurity.Name = "ckbIntSecurity";
 			this.ckbIntSecurity.Size = new System.Drawing.Size(151, 18);
 			this.ckbIntSecurity.TabIndex = 5;

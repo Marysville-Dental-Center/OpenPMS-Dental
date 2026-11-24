@@ -3,7 +3,7 @@ DialogNewMatrix.cs), as slice 13's DialogNewChart. The planner ran the cell expr
 over the window's bottom; main cut Matrix Columns' caption. DataSet as a label + box row; the fields list under its caption down to the
 cell expression; the columns and rows lists one under the other with one height, each with its caption (on one line, to the right
 padding) over it, its arrow before it and Up, Down and Delete (64 px) after it on the right padding; Matrix Cell Expression's caption over
-its box over the width, a section gap over the bar; OK and Cancel bottom right; main's 456 x 400."""
+its box over the width, a section gap over the bar; OK and Cancel bottom right; main's 456 x 400. Fix round: the three lists without IntegralHeight (it snapped them to different bottoms) and DataSet at the content edge, as wide as its text."""
 import importlib.util
 import os
 
@@ -18,8 +18,8 @@ def layout(h):
     R = W0 - 8
     h.set(".", None, None, W0, H0)
     top = s.bar(h, right=("bOK", "bCancel"))
-    lw = h.lw("label1")
-    s.row(h, "label1", "cbDataSets", 8, lw, R - (8 + lw + s.ITEM), 8)
+    lw = (h.n("label1").text_w or 0) + 4
+    s.lead(h, "label1", "cbDataSets", 8, R - (8 + lw + s.ITEM), 8)
     BW = 64
     LW = (R - 8 - 8 - 32 - 8 - 8 - BW) // 2
     xl, xa = 8, 8 + LW + 8
@@ -40,5 +40,7 @@ def layout(h):
         for i, b in enumerate(buts):
             h.set(b, xb, yy + 32 * i, BW, 28)
     s.caption(h, "label4", xr, bottom - lh - 19, R - xr)
+    for lst in ("lbFields", "lbMatrixColumns", "lbMatrixRows"):
+        h.integral_height_off(lst)
     s.caption(h, "label5", 8, cy, R - 8)
     h.set("cbMatrixCell", 8, ey, R - 8, h.H)

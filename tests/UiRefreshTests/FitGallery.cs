@@ -162,7 +162,12 @@ namespace UiRefreshTests {
 							}
 							Control controlPicture=FillSampleState(root,window,state);
 							if(scale!=1f && !isScaledAsPlainExe) {
-								GridStyleGallery.ScaleFontsAsWindowsDoes(root,scale);
+								if(IsPropertyPage(builtWindow)) {
+									ScaleEveryFont(root,scale);
+								}
+								else {
+									GridStyleGallery.ScaleFontsAsWindowsDoes(root,scale);
+								}
 							}
 							HideDatePickerCalendars(root);
 							FillSampleContent(root,window,state);
@@ -319,6 +324,27 @@ namespace UiRefreshTests {
 				tuple.Item1.Font=new Font(tuple.Item2.FontFamily,tuple.Item2.Size*scale,tuple.Item2.Style);
 			}
 			form.Scale(new SizeF(scale,scale));
+		}
+
+		///<summary>UI-12 slice 15 fix round: whether the window is one of the report designer's property pages (BuiltWindow.IsPropertyDialogPage).
+		///</summary>
+		public static bool IsPropertyPage(BuiltWindow builtWindow) {
+			return builtWindow.ScanType!=null && builtWindow.ScanType.Kind==BuildKind.UserControlPlain && BuiltWindow.IsPropertyDialogPage(builtWindow.ScanType.Type);
+		}
+
+		///<summary>UI-12 slice 15 fix round: a report designer property page at a scale as a screen of that dpi draws it: every font of the page
+		///at the scale (the designer is per-monitor aware, and Windows draws a point size at the dpi), its text boxes and combo boxes too. The
+		///font pass of the program's windows (GridStyleGallery.ScaleFontsAsWindowsDoes) scales only the labels, buttons, check boxes and group
+		///boxes, since LayoutManager gives a program window's inputs their fonts: on a property page it left the boxes at the top level at
+		///their 100% text and height (about 22 px) beside labels at 150%, while the boxes in a group box took the group's scaled font. The bounds
+		///are scaled before (BuiltWindow.ScalePlainBounds, as PropertyDialog.ScaleToDpi does). Every font is read before any is set (ambient
+		///fonts).</summary>
+		public static void ScaleEveryFont(Control control,float scale) {
+			List<Tuple<Control,Font>> listFonts=new List<Tuple<Control,Font>>();
+			CollectEveryFont(control,listFonts);
+			foreach(Tuple<Control,Font> tuple in listFonts) {
+				tuple.Item1.Font=new Font(tuple.Item2.FontFamily,tuple.Item2.Size*scale,tuple.Item2.Style);
+			}
 		}
 
 		private static void CollectEveryFont(Control control,List<Tuple<Control,Font>> listFonts) {

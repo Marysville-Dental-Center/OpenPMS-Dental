@@ -131,7 +131,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// bCheckSyntax
 			// 
-			this.bCheckSyntax.Location = new System.Drawing.Point(365, 8);
+			this.bCheckSyntax.Location = new System.Drawing.Point(358, 8);
 			this.bCheckSyntax.Name = "bCheckSyntax";
 			this.bCheckSyntax.Size = new System.Drawing.Size(82, 23);
 			this.bCheckSyntax.TabIndex = 2;
@@ -145,7 +145,7 @@ namespace fyiReporting.RdlDesign
 			this.panel1.Controls.Add(this.lbErrors);
 			this.panel1.Location = new System.Drawing.Point(8, 39);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(456, 252);
+			this.panel1.Size = new System.Drawing.Size(432, 252);
 			this.panel1.TabIndex = 4;
 			// 
 			// tbCode
@@ -158,7 +158,7 @@ namespace fyiReporting.RdlDesign
 			this.tbCode.Multiline = true;
 			this.tbCode.Name = "tbCode";
 			this.tbCode.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this.tbCode.Size = new System.Drawing.Size(352, 252);
+			this.tbCode.Size = new System.Drawing.Size(345, 252);
 			this.tbCode.TabIndex = 2;
 			this.tbCode.Text = "";
 			this.tbCode.WordWrap = false;

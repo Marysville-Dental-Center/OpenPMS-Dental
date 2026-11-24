@@ -43,6 +43,17 @@ def row(h, label, field, x, lw, fw, y, after=(), fh=None):
     return r
 
 
+def lead(h, label, field, x, fw, y):
+    """Fix round: a single label before its field with no column of labels to align to, at the content edge (MiddleLeft, its text at x
+    as the captions above and below it) and as wide as its text, the field 6 px after it fw wide. Right-aligned in a snapped width, its
+    text stood indented from the edge. Returns the right edge of the field."""
+    lw = (h.n(label).text_w or 0) + 4
+    lab(h, label, x, y, lw, "MiddleLeft")
+    fx = x + lw + ITEM
+    h.set(field, fx, y, fw, h.H)
+    return fx + fw
+
+
 def check_w(h, name):
     """A stock check box's or radio button's width: the box and its gap (24 px) and its text."""
     return 24 + (h.n(name).text_w or 0)

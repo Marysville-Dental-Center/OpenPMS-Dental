@@ -4,7 +4,7 @@ the window's bottom. Top down: the note over the width as tall as its three line
 between them); the file caption over its box with "..." on the right padding; Data provider (label + box) with ODBC Data Sources (shown
 for ODBC) after it to the right padding; Connection string's caption with Use integrated security at the right padding on its row, the
 connection box under them, taking the window's spare height; the prompt's caption over its box a section gap over the bar; Test
-Connection bottom left, OK and Cancel bottom right; main's 456 x 374."""
+Connection bottom left, OK and Cancel bottom right; main's 456 x 374. Fix round: Data provider at the content edge, as wide as its text."""
 import importlib.util
 import os
 
@@ -28,8 +28,7 @@ def layout(h):
     h.set("bGetFilename", R - 24, y, 24, h.H)
     h.set("tbFilename", 8, y, R - 24 - s.ITEM - 8, h.H)
     y += h.H + 8
-    lw = h.lw("label3")
-    x = s.row(h, "label3", "cbDataProvider", 8, lw, 120, y) + s.BAND
+    x = s.lead(h, "label3", "cbDataProvider", 8, 120, y) + s.BAND
     ow = h.lw("lODBC")
     s.row(h, "lODBC", "cbOdbcNames", x, ow, R - (x + ow + s.ITEM), y)
     y += h.H + 8

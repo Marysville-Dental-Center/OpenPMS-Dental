@@ -221,18 +221,18 @@ namespace fyiReporting.RdlDesign
 			// label1
 			// 
 			this.label1.Location = new System.Drawing.Point(8, 8);
-			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(52, 23);
+			this.label1.Size = new System.Drawing.Size(51, 23);
 			this.label1.TabIndex = 11;
 			this.label1.Text = "DataSet";
 			// 
 			// cbDataSets
 			// 
 			this.cbDataSets.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cbDataSets.Location = new System.Drawing.Point(66, 8);
+			this.cbDataSets.Location = new System.Drawing.Point(65, 8);
 			this.cbDataSets.Name = "cbDataSets";
-			this.cbDataSets.Size = new System.Drawing.Size(382, 23);
+			this.cbDataSets.Size = new System.Drawing.Size(383, 23);
 			this.cbDataSets.TabIndex = 0;
 			this.cbDataSets.SelectedIndexChanged += new System.EventHandler(this.cbDataSets_SelectedIndexChanged);
 			// 
@@ -257,6 +257,7 @@ namespace fyiReporting.RdlDesign
 			// lbFields
 			// 
 			this.lbFields.Location = new System.Drawing.Point(8, 58);
+			this.lbFields.IntegralHeight = false;
 			this.lbFields.Name = "lbFields";
 			this.lbFields.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
 			this.lbFields.Size = new System.Drawing.Size(160, 249);
@@ -265,6 +266,7 @@ namespace fyiReporting.RdlDesign
 			// lbMatrixColumns
 			// 
 			this.lbMatrixColumns.Location = new System.Drawing.Point(216, 58);
+			this.lbMatrixColumns.IntegralHeight = false;
 			this.lbMatrixColumns.Name = "lbMatrixColumns";
 			this.lbMatrixColumns.Size = new System.Drawing.Size(160, 111);
 			this.lbMatrixColumns.TabIndex = 3;
@@ -308,6 +310,7 @@ namespace fyiReporting.RdlDesign
 			// lbMatrixRows
 			// 
 			this.lbMatrixRows.Location = new System.Drawing.Point(216, 196);
+			this.lbMatrixRows.IntegralHeight = false;
 			this.lbMatrixRows.Name = "lbMatrixRows";
 			this.lbMatrixRows.Size = new System.Drawing.Size(160, 111);
 			this.lbMatrixRows.TabIndex = 8;

@@ -189,7 +189,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.";
 			// 
 			this.lVersion.Location = new System.Drawing.Point(240, 34);
 			this.lVersion.Name = "lVersion";
-			this.lVersion.Size = new System.Drawing.Size(136, 16);
+			this.lVersion.Size = new System.Drawing.Size(184, 16);
 			this.lVersion.TabIndex = 11;
 			this.lVersion.Text = "Version x.x.x";
 			this.lVersion.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -217,7 +217,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.";
 			// 
 			this.lVMVersion.Location = new System.Drawing.Point(240, 52);
 			this.lVMVersion.Name = "lVMVersion";
-			this.lVMVersion.Size = new System.Drawing.Size(144, 16);
+			this.lVMVersion.Size = new System.Drawing.Size(184, 16);
 			this.lVMVersion.TabIndex = 17;
 			this.lVMVersion.Text = ".NET x.x.xxxx.xxxx";
 			this.lVMVersion.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;

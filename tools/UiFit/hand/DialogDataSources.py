@@ -4,7 +4,7 @@ and left the bar 89 px over the window's bottom. Top down: the data source list 
 Source Name's caption over its box in the right column; Shared Data Source Reference with its file box and "..." on the right padding;
 Data provider (label + box) with Use integrated security after it; Connection string's caption with fx on the right padding on its row,
 the connection box under them, taking the window's spare height; the prompt's caption over its box a section gap over the bar; Test
-Connection bottom left, OK and Cancel bottom right; main's 456 x 374."""
+Connection bottom left, OK and Cancel bottom right; main's 456 x 374. Fix round: Data provider at the content edge, as wide as its text."""
 import importlib.util
 import os
 
@@ -31,8 +31,7 @@ def layout(h):
     h.set("bGetFilename", R - 24, y, 24, h.H)
     h.set("tbFilename", x, y, R - 24 - s.ITEM - x, h.H)
     y += 27
-    lw = h.lw("lDataProvider")
-    x = s.row(h, "lDataProvider", "cbDataProvider", 8, lw, 144, y) + s.BAND
+    x = s.lead(h, "lDataProvider", "cbDataProvider", 8, 144, y) + s.BAND
     s.chk(h, "ckbIntSecurity", x, y)
     y += 27
     h.set("bExprConnect", R - s.FX, y, s.FX, h.H)

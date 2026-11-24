@@ -139,6 +139,7 @@ namespace fyiReporting.RdlDesign
 			// lbImages
 			// 
 			this.lbImages.Location = new System.Drawing.Point(8, 8);
+			this.lbImages.IntegralHeight = false;
 			this.lbImages.Name = "lbImages";
 			this.lbImages.Size = new System.Drawing.Size(120, 77);
 			this.lbImages.TabIndex = 0;

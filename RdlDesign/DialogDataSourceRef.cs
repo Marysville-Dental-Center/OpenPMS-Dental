@@ -147,16 +147,16 @@ namespace fyiReporting.RdlDesign
 			// label3
 			// 
 			this.label3.Location = new System.Drawing.Point(8, 147);
-			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(84, 23);
+			this.label3.Size = new System.Drawing.Size(82, 23);
 			this.label3.TabIndex = 7;
 			this.label3.Text = "Data provider";
 			// 
 			// cbDataProvider
 			// 
 			this.cbDataProvider.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cbDataProvider.Location = new System.Drawing.Point(98, 147);
+			this.cbDataProvider.Location = new System.Drawing.Point(96, 147);
 			this.cbDataProvider.Name = "cbDataProvider";
 			this.cbDataProvider.Size = new System.Drawing.Size(120, 23);
 			this.cbDataProvider.TabIndex = 4;
@@ -253,16 +253,16 @@ namespace fyiReporting.RdlDesign
 			// cbOdbcNames
 			// 
 			this.cbOdbcNames.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cbOdbcNames.Location = new System.Drawing.Point(356, 147);
+			this.cbOdbcNames.Location = new System.Drawing.Point(354, 147);
 			this.cbOdbcNames.Name = "cbOdbcNames";
-			this.cbOdbcNames.Size = new System.Drawing.Size(92, 23);
+			this.cbOdbcNames.Size = new System.Drawing.Size(94, 23);
 			this.cbOdbcNames.Sorted = true;
 			this.cbOdbcNames.TabIndex = 5;
 			this.cbOdbcNames.SelectedIndexChanged += new System.EventHandler(this.cbOdbcNames_SelectedIndexChanged);
 			// 
 			// lODBC
 			// 
-			this.lODBC.Location = new System.Drawing.Point(234, 147);
+			this.lODBC.Location = new System.Drawing.Point(232, 147);
 			this.lODBC.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.lODBC.Name = "lODBC";
 			this.lODBC.Size = new System.Drawing.Size(116, 23);

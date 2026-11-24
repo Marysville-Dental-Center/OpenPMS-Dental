@@ -114,6 +114,7 @@ namespace fyiReporting.RdlDesign
 				| System.Windows.Forms.AnchorStyles.Right)));
 			this.lbSchemaErrors.HorizontalScrollbar = true;
 			this.lbSchemaErrors.Location = new System.Drawing.Point(8, 66);
+			this.lbSchemaErrors.IntegralHeight = false;
 			this.lbSchemaErrors.Name = "lbSchemaErrors";
 			this.lbSchemaErrors.Size = new System.Drawing.Size(487, 166);
 			this.lbSchemaErrors.TabIndex = 2;

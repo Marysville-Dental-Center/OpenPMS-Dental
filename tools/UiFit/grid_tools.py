@@ -2632,6 +2632,16 @@ def apply_row(text, control, prop, new):
         if new == "true":
             return text, None  # the default
         return insert_before_name_line(text, control, "this.%s.Visible = %s;" % (control, new))
+    if prop == "IntegralHeight":
+        # A hand row only (UI-12 slice 15 fix round: the report designer's list boxes, whose snapped height left them short of their
+        # buttons): the control's IntegralHeight line. A second run finds the line as it writes it and changes nothing.
+        pat = re.compile(r"(%sIntegralHeight ?= ?)(true|false)(;)" % re.escape(target))
+        m = pat.search(text)
+        if m:
+            return text[:m.start(2)] + new + text[m.end(2):], None
+        if new == "true":
+            return text, None  # the default
+        return insert_before_name_line(text, control, "this.%s.IntegralHeight = %s;" % (control, new))
     if prop in ("CheckAlign", "TextAlign"):
         pat = re.compile(r"(%s%s ?= ?System\.Drawing\.ContentAlignment\.)(\w+)(;)" % (re.escape(target), prop))
         m = pat.search(text)
