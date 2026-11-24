@@ -107,6 +107,11 @@ Targeted run (x64, 2026-11-24, `.git/od-tools/test-results/uiovf-run3.txt`): UiR
 pictures of a disconnected session and opt-in galleries), 0 failed; WindowChecksTests 30/44 skipped; UnitTests 1728/3 skipped; PrintGuardTests
 19/1 skipped; NoHqTests 127; the real Tab walk passed.
 
+Fix round (`ui/uiovf-2`, x64, 2026-11-24, `.git/od-tools/test-results/uiovf2-run2.txt`): UiRefreshTests 341 passed, 49 skipped, 0 failed
+(both real Tab walks passed); P262BillingTests 54 (its ToolBarOD source check holds again: `ShowDropDown` keeps the
+`ContextMenuStripDropDown==null` shape and the overflow arrow item goes through it; its Statement check now expects the icon UI-9b-1 gave the
+button); WindowChecksTests 30/44 skipped; UnitTests 1728/3 skipped; PrintGuardTests 19/1 skipped; NoHqTests 127.
+
 ## 4. Gallery G-UI3-uiovf
 
 `OPMS_UI_OVF_GALLERY=<folder>` with a Targeted UiRefreshTests run; `tools/New-UiGallery.ps1` makes the page. For each toolbar and font of
