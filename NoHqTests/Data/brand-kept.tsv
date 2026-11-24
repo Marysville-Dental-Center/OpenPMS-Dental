@@ -228,7 +228,7 @@ OpenPmsDentalBusiness/X12/X834.cs	OD	X12 code value (OD = Doctor of Optometry)
 OpenPmsDentalServer/ServerSettings.cs	/OpenDentalServer	Middle Tier URL path that the clients call (protocol)
 PasswordVaultWrapper/CredentialStore.cs	OpenDental Middle Tier:	Windows Credential Manager target name: a storage key; changing it loses saved credentials
 ServiceManager/FormMain.cs	 (Open Dental)	Marks a Windows service of Open Dental in ServiceManager's list; a correct reference to Open Dental
-ServiceManager/FormMain.resx	"OpenDent..." (Open Dental's, marked so in the list)	ServiceManager's help text: the services of Open Dental that its list shows, marked " (Open Dental)"; a correct reference to Open Dental
+ServiceManager/FormMain.resx	"OpenDent..." (Open Dental's, marked so)	ServiceManager's help text: the services of Open Dental that its list shows, marked " (Open Dental)"; a correct reference to Open Dental
 ServiceManager/FormServiceManage.cs	OpenDentalAPIService.exe	File, folder or service name of an Open Dental program or config file that the program looks for; a name on disk, not a text
 ServiceManager/FormServiceManage.cs	OpenDentalEConnector.exe	File, folder or service name of an Open Dental program or config file that the program looks for; a name on disk, not a text
 ServiceManager/FormServiceManage.cs	OpenDentalReplicationService.exe	File, folder or service name of an Open Dental program or config file that the program looks for; a name on disk, not a text

@@ -34,8 +34,13 @@ namespace UiRefreshTests {
 				+"(Only need to do this once)" },
 			new string[] { @"C:\"+ProgramNames.DefaultAtoZFolderName,@"C:\"+AtoZFolderNameBefore },
 			new string[] { @"\\SERVER\"+ProgramNames.DefaultAtoZFolderName,@"\\SERVER\"+AtoZFolderNameBefore },
-			new string[] { "begin with \"OpenPmsDental...\" (this program's) or \"OpenDent...\" (Open Dental's, marked so in the list) or are associated",
-				"begin with \"OpenDent...\" or are associated" },
+			new string[] { "begin with \"OpenPmsDental...\" or \"OpenDent...\" (Open Dental's, marked so) or use \"mysqld.exe\".",
+				"begin with \"OpenDent...\" or are associated with \"mysqld.exe\"." },
+			new string[] { "Most HL7 users will only add one service to this list. If several customer databases are hosted on one server, each must have "
+				+"its own uniquely named service, which typically points to an exe in its own folder.",
+				"Most HL7 users will only add one service to this list.\r\nBut if multiple customer databases are hosted on one server,\r\nthen each "
+				+"database must have its own uniquely named service,\r\nand each such service will typically point to a different exe\r\nin it's own "
+				+"separate folder." },
 		};
 
 		public static void Prepare(Control root) {
@@ -109,7 +114,7 @@ namespace UiRefreshTests {
 					new FitGallery().Gallery_SliceWindows_InTheNewFont();
 					string[] arrayFailed=File.ReadAllLines(Path.Combine(folderSet,"gallery-failed.txt"));
 					Assert.AreEqual(0,arrayFailed.Length,folderSet+": "+string.Join("; ",arrayFailed));
-					StaRunner.Run(() => RenderAtoZFoldersCreate(Path.Combine(folderSet,"OpenPmsDental.FrmAtoZFoldersCreate.png"),isBefore,listNotes));
+					StaRunner.Run(() => RenderAtoZFoldersCreate(Path.Combine(folderSet,"FrmAtoZFoldersCreate.png"),isBefore,listNotes));
 				}
 			}
 			finally {
@@ -166,7 +171,8 @@ namespace UiRefreshTests {
 			using(Bitmap bitmap=new Bitmap(path)) {
 				for(int x=0;x<bitmap.Width;x+=2) {
 					for(int y=0;y<bitmap.Height;y+=2) {
-						if(bitmap.GetPixel(x,y).GetBrightness()<0.5f) {
+						Color color=bitmap.GetPixel(x,y);
+						if(color.A>200 && color.GetBrightness()<0.5f) {//A session that draws nothing leaves even the white background transparent.
 							countDark++;
 						}
 					}
