@@ -110,6 +110,12 @@ are: an approval is the owner's, not a baseline):
   `OPMS_UI_FIT_GALLERY_WINDOWS=OpenPmsDental.MsgBoxCopyPaste,CodeBase.MsgBoxCopyPaste@CodeBase`) once the harness builds it by its
   constructor (section 1); the product code is still `f20ec8b71`'s, so its row keeps that commit (704x672, was 718x683). The
   `@CodeBase` picture drawn in the same run has the same bytes as the set's, so the run draws as the first one did.
+- **Retaken at the end of the refresh (2026-11-24, after UI-CLOSE)**: the same two runs from the full x64 build of `3999652c7` (main with every UI package),
+  frozen in `.git/od-tools/test-results/ui-baseline-final2/`; `baseline.tsv` now records that set (1132 pictures, gallery `UI-close-baseline`).
+  Against the first set: 141 changed, 92 of them exactly an approved picture; the other 49 are the date boxes' new button (UI-CAL), windows two
+  approved packages both changed (the task list, FormBackup, the Allocator), the brand texts and the calendars at 150%, checked by the lead;
+  FormToothPicker draws now (it was blank); DataSetRowsCtl, ODDatePicker, ToothChartWrapper (blank, its own surface) and
+  UserControlSecurityUserGroup are new, ImageAnimator is gone (UI-LOAD). Comparison gallery: `test-results/G-UI3-baseline2`.
 - **The layout snapshot** (`Data/layout-snapshot/`, the designer bounds `LayoutSnapshotTests` compares with): written again from this
   branch (`OPMS_UI_LAYOUT_SNAPSHOT_WRITE=1`); it equals the committed files but for FormLanguageAndRegion's rows (section 2).
 - **Needs a connected desktop session** (WPF draws nothing in this disconnected one, `ControlPictures.RendersWpf()` is false, and the
