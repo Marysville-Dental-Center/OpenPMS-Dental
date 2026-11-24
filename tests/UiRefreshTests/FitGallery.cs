@@ -29,6 +29,11 @@ namespace UiRefreshTests {
 		public const string VARIABLE_OWNER="OPMS_UI_FIT_GALLERY_OWNER";
 		public const string VARIABLE_FONT="OPMS_UI_FIT_GALLERY_FONT";
 		public const string VARIABLE_SCALE="OPMS_UI_FIT_GALLERY_SCALE";
+		///<summary>UI-PLAIN-2: OPMS_UI_FIT_GALLERY_FRAME=1 draws each plain window whole, with its title bar (PlainLookCopy.CaptureWindow: the
+		///program's frame when the window has it, else Windows' frame as Windows prints it), named <window>-frame; so does the state "frame"
+		///(<window>#frame) for one window. In the window list, "@plainframes" stands for every plain window of PlainLookTests.ArrayPlainAssemblies
+		///with the state "frame".</summary>
+		public const string VARIABLE_FRAME="OPMS_UI_FIT_GALLERY_FRAME";
 
 		///<summary>Slice 1 (UI-10-1): FormPatientEdit, FormProvEdit, FormClaimEdit, FormProcEdit, ControlAccount and the preference pages.</summary>
 		public static readonly string[] ArraySlice1Windows=new string[] {
@@ -68,6 +73,7 @@ namespace UiRefreshTests {
 			//UI-13 fix round: OPMS_UI_FIT_GALLERY_VISUAL_STYLES=1 draws the windows with Windows' visual styles (comctl32 version 6, as the program
 			//runs; VisualStylesScope), for the windows that show a native type the looks leave to Windows (tree and list views, month calendars).
 			bool isVisualStyles=Environment.GetEnvironmentVariable("OPMS_UI_FIT_GALLERY_VISUAL_STYLES")=="1";
+			bool isFrame=Environment.GetEnvironmentVariable(VARIABLE_FRAME)=="1";
 			//UI-12 slice 1: OPMS_UI_FIT_GALLERY_SCALE (for example 1.5) draws the windows at that scale, as the style pictures do (LayoutManager's
 			//scale, the date pickers' and up-down boxes' fonts as Windows scales them); the pictures are named <window>-<percent>.png.
 			float scale=1f;
@@ -86,6 +92,12 @@ namespace UiRefreshTests {
 				DesignSheetWindows.IsPrintingWithoutChildren=true;
 				DesignSheetWindows.PaintDpiScale=scale;//the insurance summaries' text at the scale's dpi (DesignSheetWindows.PaintDpiScale)
 				List<ScanType> listScanTypes=WindowBuilder.GetScanTypes();
+				if(arrayWindows.Contains("@plainframes")) {
+					List<string> listExpanded=arrayWindows.Where(x => x!="@plainframes").ToList();
+					listExpanded.AddRange(listScanTypes.Where(x => x.Kind==BuildKind.PlainWindow && PlainLookTests.ArrayPlainAssemblies.Contains(x.Assembly)
+						&& !PlainLookTests.ArrayNotWindows.Contains(x.Type.FullName)).Select(x => x.WindowKey+"#frame"));
+					arrayWindows=listExpanded.ToArray();
+				}
 				foreach(string windowAndState in arrayWindows) {
 					//UI-12 slice 2 fix round: "<window>#<state>" draws the window in one of the states of FillSampleState, named <window>-<state>.
 					string window=windowAndState;
@@ -95,6 +107,11 @@ namespace UiRefreshTests {
 						window=windowAndState.Substring(0,indexHash);
 						state=windowAndState.Substring(indexHash+1);
 					}
+					bool isFrameHere=isFrame;
+					if(state=="frame") {
+						isFrameHere=true;
+						state="";
+					}
 					ScanType scanType=listScanTypes.FirstOrDefault(x => x.WindowKey==window);
 					if(scanType==null) {
 						listFailed.Add(window+": not a scanned type");
@@ -102,6 +119,10 @@ namespace UiRefreshTests {
 					}
 					SetGalleryFont(font);
 					try {
+						if(isFrameHere) {
+							//UI-PLAIN-2: the frame at the gallery's scale (the harness is a 96 dpi process).
+							PlainLookCopy.SetFrameScaleForTest(scanType.Type.Assembly,scale);
+						}
 						FillSampleCache(window,state);
 						using(BuiltWindow builtWindow=WindowBuilder.Build(scanType)) {
 							Control root=builtWindow.Root;
@@ -127,7 +148,8 @@ namespace UiRefreshTests {
 							HideDatePickerCalendars(root);
 							FillSampleContent(root,window,state);
 							List<string[]> listOwnerHere=controlPicture==root ? listOwner.Where(x => x[1]==window).ToList() : new List<string[]>();
-							using(Bitmap bitmap=DesignSheetWindows.Capture(controlPicture,Rectangle.Empty)) {
+							bool isFramePicture=isFrameHere && builtWindow.ScanType.Kind==BuildKind.PlainWindow && controlPicture==root;
+							using(Bitmap bitmap=isFramePicture ? PlainLookCopy.CaptureWindow(builtWindow.Form) : DesignSheetWindows.Capture(controlPicture,Rectangle.Empty)) {
 								string name=window.Substring(window.LastIndexOf('.')+1);
 								//UI-12 slice 12: two windows of one class name in the list (xCrudGenerator's and DocumentationBuilder's Form1) are named
 								//<namespace>-<class>, so one picture does not overwrite the other.
@@ -136,6 +158,9 @@ namespace UiRefreshTests {
 								}
 								if(state!="") {
 									name+="-"+state;
+								}
+								if(isFramePicture) {
+									name+="-frame";
 								}
 								if(scale!=1f) {
 									name+="-"+(int)Math.Round(scale*100);
@@ -170,6 +195,9 @@ namespace UiRefreshTests {
 					}
 					finally {
 						ClearSampleCache(window,state);
+						if(isFrameHere) {
+							PlainLookCopy.SetFrameScaleForTest(scanType.Type.Assembly,0);
+						}
 						UiTheme.SetFontForTest(null);
 						DefaultFontOverride.Set(TextFitFontOption.Today,1f);
 					}

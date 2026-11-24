@@ -17,10 +17,11 @@ using UiRefreshTests.Scan;
 namespace UiRefreshTests {
 	[TestClass]
 	public class PlainLookTests {
-		///<summary>The assemblies whose every plain window calls UiPlainWindow.Attach: the plain exes (but RdlDesign, the report designer's own
-		///slice) and the graph library, and CodeBase (its progress windows and message box).</summary>
+		///<summary>The assemblies whose every plain window calls UiPlainWindow.Attach: the plain exes and the graph library, and CodeBase (its
+		///progress windows and message box); UI-PLAIN-2: the report designer (RdlDesigner, its own copy of the looks) and ODR.</summary>
 		public static readonly string[] ArrayPlainAssemblies=new string[] { "CentralManager","CodeBase","CrudGenerator","DatabaseIntegrityCheck",
-			"DocumentationBuilder","MySQLManager","OpenPmsDentalDbSettings","OpenPmsDentalGraph","OpenPmsDentalHL7","ServiceManager","UpdateFileCopier" };
+			"DocumentationBuilder","MySQLManager","ODR","OpenPmsDentalDbSettings","OpenPmsDentalGraph","OpenPmsDentalHL7","RdlDesigner","ServiceManager",
+			"UpdateFileCopier" };
 		///<summary>Plain forms of those assemblies that are not windows of their own: the progress windows' base class (its two windows call
 		///Attach).</summary>
 		public static readonly string[] ArrayNotWindows=new string[] { "CodeBase.FormProgressBase" };
@@ -34,7 +35,9 @@ namespace UiRefreshTests {
 			StaRunner.Run(() => {
 				NoDatabaseGuard.Install();
 				List<ScanType> listScanTypes=WindowBuilder.GetScanTypes().Where(x => x.Kind==BuildKind.PlainWindow && ArrayPlainAssemblies.Contains(x.Assembly)).ToList();
-				Assert.IsTrue(listScanTypes.Count>=40,"The plain windows: "+listScanTypes.Count);
+				Assert.IsTrue(listScanTypes.Count>=60,"The plain windows: "+listScanTypes.Count);
+				Assert.IsTrue(listScanTypes.Count(x => x.Assembly=="RdlDesigner")>=20,"The report designer's windows");
+				Assert.IsTrue(listScanTypes.Any(x => x.Type.FullName=="ODR.FormParameterInput"),"ODR's FormParameterInput");
 				foreach(ScanType scanType in listScanTypes.Where(x => !ArrayNotWindows.Contains(x.Type.FullName))) {
 					Type typePlainWindow=scanType.Type.Assembly.GetType(typeof(UiPlainWindow).FullName)??typeof(UiPlainWindow);
 					if(!WindowBuilder.ConstructorCalls(scanType.Type,typePlainWindow.GetMethod(nameof(UiPlainWindow.Attach),new Type[] { typeof(Form) }))) {
@@ -82,6 +85,45 @@ namespace UiRefreshTests {
 			});
 			Assert.AreEqual(0,listProblems.Count,string.Join(Environment.NewLine,listProblems));
 			Assert.IsTrue(countFramed>=50,"The plain windows' framed inputs: "+countFramed);
+		}
+
+		///<summary>UI-PLAIN-2: every report designer and ODR window of grid-windows/13.tsv (the windows, the property pages a PropertyDialog hosts,
+		///ODR's FormParameterInput) built as the program builds it: the window or its test host attached (with the report designer's own copy of
+		///the looks), the background token, every framed input and stock control in its look, and at most 10% of the gallery's picture in the
+		///classic grey outside the inputs.</summary>
+		[TestMethod]
+		public void PlainWindows_Slice13_ReportDesignerAndOdr_DrawTheNewLook() {
+			List<GridRulesTests.GridWindow> listWindows=GridRulesTests.ReadGridWindows()
+				.Where(x => x.Slice=="13" && (x.Window.StartsWith("fyiReporting.RdlDesign.") || x.Window.StartsWith("ODR."))).ToList();
+			Assert.IsTrue(listWindows.Count>=14,"grid-windows/13.tsv, the report designer and ODR: "+listWindows.Count);
+			List<string> listProblems=new List<string>();
+			int countFramed=0;
+			StaRunner.Run(() => {
+				NoDatabaseGuard.Install();
+				List<ScanType> listScanTypes=WindowBuilder.GetScanTypes();
+				foreach(GridRulesTests.GridWindow gridWindow in listWindows) {
+					ScanType scanType=listScanTypes.FirstOrDefault(x => x.WindowKey==gridWindow.Window);
+					if(scanType==null) {
+						listProblems.Add(gridWindow.Window+": not a scanned type");
+						continue;
+					}
+					System.Reflection.Assembly assemblyLooks=scanType.Type.Assembly;
+					try {
+						using(BuiltWindow builtWindow=WindowBuilder.Build(scanType)) {
+							if(!PlainLookCopy.IsTrue(assemblyLooks,"UiPlainWindow","IsAttached",builtWindow.Form)) {
+								listProblems.Add(gridWindow.Window+": no UiPlainWindow.Attach");
+							}
+							countFramed+=CheckTree(gridWindow.Window,builtWindow.Root,listProblems,assemblyLooks);
+							CheckClassicGrey(gridWindow.Window,builtWindow.Root,listProblems);
+						}
+					}
+					catch(Exception exception) {
+						listProblems.Add(gridWindow.Window+": "+TierOneScan.Describe(exception));
+					}
+				}
+			});
+			Assert.AreEqual(0,listProblems.Count,string.Join(Environment.NewLine,listProblems));
+			Assert.IsTrue(countFramed>=30,"The report designer's and ODR's framed inputs: "+countFramed);
 		}
 
 		///<summary>UI-PLAIN fix round: the picture as the gallery draws it (each control printed alone, DesignSheetWindows.IsPrintingWithoutChildren:
@@ -140,35 +182,39 @@ namespace UiRefreshTests {
 		///<summary>The window's problems: an old background on a control that shows the window's background, a framed input or a stock control
 		///without its look. Returns the count of framed inputs.</summary>
 		private static int CheckTree(string window,Control root,List<string> listProblems) {
+			return CheckTree(window,root,listProblems,null);
+		}
+
+		///<summary>CheckTree with the looks of the assembly's own copy of CodeBase's UI files (UI-PLAIN-2: the report designer's), else
+		///CodeBase's (null).</summary>
+		private static int CheckTree(string window,Control root,List<string> listProblems,System.Reflection.Assembly assemblyLooks) {
 			int countFramed=0;
 			foreach(Control control in Walk(root)) {
 				string name=window+" "+(control==root ? "(window)" : control.Name);
-				bool isOld=control is Form ? UiPlainWindow.IsOldWindowBackground(control.BackColor) : UiPlainWindow.IsOldBackground(control.BackColor);
-				if(UiPlainWindow.IsBackground(control) && isOld) {
+				string nameIsOld=control is Form ? "IsOldWindowBackground" : "IsOldBackground";
+				bool isOld=PlainLookCopy.IsTrue(assemblyLooks,"UiPlainWindow",nameIsOld,control.BackColor);
+				if(PlainLookCopy.IsTrue(assemblyLooks,"UiPlainWindow","IsBackground",control) && isOld) {
 					listProblems.Add(name+": background "+control.BackColor.Name);
 				}
-				if(control!=root && UiInputFrame.IsFramed(control)) {
+				if(control!=root && PlainLookCopy.IsTrue(assemblyLooks,"UiInputFrame","IsFramed",control)) {
 					countFramed++;
-					if(!UiInputFrame.IsAttached(control)) {
+					if(!PlainLookCopy.IsTrue(assemblyLooks,"UiInputFrame","IsAttached",control)) {
 						listProblems.Add(name+": an input without the frame");
 					}
 				}
-				if(UiButtonLook.IsDrawn(control) && !UiButtonLook.IsAttached(control)) {
-					listProblems.Add(name+": a stock button in Windows' look");
+				foreach(string[] arrayLook in new string[][] { new[] { "UiButtonLook","a stock button" },new[] { "UiCheckLook","a stock check box" },
+					new[] { "UiGroupBoxLook","a stock group box" },new[] { "UiTabLook","a stock tab control" } })
+				{
+					if(PlainLookCopy.IsTrue(assemblyLooks,arrayLook[0],"IsDrawn",control) && !PlainLookCopy.IsTrue(assemblyLooks,arrayLook[0],"IsAttached",control)) {
+						listProblems.Add(name+": "+arrayLook[1]+" in Windows' look");
+					}
 				}
-				if(UiCheckLook.IsDrawn(control) && !UiCheckLook.IsAttached(control)) {
-					listProblems.Add(name+": a stock check box in Windows' look");
-				}
-				if(control is RadioButton && !UiRadioLook.IsAttached(control)) {
+				if(control is RadioButton && !PlainLookCopy.IsTrue(assemblyLooks,"UiRadioLook","IsAttached",control)) {
 					listProblems.Add(name+": a stock radio button in Windows' look");
 				}
-				if(UiGroupBoxLook.IsDrawn(control) && !UiGroupBoxLook.IsAttached(control)) {
-					listProblems.Add(name+": a stock group box in Windows' look");
-				}
-				if(UiTabLook.IsDrawn(control) && !UiTabLook.IsAttached(control)) {
-					listProblems.Add(name+": a stock tab control in Windows' look");
-				}
-				if(control!=root && UiScrollLook.IsScrolled(control) && !UiScrollLook.IsAttached(control)) {
+				if(control!=root && PlainLookCopy.IsTrue(assemblyLooks,"UiScrollLook","IsScrolled",control)
+					&& !PlainLookCopy.IsTrue(assemblyLooks,"UiScrollLook","IsAttached",control))
+				{
 					listProblems.Add(name+": scroll bars in Windows' look");
 				}
 			}

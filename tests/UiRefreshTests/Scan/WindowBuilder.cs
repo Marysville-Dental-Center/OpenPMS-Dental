@@ -386,8 +386,9 @@ namespace UiRefreshTests.Scan {
 						builtWindow.Form=formPlain;
 						formPlain.Controls.Add(userControlPlain);
 						//UI-PLAIN: the plain windows that host these controls (the graph's dashboard dialogs) and the program's windows give them the
-						//look; the test form does what a plain host's constructor does.
-						CodeBase.UiPlainWindow.Attach(formPlain);
+						//look; the test form does what a plain host's constructor does. UI-PLAIN-2: with the control's own library's copy of the look
+						//when it compiles CodeBase's UI files in (RdlDesign: its PropertyDialog hosts the property pages and attaches its copy).
+						AttachPlainLookOfAssembly(formPlain,userControlPlain.GetType().Assembly);
 						break;
 				}
 			}
@@ -444,6 +445,16 @@ namespace UiRefreshTests.Scan {
 			}
 			methodInfoAttach.Invoke(null,new object[] { form });
 			return true;
+		}
+
+		///<summary>UI-PLAIN-2: UiPlainWindow.Attach on the form from the assembly's own copy of CodeBase's UI files (RdlDesign, UpdateFileCopier),
+		///else CodeBase's. Nothing while the gallery draws without the looks (UiLooks.IsOffForGallery: the copy has its own switch).</summary>
+		public static void AttachPlainLookOfAssembly(Form form,Assembly assembly) {
+			if(CodeBase.UiLooks.IsOffForGallery) {
+				return;
+			}
+			Type typePlainWindow=assembly.GetType(typeof(CodeBase.UiPlainWindow).FullName)??typeof(CodeBase.UiPlainWindow);
+			typePlainWindow.GetMethod(nameof(CodeBase.UiPlainWindow.Attach),new Type[] { typeof(Form) }).Invoke(null,new object[] { form });
 		}
 
 		///<summary>Hosts a UserControl in a bare test FormODBase the way the program adds it, and lays it out at 100%.</summary>
