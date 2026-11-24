@@ -29,6 +29,10 @@ comes with the update, and every setting, colour and picture the office chose st
   calendar that drops down from a date box (its button, F4 or Alt+Down). They work as before: click or drag a range, Shift with a click
   or an arrow key, the arrow keys, Page Up and Page Down, Home and End. In some report windows the second calendar and the lists
   beside it moved a little, so nothing covers the calendars any more.
+- **The name.** The program calls itself Open PMS (Open PMS - Dental) where it said "OD" or "Open Dental": the report allocator's
+  warning ("Close Other Open PMS Programs Now!!"), the X-Charge reconcile window, the example folders of the Paths window, the Query
+  Monitor's log. Open Dental is still named where the text is about Open Dental itself: the licence and copyright, adopting an Open
+  Dental database, and Open Dental's own services and programs.
 
 ## What changed in the layout
 
