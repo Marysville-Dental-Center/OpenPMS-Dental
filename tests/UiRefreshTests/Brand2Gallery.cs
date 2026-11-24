@@ -10,6 +10,7 @@ using System.Linq;
 using System.Windows.Forms;
 using CodeBase;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using UiRefreshTests.Scan;
 
 namespace UiRefreshTests {
 	///<summary>The gallery's preparation of a built window for the UI-BRAND-2 before pictures (FitGallery, after its state).</summary>
