@@ -52,7 +52,10 @@ def layout(h):
         chk(h, c, 8, y)
         y += h.CH + 4
     # Toolbar
-    lw2 = 152
+    # Fix round (review of slice 13): the two lists one width so Up, Down and Reset end on the page's right padding (they ended 22 px short
+    # with lists of 152); the lists run down to the page's padding (IntegralHeight off in DialogToolOptions.cs: a list snapped to whole
+    # 15 px items stood 14 px short of it).
+    lw2 = (R - 8 - 8 - 23 - 8 - 8 - 53) // 2
     for cap, lst, x in (("label4", "lbOperation", 8), ("label5", "lbToolbar", 8 + lw2 + 8 + 23 + 8)):
         h.text_align(cap, "BottomLeft")
         h.set(cap, x, 8, lw2, 17)

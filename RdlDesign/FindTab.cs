@@ -200,7 +200,7 @@ namespace fyiReporting.RdlDesign
 			this.groupBox1.Controls.Add(this.radioDown);
 			this.groupBox1.Location = new System.Drawing.Point(94, 66);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(128, 49);
+			this.groupBox1.Size = new System.Drawing.Size(124, 49);
 			this.groupBox1.TabIndex = 2;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Search Direction";

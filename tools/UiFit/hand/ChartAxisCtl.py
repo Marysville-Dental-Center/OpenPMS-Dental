@@ -55,9 +55,15 @@ def layout(h):
     y += 27 + h.H + 8
     grid = (("chkVisible", "chkLogScale", "chkMargin"), ("chkScalar", "chkReverse", "chkInterlaced"))
     widths = [max(16 + h.n(r[c]).text_w + 4 for r in grid) for c in range(3)]
+    # Fix round (review of slice 13): the columns on the bands' columns (the second and third stood on nothing above): the first on the left
+    # field column, the third on the right band's field column, the second on the left fx button column (or centred between the first and
+    # the third when the first does not end 8 px before it).
+    x1 = 8 + lw + 6
+    x3 = rx + rw + 6
+    fx_col = x1 + 64 + 6
+    x2 = fx_col if x1 + widths[0] + 8 <= fx_col else (x1 + widths[0] + x3 - widths[1]) // 2
+    assert x2 + widths[1] + 8 <= x3 and x3 + widths[2] <= 440 - 8, "ChartAxisCtl: the check box columns do not fit"
     for r, row in enumerate(grid):
-        x = 8 + lw + 6
         for c, name in enumerate(row):
             h.check_left(name)
-            h.set(name, x, y + r * (h.CH + 4), 16 + h.n(name).text_w + 4, h.CH)
-            x += widths[c] + 16
+            h.set(name, (x1, x2, x3)[c], y + r * (h.CH + 4), 16 + h.n(name).text_w + 4, h.CH)

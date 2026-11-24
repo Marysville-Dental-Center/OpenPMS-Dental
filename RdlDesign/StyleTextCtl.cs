@@ -345,10 +345,10 @@ namespace fyiReporting.RdlDesign
             // 
             // lFont
             // 
-            this.lFont.Location = new System.Drawing.Point(0, 23);
+            this.lFont.Location = new System.Drawing.Point(8, 23);
             this.lFont.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.lFont.Name = "lFont";
-            this.lFont.Size = new System.Drawing.Size(68, 23);
+            this.lFont.Size = new System.Drawing.Size(60, 23);
             this.lFont.TabIndex = 8;
             this.lFont.Text = "Family";
             // 
@@ -479,10 +479,10 @@ namespace fyiReporting.RdlDesign
             // 
             // label9
             // 
-            this.label9.Location = new System.Drawing.Point(0, 77);
+            this.label9.Location = new System.Drawing.Point(8, 77);
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(68, 23);
+            this.label9.Size = new System.Drawing.Size(60, 23);
             this.label9.TabIndex = 22;
             this.label9.Text = "Color";
             // 
@@ -496,10 +496,10 @@ namespace fyiReporting.RdlDesign
             // 
             // label3
             // 
-            this.label3.Location = new System.Drawing.Point(0, 50);
+            this.label3.Location = new System.Drawing.Point(8, 50);
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(68, 23);
+            this.label3.Size = new System.Drawing.Size(60, 23);
             this.label3.TabIndex = 25;
             this.label3.Text = "Style";
             // 

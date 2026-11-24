@@ -22,6 +22,18 @@ def layout(h):
     y = 8 + 4 * 27 + h.H + 8
     h.set("groupBalancing", 8, y)
     y += h.n("groupBalancing").nh + 8
+    # Fix round (review of slice 13): the Balancing caption is one space-padded string (labelEquation, kept): each box's left edge under its
+    # caption word and each sign under the caption's sign. Where TextRenderer draws them at Segoe UI 9, measured in the after picture (px
+    # from the label's left edge): the words at 3 (Claim Fee), 140, 286 and 430, the signs' centres at 124, 270 and 412.5. A box's text
+    # starts 3 px inside it, as Claim Fee's box under its word at the label's edge; the signs' glyphs centre 11 px (16 px "-") and 13.5 px
+    # (20 px "=") into their right-aligned labels.
+    L = h.n("labelEquation").nx
+    for box, word in (("textClaimFee2", 3), ("textClaimAdjAmtSum", 140), ("textProcAdjAmtSum", 286), ("textInsPaidCalc", 430)):
+        h.set(box, L + word - 3, None)
+    for sign, centre, glyph in (("label18", 124, 11), ("label3", 270, 11), ("label10", 412.5, 13.5)):
+        h.set(sign, int(L + centre - glyph), None)
+    # gridSupplementalInfo as wide as the other three grids (it was 2 px short of their right edge; the code sizes its columns from its width).
+    h.set("gridSupplementalInfo", None, None, h.n("gridClaimAdjustments").nw, None)
     bottom = s.stack(h, ("gridClaimAdjustments", "gridProcedureBreakdown", "gridAdjudicationInfo", "gridSupplementalInfo"), y, x=8)
     bar_top = bottom + s.SECTION
     hh = bar_top + h.n("butPrint").nh + 8

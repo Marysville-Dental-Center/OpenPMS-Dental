@@ -20,6 +20,16 @@ def layout(h):
     y = 8 + 2 * 27 + h.H + 8
     h.set("groupBalancing", 8, y)
     y += h.n("groupBalancing").nh + 8
+    # Fix round (review of slice 13): each Balancing caption centred over its box (they stood 22 to 97 px left of their boxes, drifting
+    # further with each column): as wide as its text or the box, whichever is wider, as FormEtrans835Edit's captions over its boxes.
+    for cap, box in (("labelEquation1", "textProcFee"), ("labelEquation2", "textPatRespSum"), ("labelEquation3", "textContractualObligSum"),
+                     ("labelEquation4", "textPayorReductionSum"), ("labelEquation5", "textOtherAdjustmentSum"),
+                     ("labelEquation6", "textInsPaidCalc")):
+        b = h.n(box)
+        cw = max(h.lw(cap), b.nw)
+        h.set(cap, b.nx - (cw - b.nw) // 2, None, cw, None)
+    # gridSupplementalInfo as wide as the other two grids (it was 2 px short of their right edge; the code sizes its columns from its width).
+    h.set("gridSupplementalInfo", None, None, h.n("gridRemarks").nw, None)
     bottom = s.stack(h, ("gridProcedureAdjustments", "gridRemarks", "gridSupplementalInfo"), y, x=8)
     bar_top = bottom + s.SECTION
     h.set(".", None, None, None, bar_top + h.n("butPrint").nh + 8)

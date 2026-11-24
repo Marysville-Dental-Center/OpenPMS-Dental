@@ -35,7 +35,9 @@ def layout(h):
     h.set("chkCase", fx, 35 + (h.H - h.CH) // 2, None, h.CH)
     h.set("radioUp", 8, 23, None, h.CH)
     h.set("radioDown", 8 + h.n("radioUp").nw + 16, 23, None, h.CH)
-    h.set("groupBox1", fx, 35 + h.H + 8, 8 + h.n("radioUp").nw + 16 + h.n("radioDown").nw + 8, 23 + h.CH + 8)
+    # Fix round (review of slice 13): the group ends 4 px after Down's bounds (the padding rule's least), so its margins match within 3 px:
+    # Up 8 px from its left edge, Down's text (TextRenderer leaves 7 px of its preferred width after it) 11 px from its right edge (it was 15).
+    h.set("groupBox1", fx, 35 + h.H + 8, 8 + h.n("radioUp").nw + 16 + h.n("radioDown").nw + 4, 23 + h.CH + 8)
     lab(h, "label3", 8, lw)
     h.set("txtFindR", fx, 8, fw, h.H)
     lab(h, "label2", 35, lw)

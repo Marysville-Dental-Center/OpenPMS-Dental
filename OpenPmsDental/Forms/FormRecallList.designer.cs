@@ -139,7 +139,7 @@
 			this.tabControl.Controls.Add(this.tabPageReactivations);
 			this.tabControl.Location = new System.Drawing.Point(8, 8);
 			this.tabControl.Name = "tabControl";
-			this.tabControl.Size = new System.Drawing.Size(1051, 680);
+			this.tabControl.Size = new System.Drawing.Size(1045, 680);
 			this.tabControl.TabIndex = 3;
 			this.tabControl.SelectedIndexChanged += new System.EventHandler(this.tabControl_SelectedIndexChanged);
 			// 
@@ -175,7 +175,7 @@
 			// groupEmailFromRecalls
 			// 
 			this.groupEmailFromRecalls.Controls.Add(this.comboEmailFromRecalls);
-			this.groupEmailFromRecalls.Location = new System.Drawing.Point(811, 70);
+			this.groupEmailFromRecalls.Location = new System.Drawing.Point(805, 70);
 			this.groupEmailFromRecalls.Name = "groupEmailFromRecalls";
 			this.groupEmailFromRecalls.Size = new System.Drawing.Size(228, 54);
 			this.groupEmailFromRecalls.TabIndex = 125;
@@ -273,7 +273,7 @@
 			// labelPatientCount
 			// 
 			this.labelPatientCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelPatientCount.Location = new System.Drawing.Point(919, 597);
+			this.labelPatientCount.Location = new System.Drawing.Point(913, 597);
 			this.labelPatientCount.Name = "labelPatientCount";
 			this.labelPatientCount.Size = new System.Drawing.Size(120, 24);
 			this.labelPatientCount.TabIndex = 132;
@@ -338,7 +338,7 @@
 			this.gridRecalls.Location = new System.Drawing.Point(8, 132);
 			this.gridRecalls.Name = "gridRecalls";
 			this.gridRecalls.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridRecalls.Size = new System.Drawing.Size(1031, 457);
+			this.gridRecalls.Size = new System.Drawing.Size(1025, 457);
 			this.gridRecalls.TabIndex = 126;
 			this.gridRecalls.Title = "Recall List";
 			this.gridRecalls.TranslationName = "TableRecallList";
@@ -349,7 +349,7 @@
 			// 
 			this.groupSetStatusRecalls.Controls.Add(this.comboSetStatusRecalls);
 			this.groupSetStatusRecalls.Controls.Add(this.butSetStatusRecalls);
-			this.groupSetStatusRecalls.Location = new System.Drawing.Point(811, 8);
+			this.groupSetStatusRecalls.Location = new System.Drawing.Point(805, 8);
 			this.groupSetStatusRecalls.Name = "groupSetStatusRecalls";
 			this.groupSetStatusRecalls.Size = new System.Drawing.Size(228, 54);
 			this.groupSetStatusRecalls.TabIndex = 123;
@@ -413,7 +413,7 @@
 			this.groupViewRecalls.Controls.Add(this.comboSortRecalls);
 			this.groupViewRecalls.Location = new System.Drawing.Point(8, 8);
 			this.groupViewRecalls.Name = "groupViewRecalls";
-			this.groupViewRecalls.Size = new System.Drawing.Size(795, 116);
+			this.groupViewRecalls.Size = new System.Drawing.Size(789, 116);
 			this.groupViewRecalls.TabIndex = 120;
 			this.groupViewRecalls.Text = "View";
 			// 
@@ -578,7 +578,7 @@
 			this.gridReminders.HScrollVisible = true;
 			this.gridReminders.Location = new System.Drawing.Point(8, 93);
 			this.gridReminders.Name = "gridReminders";
-			this.gridReminders.Size = new System.Drawing.Size(1031, 556);
+			this.gridReminders.Size = new System.Drawing.Size(1025, 556);
 			this.gridReminders.TabIndex = 127;
 			this.gridReminders.Title = "Reminder List";
 			this.gridReminders.TranslationName = "TableReminderList";
@@ -653,7 +653,7 @@
 			// groupEmailFromReact
 			// 
 			this.groupEmailFromReact.Controls.Add(this.comboEmailFromReact);
-			this.groupEmailFromReact.Location = new System.Drawing.Point(811, 70);
+			this.groupEmailFromReact.Location = new System.Drawing.Point(805, 70);
 			this.groupEmailFromReact.Name = "groupEmailFromReact";
 			this.groupEmailFromReact.Size = new System.Drawing.Size(228, 54);
 			this.groupEmailFromReact.TabIndex = 163;
@@ -789,7 +789,7 @@
 			// labelReactPatCount
 			// 
 			this.labelReactPatCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelReactPatCount.Location = new System.Drawing.Point(919, 597);
+			this.labelReactPatCount.Location = new System.Drawing.Point(913, 597);
 			this.labelReactPatCount.Name = "labelReactPatCount";
 			this.labelReactPatCount.Size = new System.Drawing.Size(120, 24);
 			this.labelReactPatCount.TabIndex = 151;
@@ -806,7 +806,7 @@
 			this.gridReactivations.Location = new System.Drawing.Point(8, 132);
 			this.gridReactivations.Name = "gridReactivations";
 			this.gridReactivations.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridReactivations.Size = new System.Drawing.Size(1031, 457);
+			this.gridReactivations.Size = new System.Drawing.Size(1025, 457);
 			this.gridReactivations.TabIndex = 145;
 			this.gridReactivations.Title = "Reactivation List";
 			this.gridReactivations.TranslationName = "TableReactivationList";
@@ -817,7 +817,7 @@
 			// 
 			this.groupSetStatusReact.Controls.Add(this.comboSetStatusReact);
 			this.groupSetStatusReact.Controls.Add(this.butSetStatusReact);
-			this.groupSetStatusReact.Location = new System.Drawing.Point(811, 8);
+			this.groupSetStatusReact.Location = new System.Drawing.Point(805, 8);
 			this.groupSetStatusReact.Name = "groupSetStatusReact";
 			this.groupSetStatusReact.Size = new System.Drawing.Size(228, 54);
 			this.groupSetStatusReact.TabIndex = 142;
@@ -859,7 +859,7 @@
 			this.groupViewReact.Controls.Add(this.butRefreshReact);
 			this.groupViewReact.Location = new System.Drawing.Point(8, 8);
 			this.groupViewReact.Name = "groupViewReact";
-			this.groupViewReact.Size = new System.Drawing.Size(795, 116);
+			this.groupViewReact.Size = new System.Drawing.Size(789, 116);
 			this.groupViewReact.TabIndex = 139;
 			this.groupViewReact.Text = "View";
 			// 
@@ -867,7 +867,7 @@
 			// 
 			this.comboProviderReact.Location = new System.Drawing.Point(480, 23);
 			this.comboProviderReact.Name = "comboProviderReact";
-			this.comboProviderReact.Size = new System.Drawing.Size(140, 23);
+			this.comboProviderReact.Size = new System.Drawing.Size(148, 23);
 			this.comboProviderReact.TabIndex = 43;
 			// 
 			// datePickerReact
@@ -884,7 +884,7 @@
 			// checkExcludeInactive
 			// 
 			this.checkExcludeInactive.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkExcludeInactive.Location = new System.Drawing.Point(636, 71);
+			this.checkExcludeInactive.Location = new System.Drawing.Point(644, 71);
 			this.checkExcludeInactive.Name = "checkExcludeInactive";
 			this.checkExcludeInactive.Size = new System.Drawing.Size(111, 20);
 			this.checkExcludeInactive.TabIndex = 47;
@@ -893,7 +893,7 @@
 			// checkShowDoNotContact
 			// 
 			this.checkShowDoNotContact.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkShowDoNotContact.Location = new System.Drawing.Point(636, 47);
+			this.checkShowDoNotContact.Location = new System.Drawing.Point(644, 47);
 			this.checkShowDoNotContact.Name = "checkShowDoNotContact";
 			this.checkShowDoNotContact.Size = new System.Drawing.Size(143, 20);
 			this.checkShowDoNotContact.TabIndex = 42;
@@ -902,7 +902,7 @@
 			// checkGroupFamiliesReact
 			// 
 			this.checkGroupFamiliesReact.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkGroupFamiliesReact.Location = new System.Drawing.Point(636, 23);
+			this.checkGroupFamiliesReact.Location = new System.Drawing.Point(644, 23);
 			this.checkGroupFamiliesReact.Name = "checkGroupFamiliesReact";
 			this.checkGroupFamiliesReact.RightToLeft = System.Windows.Forms.RightToLeft.No;
 			this.checkGroupFamiliesReact.Size = new System.Drawing.Size(106, 20);
@@ -962,7 +962,7 @@
 			// 
 			this.comboSiteReact.Location = new System.Drawing.Point(480, 77);
 			this.comboSiteReact.Name = "comboSiteReact";
-			this.comboSiteReact.Size = new System.Drawing.Size(140, 23);
+			this.comboSiteReact.Size = new System.Drawing.Size(148, 23);
 			this.comboSiteReact.TabIndex = 25;
 			// 
 			// labelSiteReact
@@ -980,7 +980,7 @@
 			this.comboClinicReact.IncludeUnassigned = true;
 			this.comboClinicReact.Location = new System.Drawing.Point(437, 50);
 			this.comboClinicReact.Name = "comboClinicReact";
-			this.comboClinicReact.Size = new System.Drawing.Size(183, 23);
+			this.comboClinicReact.Size = new System.Drawing.Size(191, 23);
 			this.comboClinicReact.TabIndex = 23;
 			// 
 			// labelProviderReact
@@ -1003,7 +1003,7 @@
 			// 
 			// FormRecallList
 			// 
-			this.ClientSize = new System.Drawing.Size(1067, 696);
+			this.ClientSize = new System.Drawing.Size(1061, 696);
 			this.Controls.Add(this.tabControl);
 			this.Name = "FormRecallList";
 			this.Text = "Recall List";

@@ -40,9 +40,12 @@ def layout(h):
     # Font
     g = 8
     h.set("groupBox1", 8, 39, W0 - 16, None)
-    row(h, "lFont", "cbFontFamily", "bFamily", 8, lwl, fl, 23, "bFont", dx=g)
-    row(h, "label3", "cbFontStyle", "bStyle", 8, lwl, fl, 50, dx=g)
-    row(h, "label9", "cbColor", "bColorEx", 8, lwl, fl, 77, "bColor", dx=g)
+    # Fix round (review of slice 13): the Font group's labels from its content edge (x 16 in the window, 8 in the group; they started at
+    # the group's x 0 and hid its left border between the rows), 8 px narrower so the boxes keep their column.
+    assert max(h.lw(n) for n in ("lFont", "label3", "label9")) <= lwl - 8, "StyleTextCtl: a Font group label is wider than its column"
+    row(h, "lFont", "cbFontFamily", "bFamily", 16, lwl - 8, fl, 23, "bFont", dx=g)
+    row(h, "label3", "cbFontStyle", "bStyle", 16, lwl - 8, fl, 50, dx=g)
+    row(h, "label9", "cbColor", "bColorEx", 16, lwl - 8, fl, 77, "bColor", dx=g)
     row(h, "label11", "cbFontSize", "bSize", rx, lwr, fr, 23, dx=g)
     row(h, "label10", "cbFontWeight", "bWeight", rx, lwr, fr, 50, dx=g)
     row(h, "label2", "cbTextDecoration", "button2", rx, lwr, fr, 77, dx=g)

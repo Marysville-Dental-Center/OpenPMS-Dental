@@ -171,25 +171,25 @@ namespace OpenPmsDental{
 			// 
 			// labelEquation6
 			// 
-			this.labelEquation6.Location = new System.Drawing.Point(676, 23);
+			this.labelEquation6.Location = new System.Drawing.Point(772, 23);
 			this.labelEquation6.Name = "labelEquation6";
-			this.labelEquation6.Size = new System.Drawing.Size(110, 20);
+			this.labelEquation6.Size = new System.Drawing.Size(112, 20);
 			this.labelEquation6.TabIndex = 223;
 			this.labelEquation6.Text = "Ins Paid Calc";
 			this.labelEquation6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// labelEquation5
 			// 
-			this.labelEquation5.Location = new System.Drawing.Point(528, 23);
+			this.labelEquation5.Location = new System.Drawing.Point(606, 23);
 			this.labelEquation5.Name = "labelEquation5";
-			this.labelEquation5.Size = new System.Drawing.Size(142, 20);
+			this.labelEquation5.Size = new System.Drawing.Size(136, 20);
 			this.labelEquation5.TabIndex = 222;
 			this.labelEquation5.Text = "Other Adjustment Sum";
 			this.labelEquation5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// labelEquation4
 			// 
-			this.labelEquation4.Location = new System.Drawing.Point(394, 23);
+			this.labelEquation4.Location = new System.Drawing.Point(450, 23);
 			this.labelEquation4.Name = "labelEquation4";
 			this.labelEquation4.Size = new System.Drawing.Size(128, 20);
 			this.labelEquation4.TabIndex = 221;
@@ -198,18 +198,18 @@ namespace OpenPmsDental{
 			// 
 			// labelEquation3
 			// 
-			this.labelEquation3.Location = new System.Drawing.Point(253, 23);
+			this.labelEquation3.Location = new System.Drawing.Point(296, 23);
 			this.labelEquation3.Name = "labelEquation3";
-			this.labelEquation3.Size = new System.Drawing.Size(135, 20);
+			this.labelEquation3.Size = new System.Drawing.Size(136, 20);
 			this.labelEquation3.TabIndex = 220;
 			this.labelEquation3.Text = "Contractual Oblig. Sum";
 			this.labelEquation3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// labelEquation2
 			// 
-			this.labelEquation2.Location = new System.Drawing.Point(137, 23);
+			this.labelEquation2.Location = new System.Drawing.Point(158, 23);
 			this.labelEquation2.Name = "labelEquation2";
-			this.labelEquation2.Size = new System.Drawing.Size(110, 20);
+			this.labelEquation2.Size = new System.Drawing.Size(112, 20);
 			this.labelEquation2.TabIndex = 219;
 			this.labelEquation2.Text = "Patient Resp Sum";
 			this.labelEquation2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -218,7 +218,7 @@ namespace OpenPmsDental{
 			// 
 			this.labelEquation1.Location = new System.Drawing.Point(8, 23);
 			this.labelEquation1.Name = "labelEquation1";
-			this.labelEquation1.Size = new System.Drawing.Size(110, 20);
+			this.labelEquation1.Size = new System.Drawing.Size(112, 20);
 			this.labelEquation1.TabIndex = 218;
 			this.labelEquation1.Text = "Proc Fee";
 			this.labelEquation1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -323,7 +323,7 @@ namespace OpenPmsDental{
 			this.gridSupplementalInfo.Location = new System.Drawing.Point(8, 415);
 			this.gridSupplementalInfo.Name = "gridSupplementalInfo";
 			this.gridSupplementalInfo.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridSupplementalInfo.Size = new System.Drawing.Size(956, 100);
+			this.gridSupplementalInfo.Size = new System.Drawing.Size(958, 100);
 			this.gridSupplementalInfo.TabIndex = 213;
 			this.gridSupplementalInfo.TabStop = false;
 			this.gridSupplementalInfo.Title = "Supplemental Info";

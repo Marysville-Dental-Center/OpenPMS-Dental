@@ -198,7 +198,7 @@ namespace OpenPmsDental{
 			// 
 			// label18
 			// 
-			this.label18.Location = new System.Drawing.Point(136, 45);
+			this.label18.Location = new System.Drawing.Point(121, 45);
 			this.label18.Name = "label18";
 			this.label18.Size = new System.Drawing.Size(16, 23);
 			this.label18.TabIndex = 204;
@@ -207,7 +207,7 @@ namespace OpenPmsDental{
 			// 
 			// textClaimAdjAmtSum
 			// 
-			this.textClaimAdjAmtSum.Location = new System.Drawing.Point(158, 45);
+			this.textClaimAdjAmtSum.Location = new System.Drawing.Point(145, 45);
 			this.textClaimAdjAmtSum.Name = "textClaimAdjAmtSum";
 			this.textClaimAdjAmtSum.ReadOnly = true;
 			this.textClaimAdjAmtSum.Size = new System.Drawing.Size(112, 23);
@@ -233,7 +233,7 @@ namespace OpenPmsDental{
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(286, 45);
+			this.label3.Location = new System.Drawing.Point(267, 45);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(16, 23);
 			this.label3.TabIndex = 206;
@@ -242,7 +242,7 @@ namespace OpenPmsDental{
 			// 
 			// label10
 			// 
-			this.label10.Location = new System.Drawing.Point(436, 45);
+			this.label10.Location = new System.Drawing.Point(407, 45);
 			this.label10.Name = "label10";
 			this.label10.Size = new System.Drawing.Size(20, 23);
 			this.label10.TabIndex = 207;
@@ -251,7 +251,7 @@ namespace OpenPmsDental{
 			// 
 			// textInsPaidCalc
 			// 
-			this.textInsPaidCalc.Location = new System.Drawing.Point(462, 45);
+			this.textInsPaidCalc.Location = new System.Drawing.Point(435, 45);
 			this.textInsPaidCalc.Name = "textInsPaidCalc";
 			this.textInsPaidCalc.ReadOnly = true;
 			this.textInsPaidCalc.Size = new System.Drawing.Size(112, 23);
@@ -259,7 +259,7 @@ namespace OpenPmsDental{
 			// 
 			// textProcAdjAmtSum
 			// 
-			this.textProcAdjAmtSum.Location = new System.Drawing.Point(308, 45);
+			this.textProcAdjAmtSum.Location = new System.Drawing.Point(291, 45);
 			this.textProcAdjAmtSum.Name = "textProcAdjAmtSum";
 			this.textProcAdjAmtSum.ReadOnly = true;
 			this.textProcAdjAmtSum.Size = new System.Drawing.Size(112, 23);
@@ -332,7 +332,7 @@ namespace OpenPmsDental{
 			this.gridSupplementalInfo.Location = new System.Drawing.Point(8, 623);
 			this.gridSupplementalInfo.Name = "gridSupplementalInfo";
 			this.gridSupplementalInfo.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridSupplementalInfo.Size = new System.Drawing.Size(956, 80);
+			this.gridSupplementalInfo.Size = new System.Drawing.Size(958, 80);
 			this.gridSupplementalInfo.TabIndex = 211;
 			this.gridSupplementalInfo.TabStop = false;
 			this.gridSupplementalInfo.Title = "EOB Supplemental Info";

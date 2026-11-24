@@ -284,7 +284,7 @@ namespace fyiReporting.RdlDesign
             // 
             // chkMargin
             // 
-            this.chkMargin.Location = new System.Drawing.Point(329, 231);
+            this.chkMargin.Location = new System.Drawing.Point(336, 231);
             this.chkMargin.Name = "chkMargin";
             this.chkMargin.Size = new System.Drawing.Size(65, 18);
             this.chkMargin.TabIndex = 21;
@@ -293,7 +293,7 @@ namespace fyiReporting.RdlDesign
             // 
             // chkReverse
             // 
-            this.chkReverse.Location = new System.Drawing.Point(195, 253);
+            this.chkReverse.Location = new System.Drawing.Point(188, 253);
             this.chkReverse.Name = "chkReverse";
             this.chkReverse.Size = new System.Drawing.Size(118, 18);
             this.chkReverse.TabIndex = 23;
@@ -302,7 +302,7 @@ namespace fyiReporting.RdlDesign
             // 
             // chkInterlaced
             // 
-            this.chkInterlaced.Location = new System.Drawing.Point(329, 253);
+            this.chkInterlaced.Location = new System.Drawing.Point(336, 253);
             this.chkInterlaced.Name = "chkInterlaced";
             this.chkInterlaced.Size = new System.Drawing.Size(79, 18);
             this.chkInterlaced.TabIndex = 23;
@@ -320,7 +320,7 @@ namespace fyiReporting.RdlDesign
             // 
             // chkLogScale
             // 
-            this.chkLogScale.Location = new System.Drawing.Point(195, 231);
+            this.chkLogScale.Location = new System.Drawing.Point(188, 231);
             this.chkLogScale.Name = "chkLogScale";
             this.chkLogScale.Size = new System.Drawing.Size(77, 18);
             this.chkLogScale.TabIndex = 20;

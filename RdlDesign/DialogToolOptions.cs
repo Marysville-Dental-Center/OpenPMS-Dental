@@ -392,7 +392,7 @@ namespace fyiReporting.RdlDesign
             // 
             // bRemove
             // 
-            this.bRemove.Location = new System.Drawing.Point(168, 54);
+            this.bRemove.Location = new System.Drawing.Point(179, 54);
             this.bRemove.Name = "bRemove";
             this.bRemove.Size = new System.Drawing.Size(23, 23);
             this.bRemove.TabIndex = 2;
@@ -401,7 +401,7 @@ namespace fyiReporting.RdlDesign
             // 
             // bReset
             // 
-            this.bReset.Location = new System.Drawing.Point(359, 81);
+            this.bReset.Location = new System.Drawing.Point(381, 81);
             this.bReset.Name = "bReset";
             this.bReset.Size = new System.Drawing.Size(53, 23);
             this.bReset.TabIndex = 6;
@@ -410,7 +410,7 @@ namespace fyiReporting.RdlDesign
             // 
             // bDown
             // 
-            this.bDown.Location = new System.Drawing.Point(359, 54);
+            this.bDown.Location = new System.Drawing.Point(381, 54);
             this.bDown.Name = "bDown";
             this.bDown.Size = new System.Drawing.Size(53, 23);
             this.bDown.TabIndex = 5;
@@ -419,7 +419,7 @@ namespace fyiReporting.RdlDesign
             // 
             // bUp
             // 
-            this.bUp.Location = new System.Drawing.Point(359, 27);
+            this.bUp.Location = new System.Drawing.Point(381, 27);
             this.bUp.Name = "bUp";
             this.bUp.Size = new System.Drawing.Size(53, 23);
             this.bUp.TabIndex = 4;
@@ -428,7 +428,7 @@ namespace fyiReporting.RdlDesign
             // 
             // bCopyItem
             // 
-            this.bCopyItem.Location = new System.Drawing.Point(168, 27);
+            this.bCopyItem.Location = new System.Drawing.Point(179, 27);
             this.bCopyItem.Name = "bCopyItem";
             this.bCopyItem.Size = new System.Drawing.Size(23, 23);
             this.bCopyItem.TabIndex = 1;
@@ -437,10 +437,10 @@ namespace fyiReporting.RdlDesign
             // 
             // label5
             // 
-            this.label5.Location = new System.Drawing.Point(199, 8);
+            this.label5.Location = new System.Drawing.Point(210, 8);
             this.label5.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(152, 17);
+            this.label5.Size = new System.Drawing.Size(163, 17);
             this.label5.TabIndex = 8;
             this.label5.Text = "Toolbar Layout";
             // 
@@ -449,22 +449,24 @@ namespace fyiReporting.RdlDesign
             this.label4.Location = new System.Drawing.Point(8, 8);
             this.label4.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(152, 17);
+            this.label4.Size = new System.Drawing.Size(163, 17);
             this.label4.TabIndex = 7;
             this.label4.Text = "ToolBar Operations";
             // 
             // lbToolbar
             // 
-            this.lbToolbar.Location = new System.Drawing.Point(199, 27);
+            this.lbToolbar.IntegralHeight = false;
+            this.lbToolbar.Location = new System.Drawing.Point(210, 27);
             this.lbToolbar.Name = "lbToolbar";
-            this.lbToolbar.Size = new System.Drawing.Size(152, 190);
+            this.lbToolbar.Size = new System.Drawing.Size(163, 190);
             this.lbToolbar.TabIndex = 3;
             // 
             // lbOperation
             // 
+            this.lbOperation.IntegralHeight = false;
             this.lbOperation.Location = new System.Drawing.Point(8, 27);
             this.lbOperation.Name = "lbOperation";
-            this.lbOperation.Size = new System.Drawing.Size(152, 190);
+            this.lbOperation.Size = new System.Drawing.Size(163, 190);
             this.lbOperation.TabIndex = 0;
             // 
             // tpDesktop

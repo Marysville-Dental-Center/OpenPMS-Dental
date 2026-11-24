@@ -19,8 +19,11 @@ COMBO_C = 140
 RIGHT_W = 228  # Set Status, Email From
 
 
-def view_group(h, group, picker, rows_b, rows_c, checks, refresh):
-    """The View group's content; returns its width."""
+def view_group(h, group, picker, rows_b, rows_c, checks, refresh, combo_c=COMBO_C):
+    """The View group's content (the third column's boxes combo_c wide); returns its width.
+    Fix round (review of slice 13): the group ends 4 px after the widest check box's text as GridRulesTests reads it (16 + its GDI+ width +
+    2, the padding rule's least): the check box draws its text 10 px short of that width, so the margin after the text is 13 px (it was 18
+    and 26 px with 8 px after the check boxes' bounds)."""
     h.set(picker, 8, 23)
     pw = h.n(picker).nw
     lwb = max(h.lw(lb) for lb, _ in rows_b)
@@ -35,20 +38,20 @@ def view_group(h, group, picker, rows_b, rows_c, checks, refresh):
         y = 23 + 27 * i
         if lb is None:  # the clinic picker: its box on the column
             cw = h.clinic_w(f)
-            h.set(f, cx - cw, y, cw + COMBO_C, h.H)
+            h.set(f, cx - cw, y, cw + combo_c, h.H)
             continue
         h.text_align(lb, "MiddleRight")
         h.set(lb, cx - 6 - lwc, y, lwc, h.H)
-        h.set(f, cx, y, COMBO_C, h.H)
-    dx = cx + COMBO_C + 16
+        h.set(f, cx, y, combo_c, h.H)
+    dx = cx + combo_c + 16
     width = 0
     for i, c in enumerate(checks):
         h.check_left(c)
         cw = 16 + h.n(c).text_w + 4
         h.set(c, dx, 23 + i * (h.CH + 4), cw, h.CH)
-        width = max(width, dx + cw)
+        width = max(width, dx + 16 + h.n(c).text_w + 2)
     h.set(refresh, 8, 23 + 27 * 2, None, h.H)
-    return width + 8
+    return width + 4
 
 
 def buttons(h, rows, page_h):
@@ -80,6 +83,19 @@ def layout(h):
                     (("labelShowReactivate", "comboShowReactivate"), ("labelBillingTypes", "comboBillingTypes"), ("labelSortByReact", "comboSortReact")),
                     (("labelProviderReact", "comboProviderReact"), (None, "comboClinicReact"), ("labelSiteReact", "comboSiteReact")),
                     ("checkGroupFamiliesReact", "checkShowDoNotContact", "checkExcludeInactive"), "butRefreshReact")
+    # The narrower page's third column boxes take the difference, so its check boxes end where the wider page's do (the same margin after
+    # them on both pages; Reactivations' Show Do Not Contact is shorter than Recalls' Show Conflicting Types).
+    if w1 != w2:
+        args = {True: ("groupViewReact", "datePickerReact",
+                       (("labelShowReactivate", "comboShowReactivate"), ("labelBillingTypes", "comboBillingTypes"), ("labelSortByReact", "comboSortReact")),
+                       (("labelProviderReact", "comboProviderReact"), (None, "comboClinicReact"), ("labelSiteReact", "comboSiteReact")),
+                       ("checkGroupFamiliesReact", "checkShowDoNotContact", "checkExcludeInactive"), "butRefreshReact"),
+                False: ("groupViewRecalls", "datePickerRecalls",
+                        (("labelShowReminders", "comboShowReminders"), ("labelRecallTypes", "comboRecallTypes"), ("labelSortRecalls", "comboSortRecalls")),
+                        (("labelProviderRecalls", "comboProviderRecalls"), (None, "comboClinicRecalls"), ("labelSiteRecalls", "comboSiteRecalls")),
+                        ("checkGroupFamiliesRecalls", "checkShowConflictingTypes", "checkIncludeReminded"), "butRefreshRecalls")}[w1 > w2]
+        w = view_group(h, *args, combo_c=COMBO_C + abs(w1 - w2))
+        assert w == max(w1, w2)
     vw = max(w1, w2)
     page_w = 8 + vw + 8 + RIGHT_W + 8
     tab_w = page_w + 4

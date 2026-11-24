@@ -113,8 +113,14 @@ namespace UiRefreshTests {
 							SettleAfterHandles(builtWindow);
 							//The state before the 150% font pass: a tab page shown lays its page out again (TabControl.LayoutTabs), with
 							//LayoutManager's zoom-only fonts.
+							//UI-12 slice 13 fix round: a plain exe's Form that scales itself (the report designer's dialogs, per-monitor aware) is
+							//scaled as a whole, its bounds and every font, before its state is shown.
+							bool isScaledAsPlainExe=scale!=1f && IsScaledByItsAutoScale(builtWindow);
+							if(isScaledAsPlainExe) {
+								ScaleAsPlainExe(builtWindow.Form,scale);
+							}
 							Control controlPicture=FillSampleState(root,window,state);
-							if(scale!=1f) {
+							if(scale!=1f && !isScaledAsPlainExe) {
 								GridStyleGallery.ScaleFontsAsWindowsDoes(root,scale);
 							}
 							HideDatePickerCalendars(root);
@@ -168,6 +174,37 @@ namespace UiRefreshTests {
 			OpenPmsDental.UI.UiLooks.IsOffForGallery=false;
 			File.WriteAllLines(Path.Combine(folder,"gallery-failed.txt"),listFailed);
 			Assert.IsTrue(countPictures>0,"No picture made: "+string.Join("; ",listFailed));
+		}
+
+		///<summary>UI-12 slice 13 fix round: whether a plain Form scales itself to the screen's dpi as a whole: the old Form.AutoScale (on for a
+		///Form whose designer code sets only AutoScaleBaseSize, as the report designer's dialogs do; Form.OnLoad scales the window and its
+		///controls by its font's size at the dpi against that base size, about 1.47 at 150% against 100%). A Form that sets AutoScaleMode (None:
+		///the report designer's PropertyDialog, which hosts its property pages unscaled) and the UserControls hosted in a test Form are not.</summary>
+		public static bool IsScaledByItsAutoScale(BuiltWindow builtWindow) {
+			if(builtWindow.ScanType==null || builtWindow.ScanType.Kind!=BuildKind.PlainWindow || builtWindow.Form==null) {
+				return false;
+			}
+			//Read by reflection: the property is obsolete (and hidden) in .NET's Form.
+			return typeof(Form).GetProperty("AutoScale")?.GetValue(builtWindow.Form) is bool isAutoScale && isAutoScale;
+		}
+
+		///<summary>UI-12 slice 13 fix round: a plain exe's Form at a scale as its AutoScale draws it on a screen of that dpi (per-monitor aware,
+		///RdlDesigner's Main): every font of the window at the scale (Windows draws a point size at the dpi), then the window and its controls
+		///scaled by it (Control.Scale, as Form.ApplyAutoScaling does). Every font is read before any is set (ambient fonts).</summary>
+		public static void ScaleAsPlainExe(Form form,float scale) {
+			List<Tuple<Control,Font>> listFonts=new List<Tuple<Control,Font>>();
+			CollectEveryFont(form,listFonts);
+			foreach(Tuple<Control,Font> tuple in listFonts) {
+				tuple.Item1.Font=new Font(tuple.Item2.FontFamily,tuple.Item2.Size*scale,tuple.Item2.Style);
+			}
+			form.Scale(new SizeF(scale,scale));
+		}
+
+		private static void CollectEveryFont(Control control,List<Tuple<Control,Font>> listFonts) {
+			listFonts.Add(Tuple.Create(control,control.Font));
+			foreach(Control child in control.Controls) {
+				CollectEveryFont(child,listFonts);
+			}
 		}
 
 		///<summary>UI-12 fix round: creates the window's handles, then lays the window out again at its scale before it is drawn. Creating the
@@ -262,6 +299,21 @@ namespace UiRefreshTests {
 				}
 				if(FindByName(root,"panelCompound") is Control controlCompound) {
 					controlCompound.Visible=isCompound;
+				}
+			}
+			if(window=="OpenPmsDental.FormSheetDefEdit") {
+				//UI-12 slice 13 fix round: Load shows the internal-sheet note or the editing tools (Tab Order and tips among them), never both
+				//(FormSheetDefEdit.cs, IsInternal): the picture shows a sheet that is not internal, or (the state "internal") an internal one.
+				bool isInternal=state=="internal";
+				foreach(string name in new string[] { "butDelete","butSave","groupAddField","groupShowField","groupPage","groupAlignH","butAlignTop",
+					"linkLabelTips","butCopy","butPaste","butUndo","butRedo","butTabOrder" })
+				{
+					if(FindByName(root,name) is Control control) {
+						control.Visible=!isInternal;
+					}
+				}
+				if(FindByName(root,"labelInternal") is Control controlInternal) {
+					controlInternal.Visible=isInternal;
 				}
 			}
 			if(window=="OpenPmsDental.FormScheduleDayEdit" && FindByName(root,"labelDate") is Label labelDate) {
@@ -462,6 +514,10 @@ namespace UiRefreshTests {
 			}
 			if(window=="OpenPmsDental.FormTransactionEdit" && state=="compound") {
 				//UI-12 slice 5 fix round 2: the compound panel (FillSampleContent sets the Visible flags).
+				return root;
+			}
+			if(window=="OpenPmsDental.FormSheetDefEdit" && state=="internal") {
+				//UI-12 slice 13 fix round: an internal sheet (FillSampleContent sets the Visible flags as Load does).
 				return root;
 			}
 			if(window=="OpenPmsDental.FormInsHistSetup" && state=="rows") {
