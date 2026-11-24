@@ -147,8 +147,9 @@ namespace OpenPmsDental{
 			this.labelConnectQB.Name = "labelConnectQB";
 			this.labelConnectQB.Size = new System.Drawing.Size(397, 47);
 			this.labelConnectQB.TabIndex = 73;
-			this.labelConnectQB.Text = "Push the connect button with QuickBooks running in the background if this is your" +
-    " first time using QuickBooks with Open PMS - Dental. (Only need to do this once)";
+			this.labelConnectQB.Text = "Push Connect with QuickBooks running in the background the first time you use Quic" +
+    "kBooks with Open PMS - Dental (only once). QuickBooks' administrator then allows it, even where the old pro" +
+    "gram was allowed.";
 			this.labelConnectQB.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// labelIncomeAccountQB

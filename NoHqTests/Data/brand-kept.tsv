@@ -31,13 +31,13 @@ OpenPmsDental/Forms/FormChooseDatabase.Designer.cs	Database: usually opendental 
 OpenPmsDental/Forms/FormDatabaseMaintenance.cs	every patient whose hash is blank or was written by Open Dental	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
 OpenPmsDental/Forms/FormDatabaseMaintenance.cs	moving a database over from Open Dental, before anyone edits data	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
 OpenPmsDental/Forms/FormEmailInbox.cs	No instance of Open Dental Service is running.	Names Open Dental's own Windows service (OpenDentalService), which this program does not ship; not a self-reference
-OpenPmsDental/Forms/FormInfobutton.cs	OD	HL7 Infobutton request field sent to the knowledge provider, not shown in the program
-OpenPmsDental/Forms/FormInfobutton.cs	Open Dental Software, version	HL7 Infobutton request field sent to the knowledge provider, not shown in the program
+OpenPmsDental/Forms/FormInfobutton.cs	OD	HL7 Infobutton request field sent to the knowledge provider, not shown in the program; kept until the vendor confirms another name (the owner's answer, docs/port-notes/UI-BRAND.md section 10)
+OpenPmsDental/Forms/FormInfobutton.cs	Open Dental Software, version	HL7 Infobutton request field sent to the knowledge provider, not shown in the program; kept until the vendor confirms another name (the owner's answer, docs/port-notes/UI-BRAND.md section 10)
 OpenPmsDental/Forms/FormOrthoChart.cs	that an instance of OD changed from '{}' to '{}'	Developer-only text (log, exception for developers, designer property description, development path)
 OpenPmsDental/Forms/FormSheetTools.designer.cs	another Open PMS - Dental or Open Dental	Compatibility note: sheet files exported from Open Dental can be imported
 OpenPmsDental/Forms/FormTransworldSetup.designer.cs	(by OpenDentalService)	Names Open Dental's own Windows service (OpenDentalService), which this program does not ship; not a self-reference
 OpenPmsDental/Forms/FormTransworldSetup.designer.cs	OpenDentalService Send Time	Names Open Dental's own Windows service (OpenDentalService), which this program does not ship; not a self-reference
-OpenPmsDental/Forms/FormTxtMsgEdit.cs	Open Dental	Third-party bridge field or identifier that the vendor program expects
+OpenPmsDental/Forms/FormTxtMsgEdit.cs	Open Dental	Third-party bridge field or identifier that the vendor program expects; kept until the vendor confirms another name (the owner's answer, docs/port-notes/UI-BRAND.md section 10)
 OpenPmsDental/Forms/FormUpdate.cs	Checking for and downloading updates from Open Dental is not available in this build.	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
 OpenPmsDental/Forms/FormUpdate.cs	Checking for updates with Open Dental is not available in this	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
 OpenPmsDental/Logic/PatientL.cs	FormOpenDental	Code identifier (class, method, hook, Lans category or settings name), never shown as text
@@ -91,27 +91,27 @@ OpenPmsDentalBusiness/Data Interface/CentralConnections.cs	opendental	Database n
 OpenPmsDentalBusiness/Data Interface/Commlogs.cs	Open Dental HQ-Generated	Open Dental HQ-only code path or text; never reached or shown in an office
 OpenPmsDentalBusiness/Data Interface/DatabaseMaintenances.cs	written by Open Dental	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
 OpenPmsDentalBusiness/Data Interface/EmailMessages.cs	                  <td>Open Dental PatNum</td>	Sample message of the EHR certification test; test data
-OpenPmsDentalBusiness/Data Interface/EmailMessages.cs	OpenDental 	Direct messaging MDN reporting-agent field (protocol)
+OpenPmsDentalBusiness/Data Interface/EmailMessages.cs	OpenDental 	Direct messaging MDN reporting-agent field (protocol); kept until the vendor confirms another name (the owner's answer, docs/port-notes/UI-BRAND.md section 10)
 OpenPmsDentalBusiness/Data Interface/OrthoCases.cs	is heavily used throughout OD.	Developer-only text (log, exception for developers, designer property description, development path)
 OpenPmsDentalBusiness/Data Interface/ProcedureCodes.cs	OD customers DO NOT EDIT FeeSchedule does not include a single valid Fee for ProcCode: 	Open Dental HQ-only code path or text; never reached or shown in an office
 OpenPmsDentalBusiness/Data Interface/StatementAutoSend.cs	is Always, carried over from Open Dental, where this setting most	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
 OpenPmsDentalBusiness/Db/Enumerations.cs	Disabled by Open Dental	Open Dental HQ-only code path or text; never reached or shown in an office
 OpenPmsDentalBusiness/Db/Enumerations.cs	Open Dental	Open Dental HQ-only code path or text; never reached or shown in an office
 OpenPmsDentalBusiness/Eclaims/Canadian.cs	^(OPENDENTAL\.pem|OD_\d{4}-\d{2}-\d{2}_\d{4}-\d{2}-\d{2}_(prod|staging)\.pem)$	Third-party bridge field or identifier that the vendor program expects
-OpenPmsDentalBusiness/HL7/FieldConstructor.cs	OD	HL7 protocol field (sending application, assigning authority, MSH) that the receiving system expects
-OpenPmsDentalBusiness/HL7/FieldConstructor.cs	OpenDentalHL7	HL7 protocol field (sending application, assigning authority, MSH) that the receiving system expects
-OpenPmsDentalBusiness/HL7/InternalCentricity.cs	OD	HL7 protocol field (sending application, assigning authority, MSH) that the receiving system expects
-OpenPmsDentalBusiness/HL7/InternalEcwFull.cs	OD	HL7 protocol field (sending application, assigning authority, MSH) that the receiving system expects
-OpenPmsDentalBusiness/HL7/InternalEcwTight.cs	OD	HL7 protocol field (sending application, assigning authority, MSH) that the receiving system expects
-OpenPmsDentalBusiness/HL7old/EcwDFT.cs	MSH|^~\&|OD||ECW||	HL7 protocol field (sending application, assigning authority, MSH) that the receiving system expects
-OpenPmsDentalBusiness/HL7old/EhrADT_A01.cs	Open Dental	HL7 protocol field (sending application, assigning authority, MSH) that the receiving system expects
-OpenPmsDentalBusiness/HL7old/EhrADT_A01.cs	|OD-	HL7 protocol field (sending application, assigning authority, MSH) that the receiving system expects
-OpenPmsDentalBusiness/HL7old/EhrADT_A01.cs	|Open Dental	HL7 protocol field (sending application, assigning authority, MSH) that the receiving system expects
-OpenPmsDentalBusiness/HL7old/EhrORU.cs	MSH|^~\&|Open Dental|	HL7 protocol field (sending application, assigning authority, MSH) that the receiving system expects
-OpenPmsDentalBusiness/HL7old/EhrORU.cs	OD|	HL7 protocol field (sending application, assigning authority, MSH) that the receiving system expects
-OpenPmsDentalBusiness/HL7old/EhrVXU.cs	Open Dental	HL7 protocol field (sending application, assigning authority, MSH) that the receiving system expects
-OpenPmsDentalBusiness/HL7old/EhrVXU.cs	|OD-	HL7 protocol field (sending application, assigning authority, MSH) that the receiving system expects
-OpenPmsDentalBusiness/HL7old/EhrVXU.cs	|Open Dental	HL7 protocol field (sending application, assigning authority, MSH) that the receiving system expects
+OpenPmsDentalBusiness/HL7/FieldConstructor.cs	OD	HL7 protocol field (sending application, assigning authority, MSH) that the receiving system expects; kept until the vendor confirms another name (the owner's answer, docs/port-notes/UI-BRAND.md section 10)
+OpenPmsDentalBusiness/HL7/FieldConstructor.cs	OpenDentalHL7	HL7 protocol field (sending application, assigning authority, MSH) that the receiving system expects; kept until the vendor confirms another name (the owner's answer, docs/port-notes/UI-BRAND.md section 10)
+OpenPmsDentalBusiness/HL7/InternalCentricity.cs	OD	HL7 protocol field (sending application, assigning authority, MSH) that the receiving system expects; kept until the vendor confirms another name (the owner's answer, docs/port-notes/UI-BRAND.md section 10)
+OpenPmsDentalBusiness/HL7/InternalEcwFull.cs	OD	HL7 protocol field (sending application, assigning authority, MSH) that the receiving system expects; kept until the vendor confirms another name (the owner's answer, docs/port-notes/UI-BRAND.md section 10)
+OpenPmsDentalBusiness/HL7/InternalEcwTight.cs	OD	HL7 protocol field (sending application, assigning authority, MSH) that the receiving system expects; kept until the vendor confirms another name (the owner's answer, docs/port-notes/UI-BRAND.md section 10)
+OpenPmsDentalBusiness/HL7old/EcwDFT.cs	MSH|^~\&|OD||ECW||	HL7 protocol field (sending application, assigning authority, MSH) that the receiving system expects; kept until the vendor confirms another name (the owner's answer, docs/port-notes/UI-BRAND.md section 10)
+OpenPmsDentalBusiness/HL7old/EhrADT_A01.cs	Open Dental	HL7 protocol field (sending application, assigning authority, MSH) that the receiving system expects; kept until the vendor confirms another name (the owner's answer, docs/port-notes/UI-BRAND.md section 10)
+OpenPmsDentalBusiness/HL7old/EhrADT_A01.cs	|OD-	HL7 protocol field (sending application, assigning authority, MSH) that the receiving system expects; kept until the vendor confirms another name (the owner's answer, docs/port-notes/UI-BRAND.md section 10)
+OpenPmsDentalBusiness/HL7old/EhrADT_A01.cs	|Open Dental	HL7 protocol field (sending application, assigning authority, MSH) that the receiving system expects; kept until the vendor confirms another name (the owner's answer, docs/port-notes/UI-BRAND.md section 10)
+OpenPmsDentalBusiness/HL7old/EhrORU.cs	MSH|^~\&|Open Dental|	HL7 protocol field (sending application, assigning authority, MSH) that the receiving system expects; kept until the vendor confirms another name (the owner's answer, docs/port-notes/UI-BRAND.md section 10)
+OpenPmsDentalBusiness/HL7old/EhrORU.cs	OD|	HL7 protocol field (sending application, assigning authority, MSH) that the receiving system expects; kept until the vendor confirms another name (the owner's answer, docs/port-notes/UI-BRAND.md section 10)
+OpenPmsDentalBusiness/HL7old/EhrVXU.cs	Open Dental	HL7 protocol field (sending application, assigning authority, MSH) that the receiving system expects; kept until the vendor confirms another name (the owner's answer, docs/port-notes/UI-BRAND.md section 10)
+OpenPmsDentalBusiness/HL7old/EhrVXU.cs	|OD-	HL7 protocol field (sending application, assigning authority, MSH) that the receiving system expects; kept until the vendor confirms another name (the owner's answer, docs/port-notes/UI-BRAND.md section 10)
+OpenPmsDentalBusiness/HL7old/EhrVXU.cs	|Open Dental	HL7 protocol field (sending application, assigning authority, MSH) that the receiving system expects; kept until the vendor confirms another name (the owner's answer, docs/port-notes/UI-BRAND.md section 10)
 OpenPmsDentalBusiness/Imaging/DicomImageReader.cs	OD	DICOM value representation code OD (other double)
 OpenPmsDentalBusiness/Imaging/DicomSubsetReader.cs	OD	DICOM value representation code OD (other double)
 OpenPmsDentalBusiness/Logic/BillingL.cs	OpenDentalService	Names Open Dental's own Windows service (OpenDentalService), which this program does not ship; not a self-reference
@@ -185,6 +185,8 @@ OpenPmsDentalBusiness/Misc/ForkMigrations/OdParity26_1.cs	Open Dental 26.1: clai
 OpenPmsDentalBusiness/Misc/ForkMigrations/OdParity26_2.cs	Open Dental 26.2 schema	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
 OpenPmsDentalBusiness/Misc/ForkMigrations/OdSettingNamesStep.cs	 setting(s) of release v0.0 to Open Dental's names.	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
 OpenPmsDentalBusiness/Misc/ForkMigrations/OdSettingNamesStep.cs	Settings under Open Dental's names: the release v0.0 rows moved	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
+OpenPmsDentalBusiness/Misc/ForkMigrations/ProgramPropertyDescRenameStep.cs	UserName (clear to use OD username)	Open Dental's old program property description, by which fork migration step 2026112451 finds the rows it renames (the owner's answer, docs/port-notes/UI-BRAND.md section 10); never shown
+OpenPmsDentalBusiness/Misc/ForkMigrations/ProgramPropertyDescRenameStep.cs	Enter 0 to use Open Dental for sending review invitations, or 1 to use the Service	Open Dental's old program property description, by which fork migration step 2026112451 finds the rows it renames (the owner's answer, docs/port-notes/UI-BRAND.md section 10); never shown
 OpenPmsDentalBusiness/Misc/ForkMigrations/SchemaVerifier.cs	Legacy table from old Open Dental versions that some	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
 OpenPmsDentalBusiness/Misc/ForkMigrations/SchemaVerifier.cs	Open Dental 	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
 OpenPmsDentalBusiness/Misc/ForkMigrations/SchemaVerifier.cs	Open Dental HQ-only table declared by	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
@@ -218,7 +220,6 @@ OpenPmsDentalBusiness/UI/GridOld.cs	js Not allowed to be used in OD proper. Set 
 OpenPmsDentalBusiness/UI/PopupHelper.cs	OpenDental	Code identifier (class, method, hook, Lans category or settings name), never shown as text
 OpenPmsDentalBusiness/WebBridges/Erx/NewCrop/NewCrop.cs	OD	eRx provider suffix code (OD = Doctor of Optometry)
 OpenPmsDentalBusiness/WebBridges/Podium.cs	"integrationName": "opendental",	Program property description used as the key of a programproperty row in the database
-OpenPmsDentalBusiness/WebBridges/Podium.cs	Enter 0 to use Open Dental for sending review invitations, or 1 to use the Service	Program property description used as the key of a programproperty row in the database
 OpenPmsDentalBusiness/WebServiceTests.cs	service@opendental.com	Developer-only text (log, exception for developers, designer property description, development path)
 OpenPmsDentalBusiness/WebServices/WebServiceHqServer.cs	http://{}:{}/OpenDentalWebServiceHQ/WebServiceMainHQ.asmx	Open Dental HQ-only code path or text; never reached or shown in an office
 OpenPmsDentalBusiness/WebServices/WebServiceMainHQNoHq.cs	This feature used Open Dental's hosted services, which are not available in this build.	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
@@ -227,6 +228,7 @@ OpenPmsDentalBusiness/X12/X834.cs	OD	X12 code value (OD = Doctor of Optometry)
 OpenPmsDentalServer/ServerSettings.cs	/OpenDentalServer	Middle Tier URL path that the clients call (protocol)
 PasswordVaultWrapper/CredentialStore.cs	OpenDental Middle Tier:	Windows Credential Manager target name: a storage key; changing it loses saved credentials
 ServiceManager/FormMain.cs	 (Open Dental)	Marks a Windows service of Open Dental in ServiceManager's list; a correct reference to Open Dental
+ServiceManager/FormMain.resx	"OpenDent..." (Open Dental's, marked so in the list)	ServiceManager's help text: the services of Open Dental that its list shows, marked " (Open Dental)"; a correct reference to Open Dental
 ServiceManager/FormServiceManage.cs	OpenDentalAPIService.exe	File, folder or service name of an Open Dental program or config file that the program looks for; a name on disk, not a text
 ServiceManager/FormServiceManage.cs	OpenDentalEConnector.exe	File, folder or service name of an Open Dental program or config file that the program looks for; a name on disk, not a text
 ServiceManager/FormServiceManage.cs	OpenDentalReplicationService.exe	File, folder or service name of an Open Dental program or config file that the program looks for; a name on disk, not a text
@@ -240,13 +242,11 @@ ServiceManager/FormWebConfigSettings.cs	OpenDentalWebConfig.xml	File, folder or 
 ServiceManager/FormWebConfigSettings.cs	opendental	Database name: the default database is still called opendental
 SharedAssemblyInfo.cs	Jordan Sparks, D.M.D., Open Dental Software, Inc. and	GPL attribution and copyright notice (required)
 UpdateFileCopier/FormMain.cs	\\OpenDentalReplicationService	File, folder or service name of an Open Dental program or config file that the program looks for; a name on disk, not a text
-WpfControlsOD/Bridges/DemandForce.cs	Open Dental	Third-party bridge field or identifier that the vendor program expects
-WpfControlsOD/Bridges/DentalStudio.cs	UserName (clear to use OD username)	Program property description used as the key of a programproperty row in the database
+WpfControlsOD/Bridges/DemandForce.cs	Open Dental	Third-party bridge field or identifier that the vendor program expects; kept until the vendor confirms another name (the owner's answer, docs/port-notes/UI-BRAND.md section 10)
 WpfControlsOD/Bridges/DexisIntegrator.cs	.FormOpenDental	Code identifier (class, method, hook, Lans category or settings name), never shown as text
 WpfControlsOD/Bridges/Oryx.cs	/api/auth/opendental/v1/login	Third-party bridge field or identifier that the vendor program expects
-WpfControlsOD/Bridges/PracticeByNumbers.cs	http://www.opendental.com/manual/portalpracticebynumbers.html	URL of Open Dental's manual page for this bridge; flagged for the owner in docs/port-notes/UI-BRAND.md
-WpfControlsOD/Bridges/Sirona.cs	OpenDental	Third-party bridge field or identifier that the vendor program expects
-WpfControlsOD/Bridges/Vipersoft.cs	OpenDental|	Third-party bridge field or identifier that the vendor program expects
+WpfControlsOD/Bridges/Sirona.cs	OpenDental	Third-party bridge field or identifier that the vendor program expects; kept until the vendor confirms another name (the owner's answer, docs/port-notes/UI-BRAND.md section 10)
+WpfControlsOD/Bridges/Vipersoft.cs	OpenDental|	Third-party bridge field or identifier that the vendor program expects; kept until the vendor confirms another name (the owner's answer, docs/port-notes/UI-BRAND.md section 10)
 WpfControlsOD/UI/Controls/Supplemental/PopupHelper2.cs	OpenDental	Code identifier (class, method, hook, Lans category or settings name), never shown as text
 installer/OpenPmsDental.iss	  ConfigPage.Values[1] := ExpandConstant('{param:DBNAME|opendental}');	Database name: the default database is still called opendental
 installer/OpenPmsDental.iss	  opendental, opmsd), which would replace	Setup script comment, not shown

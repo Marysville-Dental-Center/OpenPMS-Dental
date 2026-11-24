@@ -163,7 +163,7 @@
 			this.textBox5.ReadOnly = true;
 			this.textBox5.Size = new System.Drawing.Size(396, 27);
 			this.textBox5.TabIndex = 21;
-			this.textBox5.Text = "Restore A-Z images to this folder: (example:)\r\nC:\\OpenDentImages\\";
+			this.textBox5.Text = "Restore A-Z images to this folder: (example:)\r\nC:\\OpenPmsImages\\";
 			// 
 			// butBrowseRestoreAtoZTo
 			// 

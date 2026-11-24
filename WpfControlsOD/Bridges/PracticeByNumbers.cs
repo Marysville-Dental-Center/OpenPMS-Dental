@@ -15,7 +15,8 @@ namespace OpenPmsDental.Bridges{
 				if(!Programs.IsEnabled(ProgramName.PracticeByNumbers)) {
 					return;//Only reachable from buttons that show when the program link is enabled.
 				}
-				ODFileUtils.ProcessStart("http://www.opendental.com/manual/portalpracticebynumbers.html");
+				//UI-BRAND-2 (the owner's answer 4): Practice by Numbers' own public site, in place of Open Dental's manual page about the bridge.
+				ODFileUtils.ProcessStart("https://www.practicebynumbers.com/");
 			}
 			catch(Exception ex) {
 				MsgBox.Show("PracticeByNumbers","Failed to open web browser.  Please make sure you have a default browser set and are connected to the internet then try again.");

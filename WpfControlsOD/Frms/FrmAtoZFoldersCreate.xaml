@@ -9,7 +9,7 @@
              Width="627" Height="235" 
              Text="Create AtoZ Folder" MinMaxBoxes="False">
     <Grid Background="#FFFCFDFE" >
-        <ui:TextBox x:Name="textName" Width="206" Height="20" Margin="214,148,0,0" Text="OpenDentImages" />
+        <ui:TextBox x:Name="textName" Width="206" Height="20" Margin="214,148,0,0" Text="OpenPmsImages" />
         <ui:Label x:Name="label3" Width="184" Height="18" Margin="26,151,0,0" Text="Folder name" HAlign="Right" />
         <ui:TextBox x:Name="textLocation" Width="323" Height="20" Margin="214,112,0,0" Text="C:\" />
         <ui:Label x:Name="label2" Width="184" Height="18" Margin="26,115,0,0" Text="Location of new folder" HAlign="Right" />
