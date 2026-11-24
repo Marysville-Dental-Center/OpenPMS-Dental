@@ -35,7 +35,7 @@
 			this.butNoCancel = new OpenPmsDental.UI.Button();
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.label2 = new System.Windows.Forms.Label();
-			this.imageAnimator1 = new OpenPmsDental.Reporting.Allocators.MyAllocator1.Images.ImageAnimator();
+			this.progressRingWait = new CodeBase.UiProgressRing();
 			this.panel1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -90,7 +90,7 @@
 			// 
 			this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			this.panel1.Controls.Add(this.label2);
-			this.panel1.Controls.Add(this.imageAnimator1);
+			this.panel1.Controls.Add(this.progressRingWait);
 			this.panel1.Location = new System.Drawing.Point(8, 177);
 			this.panel1.Name = "panel1";
 			this.panel1.Size = new System.Drawing.Size(767, 66);
@@ -100,22 +100,21 @@
 			// 
 			this.label2.Font = new System.Drawing.Font("Segoe UI", 13.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label2.ForeColor = System.Drawing.Color.Maroon;
-			this.label2.Location = new System.Drawing.Point(64, 8);
+			this.label2.Location = new System.Drawing.Point(64, 16);
 			this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(368, 34);
 			this.label2.TabIndex = 5;
 			this.label2.Text = "Close Other OD Programs Now!!";
 			// 
-			// imageAnimator1
+			// progressRingWait
 			// 
-			this.imageAnimator1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			this.imageAnimator1.Location = new System.Drawing.Point(8, 8);
-			this.imageAnimator1.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
-			this.imageAnimator1.Name = "imageAnimator1";
-			this.imageAnimator1.SET_IMAGES = null;
-			this.imageAnimator1.Size = new System.Drawing.Size(50, 50);
-			this.imageAnimator1.TabIndex = 5;
+			this.progressRingWait.Location = new System.Drawing.Point(8, 8);
+			this.progressRingWait.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+			this.progressRingWait.Name = "progressRingWait";
+			this.progressRingWait.Size = new System.Drawing.Size(50, 50);
+			this.progressRingWait.TabIndex = 5;
+			this.progressRingWait.TabStop = false;
 			// 
 			// FormWarnToCloseComputers
 			// 
@@ -131,7 +130,6 @@
 			this.Margin = new System.Windows.Forms.Padding(4);
 			this.Name = "FormWarnToCloseComputers";
 			this.Text = "Warning";
-			this.Load += new System.EventHandler(this.FormWarnToCloseComputers_Load);
 			this.panel1.ResumeLayout(false);
 			this.ResumeLayout(false);
 
@@ -145,6 +143,6 @@
 		private OpenPmsDental.UI.Button butNoCancel;
 		private System.Windows.Forms.Panel panel1;
 		private System.Windows.Forms.Label label2;
-		private OpenPmsDental.Reporting.Allocators.MyAllocator1.Images.ImageAnimator imageAnimator1;
+		private CodeBase.UiProgressRing progressRingWait;
 	}
 }

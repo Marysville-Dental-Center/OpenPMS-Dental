@@ -161,6 +161,7 @@ namespace UiRefreshTests {
 								ScaleAsPlainExe(builtWindow.Form,scale);
 							}
 							Control controlPicture=FillSampleState(root,window,state);
+							ProgressRingGallery.Prepare(root);//UI-LOAD: every ring at one frame; the old indicator in the before pictures
 							if(scale!=1f && !isScaledAsPlainExe) {
 								GridStyleGallery.ScaleFontsAsWindowsDoes(root,scale);
 							}
@@ -591,6 +592,11 @@ namespace UiRefreshTests {
 		///page), and FormCertifications "certcomplete": its Cert Complete view as radioCertification_Click shows it.</para></summary>
 		public static Control FillSampleState(Control root,string window,string state) {
 			if(state=="") {
+				return root;
+			}
+			//UI-LOAD: the graph while it loads (IsLoading: the progress ring in front of the chart).
+			if(window=="OpenPmsDentalGraph.GraphQuantityOverTime" && state=="loading") {
+				root.GetType().GetProperty("IsLoading").SetValue(root,true);
 				return root;
 			}
 			if(window=="fyiReporting.RdlDesign.RdlDesigner" && state=="report") {

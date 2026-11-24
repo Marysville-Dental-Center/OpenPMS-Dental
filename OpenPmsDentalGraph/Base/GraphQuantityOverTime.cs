@@ -100,19 +100,23 @@ namespace OpenPmsDentalGraph {
 		#endregion
 
 		#region Public Properties
-		[Description("Show or hide the animated 'Loading' gif.")]
+		[Description("Show or hide the 'Loading' progress ring.")]
 		[Category("Graph")]
 		public bool IsLoading {
 			get { return _isLoading; }
 			set {
 				_isLoading=value;
+				//UI-LOAD: the ring (CodeBase.UiProgressRing) replaced loadingAnim.gif. It is hidden as well as sent back while the chart shows, so
+				//its timer runs only while it is in front.
 				if(IsLoading) {
-					pictureBoxLoading.BringToFront();
+					progressRingLoading.Visible=true;
+					progressRingLoading.BringToFront();
 					chart1.SendToBack();
 				}
 				else {
 					chart1.BringToFront();
-					pictureBoxLoading.SendToBack();
+					progressRingLoading.SendToBack();
+					progressRingLoading.Visible=false;
 				}
 			}
 		}

@@ -590,8 +590,10 @@ draw those ourselves.
   designer's toolbar takes its pictures from its designer `.resx` (UI-9a-7). They stay by the never-cut rule.
 - Database pictures: procedure buttons and program links an office has set, and the 6 seeded vendor logos. The refresh never changes an
   office's rows. New default procedure-button art goes only into `db/init/new-database.sql` (UQ-7).
-- The 17 cursors; the report allocator sample animation (`SnuffLight1-8.gif`).
-- `loadingAnim.gif` (the spinner) may become a vector progress ring in UI-11; until then it stays.
+- The 17 cursors.
+- UI-LOAD (2026-11-24, the owner's yes): `loadingAnim.gif` (the spinner) and the report allocator warning's frame animation
+  (`SnuffLight1-8.gif`, never shown: the frames were not embedded) became the vector progress ring `CodeBase.UiProgressRing`; both pictures
+  and the animator control are gone.
 
 ---
 
@@ -971,7 +973,7 @@ remove them:
 **Status (2026-11-24, UI-11-final).** The UI refresh is complete: every package of this section is built, every window the harness builds
 was swept (UI-11-final), the release notes are written (`docs/release-notes/ui-refresh.md`). Open: the owner's desktop checks at 125% and 150%
 scaling; in a connected desktop session, the UI-OVF WPF pictures (UI-11-final.md section 2) and the window checks' before set and the two
-pinned WPF content pictures (section 3); and loadingAnim.gif as a vector progress ring, deferred (owner question).
+pinned WPF content pictures (section 3). The busy indicators are the vector progress ring since UI-LOAD (the owner's yes, 2026-11-24).
 
 **Rules for all packages.**
 - One writer per package, in its own worktree, on its own branch. Packages that share a control file run one after the other.
@@ -1590,6 +1592,12 @@ own 26.2 overlap check before it starts. The first cut is below; a brief that fi
   MinDate/MaxDate, events and keyboard), the stock date pickers' drop-down is MonthCalendarOD (`UiDateDropLook`, CodeBase), the
   calendars' neighbours moved where the 227x162 calendar overlapped them in 12 report windows; the final sweep's rule `stock-calendar`.
   Note: [UI-CAL.md](../port-notes/UI-CAL.md); gallery G-UI3-uical, audit `UI-CAL-audit.md`.
+- Status UI-LOAD (2026-11-24, branch `ui/uiload-1`, the owner's yes to the progress ring): `CodeBase.UiProgressRing`, an indeterminate
+  Fluent ring in Accent drawn with GDI+ (32 px, a 4 px stroke at 96 DPI, scaled; the graph's 64 px), its timer only while in a window and visible, a static
+  ring with Windows' animations off, Windows' colours in high contrast; it replaced GraphQuantityOverTime's `loadingAnim.gif` and
+  FormWarnToCloseComputers' frame animator (both pictures and the `ImageAnimator` control removed). No other busy picture was found (WPF
+  has none; the marquee progress bars are progress bars). `ProgressRingTests` and the sweep's busy-gif rule fail on an animated GIF.
+  Note: [UI-LOAD.md](../port-notes/UI-LOAD.md); gallery G-UI3-uiload (4 pictures, 4 changed), audit `UI-LOAD-audit.md`.
 
 **UI-12: the layout grid (the owner's decision of 2026-11-21, section 1)**
 - Rules: [UI-12.md](../port-notes/UI-12.md) section 1 (8 px container padding, labels 6 px before their fields and right-aligned, one

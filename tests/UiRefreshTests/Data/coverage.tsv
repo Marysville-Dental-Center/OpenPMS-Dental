@@ -34,6 +34,7 @@ CodeBase/UI/UiDialogPaint	UI-4c	the dialog parts: the progress bar, the colour p
 CodeBase/UI/UiSliderPaint	UI-4c,UI-13	the imaging and appointment chrome's handles and cells; UI-13: the Fluent slider of the stock track bar
 CodeBase/UI/UiScrollPaint	UI-13	the Fluent scroll bar look every scroll bar is painted in
 CodeBase/UI/UiGrid	UI-12	the layout grid's numbers for code that places controls itself (draws nothing)
+CodeBase/UI/UiProgressRing	UI-LOAD	the busy indicator (UI-LOAD): an indeterminate Fluent progress ring in Accent, animated only while visible, static when Windows' animations are off; replaced the animated GIFs
 OpenPmsDental/UI/ListBox	UI-4b	the list box
 OpenPmsDental/UI/TabControl/*	UI-4b	the tab control, its pages and designers
 OpenPmsDental/UI/Splitters/*	UI-4b	the split container, its panels and designers

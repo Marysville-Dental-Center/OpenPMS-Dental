@@ -168,9 +168,9 @@ LOOKS = {
     "CodeBase.Controls.ODWebView2": ("keeps", "", NO_COVERAGE, "web content (section 1)"),
     "ODWebView2": ("keeps", "", NO_COVERAGE, "web content (section 1)"),
     "CodeBase.PrintPanel": ("n/a", "", NO_COVERAGE, "a print surface: documents"),
+    "CodeBase.UiProgressRing": ("yes", "UiProgressRing (UI-LOAD)", "CodeBase/UI/UiProgressRing", "the busy indicator: an indeterminate Fluent ring in Accent, static when Windows' animations are off"),
     "fyiReporting.RdlViewer.RdlViewer": ("keeps", "", NO_COVERAGE, "the report viewer: reports are documents"),
     "OpenPmsDental.CallFireService.SMSService": ("n/a", "", NO_COVERAGE, NONVISUAL),
-    "OpenPmsDental.Reporting.Allocators.MyAllocator1.Images.ImageAnimator": ("n/a", "", NO_COVERAGE, NONVISUAL),
     "OpenPmsDental.FolderBrowserDialog": ("keeps", "", "OpenPmsDental/UI/FolderBrowserDialog", WINDOWS_LOOK),
 }
 

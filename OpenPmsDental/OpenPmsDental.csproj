@@ -2692,9 +2692,6 @@
     <Compile Update="ReportingForRdl\Allocators\MyAllocator1\FormWarnToCloseComputers.Designer.cs">
       <DependentUpon>FormWarnToCloseComputers.cs</DependentUpon>
     </Compile>
-    <Compile Update="ReportingForRdl\Allocators\MyAllocator1\Images\ImageAnimator.Designer.cs">
-      <DependentUpon>ImageAnimator.cs</DependentUpon>
-    </Compile>
     <Compile Update="ReportingForRdl\FormReportCustom.designer.cs">
       <DependentUpon>FormReportCustom.cs</DependentUpon>
     </Compile>
@@ -5390,9 +5387,6 @@
     <EmbeddedResource Update="ReportingForRdl\Allocators\MyAllocator1\FormWarnToCloseComputers.resx">
       <DependentUpon>FormWarnToCloseComputers.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Update="ReportingForRdl\Allocators\MyAllocator1\Images\ImageAnimator.resx">
-      <DependentUpon>ImageAnimator.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Update="ReportingForRdl\FormReportCustom.resx">
       <DependentUpon>FormReportCustom.cs</DependentUpon>
     </EmbeddedResource>
@@ -5729,14 +5723,6 @@
     <Resource Include="Resources\webChatIcon.png" />
     <!-- Content items, as in the classic project file, not copied to the output folder. -->
     <Content Include="Misc\TerminalMgr.ico" />
-    <Content Include="ReportingForRdl\Allocators\MyAllocator1\Images\SnuffLight1.gif" />
-    <Content Include="ReportingForRdl\Allocators\MyAllocator1\Images\SnuffLight2.gif" />
-    <Content Include="ReportingForRdl\Allocators\MyAllocator1\Images\SnuffLight3.gif" />
-    <Content Include="ReportingForRdl\Allocators\MyAllocator1\Images\SnuffLight4.gif" />
-    <Content Include="ReportingForRdl\Allocators\MyAllocator1\Images\SnuffLight5.gif" />
-    <Content Include="ReportingForRdl\Allocators\MyAllocator1\Images\SnuffLight6.gif" />
-    <Content Include="ReportingForRdl\Allocators\MyAllocator1\Images\SnuffLight7.gif" />
-    <Content Include="ReportingForRdl\Allocators\MyAllocator1\Images\SnuffLight8.gif" />
     <Content Include="Resources\Anesth.gif" />
     <Content Include="Resources\arrowRightTriangle.gif" />
     <!-- The files above are Resource, Content or EmbeddedResource items only, not None items of the default glob as well. -->
