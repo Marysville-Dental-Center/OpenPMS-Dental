@@ -14,14 +14,18 @@ Package UI-LOAD (docs/specs/ui-refresh-plan.md, section 4.5 and section 7's UI-L
   default; a transparent back colour is supported).
 - **Animation.** `FRAMES_CYCLE` (60) frames of `FRAME_MS` (33 ms): two seconds a cycle. The arc's middle turns twice a cycle while its
   length breathes from 20 to 260 degrees; both ends always move clockwise, never more than 20 degrees a frame (`GetArc`).
-- **Timer only while in a window and visible.** A Windows Forms timer runs only while the ring has a parent and a window handle,
-  `Visible` is true (false while any parent is hidden, so a ring in a window that is not shown does not tick), the control is not
-  disposed and Windows' animations are on (`UpdateAnimation`, called on every visibility, parent and handle change; `OnHandleDestroyed`
-  stops the timer). Hiding the ring or its window, taking it out of its parent or destroying its handle stops the timer; `Dispose` stops
-  and disposes it. `IsAnimating` says whether it runs. A ring that is built but never put in a window does no work and holds nothing,
-  as the old GIF did: the dashboard's list (`FormDashboardEditTab.listItems_MouseDown`) builds a loading `GraphQuantityOverTimeFilter` on
-  every mouse-down and only drags it, so an enabled timer there would tick on the UI thread forever and keep the filter alive (review
-  fix, `ui/uiload-2`).
+- **Timer only while in a window and visible.** A Windows Forms timer runs only while the ring is in a window (`IsInWindow`: the ring
+  and every parent have a window handle, and the outermost parent is a top-level window or sits in a window that is not Windows Forms',
+  such as a WPF host), `Visible` is true (false while any parent is hidden, so a ring in a window that is not shown does not tick), the
+  control is not disposed and Windows' animations are on (`UpdateAnimation`). A handle alone is not enough: Windows Forms gives a visible
+  control whose parent has no handle a handle of its own in its hidden parking window, and parks a control taken out of its window.
+  The ring follows every parent's `ParentChanged`, `VisibleChanged`, `HandleCreated` and `HandleDestroyed` (Windows Forms raises no
+  event on a child when a parent is hidden or moved), so hiding the ring, a parent or the window, taking the ring or a parent out of the
+  window, or destroying the handle stops the timer at once, and the timer starts again when they come back; each tick checks again.
+  `Dispose` stops and disposes it. `IsAnimating` says whether it runs. A ring that is built but never put in a window does no work and
+  holds nothing, as the old GIF did: the dashboard's list (`FormDashboardEditTab.listItems_MouseDown`) builds a loading
+  `GraphQuantityOverTimeFilter` on every mouse-down and only drags it, so an enabled timer there would tick on the UI thread forever and
+  keep the filter alive (review fix, `ui/uiload-2`).
 - **Reduced animation.** Windows' "Show animations in Windows" (`SystemParametersInfo(SPI_GETCLIENTAREAANIMATION)`, read once and again on
   `UserPreferenceChanged`): when it is off nothing moves and the ring is static: the whole circle as an `AccentSubtle` track with a quarter
   arc in `Accent` from twelve to three o'clock. `SetAnimationForTest` (test processes only) sets it for the tests.
@@ -59,10 +63,14 @@ New `tests/UiRefreshTests/ProgressRingTests.cs`:
 - `Ring_Draw_AnimationsOff_StaticRing`: the quarter arc `Accent`, the track `AccentSubtle`, every pixel the same at any frame.
 - `Ring_Draw_HighContrast_WindowsColours`: `Highlight` arc, `WindowFrame` track.
 - `Ring_Control_PaintsAtItsFrame`: the control paints exactly `DrawRing`'s pixels; the frame wraps.
-- `Ring_Timer_OnlyWhileInAWindowAndVisible_StopsWhenHiddenRemovedOrDisposed` (a parentless ring, with or without a handle, and a ring
-  taken out of its window never tick), `Ring_Timer_Disposed_Stops`, `Ring_Timer_AnimationsOff_NeverRuns`.
-- `Graph_IsLoading_ShowsTheRingInFrontOfTheChart` (it turns only once the graph has a window), `GraphFilter_LoadingWithoutAWindow_NoTimer`
-  (the drag source's filter), `WarnToCloseComputers_RingInTheAnimatorsPlace`: the two places.
+- `Ring_Timer_OutsideAWindow_NeverRuns` (no parent, a parked handle, a parked parent, a window not shown),
+  `Ring_Timer_InAShownWindow_StopsWhenHiddenRemovedOrDisposed` (a borderless window shown far off the screen: the ring, its parent or the
+  window hidden, the ring or its parent taken out, dispose and close stop it; it starts again when they come back),
+  `Ring_Timer_AnimationsOff_NeverRuns`.
+- `Graph_IsLoading_ShowsTheRingInFrontOfTheChart` (no timer while the graph is in no window),
+  `Graph_LoadingInAFilterWithoutAWindow_NoTimer_DroppedInAWindow_Turns` (the drag source: a real graph, loading, in a stand-in for the
+  filter, which needs the database's preferences; no timer until it is dropped in a shown window),
+  `WarnToCloseComputers_RingInTheAnimatorsPlace`: the two places.
 - `Scan_NoAnimatedGif` (every `.gif` of the repository's product and test folders has one frame), `Scan_NoPictureAnimation` (no code calls
   `ImageAnimator.Animate` or uses the removed pictures).
 - `Gallery_UiLoad_BeforeAndAfter` (opt-in, below).
