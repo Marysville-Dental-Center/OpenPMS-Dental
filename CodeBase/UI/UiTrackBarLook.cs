@@ -12,9 +12,8 @@ using System.Drawing;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
-using CodeBase;
 
-namespace OpenPmsDental.UI {
+namespace CodeBase {
 	///<summary>Paints UiSliderPaint's slider look over a stock TrackBar.</summary>
 	public class UiTrackBarLook : NativeWindow {
 		#region Fields

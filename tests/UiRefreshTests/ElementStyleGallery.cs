@@ -53,7 +53,7 @@ namespace UiRefreshTests {
 					listFailed.Add("Windows' visual styles could not be activated: the native parts draw their classic picture.");
 				}
 				//Before: the stock types without UI-13's looks, as main draws them.
-				OpenPmsDental.UI.UiLooks.IsOffForGallery=isBefore;
+				CodeBase.UiLooks.IsOffForGallery=isBefore;
 				foreach(float scale in new float[] { 1f,1.5f }) {
 					foreach(KeyValuePair<string,Func<float,Control[]>> pair in GetSheets()) {
 						try {
@@ -134,7 +134,7 @@ namespace UiRefreshTests {
 				}
 			});
 			DesignSheetWindows.IsPrintingWithoutChildren=false;
-			OpenPmsDental.UI.UiLooks.IsOffForGallery=false;
+			CodeBase.UiLooks.IsOffForGallery=false;
 			File.WriteAllLines(Path.Combine(folder,"element-styles-failed.txt"),listFailed);
 			Assert.IsTrue(countPictures>0,"No picture made: "+string.Join("; ",listFailed));
 		}

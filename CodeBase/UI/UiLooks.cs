@@ -1,7 +1,9 @@
 // UI-13 (docs/port-notes/UI-13.md; the owner, 2026-11-22: "Overall make sure you modernize all element types"): the shared looks of the stock
 // Windows Forms element types that UI-4 to UI-12 left in their Windows-classic picture, attached to every control of a window by
-// UiInputFrame.AttachOne (FormODBase and LayoutManagerForms call it), never per window. Each keeps the control's behaviour, values, events and
-// texts; only its picture changes, in the UiTheme tokens:
+// UiInputFrame.AttachOne (FormODBase and LayoutManagerForms call it, and UiPlainWindow for the plain windows), never per window. Each keeps the
+// control's behaviour, values, events and texts; only its picture changes, in the UiTheme tokens. UI-PLAIN (docs/port-notes/UI-PLAIN.md) moved
+// them from OpenPmsDental/UI to CodeBase, so the plain exes' windows get them too; the program gives them its window scale and zoom
+// (FuncGetScaleWindow, FuncGetZoom, set by LayoutManagerForms):
 // - every scroll bar (UiScrollLook) and the track bar (UiTrackBarLook), in their own files;
 // - the stock button (System.Windows.Forms.Button, not the program's UI.Button): the program's button look (UiControlPaint.DrawButton: flat
 //   SurfaceRaised, 1 px Stroke, 4 px corners, ButtonHover and ButtonPressed), or, when it carries its own colour (a colour swatch, the time
@@ -14,7 +16,9 @@
 // - the stock month calendar and the date picker's drop-down calendar: the token colours where Windows draws them without a theme;
 // - the tree view and list view: Windows 11's Explorer theme (SetWindowTheme), the hover and selection Windows 11's own file lists use;
 // - the stock data grid view: the grid's tokens (header SurfaceSubtle, lines Gridline, selection AccentSubtle) where it has Windows' defaults;
-// - the link label: Accent links where it has Windows' default blue.
+// - the link label: Accent links where it has Windows' default blue;
+// - UI-PLAIN: the stock group box (the plain windows' 36): the program's group box (UI.GroupBox: 6 px corners, 1 px Stroke, the title inside
+//   the box at its top left), UiGroupBoxLook.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Drawing;
@@ -22,12 +26,16 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
-using CodeBase;
 
-namespace OpenPmsDental.UI {
+namespace CodeBase {
 	///<summary>Attaches UI-13's shared looks of the stock element types to one control.</summary>
 	public static class UiLooks {
-		private static readonly LayoutManagerForms _layoutManager=new LayoutManagerForms();
+		///<summary>The scale of the program's window (a FormODBase: its dpi times the program's zoom) that holds the control, or 0 when the control
+		///is not in one. Set by the program (LayoutManagerForms); null in the plain exes, whose windows are not FormODBase.</summary>
+		public static Func<Control,float> FuncGetScaleWindow;
+		///<summary>The program's zoom (ComputerPrefs' Zoom/100; 1 without a database). Set by the program (LayoutManagerForms); null in the plain
+		///exes, which have no zoom (1).</summary>
+		public static Func<float> FuncGetZoom;
 		///<summary>The data grid views whose frame the look paints (its Paint handler is attached once).</summary>
 		private static readonly ConditionalWeakTable<DataGridView,object> _tableDataGridViews=new ConditionalWeakTable<DataGridView,object>();
 		///<summary>True leaves the stock types as Windows draws them (no UI-13 look is attached): only the gallery harness sets it, for the before
@@ -81,6 +89,9 @@ namespace OpenPmsDental.UI {
 			if(control is DateTimePicker dateTimePicker) {
 				SetDateTimePickerLook(dateTimePicker);
 			}
+			if(UiGroupBoxLook.IsDrawn(control)) {
+				UiGroupBoxLook.Attach(control);
+			}
 		}
 
 		///<summary>A stock month calendar's colours in the tokens where it has Windows' defaults: the title Accent with TextOnAccent, the days Text
@@ -124,19 +135,30 @@ namespace OpenPmsDental.UI {
 		}
 
 		///<summary>The scale of the looks for the control being painted: its window's scale when the window is a FormODBase (FormODBase sets its
-		///LayoutManager from the monitor's dpi, SetScaleMS, and LayoutManager.ScaleMy multiplies the program's zoom), else the control's own dpi
-		///(DeviceDpi/96) times the zoom. Never under 1.</summary>
+		///LayoutManager from the monitor's dpi, SetScaleMS, and LayoutManager.ScaleMy multiplies the program's zoom; FuncGetScaleWindow), else the
+		///control's own dpi (DeviceDpi/96) times the zoom (GetZoom). Never under 1.</summary>
 		public static float GetScale(Control control) {
 			float scaleWindow=0;
 			int deviceDpi=96;
 			if(control!=null) {
 				deviceDpi=control.DeviceDpi;
-				if(control.FindForm() is FormODBase formODBase) {
-					scaleWindow=formODBase.GetScaleMy();
+				Func<Control,float> funcGetScaleWindow=FuncGetScaleWindow;
+				if(funcGetScaleWindow!=null) {
+					scaleWindow=funcGetScaleWindow(control);
 				}
 			}
-			//The parameterless LayoutManager has no dpi of its own (its MS scale is 1): its ScaleMy is the program's zoom alone.
-			return GetScale(scaleWindow,deviceDpi,_layoutManager.ScaleMy());
+			return GetScale(scaleWindow,deviceDpi,GetZoom());
+		}
+
+		///<summary>The program's zoom (FuncGetZoom: ComputerPrefs' Zoom/100, the zoom of a LayoutManager without a dpi of its own), 1 in a plain
+		///exe. Never 0.</summary>
+		public static float GetZoom() {
+			Func<float> funcGetZoom=FuncGetZoom;
+			float zoom=funcGetZoom==null ? 1f : funcGetZoom();
+			if(zoom<=0) {
+				return 1f;
+			}
+			return zoom;
 		}
 
 		///<summary>The scale from its parts: the window's scale (dpi times zoom) when there is one (above 0), else deviceDpi/96 times zoom. Never
@@ -577,7 +599,6 @@ namespace OpenPmsDental.UI {
 	///at the program's zoom, where the label puts its text. Painted in the label's Paint event.</summary>
 	public class UiCaptionLook {
 		private static readonly ConditionalWeakTable<Control,UiCaptionLook> _table=new ConditionalWeakTable<Control,UiCaptionLook>();
-		private static readonly LayoutManagerForms _layoutManager=new LayoutManagerForms();
 
 		private UiCaptionLook(Label label) {
 			label.Paint+=(sender,e) => {
@@ -609,10 +630,7 @@ namespace OpenPmsDental.UI {
 
 		///<summary>The title font: UiTheme.FontTitle at the program's zoom, as GridOD makes its title font (the dpi is Windows').</summary>
 		public static Font GetFontTitle() {
-			float zoom=_layoutManager.ScaleMyFont();
-			if(zoom<=0) {
-				zoom=1f;
-			}
+			float zoom=UiLooks.GetZoom();
 			return new Font(UiTheme.FontTitle.FontFamily,UiTheme.FontTitle.SizeInPoints*zoom,UiTheme.FontTitle.Style);
 		}
 
@@ -1024,5 +1042,68 @@ namespace OpenPmsDental.UI {
 
 		[DllImport("user32.dll")]
 		private static extern int ReleaseDC(IntPtr hWnd,IntPtr hDC);
+	}
+
+	///<summary>UI-PLAIN: the stock group box (System.Windows.Forms.GroupBox, not the program's UI.GroupBox) drawn like the program's group box
+	///(UI.GroupBox, UI-4a, section 3.6): the parent's colour behind 6 px corners, the box's colour inside, a 1 px Stroke outline over the whole
+	///box, the title in Text at the top left inside the box (5 px in, 1 px down, at the look's scale). Painted in its Paint event, over what
+	///Windows Forms drew; the box's children, size, place, title and behaviour stay.</summary>
+	public class UiGroupBoxLook {
+		private static readonly ConditionalWeakTable<Control,UiGroupBoxLook> _table=new ConditionalWeakTable<Control,UiGroupBoxLook>();
+
+		private UiGroupBoxLook(System.Windows.Forms.GroupBox groupBox) {
+			groupBox.Paint+=(sender,e) => {
+				try {
+					PaintGroupBox(e.Graphics,(System.Windows.Forms.GroupBox)sender);
+				}
+				catch(Exception) {
+					//The look is only a picture: Windows Forms' own drawing stays.
+				}
+			};
+			//Windows Forms draws a group box only where it changed; the look's outline runs along the whole box.
+			groupBox.Resize+=(sender,e) => ((Control)sender).Invalidate();
+		}
+
+		///<summary>True for a stock group box drawn by Windows Forms (not FlatStyle.System, which Windows draws) that its owner does not paint.
+		///</summary>
+		public static bool IsDrawn(Control control) {
+			if(control==null || control.GetType()!=typeof(System.Windows.Forms.GroupBox)) {
+				return false;
+			}
+			if(((System.Windows.Forms.GroupBox)control).FlatStyle==FlatStyle.System) {
+				return false;
+			}
+			return !UiButtonLook.IsPaintedByOwner(control);
+		}
+
+		public static void Attach(Control control) {
+			if(!IsDrawn(control) || _table.TryGetValue(control,out _)) {
+				return;
+			}
+			_table.Add(control,new UiGroupBoxLook((System.Windows.Forms.GroupBox)control));
+		}
+
+		public static bool IsAttached(Control control) {
+			return control!=null && _table.TryGetValue(control,out _);
+		}
+
+		public static void PaintGroupBox(Graphics g,System.Windows.Forms.GroupBox groupBox) {
+			float scale=UiLooks.GetScale(groupBox);
+			Rectangle rectangle=new Rectangle(0,0,groupBox.Width,groupBox.Height);
+			Color colorParent=groupBox.Parent==null ? SystemColors.Control : UiLooks.GetBackColor(groupBox.Parent);
+			using(SolidBrush brushParent=new SolidBrush(colorParent)) {
+				g.FillRectangle(brushParent,rectangle);
+			}
+			UiControlPaint.Fill(g,UiLooks.GetBackColor(groupBox),rectangle,UiTheme.CORNER_CONTAINER,scale);
+			UiControlPaint.Outline(g,EnumUiColor.Stroke,rectangle,UiTheme.GetLineWidth(scale),UiTheme.CORNER_CONTAINER,scale);
+			if(string.IsNullOrEmpty(groupBox.Text)) {
+				return;
+			}
+			Color colorText=groupBox.Enabled ? UiTheme.GetColor(EnumUiColor.Text) : UiTheme.GetColor(EnumUiColor.TextDisabled);
+			Point pointText=new Point(UiTheme.ScaleI(5,scale),1);
+			TextFormatFlags textFormatFlags=TextFormatFlags.Left|TextFormatFlags.Top|TextFormatFlags.SingleLine|TextFormatFlags.EndEllipsis;
+			Rectangle rectangleText=new Rectangle(pointText.X,pointText.Y,Math.Max(0,groupBox.Width-pointText.X*2),groupBox.Font.Height+2);
+			TextRenderer.DrawText(g,groupBox.Text,groupBox.Font,rectangleText,colorText,textFormatFlags);
+		}
 	}
 }

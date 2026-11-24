@@ -15,9 +15,8 @@ using System.Drawing;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
-using CodeBase;
 
-namespace OpenPmsDental.UI {
+namespace CodeBase {
 	///<summary>Paints UiScrollPaint's look over a stock scroll bar control or over the scroll bars in a window's frame.</summary>
 	public class UiScrollLook : NativeWindow {
 		#region Fields

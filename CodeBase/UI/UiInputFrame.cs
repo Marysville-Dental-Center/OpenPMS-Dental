@@ -18,9 +18,8 @@ using System.Drawing.Drawing2D;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
-using CodeBase;
 
-namespace OpenPmsDental.UI {
+namespace CodeBase {
 	///<summary>Paints the combo box's frame over a stock single-line input (TextBox, NumericUpDown, DateTimePicker, ComboBox).</summary>
 	public class UiInputFrame : NativeWindow {
 		#region Fields

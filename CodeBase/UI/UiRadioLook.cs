@@ -10,9 +10,8 @@ using System;
 using System.Drawing;
 using System.Runtime.CompilerServices;
 using System.Windows.Forms;
-using CodeBase;
 
-namespace OpenPmsDental.UI {
+namespace CodeBase {
 	///<summary>Paints a stock radio button like the program's check box: the circle where UI.CheckBox puts its box, the text after it.</summary>
 	public class UiRadioLook : NativeWindow {
 		#region Fields

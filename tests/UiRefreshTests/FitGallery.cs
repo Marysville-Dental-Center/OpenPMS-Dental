@@ -81,7 +81,7 @@ namespace UiRefreshTests {
 				if(isVisualStyles && !visualStylesScope.IsActive) {
 					listFailed.Add("Windows' visual styles could not be activated.");
 				}
-				OpenPmsDental.UI.UiLooks.IsOffForGallery=isLooksOff;
+				CodeBase.UiLooks.IsOffForGallery=isLooksOff;
 				DesignSheetWindows.IsPrintingWithoutChildren=true;
 				DesignSheetWindows.PaintDpiScale=scale;//the insurance summaries' text at the scale's dpi (DesignSheetWindows.PaintDpiScale)
 				List<ScanType> listScanTypes=WindowBuilder.GetScanTypes();
@@ -170,7 +170,7 @@ namespace UiRefreshTests {
 			});
 			DesignSheetWindows.IsPrintingWithoutChildren=false;
 			DesignSheetWindows.PaintDpiScale=1f;
-			OpenPmsDental.UI.UiLooks.IsOffForGallery=false;
+			CodeBase.UiLooks.IsOffForGallery=false;
 			File.WriteAllLines(Path.Combine(folder,"gallery-failed.txt"),listFailed);
 			Assert.IsTrue(countPictures>0,"No picture made: "+string.Join("; ",listFailed));
 		}

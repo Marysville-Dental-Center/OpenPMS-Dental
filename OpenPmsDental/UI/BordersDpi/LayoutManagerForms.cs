@@ -109,9 +109,16 @@ Scrollable Control: For example, a panel that's set to AutoScroll=true.  These c
 		private float _zoomLocal=1;
 		///<summary>Example 140 to test 140% zoom</summary>
 		public float ZoomTest=0;
+		///<summary>UI-PLAIN: the LayoutManager without a dpi whose ScaleMy is the zoom the shared looks draw at (GetZoomOfLooks).</summary>
+		private static LayoutManagerForms _layoutManagerLooks;
 		#endregion Fields
 
 		#region Constructor
+		///<summary>UI-PLAIN: sets the shared looks' scale before any window of the program paints them (SetLooksScale).</summary>
+		static LayoutManagerForms(){
+			SetLooksScale();
+		}
+
 		///<summary>This constructor just results in a default shell of a class.  ScaleMy is 1, and the scaling methods are available but always return 1.  None of the other functionality is used.</summary>
 		public LayoutManagerForms(){
 
@@ -152,6 +159,23 @@ Scrollable Control: For example, a panel that's set to AutoScroll=true.  These c
 				_listControl96Infos.Add(original96);
 				PassLayoutManager(listControls[i]);
 			}
+		}
+
+		///<summary>UI-PLAIN: the shared looks (UiLooks and the looks it attaches) are in CodeBase, so the plain exes' windows get them too, and know
+		///nothing of the program's windows. The program gives them the scale of the FormODBase window a control is in (its GetScaleMy: the
+		///monitor's dpi times the zoom) and the program's zoom (a LayoutManager without a dpi of its own: ComputerPrefs' Zoom/100), as the looks
+		///took them before. Called by this class's and FormODBase's static constructors; calling it again changes nothing.</summary>
+		public static void SetLooksScale(){
+			UiLooks.FuncGetScaleWindow=control => control.FindForm() is FormODBase formODBase ? formODBase.GetScaleMy() : 0;
+			UiLooks.FuncGetZoom=GetZoomOfLooks;
+		}
+
+		///<summary>The zoom the looks draw at: the ScaleMy of a LayoutManager without a dpi of its own, made once.</summary>
+		private static float GetZoomOfLooks(){
+			if(_layoutManagerLooks==null){
+				_layoutManagerLooks=new LayoutManagerForms();
+			}
+			return _layoutManagerLooks.ScaleMy();
 		}
 		#endregion Constructor
 
